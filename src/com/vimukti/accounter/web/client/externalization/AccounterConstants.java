@@ -4852,9 +4852,11 @@ public interface AccounterConstants extends Constants {
 	public String create1099MISC();
 
 	public String pleaseEnterPayTerm();
+
 	public String prepare1099MiscForms();
 
 	public String exportToCSV();
-	
+
+	public String prepare1099MISCAction();
 
 }

@@ -1119,6 +1119,8 @@ public class MainFinanceWindow extends VerticalPanel {
 				ActionFactory.getInvoicesAction(InvoiceListView.OVER_DUE));
 		actions.put(ActionFactory.getUserDetailsAction().getHistoryToken(),
 				ActionFactory.getUserDetailsAction());
+		actions.put(ActionFactory.getPrepare1099MISCAction().getHistoryToken(),
+				ActionFactory.getPrepare1099MISCAction());
 
 	}
 

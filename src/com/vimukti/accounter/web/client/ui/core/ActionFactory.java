@@ -188,6 +188,7 @@ import com.vimukti.accounter.web.client.ui.vendors.NewCreditMemoAction;
 import com.vimukti.accounter.web.client.ui.vendors.NewItemReceiptAction;
 import com.vimukti.accounter.web.client.ui.vendors.NewVendorAction;
 import com.vimukti.accounter.web.client.ui.vendors.PayBillsAction;
+import com.vimukti.accounter.web.client.ui.vendors.Prepare1099MISCAction;
 import com.vimukti.accounter.web.client.ui.vendors.PreviousClaimAction;
 import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderAction;
 import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderListAction;
@@ -1277,5 +1278,10 @@ public class ActionFactory {
 
 	public static Action getRecurringsListAction() {
 		return new RecurringsListAction("Recurrings List action");
+	}
+
+	public static Prepare1099MISCAction getPrepare1099MISCAction() {
+		return new Prepare1099MISCAction(
+				actionsConstants.prepare1099MISCAction());
 	}
 }

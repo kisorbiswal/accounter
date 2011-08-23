@@ -207,7 +207,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
+				ActionFactory.getPrepare1099MISCAction().run(null, true);
 
 			}
 		});
@@ -230,7 +230,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			hlay.add(prepare1099MiscForms);
 			hlay.add(form);
 			hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
-			prepare1099MiscForms.getElement().getParentElement().setAttribute("float", "right");
+			prepare1099MiscForms.getElement().getParentElement()
+					.setAttribute("float", "right");
 		} else {
 
 			if (!(this instanceof JournalEntryListView))
