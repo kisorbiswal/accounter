@@ -146,6 +146,173 @@
 		d.fixedAsset.id=?
 	</query>
 
+	<query name="update.merge.Payee.mergeoldbalance.tonewbalance">
+		<query-param name="id" type="long" />
+		<query-param name="balance" type="double" />
+		update com.vimukti.accounter.core.Payee set balance=:balance where
+		id=:id
+	</query>
+
+	<query name="update.merge.invoice.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.Invoice set customer.id=:toID where
+		customer.id=:fromID
+	</query>
+	<query name="update.merge.cashsale.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.CashSales set customer.id=:toID
+		where
+		customer.id=:fromID
+	</query>
+
+	<query name="update.merge.salesOrder.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.SalesOrder set customer.id=:toID
+		where
+		customer.id=:fromID
+	</query>
+
+	<query name="update.merge.customercreditmemo.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.CustomerCreditMemo set
+		customer.id=:toID where
+		customer.id=:fromID
+	</query>
+
+	<query name="update.merge.Entry.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		<query-param name="memo" type="String" />
+
+		update com.vimukti.accounter.core.Entry set memo=:memo,
+		customer.id=:toID where
+		customer.id=:fromID
+	</query>
+
+	<query name="update.merge.CustomerPrePayment.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.CustomerPrePayment set
+		customer.id=:toID where
+		customer.id=:fromID
+	</query>
+
+	<query name="update.merge.CustomerRefund.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.CustomerRefund set payTo.id=:toID
+		where
+		payTo.id=:fromID
+	</query>
+	<query name="update.merge.Estimate.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.Estimate set customer.id=:toID
+		where
+		customer.id=:fromID
+	</query>
+	<query name="update.merge.ReceivePayment.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.ReceivePayment set customer.id=:toID
+		where
+		customer.id=:fromID
+	</query>
+
+	<query name="delete.entry.old">
+		<query-param name="from" type="long" />
+		delete from com.vimukti.accounter.core.Entry where customer.id=:from
+	</query>
+
+	<query name="delete.Payee.old">
+		<query-param name="from" type="long" />
+		delete from com.vimukti.accounter.core.Payee where id=:from
+	</query>
+
+	<query name="delete.customer.old">
+		<query-param name="fromid" type="long" />
+		delete from com.vimukti.accounter.core.Customer where id=:from
+	</query>
+
+
+
+	<query name="update.mergeVendor.Payee.mergeoldbalance.tonewbalance">
+		<query-param name="id" type="long" />
+		<query-param name="balance" type="double" />
+		update com.vimukti.accounter.core.Payee set balance=:balance where
+		id=:id
+	</query>
+
+	<query name="update.mergeVendor.PurchaseOrder.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.PurchaseOrder set vendor.id=:toID
+		where
+		vendor.id=:fromID
+	</query>
+
+
+	<query name="update.mergeVendor.CashPurchase.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.CashPurchase set vendor.id=:toID
+		where
+		vendor.id=:fromID
+	</query>
+
+	<query name="update.mergeVendor.CreditCardCharge.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.CreditCardCharge set vendor.id=:toID
+		where
+		vendor.id=:fromID
+	</query>
+
+	<query name="update.mergeVendor.EnterBill.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.EnterBill set vendor.id=:toID
+		where
+		vendor.id=:fromID
+	</query>
+
+	<query name="update.mergeVendor.ItemReceipt.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.ItemReceipt set vendor.id=:toID
+		where
+		vendor.id=:fromID
+	</query>
+	<query name="update.mergeVendor.PayBill.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.PayBill set vendor.id=:toID
+		where
+		vendor.id=:fromID
+	</query>
+
+	<query name="delete.vendorentry.old">
+		<query-param name="from" type="long" />
+		delete from com.vimukti.accounter.core.Entry where vendor.id=:from
+	</query>
+
+	<query name="update.mergeItem.oldcost.tonewcost">
+		<query-param name="from" type="long" />
+		<query-param name="price" type="double" />
+		update com.vimukti.accounter.core.Item set purchasePrice=:price
+		where
+		id=:from
+	</query>
+
+
+
+
+
+
 	<query name="update.Entry.oldNameTo.newName">
 		<query-param name="newName" type="string" />
 		<query-param name="oldName" type="string" />
@@ -1345,10 +1512,11 @@
 		v.taxItem.name=:taxItemName and v.transactionDate between :startDate
 		and :endDate order by v.taxItem.name, v.journalEntry.transactionDate
 	</query>
-	
+
 	<query name="getTAXCode.for.TAXItemGroup">
 		<query-param name="id" type="long" />
-		from com.vimukti.accounter.core.TAXCode t where t.TAXItemGrpForSales.id=:id
+		from com.vimukti.accounter.core.TAXCode t where
+		t.TAXItemGrpForSales.id=:id
 	</query>
 
 </hibernate-mapping>
