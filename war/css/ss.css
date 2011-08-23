@@ -658,7 +658,6 @@ a:visited {
 	font-size: 35px;
 	vertical-align: bottom;
 	line-height: 1.8;
-	margin-left: 20px;
 }
 
 .lower-part { /*margin-top: 50px;
@@ -2181,8 +2180,16 @@ background-color: #bcfcb1;
 }
 .mid2_height{
   height:auto !important;	
+  padding-bottom:20px;
 }
 .terms_and_contions,.privacy_policy{
   padding:0px 40px;
 }
+.support_send{
+	margin-right:8px;
+}
+.support_send input{
+	width:50px !important;
+}
+
 /* End of the new Login and forgot password page*/

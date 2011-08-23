@@ -4432,15 +4432,18 @@ td.imagelink-h-hover .imageLink-div {
 }
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	.Empty-text{
-	    padding:4px 10px !important;
+	    padding:3px 12px !important;
 	}
 	.grouped-buttons{
 	    padding:2px 0 !important;
-	    margin-top:2px;
+	    margin:2px 5px !important;
 	}
 	table{
 	   border-collapse: collapse;
 	   border-spacing: 0px;
+	}
+	.grouped-buttons td:FIRST-CHILD .Empty-text{
+		margin-right:-3px !important;
 	}
 }
 /** Add css rules here for your application. */
@@ -6917,4 +6920,7 @@ a#fdbk_tab:hover{
 }
 .progress_panel_data td .gwt-Label{
 	padding:5px 0px;
+}
+.finance-portlet td:FIRST-CHILD table{
+	width:100% !important;
 }
