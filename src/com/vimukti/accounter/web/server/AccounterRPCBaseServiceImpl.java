@@ -5,6 +5,7 @@ package com.vimukti.accounter.web.server;
 
 import java.io.IOException;
 
+import javax.security.auth.login.AccountExpiredException;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -89,6 +90,9 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 				} finally {
 					session.close();
 				}
+			} else {
+				response.sendError(HttpServletResponse.SC_FORBIDDEN,
+						"Could Not Complete the Request!");
 			}
 		} catch (Exception e) {
 
@@ -217,7 +221,7 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 			CometSession cometSession = CometServlet
 					.getCometSession(getHttpSession());
 			CometManager.initStream(getThreadLocalRequest().getSession()
-					.getId(),companyId, user.getEmail(), cometSession);
+					.getId(), companyId, user.getEmail(), cometSession);
 
 			if (rememberMe) {
 				setCookies(string, password);
