@@ -63,4 +63,9 @@ public class ARAgingSummaryReportAction extends Action {
 		return "arAgingSummary";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "ar-aging-summary";
+	}
+
 }

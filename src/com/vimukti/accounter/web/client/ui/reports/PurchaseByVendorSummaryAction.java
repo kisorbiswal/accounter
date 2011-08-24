@@ -63,4 +63,9 @@ public class PurchaseByVendorSummaryAction extends Action {
 
 		return "purchaseByVendorSummary";
 	}
+	@Override
+	public String getHelpToken() {
+		return "purchased-vendor";
+	}
+
 }

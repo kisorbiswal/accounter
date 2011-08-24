@@ -27,18 +27,13 @@ public class BalanceSheetAction extends Action {
 
 			public void onCreated() {
 
-				 
-
-					report = new BalanceSheetReport();
-					MainFinanceWindow.getViewManager().showView(report, data,
-							isDependent, BalanceSheetAction.this);
-					// Accounter.showError("Not yet Implemented");
-
-				 
+				report = new BalanceSheetReport();
+				MainFinanceWindow.getViewManager().showView(report, data,
+						isDependent, BalanceSheetAction.this);
+				// Accounter.showError("Not yet Implemented");
 
 			}
 
-			 
 		});
 
 	}
@@ -70,6 +65,11 @@ public class BalanceSheetAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		return "balanceSheet";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "balance-sheet";
 	}
 
 }

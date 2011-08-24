@@ -69,4 +69,9 @@ public class CustomerTransactionHistoryAction extends Action {
 		return "customerTransactionHistory";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "customer-transaction-history";
+	}
+
 }

@@ -67,4 +67,9 @@ public class PurchaseClosedOrderAction extends Action {
 		return null;
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "purchase-closed";
+	}
+
 }

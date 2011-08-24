@@ -32,7 +32,6 @@ public class SalesTaxLiabilityAction extends Action {
 
 			}
 
-			 
 		});
 
 	}
@@ -63,8 +62,12 @@ public class SalesTaxLiabilityAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-
 		return "salesTaxLiability";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "sales-tax-liability";
 	}
 
 }

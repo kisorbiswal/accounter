@@ -69,4 +69,9 @@ public class VendorTransactionHistoryAction extends Action {
 		return "vendorTransactionHistory";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "vendor-transaction";
+	}
+
 }

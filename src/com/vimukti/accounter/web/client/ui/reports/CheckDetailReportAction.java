@@ -26,11 +26,10 @@ public class CheckDetailReportAction extends Action {
 		return Accounter.getFinanceMenuImages().reports();
 	}
 
-	
-//	@Override
-//	public ParentCanvas getView() {
-//		return this.report;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return this.report;
+	// }
 
 	@Override
 	public void run() {
@@ -38,27 +37,29 @@ public class CheckDetailReportAction extends Action {
 
 			@Override
 			public void onCreated() {
-				 
-					report = new CheckDetailReportView();
-					MainFinanceWindow.getViewManager().showView(report, data,
-							isDependent, CheckDetailReportAction.this);
-				 
+
+				report = new CheckDetailReportView();
+				MainFinanceWindow.getViewManager().showView(report, data,
+						isDependent, CheckDetailReportAction.this);
 
 			}
 
-			 
 		});
 
 	}
 
-//	@Override
-//	public String getImageUrl() {
-//		return "/images/reports.png";
-//	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/reports.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {
 		return "CheckDetailsReport";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "check-detail";
+	}
 }

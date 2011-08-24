@@ -31,15 +31,12 @@ public class AmountsDueToVendorsAction extends Action {
 
 			public void onCreated() {
 
-				 
-					report = new AmountsDueToVendorReport();
-					MainFinanceWindow.getViewManager().showView(report, data,
-							isDependent, AmountsDueToVendorsAction.this);
-				 
+				report = new AmountsDueToVendorReport();
+				MainFinanceWindow.getViewManager().showView(report, data,
+						isDependent, AmountsDueToVendorsAction.this);
 
 			}
 
-			 
 		});
 
 	}
@@ -66,6 +63,11 @@ public class AmountsDueToVendorsAction extends Action {
 	public String getHistoryToken() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "vendors-amount-due";
 	}
 
 }

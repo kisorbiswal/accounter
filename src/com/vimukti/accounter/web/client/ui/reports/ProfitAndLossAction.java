@@ -74,4 +74,9 @@ public class ProfitAndLossAction extends Action {
 		return "profitAndLoss";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "profit-loss";
+	}
+
 }

@@ -64,4 +64,9 @@ public class PurchaseByItemSummaryAction extends Action {
 		return "purchaseByItemSummary";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "purchased-item";
+	}
+
 }

@@ -64,4 +64,9 @@ public class ECSalesListAction extends Action {
 		return "ecSalesList";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "ec-sales-list";
+	}
+
 }

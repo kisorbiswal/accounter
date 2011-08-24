@@ -66,4 +66,9 @@ public class ReverseChargeListDetailAction extends Action {
 		return null;
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "reverse-charge-list";
+	}
+
 }

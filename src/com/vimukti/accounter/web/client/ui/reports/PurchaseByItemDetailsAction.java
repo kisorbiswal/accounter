@@ -65,4 +65,9 @@ public class PurchaseByItemDetailsAction extends Action {
 		return "purchaseByItemDetail";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "purchased-item";
+	}
+
 }

@@ -73,4 +73,9 @@ public class VATDetailsReportAction extends Action {
 		return "vatDetail";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "vat-details";
+	}
+
 }

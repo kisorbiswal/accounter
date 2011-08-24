@@ -72,4 +72,9 @@ public class ExpenseReportAction extends Action {
 		return "expenseReport";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "expense-report";
+	}
+
 }

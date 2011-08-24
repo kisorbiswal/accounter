@@ -67,4 +67,9 @@ public class PurchaseOpenOrderAction extends Action {
 		return "purchaseOrderReport";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "purchase-open-order";
+	}
+
 }

@@ -64,8 +64,12 @@ public class ReverseChargeListAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-
 		return null;
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "reverse-charge-list";
 	}
 
 }

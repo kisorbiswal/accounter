@@ -65,8 +65,12 @@ public class VATUncategorisedAmountsReportAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-
 		return "uncategorisedVatAmounts";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "vat-uncategorized-amount";
 	}
 
 }

@@ -28,7 +28,6 @@ public class StatementReportAction extends Action {
 
 			}
 
-			 
 		});
 
 	}
@@ -60,6 +59,11 @@ public class StatementReportAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		return "customerStatement";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "statement-report";
 	}
 
 }

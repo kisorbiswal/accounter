@@ -68,4 +68,9 @@ public class TransactionDetailByTaxCodeAction extends Action {
 		return "transactionDetailByTaxCode";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "transaction-by-item";
+	}
+
 }

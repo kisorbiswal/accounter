@@ -70,4 +70,9 @@ public class ARAgingDetailAction extends Action {
 		return "arAgingDetail";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "ar-aging-detail";
+	}
+
 }

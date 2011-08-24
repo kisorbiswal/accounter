@@ -68,4 +68,9 @@ public class SalesByCustomerDetailAction extends Action {
 		return "salesByCustomerDetail";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "sales-by-customer";
+	}
+
 }

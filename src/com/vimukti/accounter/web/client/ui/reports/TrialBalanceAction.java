@@ -69,4 +69,9 @@ public class TrialBalanceAction extends Action {
 		return "trialBalance";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "trial-balance";
+	}
+
 }

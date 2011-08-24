@@ -69,4 +69,9 @@ public class TransactionDetailByAccountAction extends Action {
 		return "transactionDetailByAccount";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "transaction-by-account";
+	}
+
 }

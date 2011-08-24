@@ -26,12 +26,11 @@ public class TransactionDetailByTaxItemAction extends Action {
 
 			public void onCreated() {
 
-
-					AbstractReportView<TransactionDetailByTaxItem> report = new TransactionDetailByTaxItemReport();
-					MainFinanceWindow.getViewManager().showView(report, data,
-							isDependent, TransactionDetailByTaxItemAction.this);
-					// Accounter
-					// .showInformation("This Report Not Yet Implemented");
+				AbstractReportView<TransactionDetailByTaxItem> report = new TransactionDetailByTaxItemReport();
+				MainFinanceWindow.getViewManager().showView(report, data,
+						isDependent, TransactionDetailByTaxItemAction.this);
+				// Accounter
+				// .showInformation("This Report Not Yet Implemented");
 
 			}
 
@@ -68,6 +67,11 @@ public class TransactionDetailByTaxItemAction extends Action {
 	public String getHistoryToken() {
 
 		return "transactionDetailByTaxItem";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "transaction-by-tax";
 	}
 
 }

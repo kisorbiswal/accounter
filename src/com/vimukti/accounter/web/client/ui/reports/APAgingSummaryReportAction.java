@@ -64,4 +64,9 @@ public class APAgingSummaryReportAction extends Action {
 		return "apAgingSummary";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "ap-aging-summary";
+	}
+
 }

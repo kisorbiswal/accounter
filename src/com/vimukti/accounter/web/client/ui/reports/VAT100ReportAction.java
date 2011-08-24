@@ -69,4 +69,9 @@ public class VAT100ReportAction extends Action {
 		return "vat100";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "vat-100";
+	}
+
 }

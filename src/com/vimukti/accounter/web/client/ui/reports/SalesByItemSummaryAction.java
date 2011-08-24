@@ -71,4 +71,9 @@ public class SalesByItemSummaryAction extends Action {
 		return "salesByItemSummary";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "sales-by-item";
+	}
+
 }

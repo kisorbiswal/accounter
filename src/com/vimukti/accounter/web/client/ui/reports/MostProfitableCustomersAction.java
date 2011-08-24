@@ -68,4 +68,9 @@ public class MostProfitableCustomersAction extends Action {
 		return "mergeProfitableCustomers";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "profitable-customers";
+	}
+
 }

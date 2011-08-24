@@ -54,4 +54,9 @@ public class ReportsHomeAction extends Action {
 		return "reportHome";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "report";
+	}
+
 }

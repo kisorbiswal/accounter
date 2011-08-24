@@ -33,7 +33,6 @@ public class GLReportAction extends Action {
 
 			}
 
-			 
 		});
 
 	}
@@ -77,6 +76,11 @@ public class GLReportAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		return "generalLedger";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "gl-report";
 	}
 
 }

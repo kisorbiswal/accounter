@@ -20,9 +20,9 @@ public class SalesClosedOrderAction extends Action {
 
 			public void onCreated() {
 
-					AbstractReportView<OpenAndClosedOrders> report = new SalesClosedOrderReport();
-					MainFinanceWindow.getViewManager().showView(report, data,
-							isDependent, SalesClosedOrderAction.this);
+				AbstractReportView<OpenAndClosedOrders> report = new SalesClosedOrderReport();
+				MainFinanceWindow.getViewManager().showView(report, data,
+						isDependent, SalesClosedOrderAction.this);
 
 			}
 
@@ -58,6 +58,11 @@ public class SalesClosedOrderAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		return "salesClosedOrder";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "sales-closed-order";
 	}
 
 }

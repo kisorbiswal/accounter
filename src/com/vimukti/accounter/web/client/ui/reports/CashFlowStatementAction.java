@@ -37,7 +37,6 @@ public class CashFlowStatementAction extends Action {
 
 			}
 
-			 
 		});
 
 	}
@@ -63,6 +62,11 @@ public class CashFlowStatementAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		return "cashFlowReport";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "cash-flow";
 	}
 
 }

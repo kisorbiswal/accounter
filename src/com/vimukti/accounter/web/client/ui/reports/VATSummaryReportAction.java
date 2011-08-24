@@ -71,4 +71,9 @@ public class VATSummaryReportAction extends Action {
 		return "priorVatReturns";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "vat-summary";
+	}
+
 }

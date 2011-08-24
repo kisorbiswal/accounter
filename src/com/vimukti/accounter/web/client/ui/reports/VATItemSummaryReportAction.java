@@ -66,4 +66,9 @@ public class VATItemSummaryReportAction extends Action {
 		return "vatItemSummary";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "vat-item-summary";
+	}
+
 }
