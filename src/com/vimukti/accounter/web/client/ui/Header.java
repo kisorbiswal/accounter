@@ -75,6 +75,12 @@ public class Header extends HorizontalPanel {
 		help = new HTML(Accounter.messages().helpHTML());
 		help.addStyleName("help-style");
 		help.addStyleName("helpBar");
+		help.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				MainFinanceWindow.getViewManager().addRemoveHelpPanel();
+			}
+		});
 
 		logo = new HTML(
 				"<div class='logo'><img src='/images/Accounter_logo_title.png'></div>");
