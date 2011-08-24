@@ -102,8 +102,7 @@ public class TaxDialog extends BaseDialog<ClientTAXCode> {
 
 					@Override
 					public void actionResult(ClientTAXGroup result) {
-						setResult(getCompany()
-								.getTAXCodeForTAXItemGroup(result));
+						setResult(getCompany().getTAXCode(result.getID()));
 					}
 				});
 
@@ -116,8 +115,7 @@ public class TaxDialog extends BaseDialog<ClientTAXCode> {
 
 					@Override
 					public void actionResult(ClientTAXItem result) {
-						setResult(getCompany()
-								.getTAXCodeForTAXItemGroup(result));
+						setResult(getCompany().getTAXCode(result.getID()));
 					}
 				});
 

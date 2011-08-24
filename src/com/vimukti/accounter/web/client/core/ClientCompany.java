@@ -1543,10 +1543,8 @@ public class ClientCompany implements IAccounterCore {
 					UIUtils.updateClientListAndTaxItemGroup(taxGroup, taxItems,
 							taxGroups, taxItemGroups);
 					if (getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-						// ClientTAXCode code =
-						// getTAXCodeForTAXItemGroup((ClientTAXItemGroup)
-						// taxGroup);
-						// Utility.updateClientList(code, taxCodes);
+						ClientTAXCode code = getTAXCodeForTAXItemGroup(taxGroup);
+						Utility.updateClientList(code, taxCodes);
 					}
 
 					break;
@@ -1567,10 +1565,8 @@ public class ClientCompany implements IAccounterCore {
 					UIUtils.updateClientListAndTaxItemGroup(taxItem, taxItems,
 							taxGroups, taxItemGroups);
 					if (getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-						// ClientTAXCode code =
-						// getTAXCodeForTAXItemGroup((ClientTAXItemGroup)
-						// taxItem);
-						// Utility.updateClientList(code, taxCodes);
+						ClientTAXCode code = getTAXCodeForTAXItemGroup(taxItem);
+						Utility.updateClientList(code, taxCodes);
 					}
 
 					break;
@@ -2058,7 +2054,6 @@ public class ClientCompany implements IAccounterCore {
 
 	public ClientTAXCode getTAXCodeForTAXItemGroup(
 			ClientTAXItemGroup taxItemGroup) {
-		boolean exist = false;
 		ClientTAXCode taxCode = new ClientTAXCode();
 		taxCode.setID(taxItemGroup.getID());
 		taxCode.setName(taxItemGroup.getName());
@@ -2068,14 +2063,6 @@ public class ClientCompany implements IAccounterCore {
 		taxCode.setTaxable(true);
 		taxCode.setECSalesEntry(false);
 		taxCode.setTAXItemGrpForPurchases(0);
-		for (ClientTAXCode tempCode : taxCodes) {
-			if (tempCode.getName().equalsIgnoreCase(taxCode.getName())) {
-				exist = true;
-				break;
-			}
-		}
-		if (!exist)
-			Utility.updateClientList(taxCode, taxCodes);
 		return taxCode;
 	}
 

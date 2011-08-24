@@ -57,9 +57,8 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 				boolean usTaxCode = Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
 						&& result instanceof ClientTAXItemGroup;
 				if (usTaxCode)
-					result = (T) Accounter.getCompany()
-							.getTAXCodeForTAXItemGroup(
-									(ClientTAXItemGroup) result);
+					result = (T) Accounter.getCompany().getTAXCode(
+							((ClientTAXItemGroup) result).getID());
 				if (result != null) {
 					if (!usTaxCode)
 						setComboItem(result);
