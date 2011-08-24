@@ -271,7 +271,9 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		public void onClick(ClickEvent event) {
 			Object sender = event.getSource();
 			if (sender == setVendor) {
-
+				SelectVendorsTo1099Dialog selectVendorsTo1099Dialog = new SelectVendorsTo1099Dialog(
+						"Select Vendors", "Selct Vendors to track 1099");
+				selectVendorsTo1099Dialog.show();
 			}
 			if (sender == addAccount) {
 

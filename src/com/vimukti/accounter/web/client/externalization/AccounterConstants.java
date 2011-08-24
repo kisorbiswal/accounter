@@ -4251,4 +4251,8 @@ public interface AccounterConstants extends Constants {
 	public String unableToPerformTryAfterSomeTime();
 
 	public String selectCurrency();
+
+	public String selectFromList();
+
+	public String trackPaymentsFor1099();
 }
