@@ -1,0 +1,114 @@
+package com.vimukti.accounter.web.client.help;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Frame;
+import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ToggleButton;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
+
+public class HelpPanel extends Composite implements HasText {
+	private static HelpContentUiBinder uiBinder = GWT
+			.create(HelpContentUiBinder.class);
+
+	interface HelpContentUiBinder extends UiBinder<Widget, HelpPanel> {
+	}
+
+	public HelpPanel() {
+		initWidget(uiBinder.createAndBindUi(this));
+		setLabelText(Accounter.constants().help());
+	}
+
+	@Override
+	public String getText() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setText(String text) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@UiField
+	Label helpLabel;
+
+	private void setLabelText(String text) {
+		helpLabel.setText(text);
+	}
+
+	@UiField
+	VerticalPanel verticalPannel;
+
+	@UiField
+	Frame frame;
+
+	public void setHelpUrl(String url) {
+		frame.setUrl(url);
+	}
+
+	@UiField
+	HorizontalPanel horizontalhelpPanel;
+
+	public HorizontalPanel getHorizontalPannel() {
+		return horizontalhelpPanel;
+	}
+
+	public void setHorizontalPanel(HorizontalPanel horizontalPanel) {
+		this.horizontalhelpPanel = horizontalPanel;
+	}
+
+	@UiField
+	ToggleButton button;
+	private boolean isHelpPanel;
+
+	private boolean isRemoved;
+
+	@UiHandler("button")
+	void onButtonClick_1(ClickEvent event) {
+		addPanel();
+	}
+
+	private void addPanel() {
+		MainFinanceWindow.getViewManager().toggleHelpPanel(isHelpPanel());
+	}
+
+	public void setButtonPushed(boolean isPushed) {
+		button.setDown(isPushed);
+	}
+
+	public boolean isButtonPushed() {
+		return button.isDown();
+	}
+
+	public void setIsHelpPanel(boolean isHelpPanel) {
+		this.isHelpPanel = isHelpPanel;
+	}
+
+	public boolean isHelpPanel() {
+		return isHelpPanel;
+	}
+
+	public String getHelpUrl() {
+		return frame.getUrl();
+	}
+
+	public void setIsRemoved(boolean isRemoved) {
+		this.isRemoved = isRemoved;
+	}
+
+	public boolean isRemoved() {
+		return isRemoved;
+	}
+}
