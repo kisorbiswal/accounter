@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 public interface IGlobal {
 
 	public AccounterConstants constants();
-	
+
 	public AccounterMessages messages();
 
 	public ClientCompanyPreferences preferences();
@@ -23,5 +23,7 @@ public interface IGlobal {
 	public String Vendor();
 
 	public String vendor();
+
+	public String Location();
 
 }
