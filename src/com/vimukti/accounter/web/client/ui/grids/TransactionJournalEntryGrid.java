@@ -280,7 +280,7 @@ public class TransactionJournalEntryGrid extends
 					"",
 					Accounter.messages().financialAccount(
 							Global.get().Account()), Global.get().Vendor(),
-					Accounter.constants().customer() };
+					Global.get().customer() };
 		}
 
 		return null;
@@ -444,9 +444,9 @@ public class TransactionJournalEntryGrid extends
 		case ClientEntry.TYPE_FINANCIAL_ACCOUNT:
 			return Accounter.messages().account(Global.get().account());
 		case ClientEntry.TYPE_CUSTOMER:
-			return Accounter.constants().customer();
+			return Global.get().customer();
 		case ClientEntry.TYPE_VENDOR:
-			return Accounter.constants().vendor();
+			return Global.get().vendor();
 			// case ClientEntry.TYPE_VAT:
 			// return "VAT";
 		}

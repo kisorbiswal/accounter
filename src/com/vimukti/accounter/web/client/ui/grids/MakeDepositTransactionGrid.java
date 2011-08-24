@@ -172,7 +172,7 @@ public class MakeDepositTransactionGrid extends
 						setText(currentRow, currentCol, selectItem.getName());
 					}
 				});
-		customersCombo = new CustomerCombo(Accounter.constants().customer());
+		customersCombo = new CustomerCombo(Global.get().customer());
 		customersCombo.setGrid(this);
 		customersCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCustomer>() {
@@ -272,7 +272,7 @@ public class MakeDepositTransactionGrid extends
 		case ClientTransactionMakeDeposit.TYPE_VENDOR:
 			return Global.get().Vendor();
 		case ClientTransactionMakeDeposit.TYPE_CUSTOMER:
-			return Accounter.constants().customer();
+			return Global.get().customer();
 		default:
 			return Accounter.constants().type();
 		}
@@ -355,9 +355,9 @@ public class MakeDepositTransactionGrid extends
 				// return "Financial Account";
 				return Accounter.constants().transfer();
 			case ClientTransactionMakeDeposit.TYPE_VENDOR:
-				return Accounter.constants().vendor();
+				return Global.get().vendor();
 			case ClientTransactionMakeDeposit.TYPE_CUSTOMER:
-				return Accounter.constants().customer();
+				return Global.get().customer();
 			default:
 				return "";
 			}
@@ -440,10 +440,8 @@ public class MakeDepositTransactionGrid extends
 			if (Accounter.getCompany().getAccountingType() == 1) {
 				return new String[] {
 						Accounter.messages().financialAccount(
-								Global.get().Account()),
-						Accounter.constants().vendor(),
-						Accounter.constants().customer(),
-						Accounter.constants().vat() };
+								Global.get().Account()), Global.get().vendor(),
+						Global.get().customer(), Accounter.constants().vat() };
 			} else {
 				return new String[] {
 						Accounter.messages().financialAccount(
