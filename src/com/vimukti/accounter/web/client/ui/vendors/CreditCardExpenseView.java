@@ -214,22 +214,18 @@ public class CreditCardExpenseView extends
 		Ccard = new VendorCombo(vendorString, true) {
 			@Override
 			public void initCombo(List<ClientVendor> list) {
-				Iterator<ClientVendor> iterator = list.iterator();
-				while (iterator.hasNext()) {
-					ClientVendor vdr = iterator.next();
+				List<ClientVendor> ccVendors = new ArrayList<ClientVendor>();
+				for(ClientVendor vdr : list) {
 					if (vdr.getVendorGroup() != 0) {
 						ClientVendorGroup vendorGrougp = Accounter.getCompany()
 								.getVendorGroup(vdr.getVendorGroup());
-						if (!vendorGrougp.getName().equals(
+						if (vendorGrougp.getName().equals(
 								AccounterClientConstants.CREDIT_CARD_COMPANIES)) {
-							iterator.remove();
+							ccVendors.add(vdr);
 						}
-					} else {
-						iterator.remove();
 					}
-
 				}
-				super.initCombo(list);
+				super.initCombo(ccVendors);
 			}
 
 			@Override
