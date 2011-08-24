@@ -831,13 +831,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		List<EstimatesAndSalesOrdersList> filteredList = new ArrayList<EstimatesAndSalesOrdersList>();
 		filteredList.addAll(result);
 
-		for (EstimatesAndSalesOrdersList record : result) {
-			if (selectedOrdersAndEstimates != null)
-				for (ClientTransaction transaction : selectedOrdersAndEstimates) {
-					if (transaction.getID() == record.getTransactionId())
-						filteredList.remove(record);
-				}
-		}
 		if (dialog == null) {
 			dialog = new CustomerQuoteListDialog(this, filteredList);
 		}
