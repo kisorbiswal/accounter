@@ -28,6 +28,14 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class PopupCalendar extends PopupPanel {
 
 	private boolean leave;
+	public boolean isLeave() {
+		return leave;
+	}
+
+	public void setLeave(boolean leave) {
+		this.leave = leave;
+	}
+
 	private String theme;
 	private final DatePicker datePicker;
 	private DateTimeFormat dayNameFormat;
@@ -36,6 +44,7 @@ public class PopupCalendar extends PopupPanel {
 	private Label currentMonth;
 	private Grid daysGrid;
 	private Date displayedMonth;
+	
 
 	{
 		this.leave = true;
@@ -142,7 +151,7 @@ public class PopupCalendar extends PopupPanel {
 						}
 					}
 				};
-				t.schedule(10);
+				t.schedule(60);
 			}
 
 		});
