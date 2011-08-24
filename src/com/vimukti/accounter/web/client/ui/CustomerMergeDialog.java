@@ -3,9 +3,6 @@ package com.vimukti.accounter.web.client.ui;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
-import com.vimukti.accounter.web.client.ValueCallBack;
-import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
@@ -42,7 +39,7 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 	public CustomerMergeDialog(String title, String descript) {
 		super(title, descript);
 		setWidth("650px");
-		okbtn.setText("Merge");
+		okbtn.setText(Accounter.constants().merge());
 		createControls();
 		center();
 		clientCustomer1 = null;
@@ -62,27 +59,27 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 		customerCombo = createCustomerCombo();
 		customerCombo1 = createCustomerCombo1();
 
-		customerIDTextItem = new TextItem("CustomerID");
+		customerIDTextItem = new TextItem(Accounter.constants().customerID());
 		customerIDTextItem.setHelpInformation(true);
 		customerIDTextItem.setDisabled(true);
 
-		customerIDTextItem1 = new TextItem("CustomerID");
+		customerIDTextItem1 = new TextItem(Accounter.constants().customerID());
 		customerIDTextItem1.setHelpInformation(true);
 		customerIDTextItem1.setDisabled(true);
 
-		status = new CheckboxItem("Active");
+		status = new CheckboxItem(Accounter.constants().active());
 		status.setValue(false);
 
 		status.setHelpInformation(true);
 
-		status1 = new CheckboxItem("Active");
+		status1 = new CheckboxItem(Accounter.constants().active());
 		status1.setValue(false);
 
-		balanceTextItem = new TextItem("Balance");
+		balanceTextItem = new TextItem(Accounter.constants().balance());
 		balanceTextItem.setHelpInformation(true);
 		balanceTextItem.setDisabled(true);
 
-		balanceTextItem1 = new TextItem("Balance");
+		balanceTextItem1 = new TextItem(Accounter.constants().balance());
 		balanceTextItem1.setHelpInformation(true);
 		balanceTextItem1.setDisabled(true);
 
@@ -99,9 +96,8 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 	}
 
 	private CustomerCombo createCustomerCombo1() {
-		customerCombo1 = new CustomerCombo("Customer To", false);
-		customerCombo1.setHelpInformation(true);
-		customerCombo1.setRequired(true);
+		customerCombo1 = new CustomerCombo(Accounter.constants().customerFrom(), false);
+		customerCombo1.setHelpInformation(true);customerCombo1.setRequired(true);
 		customerCombo1
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCustomer>() {
 
@@ -118,7 +114,7 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 	}
 
 	private CustomerCombo createCustomerCombo() {
-		customerCombo = new CustomerCombo("Customer From", false);
+		customerCombo = new CustomerCombo(Accounter.constants().customerTo(), false);
 		customerCombo.setHelpInformation(true);
 		customerCombo.setRequired(true);
 		customerCombo
@@ -155,15 +151,11 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 
 		ValidationResult result = new ValidationResult();
 		if (clientCustomer1.getID() == clientCustomer.getID()) {
-			result.addError(clientCustomer,
-					"Could not move customer because two customers are same.");
+			result.addError(clientCustomer,	Accounter.constants().notMove());
 			return result;
 		}
 		result = form.validate();
 		result = form1.validate();
-		if (clientCustomer1.getID() == clientCustomer.getID()) {
-			result.addError(clientCustomer, "Same");
-		}
 		return result;
 
 	}

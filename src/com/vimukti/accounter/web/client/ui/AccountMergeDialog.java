@@ -1,12 +1,12 @@
 package com.vimukti.accounter.web.client.ui;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -15,21 +15,24 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 /**
  * 
  * @author Sai Prasad N
- *
+ * 
  */
-public class AccountMergeDialog extends BaseDialog<ClientAccount> {
+public class AccountMergeDialog extends BaseDialog implements
+		AsyncCallback<Void> {
 
 	private DynamicForm form;
 	private DynamicForm form1;
-	private ValueCallBack<ClientContact> successCallback;
-	private PayFromAccountsCombo accountCombo;
-	private PayFromAccountsCombo accountCombo1;
-	private TextItem accountIDTextItem;
-	private TextItem accountIDTextItem1;
-	private TextItem status;
-	private TextItem status1;
+
+	private OtherAccountsCombo accountCombo;
+	private OtherAccountsCombo accountCombo1;
+	private TextItem accountNumberTextItem;
+	private TextItem accountNumberTextItem1;
+	private TextItem name;
+	private TextItem name1;
 	private TextItem balanceTextItem1;
 	private TextItem balanceTextItem;
+	private ClientAccount fromAccount;
+	private ClientAccount toAccount;
 
 	public AccountMergeDialog(String title, String descript) {
 		super(title, descript);
@@ -52,17 +55,16 @@ public class AccountMergeDialog extends BaseDialog<ClientAccount> {
 		accountCombo = createCustomerCombo();
 		accountCombo1 = createCustomerCombo1();
 
-		accountIDTextItem = new TextItem("CustomerID");
-		accountIDTextItem.setHelpInformation(true);
+		accountNumberTextItem = new TextItem("Account Number");
+		accountNumberTextItem.setHelpInformation(true);
 
-		accountIDTextItem1 = new TextItem("CustomerID");
-		accountIDTextItem1.setHelpInformation(true);
+		accountNumberTextItem1 = new TextItem("Account Number");
+		accountNumberTextItem1.setHelpInformation(true);
 
-		status = new TextItem("Status");
-		status.setHelpInformation(true);
-
-		status1 = new TextItem("Status");
-		status1.setHelpInformation(true);
+		name = new TextItem("Name");
+		name.setHelpInformation(true);
+		name1 = new TextItem("Name");
+		name1.setHelpInformation(true);
 
 		balanceTextItem = new TextItem("Balance");
 		balanceTextItem.setHelpInformation(true);
@@ -70,8 +72,9 @@ public class AccountMergeDialog extends BaseDialog<ClientAccount> {
 		balanceTextItem1 = new TextItem("Balance");
 		balanceTextItem1.setHelpInformation(true);
 
-		form.setItems(accountCombo, accountIDTextItem, status, balanceTextItem);
-		form1.setItems(accountCombo1, accountIDTextItem1, status1,
+		form.setItems(accountCombo, accountNumberTextItem, name,
+				balanceTextItem);
+		form1.setItems(accountCombo1, accountNumberTextItem1, name1,
 				balanceTextItem1);
 		// form.setItems(getTextItems());
 		layout.add(form);
@@ -81,14 +84,16 @@ public class AccountMergeDialog extends BaseDialog<ClientAccount> {
 		setBodyLayout(horizontalPanel);
 	}
 
-	private PayFromAccountsCombo createCustomerCombo1() {
-		accountCombo1 = new PayFromAccountsCombo("TO Account");
+	private OtherAccountsCombo createCustomerCombo1() {
+		accountCombo1 = new OtherAccountsCombo("Account To", false);
 		accountCombo1.setHelpInformation(true);
+		accountCombo1.setRequired(true);
 		accountCombo1
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
 					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
+						toAccount = selectItem;
 						customerSelected1(selectItem);
 
 					}
@@ -98,14 +103,17 @@ public class AccountMergeDialog extends BaseDialog<ClientAccount> {
 		return accountCombo1;
 	}
 
-	private PayFromAccountsCombo createCustomerCombo() {
-		accountCombo = new PayFromAccountsCombo("From Account");
+	private OtherAccountsCombo createCustomerCombo() {
+		accountCombo = new OtherAccountsCombo("Account From", false);
 		accountCombo.setHelpInformation(true);
+		accountCombo.setRequired(true);
+
 		accountCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
 					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
+						fromAccount = selectItem;
 						customerSelected(selectItem);
 
 					}
@@ -117,50 +125,59 @@ public class AccountMergeDialog extends BaseDialog<ClientAccount> {
 
 	private void customerSelected(ClientAccount selectItem) {
 
-		accountIDTextItem.setValue(String.valueOf(selectItem.getID()));
-		// balanceTextItem.setValue(String.valueOf(selectItem.getBalance()));
-		status.setValue("active");
+		accountNumberTextItem.setValue(String.valueOf(selectItem.getNumber()));
+		balanceTextItem
+				.setValue(String.valueOf(selectItem.getOpeningBalance()));
+
+		name.setValue(selectItem.getName());
 
 	}
 
 	private void customerSelected1(ClientAccount selectItem) {
-		accountIDTextItem1.setValue(String.valueOf(selectItem.getID()));
-		// balanceTextItem1.setValue(String.valueOf(selectItem.getBalance()));
-		status1.setValue("active");
+		accountNumberTextItem1.setValue(String.valueOf(selectItem.getNumber()));
+		balanceTextItem1
+				.setValue(String.valueOf(selectItem.getOpeningBalance()));
+
+		name1.setValue(selectItem.getName());
+
 	}
 
 	@Override
 	protected ValidationResult validate() {
 		ValidationResult result = form.validate();
+
+		if ((toAccount.getID() == fromAccount.getID())
+				|| !(toAccount.getType() == fromAccount.getType())) {
+			result.addError(fromAccount,
+					"Could not move accoount because two accounts are same.");
+			return result;
+		}
+		result = form.validate();
+
 		result = form1.validate();
+
 		return result;
 
 	}
 
-	/**
-	 * @return
-	 */
-	private ClientContact createContact() {
-		ClientContact contact = new ClientContact();
-		// contact.setName(nameItem.getValue());
-		// contact.setTitle(titleItem.getValue());
-		// contact.setBusinessPhone(businessPhoneItem.getValue());
-		// contact.setEmail(emailItem.getValue());
-		return contact;
-	}
+	@Override
+	protected boolean onOK() {
+		Accounter.createHomeService()
+				.mergeAccount(fromAccount, toAccount, this);
 
-	/**
-	 * @param newContactHandler
-	 */
-	public void addSuccessCallback(
-			ValueCallBack<ClientContact> newContactHandler) {
-		this.successCallback = newContactHandler;
+		return true;
 	}
 
 	@Override
-	protected boolean onOK() {
+	public void onFailure(Throwable caught) {
+		// TODO Auto-generated method stub
 
-		return true;
+	}
+
+	@Override
+	public void onSuccess(Void result) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
