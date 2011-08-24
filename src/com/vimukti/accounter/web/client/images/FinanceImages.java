@@ -23,7 +23,7 @@ public interface FinanceImages extends ClientBundle {
 	@Source("cancel.png")
 	ImageResource rejected();
 
-	@Source("Tick-mark.png")
+	@Source("check-mark-small.gif")
 	ImageResource tickMark();
 
 	@Source("before-reject.png")
