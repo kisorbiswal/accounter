@@ -507,7 +507,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	public CustomerCombo createCustomerComboItem(String title) {
 
 		CustomerCombo customerCombo = new CustomerCombo(title != null ? title
-				: Accounter.constants().customer());
+				: Global.get().customer());
 		customerCombo.setHelpInformation(true);
 		customerCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCustomer>() {

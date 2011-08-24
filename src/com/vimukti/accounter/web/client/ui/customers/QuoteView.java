@@ -242,7 +242,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		phoneSelect.setWidth(100);
 		phoneSelect.setDisabled(isInViewMode());
 
-		custForm = UIUtils.form(customerConstants.customer());
+		custForm = UIUtils.form(Global.get().customer());
 		custForm.setCellSpacing(5);
 		custForm.setWidth("100%");
 

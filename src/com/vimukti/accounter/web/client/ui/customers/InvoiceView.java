@@ -327,7 +327,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		//
 		// }
 		// });
-		custForm = UIUtils.form(customerConstants.customer());
+		custForm = UIUtils.form(Global.get().customer());
 		custForm.setNumCols(3);
 		custForm.setWidth("100%");
 		currencyWidget = createCurrencyWidget();

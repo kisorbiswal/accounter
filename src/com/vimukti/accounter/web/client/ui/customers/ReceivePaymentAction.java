@@ -4,6 +4,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -20,14 +21,14 @@ public class ReceivePaymentAction extends Action {
 
 	public ReceivePaymentAction(String text) {
 		super(Accounter.constants().newReceivePayment());
-		this.catagory = Accounter.constants().customer();
+		this.catagory = Global.get().customer();
 	}
 
 	public ReceivePaymentAction(String text,
 			ClientReceivePayment receivePayment,
 			AccounterAsyncCallback<Object> callback) {
 		super(text);
-		this.catagory = Accounter.constants().customer();
+		this.catagory = Global.get().customer();
 	}
 
 	@Override

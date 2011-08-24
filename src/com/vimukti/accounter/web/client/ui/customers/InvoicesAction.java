@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -19,12 +20,12 @@ public class InvoicesAction extends Action {
 
 	public InvoicesAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().customer();
+		this.catagory = Global.get().customer();
 	}
 
 	public InvoicesAction(String text, String viewType) {
 		super(text);
-		this.catagory = Accounter.constants().customer();
+		this.catagory = Global.get().customer();
 		this.viewType = viewType;
 	}
 

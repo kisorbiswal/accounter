@@ -1270,7 +1270,7 @@ public class ReceivePaymentView extends
 	private CustomerCombo createCustomerComboItem(String title) {
 
 		CustomerCombo customerCombo = new CustomerCombo(title != null ? title
-				: Accounter.constants().customer());
+				: Global.get().customer());
 		customerCombo.setHelpInformation(true);
 		customerCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCustomer>() {

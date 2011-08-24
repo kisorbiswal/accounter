@@ -146,7 +146,7 @@ public class CashSalesView extends
 					}
 				});
 
-		custForm = UIUtils.form(customerConstants.customer());
+		custForm = UIUtils.form(Global.get().customer());
 		custForm.setFields(customerCombo, contactCombo, phoneSelect,
 				billToTextArea);
 		custForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");

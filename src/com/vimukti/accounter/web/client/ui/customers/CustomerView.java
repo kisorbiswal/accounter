@@ -389,7 +389,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		data.setNumber(custNoText.getValue().toString());
 
-
 		gridView.validateGrid();
 
 		return result;
@@ -598,7 +597,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		});
 
-		customerForm = UIUtils.form(customerConstants.customer());
+		customerForm = UIUtils.form(Global.get().customer());
 
 		if (getCompany().getPreferences().getUseCustomerId()) {
 			customerForm.setFields(custNameText, custNoText);

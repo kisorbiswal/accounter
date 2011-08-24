@@ -17,7 +17,7 @@ public class CustomersHomeAction extends Action {
 
 	public CustomersHomeAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().customer();
+		this.catagory = Global.get().customer();
 	}
 
 	// @Override

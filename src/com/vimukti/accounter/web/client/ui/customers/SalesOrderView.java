@@ -135,8 +135,7 @@ public class SalesOrderView extends
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
-		customerCombo = new CustomerCombo(Accounter.constants().customer(),
-				true);
+		customerCombo = new CustomerCombo(Global.get().customer(), true);
 		customerCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCustomer>() {
 

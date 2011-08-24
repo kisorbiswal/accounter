@@ -44,7 +44,7 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 
 		DynamicForm custForm = new DynamicForm();
 		custForm.setIsGroup(true);
-		custForm.setGroupTitle(customerConstants.customer());
+		custForm.setGroupTitle(Global.get().customer());
 		custForm.setFields(pay2Text, addrArea);
 
 		TextItem payFromText = new TextItem();

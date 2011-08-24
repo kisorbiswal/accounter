@@ -112,7 +112,7 @@ public class CustomerCreditMemoView extends
 		billToTextArea.setTitle(Accounter.constants().creditTo());
 		billToTextArea.setDisabled(true);
 
-		custForm = UIUtils.form(customerConstants.customer());
+		custForm = UIUtils.form(Global.get().customer());
 		custForm.setFields(customerCombo, contactCombo, billToTextArea);
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
 		custForm.getCellFormatter().getElement(0, 0)
