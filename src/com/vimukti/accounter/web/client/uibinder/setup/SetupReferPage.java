@@ -65,7 +65,7 @@ public class SetupReferPage extends AbstractSetupPage {
 	protected void createControls() {
 		headerLabel.setText(accounterConstants.howDoYouRefer());
 		// adding Items to customer list box
-		customerListBox.addItem(accounterConstants.Customer());
+		customerListBox.addItem(Global.get().Customer());
 		customerListBox.addItem(accounterConstants.Client());
 		customerListBox.addItem(accounterConstants.Tenant());
 		customerListBox.addItem(accounterConstants.Donar());
@@ -80,7 +80,7 @@ public class SetupReferPage extends AbstractSetupPage {
 		accountListBox.addItem(accounterConstants.Account());
 		accountListBox.addItem(accounterConstants.Ledger());
 
-		customerLabel.setText(accounterConstants.Customer());
+		customerLabel.setText(Global.get().Customer());
 		supplierLabel.setText(Accounter.messages().Supplier(
 				Global.get().Vendor()));
 		accountLabel.setText(accounterConstants.Account());
@@ -133,7 +133,7 @@ public class SetupReferPage extends AbstractSetupPage {
 				&& accountListBox.getSelectedIndex() == -1) {
 			Accounter.showError(accounterConstants.howDoYouRefer() + " "
 					+ Accounter.messages().customers(Global.get().customer())
-					+ " " + accounterConstants.supplier() + " "
+					+ " " + Global.get().vendor() + " "
 					+ Accounter.messages().accounts(Global.get().account())
 					+ "?");
 			return false;
@@ -141,12 +141,12 @@ public class SetupReferPage extends AbstractSetupPage {
 				&& supplierListBox.getSelectedIndex() == -1) {
 			Accounter.showError(accounterConstants.howDoYouRefer() + " "
 					+ Accounter.messages().customers(Global.get().customer())
-					+ " " + accounterConstants.supplier() + "?");
+					+ " " + Global.get().vendor() + "?");
 			return false;
 		} else if (supplierListBox.getSelectedIndex() == -1
 				&& accountListBox.getSelectedIndex() == -1) {
 			Accounter.showError(accounterConstants.howDoYouRefer() + " "
-					+ accounterConstants.supplier() + " "
+					+ Global.get().vendor() + " "
 					+ Accounter.messages().accounts(Global.get().account())
 					+ "?");
 			return false;

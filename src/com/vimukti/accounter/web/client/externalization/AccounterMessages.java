@@ -474,6 +474,10 @@ public interface AccounterMessages extends Messages {
 
 	public String mergeFinancialAccounts(String msgString);
 
+	public String mergeVendors(String vendorString);
+
+	public String mergeAccounts(String accountString);
+
 	public String newAccount(String msgString);
 
 	public String newBankAccount(String msgString);

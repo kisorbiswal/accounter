@@ -116,8 +116,7 @@ public class MainFinanceWindow extends VerticalPanel {
 			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		}
 
-		menuitem = menuBar.addItem(Accounter.constants().customer(),
-				getCustomerMenu());
+		menuitem = menuBar.addItem(Global.get().customer(), getCustomerMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		menuitem = menuBar.addItem(Global.get().Vendor(), getVendorMenu());

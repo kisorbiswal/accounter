@@ -79,7 +79,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 			return null;
 		else {
 			NewItemAction action = ActionFactory.getNewItemAction(true);
-			if (this.catageory.equals(Accounter.constants().customer())) {
+			if (this.catageory.equals(Global.get().customer())) {
 				action.setType(3);
 				return action;
 			} else if (this.catageory.equals(Accounter.constants().supplier())
@@ -149,7 +149,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 
 	public void setCatageoryType(String catagory) {
 		this.catageory = catagory;
-		if (this.catageory.equals(Accounter.constants().customer())) {
+		if (this.catageory.equals(Global.get().customer())) {
 			isSalesType = true;
 			isPurchaseType = false;
 		} else if (this.catageory.equals(Accounter.constants().vendor())
