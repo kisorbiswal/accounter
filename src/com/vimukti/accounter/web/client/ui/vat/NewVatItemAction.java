@@ -76,4 +76,9 @@ public class NewVatItemAction extends Action<ClientTAXItem> {
 		else
 			return "newTaxItem";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "new-vat-item";
+	}
 }

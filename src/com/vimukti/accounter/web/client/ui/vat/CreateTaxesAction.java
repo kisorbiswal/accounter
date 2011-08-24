@@ -42,4 +42,9 @@ public class CreateTaxesAction extends Action {
 		return "CraeteTaxes";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "new-tax";
+	}
+
 }

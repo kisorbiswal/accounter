@@ -41,12 +41,10 @@ public class PayVATAction extends Action {
 	private void runAsync(final Object data, final Boolean isDependent) {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
-
 			public void onCreated() {
 
-					MainFinanceWindow.getViewManager().showView(
-							new PayVATView(), data, isDependent,
-							PayVATAction.this);
+				MainFinanceWindow.getViewManager().showView(new PayVATView(),
+						data, isDependent, PayVATAction.this);
 
 			}
 
@@ -62,6 +60,11 @@ public class PayVATAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		return "payVat";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "pay-vat";
 	}
 
 }

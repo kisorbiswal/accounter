@@ -77,4 +77,9 @@ public class ManageVATGroupListAction extends Action {
 		return "manageVATGroupList";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "manage-vat-group";
+	}
+
 }

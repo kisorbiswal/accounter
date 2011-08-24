@@ -45,18 +45,17 @@ public class AdjustTAXAction extends Action {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			public void onCreated() {
-				 
-					if (isDependent) {
-						view = new AdjustTAXView(vatAgency);
-						MainFinanceWindow.getViewManager().showView(view, null,
-								isDependent, AdjustTAXAction.this);
-					} else {
-						view = new AdjustTAXView();
-						MainFinanceWindow.getViewManager().showView(view, data,
-								isDependent, AdjustTAXAction.this);
-					}
 
-				 
+				if (isDependent) {
+					view = new AdjustTAXView(vatAgency);
+					MainFinanceWindow.getViewManager().showView(view, null,
+							isDependent, AdjustTAXAction.this);
+				} else {
+					view = new AdjustTAXView();
+					MainFinanceWindow.getViewManager().showView(view, data,
+							isDependent, AdjustTAXAction.this);
+				}
+
 			}
 		});
 
@@ -72,6 +71,11 @@ public class AdjustTAXAction extends Action {
 			return "vatAdjustment";
 		else
 			return "taxAdjustment";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "adjust-tax";
 	}
 
 }

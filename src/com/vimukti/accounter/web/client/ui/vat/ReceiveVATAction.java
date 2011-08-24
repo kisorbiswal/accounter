@@ -47,12 +47,11 @@ public class ReceiveVATAction extends Action {
 	private void runAsync(final Object data, final Boolean isDependent) {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
-			 
 			public void onCreated() {
 
-					MainFinanceWindow.getViewManager().showView(
-							new ReceiveVATView(), data, isDependent,
-							ReceiveVATAction.this);
+				MainFinanceWindow.getViewManager().showView(
+						new ReceiveVATView(), data, isDependent,
+						ReceiveVATAction.this);
 
 			}
 
@@ -68,6 +67,11 @@ public class ReceiveVATAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		return "receiveVat";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "receive-vat";
 	}
 
 }

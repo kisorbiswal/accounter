@@ -63,11 +63,9 @@ public class ManageTAXCodesListAction extends Action {
 
 			public void onCreated() {
 
-
-					view = new ManageTAXCodesListView();
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, ManageTAXCodesListAction.this);
-
+				view = new ManageTAXCodesListView();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, ManageTAXCodesListAction.this);
 
 			}
 
@@ -82,5 +80,10 @@ public class ManageTAXCodesListAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		return "vatCodes";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "manage-tax-code";
 	}
 }

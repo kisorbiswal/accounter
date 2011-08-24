@@ -41,12 +41,10 @@ public class NewTAXCodeAction extends Action<ClientTAXCode> {
 	public void run() {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
-			 
-
 			public void onCreated() {
-					view = new NewTAXCodeView();
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, NewTAXCodeAction.this);
+				view = new NewTAXCodeView();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, NewTAXCodeAction.this);
 
 			}
 		});
@@ -60,6 +58,11 @@ public class NewTAXCodeAction extends Action<ClientTAXCode> {
 	@Override
 	public String getHistoryToken() {
 		return "newVatCode";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "new-tax-code";
 	}
 
 }

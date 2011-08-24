@@ -42,7 +42,6 @@ public class VatGroupAction extends Action {
 	public void runAsync(final Object data, final Boolean isDependent) {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
-
 			public void onCreated() {
 
 				view = new VATGroupView();
@@ -65,6 +64,11 @@ public class VatGroupAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		return "vatGroup";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "vat-group";
 	}
 
 }

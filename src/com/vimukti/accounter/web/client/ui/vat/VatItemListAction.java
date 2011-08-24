@@ -61,4 +61,9 @@ public class VatItemListAction extends Action {
 		return "vatItems";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "vat-item-list";
+	}
+
 }

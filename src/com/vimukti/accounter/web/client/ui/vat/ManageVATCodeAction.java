@@ -64,4 +64,9 @@ public class ManageVATCodeAction extends Action {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "manage-vat-code";
+	}
 }

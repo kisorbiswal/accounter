@@ -30,11 +30,11 @@ public class FileVatAction extends Action {
 	/**
 	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
 	 */
-	
-//	@Override
-//	public ParentCanvas getView() {
-//		return null;
-//	}
+
+	// @Override
+	// public ParentCanvas getView() {
+	// return null;
+	// }
 
 	@Override
 	public void run() {
@@ -47,12 +47,10 @@ public class FileVatAction extends Action {
 
 			private FileVATView view;
 
-			 
-
 			public void onCreated() {
-					view = new FileVATView();
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, FileVatAction.this);
+				view = new FileVATView();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, FileVatAction.this);
 
 			}
 		});
@@ -62,14 +60,19 @@ public class FileVatAction extends Action {
 	/**
 	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
 	 */
-//	@Override
-//	public String getImageUrl() {
-//		return "/images/File_vat.png";
-//	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/File_vat.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {
 		return "fileVAT";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "file-vat";
 	}
 
 }
