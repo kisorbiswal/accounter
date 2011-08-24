@@ -709,7 +709,7 @@ public class MainFinanceWindow extends VerticalPanel {
 	private void startCometService() {
 		AccounterCometSerializer serializer = GWT
 				.create(AccounterCometSerializer.class);
-		CometClient cometClient = new CometClient("do/comet", serializer,
+		CometClient cometClient = new CometClient("/do/comet", serializer,
 				new CometListener() {
 
 					@Override
