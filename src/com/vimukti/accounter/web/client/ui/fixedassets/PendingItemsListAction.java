@@ -67,4 +67,9 @@ public class PendingItemsListAction extends Action {
 		return "pendingItems";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "pending-item-list";
+	}
+
 }

@@ -49,7 +49,6 @@ public class DisposingRegisteredItemAction extends Action {
 
 			}
 
-			
 		});
 
 	}
@@ -57,6 +56,11 @@ public class DisposingRegisteredItemAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		return "disposingRegisteredItem";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "disposing-register-item";
 	}
 
 }

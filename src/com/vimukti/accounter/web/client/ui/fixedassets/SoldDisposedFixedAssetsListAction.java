@@ -67,7 +67,6 @@ public class SoldDisposedFixedAssetsListAction extends Action {
 
 			}
 
-			 
 		});
 	}
 
@@ -79,6 +78,11 @@ public class SoldDisposedFixedAssetsListAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		return null;
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "sold-disposed-fixed-assets";
 	}
 
 }

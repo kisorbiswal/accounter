@@ -43,10 +43,9 @@ public class NewFixedAssetAction extends Action {
 
 			public void onCreated() {
 
-					view = new NewFixedAssetView();
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, NewFixedAssetAction.this);
-
+				view = new NewFixedAssetView();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, NewFixedAssetAction.this);
 
 			}
 
@@ -65,6 +64,11 @@ public class NewFixedAssetAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		return "newFixedAsset";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "new-fixed-assets";
 	}
 
 }

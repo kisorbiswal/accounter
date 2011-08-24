@@ -23,12 +23,11 @@ public class ApplyDepreciationAction extends Action {
 		return null;
 	}
 
-	
-//	@Override
-//	public ParentCanvas getView() {
-//		// NOTHING TO DO
-//		return null;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	// // NOTHING TO DO
+	// return null;
+	// }
 
 	@Override
 	public void run() {
@@ -39,6 +38,11 @@ public class ApplyDepreciationAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		return "ApplyDepreciation";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "depreciation";
 	}
 
 }

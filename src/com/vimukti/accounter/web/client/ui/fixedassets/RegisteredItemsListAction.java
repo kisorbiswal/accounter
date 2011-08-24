@@ -81,4 +81,9 @@ public class RegisteredItemsListAction extends Action {
 		return "registeredItems";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "registered-item-list";
+	}
+
 }

@@ -46,13 +46,17 @@ public class HistoryListAction extends Action {
 
 			}
 
-			 
 		});
 	}
 
 	@Override
 	public String getHistoryToken() {
 		return "historyList";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "history-list";
 	}
 
 }

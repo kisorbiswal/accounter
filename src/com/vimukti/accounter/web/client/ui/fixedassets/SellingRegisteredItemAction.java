@@ -49,7 +49,6 @@ public class SellingRegisteredItemAction extends Action {
 
 			}
 
-			 
 		});
 
 	}
@@ -57,5 +56,10 @@ public class SellingRegisteredItemAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		return "SellingRequesteredItem ";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "selling-registered-item";
 	}
 }
