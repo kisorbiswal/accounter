@@ -889,7 +889,8 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			@Override
 			public void execute() {
 				AccountMergeDialog accountMergeDialog = new AccountMergeDialog(
-						"Merge Account", "");
+						"Merge Account",
+						"Select the account to merge from, then select the account merge it into.The accounts  should have the same type.After you have merged the accounts, you cannot seperate them.");
 				accountMergeDialog.show();
 			}
 		};
