@@ -51,20 +51,18 @@ public class Currency implements IAccounterServerCore {
 	 * Formal Name of the Currency.
 	 */
 	String formalName;
-	
-	String countryName;
 
-	public Currency() {
-	}
-	
-
-	public String getCountryName() {
-		return countryName;
-	}
-
-	public void setCountryName(String countryName) {
-		this.countryName = countryName;
-	}
+	/*
+	 * String countryName;
+	 * 
+	 * public Currency() { }
+	 * 
+	 * 
+	 * public String getCountryName() { return countryName; }
+	 * 
+	 * public void setCountryName(String countryName) { this.countryName =
+	 * countryName; }
+	 */
 
 	/**
 	 * @return the version

@@ -71,10 +71,7 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 						for (ClientCurrency currency : currenciesList) {
 							primaryCurrencyListBox.addItem(currency
 									.getFormalName()
-									+ "\t"
-									+ currency.getCountryName()
-									+ "\t"
-									+ currency.getDisplayName());
+									+ "\t" + currency.getDisplayName());
 						}
 
 						currenciesGrid = new CurrenciesGrid();

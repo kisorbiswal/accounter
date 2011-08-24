@@ -33,8 +33,6 @@ public class CurrenciesGrid extends BaseListGrid<ClientCurrency> {
 		case 0:
 			return obj.getFormalName();
 		case 1:
-			return obj.getCountryName();
-		case 2:
 			return obj.getName();
 		default:
 			break;
@@ -104,13 +102,12 @@ public class CurrenciesGrid extends BaseListGrid<ClientCurrency> {
 	@Override
 	protected String[] getColumns() {
 		return new String[] { Accounter.constants().currencyCode(),
-				Accounter.constants().countryName(),
 				Accounter.constants().currencyName() };
 	}
 
 	@Override
 	protected int[] setColTypes() {
-		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT };
+		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT };
 	}
 
 	@Override

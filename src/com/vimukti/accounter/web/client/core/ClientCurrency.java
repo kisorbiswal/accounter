@@ -17,15 +17,15 @@ public class ClientCurrency implements IAccounterCore {
 	String name;
 	String symbol;
 	String formalName;
-	String countryName;
 
-	public String getCountryName() {
-		return countryName;
-	}
-
-	public void setCountryName(String countryName) {
-		this.countryName = countryName;
-	}
+	/*
+	 * String countryName;
+	 * 
+	 * public String getCountryName() { return countryName; }
+	 * 
+	 * public void setCountryName(String countryName) { this.countryName =
+	 * countryName; }
+	 */
 
 	/**
 	 * @return the version
