@@ -30,8 +30,8 @@ public class SetupReferPage extends AbstractSetupPage {
 		referCustomerLabel = new Label(Accounter.messages()
 				.howDoYouReferYourCustoemrs(Global.get().Account()));
 		referCustomerLabel.addStyleName("referComment");
-		customerCombo = new SelectCombo(Accounter.constants().customer());
-		customerForm = UIUtils.form(accounterConstants.customer());
+		customerCombo = new SelectCombo(Global.get().customer());
+		customerForm = UIUtils.form(Global.get().customer());
 		customerCombo.addItem("Customers");
 		customerCombo.addItem("Clients");
 		customerCombo.addItem("Tenants");
@@ -41,11 +41,11 @@ public class SetupReferPage extends AbstractSetupPage {
 		refersuppliersLabel = new Label(Accounter.messages()
 				.howDoYouReferYourSuppliers(Global.get().vendor()));
 		refersuppliersLabel.addStyleName("referComment");
-		supplierCombo = new SelectCombo(Accounter.constants().supplier());
+		supplierCombo = new SelectCombo(Global.get().customer());
 		supplierCombo.addItem("Suppliers");
 		supplierCombo.addItem("Vendors");
 		supplierCombo.setHelpInformation(true);
-		supplierForm = UIUtils.form(accounterConstants.customer());
+		supplierForm = UIUtils.form(Global.get().customer());
 		supplierForm.setWidth("100%");
 		supplierForm.setFields(supplierCombo);
 
@@ -56,7 +56,7 @@ public class SetupReferPage extends AbstractSetupPage {
 				Global.get().account()));
 		accountCombo.addItem("Accounts");
 		accountCombo.addItem("Legands");
-		accountForm = UIUtils.form(accounterConstants.customer());
+		accountForm = UIUtils.form(Global.get().customer());
 		accountForm.setWidth("100%");
 		accountForm.setFields(accountCombo);
 
