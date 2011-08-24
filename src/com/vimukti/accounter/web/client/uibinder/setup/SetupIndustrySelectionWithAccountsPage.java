@@ -19,7 +19,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 
@@ -39,9 +38,7 @@ public class SetupIndustrySelectionWithAccountsPage extends AbstractSetupPage {
 	@UiField
 	VerticalPanel accountsPanel;
 	@UiField
-	HTML customizeAccounter, settingsLater, industry;
-	@UiField
-	HTML selectIndustry;
+	HTML selectIndustryhead, customizeAccounter;
 	@UiField
 	Label headerLabel;
 	@UiField
@@ -95,17 +92,15 @@ public class SetupIndustrySelectionWithAccountsPage extends AbstractSetupPage {
 	@Override
 	protected void onSave() {
 		setupWizard.setSelectedAccountsList(industriesWithAccounts
-				.get(selectIndustry));
+				.get(selectIndustryhead));
 	}
 
 	@Override
 	protected void createControls() {
+		selectIndustryhead.setText(accounterMessages.getindustryhead());
 		headerLabel.setText(accounterConstants.selectYourIndustry());
 
 		customizeAccounter.setHTML(accounterMessages.selectIndustryInfoHTML());
-		settingsLater.setHTML(accounterMessages.industrySelectNote());
-		selectIndustry.setHTML("<b>" + accounterMessages.selectIndustry()
-				+ "</b>");
 		industryList.setName(accounterConstants.industry());
 
 		industryList.addChangeHandler(new ChangeHandler() {
@@ -122,8 +117,7 @@ public class SetupIndustrySelectionWithAccountsPage extends AbstractSetupPage {
 		});
 		industryList.setVisibleItemCount(15);
 
-		accountsLabel.setHTML("<b"
-				+ accounterMessages.accounts(Global.get().Account()) + "</b>");
+		accountsLabel.setHTML("<b>" + accounterConstants.Accounts() + "</b>");
 
 		// accountsList
 		// .setName(accounterMessages.accounts(Global.get().Account()));
@@ -154,7 +148,8 @@ public class SetupIndustrySelectionWithAccountsPage extends AbstractSetupPage {
 			accountsPanel.add(new HTML("<b>" + accType + "</b>"));
 			List<String> list = accMap.get(accType);
 			for (String accName : list) {
-				accountsPanel.add(new HTML(accName));
+				accountsPanel.add(new HTML("<li class='select_industry_list'>"
+						+ accName + "</li>"));
 			}
 		}
 

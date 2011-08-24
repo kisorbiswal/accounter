@@ -9,14 +9,13 @@
 	<g:VerticalPanel ui:field="mainViewPanel">
 		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
 		<g:VerticalPanel ui:field="viewPanel">
-			<g:HTML wordWrap="true" ui:field="reviewHead" />
 			<g:Label ui:field="expensesInfo" />
 			<g:HTML wordWrap="true" ui:field="recommendedInfo" />
-			<g:ScrollPanel  height="500px" styleName="setup_accounts">
+			<g:ScrollPanel  height="500px" styleName="review_expense_account">
 				<g:FlexTable ui:field="accountsTable"/>
 			</g:ScrollPanel>
 			<g:Button enabled="true" ui:field="restoreButton" />
-			<g:HTML wordWrap="true" ui:field="expensesLink" />
+			<g:HTML wordWrap="true" ui:field="expensesLink" styleName="expense_question_link" />
 			<g:HTML wordWrap="true" ui:field="expensesNote" />
 		</g:VerticalPanel>
 	</g:VerticalPanel>

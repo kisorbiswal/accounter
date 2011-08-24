@@ -18,7 +18,7 @@
 				<g:RadioButton name="bills" ui:field="managingNo" styleName="employee_yesno" />
 			</g:VerticalPanel>
 			<g:VerticalPanel ui:field="trackingBillsPanel" styleName="track_time_panel">
-				<g:Label text="New Label" styleName="setup_header_label" ui:field="track_time_head"/>
+				<g:Label styleName="setup_header_label" ui:field="track_time_head"/>
 				<g:HTML wordWrap="true" ui:field="trackingTimeDes" />
 				<g:HTML wordWrap="true" ui:field="trackOfBillsList" />
 				<g:HTML wordWrap="true" ui:field="trackOfBillsText" styleName="track_question" />

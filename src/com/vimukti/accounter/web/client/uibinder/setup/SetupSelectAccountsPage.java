@@ -55,8 +55,6 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 	@UiField
 	HTML expensesNote;
 	@UiField
-	HTML reviewHead;
-	@UiField
 	Label headerLabel;
 	@UiField
 	FlexTable accountsTable;
@@ -75,12 +73,10 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 				.reviewIncomeAndExpensesAccounts(Global.get().account()));
 
 		expensesInfo.setText(accounterConstants.expenseInformation());
-		recommendedInfo.setText(accounterMessages.recommendedAccounts());
+		recommendedInfo.setHTML(accounterMessages.recommendedAccounts());
 		restoreButton.setText(accounterConstants.restoreRecommendations());
-		expensesLink.setText(accounterMessages.whyshoudIUseRecommended());
-		expensesNote.setText(accounterMessages.recommendedNote());
-		reviewHead.setText(Accounter.messages()
-				.reviewIncomeAndExpensesAccounts(Global.get().account()));
+		expensesLink.setHTML(accounterMessages.whyshoudIUseRecommended());
+		expensesNote.setHTML(accounterMessages.recommendedNote());
 
 		restoreButton.addClickHandler(new ClickHandler() {
 

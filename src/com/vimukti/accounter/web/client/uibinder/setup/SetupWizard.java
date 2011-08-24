@@ -17,7 +17,6 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.IAccounterCompanyInitializationServiceAsync;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -67,7 +66,7 @@ public class SetupWizard extends VerticalPanel {
 			Accounter.constants().setCurrency(),
 			Accounter.constants().setBillTracking(),
 			Accounter.constants().setFiscalYear(),
-			Accounter.messages().selectRequiredAccounts(Global.get().account()) };
+			Accounter.constants().Accounts() };
 
 	private Image skipProgressImages[] = new Image[skipViewList.length - 2];
 	private String skipProgressLabels[] = new String[] {
@@ -111,15 +110,16 @@ public class SetupWizard extends VerticalPanel {
 			viewButtonPanel.add(buttonPanel);
 			viewButtonPanel.setCellVerticalAlignment(buttonPanel,
 					HasAlignment.ALIGN_MIDDLE);
+			buttonPanel.setStyleName("back_next_buttons");
 
-			viewButtonPanel.setCellHeight(viewPanel, "93%");
-			viewButtonPanel.setCellHeight(buttonPanel, "7%");
+			viewButtonPanel.setCellHeight(viewPanel, "90%");
+			viewButtonPanel.setCellHeight(buttonPanel, "10%");
 
 			topPanel.add(progressPanel);
 			topPanel.add(viewButtonPanel);
 
-			topPanel.setCellWidth(progressPanel, "28%");
-			topPanel.setCellWidth(viewButtonPanel, "72%");
+			topPanel.setCellWidth(progressPanel, "25%");
+			topPanel.setCellWidth(viewButtonPanel, "75%");
 
 			viewPanel.addStyleName("view_panel");
 			viewButtonPanel.setSize("100%", "100%");
