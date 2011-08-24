@@ -3,11 +3,11 @@ package com.vimukti.accounter.web.client.ui;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
-import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -37,7 +37,7 @@ public class AccountMergeDialog extends BaseDialog implements
 	public AccountMergeDialog(String title, String descript) {
 		super(title, descript);
 		setWidth("650px");
-		okbtn.setText("Merge");
+		okbtn.setText(Accounter.constants().merge());
 		createControls();
 		center();
 	}
@@ -55,21 +55,23 @@ public class AccountMergeDialog extends BaseDialog implements
 		accountCombo = createCustomerCombo();
 		accountCombo1 = createCustomerCombo1();
 
-		accountNumberTextItem = new TextItem("Account Number");
+		accountNumberTextItem = new TextItem(Accounter.messages()
+				.accountNumber(Global.get().Account()));
 		accountNumberTextItem.setHelpInformation(true);
 
-		accountNumberTextItem1 = new TextItem("Account Number");
+		accountNumberTextItem1 = new TextItem(Accounter.messages()
+				.accountNumber(Global.get().Account()));
 		accountNumberTextItem1.setHelpInformation(true);
 
-		name = new TextItem("Name");
+		name = new TextItem(Accounter.constants().accountName());
 		name.setHelpInformation(true);
-		name1 = new TextItem("Name");
+		name1 = new TextItem(Accounter.constants().accountName());
 		name1.setHelpInformation(true);
 
-		balanceTextItem = new TextItem("Balance");
+		balanceTextItem = new TextItem(Accounter.constants().balance());
 		balanceTextItem.setHelpInformation(true);
 
-		balanceTextItem1 = new TextItem("Balance");
+		balanceTextItem1 = new TextItem(Accounter.constants().balance());
 		balanceTextItem1.setHelpInformation(true);
 
 		form.setItems(accountCombo, accountNumberTextItem, name,
@@ -85,7 +87,8 @@ public class AccountMergeDialog extends BaseDialog implements
 	}
 
 	private OtherAccountsCombo createCustomerCombo1() {
-		accountCombo1 = new OtherAccountsCombo("Account To", false);
+		accountCombo1 = new OtherAccountsCombo(Accounter.messages().accountTo(
+				Global.get().Account()), false);
 		accountCombo1.setHelpInformation(true);
 		accountCombo1.setRequired(true);
 		accountCombo1
@@ -104,7 +107,8 @@ public class AccountMergeDialog extends BaseDialog implements
 	}
 
 	private OtherAccountsCombo createCustomerCombo() {
-		accountCombo = new OtherAccountsCombo("Account From", false);
+		accountCombo = new OtherAccountsCombo(Accounter.messages().accountFrom(
+				Global.get().Account()), false);
 		accountCombo.setHelpInformation(true);
 		accountCombo.setRequired(true);
 
@@ -149,7 +153,7 @@ public class AccountMergeDialog extends BaseDialog implements
 		if ((toAccount.getID() == fromAccount.getID())
 				|| !(toAccount.getType() == fromAccount.getType())) {
 			result.addError(fromAccount,
-					"Could not move accoount because two accounts are same.");
+					Accounter.messages().notMove(Global.get().account()));
 			return result;
 		}
 		result = form.validate();

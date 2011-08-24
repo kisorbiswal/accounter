@@ -3,12 +3,7 @@ package com.vimukti.accounter.web.client.ui;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
-import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.ValueCallBack;
-import com.vimukti.accounter.web.client.core.ClientContact;
-
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
@@ -171,7 +166,7 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 
 		ValidationResult result = new ValidationResult();
 		if (clientCustomer1.getID() == clientCustomer.getID()) {
-			result.addError(clientCustomer, Accounter.constants().notMove());
+			result.addError(clientCustomer, Accounter.messages().notMove(Global.get().customer()));
 			return result;
 		}
 		result = form.validate();

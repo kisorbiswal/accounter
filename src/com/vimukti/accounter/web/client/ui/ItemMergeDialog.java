@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.client.ui;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.ValueCallBack;
-import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -13,16 +11,17 @@ import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+
 /**
  * 
  * @author Sai Prasad N
- *
+ * 
  */
 public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 
 	private DynamicForm form;
 	private DynamicForm form1;
-	private ValueCallBack<ClientContact> successCallback;
+
 	private ItemCombo itemCombo;
 	private ItemCombo itemCombo1;
 	private CheckboxItem status;
@@ -39,7 +38,7 @@ public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 	public ItemMergeDialog(String title, String descript) {
 		super(title, descript);
 		setWidth("650px");
-		okbtn.setText("Merge");
+		okbtn.setText(Accounter.constants().merge());
 		createControls();
 		center();
 	}
@@ -57,26 +56,26 @@ public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 		itemCombo = createCustomerCombo();
 		itemCombo1 = createCustomerCombo1();
 
-		status = new CheckboxItem("Active");
+		status = new CheckboxItem(Accounter.constants().active());
 		status.setValue(false);
 
 		status.setHelpInformation(true);
 
-		status1 = new CheckboxItem("Active");
+		status1 = new CheckboxItem(Accounter.constants().active());
 		status1.setValue(false);
 
-		itemType = new TextItem("Item Type");
+		itemType = new TextItem(Accounter.constants().itemType());
 		itemType.setHelpInformation(true);
 		itemType.setDisabled(true);
 
-		itemType1 = new TextItem("Item Type");
+		itemType1 = new TextItem(Accounter.constants().itemType());
 		itemType1.setHelpInformation(true);
 		itemType1.setDisabled(true);
-		price = new TextItem("Price");
+		price = new TextItem(Accounter.constants().price());
 		price.setHelpInformation(true);
 		price.setDisabled(true);
 
-		price1 = new TextItem("Price");
+		price1 = new TextItem(Accounter.constants().price());
 		price1.setHelpInformation(true);
 		price1.setDisabled(true);
 
@@ -91,7 +90,7 @@ public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 	}
 
 	private ItemCombo createCustomerCombo1() {
-		itemCombo1 = new ItemCombo("Item TO", 2, false);
+		itemCombo1 = new ItemCombo(Accounter.constants().itemTo(), 2, false);
 		itemCombo1.setRequired(true);
 		itemCombo1.setHelpInformation(true);
 		itemCombo1
@@ -110,7 +109,7 @@ public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 	}
 
 	private ItemCombo createCustomerCombo() {
-		itemCombo = new ItemCombo("Item From", 2, false);
+		itemCombo = new ItemCombo(Accounter.constants().itemFrom(), 2, false);
 		itemCombo.setHelpInformation(true);
 		itemCombo.setRequired(true);
 		itemCombo
@@ -132,9 +131,9 @@ public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 
 		status.setValue(selectItem.isActive());
 		if (selectItem.getType() == 1) {
-			itemType.setValue("Service");
+			itemType.setValue(Accounter.constants().service());
 		} else if (selectItem.getType() == 3) {
-			itemType.setValue("Product");
+			itemType.setValue(Accounter.constants().product());
 		}
 		price.setValue(String.valueOf(selectItem.getSalesPrice()));
 
@@ -143,9 +142,9 @@ public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 	private void customerSelected1(ClientItem selectItem) {
 		status1.setValue(selectItem.isActive());
 		if (selectItem.getType() == 1) {
-			itemType1.setValue("Service");
+			itemType1.setValue(Accounter.constants().service());
 		} else if (selectItem.getType() == 3) {
-			itemType1.setValue("Product");
+			itemType1.setValue(Accounter.constants().service());
 		}
 		price1.setValue(String.valueOf(selectItem.getSalesPrice()));
 	}
@@ -154,7 +153,7 @@ public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 	protected ValidationResult validate() {
 		ValidationResult result = form.validate();
 		if (fromClientItem.getID() == toClientItem.getID()) {
-			result.addError(fromClientItem, "Same");
+			result.addError(fromClientItem, Accounter.constants().notMove());
 			return result;
 		}
 		result = form1.validate();

@@ -803,4 +803,13 @@ public interface AccounterMessages extends Messages {
 
 	public String noTransactionsTo(String paySalesTax);
 
+	public String vendorID(String vendor);
+	public String vendorTo(String vendorTo);
+	public String vendorFrom(String vendorFrom);
+
+	public String notMove(String customer);
+
+	public String accountTo(String account);
+	public String mergeDescription(String desc);
+
 }

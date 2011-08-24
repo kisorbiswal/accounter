@@ -3,8 +3,7 @@ package com.vimukti.accounter.web.client.ui;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.ValueCallBack;
-import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -18,14 +17,14 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 /**
  * 
  * @author Sai Prasad N
- *
+ * 
  */
 public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 		AsyncCallback<Void> {
 
 	private DynamicForm form;
 	private DynamicForm form1;
-	private ValueCallBack<ClientContact> successCallback;
+
 	private VendorCombo vendorCombo;
 	private VendorCombo vendorCombo1;
 	private TextItem vendorIDTextItem;
@@ -42,7 +41,7 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 	public VendorMergeDialog(String title, String descript) {
 		super(title, descript);
 		setWidth("650px");
-		okbtn.setText("Merge");
+		okbtn.setText(Accounter.constants().merge());
 		createControls();
 		center();
 	}
@@ -60,27 +59,29 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 		vendorCombo = createCustomerCombo();
 		vendorCombo1 = createCustomerCombo1();
 
-		vendorIDTextItem = new TextItem("CustomerID");
+		vendorIDTextItem = new TextItem(Accounter.messages().vendorID(
+				Global.get().Vendor()));
 		vendorIDTextItem.setHelpInformation(true);
 
-		vendorIDTextItem1 = new TextItem("CustomerID");
+		vendorIDTextItem1 = new TextItem(Accounter.messages().vendorID(
+				Global.get().Vendor()));
 		vendorIDTextItem1.setHelpInformation(true);
 		vendorIDTextItem.setDisabled(true);
 		vendorIDTextItem1.setDisabled(true);
 
-		status = new CheckboxItem("Active");
+		status = new CheckboxItem(Accounter.constants().active());
 		status.setValue(false);
 
 		status.setHelpInformation(true);
 
-		status1 = new CheckboxItem("Active");
+		status1 = new CheckboxItem(Accounter.constants().active());
 		status1.setValue(false);
 		status1.setHelpInformation(true);
 
-		balanceTextItem = new TextItem("Balance");
+		balanceTextItem = new TextItem(Accounter.constants().balance());
 		balanceTextItem.setHelpInformation(true);
 
-		balanceTextItem1 = new TextItem("Balance");
+		balanceTextItem1 = new TextItem(Accounter.constants().balance());
 		balanceTextItem1.setHelpInformation(true);
 		balanceTextItem.setDisabled(true);
 		balanceTextItem1.setDisabled(true);
@@ -97,7 +98,8 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 	}
 
 	private VendorCombo createCustomerCombo1() {
-		vendorCombo1 = new VendorCombo("Vendor To");
+		vendorCombo1 = new VendorCombo(Accounter.messages().vendorTo(
+				Global.get().Vendor()));
 		vendorCombo1.setHelpInformation(true);
 		vendorCombo1.setRequired(true);
 		vendorCombo1
@@ -116,7 +118,8 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 	}
 
 	private VendorCombo createCustomerCombo() {
-		vendorCombo = new VendorCombo("Vendor From");
+		vendorCombo = new VendorCombo(Accounter.messages().vendorFrom(
+				Global.get().Vendor()));
 		vendorCombo.setHelpInformation(true);
 		vendorCombo.setRequired(true);
 		vendorCombo
@@ -154,30 +157,10 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 		result = form1.validate();
 		if (fromclientVendor.getID() == toClientVendor.getID()) {
 			result.addError(fromclientVendor,
-					"Could not move vendor because two vendors are same.");
+					Accounter.messages().notMove(Global.get().vendor()));
 		}
 		return result;
 
-	}
-
-	/**
-	 * @return
-	 */
-	private ClientContact createContact() {
-		ClientContact contact = new ClientContact();
-		// contact.setName(nameItem.getValue());
-		// contact.setTitle(titleItem.getValue());
-		// contact.setBusinessPhone(businessPhoneItem.getValue());
-		// contact.setEmail(emailItem.getValue());
-		return contact;
-	}
-
-	/**
-	 * @param newContactHandler
-	 */
-	public void addSuccessCallback(
-			ValueCallBack<ClientContact> newContactHandler) {
-		this.successCallback = newContactHandler;
 	}
 
 	@Override

@@ -713,8 +713,9 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		}
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			vendorMenuBar.addItem(ActionFactory.getRecordExpensesAction());
-			
-			// This should be enabled when user select to track employee expenses.
+
+			// This should be enabled when user select to track employee
+			// expenses.
 			if (ClientCompanyPreferences.get().isHaveEpmloyees()
 					&& ClientCompanyPreferences.get().isTrackEmployeeExpenses()) {
 				vendorMenuBar.addItem(ActionFactory.getExpenseClaimsAction(0));
@@ -880,8 +881,10 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			@Override
 			public void execute() {
 				CustomerMergeDialog customerMergeDialog = new CustomerMergeDialog(
-						"Merge Customer",
-						"Select the customer to merge from, then select the customer merge it into.After you have merged the customer,you cannot seperate them.");
+						Accounter.messages().mergeCustomers(
+								Global.get().Customer()), Accounter.messages()
+								.mergeDescription(Global.get().customer()));
+
 				customerMergeDialog.show();
 			}
 		};
@@ -894,8 +897,9 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			@Override
 			public void execute() {
 				AccountMergeDialog accountMergeDialog = new AccountMergeDialog(
-						"Merge Account",
-						"Select the account to merge from, then select the account merge it into.The accounts  should have the same type.After you have merged the accounts, you cannot seperate them.");
+						Accounter.messages().mergeAccounts(
+								Global.get().Account()), Accounter.messages()
+								.mergeDescription(Global.get().account()));
 				accountMergeDialog.show();
 			}
 		};
@@ -908,8 +912,10 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			@Override
 			public void execute() {
 				VendorMergeDialog vendorMergeDialog = new VendorMergeDialog(
-						"Merge Vendor",
-						"Select the vendor to merge from, then select the vendor merge it into.After you have merged the vendors,you cannot seperate them.");
+						Accounter.messages()
+								.mergeVendors(Global.get().Vendor()), Accounter
+								.messages().mergeDescription(
+										Global.get().vendor()));
 				vendorMergeDialog.show();
 			}
 		};
@@ -921,9 +927,9 @@ public class HorizontalMenuBar extends HorizontalPanel {
 
 			@Override
 			public void execute() {
-				ItemMergeDialog dialog = new ItemMergeDialog(
-						"Merge Item",
-						"Select the item to merge from, then select the item merge it into.The items have the same item type.After you have merged the items,You cannot seperate them.");
+				ItemMergeDialog dialog = new ItemMergeDialog(Accounter
+						.constants().mergeItems(), Accounter.constants().itemDescription());
+			
 				dialog.show();
 			}
 		};
@@ -988,13 +994,16 @@ public class HorizontalMenuBar extends HorizontalPanel {
 
 	private CustomMenuBar getMergeSubMenu() {
 		CustomMenuBar mergeAccountsMenuBar = getSubMenu();
-		mergeAccountsMenuBar.addItem(Accounter.constants().mergeCustomer(),
+		mergeAccountsMenuBar.addItem(
+				Accounter.messages().mergeCustomers(Global.get().Customer()),
 				getMergeCustomerCommand());
-		mergeAccountsMenuBar.addItem(Accounter.constants().mergeVendor(),
+		mergeAccountsMenuBar.addItem(
+				Accounter.messages().mergeVendors(Global.get().Vendor()),
 				getMergeVendorCommand());
-		mergeAccountsMenuBar.addItem(Accounter.constants().mergeAccount(),
+		mergeAccountsMenuBar.addItem(
+				Accounter.messages().mergeAccounts(Global.get().Account()),
 				getMergeAccountCommand());
-		mergeAccountsMenuBar.addItem(Accounter.constants().mergeItem(),
+		mergeAccountsMenuBar.addItem(Accounter.constants().mergeItems(),
 				getMergeItemCommand());
 
 		return mergeAccountsMenuBar;
