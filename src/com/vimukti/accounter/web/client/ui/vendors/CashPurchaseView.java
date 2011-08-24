@@ -372,8 +372,8 @@ public class CashPurchaseView extends
 			setData(new ClientCashPurchase());
 		} else {
 
+			super.vendorSelected(getCompany().getVendor(transaction.getVendor()));
 			contactSelected(transaction.getContact());
-			vendorSelected(getCompany().getVendor(transaction.getVendor()));
 			phoneSelect.setValue(transaction.getPhone());
 			this.billingAddress = transaction.getVendorAddress();
 			if (billingAddress != null) {
@@ -439,13 +439,11 @@ public class CashPurchaseView extends
 			billToAreaItem.setValue(getValidAddress(billingAddress));
 		} else
 			billToAreaItem.setValue("");
-		if (vendor == null)
-			return;
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
 			super.setVendorTaxcodeToAccount();
 
 	}
-
+	
 	@Override
 	protected void paymentMethodSelected(String paymentMethod) {
 		// super.paymentMethodSelected(paymentMethod);

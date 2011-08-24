@@ -360,28 +360,6 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	}
 
-	public VendorCombo createVendorComboItem(String title, boolean isRequired) {
-
-		VendorCombo vendorCombo = new VendorCombo(Global.get().Vendor());
-		vendorCombo.setHelpInformation(true);
-		vendorCombo.setRequired(isRequired);
-		vendorCombo.setDisabled(isInViewMode());
-		// vendorCombo.setShowDisabled(false);
-		vendorCombo
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
-
-					public void selectedComboBoxItem(ClientVendor selectItem) {
-						vendorSelected(selectItem);
-
-					}
-
-				});
-
-		// vendorCombo.setShowDisabled(false);
-		return vendorCombo;
-
-	}
-
 	public ContactCombo createContactComboItem() {
 
 		ContactCombo contactCombo = new ContactCombo(Accounter.constants()

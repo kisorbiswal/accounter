@@ -73,7 +73,7 @@ public class VendorCreditMemoView extends
 			setData(new ClientVendorCreditMemo());
 		} else {
 
-			vendorSelected(getCompany().getVendor(transaction.getVendor()));
+			super.vendorSelected(getCompany().getVendor(transaction.getVendor()));
 			contactSelected(transaction.getContact());
 			phoneSelect.setValue(transaction.getPhone());
 			transactionNumber.setValue(transaction.getNumber());

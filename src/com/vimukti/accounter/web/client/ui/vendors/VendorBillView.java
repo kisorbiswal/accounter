@@ -120,9 +120,9 @@ public class VendorBillView extends
 			vendorCombo.setValue(vendor);
 			phoneSelect.setValue(transaction.getPhone());
 			phoneSelect.setDisabled(true);
-			contactSelected(transaction.getContact());
 			billToaddressSelected(transaction.getVendorAddress());
 			selectedVendor(vendor);
+			contactSelected(transaction.getContact());
 			transactionNumber.setValue(transaction.getNumber());
 			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 				netAmount.setAmount(transaction.getNetAmount());
@@ -198,16 +198,10 @@ public class VendorBillView extends
 		updatePurchaseOrderOrItemReceipt(vendor);
 
 		super.vendorSelected(vendor);
-		if (transaction == null)
-			vendorTransactionGrid.removeAllRecords();
 
 		selectedOrdersAndItemReceipts = new ArrayList<ClientTransaction>();
 		if (isInViewMode() && this.selectedPaymentTerm != null)
 			paymentTermSelected(selectedPaymentTerm);
-		if (transaction == null)
-			getPurchaseOrdersAndItemReceipt();
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
-			super.setVendorTaxcodeToAccount();
 	}
 
 	@Override
