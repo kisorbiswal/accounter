@@ -2,7 +2,10 @@ package com.vimukti.accounter.web.client.ui.combo;
 
 import java.util.Arrays;
 
-public class SelectCombo extends CustomCombo<String> {
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
+
+public class SelectCombo extends CustomCombo<String>  {
 
 	// public static final int ACCOUNT_TYPES = 6;
 
@@ -84,4 +87,5 @@ public class SelectCombo extends CustomCombo<String> {
 		comboItems.addAll(Arrays.asList(strings));
 	}
 
+	
 }
