@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class AddNewContactDialog extends BaseDialog<ClientContact> {
@@ -47,22 +48,22 @@ public class AddNewContactDialog extends BaseDialog<ClientContact> {
 
 		nameItem = new TextItem(Accounter.constants().name());
 		nameItem.setHelpInformation(true);
-		nameItem.setRequired(true);
+		nameItem.setRequired(false);
 		items.add(nameItem);
 
 		titleItem = new TextItem(Accounter.constants().title());
 		titleItem.setHelpInformation(true);
-		titleItem.setRequired(true);
+		titleItem.setRequired(false);
 		items.add(titleItem);
 
 		businessPhoneItem = new TextItem(Accounter.constants().businessPhone());
 		businessPhoneItem.setHelpInformation(true);
-		businessPhoneItem.setRequired(true);
+		businessPhoneItem.setRequired(false);
 		items.add(businessPhoneItem);
 
 		emailItem = new EmailField(Accounter.constants().email());
 		emailItem.setHelpInformation(true);
-		emailItem.setRequired(true);
+		emailItem.setRequired(false);
 		items.add(emailItem);
 
 		emailItem.addBlurHandler(new BlurHandler() {
@@ -88,12 +89,19 @@ public class AddNewContactDialog extends BaseDialog<ClientContact> {
 	}
 
 	@Override
-	// protected ValidationResult validate() {
-	//
-	//
-	// //return form.validate();
-	//
-	// }
+	protected ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+
+		if (nameItem.getValue().isEmpty() && titleItem.getValue().isEmpty()
+				&& businessPhoneItem.getValue().isEmpty()
+				&& emailItem.getValue().isEmpty()) {
+			result.addError(nameItem,
+					"please enter value for atleast one field");
+		}
+		return result;
+
+	}
+
 	protected boolean onOK() {
 		if (successCallback != null) {
 			successCallback.execute(createContact());
