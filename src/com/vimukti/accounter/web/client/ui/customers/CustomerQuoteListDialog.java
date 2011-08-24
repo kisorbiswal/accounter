@@ -205,7 +205,7 @@ public class CustomerQuoteListDialog extends BaseDialog {
 
 			@Override
 			public void onResultSuccess(ClientEstimate result) {
-				super.onSuccess(result);
+				//super.onSuccess(result);
 				if (invoiceView != null && result != null)
 					invoiceView.selectedQuote(result);
 				removeFromParent();
