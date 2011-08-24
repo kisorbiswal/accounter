@@ -697,8 +697,8 @@ public class ActionFactory {
 	}
 
 	public static ItemsAction getItemsAction() {
-		return new ItemsAction(actionsConstants.items(),
-				actionsConstants.customer());
+		return new ItemsAction(actionsConstants.items(), Global.get()
+				.customer());
 	}
 
 	public static QuotesAction getQuotesAction() {
