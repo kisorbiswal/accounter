@@ -3,6 +3,12 @@ package com.vimukti.accounter.web.client.ui;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+
+import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.ValueCallBack;
+import com.vimukti.accounter.web.client.core.ClientContact;
+
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
@@ -59,11 +65,15 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 		customerCombo = createCustomerCombo();
 		customerCombo1 = createCustomerCombo1();
 
-		customerIDTextItem = new TextItem(Accounter.constants().customerID());
+		customerIDTextItem = new TextItem(Accounter.messages().customerID(
+				Global.get().Customer()));
+
 		customerIDTextItem.setHelpInformation(true);
 		customerIDTextItem.setDisabled(true);
 
-		customerIDTextItem1 = new TextItem(Accounter.constants().customerID());
+		customerIDTextItem1 = new TextItem(Accounter.messages().customerID(
+				Global.get().Customer()));
+
 		customerIDTextItem1.setHelpInformation(true);
 		customerIDTextItem1.setDisabled(true);
 
@@ -96,8 +106,12 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 	}
 
 	private CustomerCombo createCustomerCombo1() {
-		customerCombo1 = new CustomerCombo(Accounter.constants().customerTo(), false);
-		customerCombo1.setHelpInformation(true);customerCombo1.setRequired(true);
+
+		customerCombo1 = new CustomerCombo(Accounter.messages().customerTo(
+				Global.get().Customer()), false);
+		customerCombo1.setHelpInformation(true);
+		customerCombo1.setRequired(true);
+
 		customerCombo1
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCustomer>() {
 
@@ -114,7 +128,13 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 	}
 
 	private CustomerCombo createCustomerCombo() {
-		customerCombo = new CustomerCombo(Accounter.constants().customerFrom(), false);
+
+		customerCombo = new CustomerCombo(Accounter.messages().customerFrom(
+				Global.get().Customer()), false);
+
+		customerCombo = new CustomerCombo(Accounter.messages().customerFrom(
+				Global.get().Customer()), false);
+
 		customerCombo.setHelpInformation(true);
 		customerCombo.setRequired(true);
 		customerCombo
@@ -151,7 +171,7 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 
 		ValidationResult result = new ValidationResult();
 		if (clientCustomer1.getID() == clientCustomer.getID()) {
-			result.addError(clientCustomer,	Accounter.constants().notMove());
+			result.addError(clientCustomer, Accounter.constants().notMove());
 			return result;
 		}
 		result = form.validate();
