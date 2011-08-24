@@ -177,4 +177,10 @@ public interface FinanceImages extends ClientBundle {
 
 	@Source("close-button.png")
 	ImageResource closeButton();
+
+	@Source("helpdialog.jpg")
+	ImageResource helpDialogIcon();
+
+	@Source("helppanel.jpg")
+	ImageResource helpPannelIcon();
 }
