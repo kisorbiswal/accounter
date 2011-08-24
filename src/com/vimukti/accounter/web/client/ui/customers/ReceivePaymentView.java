@@ -716,6 +716,7 @@ public class ReceivePaymentView extends
 	protected void initTransactionViewData() {
 		if (transaction == null) {
 			setData(new ClientReceivePayment());
+			initDepositInAccounts();
 		} else {
 
 			this.setCustomer(getCompany()
