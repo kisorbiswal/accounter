@@ -110,6 +110,7 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 			}
 			preferences.setSellProducts(true);
 			preferences.setSellServices(true);
+			preferences.setPurchaseOrderEnabled(true);
 			preferences.setDoyouwantEstimates(true);
 			company.setConfigured(true);
 
