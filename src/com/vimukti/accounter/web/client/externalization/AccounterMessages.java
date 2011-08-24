@@ -674,6 +674,8 @@ public interface AccounterMessages extends Messages {
 
 	public String vendorItems(String vendorItemsString);
 
+	public String vendorInformation(String vendorInformationString);
+
 	public String vendorList(String vendorListString);
 
 	public String vendorLists(String vendorListsString);

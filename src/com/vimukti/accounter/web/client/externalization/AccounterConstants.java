@@ -4236,8 +4236,17 @@ public interface AccounterConstants extends Constants {
 
 	public String account();
 
-	public String unableToPerformTryAfterSomeTime();
-	
-	public String selectCurrency();
+	public String box1();
 
+	public String box2();
+
+	public String box3();
+
+	public String total1099Payments();
+
+	public String totalAllPayments();
+
+	public String unableToPerformTryAfterSomeTime();
+
+	public String selectCurrency();
 }
