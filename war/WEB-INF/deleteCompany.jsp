@@ -26,14 +26,23 @@
             Delete company from all users
             <br>
             <br>
-            <div>
-            <input type="submit" value="Delete">
-            <input type="button" value="Cancel" onclick="parent.location='/companies'">
+            <div class="company_list_buttons">
+	            <input type="submit" value="Delete" class="allviews-common-button">
+	            <input type="button" value="Cancel" class="allviews-common-button" onclick="parent.location='/companies'">
             </div>
         </FORM>
 	    
     </div>
    </div>
+    <!-- Footer Section-->
    
+   <div id="mainFooter"  >
+   <div>
+      <span>&copy 2011 Vimukti Technologies Pvt Ltd</span> |
+      <a target="_blank" href="/site/termsandconditions"> Terms & Conditions </a> |
+      <a target="_blank" href="/site/privacypolicy"> Privacy Policy </a> |
+      <a target="_blank" href="/site/support"> Support </a>
+   </div>
+</div>
   </body>
 </html>

@@ -356,7 +356,7 @@ p {
 
 <div id="mainFooter"   >
 <div>
-   <span>&copy Vimukti Technologies Pvt Ltd</span> |
+   <span>&copy 2011 Vimukti Technologies Pvt Ltd</span> |
    <a target="_blank" href="/site/termsandconditions"> Terms & Conditions </a> |
    <a target="_blank" href="/site/privacypolicy"> Privacy Policy </a> |
    <a target="_blank" href="/site/support"> Support </a>
