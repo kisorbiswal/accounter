@@ -5757,7 +5757,7 @@ important
 }
 
 .abstract_base_view {
-	background: none repeat scroll 0 0 #F0F0F0 !important;
+	/*background: none repeat scroll 0 0 #F0F0F0 !important;*/
 	padding: 15px;
 	width: 100%;
 	border:1px solid #1A5158;
@@ -6329,6 +6329,9 @@ normal
 	}
 	.header_check_box {
 		width: 20px !important;
+	}
+	.abstract_base_view {
+	    
 	}
 }
 
