@@ -713,7 +713,12 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		}
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			vendorMenuBar.addItem(ActionFactory.getRecordExpensesAction());
-			vendorMenuBar.addItem(ActionFactory.getExpenseClaimsAction(0));
+			
+			// This should be enabled when user select to track employee expenses.
+			if (ClientCompanyPreferences.get().isHaveEpmloyees()
+					&& ClientCompanyPreferences.get().isTrackEmployeeExpenses()) {
+				vendorMenuBar.addItem(ActionFactory.getExpenseClaimsAction(0));
+			}
 			// vendorMenuBar.addItem(ActionFactory.getItemReceiptAction());
 			vendorMenuBar.addSeparator();
 		}

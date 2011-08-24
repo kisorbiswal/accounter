@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -76,7 +77,12 @@ public class ExpensesListView extends BaseListView<BillsList> {
 		// listOfTypes.add(FinanceApplication.constants().overDue());
 		listOfTypes.add(Accounter.constants().cash());
 		listOfTypes.add(Accounter.constants().creditCard());
-		listOfTypes.add(Accounter.constants().employee());
+
+		// This should be added when user select to track employee expenses.
+		if (ClientCompanyPreferences.get().isHaveEpmloyees()
+				&& ClientCompanyPreferences.get().isTrackEmployeeExpenses()) {
+			listOfTypes.add(Accounter.constants().employee());
+		}
 		listOfTypes.add(Accounter.constants().voided());
 		listOfTypes.add(Accounter.constants().all());
 		currentView.initCombo(listOfTypes);

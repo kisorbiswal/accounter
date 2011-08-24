@@ -9,6 +9,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -34,10 +35,18 @@ public class ExpenseReportToolbar extends ReportToolbar {
 	}
 
 	private void createControls() {
-		String[] statusArray = { Accounter.constants().allExpenses(),
-				Accounter.constants().cash(),
-				Accounter.constants().creditCard(),
-				Accounter.constants().employee() };
+		String[] statusArray;
+		if (ClientCompanyPreferences.get().isHaveEpmloyees()
+				&& ClientCompanyPreferences.get().isTrackEmployeeExpenses()) {
+			statusArray = new String[] { Accounter.constants().allExpenses(),
+					Accounter.constants().cash(),
+					Accounter.constants().creditCard(),
+					Accounter.constants().employee() };
+		} else {
+			statusArray = new String[] { Accounter.constants().allExpenses(),
+					Accounter.constants().cash(),
+					Accounter.constants().creditCard() };
+		}
 
 		String[] dateRangeArray = { Accounter.constants().all(),
 				Accounter.constants().thisWeek(),
@@ -51,8 +60,7 @@ public class ExpenseReportToolbar extends ReportToolbar {
 				Accounter.constants().financialYearToDate(),
 				Accounter.constants().custom() };
 
-		expenseCombo = new SelectCombo(Accounter.constants()
-				.expenseRealtedTo());
+		expenseCombo = new SelectCombo(Accounter.constants().expenseRealtedTo());
 		expenseCombo.setHelpInformation(true);
 		statusList = new ArrayList<String>();
 		for (int i = 0; i < statusArray.length; i++) {
@@ -92,8 +100,7 @@ public class ExpenseReportToolbar extends ReportToolbar {
 					}
 				});
 
-		dateRangeCombo = new SelectCombo(Accounter.constants()
-				.dateRange());
+		dateRangeCombo = new SelectCombo(Accounter.constants().dateRange());
 		dateRangeCombo.setHelpInformation(true);
 		dateRangeList = new ArrayList<String>();
 		for (int i = 0; i < dateRangeArray.length; i++) {
@@ -137,8 +144,7 @@ public class ExpenseReportToolbar extends ReportToolbar {
 				endDate = (ClientFinanceDate) toItem.getValue();
 			}
 		});
-		updateButton = new Button(Accounter.constants()
-				.update());
+		updateButton = new Button(Accounter.constants().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -148,8 +154,7 @@ public class ExpenseReportToolbar extends ReportToolbar {
 				setEndDate(toItem.getDate());
 
 				changeDates(fromItem.getDate(), toItem.getDate());
-				dateRangeCombo.setDefaultValue(Accounter.constants()
-						.custom());
+				dateRangeCombo.setDefaultValue(Accounter.constants().custom());
 				setSelectedDateRange(Accounter.constants().custom());
 
 			}
@@ -159,8 +164,7 @@ public class ExpenseReportToolbar extends ReportToolbar {
 		// toItem.setDisabled(true);
 		// updateButton.setEnabled(false);
 
-		Button printButton = new Button(Accounter
-				.constants().print());
+		Button printButton = new Button(Accounter.constants().print());
 		// printButton.setTop(2);
 		// printButton.setWidth(40);
 		printButton.addClickHandler(new ClickHandler() {

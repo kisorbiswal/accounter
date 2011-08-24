@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
@@ -92,13 +93,20 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 		ccExpAmtLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
 
 		fTable.setWidget(0, 0, allExpLabel);
-		fTable.setWidget(0, 1, cashExpLabel);
 		fTable.setWidget(1, 0, allExpAmtLabel);
+
+		fTable.setWidget(0, 1, cashExpLabel);
 		fTable.setWidget(1, 1, cashExpAmtLabel);
-		fTable.setWidget(2, 0, empExpLabel);
+
 		fTable.setWidget(2, 1, ccExpLabel);
-		fTable.setWidget(3, 0, empExpAmtLabel);
 		fTable.setWidget(3, 1, ccExpAmtLabel);
+
+		// These should be enabled when user select to track employee expenses.
+		if (ClientCompanyPreferences.get().isHaveEpmloyees()
+				&& ClientCompanyPreferences.get().isTrackEmployeeExpenses()) {
+			fTable.setWidget(2, 0, empExpLabel);
+			fTable.setWidget(3, 0, empExpAmtLabel);
+		}
 
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			vPanel.add(addExpenseBtn);
