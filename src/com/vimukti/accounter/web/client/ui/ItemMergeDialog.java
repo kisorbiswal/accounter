@@ -71,11 +71,11 @@ public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 		itemType1 = new TextItem(Accounter.constants().itemType());
 		itemType1.setHelpInformation(true);
 		itemType1.setDisabled(true);
-		price = new TextItem(Accounter.constants().price());
+		price = new TextItem(Accounter.constants().salesPrice());
 		price.setHelpInformation(true);
 		price.setDisabled(true);
 
-		price1 = new TextItem(Accounter.constants().price());
+		price1 = new TextItem(Accounter.constants().salesPrice());
 		price1.setHelpInformation(true);
 		price1.setDisabled(true);
 

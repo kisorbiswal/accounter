@@ -154,11 +154,14 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 	@Override
 	protected ValidationResult validate() {
 		ValidationResult result = form.validate();
-		result = form1.validate();
 		if (fromclientVendor.getID() == toClientVendor.getID()) {
 			result.addError(fromclientVendor,
 					Accounter.messages().notMove(Global.get().vendor()));
 		}
+
+		result = form.validate();
+		result = form1.validate();
+
 		return result;
 
 	}
