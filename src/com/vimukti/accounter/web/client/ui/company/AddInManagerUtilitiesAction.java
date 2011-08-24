@@ -32,4 +32,9 @@ public class AddInManagerUtilitiesAction extends Action {
 		return null;
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "addin-manager-utilities";
+	}
+
 }

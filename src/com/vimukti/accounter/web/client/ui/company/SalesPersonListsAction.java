@@ -60,4 +60,10 @@ public class SalesPersonListsAction extends Action {
 		return "salesPersonList";
 	}
 
+	@Override
+	public String getHelpToken() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -73,4 +73,9 @@ public class NewTAXAgencyAction extends Action<ClientTAXAgency> {
 		else
 			return "newTaxAgency";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "new_tax-agency";
+	}
 }

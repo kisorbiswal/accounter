@@ -56,4 +56,9 @@ public class PriceLevelListAction extends Action {
 
 		return "priceLevels";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "price_level-list";
+	}
 }

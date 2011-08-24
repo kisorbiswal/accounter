@@ -67,4 +67,9 @@ public class AddEditSalesTaxCodeAction extends Action {
 			return "newTaxCode";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "sales_tax-code";
+	}
+
 }

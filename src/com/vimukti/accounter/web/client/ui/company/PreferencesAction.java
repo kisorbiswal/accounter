@@ -41,4 +41,9 @@ public class PreferencesAction extends Action {
 		return "companyPreferences";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "company-preferences";
+	}
+
 }

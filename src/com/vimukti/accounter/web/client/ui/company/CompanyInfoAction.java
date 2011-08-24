@@ -35,4 +35,10 @@ public class CompanyInfoAction extends Action {
 	public String getHistoryToken() {
 		return "CompanyInfo";
 	}
+
+	@Override
+	public String getHelpToken() {
+		// Not using
+		return "company-info";
+	}
 }

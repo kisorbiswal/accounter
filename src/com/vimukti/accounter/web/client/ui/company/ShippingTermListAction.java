@@ -56,4 +56,9 @@ public class ShippingTermListAction extends Action {
 	public String getHistoryToken() {
 		return "shippingTermsList";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "shipping_term-list";
+	}
 }

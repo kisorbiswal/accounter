@@ -36,4 +36,9 @@ public class IntegrateWithBusinessContactManagerAction extends Action {
 		return "integrateWithBusinessContactManager";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "integrate-business-contact-manager";
+	}
+
 }

@@ -75,4 +75,9 @@ public class NewAccountAction extends Action<ClientAccount> {
 	public String getHistoryToken() {
 		return "newAccount";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "new-account";
+	}
 }

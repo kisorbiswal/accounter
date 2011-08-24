@@ -62,4 +62,9 @@ public class ManageSalesTaxGroupsAction extends Action<ClientTAXGroup> {
 
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "sales_tax-group";
+	}
+
 }

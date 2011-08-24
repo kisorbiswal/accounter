@@ -60,4 +60,9 @@ public class PaymentsAction extends Action {
 	public String getHistoryToken() {
 		return "payments";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return null;
+	}
 }

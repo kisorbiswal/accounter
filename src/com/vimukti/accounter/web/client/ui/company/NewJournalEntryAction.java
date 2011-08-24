@@ -61,4 +61,9 @@ public class NewJournalEntryAction extends Action {
 	public String getHistoryToken() {
 		return "newJournalEntry";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "new_journal-entry";
+	}
 }

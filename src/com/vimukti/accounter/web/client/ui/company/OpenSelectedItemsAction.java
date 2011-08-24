@@ -36,4 +36,10 @@ public class OpenSelectedItemsAction extends Action {
 		return "openSelectedItems";
 	}
 
+	@Override
+	public String getHelpToken() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

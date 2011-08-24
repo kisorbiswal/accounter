@@ -64,4 +64,9 @@ public class ItemsAction extends Action {
 		return "items";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "item";
+	}
+
 }

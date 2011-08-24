@@ -45,4 +45,9 @@ public class CompanyHomeAction extends Action {
 		return "dashBoard";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "company";
+	}
+
 }

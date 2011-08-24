@@ -59,4 +59,10 @@ public class NewbankAction extends Action {
 		return "newBankAction";
 	}
 
+	@Override
+	public String getHelpToken() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

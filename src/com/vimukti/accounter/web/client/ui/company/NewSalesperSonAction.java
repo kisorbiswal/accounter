@@ -71,4 +71,9 @@ public class NewSalesperSonAction extends Action<ClientSalesPerson> {
 		return "newSalesPerson";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "new_sales-person";
+	}
+
 }

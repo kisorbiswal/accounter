@@ -30,4 +30,9 @@ public class ManageFiscalYearAction extends Action {
 	public String getHistoryToken() {
 		return "manageFiscalYear";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "fiscal-year";
+	}
 }

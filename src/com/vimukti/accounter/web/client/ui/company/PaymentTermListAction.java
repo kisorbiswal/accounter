@@ -49,4 +49,9 @@ public class PaymentTermListAction extends Action {
 	public String getHistoryToken() {
 		return "paymentTerms";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "payment_tem-list";
+	}
 }

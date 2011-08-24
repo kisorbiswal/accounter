@@ -55,4 +55,9 @@ public class CountryRegionListAction extends Action {
 		return "CountryRegionList";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "country-region-list";
+	}
+
 }

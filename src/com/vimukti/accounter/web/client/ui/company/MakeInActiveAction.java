@@ -32,4 +32,9 @@ public class MakeInActiveAction extends Action {
 		return null;
 	}
 
+	@Override
+	public String getHelpToken() {
+		return null;
+	}
+
 }

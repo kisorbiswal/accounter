@@ -44,4 +44,9 @@ public class DepreciationAction extends Action {
 		return "depreciation";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "depreciation";
+	}
+
 }

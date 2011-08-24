@@ -54,4 +54,9 @@ public class CreditRatingListAction extends Action {
 		return "creditRatingList";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "credit-rating";
+	}
+
 }

@@ -60,4 +60,10 @@ public class PurchaseItemsAction extends Action {
 
 		return "purchaseItems";
 	}
+
+	@Override
+	public String getHelpToken() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

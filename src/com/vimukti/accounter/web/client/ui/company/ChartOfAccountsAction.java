@@ -35,14 +35,13 @@ public class ChartOfAccountsAction extends Action {
 
 			public void onCreated() {
 
-					if (accountType == 0)
-						view = ChartOfAccountsView.getInstance();
-					else
-						view = new ChartOfAccountsView(accountType);
+				if (accountType == 0)
+					view = ChartOfAccountsView.getInstance();
+				else
+					view = new ChartOfAccountsView(accountType);
 
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, ChartOfAccountsAction.this);
-
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, ChartOfAccountsAction.this);
 
 			}
 		});
@@ -68,5 +67,10 @@ public class ChartOfAccountsAction extends Action {
 		} else {
 			return "accountsList";
 		}
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "accountcharts";
 	}
 }

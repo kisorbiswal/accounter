@@ -34,4 +34,9 @@ public class MergeCustomersAction extends Action {
 		return null;
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "merge-customers";
+	}
+
 }

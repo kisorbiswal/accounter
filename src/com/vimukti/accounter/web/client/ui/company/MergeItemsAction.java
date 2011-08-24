@@ -36,4 +36,9 @@ public class MergeItemsAction extends Action {
 		return "mergeItems";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "merge-items";
+	}
+
 }

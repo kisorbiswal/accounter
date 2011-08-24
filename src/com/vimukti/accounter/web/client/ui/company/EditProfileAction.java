@@ -40,4 +40,9 @@ public class EditProfileAction extends Action {
 		return "editProfile";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "edit-profile";
+	}
+
 }

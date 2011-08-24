@@ -37,4 +37,9 @@ public class EmployeesAction extends Action {
 		return null;
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "employee";
+	}
+
 }

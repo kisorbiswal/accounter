@@ -36,4 +36,9 @@ public class MergeFinancialAccountsAction extends Action {
 		return "mergeFinancialAccounts";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "merge-financial-account";
+	}
+
 }

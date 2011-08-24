@@ -50,4 +50,9 @@ public class CustomerGroupListAction extends Action {
 	public String getHistoryToken() {
 		return "customerGroupList";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "customer-group";
+	}
 }

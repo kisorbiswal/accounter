@@ -35,4 +35,9 @@ public class AdjustSalesTaxDueAction extends Action {
 		return null;
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "adjust-salestax-due";
+	}
+
 }

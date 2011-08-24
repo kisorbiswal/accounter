@@ -49,4 +49,9 @@ public class VendorGroupListAction extends Action {
 	public String getHistoryToken() {
 		return "vendorGroupList";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "vendor_group-list";
+	}
 }

@@ -61,4 +61,9 @@ public class ManageItemTaxAction extends Action {
 	public String getHistoryToken() {
 		return "manageItemTaxAction";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "item-tax";
+	}
 }

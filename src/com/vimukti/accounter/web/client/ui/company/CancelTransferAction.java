@@ -11,7 +11,7 @@ public class CancelTransferAction extends Action {
 
 	// @Override
 	// public ParentCanvas<?> getView() {
-	//		
+	//
 	// return null;
 	// }
 
@@ -32,6 +32,11 @@ public class CancelTransferAction extends Action {
 	public String getHistoryToken() {
 
 		return null;
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "cancel-transfer";
 	}
 
 }

@@ -56,4 +56,10 @@ public class NewCashBasisJournalEntryAction extends Action {
 		return "newCashBasisJournalEntry";
 	}
 
+	@Override
+	public String getHelpToken() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

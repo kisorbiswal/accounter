@@ -60,4 +60,9 @@ public class JournalEntriesAction extends Action {
 		return "journalEntries";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "journal-entries";
+	}
+
 }

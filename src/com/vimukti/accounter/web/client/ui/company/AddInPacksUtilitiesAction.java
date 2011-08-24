@@ -32,4 +32,8 @@ public class AddInPacksUtilitiesAction extends Action {
 		return null;
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "addin-pack-utilities";
+	}
 }

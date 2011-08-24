@@ -29,4 +29,10 @@ public class ViewSalesTaxLiabilityAction extends Action {
 
 		return null;
 	}
+
+	@Override
+	public String getHelpToken() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

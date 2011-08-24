@@ -44,4 +44,9 @@ public class ChangePasswordAction extends Action {
 		return "changePassword";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "change-password";
+	}
+
 }

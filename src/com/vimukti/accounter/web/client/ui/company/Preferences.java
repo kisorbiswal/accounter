@@ -34,4 +34,9 @@ public class Preferences extends Action {
 		return null;
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "company-preferences";
+	}
+
 }

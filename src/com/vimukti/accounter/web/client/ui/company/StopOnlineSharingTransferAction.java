@@ -36,4 +36,10 @@ public class StopOnlineSharingTransferAction extends Action {
 		return "StopOnlineSharingTransfer";
 	}
 
+	@Override
+	public String getHelpToken() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

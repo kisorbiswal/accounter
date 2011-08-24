@@ -45,4 +45,9 @@ public class UserDetailsAction extends Action {
 		return "userDetails";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "user-details";
+	}
+
 }

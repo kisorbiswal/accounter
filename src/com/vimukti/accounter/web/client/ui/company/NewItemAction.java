@@ -93,4 +93,9 @@ public class NewItemAction extends Action<ClientItem> {
 	public String getHistoryToken() {
 		return "newItem";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "customer-item";
+	}
 }

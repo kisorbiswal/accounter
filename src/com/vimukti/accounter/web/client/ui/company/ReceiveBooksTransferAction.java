@@ -36,4 +36,10 @@ public class ReceiveBooksTransferAction extends Action {
 		return "ReceiveBooks";
 	}
 
+	@Override
+	public String getHelpToken() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

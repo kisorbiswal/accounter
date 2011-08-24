@@ -32,4 +32,9 @@ public class CompressDataAction extends Action {
 		return null;
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "compress-data";
+	}
+
 }

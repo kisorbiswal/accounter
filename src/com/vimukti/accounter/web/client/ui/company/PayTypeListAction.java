@@ -41,4 +41,10 @@ public class PayTypeListAction extends Action {
 		return "payTypeList";
 	}
 
+	@Override
+	public String getHelpToken() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

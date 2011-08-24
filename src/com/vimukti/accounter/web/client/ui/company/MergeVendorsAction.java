@@ -36,4 +36,9 @@ public class MergeVendorsAction extends Action {
 		return "mergeVendors";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "merge-vendors";
+	}
+
 }

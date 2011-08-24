@@ -36,4 +36,9 @@ public class ImportExcelDataAction extends Action {
 		return "importExcelData";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "import-excell-data";
+	}
+
 }

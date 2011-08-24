@@ -56,4 +56,9 @@ public class ShippingMethodListAction extends Action {
 	public String getHistoryToken() {
 		return "shippingMethodsList";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "shipping_method-list";
+	}
 }

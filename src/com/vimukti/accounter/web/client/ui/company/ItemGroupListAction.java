@@ -60,4 +60,9 @@ public class ItemGroupListAction extends Action {
 		return "itemGroupList";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "item-group";
+	}
+
 }

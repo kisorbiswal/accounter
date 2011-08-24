@@ -41,4 +41,11 @@ public class FormLayoutsListAction extends Action {
 		return "formLayoutsList";
 	}
 
+	@Override
+	public String getHelpToken() {
+		// TODO Auto-generated method stub
+		// Noting to do
+		return null;
+	}
+
 }

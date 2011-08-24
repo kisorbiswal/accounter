@@ -62,4 +62,9 @@ public class PaySalesTaxAction extends Action {
 		return "paySalesTax";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "pay_sales-tax";
+	}
+
 }
