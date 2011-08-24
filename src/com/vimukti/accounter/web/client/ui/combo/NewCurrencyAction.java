@@ -52,4 +52,9 @@ public class NewCurrencyAction extends Action<ClientCurrency> {
 		return "newCurrency";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "currency";
+	}
+
 }
