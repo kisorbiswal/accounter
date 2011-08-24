@@ -69,13 +69,16 @@ public class AddNewContactDialog extends BaseDialog<ClientContact> {
 
 			@Override
 			public void onBlur(BlurEvent event) {
-				emailItem.setText(getValidMail(emailItem.getValue()));
+				if (emailItem.getValue() != null)
+
+					emailItem.setText(getValidMail(emailItem.getValue()));
 			}
 		});
 		return items.toArray(new TextItem[items.size()]);
 	}
 
 	private String getValidMail(String email) {
+
 		if (!UIUtils.isValidEmail(email)) {
 			Accounter.showError(Accounter.constants().invalidEmail());
 			return "";
@@ -85,10 +88,12 @@ public class AddNewContactDialog extends BaseDialog<ClientContact> {
 	}
 
 	@Override
-	protected ValidationResult validate() {
-		return form.validate();
-	}
-
+	// protected ValidationResult validate() {
+	//
+	//
+	// //return form.validate();
+	//
+	// }
 	protected boolean onOK() {
 		if (successCallback != null) {
 			successCallback.execute(createContact());
