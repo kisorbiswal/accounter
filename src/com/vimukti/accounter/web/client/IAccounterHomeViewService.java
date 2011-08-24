@@ -310,6 +310,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	
 	void mergeVendor(ClientVendor fromClientVendor,ClientVendor toClientVendor) throws AccounterException;
 	void mergeItem(ClientItem froClientItem,ClientItem toClientItem) throws AccounterException;
+	void  mergeAccount(ClientAccount fromClientAccount ,ClientAccount toClientAccount) throws AccounterException;
 
 
 }

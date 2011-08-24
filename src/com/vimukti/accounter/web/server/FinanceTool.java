@@ -11919,8 +11919,31 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public void mergeAcoount(long fromID, long toID) throws DAOException {
-		// TODO Auto-generated method stub
+	public void mergeAcoount(ClientAccount fromClientAccount,
+			ClientAccount toClientAccount) throws DAOException {
+		Session session = HibernateUtil.getCurrentSession();
+		org.hibernate.Transaction tx = session.beginTransaction();
+
+		double mergeBalance = toClientAccount.getOpeningBalance()
+				+ fromClientAccount.getOpeningBalance();
+		
+		session.getNamedQuery("update.merge.Account.oldBalance.tonew")
+				.setParameter("from", toClientAccount.getID())
+				.setParameter("balance", mergeBalance).executeUpdate();
+
+		session.getNamedQuery("delete.account.old")
+				.setParameter("from", fromClientAccount.getID())
+				.executeUpdate();
+		session.getNamedQuery("delete.account.entry.old")
+				.setParameter("from", fromClientAccount.getID())
+				.executeUpdate();
+		ServerConvertUtil convertUtil = new ServerConvertUtil();
+		Account account = new Account();
+		account = convertUtil.toServerObject(account, fromClientAccount,
+				session);
+		session.delete(account);
+
+		tx.commit();
 
 	}
 
@@ -11934,7 +11957,6 @@ public class FinanceTool implements IFinanceDAOService {
 				.setParameter("from", toClientItem.getID())
 				.setParameter("price", fromClientItem.getSalesPrice())
 				.executeUpdate();
-
 
 		ServerConvertUtil convertUtil = new ServerConvertUtil();
 		Item item = new Item();

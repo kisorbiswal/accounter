@@ -1601,7 +1601,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			try {
 				tool.mergeCustomer(fromClientCustomer, toClientCustomer);
 			} catch (DAOException e) {
-				// TODO Auto-generated catch block
+			
 				e.printStackTrace();
 			}
 		}
@@ -1617,7 +1617,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			try {
 				tool.mergeVendor(fromClientVendor, toClientVendor);
 			} catch (DAOException e) {
-				// TODO Auto-generated catch block
+		
 				e.printStackTrace();
 			}
 		}
@@ -1633,11 +1633,27 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			try {
 				tool.mergeItem(froClientItem, toClientItem);
 			} catch (DAOException e) {
-				// TODO Auto-generated catch block
+			
 				e.printStackTrace();
 			}
 		}
 
+	}
+
+	@Override
+	public void mergeAccount(ClientAccount fromClientAccount,
+			ClientAccount toClientAccount) throws AccounterException {
+		FinanceTool tool = getFinanceTool();
+		if (tool != null) {
+
+			try {
+				tool.mergeAcoount(fromClientAccount, toClientAccount);
+			} catch (DAOException e) {
+				
+				e.printStackTrace();
+			}
+		}
+		
 	}
 
 	// public ArrayList<ClientEmployee> getAllEmployees()

@@ -347,6 +347,7 @@ public interface IAccounterHomeViewServiceAsync {
 	void mergeCustomer(ClientCustomer clientCustomer, ClientCustomer clientCustomer1, AsyncCallback<Void> callback);
 	void mergeVendor(ClientVendor fromClientVendor,ClientVendor toClientVendor, AsyncCallback<Void> callback);
 	void mergeItem(ClientItem froClientItem,ClientItem toClientItem, AsyncCallback<Void> callback);
+	void mergeAccount(ClientAccount fromClientAccount ,ClientAccount toClientAccount, AsyncCallback<Void> callback);
 	
 
 }

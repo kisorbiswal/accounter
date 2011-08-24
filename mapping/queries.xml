@@ -309,10 +309,24 @@
 	</query>
 
 
+	<query name="update.merge.Account.oldBalance.tonew">
+		<query-param name="from" type="long" />
+		<query-param name="balance" type="double" />
+		update com.vimukti.accounter.core.Account set openingBalance=:balance
+		where
+		id=:from
+	</query>
 
+	<query name="delete.account.old">
+		<query-param name="from" type="long" />
+		delete from com.vimukti.accounter.core.AccountTransaction where
+		account.id=:from
+	</query>
 
-
-
+	<query name="delete.account.entry.old">
+		<query-param name="from" type="long" />
+		delete from com.vimukti.accounter.core.Entry where account.id=:from
+	</query>
 	<query name="update.Entry.oldNameTo.newName">
 		<query-param name="newName" type="string" />
 		<query-param name="oldName" type="string" />

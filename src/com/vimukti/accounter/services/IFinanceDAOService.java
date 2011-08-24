@@ -34,6 +34,7 @@ import com.vimukti.accounter.core.VATReturn;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
@@ -148,7 +149,7 @@ public interface IFinanceDAOService {
 	public void mergeVendor(ClientVendor from, ClientVendor to)
 			throws DAOException;
 
-	public void mergeAcoount(long fromID, long toID) throws DAOException;
+	public void mergeAcoount(ClientAccount fromClientAccount,ClientAccount toClientAccount) throws DAOException;
 
 	public void mergeItem(ClientItem fromClientItem, ClientItem toClientItem)
 			throws DAOException;
