@@ -30,19 +30,17 @@
 		<g:VerticalPanel ui:field="verticalPannel" styleName="{style.helpPanel}">
 			<g:Cell width="">
 				<g:HorizontalPanel styleName="{style.helpHPanel}"
-				ui:field="horizontalhelpPanel" width="100%">
+					ui:field="horizontalhelpPanel" width="100%">
 					<g:Label styleName="{style.helpLabel}" ui:field="helpLabel"></g:Label>
-				<g:Cell horizontalAlignment="ALIGN_RIGHT">
-					<g:ToggleButton ui:field="button" styleName="{style.helpButton}" >
-					<g:upFace>
-						<img src="../images/helpdialog.jpg" />
-					</g:upFace>
-					<g:downFace>
-						<img src="../images/helppanel.jpg" />
-					</g:downFace>
-				</g:ToggleButton>
-				</g:Cell>
-			</g:HorizontalPanel>
+					<g:Cell horizontalAlignment="ALIGN_RIGHT">
+						<g:ToggleButton ui:field="button" styleName="{style.helpButton}">
+							<g:upFace>
+							</g:upFace>
+							<g:downFace>
+							</g:downFace>
+						</g:ToggleButton>
+					</g:Cell>
+				</g:HorizontalPanel>
 			</g:Cell>
 			<g:Frame ui:field="frame" styleName="{style.helpFrame}"></g:Frame>
 		</g:VerticalPanel>
