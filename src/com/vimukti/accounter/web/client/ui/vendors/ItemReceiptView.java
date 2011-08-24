@@ -129,7 +129,7 @@ public class ItemReceiptView extends
 
 		// formItems.add(phoneSelect);
 
-		vendorForm = UIUtils.form(Accounter.constants().supplier());
+		vendorForm = UIUtils.form(Global.get().vendor());
 		vendorForm.setNumCols(3);
 		vendorForm.setWidth("100%");
 		vendorForm.setFields(vendorCombo, purchaseLabel, contactCombo,

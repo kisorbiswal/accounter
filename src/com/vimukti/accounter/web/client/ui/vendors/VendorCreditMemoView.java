@@ -185,7 +185,7 @@ public class VendorCreditMemoView extends
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
 
-		vendorForm = UIUtils.form(Accounter.constants().supplier());
+		vendorForm = UIUtils.form(Global.get().vendor());
 		vendorForm.setWidth("50%");
 		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect);
 		vendorForm.getCellFormatter().getElement(0, 0)
