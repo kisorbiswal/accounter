@@ -16,8 +16,8 @@ import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.banking.TransferFundsDialog;
 import com.vimukti.accounter.web.client.ui.customers.ReceivePaymentView;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
@@ -49,9 +49,9 @@ public class AccounterValidator {
 	public static boolean isZeroAmount(Double amt) {
 		if (DecimalUtil.isEquals(amt, 0.00)) {
 			// throw new InvalidEntryException(AccounterErrorType.amount);
-			return false;
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	public static boolean isNegativeAmount(Double amt) {
