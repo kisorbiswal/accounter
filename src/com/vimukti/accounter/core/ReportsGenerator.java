@@ -243,8 +243,17 @@ public class ReportsGenerator {
 			updateReport(transactionDetailByTaxItemServerReport, finaTool);
 			transactionDetailByTaxItemServerReport.resetVariables();
 			try {
-				transactionDetailByTaxItemServerReport.onResultSuccess(finaTool
-						.getTransactionDetailByTaxItem(startDate, endDate));
+				if (status == null || status.isEmpty()) {
+					transactionDetailByTaxItemServerReport
+							.onResultSuccess(finaTool
+									.getTransactionDetailByTaxItem(startDate,
+											endDate));
+				} else {
+					transactionDetailByTaxItemServerReport
+							.onResultSuccess(finaTool
+									.getTransactionDetailByTaxItem(status,
+											startDate, endDate));
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

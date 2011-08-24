@@ -6354,13 +6354,13 @@ public class FinanceTool implements IFinanceDAOService {
 		cal.setTime(startDate.getAsDateObject());
 		cal.add(Calendar.DAY_OF_MONTH, -1);
 
-		String end = cal.get(Calendar.YEAR) + "-";
-		end += (cal.get(Calendar.MONTH) + 1) + "-";
-		end += cal.get(Calendar.DAY_OF_MONTH);
+		long end = cal.get(Calendar.YEAR);
+		end = (end * 100) + (cal.get(Calendar.MONTH) + 1);
+		end = (end * 100) + cal.get(Calendar.DAY_OF_MONTH);
 
 		Query query = session.getNamedQuery("getSalesTaxLiabilityReport")
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate).setParameter("start", start)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate()).setParameter("start", start)
 				.setParameter("end", end);
 
 		List l = query.list();

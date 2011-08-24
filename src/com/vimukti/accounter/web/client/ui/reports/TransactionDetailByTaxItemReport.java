@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.TransactionDetailByTaxItemServerReport;
 
-
 public class TransactionDetailByTaxItemReport extends
 		AbstractReportView<TransactionDetailByTaxItem> {
 
@@ -32,14 +31,12 @@ public class TransactionDetailByTaxItemReport extends
 		if (taxLiability == null) {
 			Accounter.createReportService().getTransactionDetailByTaxItem(
 					start, end, this);
-		} else if (taxLiability.getTaxAgencyName() != null) {
+		} else if (taxLiability.getTaxItemName() != null) {
 			Accounter.createReportService().getTransactionDetailByTaxItem(
-					taxLiability.getTaxAgencyName(), start, end, this);
+					taxLiability.getTaxItemName(), start, end, this);
 
 		}
 	}
-
-
 
 	@Override
 	public void onEdit() {
@@ -48,11 +45,17 @@ public class TransactionDetailByTaxItemReport extends
 
 	@Override
 	public void print() {
+		String taxItemName = this.data != null ? ((SalesTaxLiability) data)
+				.getTaxItemName() : "";
 		UIUtils.generateReportPDF(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
 				Integer.parseInt(String.valueOf(endDate.getDate())), 114, "",
-				"");
+				"", taxItemName);
 
+	}
+
+	@Override
+	public void exportToCsv() {
 		UIUtils.exportReport(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
 				Integer.parseInt(String.valueOf(endDate.getDate())), 114, "",

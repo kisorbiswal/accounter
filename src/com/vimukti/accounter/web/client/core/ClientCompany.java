@@ -84,13 +84,13 @@ public class ClientCompany implements IAccounterCore {
 	private long otherCashExpenseAccount;
 
 	private long pendingItemReceiptsAccount;
-	
+
 	private long cashDiscountsGiven;
-	
+
 	private long cashDiscountsTaken;
-	
+
 	private long taxLiabilityAccount;
-	
+
 	private long VATFiledLiabilityAccount;
 	// String prepaidVATaccount;
 	// String ECAcquisitionVATaccount;
@@ -1146,6 +1146,10 @@ public class ClientCompany implements IAccounterCore {
 		return Utility.getObject(this.customers, customerId);
 	}
 
+	public ClientPayee getPayee(long id) {
+		return Utility.getObject(this.payees, id);
+	}
+
 	public ClientCustomer getCustomerByName(String customerName) {
 		return Utility.getObjectByName(this.customers, customerName);
 	}
@@ -1289,6 +1293,10 @@ public class ClientCompany implements IAccounterCore {
 
 	public void deleteCustomer(long customerId) {
 		this.customers.remove(this.getCustomer(customerId));
+	}
+
+	public void deletePayee(long payeeId) {
+		this.payees.remove(this.getPayee(payeeId));
 	}
 
 	public void deleteVendor(long vendorId) {
@@ -1739,45 +1747,21 @@ public class ClientCompany implements IAccounterCore {
 
 		case CUSTOMER:
 			deleteCustomer(id);
-			if (getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-				for (ClientPayee payee : getActivePayees()) {
-					if (payee.id == id) {
-						Utility.isDelete = true;
-						Utility.updateClientList(payee, payees);
-						Utility.isDelete = false;
-					}
-				}
-			}
+			deletePayee(id);
 
 			break;
 
 		case VENDOR:
 
 			deleteVendor(id);
-			if (getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-				for (ClientPayee payee : getActivePayees()) {
-					if (payee.id == id) {
-						Utility.isDelete = true;
-						Utility.updateClientList(payee, payees);
-						Utility.isDelete = false;
-					}
-				}
-			}
+			deletePayee(id);
 
 			break;
 
 		case TAXAGENCY:
 
 			deleteTaxAgency(id);
-			if (getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-				for (ClientPayee payee : getActivePayees()) {
-					if (payee.id == id) {
-						Utility.isDelete = true;
-						Utility.updateClientList(payee, payees);
-						Utility.isDelete = false;
-					}
-				}
-			}
+			deletePayee(id);
 
 			break;
 
@@ -1791,13 +1775,14 @@ public class ClientCompany implements IAccounterCore {
 
 			deleteTaxGroup(id);
 			if (getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-				for (ClientTAXCode taxCode : getActiveTaxCodes()) {
-					if (taxCode.id == id) {
-						Utility.isDelete = true;
-						Utility.updateClientList(taxCode, taxCodes);
-						Utility.isDelete = false;
-					}
-				}
+				deleteTaxCode(id);
+				// for (ClientTAXCode taxCode : getActiveTaxCodes()) {
+				// if (taxCode.id == id) {
+				// Utility.isDelete = true;
+				// Utility.updateClientList(taxCode, taxCodes);
+				// Utility.isDelete = false;
+				// }
+				// }
 			}
 
 			break;
@@ -1855,13 +1840,14 @@ public class ClientCompany implements IAccounterCore {
 		case TAXITEM:
 			deleteTaxItem(id);
 			if (getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-				for (ClientTAXCode taxCode : getActiveTaxCodes()) {
-					if (taxCode.id == id) {
-						Utility.isDelete = true;
-						Utility.updateClientList(taxCode, taxCodes);
-						Utility.isDelete = false;
-					}
-				}
+				deleteTaxCode(id);
+				// for (ClientTAXCode taxCode : getActiveTaxCodes()) {
+				// if (taxCode.id == id) {
+				// Utility.isDelete = true;
+				// Utility.updateClientList(taxCode, taxCodes);
+				// Utility.isDelete = false;
+				// }
+				// }
 			}
 
 			break;

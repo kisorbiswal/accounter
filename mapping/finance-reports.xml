@@ -1334,7 +1334,7 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		
-		<return-scalar column="transaction_id" type="string" />
+		<return-scalar column="transaction_id" type="long" />
 		<return-scalar column="payee_name" type="string" />
 		<return-scalar column="taxagency_name" type="string" />
 		<return-scalar column="taxItem_name" type="string" />
@@ -1460,7 +1460,7 @@
 		<query-param name="endDate" type="long" />
 		<query-param name="taxItemName" type="String" />
 	
-	<return-scalar column="transaction_id" type="string" />
+		<return-scalar column="transaction_id" type="long" />
 		<return-scalar column="payee_name" type="string" />
 		<return-scalar column="taxagency_name" type="string" />
 		<return-scalar column="taxItem_name" type="string" />
