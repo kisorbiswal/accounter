@@ -14,8 +14,8 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 
@@ -133,7 +133,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	public void onDoubleClick(ClientEstimate obj) {
 
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			ActionFactory.getNewQuoteAction().run(obj, true);
+			ActionFactory.getNewQuoteAction().run(obj, false);
 		}
 	}
 
@@ -254,17 +254,17 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 			return salesPerson1.compareTo(salesPerson2);
 
 		case 5:
-			ClientFinanceDate expiration1 = new ClientFinanceDate(
-					obj1.getExpirationDate());
-			ClientFinanceDate expiration2 = new ClientFinanceDate(
-					obj2.getExpirationDate());
+			ClientFinanceDate expiration1 = new ClientFinanceDate(obj1
+					.getExpirationDate());
+			ClientFinanceDate expiration2 = new ClientFinanceDate(obj2
+					.getExpirationDate());
 			return expiration1.compareTo(expiration2);
 
 		case 6:
-			ClientFinanceDate deliveryDate1 = new ClientFinanceDate(
-					obj1.getDeliveryDate());
-			ClientFinanceDate deliveryDate2 = new ClientFinanceDate(
-					obj2.getDeliveryDate());
+			ClientFinanceDate deliveryDate1 = new ClientFinanceDate(obj1
+					.getDeliveryDate());
+			ClientFinanceDate deliveryDate2 = new ClientFinanceDate(obj2
+					.getDeliveryDate());
 			return deliveryDate1.compareTo(deliveryDate2);
 
 		case 7:
