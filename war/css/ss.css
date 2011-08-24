@@ -15,7 +15,7 @@ body {
 	margin: 0px;
 	padding: 0px;
 	text-align: center;
-	font-family: Georgia;
+	font-family: Arial Unicode MS,Arial,sans-serif;
 }
 
 table {
@@ -2190,6 +2190,9 @@ background-color: #bcfcb1;
 }
 .support_send input{
 	width:50px !important;
+}
+.company_list_buttons{
+	text-align: center;
 }
 
 /* End of the new Login and forgot password page*/

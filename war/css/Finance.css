@@ -5231,10 +5231,6 @@ table.dropdownFlex tr:hover,.gwt-ListBox option:HOVER { /*background: #C6E2FF;*/
 	height: 35px;
 }
 
-.fTablePortlet {
-	margin-left: 10px !important;
-	margin-top: 5px !important;
-}
 
 .amountLabelPortlet {
 	font-weight: bold;
@@ -6550,16 +6546,16 @@ input[type="text"],textarea {
  	border: 1px solid gray;
     height: 500px;
     margin: 4em auto;
-    padding: 10px;
     width: 800px;
 }
 .progress_panel_show{
-	border-right: 1px solid gray;
-    padding-right: 25px;
-    visibility:visible; 
+	background: none repeat scroll 0 0 #ECECEC;
+    padding-right: 15px;
+    visibility: visible;
 }
 .progress_panel_data{
 	padding-top: 15px;
+	padding-left:10px;
 }
 .progress_panel_hide{
 	border-right: 1px solid gray;
@@ -6622,7 +6618,7 @@ input[type="text"],textarea {
 }
 .view_panel{
 	width: 100%;
-	height: 100%;
+	height: 500px;
 }
 .addAccountPortlet,.addButtonPortlet{
 	margin-left:30px !important;
@@ -6833,7 +6829,7 @@ a#fdbk_tab:hover{
 	margin-top: 10px;
 }
 .view_panel{
-	padding:10px;
+	padding:10px 10px 0;
 }
 .company_Info_table .gwt-ListBox,.refer_listbox,.fiscal_listbox,.currency_listbox{
 	  width: 193px;
@@ -6853,10 +6849,11 @@ a#fdbk_tab:hover{
 	padding-right:5px;
 }
 .progress_header{
-	color: #144149;
-    font-size: 18px;
+	color: #000000;
+    font-size: 20px;
     font-weight: bold;
-    margin-left: 15px;
+    margin-top: 10px;
+    text-align: center;
 }
 .company_Info_table tr td:FIRST-CHILD {
 	text-align: right;
@@ -6931,9 +6928,10 @@ a#fdbk_tab:hover{
 .currency_listbox{
 	margin:10px;
 }
-
+.expense_question_link{
+	margin:10px 0px;
+}
 .setup_accounts{
-	padding-top:20px;
 	padding-top:20px;
 }
 .progress_panel_data td .gwt-Label{
@@ -6941,6 +6939,32 @@ a#fdbk_tab:hover{
 }
 .finance-portlet td:FIRST-CHILD table,.finance-portlet table{
 	width:100% !important;
+}
+.review_expense_account,.sub_industry_listpanel{
+	margin:0 5px 0 14px;
+	border:1px solid gray;
+}
+.review_expense_account{
+	margin:8px !important;
+}
+.select_industry_list{
+	padding-left:10px;
+}
+.industry_list_table{
+	border:1px solid gray;
+	padding:0 0 5px;
+}
+.industry_list_table select{
+	border:0 none;
+}
+.accounts_label,.industry_list_table .select_industry{
+	background:#ccc;
+}
+.customize_Accounter_labels{
+	margin-bottom:5px;
+}
+.back_next_buttons{
+	padding:10px;
 }
 
 
@@ -6950,4 +6974,17 @@ a#fdbk_tab:hover{
 }
 #page a{
     color:#2D8B93 !important;
+}
+#branding h1.page-title{
+	color:white !important;
+}
+#page{
+	margin:0 10px !important;
+	padding:0px !important;
+}
+.book-navigation .page-links{
+	margin:15px 0 0 15px;
+}
+#branding{
+	 padding: 10px 20px 0 !important;
 }
