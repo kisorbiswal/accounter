@@ -66,4 +66,9 @@ public class CreditCardChargeAction extends Action {
 	public String getHistoryToken() {
 		return "creditCardCharge";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "newcreditcardcharge";
+	}
 }

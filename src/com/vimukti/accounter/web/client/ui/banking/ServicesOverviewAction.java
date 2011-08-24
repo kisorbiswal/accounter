@@ -43,4 +43,9 @@ public class ServicesOverviewAction extends Action {
 		return "servicesOverview";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "customer-service";
+	}
+
 }

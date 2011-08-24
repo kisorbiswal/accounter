@@ -42,4 +42,9 @@ public class SignupforCreditcardprocessingAction extends Action {
 		return "signupforCreditcard";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "creditcard-signup";
+	}
+
 }

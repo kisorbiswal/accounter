@@ -71,4 +71,9 @@ public class MakeDepositAction extends Action {
 	public String getHistoryToken() {
 		return "depositTransferFunds";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "makedeposit";
+	}
 }

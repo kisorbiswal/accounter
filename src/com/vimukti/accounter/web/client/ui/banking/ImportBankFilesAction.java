@@ -45,4 +45,9 @@ public class ImportBankFilesAction extends Action {
 		return "importBankFiles";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "importbankfile";
+	}
+
 }

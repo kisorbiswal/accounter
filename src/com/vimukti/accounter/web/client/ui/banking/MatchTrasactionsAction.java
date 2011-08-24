@@ -40,4 +40,9 @@ public class MatchTrasactionsAction extends Action {
 		return "matchTransactions";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "match-transactions";
+	}
+
 }

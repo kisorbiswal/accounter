@@ -60,7 +60,11 @@ public class TransferFundsAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-
 		return "transferFunds";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "deposit_transfer-funds";
 	}
 }

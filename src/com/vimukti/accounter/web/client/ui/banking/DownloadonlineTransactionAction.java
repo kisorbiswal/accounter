@@ -40,4 +40,9 @@ public class DownloadonlineTransactionAction extends Action {
 		return "downloadonlineTransaction";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "downloadtransactions";
+	}
+
 }

@@ -45,4 +45,9 @@ public class SyncOnlinePayeesAction extends Action {
 		return "Sync";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "sync-online-payee";
+	}
+
 }

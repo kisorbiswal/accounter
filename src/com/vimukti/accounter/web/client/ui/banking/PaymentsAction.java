@@ -36,7 +36,6 @@ public class PaymentsAction extends Action {
 
 //			@Override
 //			public void onCreateFailed(Throwable t) {
-//				// TODO Auto-generated method stub
 //				
 //			}
 
@@ -61,5 +60,10 @@ public class PaymentsAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		return "payments";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "payment-action";
 	}
 }

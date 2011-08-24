@@ -50,4 +50,9 @@ public class AcceptCreditCardsAction extends Action {
 		return "acceptCreditCards";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "acceptcreditcards";
+	}
+
 }

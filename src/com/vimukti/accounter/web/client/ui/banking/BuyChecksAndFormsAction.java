@@ -40,4 +40,9 @@ public class BuyChecksAndFormsAction extends Action {
 		return "buyChecksandForms";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "buychecksforms";
+	}
+
 }

@@ -46,4 +46,9 @@ public class EnterPaymentsAction extends Action {
 		return "enterPayments";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "enterpayment";
+	}
+
 }

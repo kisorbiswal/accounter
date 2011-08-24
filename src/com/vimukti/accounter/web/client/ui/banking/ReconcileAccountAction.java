@@ -43,4 +43,9 @@ public class ReconcileAccountAction extends Action {
 		return "recouncileAccount";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "reconcile-account";
+	}
+
 }

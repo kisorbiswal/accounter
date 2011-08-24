@@ -45,4 +45,9 @@ public class PrintChecksAction extends Action {
 		return "printChecks";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "print-check";
+	}
+
 }

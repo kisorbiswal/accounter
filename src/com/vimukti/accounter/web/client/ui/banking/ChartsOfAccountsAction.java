@@ -54,4 +54,10 @@ public class ChartsOfAccountsAction extends Action {
 	public String getHistoryToken() {
 		return "chartOfAccount";
 	}
+
+	@Override
+	public String getHelpToken() {
+		//This class not using
+		return "accountcharts";
+	}
 }

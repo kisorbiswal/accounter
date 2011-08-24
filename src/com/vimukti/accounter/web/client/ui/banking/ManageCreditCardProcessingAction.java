@@ -42,4 +42,9 @@ public class ManageCreditCardProcessingAction extends Action {
 		return "manageCreditCardProcess";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "managecreditcards";
+	}
+
 }

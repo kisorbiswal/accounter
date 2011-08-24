@@ -73,4 +73,9 @@ public class WriteChecksAction extends Action {
 
 		return "writeCheck";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "write-checks";
+	}
 }

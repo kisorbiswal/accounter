@@ -46,4 +46,9 @@ public class BankingHomeAction extends Action {
 	public String getHistoryToken() {
 		return "bankingHome";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "banking";
+	}
 }

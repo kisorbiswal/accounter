@@ -73,4 +73,9 @@ public class AccountRegisterAction extends Action {
 		return "accountRegister";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "accounterregister";
+	}
+
 }

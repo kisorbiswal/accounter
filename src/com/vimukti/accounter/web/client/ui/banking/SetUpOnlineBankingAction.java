@@ -43,4 +43,9 @@ public class SetUpOnlineBankingAction extends Action {
 		return "setUpOnlineBanking";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "online-banking";
+	}
+
 }
