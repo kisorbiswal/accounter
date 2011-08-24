@@ -32,8 +32,8 @@ public class SelectVendorsTo1099Dialog extends BaseDialog {
 	public SelectVendorsTo1099Dialog(String title, String desc) {
 		super(title, desc);
 		createControls();
-		fillSelectedVendors();
 
+		fillSelectedVendors();
 		fillAvailableVendors();
 		mainPanel.setSpacing(3);
 		center();
@@ -47,23 +47,46 @@ public class SelectVendorsTo1099Dialog extends BaseDialog {
 
 	private ArrayList<ClientVendor> getSelectedVendors() {
 		VList<ClientVendor> vendors = getCompany().getVendors();
-		return vendors.filter(new ListFilter<ClientVendor>() {
+		tempSelectedVendorsList = new ArrayList<ClientVendor>();
 
-			@Override
-			public boolean filter(ClientVendor e) {
-				return e.isTrackPaymentsFor1099();
-			}
-		});
+		tempSelectedVendorsList.addAll(vendors
+				.filter(new ListFilter<ClientVendor>() {
+
+					@Override
+					public boolean filter(ClientVendor e) {
+						return e.isTrackPaymentsFor1099();
+					}
+				}));
+
+		return tempSelectedVendorsList;
 	}
 
 	private void fillAvailableVendors() {
-		tempSelectedVendorsList = new ArrayList<ClientVendor>();
-		for (ClientVendor vendor : getAllVendors())
+		for (ClientVendor vendor : getAvailableVendors())
 			availVendorsGrid.addData(vendor);
 	}
 
 	private ArrayList<ClientVendor> getAllVendors() {
 		return getCompany().getVendors();
+	}
+
+	private ArrayList<ClientVendor> getAvailableVendors() {
+		boolean isFound = false;
+		tempAvailVendorsList = new ArrayList<ClientVendor>();
+		for (ClientVendor codeInternal : getAllVendors()) {
+			if (tempSelectedVendorsList != null)
+				for (ClientVendor internal : tempSelectedVendorsList) {
+					if (codeInternal.getID() == internal.getID()) {
+						isFound = true;
+						break;
+					} else
+						isFound = false;
+				}
+			if (!isFound)
+				tempAvailVendorsList.add(codeInternal);
+		}
+		return tempAvailVendorsList;
+
 	}
 
 	private void createControls() {
@@ -83,8 +106,8 @@ public class SelectVendorsTo1099Dialog extends BaseDialog {
 					tempSelectedVendorsList.add(gridRecord);
 
 					availVendorsGrid.deleteRecord(gridRecord);
-					if (tempSelectedVendorsList != null)
-						tempSelectedVendorsList.remove(gridRecord);
+					if (tempAvailVendorsList != null)
+						tempAvailVendorsList.remove(gridRecord);
 					if (availVendorsGrid.getRecords() == null
 							|| availVendorsGrid.getRecords().size() == 0
 							|| availVendorsGrid.getSelection() == null) {
@@ -127,7 +150,6 @@ public class SelectVendorsTo1099Dialog extends BaseDialog {
 		setAvailVendorsGridFields();
 		setAvalableVendorsGridCellWidths();
 		availVendorsGrid.setView(SelectVendorsTo1099Dialog.this);
-		// getAvailableRecords();
 		availVendorsGrid.addRecordClickHandler(new GridRecordClickHandler() {
 
 			@Override
@@ -151,7 +173,6 @@ public class SelectVendorsTo1099Dialog extends BaseDialog {
 		setSelectedVendorsGridFields();
 		setSelectedVendorGridCellWidths();
 		selectVendorsGrid.setView(SelectVendorsTo1099Dialog.this);
-		// getSelectedVendors();
 		selectVendorsGrid.addRecordClickHandler(new GridRecordClickHandler() {
 
 			@Override
@@ -237,6 +258,10 @@ public class SelectVendorsTo1099Dialog extends BaseDialog {
 	protected boolean onOK() {
 		for (ClientVendor vendor : tempSelectedVendorsList) {
 			vendor.setTrackPaymentsFor1099(true);
+			saveOrUpdate(vendor);
+		}
+		for (ClientVendor vendor : tempAvailVendorsList) {
+			vendor.setTrackPaymentsFor1099(false);
 			saveOrUpdate(vendor);
 		}
 		return true;
