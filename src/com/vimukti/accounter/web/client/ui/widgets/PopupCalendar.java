@@ -142,7 +142,7 @@ public class PopupCalendar extends PopupPanel {
 						}
 					}
 				};
-				t.schedule(300);
+				t.schedule(10);
 			}
 
 		});

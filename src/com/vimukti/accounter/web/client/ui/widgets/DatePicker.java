@@ -43,7 +43,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
  * 
  */
 public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
-		KeyPressHandler, FocusHandler, BlurHandler, MouseWheelHandler {
+		KeyPressHandler, BlurHandler,FocusHandler, MouseWheelHandler {
 
 	private PopupCalendar popup;
 	private Date selectedDate;
@@ -99,8 +99,8 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 		addChangeHandler(this);
 		addKeyPressHandler(this);
 		addFocusHandler(this);
-		addBlurHandler(this);
 		addMouseWheelHandler(this);
+		addBlurHandler(this);
 	}
 
 	/**
@@ -155,7 +155,7 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 	 */
 	public void setSelectedDate(Date value) {
 		this.selectedDate = value;
-		this.removeStyleName("empty_date_field");
+
 		synchronizeFromDate();
 
 		// fireChange();
@@ -186,7 +186,7 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 	public void onBrowserEvent(Event event) {
 		switch (DOM.eventGetType(event)) {
 		case Event.ONBLUR:
-			popup.hidePopupCalendar();
+		//	popup.hidePopupCalendar();
 			break;
 		case Event.ONCLICK:
 			this.setText("");
@@ -443,8 +443,7 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 	 * @return boolean
 	 */
 	public boolean canBeSelected(Date selectedDay) {
-		
-	
+
 		if (this.getOldestDate() != null
 				&& selectedDay.after(this.getOldestDate()))
 			return false;
@@ -508,13 +507,7 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 
 	}
 
-	@Override
-	public void onBlur(BlurEvent event) {
-
-		this.popup.hidePopupCalendar();
-
-	}
-
+	
 	@Override
 	public void onMouseWheel(MouseWheelEvent event) {
 		if (event.isNorth()) {
@@ -524,6 +517,13 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 			processIncrementDate(this.getCursorPos());
 		}
 
+	}
+
+	@Override
+	public void onBlur(BlurEvent event) {
+		if (popup.isVisible())
+		popup.hidePopupCalendar();
+		
 	}
 
 }
