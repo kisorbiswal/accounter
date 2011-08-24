@@ -126,11 +126,6 @@ public interface AccounterMessages extends Messages {
 
 	public String recommendedNote();
 
-	// public String trackTimeList();
-
-	// company setup options
-	// public String rualBasis(String name[]);
-
 	public String newCustomer(String customerName[]);
 
 	public String addANewCustomer(String customerName);
@@ -202,6 +197,12 @@ public interface AccounterMessages extends Messages {
 			String getCustomersRefundListViewHeading);
 
 	public String manageCustomerGroup(String manageCustomerGroup);
+
+	public String customerTo(String customerName);
+
+	public String customerID(String customerID);
+
+	public String customerFrom(String cuString);
 
 	public String mergeCustomers(String mergeCustomers);
 
