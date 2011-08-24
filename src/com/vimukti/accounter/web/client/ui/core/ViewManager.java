@@ -11,6 +11,7 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -19,6 +20,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.help.HelpDialog;
+import com.vimukti.accounter.web.client.help.HelpPanel;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.HistoryToken;
@@ -90,14 +93,34 @@ public class ViewManager extends HorizontalPanel {
 		leftPanel.add(toolBar);
 		leftPanel.add(viewHolder);
 		this.add(leftPanel);
-		this.add(createHelpPanel());
+		accounterHelpView = (HelpPanel) createHelpPanel();
+		if (accounterHelpView != null) {
+			this.add(accounterHelpView);
+		}
 		initilizeToolBar();
 		initializeActivityManager();
 	}
 
+	private HelpPanel accounterHelpView;
+
 	private Widget createHelpPanel() {
-		// TODO implement help panel here
-		return new SimplePanel();
+		if (isHelpPanelEnabled) {
+			if (accounterHelpView != null) {
+				accounterHelpView.removeFromParent();
+			}
+			accounterHelpView = new HelpPanel();
+			accounterHelpView.setHelpUrl(this.getUrl());
+			accounterHelpView.setIsHelpPanel(true);
+			return accounterHelpView;
+		} else {
+			return null;
+		}
+	}
+
+	String url = "";
+
+	private String getUrl() {
+		return "http://help.accounterlive.com/" + url;
 	}
 
 	private void initializeActivityManager() {
@@ -343,6 +366,7 @@ public class ViewManager extends HorizontalPanel {
 		}
 		view.setAction(action);
 		showView(view, action, !isDependent);
+		showHelp(action.getHelpToken());
 	}
 
 	void initilizeToolBar() {
@@ -429,5 +453,104 @@ public class ViewManager extends HorizontalPanel {
 		toolBar.add(HasHorizontalAlignment.ALIGN_RIGHT, group3);
 		toolBar.addStyleName("group-toolbar");
 
+	}
+
+	public void toggleHelpPanel(boolean isHelpPanel) {
+		if (!isHelpPanel) {
+			accounterHelpView.removeFromParent();
+			helpDialog.removeFromParent();
+			accounterHelpView.setIsHelpPanel(true);
+			this.add(accounterHelpView);
+		} else {
+			accounterHelpView.removeFromParent();
+			accounterHelpView.setIsHelpPanel(false);
+			createHelpDialog();
+		}
+	}
+
+	private HelpDialog helpDialog;
+
+	private boolean isHelpPanelEnabled;
+
+	private void createHelpDialog() {
+		if (helpDialog != null) {
+			helpDialog.removeFromParent();
+		}
+		helpDialog = new HelpDialog(accounterHelpView);
+		helpDialog.show();
+	}
+
+	public HelpPanel getAccounterHelpView() {
+		return accounterHelpView;
+	}
+
+	public void setAccounterHelpView(HelpPanel accounterHelpView) {
+		this.accounterHelpView = accounterHelpView;
+	}
+
+	public void showHelp(String helpTopic) {
+		if (!isHelpPanelEnabled) {
+			if (accounterHelpView != null) {
+				accounterHelpView.removeFromParent();
+				if (helpDialog != null) {
+					helpDialog.removeFromParent();
+				}
+				accounterHelpView.setIsRemoved(true);
+			}
+			return;
+		}
+		if (helpTopic == null || helpTopic.isEmpty()) {
+			return;
+		}
+
+		if (accounterHelpView == null) {
+			createHelpPanel();
+			this.add(accounterHelpView);
+		}
+
+		if (accounterHelpView.isRemoved()) {
+			this.add(accounterHelpView);
+			accounterHelpView.setIsHelpPanel(true);
+			accounterHelpView.setIsRemoved(false);
+		}
+
+		url = helpTopic;
+		accounterHelpView.setHelpUrl(getUrl());
+	}
+
+	public void addRemoveHelpPanel() {
+		if (!isHelpPanelEnabled) {
+			Window.open("http://help.accounterlive.com", "_blank", "");
+			return;
+		}
+		if (accounterHelpView == null) {
+			isHelpPanelEnabled = true;
+			accounterHelpView = (HelpPanel) createHelpPanel();
+			this.add(accounterHelpView);
+			return;
+		}
+
+		if (helpDialog != null) {
+			helpDialog.removeFromParent();
+		}
+		if (accounterHelpView != null) {
+			accounterHelpView.removeFromParent();
+		}
+		if (accounterHelpView.isRemoved()) {
+			this.add(accounterHelpView);
+			accounterHelpView.setIsHelpPanel(true);
+			accounterHelpView.setIsRemoved(false);
+			accounterHelpView.setHelpUrl(getUrl());
+		} else {
+			accounterHelpView.setIsRemoved(true);
+		}
+	}
+
+	public void setHelpPannelEnabled(boolean isEnabled) {
+		this.isHelpPanelEnabled = isEnabled;
+	}
+
+	public boolean isHelpPanelEnabled() {
+		return this.isHelpPanelEnabled;
 	}
 }
