@@ -21,11 +21,10 @@ public class ConversionDateAction extends Action {
 		return null;
 	}
 
-	
-//	@Override
-//	public ParentCanvas getView() {
-//		return null;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return null;
+	// }
 
 	@Override
 	public void run() {
@@ -44,6 +43,11 @@ public class ConversionDateAction extends Action {
 	public String getHistoryToken() {
 
 		return "ConversionDate";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "conversion-date";
 	}
 
 }

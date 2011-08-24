@@ -23,9 +23,9 @@ public class MeasurementAction extends Action<ClientMeasurement> {
 	public void preAddedListView(final Object data, final Boolean isDependent) {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 			public void onCreated() {
-					view = new MesurementListView();
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, MeasurementAction.this);
+				view = new MesurementListView();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, MeasurementAction.this);
 			}
 
 		});
@@ -52,6 +52,11 @@ public class MeasurementAction extends Action<ClientMeasurement> {
 	@Override
 	public String getHistoryToken() {
 		return "Measurements";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "add-measurement";
 	}
 
 }

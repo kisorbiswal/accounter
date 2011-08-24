@@ -63,4 +63,9 @@ public class GeneralSettingsAction extends Action {
 		return "generalSettings";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "settings";
+	}
+
 }

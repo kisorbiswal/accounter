@@ -21,18 +21,17 @@ public class CopyThemeAction extends Action {
 		return null;
 	}
 
-//	@SuppressWarnings("rawtypes")
-//	@Override
-//	public ParentCanvas getView() {
-//		return null;
-//	}
+	// @SuppressWarnings("rawtypes")
+	// @Override
+	// public ParentCanvas getView() {
+	// return null;
+	// }
 
 	@Override
 	public void run() {
 		try {
 			CopyThemeDialog copyThemeDialog = new CopyThemeDialog(Accounter
-					.constants().copyTheme(), "",
-					(ClientBrandingTheme) data);
+					.constants().copyTheme(), "", (ClientBrandingTheme) data);
 			copyThemeDialog.center();
 			copyThemeDialog.show();
 		} catch (Exception e) {
@@ -43,6 +42,11 @@ public class CopyThemeAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
+		return null;
+	}
+
+	@Override
+	public String getHelpToken() {
 		return null;
 	}
 

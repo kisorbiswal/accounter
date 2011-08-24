@@ -27,11 +27,11 @@ public class InviteUserAction extends Action {
 		return null;
 	}
 
-//	@Override
-//	public ParentCanvas getView() {
-//		// NOTHING TO DO.
-//		return null;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	// // NOTHING TO DO.
+	// return null;
+	// }
 
 	@Override
 	public void run() {
@@ -47,6 +47,11 @@ public class InviteUserAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		return "inviteUser";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "add-user";
 	}
 
 }

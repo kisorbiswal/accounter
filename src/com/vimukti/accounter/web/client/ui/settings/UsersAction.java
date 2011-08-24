@@ -46,4 +46,9 @@ public class UsersAction extends Action {
 		return "users";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "user";
+	}
+
 }

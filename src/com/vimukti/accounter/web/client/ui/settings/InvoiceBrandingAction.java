@@ -31,7 +31,6 @@ public class InvoiceBrandingAction extends Action {
 		return null;
 	}
 
-
 	@Override
 	public void run() {
 		runAsync(data, isDependent);
@@ -50,6 +49,11 @@ public class InvoiceBrandingAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		return "invoiceBranding";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "new-branding-theme";
 	}
 
 }

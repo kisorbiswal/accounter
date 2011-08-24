@@ -51,4 +51,9 @@ public class WareHouseViewAction extends Action<ClientWarehouse> {
 		return "wareHouse";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "warehouse";
+	}
+
 }

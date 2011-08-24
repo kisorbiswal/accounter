@@ -20,17 +20,16 @@ public class AutomaticSequenceAction extends Action {
 		return null;
 	}
 
-//	@Override
-//	public ParentCanvas getView() {
-//		return null;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return null;
+	// }
 
 	@Override
 	public void run() {
 		try {
 			AutomaticSequenceDialog automaticSequenceDialog = new AutomaticSequenceDialog(
-					Accounter.constants()
-							.automaticSequencing(), "");
+					Accounter.constants().automaticSequencing(), "");
 			automaticSequenceDialog.show();
 			automaticSequenceDialog.center();
 		} catch (Exception e) {
@@ -42,6 +41,11 @@ public class AutomaticSequenceAction extends Action {
 	public String getHistoryToken() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "new-branding-theme";
 	}
 
 }

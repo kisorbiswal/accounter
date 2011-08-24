@@ -65,4 +65,9 @@ public class ConversionBalancesAction extends Action {
 		return null;
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "conversion-balance";
+	}
+
 }
