@@ -11,7 +11,7 @@
 		<g:VerticalPanel ui:field="viewPanel">
 			<g:Label ui:field="expensesInfo" />
 			<g:HTML wordWrap="true" ui:field="recommendedInfo" />
-			<g:ScrollPanel  height="500px" styleName="review_expense_account">
+			<g:ScrollPanel  height="300px" styleName="review_expense_account">
 				<g:FlexTable ui:field="accountsTable"/>
 			</g:ScrollPanel>
 			<g:Button enabled="true" ui:field="restoreButton" />
