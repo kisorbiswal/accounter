@@ -9,17 +9,21 @@ import java.util.Map;
 import java.util.Set;
 
 public class VList<E> extends ArrayList<E> {
+//	Logger logger;
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private List<ListFilter<E>> filters;
-	private List<ListListener<E>> listeners;
+	// private List<ListFilter<E>> filters;
+	private ArrayList<ListListener<E>> listeners;
 	private Map<ListFilter<E>, ListListener<E>> filterListeners;
 
 	public VList() {
-		filters = new ArrayList<ListFilter<E>>();
+		super();
+//		logger = Logger.getLogger("VList");
+		// filters = new ArrayList<ListFilter<E>>();
 		listeners = new ArrayList<ListListener<E>>();
 		filterListeners = new HashMap<ListFilter<E>, ListListener<E>>();
 	}
@@ -29,10 +33,10 @@ public class VList<E> extends ArrayList<E> {
 		addAll(collection);
 	}
 
-	public void addFilter(ListFilter<E> listFilter) {
-		filters.add(listFilter);
-
-	}
+	// public void addFilter(ListFilter<E> listFilter) {
+	// filters.add(listFilter);
+	//
+	// }
 
 	public void addListener(ListListener<E> listListener) {
 		listeners.add(listListener);
@@ -42,9 +46,9 @@ public class VList<E> extends ArrayList<E> {
 		listeners.remove(listListener);
 	}
 
-	public void removeFilter(ListFilter<E> listFilter) {
-		filters.remove(listFilter);
-	}
+	// public void removeFilter(ListFilter<E> listFilter) {
+	// filters.remove(listFilter);
+	// }
 
 	public void addListener(ListFilter<E> listFilter,
 			ListListener<E> listListener) {
@@ -59,37 +63,18 @@ public class VList<E> extends ArrayList<E> {
 			}
 		}
 
-		DummyListener<E> thisListListener = new DummyListener<E>() {
+		ListListener<E> thisListListener = new ListListener<E>() {
 
 			@Override
 			public void onAdd(E e) {
-				filteredList.addInternal(e, getExcept());
+				filteredList.add(e);
 			}
 
 			@Override
-			public void onRemove(Object e) {
-				filteredList.removeInternal(e, getExcept());
+			public void onRemove(final Object e) {
+				filteredList.remove(e);
 			}
 		};
-
-		DummyListener<E> newListListener = new DummyListener<E>() {
-
-			@Override
-			public void onAdd(E e) {
-				addInternal(e, getExcept());
-			}
-
-			@Override
-			public void onRemove(Object e) {
-				removeInternal(e, getExcept());
-			}
-		};
-
-		thisListListener.setExcept(newListListener);
-		newListListener.setExcept(thisListListener);
-
-		filteredList.addListener(newListListener);
-
 		this.addListener(listFilter, thisListListener);
 		return filteredList;
 	}
@@ -176,21 +161,14 @@ public class VList<E> extends ArrayList<E> {
 	}
 
 	public boolean add(E e) {
-		return addInternal(e, null);
-	}
-
-	public boolean addInternal(E e, ListListener<E> except) {
-		for (ListFilter<E> filter : filters) {
-			if (!filter.filter(e)) {
-				return false;
-			}
-		}
+		// for (ListFilter<E> filter : filters) {
+		// if (!filter.filter(e)) {
+		// return false;
+		// }
+		// }
 		super.add(e);
 
 		for (ListListener<E> listener : listeners) {
-			if (listener == except) {
-				continue;
-			}
 			listener.onAdd(e);
 		}
 
@@ -198,9 +176,6 @@ public class VList<E> extends ArrayList<E> {
 		for (ListFilter<E> key : keySet) {
 			if (key.filter(e)) {
 				ListListener<E> listener = filterListeners.get(key);
-				if (listener == except) {
-					continue;
-				}
 				listener.onAdd(e);
 			}
 		}
@@ -212,11 +187,11 @@ public class VList<E> extends ArrayList<E> {
 	}
 
 	private void addInternal(int index, E e, ListListener<E> except) {
-		for (ListFilter<E> filter : filters) {
-			if (!filter.filter(e)) {
-				return;
-			}
-		}
+		// for (ListFilter<E> filter : filters) {
+		// if (!filter.filter(e)) {
+		// return;
+		// }
+		// }
 		super.add(index, e);
 
 		for (ListListener<E> listener : listeners) {
@@ -261,34 +236,30 @@ public class VList<E> extends ArrayList<E> {
 	@Override
 	public E remove(int index) {
 		E e = get(index);
-		remove(e);
+		super.remove(e);
+//		logger.log(Level.SEVERE, "removing Object" + e);
+		boolean result = super.remove(e);
+		for (ListListener<E> listener : listeners) {
+
+			listener.onRemove(e);
+		}
+		Set<ListFilter<E>> keySet = filterListeners.keySet();
+		for (ListFilter<E> key : keySet) {
+			if (key.filter(e)) {
+				ListListener<E> listener = filterListeners.get(key);
+				listener.onRemove(e);
+			}
+		}
 		return e;
 	}
 
 	public boolean remove(Object e) {
-		return removeInternal(e, null);
-	}
-
-	public boolean removeInternal(Object e, ListListener<E> except) {
-		E ee = (E) e;
-		boolean result = super.remove(e);
-		for (ListListener<E> listener : listeners) {
-			if (listener == except) {
-				continue;
-			}
-			listener.onRemove(ee);
+		int index=super.indexOf(e);
+		if(index==-1){
+			return false;
 		}
-		Set<ListFilter<E>> keySet = filterListeners.keySet();
-		for (ListFilter<E> key : keySet) {
-			if (key.filter(ee)) {
-				ListListener<E> listener = filterListeners.get(key);
-				if (listener == except) {
-					continue;
-				}
-				listener.onRemove(ee);
-			}
-		}
-		return result;
+		super.remove(index);
+		return true;
 	}
 
 	@Override
@@ -341,15 +312,4 @@ public class VList<E> extends ArrayList<E> {
 		}
 	}
 
-	abstract class DummyListener<EE> implements ListListener<EE> {
-		private ListListener<EE> except;
-
-		public ListListener<EE> getExcept() {
-			return except;
-		}
-
-		public void setExcept(ListListener<EE> except) {
-			this.except = except;
-		}
-	}
 }
