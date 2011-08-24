@@ -43,4 +43,9 @@ public class CreateStatementAction extends Action {
 		return "CreateStatement";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "create-statement";
+	}
+
 }

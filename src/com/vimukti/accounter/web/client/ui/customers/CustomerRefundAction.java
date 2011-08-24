@@ -80,4 +80,9 @@ public class CustomerRefundAction extends Action {
 	public String getHistoryToken() {
 		return "customerRefund";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "customer-refund";
+	}
 }

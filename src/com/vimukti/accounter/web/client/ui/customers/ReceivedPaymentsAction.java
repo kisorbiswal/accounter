@@ -72,4 +72,9 @@ public class ReceivedPaymentsAction extends Action {
 
 		return "receivePayments";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "receive-payment";
+	}
 }

@@ -80,4 +80,9 @@ public class ReceivePaymentAction extends Action {
 	public String getHistoryToken() {
 		return "receivePayment";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "receive-payment";
+	}
 }

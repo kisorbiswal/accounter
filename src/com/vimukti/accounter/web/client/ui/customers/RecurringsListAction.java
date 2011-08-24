@@ -33,7 +33,7 @@ public class RecurringsListAction extends Action {
 			@Override
 			public void onSuccess() {
 				RecurringTransactionsListView view = new RecurringTransactionsListView();
-				
+
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, RecurringsListAction.this);
 
@@ -63,5 +63,10 @@ public class RecurringsListAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		return "RecurringTransactions";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "recurring-list";
 	}
 }

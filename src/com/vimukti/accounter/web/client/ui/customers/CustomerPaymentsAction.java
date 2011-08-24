@@ -65,4 +65,9 @@ public class CustomerPaymentsAction extends Action {
 	public String getHistoryToken() {
 		return "customerPrepayment";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "customer-prepayments";
+	}
 }

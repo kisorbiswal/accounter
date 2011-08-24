@@ -43,4 +43,10 @@ public class PriceLevelAction extends Action {
 		return "priceLevel";
 	}
 
+	@Override
+	public String getHelpToken() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

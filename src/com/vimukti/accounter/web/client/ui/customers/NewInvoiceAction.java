@@ -78,4 +78,9 @@ public class NewInvoiceAction extends Action {
 	public String getHistoryToken() {
 		return "newInvoice";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "customer-invoice";
+	}
 }

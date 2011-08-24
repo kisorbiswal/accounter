@@ -73,4 +73,9 @@ public class SalesOrderAction extends Action {
 	public String getHistoryToken() {
 		return "salesOrder";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "sales_order-list";
+	}
 }

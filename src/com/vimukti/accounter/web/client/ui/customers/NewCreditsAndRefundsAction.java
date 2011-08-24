@@ -80,4 +80,9 @@ public class NewCreditsAndRefundsAction extends Action {
 	public String getHistoryToken() {
 		return "newCredit";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "new-credit_refund";
+	}
 }

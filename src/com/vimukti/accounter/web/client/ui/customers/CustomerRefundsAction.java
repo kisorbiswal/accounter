@@ -70,7 +70,11 @@ public class CustomerRefundsAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "customerRefunds";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "customer-refund";
 	}
 }

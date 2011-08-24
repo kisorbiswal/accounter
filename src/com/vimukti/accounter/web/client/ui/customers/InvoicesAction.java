@@ -90,4 +90,9 @@ public class InvoicesAction extends Action {
 		}
 		return "";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "about-invoice";
+	}
 }

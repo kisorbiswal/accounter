@@ -66,4 +66,9 @@ public class SalesPersonAction extends Action {
 	public String getHistoryToken() {
 		return "salesPersons";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "new_sales-person";
+	}
 }

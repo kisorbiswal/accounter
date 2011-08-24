@@ -75,4 +75,9 @@ public class SalesOrderListAction extends Action {
 		return "salesOrderList";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "sales_order-list";
+	}
+
 }

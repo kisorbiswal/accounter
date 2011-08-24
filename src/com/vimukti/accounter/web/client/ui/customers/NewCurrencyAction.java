@@ -57,4 +57,10 @@ public class NewCurrencyAction extends Action {
 		return "newCurrency";
 	}
 
+	@Override
+	public String getHelpToken() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

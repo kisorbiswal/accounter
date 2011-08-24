@@ -73,4 +73,9 @@ public class QuotesAction extends Action {
 
 		return "quotes";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "customer-quote";
+	}
 }

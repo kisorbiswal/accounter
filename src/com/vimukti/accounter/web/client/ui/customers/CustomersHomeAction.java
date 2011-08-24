@@ -54,7 +54,11 @@ public class CustomersHomeAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
 		return "customerHome";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "customers";
 	}
 }

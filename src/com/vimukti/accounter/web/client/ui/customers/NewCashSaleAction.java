@@ -83,4 +83,9 @@ public class NewCashSaleAction extends Action {
 	public String getHistoryToken() {
 		return "newCashSale";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "new_cash-sale";
+	}
 }

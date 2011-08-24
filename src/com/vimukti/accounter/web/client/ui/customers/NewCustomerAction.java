@@ -73,4 +73,9 @@ public class NewCustomerAction extends Action<ClientCustomer> {
 	public String getHistoryToken() {
 		return "newCustomer";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "add-customer";
+	}
 }

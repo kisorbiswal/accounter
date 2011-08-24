@@ -81,4 +81,9 @@ public class NewQuoteAction extends Action {
 	public String getHistoryToken() {
 		return "newQuote";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "customer-quote";
+	}
 }

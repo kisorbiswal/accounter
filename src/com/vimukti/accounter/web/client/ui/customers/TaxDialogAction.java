@@ -16,7 +16,6 @@ public class TaxDialogAction extends Action<ClientTAXCode> {
 
 	@Override
 	public void run() {
-		
 
 	}
 
@@ -36,5 +35,10 @@ public class TaxDialogAction extends Action<ClientTAXCode> {
 	@Override
 	public String getHistoryToken() {
 		return "TaxDialog";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "tax-dialog";
 	}
 }
