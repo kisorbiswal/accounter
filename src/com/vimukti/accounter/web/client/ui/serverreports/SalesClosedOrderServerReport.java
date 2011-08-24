@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -53,8 +54,7 @@ public class SalesClosedOrderServerReport extends
 	@Override
 	public String[] getColunms() {
 		return new String[] { getConstants().orderDate(),
-				getConstants().customer(),
-				getConstants().description(),
+				Global.get().customer(), getConstants().description(),
 				getConstants().quantity(), getConstants().value() };
 	}
 
@@ -82,8 +82,8 @@ public class SalesClosedOrderServerReport extends
 		} else if (sectionDepth == 1) {
 			// First time
 			this.sectionName = record.getVendorOrCustomerName();
-			addSection(sectionName, getConstants().totalOf()
-					+ sectionName, new int[] { 4 });
+			addSection(sectionName, getConstants().totalOf() + sectionName,
+					new int[] { 4 });
 		} else if (sectionDepth == 2) {
 			// No need to do anything, just allow adding this record
 			if (!sectionName.equals(record.getVendorOrCustomerName())) {
@@ -148,9 +148,8 @@ public class SalesClosedOrderServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] { getConstants().orderDate(),
-				getConstants().customer(),
-				getConstants().description(),
+				Global.get().customer(), getConstants().description(),
 				getConstants().quantity(), getConstants().value() };
 	}
-	
+
 }

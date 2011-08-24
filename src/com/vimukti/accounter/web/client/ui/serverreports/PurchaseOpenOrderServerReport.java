@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -65,7 +66,7 @@ public class PurchaseOpenOrderServerReport extends
 	public String[] getColunms() {
 		// if (isPurchases)
 		return new String[] { getConstants().orderDate(),
-				getConstants().supplier(),
+				Global.get().vendor(),
 				// FinanceApplication.constants().description(),
 				// FinanceApplication.constants().quantity(),
 				getConstants().amount() };
@@ -128,8 +129,7 @@ public class PurchaseOpenOrderServerReport extends
 		} else if (sectionDepth == 1) {
 			// First time
 			this.sectionName = record.getVendorOrCustomerName();
-			addSection(sectionName, getConstants().total(),
-					new int[] { col });
+			addSection(sectionName, getConstants().total(), new int[] { col });
 		} else if (sectionDepth == 2) {
 			// No need to do anything, just allow adding this record
 			if (!sectionName.equals(record.getVendorOrCustomerName())) {
@@ -256,5 +256,5 @@ public class PurchaseOpenOrderServerReport extends
 				// FinanceApplication.constants().quantity(),
 				getConstants().amount() };
 	}
-	
+
 }

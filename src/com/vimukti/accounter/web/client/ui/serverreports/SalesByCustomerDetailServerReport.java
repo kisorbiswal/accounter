@@ -50,7 +50,7 @@ public class SalesByCustomerDetailServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getConstants().customer(), getConstants().date(),
+		return new String[] { Global.get().customer(), getConstants().date(),
 				getConstants().type(), getConstants().noDot(),
 				getConstants().amount() };
 
@@ -179,7 +179,7 @@ public class SalesByCustomerDetailServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getConstants().customer(), getConstants().date(),
+		return new String[] { Global.get().customer(), getConstants().date(),
 				getConstants().type(), getConstants().noDot(),
 				getConstants().amount() };
 	}

@@ -40,12 +40,11 @@ public class VendorTransactionHistoryServerReport extends
 	@Override
 	public String[] getColunms() {
 		return new String[] {
-				getVendorString(getConstants().supplier(), getConstants()
-						.vendor()), getConstants().date(),
-				getConstants().type(), getConstants().no(),
+				getVendorString(Global.get().vendor(), getConstants().vendor()),
+				getConstants().date(), getConstants().type(),
+				getConstants().no(),
 				// FinanceApplication.constants().reference(),
-				Global.get().account(),
-				constants.amount()
+				Global.get().account(), constants.amount()
 		// FinanceApplication.constants().transactionAmount(),
 		// FinanceApplication.constants().paidAmount(),
 		// FinanceApplication.constants().discount(),
@@ -234,8 +233,7 @@ public class VendorTransactionHistoryServerReport extends
 				getVendorString(getConstants().supplier(), getConstants()
 						.vendor()), getConstants().date(),
 				getConstants().type(), getConstants().no(),
-				Global.get().account(),
-				constants.amount() };
+				Global.get().account(), constants.amount() };
 	}
 
 }

@@ -35,7 +35,7 @@ public class MostProfitableCustomerServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getConstants().customer(),
+		return new String[] { Global.get().customer(),
 				getConstants().invoicedAmount(), getConstants().cost(),
 				getConstants().dollarMargin(), getConstants().percMargin() };
 	}
@@ -159,7 +159,7 @@ public class MostProfitableCustomerServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getConstants().customer(),
+		return new String[] { Global.get().customer(),
 				getConstants().invoicedAmount(), getConstants().cost(),
 				getConstants().dollarMargin(), getConstants().percMargin() };
 	}

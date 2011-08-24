@@ -37,7 +37,7 @@ public class CustomerTransactionHistoryServerReport extends
 	public String[] getColunms() {
 
 		return new String[] {
-				getConstants().customer(),
+				Global.get().customer(),
 				getConstants().date(),
 				getConstants().type(),
 				getConstants().noDot(),
@@ -229,7 +229,7 @@ public class CustomerTransactionHistoryServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 
-		return new String[] { getConstants().customer(), getConstants().date(),
+		return new String[] { Global.get().customer(), getConstants().date(),
 				getConstants().type(), getConstants().noDot(),
 				Accounter.messages().account(Global.get().account()),
 				getConstants().amount() };
