@@ -15,7 +15,7 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 
 	public CustomerCombo(String title, boolean isAddNewRequire) {
 		super(title, isAddNewRequire, 1);
-		initCombo(getCompany().getActiveCustomers());
+		initCombo(getCompany().getCustomers());
 
 	}
 
