@@ -28,6 +28,15 @@ public class Client1099Form implements IAccounterCore {
 	double box14;
 	double total1099Payments;
 	double totalAllPayments;
+	boolean isSelected;
+
+	public boolean isSelected() {
+		return isSelected;
+	}
+
+	public void setSelected(boolean isSelected) {
+		this.isSelected = isSelected;
+	}
 
 	public long getId() {
 		return id;
@@ -222,10 +231,10 @@ public class Client1099Form implements IAccounterCore {
 		return "1099Form";
 	}
 
-	public String getVendorInformation(Client1099Form obj) {
+	public String getVendorInformation() {
 		StringBuffer information = new StringBuffer();
-		ClientAddress address = obj.getAddress();
-		information.append(obj.getName()).append("\n");
+		ClientAddress address = this.getAddress();
+		information.append(this.getName()).append("\n");
 		String address1 = address.getAddress1();
 		if (address1 != null && !address.equals(""))
 			information.append(address1).append(", ");
@@ -244,7 +253,7 @@ public class Client1099Form implements IAccounterCore {
 		String country = address.getCountryOrRegion();
 		if (country != null && !country.equals(""))
 			information.append(country).append("\n");
-		String taxId = obj.getTaxId();
+		String taxId = this.getTaxId();
 		if (taxId != null && !taxId.equals(""))
 			information.append("Tax ID: ").append(taxId);
 		return information.toString();

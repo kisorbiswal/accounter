@@ -3,13 +3,18 @@
  */
 package com.vimukti.accounter.web.client.ui.vendors;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.google.gwt.cell.client.CheckboxCell;
+import com.google.gwt.cell.client.ClickableTextCell;
+import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -22,9 +27,13 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
+import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class Prepare1099MISCView extends AbstractBaseView {
 	@Override
@@ -64,6 +73,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public void createControl() {
 
 		TreeItem root = new TreeItem("Set up Vendor and Accounts");
@@ -73,7 +83,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		TreeItem root1 = new TreeItem("Preview 1099 and 1096 Information");
 		root.setState(true);
 		Preview otb = new Preview("");
-		root1.addItem(otb);
+		// root1.addItem(otb);
 
 		TreeItem root2 = new TreeItem("Print Alignment and Setup");
 		PrintSetUp printSetUp = new PrintSetUp("");
@@ -88,6 +98,74 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		EndButtons endButtons = new EndButtons("");
 		this.add(endButtons);
 
+		root1.addItem(get1099InformationGrid());
+
+	}
+
+	private CellTable<Client1099Form> get1099InformationGrid() {
+		CellTable<Client1099Form> cellTable = new CellTable<Client1099Form>();
+
+		CheckboxCell checkboxCell = new CheckboxCell();
+		Column<Client1099Form, Boolean> checkBoxColumn = new Column<Client1099Form, Boolean>(
+				checkboxCell) {
+
+			@Override
+			public Boolean getValue(Client1099Form object) {
+				return object.isSelected();
+			}
+		};
+
+		ClickableTextCell informationLink = new ClickableTextCell();
+
+		Column<Client1099Form, String> informationColumn = new Column<Client1099Form, String>(
+				informationLink) {
+
+			@Override
+			public String getValue(Client1099Form object) {
+				return "Information";
+			}
+		};
+		informationColumn.setFieldUpdater(new FieldUpdater() {
+
+			@Override
+			public void update(int index, Object object, Object value) {
+				ActionFactory.getNewVendorAction().run(null, false);
+			}
+		});
+
+		Column<Client1099Form, String> total1099PaymentsCell = new Column<Client1099Form, String>(
+				new ClickableTextCell()) {
+
+			@Override
+			public String getValue(Client1099Form object) {
+				return "" + object.getTotal1099Payments();
+			}
+		};
+
+		Column<Client1099Form, String> totalAllPaymentsCell = new Column<Client1099Form, String>(
+				new ClickableTextCell()) {
+
+			@Override
+			public String getValue(Client1099Form object) {
+				return "" + object.getTotalAllPayments();
+			}
+		};
+
+		ArrayList<Client1099Form> arrayList = new ArrayList<Client1099Form>();
+		arrayList.add(new Client1099Form());
+		cellTable.addColumn(checkBoxColumn, "Select");
+		cellTable.addColumn(informationColumn, Accounter.messages()
+				.vendorInformation(Global.get().Vendor()));
+		cellTable.addColumn(total1099PaymentsCell, Accounter.constants()
+				.total1099Payments());
+		cellTable.addColumn(totalAllPaymentsCell, Accounter.constants()
+				.totalAllPayments());
+
+		cellTable.setRowCount(arrayList.size());
+
+		cellTable.setRowData(0, arrayList);
+
+		return cellTable;
 	}
 
 	private static class Preview extends Composite implements ClickHandler {
