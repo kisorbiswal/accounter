@@ -38,7 +38,8 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 		mailIdLabel.setStyleName("user-name");
 		changePasswordHtml = new HTML(Accounter.messages().changePasswordHTML());
 		changePasswordHtml.setStyleName("change-password");
-		changePasswordHtml.setWidth("12%");
+		changePasswordHtml.setWidth((changePasswordHtml.getText().length() * 7)
+				+ "px");
 		changePasswordHtml.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -48,6 +49,8 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 		});
 
 		changeProfileHtml = new HTML("<a>Change profile</a>");
+		changeProfileHtml.setWidth((changeProfileHtml.getText().length() * 6)
+				+ "px");
 		changeProfileHtml.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {

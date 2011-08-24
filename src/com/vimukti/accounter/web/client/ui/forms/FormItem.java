@@ -68,10 +68,9 @@ public abstract class FormItem<T> {
 		this.showTitle = showTitle;
 	}
 
-
 	public void highlight() {
 		getMainWidget().addStyleName("highlightedFormItem");
-		getMainWidget().setTitle(Accounter.constants().invalidValue());
+		// getMainWidget().setTitle(Accounter.constants().invalidValue());
 		this.isHighlighted = true;
 
 	}
@@ -86,7 +85,7 @@ public abstract class FormItem<T> {
 
 	public void setTitle(String string) {
 		this.title = string;
-		if(label != null) {
+		if (label != null) {
 			label.setText(this.title);
 		}
 	}
@@ -159,11 +158,9 @@ public abstract class FormItem<T> {
 
 	}// TODO Auto-generated method stub
 
-
 	public void setDefaultValue(T value) {
 		defaultValue = value;
 	}
-
 
 	public boolean getDisabled() {
 		return isDisabled;
@@ -360,8 +357,8 @@ public abstract class FormItem<T> {
 		ValidationResult result = new ValidationResult();
 		for (FormItem<?> item : items) {
 			if (!item.validate()) {
-				result.addError(item,
-						Accounter.messages().pleaseEnter(item.getTitle()));
+				result.addError(item, Accounter.messages().pleaseEnter(
+						item.getTitle()));
 			}
 		}
 		return result;

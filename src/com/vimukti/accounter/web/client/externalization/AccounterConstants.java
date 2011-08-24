@@ -4264,9 +4264,13 @@ public interface AccounterConstants extends Constants {
 	public String vendorFrom();
 	public String notMove();
 
+	public String logout();
+
 	public String selectFromList();
 
 	public String trackPaymentsFor1099();
+
+	public String youDontHaveAnyTransactionsToMakeReceivePayment();
 
 	public String accountName();
 

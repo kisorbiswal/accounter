@@ -67,6 +67,12 @@ public class EditProfileDialog extends BaseDialog<ClientUserInfo> {
 										.updatedSuccessfully());
 								Header.userName.setText("Hello "
 										+ userInfo.getFullName());
+								Header.userName.setWidth(((Accounter.messages()
+										.userName(
+												Accounter.getUser()
+														.getFullName())
+										.length() * 6))
+										+ "px");
 								getCallback().actionResult(userInfo);
 							} else {
 								addError(this, Accounter.constants()

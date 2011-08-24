@@ -24,7 +24,7 @@ public class Header extends HorizontalPanel {
 	public static Label companyName;
 
 	public static HTML userName;
-	
+
 	private HTML logout, help, logo;
 
 	private VerticalPanel panel1, panel2;
@@ -51,11 +51,14 @@ public class Header extends HorizontalPanel {
 				+ Accounter.messages().userName(
 						Accounter.getUser().getFullName()) + "<font></a>");
 		userName.addStyleName("userName-style");
+		userName.setWidth(((Accounter.messages().userName(
+				Accounter.getUser().getFullName()).length() * 6)-3)
+				+ "px");
 		// userName.getElement().getStyle().setPaddingLeft(5, Unit.PX);
 
 		if (!Accounter.isLoggedInFromDomain()) {
-			userName.getElement().getStyle()
-					.setTextDecoration(TextDecoration.UNDERLINE);
+			userName.getElement().getStyle().setTextDecoration(
+					TextDecoration.UNDERLINE);
 			userName.getElement().getStyle().setCursor(Cursor.POINTER);
 
 			userName.addClickHandler(new ClickHandler() {
@@ -69,10 +72,15 @@ public class Header extends HorizontalPanel {
 
 		logout = new HTML(Accounter.messages().logoutHTML());
 		logout.addStyleName("logout-html");
+		logout.setWidth(((Accounter.constants().logout().length() * 4) + 19)
+				+ "px");
 		helpBar = new MenuBar();
 		initializeHelpBar();
 		helpBar.setStyleName("helpBar");
 		help = new HTML(Accounter.messages().helpHTML());
+		help
+				.setWidth(((Accounter.constants().help().length() * 2) + 19)
+						+ "px");
 		help.addStyleName("help-style");
 		help.addStyleName("helpBar");
 		help.addClickHandler(new ClickHandler() {

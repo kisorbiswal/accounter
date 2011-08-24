@@ -460,7 +460,7 @@ public class ReceiveVATView extends
 
 	@Override
 	public ValidationResult validate() {
-		ValidationResult result = super.validate();
+		ValidationResult result = new ValidationResult();
 		// Validations
 		// 1. is valid transaction?
 		// 2. is in prevent posting before date?
