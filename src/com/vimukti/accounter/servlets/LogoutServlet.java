@@ -21,11 +21,14 @@ public class LogoutServlet extends BaseServlet {
 		try {
 			String userid = (String) req.getSession().getAttribute(EMAIL_ID);
 			if (userid != null) {
-				long id = Long.parseLong(getCookie(req, COMPANY_COOKIE));
-				deleteCookie(req, resp);
-				// Destroy the comet queue so that it wont take memory
-				CometManager
-						.destroyStream(req.getSession().getId(), id, userid);
+				String cid = getCookie(req, COMPANY_COOKIE);
+				if (cid != null) {
+					long id = Long.parseLong(cid);
+					deleteCookie(req, resp);
+					// Destroy the comet queue so that it wont take memory
+					CometManager.destroyStream(req.getSession().getId(), id,
+							userid);
+				}
 				req.getSession().setAttribute(USER_ID, null);
 			}
 			req.getSession().invalidate();
