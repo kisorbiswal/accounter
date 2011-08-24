@@ -4236,6 +4236,8 @@ public interface AccounterConstants extends Constants {
 
 	public String account();
 
+	public String Accounts();
+
 	public String box1();
 
 	public String box2();

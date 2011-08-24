@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.externalization;
 
 import com.google.gwt.i18n.client.Messages;
 import com.google.gwt.safehtml.shared.SafeHtml;
-import com.vimukti.accounter.web.client.Global;
 
 public interface AccounterMessages extends Messages {
 	public String userName(String loginUserName);
@@ -793,6 +792,10 @@ public interface AccounterMessages extends Messages {
 
 	public String timetrackingflowStep1(String customer);
 
+	public String getindustryhead();
+
+	public String trackingtimehead();
+	
 	public String shouldNotbeZero(String amountString);
 
 	public String shouldBePositive(String name);
