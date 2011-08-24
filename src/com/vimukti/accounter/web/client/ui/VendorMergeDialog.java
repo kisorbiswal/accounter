@@ -99,6 +99,7 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 	private VendorCombo createCustomerCombo1() {
 		vendorCombo1 = new VendorCombo("Vendor To");
 		vendorCombo1.setHelpInformation(true);
+		vendorCombo1.setRequired(true);
 		vendorCombo1
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 
@@ -117,6 +118,7 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 	private VendorCombo createCustomerCombo() {
 		vendorCombo = new VendorCombo("Vendor From");
 		vendorCombo.setHelpInformation(true);
+		vendorCombo.setRequired(true);
 		vendorCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 
