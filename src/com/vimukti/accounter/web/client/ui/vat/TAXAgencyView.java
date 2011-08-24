@@ -180,25 +180,11 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 							: true)) {
 				result.addError(taxAgencyText, Accounter.constants()
 						.alreadyExist());
-				return result;
 			} else {
 				result.addError(taxAgencyText, Accounter.messages()
 						.pleaseEnter(taxAgenciesByName.getName()));
 			}
-		} else {
-			result.addError(taxAgencyText, Accounter.messages().pleaseEnter(
-					name));
-		}
-
-		if (paymentTermsCombo.getSelectedValue() == null) {
-			result.addError(paymentTermsCombo, Accounter.messages()
-					.pleaseEnter(taxAgencyText.getName()));
-		}
-
-		if (liabilitySalesAccountCombo.getSelectedValue() == null) {
-			result.addError(paymentTermsCombo, Accounter.messages()
-					.pleaseEnter(liabilitySalesAccountCombo.getName()));
-		}
+		} 
 
 		List<DynamicForm> forms = this.getForms();
 		for (DynamicForm form : forms) {
@@ -206,6 +192,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 				result.add(form.validate());
 			}
 		}
+
 		return result;
 	}
 
