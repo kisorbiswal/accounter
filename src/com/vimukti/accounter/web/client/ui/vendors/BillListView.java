@@ -7,7 +7,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.core.VList;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -151,7 +150,7 @@ public class BillListView extends BaseListView<BillsList> {
 	protected void filterList(String text) {
 		grid.removeAllRecords();
 		if (text.equalsIgnoreCase(Accounter.getFinanceConstants().open())) {
-			VList<BillsList> openRecs = new VList<BillsList>();
+			ArrayList<BillsList> openRecs = new ArrayList<BillsList>();
 			List<BillsList> allRecs = initialRecords;
 			for (BillsList rec : allRecs) {
 				if ((rec.getType() == ClientTransaction.TYPE_CREDIT_CARD_EXPENSE
@@ -169,7 +168,7 @@ public class BillListView extends BaseListView<BillsList> {
 
 		} else if (text.equalsIgnoreCase(Accounter.getFinanceConstants()
 				.voided())) {
-			VList<BillsList> voidedRecs = new VList<BillsList>();
+			ArrayList<BillsList> voidedRecs = new ArrayList<BillsList>();
 			List<BillsList> allRecs = initialRecords;
 			for (BillsList rec : allRecs) {
 				if (rec.isVoided() && !rec.isDeleted()) {
@@ -181,7 +180,7 @@ public class BillListView extends BaseListView<BillsList> {
 
 		} else if (text.equalsIgnoreCase(Accounter.getFinanceConstants()
 				.overDue())) {
-			VList<BillsList> overDueRecs = new VList<BillsList>();
+			ArrayList<BillsList> overDueRecs = new ArrayList<BillsList>();
 			List<BillsList> allRecs = initialRecords;
 			for (BillsList rec : allRecs) {
 				if (rec.getType() == ClientTransaction.TYPE_ENTER_BILL
@@ -207,7 +206,7 @@ public class BillListView extends BaseListView<BillsList> {
 		// grid.setRecords(deletedRecs);
 		// }
 		if (text.equalsIgnoreCase(Accounter.getFinanceConstants().all())) {
-			VList<BillsList> list = new VList<BillsList>();
+			ArrayList<BillsList> list = new ArrayList<BillsList>();
 			list.addAll(initialRecords);
 			grid.setRecords(initialRecords);
 			table.setData(list);

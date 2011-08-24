@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.core.VList;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -46,17 +46,17 @@ public class SelectVendorsTo1099Dialog extends BaseDialog {
 	}
 
 	private ArrayList<ClientVendor> getSelectedVendors() {
-		VList<ClientVendor> vendors = getCompany().getVendors();
+		ArrayList<ClientVendor> vendors = getCompany().getVendors();
 		tempSelectedVendorsList = new ArrayList<ClientVendor>();
 
-		tempSelectedVendorsList.addAll(vendors
-				.filter(new ListFilter<ClientVendor>() {
+		tempSelectedVendorsList.addAll(Utility
+				.filteredList(new ListFilter<ClientVendor>() {
 
 					@Override
 					public boolean filter(ClientVendor e) {
 						return e.isTrackPaymentsFor1099();
 					}
-				}));
+				},vendors));
 
 		return tempSelectedVendorsList;
 	}

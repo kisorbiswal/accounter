@@ -1,13 +1,14 @@
 package com.vimukti.accounter.web.client.ui.grids.columns;
 
+import java.util.ArrayList;
+
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.view.client.ListDataProvider;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.VList;
 
 public class TestTable extends CellTable<ClientAccount> {
-	VList<ClientAccount> accounts;
+	ArrayList<ClientAccount> accounts;
 
 	public TestTable() {
 		accounts = getAccounts();
@@ -31,9 +32,9 @@ public class TestTable extends CellTable<ClientAccount> {
 		this.addColumn(column);
 	}
 
-	private VList<ClientAccount> getAccounts() {
+	private ArrayList<ClientAccount> getAccounts() {
 
-		VList<ClientAccount> list = new VList<ClientAccount>();
+		ArrayList<ClientAccount> list = new ArrayList<ClientAccount>();
 
 		ClientAccount acc1 = new ClientAccount();
 		acc1.setNumber("1000");

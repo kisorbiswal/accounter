@@ -22,7 +22,7 @@ public class VList<E> extends ArrayList<E> {
 
 	public VList() {
 		super();
-//		logger = Logger.getLogger("VList");
+//		logger = Logger.getLogger("ArrayList");
 		// filters = new ArrayList<ListFilter<E>>();
 		listeners = new ArrayList<ListListener<E>>();
 		filterListeners = new HashMap<ListFilter<E>, ListListener<E>>();
@@ -55,8 +55,8 @@ public class VList<E> extends ArrayList<E> {
 		filterListeners.put(listFilter, listListener);
 	}
 
-	public VList<E> filter(final ListFilter<E> listFilter) {
-		final VList<E> filteredList = new VList<E>();
+	public ArrayList<E> filter(final ListFilter<E> listFilter) {
+		final ArrayList<E> filteredList = new ArrayList<E>();
 		for (E e : this) {
 			if (listFilter.filter(e)) {
 				filteredList.add(e);
@@ -79,8 +79,8 @@ public class VList<E> extends ArrayList<E> {
 		return filteredList;
 	}
 
-	public VList<E> and(final VList<E> list) {
-		final VList<E> filteredList = new VList<E>();
+	public ArrayList<E> and(final VList<E> list) {
+		final ArrayList<E> filteredList = new ArrayList<E>();
 		for (E e : this) {
 			if (list.contains(e)) {
 				filteredList.add(e);
@@ -118,8 +118,8 @@ public class VList<E> extends ArrayList<E> {
 		return filteredList;
 	}
 
-	public VList<E> or(final VList<E> list) {
-		final VList<E> filteredList = new VList<E>();
+	public ArrayList<E> or(final VList<E> list) {
+		final ArrayList<E> filteredList = new ArrayList<E>();
 		for (E e : this) {
 			filteredList.add(e);
 		}

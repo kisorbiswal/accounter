@@ -129,7 +129,7 @@ public class ObjectConvertUtil {
 	public boolean isList(Class<?> fieldType) {
 		if (fieldType.getName().endsWith("java.util.List")
 				|| fieldType.getName().endsWith(
-						"com.vimukti.accounter.web.client.core.VList")
+						"java.util.ArrayList")
 				|| fieldType.getName().equals(
 						"org.hibernate.collection.PersistentList")) {
 			return true;
@@ -137,7 +137,7 @@ public class ObjectConvertUtil {
 		for (Class<?> inter : fieldType.getInterfaces()) {
 			if (inter.getName().endsWith("java.util.List")
 					|| inter.getName().endsWith(
-							"com.vimukti.accounter.web.client.core.VList")
+							"java.util.ArrayList")
 					|| inter.getName().equals(
 							"org.hibernate.collection.PersistentList")) {
 				return true;

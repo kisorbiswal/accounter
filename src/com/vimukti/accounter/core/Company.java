@@ -1,5 +1,6 @@
 package com.vimukti.accounter.core;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,7 +13,6 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
-import com.vimukti.accounter.web.client.core.VList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class Company extends CreatableObject implements IAccounterServerCore {
@@ -163,7 +163,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * Each company have a set of {@link Account} This will hold all the
 	 * Accounts created in this company.
 	 */
-	VList<Account> accounts = new VList<Account>();
+	ArrayList<Account> accounts = new ArrayList<Account>();
 
 	/**
 	 * This is the direct references to the Accounts Receivable Account for the
@@ -221,12 +221,12 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * Each company has a set of PaymentTerms. This property can hold a Set of
 	 * {@link PaymentTerms}
 	 */
-	VList<PaymentTerms> paymentTerms = new VList<PaymentTerms>();
+	ArrayList<PaymentTerms> paymentTerms = new ArrayList<PaymentTerms>();
 	/**
 	 * This represents a Set of {@link FiscalYear} We can create any number of
 	 * Fiscal years and close them.
 	 */
-	VList<FiscalYear> fiscalYears = new VList<FiscalYear>();
+	ArrayList<FiscalYear> fiscalYears = new ArrayList<FiscalYear>();
 
 	// Set<PayType> payTypes = new HashSet<PayType>();
 
@@ -238,11 +238,11 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * @see TaxAgency
 	 * @see SalesPerson
 	 */
-	private VList<Payee> payees = new VList<Payee>();
+	private ArrayList<Payee> payees = new ArrayList<Payee>();
 
-	private VList<TAXItem> taxItems = new VList<TAXItem>();
+	private ArrayList<TAXItem> taxItems = new ArrayList<TAXItem>();
 
-	private VList<TAXAgency> taxAgencies = new VList<TAXAgency>();
+	private ArrayList<TAXAgency> taxAgencies = new ArrayList<TAXAgency>();
 
 	Set<NominalCodeRange> nominalCodeRange = new HashSet<NominalCodeRange>();
 
@@ -252,9 +252,9 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 */
 	Account VATFiledLiabilityAccount;
 
-	VList<BrandingTheme> brandingTheme = new VList<BrandingTheme>();
+	ArrayList<BrandingTheme> brandingTheme = new ArrayList<BrandingTheme>();
 
-	private VList<User> usersList = new VList<User>();
+	private ArrayList<User> usersList = new ArrayList<User>();
 
 	// Set<PaySalesTaxEntries> paySalesTaxEntriesList = new
 	// HashSet<PaySalesTaxEntries>();
@@ -269,11 +269,11 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	// }
 
 	// <<<<<<< .working
-	// public void setVatItems(VList<VATItem> vatItems) {
+	// public void setVatItems(ArrayList<VATItem> vatItems) {
 	// this.vatItems = vatItems;
 	// }
 
-	// public VList<VATItem> getVatItems() {
+	// public ArrayList<VATItem> getVatItems() {
 	// FinanceDate presentDate = new FinanceDate();
 	// if (vatItems != null) {
 	// if (presentDate.before(new FinanceDate(111, 0, 4))) {
@@ -305,7 +305,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	// return vatItems;
 	// }
 
-	private VList<VATReturn> vatReturns = new VList<VATReturn>();
+	private ArrayList<VATReturn> vatReturns = new ArrayList<VATReturn>();
 
 	private Set<Currency> currencies = new HashSet<Currency>();
 
@@ -319,20 +319,20 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 	private String countryCode = "United Kingdom";
 
-	public void setVatReturns(VList<VATReturn> vatReturns) {
+	public void setVatReturns(ArrayList<VATReturn> vatReturns) {
 		this.vatReturns = vatReturns;
 	}
 
-	public VList<VATReturn> getVatReturns() {
+	public ArrayList<VATReturn> getVatReturns() {
 		return vatReturns;
 	}
 
-	VList<TAXGroup> taxGroups = new VList<TAXGroup>();
+	ArrayList<TAXGroup> taxGroups = new ArrayList<TAXGroup>();
 
 	/**
 	 * @return the paymentTerms
 	 */
-	public VList<PaymentTerms> getPaymentTerms() {
+	public ArrayList<PaymentTerms> getPaymentTerms() {
 		return paymentTerms;
 	}
 
@@ -340,14 +340,14 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * @param paymentTerms
 	 *            the paymentTerms to set
 	 */
-	public void setPaymentTerms(VList<PaymentTerms> paymentTerms) {
+	public void setPaymentTerms(ArrayList<PaymentTerms> paymentTerms) {
 		this.paymentTerms = paymentTerms;
 	}
 
 	/**
 	 * @return the customers
 	 */
-	public VList<Customer> getCustomers() {
+	public ArrayList<Customer> getCustomers() {
 		return customers;
 	}
 
@@ -355,14 +355,14 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * @param customers
 	 *            the customers to set
 	 */
-	public void setCustomers(VList<Customer> customers) {
+	public void setCustomers(ArrayList<Customer> customers) {
 		this.customers = customers;
 	}
 
 	/**
 	 * @return the banks
 	 */
-	public VList<Bank> getBanks() {
+	public ArrayList<Bank> getBanks() {
 		return banks;
 	}
 
@@ -370,14 +370,14 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * @param banks
 	 *            the banks to set
 	 */
-	public void setBanks(VList<Bank> banks) {
+	public void setBanks(ArrayList<Bank> banks) {
 		this.banks = banks;
 	}
 
 	/**
 	 * @return the taxrates
 	 */
-	public VList<TaxRates> getTaxrates() {
+	public ArrayList<TaxRates> getTaxrates() {
 		return taxrates;
 	}
 
@@ -385,7 +385,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * @param taxrates
 	 *            the taxrates to set
 	 */
-	public void setTaxrates(VList<TaxRates> taxrates) {
+	public void setTaxrates(ArrayList<TaxRates> taxrates) {
 		this.taxrates = taxrates;
 	}
 
@@ -393,7 +393,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * @param taxAgencies
 	 *            the taxAgencies to set
 	 */
-	public void setTaxAgencies(VList<TAXAgency> taxAgencies) {
+	public void setTaxAgencies(ArrayList<TAXAgency> taxAgencies) {
 		this.taxAgencies = taxAgencies;
 	}
 
@@ -401,7 +401,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * @param items
 	 *            the items to set
 	 */
-	public void setItems(VList<Item> items) {
+	public void setItems(ArrayList<Item> items) {
 		this.items = items;
 	}
 
@@ -409,7 +409,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * @param customerGroups
 	 *            the customerGroups to set
 	 */
-	public void setCustomerGroups(VList<CustomerGroup> customerGroups) {
+	public void setCustomerGroups(ArrayList<CustomerGroup> customerGroups) {
 		this.customerGroups = customerGroups;
 	}
 
@@ -417,7 +417,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * @param vendorGroups
 	 *            the vendorGroups to set
 	 */
-	public void setVendorGroups(VList<VendorGroup> vendorGroups) {
+	public void setVendorGroups(ArrayList<VendorGroup> vendorGroups) {
 		this.vendorGroups = vendorGroups;
 	}
 
@@ -425,7 +425,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * @param shippingTerms
 	 *            the shippingTerms to set
 	 */
-	public void setShippingTerms(VList<ShippingTerms> shippingTerms) {
+	public void setShippingTerms(ArrayList<ShippingTerms> shippingTerms) {
 		this.shippingTerms = shippingTerms;
 	}
 
@@ -433,7 +433,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * @param shippingMethods
 	 *            the shippingMethods to set
 	 */
-	public void setShippingMethods(VList<ShippingMethod> shippingMethods) {
+	public void setShippingMethods(ArrayList<ShippingMethod> shippingMethods) {
 		this.shippingMethods = shippingMethods;
 	}
 
@@ -441,7 +441,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * @param priceLevels
 	 *            the priceLevels to set
 	 */
-	public void setPriceLevels(VList<PriceLevel> priceLevels) {
+	public void setPriceLevels(ArrayList<PriceLevel> priceLevels) {
 		this.priceLevels = priceLevels;
 	}
 
@@ -449,7 +449,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * @param itemGroups
 	 *            the itemGroups to set
 	 */
-	public void setItemGroups(VList<ItemGroup> itemGroups) {
+	public void setItemGroups(ArrayList<ItemGroup> itemGroups) {
 		ItemGroups = itemGroups;
 	}
 
@@ -457,7 +457,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * @param taxGroups
 	 *            the taxGroups to set
 	 */
-	public void setTaxGroups(VList<TAXGroup> taxGroups) {
+	public void setTaxGroups(ArrayList<TAXGroup> taxGroups) {
 		this.taxGroups = taxGroups;
 	}
 
@@ -465,7 +465,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * @param paySalesTaxs
 	 *            the paySalesTaxs to set
 	 */
-	public void setPaySalesTaxs(VList<PaySalesTax> paySalesTaxs) {
+	public void setPaySalesTaxs(ArrayList<PaySalesTax> paySalesTaxs) {
 		this.paySalesTaxs = paySalesTaxs;
 	}
 
@@ -473,7 +473,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * @param creditRatings
 	 *            the creditRatings to set
 	 */
-	public void setCreditRatings(VList<CreditRating> creditRatings) {
+	public void setCreditRatings(ArrayList<CreditRating> creditRatings) {
 		this.creditRatings = creditRatings;
 	}
 
@@ -481,7 +481,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * @param salesPersons
 	 *            the salesPersons to set
 	 */
-	public void setSalesPersons(VList<SalesPerson> salesPersons) {
+	public void setSalesPersons(ArrayList<SalesPerson> salesPersons) {
 		this.salesPersons = salesPersons;
 	}
 
@@ -489,11 +489,11 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * @param taxCodes
 	 *            the taxCodes to set
 	 */
-	public void setTaxCodes(VList<TAXCode> taxCodes) {
+	public void setTaxCodes(ArrayList<TAXCode> taxCodes) {
 		this.taxCodes = taxCodes;
 	}
 
-	public void setTaxItems(VList<TAXItem> taxItems) {
+	public void setTaxItems(ArrayList<TAXItem> taxItems) {
 		this.taxItems = taxItems;
 	}
 
@@ -505,41 +505,41 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		this.nominalCodeRange = nominalCodeRange;
 	}
 
-	private VList<Customer> customers;
+	private ArrayList<Customer> customers;
 
-	private VList<Vendor> vendors;
+	private ArrayList<Vendor> vendors;
 
-	private VList<Item> items;
+	private ArrayList<Item> items;
 
-	private VList<CustomerGroup> customerGroups;
+	private ArrayList<CustomerGroup> customerGroups;
 
-	private VList<VendorGroup> vendorGroups;
+	private ArrayList<VendorGroup> vendorGroups;
 
-	private VList<ShippingTerms> shippingTerms;
+	private ArrayList<ShippingTerms> shippingTerms;
 
-	private VList<ShippingMethod> shippingMethods;
+	private ArrayList<ShippingMethod> shippingMethods;
 
-	private VList<PriceLevel> priceLevels;
+	private ArrayList<PriceLevel> priceLevels;
 
-	private VList<ItemGroup> ItemGroups;
+	private ArrayList<ItemGroup> ItemGroups;
 
-	private VList<PaySalesTax> paySalesTaxs;
+	private ArrayList<PaySalesTax> paySalesTaxs;
 
-	private VList<CreditRating> creditRatings;
+	private ArrayList<CreditRating> creditRatings;
 
-	private VList<SalesPerson> salesPersons;
+	private ArrayList<SalesPerson> salesPersons;
 
-	private VList<Bank> banks;
+	private ArrayList<Bank> banks;
 
-	private VList<TaxRates> taxrates;
+	private ArrayList<TaxRates> taxrates;
 
-	private VList<FixedAsset> fixedAssets;
+	private ArrayList<FixedAsset> fixedAssets;
 
-	private VList<TAXAdjustment> taxAdjustments;
+	private ArrayList<TAXAdjustment> taxAdjustments;
 
-	private VList<TAXCode> taxCodes;
+	private ArrayList<TAXCode> taxCodes;
 
-	private VList<TAXItemGroup> taxItemGroups;
+	private ArrayList<TAXItemGroup> taxItemGroups;
 
 	String phone;
 
@@ -573,11 +573,11 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 	private Set<Box> vatBoxes;
 
-	public VList<FiscalYear> getFiscalYears() {
+	public ArrayList<FiscalYear> getFiscalYears() {
 		return fiscalYears;
 	}
 
-	public void setFiscalYears(VList<FiscalYear> fiscalYears) {
+	public void setFiscalYears(ArrayList<FiscalYear> fiscalYears) {
 		this.fiscalYears = fiscalYears;
 	}
 
@@ -589,11 +589,11 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		this.users = users;
 	}
 
-	public VList<TAXCode> getTaxCodes() {
+	public ArrayList<TAXCode> getTaxCodes() {
 		return taxCodes;
 	}
 
-	public VList<TAXItem> getTaxItems() {
+	public ArrayList<TAXItem> getTaxItems() {
 		return taxItems;
 	}
 
@@ -607,7 +607,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * @param accounts
 	 */
 
-	public VList<Item> getItems() {
+	public ArrayList<Item> getItems() {
 		return items;
 	}
 
@@ -615,7 +615,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	// this.items = items;
 	// }
 
-	public VList<CustomerGroup> getCustomerGroups() {
+	public ArrayList<CustomerGroup> getCustomerGroups() {
 		return customerGroups;
 	}
 
@@ -623,15 +623,15 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	// this.customerGroups = customerGroups;
 	// }
 
-	public VList<TAXGroup> getTaxGroups() {
+	public ArrayList<TAXGroup> getTaxGroups() {
 		return taxGroups;
 	}
 
-	public void setTaxAdjustments(VList<TAXAdjustment> taxAdjustments) {
+	public void setTaxAdjustments(ArrayList<TAXAdjustment> taxAdjustments) {
 		this.taxAdjustments = taxAdjustments;
 	}
 
-	public VList<TAXAdjustment> getTaxAdjustments() {
+	public ArrayList<TAXAdjustment> getTaxAdjustments() {
 		return taxAdjustments;
 	}
 
@@ -639,7 +639,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	// this.taxGroups = taxGroups;
 	// }
 
-	public VList<PaySalesTax> getPaySalesTaxs() {
+	public ArrayList<PaySalesTax> getPaySalesTaxs() {
 		return paySalesTaxs;
 	}
 
@@ -647,7 +647,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	// this.paySalesTaxs = paySalesTaxs;
 	// }
 
-	public VList<VendorGroup> getVendorGroups() {
+	public ArrayList<VendorGroup> getVendorGroups() {
 		return vendorGroups;
 	}
 
@@ -655,7 +655,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	// this.vendorGroups = vendorGroups;
 	// }
 
-	public VList<ShippingTerms> getShippingTerms() {
+	public ArrayList<ShippingTerms> getShippingTerms() {
 		return shippingTerms;
 	}
 
@@ -663,7 +663,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	// this.shippingTerms = shippingTerms;
 	// }
 
-	public VList<ShippingMethod> getShippingMethods() {
+	public ArrayList<ShippingMethod> getShippingMethods() {
 		return shippingMethods;
 	}
 
@@ -671,7 +671,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	// this.shippingMethods = shippingMethods;
 	// }
 
-	public VList<PriceLevel> getPriceLevels() {
+	public ArrayList<PriceLevel> getPriceLevels() {
 		return priceLevels;
 	}
 
@@ -679,23 +679,23 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	// this.priceLevels = priceLevels;
 	// }
 
-	public VList<ItemGroup> getItemGroups() {
+	public ArrayList<ItemGroup> getItemGroups() {
 		return ItemGroups;
 	}
 
-	public VList<CreditRating> getCreditRatings() {
+	public ArrayList<CreditRating> getCreditRatings() {
 		return creditRatings;
 	}
 
-	public VList<SalesPerson> getSalesPersons() {
+	public ArrayList<SalesPerson> getSalesPersons() {
 		return salesPersons;
 	}
 
-	public VList<Account> getAccounts() {
+	public ArrayList<Account> getAccounts() {
 		return accounts;
 	}
 
-	public void setAccounts(VList<Account> accounts) {
+	public void setAccounts(ArrayList<Account> accounts) {
 		this.accounts = accounts;
 
 	}
@@ -2636,8 +2636,8 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * defaultTaxGroup.setName("Tax Group"); //
 	 * defaultTaxGroup.setID(SecureUtils.createID()); //
 	 * defaultTaxGroup.setActive(Boolean.TRUE); //
-	 * defaultTaxGroup.setSalesType(true); // // VList<TAXItem> taxItems = new
-	 * VList<TAXItem>(); // taxItems.add(defaultTaxItem); //
+	 * defaultTaxGroup.setSalesType(true); // // ArrayList<TAXItem> taxItems = new
+	 * ArrayList<TAXItem>(); // taxItems.add(defaultTaxItem); //
 	 * defaultTaxGroup.setTAXItems(taxItems); //
 	 * defaultTaxGroup.setGroupRate(0); // defaultTaxGroup.setDefault(true); //
 	 * session.save(defaultTaxGroup); // TAXCode defaultTaxCodeforTaxGroup = new
@@ -2917,8 +2917,8 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * vatGroup1.setName("EC Purchases Goods 0% Group");
 	 * vatGroup1.setDescription("EC Purchases of Goods Zero-Rated Group");
 	 * vatGroup1.setActive(true); vatGroup1.setSalesType(false);
-	 * vatGroup1.setGroupRate(0.0); VList<TAXItem> vatItms1 = new
-	 * VList<TAXItem>(); vatItms1.add(vatItem2); vatItms1.add(vatItem14);
+	 * vatGroup1.setGroupRate(0.0); ArrayList<TAXItem> vatItms1 = new
+	 * ArrayList<TAXItem>(); vatItms1.add(vatItem2); vatItms1.add(vatItem14);
 	 * vatGroup1.setTAXItems(vatItms1); vatGroup1.setDefault(true);
 	 * session.save(vatGroup1);
 	 * 
@@ -2926,8 +2926,8 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * vatGroup2.setName("EC Purchases Goods 17.5% Group");
 	 * vatGroup2.setDescription("EC Purchases of Goods Group");
 	 * vatGroup2.setActive(true); vatGroup2.setGroupRate(17.5);
-	 * vatGroup2.setSalesType(false); VList<TAXItem> vatItms2 = new
-	 * VList<TAXItem>(); vatItms2.add(vatItem12); vatItms2.add(vatItem1);
+	 * vatGroup2.setSalesType(false); ArrayList<TAXItem> vatItms2 = new
+	 * ArrayList<TAXItem>(); vatItms2.add(vatItem12); vatItms2.add(vatItem1);
 	 * vatGroup2.setTAXItems(vatItms2); vatGroup2.setDefault(true);
 	 * session.save(vatGroup2);
 	 * 
@@ -2935,8 +2935,8 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * vatGroup3.setName("EC Sales Goods 0% Group");
 	 * vatGroup3.setDescription("EC Sales of Goods Group");
 	 * vatGroup3.setActive(true); vatGroup3.setSalesType(true);
-	 * vatGroup3.setGroupRate(0.0); VList<TAXItem> vatItms3 = new
-	 * VList<TAXItem>(); vatItms3.add(vatItem4); vatItms3.add(vatItem3);
+	 * vatGroup3.setGroupRate(0.0); ArrayList<TAXItem> vatItms3 = new
+	 * ArrayList<TAXItem>(); vatItms3.add(vatItem4); vatItms3.add(vatItem3);
 	 * vatGroup3.setTAXItems(vatItms3); vatGroup3.setDefault(true);
 	 * vatGroup3.setPercentage((vatItem3.isPercentage() && vatItem4
 	 * .isPercentage()) ? true : false); session.save(vatGroup3);
@@ -2945,8 +2945,8 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * vatGroup4.setName("Reverse Charge Purchases 17.5% Group");
 	 * vatGroup4.setDescription("Reverse Charge Purchases Group");
 	 * vatGroup4.setActive(true); vatGroup4.setSalesType(false);
-	 * vatGroup4.setGroupRate(17.5); VList<TAXItem> vatItms4 = new
-	 * VList<TAXItem>(); vatItms4.add(vatItem12); vatItms4.add(vatItem11);
+	 * vatGroup4.setGroupRate(17.5); ArrayList<TAXItem> vatItms4 = new
+	 * ArrayList<TAXItem>(); vatItms4.add(vatItem12); vatItms4.add(vatItem11);
 	 * vatGroup4.setTAXItems(vatItms4); vatGroup4.setDefault(true);
 	 * session.save(vatGroup4);
 	 * 
@@ -3021,16 +3021,16 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * 
 	 * }
 	 */
-	public VList<Payee> getPayees() {
+	public ArrayList<Payee> getPayees() {
 		return payees;
 	}
 
-	public void setPayees(VList<Payee> payees) {
+	public void setPayees(ArrayList<Payee> payees) {
 
-		customers = new VList<Customer>();
-		vendors = new VList<Vendor>();
-		taxAgencies = new VList<TAXAgency>();
-		salesPersons = new VList<SalesPerson>();
+		customers = new ArrayList<Customer>();
+		vendors = new ArrayList<Vendor>();
+		taxAgencies = new ArrayList<TAXAgency>();
+		salesPersons = new ArrayList<SalesPerson>();
 
 		for (Payee payee : payees) {
 			// Iterate and check which type it is and add to that list
@@ -3047,11 +3047,11 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		this.payees = payees;
 	}
 
-	public VList<Vendor> getVendors() {
+	public ArrayList<Vendor> getVendors() {
 		return vendors;
 	}
 
-	public VList<TAXAgency> getTaxAgencies() {
+	public ArrayList<TAXAgency> getTaxAgencies() {
 		return taxAgencies;
 	}
 
@@ -3174,8 +3174,8 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * 
 	 * }
 	 */
-	public static VList<Integer> getAccountingTypes() {
-		VList<Integer> accountingTypes = new VList<Integer>();
+	public static ArrayList<Integer> getAccountingTypes() {
+		ArrayList<Integer> accountingTypes = new ArrayList<Integer>();
 		accountingTypes.add(ACCOUNTING_TYPE_US);
 		accountingTypes.add(ACCOUNTING_TYPE_UK);
 		accountingTypes.add(ACCOUNTING_TYPE_INDIA);
@@ -3669,7 +3669,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	/**
 	 * @return the fixedAssets
 	 */
-	public VList<FixedAsset> getFixedAssets() {
+	public ArrayList<FixedAsset> getFixedAssets() {
 		return fixedAssets;
 	}
 
@@ -3677,7 +3677,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * @param fixedAssets
 	 *            the fixedAssets to set
 	 */
-	public void setFixedAssets(VList<FixedAsset> fixedAssets) {
+	public void setFixedAssets(ArrayList<FixedAsset> fixedAssets) {
 		this.fixedAssets = fixedAssets;
 	}
 
@@ -3801,10 +3801,10 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	// return false;
 	// }
 
-	// private static VList<TaxRateCalculation> getTaxRateCalculation(
+	// private static ArrayList<TaxRateCalculation> getTaxRateCalculation(
 	// TransactionItem transactionItem) {
 	//
-	// VList<TaxRateCalculation> list = new VList<TaxRateCalculation>();
+	// ArrayList<TaxRateCalculation> list = new ArrayList<TaxRateCalculation>();
 	//
 	// for (TaxRateCalculation trc :
 	// transactionItem.taxRateCalculationEntriesList) {
@@ -4140,11 +4140,11 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	// }
 
 	// <<<<<<< .working
-	// public void setVatCodes(VList<VATCode> vatCodes) {
+	// public void setVatCodes(ArrayList<VATCode> vatCodes) {
 	// this.vatCodes = vatCodes;
 	// }
 
-	// public VList<VATCode> getVatCodes() {
+	// public ArrayList<VATCode> getVatCodes() {
 	// FinanceDate presentDate = new FinanceDate();
 	// if (vatCodes != null) {
 	// if (presentDate.before(new FinanceDate(111, 0, 4))) {
@@ -4170,17 +4170,17 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	// return vatCodes;
 	// }
 
-	// public void setVatItemGroups(VList<VATItemGroup> vatItemGroups) {
+	// public void setVatItemGroups(ArrayList<VATItemGroup> vatItemGroups) {
 	// =======
-	public void setTaxItemGroups(VList<TAXItemGroup> vatItemGroups) {
+	public void setTaxItemGroups(ArrayList<TAXItemGroup> vatItemGroups) {
 		// >>>>>>> .merge-right.r20318
 		if (vatItemGroups == null) {
 			return;
 		}
 
-		taxItems = new VList<TAXItem>();
+		taxItems = new ArrayList<TAXItem>();
 
-		taxGroups = new VList<TAXGroup>();
+		taxGroups = new ArrayList<TAXGroup>();
 
 		for (TAXItemGroup vatItemGroup : vatItemGroups) {
 
@@ -4194,7 +4194,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		this.taxItemGroups = vatItemGroups;
 	}
 
-	public VList<TAXItemGroup> getTaxItemGroups() {
+	public ArrayList<TAXItemGroup> getTaxItemGroups() {
 		return taxItemGroups;
 	}
 
@@ -4448,19 +4448,19 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * session.save(brandingTheme); }
 	 */
 
-	public VList<BrandingTheme> getBrandingTheme() {
+	public ArrayList<BrandingTheme> getBrandingTheme() {
 		return brandingTheme;
 	}
 
-	public void setBrandingTheme(VList<BrandingTheme> brandingTheme) {
+	public void setBrandingTheme(ArrayList<BrandingTheme> brandingTheme) {
 		this.brandingTheme = brandingTheme;
 	}
 
-	public void setUsersList(VList<User> usersList) {
+	public void setUsersList(ArrayList<User> usersList) {
 		this.usersList = usersList;
 	}
 
-	public VList<User> getUsersList() {
+	public ArrayList<User> getUsersList() {
 		return usersList;
 	}
 

@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.Set;
 
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.core.VList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.SpecialReference;
 
@@ -132,7 +131,7 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 					}
 				} else if (isList(dstFieldType)) {
 					if (isSet(srcField.getType())) {
-						VList list = new VList();
+						ArrayList list = new ArrayList();
 						Set set = toClientSet((Set<?>) srcField.get(src));
 						if (set != null)
 							list.addAll(set);
@@ -362,11 +361,11 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 
 	}
 
-	private VList toClientList(List<?> list) throws IllegalArgumentException,
+	private ArrayList toClientList(List<?> list) throws IllegalArgumentException,
 			InstantiationException, IllegalAccessException, AccounterException {
 		if (list == null)
 			return null;
-		VList result = new VList();
+		ArrayList result = new ArrayList();
 		if (list.size() == 0)
 			return result;
 

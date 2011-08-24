@@ -114,14 +114,14 @@ public class Util {
 
 	public static boolean isList(Class<?> fieldType) {
 		if (fieldType.getName().endsWith(
-				"com.vimukti.accounter.web.client.core.VList")
+				"com.vimukti.accounter.web.client.core.ArrayList")
 				|| fieldType.getName().equals(
 						"org.hibernate.collection.PersistentList")) {
 			return true;
 		}
 		for (Class<?> inter : fieldType.getInterfaces()) {
 			if (inter.getName().endsWith(
-					"com.vimukti.accounter.web.client.core.VList")
+					"com.vimukti.accounter.web.client.core.ArrayList")
 					|| inter.getName().equals(
 							"org.hibernate.collection.PersistentList")) {
 				return true;

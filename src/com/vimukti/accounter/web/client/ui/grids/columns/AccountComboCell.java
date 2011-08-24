@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.grids.columns;
 
+import java.util.ArrayList;
+
 import com.google.gwt.cell.client.AbstractEditableCell;
 import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.dom.client.Element;
@@ -19,7 +21,6 @@ import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.VList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class AccountComboCell extends
@@ -46,7 +47,7 @@ public class AccountComboCell extends
 	 * @param accounts
 	 * @param isAddNewRequired
 	 */
-	public AccountComboCell(VList<ClientAccount> accounts,
+	public AccountComboCell(ArrayList<ClientAccount> accounts,
 			boolean isAddNewRequired) {
 		this(accounts, isAddNewRequired, SimpleSafeHtmlRenderer.getInstance());
 	}
@@ -59,7 +60,7 @@ public class AccountComboCell extends
 	 * @param renderer
 	 *            a {@link SafeHtmlRenderer SafeHtmlRenderer<String>} instance
 	 */
-	public AccountComboCell(VList<ClientAccount> accounts,
+	public AccountComboCell(ArrayList<ClientAccount> accounts,
 			boolean isAddNewRequired, SafeHtmlRenderer<String> renderer) {
 		super("click", "keydown");
 		if (renderer == null) {

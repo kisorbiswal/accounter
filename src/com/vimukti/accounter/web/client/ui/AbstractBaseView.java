@@ -130,23 +130,23 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 
 	// private DialogBox dialog;
 
-//	private boolean isViewModfied;
+	// private boolean isViewModfied;
 	private VerticalPanel errorPanel;
 	private Map<Object, Widget> errorsMap = new HashMap<Object, Widget>();
 	protected boolean isDirty;
 
 	private Set<Object> lastErrorSourcesFromValidation = new HashSet<Object>();
 
-//	/**
-//	 * Convenience Method to Set CallBack
-//	 * 
-//	 * @param callBack
-//	 */
-//	public final void setCallBack(AccounterAsyncCallback<Object> callBack) {
-//
-//		this.setCallback(callBack);
-//
-//	}
+	// /**
+	// * Convenience Method to Set CallBack
+	// *
+	// * @param callBack
+	// */
+	// public final void setCallBack(AccounterAsyncCallback<Object> callBack) {
+	//
+	// this.setCallback(callBack);
+	//
+	// }
 
 	protected void initRPCService() {
 		this.rpcGetService = Accounter.createGETService();
@@ -185,24 +185,17 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 	 */
 	@Override
 	public void saveSuccess(IAccounterCore object) {
-		try {
-			if (this.getCallback() != null) {
-				this.getCallback().onResultSuccess(object);
-			}
-			if (saveAndClose) {
-				getManager().closeCurrentView();
-			} else {
-				if (!History.getToken().equals(getAction().getHistoryToken())) {
-
-				}
-				getAction().run(null, true);
-
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			Accounter.showInformation(e.getMessage());
+		if (this.getCallback() != null) {
+			this.getCallback().onResultSuccess(object);
 		}
+		if (saveAndClose) {
+			getManager().closeCurrentView();
+		} else {
+			if (!History.getToken().equals(getAction().getHistoryToken())) {
 
+			}
+			getAction().run(null, true);
+		}
 	}
 
 	public ValidationResult validate() {
@@ -278,40 +271,40 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 				+ this.getAction().getText();
 	}
 
-//	@Override
-//	public void onBrowserEvent(Event event) {
-//		Element element = DOM.eventGetTarget(event);
-//
-//		switch (DOM.eventGetType(event)) {
-//		case Event.ONKEYPRESS:
-//			if (Arrays.asList("INPUT", "TEXTAREA").contains(
-//					element.getTagName()))
-//				isViewModfied = true;
-//
-//			break;
-//		case Event.ONCHANGE:
-//			if (Arrays.asList("SELECT", "RADIO", "CHECKBOX", "INPUT",
-//					"TEXTAREA").contains(element.getTagName())) {
-//				isViewModfied = true;
-//			}
-//			if (Arrays.asList("SELECT", "RADIO", "CHECKBOX").contains(
-//					element.getTagName()))
-//				isViewModfied = true;
-//
-//			break;
-//		default:
-//			break;
-//		}
-//		super.onBrowserEvent(event);
-//	}
+	// @Override
+	// public void onBrowserEvent(Event event) {
+	// Element element = DOM.eventGetTarget(event);
+	//
+	// switch (DOM.eventGetType(event)) {
+	// case Event.ONKEYPRESS:
+	// if (Arrays.asList("INPUT", "TEXTAREA").contains(
+	// element.getTagName()))
+	// isViewModfied = true;
+	//
+	// break;
+	// case Event.ONCHANGE:
+	// if (Arrays.asList("SELECT", "RADIO", "CHECKBOX", "INPUT",
+	// "TEXTAREA").contains(element.getTagName())) {
+	// isViewModfied = true;
+	// }
+	// if (Arrays.asList("SELECT", "RADIO", "CHECKBOX").contains(
+	// element.getTagName()))
+	// isViewModfied = true;
+	//
+	// break;
+	// default:
+	// break;
+	// }
+	// super.onBrowserEvent(event);
+	// }
 
-//	public boolean isViewModfied() {
-//		return isViewModfied;
-//	}
+	// public boolean isViewModfied() {
+	// return isViewModfied;
+	// }
 
-//	public void setViewModfied(boolean isViewModified) {
-//		this.isViewModfied = isViewModified;
-//	}
+	// public void setViewModfied(boolean isViewModified) {
+	// this.isViewModfied = isViewModified;
+	// }
 
 	public ClientCompany getCompany() {
 		return Accounter.getCompany();

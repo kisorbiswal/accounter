@@ -1,5 +1,6 @@
 package com.vimukti.accounter.company.initialize;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,7 +20,6 @@ import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
-import com.vimukti.accounter.web.client.core.VList;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 
 public abstract class CompanyInitializer {
@@ -102,7 +102,7 @@ public abstract class CompanyInitializer {
 
 		intializeCompanyValues();
 		if (defaultAccounts != null) {
-			VList<Account> accounts = new VList<Account>();
+			ArrayList<Account> accounts = new ArrayList<Account>();
 			for (int accountId = 1; accountId <= defaultAccounts.size(); accountId++) {
 				TemplateAccount account = defaultAccounts.get(accountId);
 				Account defaultAccount = new Account(account.getTypeAsInt(),

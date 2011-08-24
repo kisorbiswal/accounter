@@ -1,20 +1,21 @@
 package com.vimukti.accounter.web.client.ui.grids.columns;
 
+import java.util.ArrayList;
+
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.view.client.ListDataProvider;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.core.VList;
 
 public class AccountComboTable extends CellTable<ClientAccount> {
 
 	private int cols = 3;
 
-	public AccountComboTable(VList<ClientAccount> vList) {
+	public AccountComboTable(ArrayList<ClientAccount> ArrayList) {
 		ListDataProvider<ClientAccount> list = new VListDataProvider<ClientAccount>(
-				vList);
+				ArrayList);
 		list.addDataDisplay(this);
 
 		initColumns();

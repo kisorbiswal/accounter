@@ -1254,6 +1254,17 @@ public class Utility implements IsSerializable, Serializable {
 			objectsList.add(objectInList);
 		}
 	}
+	public static <T> ArrayList<T> filteredList(
+			ListFilter<T> filter, List<T> objectsList) {
+		ArrayList<T> filteredList = new ArrayList<T>();
+		for(T obj: objectsList){
+			if(filter.filter(obj)){
+				filteredList.add(obj);
+			}
+		}
+		
+		return filteredList;
+	}
 
 	public static <S extends IAccounterCore> S getObject(List<S> list, long id) {
 		if (list == null)

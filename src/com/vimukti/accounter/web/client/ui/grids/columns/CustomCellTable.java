@@ -3,11 +3,12 @@
  */
 package com.vimukti.accounter.web.client.ui.grids.columns;
 
+import java.util.ArrayList;
+
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.Header;
-import com.vimukti.accounter.web.client.core.VList;
 
 /**
  * @author Prasanna Kumar G
@@ -28,7 +29,7 @@ public class CustomCellTable<T> extends CellTable<T> {
 		this.addColumnSortHandler(sortHandler);
 	}
 
-	public void setData(VList<T> list) {
+	public void setData(ArrayList<T> list) {
 		dataProvider.setList(list);
 		if (dataProvider.getDataDisplays().contains(this)) {
 			dataProvider.removeDataDisplay(this);
