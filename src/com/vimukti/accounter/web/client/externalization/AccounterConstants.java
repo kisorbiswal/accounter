@@ -4251,6 +4251,18 @@ public interface AccounterConstants extends Constants {
 	public String unableToPerformTryAfterSomeTime();
 
 	public String selectCurrency();
+	public String mergeCustomer();
+	public String mergeVendor();
+	public String mergeAccount();
+	public String mergeItem();
+	public String merge();
+	public String vendorID();
+	public String customerID();
+	public String customerTo();
+	public String customerFrom();
+	public String vendorTo();
+	public String vendorFrom();
+	public String notMove();
 
 	public String selectFromList();
 
