@@ -105,9 +105,6 @@ public class ViewManager extends HorizontalPanel {
 
 	private Widget createHelpPanel() {
 		if (isHelpPanelEnabled) {
-			if (accounterHelpView != null) {
-				accounterHelpView.removeFromParent();
-			}
 			accounterHelpView = new HelpPanel();
 			accounterHelpView.setHelpUrl(this.getUrl());
 			accounterHelpView.setIsHelpPanel(true);
