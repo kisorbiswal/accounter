@@ -89,4 +89,9 @@ public class NewVendorAction extends Action<ClientVendor> {
 	public String getHistoryToken() {
 		return "newVendor";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "add-vendor";
+	}
 }

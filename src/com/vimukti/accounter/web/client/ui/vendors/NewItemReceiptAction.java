@@ -72,4 +72,9 @@ public class NewItemReceiptAction extends Action {
 		return "newItemReceipt";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "new-item-receipt";
+	}
+
 }

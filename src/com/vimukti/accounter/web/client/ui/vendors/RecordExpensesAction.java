@@ -47,4 +47,9 @@ public class RecordExpensesAction extends Action {
 		return "recordExpenses";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "add-expense";
+	}
+
 }

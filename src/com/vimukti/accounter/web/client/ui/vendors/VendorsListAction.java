@@ -67,4 +67,9 @@ public class VendorsListAction extends Action {
 		return "VendorList";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "vendor-list";
+	}
+
 }

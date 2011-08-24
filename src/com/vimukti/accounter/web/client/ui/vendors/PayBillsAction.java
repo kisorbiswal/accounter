@@ -66,4 +66,9 @@ public class PayBillsAction extends Action {
 		return "payBill";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "pay-bill";
+	}
+
 }

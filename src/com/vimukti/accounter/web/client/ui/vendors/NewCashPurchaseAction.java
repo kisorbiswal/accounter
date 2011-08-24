@@ -80,4 +80,9 @@ public class NewCashPurchaseAction extends Action {
 		return "newCashPurchase";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "new-cash-purchase";
+	}
+
 }

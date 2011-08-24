@@ -52,4 +52,9 @@ public class IssuePaymentsAction extends Action {
 		return "issuePayments";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "issue-payment";
+	}
+
 }

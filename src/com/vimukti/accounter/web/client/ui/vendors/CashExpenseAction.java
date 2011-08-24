@@ -71,4 +71,9 @@ public class CashExpenseAction extends Action {
 	public String getHistoryToken() {
 		return "cashExpense";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "cash-expense";
+	}
 }

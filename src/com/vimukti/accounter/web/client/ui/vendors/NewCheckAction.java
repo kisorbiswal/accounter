@@ -70,4 +70,9 @@ public class NewCheckAction extends Action {
 	public String getHistoryToken() {
 		return "check";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "write-check";
+	}
 }

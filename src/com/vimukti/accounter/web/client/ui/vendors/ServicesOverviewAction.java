@@ -47,4 +47,9 @@ public class ServicesOverviewAction extends Action {
 	public String getHistoryToken() {
 		return "ServicesIverview";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "service-overview";
+	}
 }

@@ -75,4 +75,9 @@ public class EmployeeExpenseAction extends Action {
 		return "employeeExpense";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "employee-expense";
+	}
+
 }

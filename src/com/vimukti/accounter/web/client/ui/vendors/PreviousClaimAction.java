@@ -48,4 +48,9 @@ public class PreviousClaimAction extends Action {
 		return null;
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "previous-claim";
+	}
+
 }

@@ -74,4 +74,9 @@ public class VendorPaymentsListAction extends Action {
 
 		return "vendorPayments";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "issue-payment";
+	}
 }

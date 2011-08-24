@@ -22,10 +22,10 @@ public class AwaitingAuthorisationAction extends Action {
 		return null;
 	}
 
-//	@Override
-//	public ParentCanvas getView() {
-//		return null;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return null;
+	// }
 
 	@Override
 	public void run() {
@@ -40,5 +40,10 @@ public class AwaitingAuthorisationAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		return null;
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "awaiting-authorization";
 	}
 }

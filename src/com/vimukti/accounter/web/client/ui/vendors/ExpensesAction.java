@@ -86,4 +86,9 @@ public class ExpensesAction extends Action {
 		return "";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "add-expense";
+	}
+
 }

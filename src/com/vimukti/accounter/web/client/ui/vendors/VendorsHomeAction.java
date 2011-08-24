@@ -58,4 +58,9 @@ public class VendorsHomeAction extends Action {
 
 		return "vendorHome";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "vendor-center";
+	}
 }

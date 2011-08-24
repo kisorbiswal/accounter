@@ -78,4 +78,9 @@ public class NewCreditMemoAction extends Action {
 	public String getHistoryToken() {
 		return "vendorCredit";
 	}
+	@Override
+	public String getHelpToken() {
+		return "credit-memo";
+	}
+
 }

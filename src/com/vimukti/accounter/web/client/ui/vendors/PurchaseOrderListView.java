@@ -18,6 +18,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.grids.PurchaseOrderListGrid;
 
 public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
@@ -58,7 +59,6 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 	protected void initGrid() {
 		grid = new PurchaseOrderListGrid(this);
 		grid.init();
-
 	}
 
 	@Override

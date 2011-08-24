@@ -34,16 +34,13 @@ public class EnterBillsAction extends Action {
 
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
-			 
 			public void onCreated() {
 
 				view = VendorBillView.getInstance();
 
-
-					// UIUtils.setCanvas(view, getViewConfiguration());
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isEditable, EnterBillsAction.this);
-
+				// UIUtils.setCanvas(view, getViewConfiguration());
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isEditable, EnterBillsAction.this);
 
 			}
 
@@ -76,6 +73,11 @@ public class EnterBillsAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		return "enterBill";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "add-bill";
 	}
 
 }

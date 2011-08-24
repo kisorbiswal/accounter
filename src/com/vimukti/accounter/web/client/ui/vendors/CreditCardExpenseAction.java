@@ -75,4 +75,9 @@ public class CreditCardExpenseAction extends Action {
 	public String getHistoryToken() {
 		return "creditCardExpense";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "creditcard-expense";
+	}
 }

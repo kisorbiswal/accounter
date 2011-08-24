@@ -54,4 +54,9 @@ public class ExpenseClaimsAction extends Action {
 	public String getHistoryToken() {
 		return "expenseClaims";
 	}
+
+	@Override
+	public String getHelpToken() {
+		return "expense-claims";
+	}
 }

@@ -71,4 +71,9 @@ public class BillsAction extends Action {
 		return "billsAndExpenses";
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "bill-expense";
+	}
+
 }
