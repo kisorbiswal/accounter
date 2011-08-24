@@ -30,4 +30,9 @@ public class InventoryItemsAction extends Action {
 		return null;
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "inventory-item";
+	}
+
 }

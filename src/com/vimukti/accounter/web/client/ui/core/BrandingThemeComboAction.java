@@ -21,10 +21,10 @@ public class BrandingThemeComboAction extends Action {
 		return null;
 	}
 
-//	@Override
-//	public ParentCanvas getView() {
-//		return null;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return null;
+	// }
 
 	public void run() {
 		runAsync(data, isDependent);
@@ -41,6 +41,11 @@ public class BrandingThemeComboAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		return "BrandingThemeCombo";
+	}
+
+	@Override
+	public String getHelpToken() {
+		return "new-branding-theme";
 	}
 
 }

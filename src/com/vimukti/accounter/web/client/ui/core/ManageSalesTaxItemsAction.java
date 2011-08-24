@@ -64,4 +64,9 @@ public class ManageSalesTaxItemsAction extends Action {
 
 	}
 
+	@Override
+	public String getHelpToken() {
+		return "pay_sales-tax";
+	}
+
 }

@@ -7,29 +7,29 @@ import com.google.gwt.user.client.Command;
  */
 public abstract class Action<T> implements Command {
 
-//	@Override
-//	public String mayStop() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public void onCancel() {
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//	@Override
-//	public void onStop() {
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//	@Override
-//	public void start(AcceptsOneWidget panel, EventBus eventBus) {
-//		// TODO Auto-generated method stub
-//		
-//	}
+	// @Override
+	// public String mayStop() {
+	// // TODO Auto-generated method stub
+	// return null;
+	// }
+	//
+	// @Override
+	// public void onCancel() {
+	// // TODO Auto-generated method stub
+	//
+	// }
+	//
+	// @Override
+	// public void onStop() {
+	// // TODO Auto-generated method stub
+	//
+	// }
+	//
+	// @Override
+	// public void start(AcceptsOneWidget panel, EventBus eventBus) {
+	// // TODO Auto-generated method stub
+	//
+	// }
 
 	/**
 	 * This action's text, or <code>null</code> if none.
@@ -160,6 +160,8 @@ public abstract class Action<T> implements Command {
 
 	public abstract String getHistoryToken();
 
+	public abstract String getHelpToken();
+	
 	public boolean isDependent() {
 		return isDependent;
 	}
@@ -169,10 +171,9 @@ public abstract class Action<T> implements Command {
 	}
 
 	public void run(T object, boolean isDependent) {
-		
-		
+
 		setInput(object);
-		
+
 		setDependent(isDependent);
 		run();
 	}
