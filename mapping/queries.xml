@@ -148,8 +148,10 @@
 
 	<query name="update.merge.Payee.mergeoldbalance.tonewbalance">
 		<query-param name="id" type="long" />
+		<query-param name="status" type="boolean" />
 		<query-param name="balance" type="double" />
-		update com.vimukti.accounter.core.Payee set balance=:balance where
+		update com.vimukti.accounter.core.Payee set balance=:balance,
+		isActive=:status where
 		id=:id
 	</query>
 

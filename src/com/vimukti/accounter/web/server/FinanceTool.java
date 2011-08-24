@@ -11812,6 +11812,7 @@ public class FinanceTool implements IFinanceDAOService {
 			session.getNamedQuery(
 					"update.merge.Payee.mergeoldbalance.tonewbalance")
 					.setParameter("id", toClientCustomer.getID())
+					.setParameter("status", fromClientCustomer.isActive())
 					.setParameter("balance", mergeBalance).executeUpdate();
 
 			session.getNamedQuery("update.merge.invoice.old.tonew")
@@ -11926,7 +11927,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		double mergeBalance = toClientAccount.getOpeningBalance()
 				+ fromClientAccount.getOpeningBalance();
-		
+
 		session.getNamedQuery("update.merge.Account.oldBalance.tonew")
 				.setParameter("from", toClientAccount.getID())
 				.setParameter("balance", mergeBalance).executeUpdate();

@@ -96,7 +96,7 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 	}
 
 	private CustomerCombo createCustomerCombo1() {
-		customerCombo1 = new CustomerCombo(Accounter.constants().customerFrom(), false);
+		customerCombo1 = new CustomerCombo(Accounter.constants().customerTo(), false);
 		customerCombo1.setHelpInformation(true);customerCombo1.setRequired(true);
 		customerCombo1
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCustomer>() {
@@ -114,7 +114,7 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 	}
 
 	private CustomerCombo createCustomerCombo() {
-		customerCombo = new CustomerCombo(Accounter.constants().customerTo(), false);
+		customerCombo = new CustomerCombo(Accounter.constants().customerFrom(), false);
 		customerCombo.setHelpInformation(true);
 		customerCombo.setRequired(true);
 		customerCombo
