@@ -108,4 +108,10 @@ public abstract class AbstractGlobal implements IGlobal {
 		}
 	}
 
+	@Override
+	public String Location() {
+
+		return null;
+	}
+
 }
