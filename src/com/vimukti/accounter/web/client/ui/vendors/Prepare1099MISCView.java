@@ -4,28 +4,22 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Tree;
-import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Client1099Form;
@@ -76,33 +70,34 @@ public class Prepare1099MISCView extends AbstractBaseView {
 	@SuppressWarnings("unchecked")
 	public void createControl() {
 
-		TreeItem root = new TreeItem("Set up Vendor and Accounts");
+		// DecoratedStackPanel root = new DecoratedStackPanel();
+		// root.setWidth("1000px");
+		// root.setHeight("300px");
 		SetUp setUp = new SetUp("");
-		root.addItem(setUp);
+		// root.add(setUp, "Add Vendor and Accounts", true);
 
-		TreeItem root1 = new TreeItem("Preview 1099 and 1096 Information");
-		root.setState(true);
-		Preview otb = new Preview("");
-		// root1.addItem(otb);
+		Preview1099 preview1099 = new Preview1099("");
+		// root.add(preview1099, "Preview 1099 and 1096 Information", true);
+		// root1.addItem(get1099InformationGrid());
 
-		TreeItem root2 = new TreeItem("Print Alignment and Setup");
 		PrintSetUp printSetUp = new PrintSetUp("");
-		root2.addItem(printSetUp);
+		// root.add(printSetUp, "Print Alignment and Setup", true);
 
-		Tree t = new Tree();
-		t.addItem(root);
-		t.addItem(root1);
-		t.addItem(root2);
+		DisclosurePanel advancedDisclosure = new DisclosurePanel(
+				"Print Alignment and Setup");
+		advancedDisclosure.setAnimationEnabled(true);
+		advancedDisclosure.setContent(printSetUp);
 
-		this.add(t);
+		// this.add(root);
+		this.add(setUp);
+		this.add(preview1099);
+		this.add(advancedDisclosure);
 		EndButtons endButtons = new EndButtons("");
 		this.add(endButtons);
 
-		root1.addItem(get1099InformationGrid());
-
 	}
 
-	private CellTable<Client1099Form> get1099InformationGrid() {
+	public static CellTable<Client1099Form> get1099InformationGrid() {
 		CellTable<Client1099Form> cellTable = new CellTable<Client1099Form>();
 
 		CheckboxCell checkboxCell = new CheckboxCell();
@@ -168,82 +163,6 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		return cellTable;
 	}
 
-	private static class Preview extends Composite implements ClickHandler {
-
-		private TextBox textBox = new TextBox();
-		private CheckBox checkBox = new CheckBox();
-
-		/**
-		 * Constructs an OptionalTextBox with the given caption on the check.
-		 * 
-		 * @param caption
-		 *            the caption to be displayed with the check box
-		 */
-		public Preview(String caption) {
-			// Place the check above the text box using a vertical panel.
-
-			Grid g = new Grid(5, 5);
-
-			// Put some values in the grid cells.
-			for (int row = 0; row < 5; ++row) {
-				for (int col = 0; col < 5; ++col)
-					g.setText(row, col, "" + row + ", " + col);
-			}
-
-			// Just for good measure, let's put a button in the center.
-			g.setWidget(2, 2, new Button("Does nothing, but could"));
-
-			// You can use the CellFormatter to affect the layout of the grid's
-			// cells.
-			g.getCellFormatter().setWidth(0, 2, "256px");
-
-			VerticalPanel panel = new VerticalPanel();
-			panel.add(g);
-			panel.add(checkBox);
-			panel.add(textBox);
-
-			// Set the check box's caption, and check it by default.
-			checkBox.setText(caption);
-			checkBox.setChecked(true);
-			checkBox.addClickHandler(this);
-
-			// All composites must call initWidget() in their constructors.
-			initWidget(panel);
-
-		}
-
-		public void onClick(ClickEvent event) {
-			Object sender = event.getSource();
-			if (sender == checkBox) {
-				// When the check box is clicked, update the text box's enabled
-				// state.
-				textBox.setEnabled(checkBox.isChecked());
-			}
-		}
-
-		/**
-		 * Sets the caption associated with the check box.
-		 * 
-		 * @param caption
-		 *            the check box's caption
-		 */
-		public void setCaption(String caption) {
-			// Note how we use the use composition of the contained widgets to
-			// provide
-			// only the methods that we want to.
-			checkBox.setText(caption);
-		}
-
-		/**
-		 * Gets the caption associated with the check box.
-		 * 
-		 * @return the check box's caption
-		 */
-		public String getCaption() {
-			return checkBox.getText();
-		}
-	}
-
 	private static class SetUp extends Composite implements ClickHandler {
 
 		Button setVendor = new Button("Select Vendor");
@@ -257,8 +176,10 @@ public class Prepare1099MISCView extends AbstractBaseView {
 			infoLable.setHorizontalAlignment(ALIGN_JUSTIFY);
 
 			VerticalPanel panel = new VerticalPanel();
+			panel.setSize("1000px", "200px");
 			panel.add(infoLable);
 			panel.add(setVendor);
+
 			panel.add(addAccount);
 
 			setVendor.addClickHandler(this);
@@ -282,18 +203,95 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 	}
 
+	private static class Preview1099 extends Composite implements ClickHandler {
+
+		Label clientInfo = new Label("Company Information");
+		Label einInfo = new Label("EIN");
+
+		TextArea clientInfoText = new TextArea();
+		TextArea einInfoText = new TextArea();
+
+		public Preview1099(String caption) {
+
+			VerticalPanel panelR = new VerticalPanel();
+			VerticalPanel panelL = new VerticalPanel();
+			panelL.add(clientInfo);
+			panelL.add(clientInfoText);
+
+			panelR.add(einInfo);
+			panelR.add(einInfoText);
+
+			HorizontalPanel panel = new HorizontalPanel();
+			panel.setSize("1000px", "100px");
+			panel.add(panelL);
+			panel.add(panelR);
+
+			VerticalPanel panel1 = new VerticalPanel();
+			panel1.add(panel);
+			panel1.add(get1099InformationGrid());
+
+			// All composites must call initWidget() in their constructors.
+			initWidget(panel1);
+		}
+
+		public void onClick(ClickEvent event) {
+			Object sender = event.getSource();
+		}
+
+	}
+
 	private static class PrintSetUp extends Composite implements ClickHandler {
 
-		private Button printSample = new Button("Print Sample");
+		Button printSample = new Button("Print Sample");
+		Label blankLabel = new Label("Load empty paper");
+		Label adjustLabel = new Label(
+				"	Enter adjustments to move text 1/100th of an inch.");
+
+		Label verLabel = new Label("Vertical");
+		Label horLabel = new Label("Horizantal");
+
+		Label infoLabel = new Label(
+				"	Alignment adjustment values are saved when you click Print Sample (above), or Print (below).If you print forms on more than one printer, write down the alignment values for each.");
 
 		public PrintSetUp(String caption) {
 			// Place the check above the text box using a vertical panel.
-			HorizontalPanel panel = new HorizontalPanel();
-			panel.add(printSample);
+
+			// HorizontalPanel panel1 = new HorizontalPanel();
+			// panel1.add(verLabel);
+			// panel1.add(getListBox(true));
+			//
+			// HorizontalPanel panel2 = new HorizontalPanel();
+			// panel2.add(horLabel);
+			// panel2.add(getListBox(true));
+			//
+			// VerticalPanel panel = new VerticalPanel();
+			// panel.setHeight("400px");
+			// panel.add(blankLabel);
+			// panel.add(printSample);
+			// panel.add(adjustLabel);
+			// panel.add(panel1);
+			// panel.add(panel2);
+			// panel.add(infoLabel);
+
+			Grid advancedOptions = new Grid(6, 2);
+			advancedOptions.setCellSpacing(6);
+			advancedOptions.setWidget(0, 0, blankLabel);
+			advancedOptions.setHTML(0, 1, "");
+			advancedOptions.setWidget(1, 0, printSample);
+			advancedOptions.setHTML(1, 1, "");
+			advancedOptions.setWidget(2, 0, adjustLabel);
+			advancedOptions.setHTML(2, 1, "");
+			advancedOptions.setWidget(3, 0, verLabel);
+			advancedOptions.setWidget(3, 1, getListBox(true));
+			advancedOptions.setWidget(4, 0, horLabel);
+			advancedOptions.setWidget(4, 1, getListBox(true));
+			advancedOptions.setWidget(5, 0, infoLabel);
+			advancedOptions.setHTML(5, 1, "");
+
 			printSample.addClickHandler(this);
 
 			// All composites must call initWidget() in their constructors.
-			initWidget(panel);
+			initWidget(advancedOptions);
 		}
 
 		public void onClick(ClickEvent event) {
@@ -341,79 +339,17 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 	}
 
-	private static class CellTableExample extends Composite implements
-			ClickHandler {
-
-		// A simple data type that represents a contact.
-		private static class Contact {
-			private final String address;
-			private final String name;
-
-			public Contact(String name, String address) {
-				this.name = name;
-				this.address = address;
-			}
-		}
-
-		static List<Contact> CONTACTS = Arrays
-				.asList(new Contact(
-						"MyPub 504, KRANTI CLASSIC APT,Prashanti Nagar, ECIL Post, KAPRA HYDERABAD, WY 50012 (998)969-6512",
-						"123 Fourth Road"), new Contact("Mary",
-						"222 Lancer Lane"), new Contact("Mary",
-						"222 Lancer Lane"), new Contact("Mary",
-						"222 Lancer Lane"), new Contact("Mary",
-						"222 Lancer Lane"), new Contact("Mary",
-						"222 Lancer Lane"));
-
-		public CellTableExample(String caption) {
-
-			CellTable<Contact> table = new CellTable<Contact>();
-
-			// Create name column.
-			TextColumn<Contact> nameColumn = new TextColumn<Contact>() {
-				@Override
-				public String getValue(Contact contact) {
-					return contact.name;
-				}
-
-			};
-
-			// Create address column.
-			TextColumn<Contact> addressColumn = new TextColumn<Contact>() {
-				@Override
-				public String getValue(Contact contact) {
-					return contact.address;
-				}
-			};
-
-			TextArea area = new TextArea();
-			area.setText("qweqweqweqw");
-
-			table.setWidth("100%", true);
-			table.setColumnWidth(nameColumn, 30.0, Unit.PCT);
-			table.setColumnWidth(addressColumn, 30.0, Unit.PCT);
-			// Add the columns.
-			table.addColumn(nameColumn, "Company Information");
-			table.addColumn(addressColumn, "EIN");
-
-			// Set the total row count. This isn't strictly necessary, but it
-			// affects
-			// paging calculations, so its good habit to keep the row count up
-			// to date.
-			table.setRowCount(CONTACTS.size(), true);
-
-			// Push the data into the widget.
-			table.setRowData(0, CONTACTS);
-
-			initWidget(table);
-		}
-
-		@Override
-		public void onClick(ClickEvent event) {
-			// TODO Auto-generated method stub
-
-		}
-
+	static ListBox getListBox(boolean dropdown) {
+		ListBox widget = new ListBox();
+		widget.addStyleName("demo-ListBox");
+		widget.addItem("One");
+		widget.addItem("Two");
+		widget.addItem("Three");
+		widget.addItem("Four");
+		widget.addItem("Five");
+		if (!dropdown)
+			widget.setVisibleItemCount(3);
+		return widget;
 	}
 
 	@Override
