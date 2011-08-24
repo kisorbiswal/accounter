@@ -40,6 +40,9 @@ $(document).ready(function() {
 					 <li>
 						<a href="/site/support" id="sup-bg">Support</a>
 					</li>
+					 <li>
+					    <a href="http://blog.accounterlive.com/" id="blog-bg" target ="_blank" >Blog</a>
+					 </li>
 			  </ul>
 				</div>
 				<div class="remaining-header-part-login">
