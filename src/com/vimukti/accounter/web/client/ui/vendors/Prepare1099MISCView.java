@@ -22,9 +22,11 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 
-public class Prepare1099MISCView extends ParentCanvas {
+public class Prepare1099MISCView extends AbstractBaseView {
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
@@ -332,6 +334,24 @@ public class Prepare1099MISCView extends ParentCanvas {
 
 		}
 
+	}
+
+	@Override
+	public void deleteFailed(AccounterException caught) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void deleteSuccess(IAccounterCore result) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected String getViewTitle() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
