@@ -50,9 +50,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 				getCustomerMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
-		menuitem = menuBar.addItem(
-				Accounter.messages().vendor(Global.get().Vendor()),
-				getVendorMenu());
+		menuitem = menuBar.addItem(Global.get().vendor(), getVendorMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		if (Accounter.getUser().canDoBanking()) {
@@ -928,8 +926,9 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			@Override
 			public void execute() {
 				ItemMergeDialog dialog = new ItemMergeDialog(Accounter
-						.constants().mergeItems(), Accounter.constants().itemDescription());
-			
+						.constants().mergeItems(), Accounter.constants()
+						.itemDescription());
+
 				dialog.show();
 			}
 		};
