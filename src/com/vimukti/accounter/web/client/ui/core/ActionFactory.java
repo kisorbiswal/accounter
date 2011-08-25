@@ -82,6 +82,7 @@ import com.vimukti.accounter.web.client.ui.customers.CustomerPaymentsAction;
 import com.vimukti.accounter.web.client.ui.customers.CustomerRefundAction;
 import com.vimukti.accounter.web.client.ui.customers.CustomerRefundsAction;
 import com.vimukti.accounter.web.client.ui.customers.CustomersHomeAction;
+import com.vimukti.accounter.web.client.ui.customers.InvoiceListViewAction;
 import com.vimukti.accounter.web.client.ui.customers.InvoicesAction;
 import com.vimukti.accounter.web.client.ui.customers.NewCashSaleAction;
 import com.vimukti.accounter.web.client.ui.customers.NewCreditsAndRefundsAction;
@@ -742,6 +743,10 @@ public class ActionFactory {
 	public static BrandingThemeComboAction getBrandingThemeComboAction() {
 		return new BrandingThemeComboAction(
 				actionsConstants.brandingThemeCombo());
+	}
+
+	public static InvoiceListViewAction getInvoiceListViewAction() {
+		return new InvoiceListViewAction("");
 	}
 
 	public static PaymentDialogAction getPaymentDialogAction() {
