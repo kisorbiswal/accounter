@@ -577,16 +577,19 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		custNameText.setHelpInformation(true);
 		custNameText.setRequired(true);
 		custNameText.setWidth(100);
+		custNameText.setDisabled(isInViewMode());
 
 		custNoText = new TextItem(Accounter.messages().customerNumber(
 				Global.get().Customer()));
 		custNoText.setHelpInformation(true);
 		custNoText.setRequired(true);
 		custNoText.setWidth(100);
+		custNameText.setDisabled(isInViewMode());
 
 		fileAsText = new TextItem(customerConstants.fileAs());
 		fileAsText.setHelpInformation(true);
 		fileAsText.setWidth(100);
+		fileAsText.setDisabled(isInViewMode());
 		custNameText.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -619,14 +622,17 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		statusCheck = new CheckboxItem(customerConstants.active());
 		statusCheck.setValue(true);
+		statusCheck.setDisabled(isInViewMode());
 
 		customerSinceDate = new DateField(Accounter.messages().customerSince(
 				Global.get().Customer()));
 		customerSinceDate.setHelpInformation(true);
+		customerSinceDate.setDisabled(isInViewMode());
 		customerSinceDate.setEnteredDate(new ClientFinanceDate());
 
 		balanceText = new AmountField(customerConstants.balance(), this);
 		balanceText.setHelpInformation(true);
+		balanceText.setDisabled(isInViewMode());
 		balanceDate = new DateField(customerConstants.balanceAsOf());
 		balanceDate.setHelpInformation(true);
 		ClientFinanceDate todaydate = new ClientFinanceDate();
@@ -727,10 +733,13 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		addrsForm = new AddressForm(null);
 		addrsForm.setWidth("100%");
+		addrsForm.setDisabled(isInViewMode());
 		fonFaxForm = new PhoneFaxForm(null, null, this);
 		fonFaxForm.setWidth("100%");
+		fonFaxForm.setDisabled(isInViewMode());
 		emailForm = new EmailForm(null, null, this);
 		emailForm.setWidth("100%");
+		emailForm.setDisabled(isInViewMode());
 
 		/* Adding Dynamic Forms in List */
 		listforms.add(customerForm);
@@ -1339,7 +1348,37 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	@Override
 	public void onEdit() {
+		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
+
+			@Override
+			public void onException(AccounterException caught) {
+				Accounter.showError(caught.getMessage());
+			}
+
+			@Override
+			public void onResultSuccess(Boolean result) {
+				if (result)
+					enableFormItems();
+			}
+
+		};
+
+		this.rpcDoSerivce.canEdit(AccounterCoreType.CUSTOMER, data.getID(), editCallBack);
+
+	}
+
+	private void enableFormItems() {
 		setMode(EditMode.EDIT);
+		custNameText.setDisabled(isInViewMode());
+		custNoText.setDisabled(isInViewMode());
+		customerSinceDate.setDisabled(isInViewMode());
+		balanceText.setDisabled(isInViewMode());
+		addrsForm.setDisabled(isInViewMode());
+		statusCheck.setDisabled(isInViewMode());
+		fonFaxForm.setDisabled(isInViewMode());
+		emailForm.setDisabled(isInViewMode());
+		super.onEdit();
+
 	}
 
 	@Override
