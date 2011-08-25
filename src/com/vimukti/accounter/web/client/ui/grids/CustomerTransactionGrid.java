@@ -1296,7 +1296,7 @@ public class CustomerTransactionGrid extends
 							item.setLineTotal(lineTotal);
 							// TODO doubt here, whether to convert this into
 							// baseCurrency or not.
-							item.setUnitPrice(isItem ? lineTotal : lineTotal);
+							item.setUnitPrice(isItem ? lineTotal : 0);
 							ClientQuantity quant = new ClientQuantity();
 							quant.setValue(isItem ? 1 : 1);
 							item.setQuantity(quant);
@@ -1402,9 +1402,10 @@ public class CustomerTransactionGrid extends
 		switch (obj.getType()) {
 		case ClientTransactionItem.TYPE_ACCOUNT:
 			switch (col) {
-			case 6:
+			case 3:
+			case 4:
+			case 5:
 				return false;
-
 			default:
 				return true;
 			}
