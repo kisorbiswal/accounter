@@ -134,7 +134,8 @@ public class CustomerRefundView extends
 
 		// Label lab1 = new Label(Utility.getTransactionName(transactionType)
 		// + "(" + getTransactionStatus() + ")");
-		Label lab1 = new Label(Utility.getTransactionName(transactionType));
+		Label lab1 = new Label(Accounter.messages().customerRefund(
+				Global.get().Customer()));
 		lab1.setStyleName(Accounter.constants().labelTitle());
 		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
@@ -245,9 +246,9 @@ public class CustomerRefundView extends
 
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		// paymentMethodCombo.setWidth(100);
-//		paymentMethodCombo.setComboItem(UIUtils
-//				.getpaymentMethodCheckBy_CompanyType(Accounter.constants()
-//						.check()));
+		// paymentMethodCombo.setComboItem(UIUtils
+		// .getpaymentMethodCheckBy_CompanyType(Accounter.constants()
+		// .check()));
 
 		printCheck = new CheckboxItem(customerConstants.toBePrinted());
 		printCheck.setValue(true);
@@ -589,9 +590,9 @@ public class CustomerRefundView extends
 		// 1. if(!isPositiveAmount(amt)) ERROR
 		// 2. if(!validCustomerRefundAmount(amt, payFromAccount)) ERROR
 
-//		if (!AccounterValidator.isPositiveAmount(this.amtText.getAmount())) {
-//			result.addError(amtText, accounterConstants.invalidNegativeAmount());
-//		}
+		// if (!AccounterValidator.isPositiveAmount(this.amtText.getAmount())) {
+		// result.addError(amtText, accounterConstants.invalidNegativeAmount());
+		// }
 		if (!AccounterValidator.isValidCustomerRefundAmount(
 				amtText.getAmount(), payFromSelect.getSelectedValue())) {
 			result.addWarning(amtText,
