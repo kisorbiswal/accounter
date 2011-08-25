@@ -4300,10 +4300,53 @@ public interface AccounterConstants extends Constants {
 
 	public String get1099Information();
 
+	public String box4();
+
+	public String box5();
+
+	public String box6();
+
+	public String box7();
+
+	public String box8();
+
+	public String box9();
+
+	public String box10();
+
+	public String box13();
+
+	public String box14();
+
+	public String box1Label();
+
+	public String box2Label();
+
+	public String box3Label();
+
+	public String box4Label();
+
+	public String box5Label();
+
+	public String box6Label();
+
+	public String box7Label();
+
+	public String box8Label();
+
+	public String box9Label();
+
+	public String box10Label();
+
+	public String box13Label();
+
+	public String box14Label();
+
 	public String vatItems();
 
 	public String vatCodes();
 
 	public String companyAndFinance();
 
+	public String ageingSummary();
 }
