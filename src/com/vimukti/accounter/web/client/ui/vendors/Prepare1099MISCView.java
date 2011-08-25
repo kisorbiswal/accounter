@@ -193,14 +193,20 @@ public class Prepare1099MISCView extends AbstractBaseView {
 			Object sender = event.getSource();
 			if (sender == setVendor) {
 				SelectVendorsTo1099Dialog selectVendorsTo1099Dialog = new SelectVendorsTo1099Dialog(
-						"Select Vendors", "Selct Vendors to track 1099");
+						Accounter.messages()
+								.selectVendor(Global.get().Vendor()), Accounter
+								.messages().SelectVendorsToTrack1099(
+										Global.get().Vendor()));
 				selectVendorsTo1099Dialog.show();
 			}
 			if (sender == addAccount) {
-
+				String assignAccounts = Accounter.messages().assignAccounts(
+						Global.get().Account());
+				AssignAccountsTo1099Dialog assignAccountsTo1099Dialog = new AssignAccountsTo1099Dialog(
+						assignAccounts, assignAccounts);
+				assignAccountsTo1099Dialog.show();
 			}
 		}
-
 	}
 
 	private static class Preview1099 extends Composite implements ClickHandler {

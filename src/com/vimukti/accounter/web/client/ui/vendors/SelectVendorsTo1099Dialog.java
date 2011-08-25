@@ -18,6 +18,11 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.GridRecordClickHandler;
 
+/**
+ * 
+ * @author Umasree V
+ * 
+ */
 public class SelectVendorsTo1099Dialog extends BaseDialog {
 
 	protected DialogGrid availVendorsGrid;
@@ -49,14 +54,14 @@ public class SelectVendorsTo1099Dialog extends BaseDialog {
 		ArrayList<ClientVendor> vendors = getCompany().getVendors();
 		tempSelectedVendorsList = new ArrayList<ClientVendor>();
 
-		tempSelectedVendorsList.addAll(Utility
-				.filteredList(new ListFilter<ClientVendor>() {
+		tempSelectedVendorsList.addAll(Utility.filteredList(
+				new ListFilter<ClientVendor>() {
 
 					@Override
 					public boolean filter(ClientVendor e) {
 						return e.isTrackPaymentsFor1099();
 					}
-				},vendors));
+				}, vendors));
 
 		return tempSelectedVendorsList;
 	}

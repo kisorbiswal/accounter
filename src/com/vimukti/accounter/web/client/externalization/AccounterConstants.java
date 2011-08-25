@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.externalization;
 
 import com.google.gwt.i18n.client.Constants;
+import com.google.gwt.user.cellview.client.Header;
 
 public interface AccounterConstants extends Constants {
 
@@ -4251,17 +4252,29 @@ public interface AccounterConstants extends Constants {
 	public String unableToPerformTryAfterSomeTime();
 
 	public String selectCurrency();
+
 	public String mergeCustomer();
+
 	public String mergeVendor();
+
 	public String mergeAccount();
+
 	public String mergeItem();
+
 	public String merge();
+
 	public String vendorID();
+
 	public String customerID();
+
 	public String customerTo();
+
 	public String customerFrom();
+
 	public String vendorTo();
+
 	public String vendorFrom();
+
 	public String notMove();
 
 	public String logout();
@@ -4275,8 +4288,13 @@ public interface AccounterConstants extends Constants {
 	public String accountName();
 
 	public String itemTo();
+
 	public String itemFrom();
 
 	public String itemDescription();
-	
+
+	public String use();
+
+	public String get1099Information();
+
 }

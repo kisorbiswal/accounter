@@ -796,7 +796,7 @@ public interface AccounterMessages extends Messages {
 	public String getindustryhead();
 
 	public String trackingtimehead();
-	
+
 	public String shouldNotbeZero(String amountString);
 
 	public String shouldBePositive(String name);
@@ -804,12 +804,21 @@ public interface AccounterMessages extends Messages {
 	public String noTransactionsTo(String paySalesTax);
 
 	public String vendorID(String vendor);
+
 	public String vendorTo(String vendorTo);
+
 	public String vendorFrom(String vendorFrom);
 
 	public String notMove(String customer);
 
 	public String accountTo(String account);
+
 	public String mergeDescription(String desc);
+
+	public String selectVendor(String vendor);
+
+	public String SelectVendorsToTrack1099(String vendor);
+
+	public String assignAccounts(String account);
 
 }
