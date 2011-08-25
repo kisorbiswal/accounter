@@ -20,8 +20,8 @@ public class ServletLocaleFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest arg0, ServletResponse arg1,
 			FilterChain arg2) throws IOException, ServletException {
-		arg2.doFilter(arg0, arg1);
 		ServerLocal.set(arg0.getLocale());		
+		arg2.doFilter(arg0, arg1);
 	}
 
 	@Override
