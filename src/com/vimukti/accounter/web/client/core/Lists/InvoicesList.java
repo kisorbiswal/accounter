@@ -46,6 +46,8 @@ public class InvoicesList implements IsSerializable, Serializable {
 
 	int status;
 
+	boolean isPrint;
+
 	public boolean isVoided() {
 		return isVoided;
 	}
@@ -208,4 +210,11 @@ public class InvoicesList implements IsSerializable, Serializable {
 		return this.status == ClientTransaction.STATUS_DELETED;
 	}
 
+	public boolean isPrint() {
+		return isPrint;
+	}
+
+	public void setPrint(boolean isPrint) {
+		this.isPrint = isPrint;
+	}
 }
