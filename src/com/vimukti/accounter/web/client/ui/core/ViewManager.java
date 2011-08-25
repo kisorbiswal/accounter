@@ -79,6 +79,7 @@ public class ViewManager extends HorizontalPanel {
 		VerticalPanel leftPanel = new VerticalPanel();
 		leftPanel.setWidth("100%");
 		this.viewHolder = new SimplePanel();
+		viewHolder.addStyleName("viewholder");
 
 		History.addValueChangeHandler(new ValueChangeHandler<String>() {
 
