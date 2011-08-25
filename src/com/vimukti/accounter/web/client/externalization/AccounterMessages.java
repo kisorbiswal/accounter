@@ -270,8 +270,6 @@ public interface AccounterMessages extends Messages {
 
 	public String noPurchaseOrderForVendor(String noPurchaseOrderForVendorString);
 
-	public String vendor(String vendorString);
-
 	public String vendorItemNo(String vendorItemNoString);
 
 	public String vendorPay(String vendorPayString);
