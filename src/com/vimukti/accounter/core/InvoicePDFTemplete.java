@@ -66,7 +66,7 @@ public class InvoicePDFTemplete {
 
 		try {
 			t = new MiniTemplator(templateFileName);
-			String image = getCompany();
+			String image = getImage();
 
 			// setting logo Image
 			if (brandingTheme.isShowLogo()) {
@@ -338,8 +338,8 @@ public class InvoicePDFTemplete {
 			t.setVariable("topMargin",
 					String.valueOf(brandingTheme.getTopMargin()));
 			t.setVariable("title", brandingTheme.getOverDueInvoiceTitle());
-			t.setVariable("addressPadding",
-					String.valueOf(brandingTheme.getAddressPadding()));
+			// t.setVariable("addressPadding",
+			// String.valueOf(brandingTheme.getAddressPadding()));
 
 			if (brandingTheme.isShowLogo()) {
 				t.addBlock("logo");
@@ -377,8 +377,8 @@ public class InvoicePDFTemplete {
 			}
 			t.addBlock("theme");
 
-			System.out.println("string......" + t.getFileString());
 			outPutString = t.getFileString();
+
 			// OutputStream outputstream = new ByteArrayOutputStream();
 			//
 			// java.io.InputStream inputStream = new ByteArrayInputStream(
@@ -497,7 +497,7 @@ public class InvoicePDFTemplete {
 		return (amt);
 	}
 
-	public String getCompany() {
+	public String getImage() {
 
 		StringBuffer original = new StringBuffer();
 		// String imagesDomain = "/do/downloadFileFromFile?";
@@ -507,7 +507,7 @@ public class InvoicePDFTemplete {
 				+ company.getAccountingType() + "/"
 				+ brandingTheme.getFileName());
 		original.append("'/>");
-		System.err.println(original.toString());
+
 		return original.toString();
 
 	}
