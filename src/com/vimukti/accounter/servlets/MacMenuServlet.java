@@ -38,6 +38,9 @@ public class MacMenuServlet extends BaseServlet {
 	}
 
 	private StringBuilder builder;
+	private User user;
+	private Company company;
+	private CompanyPreferences preferences;
 
 	private void generateXML(Company company, String emailId) {
 		if (company == null) {
@@ -56,22 +59,26 @@ public class MacMenuServlet extends BaseServlet {
 			return;
 		}
 		CompanyPreferences preferences = company.getPreferences();
+		this.user = user;
+		this.company = company;
+		this.preferences = preferences;
+
 		builder = new StringBuilder();
 
 		addHeader();
 
 		addCompanyMenuItem();
 
-		if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (isUKType()) {
 			if (preferences.getDoYouPaySalesTax()) {
 				addVatMenuItem();
 			}
 		}
 		addCustomerMenuItem();
 
-		addVendorMenuItem(company.getAccountingType());
+		addVendorMenuItem();
 
-		if (user.getPermissions().getTypeOfBankReconcilation() == RolePermissions.TYPE_YES) {
+		if (canDoBanking()) {
 			addBankingMenuItem();
 		}
 
@@ -83,16 +90,44 @@ public class MacMenuServlet extends BaseServlet {
 			addPurchaseMenuItem();
 		}
 
-		if (user.getPermissions().getTypeOfViewReports() == RolePermissions.TYPE_READ_ONLY
-				|| user.getPermissions().getTypeOfViewReports() == RolePermissions.TYPE_YES) {
+		if (canViewReports()) {
 			addReportsMenuItem();
 		}
 
-		if (user.getPermissions().getTypeOfSystemSettings() == RolePermissions.TYPE_YES) {
+		if (canChangeSettings()) {
 			addSettingsMenuItem();
 		}
 
 		addFooter();
+	}
+
+	private boolean canManageFiscalYears() {
+		return user.getPermissions().getTypeOfLockDates() == RolePermissions.TYPE_YES;
+	}
+
+	private boolean canDoInvoiceTransactions() {
+		return user.getPermissions().getTypeOfInvoices() == RolePermissions.TYPE_YES;
+	}
+
+	private boolean canChangeSettings() {
+		return user.getPermissions().getTypeOfSystemSettings() == RolePermissions.TYPE_YES;
+	}
+
+	private boolean canViewReports() {
+		return user.getPermissions().getTypeOfViewReports() == RolePermissions.TYPE_READ_ONLY;
+	}
+
+	private boolean canDoBanking() {
+		return user.getPermissions().getTypeOfBankReconcilation() == RolePermissions.TYPE_YES
+				|| user.getPermissions().getTypeOfViewReports() == RolePermissions.TYPE_YES;
+	}
+
+	private boolean isUKType() {
+		return company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK;
+	}
+
+	private boolean isUSType() {
+		return company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US;
 	}
 
 	private void addFooter() {
@@ -105,18 +140,25 @@ public class MacMenuServlet extends BaseServlet {
 
 	private void addVatMenuItem() {
 		StringBuilder mainValue = new StringBuilder();
-		StringBuilder newValue = new StringBuilder();
-		subMenu(newValue, "New VAT Item", "V", "accounter#newVatItem");
-		subMenu(newValue, "New VAT Code", "accounter#newVatCode");
-		subMenu(newValue, "New VAT Agency", "accounter#newVatAgency");
-		menu(mainValue, "New", newValue);
 
-		separator(mainValue);
+		if (canDoInvoiceTransactions()) {
+			StringBuilder newValue = new StringBuilder();
+			subMenu(newValue, "New VAT Item", "V", "accounter#newVatItem");
+			subMenu(newValue, "New VAT Code", "accounter#newVatCode");
+			subMenu(newValue, "New VAT Agency", "accounter#newVatAgency");
+			menu(mainValue, "New", newValue);
+			separator(mainValue);
+		}
 
-		menu(mainValue, "VAT Adjustment", "accounter#vatAdjustment");
-		menu(mainValue, "File VAT", "accounter#fileVAT");
-		menu(mainValue, "Pay VAT", "accounter#payVat");
-		menu(mainValue, "Receive VAT", "accounter#receiveVat");
+		if (canDoInvoiceTransactions()) {
+			menu(mainValue, "VAT Adjustment", "accounter#vatAdjustment");
+			menu(mainValue, "File VAT", "accounter#fileVAT");
+		}
+
+		if (canDoBanking()) {
+			menu(mainValue, "Pay VAT", "accounter#payVat");
+			menu(mainValue, "Receive VAT", "accounter#receiveVat");
+		}
 
 		separator(mainValue);
 
@@ -144,7 +186,17 @@ public class MacMenuServlet extends BaseServlet {
 		subMenu(financialValue, "Trial Balance", "accounter#trialBalance");
 		subMenu(financialValue, "Transaction Detail By Account",
 				"accounter#transactionDetailByAccount");
+		if (isUSType()) {
+			subMenu(financialValue, "General Ledger Report",
+					"accounter#generalLedger");
+		}
 		subMenu(financialValue, "Expense Report", "accounter#expenseReport");
+		if (isUSType()) {
+			subMenu(financialValue, "Sales tax liability",
+					"accounter#salesTaxLiability");
+			subMenu(financialValue, "Transaction Detail by Tax Item",
+					"accounter#transactionDetailByTaxItem");
+		}
 		menu(reportsValue, "Company And Financial", financialValue);
 
 		StringBuilder receivablesValue = new StringBuilder();
@@ -167,7 +219,10 @@ public class MacMenuServlet extends BaseServlet {
 				"accounter#salesByItemSummary");
 		subMenu(salesValue, "Sales By Item Detail",
 				"accounter#salesByItemDetail");
-		subMenu(salesValue, "Sales Order Report", "accounter#salesOrderReport");
+		if (preferences.isSalesOrderEnabled()) {
+			subMenu(salesValue, "Sales Order Report",
+					"accounter#salesOrderReport");
+		}
 		menu(reportsValue, "Sales", salesValue);
 
 		StringBuilder suppliersValue = new StringBuilder();
@@ -187,38 +242,54 @@ public class MacMenuServlet extends BaseServlet {
 				"accounter#purchaseByItemSummary");
 		subMenu(purchasesValue, "Purchase By Item Detail",
 				"accounter#purchaseByItemDetail");
-		subMenu(purchasesValue, "Purchase Order Report",
-				"accounter#purchaseOrderReport");
+		if (preferences.isPurchaseOrderEnabled()) {
+			subMenu(purchasesValue, "Purchase Order Report",
+					"accounter#purchaseOrderReport");
+		}
 		menu(reportsValue, "Purchases", purchasesValue);
 
-		StringBuilder vatValue = new StringBuilder();
-		subMenu(vatValue, "Prior VAT Returns", "accounter#priorVatReturns");
-		subMenu(vatValue, "VAT Detail", "accounter#vatDetail");
-		subMenu(vatValue, "VAT 100", "accounter#vat100");
-		subMenu(vatValue, "Uncategorised VAT Amounts",
-				"accounter#uncategorisedVatAmounts");
-		subMenu(vatValue, "VAT Item Summary", "accounter#vatItemSummary");
-		subMenu(vatValue, "EC Sales List", "accounter#ecSalesList");
-		menu(reportsValue, "VAT", vatValue);
-
+		if (preferences.getDoYouPaySalesTax()) {
+			StringBuilder vatValue = new StringBuilder();
+			subMenu(vatValue, "Prior VAT Returns", "accounter#priorVatReturns");
+			subMenu(vatValue, "VAT Detail", "accounter#vatDetail");
+			subMenu(vatValue, "VAT 100", "accounter#vat100");
+			subMenu(vatValue, "Uncategorised VAT Amounts",
+					"accounter#uncategorisedVatAmounts");
+			subMenu(vatValue, "VAT Item Summary", "accounter#vatItemSummary");
+			subMenu(vatValue, "EC Sales List", "accounter#ecSalesList");
+			menu(reportsValue, "VAT", vatValue);
+		}
 		mainMenu(builder, "Reports", reportsValue);
 	}
 
 	private void addPurchaseMenuItem() {
 		StringBuilder purchaValues = new StringBuilder();
-		menu(purchaValues, "Purchase Order", "accounter#purchaseOrder");
-		menu(purchaValues, "PurchaseOrder List", "accounter#purchaseOrderList");
-		menu(purchaValues, "PurchaseOrder Report",
-				"accounter#purchaseOrderReport");
+		if (canDoInvoiceTransactions()) {
+			menu(purchaValues, "Purchase Order", "accounter#purchaseOrder");
+		}
+		if (canSeeInvoiceTransactions()) {
+			menu(purchaValues, "PurchaseOrder List",
+					"accounter#purchaseOrderList");
+		}
+		if (canViewReports()) {
+			menu(purchaValues, "PurchaseOrder Report",
+					"accounter#purchaseOrderReport");
+		}
 		mainMenu(builder, "Purchases", purchaValues);
 	}
 
 	private void addSalesOrderMenuItem() {
 		StringBuilder salesValues = new StringBuilder();
-		menu(salesValues, "Sales Order", "accounter#salesOrder");
-		menu(salesValues, "SalesOrder List", "accounter#salesOrderList");
-		menu(salesValues, "SalesOrder Report", "r",
-				"accounter#salesOrderReport");
+		if (canDoInvoiceTransactions()) {
+			menu(salesValues, "Sales Order", "accounter#salesOrder");
+		}
+		if (canSeeInvoiceTransactions()) {
+			menu(salesValues, "SalesOrder List", "accounter#salesOrderList");
+		}
+		if (canViewReports()) {
+			menu(salesValues, "SalesOrder Report", "r",
+					"accounter#salesOrderReport");
+		}
 		mainMenu(builder, "Sales", salesValues);
 	}
 
@@ -226,6 +297,9 @@ public class MacMenuServlet extends BaseServlet {
 		StringBuilder bankingValues = new StringBuilder();
 		menu(bankingValues, "New Bank Account", "b", "accounter#newBankAccount");
 		separator(bankingValues);
+		if (isUSType()) {
+			menu(bankingValues, "Write check", "accounter#writeCheck");
+		}
 		menu(bankingValues, "Deposit / Transfer Funds",
 				"accounter#depositTransferFunds");
 		menu(bankingValues, "Pay Bills", "accounter#payBill");
@@ -239,42 +313,73 @@ public class MacMenuServlet extends BaseServlet {
 		mainMenu(builder, "Banking", bankingValues);
 	}
 
-	private void addVendorMenuItem(int accountingType) {
-		StringBuilder vendorValue = new StringBuilder();
-		menu(vendorValue, "Suppliers Home", "S", "accounter#supplierHome");
-		separator(vendorValue);
-
-		StringBuilder newValues = new StringBuilder();
-		subMenu(newValues, "New Supplier", "accounter#newSupplier");
-		subMenu(newValues, "New Item", "accounter#newSupplierItem");
-		subMenu(newValues, "Cash Purchase", "accounter#newCashPurchase");
-		subMenu(newValues, "Supplier Credit", "accounter#supplierCredit");
-		menu(vendorValue, "New", newValues);
-		separator(vendorValue);
-
-		menu(vendorValue, "Enter Bill", "B", "accounter#enterBill");
-		menu(vendorValue, "Pay Bills", "accounter#payBill");
-		menu(vendorValue, "Issue Payments", "accounter#issuePayments");
-		menu(vendorValue, "Supplier PrePayment", "accounter#supplierPrePayment");
-		menu(vendorValue, "Record Expenses", "accounter#recordExpenses");
-		menu(vendorValue, "Expense Claims", "accounter#expenseClaims");
-		separator(vendorValue);
-
-		StringBuilder supplierValues = new StringBuilder();
-		subMenu(supplierValues, "Suppliers", "accounter#supplierList");
-		subMenu(supplierValues, "Items", "accounter#purchaseItems");
-		subMenu(supplierValues, "Bills And Expenses",
-				"accounter#billsAndExpenses");
-		subMenu(supplierValues, "Supplier Payments",
-				"accounter#supplierPayments");
-		menu(vendorValue, "Supplier Lists", supplierValues);
-
+	private void addVendorMenuItem() {
 		String name = "";
-		if (accountingType == 1) {// UK
-			name = "Suppliers";
+		if (isUKType()) {
+			name = "Supplier";
 		} else {
 			name = "Vendor";
 		}
+
+		StringBuilder vendorValue = new StringBuilder();
+		menu(vendorValue, name + "s Home", "S", "accounter#vendorHome");
+		separator(vendorValue);
+
+		int items = 0;
+		StringBuilder newValues = new StringBuilder();
+		if (canDoInvoiceTransactions()) {
+			subMenu(newValues, "New " + name, "accounter#newVendor");
+			subMenu(newValues, "New Item", "accounter#newItem");
+			items += 2;
+		}
+		if (canDoBanking()) {
+			subMenu(newValues, "Cash Purchase", "accounter#newCashPurchase");
+			items += 1;
+		}
+		if (canDoInvoiceTransactions()) {
+			subMenu(newValues, name + " Credit", "accounter#vendorCredit");
+			if (isUSType()) {
+				subMenu(newValues, "New Check", "accounter#check");
+				items += 1;
+			}
+			items += 1;
+		}
+		if (items > 0) {
+			menu(vendorValue, "New", newValues);
+			separator(vendorValue);
+		}
+
+		if (canDoInvoiceTransactions()) {
+			menu(vendorValue, "Enter Bill", "B", "accounter#enterBill");
+		}
+		if (canDoBanking()) {
+			menu(vendorValue, "Pay Bills", "accounter#payBill");
+			menu(vendorValue, "Issue Payments", "accounter#issuePayments");
+			menu(vendorValue, name + " PrePayment",
+					"accounter#vendorPrePayment");
+		}
+		if (canDoInvoiceTransactions()) {
+			menu(vendorValue, "Record Expenses", "accounter#recordExpenses");
+			if (preferences.isHaveEpmloyees()
+					&& preferences.isTrackEmployeeExpenses()) {
+				menu(vendorValue, "Expense Claims", "accounter#expenseClaims");
+			}
+			separator(vendorValue);
+		}
+
+		StringBuilder supplierValues = new StringBuilder();
+		subMenu(supplierValues, name + "s", "accounter#VendorList");
+		if (canSeeInvoiceTransactions()) {
+			subMenu(supplierValues, "Items", "accounter#items");
+			subMenu(supplierValues, "Bills And Expenses",
+					"accounter#billsAndExpenses");
+		}
+		if (canSeeBanking()) {
+			subMenu(supplierValues, name + " Payments",
+					"accounter#vendorPayments");
+		}
+		menu(vendorValue, name + " Lists", supplierValues);
+
 		mainMenu(builder, name, vendorValue);
 	}
 
@@ -283,32 +388,54 @@ public class MacMenuServlet extends BaseServlet {
 		menu(mainMenuValue, "Customers Home", "accounter#customerHome");
 		separator(mainMenuValue);
 
+		int items = 0;
 		StringBuilder newValue = new StringBuilder();
-		subMenu(newValue, "New Customer", "C", "accounter#newCustomer");
-		subMenu(newValue, "New Item", "accounter#newCustomerItem");
-		subMenu(newValue, "New Quote", "accounter#newQuote");
-		subMenu(newValue, "New Invoice", "accounter#newInvoice");
-		subMenu(newValue, "New Cash Sale", "accounter#newCashSale");
-		subMenu(newValue, "New Credit", "accounter#newCredit");
-		menu(mainMenuValue, "New", newValue);
+		if (canDoInvoiceTransactions()) {
+			subMenu(newValue, "New Customer", "C", "accounter#newCustomer");
+			subMenu(newValue, "New Item", "accounter#newCustomerItem");
+			if (preferences.isDoyouwantEstimates()) {
+				subMenu(newValue, "New Quote", "accounter#newQuote");
+				items += 1;
+			}
+			subMenu(newValue, "New Invoice", "accounter#newInvoice");
+			items += 3;
+		}
+		if (canDoBanking()) {
+			subMenu(newValue, "New Cash Sale", "accounter#newCashSale");
+			items += 1;
+		}
+		if (canDoInvoiceTransactions()) {
+			subMenu(newValue, "New Credit Note", "accounter#newCredit");
+			items += 1;
+		}
+		if (items > 0) {
+			menu(mainMenuValue, "New", newValue);
+			separator(mainMenuValue);
+		}
 
-		separator(mainMenuValue);
-
-		menu(mainMenuValue, "Customer PrePayment",
-				"accounter#customerPrepayment");
-		menu(mainMenuValue, "Receive Payment", "accounter#receivePayment");
-		menu(mainMenuValue, "Customer Refund", "accounter#customerRefund");
-		separator(mainMenuValue);
+		if (canDoBanking()) {
+			menu(mainMenuValue, "Customer PrePayment",
+					"accounter#customerPrepayment");
+			menu(mainMenuValue, "Receive Payment", "accounter#receivePayment");
+			menu(mainMenuValue, "Customer Refund", "accounter#customerRefund");
+			separator(mainMenuValue);
+		}
 
 		StringBuilder customerListValue = new StringBuilder();
 		subMenu(customerListValue, "Customers", "accounter#customers");
-		subMenu(customerListValue, "Items", "accounter#items");
-		subMenu(customerListValue, "Quotes", "accounter#quotes");
-		subMenu(customerListValue, "Invoices", "accounter#invoices");
-		subMenu(customerListValue, "Receive Payments",
-				"accounter#receivePayments");
-		subMenu(customerListValue, "Customer Refunds",
-				"accounter#customerRefunds");
+		if (canSeeInvoiceTransactions()) {
+			subMenu(customerListValue, "Items", "accounter#items");
+			if (preferences.isDoyouwantEstimates()) {
+				subMenu(customerListValue, "Quotes", "accounter#quotes");
+			}
+			subMenu(customerListValue, "Invoices", "accounter#invoices");
+		}
+		if (canSeeBanking()) {
+			subMenu(customerListValue, "Receive Payments",
+					"accounter#receivePayments");
+			subMenu(customerListValue, "Customer Refunds",
+					"accounter#customerRefunds");
+		}
 		menu(mainMenuValue, "Customer List", customerListValue);
 
 		mainMenu(builder, "Customer", mainMenuValue);
@@ -319,46 +446,123 @@ public class MacMenuServlet extends BaseServlet {
 
 		menu(mainMenuValue, "Dashboard", "D", "accounter#dashBoard");
 		separator(mainMenuValue);
-		menu(mainMenuValue, "New Journal Entry", "J",
-				"accounter#newJournalEntry");
-		menu(mainMenuValue, "New Account", "A", "accounter#newAccount");
-		separator(mainMenuValue);
-		menu(mainMenuValue, "Company Preferences",
-				"accounter#companyPreferences");
-		separator(mainMenuValue);
 
-		StringBuilder manageSupportLists = new StringBuilder();
-		subMenu(manageSupportLists, "Customer Group List",
-				"accounter#customerGroupList");
-		subMenu(manageSupportLists, "Supplier Group List",
-				"accounter#supplierGroupList");
-		subMenu(manageSupportLists, "Payment Term List",
-				"accounter#paymentTerms");
-		subMenu(manageSupportLists, "Shipping Method List",
-				"accounter#shippingMethodsList");
-		subMenu(manageSupportLists, "Shipping Term List",
-				"accounter#shippingTermsList");
-		subMenu(manageSupportLists, "Price Level List", "accounter#priceLevels");
-		subMenu(manageSupportLists, "Item Group List",
-				"accounter#itemGroupList");
-		subMenu(manageSupportLists, "Credit Rating List",
-				"accounter#creditRatingList");
-		menu(mainMenuValue, "Manage Support Lists", manageSupportLists);
+		if (canDoBanking()) {
+			menu(mainMenuValue, "New Journal Entry", "J",
+					"accounter#newJournalEntry");
+		}
 
-		menu(mainMenuValue, "Manage Fiscal Year", "accounter#manageFiscalYear");
-		separator(mainMenuValue);
+		if (canDoInvoiceTransactions()) {
+			menu(mainMenuValue, "New Account", "A", "accounter#newAccount");
+			separator(mainMenuValue);
+		}
+
+		if (canChangeSettings()) {
+			menu(mainMenuValue, "Company Preferences",
+					"accounter#companyPreferences");
+			separator(mainMenuValue);
+		}
+
+		if (isUSType()) {
+			if (preferences.getDoYouPaySalesTax()) {
+				StringBuilder salesTaxValues = new StringBuilder();
+				if (canDoInvoiceTransactions()) {
+					subMenu(salesTaxValues, "Manage Sales Tax Groups",
+							"accounter#manageSalesTaxGroups");
+				} else {
+					subMenu(salesTaxValues, "Sales Tax Groups",
+							"accounter#salesTaxGroups");
+				}
+				if (canDoInvoiceTransactions()) {
+					subMenu(salesTaxValues, "Manage Sales Tax Items",
+							"accounter#manageSalesTaxItems");
+				} else {
+					subMenu(salesTaxValues, "Sales Tax Items",
+							"accounter#salesTaxItems");
+				}
+
+				if (canDoBanking()) {
+					subMenu(salesTaxValues, "Pay sales tax",
+							"accounter#customerGroupList");
+				}
+
+				if (canDoInvoiceTransactions()) {
+					if (isUKType()) {
+						subMenu(salesTaxValues, "New VAT Agency",
+								"accounter#newVatAgency");
+					} else {
+						subMenu(salesTaxValues, "New Tax Agency",
+								"accounter#newTaxAgency");
+					}
+				}
+				menu(mainMenuValue, "Item tax", salesTaxValues);
+			}
+		}
+
+		if (canChangeSettings()) {
+			StringBuilder manageSupportLists = new StringBuilder();
+			subMenu(manageSupportLists, "Customer Group List",
+					"accounter#customerGroupList");
+			subMenu(manageSupportLists, "Supplier Group List",
+					"accounter#supplierGroupList");
+			subMenu(manageSupportLists, "Payment Term List",
+					"accounter#paymentTerms");
+			subMenu(manageSupportLists, "Shipping Method List",
+					"accounter#shippingMethodsList");
+			subMenu(manageSupportLists, "Shipping Term List",
+					"accounter#shippingTermsList");
+			subMenu(manageSupportLists, "Price Level List",
+					"accounter#priceLevels");
+			subMenu(manageSupportLists, "Item Group List",
+					"accounter#itemGroupList");
+			subMenu(manageSupportLists, "Credit Rating List",
+					"accounter#creditRatingList");
+			menu(mainMenuValue, "Manage Support Lists", manageSupportLists);
+		}
+
+		if (canManageFiscalYears()) {
+			menu(mainMenuValue, "Manage Fiscal Year",
+					"accounter#manageFiscalYear");
+			separator(mainMenuValue);
+		}
+
+		// TODO Next version
+		// StringBuilder mergeValue = new StringBuilder();
+		// subMenu(mergeValue, "Merge Customers", "accounter#mergeCustomers");
+		// subMenu(mergeValue, "Merge Vendor", "accounter#mergeVendors");
+		// subMenu(mergeValue, "Merge Account", "accounter#mergeAccount");
+		// subMenu(mergeValue, "Merge Item", "accounter#mergeItem");
+		// menu(mainMenuValue, "Merge Accounts", mergeValue);
+		// separator(mainMenuValue);
 
 		StringBuilder companyLists = new StringBuilder();
-		subMenu(companyLists, "Accounts List", "accounter#accountsList");
-		subMenu(companyLists, "Journal Entries", "accounter#journalEntries");
-		subMenu(companyLists, "Items", "accounter#items");
+		if (canSeeInvoiceTransactions()) {
+			subMenu(companyLists, "Accounts List", "accounter#accountsList");
+		}
+		if (canSeeBanking()) {
+			subMenu(companyLists, "Journal Entries", "accounter#journalEntries");
+		}
+
+		if (canSeeInvoiceTransactions()) {
+			subMenu(companyLists, "Items", "accounter#items");
+		}
 		subMenu(companyLists, "Company Customers", "accounter#customers");
 		subMenu(companyLists, "Company Suppliers", "accounter#supplierList");
-		subMenu(companyLists, "Payments", "accounter#payments");
+		if (canSeeBanking()) {
+			subMenu(companyLists, "Payments", "accounter#payments");
+		}
 		subMenu(companyLists, "Sales Persons", "accounter#salesPersons");
 		menu(mainMenuValue, "Company Lists", companyLists);
 
 		mainMenu(builder, "Company", mainMenuValue);
+	}
+
+	private boolean canSeeBanking() {
+		return user.getPermissions().getTypeOfBankReconcilation() != RolePermissions.TYPE_NO;
+	}
+
+	private boolean canSeeInvoiceTransactions() {
+		return user.getPermissions().getTypeOfInvoices() != RolePermissions.TYPE_NO;
 	}
 
 	private void menu(StringBuilder builder, String text, String shortcut,
