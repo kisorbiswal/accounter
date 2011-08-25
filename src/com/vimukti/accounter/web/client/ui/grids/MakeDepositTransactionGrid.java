@@ -489,8 +489,8 @@ public class MakeDepositTransactionGrid extends
 	@Override
 	protected boolean isEditable(ClientTransactionMakeDeposit obj, int row,
 			int col) {
-		if (!obj.getIsNewEntry())
-			return false;
+		// if (!obj.getIsNewEntry())
+		// return false;
 		switch (col) {
 		// case 0:
 		case 1:

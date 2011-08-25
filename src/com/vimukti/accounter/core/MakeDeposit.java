@@ -3,6 +3,7 @@ package com.vimukti.accounter.core;
 import java.util.List;
 
 import org.hibernate.CallbackException;
+import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
@@ -278,8 +279,13 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-
-		return super.canEdit(clientObject);
+		boolean flag;
+		Session session = HibernateUtil.getCurrentSession();
+		FlushMode flushMode = session.getFlushMode();
+		session.setFlushMode(FlushMode.COMMIT);
+		flag = super.canEdit(clientObject);
+		session.setFlushMode(flushMode);
+		return flag;
 	}
 
 }

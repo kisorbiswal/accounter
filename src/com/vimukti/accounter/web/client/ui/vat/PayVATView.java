@@ -540,27 +540,25 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		// for (ClientTransactionPayVAT rec : selectedRecords) {
 		// toBeSetAmount += rec.getAmountToPay();
 		// }
-		if (this.transaction == null) {
-			amountText.setAmount(toBeSetAmount);
-			totalAmount = toBeSetAmount;
-			if (selectedPayFromAccount != null) {
-				double toBeSetEndingBalance = 0.0;
-				if (selectedPayFromAccount.isIncrease())
-					toBeSetEndingBalance = selectedPayFromAccount
-							.getTotalBalance()
+		// if (this.transaction == null) {
+		amountText.setAmount(toBeSetAmount);
+		totalAmount = toBeSetAmount;
+		if (selectedPayFromAccount != null) {
+			double toBeSetEndingBalance = 0.0;
+			if (selectedPayFromAccount.isIncrease())
+				toBeSetEndingBalance = selectedPayFromAccount.getTotalBalance()
 
-							+ DataUtils.getBalance(
-									amountText.getAmount().toString())
-									.doubleValue();
-				else
-					toBeSetEndingBalance = selectedPayFromAccount
-							.getTotalBalance()
+						+ DataUtils.getBalance(
+								amountText.getAmount().toString())
+								.doubleValue();
+			else
+				toBeSetEndingBalance = selectedPayFromAccount.getTotalBalance()
 
-							- DataUtils.getBalance(
-									amountText.getAmount().toString())
-									.doubleValue();
-				endingBalanceText.setAmount(toBeSetEndingBalance);
-			}
+						- DataUtils.getBalance(
+								amountText.getAmount().toString())
+								.doubleValue();
+			endingBalanceText.setAmount(toBeSetEndingBalance);
+			// }
 		}
 
 	}

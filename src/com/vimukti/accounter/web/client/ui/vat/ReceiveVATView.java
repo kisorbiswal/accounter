@@ -559,28 +559,28 @@ public class ReceiveVATView extends
 		// for (ClientTransactionPayVAT rec : selectedRecords) {
 		// toBeSetAmount += rec.getAmountToPay();
 		// }
-		if (this.transaction == null) {
-			amountText.setAmount(toBeSetAmount);
-			totalAmount = toBeSetAmount;
-			if (selectedDepositInAccount != null) {
-				double toBeSetEndingBalance = 0.0;
-				if (selectedDepositInAccount.isIncrease())
-					toBeSetEndingBalance = selectedDepositInAccount
-							.getTotalBalance()
+		// if (this.transaction == null) {
+		amountText.setAmount(toBeSetAmount);
+		totalAmount = toBeSetAmount;
+		if (selectedDepositInAccount != null) {
+			double toBeSetEndingBalance = 0.0;
+			if (selectedDepositInAccount.isIncrease())
+				toBeSetEndingBalance = selectedDepositInAccount
+						.getTotalBalance()
 
-							+ DataUtils.getBalance(
-									amountText.getAmount().toString())
-									.doubleValue();
-				else
-					toBeSetEndingBalance = selectedDepositInAccount
-							.getTotalBalance()
+						+ DataUtils.getBalance(
+								amountText.getAmount().toString())
+								.doubleValue();
+			else
+				toBeSetEndingBalance = selectedDepositInAccount
+						.getTotalBalance()
 
-							- DataUtils.getBalance(
-									amountText.getAmount().toString())
-									.doubleValue();
-				endingBalanceText.setAmount(toBeSetEndingBalance);
-			}
+						- DataUtils.getBalance(
+								amountText.getAmount().toString())
+								.doubleValue();
+			endingBalanceText.setAmount(toBeSetEndingBalance);
 		}
+		// }
 
 	}
 

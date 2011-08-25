@@ -647,7 +647,7 @@ public class MakeDepositView extends
 			cashBackMemoText.setValue(transaction.getCashBackMemo());
 			cashBackAccountSelect.setValue(transaction.getCashBackAccount());
 			totText.setValue(String.valueOf(transaction.getTotal()));
-			gridView.setCanEdit(false);
+			// gridView.setCanEdit(false);
 		}
 		// FIXME--need to implement this feature
 		// gridView.setEnableMenu(false);
