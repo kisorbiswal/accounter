@@ -274,7 +274,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>iAccounterImpl</servlet-name>
-		<url-pattern>/do/accounter/crud/rpc/service </url-pattern>
+		<url-pattern>/do/accounter/crud/rpc/service</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>iAccounterGetImpl</servlet-name>
@@ -428,16 +428,6 @@
 		<url-pattern>/initialzeCompany</url-pattern>
 	</servlet-mapping>
 	
-	<servlet>
-		<servlet-name>deleteUser</servlet-name>
-		<servlet-class>com.vimukti.accounter.servlets.DeleteUserServlet
-		</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>deleteUser</servlet-name>
-		<url-pattern>/deleteUser</url-pattern>
-	</servlet-mapping>
-
 
 	<filter>
 		<filter-name>GzipFilter</filter-name>
@@ -507,7 +497,7 @@
 		<param-name>version</param-name>
 		<param-value>1.0.0.2</param-value>
 	</context-param>
-	<!--<servlet-mapping>
+	<servlet-mapping>
 		<servlet-name>maintanance</servlet-name>
 		<url-pattern>/maintanance</url-pattern>
 	</servlet-mapping>
@@ -515,6 +505,6 @@
 		<servlet-name>maintanance</servlet-name>
 		<servlet-class>com.vimukti.accounter.servlets.MaintananceServlet
 		</servlet-class>
-	</servlet>  -->
+	</servlet> 
 
 </web-app>
