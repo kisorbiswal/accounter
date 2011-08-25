@@ -5757,9 +5757,14 @@ important
 }
 
 .abstract_base_view {
-	/*background: none repeat scroll 0 0 #F0F0F0 !important;*/
+	/*background: none repeat scroll 0 0 #F0F0F0 !important;
 	padding: 15px;
 	width: 100%;
+	border:1px solid #1A5158;*/
+	
+}
+.viewholder{
+	padding: 15px;
 	border:1px solid #1A5158;
 }
 
@@ -6050,12 +6055,18 @@ iframe { /*display:none;*/
 }
 
 .logout-help-welcome {
+	/*background: url("/images/Seperator_right.png") repeat-y scroll 0 0
+		transparent;
+	margin-top: 20px;
+	padding-left: 10px;*/
+}
+.header_links{
 	background: url("/images/Seperator_right.png") repeat-y scroll 0 0
 		transparent;
 	margin-top: 20px;
 	padding-left: 10px;
 }
-
+	
 .logout-html {
 	background: url(/images/logout.png) no-repeat scroll 0 1px transparent;
 	padding-left: 22px;
@@ -6330,9 +6341,7 @@ normal
 	.header_check_box {
 		width: 20px !important;
 	}
-	.abstract_base_view {
-	    
-	}
+	
 }
 
 /* Opera only*/
@@ -6989,5 +6998,8 @@ a#fdbk_tab:hover{
 	margin:15px 0 0 15px;
 }
 #branding{
-	 padding: 10px 20px 0 !important;
+	 padding: 10px 10px 0 !important;
+}
+.breadcrumb a{
+	color:white;
 }
