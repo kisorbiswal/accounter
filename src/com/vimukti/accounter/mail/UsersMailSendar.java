@@ -173,7 +173,9 @@ public class UsersMailSendar {
 			return;
 		}
 
-		String content = getContentForExternalUser();
+		// String content = getContentForExternalUser();
+		String content = propertyParser.getProperty(
+				"contentForInviteExternalUser", "");
 		content = content.replaceAll("%USER%", name);
 		content = content.replaceAll("%USERID%", emailId);
 		content = content.replaceAll("%PASSWORD%", passwd);
@@ -466,8 +468,8 @@ public class UsersMailSendar {
 				.getProperty("contentForDefaultUser", "");
 		content = content.replaceAll("%USERNAME%", admin.getFirstName());
 		content = content.replaceAll("%COMPANY%", companyName);
-		content=replaceServerUrl(content);
-		
+		content = replaceServerUrl(content);
+
 		String subject = propertyParser
 				.getProperty("subjectForDefaultUser", "");
 
@@ -586,7 +588,9 @@ public class UsersMailSendar {
 			return;
 		}
 
-		String content = getContentForExternalUser();
+		// String content = getContentForExternalUser();
+		String content = propertyParser.getProperty(
+				"contentForInviteExternalUser", "");
 		content = content.replaceAll("%USER%", invitedClient.getFirstName());
 		content = content.replaceAll("%USERID%", invitedClient.getEmailId());
 		content = content.replaceAll("%SENDERNAME%", inviter.getEmailId());
@@ -626,7 +630,8 @@ public class UsersMailSendar {
 		content = content.replaceAll("%COMPANY%", companyName);
 		content = content.replaceAll("%URL%", "http://accounterlive.com");
 
-		String subject = propertyParser.getProperty("subjectForDeletedInviteUser", "");
+		String subject = propertyParser.getProperty(
+				"subjectForDeletedInviteUser", "");
 		subject = subject.replaceAll("%COMPANY%", companyName);
 
 		EMailMessage emailMsg = new EMailMessage();
@@ -653,7 +658,8 @@ public class UsersMailSendar {
 		return null;
 	}
 
-	private static String replaceServerUrl(String content){
-		return content.replaceAll("%SERVERURL%", ServerConfiguration.getServerURL());
+	private static String replaceServerUrl(String content) {
+		return content.replaceAll("%SERVERURL%", ServerConfiguration
+				.getServerURL());
 	}
 }
