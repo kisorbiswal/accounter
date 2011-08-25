@@ -58,6 +58,12 @@ public class PasswordItem extends FormItem<String> {
 
 	}
 
+	@Override
+	public void setToopTip(String toolTip) {
+		super.setToopTip(toolTip);
+		passwordBox.setTitle(toolTip);
+	}
+
 	protected void onAttach() {
 
 	}

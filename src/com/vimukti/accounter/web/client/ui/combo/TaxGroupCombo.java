@@ -15,7 +15,7 @@ public class TaxGroupCombo extends CustomCombo<ClientTAXItemGroup> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboConstants.newTaxGroup();
+		return comboMessages.newTaxGroup();
 	}
 
 	@Override

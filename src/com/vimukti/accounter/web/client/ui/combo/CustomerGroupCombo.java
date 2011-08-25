@@ -11,7 +11,7 @@ public class CustomerGroupCombo extends CustomCombo<ClientCustomerGroup> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboConstants.newCustomerGroup();
+		return comboMessages.newCustomerGroup();
 	}
 
 	@Override

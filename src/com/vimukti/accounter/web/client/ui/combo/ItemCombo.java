@@ -50,7 +50,7 @@ public class ItemCombo extends CustomCombo<ClientItem> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboConstants.newItem();
+		return comboMessages.newItem();
 	}
 
 	@Override

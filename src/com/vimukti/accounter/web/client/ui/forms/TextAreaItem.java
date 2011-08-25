@@ -8,6 +8,7 @@ public class TextAreaItem extends FormItem<String> {
 
 	TextArea textArea;
 	boolean isMemo;
+
 	public TextAreaItem(String title) {
 		setTitle(title);
 		textArea = new TextArea();
@@ -23,7 +24,7 @@ public class TextAreaItem extends FormItem<String> {
 	// textArea.setText(title);
 	// }
 	public void setMemo(boolean isMemo) {
-		this.isMemo=isMemo;
+		this.isMemo = isMemo;
 		if (isMemo) {
 			textArea.removeStyleName("gwt-TextArea");
 			textArea.addStyleName("memoTextArea");
@@ -44,6 +45,12 @@ public class TextAreaItem extends FormItem<String> {
 	}
 
 	@Override
+	public void setToopTip(String toolTip) {
+		super.setToopTip(toolTip);
+		textArea.setTitle(toolTip);
+	}
+
+	@Override
 	public Widget getMainWidget() {
 		return this.textArea;
 	}
@@ -53,9 +60,9 @@ public class TextAreaItem extends FormItem<String> {
 		if (b) {
 			this.textArea.addStyleName("disable-TextField");
 		} else {
-//			this.textArea.setStyleName("gwt-TextBox");
+			// this.textArea.setStyleName("gwt-TextBox");
 			textArea.setStyleName("gwt-TextArea");
-//			textArea.addStyleName("memoTextArea");
+			// textArea.addStyleName("memoTextArea");
 			if (isMemo) {
 				textArea.removeStyleName("gwt-TextArea");
 				textArea.addStyleName("memoTextArea");

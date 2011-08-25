@@ -12,7 +12,7 @@ public class PayeeCombo extends CustomCombo<ClientPayee> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboConstants.newPayee();
+		return comboMessages.newPayee();
 	}
 
 	@Override

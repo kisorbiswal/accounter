@@ -162,6 +162,10 @@ public abstract class FormItem<T> {
 		defaultValue = value;
 	}
 
+	public void setToopTip(String toolTip) {
+
+	}
+
 	public boolean getDisabled() {
 		return isDisabled;
 	}

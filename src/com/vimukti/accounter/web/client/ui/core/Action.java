@@ -37,7 +37,7 @@ public abstract class Action<T> implements Command {
 	 * This action's text, or <code>null</code> if none.
 	 */
 	private String text;
-
+	private String viewName;
 	/**
 	 * This action's tool tip text, or <code>null</code> if none.
 	 */
@@ -61,6 +61,7 @@ public abstract class Action<T> implements Command {
 	 */
 	public Action(String text) {
 		setText(text);
+		setViewName(null);
 	}
 
 	/**
@@ -150,8 +151,8 @@ public abstract class Action<T> implements Command {
 			return false;
 		}
 
-		boolean isSameClass = object.getClass().getName()
-				.equals(this.getClass().getName());
+		boolean isSameClass = object.getClass().getName().equals(
+				this.getClass().getName());
 
 		return isSameClass;
 
@@ -164,7 +165,7 @@ public abstract class Action<T> implements Command {
 	public abstract String getHistoryToken();
 
 	public abstract String getHelpToken();
-	
+
 	public boolean isDependent() {
 		return isDependent;
 	}
@@ -202,5 +203,16 @@ public abstract class Action<T> implements Command {
 
 	public void setListData(List<T> listData) {
 		this.listData = listData;
+	}
+
+	public void setViewName(String viewName) {
+		this.viewName = viewName;
+		if (viewName == null && this.getText() != null
+				&& getText().contains("New "))
+			this.viewName = this.getText().replace("New ", "").toLowerCase();
+	}
+
+	public String getViewName() {
+		return viewName;
 	}
 }

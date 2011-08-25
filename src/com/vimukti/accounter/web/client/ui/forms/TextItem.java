@@ -82,8 +82,14 @@ public class TextItem extends FormItem<String> {
 	}
 
 	@Override
+	public void setToopTip(String toolTip) {
+		super.setToopTip(toolTip);
+		textBox.setTitle(toolTip);
+	}
+
+	@Override
 	public void setValue(String value) {
-		if (value != null){
+		if (value != null) {
 			this.textBox.setText(value);
 		}
 	}
@@ -97,10 +103,13 @@ public class TextItem extends FormItem<String> {
 		textBox.addBlurHandler(blurHandler);
 
 	}
+
 	@Override
-	public void addFocusHandler(com.google.gwt.event.dom.client.FocusHandler focusHandler) {
+	public void addFocusHandler(
+			com.google.gwt.event.dom.client.FocusHandler focusHandler) {
 		this.textBox.addFocusHandler(focusHandler);
 	};
+
 	public void setKeyBoardHandler(KeyPressHandler keyPressHandler) {
 		textBox.addKeyPressHandler(keyPressHandler);
 	}
@@ -143,7 +152,7 @@ public class TextItem extends FormItem<String> {
 
 	@Override
 	public void setDisabled(boolean b) {
-		if (b){
+		if (b) {
 			this.textBox.addStyleName("disable-TextField");
 		} else {
 			this.textBox.setStyleName("gwt-TextBox");

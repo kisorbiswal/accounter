@@ -2,15 +2,16 @@ package com.vimukti.accounter.web.client.ui.combo;
 
 import java.util.Arrays;
 
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
-public class SelectCombo extends CustomCombo<String>  {
+public class SelectCombo extends CustomCombo<String> {
 
 	// public static final int ACCOUNT_TYPES = 6;
 
 	public SelectCombo(String title) {
 		super(title, false, 1);
+		super.setToopTip(Accounter.messages().selectWhichWeHaveInOurCompany(
+				title));
 		// if (type == SHIP_TO) {
 		// initCombo(new ClientAddress().getAddressTypes());
 		// } else if (type == PHONE) {
@@ -87,5 +88,4 @@ public class SelectCombo extends CustomCombo<String>  {
 		comboItems.addAll(Arrays.asList(strings));
 	}
 
-	
 }

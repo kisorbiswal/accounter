@@ -45,7 +45,7 @@ public class SalesAccountsCombo extends GridAccountsCombo {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboConstants.newFinanceCategory();
+		return comboMessages.newFinanceCategory();
 	}
 
 	@Override

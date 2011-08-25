@@ -40,9 +40,13 @@ public class NewInvoiceAction extends Action {
 
 			@Override
 			public void onSuccess() {
-				view = InvoiceView.getInstance();
-				MainFinanceWindow.getViewManager().showView(view, data,
-						isDependent, NewInvoiceAction.this);
+				try {
+					view = InvoiceView.getInstance();
+					MainFinanceWindow.getViewManager().showView(view, data,
+							isDependent, NewInvoiceAction.this);
+				} catch (Exception e) {
+					System.err.println(e);
+				}
 
 			}
 

@@ -35,6 +35,12 @@ public class LinkItem extends FormItem<String> {
 	}
 
 	@Override
+	public void setToopTip(String toolTip) {
+		super.setToopTip(toolTip);
+		hyperlink.setTitle(toolTip);
+	}
+
+	@Override
 	public void addClickHandler(ClickHandler clickHandler) {
 		this.hyperlink.addClickHandler(clickHandler);
 

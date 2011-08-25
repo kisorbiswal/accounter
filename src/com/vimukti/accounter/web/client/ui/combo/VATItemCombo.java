@@ -106,9 +106,9 @@ public class VATItemCombo extends CustomCombo<ClientTAXItem> {
 	@Override
 	public String getDefaultAddNewCaption() {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			return comboConstants.newTaxItem();
+			return comboMessages.newTaxItem();
 		else
-			return comboConstants.newVATItem();
+			return comboMessages.newVATItem();
 	}
 
 	/*

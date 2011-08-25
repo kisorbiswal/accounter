@@ -748,4 +748,6 @@ public interface AccounterMessages extends Messages {
 
 	public String companySuppliers(String vendor);
 
+	public String accountNumberToolTipDesc(String starting,String ending);
+
 }

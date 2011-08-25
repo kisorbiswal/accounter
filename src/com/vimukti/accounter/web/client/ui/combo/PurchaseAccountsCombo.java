@@ -44,7 +44,7 @@ public class PurchaseAccountsCombo extends GridAccountsCombo {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboConstants.newAccount();
+		return comboMessages.newAccount();
 	}
 
 	@Override

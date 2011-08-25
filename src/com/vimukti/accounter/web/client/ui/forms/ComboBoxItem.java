@@ -64,8 +64,8 @@ public class ComboBoxItem extends FormItem<String> {
 	public void setValueMap(LinkedHashMap<String, String> propertyvalueMap) {
 		this.propertyValueHashMap = propertyvalueMap;
 		for (Entry<String, String> propertyValue : propertyvalueMap.entrySet()) {
-			this.listBox.addItem(propertyValue.getKey(),
-					propertyValue.getValue());
+			this.listBox.addItem(propertyValue.getKey(), propertyValue
+					.getValue());
 		}
 
 	}
@@ -78,6 +78,12 @@ public class ComboBoxItem extends FormItem<String> {
 	public Widget getMainWidget() {
 
 		return this.listBox;
+	}
+
+	@Override
+	public void setToopTip(String toolTip) {
+		super.setToopTip(toolTip);
+		listBox.setTitle(toolTip);
 	}
 
 	@Override

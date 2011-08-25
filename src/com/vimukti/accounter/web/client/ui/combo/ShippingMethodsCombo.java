@@ -17,7 +17,7 @@ public class ShippingMethodsCombo extends CustomCombo<ClientShippingMethod> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboConstants.newShippingMethod();
+		return comboMessages.newShippingMethod();
 	}
 
 	@Override

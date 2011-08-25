@@ -17,7 +17,7 @@ public class ShippingTermsCombo extends CustomCombo<ClientShippingTerms> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboConstants.newShippingTerms();
+		return comboMessages.newShippingTerms();
 	}
 
 	@Override

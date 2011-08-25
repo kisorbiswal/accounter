@@ -95,7 +95,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		amtText.setAmount(0.0);
 		endBalText
 				.setAmount(payFromCombo.getSelectedValue() != null ? payFromCombo
-						.getSelectedValue().getTotalBalance() : 0.0);
+						.getSelectedValue().getTotalBalance()
+						: 0.0);
 	}
 
 	/*
@@ -266,8 +267,10 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 				record.setAppliedCredits(curntRec.getCredits());
 
-				record.setDiscountDate(curntRec.getDiscountDate() != null ? curntRec
-						.getDiscountDate().getDate() : 0);
+				record
+						.setDiscountDate(curntRec.getDiscountDate() != null ? curntRec
+								.getDiscountDate().getDate()
+								: 0);
 
 				record.setDueDate(curntRec.getDueDate() != null ? curntRec
 						.getDueDate().getDate() : 0);
@@ -712,7 +715,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 	@Override
 	public ValidationResult validate() {
-		ValidationResult result = super.validate();
+		ValidationResult result = new ValidationResult();
 
 		// Validations
 		// 1. is valid transaction date?
@@ -723,13 +726,13 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		// 6. grid valid?
 
 		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateTransactionDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 		ValidationResult payFormValidationResult = payForm.validate();
 		if (payFormValidationResult.haveErrors()
@@ -743,15 +746,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			return result;
 		}
 		if (!isInViewMode()) {
-			/*
-			 * if (gridView == null || gridView.getRecords().isEmpty() ||
-			 * gridView.getSelectedRecords().size() == 0) {
-			 * result.addError(gridView, Accounter.constants()
-			 * .selectTransaction()); }
-			 */
 			if (AccounterValidator.isBlankTransaction(gridView)) {
-				result.addError(
-						vendorTransactionGrid,
+				result.addError(vendorTransactionGrid,
 						Accounter.messages().noBillsAreAvailableFirstAddABill(
 								Global.get().Vendor()));
 			}
@@ -803,8 +799,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		if (getVendor() != null) {
 
 			for (PayBillTransactionList cont : filterList) {
-				if (getVendor().getName().toString()
-						.equalsIgnoreCase(cont.getVendorName().toString())) {
+				if (getVendor().getName().toString().equalsIgnoreCase(
+						cont.getVendorName().toString())) {
 
 					tempList.add(cont);
 				}

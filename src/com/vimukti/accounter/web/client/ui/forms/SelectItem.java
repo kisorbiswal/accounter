@@ -67,6 +67,12 @@ public class SelectItem extends FormItem<String> {
 	}
 
 	@Override
+	public void setToopTip(String toolTip) {
+		super.setToopTip(toolTip);
+		listBox.setTitle(toolTip);
+	}
+
+	@Override
 	public void setValue(String value) {
 		int valuesCount = this.listBox.getItemCount();
 		for (int i = 0; i < valuesCount; i++) {

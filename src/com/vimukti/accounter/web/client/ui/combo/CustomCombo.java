@@ -21,10 +21,38 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 
 	public CustomCombo(String title, boolean isAddNewRequire, int noOfCols) {
 		super(title, isAddNewRequire, noOfCols);
+		if (title != null) {
+			int i = title.length();
+			if (i > 5)
+				if (title.substring(i - 1).equalsIgnoreCase("s"))
+					title = title.replace("s", "");
+				else if (title.substring(i - 4, i).equalsIgnoreCase(
+						Accounter.constants().name()))
+					title = title.replace(Accounter.constants().name(), "")
+							.toLowerCase();
+			if (isAddNewRequire)
+				super.setToopTip(Accounter.messages()
+						.selectWhichWeHaveInOurCompanyOrAddNew(title));
+			else
+				super.setToopTip(Accounter.messages()
+						.selectWhichWeHaveInOurCompany(title));
+		}
 	}
 
 	public CustomCombo(String title) {
 		super(title, true, 1);
+		if (title != null) {
+			int i = title.length();
+			if (i > 5)
+				if (title.substring(i - 1).equalsIgnoreCase("s"))
+					title = title.replace("s", "");
+				else if (title.substring(i - 4, i).equalsIgnoreCase(
+						Accounter.constants().name()))
+					title = title.replace(Accounter.constants().name(), "")
+							.toLowerCase();
+			super.setToopTip(Accounter.messages()
+					.selectWhichWeHaveInOurCompanyOrAddNew(title));
+		}
 	}
 
 	/*

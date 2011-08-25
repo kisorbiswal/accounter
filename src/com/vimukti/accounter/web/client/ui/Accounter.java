@@ -38,7 +38,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterComboConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterComboMessges;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.images.FinanceImages;
@@ -79,7 +79,7 @@ public class Accounter implements EntryPoint {
 
 	private static AccounterMessages messages;
 	private static AccounterConstants constants;
-	private static AccounterComboConstants comboConstants;
+	private static AccounterComboMessges comboMessages;
 	private static FinanceImages financeImages;
 	private static FinanceMenuImages financeMenuImages;
 
@@ -246,12 +246,12 @@ public class Accounter implements EntryPoint {
 		return constants;
 	}
 
-	public static AccounterComboConstants comboConstants() {
-		if (comboConstants == null) {
-			comboConstants = (AccounterComboConstants) GWT
-					.create(AccounterComboConstants.class);
+	public static AccounterComboMessges comboMessages() {
+		if (comboMessages == null) {
+			comboMessages = (AccounterComboMessges) GWT
+					.create(AccounterComboMessges.class);
 		}
-		return comboConstants;
+		return comboMessages;
 	}
 
 	public static AccounterConstants getFinanceConstants() {

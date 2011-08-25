@@ -40,6 +40,12 @@ public class AutoCompleteItem extends FormItem<String> {
 		return this.valueMap.get(suggestBox.getValue());
 	}
 
+	@Override
+	public void setToopTip(String toolTip) {
+		super.setToopTip(toolTip);
+		suggestBox.setTitle(toolTip);
+	}
+
 	public Widget getComponent() {
 
 		MultiWordSuggestOracle map = new MultiWordSuggestOracle();

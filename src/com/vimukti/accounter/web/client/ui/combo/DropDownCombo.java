@@ -27,7 +27,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
-import com.vimukti.accounter.web.client.externalization.AccounterComboConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterComboMessges;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.forms.CustomComboItem;
@@ -37,7 +37,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 	protected IAccounterComboSelectionChangeHandler<T> handler;
 
-	AccounterComboConstants comboConstants = Accounter.comboConstants();
+	AccounterComboMessges comboMessages = Accounter.comboMessages();
 	private boolean isAddNewRequire;
 	private DropDownTable<T> dropDown;
 	private int cols;
@@ -203,7 +203,8 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			@Override
 			public void onClose(CloseEvent<PopupPanel> event) {
 				if ((selectedName == null || !selectedName.equals(getValue()
-						.toString())) && selectedIndex == -1)
+						.toString()))
+						&& selectedIndex == -1)
 					setRelatedComboItem(getValue().toString());
 			}
 		});
@@ -617,8 +618,8 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	private void filterValues(char key) {
 
 		String val = getValue() != null ? getValue().toString()
-				+ String.valueOf(key).replace("/", "").trim() : String
-				.valueOf(key).replace("/", "").trim();
+				+ String.valueOf(key).replace("/", "").trim() : String.valueOf(
+				key).replace("/", "").trim();
 
 		resetComboList();
 		if (key == '/') {

@@ -183,6 +183,33 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					public void selectedComboBoxItem(String selectItem) {
 						selectedId = (String) accTypeSelect.getSelectedValue();
 						accounttype_selected();
+						if (getAccountType(selectedId) == ClientAccount.TYPE_INCOME)
+							accNoText.setToopTip(Accounter.messages()
+									.accountNumberToolTipDesc("4000", "4999"));
+						else if (getAccountType(selectedId) == ClientAccount.TYPE_CREDIT_CARD)
+							accNoText.setToopTip(Accounter.messages()
+									.accountNumberToolTipDesc("7000", "7999"));
+						else if (getAccountType(selectedId) == ClientAccount.TYPE_CASH)
+							accNoText.setToopTip(Accounter.messages()
+									.accountNumberToolTipDesc("3000", "3999"));
+						else if (getAccountType(selectedId) == ClientAccount.TYPE_COST_OF_GOODS_SOLD)
+							accNoText.setToopTip(Accounter.messages()
+									.accountNumberToolTipDesc("5000", "5999"));
+						else if (getAccountType(selectedId) == ClientAccount.TYPE_BANK)
+							accNoText.setToopTip(Accounter.messages()
+									.accountNumberToolTipDesc("1000", "1999"));
+						else if (getAccountType(selectedId) == ClientAccount.TYPE_OTHER_CURRENT_ASSET)
+							accNoText.setToopTip(Accounter.messages()
+									.accountNumberToolTipDesc("1000", "1999"));
+						else if (getAccountType(selectedId) == ClientAccount.TYPE_OTHER_CURRENT_LIABILITY)
+							accNoText.setToopTip(Accounter.messages()
+									.accountNumberToolTipDesc("2000", "2999"));
+						else if (getAccountType(selectedId) == ClientAccount.TYPE_LONG_TERM_LIABILITY)
+							accNoText.setToopTip(Accounter.messages()
+									.accountNumberToolTipDesc("9000", "9499"));
+						else if (getAccountType(selectedId) == ClientAccount.TYPE_EQUITY)
+							accNoText.setToopTip(Accounter.messages()
+									.accountNumberToolTipDesc("3000", "3999"));
 
 					}
 				});
@@ -236,7 +263,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 								|| (subAccSelect != null && selectedSubAccount != null)) {
 							hierarchy = Utility
 									.getHierarchy(selectedSubAccount) != null ? Utility
-									.getHierarchy(selectedSubAccount) : "";
+									.getHierarchy(selectedSubAccount)
+									: "";
 							hierarchy = hierarchy + temp;
 
 						} else
@@ -317,10 +345,13 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		asofDate = new DateField(Accounter.constants().asOf());
 		asofDate.setHelpInformation(true);
 		// asofDate.setWidth(100);
-		asofDate.setEnteredDate(new ClientFinanceDate(
-				getCompany().getPreferences().getPreventPostingBeforeDate() == 0 ? new ClientFinanceDate()
-						.getDate() : getCompany().getPreferences()
-						.getPreventPostingBeforeDate()));
+		asofDate
+				.setEnteredDate(new ClientFinanceDate(
+						getCompany().getPreferences()
+								.getPreventPostingBeforeDate() == 0 ? new ClientFinanceDate()
+								.getDate()
+								: getCompany().getPreferences()
+										.getPreventPostingBeforeDate()));
 
 		catSelect = new SelectItem(Accounter.constants().category1099());
 		catSelect.setWidth(100);
@@ -414,8 +445,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				.setGroupTitle(Accounter.constants().cashBasisAccounting());
 		cashBasisForm.setFields(cashAccountCheck);
 		cashBasisForm.setWidth("100%");
-		cashBasisForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "200");
+		cashBasisForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "200");
 
 		commentsArea = new TextAreaItem();
 		commentsArea.setHelpInformation(true);
@@ -428,8 +459,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		commentsForm.setFields(commentsArea);
 		commentsForm.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
-		commentsForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "200");
+		commentsForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "200");
 
 		if (getData() == null) {
 			ClientAccount account = accountType != ClientAccount.TYPE_BANK ? new ClientAccount()
@@ -459,11 +490,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		long financeCategoryNumber = 0;
 
 		if (isNewBankAccount()) {
-			addError(
-					accNoText,
-					Accounter.messages()
-							.theFinanceCategoryNoShouldBeBetween1100And1179(
-									Global.get().Account()));
+			addError(accNoText, Accounter.messages()
+					.theFinanceCategoryNoShouldBeBetween1100And1179(
+							Global.get().Account()));
 			financeCategoryNumber = autoGenerateAccountnumber(
 					BANK_CAT_BEGIN_NO, BANK_CAT_END_NO);
 
@@ -477,8 +506,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					&& accountSubBaseType == ClientAccount.SUBBASETYPE_OTHER_ASSET) {
 				return;
 			}
-			addError(
-					accNoText,
+			addError(accNoText,
 					Accounter.messages().theFinanceCategoryNoShouldBeBetween(
 							Global.get().Account())
 							+ "  "
@@ -713,7 +741,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			typeMap = new ArrayList<String>();
 
 			typeMap.add(AccounterClientConstants.BANK_ACCCOUNT_TYPE_CHECKING);
-			typeMap.add(AccounterClientConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET);
+			typeMap
+					.add(AccounterClientConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET);
 			typeMap.add(AccounterClientConstants.BANK_ACCCOUNT_TYPE_SAVING);
 			typeSelect.initCombo(typeMap);
 			typeSelect
@@ -830,24 +859,24 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		accountTypesMap = new LinkedHashMap<String, String>();
 		if (accountTypes != null && accountTypes.size() != 0) {
 			for (int type : accountTypes) {
-				accountTypesMap.put(String.valueOf(type),
-						Utility.getAccountTypeString(type));
+				accountTypesMap.put(String.valueOf(type), Utility
+						.getAccountTypeString(type));
 			}
 			defaultId = String.valueOf(accountTypes.get(0));
 
 		} else {
 			for (int type : UIUtils.accountTypes) {
 				if (getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK)
-					accountTypesMap.put(String.valueOf(type),
-							Utility.getAccountTypeString(type));
+					accountTypesMap.put(String.valueOf(type), Utility
+							.getAccountTypeString(type));
 				else if (type != ClientAccount.TYPE_BANK
 						&& type != ClientAccount.TYPE_CASH
 						&& type != ClientAccount.TYPE_OTHER_INCOME
 						&& type != ClientAccount.TYPE_INVENTORY_ASSET
 						&& type != ClientAccount.TYPE_CREDIT_CARD
 						&& type != ClientAccount.TYPE_PAYROLL_LIABILITY) {
-					accountTypesMap.put(String.valueOf(type),
-							Utility.getAccountTypeString(type));
+					accountTypesMap.put(String.valueOf(type), Utility
+							.getAccountTypeString(type));
 				}
 			}
 			if (accountType != ClientAccount.TYPE_BANK
@@ -1016,7 +1045,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		data.setIsActive(statusBox.getValue() != null ? (Boolean) statusBox
 				.getValue() : Boolean.FALSE);
 		if (cashAccountCheck != null)
-			data.setConsiderAsCashAccount((Boolean) cashAccountCheck.getValue());
+			data
+					.setConsiderAsCashAccount((Boolean) cashAccountCheck
+							.getValue());
 
 		if (cashFlowCatSelect.getValue() != null)
 			data.setCashFlowCategory(cashFlowCatSelect.getSelectedIndex() + 1);
@@ -1034,7 +1065,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					type = ClientAccount.BANK_ACCCOUNT_TYPE_CHECKING;
 				else if (typeSelect
 						.getSelectedValue()
-						.equals(AccounterClientConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET))
+						.equals(
+								AccounterClientConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET))
 					type = ClientAccount.BANK_ACCCOUNT_TYPE_MONEY_MARKET;
 				else if (typeSelect.getSelectedValue().equals(
 						AccounterClientConstants.BANK_ACCCOUNT_TYPE_SAVING))
@@ -1150,7 +1182,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		} else if (accountType == ClientAccount.TYPE_CREDIT_CARD) {
 			setCreditLimit(!DecimalUtil.isEquals(data.getCreditLimit(), 0) ? data
-					.getCreditLimit() : 0D);
+					.getCreditLimit()
+					: 0D);
 			limitText.setValue(DataUtils.getAmountAsString(getCreditLimit()));
 			cardNumText.setValue(data.getCardOrLoanNumber() != null ? data
 					.getCardOrLoanNumber() : "");
@@ -1247,9 +1280,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 						.setEnteredDate(new ClientFinanceDate(
 								getCompany().getPreferences()
 										.getPreventPostingBeforeDate() == 0 ? new ClientFinanceDate()
-										.getDate() : getCompany()
-										.getPreferences()
-										.getPreventPostingBeforeDate()));
+										.getDate()
+										: getCompany().getPreferences()
+												.getPreventPostingBeforeDate()));
 			else if ((item instanceof AmountField))
 				((AmountField) item).setAmount(0.0);
 			else if ((item instanceof CheckboxItem))

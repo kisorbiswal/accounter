@@ -246,7 +246,8 @@ public class TransactionPayBillGrid extends
 			// "" + UIUtils.getCurrencySymbol() + "", "");
 			// }
 			double payment = Double.parseDouble(DataUtils
-					.getReformatedAmount(value.toString()) + "");
+					.getReformatedAmount(value.toString())
+					+ "");
 			editingRecord.setPayment(payment);
 			updateAmountDue(editingRecord);
 			updateData(editingRecord);
@@ -262,6 +263,11 @@ public class TransactionPayBillGrid extends
 	@Override
 	public ValidationResult validateGrid() {
 		ValidationResult result = new ValidationResult();
+		if (this.getSelectedRecords().size() == 0) {
+			result.addError(this, Accounter.constants()
+					.pleaseSelectAnyOneOfTheTransactions());
+		}
+
 		// validates receive payment amount excesses due amount or not
 		for (ClientTransactionPayBill transactionPayBill : this
 				.getSelectedRecords()) {
@@ -347,9 +353,9 @@ public class TransactionPayBillGrid extends
 		// discountAccount = getCompany().getAccountByName(
 		// companyConstants.discounts());
 		// }
-		cashDiscountDialog = new CashDiscountDialog(canEdit,
-				selectedObject.getCashDiscount(), getCompany().getAccount(
-						selectedObject.getDiscountAccount()));
+		cashDiscountDialog = new CashDiscountDialog(canEdit, selectedObject
+				.getCashDiscount(), getCompany().getAccount(
+				selectedObject.getDiscountAccount()));
 		// } else {
 		// cashDiscountDialog.setCanEdit(canEdit);
 		// cashDiscountDialog.setCashDiscountValue(selectedObject

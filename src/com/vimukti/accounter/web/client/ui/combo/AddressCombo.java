@@ -6,10 +6,13 @@ public class AddressCombo extends CustomCombo<ClientAddress> {
 
 	public AddressCombo(String title) {
 		super(title);
+		super.setToopTip("");
 	}
-	
+
 	public AddressCombo(String title, boolean isAddNewRequired) {
 		super(title, isAddNewRequired, 1);
+		super.setToopTip("");
+
 	}
 
 	// AddressCombo dont have "AddNew" option
@@ -31,13 +34,12 @@ public class AddressCombo extends CustomCombo<ClientAddress> {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	public void setDefaultToFirstOption(boolean b) {
 		if (b) {
 			this.setComboItem(comboItems.get(0));
 		}
 	}
-
 
 	@Override
 	protected String getColumnData(ClientAddress object, int row, int col) {

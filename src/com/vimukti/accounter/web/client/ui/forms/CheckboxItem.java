@@ -33,6 +33,12 @@ public class CheckboxItem extends FormItem<Boolean> {
 
 	}
 
+	@Override
+	public void setToopTip(String toolTip) {
+		super.setToopTip(toolTip);
+		checkBox.setTitle(toolTip);
+	}
+
 	public CheckboxItem(String name, String description) {
 
 		this.checkBox = new CheckBox();

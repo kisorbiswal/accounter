@@ -1,6 +1,8 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.customers.NewCustomerAction;
@@ -9,19 +11,24 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 
 	public CustomerCombo(String title) {
 		super(title);
+		super.setToopTip(Accounter.messages().selectWhichWeHaveInOurCompanyOrAddNew(
+				Global.get().Customer()));
 		initCombo(getCompany().getCustomers());
 
 	}
 
 	public CustomerCombo(String title, boolean isAddNewRequire) {
 		super(title, isAddNewRequire, 1);
+		if (isAddNewRequire)
+			super.setToopTip(Accounter.messages().selectWhichWeHaveInOurCompanyOrAddNew(
+					Global.get().Customer()));
 		initCombo(getCompany().getCustomers());
 
 	}
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboConstants.newCustomer();
+		return comboMessages.newCustomer();
 	}
 
 	@Override

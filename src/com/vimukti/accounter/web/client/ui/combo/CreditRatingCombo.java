@@ -11,7 +11,7 @@ public class CreditRatingCombo extends CustomCombo<ClientCreditRating> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboConstants.newCreditRating();
+		return comboMessages.newCreditRating();
 	}
 
 	@Override

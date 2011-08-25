@@ -33,7 +33,7 @@ public class CurrencyCombo extends CustomCombo<ClientCurrency> {
 	@Override
 	public String getDefaultAddNewCaption() {
 
-		return comboConstants.newCurrency();
+		return comboMessages.newCurrency();
 	}
 
 	@Override

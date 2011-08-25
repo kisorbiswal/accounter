@@ -28,6 +28,12 @@ public class LabelItem extends FormItem<String> {
 
 	}
 
+	@Override
+	public void setToopTip(String toolTip) {
+		super.setToopTip(toolTip);
+		label.setTitle(toolTip);
+	}
+
 	public void setWidth(String width) {
 		label.setWidth(width);
 	}

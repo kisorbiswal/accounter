@@ -11,7 +11,7 @@ public class VendorGroupCombo extends CustomCombo<ClientVendorGroup> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboConstants.newVendorGroup();
+		return comboMessages.newVendorGroup();
 	}
 
 	@Override
