@@ -344,8 +344,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		accInfoForm = new DynamicForm();
 		accInfoForm.setIsGroup(true);
 		accInfoForm.setWidth("100%");
-		accInfoForm.setGroupTitle(messages.accountInformation(
-				Global.get().Account()));
+		accInfoForm.setGroupTitle(messages.accountInformation(Global.get()
+				.Account()));
 
 		statusCheck = new CheckboxItem(constants.active());
 		statusCheck.setValue(true);
@@ -582,8 +582,7 @@ public class VendorView extends BaseView<ClientVendor> {
 						selectPaymentTermFromDetailsTab = selectItem;
 					}
 				});
-		accountText = new TextItem(messages.accountNo(
-				Global.get().Account()));
+		accountText = new TextItem(messages.accountNo(Global.get().Account()));
 		accountText.setHelpInformation(true);
 
 		bankNameText = new TextItem(Accounter.constants().bankName());
@@ -863,11 +862,11 @@ public class VendorView extends BaseView<ClientVendor> {
 		// Setting web page Address
 		data.setWebPageAddress(emailForm.getWebTextValue());
 
+		// Setting MISC 1099 form value
+		// data.setActive((Boolean) track1099MISC.getValue());
+
 		// Setting Active
 		data.setActive((Boolean) statusCheck.getValue());
-
-		// Setting MISC 1099 form value
-		data.setActive((Boolean) track1099MISC.getValue());
 
 		// Setting Vendor Since
 		data.setPayeeSince(vendorSinceDate.getEnteredDate().getDate());
