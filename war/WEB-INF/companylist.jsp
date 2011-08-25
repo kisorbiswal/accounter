@@ -26,7 +26,21 @@
 		   <c:forEach var="company" items="${companeyList}">
 			   <c:set var='url' value="/companies?companyId=${company.id}"/>
 			    <c:set var='deleteurl' value="/deletecompany?companyId=${company.id}"/>
-			   <div class="companies-list"><a href=${url}>${company.companyName}</a> <a href=${deleteurl}>Delete</a></div>
+			    <c:choose>
+				    <c:when test="${company.companyType == 0}">
+				   		<c:set var='companyType' value="US"/>
+				    </c:when>
+				    <c:when test="${company.companyType == 1}">
+				     	<c:set var='companyType' value="UK"/>
+				    </c:when>
+				    <c:when test="${company.companyType == 2}">
+				        <c:set var='companyType' value="IND"/>
+				    </c:when>
+				    <c:otherwise>
+				        <c:set var='companyType' value="OTH"/>
+				    </c:otherwise>
+				</c:choose>
+			   <div class="companies-list"><a href=${url}>${company.companyName} - ${companyType}</a> <a href=${deleteurl}>Delete</a></div>
 		   </c:forEach>
 	    </c:if>
 	    
