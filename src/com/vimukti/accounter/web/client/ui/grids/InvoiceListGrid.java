@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
+import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -24,10 +24,10 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 
 	@Override
 	protected int[] setColTypes() {
-		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
+		return new int[] { ListGrid.COLUMN_TYPE_CHECK,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_IMAGE,
 		// ListGrid.COLUMN_TYPE_IMAGE
@@ -38,26 +38,28 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 	protected Object getColumnValue(InvoicesList invoicesList, int col) {
 		switch (col) {
 		case 0:
-			return Utility.getTransactionName((invoicesList.getType()));
+			return false;
 		case 1:
-			return UIUtils.getDateByCompanyType(invoicesList.getDate());
+			return Utility.getTransactionName((invoicesList.getType()));
 		case 2:
-			return invoicesList.getNumber();
+			return UIUtils.getDateByCompanyType(invoicesList.getDate());
 		case 3:
-			return invoicesList.getCustomerName();
+			return invoicesList.getNumber();
 		case 4:
+			return invoicesList.getCustomerName();
+		case 5:
 			if (invoicesList.getDueDate() != null)
 				return UIUtils.getDateByCompanyType(invoicesList.getDueDate());
 			else
 				return "";
 
-		case 5:
-			return invoicesList.getNetAmount();
 		case 6:
-			return amountAsString(invoicesList.getTotalPrice());
+			return invoicesList.getNetAmount();
 		case 7:
-			return amountAsString(invoicesList.getBalance());
+			return amountAsString(invoicesList.getTotalPrice());
 		case 8:
+			return amountAsString(invoicesList.getBalance());
+		case 9:
 
 			if (!invoicesList.isVoided())
 				return Accounter.getFinanceImages().notvoid();
@@ -82,9 +84,8 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 	@Override
 	protected String[] getColumns() {
 		customerConstants = Accounter.constants();
-		return new String[] { customerConstants.type(),
-				customerConstants.date(), customerConstants.no(),
-				Accounter.messages().customerName(Global.get().Customer()),
+		return new String[] { " ", customerConstants.type(),
+				customerConstants.date(), customerConstants.no(), "",
 				customerConstants.dueDate(), customerConstants.netPrice(),
 				customerConstants.totalPrice(), customerConstants.balance(),
 				customerConstants.voided()
@@ -112,6 +113,16 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 		// return;
 		// }
 
+		if (col == 0) {
+
+			boolean isSelected = ((CheckBox) this.getWidget(row, col))
+					.getValue();
+
+			obj.setPrint(isSelected);
+
+			// updateData(obj);
+
+		}
 	}
 
 	private void showWarningDialog(final InvoicesList obj, final int col) {
@@ -261,4 +272,12 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 		return UIUtils.getAccounterCoreType(obj.getType());
 	}
 
+	@Override
+	public void editComplete(InvoicesList item, Object value, int col) {
+
+		if (col == 0) {
+		}
+		// TODO Auto-generated method stub
+		super.editComplete(item, value, col);
+	}
 }
