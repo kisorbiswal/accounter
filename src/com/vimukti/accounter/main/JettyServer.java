@@ -47,20 +47,7 @@ public class JettyServer {
 		webappcontext.setAttribute("documentDomain",
 				ServerConfiguration.getServerDomainName());
 
-		webappcontext.setAttribute("loginEnforceHttps",
-				Boolean.valueOf(ServerConfiguration.isLoginHTTPS()));
 
-		webappcontext.setAttribute("enforceHttps",
-				Boolean.valueOf(ServerConfiguration.enforceHTTS()));
-
-		webappcontext.setAttribute("helpUrl", ServerConfiguration.getHelpUrl());
-
-		if (ServerConfiguration.getHelperDomain().length() > 1) {
-			webappcontext.setAttribute("helperDomain",
-					ServerConfiguration.getHelperDomain());
-		}
-		webappcontext.setAttribute("port",
-				Integer.valueOf(ServerConfiguration.getPort()));
 
 		// for max post data
 		webappcontext.getServletContext().getContextHandler()

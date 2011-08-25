@@ -318,13 +318,21 @@ public class UsersMailSendar {
 
 		acc.setOutGoingMailServer(propertyParser.getProperty(
 				"outGoingMailServer", ""));
-		acc.setPortNumber(propertyParser.getProperty("portNumber", ""));
+		acc.setPortNumber(Integer.parseInt(propertyParser.getProperty(
+				"portNumber", "25")));
 		acc.setProtocol(propertyParser.getProperty("protocol", ""));
 
-		acc.setSmtpAuthentication(true);
+		acc.setSmtpAuthentication(propertyParser.getProperty(
+				"smtpAuthentication", "no").equalsIgnoreCase("yes"));
+
+		acc.setSslAutheticationRequired(propertyParser.getProperty(
+				"sslAutheticationRequired", "no").equalsIgnoreCase("yes"));
+
+		acc.setStartTtlsEnables(propertyParser.getProperty("startTtlsEnables",
+				"no").equalsIgnoreCase("yes"));
+
 		acc.setTls_starttlsAutheticationPort(propertyParser.getProperty(
 				"tls_starttlsAutheticationPort", ""));
-		acc.setSslPort(propertyParser.getProperty("sslPort", ""));
 
 		String emailID = propertyParser.getProperty(
 				"usermanagementSenderEmailID", "");

@@ -13,14 +13,13 @@ public class EMailSenderAccount implements Serializable {
 
 	private String senderPassword = "";
 	private String outGoingMailServer = "localhost";
-	private String portNumber = "25";
+	private int portNumber = 25;
 	private String protocol = "smtp";
-	private boolean smtpAuthentication = true;
-	private boolean sslAutheticationRequired = true;
-	private boolean startTtlsEnables = true;
+	private boolean smtpAuthentication = false;
+	private boolean sslAutheticationRequired = false;
+	private boolean startTtlsEnables = false;
 	private String accountName = "";
 	private String tls_starttlsAutheticationPort = "587";
-	private String sslPort = "465";
 
 	public EMailSenderAccount() {
 
@@ -28,7 +27,7 @@ public class EMailSenderAccount implements Serializable {
 
 	public EMailSenderAccount(String senderEmailID, String accountName,
 			String senderPassword, String outGoingMailServer,
-			String portNumber, String protocol, boolean smtpAuthentication,
+			int portNumber, String protocol, boolean smtpAuthentication,
 			boolean sslAutheticationRequired, boolean startTtlsEnables) {
 		this.senderEmailID = senderEmailID;
 		this.senderPassword = senderPassword;
@@ -65,11 +64,11 @@ public class EMailSenderAccount implements Serializable {
 		this.outGoingMailServer = outGoingMailServer;
 	}
 
-	public String getPortNumber() {
+	public int getPortNumber() {
 		return portNumber;
 	}
 
-	public void setPortNumber(String portNumber) {
+	public void setPortNumber(int portNumber) {
 		this.portNumber = portNumber;
 	}
 
@@ -122,12 +121,5 @@ public class EMailSenderAccount implements Serializable {
 		return tls_starttlsAutheticationPort;
 	}
 
-	public void setSslPort(String sslPort) {
-		this.sslPort = sslPort;
-	}
-
-	public String getSslPort() {
-		return sslPort;
-	}
 
 }

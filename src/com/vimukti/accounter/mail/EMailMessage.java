@@ -5,7 +5,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class EMailMessage {
-
+	
+	private String from;
+	
 	public String subject;
 
 	public String content;
@@ -17,11 +19,6 @@ public class EMailMessage {
 	private String replayTO;
 
 	public boolean isPlain;
-
-	public File getFile() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public Set<String> getRecipeants() {
 		return recepeiants;
@@ -65,6 +62,14 @@ public class EMailMessage {
 
 	public String getReplayTO() {
 		return replayTO;
+	}
+
+	public String getFrom() {
+		return from;
+	}
+
+	public void setFrom(String from) {
+		this.from = from;
 	}
 
 }

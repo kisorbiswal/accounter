@@ -73,7 +73,7 @@ public class EmailManager extends Thread {
 						mail.companyName);
 				Transport transport = session.getTransport("smtp");
 				transport.connect(sender.getOutGoingMailServer(),
-						Integer.parseInt(sender.getSslPort()),
+						sender.getPortNumber(),
 						sender.getSenderEmailID(), sender.getSenderPassword());
 				transport.sendMessage(msg, msg.getAllRecipients());
 				transport.close();
@@ -171,11 +171,16 @@ public class EmailManager extends Thread {
 				msg.setReplyTo(new InternetAddress[] { new InternetAddress(emsg
 						.getReplayTO()) });
 			}
-			String from = "";
-			if (!acc.getAccoutName().equals("")) {
-				from = acc.getAccoutName() + "<" + acc.getSenderEmailID() + ">";
-			} else {
-				from = acc.getSenderEmailID();
+			String from = emsg.getFrom();
+			// If there is no from supplied with the EmailMessage we will use
+			// the from the settings
+			if (from == null) {
+				if (!acc.getAccoutName().equals("")) {
+					from = acc.getAccoutName() + "<" + acc.getSenderEmailID()
+							+ ">";
+				} else {
+					from = acc.getSenderEmailID();
+				}
 			}
 			msg.setFrom(new InternetAddress(from));
 
