@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.company;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -59,6 +60,9 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 			// case 8:
 			// return DataUtils.getAmountAsString(SalesPerson.getBalance());
 		case 8:
+			return UIUtils.getDateByCompanyType(new ClientFinanceDate(
+					salesPerson.getDateOfBirth()));
+		case 9:
 			// updateTotal(SalesPerson, true);
 			return Accounter.getFinanceMenuImages().delete();
 		default:
@@ -74,7 +78,8 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 				Accounter.constants().salesPerson(),
 				Accounter.constants().address(), Accounter.constants().city(),
 				Accounter.constants().state(), Accounter.constants().zipCode(),
-				Accounter.constants().phone(), Accounter.constants().fax(), " " };
+				Accounter.constants().phone(), Accounter.constants().fax(),
+				Accounter.constants().dateofBirth(), " " };
 
 	}
 
@@ -84,7 +89,7 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 		// ClientCustomer customer = customers.get(row);
 
 		switch (col) {
-		case 8:
+		case 9:
 			showWarnDialog(obj);
 			break;
 		default:
@@ -117,7 +122,8 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_IMAGE };
+				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+				ListGrid.COLUMN_TYPE_IMAGE };
 	}
 
 	// protected void updateTotal(ClientPayee customer, boolean add) {
@@ -135,7 +141,7 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 
 	@Override
 	protected int getCellWidth(int index) {
-		if (index == 8) {
+		if (index == 9) {
 			if (UIUtils.isMSIEBrowser())
 				return 25;
 			else
@@ -145,7 +151,7 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 			return 40;
 		}
 		if (index == 2 || index == 3 || index == 4 || index == 5 || index == 6
-				|| index == 7) {
+				|| index == 7 || index == 8) {
 			return 100;
 		}
 		return -1;
