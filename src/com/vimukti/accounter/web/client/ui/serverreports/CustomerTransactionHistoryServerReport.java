@@ -48,7 +48,7 @@ public class CustomerTransactionHistoryServerReport extends
 				// ".debit(),
 				// ".credit(),
 				// ".reference(),
-				Accounter.messages().account(Global.get().account()),
+				Global.get().messages().account(Global.get().account()),
 				getConstants().amount() };
 
 	}
