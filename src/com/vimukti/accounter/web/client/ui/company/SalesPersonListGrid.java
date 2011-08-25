@@ -59,10 +59,8 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 			// break;
 			// case 8:
 			// return DataUtils.getAmountAsString(SalesPerson.getBalance());
+		
 		case 8:
-			return UIUtils.getDateByCompanyType(new ClientFinanceDate(
-					salesPerson.getDateOfBirth()));
-		case 9:
 			// updateTotal(SalesPerson, true);
 			return Accounter.getFinanceMenuImages().delete();
 		default:
@@ -78,8 +76,7 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 				Accounter.constants().salesPerson(),
 				Accounter.constants().address(), Accounter.constants().city(),
 				Accounter.constants().state(), Accounter.constants().zipCode(),
-				Accounter.constants().phone(), Accounter.constants().fax(),
-				Accounter.constants().dateofBirth(), " " };
+				Accounter.constants().phone(), Accounter.constants().fax(), " " };
 
 	}
 
@@ -89,7 +86,7 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 		// ClientCustomer customer = customers.get(row);
 
 		switch (col) {
-		case 9:
+		case 8:
 			showWarnDialog(obj);
 			break;
 		default:
@@ -122,8 +119,7 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_IMAGE };
+				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_IMAGE };
 	}
 
 	// protected void updateTotal(ClientPayee customer, boolean add) {
@@ -141,7 +137,7 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 
 	@Override
 	protected int getCellWidth(int index) {
-		if (index == 9) {
+		if (index == 8) {
 			if (UIUtils.isMSIEBrowser())
 				return 25;
 			else
@@ -151,7 +147,7 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 			return 40;
 		}
 		if (index == 2 || index == 3 || index == 4 || index == 5 || index == 6
-				|| index == 7 || index == 8) {
+				|| index == 7 ) {
 			return 100;
 		}
 		return -1;
