@@ -998,7 +998,7 @@ public class VendorTransactionGrid extends
 							// TODO
 							item.setUnitPrice(isItem ? lineTotal : 0);
 							ClientQuantity quant = new ClientQuantity();
-							quant.setValue(isItem ? 1 : 0);
+							quant.setValue(1);
 							item.setQuantity(quant);
 						}
 
@@ -1088,10 +1088,10 @@ public class VendorTransactionGrid extends
 		switch (obj.getType()) {
 		case ClientTransactionItem.TYPE_ACCOUNT:
 			switch (col) {
-			// case 3:
-			// return false;
-			// case 4:
-			// return false;
+			case 3:
+				return false;
+			case 4:
+				return false;
 			default:
 				return true;
 			}
