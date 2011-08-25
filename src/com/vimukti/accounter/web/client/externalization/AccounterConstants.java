@@ -2573,6 +2573,8 @@ public interface AccounterConstants extends Constants {
 
 	public String pleaseSelecPaymentType();
 
+	public String pleaseSelectReportsOfSameType();
+
 	public String pleaseselectaFixedAsset();
 
 	public String pleaseSelectDate();
@@ -3034,6 +3036,8 @@ public interface AccounterConstants extends Constants {
 	public String selectTheme();
 
 	public String selectThemes();
+
+	public String selectReports();
 
 	public String sell();
 
