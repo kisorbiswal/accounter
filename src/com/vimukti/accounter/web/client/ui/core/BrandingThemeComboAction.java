@@ -1,7 +1,10 @@
 package com.vimukti.accounter.web.client.ui.core;
 
+import java.util.List;
+
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.customers.BrandingThemeComboDialog;
 
@@ -27,7 +30,21 @@ public class BrandingThemeComboAction extends Action {
 	// }
 
 	public void run() {
-		runAsync(data, isDependent);
+		if (listData != null) {
+			runAsync(listData);
+		} else {
+			runAsync(data, isDependent);
+		}
+
+	}
+
+	private void runAsync(List<InvoicesList> listData) {
+
+		BrandingThemeComboDialog comboDialog = new BrandingThemeComboDialog(
+				Accounter.constants().selectThemes(), "", listData);
+		comboDialog.show();
+		comboDialog.center();
+
 	}
 
 	private void runAsync(Object data, Boolean isDependent) {
