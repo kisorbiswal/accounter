@@ -198,6 +198,8 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 
 	@Override
 	protected int getCellWidth(int index) {
+		if (index == 0)
+			return 13;
 		if (index == 8)
 			return 50;
 		// else if (index == 9)
