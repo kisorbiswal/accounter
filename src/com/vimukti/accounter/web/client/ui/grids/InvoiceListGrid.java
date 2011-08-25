@@ -69,7 +69,7 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 				return Accounter.getFinanceImages().voided();
 			// return "/images/voided.png";
 
-			// case 9:
+			// case 10:
 			// if (invoicesList.getStatus() == ClientTransaction.STATUS_DELETED)
 			// return FinanceApplication.getFinanceImages().delSuccess()
 			// .getURL();
@@ -105,7 +105,7 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 	protected void onClick(InvoicesList obj, int row, int col) {
 		if (!Accounter.getUser().canDoInvoiceTransactions())
 			return;
-		if (col == 8 && !obj.isVoided()) {
+		if (col == 9 && !obj.isVoided()) {
 			showWarningDialog(obj, col);
 		}
 		// else if (col == 9) {
@@ -129,7 +129,7 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 
 	private void showWarningDialog(final InvoicesList obj, final int col) {
 		String msg = null;
-		if (!obj.isVoided() && col == 8) {
+		if (!obj.isVoided() && col == 9) {
 			msg = Accounter.constants().doyouwanttoVoidtheTransaction();
 		}
 		// else if (col == 9) {
@@ -152,9 +152,9 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 
 					@Override
 					public boolean onYesClick() {
-						if (col == 8)
+						if (col == 9)
 							voidTransaction(obj);
-						else if (col == 9)
+						else if (col == 10)
 							deleteTransaction(obj);
 						return true;
 					}
