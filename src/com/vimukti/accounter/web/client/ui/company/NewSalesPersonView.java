@@ -454,7 +454,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			data.setExpenseAccount(selectedExpenseAccount.getID());
 		data.setJobTitle(jobTitleText.getValue().toString());
 		data.setFileAs(fileAsText.getValue().toString());
-
+		data.setDateOfBirth(dateOfBirth.getValue());
 		data.setDateOfHire(UIUtils.toDate(dateOfHire.getValue()));
 		data.setDateOfLastReview(UIUtils.toDate(dateOfLastReview.getValue()));
 		data.setDateOfRelease(UIUtils.toDate(dateOfRelease.getValue()));
