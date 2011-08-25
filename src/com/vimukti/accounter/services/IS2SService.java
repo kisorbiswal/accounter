@@ -22,7 +22,7 @@ public interface IS2SService extends RemoteService {
 	public void deleteUserFromCompany(long companyID, String email);
 
 	public void deleteClientFromCompany(long serverCompanyId,
-			String deletableEmail);
+			String deletableEmail) throws AccounterException;
 
 	public void inviteUser(long companyId, ClientUserInfo userInfo,
 			String senderEmailId) throws AccounterException;
