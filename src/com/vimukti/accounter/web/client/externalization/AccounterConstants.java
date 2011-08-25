@@ -4294,4 +4294,12 @@ public interface AccounterConstants extends Constants {
 
 	public String get1099Information();
 
+	public String vatItems();
+
+	public String vatCodes();
+
+	public String companyAndFinance();
+
+	public String ageingSummary();
+
 }
