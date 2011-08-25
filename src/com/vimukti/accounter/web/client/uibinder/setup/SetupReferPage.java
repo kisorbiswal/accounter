@@ -80,8 +80,7 @@ public class SetupReferPage extends AbstractSetupPage {
 		accountListBox.addItem(accounterConstants.Ledger());
 
 		customerLabel.setText(Global.get().Customer());
-		supplierLabel.setText(Accounter.messages()
-				.vendor(Global.get().Vendor()));
+		supplierLabel.setText(Global.get().Vendor());
 		accountLabel.setText(accounterConstants.Account());
 
 		customerCommentLabel.setText(Accounter.messages()
