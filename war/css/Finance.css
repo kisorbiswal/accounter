@@ -6329,7 +6329,7 @@ normal
 		padding: 5px 28px 5px 5px !important;
 	}
 	.standard-options td:first-child {
-		width: 92.8%;
+		
 	}
 	.delete-table-image {
 		width: 21px !important;
@@ -6564,6 +6564,10 @@ input[type="text"],textarea {
 	background: none repeat scroll 0 0 #ECECEC;
     padding-right: 15px;
     visibility: visible;
+    width:190px;
+}
+.progress_panel_show table{
+	width:100%;
 }
 .progress_panel_data{
 	padding-top: 15px;
@@ -6968,6 +6972,7 @@ a#fdbk_tab:hover{
 }
 .industry_list_table select{
 	border:0 none;
+	width:300px;
 }
 .accounts_label,.industry_list_table .select_industry{
 	background:#ccc;
