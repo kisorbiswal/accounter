@@ -1,15 +1,10 @@
 package com.vimukti.accounter.web.server;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-
-import org.mortbay.util.UrlEncoded;
 
 import com.gdevelop.gwt.syncrpc.SyncProxy;
 import com.vimukti.accounter.core.ClientConvertUtil;
@@ -234,57 +229,33 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public boolean deleteUser(IAccounterCore deletableUser, String senderEmail)
 			throws AccounterException {
-		String deleteUserurl = getDeleteUserURLString(
-				(ClientUserInfo) deletableUser, senderEmail);
-		if (deleteUserurl == null) {
-			return false;
-		}
+		ClientUserInfo deletingUser = (ClientUserInfo) deletableUser;
+
 		try {
-			URL url = new URL(deleteUserurl.toString());
-			HttpURLConnection connection = null;
-			try {
-				connection = (HttpURLConnection) url.openConnection();
-			} catch (IOException e) {
-				e.printStackTrace();
+
+			IS2SService s2sSyncProxy = getS2sSyncProxy(ServerConfiguration
+					.getServerDomainName());
+
+			String serverCompanyId = getCookie(BaseServlet.COMPANY_COOKIE);
+
+			s2sSyncProxy.deleteClientFromCompany(
+					Long.parseLong(serverCompanyId), deletingUser.getEmail());
+
+		} catch (Exception e) {
+			if (e instanceof AccounterException) {
+				throw (AccounterException) e;
 			}
-			int responseCode = 0;
-			try {
-				responseCode = connection.getResponseCode();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if (responseCode == 200) {
-				ClientUser coreUser = convertUserInfoToUser((ClientUserInfo) deletableUser);
-				String clientClassSimpleName = coreUser.getObjectType()
-						.getClientClassSimpleName();
-				FinanceTool financeTool = new FinanceTool();
-				OperationContext context = new OperationContext(coreUser,
-						getUserEmail(), String.valueOf(deletableUser.getID()),
-						clientClassSimpleName);
-				return financeTool.delete(context);
-			}
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
+			throw new AccounterException(AccounterException.ERROR_INTERNAL);
 		}
-		return false;
+
+		ClientUser coreUser = convertUserInfoToUser((ClientUserInfo) deletableUser);
+		String clientClassSimpleName = coreUser.getObjectType()
+				.getClientClassSimpleName();
+		FinanceTool financeTool = new FinanceTool();
+		OperationContext context = new OperationContext(coreUser,
+				getUserEmail(), String.valueOf(deletableUser.getID()),
+				clientClassSimpleName);
+		return financeTool.delete(context);
 	}
 
-	private String getDeleteUserURLString(ClientUserInfo deletableUser,
-			String senderEmail) {
-		StringBuffer buffer = new StringBuffer(
-				"http://localhost:8890/deleteUser?");
-		buffer.append("senderEmailId");
-		buffer.append('=');
-		buffer.append(new UrlEncoded(senderEmail).encode());
-		buffer.append('&');
-		buffer.append("deletableUserEmail");
-		buffer.append('=');
-		buffer.append(new UrlEncoded(deletableUser.getEmail()).encode());
-		buffer.append('&');
-		buffer.append("serverCompanyId");
-		buffer.append('=');
-		String serverCompanyId = getCookie(BaseServlet.COMPANY_COOKIE);
-		buffer.append(new UrlEncoded(serverCompanyId).encode());
-		return buffer.toString();
-	}
 }
