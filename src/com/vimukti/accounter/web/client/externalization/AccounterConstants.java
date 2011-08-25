@@ -4216,6 +4216,10 @@ public interface AccounterConstants extends Constants {
 
 	public String patitent();
 
+	public String Patitent();
+
+	public String supplier();
+
 	public String expenseInformation();
 
 	public String doyouchargeVat();
@@ -4231,6 +4235,8 @@ public interface AccounterConstants extends Constants {
 	public String exportToCSV();
 
 	public String pleaseEnterPayTerm();
+
+	public String Supplier();
 
 	public String account();
 
