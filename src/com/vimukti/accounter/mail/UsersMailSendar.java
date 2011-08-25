@@ -444,6 +444,8 @@ public class UsersMailSendar {
 		EMailMessage emailMsg = new EMailMessage();
 		emailMsg.setContent(content);
 		emailMsg.setSubject(subject);
+		emailMsg.setFrom("" + user.getFirstName() + "" + " <"
+				+ user.getEmailId() + ">");
 		emailMsg.setRecepeant(user.getEmailId());
 		EMailJob job = new EMailJob(emailMsg, getEmailAcc(), companyName);
 
@@ -613,6 +615,8 @@ public class UsersMailSendar {
 		EMailMessage emailMsg = new EMailMessage();
 		emailMsg.setContent(content);
 		emailMsg.setSubject(subject);
+		emailMsg.setFrom("" + inviter.getFirstName() + "" + " <"
+				+ inviter.getEmailId() + ">");
 		emailMsg.setRecepeant(invitedClient.getEmailId());
 		EMailJob job = new EMailJob(emailMsg, getEmailAcc(), companyName);
 		EmailManager.getInstance().addJob(job);
