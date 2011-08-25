@@ -1,6 +1,5 @@
 package com.vimukti.accounter.services;
 
-import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,7 +17,6 @@ import com.vimukti.accounter.core.ServerCompany;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.Server;
-import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -118,14 +116,6 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 
 			// Comment this Line If You want CompantSetUp
 			company.initialize(null);
-
-			// Create Attachment Directory for company
-			File file = new File(ServerConfiguration.getAttachmentsDir(company
-					.getFullName()));
-
-			if (!file.exists()) {
-				file.mkdir();
-			}
 
 			FinanceTool.createView();
 
