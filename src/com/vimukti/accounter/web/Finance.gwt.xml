@@ -18,13 +18,12 @@
 	<inherits name="com.google.gwt.i18n.I18N" />
 	<inherits name="net.zschech.gwt.comet.Comet" />
 	<inherits name="com.google.gwt.visualization.Visualization" />
-	<!-- <inherits name="com.google.gwt.logging.Logging"/>  -->
-	
+	<!-- <inherits name="com.google.gwt.logging.Logging"/> -->
+
 	<!-- <inherits name='pl.balon.gwt.diagrams.Diagrams' /> -->
 
 	<!-- Specify the app entry point class. -->
 	<entry-point class='com.vimukti.accounter.web.client.ui.Accounter' />
-
-	<set-property name="user.agent" value="safari" />
-
+	<!-- <set-property name="user.agent" value="safari" />  -->
+	<set-configuration-property name="UiBinder.useSafeHtmlTemplates" value="true" />
 </module>
