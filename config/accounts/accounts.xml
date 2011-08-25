@@ -2,12 +2,10 @@
 <industries>
 	<industry type="1" name="Accounts &amp; BookKeeping">
 		<accounts>
-			<account type="income" name="Consulting Income" default="true" systemOnly="true" cashFlowType="Financing" countries="US,UK,IN,OT"></account>
-			<account type="income" name="Consulting Income" default="false" systemOnly="true" countries="US,UK,IN"></account>
-			<account type="income" name="Account services Income" default="true" systemOnly="false" countries=""></account>
-			<account type="income" name="Bookkeeping services income" default="false" systemOnly="false" countries=""></account>
-			<account type="income" name="Payroll services Income" default="false" systemOnly="false" countries=""></account>
-			<account type="income" name="Tax Services Preparation income" default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="Account services Income" default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="Bookkeeping services income" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Payroll services Income" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Tax Services Preparation income" default="true" systemOnly="false" countries=""></account>
 			<account type="Cost of Goods Sold" name="Outsourced Service Providers" default="false" systemOnly="false" countries=""></account>
 			<account type="Cost of Goods Sold" name="Merchant Account fees" default="false" systemOnly="false" countries=""></account>
 			<account type="Cost of Goods Sold" name="Contracted Services" default="true" systemOnly="false" countries=""></account>
