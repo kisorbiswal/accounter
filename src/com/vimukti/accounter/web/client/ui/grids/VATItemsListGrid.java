@@ -11,6 +11,8 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
@@ -209,6 +211,17 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 		for (int i = 0; i < this.getRowCount(); i++) {
 			((CheckBox) this.getWidget(i, 0)).setEnabled(false);
 		}
+	}
+
+	@Override
+	public void deleteFailed(AccounterException caught) {
+		int errorCode = caught.getErrorCode();
+		if (errorCode == AccounterException.ERROR_OBJECT_IN_USE) {
+			Accounter.showError(AccounterExceptions.accounterErrors
+					.vatItemInUse());
+			return;
+		}
+		super.deleteFailed(caught);
 	}
 
 }

@@ -1438,6 +1438,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (selectedId != null && !selectedId.isEmpty())
 			setAccountType(getAccountType(selectedId));
 		// getNextAccountNumber();
+		if (accountType == ClientAccount.TYPE_BANK) {
+			ClientBankAccount account = new ClientBankAccount();
+			setData(account);
+		}
 		setCashFlowType();
 		resetView();
 		statusBox.setValue(true);

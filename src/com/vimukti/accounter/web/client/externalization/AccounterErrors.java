@@ -33,5 +33,7 @@ public interface AccounterErrors extends Constants {
 	String objectInUse();
 
 	String taxGroupInUse();
+	
+	String vatItemInUse();
 
 }
