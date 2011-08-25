@@ -1602,6 +1602,27 @@ public class UIUtils {
 
 	}
 
+	public static void downloadMultipleAttachment(String objectID, int type,
+			long brandingThemeId) {
+		downloadMultipleAttachment(objectID, type,
+				String.valueOf(brandingThemeId));
+	}
+
+	public native static void downloadMultipleAttachment(String objectID,
+			int type, String brandingThemeId)/*-{
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src",
+					"/do/finance/generatePDFServlet?multipleIds=" + objectID
+							+ "&type=" + type + "&brandingThemeId="
+							+ brandingThemeId);
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
+		}
+	}-*/;
+
 	/**
 	 * This method is used for the reports pdf generation. The Require
 	 * parameters are report title , Reportgrid Html and Dateranges Html(The
@@ -1878,19 +1899,19 @@ public class UIUtils {
 
 	public static native void exportReport(int start, int end, int reportType,
 			String name, String dateRangeHtml, String status)/*-{
-																try {
-																var frame = document.createElement("IFRAME");
-																frame.setAttribute("src",
-																"/do/finance/ExportReportServlet?startDate=" + start
-																+ "&endDate=" + end + "&reportType=" + reportType
-																+ "&navigatedName=" + name + "&dateRangeHtml="
-																+ dateRangeHtml + "&status=" + status);
-																frame.style.visibility = "hidden";
-																document.body.appendChild(frame);
-																} catch (e) {
-																alert(e);
-																}
-																}-*/;
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src",
+					"/do/finance/ExportReportServlet?startDate=" + start
+							+ "&endDate=" + end + "&reportType=" + reportType
+							+ "&navigatedName=" + name + "&dateRangeHtml="
+							+ dateRangeHtml + "&status=" + status);
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
+		}
+	}-*/;
 
 	public static void generateReportPDF(int start, int end, int reportType,
 			String name, long dateRangeHtml) {
@@ -1900,19 +1921,19 @@ public class UIUtils {
 
 	public static native void generateReportPDF(int start, int end,
 			int reportType, String name, String dateRangeHtml)/*-{
-																try {
-																var frame = document.createElement("IFRAME");
-																frame.setAttribute("src",
-																"/do/finance/generatePDFServlet?startDate=" + start
-																+ "&endDate=" + end + "&reportType=" + reportType
-																+ "&navigatedName=" + name + "&dateRangeHtml="
-																+ dateRangeHtml);
-																frame.style.visibility = "hidden";
-																document.body.appendChild(frame);
-																} catch (e) {
-																alert(e);
-																}
-																}-*/;
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src",
+					"/do/finance/generatePDFServlet?startDate=" + start
+							+ "&endDate=" + end + "&reportType=" + reportType
+							+ "&navigatedName=" + name + "&dateRangeHtml="
+							+ dateRangeHtml);
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
+		}
+	}-*/;
 
 	public static void generateReportPDF(int start, int end, int reportType,
 			String name, String dateRangeHtml, long status) {
@@ -1922,19 +1943,19 @@ public class UIUtils {
 
 	public static native void generateReportPDF(int start, int end,
 			int reportType, String name, String dateRangeHtml, String status)/*-{
-																				try {
-																				var frame = document.createElement("IFRAME");
-																				frame.setAttribute("src",
-																				"/do/finance/generatePDFServlet?startDate=" + start
-																				+ "&endDate=" + end + "&reportType=" + reportType
-																				+ "&navigatedName=" + name + "&dateRangeHtml="
-																				+ dateRangeHtml + "&status=" + status);
-																				frame.style.visibility = "hidden";
-																				document.body.appendChild(frame);
-																				} catch (e) {
-																				alert(e);
-																				}
-																				}-*/;
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src",
+					"/do/finance/generatePDFServlet?startDate=" + start
+							+ "&endDate=" + end + "&reportType=" + reportType
+							+ "&navigatedName=" + name + "&dateRangeHtml="
+							+ dateRangeHtml + "&status=" + status);
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
+		}
+	}-*/;
 
 	public static List<ClientCurrency> getCurrenciesList() {
 		// FIXME :put default exact currencies and externalize them .
