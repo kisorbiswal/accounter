@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
@@ -24,6 +25,8 @@ public class Header extends HorizontalPanel {
 	public static Label companyName;
 
 	public static HTML userName;
+
+	private SimplePanel headerLinks;
 
 	private HTML logout, help, logo;
 
@@ -51,14 +54,14 @@ public class Header extends HorizontalPanel {
 				+ Accounter.messages().userName(
 						Accounter.getUser().getFullName()) + "<font></a>");
 		userName.addStyleName("userName-style");
-		userName.setWidth(((Accounter.messages().userName(
-				Accounter.getUser().getFullName()).length() * 6)-3)
+		userName.setWidth(((Accounter.messages()
+				.userName(Accounter.getUser().getFullName()).length() * 6) - 3)
 				+ "px");
 		// userName.getElement().getStyle().setPaddingLeft(5, Unit.PX);
 
 		if (!Accounter.isLoggedInFromDomain()) {
-			userName.getElement().getStyle().setTextDecoration(
-					TextDecoration.UNDERLINE);
+			userName.getElement().getStyle()
+					.setTextDecoration(TextDecoration.UNDERLINE);
 			userName.getElement().getStyle().setCursor(Cursor.POINTER);
 
 			userName.addClickHandler(new ClickHandler() {
@@ -78,9 +81,7 @@ public class Header extends HorizontalPanel {
 		initializeHelpBar();
 		helpBar.setStyleName("helpBar");
 		help = new HTML(Accounter.messages().helpHTML());
-		help
-				.setWidth(((Accounter.constants().help().length() * 2) + 19)
-						+ "px");
+		help.setWidth(((Accounter.constants().help().length() * 2) + 19) + "px");
 		help.addStyleName("help-style");
 		help.addStyleName("helpBar");
 		help.addClickHandler(new ClickHandler() {
@@ -111,6 +112,9 @@ public class Header extends HorizontalPanel {
 		panel2.setWidth("85%");
 		panel2.add(companyName);
 
+		headerLinks = new SimplePanel();
+		headerLinks.addStyleName("header_links");
+
 		panel3 = new VerticalPanel();
 		panel3.setWidth("85%");
 		panel3.addStyleName("logout-help-welcome");
@@ -125,7 +129,8 @@ public class Header extends HorizontalPanel {
 		this.add(panel2);
 		this.setCellHorizontalAlignment(panel2, ALIGN_CENTER);
 		this.setCellWidth(panel2, "50%");
-		this.add(panel3);
+		headerLinks.add(panel3);
+		this.add(headerLinks);
 		this.setCellHorizontalAlignment(panel3, ALIGN_RIGHT);
 		this.setCellWidth(panel3, "25%");
 
