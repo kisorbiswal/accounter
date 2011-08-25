@@ -273,6 +273,8 @@ public class ViewManager extends HorizontalPanel {
 		if (existingView instanceof IPrintableView) {
 			if (((IPrintableView) existingView).canExportToCsv()) {
 				group2.add(exportButton);
+			} else {
+				group2.remove(exportButton);
 			}
 			if (((IPrintableView) existingView).canPrint()) {
 				group2.add(printButton);
