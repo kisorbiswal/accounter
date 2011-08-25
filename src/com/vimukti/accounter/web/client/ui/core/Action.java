@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.core;
 
+import java.util.List;
+
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
 
@@ -48,6 +50,7 @@ public abstract class Action<T> implements Command {
 	private boolean allowMultiple;
 
 	protected T data;
+	public List<T> listData;
 
 	protected boolean isDependent;
 
@@ -178,11 +181,26 @@ public abstract class Action<T> implements Command {
 		run();
 	}
 
+	public void run(List<T> object) {
+
+		setListData(object);
+
+		run();
+	}
+
 	public ActionCallback<T> getCallback() {
 		return callback;
 	}
 
 	public void setCallback(ActionCallback<T> callback) {
 		this.callback = callback;
+	}
+
+	public List<T> getListData() {
+		return listData;
+	}
+
+	public void setListData(List<T> listData) {
+		this.listData = listData;
 	}
 }
