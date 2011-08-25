@@ -721,6 +721,23 @@ public interface AccounterMessages extends Messages {
 
 	public String mergeDescription(String desc);
 
+
+	public String selectWhichWeHaveInOurCompanyOrAddNew(String comboType);
+
+	public String selectWhichWeHaveInOurCompany(String comboType);
+
+	public String selectDateWhenTransactioCreated(String transaction);
+
+	public String giveTheNameAccordingToYourID(String transaction);
+
+	public String selectTypeOfThis(String Account);
+
+	public String writeCommentsForThis(String transaction);
+
+	public String selectDateUntilDue(String transaction);
+
+	public String customerMeaning();
+
 	public String selectVendor(String vendor);
 
 	public String SelectVendorsToTrack1099(String vendor);

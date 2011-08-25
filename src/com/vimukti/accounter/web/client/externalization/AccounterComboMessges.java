@@ -1,13 +1,11 @@
 package com.vimukti.accounter.web.client.externalization;
 
-import com.google.gwt.i18n.client.Constants;
+import com.google.gwt.i18n.client.Messages;
 
-public interface AccounterComboConstants extends Constants {
+public interface AccounterComboMessges extends Messages {
 	public String newCustomer();
 
 	public String newVendor();
-
-	public String newSupplier();
 
 	public String newAccount();
 
@@ -98,4 +96,6 @@ public interface AccounterComboConstants extends Constants {
 	public String newVATCode();
 
 	public String newTAXAgency();
+
+	public String newSupplier(String vendor);
 }
