@@ -511,7 +511,8 @@ public class FinanceTool implements IFinanceDAOService {
 		// .get(0);
 
 		if (serverObject == null) {
-
+			throw new AccounterException(
+					AccounterException.ERROR_ILLEGAL_ARGUMENT);
 		}
 		if (serverObject instanceof FiscalYear) {
 			((FiscalYear) serverObject).canDelete((FiscalYear) serverObject);
