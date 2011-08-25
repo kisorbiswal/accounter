@@ -118,8 +118,8 @@ public class SetupWizard extends VerticalPanel {
 			topPanel.add(progressPanel);
 			topPanel.add(viewButtonPanel);
 
-			topPanel.setCellWidth(progressPanel, "25%");
-			topPanel.setCellWidth(viewButtonPanel, "75%");
+			// topPanel.setCellWidth(progressPanel, "25%");
+			// topPanel.setCellWidth(viewButtonPanel, "75%");
 
 			viewPanel.addStyleName("view_panel");
 			viewButtonPanel.setSize("100%", "100%");
