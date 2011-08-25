@@ -4306,6 +4306,4 @@ public interface AccounterConstants extends Constants {
 
 	public String companyAndFinance();
 
-	public String ageingSummary();
-
 }
