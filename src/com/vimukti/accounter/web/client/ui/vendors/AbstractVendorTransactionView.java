@@ -261,7 +261,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 		this.contact = vendor.getPrimaryContact();
 
-		if (contacts != null) {
+		if (contacts != null && contacts.size() > 0) {
 			List<ClientContact> contactList = new ArrayList<ClientContact>();
 			contactList.addAll(contacts);
 			contactCombo.initCombo(contactList);

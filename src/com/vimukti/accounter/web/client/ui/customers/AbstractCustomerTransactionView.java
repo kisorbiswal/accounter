@@ -316,7 +316,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 		this.contacts = customer.getContacts();
 		List<ClientContact> list = new ArrayList<ClientContact>(this.contacts);
-		if (contacts != null) {
+		if (contacts != null && contacts.size() > 0) {
 			contactCombo.initCombo(list);
 			contactCombo.setDisabled(isInViewMode());
 		} else {

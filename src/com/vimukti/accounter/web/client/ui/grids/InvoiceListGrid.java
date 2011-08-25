@@ -200,10 +200,10 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 	protected int getCellWidth(int index) {
 		if (index == 0)
 			return 13;
-		if (index == 8)
-			return 50;
-		// else if (index == 9)
-		// return 30;
+		// else if (index == 8)
+		// return 50;
+		else if (index == 9)
+			return 40;
 		return -1;
 	}
 
