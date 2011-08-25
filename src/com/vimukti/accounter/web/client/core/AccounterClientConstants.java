@@ -73,12 +73,12 @@ public class AccounterClientConstants implements IsSerializable, Serializable {
 
 	public static final String CUSTOMER_CREDIT_MEMO = "Customer Credit";
 	public static final String VENDOR_PAYMENT = Global.get().messages()
-			.supplierPayment(Global.get().Vendor());
+			.vendorPayment(Global.get().Vendor());
 	public static final String CUSTOMER_PAYMENT = "Customer Payment";
 
 	public static final String CUSTOMER_PREPAYMENT = "Customer PrePayment";
 	public static final String VENDOR_CREDIT_MEMO = Global.get().messages()
-			.supplierCredit(Global.get().Vendor());
+			.vendorCredit(Global.get().Vendor());
 
 	// constants for Transaction Names
 
@@ -90,17 +90,17 @@ public class AccounterClientConstants implements IsSerializable, Serializable {
 
 	public static final String TYPE_CUSTOMER_REFUNDS = "Customer Refund";
 	public static final String TYPE_ENTER_BILL = Global.get().messages()
-			.supplierBill(Global.get().Vendor());
+			.vendorBill(Global.get().Vendor());
 	public static final String TYPE_ESTIMATE = "Quote";
 	public static final String TYPE_INVOICE = "Invoice";
 	public static final String TYPE_ISSUE_PAYMENT = "Issue Payment";
 	public static final String TYPE_MAKE_DEPOSIT = "Deposit/Transfer Funds";
 	public static final String TYPE_PAY_BILL = Global.get().messages()
-			.supplierPayment(Global.get().Vendor());
+			.vendorPayment(Global.get().Vendor());
 	public static final String TYPE_RECEIVE_PAYMENT = "Customer Payment";
 	public static final String TYPE_TRANSFER_FUND = "Transfer Fund";
 	public static final String TYPE_VENDOR_CREDIT_MEMO = Global.get()
-			.messages().supplierCredit(Global.get().Vendor());
+			.messages().vendorCredit(Global.get().Vendor());
 	public static final String TYPE_WRITE_CHECK = "Write Check";
 	public static final String TYPE_JOURNAL_ENTRY = "Journal Entry";
 	public static final String TYPE_PAY_SALES_TAX = "Pay Sales Tax";
@@ -309,5 +309,5 @@ public class AccounterClientConstants implements IsSerializable, Serializable {
 	public static final String Box1_Description = "Total amount of VAT charged on sales and other supplies";
 	public static final String Box2_Description = "Total amount of VAT charged on acquisitions from other EC member states";
 	public static final String TYPE_VENDOR_PAYMENT = Global.get().messages()
-			.supplierPrePayment(Global.get().Vendor());
+			.vendorPrePayment(Global.get().Vendor());
 }

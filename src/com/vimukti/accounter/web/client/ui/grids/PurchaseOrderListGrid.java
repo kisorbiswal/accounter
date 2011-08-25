@@ -29,7 +29,7 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 	protected String[] getColumns() {
 		return new String[] { Accounter.constants().date(),
 				Accounter.constants().number(),
-				Global.get().messages().supplierName(Global.get().Vendor()),
+				Global.get().messages().vendorName(Global.get().Vendor()),
 				Accounter.constants().purchasePrice() };
 	}
 

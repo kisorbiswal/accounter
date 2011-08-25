@@ -48,9 +48,9 @@ public interface IOptionsAccordionSections {
 	final String VENDORS = Global.get().messages()
 			.vendors(Global.get().Vendor());
 	final String VENDORS_HOME = Global.get().messages()
-			.supplierHome(Global.get().Vendor());
+			.vendorHome(Global.get().Vendor());
 	final String VENDORS_NEW_VENDOR = Global.get().messages()
-			.newSupplier(Global.get().Vendor());
+			.newVendor(Global.get().Vendor());
 	final String VENDORS_NEW_ITEM = constants.newProduct();
 	final String VENDORS_ENTER_BILLS = constants.enterBills();
 	final String VENDORS_PAY_BILLS = constants.payBills();
@@ -58,11 +58,11 @@ public interface IOptionsAccordionSections {
 	final String VENDORS_ISSUE_PAYMENT = constants.issuePayment();
 	final String VENDORS_NEW_CREDIT_MEMO = constants.newCredit();
 	final String VENDORS_FIND_VENDORS = Global.get().messages()
-			.suppliers(Global.get().Vendor());
+			.vendors(Global.get().Vendor());
 	final String VENDORS_FIND_ITEMS = constants.products();
 	final String VENDORS_FIND_BILLS = constants.bills();
 	final String VENDORS_FIND_VENDOR_PAYMENTS = Global.get().messages()
-			.supplierPayments(Global.get().Vendor());
+			.vendorPayments(Global.get().Vendor());
 
 	final String BANKING = constants.banking();
 	final String BANKING_HOME = constants.bankingHome();
@@ -140,7 +140,7 @@ public interface IOptionsAccordionSections {
 
 	final String[] sectionLabels = {
 			Accounter.messages().customers(Global.get().Customer()),
-			Global.get().messages().suppliers(Global.get().Vendor()),
+			Global.get().messages().vendors(Global.get().Vendor()),
 			constants.employees(), constants.sectionhash1(),
 			constants.sectionhash2(), constants.sectionhash3(),
 			constants.sectionhash4() };
@@ -161,9 +161,9 @@ public interface IOptionsAccordionSections {
 
 	// Vendors Section
 	final String[] vendStartLabels = {
-			Global.get().messages().supplierBendor(Global.get().Vendor()),
-			Global.get().messages().supplierBlah(Global.get().Vendor()),
-			Global.get().messages().supplierWhendor(Global.get().Vendor()) };
+			Global.get().messages().vendorBendor(Global.get().Vendor()),
+			Global.get().messages().vendorBlah(Global.get().Vendor()),
+			Global.get().messages().vendorWhendor(Global.get().Vendor()) };
 
 	final String[] vendFindLabels = { constants.findtis(), constants.findtat(),
 			constants.findbla() };

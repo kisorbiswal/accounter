@@ -51,7 +51,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		menuitem = menuBar.addItem(
-				Accounter.messages().supplier(Global.get().Vendor()),
+				Accounter.messages().vendor(Global.get().Vendor()),
 				getVendorMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
@@ -505,7 +505,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		reportMenuBar.addItem(Accounter.constants().sales(), getSalesMenu());
 		reportMenuBar.addItem(
 				Global.get().messages()
-						.suppliersAndPayables(Global.get().Vendor()),
+						.vendorsAndPayables(Global.get().Vendor()),
 				getVendorAndPayablesMenu());
 		reportMenuBar.addItem(Accounter.constants().purchase(),
 				getPurchaseMenu());
@@ -724,7 +724,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			vendorMenuBar.addSeparator();
 		}
 		vendorMenuBar.addItem(
-				Global.get().messages().supplierLists(Global.get().Vendor()),
+				Global.get().messages().vendorLists(Global.get().Vendor()),
 				getVendorListMenu());
 		return vendorMenuBar;
 	}

@@ -99,7 +99,7 @@ public class ItemReceiptView extends
 		// formItems.add(transactionDateItem);
 		// formItems.add(transactionNumber);
 
-		vendorCombo = createVendorComboItem(messages.supplierName(Global.get()
+		vendorCombo = createVendorComboItem(messages.vendorName(Global.get()
 				.Vendor()));
 		vendorCombo.setWidth(100);
 		purchaseLabel = new LinkItem();
@@ -471,7 +471,7 @@ public class ItemReceiptView extends
 		if (this.rpcUtilService == null)
 			return;
 		if (getVendor() == null) {
-			Accounter.showError(messages.pleaseSelectSupplier(Global.get()
+			Accounter.showError(messages.pleaseSelectVendor(Global.get()
 					.vendor()));
 		} else {
 			this.rpcUtilService

@@ -21,7 +21,7 @@ public class ExpenseClaimsAction extends Action {
 		super(text);
 		this.selectedTab = selectedTab;
 		catagory = Accounter.getCompany().isUKAccounting() ? Accounter
-				.constants().supplier() : Global.get().vendor();
+				.constants().vendor() : Global.get().vendor();
 	}
 
 	@Override

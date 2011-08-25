@@ -42,7 +42,7 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 					colArray[index] = Accounter.messages().vendorName(
 							Global.get().Vendor());
 				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-					colArray[index] = Accounter.messages().supplierName(
+					colArray[index] = Accounter.messages().vendorName(
 							Global.get().Vendor());
 				break;
 			case 2:

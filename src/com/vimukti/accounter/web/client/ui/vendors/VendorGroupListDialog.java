@@ -30,7 +30,7 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 
 	public VendorGroupListDialog() {
 		super(Global.get().messages()
-				.manageSupplierGroup(Global.get().Vendor()), Global.get()
+				.manageVendorGroup(Global.get().Vendor()), Global.get()
 				.messages().toAddVendorGroup(Global.get().Vendor()));
 		setWidth("400px");
 		initialise();
@@ -110,9 +110,9 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 
 	public void showAddEditGroupDialog(ClientVendorGroup rec) {
 		vendorGroup = rec;
-		inputDlg = new InputDialog(this, messages.supplierGroup(Global.get()
+		inputDlg = new InputDialog(this, messages.vendorGroup(Global.get()
 				.Vendor()), messages.vendorCredit(Global.get().Vendor()), "",
-				messages.supplierGroup(Global.get().Vendor())) {
+				messages.vendorGroup(Global.get().Vendor())) {
 		};
 
 		if (vendorGroup != null) {
@@ -165,7 +165,7 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 			} else {
 				if (vendorByName != null) {
 					result.addError(this, messages
-							.supplierGroupAlreadyExists(Global.get().vendor()));
+							.vendorGroupAlreadyExists(Global.get().vendor()));
 				}
 			}
 		}

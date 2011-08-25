@@ -271,7 +271,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		reportMenuBar.addItem(Accounter.constants().sales(), getSalesMenu());
 		reportMenuBar.addItem(
 				Global.get().messages()
-						.suppliersAndPayables(Global.get().Vendor()),
+						.vendorsAndPayables(Global.get().Vendor()),
 				getVendorAndPayablesMenu());
 		reportMenuBar.addItem(Accounter.constants().purchase(),
 				getPurchaseMenu());
@@ -477,7 +477,7 @@ public class MainFinanceWindow extends VerticalPanel {
 			vendorMenuBar.addSeparator();
 		}
 		vendorMenuBar.addItem(
-				Global.get().messages().supplierLists(Global.get().Vendor()),
+				Global.get().messages().vendorLists(Global.get().Vendor()),
 				getVendorListMenu());
 		return vendorMenuBar;
 	}

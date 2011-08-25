@@ -329,7 +329,7 @@ public class ItemView extends BaseView<ClientItem> {
 					}
 				});
 		expAccCombo.setPopupWidth("500px");
-		prefVendorCombo = new VendorCombo(messages.preferredSupplier(Global
+		prefVendorCombo = new VendorCombo(messages.preferredVendor(Global
 				.get().Vendor()));
 		prefVendorCombo.setHelpInformation(true);
 		prefVendorCombo
@@ -339,8 +339,8 @@ public class ItemView extends BaseView<ClientItem> {
 					}
 				});
 		vendItemNumText = new IntegerField(this,
-				this.type != TYPE_SERVICE ? messages.supplierProductNo(Global
-						.get().Vendor()) : messages.supplierServiceNo(Global
+				this.type != TYPE_SERVICE ? messages.vendorProductNo(Global
+						.get().Vendor()) : messages.vendorServiceNo(Global
 						.get().Vendor()));
 		vendItemNumText.setHelpInformation(true);
 		vendItemNumText.setWidth(100);

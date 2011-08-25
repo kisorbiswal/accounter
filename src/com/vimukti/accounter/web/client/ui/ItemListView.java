@@ -82,7 +82,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 			if (this.catageory.equals(Global.get().customer())) {
 				action.setType(3);
 				return action;
-			} else if (this.catageory.equals(Accounter.constants().supplier())
+			} else if (this.catageory.equals(Accounter.constants().vendor())
 					|| this.catageory.equals(Accounter.constants().vendor())) {
 				action.setType(3);
 				return action;
@@ -153,7 +153,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 			isSalesType = true;
 			isPurchaseType = false;
 		} else if (this.catageory.equals(Accounter.constants().vendor())
-				|| this.catageory.equals(Accounter.constants().supplier())) {
+				|| this.catageory.equals(Accounter.constants().vendor())) {
 			isPurchaseType = true;
 			isSalesType = false;
 		} else if (this.catageory.equals(Accounter.messages()

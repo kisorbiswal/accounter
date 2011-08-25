@@ -41,7 +41,7 @@ public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 		LinkedHashMap<String, String> valueMap = new LinkedHashMap<String, String>();
 
 		typeRadio.setValueMap(Accounter.constants().customer(), Accounter
-				.constants().supplier());
+				.constants().vendor());
 		typeRadio.setDefaultValue(Accounter.constants().customer());
 
 		DynamicForm typeForm = new DynamicForm();
@@ -73,7 +73,7 @@ public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 		String radio = typeRadio.getValue().toString();
 		// FIXME--an action is required here
 		// okClick();
-		if (radio.equals(Accounter.constants().supplier())) {
+		if (radio.equals(Accounter.constants().vendor())) {
 			// new VendorPaymentsAction("Not Issued").run();
 			NewVendorAction action = ActionFactory.getNewVendorAction();
 			action.setCallback(new ActionCallback<ClientVendor>() {

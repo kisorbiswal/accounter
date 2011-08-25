@@ -357,7 +357,7 @@ public class CreditCardChargeView extends
 		labeldateNoLayout.setCellHorizontalAlignment(regPanel, ALIGN_RIGHT);
 
 		vendorNameSelect = new VendorCombo(Global.get().messages()
-				.supplierName(Global.get().Vendor()));
+				.vendorName(Global.get().Vendor()));
 		vendorNameSelect.setHelpInformation(true);
 		vendorNameSelect.setWidth(100);
 		vendorNameSelect.setRequired(true);

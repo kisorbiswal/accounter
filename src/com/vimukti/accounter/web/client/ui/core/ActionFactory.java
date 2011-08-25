@@ -396,7 +396,7 @@ public class ActionFactory {
 	}
 
 	public static MergeVendorsAction getMergeVendorsAction() {
-		return new MergeVendorsAction(Accounter.messages().mergeSuppliers(
+		return new MergeVendorsAction(Accounter.messages().mergeVendors(
 				Global.get().vendor()));
 	}
 
@@ -448,7 +448,7 @@ public class ActionFactory {
 
 	public static VendorGroupListAction getVendorGroupListAction() {
 		return new VendorGroupListAction(Global.get().messages()
-				.supplierGroupList(Global.get().Vendor()));
+				.vendorGroupList(Global.get().Vendor()));
 	}
 
 	public static PaymentTermListAction getPaymentTermListAction() {
@@ -811,7 +811,7 @@ public class ActionFactory {
 
 	public static VendorsListAction getVendorListAction() {
 		return new VendorsListAction(Global.get().messages()
-				.suppliersList(Global.get().Vendor()));
+				.vendorsList(Global.get().Vendor()));
 	}
 
 	public static BalanceSheetAction getBalanceSheetAction() {
@@ -893,7 +893,7 @@ public class ActionFactory {
 
 	public static VendorTransactionHistoryAction getVendorTransactionHistoryAction() {
 		return new VendorTransactionHistoryAction(Global.get().messages()
-				.supplierTransactionHistory(Global.get().Vendor()));
+				.vendorTransactionHistory(Global.get().Vendor()));
 	}
 
 	// public static AmountsDueToVendorsAction getAmountsDueToVendorsAction() {
@@ -912,12 +912,12 @@ public class ActionFactory {
 
 	public static PurchaseByVendorSummaryAction getPurchaseByVendorSummaryAction() {
 		return new PurchaseByVendorSummaryAction(Global.get().messages()
-				.purchaseBySupplierSummary(Global.get().vendor()));
+				.purchaseByVendorSummary(Global.get().vendor()));
 	}
 
 	public static PurchaseByVendorDetailsAction getPurchaseByVendorDetailAction() {
 		return new PurchaseByVendorDetailsAction(Global.get().messages()
-				.purchaseBySupplierDetail(Global.get().vendor()));
+				.purchaseByVendorDetail(Global.get().vendor()));
 	}
 
 	public static PurchaseByItemSummaryAction getPurchaseByItemSummaryAction() {
@@ -1098,18 +1098,18 @@ public class ActionFactory {
 
 	public static VendorsHomeAction getVendorsHomeAction() {
 		return new VendorsHomeAction(Global.get().messages()
-				.supplierhome(Global.get().Vendor()));
+				.vendorHome(Global.get().Vendor()));
 	}
 
 	public static NewVendorAction getNewVendorAction() {
 		return new NewVendorAction(Global.get().messages()
-				.newSupplier(Global.get().Vendor()));
+				.newVendor(Global.get().Vendor()));
 	}
 
 	public static NewVendorAction getNewVendorAction(ClientVendor vendor,
 			AccounterAsyncCallback<Object> callback) {
 		return new NewVendorAction(Global.get().messages()
-				.newSupplier(Global.get().Vendor()));
+				.newVendor(Global.get().Vendor()));
 	}
 
 	public static PurchaseItemsAction getPurchaseItemsAction() {
@@ -1141,7 +1141,7 @@ public class ActionFactory {
 
 	public static NewCreditMemoAction getNewCreditMemoAction() {
 		return new NewCreditMemoAction(Global.get().messages()
-				.supplierCredit(Global.get().Vendor()));
+				.vendorCredit(Global.get().Vendor()));
 	}
 
 	public static NewCreditMemoAction getNewCreditMemoAction(
@@ -1169,7 +1169,7 @@ public class ActionFactory {
 
 	public static VendorPaymentsAction getNewVendorPaymentAction() {
 		return new VendorPaymentsAction(Global.get().messages()
-				.supplierPrePayment(Global.get().Vendor()));
+				.vendorPrePayment(Global.get().Vendor()));
 	}
 
 	public static RecordExpensesAction getRecordExpensesAction() {
@@ -1187,7 +1187,7 @@ public class ActionFactory {
 
 	public static VendorsListAction getVendorsAction() {
 		return new VendorsListAction(Global.get().messages()
-				.suppliers(Global.get().Vendor()));
+				.vendors(Global.get().Vendor()));
 	}
 
 	// public static Item getItemAction() {
@@ -1205,7 +1205,7 @@ public class ActionFactory {
 	public static VendorPaymentsListAction getVendorPaymentsAction() {
 
 		return new VendorPaymentsListAction(Global.get().messages()
-				.supplierPayments(Global.get().Vendor()));
+				.vendorPayments(Global.get().Vendor()));
 	}
 
 	public static PurchaseOrderAction getPurchaseOrderAction() {

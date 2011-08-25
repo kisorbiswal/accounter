@@ -209,7 +209,7 @@ public class BillsTable extends BaseTable<BillsList> {
 			}
 		};
 		this.addColumn(vendor,
-				Global.get().messages().supplierName(Global.get().Vendor()));
+				Global.get().messages().vendorName(Global.get().Vendor()));
 
 		DecimalTextColumn<BillsList> originalAmount = new DecimalTextColumn<BillsList>() {
 

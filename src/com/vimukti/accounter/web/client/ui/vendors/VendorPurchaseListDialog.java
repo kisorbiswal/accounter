@@ -59,7 +59,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 		grid = new DialogGrid(false);
 		grid.addColumns(Accounter.constants().date(), Accounter.constants()
 				.no(), Accounter.constants().type(), messages
-				.supplierName(Global.get().Vendor()), Accounter.constants()
+				.vendorName(Global.get().Vendor()), Accounter.constants()
 				.total());
 		grid.setView(this);
 		grid.init();

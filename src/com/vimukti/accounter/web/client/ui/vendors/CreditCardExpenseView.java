@@ -204,7 +204,7 @@ public class CreditCardExpenseView extends
 		String vendorString = null;
 
 		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			vendorString = Accounter.messages().supplierName(
+			vendorString = Accounter.messages().vendorName(
 					Global.get().Vendor());
 		} else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			vendorString = Accounter.messages().vendorName(

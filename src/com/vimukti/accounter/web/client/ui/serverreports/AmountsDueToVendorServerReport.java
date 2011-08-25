@@ -33,7 +33,7 @@ public class AmountsDueToVendorServerReport extends
 		return new String[] {
 				getVendorString(
 						Accounter.messages()
-								.supplierName(Global.get().Vendor()), Accounter
+								.vendorName(Global.get().Vendor()), Accounter
 								.messages().vendorName(Global.get().Vendor())),
 				getConstants().active(), getConstants().city(),
 				getConstants().state(), getConstants().zipCode(),
@@ -43,7 +43,7 @@ public class AmountsDueToVendorServerReport extends
 	@Override
 	public String getTitle() {
 		return getVendorString(
-				Accounter.messages().amountDueToSupplier(Global.get().Vendor()),
+				Accounter.messages().amountDueToVendor(Global.get().Vendor()),
 				Accounter.messages().amountDueToVendor(Global.get().Vendor()));
 	}
 
@@ -113,7 +113,7 @@ public class AmountsDueToVendorServerReport extends
 		return new String[] {
 				getVendorString(
 						Accounter.messages()
-								.supplierName(Global.get().Vendor()), Accounter
+								.vendorName(Global.get().Vendor()), Accounter
 								.messages().vendorName(Global.get().Vendor())),
 				getConstants().active(), getConstants().city(),
 				getConstants().state(), getConstants().zipCode(),

@@ -46,13 +46,13 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		return messages.addANewSupplierPayment(Global.get().Vendor());
+		return messages.addANewVendorPayment(Global.get().Vendor());
 	}
 
 	@Override
 	protected String getListViewHeading() {
 
-		return messages.supplierPaymentList(Global.get().Vendor());
+		return messages.vendorPaymentList(Global.get().Vendor());
 	}
 
 	@Override
@@ -192,6 +192,6 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return messages.supplierPayments(Global.get().Vendor());
+		return messages.vendorPayments(Global.get().Vendor());
 	}
 }

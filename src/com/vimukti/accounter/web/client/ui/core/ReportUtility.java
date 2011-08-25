@@ -35,7 +35,7 @@ public class ReportUtility {
 			break;
 		case ClientTransaction.TYPE_ENTER_BILL:
 			transactionName = getVendorString(Global.get().messages()
-					.supplierBill(Global.get().Vendor()), Global.get()
+					.vendorBill(Global.get().Vendor()), Global.get()
 					.messages().vendorBill(Global.get().Vendor()));
 			break;
 		case ClientTransaction.TYPE_ESTIMATE:
@@ -52,12 +52,12 @@ public class ReportUtility {
 			break;
 		case ClientTransaction.TYPE_PAY_BILL:
 			transactionName = getVendorString(Global.get().messages()
-					.supplierPayment(Global.get().Vendor()), Global.get()
+					.vendorPayment(Global.get().Vendor()), Global.get()
 					.messages().vendorPayment(Global.get().Vendor()));
 			break;
 		case ClientTransaction.TYPE_VENDOR_PAYMENT:
 			transactionName = getVendorString(Global.get().messages()
-					.supplierPrePayment(Global.get().Vendor()), Global.get()
+					.vendorPrePayment(Global.get().Vendor()), Global.get()
 					.messages().vendorPrePayment(Global.get().Vendor()));
 			break;
 		case ClientTransaction.TYPE_RECEIVE_PAYMENT:
@@ -69,7 +69,7 @@ public class ReportUtility {
 			break;
 		case ClientTransaction.TYPE_VENDOR_CREDIT_MEMO:
 			transactionName = getVendorString(Global.get().messages()
-					.supplierCredit(Global.get().Vendor()), Global.get()
+					.vendorCredit(Global.get().Vendor()), Global.get()
 					.messages().vendorCredit(Global.get().Vendor()));
 			break;
 		case ClientTransaction.TYPE_WRITE_CHECK:

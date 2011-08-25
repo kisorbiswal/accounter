@@ -23,7 +23,7 @@ public class NewVendorAction extends Action<ClientVendor> {
 	private int openedFrom;
 
 	public NewVendorAction(String text) {
-		super(Global.get().messages().newSupplier(Global.get().Vendor()));
+		super(Global.get().messages().newVendor(Global.get().Vendor()));
 		this.catagory = Global.get().Vendor();
 	}
 

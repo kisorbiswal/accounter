@@ -106,16 +106,16 @@ public class VendorCreditMemoView extends
 	@Override
 	public void createControls() {
 
-		Label lab1 = new Label(messages.supplierCredit(Global.get().Vendor())
+		Label lab1 = new Label(messages.vendorCredit(Global.get().Vendor())
 				+ "(" + getTransactionStatus() + ")");
 
 		lab1.setStyleName(Accounter.constants().labelTitle());
 		if (transaction == null
 				|| transaction.getStatus() == ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
-			lab1 = new Label(messages.supplierCredit(Global.get().Vendor()));
+			lab1 = new Label(messages.vendorCredit(Global.get().Vendor()));
 
 		else
-			lab1 = new Label(messages.supplierCredit(Global.get().Vendor())
+			lab1 = new Label(messages.vendorCredit(Global.get().Vendor())
 					+ "(" + getTransactionStatus() + ")");
 
 		lab1.setStyleName(Accounter.constants().labelTitle());
@@ -142,7 +142,7 @@ public class VendorCreditMemoView extends
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
-		vendorCombo = createVendorComboItem(messages.supplierName(Global.get()
+		vendorCombo = createVendorComboItem(messages.vendorName(Global.get()
 				.Vendor()));
 
 		contactCombo = createContactComboItem();
@@ -532,7 +532,7 @@ public class VendorCreditMemoView extends
 
 	@Override
 	protected String getViewTitle() {
-		return messages.supplierCredit(Global.get().Vendor());
+		return messages.vendorCredit(Global.get().Vendor());
 	}
 
 	@Override

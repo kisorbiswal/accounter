@@ -65,7 +65,7 @@ public class VendorTransactionHistoryServerReport extends
 
 	@Override
 	public String getTitle() {
-		return messages.supplierTransactionHistory(Global.get().Vendor());
+		return messages.vendorTransactionHistory(Global.get().Vendor());
 	}
 
 	@Override
@@ -230,7 +230,7 @@ public class VendorTransactionHistoryServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] {
-				getVendorString(getConstants().supplier(), getConstants()
+				getVendorString(getConstants().vendor(), getConstants()
 						.vendor()), getConstants().date(),
 				getConstants().type(), getConstants().no(),
 				Global.get().account(), constants.amount() };

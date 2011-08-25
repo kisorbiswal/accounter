@@ -128,7 +128,7 @@ public class NewVendorPaymentView extends
 
 	@Override
 	protected void createControls() {
-		Label lab1 = new Label(messages.supplierPrePayment(Global.get()
+		Label lab1 = new Label(messages.vendorPrePayment(Global.get()
 				.Vendor()));
 
 		lab1.setStyleName(Accounter.constants().labelTitle());
@@ -169,7 +169,7 @@ public class NewVendorPaymentView extends
 		endBalText.setWidth(100);
 		endBalText.setDisabled(true);
 
-		vendorBalText = new AmountField(messages.supplierBalance(Global.get()
+		vendorBalText = new AmountField(messages.vendorBalance(Global.get()
 				.Vendor()), this);
 		vendorBalText.setHelpInformation(true);
 		vendorBalText.setDisabled(true);
@@ -677,7 +677,7 @@ public class NewVendorPaymentView extends
 
 	@Override
 	protected String getViewTitle() {
-		return messages.supplierPayments(Global.get().Vendor());
+		return messages.vendorPayments(Global.get().Vendor());
 	}
 
 }

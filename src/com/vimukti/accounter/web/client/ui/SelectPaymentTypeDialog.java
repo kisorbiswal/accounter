@@ -36,7 +36,7 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 			paymentType = Accounter.messages().vendorPayment(
 					Global.get().Vendor());
 		} else {
-			paymentType = Accounter.messages().supplierPayment(
+			paymentType = Accounter.messages().vendorPayment(
 					Global.get().Vendor());
 		}
 
@@ -72,7 +72,7 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 				paymentType = Accounter.messages().vendorPayment(
 						Global.get().Vendor());
 			} else {
-				paymentType = Accounter.messages().supplierPayment(
+				paymentType = Accounter.messages().vendorPayment(
 						Global.get().Vendor());
 			}
 			if (radio.equals(paymentType)) {

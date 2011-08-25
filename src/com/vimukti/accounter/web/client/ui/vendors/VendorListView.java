@@ -64,7 +64,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 	@Override
 	protected String getListViewHeading() {
 
-		return messages.supplierList(Global.get().Vendor());
+		return messages.vendorList(Global.get().Vendor());
 	}
 
 	// protected List<ClientPayee> getRecords() {
@@ -188,6 +188,6 @@ public class VendorListView extends BaseListView<PayeeList> {
 
 	@Override
 	protected String getViewTitle() {
-		return messages.suppliers(Global.get().Vendor());
+		return messages.vendors(Global.get().Vendor());
 	}
 }

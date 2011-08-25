@@ -255,108 +255,32 @@ public interface AccounterMessages extends Messages {
 	public String bothCustomerAndVendor(String CustomerString,
 			String vendorString);
 
-	public String addANewSupplierPayment(String addANewSupplierPaymentString);
+	public String addANewVendorPayment(String addANewVendorPaymentString);
 
-	public String amountDueToSupplier(String amountDueToSupplier);
+	public String amountDueToVendor(String amountDueToVendor);
 
-	public String amountsDueToSuppliers(String amountsDueToSuppliersString);
+	public String amountsDueToVendor(String amountsDueToVendorsString);
 
-	public String duplicationOfSupplierNameAreNotAllowed(
-			String duplicationOfSupplierString);
+	public String duplicationOfVendorNameAreNotAllowed(
+			String duplicationOfVendorString);
 
-	public String euVATExemptSupplier(String euVATExemptSupplierString);
+	public String euVATExemptVendor(String euVATExemptVendorString);
 
-	public String manageSupplierGroup(String manageSupplierGroupString);
+	public String newVendorPrePayment(String newVendorPrePaymentString);
 
-	public String newSupplier(String newSupplierString);
+	public String noPurchaseOrderForVendor(String noPurchaseOrderForVendorString);
 
-	public String newSupplierPrePayment(String newSupplierPrePaymentString);
+	public String vendor(String vendorString);
 
-	public String noPurchaseOrderForSupplier(
-			String noPurchaseOrderForSupplierString);
+	public String vendorItemNo(String vendorItemNoString);
 
-	public String pleaseSelectSupplier(String pleaseSelectSupplierString);
+	public String vendorPay(String vendorPayString);
 
-	public String preferredSupplier(String preferredSupplierString);
+	public String vendorPaymentList(String vendorPaymentListString);
 
-	public String purchaseBySupplierDetail(String purchaseBySupplierDetailString);
+	public String vendorsGroupList(String vendorsGroupListString);
 
-	public String purchaseBySupplierSummary(
-			String purchaseBySupplierSummaryString);
-
-	public String supplier(String supplierString);
-
-	public String supplierAddress(String supplierAddressString);
-
-	public String supplierBalance(String supplierBalanceString);
-
-	public String supplierBendor(String supplierBendorString);
-
-	public String supplierBill(String supplierBillString);
-
-	public String supplierBlah(String supplierBlahString);
-
-	public String supplierCredit(String supplierCreditString);
-
-	public String supplierGroup(String supplierGroupString);
-
-	public String supplierGroupAlreadyExists(
-			String supplierGroupAlreadyExistsString);
-
-	public String supplierGroupList(String supplierGroupListString);
-
-	public String supplierhome(String supplierhomeString);
-
-	public String supplierItemNo(String supplierItemNoString);
-
-	public String supplierItems(String supplierItemsString);
-
-	public String supplierList(String supplierListString);
-
-	public String supplierLists(String supplierListsString);
-
-	public String supplierMemo(String supplierMemoString);
-
-	public String supplierName(String supplierNameString);
-
-	public String supplierOrderNo(String supplierOrderNoString);
-
-	public String supplierPay(String supplierPayString);
-
-	public String supplierPayment(String supplierPaymentString);
-
-	public String supplierPaymentList(String supplierPaymentListString);
-
-	public String supplierPayments(String supplierPaymentsString);
-
-	public String supplierPrePayment(String supplierPrePaymentString);
-
-	public String supplierPrePayments(String supplierPrePaymentsString);
-
-	public String supplierProductNo(String supplierProductNoString);
-
-	public String supplierServiceNo(String supplierServiceNoString);
-
-	public String supplierSince(String supplierSinceString);
-
-	public String supplierTransactionHistory(
-			String supplierTransactionHistoryString);
-
-	public String supplierVatCode(String supplierVatCodeString);
-
-	public String supplierWhendor(String supplierWhendor);
-
-	public String suppliersHome(String suppliersHomeString);
-
-	public String suppliers(String suppliersString);
-
-	public String suppliersAndPayables(String suppliersAndPayablesString);
-
-	public String suppliersGroupList(String suppliersGroupListString);
-
-	public String suppliersList(String suppliersListString);
-
-	public String todaysSupplierPayments(String todaysSupplierPayments);
+	public String todaysVendorPayments(String todaysVendorPayments);
 
 	public String useVendorId(String useVendorIdString);
 
@@ -570,10 +494,6 @@ public interface AccounterMessages extends Messages {
 
 	public String customerNumber(String customer);
 
-	public String supplierHome(String vendor);
-
-	public String mergeSuppliers(String vendor);
-
 	public String customerGroupList(String customer);
 
 	public String customerCreditNote(String customer);
@@ -617,12 +537,6 @@ public interface AccounterMessages extends Messages {
 	public String vendorNumberShouldBePos(String vendor);
 
 	public String addANewVendor(String msgString);
-
-	public String addANewVendorPayment(String msgString);
-
-	public String amountsDueToVendor(String msgString);
-
-	public String duplicationOfVendorNameAreNotAllowed(String msgString);
 
 	public String failedToLoadVendorsHome(String msgString);
 
@@ -736,15 +650,9 @@ public interface AccounterMessages extends Messages {
 
 	public String accounterUseYourForms(String custString, String vendorString);
 
-	public String addaNewSupplier(String vendorString);
+	public String addaNewVendor(String vendorString);
 
-	public String Supplier(String vendorString);
-
-	public String toAddSupplierGroup(String vendorString);
-
-	public String howDoYouReferYourSuppliers(String vendorString);
-
-	public String amountDueToVendor(String venString);
+	public String howDoYouReferYourVendors(String vendorString);
 
 	public String vendorsList(String vendorString);
 

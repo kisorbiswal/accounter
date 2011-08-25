@@ -333,7 +333,7 @@ public class VendorBillView extends
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
-		vendorCombo = createVendorComboItem(messages.supplierName(Global.get()
+		vendorCombo = createVendorComboItem(messages.vendorName(Global.get()
 				.Vendor()));
 		// vendorCombo.setWidth(100);
 		// purchaseLabel = new LinkItem();

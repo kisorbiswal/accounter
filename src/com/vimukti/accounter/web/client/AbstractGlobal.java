@@ -29,7 +29,7 @@ public abstract class AbstractGlobal implements IGlobal {
 		case ClientCustomer.GUEST:
 			return constants().Guest();
 		case ClientCustomer.PATITEINT:
-			return constants().Patitent();
+			return constants().patitent();
 		default:
 			return constants().Customer();
 		}
@@ -87,7 +87,7 @@ public abstract class AbstractGlobal implements IGlobal {
 		int referCustomers = preferences().getReferVendors();
 		switch (referCustomers) {
 		case ClientVendor.SUPPLIER:
-			return constants().Supplier();
+			return constants().vendor();
 		case ClientVendor.VENDOR:
 			return constants().Vendor();
 		default:
@@ -100,7 +100,7 @@ public abstract class AbstractGlobal implements IGlobal {
 		int referCustomers = preferences().getReferVendors();
 		switch (referCustomers) {
 		case ClientVendor.SUPPLIER:
-			return constants().supplier();
+			return constants().vendor();
 		case ClientVendor.VENDOR:
 			return constants().vendor();
 		default:

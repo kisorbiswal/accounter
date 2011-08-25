@@ -207,7 +207,7 @@ public class ReportSectionView extends BaseHomeView {
 
 		LinkItem purchaseBySupplierSummaryLink = new LinkItem();
 		purchaseBySupplierSummaryLink.setLinkTitle(Accounter.messages()
-				.purchaseBySupplierSummary(Global.get().vendor()));
+				.purchaseByVendorSummary(Global.get().vendor()));
 		purchaseBySupplierSummaryLink.setShowTitle(false);
 		purchaseBySupplierSummaryLink.addClickHandler(new ClickHandler() {
 
@@ -221,7 +221,7 @@ public class ReportSectionView extends BaseHomeView {
 
 		LinkItem purchaseBySupplierDetailLink = new LinkItem();
 		purchaseBySupplierDetailLink.setLinkTitle(Accounter.messages()
-				.purchaseBySupplierDetail(Global.get().vendor()));
+				.purchaseByVendorDetail(Global.get().vendor()));
 		purchaseBySupplierDetailLink.setShowTitle(false);
 		purchaseBySupplierDetailLink.addClickHandler(new ClickHandler() {
 
@@ -313,7 +313,7 @@ public class ReportSectionView extends BaseHomeView {
 
 		LinkItem supplierTransactionHistoryLink = new LinkItem();
 		supplierTransactionHistoryLink.setLinkTitle(Accounter.messages()
-				.supplierTransactionHistory(Global.get().Vendor()));
+				.vendorTransactionHistory(Global.get().Vendor()));
 		supplierTransactionHistoryLink.setShowTitle(false);
 		supplierTransactionHistoryLink.addClickHandler(new ClickHandler() {
 

@@ -110,7 +110,7 @@ public class CashPurchaseView extends
 		// formItems.add(transactionDateItem);
 		// formItems.add(transactionNumber);
 
-		vendorCombo = createVendorComboItem(messages.supplierName(Global.get()
+		vendorCombo = createVendorComboItem(messages.vendorName(Global.get()
 				.Vendor()));
 		vendorCombo.setHelpInformation(true);
 		// vendorCombo.setWidth(100);

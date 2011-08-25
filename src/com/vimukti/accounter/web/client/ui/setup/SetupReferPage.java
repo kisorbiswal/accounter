@@ -39,7 +39,7 @@ public class SetupReferPage extends AbstractSetupPage {
 		customerForm.setFields(customerCombo);
 
 		refersuppliersLabel = new Label(Accounter.messages()
-				.howDoYouReferYourSuppliers(Global.get().vendor()));
+				.howDoYouReferYourVendors(Global.get().vendor()));
 		refersuppliersLabel.addStyleName("referComment");
 		supplierCombo = new SelectCombo(Global.get().customer());
 		supplierCombo.addItem("Suppliers");
@@ -73,8 +73,8 @@ public class SetupReferPage extends AbstractSetupPage {
 		mainPanel.add(refersuppliersLabel);
 
 		accountCombo.textBox.getElement().getParentElement().getParentElement()
-				.getParentElement().getParentElement()
-				.addClassName("accountReferCombo");
+				.getParentElement().getParentElement().addClassName(
+						"accountReferCombo");
 		mainPanel.add(accountForm);
 		mainPanel.add(referaccountsLabel);
 
