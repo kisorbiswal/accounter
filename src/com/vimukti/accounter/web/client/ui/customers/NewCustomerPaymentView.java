@@ -245,6 +245,7 @@ public class NewCustomerPaymentView extends
 		// }
 		initMemoAndReference();
 		initTransactionNumber();
+		initCustomers();
 	}
 
 	private void accountSelected(ClientAccount account) {
@@ -368,7 +369,7 @@ public class NewCustomerPaymentView extends
 		labeldateNoLayout.add(datepanel);
 		labeldateNoLayout.setCellHorizontalAlignment(datepanel, ALIGN_RIGHT);
 		// customer and address
-		customerCombo = createCustomerComboItem(Accounter.messages()
+		customerCombo = createCustomerComboItem(messages
 				.customerName(Global.get().customer()));
 
 		billToCombo = createBillToComboItem(customerConstants.address());

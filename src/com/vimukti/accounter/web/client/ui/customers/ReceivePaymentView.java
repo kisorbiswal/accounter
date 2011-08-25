@@ -752,6 +752,7 @@ public class ReceivePaymentView extends
 			gridView.setTranReceivePayments(tranReceivePaymnetsList);
 		}
 		initTransactionNumber();
+		initCustomers();
 	}
 
 	private void initListGridData(List<ClientTransactionReceivePayment> list) {

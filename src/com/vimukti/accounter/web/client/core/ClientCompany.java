@@ -1556,7 +1556,7 @@ public class ClientCompany implements IAccounterCore {
 					// Utility.updateClientList(taxGroup, taxGroups);
 					UIUtils.updateClientListAndTaxItemGroup(taxGroup, taxItems,
 							taxGroups, taxItemGroups);
-					if (getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+					if (getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK) {
 						ClientTAXCode code = getTAXCodeForTAXItemGroup(taxGroup);
 						Utility.updateClientList(code, taxCodes);
 					}
@@ -1578,7 +1578,7 @@ public class ClientCompany implements IAccounterCore {
 					// Utility.updateClientList(taxItem, taxItems);
 					UIUtils.updateClientListAndTaxItemGroup(taxItem, taxItems,
 							taxGroups, taxItemGroups);
-					if (getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+					if (getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK) {
 						ClientTAXCode code = getTAXCodeForTAXItemGroup(taxItem);
 						Utility.updateClientList(code, taxCodes);
 					}
@@ -1784,7 +1784,7 @@ public class ClientCompany implements IAccounterCore {
 		case TAX_GROUP:
 
 			deleteTaxGroup(id);
-			if (getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			if (getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK) {
 				deleteTaxCode(id);
 				// for (ClientTAXCode taxCode : getActiveTaxCodes()) {
 				// if (taxCode.id == id) {
@@ -1849,7 +1849,7 @@ public class ClientCompany implements IAccounterCore {
 			break;
 		case TAXITEM:
 			deleteTaxItem(id);
-			if (getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			if (getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK) {
 				deleteTaxCode(id);
 				// for (ClientTAXCode taxCode : getActiveTaxCodes()) {
 				// if (taxCode.id == id) {
