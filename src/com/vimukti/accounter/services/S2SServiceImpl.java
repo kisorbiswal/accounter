@@ -3,7 +3,6 @@ package com.vimukti.accounter.services;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -150,31 +149,28 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 
 	@Override
 	public void deleteClientFromCompany(long serverCompanyId,
-			String deletableEmail) {
+			String deletableEmail) throws AccounterException {
 
-		Session openSession = HibernateUtil.openSession(Server.LOCAL_DATABASE);
-		Transaction beginTransaction = openSession.beginTransaction();
+		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+		Transaction transaction = session.beginTransaction();
 
-		Client deletableClient = getClient(deletableEmail);
+		Client deletingClient = getClient(deletableEmail);
 
 		ServerCompany serverCompany = null;
 		try {
-			serverCompany = (ServerCompany) openSession.load(
-					ServerCompany.class, serverCompanyId);
-			serverCompany.getClients().remove(deletableClient);
-			openSession.saveOrUpdate(serverCompany);
-			deletableClient.getCompanies().remove(serverCompany);
-			openSession.saveOrUpdate(deletableClient);
-			beginTransaction.commit();
-		} catch (HibernateException e) {
-			beginTransaction.rollback();
-			return;
+			serverCompany = (ServerCompany) session.load(ServerCompany.class,
+					serverCompanyId);
+			serverCompany.getClients().remove(deletingClient);
+			session.saveOrUpdate(serverCompany);
+			// deletableClient.getCompanies().remove(serverCompany);
+			// openSession.saveOrUpdate(deletableClient);
+			transaction.commit();
 		} catch (Exception e) {
-			beginTransaction.rollback();
-			return;
+			transaction.rollback();
+			throw new AccounterException(AccounterException.ERROR_INTERNAL);
 		} finally {
-			if (openSession != null && openSession.isOpen()) {
-				openSession.close();
+			if (session.isOpen()) {
+				session.close();
 			}
 		}
 	}
