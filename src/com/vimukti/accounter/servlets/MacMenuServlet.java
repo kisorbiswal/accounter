@@ -220,7 +220,7 @@ public class MacMenuServlet extends BaseServlet {
 				financialValue);
 
 		StringBuilder receivablesValue = new StringBuilder();
-		subMenu(receivablesValue, Accounter.constants().ageingSummary(),
+		subMenu(receivablesValue, Accounter.constants().arAgeingSummary(),
 				"accounter#arAgingSummary");
 		subMenu(receivablesValue, Accounter.constants().arAgeingDetail(),
 				"accounter#arAgingDetail");
