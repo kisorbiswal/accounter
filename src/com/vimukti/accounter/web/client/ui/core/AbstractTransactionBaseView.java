@@ -91,9 +91,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected ClientFinanceDate transactionDate;
 	protected TextItem transactionNumber;
 	protected TextItem checkNo;
-	protected TextItem phoneSelect;
 	protected DateField transactionDateItem;
 	protected TextAreaItem memoTextAreaItem;
+	protected TextItem phoneSelect;
 	// protected TextItem refText;
 	protected AddNewButton menuButton;
 	private PopupPanel popupPanel;
@@ -1101,10 +1101,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			return;
 		this.contact = contact;
 		this.phoneNo = contact.getBusinessPhone();
-		if (this.phoneNo != null) {
+		if (this.phoneNo != null && phoneSelect != null) {
 			phoneSelect.setValue(this.phoneNo);
-			contactCombo.setValue(contact.getName());
+
 		}
+		contactCombo.setValue(contact.getName());
 		// contactCombo.setDisabled(isEdit);
 
 	}

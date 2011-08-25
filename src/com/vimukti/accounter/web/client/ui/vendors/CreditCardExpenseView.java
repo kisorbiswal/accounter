@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
@@ -31,6 +32,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.AbstractBankTransactionView;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
+import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -63,9 +65,7 @@ public class CreditCardExpenseView extends
 	List<String> idNamesForContacts = new ArrayList<String>();
 
 	protected DynamicForm vendorForm, addrForm, phoneForm, termsForm, memoForm;
-	protected SelectCombo contactNameSelect, payMethSelect;
-	protected TextItem phoneSelect;
-
+	protected SelectCombo payMethSelect;
 	// VendorCombo vendorNameSelect;
 
 	private TextAreaItem addrArea;
@@ -247,16 +247,16 @@ public class CreditCardExpenseView extends
 			}
 		};
 		Ccard.setHelpInformation(true);
-		Ccard
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
+		Ccard.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 
-					@Override
-					public void selectedComboBoxItem(ClientVendor selectItem) {
-						selectedVendor = selectItem;
-						Ccard.setComboItem(selectItem);
-						addPhonesContactsAndAddress();
-					}
-				});
+			@Override
+			public void selectedComboBoxItem(ClientVendor selectItem) {
+				selectedVendor = selectItem;
+				Ccard.setComboItem(selectItem);
+				addPhonesContactsAndAddress();
+				initContacts(selectItem);
+			}
+		});
 
 		Ccard.setRequired(true);
 		String listString[] = new String[] {
@@ -311,27 +311,52 @@ public class CreditCardExpenseView extends
 		labeldateNoLayout.add(regPanel);
 		labeldateNoLayout.setCellHorizontalAlignment(regPanel, ALIGN_RIGHT);
 
-		contactNameSelect = new SelectCombo(Accounter.constants().contactName());
-		contactNameSelect.setHelpInformation(true);
-		contactNameSelect
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+		contactCombo = new ContactCombo(Accounter.constants().contact(), true);
+		contactCombo.setHelpInformation(true);
+		contactCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientContact>() {
 
-					@Override
-					public void selectedComboBoxItem(String selectItem) {
-						contactNameSelect.setSelected(selectItem);
+					public void selectedComboBoxItem(ClientContact selectItem) {
 
-						int i = 0;
-						while (i < idNamesForContacts.size()) {
-							String s = idNamesForContacts.get(i);
-							if (s.equals(selectItem))
-								phoneSelect.setValue(idPhoneNumberForContacts
-										.get(i));
-
-							i++;
-						}
+						contactSelected(selectItem);
 
 					}
+
 				});
+		contactCombo.addNewContactHandler(new ValueCallBack<ClientContact>() {
+
+			@Override
+			public void execute(ClientContact value) {
+				addContactToCustomer(value);
+			}
+		});
+		contactCombo.setDisabled(isInViewMode());
+
+		// formItems.add(contactCombo);
+
+		// contactNameSelect = new
+		// SelectCombo(Accounter.constants().contactName());
+		// contactNameSelect.setHelpInformation(true);
+		// contactNameSelect
+		// .addSelectionChangeHandler(new
+		// IAccounterComboSelectionChangeHandler<String>() {
+		//
+		// @Override
+		// public void selectedComboBoxItem(String selectItem) {
+		// contactNameSelect.setSelected(selectItem);
+		//
+		// int i = 0;
+		// while (i < idNamesForContacts.size()) {
+		// String s = idNamesForContacts.get(i);
+		// if (s.equals(selectItem))
+		// phoneSelect.setValue(idPhoneNumberForContacts
+		// .get(i));
+		//
+		// i++;
+		// }
+		//
+		// }
+		// });
 		// contactNameSelect.setWidth(100);
 		// formItems.add(contactNameSelect);
 		// billToCombo = createBillToComboItem();
@@ -346,8 +371,7 @@ public class CreditCardExpenseView extends
 
 		vendorForm = UIUtils.form(Accounter.constants().vendor());
 		vendorForm.setWidth("100%");
-		vendorForm.setFields(Ccard, contactNameSelect, phoneSelect,
-				billToAreaItem);
+		vendorForm.setFields(Ccard, contactCombo, phoneSelect, billToAreaItem);
 		vendorForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		vendorForm.getCellFormatter().setWidth(0, 0, "180px");
 
@@ -373,8 +397,8 @@ public class CreditCardExpenseView extends
 
 		cheqNoText = new TextItem(
 				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-						.constants().chequeNo()
-						: Accounter.constants().checkNo());
+						.constants().chequeNo() : Accounter.constants()
+						.checkNo());
 		cheqNoText.setHelpInformation(true);
 		cheqNoText.setDisabled(isInViewMode());
 		cheqNoText.setWidth(100);
@@ -389,8 +413,8 @@ public class CreditCardExpenseView extends
 		termsForm = UIUtils.form(Accounter.constants().terms());
 		termsForm.setWidth("100%");
 		termsForm.setFields(payMethSelect, payFrmSelect, delivDate);
-		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "203px");
 
 		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 
@@ -579,7 +603,7 @@ public class CreditCardExpenseView extends
 			transactionDateItem.setValue(transaction.getDate());
 			contact = transaction.getContact();
 			if (contact != null) {
-				contactNameSelect.setValue(contact.getName());
+				contactCombo.setValue(contact.getName());
 			}
 			transactionDateItem.setValue(transaction.getDate());
 			transactionDateItem.setDisabled(isInViewMode());
@@ -686,19 +710,19 @@ public class CreditCardExpenseView extends
 			i++;
 		}
 
-		contactNameSelect.initCombo(idNamesForContacts);
+		// contactCombo.initCombo(idNamesForContacts);
 
 		// phoneSelect.initCombo(phones);
 
 		// ClientVendor cv = FinanceApplication.getCompany().getVendor(
 		// creditCardChargeTaken.getVendor());
 		if (transaction.getContact() != null)
-			contactNameSelect.setSelected(transaction.getContact().getName());
+			contactCombo.setSelected(transaction.getContact().getName());
 		if (transaction.getPhone() != null)
 			// FIXME check and fix the below code
 			phoneSelect.setValue(transaction.getPhone());
 
-		contactNameSelect.setDisabled(isInViewMode());
+		contactCombo.setDisabled(isInViewMode());
 		phoneSelect.setDisabled(isInViewMode());
 		return;
 	}
@@ -862,7 +886,7 @@ public class CreditCardExpenseView extends
 		delivDate.setDisabled(isInViewMode());
 		// billToCombo.setDisabled(isEdit);
 		Ccard.setDisabled(isInViewMode());
-		contactNameSelect.setDisabled(isInViewMode());
+		contactCombo.setDisabled(isInViewMode());
 		phoneSelect.setDisabled(isInViewMode());
 		payFrmSelect.setDisabled(isInViewMode());
 		vendorTransactionGrid.setCanEdit(true);
@@ -874,13 +898,13 @@ public class CreditCardExpenseView extends
 	@Override
 	public void showMenu(Widget button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, Accounter.messages().accounts(
-					Global.get().Account()), Accounter.constants()
-					.serviceItem());
+			setMenuItems(button,
+					Accounter.messages().accounts(Global.get().Account()),
+					Accounter.constants().serviceItem());
 		else
-			setMenuItems(button, Accounter.messages().accounts(
-					Global.get().Account()), Accounter.constants()
-					.serviceItem());
+			setMenuItems(button,
+					Accounter.messages().accounts(Global.get().Account()),
+					Accounter.constants().serviceItem());
 	}
 
 	public void saveAndUpdateView() {
@@ -952,5 +976,28 @@ public class CreditCardExpenseView extends
 
 	public ClientVendor getSelectedVendor() {
 		return selectedVendor;
+	}
+
+	/**
+	 * @param value
+	 */
+	protected void addContactToCustomer(final ClientContact contact) {
+		ClientVendor selectedVendor = Ccard.getSelectedValue();
+		if (selectedVendor == null) {
+			return;
+		}
+		selectedVendor.addContact(contact);
+		AccounterAsyncCallback<Long> asyncallBack = new AccounterAsyncCallback<Long>() {
+
+			public void onException(AccounterException caught) {
+				caught.printStackTrace();
+			}
+
+			public void onResultSuccess(Long result) {
+				// contactSelected(contact);
+			}
+
+		};
+		Accounter.createCRUDService().update(selectedVendor, asyncallBack);
 	}
 }
