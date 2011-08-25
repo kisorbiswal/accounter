@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
@@ -20,9 +21,11 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.grids.InvoiceListGrid;
 
-public class InvoiceListView extends BaseListView<InvoicesList> {
+public class InvoiceListView extends BaseListView<InvoicesList> implements
+		IPrintableView {
 	AccounterConstants customerConstants = Accounter.constants();
 
 	private List<InvoicesList> listOfInvoices;
@@ -506,7 +509,57 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
+
+		Vector<Integer> v = new Vector<Integer>();
+
+		boolean isWriteCheck_cashsale = false;
+		for (InvoicesList invoice : listOfInvoices) {
+
+			if (invoice.isPrint()) {
+				if (invoice.getType() == ClientTransaction.TYPE_INVOICE) {
+
+					if (!v.contains(ClientTransaction.TYPE_INVOICE))
+
+						v.add(ClientTransaction.TYPE_INVOICE);
+				} else if (invoice.getType() == ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO) {
+
+					if (!v.contains(ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO))
+						v.add(ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO);
+
+				} else if (invoice.getType() == ClientTransaction.TYPE_CASH_SALES) {
+
+					if (!v.contains(ClientTransaction.TYPE_CASH_SALES))
+						v.add(ClientTransaction.TYPE_CASH_SALES);
+					isWriteCheck_cashsale = true;
+				} else if (invoice.getType() == ClientTransaction.TYPE_WRITE_CHECK) {
+
+					if (!v.contains(ClientTransaction.TYPE_WRITE_CHECK))
+						v.add(ClientTransaction.TYPE_WRITE_CHECK);
+					isWriteCheck_cashsale = true;
+
+				}
+			}
+		}
+
+		if (v.size() > 1) {
+
+			showDialogBox();
+		} else {
+			if (!isWriteCheck_cashsale) {
+				ActionFactory.getBrandingThemeComboAction().run(listOfInvoices);
+			} else {
+				showDialogBox();
+			}
+			// ActionFactory.getInvoiceListViewAction().run(listOfInvoices);
+		}
+
+	}
+
+	public void showDialogBox() {
+		InvoicePrintDialog printDialog = new InvoicePrintDialog(Accounter
+				.constants().selectReports(), "");
+		printDialog.show();
+		printDialog.center();
 	}
 
 	@Override
@@ -517,5 +570,17 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 	@Override
 	protected String getViewTitle() {
 		return Accounter.constants().invoices();
+	}
+
+	@Override
+	public boolean canPrint() {
+
+		return true;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+
+		return false;
 	}
 }
