@@ -722,11 +722,18 @@ public interface AccounterMessages extends Messages {
 	public String accountTo(String account);
 
 	public String mergeDescription(String desc);
+	
+
 
 	public String selectVendor(String vendor);
 
 	public String SelectVendorsToTrack1099(String vendor);
 
 	public String assignAccounts(String account);
+
+	public String companyCustomers(String customer);
+
+	public String companySuppliers(String vendor);
+
 
 }
