@@ -231,7 +231,7 @@ public class CustomerTransactionHistoryServerReport extends
 
 		return new String[] { Global.get().customer(), getConstants().date(),
 				getConstants().type(), getConstants().noDot(),
-				Accounter.messages().account(Global.get().account()),
+				Global.get().messages().account(Global.get().account()),
 				getConstants().amount() };
 
 	}
