@@ -722,8 +722,6 @@ public interface AccounterMessages extends Messages {
 	public String accountTo(String account);
 
 	public String mergeDescription(String desc);
-	
-
 
 	public String selectVendor(String vendor);
 
@@ -734,6 +732,5 @@ public interface AccounterMessages extends Messages {
 	public String companyCustomers(String customer);
 
 	public String companySuppliers(String vendor);
-
 
 }
