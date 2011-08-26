@@ -239,15 +239,13 @@ public class GraphChart {
 					labelDateVal = cal.getActualMaximum(Calendar.DAY_OF_MONTH)
 							+ labelDateVal;
 
-				x_Axis_Labels.add(3 - i, getMonthAsString(labelMonthVal) + " "
+				x_Axis_Labels.add(3 - i, getMonthAsString(labelMonthVal-1) + " "
 						+ labelDateVal);
 			}
 		}
 
 		// Graph for Accounts Receivable
 		if (chartType == ACCOUNTS_RECEIVABLE_CHART_TYPE) {
-
-			ClientFinanceDate date1 = new ClientFinanceDate();
 
 			// For Account Receivable we have to show 6 points in graph
 			for (int i = 6; i > 0; i--) {
@@ -311,7 +309,7 @@ public class GraphChart {
 				}
 
 				// creating x-axis labels. Ex: 1-Jan, 3-Jan, 5-Jan, ...
-				x_Axis_Labels.add(i, getMonthAsString(labelMonthVal) + " "
+				x_Axis_Labels.add(i, getMonthAsString(labelMonthVal-1) + " "
 						+ labelDateVal);
 
 				labelDateVal = labelDateVal + 1;
