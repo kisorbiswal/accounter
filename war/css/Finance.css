@@ -37,11 +37,6 @@ textarea,.rich-text-area-body {
 	font-size: 11pt;
 	font-family: Arial Unicode MS, Arial, sans-serif;
 }
-
-.dashboard-main-panel {
-	
-}
-
 .company-label {
 	font-size: 35px;
 	color: #555555;
@@ -191,6 +186,8 @@ h1 {
 	z-index: 500000;
 	border-radius: 5px 5px 5px 5px;
     box-shadow: 0 0 10px #1A5158;
+    -moz-box-shadow: 0 0 10px #1A5158;
+    -webkit-box-shadow:0 0 10px #1A5158;
 }
 
 .gwt-PopupPanel {
@@ -1185,9 +1182,9 @@ table tr.parentRow:HOVER {
 	height: 21px;
 	width: 100%;
 	border-bottom:1px solid #1a1a1a;
-	background: -webkit-gradient(linear, left top, left bottom, from(#E4E4E4), to(#A0A0A0)); /* for webkit browsers */
-	background: -moz-linear-gradient(top,  #E4E4E4,  #A0A0A0); /* for firefox 3.6+ */ 
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E4E4E4', endColorstr='#A0A0A0') !important; /* for IE */
+	background: -webkit-gradient(linear, left top, left bottom, from(#E4E4E4), to(#DBDBDB)); /* for webkit browsers */
+	background: -moz-linear-gradient(top,  #E4E4E4,  #DBDBDB); /* for firefox 3.6+ */ 
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E4E4E4', endColorstr='#DBDBDB') !important; /* for IE */
 }
 
 .gridHeaderLastTd {
@@ -1200,8 +1197,7 @@ table tr.parentRow:HOVER {
 }
 
 .gridHeader td.gridHeaderCell {
-	font-weight: bold;
-	padding-left: 5px;
+	/*padding-left: 5px;*/
 	font-size: 12px;
 }
 
@@ -1214,13 +1210,11 @@ table tr.parentRow:HOVER {
 }
 
 .gridHeader td {
-	padding-left: 4px;
+	/*padding-left: 4px;*/
 }
 
 .gridBody,.gridHeader {
 	border-collapse: collapse;
-	table-layout: fixed;
-	white-space: nowrap;
 }
 .gridHeader tr td div {
 	width: 100%;
@@ -1237,7 +1231,7 @@ noindex:-o-prefocus,.gridBody tr td {
 }
 
 .gridBody tr td { 
-	padding: 0 3px;
+	/*padding: 0 3px;*/
 	overflow-x: hidden;
 	font-size: 13px;
 	border-right:1px solid #1A1A1A;
@@ -4443,6 +4437,10 @@ td.imagelink-h-hover .imageLink-div {
 	.grouped-buttons td:FIRST-CHILD .Empty-text{
 		margin-right:-3px !important;
 	}
+	.list-grid-body div.gridBodyContainer {
+		overflow-x: hidden !important;
+		overflow-y: auto !important;
+	}
 }
 /** Add css rules here for your application. */
 	/** Example rules used by the template application (remove for your app) */
@@ -5006,7 +5004,7 @@ div.link:hover {
 }
 
 .listgrid-tl .gridBody,.listgrid-tl .gridHeader {
-	table-layout: auto !important;
+	/*table-layout: auto !important;*/
 }
 
 .scroll-panel {
@@ -5034,7 +5032,7 @@ tr.net-profit td {
 }
 
 td.gridDecimalCell {
-	text-align: right !important;
+	/*text-align: right !important;*/
 }
 
 .ReportGrid td.gridDecimalCell {
@@ -5045,7 +5043,9 @@ td.gridDecimalCell {
 .custom-combo {
 	border: 1px solid #B1B1B1;
     border-radius: 3px 3px 3px 3px;
-    box-shadow: 1px 2px 2px #CCCCCC inset;
+    -moz-box-shadow:1px 2px 2px #CCCCCC inset;
+   -webkit-box-shadow:1px 2px 2px #CCCCCC inset;
+    box-shadow:1px 2px 2px #CCCCCC inset;
     float: left;
     height: 22px !important;
     overflow: hidden;
@@ -5629,6 +5629,8 @@ solid
 	border: 1px solid #B1B1B1;
     border-radius: 3px 3px 3px 3px;
     box-shadow: 1px 2px 2px #CCCCCC inset;
+    -moz-box-shadow:1px 2px 2px #CCCCCC inset;
+    -webkit-box-shadow:1px 2px 2px #CCCCCC inset;
     /*height: 25px !important;*/
 }
 
@@ -5642,7 +5644,9 @@ solid
 .gwt-TextArea {
 	border: 1px solid #B1B1B1;
     border-radius: 3px 3px 3px 3px;
-    box-shadow: 1px 2px 2px #CCCCCC inset;
+    -moz-box-shadow:1px 2px 2px #CCCCCC inset;
+   -webkit-box-shadow:1px 2px 2px #CCCCCC inset;
+    box-shadow:1px 2px 2px #CCCCCC inset;
     height: 65px;
     resize: none;
     width: 180px !important;
@@ -5652,7 +5656,9 @@ solid
 .memoTextArea {
 	border: 1px solid #B1B1B1;
     border-radius: 4px 4px 4px 4px;
-    box-shadow: 1px 2px 2px #CCCCCC inset;
+    -moz-box-shadow:1px 2px 2px #CCCCCC inset;
+   -webkit-box-shadow:1px 2px 2px #CCCCCC inset;
+    box-shadow:1px 2px 2px #CCCCCC inset;
     height: 65px;
     resize: none;
     width: 359px !important;
@@ -5767,6 +5773,8 @@ important
 	
 }
 .viewholder{
+    -moz-box-shadow: 0 2px 10px #1A5158;
+    -webkit-box-shadow: 0 2px 10px #1A5158;
     box-shadow: 0 2px 10px #1A5158;
     padding: 15px;
 }
@@ -5779,6 +5787,8 @@ important
 		scroll 0 0 white !important;*/
 	border: 1px solid #B1B1B1;
     border-radius: 3px 3px 3px 3px;
+    -moz-box-shadow:1px 2px 2px #CCCCCC inset;
+    -webkit-box-shadow: 1px 2px 2px #CCCCCC inset;
     box-shadow: 1px 2px 2px #CCCCCC inset;
 	height: 22px !important;
 	padding: 0 0 0 5px;
@@ -6342,7 +6352,7 @@ normal
 		overflow: hidden !important;
 	}
 	.gridBody .gridCheckBoxCell,.gridHeaderRow td:FIRST-CHILD {
-		overflow: hidden !important;
+		/*overflow: hidden !important;*/
 	}
 	.header_check_box {
 		width: 20px !important;
@@ -6352,7 +6362,6 @@ normal
 	    margin-bottom:50px !important;
 	}
 	.sales_tax_buttons td{
-	    padding:5px;
 	    float:right;
 	}
 	
@@ -6439,6 +6448,7 @@ noindex:-o-prefocus,.ibutton {
 	background: url("/images/Menu bar_1x33.png") repeat-x scroll 0 0
 		transparent !important;
 	width: 100%;
+	margin-top:18px;
 }
 
 .HEADER_GRID { /*width: auto !important;*/
@@ -6609,10 +6619,14 @@ input[type="text"],textarea {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4', endColorstr='#2D8B93'); /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#2D8B93)) !important; /* for webkit browsers */
     box-shadow: 0 -6px 10px #1A5158;
+    -moz-box-shadow:0 -6px 10px #1A5158;
+    -webkit-box-shadow:0 -6px 10px #1A5158;
     padding: 0 5px;
 }
 .menuPopupContent{
     box-shadow: 1px 2px 2px #1A5158;
+    -moz-box-shadow:0 -6px 10px #1A5158;
+    -webkit-box-shadow:0 -6px 10px #1A5158;
 }
 .view_manager{
 	width:960px;
@@ -6876,6 +6890,8 @@ a#fdbk_tab:hover{
 	border: 1px solid #B1B1B1;
     border-radius: 3px 3px 3px 3px;
     box-shadow: 1px 2px 2px #CCCCCC inset;
+    -moz-box-shadow: 1px 2px 2px #CCCCCC inset;
+    -webkit-box-shadow:1px 2px 2px #CCCCCC inset;
     height: 24px;
 }
 .tick_hidden{
@@ -6901,8 +6917,7 @@ a#fdbk_tab:hover{
 .settings_later{
 	padding:10px 0px;
 }
-.select_industry,.organized_radio,.employee_yesno,
-.gwt-RadioButton,.billing_question{
+.select_industry,.organized_radio,.employee_yesno,.billing_question{
 	font-weight:bold;
 }
 .organisation_Info{
@@ -6950,7 +6965,6 @@ a#fdbk_tab:hover{
 }
 #mainWindow .header{
 	/*background:none repeat scroll 0 0 #F0F0F0;*/
-	padding: 0 0 18px;
 }
 .billing_stmt_footer{
 	border-top:1px solid #ccc;
@@ -7012,6 +7026,9 @@ a#fdbk_tab:hover{
 .email_textarea textarea{
 	height:200px;
 	width:100% !important;
+}
+body, table td, select,.gwt-Button,textarea,input,label{
+	font-size:12px !important;
 }
 
 
