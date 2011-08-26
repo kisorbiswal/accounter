@@ -576,7 +576,7 @@ public abstract class ListGrid<T> extends CustomTable {
 			imgrs = (ImageResource) value;
 		}
 		final Image image = imgrs == null ? new Image() : new Image(imgrs);
-		image.setSize("25px", "25px");
+		image.setSize("15px", "15px");
 		image.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -951,8 +951,8 @@ public abstract class ListGrid<T> extends CustomTable {
 		selectedObject = null;
 		this.objects.remove(row);
 		this.removeRow(row);
-		if (this.objects.size()>0)
-		this.adjustCellsWidth(0, this.body);
+		if (this.objects.size() > 0)
+			this.adjustCellsWidth(0, this.body);
 	}
 
 	/**
