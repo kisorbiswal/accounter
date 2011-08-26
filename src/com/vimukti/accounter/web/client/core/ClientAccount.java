@@ -125,6 +125,8 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 
 	int boxNumber;
 
+	private int version;
+
 	// ClientTaxCode VATcode;
 
 	public String getFlow() {
@@ -510,5 +512,15 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 			return false;
 		}
 		return false;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 }
