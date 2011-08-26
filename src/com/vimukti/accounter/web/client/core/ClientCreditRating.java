@@ -12,6 +12,8 @@ public class ClientCreditRating implements IAccounterCore {
 	String name;
 	boolean isDefault;
 
+	private int version;
+
 	public ClientCreditRating() {
 	}
 
@@ -96,5 +98,15 @@ public class ClientCreditRating implements IAccounterCore {
 			return this.getID() == creditRating.getID() ? true : false;
 		}
 		return false;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 }
