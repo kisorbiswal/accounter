@@ -1601,7 +1601,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			try {
 				tool.mergeCustomer(fromClientCustomer, toClientCustomer);
 			} catch (DAOException e) {
-			
+
 				e.printStackTrace();
 			}
 		}
@@ -1614,12 +1614,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
 
-			try {
-				tool.mergeVendor(fromClientVendor, toClientVendor);
-			} catch (DAOException e) {
-		
-				e.printStackTrace();
-			}
+			tool.mergeVendor(fromClientVendor, toClientVendor);
 		}
 
 	}
@@ -1630,12 +1625,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
 
-			try {
-				tool.mergeItem(froClientItem, toClientItem);
-			} catch (DAOException e) {
-			
-				e.printStackTrace();
-			}
+			tool.mergeItem(froClientItem, toClientItem);
 		}
 
 	}
@@ -1646,14 +1636,9 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
 
-			try {
-				tool.mergeAcoount(fromClientAccount, toClientAccount);
-			} catch (DAOException e) {
-				
-				e.printStackTrace();
-			}
+			tool.mergeAcoount(fromClientAccount, toClientAccount);
 		}
-		
+
 	}
 
 	// public ArrayList<ClientEmployee> getAllEmployees()

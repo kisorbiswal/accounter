@@ -74,6 +74,8 @@ public class AccounterException extends Exception implements IsSerializable {
 	public static final int ERROR_RECEIVE_PAYMENT_DISCOUNT_USED = 13;
 
 	public static final int ERROR_OBJECT_IN_USE = 14;
+	
+	public static final int ERROR_VERSION_MISMATCH = 15;
 
 	protected int errorCode;
 
