@@ -49,6 +49,8 @@ public class ClientSalesPerson implements IAccounterCore {
 	private String email;
 	private String webPageAddress;
 
+	private int version;
+
 	public ClientSalesPerson() {
 	}
 
@@ -411,5 +413,15 @@ public class ClientSalesPerson implements IAccounterCore {
 			return this.getID() == salesPerson.getID() ? true : false;
 		}
 		return false;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+	this.version=version;
 	}
 }
