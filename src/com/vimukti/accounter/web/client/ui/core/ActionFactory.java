@@ -745,6 +745,10 @@ public class ActionFactory {
 				actionsConstants.brandingThemeCombo());
 	}
 
+	public static EmailViewAction getEmailViewAction() {
+		return new EmailViewAction(actionsConstants.email());
+	}
+
 	public static InvoiceListViewAction getInvoiceListViewAction() {
 		return new InvoiceListViewAction("");
 	}
