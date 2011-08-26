@@ -14,6 +14,8 @@ public class ClientShippingMethod implements IAccounterCore {
 
 	boolean isDefault;
 
+	private int version;
+
 	public ClientShippingMethod() {
 
 	}
@@ -106,5 +108,15 @@ public class ClientShippingMethod implements IAccounterCore {
 			return this.getID() == shippingMethod.getID() ? true : false;
 		}
 		return false;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+	this.version=version;
 	}
 }
