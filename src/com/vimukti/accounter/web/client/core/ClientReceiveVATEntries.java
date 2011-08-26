@@ -17,6 +17,8 @@ public class ClientReceiveVATEntries implements IAccounterCore {
 
 	private long id;
 
+	private int version;
+
 	public long getVatAgency() {
 		return vatAgency;
 	}
@@ -86,6 +88,16 @@ public class ClientReceiveVATEntries implements IAccounterCore {
 		ClientReceiveVATEntries receiveVATEntries = (ClientReceiveVATEntries) this
 				.clone();
 		return receiveVATEntries;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 
 }
