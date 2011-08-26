@@ -328,10 +328,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected DateField createTransactionDateItem() {
 
 		final DateField dateItem = new DateField(Accounter.constants().date());
-		dateItem
-				.setToolTip(Accounter.messages()
-						.selectDateWhenTransactioCreated(
-								this.getAction().getViewName()));
+		dateItem.setToolTip(Accounter
+				.messages()
+				.selectDateWhenTransactioCreated(this.getAction().getViewName()));
 		dateItem.setHelpInformation(true);
 		// if (this instanceof VendorBillView)
 		// dateItem.setShowTitle(true);
@@ -585,8 +584,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	public String getMemoTextAreaItem() {
 		return memoTextAreaItem != null
 				&& memoTextAreaItem.getValue().toString() != null ? memoTextAreaItem
-				.getValue().toString()
-				: "";
+				.getValue().toString() : "";
 	}
 
 	public void setMemoTextAreaItem(String memo) {
@@ -784,55 +782,66 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	@Override
 	public void showMenu(Event event) {
-		// int x = DOM.eventGetClientX(event);
-		// int y = DOM.eventGetClientY(event);
-		// popupPanel.setPopupPosition(x, y);
-		ClientCompanyPreferences preferences = getCompany().getPreferences();
-		boolean sellProducts = preferences.isSellProducts();
-		boolean sellServices = preferences.isSellServices();
-		int childCount = 0;
-		if (this instanceof EmployeeExpenseView) {
-			if (sellServices) {
-				childCount += 1;
-			}
-		} else if (this instanceof CreditCardExpenseView
-				|| this instanceof CashExpenseView) {
-			childCount = 1;
-			if (sellServices) {
-				childCount += 1;
-			}
-		} else if (this instanceof WriteChequeView) {
-			childCount = 1;
-			if (sellProducts) {
-				childCount += 1;
-			}
-		} else {
-			childCount = 1;
-			if (sellProducts) {
-				childCount += 1;
-			}
-			if (sellServices) {
-				childCount += 1;
-			}
-		}
+		// // int x = DOM.eventGetClientX(event);
+		// // int y = DOM.eventGetClientY(event);
+		// // popupPanel.setPopupPosition(x, y);
+		// ClientCompanyPreferences preferences = getCompany().getPreferences();
+		// boolean sellProducts = preferences.isSellProducts();
+		// boolean sellServices = preferences.isSellServices();
+		// int childCount = 0;
+		// if (this instanceof EmployeeExpenseView) {
+		// if (sellServices) {
+		// childCount += 1;
+		// }
+		// } else if (this instanceof CreditCardExpenseView
+		// || this instanceof CashExpenseView) {
+		// childCount = 1;
+		// if (sellServices) {
+		// childCount += 1;
+		// }
+		// } else if (this instanceof WriteChequeView) {
+		// childCount = 1;
+		// if (sellProducts) {
+		// childCount += 1;
+		// }
+		// } else {
+		// childCount = 1;
+		// if (sellProducts) {
+		// childCount += 1;
+		// }
+		// if (sellServices) {
+		// childCount += 1;
+		// }
+		// }
+		//
+		// if (childCount == 1) {
+		// popupPanel.setPopupPosition(
+		// menuButton.getAbsoluteLeft() - 5,
+		// menuButton.getAbsoluteTop()
+		// - (popupMenuBar.getOffsetHeight() + 41));
+		// } else if (childCount == 2) {
+		// // if (this instanceof CashExpenseView || this instanceof
+		// // WriteChequeView)
+		// popupPanel.setPopupPosition(
+		// menuButton.getAbsoluteLeft() - 5,
+		// menuButton.getAbsoluteTop()
+		// - (popupMenuBar.getOffsetHeight() + 85));
+		// } else if (childCount == 3) {
+		// // if (this instanceof EmployeeExpenseView) {
+		// popupPanel.setPopupPosition(
+		// menuButton.getAbsoluteLeft() - 5,
+		// menuButton.getAbsoluteTop()
+		// - (popupMenuBar.getOffsetHeight() + 127));
+		// // }
+		// }
+		// popupPanel.show();
 
-		if (childCount == 1) {
-			popupPanel.setPopupPosition(menuButton.getAbsoluteLeft() - 5,
-					menuButton.getAbsoluteTop()
-							- (popupMenuBar.getOffsetHeight() + 41));
-		} else if (childCount == 2) {
-			// if (this instanceof CashExpenseView || this instanceof
-			// WriteChequeView)
-			popupPanel.setPopupPosition(menuButton.getAbsoluteLeft() - 5,
-					menuButton.getAbsoluteTop()
-							- (popupMenuBar.getOffsetHeight() + 85));
-		} else if (childCount == 3) {
-			// if (this instanceof EmployeeExpenseView) {
-			popupPanel.setPopupPosition(menuButton.getAbsoluteLeft() - 5,
-					menuButton.getAbsoluteTop()
-							- (popupMenuBar.getOffsetHeight() + 127));
-			// }
-		}
+		int menuTop = menuButton.getAbsoluteTop()
+				- (popupMenuBar.numberOfItems * 43);
+
+		int left = menuButton.getAbsoluteLeft() - 5;
+
+		popupPanel.setPopupPosition(left, menuTop + 1);
 		popupPanel.show();
 	}
 
@@ -906,11 +915,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		if (transactionItems != null) {
 			for (ClientTransactionItem transactionItem : transactionItems) {
 				if (transactionItem.getLineTotal() <= 0) {
-					result.addError("TransactionItem"
-							+ transactionItem.getAccount()
-							+ transactionItem.getAccount(), Accounter
-							.constants()
-							.transactionitemtotalcannotbe0orlessthan0());
+					result.addError(
+							"TransactionItem" + transactionItem.getAccount()
+									+ transactionItem.getAccount(), Accounter
+									.constants()
+									.transactionitemtotalcannotbe0orlessthan0());
 				}
 
 				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
@@ -922,10 +931,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 								&& getTransactionDate().before(
 										new ClientFinanceDate(2011 - 1900,
 												01 - 1, 04))) {
-							result.addError("transactionDate"
-									+ transactionItem.getAccount()
-									+ transactionItem.getAccount(), Accounter
-									.constants().vat4thJanError());
+							result.addError(
+									"transactionDate"
+											+ transactionItem.getAccount()
+											+ transactionItem.getAccount(),
+									Accounter.constants().vat4thJanError());
 						}
 					}
 				}
