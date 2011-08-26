@@ -259,4 +259,14 @@ public class ClientTransactionMakeDeposit implements IAccounterCore {
 				.clone();
 		return clientTransactionMakeDepositClone;
 	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+	this.version=version;
+	}
 }
