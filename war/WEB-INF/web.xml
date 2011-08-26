@@ -180,6 +180,16 @@
 		<servlet-name>generatePDFServlet</servlet-name>
 		<url-pattern>/do/finance/generatePDFServlet</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>miscInfoServlet</servlet-name>
+		<servlet-class>com.vimukti.accounter.servlets.MISCInfoServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>miscInfoServlet</servlet-name>
+		<url-pattern>/do/finance/miscInfoServlet</url-pattern>
+	</servlet-mapping>
+	
 	<servlet>
 		<servlet-name>ExportReportServlet</servlet-name>
 		<servlet-class>com.vimukti.accounter.servlets.ExportReportServlet
