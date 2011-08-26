@@ -63,6 +63,8 @@ public class ClientBrandingTheme implements IAccounterCore {
 
 	private transient boolean isOnSaveProccessed;
 
+	private int version;
+
 	@Override
 	public String getClientClassSimpleName() {
 		// its not using any where
@@ -335,5 +337,15 @@ public class ClientBrandingTheme implements IAccounterCore {
 			return this.getID() == brandingTheme.getID() ? true : false;
 		}
 		return false;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 }
