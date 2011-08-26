@@ -64,12 +64,12 @@ public abstract class AccountCombo extends CustomCombo<ClientAccount> {
 
 			@Override
 			public void actionResult(ClientAccount result) {
-				addItemThenfireEvent(result);
+				if (result.getIsActive())
+					addItemThenfireEvent(result);
 			}
 		});
 
 		action.run(null, true);
-
 	}
 
 	/**
