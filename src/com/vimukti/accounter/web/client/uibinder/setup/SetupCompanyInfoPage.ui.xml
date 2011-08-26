@@ -145,6 +145,14 @@
 						<g:HTML wordWrap="true" ui:field="requiredField"></g:HTML>
 					</g:customCell>
 				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label ui:field="timezone"/>
+					</g:customCell>
+					<g:customCell>
+						<g:ListBox ui:field="timezoneslistbox"/>
+					</g:customCell>
+				</g:row>
 			</g:Grid>
 		</g:VerticalPanel>
 	</g:VerticalPanel>

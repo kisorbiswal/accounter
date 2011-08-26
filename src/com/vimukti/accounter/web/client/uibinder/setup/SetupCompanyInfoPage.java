@@ -92,6 +92,10 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	HTML useFormat;
 	@UiField
 	Label headerLabel;
+	@UiField
+	Label timezone;
+	@UiField
+	ListBox timezoneslistbox;
 	private ClientCompany company;
 	private ClientAddress address;
 	private List<String> countries, states;
