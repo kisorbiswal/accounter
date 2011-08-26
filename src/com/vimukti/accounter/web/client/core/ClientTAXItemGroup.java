@@ -34,6 +34,8 @@ public class ClientTAXItemGroup implements IAccounterCore {
 	boolean isPercentage;
 	boolean isDefault;
 
+	private int version;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -162,5 +164,15 @@ public class ClientTAXItemGroup implements IAccounterCore {
 			return this.getID() == taxItemGroup.getID() ? true : false;
 		}
 		return false;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 }
