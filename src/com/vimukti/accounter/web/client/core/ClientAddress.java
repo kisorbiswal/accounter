@@ -31,6 +31,8 @@ public class ClientAddress implements IAccounterCore {
 	boolean isSelected = false;
 	String address1 = "";
 
+	private int version;
+
 	/**
 	 * @return the id
 	 */
@@ -258,5 +260,15 @@ public class ClientAddress implements IAccounterCore {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+	this.version=version;
 	}
 }
