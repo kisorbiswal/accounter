@@ -19,7 +19,7 @@ public class ClientCreditsAndPayments implements IAccounterCore {
 	double balance = 0D;
 
 	ClientTransaction transaction;
-
+	private int version;
 	long payee;
 
 	Set<ClientTransactionCreditsAndPayments> transactionCreditsAndPayments = new HashSet<ClientTransactionCreditsAndPayments>();
@@ -160,6 +160,16 @@ public class ClientCreditsAndPayments implements IAccounterCore {
 		creditsAndPayments.transactionCreditsAndPayments = creditsAndPaymentsSet;
 		return creditsAndPayments;
 
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 
 }
