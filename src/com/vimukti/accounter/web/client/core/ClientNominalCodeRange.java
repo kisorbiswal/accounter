@@ -36,6 +36,8 @@ public class ClientNominalCodeRange implements IAccounterCore {
 
 	int maximum;
 
+	private int version;
+
 	public int getAccountSubBaseType() {
 		return accountSubBaseType;
 	}
@@ -95,5 +97,15 @@ public class ClientNominalCodeRange implements IAccounterCore {
 				.clone();
 		return nominalCodeRange;
 
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 }
