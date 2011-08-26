@@ -19,6 +19,8 @@ public class ClientTAXCode implements IAccounterCore {
 	boolean isDefault;
 	private long taxAgency;
 
+	private int version;
+
 	/**
 	 * @param name
 	 *            the name to set
@@ -142,5 +144,15 @@ public class ClientTAXCode implements IAccounterCore {
 			return this.getID() == taxCode.getID() ? true : false;
 		}
 		return false;
+	}
+
+	@Override
+	public int getVersion() {
+	return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+	this.version=version;
 	}
 }
