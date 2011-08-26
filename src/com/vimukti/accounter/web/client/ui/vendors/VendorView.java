@@ -665,9 +665,9 @@ public class VendorView extends BaseView<ClientVendor> {
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 
 				if (isTDS.isChecked()) {
-					vendorTaxCode.setDisabled(false);
+					vendorTDSTaxCode.setDisabled(false);
 				} else {
-					vendorTaxCode.setDisabled(true);
+					vendorTDSTaxCode.setDisabled(true);
 				}
 			}
 		});
@@ -730,7 +730,8 @@ public class VendorView extends BaseView<ClientVendor> {
 			vatform.setFields(vatRegistrationNumber, vendorTaxCode, isTDS,
 					vendorTDSTaxCode);
 		} else {
-			vatform.setFields(vatRegistrationNumber, vendorTaxCode);
+			vatform.setFields(vatRegistrationNumber, vendorTaxCode, isTDS,
+					vendorTDSTaxCode);
 		}
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setSize("100%", "100%");

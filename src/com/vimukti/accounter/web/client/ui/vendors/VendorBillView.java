@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
+import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
@@ -72,6 +73,7 @@ public class VendorBillView extends
 
 	private long selectedPurchaseOrder;
 	private long selectedItemReceipt;
+	private TAXCodeCombo vendorTDSTaxCode;
 
 	private ArrayList<DynamicForm> listforms;
 	private ArrayList<ClientTransaction> selectedOrdersAndItemReceipts;
@@ -138,8 +140,7 @@ public class VendorBillView extends
 			}
 			this.dueDateItem
 					.setValue(transaction.getDueDate() != 0 ? new ClientFinanceDate(
-							transaction.getDueDate())
-							: getTransactionDate());
+							transaction.getDueDate()) : getTransactionDate());
 			initMemoAndReference();
 			vendorTransactionGrid.setCanEdit(false);
 
@@ -333,6 +334,9 @@ public class VendorBillView extends
 		labeldateNoLayout.setWidth("100%");
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
+		vendorTDSTaxCode = new TAXCodeCombo(messages.vendorTDSCode(Global.get()
+				.Vendor()), false);
+		vendorTDSTaxCode.setHelpInformation(true);
 
 		vendorCombo = createVendorComboItem(messages.vendorName(Global.get()
 				.Vendor()));
@@ -457,6 +461,10 @@ public class VendorBillView extends
 		// linksText.setDisabled(isEdit);
 		// formItems.add(linksText);
 
+		DynamicForm tdsForm = new DynamicForm();
+		tdsForm.setWidth("100%");
+		tdsForm.setFields(vendorTDSTaxCode);
+
 		DynamicForm memoForm = new DynamicForm();
 		memoForm.setWidth("100%");
 		memoForm.setFields(memoTextAreaItem);
@@ -476,6 +484,9 @@ public class VendorBillView extends
 
 		totalForm.setFields(netAmount, vatTotalNonEditableText,
 				transactionTotalNonEditableText);
+
+		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		horizontalPanel.add(tdsForm);
 
 		if (this.isInViewMode())
 			totalForm.setFields(balanceDueNonEditableText);
@@ -506,19 +517,25 @@ public class VendorBillView extends
 
 		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");
+		bottomLayout.add(horizontalPanel);
+		
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 
-		if (getCompany().getAccountingType() == 1) {
+			VerticalPanel verticalPanel = new VerticalPanel();
+			verticalPanel.setWidth("100%");
+			verticalPanel.setHorizontalAlignment(ALIGN_RIGHT);
+			verticalPanel.add(hpanel);
 			VerticalPanel vpanel = new VerticalPanel();
 			vpanel.setHorizontalAlignment(ALIGN_RIGHT);
-			vpanel.setWidth("100%");
-			vpanel.add(hpanel);
-			vpanel.add(totalForm);
-
+			// vpanel.setWidth("100%");
+			vpanel.add(tdsForm);
+			// vpanel.add(hpanel);
 			bottomLayout.add(memoForm);
 			bottomLayout.add(totalForm);
 			bottomLayout.setCellWidth(totalForm, "30%");
-
 			bottompanel.add(vpanel);
+			bottompanel.add(verticalPanel);
+
 			bottompanel.add(bottomLayout);
 
 			// VerticalPanel vPanel = new VerticalPanel();
@@ -571,6 +588,7 @@ public class VendorBillView extends
 		listforms.add(termsForm);
 
 		listforms.add(dateform);
+		// listforms.add(tdsForm);
 		listforms.add(memoForm);
 		listforms.add(vatCheckform);
 		listforms.add(totalForm);
@@ -692,18 +710,18 @@ public class VendorBillView extends
 		// 5. isBlank transaction?
 		// 6. is vendor transaction grid valid?
 		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateTransactionDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
 		}
 		result.add(vendorForm.validate());
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(dueDateItem
-				.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(
+				dueDateItem.getEnteredDate(), this.transactionDate)) {
 			result.addError(dueDateItem, Accounter.constants().the()
 					+ " "
 					+ Accounter.constants().dueDate()
@@ -713,8 +731,8 @@ public class VendorBillView extends
 							.cannotbeearlierthantransactiondate());
 		}
 		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
-			result.addError(vendorTransactionGrid, accounterConstants
-					.blankTransaction());
+			result.addError(vendorTransactionGrid,
+					accounterConstants.blankTransaction());
 		} else
 			result.add(vendorTransactionGrid.validateGrid());
 		return result;

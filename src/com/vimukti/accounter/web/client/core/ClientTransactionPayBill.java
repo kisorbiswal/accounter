@@ -33,8 +33,8 @@ public class ClientTransactionPayBill implements IAccounterCore {
 	boolean isVoid = false;
 
 	long vendorId;
-
 	String billNumber;
+	
 
 	long journalEntry;
 

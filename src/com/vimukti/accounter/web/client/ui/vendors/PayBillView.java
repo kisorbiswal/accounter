@@ -40,6 +40,7 @@ import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
+import com.vimukti.accounter.web.client.ui.core.PercentageField;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
@@ -60,6 +61,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	protected AmountField cashDiscountTextItem;
 	protected AmountField creditTextItem;
 	public AmountLabel unUsedCreditsText;
+	PercentageField tdsLabel;
 	protected SelectCombo vendorPaymentMethodCombo;
 	protected List<PayBillTransactionList> paybillTransactionList;
 	protected List<PayBillTransactionList> filterList;
@@ -488,6 +490,10 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		memoForm.setFields(memoTextAreaItem);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
+		tdsLabel = new PercentageField(this,"TDS");
+		tdsLabel.setDisabled(true);
+		
+		
 		unUsedCreditsText = new AmountLabel(Accounter.constants()
 				.unusedCredits());
 		unUsedCreditsText.setDisabled(true);
@@ -496,7 +502,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		textForm.setNumCols(2);
 		textForm.setWidth("70%");
 		textForm.setStyleName("unused-payments");
-		textForm.setFields(unUsedCreditsText);
+		textForm.setFields(unUsedCreditsText,tdsLabel);
 
 		HorizontalPanel bottompanel = new HorizontalPanel();
 		bottompanel.setWidth("100%");
@@ -571,6 +577,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 	protected void vendorSelected(final ClientVendor vendor) {
 
+		tdsLabel.setPercentage(10.0);
 		if (vendor == null) {
 			paybillTransactionList = null;
 			return;

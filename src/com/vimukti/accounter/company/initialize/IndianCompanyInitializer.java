@@ -2,14 +2,11 @@ package com.vimukti.accounter.company.initialize;
 
 import org.hibernate.Session;
 
-import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TAXItem;
-import com.vimukti.accounter.core.VATReturn;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class IndianCompanyInitializer extends CompanyInitializer {
