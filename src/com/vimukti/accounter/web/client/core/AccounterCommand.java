@@ -6,7 +6,6 @@ public class AccounterCommand implements IAccounterCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
 
 	public static final int CREATION_SUCCESS = 1;
 
@@ -28,6 +27,8 @@ public class AccounterCommand implements IAccounterCore {
 
 	long id;
 	private AccounterCoreType type;
+
+	private int version;
 
 	@Override
 	public String getClientClassSimpleName() {
@@ -81,6 +82,16 @@ public class AccounterCommand implements IAccounterCore {
 	public AccounterCommand clone() {
 		AccounterCommand command = (AccounterCommand) this.clone();
 		return command;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version = version;
 	}
 
 }
