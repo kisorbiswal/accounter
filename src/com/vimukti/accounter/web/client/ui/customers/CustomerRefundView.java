@@ -26,7 +26,6 @@ import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
@@ -258,8 +257,8 @@ public class CustomerRefundView extends
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				isChecked = (Boolean) event.getValue();
 				if (isChecked) {
-					if (printCheck.getValue().toString()
-							.equalsIgnoreCase("true")) {
+					if (printCheck.getValue().toString().equalsIgnoreCase(
+							"true")) {
 						checkNoText.setValue(Accounter.constants()
 								.toBePrinted());
 						checkNoText.setDisabled(true);
@@ -281,7 +280,8 @@ public class CustomerRefundView extends
 
 		checkNoText = new TextItem(
 				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? customerConstants
-						.chequeNo() : customerConstants.checkNo());
+						.chequeNo()
+						: customerConstants.checkNo());
 		checkNoText.setValue(Accounter.constants().toBePrinted());
 		checkNoText.setHelpInformation(true);
 		checkNoText.setWidth(100);
@@ -593,6 +593,12 @@ public class CustomerRefundView extends
 		// if (!AccounterValidator.isPositiveAmount(this.amtText.getAmount())) {
 		// result.addError(amtText, accounterConstants.invalidNegativeAmount());
 		// }
+
+		if (transaction.getTotal() <= 0) {
+			amtText.highlight();
+			result.addError(amtText, Accounter.messages()
+					.valueCannotBe0orlessthan0(Accounter.constants().amount()));
+		}
 		if (!AccounterValidator.isValidCustomerRefundAmount(
 				amtText.getAmount(), payFromSelect.getSelectedValue())) {
 			result.addWarning(amtText,

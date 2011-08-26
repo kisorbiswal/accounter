@@ -754,4 +754,6 @@ public interface AccounterMessages extends Messages {
 
 	public String selectDateOfHire(String viewName);
 
+	public String valueCannotBe0orlessthan0(String amount);
+
 }

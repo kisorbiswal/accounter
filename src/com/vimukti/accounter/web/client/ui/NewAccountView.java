@@ -183,34 +183,16 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					public void selectedComboBoxItem(String selectItem) {
 						selectedId = (String) accTypeSelect.getSelectedValue();
 						accounttype_selected();
-						if (getAccountType(selectedId) == ClientAccount.TYPE_INCOME)
-							accNoText.setToolTip(Accounter.messages()
-									.accountNumberToolTipDesc("4000", "4999"));
-						else if (getAccountType(selectedId) == ClientAccount.TYPE_CREDIT_CARD)
-							accNoText.setToolTip(Accounter.messages()
-									.accountNumberToolTipDesc("7000", "7999"));
-						else if (getAccountType(selectedId) == ClientAccount.TYPE_CASH)
-							accNoText.setToolTip(Accounter.messages()
-									.accountNumberToolTipDesc("3000", "3999"));
-						else if (getAccountType(selectedId) == ClientAccount.TYPE_COST_OF_GOODS_SOLD)
-							accNoText.setToolTip(Accounter.messages()
-									.accountNumberToolTipDesc("5000", "5999"));
-						else if (getAccountType(selectedId) == ClientAccount.TYPE_BANK)
-							accNoText.setToolTip(Accounter.messages()
-									.accountNumberToolTipDesc("1000", "1999"));
-						else if (getAccountType(selectedId) == ClientAccount.TYPE_OTHER_CURRENT_ASSET)
-							accNoText.setToolTip(Accounter.messages()
-									.accountNumberToolTipDesc("1000", "1999"));
-						else if (getAccountType(selectedId) == ClientAccount.TYPE_OTHER_CURRENT_LIABILITY)
-							accNoText.setToolTip(Accounter.messages()
-									.accountNumberToolTipDesc("2000", "2999"));
-						else if (getAccountType(selectedId) == ClientAccount.TYPE_LONG_TERM_LIABILITY)
-							accNoText.setToolTip(Accounter.messages()
-									.accountNumberToolTipDesc("9000", "9499"));
-						else if (getAccountType(selectedId) == ClientAccount.TYPE_EQUITY)
-							accNoText.setToolTip(Accounter.messages()
-									.accountNumberToolTipDesc("3000", "3999"));
+						int accountSubType = UIUtils
+								.getAccountSubBaseType(getAccountType(selectedId));
 
+						Integer accountNoRange[] = getCompany()
+								.getNominalCodeRange(accountSubType);
+
+						accNoText.setToolTip(Accounter.messages()
+								.accountNumberToolTipDesc(
+										accountNoRange[0] + "",
+										accountNoRange[1] + ""));
 					}
 				});
 
@@ -578,6 +560,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			reset(accInfoForm);
 			if (selectedId == null)
 				accTypeSelect.setComboItem(Accounter.constants().income());
+			accNoText.setToolTip(Accounter.messages().accountNumberToolTipDesc(
+					"4000", "4999"));
 			accTypeSelect.setSelected(selectedId);
 			topHLay.setWidth("50%");
 

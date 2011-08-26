@@ -897,8 +897,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				if (transaction instanceof ClientPayBill) {
 					result.addError(this, Accounter.constants().nullAmount());
 				} else {
-					result.addError(this, Accounter.constants()
-							.transactiontotalcannotbe0orlessthan0());
+					if (!(this instanceof CustomerRefundView))
+						result.addError(this, Accounter.constants()
+								.transactiontotalcannotbe0orlessthan0());
 				}
 			}
 
