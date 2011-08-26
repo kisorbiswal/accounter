@@ -110,6 +110,8 @@ public class ClientFixedAsset implements IAccounterCore {
 
 	private double lossOrGain;
 
+	private int version;
+
 	// private String sellingOrDisposingFixedAsset;
 
 	public ClientFixedAsset() {
@@ -419,5 +421,15 @@ public class ClientFixedAsset implements IAccounterCore {
 
 		return fixedAsset;
 
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 }
