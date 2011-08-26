@@ -312,6 +312,8 @@ public interface AccounterConstants extends Constants {
 
 	public String atozero();
 
+	public String attachments();
+
 	public String atwoCode();
 
 	public String aug();
@@ -2574,6 +2576,8 @@ public interface AccounterConstants extends Constants {
 
 	public String pleaseSelectReportsOfSameType();
 
+	public String pleaseSelectAtLeastOneReport();
+
 	public String pleaseselectaFixedAsset();
 
 	public String pleaseSelectDate();
@@ -3041,6 +3045,8 @@ public interface AccounterConstants extends Constants {
 	public String sell();
 
 	public String sellingRegisteredItem();
+
+	public String send();
 
 	public String sept();
 
@@ -4300,6 +4306,8 @@ public interface AccounterConstants extends Constants {
 
 	public String get1099Information();
 
+	public String PrintIsNotProvidedForCashSale();
+
 	public String box4();
 
 	public String box5();
@@ -4347,7 +4355,5 @@ public interface AccounterConstants extends Constants {
 	public String vatCodes();
 
 	public String companyAndFinance();
-	public String tdsApplicable();
-	public String tds();
 
 }
