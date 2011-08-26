@@ -6,6 +6,7 @@ import java.util.Vector;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -541,23 +542,33 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 			}
 		}
 
-		if (v.size() > 1) {
+		String errorMessage = Global.get().constants()
+				.pleaseSelectReportsOfSameType();
+		String emptymsg = Global.get().constants()
+				.pleaseSelectAtLeastOneReport();
 
-			showDialogBox();
+		String cashsalemsg = Global.get().constants()
+				.PrintIsNotProvidedForCashSale();
+		if (v.size() == 0) {// no reports are selected
+			showDialogBox(emptymsg);
+		} else if (v.size() > 1) {
+			// if one than one report type is selected
+			showDialogBox(errorMessage);
 		} else {
 			if (!isWriteCheck_cashsale) {
 				ActionFactory.getBrandingThemeComboAction().run(listOfInvoices);
 			} else {
-				showDialogBox();
+				// if other reports are selected cash sale or write check
+				showDialogBox(cashsalemsg);
 			}
 			// ActionFactory.getInvoiceListViewAction().run(listOfInvoices);
 		}
 
 	}
 
-	public void showDialogBox() {
+	public void showDialogBox(String description) {
 		InvoicePrintDialog printDialog = new InvoicePrintDialog(Accounter
-				.constants().selectReports(), "");
+				.constants().selectReports(), "", description);
 		printDialog.show();
 		printDialog.center();
 	}
