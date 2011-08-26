@@ -58,14 +58,6 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 	}
 
 	/**
-	 * @return the version
-	 */
-	@Override
-	public int getVersion() {
-		return version;
-	}
-
-	/**
 	 * @return the depositIn
 	 */
 	public Account getDepositIn() {

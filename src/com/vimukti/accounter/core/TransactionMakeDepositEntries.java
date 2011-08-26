@@ -59,6 +59,7 @@ public class TransactionMakeDepositEntries implements IAccounterServerCore,
 	 * The amount which has to be paid still is maintained in this variable.
 	 */
 	private double balance;
+	private int version;
 
 	public TransactionMakeDepositEntries() {
 
@@ -211,6 +212,16 @@ public class TransactionMakeDepositEntries implements IAccounterServerCore,
 	public boolean onUpdate(Session arg0) throws CallbackException {
 
 		return false;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version = version;
 	}
 
 }

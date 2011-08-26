@@ -23,6 +23,7 @@ public class Box implements IAccounterServerCore {
 	double amount;
 
 	List<TAXRateCalculation> taxRateCalculations;
+	private int version;
 
 	/**
 	 * @return the vatRateCalculations
@@ -100,5 +101,15 @@ public class Box implements IAccounterServerCore {
 	public boolean isPositiveBox() {
 		return (this.boxNumber == 1);
 
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+	this.version=version;
 	}
 }

@@ -22,6 +22,8 @@ public class ItemStatus implements IAccounterServerCore {
 
 	public Warehouse warehouse;
 
+	private int version;
+
 	public ItemStatus() {
 	}
 
@@ -72,5 +74,15 @@ public class ItemStatus implements IAccounterServerCore {
 	 */
 	public long getId() {
 		return id;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 }

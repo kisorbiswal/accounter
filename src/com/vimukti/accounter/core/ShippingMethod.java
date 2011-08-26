@@ -21,10 +21,6 @@ public class ShippingMethod extends CreatableObject implements
 	 */
 	private static final long serialVersionUID = -5964725345397949514L;
 
-	/**
-	 * Object Version
-	 */
-	int version;
 
 	/**
 	 * Shipping Method Name
@@ -42,13 +38,6 @@ public class ShippingMethod extends CreatableObject implements
 
 	public ShippingMethod() {
 
-	}
-
-	/**
-	 * @return the version
-	 */
-	public int getVersion() {
-		return version;
 	}
 
 	/**

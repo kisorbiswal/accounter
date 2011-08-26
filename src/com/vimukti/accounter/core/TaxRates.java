@@ -108,4 +108,9 @@ public class TaxRates implements IAccounterServerCore, Lifecycle {
 		return id;
 	}
 
+	@Override
+	public void setVersion(int version) {
+	this.version=version;
+	}
+
 }

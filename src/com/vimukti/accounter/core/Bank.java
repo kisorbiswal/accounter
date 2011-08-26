@@ -90,4 +90,9 @@ public class Bank implements IAccounterServerCore {
 
 	}
 
+	@Override
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
 }

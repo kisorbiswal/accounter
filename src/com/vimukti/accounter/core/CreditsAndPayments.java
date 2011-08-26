@@ -409,4 +409,9 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 		// TODO Auto-generated method stub
 		return true;
 	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
+	}
 }

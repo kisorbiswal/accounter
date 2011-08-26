@@ -62,11 +62,6 @@ public class PaySalesTax extends Transaction {
 		return isVoid;
 	}
 
-	@Override
-	public int getVersion() {
-		return version;
-	}
-
 	public boolean getIsEdited() {
 		return isEdited;
 	}

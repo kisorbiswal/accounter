@@ -44,6 +44,8 @@ public class FinanceLogger implements IAccounterServerCore {
 
 	private StringBuffer strBuffer;
 
+	private int version;
+
 	public void startLogger(IAccounterCore data, String createdBy, int comand) {
 		getInstance();
 		String cmdType = (comand == AccounterCommand.CREATION_SUCCESS ? "Creation of "
@@ -112,6 +114,16 @@ public class FinanceLogger implements IAccounterServerCore {
 			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 
 }

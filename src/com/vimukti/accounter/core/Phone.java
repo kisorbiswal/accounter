@@ -16,7 +16,7 @@ public class Phone implements IAccounterServerCore {
 	public static final int HOME_PHONE_NUMBER = 3;
 	public static final int ASSISTANT_PHONE_NUMBER = 4;
 	public static final int OTHER_PHONE_NUMBER = 5;
-
+	private int version;
 	int type = 0;
 	String number = "";
 	boolean isSelected = false;
@@ -67,6 +67,17 @@ public class Phone implements IAccounterServerCore {
 			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
+		
 	}
 
 }

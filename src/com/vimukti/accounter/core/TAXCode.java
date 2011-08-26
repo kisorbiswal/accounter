@@ -267,4 +267,16 @@ public class TAXCode implements IAccounterServerCore, Lifecycle {
 		}
 		return true;
 	}
+
+	@Override
+	public int getVersion() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		// TODO Auto-generated method stub
+		
+	}
 }

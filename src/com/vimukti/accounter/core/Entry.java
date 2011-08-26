@@ -992,4 +992,9 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 				.setParameter("oldName", oldName).executeUpdate();
 	}
 
+	@Override
+	public void setVersion(int version) {
+	this.version=version;	
+	}
+
 }

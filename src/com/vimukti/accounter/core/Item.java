@@ -108,7 +108,6 @@ public class Item extends CreatableObject implements IAccounterServerCore {
 	String vendorItemNumber;
 
 	double standardCost;
-	int version;
 
 	boolean isDefault;
 	transient private boolean isOnSaveProccessed;
@@ -136,13 +135,6 @@ public class Item extends CreatableObject implements IAccounterServerCore {
 	}
 
 	public Item() {
-	}
-
-	/**
-	 * @return the version
-	 */
-	public int getVersion() {
-		return version;
 	}
 
 	/**

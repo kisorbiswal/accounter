@@ -634,4 +634,10 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 
 		return true;
 	}
+
+	@Override
+	public void setVersion(int version) {
+	this.version=version;
+		
+	}
 }

@@ -30,6 +30,7 @@ public class Address implements IAccounterServerCore {
 	String countryOrRegion = "";
 	boolean isSelected = false;
 	public long id;
+	private int version;
 
 	public Address() {
 	}
@@ -193,5 +194,15 @@ public class Address implements IAccounterServerCore {
 			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 }

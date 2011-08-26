@@ -211,14 +211,6 @@ public class PayBill extends Transaction {
 	}
 
 	/**
-	 * @return the version
-	 */
-	@Override
-	public int getVersion() {
-		return version;
-	}
-
-	/**
 	 * @return the payFrom
 	 */
 	public Account getPayFrom() {

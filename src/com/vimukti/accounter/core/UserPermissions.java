@@ -27,6 +27,8 @@ public class UserPermissions implements IAccounterServerCore {
 
 	User user;
 
+	private int version;
+
 	public int getTypeOfBankReconcilation() {
 		return typeOfBankReconcilation;
 	}
@@ -102,6 +104,16 @@ public class UserPermissions implements IAccounterServerCore {
 	public long getID() {
 
 		return 0;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 
 }

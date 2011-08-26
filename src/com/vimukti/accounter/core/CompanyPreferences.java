@@ -158,6 +158,35 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	private long preferencesFlag;
 
+	/*
+	 * *********Start Location Tracking******
+	 */
+	private boolean isLocationTrackingEnabled;
+
+	public boolean isLocationTrackingEnabled() {
+		return isLocationTrackingEnabled;
+	}
+
+	public void setLocationTrackingEnabled(boolean isLocationTrackingEnabled) {
+		this.isLocationTrackingEnabled = isLocationTrackingEnabled;
+	}
+
+	private long locationTrackingId;
+
+	private int version;
+
+	public long getLocationTrackingId() {
+		return locationTrackingId;
+	}
+
+	public void setLocationTrackingId(long locationTrackingId) {
+		this.locationTrackingId = locationTrackingId;
+	}
+
+	/*
+	 * *******End of Location Tracking*****
+	 */
+
 	public CompanyPreferences() {
 
 		// These Values are Default to TRUE
@@ -1090,5 +1119,15 @@ public class CompanyPreferences implements IAccounterServerCore {
 		} else {
 			this.preferencesFlag &= ~flag;
 		}
+	}
+
+	@Override
+	public int getVersion() {
+	return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 }

@@ -16,11 +16,7 @@ public class PriceLevel extends CreatableObject implements IAccounterServerCore 
 	 * 
 	 */
 	private static final long serialVersionUID = 5616443741745926670L;
-
-	/**
-	 * {@link PriceLevel} Object Version
-	 */
-	int version;
+	
 
 	/**
 	 * This field stores the name of the Price Level
@@ -55,13 +51,6 @@ public class PriceLevel extends CreatableObject implements IAccounterServerCore 
 	 */
 	public void setDefault(boolean isDefault) {
 		this.isDefault = isDefault;
-	}
-
-	/**
-	 * @return the version
-	 */
-	public int getVersion() {
-		return version;
 	}
 
 	/**

@@ -28,7 +28,6 @@ public class VendorGroup extends CreatableObject implements
 	 * 
 	 */
 	private static final long serialVersionUID = -6315811900319594794L;
-	int version;
 	/**
 	 * VendorGroup Category Name
 	 */
@@ -41,10 +40,6 @@ public class VendorGroup extends CreatableObject implements
 	 * @return the version
 	 */
 	public VendorGroup() {
-	}
-
-	public int getVersion() {
-		return version;
 	}
 
 	/**

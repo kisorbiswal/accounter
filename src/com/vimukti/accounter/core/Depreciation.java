@@ -90,6 +90,7 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 	transient FinanceDate rollBackDepreciationDate;
 
 	transient private boolean isOnSaveProccessed;
+	private int version;
 
 	// FixedAssetLinkedAccountMap linkedAccounts;
 
@@ -646,5 +647,16 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		
+		this.version=version;
 	}
 }

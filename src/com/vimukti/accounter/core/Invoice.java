@@ -232,14 +232,6 @@ public class Invoice extends Transaction implements Lifecycle {
 	}
 
 	/**
-	 * @return the version
-	 */
-	@Override
-	public int getVersion() {
-		return version;
-	}
-
-	/**
 	 * @return the customer
 	 */
 	public Customer getCustomer() {

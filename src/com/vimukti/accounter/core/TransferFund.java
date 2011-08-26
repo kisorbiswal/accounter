@@ -61,13 +61,6 @@ public class TransferFund extends Transaction {
 		setType(Transaction.TYPE_TRANSFER_FUND);
 	}
 
-	/**
-	 * @return the version
-	 */
-	@Override
-	public int getVersion() {
-		return version;
-	}
 
 	/**
 	 * @return the id

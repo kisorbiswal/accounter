@@ -173,4 +173,10 @@ public class PayVATEntries implements IAccounterServerCore, Lifecycle {
 		// TODO Auto-generated method stub
 		return true;
 	}
+
+	@Override
+	public void setVersion(int version) {
+		// TODO Auto-generated method stub
+		
+	}
 }

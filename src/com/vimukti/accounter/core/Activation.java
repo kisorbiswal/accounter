@@ -9,6 +9,7 @@ public class Activation implements IAccounterServerCore {
 	private String emailId;
 	private String token;
 	private Date signUpDate;
+	private int version;
 
 	public String getEmailId() {
 		return emailId;
@@ -48,6 +49,17 @@ public class Activation implements IAccounterServerCore {
 			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+
+		this.version = version;
 	}
 
 }

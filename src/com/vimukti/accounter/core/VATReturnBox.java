@@ -95,6 +95,7 @@ public class VATReturnBox implements IAccounterServerCore, Lifecycle {
 
 	transient private boolean isOnSaveProccessed;
 	private long id;
+	private int version;
 
 	@Override
 	public long getID() {
@@ -131,6 +132,16 @@ public class VATReturnBox implements IAccounterServerCore, Lifecycle {
 			throws AccounterException {
 
 		return true;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 
 }

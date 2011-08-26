@@ -15,6 +15,8 @@ public class CommodityCode implements IAccounterServerCore {
 	 */
 	String name;
 
+	private int version;
+
 	public String getName() {
 		return name;
 	}
@@ -32,5 +34,15 @@ public class CommodityCode implements IAccounterServerCore {
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 		return true;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 }

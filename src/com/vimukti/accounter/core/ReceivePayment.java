@@ -139,22 +139,6 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 	}
 
 	/**
-	 * @return the version
-	 */
-	@Override
-	public int getVersion() {
-		return version;
-	}
-
-	/**
-	 * @param version
-	 *            the version to set
-	 */
-	public void setVersion(int version) {
-		this.version = version;
-	}
-
-	/**
 	 * @return the transactionReceivePayment
 	 */
 	public List<TransactionReceivePayment> getTransactionReceivePayment() {

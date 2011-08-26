@@ -47,7 +47,6 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 	 */
 	transient FinanceDate previousStartDate;
 
-	int version;
 
 	transient int previousStatus;
 
@@ -56,14 +55,6 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 	transient FinanceDate previousEndDate;
 
 	public FiscalYear() {
-	}
-
-	public int getVersion() {
-		return version;
-	}
-
-	public void setVersion(int version) {
-		this.version = version;
 	}
 
 	public FiscalYear(FinanceDate startDate, FinanceDate endDate, int status,

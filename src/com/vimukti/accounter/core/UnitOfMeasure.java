@@ -66,4 +66,10 @@ public class UnitOfMeasure implements IAccounterServerCore {
 		return true;
 	}
 
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
+		
+	}
+
 }

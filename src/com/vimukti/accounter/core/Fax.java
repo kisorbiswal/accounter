@@ -19,6 +19,8 @@ public class Fax implements IAccounterServerCore {
 	String number = "";
 	boolean isSelected = false;
 
+	private int version;
+
 	public Fax() {
 	}
 
@@ -62,6 +64,16 @@ public class Fax implements IAccounterServerCore {
 			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 
 }

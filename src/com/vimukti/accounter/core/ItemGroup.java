@@ -21,11 +21,7 @@ public class ItemGroup extends CreatableObject implements IAccounterServerCore {
 	 */
 	private static final long serialVersionUID = 5174008021450044426L;
 
-	/**
-	 * Object's Version
-	 */
-	int version;
-
+	
 	/**
 	 * Item Group Name
 	 */
@@ -55,15 +51,7 @@ public class ItemGroup extends CreatableObject implements IAccounterServerCore {
 	 */
 	public void setDefault(boolean isDefault) {
 		this.isDefault = isDefault;
-	}
-
-	/**
-	 * @return the version
-	 */
-	public int getVersion() {
-		return version;
-	}
-
+	}	
 	/**
 	 * return false; return false;
 	 * 

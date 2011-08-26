@@ -29,6 +29,7 @@ public class Client implements IAccounterServerCore {
 	private boolean isRequirePasswordReset = false;
 	private int loginCount;
 	private long lastLoginTime;
+	private int version;
 
 	public int getLoginCount() {
 		return loginCount;
@@ -176,6 +177,16 @@ public class Client implements IAccounterServerCore {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 
 }

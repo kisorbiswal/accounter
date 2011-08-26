@@ -21,7 +21,6 @@ public class ShippingTerms extends CreatableObject implements
 	 */
 	private static final long serialVersionUID = -7376956338052948369L;
 
-	int version;
 
 	String name;
 	String description;
@@ -33,12 +32,7 @@ public class ShippingTerms extends CreatableObject implements
 	public ShippingTerms() {
 	}
 
-	/**
-	 * @return the version
-	 */
-	public int getVersion() {
-		return version;
-	}
+	
 
 	/**
 	 * @return the id

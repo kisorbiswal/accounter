@@ -74,11 +74,6 @@ public class VendorCreditMemo extends Transaction {
 		setType(Transaction.TYPE_VENDOR_CREDIT_MEMO);
 	}
 
-	@Override
-	public int getVersion() {
-		return version;
-	}
-
 	/**
 	 * @return the vendor
 	 */

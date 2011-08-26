@@ -8,6 +8,8 @@ public class Unit implements IAccounterServerCore, Cloneable {
 	private String type;
 	private double factor;
 
+	private int version;
+
 	public Unit() {
 	}
 
@@ -58,5 +60,16 @@ public class Unit implements IAccounterServerCore, Cloneable {
 	public boolean canEdit(IAccounterServerCore clientObject) {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
+		
 	}
 }

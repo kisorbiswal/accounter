@@ -32,6 +32,8 @@ public class ItemBackUp implements IAccounterServerCore, Lifecycle {
 
 	Account expenseAccount;
 
+	private int version;
+
 	public ItemBackUp() {
 
 	}
@@ -98,6 +100,16 @@ public class ItemBackUp implements IAccounterServerCore, Lifecycle {
 	public boolean onUpdate(Session arg0) throws CallbackException {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 
 }

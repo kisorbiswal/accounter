@@ -92,7 +92,6 @@ public abstract class Transaction extends CreatableObject implements
 	public static final int UPDATE_TYPE_MINUS = 101;
 	public static final int TYPE_ADJUST_SALES_TAX = 32;
 
-	int version;
 	int type;
 	FinanceDate transactionDate;
 	FinanceDate clonedTransactionDate;
@@ -392,13 +391,6 @@ public abstract class Transaction extends CreatableObject implements
 	 */
 	public boolean isVoidBefore() {
 		return isVoidBefore;
-	}
-
-	/**
-	 * @return the version
-	 */
-	public int getVersion() {
-		return version;
 	}
 
 	/**

@@ -28,6 +28,8 @@ public class Measurement implements IAccounterCore {
 	private String name;
 	private Set<Unit> units;
 
+	private int version;
+
 	public Measurement() {
 		units = new HashSet<Unit>();
 	}
@@ -172,5 +174,15 @@ public class Measurement implements IAccounterCore {
 		measurementClone.units = units;
 
 		return measurementClone;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 }

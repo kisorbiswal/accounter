@@ -45,6 +45,7 @@ public class NominalCodeRange implements IAccounterServerCore, Lifecycle {
 	int minimum;
 
 	int maximum;
+	private int version;
 
 	public int getAccountSubBaseType() {
 		return accountSubBaseType;
@@ -103,5 +104,15 @@ public class NominalCodeRange implements IAccounterServerCore, Lifecycle {
 	public boolean onUpdate(Session arg0) throws CallbackException {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 }

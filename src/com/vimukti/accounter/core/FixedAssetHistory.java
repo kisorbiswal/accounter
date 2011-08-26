@@ -36,6 +36,8 @@ public class FixedAssetHistory implements IAccounterServerCore, Lifecycle {
 	String user;
 	JournalEntry postedJournalEntry;
 
+	private int version;
+
 	public FixedAssetHistory() {
 
 	}
@@ -112,6 +114,16 @@ public class FixedAssetHistory implements IAccounterServerCore, Lifecycle {
 	public boolean onUpdate(Session arg0) throws CallbackException {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 
 }

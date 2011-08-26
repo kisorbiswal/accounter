@@ -39,6 +39,8 @@ public class Contact implements IAccounterServerCore, Lifecycle {
 
 	transient private boolean isOnSaveProccessed;
 
+	private int version;
+
 	public Contact() {
 
 	}
@@ -120,6 +122,16 @@ public class Contact implements IAccounterServerCore, Lifecycle {
 			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 
 }

@@ -21,6 +21,7 @@ public class Developer implements IAccounterServerCore {
 	private String contact;
 	public long succeedRequests;
 	public long failureRequests;
+	private int version;
 
 	public long getId() {
 		return id;
@@ -121,5 +122,15 @@ public class Developer implements IAccounterServerCore {
 			throws AccounterException {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 }

@@ -294,4 +294,9 @@ public class TransactionCreditsAndPayments implements IAccounterServerCore,
 
 		return true;
 	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
+	}
 }

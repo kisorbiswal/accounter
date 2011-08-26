@@ -842,15 +842,6 @@ public class JournalEntry extends Transaction {
 	public void setBalanceDue(double balanceDue) {
 		this.balanceDue = balanceDue;
 	}
-
-	/**
-	 * @return the version
-	 */
-	@Override
-	public int getVersion() {
-		return version;
-	}
-
 	/**
 	 * @return the id
 	 */

@@ -35,7 +35,7 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	TransactionItem transactionItem;
 	TAXItem taxItem;
 	FinanceDate transactionDate;
-
+	private int version;
 	TAXAgency taxAgency;
 	double rate;
 	VATReturnBox vatReturnBox;
@@ -362,6 +362,17 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	 */
 	public void setTaxDue(double taxDue) {
 		this.taxDue = taxDue;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version = version;
+		
 	}
 
 }

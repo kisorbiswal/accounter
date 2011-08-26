@@ -99,14 +99,6 @@ public class WriteCheck extends Transaction {
 	}
 
 	/**
-	 * @return the version
-	 */
-	@Override
-	public int getVersion() {
-		return version;
-	}
-
-	/**
 	 * @return the payToType
 	 */
 	public int getPayToType() {

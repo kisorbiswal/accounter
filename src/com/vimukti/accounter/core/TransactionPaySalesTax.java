@@ -201,4 +201,10 @@ public class TransactionPaySalesTax implements IAccounterServerCore, Lifecycle {
 		return true;
 	}
 
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
+		
+	}
+
 }

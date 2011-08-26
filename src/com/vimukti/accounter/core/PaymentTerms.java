@@ -28,7 +28,6 @@ public class PaymentTerms extends CreatableObject implements
 	public static final int DUE_PAYROLL_TAX_MONTH = 5;
 	public static final int DUE_PAYROLL_TAX_QUARTER = 6;
 
-	int version;
 
 	/**
 	 * Payment Term Name
@@ -63,22 +62,7 @@ public class PaymentTerms extends CreatableObject implements
 		this.dueDays = dueDays;
 		this.isDefault = isDefault;
 	}
-
-	/**
-	 * @return the version
-	 */
-	public int getVersion() {
-		return version;
-	}
-
-	/**
-	 * @param version
-	 *            the version to set
-	 */
-	public void setVersion(int version) {
-		this.version = version;
-	}
-
+	
 	/**
 	 * @return the name
 	 */

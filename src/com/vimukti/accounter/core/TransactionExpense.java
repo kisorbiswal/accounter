@@ -55,6 +55,7 @@ public class TransactionExpense implements IAccounterServerCore, Lifecycle {
 	Expense expense;
 
 	transient private boolean isOnSaveProccessed;
+	private int version;
 
 	/**
 	 * @return the type
@@ -241,6 +242,16 @@ public class TransactionExpense implements IAccounterServerCore, Lifecycle {
 			throws AccounterException {
 
 		return true;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version = version;
 	}
 
 }

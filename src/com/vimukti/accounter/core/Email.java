@@ -28,6 +28,8 @@ public class Email implements IAccounterServerCore {
 	 */
 	boolean isSelected = false;
 
+	private int version;
+
 	public Email() {
 
 	}
@@ -77,6 +79,16 @@ public class Email implements IAccounterServerCore {
 			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 
 }

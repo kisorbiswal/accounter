@@ -14,7 +14,7 @@ public class ServerCompany implements IAccounterServerCore {
 	private String serverAddress;
 	private boolean isConfigured;
 	private Set<Client> clients = new HashSet<Client>();
-
+	private int version;
 	public String getCompanyName() {
 		return companyName;
 	}
@@ -95,6 +95,17 @@ public class ServerCompany implements IAccounterServerCore {
 
 	public long getId() {
 		return id;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
+		
 	}
 
 }

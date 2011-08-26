@@ -2,6 +2,7 @@ package com.vimukti.accounter.core;
 
 import java.io.Serializable;
 
+import com.vimukti.accounter.web.client.core.IVersionable;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -12,7 +13,8 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * 
  */
 
-public interface IAccounterServerCore extends Serializable, Cloneable {
+public interface IAccounterServerCore extends Serializable, Cloneable,
+		IVersionable {
 
 	long getID();
 

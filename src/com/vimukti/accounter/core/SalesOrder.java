@@ -127,14 +127,6 @@ public class SalesOrder extends Transaction {
 	}
 
 	/**
-	 * @return the version
-	 */
-	@Override
-	public int getVersion() {
-		return version;
-	}
-
-	/**
 	 * @return the customer
 	 */
 	public Customer getCustomer() {
