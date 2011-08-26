@@ -4356,4 +4356,12 @@ public interface AccounterConstants extends Constants {
 
 	public String companyAndFinance();
 
+	public String ein();
+
+	public String printAlignmentAndSetup();
+
+	public String printOn1099Form();
+
+	public String printOnInformationSheet();
+
 }
