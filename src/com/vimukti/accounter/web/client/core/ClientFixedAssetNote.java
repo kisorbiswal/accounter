@@ -10,6 +10,8 @@ public class ClientFixedAssetNote implements IAccounterCore {
 	private String note;
 	private long id;
 
+	private int version;
+
 	public ClientFixedAssetNote() {
 	}
 
@@ -56,5 +58,16 @@ public class ClientFixedAssetNote implements IAccounterCore {
 				.clone();
 		return fixedAssetNote;
 
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
+		
 	}
 }
