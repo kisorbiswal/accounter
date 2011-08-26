@@ -17,7 +17,9 @@ public class ClientDepreciation implements IAccounterCore {
 	public static final int DEPRECIATION_FOR_SINGLE_FIXEDASSET = 2;
 
 	private long id;
-
+	
+	private int version;
+	
 	int status;
 
 	long depreciateFrom;
@@ -106,6 +108,16 @@ public class ClientDepreciation implements IAccounterCore {
 		depreciation.fixedAsset = this.fixedAsset.clone();
 		return depreciation;
 
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 
 }
