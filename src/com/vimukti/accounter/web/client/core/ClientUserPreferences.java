@@ -13,6 +13,8 @@ public class ClientUserPreferences implements IAccounterCore {
 	String vendorSectionViewPreferences = "NEW_VENDOR,ITEM_PURCHASE,BILL_PAID,CASH_PURCHASE";
 	String bankingSectionViewPreferences = "BANKING_SUMMARY,CHECK_ISSUED,DEPOSITE,FUND_TRANSFERED,CREDIT_CARD_CHARGES";
 
+	private int version;
+
 	public ClientUserPreferences() {
 
 	}
@@ -104,5 +106,15 @@ public class ClientUserPreferences implements IAccounterCore {
 		ClientUserPreferences clientUserPreferencesClone = (ClientUserPreferences) this
 				.clone();
 		return clientUserPreferencesClone;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 }
