@@ -1624,6 +1624,44 @@ public class UIUtils {
 	}-*/;
 
 	/**
+	 * this method is used to create 1099 MISC forms
+	 */
+	public static void downloadMISCForm(long objectID, int type,
+			long brandingThemeId) {
+		downloadMISCForm(String.valueOf(objectID), type,
+				String.valueOf(brandingThemeId));
+	}
+
+	public native static void downloadMISCForm(String objectID, int type,
+			String brandingThemeId)/*-{
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src",
+					"/do/finance/generatePDFServlet?objectId=" + objectID
+							+ "&type=" + type + "&brandingThemeId="
+							+ brandingThemeId);
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
+		}
+	}-*/;
+
+	/**
+	 * this method is used to make MISC information page
+	 */
+	public native static void makeMISCInfo()/*-{
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src", "/do/finance/miscInfoServlet");
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
+		}
+	}-*/;
+
+	/**
 	 * This method is used for the reports pdf generation. The Require
 	 * parameters are report title , Reportgrid Html and Dateranges Html(The
 	 * Daterange Html is Generate Your self By Using Report Start Date and End
