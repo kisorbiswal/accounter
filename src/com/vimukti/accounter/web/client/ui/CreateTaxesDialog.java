@@ -77,6 +77,8 @@ public class CreateTaxesDialog extends BaseDialog {
 		String name;
 		private long id;
 
+		private int version;
+
 		@Override
 		public String getClientClassSimpleName() {
 			// its not using any where
@@ -124,6 +126,16 @@ public class CreateTaxesDialog extends BaseDialog {
 
 		public CreateTax clone() {
 			return null;
+		}
+
+		@Override
+		public int getVersion() {
+			return version;
+		}
+
+		@Override
+		public void setVersion(int version) {
+			this.version=version;
 		}
 
 	}
