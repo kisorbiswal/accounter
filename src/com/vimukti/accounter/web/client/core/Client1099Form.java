@@ -12,20 +12,7 @@ public class Client1099Form implements IAccounterCore {
 	String vendorName;
 	ClientAddress address;
 	String taxId;
-	double box1;
-	double box2;
-	double box3;
-	double box4;
-	double box5;
-	double box6;
-	double box7;
-	double box8;
-	double box9;
-	double box10;
-	double box11;
-	double box12;
-	double box13;
-	double box14;
+	double[] boxes = new double[12];
 	double total1099Payments;
 	double totalAllPayments;
 	boolean isSelected;
@@ -70,116 +57,12 @@ public class Client1099Form implements IAccounterCore {
 		this.taxId = taxId;
 	}
 
-	public double getBox1() {
-		return box1;
+	public double getBox(int i) {
+		return boxes[i];
 	}
 
-	public void setBox1(double box1) {
-		this.box1 = box1;
-	}
-
-	public double getBox2() {
-		return box2;
-	}
-
-	public void setBox2(double box2) {
-		this.box2 = box2;
-	}
-
-	public double getBox3() {
-		return box3;
-	}
-
-	public void setBox3(double box3) {
-		this.box3 = box3;
-	}
-
-	public double getBox4() {
-		return box4;
-	}
-
-	public void setBox4(double box4) {
-		this.box4 = box4;
-	}
-
-	public double getBox5() {
-		return box5;
-	}
-
-	public void setBox5(double box5) {
-		this.box5 = box5;
-	}
-
-	public double getBox6() {
-		return box6;
-	}
-
-	public void setBox6(double box6) {
-		this.box6 = box6;
-	}
-
-	public double getBox7() {
-		return box7;
-	}
-
-	public void setBox7(double box7) {
-		this.box7 = box7;
-	}
-
-	public double getBox8() {
-		return box8;
-	}
-
-	public void setBox8(double box8) {
-		this.box8 = box8;
-	}
-
-	public double getBox9() {
-		return box9;
-	}
-
-	public void setBox9(double box9) {
-		this.box9 = box9;
-	}
-
-	public double getBox10() {
-		return box10;
-	}
-
-	public void setBox10(double box10) {
-		this.box10 = box10;
-	}
-
-	public double getBox11() {
-		return box11;
-	}
-
-	public void setBox11(double box11) {
-		this.box11 = box11;
-	}
-
-	public double getBox12() {
-		return box12;
-	}
-
-	public void setBox12(double box12) {
-		this.box12 = box12;
-	}
-
-	public double getBox13() {
-		return box13;
-	}
-
-	public void setBox13(double box13) {
-		this.box13 = box13;
-	}
-
-	public double getBox14() {
-		return box14;
-	}
-
-	public void setBox14(double box14) {
-		this.box14 = box14;
+	public void setBox1(int i, double box) {
+		this.boxes[i] = box;
 	}
 
 	public double getTotal1099Payments() {

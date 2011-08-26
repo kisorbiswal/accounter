@@ -123,6 +123,8 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 	String hierarchy;
 	String flow;
 
+	int boxNumber;
+
 	// ClientTaxCode VATcode;
 
 	public String getFlow() {
@@ -131,6 +133,14 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 
 	public void setFlow(String flow) {
 		this.flow = flow;
+	}
+
+	public int getBoxNumber() {
+		return boxNumber;
+	}
+
+	public void setBoxNumber(int boxNumber) {
+		this.boxNumber = boxNumber;
 	}
 
 	//

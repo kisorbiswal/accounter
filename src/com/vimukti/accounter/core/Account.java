@@ -250,6 +250,8 @@ public class Account extends CreatableObject implements IAccounterServerCore {
 
 	transient private boolean isOnSaveProccessed;
 
+	int boxNumber;
+
 	/**
 	 * Constructor of Account class
 	 */
@@ -749,6 +751,14 @@ public class Account extends CreatableObject implements IAccounterServerCore {
 	 */
 	public String getHierarchy() {
 		return hierarchy;
+	}
+
+	public int getBoxNumber() {
+		return boxNumber;
+	}
+
+	public void setBoxNumber(int boxNumber) {
+		this.boxNumber = boxNumber;
 	}
 
 	/**
