@@ -11,7 +11,7 @@ public class ClientCustomerGroup implements IAccounterCore {
 
 	String name;
 	boolean isDefault;
-
+	private int version;
 	public ClientCustomerGroup() {
 
 	}
@@ -88,5 +88,17 @@ public class ClientCustomerGroup implements IAccounterCore {
 			return this.getID() == customerGroup.getID() ? true : false;
 		}
 		return false;
+	}
+
+	@Override
+	public int getVersion() {
+	
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+	this.version=version;
+		
 	}
 }
