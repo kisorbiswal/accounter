@@ -4364,4 +4364,7 @@ public interface AccounterConstants extends Constants {
 
 	public String printOnInformationSheet();
 
+	public String tdsApplicable();
+	public String tds();
+
 }
