@@ -20,6 +20,8 @@ public class ClientWarehouse implements IAccounterCore {
 	private String DDINumber;
 	private String mobileNumber;
 
+	private int version;
+
 	public ClientWarehouse() {
 	}
 
@@ -126,5 +128,15 @@ public class ClientWarehouse implements IAccounterCore {
 			return this.getID() == warehouse.getID() ? true : false;
 		}
 		return false;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 }
