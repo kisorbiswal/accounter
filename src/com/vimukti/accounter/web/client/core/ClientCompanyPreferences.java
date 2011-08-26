@@ -164,6 +164,8 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	private long preferencesFlag;
 
+	private int version;
+
 	/**
 	 * Creates new Instance
 	 */
@@ -914,6 +916,16 @@ public class ClientCompanyPreferences implements IAccounterCore {
 		} else {
 			this.preferencesFlag &= ~flag;
 		}
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 
 }
