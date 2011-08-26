@@ -28,6 +28,9 @@ public class ClientBox implements IAccounterCore {
 
 	List<ClientTAXRateCalculation> taxRateCalculations;
 
+
+	private int version;
+
 	/**
 	 * @return the boxNumber
 	 */
@@ -161,5 +164,15 @@ public class ClientBox implements IAccounterCore {
 		clientBox.taxRateCalculations = taxRateCalculations;
 		return clientBox;
 
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 }
