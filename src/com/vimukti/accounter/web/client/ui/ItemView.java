@@ -39,6 +39,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.FloatRangeValidator;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
 import com.vimukti.accounter.web.client.ui.core.IntegerRangeValidator;
@@ -329,8 +330,8 @@ public class ItemView extends BaseView<ClientItem> {
 					}
 				});
 		expAccCombo.setPopupWidth("500px");
-		prefVendorCombo = new VendorCombo(messages.preferredVendor(Global
-				.get().Vendor()));
+		prefVendorCombo = new VendorCombo(messages.preferredVendor(Global.get()
+				.Vendor()));
 		prefVendorCombo.setHelpInformation(true);
 		prefVendorCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
@@ -986,8 +987,7 @@ public class ItemView extends BaseView<ClientItem> {
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
-
+		setMode(EditMode.EDIT);
 	}
 
 	@Override
