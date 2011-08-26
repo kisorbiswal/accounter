@@ -7,6 +7,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -82,24 +83,29 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		vatItemNameText.setHelpInformation(true);
 		vatItemNameText.setWidth(80);
 		vatItemNameText.setRequired(true);
+		vatItemNameText.setDisabled(isInViewMode());
 
 		descriptionText = new TextAreaItem(Accounter.constants().description());
 		descriptionText.setHelpInformation(true);
 		descriptionText.setWidth(80);
+		descriptionText.setDisabled(isInViewMode());
 
 		vatRateText = new AmountField(Accounter.constants().vatAmount(), this);
 		vatRateText.setHelpInformation(true);
 		vatRateText.setWidth(80);
 		vatRateText.setRequired(true);
+		vatRateText.setDisabled(isInViewMode());
 
 		vatRateTextPerT = new PercentageField(this, Accounter.constants()
 				.vatRateInPerc());
 		vatRateTextPerT.setHelpInformation(true);
 		vatRateTextPerT.setWidth(80);
 		vatRateTextPerT.setRequired(true);
+		vatRateTextPerT.setDisabled(isInViewMode());
 
 		vatAgencyCombo = new TAXAgencyCombo(Accounter.constants().vatAgency());
 		vatAgencyCombo.setHelpInformation(true);
+		vatAgencyCombo.setDisabled(isInViewMode());
 		vatAgencyCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXAgency>() {
 
@@ -120,6 +126,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 				.vatReturnBox());
 		vatReturnBoxCombo.setHelpInformation(true);
 		vatReturnBoxCombo.setRequired(true);
+		vatReturnBoxCombo.setDisabled(isInViewMode());
 		vatReturnBoxCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVATReturnBox>() {
 
@@ -134,6 +141,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 
 		statusCheck = new CheckboxItem(Accounter.constants().itemIsActive());
 		statusCheck.setValue(true);
+		statusCheck.setDisabled(isInViewMode());
 
 		form1.setWidth("80%");
 		form1.setIsGroup(true);
@@ -281,7 +289,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		// .alreadyExist());
 		// }
 
-		if (!isInViewMode()) {
+		if (isInViewMode()) {
 			if (taxItemByName != null) {
 				result.addError(vatItemNameText, Accounter.constants()
 						.alreadyExist());
@@ -357,6 +365,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		data.setTaxRate((Boolean) this.isPercentatateAmtCheck.getValue() ? vatRateTextPerT
 				.getPercentage() : vatRateText.getAmount());
 		data.setPercentage((Boolean) this.isPercentatateAmtCheck.getValue());
+
 	}
 
 	public List<DynamicForm> getForms() {
@@ -379,7 +388,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 		// TODO Auto-generated method stub
 
 	}
@@ -415,7 +424,36 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 
 	@Override
 	public void onEdit() {
+
+		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
+
+			@Override
+			public void onException(AccounterException caught) {
+				Accounter.showError(caught.getMessage());
+			}
+
+			@Override
+			public void onResultSuccess(Boolean result) {
+				if (result)
+					enableFormItems();
+			}
+
+		};
+
+		this.rpcDoSerivce.canEdit(AccounterCoreType.TAXITEM, data.getID(),
+				editCallBack);
+	}
+
+	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
+		vatItemNameText.setDisabled(isInViewMode());
+		descriptionText.setDisabled(isInViewMode());
+		vatRateText.setDisabled(isInViewMode());
+		vatReturnBoxCombo.setDisabled(isInViewMode());
+		vatAgencyCombo.setDisabled(isInViewMode());
+		statusCheck.setDisabled(isInViewMode());
+		super.onEdit();
+
 	}
 
 	@Override
