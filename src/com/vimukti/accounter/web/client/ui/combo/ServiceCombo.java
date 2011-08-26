@@ -50,7 +50,8 @@ public class ServiceCombo extends CustomCombo<ClientItem> {
 
 			@Override
 			public void actionResult(ClientItem result) {
-				addItemThenfireEvent(result);
+				if (result.isActive())
+					addItemThenfireEvent(result);
 
 			}
 		});
