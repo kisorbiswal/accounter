@@ -176,4 +176,14 @@ public class ClientPaymentTerms implements IAccounterCore {
 		}
 		return false;
 	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+	this.version=version;
+	}
 }
