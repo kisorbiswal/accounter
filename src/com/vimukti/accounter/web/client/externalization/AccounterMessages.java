@@ -752,6 +752,7 @@ public interface AccounterMessages extends Messages {
 	public String setupVendorsAndAccounts(String vendor, String account);
 
 	public String accountNumberToolTipDesc(String starting,String ending);
+	
 	public String selectDateOfBirth(String viewName);
 
 	public String selectDateOfHire(String viewName);
@@ -777,4 +778,5 @@ public interface AccounterMessages extends Messages {
 	public String clickThisToOpenNew(String viewName);
 
 	public String clickThisToOpen(String next);
+
 }
