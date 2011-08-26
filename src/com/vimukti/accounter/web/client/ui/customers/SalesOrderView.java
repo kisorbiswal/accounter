@@ -795,6 +795,8 @@ public class SalesOrderView extends
 	protected DateField createDueDateItem() {
 
 		DateField dateItem = new DateField(Accounter.constants().dueDate());
+		dueDateItem.setToolTip(Accounter.messages().selectDateUntilDue(
+				this.getAction().getViewName()));
 		dateItem.setTitle(Accounter.constants().dueDate());
 		dateItem.setColSpan(1);
 

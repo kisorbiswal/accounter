@@ -6,12 +6,12 @@ public class AddressCombo extends CustomCombo<ClientAddress> {
 
 	public AddressCombo(String title) {
 		super(title);
-		super.setToopTip("");
+		super.setToolTip("");
 	}
 
 	public AddressCombo(String title, boolean isAddNewRequired) {
 		super(title, isAddNewRequired, 1);
-		super.setToopTip("");
+		super.setToolTip("");
 
 	}
 

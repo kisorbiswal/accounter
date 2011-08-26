@@ -344,6 +344,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		lab.addStyleName(Accounter.constants().labelTitle());
 		// lab.setHeight("50px");
 		date = new DateField(Accounter.constants().date());
+		date.setToolTip(Accounter.messages().selectDateWhenTransactioCreated(
+				this.getAction().getViewName()));
 		date.setHelpInformation(true);
 		// date.setUseTextField(true);
 		date.setEnteredDate(new ClientFinanceDate());

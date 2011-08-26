@@ -133,8 +133,8 @@ public class CustomComboItem extends FormItem {
 	}
 
 	@Override
-	public void setToopTip(String toolTip) {
-		super.setToopTip(toolTip);
+	public void setToolTip(String toolTip) {
+		super.setToolTip(toolTip);
 		String tooltip = toolTip.replace("  ", " ");
 		textBox.setTitle(tooltip);
 	}

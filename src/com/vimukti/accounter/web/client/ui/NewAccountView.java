@@ -184,31 +184,31 @@ public class NewAccountView extends BaseView<ClientAccount> {
 						selectedId = (String) accTypeSelect.getSelectedValue();
 						accounttype_selected();
 						if (getAccountType(selectedId) == ClientAccount.TYPE_INCOME)
-							accNoText.setToopTip(Accounter.messages()
+							accNoText.setToolTip(Accounter.messages()
 									.accountNumberToolTipDesc("4000", "4999"));
 						else if (getAccountType(selectedId) == ClientAccount.TYPE_CREDIT_CARD)
-							accNoText.setToopTip(Accounter.messages()
+							accNoText.setToolTip(Accounter.messages()
 									.accountNumberToolTipDesc("7000", "7999"));
 						else if (getAccountType(selectedId) == ClientAccount.TYPE_CASH)
-							accNoText.setToopTip(Accounter.messages()
+							accNoText.setToolTip(Accounter.messages()
 									.accountNumberToolTipDesc("3000", "3999"));
 						else if (getAccountType(selectedId) == ClientAccount.TYPE_COST_OF_GOODS_SOLD)
-							accNoText.setToopTip(Accounter.messages()
+							accNoText.setToolTip(Accounter.messages()
 									.accountNumberToolTipDesc("5000", "5999"));
 						else if (getAccountType(selectedId) == ClientAccount.TYPE_BANK)
-							accNoText.setToopTip(Accounter.messages()
+							accNoText.setToolTip(Accounter.messages()
 									.accountNumberToolTipDesc("1000", "1999"));
 						else if (getAccountType(selectedId) == ClientAccount.TYPE_OTHER_CURRENT_ASSET)
-							accNoText.setToopTip(Accounter.messages()
+							accNoText.setToolTip(Accounter.messages()
 									.accountNumberToolTipDesc("1000", "1999"));
 						else if (getAccountType(selectedId) == ClientAccount.TYPE_OTHER_CURRENT_LIABILITY)
-							accNoText.setToopTip(Accounter.messages()
+							accNoText.setToolTip(Accounter.messages()
 									.accountNumberToolTipDesc("2000", "2999"));
 						else if (getAccountType(selectedId) == ClientAccount.TYPE_LONG_TERM_LIABILITY)
-							accNoText.setToopTip(Accounter.messages()
+							accNoText.setToolTip(Accounter.messages()
 									.accountNumberToolTipDesc("9000", "9499"));
 						else if (getAccountType(selectedId) == ClientAccount.TYPE_EQUITY)
-							accNoText.setToopTip(Accounter.messages()
+							accNoText.setToolTip(Accounter.messages()
 									.accountNumberToolTipDesc("3000", "3999"));
 
 					}

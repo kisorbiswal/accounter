@@ -31,10 +31,10 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 					title = title.replace(Accounter.constants().name(), "")
 							.toLowerCase();
 			if (isAddNewRequire)
-				super.setToopTip(Accounter.messages()
+				super.setToolTip(Accounter.messages()
 						.selectWhichWeHaveInOurCompanyOrAddNew(title));
 			else
-				super.setToopTip(Accounter.messages()
+				super.setToolTip(Accounter.messages()
 						.selectWhichWeHaveInOurCompany(title));
 		}
 	}
@@ -50,7 +50,7 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 						Accounter.constants().name()))
 					title = title.replace(Accounter.constants().name(), "")
 							.toLowerCase();
-			super.setToopTip(Accounter.messages()
+			super.setToolTip(Accounter.messages()
 					.selectWhichWeHaveInOurCompanyOrAddNew(title));
 		}
 	}

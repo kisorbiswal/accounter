@@ -10,7 +10,7 @@ public class SelectCombo extends CustomCombo<String> {
 
 	public SelectCombo(String title) {
 		super(title, false, 1);
-		super.setToopTip(Accounter.messages().selectWhichWeHaveInOurCompany(
+		super.setToolTip(Accounter.messages().selectWhichWeHaveInOurCompany(
 				title));
 		// if (type == SHIP_TO) {
 		// initCombo(new ClientAddress().getAddressTypes());

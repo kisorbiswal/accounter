@@ -750,4 +750,8 @@ public interface AccounterMessages extends Messages {
 
 	public String accountNumberToolTipDesc(String starting,String ending);
 
+	public String selectDateOfBirth(String viewName);
+
+	public String selectDateOfHire(String viewName);
+
 }

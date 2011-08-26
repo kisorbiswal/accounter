@@ -29,8 +29,8 @@ public class LabelItem extends FormItem<String> {
 	}
 
 	@Override
-	public void setToopTip(String toolTip) {
-		super.setToopTip(toolTip);
+	public void setToolTip(String toolTip) {
+		super.setToolTip(toolTip);
 		label.setTitle(toolTip);
 	}
 

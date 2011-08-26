@@ -365,8 +365,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		shippingMethodsCombo = createShippingMethodCombo();
 
 		dueDateItem = new DateField(customerConstants.dueDate());
-		// dueDateItem.setToopTip(Accounter.messages().selectDateUntilDue(this.getAction().getText().replace(,
-		// newChar)));
+		dueDateItem.setToolTip(Accounter.messages().selectDateUntilDue(
+				this.getAction().getViewName()));
 		dueDateItem.setHelpInformation(true);
 		dueDateItem.setEnteredDate(getTransactionDate());
 		dueDateItem.setColSpan(1);

@@ -288,6 +288,8 @@ public class PurchaseOrderView extends
 		shippingMethodsCombo = createShippingMethodCombo();
 
 		dueDateItem = new DateField(Accounter.constants().dueDate());
+		dueDateItem.setToolTip(Accounter.messages().selectDateUntilDue(
+				this.getAction().getViewName()));
 		dueDateItem.setDisabled(isInViewMode());
 		// dueDateItem.setWidth(100);
 		if (isInViewMode()) {

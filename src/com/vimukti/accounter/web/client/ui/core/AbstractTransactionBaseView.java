@@ -329,7 +329,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 		final DateField dateItem = new DateField(Accounter.constants().date());
 		dateItem
-				.setToopTip(Accounter.messages()
+				.setToolTip(Accounter.messages()
 						.selectDateWhenTransactioCreated(
 								this.getAction().getViewName()));
 		dateItem.setHelpInformation(true);

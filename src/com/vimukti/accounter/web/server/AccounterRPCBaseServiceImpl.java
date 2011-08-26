@@ -5,7 +5,6 @@ package com.vimukti.accounter.web.server;
 
 import java.io.IOException;
 
-import javax.security.auth.login.AccountExpiredException;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;

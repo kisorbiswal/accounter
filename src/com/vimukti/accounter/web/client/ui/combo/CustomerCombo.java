@@ -11,7 +11,7 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 
 	public CustomerCombo(String title) {
 		super(title);
-		super.setToopTip(Accounter.messages().selectWhichWeHaveInOurCompanyOrAddNew(
+		super.setToolTip(Accounter.messages().selectWhichWeHaveInOurCompanyOrAddNew(
 				Global.get().Customer()));
 		initCombo(getCompany().getCustomers());
 
@@ -20,7 +20,7 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 	public CustomerCombo(String title, boolean isAddNewRequire) {
 		super(title, isAddNewRequire, 1);
 		if (isAddNewRequire)
-			super.setToopTip(Accounter.messages().selectWhichWeHaveInOurCompanyOrAddNew(
+			super.setToolTip(Accounter.messages().selectWhichWeHaveInOurCompanyOrAddNew(
 					Global.get().Customer()));
 		initCombo(getCompany().getCustomers());
 

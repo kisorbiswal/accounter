@@ -166,6 +166,10 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 				});
 
 		dateOfBirth = new DateField(Accounter.constants().dateofBirth());
+		dateOfBirth
+		.setToolTip(Accounter.messages()
+				.selectDateOfBirth(
+						this.getAction().getViewName()));
 		// dateOfBirth.setEndDate(new ClientFinanceDate(19910101));
 		// dateOfBirth.setStartDate(new ClientFinanceDate(18910101));
 		dateOfBirth.addDateValueChangeHandler(new DateValueChangeHandler() {
@@ -184,6 +188,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		});
 
 		dateOfHire = new DateField(Accounter.constants().dateofHire());
+		dateOfHire.setToolTip(Accounter.messages().selectDateOfHire(this.getAction().getViewName()));
 		// dateOfHire.setUseTextField(true);
 
 		dateOfLastReview = new DateField(Accounter.constants()

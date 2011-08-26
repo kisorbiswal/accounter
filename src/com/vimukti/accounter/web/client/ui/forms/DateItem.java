@@ -86,8 +86,8 @@ public class DateItem extends FormItem<ClientFinanceDate> {
 	}
 
 	@Override
-	public void setToopTip(String toolTip) {
-		super.setToopTip(toolTip);
+	public void setToolTip(String toolTip) {
+		super.setToolTip(toolTip);
 		datePicker.setTitle(toolTip);
 	}
 

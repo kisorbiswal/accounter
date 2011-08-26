@@ -162,7 +162,7 @@ public abstract class FormItem<T> {
 		defaultValue = value;
 	}
 
-	public void setToopTip(String toolTip) {
+	public void setToolTip(String toolTip) {
 
 	}
 
