@@ -12,6 +12,8 @@ public class ClientAccountTransaction implements IAccounterCore {
 	long account;
 	double amount;
 
+	private int version;
+
 	public ClientAccountTransaction() {
 	}
 
@@ -124,6 +126,16 @@ public class ClientAccountTransaction implements IAccounterCore {
 				.clone();
 		return clientAccountTransaction;
 
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 
 }
