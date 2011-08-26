@@ -4347,5 +4347,7 @@ public interface AccounterConstants extends Constants {
 	public String vatCodes();
 
 	public String companyAndFinance();
+	public String tdsApplicable();
+	public String tds();
 
 }
