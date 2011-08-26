@@ -7,10 +7,12 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
 import com.vimukti.accounter.web.client.images.FinanceMenuImages;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class CustomMenuBar extends MenuBar {
+	public int numberOfItems;
 	List<CustomMenuItem> menuItems = new ArrayList<CustomMenuItem>();
 
 	public CustomMenuBar() {
@@ -26,18 +28,29 @@ public class CustomMenuBar extends MenuBar {
 		super(true, resource);
 	}
 
-	
 	public CustomMenuBar(MenuBarImages resource) {
 		super(true, resource);
 	}
 
-	public void addItem(final Action action) {
+	@Override
+	public void clearItems() {
+		super.clearItems();
+		numberOfItems = 0;
+	}
 
+	@Override
+	public MenuItem addItem(MenuItem item) {
+		numberOfItems++;
+		return super.addItem(item);
+	}
+
+	public void addItem(final Action action) {
+		numberOfItems++;
 		CustomMenuItem menuItem = new CustomMenuItem(action.getText(), action);
 		this.menuItems.add(menuItem);
 		super.addItem(menuItem);
 		// menuItem.setIcon(action.getSmallImage());
-		
+
 		// url("images/previous.png") no-repeat scroll 0 0 transparent
 		// menuItem.getElement().getStyle().setProperty(
 		// "background",
@@ -45,7 +58,7 @@ public class CustomMenuBar extends MenuBar {
 		// + ") no-repeat scroll 0 0 transparent");
 	}
 
-	// 
+	//
 	// protected CustomMenuItem findItem(Element hItem) {
 	// for (CustomMenuItem item : menuItems) {
 	// if (DOM.isOrHasChild(item.getElement(), hItem)) {
