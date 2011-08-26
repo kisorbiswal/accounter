@@ -5,6 +5,7 @@ public class ClientDepreciationFixedAsset implements IAccounterCore {
 	/**
 	 * 
 	 */
+	private int version;
 	private static final long serialVersionUID = 1L;
 	long id;
 	String accountName;
@@ -71,6 +72,16 @@ public class ClientDepreciationFixedAsset implements IAccounterCore {
 				.clone();
 		return depreciationFixedAsset;
 
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 
 }
