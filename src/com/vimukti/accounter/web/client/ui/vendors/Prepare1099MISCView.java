@@ -23,16 +23,24 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Client1099Form;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class Prepare1099MISCView extends AbstractBaseView {
+	private String[] boxes;
+	private int[] boxNums = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 13, 14 };
+
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
+		AccounterConstants c = Accounter.constants();
+		boxes = new String[] { c.box1(), c.box2(), c.box3(), c.box4(),
+				c.box5(), c.box6(), c.box7(), c.box8(), c.box9(), c.box10(),
+				c.box13(), c.box14() };
 		this.createControl();
 
 	}
@@ -67,37 +75,17 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	public void createControl() {
 
-		// DecoratedStackPanel root = new DecoratedStackPanel();
-		// root.setWidth("1000px");
-		// root.setHeight("300px");
-		SetUp setUp = new SetUp("");
-		// root.add(setUp, "Add Vendor and Accounts", true);
-
-		Preview1099 preview1099 = new Preview1099("");
-		// root.add(preview1099, "Preview 1099 and 1096 Information", true);
-		// root1.addItem(get1099InformationGrid());
-
-		PrintSetUp printSetUp = new PrintSetUp("");
-		// root.add(printSetUp, "Print Alignment and Setup", true);
-
-		DisclosurePanel advancedDisclosure = new DisclosurePanel(
-				"Print Alignment and Setup");
-		advancedDisclosure.setAnimationEnabled(true);
-		advancedDisclosure.setContent(printSetUp);
-
-		// this.add(root);
-		this.add(setUp);
-		this.add(preview1099);
-		this.add(advancedDisclosure);
+		this.add(getSetupPanel());
+		this.add(getPreview1099());
+		this.add(getPrintSetUp());
 		EndButtons endButtons = new EndButtons("");
 		this.add(endButtons);
 
 	}
 
-	public static CellTable<Client1099Form> get1099InformationGrid() {
+	public CellTable<Client1099Form> get1099InformationGrid() {
 		CellTable<Client1099Form> cellTable = new CellTable<Client1099Form>();
 
 		CheckboxCell checkboxCell = new CheckboxCell();
@@ -133,7 +121,8 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 			@Override
 			public String getValue(Client1099Form object) {
-				return "" + object.getTotal1099Payments();
+				double total1099Payments = object.getTotal1099Payments();
+				return total1099Payments != 0 ? "" + total1099Payments : "";
 			}
 		};
 
@@ -142,7 +131,8 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 			@Override
 			public String getValue(Client1099Form object) {
-				return "" + object.getTotalAllPayments();
+				double totalAllPayments = object.getTotalAllPayments();
+				return totalAllPayments != 0 ? "" + totalAllPayments : "";
 			}
 		};
 
@@ -151,6 +141,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		cellTable.addColumn(checkBoxColumn, "Select");
 		cellTable.addColumn(informationColumn, Accounter.messages()
 				.vendorInformation(Global.get().Vendor()));
+		addBoxColumnsToCellTable(cellTable);
 		cellTable.addColumn(total1099PaymentsCell, Accounter.constants()
 				.total1099Payments());
 		cellTable.addColumn(totalAllPaymentsCell, Accounter.constants()
@@ -163,35 +154,65 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		return cellTable;
 	}
 
-	private static class SetUp extends Composite implements ClickHandler {
+	private ClientAccount getAccountByBoxNum(int i) {
+		ArrayList<ClientAccount> activeAccounts = getCompany()
+				.getActiveAccounts();
+		for (ClientAccount clientAccount : activeAccounts) {
+			if (clientAccount.getBoxNumber() == i) {
+				return clientAccount;
+			}
+		}
+		return null;
+	}
 
-		Button setVendor = new Button("Select Vendor");
-		Button addAccount = new Button("Assign Account");
+	private void addBoxColumnsToCellTable(CellTable<Client1099Form> cellTable) {
+		for (int i = 0; i < boxNums.length; i++) {
+			final int num = i;
+			ClientAccount clientAccount = getAccountByBoxNum(boxNums[i]);
+			if (clientAccount != null) {
+				Column<Client1099Form, String> boxCell = new Column<Client1099Form, String>(
+						new ClickableTextCell()) {
+
+					@Override
+					public String getValue(Client1099Form object) {
+						double box = object.getBox(num);
+						return box != 0 ? "" + box : "";
+					}
+				};
+				cellTable.addColumn(boxCell, boxes[i]);
+			}
+		}
+	}
+
+	private DisclosurePanel getSetupPanel() {
+
+		DisclosurePanel disclosurePanel = new DisclosurePanel(Accounter
+				.messages().setupVendorsAndAccounts(Global.get().Vendor(),
+						Global.get().Account()));
+		disclosurePanel.setOpen(true);
+		Button setVendor = new Button(Accounter.messages().selectVendor(
+				Global.get().Vendor()));
+		Button addAccount = new Button(Accounter.messages().assignAccounts(
+				Global.get().Account()));
 		Label infoLable = new Label(
 				"Before paying vendors this year, select vendors and assign accounts. These setup tasks ensure that the forms you file next year will be correct. If you have already made vendor payments this year, you may need to revise them to assign them to the proper accounts.");
 
-		public SetUp(String caption) {
+		infoLable.setWordWrap(true);
+		infoLable.setHorizontalAlignment(ALIGN_JUSTIFY);
 
-			infoLable.setWordWrap(true);
-			infoLable.setHorizontalAlignment(ALIGN_JUSTIFY);
+		VerticalPanel panel = new VerticalPanel();
+		panel.setSize("1000px", "200px");
+		panel.add(infoLable);
+		panel.add(setVendor);
 
-			VerticalPanel panel = new VerticalPanel();
-			panel.setSize("1000px", "200px");
-			panel.add(infoLable);
-			panel.add(setVendor);
+		panel.add(addAccount);
 
-			panel.add(addAccount);
+		disclosurePanel.add(panel);
 
-			setVendor.addClickHandler(this);
-			addAccount.addClickHandler(this);
+		setVendor.addClickHandler(new ClickHandler() {
 
-			// All composites must call initWidget() in their constructors.
-			initWidget(panel);
-		}
-
-		public void onClick(ClickEvent event) {
-			Object sender = event.getSource();
-			if (sender == setVendor) {
+			@Override
+			public void onClick(ClickEvent event) {
 				SelectVendorsTo1099Dialog selectVendorsTo1099Dialog = new SelectVendorsTo1099Dialog(
 						Accounter.messages()
 								.selectVendor(Global.get().Vendor()), Accounter
@@ -199,54 +220,56 @@ public class Prepare1099MISCView extends AbstractBaseView {
 										Global.get().Vendor()));
 				selectVendorsTo1099Dialog.show();
 			}
-			if (sender == addAccount) {
+		});
+		addAccount.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
 				String assignAccounts = Accounter.messages().assignAccounts(
 						Global.get().Account());
 				AssignAccountsTo1099Dialog assignAccountsTo1099Dialog = new AssignAccountsTo1099Dialog(
 						assignAccounts, assignAccounts);
 				assignAccountsTo1099Dialog.show();
 			}
-		}
+		});
+
+		return disclosurePanel;
 	}
 
-	private static class Preview1099 extends Composite implements ClickHandler {
+	private VerticalPanel getPreview1099() {
 
-		Label clientInfo = new Label("Company Information");
-		Label einInfo = new Label("EIN");
+		Label companyInfo = new Label(Accounter.constants()
+				.companyInformation());
+		Label einInfo = new Label(Accounter.constants().ein());
 
-		TextArea clientInfoText = new TextArea();
+		TextArea companyInfoText = new TextArea();
 		TextArea einInfoText = new TextArea();
 
-		public Preview1099(String caption) {
+		VerticalPanel panelR = new VerticalPanel();
+		VerticalPanel panelL = new VerticalPanel();
+		panelL.add(companyInfo);
+		panelL.add(companyInfoText);
 
-			VerticalPanel panelR = new VerticalPanel();
-			VerticalPanel panelL = new VerticalPanel();
-			panelL.add(clientInfo);
-			panelL.add(clientInfoText);
+		panelR.add(einInfo);
+		panelR.add(einInfoText);
 
-			panelR.add(einInfo);
-			panelR.add(einInfoText);
+		HorizontalPanel panel = new HorizontalPanel();
+		panel.setSize("1000px", "100px");
+		panel.add(panelL);
+		panel.add(panelR);
 
-			HorizontalPanel panel = new HorizontalPanel();
-			panel.setSize("1000px", "100px");
-			panel.add(panelL);
-			panel.add(panelR);
+		VerticalPanel panel1 = new VerticalPanel();
+		panel1.add(panel);
+		panel1.add(get1099InformationGrid());
 
-			VerticalPanel panel1 = new VerticalPanel();
-			panel1.add(panel);
-			panel1.add(get1099InformationGrid());
-
-			// All composites must call initWidget() in their constructors.
-			initWidget(panel1);
-		}
-
-		public void onClick(ClickEvent event) {
-			Object sender = event.getSource();
-		}
+		return panel1;
 
 	}
 
-	private static class PrintSetUp extends Composite implements ClickHandler {
+	private DisclosurePanel getPrintSetUp() {
+
+		DisclosurePanel disclosurePanel = new DisclosurePanel(Accounter
+				.constants().printAlignmentAndSetup());
 
 		Button printSample = new Button("Print Sample");
 		Label blankLabel = new Label("Load empty paper");
@@ -259,61 +282,51 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		Label infoLabel = new Label(
 				"	Alignment adjustment values are saved when you click Print Sample (above), or Print (below).If you print forms on more than one printer, write down the alignment values for each.");
 
-		public PrintSetUp(String caption) {
-			// Place the check above the text box using a vertical panel.
+		// Place the check above the text box using a vertical panel.
 
-			// HorizontalPanel panel1 = new HorizontalPanel();
-			// panel1.add(verLabel);
-			// panel1.add(getListBox(true));
-			//
-			// HorizontalPanel panel2 = new HorizontalPanel();
-			// panel2.add(horLabel);
-			// panel2.add(getListBox(true));
-			//
-			// VerticalPanel panel = new VerticalPanel();
-			// panel.setHeight("400px");
-			// panel.add(blankLabel);
-			// panel.add(printSample);
-			// panel.add(adjustLabel);
-			// panel.add(panel1);
-			// panel.add(panel2);
-			// panel.add(infoLabel);
+		// HorizontalPanel panel1 = new HorizontalPanel();
+		// panel1.add(verLabel);
+		// panel1.add(getListBox(true));
+		//
+		// HorizontalPanel panel2 = new HorizontalPanel();
+		// panel2.add(horLabel);
+		// panel2.add(getListBox(true));
+		//
+		// VerticalPanel panel = new VerticalPanel();
+		// panel.setHeight("400px");
+		// panel.add(blankLabel);
+		// panel.add(printSample);
+		// panel.add(adjustLabel);
+		// panel.add(panel1);
+		// panel.add(panel2);
+		// panel.add(infoLabel);
 
-			Grid advancedOptions = new Grid(6, 2);
-			advancedOptions.setCellSpacing(6);
-			advancedOptions.setWidget(0, 0, blankLabel);
-			advancedOptions.setHTML(0, 1, "");
-			advancedOptions.setWidget(1, 0, printSample);
-			advancedOptions.setHTML(1, 1, "");
-			advancedOptions.setWidget(2, 0, adjustLabel);
-			advancedOptions.setHTML(2, 1, "");
-			advancedOptions.setWidget(3, 0, verLabel);
-			advancedOptions.setWidget(3, 1, getListBox(true));
-			advancedOptions.setWidget(4, 0, horLabel);
-			advancedOptions.setWidget(4, 1, getListBox(true));
-			advancedOptions.setWidget(5, 0, infoLabel);
-			advancedOptions.setHTML(5, 1, "");
+		Grid advancedOptions = new Grid(6, 2);
+		advancedOptions.setCellSpacing(6);
+		advancedOptions.setWidget(0, 0, blankLabel);
+		advancedOptions.setHTML(0, 1, "");
+		advancedOptions.setWidget(1, 0, printSample);
+		advancedOptions.setHTML(1, 1, "");
+		advancedOptions.setWidget(2, 0, adjustLabel);
+		advancedOptions.setHTML(2, 1, "");
+		advancedOptions.setWidget(3, 0, verLabel);
+		advancedOptions.setWidget(3, 1, getListBox(true));
+		advancedOptions.setWidget(4, 0, horLabel);
+		advancedOptions.setWidget(4, 1, getListBox(true));
+		advancedOptions.setWidget(5, 0, infoLabel);
+		advancedOptions.setHTML(5, 1, "");
 
-			printSample.addClickHandler(this);
-
-			// All composites must call initWidget() in their constructors.
-			initWidget(advancedOptions);
-		}
-
-		public void onClick(ClickEvent event) {
-			Object sender = event.getSource();
-			if (sender == printSample) {
-
-			}
-		}
-
+		disclosurePanel.add(advancedOptions);
+		return disclosurePanel;
 	}
 
 	private static class EndButtons extends Composite implements ClickHandler {
 
-		private Button print1099 = new Button("Print on 1099 Form.");
-		private Button printInfo = new Button("Print on Information Sheet.");
-		private Button cancel = new Button("Cancel");
+		private Button print1099 = new Button(Accounter.constants()
+				.printOn1099Form());
+		private Button printInfo = new Button(Accounter.constants()
+				.printOnInformationSheet());
+		private Button cancel = new Button(Accounter.constants().cancel());
 
 		public EndButtons(String caption) {
 			// Place the check above the text box using a vertical panel.

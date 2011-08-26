@@ -1,110 +1,146 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import com.google.gwt.cell.client.CheckboxCell;
-import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.grids.columns.AccountComboCell;
+import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
+/**
+ * 
+ * @author Umasree V
+ * 
+ */
 public class AssignAccountsTo1099Dialog extends BaseDialog {
+
+	private FlexTable flexTable;
+	private String[] strings;
+	private int[] boxNums = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 13, 14 };
+	private int rowCount = 0;
 
 	public AssignAccountsTo1099Dialog(String title, String desc) {
 		super(title, desc);
-
+		AccounterConstants c = Accounter.constants();
+		strings = new String[] { c.box1Label(), c.box2Label(), c.box3Label(),
+				c.box4Label(), c.box5Label(), c.box6Label(), c.box7Label(),
+				c.box8Label(), c.box9Label(), c.box10Label(), c.box13Label(),
+				c.box14Label() };
 		createControls();
 	}
 
 	private void createControls() {
 		VerticalPanel verticalPanel = new VerticalPanel();
 		setWidth("570px");
-		Label label = new Label(
-				"Certain payments made to vendors must be assigned to IRS-defined boxes. To do so, assign to each box the accounts in which you track these payments.");
-		label.addStyleName("centre");
+		// Label label = new Label(
+		// "Certain payments made to vendors must be assigned to IRS-defined boxes. To do so, assign to each box the accounts in which you track these payments.");
+		// label.addStyleName("centre");
 
-		CellTable<Object> cellTable = new CellTable<Object>();
+		flexTable = new FlexTable();
+		flexTable.insertRow(rowCount);
+		flexTable
+				.setWidget(rowCount, 0, new Label(Accounter.constants().use()));
+		flexTable.setWidget(rowCount, 1, new Label(Accounter.constants()
+				.get1099Information()));
+		flexTable.setWidget(rowCount, 2, new Label(Accounter.messages()
+				.account(Global.get().Account())));
+		rowCount++;
+		for (String string : strings) {
+			addRow(string, boxNums[rowCount - 1]);
+		}
 
-		CheckboxCell checkBox = new CheckboxCell();
-		Column<Object, Boolean> column = new Column<Object, Boolean>(checkBox) {
-
-			@Override
-			public Boolean getValue(Object object) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-		};
-
-		TextColumn<Object> textColumn = new TextColumn<Object>() {
-
-			@Override
-			public String getValue(Object object) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-		};
-
-		AccountComboCell salesAccountsCombo = new AccountComboCell(
-				getAccounts(), false);
-		Column<Object, String> accountsCell = new Column<Object, String>(
-				salesAccountsCombo) {
-
-			@Override
-			public String getValue(Object object) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-		};
-
-		ArrayList<Object> arrayList = new ArrayList<Object>();
-		arrayList.add(new Object());
-
-		cellTable.addColumn(column, Accounter.constants().use());
-		cellTable.addColumn(textColumn, Accounter.constants()
-				.get1099Information());
-		cellTable.addColumn(accountsCell,
-				Accounter.messages().account(Global.get().Account()));
-		cellTable.setRowCount(1);
-		cellTable.setRowData(arrayList);
-
-		verticalPanel.add(label);
-		verticalPanel.add(cellTable);
+		// verticalPanel.add(label);
+		verticalPanel.add(flexTable);
 
 		setBodyLayout(verticalPanel);
 		center();
 	}
 
-	private ArrayList<ClientAccount> getAccounts() {
-		ArrayList<ClientAccount> gridAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : getCompany().getActiveAccounts()) {
-			if (account.getType() != ClientAccount.TYPE_CASH
-					&& account.getType() != ClientAccount.TYPE_BANK
-					&& account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
-					&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
-					&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
-					&& account.getType() != ClientAccount.TYPE_EXPENSE
-					&& account.getType() != ClientAccount.TYPE_OTHER_EXPENSE
-					&& account.getType() != ClientAccount.TYPE_COST_OF_GOODS_SOLD
-					&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_ASSET
-					&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
-					&& account.getType() != ClientAccount.TYPE_LONG_TERM_LIABILITY
-					&& account.getType() != ClientAccount.TYPE_OTHER_ASSET
-					&& account.getType() != ClientAccount.TYPE_EQUITY)
-				gridAccounts.add(account);
+	private void addRow(String string, int boxNo) {
+		final ArrayList<ClientAccount> activeAccounts = getCompany()
+				.getActiveAccounts();
+		final CheckBox checkBox = new CheckBox();
+		Label label = new Label(string);
+		final AccountCombo accountCombo = new AccountCombo("", true) {
+
+			@Override
+			protected List<ClientAccount> getAccounts() {
+				return activeAccounts;
+			}
+		};
+		accountCombo.setDisabled(true);
+		checkBox.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				if (checkBox.isChecked()) {
+					accountCombo.setDisabled(false);
+				} else {
+					accountCombo.setDisabled(true);
+					accountCombo.setValue(null);
+				}
+			}
+		});
+		ClientAccount clientAccount = getAccountByBoxNum(boxNo);
+		if (clientAccount != null) {
+			checkBox.setChecked(true);
+			accountCombo.setComboItem(clientAccount);
+			accountCombo.setDisabled(false);
 		}
-		return gridAccounts;
+		DynamicForm accountsform = new DynamicForm();
+		accountCombo.setName("AccountsCombo");
+		accountsform.setFields(accountCombo);
+
+		flexTable.insertRow(rowCount);
+		flexTable.setWidget(rowCount, 0, checkBox);
+		flexTable.setWidget(rowCount, 1, label);
+		flexTable.setWidget(rowCount, 2, accountsform);
+		rowCount++;
+	}
+
+	private ClientAccount getAccountByBoxNum(int i) {
+		ArrayList<ClientAccount> activeAccounts = getCompany()
+				.getActiveAccounts();
+		for (ClientAccount clientAccount : activeAccounts) {
+			if (clientAccount.getBoxNumber() == i) {
+				return clientAccount;
+			}
+		}
+		return null;
 	}
 
 	@Override
 	protected boolean onOK() {
-		// TODO Auto-generated method stub
-		return false;
+		for (int i = 1; i <= boxNums.length; i++) {
+			ClientAccount account = getAccountByBoxNum(boxNums[i - 1]);
+			if (account != null) {
+				account.setBoxNumber(0);
+				saveOrUpdate(account);
+			}
+			CheckBox checkBox = (CheckBox) flexTable.getWidget(i, 0);
+			DynamicForm accountsForm = (DynamicForm) flexTable.getWidget(i, 2);
+			AccountCombo accountsCombo = (AccountCombo) accountsForm
+					.getField("AccountsCombo");
+			ClientAccount selectedValue = accountsCombo.getSelectedValue();
+			if (checkBox.isChecked() && selectedValue != null) {
+
+				selectedValue.setBoxNumber(boxNums[i - 1]);
+				saveOrUpdate(selectedValue);
+			}
+
+		}
+
+		return true;
 	}
 
 }
