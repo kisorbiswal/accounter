@@ -36,6 +36,8 @@ public class ClientUserInfo implements IAccounterCore {
 
 	private long lastLogin;
 
+	private int version;
+
 	/**
 	 * @param id
 	 *            the id to set
@@ -241,5 +243,15 @@ public class ClientUserInfo implements IAccounterCore {
 			return this.getID() == userInfo.getID() ? true : false;
 		}
 		return false;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+	this.version=version;
 	}
 }
