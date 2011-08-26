@@ -27,6 +27,8 @@ public class ClientTAXRateCalculation implements IAccounterCore {
 
 	ClientVATReturn vatReturn;
 
+	private int version;
+
 	public ClientTAXRateCalculation() {
 
 	}
@@ -226,6 +228,16 @@ public class ClientTAXRateCalculation implements IAccounterCore {
 		taxRateCalculation.vatReturn = this.vatReturn.clone();
 		taxRateCalculation.vatReturnBox = this.vatReturnBox.clone();
 		return taxRateCalculation;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 
 }
