@@ -24,6 +24,8 @@ public class ClientStockTransfer implements IAccounterCore {
 
 	private Set<ClientStockTransferItem> stockTransferItems;
 
+	private int version;
+
 	/**
 	 * @return the fromWarehouse
 	 */
@@ -111,5 +113,15 @@ public class ClientStockTransfer implements IAccounterCore {
 		stockTransfer.toWarehouse = this.toWarehouse.clone();
 		return stockTransfer;
 
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 }
