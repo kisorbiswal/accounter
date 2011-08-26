@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
@@ -28,6 +29,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.banking.AbstractBankTransactionView;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
+import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -56,7 +58,7 @@ public class CreditCardChargeView extends
 	List<String> idNamesForContacts = new ArrayList<String>();
 
 	protected DynamicForm vendorForm, addrForm, phoneForm, termsForm, memoForm;
-	protected SelectCombo contactNameSelect, payMethSelect;
+	protected SelectCombo payMethSelect;
 	protected TextItem phoneSelect;
 
 	VendorCombo vendorNameSelect;
@@ -124,19 +126,19 @@ public class CreditCardChargeView extends
 			i++;
 		}
 
-		contactNameSelect.initCombo(idNamesForContacts);
+//		contactCombo.initCombo(idNamesForContacts);
 
 		// phoneSelect.initCombo(phones);
 
 		// ClientVendor cv = FinanceApplication.getCompany().getVendor(
 		// creditCardChargeTaken.getVendor());
 		if (transaction.getContact() != null)
-			contactNameSelect.setSelected(transaction.getContact().getName());
+			contactCombo.setSelected(transaction.getContact().getName());
 		if (transaction.getPhone() != null)
 			// FIXME check and fix the below code
 			phoneSelect.setValue(transaction.getPhone());
 
-		contactNameSelect.setDisabled(isInViewMode());
+		contactCombo.setDisabled(isInViewMode());
 		phoneSelect.setDisabled(isInViewMode());
 		return;
 		// if (primaryContact == null) {
@@ -375,31 +377,29 @@ public class CreditCardChargeView extends
 
 						}
 						addPhonesContactsAndAddress();
+						initContacts(selectItem);
 					}
 
 				});
 
-		contactNameSelect = new SelectCombo(Accounter.constants().contactName());
-		contactNameSelect.setHelpInformation(true);
-		contactNameSelect
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+		contactCombo = new ContactCombo(Accounter.constants().contactName(), true);
+		contactCombo.setHelpInformation(true);
+		contactCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientContact>() {
 
 					@Override
-					public void selectedComboBoxItem(String selectItem) {
-						contactNameSelect.setSelected(selectItem);
-
-						int i = 0;
-						while (i < idNamesForContacts.size()) {
-							String s = idNamesForContacts.get(i);
-							if (s.equals(selectItem))
-								phoneSelect.setValue(idPhoneNumberForContacts
-										.get(i));
-
-							i++;
-						}
+					public void selectedComboBoxItem(ClientContact selectItem) {
+						contactSelected(selectItem);
 
 					}
 				});
+		contactCombo.addNewContactHandler(new ValueCallBack<ClientContact>() {
+
+			@Override
+			public void execute(ClientContact value) {
+				addContactToVendor(value);
+			}
+		});
 		// contactNameSelect.setWidth(100);
 		// formItems.add(contactNameSelect);
 		// billToCombo = createBillToComboItem();
@@ -414,7 +414,7 @@ public class CreditCardChargeView extends
 
 		vendorForm = UIUtils.form(Accounter.constants().vendor());
 		vendorForm.setWidth("100%");
-		vendorForm.setFields(vendorNameSelect, contactNameSelect, phoneSelect,
+		vendorForm.setFields(vendorNameSelect, contactCombo, phoneSelect,
 				billToAreaItem);
 		vendorForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		vendorForm.getCellFormatter().setWidth(0, 0, "180px");
@@ -869,7 +869,7 @@ public class CreditCardChargeView extends
 		delivDate.setDisabled(isInViewMode());
 		// billToCombo.setDisabled(isEdit);
 		vendorNameSelect.setDisabled(isInViewMode());
-		contactNameSelect.setDisabled(isInViewMode());
+		contactCombo.setDisabled(isInViewMode());
 		phoneSelect.setDisabled(isInViewMode());
 		payFrmSelect.setDisabled(isInViewMode());
 		vendorTransactionGrid.setCanEdit(true);
@@ -913,5 +913,28 @@ public class CreditCardChargeView extends
 
 	public ClientVendor getSelectedVendor() {
 		return selectedVendor;
+	}
+	
+	/**
+	 * @param value
+	 */
+	protected void addContactToVendor(final ClientContact contact) {
+		ClientVendor selectedVendor = vendorNameSelect.getSelectedValue();
+		if (selectedVendor == null) {
+			return;
+		}
+		selectedVendor.addContact(contact);
+		AccounterAsyncCallback<Long> asyncallBack = new AccounterAsyncCallback<Long>() {
+
+			public void onException(AccounterException caught) {
+				caught.printStackTrace();
+			}
+
+			public void onResultSuccess(Long result) {
+				// contactSelected(contact);
+			}
+
+		};
+		Accounter.createCRUDService().update(selectedVendor, asyncallBack);
 	}
 }

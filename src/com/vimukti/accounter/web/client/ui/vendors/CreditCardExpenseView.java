@@ -327,7 +327,7 @@ public class CreditCardExpenseView extends
 
 			@Override
 			public void execute(ClientContact value) {
-				addContactToCustomer(value);
+				addContactToVendor(value);
 			}
 		});
 		contactCombo.setDisabled(isInViewMode());
@@ -981,7 +981,7 @@ public class CreditCardExpenseView extends
 	/**
 	 * @param value
 	 */
-	protected void addContactToCustomer(final ClientContact contact) {
+	protected void addContactToVendor(final ClientContact contact) {
 		ClientVendor selectedVendor = Ccard.getSelectedValue();
 		if (selectedVendor == null) {
 			return;

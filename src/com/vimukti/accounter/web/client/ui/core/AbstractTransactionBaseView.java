@@ -1090,6 +1090,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				contactCombo.setComboItem(contact);
 				contactSelected(contact);
 
+			} else {
+				contactCombo.setValue("");
 			}
 
 		} else {
