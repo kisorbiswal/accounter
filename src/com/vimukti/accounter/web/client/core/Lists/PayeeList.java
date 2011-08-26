@@ -31,6 +31,8 @@ public class PayeeList implements IAccounterCore {
 
 	boolean isActive = Boolean.TRUE;
 
+	private int version;
+
 	/**
 	 * @return the isActive
 	 */
@@ -234,6 +236,16 @@ public class PayeeList implements IAccounterCore {
 	public PayeeList clone() {
 		PayeeList payeeListClone = (PayeeList) this.clone();
 		return payeeListClone;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 
 }
