@@ -25,6 +25,8 @@ public class ClientItemBackUp implements IAccounterCore {
 
 	long expenseAccount;
 
+	private int version;
+
 	public ClientItemBackUp() {
 	}
 
@@ -72,6 +74,17 @@ public class ClientItemBackUp implements IAccounterCore {
 		ClientItemBackUp itemBackUp = (ClientItemBackUp) this.clone();
 		return itemBackUp;
 
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
+		
 	}
 
 }
