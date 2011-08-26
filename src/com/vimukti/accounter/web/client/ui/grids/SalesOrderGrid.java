@@ -89,7 +89,7 @@ public class SalesOrderGrid extends CustomerTransactionGrid {
 			else
 				return 15;
 		else if (index == 7 || index == 2)
-			return 70;
+			return 80;
 		else if (index == 3 || index == 4 || index == 9)
 			return 90;
 		else if (index == 5)
@@ -297,7 +297,8 @@ public class SalesOrderGrid extends CustomerTransactionGrid {
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
 				return amountAsString(item.getUnitPrice());
 			else {
-				return (item.getUnitPrice() != 0 || item.getLineTotal() == 0) ? amountAsString(item.getUnitPrice()) : "";
+				return (item.getUnitPrice() != 0 || item.getLineTotal() == 0) ? amountAsString(item
+						.getUnitPrice()) : "";
 			}
 		case 5:
 			return DataUtils.getNumberAsPercentString(item.getDiscount() + "");
