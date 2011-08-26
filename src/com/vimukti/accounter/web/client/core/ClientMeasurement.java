@@ -28,6 +28,8 @@ public class ClientMeasurement implements IAccounterCore {
 	private String name;
 	private Set<ClientUnit> units;
 
+	private int version;
+
 	/**
 	 * @return the defaultUnit
 	 */
@@ -205,6 +207,17 @@ public class ClientMeasurement implements IAccounterCore {
 			return this.getID() == measurement.getID() ? true : false;
 		}
 		return false;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
+		
 	}
 
 }
