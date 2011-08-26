@@ -11,7 +11,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final int MEMO_OPENING_BALANCE = 0;
 	public static final int TYPE_CASH_SALES = 1;
 	public static final int TYPE_CASH_PURCHASE = 2;
@@ -34,6 +34,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	public static final int TYPE_EXPENSE = 18;
 	public static final int TYPE_PAY_EXPENSE = 19;
 	public static final int TYPE_VAT_RETURN = 20;
+	public static final int TYPE_MISC_FORM = 21;
 
 	public static final int TYPE_SALES_ORDER = 21;
 	public static final int TYPE_PURCHASE_ORDER = 22;
@@ -114,7 +115,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	double totalNonTaxableAmount;
 
 	private long recurringTransaction;
-	
+
 	// For UK version only
 
 	boolean amountsIncludeVAT;
@@ -155,7 +156,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	public ClientTransaction() {
 		transactionItems = new ArrayList<ClientTransactionItem>();
 	}
-	
+
 	public ClientCreditsAndPayments getCreditsAndPayments() {
 		return creditsAndPayments;
 	}

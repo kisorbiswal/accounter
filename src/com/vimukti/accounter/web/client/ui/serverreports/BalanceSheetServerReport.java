@@ -50,7 +50,10 @@ public class BalanceSheetServerReport extends
 	public Object getColumnData(TrialBalance record, int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return record.getAccountNumber();
+			if (getPreferences().getUseAccountNumbers() == true)
+				return record.getAccountNumber();
+			else
+				return null;
 		case 1:
 			return record.getAccountName();
 		case 2:
@@ -173,7 +176,8 @@ public class BalanceSheetServerReport extends
 		// }
 
 		if (!sectiontypes.contains("Net Assets")) {
-			addTypeSection(getConstants().netAssets(), "", getConstants().netAssets());
+			addTypeSection(getConstants().netAssets(), "", getConstants()
+					.netAssets());
 		}
 
 		if (!sectiontypes.contains("Net Current Assets")) {
@@ -247,8 +251,7 @@ public class BalanceSheetServerReport extends
 		if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_OTHER_ASSET) {
 			if (!sectiontypes.contains("Other Nominal Finance Categories")) {
 				if (sectiontypes.contains("Long Term  Liabilities")) {
-					closePrevSection(getConstants()
-							.longTermLiabilities());
+					closePrevSection(getConstants().longTermLiabilities());
 				} else if (sectiontypes.contains("Fixed Assets")) {
 					closePrevSection(getConstants().fixedAssets());
 				} else {
@@ -256,8 +259,7 @@ public class BalanceSheetServerReport extends
 					closePrevSection(getConstants().netCurrentAssets());
 				}
 
-				addTypeSection(getConstants()
-						.otherNominalFinanceCategories());
+				addTypeSection(getConstants().otherNominalFinanceCategories());
 			}
 		}
 
@@ -303,8 +305,7 @@ public class BalanceSheetServerReport extends
 		if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_LONG_TERM_LIABILITY) {
 			if (!sectiontypes.contains("Long Term  Liabilities")) {
 				closeOtherSections();
-				closeSection(types.indexOf(getConstants()
-						.currentLiabilities()));
+				closeSection(types.indexOf(getConstants().currentLiabilities()));
 				addTypeSection(getConstants().longTermLiabilities());
 			}
 		}
@@ -328,8 +329,7 @@ public class BalanceSheetServerReport extends
 					new String[] {
 							"",
 							record.getAccountName() + " "
-									+ getConstants().total() },
-					new int[] { 3 });
+									+ getConstants().total() }, new int[] { 3 });
 			return true;
 		}
 		return false;
@@ -381,8 +381,7 @@ public class BalanceSheetServerReport extends
 	public void addTypeSection(String title) {
 		if (!sectiontypes.contains(title)) {
 			addSection(new String[] { "", title }, new String[] { "",
-					title + " " + getConstants().total() },
-					new int[] { 3 });
+					title + " " + getConstants().total() }, new int[] { 3 });
 			types.add(title);
 			sectiontypes.add(title);
 		}
@@ -557,5 +556,5 @@ public class BalanceSheetServerReport extends
 		// else
 		return 200;
 	}
-	
+
 }

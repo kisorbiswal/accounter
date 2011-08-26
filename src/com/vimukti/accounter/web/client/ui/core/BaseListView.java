@@ -224,11 +224,11 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			hlay.setCellHorizontalAlignment(updateButton,
 					HasHorizontalAlignment.ALIGN_RIGHT);
 
-//		} else if (this instanceof VendorListView
-//				&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-//			form.setFields(viewSelect);
-//			hlay.add(prepare1099MiscForms);
-//			hlay.add(form);
+		} else if (this instanceof VendorListView
+				&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			form.setFields(viewSelect);
+			hlay.add(prepare1099MiscForms);
+			hlay.add(form);
 		} else {
 
 			if (!(this instanceof JournalEntryListView))
