@@ -5,9 +5,11 @@ public class AccounterCore implements IAccounterCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	public long id;
 	private AccounterCoreType type;
+
+	private int version;
 
 	@Override
 	public String getDisplayName() {
@@ -50,6 +52,16 @@ public class AccounterCore implements IAccounterCore {
 		AccounterCore accounterCore = (AccounterCore) this.clone();
 		return accounterCore;
 
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version = version;
 	}
 
 }
