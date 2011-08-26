@@ -26,6 +26,8 @@ public class ClientFixedAssetHistory implements IAccounterCore {
 	String user;
 	long postedJournalEntry;
 
+	private int version;
+
 	public ClientFixedAssetHistory() {
 	}
 
@@ -135,6 +137,17 @@ public class ClientFixedAssetHistory implements IAccounterCore {
 				.clone();
 		return fixedAssetHistory;
 
+	}
+
+	@Override
+	public int getVersion() {
+		
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 
 }
