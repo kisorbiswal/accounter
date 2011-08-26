@@ -49,6 +49,7 @@
 			column="LINKED_ID" class="Account" lazy="false" cascade="save-update,delete">
 		</many-to-one>
 		<property name="isDefault" column="IS_DEFAULT"></property>
+		<property name="boxNumber" column="BOX_NUMBER"></property>
 		<!-- <array name="monthViceAmounts" table="ACCOUNT_AMOUNTS" cascade="all"> 
 			<key column="ACCOUNT_ID"></key> <list-index column="IDX" /> <element column="MONTH_VICE_AMOUNT" 
 			type="double"></element> </array> -->
