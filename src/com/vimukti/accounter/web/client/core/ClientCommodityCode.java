@@ -7,6 +7,8 @@ public class ClientCommodityCode implements IAccounterCore {
 	String name;
 	String company;
 
+	private int version;
+
 	public String getCompany() {
 		return company;
 	}
@@ -55,6 +57,16 @@ public class ClientCommodityCode implements IAccounterCore {
 				.clone();
 		return clientCommodityCode;
 
+	}
+
+	@Override
+	public int getVersion() {
+	return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+	this.version=version;
 	}
 
 }
