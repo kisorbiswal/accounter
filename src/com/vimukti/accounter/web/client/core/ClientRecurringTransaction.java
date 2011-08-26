@@ -46,6 +46,8 @@ public class ClientRecurringTransaction implements IAccounterCore {
 
 	private long referringTransaction;
 
+	private int version;
+
 	public ClientRecurringTransaction() {
 		// TODO Auto-generated constructor stub
 	}
@@ -341,6 +343,16 @@ public class ClientRecurringTransaction implements IAccounterCore {
 
 	public int getRefTransactionType() {
 		return refTransactionType;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 
 		
