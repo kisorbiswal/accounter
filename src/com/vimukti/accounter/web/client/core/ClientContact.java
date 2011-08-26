@@ -13,6 +13,8 @@ public class ClientContact implements IAccounterCore {
 	String businessPhone = "";
 	String email = "";
 
+	private int version;
+
 	/**
 	 * @return the id
 	 */
@@ -150,5 +152,15 @@ public class ClientContact implements IAccounterCore {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 }
