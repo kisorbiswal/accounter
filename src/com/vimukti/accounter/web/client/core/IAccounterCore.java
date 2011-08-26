@@ -15,7 +15,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * 
  * 
  */
-public interface IAccounterCore extends IsSerializable, Serializable, Cloneable {
+public interface IAccounterCore extends IsSerializable, Serializable, Cloneable,IVersionable {
 
 	String getName();
 
