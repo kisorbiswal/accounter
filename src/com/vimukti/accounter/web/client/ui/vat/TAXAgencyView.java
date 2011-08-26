@@ -304,9 +304,9 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		taxAgencyForm = UIUtils.form(companyConstants.taxAgency());
 		taxAgencyForm.setWidth("100%");
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			taxAgencyForm.getCellFormatter().setWidth(0, 0, "182px");
+			taxAgencyForm.getCellFormatter().setWidth(0, 0, "167px");
 		} else
-			taxAgencyForm.getCellFormatter().setWidth(0, 0, "181px");
+			taxAgencyForm.getCellFormatter().setWidth(0, 0, "166px");
 		taxAgencyForm.setFields(taxAgencyText);
 
 		accInfoForm = new DynamicForm();
@@ -316,8 +316,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		statusCheck = new CheckboxItem(companyConstants.active());
 		statusCheck.setValue(true);
 
-		paymentTermsCombo = new PaymentTermsCombo(companyConstants
-				.paymentTerm());
+		paymentTermsCombo = new PaymentTermsCombo(
+				companyConstants.paymentTerm());
 		paymentTermsCombo.setHelpInformation(true);
 		paymentTermsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPaymentTerms>() {
