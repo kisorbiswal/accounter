@@ -40,7 +40,7 @@ public class BaseHomeView extends AbstractView<Object> {
 
 	@Override
 	public void fitToSize(int height, int width) {
-		this.setHeight(height + "px");
+//		this.setHeight(height + "px");
 
 	}
 
