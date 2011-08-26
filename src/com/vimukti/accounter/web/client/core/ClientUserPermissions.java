@@ -34,6 +34,8 @@ public class ClientUserPermissions implements IAccounterCore {
 
 	ClientUser user;
 
+	private int version;
+
 	public int getTypeOfBankReconcilation() {
 		return typeOfBankReconcilation;
 	}
@@ -140,5 +142,15 @@ public class ClientUserPermissions implements IAccounterCore {
 		clientUserPreferencesClone.user = this.user.clone();
 
 		return clientUserPreferencesClone;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 }
