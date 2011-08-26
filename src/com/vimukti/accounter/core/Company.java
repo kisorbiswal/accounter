@@ -22,8 +22,6 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 */
 	private static final long serialVersionUID = -2342334234608152532L;
 
-	int version;
-
 	private static final int TYPE_SOLE_PROPRIETORSHIP = 1;
 
 	private static final int TYPE_PARTNERSHIP_OR_LLP = 2;
@@ -3183,13 +3181,6 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	}
 
 	/**
-	 * @return the version
-	 */
-	public int getVersion() {
-		return version;
-	}
-
-	/**
 	 * @return the name
 	 */
 	public String getFullName() {
@@ -4391,7 +4382,8 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		this.taxId = taxId;
 	}
 
-	public void updatePreferences(ClientCompany clientCompany) {
+	public void updatePreferences(ClientCompany clientCompany)
+			throws AccounterException {
 
 		ServerConvertUtil serverConvertUtil = new ServerConvertUtil();
 		this.setFullName(clientCompany.getName());

@@ -88,11 +88,6 @@ public class Vendor extends Payee {
 	public Vendor() {
 	}
 
-	@Override
-	public int getVersion() {
-		return version;
-	}
-
 	/**
 	 * @return the address
 	 */

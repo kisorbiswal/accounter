@@ -47,8 +47,6 @@ public class Account extends CreatableObject implements IAccounterServerCore {
 
 	Logger log = Logger.getLogger(Account.class);
 
-	int version;
-
 	// public static final int BASETYPE_INCOME = 1;
 	// public static final int BASETYPE_EXPENSE = 2;
 	// public static final int BASETYPE_ASSET = 3;
@@ -400,28 +398,6 @@ public class Account extends CreatableObject implements IAccounterServerCore {
 	 */
 	public void setBudget(Set<Budget> budget) {
 		this.budget = budget;
-	}
-
-	/**
-	 * @return the version
-	 */
-	public int getVersion() {
-		return version;
-	}
-
-	// /**
-	// * @param version
-	// * the version to set
-	// */
-	// public void setVersion(int version) {
-	// this.version = version;
-	// }
-
-	/**
-	 * @return the id
-	 */
-	public long getID() {
-		return id;
 	}
 
 	/**

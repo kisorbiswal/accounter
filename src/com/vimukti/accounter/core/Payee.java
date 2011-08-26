@@ -36,8 +36,6 @@ public abstract class Payee extends CreatableObject implements
 	FinanceDate payeeSince;
 	int type;
 
-	int version;
-
 	FinanceDate date;
 
 	double balance;
@@ -183,10 +181,6 @@ public abstract class Payee extends CreatableObject implements
 		return type;
 	}
 
-	public int getVersion() {
-		return version;
-	}
-
 	/**
 	 * @param type
 	 *            the type to set
@@ -272,10 +266,6 @@ public abstract class Payee extends CreatableObject implements
 
 	public void setMemo(String memo) {
 		this.memo = memo;
-	}
-
-	public void setVersion(int version) {
-		this.version = version;
 	}
 
 	public void setBalance(double balance) {

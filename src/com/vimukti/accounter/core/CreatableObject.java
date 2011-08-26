@@ -15,6 +15,7 @@ public abstract class CreatableObject implements Lifecycle {
 	protected User lastModifier;
 	protected Timestamp createdDate;
 	protected Timestamp lastModifiedDate;
+	protected int version;
 
 	public void setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
@@ -80,5 +81,13 @@ public abstract class CreatableObject implements Lifecycle {
 	public void onLoad(Session arg0, Serializable arg1) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
 	}
 }

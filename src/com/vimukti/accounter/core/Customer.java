@@ -111,14 +111,6 @@ public class Customer extends Payee implements IAccounterServerCore {
 	}
 
 	/**
-	 * @return the version
-	 */
-	@Override
-	public int getVersion() {
-		return version;
-	}
-
-	/**
 	 * @return the number
 	 */
 	public String getNumber() {

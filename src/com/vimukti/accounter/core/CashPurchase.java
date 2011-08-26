@@ -115,27 +115,11 @@ public class CashPurchase extends Transaction {
 		this.cashExpenseAccount = cashExpenseAccount;
 	}
 
-	/**
-	 * 
-	 * @return the version
-	 */
-	@Override
-	public int getVersion() {
-		return version;
-	}
-
 	public CashPurchase() {
 		super();
 		setType(Transaction.TYPE_CASH_PURCHASE);
 	}
 
-	/**
-	 * @param version
-	 *            the version to set
-	 */
-	// public void setVersion(int version) {
-	// this.version = version;
-	// }
 	/**
 	 * @return the vendor
 	 */

@@ -87,14 +87,6 @@ public class CreditCardCharge extends Transaction {
 	}
 
 	/**
-	 * @return the version
-	 */
-	@Override
-	public int getVersion() {
-		return version;
-	}
-
-	/**
 	 * @return the vendor
 	 */
 	public Vendor getVendor() {

@@ -21,8 +21,6 @@ public class CustomerGroup extends CreatableObject implements
 	 */
 	private static final long serialVersionUID = 1L;
 
-	int version;
-
 	/**
 	 * The name of the Group
 	 */
@@ -40,13 +38,6 @@ public class CustomerGroup extends CreatableObject implements
 
 	public void setDefault(boolean isDefault) {
 		this.isDefault = isDefault;
-	}
-
-	/**
-	 * @return the version
-	 */
-	public int getVersion() {
-		return version;
 	}
 
 	/**

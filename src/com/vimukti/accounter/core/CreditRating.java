@@ -18,8 +18,6 @@ public class CreditRating extends CreatableObject implements
 	 */
 	private static final long serialVersionUID = 1L;
 
-	int version;
-
 	/**
 	 * This is the name of the Credit Rating.
 	 */
@@ -45,13 +43,6 @@ public class CreditRating extends CreatableObject implements
 	 */
 	public void setDefault(boolean isDefault) {
 		this.isDefault = isDefault;
-	}
-
-	/**
-	 * @return the version
-	 */
-	public int getVersion() {
-		return version;
 	}
 
 	/**

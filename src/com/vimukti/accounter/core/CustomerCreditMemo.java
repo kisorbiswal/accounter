@@ -146,22 +146,6 @@ public class CustomerCreditMemo extends Transaction implements
 	}
 
 	/**
-	 * @return the version
-	 */
-	@Override
-	public int getVersion() {
-		return version;
-	}
-
-	/**
-	 * @param version
-	 *            the version to set
-	 */
-	public void setVersion(int version) {
-		this.version = version;
-	}
-
-	/**
 	 * @return the customer
 	 */
 	public Customer getCustomer() {

@@ -148,16 +148,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	}
 
 	/**
-	 * {
-	 * 
-	 * @return the version
-	 */
-	@Override
-	public int getVersion() {
-		return version;
-	}
-
-	/**
 	 * @return the vendor
 	 */
 	public Vendor getVendor() {

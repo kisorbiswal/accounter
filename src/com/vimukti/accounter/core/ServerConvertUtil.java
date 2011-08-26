@@ -1,5 +1,6 @@
 package com.vimukti.accounter.core;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import org.hibernate.Session;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class ServerConvertUtil extends ObjectConvertUtil {
 
@@ -23,7 +25,7 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 	// private Session currentSession;
 
 	public <D extends IAccounterServerCore, S extends IAccounterCore> Object toServerList(
-			List<?> set, Session session) {
+			List<?> set, Session session) throws AccounterException {
 		if (set == null)
 			return null;
 		ArrayList result = new ArrayList<Account>();
@@ -42,7 +44,7 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 	}
 
 	public <D extends IAccounterServerCore, S extends IAccounterCore> Object toServerSet(
-			Set<?> set, Session session) {
+			Set<?> set, Session session) throws AccounterException {
 		if (set == null)
 			return null;
 		HashSet result = new HashSet();
@@ -134,7 +136,7 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 	}
 
 	public <D extends IAccounterServerCore, S extends IAccounterCore> D toServerObject(
-			D dst, S src, Session session, boolean IsImported) {
+			D dst, S src, Session session, boolean IsImported) throws AccounterException {
 		isImported = IsImported;
 		D ret = toServerObject(dst, src, session);
 		isImported = false;
@@ -142,7 +144,7 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 	}
 
 	public <D extends IAccounterServerCore, S extends IAccounterCore> D toServerObject(
-			D dst, S src, Session session) {
+			D dst, S src, Session session) throws AccounterException {
 		cache.set(null);
 		D ret = toServerObjectInternal(dst, src, session);
 		cache.set(null);
@@ -190,7 +192,7 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 	}
 
 	private <D extends IAccounterServerCore, S extends IAccounterCore> D toServerObjectInternal(
-			D dst, S src, Session session) {
+			D dst, S src, Session session) throws AccounterException {
 
 		try {
 
@@ -371,7 +373,10 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 
 			}
 
-		} catch (Exception e) {
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -391,7 +396,7 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 		return q;
 	}
 
-	private Map<?, ?> toMap(Map map) {
+	private Map<?, ?> toMap(Map map) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Map<Object, Object> imprtedMap = new HashMap<Object, Object>();
 		for (Object key : map.keySet()) {
@@ -415,7 +420,7 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 	}
 
 	private <D extends IAccounterServerCore, S extends IAccounterCore> D getServerAfterCheckingInCache(
-			D dst, S src, Session session) {
+			D dst, S src, Session session) throws AccounterException {
 		Map<Object, Object> localCache = getCache();
 
 		if (src == null) {
