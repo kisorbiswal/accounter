@@ -48,6 +48,8 @@ public class GraphPoints implements IAccounterCore {
 	double minPoint = 0D;
 	private long id;
 
+	private int version;
+
 	/**
 	 * @return the type
 	 */
@@ -612,5 +614,15 @@ public class GraphPoints implements IAccounterCore {
 		GraphPoints graphpointClone = (GraphPoints) this.clone();
 
 		return graphpointClone;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 }
