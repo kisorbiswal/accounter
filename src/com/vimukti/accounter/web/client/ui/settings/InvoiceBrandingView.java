@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
@@ -178,7 +179,7 @@ public class InvoiceBrandingView<T> extends
 	//
 	// }
 
-	private VerticalPanel addingThemeToView(final ClientBrandingTheme theme) {
+	private SimplePanel addingThemeToView(final ClientBrandingTheme theme) {
 
 		final HTML uploadPictureHtml, changeLogoHtml, removeLogoHtml;
 		final Button editButton, copyThemeButton, deleteButton;
@@ -474,8 +475,10 @@ public class InvoiceBrandingView<T> extends
 		vPanel.add(nameAndMenuPanel);
 		vPanel.add(allPanel);
 		vPanel.setWidth("100%");
-		vPanel.setStyleName("setting-class-panel");
-		return vPanel;
+		SimplePanel simplePanel = new SimplePanel();
+		simplePanel.setStyleName("setting-class-panel");
+		simplePanel.add(vPanel);
+		return simplePanel;
 
 	}
 
@@ -688,7 +691,7 @@ public class InvoiceBrandingView<T> extends
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 
