@@ -17,6 +17,8 @@ public class Client1099Form implements IAccounterCore {
 	double totalAllPayments;
 	boolean isSelected;
 
+	private int version;
+
 	public boolean isSelected() {
 		return isSelected;
 	}
@@ -140,6 +142,16 @@ public class Client1099Form implements IAccounterCore {
 		if (taxId != null && !taxId.equals(""))
 			information.append("Tax ID: ").append(taxId);
 		return information.toString();
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version = version;
 	}
 
 }
