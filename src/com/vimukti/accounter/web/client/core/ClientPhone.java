@@ -121,4 +121,15 @@ public class ClientPhone implements IAccounterCore {
 
 	}
 
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
+		
+	}
+
 }
