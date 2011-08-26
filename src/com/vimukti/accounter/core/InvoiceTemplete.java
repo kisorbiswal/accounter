@@ -310,7 +310,6 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 
 	}
 
-	
 	private String getVendorString(String forUk, String forUs) {
 		return company.getAccountingType() == company.ACCOUNTING_TYPE_US ? forUs
 				: forUk;
