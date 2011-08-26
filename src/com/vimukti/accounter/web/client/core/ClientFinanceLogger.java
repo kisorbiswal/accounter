@@ -17,6 +17,7 @@ public class ClientFinanceLogger implements IAccounterCore {
 	String createdBy;
 	String description;
 	String logMessge;
+	private int version;
 
 	public String getDescription() {
 		return description;
@@ -86,6 +87,16 @@ public class ClientFinanceLogger implements IAccounterCore {
 		ClientFinanceLogger financeLogger = (ClientFinanceLogger) this.clone();
 		return financeLogger;
 
+	}
+
+	@Override
+	public int getVersion() {	
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 
 }
