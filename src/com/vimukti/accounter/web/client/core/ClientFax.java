@@ -20,6 +20,8 @@ public class ClientFax implements IAccounterCore {
 
 	boolean isSelected = false;
 
+	private int version;
+
 	/**
 	 * @return the id
 	 */
@@ -115,5 +117,15 @@ public class ClientFax implements IAccounterCore {
 		ClientFax fax = (ClientFax) this.clone();
 		return fax;
 
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 }
