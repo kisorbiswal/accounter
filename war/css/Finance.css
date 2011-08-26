@@ -4440,10 +4440,6 @@ td.imagelink-h-hover .imageLink-div {
 	    padding:2px 0 !important;
 	    margin:2px 5px !important;
 	}
-	table{
-	   border-collapse: collapse;
-	   border-spacing: 0px;
-	}
 	.grouped-buttons td:FIRST-CHILD .Empty-text{
 		margin-right:-3px !important;
 	}
@@ -6343,7 +6339,6 @@ normal
 		
 	}
 	.delete-table-image {
-		width: 21px !important;
 		overflow: hidden !important;
 	}
 	.gridBody .gridCheckBoxCell,.gridHeaderRow td:FIRST-CHILD {
@@ -7014,6 +7009,10 @@ a#fdbk_tab:hover{
 .back_next_buttons{
 	padding:10px;
 }
+.email_textarea textarea{
+	height:200px;
+	width:100% !important;
+}
 
 
 /*Help theme need to apply for help*/
@@ -7036,11 +7035,6 @@ a#fdbk_tab:hover{
 #branding{
 	 padding: 10px 10px 0 !important;
 }
-.email_textarea textarea{
-	height:200px;
-	width:100% !important;
-}
 .breadcrumb a{
 	color:white;
 }
-
