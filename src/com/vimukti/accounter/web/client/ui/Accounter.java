@@ -15,6 +15,7 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.ClientGlobal;
@@ -117,6 +118,9 @@ public class Accounter implements EntryPoint {
 				removeLoadingImage();
 
 				if (!company.isConfigured()) {
+					Header header = new Header();
+					SimplePanel vpanel = new SimplePanel();
+					vpanel.addStyleName("empty_menu_bar");
 					setupWizard = new SetupWizard(new AsyncCallback<Boolean>() {
 						@Override
 						public void onSuccess(Boolean result) {
@@ -131,7 +135,8 @@ public class Accounter implements EntryPoint {
 							Accounter.showError("Accounter Loading Failed");
 						}
 					});
-
+					RootPanel.get("mainWindow").add(header);
+					RootPanel.get("mainWindow").add(vpanel);
 					RootPanel.get("mainWindow").add(setupWizard);
 				} else {
 					initGUI();
