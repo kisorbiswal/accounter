@@ -148,6 +148,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 		enableEditRemoveButtons(false);
 
+		buttonsLayout.setStyleName("sales_tax_buttons");
 		buttonsLayout.add(button1);
 		buttonsLayout.add(button2);
 		buttonsLayout.add(button3);
