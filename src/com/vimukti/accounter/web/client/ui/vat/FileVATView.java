@@ -277,8 +277,10 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 
 	private void reloadVatBoxes() {
 		gridView.removeAllRecords();
-
-		if (this.selectedVatAgency == null) {
+		ClientFinanceDate startDate = fromDate.getDate();
+		ClientFinanceDate endDate = toDate.getDate();
+		if (this.selectedVatAgency == null || startDate.getDate() == 0
+				|| endDate.getDate() == 0) {
 			gridView.removeLoadingImage();
 			gridView.addEmptyMessage(Accounter.constants().selectVatAgency());
 			disableprintButton();
