@@ -90,7 +90,7 @@ public class TransactionPayBillGrid extends
 				return COLUMN_TYPE_LINK;
 			if (col == 7)
 				return COLUMN_TYPE_DECIMAL_TEXTBOX;
-			if (col == 2 || col == 3)
+			if (col == 2 || col == 3 || col == 8)
 				return COLUMN_TYPE_DECIMAL_TEXT;
 
 		} else {
@@ -129,7 +129,13 @@ public class TransactionPayBillGrid extends
 			case 6:
 				return amountAsString(paybill.getAppliedCredits());
 			case 7:
-				return amountAsString(paybill.getPayment());
+				return amountAsString(paybill.getOriginalAmount() * 10 / 100);
+
+			case 8: {
+				if (paybill.getPayment() != 0)
+					return amountAsString(paybill.getPayment()
+							- paybill.getOriginalAmount() * 10 / 100);
+			}
 			default:
 				return "";
 			}
@@ -167,13 +173,14 @@ public class TransactionPayBillGrid extends
 					vendorConstants.amountDue(),
 					vendorConstants.discountDate(),
 					vendorConstants.cashDiscount(), vendorConstants.credits(),
-					vendorConstants.payments() };
+					vendorConstants.tds(), vendorConstants.payments() };
 		} else {
 			return new String[] { vendorConstants.billNo(),
 					vendorConstants.billAmount(),
 					vendorConstants.discountDate(),
-					vendorConstants.cashDiscount(), vendorConstants.credits(),
-					vendorConstants.referenceNo(), vendorConstants.amountPaid() };
+					vendorConstants.cashDiscount(), vendorConstants.tds(),
+					vendorConstants.credits(), vendorConstants.referenceNo(),
+					vendorConstants.amountPaid() };
 
 		}
 
@@ -186,7 +193,7 @@ public class TransactionPayBillGrid extends
 	@Override
 	protected boolean isEditable(ClientTransactionPayBill obj, int row, int col) {
 
-		if ((canEdit && col == 7) || (!canEdit && col == 6)) {
+		if ((canEdit && col == 5) || (!canEdit && col == 6)) {
 			if (!isSelected(obj)) {
 				selectRow(row);
 				currentRow = row;

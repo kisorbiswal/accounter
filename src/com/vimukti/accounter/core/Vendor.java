@@ -80,6 +80,7 @@ public class Vendor extends Payee {
 
 	String taxId;
 	boolean isTrackPaymentsFor1099;
+	 boolean tdsApplicable;
 
 	/**
 	 * @return the instanceVersion
@@ -501,5 +502,13 @@ public class Vendor extends Payee {
 	public String toString() {
 
 		return this.name;
+	}
+
+	public boolean isTdsApplicable() {
+		return tdsApplicable;
+	}
+
+	public void setTdsApplicable(boolean tdsApplicable) {
+		this.tdsApplicable = tdsApplicable;
 	}
 }

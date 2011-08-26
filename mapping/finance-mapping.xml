@@ -719,6 +719,8 @@
 				type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="taxId" column="TAX_ID"></property>
 			<property name="isTrackPaymentsFor1099" column="IS_TRACKPAYMENTS_FOR_1099"></property>
+			<property name="tdsApplicable" column="IS_TDSAPPLICABLE"></property>
+
 			<many-to-one name="expenseAccount" class="Account"
 				column="EXPENSE_ACCOUNT_ID" cascade="save-update" lazy="false">
 			</many-to-one>

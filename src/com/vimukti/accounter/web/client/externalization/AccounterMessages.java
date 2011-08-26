@@ -629,7 +629,8 @@ public interface AccounterMessages extends Messages {
 	public String vendorUpdatedSuccessfully(String msgString);
 
 	public String vendorVatCode(String vendorVatCodeString);
-
+	public String vendorTDSCode(String vendorTdsCodeString);
+	
 	public String vendorWhendor(String vendorWhendorString);
 
 	public String vendorpay(String vendorpayString);

@@ -72,6 +72,7 @@ public class ClientVendor extends ClientPayee {
 
 	String taxId;
 	boolean isTrackPaymentsFor1099;
+	boolean tdsApplicable;
 
 	public ClientVendor() {
 	}
@@ -534,5 +535,13 @@ public class ClientVendor extends ClientPayee {
 			return this.getID() == vendor.getID() ? true : false;
 		}
 		return false;
+	}
+
+	public boolean isTdsApplicable() {
+		return tdsApplicable;
+	}
+
+	public void setTdsApplicable(boolean tdsApplicable) {
+		this.tdsApplicable = tdsApplicable;
 	}
 }
