@@ -18,6 +18,8 @@ public class ClientVATCode implements IAccounterCore {
 	boolean isECSalesEntry;
 	boolean isDefault;
 
+	private int version;
+
 	/**
 	 * @param name
 	 *            the name to set
@@ -122,5 +124,15 @@ public class ClientVATCode implements IAccounterCore {
 	public ClientVATCode clone() {
 		ClientVATCode clientVATCodeClone = (ClientVATCode) this.clone();
 		return clientVATCodeClone;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 }
