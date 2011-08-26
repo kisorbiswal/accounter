@@ -22,6 +22,8 @@ public class ClientVATReturnBox implements IAccounterCore {
 
 	int vatReturnType;
 
+	private int version;
+
 	/**
 	 * @param name
 	 *            the name to set
@@ -160,5 +162,15 @@ public class ClientVATReturnBox implements IAccounterCore {
 			return this.getID() == vatReturnBox.getID() ? true : false;
 		}
 		return false;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 }
