@@ -17,6 +17,8 @@ public class ClientPayVATEntries implements IAccounterCore {
 
 	private long id;
 
+	private int version;
+
 	public long getVatAgency() {
 		return vatAgency;
 	}
@@ -85,6 +87,16 @@ public class ClientPayVATEntries implements IAccounterCore {
 	public ClientPayVATEntries clone() {
 		ClientPayVATEntries payVATEntries = (ClientPayVATEntries) this.clone();
 		return payVATEntries;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 
 }
