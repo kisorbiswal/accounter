@@ -13,7 +13,8 @@ public class ClientEmail implements IAccounterCore {
 	public static final int TYPE_EMAIL_1 = 1;
 	public static final int TYPE_EMAIL_2 = 2;
 	public static final int TYPE_EMAIL_3 = 3;
-
+	
+	private int version;
 	int type;
 	String email = "";
 	boolean isSelected = false;
@@ -107,6 +108,17 @@ public class ClientEmail implements IAccounterCore {
 		ClientEmail email = (ClientEmail) this.clone();
 		return email;
 
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+	this.version=version;
+		
 	}
 
 }
