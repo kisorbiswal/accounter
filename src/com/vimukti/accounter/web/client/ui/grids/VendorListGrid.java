@@ -172,7 +172,7 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 			if (UIUtils.isMSIEBrowser())
 				return 25;
 			else
-				return 15;
+				return 20;
 		}
 		if (index == 0) {
 			return 40;

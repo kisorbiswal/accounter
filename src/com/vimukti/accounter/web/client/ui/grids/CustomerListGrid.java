@@ -263,7 +263,7 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 			if (UIUtils.isMSIEBrowser())
 				return 25;
 			else
-				return 15;
+				return 20;
 		}
 		if (index == 1) {
 			return 135;

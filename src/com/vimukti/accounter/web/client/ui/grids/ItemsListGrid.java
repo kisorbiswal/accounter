@@ -34,7 +34,7 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 			if (UIUtils.isMSIEBrowser())
 				return 25;
 			else
-				return 15;
+				return 20;
 
 		return super.getCellWidth(index);
 	};

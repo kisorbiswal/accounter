@@ -99,8 +99,10 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		this.saveAndCloseButton = new SaveAndCloseButton(this);
 		this.saveAndNewButton = new SaveAndNewButtom(this);
 		this.cancelButton = new CancelButton(this);
-		buttonBar.add(saveAndCloseButton);
-		buttonBar.add(saveAndNewButton);
+		if (!isInViewMode()) {
+			buttonBar.add(saveAndCloseButton);
+			buttonBar.add(saveAndNewButton);
+		}
 		buttonBar.add(cancelButton);
 	}
 
@@ -124,10 +126,21 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		}
 		this.mode = mode;
 		getManager().updateButtons();
+		if (!isInViewMode()) {
+			showSaveButtons();
+		}
 	}
 
 	public boolean isInViewMode() {
 		return this.mode == EditMode.VIEW;
 	}
 
+	private void showSaveButtons() {
+		if (saveAndNewButton != null) {
+			this.buttonBar.insert(saveAndNewButton, 0);
+		}
+		if (saveAndCloseButton != null) {
+			this.buttonBar.insert(saveAndCloseButton, 0);
+		}
+	}
 }
