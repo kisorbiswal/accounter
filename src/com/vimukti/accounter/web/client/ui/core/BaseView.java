@@ -55,6 +55,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		setHeight("100%");
 
 		buttonBar = new ButtonBar(this);
+		buttonBar.setStyleName("button_bar");
 
 		super.add(buttonBar);
 	}
