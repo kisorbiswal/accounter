@@ -30,7 +30,7 @@ public class PhoneFaxForm extends DynamicForm {
 	private WidgetWithErrors errorWidget;
 
 	public PhoneFaxForm(Set<ClientPhone> phones, Set<ClientFax> faxes,
-			WidgetWithErrors widget) {
+			WidgetWithErrors widget, String category) {
 		this.errorWidget = widget;
 		allPhones = new LinkedHashMap<Integer, ClientPhone>();
 		allFaxes = new LinkedHashMap<Integer, ClientFax>();
@@ -59,6 +59,8 @@ public class PhoneFaxForm extends DynamicForm {
 				});
 
 		businessPhoneText = new TextItem(Accounter.constants().phone());
+		businessPhoneText.setToolTip(Accounter.messages().giveOf(
+				Accounter.constants().phoneNumber(), category));
 		businessPhoneText.setHelpInformation(true);
 		// businessPhoneText.setShowTitle(false);
 		businessPhoneText.setWidth(100);
@@ -69,8 +71,7 @@ public class PhoneFaxForm extends DynamicForm {
 				if (event != null) {
 					try {
 						String ph = businessPhoneText.getValue().toString();
-						if(ph.equals(""))
-						{
+						if (ph.equals("")) {
 							errorWidget.clearAllErrors();
 							return;
 						}
@@ -79,8 +80,8 @@ public class PhoneFaxForm extends DynamicForm {
 							// + AccounterErrorType.INCORRECTINFORMATION
 							// + ".");
 							// BaseView.commentPanel.setVisible(true);
-							errorWidget.addError(this,
-									Accounter.constants().incorrectInformation());
+							errorWidget.addError(this, Accounter.constants()
+									.incorrectInformation());
 							// Accounter
 							// .showError(AccounterErrorType.INCORRECTINFORMATION);
 							businessPhoneText.setValue("");
@@ -129,6 +130,8 @@ public class PhoneFaxForm extends DynamicForm {
 					}
 				});
 		businessFaxText = new TextItem(Accounter.constants().fax());
+		businessFaxText.setToolTip(Accounter.messages().giveOf(
+				Accounter.constants().fax(), category));
 		businessFaxText.setHelpInformation(true);
 		businessFaxText.setWidth(100);
 		// businessFaxText.setShowTitle(false);
@@ -139,8 +142,7 @@ public class PhoneFaxForm extends DynamicForm {
 			public void onChange(ChangeEvent event) {
 				if (event != null) {
 					String fx = businessFaxText.getValue().toString();
-					if(fx.equals(""))
-					{
+					if (fx.equals("")) {
 						errorWidget.clearAllErrors();
 						return;
 					}
@@ -150,8 +152,8 @@ public class PhoneFaxForm extends DynamicForm {
 						// + AccounterErrorType.INCORRECTINFORMATION
 						// + ".");
 						// BaseView.commentPanel.setVisible(true);
-						errorWidget.addError(this,
-								Accounter.constants().incorrectInformation());
+						errorWidget.addError(this, Accounter.constants()
+								.incorrectInformation());
 						// Accounter
 						// .showError(AccounterErrorType.INCORRECTINFORMATION);
 						businessFaxText.setValue("");
@@ -238,7 +240,8 @@ public class PhoneFaxForm extends DynamicForm {
 				.getFaxType(businessFaxSelect.getSelectedValue()));
 		if (selectedFaxFromSelect != null) {
 			selectedFaxFromSelect.setIsSelected(true);
-			allFaxes.put(selectedFaxFromSelect.getType(), selectedFaxFromSelect);
+			allFaxes
+					.put(selectedFaxFromSelect.getType(), selectedFaxFromSelect);
 		}
 		Collection<ClientFax> faxs = allFaxes.values();
 		Set<ClientFax> toBeSetFaxes = new HashSet<ClientFax>();

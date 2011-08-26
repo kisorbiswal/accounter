@@ -67,7 +67,8 @@ public class CreditCardAccountView extends AbstractBaseView {
 		TextAreaItem commentsArea = new TextAreaItem();
 		// commentsArea.setWidth("*");
 		commentsArea.setShowTitle(false);
-
+		commentsArea.setToolTip(Accounter.messages().writeCommentsForThis(
+				this.getAction().getViewName()));
 		DynamicForm commentsForm = UIUtils.form(Accounter.constants()
 				.comments());
 		commentsForm.setFields(commentsArea);

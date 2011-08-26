@@ -258,6 +258,18 @@ public class ViewManager extends HorizontalPanel {
 		existingView = newview;
 		viewTitleLabel.setText(action.getCatagory() + "  >  "
 				+ action.getText());
+		if (exportButton != null)
+			exportButton.setTitle(Accounter.messages().clickThisTo(
+					Accounter.constants().exportToCSV(),
+					existingView.getAction().getViewName()));
+		if (printButton != null)
+			printButton.setTitle(Accounter.messages().clickThisTo(
+					Accounter.constants().print(),
+					existingView.getAction().getViewName()));
+		if (editButton != null)
+			editButton.setTitle(Accounter.messages().clickThisTo(
+					Accounter.constants().edit(),
+					existingView.getAction().getViewName()));
 		viewHolder.add(newview);
 		updateButtons();
 	}
@@ -380,6 +392,8 @@ public class ViewManager extends HorizontalPanel {
 
 		previousButton = new ImageButton(Accounter.getFinanceImages()
 				.previousIcon());
+		previousButton.setTitle(Accounter.messages().clickThisToOpen(
+				Accounter.constants().name().replace(" >", "")));
 		previousButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -388,6 +402,8 @@ public class ViewManager extends HorizontalPanel {
 			}
 		});
 		nextButton = new ImageButton(Accounter.getFinanceImages().nextIcon());
+		nextButton.setTitle(Accounter.messages().clickThisToOpen(
+				Accounter.constants().previous()));
 		nextButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -397,6 +413,7 @@ public class ViewManager extends HorizontalPanel {
 		});
 		printButton = new ImageButton(Accounter.constants().print(), Accounter
 				.getFinanceImages().Print1Icon());
+
 		printButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -429,6 +446,8 @@ public class ViewManager extends HorizontalPanel {
 
 		closeButton = new ImageButton(Accounter.getFinanceImages()
 				.closeButton());
+		closeButton.setTitle(Accounter.messages().clickThisTo(
+				Accounter.constants().close(), Accounter.constants().view()));
 		closeButton.addClickHandler(new ClickHandler() {
 
 			@Override

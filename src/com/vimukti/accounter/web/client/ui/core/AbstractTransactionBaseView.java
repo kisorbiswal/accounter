@@ -328,9 +328,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected DateField createTransactionDateItem() {
 
 		final DateField dateItem = new DateField(Accounter.constants().date());
-		dateItem.setToolTip(Accounter
-				.messages()
-				.selectDateWhenTransactioCreated(this.getAction().getViewName()));
+		dateItem
+				.setToolTip(Accounter.messages()
+						.selectDateWhenTransactioCreated(
+								this.getAction().getViewName()));
 		dateItem.setHelpInformation(true);
 		// if (this instanceof VendorBillView)
 		// dateItem.setShowTitle(true);
@@ -384,6 +385,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected TextItem createTransactionNumberItem() {
 
 		final TextItem item = new TextItem(Accounter.constants().no());
+		item.setToolTip(Accounter.messages().giveNoTo(
+				this.getAction().getViewName()));
 		item.setHelpInformation(true);
 		item.setWidth(100);
 		item.setColSpan(1);
@@ -445,7 +448,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		TextAreaItem memoArea = new TextAreaItem();
 		if (!(this instanceof NewCustomerPaymentView
 				|| this instanceof NewVendorPaymentView || this instanceof CustomerRefundView))
-			memoArea.setMemo(true);
+			memoArea.setMemo(true, this);
 		memoArea.setHelpInformation(true);
 
 		memoArea.setTitle(Accounter.constants().memo());

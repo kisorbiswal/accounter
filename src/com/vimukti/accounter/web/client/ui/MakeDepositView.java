@@ -744,7 +744,7 @@ public class MakeDepositView extends
 				});
 
 		memoText = new TextAreaItem(Accounter.constants().memo());
-		memoText.setMemo(true);
+		memoText.setMemo(true, this);
 		memoText.setHelpInformation(true);
 		memoText.setWidth(100);
 
@@ -770,7 +770,8 @@ public class MakeDepositView extends
 			public void onClick(ClickEvent event) {
 				ClientTransactionMakeDeposit deposit = new ClientTransactionMakeDeposit();
 				deposit.setIsNewEntry(true);
-				deposit.setType(ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT);
+				deposit
+						.setType(ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT);
 				// deposit.set
 				gridView.addData(deposit);
 				gridView.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
@@ -968,12 +969,12 @@ public class MakeDepositView extends
 		}
 
 		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDateItem,
-					accounterConstants.invalidateTransactionDate());
+			result.addError(transactionDateItem, accounterConstants
+					.invalidateTransactionDate());
 		}
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDateItem,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDateItem, accounterConstants
+					.invalidateDate());
 		}
 
 		result.add(depoForm.validate());
@@ -1229,7 +1230,8 @@ public class MakeDepositView extends
 		// Setting Cash back account
 		transaction
 				.setCashBackAccount(selectedCashBackAccount != null ? selectedCashBackAccount
-						.getID() : 0);
+						.getID()
+						: 0);
 		if (cashBackMemoText.getValue() != null)
 			transaction.setCashBackMemo(cashBackMemoText.getValue().toString());
 

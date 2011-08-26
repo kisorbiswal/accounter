@@ -220,6 +220,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		accNameText = new TextItem(Accounter.messages().accountName(
 				Global.get().Account()));
+		accNameText.setToolTip(Accounter.messages()
+				.giveTheNameAccordingToYourID(this.getAction().getViewName()));
 		accNameText.setHelpInformation(true);
 		accNameText.setRequired(true);
 		accNameText.setWidth(100);
@@ -287,6 +289,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		opBalText = new AmountField(Accounter.constants().openingBalance(),
 				this);
+		opBalText.setToolTip(Accounter.messages().giveOpeningBalanceToThis(
+				this.getAction().getViewName()));
 		opBalText.setHelpInformation(true);
 
 		opBalText.setWidth(100);
@@ -326,6 +330,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// });
 		asofDate = new DateField(Accounter.constants().asOf());
 		asofDate.setHelpInformation(true);
+		asofDate
+				.setToolTip(Accounter.messages()
+						.selectDateWhenTransactioCreated(
+								this.getAction().getViewName()));
 		// asofDate.setWidth(100);
 		asofDate
 				.setEnteredDate(new ClientFinanceDate(
@@ -431,6 +439,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				Accounter.constants().width(), "200");
 
 		commentsArea = new TextAreaItem();
+		commentsArea.setToolTip(Accounter.messages().writeCommentsForThis(
+				this.getAction().getViewName()));
 		commentsArea.setHelpInformation(true);
 		commentsArea.setTitle(Accounter.constants().comments());
 		commentsArea.setWidth(100);

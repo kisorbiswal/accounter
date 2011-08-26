@@ -26,6 +26,8 @@ public class SaveAndCloseButton extends ImageButton {
 				.getFinanceImages().saveAndClose());
 		this.view = baseView;
 		this.addStyleName("saveAndClose-Btn");
+		this.setTitle(Accounter.messages().clickThisTo(this.getText(),
+				view.getAction().getViewName()));
 		this.addClickHandler(new ClickHandler() {
 
 			@Override

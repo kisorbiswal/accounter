@@ -110,6 +110,10 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		vatCodeTxt.setRequired(true);
 		vatCodeTxt.setWidth(100);
 		description = new TextAreaItem();
+		description.setToolTip(Accounter.messages().writeCommentsForThis(
+				this.getAction().getViewName()).replace(
+				Accounter.constants().comments(),
+				Accounter.constants().description()));
 		description.setHelpInformation(true);
 		description.setWidth(100);
 		description.setTitle(Accounter.constants().description());
@@ -171,14 +175,14 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 					.taxable() : Accounter.constants().taxExempt());
 			vatItemComboForPurchases
 					.setValue(data.getTAXItemGrpForPurchases() != 0 ? Accounter
-							.getCompany()
-							.getTAXItemGroup(data.getTAXItemGrpForPurchases())
-							.getName() : "");
+							.getCompany().getTAXItemGroup(
+									data.getTAXItemGrpForPurchases()).getName()
+							: "");
 			vatItemComboForSales
 					.setValue(data.getTAXItemGrpForSales() != 0 ? Accounter
-							.getCompany()
-							.getTAXItemGroup(data.getTAXItemGrpForSales())
-							.getName() : "");
+							.getCompany().getTAXItemGroup(
+									data.getTAXItemGrpForSales()).getName()
+							: "");
 		} else {
 			setData(new ClientTAXCode());
 		}
@@ -285,8 +289,8 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 				.getValue().toString() : "");
 		data.setActive((Boolean) isActive.getValue());
 		if (taxableGroupRadio.getValue() != null) {
-			if (taxableGroupRadio.getValue().toString()
-					.equalsIgnoreCase("Taxable"))
+			if (taxableGroupRadio.getValue().toString().equalsIgnoreCase(
+					"Taxable"))
 				data.setTaxable(true);
 			else
 				data.setTaxable(false);

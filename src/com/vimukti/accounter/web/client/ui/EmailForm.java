@@ -29,7 +29,7 @@ public class EmailForm extends DynamicForm {
 	private WidgetWithErrors errorWidget;
 
 	public EmailForm(Set<ClientEmail> emails, String webTextValue,
-			WidgetWithErrors widget) {
+			WidgetWithErrors widget, String view) {
 		this.errorWidget = widget;
 		allEmails = new LinkedHashMap<Integer, ClientEmail>();
 		setEmails(emails);
@@ -59,6 +59,8 @@ public class EmailForm extends DynamicForm {
 				});
 
 		businesEmailText = new EmailField(Accounter.constants().email());
+		businesEmailSelect.setToolTip(Accounter.messages().giveOf(
+				Accounter.constants().email(), view));
 		businesEmailText.setHelpInformation(true);
 		businesEmailText.setWidth(100);
 		businesEmailText.setShowTitle(true);
@@ -69,26 +71,25 @@ public class EmailForm extends DynamicForm {
 			public void onChange(ChangeEvent event) {
 				if (event != null) {
 					String em = businesEmailText.getValue().toString();
-					if(em.equals(""))
-					{
+					if (em.equals("")) {
 						errorWidget.clearAllErrors();
 						return;
 					}
-						
+
 					if (!UIUtils.isValidEmail(em)) {
 						// BaseView.errordata.setHTML("<li> "
 						// + AccounterErrorType.INVALID_EMAIL + ".");
 						// BaseView.commentPanel.setVisible(true);
-						
-								errorWidget.addError(this,       
-						Accounter.constants().invalidEmail());
-//				 Accounter.showError(Accounter.constants().invalidEmail());
-				//	businesEmailText.setText("");
-									} else {
+
+						errorWidget.addError(this, Accounter.constants()
+								.invalidEmail());
+						// Accounter.showError(Accounter.constants().invalidEmail());
+						// businesEmailText.setText("");
+					} else {
 						// BaseView.errordata.setHTML("");
 						// BaseView.commentPanel.setVisible(false);
 
-										errorWidget.clearAllErrors();
+						errorWidget.clearAllErrors();
 						ClientEmail email = new ClientEmail();
 						email.setType(UIUtils.getEmailType(businesEmailSelect
 								.getSelectedValue()));
@@ -100,6 +101,8 @@ public class EmailForm extends DynamicForm {
 			}
 		});
 		webText = new TextItem(Accounter.constants().webPageAddress());
+		webText.setToolTip(Accounter.messages().giveOf(
+				Accounter.constants().webSite(), view));
 		webText.setHelpInformation(true);
 		webText.setWidth(100);
 		LinkItem emptyItem = new LinkItem();

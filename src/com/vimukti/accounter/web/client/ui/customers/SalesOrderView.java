@@ -318,8 +318,8 @@ public class SalesOrderView extends
 		paymentsNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
 
-		balanceDueNonEditableText = new AmountLabel(
-				customerConstants.balanceDue());
+		balanceDueNonEditableText = new AmountLabel(customerConstants
+				.balanceDue());
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -795,7 +795,7 @@ public class SalesOrderView extends
 	protected DateField createDueDateItem() {
 
 		DateField dateItem = new DateField(Accounter.constants().dueDate());
-		dueDateItem.setToolTip(Accounter.messages().selectDateUntilDue(
+		dateItem.setToolTip(Accounter.messages().selectDateUntilDue(
 				this.getAction().getViewName()));
 		dateItem.setTitle(Accounter.constants().dueDate());
 		dateItem.setColSpan(1);
@@ -829,8 +829,7 @@ public class SalesOrderView extends
 				return;
 
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(),
-					taxableLineTotal,
+					transactionDateItem.getEnteredDate(), taxableLineTotal,
 					getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 

@@ -184,7 +184,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 				result.addError(taxAgencyText, Accounter.messages()
 						.pleaseEnter(taxAgenciesByName.getName()));
 			}
-		} 
+		}
 
 		List<DynamicForm> forms = this.getForms();
 		for (DynamicForm form : forms) {
@@ -397,6 +397,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		memoForm = new DynamicForm();
 		memoForm.setWidth("50%");
 		memoArea = new TextAreaItem();
+		memoArea.setToolTip(Accounter.messages().writeCommentsForThis(
+				this.getAction().getViewName()));
 		memoArea.setHelpInformation(true);
 		memoArea.setTitle(Accounter.constants().memo());
 		memoArea.setWidth("400px");
@@ -431,13 +433,15 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			addrsForm = new AddressForm(data.getAddress());
 			addrsForm.setWidth("100%");
 			// Setting Phone Fax Form
-			phoneFaxForm = new PhoneFaxForm(null, null, this);
+			phoneFaxForm = new PhoneFaxForm(null, null, this, this.getAction()
+					.getViewName());
 			phoneFaxForm.setWidth("100%");
 			phoneFaxForm.businessPhoneText.setValue(data.getPhoneNo());
 			phoneFaxForm.businessFaxText.setValue(data.getFaxNo());
 
 			// Setting Email Form
-			emailForm = new EmailForm(null, data.getWebPageAddress(), this);
+			emailForm = new EmailForm(null, data.getWebPageAddress(), this,
+					this.getAction().getViewName());
 			emailForm.businesEmailText.setValue(data.getEmail());
 			emailForm.setWidth("100%");
 
@@ -512,9 +516,11 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			setData(new ClientTAXAgency());
 			addrsForm = new AddressForm(null);
 			addrsForm.setWidth("100%");
-			phoneFaxForm = new PhoneFaxForm(null, null, this);
+			phoneFaxForm = new PhoneFaxForm(null, null, this, this.getAction()
+					.getViewName());
 			phoneFaxForm.setWidth("100%");
-			emailForm = new EmailForm(null, null, this);
+			emailForm = new EmailForm(null, null, this, this.getAction()
+					.getViewName());
 			emailForm.setWidth("100%");
 		}
 

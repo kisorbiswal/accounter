@@ -737,7 +737,7 @@ public interface AccounterMessages extends Messages {
 
 	public String selectDateUntilDue(String transaction);
 
-	public String customerMeaning();
+	public String customerMeaning(String customer);
 
 	public String selectVendor(String vendor);
 
@@ -758,4 +758,23 @@ public interface AccounterMessages extends Messages {
 
 	public String valueCannotBe0orlessthan0(String amount);
 
+	public String salesPersonExpenseAccountTooltip(String account);
+
+	public String salesPersonJobToolTip();
+
+	public String giveYourCompany(String type);
+
+	public String salesPersonMeaning();
+
+	public String giveOpeningBalanceToThis(String viewName);
+
+	public String giveNoTo(String viewName);
+
+	public String giveOf(String fieldName, String transactionName);
+
+	public String clickThisTo(String text, String viewName);
+	
+	public String clickThisToOpenNew(String viewName);
+
+	public String clickThisToOpen(String next);
 }

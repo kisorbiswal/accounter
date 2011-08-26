@@ -209,7 +209,10 @@ public class ItemView extends BaseView<ClientItem> {
 		salesDescArea.setHelpInformation(true);
 		salesDescArea.setWidth(100);
 		salesDescArea.setTitle(Accounter.constants().salesDescription());
-
+		salesDescArea.setToolTip(Accounter.messages().writeCommentsForThis(
+				this.getAction().getViewName()).replace(
+				Accounter.constants().comments(),
+				Accounter.constants().salesDescription()));
 		salesPriceText = new AmountField(Accounter.constants().salesPrice(),
 				this);
 		salesPriceText.setHelpInformation(true);

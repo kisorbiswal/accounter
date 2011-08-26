@@ -4356,6 +4356,8 @@ public interface AccounterConstants extends Constants {
 
 	public String companyAndFinance();
 
+	public String cannotEditVoidedTransaction();
+
 	public String ein();
 
 	public String printAlignmentAndSetup();

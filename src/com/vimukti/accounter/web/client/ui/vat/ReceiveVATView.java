@@ -101,9 +101,11 @@ public class ReceiveVATView extends
 
 		transNumber = createTransactionNumberItem();
 		transNumber.setTitle(Accounter.constants().no());
+		transNumber.setToolTip(Accounter.messages().giveNoTo(
+				this.getAction().getViewName()));
 
-		depositInAccCombo = new DepositInAccountCombo(
-				companyConstants.depositIn());
+		depositInAccCombo = new DepositInAccountCombo(companyConstants
+				.depositIn());
 		depositInAccCombo.setHelpInformation(true);
 		depositInAccCombo.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.DEPOSIT_IN_ACCOUNT));
@@ -120,7 +122,8 @@ public class ReceiveVATView extends
 
 						initialEndingBalance = !DecimalUtil.isEquals(
 								selectedDepositInAccount.getTotalBalance(), 0) ? selectedDepositInAccount
-								.getTotalBalance() : 0D;
+								.getTotalBalance()
+								: 0D;
 
 						calculateEndingBalance();
 					}
@@ -235,8 +238,8 @@ public class ReceiveVATView extends
 		listforms.add(balForm);
 
 		selectedDepositInAccount = depositInAccCombo.getSelectedValue();
-		initialEndingBalance = !DecimalUtil.isEquals(
-				selectedDepositInAccount.getTotalBalance(), 0) ? selectedDepositInAccount
+		initialEndingBalance = !DecimalUtil.isEquals(selectedDepositInAccount
+				.getTotalBalance(), 0) ? selectedDepositInAccount
 				.getTotalBalance() : 0D;
 
 		calculateEndingBalance();
@@ -253,8 +256,8 @@ public class ReceiveVATView extends
 			for (ClientReceiveVATEntries cont : filterList) {
 				ClientVATReturn clientVATReturn = Accounter.getCompany()
 						.getVatReturn(cont.getVatReturn());
-				ClientFinanceDate date = new ClientFinanceDate(
-						clientVATReturn.getVATperiodEndDate());
+				ClientFinanceDate date = new ClientFinanceDate(clientVATReturn
+						.getVATperiodEndDate());
 				if (date.equals(dueDateOnOrBefore)
 						|| date.before(dueDateOnOrBefore))
 					tempList.add(cont);
@@ -469,13 +472,13 @@ public class ReceiveVATView extends
 		// 5. grid valid?
 		// 6. is positive amount?
 		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateTransactionDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 		result.add(mainform.validate());
 		if (isInViewMode()) {

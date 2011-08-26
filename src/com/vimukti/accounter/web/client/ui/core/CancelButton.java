@@ -23,6 +23,8 @@ public class CancelButton extends ImageButton {
 	public CancelButton(AbstractBaseView<?> view) {
 		super(Accounter.constants().cancel(), Accounter.getFinanceImages()
 				.rejected());
+		this.setTitle(Accounter.messages().clickThisTo(this.getText(),
+				view.getAction().getViewName()));
 		this.currentView = view;
 		this.addStyleName("cancle-Btn");
 		this.addClickHandler(new ClickHandler() {

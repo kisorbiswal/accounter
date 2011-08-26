@@ -9,11 +9,13 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Header;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextBoxItem;
+import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class EditProfileDialog extends BaseDialog<ClientUserInfo> {
-	private TextBoxItem firstNameTextItem;
-	private TextBoxItem lastNameTextItem;
+	private TextItem firstNameTextItem;
+	private TextItem lastNameTextItem;
 	private VerticalPanel mainPanel;
 	private ClientUser clientUser;
 
@@ -24,13 +26,15 @@ public class EditProfileDialog extends BaseDialog<ClientUserInfo> {
 	}
 
 	private void createControls() {
-		firstNameTextItem = new TextBoxItem();
+		firstNameTextItem = new TextItem(Accounter.constants().firstName());
 		firstNameTextItem.setValue(clientUser.getFirstName());
-		lastNameTextItem = new TextBoxItem();
+		lastNameTextItem = new TextItem(Accounter.constants().lastName());
 		lastNameTextItem.setValue(clientUser.getLastName());
 		mainPanel = new VerticalPanel();
-		mainPanel.add(firstNameTextItem);
-		mainPanel.add(lastNameTextItem);
+		DynamicForm form = new DynamicForm();
+		form.setNumCols(2);
+		form.setFields(firstNameTextItem, lastNameTextItem);
+		mainPanel.add(form);
 		okbtn.setText(Accounter.constants().saveButton());
 		setBodyLayout(mainPanel);
 	}
@@ -65,12 +69,10 @@ public class EditProfileDialog extends BaseDialog<ClientUserInfo> {
 								removeFromParent();
 								Accounter.showInformation(Accounter.constants()
 										.updatedSuccessfully());
-								Header.userName.setText("Hello "
-										+ userInfo.getFullName());
+								Header.userName.setText(Accounter.messages()
+										.userName(userInfo.getFullName()));
 								Header.userName.setWidth(((Accounter.messages()
-										.userName(
-												Accounter.getUser()
-														.getFullName())
+										.userName(userInfo.getFullName())
 										.length() * 6))
 										+ "px");
 								getCallback().actionResult(userInfo);

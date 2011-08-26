@@ -99,12 +99,12 @@ public class JournalEntryView extends
 
 		}
 		if (!AccounterValidator.isValidTransactionDate(getTransactionDate())) {
-			result.addError(transactionDateItem,
-					accounterConstants.invalidateTransactionDate());
+			result.addError(transactionDateItem, accounterConstants
+					.invalidateTransactionDate());
 		} else if (AccounterValidator
 				.isInPreventPostingBeforeDate(getTransactionDate())) {
-			result.addError(transactionDateItem,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDateItem, accounterConstants
+					.invalidateDate());
 		}
 		result.add(dateForm.validate());
 		if (AccounterValidator.isBlankTransaction(grid)) {
@@ -261,8 +261,8 @@ public class JournalEntryView extends
 				.getValue().toString() : "");
 		// initMemo(transaction);
 		transaction.setDate(new ClientFinanceDate().getDate());
-		if (DecimalUtil.isEquals(grid.getTotalDebittotal(),
-				grid.getTotalCredittotal())) {
+		if (DecimalUtil.isEquals(grid.getTotalDebittotal(), grid
+				.getTotalCredittotal())) {
 			transaction.setDebitTotal(grid.getTotalDebittotal());
 			transaction.setCreditTotal(grid.getTotalCredittotal());
 			transaction.setTotal(grid.getTotalDebittotal());
@@ -302,6 +302,8 @@ public class JournalEntryView extends
 		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		jourNoText = new TextItem(Accounter.constants().no());
+		jourNoText.setToolTip(Accounter.messages().giveNoTo(
+				this.getAction().getViewName()));
 		jourNoText.setHelpInformation(true);
 		jourNoText.setRequired(true);
 		jourNoText.addChangeHandler(new ChangeHandler() {
@@ -318,7 +320,7 @@ public class JournalEntryView extends
 		});
 
 		memoText = new TextAreaItem(Accounter.constants().memo());
-		memoText.setMemo(true);
+		memoText.setMemo(true, this);
 		memoText.setHelpInformation(true);
 
 		initListGrid();
@@ -596,7 +598,7 @@ public class JournalEntryView extends
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 		// TODO Auto-generated method stub
 
 	}
@@ -618,7 +620,11 @@ public class JournalEntryView extends
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(caught.getMessage());
+				if (caught.getMessage() != null)
+					Accounter.showError(caught.getMessage());
+				else
+					Accounter.showError(Accounter.constants()
+							.cannotEditVoidedTransaction());
 			}
 
 			@Override

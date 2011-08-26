@@ -99,8 +99,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 		depriciationForFinancialyearLabel.setText(Accounter.constants()
 				.depriciationForThe()
-				+ yearValue
-				+ Accounter.constants().financialYear());
+				+ yearValue + Accounter.constants().financialYear());
 
 		HorizontalPanel topPanel = new HorizontalPanel();
 		topPanel.add(detailsForm);
@@ -135,6 +134,10 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 		notesArea = new TextAreaItem();
 		notesArea.setWidth(100);
+		notesArea.setToolTip(Accounter.messages().writeCommentsForThis(
+				this.getAction().getViewName())
+				.replace(Accounter.constants().comments(),
+						Accounter.constants().notes()));
 		notesArea.setTitle(Accounter.constants().notes());
 
 		textAreaForm = new DynamicForm();
@@ -283,9 +286,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 				.valueOf(getSoldorDisposedDateField().getYear() + 1900);
 		depriciationForFinancialyearLabel.setText(Accounter.constants()
 				.depriciationForThe()
-				+ yearValue
-				+ "     "
-				+ Accounter.constants().financialYear());
+				+ yearValue + "     " + Accounter.constants().financialYear());
 		initDateCombo();
 	}
 
@@ -407,16 +408,12 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 			if (AccounterValidator.isValidSellorDisposeDate(
 					new ClientFinanceDate(asset.getPurchaseDate()),
 					getSoldorDisposedDateField().getEnteredDate())) {
-				result.addError(
-						dateItemCombo,
-						Accounter.constants().datesold()
-								+ " "
-								+ Accounter.constants().conditionalMsg()
-								+ "  ("
-								+ UIUtils
-										.getDateStringFormat(new ClientFinanceDate(
-												asset.getPurchaseDate()))
-								+ "  )");
+				result.addError(dateItemCombo, Accounter.constants().datesold()
+						+ " "
+						+ Accounter.constants().conditionalMsg()
+						+ "  ("
+						+ UIUtils.getDateStringFormat(new ClientFinanceDate(
+								asset.getPurchaseDate())) + "  )");
 			}
 		return result;
 	}
@@ -506,7 +503,8 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 				assetAccount.getLinkedAccumulatedDepreciationAccount());
 		tempFixedAsset
 				.setLinkedAccumulatedDepreciatedAccountName(linkdAccount != null ? linkdAccount
-						.getName() : "");
+						.getName()
+						: "");
 		tempFixedAsset.setAssetAccountName(assetAccount != null ? assetAccount
 				.getName() : "");
 		tempFixedAsset.setExpenseAccountName(getCompany().getAccount(

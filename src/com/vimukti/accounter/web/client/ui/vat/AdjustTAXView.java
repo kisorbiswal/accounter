@@ -101,6 +101,8 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		// adjustDate.setWidth(100);
 
 		entryNo = new IntegerField(this, Accounter.constants().no());
+		entryNo.setToolTip(Accounter.messages().giveNoTo(
+				this.getAction().getViewName()));
 		entryNo.setHelpInformation(true);
 		entryNo.setWidth(100);
 
@@ -211,7 +213,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		}
 
 		memo = new TextAreaItem(Accounter.constants().memo());
-		memo.setMemo(false);
+		memo.setMemo(false, this);
 		memo.setHelpInformation(true);
 		memo.setWidth(100);
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {

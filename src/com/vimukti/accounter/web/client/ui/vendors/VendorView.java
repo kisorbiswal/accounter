@@ -305,8 +305,8 @@ public class VendorView extends BaseView<ClientVendor> {
 	}
 
 	private VerticalPanel getGeneralTab() {
-		vendorNameText = new TextItem(
-				messages.vendorName(Global.get().Vendor()));
+		vendorNameText = new TextItem(messages
+				.vendorName(Global.get().Vendor()));
 		vendorNameText.setHelpInformation(true);
 		vendorNameText.setRequired(true);
 		vendorNameText.setWidth(100);
@@ -435,6 +435,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		panel.add(hPanel);
 
 		memoArea = new TextAreaItem();
+		memoArea.setToolTip(Accounter.messages().writeCommentsForThis(
+				this.getAction().getViewName()));
 		memoArea.setHelpInformation(true);
 		memoArea.setWidth("400px");
 		memoArea.setTitle(Accounter.constants().memo());
@@ -443,9 +445,11 @@ public class VendorView extends BaseView<ClientVendor> {
 		addrsForm.setWidth("100%");
 		// addrsForm.setStyleName(FinanceApplication.constants()
 		// .venderForm());
-		fonFaxForm = new PhoneFaxForm(null, null, this);
+		fonFaxForm = new PhoneFaxForm(null, null, this, this.getAction()
+				.getViewName());
 		fonFaxForm.setWidth("100%");
-		emailForm = new EmailForm(null, null, this);
+		emailForm = new EmailForm(null, null, this, this.getAction()
+				.getViewName());
 		emailForm.setWidth("100%");
 		DynamicForm memoForm = new DynamicForm();
 		memoForm.setStyleName("align-form");
@@ -641,7 +645,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		federalText = new TextItem(Accounter.constants().federalTaxId());
 		federalText.setHelpInformation(true);
 		federalText.setWidth(100);
-		vendorTDSTaxCode = new TAXCodeCombo(messages.vendorTDSCode(Global.get()
+			vendorTDSTaxCode = new TAXCodeCombo(messages.vendorTDSCode(Global.get()
 				.Vendor()), false);
 		vendorTDSTaxCode.setHelpInformation(true);
 		vendorTDSTaxCode.setWidth(100);
@@ -667,7 +671,6 @@ public class VendorView extends BaseView<ClientVendor> {
 				}
 			}
 		});
-
 		panNumberText = new TextItem(Accounter.messages().panNumber(
 				Global.get().Account()));
 		panNumberText.setHelpInformation(true);

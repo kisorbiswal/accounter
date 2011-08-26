@@ -70,7 +70,7 @@ public class EmailView extends AbstractBaseView {
 		subject.setWidth(80);
 
 		emailBody = new TextAreaItem();
-		emailBody.setMemo(true);
+		emailBody.setMemo(true, this);
 		emailBody.setValue(message);
 		emailBody.setWidth("100%");
 		emailBody.setHeight(200);
