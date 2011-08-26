@@ -54,6 +54,9 @@ public class ClientEntry implements IAccounterCore {
 
 	double total;
 
+
+	private int version;
+
 	/**
 	 * @return the total
 	 */
@@ -241,5 +244,16 @@ public class ClientEntry implements IAccounterCore {
 		ClientEntry entry = (ClientEntry) this.clone();
 		return entry;
 
+	}
+
+	@Override
+	public int getVersion() {
+		
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version=version;
 	}
 }
