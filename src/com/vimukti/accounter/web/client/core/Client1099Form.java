@@ -107,24 +107,7 @@ public class Client1099Form implements IAccounterCore {
 		ClientAddress address = this.getAddress();
 		information.append(vendor.getName()).append("\n");
 		if (address != null) {
-			String address1 = address.getAddress1();
-			if (address1 != null && !address.equals(""))
-				information.append(address1).append(", ");
-			String street = address.getStreet();
-			if (street != null && !street.equals(""))
-				information.append(address.getStreet()).append("\n");
-			String city = address.getCity();
-			if (city != null && !city.equals(""))
-				information.append(city).append(", ");
-			String state = address.getStateOrProvinence();
-			if (state != null && !state.equals(""))
-				information.append(state).append(" ");
-			String zip = address.getZipOrPostalCode();
-			if (zip != null && !zip.equals(""))
-				information.append(zip).append("\n");
-			String country = address.getCountryOrRegion();
-			if (country != null && !country.equals(""))
-				information.append(country).append("\n");
+			information.append(address.getAddressString());
 		}
 		String taxId = this.vendor.getTaxId();
 		if (taxId != null && !taxId.equals(""))

@@ -22,10 +22,10 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
-import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
@@ -41,6 +41,17 @@ public class Prepare1099MISCView extends AbstractBaseView {
 	private int totalNoOf1099Forms;
 	private double totalAll1099Payments;
 	private ListDataProvider<Client1099Form> listDataProvider;
+
+	private DisclosurePanel disclosurePanel;
+	private VerticalPanel setVendorpanel, panelR, panelL, amountPanel,
+			preview1099panel;
+	private HorizontalPanel companyInfopanel;
+	private Button setVendor, addAccount;
+	private Label companyInfo, einInfo, noOf1099FormsLabel;
+	private TextArea companyInfoText, einInfoText;
+	private AmountLabel total1099AmountLabel;
+	private DynamicForm amountForm;
+	private CellTable<Client1099Form> cellTable;
 
 	@Override
 	public void init() {
@@ -97,7 +108,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 	public CellTable<Client1099Form> get1099InformationGrid() {
 
-		CellTable<Client1099Form> cellTable = new CellTable<Client1099Form>();
+		cellTable = new CellTable<Client1099Form>();
 
 		CheckboxCell checkboxCell = new CheckboxCell();
 		Column<Client1099Form, Boolean> checkBoxColumn = new Column<Client1099Form, Boolean>(
@@ -191,13 +202,13 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 	private DisclosurePanel getSetupPanel() {
 
-		DisclosurePanel disclosurePanel = new DisclosurePanel(Accounter
-				.messages().setupVendorsAndAccounts(Global.get().Vendor(),
+		disclosurePanel = new DisclosurePanel(Accounter.messages()
+				.setupVendorsAndAccounts(Global.get().Vendor(),
 						Global.get().Account()));
 		disclosurePanel.setOpen(true);
-		Button setVendor = new Button(Accounter.messages().selectVendor(
+		setVendor = new Button(Accounter.messages().selectVendor(
 				Global.get().Vendor()));
-		Button addAccount = new Button(Accounter.messages().assignAccounts(
+		addAccount = new Button(Accounter.messages().assignAccounts(
 				Global.get().Account()));
 		Label infoLable = new Label(
 				"Before paying vendors this year, select vendors and assign accounts. These setup tasks ensure that the forms you file next year will be correct. If you have already made vendor payments this year, you may need to revise them to assign them to the proper accounts.");
@@ -205,14 +216,14 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		infoLable.setWordWrap(true);
 		infoLable.setHorizontalAlignment(ALIGN_JUSTIFY);
 
-		VerticalPanel panel = new VerticalPanel();
-		panel.setSize("1000px", "200px");
-		panel.add(infoLable);
-		panel.add(setVendor);
+		setVendorpanel = new VerticalPanel();
+		setVendorpanel.setSize("1000px", "200px");
+		setVendorpanel.add(infoLable);
+		setVendorpanel.add(setVendor);
 
-		panel.add(addAccount);
+		setVendorpanel.add(addAccount);
 
-		disclosurePanel.add(panel);
+		disclosurePanel.add(setVendorpanel);
 
 		setVendor.addClickHandler(new ClickHandler() {
 
@@ -243,48 +254,55 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 	private VerticalPanel getPreview1099() {
 
-		Label companyInfo = new Label(Accounter.constants()
-				.companyInformation());
-		Label einInfo = new Label(Accounter.constants().ein());
+		companyInfo = new Label(Accounter.constants().companyInformation());
+		einInfo = new Label(Accounter.constants().ein());
 
-		TextArea companyInfoText = new TextArea();
-		TextArea einInfoText = new TextArea();
+		companyInfoText = new TextArea();
+		ClientAddress address = getCompany().getRegisteredAddress();
+		if (address != null) {
+			companyInfoText.setText(address.getAddressString());
+		}
+		einInfoText = new TextArea();
+		String ein = getCompany().getEin();
+		if (ein != null) {
+			einInfoText.setText(ein);
+		}
 
-		VerticalPanel panelR = new VerticalPanel();
-		VerticalPanel panelL = new VerticalPanel();
+		panelR = new VerticalPanel();
+		panelL = new VerticalPanel();
 		panelL.add(companyInfo);
 		panelL.add(companyInfoText);
 
 		panelR.add(einInfo);
 		panelR.add(einInfoText);
 
-		HorizontalPanel panel = new HorizontalPanel();
-		panel.setSize("1000px", "100px");
-		panel.add(panelL);
-		panel.add(panelR);
+		companyInfopanel = new HorizontalPanel();
+		companyInfopanel.setSize("1000px", "100px");
+		companyInfopanel.add(panelL);
+		companyInfopanel.add(panelR);
 
-		VerticalPanel amountPanel = new VerticalPanel();
+		amountPanel = new VerticalPanel();
 		amountPanel.addStyleName("tax-form");
 
-		DynamicForm amountForm = new DynamicForm();
-		Label noOf1099Forms = new Label(Accounter.constants()
+		amountForm = new DynamicForm();
+		noOf1099FormsLabel = new Label(Accounter.constants()
 				.totalNoOf1099Forms() + totalNoOf1099Forms);
 
-		AmountLabel total1099AmountLabel = new AmountLabel(Accounter
-				.constants().totalAll1099Payments());
+		total1099AmountLabel = new AmountLabel(Accounter.constants()
+				.totalAll1099Payments());
 		total1099AmountLabel.setAmount(totalAll1099Payments);
 
 		amountForm.setFields(total1099AmountLabel);
 
-		amountPanel.add(noOf1099Forms);
+		amountPanel.add(noOf1099FormsLabel);
 		amountPanel.add(amountForm);
 
 		CellTable<Client1099Form> table = get1099InformationGrid();
-		VerticalPanel panel1 = new VerticalPanel();
-		panel1.add(panel);
-		panel1.add(table);
-		panel1.setHorizontalAlignment(ALIGN_RIGHT);
-		panel1.add(amountPanel);
+		preview1099panel = new VerticalPanel();
+		preview1099panel.add(companyInfopanel);
+		preview1099panel.add(table);
+		preview1099panel.setHorizontalAlignment(ALIGN_RIGHT);
+		preview1099panel.add(amountPanel);
 
 		listDataProvider = new ListDataProvider<Client1099Form>();
 
@@ -300,13 +318,13 @@ public class Prepare1099MISCView extends AbstractBaseView {
 					@Override
 					public void onSuccess(ArrayList<Client1099Form> result) {
 						listDataProvider.getList().addAll(result);
-
+						totalNoOf1099Forms = result.size();
 					}
 				});
 
 		listDataProvider.addDataDisplay(table);
 
-		return panel1;
+		return preview1099panel;
 
 	}
 
