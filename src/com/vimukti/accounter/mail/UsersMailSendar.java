@@ -369,6 +369,42 @@ public class UsersMailSendar {
 
 	}
 
+	public static void sendPdfMail(File file, String comapanyName,
+			String subject, String content, String senderEmail,
+			String recipientEmail, String ccEmail) throws IOException {
+
+		try {
+			initPropertyParser();
+			LOG.info("Email is being sent to external user");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+
+		EMailMessage emailMsg = new EMailMessage();
+		emailMsg.setContent(content);
+		emailMsg.setSubject(subject);
+		emailMsg.setFrom(senderEmail);
+		emailMsg.setAttachment(file);
+
+		String[] toIds = recipientEmail.split(",");
+		String[] ccIds = ccEmail.split(",");
+		for (int i = 0; i < toIds.length; i++) {
+			emailMsg.setRecepeant(toIds[i]);
+		}
+		for (int j = 0; j < ccIds.length; j++) {
+			emailMsg.setRecepeant(ccEmail);
+		}
+
+		EMailJob job = new EMailJob(emailMsg, getEmailAcc(), comapanyName);
+
+		EmailManager.getInstance().addJob(job);
+
+	}
+
 	public static void sendCompanyUpdatedMail(String comapanyName,
 			String content, String recipientEmail) {
 		try {
@@ -671,7 +707,7 @@ public class UsersMailSendar {
 	}
 
 	private static String replaceServerUrl(String content) {
-		return content.replaceAll("%SERVERURL%", ServerConfiguration
-				.getServerURL());
+		return content.replaceAll("%SERVERURL%",
+				ServerConfiguration.getServerURL());
 	}
 }
