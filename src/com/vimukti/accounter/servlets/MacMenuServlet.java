@@ -151,7 +151,7 @@ public class MacMenuServlet extends BaseServlet {
 					"accounter#newVatCode");
 			subMenu(newValue, Accounter.constants().newVATAgency(),
 					"accounter#newVatAgency");
-			menu(mainValue, "New", newValue);
+			menu(mainValue, Accounter.constants().new1(), newValue);
 			separator(mainValue);
 		}
 
@@ -366,21 +366,19 @@ public class MacMenuServlet extends BaseServlet {
 	}
 
 	private void addVendorMenuItem() {
-		String name = "";
-		if (isUKType()) {
-			name = "Supplier";
-		} else {
-			name = "Vendor";
-		}
 
 		StringBuilder vendorValue = new StringBuilder();
-		menu(vendorValue, name + "s Home", "S", "accounter#vendorHome");
+		menu(vendorValue,
+				Accounter.messages().vendorsHome(Global.get().Vendor()), "S",
+				"accounter#vendorHome");
 		separator(vendorValue);
 
 		int items = 0;
 		StringBuilder newValues = new StringBuilder();
 		if (canDoInvoiceTransactions()) {
-			subMenu(newValues, "New " + name, "accounter#newVendor");
+			subMenu(newValues,
+					Accounter.messages().newVendor(Global.get().Vendor()),
+					"accounter#newVendor");
 			subMenu(newValues, Accounter.constants().newItem(),
 					"accounter#newItem");
 			items += 2;
@@ -391,7 +389,8 @@ public class MacMenuServlet extends BaseServlet {
 			items += 1;
 		}
 		if (canDoInvoiceTransactions()) {
-			subMenu(newValues, name + Accounter.constants().credit(),
+			subMenu(newValues,
+					Accounter.messages().vendorCredit(Global.get().Vendor()),
 					"accounter#vendorCredit");
 			if (isUSType()) {
 				subMenu(newValues, Accounter.constants().newCheck(),
@@ -414,7 +413,9 @@ public class MacMenuServlet extends BaseServlet {
 					"accounter#payBill");
 			menu(vendorValue, Accounter.constants().issuePayments(),
 					"accounter#issuePayments");
-			menu(vendorValue, name + " PrePayment",
+			menu(vendorValue,
+					Accounter.messages()
+							.vendorPrePayment(Global.get().Vendor()),
 					"accounter#vendorPrePayment");
 		}
 		if (canDoInvoiceTransactions()) {
@@ -429,7 +430,9 @@ public class MacMenuServlet extends BaseServlet {
 		}
 
 		StringBuilder supplierValues = new StringBuilder();
-		subMenu(supplierValues, name + "s", "accounter#VendorList");
+		subMenu(supplierValues,
+				Accounter.messages().vendors(Global.get().Vendor()),
+				"accounter#VendorList");
 		if (canSeeInvoiceTransactions()) {
 			subMenu(supplierValues, Accounter.constants().items(),
 					"accounter#items");
@@ -437,12 +440,15 @@ public class MacMenuServlet extends BaseServlet {
 					"accounter#billsAndExpenses");
 		}
 		if (canSeeBanking()) {
-			subMenu(supplierValues, name + Accounter.constants().payments(),
+			subMenu(supplierValues,
+					Accounter.messages().vendorPayments(Global.get().Vendor()),
 					"accounter#vendorPayments");
 		}
-		menu(vendorValue, name + " Lists", supplierValues);
+		menu(vendorValue,
+				Accounter.messages().vendorLists(Global.get().Vendor()),
+				supplierValues);
 
-		mainMenu(builder, name, vendorValue);
+		mainMenu(builder, Global.get().Vendor(), vendorValue);
 	}
 
 	private void addCustomerMenuItem() {
