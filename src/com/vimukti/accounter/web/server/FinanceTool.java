@@ -43,6 +43,8 @@ import org.hibernate.criterion.Restrictions;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
+import com.vimukti.accounter.core.Activity;
+import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.Bank;
 import com.vimukti.accounter.core.Box;
 import com.vimukti.accounter.core.BrandingTheme;
@@ -11860,6 +11862,11 @@ public class FinanceTool {
 
 		tx.commit();
 
+	}
+	
+	public void recordActivity(User user,ActivityType type){
+		Activity activity=new Activity(user,type);
+		
 	}
 
 	public ArrayList<Client1099Form> get1099Vendors() throws AccounterException {
