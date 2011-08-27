@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -315,5 +316,12 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	void mergeAccount(ClientAccount fromClientAccount,
 			ClientAccount toClientAccount) throws AccounterException;
+
+	// for sending pdf in email
+
+	public void sendPdfInMail(long objectID, int type, long brandingThemeId,
+			String mimeType, String subject, String content,
+			String senderEmail, String recipientEmail, String ccEmail)
+			throws Exception, IOException, AccounterException;
 
 }
