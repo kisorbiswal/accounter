@@ -3,8 +3,11 @@
  */
 package com.vimukti.accounter.web.client;
 
+import java.util.ArrayList;
+
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -44,4 +47,5 @@ public interface IAccounterCRUDService extends RemoteService {
 
 	Long updateCompany(ClientCompany clientCompany) throws AccounterException;
 
+	 ArrayList<Client1099Form> get1099Vendors() throws AccounterException;
 }

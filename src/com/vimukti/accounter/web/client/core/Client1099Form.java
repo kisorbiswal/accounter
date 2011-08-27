@@ -9,10 +9,8 @@ public class Client1099Form implements IAccounterCore {
 
 	long id;
 
-	String vendorName;
-	ClientAddress address;
-	String taxId;
-	double[] boxes = new double[12];
+	ClientVendor vendor;
+	double[] boxes = new double[15];
 	double total1099Payments;
 	double totalAllPayments;
 	boolean isSelected;
@@ -35,39 +33,27 @@ public class Client1099Form implements IAccounterCore {
 		this.id = id;
 	}
 
-	public String getVendorName() {
-		return vendorName;
+	public ClientVendor getVendor() {
+		return vendor;
 	}
 
-	public void setVendorName(String vendorName) {
-		this.vendorName = vendorName;
-	}
-
-	public ClientAddress getAddress() {
-		return address;
-	}
-
-	public void setAddress(ClientAddress address) {
-		this.address = address;
-	}
-
-	public String getTaxId() {
-		return taxId;
-	}
-
-	public void setTaxId(String taxId) {
-		this.taxId = taxId;
+	public void setVendor(ClientVendor vendor) {
+		this.vendor = vendor;
 	}
 
 	public double getBox(int i) {
+
 		return boxes[i];
 	}
 
-	public void setBox1(int i, double box) {
+	public void setBox(int i, double box) {
 		this.boxes[i] = box;
 	}
 
 	public double getTotal1099Payments() {
+		for (double box : boxes) {
+			total1099Payments += box;
+		}
 		return total1099Payments;
 	}
 
@@ -119,29 +105,45 @@ public class Client1099Form implements IAccounterCore {
 	public String getVendorInformation() {
 		StringBuffer information = new StringBuffer();
 		ClientAddress address = this.getAddress();
-		information.append(this.getName()).append("\n");
-		String address1 = address.getAddress1();
-		if (address1 != null && !address.equals(""))
-			information.append(address1).append(", ");
-		String street = address.getStreet();
-		if (street != null && !street.equals(""))
-			information.append(address.getStreet()).append("\n");
-		String city = address.getCity();
-		if (city != null && !city.equals(""))
-			information.append(city).append(", ");
-		String state = address.getStateOrProvinence();
-		if (state != null && !state.equals(""))
-			information.append(state).append(" ");
-		String zip = address.getZipOrPostalCode();
-		if (zip != null && !zip.equals(""))
-			information.append(zip).append("\n");
-		String country = address.getCountryOrRegion();
-		if (country != null && !country.equals(""))
-			information.append(country).append("\n");
-		String taxId = this.getTaxId();
+		information.append(vendor.getName()).append("\n");
+		if (address != null) {
+			String address1 = address.getAddress1();
+			if (address1 != null && !address.equals(""))
+				information.append(address1).append(", ");
+			String street = address.getStreet();
+			if (street != null && !street.equals(""))
+				information.append(address.getStreet()).append("\n");
+			String city = address.getCity();
+			if (city != null && !city.equals(""))
+				information.append(city).append(", ");
+			String state = address.getStateOrProvinence();
+			if (state != null && !state.equals(""))
+				information.append(state).append(" ");
+			String zip = address.getZipOrPostalCode();
+			if (zip != null && !zip.equals(""))
+				information.append(zip).append("\n");
+			String country = address.getCountryOrRegion();
+			if (country != null && !country.equals(""))
+				information.append(country).append("\n");
+		}
+		String taxId = this.vendor.getTaxId();
 		if (taxId != null && !taxId.equals(""))
 			information.append("Tax ID: ").append(taxId);
 		return information.toString();
+	}
+
+	private ClientAddress getAddress() {
+		for (ClientAddress address : vendor.address) {
+			if (address != null && address.type == ClientAddress.TYPE_BILL_TO) {
+				return address;
+			}
+		}
+		for (ClientAddress address : vendor.address) {
+			if (address != null) {
+				return address;
+			}
+		}
+		return null;
 	}
 
 	@Override

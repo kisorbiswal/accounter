@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui;
 
+import java.util.ArrayList;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
@@ -34,6 +36,7 @@ import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientUser;
@@ -578,5 +581,12 @@ public class Accounter implements EntryPoint {
 
 	public void setMacApp(boolean isMacApp) {
 		Accounter.isMacApp = isMacApp;
+	}
+
+	public static void get1099FormInformation(
+			AsyncCallback<ArrayList<Client1099Form>> myCallback) {
+
+		Accounter.crudService.get1099Vendors(myCallback);
+
 	}
 }

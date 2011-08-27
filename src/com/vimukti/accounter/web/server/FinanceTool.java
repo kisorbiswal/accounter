@@ -97,6 +97,7 @@ import com.vimukti.accounter.core.TAXItemGroup;
 import com.vimukti.accounter.core.TAXRateCalculation;
 import com.vimukti.accounter.core.TaxRates;
 import com.vimukti.accounter.core.Transaction;
+import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.TransactionMakeDeposit;
 import com.vimukti.accounter.core.TransactionMakeDepositEntries;
 import com.vimukti.accounter.core.TransferFund;
@@ -116,6 +117,7 @@ import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -11846,5 +11848,62 @@ public class FinanceTool {
 
 		tx.commit();
 
+	}
+
+	public ArrayList<Client1099Form> get1099Vendors() throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+
+		Query query = session.getNamedQuery("get.enterbills.list");
+
+		HashMap<Vendor, Client1099Form> map = new HashMap<Vendor, Client1099Form>();
+
+		ArrayList<EnterBill> list = (ArrayList<EnterBill>) query.list();
+
+		Client1099Form client1099Form = null;
+
+		for (EnterBill enterBill : list) {
+
+			Vendor vendor = enterBill.getVendor();
+
+			client1099Form = map.get(vendor);
+			if (client1099Form == null) {
+				client1099Form = new Client1099Form();
+			}
+
+			double totalPayments = client1099Form.getTotalAllPayments();
+
+			double payments = enterBill.getPayments();
+			totalPayments += payments;
+			for (TransactionItem ti : enterBill.getTransactionItems()) {
+				double amount = ti.getEffectiveAmount();
+				if (payments >= amount) {
+					// This is paid.
+					int boxNumber = ti.getEffectingAccount().getBoxNumber();
+					if (boxNumber > 0) {
+						double box = client1099Form.getBox(boxNumber);
+						box += amount;
+						client1099Form.setBox(boxNumber, box);
+					}
+				}
+			}
+			client1099Form.setTotalAllPayments(totalPayments);
+
+			map.put(vendor, client1099Form);
+		}
+
+		ArrayList<Client1099Form> arrayList = new ArrayList<Client1099Form>();
+
+		for (java.util.Map.Entry<Vendor, Client1099Form> element : map
+				.entrySet()) {
+			Vendor key = element.getKey();
+			Client1099Form value = element.getValue();
+			ClientVendor clientVendor = new ClientConvertUtil().toClientObject(
+					key, ClientVendor.class);
+			value.setVendor(clientVendor);
+			arrayList.add(value);
+		}
+
+		return arrayList;
 	}
 }

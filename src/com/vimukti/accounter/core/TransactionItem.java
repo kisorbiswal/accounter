@@ -611,7 +611,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	 * 
 	 * @return {@link Account}
 	 */
-	private Account getEffectingAccount() {
+	public Account getEffectingAccount() {
 
 		switch (this.type) {
 
@@ -719,6 +719,13 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 		}
 		return null;
+	}
+
+	public double getEffectiveAmount() {
+		double amount = (isPositiveTransaction() ? -1d : 1d)
+				* (this.transaction.isAmountsIncludeVAT() ? this.lineTotal
+						- this.VATfraction : this.lineTotal);
+		return amount;
 	}
 
 	public void setType(int type) {

@@ -12,6 +12,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -20,6 +21,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.view.client.ListDataProvider;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -37,6 +40,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 	private int[] boxNums = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 13, 14 };
 	private int totalNoOf1099Forms;
 	private double totalAll1099Payments;
+	private ListDataProvider<Client1099Form> listDataProvider;
 
 	@Override
 	public void init() {
@@ -88,9 +92,11 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		mainPanel.add(getEndButtons());
 
 		this.add(mainPanel);
+
 	}
 
 	public CellTable<Client1099Form> get1099InformationGrid() {
+
 		CellTable<Client1099Form> cellTable = new CellTable<Client1099Form>();
 
 		CheckboxCell checkboxCell = new CheckboxCell();
@@ -110,7 +116,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 			@Override
 			public String getValue(Client1099Form object) {
-				return "Information";
+				return object.getVendorInformation();
 			}
 		};
 		informationColumn.setFieldUpdater(new FieldUpdater() {
@@ -141,8 +147,6 @@ public class Prepare1099MISCView extends AbstractBaseView {
 			}
 		};
 
-		ArrayList<Client1099Form> arrayList = new ArrayList<Client1099Form>();
-		arrayList.add(new Client1099Form());
 		cellTable.addColumn(checkBoxColumn, Accounter.constants().select());
 		cellTable.addColumn(informationColumn, Accounter.messages()
 				.vendorInformation(Global.get().Vendor()));
@@ -151,10 +155,6 @@ public class Prepare1099MISCView extends AbstractBaseView {
 				.total1099Payments());
 		cellTable.addColumn(totalAllPaymentsCell, Accounter.constants()
 				.totalAllPayments());
-
-		cellTable.setRowCount(arrayList.size());
-
-		cellTable.setRowData(0, arrayList);
 
 		return cellTable;
 	}
@@ -180,7 +180,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 					@Override
 					public String getValue(Client1099Form object) {
-						double box = object.getBox(num);
+						double box = object.getBox(boxNums[num]);
 						return box != 0 ? "" + box : "";
 					}
 				};
@@ -279,11 +279,32 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		amountPanel.add(noOf1099Forms);
 		amountPanel.add(amountForm);
 
+		CellTable<Client1099Form> table = get1099InformationGrid();
 		VerticalPanel panel1 = new VerticalPanel();
 		panel1.add(panel);
-		panel1.add(get1099InformationGrid());
+		panel1.add(table);
 		panel1.setHorizontalAlignment(ALIGN_RIGHT);
 		panel1.add(amountPanel);
+
+		listDataProvider = new ListDataProvider<Client1099Form>();
+
+		Accounter
+				.get1099FormInformation(new AsyncCallback<ArrayList<Client1099Form>>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onSuccess(ArrayList<Client1099Form> result) {
+						listDataProvider.getList().addAll(result);
+
+					}
+				});
+
+		listDataProvider.addDataDisplay(table);
 
 		return panel1;
 
@@ -375,8 +396,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-
+				cancel();
 			}
 		});
 

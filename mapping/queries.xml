@@ -1543,4 +1543,9 @@
 		t.TAXItemGrpForSales.id=:id
 	</query>
 
+	<query name="get.enterbills.list">
+		from com.vimukti.accounter.core.EnterBill e where
+		e.vendor.isTrackPaymentsFor1099=true
+	</query>
+
 </hibernate-mapping>

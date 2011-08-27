@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.server;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -16,6 +17,7 @@ import com.vimukti.accounter.services.IS2SService;
 import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.web.client.IAccounterCRUDService;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientUser;
@@ -256,6 +258,12 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 				getUserEmail(), String.valueOf(deletableUser.getID()),
 				clientClassSimpleName);
 		return financeTool.delete(context);
+	}
+
+	@Override
+	public ArrayList<Client1099Form> get1099Vendors() throws AccounterException {
+		FinanceTool financeTool = new FinanceTool();
+		return financeTool.get1099Vendors();
 	}
 
 }
