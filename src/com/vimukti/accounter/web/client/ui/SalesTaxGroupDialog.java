@@ -5,11 +5,13 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -27,11 +29,12 @@ import com.vimukti.accounter.web.client.ui.grids.DialogGrid.GridRecordClickHandl
  * 
  */
 
-public class SalesTaxGroupDialog extends BaseDialog {
+public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 
 	protected DialogGrid availTaxItemsGrid;
 	protected DialogGrid selectTaxItemsGrid;
 	protected Button addButton, removeButton;
+	ClientTAXGroup taxGroup;
 
 	private ArrayList<ClientTAXItem> tempAvailTaxItemList;
 	private ArrayList<ClientTAXItem> tempSelectedTaxItemList;
@@ -43,6 +46,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 			ClientTAXGroup taxGroup) {
 
 		super(title, desc);
+		this.taxGroup = taxGroup;
 		createControls(taxGroup);
 		if (taxGroup != null)
 			fillSelectedTaxItems(taxGroup);
@@ -60,7 +64,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 
 	// Filling Available tax Codes in selectTaxCodesGrid
 	private void fillSelectedTaxItems(ClientTAXGroup taxGroup) {
-		for (ClientTAXItem codeInternal : getSelectedTaxItems(taxGroup)) {
+		for (ClientTAXItem codeInternal : getTaxItemsForTaxGroup(taxGroup)) {
 			selectTaxItemsGrid.addData(codeInternal);
 		}
 	}
@@ -95,7 +99,8 @@ public class SalesTaxGroupDialog extends BaseDialog {
 	}
 
 	// getting all available Tax Codes in Selected Tax Code grid
-	private ArrayList<ClientTAXItem> getSelectedTaxItems(ClientTAXGroup taxGroup) {
+	private ArrayList<ClientTAXItem> getTaxItemsForTaxGroup(
+			ClientTAXGroup taxGroup) {
 
 		List<ClientTAXItem> items = taxGroup.getTaxItems();
 		tempAvailTaxItemList = new ArrayList<ClientTAXItem>(items);
@@ -282,7 +287,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 		setSelectedTCGridCellWidths();
 		selectTaxItemsGrid.setView(SalesTaxGroupDialog.this);
 		if (taxGroup != null)
-			getSelectedTaxItems(taxGroup);
+			getTaxItemsForTaxGroup(taxGroup);
 		selectTaxItemsGrid.addRecordClickHandler(new GridRecordClickHandler() {
 
 			@Override
@@ -339,16 +344,114 @@ public class SalesTaxGroupDialog extends BaseDialog {
 
 		ValidationResult result = new ValidationResult();
 		result.add(form1.validate());
-		if (taxGroupText.getValue() != null) {
-			// TODO
-		}
 		return result;
 	}
 
 	@Override
 	protected boolean onOK() {
-		// TODO Auto-generated method stub
-		return false;
+		if (taxGroup != null) {
+			editTaxGroup(taxGroup);
+		} else {
+			if (taxGroupText.getValue() != null
+					&& !taxGroupText.getValue().toString().isEmpty()) {
+				newTaxGroup();
+			}
+
+		}
+		return true;
+	}
+
+	protected void saveOrUpdate(final ClientTAXGroup core) {
+		AsyncCallback<Long> callback2 = new AsyncCallback<Long>() {
+
+			@Override
+			public void onSuccess(Long result) {
+				if (core.getID() == 0) {
+					core.setID(result);
+				}
+				getCompany().processUpdateOrCreateObject(core);
+				if (getCallback() != null) {
+					getCallback().actionResult(core);
+				}
+
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+
+			}
+		};
+		if (core.getID() == 0) {
+			Accounter.createCRUDService().create(core, callback2);
+		} else {
+			Accounter.createCRUDService().update(core, callback2);
+		}
+
+	}
+
+	protected void newTaxGroup() {
+
+		ClientTAXGroup taxGroup = new ClientTAXGroup();
+		taxGroup.setName(UIUtils.toStr(taxGroupText.getValue()));
+		taxGroup.setActive(true);
+		taxGroup.setPercentage(true);
+		taxGroup.setSalesType(true);
+		taxGroup.setTaxItems(getSelectedTaxItems(taxGroup));
+		ClientCompany company = getCompany();
+		ClientTAXItem itemByName = company.getTaxItemByName(taxGroup.getName());
+		ClientTAXGroup taxGroupByName = company.getTaxGroupByName(taxGroup
+				.getName());
+		if (itemByName != null || taxGroupByName != null) {
+			Accounter.showError(Accounter.constants().alreadyExist());
+		} else {
+			saveOrUpdate(taxGroup);
+		}
+	}
+
+	protected void editTaxGroup(ClientTAXGroup taxGroup) {
+		String groupName = taxGroupText.getValue();
+		ClientTAXGroup taxGroupByName = getCompany().getTaxGroupByName(
+				groupName);
+		if (!(taxGroup.getName().equalsIgnoreCase(groupName) ? true
+				: taxGroupByName == null)) {
+			Accounter.showError(Accounter.constants().alreadyExist());
+		} else {
+			taxGroup.setName(groupName);
+			taxGroup.setTaxItems(getSelectedTaxItems(taxGroup));
+			saveOrUpdate(taxGroup);
+		}
+	}
+
+	private List<ClientTAXItem> getSelectedTaxItems(ClientTAXGroup taxGroup) {
+		List<ClientTAXItem> taxItems = new ArrayList<ClientTAXItem>();
+		List<IsSerializable> records = selectTaxItemsGrid.getRecords();
+		ClientTAXItem item;
+		for (IsSerializable rec : records) {
+			ClientTAXItem clientTaxItem = (ClientTAXItem) rec;
+			item = getTaxItemByName(clientTaxItem.getName());
+			if (item != null) {
+				taxItems.add(item);
+				taxGroup.setGroupRate(taxGroup.getGroupRate()
+						+ item.getTaxRate());
+
+			}// if
+		}// for
+		return taxItems;
+	}
+
+	private ClientTAXItem getTaxItemByName(String attribute) {
+
+		for (ClientTAXItem item : getAllTaxItem()) {
+			if (item.getName() != null && item.getName().equals(attribute)) {
+				return item;
+			}
+		}
+		return null;
+	}
+
+	protected List<ClientTAXGroup> getRecords() {
+		return getCompany().getTaxGroups();
 	}
 
 	// @Override

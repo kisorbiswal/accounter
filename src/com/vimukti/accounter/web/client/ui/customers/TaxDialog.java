@@ -8,7 +8,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.company.ManageSalesTaxGroupsAction;
+import com.vimukti.accounter.web.client.ui.SalesTaxGroupDialog;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -96,17 +96,17 @@ public class TaxDialog extends BaseDialog<ClientTAXCode> {
 
 			if (radio.equals(TAXGROUP)) {
 				// try {
-				ManageSalesTaxGroupsAction action = ActionFactory
-						.getManageSalesTaxGroupsAction();
-				action.setCallback(new ActionCallback<ClientTAXGroup>() {
+				SalesTaxGroupDialog dialog = new SalesTaxGroupDialog(
+						constants.taxGroup(), constants.toAddOrRemoveTaxCode(),
+						null);
+				dialog.setCallback(new ActionCallback<ClientTAXGroup>() {
 
 					@Override
 					public void actionResult(ClientTAXGroup result) {
 						setResult(getCompany().getTAXCode(result.getID()));
 					}
 				});
-
-				action.run(null, true);
+				dialog.show();
 
 			} else if (radio.equals(TAXITEM)) {
 				// try {
