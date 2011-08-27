@@ -4367,6 +4367,11 @@ public interface AccounterConstants extends Constants {
 	public String printOnInformationSheet();
 
 	public String tdsApplicable();
+
 	public String tds();
+
+	public String totalNoOf1099Forms();
+
+	public String totalAll1099Payments();
 
 }

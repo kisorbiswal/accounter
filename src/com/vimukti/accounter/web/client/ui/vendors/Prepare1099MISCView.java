@@ -13,7 +13,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -30,10 +29,14 @@ import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
+import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class Prepare1099MISCView extends AbstractBaseView {
 	private String[] boxes;
 	private int[] boxNums = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 13, 14 };
+	private int totalNoOf1099Forms;
+	private double totalAll1099Payments;
 
 	@Override
 	public void init() {
@@ -77,12 +80,14 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 	public void createControl() {
 
-		this.add(getSetupPanel());
-		this.add(getPreview1099());
-		this.add(getPrintSetUp());
-		EndButtons endButtons = new EndButtons("");
-		this.add(endButtons);
+		VerticalPanel mainPanel = new VerticalPanel();
 
+		mainPanel.add(getSetupPanel());
+		mainPanel.add(getPreview1099());
+		mainPanel.add(getPrintSetUp());
+		mainPanel.add(getEndButtons());
+
+		this.add(mainPanel);
 	}
 
 	public CellTable<Client1099Form> get1099InformationGrid() {
@@ -138,7 +143,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 		ArrayList<Client1099Form> arrayList = new ArrayList<Client1099Form>();
 		arrayList.add(new Client1099Form());
-		cellTable.addColumn(checkBoxColumn, "Select");
+		cellTable.addColumn(checkBoxColumn, Accounter.constants().select());
 		cellTable.addColumn(informationColumn, Accounter.messages()
 				.vendorInformation(Global.get().Vendor()));
 		addBoxColumnsToCellTable(cellTable);
@@ -258,9 +263,27 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		panel.add(panelL);
 		panel.add(panelR);
 
+		VerticalPanel amountPanel = new VerticalPanel();
+		amountPanel.addStyleName("tax-form");
+
+		DynamicForm amountForm = new DynamicForm();
+		Label noOf1099Forms = new Label(Accounter.constants()
+				.totalNoOf1099Forms() + totalNoOf1099Forms);
+
+		AmountLabel total1099AmountLabel = new AmountLabel(Accounter
+				.constants().totalAll1099Payments());
+		total1099AmountLabel.setAmount(totalAll1099Payments);
+
+		amountForm.setFields(total1099AmountLabel);
+
+		amountPanel.add(noOf1099Forms);
+		amountPanel.add(amountForm);
+
 		VerticalPanel panel1 = new VerticalPanel();
 		panel1.add(panel);
 		panel1.add(get1099InformationGrid());
+		panel1.setHorizontalAlignment(ALIGN_RIGHT);
+		panel1.add(amountPanel);
 
 		return panel1;
 
@@ -320,42 +343,44 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		return disclosurePanel;
 	}
 
-	private static class EndButtons extends Composite implements ClickHandler {
+	private HorizontalPanel getEndButtons() {
 
-		private Button print1099 = new Button(Accounter.constants()
-				.printOn1099Form());
-		private Button printInfo = new Button(Accounter.constants()
+		Button print1099 = new Button(Accounter.constants().printOn1099Form());
+		Button printInfo = new Button(Accounter.constants()
 				.printOnInformationSheet());
-		private Button cancel = new Button(Accounter.constants().cancel());
+		Button cancel = new Button(Accounter.constants().cancel());
 
-		public EndButtons(String caption) {
-			// Place the check above the text box using a vertical panel.
-			HorizontalPanel panel = new HorizontalPanel();
-			panel.add(print1099);
-			panel.add(printInfo);
-			panel.add(cancel);
+		HorizontalPanel panel = new HorizontalPanel();
+		panel.add(print1099);
+		panel.add(printInfo);
+		panel.add(cancel);
 
-			print1099.addClickHandler(this);
-			printInfo.addClickHandler(this);
-			cancel.addClickHandler(this);
+		print1099.addClickHandler(new ClickHandler() {
 
-			// All composites must call initWidget() in their constructors.
-			initWidget(panel);
-		}
-
-		public void onClick(ClickEvent event) {
-			Object sender = event.getSource();
-			if (sender == print1099) {
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
 
 			}
-			if (sender == printInfo) {
+		});
+		printInfo.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
 
 			}
-			if (sender == cancel) {
+		});
+		cancel.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
 
 			}
-		}
+		});
 
+		return panel;
 	}
 
 	static ListBox getListBox(boolean dropdown) {
