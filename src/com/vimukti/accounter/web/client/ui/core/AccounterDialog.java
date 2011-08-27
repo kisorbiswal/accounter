@@ -7,11 +7,11 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
@@ -163,7 +163,7 @@ public class AccounterDialog extends CustomDialog {
 		Image image = new Image(imageUrl);
 		HorizontalPanel imageLayout = new HorizontalPanel();
 		imageLayout.add(image);
-		Label msgLabel = new Label(this.message);
+		HTML msgLabel = new HTML(this.message);
 
 		headerLayout.add(imageLayout);
 		headerLayout.add(msgLabel);
