@@ -4402,4 +4402,6 @@ public interface AccounterConstants extends Constants {
 
 	public String bankingAndFinancialDetails();
 
+	public String registeredCompanyName();
+
 }
