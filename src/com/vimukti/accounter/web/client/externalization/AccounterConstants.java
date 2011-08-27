@@ -4408,4 +4408,6 @@ public interface AccounterConstants extends Constants {
 
 	public String sellingDetails();
 
+	public String services();
+
 }
