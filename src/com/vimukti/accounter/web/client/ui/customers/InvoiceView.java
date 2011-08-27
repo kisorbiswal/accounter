@@ -54,6 +54,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
@@ -102,6 +103,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	HorizontalPanel hpanel;
 	DynamicForm amountsForm;
 	private LinkedHashMap<Integer, ClientAddress> allAddresses;
+	private Button emailButton;
 
 	private void initBalanceDue() {
 
@@ -633,6 +635,24 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		this.add(mainVLay);
 
+	}
+
+	@Override
+	protected void createButtons(ButtonBar buttonBar) {
+		super.createButtons(buttonBar);
+		if (isInViewMode()) {
+			emailButton = new Button(accounterConstants.email());
+			buttonBar.add(emailButton);
+
+			emailButton.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					ActionFactory.getEmailViewAction().run(transaction, false);
+
+				}
+			});
+		}
 	}
 
 	// for new recurring
@@ -1510,6 +1530,12 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			custForm.setWidth("100%");
 
 		setMode(EditMode.EDIT);
+
+		if (!isInViewMode()) {
+
+			getButtonBar().remove(emailButton);
+		}
+
 		transactionDateItem.setDisabled(isInViewMode());
 		transactionNumber.setDisabled(isInViewMode());
 
