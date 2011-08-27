@@ -2547,10 +2547,10 @@ LOCK TABLES `RECEIVE_VAT` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `recurring_transaction`
+-- Table structure for table `RECURRING_TRANSACTION`
 --
 
-DROP TABLE IF EXISTS `recurring_transaction`;
+DROP TABLE IF EXISTS `RECURRING_TRANSACTION`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `recurring_transaction` (
@@ -2573,12 +2573,12 @@ CREATE TABLE `recurring_transaction` (
 SET character_set_client = @saved_cs_client;
 
 --
--- Dumping data for table `recurring_transaction`
+-- Dumping data for table `RECURRING_TRANSACTION`
 --
 
-LOCK TABLES `recurring_transaction` WRITE;
-/*!40000 ALTER TABLE `recurring_transaction` DISABLE KEYS */;
-/*!40000 ALTER TABLE `recurring_transaction` ENABLE KEYS */;
+LOCK TABLES `RECURRING_TRANSACTION` WRITE;
+/*!40000 ALTER TABLE `RECURRING_TRANSACTION` DISABLE KEYS */;
+/*!40000 ALTER TABLE `RECURRING_TRANSACTION` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
