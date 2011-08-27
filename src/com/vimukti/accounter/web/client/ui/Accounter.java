@@ -64,6 +64,8 @@ public class Accounter implements EntryPoint {
 	private static ClientFinanceDate endDate;
 	private static PlaceController placeController;
 	public static SetupWizard setupWizard;
+	public static Header header;
+	public static SimplePanel vpanel;
 
 	private static ClientUser user = null;
 	private static ClientCompany company = null;
@@ -121,14 +123,16 @@ public class Accounter implements EntryPoint {
 				removeLoadingImage();
 
 				if (!company.isConfigured()) {
-					Header header = new Header();
-					SimplePanel vpanel = new SimplePanel();
+					header = new Header();
+					vpanel = new SimplePanel();
 					vpanel.addStyleName("empty_menu_bar");
 					setupWizard = new SetupWizard(new AsyncCallback<Boolean>() {
 						@Override
 						public void onSuccess(Boolean result) {
 							if (result) {
 								RootPanel.get("mainWindow").remove(setupWizard);
+								RootPanel.get("mainWindow").remove(header);
+								RootPanel.get("mainWindow").remove(vpanel);
 								loadCompany();
 							}
 						}
