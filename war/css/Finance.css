@@ -5274,6 +5274,7 @@ table.dropdownFlex tr:hover,.gwt-ListBox option:HOVER { /*background: #C6E2FF;*/
     background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#1A5158)) !important; /* for webkit browsers */
     padding: 16px;
     width: 100%;
+    margin-top:13px;
 }
 
 .gwt-MenuBar-horizontal .gwt-MenuItem { /*praveena*/
@@ -7030,7 +7031,12 @@ a#fdbk_tab:hover{
 body, table td, select,.gwt-Button,textarea,input,label{
 	font-size:12px !important;
 }
-
+.gwt-PasswordTextBox{
+	padding:0px !important;
+}
+.edit_user_profile input[type="text"]{
+	margin:5px;
+}
 
 /*Help theme need to apply for help*/
 #branding{
