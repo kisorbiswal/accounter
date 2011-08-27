@@ -337,6 +337,7 @@ public class VendorBillView extends
 		vendorTDSTaxCode = new TAXCodeCombo(messages.vendorTDSCode(Global.get()
 				.Vendor()), false);
 		vendorTDSTaxCode.setHelpInformation(true);
+		vendorTDSTaxCode.setDisabled(isInViewMode());
 
 		vendorCombo = createVendorComboItem(messages.vendorName(Global.get()
 				.Vendor()));
@@ -1011,6 +1012,7 @@ public class VendorBillView extends
 		vendorTransactionGrid.setCanEdit(true);
 		balanceDueNonEditableText.setDisabled(true);
 		memoTextAreaItem.setDisabled(isInViewMode());
+		vendorTDSTaxCode.setDisabled(isInViewMode());
 
 		super.onEdit();
 	}
