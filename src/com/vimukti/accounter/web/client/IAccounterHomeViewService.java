@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
@@ -307,10 +306,14 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public void mergeCustomer(ClientCustomer clientCustomer,
 			ClientCustomer clientCustomer2) throws AccounterException;
-	
-	void mergeVendor(ClientVendor fromClientVendor,ClientVendor toClientVendor) throws AccounterException;
-	void mergeItem(ClientItem froClientItem,ClientItem toClientItem) throws AccounterException;
-	void  mergeAccount(ClientAccount fromClientAccount ,ClientAccount toClientAccount) throws AccounterException;
 
+	void mergeVendor(ClientVendor fromClientVendor, ClientVendor toClientVendor)
+			throws AccounterException;
+
+	void mergeItem(ClientItem froClientItem, ClientItem toClientItem)
+			throws AccounterException;
+
+	void mergeAccount(ClientAccount fromClientAccount,
+			ClientAccount toClientAccount) throws AccounterException;
 
 }

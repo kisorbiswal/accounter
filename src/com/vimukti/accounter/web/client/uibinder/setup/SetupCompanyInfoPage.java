@@ -260,16 +260,14 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	@Override
 	public void onSave() {
 
-		ClientCompany clientCompany = new ClientCompany();
 		address = new ClientAddress();
-		clientCompany.id = company.id;
-		clientCompany.setName(companyName.getValue().toString());
-		clientCompany.setTradingName(legalName.getValue().toString());
-		clientCompany.setPhone(phone.getValue().toString());
-		clientCompany.setCompanyEmail(emailAddress.getValue().toString());
-		clientCompany.setTaxId(taxId.getValue().toString());
-		clientCompany.setFax(fax.getValue().toString());
-		clientCompany.setWebSite(webSite.getValue().toString());
+		company.setName(companyName.getValue().toString());
+		company.setTradingName(legalName.getValue().toString());
+		company.setPhone(phone.getValue().toString());
+		company.setCompanyEmail(emailAddress.getValue().toString());
+		company.setTaxId(taxId.getValue().toString());
+		company.setFax(fax.getValue().toString());
+		company.setWebSite(webSite.getValue().toString());
 		address.setAddress1(streetAddress1.getValue());
 		address.setStreet(streetAdress2.getValue());
 		address.setCity(cityTextBox.getValue());
@@ -282,9 +280,9 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		company.setTradingAddress(address);
 
 		if (timezoneslistbox.getSelectedIndex() != -1)
-			clientCompany.settimezone(timezones.get(timezoneslistbox
+			company.settimezone(timezones.get(timezoneslistbox
 					.getSelectedIndex()));
-		Accounter.setCompany(clientCompany);
+		Accounter.setCompany(company);
 
 	}
 

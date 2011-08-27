@@ -111,26 +111,15 @@ public class USCompanyInitializer extends CompanyInitializer {
 	 * @param session
 	 */
 	public void initDefaultUSAccounts() {
-		Session session = HibernateUtil.getCurrentSession();
 		// setDefaultsUSValues();
 
-		Account pendingItemReceipts = new Account(
-				Account.TYPE_OTHER_CURRENT_LIABILITY, "2010",
-				AccounterServerConstants.PENDING_ITEM_RECEIPTS, true, null,
-				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
-				null, true, true, openingBalancesAccount, "4", true,
-				this.preferences.getPreventPostingBeforeDate());
+		createAccount(Account.TYPE_OTHER_CURRENT_LIABILITY,
+				AccounterServerConstants.PENDING_ITEM_RECEIPTS,
+				Account.CASH_FLOW_CATEGORY_OPERATING);
 
-		session.save(pendingItemReceipts);
-
-		Account salesTaxPayable = new Account(
-				Account.TYPE_OTHER_CURRENT_LIABILITY, "2050",
-				"Sales Tax Payable", true, null,
-				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
-				null, true, true, openingBalancesAccount, "5", true,
-				this.preferences.getPreventPostingBeforeDate());
-
-		session.save(salesTaxPayable);
+		this.salesTaxPayable = createAccount(
+				Account.TYPE_OTHER_CURRENT_LIABILITY, "Sales Tax Payable",
+				Account.CASH_FLOW_CATEGORY_OPERATING);
 
 		// Account retainedEarnings = new Account(Account.TYPE_EQUITY, "3100",
 		// "Retained Earnings", true, null,
@@ -172,29 +161,18 @@ public class USCompanyInitializer extends CompanyInitializer {
 		// session.save(bankCharge);
 
 		// The following two accounts for Cash Basis Journal Entries purpose.
-		Account otherCashIncome = new Account(Account.TYPE_INCOME, "4030",
-				AccounterServerConstants.OTHER_CASH_INCOME, false, null,
-				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, true, "", 0.0, null,
-				true, true, openingBalancesAccount, "13", true,
-				this.preferences.getPreventPostingBeforeDate());
+		this.otherCashIncomeAccount = createAccount(Account.TYPE_INCOME,
+				AccounterServerConstants.OTHER_CASH_INCOME,
+				Account.CASH_FLOW_CATEGORY_FINANCING);
 
-		session.save(otherCashIncome);
-
-		Account otherCashExpense = new Account(Account.TYPE_EXPENSE, "7900",
-				AccounterServerConstants.OTHER_CASH_EXPENSE, false, null,
-				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, true, "", 0.0, null,
-				false, true, openingBalancesAccount, "14", true,
-				this.preferences.getPreventPostingBeforeDate());
-
-		session.save(otherCashExpense);
+		this.otherCashExpenseAccount = createAccount(Account.TYPE_EXPENSE,
+				AccounterServerConstants.OTHER_CASH_EXPENSE,
+				Account.CASH_FLOW_CATEGORY_FINANCING);
 
 		// this.accountsReceivableAccount = accountsReceivable;
 		// this.accountsPayableAccount = accountsPayable;
 		// this.openingBalancesAccount = openingBalancesAccount;
 		// this.retainedEarningsAccount = retainedEarnings;
-		this.salesTaxPayable = salesTaxPayable;
-		this.otherCashIncomeAccount = otherCashIncome;
-		this.otherCashExpenseAccount = otherCashExpense;
 		company.setTaxLiabilityAccount(this.salesTaxPayable);
 		// this.pendingItemReceiptsAccount = pendingItemReceipts;
 

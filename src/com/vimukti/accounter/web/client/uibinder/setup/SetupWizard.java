@@ -8,6 +8,8 @@ import java.util.Map;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -23,14 +25,17 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.CustomLabel;
+import com.vimukti.accounter.web.client.ui.core.AccounterDialog;
+import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 
 public class SetupWizard extends VerticalPanel {
 	private static final int START_PAGE = 0;
 	private VerticalPanel viewPanel;
 	private HorizontalPanel buttonPanel, backNextButtonPanel;
 	private VerticalPanel progressPanel, viewButtonPanel;
-	private Button backButton, nextButton;
+	private Button backButton, nextButton, cancelBtn;
 	private Button gotoButton;
 	private ClientCompanyPreferences preferences;
 	private Label progressHeader;
@@ -41,8 +46,8 @@ public class SetupWizard extends VerticalPanel {
 
 	private AbstractSetupPage viewList[] = new AbstractSetupPage[] {
 			new SetupStartPage(this), new SetupCompanyInfoPage(),
-			new SetupOrganisationSelectionPage(),
-			new SetupIndustrySelectionPage(), new SetupReferPage(),
+			new SetupIndustrySelectionPage(this),
+			new SetupOrganisationSelectionPage(), new SetupReferPage(),
 			new SetupTrackEmployeesPage(), new SetupSellTypeAndSalesTaxPage(),
 			new SetupUsingEstimatesAndStatementsPage(),
 			new SetupCurrencyPage(), new SetupTrackBillsAndTimePage(),
@@ -51,6 +56,8 @@ public class SetupWizard extends VerticalPanel {
 
 	private AbstractSetupPage[] skipViewList = new AbstractSetupPage[] {
 			new SetupStartPage(this), new SetupCompanyInfoPage(),
+			new SetupOrganisationSelectionPage(),
+			new SetupSelectFiscalYrDatePage(),
 			new SetupIndustrySelectionWithAccountsPage(this),
 			new SetupComplitionPage() };
 
@@ -71,13 +78,12 @@ public class SetupWizard extends VerticalPanel {
 	private Image skipProgressImages[] = new Image[skipViewList.length - 2];
 	private String skipProgressLabels[] = new String[] {
 			Accounter.constants().setCompanyInfo(),
-			Accounter.constants().selectIndustryType(),
-			Accounter.constants().companyOrganization() };
-	private int skipProgressImagesIndex;
+			Accounter.constants().companyOrganization(),
+			Accounter.constants().setFiscalYear(),
+			Accounter.constants().selectIndustryType() };
 
 	private AbstractSetupPage previousView;
 	private AbstractSetupPage viewToShow;
-	private int startProgressImagesIndex;
 	private boolean isSkip;
 	private Map<Integer, AccountsTemplate> accountsTemplates = new HashMap<Integer, AccountsTemplate>();
 
@@ -136,17 +142,22 @@ public class SetupWizard extends VerticalPanel {
 			backButton = new Button(Accounter.constants().back());
 			nextButton = new Button(Accounter.constants().next());
 			gotoButton = new Button(Accounter.constants().gotoAccounter());
+			cancelBtn = new Button(Accounter.constants().cancel());
 
 			// making them invisible at the beginning
 			// skipButton.setVisible(false);
 			backButton.setVisible(false);
 			nextButton.setVisible(false);
 			gotoButton.setVisible(false);
+			// cancelBtn.setVisible(false);
 
 			// buttonPanel.add(skipButton);
 			backNextButtonPanel.add(backButton);
 			backNextButtonPanel.add(nextButton);
 			backNextButtonPanel.add(gotoButton);
+			buttonPanel.add(cancelBtn);
+			buttonPanel.setCellHorizontalAlignment(cancelBtn,
+					HasAlignment.ALIGN_LEFT);
 			buttonPanel.add(backNextButtonPanel);
 			buttonPanel.setCellHorizontalAlignment(backNextButtonPanel,
 					HasAlignment.ALIGN_RIGHT);
@@ -189,6 +200,11 @@ public class SetupWizard extends VerticalPanel {
 				@Override
 				public void onClick(ClickEvent arg0) {
 					if (getViewsList()[currentViewIndex].validate()) {
+						// setting the progress
+						if (currentViewIndex > 0) {
+							getProgressImages()[currentViewIndex - 1]
+									.addStyleName("tick_show");
+						}
 						if (currentViewIndex != viewList.length - 1) {
 							currentViewIndex++;
 						}
@@ -203,6 +219,10 @@ public class SetupWizard extends VerticalPanel {
 				public void onClick(ClickEvent arg0) {
 					if (getViewsList()[currentViewIndex].validate()) {
 						if (currentViewIndex != START_PAGE) {
+							if (currentViewIndex > 1) {
+								getProgressImages()[currentViewIndex - 2]
+										.removeStyleName("tick_show");
+							}
 							currentViewIndex--;
 							showView();
 							if (currentViewIndex == 0) {
@@ -217,6 +237,15 @@ public class SetupWizard extends VerticalPanel {
 					}
 				}
 			});
+
+			cancelBtn.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					cancel();
+				}
+			});
+
 			previousView = null;
 			showStartPage();
 		} catch (Exception e) {
@@ -269,21 +298,12 @@ public class SetupWizard extends VerticalPanel {
 			this.viewPanel.remove(previousView);
 		}
 
-		// while (!viewToShow.doShow()) {
-		// currentViewIndex++;
-		// viewToShow = viewList[currentViewIndex];
-		// viewToShow.setPreferences(preferences);
-		// }
 		viewToShow = getNextView();
 
 		if (viewToShow == null) {
 			return;
 		}
 
-		// if (viewToShow.doShow()) {
-		// viewToShow = viewList[currentViewIndex];
-		// viewToShow.setPreferences(preferences);
-		// }
 		if (isLastView()) {
 			backNextButtonPanel.addStyleName("back_GoToPanel");
 		} else {
@@ -309,48 +329,39 @@ public class SetupWizard extends VerticalPanel {
 			buttonPanel.setVisible(false);
 		}
 
-		// setting the progress
-		if (currentViewIndex > 1) {
-			if (isSkip) {
-				skipProgressImagesIndex = currentViewIndex - 2;
-				skipProgressImages[skipProgressImagesIndex]
-						.addStyleName("tick_show");
-			} else {
-				startProgressImagesIndex = currentViewIndex - 2;
-				startProgressImages[startProgressImagesIndex]
-						.addStyleName("tick_show");
-			}
-
-		}
 	}
 
 	public void getProgessPanel() {
 		progressTable = new FlexTable();
-		if (isSkip) {
-			for (int iii = 0; iii < skipProgressImages.length; iii++) {
-				CustomLabel label = new CustomLabel(skipProgressLabels[iii]);
-				skipProgressImages[iii] = new Image(Accounter
-						.getFinanceImages().tickMark());
-				skipProgressImages[iii].addStyleName("tick_hidden");
-				progressTable.setWidget(iii, 0, skipProgressImages[iii]);
-				progressTable.setWidget(iii, 1, label);
-			}
-		} else {
-			for (int iii = 0; iii < startProgressImages.length; iii++) {
-				CustomLabel label = new CustomLabel(startProgressLabels[iii]);
-				startProgressImages[iii] = new Image(Accounter
-						.getFinanceImages().tickMark());
-				startProgressImages[iii].addStyleName("tick_hidden");
-				progressTable.setWidget(iii, 0, startProgressImages[iii]);
-				progressTable.setWidget(iii, 1, label);
-			}
-
+		Image[] progressImages = getProgressImages();
+		String[] progressLabels = getProgressLabels();
+		for (int iii = 0; iii < progressImages.length; iii++) {
+			CustomLabel label = new CustomLabel(progressLabels[iii]);
+			progressImages[iii] = new Image(Accounter.getFinanceImages()
+					.tickMark());
+			progressImages[iii].addStyleName("tick_hidden");
+			progressTable.setWidget(iii, 0, progressImages[iii]);
+			progressTable.setWidget(iii, 1, label);
 		}
 
 		progressPanel.add(progressTable);
 		progressTable.addStyleName("progress_panel_data");
 		progressPanel.getElement().getParentElement()
 				.setClassName("progress_panel_show");
+	}
+
+	private String[] getProgressLabels() {
+		if (isSkip) {
+			return skipProgressLabels;
+		}
+		return startProgressLabels;
+	}
+
+	private Image[] getProgressImages() {
+		if (isSkip) {
+			return skipProgressImages;
+		}
+		return startProgressImages;
 	}
 
 	/**
@@ -375,7 +386,6 @@ public class SetupWizard extends VerticalPanel {
 
 	private AbstractSetupPage getNextView() {
 		AbstractSetupPage nextView = getViewsList()[currentViewIndex];
-		nextView.setPreferences(preferences);
 		while (!nextView.canShow()) {
 			currentViewIndex++;
 			if (currentViewIndex > getViewsList().length - 1) {
@@ -444,6 +454,43 @@ public class SetupWizard extends VerticalPanel {
 	 */
 	public List<TemplateAccount> getSelectedAccountsList() {
 		return this.selectedAccounts;
+	}
+
+	/**
+	 * Cancels the Setup
+	 */
+	public void cancel() {
+		new AccounterDialog(Accounter.messages().setupCancelMessgae(),
+				AccounterType.WARNING, new ErrorDialogHandler() {
+
+					@Override
+					public boolean onYesClick() {
+						try {
+							redirectToCompaniesPage();
+						} catch (Exception e) {
+							return false;
+						}
+						return true;
+					}
+
+					@Override
+					public boolean onNoClick() {
+						return true;
+					}
+
+					@Override
+					public boolean onCancelClick() {
+						return true;
+					}
+				});
+	}
+
+	/**
+	 * @throws RequestException
+	 * 
+	 */
+	protected void redirectToCompaniesPage() throws RequestException {
+		Window.Location.assign("/login");
 	}
 
 }

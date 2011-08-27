@@ -81,8 +81,9 @@ public interface IAccounterHomeViewServiceAsync {
 
 	public void getPaymentsList(AsyncCallback<ArrayList<PaymentsList>> callBack);
 
-	public void getRecurringsList(AsyncCallback<ArrayList<ClientRecurringTransaction>> callBack);
-	
+	public void getRecurringsList(
+			AsyncCallback<ArrayList<ClientRecurringTransaction>> callBack);
+
 	public void getVendorCreditsAndPayments(long vendorId,
 			AsyncCallback<ArrayList<ClientCreditsAndPayments>> callBack);
 
@@ -232,10 +233,8 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getSalesOrders(
 			AsyncCallback<ArrayList<SalesOrdersList>> callback);
 
-	
-	  public void getPurchaseOrders(
-	  AsyncCallback<ArrayList<PurchaseOrdersList>> callback);
-	 
+	public void getPurchaseOrders(
+			AsyncCallback<ArrayList<PurchaseOrdersList>> callback);
 
 	/*
 	 * public void getSalesOrdersForCustomer(long customerID,
@@ -327,7 +326,7 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<ArrayList<ClientFinanceDate>> callBack);
 
 	public void getCustomerNumber(AsyncCallback<String> callback);
-	
+
 	public void getVendorNumber(AsyncCallback<String> callback);
 
 	void getReceiveVATEntries(
@@ -344,10 +343,16 @@ public interface IAccounterHomeViewServiceAsync {
 
 	void getAllUsers(AsyncCallback<ArrayList<ClientUserInfo>> callback);
 
-	void mergeCustomer(ClientCustomer clientCustomer, ClientCustomer clientCustomer1, AsyncCallback<Void> callback);
-	void mergeVendor(ClientVendor fromClientVendor,ClientVendor toClientVendor, AsyncCallback<Void> callback);
-	void mergeItem(ClientItem froClientItem,ClientItem toClientItem, AsyncCallback<Void> callback);
-	void mergeAccount(ClientAccount fromClientAccount ,ClientAccount toClientAccount, AsyncCallback<Void> callback);
-	
+	void mergeCustomer(ClientCustomer clientCustomer,
+			ClientCustomer clientCustomer1, AsyncCallback<Void> callback);
+
+	void mergeVendor(ClientVendor fromClientVendor,
+			ClientVendor toClientVendor, AsyncCallback<Void> callback);
+
+	void mergeItem(ClientItem froClientItem, ClientItem toClientItem,
+			AsyncCallback<Void> callback);
+
+	void mergeAccount(ClientAccount fromClientAccount,
+			ClientAccount toClientAccount, AsyncCallback<Void> callback);
 
 }

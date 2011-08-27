@@ -136,7 +136,10 @@ public class ClientCurrency implements IAccounterCore {
 			return false;
 		if (obj instanceof ClientCurrency) {
 			ClientCurrency currency = (ClientCurrency) obj;
-			return this.getID() == currency.getID() ? true : false;
+			return currency.getID() == this.id
+					&& currency.getFormalName().endsWith(this.formalName)
+					&& currency.getName().equals(this.name);
+			// && currency.getCountryName().endsWith(this.countryName);
 		}
 		return false;
 	}

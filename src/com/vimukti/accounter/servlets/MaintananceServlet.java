@@ -7,7 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
+import com.vimukti.accounter.core.ServerMaintanance;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
 
@@ -31,15 +33,26 @@ public class MaintananceServlet extends BaseServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		Session openSession = HibernateUtil.openSession(LOCAL_DATABASE);
-		String paswdString = req.getParameter("adminPasswordBox");
+		String paswdString = req.getParameter("password");
 		if (paswdString != null
-				&& paswdString == ServerConfiguration.getAdminPassword()) {
-			if (req.getParameter("option1") != null
-					&& req.getParameter("option1").equals("on")) {
-				ServerConfiguration.setUnderMaintainance(true);
+				&& paswdString.equals(ServerConfiguration.getAdminPassword())) {
+			if (req.getParameter("option1") != null) {
+				boolean isUndermaintanance = req.getParameter("option1")
+						.equals("on");
+				ServerConfiguration.setUnderMaintainance(isUndermaintanance);
 
-				// TODO updateTable();
+				Session session = HibernateUtil.openSession(LOCAL_DATABASE);
+				Transaction transaction = session.beginTransaction();
+				try {
+					ServerMaintanance maintanance = (ServerMaintanance) session
+							.load(ServerMaintanance.class, 1l);
+					maintanance.setUnderMaintanance(isUndermaintanance);
+					session.saveOrUpdate(maintanance);
+					transaction.commit();
+				} catch (Exception e) {
+					e.printStackTrace();
+					transaction.rollback();
+				}
 			}
 		}
 

@@ -427,9 +427,9 @@ public class FinanceTool {
 
 			new ServerConvertUtil().toServerObject(serverObject,
 					(IAccounterCore) data, session);
-			
+
 			serverObject.setVersion(++version);
-			
+
 			if (serverObject instanceof Transaction) {
 				Transaction transaction = (Transaction) serverObject;
 				transaction.onEdit((Transaction) clonedObject);
@@ -740,7 +740,7 @@ public class FinanceTool {
 	 * if command type id create, alter and delete, then changes will be add in
 	 * chanageTracker,Put changes in comet stream
 	 */
-	public void putChangesInCometStream() {
+	public void putChangesInCometStream(long ServerCompanyID) {
 		try {
 			IAccounterCore[] changes = ChangeTracker.getChanges();
 			if (changes != null && changes.length > 0) {
@@ -748,11 +748,10 @@ public class FinanceTool {
 				Session session = null;
 				session = HibernateUtil.getCurrentSession();
 				List<User> users = session.getNamedQuery("getAllUsers").list();
-				long id = getCompany().getID();
 				for (User user : users) {
 					try {
-						CometStream stream = CometManager.getStream(id,
-								user.getEmail());
+						CometStream stream = CometManager.getStream(
+								ServerCompanyID, user.getEmail());
 						if (stream == null) {
 							continue;
 						}

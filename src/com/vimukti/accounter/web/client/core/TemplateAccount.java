@@ -131,6 +131,9 @@ public class TemplateAccount implements Serializable, IsSerializable {
 	}
 
 	public int getCashFlowAsInt() {
+		if (cashFlowType == null) {
+			return ClientAccount.CASH_FLOW_CATEGORY_FINANCING;
+		}
 		if (cashFlowType.equals("Financing")) {
 			return ClientAccount.CASH_FLOW_CATEGORY_FINANCING;
 		} else if (cashFlowType.equals("Investing")) {

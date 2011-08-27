@@ -325,6 +325,28 @@ public class Account extends CreatableObject implements IAccounterServerCore {
 	}
 
 	/**
+	 * Creates new Instance Used to Create Default Accounts
+	 * 
+	 * @param type
+	 * @param number
+	 * @param name
+	 * @param cashFlowCategory
+	 * @param isConsiderAsCashAccount
+	 * @param isOpeningBalanceEditable
+	 * 
+	 */
+	public Account(int type, int number, String name, int cashFlowCategory) {
+		this.type = type;
+		this.number = String.valueOf(number);
+		this.name = name;
+		this.isActive = true;
+		this.cashFlowCategory = cashFlowCategory;
+		this.isOpeningBalanceEditable = true;
+		this.flow = String.valueOf(number);
+		this.isDefault = true;
+	}
+
+	/**
 	 * Constructor of Account class
 	 * 
 	 * @param session
@@ -767,7 +789,6 @@ public class Account extends CreatableObject implements IAccounterServerCore {
 			return true;
 		super.onSave(session);
 		this.isOnSaveProccessed = true;
-
 		FinanceLogger.log("{0} OnSave method execution...........",
 				this.getName());
 

@@ -36,7 +36,9 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 	VerticalPanel currencyListGridPanel;
 	private CurrenciesGrid currenciesGrid;
 	// private Set<ClientCurrency> currencySet;
-	private List<ClientCurrency> currenciesList;
+	private List<ClientCurrency> currenciesList = new ArrayList<ClientCurrency>();
+
+	private String selectedCuntry;
 
 	interface SetupCurrencyPageUiBinder extends
 			UiBinder<Widget, SetupCurrencyPage> {
@@ -53,7 +55,6 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 	 */
 	public SetupCurrencyPage() {
 		initWidget(uiBinder.createAndBindUi(this));
-		currenciesList = new ArrayList<ClientCurrency>();
 		createControls();
 	}
 
@@ -71,7 +72,8 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 						for (ClientCurrency currency : currenciesList) {
 							primaryCurrencyListBox.addItem(currency
 									.getFormalName()
-									+ "\t" + currency.getDisplayName());
+									+ "\t"
+									+ currency.getDisplayName());
 						}
 
 						currenciesGrid = new CurrenciesGrid();
@@ -82,7 +84,6 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 
 					@Override
 					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
 
 					}
 				});
@@ -95,16 +96,28 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 
 	@Override
 	protected void onLoad() {
-		if (currenciesList.indexOf(preferences.getPrimaryCurrency()) != -1)
-			primaryCurrencyListBox.setSelectedIndex(currenciesList
-					.indexOf(preferences.getPrimaryCurrency()));
+
+		ClientCurrency primaryCurrency = preferences.getPrimaryCurrency();
+		String country = Accounter.getCompany().getTradingAddress()
+				.getCountryOrRegion();
+		if (primaryCurrency == null || !selectedCuntry.equals(country)) {
+			this.selectedCuntry = country;
+			for (int index = 0; index < currenciesList.size(); index++) {
+				// if (currenciesList.get(index).getCountryName()
+				// .equals(selectedCuntry)) {
+				// primaryCurrencyListBox.setSelectedIndex(index);
+				// }
+			}
+		}
+
 	}
 
 	@Override
 	protected void onSave() {
-		if (primaryCurrencyListBox.getSelectedIndex() != -1)
+		if (primaryCurrencyListBox.getSelectedIndex() != -1) {
 			preferences.setPrimaryCurrency(currenciesList
 					.get(primaryCurrencyListBox.getSelectedIndex()));
+		}
 	}
 
 	@Override

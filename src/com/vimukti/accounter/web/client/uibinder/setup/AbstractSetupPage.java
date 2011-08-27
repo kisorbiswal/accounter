@@ -25,13 +25,8 @@ public abstract class AbstractSetupPage extends Composite {
 	protected abstract void onSave();
 
 	protected abstract void onLoad();
-	
+
 	protected abstract boolean validate();
-
-	public void setPreferences(ClientCompanyPreferences preferences) {
-		// TODO Auto-generated method stub
-
-	}
 
 	public abstract boolean canShow();
 }

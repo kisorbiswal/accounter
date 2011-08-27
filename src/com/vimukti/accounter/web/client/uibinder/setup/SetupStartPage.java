@@ -24,7 +24,7 @@ public class SetupStartPage extends AbstractSetupPage {
 	private static SetupStartPageUiBinder uiBinder = GWT
 			.create(SetupStartPageUiBinder.class);
 	@UiField
-	Button startButton, skipButton;
+	Button startButton, skipButton, cancelBtn;
 	@UiField
 	HTML startSetupInfo, skipSetupInfo, setupInfo;
 	@UiField
@@ -71,6 +71,7 @@ public class SetupStartPage extends AbstractSetupPage {
 		this.headerLabel.setText(accounterConstants.welcomeToStartup());
 		this.startButton.setText(accounterConstants.startSetup());
 		this.skipButton.setText(accounterConstants.skipSetup());
+		this.cancelBtn.setText(accounterConstants.cancel());
 		this.setupInfo.setHTML(accounterMessages.userGuidelinesMessage());
 		this.startSetupInfo.setHTML(accounterMessages.startSetupInfo());
 		this.skipSetupInfo.setHTML(accounterMessages.skipSetupInfo());
@@ -94,6 +95,14 @@ public class SetupStartPage extends AbstractSetupPage {
 				setupWizard.setSkip(true);
 				setupWizard.getProgessPanel();
 				setupWizard.showView();
+			}
+		});
+
+		cancelBtn.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				setupWizard.cancel();
 			}
 		});
 

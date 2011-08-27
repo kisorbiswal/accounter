@@ -514,6 +514,13 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 		return false;
 	}
 
+	/**
+	 * @return the subBaseType
+	 */
+	public int getSubBaseType() {
+		return subBaseType;
+	}
+
 	@Override
 	public int getVersion() {
 		return version;
@@ -521,6 +528,6 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
+		this.version = version;
 	}
 }

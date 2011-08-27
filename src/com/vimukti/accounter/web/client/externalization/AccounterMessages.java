@@ -785,6 +785,8 @@ public interface AccounterMessages extends Messages {
 
 	public String giveOfYour(String lowerCase, String company);
 
+	public String setupCancelMessgae();
+
 	public SafeHtml registeredDetails();
 
 	public SafeHtml tradingDetails();

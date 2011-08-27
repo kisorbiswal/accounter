@@ -58,12 +58,12 @@ public class CometManager {
 		return str;
 	}
 
-	public static void initStream(String sessionID, long companyId,
+	public static void initStream(String sessionID, long serverCompanyId,
 			String emailID, CometSession cometSession) {
-		Map<String, CometSession> queues = map.get(emailID + companyId);
+		Map<String, CometSession> queues = map.get(emailID + serverCompanyId);
 		if (queues == null) {
 			queues = new HashMap<String, CometSession>();
-			map.put(emailID + companyId, queues);
+			map.put(emailID + serverCompanyId, queues);
 		}
 		queues.put(sessionID, cometSession);
 	}

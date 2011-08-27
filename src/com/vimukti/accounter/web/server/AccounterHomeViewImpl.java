@@ -1641,13 +1641,4 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	}
 
-	// public ArrayList<ClientEmployee> getAllEmployees()
-	// throws AccounterException {
-	// FinanceTool tool = getFinanceTool();
-	// if (tool != null) {
-	// return tool.getAllEmployees();
-	// }
-	// return null;
-	// }
-
 }

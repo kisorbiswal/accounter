@@ -29,7 +29,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 	/**
 	 * This is the Account created by default for the purpose of UK VAT
 	 */
-	Account VATliabilityAccount;
+	Account vATliabilityAccount;
 	// Account prepaidVATaccount;
 	// Account ECAcquisitionVATaccount;
 
@@ -38,7 +38,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 	 * This is the Account created by default for the purpose of UK when VAT is
 	 * Filed
 	 */
-	Account VATFiledLiabilityAccount;
+	Account vATFiledLiabilityAccount;
 
 	Set<NominalCodeRange> nominalCodeRange = new HashSet<NominalCodeRange>();
 	/**
@@ -103,7 +103,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 	}
 
 	private void initDefaultUKAccounts() {
-		Session session = HibernateUtil.getCurrentSession();
 		// FinanceDate currentDate = new FinanceDate();
 		// FinanceDate fiscalYearStartDate = new FinanceDate(
 		// (int) currentDate.getYear(), 0, 1);
@@ -116,38 +115,23 @@ public class UKCompanyInitializer extends CompanyInitializer {
 		//
 		// session.save(fiscalYear);
 
-		Account saelsTaxVAT = new Account(Account.TYPE_OTHER_CURRENT_LIABILITY,
-				"2120", AccounterServerConstants.SALES_TAX_VAT_UNFILED, true,
-				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
-				0.0, null, true, false, openingBalancesAccount, "113", true,
-				this.preferences.getPreventPostingBeforeDate());
+		vATliabilityAccount = createAccount(
+				Account.TYPE_OTHER_CURRENT_LIABILITY,
+				AccounterServerConstants.SALES_TAX_VAT_UNFILED,
+				Account.CASH_FLOW_CATEGORY_OPERATING);
 
-		session.save(saelsTaxVAT);
+		createAccount(Account.TYPE_LONG_TERM_LIABILITY,
+				AccounterServerConstants.DEFERRED_TAX,
+				Account.CASH_FLOW_CATEGORY_FINANCING);
 
-		Account deferredTax = new Account(Account.TYPE_LONG_TERM_LIABILITY,
-				"9200", AccounterServerConstants.DEFERRED_TAX, true, null,
-				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", 0.0,
-				null, true, false, openingBalancesAccount, "139", true,
-				this.preferences.getPreventPostingBeforeDate());
+		createAccount(Account.TYPE_OTHER_ASSET,
+				AccounterServerConstants.VAT_ON_IMPORTS,
+				Account.CASH_FLOW_CATEGORY_INVESTING);
 
-		session.save(deferredTax);
-
-		Account vatOnImports = new Account(Account.TYPE_OTHER_ASSET, "9550",
-				AccounterServerConstants.VAT_ON_IMPORTS, true, null,
-				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", 0.0,
-				null, true, false, openingBalancesAccount, "145", true,
-				this.preferences.getPreventPostingBeforeDate());
-
-		session.save(vatOnImports);
-
-		Account salesTaxVATFiled = new Account(
-				Account.TYPE_OTHER_CURRENT_LIABILITY, "2122",
-				AccounterServerConstants.SALES_TAX_VAT_FILED, true, null,
-				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
-				null, true, false, openingBalancesAccount, "151", true,
-				this.preferences.getPreventPostingBeforeDate());
-
-		session.save(salesTaxVATFiled);
+		vATFiledLiabilityAccount = createAccount(
+				Account.TYPE_OTHER_CURRENT_LIABILITY,
+				AccounterServerConstants.SALES_TAX_VAT_FILED,
+				Account.CASH_FLOW_CATEGORY_OPERATING);
 
 		// Account VATliabilityAccount = new Account(
 		// Account.TYPE_OTHER_CURRENT_LIABILITY, "2699",
@@ -362,16 +346,14 @@ public class UKCompanyInitializer extends CompanyInitializer {
 		//
 		// session.save(ECSale);
 
-		this.VATliabilityAccount = saelsTaxVAT;
-		this.VATFiledLiabilityAccount = salesTaxVATFiled;
-		company.setTaxLiabilityAccount(this.VATliabilityAccount);
-		company.setVATFiledLiabilityAccount(this.VATFiledLiabilityAccount);
+		company.setTaxLiabilityAccount(this.vATliabilityAccount);
+		company.setVATFiledLiabilityAccount(this.vATFiledLiabilityAccount);
 		// this.pendingItemReceiptsAccount = pendingItemReceipts;
 		// this.prepaidVATaccount = prepaidVATaccount;
 		// this.ECAcquisitionVATaccount = ECAcquisitionVAT;
 
 		// setDefaultsUKValues(session);
-		createUKDefaultVATCodesAndVATAgency(session);
+		createUKDefaultVATCodesAndVATAgency();
 		// createNominalCodesRanges(session);
 		// createDefaultBrandingTheme(session);
 
@@ -538,8 +520,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 	}
 
-	public void createUKDefaultVATCodesAndVATAgency(Session session) {
-
+	public void createUKDefaultVATCodesAndVATAgency() {
+		Session session = HibernateUtil.getCurrentSession();
 		try {
 			VATReturnBox vt1 = new VATReturnBox();
 			vt1.setName(AccounterServerConstants.UK_EC_PURCHASES_GOODS);

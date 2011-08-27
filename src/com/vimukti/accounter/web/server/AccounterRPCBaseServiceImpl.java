@@ -76,7 +76,10 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 				try {
 					super.service(request, response);
 					try {
-						getFinanceTool().putChangesInCometStream();
+						String serverCompanyID = getCookie(request,
+								BaseServlet.COMPANY_COOKIE);
+						getFinanceTool().putChangesInCometStream(
+								Long.parseLong(serverCompanyID));
 					} catch (AccounterException e) {
 						log.error("Failed to get FinanceTool", e);
 					}

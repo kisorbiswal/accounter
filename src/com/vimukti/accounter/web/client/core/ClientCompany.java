@@ -2603,6 +2603,35 @@ public class ClientCompany implements IAccounterCore {
 		VATFiledLiabilityAccount = vATFiledLiabilityAccount;
 	}
 
+	public long getNextAccountNumber(int accountSubBaseType) {
+
+		Collections.sort(accounts, new Comparator<ClientAccount>() {
+
+			@Override
+			public int compare(ClientAccount o1, ClientAccount o2) {
+				Long number1 = Long.parseLong(o1.getNumber());
+				Long number2 = Long.parseLong(o2.getNumber());
+				return number1.compareTo(number2);
+			}
+		});
+		Integer[] codeRanges = getNominalCodeRange(accountSubBaseType);
+		long lastUsedNo = codeRanges[0];
+		for (ClientAccount account : accounts) {
+			if (account.getSubBaseType() == accountSubBaseType) {
+				long number = Long.parseLong(account.getNumber());
+				if (number == lastUsedNo) {
+					lastUsedNo++;
+				} else {
+					break;
+				}
+			}
+		}
+		if (lastUsedNo < codeRanges[1]) {
+			return lastUsedNo;
+		}
+		return -1;
+	}
+
 	@Override
 	public int getVersion() {
 		return version;

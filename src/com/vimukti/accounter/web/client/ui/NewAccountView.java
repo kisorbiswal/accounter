@@ -184,16 +184,14 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					public void selectedComboBoxItem(String selectItem) {
 						selectedId = (String) accTypeSelect.getSelectedValue();
 						accounttype_selected();
-						int accountSubType = UIUtils
+						int subBaseType = UIUtils
 								.getAccountSubBaseType(getAccountType(selectedId));
-
-						Integer accountNoRange[] = getCompany()
-								.getNominalCodeRange(accountSubType);
-
+						Integer[] ranges = getCompany().getNominalCodeRange(
+								subBaseType);
 						accNoText.setToolTip(Accounter.messages()
 								.accountNumberToolTipDesc(
-										accountNoRange[0] + "",
-										accountNoRange[1] + ""));
+										String.valueOf(ranges[0]),
+										String.valueOf(ranges[1])));
 					}
 				});
 
@@ -790,6 +788,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			accTypeSelect.setComboItem(Utility
 					.getAccountTypeString(accountType));
 			accTypeSelect.setDisabled(true);
+			getNextAccountNo();
 			accNoText.setToolTip(Accounter.messages().accountNumberToolTipDesc(
 					"1100", "1179"));
 		} else {
@@ -1363,45 +1362,43 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				}
 			}
 		}
-		if (isNewBankAccount()) {
-			if (number < 1100 || number > 1179) {
-				addError(
-						accNoText,
-						Accounter
-								.messages()
-								.theAccountNumberchosenisincorrectPleasechooseaNumberbetween1100and1179(
-										Global.get().account()));
-				return false;
-			} else {
-				clearError(accNoText);
-			}
-		} else {
-			accountSubBaseType = UIUtils.getAccountSubBaseType(accountType);
+		// if (isNewBankAccount()) {
+		// if (number < 1100 || number > 1179) {
+		// addError(
+		// accNoText,
+		// Accounter
+		// .messages()
+		// .theAccountNumberchosenisincorrectPleasechooseaNumberbetween1100and1179(
+		// Global.get().account()));
+		// return false;
+		// } else {
+		// clearError(accNoText);
+		// }
+		// } else {
+		accountSubBaseType = UIUtils.getAccountSubBaseType(accountType);
 
-			nominalCodeRange = getCompany().getNominalCodeRange(
-					accountSubBaseType);
+		nominalCodeRange = getCompany().getNominalCodeRange(accountSubBaseType);
 
-			if (nominalCodeRange == null
-					&& accountSubBaseType == ClientAccount.SUBBASETYPE_OTHER_ASSET) {
-				return true;
-			}
-
-			if (number < nominalCodeRange[0] || number > nominalCodeRange[1]) {
-				addError(
-						accNoText,
-						Accounter
-								.messages()
-								.theAccountNumberchosenisincorrectPleaschooseaNumberbetween(
-										Global.get().account())
-								+ "  "
-								+ nominalCodeRange[0]
-								+ Accounter.constants().and()
-								+ nominalCodeRange[1]);
-				return false;
-			} else {
-				clearError(accNoText);
-			}
+		if (nominalCodeRange == null
+				&& accountSubBaseType == ClientAccount.SUBBASETYPE_OTHER_ASSET) {
+			return true;
 		}
+
+		if (number < nominalCodeRange[0] || number > nominalCodeRange[1]) {
+			addError(
+					accNoText,
+					Accounter
+							.messages()
+							.theAccountNumberchosenisincorrectPleaschooseaNumberbetween(
+									Global.get().account())
+							+ "  "
+							+ nominalCodeRange[0]
+							+ Accounter.constants().and() + nominalCodeRange[1]);
+			return false;
+		} else {
+			clearError(accNoText);
+		}
+		// }
 
 		accNoText.setValue(String.valueOf(number));
 
@@ -1472,6 +1469,13 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		setCashFlowType();
 		resetView();
 		statusBox.setValue(true);
+		getNextAccountNo();
+	}
+
+	private void getNextAccountNo() {
+		long nextAccountNumber = getCompany().getNextAccountNumber(
+				UIUtils.getAccountSubBaseType(accountType));
+		accNoText.setValue(String.valueOf(nextAccountNumber));
 	}
 
 	@Override

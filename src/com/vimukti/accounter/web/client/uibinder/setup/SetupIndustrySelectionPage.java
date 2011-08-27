@@ -3,6 +3,8 @@
  */
 package com.vimukti.accounter.web.client.uibinder.setup;
 
+import java.util.Map;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -11,6 +13,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
@@ -31,6 +34,7 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 	Label selectIndustry;
 	@UiField
 	Label headerLabel;
+	private SetupWizard setupWizard;
 
 	interface SetupIndustrySelectionPageUiBinder extends
 			UiBinder<Widget, SetupIndustrySelectionPage> {
@@ -47,8 +51,9 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 	 * 
 	 * @param setupWizard
 	 */
-	public SetupIndustrySelectionPage() {
+	public SetupIndustrySelectionPage(SetupWizard setupWizard) {
 		initWidget(uiBinder.createAndBindUi(this));
+		this.setupWizard = setupWizard;
 		createControls();
 	}
 
@@ -61,42 +66,6 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 		selectIndustry.setText(accounterMessages.selectIndustry());
 		industryList.setName(accounterConstants.industry());
 
-		String[] industries = new String[] {
-				Accounter.constants().accountingorBookkeeping(),
-				Accounter.constants().advertisingorPublicRelations(),
-				Accounter.constants().agricultureRanchingFarming(),
-				Accounter.constants().artWritingPhotography(),
-				Accounter.constants().automotiveSalesAndRepair(),
-				Accounter.constants().churhorReligiousOrganisation(),
-				Accounter.constants().constructionGeneralContractor(),
-				Accounter.constants().constructionTrades(),
-				Accounter.constants().designArchitectureEngineering(),
-				Accounter.constants().financialServices(),
-				Accounter.constants().hairSallonBeautysaloon(),
-				Accounter.constants().informationTechnology(),
-				Accounter.constants().insuranceAgencyorBroker(),
-				Accounter.constants().lawncareOrlandscaping(),
-				Accounter.constants().legalServices(),
-				Accounter.constants().lodging(),
-				Accounter.constants().manufacturerRepresentativeOrAgent(),
-				Accounter.constants().manufacturing(),
-				Accounter.constants().medicalDentalorhealthservices(),
-				Accounter.constants().nonProfit(),
-				Accounter.constants().professionalConsulting(),
-				Accounter.constants().propertyManagementorHomeAssociation(),
-				Accounter.constants().realEstateBrokerageorDeveloper(),
-				Accounter.constants().rental(),
-				Accounter.constants().repairandMaintenance(),
-				Accounter.constants().restaurantCatererorbar(),
-				Accounter.constants().retailShoporonlinecommerce(),
-				Accounter.constants().salesIndependentAgent(),
-				Accounter.constants().transportationTruckingordelivery(),
-				Accounter.constants().wholesaledistributionandsales(),
-				Accounter.constants().generalProductbasedBusiness(),
-				Accounter.constants().generalServicebasedBusiness() };
-		for (int i = 0; i < industries.length; i++) {
-			industryList.addItem(industries[i]);
-		}
 		industryList.setVisibleItemCount(15);
 
 	}
@@ -104,11 +73,16 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 	public void onLoad() {
 
 		int industryType = preferences.getIndustryType();
-		if (industryType < 0) {
+		if (industryType <= 0) {
+			Map<Integer, AccountsTemplate> allIndustiesWithAccounts = setupWizard
+					.getAllIndustiesWithAccounts();
+			for (AccountsTemplate template : allIndustiesWithAccounts.values()) {
+				industryList.addItem(template.getName());
+			}
 			return;
 		}
-		industryType--;
-		industryList.setSelectedIndex(industryType);
+		// industryType--;
+		// industryList.setSelectedIndex(industryType);
 	}
 
 	@Override

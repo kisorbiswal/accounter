@@ -16,7 +16,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.vimukti.accounter.web.server.CometManager;
 
-public class PostLoginServlet extends BaseServlet {
+public class OpenCompanyServlet extends BaseServlet {
 
 	/**
 	 * 
@@ -36,7 +36,9 @@ public class PostLoginServlet extends BaseServlet {
 		String emailID = (String) request.getSession().getAttribute(EMAIL_ID);
 		RequestDispatcher dispatcher;
 		if (emailID != null) {
-			initComet(request.getSession(), emailID);
+			String serverCompanyID = getCookie(request, COMPANY_COOKIE);
+			initComet(request.getSession(), Long.parseLong(serverCompanyID),
+					emailID);
 			// there is no session, so do external redirect to login page
 			// response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
 			// response.setHeader("Location", "/Accounter.jsp");
@@ -64,12 +66,13 @@ public class PostLoginServlet extends BaseServlet {
 	 * @param request
 	 * @param identity
 	 */
-	private void initComet(HttpSession httpSession, String emailID) {
+	private void initComet(HttpSession httpSession, long companyID,
+			String emailID) {
 		// Stream must be created otherwise user will get data
 		// Continuously and browser will struck
-		// CometSession cometSession =
-		// CometServlet.getCometSession(httpSession);
-		// CometManager.initStream(httpSession.getId(), emailID, cometSession);
+		CometSession cometSession = CometServlet.getCometSession(httpSession);
+		CometManager.initStream(httpSession.getId(), companyID, emailID,
+				cometSession);
 	}
 
 }
