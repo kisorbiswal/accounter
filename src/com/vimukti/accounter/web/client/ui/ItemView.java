@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -160,9 +161,11 @@ public class ItemView extends BaseView<ClientItem> {
 		nameText.setHelpInformation(true);
 		nameText.setWidth(100);
 		nameText.setRequired(true);
+		nameText.setDisabled(isInViewMode());
 		isservice = new CheckboxItem(Accounter.constants().isService());
 		isservice.setValue(true);
 		isservice.setDisabled(true);
+		isservice.setDisabled(isInViewMode());
 
 		floatRangeValidator = new FloatRangeValidator();
 		floatRangeValidator.setMin(0);
@@ -174,10 +177,12 @@ public class ItemView extends BaseView<ClientItem> {
 		skuText.setHelpInformation(true);
 		skuText.setWidth(100);
 		skuText.setTitle(Accounter.constants().upcsku());
+		skuText.setDisabled(isInViewMode());
 
 		weightText = new IntegerField(this, Accounter.constants().weight());
 		weightText.setHelpInformation(true);
 		weightText.setWidth(100);
+		weightText.setDisabled(isInViewMode());
 		weightText.setValidators(integerRangeValidator);
 		commodityCode = new ItemGroupCombo(Accounter.constants()
 				.commodityCode());
@@ -209,14 +214,19 @@ public class ItemView extends BaseView<ClientItem> {
 		salesDescArea.setHelpInformation(true);
 		salesDescArea.setWidth(100);
 		salesDescArea.setTitle(Accounter.constants().salesDescription());
-		salesDescArea.setToolTip(Accounter.messages().writeCommentsForThis(
-				this.getAction().getViewName()).replace(
-				Accounter.constants().comments(),
-				Accounter.constants().salesDescription()));
+
+		salesDescArea.setDisabled(isInViewMode());
+
+		salesDescArea.setToolTip(Accounter
+				.messages()
+				.writeCommentsForThis(this.getAction().getViewName())
+				.replace(Accounter.constants().comments(),
+						Accounter.constants().salesDescription()));
 		salesPriceText = new AmountField(Accounter.constants().salesPrice(),
 				this);
 		salesPriceText.setHelpInformation(true);
 		salesPriceText.setWidth(100);
+		salesPriceText.setDisabled(isInViewMode());
 		// FIXME--needto implement this feature
 		// salesPriceText.setValidators(floatRangeValidator);
 		// salesPriceText.setValidateOnChange(true);
@@ -224,6 +234,7 @@ public class ItemView extends BaseView<ClientItem> {
 		accountCombo = new SalesItemCombo(Accounter.messages().incomeAccount(
 				Global.get().Account()));
 		accountCombo.setHelpInformation(true);
+		accountCombo.setDisabled(isInViewMode());
 		// accountCombo.setWidth(100);
 		accountCombo.setPopupWidth("500px");
 		accountCombo.setRequired(true);
@@ -249,6 +260,7 @@ public class ItemView extends BaseView<ClientItem> {
 				});
 		itemTaxCheck = new CheckboxItem(Accounter.constants().taxable());
 		itemTaxCheck.setValue(true);
+		itemTaxCheck.setDisabled(true);
 
 		comCheck = new CheckboxItem(Accounter.constants().commissionItem());
 
@@ -259,6 +271,7 @@ public class ItemView extends BaseView<ClientItem> {
 				this);
 		stdCostText.setHelpInformation(true);
 		stdCostText.setWidth(100);
+		stdCostText.setDisabled(isInViewMode());
 		// FIXME--needto implement this feature
 		// stdCostText.setValidators(floatRangeValidator);
 		// stdCostText.setValidateOnChange(true);
@@ -272,6 +285,7 @@ public class ItemView extends BaseView<ClientItem> {
 		// .constants().itemGroup());
 		itemGroupCombo = new ItemGroupCombo(Accounter.constants().itemGroup());
 		itemGroupCombo.setHelpInformation(true);
+		itemGroupCombo.setDisabled(isInViewMode());
 		// itemGroupCombo.setWidth(100);
 		itemGroupCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientItemGroup>() {
@@ -283,6 +297,7 @@ public class ItemView extends BaseView<ClientItem> {
 				isGeneratedFromCustomer);
 		taxCode.setHelpInformation(true);
 		taxCode.setRequired(true);
+		taxCode.setDisabled(isInViewMode());
 		// if (!FinanceApplication.getCompany().getpreferences()
 		// .getDoYouPaySalesTax()) {
 		// vatCode.setDisabled(true);
@@ -296,15 +311,18 @@ public class ItemView extends BaseView<ClientItem> {
 		taxCode.setDefaultValue(Accounter.constants().ztozeroperc());
 		activeCheck = new CheckboxItem(Accounter.constants().active());
 		activeCheck.setValue(true);
+		activeCheck.setDisabled(isInViewMode());
 		purchaseDescArea = new TextAreaItem();
 		purchaseDescArea.setHelpInformation(true);
 		purchaseDescArea.setWidth(100);
 		purchaseDescArea.setTitle(Accounter.constants().purchaseDescription());
+		purchaseDescArea.setDisabled(isInViewMode());
 
 		purchasePriceTxt = new AmountField(Accounter.constants()
 				.purchasePrice(), this);
 		purchasePriceTxt.setHelpInformation(true);
 		purchasePriceTxt.setWidth(100);
+		purchasePriceTxt.setDisabled(isInViewMode());
 		// FIXME--needto implement this feature
 		// purchasePriceTxt.setValidators(floatRangeValidator);
 		// purchasePriceTxt.setValidateOnChange(true);
@@ -313,6 +331,7 @@ public class ItemView extends BaseView<ClientItem> {
 				.expenseAccount(Global.get().Account()));
 		expAccCombo.setHelpInformation(true);
 		expAccCombo.setRequired(true);
+		expAccCombo.setDisabled(isInViewMode());
 		expAccCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 					public void selectedComboBoxItem(ClientAccount selectItem) {
@@ -336,27 +355,33 @@ public class ItemView extends BaseView<ClientItem> {
 		prefVendorCombo = new VendorCombo(messages.preferredVendor(Global.get()
 				.Vendor()));
 		prefVendorCombo.setHelpInformation(true);
+		prefVendorCombo.setDisabled(isInViewMode());
 		prefVendorCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 					public void selectedComboBoxItem(ClientVendor selectItem) {
 						selectVendor = selectItem;
 					}
 				});
+
 		vendItemNumText = new IntegerField(this,
 				this.type != TYPE_SERVICE ? messages.vendorProductNo(Global
 						.get().Vendor()) : messages.vendorServiceNo(Global
 						.get().Vendor()));
 		vendItemNumText.setHelpInformation(true);
 		vendItemNumText.setWidth(100);
+		vendItemNumText.setDisabled(isInViewMode());
 
 		// isellCheck = new CheckboxItem(FinanceApplication
 		// .constants().iSellThisItem());
 		isellCheck = new CheckboxItem(this.type == TYPE_SERVICE ? Accounter
 				.constants().isellthisservice() : Accounter.constants()
 				.isellthisproduct());
+		isellCheck.setDisabled(isInViewMode());
+
 		if (isGeneratedFromCustomer) {
 			isellCheck.setValue(isGeneratedFromCustomer);
-			isellCheck.setDisabled(!isGeneratedFromCustomer);
+			// isellCheck.setDisabled(!isGeneratedFromCustomer);
+
 			disablePurchaseFormItems(isGeneratedFromCustomer);
 		} else {
 			isellCheck.setDisabled(isGeneratedFromCustomer);
@@ -507,6 +532,7 @@ public class ItemView extends BaseView<ClientItem> {
 			comCheck.setValue(data.isCommissionItem());
 
 			selectItemGroup = company.getItemGroup(data.getItemGroup());
+
 			activeCheck.setValue((data.isActive()));
 
 			ibuyCheck.setValue(data.isIBuyThisItem());
@@ -730,7 +756,6 @@ public class ItemView extends BaseView<ClientItem> {
 		}
 		if (isInViewMode()) {
 			if (data.isISellThisItem()) {
-				isellCheck.setDisabled(false);
 				ibuyCheck.setDisabled(true);
 				disablePurchaseFormItems(true);
 			}
@@ -990,7 +1015,46 @@ public class ItemView extends BaseView<ClientItem> {
 
 	@Override
 	public void onEdit() {
+
+		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
+
+			@Override
+			public void onException(AccounterException caught) {
+				Accounter.showError(caught.getMessage());
+			}
+
+			@Override
+			public void onResultSuccess(Boolean result) {
+				if (result)
+					enableFormItems();
+			}
+
+		};
+
+		this.rpcDoSerivce.canEdit(AccounterCoreType.ITEM, data.getID(),
+				editCallBack);
+	}
+
+	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
+		nameText.setDisabled(isInViewMode());
+		isservice.setDisabled(isInViewMode());
+		skuText.setDisabled(isInViewMode());
+		weightText.setDisabled(isInViewMode());
+		salesDescArea.setDisabled(isInViewMode());
+		salesPriceText.setDisabled(isInViewMode());
+		accountCombo.setDisabled(isInViewMode());
+		stdCostText.setDisabled(isInViewMode());
+		itemGroupCombo.setDisabled(isInViewMode());
+		taxCode.setDisabled(isInViewMode());
+		activeCheck.setDisabled(isInViewMode());
+		purchaseDescArea.setDisabled(isInViewMode());
+		purchasePriceTxt.setDisabled(isInViewMode());
+		expAccCombo.setDisabled(isInViewMode());
+		prefVendorCombo.setDisabled(isInViewMode());
+		vendItemNumText.setDisabled(isInViewMode());
+		isellCheck.setDisabled(isInViewMode());
+
 	}
 
 	@Override
