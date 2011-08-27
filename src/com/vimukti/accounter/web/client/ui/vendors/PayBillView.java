@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
@@ -474,7 +475,11 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		balForm.setWidth("100%");
 		balForm.setIsGroup(true);
 		balForm.setGroupTitle(Accounter.constants().balances());
-		balForm.setFields(tdsLabel,amtText,endBalText);
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
+			balForm.setFields(tdsLabel, amtText, endBalText);
+		} else {
+			balForm.setFields(amtText, endBalText);
+		}
 
 		Label lab1 = new Label(Accounter.constants().billsDue());
 
@@ -490,7 +495,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		memoForm.setFields(memoTextAreaItem);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
-		
 		unUsedCreditsText = new AmountLabel(Accounter.constants()
 				.unusedCredits());
 		unUsedCreditsText.setDisabled(true);

@@ -531,7 +531,7 @@ public class VendorBillView extends
 
 		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");
-		bottomLayout.add(horizontalPanel);
+		//
 
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 
@@ -566,7 +566,7 @@ public class VendorBillView extends
 			// bottomLayout.setCellHorizontalAlignment(totalForm,
 			// HasHorizontalAlignment.ALIGN_RIGHT);
 		} else if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
-
+			bottomLayout.add(horizontalPanel);
 			memoForm.setStyleName("align-form");
 			VerticalPanel vPanel = new VerticalPanel();
 			vPanel.add(hpanel);
