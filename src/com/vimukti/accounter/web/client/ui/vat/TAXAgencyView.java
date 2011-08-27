@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -275,6 +276,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			lab = new Label(Accounter.constants().vatAgency());
 			taxAgencyText = new TextItem(Accounter.constants().vatAgency());
 			taxAgencyText.setHelpInformation(true);
+
 		} else {
 			lab = new Label(Accounter.constants().taxAgency());
 			taxAgencyText = new TextItem(Accounter.constants().taxAgency());
@@ -285,10 +287,12 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		lab.setHeight("35px");
 		taxAgencyText.setWidth(100);
 		taxAgencyText.setRequired(true);
+		taxAgencyText.setDisabled(isInViewMode());
 
 		fileAsText = new TextItem(companyConstants.fileAs());
 		fileAsText.setHelpInformation(true);
 		fileAsText.setWidth(100);
+		fileAsText.setDisabled(isInViewMode());
 		taxAgencyText.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -315,10 +319,12 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		statusCheck = new CheckboxItem(companyConstants.active());
 		statusCheck.setValue(true);
+		statusCheck.setDisabled(isInViewMode());
 
 		paymentTermsCombo = new PaymentTermsCombo(
 				companyConstants.paymentTerm());
 		paymentTermsCombo.setHelpInformation(true);
+		paymentTermsCombo.setDisabled(isInViewMode());
 		paymentTermsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPaymentTerms>() {
 
@@ -335,6 +341,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		vatReturnCombo = new SelectCombo(Accounter.constants().vatReturn());
 		vatReturnCombo.setHelpInformation(true);
 		vatReturnCombo.setRequired(true);
+		vatReturnCombo.setDisabled(isInViewMode());
 		vatReturnList = new ArrayList<String>();
 		vatReturnList.add(Accounter.constants().ukVAT());
 		vatReturnList.add(Accounter.constants().vat3Ireland());
@@ -354,6 +361,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		liabilitySalesAccountCombo = new VATAgencyAccountCombo(Accounter
 				.messages().salesLiabilityAccount(Global.get().Account()));
 		liabilitySalesAccountCombo.setHelpInformation(true);
+		liabilitySalesAccountCombo.setDisabled(isInViewMode());
 		liabilitySalesAccountCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
@@ -369,6 +377,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		liabilityPurchaseAccountCombo = new VATAgencyAccountCombo(Accounter
 				.messages().purchaseLiabilityAccount(Global.get().Account()));
 		liabilityPurchaseAccountCombo.setHelpInformation(true);
+		liabilityPurchaseAccountCombo.setDisabled(isInViewMode());
 		liabilityPurchaseAccountCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
@@ -400,12 +409,14 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		memoArea.setToolTip(Accounter.messages().writeCommentsForThis(
 				this.getAction().getViewName()));
 		memoArea.setHelpInformation(true);
+		memoArea.setDisabled(isInViewMode());
 		memoArea.setTitle(Accounter.constants().memo());
 		memoArea.setWidth("400px");
 		memoForm.setFields(memoArea);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
 		addButton = new AddButton(this);
+
 		// addButton.setStyleName("addButton");
 		addButton.addClickHandler(new ClickHandler() {
 
@@ -432,18 +443,21 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			// Setting AddressForm
 			addrsForm = new AddressForm(data.getAddress());
 			addrsForm.setWidth("100%");
+			addrsForm.setDisabled(isInViewMode());
 			// Setting Phone Fax Form
 			phoneFaxForm = new PhoneFaxForm(null, null, this, this.getAction()
 					.getViewName());
 			phoneFaxForm.setWidth("100%");
 			phoneFaxForm.businessPhoneText.setValue(data.getPhoneNo());
 			phoneFaxForm.businessFaxText.setValue(data.getFaxNo());
+			phoneFaxForm.setDisabled(isInViewMode());
 
 			// Setting Email Form
 			emailForm = new EmailForm(null, data.getWebPageAddress(), this,
 					this.getAction().getViewName());
 			emailForm.businesEmailText.setValue(data.getEmail());
 			emailForm.setWidth("100%");
+			emailForm.setDisabled(isInViewMode());
 
 			// Setting Status Check
 			statusCheck.setValue(data.isActive());
@@ -516,6 +530,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			setData(new ClientTAXAgency());
 			addrsForm = new AddressForm(null);
 			addrsForm.setWidth("100%");
+			addrsForm.setDisabled(isInViewMode());
 			phoneFaxForm = new PhoneFaxForm(null, null, this, this.getAction()
 					.getViewName());
 			phoneFaxForm.setWidth("100%");
@@ -794,7 +809,38 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	@Override
 	public void onEdit() {
+		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
+
+			@Override
+			public void onException(AccounterException caught) {
+				Accounter.showError(caught.getMessage());
+			}
+
+			@Override
+			public void onResultSuccess(Boolean result) {
+				if (result)
+					enableFormItems();
+			}
+
+		};
+
+		this.rpcDoSerivce.canEdit(AccounterCoreType.TAXAGENCY, data.getID(),
+				editCallBack);
+	}
+
+	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
+		taxAgencyText.setDisabled(isInViewMode());
+		fileAsText.setDisabled(isInViewMode());
+		statusCheck.setDisabled(isInViewMode());
+		paymentTermsCombo.setDisabled(isInViewMode());
+		vatReturnCombo.setDisabled(isInViewMode());
+		liabilitySalesAccountCombo.setDisabled(isInViewMode());
+		memoArea.setDisabled(isInViewMode());
+		addrsForm.setDisabled(isInViewMode());
+		phoneFaxForm.setDisabled(isInViewMode());
+		emailForm.setDisabled(isInViewMode());
+
 	}
 
 	@Override
