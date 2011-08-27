@@ -136,7 +136,8 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 	}
 
 	public <D extends IAccounterServerCore, S extends IAccounterCore> D toServerObject(
-			D dst, S src, Session session, boolean IsImported) throws AccounterException {
+			D dst, S src, Session session, boolean IsImported)
+			throws AccounterException {
 		isImported = IsImported;
 		D ret = toServerObject(dst, src, session);
 		isImported = false;
@@ -264,14 +265,14 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 
 				} else if (dstfieldType.isPrimitive()) {
 
-					if (srcfieldType.equals(int.class)) {
-						if (srcField.getInt(src) == 0)
-							continue;
-					}
-					if (srcfieldType.equals(long.class)) {
-						if (srcField.getLong(src) == 0)
-							continue;
-					}
+					// if (srcfieldType.equals(int.class)) {
+					// if (srcField.getInt(src) == 0)
+					// continue;
+					// }
+					// if (srcfieldType.equals(long.class)) {
+					// if (srcField.getLong(src) == 0)
+					// continue;
+					// }
 					// if (srcfieldType.equals(boolean.class)) {
 					// if (srcField.getBoolean(src) == Boolean.FALSE)
 					// continue;
