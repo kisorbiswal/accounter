@@ -49,6 +49,7 @@ public class CustomDialog extends DialogBox {
 		cross = new Image(Accounter.getFinanceImages().dialougueCloseicon());
 		// help = new Image("/images/help-icon.png");
 		help = new Image(Accounter.getFinanceImages().helpIcon());
+		help.setStyleName("dialog_help_icon");
 		// help.setStyleName("helpAlign");
 		caption = new HTML();
 
