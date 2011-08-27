@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Header;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.TextBoxItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class EditProfileDialog extends BaseDialog<ClientUserInfo> {
@@ -32,6 +31,7 @@ public class EditProfileDialog extends BaseDialog<ClientUserInfo> {
 		lastNameTextItem.setValue(clientUser.getLastName());
 		mainPanel = new VerticalPanel();
 		DynamicForm form = new DynamicForm();
+		form.setStyleName("edit_user_profile");
 		form.setNumCols(2);
 		form.setFields(firstNameTextItem, lastNameTextItem);
 		mainPanel.add(form);
