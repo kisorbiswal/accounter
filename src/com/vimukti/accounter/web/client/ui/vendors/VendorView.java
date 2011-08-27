@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
-
 import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -305,8 +304,8 @@ public class VendorView extends BaseView<ClientVendor> {
 	}
 
 	private VerticalPanel getGeneralTab() {
-		vendorNameText = new TextItem(messages
-				.vendorName(Global.get().Vendor()));
+		vendorNameText = new TextItem(
+				messages.vendorName(Global.get().Vendor()));
 		vendorNameText.setHelpInformation(true);
 		vendorNameText.setRequired(true);
 		vendorNameText.setWidth(100);
@@ -645,7 +644,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		federalText = new TextItem(Accounter.constants().federalTaxId());
 		federalText.setHelpInformation(true);
 		federalText.setWidth(100);
-			vendorTDSTaxCode = new TAXCodeCombo(messages.vendorTDSCode(Global.get()
+		vendorTDSTaxCode = new TAXCodeCombo(messages.vendorTDSCode(Global.get()
 				.Vendor()), false);
 		vendorTDSTaxCode.setHelpInformation(true);
 		vendorTDSTaxCode.setWidth(100);
@@ -1029,6 +1028,9 @@ public class VendorView extends BaseView<ClientVendor> {
 				data.setTAXCode(Utility.getID(selectTaxCodeFromDetailsTab));
 		}
 
+		data.setTaxId(taxID.getValue());
+		data.setTrackPaymentsFor1099(track1099MISC.isChecked());
+
 	}
 
 	public void addAccountsToList() {
@@ -1211,6 +1213,10 @@ public class VendorView extends BaseView<ClientVendor> {
 				(data.getPaymentTermsId()));
 
 		isTDS.setValue(data.isTdsApplicable());
+
+		taxID.setValue(data.getTaxId());
+
+		track1099MISC.setValue(data.isTrackPaymentsFor1099());
 
 		// Setting Vendor Group
 		ClientVendorGroup vendorGroup = getCompany().getVendorGroup(
