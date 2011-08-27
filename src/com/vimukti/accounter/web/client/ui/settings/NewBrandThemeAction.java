@@ -54,7 +54,7 @@ public class NewBrandThemeAction extends Action<ClientBrandingTheme> {
 
 			}
 			MainFinanceWindow.getViewManager()
-					.showView(view, data, false, this);
+					.showView(view, data, isDependent, this);
 
 		} catch (Exception e) {
 			e.printStackTrace();

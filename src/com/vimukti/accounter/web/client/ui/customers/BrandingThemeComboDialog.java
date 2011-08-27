@@ -58,6 +58,7 @@ public class BrandingThemeComboDialog extends BaseDialog {
 						brandingTheme = selectItem;
 					}
 				});
+		brandingThemeTypeCombo.setThemeDialog(this);
 
 		DynamicForm dynamicForm = new DynamicForm();
 		VerticalPanel comboPanel = new VerticalPanel();

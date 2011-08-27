@@ -39,7 +39,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
  * @author Uday Kumar
  * 
  */
-@SuppressWarnings( { "deprecation" })
+@SuppressWarnings({ "deprecation" })
 public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 	private Label pageSizeLabel, logoLabel, termsLabel;
@@ -103,10 +103,10 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 		nameItem.setValue(brandingTheme.getThemeName());
 		topMarginBox.setValue(String.valueOf(brandingTheme.getTopMargin()));
-		bottomMarginBox.setValue(String
-				.valueOf(brandingTheme.getBottomMargin()));
-		addressPadBox.setValue(String
-				.valueOf(brandingTheme.getAddressPadding()));
+		bottomMarginBox
+				.setValue(String.valueOf(brandingTheme.getBottomMargin()));
+		addressPadBox
+				.setValue(String.valueOf(brandingTheme.getAddressPadding()));
 		setPazeSize(brandingTheme.getPageSizeType());
 		fontNameBox.setComboItem(brandingTheme.getFont());
 		fontSizeBox.setComboItem(brandingTheme.getFontSize());
@@ -203,8 +203,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 			public void onBlur(BlurEvent event) {
 				if (!UIUtils.isDouble(bottomMarginBox.getValue().toString())) {
 					Accounter.showError(messages.numberForbottomMarginField());
-					addError(bottomMarginBox, messages
-							.errorForbottomMarginField());
+					addError(bottomMarginBox,
+							messages.errorForbottomMarginField());
 					bottomMarginBox.setValue("");
 				}
 			}
@@ -313,8 +313,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		measureLabel = new Label(messages.measure());
 		logoLabel = new Label(messages.logoAlignment());
 		leftRadioButton = new RadioButton(messages.logoType(), messages.left());
-		rightRadioButton = new RadioButton(messages.logoType(), messages
-				.right());
+		rightRadioButton = new RadioButton(messages.logoType(),
+				messages.right());
 		leftRadioButton.setChecked(true);
 		// taxesLabel = new Label(messages.showTaxesAs());
 		// exclusiveButton = new RadioButton(messages.taxType(), messages
@@ -406,8 +406,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		statementBox.setValue(messages.statement());
 
 		a4Button = new RadioButton(messages.pageType(), messages.a4());
-		usLetterButton = new RadioButton(messages.pageType(), messages
-				.usLetter());
+		usLetterButton = new RadioButton(messages.pageType(),
+				messages.usLetter());
 		a4Button.setChecked(true);
 
 		cmButton = new RadioButton(messages.measureType(), messages.cm());
@@ -569,9 +569,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 	@Override
 	public void saveSuccess(IAccounterCore object) {
-		NewBrandingThemeView.this.removeFromParent();
 		super.saveSuccess(object);
-		ActionFactory.getInvoiceBrandingAction().run(null, true);
 	}
 
 	@Override
@@ -588,11 +586,6 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	@Override
 	public void saveAndUpdateView() {
 		ClientBrandingTheme brandingTheme = getBrandingThemeObject();
-		ClientBrandingTheme brandingThemeByName = Accounter.getCompany()
-				.getBrandingThemeByName(brandingTheme.getThemeName());
-		if (brandingTheme == null) {
-			// TODO Do this checking in validation method
-		}
 		// if (!Utility.isObjectExist(Accounter.getCompany().getBrandingTheme(),
 		// brandingTheme.getThemeName())) {
 		// // TODO Do this checking in validation method
@@ -624,7 +617,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 		// TODO Auto-generated method stub
 
 	}
