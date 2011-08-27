@@ -74,8 +74,9 @@ public class CompanyTradingDetailsPanel extends VerticalPanel {
 		addressForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
 		addressForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
 
-		addressForm.setFields(address1Text, address2Text, cityText, stateCombo,
-				postalcodeText, countryCombo);
+		addressForm.setFields(address1Text, address2Text, cityText,
+				postalcodeText, stateCombo,
+				countryCombo);
 
 		HorizontalPanel companyHorzPanel = new HorizontalPanel();
 		companyHorzPanel.setWidth("100%");
