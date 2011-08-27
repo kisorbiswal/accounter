@@ -4410,4 +4410,6 @@ public interface AccounterConstants extends Constants {
 
 	public String services();
 
+	public String both();
+
 }
