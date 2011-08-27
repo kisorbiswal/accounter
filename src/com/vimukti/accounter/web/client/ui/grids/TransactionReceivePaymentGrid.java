@@ -720,9 +720,10 @@ public class TransactionReceivePaymentGrid extends
 			((CheckBox) this.body.getWidget(indexOf(obj), 0)).setValue(true);
 			selectedValues.add(indexOf(obj));
 			this.rowFormatter.addStyleName(indexOf(obj), "selected");
-			// updateValue(obj);
+			updateValue(obj);
 			// }
 		}
+		updateAmountReceived();
 		paymentView.recalculateGridAmounts();
 	}
 
@@ -876,11 +877,7 @@ public class TransactionReceivePaymentGrid extends
 		}
 		super.onSelectionChanged(obj, row, isChecked);
 
-		double toBeSetAmount = 0.0;
-		for (ClientTransactionReceivePayment receivePayment : getSelectedRecords()) {
-			toBeSetAmount += receivePayment.getPayment();
-		}
-		paymentView.setAmountRecieved(toBeSetAmount);
+		updateAmountReceived();
 	}
 
 	public void updateUnuseAmt() {
@@ -900,6 +897,14 @@ public class TransactionReceivePaymentGrid extends
 			total += payment.getPayment();
 		}
 		return total;
+	}
+	
+	private void updateAmountReceived(){
+		double toBeSetAmount = 0.0;
+		for (ClientTransactionReceivePayment receivePayment : getSelectedRecords()) {
+			toBeSetAmount += receivePayment.getPayment();
+		}
+		paymentView.setAmountRecieved(toBeSetAmount);
 	}
 
 	public void updateAmountDue(ClientTransactionReceivePayment item) {
