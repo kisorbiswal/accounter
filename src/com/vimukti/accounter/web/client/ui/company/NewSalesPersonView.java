@@ -18,7 +18,9 @@ import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -92,9 +94,11 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		employeeNameText = new TextItem(Accounter.constants().salesPersonName());
 		employeeNameText.setWidth("205px");
 		employeeNameText.setRequired(true);
+		employeeNameText.setDisabled(isInViewMode());
 
 		fileAsText = new TextItem(Accounter.constants().fileAs());
 		fileAsText.setWidth("205px");
+		fileAsText.setDisabled(isInViewMode());
 		employeeNameText.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -108,6 +112,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 		jobTitleText = new TextItem(Accounter.constants().jobTitle());
 		jobTitleText.setWidth("205px");
+		jobTitleText.setDisabled(isInViewMode());
 
 		salesPersonForm = UIUtils.form(Accounter.constants().salesPerson());
 		salesPersonForm.setWidth("90%");
@@ -120,6 +125,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		expenseSelect = new GridAccountsCombo(Accounter.messages()
 				.expenseAccount(Global.get().Account()));
 		expenseSelect.setWidth("180px");
+		expenseSelect.setDisabled(isInViewMode());
 		expenseSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 					public void selectedComboBoxItem(ClientAccount selectItem) {
@@ -139,6 +145,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		memoArea.setTitle(Accounter.constants().memo());
 		memoArea.setToolTip(Accounter.messages().writeCommentsForThis(
 				this.getAction().getViewName()));
+		memoArea.setDisabled(isInViewMode());
 		memoForm.setFields(memoArea);
 		memoForm.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
@@ -151,7 +158,9 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		salesPersonInfoForm.setWidth("100%");
 		statusCheck = new CheckboxItem(Accounter.constants().active());
 		statusCheck.setValue(true);
+		statusCheck.setDisabled(isInViewMode());
 		genderSelect = new SelectCombo(Accounter.constants().gender());
+		genderSelect.setDisabled(isInViewMode());
 		// genderSelect.setWidth(45);
 		listOfgenders = new ArrayList<String>();
 		for (int i = 0; i < genderTypes.length; i++) {
@@ -170,6 +179,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		dateOfBirth = new DateField(Accounter.constants().dateofBirth());
 		dateOfBirth.setToolTip(Accounter.messages().selectDateOfBirth(
 				this.getAction().getViewName()));
+		dateOfBirth.setDisabled(isInViewMode());
 		// dateOfBirth.setEndDate(new ClientFinanceDate(19910101));
 		// dateOfBirth.setStartDate(new ClientFinanceDate(18910101));
 		dateOfBirth.addDateValueChangeHandler(new DateValueChangeHandler() {
@@ -190,13 +200,16 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		dateOfHire = new DateField(Accounter.constants().dateofHire());
 		dateOfHire.setToolTip(Accounter.messages().selectDateOfHire(
 				this.getAction().getViewName()));
+		dateOfHire.setDisabled(isInViewMode());
 		// dateOfHire.setUseTextField(true);
 
 		dateOfLastReview = new DateField(Accounter.constants()
 				.dateofLastReview());
+		dateOfLastReview.setDisabled(isInViewMode());
 		// dateOfLastReview.setUseTextField(true);
 
 		dateOfRelease = new DateField(Accounter.constants().dateofRelease());
+		dateOfRelease.setDisabled(isInViewMode());
 		// dateOfRelease.setUseTextField(true);
 
 		salesPersonInfoForm.setFields(statusCheck, genderSelect, dateOfBirth,
@@ -208,6 +221,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		addrArea.setWidth("205px");
 		addrArea.setHelpInformation(true);
 		addrArea.setWidth(100);
+		addrArea.setDisabled(isInViewMode());
 		addrArea.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -276,6 +290,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			fonFaxForm.setWidth("90%");
 			fonFaxForm.getCellFormatter().setWidth(0, 0, "");
 			fonFaxForm.getCellFormatter().setWidth(0, 1, "125");
+			fonFaxForm.setDisabled(isInViewMode());
 			fonFaxForm.businessPhoneText.setValue(data.getPhoneNo());
 			fonFaxForm.businessFaxText.setValue(data.getFaxNo());
 			emailForm = new EmailForm(null, data.getWebPageAddress(), this,
@@ -285,6 +300,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			emailForm.getCellFormatter().setWidth(0, 1, "125");
 			emailForm.businesEmailText.setValue(data.getEmail());
 			emailForm.webText.setValue(data.getWebPageAddress());
+			emailForm.setDisabled(isInViewMode());
 			statusCheck.setValue(data.isActive());
 			if (data.getExpenseAccount() != 0) {
 				selectedExpenseAccount = getCompany().getAccount(
@@ -379,8 +395,8 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 		if (dateOfBirth.getValue().getDate() != 0) {
 			long mustdate = new ClientFinanceDate().getDate() - 180000;
-			if (dateOfBirth.getValue().getDateAsObject().after(
-					new ClientFinanceDate().getDateAsObject())) {
+			if (dateOfBirth.getValue().getDateAsObject()
+					.after(new ClientFinanceDate().getDateAsObject())) {
 				result.addError(dateOfBirth, Accounter.constants()
 						.invalidDateOfBirth());
 			} else if ((new ClientFinanceDate(mustdate).before(dateOfBirth
@@ -505,26 +521,28 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 	protected void adjustFormWidths(int titlewidth, int listBoxWidth) {
 
-		addrsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), titlewidth + "");
-		addrsForm.getCellFormatter().getElement(0, 1).setAttribute(
-				Accounter.constants().width(), listBoxWidth + "");
+		addrsForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), titlewidth + "");
+		addrsForm.getCellFormatter().getElement(0, 1)
+				.setAttribute(Accounter.constants().width(), listBoxWidth + "");
 
-		fonFaxForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), titlewidth + "");
-		fonFaxForm.getCellFormatter().getElement(0, 1).setAttribute(
-				Accounter.constants().width(), listBoxWidth + "");
+		fonFaxForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), titlewidth + "");
+		fonFaxForm.getCellFormatter().getElement(0, 1)
+				.setAttribute(Accounter.constants().width(), listBoxWidth + "");
 
 		salesPersonForm.getCellFormatter().getElement(0, 0).getStyle()
 				.setWidth(titlewidth + listBoxWidth, Unit.PX);
-		expenseAccountForm.getCellFormatter().getElement(0, 0).setAttribute(
-				"width", titlewidth + listBoxWidth + "");
-		memoForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), titlewidth + listBoxWidth + "");
-		emailForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "");
-		emailForm.getCellFormatter().getElement(0, 1).setAttribute(
-				Accounter.constants().width(), "");
+		expenseAccountForm.getCellFormatter().getElement(0, 0)
+				.setAttribute("width", titlewidth + listBoxWidth + "");
+		memoForm.getCellFormatter()
+				.getElement(0, 0)
+				.setAttribute(Accounter.constants().width(),
+						titlewidth + listBoxWidth + "");
+		emailForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "");
+		emailForm.getCellFormatter().getElement(0, 1)
+				.setAttribute(Accounter.constants().width(), "");
 
 	}
 
@@ -597,7 +615,42 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 	@Override
 	public void onEdit() {
+		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
+
+			@Override
+			public void onException(AccounterException caught) {
+				Accounter.showError(caught.getMessage());
+			}
+
+			@Override
+			public void onResultSuccess(Boolean result) {
+				if (result)
+					enableFormItems();
+			}
+
+		};
+
+		this.rpcDoSerivce.canEdit(AccounterCoreType.SALES_PERSON, data.getID(),
+				editCallBack);
+
+	}
+
+	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
+		employeeNameText.setDisabled(isInViewMode());
+		fileAsText.setDisabled(isInViewMode());
+		jobTitleText.setDisabled(isInViewMode());
+		memoArea.setDisabled(isInViewMode());
+		statusCheck.setDisabled(isInViewMode());
+		genderSelect.setDisabled(isInViewMode());
+		dateOfBirth.setDisabled(isInViewMode());
+		dateOfHire.setDisabled(isInViewMode());
+		dateOfLastReview.setDisabled(isInViewMode());
+		dateOfRelease.setDisabled(isInViewMode());
+		addrArea.setDisabled(isInViewMode());
+		expenseSelect.setDisabled(isInViewMode());
+		fonFaxForm.setDisabled(isInViewMode());
+		emailForm.setDisabled(isInViewMode());
 
 	}
 
