@@ -275,6 +275,8 @@ public interface IAccounterGETService extends RemoteService {
 	public <T extends IAccounterCore> ArrayList<T> getObjects(
 			AccounterCoreType type);
 
+	public List<String> getTimezones();
+
 	public ClientCompany getCompany() throws AccounterException;
 
 	KeyFinancialIndicators getKeyFinancialIndicators();
@@ -289,7 +291,7 @@ public interface IAccounterGETService extends RemoteService {
 	public List<String> getCountries();
 
 	public List<String> getStates(String country);
-	
+
 	public List<ClientCurrency> getCurrencies();
 
 	public List<AccountsTemplate> getAccountsTemplate()
