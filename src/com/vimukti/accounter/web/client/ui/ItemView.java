@@ -897,15 +897,15 @@ public class ItemView extends BaseView<ClientItem> {
 		}
 
 		if (isellCheck.isChecked()) {
-			if (!AccounterValidator
-					.isPositiveAmount(salesPriceText.getAmount())) {
+			if (AccounterValidator
+					.isNegativeAmount(salesPriceText.getAmount())) {
 				result.addError(salesPriceText,
 						accounterConstants.enterValidAmount());
 			}
 		}
 
 		if (ibuyCheck.isChecked()) {
-			if (!AccounterValidator.isPositiveAmount(purchasePriceTxt
+			if (AccounterValidator.isNegativeAmount(purchasePriceTxt
 					.getAmount())) {
 				result.addError(purchasePriceTxt,
 						accounterConstants.enterValidAmount());
