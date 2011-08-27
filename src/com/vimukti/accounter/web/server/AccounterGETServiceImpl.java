@@ -658,7 +658,6 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 		return timezoneslist;
 	}
 
-	@Override
 	public List<String> getStates(String country) {
 		states = new String[][] {
 				// UNITED KINGDOM
