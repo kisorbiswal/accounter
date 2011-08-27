@@ -45,7 +45,7 @@
 					</g:row>
 				</g:Grid>
 			</g:HorizontalPanel>
-			<g:Button ui:field="cancelBtn" ></g:Button>
+			<g:Button ui:field="cancelBtn"/>
 		</g:VerticalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 

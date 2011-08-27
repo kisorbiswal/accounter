@@ -24,13 +24,17 @@ public class SetupStartPage extends AbstractSetupPage {
 	private static SetupStartPageUiBinder uiBinder = GWT
 			.create(SetupStartPageUiBinder.class);
 	@UiField
-	Button startButton, skipButton, cancelBtn;
-	@UiField
 	HTML startSetupInfo, skipSetupInfo, setupInfo;
 	@UiField
 	VerticalPanel viewPanel;
 	@UiField
 	Label headerLabel;
+	@UiField
+	Button cancelBtn;
+	@UiField
+	Button skipButton;
+	@UiField
+	Button startButton;
 
 	interface SetupStartPageUiBinder extends UiBinder<Widget, SetupStartPage> {
 	}
