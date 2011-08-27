@@ -15,7 +15,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class ClientCompany implements IAccounterCore {
 
-	
 	/**
 	 * 
 	 */
@@ -168,7 +167,8 @@ public class ClientCompany implements IAccounterCore {
 
 	private ArrayList<ClientFixedAsset> fixedAssets;
 
-	// private ArrayList<ClientSellingOrDisposingFixedAsset> sellingDisposedItems;
+	// private ArrayList<ClientSellingOrDisposingFixedAsset>
+	// sellingDisposedItems;
 
 	private ArrayList<ClientVATReturn> vatReturns;
 
@@ -190,12 +190,14 @@ public class ClientCompany implements IAccounterCore {
 
 	private ClientAddress tradingAddress;
 	private ClientAddress registeredAddress;
+	private int version;
 
 	public void setTaxItemGroups(ArrayList<ClientTAXItemGroup> taxItemGroups) {
 		this.taxItemGroups = taxItemGroups;
 	}
 
-	// public void setVatItemGroups(ArrayList<ClientTAXItemGroup> vatItemGroups) {
+	// public void setVatItemGroups(ArrayList<ClientTAXItemGroup> vatItemGroups)
+	// {
 	// this.vatItemGroups = vatItemGroups;
 	// }
 	//
@@ -229,7 +231,7 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	public ArrayList<ClientTAXAgency> getActiveTAXAgencies() {
-		
+
 		return Utility.filteredList(new ListFilter<ClientTAXAgency>() {
 
 			@Override
@@ -366,7 +368,7 @@ public class ClientCompany implements IAccounterCore {
 	// }
 
 	public ArrayList<ClientTAXItem> getActiveTaxItems() {
-		
+
 		return Utility.filteredList(new ListFilter<ClientTAXItem>() {
 
 			@Override
@@ -374,7 +376,7 @@ public class ClientCompany implements IAccounterCore {
 				return e.isActive();
 			}
 		}, this.taxItems);
-		
+
 		// List<ClientTAXItem> activeTaxItems = new ArrayList<ClientTAXItem>();
 		// for (ClientTAXItem taxItem : taxItems) {
 		// if (taxItem.isActive())
@@ -496,7 +498,7 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	public ArrayList<ClientPayee> getActivePayees() {
-		
+
 		return Utility.filteredList(new ListFilter<ClientPayee>() {
 
 			@Override
@@ -529,7 +531,7 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	public ArrayList<ClientVendor> getActiveVendors() {
-		
+
 		return Utility.filteredList(new ListFilter<ClientVendor>() {
 
 			@Override
@@ -566,7 +568,7 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	public ArrayList<ClientItem> getServiceItems() {
-		
+
 		return Utility.filteredList(new ListFilter<ClientItem>() {
 
 			@Override
@@ -584,7 +586,7 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	public ArrayList<ClientItem> getProductItems() {
-		
+
 		return Utility.filteredList(new ListFilter<ClientItem>() {
 
 			@Override
@@ -619,7 +621,7 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	public ArrayList<ClientItem> getSalesItems() {
-		
+
 		return Utility.filteredList(new ListFilter<ClientItem>() {
 
 			@Override
@@ -637,7 +639,7 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	public ArrayList<ClientItem> getActiveItems() {
-		
+
 		return Utility.filteredList(new ListFilter<ClientItem>() {
 
 			@Override
@@ -708,7 +710,8 @@ public class ClientCompany implements IAccounterCore {
 		return shippingMethods;
 	}
 
-	public void setShippingMethods(ArrayList<ClientShippingMethod> shippingMethods) {
+	public void setShippingMethods(
+			ArrayList<ClientShippingMethod> shippingMethods) {
 		this.shippingMethods = shippingMethods;
 	}
 
@@ -802,7 +805,7 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	public ArrayList<ClientSalesPerson> getActiveSalesPersons() {
-		
+
 		return Utility.filteredList(new ListFilter<ClientSalesPerson>() {
 
 			@Override
@@ -1438,7 +1441,7 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	public ArrayList<ClientAccount> getAccounts(final int accountType) {
-		
+
 		return Utility.filteredList(new ListFilter<ClientAccount>() {
 
 			@Override
@@ -1463,7 +1466,7 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	public ArrayList<ClientAccount> getActiveBankAccounts(final int accountType) {
-		
+
 		return Utility.filteredList(new ListFilter<ClientAccount>() {
 
 			@Override
@@ -1481,267 +1484,266 @@ public class ClientCompany implements IAccounterCore {
 
 	public void processUpdateOrCreateObject(IAccounterCore accounterCoreObject) {
 
-//		try {
+		// try {
 
-			// Accounter.showInformation("I came to processUpdateOrCreateObject.......");
-			if (accounterCoreObject != null)
-				switch (accounterCoreObject.getObjectType()) {
+		// Accounter.showInformation("I came to processUpdateOrCreateObject.......");
+		if (accounterCoreObject != null)
+			switch (accounterCoreObject.getObjectType()) {
 
-				case ACCOUNT:
+			case ACCOUNT:
 
-					ClientAccount account = (ClientAccount) accounterCoreObject;
+				ClientAccount account = (ClientAccount) accounterCoreObject;
 
-					// Utility.updateClientList(account, accounts);
+				// Utility.updateClientList(account, accounts);
 
-					ClientAccount existObj = Utility.getObject(accounts,
-							account.getID());
-					if (existObj != null) {
-						if (account.getNumber().equals(existObj.getNumber())) {
-							accounts.remove(existObj);
-
-							UIUtils.updateAccountsInSortedOrder(accounts,
-									account);
-						}
-						// else {
-						// int index = accounts.indexOf(existObj);
-						// accounts.remove(existObj);
-						// accounts.add(index, account);
-						// }
-					} else {
+				ClientAccount existObj = Utility.getObject(accounts,
+						account.getID());
+				if (existObj != null) {
+					if (account.getNumber().equals(existObj.getNumber())) {
+						accounts.remove(existObj);
 
 						UIUtils.updateAccountsInSortedOrder(accounts, account);
 					}
-
-					break;
-
-				case CUSTOMER:
-
-					ClientCustomer customer = (ClientCustomer) accounterCoreObject;
-
-					Utility.updateClientList(customer, customers);
-					Utility.updateClientList(customer, payees);
-
-					break;
-
-				case VENDOR:
-
-					ClientVendor vendor = (ClientVendor) accounterCoreObject;
-
-					Utility.updateClientList(vendor, vendors);
-					Utility.updateClientList(vendor, payees);
-
-					break;
-
-				case TAXAGENCY:
-
-					ClientTAXAgency taxAgency = (ClientTAXAgency) accounterCoreObject;
-
-					Utility.updateClientList(taxAgency, taxAgencies);
-					Utility.updateClientList(taxAgency, payees);
-
-					break;
-
-				case ITEM:
-
-					ClientItem item = (ClientItem) accounterCoreObject;
-
-					Utility.updateClientList(item, items);
-
-					break;
-
-				case TAX_GROUP:
-
-					ClientTAXGroup taxGroup = (ClientTAXGroup) accounterCoreObject;
-
-					// Utility.updateClientList(taxGroup, taxGroups);
-					UIUtils.updateClientListAndTaxItemGroup(taxGroup, taxItems,
-							taxGroups, taxItemGroups);
-					if (getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK) {
-						ClientTAXCode code = getTAXCodeForTAXItemGroup(taxGroup);
-						Utility.updateClientList(code, taxCodes);
-					}
-
-					break;
-
-				case TAX_CODE:
-
-					ClientTAXCode taxCode = (ClientTAXCode) accounterCoreObject;
-
-					Utility.updateClientList(taxCode, taxCodes);
-
-					break;
-
-				case TAXITEM:
-
-					ClientTAXItem taxItem = (ClientTAXItem) accounterCoreObject;
-
-					// Utility.updateClientList(taxItem, taxItems);
-					UIUtils.updateClientListAndTaxItemGroup(taxItem, taxItems,
-							taxGroups, taxItemGroups);
-					if (getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK) {
-						ClientTAXCode code = getTAXCodeForTAXItemGroup(taxItem);
-						Utility.updateClientList(code, taxCodes);
-					}
-
-					break;
-
-				case CUSTOMER_GROUP:
-
-					ClientCustomerGroup customerGroup = (ClientCustomerGroup) accounterCoreObject;
-
-					Utility.updateClientList(customerGroup, customerGroups);
-
-					break;
-
-				case VENDOR_GROUP:
-
-					ClientVendorGroup vendorGroup = (ClientVendorGroup) accounterCoreObject;
-
-					Utility.updateClientList(vendorGroup, vendorGroups);
-
-					break;
-
-				case PAYMENT_TERM:
-
-					ClientPaymentTerms paymentsTerms = (ClientPaymentTerms) accounterCoreObject;
-
-					Utility.updateClientList(paymentsTerms, paymentTerms);
-
-					break;
-
-				case SHIPPING_METHOD:
-
-					ClientShippingMethod shippingMethod = (ClientShippingMethod) accounterCoreObject;
-
-					Utility.updateClientList(shippingMethod, shippingMethods);
-
-					break;
-
-				case SHIPPING_TERM:
-
-					ClientShippingTerms shippingTerm = (ClientShippingTerms) accounterCoreObject;
-
-					Utility.updateClientList(shippingTerm, shippingTerms);
-
-					break;
-
-				case PRICE_LEVEL:
-
-					ClientPriceLevel priceLevel = (ClientPriceLevel) accounterCoreObject;
-
-					Utility.updateClientList(priceLevel, priceLevels);
-
-					break;
-
-				case ITEM_GROUP:
-
-					ClientItemGroup itemGroup = (ClientItemGroup) accounterCoreObject;
-
-					Utility.updateClientList(itemGroup, ItemGroups);
-
-					break;
-
-				case SALES_PERSON:
-
-					ClientSalesPerson salesPerson = (ClientSalesPerson) accounterCoreObject;
-
-					Utility.updateClientList(salesPerson, salesPersons);
-
-					break;
-
-				case CREDIT_RATING:
-
-					ClientCreditRating creditRating = (ClientCreditRating) accounterCoreObject;
-
-					Utility.updateClientList(creditRating, creditRatings);
-
-					break;
-
-				case PAY_SALES_TAX:
-
-					ClientPaySalesTax paySalesTax = (ClientPaySalesTax) accounterCoreObject;
-
-					Utility.updateClientList(paySalesTax, paySalesTaxs);
-
-					break;
-
-				case BANK:
-
-					ClientBank clientBank = (ClientBank) accounterCoreObject;
-					Utility.updateClientList(clientBank, banks);
-					break;
-
-				case FIXEDASSET:
-					ClientFixedAsset fixedAsset = (ClientFixedAsset) accounterCoreObject;
-					Utility.updateClientList(fixedAsset, fixedAssets);
-					break;
-
-				// case VATITEM:
-				// ClientTAXItem vatItem = (ClientTAXItem) accounterCoreObject;
-				// Utility.updateClientList(vatItem, this.vatItems);
-				// ViewManager.updateComboDataInViews(SelectItemType.VAT_ITEM,
-				// accounterCoreObject);
-				// break;
-				// case VATGROUP:
-				// ClientTAXGroup vatGroup = (ClientTAXGroup)
-				// accounterCoreObject;
-				// Utility.updateClientList(vatGroup, this.vatGroups);
-				//
-				// break;
-				// case VATCODE:
-				// ClientVATCode code = (ClientVATCode) accounterCoreObject;
-				// Utility.updateClientList(code, this.vatCodes);
-				// break;
-				// case VATAGENCY:
-				// ClientVATAgency vagy = (ClientVATAgency) accounterCoreObject;
-				// Utility.updateClientList(vagy, this.vatAgencies);
-				// Utility.updateClientList(vagy, payees);
-				// break;
-				case VATRETURN:
-					ClientVATReturn vaReturn = (ClientVATReturn) accounterCoreObject;
-					Utility.updateClientList(vaReturn, this.vatReturns);
-					break;
-
-				case FISCALYEAR:
-					ClientFiscalYear fiscalYear = (ClientFiscalYear) accounterCoreObject;
-					Utility.updateClientList(fiscalYear, this.fiscalYears);
-					sortFiscalYears();
-					break;
-
-				case COMPANY_PREFERENCES:
-					this.preferences = (ClientCompanyPreferences) accounterCoreObject;
-					break;
-				case COMPANY:
-					ClientCompany cmp = (ClientCompany) accounterCoreObject;
-					this.getToClientCompany(cmp);
-					break;
-				case BRANDINGTHEME:
-					ClientBrandingTheme theme = (ClientBrandingTheme) accounterCoreObject;
-					Utility.updateClientList(theme, brandingTheme);
-					break;
-				case USER:
-					ClientUserInfo user = (ClientUserInfo) accounterCoreObject;
-					Utility.updateClientList(user, this.usersList);
-					long userID = user.getID();
-					ClientUser loggedInUser = getLoggedInUser();
-					if (loggedInUser.getID() == userID) {
-						loggedInUser.firstName = user.getFirstName();
-						loggedInUser.fullName = user.getFullName();
-						loggedInUser.lastName = user.getLastName();
-						Accounter.setUser(loggedInUser);
-					}
+					// else {
+					// int index = accounts.indexOf(existObj);
+					// accounts.remove(existObj);
+					// accounts.add(index, account);
+					// }
+				} else {
+
+					UIUtils.updateAccountsInSortedOrder(accounts, account);
 				}
-//		} catch (Exception e) {
-//			if (e instanceof JavaScriptException) {
-//				Accounter.showInformation(Accounter.constants()
-//						.exceptionOccur()
-//						+ ((JavaScriptException) (e)).getDescription());
-//
-//			} else {
-//				Accounter.showInformation(Accounter.constants()
-//						.exceptionOccur() + e.toString());
-//			}
-//		}
+
+				break;
+
+			case CUSTOMER:
+
+				ClientCustomer customer = (ClientCustomer) accounterCoreObject;
+
+				Utility.updateClientList(customer, customers);
+				Utility.updateClientList(customer, payees);
+
+				break;
+
+			case VENDOR:
+
+				ClientVendor vendor = (ClientVendor) accounterCoreObject;
+
+				Utility.updateClientList(vendor, vendors);
+				Utility.updateClientList(vendor, payees);
+
+				break;
+
+			case TAXAGENCY:
+
+				ClientTAXAgency taxAgency = (ClientTAXAgency) accounterCoreObject;
+
+				Utility.updateClientList(taxAgency, taxAgencies);
+				Utility.updateClientList(taxAgency, payees);
+
+				break;
+
+			case ITEM:
+
+				ClientItem item = (ClientItem) accounterCoreObject;
+
+				Utility.updateClientList(item, items);
+
+				break;
+
+			case TAX_GROUP:
+
+				ClientTAXGroup taxGroup = (ClientTAXGroup) accounterCoreObject;
+
+				// Utility.updateClientList(taxGroup, taxGroups);
+				UIUtils.updateClientListAndTaxItemGroup(taxGroup, taxItems,
+						taxGroups, taxItemGroups);
+				if (getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK) {
+					ClientTAXCode code = getTAXCodeForTAXItemGroup(taxGroup);
+					Utility.updateClientList(code, taxCodes);
+				}
+
+				break;
+
+			case TAX_CODE:
+
+				ClientTAXCode taxCode = (ClientTAXCode) accounterCoreObject;
+
+				Utility.updateClientList(taxCode, taxCodes);
+
+				break;
+
+			case TAXITEM:
+
+				ClientTAXItem taxItem = (ClientTAXItem) accounterCoreObject;
+
+				// Utility.updateClientList(taxItem, taxItems);
+				UIUtils.updateClientListAndTaxItemGroup(taxItem, taxItems,
+						taxGroups, taxItemGroups);
+				if (getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK) {
+					ClientTAXCode code = getTAXCodeForTAXItemGroup(taxItem);
+					Utility.updateClientList(code, taxCodes);
+				}
+
+				break;
+
+			case CUSTOMER_GROUP:
+
+				ClientCustomerGroup customerGroup = (ClientCustomerGroup) accounterCoreObject;
+
+				Utility.updateClientList(customerGroup, customerGroups);
+
+				break;
+
+			case VENDOR_GROUP:
+
+				ClientVendorGroup vendorGroup = (ClientVendorGroup) accounterCoreObject;
+
+				Utility.updateClientList(vendorGroup, vendorGroups);
+
+				break;
+
+			case PAYMENT_TERM:
+
+				ClientPaymentTerms paymentsTerms = (ClientPaymentTerms) accounterCoreObject;
+
+				Utility.updateClientList(paymentsTerms, paymentTerms);
+
+				break;
+
+			case SHIPPING_METHOD:
+
+				ClientShippingMethod shippingMethod = (ClientShippingMethod) accounterCoreObject;
+
+				Utility.updateClientList(shippingMethod, shippingMethods);
+
+				break;
+
+			case SHIPPING_TERM:
+
+				ClientShippingTerms shippingTerm = (ClientShippingTerms) accounterCoreObject;
+
+				Utility.updateClientList(shippingTerm, shippingTerms);
+
+				break;
+
+			case PRICE_LEVEL:
+
+				ClientPriceLevel priceLevel = (ClientPriceLevel) accounterCoreObject;
+
+				Utility.updateClientList(priceLevel, priceLevels);
+
+				break;
+
+			case ITEM_GROUP:
+
+				ClientItemGroup itemGroup = (ClientItemGroup) accounterCoreObject;
+
+				Utility.updateClientList(itemGroup, ItemGroups);
+
+				break;
+
+			case SALES_PERSON:
+
+				ClientSalesPerson salesPerson = (ClientSalesPerson) accounterCoreObject;
+
+				Utility.updateClientList(salesPerson, salesPersons);
+
+				break;
+
+			case CREDIT_RATING:
+
+				ClientCreditRating creditRating = (ClientCreditRating) accounterCoreObject;
+
+				Utility.updateClientList(creditRating, creditRatings);
+
+				break;
+
+			case PAY_SALES_TAX:
+
+				ClientPaySalesTax paySalesTax = (ClientPaySalesTax) accounterCoreObject;
+
+				Utility.updateClientList(paySalesTax, paySalesTaxs);
+
+				break;
+
+			case BANK:
+
+				ClientBank clientBank = (ClientBank) accounterCoreObject;
+				Utility.updateClientList(clientBank, banks);
+				break;
+
+			case FIXEDASSET:
+				ClientFixedAsset fixedAsset = (ClientFixedAsset) accounterCoreObject;
+				Utility.updateClientList(fixedAsset, fixedAssets);
+				break;
+
+			// case VATITEM:
+			// ClientTAXItem vatItem = (ClientTAXItem) accounterCoreObject;
+			// Utility.updateClientList(vatItem, this.vatItems);
+			// ViewManager.updateComboDataInViews(SelectItemType.VAT_ITEM,
+			// accounterCoreObject);
+			// break;
+			// case VATGROUP:
+			// ClientTAXGroup vatGroup = (ClientTAXGroup)
+			// accounterCoreObject;
+			// Utility.updateClientList(vatGroup, this.vatGroups);
+			//
+			// break;
+			// case VATCODE:
+			// ClientVATCode code = (ClientVATCode) accounterCoreObject;
+			// Utility.updateClientList(code, this.vatCodes);
+			// break;
+			// case VATAGENCY:
+			// ClientVATAgency vagy = (ClientVATAgency) accounterCoreObject;
+			// Utility.updateClientList(vagy, this.vatAgencies);
+			// Utility.updateClientList(vagy, payees);
+			// break;
+			case VATRETURN:
+				ClientVATReturn vaReturn = (ClientVATReturn) accounterCoreObject;
+				Utility.updateClientList(vaReturn, this.vatReturns);
+				break;
+
+			case FISCALYEAR:
+				ClientFiscalYear fiscalYear = (ClientFiscalYear) accounterCoreObject;
+				Utility.updateClientList(fiscalYear, this.fiscalYears);
+				sortFiscalYears();
+				break;
+
+			case COMPANY_PREFERENCES:
+				this.preferences = (ClientCompanyPreferences) accounterCoreObject;
+				break;
+			case COMPANY:
+				ClientCompany cmp = (ClientCompany) accounterCoreObject;
+				this.getToClientCompany(cmp);
+				break;
+			case BRANDINGTHEME:
+				ClientBrandingTheme theme = (ClientBrandingTheme) accounterCoreObject;
+				Utility.updateClientList(theme, brandingTheme);
+				break;
+			case USER:
+				ClientUserInfo user = (ClientUserInfo) accounterCoreObject;
+				Utility.updateClientList(user, this.usersList);
+				long userID = user.getID();
+				ClientUser loggedInUser = getLoggedInUser();
+				if (loggedInUser.getID() == userID) {
+					loggedInUser.firstName = user.getFirstName();
+					loggedInUser.fullName = user.getFullName();
+					loggedInUser.lastName = user.getLastName();
+					Accounter.setUser(loggedInUser);
+				}
+			}
+		// } catch (Exception e) {
+		// if (e instanceof JavaScriptException) {
+		// Accounter.showInformation(Accounter.constants()
+		// .exceptionOccur()
+		// + ((JavaScriptException) (e)).getDescription());
+		//
+		// } else {
+		// Accounter.showInformation(Accounter.constants()
+		// .exceptionOccur() + e.toString());
+		// }
+		// }
 
 	}
 
@@ -2589,5 +2591,15 @@ public class ClientCompany implements IAccounterCore {
 
 	public void setVATFiledLiabilityAccount(long vATFiledLiabilityAccount) {
 		VATFiledLiabilityAccount = vATFiledLiabilityAccount;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version = version;
 	}
 }
