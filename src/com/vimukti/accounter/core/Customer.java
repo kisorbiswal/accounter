@@ -510,8 +510,6 @@ public class Customer extends Payee implements IAccounterServerCore {
 				&& this.phoneNumbers.equals(cust.phoneNumbers)
 				&& this.faxNumbers.size() == cust.faxNumbers.size()
 				&& this.faxNumbers.equals(cust.faxNumbers)
-				&& this.emails.size() == cust.emails.size()
-				&& this.emails.equals(cust.emails)
 				&& this.contacts.size() == cust.contacts.size()
 				&& this.contacts.equals(cust.contacts)
 				&& this.isActive == cust.isActive

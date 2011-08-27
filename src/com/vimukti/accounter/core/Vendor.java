@@ -113,14 +113,6 @@ public class Vendor extends Payee {
 	}
 
 	/**
-	 * @return the emails
-	 */
-	@Override
-	public Set<Email> getEmails() {
-		return emails;
-	}
-
-	/**
 	 * @return the webPageAddress
 	 */
 	@Override
@@ -404,12 +396,6 @@ public class Vendor extends Payee {
 	}
 
 	@Override
-	public void setEmails(Set<Email> emails) {
-
-		this.emails = emails;
-	}
-
-	@Override
 	public void setAddress(Set<Address> address) {
 		this.address = address;
 	}
@@ -437,8 +423,6 @@ public class Vendor extends Payee {
 				&& this.phoneNumbers.equals(vendor.phoneNumbers)
 				&& this.faxNumbers.size() == vendor.faxNumbers.size()
 				&& this.faxNumbers.equals(vendor.faxNumbers)
-				&& this.emails.size() == vendor.emails.size()
-				&& this.emails.equals(vendor.emails)
 				&& this.contacts.size() == vendor.contacts.size()
 				&& this.contacts.equals(vendor.contacts)
 				&& this.isActive == vendor.isActive

@@ -194,7 +194,7 @@ import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
  * @author Fernandez
  * 
  */
-public class FinanceTool  {
+public class FinanceTool {
 
 	Logger log = Logger.getLogger(FinanceTool.class);
 
@@ -411,6 +411,13 @@ public class FinanceTool  {
 
 			IAccounterServerCore serverObject = (IAccounterServerCore) session
 					.get(classforName, Long.parseLong(updateContext.getArg1()));
+
+			int version = serverObject.getVersion();
+			if (version != data.getVersion()) {
+				throw new AccounterException(
+						AccounterException.ERROR_VERSION_MISMATCH);
+			}
+
 			IAccounterServerCore clonedObject = new CloneUtil().clone(null,
 					serverObject);
 
@@ -420,7 +427,9 @@ public class FinanceTool  {
 
 			new ServerConvertUtil().toServerObject(serverObject,
 					(IAccounterCore) data, session);
-
+			
+			serverObject.setVersion(++version);
+			
 			if (serverObject instanceof Transaction) {
 				Transaction transaction = (Transaction) serverObject;
 				transaction.onEdit((Transaction) clonedObject);
@@ -782,7 +791,6 @@ public class FinanceTool  {
 		return null;
 	}
 
-	
 	public <T extends IAccounterCore> T getObjectById(AccounterCoreType type,
 			long id) throws DAOException, AccounterException {
 
@@ -832,7 +840,6 @@ public class FinanceTool  {
 		return clazz;
 	}
 
-	
 	public <T extends IAccounterCore> T getObjectByName(AccounterCoreType type,
 			String name) throws DAOException, AccounterException {
 
@@ -889,9 +896,8 @@ public class FinanceTool  {
 
 	}
 
-	
-	public <T extends IAccounterCore> ArrayList<T> getObjects(AccounterCoreType type)
-			throws DAOException, AccounterException {
+	public <T extends IAccounterCore> ArrayList<T> getObjects(
+			AccounterCoreType type) throws DAOException, AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -957,7 +963,7 @@ public class FinanceTool  {
 	// }
 
 	/*
-	 *  public <T extends IAccounterServerCore> Boolean canDelete(
+	 * public <T extends IAccounterServerCore> Boolean canDelete(
 	 * AccounterCoreType clazz, String id) throws DAOException {
 	 * 
 	 * Session session = HibernateUtil.getCurrentSession(); ObjectConvertUtil
@@ -1023,7 +1029,6 @@ public class FinanceTool  {
 		return flag;
 	}
 
-	
 	@Deprecated
 	/*
 	 * The code in this method is shifted to onUpdate of FiscalYear
@@ -1141,7 +1146,6 @@ public class FinanceTool  {
 	 * =====================
 	 */
 
-	
 	public ArrayList<EnterBill> getBillsOwed() throws DAOException {
 		// Session session = getSessionFactory().openSession();
 		// Query query = session.createSQLQuery(
@@ -1177,7 +1181,6 @@ public class FinanceTool  {
 		return null;
 	}
 
-	
 	public ArrayList<BillsList> getBillsList(boolean isExpensesList)
 			throws DAOException {
 		try {
@@ -1228,8 +1231,8 @@ public class FinanceTool  {
 		}
 	}
 
-	
-	public ArrayList<IssuePaymentTransactionsList> getChecks() throws DAOException {
+	public ArrayList<IssuePaymentTransactionsList> getChecks()
+			throws DAOException {
 
 		// Session session = getSessionFactory().openSession();
 		// Query query = session.createSQLQuery(new StringBuilder().append(
@@ -1402,7 +1405,6 @@ public class FinanceTool  {
 					null));
 	}
 
-	
 	public ArrayList<IssuePaymentTransactionsList> getChecks(long account)
 			throws DAOException {
 		try {
@@ -1700,9 +1702,8 @@ public class FinanceTool  {
 		}
 	}
 
-	
-	public ArrayList<CreditCardCharge> getCreditCardChargesThisMonth(final long date)
-			throws DAOException {
+	public ArrayList<CreditCardCharge> getCreditCardChargesThisMonth(
+			final long date) throws DAOException {
 		// SELECT * from com.vimukti.accounter.core.CREDIT_CARD_CHARGES CCC JOIN
 		// TRANSACTION T ON T.ID =
 		// CCC.ID AND T.T_DATE = CURRENT_DATE
@@ -1737,9 +1738,8 @@ public class FinanceTool  {
 		return new ArrayList<CreditCardCharge>(list);
 	}
 
-	
-	public ArrayList<CreditsAndPayments> getCustomerCreditsAndPayments(long customer)
-			throws DAOException {
+	public ArrayList<CreditsAndPayments> getCustomerCreditsAndPayments(
+			long customer) throws DAOException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 
@@ -1758,7 +1758,6 @@ public class FinanceTool  {
 		}
 	}
 
-	
 	public ArrayList<CustomerRefundsList> getCustomerRefundsList()
 			throws DAOException {
 		try {
@@ -1834,7 +1833,6 @@ public class FinanceTool  {
 		}
 	}
 
-	
 	public ArrayList<Entry> getEntries(long journalEntryId) throws DAOException {
 		try {
 
@@ -1854,7 +1852,6 @@ public class FinanceTool  {
 		}
 	}
 
-	
 	public ArrayList<Estimate> getEstimates() throws DAOException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
@@ -1872,7 +1869,6 @@ public class FinanceTool  {
 		}
 	}
 
-	
 	public ArrayList<Estimate> getEstimates(long customer) throws DAOException {
 		try {
 
@@ -1892,7 +1888,6 @@ public class FinanceTool  {
 		}
 	}
 
-	
 	public ArrayList<InvoicesList> getInvoiceList() throws DAOException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
@@ -1938,7 +1933,6 @@ public class FinanceTool  {
 		}
 	}
 
-	
 	public ArrayList<JournalEntry> getJournalEntries() throws DAOException {
 		try {
 
@@ -1957,7 +1951,6 @@ public class FinanceTool  {
 		}
 	}
 
-	
 	public JournalEntry getJournalEntry(long journalEntryId)
 			throws DAOException {
 		try {
@@ -1978,7 +1971,6 @@ public class FinanceTool  {
 		}
 	}
 
-	
 	public ArrayList<Estimate> getLatestQuotes() throws DAOException {
 		// SELECT E1.* FROM ESTIMATE E1 WHERE 10>(SELECT COUNT(*) FROM
 		// TRANSACTION E2 WHERE E1.ID<E2.ID)
@@ -2017,7 +2009,6 @@ public class FinanceTool  {
 
 	}
 
-	
 	public Long getNextIssuePaymentCheckNumber(long account)
 			throws DAOException {
 		try {
@@ -2039,7 +2030,7 @@ public class FinanceTool  {
 	}
 
 	//
-	// 
+	//
 	// public Long getNextTransactionNumber(int transactionType)
 	// throws DAOException {
 	// try {
@@ -2059,7 +2050,6 @@ public class FinanceTool  {
 	// }
 	// }
 
-	
 	public String getNextFixedAssetNumber() throws DAOException {
 		// try {
 		//
@@ -2079,7 +2069,6 @@ public class FinanceTool  {
 
 	}
 
-	
 	public String getNextVoucherNumber() throws DAOException {
 		// try {
 		//
@@ -2109,8 +2098,8 @@ public class FinanceTool  {
 		return NumberUtils.getNextVoucherNumber();
 	}
 
-	
-	public ArrayList<OverDueInvoicesList> getOverDueInvoices() throws DAOException {
+	public ArrayList<OverDueInvoicesList> getOverDueInvoices()
+			throws DAOException {
 		// try {
 		// Session session = getSessionFactory().openSession();
 		// Query query = session.createSQLQuery(
@@ -2173,7 +2162,6 @@ public class FinanceTool  {
 
 	}
 
-	
 	public ArrayList<PaymentsList> getPaymentsList() throws DAOException {
 		List<PaymentsList> queryResult = new ArrayList<PaymentsList>();
 		try {
@@ -2224,7 +2212,6 @@ public class FinanceTool  {
 
 	}
 
-	
 	public ArrayList<Item> getPurchaseItems() throws DAOException {
 
 		try {
@@ -2245,7 +2232,6 @@ public class FinanceTool  {
 
 	}
 
-	
 	public ArrayList<Item> getSalesItems() throws DAOException {
 
 		try {
@@ -2266,7 +2252,6 @@ public class FinanceTool  {
 
 	}
 
-	
 	public ArrayList<PayBillTransactionList> getTransactionPayBills()
 			throws DAOException {
 		try {
@@ -2330,7 +2315,6 @@ public class FinanceTool  {
 		}
 	}
 
-	
 	public ArrayList<PayBillTransactionList> getTransactionPayBills(
 			final long vendorId) throws DAOException {
 		try {
@@ -2403,7 +2387,6 @@ public class FinanceTool  {
 		}
 	}
 
-	
 	public ArrayList<ReceivePaymentTransactionList> getTransactionReceivePayments(
 			long customerId, long paymentDate1) throws DAOException,
 			ParseException {
@@ -2494,7 +2477,6 @@ public class FinanceTool  {
 
 	}
 
-	
 	public ArrayList<CreditsAndPayments> getVendorCreditsAndPayments(long vendor)
 			throws DAOException {
 
@@ -2512,7 +2494,6 @@ public class FinanceTool  {
 
 	}
 
-	
 	public ArrayList<PaymentsList> getVendorPaymentsList() throws DAOException {
 		try {
 
@@ -2570,7 +2551,6 @@ public class FinanceTool  {
 		}
 	}
 
-	
 	public boolean isSalesTaxPayableAccount(long accountId) throws DAOException {
 
 		try {
@@ -2595,7 +2575,6 @@ public class FinanceTool  {
 
 	}
 
-	
 	public boolean isSalesTaxPayableAccountByName(String accountName)
 			throws DAOException {
 
@@ -2621,7 +2600,6 @@ public class FinanceTool  {
 
 	}
 
-	
 	public boolean isTaxAgencyAccount(long account) throws DAOException {
 
 		try {
@@ -2646,7 +2624,6 @@ public class FinanceTool  {
 
 	}
 
-	
 	public boolean canVoidOrEdit(long invoiceOrVendorBillId)
 			throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
@@ -2658,7 +2635,6 @@ public class FinanceTool  {
 		return (Boolean) list.iterator().next();
 	}
 
-	
 	public ArrayList<BillsList> getLatestBills() throws DAOException {
 		try {
 
@@ -2698,7 +2674,6 @@ public class FinanceTool  {
 		}
 	}
 
-	
 	public ArrayList<CashPurchase> getLatestCashPurchases() throws DAOException {
 		try {
 
@@ -2735,7 +2710,6 @@ public class FinanceTool  {
 		}
 	}
 
-	
 	public ArrayList<CashSales> getLatestCashSales() throws DAOException {
 		try {
 
@@ -2772,7 +2746,6 @@ public class FinanceTool  {
 		}
 	}
 
-	
 	public ArrayList<WriteCheck> getLatestChecks() throws DAOException {
 		try {
 
@@ -2815,8 +2788,8 @@ public class FinanceTool  {
 		}
 	}
 
-	
-	public ArrayList<CustomerRefund> getLatestCustomerRefunds() throws DAOException {
+	public ArrayList<CustomerRefund> getLatestCustomerRefunds()
+			throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
@@ -2852,7 +2825,6 @@ public class FinanceTool  {
 		}
 	}
 
-	
 	public ArrayList<Customer> getLatestCustomers() throws DAOException {
 		try {
 
@@ -2883,7 +2855,6 @@ public class FinanceTool  {
 		}
 	}
 
-	
 	public ArrayList<MakeDeposit> getLatestDeposits() throws DAOException {
 		try {
 
@@ -2925,7 +2896,6 @@ public class FinanceTool  {
 		}
 	}
 
-	
 	public ArrayList<TransferFund> getLatestFundsTransfer() throws DAOException {
 		try {
 
@@ -2964,7 +2934,6 @@ public class FinanceTool  {
 		}
 	}
 
-	
 	public ArrayList<Item> getLatestItems() throws DAOException {
 		try {
 
@@ -2995,7 +2964,6 @@ public class FinanceTool  {
 		}
 	}
 
-	
 	public ArrayList<PaymentsList> getLatestPayments() throws DAOException {
 		try {
 
@@ -3037,7 +3005,6 @@ public class FinanceTool  {
 		}
 	}
 
-	
 	public ArrayList<Vendor> getLatestVendors() throws DAOException {
 		try {
 
@@ -3070,7 +3037,6 @@ public class FinanceTool  {
 		}
 	}
 
-	
 	public Long getNextCheckNumber(long accountId) throws DAOException {
 
 		// try {
@@ -3105,7 +3071,6 @@ public class FinanceTool  {
 		return null;
 	}
 
-	
 	public Long getNextNominalCode(int accountType) throws DAOException {
 
 		try {
@@ -3137,7 +3102,6 @@ public class FinanceTool  {
 
 	}
 
-	
 	public ArrayList<Account> getTaxAgencyAccounts() throws DAOException {
 		try {
 
@@ -3158,7 +3122,6 @@ public class FinanceTool  {
 		}
 	}
 
-	
 	public TransactionMakeDeposit getTransactionMakeDeposit(
 			long transactionMakeDepositId) throws DAOException {
 		try {
@@ -3179,7 +3142,6 @@ public class FinanceTool  {
 		}
 	}
 
-	
 	public ArrayList<ReceivePaymentsList> getReceivePaymentsList()
 			throws DAOException {
 		try {
@@ -3332,7 +3294,6 @@ public class FinanceTool  {
 	// }
 	// }
 
-	
 	public ArrayList<InvoicesList> getLatestInvoices() throws DAOException {
 		try {
 
@@ -3375,7 +3336,6 @@ public class FinanceTool  {
 		}
 	}
 
-	
 	public ArrayList<Item> getLatestPurchaseItems() throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -3400,8 +3360,8 @@ public class FinanceTool  {
 					null));
 	}
 
-	
-	public ArrayList<ReceivePayment> getLatestReceivePayments() throws DAOException {
+	public ArrayList<ReceivePayment> getLatestReceivePayments()
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getLatestReceivePayments");
@@ -3430,7 +3390,6 @@ public class FinanceTool  {
 					null));
 	}
 
-	
 	public ArrayList<Item> getLatestSalesItems() throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -3458,8 +3417,8 @@ public class FinanceTool  {
 					null));
 	}
 
-	
-	public ArrayList<PaymentsList> getLatestVendorPayments() throws DAOException {
+	public ArrayList<PaymentsList> getLatestVendorPayments()
+			throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
@@ -3520,7 +3479,6 @@ public class FinanceTool  {
 		// }
 	}
 
-	
 	public ArrayList<PaySalesTaxEntries> getTransactionPaySalesTaxEntriesList(
 			long billsDueOnOrBefore) throws DAOException {
 
@@ -3666,7 +3624,6 @@ public class FinanceTool  {
 		}
 	}
 
-	
 	public ArrayList<EstimatesAndSalesOrdersList> getEstimatesAndSalesOrdersList(
 			long customerId) throws DAOException {
 
@@ -3698,7 +3655,6 @@ public class FinanceTool  {
 		return new ArrayList<EstimatesAndSalesOrdersList>(esl);
 	}
 
-	
 	public ArrayList<PurchaseOrdersAndItemReceiptsList> getPurchasesAndItemReceiptsList(
 			long vendorId) throws DAOException {
 
@@ -3794,7 +3750,6 @@ public class FinanceTool  {
 		return new ArrayList<PurchaseOrdersList>(pil);
 	}
 
-	
 	public ArrayList<PurchaseOrdersList> getNotReceivedPurchaseOrdersList(
 			long vendorID) throws DAOException {
 
@@ -3826,8 +3781,8 @@ public class FinanceTool  {
 		return new ArrayList<PurchaseOrdersList>(pil);
 	}
 
-	
-	public ArrayList<FixedAssetList> getFixedAssets(int status) throws DAOException {
+	public ArrayList<FixedAssetList> getFixedAssets(int status)
+			throws DAOException {
 
 		List<FixedAssetList> fal = new ArrayList<FixedAssetList>();
 
@@ -3855,7 +3810,6 @@ public class FinanceTool  {
 		return new ArrayList<FixedAssetList>(fal);
 	}
 
-	
 	public ArrayList<SellingOrDisposingFixedAssetList> getSellingOrDisposingFixedAssets()
 			throws DAOException {
 
@@ -3883,7 +3837,6 @@ public class FinanceTool  {
 		return new ArrayList<SellingOrDisposingFixedAssetList>(fal);
 	}
 
-	
 	public void runDepreciation(long depreciationFrom, long depreciationTo,
 			FixedAssetLinkedAccountMap linkedAccounts) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
@@ -3996,7 +3949,6 @@ public class FinanceTool  {
 
 	}
 
-	
 	public ClientFinanceDate getDepreciationLastDate() throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session
@@ -4058,7 +4010,7 @@ public class FinanceTool  {
 
 	// RAKESH
 
-	// 
+	//
 	// public void rollBackDepreciation(Long rollBackDepreciationTo)
 	// throws DAOException {
 	// Session session = HibernateUtil.getCurrentSession();
@@ -4081,7 +4033,6 @@ public class FinanceTool  {
 	// }
 	// }
 
-	
 	public double getCalculatedDepreciatedAmount(int depreciationMethod,
 			double depreciationRate, double purchasePrice,
 			long depreciationFrom, long depreciationTo) throws DAOException {
@@ -4203,7 +4154,7 @@ public class FinanceTool  {
 	}
 
 	//
-	// 
+	//
 	// public double getCalculatedRollBackDepreciationAmount(
 	// Long rollBackDepreciationTo) throws DAOException {
 	//
@@ -4228,7 +4179,6 @@ public class FinanceTool  {
 	// return rollBackDepAmt;
 	// }
 
-	
 	public double getCalculatedRollBackDepreciationAmount(
 			long rollBackDepreciationTo) throws DAOException {
 
@@ -4252,7 +4202,7 @@ public class FinanceTool  {
 	}
 
 	//
-	// 
+	//
 	// public double getCalculatedRollBackDepreciationAmount(String
 	// fixedAssetID,
 	// Long rollBackDepreciationTo) throws DAOException {
@@ -4283,7 +4233,6 @@ public class FinanceTool  {
 	// return rollBackDepAmt;
 	// }
 
-	
 	public double getCalculatedRollBackDepreciationAmount(long fixedAssetID,
 			long rollBackDepreciationTo) throws DAOException {
 
@@ -4352,7 +4301,7 @@ public class FinanceTool  {
 	 * @return
 	 * @throws Exception
 	 */
-	
+
 	public FixedAssetSellOrDisposeReviewJournal getReviewJournal(
 			TempFixedAsset fixedAsset) throws DAOException {
 
@@ -4703,7 +4652,7 @@ public class FinanceTool  {
 
 	}
 
-	// 
+	//
 	// public void changeDepreciationStartDateTo(long newStartDate)
 	// throws DAOException {
 	// if (newStartDate == 0)
@@ -4717,7 +4666,6 @@ public class FinanceTool  {
 	// space.sendCommand(cmd, this);
 	// }
 
-	
 	public ArrayList<ClientFinanceDate> getFinancialYearStartDates()
 			throws DAOException {
 
@@ -4744,7 +4692,6 @@ public class FinanceTool  {
 		return new ArrayList<ClientFinanceDate>(startDates);
 	}
 
-	
 	public ArrayList<ClientFinanceDate> getAllDepreciationFromDates()
 			throws DAOException {
 
@@ -4928,7 +4875,6 @@ public class FinanceTool  {
 	 * ================
 	 */
 
-	
 	public ArrayList<AccountBalance> getAccountBalances() throws DAOException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
@@ -4968,7 +4914,6 @@ public class FinanceTool  {
 		}
 	}
 
-	
 	public ArrayList<TrialBalance> getTrialBalance(final FinanceDate startDate,
 			final FinanceDate endDate) throws DAOException {
 
@@ -5034,7 +4979,6 @@ public class FinanceTool  {
 
 	}
 
-	
 	public ArrayList<SalesByCustomerDetail> getSalesByCustomerDetailReport(
 			final FinanceDate startDate, final FinanceDate endDate)
 			throws DAOException {
@@ -5133,12 +5077,11 @@ public class FinanceTool  {
 		return list;
 	}
 
-	
-	public ArrayList<Transaction> getRegister(Account account) throws DAOException {
+	public ArrayList<Transaction> getRegister(Account account)
+			throws DAOException {
 		return null;
 	}
 
-	
 	public ArrayList<AgedDebtors> getAgedDebtors(final FinanceDate startDate,
 			final FinanceDate endDate) throws DAOException {
 
@@ -5152,7 +5095,6 @@ public class FinanceTool  {
 				startDate, endDate);
 	}
 
-	
 	public ArrayList<AgedDebtors> getAgedDebtors(FinanceDate startDate,
 			FinanceDate endDate, int intervalDays, int throughDaysPassOut)
 			throws DAOException {
@@ -5164,7 +5106,6 @@ public class FinanceTool  {
 		return null;
 	}
 
-	
 	public ArrayList<AgedDebtors> getAgedCreditors(final FinanceDate startDate,
 			final FinanceDate endDate) throws DAOException {
 
@@ -5221,7 +5162,6 @@ public class FinanceTool  {
 
 		Collections.sort(queryResult, new Comparator<AgedDebtors>() {
 
-			
 			public int compare(AgedDebtors arg0, AgedDebtors arg1) {
 				return arg0.getCategory() > arg1.getCategory() ? 2 : arg0
 						.getCategory() < arg1.getCategory() ? -1 : 0;
@@ -5285,7 +5225,6 @@ public class FinanceTool  {
 		return 0;
 	}
 
-	
 	public ArrayList<SalesByCustomerDetail> getSalesByCustomerSummary(
 			final FinanceDate startDate, final FinanceDate endDate)
 			throws DAOException {
@@ -5315,7 +5254,6 @@ public class FinanceTool  {
 
 	}
 
-	
 	public ArrayList<SalesByCustomerDetail> getSalesByItemDetail(
 			final FinanceDate startDate, final FinanceDate endDate)
 			throws DAOException {
@@ -5400,7 +5338,6 @@ public class FinanceTool  {
 		return new ArrayList<SalesByCustomerDetail>(queryResult);
 	}
 
-	
 	public ArrayList<SalesByCustomerDetail> getSalesByItemSummary(
 			final FinanceDate startDate, final FinanceDate endDate)
 			throws DAOException {
@@ -5436,7 +5373,6 @@ public class FinanceTool  {
 
 	}
 
-	
 	public ArrayList<TransactionHistory> getCustomerTransactionHistory(
 			final FinanceDate startDate, final FinanceDate endDate)
 			throws AccounterException {
@@ -5569,7 +5505,6 @@ public class FinanceTool  {
 		return list;
 	}
 
-	
 	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorDetail(
 			final FinanceDate startDate, final FinanceDate endDate)
 			throws DAOException {
@@ -5582,11 +5517,13 @@ public class FinanceTool  {
 
 		List l = query.list();
 
-		return createPurchasesByVendorDetail(new ArrayList<SalesByCustomerDetail>(l));
+		return createPurchasesByVendorDetail(new ArrayList<SalesByCustomerDetail>(
+				l));
 
 	}
 
-	private ArrayList<SalesByCustomerDetail> createPurchasesByVendorDetail(List l) {
+	private ArrayList<SalesByCustomerDetail> createPurchasesByVendorDetail(
+			List l) {
 
 		Object[] object = null;
 		Iterator iterator = l.iterator();
@@ -5631,7 +5568,6 @@ public class FinanceTool  {
 		return new ArrayList<SalesByCustomerDetail>(queryResult);
 	}
 
-	
 	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorSummary(
 			final FinanceDate startDate, final FinanceDate endDate)
 			throws DAOException {
@@ -5661,7 +5597,6 @@ public class FinanceTool  {
 		return new ArrayList<SalesByCustomerDetail>(queryResult);
 	}
 
-	
 	public ArrayList<SalesByCustomerDetail> getPurchasesByItemDetail(
 			final FinanceDate startDate, final FinanceDate endDate)
 			throws DAOException {
@@ -5673,7 +5608,8 @@ public class FinanceTool  {
 
 		List l = query.list();
 
-		return createPurchasesByItemDetail(new ArrayList<SalesByCustomerDetail>(l));
+		return createPurchasesByItemDetail(new ArrayList<SalesByCustomerDetail>(
+				l));
 
 	}
 
@@ -5719,7 +5655,6 @@ public class FinanceTool  {
 		return new ArrayList<SalesByCustomerDetail>(queryResult);
 	}
 
-	
 	public ArrayList<SalesByCustomerDetail> getPurchasesByItemSummary(
 			final FinanceDate startDate, final FinanceDate endDate)
 			throws DAOException {
@@ -5754,7 +5689,6 @@ public class FinanceTool  {
 
 	}
 
-	
 	public ArrayList<TransactionHistory> getVendorTransactionHistory(
 			final FinanceDate startDate, final FinanceDate endDate)
 			throws AccounterException {
@@ -5901,7 +5835,6 @@ public class FinanceTool  {
 
 	}
 
-	
 	public ArrayList<AmountsDueToVendor> getAmountsDueToVendor(
 			final FinanceDate startDate, final FinanceDate endDate)
 			throws DAOException {
@@ -5945,7 +5878,6 @@ public class FinanceTool  {
 		return new ArrayList<AmountsDueToVendor>(queryResult);
 	}
 
-	
 	public ArrayList<MostProfitableCustomers> getMostProfitableCustomers(
 			final FinanceDate startDate, final FinanceDate endDate)
 			throws DAOException {
@@ -6105,7 +6037,6 @@ public class FinanceTool  {
 				profitabilityByCustomerDetailList);
 	}
 
-	
 	public ArrayList<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
 			final FinanceDate startDate, final FinanceDate endDate)
 			throws DAOException {
@@ -6125,7 +6056,6 @@ public class FinanceTool  {
 
 	}
 
-	
 	public ArrayList<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
 			final String taxItemName, final FinanceDate startDate,
 			final FinanceDate endDate) throws DAOException {
@@ -6200,7 +6130,6 @@ public class FinanceTool  {
 		return new ArrayList<TransactionDetailByTaxItem>(queryResult);
 	}
 
-	
 	public ArrayList<AccountRegister> getAccountRegister(
 			final FinanceDate startDate, final FinanceDate endDate,
 			final long accountId) throws DAOException {
@@ -6260,7 +6189,6 @@ public class FinanceTool  {
 		return new ArrayList<AccountRegister>(queryResult);
 	}
 
-	
 	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
 			final FinanceDate startDate, final FinanceDate endDate)
 			throws DAOException {
@@ -6340,7 +6268,6 @@ public class FinanceTool  {
 		}
 	}
 
-	
 	public ArrayList<SalesTaxLiability> getSalesTaxLiabilityReport(
 			FinanceDate startDate, FinanceDate endDate)
 			throws AccounterException {
@@ -6359,8 +6286,8 @@ public class FinanceTool  {
 
 		Query query = session.getNamedQuery("getSalesTaxLiabilityReport")
 				.setParameter("startDate", startDate.getDate())
-				.setParameter("endDate", endDate.getDate()).setParameter("start", start)
-				.setParameter("end", end);
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("start", start).setParameter("end", end);
 
 		List l = query.list();
 
@@ -6394,7 +6321,6 @@ public class FinanceTool  {
 		return new ArrayList<SalesTaxLiability>(queryResult);
 	}
 
-	
 	public ArrayList<Item> getPurchaseReportItems(FinanceDate startDate,
 			FinanceDate endDate) throws DAOException {
 
@@ -6421,7 +6347,6 @@ public class FinanceTool  {
 		return new ArrayList<Item>(queryResult);
 	}
 
-	
 	public ArrayList<Item> getSalesReportItems(FinanceDate startDate,
 			FinanceDate endDate) throws DAOException {
 
@@ -6448,7 +6373,6 @@ public class FinanceTool  {
 		return new ArrayList<Item>(queryResult);
 	}
 
-	
 	public ArrayList<Customer> getTransactionHistoryCustomers(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 
@@ -6473,9 +6397,8 @@ public class FinanceTool  {
 		return new ArrayList<Customer>(queryResult);
 	}
 
-	
-	public ArrayList<Vendor> getTransactionHistoryVendors(FinanceDate startDate,
-			FinanceDate endDate) throws DAOException {
+	public ArrayList<Vendor> getTransactionHistoryVendors(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getTransactionHistoryVendors")
@@ -6498,7 +6421,6 @@ public class FinanceTool  {
 		return new ArrayList<Vendor>(queryResult);
 	}
 
-	
 	public ClientFinanceDate[] getMinimumAndMaximumTransactionDate()
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
@@ -6521,7 +6443,6 @@ public class FinanceTool  {
 		return new ClientFinanceDate[] { startDate, endDate };
 	}
 
-	
 	public ArrayList<SalesByCustomerDetail> getPurchasesByItemDetail(
 			String itemName, FinanceDate startDate, FinanceDate endDate)
 			throws DAOException {
@@ -6534,11 +6455,11 @@ public class FinanceTool  {
 				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
-		return createPurchasesByItemDetail(new ArrayList<SalesByCustomerDetail>(l));
+		return createPurchasesByItemDetail(new ArrayList<SalesByCustomerDetail>(
+				l));
 
 	}
 
-	
 	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorDetail(
 			String vendorName, FinanceDate startDate, FinanceDate endDate)
 			throws DAOException {
@@ -6551,11 +6472,11 @@ public class FinanceTool  {
 				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate())).list();
 
-		return createPurchasesByVendorDetail(new ArrayList<SalesByCustomerDetail>(l));
+		return createPurchasesByVendorDetail(new ArrayList<SalesByCustomerDetail>(
+				l));
 
 	}
 
-	
 	public ArrayList<SalesByCustomerDetail> getSalesByCustomerDetailReport(
 			String customerName, FinanceDate startDate, FinanceDate endDate)
 			throws DAOException {
@@ -6575,9 +6496,9 @@ public class FinanceTool  {
 
 	}
 
-	
-	public ArrayList<SalesByCustomerDetail> getSalesByItemDetail(String itemName,
-			FinanceDate startDate, FinanceDate endDate) throws DAOException {
+	public ArrayList<SalesByCustomerDetail> getSalesByItemDetail(
+			String itemName, FinanceDate startDate, FinanceDate endDate)
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -6593,7 +6514,6 @@ public class FinanceTool  {
 
 	}
 
-	
 	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
 			String accountName, FinanceDate startDate, FinanceDate endDate)
 			throws DAOException {
@@ -6630,7 +6550,6 @@ public class FinanceTool  {
 
 	}
 
-	
 	public ArrayList<TrialBalance> getBalanceSheetReport(FinanceDate startDate,
 			FinanceDate endDate) throws DAOException {
 
@@ -6699,9 +6618,8 @@ public class FinanceTool  {
 
 	}
 
-	
-	public ArrayList<TrialBalance> getProfitAndLossReport(FinanceDate startDate,
-			FinanceDate endDate) throws DAOException {
+	public ArrayList<TrialBalance> getProfitAndLossReport(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -6811,7 +6729,6 @@ public class FinanceTool  {
 		return false;
 	}
 
-	
 	public ArrayList<TrialBalance> getCashFlowReport(FinanceDate startDate,
 			FinanceDate endDate) throws AccounterException {
 
@@ -6970,7 +6887,6 @@ public class FinanceTool  {
 
 	}
 
-	
 	public Map<String, Double> getVATReturnBoxes(FinanceDate startDate,
 			FinanceDate endDate) throws DAOException {
 
@@ -7010,7 +6926,6 @@ public class FinanceTool  {
 
 	}
 
-	
 	public VATReturn getVATReturnDetails(TAXAgency vatAgency,
 			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
 			AccounterException {
@@ -7327,7 +7242,6 @@ public class FinanceTool  {
 		return boxes;
 	}
 
-	
 	public ArrayList<VATDetail> getPriorVATReturnVATDetailReport(
 			TAXAgency vatAgency, FinanceDate endDate) throws DAOException,
 			ParseException {
@@ -7904,7 +7818,8 @@ public class FinanceTool  {
 		return boxName;
 	}
 
-	private ArrayList<VATDetail> getListOfVATDetails(VATDetailReport vatDetailReport) {
+	private ArrayList<VATDetail> getListOfVATDetails(
+			VATDetailReport vatDetailReport) {
 
 		List<VATDetail> vatDetails = new ArrayList<VATDetail>();
 
@@ -8016,7 +7931,6 @@ public class FinanceTool  {
 
 	}
 
-	
 	public ArrayList<VATSummary> getPriorReturnVATSummary(TAXAgency taxAgency,
 			FinanceDate endDate) throws DAOException, ParseException {
 		Session session = HibernateUtil.getCurrentSession();
@@ -8065,7 +7979,6 @@ public class FinanceTool  {
 		return new ArrayList<VATSummary>(vatSummaries);
 	}
 
-	
 	public ArrayList<VATDetail> getVATDetailReport(FinanceDate startDate,
 			FinanceDate endDate) throws DAOException, ParseException {
 
@@ -8076,7 +7989,6 @@ public class FinanceTool  {
 		return getListOfVATDetails(vatDetailReport);
 	}
 
-	
 	public ArrayList<VATSummary> getVAT100Report(TAXAgency taxAgency,
 			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
 			ParseException {
@@ -8361,7 +8273,6 @@ public class FinanceTool  {
 		return vatSummaries;
 	}
 
-	
 	public ArrayList<PayVATEntries> getPayVATEntries() {
 
 		List<PayVATEntries> payVATEntries = new Vector<PayVATEntries>();
@@ -8382,7 +8293,6 @@ public class FinanceTool  {
 
 	}
 
-	
 	public ArrayList<ReceiveVATEntries> getReceiveVATEntries() {
 
 		List<ReceiveVATEntries> receiveVATEntries = new Vector<ReceiveVATEntries>();
@@ -8405,9 +8315,8 @@ public class FinanceTool  {
 
 	}
 
-	
-	public ArrayList<OpenAndClosedOrders> getOpenSalesOrders(FinanceDate startDate,
-			FinanceDate endDate) throws DAOException {
+	public ArrayList<OpenAndClosedOrders> getOpenSalesOrders(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -8419,7 +8328,6 @@ public class FinanceTool  {
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
 
-	
 	public ArrayList<OpenAndClosedOrders> getClosedSalesOrders(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
@@ -8432,7 +8340,6 @@ public class FinanceTool  {
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
 
-	
 	public ArrayList<OpenAndClosedOrders> getCompletedSalesOrders(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 
@@ -8445,7 +8352,6 @@ public class FinanceTool  {
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
 
-	
 	public ArrayList<OpenAndClosedOrders> getCanceledSalesOrders(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 
@@ -8458,7 +8364,6 @@ public class FinanceTool  {
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
 
-	
 	public ArrayList<OpenAndClosedOrders> getOpenPurchaseOrders(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
@@ -8471,7 +8376,6 @@ public class FinanceTool  {
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
 
-	
 	public ArrayList<OpenAndClosedOrders> getClosedPurchaseOrders(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
@@ -8484,7 +8388,6 @@ public class FinanceTool  {
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
 
-	
 	public ArrayList<OpenAndClosedOrders> getCompletedPurchaseOrders(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
@@ -8496,8 +8399,8 @@ public class FinanceTool  {
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
 
-	public ArrayList<OpenAndClosedOrders> getPurchaseOrders(FinanceDate startDate,
-			FinanceDate endDate) throws DAOException {
+	public ArrayList<OpenAndClosedOrders> getPurchaseOrders(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
 		List l = ((Query) session.getNamedQuery("getPurchaseOrders")
 				.setParameter("startDate", startDate.getDate())
@@ -8514,7 +8417,6 @@ public class FinanceTool  {
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
 
-	
 	public ArrayList<OpenAndClosedOrders> getCanceledPurchaseOrders(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
@@ -8550,7 +8452,6 @@ public class FinanceTool  {
 		return new ArrayList<OpenAndClosedOrders>(queryResult);
 	}
 
-	
 	public ArrayList<UncategorisedAmountsReport> getUncategorisedAmountsReport(
 			FinanceDate fromDate, FinanceDate toDate) throws ParseException {
 		List<UncategorisedAmountsReport> uncategorisedAmounts = new ArrayList<UncategorisedAmountsReport>();
@@ -8675,9 +8576,9 @@ public class FinanceTool  {
 		return new ArrayList<UncategorisedAmountsReport>(uncategorisedAmounts);
 	}
 
-	
-	public ArrayList<VATItemDetail> getVATItemDetailReport(FinanceDate fromDate,
-			FinanceDate toDate) throws DAOException, ParseException {
+	public ArrayList<VATItemDetail> getVATItemDetailReport(
+			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
+			ParseException {
 
 		List<VATItemDetail> vatItemDetails = new ArrayList<VATItemDetail>();
 
@@ -8740,7 +8641,6 @@ public class FinanceTool  {
 		return new ArrayList<VATItemDetail>(vatItemDetails);
 	}
 
-	
 	public ArrayList<VATItemDetail> getVATItemDetailReport(String taxItemName,
 			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
 			ParseException {
@@ -8850,9 +8750,9 @@ public class FinanceTool  {
 		return new ArrayList<VATItemDetail>(vatItemDetails);
 	}
 
-	
-	public ArrayList<VATItemSummary> getVATItemSummaryReport(FinanceDate fromDate,
-			FinanceDate toDate) throws DAOException, ParseException {
+	public ArrayList<VATItemSummary> getVATItemSummaryReport(
+			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
+			ParseException {
 
 		List<VATItemSummary> vatItemSummaries = new ArrayList<VATItemSummary>();
 
@@ -8911,7 +8811,6 @@ public class FinanceTool  {
 		return new ArrayList<VATItemSummary>(vatItemSummaries);
 	}
 
-	
 	public ArrayList<ECSalesListDetail> getECSalesListDetailReport(
 			String payeeName, FinanceDate fromDate, FinanceDate toDate)
 			throws DAOException, ParseException {
@@ -9023,7 +8922,6 @@ public class FinanceTool  {
 
 	}
 
-	
 	public ArrayList<ECSalesList> getECSalesListReport(FinanceDate fromDate,
 			FinanceDate toDate) throws DAOException, ParseException {
 
@@ -9093,7 +8991,6 @@ public class FinanceTool  {
 
 	}
 
-	
 	public ArrayList<ReverseChargeListDetail> getReverseChargeListDetailReport(
 			String payeeName, FinanceDate fromDate, FinanceDate toDate)
 			throws DAOException, ParseException {
@@ -9186,7 +9083,6 @@ public class FinanceTool  {
 		return new ArrayList<ReverseChargeListDetail>(reverseCharges);
 	}
 
-	
 	public ArrayList<ReverseChargeList> getReverseChargeListReport(
 			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
 			ParseException {
@@ -9271,7 +9167,6 @@ public class FinanceTool  {
 		return new ArrayList<ReverseChargeList>(reverseCharges);
 	}
 
-	
 	public void createTaxes(int... vatReturnType) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -9686,7 +9581,6 @@ public class FinanceTool  {
 
 	}
 
-	
 	public KeyFinancialIndicators getKeyFinancialIndicators()
 			throws DAOException {
 
@@ -9930,7 +9824,7 @@ public class FinanceTool  {
 		return keyFinancialIndicators;
 	}
 
-	// 
+	//
 	// public Boolean updateCompanyPreferences(ClientCompanyPreferences
 	// preferences)
 	// throws DAOException {
@@ -9954,7 +9848,7 @@ public class FinanceTool  {
 	//
 	// }
 	//
-	// 
+	//
 	// public Boolean updateCompany(ClientCompany clientCompany)
 	// throws DAOException {
 	//
@@ -9996,8 +9890,8 @@ public class FinanceTool  {
 		company.setFiscalYears(new ArrayList<FiscalYear>(session.getNamedQuery(
 				"list.FiscalYear").list()));
 
-		company.setPayees(new ArrayList<Payee>(session.getNamedQuery("list.Payee")
-				.list()));
+		company.setPayees(new ArrayList<Payee>(session.getNamedQuery(
+				"list.Payee").list()));
 
 		company.setItems(new ArrayList<Item>(session.getNamedQuery("list.Item")
 				.list()));
@@ -10005,8 +9899,8 @@ public class FinanceTool  {
 		company.setCustomerGroups(new ArrayList<CustomerGroup>(session
 				.getNamedQuery("list.CustomerGroup").list()));
 
-		company.setVendorGroups(new ArrayList<VendorGroup>(session.getNamedQuery(
-				"list.VendorGroup").list()));
+		company.setVendorGroups(new ArrayList<VendorGroup>(session
+				.getNamedQuery("list.VendorGroup").list()));
 
 		company.setShippingTerms(new ArrayList<ShippingTerms>(session
 				.getNamedQuery("list.ShippingTerms").list()));
@@ -10023,14 +9917,14 @@ public class FinanceTool  {
 		company.setTaxGroups(new ArrayList<TAXGroup>(session.getNamedQuery(
 				"list.TAXGroup").list()));
 
-		company.setPaymentTerms(new ArrayList<PaymentTerms>(session.getNamedQuery(
-				"list.PaymentTerms").list()));
+		company.setPaymentTerms(new ArrayList<PaymentTerms>(session
+				.getNamedQuery("list.PaymentTerms").list()));
 
-		company.setCreditRatings(new ArrayList<CreditRating>(session.getNamedQuery(
-				"list.CreditRating").list()));
+		company.setCreditRatings(new ArrayList<CreditRating>(session
+				.getNamedQuery("list.CreditRating").list()));
 
-		company.setSalesPersons(new ArrayList<SalesPerson>(session.getNamedQuery(
-				"list.SalesPerson").list()));
+		company.setSalesPersons(new ArrayList<SalesPerson>(session
+				.getNamedQuery("list.SalesPerson").list()));
 
 		company.setTaxCodes(new ArrayList<TAXCode>(session.getNamedQuery(
 				"list.TAXCode").list()));
@@ -10038,8 +9932,8 @@ public class FinanceTool  {
 		company.setTaxItems(new ArrayList<TAXItem>(session.getNamedQuery(
 				"list.TAXItem").list()));
 
-		company.setTaxItemGroups(new ArrayList<TAXItemGroup>(session.getNamedQuery(
-				"list.TAXItemGroups").list()));
+		company.setTaxItemGroups(new ArrayList<TAXItemGroup>(session
+				.getNamedQuery("list.TAXItemGroups").list()));
 
 		company.setBanks(new ArrayList<Bank>(session.getNamedQuery("list.Bank")
 				.list()));
@@ -10271,7 +10165,6 @@ public class FinanceTool  {
 		return false;
 	}
 
-	
 	public String getNextTransactionNumber(int transactionType) {
 
 		// Query query = HibernateUtil
@@ -10520,7 +10413,6 @@ public class FinanceTool  {
 				.executeUpdate();
 	}
 
-	
 	public ArrayList<PayeeList> getPayeeList(int transactionCategory)
 			throws DAOException {
 		try {
@@ -10810,7 +10702,6 @@ public class FinanceTool  {
 		return sortedList;
 	}
 
-	
 	public ArrayList<ExpenseList> getExpenseReportByType(int type,
 			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 		List list = null;
@@ -10848,21 +10739,19 @@ public class FinanceTool  {
 		return new ArrayList<ExpenseList>(queryResult);
 	}
 
-	
 	public String getNextCustomerNumber() {
 		return NumberUtils.getNextAutoCustomerNumber();
 		// return NumberUtils.getNextCustomerNumber();
 	}
 
-	
 	public String getNextVendorNumber() throws DAOException {
 		return NumberUtils.getNextAutoVendorNumber();
 		// return NumberUtils.getNextVendorNumber();
 	}
 
-	
-	public ArrayList<CheckDetailReport> getCheckDetailReport(long paymentmethod,
-			FinanceDate startDate, FinanceDate endDate) throws DAOException {
+	public ArrayList<CheckDetailReport> getCheckDetailReport(
+			long paymentmethod, FinanceDate startDate, FinanceDate endDate)
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getCheckDetailReport")
@@ -10896,7 +10785,6 @@ public class FinanceTool  {
 		return new ArrayList<CheckDetailReport>(queryResult);
 	}
 
-	
 	public ArrayList<DepositDetail> getDepositDetail(FinanceDate startDate,
 			FinanceDate endDate) {
 
@@ -10964,7 +10852,6 @@ public class FinanceTool  {
 		return;
 	}
 
-	
 	public ArrayList<PayeeStatementsList> getPayeeStatementsList(long id,
 			long transactionDate, FinanceDate fromDate, FinanceDate toDate,
 			int noOfDays, boolean isEnabledOfZeroBalBox,
@@ -11054,9 +10941,8 @@ public class FinanceTool  {
 		}
 	}
 
-	
-	public ArrayList<Double> getGraphPointsforAccount(int chartType, long accountNo)
-			throws DAOException {
+	public ArrayList<Double> getGraphPointsforAccount(int chartType,
+			long accountNo) throws DAOException {
 
 		try {
 
@@ -11562,9 +11448,8 @@ public class FinanceTool  {
 		transaction.commit();
 	}
 
-	
-	public ArrayList<BillsList> getEmployeeExpensesByStatus(String employeeName,
-			int status) throws DAOException {
+	public ArrayList<BillsList> getEmployeeExpensesByStatus(
+			String employeeName, int status) throws DAOException {
 
 		List<BillsList> billsList = new ArrayList<BillsList>();
 		Session session = HibernateUtil.getCurrentSession();
@@ -11606,7 +11491,6 @@ public class FinanceTool  {
 		return new ArrayList<BillsList>(billsList);
 	}
 
-	
 	public boolean changeMyPassword(String emailId, String oldPassword,
 			String newPassword) throws DAOException {
 
@@ -11662,7 +11546,7 @@ public class FinanceTool  {
 	 * @see
 	 * com.vimukti.accounter.services.IFinanceDAOService#getSalesOrders(boolean)
 	 */
-	
+
 	public ArrayList<SalesOrdersList> getSalesOrders(boolean orderByDate) {
 		// its not using any where
 		return null;
@@ -11675,7 +11559,7 @@ public class FinanceTool  {
 	 * com.vimukti.accounter.services.IFinanceDAOService#getPurchaseOrders(boolean
 	 * )
 	 */
-	
+
 	public ArrayList<PurchaseOrdersList> getPurchaseOrders(boolean orderByDate) {
 		// its not using any where
 		return null;
@@ -11688,7 +11572,7 @@ public class FinanceTool  {
 	 * com.vimukti.accounter.services.IFinanceDAOService#getSalesOrdersForCustomer
 	 * (long)
 	 */
-	
+
 	public ArrayList<SalesOrdersList> getSalesOrdersForCustomer(long customerID) {
 		// its not using any where
 		return null;
@@ -11701,7 +11585,7 @@ public class FinanceTool  {
 	 * com.vimukti.accounter.services.IFinanceDAOService#getPurchaseOrdersForVendor
 	 * (long)
 	 */
-	
+
 	public ArrayList<SalesOrdersList> getPurchaseOrdersForVendor(long vendorID) {
 		// its not using any where
 		return null;
@@ -11711,7 +11595,8 @@ public class FinanceTool  {
 	 * @return
 	 * @throws AccounterException
 	 */
-	public ArrayList<ClientUserInfo> getAllEmployees() throws AccounterException {
+	public ArrayList<ClientUserInfo> getAllEmployees()
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		List<User> financeUsers = session.getNamedQuery("list.User").list();
 		ArrayList<ClientUserInfo> employees = new ArrayList<ClientUserInfo>();
@@ -11726,7 +11611,6 @@ public class FinanceTool  {
 		return employees;
 	}
 
-	
 	public ArrayList<PayeeStatementsList> getCustomerStatement(long customer,
 			long fromDate, long toDate) {
 		Session session = HibernateUtil.getCurrentSession();
@@ -11797,7 +11681,6 @@ public class FinanceTool  {
 		return new ArrayList<ClientRecurringTransaction>(clientObjs);
 	}
 
-	
 	public void mergeCustomer(ClientCustomer fromClientCustomer,
 			ClientCustomer toClientCustomer) throws DAOException {
 
@@ -11873,7 +11756,6 @@ public class FinanceTool  {
 
 	}
 
-	
 	public void mergeVendor(ClientVendor fromClientVendor,
 			ClientVendor toClientVendor) throws AccounterException {
 
@@ -11919,7 +11801,6 @@ public class FinanceTool  {
 
 	}
 
-	
 	public void mergeAcoount(ClientAccount fromClientAccount,
 			ClientAccount toClientAccount) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
@@ -11948,8 +11829,8 @@ public class FinanceTool  {
 
 	}
 
-	
-	public void mergeItem(ClientItem fromClientItem, ClientItem toClientItem) throws AccounterException {
+	public void mergeItem(ClientItem fromClientItem, ClientItem toClientItem)
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction tx = session.beginTransaction();
 

@@ -11,7 +11,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * @author nagaraju.p
  * 
  */
-public class Client implements IAccounterServerCore {
+public class Client {
 	/**
 	 * 
 	 */
@@ -29,7 +29,6 @@ public class Client implements IAccounterServerCore {
 	private boolean isRequirePasswordReset = false;
 	private int loginCount;
 	private long lastLoginTime;
-	private int version;
 
 	public int getLoginCount() {
 		return loginCount;
@@ -129,18 +128,6 @@ public class Client implements IAccounterServerCore {
 		this.isSubscribedToNewsLetters = isSubscribedToNewsLetters;
 	}
 
-	@Override
-	public long getID() {
-		return id;
-	}
-
-	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
 	public boolean isRequirePasswordReset() {
 		return isRequirePasswordReset;
 	}
@@ -179,14 +166,8 @@ public class Client implements IAccounterServerCore {
 		return null;
 	}
 
-	@Override
-	public int getVersion() {
-		return version;
-	}
-
-	@Override
-	public void setVersion(int version) {
-		this.version=version;
+	public long getID() {
+		return id;
 	}
 
 }

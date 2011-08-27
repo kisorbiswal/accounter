@@ -45,7 +45,10 @@ public class AccounterExceptions {
 			
 		case AccounterException.ERROR_OBJECT_IN_USE:
 			return accounterErrors.objectInUse();
-
+			
+		case AccounterException.ERROR_VERSION_MISMATCH:
+			return accounterErrors.objectModified();
+			
 		default:
 			return null;
 		}

@@ -1,8 +1,6 @@
 package com.vimukti.accounter.core;
 
-import com.vimukti.accounter.web.client.exception.AccounterException;
-
-public class Developer implements IAccounterServerCore {
+public class Developer {
 
 	/**
 	 * 
@@ -21,7 +19,6 @@ public class Developer implements IAccounterServerCore {
 	private String contact;
 	public long succeedRequests;
 	public long failureRequests;
-	private int version;
 
 	public long getId() {
 		return id;
@@ -111,26 +108,4 @@ public class Developer implements IAccounterServerCore {
 		this.contact = contact;
 	}
 
-	@Override
-	public long getID() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public int getVersion() {
-		return version;
-	}
-
-	@Override
-	public void setVersion(int version) {
-		this.version=version;
-	}
 }

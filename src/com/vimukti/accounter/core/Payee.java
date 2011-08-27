@@ -46,7 +46,6 @@ public abstract class Payee extends CreatableObject implements
 	Set<Address> address = new HashSet<Address>();
 	Set<Phone> phoneNumbers = new HashSet<Phone>();
 	Set<Fax> faxNumbers = new HashSet<Fax>();
-	Set<Email> emails = new HashSet<Email>();
 	Set<Contact> contacts = new HashSet<Contact>();
 	String webPageAddress;
 	boolean isActive = Boolean.TRUE;
@@ -226,14 +225,6 @@ public abstract class Payee extends CreatableObject implements
 
 	public void setFaxNumbers(Set<Fax> faxNumbers) {
 		this.faxNumbers = faxNumbers;
-	}
-
-	public Set<Email> getEmails() {
-		return emails;
-	}
-
-	public void setEmails(Set<Email> emails) {
-		this.emails = emails;
 	}
 
 	public Set<Contact> getContacts() {

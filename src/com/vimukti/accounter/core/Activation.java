@@ -2,14 +2,11 @@ package com.vimukti.accounter.core;
 
 import java.util.Date;
 
-import com.vimukti.accounter.web.client.exception.AccounterException;
-
-public class Activation implements IAccounterServerCore {
+public class Activation {
 	private long id;
 	private String emailId;
 	private String token;
 	private Date signUpDate;
-	private int version;
 
 	public String getEmailId() {
 		return emailId;
@@ -39,27 +36,7 @@ public class Activation implements IAccounterServerCore {
 		this.id = id;
 	}
 
-	@Override
 	public long getID() {
 		return id;
 	}
-
-	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public int getVersion() {
-		return version;
-	}
-
-	@Override
-	public void setVersion(int version) {
-
-		this.version = version;
-	}
-
 }

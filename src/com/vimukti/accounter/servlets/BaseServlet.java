@@ -217,7 +217,7 @@ public class BaseServlet extends HttpServlet {
 
 	}
 
-	protected void saveEntry(IAccounterServerCore object) {
+	protected void saveEntry(Object object) {
 
 		Session currentSession = HibernateUtil.getCurrentSession();
 		currentSession.saveOrUpdate(object);
