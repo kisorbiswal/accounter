@@ -3,6 +3,11 @@
  */
 package com.vimukti.accounter.web.server;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.NotSerializableException;
 import java.math.BigInteger;
 import java.sql.Timestamp;
@@ -49,10 +54,12 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.CreatableObject;
 import com.vimukti.accounter.core.CreditCardCharge;
+import com.vimukti.accounter.core.CreditNotePDFTemplete;
 import com.vimukti.accounter.core.CreditRating;
 import com.vimukti.accounter.core.CreditsAndPayments;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
+import com.vimukti.accounter.core.CustomerCreditMemo;
 import com.vimukti.accounter.core.CustomerGroup;
 import com.vimukti.accounter.core.CustomerPrePayment;
 import com.vimukti.accounter.core.CustomerRefund;
@@ -66,6 +73,8 @@ import com.vimukti.accounter.core.FiscalYear;
 import com.vimukti.accounter.core.FixedAsset;
 import com.vimukti.accounter.core.FixedAssetHistory;
 import com.vimukti.accounter.core.IAccounterServerCore;
+import com.vimukti.accounter.core.Invoice;
+import com.vimukti.accounter.core.InvoicePDFTemplete;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.ItemGroup;
 import com.vimukti.accounter.core.JournalEntry;
@@ -111,10 +120,13 @@ import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.servlets.BaseServlet;
+import com.vimukti.accounter.utils.Converter;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.utils.MiniTemplator.TemplateSyntaxException;
 import com.vimukti.accounter.utils.Security;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.Client1099Form;
@@ -11906,4 +11918,80 @@ public class FinanceTool {
 
 		return arrayList;
 	}
+
+	/**
+	 * this method is used to send Pdf as an attachment in email
+	 * 
+	 * @param objectID
+	 * @param type
+	 * @param brandingThemeId
+	 * @param mimeType
+	 * @param subject
+	 * @param content
+	 * @param senderEmail
+	 * @param toEmail
+	 * @param ccEmail
+	 * @throws TemplateSyntaxException
+	 * @throws IOException
+	 */
+	public void sendPdfInMail(long objectID, int type, long brandingThemeId,
+			String mimeType, String subject, String content,
+			String senderEmail, String toEmail, String ccEmail)
+			throws Exception, IOException {
+
+		BrandingTheme brandingTheme = (BrandingTheme) getServerObjectForid(
+				AccounterCoreType.BRANDINGTHEME, brandingThemeId);
+
+		String fileName = "";
+		String output = "";
+
+		Company company = getCompany();
+		String companyName = company.getFullName();
+
+		// for printing individual pdf documents
+		if (type == Transaction.TYPE_INVOICE) {
+			Invoice invoice = (Invoice) getServerObjectForid(
+					AccounterCoreType.INVOICE, objectID);
+
+			// template = new InvoiceTemplete(invoice,
+			// brandingTheme, footerImg, style);
+
+			InvoicePDFTemplete invoiceHtmlTemplete = new InvoicePDFTemplete(
+					invoice, brandingTheme, company);
+
+			fileName = invoiceHtmlTemplete.getFileName();
+
+			output = invoiceHtmlTemplete.generatePDF();
+
+		} else if (type == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
+			// for Credit Note
+			CustomerCreditMemo memo = (CustomerCreditMemo) getServerObjectForid(
+					AccounterCoreType.CUSTOMERCREDITMEMO, objectID);
+
+			CreditNotePDFTemplete creditNotePDFTemplete = new CreditNotePDFTemplete(
+					memo, brandingTheme, company);
+
+			fileName = creditNotePDFTemplete.getFileName();
+
+			output = creditNotePDFTemplete.generateCreditMemoPDF();
+
+		}
+
+		InputStream inputStream = new ByteArrayInputStream(output.getBytes());
+		InputStreamReader reader = new InputStreamReader(inputStream);
+
+		Converter converter = new Converter();
+		File file = converter.getPdfFile(fileName, reader);
+		// converter.getPdfFile(fileName, reader);
+		// InputStream inputStream = new
+		// ByteArrayInputStream(output.getBytes());
+
+		// UsersMailSendar.sendPdfMail(fileName, inputStream, mimeType,
+		// companyName, subject, content, senderEmail, toEmail, ccEmail);
+
+		UsersMailSendar.sendPdfMail(file, companyName, subject, content,
+				senderEmail, toEmail, ccEmail);
+
+	}
+
 }
