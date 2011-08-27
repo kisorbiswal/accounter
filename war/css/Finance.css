@@ -5491,7 +5491,7 @@ iframe {
 .header_links{
 	background: url("/images/Seperator_right.png") repeat-y scroll 0 0
 		transparent;
-	margin: 10px 0 0 50px;
+	margin: 10px 0 0 20px;
 	padding-left: 10px;
 }
 	
@@ -6403,6 +6403,13 @@ body, table td, select,.gwt-Button,textarea,input,label{
 	float:right !important;
 	margin:14px 14px 0 0 !important;
 }
+.abstract_base_view{
+	width:100%;
+}
+.customize_Accounter_labels a,.expense_question_link a,.view_panel a{
+	display:none;
+}
+
 
 /*Help theme need to apply for help*/
 #branding{
@@ -6426,7 +6433,4 @@ body, table td, select,.gwt-Button,textarea,input,label{
 }
 .breadcrumb a{
 	color:white;
-}
-.customize_Accounter_labels a,.expense_question_link a,.view_panel a{
-	display:none;
 }
