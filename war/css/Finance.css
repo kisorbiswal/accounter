@@ -6428,3 +6428,6 @@ body, table td, select,.gwt-Button,textarea,input,label{
 .breadcrumb a{
 	color:white;
 }
+.customize_Accounter_labels a,.expense_question_link a,.view_panel a{
+	display:none;
+}
