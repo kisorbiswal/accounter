@@ -713,6 +713,10 @@
 		from com.vimukti.accounter.core.Account a where
 		a.name =? and a.type =?
 	</query>
+	
+	<query name="getAccount.by.subBaseType">
+		select a.number from com.vimukti.accounter.core.Account a where a.subBaseType =?
+	</query>
 
 	<query name="getAccount.by.id.and.type">
 		from com.vimukti.accounter.core.Account a where a.id
