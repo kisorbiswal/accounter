@@ -5,16 +5,17 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class EMailMessage {
-	
+
 	private String from;
-	
+
 	public String subject;
 
 	public String content;
 
-	File[] attachment;
+	Set<File> attachment;
 
-	Set<String> recepeiants = new HashSet<String>();
+	public Set<String> recepeiants = new HashSet<String>();
+	public Set<String> ccrecepeiants = new HashSet<String>();
 
 	private String replayTO;
 
@@ -30,6 +31,34 @@ public class EMailMessage {
 
 	public void setRecepeant(String to) {
 		this.recepeiants.add(to);
+	}
+
+	public void setccRecepeant(String cc) {
+		this.ccrecepeiants.add(cc);
+	}
+
+	public Set<String> getccRecipeants() {
+		return ccrecepeiants;
+	}
+
+	public void setccRecepeants(Set<String> cc) {
+		this.ccrecepeiants = cc;
+	}
+
+	public Set<File> getAttachments() {
+		return attachment;
+	}
+
+	public void setAttachments(Set<File> attachment) {
+		this.attachment = attachment;
+	}
+
+	public void setAttachment(File file) {
+
+		if (attachment == null) {
+			attachment = new HashSet<File>();
+		}
+		this.attachment.add(file);
 	}
 
 	public String getSubject() {
@@ -48,14 +77,6 @@ public class EMailMessage {
 		this.content = content;
 	}
 
-	public File[] getAttachment() {
-		return attachment;
-	}
-
-	public void setAttachment(File[] attachment) {
-		this.attachment = attachment;
-	}
-
 	public void setReplayTO(String replayTO) {
 		this.replayTO = replayTO;
 	}
@@ -71,5 +92,4 @@ public class EMailMessage {
 	public void setFrom(String from) {
 		this.from = from;
 	}
-
 }
