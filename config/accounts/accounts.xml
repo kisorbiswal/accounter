@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <industries>
-	<industry type="1" name="Accounts &amp; BookKeeping">
+	<industry type="1" name="Financial Accounting Services">
 		<accounts>
 			<account type="Income" name="Account services Income" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Income" name="Bookkeeping services income" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -46,7 +46,7 @@
 			<account type="Other Expenses" name="Political Contributions" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 		</accounts>
 	</industry>
-	<industry type="2" name="Advertising or Public relations">
+	<industry type="2" name="Ad Agency or Marketing ">
 		<accounts>
 			<account type="Income" name="Sales Income" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Income" name="Commission Income" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -93,7 +93,7 @@
 		</accounts>
 		<!-- End of Type-2 Industry Account lists -->
 	</industry> 
-	<industry type="3" name="Agriculture . Ranching or Farming">
+	<industry type="3" name="Agriculture , Farmers &amp; Ranchers">
 		<accounts>
 			<account type="Income" name="Agriculture Program &amp; payments" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Income" name="Commodity Credit loans" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -151,7 +151,7 @@
 		</accounts>
 		<!-- End Type-3 Industry Account lists -->
 	</industry>
-	<industry type="4" name="Art, Writing or Photography">
+	<industry type="4" name="Photographers , Artists or writers">
 		<accounts>
 			<account type="Income" name="Sales Income" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Income" name="Photo &amp; video services Income" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -201,7 +201,7 @@
 		</accounts>
 		<!-- End of Type-4 Industry Accounts list -->
 	</industry>
-	<industry type="5" name="Automotive sales or Repair">
+	<industry type="5" name="Vehicles showroom-Sales">
 		<accounts>
 			<account type="Income" name="Sales Income" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Income" name="Parts Sales" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -249,7 +249,7 @@
 		</accounts>
 		<!-- End of Type-5 Industry Accounts list -->
 	</industry>
-	<industry type="6" name="Church Or Religious Oganization">
+	<industry type="6" name="Churches and Other Religious Organizations">
 		<accounts>
 			<account type="Income" name="Building Fund" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Income" name="Children's Church offerings" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -321,7 +321,7 @@
 		</accounts>
 		<!-- End of Type-6 Industry Accounts list -->
 	</industry>
-	<industry type="7" name="Construction or General Contractor">
+	<industry type="7" name="Construction Agents / Companies">
 		<accounts>
 			<account type="Income" name="Construction Income" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Income" name="Rental Income" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -367,7 +367,7 @@
 		</accounts>
 		<!-- End of Type-7 Industry Accounts list -->
 	</industry>
-	<industry type="8" name="Construction Trades ( electrician, Plumber, HVAC etc )">
+	<industry type="8" name="HVAC , Electrician &amp; plumber etc services">
 		<accounts>
 			<account type="Income" name="Job Income" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Cost of Goods Sold" name="Job Materials Purchased" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -414,7 +414,7 @@
 		</accounts>
 		<!-- End of Type-8 Industry Accounts list  -->
 	</industry>
-	<industry type="9" name="Design Architecture or Engineering">
+	<industry type="9" name="Architecture / Engineering Services">
 		<accounts>
 			<account type="Income" name="Design Income" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Income" name="Commission Income" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -460,7 +460,7 @@
 		</accounts>
 		<!-- End of Type-9 Industry Account lists -->
 	</industry>
-	<industry type="10" name="Financial Services other than the Accounting or Bookkeeping">
+	<industry type="10" name="Financial Services">
 	<accounts>
 		<account type="Income" name="Product Sales" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 		<account type="Income" name="Commission Income" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -504,7 +504,7 @@
 	</accounts>
 	<!-- End of Type-10 Industry Account lists -->
 </industry>
-	<industry type="11" name="Hair saloon, Beauty saloon, or Barber Shop">
+	<industry type="11" name="Beauty Parlour/ Hair saloon shops">
 		<accounts>
 			<account type="Income" name="Booth Rental Income" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Income" name="Facial Treatments" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -556,7 +556,7 @@
 		</accounts>
 		<!-- End of Type-11 Industry Account lists -->
 	</industry>
-	<industry type="12" name="Information Technology ( Computers /softwares)">
+	<industry type="12" name="IT Software / Hardware">
 		<accounts>
 			<account type="Income" name="Consulting Income ( Income)" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Income" name="Sales Hardware" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -607,7 +607,7 @@
 		</accounts>
 		<!-- End of Type-12 Industry Account lists -->
 	</industry>
-	<industry type="13" name="Insurance Agency or Broker">
+	<industry type="13" name="Insurance Agents / Companies">
 		<accounts>
 			<account type="Income" name="Commission Adjustments" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Income" name="Commission Income" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -649,7 +649,7 @@
 	 	</accounts>
 		<!-- End of Type-13 Industry Account lists -->
 	</industry>
-	<industry type="14" name="lawn care or landscaping">
+	<industry type="14" name="Lawn Service &amp; Landsca Maintenance">
 		<accounts>
 			<account type="Income" name="Maintenance Services" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Income" name="Installation Services" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -696,7 +696,7 @@
 		</accounts>
 		<!-- End of Type-14 Industry Account lists -->
 	</industry>
-	<industry type="15" name="Legal Services">
+	<industry type="15" name="Lawyers or Legal Advisory Services">
 	<accounts>
 		<account type="Income" name="Legal Fee income" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 		<account type="Income" name="Settlement Income" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -743,7 +743,7 @@
 	</accounts>
 	<!-- End of Type-15 Industry Account lists -->
 </industry>
-	<industry type="16" name="Lodging ( Hotel , Motel)">
+	<industry type="16" name="Hotel /Motel">
 		<accounts>
 			<account type="Income" name="Banquets &amp; Events Income" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Income" name="Food &amp; Beverages Sales" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -789,7 +789,7 @@
 			<account type="Other Expenses" name="Ask my Accountant" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 		</accounts>
 	</industry>
-	<industry type="17" name="Manufacturer Representative or Agent">
+	<industry type="17" name="Manufacturer Agents or Dealers">
 		<accounts>
 			<account type="Income" name="Commission Adjustments" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Income" name="Commission Income" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -829,7 +829,7 @@
 			<account type="Other Expenses" name="Ask my Accountant" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 		</accounts>
 	</industry>
-	<industry type="18" name="Manufacturing">
+	<industry type="18" name="Manufacture Companies">
 		<accounts>
 			<account type="Income" name="Sales Income" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Income" name="Sales Discounts" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -873,7 +873,7 @@
 			<account type="Other Expenses" name="Ask my Accountant" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 		</accounts>
 	</industry>
-	<industry type="19" name="Medical , Dental or Health services">
+	<industry type="19" name="Health Services / Pharmacy">
 		<accounts>
 			<account type="Income" name="Capitation Fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Income" name="Fee for Service Income" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -929,7 +929,7 @@
 			<account type="Other Expenses" name="Ask my Accountant" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 		</accounts>
 	</industry>
-	<industry type="20" name="Non- Profit">
+	<industry type="20" name="Non Profit Organization">
 		<accounts>
 			<account type="Income" name="Direct Public Grants" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Income" name="Corporate and Business Grants" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -1086,7 +1086,7 @@
 			<account type="Other Expenses" name="Ask my Accountant" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 		</accounts>
 	</industry>
-	<industry type="22" name="Property Management or Home Association">
+	<industry type="22" name="Home Association or Property Managament Services">
 		<accounts>
 			<account type="Expenses" name="Advertising &amp; Promotion" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expenses" name="Automobile Expense" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -1128,7 +1128,7 @@
 			<account type="Other Expenses" name="Ask my Accountant" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 		</accounts>
 	</industry>
-	<industry type="23" name="Real Estate Broker or Developer">
+	<industry type="23" name="Real Estate Agent / Broker">
 		<accounts>
 			<account type="Income" name="Commission Income" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Cost of Goods Sold" name="Commissions Paid" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -1170,7 +1170,7 @@
 			
 		</accounts>
 	</industry>
-	<industry type="24" name="Rental">
+	<industry type="24" name="Rental - Residential or Commercial">
 		<accounts>
 			<account type="Income" name="Cam Charges &amp; Tenant Fees" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Income" name="Rental Income" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -1212,7 +1212,7 @@
 			<account type="Other Expenses" name="Ask my Accountant" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 		</accounts>
 	</industry>
-	<industry type="25" name="Repair &amp; Maintenance">
+	<industry type="25" name="Repairs &amp; Maintenance">
 		<accounts>
 			<account type="Income" name="Parts &amp; Materials Sales" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Income" name="Sales Discounts" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -1258,7 +1258,7 @@
 			<account type="Other Expenses" name="Ask my Accountant" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 		</accounts>
 	</industry>
-	<industry type="26" name="Restaurant , Caterer or Bar">
+	<industry type="26" name="Caterings / Delivery or Restaurants &amp; Bar">
 		<accounts>
 			<account type="Income" name="Bar Sales" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Income" name="Catering Sales" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -1309,7 +1309,7 @@
 			<account type="Other Expenses" name="Ask my Accountant" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 		</accounts>
 	</industry>
-	<industry type="27" name="Retail Shop or online commerce">
+	<industry type="27" name="Retail &amp; Online store Business">
 		<accounts>
 			<account type="Income" name="Service Sales" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Income" name="Merchandise Sales" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -1358,7 +1358,7 @@
 			<account type="Other Expenses" name="Ask my Accountant" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 		</accounts>
 	</industry>
-	<industry type="28" name="Sales : Independent Agent">
+	<industry type="28" name="Freelance Service / Dealer - Sales">
 		<accounts>
 			<account type="Income" name="Commission Adjustments" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Income" name="Commission Income" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -1399,7 +1399,7 @@
 		</accounts>
 		<!-- End of Type-28 Industry Account lists -->
 	</industry>
-	<industry type="29" name="Transportation , Trucking or Delivery">
+	<industry type="29" name="Packers &amp; Movers or Transport Services">
 		<accounts>
 			<account type="Expenses" name="Charitable Conrtibutions" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expenses" name="Computer &amp; Internet Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -1436,7 +1436,7 @@
 		</accounts>
 		<!-- End of Type-29 Industry Account lists -->
 	</industry>
-	<industry type="30" name="Wholesale Distrivution and sales">
+	<industry type="30" name="Wholesale Sales and Distribution">
 		<accounts>
 			<account type="Income" name="Sales Income" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Income" name="Sales Discounts" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -1482,7 +1482,7 @@
 		</accounts>
 		<!-- End of Type-30 Industry Account lists -->
 	</industry>
-	<industry type="31" name="General Product - based business">
+	<industry type="31" name="General Product Based Business">
 		<accounts>
 			<account type="Income" name="Sales Income" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Income" name="Sales Discounts" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
