@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.customers.EmailView;
 
@@ -13,10 +14,15 @@ public class EmailViewAction extends Action {
 
 	@Override
 	public void run() {
+		runAsync(data, isDependent);
 
-		EmailView emailView = new EmailView();
-		MainFinanceWindow.getViewManager().showView(emailView, null, false,
-				EmailViewAction.this);
+	}
+
+	private void runAsync(Object invoice, Boolean boolean1) {
+		EmailView emailView = new EmailView((ClientInvoice) data);
+
+		MainFinanceWindow.getViewManager().showView(emailView, data,
+				isDependent, EmailViewAction.this);
 	}
 
 	@Override
@@ -34,7 +40,7 @@ public class EmailViewAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		// TODO Auto-generated method stub
-		return null;
+		return "email";
 	}
 
 	@Override
