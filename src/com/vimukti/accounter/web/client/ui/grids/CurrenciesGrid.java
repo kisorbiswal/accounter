@@ -77,7 +77,7 @@ public class CurrenciesGrid extends BaseListGrid<ClientCurrency> {
 			return obj1.getFormalName().compareTo(obj2.getFormalName());
 
 		case 2:
-			return obj1.getSymbol().compareTo(obj2.getSymbol());
+			return obj1.getFormalName().compareTo(obj2.getFormalName());
 
 		default:
 			break;

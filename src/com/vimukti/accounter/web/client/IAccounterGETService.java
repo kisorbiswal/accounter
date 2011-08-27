@@ -10,7 +10,6 @@ import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.HelpLink;
 import com.vimukti.accounter.web.client.core.HrEmployee;
@@ -275,7 +274,7 @@ public interface IAccounterGETService extends RemoteService {
 	public <T extends IAccounterCore> ArrayList<T> getObjects(
 			AccounterCoreType type);
 
-	public List<String> getTimezones();
+	// public List<String> getTimezones();
 
 	public ClientCompany getCompany() throws AccounterException;
 
@@ -288,11 +287,11 @@ public interface IAccounterGETService extends RemoteService {
 	public ClientUser getUser(String userName, String password,
 			boolean isremeber, int offset);
 
-	public List<String> getCountries();
-
-	public List<String> getStates(String country);
-
-	public List<ClientCurrency> getCurrencies();
+	// public List<String> getCountries();
+	//
+	// public List<String> getStates(String country);
+	//
+	// public List<ClientCurrency> getCurrencies();
 
 	public List<AccountsTemplate> getAccountsTemplate()
 			throws AccounterException;

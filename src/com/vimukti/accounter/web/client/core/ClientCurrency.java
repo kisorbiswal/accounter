@@ -15,7 +15,7 @@ public class ClientCurrency implements IAccounterCore {
 	long id;
 
 	String name;
-	String symbol;
+
 	String formalName;
 
 	/*
@@ -64,21 +64,6 @@ public class ClientCurrency implements IAccounterCore {
 	 */
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	/**
-	 * @return the symbol
-	 */
-	public String getSymbol() {
-		return symbol;
-	}
-
-	/**
-	 * @param symbol
-	 *            the symbol to set
-	 */
-	public void setSymbol(String symbol) {
-		this.symbol = symbol;
 	}
 
 	/**

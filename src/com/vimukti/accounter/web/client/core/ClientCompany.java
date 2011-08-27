@@ -2279,7 +2279,7 @@ public class ClientCompany implements IAccounterCore {
 	 */
 	public ClientCurrency getCurrency(String code) {
 		for (ClientCurrency currency : currencies) {
-			if (currency.getSymbol().equals(code)) {
+			if (currency.getFormalName().equals(code)) {
 				return currency;
 			}
 		}
