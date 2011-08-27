@@ -128,10 +128,11 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 
 		taxableGroupRadio = new RadioGroupItem(Accounter.constants().tax());
 		taxableGroupRadio.setWidth(100);
+		taxableGroupRadio.setDisabled(!isInViewMode());
 		taxableGroupRadio.setValues(getClickHandler(), Accounter.constants()
 				.taxable(), Accounter.constants().taxExempt());
+
 		taxableGroupRadio.setDefaultValue(Accounter.constants().taxable());
-		taxableGroupRadio.setDisabled(isInViewMode());
 
 		vatItemComboForPurchases = new VATItemCombo(Accounter.constants()
 				.vatItemForPurchases());
@@ -436,7 +437,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		taxableGroupRadio.setDisabled(isInViewMode());
 		vatItemComboForPurchases.setDisabled(isInViewMode());
 		vatItemComboForSales.setDisabled(isInViewMode());
-		
+		super.onEdit();
 
 	}
 
