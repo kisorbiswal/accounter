@@ -48,7 +48,7 @@ public class CreditCardAccountView extends AbstractBaseView {
 		AmountField opBalText = new AmountField(Accounter.constants()
 				.openingBalance(), this);
 		// opBalText.setWidth("*");
-		DateItem asofDate = UIUtils.date(Accounter.constants().asOf());
+		DateItem asofDate = UIUtils.date(Accounter.constants().asOf(), this);
 		// asofDate.setWidth("*");
 
 		DynamicForm chartForm = UIUtils.form(Accounter.messages()

@@ -39,7 +39,7 @@ public class AdjustSalesTaxDueDialog extends BaseDialog {
 		lab2.setWidth("100%");
 
 		DateItem effectDate = UIUtils.date(Accounter.constants()
-				.dateEffective());
+				.dateEffective(), null);
 		effectDate.setRequired(true);
 
 		IntegerField entryText = new IntegerField(this, Accounter.constants()
@@ -92,7 +92,7 @@ public class AdjustSalesTaxDueDialog extends BaseDialog {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 

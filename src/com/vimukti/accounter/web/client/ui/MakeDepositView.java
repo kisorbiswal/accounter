@@ -667,7 +667,7 @@ public class MakeDepositView extends
 		lab.removeStyleName("gwt-Label");
 		lab.addStyleName("lable-title");
 		// lab.setHeight("50px");
-		date = UIUtils.date(Accounter.constants().date());
+		date = UIUtils.date(Accounter.constants().date(),this);
 
 		// set the transactionDate while creation
 		setTransactionDate(date.getValue());

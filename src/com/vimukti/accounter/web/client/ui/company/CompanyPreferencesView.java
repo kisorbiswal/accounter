@@ -164,12 +164,12 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			this.emailText.setValue(company.getCompanyEmail());
 			this.bankAccountText.setValue(company.getBankAccountNo());
 			this.sortCodeText.setValue(company.getSortCode());
-			allAddresses.put(ClientAddress.TYPE_COMPANY,
-					company.getTradingAddress());
+			allAddresses.put(ClientAddress.TYPE_COMPANY, company
+					.getTradingAddress());
 			setAddressToTextItem(textareaItem, company.getTradingAddress());
 
-			allAddresses.put(ClientAddress.TYPE_COMPANY_REGISTRATION,
-					company.getRegisteredAddress());
+			allAddresses.put(ClientAddress.TYPE_COMPANY_REGISTRATION, company
+					.getRegisteredAddress());
 			setAddressToTextItem(textareaItem2, company.getRegisteredAddress());
 			registrationNumberText.setValue(company.getRegistrationNumber());
 
@@ -325,6 +325,9 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		emptylabel.setShowTitle(false);
 
 		companyNameText = new TextItem(Accounter.constants().registeredName());
+		companyNameText.setToolTip(Accounter.messages().giveOfYour(
+				Accounter.constants().registeredName().toLowerCase(),
+				Accounter.constants().company()));
 		companyNameText.setHelpInformation(true);
 		companyNameText.setRequired(true);
 		companyNameText.setWidth(100);
@@ -332,6 +335,9 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 		textareaItem = new TextAreaItem(Accounter.constants()
 				.registeredAddress());
+		textareaItem.setToolTip(Accounter.messages().giveOfYour(
+				Accounter.constants().registeredAddress().toLowerCase(),
+				Accounter.constants().company()));
 		textareaItem.setHelpInformation(true);
 		textareaItem.setRequired(false);
 		textareaItem.addClickHandler(new ClickHandler() {
@@ -343,11 +349,17 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		});
 
 		trandigNameText = new TextItem(Accounter.constants().tradingName());
+		trandigNameText.setToolTip(Accounter.messages().giveOfYour(
+				Accounter.constants().tradingName().toLowerCase(),
+				Accounter.constants().company()));
 		trandigNameText.setHelpInformation(true);
 		trandigNameText.setRequired(true);
 		trandigNameText.setWidth(100);
 
 		textareaItem2 = new TextAreaItem(Accounter.constants().tradingAddress());
+		textareaItem2.setToolTip(Accounter.messages().giveOfYour(
+				Accounter.constants().tradingAddress().toLowerCase(),
+				Accounter.constants().company()));
 		textareaItem2.setHelpInformation(true);
 
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
@@ -371,31 +383,60 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		phoneText = new IntegerField(this, Accounter.constants()
 				.businessPhone());
 		phoneText.setHelpInformation(true);
+		phoneText.setToolTip(Accounter.messages().giveOfYour(
+				Accounter.constants().phoneNumber().toLowerCase(),
+				Accounter.constants().company()));
 
 		faxText = new IntegerField(this, Accounter.constants().businessFax());
 		faxText.setHelpInformation(true);
+		faxText.setToolTip(Accounter.messages().giveOfYour(
+				Accounter.constants().businessFax().toLowerCase(),
+				Accounter.constants().company()));
 
 		emailText = new EmailField(Accounter.constants().email());
 		emailText.setHelpInformation(true);
+		emailText.setToolTip(Accounter.messages().giveOfYour(
+				Accounter.constants().email().toLowerCase(),
+				Accounter.constants().company()));
 
 		websiteText = new TextItem(Accounter.constants().webPageAddress());
 		websiteText.setHelpInformation(true);
+		websiteText.setToolTip(Accounter.messages().giveOfYour(
+				Accounter.constants().webPageAddress().toLowerCase(),
+				Accounter.constants().company()));
 
 		registrationNumberText = new IntegerField(this, Accounter.constants()
 				.companyRegistrationNumber());
 		registrationNumberText.setHelpInformation(true);
+		registrationNumberText
+				.setToolTip(Accounter.messages()
+						.giveOfYour(
+								Accounter.constants()
+										.companyRegistrationNumber()
+										.toLowerCase(),
+								Accounter.constants().company()));
 
 		taxIDText = new TextItem(Accounter.constants().federalTaxId());
 		taxIDText.setHelpInformation(true);
+		taxIDText.setToolTip(Accounter.messages().giveOfYour(
+				Accounter.constants().federalTaxId().toLowerCase(),
+				Accounter.constants().company()));
 
 		bankAccountText = new IntegerField(this, Accounter.messages()
 				.bankAccountNo(Global.get().Account()));
+		bankAccountText.setToolTip(Accounter.messages().giveOfYour(
+				Accounter.messages().bankAccountNo(Global.get().Account())
+						.toLowerCase(), Accounter.constants().company()));
+
 		// bankAccountText.setTitle();
 		bankAccountText.setHelpInformation(true);
 
 		sortCodeText = new TextItem();
 		sortCodeText.setTitle(Accounter.constants().sortCode());
 		sortCodeText.setHelpInformation(true);
+		sortCodeText.setToolTip(Accounter.messages().giveOfYour(
+				Accounter.constants().sortCode().toLowerCase(),
+				Accounter.constants().company()));
 
 		phoneAndFaxForm = UIUtils.form(Accounter.constants()
 				.phoneAndFaxNumbers());
@@ -428,11 +469,14 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		}
 		vatRegNumber = new TextItem(
 				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-						.constants().vatRegistrationNumber() : Accounter
-						.constants().taxRegNo());
+						.constants().vatRegistrationNumber()
+						: Accounter.constants().taxRegNo());
 		vatRegNumber.setHelpInformation(true);
 		vatRegNumber.setWidth(100);
 		vatRegNumber.setDisabled(false);
+		vatRegNumber.setToolTip(Accounter.messages().giveOfYour(
+				vatRegNumber.getTitle().toLowerCase(),
+				Accounter.constants().company()));
 
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			doupaySalesChecBox.addChangeHandler(new ChangeHandler() {
@@ -492,7 +536,9 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// .getPreferences().getIsAccuralBasis() ? "1" : "2" : "1");
 
 		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
-		map.put("1", Accounter.messages().accrualBasis(Global.get().customer()));
+		map
+				.put("1", Accounter.messages().accrualBasis(
+						Global.get().customer()));
 		map.put("2", Accounter.messages().cashBasis(Global.get().customer()));
 		paysalesTaxgroupItem.setValueMap(map);
 
@@ -576,8 +622,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// switch (this.validationCount) {
 		// case 2:
 		if (!emailText.validate()) {
-			result.addError(emailText,
-					Accounter.messages().pleaseEnter(emailText.getTitle()));
+			result.addError(emailText, Accounter.messages().pleaseEnter(
+					emailText.getTitle()));
 		}
 		// return AccounterValidator.validateFormItem(false, emailText);
 		// case 1:
@@ -626,9 +672,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		companyPreferences.setUseVendorId(getBooleanValue(useVendorId));
 		companyPreferences
 				.setAgeingFromTransactionDateORDueDate(ageingFromTransactionDateORDueDate
-						.getValue()
-						.toString()
-						.equalsIgnoreCase(
+						.getValue().toString().equalsIgnoreCase(
 								Accounter.constants().ageingforduedate()) ? CompanyPreferencesView.TYPE_AGEING_FROM_DUEDATE
 						: CompanyPreferencesView.TYPE_AGEING_FROM_TRANSACTIONDATE);
 		if (dateItem.getValue() != null) {
@@ -695,9 +739,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		companyPreferences.setUseVendorId(getBooleanValue(useVendorId));
 		companyPreferences
 				.setAgeingFromTransactionDateORDueDate(ageingFromTransactionDateORDueDate
-						.getValue()
-						.toString()
-						.equalsIgnoreCase(
+						.getValue().toString().equalsIgnoreCase(
 								Accounter.constants().ageingforduedate()) ? CompanyPreferencesView.TYPE_AGEING_FROM_DUEDATE
 						: CompanyPreferencesView.TYPE_AGEING_FROM_TRANSACTIONDATE);
 		if (dateItem.getValue() != null) {

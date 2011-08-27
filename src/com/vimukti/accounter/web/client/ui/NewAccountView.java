@@ -790,6 +790,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			accTypeSelect.setComboItem(Utility
 					.getAccountTypeString(accountType));
 			accTypeSelect.setDisabled(true);
+			accNoText.setToolTip(Accounter.messages().accountNumberToolTipDesc(
+					"1100", "1179"));
 		} else {
 
 			if (!isInViewMode()) {

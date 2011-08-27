@@ -207,10 +207,12 @@ public abstract class Action<T> implements Command {
 
 	public void setViewName(String viewName) {
 		this.viewName = viewName;
-		if (viewName == null && this.getText() != null
-				&& getText().contains("New "))
-			this.viewName = this.getText().replace("New ", "").toLowerCase()
-					.trim();
+		if (viewName == null && this.getText() != null)
+			if (getText().contains("New "))
+				this.viewName = this.getText().replace("New ", "")
+						.toLowerCase().trim();
+			else
+				this.viewName = this.getText().toLowerCase();
 	}
 
 	public String getViewName() {

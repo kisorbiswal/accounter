@@ -629,8 +629,9 @@ public interface AccounterMessages extends Messages {
 	public String vendorUpdatedSuccessfully(String msgString);
 
 	public String vendorVatCode(String vendorVatCodeString);
+
 	public String vendorTDSCode(String vendorTdsCodeString);
-	
+
 	public String vendorWhendor(String vendorWhendorString);
 
 	public String vendorpay(String vendorpayString);
@@ -722,7 +723,6 @@ public interface AccounterMessages extends Messages {
 
 	public String mergeDescription(String desc);
 
-
 	public String selectWhichWeHaveInOurCompanyOrAddNew(String comboType);
 
 	public String selectWhichWeHaveInOurCompany(String comboType);
@@ -751,8 +751,8 @@ public interface AccounterMessages extends Messages {
 
 	public String setupVendorsAndAccounts(String vendor, String account);
 
-	public String accountNumberToolTipDesc(String starting,String ending);
-	
+	public String accountNumberToolTipDesc(String starting, String ending);
+
 	public String selectDateOfBirth(String viewName);
 
 	public String selectDateOfHire(String viewName);
@@ -774,9 +774,14 @@ public interface AccounterMessages extends Messages {
 	public String giveOf(String fieldName, String transactionName);
 
 	public String clickThisTo(String text, String viewName);
-	
+
 	public String clickThisToOpenNew(String viewName);
 
 	public String clickThisToOpen(String next);
 
+	public String clickToAddItem(String viewName);
+
+	public String clickToAddContact(String viewName);
+
+	public String giveOfYour(String lowerCase, String company);
 }

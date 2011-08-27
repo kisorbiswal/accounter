@@ -393,7 +393,7 @@ public class ViewManager extends HorizontalPanel {
 		previousButton = new ImageButton(Accounter.getFinanceImages()
 				.previousIcon());
 		previousButton.setTitle(Accounter.messages().clickThisToOpen(
-				Accounter.constants().name().replace(" >", "")));
+				Accounter.constants().next().replace(" >", "")));
 		previousButton.addClickHandler(new ClickHandler() {
 
 			@Override

@@ -4370,6 +4370,8 @@ public interface AccounterConstants extends Constants {
 
 	public String tds();
 
+	public String transaction();
+
 	public String timezone();
 	
 	public String totalNoOf1099Forms();

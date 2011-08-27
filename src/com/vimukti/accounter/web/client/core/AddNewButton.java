@@ -15,6 +15,8 @@ public class AddNewButton extends ImageButton {
 		super(Accounter.constants().addNew(), Accounter.getFinanceImages()
 				.addIcon());
 		this.view = baseView;
+		this.setTitle(Accounter.messages().clickToAddItem(
+				baseView.getAction().getViewName()));
 		this.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -26,7 +28,7 @@ public class AddNewButton extends ImageButton {
 					view.onAddNew();
 				}
 
-			//	view.onSave(false);
+				// view.onSave(false);
 
 			}
 		});

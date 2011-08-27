@@ -219,8 +219,11 @@ public class UIUtils {
 		return f;
 	}
 
-	public static DateItem date(String t) {
+	public static DateItem date(String t, AbstractBaseView view) {
 		DateItem di = new DateItem();
+		if (view != null)
+			di.setToolTip(Accounter.messages().selectDateWhenTransactioCreated(
+					view.getAction().getViewName()));
 		di.setHelpInformation(true);
 		di.setTitle(t);
 		// di.setUseTextField(true);
@@ -1368,8 +1371,8 @@ public class UIUtils {
 		if (incredNumber.length() > 0) {
 			// incredNumber = new
 			// StringBuffer(incredNumber).reverse().toString();
-			prevNumber = prevNumber.replace(incredNumber,
-					"" + (Long.parseLong(incredNumber) + 1));
+			prevNumber = prevNumber.replace(incredNumber, ""
+					+ (Long.parseLong(incredNumber) + 1));
 		}
 		return prevNumber;
 
@@ -1604,8 +1607,8 @@ public class UIUtils {
 
 	public static void downloadMultipleAttachment(String objectID, int type,
 			long brandingThemeId) {
-		downloadMultipleAttachment(objectID, type,
-				String.valueOf(brandingThemeId));
+		downloadMultipleAttachment(objectID, type, String
+				.valueOf(brandingThemeId));
 	}
 
 	public native static void downloadMultipleAttachment(String objectID,
@@ -1628,8 +1631,8 @@ public class UIUtils {
 	 */
 	public static void downloadMISCForm(long objectID, int type,
 			long brandingThemeId) {
-		downloadMISCForm(String.valueOf(objectID), type,
-				String.valueOf(brandingThemeId));
+		downloadMISCForm(String.valueOf(objectID), type, String
+				.valueOf(brandingThemeId));
 	}
 
 	public native static void downloadMISCForm(String objectID, int type,
@@ -1699,8 +1702,8 @@ public class UIUtils {
 
 	public static void downloadAttachment(long objectID, int type,
 			long brandingThemeId) {
-		downloadAttachment(String.valueOf(objectID), type,
-				String.valueOf(brandingThemeId));
+		downloadAttachment(String.valueOf(objectID), type, String
+				.valueOf(brandingThemeId));
 	}
 
 	/**
@@ -1931,8 +1934,8 @@ public class UIUtils {
 
 	public static void exportReport(int start, int end, int reportType,
 			String name, String dateRangeHtml, long status) {
-		exportReport(start, end, reportType, name, dateRangeHtml,
-				String.valueOf(status));
+		exportReport(start, end, reportType, name, dateRangeHtml, String
+				.valueOf(status));
 	}
 
 	public static native void exportReport(int start, int end, int reportType,
@@ -1953,8 +1956,8 @@ public class UIUtils {
 
 	public static void generateReportPDF(int start, int end, int reportType,
 			String name, long dateRangeHtml) {
-		generateReportPDF(start, end, reportType, name,
-				String.valueOf(dateRangeHtml));
+		generateReportPDF(start, end, reportType, name, String
+				.valueOf(dateRangeHtml));
 	}
 
 	public static native void generateReportPDF(int start, int end,
@@ -1975,8 +1978,8 @@ public class UIUtils {
 
 	public static void generateReportPDF(int start, int end, int reportType,
 			String name, String dateRangeHtml, long status) {
-		generateReportPDF(start, end, reportType, name, dateRangeHtml,
-				String.valueOf(status));
+		generateReportPDF(start, end, reportType, name, dateRangeHtml, String
+				.valueOf(status));
 	}
 
 	public static native void generateReportPDF(int start, int end,
