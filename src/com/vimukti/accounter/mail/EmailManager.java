@@ -73,8 +73,8 @@ public class EmailManager extends Thread {
 						mail.companyName);
 				Transport transport = session.getTransport("smtp");
 				transport.connect(sender.getOutGoingMailServer(),
-						sender.getPortNumber(),
-						sender.getSenderEmailID(), sender.getSenderPassword());
+						sender.getPortNumber(), sender.getSenderEmailID(),
+						sender.getSenderPassword());
 				transport.sendMessage(msg, msg.getAllRecipients());
 				transport.close();
 				// Transport.send(msg);
@@ -156,6 +156,7 @@ public class EmailManager extends Thread {
 		// create a message
 		MimeMessage msg = new MimeMessage(session);
 
+		// for to address
 		InternetAddress addressTo[] = new InternetAddress[emsg.getRecipeants()
 				.size()];
 		int i = 0;
@@ -167,6 +168,19 @@ public class EmailManager extends Thread {
 			}
 
 			msg.setRecipients(Message.RecipientType.TO, addressTo);
+
+			// for cc address
+			InternetAddress addressCC[] = new InternetAddress[emsg
+					.getccRecipeants().size()];
+			i = 0;
+			for (String ccEmail : emsg.getccRecipeants()) {
+				InternetAddress address = new InternetAddress(ccEmail);
+				addressCC[i] = address;
+				log.info(acc.getSenderEmailID() + " sending cc mail To "
+						+ ccEmail);
+			}
+			msg.setRecipients(Message.RecipientType.CC, addressCC);
+
 			if (emsg.getReplayTO() != null) {
 				msg.setReplyTo(new InternetAddress[] { new InternetAddress(emsg
 						.getReplayTO()) });
@@ -204,8 +218,8 @@ public class EmailManager extends Thread {
 			multipart.addBodyPart(messageContentPart);
 
 			// This is the template Attachment part
-			if (emsg.getAttachment() != null) {
-				for (File file : emsg.getAttachment()) {
+			if (emsg.getAttachments() != null) {
+				for (File file : emsg.getAttachments()) {
 					MimeBodyPart messageAttachmentBodyPart = new MimeBodyPart();
 					messageAttachmentBodyPart = new MimeBodyPart();
 
