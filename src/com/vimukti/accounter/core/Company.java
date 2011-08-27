@@ -88,6 +88,8 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 	String legalName;// registered name
 
+	String timezone;// time zones
+
 	private boolean isConfigured;
 	/**
 	 * this can hold a Set of {@link Address}
@@ -2634,8 +2636,8 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * defaultTaxGroup.setName("Tax Group"); //
 	 * defaultTaxGroup.setID(SecureUtils.createID()); //
 	 * defaultTaxGroup.setActive(Boolean.TRUE); //
-	 * defaultTaxGroup.setSalesType(true); // // ArrayList<TAXItem> taxItems = new
-	 * ArrayList<TAXItem>(); // taxItems.add(defaultTaxItem); //
+	 * defaultTaxGroup.setSalesType(true); // // ArrayList<TAXItem> taxItems =
+	 * new ArrayList<TAXItem>(); // taxItems.add(defaultTaxItem); //
 	 * defaultTaxGroup.setTAXItems(taxItems); //
 	 * defaultTaxGroup.setGroupRate(0); // defaultTaxGroup.setDefault(true); //
 	 * session.save(defaultTaxGroup); // TAXCode defaultTaxCodeforTaxGroup = new
@@ -3196,6 +3198,14 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 	public void setTradingName(String legalName) {
 		this.legalName = legalName;
+	}
+
+	public String gettimezone() {
+		return timezone;
+	}
+
+	public void settimezone(String timezone) {
+		this.timezone = timezone;
 	}
 
 	public void setCompanyEmail(String companyEmail) {
@@ -4249,6 +4259,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		cmp.accounts = this.getAccounts();
 
 		cmp.legalName = this.getTradingName();
+		cmp.timezone = this.gettimezone();
 		cmp.companyEmail = this.getCompanyEmail();
 		cmp.tradingAddress = this.getRegisteredAddress();
 		cmp.registeredAddress = this.getTradingAddress();
@@ -4420,6 +4431,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		clientCompany.setWebSite(this.webSite);
 		clientCompany.setRegistrationNumber(this.registrationNumber);
 		clientCompany.setTradingName(this.legalName);
+		clientCompany.settimezone(this.timezone);
 		clientCompany.setTaxId(this.taxId);
 		clientCompany.setBankAccountNo(this.bankAccountNo);
 		clientCompany.setSortCode(this.sortCode);
