@@ -19,7 +19,7 @@
 				</g:VerticalPanel>
 				<g:VerticalPanel styleName="sub_industry_listpanel">
 					<g:HTML ui:field="accountsLabel" styleName="accounts_label"/>
-					<g:ScrollPanel height="250px" width="250px">
+					<g:ScrollPanel height="230px" width="250px">
 					<g:VerticalPanel height="300px" ui:field="accountsPanel"/>
 					</g:ScrollPanel> 
 				</g:VerticalPanel>
