@@ -153,4 +153,34 @@ public class Converter {
 		}
 
 	}
+
+	public File getPdfFile(String fileName, InputStreamReader reader)
+			throws Exception {
+		File pdfTempFile = File.createTempFile(fileName.replace(" ", ""),
+				".pdf");
+		java.io.FileOutputStream fos = new java.io.FileOutputStream(pdfTempFile);
+		try {
+
+			PD4ML pd4ml = new PD4ML();
+			System.err.println("PD4ML Obj created");
+			pd4ml.setPageInsets(new Insets(20, 10, 10, 10));
+			pd4ml.setHtmlWidth(950);
+			pd4ml.setPageSize(dimension);
+
+			pd4ml.enableTableBreaks(true);
+			pd4ml.enableDebugInfo();
+
+			pd4ml.render(reader, fos);
+			return pdfTempFile;
+		} catch (Exception e) {
+			System.err.println("error occured");
+			e.printStackTrace();
+		} finally {
+			if (fos != null) {
+				fos.close();
+			}
+		}
+		return null;
+
+	}
 }
