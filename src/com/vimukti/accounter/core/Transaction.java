@@ -1111,8 +1111,8 @@ public abstract class Transaction extends CreatableObject implements
 			throws AccounterException {
 
 		if (isVoidBefore() || isDeleted()) {
-			throw new AccounterException(
-					AccounterException.ERROR_NO_SUCH_OBJECT);
+			throw new AccounterException(AccounterException.ERROR_CANT_VOID);
+			// AccounterException.ERROR_NO_SUCH_OBJECT);
 			// "This Transaction  is already voided or Deleted, can't Modify");
 		}
 

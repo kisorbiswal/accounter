@@ -498,6 +498,7 @@ public class Accounter implements EntryPoint {
 			@Override
 			public void onException(AccounterException exception) {
 				getCompany().processCommand(exception);
+				source.saveFailed(exception);
 			}
 
 			@Override

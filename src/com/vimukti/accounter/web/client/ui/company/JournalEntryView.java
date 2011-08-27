@@ -99,12 +99,12 @@ public class JournalEntryView extends
 
 		}
 		if (!AccounterValidator.isValidTransactionDate(getTransactionDate())) {
-			result.addError(transactionDateItem, accounterConstants
-					.invalidateTransactionDate());
+			result.addError(transactionDateItem,
+					accounterConstants.invalidateTransactionDate());
 		} else if (AccounterValidator
 				.isInPreventPostingBeforeDate(getTransactionDate())) {
-			result.addError(transactionDateItem, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDateItem,
+					accounterConstants.invalidateDate());
 		}
 		result.add(dateForm.validate());
 		if (AccounterValidator.isBlankTransaction(grid)) {
@@ -261,8 +261,8 @@ public class JournalEntryView extends
 				.getValue().toString() : "");
 		// initMemo(transaction);
 		transaction.setDate(new ClientFinanceDate().getDate());
-		if (DecimalUtil.isEquals(grid.getTotalDebittotal(), grid
-				.getTotalCredittotal())) {
+		if (DecimalUtil.isEquals(grid.getTotalDebittotal(),
+				grid.getTotalCredittotal())) {
 			transaction.setDebitTotal(grid.getTotalDebittotal());
 			transaction.setCreditTotal(grid.getTotalCredittotal());
 			transaction.setTotal(grid.getTotalDebittotal());
@@ -616,29 +616,31 @@ public class JournalEntryView extends
 	}
 
 	public void onEdit() {
-		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
-
-			@Override
-			public void onException(AccounterException caught) {
-				if (caught.getMessage() != null)
-					Accounter.showError(caught.getMessage());
-				else
-					Accounter.showError(Accounter.constants()
-							.cannotEditVoidedTransaction());
-			}
-
-			@Override
-			public void onResultSuccess(Boolean result) {
-				// if (result)
-				// enableFormItems();
-				Accounter.showError("Journal Entry can't be edited.");
-			}
-
-		};
-
-		AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
-				.getType());
-		this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
+		// AccounterAsyncCallback<Boolean> editCallBack = new
+		// AccounterAsyncCallback<Boolean>() {
+		//
+		// @Override
+		// public void onException(AccounterException caught) {
+		// if (caught.getMessage() != null)
+		// Accounter.showError(caught.getMessage());
+		// else
+		// Accounter.showError(Accounter.constants()
+		// .cannotEditVoidedTransaction());
+		// }
+		//
+		// @Override
+		// public void onResultSuccess(Boolean result) {
+		// // if (result)
+		// // enableFormItems();
+		// Accounter.showError("Journal Entry can't be edited.");
+		// }
+		//
+		// };
+		//
+		// AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
+		// .getType());
+		// this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
+		Accounter.showError("Journal Entry can't be edited.");
 
 	}
 

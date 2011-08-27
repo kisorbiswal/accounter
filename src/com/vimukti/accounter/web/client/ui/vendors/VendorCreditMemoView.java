@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientVendorCreditMemo;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -73,7 +74,8 @@ public class VendorCreditMemoView extends
 			setData(new ClientVendorCreditMemo());
 		} else {
 
-			super.vendorSelected(getCompany().getVendor(transaction.getVendor()));
+			super.vendorSelected(getCompany()
+					.getVendor(transaction.getVendor()));
 			contactSelected(transaction.getContact());
 			phoneSelect.setValue(transaction.getPhone());
 			transactionNumber.setValue(transaction.getNumber());
@@ -115,8 +117,8 @@ public class VendorCreditMemoView extends
 			lab1 = new Label(messages.vendorCredit(Global.get().Vendor()));
 
 		else
-			lab1 = new Label(messages.vendorCredit(Global.get().Vendor())
-					+ "(" + getTransactionStatus() + ")");
+			lab1 = new Label(messages.vendorCredit(Global.get().Vendor()) + "("
+					+ getTransactionStatus() + ")");
 
 		lab1.setStyleName(Accounter.constants().labelTitle());
 		// lab1.setHeight("50px");
@@ -481,7 +483,9 @@ public class VendorCreditMemoView extends
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(caught.getMessage());
+				int errorCode = caught.getErrorCode();
+				Accounter.showError(AccounterExceptions
+						.getErrorString(errorCode));
 			}
 
 			@Override

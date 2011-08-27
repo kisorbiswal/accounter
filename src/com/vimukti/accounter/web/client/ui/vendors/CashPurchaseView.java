@@ -23,6 +23,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -372,7 +373,8 @@ public class CashPurchaseView extends
 			setData(new ClientCashPurchase());
 		} else {
 
-			super.vendorSelected(getCompany().getVendor(transaction.getVendor()));
+			super.vendorSelected(getCompany()
+					.getVendor(transaction.getVendor()));
 			contactSelected(transaction.getContact());
 			phoneSelect.setValue(transaction.getPhone());
 			this.billingAddress = transaction.getVendorAddress();
@@ -443,7 +445,7 @@ public class CashPurchaseView extends
 			super.setVendorTaxcodeToAccount();
 
 	}
-	
+
 	@Override
 	protected void paymentMethodSelected(String paymentMethod) {
 		// super.paymentMethodSelected(paymentMethod);
@@ -679,7 +681,9 @@ public class CashPurchaseView extends
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(caught.getMessage());
+				int errorCode = caught.getErrorCode();
+				Accounter.showError(AccounterExceptions
+						.getErrorString(errorCode));
 			}
 
 			@Override

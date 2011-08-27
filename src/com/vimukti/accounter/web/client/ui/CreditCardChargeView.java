@@ -26,6 +26,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.banking.AbstractBankTransactionView;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
@@ -126,7 +127,7 @@ public class CreditCardChargeView extends
 			i++;
 		}
 
-//		contactCombo.initCombo(idNamesForContacts);
+		// contactCombo.initCombo(idNamesForContacts);
 
 		// phoneSelect.initCombo(phones);
 
@@ -382,7 +383,8 @@ public class CreditCardChargeView extends
 
 				});
 
-		contactCombo = new ContactCombo(Accounter.constants().contactName(), true);
+		contactCombo = new ContactCombo(Accounter.constants().contactName(),
+				true);
 		contactCombo.setHelpInformation(true);
 		contactCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientContact>() {
@@ -836,7 +838,9 @@ public class CreditCardChargeView extends
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(caught.getMessage());
+				int errorCode = caught.getErrorCode();
+				Accounter.showError(AccounterExceptions
+						.getErrorString(errorCode));
 			}
 
 			@Override
@@ -914,7 +918,7 @@ public class CreditCardChargeView extends
 	public ClientVendor getSelectedVendor() {
 		return selectedVendor;
 	}
-	
+
 	/**
 	 * @param value
 	 */

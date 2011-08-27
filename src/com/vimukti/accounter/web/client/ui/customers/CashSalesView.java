@@ -31,6 +31,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -745,8 +746,8 @@ public class CashSalesView extends
 					Accounter.showMessage(Global.get().constants()
 							.sessionExpired());
 				} else {
-					Accounter.showError(((InvalidOperationException) (caught))
-							.getDetailedMessage());
+					int errorCode = ((AccounterException) caught).getErrorCode();
+					Accounter.showError(AccounterExceptions.getErrorString(errorCode));
 				}
 			}
 

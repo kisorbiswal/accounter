@@ -45,6 +45,7 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressDialog;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
@@ -1504,8 +1505,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 					Accounter.showMessage(Accounter.constants()
 							.sessionExpired());
 				} else {
-					Accounter.showError(((AccounterException) (caught))
-							.getMessage());
+					int errorCode = ((AccounterException) caught).getErrorCode();
+					Accounter.showError(AccounterExceptions.getErrorString(errorCode));
 
 				}
 			}

@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -733,8 +734,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 					Accounter.showMessage(Accounter.constants()
 							.sessionExpired());
 				} else {
-					Accounter.showError(((InvalidOperationException) (caught))
-							.getDetailedMessage());
+					int errorCode = ((AccounterException) caught)
+							.getErrorCode();
+					Accounter.showError(AccounterExceptions
+							.getErrorString(errorCode));
 				}
 			}
 
