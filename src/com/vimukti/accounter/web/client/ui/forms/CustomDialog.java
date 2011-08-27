@@ -107,7 +107,7 @@ public class CustomDialog extends DialogBox {
 				if (onCancel())
 					CustomDialog.this.removeFromParent();
 			} else if (help.getElement().equals(element)) {
-				Window.open("http://help.Accounter.com/", "_blank", "");
+				Window.open("http://help.accounterlive.com/", "_blank", "");
 				onHelp();
 			}
 			break;
