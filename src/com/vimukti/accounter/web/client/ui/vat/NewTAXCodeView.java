@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -109,23 +110,28 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		vatCodeTxt.setHelpInformation(true);
 		vatCodeTxt.setRequired(true);
 		vatCodeTxt.setWidth(100);
+		vatCodeTxt.setDisabled(isInViewMode());
 		description = new TextAreaItem();
-		description.setToolTip(Accounter.messages().writeCommentsForThis(
-				this.getAction().getViewName()).replace(
-				Accounter.constants().comments(),
-				Accounter.constants().description()));
+		description.setToolTip(Accounter
+				.messages()
+				.writeCommentsForThis(this.getAction().getViewName())
+				.replace(Accounter.constants().comments(),
+						Accounter.constants().description()));
 		description.setHelpInformation(true);
 		description.setWidth(100);
 		description.setTitle(Accounter.constants().description());
+		description.setDisabled(isInViewMode());
 
 		isActive = new CheckboxItem(Accounter.constants().isActive());
 		isActive.setValue((Boolean) true);
+		isActive.setDisabled(isInViewMode());
 
 		taxableGroupRadio = new RadioGroupItem(Accounter.constants().tax());
 		taxableGroupRadio.setWidth(100);
 		taxableGroupRadio.setValues(getClickHandler(), Accounter.constants()
 				.taxable(), Accounter.constants().taxExempt());
 		taxableGroupRadio.setDefaultValue(Accounter.constants().taxable());
+		taxableGroupRadio.setDisabled(isInViewMode());
 
 		vatItemComboForPurchases = new VATItemCombo(Accounter.constants()
 				.vatItemForPurchases());
@@ -133,6 +139,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		vatItemComboForPurchases.initCombo(vatItemComboForPurchases
 				.getPurchaseWithPrcntVATItems());
 		vatItemComboForPurchases.setRequired(true);
+		vatItemComboForPurchases.setDisabled(isInViewMode());
 		// vatItemComboForPurchases.setWidth(100);
 		vatItemComboForPurchases
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXItem>() {
@@ -149,6 +156,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		vatItemComboForSales.initCombo(vatItemComboForSales
 				.getSalesWithPrcntVATItems());
 		vatItemComboForSales.setRequired(true);
+		vatItemComboForSales.setDisabled(isInViewMode());
 		vatItemComboForSales
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXItem>() {
 
@@ -175,14 +183,14 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 					.taxable() : Accounter.constants().taxExempt());
 			vatItemComboForPurchases
 					.setValue(data.getTAXItemGrpForPurchases() != 0 ? Accounter
-							.getCompany().getTAXItemGroup(
-									data.getTAXItemGrpForPurchases()).getName()
-							: "");
+							.getCompany()
+							.getTAXItemGroup(data.getTAXItemGrpForPurchases())
+							.getName() : "");
 			vatItemComboForSales
 					.setValue(data.getTAXItemGrpForSales() != 0 ? Accounter
-							.getCompany().getTAXItemGroup(
-									data.getTAXItemGrpForSales()).getName()
-							: "");
+							.getCompany()
+							.getTAXItemGroup(data.getTAXItemGrpForSales())
+							.getName() : "");
 		} else {
 			setData(new ClientTAXCode());
 		}
@@ -289,8 +297,8 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 				.getValue().toString() : "");
 		data.setActive((Boolean) isActive.getValue());
 		if (taxableGroupRadio.getValue() != null) {
-			if (taxableGroupRadio.getValue().toString().equalsIgnoreCase(
-					"Taxable"))
+			if (taxableGroupRadio.getValue().toString()
+					.equalsIgnoreCase("Taxable"))
 				data.setTaxable(true);
 			else
 				data.setTaxable(false);
@@ -401,7 +409,35 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 
 	@Override
 	public void onEdit() {
+		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
+
+			@Override
+			public void onException(AccounterException caught) {
+				Accounter.showError(caught.getMessage());
+			}
+
+			@Override
+			public void onResultSuccess(Boolean result) {
+				if (result)
+					enableFormItems();
+			}
+
+		};
+
+		this.rpcDoSerivce.canEdit(AccounterCoreType.TAX_CODE, data.getID(),
+				editCallBack);
+	}
+
+	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
+		vatCodeTxt.setDisabled(isInViewMode());
+		description.setDisabled(isInViewMode());
+		isActive.setDisabled(isInViewMode());
+		taxableGroupRadio.setDisabled(isInViewMode());
+		vatItemComboForPurchases.setDisabled(isInViewMode());
+		vatItemComboForSales.setDisabled(isInViewMode());
+		
+
 	}
 
 	@Override
