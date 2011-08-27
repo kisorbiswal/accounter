@@ -4378,4 +4378,26 @@ public interface AccounterConstants extends Constants {
 
 	public String totalAll1099Payments();
 
+	public String registeredDetails();
+
+	public String tradingDetails();
+
+	public String companyOtherDetails();
+
+	public String bankingAndOtherFinancialDetails();
+
+	public String customerAndvendorSettings();
+
+	public String doYouUseAndHowDoYouRefer();
+
+	public String ageingAndSellingDetails();
+
+	public String adminInfo();
+
+	public String basicInfo();
+
+	public String comapnyInfo();
+
+	public String otherDetails();
+
 }

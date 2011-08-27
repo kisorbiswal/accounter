@@ -784,4 +784,26 @@ public interface AccounterMessages extends Messages {
 	public String clickToAddContact(String viewName);
 
 	public String giveOfYour(String lowerCase, String company);
+
+	public SafeHtml registeredDetails();
+
+	public SafeHtml tradingDetails();
+
+	public SafeHtml companyOtherDetails();
+
+	public SafeHtml bankingAndOtherFinancialDetails();
+
+	public SafeHtml customerAndvendorSettings();
+
+	public SafeHtml doYouUseAndHowDoYouRefer();
+
+	public SafeHtml ageingAndSellingDetails();
+
+	public SafeHtml adminInfo();
+
+	public SafeHtml basicInfo();
+
+	public SafeHtml comapnyInfo();
+
+	public SafeHtml otherDetails();
 }
