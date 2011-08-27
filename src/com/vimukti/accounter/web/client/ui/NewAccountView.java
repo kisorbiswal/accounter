@@ -333,10 +333,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// });
 		asofDate = new DateField(Accounter.constants().asOf());
 		asofDate.setHelpInformation(true);
-		asofDate
-				.setToolTip(Accounter.messages()
-						.selectDateWhenTransactioCreated(
-								this.getAction().getViewName()));
+		asofDate.setToolTip(Accounter
+				.messages()
+				.selectDateWhenTransactioCreated(this.getAction().getViewName()));
 		// asofDate.setWidth(100);
 		asofDate.setEnteredDate(new ClientFinanceDate(
 				getCompany().getPreferences().getPreventPostingBeforeDate() == 0 ? new ClientFinanceDate()
@@ -1502,6 +1501,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		cashAccountCheck.setDisabled(isInViewMode());
 		statusBox.setDisabled(isInViewMode());
 		commentsArea.setDisabled(isInViewMode());
+		super.onEdit();
 
 	}
 
