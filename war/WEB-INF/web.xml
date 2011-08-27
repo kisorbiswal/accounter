@@ -43,7 +43,7 @@
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>accounter</servlet-name>
-		<servlet-class>com.vimukti.accounter.servlets.PostLoginServlet
+		<servlet-class>com.vimukti.accounter.servlets.OpenCompanyServlet
 		</servlet-class>
 	</servlet>
 	<servlet-mapping>
