@@ -95,6 +95,8 @@ public class ClientCompany implements IAccounterCore {
 	// String prepaidVATaccount;
 	// String ECAcquisitionVATaccount;
 
+	private String timezone;
+
 	private Set<ClientCurrency> currencies;
 
 	String phone;
@@ -1075,6 +1077,14 @@ public class ClientCompany implements IAccounterCore {
 
 	public void setTradingName(String stringValue) {
 		this.legalName = stringValue;
+	}
+
+	public String gettimezone() {
+		return timezone;
+	}
+
+	public void settimezone(String timezone) {
+		this.timezone = timezone;
 	}
 
 	public void setPhone(String stringValue) {
