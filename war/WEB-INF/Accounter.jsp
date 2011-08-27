@@ -44,7 +44,6 @@
     
     <!--CSS for loading message at application Startup-->
     <style type="text/css">
-        body { overflow:hidden }
         #loading {
             border: 1px solid #ccc;
             position: absolute;
@@ -58,8 +57,6 @@
         #loading a {
             color: #225588;
         }
-        
-
         #loading .loadingIndicator {
             background: white;
             font: bold 13px tahoma, arial, helvetica;
@@ -80,14 +77,6 @@
 	 		padding:10px;
 	 		border:1px solid #000;
 	 		width:600px;
- 		}
- 
- 		body{
- 			background:LightSteelBlue none repeat scroll 0 0;
- 		}
- 
-		.image{
- 			/*text-align:center;*/
  		}
  
 		.clearfix:after{
