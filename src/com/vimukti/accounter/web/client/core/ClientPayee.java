@@ -65,6 +65,15 @@ public abstract class ClientPayee implements IAccounterCore {
 	// boolean isEUVATExemptPayee;
 	String VATRegistrationNumber;
 	long TAXCode;
+	long TAXItem;
+	public long getTaxItemCode() {
+		return TAXItem;
+	}
+
+	public void setTaxItemCode(long taxItemCode) {
+		TAXItem = taxItemCode;
+	}
+
 	boolean isOpeningBalanceEditable = Boolean.TRUE;
 	private String email;
 	boolean isDefault;

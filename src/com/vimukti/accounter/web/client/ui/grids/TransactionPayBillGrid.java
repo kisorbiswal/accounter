@@ -10,8 +10,10 @@ import java.util.Stack;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
@@ -106,7 +108,8 @@ public class TransactionPayBillGrid extends
 
 	@Override
 	protected Object getColumnValue(ClientTransactionPayBill paybill, int col) {
-
+		ClientTAXItem taxItem = getCompany()
+				.getTAXItem(vendor.getTaxItemCode());
 		if (canEdit) {
 			switch (col) {
 			case 0:
@@ -129,13 +132,20 @@ public class TransactionPayBillGrid extends
 			case 6:
 				return amountAsString(paybill.getAppliedCredits());
 			case 7:
-				return amountAsString(paybill.getOriginalAmount() * 10 / 100);
+				if (taxItem != null)
+					return amountAsString(paybill.getOriginalAmount()
+							* (taxItem.getTaxRate() / 100));
+				else
+					return amountAsString(0.0);
 
-			case 8: {
-				if (paybill.getPayment() != 0)
+			case 8:
+				if(paybill.getPayment()!=0)
 					return amountAsString(paybill.getPayment()
-							- paybill.getOriginalAmount() * 10 / 100);
-			}
+							- paybill.getOriginalAmount()
+							* (taxItem.getTaxRate()) / 100);
+				else
+					return amountAsString(0.0);
+				
 			default:
 				return "";
 			}
@@ -168,12 +178,28 @@ public class TransactionPayBillGrid extends
 	@Override
 	protected String[] getColumns() {
 		if (canEdit) {
-			return new String[] { vendorConstants.dueDate(),
-					vendorConstants.billNo(), vendorConstants.originalAmount(),
-					vendorConstants.amountDue(),
-					vendorConstants.discountDate(),
-					vendorConstants.cashDiscount(), vendorConstants.credits(),
-					vendorConstants.tds(), vendorConstants.payments() };
+
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA)
+
+			{
+				return new String[] { vendorConstants.dueDate(),
+
+				vendorConstants.billNo(), vendorConstants.originalAmount(),
+						vendorConstants.amountDue(),
+						vendorConstants.discountDate(),
+						vendorConstants.cashDiscount(),
+						vendorConstants.credits(), vendorConstants.tds(),
+						vendorConstants.payments() };
+			} else {
+				return new String[] { vendorConstants.dueDate(),
+
+				vendorConstants.billNo(), vendorConstants.originalAmount(),
+						vendorConstants.amountDue(),
+						vendorConstants.discountDate(),
+						vendorConstants.cashDiscount(),
+						vendorConstants.credits(), vendorConstants.payments() };
+			}
+
 		} else {
 			return new String[] { vendorConstants.billNo(),
 					vendorConstants.billAmount(),
@@ -253,8 +279,7 @@ public class TransactionPayBillGrid extends
 			// "" + UIUtils.getCurrencySymbol() + "", "");
 			// }
 			double payment = Double.parseDouble(DataUtils
-					.getReformatedAmount(value.toString())
-					+ "");
+					.getReformatedAmount(value.toString()) + "");
 			editingRecord.setPayment(payment);
 			updateAmountDue(editingRecord);
 			updateData(editingRecord);
@@ -313,6 +338,7 @@ public class TransactionPayBillGrid extends
 
 	public void initCreditsAndPayments(final ClientVendor vendor) {
 
+		this.vendor = vendor;
 		Accounter
 				.createHomeService()
 				.getVendorCreditsAndPayments(
@@ -360,9 +386,9 @@ public class TransactionPayBillGrid extends
 		// discountAccount = getCompany().getAccountByName(
 		// companyConstants.discounts());
 		// }
-		cashDiscountDialog = new CashDiscountDialog(canEdit, selectedObject
-				.getCashDiscount(), getCompany().getAccount(
-				selectedObject.getDiscountAccount()));
+		cashDiscountDialog = new CashDiscountDialog(canEdit,
+				selectedObject.getCashDiscount(), getCompany().getAccount(
+						selectedObject.getDiscountAccount()));
 		// } else {
 		// cashDiscountDialog.setCanEdit(canEdit);
 		// cashDiscountDialog.setCashDiscountValue(selectedObject

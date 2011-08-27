@@ -59,6 +59,15 @@ public abstract class Payee extends CreatableObject implements
 	// boolean isEUVATExemptPayee;
 	String VATRegistrationNumber;
 	TAXCode TAXCode;
+	TAXItem TAXItem;
+	public TAXItem getTAXItem() {
+		return TAXItem;
+	}
+
+	public void setTAXItem(TAXItem tAXItem) {
+		TAXItem = tAXItem;
+	}
+
 	private String email;
 	boolean isDefault;
 

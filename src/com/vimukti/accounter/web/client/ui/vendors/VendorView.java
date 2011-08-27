@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
+
 import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -38,6 +39,7 @@ import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPhone;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
+import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -57,6 +59,7 @@ import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingMethodsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
+import com.vimukti.accounter.web.client.ui.combo.TaxItemCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorGroupCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -98,7 +101,8 @@ public class VendorView extends BaseView<ClientVendor> {
 	PaymentTermsCombo payTermsSelect;
 	ShippingMethodsCombo preferredShippingSelect;
 	OtherAccountsCombo expenseAccountsSelect;
-	TAXCodeCombo vendorTaxCode, vendorTDSTaxCode;
+	TAXCodeCombo vendorTaxCode;
+	TaxItemCombo vendorTDSTaxCode;
 	VendorGroupCombo vendorGroupSelect;
 	SelectCombo preferredPaymentSelect;
 	CurrencyCombo currencyCombo;
@@ -153,6 +157,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	private ArrayList<DynamicForm> listforms;
 
 	protected ClientTAXCode selectTaxCodeFromDetailsTab;
+	protected ClientTAXItem selectTaxItemFromDetailsTab;
 
 	public VendorView() {
 		super();
@@ -652,20 +657,22 @@ public class VendorView extends BaseView<ClientVendor> {
 		federalText = new TextItem(Accounter.constants().federalTaxId());
 		federalText.setHelpInformation(true);
 		federalText.setWidth(100);
-		vendorTDSTaxCode = new TAXCodeCombo(messages.vendorTDSCode(Global.get()
-				.Vendor()), false);
+		vendorTDSTaxCode = new TaxItemCombo(messages.vendorTDSCode(Global.get()
+				.Vendor()), ClientTAXItem.TAX_TYPE_TDS);
 		vendorTDSTaxCode.setHelpInformation(true);
 		vendorTDSTaxCode.setWidth(100);
-		vendorTDSTaxCode
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
 
-					public void selectedComboBoxItem(ClientTAXCode selectItem) {
-						// selectTaxCodeFromDetailsTab = selectItem;
+		vendorTDSTaxCode
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXItem>() {
+
+					public void selectedComboBoxItem(ClientTAXItem selectItem) {
+						selectTaxItemFromDetailsTab = selectItem;
 					}
 
 				});
 		isTDS = new CheckboxItem(Accounter.constants().tdsApplicable());
 		isTDS.setValue(true);
+		vendorTDSTaxCode.setDisabled(true);
 		isTDS.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
@@ -737,8 +744,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			vatform.setFields(vatRegistrationNumber, vendorTaxCode, isTDS,
 					vendorTDSTaxCode);
 		} else {
-			vatform.setFields(vatRegistrationNumber, vendorTaxCode, isTDS,
-					vendorTDSTaxCode);
+			vatform.setFields(vatRegistrationNumber, vendorTaxCode);
 		}
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setSize("100%", "100%");
@@ -899,6 +905,10 @@ public class VendorView extends BaseView<ClientVendor> {
 		data.setAddress(addrsForm.getAddresss());
 
 		data.setTdsApplicable(isTDS.getValue());
+
+		if (selectTaxItemFromDetailsTab != null) {
+			data.setTaxItemCode(Utility.getID(selectTaxItemFromDetailsTab));
+		}
 
 		// Setting Phone
 		// data.setPhoneNumbers(fonFaxForm.getAllPhones());
@@ -1221,6 +1231,14 @@ public class VendorView extends BaseView<ClientVendor> {
 				(data.getPaymentTermsId()));
 
 		isTDS.setValue(data.isTdsApplicable());
+		if (isTDS.getValue()) {
+			vendorTDSTaxCode.setDisabled(false);
+		}
+		vendorTDSTaxCode
+				.setSelected(vendorTDSTaxCode.getDisplayName(getCompany()
+						.getTAXItem(data.getTaxItemCode())));
+
+		
 
 		taxID.setValue(data.getTaxId());
 

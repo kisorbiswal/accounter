@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
+import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
@@ -437,6 +438,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		// filterForm.setIsGroup(true);
 		// filterForm.setGroupTitle(Accounter.constants().Filter());
 		// filterForm.setFields(dueDate);
+		tdsLabel = new PercentageField(this, Accounter.constants().tds());
+		tdsLabel.setDisabled(true);
 
 		DynamicForm dateForm = new DynamicForm();
 		dateForm.setNumCols(4);
@@ -471,7 +474,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		balForm.setWidth("100%");
 		balForm.setIsGroup(true);
 		balForm.setGroupTitle(Accounter.constants().balances());
-		balForm.setFields(amtText, endBalText);
+		balForm.setFields(tdsLabel,amtText,endBalText);
 
 		Label lab1 = new Label(Accounter.constants().billsDue());
 
@@ -487,9 +490,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		memoForm.setFields(memoTextAreaItem);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
-		tdsLabel = new PercentageField(this,"TDS");
-		tdsLabel.setDisabled(true);
-		
 		
 		unUsedCreditsText = new AmountLabel(Accounter.constants()
 				.unusedCredits());
@@ -499,7 +499,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		textForm.setNumCols(2);
 		textForm.setWidth("70%");
 		textForm.setStyleName("unused-payments");
-		textForm.setFields(unUsedCreditsText,tdsLabel);
+		textForm.setFields(unUsedCreditsText);
 
 		HorizontalPanel bottompanel = new HorizontalPanel();
 		bottompanel.setWidth("100%");
@@ -575,7 +575,13 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 	protected void vendorSelected(final ClientVendor vendor) {
 
-		tdsLabel.setPercentage(10.0);
+		ClientTAXItem taxItem = getCompany()
+				.getTAXItem(vendor.getTaxItemCode());
+		if (taxItem != null) {
+			tdsLabel.setPercentage(taxItem.getTaxRate());
+		} else {
+			tdsLabel.setPercentage(0.0);
+		}
 		if (vendor == null) {
 			paybillTransactionList = null;
 			return;

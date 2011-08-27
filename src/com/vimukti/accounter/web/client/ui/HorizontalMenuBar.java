@@ -44,6 +44,13 @@ public class HorizontalMenuBar extends HorizontalPanel {
 				ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 			}
 		}
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
+
+			menuitem = menuBar.addItem(Accounter.constants().tax(),
+					getTaxMenu());
+			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
+
+		}
 
 		menuitem = menuBar.addItem(
 				Accounter.messages().Customer(Global.get().Customer()),
@@ -98,6 +105,16 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		menuBar.setAutoOpen(true);
 		menuBar.setAnimationEnabled(true);
 		return menuBar;
+	}
+
+	private CustomMenuBar getTaxMenu() {
+		CustomMenuBar taxMenu = getSubMenu();
+
+		
+		taxMenu.addItem(ActionFactory.getNewVatItemAction());
+		taxMenu=getVATMenu();
+
+		return taxMenu;
 	}
 
 	private CustomMenuBar getSettingsMenu() {

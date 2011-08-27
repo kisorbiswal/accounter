@@ -2,6 +2,8 @@ package com.vimukti.accounter.company.initialize;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.TAXAgency;
@@ -42,33 +44,45 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 
 	private void initDefaultIndiaAccounts() {
 		Session session = HibernateUtil.getCurrentSession();
+		initDefaultUSAccounts(session);
 		createDefaultTDSTaxItemAndTaxAgency(session);
+	}
+
+	public void initDefaultUSAccounts(Session session) {
+
+		Account tdsTaxPayable = new Account(Account.TYPE_TDS_PAYABLE, "2050",
+				"TDS Tax Payable", true, null,
+				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
+				null, true, true, openingBalancesAccount, "5", true,
+				this.preferences.getPreventPostingBeforeDate());
+
+		session.save(tdsTaxPayable);
+
 	}
 
 	public void createDefaultTDSTaxItemAndTaxAgency(Session session) {
 
 		// TODO create accounts
 
-		TAXAgency defaultVATAgency = new TAXAgency();
-		defaultVATAgency.setActive(Boolean.TRUE);
+		TAXAgency defaultTDSAgency = new TAXAgency();
+		defaultTDSAgency.setActive(Boolean.TRUE);
+		defaultTDSAgency.setTaxType(TAXItem.TAX_TYPE_TDS);
 
-		// FIXME
-		// defaultVATAgency.setName(getPreferences().getVATtaxAgencyName());
-		// defaultVATAgency.setVATReturn(VATReturn.VAT_RETURN_UK_VAT);
+		defaultTDSAgency.setName("TDS_TaxAgency");
+		defaultTDSAgency.setVATReturn(0);
 
-		// defaultVATAgency.setSalesLiabilityAccount((Account) session
-		// .getNamedQuery("unique.name.Account")
-		// .setString(0, AccounterServerConstants.SALES_TAX_VAT_UNFILED)
-		// .list().get(0));
-		//
+		defaultTDSAgency.setSalesLiabilityAccount((Account) session
+				.getNamedQuery("unique.name.Account")
+				.setString(0, "TDS Tax Payable").list().get(0));
+
 		// defaultVATAgency.setPurchaseLiabilityAccount((Account) session
 		// .getNamedQuery("unique.name.Account")
 		// .setString(0, AccounterServerConstants.SALES_TAX_VAT_UNFILED)
 		// .list().get(0));
 
-		defaultVATAgency.setDefault(true);
+		defaultTDSAgency.setDefault(true);
 
-		session.save(defaultVATAgency);
+		session.save(defaultTDSAgency);
 
 		TAXItem tdsItem1 = new TAXItem();
 		tdsItem1.setName("Exempt Purchases");
@@ -76,8 +90,8 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 		tdsItem1.setDescription("Exempt Purchases");
 		tdsItem1.setTaxRate(0.0);
 		tdsItem1.setSalesType(false);
-		tdsItem1.setTaxAgency(defaultVATAgency);
-		// tdsItem1.setVatReturnBox(vt5);
+		tdsItem1.setTaxAgency(defaultTDSAgency);
+		tdsItem1.setVatReturnBox(null);
 		tdsItem1.setDefault(true);
 		tdsItem1.setPercentage(true);
 		session.save(tdsItem1);
@@ -87,8 +101,8 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 		tdsItem2.setDescription("Professional");
 		tdsItem2.setTaxRate(10);
 		tdsItem2.setSalesType(false);
-		tdsItem2.setTaxAgency(defaultVATAgency);
-		// tdsItem1.setVatReturnBox(vt5);
+		tdsItem2.setTaxAgency(defaultTDSAgency);
+		tdsItem1.setVatReturnBox(null);
 		tdsItem2.setDefault(true);
 		tdsItem2.setPercentage(true);
 		session.save(tdsItem2);
@@ -99,8 +113,8 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 		tdsItem3.setDescription("Contractors");
 		tdsItem3.setTaxRate(2);
 		tdsItem3.setSalesType(false);
-		tdsItem3.setTaxAgency(defaultVATAgency);
-		// tdsItem1.setVatReturnBox(vt5);
+		tdsItem3.setTaxAgency(defaultTDSAgency);
+		tdsItem1.setVatReturnBox(null);
 		tdsItem3.setDefault(true);
 		tdsItem3.setPercentage(true);
 		session.save(tdsItem3);
@@ -111,56 +125,55 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 		tdsItem4.setDescription("Sub Contractors");
 		tdsItem4.setTaxRate(1);
 		tdsItem4.setSalesType(false);
-		tdsItem4.setTaxAgency(defaultVATAgency);
-		// tdsItem1.setVatReturnBox(vt5);
+		tdsItem4.setTaxAgency(defaultTDSAgency);
+		tdsItem1.setVatReturnBox(null);
 		tdsItem4.setDefault(true);
 		tdsItem4.setPercentage(true);
 		session.save(tdsItem4);
 
+		// TAXCode tdsCode1 = new TAXCode();
 		//
-
-		TAXCode tdsCode1 = new TAXCode();
-		tdsCode1.setName("E");
-		tdsCode1.setDescription("Exempt");
-		tdsCode1.setTaxable(true);
-		tdsCode1.setActive(true);
-		tdsCode1.setTAXItemGrpForPurchases(tdsItem4);
-		tdsCode1.setTAXItemGrpForSales(tdsItem4);
-		tdsCode1.setDefault(true);
-		session.save(tdsCode1);
-		TAXCode tdsCode2 = new TAXCode();
-		tdsCode2.setName("P");
-		tdsCode2.setDescription("Professional");
-		tdsCode2.setTaxable(true);
-		tdsCode2.setActive(true);
-		tdsCode1.setTAXItemGrpForPurchases(tdsItem2);
-		tdsCode1.setTAXItemGrpForSales(tdsItem2);
-		tdsCode2.setDefault(true);
-		session.save(tdsCode2);
-		TAXCode tdsCode3 = new TAXCode();
-		tdsCode3.setName("C");
-		tdsCode3.setDescription("Contractor");
-		tdsCode3.setTaxable(true);
-		tdsCode3.setActive(true);
-		tdsCode1.setTAXItemGrpForPurchases(tdsItem3);
-		tdsCode1.setTAXItemGrpForSales(tdsItem3);
-		tdsCode3.setDefault(true);
-		session.save(tdsCode3);
-		TAXCode tdsCode4 = new TAXCode();
-		tdsCode4.setName("SC");
-		tdsCode4.setDescription("Sub Contractor");
-		tdsCode4.setTaxable(true);
-		tdsCode4.setActive(true);
-		tdsCode1.setTAXItemGrpForPurchases(tdsItem4);
-		tdsCode1.setTAXItemGrpForSales(tdsItem4);
-		tdsCode4.setDefault(true);
-		session.save(tdsCode4);
+		// tdsCode1.setName("E");
+		// tdsCode1.setDescription("Exempt");
+		// tdsCode1.setTaxable(true);
+		// tdsCode1.setActive(true);
+		// tdsCode1.setTAXItemGrpForPurchases(tdsItem4);
+		// tdsCode1.setTAXItemGrpForSales(tdsItem4);
+		// tdsCode1.setDefault(true);
+		// session.save(tdsCode1);
+		// TAXCode tdsCode2 = new TAXCode();
+		// tdsCode2.setName("P");
+		// tdsCode2.setDescription("Professional");
+		// tdsCode2.setTaxable(true);
+		// tdsCode2.setActive(true);
+		// tdsCode1.setTAXItemGrpForPurchases(tdsItem2);
+		// tdsCode1.setTAXItemGrpForSales(tdsItem2);
+		// tdsCode2.setDefault(true);
+		// session.save(tdsCode2);
+		// TAXCode tdsCode3 = new TAXCode();
+		// tdsCode3.setName("C");
+		// tdsCode3.setDescription("Contractor");
+		// tdsCode3.setTaxable(true);
+		// tdsCode3.setActive(true);
+		// tdsCode1.setTAXItemGrpForPurchases(tdsItem3);
+		// tdsCode1.setTAXItemGrpForSales(tdsItem3);
+		// tdsCode3.setDefault(true);
+		// session.save(tdsCode3);
+		// TAXCode tdsCode4 = new TAXCode();
+		// tdsCode4.setName("SC");
+		// tdsCode4.setDescription("Sub Contractor");
+		// tdsCode4.setTaxable(true);
+		// tdsCode4.setActive(true);
+		// tdsCode1.setTAXItemGrpForPurchases(tdsItem4);
+		// tdsCode1.setTAXItemGrpForSales(tdsItem4);
+		// tdsCode4.setDefault(true);
+		// session.save(tdsCode4);
 
 	}
 
 	@Override
 	String getDateFormat() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return AccounterServerConstants.ddMMyyyy;
 	}
 }

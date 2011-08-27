@@ -35,6 +35,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
+import com.vimukti.accounter.web.client.ui.combo.TaxItemCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
@@ -73,7 +74,7 @@ public class VendorBillView extends
 
 	private long selectedPurchaseOrder;
 	private long selectedItemReceipt;
-	private TAXCodeCombo vendorTDSTaxCode;
+	private TaxItemCombo vendorTDSTaxCode;
 
 	private ArrayList<DynamicForm> listforms;
 	private ArrayList<ClientTransaction> selectedOrdersAndItemReceipts;
@@ -145,6 +146,7 @@ public class VendorBillView extends
 			vendorTransactionGrid.setCanEdit(false);
 
 		}
+
 		super.initTransactionViewData();
 		initPaymentTerms();
 
@@ -210,6 +212,16 @@ public class VendorBillView extends
 	protected void vendorSelected(ClientVendor vendor) {
 
 		updatePurchaseOrderOrItemReceipt(vendor);
+
+		if (vendor.isTdsApplicable()) {
+			vendorTDSTaxCode.setSelected(vendorTDSTaxCode
+					.getDisplayName(getCompany().getTAXItem(
+							vendor.getTaxItemCode())));
+			vendorTDSTaxCode.setDisabled(false);
+		} else {
+			vendorTDSTaxCode.setValue(null);
+			vendorTDSTaxCode.setDisabled(true);
+		}
 
 		super.vendorSelected(vendor);
 		if (transaction == null)
@@ -334,10 +346,10 @@ public class VendorBillView extends
 		labeldateNoLayout.setWidth("100%");
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
-		vendorTDSTaxCode = new TAXCodeCombo(messages.vendorTDSCode(Global.get()
-				.Vendor()), false);
+		vendorTDSTaxCode = new TaxItemCombo(messages.vendorTDSCode(Global.get()
+				.Vendor()), 1);
 		vendorTDSTaxCode.setHelpInformation(true);
-		vendorTDSTaxCode.setDisabled(isInViewMode());
+		vendorTDSTaxCode.setDisabled(true);
 
 		vendorCombo = createVendorComboItem(messages.vendorName(Global.get()
 				.Vendor()));
@@ -392,6 +404,7 @@ public class VendorBillView extends
 
 					public void selectedComboBoxItem(
 							ClientPaymentTerms selectItem) {
+
 						paymentTermSelected(selectItem);
 
 					}
@@ -519,7 +532,7 @@ public class VendorBillView extends
 		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");
 		bottomLayout.add(horizontalPanel);
-		
+
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 
 			VerticalPanel verticalPanel = new VerticalPanel();
@@ -529,7 +542,7 @@ public class VendorBillView extends
 			VerticalPanel vpanel = new VerticalPanel();
 			vpanel.setHorizontalAlignment(ALIGN_RIGHT);
 			// vpanel.setWidth("100%");
-			vpanel.add(tdsForm);
+
 			// vpanel.add(hpanel);
 			bottomLayout.add(memoForm);
 			bottomLayout.add(totalForm);
@@ -552,11 +565,25 @@ public class VendorBillView extends
 			// bottomLayout.add(totalForm);
 			// bottomLayout.setCellHorizontalAlignment(totalForm,
 			// HasHorizontalAlignment.ALIGN_RIGHT);
-		} else {
+		} else if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
+
+			memoForm.setStyleName("align-form");
+			VerticalPanel vPanel = new VerticalPanel();
+			vPanel.add(hpanel);
+			vPanel.setWidth("100%");
+
+			vPanel.setCellHorizontalAlignment(hpanel, ALIGN_RIGHT);
+			vPanel.add(horizontalPanel);
+			vPanel.add(memoForm);
+			bottompanel.add(vPanel);
+		}
+
+		else {
 			memoForm.setStyleName("align-form");
 			VerticalPanel vPanel = new VerticalPanel();
 			vPanel.setWidth("100%");
 			vPanel.add(hpanel);
+
 			vPanel.setCellHorizontalAlignment(hpanel, ALIGN_RIGHT);
 			vPanel.add(memoForm);
 
@@ -598,6 +625,7 @@ public class VendorBillView extends
 
 	private void paymentTermSelected(ClientPaymentTerms selectItem) {
 		selectedPaymentTerm = selectItem;
+
 		// paymentTermsCombo.setComboItem(selectedPaymentTerm);
 		if (isInViewMode()) {
 			// setDueDate(((ClientEnterBill) transactionObject).getDueDate());
@@ -695,6 +723,7 @@ public class VendorBillView extends
 	@Override
 	protected void initMemoAndReference() {
 		memoTextAreaItem.setDisabled(true);
+
 		setMemoTextAreaItem(((ClientEnterBill) transaction).getMemo());
 		// setRefText(((ClientEnterBill) transactionObject).getReference());
 

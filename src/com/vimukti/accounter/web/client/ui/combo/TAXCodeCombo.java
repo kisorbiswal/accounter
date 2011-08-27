@@ -76,7 +76,7 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 	@Override
 	public void onAddNew() {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			NewTAXCodeAction action = ActionFactory.getNewTAXCodeAction();
+					NewTAXCodeAction action = ActionFactory.getNewTAXCodeAction();
 			action.setCallback(new ActionCallback<ClientTAXCode>() {
 
 				@Override

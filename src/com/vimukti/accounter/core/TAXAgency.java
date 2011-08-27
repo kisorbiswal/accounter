@@ -52,6 +52,17 @@ public class TAXAgency extends Payee {
 	public final static int RETURN_TYPE_IRELAND_VAT = 2;
 
 	int VATReturn;
+	int taxType;
+
+	
+
+	public int getTaxType() {
+		return taxType;
+	}
+
+	public void setTaxType(int taxType) {
+		this.taxType = taxType;
+	}
 
 	public TAXAgency() {
 		setType(Payee.TYPE_TAX_AGENCY);

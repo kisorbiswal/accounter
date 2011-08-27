@@ -75,6 +75,7 @@ public class Account extends CreatableObject implements IAccounterServerCore {
 	public static final int TYPE_OTHER_EXPENSE = 18;
 	public static final int TYPE_LIABILITY = 19;
 	public static final int TYPE_ASSET = 20;
+	public static final int TYPE_TDS_PAYABLE=21;
 
 	/**
 	 * Types of cash flow

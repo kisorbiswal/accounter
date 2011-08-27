@@ -88,6 +88,7 @@ public class CompanyPreferences implements IAccounterServerCore {
 	private static final long IS_BEGINNING_ON_TODAYS_DATE = 0x100000000L;
 
 	private static final long WANT_STATEMENTS = 0x200000000L;
+	private static final long TDS_TAX_ENABLE = 0x400000000L;
 
 	public static int VAT_REPORTING_PERIOD_MONTHLY = 1;
 	public static int VAT_REPORTING_PERIOD_BIMONTHLY = 2;
@@ -781,6 +782,14 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	public void setDateFormat(String dateFormat) {
 		this.dateFormat = dateFormat;
+	}
+
+	public boolean isTDSEnabled() {
+		return get(TDS_TAX_ENABLE);
+	}
+
+	public void setTDSEnabled(boolean value) {
+		set(TDS_TAX_ENABLE, value);
 	}
 
 	public boolean isSalesOrderEnabled() {

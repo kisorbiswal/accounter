@@ -53,8 +53,8 @@ public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 		VerticalPanel layout = new VerticalPanel();
 		VerticalPanel layout1 = new VerticalPanel();
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		itemCombo = createCustomerCombo();
-		itemCombo1 = createCustomerCombo1();
+		itemCombo = createItemCombo();
+		itemCombo1 = createItemCombo1();
 
 		status = new CheckboxItem(Accounter.constants().active());
 		status.setValue(false);
@@ -89,7 +89,7 @@ public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 		setBodyLayout(horizontalPanel);
 	}
 
-	private ItemCombo createCustomerCombo1() {
+	private ItemCombo createItemCombo1() {
 		itemCombo1 = new ItemCombo(Accounter.constants().itemTo(), 2, false);
 		itemCombo1.setRequired(true);
 		itemCombo1.setHelpInformation(true);
@@ -108,7 +108,7 @@ public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 		return itemCombo1;
 	}
 
-	private ItemCombo createCustomerCombo() {
+	private ItemCombo createItemCombo() {
 		itemCombo = new ItemCombo(Accounter.constants().itemFrom(), 2, false);
 		itemCombo.setHelpInformation(true);
 		itemCombo.setRequired(true);

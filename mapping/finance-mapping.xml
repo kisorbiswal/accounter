@@ -666,6 +666,9 @@
 		<many-to-one name="TAXCode" column="TAX_CODE_ID" class="TAXCode"
 			lazy="false">
 		</many-to-one>
+		<many-to-one name="TAXItem" column="TDS_TAX_ITEM_ID" class="TAXItem"
+			lazy="false">
+		</many-to-one>
 		<property name="isOpeningBalanceEditable" column="IS_OPENING_BALANCE_EDITABLE"></property>
 		<property name="isDefault" column="IS_DEFAULT"></property>
 		<property name="panNumber" column="PAN_NUMBER"></property>
@@ -768,6 +771,7 @@
 				column="PURCHASE_ACCOUNT_ID" cascade="save-update,delete" lazy="false">
 			</many-to-one>
 			<property name="VATReturn" column="VAT_RETURN"></property>
+			<property name="taxType" column="TAX_TYPE"></property>
 		</joined-subclass>
 	</class>
 	<class name="PaymentTerms" table="PAYMENTTERMS">

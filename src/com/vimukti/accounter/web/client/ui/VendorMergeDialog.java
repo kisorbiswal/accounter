@@ -56,8 +56,8 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 		VerticalPanel layout = new VerticalPanel();
 		VerticalPanel layout1 = new VerticalPanel();
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		vendorCombo = createCustomerCombo();
-		vendorCombo1 = createCustomerCombo1();
+		vendorCombo = createVendorCombo();
+		vendorCombo1 = createVendorCombo1();
 
 		vendorIDTextItem = new TextItem(Accounter.messages().vendorID(
 				Global.get().Vendor()));
@@ -97,7 +97,7 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 		setBodyLayout(horizontalPanel);
 	}
 
-	private VendorCombo createCustomerCombo1() {
+	private VendorCombo createVendorCombo1() {
 		vendorCombo1 = new VendorCombo(Accounter.messages().vendorTo(
 				Global.get().Vendor()));
 		vendorCombo1.setHelpInformation(true);
@@ -117,9 +117,9 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 		return vendorCombo1;
 	}
 
-	private VendorCombo createCustomerCombo() {
+	private VendorCombo createVendorCombo() {
 		vendorCombo = new VendorCombo(Accounter.messages().vendorFrom(
-				Global.get().Vendor()));
+				Global.get().Vendor()),false);
 		vendorCombo.setHelpInformation(true);
 		vendorCombo.setRequired(true);
 		vendorCombo

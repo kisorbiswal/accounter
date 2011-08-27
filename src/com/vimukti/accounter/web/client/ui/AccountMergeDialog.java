@@ -52,8 +52,8 @@ public class AccountMergeDialog extends BaseDialog implements
 		VerticalPanel layout = new VerticalPanel();
 		VerticalPanel layout1 = new VerticalPanel();
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		accountCombo = createCustomerCombo();
-		accountCombo1 = createCustomerCombo1();
+		accountCombo = createAccountCombo();
+		accountCombo1 = createAccountCombo1();
 
 		accountNumberTextItem = new TextItem(Accounter.messages()
 				.accountNumber(Global.get().Account()));
@@ -86,7 +86,7 @@ public class AccountMergeDialog extends BaseDialog implements
 		setBodyLayout(horizontalPanel);
 	}
 
-	private OtherAccountsCombo createCustomerCombo1() {
+	private OtherAccountsCombo createAccountCombo1() {
 		accountCombo1 = new OtherAccountsCombo(Accounter.messages().accountTo(
 				Global.get().Account()), false);
 		accountCombo1.setHelpInformation(true);
@@ -106,7 +106,7 @@ public class AccountMergeDialog extends BaseDialog implements
 		return accountCombo1;
 	}
 
-	private OtherAccountsCombo createCustomerCombo() {
+	private OtherAccountsCombo createAccountCombo() {
 		accountCombo = new OtherAccountsCombo(Accounter.messages().accountFrom(
 				Global.get().Account()), false);
 		accountCombo.setHelpInformation(true);
