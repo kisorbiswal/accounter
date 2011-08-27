@@ -44,6 +44,12 @@ public class ContactGrid extends ListGrid<ClientContact> {
 		switch (index) {
 		case 0:
 			return 50;
+		case 2:
+			return 150;
+		case 3:
+			return 150;
+		case 4:
+			return 150;
 		case 5:
 			if (UIUtils.isMSIEBrowser())
 				return 25;
