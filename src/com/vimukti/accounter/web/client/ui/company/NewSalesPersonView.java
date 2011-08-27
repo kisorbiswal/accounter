@@ -651,6 +651,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		expenseSelect.setDisabled(isInViewMode());
 		fonFaxForm.setDisabled(isInViewMode());
 		emailForm.setDisabled(isInViewMode());
+		super.onEdit();
 
 	}
 
