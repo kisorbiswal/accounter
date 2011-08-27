@@ -98,7 +98,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	ListBox timezoneslistbox;
 	private ClientCompany company;
 	private ClientAddress address;
-	private List<String> countries, states;
+	private List<String> countries, states, timezones;
 
 	interface SetupCompanyInfoPageUiBinder extends
 			UiBinder<Widget, SetupCompanyInfoPage> {
@@ -144,6 +144,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		emailAdressLabel.setText(accounterConstants.emailId());
 		webSiteLabel.setText(accounterConstants.webSite());
 		useFormat.setHTML("");
+		timezone.setText(accounterConstants.timezone());
 		Accounter.createGETService().getCountries(
 				new AsyncCallback<List<String>>() {
 
@@ -193,6 +194,24 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 						});
 			}
 		});
+
+		Accounter.createGETService().getTimezones(
+				new AsyncCallback<List<String>>() {
+
+					@Override
+					public void onSuccess(List<String> result) {
+						timezones = result;
+						for (int i = 0; i < result.size(); i++) {
+							timezoneslistbox.addItem(result.get(i));
+						}
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+
+					}
+				});
+
 	}
 
 	private void setStates(List<String> states) {
@@ -229,6 +248,11 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 					this.country.setSelectedIndex(countries.indexOf(address
 							.getCountryOrRegion()));
 				}
+				if (company.gettimezone() != ""
+						&& company.gettimezone() != null) {
+					this.timezoneslistbox.setSelectedIndex(timezones
+							.indexOf(company.gettimezone()));
+				}
 			}
 		}
 	}
@@ -253,11 +277,20 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 			address.setStateOrProvinence(states.get(stateListBox
 					.getSelectedIndex()));
 		}
-		if (country.getSelectedIndex() != 1)
+		if (country.getSelectedIndex() != -1)
 			address.setCountryOrRegion(countries.get(country.getSelectedIndex()));
 		company.setTradingAddress(address);
+
+		if (timezoneslistbox.getSelectedIndex() != -1)
+			clientCompany.settimezone(timezones.get(timezoneslistbox
+					.getSelectedIndex()));
 		Accounter.setCompany(clientCompany);
+
 	}
+
+	// private String getTimezoneId(String selectedTimezone){
+	// return selectedTimezone.substring(selectedTimezone.indexOf(' ')+1);
+	// }
 
 	@Override
 	public boolean canShow() {
