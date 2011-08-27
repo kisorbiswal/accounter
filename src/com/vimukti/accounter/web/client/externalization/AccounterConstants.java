@@ -4406,4 +4406,6 @@ public interface AccounterConstants extends Constants {
 
 	public String tradingCompanyName();
 
+	public String sellingDetails();
+
 }
