@@ -102,19 +102,19 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 
 			// Comment these 4 Lines If you want Company Setup
 			CompanyPreferences preferences = company.getPreferences();
-			if (preferences == null) {
-				preferences = new CompanyPreferences();
-			}
-			preferences.setSellProducts(true);
-			preferences.setSellServices(true);
-			preferences.setPurchaseOrderEnabled(true);
-			preferences.setDoyouwantEstimates(true);
-			company.setConfigured(true);
+			// if (preferences == null) {
+			// preferences = new CompanyPreferences();
+			// }
+			// preferences.setSellProducts(true);
+			// preferences.setSellServices(true);
+			// preferences.setPurchaseOrderEnabled(true);
+			// preferences.setDoyouwantEstimates(true);
+			// company.setConfigured(true);
 
 			companySession.save(company);
 
 			// Comment this Line If You want CompantSetUp
-			company.initialize(null);
+			// company.initialize(null);
 
 			FinanceTool.createView();
 
