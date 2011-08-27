@@ -106,6 +106,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	CheckboxItem track1099MISC;
 	CheckboxItem isTDS;
 	TabPanel tabSet;
+	Button addButton;
 
 	LinkedHashMap<String, ClientAddress> allAddresses;
 	LinkedHashMap<String, ClientPhone> allPhones;
@@ -309,6 +310,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendorNameText.setHelpInformation(true);
 		vendorNameText.setRequired(true);
 		vendorNameText.setWidth(100);
+		vendorNameText.setDisabled(isInViewMode());
 
 		vendorNoText = new TextItem("Vendor Number");
 		vendorNoText.setHelpInformation(true);
@@ -352,9 +354,11 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		statusCheck = new CheckboxItem(constants.active());
 		statusCheck.setValue(true);
+		statusCheck.setDisabled(isInViewMode());
 
 		vendorSinceDate = new DateField(messages.vendorSince(Global.get()
 				.Vendor()));
+		vendorSinceDate.setDisabled(isInViewMode());
 		track1099MISC = new CheckboxItem(Accounter.constants().track1099Form());
 		track1099MISC.setValue(false);
 
@@ -396,7 +400,8 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		Label l1 = new Label(Accounter.constants().contacts());
 
-		Button addButton = new Button(Accounter.constants().add());
+		addButton = new Button(Accounter.constants().add());
+
 		addButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -442,14 +447,17 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		addrsForm = new AddressForm(null);
 		addrsForm.setWidth("100%");
+		addrsForm.setDisabled(isInViewMode());
 		// addrsForm.setStyleName(FinanceApplication.constants()
 		// .venderForm());
 		fonFaxForm = new PhoneFaxForm(null, null, this, this.getAction()
 				.getViewName());
 		fonFaxForm.setWidth("100%");
+		fonFaxForm.setDisabled(isInViewMode());
 		emailForm = new EmailForm(null, null, this, this.getAction()
 				.getViewName());
 		emailForm.setWidth("100%");
+		emailForm.setDisabled(isInViewMode());
 		DynamicForm memoForm = new DynamicForm();
 		memoForm.setStyleName("align-form");
 		memoForm.setWidth("100%");
@@ -1354,7 +1362,36 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	@Override
 	public void onEdit() {
+		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
+
+			@Override
+			public void onException(AccounterException caught) {
+				Accounter.showError(caught.getMessage());
+			}
+
+			@Override
+			public void onResultSuccess(Boolean result) {
+				if (result)
+					enableFormItems();
+			}
+
+		};
+
+		this.rpcDoSerivce.canEdit(AccounterCoreType.VENDOR, data.getID(),
+				editCallBack);
+	}
+
+	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
+		vendorNameText.setDisabled(isInViewMode());
+		statusCheck.setDisabled(isInViewMode());
+		vendorSinceDate.setDisabled(isInViewMode());
+		addrsForm.setDisabled(isInViewMode());
+		fonFaxForm.setDisabled(isInViewMode());
+		emailForm.setDisabled(isInViewMode());
+		addButton.setVisible(isInViewMode());
+		super.onEdit();
+
 	}
 
 	@Override
