@@ -9,13 +9,13 @@ import java.util.List;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.ui.grids.CurrenciesGrid;
 
 /**
@@ -63,30 +63,16 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 		// currenciesList = UIUtils.getCurrenciesList();
 		headerLabel.setText(accounterConstants.selectCurrency());
 		primaryCurrenyLabel.setText(accounterConstants.primaryCurrency());
-		Accounter.createGETService().getCurrencies(
-				new AsyncCallback<List<ClientCurrency>>() {
+		currenciesList = CoreUtils.getCurrencies();
+		for (ClientCurrency currency : currenciesList) {
+			primaryCurrencyListBox.addItem(currency.getFormalName() + "\t"
+					+ currency.getDisplayName());
+		}
 
-					@Override
-					public void onSuccess(List<ClientCurrency> result) {
-						currenciesList = result;
-						for (ClientCurrency currency : currenciesList) {
-							primaryCurrencyListBox.addItem(currency
-									.getFormalName()
-									+ "\t"
-									+ currency.getDisplayName());
-						}
-
-						currenciesGrid = new CurrenciesGrid();
-						currenciesGrid.init();
-						currenciesGrid.setRecords(currenciesList);
-						// currencyListGridPanel.add(currenciesGrid);
-					}
-
-					@Override
-					public void onFailure(Throwable caught) {
-
-					}
-				});
+		currenciesGrid = new CurrenciesGrid();
+		currenciesGrid.init();
+		currenciesGrid.setRecords(currenciesList);
+		// currencyListGridPanel.add(currenciesGrid);
 	}
 
 	@Override

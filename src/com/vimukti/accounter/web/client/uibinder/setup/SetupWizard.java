@@ -45,10 +45,13 @@ public class SetupWizard extends VerticalPanel {
 	private FlexTable progressTable;
 
 	private AbstractSetupPage viewList[] = new AbstractSetupPage[] {
-			new SetupStartPage(this), new SetupCompanyInfoPage(),
+			new SetupStartPage(this),
+			new SetupCompanyInfoPage(),
 			new SetupIndustrySelectionPage(this),
-			new SetupOrganisationSelectionPage(), new SetupReferPage(),
-			new SetupTrackEmployeesPage(), new SetupSellTypeAndSalesTaxPage(),
+			new SetupOrganisationSelectionPage(),
+			new SetupReferPage(),
+			// Employee Expanse Will be Added in Next Version
+			/* new SetupTrackEmployeesPage(), */new SetupSellTypeAndSalesTaxPage(),
 			new SetupUsingEstimatesAndStatementsPage(),
 			new SetupCurrencyPage(), new SetupTrackBillsAndTimePage(),
 			new SetupSelectFiscalYrDatePage(),

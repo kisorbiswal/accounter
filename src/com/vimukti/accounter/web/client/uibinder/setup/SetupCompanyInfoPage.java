@@ -3,7 +3,6 @@
  */
 package com.vimukti.accounter.web.client.uibinder.setup;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
@@ -11,7 +10,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
@@ -23,6 +21,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.CoreUtils;
 
 /**
  * @author Administrator
@@ -145,22 +144,11 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		webSiteLabel.setText(accounterConstants.webSite());
 		useFormat.setHTML("");
 		timezone.setText(accounterConstants.timezone());
-		Accounter.createGETService().getCountries(
-				new AsyncCallback<List<String>>() {
 
-					@Override
-					public void onSuccess(List<String> result) {
-						countries = result;
-						for (int i = 0; i < result.size(); i++) {
-							country.addItem(result.get(i));
-						}
-					}
-
-					@Override
-					public void onFailure(Throwable caught) {
-						Accounter.showError("Unable to get countries list");
-					}
-				});
+		countries = CoreUtils.getCountriesAsList();
+		for (int i = 0; i < countries.size(); i++) {
+			country.addItem(countries.get(i));
+		}
 
 		country.addClickHandler(new ClickHandler() {
 
@@ -172,49 +160,26 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 					}
 				}
 				int selectedCountry;
-				if (country.getSelectedIndex() != -1)
+				if (country.getSelectedIndex() != -1) {
 					selectedCountry = country.getSelectedIndex();
-				else
+				} else {
 					selectedCountry = 0;
-				Accounter.createGETService().getStates(
-						country.getItemText(selectedCountry),
-						new AsyncCallback<List<String>>() {
-
-							@Override
-							public void onFailure(Throwable caught) {
-
-							}
-
-							@Override
-							public void onSuccess(List<String> result) {
-								states = new ArrayList<String>();
-								states = result;
-								setStates(states);
-							}
-						});
+				}
+				setStates(CoreUtils.getStatesAsListForCountry(country
+						.getItemText(selectedCountry)));
 			}
 		});
 
-		Accounter.createGETService().getTimezones(
-				new AsyncCallback<List<String>>() {
-
-					@Override
-					public void onSuccess(List<String> result) {
-						timezones = result;
-						for (int i = 0; i < result.size(); i++) {
-							timezoneslistbox.addItem(result.get(i));
-						}
-					}
-
-					@Override
-					public void onFailure(Throwable caught) {
-
-					}
-				});
+		this.timezones = CoreUtils.getTimeZonesAsList();
+		for (int i = 0; i < timezones.size(); i++) {
+			timezoneslistbox.addItem(timezones.get(i));
+		}
 
 	}
 
 	private void setStates(List<String> states) {
+		this.states = states;
+		stateListBox.clear();
 		for (int i = 0; i < states.size(); i++) {
 			stateListBox.addItem(states.get(i));
 		}

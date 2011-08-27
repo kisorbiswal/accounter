@@ -152,7 +152,7 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 				}
 			}
 		});
-		checkBox.setEnabled(!account.isSystemOnly());
+		// checkBox.setEnabled(!account.isSystemOnly());
 		return checkBox;
 	}
 
