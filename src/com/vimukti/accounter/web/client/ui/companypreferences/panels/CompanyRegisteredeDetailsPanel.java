@@ -5,13 +5,15 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class CompanyRegisteredeDetailsPanel extends VerticalPanel {
 
 	private TextItem registeredCompanyName, address1Text, address2Text,
-			cityText, stateText, postalcodeText, countryText;
+			cityText, postalcodeText;
+	private SelectCombo countryCombo, stateCombo;
 
 	public CompanyRegisteredeDetailsPanel(
 			ClientCompanyPreferences companyPreferences) {
@@ -41,20 +43,20 @@ public class CompanyRegisteredeDetailsPanel extends VerticalPanel {
 		cityText.setRequired(false);
 		cityText.setWidth(100);
 
-		stateText = new TextItem(Accounter.constants().state());
-		stateText.setHelpInformation(true);
-		stateText.setRequired(false);
-		stateText.setWidth(100);
+		stateCombo = new SelectCombo(Accounter.constants().state());
+		stateCombo.setHelpInformation(true);
+		stateCombo.setRequired(false);
+		stateCombo.setWidth(100);
 
 		postalcodeText = new TextItem(Accounter.constants().postalCode());
 		postalcodeText.setHelpInformation(true);
 		postalcodeText.setRequired(false);
 		postalcodeText.setWidth(100);
 
-		countryText = new TextItem(Accounter.constants().postalCode());
-		countryText.setHelpInformation(true);
-		countryText.setRequired(false);
-		countryText.setWidth(100);
+		countryCombo = new SelectCombo(Accounter.constants().country());
+		countryCombo.setHelpInformation(true);
+		countryCombo.setRequired(false);
+		countryCombo.setWidth(100);
 
 		DynamicForm companyForm = new DynamicForm();
 		companyForm.setWidth("80%");
@@ -74,8 +76,8 @@ public class CompanyRegisteredeDetailsPanel extends VerticalPanel {
 		addressForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
 		addressForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
 
-		addressForm.setFields(address1Text, address2Text, cityText, stateText,
-				postalcodeText, countryText);
+		addressForm.setFields(address1Text, address2Text, cityText, stateCombo,
+				postalcodeText, countryCombo);
 
 		HorizontalPanel companyHorzPanel = new HorizontalPanel();
 		companyHorzPanel.setWidth("100%");
