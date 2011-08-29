@@ -2,7 +2,28 @@ package com.vimukti.accounter.core;
 
 import java.sql.Timestamp;
 
-public class Activity {
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+
+public class Activity implements IAccounterCore {
+	
+	private long id;
+
+	private User user;
+
+	private ActivityType type;
+
+	private Timestamp time;
+
+	private int objectType;
+
+	private long objectID;
+
+	private String name;
+
+	private FinanceDate date;
+
+	private Double amount;
 
 	public Activity(User user, ActivityType type) {
 		this.user = user;
@@ -24,21 +45,13 @@ public class Activity {
 			if (payee != null) {
 				this.name = payee.getName();
 			}
-			this.objectType = tr.getType();
+			this.setObjectType(tr.getType());
 		} else {
 			if (obj instanceof INamedObject) {
 				this.name = ((INamedObject) obj).getName();
 			}
 		}
 		this.objectID = obj.getID();
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 	public ActivityType getType() {
@@ -55,14 +68,6 @@ public class Activity {
 
 	public void setTime(Timestamp time) {
 		this.time = time;
-	}
-
-	public int getObjectType() {
-		return objectType;
-	}
-
-	public void setObjectType(int objectType) {
-		this.objectType = objectType;
 	}
 
 	public long getObjectID() {
@@ -101,22 +106,43 @@ public class Activity {
 		return id;
 	}
 
-	private long id;
+	@Override
+	public int getVersion() {
+		return 0;
+	}
 
-	private User user;
+	@Override
+	public void setVersion(int version) {
 
-	private ActivityType type;
+	}
 
-	private Timestamp time;
+	@Override
+	public String getDisplayName() {
+		return null;
+	}
 
-	private int objectType;
+	@Override
+	public void setID(long id) {
 
-	private long objectID;
+	}
 
-	private String name;
+	@Override
+	public long getID() {
+		return 0;
+	}
 
-	private FinanceDate date;
+	@Override
+	public String getClientClassSimpleName() {
+		return null;
+	}
 
-	private Double amount;
+	@Override
+	public AccounterCoreType getObjectType() {
+		return null;
+	}
+
+	public void setObjectType(int objectType) {
+		this.objectType = objectType;
+	}
 
 }
