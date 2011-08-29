@@ -4436,4 +4436,6 @@ public interface AccounterConstants extends Constants {
 
 	public String mayWeRemindInvoice();
 
+	public String preview1099Informaion();
+
 }

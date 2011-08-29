@@ -739,11 +739,11 @@ public interface AccounterMessages extends Messages {
 
 	public String customerMeaning(String customer);
 
-	public String selectVendor(String vendor);
+	public String vendorsSelected(String vendor);
 
 	public String SelectVendorsToTrack1099(String vendor);
 
-	public String assignAccounts(String account);
+	public String accountsSelected(String account);
 
 	public String companyCustomers(String customer);
 
@@ -779,8 +779,6 @@ public interface AccounterMessages extends Messages {
 
 	public String clickThisToOpen(String next);
 
-	public String newBudget(String budget);
-
 	public String clickToAddItem(String viewName);
 
 	public String clickToAddContact(String viewName);
@@ -811,6 +809,16 @@ public interface AccounterMessages extends Messages {
 
 	public SafeHtml otherDetails();
 
-	public String dearCustomer(String custMsg);
+	public String venodrsThatMeetThreshold(String vendor);
+
+	public String vendorsBelowThreshold(String vendor);
+
+	public String non1099Vendors(String vendor);
+
+	public SafeHtml changeVendors(String vendor);
+
+	public SafeHtml changeAccounts(String account);
+
+	public String assignAccounts(String account);
 
 }
