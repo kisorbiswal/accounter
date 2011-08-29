@@ -325,7 +325,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 					@Override
 					public void onSuccess(ArrayList<Client1099Form> result) {
 						listDataProvider.getList().addAll(result);
-						totalNoOf1099Forms = result.size();
+						setTotalAmountFields(result);
 					}
 				});
 
@@ -333,6 +333,17 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 		return preview1099panel;
 
+	}
+
+	protected void setTotalAmountFields(ArrayList<Client1099Form> result) {
+		totalNoOf1099Forms = result.size();
+		noOf1099FormsLabel.setText(Accounter.constants().totalNoOf1099Forms()
+				+ totalNoOf1099Forms);
+		for (Client1099Form client1099Form : result) {
+			totalAll1099Payments += client1099Form.getTotal1099Payments();
+		}
+
+		total1099AmountLabel.setAmount(totalAll1099Payments);
 	}
 
 	private DisclosurePanel getPrintSetUp() {

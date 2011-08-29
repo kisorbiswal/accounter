@@ -67,7 +67,8 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 	}
 
 	private void addRow(String string, int boxNo) {
-		final ArrayList<ClientAccount> activeAccounts = getAccounts();
+		final ArrayList<ClientAccount> activeAccounts = getCompany()
+				.getActiveAccounts();// getAccounts();
 		final CheckBox checkBox = new CheckBox();
 		Label label = new Label(string);
 		final AccountCombo accountCombo = new AccountCombo("", true) {
@@ -141,14 +142,12 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 			}
 		}
 		for (int i = 1; i <= boxNums.length; i++) {
-			ClientAccount account = getAccountByBoxNum(boxNums[i - 1]);
-			if (account == null) {
-				CheckBox checkBox = (CheckBox) flexTable.getWidget(i, 0);
-				DynamicForm accountsForm = (DynamicForm) flexTable.getWidget(i,
-						2);
-				AccountCombo accountsCombo = (AccountCombo) accountsForm
-						.getField("AccountsCombo");
-				ClientAccount selectedValue = accountsCombo.getSelectedValue();
+			CheckBox checkBox = (CheckBox) flexTable.getWidget(i, 0);
+			DynamicForm accountsForm = (DynamicForm) flexTable.getWidget(i, 2);
+			AccountCombo accountsCombo = (AccountCombo) accountsForm
+					.getField("AccountsCombo");
+			ClientAccount selectedValue = accountsCombo.getSelectedValue();
+			if (selectedValue.getBoxNumber() == 0) {
 				if (checkBox.isChecked() && selectedValue != null) {
 
 					selectedValue.setBoxNumber(boxNums[i - 1]);
@@ -156,7 +155,7 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 				}
 			} else {
 				Accounter
-						.showError("Please Selec One Account For One Box Only..");
+						.showError("Please Select One Account For One Box Only..");
 				return false;
 			}
 
