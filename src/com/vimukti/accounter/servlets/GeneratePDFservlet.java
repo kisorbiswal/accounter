@@ -210,11 +210,13 @@ public class GeneratePDFservlet extends BaseServlet {
 				BrandingTheme brandingTheme = (BrandingTheme) financetool
 						.getServerObjectForid(AccounterCoreType.BRANDINGTHEME,
 								Long.parseLong(brandingThemeId));
-				converter = new Converter(
-						getPageSizeType(brandingTheme.getPageSizeType()));
 
 				// for printing individual pdf documents
 				if (transactionType == Transaction.TYPE_INVOICE) {
+
+					converter = new Converter(
+							getPageSizeType(brandingTheme.getPageSizeType()));
+
 					Invoice invoice = (Invoice) financetool
 							.getServerObjectForid(AccounterCoreType.INVOICE,
 									Long.parseLong(objectId));
@@ -232,6 +234,10 @@ public class GeneratePDFservlet extends BaseServlet {
 
 				} else if (transactionType == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
 					// for Credit Note
+
+					converter = new Converter(
+							getPageSizeType(brandingTheme.getPageSizeType()));
+
 					CustomerCreditMemo memo = (CustomerCreditMemo) financetool
 							.getServerObjectForid(
 									AccounterCoreType.CUSTOMERCREDITMEMO,
@@ -247,15 +253,13 @@ public class GeneratePDFservlet extends BaseServlet {
 
 				}// for MISC form
 				else if (transactionType == Transaction.TYPE_MISC_FORM) {
-					converter = new Converter(
-							getPageSizeType(brandingTheme.getPageSizeType()));
+					converter = new Converter();
 
 					Misc1099PDFTemplate miscHtmlTemplete = new Misc1099PDFTemplate();
 					fileName = miscHtmlTemplete.getFileName();
 					outPutString = outPutString.append(miscHtmlTemplete
 							.generatePDF());
 				}
-
 			}
 			// for Reports
 			else {
@@ -307,9 +311,7 @@ public class GeneratePDFservlet extends BaseServlet {
 	private Dimension getPageSizeType(int pageSizeType) {
 		switch (pageSizeType) {
 		case 2:
-
 			return PD4Constants.LETTER;
-
 		default:
 			return PD4Constants.A4;
 		}
