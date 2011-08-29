@@ -1024,7 +1024,7 @@
 		Funds' and
 		pst.transactionItem.transaction != null and pst.taxDue != 0
 		order by
-		pst.taxAgency.id
+		pst.taxAgency.id, pst.taxItem.id
 	</query>
 
 	<query
