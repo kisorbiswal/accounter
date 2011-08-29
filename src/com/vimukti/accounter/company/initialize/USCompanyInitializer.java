@@ -417,15 +417,15 @@ public class USCompanyInitializer extends CompanyInitializer {
 			// Default TaxGroup Creation
 			TAXAgency defaultTaxAgency = new TAXAgency();
 			defaultTaxAgency.setActive(Boolean.TRUE);
-			defaultTaxAgency.setName(Accounter.constants().taxAgency());
+			defaultTaxAgency.setName("Tax Agency");
 
 			defaultTaxAgency.setPaymentTerm((PaymentTerms) session
 					.getNamedQuery("unique.name.PaymentTerms")
-					.setString(0, Accounter.constants().netMonthly()).list()
+					.setString(0, "Net Monthly").list()
 					.get(0));
 			defaultTaxAgency.setSalesLiabilityAccount((Account) session
 					.getNamedQuery("unique.name.Account")
-					.setString(0, Accounter.constants().salesTaxPayable())
+					.setString(0, "Sales tax payable")
 					.list().get(0));
 			defaultTaxAgency.setDefault(true);
 			session.save(defaultTaxAgency);
@@ -440,7 +440,7 @@ public class USCompanyInitializer extends CompanyInitializer {
 
 			TAXItem defaultTaxItem = new TAXItem();
 			defaultTaxItem.setActive(Boolean.TRUE);
-			defaultTaxItem.setName(Accounter.constants().none());
+			defaultTaxItem.setName("None");
 			defaultTaxItem.setTaxAgency(defaultTaxAgency);
 			defaultTaxItem.setVatReturnBox(null);
 			defaultTaxItem.setTaxRate(0);
