@@ -3,24 +3,23 @@
   <head>
     <style>
        table td{
- 
          height:55px;
        }
     </style>
   </head>
   <body>
-
-     <table cellpadding="5" border="1" style="border-collapse:collapse;" width="100%">
+  
+     <table cellpadding="5" border="1" style="border-collapse:collapse;" width="900"  margin-left="${marginleft}px" margin-top="${margintop}px" margin-bottom="${marginbottom}px" margin-right="${marginright}px">
 	    <tr>
 	     <!-- $BeginBlock payersAddressB -->
-		   <td  COLSPAN="2" ROWSPAN="3" >${payersAddress}</td>
+		   <td width="200" COLSPAN="2" ROWSPAN="3" >${payersAddress}</td>
 		 <!-- $EndBlock payersAddressB -->
 		  
 		   <!-- $BeginBlock rentsB -->
-		   <td>${rents}</td>
+		   <td width="300">${rents}</td>
 		    <!-- $EndBlock rentsB -->
-		   <td ROWSPAN="2"></td>
-		   <td ROWSPAN="2"></td>
+		   <td ROWSPAN="2" width="200"></td>
+		   <td ROWSPAN="2" width="200"></td>
 		</tr>
 		 <tr>
 		 <!-- $BeginBlock royaltiesB -->
