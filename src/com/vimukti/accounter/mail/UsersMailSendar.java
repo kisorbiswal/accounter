@@ -391,12 +391,15 @@ public class UsersMailSendar {
 		emailMsg.setAttachment(file);
 
 		String[] toIds = recipientEmail.split(",");
-		String[] ccIds = ccEmail.split(",");
+
 		for (int i = 0; i < toIds.length; i++) {
 			emailMsg.setRecepeant(toIds[i]);
 		}
-		for (int j = 0; j < ccIds.length; j++) {
-			emailMsg.setRecepeant(ccEmail);
+		if (ccEmail.trim().length() > 0) {
+			String[] ccIds = ccEmail.split(",");
+			for (int j = 0; j < ccIds.length; j++) {
+				emailMsg.setccRecepeant(ccEmail);
+			}
 		}
 
 		EMailJob job = new EMailJob(emailMsg, getEmailAcc(), comapanyName);
