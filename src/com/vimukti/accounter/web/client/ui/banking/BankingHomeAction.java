@@ -44,11 +44,11 @@ public class BankingHomeAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "bankingHome";
+		return Accounter.constants().bankingHome();
 	}
 
 	@Override
 	public String getHelpToken() {
-		return "banking";
+		return Accounter.constants().banking();
 	}
 }
