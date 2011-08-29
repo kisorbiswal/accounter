@@ -38,12 +38,12 @@ public class DownloadonlineTransactionAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return Accounter.constants().downloadonlineTransaction();
+		return "downloadonlineTransaction";
 	}
 
 	@Override
 	public String getHelpToken() {
-		return Accounter.constants().downloadTransactions();
+		return "downloadtransactions";
 	}
 
 }
