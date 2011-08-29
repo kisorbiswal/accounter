@@ -4430,4 +4430,6 @@ public interface AccounterConstants extends Constants {
 
 	public String accountRegister();
 
+	public String labelBanking();
+
 }
