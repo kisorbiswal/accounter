@@ -20,7 +20,8 @@
 		<property name="loginCount" column="LOGIN_COUNT" update="true"></property>
 		<property name="lastLoginTime" column="LAST_LOGIN_TIME"
 			update="true"></property>
-		<set name="companies" table="CLIENT_COMPANIES" lazy="false" cascade="save-update">
+		<set name="companies" table="CLIENT_COMPANIES" lazy="false"
+			cascade="save-update">
 			<key column="CLIENT_ID"></key>
 			<many-to-many column="COMPANY_ID" class="ServerCompany" />
 		</set>
@@ -76,4 +77,7 @@
 		<property name="failureRequests" column="FAILURE_REQUESTS"></property>
 
 	</class>
+
+
+
 </hibernate-mapping>
