@@ -116,7 +116,7 @@ public class RemoteServiceInvocationHandler implements InvocationHandler {
 			int paramCount = paramTypes.length;
 			Class returnType = method.getReturnType();
 			if (method.getDeclaringClass().getCanonicalName()
-					.endsWith(Accounter.constants().async())) {
+					.endsWith("Async")) {
 				isAsync = true;
 				serviceIntfName = serviceIntfName.substring(0,
 						serviceIntfName.length() - 5);
@@ -130,18 +130,16 @@ public class RemoteServiceInvocationHandler implements InvocationHandler {
 				try {
 					clazz = Class.forName(serviceIntfName);
 				} catch (ClassNotFoundException e) {
-					throw new InvocationException(Accounter.constants()
-							.notSyncVersionOf()
+					throw new InvocationException("There are not sync version of "
 							+ serviceIntfName
-							+ Accounter.constants().async());
+							+ "Async");
 				}
 				Method syncMethod = clazz.getMethod(method.getName(),
 						syncParamTypes);
 				if (syncMethod != null) {
 					returnType = syncMethod.getReturnType();
 				} else {
-					throw new InvocationException(Accounter.constants()
-							.invocationExceptionMsg());
+					throw new InvocationException("Sync & Async method does not match.");
 				}
 			}
 
