@@ -4478,4 +4478,26 @@ public interface AccounterConstants extends Constants {
 
 	public String netMonthly();
 
+	public String ecPurchasesGoodsStandard();
+
+	public String ecPurchasesOfGoodsStandard();
+
+	public String ecPurchasesGoodsRated();
+
+	public String ecPurchasesOfGoodsRated();
+
+	public String ecSalesGoodsStandard();
+
+	public String ecSalesOfGoodsStandard();
+
+	public String ecSalesServicesStandard();
+
+	public String ecSalesOfServicesStandard();
+
+	public String exemptSales();
+
+	public String notRegisteredPurchases();
+
+	public String notRegisteredSales();
+
 }
