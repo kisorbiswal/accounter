@@ -29,6 +29,7 @@ import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.CustomLabel;
 import com.vimukti.accounter.web.client.ui.core.AccounterDialog;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
+import com.vimukti.accounter.web.client.ui.setup.SetupTDSSelectionPage;
 
 public class SetupWizard extends VerticalPanel {
 	private static final int START_PAGE = 0;
@@ -52,6 +53,7 @@ public class SetupWizard extends VerticalPanel {
 			new SetupReferPage(),
 			// Employee Expanse Will be Added in Next Version
 			/* new SetupTrackEmployeesPage(), */new SetupSellTypeAndSalesTaxPage(),
+
 			new SetupUsingEstimatesAndStatementsPage(),
 			new SetupCurrencyPage(), new SetupTrackBillsAndTimePage(),
 			new SetupSelectFiscalYrDatePage(),

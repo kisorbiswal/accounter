@@ -111,9 +111,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 	private CustomMenuBar getTaxMenu() {
 		CustomMenuBar taxMenu = getSubMenu();
 
-		taxMenu.addItem(ActionFactory.getNewVatItemAction());
 		taxMenu = getVATMenu();
-
 		return taxMenu;
 	}
 
@@ -458,6 +456,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			vatmenu.addItem(Accounter.constants().new1(), vatNews);
 			vatmenu.addSeparator();
 		}
+
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			vatmenu.addItem(ActionFactory.getAdjustTaxAction());
 			vatmenu.addItem(ActionFactory.getFileVatAction());
@@ -468,10 +467,22 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			vatmenu.addItem(ActionFactory.getreceiveVATAction());
 		}
 		vatmenu.addSeparator();
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
+			vatmenu.addItem("Pay TDS", ActionFactory.getpayVATAction());
+			vatmenu.addItem(Accounter.constants().tds(), getTDSMenu());
+			vatmenu.addSeparator();
+		}
 
 		vatmenu.addItem(Accounter.constants().vatList(), getVATsListMenu());
 
 		return vatmenu;
+	}
+
+	private CustomMenuBar getTDSMenu() {
+		CustomMenuBar tdsMenu = getSubMenu();
+		tdsMenu.addItem("TDS Return", ActionFactory.getTDSVendorsAction());
+		tdsMenu.addItem("Form-16A", ActionFactory.getTDSVendorsAction());
+		return tdsMenu;
 	}
 
 	private CustomMenuBar getVATsListMenu() {

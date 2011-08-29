@@ -163,6 +163,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		if (getVendor() != null)
 			transaction.setVendor(getVendor());
 		// Setting Amount
+		
+		
 		transaction.setTotal(amtText.getAmount());
 
 		// Setting ending Balance

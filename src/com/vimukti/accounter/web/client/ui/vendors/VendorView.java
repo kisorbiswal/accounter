@@ -661,6 +661,9 @@ public class VendorView extends BaseView<ClientVendor> {
 				.Vendor()), ClientTAXItem.TAX_TYPE_TDS);
 		vendorTDSTaxCode.setHelpInformation(true);
 		vendorTDSTaxCode.setWidth(100);
+		// panNumber=new TextItem(Accounter.constants().panNumber());
+		// panNumber.setHelpInformation(true);
+		// panNumber.setWidth("100%");
 
 		vendorTDSTaxCode
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXItem>() {
@@ -1237,8 +1240,6 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendorTDSTaxCode
 				.setSelected(vendorTDSTaxCode.getDisplayName(getCompany()
 						.getTAXItem(data.getTaxItemCode())));
-
-		
 
 		taxID.setValue(data.getTaxId());
 

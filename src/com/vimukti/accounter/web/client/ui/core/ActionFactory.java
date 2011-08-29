@@ -196,6 +196,7 @@ import com.vimukti.accounter.web.client.ui.vendors.PreviousClaimAction;
 import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderAction;
 import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderListAction;
 import com.vimukti.accounter.web.client.ui.vendors.RecordExpensesAction;
+import com.vimukti.accounter.web.client.ui.vendors.TDSVendorsListAction;
 import com.vimukti.accounter.web.client.ui.vendors.VendorPaymentsAction;
 import com.vimukti.accounter.web.client.ui.vendors.VendorPaymentsListAction;
 import com.vimukti.accounter.web.client.ui.vendors.VendorsHomeAction;
@@ -1292,4 +1293,9 @@ public class ActionFactory {
 	public static UsersActivityListAction getUsersActivityListAction() {
 		return new UsersActivityListAction("Users Activity Log");
 	}
+	public static TDSVendorsListAction getTDSVendorsAction() {
+		return new TDSVendorsListAction("TDS Vendors List");
+
+	}
+
 }
