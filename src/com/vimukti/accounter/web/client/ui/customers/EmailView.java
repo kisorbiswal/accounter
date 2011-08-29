@@ -1,5 +1,9 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
+import java.util.ArrayList;
+
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -11,6 +15,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
@@ -19,22 +24,23 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.EmailCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 	private ClientInvoice invoice;
-	private TextItem fromAddress;
-	private TextItem toAddress;
-	private TextItem ccAddress;
+	// private EmailField fromAddress;
+	private EmailField toAddress;
+	private EmailField ccAddress;
 	private TextItem subject;
 	private TextAreaItem emailBody;
 	private Label attachmentLabel;
 
 	private EmailCombo fromAddcombo;
 
-	String from;
+	String from = "";
 	private Button sendBtn;
 	private Button cancelBtn;
 	final DynamicForm form1 = UIUtils.form(Accounter.constants().type());
@@ -43,6 +49,7 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 
 	public EmailView(ClientInvoice inovoice) {
 		this.invoice = inovoice;
+
 	}
 
 	public EmailView() {
@@ -58,31 +65,43 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 
 	public void createControls() {
 
-		fromAddcombo = new EmailCombo("From");
+		AccounterConstants constants = Global.get().constants();
 
-		String message = "Dear Customer,"
+		fromAddcombo = new EmailCombo("From");
+		ArrayList<String> toAdd = fromAddcombo.getToAddress();
+
+		from = toAdd.get(0);
+		System.err.println("......." + toAdd.get(0));
+		fromAddcombo.setValue(toAdd.get(0));
+
+		String message = "\n"
+				+ "Dear Customer,"
 				+ "\n\n"
 				+ " May we remind you that the Invoice_"
 				+ this.invoice.getNumber()
-				+ " issued on"
+				+ " issued on "
 				+ invoice.getDate()
 				+ " is due for payment."
-				+ "\n"
+				+ "\n\n"
 				+ " If you have already paid for this invoice, accept our apologies and ignore this reminder."
-				+ "\n"
+				+ "\n\n"
 				+ " Feel free to get in touch with us for any clarifications."
-				+ "\n" + " Thanks in advance for the payment." + "\n\n\n"
+				+ "\n\n" + " Thanks in advance for the payment." + "\n\n\n"
 				+ "Regards";
 
-		fromAddress = new TextItem("From");
-		fromAddress.setWidth(80);
-		fromAddress.setRequired(true);
+		// fromAddress = new EmailField(constants.from());
+		// fromAddress.setHelpInformation(true);
+		// fromAddress.setRequired(true);
 
-		toAddress = new TextItem("To");
-		toAddress.setWidth(80);
+		String toemail = invoice.getContact().getEmail();
+		toAddress = new EmailField(constants.to());
+		toAddress.setText(toemail.trim());
+		toAddress.setHelpInformation(true);
 		toAddress.setRequired(true);
 
-		ccAddress = new TextItem("Cc");
+		ccAddress = new EmailField(constants.cc());
+		ccAddress.setHelpInformation(true);
+		ccAddress.setRequired(false);
 		ccAddress.setWidth(80);
 
 		subject = new TextItem("Subject");
@@ -98,7 +117,7 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 		attachmentLabel = new Label(constants.attachments());
 
 		TextAreaItem attachmentItem = new TextAreaItem();
-		attachmentItem.setValue("Invoice_" + invoice.getNumber());
+		attachmentItem.setValue("Invoice_" + invoice.getNumber() + ".pdf");
 		attachmentItem.setDisabled(true);
 		attachmentItem.setWidth(60);
 
@@ -118,8 +137,6 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 		form3.setWidth("100%");
 		form3.addStyleName("email_textarea");
 		mainPanel.add(form3);
-
-		AccounterConstants constants = Global.get().constants();
 
 		sendBtn = new Button(constants.send());
 		sendBtn.addClickHandler(new ClickHandler() {
@@ -157,35 +174,80 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
+						from = "";
 						from = (String) selectItem;
 						System.err.println("............." + from);
 					}
 
 				});
+
+		// fromAddress.addBlurHandler(new BlurHandler() {
+		//
+		// @Override
+		// public void onBlur(BlurEvent event) {
+		// if (fromAddress.getValue() != null)
+		//
+		// fromAddress.setText(getValidMail(fromAddress.getValue()));
+		// }
+		// });
+		toAddress.addBlurHandler(new BlurHandler() {
+
+			@Override
+			public void onBlur(BlurEvent event) {
+				if (toAddress.getValue() != null)
+
+					toAddress.setText(getValidMail(toAddress.getValue()));
+			}
+		});
+		ccAddress.addBlurHandler(new BlurHandler() {
+
+			@Override
+			public void onBlur(BlurEvent event) {
+				if (ccAddress.getValue() != null)
+
+					ccAddress.setText(getValidMail(ccAddress.getValue()));
+			}
+		});
+	}
+
+	private String getValidMail(String email) {
+
+		if (!UIUtils.isValidMultipleEmailIds(email)) {
+			Accounter.showError(Accounter.constants().invalidEmail());
+			return "";
+		} else
+			return email;
+
 	}
 
 	private void updateControls() {
 
-		String fromAdd = fromAddress.getValue().toString() != null ? fromAddress
-				.getValue().toString() : "";
+		// String fromAdd = fromAddress.getValue().toString() != null ?
+		// fromAddress
+		// .getValue().toString() : "";
 		String ToAdd = toAddress.getValue().toString() != null ? toAddress
 				.getValue().toString() : "";
 		String ccAdd = ccAddress.getValue().toString() != null ? ccAddress
 				.getValue().toString() : "";
 		String sub = subject.getValue().toString() != null ? subject.getValue()
 				.toString() : "";
-		String body = emailBody.getValue().toString() != null ? fromAddress
+		String body = emailBody.getValue().toString() != null ? emailBody
 				.getValue().toString() : "";
 
-		long themeId = 0;
-		// UIUtils.sendPdfAttachment(((ClientInvoice) transaction).getID(),
-		// ClientTransaction.TYPE_INVOICE, themeId, "application/pdf",
-		// sub, body, from, ToAdd, ccAdd);
+		long themeId = 1;
+
 		Accounter.createHomeService().sendPdfInMail(
 				((ClientInvoice) invoice).getID(),
 				ClientTransaction.TYPE_INVOICE, 1, "application/pdf", sub,
 				body, from, ToAdd, ccAdd, this);
 
+		MainFinanceWindow.getViewManager().closeCurrentView();
+	}
+
+	@Override
+	public ValidationResult validate() {
+
+		return super.validate();
 	}
 
 	@Override
