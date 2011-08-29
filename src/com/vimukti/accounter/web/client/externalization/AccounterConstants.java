@@ -4435,5 +4435,7 @@ public interface AccounterConstants extends Constants {
 	public String noResponsePayload();
 
 	public String unknownResponse();
+	
+	public String errorDeserialiZationResponse();
 
 }
