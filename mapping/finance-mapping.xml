@@ -33,7 +33,7 @@
 		<property name="hierarchy" column="HIERARCHY"></property>
 		<property name="version" column="VERSION"></property>
 		<set name="budget" inverse="true" lazy="false" cascade="save-update,delete">
-			<key column="ACCOUNT_ID"></key>
+			<key column="ID"></key>
 			<one-to-many class="Budget" />
 		</set>
 		<property name="flow" column="FLOW"></property>
@@ -1474,6 +1474,27 @@
 	</class>
 
 
+<!-- budget class -->
+	<class name="Budget" table="BUDGET">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="budgetName" column="BUDGET_NAME"></property>
+		<property name="account" column="ACCOUNT"></property>
+		<property name="januaryAmount" column="JANUARY_AMOUNT"></property>
+		<property name="febrauaryAmount" column="FEBRUARY_AMOUNT"></property>
+		<property name="marchAmount" column="MARCH_AMOUNT"></property>
+		<property name="aprilAmount" column="APRIL_AMOUNT"></property>
+		<property name="mayAmount" column="MAY_AMOUNT"></property>
+		<property name="juneAmount" column="JUNE_AMOUNT"></property>
+		<property name="julyAmount" column="JULY_AMOUNT"></property>
+		<property name="augustAmount" column="AUGUST_AMOUNT"></property>
+		<property name="septemberAmount" column="SPETEMBER_AMOUNT"></property>
+		<property name="octoberAmount" column="OCTOBER_AMOUNT"></property>
+		<property name="novemberAmount" column="NOVEMBER_AMOUNT"></property>
+		<property name="decemberAmount" column="DECEMBER_AMOUNT"></property>
+
+	</class>
 
 	<!-- <class name="TaxItemGroup" table="TAX_ITEM_GROUPS"> <id name="id" column="ID"> 
 		<generator class="native"></generator> </id> <property name="name" unique="true" 
