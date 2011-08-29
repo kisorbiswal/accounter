@@ -78,6 +78,8 @@
 		u.firstName,u.lastName</query>
 	<query name="list.RecurringTransaction">from com.vimukti.accounter.core.RecurringTransaction rt order by
 		rt.name</query>
+	<query name="list.currentRecTransactions">from com.vimukti.accounter.core.RecurringTransaction rt where rt.nextScheduleOn = ? order by
+		rt.name</query>
 	<query name="list.VendorGroup">from com.vimukti.accounter.core.VendorGroup vg order
 		by vg.name
 	</query>

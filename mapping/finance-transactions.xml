@@ -31,7 +31,8 @@
 			<list-index column="IDX" />
 			<one-to-many class="TransactionItem" />
 		</list>
-		<one-to-one name="recurringTransaction" class="com.vimukti.accounter.core.RecurringTransaction" property-ref="referringTransaction"/>
+		<one-to-one name="recurringTransaction"
+			class="com.vimukti.accounter.core.RecurringTransaction" property-ref="referringTransaction" />
 		<property name="status" column="STATUS"></property>
 		<property name="canVoidOrEdit" column="CAN_VOID_OR_EDIT"></property>
 		<property name="isDeposited" column="IS_DEPOSITED"></property>
@@ -41,8 +42,9 @@
 			lazy="false" not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
 			class="User" lazy="false" not-null="true"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE" not-null="true"/>
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" not-null="true"/>
+		<property name="createdDate" column="CREATED_DATE" not-null="true" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			not-null="true" />
 		<property name="currencyCode" column="CURRENCY_CODE"></property>
 		<property name="currencyFactor" column="CURRENCY_FACTOR"></property>
 		<set name="accountTransactionEntriesList" inverse="true" cascade="save-update"
@@ -153,8 +155,8 @@
 			</many-to-one>
 			<many-to-one name="employee" class="User" lazy="false"
 				cascade="save-update" column="EMPLOYEE">
-			</many-to-one> 
-			<!--  <property name="employeeName" column="EMPLOYEE_NAME" type="string"></property> -->
+			</many-to-one>
+			<!-- <property name="employeeName" column="EMPLOYEE_NAME" type="string"></property> -->
 			<property name="checkNumber" column="CHECK_NUMBER"></property>
 			<property name="deliveryDate" column="DELIVERY_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
@@ -949,7 +951,7 @@
 				<key column="STOCK_ADJUSTMENT" />
 				<one-to-many class="StockAdjustmentItem" />
 			</set>
-		</joined-subclass>		
+		</joined-subclass>
 
 		<!-- <joined-subclass name="TAXAdjustment" table="TAX_ADJUSTMENT"> <key 
 			column="id" /> <property name="increaseTAXLine" column="INCREASE_TAX_LINE"></property> 
@@ -1389,12 +1391,17 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="howOftenType" column="HOW_OFTEN_TYPE"></property>
-		<property name="howOftenValue" column="HOW_OFTEN_VALUE"></property>
+		<property name="occurencesCount" column="OCCURRENCES_COUNT"></property>
+		<property name="occurencesCompleted" column="OCCURRENCES_COMPLETED"></property>
+
+		<property name="intervalType" column="INTERVAL_TYPE"></property>
+		<property name="intervalPeriod" column="INTERVAL_PERIOD"></property>
 		<property name="dueDateType" column="DUE_DATE_TYPE"></property>
 		<property name="dueDateValue" column="DUE_DATE_VALUE"></property>
 		<property name="actionType" column="ACTION_TYPE"></property>
 		<property name="name" column="NAME"></property>
+		<property name="endDateType" column="END_DATE_TYPE"></property>
+		<property name="stopped" column="STOPPED"></property>
 
 		<property name="startDate" column="START_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
@@ -1402,9 +1409,19 @@
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="nextScheduleOn" column="NEXT_SCHEDULE_ON"
 			type="com.vimukti.accounter.core.LongUseType"></property>
-		
+		<property name="prevScheduleOn" column="PREV_SCHEDULE_ON"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+
 		<many-to-one name="referringTransaction" column="REF_TRANSACTION"
-	unique="true" not-null="true" />
-		
+			unique="true" not-null="true" />
+
+		<property name="weekDay" column="WEEK_DAY"></property>
+		<property name="dayOfMonth" column="DAY_OF_MONTH"></property>
+		<property name="weekOfMonth" column="WEEK_OF_MONTH"></property>
+		<property name="month" column="MONTH_OF_YR"></property>
+		<property name="unbilledChargesEnabled" column="UNBILLED_CHARGES"></property>
+		<property name="daysInAdvanceToCreate" column="DAYS_IN_ADVANCE"></property>
+		<property name="type" column="RECURRING_TYPE"></property>
+
 	</class>
 </hibernate-mapping>
