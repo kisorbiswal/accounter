@@ -6,6 +6,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
 public class AgeingAndSellingDetailsPanel extends AbstractCompanyInfoPanel {
@@ -17,29 +18,42 @@ public class AgeingAndSellingDetailsPanel extends AbstractCompanyInfoPanel {
 	}
 
 	private void createControls() {
-		ageingRadioGroup = new RadioGroupItem(Accounter.constants()
-				.ageingDetails());
+		
+		ageingRadioGroup = new RadioGroupItem();
 		ageingRadioGroup.setWidth(100);
 		ageingRadioGroup.setValues(getClickHandler(), Accounter.constants()
 				.ageingforduedate(), Accounter.constants()
 				.ageingfortransactiondate());
 
-		sellingRadioGroup = new RadioGroupItem(Accounter.constants()
-				.sellingDetails());
+		LabelItem ageingLabel = new LabelItem();
+		LabelItem sellingsLabel = new LabelItem();
+
+		ageingLabel.setValue(Accounter.constants().ageingDetails());
+		sellingsLabel.setValue(Accounter.constants().sellingDetails());
+
+		sellingRadioGroup = new RadioGroupItem();
 		sellingRadioGroup.setValues(getClickHandler(), Accounter.constants()
 				.services(), Accounter.constants().products(), Accounter
 				.constants().both());
 
-		DynamicForm radioGroupForm = new DynamicForm();
-		radioGroupForm.setWidth("80%");
-		radioGroupForm.getCellFormatter().setWidth(0, 0, "225px");
-		radioGroupForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
-		radioGroupForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
-		radioGroupForm.setFields(ageingRadioGroup, sellingRadioGroup);
+		DynamicForm ageingGroupForm = new DynamicForm();
+		ageingGroupForm.setWidth("80%");
+		ageingGroupForm.getCellFormatter().setWidth(0, 0, "225px");
+		ageingGroupForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
+		ageingGroupForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
+		ageingGroupForm.setFields(ageingLabel, ageingRadioGroup);
+		
+		DynamicForm sellingGroupForm=new DynamicForm();
+		ageingGroupForm.setWidth("80%");
+		ageingGroupForm.getCellFormatter().setWidth(0, 0, "225px");
+		ageingGroupForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
+		ageingGroupForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
+		sellingGroupForm.setFields(sellingsLabel,sellingRadioGroup);
+		
 
-		VerticalPanel mainPanel = new VerticalPanel();
-		mainPanel.add(radioGroupForm);
-
+		VerticalPanel mainPanel=new VerticalPanel();
+		mainPanel.add(ageingGroupForm);
+		mainPanel.add(sellingGroupForm);
 		this.add(mainPanel);
 
 	}
@@ -58,12 +72,12 @@ public class AgeingAndSellingDetailsPanel extends AbstractCompanyInfoPanel {
 	@Override
 	public void onLoad() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onSave() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
