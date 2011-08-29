@@ -4551,8 +4551,8 @@ public interface AccounterConstants extends Constants {
 
 	public String subject();
 
-	public String downloadTransactions();
+	
 
-	public String importbankfile();
+	
 
 }
