@@ -47,12 +47,12 @@ public class AcceptCreditCardsAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return Accounter.constants().acceptCreditCards();
+		return "acceptCreditCards";
 	}
 
 	@Override
 	public String getHelpToken() {
-		return Accounter.constants().acceptCreditCards();
+		return "acceptcreditcards";
 	}
 
 }
