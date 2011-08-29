@@ -113,5 +113,4 @@ public abstract class AbstractGlobal implements IGlobal {
 
 		return null;
 	}
-
 }
