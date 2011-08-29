@@ -981,8 +981,10 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		// .getCompanyInformationAction());
 		if (Accounter.getUser().canChangeSettings()) {
 			companyMenuBar.addItem(ActionFactory.getPreferencesAction());
-			companyMenuBar.addSeparator();
+
 		}
+		companyMenuBar.addItem(ActionFactory.getBudgetActions());
+		companyMenuBar.addSeparator();
 		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 
 			if (getPreferences().getDoYouPaySalesTax()) {

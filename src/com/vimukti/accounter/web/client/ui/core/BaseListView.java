@@ -23,6 +23,7 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.BudgetListView;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.company.JournalEntryListView;
@@ -127,31 +128,62 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		hlay.setWidth("100%");
 
 		viewSelect = getSelectItem();
+		if (this instanceof BudgetListView) {
+			if (viewSelect == null) {
+				viewSelect = new SelectCombo(Accounter.constants()
+						.currentBudget());
+				viewSelect.setHelpInformation(true);
+				viewSelect.setWidth("150px");
+				List<String> typeList = new ArrayList<String>();
+				typeList.add(Accounter.constants().active());
+				typeList.add(Accounter.constants().inActive());
+				viewSelect.initCombo(typeList);
+				viewSelect.setComboItem(Accounter.constants().active());
+				viewSelect
+						.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
-		if (viewSelect == null) {
-			viewSelect = new SelectCombo(Accounter.constants().currentView());
-			viewSelect.setHelpInformation(true);
-			viewSelect.setWidth("150px");
-			List<String> typeList = new ArrayList<String>();
-			typeList.add(Accounter.constants().active());
-			typeList.add(Accounter.constants().inActive());
-			viewSelect.initCombo(typeList);
-			viewSelect.setComboItem(Accounter.constants().active());
-			viewSelect
-					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+							@Override
+							public void selectedComboBoxItem(String selectItem) {
+								if (viewSelect.getSelectedValue() != null) {
+									if (viewSelect.getSelectedValue()
+											.toString()
+											.equalsIgnoreCase("Active"))
+										filterList(true);
+									else
+										filterList(false);
+								}
 
-						@Override
-						public void selectedComboBoxItem(String selectItem) {
-							if (viewSelect.getSelectedValue() != null) {
-								if (viewSelect.getSelectedValue().toString()
-										.equalsIgnoreCase("Active"))
-									filterList(true);
-								else
-									filterList(false);
 							}
+						});
+			}
+		} else {
+			if (viewSelect == null) {
+				viewSelect = new SelectCombo(Accounter.constants()
+						.currentView());
+				viewSelect.setHelpInformation(true);
+				viewSelect.setWidth("150px");
+				List<String> typeList = new ArrayList<String>();
+				typeList.add(Accounter.constants().active());
+				typeList.add(Accounter.constants().inActive());
+				viewSelect.initCombo(typeList);
+				viewSelect.setComboItem(Accounter.constants().active());
+				viewSelect
+						.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
-						}
-					});
+							@Override
+							public void selectedComboBoxItem(String selectItem) {
+								if (viewSelect.getSelectedValue() != null) {
+									if (viewSelect.getSelectedValue()
+											.toString()
+											.equalsIgnoreCase("Active"))
+										filterList(true);
+									else
+										filterList(false);
+								}
+
+							}
+						});
+			}
 		}
 
 		dateRangeSelector = getDateRangeSelectItem();
@@ -224,12 +256,12 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			hlay.setCellHorizontalAlignment(updateButton,
 					HasHorizontalAlignment.ALIGN_RIGHT);
 
-		} /*else if (this instanceof VendorListView
+		} else if (this instanceof VendorListView
 				&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			form.setFields(viewSelect);
 			hlay.add(prepare1099MiscForms);
 			hlay.add(form);
-		}*/ else {
+		} else {
 
 			if (!(this instanceof JournalEntryListView))
 				form.setFields(viewSelect);
