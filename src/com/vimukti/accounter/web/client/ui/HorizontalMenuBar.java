@@ -110,9 +110,8 @@ public class HorizontalMenuBar extends HorizontalPanel {
 	private CustomMenuBar getTaxMenu() {
 		CustomMenuBar taxMenu = getSubMenu();
 
-		
 		taxMenu.addItem(ActionFactory.getNewVatItemAction());
-		taxMenu=getVATMenu();
+		taxMenu = getVATMenu();
 
 		return taxMenu;
 	}
@@ -983,7 +982,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			companyMenuBar.addItem(ActionFactory.getPreferencesAction());
 
 		}
-		companyMenuBar.addItem(ActionFactory.getBudgetActions());
+		// companyMenuBar.addItem(ActionFactory.getBudgetActions());
 		companyMenuBar.addSeparator();
 		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 
