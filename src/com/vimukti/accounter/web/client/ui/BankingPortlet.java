@@ -65,7 +65,7 @@ public class BankingPortlet extends DashBoardPortlet {
 		}
 		Button addAccount = new Button(Accounter.messages().addBankAccount(
 				Global.get().account()));
-		addAccount.addStyleName("addAccountPortlet");
+		addAccount.addStyleName(Accounter.messages().addAccountPortlet(Global.get().account()));
 		if (Accounter.getUser().canDoBanking()) {
 			body.add(addAccount);
 		}
@@ -100,7 +100,7 @@ public class BankingPortlet extends DashBoardPortlet {
 			for (final ClientAccount account : bankAccounts) {
 				HorizontalPanel hPanel = new HorizontalPanel();
 				final Label accountLabel = new Label(account.getName());
-				accountLabel.addStyleName("label-banking");
+				accountLabel.addStyleName(Accounter.constants().labelBanking());
 				accountLabel.addMouseOverHandler(new MouseOverHandler() {
 
 					@Override
