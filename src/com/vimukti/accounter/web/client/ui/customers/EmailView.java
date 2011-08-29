@@ -67,7 +67,7 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 
 		AccounterConstants constants = Global.get().constants();
 
-		fromAddcombo = new EmailCombo("From");
+		fromAddcombo = new EmailCombo(Accounter.constants().from());
 		ArrayList<String> toAdd = fromAddcombo.getToAddress();
 
 		from = toAdd.get(0);
@@ -75,19 +75,14 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 		fromAddcombo.setValue(toAdd.get(0));
 
 		String message = "\n"
-				+ "Dear Customer,"
-				+ "\n\n"
-				+ " May we remind you that the Invoice_"
-				+ this.invoice.getNumber()
-				+ " issued on "
-				+ invoice.getDate()
-				+ " is due for payment."
-				+ "\n\n"
-				+ " If you have already paid for this invoice, accept our apologies and ignore this reminder."
-				+ "\n\n"
-				+ " Feel free to get in touch with us for any clarifications."
-				+ "\n\n" + " Thanks in advance for the payment." + "\n\n\n"
-				+ "Regards";
+				+ Accounter.messages().dearCustomer(Global.get().Customer())
+				+ "\n\n" + Accounter.constants().mayWeRemindInvoice()
+				+ this.invoice.getNumber() + Accounter.constants().issuedOn()
+				+ invoice.getDate() + Accounter.constants().isDueForPayment()
+				+ "\n\n" + Accounter.constants().ifUHaveAlreadyPaidInvoiceMsg()
+				+ "\n\n" + Accounter.constants().feelFreeTogetInTouch()
+				+ "\n\n" + Accounter.constants().thanksInAdvanceForPayment()
+				+ "\n\n\n" + Accounter.constants().regards();
 
 		// fromAddress = new EmailField(constants.from());
 		// fromAddress.setHelpInformation(true);
@@ -104,7 +99,7 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 		ccAddress.setRequired(false);
 		ccAddress.setWidth(80);
 
-		subject = new TextItem("Subject");
+		subject = new TextItem(Accounter.constants().subject());
 		subject.setWidth(80);
 
 		emailBody = new TextAreaItem();
