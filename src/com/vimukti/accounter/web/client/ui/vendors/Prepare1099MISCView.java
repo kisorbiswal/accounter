@@ -404,6 +404,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		dynamicForm.setFields(selectComboItem);
 
 		preview1099panel = new VerticalPanel();
+		preview1099panel.setWidth("100%");
 		preview1099panel.add(label);
 		preview1099panel.add(companyInfopanel);
 		preview1099panel.setHorizontalAlignment(ALIGN_RIGHT);
