@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.companypreferences.panels;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -15,8 +14,7 @@ public class CompanyTradingDetailsPanel extends AbstractCompanyInfoPanel {
 			postalcodeText;
 	private SelectCombo stateCombo, countryCombo;
 
-	public CompanyTradingDetailsPanel(
-			ClientCompanyPreferences companyPreferences) {
+	public CompanyTradingDetailsPanel() {
 		createControls();
 	}
 
@@ -75,8 +73,7 @@ public class CompanyTradingDetailsPanel extends AbstractCompanyInfoPanel {
 		addressForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
 
 		addressForm.setFields(address1Text, address2Text, cityText,
-				postalcodeText, stateCombo,
-				countryCombo);
+				postalcodeText, stateCombo, countryCombo);
 
 		HorizontalPanel companyHorzPanel = new HorizontalPanel();
 		companyHorzPanel.setWidth("100%");
@@ -97,14 +94,26 @@ public class CompanyTradingDetailsPanel extends AbstractCompanyInfoPanel {
 
 	@Override
 	public void onLoad() {
-		// TODO Auto-generated method stub
-
+		tradingCompanyName.setValue(company.getTradingName());
+		address1Text.setValue(company.getTradingAddress().getAddress1());
+		address2Text.setValue(company.getTradingAddress().getStreet());
+		cityText.setValue(company.getTradingAddress().getCity());
+		stateCombo.setSelected(company.getTradingAddress()
+				.getStateOrProvinence());
+		countryCombo.setSelected(company.getTradingAddress()
+				.getCountryOrRegion());
 	}
 
 	@Override
 	public void onSave() {
-		// TODO Auto-generated method stub
-
+		company.setTradingName(tradingCompanyName.getValue());
+		company.getTradingAddress().setAddress1(address1Text.getValue());
+		company.getTradingAddress().setStreet(address2Text.getValue());
+		company.getTradingAddress().setCity(cityText.getValue());
+		company.getTradingAddress().setStateOrProvinence(
+				stateCombo.getSelectedValue());
+		company.getTradingAddress().setCountryOrRegion(
+				countryCombo.getSelectedValue());
 	}
 
 }

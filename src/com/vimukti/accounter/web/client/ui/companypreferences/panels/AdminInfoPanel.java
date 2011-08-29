@@ -1,10 +1,12 @@
 package com.vimukti.accounter.web.client.ui.companypreferences.panels;
 
+import java.util.List;
+
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
@@ -17,17 +19,21 @@ public class AdminInfoPanel extends AbstractCompanyInfoPanel {
 			address2TextItem, cityTextItem, webSiteTextItem;
 	private IntegerField phoneField, postCodeField;
 	private EmailField emailField;
-	private AbstractBaseView view;
 	private SelectCombo countryCombo, stateCombo;
+	private ClientUserInfo admin;
 
 	public AdminInfoPanel(ClientCompanyPreferences companyPreferences,
-			AbstractBaseView view) {
-		this.view = view;
+			ClientCompany company, AbstractBaseView view) {
+		super(companyPreferences, company, view);
 		createControls();
 	}
 
 	private void createControls() {
-		AccounterConstants constants = Accounter.constants();
+		List<ClientUserInfo> clientUsers = company.getUsersList();
+		for (int i = 0; i < clientUsers.size(); i++) {
+			if (clientUsers.get(i).isAdmin())
+				admin = clientUsers.get(i);
+		}
 		VerticalPanel mainPanel = new VerticalPanel();
 		DynamicForm nameForm = new DynamicForm();
 		DynamicForm addressForm = new DynamicForm();
@@ -63,13 +69,18 @@ public class AdminInfoPanel extends AbstractCompanyInfoPanel {
 
 	@Override
 	public void onLoad() {
-		// TODO Auto-generated method stub
-
+		firstNameTextItem.setValue(admin.getFirstName());
+		lastNameTextItem.setValue(admin.getLastName());
+		// address1TextItem.setValue(admin.get)
+		// phoneField.setValue(admin.get)
+		emailField.setValue(admin.getEmail());
 	}
 
 	@Override
 	public void onSave() {
-		// TODO Auto-generated method stub
+		admin.setFirstName(firstNameTextItem.getValue());
+		admin.setLastName(lastNameTextItem.getValue());
+		admin.setEmail(emailField.getValue());
 
 	}
 

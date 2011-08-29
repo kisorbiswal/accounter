@@ -20,9 +20,8 @@ public class DoYouUseAndHowDoYouReferPanel extends AbstractCompanyInfoPanel {
 	private ClientCompanyPreferences companyPreferences;
 	private List<String> customerList, supplierList, accountList;
 
-	public DoYouUseAndHowDoYouReferPanel(
-			ClientCompanyPreferences companyPreferences) {
-		this.companyPreferences = companyPreferences;
+	public DoYouUseAndHowDoYouReferPanel() {
+		super();
 		createControls();
 	}
 
@@ -86,7 +85,19 @@ public class DoYouUseAndHowDoYouReferPanel extends AbstractCompanyInfoPanel {
 
 	@Override
 	public void onLoad() {
-
+		try {
+			useCustomerNo.setValue(companyPreferences.getUseCustomerId());
+			useVendorNo.setValue(companyPreferences.getUseVendorId());
+			useAccountNo.setValue(companyPreferences.getUseAccountNumbers());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		customerCombo.setSelected(customerList.get(companyPreferences
+				.getReferCustomers()));
+		customerCombo.setSelected(supplierList.get(companyPreferences
+				.getReferVendors()));
+		accountCombo.setSelected(accountList.get(companyPreferences
+				.getReferAccounts()));
 	}
 
 	@Override
@@ -94,6 +105,13 @@ public class DoYouUseAndHowDoYouReferPanel extends AbstractCompanyInfoPanel {
 		companyPreferences.setUseCustomerId(useCustomerNo.getValue());
 		companyPreferences.setUseVendorId(useVendorNo.getValue());
 		companyPreferences.setUseAccountNumbers(useAccountNo.getValue());
+
+		companyPreferences.setReferCustomers(customerList.indexOf(customerCombo
+				.getSelectedValue()));
+		companyPreferences.setReferVendors(supplierList.indexOf(customerCombo
+				.getSelectedValue()));
+		companyPreferences.setReferAccounts(accountList.indexOf(accountCombo
+				.getSelectedValue()));
 	}
 
 }

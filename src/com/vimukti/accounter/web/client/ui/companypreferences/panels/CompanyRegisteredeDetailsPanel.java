@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.companypreferences.panels;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -15,8 +14,8 @@ public class CompanyRegisteredeDetailsPanel extends AbstractCompanyInfoPanel {
 			cityText, postalcodeText;
 	private SelectCombo countryCombo, stateCombo;
 
-	public CompanyRegisteredeDetailsPanel(
-			ClientCompanyPreferences companyPreferences) {
+	public CompanyRegisteredeDetailsPanel() {
+		super();
 		createControls();
 	}
 
@@ -98,14 +97,26 @@ public class CompanyRegisteredeDetailsPanel extends AbstractCompanyInfoPanel {
 
 	@Override
 	public void onLoad() {
-		// TODO Auto-generated method stub
-
+		registeredCompanyName.setValue(company.getDisplayName());
+		address1Text.setValue(company.getRegisteredAddress().getAddress1());
+		address2Text.setValue(company.getRegisteredAddress().getStreet());
+		cityText.setValue(company.getRegisteredAddress().getCity());
+		stateCombo.setSelected(company.getRegisteredAddress()
+				.getStateOrProvinence());
+		countryCombo.setSelected(company.getRegisteredAddress()
+				.getCountryOrRegion());
 	}
 
 	@Override
 	public void onSave() {
-		// TODO Auto-generated method stub
-
+		company.setTradingName(registeredCompanyName.getValue());
+		company.getRegisteredAddress().setAddress1(address1Text.getValue());
+		company.getRegisteredAddress().setStreet(address2Text.getValue());
+		company.getRegisteredAddress().setCity(cityText.getValue());
+		company.getRegisteredAddress().setStateOrProvinence(
+				stateCombo.getSelectedValue());
+		company.getRegisteredAddress().setCountryOrRegion(
+				countryCombo.getSelectedValue());
 	}
 
 }

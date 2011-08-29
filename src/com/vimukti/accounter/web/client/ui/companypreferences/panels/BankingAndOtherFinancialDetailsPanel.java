@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.companypreferences.panels;
 
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.CurrencyCombo;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -15,8 +14,8 @@ public class BankingAndOtherFinancialDetailsPanel extends
 
 	private DynamicForm bankAndFinanceForm;
 
-	public BankingAndOtherFinancialDetailsPanel(
-			ClientCompanyPreferences companyPreferences) {
+	public BankingAndOtherFinancialDetailsPanel() {
+		super();
 		createControls();
 	}
 
@@ -76,14 +75,27 @@ public class BankingAndOtherFinancialDetailsPanel extends
 
 	@Override
 	public void onLoad() {
-		// TODO Auto-generated method stub
-
+		// bankNameText.setValue(company.getb)
+		bankAccountNoText.setValue(company.getBankAccountNo());
+		sortCodeText.setValue(company.getSortCode());
+		companyRegistrationNoText.setValue(company.getRegistrationNumber());
+		vatRegistartionNoText.setValue(companyPreferences
+				.getVATregistrationNumber());
+		federalTaxIDText.setValue(company.getTaxId());
+		primaryCurrencyCombo.setComboItem(companyPreferences
+				.getPrimaryCurrency());
 	}
 
 	@Override
 	public void onSave() {
-		// TODO Auto-generated method stub
-
+		company.setBankAccountNo(bankAccountNoText.getValue());
+		company.setSortCode(sortCodeText.getValue());
+		company.setRegistrationNumber(companyRegistrationNoText.getValue());
+		companyPreferences.setVATregistrationNumber(vatRegistartionNoText
+				.getValue());
+		company.setTaxId(federalTaxIDText.getValue());
+		companyPreferences.setPrimaryCurrency(primaryCurrencyCombo
+				.getSelectedValue());
 	}
 
 }
