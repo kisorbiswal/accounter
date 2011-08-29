@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.ui.company;
 
-import java.util.ArrayList;
-
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -13,7 +11,6 @@ import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class UsersActivityList extends CellTable<ClientActivity> {
-	private ArrayList<ClientActivity> userActivities;
 	private AsyncDataProvider<ClientActivity> listDataProvider;
 	private ClientFinanceDate fromDate, endDate;
 
@@ -29,20 +26,6 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 	}
 
 	private void createControls() {
-
-		// AsyncDataProvider<ClientActivity> listDataProvider = new
-		// AsyncDataProvider<ClientActivity>() {
-		//
-		// @Override
-		// protected void onRangeChanged(HasData<ClientActivity> display) {
-		// int start = display.getVisibleRange().getStart();
-		// int end = start + display.getVisibleRange().getLength();
-		// end = end >= userActivities.size() ? userActivities.size()
-		// : end;
-		// updateRowData(start, userActivities);
-		// }
-		// };
-		setVisibleRange(0, 50);
 		listDataProvider = new AsyncDataProvider<ClientActivity>() {
 			@Override
 			protected void onRangeChanged(HasData<ClientActivity> display) {
@@ -64,11 +47,10 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 
 							}
 						});
-				// The remote service that should be implemented
-				// remoteService.fetchPage(start, length, callback);
 			}
 		};
 		listDataProvider.addDataDisplay(this);
+		setPageSize(50);
 
 		this.setWidth("100%", true);
 		this.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
@@ -104,6 +86,7 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 				return String.valueOf(object.getDate());
 			}
 		};
+		dateColumn.setSortable(true);
 
 		TextColumn<ClientActivity> userNameColumn = new TextColumn<ClientActivity>() {
 
@@ -112,6 +95,7 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 				return null;
 			}
 		};
+
 		TextColumn<ClientActivity> activity = new TextColumn<ClientActivity>() {
 
 			@Override
@@ -156,5 +140,14 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 		this.addColumn(transactionDateColumn, "Date");
 		this.addColumn(amountColumn, "Amount");
 
+	}
+
+	private int columnIndex;
+	private boolean isAscending;
+
+	public void sortRowData(int columnIndex, boolean isAscending) {
+		this.columnIndex = columnIndex;
+		this.isAscending = isAscending;
+		redraw();
 	}
 }

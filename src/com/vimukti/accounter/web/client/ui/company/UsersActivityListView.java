@@ -3,11 +3,14 @@ package com.vimukti.accounter.web.client.ui.company;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.cellview.client.PageSizePager;
+import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.ColumnSortEvent;
+import com.google.gwt.user.cellview.client.ColumnSortEvent.Handler;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -63,6 +66,18 @@ public class UsersActivityListView extends BaseView {
 		SimplePager pager = new SimplePager(TextLocation.CENTER,
 				pagerResources, false, 0, true);
 		pager.setDisplay(activityList);
+		// activityList.addColumnSortHandler(new Handler() {
+		//
+		// @Override
+		// public void onColumnSort(ColumnSortEvent event) {
+		// Column<?, ?> column = event.getColumn();
+		// int columnIndex = activityList
+		// .getColumnIndex((Column<ClientActivity, ?>) column);
+		// boolean isAscending = event.isSortAscending();
+		// activityList.sortRowData(columnIndex, isAscending);
+		// }
+		// });
+
 		mainPanel.add(titleItem);
 		mainPanel.add(buttonForm);
 		mainPanel.add(activityList);
