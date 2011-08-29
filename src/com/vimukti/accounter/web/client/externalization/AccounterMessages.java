@@ -811,4 +811,6 @@ public interface AccounterMessages extends Messages {
 
 	public SafeHtml otherDetails();
 
+	public String dearCustomer(String custMsg);
+
 }
