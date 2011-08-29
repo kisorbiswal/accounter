@@ -183,6 +183,10 @@ public class Misc1099PDFTemplate {
 				t.addBlock("state_incomeB");
 			}
 
+			t.setVariable("marginleft", "0");
+			t.setVariable("margintop", "0");
+			t.setVariable("marginbottom", "0");
+			t.setVariable("marginright", "0");
 			t.addBlock("theme");
 
 			System.out.println("string......" + t.getFileString());
