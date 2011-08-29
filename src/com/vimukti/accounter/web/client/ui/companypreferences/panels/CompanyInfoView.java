@@ -6,7 +6,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -35,23 +34,27 @@ public class CompanyInfoView extends BaseView<ClientCompanyPreferences> {
 	}
 
 	private void createControls() {
-		HorizontalPanel mainPanel = new HorizontalPanel();
-		StackPanel stackPanel = new StackPanel();
-		detailPanel = new VerticalPanel();
+		try {
+			HorizontalPanel mainPanel = new HorizontalPanel();
+			StackPanel stackPanel = new StackPanel();
+			detailPanel = new VerticalPanel();
 
-		stackPanel.add(getBasicInfoPanel(), constants.basicInfo());
-		stackPanel.add(getCompanyInfoPanel(), constants.comapnyInfo());
-		stackPanel.add(getBankingAndFinancialInfoPanel(), constants
-				.bankingAndOtherFinancialDetails());
-		stackPanel.add(getOtherDetailsPanel(), constants.otherDetails());
+			stackPanel.add(getBasicInfoPanel(), constants.basicInfo());
+			stackPanel.add(getCompanyInfoPanel(), constants.comapnyInfo());
+			stackPanel.add(getBankingAndFinancialInfoPanel(), constants
+					.bankingAndOtherFinancialDetails());
+			stackPanel.add(getOtherDetailsPanel(), constants.otherDetails());
 
-		companyInfoPanel = new AdminInfoPanel(companyPreferences, this);
-		detailPanel.add(companyInfoPanel);
+			companyInfoPanel = new AdminInfoPanel(companyPreferences, this);
+			detailPanel.add(companyInfoPanel);
 
-		mainPanel.add(stackPanel);
-		mainPanel.add(detailPanel);
+			mainPanel.add(stackPanel);
+			mainPanel.add(detailPanel);
 
-		add(mainPanel);
+			add(mainPanel);
+		} catch (Exception e) {
+			System.err.println(e);
+		}
 	}
 
 	@Override
@@ -132,7 +135,7 @@ public class CompanyInfoView extends BaseView<ClientCompanyPreferences> {
 				addDetailsPanel(companyInfoPanel);
 			}
 		});
-		return companyInfoPanel;
+		return companyInfo1Panel;
 	}
 
 	public VerticalPanel getBankingAndFinancialInfoPanel() {
