@@ -826,6 +826,10 @@ public interface AccounterConstants extends Constants {
 
 	public String currentView();
 
+	public String currentBudget();
+
+	public String addNewBudget();
+
 	public String currentYear();
 
 	public String custom();
@@ -2181,6 +2185,8 @@ public interface AccounterConstants extends Constants {
 	public String newItemTax();
 
 	public String newJournalEntry();
+
+	public String budgetView();
 
 	public String newPassword();
 
@@ -4370,6 +4376,9 @@ public interface AccounterConstants extends Constants {
 
 	public String tds();
 
+
+	public String budgetList();
+
 	public String transaction();
 
 	public String timezone();
@@ -4465,5 +4474,6 @@ public interface AccounterConstants extends Constants {
 	public String subContractors();
 
 	public String netMonthly();
+
 
 }
