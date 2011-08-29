@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -16,6 +17,7 @@ import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class Header extends HorizontalPanel {
 
@@ -50,16 +52,23 @@ public class Header extends HorizontalPanel {
 		companyName.addStyleName("companyName");
 		userImage = new Image("/images/User.png");
 		userImage.getElement().getStyle().setPaddingBottom(4, Unit.PX);
-		userName = new HTML("<a><font color=\"#3299A4\">"
-				+ Accounter.messages().userName(
-						Accounter.getUser().getFullName()) + "<font></a>");
+		if (Accounter.getCompany().isConfigured()) {
+			userName = new HTML("<a><font color=\"#3299A4\">"
+					+ Accounter.messages().userName(
+							Accounter.getUser().getFullName()) + "<font></a>");
+		} else {
+			userName = new HTML("<font color=\"#3299A4\">"
+					+ Accounter.messages().userName(
+							Accounter.getUser().getFullName()) + "<font>");
+		}
 		userName.addStyleName("userName-style");
 		userName.setWidth(((Accounter.messages()
 				.userName(Accounter.getUser().getFullName()).length() * 6) - 3)
 				+ "px");
 		// userName.getElement().getStyle().setPaddingLeft(5, Unit.PX);
 
-		if (!Accounter.isLoggedInFromDomain()) {
+		if (!Accounter.isLoggedInFromDomain()
+				&& Accounter.getCompany().isConfigured()) {
 			userName.getElement().getStyle()
 					.setTextDecoration(TextDecoration.UNDERLINE);
 			userName.getElement().getStyle().setCursor(Cursor.POINTER);
@@ -87,7 +96,12 @@ public class Header extends HorizontalPanel {
 		help.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				MainFinanceWindow.getViewManager().addRemoveHelpPanel();
+				ViewManager viewManager = MainFinanceWindow.getViewManager();
+				if (viewManager != null) {
+					viewManager.addRemoveHelpPanel();
+				} else {
+					Window.open("http://help.accounterlive.com", "_blank", "");
+				}
 			}
 		});
 
