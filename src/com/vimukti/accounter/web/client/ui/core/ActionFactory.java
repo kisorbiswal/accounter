@@ -78,6 +78,7 @@ import com.vimukti.accounter.web.client.ui.company.SalesPersonListsAction;
 import com.vimukti.accounter.web.client.ui.company.ShippingMethodListAction;
 import com.vimukti.accounter.web.client.ui.company.ShippingTermListAction;
 import com.vimukti.accounter.web.client.ui.company.UserDetailsAction;
+import com.vimukti.accounter.web.client.ui.company.UsersActivityListAction;
 import com.vimukti.accounter.web.client.ui.company.VendorGroupListAction;
 import com.vimukti.accounter.web.client.ui.customers.CreateStatementAction;
 import com.vimukti.accounter.web.client.ui.customers.CustomerPaymentsAction;
@@ -1287,5 +1288,8 @@ public class ActionFactory {
 		return new NewBudgetAction(Accounter.messages().newCustomer(
 				Global.get().Customer()));
 	}
-
+	
+	public static UsersActivityListAction getUsersActivityListAction() {
+		return new UsersActivityListAction("Users Activity Log");
+	}
 }
