@@ -2578,7 +2578,7 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `RECURRING_TRANSACTION`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
-CREATE TABLE `recurring_transaction` (
+CREATE TABLE `RECURRING_TRANSACTION` (
   `ID` bigint(20) NOT NULL auto_increment,
   `OCCURRENCES_COUNT` int(11) default NULL,
   `OCCURRENCES_COMPLETED` int(11) default NULL,
