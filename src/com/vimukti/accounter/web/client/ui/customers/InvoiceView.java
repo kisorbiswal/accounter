@@ -55,6 +55,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
@@ -103,7 +104,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	DynamicForm amountsForm;
 	private LinkedHashMap<Integer, ClientAddress> allAddresses;
 
-	// private Button emailButton;
+	private Button emailButton;
 
 	private void initBalanceDue() {
 
@@ -601,23 +602,23 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	}
 
-	// @Override
-	// protected void createButtons(ButtonBar buttonBar) {
-	// super.createButtons(buttonBar);
-	// if (isInViewMode()) {
-	// emailButton = new Button(accounterConstants.email());
-	// buttonBar.add(emailButton);
-	//
-	// emailButton.addClickHandler(new ClickHandler() {
-	//
-	// @Override
-	// public void onClick(ClickEvent event) {
-	// ActionFactory.getEmailViewAction().run(transaction, false);
-	//
-	// }
-	// });
-	// }
-	// }
+	@Override
+	protected void createButtons(ButtonBar buttonBar) {
+		super.createButtons(buttonBar);
+		if (isInViewMode()) {
+			emailButton = new Button(accounterConstants.email());
+			buttonBar.add(emailButton);
+
+			emailButton.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					ActionFactory.getEmailViewAction().run(transaction, false);
+
+				}
+			});
+		}
+	}
 
 	// for new recurring
 	private void openRecurringDialog() {
@@ -1497,10 +1498,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		setMode(EditMode.EDIT);
 
-		// if (!isInViewMode()) {
-		//
-		// getButtonBar().remove(emailButton);
-		// }
+		if (!isInViewMode()) {
+
+			getButtonBar().remove(emailButton);
+		}
 
 		transactionDateItem.setDisabled(isInViewMode());
 		transactionNumber.setDisabled(isInViewMode());
