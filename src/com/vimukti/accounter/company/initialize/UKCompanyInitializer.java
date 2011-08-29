@@ -499,7 +499,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 		PaymentTerms monthlyPayrollLiability = new PaymentTerms(
 				AccounterServerConstants.PM_MONTHLY,
 				AccounterServerConstants.PM_MONTHLY_PAYROLL_LIABILITY, 0, 0,
-				PaymentTerms.DUE_PAYROLL_TAX_MONTH, 13, true);
+				PaymentTerms.DUE_CURRENT_MONTH, 13, true);
 
 		session.save(monthlyPayrollLiability);
 

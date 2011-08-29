@@ -259,8 +259,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 					paySalesTxEntry.setTaxAdjustment(salesTaxEntry
 							.getTaxAdjustment().getID());
 
-				paySalesTxEntry.setTransaction(salesTaxEntry.getTransaction()
-						.getID());
+				// paySalesTxEntry.setTransaction(salesTaxEntry.getTransaction()
+				// .getID());
 				paySalesTxEntry.setTransactionDate(salesTaxEntry
 						.getTransactionDate().getDate());
 				clientPaySlesTaxEntries.add(paySalesTxEntry);

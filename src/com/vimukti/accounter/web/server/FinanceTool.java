@@ -3512,22 +3512,42 @@ public class FinanceTool {
 		FinanceDate financeDate = new FinanceDate(billsDueOnOrBefore);
 
 		if (list != null) {
-
+			long previousTaxItem = 0;
+			long previousTaxAgency = 0;
+			PaySalesTaxEntries paySalesTaxList = new PaySalesTaxEntries();
 			for (TAXRateCalculation taxRateCalculation : list) {
-
-				PaySalesTaxEntries paySalesTaxList = new PaySalesTaxEntries();
-				paySalesTaxList.setBalance(taxRateCalculation.getTaxDue());
-				paySalesTaxList.setAmount(taxRateCalculation.getVatAmount());
-				paySalesTaxList.setTaxItem(taxRateCalculation.getTaxItem());
-				paySalesTaxList.setTaxAgency(taxRateCalculation.getTaxAgency());
-				paySalesTaxList.setTransaction(taxRateCalculation
-						.getTransactionItem().getTransaction());
-				paySalesTaxList.setTransactionDate(taxRateCalculation
-						.getTransactionDate());
-				paySalesTaxList.setTaxRateCalculation(taxRateCalculation);
-
-				preParePaySalesTaxEntriesUsingPaymentTerms(
-						resultPaySalesTaxEntries, paySalesTaxList, financeDate);
+				long currentTaxAgency = taxRateCalculation.getTaxAgency()
+						.getID();
+				long currentTaxItem = taxRateCalculation.getTaxItem().getID();
+				if (previousTaxAgency != 0
+						&& previousTaxItem != 0
+						&& (previousTaxAgency != currentTaxAgency || previousTaxItem != currentTaxItem)) {
+					if (paySalesTaxList.getTaxAgency() != null
+							&& paySalesTaxList.getBalance() != 0) {
+						resultPaySalesTaxEntries.add(paySalesTaxList);
+					}
+					paySalesTaxList = new PaySalesTaxEntries();
+				}
+				if (canAddTaxRateCalculationToPaySalesTax(
+						taxRateCalculation.getTaxAgency(), financeDate,
+						taxRateCalculation.getTransactionDate())) {
+					paySalesTaxList.setBalance(paySalesTaxList.getBalance()
+							+ taxRateCalculation.getTaxDue());
+					paySalesTaxList.setAmount(paySalesTaxList.getAmount()
+							+ taxRateCalculation.getVatAmount());
+					paySalesTaxList.setTaxItem(taxRateCalculation.getTaxItem());
+					paySalesTaxList.setTaxAgency(taxRateCalculation
+							.getTaxAgency());
+					paySalesTaxList.setTaxRateCalculation(taxRateCalculation);
+					paySalesTaxList.setTransactionDate(taxRateCalculation
+							.getTransactionDate());
+				}
+				previousTaxAgency = currentTaxAgency;
+				previousTaxItem = currentTaxItem;
+			}
+			if (paySalesTaxList.getTaxAgency() != null
+					&& paySalesTaxList.getBalance() != 0) {
+				resultPaySalesTaxEntries.add(paySalesTaxList);
 			}
 		}
 
@@ -3568,6 +3588,56 @@ public class FinanceTool {
 		return new ArrayList<PaySalesTaxEntries>(resultPaySalesTaxEntries);
 	}
 
+	private boolean canAddTaxRateCalculationToPaySalesTax(TAXAgency taxAgency,
+			FinanceDate dueDate, FinanceDate transactionDate) {
+		Calendar dueCalendar = Calendar.getInstance();
+		dueCalendar.setTime(dueDate.getAsDateObject());
+		PaymentTerms paymentTerm = taxAgency.getPaymentTerm();
+		if (paymentTerm.getDue() == 0) {
+			dueCalendar.add(Calendar.DAY_OF_MONTH, paymentTerm.getDueDays());
+			if (new FinanceDate(dueCalendar.getTime())
+					.compareTo(transactionDate) >= 0) {
+				return true;
+			}
+		} else {
+
+			Calendar transCal = Calendar.getInstance();
+			transCal.setTime(transactionDate.getAsDateObject());
+
+			Calendar payTermCal = Calendar.getInstance();
+			payTermCal.setTime(new FinanceDate().getAsDateObject());
+
+			switch (paymentTerm.getDue()) {
+			case PaymentTerms.DUE_CURRENT_MONTH:
+				payTermCal.set(Calendar.MONTH,
+						payTermCal.get(Calendar.MONTH) - 1);
+				if (transCal.getTime().compareTo(payTermCal.getTime()) <= 0
+						&& transCal.getTime().compareTo(dueCalendar.getTime()) <= 0) {
+					return true;
+				}
+				break;
+			case PaymentTerms.DUE_CURRENT_SIXTY:
+				payTermCal.set(Calendar.MONTH,
+						payTermCal.get(Calendar.MONTH) - 2);
+				if (transCal.getTime().compareTo(payTermCal.getTime()) <= 0
+						&& transCal.getTime().compareTo(dueCalendar.getTime()) <= 0) {
+					return true;
+				}
+				break;
+			case PaymentTerms.DUE_CURRENT_QUARTER:
+				payTermCal.set(Calendar.MONTH,
+						payTermCal.get(Calendar.MONTH) - 3);
+				if (transCal.getTime().compareTo(payTermCal.getTime()) <= 0
+						&& transCal.getTime().compareTo(dueCalendar.getTime()) <= 0) {
+					return true;
+				}
+				break;
+			}
+
+		}
+		return false;
+	}
+
 	private void preParePaySalesTaxEntriesUsingPaymentTerms(
 			List<PaySalesTaxEntries> resultPaySalesTaxEntries,
 			PaySalesTaxEntries pst, FinanceDate financeDate) {
@@ -3584,32 +3654,41 @@ public class FinanceTool {
 		} else {
 
 			Calendar transCal = Calendar.getInstance();
-			transCal.setTime(pst.getTransactionDate().getAsDateObject());
-			transCal.set(Calendar.DAY_OF_MONTH, 01);
+			transCal.setTime(new FinanceDate().getAsDateObject());
+			// transCal.set(Calendar.DAY_OF_MONTH, 01);
 
 			switch (paymentTerm.getDue()) {
 			case PaymentTerms.DUE_CURRENT_MONTH:
+				transCal.set(Calendar.MONTH, transCal.get(Calendar.MONTH) - 1);
+				verifyCalendarDates(transCal, dueCalendar,
+						resultPaySalesTaxEntries, pst);
+				break;
+			case PaymentTerms.DUE_CURRENT_SIXTY:
+				transCal.set(Calendar.MONTH, transCal.get(Calendar.MONTH) - 2);
 				verifyCalendarDates(transCal, dueCalendar,
 						resultPaySalesTaxEntries, pst);
 				break;
 			case PaymentTerms.DUE_CURRENT_QUARTER:
-				verifyQuarterRange(transCal);
+				// verifyQuarterRange(transCal);
+				transCal.set(Calendar.MONTH, transCal.get(Calendar.MONTH) - 3);
 				verifyCalendarDates(transCal, dueCalendar,
 						resultPaySalesTaxEntries, pst);
 				break;
 			case PaymentTerms.DUE_CURRENT_HALF_YEAR:
-				int month = transCal.get(Calendar.MONTH);
-				month++;
-				if (month <= 6) {
-					transCal.set(Calendar.MONTH, 6);
-				} else {
-					transCal.set(Calendar.MONTH, 12);
-				}
+				// int month = transCal.get(Calendar.MONTH);
+				// month++;
+				// if (month <= 6) {
+				// transCal.set(Calendar.MONTH, 6);
+				// } else {
+				// transCal.set(Calendar.MONTH, 12);
+				// }
+				transCal.set(Calendar.MONTH, transCal.get(Calendar.MONTH) - 6);
 				verifyCalendarDates(transCal, dueCalendar,
 						resultPaySalesTaxEntries, pst);
 				break;
 			case PaymentTerms.DUE_CURRENT_YEAR:
-				transCal.set(Calendar.MONTH, 12);
+				// transCal.set(Calendar.MONTH, 12);
+				transCal.set(Calendar.MONTH, transCal.get(Calendar.MONTH) - 12);
 				verifyCalendarDates(transCal, dueCalendar,
 						resultPaySalesTaxEntries, pst);
 				break;
@@ -3635,11 +3714,14 @@ public class FinanceTool {
 		}
 	}
 
-	private void verifyCalendarDates(Calendar transCal, Calendar dueCalendar,
+	private void verifyCalendarDates(Calendar payTermCal, Calendar dueCalendar,
 			List<PaySalesTaxEntries> resultPaySalesTaxEntries,
 			PaySalesTaxEntries paySalesTaxEntries) {
-		transCal.add(Calendar.MONTH, 01);
-		if (transCal.getTime().compareTo(dueCalendar.getTime()) >= 0) {
+		Calendar transCal = Calendar.getInstance();
+		transCal.setTime(paySalesTaxEntries.getTransactionDate()
+				.getAsDateObject());
+		if (transCal.getTime().compareTo(payTermCal.getTime()) <= 0
+				&& transCal.getTime().compareTo(dueCalendar.getTime()) <= 0) {
 			resultPaySalesTaxEntries.add(paySalesTaxEntries);
 		}
 	}

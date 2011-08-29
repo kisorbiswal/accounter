@@ -25,8 +25,7 @@ public class PaymentTerms extends CreatableObject implements
 	public static final int DUE_CURRENT_QUARTER = 2;
 	public static final int DUE_CURRENT_HALF_YEAR = 3;
 	public static final int DUE_CURRENT_YEAR = 4;
-	public static final int DUE_PAYROLL_TAX_MONTH = 5;
-	public static final int DUE_PAYROLL_TAX_QUARTER = 6;
+	public static final int DUE_CURRENT_SIXTY = 5;
 
 
 	/**

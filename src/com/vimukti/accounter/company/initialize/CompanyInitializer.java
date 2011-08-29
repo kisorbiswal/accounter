@@ -259,21 +259,21 @@ public abstract class CompanyInitializer {
 		PaymentTerms netThirty = new PaymentTerms(
 				AccounterServerConstants.PM_NET_THIRTY,
 				AccounterServerConstants.PAY_WITH_IN_THIRTY_DAYS, 0, 0,
-				PaymentTerms.DUE_NONE, 30, true);
+				PaymentTerms.DUE_CURRENT_MONTH, 30, true);
 
 		session.save(netThirty);
 
 		PaymentTerms netSixty = new PaymentTerms(
 				AccounterServerConstants.PM_NET_SIXTY,
 				AccounterServerConstants.PAY_WITH_IN_SIXTY_DAYS, 0, 0,
-				PaymentTerms.DUE_NONE, 60, true);
+				PaymentTerms.DUE_CURRENT_SIXTY, 60, true);
 
 		session.save(netSixty);
 
 		PaymentTerms monthlyPayrollLiability = new PaymentTerms(
 				AccounterServerConstants.PM_MONTHLY,
 				AccounterServerConstants.PM_MONTHLY_PAYROLL_LIABILITY, 0, 0,
-				PaymentTerms.DUE_PAYROLL_TAX_MONTH, 13, true);
+				PaymentTerms.DUE_CURRENT_MONTH, 13, true);
 
 		session.save(monthlyPayrollLiability);
 
