@@ -3,8 +3,6 @@ package com.vimukti.accounter.core;
 import java.util.Iterator;
 import java.util.Set;
 
-import com.vimukti.accounter.web.client.exception.AccounterException;
-
 /**
  * This Client Saved in ServerDatabase
  * 
@@ -12,10 +10,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * 
  */
 public class Client {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+
 	private long id;
 	private String firstName;
 	private String lastName;
