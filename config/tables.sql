@@ -102,6 +102,50 @@ LOCK TABLES `ACCOUNT_AMOUNTS` WRITE;
 /*!40000 ALTER TABLE `ACCOUNT_AMOUNTS` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
+
+
+
+--
+-- Table structure for table `BUDGET`
+--
+
+DROP TABLE IF EXISTS `BUDGET`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `BUDGET` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `BUDGET_NAME` varchar(255) NOT NULL,
+  `ACCOUNT` bigint(20) DEFAULT NULL,
+  `JANUARY_AMOUNT` double DEFAULT NULL,
+  `FEBRUARY_AMOUNT` double DEFAULT NULL,
+  `MARCH_AMOUNT` double DEFAULT NULL,
+  `APRIL_AMOUNT` double DEFAULT NULL,
+  `MAY_AMOUNT` double DEFAULT NULL,
+  `JUNE_AMOUNT` double DEFAULT NULL,
+  `JULY_AMOUNT` double DEFAULT NULL,
+  `AUGUST_AMOUNT` double DEFAULT NULL,
+  `SPETEMBER_AMOUNT` double DEFAULT NULL,
+  `OCTOBER_AMOUNT` double DEFAULT NULL,
+  `NOVEMBER_AMOUNT` double DEFAULT NULL,
+  `DECEMBER_AMOUNT` double DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `BUDGET_NAME` (`BUDGET_NAME`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `BUDGET`
+--
+
+LOCK TABLES `BUDGET` WRITE;
+/*!40000 ALTER TABLE `BUDGET` DISABLE KEYS */;
+/*!40000 ALTER TABLE `BUDGET` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+
+
 --
 -- Table structure for table `ACCOUNT_TRANSACTION`
 --
