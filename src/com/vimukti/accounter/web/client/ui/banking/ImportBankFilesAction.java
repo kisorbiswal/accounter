@@ -42,12 +42,12 @@ public class ImportBankFilesAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "importBankFiles";
+		return Accounter.constants().importBankFiles();
 	}
 
 	@Override
 	public String getHelpToken() {
-		return "importbankfile";
+		return Accounter.constants().importbankfile();
 	}
 
 }
