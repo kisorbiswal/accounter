@@ -203,8 +203,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			@Override
 			public void onClose(CloseEvent<PopupPanel> event) {
 				if ((selectedName == null || !selectedName.equals(getValue()
-						.toString()))
-						&& selectedIndex == -1)
+						.toString())) && selectedIndex == -1)
 					setRelatedComboItem(getValue().toString());
 			}
 		});
@@ -629,8 +628,8 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	private void filterValues(char key) {
 
 		String val = getValue() != null ? getValue().toString()
-				+ String.valueOf(key).replace("/", "").trim() : String.valueOf(
-				key).replace("/", "").trim();
+				+ String.valueOf(key).replace("/", "").trim() : String
+				.valueOf(key).replace("/", "").trim();
 
 		resetComboList();
 		if (key == '/') {
@@ -641,7 +640,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		}
 
 		final String val1 = val.toLowerCase();
-		List<T> autocompleteItems = getComboitemsByName(val);
+		List<T> autocompleteItems = getMatchedComboItems(val);
 
 		updateComboItemsInSorted(autocompleteItems, val1);
 
@@ -716,6 +715,18 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 				return 0;
 			}
 		});
+	}
+
+	private List<T> getMatchedComboItems(String val) {
+		List<T> autocompleteItems = new ArrayList<T>();
+		for (T t : comboItems) {
+			String displayName = getDisplayName(t);
+			displayName = displayName.toLowerCase();
+			if (displayName.indexOf(val) == 0) {
+				autocompleteItems.add(t);
+			}
+		}
+		return autocompleteItems;
 	}
 
 	// protected void onKeyEnter(char key) {
