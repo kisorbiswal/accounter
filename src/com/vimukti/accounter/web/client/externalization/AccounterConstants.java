@@ -4450,4 +4450,6 @@ public interface AccounterConstants extends Constants {
 	
 	public String deserialize();
 
+	public String serialize();
+
 }
