@@ -4378,6 +4378,8 @@ public interface AccounterConstants extends Constants {
 
 	public String tds();
 
+	public String usersActivity();
+
 	public String budgetList();
 
 	public String transaction();
