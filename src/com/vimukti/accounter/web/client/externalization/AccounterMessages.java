@@ -779,6 +779,8 @@ public interface AccounterMessages extends Messages {
 
 	public String clickThisToOpen(String next);
 
+	public String newBudget(String budget);
+
 	public String clickToAddItem(String viewName);
 
 	public String clickToAddContact(String viewName);
@@ -808,4 +810,5 @@ public interface AccounterMessages extends Messages {
 	public SafeHtml comapnyInfo();
 
 	public SafeHtml otherDetails();
+
 }
