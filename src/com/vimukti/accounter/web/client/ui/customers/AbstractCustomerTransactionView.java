@@ -359,7 +359,8 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 					.getPaymentTerm()));
 		else if (this instanceof InvoiceView) {
 			for (ClientPaymentTerms paymentTerm : paymentTermsList) {
-				if (paymentTerm.getName().equals("Due on Receipt")) {
+				if (paymentTerm.getName().equals(
+						Accounter.constants().dueOnReceipt())) {
 					payTermsSelect.addItemThenfireEvent(paymentTerm);
 					break;
 				}
@@ -394,7 +395,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 		if (this.taxCode != null && taxCodeSelect != null
 				&& taxCodeSelect.getValue() != ""
-				&& !taxCodeSelect.getName().equalsIgnoreCase("none"))
+				&& !taxCodeSelect.getName().equalsIgnoreCase(Accounter.constants().none()))
 			taxCodeSelect.setComboItem(this.taxCode);
 
 		if (this.priceLevel != null && priceLevelSelect != null)
