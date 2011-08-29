@@ -532,6 +532,8 @@ public interface AccounterConstants extends Constants {
 
 	public String categoryNumber();
 
+	public String cc();
+
 	public String ccCompany();
 
 	public String changeLogo();
@@ -4376,7 +4378,6 @@ public interface AccounterConstants extends Constants {
 
 	public String tds();
 
-
 	public String budgetList();
 
 	public String transaction();
@@ -4474,6 +4475,5 @@ public interface AccounterConstants extends Constants {
 	public String subContractors();
 
 	public String netMonthly();
-
 
 }
