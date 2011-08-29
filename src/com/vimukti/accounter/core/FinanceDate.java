@@ -444,4 +444,17 @@ public class FinanceDate {
 		return clientFinanceDate;
 	}
 
+	
+	/**
+	 * @param serverTime
+	 * @param clientTzOffset in minutes
+	 * @return
+	 */
+	public static Date clientTimeAtServer(Date serverTime,int clientTzOffset){
+		// the formula is ClientTimeAtServer = ServerTime + ClientTimezoneOffset
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(serverTime);
+		calendar.add(Calendar.MINUTE, clientTzOffset);
+		return calendar.getTime();
+	}	
 }

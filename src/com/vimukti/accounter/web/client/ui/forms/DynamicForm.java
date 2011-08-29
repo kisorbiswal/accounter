@@ -45,6 +45,15 @@ public class DynamicForm extends FlexTable {
 		// this.getElement().getElementsByTagName("td").getItem(0)
 		// .setAttribute("class", "align-form");
 	}
+	
+	/**
+	 * 
+	 * @param item
+	 */
+	public void addField(FormItem item){
+		this.formItems.add(item);
+		item.addWidgets(this);
+	}
 
 	// public FormItem[] getFields() {
 	// return formItems.toArray(new FormItem[formItems.size()]);

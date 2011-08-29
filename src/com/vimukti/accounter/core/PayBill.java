@@ -684,4 +684,8 @@ public class PayBill extends Transaction {
 	// }
 	// }
 	// }
+
+	public void setBillDueOnOrBefore(FinanceDate billDueOnOrBefore) {
+		this.billDueOnOrBefore = billDueOnOrBefore;
+	}
 }

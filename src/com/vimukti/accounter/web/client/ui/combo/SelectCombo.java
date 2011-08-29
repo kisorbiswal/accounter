@@ -88,4 +88,7 @@ public class SelectCombo extends CustomCombo<String> {
 		comboItems.addAll(Arrays.asList(strings));
 	}
 
+	public int getSelectedIndex(){
+		return comboItems.indexOf(selectedObject);
+	}
 }

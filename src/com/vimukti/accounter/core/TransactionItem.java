@@ -813,8 +813,19 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
+	protected TransactionItem clone() throws CloneNotSupportedException {
+		TransactionItem item = (TransactionItem) super.clone();
+		item.id=0;		
+		return item;
+	}
+	public void resetId(){
+		id =0;
+	}
+
+	@Override
 	public void setVersion(int version) {
-		this.version=version;
+		this.version = version;
+		
 	}
 
 }

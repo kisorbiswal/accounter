@@ -144,7 +144,12 @@ import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionIssuePayment;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
+import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
+import com.vimukti.accounter.web.client.core.ClientTransactionPaySalesTax;
+import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.ClientUser;
@@ -434,8 +439,8 @@ public class FinanceTool {
 						AccounterException.ERROR_VERSION_MISMATCH);
 			}
 
-			IAccounterServerCore clonedObject = new CloneUtil().clone(null,
-					serverObject);
+			IAccounterServerCore clonedObject = new CloneUtil<IAccounterServerCore>(
+					IAccounterServerCore.class).clone(null, serverObject);
 
 			canEdit(clonedObject, (IAccounterCore) data);
 
@@ -11696,6 +11701,109 @@ public class FinanceTool {
 		return new ArrayList<ClientRecurringTransaction>(clientObjs);
 	}
 
+	/**
+	 * @param companyName
+	 * @param clientDateAtServer
+	 *            see
+	 *            {@link FinanceDate#clientTimeAtServer(java.util.Date, long)}
+	 */
+	public void performRecurringAction(String companyName,
+			FinanceDate clientDateAtServer) {
+		Session session = HibernateUtil.openSession(companyName);
+		// TODO need to write query
+		Query namedQuery = session.getNamedQuery("list.currentRecTransactions");
+		namedQuery.setLong(0, clientDateAtServer.getDate());
+		List<RecurringTransaction> list = session.getNamedQuery(
+				"list.currentRecTransactions").list();
+
+		for (RecurringTransaction recurringTransaction : list) {
+			try {
+				Transaction duplicateTransaction = createDuplicateTransaction(recurringTransaction);
+
+				try {
+					session.save(duplicateTransaction);
+				} catch (Exception e) {
+					e.printStackTrace();
+					// Might be database problem, continue with other one.
+					continue;
+				}
+				// TODO notify user and save this duplicate transaction
+				recurringTransaction.scheduleAgain();
+				session.saveOrUpdate(recurringTransaction);
+			} catch (HibernateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (AccounterException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (CloneNotSupportedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public static Transaction createDuplicateTransaction(
+			RecurringTransaction recurringTransaction)
+			throws AccounterException, CloneNotSupportedException {
+		Transaction transaction = recurringTransaction
+				.getReferringTransaction();
+
+		// Instead of cloning directly on transaction, we'll perform cloning on
+		// client transacton.
+		ClientTransaction clientTransaction = (ClientTransaction) new ClientConvertUtil()
+				.toClientObject(transaction,
+						Util.getClientEqualentClass(transaction.getClass()));
+
+		ClientTransaction clone = new CloneUtil<IAccounterCore>(
+				IAccounterCore.class).clone(null, clientTransaction, true);
+
+		// reset IDs
+		clone.setID(0);
+		clone.setRecurringTransaction(0);
+		clone.setNumber(NumberUtils.getNextTransactionNumber(clone.getType()));
+
+		List<ClientTransactionItem> transactionItems2 = clone
+				.getTransactionItems();
+		for (ClientTransactionItem clientTransactionItem : transactionItems2) {
+			clientTransactionItem.setID(0);
+		}
+
+		// reset credits and payments
+		clone.setCreditsAndPayments(null);
+		clone.setTransactionMakeDeposit(new ArrayList<ClientTransactionMakeDeposit>());
+		clone.setTransactionPayBill(new ArrayList<ClientTransactionPayBill>());
+		clone.setTransactionReceivePayment(new ArrayList<ClientTransactionReceivePayment>());
+		clone.setTransactionIssuePayment(new ArrayList<ClientTransactionIssuePayment>());
+		clone.setTransactionPaySalesTax(new ArrayList<ClientTransactionPaySalesTax>());
+
+		Session session = HibernateUtil.getCurrentSession();
+
+		Transaction transaction2 = null;/*
+										 * (Transaction) session.get(
+										 * transaction.getClass(),
+										 * transaction.getID())
+										 */
+
+		transaction2 = new ServerConvertUtil().toServerObject(null, clone,
+				session);
+
+		// set transaction date and duedate
+		transaction2.setDate(recurringTransaction
+				.getNextScheduledTransactionDate());
+		if (recurringTransaction.canHaveDueDate()) {
+			if (transaction2 instanceof Invoice) {
+				((Invoice) transaction2).setDueDate(recurringTransaction
+						.getNextTransactionDueDate());
+			} else {
+				((PayBill) transaction2)
+						.setBillDueOnOrBefore(recurringTransaction
+								.getNextTransactionDueDate());
+			}
+		}
+		return transaction2;
+	}
+
 	public void mergeCustomer(ClientCustomer fromClientCustomer,
 			ClientCustomer toClientCustomer) throws DAOException {
 
@@ -11863,10 +11971,10 @@ public class FinanceTool {
 		tx.commit();
 
 	}
-	
-	public void recordActivity(User user,ActivityType type){
-		Activity activity=new Activity(user,type);
-		
+
+	public void recordActivity(User user, ActivityType type) {
+		Activity activity = new Activity(user, type);
+
 	}
 
 	public ArrayList<Client1099Form> get1099Vendors() throws AccounterException {

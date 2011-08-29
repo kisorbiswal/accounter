@@ -210,6 +210,7 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 
 	public void setSelectedItem(int index) {
 		if (index >= 0) {
+			this.selectedObject = comboItems.get(index);
 			setSelectedItem(this.selectedObject, index);
 		}
 	}
@@ -231,9 +232,14 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 
 	@Override
 	protected int getObjectIndex(T coreObject) {
-		return comboItems.indexOf(Utility.getObject(
-				(List<IAccounterCore>) comboItems,
-				((IAccounterCore) coreObject).getID()));
+		try {
+			return comboItems.indexOf(Utility.getObject(
+					(List<IAccounterCore>) comboItems,
+					((IAccounterCore) coreObject).getID()));
+		} catch (ClassCastException e) {
+			// the combo items are not belongs to IAccounterCore type.
+			return comboItems.indexOf(coreObject);
+		}
 	}
 
 	@Override

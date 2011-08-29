@@ -80,7 +80,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		implements IPrintableView {
 
 	private CurrencyWidget currencyWidget;
-	private Button recurringButton;
 
 	private InvoiceView() {
 		super(ClientTransaction.TYPE_INVOICE, CUSTOMER_TRANSACTION_GRID);
@@ -597,42 +596,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		if (UIUtils.isMSIEBrowser())
 			resetFromView();
-
-		// recurringButton = new Button();
-		// recurringButton.setText("Make it recurring");
-		// recurringButton.addClickHandler(new ClickHandler() {
-		//
-		// @Override
-		// public void onClick(ClickEvent event) {
-		//
-		// if (transaction.getRecurringTransaction() == 0) {
-		// // create new recurring for this transaction
-		// openRecurringDialog();
-		// } else {
-		// // open existing recurring transaction.
-		// Accounter.createGETService().getObjectById(
-		// AccounterCoreType.RECURRING_TRANSACTION,
-		// transaction.getRecurringTransaction(),
-		// new AsyncCallback<ClientRecurringTransaction>() {
-		//
-		// @Override
-		// public void onFailure(Throwable caught) {
-		// Accounter
-		// .showError("Unable to copen recurring transaction "
-		// + caught);
-		// }
-		//
-		// @Override
-		// public void onSuccess(
-		// ClientRecurringTransaction result) {
-		// openRecurringDialog(result);
-		// }
-		// });
-		// }
-		//
-		// }
-		// });
-		// mainVLay.add(recurringButton);
 
 		this.add(mainVLay);
 
@@ -1505,8 +1468,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 					Accounter.showMessage(Accounter.constants()
 							.sessionExpired());
 				} else {
-					int errorCode = ((AccounterException) caught).getErrorCode();
-					Accounter.showError(AccounterExceptions.getErrorString(errorCode));
+					int errorCode = ((AccounterException) caught)
+							.getErrorCode();
+					Accounter.showError(AccounterExceptions
+							.getErrorString(errorCode));
 
 				}
 			}

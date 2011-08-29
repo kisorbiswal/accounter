@@ -9,16 +9,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -28,6 +33,7 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
+import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -50,6 +56,7 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.customers.CustomerRefundView;
 import com.vimukti.accounter.web.client.ui.customers.NewCustomerPaymentView;
+import com.vimukti.accounter.web.client.ui.customers.RecurringTransactionDialog;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -141,6 +148,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	// protected CurrencyWidget currencyWidget;
 
 	protected int gridType;
+
+	protected Button recurringButton;
 
 	public boolean isVatInclusive() {
 		return isVATInclusive;
@@ -540,6 +549,79 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		// TODO make this button to Image button
 		menuButton = new AddNewButton(this);
 		return menuButton;
+	}
+
+	private Button createMakeRecurringButton() {
+		Button recurringButton = new Button();
+		recurringButton.setText("Make it recurring");
+		recurringButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+
+				if (transaction.getRecurringTransaction() == 0) {
+					// create new recurring for this transaction
+					openRecurringDialog();
+				} else {
+					// open existing recurring transaction.
+					Accounter.createGETService().getObjectById(
+							AccounterCoreType.RECURRING_TRANSACTION,
+							transaction.getRecurringTransaction(),
+							new AsyncCallback<ClientRecurringTransaction>() {
+
+								@Override
+								public void onFailure(Throwable caught) {
+									Accounter
+											.showError("Unable to open recurring transaction "
+													+ caught);
+								}
+
+								@Override
+								public void onSuccess(
+										ClientRecurringTransaction result) {
+									openRecurringDialog(result);
+								}
+							});
+				}
+
+			}
+		});
+
+		return recurringButton;
+	}
+
+	@Override
+	protected void createButtons(ButtonBar buttonBar) {
+		if (canRecur()) {
+			recurringButton = createMakeRecurringButton();
+			buttonBar.add(recurringButton);
+		}
+		super.createButtons(buttonBar);
+	}
+
+	// for new recurring
+	private void openRecurringDialog() {
+		openRecurringDialog(null);
+	}
+
+	// for editing existing recurring
+	private void openRecurringDialog(ClientRecurringTransaction result) {
+
+		RecurringTransactionDialog dialog = null;
+		if (result == null) {
+			dialog = new RecurringTransactionDialog(this);
+		} else {
+			dialog = new RecurringTransactionDialog(result);
+		}
+
+		dialog.setCallback(new ActionCallback<ClientRecurringTransaction>() {
+
+			@Override
+			public void actionResult(ClientRecurringTransaction result) {
+				System.out.println("Recurring result" + result);
+			}
+		});
+		dialog.show();
 	}
 
 	@Override
@@ -1210,4 +1292,13 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		}
 	}
 
+	/**
+	 * Decides whether to add the "make it recurring" button to this view.
+	 * Default value is <b>true</b>.
+	 * 
+	 * @return
+	 */
+	protected boolean canRecur() {
+		return transaction != null && transaction.getID() != 0;
+	}
 }

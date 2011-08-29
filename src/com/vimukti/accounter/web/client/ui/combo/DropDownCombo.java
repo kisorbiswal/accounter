@@ -572,9 +572,20 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	public void removeComboItem(T coreObject) {
 
 		int index = getObjectIndex(coreObject);
-		if (index > 0) {
+		if (index >= 0) {
+			T selectedValue = getSelectedValue();
 			comboItems.remove(index);
 			dropDown.removeRow(isAddNewRequire ? index + 1 : index + 0);
+			
+			if(!comboItems.contains(selectedValue)){
+				// select the first one
+				try {
+					setSelectedItem(comboItems.get(0), isAddNewRequire ?  1 : 0);
+				} catch (ArrayIndexOutOfBoundsException e) {
+					setSelectedItem(null, 0); // row optional here.					
+				}
+			}
+			
 		}
 
 	}

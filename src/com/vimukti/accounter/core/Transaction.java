@@ -1,6 +1,7 @@
 package com.vimukti.accounter.core;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -1138,4 +1139,25 @@ public abstract class Transaction extends CreatableObject implements
 		return recurringTransaction;
 	}
 
+	@Override
+	public Transaction clone() throws CloneNotSupportedException {
+		Transaction clone = (Transaction) super.clone();
+		
+		// cloned should be a template.
+		clone.id=0;
+		
+		List<TransactionItem> items = new ArrayList<TransactionItem>();
+		for (TransactionItem transactionItem : transactionItems) {
+			items.add(transactionItem.clone());
+		}
+		clone.setTransactionItems(items);
+		
+		clone.setRecurringTransaction(null);
+		
+		return clone;
+	}
+	
+	public void resetID(){
+		id=0;
+	}	
 }

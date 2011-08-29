@@ -531,7 +531,7 @@ public class ClientInvoice extends ClientTransaction {
 	}
 
 	public ClientInvoice clone() {
-		ClientInvoice clientInvoiceClone = (ClientInvoice) this.clone();
+		ClientInvoice clientInvoiceClone = new ClientInvoice();//(ClientInvoice) this.clone();
 		clientInvoiceClone.contact = this.contact.clone();
 		clientInvoiceClone.billingAddress = this.billingAddress.clone();
 		clientInvoiceClone.shippingAdress = this.shippingAdress.clone();
