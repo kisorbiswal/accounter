@@ -4464,4 +4464,6 @@ public interface AccounterConstants extends Constants {
 
 	public String subContractors();
 
+	public String netMonthly();
+
 }
