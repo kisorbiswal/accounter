@@ -3,11 +3,13 @@
  */
 package com.vimukti.accounter.web.client.uibinder.setup;
 
+import java.util.Date;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Grid;
@@ -171,10 +173,24 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		});
 
 		this.timezones = CoreUtils.getTimeZonesAsList();
-		for (int i = 0; i < timezones.size(); i++) {
-			timezoneslistbox.addItem(timezones.get(i));
+		for (String tz : timezones) {
+			timezoneslistbox.addItem(tz);			
 		}
+		
+		String defalutTzOffset = getDefaultTzOffsetStr();
+		for (String tz : timezones) {
+			if (tz.startsWith(defalutTzOffset)) {
+				timezoneslistbox.setSelectedIndex(timezones.indexOf(tz));
+				break;
+			}			
+		}
+		
+	}
 
+	private String getDefaultTzOffsetStr() {
+		Date date = new Date();
+		DateTimeFormat tzFormat = DateTimeFormat.getFormat("z");
+		return tzFormat.format(date);
 	}
 
 	private void setStates(List<String> states) {
