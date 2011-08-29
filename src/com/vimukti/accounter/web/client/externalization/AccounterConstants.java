@@ -4436,9 +4436,9 @@ public interface AccounterConstants extends Constants {
 
 	public String monthly();
 
-	public SafeHtml onSpecificWeek();
+	public String onSpecificWeek();
 
-	public SafeHtml onSpecificDay();
+	public String onSpecificDay();
 
 	public String weeks();
 
