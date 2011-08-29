@@ -33,17 +33,22 @@ public class ActivationServlet extends BaseServlet {
 
 		HttpSession session = req.getSession(true);
 		String parameter = req.getParameter("message");
-		if (parameter != null && parameter.equals("108")) {
-			req.setAttribute(
-					"successmessage",
-					"Thanks for registering with Accounter!<br>To complete the sign up process, please check your email and enter your activation code here to activate your Account.");
-			session.setAttribute(ACTIVATION_TYPE, "signup");
-		}
-		if (parameter != null && parameter.equals("109")) {
-			req.setAttribute(
-					"successmessage",
-					"Reset Password code has been sent to the given emailId. Kindly check your inbox and enter that code below to reset the password.");
-			session.setAttribute(ACTIVATION_TYPE, "resetpassword");
+		if (parameter != null) {
+			if (parameter.equals("108")) {
+				req.setAttribute(
+						"successmessage",
+						"Thanks for registering with Accounter!<br>To complete the sign up process, please check your email and enter your activation code here to activate your Account.");
+				session.setAttribute(ACTIVATION_TYPE, "signup");
+			} else if (parameter.equals("109")) {
+				req.setAttribute(
+						"successmessage",
+						"Reset Password code has been sent to the given emailId. Kindly check your inbox and enter that code below to reset the password.");
+				session.setAttribute(ACTIVATION_TYPE, "resetpassword");
+			} else if (parameter.equals("110")) {
+				req.setAttribute(
+						"successmessage",
+						"Your activation code is sent to your mail id. Please check your email and enter your activation code below to activate your account.");
+			}
 		}
 		dispatch(req, resp, VIEW);
 	}
@@ -81,7 +86,7 @@ public class ActivationServlet extends BaseServlet {
 						.getAttribute(ACTIVATION_TYPE);
 				if (activationType != null
 						&& activationType.equals("resetpassword")) {
-					//session.removeAttribute(ACTIVATION_TYPE);
+					// session.removeAttribute(ACTIVATION_TYPE);
 					redirectExternal(req, resp, RESET_PASSWORD_URL);
 					return;
 				}
@@ -97,7 +102,7 @@ public class ActivationServlet extends BaseServlet {
 					saveEntry(client);
 
 					// delete activation object
-					
+
 					Query query = hbSession
 							.getNamedQuery("delete.activation.by.emailId");
 					query.setParameter("emailId", activation.getEmailId()
@@ -111,7 +116,7 @@ public class ActivationServlet extends BaseServlet {
 				} finally {
 					if (hbSession != null)
 						hbSession.close();
-					
+
 				}
 
 				// redirect To ActivationPage.
