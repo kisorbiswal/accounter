@@ -19,6 +19,7 @@ import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class USCompanyInitializer extends CompanyInitializer {
 
@@ -118,7 +119,8 @@ public class USCompanyInitializer extends CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING);
 
 		this.salesTaxPayable = createAccount(
-				Account.TYPE_OTHER_CURRENT_LIABILITY, "Sales Tax Payable",
+				Account.TYPE_OTHER_CURRENT_LIABILITY, Accounter.constants()
+						.salesTaxPayable(),
 				Account.CASH_FLOW_CATEGORY_OPERATING);
 
 		// Account retainedEarnings = new Account(Account.TYPE_EQUITY, "3100",
