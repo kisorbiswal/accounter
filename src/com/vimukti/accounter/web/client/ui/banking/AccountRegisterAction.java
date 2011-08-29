@@ -70,12 +70,12 @@ public class AccountRegisterAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return Accounter.constants().accountRegister();
+		return "accountRegister";
 	}
 
 	@Override
 	public String getHelpToken() {
-		return Accounter.constants().accountRegister();
+		return "accounterregister";
 	}
 
 }
