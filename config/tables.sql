@@ -381,27 +381,7 @@ LOCK TABLES `BRANDING_THEME` WRITE;
 /*!40000 ALTER TABLE `BRANDING_THEME` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `BUDGET`
---
 
-DROP TABLE IF EXISTS `BUDGET`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `BUDGET` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `MONTH` int(11) DEFAULT NULL,
-  `AMOUNT` double DEFAULT NULL,
-  `ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `FK756DA345E5FCF475` (`ACCOUNT_ID`),
-  CONSTRAINT `FK756DA345E5FCF475` FOREIGN KEY (`ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `BUDGET`
---
 
 LOCK TABLES `BUDGET` WRITE;
 /*!40000 ALTER TABLE `BUDGET` DISABLE KEYS */;
