@@ -4432,4 +4432,6 @@ public interface AccounterConstants extends Constants {
 
 	public String labelBanking();
 
+	public String dueOnReceipt();
+
 }
