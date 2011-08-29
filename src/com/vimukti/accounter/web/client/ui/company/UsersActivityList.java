@@ -9,6 +9,7 @@ import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
 import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class UsersActivityList extends CellTable<ClientActivity> {
@@ -49,12 +50,13 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 				int length = display.getVisibleRange().getLength();
 				Accounter.createHomeService().getUsersActivityLog(fromDate,
 						endDate, start, length,
-						new AsyncCallback<ArrayList<ClientActivity>>() {
+						new AsyncCallback<PaginationList<ClientActivity>>() {
 
 							@Override
 							public void onSuccess(
-									ArrayList<ClientActivity> result) {
+									PaginationList<ClientActivity> result) {
 								updateRowData(start, result);
+								setRowCount(result.getTotalCount());
 							}
 
 							@Override
