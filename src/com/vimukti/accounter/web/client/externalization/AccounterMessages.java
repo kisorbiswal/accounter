@@ -820,5 +820,7 @@ public interface AccounterMessages extends Messages {
 	public SafeHtml changeAccounts(String account);
 
 	public String assignAccounts(String account);
+	public String dearCustomer(String custMsg);
+
 
 }
