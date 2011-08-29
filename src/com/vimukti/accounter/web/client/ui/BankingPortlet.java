@@ -65,7 +65,7 @@ public class BankingPortlet extends DashBoardPortlet {
 		}
 		Button addAccount = new Button(Accounter.messages().addBankAccount(
 				Global.get().account()));
-		addAccount.addStyleName(Accounter.messages().addAccountPortlet(Global.get().account()));
+		addAccount.addStyleName("add account_portlet");
 		if (Accounter.getUser().canDoBanking()) {
 			body.add(addAccount);
 		}
