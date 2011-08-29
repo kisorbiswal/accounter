@@ -4373,7 +4373,7 @@ public interface AccounterConstants extends Constants {
 	public String transaction();
 
 	public String timezone();
-	
+
 	public String totalNoOf1099Forms();
 
 	public String totalAll1099Payments();
@@ -4415,5 +4415,17 @@ public interface AccounterConstants extends Constants {
 	public String both();
 
 	public String organisation();
+
+	public String illegalStatemsg();
+
+	public String illegalStateUrlConnectionMsg();
+
+	public String async();
+
+	public String notSyncVersionOf();
+
+	public String invocationExceptionMsg();
+
+	public String errorLoadingSynchronization();
 
 }
