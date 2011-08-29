@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
-public class CompanyRegisteredeDetailsPanel extends VerticalPanel {
+public class CompanyRegisteredeDetailsPanel extends AbstractCompanyInfoPanel {
 
 	private TextItem registeredCompanyName, address1Text, address2Text,
 			cityText, postalcodeText;
@@ -93,6 +93,18 @@ public class CompanyRegisteredeDetailsPanel extends VerticalPanel {
 		mainPanel.add(addressHorzPanel);
 
 		this.add(mainPanel);
+
+	}
+
+	@Override
+	public void onLoad() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onSave() {
+		// TODO Auto-generated method stub
 
 	}
 

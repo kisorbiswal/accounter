@@ -4226,7 +4226,7 @@ public interface AccounterConstants extends Constants {
 
 	public String supplier();
 
-	public String expenseInformation();
+	public String doyouWantToUseStatements();
 
 	public String doyouchargeVat();
 
@@ -4400,6 +4400,8 @@ public interface AccounterConstants extends Constants {
 
 	public String otherDetails();
 
+	public String doYouUse();
+
 	public String bankingAndFinancialDetails();
 
 	public String registeredCompanyName();
@@ -4411,5 +4413,7 @@ public interface AccounterConstants extends Constants {
 	public String services();
 
 	public String both();
+
+	public String organisation();
 
 }

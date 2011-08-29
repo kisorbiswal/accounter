@@ -65,7 +65,7 @@ public class SetupReferPage extends AbstractSetupPage {
 	protected void createControls() {
 		headerLabel.setText(accounterConstants.howDoYouRefer());
 		// adding Items to customer list box
-		customerListBox.addItem(Global.get().Customer());
+		customerListBox.addItem(accounterConstants.Customer());
 		customerListBox.addItem(accounterConstants.Client());
 		customerListBox.addItem(accounterConstants.Tenant());
 		customerListBox.addItem(accounterConstants.Donar());
@@ -73,14 +73,14 @@ public class SetupReferPage extends AbstractSetupPage {
 		customerListBox.addItem(accounterConstants.Member());
 		customerListBox.addItem(accounterConstants.patitent());
 
-		supplierListBox.addItem(Global.get().Vendor());
 		supplierListBox.addItem(accounterConstants.Vendor());
+		supplierListBox.addItem(accounterConstants.Supplier());
 
 		accountListBox.addItem(accounterConstants.Account());
 		accountListBox.addItem(accounterConstants.Ledger());
 
-		customerLabel.setText(Global.get().Customer());
-		supplierLabel.setText(Global.get().Vendor());
+		customerLabel.setText(accounterConstants.Customer());
+		supplierLabel.setText(accounterConstants.Supplier());
 		accountLabel.setText(accounterConstants.Account());
 
 		customerCommentLabel.setText(Accounter.messages()

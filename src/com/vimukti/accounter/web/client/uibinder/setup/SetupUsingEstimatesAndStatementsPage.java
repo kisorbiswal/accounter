@@ -59,7 +59,7 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 		billingQuestion.setText(accounterMessages.statementQuestion());
 		statementYes.setText(accounterConstants.yes());
 		statementsNo.setText(accounterConstants.no());
-		stmt_header.setText(accounterConstants.expenseInformation());
+		stmt_header.setText(accounterConstants.doyouWantToUseStatements());
 	}
 
 	@Override
@@ -116,7 +116,7 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 			return false;
 		} else if (!(statementYes.getValue() || statementsNo.getValue())) {
 			Accounter.showError(accounterMessages
-					.pleaseEnter(accounterConstants.expenseInformation()));
+					.pleaseEnter(accounterConstants.doyouWantToUseStatements()));
 			return false;
 		} else {
 			return true;

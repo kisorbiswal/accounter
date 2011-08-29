@@ -1,14 +1,14 @@
 package com.vimukti.accounter.web.client.ui.companypreferences.panels;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.CurrencyCombo;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 
-public class BankingAndOtherFinancialDetailsPanel extends VerticalPanel {
+public class BankingAndOtherFinancialDetailsPanel extends
+		AbstractCompanyInfoPanel {
 	private TextItem bankNameText, bankAccountNoText, sortCodeText,
 			companyRegistrationNoText, vatRegistartionNoText, federalTaxIDText;
 	private CurrencyCombo primaryCurrencyCombo;
@@ -71,6 +71,18 @@ public class BankingAndOtherFinancialDetailsPanel extends VerticalPanel {
 				sortCodeText, companyRegistrationNoText, vatRegistartionNoText,
 				federalTaxIDText, primaryCurrencyCombo);
 		this.add(bankAndFinanceForm);
+
+	}
+
+	@Override
+	public void onLoad() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onSave() {
+		// TODO Auto-generated method stub
 
 	}
 

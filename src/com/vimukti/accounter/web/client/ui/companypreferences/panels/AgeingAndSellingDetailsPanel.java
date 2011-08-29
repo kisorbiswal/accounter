@@ -8,7 +8,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
-public class AgeingAndSellingDetailsPanel extends VerticalPanel {
+public class AgeingAndSellingDetailsPanel extends AbstractCompanyInfoPanel {
 	private RadioGroupItem ageingRadioGroup, sellingRadioGroup;
 
 	public AgeingAndSellingDetailsPanel(
@@ -53,5 +53,17 @@ public class AgeingAndSellingDetailsPanel extends VerticalPanel {
 			}
 		};
 		return handler;
+	}
+
+	@Override
+	public void onLoad() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onSave() {
+		// TODO Auto-generated method stub
+		
 	}
 }

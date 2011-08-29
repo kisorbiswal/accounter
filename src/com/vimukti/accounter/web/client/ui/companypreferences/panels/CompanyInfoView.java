@@ -17,12 +17,15 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
+import com.vimukti.accounter.web.client.ui.core.CancelButton;
+import com.vimukti.accounter.web.client.ui.core.SaveAndCloseButton;
 
 public class CompanyInfoView extends BaseView<ClientCompanyPreferences> {
 	private VerticalPanel detailPanel;
 	private AccounterConstants constants = Accounter.constants();
 	private AccounterMessages messages = Accounter.messages();
 	private ClientCompanyPreferences companyPreferences;
+	private AbstractCompanyInfoPanel companyInfoPanel;
 
 	@Override
 	public void init() {
@@ -42,6 +45,9 @@ public class CompanyInfoView extends BaseView<ClientCompanyPreferences> {
 				.bankingAndOtherFinancialDetails());
 		stackPanel.add(getOtherDetailsPanel(), constants.otherDetails());
 
+		companyInfoPanel = new AdminInfoPanel(companyPreferences, this);
+		detailPanel.add(companyInfoPanel);
+
 		mainPanel.add(stackPanel);
 		mainPanel.add(detailPanel);
 
@@ -55,6 +61,11 @@ public class CompanyInfoView extends BaseView<ClientCompanyPreferences> {
 
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
+		this.saveAndCloseButton = new SaveAndCloseButton(this);
+		this.cancelButton = new CancelButton(this);
+		saveAndCloseButton.setText(constants.save());
+		buttonBar.add(saveAndCloseButton);
+		buttonBar.add(cancelButton);
 	}
 
 	public VerticalPanel getBasicInfoPanel() {
@@ -66,37 +77,39 @@ public class CompanyInfoView extends BaseView<ClientCompanyPreferences> {
 		adminInfoLink.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				AdminInfoPanel panel = new AdminInfoPanel(companyPreferences);
-				addDetailsPanel(panel);
+				companyInfoPanel = new AdminInfoPanel(companyPreferences,
+						CompanyInfoView.this);
+				addDetailsPanel(companyInfoPanel);
 			}
 		});
 
 		return basicInfoPanel;
 	}
 
-	private void addDetailsPanel(Panel panel) {
+	private void addDetailsPanel(AbstractCompanyInfoPanel panel) {
 		detailPanel.clear();
+		panel.onLoad();
 		detailPanel.add(panel);
 	}
 
 	public VerticalPanel getCompanyInfoPanel() {
-		VerticalPanel companyInfoPanel = new VerticalPanel();
+		VerticalPanel companyInfo1Panel = new VerticalPanel();
 
 		HTML companyRegisteredeDetailsLink = new HTML(messages
 				.registeredDetails());
 		HTML companyTradingDetailsLink = new HTML(messages.tradingDetails());
 		HTML companyOtherDetailsLink = new HTML(messages.companyOtherDetails());
 
-		companyInfoPanel.add(companyRegisteredeDetailsLink);
-		companyInfoPanel.add(companyTradingDetailsLink);
-		companyInfoPanel.add(companyOtherDetailsLink);
+		companyInfo1Panel.add(companyRegisteredeDetailsLink);
+		companyInfo1Panel.add(companyTradingDetailsLink);
+		companyInfo1Panel.add(companyOtherDetailsLink);
 
 		companyRegisteredeDetailsLink.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				CompanyRegisteredeDetailsPanel registeredeDetailsPanel = new CompanyRegisteredeDetailsPanel(
+				companyInfoPanel = new CompanyRegisteredeDetailsPanel(
 						companyPreferences);
-				addDetailsPanel(registeredeDetailsPanel);
+				addDetailsPanel(companyInfoPanel);
 
 			}
 		});
@@ -104,9 +117,9 @@ public class CompanyInfoView extends BaseView<ClientCompanyPreferences> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				CompanyTradingDetailsPanel tradingDetailsPanel = new CompanyTradingDetailsPanel(
+				companyInfoPanel = new CompanyTradingDetailsPanel(
 						companyPreferences);
-				addDetailsPanel(tradingDetailsPanel);
+				addDetailsPanel(companyInfoPanel);
 			}
 		});
 
@@ -114,9 +127,9 @@ public class CompanyInfoView extends BaseView<ClientCompanyPreferences> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				CompanyOtherDetailsPanel otherDetailsPanel = new CompanyOtherDetailsPanel(
-						companyPreferences);
-				addDetailsPanel(otherDetailsPanel);
+				companyInfoPanel = new CompanyOtherDetailsPanel(
+						companyPreferences, CompanyInfoView.this);
+				addDetailsPanel(companyInfoPanel);
 			}
 		});
 		return companyInfoPanel;
@@ -134,9 +147,9 @@ public class CompanyInfoView extends BaseView<ClientCompanyPreferences> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				BankingAndOtherFinancialDetailsPanel bankingAndOtherFinancialDetailsPanel = new BankingAndOtherFinancialDetailsPanel(
+				companyInfoPanel = new BankingAndOtherFinancialDetailsPanel(
 						companyPreferences);
-				addDetailsPanel(bankingAndOtherFinancialDetailsPanel);
+				addDetailsPanel(companyInfoPanel);
 			}
 		});
 
@@ -160,27 +173,27 @@ public class CompanyInfoView extends BaseView<ClientCompanyPreferences> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				CustomerAndvendorSettingsPanel customerAndvendorSettingsPanel = new CustomerAndvendorSettingsPanel(
+				companyInfoPanel = new CustomerAndvendorSettingsPanel(
 						companyPreferences);
-				addDetailsPanel(customerAndvendorSettingsPanel);
+				addDetailsPanel(companyInfoPanel);
 			}
 		});
 		doYouUseAndHowDoYouReferLink.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				DoYouUseAndHowDoYouReferPanel doYouReferPanel = new DoYouUseAndHowDoYouReferPanel(
+				companyInfoPanel = new DoYouUseAndHowDoYouReferPanel(
 						companyPreferences);
-				addDetailsPanel(doYouReferPanel);
+				addDetailsPanel(companyInfoPanel);
 			}
 		});
 		ageingAndSellingDetailsLink.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				AgeingAndSellingDetailsPanel ageingAndSellingDetailsPanel = new AgeingAndSellingDetailsPanel(
+				companyInfoPanel = new AgeingAndSellingDetailsPanel(
 						companyPreferences);
-				addDetailsPanel(ageingAndSellingDetailsPanel);
+				addDetailsPanel(companyInfoPanel);
 			}
 		});
 

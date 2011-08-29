@@ -72,7 +72,7 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 		headerLabel.setText(Accounter.messages()
 				.reviewIncomeAndExpensesAccounts(Global.get().account()));
 
-		expensesInfo.setText(accounterConstants.expenseInformation());
+		expensesInfo.setText(accounterConstants.doyouWantToUseStatements());
 		recommendedInfo.setHTML(accounterMessages.recommendedAccounts());
 		restoreButton.setText(accounterConstants.restoreRecommendations());
 		expensesLink.setHTML(accounterMessages.whyshoudIUseRecommended());
