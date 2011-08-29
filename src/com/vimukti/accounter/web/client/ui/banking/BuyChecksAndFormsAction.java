@@ -38,12 +38,12 @@ public class BuyChecksAndFormsAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return Accounter.constants().buyChecksAndForms();
+		return "buyChecksandForms";
 	}
 
 	@Override
 	public String getHelpToken() {
-		return Accounter.constants().buyChecksAndForms();
+		return "buychecksforms";
 	}
 
 }
