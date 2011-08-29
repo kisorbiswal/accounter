@@ -43,12 +43,12 @@ public class EnterPaymentsAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "enterPayments";
+		return Accounter.constants().enterPayments();
 	}
 
 	@Override
 	public String getHelpToken() {
-		return "enterpayment";
+		return Accounter.constants().enterPayments();
 	}
 
 }
