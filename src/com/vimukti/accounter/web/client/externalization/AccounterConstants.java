@@ -4447,9 +4447,21 @@ public interface AccounterConstants extends Constants {
 	public String fromServerCommaGot();
 
 	public String instantiate();
-	
+
 	public String deserialize();
 
 	public String serialize();
+
+	public String taxTDSPayable();
+
+	public String agencyTAXTds();
+
+	public String exemptPurchases();
+
+	public String professional();
+
+	public String contractors();
+
+	public String subContractors();
 
 }
