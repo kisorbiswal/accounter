@@ -5993,9 +5993,12 @@ input[type="text"],textarea {
     -webkit-box-shadow:0 -6px 10px #1A5158;
 }
 .view_manager{
-	width:960px;
 	margin-left:20px;
 	padding-bottom:50px;
+}
+.view_manager_body{
+	width:960px !important;
+	margin-right:20px;
 }
 .organisation_comment{
 	color: #808080;
@@ -6413,7 +6416,10 @@ body, table td, select,.gwt-Button,textarea,input,label{
 
 /*Help theme need to apply for help*/
 #branding{
-	background-color:#2D8B93 !important;
+	/*background-color:#2D8B93 !important;*/
+	background: -moz-linear-gradient(top, #3299A4, #2D8B93) !important;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4', endColorstr='#2D8B93'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#2D8B93)) !important; /* for webkit browsers */
 }
 #page a{
     color:#2D8B93 !important;
@@ -6433,4 +6439,23 @@ body, table td, select,.gwt-Button,textarea,input,label{
 }
 .breadcrumb a{
 	color:white;
+}
+
+
+.view_help_panel .GI4MLOCBCG{
+	color:white;
+}
+.view_help_panel .GI4MLOCBBG{
+	background:-moz-linear-gradient(center top , #493F39, #3D2F29) repeat scroll 0 0 transparent !important;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#493F39', endColorstr='#3D2F29'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#493F39), to(#3D2F29)) !important; /* for webkit browsers */
+   /* background: -moz-linear-gradient(center top , #DCF7FA, #6FBFC6) repeat scroll 0 0 transparent !important; match to accounter*/
+    height: 32px;
+}
+.view_help_panel .GI4MLOCBBG td{
+	vertical-align: middle !important;
+	padding:0 5px;
+}
+.view_help_panel iframe{
+	 border: 2px solid #AA9431
 }
