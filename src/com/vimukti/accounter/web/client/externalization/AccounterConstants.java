@@ -4428,8 +4428,9 @@ public interface AccounterConstants extends Constants {
 	public String both();
 
 	public String organisation();
-	
+
 	public String daysInAdvance();
+
 	public String endAfterSpecifiedOccurences();
 
 	public String action();
@@ -4551,5 +4552,7 @@ public interface AccounterConstants extends Constants {
 	public String subject();
 
 	public String downloadTransactions();
+
+	public String importbankfile();
 
 }
