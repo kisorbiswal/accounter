@@ -4544,4 +4544,10 @@ public interface AccounterConstants extends Constants {
 
 	public String preview1099Informaion();
 
+	public String thanksInAdvanceForPayment();
+
+	public String regards();
+
+	public String subject();
+
 }
