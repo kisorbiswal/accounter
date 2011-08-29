@@ -4436,6 +4436,14 @@ public interface AccounterConstants extends Constants {
 
 	public String mayWeRemindInvoice();
 
+	public String issuedOn();
+
+	public String isDueForPayment();
+
+	public String ifUHaveAlreadyPaidInvoiceMsg();
+
+	public String feelFreeTogetInTouch();
+
 	public String preview1099Informaion();
 
 }
