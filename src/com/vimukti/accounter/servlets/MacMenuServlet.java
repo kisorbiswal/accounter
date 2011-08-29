@@ -8,14 +8,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.Session;
+
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
+import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.main.ServerGlobal;
-import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class MacMenuServlet extends BaseServlet {
 
@@ -30,7 +36,20 @@ public class MacMenuServlet extends BaseServlet {
 		HttpSession session = req.getSession();
 		if (session != null) {
 			String emailId = (String) session.getAttribute(EMAIL_ID);
+			String companyID = getCookie(req, COMPANY_COOKIE);
+
 			Company company = getCompany(req);
+			Session hibernateSession = HibernateUtil.openSession(Server.COMPANY
+					+ companyID);
+			try {
+				CompanyPreferenceThreadLocal.set(new FinanceTool()
+						.getClientCompanyPreferences());
+			} catch (Exception e) {
+			} finally {
+				if (hibernateSession.isOpen()) {
+					hibernateSession.close();
+				}
+			}
 			generateXML(company, emailId);
 			resp.setContentType("text/xml");
 			if (builder != null) {
@@ -162,8 +181,7 @@ public class MacMenuServlet extends BaseServlet {
 		if (canDoInvoiceTransactions()) {
 			menu(mainValue, iGlobal.constants().vatAdjustment(),
 					"accounter#vatAdjustment");
-			menu(mainValue, iGlobal.constants().fileVAT(),
-					"accounter#fileVAT");
+			menu(mainValue, iGlobal.constants().fileVAT(), "accounter#fileVAT");
 		}
 
 		if (canDoBanking()) {
@@ -203,12 +221,12 @@ public class MacMenuServlet extends BaseServlet {
 				"accounter#cashFlowReport");
 		subMenu(financialValue, iGlobal.constants().trialBalance(),
 				"accounter#trialBalance");
-		subMenu(financialValue, iGlobal.messages()
-				.transactionDetailByAccount(Global.get().Account()),
+		subMenu(financialValue,
+				iGlobal.messages()
+						.transactionDetailByAccount(iGlobal.Account()),
 				"accounter#transactionDetailByAccount");
 		if (isUSType()) {
-			subMenu(financialValue,
-					iGlobal.constants().generalLedgerReport(),
+			subMenu(financialValue, iGlobal.constants().generalLedgerReport(),
 					"accounter#generalLedger");
 		}
 		subMenu(financialValue, iGlobal.constants().expenseReport(),
@@ -229,23 +247,21 @@ public class MacMenuServlet extends BaseServlet {
 		subMenu(receivablesValue, iGlobal.constants().arAgeingDetail(),
 				"accounter#arAgingDetail");
 		subMenu(receivablesValue,
-				iGlobal.messages().customerStatement(Global.get().Customer()),
+				iGlobal.messages().customerStatement(iGlobal.Customer()),
 				"accounter#customerStatement");
 		subMenu(receivablesValue, iGlobal.messages()
-				.customerTransactionHistory(Global.get().Customer()),
+				.customerTransactionHistory(iGlobal.Customer()),
 				"accounter#customerTransactionHistory");
 		menu(reportsValue,
-				iGlobal.messages().customersAndReceivable(
-						Global.get().Customer()), receivablesValue);
+				iGlobal.messages().customersAndReceivable(iGlobal.Customer()),
+				receivablesValue);
 
 		StringBuilder salesValue = new StringBuilder();
 		subMenu(salesValue,
-				iGlobal.messages().salesByCustomerSummary(
-						Global.get().Customer()),
+				iGlobal.messages().salesByCustomerSummary(iGlobal.Customer()),
 				"accounter#salesByCustomerSummary");
 		subMenu(salesValue,
-				iGlobal.messages().salesByCustomerDetail(
-						Global.get().Customer()),
+				iGlobal.messages().salesByCustomerDetail(iGlobal.Customer()),
 				"accounter#salesByCustomerDetail");
 		subMenu(salesValue, iGlobal.constants().salesByItemSummary(),
 				"accounter#salesByItemSummary");
@@ -263,30 +279,25 @@ public class MacMenuServlet extends BaseServlet {
 		subMenu(suppliersValue, iGlobal.constants().apAgeingDetail(),
 				"accounter#apAgingDetail");
 		subMenu(suppliersValue,
-				iGlobal.messages().vendorTransactionHistory(
-						Global.get().Vendor()),
+				iGlobal.messages().vendorTransactionHistory(iGlobal.Vendor()),
 				"accounter#supplierTransactionHistory");
 		menu(reportsValue,
-				iGlobal.messages().vendorsAndPayables(Global.get().Vendor()),
+				iGlobal.messages().vendorsAndPayables(iGlobal.Vendor()),
 				suppliersValue);
 
 		StringBuilder purchasesValue = new StringBuilder();
 		subMenu(purchasesValue,
-				iGlobal.messages().purchaseByVendorSummary(
-						Global.get().Vendor()),
+				iGlobal.messages().purchaseByVendorSummary(iGlobal.Vendor()),
 				"accounter#purchaseBySupplierSummary");
 		subMenu(purchasesValue,
-				iGlobal.messages().purchaseByVendorDetail(
-						Global.get().Vendor()),
+				iGlobal.messages().purchaseByVendorDetail(iGlobal.Vendor()),
 				"accounter#purchaseBySupplierDetail");
 		subMenu(purchasesValue, iGlobal.constants().purchaseByItemSummary(),
 				"accounter#purchaseByItemSummary");
-		subMenu(purchasesValue,
-				iGlobal.constants().purchaseByProductDetail(),
+		subMenu(purchasesValue, iGlobal.constants().purchaseByProductDetail(),
 				"accounter#purchaseByItemDetail");
 		if (preferences.isPurchaseOrderEnabled()) {
-			subMenu(purchasesValue,
-					iGlobal.constants().purchaseOrderReport(),
+			subMenu(purchasesValue, iGlobal.constants().purchaseOrderReport(),
 					"accounter#purchaseOrderReport");
 		}
 		menu(reportsValue, iGlobal.constants().purchases(), purchasesValue);
@@ -297,8 +308,7 @@ public class MacMenuServlet extends BaseServlet {
 					"accounter#priorVatReturns");
 			subMenu(vatValue, iGlobal.constants().vatDetail(),
 					"accounter#vatDetail");
-			subMenu(vatValue, iGlobal.constants().vat100(),
-					"accounter#vat100");
+			subMenu(vatValue, iGlobal.constants().vat100(), "accounter#vat100");
 			subMenu(vatValue, iGlobal.constants().uncategorisedVATAmounts(),
 					"accounter#uncategorisedVatAmounts");
 			subMenu(vatValue, iGlobal.constants().vatItemSummary(),
@@ -346,9 +356,9 @@ public class MacMenuServlet extends BaseServlet {
 
 	private void addBankingMenuItem() {
 		StringBuilder bankingValues = new StringBuilder();
-		menu(bankingValues,
-				iGlobal.messages().newBankAccount(Global.get().Account()),
-				"b", "accounter#newBankAccount");
+		menu(bankingValues, iGlobal.messages()
+				.newBankAccount(iGlobal.Account()), "b",
+				"accounter#newBankAccount");
 		separator(bankingValues);
 		if (isUSType()) {
 			menu(bankingValues, iGlobal.constants().writeCheck(),
@@ -356,8 +366,7 @@ public class MacMenuServlet extends BaseServlet {
 		}
 		menu(bankingValues, iGlobal.constants().depositTransferFunds(),
 				"accounter#depositTransferFunds");
-		menu(bankingValues, iGlobal.constants().payBills(),
-				"accounter#payBill");
+		menu(bankingValues, iGlobal.constants().payBills(), "accounter#payBill");
 		separator(bankingValues);
 		menu(bankingValues, iGlobal.constants().newCreditCardCharge(),
 				"accounter#creditCardCharge");
@@ -372,16 +381,14 @@ public class MacMenuServlet extends BaseServlet {
 	private void addVendorMenuItem() {
 
 		StringBuilder vendorValue = new StringBuilder();
-		menu(vendorValue,
-				iGlobal.messages().vendorsHome(Global.get().Vendor()), "S",
-				"accounter#vendorHome");
+		menu(vendorValue, iGlobal.messages().vendorsHome(iGlobal.Vendor()),
+				"S", "accounter#vendorHome");
 		separator(vendorValue);
 
 		int items = 0;
 		StringBuilder newValues = new StringBuilder();
 		if (canDoInvoiceTransactions()) {
-			subMenu(newValues,
-					iGlobal.messages().newVendor(Global.get().Vendor()),
+			subMenu(newValues, iGlobal.messages().newVendor(iGlobal.Vendor()),
 					"accounter#newVendor");
 			subMenu(newValues, iGlobal.constants().newItem(),
 					"accounter#newItem");
@@ -393,9 +400,8 @@ public class MacMenuServlet extends BaseServlet {
 			items += 1;
 		}
 		if (canDoInvoiceTransactions()) {
-			subMenu(newValues,
-					iGlobal.messages().vendorCredit(Global.get().Vendor()),
-					"accounter#vendorCredit");
+			subMenu(newValues, iGlobal.messages()
+					.vendorCredit(iGlobal.Vendor()), "accounter#vendorCredit");
 			if (isUSType()) {
 				subMenu(newValues, iGlobal.constants().newCheck(),
 						"accounter#check");
@@ -418,8 +424,7 @@ public class MacMenuServlet extends BaseServlet {
 			menu(vendorValue, iGlobal.constants().issuePayments(),
 					"accounter#issuePayments");
 			menu(vendorValue,
-					iGlobal.messages()
-							.vendorPrePayment(Global.get().Vendor()),
+					iGlobal.messages().vendorPrePayment(iGlobal.Vendor()),
 					"accounter#vendorPrePayment");
 		}
 		if (canDoInvoiceTransactions()) {
@@ -434,8 +439,7 @@ public class MacMenuServlet extends BaseServlet {
 		}
 
 		StringBuilder supplierValues = new StringBuilder();
-		subMenu(supplierValues,
-				iGlobal.messages().vendors(Global.get().Vendor()),
+		subMenu(supplierValues, iGlobal.messages().vendors(iGlobal.Vendor()),
 				"accounter#VendorList");
 		if (canSeeInvoiceTransactions()) {
 			subMenu(supplierValues, iGlobal.constants().items(),
@@ -445,29 +449,27 @@ public class MacMenuServlet extends BaseServlet {
 		}
 		if (canSeeBanking()) {
 			subMenu(supplierValues,
-					iGlobal.messages().vendorPayments(Global.get().Vendor()),
+					iGlobal.messages().vendorPayments(iGlobal.Vendor()),
 					"accounter#vendorPayments");
 		}
-		menu(vendorValue,
-				iGlobal.messages().vendorLists(Global.get().Vendor()),
+		menu(vendorValue, iGlobal.messages().vendorLists(iGlobal.Vendor()),
 				supplierValues);
 
-		mainMenu(builder, Global.get().Vendor(), vendorValue);
+		mainMenu(builder, iGlobal.Vendor(), vendorValue);
 	}
 
 	private void addCustomerMenuItem() {
 		StringBuilder mainMenuValue = new StringBuilder();
-		menu(mainMenuValue,
-				iGlobal.messages().customersHome(Global.get().Customer()),
-				"accounter#customerHome");
+		menu(mainMenuValue, iGlobal.messages()
+				.customersHome(iGlobal.Customer()), "accounter#customerHome");
 		separator(mainMenuValue);
 
 		int items = 0;
 		StringBuilder newValue = new StringBuilder();
 		if (canDoInvoiceTransactions()) {
-			subMenu(newValue,
-					iGlobal.messages().newCustomer(Global.get().Customer()),
-					"C", "accounter#newCustomer");
+			subMenu(newValue, iGlobal.messages()
+					.newCustomer(iGlobal.Customer()), "C",
+					"accounter#newCustomer");
 			subMenu(newValue, iGlobal.constants().newItem(),
 					"accounter#newCustomerItem");
 			if (preferences.isDoyouwantEstimates()) {
@@ -496,21 +498,19 @@ public class MacMenuServlet extends BaseServlet {
 
 		if (canDoBanking()) {
 			menu(mainMenuValue,
-					iGlobal.messages().customerPrePayment(
-							Global.get().Customer()),
+					iGlobal.messages().customerPrePayment(iGlobal.Customer()),
 					"accounter#customerPrepayment");
 			menu(mainMenuValue, iGlobal.constants().receivePayment(),
 					"accounter#receivePayment");
 			menu(mainMenuValue,
-					iGlobal.messages()
-							.customerRefund(Global.get().Customer()),
+					iGlobal.messages().customerRefund(iGlobal.Customer()),
 					"accounter#customerRefund");
 			separator(mainMenuValue);
 		}
 
 		StringBuilder customerListValue = new StringBuilder();
 		subMenu(customerListValue,
-				iGlobal.messages().customers(Global.get().Customer()),
+				iGlobal.messages().customers(iGlobal.Customer()),
 				"accounter#customers");
 		if (canSeeInvoiceTransactions()) {
 			subMenu(customerListValue, iGlobal.constants().items(),
@@ -523,19 +523,17 @@ public class MacMenuServlet extends BaseServlet {
 					"accounter#invoices");
 		}
 		if (canSeeBanking()) {
-			subMenu(customerListValue,
-					iGlobal.constants().receivedPayments(),
+			subMenu(customerListValue, iGlobal.constants().receivedPayments(),
 					"accounter#receivePayments");
 			subMenu(customerListValue,
-					iGlobal.messages().customerRefunds(
-							Global.get().Customer()),
+					iGlobal.messages().customerRefunds(iGlobal.Customer()),
 					"accounter#customerRefunds");
 		}
 		menu(mainMenuValue,
-				iGlobal.messages().customerList(Global.get().Customer()),
+				iGlobal.messages().customerList(iGlobal.Customer()),
 				customerListValue);
 
-		mainMenu(builder, Global.get().Customer(), mainMenuValue);
+		mainMenu(builder, iGlobal.Customer(), mainMenuValue);
 	}
 
 	private void addCompanyMenuItem() {
@@ -551,9 +549,10 @@ public class MacMenuServlet extends BaseServlet {
 		}
 
 		if (canDoInvoiceTransactions()) {
-			menu(mainMenuValue,
-					iGlobal.messages().newAccount(Global.get().Account()),
-					"A", "accounter#newAccount");
+			String account = iGlobal.Account();
+			AccounterMessages messages = iGlobal.messages();
+			menu(mainMenuValue, messages.newAccount(account), "A",
+					"accounter#newAccount");
 			separator(mainMenuValue);
 		}
 
@@ -579,13 +578,13 @@ public class MacMenuServlet extends BaseServlet {
 							.manageSalesItems(),
 							"accounter#manageSalesTaxItems");
 				} else {
-					subMenu(salesTaxValues, iGlobal.constants()
-							.salesTaxItems(), "accounter#salesTaxItems");
+					subMenu(salesTaxValues,
+							iGlobal.constants().salesTaxItems(),
+							"accounter#salesTaxItems");
 				}
 
 				if (canDoBanking()) {
-					subMenu(salesTaxValues,
-							iGlobal.constants().paySalesTax(),
+					subMenu(salesTaxValues, iGlobal.constants().paySalesTax(),
 							"accounter#customerGroupList");
 				}
 
@@ -606,25 +605,23 @@ public class MacMenuServlet extends BaseServlet {
 		if (canChangeSettings()) {
 			StringBuilder manageSupportLists = new StringBuilder();
 			subMenu(manageSupportLists,
-					iGlobal.messages().customerGroupList(
-							Global.get().Customer()),
+					iGlobal.messages().customerGroupList(iGlobal.Customer()),
 					"accounter#customerGroupList");
 			subMenu(manageSupportLists,
-					iGlobal.messages().vendorGroupList(Global.get().vendor()),
+					iGlobal.messages().vendorGroupList(iGlobal.vendor()),
 					"accounter#supplierGroupList");
-			subMenu(manageSupportLists,
-					iGlobal.constants().paymentTermList(),
+			subMenu(manageSupportLists, iGlobal.constants().paymentTermList(),
 					"accounter#paymentTerms");
 			subMenu(manageSupportLists, iGlobal.constants()
 					.shippingMethodList(), "accounter#shippingMethodsList");
-			subMenu(manageSupportLists, iGlobal.constants()
-					.shippingTermList(), "accounter#shippingTermsList");
+			subMenu(manageSupportLists, iGlobal.constants().shippingTermList(),
+					"accounter#shippingTermsList");
 			subMenu(manageSupportLists, iGlobal.constants().priceLevelList(),
 					"accounter#priceLevels");
 			subMenu(manageSupportLists, iGlobal.constants().itemGroupList(),
 					"accounter#itemGroupList");
-			subMenu(manageSupportLists, iGlobal.constants()
-					.creditRatingList(), "accounter#creditRatingList");
+			subMenu(manageSupportLists, iGlobal.constants().creditRatingList(),
+					"accounter#creditRatingList");
 			menu(mainMenuValue, iGlobal.constants().managerSupportLists(),
 					manageSupportLists);
 		}
@@ -647,7 +644,7 @@ public class MacMenuServlet extends BaseServlet {
 		StringBuilder companyLists = new StringBuilder();
 		if (canSeeInvoiceTransactions()) {
 			subMenu(companyLists,
-					iGlobal.messages().accountsList(Global.get().Account()),
+					iGlobal.messages().accountsList(iGlobal.Account()),
 					"accounter#accountsList");
 		}
 		if (canSeeBanking()) {
@@ -660,10 +657,10 @@ public class MacMenuServlet extends BaseServlet {
 					"accounter#items");
 		}
 		subMenu(companyLists,
-				iGlobal.messages().companyCustomers(Global.get().Customer()),
+				iGlobal.messages().companyCustomers(iGlobal.Customer()),
 				"accounter#customers");
 		subMenu(companyLists,
-				iGlobal.messages().companySuppliers(Global.get().Vendor()),
+				iGlobal.messages().companySuppliers(iGlobal.Vendor()),
 				"accounter#supplierList");
 		if (canSeeBanking()) {
 			subMenu(companyLists, iGlobal.constants().payments(),
