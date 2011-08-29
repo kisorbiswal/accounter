@@ -19,7 +19,6 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
 import com.vimukti.accounter.web.client.Global;
@@ -34,6 +33,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 
 public class Prepare1099MISCView extends AbstractBaseView {
 	private String[] boxes;
@@ -43,22 +43,25 @@ public class Prepare1099MISCView extends AbstractBaseView {
 	private ListDataProvider<Client1099Form> listDataProvider;
 
 	private DisclosurePanel disclosurePanel;
-	private VerticalPanel setVendorpanel, panelR, panelL, amountPanel,
-			preview1099panel;
+	private VerticalPanel setVendorpanel, amountPanel, preview1099panel;
 	private HorizontalPanel companyInfopanel;
 	private Button setVendor, addAccount;
 	private Label companyInfo, einInfo, noOf1099FormsLabel;
-	private TextArea companyInfoText, einInfoText;
+	private TextAreaItem companyInfoText, einInfoText;
 	private AmountLabel total1099AmountLabel;
-	private DynamicForm amountForm;
+	private DynamicForm amountForm, panelR, panelL;
 	private CellTable<Client1099Form> cellTable;
 
 	@Override
 	public void init() {
 		AccounterConstants c = Accounter.constants();
-		boxes = new String[] { c.box1(), c.box2(), c.box3(), c.box4(),
-				c.box5(), c.box6(), c.box7(), c.box8(), c.box9(), c.box10(),
-				c.box13(), c.box14() };
+		boxes = new String[] { c.box1() + "\n(600.00)", c.box2() + "\n(10.00)",
+				c.box3() + "\n(600.00)", c.box4() + "\n(0.00)",
+				c.box5() + "\n(0.00)", c.box6() + "\n(600.00)",
+				c.box7() + "\n(600.00)", c.box8() + "\n(10.00)",
+				c.box9() + "\n(5000.00)", c.box10() + "\n(600.00)",
+				c.box13() + "\n(0.00)", c.box14() + "\n(0.00)" };
+
 		this.createControl();
 
 	}
@@ -257,24 +260,28 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		companyInfo = new Label(Accounter.constants().companyInformation());
 		einInfo = new Label(Accounter.constants().ein());
 
-		companyInfoText = new TextArea();
+		companyInfoText = new TextAreaItem(Accounter.constants()
+				.companyInformation());
 		ClientAddress address = getCompany().getRegisteredAddress();
 		if (address != null) {
-			companyInfoText.setText(address.getAddressString());
+			companyInfoText.setValue(address.getAddressString());
 		}
-		einInfoText = new TextArea();
+		einInfoText = new TextAreaItem(Accounter.constants().ein());
 		String ein = getCompany().getEin();
 		if (ein != null) {
-			einInfoText.setText(ein);
+			einInfoText.setValue(ein);
 		}
 
-		panelR = new VerticalPanel();
-		panelL = new VerticalPanel();
-		panelL.add(companyInfo);
-		panelL.add(companyInfoText);
+		companyInfoText.setDisabled(true);
+		einInfoText.setDisabled(true);
 
-		panelR.add(einInfo);
-		panelR.add(einInfoText);
+		panelR = new DynamicForm();
+		panelL = new DynamicForm();
+		// panelL.add(companyInfo);
+		panelL.setFields(companyInfoText);
+
+		// panelR.add(einInfo);
+		panelR.setFields(einInfoText);
 
 		companyInfopanel = new HorizontalPanel();
 		companyInfopanel.setSize("1000px", "100px");

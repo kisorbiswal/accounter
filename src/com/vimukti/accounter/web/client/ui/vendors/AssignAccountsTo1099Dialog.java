@@ -67,8 +67,7 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 	}
 
 	private void addRow(String string, int boxNo) {
-		final ArrayList<ClientAccount> activeAccounts = getCompany()
-				.getActiveAccounts();
+		final ArrayList<ClientAccount> activeAccounts = getAccounts();
 		final CheckBox checkBox = new CheckBox();
 		Label label = new Label(string);
 		final AccountCombo accountCombo = new AccountCombo("", true) {
@@ -119,23 +118,46 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 		return null;
 	}
 
+	private ArrayList<ClientAccount> getAccounts() {
+		ArrayList<ClientAccount> gridAccounts = new ArrayList<ClientAccount>();
+		for (ClientAccount account : getCompany().getActiveAccounts()) {
+			if (account.getType() != ClientAccount.TYPE_CASH
+					&& account.getType() != ClientAccount.TYPE_BANK
+					&& account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
+					&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
+					&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE)
+				gridAccounts.add(account);
+		}
+		return gridAccounts;
+	}
+
 	@Override
 	protected boolean onOK() {
-		for (int i = 1; i <= boxNums.length; i++) {
-			ClientAccount account = getAccountByBoxNum(boxNums[i - 1]);
+		for (int boxNum : boxNums) {
+			ClientAccount account = getAccountByBoxNum(boxNum);
 			if (account != null) {
 				account.setBoxNumber(0);
 				saveOrUpdate(account);
 			}
-			CheckBox checkBox = (CheckBox) flexTable.getWidget(i, 0);
-			DynamicForm accountsForm = (DynamicForm) flexTable.getWidget(i, 2);
-			AccountCombo accountsCombo = (AccountCombo) accountsForm
-					.getField("AccountsCombo");
-			ClientAccount selectedValue = accountsCombo.getSelectedValue();
-			if (checkBox.isChecked() && selectedValue != null) {
+		}
+		for (int i = 1; i <= boxNums.length; i++) {
+			ClientAccount account = getAccountByBoxNum(boxNums[i - 1]);
+			if (account == null) {
+				CheckBox checkBox = (CheckBox) flexTable.getWidget(i, 0);
+				DynamicForm accountsForm = (DynamicForm) flexTable.getWidget(i,
+						2);
+				AccountCombo accountsCombo = (AccountCombo) accountsForm
+						.getField("AccountsCombo");
+				ClientAccount selectedValue = accountsCombo.getSelectedValue();
+				if (checkBox.isChecked() && selectedValue != null) {
 
-				selectedValue.setBoxNumber(boxNums[i - 1]);
-				saveOrUpdate(selectedValue);
+					selectedValue.setBoxNumber(boxNums[i - 1]);
+					saveOrUpdate(selectedValue);
+				}
+			} else {
+				Accounter
+						.showError("Please Selec One Account For One Box Only..");
+				return false;
 			}
 
 		}

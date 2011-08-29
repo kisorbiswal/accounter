@@ -11870,6 +11870,21 @@ public class FinanceTool {
 	}
 
 	public ArrayList<Client1099Form> get1099Vendors() throws AccounterException {
+
+		HashMap<Integer, Integer> boxThresholds = new HashMap<Integer, Integer>();
+		boxThresholds.put(1, 600);
+		boxThresholds.put(2, 10);
+		boxThresholds.put(3, 600);
+		boxThresholds.put(4, 0);
+		boxThresholds.put(5, 0);
+		boxThresholds.put(6, 600);
+		boxThresholds.put(7, 600);
+		boxThresholds.put(8, 10);
+		boxThresholds.put(9, 5000);
+		boxThresholds.put(10, 600);
+		boxThresholds.put(13, 0);
+		boxThresholds.put(14, 0);
+
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
 
@@ -11917,6 +11932,16 @@ public class FinanceTool {
 				.entrySet()) {
 			Vendor key = element.getKey();
 			Client1099Form value = element.getValue();
+
+			for (java.util.Map.Entry<Integer, Integer> box : boxThresholds
+					.entrySet()) {
+				Integer boxNum = box.getKey();
+				Integer boxThreshold = box.getValue();
+				if (value.getBox(boxNum) < boxThreshold) {
+					value.setBox(boxNum, 0);
+				}
+			}
+
 			ClientVendor clientVendor = new ClientConvertUtil().toClientObject(
 					key, ClientVendor.class);
 			value.setVendor(clientVendor);
