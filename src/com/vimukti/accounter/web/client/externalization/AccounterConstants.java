@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.externalization;
 
 import com.google.gwt.i18n.client.Constants;
+import com.google.gwt.safehtml.shared.SafeHtml;
 
 public interface AccounterConstants extends Constants {
 
@@ -4427,6 +4428,103 @@ public interface AccounterConstants extends Constants {
 	public String both();
 
 	public String organisation();
+	
+	public String daysInAdvance();
+	public String endAfterSpecifiedOccurences();
+
+	public String action();
+
+	public String monthly();
+
+	public SafeHtml onSpecificWeek();
+
+	public SafeHtml onSpecificDay();
+
+	public String weeks();
+
+	public String months();
+
+	public String years();
+
+	public String recurringType();
+
+	public String dayOfWeek();
+
+	public String dayOfMonth();
+
+	public String weekOfMonth();
+
+	public String intervalType();
+
+	public String endDateType();
+
+	public String noEndDate();
+
+	public String endAfterOccurrences();
+
+	public String endDateAfter();
+
+	public String schedule();
+
+	public String remainder();
+
+	public String noneJustTemplate();
+
+	public String first();
+
+	public String second();
+
+	public String third();
+
+	public String fourth();
+
+	public String last();
+
+	public String sunday();
+
+	public String monday();
+
+	public String tuesday();
+
+	public String wednesday();
+
+	public String thursday();
+
+	public String friday();
+
+	public String saturday();
+
+	public String daysAfterTheInvoiceDate();
+
+	public String ofTheFollowingMonth();
+
+	public String daily();
+
+	public String weekly();
+
+	public String yearly();
+
+	public String every();
+
+	public String ofTheCurrentMonth();
+
+	public String recurring();
+
+	public String recurringDescription();
+
+	public String includeUnbilledCharges();
+
+	public String transactionType();
+
+	public String frequency();
+
+	public String prevScheduleOn();
+
+	public String nextScheduleOn();
+
+	public String occurrencesCompleted();
+
+	public String makeItRecurring();
 
 	public String accountRegister();
 

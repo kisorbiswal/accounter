@@ -14,10 +14,10 @@ import com.vimukti.accounter.web.client.ui.grids.RecurringsListGrid;
 public class RecurringTransactionsListView extends
 		BaseListView<ClientRecurringTransaction> {
 
-	private final static String ALL = "All";
-	private final static String SCHEDULES = "Schedules";
-	private final static String REMAINDERS = "Remainders";
-	private final static String TEMPLATES = "None(Template)";
+	private final static String ALL = Accounter.constants().all();
+	private final static String SCHEDULES = Accounter.constants().schedule();
+	private final static String REMAINDERS = Accounter.constants().remainder();
+	private final static String TEMPLATES = Accounter.constants().noneJustTemplate();
 
 	private String viewType;
 

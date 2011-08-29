@@ -47,7 +47,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.CustomMenuItem;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.banking.WriteChequeView;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
 import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -64,9 +63,6 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.VendorTransactionGrid;
-import com.vimukti.accounter.web.client.ui.vendors.CashExpenseView;
-import com.vimukti.accounter.web.client.ui.vendors.CreditCardExpenseView;
-import com.vimukti.accounter.web.client.ui.vendors.EmployeeExpenseView;
 import com.vimukti.accounter.web.client.ui.vendors.NewVendorPaymentView;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
@@ -553,7 +549,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	private Button createMakeRecurringButton() {
 		Button recurringButton = new Button();
-		recurringButton.setText("Make it recurring");
+		recurringButton.setText(Accounter.constants().makeItRecurring());
 		recurringButton.addClickHandler(new ClickHandler() {
 
 			@Override
