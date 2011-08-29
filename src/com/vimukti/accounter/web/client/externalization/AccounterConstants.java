@@ -4428,4 +4428,6 @@ public interface AccounterConstants extends Constants {
 
 	public String organisation();
 
+	public String accountRegister();
+
 }
