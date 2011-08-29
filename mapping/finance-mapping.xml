@@ -135,6 +135,7 @@
 		<property name="fullName" unique="true" not-null="true"
 			column="FULL_NAME"></property>
 		<property name="companyID" column="COMPANY_ID"></property>
+		<property name="timezone" column="TIMEZONE"></property>
 		<set name="users" lazy="false" cascade="save-update,delete">
 			<key column="COMPANY_ID"></key>
 			<one-to-many class="User" />
