@@ -469,12 +469,12 @@ public class SyncClientSerializationStreamWriter extends
 			assert (!instanceClass.isArray());
 
 			for (Method method : customSerializer.getMethods()) {
-				if (Accounter.constants().serialize().equals(method.getName())) {
+				if ("serialize".equals(method.getName())) {
 					method.invoke(null, this, instance);
 					return;
 				}
 			}
-			throw new NoSuchMethodException(Accounter.constants().serialize());
+			throw new NoSuchMethodException("serialize");
 		} catch (SecurityException e) {
 			throw new SerializationException(e);
 

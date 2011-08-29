@@ -85,8 +85,7 @@ public class RemoteServiceSyncProxy implements SerializationStreamFactory {
 				serializationPolicy = SerializationPolicyLoader.loadFromStream(
 						is, null);
 			} catch (Exception e) {
-				throw new InvocationException(Accounter.constants()
-						.errorLoadingSynchronization()
+				throw new InvocationException("Error while loading serialization policy"
 						+ serializationPolicyName, e);
 			} finally {
 				if (is != null) {
@@ -144,8 +143,7 @@ public class RemoteServiceSyncProxy implements SerializationStreamFactory {
 			writer.flush();
 			writer.close();
 		} catch (IOException e) {
-			throw new InvocationException(Accounter.constants()
-					.ioExceptionRPCMsg(), e);
+			throw new InvocationException("IOException while sending RPC request", e);
 		}
 
 		// Receive and process response
@@ -167,8 +165,7 @@ public class RemoteServiceSyncProxy implements SerializationStreamFactory {
 				throw new StatusCodeException(statusCode, encodedResponse);
 			} else if (encodedResponse == null) {
 				// This can happen if the XHR is interrupted by the server dying
-				throw new InvocationException(Accounter.constants()
-						.noResponsePayload());
+				throw new InvocationException("No Response Payload");
 			} else if (isReturnValue(encodedResponse)) {
 				encodedResponse = encodedResponse.substring(4);
 				return responseReader.read(createStreamReader(encodedResponse));
@@ -178,15 +175,12 @@ public class RemoteServiceSyncProxy implements SerializationStreamFactory {
 						encodedResponse).readObject();
 				throw throwable;
 			} else {
-				throw new InvocationException(Accounter.constants()
-						.unknownResponse() + encodedResponse);
+				throw new InvocationException("Unknown response" + encodedResponse);
 			}
 		} catch (IOException e) {
-			throw new InvocationException(Accounter.constants()
-					.ioExceptionRPCReceiveMsg(), e);
+			throw new InvocationException("IOException while receiving RPC response", e);
 		} catch (SerializationException e) {
-			throw new InvocationException(Accounter.constants()
-					.errorDeserialiZationResponse(), e);
+			throw new InvocationException("Error while deserialization response", e);
 		} finally {
 			if (is != null) {
 				try {

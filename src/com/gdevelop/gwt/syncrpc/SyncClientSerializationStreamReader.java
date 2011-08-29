@@ -275,11 +275,10 @@ public class SyncClientSerializationStreamReader extends
 		protected Object toArray(Class<?> componentType,
 				BoundedList<Object> buffer) throws SerializationException {
 			if (buffer.getExpectedSize() != buffer.size()) {
-				throw new SerializationException(Accounter.constants()
-						.inConsistentNoOfElemetsReceived()
-						+ buffer.size()
-						+ Accounter.constants().butExpecting()
-						+ buffer.getExpectedSize());
+				throw new SerializationException(
+						"Inconsistent number of elements received"
+								+ buffer.size() + "but expecting"
+								+ buffer.getExpectedSize());
 			}
 
 			Object arr = Array.newInstance(componentType, buffer.size());
@@ -375,12 +374,9 @@ public class SyncClientSerializationStreamReader extends
 		super.prepareToRead(encoded);
 
 		if (getVersion() != SERIALIZATION_STREAM_VERSION) {
-			throw new IncompatibleRemoteServiceException(Accounter.constants()
-					.expectingVersion()
-					+ SERIALIZATION_STREAM_VERSION
-					+ Accounter.constants().fromServerCommaGot()
-					+ getVersion()
-					+ ".");
+			throw new IncompatibleRemoteServiceException("expecting version"
+					+ SERIALIZATION_STREAM_VERSION + "from server, got"
+					+ getVersion() + ".");
 		}
 
 		buildStringTable();
@@ -544,8 +540,7 @@ public class SyncClientSerializationStreamReader extends
 			NoSuchMethodException, SerializationException {
 		if (customSerializer != null) {
 			for (Method method : customSerializer.getMethods()) {
-				if (Accounter.constants().instantiate()
-						.equals(method.getName())) {
+				if ("instantiate".equals(method.getName())) {
 					return method.invoke(null, this);
 				}
 			}
@@ -597,12 +592,12 @@ public class SyncClientSerializationStreamReader extends
 		assert (!instanceClass.isArray());
 
 		for (Method method : customSerializer.getMethods()) {
-			if (Accounter.constants().deserialize().equals(method.getName())) {
+			if ("deserialize".equals(method.getName())) {
 				method.invoke(null, this, instance);
 				return;
 			}
 		}
-		throw new NoSuchMethodException(Accounter.constants().deserialize());
+		throw new NoSuchMethodException("deserialize");
 	}
 
 	/**
