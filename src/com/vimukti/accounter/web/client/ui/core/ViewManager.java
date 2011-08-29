@@ -77,6 +77,7 @@ public class ViewManager extends HorizontalPanel {
 		this.mainWindow = financeWindow;
 		addStyleName("view_manager");
 		VerticalPanel leftPanel = new VerticalPanel();
+		leftPanel.addStyleName("view_manager_body");
 		leftPanel.setWidth("100%");
 		this.viewHolder = new SimplePanel();
 		viewHolder.addStyleName("viewholder");
@@ -95,6 +96,7 @@ public class ViewManager extends HorizontalPanel {
 		leftPanel.add(viewHolder);
 		this.add(leftPanel);
 		accounterHelpView = (HelpPanel) createHelpPanel();
+		accounterHelpView.addStyleName("view_help_panel");
 		if (accounterHelpView != null) {
 			this.add(accounterHelpView);
 		}
@@ -105,6 +107,7 @@ public class ViewManager extends HorizontalPanel {
 	private HelpPanel accounterHelpView;
 
 	private Widget createHelpPanel() {
+		isHelpPanelEnabled = true;
 		if (isHelpPanelEnabled) {
 			accounterHelpView = new HelpPanel();
 			accounterHelpView.setHelpUrl(this.getUrl());
