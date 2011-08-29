@@ -4434,4 +4434,6 @@ public interface AccounterConstants extends Constants {
 
 	public String dueOnReceipt();
 
+	public String mayWeRemindInvoice();
+
 }
