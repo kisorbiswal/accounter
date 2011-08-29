@@ -63,6 +63,7 @@ import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
 import com.vimukti.accounter.web.client.core.Lists.DepreciableFixedAssetsList;
@@ -1645,11 +1646,12 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<ClientActivity> getUsersActivityLog(
+	public PaginationList<ClientActivity> getUsersActivityLog(
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			int startIndex, int length) throws AccounterException {
-		ArrayList<ClientActivity> clientActivities = new ArrayList<ClientActivity>();
-		for (int i = startIndex; i < startIndex + length; i++) {
+		PaginationList<ClientActivity> clientActivities = new PaginationList<ClientActivity>();
+		int max = startIndex + length;
+		for (int i = startIndex; i < max; i++) {
 			ClientActivity a1 = new ClientActivity();
 			a1.setAmount(1000.0 + i);
 			a1.setDate(new ClientFinanceDate());
@@ -1658,6 +1660,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			a1.setActivity("invoice added-" + i);
 			clientActivities.add(a1);
 		}
+		clientActivities.setTotalCount(200);
 		return clientActivities;
 	}
 
