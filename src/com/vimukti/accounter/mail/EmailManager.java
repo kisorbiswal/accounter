@@ -165,22 +165,26 @@ public class EmailManager extends Thread {
 				InternetAddress address = new InternetAddress(email);
 				addressTo[i] = address;
 				log.info(acc.getSenderEmailID() + " sending mail To " + email);
+				i++;
 			}
 
 			msg.setRecipients(Message.RecipientType.TO, addressTo);
 
 			// for cc address
-			InternetAddress addressCC[] = new InternetAddress[emsg
-					.getccRecipeants().size()];
-			i = 0;
-			for (String ccEmail : emsg.getccRecipeants()) {
-				InternetAddress address = new InternetAddress(ccEmail);
-				addressCC[i] = address;
-				log.info(acc.getSenderEmailID() + " sending cc mail To "
-						+ ccEmail);
-			}
-			msg.setRecipients(Message.RecipientType.CC, addressCC);
 
+			if (emsg.getccRecipeants().size() > 0) {
+				InternetAddress addressCC[] = new InternetAddress[emsg
+						.getccRecipeants().size()];
+				i = 0;
+				for (String ccEmail : emsg.getccRecipeants()) {
+					InternetAddress address = new InternetAddress(ccEmail);
+					addressCC[i] = address;
+					i++;
+					log.info(acc.getSenderEmailID() + " sending cc mail To "
+							+ ccEmail);
+				}
+				msg.setRecipients(Message.RecipientType.CC, addressCC);
+			}
 			if (emsg.getReplayTO() != null) {
 				msg.setReplyTo(new InternetAddress[] { new InternetAddress(emsg
 						.getReplayTO()) });
