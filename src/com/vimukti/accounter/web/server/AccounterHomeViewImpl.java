@@ -36,6 +36,7 @@ import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.IAccounterHomeViewService;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
@@ -81,6 +82,7 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @author Fernandez
@@ -1642,6 +1644,31 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	}
 
+	@Override
+	public ArrayList<ClientActivity> getUsersActivityLog(
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			int startIndex, int length) throws AccounterException {
+		ArrayList<ClientActivity> clientActivities = new ArrayList<ClientActivity>();
+		for (int i = startIndex; i < startIndex + length; i++) {
+			ClientActivity a1 = new ClientActivity();
+			a1.setAmount(1000.0 + i);
+			a1.setDate(new ClientFinanceDate());
+			a1.setId(i);
+			a1.setObjectID(i);
+			a1.setActivity("invoice added-" + i);
+			clientActivities.add(a1);
+		}
+		return clientActivities;
+	}
+
+	// public ArrayList<ClientEmployee> getAllEmployees()
+	// throws AccounterException {
+	// FinanceTool tool = getFinanceTool();
+	// if (tool != null) {
+	// return tool.getAllEmployees();
+	// }
+	// return null;
+	// }
 	// this method is used to send Pdf as an attachment in email
 	@Override
 	public void sendPdfInMail(long objectID, int type, long brandingThemeId,
@@ -1650,7 +1677,6 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			throws Exception, IOException, AccounterException {
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
-
 			tool.sendPdfInMail(objectID, type, brandingThemeId, mimeType,
 					subject, content, senderEmail, recipientEmail, ccEmail);
 		}
