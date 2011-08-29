@@ -147,19 +147,20 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 			AccountCombo accountsCombo = (AccountCombo) accountsForm
 					.getField("AccountsCombo");
 			ClientAccount selectedValue = accountsCombo.getSelectedValue();
-			if (selectedValue.getBoxNumber() == 0) {
-				if (checkBox.isChecked() && selectedValue != null) {
 
+			if (checkBox.isChecked() && selectedValue != null) {
+				if (selectedValue.getBoxNumber() == 0) {
 					selectedValue.setBoxNumber(boxNums[i - 1]);
 					saveOrUpdate(selectedValue);
+				} else {
+					Accounter
+							.showError("Please Select One Account For One Box Only..");
+					return false;
 				}
-			} else {
-				Accounter
-						.showError("Please Select One Account For One Box Only..");
-				return false;
 			}
 
 		}
+		getCallback().actionResult(boxNums);
 
 		return true;
 	}

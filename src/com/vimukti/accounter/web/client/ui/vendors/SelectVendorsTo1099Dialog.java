@@ -269,6 +269,7 @@ public class SelectVendorsTo1099Dialog extends BaseDialog {
 			vendor.setTrackPaymentsFor1099(false);
 			saveOrUpdate(vendor);
 		}
+		getCallback().actionResult(tempSelectedVendorsList);
 		return true;
 	}
 
