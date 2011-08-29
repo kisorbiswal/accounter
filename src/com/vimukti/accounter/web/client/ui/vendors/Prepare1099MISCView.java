@@ -25,11 +25,13 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -352,6 +354,16 @@ public class Prepare1099MISCView extends AbstractBaseView {
 				.constants().printAlignmentAndSetup());
 
 		Button printSample = new Button("Print Sample");
+		printSample.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				long objectID = 1;
+				long brandingThemeID = 1;
+				UIUtils.downloadMISCForm(objectID,
+						ClientTransaction.TYPE_MISC_FORM, brandingThemeID);
+			}
+		});
 		Label blankLabel = new Label("Load empty paper");
 		Label adjustLabel = new Label(
 				"	Enter adjustments to move text 1/100th of an inch.");
@@ -361,25 +373,6 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 		Label infoLabel = new Label(
 				"	Alignment adjustment values are saved when you click Print Sample (above), or Print (below).If you print forms on more than one printer, write down the alignment values for each.");
-
-		// Place the check above the text box using a vertical panel.
-
-		// HorizontalPanel panel1 = new HorizontalPanel();
-		// panel1.add(verLabel);
-		// panel1.add(getListBox(true));
-		//
-		// HorizontalPanel panel2 = new HorizontalPanel();
-		// panel2.add(horLabel);
-		// panel2.add(getListBox(true));
-		//
-		// VerticalPanel panel = new VerticalPanel();
-		// panel.setHeight("400px");
-		// panel.add(blankLabel);
-		// panel.add(printSample);
-		// panel.add(adjustLabel);
-		// panel.add(panel1);
-		// panel.add(panel2);
-		// panel.add(infoLabel);
 
 		Grid advancedOptions = new Grid(6, 2);
 		advancedOptions.setCellSpacing(6);
