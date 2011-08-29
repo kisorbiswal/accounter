@@ -161,30 +161,37 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 						stateListBox.removeItem(i);
 					}
 				}
-				int selectedCountry;
-				if (country.getSelectedIndex() != -1) {
-					selectedCountry = country.getSelectedIndex();
-				} else {
-					selectedCountry = 0;
-				}
-				setStates(CoreUtils.getStatesAsListForCountry(country
-						.getItemText(selectedCountry)));
+				countryChanged();
 			}
 		});
+		countryChanged();
 
 		this.timezones = CoreUtils.getTimeZonesAsList();
 		for (String tz : timezones) {
-			timezoneslistbox.addItem(tz);			
+			timezoneslistbox.addItem(tz);
 		}
-		
+
 		String defalutTzOffset = getDefaultTzOffsetStr();
 		for (String tz : timezones) {
 			if (tz.startsWith(defalutTzOffset)) {
 				timezoneslistbox.setSelectedIndex(timezones.indexOf(tz));
 				break;
-			}			
+			}
 		}
-		
+
+	}
+
+	/**
+	 * 
+	 */
+	protected void countryChanged() {
+		int selectedCountry = country.getSelectedIndex();
+		if (selectedCountry < 0) {
+			return;
+		}
+		List<String> states = CoreUtils.getStatesAsListForCountry(country
+				.getItemText(selectedCountry));
+		setStates(states);
 	}
 
 	private String getDefaultTzOffsetStr() {
@@ -291,52 +298,32 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		if (companyName.getText().trim() != null
 				&& companyName.getText().trim() != ""
 				&& companyName.getText().trim().length() != 0) {
-			if (taxId.getText().trim() != null && taxId.getText().trim() != ""
-					&& taxId.getText().trim().length() != 0) {
-				if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-					if (taxId.getText().length() == 10) {
-						if (taxId.getText().indexOf(2) == '-'
-								&& checkIfNotNumber(taxId.getText().substring(
-										0, 1))
-								&& checkIfNotNumber(taxId.getText().substring(
-										3, 9))) {
-							return true;
-						} else {
-							Accounter.showError(accounterMessages
-									.vatIDValidationDesc());
-							return false;
-						}
-					} else {
-						Accounter.showError(accounterMessages
-								.vatIDValidationDesc());
-						return false;
-					}
-				} else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-					if (taxId.getText().length() == 10) {
-						if (taxId.getText().indexOf(2) == '-'
-								&& checkIfNotNumber(taxId.getText().substring(
-										0, 1))
-								&& checkIfNotNumber(taxId.getText().substring(
-										3, 9))) {
-							return true;
-						} else {
-							Accounter.showError(accounterMessages
-									.vatIDValidationDesc());
-							return false;
-						}
-					} else {
-						Accounter.showError(accounterMessages
-								.vatIDValidationDesc());
-						return false;
-					}
-				} else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
-					return true;
-				} else {
-					return true;
-				}
-			} else {
-				return true;
-			}
+			/*
+			 * if (taxId.getText().trim() != null && taxId.getText().trim() !=
+			 * "" && taxId.getText().trim().length() != 0) { if
+			 * (Accounter.getCompany().getAccountingType() ==
+			 * ClientCompany.ACCOUNTING_TYPE_US) { if (taxId.getText().length()
+			 * == 10) { if (taxId.getText().indexOf(2) == '-' &&
+			 * checkIfNotNumber(taxId.getText().substring( 0, 1)) &&
+			 * checkIfNotNumber(taxId.getText().substring( 3, 9))) { return
+			 * true; } else { Accounter.showError(accounterMessages
+			 * .vatIDValidationDesc()); return false; } } else {
+			 * Accounter.showError(accounterMessages .vatIDValidationDesc());
+			 * return false; } } else if
+			 * (Accounter.getCompany().getAccountingType() ==
+			 * ClientCompany.ACCOUNTING_TYPE_UK) { if (taxId.getText().length()
+			 * == 10) { if (taxId.getText().indexOf(2) == '-' &&
+			 * checkIfNotNumber(taxId.getText().substring( 0, 1)) &&
+			 * checkIfNotNumber(taxId.getText().substring( 3, 9))) { return
+			 * true; } else { Accounter.showError(accounterMessages
+			 * .vatIDValidationDesc()); return false; } } else {
+			 * Accounter.showError(accounterMessages .vatIDValidationDesc());
+			 * return false; } } else if
+			 * (Accounter.getCompany().getAccountingType() ==
+			 * ClientCompany.ACCOUNTING_TYPE_INDIA) { return true; } else {
+			 * return true; } } else { return true; }
+			 */
+			return true;
 
 		} else {
 			return false;

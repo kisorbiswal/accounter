@@ -14,7 +14,7 @@
 				<g:RadioButton name="estimateGroup" ui:field="estimatesYes" styleName="employee_yesno" />
 				<g:RadioButton name="estimateGroup" ui:field="estimatesNo" styleName="employee_yesno" />
 			</g:VerticalPanel>
-			<g:VerticalPanel styleName="estimate_stmt_acc">
+			<!-- <g:VerticalPanel styleName="estimate_stmt_acc">
 				<g:Label ui:field="stmt_header" styleName="setup_header_label"/>
 				<g:HTML wordWrap="true" ui:field="billingStatements"/>
 				<g:Label ui:field="someExampleText" />
@@ -24,7 +24,7 @@
 					<g:RadioButton name="statementGroup" ui:field="statementYes" styleName="employee_yesno" />
 					<g:RadioButton name="statementGroup" ui:field="statementsNo" styleName="employee_yesno" />
 				</g:VerticalPanel>
-			</g:VerticalPanel>
+			</g:VerticalPanel> -->
 		</g:VerticalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 

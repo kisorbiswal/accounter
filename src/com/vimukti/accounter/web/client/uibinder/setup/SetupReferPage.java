@@ -26,7 +26,7 @@ public class SetupReferPage extends AbstractSetupPage {
 	@UiField
 	Label headerLabel;
 	@UiField
-	Label supplierLabel;
+	Label vendorsLabel;
 	@UiField
 	Label customerLabel;
 	@UiField
@@ -42,7 +42,7 @@ public class SetupReferPage extends AbstractSetupPage {
 	@UiField
 	ListBox customerListBox;
 	@UiField
-	ListBox supplierListBox;
+	ListBox vendorListBox;
 
 	interface SetupReferPageUiBinder extends UiBinder<Widget, SetupReferPage> {
 	}
@@ -73,22 +73,22 @@ public class SetupReferPage extends AbstractSetupPage {
 		customerListBox.addItem(accounterConstants.Member());
 		customerListBox.addItem(accounterConstants.patitent());
 
-		supplierListBox.addItem(accounterConstants.Vendor());
-		supplierListBox.addItem(accounterConstants.Supplier());
+		vendorListBox.addItem(accounterConstants.Vendor());
+		vendorListBox.addItem(accounterConstants.Supplier());
 
 		accountListBox.addItem(accounterConstants.Account());
 		accountListBox.addItem(accounterConstants.Ledger());
 
 		customerLabel.setText(accounterConstants.Customer());
-		supplierLabel.setText(accounterConstants.Supplier());
+		vendorsLabel.setText(accounterConstants.Vendor());
 		accountLabel.setText(accounterConstants.Account());
 
 		customerCommentLabel.setText(Accounter.messages()
-				.howDoYouReferYourCustoemrs(Global.get().customer()));
+				.howDoYouReferYourCustoemrs());
 		supplierCommentLabel.setText(Accounter.messages()
-				.howDoYouReferYourVendors(Global.get().vendor()));
+				.howDoYouReferYourVendors());
 		accountCommentLabel.setText(Accounter.messages()
-				.howDoYouReferYourAccounts(Global.get().customer()));
+				.howDoYouReferYourAccounts());
 
 	}
 
@@ -103,31 +103,37 @@ public class SetupReferPage extends AbstractSetupPage {
 		int referSuplliers = preferences.getReferVendors();
 		int referAccounts = preferences.getReferAccounts();
 
-		if (referCustomers != 0)
-			customerListBox.setSelectedIndex(referCustomers);
-		if (referAccounts != 0)
-			accountListBox.setSelectedIndex(referAccounts);
-		if (referSuplliers != 0)
-			supplierListBox.setSelectedIndex(referSuplliers);
+		if (referCustomers > 0) {
+			customerListBox.setSelectedIndex(referCustomers - 1);
+		}
+		if (referAccounts > 0) {
+			accountListBox.setSelectedIndex(referAccounts - 1);
+		}
+		if (referSuplliers > 0) {
+			vendorListBox.setSelectedIndex(referSuplliers - 1);
+		}
 	}
 
 	@Override
 	public void onSave() {
 		int customer = customerListBox.getSelectedIndex();
-		int suplier = supplierListBox.getSelectedIndex();
+		int vendor = vendorListBox.getSelectedIndex();
 		int accounts = accountListBox.getSelectedIndex();
-		if (customer != 0)
-			preferences.setReferCustomers(customer);
-		if (suplier != 0)
-			preferences.setReferVendors(suplier);
-		if (accounts != 0)
-			preferences.setReferAccounts(accounts);
+		if (customer > 0) {
+			preferences.setReferCustomers(customer + 1);
+		}
+		if (vendor > 0) {
+			preferences.setReferVendors(vendor + 1);
+		}
+		if (accounts > 0) {
+			preferences.setReferAccounts(accounts + 1);
+		}
 	}
 
 	@Override
 	protected boolean validate() {
 		if (customerListBox.getSelectedIndex() == -1
-				&& supplierListBox.getSelectedIndex() == -1
+				&& vendorListBox.getSelectedIndex() == -1
 				&& accountListBox.getSelectedIndex() == -1) {
 			Accounter.showError(accounterConstants.howDoYouRefer() + " "
 					+ Accounter.messages().customers(Global.get().customer())
@@ -136,12 +142,12 @@ public class SetupReferPage extends AbstractSetupPage {
 					+ "?");
 			return false;
 		} else if (customerListBox.getSelectedIndex() == -1
-				&& supplierListBox.getSelectedIndex() == -1) {
+				&& vendorListBox.getSelectedIndex() == -1) {
 			Accounter.showError(accounterConstants.howDoYouRefer() + " "
 					+ Accounter.messages().customers(Global.get().customer())
 					+ " " + Global.get().vendor() + "?");
 			return false;
-		} else if (supplierListBox.getSelectedIndex() == -1
+		} else if (vendorListBox.getSelectedIndex() == -1
 				&& accountListBox.getSelectedIndex() == -1) {
 			Accounter.showError(accounterConstants.howDoYouRefer() + " "
 					+ Global.get().vendor() + " "
@@ -157,15 +163,15 @@ public class SetupReferPage extends AbstractSetupPage {
 			return false;
 		} else if (customerListBox.getSelectedIndex() == -1) {
 			Accounter.showError(Accounter.messages()
-					.howDoYouReferYourCustoemrs(Global.get().customer()));
+					.howDoYouReferYourCustoemrs());
 			return false;
-		} else if (supplierListBox.getSelectedIndex() == -1) {
-			Accounter.showError(Accounter.messages().howDoYouReferYourVendors(
-					Global.get().vendor()));
+		} else if (vendorListBox.getSelectedIndex() == -1) {
+			Accounter
+					.showError(Accounter.messages().howDoYouReferYourVendors());
 			return false;
 		} else if (accountListBox.getSelectedIndex() == -1) {
-			Accounter.showError(Accounter.messages().howDoYouReferYourAccounts(
-					Global.get().Account()));
+			Accounter.showError(Accounter.messages()
+					.howDoYouReferYourAccounts());
 			return false;
 		} else {
 			return true;

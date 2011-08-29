@@ -19,7 +19,6 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.IAccounterCompanyInitializationServiceAsync;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
@@ -41,7 +40,7 @@ public class SetupWizard extends VerticalPanel {
 	private ClientCompanyPreferences preferences;
 	private Label progressHeader;
 	private AsyncCallback<Boolean> callback;
-	public int currentViewIndex = START_PAGE;
+	private int currentViewIndex = START_PAGE;
 	private List<TemplateAccount> selectedAccounts = new ArrayList<TemplateAccount>();
 	private FlexTable progressTable;
 
@@ -55,7 +54,7 @@ public class SetupWizard extends VerticalPanel {
 			/* new SetupTrackEmployeesPage(), */new SetupSellTypeAndSalesTaxPage(),
 
 			new SetupUsingEstimatesAndStatementsPage(),
-			new SetupCurrencyPage(), new SetupTrackBillsAndTimePage(),
+			new SetupCurrencyPage(),/* new SetupTrackBillsAndTimePage(), */
 			new SetupSelectFiscalYrDatePage(),
 			new SetupSelectAccountsPage(this), new SetupComplitionPage() };
 
@@ -72,11 +71,11 @@ public class SetupWizard extends VerticalPanel {
 			Accounter.constants().selectIndustryType(),
 			Accounter.constants().companyOrganization(),
 			Accounter.constants().selectReferringNames(),
-			Accounter.constants().trackEmployeeExpenses(),
+			/* Accounter.constants().trackEmployeeExpenses(), */
 			Accounter.constants().whatDoYouSell(),
 			Accounter.constants().setEstimatesAndStatements(),
 			Accounter.constants().setCurrency(),
-			Accounter.constants().setBillTracking(),
+			/* Accounter.constants().setBillTracking(), */
 			Accounter.constants().setFiscalYear(),
 			Accounter.constants().Accounts() };
 
@@ -179,25 +178,11 @@ public class SetupWizard extends VerticalPanel {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					Accounter.createCRUDService().updateCompanyPreferences(
-							preferences, new AsyncCallback<Boolean>() {
 
-								@Override
-								public void onSuccess(Boolean result) {
-									if (result) {
-										IAccounterCompanyInitializationServiceAsync cIService = Accounter
-												.createCompanyInitializationService();
-										cIService.initalizeCompany(preferences,
-												selectedAccounts, callback);
-									}
-								}
+					Accounter.createCompanyInitializationService()
+							.initalizeCompany(preferences, selectedAccounts,
+									callback);
 
-								@Override
-								public void onFailure(Throwable caught) {
-									// TODO Auto-generated method stub
-
-								}
-							});
 				}
 			});
 			nextButton.addClickHandler(new ClickHandler() {
@@ -206,14 +191,8 @@ public class SetupWizard extends VerticalPanel {
 				public void onClick(ClickEvent arg0) {
 					if (getViewsList()[currentViewIndex].validate()) {
 						// setting the progress
-						if (currentViewIndex > 0) {
-							getProgressImages()[currentViewIndex - 1]
-									.addStyleName("tick_show");
-						}
-						if (currentViewIndex != viewList.length - 1) {
-							currentViewIndex++;
-						}
-						showView();
+
+						showView(true);
 					}
 				}
 			});
@@ -222,23 +201,14 @@ public class SetupWizard extends VerticalPanel {
 
 				@Override
 				public void onClick(ClickEvent arg0) {
-					if (getViewsList()[currentViewIndex].validate()) {
-						if (currentViewIndex != START_PAGE) {
-							if (currentViewIndex > 1) {
-								getProgressImages()[currentViewIndex - 2]
-										.removeStyleName("tick_show");
-							}
-							currentViewIndex--;
-							showView();
-							if (currentViewIndex == 0) {
-								removeProgressPanel();
-
-							}
-						} else {
-							viewPanel.remove(viewToShow);
+					if (currentViewIndex != START_PAGE) {
+						showView(false);
+						if (currentViewIndex == 0) {
 							removeProgressPanel();
 						}
-
+					} else {
+						viewPanel.remove(viewToShow);
+						removeProgressPanel();
 					}
 				}
 			});
@@ -281,11 +251,6 @@ public class SetupWizard extends VerticalPanel {
 
 	}
 
-	protected void gotoLastPage() {
-		currentViewIndex = viewList.length;
-		showView();
-	}
-
 	private void showStartPage() {
 		try {
 			viewToShow = viewList[START_PAGE];
@@ -295,14 +260,28 @@ public class SetupWizard extends VerticalPanel {
 		}
 	}
 
-	protected void showView() {
-
+	protected void showView(boolean isNext) {
 		previousView = viewToShow;
-		if (previousView != null && previousView.validate()) {
-			previousView.onSave();
-			this.viewPanel.remove(previousView);
+		if (isNext) {
+			if (currentViewIndex > 0) {
+				getProgressImages()[currentViewIndex - 1]
+						.addStyleName("tick_show");
+			}
+			if (!isLastView()) {
+				currentViewIndex++;
+			}
+			if (previousView != null && previousView.validate()) {
+				previousView.onSave();
+			}
+		} else {
+			if (currentViewIndex > 1) {
+				getProgressImages()[currentViewIndex - 2]
+						.removeStyleName("tick_show");
+			}
+			currentViewIndex--;
 		}
 
+		this.viewPanel.remove(previousView);
 		viewToShow = getNextView();
 
 		if (viewToShow == null) {
@@ -336,7 +315,7 @@ public class SetupWizard extends VerticalPanel {
 
 	}
 
-	public void getProgessPanel() {
+	public void initProgessPanel() {
 		progressTable = new FlexTable();
 		Image[] progressImages = getProgressImages();
 		String[] progressLabels = getProgressLabels();
@@ -496,6 +475,12 @@ public class SetupWizard extends VerticalPanel {
 	 */
 	protected void redirectToCompaniesPage() throws RequestException {
 		Window.Location.assign("/login");
+	}
+
+	public void initInterview(boolean isSkip) {
+		this.isSkip = isSkip;
+		initProgessPanel();
+		showView(true);
 	}
 
 }

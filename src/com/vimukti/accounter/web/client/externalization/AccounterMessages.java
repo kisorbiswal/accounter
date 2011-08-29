@@ -248,7 +248,7 @@ public interface AccounterMessages extends Messages {
 	public String youcannotchangeaCustomertypetoVendortype(
 			String youcannotchangeaCustomertypetoVendortype, String msgString);
 
-	public String howDoYouReferYourCustoemrs(String customersString);
+	public String howDoYouReferYourCustoemrs();
 
 	public String journalEntryCustomer(String journalEntryCustomerString);
 
@@ -470,7 +470,7 @@ public interface AccounterMessages extends Messages {
 
 	public String selectRequiredAccounts(String msgString);
 
-	public String howDoYouReferYourAccounts(String msgString);
+	public String howDoYouReferYourAccounts();
 
 	public String taxAgencyFinanceAcount(String msgString);
 
@@ -652,7 +652,7 @@ public interface AccounterMessages extends Messages {
 
 	public String addaNewVendor(String vendorString);
 
-	public String howDoYouReferYourVendors(String vendorString);
+	public String howDoYouReferYourVendors();
 
 	public String vendorsList(String vendorString);
 

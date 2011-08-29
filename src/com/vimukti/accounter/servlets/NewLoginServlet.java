@@ -30,8 +30,8 @@ public class NewLoginServlet extends BaseServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		Session openSession = HibernateUtil.openSession(LOCAL_DATABASE);
-		Transaction transaction = openSession.beginTransaction();
+		Session session = HibernateUtil.openSession(LOCAL_DATABASE);
+		Transaction transaction = session.beginTransaction();
 		try {
 			Client client = doLogin(request, response);
 			if (client != null) {
@@ -49,17 +49,23 @@ public class NewLoginServlet extends BaseServlet {
 
 				} else {
 
+					if (client.isRequirePasswordReset()) {
+						client.setRequirePasswordReset(false);
+						session.saveOrUpdate(client);
+					}
+
 					String destUrl = request.getParameter(PARAM_DESTINATION);
 					HttpSession httpSession = request.getSession();
 					httpSession.setAttribute(EMAIL_ID, client.getEmailId());
 					if (destUrl == null || destUrl.isEmpty()) {
 						client.setLoginCount(client.getLoginCount() + 1);
 						client.setLastLoginTime(System.currentTimeMillis());
-						openSession.saveOrUpdate(client);
+						session.saveOrUpdate(client);
 						redirectExternal(request, response, COMPANIES_URL);
 					} else {
 						redirectExternal(request, response, destUrl);
 					}
+
 				}
 				return;
 			} else {
@@ -70,9 +76,9 @@ public class NewLoginServlet extends BaseServlet {
 			}
 		} catch (Exception e) {
 		} finally {
-			if (openSession.isOpen()) {
+			if (session.isOpen()) {
 				transaction.commit();
-				openSession.close();
+				session.close();
 			}
 		}
 	}
@@ -120,8 +126,9 @@ public class NewLoginServlet extends BaseServlet {
 		// We check if the session is already there, if it is, we check if user
 		// have to reset his password(by using a flag on the user object)
 		HttpSession httpSession = request.getSession();
-		String activationType = (String) httpSession.getAttribute(ACTIVATION_TYPE);
-		if(activationType != null && activationType.equals("resetpassword")){
+		String activationType = (String) httpSession
+				.getAttribute(ACTIVATION_TYPE);
+		if (activationType != null && activationType.equals("resetpassword")) {
 			httpSession.removeAttribute(ACTIVATION_TYPE);
 			httpSession.removeAttribute(EMAIL_ID);
 			redirectExternal(request, response, LOGIN_URL);
@@ -210,13 +217,13 @@ public class NewLoginServlet extends BaseServlet {
 						Transaction transaction = session.beginTransaction();
 						// reset the activation code and save it
 						activation.setToken(token);
-						try{
-						saveEntry(activation);
+						try {
+							saveEntry(activation);
 
-						// resend activation mail
-						sendActivationEmail(token, client);
-						transaction.commit();
-						}catch(Exception e){
+							// resend activation mail
+							sendActivationEmail(token, client);
+							transaction.commit();
+						} catch (Exception e) {
 							e.printStackTrace();
 							transaction.rollback();
 						}

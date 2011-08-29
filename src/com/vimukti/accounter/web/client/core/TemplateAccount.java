@@ -6,6 +6,7 @@ package com.vimukti.accounter.web.client.core;
 import java.io.Serializable;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 
 /**
  * @author Prasanna Kumar G
@@ -149,7 +150,10 @@ public class TemplateAccount implements Serializable, IsSerializable {
 	 * @return
 	 */
 	public int getTypeAsInt() {
-		// TODO Auto-generated method stub
+		for (int type : UIUtils.accountTypes) {
+			if (this.type.equals(Utility.getAccountTypeString(type)))
+				return type;
+		}
 		return 0;
 	}
 

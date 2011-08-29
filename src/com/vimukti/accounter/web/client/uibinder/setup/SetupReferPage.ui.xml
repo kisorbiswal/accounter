@@ -16,8 +16,8 @@
 		</g:HorizontalPanel>
 		<g:Label ui:field="supplierCommentLabel" styleName="refer_supplier"/>
 		<g:HorizontalPanel styleName="refer_panel">
-			<g:Label ui:field="supplierLabel"/>
-			<g:ListBox ui:field="supplierListBox" styleName="refer_listbox"/>
+			<g:Label ui:field="vendorsLabel"/>
+			<g:ListBox ui:field="vendorListBox" styleName="refer_listbox"/>
 		</g:HorizontalPanel>
 		<g:Label ui:field="accountCommentLabel" styleName="refer_account"/>
 		<g:HorizontalPanel styleName="refer_panel">

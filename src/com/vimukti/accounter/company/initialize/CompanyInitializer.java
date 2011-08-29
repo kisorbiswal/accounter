@@ -16,6 +16,7 @@ import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FiscalYear;
 import com.vimukti.accounter.core.NominalCodeRange;
 import com.vimukti.accounter.core.PaymentTerms;
+import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
@@ -146,14 +147,15 @@ public abstract class CompanyInitializer {
 	 */
 	protected Account createAccount(int type, String name, int cashFlowCategory) {
 		Session session = HibernateUtil.getCurrentSession();
-		Integer nextAccoutNo = accountNoMap.get(type);
+		int subBaseType = Utility.getAccountSubBaseType(type);
+		Integer nextAccoutNo = accountNoMap.get(subBaseType);
 		if (nextAccoutNo == null) {
 			nextAccoutNo = getMinimumRange(type);
 		}
 		Account account = new Account(type, nextAccoutNo, name,
 				cashFlowCategory);
 		session.saveOrUpdate(account);
-		accountNoMap.put(type, nextAccoutNo + 1);
+		accountNoMap.put(subBaseType, nextAccoutNo + 1);
 		return account;
 	}
 

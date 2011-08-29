@@ -20,21 +20,21 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 	RadioButton estimatesYes;
 	@UiField
 	RadioButton estimatesNo;
-	@UiField
+	// @UiField
 	Label someExampleText;
-	@UiField
+	// @UiField
 	HTML someExampleList;
-	@UiField
+	// @UiField
 	Label billingQuestion;
-	@UiField
+	// @UiField
 	RadioButton statementYes;
-	@UiField
+	// @UiField
 	RadioButton statementsNo;
 	@UiField
 	Label headerLabel;
-	@UiField
+	// @UiField
 	HTML billingStatements;
-	@UiField
+	// @UiField
 	Label stmt_header;
 
 	interface SetupUsingEstimatesAndStatementsPageUiBinder extends
@@ -46,20 +46,21 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 		createControls();
 	}
 
-
 	@Override
 	protected void createControls() {
 		headerLabel.setText(accounterConstants
 				.wanttoCreateEstimatesInAccounter());
 		estimatesYes.setText(accounterConstants.yes());
 		estimatesNo.setText(accounterConstants.no());
-		billingStatements.setHTML(accounterMessages.statementDescription());
-		someExampleText.setText(accounterConstants.statementSomeExample());
-		someExampleList.setHTML(accounterMessages.statementlist());
-		billingQuestion.setText(accounterMessages.statementQuestion());
-		statementYes.setText(accounterConstants.yes());
-		statementsNo.setText(accounterConstants.no());
-		stmt_header.setText(accounterConstants.doyouWantToUseStatements());
+		/*
+		 * billingStatements.setHTML(accounterMessages.statementDescription());
+		 * someExampleText.setText(accounterConstants.statementSomeExample());
+		 * someExampleList.setHTML(accounterMessages.statementlist());
+		 * billingQuestion.setText(accounterMessages.statementQuestion());
+		 * statementYes.setText(accounterConstants.yes());
+		 * statementsNo.setText(accounterConstants.no());
+		 * stmt_header.setText(accounterConstants.doyouWantToUseStatements());
+		 */
 	}
 
 	@Override
@@ -69,56 +70,38 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 
 	@Override
 	public void onLoad() {
-		boolean doyouwantEstimates = preferences.isDoyouwantEstimates();
-		boolean doyouwanrstatements = preferences.isDoyouwantstatements();
 		// estimates
-		if (doyouwantEstimates) {
-			estimatesYes.setValue(true);
-		} else {
-			estimatesNo.setValue(true);
-		}
+		estimatesYes.setValue(preferences.isDoyouwantEstimates());
 		// statements
-		if (doyouwanrstatements) {
-			statementYes.setValue(true);
-		} else {
-			statementsNo.setValue(true);
-		}
+		// statementYes.setValue(preferences.isDoyouwantstatements());
 	}
 
 	@Override
 	public void onSave() {
 
-		boolean yesEstmatesvalue = estimatesYes.getValue();
-		boolean yesStatementvalue = statementYes.getValue();
 		// Estimates
-		if (yesEstmatesvalue) {
-			preferences.setDoyouwantEstimates(true);
-		} else {
-			preferences.setDoyouwantEstimates(false);
-		}
+		preferences.setDoyouwantEstimates(estimatesYes.getValue());
 		// Statements
-		if (yesStatementvalue) {
-			preferences.setDoyouwantEstimates(true);
-		} else {
-			preferences.setDoyouwantEstimates(false);
-		}
+		// preferences.setDoyouwantstatements(statementYes.getValue());
 	}
+
 	@Override
 	protected boolean validate() {
 		if ((!(estimatesYes.getValue() || estimatesNo.getValue()))
-				&& (!(statementYes.getValue() || statementsNo.getValue()))) {
+		/* && (!(statementYes.getValue() || statementsNo.getValue())) */) {
 			Accounter.showError(accounterMessages
 					.pleaseEnter(accounterConstants.details()));
 			return false;
 		} else if (!(estimatesYes.getValue() || estimatesNo.getValue())) {
 			Accounter.showError(accounterMessages
-					.pleaseEnter(accounterConstants.wanttoCreateEstimatesInAccounter()));
+					.pleaseEnter(accounterConstants
+							.wanttoCreateEstimatesInAccounter()));
 			return false;
-		} else if (!(statementYes.getValue() || statementsNo.getValue())) {
-			Accounter.showError(accounterMessages
-					.pleaseEnter(accounterConstants.doyouWantToUseStatements()));
-			return false;
-		} else {
+		}/*
+		 * else if (!(statementYes.getValue() || statementsNo.getValue())) {
+		 * Accounter .showError(accounterMessages.pleaseEnter(accounterConstants
+		 * .doyouWantToUseStatements())); return false; }
+		 */else {
 			return true;
 		}
 	}

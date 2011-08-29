@@ -9,6 +9,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.CompanyPreferences;
+import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.IAccounterCompanyInitializationService;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -142,15 +144,25 @@ public class AccounterCompanyInitializationServiceImpl extends
 	public boolean initalizeCompany(ClientCompanyPreferences preferences,
 			List<TemplateAccount> accounts) {
 		Session session = HibernateUtil.getCurrentSession();
-		Transaction beginTransaction = session.beginTransaction();
+		Transaction transaction = session.beginTransaction();
 		try {
 			Company company = (Company) session.load(Company.class, 1l);
+
+			// Updating CompanyPreferences
+			CompanyPreferences serverCompanyPreferences = company
+					.getPreferences();
+			serverCompanyPreferences = new ServerConvertUtil().toServerObject(
+					serverCompanyPreferences, preferences, session);
+			company.setPreferences(serverCompanyPreferences);
+
+			// Initializing Accounts
 			company.initialize(accounts);
 			company.setConfigured(true);
 			session.saveOrUpdate(company);
-			beginTransaction.commit();
+			transaction.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
+			transaction.rollback();
 			return false;
 		}
 		return true;

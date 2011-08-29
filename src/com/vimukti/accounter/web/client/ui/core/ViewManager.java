@@ -95,8 +95,10 @@ public class ViewManager extends HorizontalPanel {
 		leftPanel.add(toolBar);
 		leftPanel.add(viewHolder);
 		this.add(leftPanel);
-		accounterHelpView = (HelpPanel) createHelpPanel();
-		accounterHelpView.addStyleName("view_help_panel");
+		if (isHelpPanelEnabled) {
+			accounterHelpView = (HelpPanel) createHelpPanel();
+			accounterHelpView.addStyleName("view_help_panel");
+		}
 		if (accounterHelpView != null) {
 			this.add(accounterHelpView);
 		}
@@ -107,7 +109,6 @@ public class ViewManager extends HorizontalPanel {
 	private HelpPanel accounterHelpView;
 
 	private Widget createHelpPanel() {
-		isHelpPanelEnabled = true;
 		if (isHelpPanelEnabled) {
 			accounterHelpView = new HelpPanel();
 			accounterHelpView.setHelpUrl(this.getUrl());
@@ -492,7 +493,7 @@ public class ViewManager extends HorizontalPanel {
 
 	private HelpDialog helpDialog;
 
-	private boolean isHelpPanelEnabled = true;
+	private boolean isHelpPanelEnabled = false;
 
 	private void createHelpDialog() {
 		if (helpDialog != null) {

@@ -28,7 +28,7 @@ public class SetupReferPage extends AbstractSetupPage {
 		VerticalPanel mainPanel = new VerticalPanel();
 
 		referCustomerLabel = new Label(Accounter.messages()
-				.howDoYouReferYourCustoemrs(Global.get().Account()));
+				.howDoYouReferYourCustoemrs());
 		referCustomerLabel.addStyleName("referComment");
 		customerCombo = new SelectCombo(Global.get().customer());
 		customerForm = UIUtils.form(Global.get().customer());
@@ -39,7 +39,7 @@ public class SetupReferPage extends AbstractSetupPage {
 		customerForm.setFields(customerCombo);
 
 		refersuppliersLabel = new Label(Accounter.messages()
-				.howDoYouReferYourVendors(Global.get().vendor()));
+				.howDoYouReferYourVendors());
 		refersuppliersLabel.addStyleName("referComment");
 		supplierCombo = new SelectCombo(Global.get().customer());
 		supplierCombo.addItem("Suppliers");
@@ -50,7 +50,7 @@ public class SetupReferPage extends AbstractSetupPage {
 		supplierForm.setFields(supplierCombo);
 
 		referaccountsLabel = new Label(Accounter.messages()
-				.howDoYouReferYourAccounts(Global.get().Account()));
+				.howDoYouReferYourAccounts());
 		referaccountsLabel.addStyleName("referComment");
 		accountCombo = new SelectCombo(Accounter.messages().account(
 				Global.get().account()));
@@ -73,8 +73,8 @@ public class SetupReferPage extends AbstractSetupPage {
 		mainPanel.add(refersuppliersLabel);
 
 		accountCombo.textBox.getElement().getParentElement().getParentElement()
-				.getParentElement().getParentElement().addClassName(
-						"accountReferCombo");
+				.getParentElement().getParentElement()
+				.addClassName("accountReferCombo");
 		mainPanel.add(accountForm);
 		mainPanel.add(referaccountsLabel);
 
