@@ -15,7 +15,6 @@
  */
 package com.gdevelop.gwt.syncrpc;
 
-
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -30,7 +29,7 @@ import com.google.gwt.user.client.rpc.impl.ClientSerializationStreamWriter;
 import com.google.gwt.user.client.rpc.impl.Serializer;
 import com.google.gwt.user.server.rpc.SerializationPolicy;
 import com.google.gwt.user.server.rpc.impl.SerializabilityUtil;
-
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @see com.google.gwt.user.client.rpc.impl.ClientSerializationStreamWriter
@@ -38,465 +37,516 @@ import com.google.gwt.user.server.rpc.impl.SerializabilityUtil;
  * @see com.google.gwt.user.server.rpc.impl.ServerSerializationStreamWriter
  * @see com.google.gwt.user.server.rpc.impl.ServerSerializationStreamReader
  */
-public class SyncClientSerializationStreamWriter extends AbstractSerializationStreamWriter{
-  /**
-   * Enumeration used to provided typed instance writers.
-   */
-  private enum ValueWriter {
-    BOOLEAN {
-      void write(SyncClientSerializationStreamWriter stream, Object instance) {
-        stream.writeBoolean(((Boolean) instance).booleanValue());
-      }
-    },
-    BYTE {
-      void write(SyncClientSerializationStreamWriter stream, Object instance) {
-        stream.writeByte(((Byte) instance).byteValue());
-      }
-    },
-    CHAR {
-      void write(SyncClientSerializationStreamWriter stream, Object instance) {
-        stream.writeChar(((Character) instance).charValue());
-      }
-    },
-    DOUBLE {
-      void write(SyncClientSerializationStreamWriter stream, Object instance) {
-        stream.writeDouble(((Double) instance).doubleValue());
-      }
-    },
-    FLOAT {
-      void write(SyncClientSerializationStreamWriter stream, Object instance) {
-        stream.writeFloat(((Float) instance).floatValue());
-      }
-    },
-    INT {
-      void write(SyncClientSerializationStreamWriter stream, Object instance) {
-        stream.writeInt(((Integer) instance).intValue());
-      }
-    },
-    LONG {
-      void write(SyncClientSerializationStreamWriter stream, Object instance) {
-        stream.writeLong(((Long) instance).longValue());
-      }
-    },
-    OBJECT {
-      void write(SyncClientSerializationStreamWriter stream, Object instance)
-          throws SerializationException {
-        stream.writeObject(instance);
-      }
-    },
-    SHORT {
-      void write(SyncClientSerializationStreamWriter stream, Object instance) {
-        stream.writeShort(((Short) instance).shortValue());
-      }
-    },
-    STRING {
-      void write(SyncClientSerializationStreamWriter stream, Object instance) {
-        stream.writeString((String) instance);
-      }
-    };
+public class SyncClientSerializationStreamWriter extends
+		AbstractSerializationStreamWriter {
+	/**
+	 * Enumeration used to provided typed instance writers.
+	 */
+	private enum ValueWriter {
+		BOOLEAN {
+			void write(SyncClientSerializationStreamWriter stream,
+					Object instance) {
+				stream.writeBoolean(((Boolean) instance).booleanValue());
+			}
+		},
+		BYTE {
+			void write(SyncClientSerializationStreamWriter stream,
+					Object instance) {
+				stream.writeByte(((Byte) instance).byteValue());
+			}
+		},
+		CHAR {
+			void write(SyncClientSerializationStreamWriter stream,
+					Object instance) {
+				stream.writeChar(((Character) instance).charValue());
+			}
+		},
+		DOUBLE {
+			void write(SyncClientSerializationStreamWriter stream,
+					Object instance) {
+				stream.writeDouble(((Double) instance).doubleValue());
+			}
+		},
+		FLOAT {
+			void write(SyncClientSerializationStreamWriter stream,
+					Object instance) {
+				stream.writeFloat(((Float) instance).floatValue());
+			}
+		},
+		INT {
+			void write(SyncClientSerializationStreamWriter stream,
+					Object instance) {
+				stream.writeInt(((Integer) instance).intValue());
+			}
+		},
+		LONG {
+			void write(SyncClientSerializationStreamWriter stream,
+					Object instance) {
+				stream.writeLong(((Long) instance).longValue());
+			}
+		},
+		OBJECT {
+			void write(SyncClientSerializationStreamWriter stream,
+					Object instance) throws SerializationException {
+				stream.writeObject(instance);
+			}
+		},
+		SHORT {
+			void write(SyncClientSerializationStreamWriter stream,
+					Object instance) {
+				stream.writeShort(((Short) instance).shortValue());
+			}
+		},
+		STRING {
+			void write(SyncClientSerializationStreamWriter stream,
+					Object instance) {
+				stream.writeString((String) instance);
+			}
+		};
 
-    abstract void write(SyncClientSerializationStreamWriter stream, Object instance)
-        throws SerializationException;
-  }
+		abstract void write(SyncClientSerializationStreamWriter stream,
+				Object instance) throws SerializationException;
+	}
 
-  /**
-   * Enumeration used to provided typed vector writers.
-   */
-  private enum VectorWriter {
-    BOOLEAN_VECTOR {
-      void write(SyncClientSerializationStreamWriter stream, Object instance) {
-        boolean[] vector = (boolean[]) instance;
-        stream.writeInt(vector.length);
-        for (int i = 0, n = vector.length; i < n; ++i) {
-          stream.writeBoolean(vector[i]);
-        }
-      }
-    },
-    BYTE_VECTOR {
-      void write(SyncClientSerializationStreamWriter stream, Object instance) {
-        byte[] vector = (byte[]) instance;
-        stream.writeInt(vector.length);
-        for (int i = 0, n = vector.length; i < n; ++i) {
-          stream.writeByte(vector[i]);
-        }
-      }
-    },
-    CHAR_VECTOR {
-      void write(SyncClientSerializationStreamWriter stream, Object instance) {
-        char[] vector = (char[]) instance;
-        stream.writeInt(vector.length);
-        for (int i = 0, n = vector.length; i < n; ++i) {
-          stream.writeChar(vector[i]);
-        }
-      }
-    },
-    DOUBLE_VECTOR {
-      void write(SyncClientSerializationStreamWriter stream, Object instance) {
-        double[] vector = (double[]) instance;
-        stream.writeInt(vector.length);
-        for (int i = 0, n = vector.length; i < n; ++i) {
-          stream.writeDouble(vector[i]);
-        }
-      }
-    },
-    FLOAT_VECTOR {
-      void write(SyncClientSerializationStreamWriter stream, Object instance) {
-        float[] vector = (float[]) instance;
-        stream.writeInt(vector.length);
-        for (int i = 0, n = vector.length; i < n; ++i) {
-          stream.writeFloat(vector[i]);
-        }
-      }
-    },
-    INT_VECTOR {
-      void write(SyncClientSerializationStreamWriter stream, Object instance) {
-        int[] vector = (int[]) instance;
-        stream.writeInt(vector.length);
-        for (int i = 0, n = vector.length; i < n; ++i) {
-          stream.writeInt(vector[i]);
-        }
-      }
-    },
-    LONG_VECTOR {
-      void write(SyncClientSerializationStreamWriter stream, Object instance) {
-        long[] vector = (long[]) instance;
-        stream.writeInt(vector.length);
-        for (int i = 0, n = vector.length; i < n; ++i) {
-          stream.writeLong(vector[i]);
-        }
-      }
-    },
-    OBJECT_VECTOR {
-      void write(SyncClientSerializationStreamWriter stream, Object instance)
-          throws SerializationException {
-        Object[] vector = (Object[]) instance;
-        stream.writeInt(vector.length);
-        for (int i = 0, n = vector.length; i < n; ++i) {
-          stream.writeObject(vector[i]);
-        }
-      }
-    },
-    SHORT_VECTOR {
-      void write(SyncClientSerializationStreamWriter stream, Object instance) {
-        short[] vector = (short[]) instance;
-        stream.writeInt(vector.length);
-        for (int i = 0, n = vector.length; i < n; ++i) {
-          stream.writeShort(vector[i]);
-        }
-      }
-    },
-    STRING_VECTOR {
-      void write(SyncClientSerializationStreamWriter stream, Object instance) {
-        String[] vector = (String[]) instance;
-        stream.writeInt(vector.length);
-        for (int i = 0, n = vector.length; i < n; ++i) {
-          stream.writeString(vector[i]);
-        }
-      }
-    };
+	/**
+	 * Enumeration used to provided typed vector writers.
+	 */
+	private enum VectorWriter {
+		BOOLEAN_VECTOR {
+			void write(SyncClientSerializationStreamWriter stream,
+					Object instance) {
+				boolean[] vector = (boolean[]) instance;
+				stream.writeInt(vector.length);
+				for (int i = 0, n = vector.length; i < n; ++i) {
+					stream.writeBoolean(vector[i]);
+				}
+			}
+		},
+		BYTE_VECTOR {
+			void write(SyncClientSerializationStreamWriter stream,
+					Object instance) {
+				byte[] vector = (byte[]) instance;
+				stream.writeInt(vector.length);
+				for (int i = 0, n = vector.length; i < n; ++i) {
+					stream.writeByte(vector[i]);
+				}
+			}
+		},
+		CHAR_VECTOR {
+			void write(SyncClientSerializationStreamWriter stream,
+					Object instance) {
+				char[] vector = (char[]) instance;
+				stream.writeInt(vector.length);
+				for (int i = 0, n = vector.length; i < n; ++i) {
+					stream.writeChar(vector[i]);
+				}
+			}
+		},
+		DOUBLE_VECTOR {
+			void write(SyncClientSerializationStreamWriter stream,
+					Object instance) {
+				double[] vector = (double[]) instance;
+				stream.writeInt(vector.length);
+				for (int i = 0, n = vector.length; i < n; ++i) {
+					stream.writeDouble(vector[i]);
+				}
+			}
+		},
+		FLOAT_VECTOR {
+			void write(SyncClientSerializationStreamWriter stream,
+					Object instance) {
+				float[] vector = (float[]) instance;
+				stream.writeInt(vector.length);
+				for (int i = 0, n = vector.length; i < n; ++i) {
+					stream.writeFloat(vector[i]);
+				}
+			}
+		},
+		INT_VECTOR {
+			void write(SyncClientSerializationStreamWriter stream,
+					Object instance) {
+				int[] vector = (int[]) instance;
+				stream.writeInt(vector.length);
+				for (int i = 0, n = vector.length; i < n; ++i) {
+					stream.writeInt(vector[i]);
+				}
+			}
+		},
+		LONG_VECTOR {
+			void write(SyncClientSerializationStreamWriter stream,
+					Object instance) {
+				long[] vector = (long[]) instance;
+				stream.writeInt(vector.length);
+				for (int i = 0, n = vector.length; i < n; ++i) {
+					stream.writeLong(vector[i]);
+				}
+			}
+		},
+		OBJECT_VECTOR {
+			void write(SyncClientSerializationStreamWriter stream,
+					Object instance) throws SerializationException {
+				Object[] vector = (Object[]) instance;
+				stream.writeInt(vector.length);
+				for (int i = 0, n = vector.length; i < n; ++i) {
+					stream.writeObject(vector[i]);
+				}
+			}
+		},
+		SHORT_VECTOR {
+			void write(SyncClientSerializationStreamWriter stream,
+					Object instance) {
+				short[] vector = (short[]) instance;
+				stream.writeInt(vector.length);
+				for (int i = 0, n = vector.length; i < n; ++i) {
+					stream.writeShort(vector[i]);
+				}
+			}
+		},
+		STRING_VECTOR {
+			void write(SyncClientSerializationStreamWriter stream,
+					Object instance) {
+				String[] vector = (String[]) instance;
+				stream.writeInt(vector.length);
+				for (int i = 0, n = vector.length; i < n; ++i) {
+					stream.writeString(vector[i]);
+				}
+			}
+		};
 
-    abstract void write(SyncClientSerializationStreamWriter stream, Object instance)
-        throws SerializationException;
-  }
+		abstract void write(SyncClientSerializationStreamWriter stream,
+				Object instance) throws SerializationException;
+	}
 
-  /**
-   * Map of {@link Class} objects to {@link ValueWriter}s.
-   */
-  private static final Map<Class<?>, ValueWriter> CLASS_TO_VALUE_WRITER = new IdentityHashMap<Class<?>, ValueWriter>();
+	/**
+	 * Map of {@link Class} objects to {@link ValueWriter}s.
+	 */
+	private static final Map<Class<?>, ValueWriter> CLASS_TO_VALUE_WRITER = new IdentityHashMap<Class<?>, ValueWriter>();
 
-  /**
-   * Map of {@link Class} vector objects to {@link VectorWriter}s.
-   */
-  private static final Map<Class<?>, VectorWriter> CLASS_TO_VECTOR_WRITER = new IdentityHashMap<Class<?>, VectorWriter>();
+	/**
+	 * Map of {@link Class} vector objects to {@link VectorWriter}s.
+	 */
+	private static final Map<Class<?>, VectorWriter> CLASS_TO_VECTOR_WRITER = new IdentityHashMap<Class<?>, VectorWriter>();
 
-  static {
-    CLASS_TO_VECTOR_WRITER.put(boolean[].class, SyncClientSerializationStreamWriter.VectorWriter.BOOLEAN_VECTOR);
-    CLASS_TO_VECTOR_WRITER.put(byte[].class, SyncClientSerializationStreamWriter.VectorWriter.BYTE_VECTOR);
-    CLASS_TO_VECTOR_WRITER.put(char[].class, SyncClientSerializationStreamWriter.VectorWriter.CHAR_VECTOR);
-    CLASS_TO_VECTOR_WRITER.put(double[].class, SyncClientSerializationStreamWriter.VectorWriter.DOUBLE_VECTOR);
-    CLASS_TO_VECTOR_WRITER.put(float[].class, SyncClientSerializationStreamWriter.VectorWriter.FLOAT_VECTOR);
-    CLASS_TO_VECTOR_WRITER.put(int[].class, SyncClientSerializationStreamWriter.VectorWriter.INT_VECTOR);
-    CLASS_TO_VECTOR_WRITER.put(long[].class, SyncClientSerializationStreamWriter.VectorWriter.LONG_VECTOR);
-    CLASS_TO_VECTOR_WRITER.put(Object[].class, SyncClientSerializationStreamWriter.VectorWriter.OBJECT_VECTOR);
-    CLASS_TO_VECTOR_WRITER.put(short[].class, SyncClientSerializationStreamWriter.VectorWriter.SHORT_VECTOR);
-    CLASS_TO_VECTOR_WRITER.put(String[].class, SyncClientSerializationStreamWriter.VectorWriter.STRING_VECTOR);
+	static {
+		CLASS_TO_VECTOR_WRITER
+				.put(boolean[].class,
+						SyncClientSerializationStreamWriter.VectorWriter.BOOLEAN_VECTOR);
+		CLASS_TO_VECTOR_WRITER.put(byte[].class,
+				SyncClientSerializationStreamWriter.VectorWriter.BYTE_VECTOR);
+		CLASS_TO_VECTOR_WRITER.put(char[].class,
+				SyncClientSerializationStreamWriter.VectorWriter.CHAR_VECTOR);
+		CLASS_TO_VECTOR_WRITER.put(double[].class,
+				SyncClientSerializationStreamWriter.VectorWriter.DOUBLE_VECTOR);
+		CLASS_TO_VECTOR_WRITER.put(float[].class,
+				SyncClientSerializationStreamWriter.VectorWriter.FLOAT_VECTOR);
+		CLASS_TO_VECTOR_WRITER.put(int[].class,
+				SyncClientSerializationStreamWriter.VectorWriter.INT_VECTOR);
+		CLASS_TO_VECTOR_WRITER.put(long[].class,
+				SyncClientSerializationStreamWriter.VectorWriter.LONG_VECTOR);
+		CLASS_TO_VECTOR_WRITER.put(Object[].class,
+				SyncClientSerializationStreamWriter.VectorWriter.OBJECT_VECTOR);
+		CLASS_TO_VECTOR_WRITER.put(short[].class,
+				SyncClientSerializationStreamWriter.VectorWriter.SHORT_VECTOR);
+		CLASS_TO_VECTOR_WRITER.put(String[].class,
+				SyncClientSerializationStreamWriter.VectorWriter.STRING_VECTOR);
 
-    CLASS_TO_VALUE_WRITER.put(boolean.class, SyncClientSerializationStreamWriter.ValueWriter.BOOLEAN);
-    CLASS_TO_VALUE_WRITER.put(byte.class, SyncClientSerializationStreamWriter.ValueWriter.BYTE);
-    CLASS_TO_VALUE_WRITER.put(char.class, SyncClientSerializationStreamWriter.ValueWriter.CHAR);
-    CLASS_TO_VALUE_WRITER.put(double.class, SyncClientSerializationStreamWriter.ValueWriter.DOUBLE);
-    CLASS_TO_VALUE_WRITER.put(float.class, SyncClientSerializationStreamWriter.ValueWriter.FLOAT);
-    CLASS_TO_VALUE_WRITER.put(int.class, SyncClientSerializationStreamWriter.ValueWriter.INT);
-    CLASS_TO_VALUE_WRITER.put(long.class, SyncClientSerializationStreamWriter.ValueWriter.LONG);
-    CLASS_TO_VALUE_WRITER.put(Object.class, SyncClientSerializationStreamWriter.ValueWriter.OBJECT);
-    CLASS_TO_VALUE_WRITER.put(short.class, SyncClientSerializationStreamWriter.ValueWriter.SHORT);
-    CLASS_TO_VALUE_WRITER.put(String.class, SyncClientSerializationStreamWriter.ValueWriter.STRING);
-  }
+		CLASS_TO_VALUE_WRITER.put(boolean.class,
+				SyncClientSerializationStreamWriter.ValueWriter.BOOLEAN);
+		CLASS_TO_VALUE_WRITER.put(byte.class,
+				SyncClientSerializationStreamWriter.ValueWriter.BYTE);
+		CLASS_TO_VALUE_WRITER.put(char.class,
+				SyncClientSerializationStreamWriter.ValueWriter.CHAR);
+		CLASS_TO_VALUE_WRITER.put(double.class,
+				SyncClientSerializationStreamWriter.ValueWriter.DOUBLE);
+		CLASS_TO_VALUE_WRITER.put(float.class,
+				SyncClientSerializationStreamWriter.ValueWriter.FLOAT);
+		CLASS_TO_VALUE_WRITER.put(int.class,
+				SyncClientSerializationStreamWriter.ValueWriter.INT);
+		CLASS_TO_VALUE_WRITER.put(long.class,
+				SyncClientSerializationStreamWriter.ValueWriter.LONG);
+		CLASS_TO_VALUE_WRITER.put(Object.class,
+				SyncClientSerializationStreamWriter.ValueWriter.OBJECT);
+		CLASS_TO_VALUE_WRITER.put(short.class,
+				SyncClientSerializationStreamWriter.ValueWriter.SHORT);
+		CLASS_TO_VALUE_WRITER.put(String.class,
+				SyncClientSerializationStreamWriter.ValueWriter.STRING);
+	}
 
-  private static void append(StringBuffer sb, String token) {
-    assert (token != null);
-    sb.append(token);
-    sb.append(RPC_SEPARATOR_CHAR);
-  }
+	private static void append(StringBuffer sb, String token) {
+		assert (token != null);
+		sb.append(token);
+		sb.append(RPC_SEPARATOR_CHAR);
+	}
 
-  /**
-   * Returns the {@link Class} instance to use for serialization. Enumerations
-   * are serialized as their declaring class while all others are serialized
-   * using their true class instance.
-   */
-  private static Class<?> getClassForSerialization(Object instance) {
-    assert (instance != null);
+	/**
+	 * Returns the {@link Class} instance to use for serialization. Enumerations
+	 * are serialized as their declaring class while all others are serialized
+	 * using their true class instance.
+	 */
+	private static Class<?> getClassForSerialization(Object instance) {
+		assert (instance != null);
 
-    if (instance instanceof Enum) {
-      Enum<?> e = (Enum<?>) instance;
-      return e.getDeclaringClass();
-    } else {
-      return instance.getClass();
-    }
-  }
+		if (instance instanceof Enum) {
+			Enum<?> e = (Enum<?>) instance;
+			return e.getDeclaringClass();
+		} else {
+			return instance.getClass();
+		}
+	}
 
-  private StringBuffer encodeBuffer;
-  
-  private final String moduleBaseURL;
+	private StringBuffer encodeBuffer;
 
-  private final String serializationPolicyStrongName;
-  
-  private SerializationPolicy serializationPolicy;
+	private final String moduleBaseURL;
 
-  private final Serializer serializer;
+	private final String serializationPolicyStrongName;
 
-  public SyncClientSerializationStreamWriter(Serializer serializer,
-      String moduleBaseURL, String serializationPolicyStrongName, SerializationPolicy serializationPolicy) {
-    this.serializer = serializer;
-    this.moduleBaseURL = moduleBaseURL;
-    this.serializationPolicyStrongName = serializationPolicyStrongName;
-    this.serializationPolicy = serializationPolicy;
-  }
+	private SerializationPolicy serializationPolicy;
 
-  @Override
-  public void prepareToWrite() {
-    super.prepareToWrite();
-    encodeBuffer = new StringBuffer();
+	private final Serializer serializer;
 
-    // Write serialization policy info
-    writeString(moduleBaseURL);
-    writeString(serializationPolicyStrongName);
-  }
+	public SyncClientSerializationStreamWriter(Serializer serializer,
+			String moduleBaseURL, String serializationPolicyStrongName,
+			SerializationPolicy serializationPolicy) {
+		this.serializer = serializer;
+		this.moduleBaseURL = moduleBaseURL;
+		this.serializationPolicyStrongName = serializationPolicyStrongName;
+		this.serializationPolicy = serializationPolicy;
+	}
 
-  public void serializeValue(Object value, Class<?> type)
-      throws SerializationException {
-    ValueWriter valueWriter = CLASS_TO_VALUE_WRITER.get(type);
-    if (valueWriter != null) {
-      valueWriter.write(this, value);
-    } else {
-      // Arrays of primitive or reference types need to go through writeObject.
-      SyncClientSerializationStreamWriter.ValueWriter.OBJECT.write(this, value);
-    }
-  }
+	@Override
+	public void prepareToWrite() {
+		super.prepareToWrite();
+		encodeBuffer = new StringBuffer();
 
-  @Override
-  public String toString() {
-    StringBuffer buffer = new StringBuffer();
-    writeHeader(buffer);
-    writeStringTable(buffer);
-    writePayload(buffer);
-    return buffer.toString();
-  }
+		// Write serialization policy info
+		writeString(moduleBaseURL);
+		writeString(serializationPolicyStrongName);
+	}
 
-  /**
-   * @see ClientSerializationStreamWriter#writeLong
-   * @param fieldValue
-   */
-  public void writeLong(long fieldValue) {
-    if (getVersion() == SERIALIZATION_STREAM_MIN_VERSION) {
-      double[] parts;
-      parts = makeLongComponents((int) (fieldValue >> 32), (int) fieldValue);
-      assert parts.length == 2;
-      writeDouble(parts[0]);
-      writeDouble(parts[1]);
-    }else{
-      append(Utils.toBase64(fieldValue));
-    }
-  }
+	public void serializeValue(Object value, Class<?> type)
+			throws SerializationException {
+		ValueWriter valueWriter = CLASS_TO_VALUE_WRITER.get(type);
+		if (valueWriter != null) {
+			valueWriter.write(this, value);
+		} else {
+			// Arrays of primitive or reference types need to go through
+			// writeObject.
+			SyncClientSerializationStreamWriter.ValueWriter.OBJECT.write(this,
+					value);
+		}
+	}
 
-  protected void append(String token) {
-    append(encodeBuffer, token);
-  }
+	@Override
+	public String toString() {
+		StringBuffer buffer = new StringBuffer();
+		writeHeader(buffer);
+		writeStringTable(buffer);
+		writePayload(buffer);
+		return buffer.toString();
+	}
 
-  protected String getObjectTypeSignature(Object o) {
-    Class<?> clazz = o.getClass();
+	/**
+	 * @see ClientSerializationStreamWriter#writeLong
+	 * @param fieldValue
+	 */
+	public void writeLong(long fieldValue) {
+		if (getVersion() == SERIALIZATION_STREAM_MIN_VERSION) {
+			double[] parts;
+			parts = makeLongComponents((int) (fieldValue >> 32),
+					(int) fieldValue);
+			assert parts.length == 2;
+			writeDouble(parts[0]);
+			writeDouble(parts[1]);
+		} else {
+			append(Utils.toBase64(fieldValue));
+		}
+	}
 
-    if (o instanceof Enum) {
-      Enum<?> e = (Enum<?>) o;
-      clazz = e.getDeclaringClass();
-    }
+	protected void append(String token) {
+		append(encodeBuffer, token);
+	}
 
-    String typeName = clazz.getName();
+	protected String getObjectTypeSignature(Object o) {
+		Class<?> clazz = o.getClass();
 
-    String serializationSignature = SerializabilityUtil.getSerializationSignature(clazz, serializationPolicy);
-    if (serializationSignature != null) {
-      typeName += "/" + serializationSignature;
-    }
-    return typeName;
-  }
+		if (o instanceof Enum) {
+			Enum<?> e = (Enum<?>) o;
+			clazz = e.getDeclaringClass();
+		}
 
-  protected void serialize(Object instance, String typeSignature) throws SerializationException{
-    assert (instance != null);
+		String typeName = clazz.getName();
 
-    Class<?> clazz = getClassForSerialization(instance);
+		String serializationSignature = SerializabilityUtil
+				.getSerializationSignature(clazz, serializationPolicy);
+		if (serializationSignature != null) {
+			typeName += "/" + serializationSignature;
+		}
+		return typeName;
+	}
 
-    serializationPolicy.validateSerialize(clazz);
+	protected void serialize(Object instance, String typeSignature)
+			throws SerializationException {
+		assert (instance != null);
 
-    serializeImpl(instance, clazz);
-  }
+		Class<?> clazz = getClassForSerialization(instance);
 
-  private void writeHeader(StringBuffer buffer) {
-    append(buffer, String.valueOf(getVersion()));
-    append(buffer, String.valueOf(getFlags()));
-  }
+		serializationPolicy.validateSerialize(clazz);
 
-  private void writePayload(StringBuffer buffer) {
-    buffer.append(encodeBuffer.toString());
-  }
+		serializeImpl(instance, clazz);
+	}
 
-  private StringBuffer writeStringTable(StringBuffer buffer) {
-    List<String> stringTable = getStringTable();
-    append(buffer, String.valueOf(stringTable.size()));
-    for (String s : stringTable) {
-      append(buffer, quoteString(s));
-    }
-    return buffer;
-  }
-  
-  private static String quoteString(String str){
-    StringBuffer buffer = new StringBuffer();
-    for (int i=0; i<str.length(); i++){
-      char ch = str.charAt(i);
-      switch (ch){
-      case 0:
-        buffer.append("\\0");
-        break;
-      case '|':
-        buffer.append("\\!");
-        break;
-      case '\\':
-        buffer.append("\\\\");
-        break;
-      default:
-        buffer.append(ch);
-      }
-    }
-    
-    return buffer.toString();
-  }
-  
-  /**
-   * @see com.google.gwt.user.server.rpc.impl.ServerSerializationStreamWriter#serializeImpl
-   * @param instance
-   * @param instanceClass
-   * @throws SerializationException
-   */
-  private void serializeImpl(Object instance, Class<?> instanceClass)
-      throws SerializationException {
-    assert (instance != null);
-    
-    Class<?> customSerializer = SerializabilityUtil.hasCustomFieldSerializer(instanceClass);
-    if (customSerializer != null) {
-      // Use custom field serializer
-      serializeWithCustomSerializer(customSerializer, instance, instanceClass);
-    } else if (instanceClass.isArray()) {
-      serializeArray(instanceClass, instance);
-    } else if (instanceClass.isEnum()) {
-      writeInt(((Enum<?>) instance).ordinal());
-    } else {
-      // Regular class instance
-      serializeClass(instance, instanceClass);
-    }    
-  }
+	private void writeHeader(StringBuffer buffer) {
+		append(buffer, String.valueOf(getVersion()));
+		append(buffer, String.valueOf(getFlags()));
+	}
 
-  private void serializeWithCustomSerializer(Class<?> customSerializer,
-      Object instance, Class<?> instanceClass) throws SerializationException {
+	private void writePayload(StringBuffer buffer) {
+		buffer.append(encodeBuffer.toString());
+	}
 
-    try {
-      assert (!instanceClass.isArray());
+	private StringBuffer writeStringTable(StringBuffer buffer) {
+		List<String> stringTable = getStringTable();
+		append(buffer, String.valueOf(stringTable.size()));
+		for (String s : stringTable) {
+			append(buffer, quoteString(s));
+		}
+		return buffer;
+	}
 
-      for (Method method : customSerializer.getMethods()) {
-        if ("serialize".equals(method.getName())) {
-          method.invoke(null, this, instance);
-          return;
-        }
-      }
-      throw new NoSuchMethodException("serialize");
-    } catch (SecurityException e) {
-      throw new SerializationException(e);
+	private static String quoteString(String str) {
+		StringBuffer buffer = new StringBuffer();
+		for (int i = 0; i < str.length(); i++) {
+			char ch = str.charAt(i);
+			switch (ch) {
+			case 0:
+				buffer.append("\\0");
+				break;
+			case '|':
+				buffer.append("\\!");
+				break;
+			case '\\':
+				buffer.append("\\\\");
+				break;
+			default:
+				buffer.append(ch);
+			}
+		}
 
-    } catch (NoSuchMethodException e) {
-      throw new SerializationException(e);
+		return buffer.toString();
+	}
 
-    } catch (IllegalArgumentException e) {
-      throw new SerializationException(e);
+	/**
+	 * @see com.google.gwt.user.server.rpc.impl.ServerSerializationStreamWriter#serializeImpl
+	 * @param instance
+	 * @param instanceClass
+	 * @throws SerializationException
+	 */
+	private void serializeImpl(Object instance, Class<?> instanceClass)
+			throws SerializationException {
+		assert (instance != null);
 
-    } catch (IllegalAccessException e) {
-      throw new SerializationException(e);
+		Class<?> customSerializer = SerializabilityUtil
+				.hasCustomFieldSerializer(instanceClass);
+		if (customSerializer != null) {
+			// Use custom field serializer
+			serializeWithCustomSerializer(customSerializer, instance,
+					instanceClass);
+		} else if (instanceClass.isArray()) {
+			serializeArray(instanceClass, instance);
+		} else if (instanceClass.isEnum()) {
+			writeInt(((Enum<?>) instance).ordinal());
+		} else {
+			// Regular class instance
+			serializeClass(instance, instanceClass);
+		}
+	}
 
-    } catch (InvocationTargetException e) {
-      throw new SerializationException(e);
-    }
-  }
+	private void serializeWithCustomSerializer(Class<?> customSerializer,
+			Object instance, Class<?> instanceClass)
+			throws SerializationException {
 
-  /**
-   * Serialize an instance that is an array. Will default to serializing the
-   * instance as an Object vector if the instance is not a vector of primitives,
-   * Strings or Object.
-   * 
-   * @param instanceClass
-   * @param instance
-   * @throws SerializationException
-   */
-  private void serializeArray(Class<?> instanceClass, Object instance)
-      throws SerializationException {
-    assert (instanceClass.isArray());
+		try {
+			assert (!instanceClass.isArray());
 
-    VectorWriter instanceWriter = CLASS_TO_VECTOR_WRITER.get(instanceClass);
-    if (instanceWriter != null) {
-      instanceWriter.write(this, instance);
-    } else {
-      SyncClientSerializationStreamWriter.VectorWriter.OBJECT_VECTOR.write(this, instance);
-    }
-  }
+			for (Method method : customSerializer.getMethods()) {
+				if (Accounter.constants().serialize().equals(method.getName())) {
+					method.invoke(null, this, instance);
+					return;
+				}
+			}
+			throw new NoSuchMethodException(Accounter.constants().serialize());
+		} catch (SecurityException e) {
+			throw new SerializationException(e);
 
-  private void serializeClass(Object instance, Class<?> instanceClass)
-      throws SerializationException {
-    assert (instance != null);
+		} catch (NoSuchMethodException e) {
+			throw new SerializationException(e);
 
-    Field[] serializableFields = SerializabilityUtil.applyFieldSerializationPolicy(instanceClass);
-    for (Field declField : serializableFields) {
-      assert (declField != null);
+		} catch (IllegalArgumentException e) {
+			throw new SerializationException(e);
 
-      boolean isAccessible = declField.isAccessible();
-      boolean needsAccessOverride = !isAccessible
-          && !Modifier.isPublic(declField.getModifiers());
-      if (needsAccessOverride) {
-        // Override the access restrictions
-        declField.setAccessible(true);
-      }
+		} catch (IllegalAccessException e) {
+			throw new SerializationException(e);
 
-      Object value;
-      try {
-        value = declField.get(instance);
-        serializeValue(value, declField.getType());
+		} catch (InvocationTargetException e) {
+			throw new SerializationException(e);
+		}
+	}
 
-      } catch (IllegalArgumentException e) {
-        throw new SerializationException(e);
+	/**
+	 * Serialize an instance that is an array. Will default to serializing the
+	 * instance as an Object vector if the instance is not a vector of
+	 * primitives, Strings or Object.
+	 * 
+	 * @param instanceClass
+	 * @param instance
+	 * @throws SerializationException
+	 */
+	private void serializeArray(Class<?> instanceClass, Object instance)
+			throws SerializationException {
+		assert (instanceClass.isArray());
 
-      } catch (IllegalAccessException e) {
-        throw new SerializationException(e);
-      }
-    }
+		VectorWriter instanceWriter = CLASS_TO_VECTOR_WRITER.get(instanceClass);
+		if (instanceWriter != null) {
+			instanceWriter.write(this, instance);
+		} else {
+			SyncClientSerializationStreamWriter.VectorWriter.OBJECT_VECTOR
+					.write(this, instance);
+		}
+	}
 
-    Class<?> superClass = instanceClass.getSuperclass();
-    if (serializationPolicy.shouldSerializeFields(superClass)) {
-      serializeImpl(instance, superClass);
-    }
-  }
+	private void serializeClass(Object instance, Class<?> instanceClass)
+			throws SerializationException {
+		assert (instance != null);
+
+		Field[] serializableFields = SerializabilityUtil
+				.applyFieldSerializationPolicy(instanceClass);
+		for (Field declField : serializableFields) {
+			assert (declField != null);
+
+			boolean isAccessible = declField.isAccessible();
+			boolean needsAccessOverride = !isAccessible
+					&& !Modifier.isPublic(declField.getModifiers());
+			if (needsAccessOverride) {
+				// Override the access restrictions
+				declField.setAccessible(true);
+			}
+
+			Object value;
+			try {
+				value = declField.get(instance);
+				serializeValue(value, declField.getType());
+
+			} catch (IllegalArgumentException e) {
+				throw new SerializationException(e);
+
+			} catch (IllegalAccessException e) {
+				throw new SerializationException(e);
+			}
+		}
+
+		Class<?> superClass = instanceClass.getSuperclass();
+		if (serializationPolicy.shouldSerializeFields(superClass)) {
+			serializeImpl(instance, superClass);
+		}
+	}
 }
