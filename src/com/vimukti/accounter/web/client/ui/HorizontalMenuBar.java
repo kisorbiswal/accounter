@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.company.ItemsAction;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
+import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class HorizontalMenuBar extends HorizontalPanel {
@@ -1045,6 +1046,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		companyListMenuBar.addItem(ActionFactory.getSalesPersonAction());
 		// companyListMenuBar.addItem(ActionFactory.getWarehouseListAction());
 		companyListMenuBar.addItem(ActionFactory.getRecurringsListAction());
+		companyListMenuBar.addItem(ActionFactory.getUsersActivityListAction());
 		return companyListMenuBar;
 	}
 
