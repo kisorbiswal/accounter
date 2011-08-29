@@ -1000,8 +1000,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			companyMenuBar.addSeparator();
 		}
 
-		companyMenuBar.addItem(Accounter.constants().mergeAccounts(),
-				getMergeSubMenu());
+		companyMenuBar.addItem(Global.get().Account(), getMergeSubMenu());
 		companyMenuBar.addSeparator();
 		companyMenuBar.addItem(Accounter.constants().companyLists(),
 				getCompanyListMenu());
