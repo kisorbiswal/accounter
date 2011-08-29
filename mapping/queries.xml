@@ -713,9 +713,10 @@
 		from com.vimukti.accounter.core.Account a where
 		a.name =? and a.type =?
 	</query>
-	
+
 	<query name="getAccount.by.subBaseType">
-		select a.number from com.vimukti.accounter.core.Account a where a.subBaseType =?
+		select a.number from
+		com.vimukti.accounter.core.Account a where a.subBaseType =?
 	</query>
 
 	<query name="getAccount.by.id.and.type">
@@ -1543,9 +1544,23 @@
 		t.TAXItemGrpForSales.id=:id
 	</query>
 
-	<query name="get.enterbills.list">
+	<query name="get.selected.vendors.enterbills.list">
 		from com.vimukti.accounter.core.EnterBill e where
 		e.vendor.isTrackPaymentsFor1099=true
+	</query>
+
+	<query name="get.notselected.vendors.enterbills.list">
+		from com.vimukti.accounter.core.EnterBill e where
+		e.vendor.isTrackPaymentsFor1099=false
+	</query>
+
+	<query name="get.1099.vendors">
+		from com.vimukti.accounter.core.Vendor v where
+		v.isTrackPaymentsFor1099=true
+	</query>
+
+	<query name="get.1099.selected.accounts">
+		from com.vimukti.accounter.core.Account a where a.boxNumber!=0
 	</query>
 
 </hibernate-mapping>
