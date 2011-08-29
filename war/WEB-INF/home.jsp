@@ -59,8 +59,8 @@
 		<div class="lower-part">
 				
 					<ol>
-						<li><img class="icon1" src="/images/On-offline.png"/><p class="header_p_style"><b>Online and Offline</b></p>
-					 	<p>You can now use our software online or off line. Download our software and start using it within your organization or create an online account and share the data with anyone you choose.</p>
+						<li><img class="icon1" src="/images/On-offline.png"/><p class="header_p_style"><b>Easy Online Accounting</b></p>
+					 	<p>Keep track of your daily financial activities. Track where your money is coming from and going out quickly. You can login from anywhere, anytime.</p>
 					  </li>
 					  <li><img class="icon2" src="/images/Invoice.png"/><p class="header_p_style"><b>Invoicing</b></p>
 					 	<p>Customize and send invoices for payments and record bills and expenses.</p>
