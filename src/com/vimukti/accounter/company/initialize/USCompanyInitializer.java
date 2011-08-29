@@ -19,7 +19,6 @@ import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class USCompanyInitializer extends CompanyInitializer {
 
@@ -119,8 +118,7 @@ public class USCompanyInitializer extends CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING);
 
 		this.salesTaxPayable = createAccount(
-				Account.TYPE_OTHER_CURRENT_LIABILITY, Accounter.constants()
-						.salesTaxPayable(),
+				Account.TYPE_OTHER_CURRENT_LIABILITY, "Sales Tax Payable",
 				Account.CASH_FLOW_CATEGORY_OPERATING);
 
 		// Account retainedEarnings = new Account(Account.TYPE_EQUITY, "3100",
@@ -421,12 +419,10 @@ public class USCompanyInitializer extends CompanyInitializer {
 
 			defaultTaxAgency.setPaymentTerm((PaymentTerms) session
 					.getNamedQuery("unique.name.PaymentTerms")
-					.setString(0, "Net Monthly").list()
-					.get(0));
+					.setString(0, "Net Monthly").list().get(0));
 			defaultTaxAgency.setSalesLiabilityAccount((Account) session
 					.getNamedQuery("unique.name.Account")
-					.setString(0, "Sales tax payable")
-					.list().get(0));
+					.setString(0, "Sales Tax Payable").list().get(0));
 			defaultTaxAgency.setDefault(true);
 			session.save(defaultTaxAgency);
 
