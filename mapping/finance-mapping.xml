@@ -125,16 +125,7 @@
 		<property name="name" unique="true" not-null="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 	</class>
-	<class name="Budget" table="BUDGET">
-		<id name="id" column="ID">
-			<generator class="native" />
-		</id>
-		<property name="month" column="MONTH"></property>
-		<property name="amount" column="AMOUNT"></property>
-		<many-to-one name="account" class="Account" lazy="false"
-			column="ACCOUNT_ID">
-		</many-to-one>
-	</class>
+
 	<class name="Company" table="COMPANY">
 		<id name="id" column="ID">
 			<generator class="native" />
