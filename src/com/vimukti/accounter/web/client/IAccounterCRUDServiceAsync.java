@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * 
@@ -44,6 +43,7 @@ public interface IAccounterCRUDServiceAsync {
 	void deleteUser(IAccounterCore deletableUser, String senderEmail,
 			AsyncCallback<Boolean> callback);
 
-	void get1099Vendors(AsyncCallback<ArrayList<Client1099Form>> callback);
+	void get1099Vendors(int selected,
+			AsyncCallback<ArrayList<Client1099Form>> callback);
 
 }

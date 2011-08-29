@@ -589,9 +589,9 @@ public class Accounter implements EntryPoint {
 	}
 
 	public static void get1099FormInformation(
-			AsyncCallback<ArrayList<Client1099Form>> myCallback) {
+			AsyncCallback<ArrayList<Client1099Form>> myCallback, int selected) {
 
-		Accounter.crudService.get1099Vendors(myCallback);
+		Accounter.crudService.get1099Vendors(selected, myCallback);
 
 	}
 }

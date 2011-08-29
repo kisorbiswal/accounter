@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.safehtml.shared.SafeHtml;
+
 public class ClientAddress implements IAccounterCore {
 
 	/**
@@ -273,13 +275,13 @@ public class ClientAddress implements IAccounterCore {
 	}
 
 	public String getAddressString() {
-		StringBuffer information = new StringBuffer();
+		final StringBuffer information = new StringBuffer();
 		String address1 = this.getAddress1();
 		if (address1 != null && !address1.equals(""))
 			information.append(address1).append(", ");
 		String street = this.getStreet();
 		if (street != null && !street.equals(""))
-			information.append(street).append("\n");
+			information.append(street).append("<br>");
 		String city = this.getCity();
 		if (city != null && !city.equals(""))
 			information.append(city).append(", ");
@@ -288,10 +290,10 @@ public class ClientAddress implements IAccounterCore {
 			information.append(state).append(" ");
 		String zip = this.getZipOrPostalCode();
 		if (zip != null && !zip.equals(""))
-			information.append(zip).append("\n");
+			information.append(zip).append("<br>");
 		String country = this.getCountryOrRegion();
 		if (country != null && !country.equals(""))
-			information.append(country).append("\n");
+			information.append(country).append("<br>");
 
 		return information.toString();
 	}

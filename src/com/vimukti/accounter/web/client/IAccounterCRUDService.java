@@ -47,5 +47,6 @@ public interface IAccounterCRUDService extends RemoteService {
 
 	Long updateCompany(ClientCompany clientCompany) throws AccounterException;
 
-	 ArrayList<Client1099Form> get1099Vendors() throws AccounterException;
+	ArrayList<Client1099Form> get1099Vendors(int selected)
+			throws AccounterException;
 }
