@@ -109,6 +109,24 @@ public class UIUtils {
 				.matches("^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"));
 	}
 
+	public static boolean isValidMultipleEmailIds(String email) {
+		boolean result = false;
+
+		String[] ids = email.split(",");
+		for (int i = 0; i < ids.length; i++) {
+			String id = ids[i].trim();
+			if (id.length() > 0)
+				result = ids[i]
+						.trim()
+						.matches(
+								"^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$");
+			if (!result) {
+				return false;
+			}
+		}
+		return result;
+	}
+
 	public static boolean isNumber(String str) {
 		return (str.matches("^[0-9]+$"));
 	}
