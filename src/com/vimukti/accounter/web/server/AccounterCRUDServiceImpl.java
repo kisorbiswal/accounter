@@ -261,9 +261,10 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<Client1099Form> get1099Vendors() throws AccounterException {
+	public ArrayList<Client1099Form> get1099Vendors(int selected)
+			throws AccounterException {
 		FinanceTool financeTool = new FinanceTool();
-		return financeTool.get1099Vendors();
+		return financeTool.get1099Vendors(selected);
 	}
 
 }

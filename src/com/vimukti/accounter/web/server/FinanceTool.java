@@ -11977,7 +11977,8 @@ public class FinanceTool {
 
 	}
 
-	public ArrayList<Client1099Form> get1099Vendors() throws AccounterException {
+	public ArrayList<Client1099Form> get1099Vendors(int selected)
+			throws AccounterException {
 
 		HashMap<Integer, Integer> boxThresholds = new HashMap<Integer, Integer>();
 		boxThresholds.put(1, 600);
@@ -11993,14 +11994,20 @@ public class FinanceTool {
 		boxThresholds.put(13, 0);
 		boxThresholds.put(14, 0);
 
+		ArrayList<EnterBill> list = new ArrayList<EnterBill>();
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
-
-		Query query = session.getNamedQuery("get.enterbills.list");
-
 		HashMap<Vendor, Client1099Form> map = new HashMap<Vendor, Client1099Form>();
 
-		ArrayList<EnterBill> list = (ArrayList<EnterBill>) query.list();
+		if (selected == 0 || selected == 1) {
+			Query query = session
+					.getNamedQuery("get.selected.vendors.enterbills.list");
+			list = (ArrayList<EnterBill>) query.list();
+		} else {
+			Query query = session
+					.getNamedQuery("get.notselected.vendors.enterbills.list");
+			list = (ArrayList<EnterBill>) query.list();
+		}
 
 		Client1099Form client1099Form = null;
 
@@ -12034,12 +12041,16 @@ public class FinanceTool {
 			map.put(vendor, client1099Form);
 		}
 
-		ArrayList<Client1099Form> arrayList = new ArrayList<Client1099Form>();
+		ArrayList<Client1099Form> aboveThresholdList = new ArrayList<Client1099Form>();
+		ArrayList<Client1099Form> belowThresholdList = new ArrayList<Client1099Form>();
+		ArrayList<Client1099Form> non1099List = new ArrayList<Client1099Form>();
 
 		for (java.util.Map.Entry<Vendor, Client1099Form> element : map
 				.entrySet()) {
 			Vendor key = element.getKey();
 			Client1099Form value = element.getValue();
+
+			boolean flag = false;
 
 			for (java.util.Map.Entry<Integer, Integer> box : boxThresholds
 					.entrySet()) {
@@ -12047,16 +12058,31 @@ public class FinanceTool {
 				Integer boxThreshold = box.getValue();
 				if (value.getBox(boxNum) < boxThreshold) {
 					value.setBox(boxNum, 0);
+				} else if (value.getBox(boxNum) > boxThreshold) {
+					flag = true;
 				}
 			}
 
 			ClientVendor clientVendor = new ClientConvertUtil().toClientObject(
 					key, ClientVendor.class);
 			value.setVendor(clientVendor);
-			arrayList.add(value);
+			if (selected == 0 || selected == 1) {
+				if (flag) {
+					aboveThresholdList.add(value);
+				} else {
+					belowThresholdList.add(value);
+				}
+			} else {
+				non1099List.add(value);
+			}
 		}
-
-		return arrayList;
+		if (selected == 0) {
+			return aboveThresholdList;
+		} else if (selected == 1) {
+			return belowThresholdList;
+		} else {
+			return non1099List;
+		}
 	}
 
 	/**
