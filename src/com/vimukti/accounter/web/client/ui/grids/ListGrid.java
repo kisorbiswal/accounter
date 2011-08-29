@@ -763,7 +763,8 @@ public abstract class ListGrid<T> extends CustomTable {
 	 * @param cell
 	 */
 	public void headerCellClicked(int colIndex) {
-		if (colIndex == 0 && isMultiSelectionEnable) {
+		if ((colIndex == 0 && isMultiSelectionEnable)
+				|| getColumnType(colIndex) == ListGrid.COLUMN_TYPE_IMAGE) {
 			return;
 		}
 		sort(colIndex, isDecending);
