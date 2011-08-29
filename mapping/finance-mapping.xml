@@ -1463,6 +1463,11 @@
 		</set>
 
 	</class>
+	
+	<!-- <class name="ServerMaintanance" table="SERVER_MAINTANANCE">
+		<id name="id" column=""ID" />
+		<property name="isUnderMaintanance" column="IS_UNDER_MAINTANANCE" />
+	</class> -->
 
 
 <!-- budget class -->
@@ -1503,6 +1508,7 @@
 		<key column="TAX_GROUP_ID"></key> <list-index column="IDX" /> <many-to-many 
 		column="TAX_ITEM_ID" class="TaxItem" /> </list> <property name="groupRate" 
 		column="GROUP_RATE"></property> </joined-subclass> </class> -->
-
+		
+		
 </hibernate-mapping>
 
