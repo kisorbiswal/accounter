@@ -33,6 +33,7 @@ import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
 import com.vimukti.accounter.web.client.core.Lists.DepreciableFixedAssetsList;
@@ -315,7 +316,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	void mergeItem(ClientItem froClientItem, ClientItem toClientItem)
 			throws AccounterException;
 
-	public ArrayList<ClientActivity> getUsersActivityLog(
+	public PaginationList<ClientActivity> getUsersActivityLog(
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			int startIndex, int length) throws AccounterException;
 

@@ -35,6 +35,7 @@ import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
 import com.vimukti.accounter.web.client.core.Lists.DepreciableFixedAssetsList;
@@ -345,8 +346,8 @@ public interface IAccounterHomeViewServiceAsync {
 	void getAllUsers(AsyncCallback<ArrayList<ClientUserInfo>> callback);
 
 	public void getUsersActivityLog(ClientFinanceDate startDate,
-			ClientFinanceDate endDate, int startIndex,
-			int length, AsyncCallback<ArrayList<ClientActivity>> callback);
+			ClientFinanceDate endDate, int startIndex, int length,
+			AsyncCallback<PaginationList<ClientActivity>> callback);
 
 	void mergeCustomer(ClientCustomer clientCustomer,
 			ClientCustomer clientCustomer1, AsyncCallback<Void> callback);
