@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
@@ -342,6 +343,10 @@ public interface IAccounterHomeViewServiceAsync {
 			String newPassword, AsyncCallback<Boolean> callback);
 
 	void getAllUsers(AsyncCallback<ArrayList<ClientUserInfo>> callback);
+
+	public void getUsersActivityLog(ClientFinanceDate startDate,
+			ClientFinanceDate endDate, int startIndex,
+			int length, AsyncCallback<ArrayList<ClientActivity>> callback);
 
 	void mergeCustomer(ClientCustomer clientCustomer,
 			ClientCustomer clientCustomer1, AsyncCallback<Void> callback);

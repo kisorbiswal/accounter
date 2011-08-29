@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
@@ -313,6 +314,10 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	void mergeItem(ClientItem froClientItem, ClientItem toClientItem)
 			throws AccounterException;
+
+	public ArrayList<ClientActivity> getUsersActivityLog(
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			int startIndex, int length) throws AccounterException;
 
 	void mergeAccount(ClientAccount fromClientAccount,
 			ClientAccount toClientAccount) throws AccounterException;
