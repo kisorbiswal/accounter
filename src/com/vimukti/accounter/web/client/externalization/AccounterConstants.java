@@ -4427,5 +4427,13 @@ public interface AccounterConstants extends Constants {
 	public String invocationExceptionMsg();
 
 	public String errorLoadingSynchronization();
+	
+	public String ioExceptionRPCMsg();
+	
+	public String ioExceptionRPCReceiveMsg();
+	
+	public String noResponsePayload();
+
+	public String unknownResponse();
 
 }
