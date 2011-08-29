@@ -62,9 +62,9 @@ public class Header extends HorizontalPanel {
 							Accounter.getUser().getFullName()) + "<font>");
 		}
 		userName.addStyleName("userName-style");
-		userName.setWidth(((Accounter.messages()
-				.userName(Accounter.getUser().getFullName()).length() * 6) - 3)
-				+ "px");
+		// userName.setWidth(((Accounter.messages()
+		// .userName(Accounter.getUser().getFullName()).length() * 6) - 3)
+		// + "px");
 		// userName.getElement().getStyle().setPaddingLeft(5, Unit.PX);
 
 		if (!Accounter.isLoggedInFromDomain()
