@@ -209,7 +209,7 @@ public class ItemView extends BaseView<ClientItem> {
 			else
 				itemForm.setFields(nameText, skuText, weightText);
 		}
-		itemForm.getCellFormatter().setWidth(0, 0, "42%");
+		itemForm.getCellFormatter().setWidth(0, 0, "182px");
 		salesDescArea = new TextAreaItem();
 		salesDescArea.setHelpInformation(true);
 		salesDescArea.setWidth(100);
@@ -897,8 +897,7 @@ public class ItemView extends BaseView<ClientItem> {
 		}
 
 		if (isellCheck.isChecked()) {
-			if (AccounterValidator
-					.isNegativeAmount(salesPriceText.getAmount())) {
+			if (AccounterValidator.isNegativeAmount(salesPriceText.getAmount())) {
 				result.addError(salesPriceText,
 						accounterConstants.enterValidAmount());
 			}
