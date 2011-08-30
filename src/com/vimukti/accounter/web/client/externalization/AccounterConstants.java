@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.externalization;
 
 import com.google.gwt.i18n.client.Constants;
+import com.google.gwt.safehtml.shared.SafeHtml;
 
 public interface AccounterConstants extends Constants {
 
@@ -4563,4 +4564,6 @@ public interface AccounterConstants extends Constants {
 	public String invoicesDue();
 
 	public String overDueBills();
+
+	public SafeHtml selectMultiple();
 }
