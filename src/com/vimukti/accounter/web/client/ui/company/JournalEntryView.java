@@ -277,7 +277,7 @@ public class JournalEntryView extends
 			// BaseView.errordata.setHTML("i am here");
 			// BaseView.commentPanel.setVisible(true);
 			// AbstractBaseView.errorOccured = true;
-			addError(this, "i am here");
+			addError(this, Accounter.constants().iamHere());
 
 		} else
 			journalEntry.setMemo(memoText.getValue() != null ? memoText
@@ -361,7 +361,8 @@ public class JournalEntryView extends
 		memoForm.setFields(memoText);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
-		deditTotalText = new AmountLabel("DebitTotal :");
+		deditTotalText = new AmountLabel(Accounter.constants()
+				.debitTotalColon());
 		deditTotalText.setWidth("180px");
 		((Label) deditTotalText.getMainWidget())
 				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
@@ -369,7 +370,8 @@ public class JournalEntryView extends
 				+ "0.00");
 		deditTotalText.setDisabled(true);
 
-		creditTotalText = new AmountLabel("CreditTotal :");
+		creditTotalText = new AmountLabel(Accounter.constants()
+				.creditTotalColon());
 		creditTotalText.setWidth("180px");
 		((Label) creditTotalText.getMainWidget())
 				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
