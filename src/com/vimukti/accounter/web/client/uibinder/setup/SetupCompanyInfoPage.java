@@ -7,8 +7,8 @@ import java.util.Date;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -152,10 +152,10 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 			country.addItem(countries.get(i));
 		}
 
-		country.addClickHandler(new ClickHandler() {
+		country.addChangeHandler(new ChangeHandler() {
 
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onChange(ChangeEvent event) {
 				if (stateListBox.getItemCount() != 0) {
 					for (int i = 0; i < stateListBox.getItemCount(); i++) {
 						stateListBox.removeItem(i);
