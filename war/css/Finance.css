@@ -6415,12 +6415,6 @@ body, table td, select,.gwt-Button,textarea,input,label{
 
 
 /*Help theme need to apply for help*/
-#branding{
-	/*background-color:#2D8B93 !important;*/
-	background: -moz-linear-gradient(top, #3299A4, #2D8B93) !important;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4', endColorstr='#2D8B93'); /* for IE */
-    background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#2D8B93)) !important; /* for webkit browsers */
-}
 #page a{
     color:#2D8B93 !important;
 }
@@ -6441,8 +6435,15 @@ body, table td, select,.gwt-Button,textarea,input,label{
 	color:white;
 }
 
-
 .view_help_panel .GI4MLOCBCG{
+	color:white;
+}
+#branding{
+	background: -moz-linear-gradient(top, #3299A4, #2D8B93) !important;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4', endColorstr='#2D8B93'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#2D8B93)) !important; /* for webkit browsers */
+}
+.helpdialog .dialogTopCenterInner .caption .gwt-HTML{
 	color:white;
 }
 .view_help_panel .GI4MLOCBBG{
@@ -6457,5 +6458,15 @@ body, table td, select,.gwt-Button,textarea,input,label{
 	padding:0 5px;
 }
 .view_help_panel iframe{
-	 border: 2px solid #AA9431
+	 border: 2px solid #3D2F29;
+	 height:600px;
+}
+.helpdialog .caption,.helpdialog .dialogTopLeft,
+.helpdialog .dialogTopRight,.helpdialog .dialogMiddleLeft,.helpdialog .dialogMiddleRight{
+	background:-moz-linear-gradient(center top , #493F39, #3D2F29) repeat scroll 0 0 transparent !important;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#493F39', endColorstr='#3D2F29'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#493F39), to(#3D2F29)) !important; /* for webkit browsers */
+}
+.helpdialog .dialogMiddleCenter{
+	padding:0px !important;
 }
