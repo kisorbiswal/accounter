@@ -9,6 +9,7 @@ import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.SafeHtmlCell;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.safehtml.shared.SafeHtml;
@@ -67,6 +68,9 @@ public class Prepare1099MISCView extends AbstractBaseView {
 	private HTML changeVendorHtml, changeAccountsHtml, companyInfoHtml,
 			einInfoHtml;
 	VerticalPanel mainPanel;
+
+	int horizontalValue;
+	int verticalValue;
 
 	@Override
 	public void init() {
@@ -136,7 +140,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		CheckboxCell checkboxCell = new CheckboxCell();
 		Column<Client1099Form, Boolean> checkBoxColumn = new Column<Client1099Form, Boolean>(
 				checkboxCell) {
-
+			
 			@Override
 			public Boolean getValue(Client1099Form object) {
 				return true;
@@ -155,15 +159,15 @@ public class Prepare1099MISCView extends AbstractBaseView {
 			}
 		};
 		informationColumn
-				.setFieldUpdater(new FieldUpdater<Client1099Form, SafeHtml>() {
+		.setFieldUpdater(new FieldUpdater<Client1099Form, SafeHtml>() {
 
-					@Override
-					public void update(int index, Client1099Form object,
-							SafeHtml value) {
-						ActionFactory.getNewVendorAction().run(vendor, false);
-					}
-				});
-
+			@Override
+			public void update(int index, Client1099Form object,
+					SafeHtml value) {
+				ActionFactory.getNewVendorAction().run(vendor, false);
+			}
+		});
+				
 		Column<Client1099Form, String> total1099PaymentsCell = new Column<Client1099Form, String>(
 				new ClickableTextCell()) {
 
@@ -478,36 +482,49 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				long objectID = 1;
-				long brandingThemeID = 1;
-				UIUtils.downloadMISCForm(objectID,
-						ClientTransaction.TYPE_MISC_FORM, brandingThemeID);
+				// long objectID = 1;
+				// long brandingThemeID = 1;
+				// UIUtils.downloadMISCForm(objectID,
+				// ClientTransaction.TYPE_MISC_FORM, brandingThemeID);
 			}
 		});
 		Label blankLabel = new Label("Load empty paper");
 		Label adjustLabel = new Label(
-				"	Enter adjustments to move text 1/100th of an inch.");
+				" Enter adjustments to move text 1/100th of an inch.");
 
-		Label verLabel = new Label("Vertical");
-		Label horLabel = new Label("Horizantal");
+		Label sampleInfoLabel = new Label(
+				" This will always print a sample form for you. This one is not for your original form.");
+
+		Label sampleInfoLabel2 = new Label(
+				" Place the sample form printed on the 1099-Form. Hold them to the light and check the alignment. If they are not matching adjust the alignemnt and print the sample again.");
+
+		HTML verLabel = new HTML("<B> Vertical </B>");
+		HTML horLabel = new HTML("<B> Horizantal </B>");
 
 		Label infoLabel = new Label(
 				"	Alignment adjustment values are saved when you click Print Sample (above), or Print (below).If you print forms on more than one printer, write down the alignment values for each.");
 
-		Grid advancedOptions = new Grid(6, 2);
+		// HTML alignmentSelected = new HTML("<B> Horizantal :</B>"
+		// + horizontalValue + "<B> Vertical :</B>" + verticalValue);
+
+		Grid advancedOptions = new Grid(8, 2);
 		advancedOptions.setCellSpacing(6);
 		advancedOptions.setWidget(0, 0, blankLabel);
 		advancedOptions.setHTML(0, 1, "");
 		advancedOptions.setWidget(1, 0, printSample);
 		advancedOptions.setHTML(1, 1, "");
-		advancedOptions.setWidget(2, 0, adjustLabel);
+		advancedOptions.setWidget(2, 0, sampleInfoLabel);
 		advancedOptions.setHTML(2, 1, "");
-		advancedOptions.setWidget(3, 0, verLabel);
-		advancedOptions.setWidget(3, 1, getListBox(true));
-		advancedOptions.setWidget(4, 0, horLabel);
-		advancedOptions.setWidget(4, 1, getListBox(true));
-		advancedOptions.setWidget(5, 0, infoLabel);
-		advancedOptions.setHTML(5, 1, "");
+		advancedOptions.setWidget(3, 0, adjustLabel);
+		advancedOptions.setHTML(3, 1, "");
+		advancedOptions.setWidget(4, 0, verLabel);
+		advancedOptions.setWidget(4, 1, getListBox(true, 1));
+		advancedOptions.setWidget(5, 0, horLabel);
+		advancedOptions.setWidget(5, 1, getListBox(true, 2));
+		advancedOptions.setWidget(6, 0, sampleInfoLabel2);
+		advancedOptions.setHTML(6, 1, "");
+		advancedOptions.setWidget(7, 0, infoLabel);
+		advancedOptions.setHTML(7, 1, "");
 
 		disclosurePanel.add(advancedOptions);
 		return disclosurePanel;
@@ -529,7 +546,16 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
+
+				for (Client1099Form element : listDataProvider.getList()) {
+					long vendorId = element.getVendor().getID();
+
+					long objectID = 1;
+					long brandingThemeID = 1;
+					UIUtils.downloadMISCForm(objectID,
+							ClientTransaction.TYPE_MISC_FORM, brandingThemeID,
+							vendorId, horizontalValue, verticalValue);
+				}
 
 			}
 		});
@@ -552,16 +578,41 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		return panel;
 	}
 
-	static ListBox getListBox(boolean dropdown) {
-		ListBox widget = new ListBox();
+	ListBox getListBox(boolean dropdown, final int box) {
+		final ListBox widget = new ListBox();
 		widget.addStyleName("demo-ListBox");
-		widget.addItem("One");
-		widget.addItem("Two");
-		widget.addItem("Three");
-		widget.addItem("Four");
-		widget.addItem("Five");
+		widget.addItem("-60");
+		widget.addItem("-50");
+		widget.addItem("-40");
+		widget.addItem("-30");
+		widget.addItem("-20");
+		widget.addItem("-10");
+		widget.addItem("0");
+		widget.addItem("10");
+		widget.addItem("20");
+		widget.addItem("30");
+		widget.addItem("40");
+		widget.addItem("50");
+		widget.addItem("60");
 		if (!dropdown)
 			widget.setVisibleItemCount(3);
+
+		widget.setSelectedIndex(7);
+		widget.addChangeHandler(new ChangeHandler() {
+
+			@Override
+			public void onChange(
+					com.google.gwt.event.dom.client.ChangeEvent event) {
+				int index = widget.getSelectedIndex();
+				if (box == 1)
+					horizontalValue = Integer.parseInt(widget
+							.getItemText(index));
+				else
+					verticalValue = Integer.parseInt(widget.getItemText(index));
+
+			}
+		});
+
 		return widget;
 	}
 
