@@ -2,10 +2,10 @@ package com.vimukti.accounter.web.client.ui.companypreferences.panels;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
 public class AgeingAndSellingDetailsPanel extends AbstractCompanyInfoPanel {
@@ -23,11 +23,11 @@ public class AgeingAndSellingDetailsPanel extends AbstractCompanyInfoPanel {
 		ageingRadioGroup.setValues(getClickHandler(), constants
 				.ageingforduedate(), constants.ageingfortransactiondate());
 
-		LabelItem ageingLabel = new LabelItem();
-		LabelItem sellingsLabel = new LabelItem();
+		VerticalPanel ageingPanel = new VerticalPanel();
+		VerticalPanel sellingPanel = new VerticalPanel();
 
-		ageingLabel.setValue(Accounter.constants().ageingDetails());
-		sellingsLabel.setValue(Accounter.constants().sellingDetails());
+		Label ageingLabel = new Label(Accounter.constants().ageingDetails());
+		Label sellingsLabel = new Label(Accounter.constants().sellingDetails());
 
 		sellingRadioGroup = new RadioGroupItem();
 		sellingRadioGroup.setGroupName(constants.sell());
@@ -36,16 +36,27 @@ public class AgeingAndSellingDetailsPanel extends AbstractCompanyInfoPanel {
 				.constants().both());
 
 		DynamicForm ageingGroupForm = new DynamicForm();
-		ageingGroupForm.setFields(ageingLabel, ageingRadioGroup);
-		ageingGroupForm.setStyleName("companyInfoPanel");
+		ageingGroupForm.setFields(ageingRadioGroup);
 
 		DynamicForm sellingGroupForm = new DynamicForm();
-		sellingGroupForm.setFields(sellingsLabel, sellingRadioGroup);
-		sellingGroupForm.setStyleName("companyInfoPanel");
+		sellingGroupForm.setFields(sellingRadioGroup);
+
+		ageingPanel.add(ageingLabel);
+		ageingPanel.add(ageingGroupForm);
+		ageingLabel.addStyleName("header");
+		ageingPanel.setStyleName("companyInfoPanel");
+
+		sellingPanel.add(sellingsLabel);
+		sellingPanel.add(sellingGroupForm);
+		sellingsLabel.addStyleName("header");
+		sellingPanel.setStyleName("companyInfoPanel");
 
 		VerticalPanel mainPanel = new VerticalPanel();
-		mainPanel.add(ageingGroupForm);
-		mainPanel.add(sellingGroupForm);
+		mainPanel.add(ageingPanel);
+		mainPanel.add(sellingPanel);
+
+		mainPanel.setSize("100%", "100%");
+		mainPanel.setSpacing(8);
 		this.add(mainPanel);
 
 	}

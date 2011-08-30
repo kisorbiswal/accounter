@@ -7,15 +7,13 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
 public class EmployeeSettingsPanel extends AbstractCompanyInfoPanel {
 	private RadioGroupItem employeeExpenseGroupItem;
 	private RadioButton employeeYesGroupItem, employeeNoGroupItem;
 	private CheckBox contractorsCheckboxItem, w2EmployeeItem;
-	private DynamicForm employeeExpenseForm;
-	private VerticalPanel mainPanel;
+	private VerticalPanel mainPanel, employeeExpensePanel;
 
 	public EmployeeSettingsPanel() {
 		super();
@@ -26,7 +24,11 @@ public class EmployeeSettingsPanel extends AbstractCompanyInfoPanel {
 		mainPanel = new VerticalPanel();
 
 		VerticalPanel employeeForm = new VerticalPanel();
-		employeeExpenseForm = new DynamicForm();
+		VerticalPanel employeeSubForm = new VerticalPanel();
+		employeeExpensePanel = new VerticalPanel();
+		VerticalPanel checkBoxPanel = new VerticalPanel();
+
+		DynamicForm employeeExpenseForm = new DynamicForm();
 
 		employeeYesGroupItem = new RadioButton(constants.employee(), constants
 				.yes());
@@ -36,38 +38,49 @@ public class EmployeeSettingsPanel extends AbstractCompanyInfoPanel {
 		w2EmployeeItem = new CheckBox(constants.wehavW2Employes());
 		contractorsCheckboxItem = new CheckBox(constants.wehavContractors());
 		Label employeeLabelItem = new Label(constants.doyouHaveEmployees());
-		LabelItem employeeExpenseItem = new LabelItem();
-		employeeExpenseItem.setValue(constants.trackEmployeeExpenses());
+		Label employeeExpenseItem = new Label(constants.trackEmployeeExpenses());
+
+		checkBoxPanel.add(w2EmployeeItem);
+		checkBoxPanel.add(contractorsCheckboxItem);
+
+		employeeSubForm.add(employeeYesGroupItem);
+		employeeSubForm.add(checkBoxPanel);
+		employeeSubForm.add(employeeNoGroupItem);
 
 		employeeForm.add(employeeLabelItem);
-		employeeForm.add(employeeYesGroupItem);
-		employeeForm.add(w2EmployeeItem);
-		employeeForm.add(contractorsCheckboxItem);
-		employeeForm.add(employeeNoGroupItem);
+		employeeForm.add(employeeSubForm);
+		employeeLabelItem.addStyleName("header");
 
 		employeeExpenseGroupItem.setValue(constants.yes(), constants.no());
+		employeeExpenseForm.setFields(employeeExpenseGroupItem);
 
-		employeeExpenseForm.setFields(employeeExpenseItem,
-				employeeExpenseGroupItem);
+		employeeExpensePanel.add(employeeExpenseItem);
+		employeeExpensePanel.add(employeeExpenseForm);
+		employeeExpenseItem.addStyleName("header");
 
 		mainPanel.add(employeeForm);
+		employeeForm.addStyleName("companyInfoPanel");
 
 		employeeYesGroupItem.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if (!(employeeExpenseForm.isAttached()))
-					mainPanel.add(employeeExpenseForm);
+				if (!(employeeExpensePanel.isAttached()))
+					mainPanel.add(employeeExpensePanel);
+				employeeExpensePanel.setStyleName("companyInfoPanel");
 			}
 		});
 		employeeNoGroupItem.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if (employeeExpenseForm.isAttached())
-					mainPanel.remove(employeeExpenseForm);
+				if (employeeExpensePanel.isAttached())
+					mainPanel.remove(employeeExpensePanel);
 			}
 		});
+
+		mainPanel.setSize("100%", "100%");
+		mainPanel.setSpacing(8);
 		add(mainPanel);
 	}
 
@@ -88,10 +101,10 @@ public class EmployeeSettingsPanel extends AbstractCompanyInfoPanel {
 				.isHave1099contractors());
 
 		if (employeeYesGroupItem.getValue()) {
-			mainPanel.add(employeeExpenseForm);
+			mainPanel.add(employeeExpensePanel);
 		} else {
-			if (employeeExpenseForm.isAttached())
-				mainPanel.remove(employeeExpenseForm);
+			if (employeeExpensePanel.isAttached())
+				mainPanel.remove(employeeExpensePanel);
 		}
 	}
 

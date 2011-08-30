@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.companypreferences.panels;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -30,37 +30,30 @@ public class CompanyTradingDetailsPanel extends AbstractCompanyInfoPanel {
 				.tradingCompanyName());
 		tradingCompanyName.setHelpInformation(true);
 		tradingCompanyName.setRequired(false);
-		tradingCompanyName.setWidth(100);
 
 		address1Text = new TextItem(Accounter.constants().address1());
 		address1Text.setHelpInformation(true);
 		address1Text.setRequired(false);
-		address1Text.setWidth(100);
 
 		address2Text = new TextItem(Accounter.constants().address2());
 		address2Text.setHelpInformation(true);
 		address2Text.setRequired(false);
-		address2Text.setWidth(100);
 
 		cityText = new TextItem(Accounter.constants().city());
 		cityText.setHelpInformation(true);
 		cityText.setRequired(false);
-		cityText.setWidth(100);
 
 		stateCombo = new SelectCombo(Accounter.constants().state());
 		stateCombo.setHelpInformation(true);
 		stateCombo.setRequired(false);
-		stateCombo.setWidth(100);
 
 		postalcodeText = new TextItem(Accounter.constants().postalCode());
 		postalcodeText.setHelpInformation(true);
 		postalcodeText.setRequired(false);
-		postalcodeText.setWidth(100);
 
 		countryCombo = new SelectCombo(Accounter.constants().country());
 		countryCombo.setHelpInformation(true);
 		countryCombo.setRequired(false);
-		countryCombo.setWidth(100);
 		countriesList = new ArrayList<String>();
 		countriesList.addAll(CoreUtils.getCountriesAsList());
 		countryCombo.initCombo(countriesList);
@@ -70,7 +63,7 @@ public class CompanyTradingDetailsPanel extends AbstractCompanyInfoPanel {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-						statesList=new ArrayList<String>();
+						statesList = new ArrayList<String>();
 						countryCombo.setSelected(selectItem);
 						states = new String[CoreUtils
 								.getStatesForCountry(selectItem).length];
@@ -84,28 +77,32 @@ public class CompanyTradingDetailsPanel extends AbstractCompanyInfoPanel {
 
 		DynamicForm companyForm = new DynamicForm();
 
-		Label addressLabel = new Label(Accounter.constants().tradingAddress());
+		Label addressLabel = new Label(constants.tradingAddress());
 
 		companyForm.setFields(tradingCompanyName);
 
-		DynamicForm addressForm = new DynamicForm();
+		DynamicForm subAddressForm = new DynamicForm();
+		VerticalPanel addressPanel = new VerticalPanel();
 
-		addressForm.setFields(address1Text, address2Text, cityText,
+		subAddressForm.setFields(address1Text, address2Text, cityText,
 				postalcodeText, countryCombo, stateCombo);
 
-		HorizontalPanel companyHorzPanel = new HorizontalPanel();
-		companyHorzPanel.setWidth("100%");
-		companyHorzPanel.add(companyForm);
+		addressPanel.add(addressLabel);
+		addressPanel.add(subAddressForm);
 
-		HorizontalPanel addressHorzPanel = new HorizontalPanel();
-		addressHorzPanel.setWidth("100%");
-		addressHorzPanel.add(addressLabel);
-		addressHorzPanel.add(addressForm);
+		addressLabel.addStyleName("header");
+		subAddressForm.getElement().getStyle().setPaddingLeft(130, Unit.PX);
+		subAddressForm.addStyleName("fullSizePanel");
+
+		companyForm.addStyleName("companyInfoPanel");
+		addressPanel.addStyleName("companyInfoPanel");
 
 		VerticalPanel mainPanel = new VerticalPanel();
-		mainPanel.add(companyHorzPanel);
-		mainPanel.add(addressHorzPanel);
+		mainPanel.add(companyForm);
+		mainPanel.add(addressPanel);
 
+		mainPanel.addStyleName("fullSizePanel");
+		mainPanel.setSpacing(8);
 		this.add(mainPanel);
 
 	}

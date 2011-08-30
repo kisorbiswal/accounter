@@ -1,23 +1,19 @@
 package com.vimukti.accounter.web.client.ui.companypreferences.panels;
 
-import java.util.List;
-
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class CompanyOtherDetailsPanel extends AbstractCompanyInfoPanel {
-	private SelectCombo  organisationCombo;
 	private IntegerField phoneField, faxField;
 	private TextItem webTextItem;
 	private EmailField emailField;
-	private List<String> organisationList;
 
 	public CompanyOtherDetailsPanel() {
 		super();
@@ -28,40 +24,28 @@ public class CompanyOtherDetailsPanel extends AbstractCompanyInfoPanel {
 		AccounterConstants constants = Accounter.constants();
 		VerticalPanel mainPanel = new VerticalPanel();
 
-		String[] organisation = new String[] {
-				constants.soleProprietorshipDesc(),
-				constants.partnershipOrLLPDesc(),
-				constants.LLCDesc() + " " + constants.llcSingleMemberForm(),
-				constants.LLCDesc() + " " + constants.llcMultiMemberForm(),
-				constants.sCorporationDesc(), constants.corporationDesc(),
-				constants.nonProfitDesc(), constants.otherNone() };
+		DynamicForm contactDetails2Form = new DynamicForm();
 
-		DynamicForm contactDetailsForm = new DynamicForm();
-		DynamicForm otherDetailsForm = new DynamicForm();
-
-		LabelItem contactDetailsLabelItem = new LabelItem();
-		contactDetailsLabelItem.setValue(constants.contactDetails());
+		Label contactDetailsLabelItem = new Label(constants.contactDetails());
 		phoneField = new IntegerField(view, constants.phone());
 		emailField = new EmailField(constants.email());
 		faxField = new IntegerField(view, constants.fax());
 		webTextItem = new TextItem(constants.webSite());
 
-		LabelItem otherDetailsLabelItem = new LabelItem();
-		otherDetailsLabelItem.setValue(constants.otherDetails());
+		contactDetails2Form.setFields(phoneField, emailField, faxField,
+				webTextItem);
 
-		
-		for (int i = 0; i < organisation.length; i++) {
-			organisationList.add(organisation[i]);
-			organisationCombo.addItem(organisation[i]);
-		}
-		contactDetailsForm.setFields(contactDetailsLabelItem, phoneField,
-				emailField, faxField, webTextItem);
-		otherDetailsForm.setFields(otherDetailsLabelItem, 
-				organisationCombo);
+		mainPanel.add(contactDetailsLabelItem);
+		mainPanel.add(contactDetails2Form);
+		contactDetailsLabelItem.addStyleName("header");
 
-		mainPanel.add(contactDetailsForm);
-		mainPanel.add(otherDetailsForm);
+		contactDetails2Form.getElement().getStyle()
+				.setPaddingLeft(120, Unit.PX);
+		contactDetails2Form.addStyleName("fullSizePanel");
+		mainPanel.addStyleName("companyInfoPanel");
 
+		mainPanel.addStyleName("fullSizePanel");
+		mainPanel.setSpacing(8);
 		add(mainPanel);
 	}
 
@@ -71,9 +55,6 @@ public class CompanyOtherDetailsPanel extends AbstractCompanyInfoPanel {
 		emailField.setValue(company.getCompanyEmail());
 		webTextItem.setValue(company.getWebSite());
 		faxField.setValue(company.getFax());
-		
-		organisationCombo.setSelected(organisationList.get(companyPreferences
-				.getOrganizationType()));
 
 	}
 
@@ -83,8 +64,6 @@ public class CompanyOtherDetailsPanel extends AbstractCompanyInfoPanel {
 		company.setCompanyEmail(emailField.getValue());
 		company.setWebSite(webTextItem.getValue());
 		company.setFax(faxField.getValue());
-	
-		companyPreferences.setOrganizationType(organisationList
-				.indexOf(organisationCombo.getSelectedValue()));
+
 	}
 }

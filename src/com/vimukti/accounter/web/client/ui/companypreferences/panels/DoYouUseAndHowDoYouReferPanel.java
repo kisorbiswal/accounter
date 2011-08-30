@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.companypreferences.panels;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -12,7 +13,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
 public class DoYouUseAndHowDoYouReferPanel extends AbstractCompanyInfoPanel {
 	private CheckboxItem useCustomerNo, useVendorNo, useAccountNo;
@@ -31,11 +31,13 @@ public class DoYouUseAndHowDoYouReferPanel extends AbstractCompanyInfoPanel {
 		AccounterConstants constants = Accounter.constants();
 		AccounterMessages messages = Accounter.messages();
 
-		DynamicForm doYouUseForm = new DynamicForm();
-		DynamicForm howDoYouForm = new DynamicForm();
+		VerticalPanel doYouUsePanel = new VerticalPanel();
+		VerticalPanel howDoYouPanel = new VerticalPanel();
 
-		LabelItem doYouLabelItem = new LabelItem();
-		doYouLabelItem.setValue(constants.doYouUse());
+		DynamicForm doYouUseSubForm = new DynamicForm();
+		DynamicForm howDoYouSubForm = new DynamicForm();
+
+		Label doYouLabelItem = new Label(constants.doYouUse());
 
 		useCustomerNo = new CheckboxItem(messages.useCustomerId(Global.get()
 				.customer()));
@@ -44,8 +46,7 @@ public class DoYouUseAndHowDoYouReferPanel extends AbstractCompanyInfoPanel {
 		useAccountNo = new CheckboxItem(messages.useAccountNos(Global.get()
 				.account()));
 
-		LabelItem howDoYouLabelItem = new LabelItem();
-		howDoYouLabelItem.setValue(constants.howDoYouRefer());
+		Label howDoYouLabelItem = new Label(constants.howDoYouRefer());
 
 		customerCombo = new SelectCombo(constants.Customer());
 		supplierCombo = new SelectCombo(constants.Supplier());
@@ -72,14 +73,26 @@ public class DoYouUseAndHowDoYouReferPanel extends AbstractCompanyInfoPanel {
 			customerCombo.addItem(customer[i]);
 		}
 
-		doYouUseForm.setFields(doYouLabelItem, useCustomerNo, useVendorNo,
-				useAccountNo);
-		howDoYouForm.setFields(howDoYouLabelItem, customerCombo, supplierCombo,
-				accountCombo);
+		doYouUseSubForm.setFields(useCustomerNo, useVendorNo, useAccountNo);
+		howDoYouSubForm.setFields(customerCombo, supplierCombo, accountCombo);
 
-		mainPanel.add(doYouUseForm);
-		mainPanel.add(howDoYouForm);
+		doYouUsePanel.add(doYouLabelItem);
+		doYouUsePanel.add(doYouUseSubForm);
 
+		howDoYouPanel.add(howDoYouLabelItem);
+		howDoYouPanel.add(howDoYouSubForm);
+
+		doYouLabelItem.addStyleName("header");
+		howDoYouLabelItem.addStyleName("header");
+		
+		mainPanel.add(doYouUsePanel);
+		mainPanel.add(howDoYouPanel);
+
+		doYouUsePanel.addStyleName("companyInfoPanel");
+		howDoYouPanel.addStyleName("companyInfoPanel");
+
+		mainPanel.setSize("100%", "100%");
+		mainPanel.setSpacing(8);
 		add(mainPanel);
 	}
 

@@ -1,8 +1,9 @@
 package com.vimukti.accounter.web.client.ui.companypreferences.panels;
 
+import com.google.gwt.user.client.ui.HasAlignment;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
 public class CustomerAndvendorSettingsPanel extends AbstractCompanyInfoPanel {
@@ -18,24 +19,27 @@ public class CustomerAndvendorSettingsPanel extends AbstractCompanyInfoPanel {
 	private void createControls() {
 		VerticalPanel mainPanel = new VerticalPanel();
 
+		VerticalPanel chargeTaxPanel = new VerticalPanel();
+		// DynamicForm trackTimeForm = new DynamicForm();
+		VerticalPanel managingBillPanel = new VerticalPanel();
+		VerticalPanel createEstimatesPanel = new VerticalPanel();
+		VerticalPanel usingStatementsPanel = new VerticalPanel();
+
 		DynamicForm chargeTaxForm = new DynamicForm();
 		// DynamicForm trackTimeForm = new DynamicForm();
 		DynamicForm managingBillForm = new DynamicForm();
 		DynamicForm createEstimatesForm = new DynamicForm();
 		DynamicForm usingStatementsForm = new DynamicForm();
 
-		LabelItem chargeTaxLabelItem = new LabelItem();
-		// LabelItem trackTimeLabelItem = new LabelItem();
-		LabelItem managingBillLabelItem = new LabelItem();
-		LabelItem createEstimatesLabelItem = new LabelItem();
-		LabelItem usingStatementsLabelItem = new LabelItem();
-
-		chargeTaxLabelItem.setValue(constants.doyouchargesalestax());
-		// trackTimeLabelItem.setValue(constants.doyouwantTrackTime());
-		managingBillLabelItem.setValue(constants.managingBills());
-		createEstimatesLabelItem.setValue(constants
+		Label chargeTaxLabelItem = new Label(constants.doyouchargesalestax());
+		// Label trackTimeLabelItem = new Label();
+		Label managingBillLabelItem = new Label(constants.managingBills());
+		Label createEstimatesLabelItem = new Label(constants
 				.wanttoCreateEstimatesInAccounter());
-		usingStatementsLabelItem.setValue(constants.doyouWantToUseStatements());
+		Label usingStatementsLabelItem = new Label(constants
+				.doyouWantToUseStatements());
+
+		// trackTimeLabelItem.setValue(constants.doyouwantTrackTime());
 
 		chargeTaxGroupItem = new RadioGroupItem();
 		trackTimeGroupItem = new RadioGroupItem();
@@ -65,21 +69,52 @@ public class CustomerAndvendorSettingsPanel extends AbstractCompanyInfoPanel {
 		usingStatementsGroupItem.setValue(constants.yes(), constants.no());
 		usingStatementsGroupItem.setVertical(false);
 
-		chargeTaxForm.setFields(chargeTaxLabelItem, chargeTaxGroupItem);
+		chargeTaxForm.setFields(chargeTaxGroupItem);
 		// trackTimeForm.setFields(trackTimeLabelItem, trackTimeGroupItem);
-		managingBillForm.setFields(managingBillLabelItem,
-				managingBillsGroupItem);
-		createEstimatesForm.setFields(createEstimatesLabelItem,
-				createEstimatesGroupItem);
-		usingStatementsForm.setFields(usingStatementsLabelItem,
-				usingStatementsGroupItem);
+		managingBillForm.setFields(managingBillsGroupItem);
+		createEstimatesForm.setFields(createEstimatesGroupItem);
+		usingStatementsForm.setFields(usingStatementsGroupItem);
 
-		mainPanel.add(chargeTaxForm);
-		// mainPanel.add(trackTimeForm);
-		mainPanel.add(managingBillForm);
-		mainPanel.add(createEstimatesForm);
-		mainPanel.add(usingStatementsForm);
+		chargeTaxPanel.add(chargeTaxLabelItem);
+		chargeTaxLabelItem.addStyleName("header");
+		chargeTaxPanel.add(chargeTaxForm);
+		chargeTaxForm.addStyleName("fullSizePanel");
+		chargeTaxPanel.setCellHorizontalAlignment(chargeTaxForm,
+				HasAlignment.ALIGN_RIGHT);
 
+		managingBillPanel.add(managingBillLabelItem);
+		managingBillLabelItem.addStyleName("header");
+		managingBillPanel.add(managingBillForm);
+		managingBillForm.addStyleName("fullSizePanel");
+		managingBillPanel.setCellHorizontalAlignment(managingBillForm,
+				HasAlignment.ALIGN_RIGHT);
+
+		createEstimatesLabelItem.addStyleName("header");
+		createEstimatesPanel.add(createEstimatesLabelItem);
+		createEstimatesPanel.add(createEstimatesForm);
+		createEstimatesForm.addStyleName("fullSizePanel");
+		createEstimatesPanel.setCellHorizontalAlignment(createEstimatesForm,
+				HasAlignment.ALIGN_RIGHT);
+
+		usingStatementsLabelItem.addStyleName("header");
+		usingStatementsPanel.add(usingStatementsLabelItem);
+		usingStatementsPanel.add(usingStatementsForm);
+		usingStatementsForm.addStyleName("fullSizePanel");
+		usingStatementsPanel.setCellHorizontalAlignment(usingStatementsForm,
+				HasAlignment.ALIGN_RIGHT);
+
+		mainPanel.add(chargeTaxPanel);
+		mainPanel.add(managingBillPanel);
+		mainPanel.add(createEstimatesPanel);
+		mainPanel.add(usingStatementsPanel);
+
+		chargeTaxPanel.addStyleName("companyInfoPanel");
+		managingBillPanel.addStyleName("companyInfoPanel");
+		createEstimatesPanel.addStyleName("companyInfoPanel");
+		usingStatementsPanel.addStyleName("companyInfoPanel");
+
+		mainPanel.addStyleName("fullSizePanel");
+		mainPanel.setSpacing(8);
 		add(mainPanel);
 	}
 

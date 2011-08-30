@@ -127,6 +127,7 @@ public class OrganisationPanel extends AbstractCompanyInfoPanel {
 				llcFormCombo.setDisabled(true);
 			}
 		});
+		viewContainer.setSize("100%", "100%");
 		add(viewContainer);
 	}
 
