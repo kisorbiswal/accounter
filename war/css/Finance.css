@@ -4448,7 +4448,7 @@ table tr.ReportGridRow:HOVER {
 	font-weight: bold;
 	text-align: center;
 	width: 165px;
-	text-transform: uppercase;
+	text-transform: capitalize;
 }
 
 .blue-week-line {
