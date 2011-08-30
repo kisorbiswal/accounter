@@ -12183,8 +12183,8 @@ public class FinanceTool {
 		Client1099Form client1099Form = new Client1099Form();
 
 		Query query = session.getNamedQuery(
-				"get.selected.vendors.enterbills.list").setParameter(0,
-				vendorId);
+				"get.selected.vendors.enterbills.list.by.id").setParameter(
+				"vendorId", vendorId);
 		ArrayList<EnterBill> list = (ArrayList<EnterBill>) query.list();
 
 		for (EnterBill enterBill : list) {
