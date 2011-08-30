@@ -27,6 +27,7 @@ import com.vimukti.accounter.core.ReportTemplate;
 import com.vimukti.accounter.core.ReportsGenerator;
 import com.vimukti.accounter.core.TemplateBuilder;
 import com.vimukti.accounter.core.Transaction;
+import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.utils.Converter;
@@ -253,9 +254,22 @@ public class GeneratePDFservlet extends BaseServlet {
 
 				}// for MISC form
 				else if (transactionType == Transaction.TYPE_MISC_FORM) {
-					converter = new Converter();
+					converter = new Converter(PD4Constants.LETTER);
 
-					Misc1099PDFTemplate miscHtmlTemplete = new Misc1099PDFTemplate();
+					long vendorID = Long.parseLong(request
+							.getParameter("vendorID"));
+
+					int horizontalValue = Integer.parseInt(request
+							.getParameter("horizontalValue"));
+
+					int verticalValue = Integer.parseInt(request
+							.getParameter("verticalValue"));
+
+					Vendor memo = (Vendor) financetool.getServerObjectForid(
+							AccounterCoreType.VENDOR, vendorID);
+
+					Misc1099PDFTemplate miscHtmlTemplete = new Misc1099PDFTemplate(
+							memo, horizontalValue, verticalValue);
 					fileName = miscHtmlTemplete.getFileName();
 					outPutString = outPutString.append(miscHtmlTemplete
 							.generatePDF());
