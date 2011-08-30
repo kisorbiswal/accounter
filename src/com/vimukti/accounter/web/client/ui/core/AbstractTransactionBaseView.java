@@ -47,6 +47,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.CustomMenuItem;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.banking.WriteChequeView;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
 import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -333,10 +334,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected DateField createTransactionDateItem() {
 
 		final DateField dateItem = new DateField(Accounter.constants().date());
-		dateItem
-				.setToolTip(Accounter.messages()
-						.selectDateWhenTransactioCreated(
-								this.getAction().getViewName()));
+		dateItem.setToolTip(Accounter
+				.messages()
+				.selectDateWhenTransactioCreated(this.getAction().getViewName()));
 		dateItem.setHelpInformation(true);
 		// if (this instanceof VendorBillView)
 		// dateItem.setShowTitle(true);
@@ -987,7 +987,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				if (transaction instanceof ClientPayBill) {
 					result.addError(this, Accounter.constants().nullAmount());
 				} else {
-					if (!(this instanceof CustomerRefundView))
+					if (!(this instanceof CustomerRefundView)
+							&& !(this instanceof WriteChequeView))
 						result.addError(this, Accounter.constants()
 								.transactiontotalcannotbe0orlessthan0());
 				}

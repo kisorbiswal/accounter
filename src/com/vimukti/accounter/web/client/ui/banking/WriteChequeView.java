@@ -463,44 +463,41 @@ public class WriteChequeView extends
 		// transactionCustomerGrid)) ERROR
 		// else transactionVendorGrid or transactionCustomerGrid validation
 		// 4. if(!validPositiveAmount(gridTotalAmount)) ERROR
-		if (result.getErrors().size() > 0)
-			return result;
-		if (payForm != null) {
-			result.add(payForm.validate());
-		}
-		if (transaction == null) {
+		// if (result.getErrors().size() > 0)
+		// return result;
 
-			result.add(DynamicForm.validate(payForm, bankAccForm));
+		result.add(DynamicForm.validate(payForm, bankAccForm));
 
-			if (transaction == null && payee != null) {
-				switch (payee.getType()) {
-				case ClientPayee.TYPE_CUSTOMER:
-					if (AccounterValidator
-							.isBlankTransaction(transactionCustomerGrid)) {
-						result.addError(transactionCustomerGrid,
-								accounterConstants.blankTransaction());
-					} else
-						result.add(transactionCustomerGrid.validateGrid());
-				case ClientPayee.TYPE_VENDOR:
-				case ClientPayee.TYPE_TAX_AGENCY:
-					if (AccounterValidator
-							.isBlankTransaction(transactionVendorGrid)) {
-						result.addError(transactionVendorGrid,
-								accounterConstants.blankTransaction());
-					} else
-						result.add(transactionVendorGrid.validateGrid());
-					// case ClientPayee.TYPE_TAX_AGENCY:
-					// return AccounterValidator
-					// .isBlankTransaction(taxAgencyGrid);
-				}
+		if (payee != null) {
+			switch (payee.getType()) {
+			case ClientPayee.TYPE_CUSTOMER:
+				if (AccounterValidator
+						.isBlankTransaction(transactionCustomerGrid)) {
+					result.addError(transactionCustomerGrid,
+							accounterConstants.blankTransaction());
+				} else
+					result.add(transactionCustomerGrid.validateGrid());
+				break;
+			case ClientPayee.TYPE_VENDOR:
+			case ClientPayee.TYPE_TAX_AGENCY:
+				if (AccounterValidator
+						.isBlankTransaction(transactionVendorGrid)) {
+					result.addError(transactionVendorGrid,
+							accounterConstants.blankTransaction());
+				} else
+					result.add(transactionVendorGrid.validateGrid());
+				break;
+				// case ClientPayee.TYPE_TAX_AGENCY:
+				// return AccounterValidator
+				// .isBlankTransaction(taxAgencyGrid);
 			}
-
-			if (transaction == null)
-				if (!validateAmount()) {
-					result.addError(memoTextAreaItem,
-							accounterConstants.amount());
-				}
 		}
+
+		if (!validateAmount()) {
+			result.addError(memoTextAreaItem,
+					accounterConstants.transactiontotalcannotbe0orlessthan0());
+		}
+
 		return result;
 	}
 
