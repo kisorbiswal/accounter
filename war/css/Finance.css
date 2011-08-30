@@ -4448,6 +4448,7 @@ table tr.ReportGridRow:HOVER {
 	font-weight: bold;
 	text-align: center;
 	width: 165px;
+	text-transform: uppercase;
 }
 
 .blue-week-line {
@@ -6030,7 +6031,7 @@ input[type="text"],textarea {
 	width: 100%;
 	height: 500px;
 }
-.addAccountPortlet,.addButtonPortlet{
+.addAccountPortlet,.addButtonPortlet,.account_portlet{
 	margin-left:30px !important;
 	background:none repeat scroll 0 0 #29646C !important;
 	/*background: -moz-linear-gradient(top,  #3299A4,   #29646C) !important;
@@ -6048,15 +6049,6 @@ input[type="text"],textarea {
 	/*background: -moz-linear-gradient(top,  #3299A4,   #002E36) !important;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4', endColorstr='#002E36');
     background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#002E36)) !important; */
-}
-a#fdbk_tab{
-	right:0px !important;
-	top:40% !important;
-	left:inherit !important;
-	margin:0 -7px 0 0 !important;
-}
-a#fdbk_tab:hover{
-	margin:0px -4px 0 0 !important;
 }
 .image-button{
 	background-color: #1A5158;
