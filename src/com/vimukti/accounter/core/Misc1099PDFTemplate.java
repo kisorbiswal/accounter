@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import com.vimukti.accounter.utils.MiniTemplator;
 import com.vimukti.accounter.utils.MiniTemplator.TemplateSyntaxException;
 import com.vimukti.accounter.web.client.core.Client1099Form;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 /**
  * @author photoshop3
@@ -46,6 +47,7 @@ public class Misc1099PDFTemplate {
 	int marginRight;
 	int marginTop;
 	int marginBottom;
+	Client1099Form form;
 
 	public Misc1099PDFTemplate(Vendor memo, int horizontalValue,
 			int verticalValue) {
@@ -69,6 +71,11 @@ public class Misc1099PDFTemplate {
 		} else {
 			marginBottom = verticalValue;
 		}
+
+		Client1099Form form = new FinanceTool().get1099InformationByVendor(memo
+				.getID());
+
+		form.getVendor();
 
 	}
 
