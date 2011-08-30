@@ -1,9 +1,15 @@
 package com.vimukti.accounter.web.client.ui.companypreferences.panels;
 
+import java.util.ArrayList;
+
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.CoreUtils;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -13,9 +19,18 @@ public class CompanyRegisteredeDetailsPanel extends AbstractCompanyInfoPanel {
 	private TextItem registeredCompanyName, address1Text, address2Text,
 			cityText, postalcodeText;
 	private SelectCombo countryCombo, stateCombo;
+	private ArrayList<String> countriesList, statesList;
+	protected String[] states;
 
-	public CompanyRegisteredeDetailsPanel() {
-		super();
+	// public CompanyRegisteredeDetailsPanel() {
+	// super();
+	// createControls();
+	// }
+
+	public CompanyRegisteredeDetailsPanel(
+			ClientCompanyPreferences companyPreferences, ClientCompany company,
+			CompanyInfoView companyInfoView) {
+		super(companyPreferences, company, view);
 		createControls();
 	}
 
@@ -56,12 +71,27 @@ public class CompanyRegisteredeDetailsPanel extends AbstractCompanyInfoPanel {
 		countryCombo.setHelpInformation(true);
 		countryCombo.setRequired(false);
 		countryCombo.setWidth(100);
+		countriesList = new ArrayList<String>();
+		countriesList.addAll(CoreUtils.getCountriesAsList());
+		countryCombo.initCombo(countriesList);
+
+		countryCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						statesList = new ArrayList<String>();
+						states = new String[CoreUtils
+								.getStatesForCountry(selectItem).length];
+						states = CoreUtils.getStatesForCountry(selectItem);
+						for (int i = 0; i < states.length; i++) {
+							statesList.add(states[i]);
+						}
+						stateCombo.initCombo(statesList);
+					}
+				});
 
 		DynamicForm companyForm = new DynamicForm();
-		companyForm.setWidth("80%");
-		companyForm.getCellFormatter().setWidth(0, 0, "225px");
-		companyForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
-		companyForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
 
 		Label addressLabel = new Label(Accounter.constants()
 				.registeredAddress());
@@ -70,13 +100,8 @@ public class CompanyRegisteredeDetailsPanel extends AbstractCompanyInfoPanel {
 
 		DynamicForm addressForm = new DynamicForm();
 
-		addressForm.setWidth("80%");
-		addressForm.getCellFormatter().setWidth(0, 0, "225px");
-		addressForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
-		addressForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
-
 		addressForm.setFields(address1Text, address2Text, cityText,
-				postalcodeText, stateCombo, countryCombo);
+				postalcodeText, countryCombo, stateCombo);
 
 		HorizontalPanel companyHorzPanel = new HorizontalPanel();
 		companyHorzPanel.setWidth("100%");

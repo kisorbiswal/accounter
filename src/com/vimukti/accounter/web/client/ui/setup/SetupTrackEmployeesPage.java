@@ -46,7 +46,7 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 		checkBoxPanel = new VerticalPanel();
 		mainTable = new FlexTable();
 
-		question1 = new Label(this.accounterConstants.doYouhavEmployes());
+		question1 = new Label(this.accounterConstants.doyouHaveEmployees());
 		yesRadioButton1 = new RadioButton("topRadioGroup",
 				this.accounterConstants.yes());
 		vPanel_1.add(yesRadioButton1);

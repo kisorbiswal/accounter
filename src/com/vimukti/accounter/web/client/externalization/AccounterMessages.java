@@ -809,6 +809,8 @@ public interface AccounterMessages extends Messages {
 
 	public SafeHtml otherDetails();
 
+	public SafeHtml employeeSettings();
+
 	public String venodrsThatMeetThreshold(String vendor);
 
 	public String vendorsBelowThreshold(String vendor);

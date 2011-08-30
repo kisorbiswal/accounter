@@ -85,13 +85,9 @@ public class DoYouUseAndHowDoYouReferPanel extends AbstractCompanyInfoPanel {
 
 	@Override
 	public void onLoad() {
-		try {
-			useCustomerNo.setValue(companyPreferences.getUseCustomerId());
-			useVendorNo.setValue(companyPreferences.getUseVendorId());
-			useAccountNo.setValue(companyPreferences.getUseAccountNumbers());
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+		useCustomerNo.setValue(companyPreferences.getUseCustomerId());
+		useVendorNo.setValue(companyPreferences.getUseVendorId());
+		useAccountNo.setValue(companyPreferences.getUseAccountNumbers());
 		customerCombo.setSelected(customerList.get(companyPreferences
 				.getReferCustomers()));
 		customerCombo.setSelected(supplierList.get(companyPreferences

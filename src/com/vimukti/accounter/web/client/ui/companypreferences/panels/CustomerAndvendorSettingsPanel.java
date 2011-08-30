@@ -19,19 +19,19 @@ public class CustomerAndvendorSettingsPanel extends AbstractCompanyInfoPanel {
 		VerticalPanel mainPanel = new VerticalPanel();
 
 		DynamicForm chargeTaxForm = new DynamicForm();
-		DynamicForm trackTimeForm = new DynamicForm();
+		// DynamicForm trackTimeForm = new DynamicForm();
 		DynamicForm managingBillForm = new DynamicForm();
 		DynamicForm createEstimatesForm = new DynamicForm();
 		DynamicForm usingStatementsForm = new DynamicForm();
 
 		LabelItem chargeTaxLabelItem = new LabelItem();
-		LabelItem trackTimeLabelItem = new LabelItem();
+		// LabelItem trackTimeLabelItem = new LabelItem();
 		LabelItem managingBillLabelItem = new LabelItem();
 		LabelItem createEstimatesLabelItem = new LabelItem();
 		LabelItem usingStatementsLabelItem = new LabelItem();
 
 		chargeTaxLabelItem.setValue(constants.doyouchargesalestax());
-		trackTimeLabelItem.setValue(constants.doyouwantTrackTime());
+		// trackTimeLabelItem.setValue(constants.doyouwantTrackTime());
 		managingBillLabelItem.setValue(constants.managingBills());
 		createEstimatesLabelItem.setValue(constants
 				.wanttoCreateEstimatesInAccounter());
@@ -66,7 +66,7 @@ public class CustomerAndvendorSettingsPanel extends AbstractCompanyInfoPanel {
 		usingStatementsGroupItem.setVertical(false);
 
 		chargeTaxForm.setFields(chargeTaxLabelItem, chargeTaxGroupItem);
-		trackTimeForm.setFields(trackTimeLabelItem, trackTimeGroupItem);
+		// trackTimeForm.setFields(trackTimeLabelItem, trackTimeGroupItem);
 		managingBillForm.setFields(managingBillLabelItem,
 				managingBillsGroupItem);
 		createEstimatesForm.setFields(createEstimatesLabelItem,
@@ -75,7 +75,7 @@ public class CustomerAndvendorSettingsPanel extends AbstractCompanyInfoPanel {
 				usingStatementsGroupItem);
 
 		mainPanel.add(chargeTaxForm);
-		mainPanel.add(trackTimeForm);
+		// mainPanel.add(trackTimeForm);
 		mainPanel.add(managingBillForm);
 		mainPanel.add(createEstimatesForm);
 		mainPanel.add(usingStatementsForm);

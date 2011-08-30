@@ -1827,6 +1827,7 @@ input[type="submit"]:FOCUS {
 	width: 257px;
 	position: relative;
 	left: 0;
+	font-size: 12px;
 }
 
 .box-data {
@@ -1948,7 +1949,7 @@ form {
 	float: left;
 }
 
-.loginbutton,#forgot-login,.signup-submit,.reset-button {
+.loginbutton,#forgot-login,.signup-submit,.reset-button,.OkButton {
 	float: right;
 	margin-right: 8px;
 }

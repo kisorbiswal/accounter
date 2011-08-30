@@ -32,7 +32,7 @@ public class CompanyInfoView extends BaseView<ClientCompanyPreferences> {
 	public void init() {
 		super.init();
 		createControls();
-		// setSize(width, height)
+		setSize("100%", "100%");
 	}
 
 	private void createControls() {
@@ -43,19 +43,21 @@ public class CompanyInfoView extends BaseView<ClientCompanyPreferences> {
 			StackPanel stackPanel = new StackPanel();
 			detailPanel = new VerticalPanel();
 
-			stackPanel.add(getBasicInfoPanel(), constants.basicInfo());
+			// stackPanel.add(getBasicInfoPanel(), constants.basicInfo());
 			stackPanel.add(getCompanyInfoPanel(), constants.comapnyInfo());
 			stackPanel.add(getBankingAndFinancialInfoPanel(), constants
-					.bankingAndOtherFinancialDetails());
+					.financialDetails());
 			stackPanel.add(getOtherDetailsPanel(), constants.otherDetails());
 
-			companyInfoPanel = new AdminInfoPanel(companyPreferences, company,
-					this);
+			companyInfoPanel = new CompanyRegisteredeDetailsPanel(
+					companyPreferences, company, this);
 			detailPanel.add(companyInfoPanel);
 
 			mainPanel.add(stackPanel);
 			mainPanel.add(detailPanel);
-
+			stackPanel.setHeight("100%");
+			stackPanel.setWidth("250px");
+			mainPanel.setHeight("100%");
 			add(mainPanel);
 		} catch (Exception e) {
 			System.err.println(e);
@@ -80,6 +82,8 @@ public class CompanyInfoView extends BaseView<ClientCompanyPreferences> {
 			@Override
 			public void onClick(ClickEvent event) {
 				companyInfoPanel.onSave();
+				Accounter.setCompany(company);
+				// Accounter.
 			}
 		});
 	}
@@ -120,15 +124,19 @@ public class CompanyInfoView extends BaseView<ClientCompanyPreferences> {
 				.registeredDetails());
 		HTML companyTradingDetailsLink = new HTML(messages.tradingDetails());
 		HTML companyOtherDetailsLink = new HTML(messages.companyOtherDetails());
+		HTML organisationLink = new HTML("<a>" + constants.organisation()
+				+ "</a>");
 
 		companyInfo1Panel.add(companyRegisteredeDetailsLink);
 		companyInfo1Panel.add(companyTradingDetailsLink);
 		companyInfo1Panel.add(companyOtherDetailsLink);
+		companyInfo1Panel.add(organisationLink);
 
 		companyRegisteredeDetailsLink.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				companyInfoPanel = new CompanyRegisteredeDetailsPanel();
+				companyInfoPanel = new CompanyRegisteredeDetailsPanel(
+						companyPreferences, company, CompanyInfoView.this);
 				addDetailsPanel(companyInfoPanel);
 
 			}
@@ -150,6 +158,16 @@ public class CompanyInfoView extends BaseView<ClientCompanyPreferences> {
 				addDetailsPanel(companyInfoPanel);
 			}
 		});
+
+		organisationLink.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				companyInfoPanel = new OrganisationPanel();
+				addDetailsPanel(companyInfoPanel);
+			}
+		});
+
 		return companyInfo1Panel;
 	}
 
@@ -182,10 +200,12 @@ public class CompanyInfoView extends BaseView<ClientCompanyPreferences> {
 				.doYouUseAndHowDoYouRefer());
 		HTML ageingAndSellingDetailsLink = new HTML(messages
 				.ageingAndSellingDetails());
+		HTML employeeSettingsLink = new HTML(messages.employeeSettings());
 
 		otherDetailsPanel.add(customerAndvendorSettingsLink);
 		otherDetailsPanel.add(doYouUseAndHowDoYouReferLink);
 		otherDetailsPanel.add(ageingAndSellingDetailsLink);
+		otherDetailsPanel.add(employeeSettingsLink);
 		customerAndvendorSettingsLink.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -210,7 +230,14 @@ public class CompanyInfoView extends BaseView<ClientCompanyPreferences> {
 				addDetailsPanel(companyInfoPanel);
 			}
 		});
+		employeeSettingsLink.addClickHandler(new ClickHandler() {
 
+			@Override
+			public void onClick(ClickEvent event) {
+				companyInfoPanel = new EmployeeSettingsPanel();
+				addDetailsPanel(companyInfoPanel);
+			}
+		});
 		return otherDetailsPanel;
 	}
 

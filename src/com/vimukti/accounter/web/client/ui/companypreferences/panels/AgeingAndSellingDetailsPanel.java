@@ -19,9 +19,10 @@ public class AgeingAndSellingDetailsPanel extends AbstractCompanyInfoPanel {
 	private void createControls() {
 
 		ageingRadioGroup = new RadioGroupItem();
-		ageingRadioGroup.setWidth(100);
+		ageingRadioGroup.setGroupName(constants.ageing());
 		ageingRadioGroup.setValues(getClickHandler(), constants
 				.ageingforduedate(), constants.ageingfortransactiondate());
+
 		LabelItem ageingLabel = new LabelItem();
 		LabelItem sellingsLabel = new LabelItem();
 
@@ -29,23 +30,18 @@ public class AgeingAndSellingDetailsPanel extends AbstractCompanyInfoPanel {
 		sellingsLabel.setValue(Accounter.constants().sellingDetails());
 
 		sellingRadioGroup = new RadioGroupItem();
+		sellingRadioGroup.setGroupName(constants.sell());
 		sellingRadioGroup.setValues(getClickHandler(), Accounter.constants()
 				.services(), Accounter.constants().products(), Accounter
 				.constants().both());
 
 		DynamicForm ageingGroupForm = new DynamicForm();
-		ageingGroupForm.setWidth("80%");
-		ageingGroupForm.getCellFormatter().setWidth(0, 0, "225px");
-		ageingGroupForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
-		ageingGroupForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
 		ageingGroupForm.setFields(ageingLabel, ageingRadioGroup);
+		ageingGroupForm.setStyleName("companyInfoPanel");
 
 		DynamicForm sellingGroupForm = new DynamicForm();
-		ageingGroupForm.setWidth("80%");
-		ageingGroupForm.getCellFormatter().setWidth(0, 0, "225px");
-		ageingGroupForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
-		ageingGroupForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
 		sellingGroupForm.setFields(sellingsLabel, sellingRadioGroup);
+		sellingGroupForm.setStyleName("companyInfoPanel");
 
 		VerticalPanel mainPanel = new VerticalPanel();
 		mainPanel.add(ageingGroupForm);
