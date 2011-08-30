@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -1389,8 +1390,8 @@ public class UIUtils {
 		if (incredNumber.length() > 0) {
 			// incredNumber = new
 			// StringBuffer(incredNumber).reverse().toString();
-			prevNumber = prevNumber.replace(incredNumber, ""
-					+ (Long.parseLong(incredNumber) + 1));
+			prevNumber = prevNumber.replace(incredNumber,
+					"" + (Long.parseLong(incredNumber) + 1));
 		}
 		return prevNumber;
 
@@ -1625,8 +1626,8 @@ public class UIUtils {
 
 	public static void downloadMultipleAttachment(String objectID, int type,
 			long brandingThemeId) {
-		downloadMultipleAttachment(objectID, type, String
-				.valueOf(brandingThemeId));
+		downloadMultipleAttachment(objectID, type,
+				String.valueOf(brandingThemeId));
 	}
 
 	public native static void downloadMultipleAttachment(String objectID,
@@ -1646,21 +1647,31 @@ public class UIUtils {
 
 	/**
 	 * this method is used to create 1099 MISC forms
+	 * 
+	 * @param verticalValue
+	 * @param horizontalValue
+	 * 
+	 * @param list
 	 */
 	public static void downloadMISCForm(long objectID, int type,
-			long brandingThemeId) {
-		downloadMISCForm(String.valueOf(objectID), type, String
-				.valueOf(brandingThemeId));
+			long brandingThemeId, long vendorID, int horizontalValue,
+			int verticalValue) {
+		downloadMISCForm(String.valueOf(objectID), type,
+				String.valueOf(brandingThemeId), String.valueOf(vendorID),
+				String.valueOf(horizontalValue), String.valueOf(verticalValue));
 	}
 
 	public native static void downloadMISCForm(String objectID, int type,
-			String brandingThemeId)/*-{
+			String brandingThemeId, String vendorID, String horizontalValue,
+			String verticalValue)/*-{
 		try {
 			var frame = document.createElement("IFRAME");
 			frame.setAttribute("src",
 					"/do/finance/generatePDFServlet?objectId=" + objectID
 							+ "&type=" + type + "&brandingThemeId="
-							+ brandingThemeId);
+							+ brandingThemeId + "&vendorID=" + vendorID
+							+ "&horizontalValue=" + horizontalValue
+							+ "&verticalValue=" + verticalValue);
 			frame.style.visibility = "hidden";
 			document.body.appendChild(frame);
 		} catch (e) {
@@ -1671,10 +1682,11 @@ public class UIUtils {
 	/**
 	 * this method is used to make MISC information page
 	 */
-	public native static void makeMISCInfo()/*-{
+	public native static void makeMISCInfo(int type, List<Client1099Form> list)/*-{
 		try {
 			var frame = document.createElement("IFRAME");
-			frame.setAttribute("src", "/do/finance/miscInfoServlet");
+			frame.setAttribute("src", "/do/finance/miscInfoServlet?vendorList="
+					+ list + "&type=" + type);
 			frame.style.visibility = "hidden";
 			document.body.appendChild(frame);
 		} catch (e) {
@@ -1720,8 +1732,8 @@ public class UIUtils {
 
 	public static void downloadAttachment(long objectID, int type,
 			long brandingThemeId) {
-		downloadAttachment(String.valueOf(objectID), type, String
-				.valueOf(brandingThemeId));
+		downloadAttachment(String.valueOf(objectID), type,
+				String.valueOf(brandingThemeId));
 	}
 
 	/**
@@ -1952,8 +1964,8 @@ public class UIUtils {
 
 	public static void exportReport(int start, int end, int reportType,
 			String name, String dateRangeHtml, long status) {
-		exportReport(start, end, reportType, name, dateRangeHtml, String
-				.valueOf(status));
+		exportReport(start, end, reportType, name, dateRangeHtml,
+				String.valueOf(status));
 	}
 
 	public static native void exportReport(int start, int end, int reportType,
@@ -1974,8 +1986,8 @@ public class UIUtils {
 
 	public static void generateReportPDF(int start, int end, int reportType,
 			String name, long dateRangeHtml) {
-		generateReportPDF(start, end, reportType, name, String
-				.valueOf(dateRangeHtml));
+		generateReportPDF(start, end, reportType, name,
+				String.valueOf(dateRangeHtml));
 	}
 
 	public static native void generateReportPDF(int start, int end,
@@ -1996,8 +2008,8 @@ public class UIUtils {
 
 	public static void generateReportPDF(int start, int end, int reportType,
 			String name, String dateRangeHtml, long status) {
-		generateReportPDF(start, end, reportType, name, dateRangeHtml, String
-				.valueOf(status));
+		generateReportPDF(start, end, reportType, name, dateRangeHtml,
+				String.valueOf(status));
 	}
 
 	public static native void generateReportPDF(int start, int end,
