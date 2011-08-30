@@ -1560,7 +1560,14 @@
 	</query>
 
 	<query name="get.1099.selected.accounts">
-		from com.vimukti.accounter.core.Account a where a.boxNumber!=0
+		from com.vimukti.accounter.core.Account a where
+		a.boxNumber!=0
+	</query>
+
+	<query name="get.selected.vendors.enterbills.list">
+		<query-param name="vendorId" type="long" />
+		from com.vimukti.accounter.core.EnterBill e where
+		e.vendor.id=:vendorId
 	</query>
 
 </hibernate-mapping>

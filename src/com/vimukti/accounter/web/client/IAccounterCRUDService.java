@@ -49,4 +49,6 @@ public interface IAccounterCRUDService extends RemoteService {
 
 	ArrayList<Client1099Form> get1099Vendors(int selected)
 			throws AccounterException;
+
+	Client1099Form get1099InformationByVendor(long vendorId);
 }

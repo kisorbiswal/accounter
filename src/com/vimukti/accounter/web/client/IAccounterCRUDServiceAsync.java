@@ -46,4 +46,6 @@ public interface IAccounterCRUDServiceAsync {
 	void get1099Vendors(int selected,
 			AsyncCallback<ArrayList<Client1099Form>> callback);
 
+	void get1099InformationByVendor(long vendorId,
+			AsyncCallback<Client1099Form> callback);
 }

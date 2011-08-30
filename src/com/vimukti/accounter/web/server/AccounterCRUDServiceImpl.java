@@ -267,4 +267,10 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 		return financeTool.get1099Vendors(selected);
 	}
 
+	@Override
+	public Client1099Form get1099InformationByVendor(long vendorId) {
+		FinanceTool financeTool = new FinanceTool();
+		return financeTool.get1099InformationByVendor(vendorId);
+	}
+
 }
