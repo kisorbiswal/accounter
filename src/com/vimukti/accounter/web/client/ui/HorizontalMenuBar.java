@@ -52,8 +52,9 @@ public class HorizontalMenuBar extends HorizontalPanel {
 
 		}
 
-		menuitem = menuBar.addItem(Accounter.messages().Customer(
-				Global.get().Customer()), getCustomerMenu());
+		menuitem = menuBar.addItem(
+				Accounter.messages().Customer(Global.get().Customer()),
+				getCustomerMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		menuitem = menuBar.addItem(Global.get().vendor(), getVendorMenu());
@@ -521,12 +522,16 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		// reportMenuBar.addSeparator();
 		reportMenuBar.addItem(Accounter.constants().companyAndFinancial(),
 				getCompanyAndFinancialMenu());
-		reportMenuBar.addItem(Accounter.messages().customersAndReceivable(
-				Global.get().Customer()), getCustomersAndReceivableMenu());
+		reportMenuBar.addItem(
+				Accounter.messages().customersAndReceivable(
+						Global.get().Customer()),
+				getCustomersAndReceivableMenu());
 
 		reportMenuBar.addItem(Accounter.constants().sales(), getSalesMenu());
-		reportMenuBar.addItem(Global.get().messages().vendorsAndPayables(
-				Global.get().Vendor()), getVendorAndPayablesMenu());
+		reportMenuBar.addItem(
+				Global.get().messages()
+						.vendorsAndPayables(Global.get().Vendor()),
+				getVendorAndPayablesMenu());
 		reportMenuBar.addItem(Accounter.constants().purchase(),
 				getPurchaseMenu());
 		// if (Accounter.getCompany().getAccountingType() ==
@@ -743,8 +748,9 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			// vendorMenuBar.addItem(ActionFactory.getItemReceiptAction());
 			vendorMenuBar.addSeparator();
 		}
-		vendorMenuBar.addItem(Global.get().messages().vendorLists(
-				Global.get().Vendor()), getVendorListMenu());
+		vendorMenuBar.addItem(
+				Global.get().messages().vendorLists(Global.get().Vendor()),
+				getVendorListMenu());
 		return vendorMenuBar;
 	}
 
@@ -796,8 +802,9 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			customerMenuBar.addItem(ActionFactory.getCustomerRefundAction());
 			customerMenuBar.addSeparator();
 		}
-		customerMenuBar.addItem(Accounter.messages().customerLists(
-				Global.get().Customer()), getCustomerListMenu());
+		customerMenuBar.addItem(
+				Accounter.messages().customerLists(Global.get().Customer()),
+				getCustomerListMenu());
 		return customerMenuBar;
 	}
 
@@ -900,9 +907,8 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			public void execute() {
 				CustomerMergeDialog customerMergeDialog = new CustomerMergeDialog(
 						Accounter.messages().mergeCustomers(
-								Global.get().Customer().trim()), Accounter
-								.messages().mergeDescription(
-										Global.get().customer().trim()));
+								Global.get().Customer()), Accounter.messages()
+								.mergeDescription(Global.get().customer()));
 
 				customerMergeDialog.show();
 			}
@@ -917,9 +923,8 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			public void execute() {
 				AccountMergeDialog accountMergeDialog = new AccountMergeDialog(
 						Accounter.messages().mergeAccounts(
-								Global.get().Account().trim()), Accounter
-								.messages().mergeDescription(
-										Global.get().account().trim()));
+								Global.get().Account()), Accounter.messages()
+								.mergeDescription(Global.get().account()));
 				accountMergeDialog.show();
 			}
 		};
@@ -932,10 +937,10 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			@Override
 			public void execute() {
 				VendorMergeDialog vendorMergeDialog = new VendorMergeDialog(
-						Accounter.messages().mergeVendors(
-								Global.get().Vendor().trim()), Accounter
+						Accounter.messages()
+								.mergeVendors(Global.get().Vendor()), Accounter
 								.messages().mergeDescription(
-										Global.get().vendor().trim()));
+										Global.get().vendor()));
 				vendorMergeDialog.show();
 			}
 		};
@@ -1006,8 +1011,9 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			companyMenuBar.addSeparator();
 		}
 
-		companyMenuBar.addItem(Accounter.messages().mergeAccounts(
-				Global.get().Account().trim()), getMergeSubMenu());
+		companyMenuBar.addItem(
+				Accounter.messages().mergeAccounts(Global.get().Account()),
+				getMergeSubMenu());
 		companyMenuBar.addSeparator();
 		companyMenuBar.addItem(Accounter.constants().companyLists(),
 				getCompanyListMenu());
@@ -1017,13 +1023,16 @@ public class HorizontalMenuBar extends HorizontalPanel {
 
 	private CustomMenuBar getMergeSubMenu() {
 		CustomMenuBar mergeAccountsMenuBar = getSubMenu();
-		mergeAccountsMenuBar.addItem(Accounter.messages().mergeCustomers(
-				Global.get().Customer().trim()), getMergeCustomerCommand());
-		mergeAccountsMenuBar.addItem(Accounter.messages().mergeVendors(
-				Global.get().Vendor().trim()), getMergeVendorCommand());
-		mergeAccountsMenuBar.addItem(Accounter.messages().mergeAccounts(
-				Global.get().Account().trim()), getMergeAccountCommand());
-		mergeAccountsMenuBar.addItem(Accounter.constants().mergeItems().trim(),
+		mergeAccountsMenuBar.addItem(
+				Accounter.messages().mergeCustomers(Global.get().Customer()),
+				getMergeCustomerCommand());
+		mergeAccountsMenuBar.addItem(
+				Accounter.messages().mergeVendors(Global.get().Vendor()),
+				getMergeVendorCommand());
+		mergeAccountsMenuBar.addItem(
+				Accounter.messages().mergeAccounts(Global.get().Account()),
+				getMergeAccountCommand());
+		mergeAccountsMenuBar.addItem(Accounter.constants().mergeItems(),
 				getMergeItemCommand());
 
 		return mergeAccountsMenuBar;
