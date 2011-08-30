@@ -2,9 +2,11 @@ package com.vimukti.accounter.core;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import com.vimukti.accounter.utils.MiniTemplator;
 import com.vimukti.accounter.utils.MiniTemplator.TemplateSyntaxException;
+import com.vimukti.accounter.web.client.core.Client1099Form;
 
 /**
  * @author photoshop3
@@ -14,8 +16,60 @@ public class Misc1099PDFTemplate {
 
 	private static final String templateFileName = "templetes" + File.separator
 			+ "1099MISCTemplate.html";
+	ArrayList<Client1099Form> list;
 
-	public Misc1099PDFTemplate() {
+	String payersAddress = "&nbsp;";
+	String rents = "&nbsp;";
+	String royalties = "&nbsp;";
+	String other_income = "&nbsp;";
+	String fedral_incomeTax = "&nbsp;";
+	String payer_fedral_identification_number = "&nbsp;";
+	String recepent_identification_number = "&nbsp;";
+	String fishing_boats_procedds = "&nbsp;";
+	String medical_health_payments = "&nbsp;";
+	String recepent_name = "&nbsp;";
+	String nonemployee_compensation = "&nbsp;";
+	String substitute_payment = "&nbsp;";
+	String street_adress = "&nbsp;";
+	String crop_insurance_Proceeds = "&nbsp;";
+	String city_zip = "&nbsp;";
+	String account_number = "&nbsp;";
+	String golden_parachute_payments = "&nbsp;";
+	String gross_paidto_atorney = "&nbsp;";
+	String section_409A_deferals = "&nbsp;";
+	String section_409A_income = "&nbsp;";
+	String state_tax = "&nbsp;";
+	String payers_state_no = "&nbsp;";
+	String state_income = "&nbsp;";
+
+	int marginLeft;
+	int marginRight;
+	int marginTop;
+	int marginBottom;
+
+	public Misc1099PDFTemplate(Vendor memo, int horizontalValue,
+			int verticalValue) {
+
+		if (memo.getName().length() > 0) {
+			recepent_name = memo.getName();
+		}
+
+		if (memo.getAccount().getNumber().length() > 0) {
+			account_number = memo.getAccount().getNumber();
+		}
+
+		if (horizontalValue < 0) {
+			marginLeft = -1 * horizontalValue;
+		} else {
+			marginRight = horizontalValue;
+		}
+
+		if (verticalValue < 0) {
+			marginTop = -1 * verticalValue;
+		} else {
+			marginBottom = verticalValue;
+		}
+
 	}
 
 	public String generatePDF() throws TemplateSyntaxException, IOException {
@@ -25,42 +79,6 @@ public class Misc1099PDFTemplate {
 
 		try {
 			t = new MiniTemplator(templateFileName);
-
-			String payersAddress = "Hyderabad, india";
-			String rents = "20000";
-			String royalties = "10000";
-			String other_income = "120";
-			String fedral_incomeTax = "fedral_incomeTax";
-			String payer_fedral_identification_number = "payer_fedral_identification_number";
-			String recepent_identification_number = "recepent_identification_number";
-			String fishing_boats_procedds = "fishing_boats_procedds";
-			String medical_health_payments = "medical_health_payments";
-			// String recepent_name = "recepent_name";
-			// String nonemployee_compensation = "nonemployee_compensation";
-			// String substitute_payment = "substitute_payment";
-			// String street_adress = "street_adress";
-			// String crop_insurance_Proceeds = "crop_insurance_Proceeds";
-			// String city_zip = "city_zip";
-			// String account_number = "account_number";
-			// String golden_parachute_payments = "golden_parachute_payments";
-			// String gross_paidto_atorney = "gross_paidto_atorney";
-			// String section_409A_deferals = "section_409A_deferals";
-
-			String recepent_name = "&nbsp;";
-			String nonemployee_compensation = "&nbsp;";
-			String substitute_payment = "&nbsp;";
-			String street_adress = "&nbsp;";
-			String crop_insurance_Proceeds = "&nbsp;";
-			String city_zip = "&nbsp;";
-			String account_number = "&nbsp;";
-			String golden_parachute_payments = "&nbsp;";
-			String gross_paidto_atorney = "&nbsp;";
-			String section_409A_deferals = "&nbsp;";
-
-			String section_409A_income = "section_409A_income";
-			String state_tax = "state_tax";
-			String payers_state_no = "payers_state_no";
-			String state_income = "state_income";
 
 			if (payersAddress.length() > 0) {
 				t.setVariable("payersAddress", payersAddress);
@@ -183,10 +201,10 @@ public class Misc1099PDFTemplate {
 				t.addBlock("state_incomeB");
 			}
 
-			t.setVariable("marginleft", "0");
-			t.setVariable("margintop", "0");
-			t.setVariable("marginbottom", "0");
-			t.setVariable("marginright", "0");
+			t.setVariable("marginleft", marginLeft);
+			t.setVariable("margintop", marginTop);
+			t.setVariable("marginbottom", marginBottom);
+			t.setVariable("marginright", marginRight);
 			t.addBlock("theme");
 
 			System.out.println("string......" + t.getFileString());
