@@ -326,13 +326,13 @@ public class Accounter implements EntryPoint {
 	}
 
 	private static native void removeLoadingImage() /*-{
-		var parent = $wnd.document.getElementById('loadingWrapper');
-		var footer = $wnd.document.getElementById('mainFooter');
-		//var header = $wnd.document.getElementById('mainHeader');
-		parent.style.visibility = 'hidden';
-		footer.style.visibility = 'visible';
-		//header.style.visibility = 'visible';
-	}-*/;
+													var parent = $wnd.document.getElementById('loadingWrapper');
+													var footer = $wnd.document.getElementById('mainFooter');
+													//var header = $wnd.document.getElementById('mainHeader');
+													parent.style.visibility = 'hidden';
+													footer.style.visibility = 'visible';
+													//header.style.visibility = 'visible';
+													}-*/;
 
 	/**
 	 * 
@@ -591,7 +591,13 @@ public class Accounter implements EntryPoint {
 	public static void get1099FormInformation(
 			AsyncCallback<ArrayList<Client1099Form>> myCallback, int selected) {
 
-		Accounter.crudService.get1099Vendors(selected, myCallback);
+		Accounter.createCRUDService().get1099Vendors(selected, myCallback);
 
+	}
+
+	public static void get1099InformationByVendor(
+			AsyncCallback<Client1099Form> myCallback, long vendorId) {
+		Accounter.createCRUDService().get1099InformationByVendor(vendorId,
+				myCallback);
 	}
 }
