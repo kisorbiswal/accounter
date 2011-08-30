@@ -4881,44 +4881,39 @@
 		 
 	</sql-query>
 	
-	<sql-query name="getDraftInvoicesTotal">
+	<sql-query name="getInvoicesDue">
 	
-		<query-param name="isInvoices" type="Boolean"/>
+		<query-param name="presentDate" type="long"/>
 	
-		SELECT SUM(T.TOTAL)
+		SELECT SUM(I.BALANCE_DUE)
 
-			FROM TRANSACTION T
+			FROM INVOICE I
+			LEFT OUTER JOIN TRANSACTION T
+							ON T.ID = I.ID
 
-			WHERE T.IS_VOID = FALSE AND T.T_TYPE =
-				CASE WHEN :isInvoices
-					THEN 8
-      				ELSE  6
-        			  END
+			WHERE T.IS_VOID = FALSE AND 
+					CASE WHEN :presentDate = 0
+							THEN TRUE
+						ELSE :presentDate &gt; I.DUE_DATE
+						END
 	
 	</sql-query>
 	
-	<sql-query name="getOverDueInvoicesTotal">
+	<sql-query name="getBillsDue">
 	
-		<query-param name="isInvoices" type="Boolean"/>
 		<query-param name="presentDate" type="long"/>
 	
-		SELECT SUM(T.TOTAL)
+		SELECT SUM(E.BALANCE_DUE)
 
-			FROM TRANSACTION T
-			
-			LEFT OUTER JOIN INVOICE I ON I.ID = T.ID
-			LEFT OUTER JOIN ENTER_BILL E ON E.ID = T.ID
+			FROM ENTER_BILL E
+			LEFT OUTER JOIN TRANSACTION T
+							ON T.ID = E.ID
 
-			WHERE T.T_TYPE =
-				CASE WHEN :isInvoices
-					THEN 8
-      				ELSE  6
-        			  END AND T.IS_VOID = FALSE AND
-        			  :presentDate &gt;
-        			  CASE WHEN :isInvoices
-        			  THEN I.DUE_DATE
-        			  ELSE E.DUE_DATE
-        			  END
+			WHERE T.IS_VOID = FALSE AND 
+					CASE WHEN :presentDate = 0
+							THEN TRUE
+						ELSE :presentDate &gt; E.DUE_DATE
+						END
 	
 	</sql-query>
 	

@@ -81,8 +81,8 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 			}
 		});
 
-		draftLabel = getLabel(Accounter.constants().draftInvoices());
-		overDueLabel = getLabel(Accounter.constants().overDueInvoices());
+		draftLabel = getLabel(Accounter.constants().billsDue());
+		overDueLabel = getLabel(Accounter.constants().overDueBills());
 		overDueLabel.getElement().getStyle().setMarginLeft(10, Unit.PX);
 
 		updateAmounts();
@@ -195,7 +195,7 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 			public void onClick(ClickEvent event) {
 				label.getElement().getStyle()
 						.setTextDecoration(TextDecoration.NONE);
-				if (title.equals(Accounter.constants().draftInvoices())) {
+				if (title.equals(Accounter.constants().billsDue())) {
 					ActionFactory.getBillsAction().run(null, true,
 							Accounter.constants().open());
 				} else {

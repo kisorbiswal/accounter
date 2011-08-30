@@ -11424,15 +11424,14 @@ public class FinanceTool {
 						gPoints.add(object[7] == null ? 0 : (Double) object[7]);
 						if (chartType == GraphChart.ACCOUNTS_RECEIVABLE_CHART_TYPE) {
 							Object res = session
-									.getNamedQuery("getDraftInvoicesTotal")
-									.setParameter("isInvoices", true)
+									.getNamedQuery("getInvoicesDue")
+									.setParameter("presentDate", 0)
 									.uniqueResult();
 							double amount = res == null ? 0 : (Double) res;
 							gPoints.add(amount);
 
 							res = session
-									.getNamedQuery("getOverDueInvoicesTotal")
-									.setParameter("isInvoices", true)
+									.getNamedQuery("getInvoicesDue")
 									.setParameter("presentDate",
 											(new FinanceDate()).getDate())
 									.uniqueResult();
@@ -11490,16 +11489,13 @@ public class FinanceTool {
 						gPoints.add(object[31] == null ? 0
 								: (Double) object[31]);
 
-						Object res = session
-								.getNamedQuery("getDraftInvoicesTotal")
-								.setParameter("isInvoices", false)
-								.uniqueResult();
+						Object res = session.getNamedQuery("getBillsDue")
+								.setParameter("presentDate", 0).uniqueResult();
 						double amount = res == null ? 0 : (Double) res;
 						gPoints.add(amount);
 
 						res = session
-								.getNamedQuery("getOverDueInvoicesTotal")
-								.setParameter("isInvoices", false)
+								.getNamedQuery("getBillsDue")
 								.setParameter("presentDate",
 										(new FinanceDate()).getDate())
 								.uniqueResult();
