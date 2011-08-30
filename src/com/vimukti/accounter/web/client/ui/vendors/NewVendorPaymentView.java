@@ -161,6 +161,7 @@ public class NewVendorPaymentView extends
 		vendorCombo = createVendorComboItem(Accounter.constants().payTo());
 
 		billToCombo = createBillToComboItem();
+		billToCombo.setDisabled(true);
 
 		// Ending and Vendor Balance
 		endBalText = new AmountField(Accounter.constants().endingBalance(),

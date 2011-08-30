@@ -374,6 +374,7 @@ public class NewCustomerPaymentView extends
 				.get().customer()));
 
 		billToCombo = createBillToComboItem(customerConstants.address());
+		billToCombo.setDisabled(true);
 
 		// Ending and Vendor Balance
 		endBalText = new AmountField(customerConstants.endingBalance(), this);

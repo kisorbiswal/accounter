@@ -550,7 +550,10 @@ public class WriteChequeView extends
 		transaction.setTransactionDate(transactionDate.getDate());
 
 		// Setting Bank account
-		transaction.setBankAccount(selectBankAcc.getID());
+		selectBankAcc = bankAccSelect.getSelectedValue();
+		if (selectBankAcc != null) {
+			transaction.setBankAccount(selectBankAcc.getID());
+		}
 
 		// Setting Balance
 		if (balText.getAmount() != null)
@@ -744,6 +747,7 @@ public class WriteChequeView extends
 		// formItems.add(paytoSelect);
 
 		billToCombo = createBillToComboItem();
+		billToCombo.setDisabled(true);
 		// billToCombo.setWidth(100);
 
 		amtText = new AmountField(Accounter.constants().amount(), this);

@@ -165,6 +165,7 @@ public class CustomerRefundView extends
 		// customerCombo.setWidth(100);
 		billToCombo = createBillToComboItem();
 		billToCombo.setTitle(customerConstants.address());
+		billToCombo.setDisabled(true);
 
 		custForm = new DynamicForm();
 
