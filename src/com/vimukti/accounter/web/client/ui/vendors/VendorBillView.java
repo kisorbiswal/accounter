@@ -702,7 +702,8 @@ public class VendorBillView extends
 		if (selectedPurchaseOrder != 0)
 			transaction.setPurchaseOrder(selectedPurchaseOrder);
 
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
+		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK
+				|| accountType == ClientCompany.ACCOUNTING_TYPE_INDIA)
 			transaction.setNetAmount(netAmount.getAmount());
 		// enterBill.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 		// .getValue());
