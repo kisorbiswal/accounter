@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.widgets;
 
 import java.util.Date;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -28,6 +29,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class PopupCalendar extends PopupPanel {
 
 	private boolean leave;
+
 	public boolean isLeave() {
 		return leave;
 	}
@@ -44,7 +46,6 @@ public class PopupCalendar extends PopupPanel {
 	private Label currentMonth;
 	private Grid daysGrid;
 	private Date displayedMonth;
-	
 
 	{
 		this.leave = true;
@@ -140,6 +141,7 @@ public class PopupCalendar extends PopupPanel {
 	 * catch a click and eventually update the Date of the DatePicker.
 	 */
 	public void hidePopupCalendar() {
+
 		DeferredCommand.addCommand(new Command() {
 			public void execute() {
 				Timer t = new Timer() {
@@ -151,7 +153,7 @@ public class PopupCalendar extends PopupPanel {
 						}
 					}
 				};
-				t.schedule(80);
+				t.schedule(120);
 			}
 
 		});
