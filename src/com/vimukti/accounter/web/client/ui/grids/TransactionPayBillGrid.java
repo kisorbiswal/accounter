@@ -219,7 +219,7 @@ public class TransactionPayBillGrid extends
 	@Override
 	protected boolean isEditable(ClientTransactionPayBill obj, int row, int col) {
 
-		if ((canEdit && col == 5) || (!canEdit && col == 6)) {
+		if ((canEdit && col == 7) || (!canEdit && col == 6)) {
 			if (!isSelected(obj)) {
 				selectRow(row);
 				currentRow = row;
