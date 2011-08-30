@@ -1564,7 +1564,7 @@
 		a.boxNumber!=0
 	</query>
 
-	<query name="get.selected.vendors.enterbills.list">
+	<query name="get.selected.vendors.enterbills.list.by.id">
 		<query-param name="vendorId" type="long" />
 		from com.vimukti.accounter.core.EnterBill e where
 		e.vendor.id=:vendorId
