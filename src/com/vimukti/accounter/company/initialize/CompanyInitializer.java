@@ -246,6 +246,7 @@ public abstract class CompanyInitializer {
 		this.preferences.setPreventPostingBeforeDate(fiscalYearStartDate);
 		this.preferences.setDateFormat(getDateFormat());
 		this.preferences.setSalesOrderEnabled(true);
+		this.preferences.setPurchaseOrderEnabled(true);
 		FinanceDate depreciationStartDateCal = new FinanceDate();
 		depreciationStartDateCal.set(fiscalYearStartDate);
 		this.preferences.setDepreciationStartDate(depreciationStartDateCal);
