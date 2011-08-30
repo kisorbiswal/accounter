@@ -139,13 +139,13 @@ public class TransactionPayBillGrid extends
 					return amountAsString(0.0);
 
 			case 8:
-				if(paybill.getPayment()!=0)
+				if (paybill.getPayment() != 0)
 					return amountAsString(paybill.getPayment()
 							- paybill.getOriginalAmount()
 							* (taxItem.getTaxRate()) / 100);
 				else
 					return amountAsString(0.0);
-				
+
 			default:
 				return "";
 			}
@@ -219,6 +219,10 @@ public class TransactionPayBillGrid extends
 	@Override
 	protected boolean isEditable(ClientTransactionPayBill obj, int row, int col) {
 
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
+			if (canEdit && col == 7)
+				return false;
+				}
 		if ((canEdit && col == 7) || (!canEdit && col == 6)) {
 			if (!isSelected(obj)) {
 				selectRow(row);
