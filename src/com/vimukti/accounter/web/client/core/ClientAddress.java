@@ -287,10 +287,10 @@ public class ClientAddress implements IAccounterCore {
 			information.append(city).append(", ");
 		String state = this.getStateOrProvinence();
 		if (state != null && !state.equals(""))
-			information.append(state).append(" ");
+			information.append(state).append("<br>");
 		String zip = this.getZipOrPostalCode();
 		if (zip != null && !zip.equals(""))
-			information.append(zip).append("<br>");
+			information.append(zip).append(",");
 		String country = this.getCountryOrRegion();
 		if (country != null && !country.equals(""))
 			information.append(country).append("<br>");
