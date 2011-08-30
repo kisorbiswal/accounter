@@ -4553,5 +4553,10 @@ public interface AccounterConstants extends Constants {
 
 	public String subject();
 
-	
+	public String iamHere();
+
+	public String creditTotalColon();
+
+	public String debitTotalColon();
+
 }
