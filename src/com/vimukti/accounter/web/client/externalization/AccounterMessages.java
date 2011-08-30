@@ -824,5 +824,6 @@ public interface AccounterMessages extends Messages {
 	public String assignAccounts(String account);
 	public String dearCustomer(String custMsg);
 
+	public SafeHtml selectMultiple();
 
 }

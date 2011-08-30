@@ -6404,7 +6404,52 @@ body, table td, select,.gwt-Button,textarea,input,label{
 .customize_Accounter_labels a,.expense_question_link a,.view_panel a{
 	display:none;
 }
-
+.gwt-StackPanel .gwt-StackPanelItem {
+	background: -moz-linear-gradient(center top , #3299A4, #2D8B93) repeat scroll 0 0 transparent !important;
+    color: white;
+    padding: 6px !important;
+    border-radius: 8px 8px 0 0 !important;
+}
+.gwt-StackPanelContent TABLE TBODY TR TD{
+	padding:10px !important;
+}
+.gwt-StackPanelContent{
+	padding: 0px !important;
+	border-radius:0 0 8px 8px !important;
+	border:1px solid #2D8B93 !important;
+}
+.companyInfoPanel{
+	border-bottom: 1px solid #2D8B93;
+    border-color: #2D8B93;
+    border-top: 1px solid #2D8B93;
+    padding: 8px;
+    width: 100%;
+}
+.gwt-StackPanel{
+	border-bottom: 0px !important;
+}
+.companyInfoPanel .header{
+	font-weight: bold;
+	font-size: 13px;
+}
+.fullSizePanel{
+	width: 100%;
+	height: 100%;
+}
+.contentSelected{
+	background:#ccc;
+}
+.contentSelected_LastChild{
+	background:#ccc;
+	border-radius:0 0 8px 8px !important;
+}
+.stackPanelLink A{
+	color: #2D8B93 !important;
+}	
+.company_stackpanel_view{
+   border:1px solid #2D8B93;
+   padding:15px;
+}
 
 /*Help theme need to apply for help*/
 #page a{
