@@ -66,12 +66,8 @@ public class CompaniesServlet extends BaseServlet {
 			if (deleteStatus.equals("Success")) {
 				req.setAttribute("message", DELETE_SUCCESS);
 			} else {
-				req.setAttribute(
-						"message",
-						DELETE_FAIL
-								+ " "
-								+ httpSession
-										.getAttribute("DeletionFailureMessage"));
+				req.setAttribute("message", DELETE_FAIL + " "
+						+ httpSession.getAttribute("DeletionFailureMessage"));
 			}
 			httpSession.removeAttribute("DeletionFailureMessage");
 			httpSession.removeAttribute(COMPANY_DELETION_STATUS);
@@ -99,7 +95,7 @@ public class CompaniesServlet extends BaseServlet {
 			if (companies.isEmpty()) {
 				if (status == null) {
 					req.setAttribute("message",
-							"You Don't Have any Companies Now.");
+							"You don't have any companies now.");
 				}
 			} else {
 				List<ServerCompany> list = new ArrayList<ServerCompany>();
@@ -212,8 +208,8 @@ public class CompaniesServlet extends BaseServlet {
 	}
 
 	private void addCompanyCookies(HttpServletResponse resp, long companyID) {
-		Cookie companyCookie = new Cookie(COMPANY_COOKIE,
-				String.valueOf(companyID));
+		Cookie companyCookie = new Cookie(COMPANY_COOKIE, String
+				.valueOf(companyID));
 		companyCookie.setMaxAge(2 * 7 * 24 * 60 * 60);// Two week
 		companyCookie.setPath("/");
 		resp.addCookie(companyCookie);
