@@ -57,7 +57,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 				getCustomerMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
-		menuitem = menuBar.addItem(Global.get().vendor(), getVendorMenu());
+		menuitem = menuBar.addItem(Global.get().Vendor(), getVendorMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		if (Accounter.getUser().canDoBanking()) {
