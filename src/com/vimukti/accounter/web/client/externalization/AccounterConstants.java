@@ -4561,6 +4561,10 @@ public interface AccounterConstants extends Constants {
 
 	public String debitTotalColon();
 
+	public String accounterSettings();
+
+	public String bankingDetails();
+
 	public String invoicesDue();
 
 	public String overDueBills();
