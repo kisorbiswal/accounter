@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -28,7 +29,6 @@ import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.CustomLabel;
 import com.vimukti.accounter.web.client.ui.core.AccounterDialog;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
-import com.vimukti.accounter.web.client.ui.setup.SetupTDSSelectionPage;
 
 public class SetupWizard extends VerticalPanel {
 	private static final int START_PAGE = 0;
@@ -189,11 +189,7 @@ public class SetupWizard extends VerticalPanel {
 
 				@Override
 				public void onClick(ClickEvent arg0) {
-					if (getViewsList()[currentViewIndex].validate()) {
-						// setting the progress
-
-						showView(true);
-					}
+					showView(true);
 				}
 			});
 
@@ -262,7 +258,14 @@ public class SetupWizard extends VerticalPanel {
 
 	protected void showView(boolean isNext) {
 		previousView = viewToShow;
+		if (previousView == null) {
+			return;
+		}
 		if (isNext) {
+			if (!previousView.validate()) {
+				return;
+			}
+			previousView.onSave();
 			if (currentViewIndex > 0) {
 				getProgressImages()[currentViewIndex - 1]
 						.addStyleName("tick_show");
@@ -270,9 +273,7 @@ public class SetupWizard extends VerticalPanel {
 			if (!isLastView()) {
 				currentViewIndex++;
 			}
-			if (previousView != null && previousView.validate()) {
-				previousView.onSave();
-			}
+
 		} else {
 			if (currentViewIndex > 1) {
 				getProgressImages()[currentViewIndex - 2]
@@ -283,6 +284,11 @@ public class SetupWizard extends VerticalPanel {
 
 		this.viewPanel.remove(previousView);
 		viewToShow = getNextView();
+
+		if (Accounter.getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_US
+				&& isOrganizationView()) {
+			showView(isNext);
+		}
 
 		if (viewToShow == null) {
 			return;
@@ -313,6 +319,13 @@ public class SetupWizard extends VerticalPanel {
 			buttonPanel.setVisible(false);
 		}
 
+	}
+
+	/**
+	 * @return
+	 */
+	private boolean isOrganizationView() {
+		return viewToShow instanceof SetupOrganisationSelectionPage;
 	}
 
 	public void initProgessPanel() {
