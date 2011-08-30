@@ -41,6 +41,7 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
+import com.vimukti.accounter.web.client.ui.forms.ClickableSafeHtmlCell;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class Prepare1099MISCView extends AbstractBaseView {
@@ -142,7 +143,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 			}
 		};
 
-		SafeHtmlCell informationLink = new SafeHtmlCell();
+		ClickableSafeHtmlCell informationLink = new ClickableSafeHtmlCell();
 
 		Column<Client1099Form, SafeHtml> informationColumn = new Column<Client1099Form, SafeHtml>(
 				informationLink) {
@@ -153,13 +154,15 @@ public class Prepare1099MISCView extends AbstractBaseView {
 				return object.getVendorInformation();
 			}
 		};
-		informationColumn.setFieldUpdater(new FieldUpdater() {
+		informationColumn
+				.setFieldUpdater(new FieldUpdater<Client1099Form, SafeHtml>() {
 
-			@Override
-			public void update(int index, Object object, Object value) {
-				ActionFactory.getNewVendorAction().run(vendor, false);
-			}
-		});
+					@Override
+					public void update(int index, Client1099Form object,
+							SafeHtml value) {
+						ActionFactory.getNewVendorAction().run(vendor, false);
+					}
+				});
 
 		Column<Client1099Form, String> total1099PaymentsCell = new Column<Client1099Form, String>(
 				new ClickableTextCell()) {
