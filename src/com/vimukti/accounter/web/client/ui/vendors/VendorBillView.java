@@ -230,7 +230,7 @@ public class VendorBillView extends
 		selectedOrdersAndItemReceipts = new ArrayList<ClientTransaction>();
 		if (!(isInViewMode() && vendor.getID() == transaction.getVendor()))
 			setPaymentTermsCombo(vendor);
-		if (transaction == null)
+		if (transaction.getID() == 0)
 			getPurchaseOrdersAndItemReceipt();
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
 			super.setVendorTaxcodeToAccount();
@@ -422,6 +422,7 @@ public class VendorBillView extends
 
 		deliveryDateItem = createTransactionDeliveryDateItem();
 		// deliveryDateItem.setWidth(100);
+		taxCodeSelect = createTaxCodeSelectItem();
 
 		DynamicForm termsForm = UIUtils.form(Accounter.constants().terms());
 		termsForm.setStyleName(Accounter.constants().venderForm());
@@ -576,9 +577,7 @@ public class VendorBillView extends
 			vPanel.add(horizontalPanel);
 			vPanel.add(memoForm);
 			bottompanel.add(vPanel);
-		}
-
-		else {
+		} else {
 			memoForm.setStyleName("align-form");
 			VerticalPanel vPanel = new VerticalPanel();
 			vPanel.setWidth("100%");
@@ -1076,7 +1075,11 @@ public class VendorBillView extends
 
 	@Override
 	protected void taxCodeSelected(ClientTAXCode taxCode) {
-		// TODO Auto-generated method stub
-
+		this.taxCode = taxCode;
+		if (taxCode != null) {
+			taxCodeSelect.setComboItem(taxCode);
+			vendorTransactionGrid.setTaxCode(taxCode.getID());
+		} else
+			taxCodeSelect.setValue("");
 	}
 }

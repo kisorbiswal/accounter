@@ -92,7 +92,6 @@ public class PurchaseOrderView extends
 	private String CANCELLED = Accounter.constants().cancelled();
 	private DateField despatchDateItem;
 	AccounterConstants accounterConstants = Accounter.constants();
-	private ClientTAXCode taxCode;
 
 	public PurchaseOrderView() {
 		super(ClientTransaction.TYPE_PURCHASE_ORDER, VENDOR_TRANSACTION_GRID);
@@ -205,10 +204,10 @@ public class PurchaseOrderView extends
 			// balanceDueNonEditableText, taxCodeSelect, priceLevelSelect);
 			amountsForm.setNumCols(4);
 			amountsForm.addStyleName("tax-form");
-			amountsForm.setFields(taxCodeSelect, salesTaxTextNonEditable,
-					disabletextbox, transactionTotalNonEditableText,
-					disabletextbox, paymentsNonEditableText, disabletextbox,
-					balanceDueNonEditableText);
+			// amountsForm.setFields(taxCodeSelect, salesTaxTextNonEditable,
+			// disabletextbox, transactionTotalNonEditableText,
+			// disabletextbox, paymentsNonEditableText, disabletextbox,
+			// balanceDueNonEditableText);
 
 			prodAndServiceHLay.add(amountsForm);
 			prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
@@ -421,15 +420,15 @@ public class PurchaseOrderView extends
 
 		HorizontalPanel panel = new HorizontalPanel();
 		panel.add(memoForm);
-		panel.add(amountsForm);
+		// panel.add(amountsForm);
 
-		panel.setHorizontalAlignment(ALIGN_RIGHT);
+		// panel.setHorizontalAlignment(ALIGN_RIGHT);
 
 		VerticalPanel bottomLayout = new VerticalPanel();
 		bottomLayout.setWidth("100%");
-		bottomLayout.setHorizontalAlignment(ALIGN_RIGHT);
 
 		bottomLayout.add(Hpanel);
+		bottomLayout.setCellHorizontalAlignment(Hpanel, ALIGN_RIGHT);
 		bottomLayout.add(panel);
 		panel.setCellHorizontalAlignment(memoForm, ALIGN_LEFT);
 		// bottomLayout.add(linkspanel);
@@ -1107,13 +1106,14 @@ public class PurchaseOrderView extends
 		} else
 			result.add(vendorTransactionGrid.validateGrid());
 
-		if (getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK
-				&& getCompany().getPreferences().getDoYouPaySalesTax()) {
-			if (taxCodeSelect != null && !taxCodeSelect.validate()) {
-				result.addError(taxCodeSelect,
-						messages.pleaseEnter(taxCodeSelect.getTitle()));
-			}
-		}
+		// if (getCompany().getAccountingType() !=
+		// ClientCompany.ACCOUNTING_TYPE_UK
+		// && getCompany().getPreferences().getDoYouPaySalesTax()) {
+		// if (taxCodeSelect != null && !taxCodeSelect.validate()) {
+		// result.addError(taxCodeSelect,
+		// messages.pleaseEnter(taxCodeSelect.getTitle()));
+		// }
+		// }
 
 		return result;
 	}

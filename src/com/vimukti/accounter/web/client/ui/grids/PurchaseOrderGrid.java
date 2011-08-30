@@ -16,26 +16,17 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 
 	@Override
 	protected String[] getColumns() {
-		if (getCompany().getPreferences().getDoYouPaySalesTax()) {
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-				return new String[] { "", Accounter.constants().name(),
-						Accounter.constants().description(),
-						Accounter.constants().quantity(),
-						Accounter.constants().unitPrice(),
-						Accounter.constants().total(),
-						Accounter.constants().billsReceived(),
-						Accounter.constants().newVATCode(),
-						Accounter.constants().vat(), " " };
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
+				&& getCompany().getPreferences().getDoYouPaySalesTax()) {
+			return new String[] { "", Accounter.constants().name(),
+					Accounter.constants().description(),
+					Accounter.constants().quantity(),
+					Accounter.constants().unitPrice(),
+					Accounter.constants().total(),
+					Accounter.constants().billsReceived(),
+					Accounter.constants().newVATCode(),
+					Accounter.constants().vat(), " " };
 
-			} else {
-				return new String[] { "", Accounter.constants().name(),
-						Accounter.constants().description(),
-						Accounter.constants().quantity(),
-						Accounter.constants().unitPrice(),
-						Accounter.constants().total(),
-						Accounter.constants().billsReceived(),
-						Accounter.constants().isTaxable(), " " };
-			}
 		} else {
 			return new String[] { "", Accounter.constants().name(),
 					Accounter.constants().description(),
@@ -65,7 +56,8 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 		case 6:
 			return ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX;
 		case 7:
-			if (getCompany().getPreferences().getDoYouPaySalesTax())
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
+					&& getCompany().getPreferences().getDoYouPaySalesTax())
 				return ListGrid.COLUMN_TYPE_SELECT;
 			else
 				return ListGrid.COLUMN_TYPE_IMAGE;
@@ -126,20 +118,13 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 	}
 
 	private int getUSGridCellWidth(int index) {
-		if (index == 0 || index == 8)
+		if (index == 0 || index == 7)
 			if (UIUtils.isMSIEBrowser())
 				return 25;
 			else
 				return 15;
 		if (index == 1) {
 			return 200;
-		} else if (index == 7) {
-			if (!getCompany().getPreferences().getDoYouPaySalesTax()) {
-				if (UIUtils.isMSIEBrowser())
-					return 25;
-				else
-					return 15;
-			}
 		}
 		return -1;
 	}
@@ -164,29 +149,25 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 				return item.getQuantity();
 			else {
 				return (item.getQuantity() != null || item.getLineTotal() == 0) ? item
-						.getQuantity()
-						: "";
+						.getQuantity() : "";
 			}
 		case 4:
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
 				return amountAsString(getAmountInForeignCurrency(item
-								.getUnitPrice()));
+						.getUnitPrice()));
 			else {
 				return (getAmountInForeignCurrency(item.getUnitPrice()) != 0 || item
 						.getLineTotal() == 0) ? amountAsString(getAmountInForeignCurrency(item
-								.getUnitPrice())) : "";
+						.getUnitPrice())) : "";
 			}
 		case 5:
 			return amountAsString(item.getLineTotal());
 		case 6:
 			return item.getInvoiced() + "";
 		case 7:
-			if (getCompany().getPreferences().getDoYouPaySalesTax()) {
-				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-					return getTAXCodeName(item.getTaxCode());
-				else
-					return item.isTaxable() ? Accounter.constants().taxable()
-							: Accounter.constants().nonTaxable();
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
+					&& getCompany().getPreferences().getDoYouPaySalesTax()) {
+				return getTAXCodeName(item.getTaxCode());
 			} else {
 				return Accounter.getFinanceMenuImages().delete();
 			}
@@ -264,8 +245,7 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 				// lineTotalAmtString = lineTotalAmtString.replaceAll(",",
 				// "");
 				Double lineTotal = Double.parseDouble(DataUtils
-						.getReformatedAmount(lineTotalAmtString)
-						+ "");
+						.getReformatedAmount(lineTotalAmtString) + "");
 				try {
 					if (!AccounterValidator.isValidGridLineTotal(lineTotal)
 							&& !AccounterValidator.isAmountTooLarge(lineTotal)) {

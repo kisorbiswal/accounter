@@ -67,6 +67,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	protected SelectCombo statusSelect;
 
 	// protected TextAreaItem addrTextAreaItem;
+	protected ClientTAXCode taxCode;
 	protected TAXCodeCombo taxCodeSelect;
 	protected Set<ClientContact> contacts;
 	protected ClientContact contact;
@@ -141,13 +142,15 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	@Override
 	public void showMenu(Widget button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, Accounter.messages().accounts(
-					Global.get().account()), Accounter.constants()
-					.serviceItem(), Accounter.constants().productItem());
+			setMenuItems(button,
+					Accounter.messages().accounts(Global.get().account()),
+					Accounter.constants().serviceItem(), Accounter.constants()
+							.productItem());
 		else
-			setMenuItems(button, Accounter.messages().accounts(
-					Global.get().account()), Accounter.constants()
-					.serviceItem(), Accounter.constants().productItem());
+			setMenuItems(button,
+					Accounter.messages().accounts(Global.get().account()),
+					Accounter.constants().serviceItem(), Accounter.constants()
+							.productItem());
 	}
 
 	protected void initVendors() {
@@ -563,9 +566,9 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	protected TextItem createCheckNumberItem(String title) {
 
 		final TextItem checkNo = new TextItem(title);
-		checkNo.setToolTip(Accounter.messages().giveNoTo(
-				this.getAction().getViewName()).replace(
-				Accounter.constants().no(), title));
+		checkNo.setToolTip(Accounter.messages()
+				.giveNoTo(this.getAction().getViewName())
+				.replace(Accounter.constants().no(), title));
 		checkNo.setHelpInformation(true);
 		checkNo.setDisabled(isInViewMode());
 		// checkNo.setShowDisabled(false);
@@ -753,5 +756,15 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	public void setVendor(ClientVendor vendor) {
 		this.vendor = vendor;
+	}
+
+	@Override
+	protected void updateTransaction() {
+		super.updateTransaction();
+		if (taxCode != null && transactionItems != null) {
+			for (ClientTransactionItem item : transactionItems) {
+				item.setTaxCode(taxCode.getID());
+			}
+		}
 	}
 }

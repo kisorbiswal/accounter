@@ -669,7 +669,7 @@ public class VendorTransactionGrid extends
 	}
 
 	private int getUSGridCellWidth(int index) {
-		if (index == 7 || index == 0)
+		if (index == 6 || index == 0)
 			if (UIUtils.isMSIEBrowser())
 				return 25;
 			else
@@ -737,7 +737,8 @@ public class VendorTransactionGrid extends
 		case 5:
 			return ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX;
 		case 6:
-			if (getCompany().getPreferences().getDoYouPaySalesTax())
+			if (this.accountingType == ClientCompany.ACCOUNTING_TYPE_UK
+					&& getCompany().getPreferences().getDoYouPaySalesTax())
 				return ListGrid.COLUMN_TYPE_SELECT;
 			else
 				return ListGrid.COLUMN_TYPE_IMAGE;
@@ -794,13 +795,9 @@ public class VendorTransactionGrid extends
 			return amountAsString(getAmountInForeignCurrency(item
 					.getLineTotal()));
 		case 6:
-			if (getCompany().getPreferences().getDoYouPaySalesTax()) {
-				if (this.accountingType == ClientCompany.ACCOUNTING_TYPE_UK)
-					return getTAXCodeName(item.getTaxCode());
-				else {
-					return item.isTaxable() ? Accounter.constants().taxable()
-							: Accounter.constants().nonTaxable();
-				}
+			if (this.accountingType == ClientCompany.ACCOUNTING_TYPE_UK
+					&& getCompany().getPreferences().getDoYouPaySalesTax()) {
+				return getTAXCodeName(item.getTaxCode());
 			} else {
 				return Accounter.getFinanceMenuImages().delete();
 			}
@@ -848,23 +845,15 @@ public class VendorTransactionGrid extends
 
 	@Override
 	protected String[] getColumns() {
-		if (getCompany().getPreferences().getDoYouPaySalesTax()) {
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-				return new String[] { "", Accounter.constants().name(),
-						Accounter.constants().description(),
-						Accounter.constants().quantity(),
-						Accounter.constants().unitPrice(),
-						Accounter.constants().total(),
-						Accounter.constants().newVATCode(),
-						Accounter.constants().vat(), " " };
-			} else {
-				return new String[] { "", Accounter.constants().name(),
-						Accounter.constants().description(),
-						Accounter.constants().quantity(),
-						Accounter.constants().unitPrice(),
-						Accounter.constants().total(),
-						Accounter.constants().isTaxable(), " " };
-			}
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
+				&& getCompany().getPreferences().getDoYouPaySalesTax()) {
+			return new String[] { "", Accounter.constants().name(),
+					Accounter.constants().description(),
+					Accounter.constants().quantity(),
+					Accounter.constants().unitPrice(),
+					Accounter.constants().total(),
+					Accounter.constants().newVATCode(),
+					Accounter.constants().vat(), " " };
 
 		} else {
 			return new String[] { "", Accounter.constants().name(),
