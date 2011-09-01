@@ -206,11 +206,6 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 		}
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		super.processupdateView(core, command);
-		filterList(OPEN);
-	}
 
 	@Override
 	public void onEdit() {

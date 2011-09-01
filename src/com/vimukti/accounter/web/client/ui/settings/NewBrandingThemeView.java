@@ -27,7 +27,6 @@ import com.vimukti.accounter.web.client.ui.FileUploadDilaog;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
@@ -128,10 +127,6 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-	}
 
 	private void createControls() {
 		VerticalPanel panel = new VerticalPanel();

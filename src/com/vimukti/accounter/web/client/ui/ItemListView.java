@@ -186,11 +186,6 @@ public class ItemListView extends BaseListView<ClientItem> {
 		// NOTHING TO DO.
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		super.processupdateView(core, command);
-		filterList(true);
-	}
 
 	@Override
 	protected String getViewTitle() {

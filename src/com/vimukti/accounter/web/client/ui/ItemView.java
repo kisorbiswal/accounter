@@ -15,7 +15,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -955,62 +954,7 @@ public class ItemView extends BaseView<ClientItem> {
 
 	}
 
-	@Override
-	public void fitToSize(int height, int width) {
-		super.fitToSize(height, width);
-	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		switch (command) {
-		case AccounterCommand.CREATION_SUCCESS:
-			if (core.getObjectType() == AccounterCoreType.ITEM_GROUP)
-				itemGroupCombo.addComboItem((ClientItemGroup) core);
-			if (core.getObjectType() == AccounterCoreType.ITEM_GROUP)
-				commodityCode.addComboItem((ClientItemGroup) core);
-			if (core.getObjectType() == AccounterCoreType.VENDOR)
-				this.prefVendorCombo.addComboItem((ClientVendor) core);
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.accountCombo.addComboItem((ClientAccount) core);
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.expAccCombo.addComboItem((ClientAccount) core);
-			if (core.getObjectType() == AccounterCoreType.TAX_CODE
-					&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-				this.taxCode.addComboItem((ClientTAXCode) core);
-			break;
-		case AccounterCommand.UPDATION_SUCCESS:
-			if (core.getObjectType() == AccounterCoreType.ITEM_GROUP)
-				itemGroupCombo.updateComboItem((ClientItemGroup) core);
-			if (core.getObjectType() == AccounterCoreType.ITEM_GROUP)
-				commodityCode.updateComboItem((ClientItemGroup) core);
-			if (core.getObjectType() == AccounterCoreType.VENDOR)
-				this.prefVendorCombo.updateComboItem((ClientVendor) core);
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.accountCombo.updateComboItem((ClientAccount) core);
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.expAccCombo.updateComboItem((ClientAccount) core);
-			if (core.getObjectType() == AccounterCoreType.TAX_CODE
-					&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-				this.taxCode.updateComboItem((ClientTAXCode) core);
-			break;
-
-		case AccounterCommand.DELETION_SUCCESS:
-			if (core.getObjectType() == AccounterCoreType.ITEM_GROUP)
-				itemGroupCombo.removeComboItem((ClientItemGroup) core);
-			if (core.getObjectType() == AccounterCoreType.ITEM_GROUP)
-				commodityCode.removeComboItem((ClientItemGroup) core);
-			if (core.getObjectType() == AccounterCoreType.VENDOR)
-				this.prefVendorCombo.removeComboItem((ClientVendor) core);
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.accountCombo.removeComboItem((ClientAccount) core);
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.expAccCombo.removeComboItem((ClientAccount) core);
-			if (core.getObjectType() == AccounterCoreType.TAX_CODE
-					&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-				this.taxCode.removeComboItem((ClientTAXCode) core);
-			break;
-		}
-	}
 
 	@Override
 	public void onEdit() {

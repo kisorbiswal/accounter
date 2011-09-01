@@ -192,11 +192,6 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-
-	}
 
 	public void addFiscalYearsToList() {
 		listofperiods.removeAllRecords();

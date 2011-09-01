@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class SalesAccountsCombo extends GridAccountsCombo {
-	private List<ClientAccount> gridAccounts;
 
 	public SalesAccountsCombo(String title) {
 		super(title);
@@ -23,7 +22,7 @@ public class SalesAccountsCombo extends GridAccountsCombo {
 	}
 
 	public List<ClientAccount> getAccounts() {
-		gridAccounts = new ArrayList<ClientAccount>();
+		ArrayList<ClientAccount> gridAccounts = new ArrayList<ClientAccount>();
 		for (ClientAccount account : getCompany().getActiveAccounts()) {
 			if (account.getType() != ClientAccount.TYPE_CASH
 					&& account.getType() != ClientAccount.TYPE_BANK
@@ -43,18 +42,6 @@ public class SalesAccountsCombo extends GridAccountsCombo {
 		return gridAccounts;
 	}
 
-	@Override
-	public String getDefaultAddNewCaption() {
-		return comboMessages.newFinanceCategory();
-	}
-
-	@Override
-	protected String getDisplayName(ClientAccount object) {
-		if (object != null)
-			return object.getName() != null ? object.getName() : "";
-		else
-			return "";
-	}
 
 	@Override
 	public void onAddNew() {

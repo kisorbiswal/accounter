@@ -11,9 +11,7 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -357,41 +355,6 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 		return Accounter.constants().classNameis() + this.getText();
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		if (core.getObjectType() == listGridView.getType()) {
-
-			IAccounterCore obj = (IAccounterCore) Utility.getObjectFromList(
-					listGridView.getRecords(), core.getID());
-			switch (command) {
-			case AccounterCommand.CREATION_SUCCESS:
-			case AccounterCommand.UPDATION_SUCCESS:
-				if (obj == null) {
-					listGridView.addData(core);
-				} else {
-					listGridView.deleteRecord(obj);
-					listGridView.addData(core);
-				}
-				for (int i = 0; i < listGridView.getRecords().size(); i++) {
-					List<IsSerializable> list = listGridView.getRecords();
-					if (list.get(i) == core) {
-						listGridView.rowFormatter.addStyleName(i, "selected");
-					} else {
-						listGridView.rowFormatter
-								.removeStyleName(i, "selected");
-					}
-				}
-				break;
-			case AccounterCommand.DELETION_SUCCESS:
-				if (obj != null) {
-					listGridView.deleteRecord(listGridView.indexOf(obj));
-				}
-				break;
-
-			}
-		}
-
-	}
 
 	public void addCallBack(AccounterAsyncCallback<T> callback) {
 		this.callBack = callback;

@@ -6,7 +6,6 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
@@ -258,11 +257,6 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 		return 0;
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-
-	}
 
 	public AccounterCoreType getType() {
 		return AccounterCoreType.JOURNALENTRY;

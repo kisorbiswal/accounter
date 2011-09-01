@@ -8,7 +8,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
@@ -370,43 +369,6 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		super.fitToSize(height, width);
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-		switch (command) {
-
-		case AccounterCommand.CREATION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.TAXITEM)
-				this.vatItemComboForPurchases
-						.addComboItem((ClientTAXItem) core);
-
-			if (core.getObjectType() == AccounterCoreType.TAXITEM)
-				this.vatItemComboForSales.addComboItem((ClientTAXItem) core);
-
-			break;
-		case AccounterCommand.DELETION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.TAXITEM)
-				this.vatItemComboForPurchases
-						.removeComboItem((ClientTAXItem) core);
-
-			if (core.getObjectType() == AccounterCoreType.TAXITEM)
-				this.vatItemComboForSales.removeComboItem((ClientTAXItem) core);
-			break;
-
-		case AccounterCommand.UPDATION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.TAXITEM)
-				this.vatItemComboForPurchases
-						.updateComboItem((ClientTAXItem) core);
-
-			if (core.getObjectType() == AccounterCoreType.TAXITEM)
-				this.vatItemComboForSales.updateComboItem((ClientTAXItem) core);
-			break;
-
-		}
-	}
 
 	@Override
 	public void onEdit() {

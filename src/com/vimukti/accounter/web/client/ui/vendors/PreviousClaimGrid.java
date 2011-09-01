@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.vendors;
 
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
@@ -95,9 +94,5 @@ public class PreviousClaimGrid extends BaseListGrid<BillsList> {
 				Accounter.constants().status(), Accounter.constants().amount() };
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-	}
 
 }

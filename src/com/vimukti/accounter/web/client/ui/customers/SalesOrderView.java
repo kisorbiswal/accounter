@@ -25,8 +25,6 @@ import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
-import com.vimukti.accounter.web.client.core.ClientShippingMethod;
-import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -92,7 +90,7 @@ public class SalesOrderView extends
 		// lab1.setHeight("35px");
 		statusSelect = new SelectCombo(Accounter.constants().status());
 
-		selectComboList = new ArrayList<String>();
+		ArrayList<String> selectComboList = new ArrayList<String>();
 		selectComboList.add(OPEN);
 		selectComboList.add(COMPLETED);
 		selectComboList.add(CANCELLED);
@@ -1033,19 +1031,6 @@ public class SalesOrderView extends
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		if (core.getID() == this.shippingTermsCombo.getSelectedValue().getID()) {
-			this.shippingTermsCombo
-					.addItemThenfireEvent((ClientShippingTerms) core);
-		}
-		if (core.getID() == this.shippingMethodsCombo.getSelectedValue()
-				.getID()) {
-			this.shippingMethodsCombo
-					.addItemThenfireEvent((ClientShippingMethod) core);
-		}
-
-	}
 
 	public void onEdit() {
 		if (transaction.getStatus() == ClientTransaction.STATUS_COMPLETED)

@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -164,10 +163,6 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 
 	}
 
-	@Override
-	public void updateGrid(IAccounterCore core) {
-		initListCallback();
-	}
 
 	@Override
 	public void fitToSize(int height, int width) {

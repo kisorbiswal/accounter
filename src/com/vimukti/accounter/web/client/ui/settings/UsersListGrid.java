@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -155,10 +154,6 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 		return null;
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-	}
 
 	@Override
 	public void deleteFailed(AccounterException caught) {

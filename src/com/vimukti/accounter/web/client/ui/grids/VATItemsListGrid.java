@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -188,12 +187,6 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 
 	}
 
-	/**
-	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
-	 */
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-	}
 
 	public AccounterCoreType getType() {
 		return AccounterCoreType.TAXITEM;

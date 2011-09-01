@@ -6,7 +6,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.banking.BankingSectionHomeView;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -803,11 +802,6 @@ public class AddWidgetDialog extends BaseDialog {
 		}
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	protected boolean onOK() {

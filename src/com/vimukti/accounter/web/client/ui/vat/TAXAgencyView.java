@@ -18,7 +18,6 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -750,52 +749,6 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		super.fitToSize(height, width);
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-		switch (command) {
-		case AccounterCommand.CREATION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.PAYMENT_TERM)
-				this.paymentTermsCombo.addComboItem((ClientPaymentTerms) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.liabilitySalesAccountCombo
-						.addComboItem((ClientAccount) core);
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.liabilityPurchaseAccountCombo
-						.addComboItem((ClientAccount) core);
-
-			break;
-		case AccounterCommand.DELETION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.PAYMENT_TERM)
-				this.paymentTermsCombo
-						.removeComboItem((ClientPaymentTerms) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.liabilitySalesAccountCombo
-						.removeComboItem((ClientAccount) core);
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.liabilityPurchaseAccountCombo
-						.removeComboItem((ClientAccount) core);
-			break;
-
-		case AccounterCommand.UPDATION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.PAYMENT_TERM)
-				this.paymentTermsCombo
-						.updateComboItem((ClientPaymentTerms) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.liabilitySalesAccountCombo
-						.updateComboItem((ClientAccount) core);
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.liabilityPurchaseAccountCombo
-						.updateComboItem((ClientAccount) core);
-			break;
-		}
-	}
 
 	@Override
 	public void onEdit() {

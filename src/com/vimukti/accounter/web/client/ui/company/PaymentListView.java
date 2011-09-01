@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.Label;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.SelectPaymentTypeDialog;
@@ -162,10 +161,6 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
 	}
 
-	@Override
-	public void updateGrid(IAccounterCore core) {
-		initListCallback();
-	}
 
 	@Override
 	public void fitToSize(int height, int width) {

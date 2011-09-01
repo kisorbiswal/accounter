@@ -426,13 +426,6 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// if (core.getID().equals(
-		// this.taxAgencyCombo.getSelectedValue().getID())) {
-		// this.taxAgencyCombo.addItemThenfireEvent((ClientTaxAgency) core);
-		// }
-	}
 
 	@Override
 	public List<DynamicForm> getForms() {

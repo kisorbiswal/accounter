@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -158,10 +157,6 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 		}
 	}
 
-	@Override
-	public void updateGrid(IAccounterCore core) {
-		initListCallback();
-	}
 
 	@Override
 	public void fitToSize(int height, int width) {

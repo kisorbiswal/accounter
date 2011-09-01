@@ -22,11 +22,6 @@ public class DeleteThemeDialog extends BaseDialog {
 		createControls();
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-
-	}
 
 	private void createControls() {
 		VerticalPanel deletePanel = new VerticalPanel();

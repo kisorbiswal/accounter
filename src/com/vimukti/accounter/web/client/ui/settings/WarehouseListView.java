@@ -25,10 +25,6 @@ public class WarehouseListView extends BaseListView<ClientStockTransfer> {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-	}
 
 	@Override
 	protected String getViewTitle() {

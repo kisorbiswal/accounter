@@ -100,11 +100,6 @@ public class AddPriceLevelDialog extends BaseDialog {
 		return incrOrDecrPercentValue;
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	protected ValidationResult validate() {

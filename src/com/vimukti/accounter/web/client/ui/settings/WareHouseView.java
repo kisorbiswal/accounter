@@ -149,10 +149,6 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-	}
 
 	@Override
 	protected String getViewTitle() {

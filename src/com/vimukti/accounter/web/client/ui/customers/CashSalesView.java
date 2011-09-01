@@ -12,10 +12,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.InvalidOperationException;
-import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -23,8 +20,6 @@ import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
-import com.vimukti.accounter.web.client.core.ClientShippingMethod;
-import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -656,86 +651,6 @@ public class CashSalesView extends
 		super.fitToSize(height, width);
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-		switch (command) {
-		case AccounterCommand.CREATION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.CUSTOMER)
-				this.customerCombo.addComboItem((ClientCustomer) core);
-
-			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
-				if (getPreferences().isSalesPersonEnabled())
-					this.salesPersonCombo
-							.addComboItem((ClientSalesPerson) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.depositInCombo.addComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.SHIPPING_TERM)
-				this.shippingTermsCombo
-						.addComboItem((ClientShippingTerms) core);
-
-			if (core.getObjectType() == AccounterCoreType.SHIPPING_METHOD)
-				this.shippingMethodsCombo
-						.addComboItem((ClientShippingMethod) core);
-
-			if (core.getObjectType() == AccounterCoreType.PRICE_LEVEL)
-				this.priceLevelSelect.addComboItem((ClientPriceLevel) core);
-
-			break;
-		case AccounterCommand.UPDATION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.CUSTOMER)
-				this.customerCombo.updateComboItem((ClientCustomer) core);
-
-			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
-				if (getPreferences().isSalesPersonEnabled())
-					this.salesPersonCombo
-							.updateComboItem((ClientSalesPerson) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.depositInCombo.updateComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.SHIPPING_TERM)
-				this.shippingTermsCombo
-						.updateComboItem((ClientShippingTerms) core);
-
-			if (core.getObjectType() == AccounterCoreType.SHIPPING_METHOD)
-				this.shippingMethodsCombo
-						.updateComboItem((ClientShippingMethod) core);
-
-			if (core.getObjectType() == AccounterCoreType.PRICE_LEVEL)
-				this.priceLevelSelect.updateComboItem((ClientPriceLevel) core);
-			break;
-
-		case AccounterCommand.DELETION_SUCCESS:
-			if (core.getObjectType() == AccounterCoreType.CUSTOMER)
-				this.customerCombo.removeComboItem((ClientCustomer) core);
-
-			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
-				if (getPreferences().isSalesPersonEnabled())
-					this.salesPersonCombo
-							.removeComboItem((ClientSalesPerson) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.depositInCombo.removeComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.SHIPPING_TERM)
-				this.shippingTermsCombo
-						.removeComboItem((ClientShippingTerms) core);
-
-			if (core.getObjectType() == AccounterCoreType.SHIPPING_METHOD)
-				this.shippingMethodsCombo
-						.removeComboItem((ClientShippingMethod) core);
-
-			if (core.getObjectType() == AccounterCoreType.PRICE_LEVEL)
-				this.priceLevelSelect.removeComboItem((ClientPriceLevel) core);
-
-			break;
-		}
-	}
 
 	public void onEdit() {
 		AsyncCallback<Boolean> editCallBack = new AsyncCallback<Boolean>() {

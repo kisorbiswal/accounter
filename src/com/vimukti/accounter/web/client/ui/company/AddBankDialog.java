@@ -80,11 +80,6 @@ public class AddBankDialog extends BaseDialog {
 		Accounter.showError(errorString);
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// its not using any where
-
-	}
 
 	public void addCallBack(AccounterAsyncCallback<ClientBank> callback) {
 		this.callBack = callback;

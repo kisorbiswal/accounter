@@ -30,10 +30,6 @@ public class PaymentDialog extends BaseDialog {
 		center();
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-	}
 
 	public void createControls() {
 		mainPanel.setSpacing(3);

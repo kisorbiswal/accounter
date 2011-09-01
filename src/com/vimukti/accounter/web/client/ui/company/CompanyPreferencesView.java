@@ -21,8 +21,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
-import com.vimukti.accounter.web.client.core.AccounterCommand;
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -1436,120 +1434,6 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		super.fitToSize(height, width);
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		switch (command) {
-		case AccounterCommand.CREATION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.openinBalcombo.addComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.accountsreceivablecombo.addComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.accountsPayablecombo.addComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.salesTaxPayablecombo.addComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.cashDiscountTakencombo.addComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.undepositedFoundscombo.addComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.cashDiscountGivencombo.addComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.payrollLiabilitycombo.addComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.accountsPayablecombo.addComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.bankChargecombo.addComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.retainedEarningsCombo.addComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.pendingItemrecicptsCombo
-						.addComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.jobresellAccountCombo.addComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.writeOffAccountCombo.addComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.defaultCashCombo.addComboItem((ClientAccount) core);
-
-			break;
-
-		case AccounterCommand.DELETION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.openinBalcombo.removeComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.accountsreceivablecombo
-						.removeComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.accountsPayablecombo.removeComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.salesTaxPayablecombo.removeComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.cashDiscountTakencombo
-						.removeComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.undepositedFoundscombo
-						.removeComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.cashDiscountGivencombo
-						.removeComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.payrollLiabilitycombo
-						.removeComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.accountsPayablecombo.removeComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.bankChargecombo.removeComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.retainedEarningsCombo
-						.removeComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.pendingItemrecicptsCombo
-						.removeComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.jobresellAccountCombo
-						.removeComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.writeOffAccountCombo.removeComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.defaultCashCombo.removeComboItem((ClientAccount) core);
-
-			break;
-		case AccounterCommand.UPDATION_SUCCESS:
-			break;
-		}
-
-	}
 
 	@Override
 	public void onEdit() {

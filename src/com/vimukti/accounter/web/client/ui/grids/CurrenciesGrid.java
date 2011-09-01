@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.grids;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
@@ -122,10 +121,5 @@ public class CurrenciesGrid extends BaseListGrid<ClientCurrency> {
 		return null;
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-
-	}
 
 }

@@ -13,9 +13,4 @@ public interface IAccounterWidget {
 
 	public void deleteSuccess(IAccounterCore result);
 
-	// public long getID();
-	//
-	// public void setID(long id);
-
-	public void processupdateView(IAccounterCore core, int command);
 }

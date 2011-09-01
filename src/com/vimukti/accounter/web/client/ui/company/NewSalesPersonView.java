@@ -605,13 +605,6 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		super.fitToSize(height, width);
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-		if (core.getID() == (this.expenseSelect.getSelectedValue().getID())) {
-			this.expenseSelect.addItemThenfireEvent((ClientAccount) core);
-		}
-	}
 
 	@Override
 	public void onEdit() {

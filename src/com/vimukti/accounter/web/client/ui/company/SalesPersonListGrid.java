@@ -3,9 +3,7 @@ package com.vimukti.accounter.web.client.ui.company;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
-import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -227,10 +225,6 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 		return faxNo;
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// its not using any where return null;
-	}
 
 	public AccounterCoreType getType() {
 		return AccounterCoreType.SALES_PERSON;

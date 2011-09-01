@@ -9,8 +9,7 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 public class TAXAgencyCombo extends CustomCombo<ClientTAXAgency> {
 
 	public TAXAgencyCombo(String title) {
-		super(title);
-		initCombo(getCompany().getActiveTAXAgencies());
+		this(title,true);
 	}
 
 	public TAXAgencyCombo(String title, boolean isAddNewRequire) {

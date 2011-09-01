@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientFixedAssetNote;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -225,11 +224,6 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 				: "";
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// currently not using this method anywhere
-
-	}
 
 	public AccounterCoreType getType() {
 		return null;

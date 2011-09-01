@@ -10,8 +10,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
-import com.vimukti.accounter.web.client.core.AccounterCommand;
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -595,24 +593,6 @@ public class IssuePaymentDialog extends BaseDialog {
 		return null;
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-		switch (command) {
-		case AccounterCommand.CREATION_SUCCESS:
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				accountCombo.addComboItem((ClientAccount) core);
-			break;
-		case AccounterCommand.UPDATION_SUCCESS:
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				accountCombo.updateComboItem((ClientAccount) core);
-			break;
-		case AccounterCommand.DELETION_SUCCESS:
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				accountCombo.removeComboItem((ClientAccount) core);
-			break;
-		}
-	}
 
 	@Override
 	protected boolean onOK() {

@@ -4,7 +4,6 @@
 package com.vimukti.accounter.web.client.ui.fixedassets;
 
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -81,11 +80,6 @@ public class RegisteredItemsListView extends BaseListView<ClientFixedAsset> {
 	}
 
 	
-	@Override
-	public void updateGrid(IAccounterCore core) {
-		grid.setRecords(getAssetsByType(ClientFixedAsset.STATUS_REGISTERED,
-				getCompany().getFixedAssets()));
-	}
 
 	@Override
 	public void fitToSize(int height, int width) {

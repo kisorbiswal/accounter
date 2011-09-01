@@ -96,11 +96,6 @@ public class WareHouseTransferView extends BaseView<ClientWarehouse> {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// currently not using
-
-	}
 
 	@Override
 	public List getForms() {

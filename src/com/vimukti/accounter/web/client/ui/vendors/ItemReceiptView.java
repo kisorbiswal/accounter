@@ -11,7 +11,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -604,29 +603,6 @@ public class ItemReceiptView extends
 		return result;
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		switch (command) {
-		case AccounterCommand.CREATION_SUCCESS:
-			if (core.getObjectType() == AccounterCoreType.VENDOR)
-				vendorCombo.addComboItem((ClientVendor) core);
-			if (core.getObjectType() == AccounterCoreType.PAYMENT_TERM)
-				payTermsSelect.addComboItem((ClientPaymentTerms) core);
-			break;
-		case AccounterCommand.UPDATION_SUCCESS:
-			if (core.getObjectType() == AccounterCoreType.VENDOR)
-				vendorCombo.updateComboItem((ClientVendor) core);
-			if (core.getObjectType() == AccounterCoreType.PAYMENT_TERM)
-				payTermsSelect.updateComboItem((ClientPaymentTerms) core);
-			break;
-		case AccounterCommand.DELETION_SUCCESS:
-			if (core.getObjectType() == AccounterCoreType.VENDOR)
-				vendorCombo.removeComboItem((ClientVendor) core);
-			if (core.getObjectType() == AccounterCoreType.PAYMENT_TERM)
-				payTermsSelect.removeComboItem((ClientPaymentTerms) core);
-			break;
-		}
-	}
 
 	public void onEdit() {
 		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {

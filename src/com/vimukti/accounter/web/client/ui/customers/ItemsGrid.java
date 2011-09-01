@@ -5,7 +5,6 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
@@ -110,10 +109,6 @@ public class ItemsGrid extends BaseListGrid<ClientTransactionItem> {
 		}
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// NOTHING TO DO.
-	}
 
 	public AccounterCoreType getType() {
 		return AccounterCoreType.ITEM;

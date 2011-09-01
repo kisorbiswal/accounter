@@ -6,7 +6,6 @@ import java.util.List;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -217,10 +216,6 @@ public class BillListView extends BaseListView<BillsList> {
 
 	}
 
-	@Override
-	public void updateGrid(IAccounterCore core) {
-		initListCallback();
-	}
 
 	@Override
 	public void fitToSize(int height, int width) {

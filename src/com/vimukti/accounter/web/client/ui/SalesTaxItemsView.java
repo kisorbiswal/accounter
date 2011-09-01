@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
@@ -85,12 +84,6 @@ public class SalesTaxItemsView extends BaseListView<ClientTAXItem> {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-		super.processupdateView(core, command);
-		filterList(true);
-	}
 
 	@Override
 	protected String getViewTitle() {

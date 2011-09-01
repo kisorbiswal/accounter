@@ -14,11 +14,9 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -526,39 +524,4 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		this.viewSelect.setDisabled(true);
 	}
 
-	public void updateGrid(IAccounterCore core) {
-		if (core.getObjectType() == grid.getType()
-				|| core.getObjectType() == AccounterCoreType.TAXAGENCY) {
-
-			IAccounterCore obj = Utility.getObject(grid.getRecords(),
-					core.getID());
-			switch (cmd) {
-			case AccounterCommand.CREATION_SUCCESS:
-			case AccounterCommand.UPDATION_SUCCESS:
-				if (obj == null) {
-					grid.addData(core);
-				} else {
-					grid.deleteRecord(obj);
-					grid.addData(core);
-				}
-				break;
-			case AccounterCommand.DELETION_SUCCESS:
-				if (obj != null) {
-					grid.deleteRecord(grid.indexOf(obj));
-					if (records != null)
-						records.remove(obj);
-				}
-				break;
-
-			}
-		}
-
-	}
-
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		cmd = command;
-		updateGrid(core);
-
-	}
 }

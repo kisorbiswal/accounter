@@ -5,7 +5,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -226,11 +225,6 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 		return 0;
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// its not using any where return null;
-
-	}
 
 	public AccounterCoreType getType() {
 		return null;

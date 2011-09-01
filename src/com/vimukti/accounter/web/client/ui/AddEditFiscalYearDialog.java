@@ -66,11 +66,6 @@ public class AddEditFiscalYearDialog extends BaseDialog {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	protected boolean onOK() {

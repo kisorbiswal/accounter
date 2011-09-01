@@ -695,10 +695,6 @@ public class InvoiceBrandingView<T> extends
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-	}
 
 	@Override
 	public void saveSuccess(IAccounterCore object) {

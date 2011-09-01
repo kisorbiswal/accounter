@@ -158,13 +158,6 @@ public class CashDiscountDialog extends BaseDialog {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		if (core.getID() == this.discAccSelect.getSelectedValue().getID()) {
-			this.discAccSelect.addItemThenfireEvent((ClientAccount) core);
-		}
-
-	}
 
 	@Override
 	protected boolean onOK() {

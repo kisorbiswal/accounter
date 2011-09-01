@@ -33,11 +33,6 @@ public class MesurementListView extends BaseView {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	protected String getViewTitle() {

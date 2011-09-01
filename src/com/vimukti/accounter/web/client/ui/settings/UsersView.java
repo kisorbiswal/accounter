@@ -208,9 +208,6 @@ public class UsersView extends BaseView<ClientUserInfo> {
 	public void deleteSuccess(IAccounterCore result){
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-	}
 
 	@Override
 	public void fitToSize(int height, int width) {

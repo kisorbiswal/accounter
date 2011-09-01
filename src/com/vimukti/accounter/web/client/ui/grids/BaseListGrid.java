@@ -258,11 +258,6 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 		}
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-
-	}
 
 	protected <D extends IAccounterCore> void deleteUserObject(D data) {
 		Accounter.deleteUser(this, data);

@@ -11,8 +11,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.InvalidOperationException;
-import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -667,62 +665,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		super.fitToSize(height, width);
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		switch (command) {
-		case AccounterCommand.CREATION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.CUSTOMER)
-				this.customerCombo.addComboItem((ClientCustomer) core);
-
-			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
-				if (getPreferences().isSalesPersonEnabled())
-					this.salesPersonCombo
-							.addComboItem((ClientSalesPerson) core);
-
-			if (core.getObjectType() == AccounterCoreType.PAYMENT_TERM)
-				this.payTermsSelect.addComboItem((ClientPaymentTerms) core);
-
-			if (core.getObjectType() == AccounterCoreType.PRICE_LEVEL)
-				this.priceLevelSelect.addComboItem((ClientPriceLevel) core);
-
-			break;
-		case AccounterCommand.UPDATION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.CUSTOMER)
-				this.customerCombo.updateComboItem((ClientCustomer) core);
-
-			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
-				if (getPreferences().isSalesPersonEnabled())
-					this.salesPersonCombo
-							.updateComboItem((ClientSalesPerson) core);
-
-			if (core.getObjectType() == AccounterCoreType.PAYMENT_TERM)
-				this.payTermsSelect.updateComboItem((ClientPaymentTerms) core);
-
-			if (core.getObjectType() == AccounterCoreType.PRICE_LEVEL)
-				this.priceLevelSelect.updateComboItem((ClientPriceLevel) core);
-			break;
-
-		case AccounterCommand.DELETION_SUCCESS:
-			if (core.getObjectType() == AccounterCoreType.CUSTOMER)
-				this.customerCombo.removeComboItem((ClientCustomer) core);
-
-			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
-				if (getPreferences().isSalesPersonEnabled())
-					this.salesPersonCombo
-							.removeComboItem((ClientSalesPerson) core);
-
-			if (core.getObjectType() == AccounterCoreType.PAYMENT_TERM)
-				this.payTermsSelect.removeComboItem((ClientPaymentTerms) core);
-
-			if (core.getObjectType() == AccounterCoreType.PRICE_LEVEL)
-				this.priceLevelSelect.removeComboItem((ClientPriceLevel) core);
-
-			break;
-		}
-
-	}
 
 	@Override
 	public void onEdit() {

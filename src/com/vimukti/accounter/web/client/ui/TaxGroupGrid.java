@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui;
 
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
@@ -42,9 +41,4 @@ public class TaxGroupGrid extends BaseListGrid<ClientTAXGroup> {
 		return new String[] { Accounter.constants().name() };
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// currently not using
-
-	}
 }

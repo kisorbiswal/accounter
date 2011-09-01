@@ -17,7 +17,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -653,36 +652,6 @@ public class NewCustomerPaymentView extends
 		this.customerCombo.setFocus();
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		switch (command) {
-		case AccounterCommand.CREATION_SUCCESS:
-
-			// if (core.getObjectType() == AccounterCoreType.CUSTOMER)
-			// this.customerCombo.addComboItem((ClientCustomer) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.depositInCombo.addComboItem((ClientAccount) core);
-
-			break;
-		case AccounterCommand.DELETION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.depositInCombo.removeComboItem((ClientAccount) core);
-
-			break;
-		case AccounterCommand.UPDATION_SUCCESS:
-			//
-			// if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-			// this.depositInCombo.updateComboItem((ClientAccount) core);
-			//
-			// if (core.getObjectType() == AccounterCoreType.CUSTOMER)
-			// this.customerCombo.updateComboItem((ClientCustomer) core);
-
-			break;
-		}
-
-	}
 
 	public void onEdit() {
 		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {

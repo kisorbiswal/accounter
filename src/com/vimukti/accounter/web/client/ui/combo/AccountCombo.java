@@ -21,7 +21,6 @@ public abstract class AccountCombo extends CustomCombo<ClientAccount> {
 	public static final int DEPRECIATION_COMBO = 8;
 	public static final int DEBIT_COMBO = 9;
 
-	private List<ClientAccount> accountList;
 	private List<Integer> accounTypes;
 	private boolean useAccountNumbers;
 
@@ -44,8 +43,7 @@ public abstract class AccountCombo extends CustomCombo<ClientAccount> {
 	}
 
 	public void init() {
-		accountList = getAccounts();
-		initCombo(accountList);
+		initCombo(getAccounts());
 	}
 
 	@Override

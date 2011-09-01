@@ -64,13 +64,7 @@ import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionGrid;
 public abstract class AbstractCustomerTransactionView<T extends ClientTransaction>
 		extends AbstractTransactionBaseView<T> {
 
-	private AbstractCustomerTransactionView<T> customerTransactionViewInstance;
-
 	AccounterConstants customerConstants = Accounter.constants();
-
-	protected List<ClientCustomer> customers;
-
-	protected Set<ClientContact> contacts;
 
 	protected ClientPriceLevel priceLevel;
 
@@ -87,13 +81,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	protected DateField deliveryDate;
 	protected ClientPaymentTerms paymentTerm;
 
-	protected List<ClientSalesPerson> salesPersons;
 
-	protected List<ClientPriceLevel> priceLevels;
-
-	protected List<ClientTAXGroup> taxGroups;
-
-	protected List<ClientTAXCode> taxCodes;
 
 	protected List<ClientPaymentTerms> paymentTermsList;
 
@@ -142,17 +130,11 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	protected String status;
 
-	protected List<ClientShippingTerms> shippingTerms;
-
 	protected ClientShippingTerms shippingTerm;
 
 	protected Set<ClientAddress> addressListOfCustomer;
 
-	protected List<ClientAccount> undepositedFunds;
-
 	protected ClientAccount depositInAccount;
-
-	private List<ClientShippingMethod> shippingMethods;
 
 	protected ClientShippingMethod shippingMethod;
 
@@ -163,14 +145,6 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	protected boolean saveAndClose;
 
 	protected double amount;
-
-	protected List<String> selectComboList;
-	/**
-	 * This field contains all changed values of customer in particular
-	 * transaction
-	 * 
-	 */
-	protected String[] customerChanges;
 
 	protected ClientCustomer customer;
 
@@ -253,7 +227,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	protected abstract void initSalesTaxNonEditableItem();
 
 	protected void initShippingTerms() {
-		shippingTerms = getCompany().getShippingTerms();
+		ArrayList<ClientShippingTerms> shippingTerms = getCompany().getShippingTerms();
 
 		shippingTermsCombo.initCombo(shippingTerms);
 
@@ -465,7 +439,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	}
 
 	public void initTaxItemGroups() {
-		taxCodes = getCompany().getTaxCodes();
+		ArrayList<ClientTAXCode> taxCodes = getCompany().getTaxCodes();
 
 		taxCodeSelect.initCombo(taxCodes);
 
@@ -481,7 +455,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	protected void initPriceLevels() {
 
-		priceLevels = getCompany().getPriceLevels();
+		ArrayList<ClientPriceLevel> priceLevels = getCompany().getPriceLevels();
 
 		priceLevelSelect.initCombo(priceLevels);
 
@@ -489,7 +463,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	protected void initSalesPersons() {
 
-		salesPersons = getCompany().getActiveSalesPersons();
+		ArrayList<ClientSalesPerson> salesPersons = getCompany().getActiveSalesPersons();
 
 		salesPersonCombo.initCombo(salesPersons);
 
@@ -497,7 +471,6 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	protected void initCustomers() {
 		List<ClientCustomer> result = getCompany().getActiveCustomers();
-		customers = result;
 
 		customerCombo.initCombo(result);
 		// customerCombo.setHelpInformation(true);

@@ -11,7 +11,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -894,26 +893,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		switch (command) {
-		case AccounterCommand.CREATION_SUCCESS:
-			if (core.getObjectType() == AccounterCoreType.VENDOR)
-				vendorCombo.addItemThenfireEvent((ClientVendor) core);
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				payFromCombo.addItemThenfireEvent((ClientAccount) core);
-
-			break;
-		case AccounterCommand.UPDATION_SUCCESS:
-			break;
-		case AccounterCommand.DELETION_SUCCESS:
-			if (core.getObjectType() == AccounterCoreType.VENDOR)
-				vendorCombo.removeComboItem((ClientVendor) core);
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				payFromCombo.removeComboItem((ClientAccount) core);
-			break;
-		}
-	}
 
 	public void onEdit() {
 		if (!transaction.isVoid()) {

@@ -128,11 +128,6 @@ public class ManageVATView extends AbstractBaseView {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public void onEdit() {

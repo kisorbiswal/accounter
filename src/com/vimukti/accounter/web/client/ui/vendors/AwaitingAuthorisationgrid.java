@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.vendors;
 
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -94,10 +93,5 @@ public class AwaitingAuthorisationgrid extends BaseListGrid<BillsList> {
 				Accounter.constants().total() };
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// its not using any where
-
-	}
 
 }

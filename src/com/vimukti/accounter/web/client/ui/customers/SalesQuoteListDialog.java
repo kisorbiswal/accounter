@@ -13,7 +13,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -197,11 +196,6 @@ public class SalesQuoteListDialog extends BaseDialog {
 		// cancelBtn.setFocus(true);
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// its not using any where return null;
-
-	}
 
 	// setTitle(customerConstants.createForm());
 

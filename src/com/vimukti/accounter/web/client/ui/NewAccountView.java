@@ -19,7 +19,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
-import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBank;
@@ -1439,24 +1438,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		super.fitToSize(height, width);
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-		switch (command) {
-		case AccounterCommand.CREATION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.subAccSelect.addComboItem((ClientAccount) core);
-
-			break;
-		case AccounterCommand.DELETION_SUCCESS:
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.subAccSelect.removeComboItem((ClientAccount) core);
-
-		case AccounterCommand.UPDATION_SUCCESS:
-			break;
-		}
-	}
 
 	public void accounttype_selected() {
 		if (selectedId != null && !selectedId.isEmpty())

@@ -8,7 +8,6 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
@@ -398,29 +397,6 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		super.fitToSize(height, width);
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-		switch (command) {
-		case AccounterCommand.CREATION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.TAXAGENCY)
-				this.vatAgencyCombo.addComboItem((ClientTAXAgency) core);
-
-			break;
-		case AccounterCommand.DELETION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.TAXAGENCY)
-				this.vatAgencyCombo.removeComboItem((ClientTAXAgency) core);
-
-			break;
-		case AccounterCommand.UPDATION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.TAXAGENCY)
-				this.vatAgencyCombo.updateComboItem((ClientTAXAgency) core);
-			break;
-		}
-	}
 
 	@Override
 	public void onEdit() {

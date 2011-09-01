@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.safehtml.shared.SafeHtml;
-
 public class ClientAddress implements IAccounterCore {
 
 	/**

@@ -89,11 +89,6 @@ public class ExpenseClaims extends BaseView {
 	}
 
 	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-	}
-
-	@Override
 	protected String getViewTitle() {
 		return Accounter.constants().expenseClaims();
 	}

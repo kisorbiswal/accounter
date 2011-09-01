@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
-import net.sourceforge.htmlunit.corejs.javascript.tools.shell.Global;
-
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.client.ui.Accounter;

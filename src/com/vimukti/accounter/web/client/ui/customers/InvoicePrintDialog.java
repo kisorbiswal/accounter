@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.customers;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
@@ -16,10 +15,6 @@ public class InvoicePrintDialog extends BaseDialog {
 		createControls();
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-	}
 
 	private void createControls() {
 

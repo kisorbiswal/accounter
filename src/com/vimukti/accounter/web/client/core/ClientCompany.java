@@ -12,6 +12,8 @@ import java.util.Set;
 
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.util.ChangeType;
+import com.vimukti.accounter.web.client.util.CoreEvent;
 
 public class ClientCompany implements IAccounterCore {
 
@@ -1333,7 +1335,15 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	public void deleteAccount(long accountId) {
-		this.accounts.remove(this.getAccount(accountId));
+		ClientAccount account = this.getAccount(accountId);
+		if (account != null) {
+			this.accounts.remove(account);
+			fireEvent(new CoreEvent<ClientAccount>(ChangeType.DELETE,account));
+		}
+	}
+
+	private void fireEvent(CoreEvent<?> event) {
+		Accounter.getEventBus().fireEvent(event);
 	}
 
 	public void deleteTaxGroup(long taxGroup) {
@@ -1514,14 +1524,11 @@ public class ClientCompany implements IAccounterCore {
 
 						UIUtils.updateAccountsInSortedOrder(accounts, account);
 					}
-					// else {
-					// int index = accounts.indexOf(existObj);
-					// accounts.remove(existObj);
-					// accounts.add(index, account);
-					// }
+					fireEvent(new CoreEvent<ClientAccount>(ChangeType.CHANGE,account));
 				} else {
 
 					UIUtils.updateAccountsInSortedOrder(accounts, account);
+					fireEvent(new CoreEvent<ClientAccount>(ChangeType.ADD,account));
 				}
 
 				break;

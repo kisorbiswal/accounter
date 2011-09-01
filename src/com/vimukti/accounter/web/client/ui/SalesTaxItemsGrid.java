@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui;
 
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
@@ -44,9 +43,5 @@ public class SalesTaxItemsGrid extends BaseListGrid<ClientTAXItem> {
 				Accounter.constants().currentRate() };
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-	}
 
 }

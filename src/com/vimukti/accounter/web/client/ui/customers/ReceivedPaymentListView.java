@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -149,10 +148,6 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 
 	}
 
-	@Override
-	public void updateGrid(IAccounterCore core) {
-		initListCallback();
-	}
 
 	@Override
 	public void fitToSize(int height, int width) {

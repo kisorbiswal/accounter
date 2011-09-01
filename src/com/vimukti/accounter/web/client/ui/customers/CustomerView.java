@@ -18,7 +18,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddButton;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -1245,110 +1244,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		super.fitToSize(height, width);
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-		switch (command) {
-		case AccounterCommand.CREATION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.PRICE_LEVEL)
-				this.priceLevelSelect.addComboItem((ClientPriceLevel) core);
-
-			if (core.getObjectType() == AccounterCoreType.CREDIT_RATING)
-				this.creditRatingSelect.addComboItem((ClientCreditRating) core);
-
-			if (core.getObjectType() == AccounterCoreType.SHIPPING_METHOD)
-				this.shipMethSelect.addComboItem((ClientShippingMethod) core);
-
-			if (core.getObjectType() == AccounterCoreType.PAYMENT_TERM)
-				this.payTermsSelect.addComboItem((ClientPaymentTerms) core);
-
-			if (core.getObjectType() == AccounterCoreType.CUSTOMER_GROUP)
-				this.custGroupSelect.addComboItem((ClientCustomerGroup) core);
-
-			// if (core.getObjectType() == AccounterCoreType.TAX_GROUP)
-			// this.taxGroupSelect.addComboItem((ClientTaxGroup) core);
-
-			if (core.getObjectType() == AccounterCoreType.TAX_ITEM_GROUP)
-				this.taxGroupSelect.addComboItem((ClientTAXItemGroup) core);
-
-			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
-				this.salesPersonSelect.addComboItem((ClientSalesPerson) core);
-
-			if (core.getObjectType() == AccounterCoreType.TAX_CODE)
-				this.custTaxCode.addComboItem((ClientTAXCode) core);
-
-			break;
-		case AccounterCommand.UPDATION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.PRICE_LEVEL)
-				this.priceLevelSelect.updateComboItem((ClientPriceLevel) core);
-
-			if (core.getObjectType() == AccounterCoreType.CREDIT_RATING)
-				this.creditRatingSelect
-						.updateComboItem((ClientCreditRating) core);
-
-			if (core.getObjectType() == AccounterCoreType.SHIPPING_METHOD)
-				this.shipMethSelect
-						.updateComboItem((ClientShippingMethod) core);
-
-			if (core.getObjectType() == AccounterCoreType.PAYMENT_TERM)
-				this.payTermsSelect.updateComboItem((ClientPaymentTerms) core);
-
-			if (core.getObjectType() == AccounterCoreType.CUSTOMER_GROUP)
-				this.custGroupSelect
-						.updateComboItem((ClientCustomerGroup) core);
-
-			// if (core.getObjectType() == AccounterCoreType.TAX_GROUP)
-			// this.taxGroupSelect.updateComboItem((ClientTaxGroup) core);
-
-			if (core.getObjectType() == AccounterCoreType.TAX_ITEM_GROUP)
-				this.taxGroupSelect.updateComboItem((ClientTAXItemGroup) core);
-
-			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
-				this.salesPersonSelect
-						.updateComboItem((ClientSalesPerson) core);
-
-			if (core.getObjectType() == AccounterCoreType.TAX_CODE)
-				this.custTaxCode.updateComboItem((ClientTAXCode) core);
-			break;
-
-		case AccounterCommand.DELETION_SUCCESS:
-			if (core.getObjectType() == AccounterCoreType.PRICE_LEVEL)
-				this.priceLevelSelect.removeComboItem((ClientPriceLevel) core);
-
-			if (core.getObjectType() == AccounterCoreType.CREDIT_RATING)
-				this.creditRatingSelect
-						.removeComboItem((ClientCreditRating) core);
-
-			if (core.getObjectType() == AccounterCoreType.SHIPPING_METHOD)
-				this.shipMethSelect
-						.removeComboItem((ClientShippingMethod) core);
-
-			if (core.getObjectType() == AccounterCoreType.PAYMENT_TERM)
-				this.payTermsSelect.removeComboItem((ClientPaymentTerms) core);
-
-			if (core.getObjectType() == AccounterCoreType.CUSTOMER_GROUP)
-				this.custGroupSelect
-						.removeComboItem((ClientCustomerGroup) core);
-
-			// if (core.getObjectType() == AccounterCoreType.TAX_GROUP)
-			// this.taxGroupSelect.removeComboItem((ClientTaxGroup) core);
-
-			if (core.getObjectType() == AccounterCoreType.TAX_ITEM_GROUP)
-				this.taxGroupSelect.removeComboItem((ClientTAXItemGroup) core);
-
-			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
-				this.salesPersonSelect
-						.removeComboItem((ClientSalesPerson) core);
-
-			if (core.getObjectType() == AccounterCoreType.TAX_CODE)
-				this.custTaxCode.removeComboItem((ClientTAXCode) core);
-
-			break;
-		}
-
-	}
 
 	@Override
 	public void onEdit() {

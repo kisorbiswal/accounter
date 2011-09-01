@@ -392,10 +392,6 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		this.preferences = preferences;
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-	}
 
 	protected void saveOrUpdate(final T core) {
 		Accounter.createOrUpdate(this, core);

@@ -263,11 +263,6 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 		return constants.email();
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-		super.processupdateView(core, command);
-	}
 
 	@Override
 	public void onFailure(Throwable caught) {

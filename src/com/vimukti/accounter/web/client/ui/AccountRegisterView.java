@@ -8,8 +8,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.AccounterCommand;
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -294,26 +292,6 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		switch (command) {
-		case AccounterCommand.CREATION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.bankAccSelect.addComboItem((ClientAccount) core);
-
-			break;
-		case AccounterCommand.DELETION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.bankAccSelect.removeComboItem((ClientAccount) core);
-
-			break;
-		case AccounterCommand.UPDATION_SUCCESS:
-			break;
-		}
-
-	}
 
 	@Override
 	public void onEdit() {

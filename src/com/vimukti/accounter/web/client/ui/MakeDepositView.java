@@ -15,7 +15,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -1033,51 +1032,6 @@ public class MakeDepositView extends
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		switch (command) {
-		case AccounterCommand.CREATION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.depositInSelect.addComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT) {
-				this.cashBackAccountSelect.addComboItem((ClientAccount) core);
-			}
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT) {
-				this.financeAccountSelect.addComboItem((ClientAccount) core);
-			}
-			if (core.getObjectType() == AccounterCoreType.CUSTOMER) {
-				this.customerSelect.addComboItem((ClientCustomer) core);
-			}
-			if (core.getObjectType() == AccounterCoreType.VENDOR) {
-				this.vendorSelect.addComboItem((ClientVendor) core);
-			}
-
-			break;
-		case AccounterCommand.DELETION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.depositInSelect.removeComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.cashBackAccountSelect
-						.removeComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.financeAccountSelect.removeComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.CUSTOMER)
-				this.customerSelect.removeComboItem((ClientCustomer) core);
-
-			if (core.getObjectType() == AccounterCoreType.VENDOR)
-				this.vendorSelect.removeComboItem((ClientVendor) core);
-
-			break;
-		case AccounterCommand.UPDATION_SUCCESS:
-			break;
-		}
-	}
 
 	public void onEdit() {
 		// if (transactionObject.canEdit) {

@@ -15,7 +15,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -648,40 +647,6 @@ public class CustomerRefundView extends
 		super.fitToSize(height, width);
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		switch (command) {
-		case AccounterCommand.CREATION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.CUSTOMER)
-				this.customerCombo.addComboItem((ClientCustomer) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.payFromSelect.addComboItem((ClientAccount) core);
-
-			break;
-
-		case AccounterCommand.UPDATION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.CUSTOMER)
-				this.customerCombo.updateComboItem((ClientCustomer) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.payFromSelect.updateComboItem((ClientAccount) core);
-
-			break;
-
-		case AccounterCommand.DELETION_SUCCESS:
-			if (core.getObjectType() == AccounterCoreType.CUSTOMER)
-				this.customerCombo.removeComboItem((ClientCustomer) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.payFromSelect.removeComboItem((ClientAccount) core);
-
-			break;
-		}
-
-	}
 
 	@Override
 	public void onEdit() {

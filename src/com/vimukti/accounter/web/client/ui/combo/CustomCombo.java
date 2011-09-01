@@ -242,28 +242,28 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 		}
 	}
 
-	@Override
-	public void updateComboItem(T coreObject) {
-		for (T item : comboItems) {
-			if (((IAccounterCore) item).getID() == ((IAccounterCore) coreObject)
-					.getID()) {
-
-				if (this.getSelectedValue() != null ? this.getSelectedValue()
-						.equals(item) : true) {
-					removeComboItem(item);
-					addItemThenfireEvent(coreObject);
-				} else {
-					removeComboItem(item);
-					addComboItem(coreObject);
-				}
-				break;
-			} else if (((IAccounterCore) coreObject).getID() != 0) {
-				addComboItem(coreObject);
-				break;
-			}
-
-			// if((IAccounterCore) item.getSt)
-		}
-
-	}
+//	@Override
+//	public void updateComboItem(T coreObject) {
+//		for (T item : comboItems) {
+//			if (((IAccounterCore) item).getID() == ((IAccounterCore) coreObject)
+//					.getID()) {
+//
+//				if (this.getSelectedValue() != null ? this.getSelectedValue()
+//						.equals(item) : true) {
+//					removeComboItem(item);
+//					addItemThenfireEvent(coreObject);
+//				} else {
+//					removeComboItem(item);
+//					addComboItem(coreObject);
+//				}
+//				break;
+//			} else if (((IAccounterCore) coreObject).getID() != 0) {
+//				addComboItem(coreObject);
+//				break;
+//			}
+//
+//			// if((IAccounterCore) item.getSt)
+//		}
+//
+//	}
 }

@@ -21,7 +21,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
@@ -35,8 +34,6 @@ import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
-import com.vimukti.accounter.web.client.core.ClientShippingMethod;
-import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -1541,86 +1538,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		super.fitToSize(height, width);
 	}
 
-	public void processupdateView(IAccounterCore core, int command) {
-
-		switch (command) {
-		case AccounterCommand.CREATION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.CUSTOMER)
-				this.customerCombo.addComboItem((ClientCustomer) core);
-
-			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
-				if (getPreferences().isSalesPersonEnabled())
-					this.salesPersonCombo
-							.addComboItem((ClientSalesPerson) core);
-
-			if (core.getObjectType() == AccounterCoreType.PAYMENT_TERM)
-				this.payTermsSelect.addComboItem((ClientPaymentTerms) core);
-
-			if (core.getObjectType() == AccounterCoreType.SHIPPING_TERM)
-				this.shippingTermsCombo
-						.addComboItem((ClientShippingTerms) core);
-
-			if (core.getObjectType() == AccounterCoreType.SHIPPING_METHOD)
-				this.shippingMethodsCombo
-						.addComboItem((ClientShippingMethod) core);
-
-			if (core.getObjectType() == AccounterCoreType.PRICE_LEVEL)
-				this.priceLevelSelect.addComboItem((ClientPriceLevel) core);
-
-			break;
-		case AccounterCommand.UPDATION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.CUSTOMER)
-				this.customerCombo.updateComboItem((ClientCustomer) core);
-
-			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
-				if (getPreferences().isSalesPersonEnabled())
-					this.salesPersonCombo
-							.updateComboItem((ClientSalesPerson) core);
-
-			if (core.getObjectType() == AccounterCoreType.PAYMENT_TERM)
-				this.payTermsSelect.updateComboItem((ClientPaymentTerms) core);
-
-			if (core.getObjectType() == AccounterCoreType.SHIPPING_TERM)
-				this.shippingTermsCombo
-						.updateComboItem((ClientShippingTerms) core);
-
-			if (core.getObjectType() == AccounterCoreType.SHIPPING_METHOD)
-				this.shippingMethodsCombo
-						.updateComboItem((ClientShippingMethod) core);
-
-			if (core.getObjectType() == AccounterCoreType.PRICE_LEVEL)
-				this.priceLevelSelect.updateComboItem((ClientPriceLevel) core);
-			break;
-
-		case AccounterCommand.DELETION_SUCCESS:
-			if (core.getObjectType() == AccounterCoreType.CUSTOMER)
-				this.customerCombo.removeComboItem((ClientCustomer) core);
-
-			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
-				if (getPreferences().isSalesPersonEnabled())
-					this.salesPersonCombo
-							.removeComboItem((ClientSalesPerson) core);
-
-			if (core.getObjectType() == AccounterCoreType.PAYMENT_TERM)
-				this.payTermsSelect.removeComboItem((ClientPaymentTerms) core);
-
-			if (core.getObjectType() == AccounterCoreType.SHIPPING_TERM)
-				this.shippingTermsCombo
-						.removeComboItem((ClientShippingTerms) core);
-
-			if (core.getObjectType() == AccounterCoreType.SHIPPING_METHOD)
-				this.shippingMethodsCombo
-						.removeComboItem((ClientShippingMethod) core);
-
-			if (core.getObjectType() == AccounterCoreType.PRICE_LEVEL)
-				this.priceLevelSelect.removeComboItem((ClientPriceLevel) core);
-
-			break;
-		}
-
-	}
 
 	private void resetFromView() {
 		custForm.getCellFormatter().setWidth(0, 1, "200");

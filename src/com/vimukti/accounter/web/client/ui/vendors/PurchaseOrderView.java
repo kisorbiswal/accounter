@@ -16,7 +16,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -1007,51 +1006,6 @@ public class PurchaseOrderView extends
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-		switch (command) {
-		case AccounterCommand.CREATION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.PAYMENT_TERM)
-				this.payTermsSelect.addComboItem((ClientPaymentTerms) core);
-
-			if (core.getObjectType() == AccounterCoreType.SHIPPING_TERM)
-				this.shippingTermsCombo
-						.addComboItem((ClientShippingTerms) core);
-			if (core.getObjectType() == AccounterCoreType.SHIPPING_METHOD)
-				this.shippingMethodsCombo
-						.addComboItem((ClientShippingMethod) core);
-			if (core.getObjectType() == AccounterCoreType.ADDRESS)
-				this.shipToCombo.addComboItem((ClientAddress) core);
-			if (core.getObjectType() == AccounterCoreType.ADDRESS)
-				this.billToCombo.addComboItem((ClientAddress) core);
-
-			break;
-
-		case AccounterCommand.DELETION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.PAYMENT_TERM)
-				this.payTermsSelect.removeComboItem((ClientPaymentTerms) core);
-
-			if (core.getObjectType() == AccounterCoreType.SHIPPING_TERM)
-				this.shippingTermsCombo
-						.removeComboItem((ClientShippingTerms) core);
-			if (core.getObjectType() == AccounterCoreType.SHIPPING_METHOD)
-				this.shippingMethodsCombo
-						.removeComboItem((ClientShippingMethod) core);
-			if (core.getObjectType() == AccounterCoreType.ADDRESS)
-				this.shipToCombo.removeComboItem((ClientAddress) core);
-			if (core.getObjectType() == AccounterCoreType.ADDRESS)
-				this.billToCombo.removeComboItem((ClientAddress) core);
-
-			break;
-
-		case AccounterCommand.UPDATION_SUCCESS:
-			break;
-		}
-
-	}
 
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();

@@ -14,8 +14,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.AccounterCommand;
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
@@ -611,33 +609,6 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-		switch (command) {
-		case AccounterCommand.CREATION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.accountCombo.addComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.accountCombo.addComboItem((ClientAccount) core);
-
-			break;
-
-		case AccounterCommand.DELETION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.accountCombo.removeComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.accountCombo.removeComboItem((ClientAccount) core);
-			break;
-
-		case AccounterCommand.UPDATION_SUCCESS:
-			break;
-		}
-	}
 
 	@Override
 	public void onEdit() {

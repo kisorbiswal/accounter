@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.widgets;
 
 import java.util.Date;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;

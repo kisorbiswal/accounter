@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
@@ -96,11 +95,6 @@ public class ManageVATGroupListGrid extends BaseListGrid<ClientTAXGroup> {
 		return 0;
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-
-	}
 
 	public AccounterCoreType getType() {
 		return AccounterCoreType.TAX_GROUP;

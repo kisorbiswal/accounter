@@ -7,7 +7,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -569,31 +568,6 @@ public class PaySalesTaxView extends
 		return filterByDateList;
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		switch (command) {
-		case AccounterCommand.CREATION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.payFromAccCombo.addComboItem((ClientAccount) core);
-			if (core.getObjectType() == AccounterCoreType.TAXAGENCY)
-				this.taxAgencyCombo
-						.addItemThenfireEvent((ClientTAXAgency) core);
-
-			break;
-		case AccounterCommand.DELETION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.payFromAccCombo.removeComboItem((ClientAccount) core);
-			if (core.getObjectType() == AccounterCoreType.TAXAGENCY)
-				this.taxAgencyCombo.removeComboItem((ClientTAXAgency) core);
-
-			break;
-		case AccounterCommand.UPDATION_SUCCESS:
-			break;
-		}
-
-	}
 
 	public void onEdit() {
 		if (transaction.canEdit) {

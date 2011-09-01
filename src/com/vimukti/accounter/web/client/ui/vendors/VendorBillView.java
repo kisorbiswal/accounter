@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -34,7 +33,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
-import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.TaxItemCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -978,30 +976,6 @@ public class VendorBillView extends
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		switch (command) {
-		case AccounterCommand.CREATION_SUCCESS:
-			if (core.getObjectType() == AccounterCoreType.VENDOR)
-				vendorCombo.addComboItem((ClientVendor) core);
-			if (core.getObjectType() == AccounterCoreType.PAYMENT_TERM)
-				paymentTermsCombo.addComboItem((ClientPaymentTerms) core);
-			break;
-		case AccounterCommand.UPDATION_SUCCESS:
-			if (core.getObjectType() == AccounterCoreType.VENDOR)
-				vendorCombo.updateComboItem((ClientVendor) core);
-			if (core.getObjectType() == AccounterCoreType.PAYMENT_TERM)
-				paymentTermsCombo.updateComboItem((ClientPaymentTerms) core);
-
-			break;
-		case AccounterCommand.DELETION_SUCCESS:
-			if (core.getObjectType() == AccounterCoreType.VENDOR)
-				vendorCombo.removeComboItem((ClientVendor) core);
-			if (core.getObjectType() == AccounterCoreType.PAYMENT_TERM)
-				paymentTermsCombo.removeComboItem((ClientPaymentTerms) core);
-			break;
-		}
-	}
 
 	public void onEdit() {
 		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {

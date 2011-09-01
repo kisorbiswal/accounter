@@ -22,7 +22,6 @@ import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -1326,58 +1325,6 @@ public class VendorView extends BaseView<ClientVendor> {
 	// return null;
 	// }
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		switch (command) {
-		case AccounterCommand.CREATION_SUCCESS:
-			if (core.getObjectType() == AccounterCoreType.PAYMENT_TERM)
-				payTermsSelect.addComboItem((ClientPaymentTerms) core);
-			if (core.getObjectType() == AccounterCoreType.SHIPPING_METHOD)
-				preferredShippingSelect
-						.addComboItem((ClientShippingMethod) core);
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.expenseAccountsSelect.addComboItem((ClientAccount) core);
-			if (core.getObjectType() == AccounterCoreType.TAX_CODE)
-				this.vendorTaxCode.addComboItem((ClientTAXCode) core);
-			if (core.getObjectType() == AccounterCoreType.VENDOR_GROUP)
-				this.vendorGroupSelect.addComboItem((ClientVendorGroup) core);
-			break;
-		case AccounterCommand.UPDATION_SUCCESS:
-			if (core.getObjectType() == AccounterCoreType.PAYMENT_TERM)
-				payTermsSelect.updateComboItem((ClientPaymentTerms) core);
-			if (core.getObjectType() == AccounterCoreType.SHIPPING_METHOD)
-				preferredShippingSelect
-						.updateComboItem((ClientShippingMethod) core);
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.expenseAccountsSelect
-						.updateComboItem((ClientAccount) core);
-			if (core.getObjectType() == AccounterCoreType.TAX_CODE
-					&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-				this.vendorTaxCode.updateComboItem((ClientTAXCode) core);
-			if (core.getObjectType() == AccounterCoreType.VENDOR_GROUP)
-				this.vendorGroupSelect
-						.updateComboItem((ClientVendorGroup) core);
-			break;
-
-		case AccounterCommand.DELETION_SUCCESS:
-			if (core.getObjectType() == AccounterCoreType.PAYMENT_TERM)
-				payTermsSelect.removeComboItem((ClientPaymentTerms) core);
-			if (core.getObjectType() == AccounterCoreType.SHIPPING_METHOD)
-				preferredShippingSelect
-						.removeComboItem((ClientShippingMethod) core);
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.expenseAccountsSelect
-						.removeComboItem((ClientAccount) core);
-			if (core.getObjectType() == AccounterCoreType.TAX_CODE
-					&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-				this.vendorTaxCode.removeComboItem((ClientTAXCode) core);
-			if (core.getObjectType() == AccounterCoreType.VENDOR_GROUP)
-				this.vendorGroupSelect
-						.removeComboItem((ClientVendorGroup) core);
-			break;
-		}
-
-	}
 
 	@Override
 	public void onEdit() {

@@ -159,10 +159,6 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		// TODO Auto-generated method stub
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-	}
 
 	public void checkBoxClicked(RolePermissions obj) {
 		if (canDoUserManagement(obj)) {

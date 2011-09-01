@@ -13,7 +13,6 @@ import com.vimukti.accounter.web.client.ui.AddWidgetDialog;
 import com.vimukti.accounter.web.client.ui.BaseHomeView;
 import com.vimukti.accounter.web.client.ui.PortalLayout;
 import com.vimukti.accounter.web.client.ui.Portlet;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.core.WidgetCreator;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;

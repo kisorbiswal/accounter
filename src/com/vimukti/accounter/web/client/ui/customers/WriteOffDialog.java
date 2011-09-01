@@ -9,7 +9,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -177,13 +176,6 @@ public class WriteOffDialog extends BaseDialog {
 
 	public ClientAccount getSelectedWriteOffAccount() {
 		return selectedWriteOffAccount;
-	}
-
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		if (core.getID() == this.discAccSelect.getSelectedValue().getID()) {
-			this.discAccSelect.addItemThenfireEvent((ClientAccount) core);
-		}
 	}
 
 	@Override

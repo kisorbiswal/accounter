@@ -107,10 +107,6 @@ public class ChangePasswordDialog extends BaseDialog {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-	}
 
 	@Override
 	public ValidationResult validate() {

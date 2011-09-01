@@ -13,7 +13,7 @@ public class CoreEvent<T> extends GwtEvent<CoreEventHandler<T>> {
 	private ChangeType type;
 	private T obj;
 
-	CoreEvent(ChangeType type, T core) {
+	public CoreEvent(ChangeType type, T core) {
 		this.type = type;
 		obj = core;
 	}

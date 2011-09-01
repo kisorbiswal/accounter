@@ -451,7 +451,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	 * 
 	 * @param obj
 	 */
-	public void addComboItem(T obj) {
+	private void addComboItem(T obj) {
 
 		if (!hasItem(obj)) {
 			addItem(obj);
@@ -568,7 +568,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		this.grid = grid;
 	}
 
-	public void removeComboItem(T coreObject) {
+	private void removeComboItem(T coreObject) {
 
 		int index = getObjectIndex(coreObject);
 		if (index >= 0) {
@@ -593,12 +593,12 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		return comboItems.indexOf(coreObject);
 	}
 
-	public void updateComboItem(T coreObject) {
-		if (getObjectIndex(coreObject) != -1) {
-			removeComboItem(coreObject);
-			addComboItem(coreObject);
-		}
-	}
+//	public void updateComboItem(T coreObject) {
+//		if (getObjectIndex(coreObject) != -1) {
+//			removeComboItem(coreObject);
+//			addComboItem(coreObject);
+//		}
+//	}
 
 	public T getSelectedValue() {
 		return selectedObject;

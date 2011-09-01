@@ -13,7 +13,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -1243,33 +1242,6 @@ public class WriteChequeView extends
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		switch (command) {
-		case AccounterCommand.CREATION_SUCCESS:
-		case AccounterCommand.UPDATION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.bankAccSelect.addComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.PAYEE) {
-				this.paytoSelect.addComboItem((ClientPayee) core);
-			}
-
-			break;
-		case AccounterCommand.DELETION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.bankAccSelect.removeComboItem((ClientAccount) core);
-
-			if (core.getObjectType() == AccounterCoreType.PAYEE) {
-				this.paytoSelect.removeComboItem((ClientPayee) core);
-			}
-
-			break;
-
-		}
-	}
 
 	public void onEdit() {
 		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {

@@ -98,10 +98,6 @@ public class EditProfileDialog extends BaseDialog<ClientUserInfo> {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-	}
 
 	@Override
 	protected boolean onOK() {

@@ -46,13 +46,7 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
+	public void deleteSuccess(IAccounterCore result) {
 		// TODO Auto-generated method stub
 
 	}
@@ -175,15 +169,15 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 			defaultItem.setComboItem(unitData.getType());
 			return;
 		}
-		defaultItem.addComboItem(unitData.getType());
+		// defaultItem.addComboItem(unitData.getType());
 	}
 
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		
-		//validate measurement name?
-		//validate units grid
+
+		// validate measurement name?
+		// validate units grid
 		if (nameItem.getValue().toString() == null
 				|| nameItem.getValue().toString().isEmpty()) {
 			result.addError(nameItem, Accounter.constants()
