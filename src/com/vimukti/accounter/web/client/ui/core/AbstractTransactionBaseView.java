@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -32,6 +33,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
@@ -51,6 +53,7 @@ import com.vimukti.accounter.web.client.ui.banking.WriteChequeView;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
 import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.LocationCombo;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
@@ -127,6 +130,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	// /**
 	// * // * The Transaction Grid meant to Serve in all Transactions //
 	// */
+	protected AbstractTransactionGrid<ClientTransactionItem> vendorTransactionGrid,
+			customerTransactionGrid;
+	// /**
+	// * // * The Transaction Grid meant to Serve in all Transactions //
+	// */
 	// protected AbstractTransactionGrid<ClientTransactionItem>
 	// vendorTransactionGrid,
 	// customerTransactionGrid;
@@ -142,8 +150,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected ClientVendor vendor;
 
 	// protected CurrencyWidget currencyWidget;
+	private ClientLocation location;
 
-	// protected int gridType;
+	protected LocationCombo locationCombo;
+	protected int gridType;
 
 	protected Button recurringButton;
 
@@ -1028,6 +1038,72 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	/**
+	 * For Location Combo
+	 * 
+	 * @return
+	 */
+	protected LocationCombo createLocationCombo() {
+		LocationCombo locationCombo = new LocationCombo(Accounter.messages()
+				.location(Global.get().Location()));
+		locationCombo.setHelpInformation(true);
+		locationCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientLocation>() {
+
+					@Override
+					public void selectedComboBoxItem(ClientLocation selectItem) {
+						locationSelected(selectItem);
+					}
+				});
+
+		locationCombo
+				.addNewLocationHandler(new ValueCallBack<ClientLocation>() {
+					@Override
+					public void execute(ClientLocation value) {
+						addLoactionToTransaction(value);
+
+					}
+
+				});
+		locationCombo.setDisabled(isInViewMode());
+		return locationCombo;
+
+	}
+
+	/**
+	 * add location to transaction.
+	 * 
+	 * @param location
+	 */
+	private void addLoactionToTransaction(final ClientLocation location) {
+
+		// transaction.setLocation(location.getID());
+		AccounterAsyncCallback<Long> asyncallBack = new AccounterAsyncCallback<Long>() {
+
+			public void onException(AccounterException caught) {
+				caught.printStackTrace();
+			}
+
+			public void onResultSuccess(Long result) {
+				Utility.updateClientList(location, getCompany().getLocations());
+				location.setID(result);
+				locationSelected(location);
+			}
+
+		};
+		Accounter.createCRUDService().create(location, asyncallBack);
+	}
+
+	/**
+	 * 
+	 * @param selectItem
+	 */
+	protected void locationSelected(ClientLocation selectItem) {
+		this.location = selectItem;
+		if (location != null)
+			locationCombo.setComboItem(this.location);
+	}
+
+	/**
 	 * Updates the Transaction Obejct from the GUI Fields before saving.
 	 */
 	protected void updateTransaction() {
@@ -1040,7 +1116,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				transaction.setNumber(transactionNumber.getValue().toString());
 			processTransactionItems();
 			transaction.setTransactionItems(transactionItems);
-			// transactionObject.setModifiedOn(new Date());
+			if (location != null)
+				transaction.setLocation(location.getID());
 		}
 	}
 

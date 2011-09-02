@@ -62,7 +62,6 @@ public class IssuePaymentView extends BaseDialog {
 		createControls();
 		getPayFromAccounts();
 		setTransactionNumber();
-
 		fillGrid();
 		center();
 	}

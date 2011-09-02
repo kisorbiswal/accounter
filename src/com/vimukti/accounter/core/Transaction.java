@@ -99,7 +99,7 @@ public abstract class Transaction extends CreatableObject implements
 	FinanceDate clonedTransactionDate;
 	String number = "0";
 	boolean isDefault;
-
+	private Location location;
 	private String currencyCode;
 
 	private RecurringTransaction recurringTransaction;
@@ -130,6 +130,7 @@ public abstract class Transaction extends CreatableObject implements
 	/**
 	 * Some of the transactions are able to create a {@link CreditsAndPayments}.
 	 */
+
 	@SpecialReference
 	@ReffereredObject
 	CreditsAndPayments creditsAndPayments;
@@ -1113,8 +1114,8 @@ public abstract class Transaction extends CreatableObject implements
 			throws AccounterException {
 
 		if (isVoidBefore() || isDeleted()) {
-			throw new AccounterException(AccounterException.ERROR_CANT_VOID);
-			// AccounterException.ERROR_NO_SUCH_OBJECT);
+			throw new AccounterException(
+					AccounterException.ERROR_NO_SUCH_OBJECT);
 			// "This Transaction  is already voided or Deleted, can't Modify");
 		}
 
@@ -1140,6 +1141,10 @@ public abstract class Transaction extends CreatableObject implements
 		return recurringTransaction;
 	}
 
+	public Location getLocation() {
+		return location;
+	}
+
 	@Override
 	public Transaction clone() throws CloneNotSupportedException {
 		Transaction clone = (Transaction) super.clone();
@@ -1156,6 +1161,10 @@ public abstract class Transaction extends CreatableObject implements
 		clone.setRecurringTransaction(null);
 
 		return clone;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 
 	public void resetID() {

@@ -35,6 +35,7 @@ import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
+import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeList;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeListDetail;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
@@ -1183,6 +1184,29 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		return trialbalanceList;
 	}
 
+	public ArrayList<ProfitAndLossByLocation> getProfitAndLossByLocationReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+		ArrayList<ProfitAndLossByLocation> profitAndLossByLocationList = new ArrayList<ProfitAndLossByLocation>();
+
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
+
+		try {
+			profitAndLossByLocationList = getFinanceTool()
+					.getProfitAndLossByLocation(financeDates[0],
+							financeDates[1]);
+			ProfitAndLossByLocation obj = new ProfitAndLossByLocation();
+			if (profitAndLossByLocationList != null)
+				profitAndLossByLocationList
+						.add((ProfitAndLossByLocation) setStartEndDates(obj,
+								financeDates));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return profitAndLossByLocationList;
+	}
 
 	@Override
 	public ArrayList<SalesByLocationDetails> getSalesByLocationDetailsReport(
@@ -1219,7 +1243,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 			salesByLocationDetailList = getFinanceTool()
-					.getSalesByLocationDetailForLocation(locationName,financeDates[0], financeDates[1]);
+					.getSalesByLocationDetailForLocation(locationName,
+							financeDates[0], financeDates[1]);
 			SalesByLocationDetails obj = new SalesByLocationDetails();
 			if (salesByLocationDetailList != null)
 				salesByLocationDetailList

@@ -80,6 +80,7 @@ import com.vimukti.accounter.core.InvoicePDFTemplete;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.ItemGroup;
 import com.vimukti.accounter.core.JournalEntry;
+import com.vimukti.accounter.core.Location;
 import com.vimukti.accounter.core.MakeDeposit;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.ObjectConvertUtil;
@@ -190,6 +191,7 @@ import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
+import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeList;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeListDetail;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
@@ -10077,7 +10079,8 @@ public class FinanceTool {
 
 		company.setBrandingTheme(new ArrayList<BrandingTheme>(session
 				.getNamedQuery("list.BrandingTheme").list()));
-
+		company.setLocations(new ArrayList<Location>(session.getNamedQuery(
+				"list.locations").list()));
 		company = company.toCompany(company);
 		ClientConvertUtil clientConvertUtil = new ClientConvertUtil();
 		ClientCompany clientCompany = clientConvertUtil.toClientObject(company,
@@ -12466,4 +12469,75 @@ public class FinanceTool {
 
 	}
 
+	/**
+	 * For profit and loss by location query.
+	 * 
+	 * @param startDate
+	 * @param endDate
+	 * @return {@link ArrayList<ProfitAndLossByLocation>}
+	 */
+	public ArrayList<ProfitAndLossByLocation> getProfitAndLossByLocation(
+			FinanceDate startDate, FinanceDate endDate) {
+		Session session = HibernateUtil.getCurrentSession();
+
+		FinanceDate startDate1 = ((FinanceDate) ((session
+				.getNamedQuery("getFiscalYear.by.check.isCurrentFiscalYearistrue"))
+				.list().get(0)));
+
+		/*
+		 * Here endDate1 is used to store the previous month of endDate value
+		 */
+		int year = endDate.getYear();
+		int month = endDate.getMonth() - 1;
+		year = (month == 0) ? year - 1 : year;
+		month = (month == 0) ? 12 : month;
+		FinanceDate endDate1 = new FinanceDate(year, month, 31);
+
+		if (year != startDate1.getYear())
+			startDate1 = new FinanceDate(year, 01, 01);
+
+		List l = ((Query) session.getNamedQuery("getProfitAndLossByLocation")
+
+		.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())).list();
+		Object[] object = null;
+		Iterator iterator = l.iterator();
+		List<ProfitAndLossByLocation> queryResult = new ArrayList<ProfitAndLossByLocation>();
+		long previousAccountID = 0;
+		while (iterator.hasNext()) {
+			object = (Object[]) iterator.next();
+			long accountId = ((BigInteger) object[0]).longValue();
+			if (previousAccountID == 0 || previousAccountID != accountId) {
+				previousAccountID = accountId;
+				ProfitAndLossByLocation record = new ProfitAndLossByLocation();
+				record.setAccountId(accountId == 0 ? 0 : accountId);
+				record.setAccountName(object[1] == null ? null
+						: (String) object[1]);
+				record.setAccountNumber(object[2] == null ? null
+						: (String) object[2]);
+				record.setAccountType(object[3] == null ? 0
+						: ((Integer) object[3]).intValue());
+
+				long location = object[4] == null ? 0
+						: ((BigInteger) object[4]).longValue();
+				double amount = object[5] == null ? 0 : (Double) object[5];
+
+				record.getMap().put(location, amount);
+				record.setParentAccount(object[6] == null ? 0
+						: ((BigInteger) object[6]).longValue());
+				queryResult.add(record);
+			} else {
+				ProfitAndLossByLocation record = queryResult.get(queryResult
+						.size() - 1);
+				long location = object[4] == null ? 0
+						: ((BigInteger) object[4]).longValue();
+				double amount = object[5] == null ? 0 : (Double) object[5];
+				/* + record.getMap().get(location) */;
+				record.getMap().get(location);
+				record.getMap().put(location, amount);
+			}
+		}
+
+		return new ArrayList<ProfitAndLossByLocation>(queryResult);
+	}
 }

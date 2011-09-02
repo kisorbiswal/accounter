@@ -45,7 +45,6 @@ import com.vimukti.accounter.web.client.ui.forms.LinkItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
-import com.vimukti.accounter.web.client.ui.grids.VendorTransactionGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 /**
@@ -78,7 +77,7 @@ public class VendorBillView extends
 
 	private ArrayList<DynamicForm> listforms;
 	private ArrayList<ClientTransaction> selectedOrdersAndItemReceipts;
-	private VendorTransactionGrid vendorTransactionGrid;
+	private boolean locationTrackingEnabled;
 
 	private VendorBillView() {
 		super(ClientTransaction.TYPE_ENTER_BILL);
@@ -147,6 +146,9 @@ public class VendorBillView extends
 			vendorTransactionGrid.setCanEdit(false);
 
 		}
+		if (locationTrackingEnabled)
+			locationSelected(getCompany()
+					.getLocation(transaction.getLocation()));
 
 		super.initTransactionViewData();
 		initPaymentTerms();
@@ -299,7 +301,8 @@ public class VendorBillView extends
 
 	@Override
 	protected void createControls() {
-
+		locationTrackingEnabled = getCompany().getPreferences()
+				.isLocationTrackingEnabled();
 		// setTitle(UIUtils.title(Accounter.constants().vendorBill()));
 		Label lab1;
 		// if (transactionObject == null
@@ -332,10 +335,15 @@ public class VendorBillView extends
 		transactionNumber.setTitle(Accounter.constants().invNo());
 		listforms = new ArrayList<DynamicForm>();
 
+		locationCombo = createLocationCombo();
+		locationCombo.setHelpInformation(true);
+
 		DynamicForm dateNoForm = new DynamicForm();
-		dateNoForm.setNumCols(4);
+		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
+		if (locationTrackingEnabled)
+			dateNoForm.setFields(locationCombo);
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
@@ -453,7 +461,7 @@ public class VendorBillView extends
 				+ UIUtils.getCurrencySymbol() + " 0.00");
 
 		menuButton = createAddNewButton();
-		vendorTransactionGrid = new VendorTransactionGrid();
+		vendorTransactionGrid = getGrid();
 		vendorTransactionGrid.setTransactionView(this);
 		vendorTransactionGrid.setCanEdit(true);
 		vendorTransactionGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
@@ -1017,6 +1025,8 @@ public class VendorBillView extends
 		vendorTransactionGrid.setCanEdit(true);
 		balanceDueNonEditableText.setDisabled(true);
 		memoTextAreaItem.setDisabled(isInViewMode());
+		if (locationTrackingEnabled)
+			locationCombo.setDisabled(isInViewMode());
 		vendorTDSTaxCode.setDisabled(isInViewMode());
 
 		super.onEdit();
@@ -1062,6 +1072,7 @@ public class VendorBillView extends
 
 	@Override
 	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
-		return vendorTransactionGrid;
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -106,12 +106,17 @@ public class WriteChequeView extends
 
 	private VerticalPanel vPanel;
 
+	private boolean locationTrackingEnabled;
+
 	private CustomerTransactionGrid transactionCustomerGrid;
 	private VendorTransactionGrid transactionVendorGrid;
 
 	private WriteChequeView() {
 		super(ClientTransaction.TYPE_WRITE_CHECK);
 		this.company = getCompany();
+		locationTrackingEnabled = getCompany().getPreferences()
+				.isLocationTrackingEnabled();
+
 	}
 
 	public static WriteChequeView getInstance() {
@@ -647,16 +652,19 @@ public class WriteChequeView extends
 			lab1.setText(Accounter.constants().taxAgentPayment());
 
 		transactionNumber = createTransactionNumberItem();
-
+		locationCombo = createLocationCombo();
+		locationCombo.setHelpInformation(isInViewMode());
 		date = createTransactionDateItem();
 		date.setShowTitle(false);
 		date.setColSpan(2);
 		date.setDisabled(isInViewMode());
 
 		numForm = new DynamicForm();
-		numForm.setNumCols(4);
+		numForm.setNumCols(6);
 		numForm.addStyleName("datenumber-panel");
 		numForm.setFields(date, transactionNumber);
+		if (locationTrackingEnabled)
+			numForm.setFields(locationCombo);
 		nHPanel = new VerticalPanel();
 		nHPanel.setCellHorizontalAlignment(numForm,
 				HasHorizontalAlignment.ALIGN_RIGHT);
@@ -820,6 +828,7 @@ public class WriteChequeView extends
 		vatPanel.setWidth("100%");
 		vatInclusiveCheck = getVATInclusiveCheckBox();
 		totalTxt = createTransactionTotalNonEditableLabel();
+
 		netAmount = new AmountLabel(Accounter.constants().netAmount());
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setFields(totalTxt, netAmount);
@@ -1273,6 +1282,8 @@ public class WriteChequeView extends
 		toprintCheck.setDisabled(isInViewMode());
 		bankAccSelect.setDisabled(isInViewMode());
 		memoTextAreaItem.setDisabled(false);
+		if (locationTrackingEnabled)
+			locationCombo.setDisabled(isInViewMode());
 		// if (taxAgencyGrid != null) {
 		// taxAgencyGrid.setDisabled(isEdit);
 		// }
@@ -1333,13 +1344,18 @@ public class WriteChequeView extends
 		} else {
 			if (vatinclusiveCheck != null) {
 				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+
 			}
 			initMemoAndReference();
+
 		}
 		initTransactionNumber();
 		initPayToCombo();
 		setDisableFields();
 		initBankaccountCombo();
+		if (locationTrackingEnabled)
+			locationSelected(getCompany()
+					.getLocation(transaction.getLocation()));
 	}
 
 	@Override

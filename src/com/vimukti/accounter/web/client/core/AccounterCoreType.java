@@ -191,9 +191,9 @@ public enum AccounterCoreType implements IsSerializable {
 
 	MEASUREMENT("ClientMeasurement", "Measurement"),
 
-	STOCK_TRANSFER("ClientStockTransfer", "StockTransfer"),
-
-	RECURRING_TRANSACTION("ClientRecurringTransaction", "RecurringTransaction"),
+	STOCK_TRANSFER("ClientStockTransfer", "StockTransfer"), RECURRING_TRANSACTION(
+			"ClientRecurringTransaction", "RecurringTransaction"), LOCATION(
+			"ClientLocation", "Location"),
 
 	ACTIVITY("ClientActivity", "Activity");
 

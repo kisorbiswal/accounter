@@ -39,9 +39,12 @@ public class VendorCreditMemoView extends
 	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
 			.constants();
 	private VendorTransactionGrid vendorTransactionGrid;
+	private boolean locationTrackingEnabled;
 
 	private VendorCreditMemoView() {
 		super(ClientTransaction.TYPE_VENDOR_CREDIT_MEMO);
+		locationTrackingEnabled = getCompany().getPreferences()
+				.isLocationTrackingEnabled();
 	}
 
 	@Override
@@ -93,6 +96,9 @@ public class VendorCreditMemoView extends
 			}
 			vendorTransactionGrid.setCanEdit(false);
 		}
+		if (locationTrackingEnabled)
+			locationSelected(getCompany()
+					.getLocation(transaction.getLocation()));
 		initMemoAndReference();
 		super.initTransactionViewData();
 
@@ -130,11 +136,13 @@ public class VendorCreditMemoView extends
 		transactionNumber.setTitle(Accounter.constants().creditNoteNo());
 
 		listforms = new ArrayList<DynamicForm>();
-
+		locationCombo = createLocationCombo();
 		DynamicForm dateNoForm = new DynamicForm();
-		dateNoForm.setNumCols(4);
+		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
+		if (locationTrackingEnabled)
+			dateNoForm.setFields(locationCombo);
 		VerticalPanel datepanel = new VerticalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
@@ -494,6 +502,8 @@ public class VendorCreditMemoView extends
 		transactionNumber.setDisabled(isInViewMode());
 		vendorTransactionGrid.setDisabled(isInViewMode());
 		vendorTransactionGrid.setCanEdit(true);
+		if (locationTrackingEnabled)
+			locationCombo.setDisabled(isInViewMode());
 
 		super.onEdit();
 	}

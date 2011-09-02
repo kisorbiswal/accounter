@@ -135,8 +135,10 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	String taxId;
 
 	int fiscalYearStarting;
+
 	int industry;
 
+	private ArrayList<Location> locations;
 	/**
 	 * Each company have it's own preferences. This will hold all the
 	 * preferences related to the company.
@@ -4371,6 +4373,8 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 		cmp.usersList = this.getUsersList();
 
+		cmp.locations = this.getLocations();
+
 		return cmp;
 	}
 
@@ -4584,6 +4588,14 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 	public void setCashDiscountsTaken(Account cashDiscountsTaken) {
 		this.cashDiscountsTaken = cashDiscountsTaken;
+	}
+
+	public ArrayList<Location> getLocations() {
+		return locations;
+	}
+
+	public void setLocations(ArrayList<Location> arrayList) {
+		this.locations = arrayList;
 	}
 
 }

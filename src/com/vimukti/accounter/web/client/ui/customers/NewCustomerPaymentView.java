@@ -32,7 +32,6 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -70,9 +69,12 @@ public class NewCustomerPaymentView extends
 	protected String checkNumber = null;
 	protected TextItem checkNo;
 	boolean isChecked = false;
+	private boolean locationTrackingEnabled;
 
 	public NewCustomerPaymentView() {
 		super(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
+		locationTrackingEnabled = getCompany().getPreferences()
+				.isLocationTrackingEnabled();
 	}
 
 	@Override
@@ -245,6 +247,9 @@ public class NewCustomerPaymentView extends
 		// .toBePrinted());
 		// printCheck.setValue(true);
 		// }
+		if (locationTrackingEnabled)
+			locationSelected(getCompany()
+					.getLocation(transaction.getLocation()));
 		initMemoAndReference();
 		initTransactionNumber();
 		initCustomers();
@@ -353,11 +358,13 @@ public class NewCustomerPaymentView extends
 		transactionNumber = createTransactionNumberItem();
 
 		listforms = new ArrayList<DynamicForm>();
-
+		locationCombo = createLocationCombo();
 		DynamicForm dateNoForm = new DynamicForm();
-		dateNoForm.setNumCols(4);
+		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
+		if (locationTrackingEnabled)
+			dateNoForm.setFields(locationCombo);
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
@@ -659,9 +666,7 @@ public class NewCustomerPaymentView extends
 
 			@Override
 			public void onException(AccounterException caught) {
-				int errorCode = caught.getErrorCode();
-				Accounter.showError(AccounterExceptions
-						.getErrorString(errorCode));
+				Accounter.showError(caught.getMessage());
 			}
 
 			@Override
@@ -692,6 +697,8 @@ public class NewCustomerPaymentView extends
 			checkNo.setDisabled(true);
 		}
 		memoTextAreaItem.setDisabled(false);
+		if (locationTrackingEnabled)
+			locationCombo.setDisabled(isInViewMode());
 		super.onEdit();
 	}
 

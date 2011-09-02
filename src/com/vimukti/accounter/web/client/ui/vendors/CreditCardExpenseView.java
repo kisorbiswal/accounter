@@ -28,7 +28,6 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -93,12 +92,15 @@ public class CreditCardExpenseView extends
 	protected TextAreaItem billToAreaItem;
 	private List<ClientAccount> listOfAccounts;
 
+	private boolean locationTrackingEnabled;
+
 	private VendorTransactionGrid vendorTransactionGrid;
 
 	public CreditCardExpenseView() {
 
 		super(ClientTransaction.TYPE_CREDIT_CARD_EXPENSE);
-
+		locationTrackingEnabled = getCompany().getPreferences()
+				.isLocationTrackingEnabled();
 	}
 
 	//
@@ -259,7 +261,6 @@ public class CreditCardExpenseView extends
 				selectedVendor = selectItem;
 				Ccard.setComboItem(selectItem);
 				addPhonesContactsAndAddress();
-				initContacts(selectItem);
 			}
 		});
 
@@ -298,12 +299,13 @@ public class CreditCardExpenseView extends
 		transactionNumber = createTransactionNumberItem();
 
 		listforms = new ArrayList<DynamicForm>();
-
+		locationCombo = createLocationCombo();
 		DynamicForm dateNoForm = new DynamicForm();
-		dateNoForm.setNumCols(4);
+		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
-
+		if (locationTrackingEnabled)
+			dateNoForm.setFields(locationCombo);
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 
 		VerticalPanel regPanel = new VerticalPanel();
@@ -642,7 +644,11 @@ public class CreditCardExpenseView extends
 			vendorTransactionGrid.removeAllRecords();
 			vendorTransactionGrid.setAllTransactionItems(transaction
 					.getTransactionItems());
+
 		}
+		if (locationTrackingEnabled)
+			locationSelected(getCompany()
+					.getLocation(transaction.getLocation()));
 		initMemoAndReference();
 		initTransactionNumber();
 		addVendorsList();
@@ -861,9 +867,7 @@ public class CreditCardExpenseView extends
 
 			@Override
 			public void onException(AccounterException caught) {
-				int errorCode = caught.getErrorCode();
-				Accounter.showError(AccounterExceptions
-						.getErrorString(errorCode));
+				Accounter.showError(caught.getMessage());
 			}
 
 			@Override
@@ -899,6 +903,8 @@ public class CreditCardExpenseView extends
 		vendorTransactionGrid.setCanEdit(true);
 		memoTextAreaItem.setDisabled(isInViewMode());
 		vendorTransactionGrid.setDisabled(isInViewMode());
+		if (locationTrackingEnabled)
+			locationCombo.setDisabled(isInViewMode());
 		super.onEdit();
 	}
 

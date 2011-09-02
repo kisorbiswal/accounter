@@ -73,10 +73,15 @@ public class SalesOrderView extends
 	private TextAreaItem billToTextArea;
 	private ShipToForm shipToAddress;
 
+	private boolean locationTrackingEnabled;
+
 	private SalesOrderGrid customerTransactionGrid;
 
 	public SalesOrderView() {
 		super(ClientTransaction.TYPE_SALES_ORDER);
+		locationTrackingEnabled = getCompany().getPreferences()
+				.isLocationTrackingEnabled();
+
 	}
 
 	@Override
@@ -116,14 +121,15 @@ public class SalesOrderView extends
 		transactionNumber = createTransactionNumberItem();
 		transactionNumber.setTitle(Accounter.constants().orderNo());
 		transactionNumber.setWidth(50);
-
+		locationCombo = createLocationCombo();
 		listforms = new ArrayList<DynamicForm>();
 
 		DynamicForm dateNoForm = new DynamicForm();
 		dateNoForm.setNumCols(6);
 		dateNoForm.addStyleName("date-number");
 		dateNoForm.setFields(statusSelect, transactionDateItem);
-
+		if (locationTrackingEnabled)
+			dateNoForm.setFields(locationCombo);
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("99%");
 		datepanel.add(dateNoForm);
@@ -601,6 +607,9 @@ public class SalesOrderView extends
 		super.initTransactionViewData();
 		initTransactionNumber();
 		initSalesPersons();
+		if (locationTrackingEnabled)
+			locationSelected(getCompany()
+					.getLocation(transaction.getLocation()));
 	}
 
 	@Override
@@ -1090,6 +1099,8 @@ public class SalesOrderView extends
 		customerTransactionGrid.setCanEdit(true);
 		memoTextAreaItem.setDisabled(isInViewMode());
 		super.onEdit();
+		if (locationTrackingEnabled)
+			locationCombo.setDisabled(isInViewMode());
 	}
 
 	@Override

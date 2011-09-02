@@ -23,7 +23,6 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 			super.setToolTip(Accounter.messages().selectWhichWeHaveInOurCompanyOrAddNew(
 					Global.get().Customer()));
 		initCombo(getCompany().getCustomers());
-
 	}
 
 	@Override
@@ -63,9 +62,4 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 		return null;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		// TODO Auto-generated method stub
-		return super.equals(obj);
-	}
 }

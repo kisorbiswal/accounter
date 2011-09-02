@@ -11,6 +11,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
@@ -26,6 +28,7 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -53,7 +56,8 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	private DecoratedTabPanel tabSet;
-	private VerticalPanel companyLayOut, sysAccountsLayOut, generalLayOut;
+	private VerticalPanel companyLayOut, sysAccountsLayOut, generalLayOut,
+			locationTrackingVerticalLayout;
 	private ClientCompany company;
 	private List<ClientAccount> accounts = new ArrayList<ClientAccount>();
 	private HorizontalPanel hlLayout;
@@ -100,11 +104,17 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 	protected String str;
 
+	private CheckBox locationTrackingCheckBoxItem;
+
+	private int locationTrackingId;
+
 	// private String string;
 
 	private TextAreaItem textareaItem, textareaItem2;
 
 	private LinkedHashMap<Integer, ClientAddress> allAddresses;
+
+	private RadioGroupItem locationTrackingRadioItem;
 
 	public CompanyPreferencesView() {
 		// this.validationCount = 2;
@@ -130,6 +140,14 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 					.getUseAccountNumbers());
 			useCustomertID.setValue(companyPreferences.getUseCustomerId());
 			useVendorId.setValue(companyPreferences.getUseVendorId());
+			if (companyPreferences.isLocationTrackingEnabled()) {
+				locationTrackingVerticalLayout.setVisible(true);
+				locationTrackingCheckBoxItem.setValue(companyPreferences
+						.isLocationTrackingEnabled());
+				locationTrackingRadioItem
+						.setValue(getValueById(companyPreferences
+								.getLocationTrackingId()));
+			}
 			if (companyPreferences.getAgeingFromTransactionDateORDueDate() == CompanyPreferencesView.TYPE_AGEING_FROM_DUEDATE)
 				ageingFromTransactionDateORDueDate.setValue(Accounter
 						.constants().ageingforduedate());
@@ -162,12 +180,13 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			this.emailText.setValue(company.getCompanyEmail());
 			this.bankAccountText.setValue(company.getBankAccountNo());
 			this.sortCodeText.setValue(company.getSortCode());
-			allAddresses.put(ClientAddress.TYPE_COMPANY, company
-					.getTradingAddress());
+
+			allAddresses.put(ClientAddress.TYPE_COMPANY,
+					company.getTradingAddress());
 			setAddressToTextItem(textareaItem, company.getTradingAddress());
 
-			allAddresses.put(ClientAddress.TYPE_COMPANY_REGISTRATION, company
-					.getRegisteredAddress());
+			allAddresses.put(ClientAddress.TYPE_COMPANY_REGISTRATION,
+					company.getRegisteredAddress());
 			setAddressToTextItem(textareaItem2, company.getRegisteredAddress());
 			registrationNumberText.setValue(company.getRegistrationNumber());
 
@@ -313,6 +332,39 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 		this.add(mainLayout);
 		// this.getParent().removeStyleName("main-class-pannel");
+	}
+
+	@SuppressWarnings("deprecation")
+	private VerticalPanel createLocationTrackingCheckboxAndRadioButton() {
+		locationTrackingVerticalLayout = new VerticalPanel();
+		locationTrackingRadioItem = new RadioGroupItem(Accounter.messages()
+				.useTerminologyFor(Global.get().Location()), Accounter
+				.constants().locationGroup());
+		locationTrackingCheckBoxItem = new CheckBox(Accounter.messages()
+				.locationTracking(Global.get().Location()));
+
+		locationTrackingCheckBoxItem.addClickListener(new ClickListener() {
+
+			@Override
+			public void onClick(Widget sender) {
+				locationTrackingVerticalLayout
+						.setVisible(locationTrackingCheckBoxItem.getValue());
+			}
+		});
+		locationTrackingRadioItem.setValues(getLocationClickHandler(),
+				Accounter.constants().buisiness(), Accounter.constants()
+						.department(), Accounter.constants().location(),
+				Accounter.constants().division(), Accounter.constants()
+						.property(), Accounter.constants().store(), Accounter
+						.constants().territory());
+		locationTrackingRadioItem.setValue(Accounter.messages().location(
+				Global.get().Location()));
+		DynamicForm locationRadioButtonGroupForm = UIUtils.form(Accounter
+				.constants().locationGroup());
+		locationRadioButtonGroupForm.setFields(locationTrackingRadioItem);
+		locationTrackingVerticalLayout.add(locationRadioButtonGroupForm);
+		locationTrackingVerticalLayout.setVisible(false);
+		return locationTrackingVerticalLayout;
 	}
 
 	private HorizontalPanel getCompanyInfo() {
@@ -467,7 +519,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		}
 		vatRegNumber = new TextItem(
 				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-						.constants().vatRegistrationNumber()
+
+				.constants().vatRegistrationNumber()
 						: Accounter.constants().taxRegNo());
 		vatRegNumber.setHelpInformation(true);
 		vatRegNumber.setWidth(100);
@@ -534,9 +587,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// .getPreferences().getIsAccuralBasis() ? "1" : "2" : "1");
 
 		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
-		map
-				.put("1", Accounter.messages().accrualBasis(
-						Global.get().customer()));
+
+		map.put("1", Accounter.messages().accrualBasis(Global.get().customer()));
 		map.put("2", Accounter.messages().cashBasis(Global.get().customer()));
 		paysalesTaxgroupItem.setValueMap(map);
 
@@ -620,8 +672,9 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// switch (this.validationCount) {
 		// case 2:
 		if (!emailText.validate()) {
-			result.addError(emailText, Accounter.messages().pleaseEnter(
-					emailText.getTitle()));
+
+			result.addError(emailText,
+					Accounter.messages().pleaseEnter(emailText.getTitle()));
 		}
 		// return AccounterValidator.validateFormItem(false, emailText);
 		// case 1:
@@ -671,8 +724,10 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		companyPreferences
 				.setAgeingFromTransactionDateORDueDate(ageingFromTransactionDateORDueDate
 						.getValue().toString().equalsIgnoreCase(
-								Accounter.constants().ageingforduedate()) ? CompanyPreferencesView.TYPE_AGEING_FROM_DUEDATE
+
+						Accounter.constants().ageingforduedate()) ? CompanyPreferencesView.TYPE_AGEING_FROM_DUEDATE
 						: CompanyPreferencesView.TYPE_AGEING_FROM_TRANSACTIONDATE);
+
 		if (dateItem.getValue() != null) {
 			companyPreferences.setPreventPostingBeforeDate(dateItem.getValue()
 					.getDate());
@@ -705,7 +760,6 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 					onFailure(null);
 				}
 			}
-
 		};
 		Accounter.createCRUDService().updateCompanyPreferences(preferences,
 				transactionCallBack);
@@ -736,9 +790,15 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		companyPreferences.setUseCustomerId(getBooleanValue(useCustomertID));
 		companyPreferences.setUseVendorId(getBooleanValue(useVendorId));
 		companyPreferences
+				.setLocationTrackingEnabled(locationTrackingCheckBoxItem
+						.getValue());
+		if (locationTrackingCheckBoxItem.getValue())
+			companyPreferences.setLocationTrackingId(getLocationTrackingId());
+		companyPreferences
 				.setAgeingFromTransactionDateORDueDate(ageingFromTransactionDateORDueDate
 						.getValue().toString().equalsIgnoreCase(
-								Accounter.constants().ageingforduedate()) ? CompanyPreferencesView.TYPE_AGEING_FROM_DUEDATE
+
+						Accounter.constants().ageingforduedate()) ? CompanyPreferencesView.TYPE_AGEING_FROM_DUEDATE
 						: CompanyPreferencesView.TYPE_AGEING_FROM_TRANSACTIONDATE);
 		if (dateItem.getValue() != null) {
 			companyPreferences.setPreventPostingBeforeDate(dateItem.getValue()
@@ -801,6 +861,11 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 	}
 
+	private long getLocationId() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 	@Override
 	public void saveSuccess(IAccounterCore result) {
 		if (result != null || isCancel == true) {
@@ -846,6 +911,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// initAllCombos(accounts);
 	}
 
+	@SuppressWarnings("deprecation")
 	public VerticalPanel getCompanyTab() {
 
 		companyLayOut = new VerticalPanel();
@@ -1010,11 +1076,83 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// vatRegNumber.setDisabled(true);
 
 		/**
+		 * Add Location Tracking Option
+		 */
+		// DynamicForm locationForm = UIUtils.form(Accounter.messages()
+		// .locationTracking(Global.get().Location()));
+		VerticalPanel createLocationTrackingCheckboxAndRadioButton = createLocationTrackingCheckboxAndRadioButton();
+
+		// locationTrackingVerticalLayout = new VerticalPanel();
+		// locationTrackingCheckBoxItem = new CheckBox();
+		// locationTrackingCheckBoxItem.setText(Accounter.messages()
+		// .locationTracking(Global.get().Location()));
+		// locationTrackingCheckBoxItem.addClickListener(new ClickListener() {
+		// @Override
+		// public void onClick(Widget sender) {
+		// boolean isChecked = locationTrackingCheckBoxItem.getValue();
+		// if (isChecked) {
+		// showRadioButtonGroup();
+		// } else {
+		// hideRadioButtonGroup();
+		// }
+		// }
+		// });
+		// locationTrackingCheckBox = new CheckboxItem();
+		// locationTrackingVerticalLayout.add(locationTrackingCheckBoxItem);
+		// locationTrackingCheckBox.addChangedHandler(new ChangeHandler() {
+		//
+		// @Override
+		// public void onChange(ChangeEvent event) {
+		// boolean isChecked = locationTrackingCheckBox.getValue();
+		// if (isChecked) {
+		// showRadioButtonGroup(companyLayOut);
+		// locationTrackingCheckBox.setDisabled(false);
+		// } else {
+		// hideRadioButtonGroup();
+		// locationTrackingCheckBox.setDisabled(true);
+		// }
+		// }
+		// });
+
+		// locationTrackingCheckBox.addChangeHandler(new ChangeHandler() {
+		//
+		// @Override
+		// public void onChange(ChangeEvent event) {
+		// boolean isChecked = locationTrackingCheckBox.getValue();
+		// if (isChecked) {
+		// showRadioButtonGroup(companyLayOut);
+		// locationTrackingCheckBox.setDisabled(false);
+		// } else {
+		// hideRadioButtonGroup();
+		// locationTrackingCheckBox.setDisabled(true);
+		// }
+		// }
+		// });
+
+		// locationTrackingCheckBox.addChangeHandler(new ChangeHandler() {
+		//
+		// @Override
+		// public void onChange(ChangeEvent event) {
+		// boolean isChecked = locationTrackingCheckBox.getValue();
+		// if (isChecked) {
+		// showRadioButtonGroup(companyLayOut);
+		// locationTrackingCheckBox.setDisabled(false);
+		// } else {
+		// hideRadioButtonGroup();
+		// locationTrackingCheckBox.setDisabled(true);
+		// }
+		//
+		// }
+		// });
+
+		/**
 		 * add all forms to company LayOut
 		 */
 		companyLayOut.add(numbersIdsvForm);
 		companyLayOut.add(fiscalYrForm);
 		companyLayOut.add(accountantTransferForm);
+		companyLayOut.add(locationTrackingCheckBoxItem);
+		companyLayOut.add(createLocationTrackingCheckboxAndRadioButton);
 		// companyLayOut.add(taxesForm);
 		// if (FinanceApplication.getCompany().getAccountingType() ==
 		// ClientCompany.ACCOUNTING_TYPE_US)
@@ -1025,6 +1163,20 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		tab.setHeight("280px");
 		tab.add(companyLayOut);
 		return tab;
+	}
+
+	private ClickHandler getLocationClickHandler() {
+		ClickHandler handler = new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				String locationTracking = locationTrackingRadioItem.getValue()
+						.toString();
+				setLocationTracnaction(locationTracking);
+
+			}
+		};
+		return handler;
 	}
 
 	private ClickHandler getClickHandler() {
@@ -1434,7 +1586,6 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		super.fitToSize(height, width);
 	}
 
-
 	@Override
 	public void onEdit() {
 		setMode(EditMode.EDIT);
@@ -1461,4 +1612,66 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		buttonBar.remove(this.saveAndNewButton);
 	}
 
+	public int getLocationTrackingId() {
+		return locationTrackingId;
+	}
+
+	public void setLocationTrackingId(int locationTrackingId) {
+		this.locationTrackingId = locationTrackingId;
+	}
+
+	/**
+	 * 
+	 * @param locationTracking
+	 */
+	private void setLocationTracnaction(String locationTracking) {
+
+		if (Accounter.constants().location().equalsIgnoreCase(locationTracking)) {
+			setLocationTrackingId(ClientLocation.LOCATION);
+		} else if (Accounter.constants().buisiness()
+				.equalsIgnoreCase(locationTracking)) {
+			setLocationTrackingId(ClientLocation.BUSINESS);
+		} else if (Accounter.constants().department()
+				.equalsIgnoreCase(locationTracking)) {
+			setLocationTrackingId(ClientLocation.DEPARTMENT);
+		} else if (Accounter.constants().division()
+				.equalsIgnoreCase(locationTracking)) {
+			setLocationTrackingId(ClientLocation.DIVISION);
+		} else if (Accounter.constants().property()
+				.equalsIgnoreCase(locationTracking)) {
+			setLocationTrackingId(ClientLocation.PROPERTY);
+		} else if (Accounter.constants().store()
+				.equalsIgnoreCase(locationTracking)) {
+			setLocationTrackingId(ClientLocation.STORE);
+		} else if (Accounter.constants().territory()
+				.equalsIgnoreCase(locationTracking)) {
+			setLocationTrackingId(ClientLocation.TERRITORY);
+		}
+
+	}
+
+	/**
+	 * 
+	 * @param locationTrackingId
+	 * @return
+	 */
+	private String getValueById(long locationTrackingId) {
+		switch ((int) locationTrackingId) {
+		case ClientLocation.LOCATION:
+			return Accounter.constants().location();
+		case ClientLocation.BUSINESS:
+			return Accounter.constants().buisiness();
+		case ClientLocation.DEPARTMENT:
+			return Accounter.constants().department();
+		case ClientLocation.DIVISION:
+			return Accounter.constants().division();
+		case ClientLocation.PROPERTY:
+			return Accounter.constants().property();
+		case ClientLocation.STORE:
+			return Accounter.constants().store();
+		case ClientLocation.TERRITORY:
+			return Accounter.constants().territory();
+		}
+		return null;
+	}
 }

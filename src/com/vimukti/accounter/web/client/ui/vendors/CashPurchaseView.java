@@ -23,7 +23,6 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -34,7 +33,6 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
-import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.grids.VendorTransactionGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
@@ -54,6 +52,7 @@ public class CashPurchaseView extends
 	private TextAreaItem billToAreaItem;
 	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
 			.constants();
+	private boolean locationTrackingEnabled;
 	protected VendorTransactionGrid vendorTransactionGrid;
 
 	public CashPurchaseView() {
@@ -66,7 +65,8 @@ public class CashPurchaseView extends
 
 	@Override
 	protected void createControls() {
-
+		locationTrackingEnabled = getCompany().getPreferences()
+				.isLocationTrackingEnabled();
 		// setTitle(UIUtils.title(vendorConstants.cashPurchase()));
 
 		titlelabel = new Label(Accounter.constants().cashPurchase());
@@ -89,11 +89,13 @@ public class CashPurchaseView extends
 		transactionDateItem.setWidth(100);
 
 		transactionNumber = createTransactionNumberItem();
-
+		locationCombo = createLocationCombo();
 		DynamicForm dateNoForm = new DynamicForm();
-		dateNoForm.setNumCols(4);
+		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
+		if (locationTrackingEnabled)
+			dateNoForm.setFields(locationCombo);
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.add(dateNoForm);
 		datepanel.setCellHorizontalAlignment(dateNoForm,
@@ -409,7 +411,11 @@ public class CashPurchaseView extends
 				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
 			}
 			vendorTransactionGrid.setCanEdit(false);
+
 		}
+		if (locationTrackingEnabled)
+			locationSelected(getCompany()
+					.getLocation(transaction.getLocation()));
 		super.initTransactionViewData();
 		initTransactionNumber();
 		initPayFromAccounts();
@@ -656,9 +662,7 @@ public class CashPurchaseView extends
 
 			@Override
 			public void onException(AccounterException caught) {
-				int errorCode = caught.getErrorCode();
-				Accounter.showError(AccounterExceptions
-						.getErrorString(errorCode));
+				Accounter.showError(caught.getMessage());
 			}
 
 			@Override
@@ -691,6 +695,8 @@ public class CashPurchaseView extends
 		vendorTransactionGrid.setDisabled(isInViewMode());
 		vendorTransactionGrid.setCanEdit(true);
 		memoTextAreaItem.setDisabled(isInViewMode());
+		if (locationTrackingEnabled)
+			locationCombo.setDisabled(isInViewMode());
 		super.onEdit();
 	}
 

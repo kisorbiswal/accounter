@@ -13,11 +13,9 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
-import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -87,9 +85,12 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	protected ClientVendor vendor;
 	protected List<ClientVendor> vendors;
 	protected VendorCombo vendorCombo;
+	private boolean locationTrackingEnabled;
 
 	public PayBillView() {
 		super(ClientTransaction.TYPE_PAY_BILL);
+		locationTrackingEnabled = getCompany().getPreferences()
+				.isLocationTrackingEnabled();
 	}
 
 	/*
@@ -345,6 +346,10 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		Label lab = new Label(Accounter.constants().payBill());
 		lab.removeStyleName("gwt-Label");
 		lab.addStyleName(Accounter.constants().labelTitle());
+
+		locationCombo = createLocationCombo();
+		locationCombo.setHelpInformation(true);
+
 		// lab.setHeight("50px");
 		date = new DateField(Accounter.constants().date());
 		date.setToolTip(Accounter.messages().selectDateWhenTransactioCreated(
@@ -441,13 +446,13 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		// filterForm.setIsGroup(true);
 		// filterForm.setGroupTitle(Accounter.constants().Filter());
 		// filterForm.setFields(dueDate);
-		tdsLabel = new PercentageField(this, Accounter.constants().tds());
-		tdsLabel.setDisabled(true);
 
 		DynamicForm dateForm = new DynamicForm();
-		dateForm.setNumCols(4);
+		dateForm.setNumCols(6);
 		dateForm.setStyleName("datenumber-panel");
 		dateForm.setFields(date, transactionNumber);
+		if (locationTrackingEnabled)
+			dateForm.setFields(locationCombo);
 
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
@@ -477,11 +482,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		balForm.setWidth("100%");
 		balForm.setIsGroup(true);
 		balForm.setGroupTitle(Accounter.constants().balances());
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
-			balForm.setFields(tdsLabel, amtText, endBalText);
-		} else {
-			balForm.setFields(amtText, endBalText);
-		}
+		balForm.setFields(amtText, endBalText);
 
 		Label lab1 = new Label(Accounter.constants().billsDue());
 
@@ -497,6 +498,9 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		memoForm.setFields(memoTextAreaItem);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
+		tdsLabel = new PercentageField(this, "TDS");
+		tdsLabel.setDisabled(true);
+
 		unUsedCreditsText = new AmountLabel(Accounter.constants()
 				.unusedCredits());
 		unUsedCreditsText.setDisabled(true);
@@ -505,7 +509,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		textForm.setNumCols(2);
 		textForm.setWidth("70%");
 		textForm.setStyleName("unused-payments");
-		textForm.setFields(unUsedCreditsText);
+		textForm.setFields(unUsedCreditsText, tdsLabel);
 
 		HorizontalPanel bottompanel = new HorizontalPanel();
 		bottompanel.setWidth("100%");
@@ -581,13 +585,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 	protected void vendorSelected(final ClientVendor vendor) {
 
-		ClientTAXItem taxItem = getCompany()
-				.getTAXItem(vendor.getTaxItemCode());
-		if (taxItem != null) {
-			tdsLabel.setPercentage(taxItem.getTaxRate());
-		} else {
-			tdsLabel.setPercentage(0.0);
-		}
+		tdsLabel.setPercentage(10.0);
 		if (vendor == null) {
 			paybillTransactionList = null;
 			return;
@@ -672,6 +670,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 			payFromCombo.setComboItem(getCompany().getAccount(
 					transaction.getPayFrom()));
+
 			date.setValue(transaction.getDate());
 			date.setDisabled(true);
 			accountSelected(getCompany().getAccount(transaction.getPayFrom()));
@@ -695,6 +694,9 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		// super.initTransactionViewData();
 		initVendors();
 		initTransactionTotalNonEditableItem();
+		if (locationTrackingEnabled)
+			locationSelected(getCompany()
+					.getLocation(transaction.getLocation()));
 		try {
 			this.initMemoAndReference();
 		} catch (Exception e) {
@@ -956,6 +958,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	private void enableFormItems() {
 
 		setMode(EditMode.EDIT);
+		if (locationTrackingEnabled)
+			locationCombo.setDisabled(isInViewMode());
 		date.setDisabled(isInViewMode());
 		vendorCombo.setDisabled(isInViewMode());
 		paymentMethodCombo.setDisabled(isInViewMode());

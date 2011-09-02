@@ -88,6 +88,7 @@ public class ProfitAndLossServerReport extends
 
 	@Override
 	public int[] getColumnTypes() {
+
 		return new int[] { COLUMN_TYPE_NUMBER, COLUMN_TYPE_TEXT,
 				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT,
 				COLUMN_TYPE_AMOUNT };
@@ -148,7 +149,7 @@ public class ProfitAndLossServerReport extends
 			iniHandler();
 
 		if (sectionDepth == 0) {
-			addTypeSection("",getConstants().netOrdinaryIncome());
+			addTypeSection("", getConstants().netOrdinaryIncome());
 		}
 		addOrdinaryIncomeOrExpenseTypes(record);
 		// if (record.getBaseType() ==
@@ -284,14 +285,15 @@ public class ProfitAndLossServerReport extends
 		if (record.getAccountType() == ClientAccount.TYPE_INCOME
 				|| record.getAccountType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD) {
 			if (!sectiontypes.contains("GrossProfit")) {
-				addTypeSection(getConstants().grossProfit(), "",
-						getConstants().grossProfit());
+				addTypeSection(getConstants().grossProfit(), "", getConstants()
+						.grossProfit());
 
 			}
 			if (record.getAccountType() == ClientAccount.TYPE_INCOME)
 				if (!sectiontypes.contains("Income")) {
 
-					addTypeSection(getConstants().income(), getConstants().incomeTotals());
+					addTypeSection(getConstants().income(), getConstants()
+							.incomeTotals());
 				}
 			if (record.getAccountType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD)
 				if (!sectiontypes.contains("Cost of good Sold")) {
@@ -310,7 +312,8 @@ public class ProfitAndLossServerReport extends
 				for (int i = types.size() - 2; i > 0; i--) {
 					closeSection(i);
 				}
-				addTypeSection(getConstants().otherExpense(), getConstants().otherExpenseTotals());
+				addTypeSection(getConstants().otherExpense(), getConstants()
+						.otherExpenseTotals());
 			}
 		}
 
@@ -318,7 +321,8 @@ public class ProfitAndLossServerReport extends
 
 			if (!sectiontypes.contains("Expense")) {
 				closeAllSection();
-				addTypeSection(getConstants().expense(), getConstants().expenseTotals());
+				addTypeSection(getConstants().expense(), getConstants()
+						.expenseTotals());
 			}
 		}
 
@@ -344,7 +348,8 @@ public class ProfitAndLossServerReport extends
 				for (int i = types.size() - 2; i > 0; i--) {
 					closeSection(i);
 				}
-				addTypeSection(getConstants().otherExpense(), getConstants().otherExpenseTotals());
+				addTypeSection(getConstants().otherExpense(), getConstants()
+						.otherExpenseTotals());
 			}
 		}
 
@@ -367,8 +372,8 @@ public class ProfitAndLossServerReport extends
 			// System.out.println("Add:" + curentParent);
 			addSection(
 					record.getAccountNumber() + "-" + record.getAccountName(),
-					record.getAccountName() + "  "
-							+ getConstants().total(), new int[] { 3, 5 });
+					record.getAccountName() + "  " + getConstants().total(),
+					new int[] { 3, 5 });
 			return true;
 		}
 		return false;
@@ -528,5 +533,5 @@ public class ProfitAndLossServerReport extends
 				lastDay);
 		// return lastDay;
 	}
-	
+
 }

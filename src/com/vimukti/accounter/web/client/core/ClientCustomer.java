@@ -75,6 +75,8 @@ public class ClientCustomer extends ClientPayee {
 
 	double lifeTimeSales = 0D;
 
+	private ClientLocation location;
+
 	public ClientCustomer() {
 	}
 
@@ -544,4 +546,5 @@ public class ClientCustomer extends ClientPayee {
 		}
 		return false;
 	}
+
 }

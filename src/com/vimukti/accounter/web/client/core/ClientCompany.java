@@ -133,7 +133,7 @@ public class ClientCompany implements IAccounterCore {
 	private ArrayList<ClientCustomer> customers;
 
 	private ArrayList<ClientVendor> vendors;
-
+	private ArrayList<ClientLocation> locations;
 	// private ArrayList<ClientTaxAgency> taxAgencies;
 
 	private ArrayList<ClientItem> items;
@@ -1415,6 +1415,14 @@ public class ClientCompany implements IAccounterCore {
 		Accounter.getEventBus().fireEvent(event);
 	}
 
+	private void deleteLocation(long locationId) {
+		this.locations.remove(this.getLocation(locationId));
+	}
+
+	public ClientLocation getLocation(long locationId) {
+		return Utility.getObject(this.locations, locationId);
+	}
+
 	public void deleteTaxGroup(long taxGroup) {
 		ClientTAXGroup clientTaxGroup = this.getTaxGroup(taxGroup);
 		if (clientTaxGroup != null) {
@@ -1804,6 +1812,11 @@ public class ClientCompany implements IAccounterCore {
 				ClientFixedAsset fixedAsset = (ClientFixedAsset) accounterCoreObject;
 				Utility.updateClientList(fixedAsset, fixedAssets);
 				break;
+			case LOCATION:
+				ClientLocation clientLocation = (ClientLocation) accounterCoreObject;
+				Utility.updateClientList(clientLocation, locations);
+				break;
+
 			// case VATITEM:
 			// ClientTAXItem vatItem = (ClientTAXItem)
 			// accounterCoreObject;
@@ -1974,9 +1987,10 @@ public class ClientCompany implements IAccounterCore {
 			break;
 
 		case FIXEDASSET:
-			
 			deleteFixedAsset(id);
 			break;
+		case LOCATION:
+			deleteLocation(id);
 		case TAXITEM:
 			deleteTaxItem(id);
 			if (getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK) {
@@ -2753,6 +2767,14 @@ public class ClientCompany implements IAccounterCore {
 			return lastUsedNo;
 		}
 		return -1;
+	}
+
+	public ArrayList<ClientLocation> getLocations() {
+		return locations;
+	}
+
+	public void setLocations(ArrayList<ClientLocation> locations) {
+		this.locations = locations;
 	}
 
 	@Override

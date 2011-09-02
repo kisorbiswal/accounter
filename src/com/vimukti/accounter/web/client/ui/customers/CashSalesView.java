@@ -55,11 +55,14 @@ public class CashSalesView extends
 
 	private ArrayList<DynamicForm> listforms;
 	private ShipToForm shipToAddress;
+	private boolean locationTrackingEnabled;
 	private CustomerTransactionGrid customerTransactionGrid;
 
 	public CashSalesView() {
 
 		super(ClientTransaction.TYPE_CASH_SALES);
+		locationTrackingEnabled = getCompany().getPreferences()
+				.isLocationTrackingEnabled();
 	}
 
 	private void initCashSalesView() {
@@ -72,6 +75,7 @@ public class CashSalesView extends
 
 	@Override
 	protected void createControls() {
+
 		Label lab1 = new Label(Accounter.constants().newCashSale());
 		lab1.setStyleName(Accounter.constants().labelTitle());
 		// lab1.setHeight("35px");
@@ -91,9 +95,12 @@ public class CashSalesView extends
 		listforms = new ArrayList<DynamicForm>();
 
 		DynamicForm dateNoForm = new DynamicForm();
-		dateNoForm.setNumCols(4);
+		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
+		locationCombo = createLocationCombo();
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
+		if (locationTrackingEnabled)
+			dateNoForm.setFields(locationCombo);
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
@@ -550,6 +557,9 @@ public class CashSalesView extends
 			transactionTotalNonEditableText.setAmount(transaction.getTotal());
 			customerTransactionGrid.setCanEdit(false);
 		}
+		if (locationTrackingEnabled)
+			locationSelected(getCompany()
+					.getLocation(transaction.getLocation()));
 		super.initTransactionViewData();
 		initCashSalesView();
 	}
@@ -695,6 +705,8 @@ public class CashSalesView extends
 		priceLevelSelect.setDisabled(isInViewMode());
 		customerTransactionGrid.setDisabled(isInViewMode());
 		customerTransactionGrid.setCanEdit(true);
+		if (locationTrackingEnabled)
+			locationCombo.setDisabled(isInViewMode());
 		super.onEdit();
 	}
 

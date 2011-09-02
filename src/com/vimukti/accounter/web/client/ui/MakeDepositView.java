@@ -29,7 +29,6 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.banking.AbstractBankTransactionView;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.CashBackAccountsCombo;
@@ -120,9 +119,13 @@ public class MakeDepositView extends
 	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
 			.constants();
 
+	private boolean locationTrackingEnabled;
+
 	public MakeDepositView() {
 		super(ClientTransaction.TYPE_MAKE_DEPOSIT);
 		calculatedTotal = 0D;
+		locationTrackingEnabled = getCompany().getPreferences()
+				.isLocationTrackingEnabled();
 	}
 
 	private void setTransactionNumberToMakeDepositObject() {
@@ -657,7 +660,9 @@ public class MakeDepositView extends
 		// gridView.canDelete(true);
 		// FIMXE--need to add this type
 		// gridView.setEditEvent();
-
+		if (locationTrackingEnabled)
+			locationSelected(getCompany()
+					.getLocation(transaction.getLocation()));
 		super.initTransactionViewData();
 
 	}
@@ -682,13 +687,15 @@ public class MakeDepositView extends
 				}
 			}
 		});
+		locationCombo = createLocationCombo();
 		// date.setWidth(100);
 		transNumber = createTransactionNumberItem();
 		DynamicForm dateForm = new DynamicForm();
-		dateForm.setNumCols(4);
+		dateForm.setNumCols(6);
 		dateForm.setStyleName("datenumber-panel");
 		dateForm.setFields(date, transNumber);
-
+		if (locationTrackingEnabled)
+			dateForm.setFields(locationCombo);
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateForm);
@@ -1096,9 +1103,7 @@ public class MakeDepositView extends
 
 			@Override
 			public void onException(AccounterException caught) {
-				int errorCode = caught.getErrorCode();
-				Accounter.showError(AccounterExceptions
-						.getErrorString(errorCode));
+				Accounter.showError(caught.getMessage());
 			}
 
 			@Override
@@ -1130,7 +1135,8 @@ public class MakeDepositView extends
 				.getTransactionMakeDeposit())
 			ctmd.setIsNewEntry(true);
 		// transactionObject = null;
-
+		if (locationTrackingEnabled)
+			locationCombo.setDisabled(isInViewMode());
 	}
 
 	@Override

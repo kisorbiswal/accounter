@@ -91,10 +91,13 @@ public class PurchaseOrderView extends
 	private String CANCELLED = Accounter.constants().cancelled();
 	private DateField despatchDateItem;
 	AccounterConstants accounterConstants = Accounter.constants();
+	private boolean locationTrackingEnabled;
 	private PurchaseOrderGrid vendorTransactionGrid;
 
 	public PurchaseOrderView() {
 		super(ClientTransaction.TYPE_PURCHASE_ORDER);
+		locationTrackingEnabled = getCompany().getPreferences()
+				.isLocationTrackingEnabled();
 	}
 
 	@Override
@@ -131,11 +134,13 @@ public class PurchaseOrderView extends
 		transactionNumber.setWidth(50);
 
 		listforms = new ArrayList<DynamicForm>();
-
+		locationCombo = createLocationCombo();
 		DynamicForm dateNoForm = new DynamicForm();
 		dateNoForm.setNumCols(6);
 		dateNoForm.addStyleName("date-number");
 		dateNoForm.setFields(statusSelect, transactionDateItem);
+		if (locationTrackingEnabled)
+			dateNoForm.setFields(locationCombo);
 
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("98%");
@@ -688,7 +693,9 @@ public class PurchaseOrderView extends
 				break;
 			}
 		}
-
+		if (locationTrackingEnabled)
+			locationSelected(getCompany()
+					.getLocation(transaction.getLocation()));
 	}
 
 	private void initDeliveryDate() {
@@ -1126,7 +1133,8 @@ public class PurchaseOrderView extends
 
 		vendorTransactionGrid.setDisabled(isInViewMode());
 		vendorTransactionGrid.setCanEdit(true);
-
+		if (locationTrackingEnabled)
+			locationCombo.setDisabled(isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
 		super.onEdit();
 	}

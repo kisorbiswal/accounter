@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
+import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeList;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeListDetail;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
@@ -145,6 +146,9 @@ public interface IAccounterReportService extends RemoteService {
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	public ArrayList<TrialBalance> getProfitAndLossReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+	public ArrayList<ProfitAndLossByLocation> getProfitAndLossByLocationReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	public ArrayList<SalesByLocationDetails> getSalesByLocationDetailsReport(

@@ -84,6 +84,7 @@ public class CreditCardChargeView extends
 	protected Label titlelabel;
 	protected TextAreaItem billToAreaItem;
 	private List<ClientAccount> listOfAccounts;
+	private boolean locationTrackingEnabled;
 	private VendorTransactionGrid vendorTransactionGrid;
 
 	public CreditCardChargeView() {
@@ -292,7 +293,11 @@ public class CreditCardChargeView extends
 			vendorTransactionGrid.removeAllRecords();
 			vendorTransactionGrid.setAllTransactionItems(transaction
 					.getTransactionItems());
+
 		}
+		if (locationTrackingEnabled)
+			locationSelected(getCompany()
+					.getLocation(transaction.getLocation()));
 		initMemoAndReference();
 		initTransactionNumber();
 		addVendorsList();
@@ -335,6 +340,9 @@ public class CreditCardChargeView extends
 
 	@Override
 	protected void createControls() {
+		locationTrackingEnabled = getCompany().getPreferences()
+				.isLocationTrackingEnabled();
+
 		titlelabel = new Label(Accounter.constants().creditCardCharge());
 		titlelabel.removeStyleName("gwt-Label");
 		titlelabel.addStyleName(Accounter.constants().labelTitle());
@@ -343,11 +351,13 @@ public class CreditCardChargeView extends
 		transactionNumber = createTransactionNumberItem();
 
 		listforms = new ArrayList<DynamicForm>();
-
+		locationCombo = createLocationCombo();
 		DynamicForm dateNoForm = new DynamicForm();
-		dateNoForm.setNumCols(4);
+		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
+		if (locationTrackingEnabled)
+			dateNoForm.setFields(locationCombo);
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 
@@ -859,6 +869,8 @@ public class CreditCardChargeView extends
 		vendorTransactionGrid.setCanEdit(true);
 		memoTextAreaItem.setDisabled(isInViewMode());
 		vendorTransactionGrid.setDisabled(isInViewMode());
+		if (locationTrackingEnabled)
+			locationCombo.setDisabled(isInViewMode());
 		super.onEdit();
 
 	}

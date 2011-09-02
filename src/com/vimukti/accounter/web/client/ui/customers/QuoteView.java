@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -47,10 +48,13 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	private HorizontalPanel panel;
 
 	private ArrayList<DynamicForm> listforms;
+	private boolean locationTrackingEnabled;
 	private CustomerTransactionGrid customerTransactionGrid;
 
 	public QuoteView() {
 		super(ClientTransaction.TYPE_ESTIMATE);
+		locationTrackingEnabled = getCompany().getPreferences()
+				.isLocationTrackingEnabled();
 
 	}
 
@@ -67,6 +71,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	public QuoteView(ClientCustomer customer) {
 		super(ClientTransaction.TYPE_ESTIMATE);
+		locationTrackingEnabled = ClientCompanyPreferences.get()
+				.isLocationTrackingEnabled();
 	}
 
 	@Override
@@ -215,11 +221,15 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		transactionNumber = createTransactionNumberItem();
 
 		listforms = new ArrayList<DynamicForm>();
+		locationCombo = createLocationCombo();
+		locationCombo.setHelpInformation(true);
 
 		DynamicForm dateNoForm = new DynamicForm();
-		dateNoForm.setNumCols(4);
+		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
+		if (locationTrackingEnabled)
+			dateNoForm.setFields(locationCombo);
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
@@ -557,6 +567,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			deliveryDate.setDisabled(isInViewMode());
 			taxCodeSelect.setDisabled(isInViewMode());
 		}
+		if (locationTrackingEnabled)
+			locationSelected(getCompany()
+					.getLocation(transaction.getLocation()));
 		super.initTransactionViewData();
 		initAllItems();
 	}
@@ -715,6 +728,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		priceLevelSelect.setDisabled(isInViewMode());
 		customerTransactionGrid.setCanEdit(true);
 		customerTransactionGrid.setDisabled(isInViewMode());
+		if (locationTrackingEnabled)
+			locationCombo.setDisabled(isInViewMode());
 		super.onEdit();
 	}
 

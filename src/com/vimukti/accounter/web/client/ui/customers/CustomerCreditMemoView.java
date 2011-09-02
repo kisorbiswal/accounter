@@ -44,10 +44,14 @@ public class CustomerCreditMemoView extends
 
 	private ArrayList<DynamicForm> listforms;
 	private TextAreaItem billToTextArea;
+	private boolean locationTrackingEnabled;
 	private CustomerTransactionGrid customerTransactionGrid;
 
 	public CustomerCreditMemoView() {
+
 		super(ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO);
+		locationTrackingEnabled = getCompany().getPreferences()
+				.isLocationTrackingEnabled();
 	}
 
 	@Override
@@ -86,11 +90,13 @@ public class CustomerCreditMemoView extends
 
 		transactionNumber = createTransactionNumberItem();
 		transactionNumber.setTitle(Accounter.constants().creditNo());
-
+		locationCombo = createLocationCombo();
 		DynamicForm dateNoForm = new DynamicForm();
-		dateNoForm.setNumCols(4);
+		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
+		if (locationTrackingEnabled)
+			dateNoForm.setFields(locationCombo);
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
@@ -378,6 +384,9 @@ public class CustomerCreditMemoView extends
 			customerTransactionGrid.setCanEdit(false);
 		}
 		super.initTransactionViewData();
+		if (locationTrackingEnabled)
+			locationSelected(getCompany()
+					.getLocation(transaction.getLocation()));
 	}
 
 	@Override
@@ -591,6 +600,8 @@ public class CustomerCreditMemoView extends
 		memoTextAreaItem.setDisabled(isInViewMode());
 		customerTransactionGrid.setDisabled(isInViewMode());
 		customerTransactionGrid.setCanEdit(true);
+		if (locationTrackingEnabled)
+			locationCombo.setDisabled(isInViewMode());
 		super.onEdit();
 
 	}

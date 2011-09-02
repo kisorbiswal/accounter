@@ -95,6 +95,7 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_CASHFLOWSTATEMENT = 148;
 	public final static int REPORT_TYPE_AMOUNTSDUETOVENDOR = 149;
 	public final static int REPORT_TYPE_CUSTOMERSTATEMENT = 150;
+	public final static int REPORT_TYPE_PROFITANDLOSSBYLOCATION = 153;
 
 	private static int companyType;
 	private ClientCompanyPreferences preferences = Global.get().preferences();
@@ -933,6 +934,7 @@ public class ReportsGenerator {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
 					ReportUtility.companyType = companyType;
 					return ReportsGenerator.getDateByCompanyType(date);
+
 				}
 			};
 			updateReport(ecSalesListServerReport, finaTool);
@@ -1110,6 +1112,40 @@ public class ReportsGenerator {
 				e.printStackTrace();
 			}
 			return statementReport.getGridTemplate();
+
+		case REPORT_TYPE_PROFITANDLOSSBYLOCATION:
+			ProfitAndLossServerReport profitAndLossBylocationServerReport = new ProfitAndLossServerReport(
+					startDate.getDate(), endDate.getDate(), generationType1) {
+
+				@Override
+				public ClientFinanceDate getCurrentFiscalYearEndDate() {
+					return Utility_R.getCurrentFiscalYearEndDate();
+				}
+
+				@Override
+				public ClientFinanceDate getCurrentFiscalYearStartDate() {
+					return Utility_R.getCurrentFiscalYearStartDate();
+				}
+
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					ReportsGenerator.companyType = Company.getCompany().accountingType;
+					ReportUtility.companyType = companyType;
+					ReportUtility.companyType = companyType;
+					return ReportsGenerator.getDateByCompanyType(date);
+				}
+			};
+			updateReport(profitAndLossBylocationServerReport, finaTool);
+			profitAndLossBylocationServerReport.resetVariables();
+			try {
+				profitAndLossBylocationServerReport
+						.onResultSuccess(reportsSerivce.getProfitAndLossReport(
+								startDate.toClientFinanceDate(),
+								endDate.toClientFinanceDate()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return profitAndLossBylocationServerReport.getGridTemplate();
 		default:
 			break;
 		}
@@ -1222,6 +1258,8 @@ public class ReportsGenerator {
 			return "Amount Due To Vendor Report";
 		case REPORT_TYPE_CUSTOMERSTATEMENT:
 			return "Customer Statement";
+		case REPORT_TYPE_PROFITANDLOSSBYLOCATION:
+			return "Profit and Loss by Location";
 		default:
 			break;
 		}

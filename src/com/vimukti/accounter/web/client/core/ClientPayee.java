@@ -52,6 +52,7 @@ public abstract class ClientPayee implements IAccounterCore {
 	Set<ClientFax> faxNumbers = new HashSet<ClientFax>();
 	Set<ClientEmail> emails = new HashSet<ClientEmail>();
 	Set<ClientContact> contacts = new HashSet<ClientContact>();
+	protected Set<ClientLocation> locations = new HashSet<ClientLocation>();
 	String webPageAddress;
 	boolean isActive = Boolean.TRUE;
 	String memo;
@@ -458,4 +459,5 @@ public abstract class ClientPayee implements IAccounterCore {
 		}
 		return false;
 	}
+
 }

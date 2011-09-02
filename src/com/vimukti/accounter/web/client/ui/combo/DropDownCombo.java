@@ -451,7 +451,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	 * 
 	 * @param obj
 	 */
-	private void addComboItem(T obj) {
+	public void addComboItem(T obj) {
 
 		if (!hasItem(obj)) {
 			addItem(obj);
@@ -575,16 +575,16 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			T selectedValue = getSelectedValue();
 			comboItems.remove(index);
 			dropDown.removeRow(isAddNewRequire ? index + 1 : index + 0);
-			
-			if(!comboItems.contains(selectedValue)){
+
+			if (!comboItems.contains(selectedValue)) {
 				// select the first one
 				try {
-					setSelectedItem(comboItems.get(0), isAddNewRequire ?  1 : 0);
+					setSelectedItem(comboItems.get(0), isAddNewRequire ? 1 : 0);
 				} catch (ArrayIndexOutOfBoundsException e) {
-					setSelectedItem(null, 0); // row optional here.					
+					setSelectedItem(null, 0); // row optional here.
 				}
 			}
-			
+
 		}
 
 	}
@@ -593,12 +593,12 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		return comboItems.indexOf(coreObject);
 	}
 
-//	public void updateComboItem(T coreObject) {
-//		if (getObjectIndex(coreObject) != -1) {
-//			removeComboItem(coreObject);
-//			addComboItem(coreObject);
-//		}
-//	}
+	// public void updateComboItem(T coreObject) {
+	// if (getObjectIndex(coreObject) != -1) {
+	// removeComboItem(coreObject);
+	// addComboItem(coreObject);
+	// }
+	// }
 
 	public T getSelectedValue() {
 		return selectedObject;

@@ -79,10 +79,12 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		implements IPrintableView {
 
 	private CurrencyWidget currencyWidget;
+	private boolean locationTrackingEnabled;
 
 	private InvoiceView() {
 		super(ClientTransaction.TYPE_INVOICE);
-
+		locationTrackingEnabled = getCompany().getPreferences()
+				.isLocationTrackingEnabled();
 	}
 
 	private BrandingThemeCombo brandingThemeTypeCombo;
@@ -101,7 +103,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	HorizontalPanel hpanel;
 	DynamicForm amountsForm;
 	private LinkedHashMap<Integer, ClientAddress> allAddresses;
-
 	private Button emailButton;
 	private CustomerTransactionGrid customerTransactionGrid;
 
@@ -205,10 +206,15 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		brandingThemeTypeCombo = new BrandingThemeCombo(Accounter.constants()
 				.brandingTheme());
 
+		locationCombo = createLocationCombo();
+		locationCombo.setHelpInformation(true);
+
 		DynamicForm dateNoForm = new DynamicForm();
-		dateNoForm.setNumCols(4);
+		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
+		if (locationTrackingEnabled)
+			dateNoForm.setFields(locationCombo);
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
@@ -977,7 +983,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			this.shippingTerm = company.getShippingTerms(transaction
 					.getShippingTerm());
 			initTransactionNumber();
-
 			this.orderNumText
 					.setValue(transaction.getOrderNum() != null ? transaction
 							.getOrderNum() : "");
@@ -1047,7 +1052,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				this.salesTaxTextNonEditable.setValue(String
 						.valueOf(transaction.getSalesTaxAmount()));
 			}
-
+			if (locationTrackingEnabled)
+				locationSelected(company.getLocation(transaction.getLocation()));
 			transactionTotalNonEditableText.setAmount(transaction.getTotal());
 			paymentsNonEditableText.setAmount(transaction.getPayments());
 			balanceDueNonEditableText.setAmount(transaction.getBalanceDue());
@@ -1211,7 +1217,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				for (ClientTransactionItem record : customerTransactionGrid
 						.getRecords()) {
 					record.setTaxItemGroup(taxCode.getID());
-
 				}
 			}
 			transaction.setSalesTaxAmount(this.salesTax);
@@ -1525,6 +1530,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		customerTransactionGrid.setDisabled(isInViewMode());
 		customerTransactionGrid.setCanEdit(true);
+		if (locationTrackingEnabled)
+			locationCombo.setDisabled(isInViewMode());
+
 		super.onEdit();
 
 	}

@@ -66,9 +66,13 @@ public class CustomerRefundView extends
 	protected DynamicForm payForm;
 	AccounterConstants accounterConstants = GWT
 			.create(AccounterConstants.class);
+	private boolean locationTrackingEnabled;
 
 	public CustomerRefundView() {
 		super(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
+		locationTrackingEnabled = getCompany().getPreferences()
+				.isLocationTrackingEnabled();
+
 	}
 
 	public void initPayFromAccounts() {
@@ -142,12 +146,13 @@ public class CustomerRefundView extends
 		transactionNumber = createTransactionNumberItem();
 
 		listforms = new ArrayList<DynamicForm>();
-
+		locationCombo = createLocationCombo();
 		DynamicForm dateNoForm = new DynamicForm();
-		dateNoForm.setNumCols(4);
+		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
-
+		if (locationTrackingEnabled)
+			dateNoForm.setFields(locationCombo);
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setWidth("100%");
 		labeldateNoLayout.add(dateNoForm);
@@ -566,7 +571,9 @@ public class CustomerRefundView extends
 		initRPCService();
 
 		initTransactionNumber();
-
+		if (locationTrackingEnabled)
+			locationSelected(getCompany()
+					.getLocation(transaction.getLocation()));
 		initCustomers();
 
 		initPayFromAccounts();
@@ -702,6 +709,8 @@ public class CustomerRefundView extends
 		// if (((ClientCustomerRefund) transactionObject).getIsToBePrinted()) {
 		// checkNoText.setDisabled(true);
 		// }
+		if (locationTrackingEnabled)
+			locationCombo.setDisabled(isInViewMode());
 		super.onEdit();
 	}
 

@@ -98,9 +98,12 @@ public class ReceivePaymentView extends
 	private ClientCustomer customer;
 	private ClientAccount depositInAccount;
 	private DepositInAccountCombo depositInCombo;
+	private boolean locationTrackingEnabled;
 
 	public ReceivePaymentView() {
 		super(ClientTransaction.TYPE_RECEIVE_PAYMENT);
+		locationTrackingEnabled = getCompany().getPreferences()
+				.isLocationTrackingEnabled();
 
 	}
 
@@ -397,12 +400,13 @@ public class ReceivePaymentView extends
 		transactionNumber = createTransactionNumberItem();
 
 		listforms = new ArrayList<DynamicForm>();
-
+		locationCombo = createLocationCombo();
 		DynamicForm dateNoForm = new DynamicForm();
-		dateNoForm.setNumCols(4);
+		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
-
+		if (locationTrackingEnabled)
+			dateNoForm.setFields(locationCombo);
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
@@ -744,6 +748,9 @@ public class ReceivePaymentView extends
 			gridView.setTranReceivePayments(tranReceivePaymnetsList);
 		}
 		initTransactionNumber();
+		if (locationTrackingEnabled)
+			locationSelected(getCompany()
+					.getLocation(transaction.getLocation()));
 		initCustomers();
 	}
 
@@ -1219,7 +1226,8 @@ public class ReceivePaymentView extends
 		// });
 
 		// getTransactionReceivePayments(this.customer);
-
+		if (locationTrackingEnabled)
+			locationCombo.setDisabled(isInViewMode());
 	}
 
 	@Override

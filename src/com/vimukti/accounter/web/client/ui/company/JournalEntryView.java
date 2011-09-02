@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AddButton;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientEntry;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
@@ -68,9 +69,12 @@ public class JournalEntryView extends
 	private AddButton addButton;
 	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
 			.constants();
+	private boolean locationTrackingEnabled;
 
 	public JournalEntryView() {
 		super(ClientTransaction.TYPE_JOURNAL_ENTRY);
+		locationTrackingEnabled = ClientCompanyPreferences.get()
+				.isLocationTrackingEnabled();
 	}
 
 	@Override
@@ -347,9 +351,12 @@ public class JournalEntryView extends
 
 		addButton.setEnabled(!isInViewMode());
 		dateForm = new DynamicForm();
-		dateForm.setNumCols(4);
+		dateForm.setNumCols(6);
 		dateForm.setStyleName("datenumber-panel");
+		locationCombo = createLocationCombo();
 		dateForm.setFields(transactionDateItem, jourNoText);
+		if (locationTrackingEnabled)
+			dateForm.setFields(locationCombo);
 
 		HorizontalPanel datepannel = new HorizontalPanel();
 		datepannel.setWidth("100%");
@@ -481,6 +488,9 @@ public class JournalEntryView extends
 			setData(new ClientJournalEntry());
 		}
 		initJournalNumber();
+		if (locationTrackingEnabled)
+			locationSelected(getCompany()
+					.getLocation(transaction.getLocation()));
 		if (!isInViewMode())
 			initVocherNumer();
 
@@ -646,7 +656,8 @@ public class JournalEntryView extends
 		grid.setDisabled(isInViewMode());
 		grid.setCanEdit(true);
 		addButton.setEnabled(!isInViewMode());
-
+		if (locationTrackingEnabled)
+			locationCombo.setDisabled(isInViewMode());
 	}
 
 	@Override

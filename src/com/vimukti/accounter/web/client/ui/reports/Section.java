@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.ui.serverreports.BalanceSheetServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.ProfitAndLossByLocationServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ProfitAndLossServerReport;
 
 public class Section<R> {
@@ -21,7 +22,7 @@ public class Section<R> {
 			int colsLength, IFinanceReport<R> report) {
 		this.title = title;
 		this.footer = footer;
-		this.financeReport=report;
+		this.financeReport = report;
 		data = new Object[colsLength];
 		this.sumColumnsIndexes = sumColums;
 		this.handler = report.getSectionHanlder();
@@ -31,7 +32,7 @@ public class Section<R> {
 			int colsLength, IFinanceReport<R> report) {
 		this.titles = titles;
 		this.footers = footers;
-		this.financeReport=report;
+		this.financeReport = report;
 		data = new Object[colsLength];
 		if (!financeReport.isServerSide()) {
 			updateTitleandFooterValuesonClient();
@@ -49,6 +50,9 @@ public class Section<R> {
 					: titles[0]);
 			this.footer = ((footers[0] == "" || footers[0] == null) ? footers[1]
 					: footers[0]);
+		} else if (financeReport instanceof ProfitAndLossByLocationServerReport) {
+			this.title = titles[0] == null ? "" : titles[0];
+			this.footer = footers[0] == null ? "" : footers[0];
 		}
 	}
 

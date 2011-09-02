@@ -121,6 +121,7 @@ import com.vimukti.accounter.web.client.ui.reports.ExpenseReportAction;
 import com.vimukti.accounter.web.client.ui.reports.GLReportAction;
 import com.vimukti.accounter.web.client.ui.reports.MostProfitableCustomersAction;
 import com.vimukti.accounter.web.client.ui.reports.ProfitAndLossAction;
+import com.vimukti.accounter.web.client.ui.reports.ProfitAndLossByLocationAction;
 import com.vimukti.accounter.web.client.ui.reports.PurchaseByItemDetailsAction;
 import com.vimukti.accounter.web.client.ui.reports.PurchaseByItemSummaryAction;
 import com.vimukti.accounter.web.client.ui.reports.PurchaseByVendorDetailsAction;
@@ -1281,6 +1282,14 @@ public class ActionFactory {
 				actionsConstants.prepare1099MiscForms());
 	}
 
+	public static ProfitAndLossByLocationAction getProfitAndLossByLocationAction() {
+		return new ProfitAndLossByLocationAction(
+				actionsConstants.profitAndLoss()
+						+ "By"
+						+ Accounter.messages()
+								.location(Global.get().Location()));
+	}
+
 	public static BudgetAction getBudgetActions() {
 		return new BudgetAction(actionsConstants.budgetView());
 	}
@@ -1289,7 +1298,7 @@ public class ActionFactory {
 		return new NewBudgetAction(Accounter.messages().newCustomer(
 				Global.get().Customer()));
 	}
-	
+
 	public static UsersActivityListAction getUsersActivityListAction() {
 		return new UsersActivityListAction("Users Activity Log");
 	}

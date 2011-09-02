@@ -5,6 +5,7 @@ package com.vimukti.accounter.web.client;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 
 /**
@@ -110,6 +111,26 @@ public abstract class AbstractGlobal implements IGlobal {
 	@Override
 	public String Location() {
 
-		return null;
+		int locationTrackingId = (int) preferences().getLocationTrackingId();
+
+		switch (locationTrackingId) {
+
+		case ClientLocation.LOCATION:
+			return constants().location();
+		case ClientLocation.BUSINESS:
+			return constants().buisiness();
+		case ClientLocation.DEPARTMENT:
+			return constants().department();
+		case ClientLocation.DIVISION:
+			return constants().division();
+		case ClientLocation.PROPERTY:
+			return constants().property();
+		case ClientLocation.STORE:
+			return constants().store();
+		case ClientLocation.TERRITORY:
+			return constants().territory();
+		default:
+			return constants().location();
+		}
 	}
 }

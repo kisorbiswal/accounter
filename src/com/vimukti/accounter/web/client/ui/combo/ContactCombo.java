@@ -21,12 +21,10 @@ public class ContactCombo extends CustomCombo<ClientContact> {
 		return "-- Add New Contact --";
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void onAddNew() {
 		AddNewContactDialog addNewContactDialog = new AddNewContactDialog(
 				"Contact", " ");
-
 		addNewContactDialog.addSuccessCallback(newContactHandler);
 	}
 
@@ -62,9 +60,10 @@ public class ContactCombo extends CustomCombo<ClientContact> {
 	/**
 	 * @param valueCallBack
 	 */
+
 	public void addNewContactHandler(
 			ValueCallBack<ClientContact> newContactHandler) {
 		this.newContactHandler = newContactHandler;
-
 	}
+
 }
