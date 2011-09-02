@@ -139,7 +139,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		CheckboxCell checkboxCell = new CheckboxCell();
 		Column<Client1099Form, Boolean> checkBoxColumn = new Column<Client1099Form, Boolean>(
 				checkboxCell) {
-			
+
 			@Override
 			public Boolean getValue(Client1099Form object) {
 				return true;
@@ -166,7 +166,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 				ActionFactory.getNewVendorAction().run(vendor, false);
 			}
 		});
-				
+
 		Column<Client1099Form, String> total1099PaymentsCell = new Column<Client1099Form, String>(
 				new ClickableTextCell()) {
 
@@ -481,11 +481,16 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				// long objectID = 1;
-				// long brandingThemeID = 1;
-				// UIUtils.downloadMISCForm(objectID,
-				// ClientTransaction.TYPE_MISC_FORM, brandingThemeID);
+
+				long vendorId = 0000;
+				long objectID = 1;
+				long brandingThemeID = 1;
+				UIUtils.downloadMISCForm(objectID,
+						ClientTransaction.TYPE_MISC_SAMPLE_FORM,
+						brandingThemeID, vendorId, horizontalValue,
+						verticalValue);
 			}
+
 		});
 		Label blankLabel = new Label("Load empty paper");
 		Label adjustLabel = new Label(
