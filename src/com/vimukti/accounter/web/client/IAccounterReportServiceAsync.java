@@ -169,12 +169,10 @@ public interface IAccounterReportServiceAsync {
 			ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<TrialBalance>> callBack);
 
-<<<<<<< .mine
 	public void getProfitAndLossByLocationReport(ClientFinanceDate startDate,
 			ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<ProfitAndLossByLocation>> callBack);
 
-=======
 	public void getSalesByLocationDetailsReport(ClientFinanceDate startDate,
 			ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<SalesByLocationDetails>> callBack);
@@ -187,7 +185,6 @@ public interface IAccounterReportServiceAsync {
 			ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<SalesByLocationSummary>> callBack);
 
->>>>>>> .r6436
 	public void getCashFlowReport(ClientFinanceDate startDate,
 			ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<TrialBalance>> callBack);
