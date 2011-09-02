@@ -43,12 +43,14 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 	@Override
 	protected int getCellWidth(int index) {
 		switch (index) {
-		// case 5:
-		// return 25;
-		// case 2:
-		// return 100;
 		case 4:
 			return 25;
+		case 0:
+			return 150;
+		case 1:
+			return 150;
+		case 2:
+			return 150;
 		default:
 			return -1;
 		}
