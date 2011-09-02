@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -250,12 +251,12 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			hlay.setCellHorizontalAlignment(updateButton,
 					HasHorizontalAlignment.ALIGN_RIGHT);
 
-		}/*
-		 * else if (this instanceof VendorListView &&
-		 * getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-		 * { form.setFields(viewSelect); hlay.add(prepare1099MiscForms);
-		 * hlay.add(form); }
-		 */else {
+		} else if (this instanceof VendorListView
+				&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			form.setFields(viewSelect);
+			hlay.add(prepare1099MiscForms);
+			hlay.add(form);
+		} else {
 
 			if (!(this instanceof JournalEntryListView))
 				form.setFields(viewSelect);
