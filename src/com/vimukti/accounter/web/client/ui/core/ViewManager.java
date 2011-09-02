@@ -102,6 +102,7 @@ public class ViewManager extends HorizontalPanel {
 		if (accounterHelpView != null) {
 			this.add(accounterHelpView);
 		}
+		this.setCellWidth(accounterHelpView, "50%");
 		initilizeToolBar();
 		initializeActivityManager();
 	}
@@ -484,6 +485,7 @@ public class ViewManager extends HorizontalPanel {
 			helpDialog.removeFromParent();
 			accounterHelpView.setIsHelpPanel(true);
 			this.add(accounterHelpView);
+			this.setCellWidth(accounterHelpView, "50%");
 		} else {
 			accounterHelpView.removeFromParent();
 			accounterHelpView.setIsHelpPanel(false);
