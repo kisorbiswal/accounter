@@ -634,8 +634,12 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		if (getPreferences().isSalesOrderEnabled()) {
 			salesMenuBar.addItem(ActionFactory.getSalesOpenOrderAction());
 		}
-		salesMenuBar.addItem(ActionFactory.getSalesByLocationDetailsAction());
-		salesMenuBar.addItem(ActionFactory.getSalesByLocationSummaryAction());
+		if (getPreferences().isLocationTrackingEnabled()) {
+			salesMenuBar.addItem(ActionFactory
+					.getSalesByLocationDetailsAction());
+			salesMenuBar.addItem(ActionFactory
+					.getSalesByLocationSummaryAction());
+		}
 		return salesMenuBar;
 	}
 
