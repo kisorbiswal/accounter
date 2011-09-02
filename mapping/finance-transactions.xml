@@ -69,6 +69,9 @@
 		<many-to-one name="transactionMakeDepositEntries" class="TransactionMakeDepositEntries"
 			cascade="save-update" lazy="false" column="TRANSACTION_MAKE_DEPOSIT_ENTRY_ID">
 		</many-to-one>
+		<many-to-one name="location" class="Location" lazy="false"
+			column="LOCATION_ID">
+		</many-to-one>
 		<joined-subclass name="PaySalesTax" table="PAY_SALES_TAX">
 			<key column="ID" />
 			<property name="billsDueOnOrBefore" column="BILLS_DUE_ON_OR_BEFORE"
@@ -1409,6 +1412,7 @@
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="nextScheduleOn" column="NEXT_SCHEDULE_ON"
 			type="com.vimukti.accounter.core.LongUseType"></property>
+
 		<property name="prevScheduleOn" column="PREV_SCHEDULE_ON"
 			type="com.vimukti.accounter.core.LongUseType"></property>
 
