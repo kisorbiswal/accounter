@@ -14,16 +14,12 @@ public class SalesByLocationsummaryServerReport extends
 
 	public SalesByLocationsummaryServerReport(
 			IFinanceReport<SalesByLocationSummary> reportView) {
-		this.columnstoHide.add(3);
-		this.columnstoHide.add(5);
 		this.reportView = reportView;
 	}
 
 	public SalesByLocationsummaryServerReport(long startDate, long endDate,
 			int generationType) {
 		super(startDate, endDate, generationType);
-		this.columnstoHide.add(3);
-		this.columnstoHide.add(5);
 	}
 
 	@Override
