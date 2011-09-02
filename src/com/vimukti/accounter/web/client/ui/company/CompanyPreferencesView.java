@@ -792,8 +792,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		companyPreferences
 				.setLocationTrackingEnabled(locationTrackingCheckBoxItem
 						.getValue());
-		if (locationTrackingCheckBoxItem.getValue())
-			companyPreferences.setLocationTrackingId(getLocationTrackingId());
+		// if (locationTrackingCheckBoxItem.getValue())
+		companyPreferences.setLocationTrackingId(getLocationTrackingId());
 		companyPreferences
 				.setAgeingFromTransactionDateORDueDate(ageingFromTransactionDateORDueDate
 						.getValue().toString().equalsIgnoreCase(
