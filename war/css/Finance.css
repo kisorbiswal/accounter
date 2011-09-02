@@ -4705,12 +4705,12 @@ tr.net-profit td {
 .custom-combo {
 	border: 1px solid #B1B1B1;
     border-radius: 3px 3px 3px 3px;
-    -moz-box-shadow:1px 2px 2px #CCCCCC inset;
+   /* -moz-box-shadow:1px 2px 2px #CCCCCC inset;
    -webkit-box-shadow:1px 2px 2px #CCCCCC inset;
-    box-shadow:1px 2px 2px #CCCCCC inset;
+    box-shadow:1px 2px 2px #CCCCCC inset;*/
     float: left;
     height: 22px !important;
-    overflow: hidden;
+    /*overflow: hidden;*/
     position: relative;
     width: 163px !important;
 }
@@ -5153,9 +5153,9 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 .gwt-TextBox {
 	border: 1px solid #B1B1B1;
     border-radius: 3px 3px 3px 3px;
-    box-shadow: 1px 2px 2px #CCCCCC inset;
+   /* box-shadow: 1px 2px 2px #CCCCCC inset;
     -moz-box-shadow:1px 2px 2px #CCCCCC inset;
-    -webkit-box-shadow:1px 2px 2px #CCCCCC inset;
+    -webkit-box-shadow:1px 2px 2px #CCCCCC inset;*/
 }
 
 .gwt-PasswordTextBox {
@@ -5168,9 +5168,9 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 .gwt-TextArea {
 	border: 1px solid #B1B1B1;
     border-radius: 3px 3px 3px 3px;
-    -moz-box-shadow:1px 2px 2px #CCCCCC inset;
+    /*-moz-box-shadow:1px 2px 2px #CCCCCC inset;
    -webkit-box-shadow:1px 2px 2px #CCCCCC inset;
-    box-shadow:1px 2px 2px #CCCCCC inset;
+    box-shadow:1px 2px 2px #CCCCCC inset;*/
     height: 65px;
     resize: none;
     width: 180px !important;
@@ -5272,9 +5272,9 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 .gridTextBoxCell input[type="text"] {
 	border: 1px solid #B1B1B1;
     border-radius: 3px 3px 3px 3px;
-    -moz-box-shadow:1px 2px 2px #CCCCCC inset;
+    /*-moz-box-shadow:1px 2px 2px #CCCCCC inset;
     -webkit-box-shadow: 1px 2px 2px #CCCCCC inset;
-    box-shadow: 1px 2px 2px #CCCCCC inset;
+    box-shadow: 1px 2px 2px #CCCCCC inset;*/
 	height: 22px !important;
 	padding: 0 0 0 5px;
 }
