@@ -22,6 +22,8 @@ import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeList;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeListDetail;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
+import com.vimukti.accounter.web.client.core.reports.SalesByLocationDetails;
+import com.vimukti.accounter.web.client.core.reports.SalesByLocationSummary;
 import com.vimukti.accounter.web.client.core.reports.SalesTaxLiability;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByTaxItem;
@@ -145,6 +147,9 @@ public interface IAccounterReportService extends RemoteService {
 	public ArrayList<TrialBalance> getProfitAndLossReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
+	public ArrayList<SalesByLocationDetails> getSalesByLocationDetailsReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
+
 	public ArrayList<TrialBalance> getCashFlowReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
@@ -241,4 +246,11 @@ public interface IAccounterReportService extends RemoteService {
 
 	ArrayList<PayeeStatementsList> getCustomerStatement(long customer,
 			long fromDate, long toDate) throws AccounterException;
+
+	public ArrayList<SalesByLocationSummary> getSalesByLocationSummaryReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+	public ArrayList<SalesByLocationDetails> getSalesByLocationDetailsForLocation(
+			String locationName, ClientFinanceDate startDate,
+			ClientFinanceDate endDate);
 }
