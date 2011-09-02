@@ -393,6 +393,9 @@ public class Accounter implements EntryPoint {
 	}
 
 	public static EventBus getEventBus() {
+		if (eventBus == null) {
+			eventBus = new SimpleEventBus();
+		}
 		return eventBus;
 	}
 
