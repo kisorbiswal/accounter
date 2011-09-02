@@ -62,8 +62,6 @@ import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
-import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionGrid;
-import com.vimukti.accounter.web.client.ui.grids.VendorTransactionGrid;
 import com.vimukti.accounter.web.client.ui.vendors.NewVendorPaymentView;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
@@ -79,16 +77,16 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected T transaction;
 
-//	public static final int CUSTOMER_TRANSACTION_GRID = 1;
-//	public static final int VENDOR_TRANSACTION_GRID = 2;
-//	public static final int BANKING_TRANSACTION_GRID = 3;
-//	public static final int MAKEDEPOSIT_TRANSACTION_GRID = 4;
-//	public static final int PAYBILL_TRANSACTION_GRID = 5;
-//	public static final int RECIEVEPAYMENT_TRANSACTION_GRID = 6;
-//	public static final int TAXAGENCY_TRANSACTION_GRID = 7;
-//	public static final int PAYSALESTAX_TRANSACTION_GRID = 8;
-//	public static final int JOURNALENTRY_TRANSACTION_GRID = 9;
-//	public static final int PAYVAT_TRANSACTION_GRID = 10;
+	// public static final int CUSTOMER_TRANSACTION_GRID = 1;
+	// public static final int VENDOR_TRANSACTION_GRID = 2;
+	// public static final int BANKING_TRANSACTION_GRID = 3;
+	// public static final int MAKEDEPOSIT_TRANSACTION_GRID = 4;
+	// public static final int PAYBILL_TRANSACTION_GRID = 5;
+	// public static final int RECIEVEPAYMENT_TRANSACTION_GRID = 6;
+	// public static final int TAXAGENCY_TRANSACTION_GRID = 7;
+	// public static final int PAYSALESTAX_TRANSACTION_GRID = 8;
+	// public static final int JOURNALENTRY_TRANSACTION_GRID = 9;
+	// public static final int PAYVAT_TRANSACTION_GRID = 10;
 
 	protected String checkNumber = ClientWriteCheck.IS_TO_BE_PRINTED;
 
@@ -126,11 +124,12 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected SelectCombo paymentMethodCombo;
 
-//	/**
-//	 * // * The Transaction Grid meant to Serve in all Transactions //
-//	 */
-	protected AbstractTransactionGrid<ClientTransactionItem> vendorTransactionGrid,
-			customerTransactionGrid;
+	// /**
+	// * // * The Transaction Grid meant to Serve in all Transactions //
+	// */
+	// protected AbstractTransactionGrid<ClientTransactionItem>
+	// vendorTransactionGrid,
+	// customerTransactionGrid;
 
 	protected boolean showPriceWithVat;
 
@@ -144,7 +143,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	// protected CurrencyWidget currencyWidget;
 
-//	protected int gridType;
+	// protected int gridType;
 
 	protected Button recurringButton;
 
@@ -158,7 +157,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	public AbstractTransactionBaseView(int transactionType) {
 		super();
 		this.transactionType = transactionType;
-//		this.gridType = transactionViewType;
+		// this.gridType = transactionViewType;
 
 	}
 
@@ -209,49 +208,49 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		return 0.0;
 	}
 
-//	public abstract AbstractTransactionGrid<ClientTransactionItem> getGrid();
-//	public AbstractTransactionGrid<ClientTransactionItem> getGrid() {
-//		// if (getCompany().getAccountingType() ==
-//		// ClientCompany.ACCOUNTING_TYPE_US) {
-//		switch (gridType) {
-//		case JOURNALENTRY_TRANSACTION_GRID:
-//			break;
-//		case PAYSALESTAX_TRANSACTION_GRID:
-//			break;
-//		case TAXAGENCY_TRANSACTION_GRID:
-//			break;
-//		case RECIEVEPAYMENT_TRANSACTION_GRID:
-//			break;
-//		case PAYBILL_TRANSACTION_GRID:
-//			break;
-//		case MAKEDEPOSIT_TRANSACTION_GRID:
-//		case VENDOR_TRANSACTION_GRID:
-//			return new VendorTransactionGrid();
-//		case CUSTOMER_TRANSACTION_GRID:
-//			return new CustomerTransactionGrid();
-//		}
-//		// } else {
-//		// switch (gridType) {
-//		// case JOURNALENTRY_TRANSACTION_GRID:
-//		// break;
-//		// case PAYSALESTAX_TRANSACTION_GRID:
-//		// break;
-//		// case TAXAGENCY_TRANSACTION_GRID:
-//		// break;
-//		// case RECIEVEPAYMENT_TRANSACTION_GRID:
-//		// break;
-//		// case PAYBILL_TRANSACTION_GRID:
-//		// break;
-//		// case MAKEDEPOSIT_TRANSACTION_GRID:
-//		// break;
-//		// case VENDOR_TRANSACTION_GRID:
-//		// return new VendorTransactionUKGrid();
-//		// case CUSTOMER_TRANSACTION_GRID:
-//		// return new CustomerTransactionUKGrid();
-//		// }
-//		// }
-//		return null;
-//	}
+	// public abstract AbstractTransactionGrid<ClientTransactionItem> getGrid();
+	// public AbstractTransactionGrid<ClientTransactionItem> getGrid() {
+	// // if (getCompany().getAccountingType() ==
+	// // ClientCompany.ACCOUNTING_TYPE_US) {
+	// switch (gridType) {
+	// case JOURNALENTRY_TRANSACTION_GRID:
+	// break;
+	// case PAYSALESTAX_TRANSACTION_GRID:
+	// break;
+	// case TAXAGENCY_TRANSACTION_GRID:
+	// break;
+	// case RECIEVEPAYMENT_TRANSACTION_GRID:
+	// break;
+	// case PAYBILL_TRANSACTION_GRID:
+	// break;
+	// case MAKEDEPOSIT_TRANSACTION_GRID:
+	// case VENDOR_TRANSACTION_GRID:
+	// return new VendorTransactionGrid();
+	// case CUSTOMER_TRANSACTION_GRID:
+	// return new CustomerTransactionGrid();
+	// }
+	// // } else {
+	// // switch (gridType) {
+	// // case JOURNALENTRY_TRANSACTION_GRID:
+	// // break;
+	// // case PAYSALESTAX_TRANSACTION_GRID:
+	// // break;
+	// // case TAXAGENCY_TRANSACTION_GRID:
+	// // break;
+	// // case RECIEVEPAYMENT_TRANSACTION_GRID:
+	// // break;
+	// // case PAYBILL_TRANSACTION_GRID:
+	// // break;
+	// // case MAKEDEPOSIT_TRANSACTION_GRID:
+	// // break;
+	// // case VENDOR_TRANSACTION_GRID:
+	// // return new VendorTransactionUKGrid();
+	// // case CUSTOMER_TRANSACTION_GRID:
+	// // return new CustomerTransactionUKGrid();
+	// // }
+	// // }
+	// return null;
+	// }
 
 	public void setAmountIncludeChkValue(boolean isAmountIncludedVAT) {
 		if (vatinclusiveCheck != null) {
@@ -260,6 +259,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	public CheckboxItem getVATInclusiveCheckBox() {
+		final AbstractTransactionGrid<ClientTransactionItem> customerTransactionGrid = getTransactionGrid();
 		vatinclusiveCheck = new CheckboxItem(Accounter.constants()
 				.amountIncludesVat());
 		vatinclusiveCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
@@ -267,9 +267,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				isVATInclusive = (Boolean) event.getValue();
-				if (vendorTransactionGrid != null) {
-					vendorTransactionGrid.refreshVatValue();
-				} else if (customerTransactionGrid != null) {
+				if (customerTransactionGrid != null) {
 					customerTransactionGrid.refreshVatValue();
 				}
 
@@ -279,9 +277,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		return vatinclusiveCheck;
 	}
 
-//	public void setGridType(int gridType) {
-//		this.gridType = gridType;
-//	}
+	// public void setGridType(int gridType) {
+	// this.gridType = gridType;
+	// }
+
+	public abstract AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid();
 
 	protected void initTransactionNumber() {
 
@@ -507,6 +507,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected void reload() {
 		transaction = null;
+		AbstractTransactionGrid<ClientTransactionItem> customerTransactionGrid = getTransactionGrid();
 		if (customerTransactionGrid != null) {
 			customerTransactionGrid.canDeleteRecord(true);
 			// FIXME ::: no need of this statement
@@ -627,11 +628,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	private void processTransactionItems() {
+		AbstractTransactionGrid<ClientTransactionItem> customerTransactionGrid = getTransactionGrid();
 		if (customerTransactionGrid != null)
 			this.transactionItems = customerTransactionGrid
-					.getallTransactionItems(transaction);
-		if (vendorTransactionGrid != null)
-			this.transactionItems = vendorTransactionGrid
 					.getallTransactionItems(transaction);
 
 	}
