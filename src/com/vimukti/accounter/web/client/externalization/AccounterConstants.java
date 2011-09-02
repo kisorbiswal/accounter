@@ -4478,6 +4478,8 @@ public interface AccounterConstants extends Constants {
 
 	public String budget();
 
+	public String newBudget();
+
 	public String last();
 
 	public String sunday();
