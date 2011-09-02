@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
@@ -23,7 +24,7 @@ public class CashExpenseView extends CashPurchaseView {
 	// private ClientAccount pettycash;
 	protected List<String> selectedComboList;
 	// AccountCombo petycash;
-	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
+	AccounterConstants accounterConstants = Accounter
 			.constants();
 
 	public CashExpenseView() {

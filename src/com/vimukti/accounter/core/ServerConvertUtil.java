@@ -1,6 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;

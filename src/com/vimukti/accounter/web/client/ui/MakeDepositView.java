@@ -119,7 +119,7 @@ public class MakeDepositView extends
 			.constants();
 
 	public MakeDepositView() {
-		super(ClientTransaction.TYPE_MAKE_DEPOSIT, MAKEDEPOSIT_TRANSACTION_GRID);
+		super(ClientTransaction.TYPE_MAKE_DEPOSIT);
 		calculatedTotal = 0D;
 	}
 

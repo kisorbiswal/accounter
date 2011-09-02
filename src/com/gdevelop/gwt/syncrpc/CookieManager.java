@@ -11,8 +11,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import com.vimukti.accounter.web.client.ui.Accounter;
-
 // From http://www.hccp.org/java-net-cookie-how-to.html
 public class CookieManager {
 	private Map store;

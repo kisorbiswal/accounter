@@ -80,7 +80,7 @@ public class ReceiveVATView extends
 	private AccounterConstants companyConstants = Accounter.constants();
 
 	public ReceiveVATView() {
-		super(ClientTransaction.TYPE_PAY_SALES_TAX, RECEIVEVAT_TRANSACTION_GRID);
+		super(ClientTransaction.TYPE_PAY_SALES_TAX);
 	}
 
 	protected void createControls() {

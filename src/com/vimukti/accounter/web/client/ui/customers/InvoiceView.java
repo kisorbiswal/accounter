@@ -80,7 +80,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	private CurrencyWidget currencyWidget;
 
 	private InvoiceView() {
-		super(ClientTransaction.TYPE_INVOICE, CUSTOMER_TRANSACTION_GRID);
+		super(ClientTransaction.TYPE_INVOICE);
 
 	}
 

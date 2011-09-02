@@ -74,7 +74,7 @@ public class SalesOrderView extends
 	private ShipToForm shipToAddress;
 
 	public SalesOrderView() {
-		super(ClientTransaction.TYPE_SALES_ORDER, CUSTOMER_TRANSACTION_GRID);
+		super(ClientTransaction.TYPE_SALES_ORDER);
 	}
 
 	@Override

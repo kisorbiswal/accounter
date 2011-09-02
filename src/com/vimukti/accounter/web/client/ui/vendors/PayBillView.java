@@ -87,7 +87,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	protected VendorCombo vendorCombo;
 
 	public PayBillView() {
-		super(ClientTransaction.TYPE_PAY_BILL, VENDOR_TRANSACTION_GRID);
+		super(ClientTransaction.TYPE_PAY_BILL);
 	}
 
 	/*

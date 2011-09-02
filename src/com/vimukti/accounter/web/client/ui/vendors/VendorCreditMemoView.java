@@ -37,8 +37,7 @@ public class VendorCreditMemoView extends
 			.constants();
 
 	private VendorCreditMemoView() {
-		super(ClientTransaction.TYPE_VENDOR_CREDIT_MEMO,
-				VENDOR_TRANSACTION_GRID);
+		super(ClientTransaction.TYPE_VENDOR_CREDIT_MEMO);
 	}
 
 	@Override

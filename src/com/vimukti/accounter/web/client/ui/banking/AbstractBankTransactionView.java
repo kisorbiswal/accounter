@@ -36,8 +36,13 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	// private ClientTransaction bankingTransactionObject;
 
 	// protected CustomerTransactionUSGrid transactionCustomerGrid;
-	AbstractTransactionGrid<ClientTransactionItem> transactionVendorGrid,
-			transactionCustomerGrid;
+//	AbstractTransactionGrid<ClientTransactionItem> transactionVendorGrid,
+//			transactionCustomerGrid;
+//	@Override
+//	public AbstractTransactionGrid<ClientTransactionItem> getGrid() {
+//		return null;
+//	}
+
 	// protected int transactionType;
 	protected DateItem deliveryDate;
 
@@ -64,9 +69,9 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 			vatTotalNonEditableText;
 	protected ClientVendor selectedVendor;
 
-	public AbstractBankTransactionView(int transactionType, int gridType) {
+	public AbstractBankTransactionView(int transactionType) {
 
-		super(transactionType, gridType);
+		super(transactionType);
 
 		bankingTransactionViewInstance = this;
 

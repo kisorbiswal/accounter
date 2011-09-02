@@ -71,7 +71,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 	AccounterConstants accounterConstants = Accounter.constants();
 
 	public PayVATView() {
-		super(ClientTransaction.TYPE_PAY_SALES_TAX, PAYVAT_TRANSACTION_GRID);
+		super(ClientTransaction.TYPE_PAY_SALES_TAX);
 	}
 
 	@Override

@@ -48,7 +48,7 @@ public class VATPaymentView extends
 	private ArrayList<DynamicForm> listforms;
 
 	public VATPaymentView() {
-		super(ClientTransaction.TYPE_PAY_SALES_TAX, 0);
+		super(ClientTransaction.TYPE_PAY_SALES_TAX);
 	}
 
 	@Override

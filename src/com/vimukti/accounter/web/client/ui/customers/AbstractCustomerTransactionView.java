@@ -81,8 +81,6 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	protected DateField deliveryDate;
 	protected ClientPaymentTerms paymentTerm;
 
-
-
 	protected List<ClientPaymentTerms> paymentTermsList;
 
 	// protected AmountField ;
@@ -184,16 +182,13 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		}
 	}
 
-	public AbstractCustomerTransactionView(int transactionType, int gridType) {
-		super(transactionType, gridType);
+	public AbstractCustomerTransactionView(int transactionType) {
+		super(transactionType);
 	}
 
-	@Override
 	public AbstractTransactionGrid<ClientTransactionItem> getGrid() {
-		if (gridType == CUSTOMER_TRANSACTION_GRID)
-			return new CustomerTransactionGrid();
+		return new CustomerTransactionGrid();
 
-		return null;
 	}
 
 	public double getVATRate(long TAXCodeID) {
@@ -227,7 +222,8 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	protected abstract void initSalesTaxNonEditableItem();
 
 	protected void initShippingTerms() {
-		ArrayList<ClientShippingTerms> shippingTerms = getCompany().getShippingTerms();
+		ArrayList<ClientShippingTerms> shippingTerms = getCompany()
+				.getShippingTerms();
 
 		shippingTermsCombo.initCombo(shippingTerms);
 
@@ -367,9 +363,11 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		if (this.shippingMethod != null && shippingMethodsCombo != null)
 			shippingMethodsCombo.setComboItem(this.shippingMethod);
 
-		if (this.taxCode != null && taxCodeSelect != null
+		if (this.taxCode != null
+				&& taxCodeSelect != null
 				&& taxCodeSelect.getValue() != ""
-				&& !taxCodeSelect.getName().equalsIgnoreCase(Accounter.constants().none()))
+				&& !taxCodeSelect.getName().equalsIgnoreCase(
+						Accounter.constants().none()))
 			taxCodeSelect.setComboItem(this.taxCode);
 
 		if (this.priceLevel != null && priceLevelSelect != null)
@@ -463,7 +461,8 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	protected void initSalesPersons() {
 
-		ArrayList<ClientSalesPerson> salesPersons = getCompany().getActiveSalesPersons();
+		ArrayList<ClientSalesPerson> salesPersons = getCompany()
+				.getActiveSalesPersons();
 
 		salesPersonCombo.initCombo(salesPersons);
 

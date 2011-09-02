@@ -77,8 +77,7 @@ public class PaySalesTaxView extends
 
 	public PaySalesTaxView() {
 
-		super(ClientTransaction.TYPE_PAY_SALES_TAX,
-				PAYSALESTAX_TRANSACTION_GRID);
+		super(ClientTransaction.TYPE_PAY_SALES_TAX);
 	}
 
 	private void getTaxItems() {

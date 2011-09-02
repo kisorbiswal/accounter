@@ -66,8 +66,7 @@ public class CustomerRefundView extends
 			.create(AccounterConstants.class);
 
 	public CustomerRefundView() {
-		super(ClientTransaction.TYPE_CUSTOMER_REFUNDS,
-				CUSTOMER_TRANSACTION_GRID);
+		super(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
 	}
 
 	public void initPayFromAccounts() {

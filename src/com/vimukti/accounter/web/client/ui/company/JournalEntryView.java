@@ -68,8 +68,7 @@ public class JournalEntryView extends
 			.constants();
 
 	public JournalEntryView() {
-		super(ClientTransaction.TYPE_JOURNAL_ENTRY,
-				JOURNALENTRY_TRANSACTION_GRID);
+		super(ClientTransaction.TYPE_JOURNAL_ENTRY);
 	}
 
 	@Override

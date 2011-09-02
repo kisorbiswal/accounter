@@ -17,7 +17,6 @@ import com.gdevelop.gwt.syncrpc.SyncProxy;
 import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.main.ServerConfiguration;

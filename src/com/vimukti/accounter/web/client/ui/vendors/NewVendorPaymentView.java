@@ -60,7 +60,7 @@ public class NewVendorPaymentView extends
 			.constants();
 
 	private NewVendorPaymentView() {
-		super(ClientTransaction.TYPE_PAY_BILL, 0);
+		super(ClientTransaction.TYPE_PAY_BILL);
 
 	}
 

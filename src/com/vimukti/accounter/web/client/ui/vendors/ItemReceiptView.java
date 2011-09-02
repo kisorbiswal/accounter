@@ -58,7 +58,7 @@ public class ItemReceiptView extends
 	AccounterConstants accounterConstants = Accounter.constants();
 
 	public ItemReceiptView() {
-		super(ClientTransaction.TYPE_ITEM_RECEIPT, VENDOR_TRANSACTION_GRID);
+		super(ClientTransaction.TYPE_ITEM_RECEIPT);
 	}
 
 	@Override

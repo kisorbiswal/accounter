@@ -7,7 +7,6 @@ import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.TAXAgency;
-import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.utils.HibernateUtil;
 

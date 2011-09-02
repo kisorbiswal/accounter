@@ -46,7 +46,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	private ArrayList<DynamicForm> listforms;
 
 	public QuoteView() {
-		super(ClientTransaction.TYPE_ESTIMATE, CUSTOMER_TRANSACTION_GRID);
+		super(ClientTransaction.TYPE_ESTIMATE);
 
 	}
 
@@ -62,7 +62,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	}
 
 	public QuoteView(ClientCustomer customer) {
-		super(ClientTransaction.TYPE_ESTIMATE, CUSTOMER_TRANSACTION_GRID);
+		super(ClientTransaction.TYPE_ESTIMATE);
 	}
 
 	@Override

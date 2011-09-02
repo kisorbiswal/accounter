@@ -28,7 +28,6 @@ import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
 import com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter.ResponseReader;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class RemoteServiceInvocationHandler implements InvocationHandler {
 	private static final Map<Class, ResponseReader> JPRIMITIVETYPE_TO_RESPONSEREADER = new HashMap<Class, ResponseReader>();

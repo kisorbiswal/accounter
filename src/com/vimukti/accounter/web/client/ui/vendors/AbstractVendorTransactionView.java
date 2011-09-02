@@ -103,21 +103,13 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	protected void initTransactionTotalNonEditableItem() {
 	}
 
-	public AbstractVendorTransactionView(int transactionType,
-			int transactionViewType) {
-		super(transactionType, transactionViewType);
+	public AbstractVendorTransactionView(int transactionType) {
+		super(transactionType);
 		vendorTransactionViewInstance = this;
 
 	}
 
-	@Override
 	public AbstractTransactionGrid<ClientTransactionItem> getGrid() {
-		// if (gridType == VENDOR_TRANSACTION_GRID)
-		// if (getCompany().getAccountingType() ==
-		// ClientCompany.ACCOUNTING_TYPE_US)
-		// return new VendorTransactionUSGrid();
-		// else
-		// return new VendorTransactionUKGrid();
 		return new VendorTransactionGrid();
 	}
 

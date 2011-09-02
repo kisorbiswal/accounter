@@ -9,6 +9,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
@@ -105,8 +106,11 @@ public class WriteChequeView extends
 
 	private VerticalPanel vPanel;
 
+	private CustomerTransactionGrid transactionCustomerGrid;
+	private VendorTransactionGrid transactionVendorGrid;
+
 	private WriteChequeView() {
-		super(ClientTransaction.TYPE_WRITE_CHECK, 0);
+		super(ClientTransaction.TYPE_WRITE_CHECK);
 		this.company = getCompany();
 	}
 
@@ -887,8 +891,7 @@ public class WriteChequeView extends
 			switch (transaction.getPayToType()) {
 			case ClientWriteCheck.TYPE_CUSTOMER:
 
-				setGridType(CUSTOMER_TRANSACTION_GRID);
-				transactionCustomerGrid = getGrid();
+				transactionCustomerGrid = new CustomerTransactionGrid();
 				transactionCustomerGrid.setTransactionView(this);
 				transactionCustomerGrid.setCanEdit(true);
 				transactionCustomerGrid
@@ -902,8 +905,7 @@ public class WriteChequeView extends
 				break;
 			case ClientWriteCheck.TYPE_VENDOR:
 			case ClientWriteCheck.TYPE_TAX_AGENCY:
-				setGridType(VENDOR_TRANSACTION_GRID);
-				transactionVendorGrid = getGrid();
+				transactionVendorGrid = new VendorTransactionGrid();
 				transactionVendorGrid.setTransactionView(this);
 				transactionVendorGrid.setVisible(true);
 				transactionVendorGrid.setCanEdit(true);
@@ -921,15 +923,13 @@ public class WriteChequeView extends
 			// }
 
 		} else {
-			setGridType(CUSTOMER_TRANSACTION_GRID);
-			transactionCustomerGrid = getGrid();
+			transactionCustomerGrid = new CustomerTransactionGrid();
 			transactionCustomerGrid.setTransactionView(this);
 			transactionCustomerGrid.setCanEdit(true);
 			transactionCustomerGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
 			transactionCustomerGrid.init();
 			transactionCustomerGrid.setWidth("100%");
-			setGridType(VENDOR_TRANSACTION_GRID);
-			transactionVendorGrid = getGrid();
+			transactionVendorGrid = new VendorTransactionGrid();
 			transactionVendorGrid.setTransactionView(this);
 			transactionVendorGrid.setCanEdit(true);
 			transactionVendorGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);

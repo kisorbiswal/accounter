@@ -98,8 +98,7 @@ public class ReceivePaymentView extends
 	private DepositInAccountCombo depositInCombo;
 
 	public ReceivePaymentView() {
-		super(ClientTransaction.TYPE_RECEIVE_PAYMENT,
-				RECIEVEPAYMENT_TRANSACTION_GRID);
+		super(ClientTransaction.TYPE_RECEIVE_PAYMENT);
 
 	}
 

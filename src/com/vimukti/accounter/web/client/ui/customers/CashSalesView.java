@@ -55,16 +55,7 @@ public class CashSalesView extends
 
 	public CashSalesView() {
 
-		super(ClientTransaction.TYPE_CASH_SALES, CUSTOMER_TRANSACTION_GRID);
-	}
-
-	public CashSalesView(ClientCustomer customer) {
-		super(ClientTransaction.TYPE_CASH_SALES, CUSTOMER_TRANSACTION_GRID);
-	}
-
-	public CashSalesView(ClientCashSales cashSale) {
-		super(ClientTransaction.TYPE_CASH_SALES, CUSTOMER_TRANSACTION_GRID);
-
+		super(ClientTransaction.TYPE_CASH_SALES);
 	}
 
 	private void initCashSalesView() {

@@ -51,12 +51,12 @@ public class CashPurchaseView extends
 	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
 			.constants();
 
-	protected CashPurchaseView() {
-		super(ClientTransaction.TYPE_CASH_PURCHASE, VENDOR_TRANSACTION_GRID);
+	public CashPurchaseView() {
+		super(ClientTransaction.TYPE_CASH_PURCHASE);
 	}
 
 	protected CashPurchaseView(int type) {
-		super(type, VENDOR_TRANSACTION_GRID);
+		super(type);
 	}
 
 	@Override

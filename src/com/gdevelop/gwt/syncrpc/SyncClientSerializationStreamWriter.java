@@ -29,7 +29,6 @@ import com.google.gwt.user.client.rpc.impl.ClientSerializationStreamWriter;
 import com.google.gwt.user.client.rpc.impl.Serializer;
 import com.google.gwt.user.server.rpc.SerializationPolicy;
 import com.google.gwt.user.server.rpc.impl.SerializabilityUtil;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @see com.google.gwt.user.client.rpc.impl.ClientSerializationStreamWriter

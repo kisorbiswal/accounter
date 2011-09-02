@@ -30,7 +30,6 @@ import com.google.gwt.user.client.rpc.StatusCodeException;
 import com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter;
 import com.google.gwt.user.server.rpc.SerializationPolicy;
 import com.google.gwt.user.server.rpc.SerializationPolicyLoader;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * Base on com.google.gwt.user.client.rpc.impl.RemoteServiceProxy

@@ -45,8 +45,7 @@ public class CustomerCreditMemoView extends
 	private TextAreaItem billToTextArea;
 
 	public CustomerCreditMemoView() {
-		super(ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO,
-				CUSTOMER_TRANSACTION_GRID);
+		super(ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO);
 	}
 
 	@Override

@@ -70,7 +70,7 @@ public class NewCustomerPaymentView extends
 	boolean isChecked = false;
 
 	public NewCustomerPaymentView() {
-		super(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT, 0);
+		super(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
 	}
 
 	@Override

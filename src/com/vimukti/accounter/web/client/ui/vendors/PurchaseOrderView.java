@@ -93,7 +93,7 @@ public class PurchaseOrderView extends
 	AccounterConstants accounterConstants = Accounter.constants();
 
 	public PurchaseOrderView() {
-		super(ClientTransaction.TYPE_PURCHASE_ORDER, VENDOR_TRANSACTION_GRID);
+		super(ClientTransaction.TYPE_PURCHASE_ORDER);
 	}
 
 	@Override

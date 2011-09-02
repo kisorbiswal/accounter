@@ -78,7 +78,7 @@ public class VendorBillView extends
 	private ArrayList<ClientTransaction> selectedOrdersAndItemReceipts;
 
 	private VendorBillView() {
-		super(ClientTransaction.TYPE_ENTER_BILL, VENDOR_TRANSACTION_GRID);
+		super(ClientTransaction.TYPE_ENTER_BILL);
 	}
 
 	private void resetGlobalVariables() {
