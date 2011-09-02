@@ -36,12 +36,12 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	// private ClientTransaction bankingTransactionObject;
 
 	// protected CustomerTransactionUSGrid transactionCustomerGrid;
-//	AbstractTransactionGrid<ClientTransactionItem> transactionVendorGrid,
-//			transactionCustomerGrid;
-//	@Override
-//	public AbstractTransactionGrid<ClientTransactionItem> getGrid() {
-//		return null;
-//	}
+	// AbstractTransactionGrid<ClientTransactionItem> transactionVendorGrid,
+	// transactionCustomerGrid;
+	// @Override
+	// public AbstractTransactionGrid<ClientTransactionItem> getGrid() {
+	// return null;
+	// }
 
 	// protected int transactionType;
 	protected DateItem deliveryDate;
@@ -123,13 +123,15 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	@Override
 	public void showMenu(Widget button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, Accounter.messages().accounts(
-					Global.get().Account()), Accounter.constants().service(),
-					Accounter.constants().productItem());
+			setMenuItems(button,
+					Accounter.messages().accounts(Global.get().Account()),
+					Accounter.constants().service(), Accounter.constants()
+							.productItem());
 		else
-			setMenuItems(button, Accounter.messages().accounts(
-					Global.get().Account()), Accounter.constants().service(),
-					Accounter.constants().productItem());
+			setMenuItems(button,
+					Accounter.messages().accounts(Global.get().Account()),
+					Accounter.constants().service(), Accounter.constants()
+							.productItem());
 		// FinanceApplication.constants().comment());
 
 	}
@@ -397,6 +399,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 					transactionItem.setTaxCode(zvatCodeid);
 			}
 		}
+		AbstractTransactionGrid<ClientTransactionItem> vendorTransactionGrid = getTransactionGrid();
 		vendorTransactionGrid.addData(transactionItem);
 
 	}

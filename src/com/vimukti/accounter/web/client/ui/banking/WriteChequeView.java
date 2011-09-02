@@ -9,7 +9,6 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
@@ -46,6 +45,7 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
+import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.grids.TaxAgencyTransactionGrid;
@@ -490,9 +490,9 @@ public class WriteChequeView extends
 				} else
 					result.add(transactionVendorGrid.validateGrid());
 				break;
-				// case ClientPayee.TYPE_TAX_AGENCY:
-				// return AccounterValidator
-				// .isBlankTransaction(taxAgencyGrid);
+			// case ClientPayee.TYPE_TAX_AGENCY:
+			// return AccounterValidator
+			// .isBlankTransaction(taxAgencyGrid);
 			}
 		}
 
@@ -1242,7 +1242,6 @@ public class WriteChequeView extends
 
 	}
 
-
 	public void onEdit() {
 		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
 
@@ -1341,5 +1340,10 @@ public class WriteChequeView extends
 		initPayToCombo();
 		setDisableFields();
 		initBankaccountCombo();
+	}
+
+	@Override
+	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
+		return taxAgencyGrid;
 	}
 }
