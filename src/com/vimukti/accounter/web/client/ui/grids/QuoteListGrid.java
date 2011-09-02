@@ -122,10 +122,23 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 
 	@Override
 	protected int getCellWidth(int index) {
-		if (index == 8)
+		if (index == 0)
+			return 80;
+		else if (index == 1)
 			return 50;
-		// else if (index == 9)
-		// return 30;
+		else if (index == 3)
+			return 100;
+		else if (index == 4)
+			return 100;
+		else if (index == 5)
+			return 100;
+		else if (index == 6)
+			return 90;
+		else if (index == 7)
+			return 80;
+		else if (index == 8)
+			return 60;
+
 		return -1;
 	}
 

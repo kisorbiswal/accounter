@@ -264,21 +264,42 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 			else
 				return 20;
 		}
-		if (index == 1) {
-			return 135;
-		}
 		if (index == 0) {
 			return 40;
 		}
-		return super.getCellWidth(index);
+		if (index == 2) {
+			return 100;
+		}
+		if (index == 3) {
+			return 70;
+		}
+		if (index == 4) {
+			return 70;
+		}
+		if (index == 5) {
+			return 70;
+		}
+		if (index == 6) {
+			return 70;
+		}
+		if (index == 7) {
+			return 70;
+		}
+		if (index == 8) {
+			return 70;
+		}
+		if (index == 9) {
+			return 70;
+		}
+		return -1;
 	}
 
 	@Override
 	protected int sort(PayeeList obj1, PayeeList obj2, int index) {
 		switch (index) {
 		case 1:
-			return obj1.getPayeeName().toLowerCase()
-					.compareTo(obj2.getPayeeName().toLowerCase());
+			return obj1.getPayeeName().toLowerCase().compareTo(
+					obj2.getPayeeName().toLowerCase());
 
 			// case 3:
 			//

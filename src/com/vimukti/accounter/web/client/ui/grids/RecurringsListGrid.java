@@ -25,6 +25,26 @@ public class RecurringsListGrid extends
 	}
 
 	@Override
+	protected int getCellWidth(int index) {
+		switch (index) {
+		case 1:
+			return 130;
+		case 2:
+			return 130;
+		case 3:
+			return 130;
+		case 4:
+			return 130;
+		case 5:
+			return 150;
+		case 6:
+			return 130;
+
+		}
+		return -1;
+	}
+
+	@Override
 	protected void executeDelete(ClientRecurringTransaction object) {
 		deleteObject(object);
 	}
@@ -59,8 +79,8 @@ public class RecurringsListGrid extends
 	@Override
 	public void onDoubleClick(ClientRecurringTransaction obj) {
 
-		ReportsRPC.openTransactionView(obj.getRefTransactionType(),
-				obj.getReferringTransaction());
+		ReportsRPC.openTransactionView(obj.getRefTransactionType(), obj
+				.getReferringTransaction());
 
 		// TODO need to open dialog also.
 		RecurringTransactionDialog dialog = null;

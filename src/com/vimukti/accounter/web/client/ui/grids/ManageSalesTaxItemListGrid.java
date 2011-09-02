@@ -76,9 +76,9 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 		case 2:
 			return 150;
 		case 3:
-			return 300;
+			return 100;
 		case 4:
-			return 15;
+			return 25;
 		}
 		return -1;
 	}
@@ -110,8 +110,8 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 	protected int sort(ClientTAXItem obj1, ClientTAXItem obj2, int index) {
 		switch (index) {
 		case 1:
-			return obj1.getName().toLowerCase()
-					.compareTo(obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase().compareTo(
+					obj2.getName().toLowerCase());
 
 		case 2:
 			String desc1 = obj1.getDescription() != null ? obj1

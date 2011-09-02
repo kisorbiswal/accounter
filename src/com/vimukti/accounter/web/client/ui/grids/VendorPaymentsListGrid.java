@@ -9,8 +9,8 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
@@ -96,8 +96,8 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 	}
 
 	protected void voidTransaction(final PaymentsList obj) {
-		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()),
-				obj.getTransactionId());
+		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()), obj
+				.getTransactionId());
 	}
 
 	protected void deleteTransaction(final PaymentsList obj) {
@@ -164,8 +164,8 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	public void onDoubleClick(PaymentsList paymentsList) {
-		ReportsRPC.openTransactionView(getType(paymentsList),
-				paymentsList.getTransactionId());
+		ReportsRPC.openTransactionView(getType(paymentsList), paymentsList
+				.getTransactionId());
 	}
 
 	/* This method returns the Transaction type type basing on the PayBill Type */
@@ -184,11 +184,22 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 			return 65;
 		else if (index == 3)
 			return 90;
+		else if (index == 0)
+			return 100;
+		else if (index == 1)
+			return 80;
+		else if (index == 2)
+			return 80;
+		else if (index == 3)
+			return 90;
 		else if (index == 5)
-			return 120;
-		// else if (index == 10)
-		// return 30;
-		return super.getCellWidth(index);
+			return 130;
+		else if (index == 6)
+			return 110;
+		else if (index == 7)
+			return 80;
+
+		return -1;
 	};
 
 	@Override
@@ -238,8 +249,8 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 			break;
 
 		case 4:
-			return obj1.getName().toLowerCase()
-					.compareTo(obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase().compareTo(
+					obj2.getName().toLowerCase());
 
 		case 5:
 			String type1 = Utility.getTransactionName(obj1.getType())
@@ -249,8 +260,8 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 			return type1.compareTo(type2);
 
 		case 6:
-			return obj1.getPaymentMethodName().toLowerCase()
-					.compareTo(obj2.getPaymentMethodName().toLowerCase());
+			return obj1.getPaymentMethodName().toLowerCase().compareTo(
+					obj2.getPaymentMethodName().toLowerCase());
 
 		case 7:
 			return obj1.getAmountPaid().compareTo(obj2.getAmountPaid());

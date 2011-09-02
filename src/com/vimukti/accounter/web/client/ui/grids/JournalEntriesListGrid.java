@@ -8,8 +8,8 @@ import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 
@@ -66,21 +66,13 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 		case 0:
 			return 150;
 		case 1:
-			return 200;
-			// return 100;
-			// case 1:
-			// return 130;
-			// case 3:
-			// return 170;
+			return 150;
+		case 3:
+			return 150;
 		case 4:
-			return 75;
-			// return 70;
-			// case 5:
-			// return 60;
-			// case 6:
-			// return 30;
+			return 100;
 		default:
-			return super.getCellWidth(index);
+			return -1;
 		}
 
 	}
@@ -189,8 +181,8 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 	// rpcDoSerivce.voidTransaction(type, obj.getID(), callback);
 	// }
 	protected void voidTransaction(final ClientJournalEntry obj) {
-		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()),
-				obj.getID());
+		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()), obj
+				.getID());
 	}
 
 	protected void deleteTransaction(final ClientJournalEntry obj) {
@@ -243,8 +235,8 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 			break;
 		case 2:
 			if (obj1.getMemo() != null && obj2.getMemo() != null)
-				return obj1.getMemo().toLowerCase()
-						.compareTo(obj2.getMemo().toLowerCase());
+				return obj1.getMemo().toLowerCase().compareTo(
+						obj2.getMemo().toLowerCase());
 			break;
 		case 3:
 			Double amt1 = obj1.getTotal();

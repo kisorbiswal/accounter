@@ -8,8 +8,8 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
@@ -140,8 +140,8 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 	}
 
 	protected void voidTransaction(final CustomerRefundsList obj) {
-		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()),
-				obj.getTransactionId());
+		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()), obj
+				.getTransactionId());
 	}
 
 	protected void deleteTransaction(final CustomerRefundsList obj) {
@@ -173,8 +173,20 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 	protected int getCellWidth(int index) {
 		if (index == 8)
 			return 50;
-		// else if (index == 9)
-		// return 30;
+		else if (index == 0)
+			return 100;
+		else if (index == 1)
+			return 80;
+		else if (index == 2)
+			return 80;
+		else if (index == 3)
+			return 80;
+		else if (index == 5)
+			return 100;
+		else if (index == 6)
+			return 100;
+		else if (index == 7)
+			return 80;
 		return -1;
 	}
 
@@ -221,8 +233,8 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 			break;
 
 		case 4:
-			return obj1.getName().toLowerCase()
-					.compareTo(obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase().compareTo(
+					obj2.getName().toLowerCase());
 
 		case 5:
 			String type1 = Utility.getTransactionName((obj1.getType()))
@@ -232,8 +244,8 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 			return type1.compareTo(type2);
 
 		case 6:
-			return obj1.getPaymentMethod().toLowerCase()
-					.compareTo(obj2.getPaymentMethod().toLowerCase());
+			return obj1.getPaymentMethod().toLowerCase().compareTo(
+					obj2.getPaymentMethod().toLowerCase());
 
 		case 7:
 			return obj1.getAmountPaid().compareTo(obj2.getAmountPaid());

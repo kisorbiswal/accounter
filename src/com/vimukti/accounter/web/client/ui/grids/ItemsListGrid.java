@@ -28,15 +28,19 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 	protected int getCellWidth(int index) {
 		if (index == 0)
 			return 40;
+		else if (index == 2)
+			return 400;
+		else if (index == 3)
+			return 100;
 		else if (index == 4)
-			return 200;
+			return 100;
 		else if (index == 5)
 			if (UIUtils.isMSIEBrowser())
 				return 25;
 			else
 				return 20;
 
-		return super.getCellWidth(index);
+		return -1;
 	};
 
 	@Override
@@ -59,9 +63,13 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 					.getItemTypeText(obj) : "";
 		case 4:
 			if (!ItemListView.isPurchaseType) {
-				return amountAsString(obj.getSalesPrice()) != null ? amountAsString(obj.getSalesPrice()) : "";
+				return amountAsString(obj.getSalesPrice()) != null ? amountAsString(obj
+						.getSalesPrice())
+						: "";
 			} else
-				return amountAsString(obj.getPurchasePrice()) != null ? amountAsString(obj.getPurchasePrice()) : "";
+				return amountAsString(obj.getPurchasePrice()) != null ? amountAsString(obj
+						.getPurchasePrice())
+						: "";
 
 		case 5:
 			return Accounter.getFinanceMenuImages().delete();
@@ -106,8 +114,8 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 
 		switch (index) {
 		case 1:
-			return item1.getName().toLowerCase()
-					.compareTo(item2.getName().toLowerCase());
+			return item1.getName().toLowerCase().compareTo(
+					item2.getName().toLowerCase());
 		case 2:
 			if (!ItemListView.isPurchaseType) {
 				String obj1 = item1.getSalesDescription() != null ? item1

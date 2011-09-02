@@ -9,8 +9,8 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
@@ -137,8 +137,8 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 	}
 
 	protected void voidTransaction(final ReceivePaymentsList obj) {
-		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()),
-				obj.getTransactionId());
+		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()), obj
+				.getTransactionId());
 	}
 
 	protected void deleteTransaction(final ReceivePaymentsList obj) {
@@ -170,10 +170,20 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 	protected int getCellWidth(int index) {
 		if (index == 4)
 			return 150;
-		else if (index == 6)
+		else if (index == 0)
+			return 150;
+		else if (index == 1)
+			return 100;
+
+		else if (index == 2)
 			return 50;
-		// else if (index == 7)
-		// return 30;
+
+		else if (index == 5)
+			return 100;
+
+		else if (index == 6)
+			return 80;
+
 		return -1;
 	}
 

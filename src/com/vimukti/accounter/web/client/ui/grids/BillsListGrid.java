@@ -57,11 +57,21 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 
 	@Override
 	protected int getCellWidth(int index) {
+		if (index == 0)
+			return 110;
+		if (index == 1)
+			return 100;
+		if (index == 2)
+			return 70;
+		if (index == 4)
+			return 100;
+		if (index == 5)
+			return 70;
 		if (index == 6)
-			return 65;
+			return 90;
 		else if (index == 8)
 			return 30;
-		return super.getCellWidth(index);
+		return -1;
 	};
 
 	@Override
@@ -79,8 +89,8 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 	@Override
 	public void onDoubleClick(BillsList bills) {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			ReportsRPC.openTransactionView(bills.getType(),
-					bills.getTransactionId());
+			ReportsRPC.openTransactionView(bills.getType(), bills
+					.getTransactionId());
 
 	}
 
@@ -108,8 +118,8 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 			if (obj.getType() != ClientTransaction.TYPE_EMPLOYEE_EXPENSE
 					|| (obj.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE && obj
 							.getExpenseStatus() == ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)) {
-				showWarningDialog(obj, this.getAccounterCoreType(obj),
-						this.getTransactionID(obj), col);
+				showWarningDialog(obj, this.getAccounterCoreType(obj), this
+						.getTransactionID(obj), col);
 			} else {
 				Accounter.showError(Accounter.constants()
 						.expensecantbevoiditisApproved());
@@ -183,8 +193,8 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 			else
 				return obj1.getNumber().compareTo(obj2.getNumber());
 		case 3:
-			return obj1.getVendorName().toLowerCase()
-					.compareTo(obj2.getVendorName().toLowerCase());
+			return obj1.getVendorName().toLowerCase().compareTo(
+					obj2.getVendorName().toLowerCase());
 
 		case 4:
 			return obj1.getOriginalAmount().compareTo(obj2.getOriginalAmount());

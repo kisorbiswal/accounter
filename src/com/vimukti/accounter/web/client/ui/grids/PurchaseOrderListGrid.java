@@ -54,8 +54,8 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 	@Override
 	public void onDoubleClick(PurchaseOrdersList obj) {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			ReportsRPC.openTransactionView(obj.getType(),
-					obj.getTransactionId());
+			ReportsRPC.openTransactionView(obj.getType(), obj
+					.getTransactionId());
 
 	}
 
@@ -65,7 +65,7 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 			return 75;
 		if (index == 1 || index == 3)
 			return 150;
-		return super.getCellWidth(index);
+		return -1;
 	}
 
 	@Override

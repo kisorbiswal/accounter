@@ -99,7 +99,7 @@ public class ManageTAXCodeListGrid extends BaseListGrid<ClientTAXCode> {
 		if (index == 4) {
 			return 15;
 		}
-		return super.getCellWidth(index);
+		return -1;
 	}
 
 	@Override

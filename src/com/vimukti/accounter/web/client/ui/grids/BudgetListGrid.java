@@ -179,8 +179,32 @@ public class BudgetListGrid extends BaseListGrid<BudgetList> {
 	protected int getCellWidth(int index) {
 		if (index == 0) {
 			return 135;
+		} else if (index == 1) {
+			return 65;
+		} else if (index == 2) {
+			return 65;
+		} else if (index == 3) {
+			return 65;
+		} else if (index == 4) {
+			return 65;
+		} else if (index == 5) {
+			return 65;
+		} else if (index == 6) {
+			return 65;
+		} else if (index == 7) {
+			return 65;
+		} else if (index == 8) {
+			return 65;
+		} else if (index == 9) {
+			return 65;
+		} else if (index == 10) {
+			return 65;
+		} else if (index == 11) {
+			return 65;
+		} else if (index == 12) {
+			return 65;
 		}
-		return super.getCellWidth(index);
+		return -1;
 	}
 
 

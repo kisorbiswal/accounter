@@ -52,8 +52,8 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 			return 100;
 		if (index == 2)
 			return 250;
-		return super.getCellWidth(index);
-		// return -1;
+
+		return -1;
 	}
 
 	/*
@@ -125,8 +125,8 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 	protected int sort(ClientTAXItem obj1, ClientTAXItem obj2, int index) {
 		switch (index) {
 		case 1:
-			return obj1.getName().toLowerCase()
-					.compareTo(obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase().compareTo(
+					obj2.getName().toLowerCase());
 
 		case 2:
 			String agency1 = null;

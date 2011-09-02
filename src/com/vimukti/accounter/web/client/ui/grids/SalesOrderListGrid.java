@@ -48,8 +48,8 @@ public class SalesOrderListGrid extends BaseListGrid<SalesOrdersList> {
 	@Override
 	public void onDoubleClick(SalesOrdersList obj) {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			ReportsRPC.openTransactionView(obj.getType(),
-					obj.getTransactionId());
+			ReportsRPC.openTransactionView(obj.getType(), obj
+					.getTransactionId());
 	}
 
 	@Override
@@ -65,9 +65,12 @@ public class SalesOrderListGrid extends BaseListGrid<SalesOrdersList> {
 	protected int getCellWidth(int index) {
 		if (index == 0)
 			return 75;
-		if (index == 1 || index == 3)
+		if (index == 1)
+			return 100;
+		if (index == 3)
 			return 150;
-		return super.getCellWidth(index);
+
+		return -1;
 	}
 
 	@Override
