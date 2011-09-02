@@ -101,8 +101,9 @@ public class ViewManager extends HorizontalPanel {
 		}
 		if (accounterHelpView != null) {
 			this.add(accounterHelpView);
+			this.setCellWidth(accounterHelpView, "50%");
 		}
-		this.setCellWidth(accounterHelpView, "50%");
+
 		initilizeToolBar();
 		initializeActivityManager();
 	}
@@ -110,6 +111,7 @@ public class ViewManager extends HorizontalPanel {
 	private HelpPanel accounterHelpView;
 
 	private Widget createHelpPanel() {
+		isHelpPanelEnabled = true;
 		if (isHelpPanelEnabled) {
 			accounterHelpView = new HelpPanel();
 			accounterHelpView.setHelpUrl(this.getUrl());
@@ -495,7 +497,7 @@ public class ViewManager extends HorizontalPanel {
 
 	private HelpDialog helpDialog;
 
-	private boolean isHelpPanelEnabled = false;
+	private boolean isHelpPanelEnabled = true;
 
 	private void createHelpDialog() {
 		if (helpDialog != null) {
