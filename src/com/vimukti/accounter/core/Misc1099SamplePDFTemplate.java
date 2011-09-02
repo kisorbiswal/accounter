@@ -7,30 +7,25 @@ import java.util.ArrayList;
 import com.vimukti.accounter.utils.MiniTemplator;
 import com.vimukti.accounter.utils.MiniTemplator.TemplateSyntaxException;
 import com.vimukti.accounter.web.client.core.Client1099Form;
-import com.vimukti.accounter.web.server.FinanceTool;
 
-/**
- * @author photoshop3
- * 
- */
-public class Misc1099PDFTemplate {
+public class Misc1099SamplePDFTemplate {
 
 	private static final String templateFileName = "templetes" + File.separator
-			+ "1099MISCTemplate.html";
+			+ "1099SampleTemplate.html";
 	ArrayList<Client1099Form> list;
 
 	String payersAddress = "&nbsp;";
-	String rents = "&nbsp;";
-	String royalties = "&nbsp;";
-	String other_income = "&nbsp;";
+	String rents = "123456789";
+	String royalties = "123456789;";
+	String other_income = "123456789;";
 	String fedral_incomeTax = "&nbsp;";
-	String payer_fedral_identification_number = "&nbsp;";
+	String payer_fedral_identification_number = "123456789";
 	String recepent_identification_number = "&nbsp;";
 	String fishing_boats_procedds = "&nbsp;";
 	String medical_health_payments = "&nbsp;";
-	String recepent_name = "&nbsp;";
+	String recepent_name = "123456789";
 	String nonemployee_compensation = "&nbsp;";
-	String substitute_payment = "&nbsp;";
+	String substitute_payment = "123456789";
 	String street_adress = "&nbsp;";
 	String crop_insurance_Proceeds = "&nbsp;";
 	String city_zip = "&nbsp;";
@@ -49,16 +44,7 @@ public class Misc1099PDFTemplate {
 	int marginBottom;
 	Client1099Form form;
 
-	public Misc1099PDFTemplate(Vendor memo, int horizontalValue,
-			int verticalValue) {
-
-		if (memo.getName().length() > 0) {
-			recepent_name = memo.getName();
-		}
-
-		if (memo.getAccount().getNumber().length() > 0) {
-			account_number = memo.getAccount().getNumber();
-		}
+	public Misc1099SamplePDFTemplate(int horizontalValue, int verticalValue) {
 
 		if (horizontalValue < 0) {
 			marginLeft = -1 * horizontalValue;
@@ -71,43 +57,6 @@ public class Misc1099PDFTemplate {
 		} else {
 			marginBottom = verticalValue;
 		}
-
-		Client1099Form form = new FinanceTool().get1099InformationByVendor(memo
-				.getID());
-
-		if (form.getBox(0) > 0)
-			rents = Double.toString(form.getBox(0));
-
-		if (form.getBox(1) > 0)
-			royalties = Double.toString(form.getBox(1));
-
-		if (form.getBox(2) > 0)
-			other_income = Double.toString(form.getBox(2));
-
-		if (form.getBox(3) > 0)
-			fedral_incomeTax = Double.toString(form.getBox(3));
-
-		if (form.getBox(4) > 0)
-			fishing_boats_procedds = Double.toString(form.getBox(4));
-
-		if (form.getBox(5) > 0)
-			medical_health_payments = Double.toString(form.getBox(5));
-
-		if (form.getBox(6) > 0)
-			nonemployee_compensation = Double.toString(form.getBox(6));
-
-		if (form.getBox(7) > 0)
-			substitute_payment = Double.toString(form.getBox(7));
-
-		if (form.getBox(9) > 0)
-			crop_insurance_Proceeds = Double.toString(form.getBox(9));
-
-		if (form.getBox(12) > 0)
-			golden_parachute_payments = Double.toString(form.getBox(12));
-
-		if (form.getBox(13) > 0)
-			gross_paidto_atorney = Double.toString(form.getBox(13));
-
 	}
 
 	public String generatePDF() throws TemplateSyntaxException, IOException {
@@ -256,7 +205,7 @@ public class Misc1099PDFTemplate {
 	}
 
 	public String getFileName() {
-		return "MISC1099FORM";
+		return "1099Sample";
 	}
 
 }

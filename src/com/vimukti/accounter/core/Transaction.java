@@ -92,6 +92,7 @@ public abstract class Transaction extends CreatableObject implements
 	public static final int UPDATE_TYPE_PLUS = 100;
 	public static final int UPDATE_TYPE_MINUS = 101;
 	public static final int TYPE_ADJUST_SALES_TAX = 32;
+	public static final int TYPE_MISC_SAMPLE_FORM = 33;
 
 	int type;
 	FinanceDate transactionDate;
@@ -1142,22 +1143,22 @@ public abstract class Transaction extends CreatableObject implements
 	@Override
 	public Transaction clone() throws CloneNotSupportedException {
 		Transaction clone = (Transaction) super.clone();
-		
+
 		// cloned should be a template.
-		clone.id=0;
-		
+		clone.id = 0;
+
 		List<TransactionItem> items = new ArrayList<TransactionItem>();
 		for (TransactionItem transactionItem : transactionItems) {
 			items.add(transactionItem.clone());
 		}
 		clone.setTransactionItems(items);
-		
+
 		clone.setRecurringTransaction(null);
-		
+
 		return clone;
 	}
-	
-	public void resetID(){
-		id=0;
-	}	
+
+	public void resetID() {
+		id = 0;
+	}
 }
