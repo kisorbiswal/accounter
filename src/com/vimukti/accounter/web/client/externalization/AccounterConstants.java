@@ -4424,6 +4424,24 @@ public interface AccounterConstants extends Constants {
 
 	public String both();
 
+	public String location();
+
+	public String buisiness();
+
+	public String department();
+
+	public String division();
+
+	public String property();
+
+	public String store();
+
+	public String territory();
+
+	public String locationGroup();
+	
+	public String prouductOrService();
+
 	public String organisation();
 
 	public String daysInAdvance();
