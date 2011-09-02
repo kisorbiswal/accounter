@@ -36,6 +36,8 @@ import com.vimukti.accounter.web.client.ui.serverreports.SalesByCustomerDetailSe
 import com.vimukti.accounter.web.client.ui.serverreports.SalesByCustomerSummaryServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.SalesByItemDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.SalesByItemSummaryServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.SalesByLocationDetailsServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.SalesByLocationsummaryServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.SalesClosedOrderServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.SalesOpenOrderServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.SalesTaxLiabilityServerReport;
@@ -95,6 +97,8 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_CASHFLOWSTATEMENT = 148;
 	public final static int REPORT_TYPE_AMOUNTSDUETOVENDOR = 149;
 	public final static int REPORT_TYPE_CUSTOMERSTATEMENT = 150;
+	public final static int REPORT_TYPE_SALESBYLOCATIONDETAIL = 151;
+	public final static int REPORT_TYPE_SALESBYLOCATIONDETAILFORLOCATION = 152;
 	public final static int REPORT_TYPE_PROFITANDLOSSBYLOCATION = 153;
 
 	private static int companyType;
@@ -188,6 +192,74 @@ public class ReportsGenerator {
 				e.printStackTrace();
 			}
 			return profitAndLossServerReport.getGridTemplate();
+		case REPORT_TYPE_SALESBYLOCATIONDETAILFORLOCATION:
+			SalesByLocationsummaryServerReport salesByLocationsummaryServerReport = new SalesByLocationsummaryServerReport(
+					startDate.getDate(), endDate.getDate(), generationType1) {
+
+				@Override
+				public ClientFinanceDate getCurrentFiscalYearEndDate() {
+					return Utility_R.getCurrentFiscalYearEndDate();
+				}
+
+				@Override
+				public ClientFinanceDate getCurrentFiscalYearStartDate() {
+					return Utility_R.getCurrentFiscalYearStartDate();
+				}
+
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					ReportsGenerator.companyType = Company.getCompany().accountingType;
+					ReportUtility.companyType = companyType;
+					ReportUtility.companyType = companyType;
+					return ReportsGenerator.getDateByCompanyType(date);
+				}
+			};
+			updateReport(salesByLocationsummaryServerReport, finaTool);
+			salesByLocationsummaryServerReport.resetVariables();
+			try {
+				salesByLocationsummaryServerReport
+						.onResultSuccess(reportsSerivce
+								.getSalesByLocationSummaryReport(
+										startDate.toClientFinanceDate(),
+										endDate.toClientFinanceDate()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return salesByLocationsummaryServerReport.getGridTemplate();
+		case REPORT_TYPE_SALESBYLOCATIONDETAIL:
+			SalesByLocationDetailsServerReport salesByLocationDetailsServerReport = new SalesByLocationDetailsServerReport(
+					startDate.getDate(), endDate.getDate(), generationType1) {
+
+				@Override
+				public ClientFinanceDate getCurrentFiscalYearEndDate() {
+					return Utility_R.getCurrentFiscalYearEndDate();
+				}
+
+				@Override
+				public ClientFinanceDate getCurrentFiscalYearStartDate() {
+					return Utility_R.getCurrentFiscalYearStartDate();
+				}
+
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					ReportsGenerator.companyType = Company.getCompany().accountingType;
+					ReportUtility.companyType = companyType;
+					ReportUtility.companyType = companyType;
+					return ReportsGenerator.getDateByCompanyType(date);
+				}
+			};
+			updateReport(salesByLocationDetailsServerReport, finaTool);
+			salesByLocationDetailsServerReport.resetVariables();
+			try {
+				salesByLocationDetailsServerReport
+						.onResultSuccess(reportsSerivce
+								.getSalesByLocationDetailsReport(
+										startDate.toClientFinanceDate(),
+										endDate.toClientFinanceDate()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return salesByLocationDetailsServerReport.getGridTemplate();
 		case REPORT_TYPE_BALANCESHEET:
 			BalanceSheetServerReport balanceSheetServerReport = new BalanceSheetServerReport(
 					this.startDate.getDate(), this.endDate.getDate(),
@@ -1258,6 +1330,10 @@ public class ReportsGenerator {
 			return "Amount Due To Vendor Report";
 		case REPORT_TYPE_CUSTOMERSTATEMENT:
 			return "Customer Statement";
+		case REPORT_TYPE_SALESBYLOCATIONDETAIL:
+			return "Sales By Location Details Report";
+		case REPORT_TYPE_SALESBYLOCATIONDETAILFORLOCATION:
+			return "Sales By Location Detail For Location";
 		case REPORT_TYPE_PROFITANDLOSSBYLOCATION:
 			return "Profit and Loss by Location";
 		default:
