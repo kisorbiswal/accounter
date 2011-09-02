@@ -1275,39 +1275,88 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	public void deleteSalesPerson(long salesPersonId) {
-		this.salesPersons.remove(this.getSalesPerson(salesPersonId));
+		ClientSalesPerson person = this.getSalesPerson(salesPersonId);
+		if (person != null) {
+			this.salesPersons.remove(person);
+			fireEvent(new CoreEvent<ClientSalesPerson>(ChangeType.DELETE,
+					person));
+		}
 	}
 
 	public void deletePaymentTerms(long paymentTermsId) {
-		this.paymentTerms.remove(this.getPaymentTerms(paymentTermsId));
+		ClientPaymentTerms paymentterm = this.getPaymentTerms(paymentTermsId);
+		if (paymentterm != null) {
+			this.paymentTerms.remove(paymentterm);
+			fireEvent(new CoreEvent<ClientPaymentTerms>(ChangeType.DELETE,
+					paymentterm));
+		}
 	}
 
 	public void deletePriceLevel(long priceLevelId) {
-		this.priceLevels.remove(this.getPriceLevel(priceLevelId));
+		ClientPriceLevel priceLevel = this.getPriceLevel(priceLevelId);
+		if (priceLevel != null) {
+			this.priceLevels.remove(priceLevel);
+			fireEvent(new CoreEvent<ClientPriceLevel>(ChangeType.DELETE,
+					priceLevel));
+		}
 	}
 
 	public void deleteCustomerGroup(long customerGroup) {
-		this.customerGroups.remove(this.getCustomerGroup(customerGroup));
+		ClientCustomerGroup customergroup = this
+				.getCustomerGroup(customerGroup);
+		if (customergroup != null) {
+			this.customerGroups.remove(customergroup);
+			fireEvent(new CoreEvent<ClientCustomerGroup>(ChangeType.DELETE,
+					customergroup));
+		}
 	}
 
 	public void deleteVendorGroup(long vendorGroup) {
-		this.vendorGroups.remove(this.getVendorGroup(vendorGroup));
+		ClientVendorGroup vendorgroup = this.getVendorGroup(vendorGroup);
+		if (vendorgroup != null) {
+			this.vendorGroups.remove(vendorgroup);
+			fireEvent(new CoreEvent<ClientVendorGroup>(ChangeType.DELETE,
+					vendorgroup));
+		}
 	}
 
 	public void deleteShippingMethod(long shippingMethod) {
-		this.shippingMethods.remove(this.getShippingMethod(shippingMethod));
+		ClientShippingMethod clientShippingMethod = this
+				.getShippingMethod(shippingMethod);
+		if (clientShippingMethod != null) {
+			this.shippingMethods.remove(clientShippingMethod);
+			fireEvent(new CoreEvent<ClientShippingMethod>(ChangeType.DELETE,
+					clientShippingMethod));
+		}
 	}
 
 	public void deleteShippingTerms(long shippingTerm) {
-		this.shippingTerms.remove(this.getShippingTerms(shippingTerm));
+		ClientShippingTerms clientShippingTerms = this
+				.getShippingTerms(shippingTerm);
+		if (clientShippingTerms != null) {
+			this.shippingTerms.remove(clientShippingTerms);
+			fireEvent(new CoreEvent<ClientShippingTerms>(ChangeType.DELETE,
+					clientShippingTerms));
+		}
 	}
 
 	public void deleteItemGroup(long itemGroup) {
-		this.ItemGroups.remove(this.getItemGroup(itemGroup));
+		ClientItemGroup clientItemGroup = this.getItemGroup(itemGroup);
+		if (clientItemGroup != null) {
+			this.ItemGroups.remove(clientItemGroup);
+			fireEvent(new CoreEvent<ClientItemGroup>(ChangeType.DELETE,
+					clientItemGroup));
+		}
 	}
 
 	public void deleteCreditRating(long creditRating) {
-		this.creditRatings.remove(this.getCreditRating(creditRating));
+		ClientCreditRating clientCreditRating = this
+				.getCreditRating(creditRating);
+		if (clientCreditRating != null) {
+			this.creditRatings.remove(clientCreditRating);
+			fireEvent(new CoreEvent<ClientCreditRating>(ChangeType.DELETE,
+					clientCreditRating));
+		}
 	}
 
 	// public void deleteTaxAgency(long taxAgency) {
@@ -1319,26 +1368,46 @@ public class ClientCompany implements IAccounterCore {
 	// }
 
 	public void deleteCustomer(long customerId) {
-		this.customers.remove(this.getCustomer(customerId));
+
+		ClientCustomer clientCustomer = this.getCustomer(customerId);
+		if (clientCustomer != null) {
+			this.customers.remove(clientCustomer);
+			fireEvent(new CoreEvent<ClientCustomer>(ChangeType.DELETE,
+					clientCustomer));
+		}
 	}
 
 	public void deletePayee(long payeeId) {
-		this.payees.remove(this.getPayee(payeeId));
+
+		ClientPayee clientPayee = this.getPayee(payeeId);
+		if (clientPayee != null) {
+			this.payees.remove(clientPayee);
+			fireEvent(new CoreEvent<ClientPayee>(ChangeType.DELETE, clientPayee));
+		}
 	}
 
 	public void deleteVendor(long vendorId) {
-		this.vendors.remove(this.getVendor(vendorId));
+		ClientVendor clientVendor = this.getVendor(vendorId);
+		if (clientVendor != null) {
+			this.vendors.remove(clientVendor);
+			fireEvent(new CoreEvent<ClientVendor>(ChangeType.DELETE,
+					clientVendor));
+		}
 	}
 
 	public void deleteItem(long itemId) {
-		this.items.remove(this.getItem(itemId));
+		ClientItem clientItem = this.getItem(itemId);
+		if (clientItem != null) {
+			this.items.remove(clientItem);
+			fireEvent(new CoreEvent<ClientItem>(ChangeType.DELETE, clientItem));
+		}
 	}
 
 	public void deleteAccount(long accountId) {
 		ClientAccount account = this.getAccount(accountId);
 		if (account != null) {
 			this.accounts.remove(account);
-			fireEvent(new CoreEvent<ClientAccount>(ChangeType.DELETE,account));
+			fireEvent(new CoreEvent<ClientAccount>(ChangeType.DELETE, account));
 		}
 	}
 
@@ -1347,15 +1416,29 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	public void deleteTaxGroup(long taxGroup) {
-		this.taxGroups.remove(this.getTaxGroup(taxGroup));
+		ClientTAXGroup clientTaxGroup = this.getTaxGroup(taxGroup);
+		if (clientTaxGroup != null) {
+			this.taxGroups.remove(clientTaxGroup);
+			fireEvent(new CoreEvent<ClientTAXGroup>(ChangeType.DELETE,
+					clientTaxGroup));
+		}
 	}
 
 	public void deleteBank(long bankId) {
-		this.banks.remove(this.getBank(bankId));
+		ClientBank clientBank = this.getBank(bankId);
+		if (clientBank != null) {
+			this.banks.remove(clientBank);
+			fireEvent(new CoreEvent<ClientBank>(ChangeType.DELETE, clientBank));
+		}
 	}
 
 	public void deleteTaxCode(long taxCode) {
-		this.taxCodes.remove(this.getTAXCode(taxCode));
+		ClientTAXCode clientTaxCode = this.getTAXCode(taxCode);
+		if (clientTaxCode != null) {
+			this.taxCodes.remove(clientTaxCode);
+			fireEvent(new CoreEvent<ClientTAXCode>(ChangeType.DELETE,
+					clientTaxCode));
+		}
 	}
 
 	// public void deleteVatGroup(long vatGroup) {
@@ -1363,23 +1446,50 @@ public class ClientCompany implements IAccounterCore {
 	// }
 
 	public void deleteTaxItem(long taxItem) {
-		this.taxItems.remove(this.getTAXItem(taxItem));
+		ClientTAXItem clientTaxItem = this.getTaxItem(taxItem);
+		if (clientTaxItem != null) {
+			this.taxItems.remove(clientTaxItem);
+			fireEvent(new CoreEvent<ClientTAXItem>(ChangeType.DELETE,
+					clientTaxItem));
+		}
 	}
 
 	public void deleteTaxAgency(long taxAgencyId) {
-		this.taxAgencies.remove(this.getTaxAgency(taxAgencyId));
+		ClientTAXAgency clientTaxAgency = this.getTaxAgency(taxAgencyId);
+		if (clientTaxAgency != null) {
+			this.taxAgencies.remove(clientTaxAgency);
+			fireEvent(new CoreEvent<ClientTAXAgency>(ChangeType.DELETE,
+					clientTaxAgency));
+		}
 	}
 
 	public void deleteVAtReturn(long vatReturnId) {
-		this.vatReturns.remove(this.getVatReturnBox(vatReturnId));
+		ClientVATReturn clientVatReturn = this.getVatReturn(vatReturnId);
+		if (clientVatReturn != null) {
+			this.vatReturns.remove(clientVatReturn);
+			fireEvent(new CoreEvent<ClientVATReturn>(ChangeType.DELETE,
+					clientVatReturn));
+		}
 	}
 
 	public void deleteFixelYear(long fixelYearId) {
-		this.fiscalYears.remove(this.getFixelYear(fixelYearId));
+
+		ClientFiscalYear clientFiscalYear = this.getFixelYear(fixelYearId);
+		if (clientFiscalYear != null) {
+			this.fiscalYears.remove(clientFiscalYear);
+			fireEvent(new CoreEvent<ClientFiscalYear>(ChangeType.DELETE,
+					clientFiscalYear));
+		}
 	}
 
 	public void deleteBrandingTheme(long themeId) {
-		this.brandingTheme.remove(this.getBrandingTheme(themeId));
+		ClientBrandingTheme clientBrandingTheme = this
+				.getBrandingTheme(themeId);
+		if (clientBrandingTheme != null) {
+			this.brandingTheme.remove(clientBrandingTheme);
+			fireEvent(new CoreEvent<ClientBrandingTheme>(ChangeType.DELETE,
+					clientBrandingTheme));
+		}
 	}
 
 	/**
@@ -1524,11 +1634,13 @@ public class ClientCompany implements IAccounterCore {
 
 						UIUtils.updateAccountsInSortedOrder(accounts, account);
 					}
-					fireEvent(new CoreEvent<ClientAccount>(ChangeType.CHANGE,account));
+					fireEvent(new CoreEvent<ClientAccount>(ChangeType.CHANGE,
+							account));
 				} else {
 
 					UIUtils.updateAccountsInSortedOrder(accounts, account);
-					fireEvent(new CoreEvent<ClientAccount>(ChangeType.ADD,account));
+					fireEvent(new CoreEvent<ClientAccount>(ChangeType.ADD,
+							account));
 				}
 
 				break;
@@ -1571,7 +1683,6 @@ public class ClientCompany implements IAccounterCore {
 			case TAX_GROUP:
 
 				ClientTAXGroup taxGroup = (ClientTAXGroup) accounterCoreObject;
-
 				// Utility.updateClientList(taxGroup, taxGroups);
 				UIUtils.updateClientListAndTaxItemGroup(taxGroup, taxItems,
 						taxGroups, taxItemGroups);
@@ -1593,7 +1704,6 @@ public class ClientCompany implements IAccounterCore {
 			case TAXITEM:
 
 				ClientTAXItem taxItem = (ClientTAXItem) accounterCoreObject;
-
 				// Utility.updateClientList(taxItem, taxItems);
 				UIUtils.updateClientListAndTaxItemGroup(taxItem, taxItems,
 						taxGroups, taxItemGroups);
@@ -1694,9 +1804,9 @@ public class ClientCompany implements IAccounterCore {
 				ClientFixedAsset fixedAsset = (ClientFixedAsset) accounterCoreObject;
 				Utility.updateClientList(fixedAsset, fixedAssets);
 				break;
-
 			// case VATITEM:
-			// ClientTAXItem vatItem = (ClientTAXItem) accounterCoreObject;
+			// ClientTAXItem vatItem = (ClientTAXItem)
+			// accounterCoreObject;
 			// Utility.updateClientList(vatItem, this.vatItems);
 			// ViewManager.updateComboDataInViews(SelectItemType.VAT_ITEM,
 			// accounterCoreObject);
@@ -1712,7 +1822,8 @@ public class ClientCompany implements IAccounterCore {
 			// Utility.updateClientList(code, this.vatCodes);
 			// break;
 			// case VATAGENCY:
-			// ClientVATAgency vagy = (ClientVATAgency) accounterCoreObject;
+			// ClientVATAgency vagy = (ClientVATAgency)
+			// accounterCoreObject;
 			// Utility.updateClientList(vagy, this.vatAgencies);
 			// Utility.updateClientList(vagy, payees);
 			// break;
@@ -1863,7 +1974,7 @@ public class ClientCompany implements IAccounterCore {
 			break;
 
 		case FIXEDASSET:
-
+			
 			deleteFixedAsset(id);
 			break;
 		case TAXITEM:
@@ -1907,7 +2018,12 @@ public class ClientCompany implements IAccounterCore {
 	// }
 
 	public void deleteFixedAsset(long id) {
-		this.fixedAssets.remove(this.getFixedAsset(id));
+		ClientFixedAsset fixedAsset = this.getFixedAsset(id);
+		if (fixedAsset != null) {
+			this.fixedAssets.remove(fixedAsset);
+			fireEvent(new CoreEvent<ClientFixedAsset>(ChangeType.DELETE,
+					fixedAsset));
+		}
 	}
 
 	@Override
