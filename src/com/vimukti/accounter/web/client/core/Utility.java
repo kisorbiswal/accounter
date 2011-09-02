@@ -12,6 +12,8 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
+import com.vimukti.accounter.web.client.util.ChangeType;
+import com.vimukti.accounter.web.client.util.CoreEvent;
 
 public class Utility implements IsSerializable, Serializable {
 
@@ -1239,30 +1241,38 @@ public class Utility implements IsSerializable, Serializable {
 
 		if (objectInList == null || objectsList == null)
 			return;
+		boolean change=false;
 		T existObj = getObject(objectsList, objectInList.getID());
-		if (existObj == null) {
-			// objectsList.add(objectInList);
-		} else {
+		if (existObj != null) {
 			objectsList.remove(existObj);
 			if (isDelete)
 				return;
-			// objectsList.add(objectInList);
+			change=true;
 		}
 		if (objectInList.getName() != null)
 			UIUtils.updateComboItemsInSortedOrder(objectInList, objectsList);
 		else {
 			objectsList.add(objectInList);
+			if(change){
+				Accounter.getEventBus().fireEvent(
+						new CoreEvent<T>(ChangeType.CHANGE, objectInList));
+			}else{
+				Accounter.getEventBus().fireEvent(
+						new CoreEvent<T>(ChangeType.ADD, objectInList));
+			}
 		}
+	
 	}
-	public static <T> ArrayList<T> filteredList(
-			ListFilter<T> filter, List<T> objectsList) {
+
+	public static <T> ArrayList<T> filteredList(ListFilter<T> filter,
+			List<T> objectsList) {
 		ArrayList<T> filteredList = new ArrayList<T>();
-		for(T obj: objectsList){
-			if(filter.filter(obj)){
+		for (T obj : objectsList) {
+			if (filter.filter(obj)) {
 				filteredList.add(obj);
 			}
 		}
-		
+
 		return filteredList;
 	}
 
@@ -1315,8 +1325,8 @@ public class Utility implements IsSerializable, Serializable {
 
 				}
 			} else if (iAccounterCore instanceof ClientVendor) {
-				if (((ClientVendor) iAccounterCore).getVendorNumber().equals(
-						"")) {
+				if (((ClientVendor) iAccounterCore).getVendorNumber()
+						.equals("")) {
 					((ClientVendor) iAccounterCore).setVendorNumber(String
 							.valueOf(0));
 				}
