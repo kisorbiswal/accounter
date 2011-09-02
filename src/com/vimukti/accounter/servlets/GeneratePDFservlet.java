@@ -23,6 +23,7 @@ import com.vimukti.accounter.core.ITemplate;
 import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.InvoicePDFTemplete;
 import com.vimukti.accounter.core.Misc1099PDFTemplate;
+import com.vimukti.accounter.core.Misc1099SamplePDFTemplate;
 import com.vimukti.accounter.core.ReportTemplate;
 import com.vimukti.accounter.core.ReportsGenerator;
 import com.vimukti.accounter.core.TemplateBuilder;
@@ -106,6 +107,13 @@ public class GeneratePDFservlet extends BaseServlet {
 				InputStreamReader miscCreator = new InputStreamReader(
 						inputString);
 				converter.generatePdfDocuments(fileName, sos, miscCreator);
+				break;
+			case Transaction.TYPE_MISC_SAMPLE_FORM:
+				java.io.InputStream inputString1 = new ByteArrayInputStream(
+						outPutString.toString().getBytes());
+				InputStreamReader miscCreator1 = new InputStreamReader(
+						inputString1);
+				converter.generatePdfDocuments(fileName, sos, miscCreator1);
 				break;
 			default:
 				// for generating pdf document for reports
@@ -273,6 +281,28 @@ public class GeneratePDFservlet extends BaseServlet {
 					fileName = miscHtmlTemplete.getFileName();
 					outPutString = outPutString.append(miscHtmlTemplete
 							.generatePDF());
+
+				} else if (transactionType == Transaction.TYPE_MISC_SAMPLE_FORM) {
+					converter = new Converter(PD4Constants.LETTER);
+
+					long vendorID = Long.parseLong(request
+							.getParameter("vendorID"));
+
+					int horizontalValue = Integer.parseInt(request
+							.getParameter("horizontalValue"));
+
+					int verticalValue = Integer.parseInt(request
+							.getParameter("verticalValue"));
+
+					Vendor memo = (Vendor) financetool.getServerObjectForid(
+							AccounterCoreType.VENDOR, vendorID);
+
+					Misc1099SamplePDFTemplate miscHtmlTemplete = new Misc1099SamplePDFTemplate(
+							horizontalValue, verticalValue);
+					fileName = miscHtmlTemplete.getFileName();
+					outPutString = outPutString.append(miscHtmlTemplete
+							.generatePDF());
+
 				}
 			}
 			// for Reports
