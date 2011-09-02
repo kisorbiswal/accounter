@@ -6,7 +6,6 @@ package com.vimukti.accounter.web.client;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientVendor;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @author Prasanna Kumar G
@@ -29,7 +28,7 @@ public abstract class AbstractGlobal implements IGlobal {
 		case ClientCustomer.GUEST:
 			return constants().Guest().trim();
 		case ClientCustomer.PATITEINT:
-			return constants().patitent().trim();
+			return constants().Patitent().trim();
 		default:
 			return constants().Customer().trim();
 		}
@@ -44,7 +43,7 @@ public abstract class AbstractGlobal implements IGlobal {
 		case ClientCustomer.CLIENT:
 			return constants().client().trim();
 		case ClientCustomer.TENANT:
-			return constants().Tenant().trim();
+			return constants().tenant().trim();
 		case ClientCustomer.DONAR:
 			return constants().donar().trim();
 		case ClientCustomer.GUEST:
@@ -74,11 +73,11 @@ public abstract class AbstractGlobal implements IGlobal {
 		int referCustomers = preferences().getReferAccounts();
 		switch (referCustomers) {
 		case ClientAccount.ACCOUNT:
-			return Accounter.constants().account().trim();
+			return constants().account().trim();
 		case ClientAccount.LEGAND:
 			return constants().ledger().trim();
 		default:
-			return constants().Account().trim();
+			return constants().account().trim();
 		}
 	}
 
