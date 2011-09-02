@@ -38,6 +38,8 @@ import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeList;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeListDetail;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
+import com.vimukti.accounter.web.client.core.reports.SalesByLocationDetails;
+import com.vimukti.accounter.web.client.core.reports.SalesByLocationSummary;
 import com.vimukti.accounter.web.client.core.reports.SalesTaxLiability;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByTaxItem;
@@ -1179,6 +1181,80 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		}
 
 		return trialbalanceList;
+	}
+
+
+	@Override
+	public ArrayList<SalesByLocationDetails> getSalesByLocationDetailsReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+		ArrayList<SalesByLocationDetails> salesByLocationDetailList = new ArrayList<SalesByLocationDetails>();
+
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
+
+		try {
+			salesByLocationDetailList = getFinanceTool()
+					.getSalesByLocationDetail(financeDates[0], financeDates[1]);
+			SalesByLocationDetails obj = new SalesByLocationDetails();
+			if (salesByLocationDetailList != null)
+				salesByLocationDetailList
+						.add((SalesByLocationDetails) setStartEndDates(obj,
+								financeDates));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return salesByLocationDetailList;
+	}
+
+	@Override
+	public ArrayList<SalesByLocationDetails> getSalesByLocationDetailsForLocation(
+			String locationName, ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
+		ArrayList<SalesByLocationDetails> salesByLocationDetailList = new ArrayList<SalesByLocationDetails>();
+
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
+
+		try {
+			salesByLocationDetailList = getFinanceTool()
+					.getSalesByLocationDetailForLocation(locationName,financeDates[0], financeDates[1]);
+			SalesByLocationDetails obj = new SalesByLocationDetails();
+			if (salesByLocationDetailList != null)
+				salesByLocationDetailList
+						.add((SalesByLocationDetails) setStartEndDates(obj,
+								financeDates));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return salesByLocationDetailList;
+	}
+
+	@Override
+	public ArrayList<SalesByLocationSummary> getSalesByLocationSummaryReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+		ArrayList<SalesByLocationSummary> salesByLocationDetailList = new ArrayList<SalesByLocationSummary>();
+
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
+
+		try {
+			salesByLocationDetailList = getFinanceTool()
+					.getSalesByLocationSummary(financeDates[0], financeDates[1]);
+			SalesByLocationSummary obj = new SalesByLocationSummary();
+			if (salesByLocationDetailList != null)
+				salesByLocationDetailList
+						.add((SalesByLocationSummary) setStartEndDates(obj,
+								financeDates));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return salesByLocationDetailList;
 	}
 
 	@Override
