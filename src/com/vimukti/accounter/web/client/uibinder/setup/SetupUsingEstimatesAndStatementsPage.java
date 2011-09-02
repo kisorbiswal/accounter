@@ -52,6 +52,7 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 				.wanttoCreateEstimatesInAccounter());
 		estimatesYes.setText(accounterConstants.yes());
 		estimatesNo.setText(accounterConstants.no());
+		preferences.setDoyouwantEstimates(true);
 		/*
 		 * billingStatements.setHTML(accounterMessages.statementDescription());
 		 * someExampleText.setText(accounterConstants.statementSomeExample());
@@ -71,7 +72,11 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 	@Override
 	public void onLoad() {
 		// estimates
-		estimatesYes.setValue(preferences.isDoyouwantEstimates());
+		if (preferences.isDoyouwantEstimates()) {
+			estimatesYes.setValue(true);
+		} else {
+			estimatesNo.setValue(true);
+		}
 		// statements
 		// statementYes.setValue(preferences.isDoyouwantstatements());
 	}
