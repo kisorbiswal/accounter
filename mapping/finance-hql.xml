@@ -4,18 +4,13 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.vimukti.accounter.core"
 	default-access="field" auto-import="false">
-	<!--
-		<joined-subclass
-		name="com.vimukti.accounter.workspace.tool.FinanceTool"
-		table="FINANCETOOL"
-		extends="com.bizantra.server.workspace.ext.AbstractTool"> <key
-		column="ID"></key> <many-to-one name="company" lazy="false"
-		class="Company" column="COMPANY_ID" cascade="save-update,delete">
-		</many-to-one> </joined-subclass>
-	-->
+	<!-- <joined-subclass name="com.vimukti.accounter.workspace.tool.FinanceTool" 
+		table="FINANCETOOL" extends="com.bizantra.server.workspace.ext.AbstractTool"> 
+		<key column="ID"></key> <many-to-one name="company" lazy="false" class="Company" 
+		column="COMPANY_ID" cascade="save-update,delete"> </many-to-one> </joined-subclass> -->
 
 
-	<!-- Named HQL for Finance Tool  -->
+	<!-- Named HQL for Finance Tool -->
 
 	<query name="list.TAXItem">from com.vimukti.accounter.core.TAXItem </query>
 
@@ -47,7 +42,8 @@
 	<query name="list.ItemGroup">from com.vimukti.accounter.core.ItemGroup ig order by
 		ig.name</query>
 	<query name="list.Payee">from com.vimukti.accounter.core.Payee p order by
-		p.name </query>
+		p.name
+	</query>
 	<query name="list.PaymentTerms">from com.vimukti.accounter.core.PaymentTerms pt order
 		by pt.name
 	</query>
@@ -67,16 +63,15 @@
 	<query name="list.TaxRates">from com.vimukti.accounter.core.TaxRates</query>
 
 	<query name="list.TAXItemGroups">from com.vimukti.accounter.core.TAXItemGroup</query>
-	<!--
-		<query name="list.TaxRateCalculation">from
-		com.vimukti.accounter.core.TaxRateCalculation </query>
-	-->
+	<!-- <query name="list.TaxRateCalculation">from com.vimukti.accounter.core.TaxRateCalculation 
+		</query> -->
 	<query name="list.UnitOfMeasure">from com.vimukti.accounter.core.UnitOfMeasure u order
 		by u.name
 	</query>
 	<query name="list.User">from com.vimukti.accounter.core.User u order by
 		u.firstName,u.lastName</query>
-	<query name="list.RecurringTransaction">from com.vimukti.accounter.core.RecurringTransaction rt order by
+	<query name="list.RecurringTransaction">from com.vimukti.accounter.core.RecurringTransaction
+		rt order by
 		rt.name</query>
 	<query name="list.currentRecTransactions">from com.vimukti.accounter.core.RecurringTransaction rt where rt.nextScheduleOn = ? order by
 		rt.name</query>
@@ -123,10 +118,7 @@
 	<query name="list.TAXAgency">from com.vimukti.accounter.core.TAXAgency</query>
 	<query name="list.FixedAsset">from com.vimukti.accounter.core.FixedAsset
 	</query>
-	<!--
-		<query name="list.SellingOrDisposingFixedAsset">from
-		com.vimukti.accounter.core.SellingOrDisposingFixedAsset</query>
-	-->
+	<!-- <query name="list.SellingOrDisposingFixedAsset">from com.vimukti.accounter.core.SellingOrDisposingFixedAsset</query> -->
 	<query name="list.VATReturn">from com.vimukti.accounter.core.VATReturn vr order by
 		vr.taxAgency.name, vr.VATperiodStartDate</query>
 	<query name="list.currency">from com.vimukti.accounter.core.Currency c order by
@@ -143,9 +135,10 @@
 	</query>
 	<query name="list.BrandingTheme">from com.vimukti.accounter.core.BrandingTheme bt
 		order by bt.id</query>
-
-
-
+	<query name="list.locations">from com.vimukti.accounter.core.Location bt
+		order by
+		bt.id
+	</query>
 	<query name="unique.name.Account">from com.vimukti.accounter.core.Account a where
 		a.name=?</query>
 	<query name="unique.name.Item">from com.vimukti.accounter.core.Item a where
@@ -166,7 +159,10 @@
 	<query name="unique.name.VATReturnBox">from com.vimukti.accounter.core.VATReturnBox v
 		where
 		v.name=?</query>
-	<query name="unique.emailId.User">from com.vimukti.accounter.core.User u where u.email=?</query>
-	<query name="gettoken.by.id">from com.vimukti.accounter.core.ResetPasswordToken r where r.token=?</query>
-	<query name="gettokens.by.userid">from com.vimukti.accounter.core.ResetPasswordToken r where r.userId=?</query>
+	<query name="unique.emailId.User">from com.vimukti.accounter.core.User u where
+		u.email=?</query>
+	<query name="gettoken.by.id">from com.vimukti.accounter.core.ResetPasswordToken r
+		where r.token=?</query>
+	<query name="gettokens.by.userid">from com.vimukti.accounter.core.ResetPasswordToken r
+		where r.userId=?</query>
 </hibernate-mapping>
