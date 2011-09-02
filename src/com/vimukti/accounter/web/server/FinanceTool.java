@@ -193,6 +193,8 @@ import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeList;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeListDetail;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
+import com.vimukti.accounter.web.client.core.reports.SalesByLocationDetails;
+import com.vimukti.accounter.web.client.core.reports.SalesByLocationSummary;
 import com.vimukti.accounter.web.client.core.reports.SalesTaxLiability;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByTaxItem;
@@ -12217,6 +12219,176 @@ public class FinanceTool {
 		}
 
 		return client1099Form;
+	}
+
+
+	/**
+	 * 
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	public ArrayList<SalesByLocationDetails> getSalesByLocationDetail(
+			FinanceDate startDate, FinanceDate endDate) {
+		Session session = HibernateUtil.getCurrentSession();
+
+		FinanceDate startDate1 = ((FinanceDate) ((session
+				.getNamedQuery("getFiscalYear.by.check.isCurrentFiscalYearistrue"))
+				.list().get(0)));
+
+		/*
+		 * Here endDate1 is used to store the previous month of endDate value
+		 */
+		ArrayList<SalesByLocationDetails> salesByLocationDetailList = new ArrayList<SalesByLocationDetails>();
+		int year = endDate.getYear();
+		int month = endDate.getMonth() - 1;
+		year = (month == 0) ? year - 1 : year;
+		month = (month == 0) ? 12 : month;
+		FinanceDate endDate1 = new FinanceDate(year, month, 31);
+
+		if (year != startDate1.getYear())
+			startDate1 = new FinanceDate(year, 01, 01);
+
+		List l = ((Query) session.getNamedQuery("getSalesByLocationDetail")
+
+		.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())).list();
+
+		Iterator iterator = l.iterator();
+		Object[] object = null;
+		if (iterator != null) {
+			while (iterator.hasNext()) {
+				object = (Object[]) iterator.next();
+				SalesByLocationDetails salDetails = new SalesByLocationDetails();
+				salDetails.setDate(object[0] != null ? ((BigInteger) object[0])
+						.longValue() : 0);
+				salDetails.setType(object[1] != null ? ((Integer) object[1])
+						: 0);
+				salDetails.setNumber(object[2] != null ? ((String) object[2])
+						: " ");
+				salDetails.setAccount(object[3] != null ? ((String) object[3])
+						: " ");
+				salDetails
+						.setProuductOrService(object[4] != null ? ((String) object[4])
+								: " ");
+				salDetails.setAmount(object[5] != null ? ((Double) object[5])
+						: 0.0);
+				salDetails
+						.setLocationName(object[6] != null ? ((String) object[6])
+								: null);
+				salDetails
+						.setTransactionid(object[7] != null ? ((BigInteger) object[7])
+								.longValue() : 0);
+				salesByLocationDetailList.add(salDetails);
+			}
+		}
+		return salesByLocationDetailList;
+	}
+
+	public ArrayList<SalesByLocationDetails> getSalesByLocationDetailForLocation(
+			String locationName, FinanceDate startDate, FinanceDate endDate) {
+		Session session = HibernateUtil.getCurrentSession();
+
+		FinanceDate startDate1 = ((FinanceDate) ((session
+				.getNamedQuery("getFiscalYear.by.check.isCurrentFiscalYearistrue"))
+				.list().get(0)));
+
+		/*
+		 * Here endDate1 is used to store the previous month of endDate value
+		 */
+		ArrayList<SalesByLocationDetails> salesByLocationDetailList = new ArrayList<SalesByLocationDetails>();
+		int year = endDate.getYear();
+		int month = endDate.getMonth() - 1;
+		year = (month == 0) ? year - 1 : year;
+		month = (month == 0) ? 12 : month;
+		FinanceDate endDate1 = new FinanceDate(year, month, 31);
+
+		if (year != startDate1.getYear())
+			startDate1 = new FinanceDate(year, 01, 01);
+
+		List l = ((Query) session
+				.getNamedQuery("getSalesByLocationDetailForLocation")
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("locationName", locationName)).list();
+
+		Iterator iterator = l.iterator();
+		Object[] object = null;
+		if (iterator != null) {
+			while (iterator.hasNext()) {
+				object = (Object[]) iterator.next();
+				SalesByLocationDetails salDetails = new SalesByLocationDetails();
+				salDetails.setDate(object[0] != null ? ((BigInteger) object[0])
+						.longValue() : 0);
+				salDetails.setType(object[1] != null ? ((Integer) object[1])
+						: 0);
+				salDetails.setNumber(object[2] != null ? ((String) object[2])
+						: " ");
+				salDetails.setAccount(object[3] != null ? ((String) object[3])
+						: " ");
+				salDetails
+						.setProuductOrService(object[4] != null ? ((String) object[4])
+								: " ");
+				salDetails.setAmount(object[5] != null ? ((Double) object[5])
+						: 0.0);
+				salDetails
+						.setLocationName(object[6] != null ? ((String) object[6])
+								: null);
+				salDetails
+						.setTransactionid(object[7] != null ? ((BigInteger) object[7])
+								.longValue() : 0);
+				salesByLocationDetailList.add(salDetails);
+			}
+		}
+		return salesByLocationDetailList;
+	}
+
+	public ArrayList<SalesByLocationSummary> getSalesByLocationSummary(
+			FinanceDate startDate, FinanceDate endDate) {
+		Session session = HibernateUtil.getCurrentSession();
+
+		FinanceDate startDate1 = ((FinanceDate) ((session
+				.getNamedQuery("getFiscalYear.by.check.isCurrentFiscalYearistrue"))
+				.list().get(0)));
+
+		/*
+		 * Here endDate1 is used to store the previous month of endDate value
+		 */
+		ArrayList<SalesByLocationSummary> salesByLocationDetailList = new ArrayList<SalesByLocationSummary>();
+		int year = endDate.getYear();
+		int month = endDate.getMonth() - 1;
+		year = (month == 0) ? year - 1 : year;
+		month = (month == 0) ? 12 : month;
+		FinanceDate endDate1 = new FinanceDate(year, month, 31);
+
+		if (year != startDate1.getYear())
+			startDate1 = new FinanceDate(year, 01, 01);
+
+		List l = ((Query) session.getNamedQuery("getSalesByLocationSummary")
+
+		.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())).list();
+
+		Iterator iterator = l.iterator();
+		Object[] object = null;
+		if (iterator != null) {
+			while (iterator.hasNext()) {
+				object = (Object[]) iterator.next();
+				SalesByLocationSummary salDetails = new SalesByLocationSummary();
+				salDetails.setType(object[0] != null ? ((Integer) object[0])
+						: 0);
+				salDetails.setTotal(object[1] != null ? ((Double) object[1])
+						: 0.0);
+				salDetails
+						.setLocationName(object[2] != null ? ((String) object[2])
+								: null);
+				salDetails
+						.setTransactionId(object[3] != null ? ((BigInteger) object[3])
+								.longValue() : 0);
+				salesByLocationDetailList.add(salDetails);
+			}
+		}
+		return salesByLocationDetailList;
 	}
 
 	/**
