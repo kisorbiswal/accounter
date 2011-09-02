@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.core.ClientPayVAT;
 import com.vimukti.accounter.web.client.core.ClientPayVATEntries;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayVAT;
 import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -38,6 +39,7 @@ import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.TransactionPayVATGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
@@ -109,8 +111,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 						initialEndingBalance = !DecimalUtil.isEquals(
 								selectedPayFromAccount.getTotalBalance(), 0) ? selectedPayFromAccount
-								.getTotalBalance()
-								: 0D;
+								.getTotalBalance() : 0D;
 
 						calculateEndingBalance();
 					}
@@ -227,8 +228,8 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		listforms.add(balForm);
 
 		selectedPayFromAccount = payFromAccCombo.getSelectedValue();
-		initialEndingBalance = !DecimalUtil.isEquals(selectedPayFromAccount
-				.getTotalBalance(), 0) ? selectedPayFromAccount
+		initialEndingBalance = !DecimalUtil.isEquals(
+				selectedPayFromAccount.getTotalBalance(), 0) ? selectedPayFromAccount
 				.getTotalBalance() : 0D;
 
 		calculateEndingBalance();
@@ -245,8 +246,8 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 			for (ClientPayVATEntries cont : filterList) {
 				ClientVATReturn clientVATReturn = Accounter.getCompany()
 						.getVatReturn(cont.getVatReturn());
-				ClientFinanceDate date = new ClientFinanceDate(clientVATReturn
-						.getVATperiodEndDate());
+				ClientFinanceDate date = new ClientFinanceDate(
+						clientVATReturn.getVATperiodEndDate());
 				if (date.equals(dueDateOnOrBefore)
 						|| date.before(dueDateOnOrBefore))
 					tempList.add(cont);
@@ -463,13 +464,13 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		// 5. grid valid?
 		// 6. is positive amount?
 		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateTransactionDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
 		}
 		result.add(mainform.validate());
 
@@ -675,6 +676,11 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 	@Override
 	protected String getViewTitle() {
 		return Accounter.constants().payVAT();
+	}
+
+	@Override
+	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
+		return null;
 	}
 
 }
