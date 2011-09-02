@@ -6450,6 +6450,13 @@ body, table td, select,.gwt-Button,textarea,input,label{
    border:1px solid #2D8B93;
    padding:15px;
 }
+.view_help_panel .GI4MLOCBDG,.view_help_panel iframe{
+	width:100%;
+}
+
+
+
+
 
 /*Help theme need to apply for help*/
 #page a{
@@ -6489,6 +6496,7 @@ body, table td, select,.gwt-Button,textarea,input,label{
     background: -webkit-gradient(linear, left top, left bottom, from(#493F39), to(#3D2F29)) !important; /* for webkit browsers */
    /* background: -moz-linear-gradient(center top , #DCF7FA, #6FBFC6) repeat scroll 0 0 transparent !important; match to accounter*/
     height: 32px;
+    width:101% !important;
 }
 .view_help_panel .GI4MLOCBBG td{
 	vertical-align: middle !important;
@@ -6499,11 +6507,21 @@ body, table td, select,.gwt-Button,textarea,input,label{
 	 height:600px;
 }
 .helpdialog .caption,.helpdialog .dialogTopLeft,
-.helpdialog .dialogTopRight,.helpdialog .dialogMiddleLeft,.helpdialog .dialogMiddleRight{
+.helpdialog .dialogTopRight,.helpdialog .dialogMiddleLeft,.helpdialog .dialogMiddleRight,
+.helpdialog .dialogBottomLeft,.helpdialog .dialogBottomCenter,.helpdialog .dialogBottomRight{
 	background:-moz-linear-gradient(center top , #493F39, #3D2F29) repeat scroll 0 0 transparent !important;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#493F39', endColorstr='#3D2F29'); /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(#493F39), to(#3D2F29)) !important; /* for webkit browsers */
 }
 .helpdialog .dialogMiddleCenter{
 	padding:0px !important;
+}
+.view_help_panel{
+	padding-right:20px;
+}
+.helpdialog .view_help_panel{
+	padding:0px !important;
+}
+.helpdialog .view_help_panel iframe{
+	height:auto !important;
 }
