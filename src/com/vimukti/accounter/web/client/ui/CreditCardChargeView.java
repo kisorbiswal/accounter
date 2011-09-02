@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -43,6 +44,7 @@ import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.grids.VendorTransactionGrid;
 
@@ -82,6 +84,7 @@ public class CreditCardChargeView extends
 	protected Label titlelabel;
 	protected TextAreaItem billToAreaItem;
 	private List<ClientAccount> listOfAccounts;
+	private VendorTransactionGrid vendorTransactionGrid;
 
 	public CreditCardChargeView() {
 
@@ -810,7 +813,6 @@ public class CreditCardChargeView extends
 
 	}
 
-
 	public void onEdit() {
 		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
 
@@ -918,5 +920,10 @@ public class CreditCardChargeView extends
 
 		};
 		Accounter.createCRUDService().update(selectedVendor, asyncallBack);
+	}
+
+	@Override
+	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
+		return vendorTransactionGrid;
 	}
 }

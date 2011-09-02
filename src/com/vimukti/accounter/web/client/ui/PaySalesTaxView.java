@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientPaySalesTaxEntries;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionPaySalesTax;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -36,6 +37,7 @@ import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.TransactionPaySalesTaxGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
@@ -308,8 +310,7 @@ public class PaySalesTaxView extends
 						selectedPayFromAccount = selectItem;
 						initialEndingBalance = !DecimalUtil.isEquals(
 								selectedPayFromAccount.getTotalBalance(), 0) ? selectedPayFromAccount
-								.getTotalBalance()
-								: 0D;
+								.getTotalBalance() : 0D;
 						calculateEndingBalance();
 
 						endingBalanceText.setValue(DataUtils
@@ -424,10 +425,10 @@ public class PaySalesTaxView extends
 			List<ClientPaySalesTaxEntries> entrylist) {
 		List<ClientPaySalesTaxEntries> filterlist = new ArrayList<ClientPaySalesTaxEntries>();
 		ClientFinanceDate transactionDate;
-		ClientFinanceDate firstDate = new ClientFinanceDate(fillterdate
-				.getYear(), fillterdate.getMonth() - 1, 01);
-		ClientFinanceDate lastDate = new ClientFinanceDate(fillterdate
-				.getYear(), fillterdate.getMonth(), 01);
+		ClientFinanceDate firstDate = new ClientFinanceDate(
+				fillterdate.getYear(), fillterdate.getMonth() - 1, 01);
+		ClientFinanceDate lastDate = new ClientFinanceDate(
+				fillterdate.getYear(), fillterdate.getMonth(), 01);
 		for (ClientPaySalesTaxEntries entry : entrylist) {
 			transactionDate = new ClientFinanceDate(entry.getTransactionDate());
 			if (isAfterDate(transactionDate, firstDate)
@@ -504,13 +505,13 @@ public class PaySalesTaxView extends
 		// 6. is positive amount?
 
 		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateTransactionDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
 		}
 		result.add(filterForm.validate());
 		if (grid == null || grid.getRecords().isEmpty()) {
@@ -520,8 +521,8 @@ public class PaySalesTaxView extends
 			result.add(grid.validateGrid());
 
 			if (AccounterValidator.isZeroAmount(totalAmount)) {
-				result.addError(amountText, accounterMessages
-						.shouldNotbeZero(amountText.getName()));
+				result.addError(amountText,
+						accounterMessages.shouldNotbeZero(amountText.getName()));
 			} else if (AccounterValidator.isNegativeAmount(totalAmount)) {
 				result.addError(amountText, accounterMessages
 						.shouldBePositive(amountText.getName()));
@@ -566,7 +567,6 @@ public class PaySalesTaxView extends
 	public List<ClientTransactionPaySalesTax> getFilterByDateList() {
 		return filterByDateList;
 	}
-
 
 	public void onEdit() {
 		if (transaction.canEdit) {
@@ -654,5 +654,10 @@ public class PaySalesTaxView extends
 	@Override
 	protected String getViewTitle() {
 		return UIUtils.title(Accounter.constants().paySalesTax());
+	}
+
+	@Override
+	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
+		return null;
 	}
 }

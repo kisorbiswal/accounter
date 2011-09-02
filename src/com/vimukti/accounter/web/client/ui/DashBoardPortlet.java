@@ -51,6 +51,7 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 		panel.add(body);
 		if (!(this instanceof ExpenseClaimPortlet || this instanceof GettingStartedPortlet))
 			panel.setHeight("297px");
+		panel.setWidth("100%");
 		super.add(panel);
 
 	}
@@ -144,14 +145,6 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 	@Override
 	public void add(Widget w) {
 		this.body.add(w);
-	}
-
-	public void fitToSize(int width, int height) {
-		width = Math.max(width, 300);
-		height = Math.max(height, 100);
-		this.setWidth(width + "px");
-		this.setHeight(height + "px");
-		// setGridWidth(width - 10, height - 40);
 	}
 
 	public int getRow() {
