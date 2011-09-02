@@ -73,6 +73,8 @@ public class SalesOrderView extends
 	private TextAreaItem billToTextArea;
 	private ShipToForm shipToAddress;
 
+	private SalesOrderGrid customerTransactionGrid;
+
 	public SalesOrderView() {
 		super(ClientTransaction.TYPE_SALES_ORDER);
 	}
@@ -316,8 +318,8 @@ public class SalesOrderView extends
 		paymentsNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
 
-		balanceDueNonEditableText = new AmountLabel(customerConstants
-				.balanceDue());
+		balanceDueNonEditableText = new AmountLabel(
+				customerConstants.balanceDue());
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -328,7 +330,7 @@ public class SalesOrderView extends
 
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
-		customerTransactionGrid = getGrid();
+		customerTransactionGrid = new SalesOrderGrid();
 		customerTransactionGrid.setTransactionView(this);
 		customerTransactionGrid.isEnable = false;
 		customerTransactionGrid.init();
@@ -827,7 +829,8 @@ public class SalesOrderView extends
 				return;
 
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(), taxableLineTotal,
+					transactionDateItem.getEnteredDate(),
+					taxableLineTotal,
 					getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
@@ -1031,7 +1034,6 @@ public class SalesOrderView extends
 
 	}
 
-
 	public void onEdit() {
 		if (transaction.getStatus() == ClientTransaction.STATUS_COMPLETED)
 			Accounter.showError(Accounter.constants()
@@ -1123,6 +1125,11 @@ public class SalesOrderView extends
 	protected void initMemoAndReference() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
+		return customerTransactionGrid;
 	}
 
 }

@@ -63,6 +63,7 @@ import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
+import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyChangeListener;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
@@ -102,6 +103,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	private LinkedHashMap<Integer, ClientAddress> allAddresses;
 
 	private Button emailButton;
+	private CustomerTransactionGrid customerTransactionGrid;
 
 	private void initBalanceDue() {
 
@@ -461,7 +463,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		salesTaxTextNonEditable = createSalesTaxNonEditableLabel();
 
-		customerTransactionGrid = getGrid();
+		customerTransactionGrid = new CustomerTransactionGrid();
 		customerTransactionGrid.setTransactionView(this);
 
 		customerTransactionGrid.isEnable = false;
@@ -1538,7 +1540,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		super.fitToSize(height, width);
 	}
 
-
 	private void resetFromView() {
 		custForm.getCellFormatter().setWidth(0, 1, "200");
 
@@ -1582,5 +1583,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	public boolean canExportToCsv() {
 
 		return false;
+	}
+
+	@Override
+	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
+		return customerTransactionGrid;
 	}
 }

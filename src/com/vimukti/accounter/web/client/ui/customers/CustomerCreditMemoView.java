@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
+import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
@@ -43,6 +44,7 @@ public class CustomerCreditMemoView extends
 
 	private ArrayList<DynamicForm> listforms;
 	private TextAreaItem billToTextArea;
+	private CustomerTransactionGrid customerTransactionGrid;
 
 	public CustomerCreditMemoView() {
 		super(ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO);
@@ -157,7 +159,7 @@ public class CustomerCreditMemoView extends
 		netAmountLabel = createNetAmountLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
-		customerTransactionGrid = getGrid();
+		customerTransactionGrid = new CustomerTransactionGrid();
 		customerTransactionGrid.setTransactionView(this);
 		customerTransactionGrid.isEnable = false;
 		customerTransactionGrid.init();
@@ -549,7 +551,6 @@ public class CustomerCreditMemoView extends
 		super.fitToSize(height, width);
 	}
 
-
 	public AbstractTransactionGrid<ClientTransactionItem> getGridForPrinting() {
 		return customerTransactionGrid;
 	}
@@ -644,5 +645,10 @@ public class CustomerCreditMemoView extends
 	public boolean canExportToCsv() {
 
 		return false;
+	}
+
+	@Override
+	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
+		return customerTransactionGrid;
 	}
 }

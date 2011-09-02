@@ -22,6 +22,7 @@ import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -36,6 +37,8 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
+import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
@@ -52,6 +55,7 @@ public class CashSalesView extends
 
 	private ArrayList<DynamicForm> listforms;
 	private ShipToForm shipToAddress;
+	private CustomerTransactionGrid customerTransactionGrid;
 
 	public CashSalesView() {
 
@@ -198,7 +202,7 @@ public class CashSalesView extends
 		netAmountLabel = createNetAmountLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
-		customerTransactionGrid = getGrid();
+		customerTransactionGrid = new CustomerTransactionGrid();
 		customerTransactionGrid.setTransactionView(this);
 		customerTransactionGrid.isEnable = false;
 		customerTransactionGrid.init();
@@ -642,7 +646,6 @@ public class CashSalesView extends
 		super.fitToSize(height, width);
 	}
 
-
 	public void onEdit() {
 		AsyncCallback<Boolean> editCallBack = new AsyncCallback<Boolean>() {
 
@@ -652,8 +655,10 @@ public class CashSalesView extends
 					Accounter.showMessage(Global.get().constants()
 							.sessionExpired());
 				} else {
-					int errorCode = ((AccounterException) caught).getErrorCode();
-					Accounter.showError(AccounterExceptions.getErrorString(errorCode));
+					int errorCode = ((AccounterException) caught)
+							.getErrorCode();
+					Accounter.showError(AccounterExceptions
+							.getErrorString(errorCode));
 				}
 			}
 
@@ -727,5 +732,10 @@ public class CashSalesView extends
 	@Override
 	protected String getViewTitle() {
 		return Accounter.constants().cashSales();
+	}
+
+	@Override
+	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
+		return customerTransactionGrid;
 	}
 }

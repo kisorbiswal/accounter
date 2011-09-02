@@ -22,6 +22,7 @@ import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -35,6 +36,8 @@ import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
+import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
@@ -44,6 +47,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	private HorizontalPanel panel;
 
 	private ArrayList<DynamicForm> listforms;
+	private CustomerTransactionGrid customerTransactionGrid;
 
 	public QuoteView() {
 		super(ClientTransaction.TYPE_ESTIMATE);
@@ -299,7 +303,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
 
-		customerTransactionGrid = getGrid();
+		customerTransactionGrid = new CustomerTransactionGrid();
 		customerTransactionGrid.setTransactionView(this);
 		customerTransactionGrid.isEnable = false;
 		customerTransactionGrid.init();
@@ -665,7 +669,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		super.fitToSize(height, width);
 	}
 
-
 	@Override
 	public void onEdit() {
 		AsyncCallback<Boolean> editCallBack = new AsyncCallback<Boolean>() {
@@ -750,6 +753,11 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	@Override
 	protected String getViewTitle() {
 		return Accounter.constants().quote();
+	}
+
+	@Override
+	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
+		return customerTransactionGrid;
 	}
 
 }

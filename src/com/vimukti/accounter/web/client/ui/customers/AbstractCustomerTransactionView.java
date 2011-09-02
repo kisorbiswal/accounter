@@ -173,7 +173,10 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	}
 
+	public abstract AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid();
+
 	private void initTransactionsItems() {
+		AbstractTransactionGrid<ClientTransactionItem> customerTransactionGrid = getTransactionGrid();
 		if (transaction.getTransactionItems() != null)
 			customerTransactionGrid.setAllTransactionItems(transaction
 					.getTransactionItems());
@@ -380,6 +383,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	}
 
 	protected void setCustomerTaxCodetoAccount() {
+		AbstractTransactionGrid<ClientTransactionItem> customerTransactionGrid = getTransactionGrid();
 		for (ClientTransactionItem item : customerTransactionGrid.getRecords()) {
 			if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT)
 				customerTransactionGrid.setCustomerTaxCode(item);
@@ -964,6 +968,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 								.pleaseEnter(taxCodeSelect.getTitle()));
 					}
 			}
+			AbstractTransactionGrid<ClientTransactionItem> customerTransactionGrid = getTransactionGrid();
 			if (!(customerTransactionGrid == null)) {
 
 				if (AccounterValidator
@@ -1102,6 +1107,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 			// if (zvatCodeid != null)
 			// transactionItem.setVatCode(zvatCodeid);
 		}
+		AbstractTransactionGrid<ClientTransactionItem> customerTransactionGrid = getTransactionGrid();
 		customerTransactionGrid.addData(transactionItem);
 
 	}
