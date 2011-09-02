@@ -43,7 +43,9 @@ import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
+import com.vimukti.accounter.web.client.ui.grids.VendorTransactionGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 /**
@@ -76,6 +78,7 @@ public class VendorBillView extends
 
 	private ArrayList<DynamicForm> listforms;
 	private ArrayList<ClientTransaction> selectedOrdersAndItemReceipts;
+	private VendorTransactionGrid vendorTransactionGrid;
 
 	private VendorBillView() {
 		super(ClientTransaction.TYPE_ENTER_BILL);
@@ -450,7 +453,7 @@ public class VendorBillView extends
 				+ UIUtils.getCurrencySymbol() + " 0.00");
 
 		menuButton = createAddNewButton();
-		vendorTransactionGrid = getGrid();
+		vendorTransactionGrid = new VendorTransactionGrid();
 		vendorTransactionGrid.setTransactionView(this);
 		vendorTransactionGrid.setCanEdit(true);
 		vendorTransactionGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
@@ -976,7 +979,6 @@ public class VendorBillView extends
 
 	}
 
-
 	public void onEdit() {
 		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
 
@@ -1056,5 +1058,10 @@ public class VendorBillView extends
 			vendorTransactionGrid.setTaxCode(taxCode.getID());
 		} else
 			taxCodeSelect.setValue("");
+	}
+
+	@Override
+	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
+		return vendorTransactionGrid;
 	}
 }

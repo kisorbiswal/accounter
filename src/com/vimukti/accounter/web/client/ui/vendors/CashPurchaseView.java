@@ -18,6 +18,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -32,7 +33,10 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
+import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
+import com.vimukti.accounter.web.client.ui.grids.VendorTransactionGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 /**
@@ -50,6 +54,7 @@ public class CashPurchaseView extends
 	private TextAreaItem billToAreaItem;
 	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
 			.constants();
+	protected VendorTransactionGrid vendorTransactionGrid;
 
 	public CashPurchaseView() {
 		super(ClientTransaction.TYPE_CASH_PURCHASE);
@@ -194,7 +199,7 @@ public class CashPurchaseView extends
 		vatTotalNonEditableText = createVATTotalNonEditableItem();
 
 		vatinclusiveCheck = getVATInclusiveCheckBox();
-		vendorTransactionGrid = getGrid();
+		vendorTransactionGrid = new VendorTransactionGrid();
 		vendorTransactionGrid.setTransactionView(this);
 		vendorTransactionGrid.setCanEdit(true);
 		vendorTransactionGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
@@ -646,7 +651,6 @@ public class CashPurchaseView extends
 	protected void onLoad() {
 	}
 
-
 	public void onEdit() {
 		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
 
@@ -725,5 +729,10 @@ public class CashPurchaseView extends
 	protected void taxCodeSelected(ClientTAXCode taxCode) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
+		return vendorTransactionGrid;
 	}
 }

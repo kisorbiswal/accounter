@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorCreditMemo;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -27,7 +28,9 @@ import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
+import com.vimukti.accounter.web.client.ui.grids.VendorTransactionGrid;
 
 public class VendorCreditMemoView extends
 		AbstractVendorTransactionView<ClientVendorCreditMemo> {
@@ -35,6 +38,7 @@ public class VendorCreditMemoView extends
 	private ArrayList<DynamicForm> listforms;
 	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
 			.constants();
+	private VendorTransactionGrid vendorTransactionGrid;
 
 	private VendorCreditMemoView() {
 		super(ClientTransaction.TYPE_VENDOR_CREDIT_MEMO);
@@ -173,7 +177,7 @@ public class VendorCreditMemoView extends
 
 		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 		menuButton = createAddNewButton();
-		vendorTransactionGrid = getGrid();
+		vendorTransactionGrid = new VendorTransactionGrid();
 		vendorTransactionGrid.setTransactionView(this);
 		vendorTransactionGrid.setCanEdit(true);
 		vendorTransactionGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
@@ -458,7 +462,6 @@ public class VendorCreditMemoView extends
 		super.fitToSize(height, width);
 	}
 
-
 	public void onEdit() {
 		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
 
@@ -524,5 +527,10 @@ public class VendorCreditMemoView extends
 	protected void taxCodeSelected(ClientTAXCode taxCode) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
+		return vendorTransactionGrid;
 	}
 }

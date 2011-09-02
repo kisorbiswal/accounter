@@ -115,7 +115,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	@Override
 	protected void initTransactionViewData() {
-
+		AbstractTransactionGrid<ClientTransactionItem> vendorTransactionGrid = getTransactionGrid();
 		initVendors();
 		initTransactionTotalNonEditableItem();
 		if (vendorTransactionGrid != null) {
@@ -185,6 +185,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	}
 
 	protected void setVendorTaxcodeToAccount() {
+		AbstractTransactionGrid<ClientTransactionItem> vendorTransactionGrid = getTransactionGrid();
 		for (ClientTransactionItem item : vendorTransactionGrid.getRecords()) {
 			if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT)
 				vendorTransactionGrid.setVendorTaxCode(item);
@@ -707,6 +708,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 					transactionItem.setTaxCode(ztaxCodeid);
 			}
 		}
+		AbstractTransactionGrid<ClientTransactionItem> vendorTransactionGrid = getTransactionGrid();
 		vendorTransactionGrid.addData(transactionItem);
 
 	}

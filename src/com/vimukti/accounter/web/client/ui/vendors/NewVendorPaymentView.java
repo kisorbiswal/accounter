@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -36,6 +37,7 @@ import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 
 public class NewVendorPaymentView extends
 		AbstractTransactionBaseView<ClientPayBill> {
@@ -557,7 +559,6 @@ public class NewVendorPaymentView extends
 		super.fitToSize(height, width);
 	}
 
-
 	private BlurHandler getBlurHandler() {
 		BlurHandler blurHandler = new BlurHandler() {
 
@@ -660,6 +661,11 @@ public class NewVendorPaymentView extends
 	@Override
 	protected String getViewTitle() {
 		return messages.vendorPayments(Global.get().Vendor());
+	}
+
+	@Override
+	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
+		return null;
 	}
 
 }

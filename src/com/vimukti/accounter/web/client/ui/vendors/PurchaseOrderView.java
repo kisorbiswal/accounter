@@ -91,6 +91,7 @@ public class PurchaseOrderView extends
 	private String CANCELLED = Accounter.constants().cancelled();
 	private DateField despatchDateItem;
 	AccounterConstants accounterConstants = Accounter.constants();
+	private PurchaseOrderGrid vendorTransactionGrid;
 
 	public PurchaseOrderView() {
 		super(ClientTransaction.TYPE_PURCHASE_ORDER);
@@ -355,7 +356,7 @@ public class PurchaseOrderView extends
 		// formItems.add(deliveryDateItem);
 
 		// Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
-		vendorTransactionGrid = getGrid();
+		vendorTransactionGrid = new PurchaseOrderGrid();
 		vendorTransactionGrid.setTransactionView(this);
 		vendorTransactionGrid.setCanEdit(true);
 		vendorTransactionGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
@@ -1006,7 +1007,6 @@ public class PurchaseOrderView extends
 
 	}
 
-
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
 		// Validations
@@ -1160,6 +1160,11 @@ public class PurchaseOrderView extends
 		} else
 			taxCodeSelect.setValue("");
 		// updateNonEditableItems();
+	}
+
+	@Override
+	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
+		return vendorTransactionGrid;
 	}
 
 }

@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -45,6 +46,7 @@ import com.vimukti.accounter.web.client.ui.core.PercentageField;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
+import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.grids.TransactionPayBillGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
@@ -58,7 +60,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
 			.constants();
 	protected String vendorPaymentMethod;
-	private TransactionPayBillGrid gridView;
+	private TransactionPayBillGrid grid;
 	protected AmountField cashDiscountTextItem;
 	protected AmountField creditTextItem;
 	public AmountLabel unUsedCreditsText;
@@ -106,7 +108,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	 * updates the noneditable amount fields
 	 */
 	public void adjustAmountAndEndingBalance() {
-		List<ClientTransactionPayBill> selectedRecords = gridView
+		List<ClientTransactionPayBill> selectedRecords = grid
 				.getSelectedRecords();
 		double toBeSetAmount = 0.0;
 		for (ClientTransactionPayBill rec : selectedRecords) {
@@ -162,8 +164,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		if (getVendor() != null)
 			transaction.setVendor(getVendor());
 		// Setting Amount
-		
-		
+
 		transaction.setTotal(amtText.getAmount());
 
 		// Setting ending Balance
@@ -172,13 +173,13 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		transaction.setMemo(memoTextAreaItem.getValue().toString());
 
 		// Setting Transactions
-		List<ClientTransactionPayBill> selectedRecords = gridView
+		List<ClientTransactionPayBill> selectedRecords = grid
 				.getSelectedRecords();
 
 		List<ClientTransactionPayBill> transactionPayBill = new ArrayList<ClientTransactionPayBill>();
 		for (ClientTransactionPayBill tpbRecord : selectedRecords) {
-			PayBillTransactionList payBillTX = paybillTransactionList
-					.get(gridView.indexOf(tpbRecord));
+			PayBillTransactionList payBillTX = paybillTransactionList.get(grid
+					.indexOf(tpbRecord));
 
 			if (payBillTX.getType() == ClientTransaction.TYPE_ENTER_BILL) {
 				tpbRecord.setEnterBill(payBillTX.getTransactionId());
@@ -198,7 +199,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			// if (cashAcc != null)
 			// tpbRecord.setDiscountAccount(cashAcc.getID());
 
-			List<ClientTransactionCreditsAndPayments> trpList = gridView.creditsAndPaymentsDialiog != null ? gridView.creditsAndPaymentsDialiog
+			List<ClientTransactionCreditsAndPayments> trpList = grid.creditsAndPaymentsDialiog != null ? grid.creditsAndPaymentsDialiog
 					.getTransactionCredits(tpbRecord)
 					: new ArrayList<ClientTransactionCreditsAndPayments>();
 			if (trpList != null)
@@ -217,13 +218,13 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	}
 
 	private void initListGrid() {
-		gridView = new TransactionPayBillGrid(!isInViewMode(), true);
-		gridView.setCanEdit(!isInViewMode());
-		gridView.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
-		gridView.setPaymentView(this);
-		gridView.init();
-		gridView.setHeight("200px");
-		gridView.setDisabled(isInViewMode());
+		grid = new TransactionPayBillGrid(!isInViewMode(), true);
+		grid.setCanEdit(!isInViewMode());
+		grid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
+		grid.setPaymentView(this);
+		grid.init();
+		grid.setHeight("200px");
+		grid.setDisabled(isInViewMode());
 	}
 
 	/*
@@ -240,9 +241,9 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		(rec).setCashDiscount(cashDiscount);
 		(rec).setAppliedCredits(credit);
 
-		gridView.updateAmountDue(rec);
+		grid.updateAmountDue(rec);
 
-		gridView.updateData(rec);
+		grid.updateData(rec);
 		adjustAmountAndEndingBalance();
 	}
 
@@ -305,7 +306,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			// if (!isEdit)
 			// gridView.updateFooterValues(DataUtils
 			// .getAmountAsString(cashDiscount), 5);
-			gridView.setRecords(records);
+			grid.setRecords(records);
 			size = records.size();
 		}
 	}
@@ -382,7 +383,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 					@Override
 					public void selectedComboBoxItem(ClientVendor selectItem) {
-						gridView.isAlreadyOpened = false;
+						grid.isAlreadyOpened = false;
 
 						vendorSelected(selectItem);
 					}
@@ -535,7 +536,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		bottomAmtsLayout.setWidth("100%");
 		gridLayout = new VerticalPanel();
 		gridLayout.add(lab1);
-		gridLayout.add(gridView);
+		gridLayout.add(grid);
 		gridLayout.add(bottomAmtsLayout);
 		gridLayout.add(bottompanel);
 		gridLayout.setWidth("100%");
@@ -570,7 +571,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	public void calculateUnusedCredits() {
 
 		Double totalCredits = 0D;
-		for (ClientCreditsAndPayments credit : gridView.updatedCustomerCreditsAndPayments) {
+		for (ClientCreditsAndPayments credit : grid.updatedCustomerCreditsAndPayments) {
 			totalCredits += credit.getBalance();
 		}
 
@@ -597,13 +598,13 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		 * resetting the crdits dialog's refernce,so that a new object will
 		 * created for opening credits dialog
 		 */
-		gridView.creditsAndPaymentsDialiog = null;
-		gridView.creditsStack = null;
-		gridView.initCreditsAndPayments(vendor);
-		gridView.removeAllRecords();
+		grid.creditsAndPaymentsDialiog = null;
+		grid.creditsStack = null;
+		grid.initCreditsAndPayments(vendor);
+		grid.removeAllRecords();
 
 		if (transaction.id == 0) {
-			gridView.addLoadingImagePanel();
+			grid.addLoadingImagePanel();
 			getTransactionPayBills(vendor);
 
 		}
@@ -620,7 +621,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 								// SC
 								// .say("Failed to Get List of Transaction Recieve Payments for this Vendor"
 								// + vendor.getName());
-								gridView.addEmptyMessage(Accounter.constants()
+								grid.addEmptyMessage(Accounter.constants()
 										.noRecordsToShow());
 							}
 
@@ -634,8 +635,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 									clearGrid();
 									filterGrid();
 								} else {
-									gridView.addEmptyMessage(Accounter
-											.constants().noRecordsToShow());
+									grid.addEmptyMessage(Accounter.constants()
+											.noRecordsToShow());
 									updateFooterValues();
 								}
 							}
@@ -712,8 +713,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		// double payment = 0.0;
 		for (ClientTransactionPayBill receivePayment : list) {
 			totalOrgAmt += receivePayment.getOriginalAmount();
-			this.gridView.addData(receivePayment);
-			this.gridView.selectRow(count);
+			this.grid.addData(receivePayment);
+			this.grid.selectRow(count);
 			count++;
 		}
 	}
@@ -764,16 +765,16 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			return result;
 		}
 		if (!isInViewMode()) {
-			if (AccounterValidator.isBlankTransaction(gridView)) {
+			if (AccounterValidator.isBlankTransaction(grid)) {
 				result.addError(
-						vendorTransactionGrid,
+						grid,
 						Accounter.messages().noBillsAreAvailableFirstAddABill(
 								Global.get().Vendor()));
 			}
 
 			else {
 
-				result.add(gridView.validateGrid());
+				result.add(grid.validateGrid());
 			}
 		}
 		return result;
@@ -792,7 +793,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	}
 
 	protected void clearGrid() {
-		gridView.removeAllRecords();
+		grid.removeAllRecords();
 	}
 
 	protected void filterGrid() {
@@ -856,10 +857,10 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			records.add(record);
 		}
 
-		gridView.setRecords(records);
+		grid.setRecords(records);
 		size = records.size();
 		if (size == 0)
-			gridView.addEmptyMessage(Accounter.constants().noRecordsToShow());
+			grid.addEmptyMessage(Accounter.constants().noRecordsToShow());
 	}
 
 	public List<DynamicForm> getForms() {
@@ -892,7 +893,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		super.fitToSize(height, width);
 
 	}
-
 
 	public void onEdit() {
 		if (!transaction.isVoid()) {
@@ -960,12 +960,12 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		vendorCombo.setDisabled(isInViewMode());
 		paymentMethodCombo.setDisabled(isInViewMode());
 		dueDate.setDisabled(isInViewMode());
-		gridView.setDisabled(isInViewMode());
+		grid.setDisabled(isInViewMode());
 
 		super.onEdit();
-		gridView.removeFromParent();
+		grid.removeFromParent();
 		initListGrid();
-		gridLayout.insert(gridView, 2);
+		gridLayout.insert(grid, 2);
 		getTransactionPayBills(this.getVendor());
 		memoTextAreaItem.setDisabled(isInViewMode());
 		transaction = new ClientPayBill();
@@ -1073,4 +1073,10 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		if (payFromAccount != null)
 			payFromCombo.setComboItem(payFromAccount);
 	}
+
+	@Override
+	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
+		return null;
+	}
+
 }
