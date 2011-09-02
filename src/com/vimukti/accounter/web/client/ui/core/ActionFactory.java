@@ -135,6 +135,8 @@ import com.vimukti.accounter.web.client.ui.reports.SalesByCustomerDetailAction;
 import com.vimukti.accounter.web.client.ui.reports.SalesByCustomerSummaryAction;
 import com.vimukti.accounter.web.client.ui.reports.SalesByItemDetailAction;
 import com.vimukti.accounter.web.client.ui.reports.SalesByItemSummaryAction;
+import com.vimukti.accounter.web.client.ui.reports.SalesByLocationDetailsAction;
+import com.vimukti.accounter.web.client.ui.reports.SalesByLocationSummaryAction;
 import com.vimukti.accounter.web.client.ui.reports.SalesClosedOrderAction;
 import com.vimukti.accounter.web.client.ui.reports.SalesOpenOrderAction;
 import com.vimukti.accounter.web.client.ui.reports.SalesTaxLiabilityAction;
@@ -1281,7 +1283,15 @@ public class ActionFactory {
 		return new Prepare1099MISCAction(
 				actionsConstants.prepare1099MiscForms());
 	}
-
+	public static SalesByLocationDetailsAction getSalesByLocationDetailsAction() {
+		return new SalesByLocationDetailsAction(Accounter.messages()
+				.getSalesByLocationDetails(Global.get().Location()));
+	}
+	
+	public static SalesByLocationSummaryAction getSalesByLocationSummaryAction(){
+		return new SalesByLocationSummaryAction(Accounter.messages()
+				.salesByLocationSummary(Global.get().Location()));
+	}
 	public static ProfitAndLossByLocationAction getProfitAndLossByLocationAction() {
 		return new ProfitAndLossByLocationAction(
 				actionsConstants.profitAndLoss()
@@ -1306,5 +1316,4 @@ public class ActionFactory {
 		return new TDSVendorsListAction("TDS Vendors List");
 
 	}
-
 }
