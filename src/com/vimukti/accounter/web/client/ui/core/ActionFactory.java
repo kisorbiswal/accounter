@@ -1283,15 +1283,17 @@ public class ActionFactory {
 		return new Prepare1099MISCAction(
 				actionsConstants.prepare1099MiscForms());
 	}
+
 	public static SalesByLocationDetailsAction getSalesByLocationDetailsAction() {
 		return new SalesByLocationDetailsAction(Accounter.messages()
 				.getSalesByLocationDetails(Global.get().Location()));
 	}
-	
-	public static SalesByLocationSummaryAction getSalesByLocationSummaryAction(){
+
+	public static SalesByLocationSummaryAction getSalesByLocationSummaryAction() {
 		return new SalesByLocationSummaryAction(Accounter.messages()
 				.salesByLocationSummary(Global.get().Location()));
 	}
+
 	public static ProfitAndLossByLocationAction getProfitAndLossByLocationAction() {
 		return new ProfitAndLossByLocationAction(
 				actionsConstants.profitAndLoss()
@@ -1312,6 +1314,7 @@ public class ActionFactory {
 	public static UsersActivityListAction getUsersActivityListAction() {
 		return new UsersActivityListAction("Users Activity Log");
 	}
+
 	public static TDSVendorsListAction getTDSVendorsAction() {
 		return new TDSVendorsListAction("TDS Vendors List");
 
