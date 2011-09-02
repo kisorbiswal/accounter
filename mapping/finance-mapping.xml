@@ -70,6 +70,12 @@
 				type="com.vimukti.accounter.core.LongUseType"></property>
 		</joined-subclass>
 	</class>
+	<class name="Location" table="LOCATION">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="locationName" column="LOCATION_NAME"></property>
+	</class>
 	<class name="CommodityCode" table="COMMODITY_CODE">
 		<id name="id" column="ID">
 			<generator class="native"></generator>
@@ -232,8 +238,11 @@
 			<property name="referCustomers" column="CP_REFER_CUSTOMERS"></property>
 			<property name="referVendors" column="CP_REFER_VENDORS"></property>
 			<property name="referAccounts" column="CP_REFER_ACCOUNTS"></property>
+
 			<property name="isLocationTrackingEnabled" column="IS_LOCATION_TRACKING_ENABLED"></property>
 			<property name="locationTrackingId" column="LOCATION_TRACKING_ID"></property>
+
+
 		</component>
 		<property name="phone" column="PHONE"></property>
 		<property name="fax" column="FAX"></property>
@@ -660,8 +669,8 @@
 		<many-to-one name="TAXCode" column="TAX_CODE_ID" class="TAXCode"
 			lazy="false">
 		</many-to-one>
-		<many-to-one name="TAXItem" column="TDS_TAX_ITEM_ID" class="TAXItem"
-			lazy="false">
+		<many-to-one name="TAXItem" column="TDS_TAX_ITEM_ID"
+			class="TAXItem" lazy="false">
 		</many-to-one>
 		<property name="isOpeningBalanceEditable" column="IS_OPENING_BALANCE_EDITABLE"></property>
 		<property name="isDefault" column="IS_DEFAULT"></property>
@@ -1466,14 +1475,13 @@
 		</set>
 
 	</class>
-	
-	<!-- <class name="ServerMaintanance" table="SERVER_MAINTANANCE">
-		<id name="id" column=""ID" />
-		<property name="isUnderMaintanance" column="IS_UNDER_MAINTANANCE" />
-	</class> -->
+
+	<!-- <class name="ServerMaintanance" table="SERVER_MAINTANANCE"> <id name="id" 
+		column=""ID" /> <property name="isUnderMaintanance" column="IS_UNDER_MAINTANANCE" 
+		/> </class> -->
 
 
-<!-- budget class -->
+	<!-- budget class -->
 	<class name="Budget" table="BUDGET">
 		<id name="id" column="ID">
 			<generator class="native" />
@@ -1511,7 +1519,7 @@
 		<key column="TAX_GROUP_ID"></key> <list-index column="IDX" /> <many-to-many 
 		column="TAX_ITEM_ID" class="TaxItem" /> </list> <property name="groupRate" 
 		column="GROUP_RATE"></property> </joined-subclass> </class> -->
-		
-		
+
+
 </hibernate-mapping>
 
