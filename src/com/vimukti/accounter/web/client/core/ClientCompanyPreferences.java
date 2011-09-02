@@ -105,6 +105,10 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	private String dateFormat;
 
+	private boolean isLocationTrackingEnabled;
+
+	private long locationTrackingId;
+
 	double logSpaceUsed;
 
 	public long id;
@@ -920,6 +924,22 @@ public class ClientCompanyPreferences implements IAccounterCore {
 		}
 	}
 
+	public boolean isLocationTrackingEnabled() {
+		return isLocationTrackingEnabled;
+	}
+
+	public void setLocationTrackingEnabled(boolean isLocationTrackingEnabled) {
+		this.isLocationTrackingEnabled = isLocationTrackingEnabled;
+	}
+
+	public long getLocationTrackingId() {
+		return locationTrackingId;
+	}
+
+	public void setLocationTrackingId(long locationTrackingId) {
+		this.locationTrackingId = locationTrackingId;
+	}
+
 	@Override
 	public int getVersion() {
 		return version;
@@ -927,8 +947,9 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
+		this.version = version;
 	}
+	
 	public boolean isTDSEnabled() {
 		return get(TDS_TAX_ENABLE);
 	}
