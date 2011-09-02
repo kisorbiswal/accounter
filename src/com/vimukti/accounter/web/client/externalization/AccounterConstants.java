@@ -4588,4 +4588,10 @@ public interface AccounterConstants extends Constants {
 
 	public String overDueBills();
 
+	public String budgetStartWith();
+
+	public String budgetSubdivide();
+
+	public String budgetFinancialYear();
+
 }
