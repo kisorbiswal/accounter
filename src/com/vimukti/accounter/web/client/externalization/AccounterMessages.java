@@ -723,6 +723,12 @@ public interface AccounterMessages extends Messages {
 
 	public String mergeDescription(String desc);
 
+	public String location(String location);
+
+	public String useTerminologyFor(String location);
+
+	public String locationTracking(String location);
+
 	public String selectWhichWeHaveInOurCompanyOrAddNew(String comboType);
 
 	public String selectWhichWeHaveInOurCompany(String comboType);
@@ -808,7 +814,9 @@ public interface AccounterMessages extends Messages {
 	public SafeHtml comapnyInfo();
 
 	public SafeHtml otherDetails();
-
+	
+	public String getSalesByLocationDetails(String locationString);
+	
 	public SafeHtml employeeSettings();
 
 	public String venodrsThatMeetThreshold(String vendor);
@@ -823,6 +831,8 @@ public interface AccounterMessages extends Messages {
 
 	public String assignAccounts(String account);
 	public String dearCustomer(String custMsg);
+	
+	public String salesByLocationSummary(String locationString);
 
 	public SafeHtml selectMultiple();
 
