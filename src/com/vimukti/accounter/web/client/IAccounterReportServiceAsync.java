@@ -22,6 +22,8 @@ import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeList;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeListDetail;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
+import com.vimukti.accounter.web.client.core.reports.SalesByLocationDetails;
+import com.vimukti.accounter.web.client.core.reports.SalesByLocationSummary;
 import com.vimukti.accounter.web.client.core.reports.SalesTaxLiability;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByTaxItem;
@@ -165,6 +167,18 @@ public interface IAccounterReportServiceAsync {
 	public void getProfitAndLossReport(ClientFinanceDate startDate,
 			ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<TrialBalance>> callBack);
+
+	public void getSalesByLocationDetailsReport(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
+			AsyncCallback<ArrayList<SalesByLocationDetails>> callBack);
+
+	public void getSalesByLocationDetailsForLocation(String locationName,
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			AsyncCallback<ArrayList<SalesByLocationDetails>> callBack);
+
+	public void getSalesByLocationSummaryReport(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
+			AsyncCallback<ArrayList<SalesByLocationSummary>> callBack);
 
 	public void getCashFlowReport(ClientFinanceDate startDate,
 			ClientFinanceDate endDate,
