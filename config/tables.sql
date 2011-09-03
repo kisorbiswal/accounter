@@ -256,52 +256,47 @@ CREATE TABLE `BRANDING_THEME` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `BUDGETITEM`
---
-
-DROP TABLE IF EXISTS `BUDGETITEM`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `BUDGETITEM` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `ACCOUNT` bigint(20) DEFAULT NULL,
-  `JANUARY_AMOUNT` double DEFAULT NULL,
-  `FEBRUARY_AMOUNT` double DEFAULT NULL,
-  `MARCH_AMOUNT` double DEFAULT NULL,
-  `APRIL_AMOUNT` double DEFAULT NULL,
-  `MAY_AMOUNT` double DEFAULT NULL,
-  `JUNE_AMOUNT` double DEFAULT NULL,
-  `JULY_AMOUNT` double DEFAULT NULL,
-  `AUGUST_AMOUNT` double DEFAULT NULL,
-  `SPETEMBER_AMOUNT` double DEFAULT NULL,
-  `OCTOBER_AMOUNT` double DEFAULT NULL,
-  `NOVEMBER_AMOUNT` double DEFAULT NULL,
-  `DECEMBER_AMOUNT` double DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `FK756DA3ZYGBDEE512` (`ID`),
-  CONSTRAINT `FK756DA3ZYGBDEE512` FOREIGN KEY (`ID`) REFERENCES `BUDGET` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-
 
 --
 -- Table structure for table `BUDGET`
 --
 
 DROP TABLE IF EXISTS `BUDGET`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `BUDGET` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `BUDGET_NAME` varchar(255) DEFAULT NULL,
-  `BUDGETITEM` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `FK756DA34515DEE523` (`ID`),
-  CONSTRAINT `FK756DA34515DEE523` FOREIGN KEY (`ID`) REFERENCES `ACCOUNT` (`ID`)
+  `ID` bigint(20) NOT NULL auto_increment,
+  `BUDGET_NAME` varchar(255) default NULL,
+  PRIMARY KEY  (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+--
+-- Table structure for table `BUDGETITEM`
+--
+
+
+DROP TABLE IF EXISTS `BUDGETITEM`;
+CREATE TABLE `BUDGETITEM` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `ACCOUNT` bigint(20) default NULL,
+  `JANUARY_AMOUNT` double default NULL,
+  `FEBRUARY_AMOUNT` double default NULL,
+  `MARCH_AMOUNT` double default NULL,
+  `APRIL_AMOUNT` double default NULL,
+  `MAY_AMOUNT` double default NULL,
+  `JUNE_AMOUNT` double default NULL,
+  `JULY_AMOUNT` double default NULL,
+  `AUGUST_AMOUNT` double default NULL,
+  `SPETEMBER_AMOUNT` double default NULL,
+  `OCTOBER_AMOUNT` double default NULL,
+  `NOVEMBER_AMOUNT` double default NULL,
+  `DECEMBER_AMOUNT` double default NULL,
+  `TOTAL_AMOUNT` double default NULL,
+  `BUDGET_ID` bigint(20) default NULL,
+  `IDX` int(11) default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FKF3D2EBD844247A5F` (`BUDGET_ID`),
+  CONSTRAINT `FKF3D2EBD844247A5F` FOREIGN KEY (`BUDGET_ID`) REFERENCES `budget` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Table structure for table `CASH_PURCHASE`
