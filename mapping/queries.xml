@@ -9,13 +9,6 @@
 		from com.vimukti.accounter.core.Company c where c.companyID=:companyID
 	</query>
 
-	<query name="getuser.from.emailid.and.password">
-		<query-param name="emailid" type="string" />
-		<query-param name="password" type="string" />
-		from com.vimukti.accounter.core.User user where user.email=:emailid
-		and
-		user.passwordSha1Hash =:password
-	</query>
 
 	<query name="getuser.by.email">
 		<query-param name="email" type="string" />

@@ -24,7 +24,7 @@ public interface IS2SService extends RemoteService {
 	public void deleteClientFromCompany(long serverCompanyId,
 			String deletableEmail) throws AccounterException;
 
-	public void inviteUser(long companyId, ClientUserInfo userInfo,
+	public boolean inviteUser(long companyId, ClientUserInfo userInfo,
 			String senderEmailId) throws AccounterException;
 
 }

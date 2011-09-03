@@ -24,6 +24,6 @@ public interface IS2SServiceAsync {
 	public void deleteClientFromCompany(long serverCompanyId,
 			String deletableEmail, AsyncCallback<Void> callback);
 
-	public void inviteUser(long companyId, ClientUserInfo userInfo,
-			String senderEmailId, AsyncCallback<Void> callback);
+	void inviteUser(long companyId, ClientUserInfo userInfo,
+			String senderEmailId, AsyncCallback<Boolean> callback);
 }

@@ -50,7 +50,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 
 	private void createView() {
 
-		setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
+		setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		setWidth("100%");
 		setHeight("100%");
 

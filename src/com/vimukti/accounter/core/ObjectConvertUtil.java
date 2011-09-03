@@ -14,7 +14,6 @@ public class ObjectConvertUtil {
 	protected ThreadLocal<Map<Object, Object>> cache = new ThreadLocal<Map<Object, Object>>();
 	public ThreadLocal<Map<String, Object>> importedObjectsCache = new ThreadLocal<Map<String, Object>>();
 
-	protected boolean isImported = false;
 
 	protected Map<String, Field> getAllFields(Class<?> cls) {
 		Map<String, Field> mapFields = new HashMap<String, Field>();

@@ -34,7 +34,6 @@ public class ClientUserInfo implements IAccounterCore {
 
 	private boolean isAdmin;
 
-	private long lastLogin;
 
 	private int version;
 
@@ -181,20 +180,6 @@ public class ClientUserInfo implements IAccounterCore {
 		this.isAdmin = isAdmin;
 	}
 
-	/**
-	 * @return the lastLogin
-	 */
-	public long getLastLogin() {
-		return lastLogin;
-	}
-
-	/**
-	 * @param lastLogin
-	 *            the lastLogin to set
-	 */
-	public void setLastLogin(long lastLogin) {
-		this.lastLogin = lastLogin;
-	}
 
 	@Override
 	public String getName() {

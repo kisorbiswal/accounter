@@ -34,62 +34,20 @@ public class User extends CreatableObject implements IAccounterServerCore {
 	private boolean isAdmin;
 
 	private boolean isDeleted;
+	
+	private boolean isActive;
+	
+	
 
 	/**
 	 * The full name of the user.
 	 */
 	private String fullName;
 
-	private String passwordSha1Hash;
-
-	/**
-	 * The user name is different from the full name. This is the name by which
-	 * user wants to login.
-	 */
-	// String userName;
-	/**
-	 * This is field used for AccounterLive. This is the URL which is dedicated
-	 * to the user at the time of registration.
-	 */
-
-	// private long lastLogin;
-	/**
-	 * This User object is referenced to the Administer of this User. If the
-	 * present reference itself is the Admin, then this field will remains as
-	 * null.
-	 */
-	// User admin;
-
-	/**
-	 * By this int value we can come to know the maximum number of users that
-	 * can be assigned under the admin
-	 */
-	// int maxUserCount;
-
-	/**
-	 * This is a AccounterLive variable. If the user is subscribed for
-	 * newsletters etc, we have to add him to the mailingList. So that he will
-	 * be mailed automatically whenever there is a new update or new feature in
-	 * the software.
-	 */
-	// boolean mailingList;
-
 	/**
 	 * Preferences that a user want to set.
 	 */
 	private UserPreferences userPreferences = new UserPreferences();
-
-	// Address address = new Address();
-
-	// Contact contact = new Contact();
-
-	public boolean isLoggedInFromDomain;
-
-	private boolean isMacApp;
-
-	private String phoneNo;
-
-	private String country;
 
 	public User() {
 		UserPreferences userPreferences = new UserPreferences();
@@ -136,13 +94,6 @@ public class User extends CreatableObject implements IAccounterServerCore {
 	}
 
 	/**
-	 * @return the passwordSha1Hash
-	 */
-	public String getPasswordSha1Hash() {
-		return passwordSha1Hash;
-	}
-
-	/**
 	 * @return the userPreferences
 	 */
 	public UserPreferences getUserPreferences() {
@@ -162,10 +113,6 @@ public class User extends CreatableObject implements IAccounterServerCore {
 
 	}
 
-	public void setPasswordSha1Hash(String string) {
-		this.passwordSha1Hash = string;
-	}
-
 	@Override
 	public long getID() {
 		return this.id;
@@ -174,7 +121,6 @@ public class User extends CreatableObject implements IAccounterServerCore {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
@@ -295,35 +241,19 @@ public class User extends CreatableObject implements IAccounterServerCore {
 		return false;
 	}
 
-	public boolean isMacApp() {
-		return isMacApp;
-	}
-
-	public void setMacApp(boolean isMacApp) {
-		this.isMacApp = isMacApp;
-	}
-
-	public String getPhoneNo() {
-		return phoneNo;
-	}
-
-	public void setPhoneNo(String phoneNo) {
-		this.phoneNo = phoneNo;
-	}
-
-	public String getCountry() {
-		return country;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
-
 	public boolean isDeleted() {
 		return isDeleted;
 	}
 
 	public void setDeleted(boolean isDeleted) {
-		this.isDeleted = isDeleted;
+		this.isDeleted=isDeleted;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive=isActive;
 	}
 }

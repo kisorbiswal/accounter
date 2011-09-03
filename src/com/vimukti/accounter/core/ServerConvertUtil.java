@@ -134,14 +134,7 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 
 	}
 
-	public <D extends IAccounterServerCore, S extends IAccounterCore> D toServerObject(
-			D dst, S src, Session session, boolean IsImported)
-			throws AccounterException {
-		isImported = IsImported;
-		D ret = toServerObject(dst, src, session);
-		isImported = false;
-		return ret;
-	}
+	
 
 	public <D extends IAccounterServerCore, S extends IAccounterCore> D toServerObject(
 			D dst, S src, Session session) throws AccounterException {

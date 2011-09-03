@@ -184,7 +184,7 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 	}
 
 	@Override
-	public void inviteUser(long companyId, ClientUserInfo userInfo,
+	public boolean inviteUser(long companyId, ClientUserInfo userInfo,
 			String senderEmailId) throws AccounterException {
 
 		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
@@ -199,10 +199,9 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 
 			String invitedUserEmailID = userInfo.getEmail();
 			Client invitedClient = getClient(invitedUserEmailID);
-			boolean userExists = true;
+			boolean userExists = false;
 			String randomString = HexUtil.getRandomString();
 			if (invitedClient == null) {
-				userExists = false;
 				invitedClient = new Client();
 				invitedClient.setActive(true);
 				Set<ServerCompany> servercompanies = new HashSet<ServerCompany>();
@@ -216,13 +215,14 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 						.makeHash(invitedUserEmailID + randomString)));
 				// invitedClient.setRequirePasswordReset(true);
 			} else {
+				userExists = true;
 				Set<ServerCompany> invitedClientCompanies = invitedClient
 						.getCompanies();
 				for (ServerCompany invitedClientCompany : invitedClientCompanies) {
 					if (serverCompany == invitedClientCompany) {
 						// req.setAttribute("message",
 						// "Invited user already exists in your company.");
-						return;
+						return true;
 					}
 				}
 				invitedClient.getCompanies().add(serverCompany);
@@ -237,6 +237,8 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 				UsersMailSendar.sendMailToInvitedUser(invitedClient,
 						randomString, serverCompany.getCompanyName());
 			}
+			
+			return userExists;
 		} catch (Exception e) {
 			transaction.rollback();
 			throw new AccounterException(AccounterException.ERROR_INTERNAL, e);

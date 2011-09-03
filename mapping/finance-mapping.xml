@@ -958,39 +958,12 @@
 		<property name="fullName" column="FULL_NAME"></property>
 		<property name="email" column="EMAIL_ID"></property>
 		<property name="userRole" column="USER_ROLE"></property>
-		<property name="passwordSha1Hash" column="PASSWORD"></property>
 		<property name="canDoUserManagement" column="CAN_DO_USER_MANAGEMENT"></property>
 		<property name="isDeleted" column="IS_DELETED"></property>
-		<property name="phoneNo" column="PHONE_NO"></property>
-		<property name="country" column="COUNTRY_NAME"></property>
-		<!-- type="com.vimukti.accounter.core.LongUseType"></property> -->
+		<property name="isActive" column="IS_ACTIVE"></property>
 		<property name="isAdmin" column="IS_ADMIN"></property>
 		<many-to-one name="permissions" class="UserPermissions"
 			lazy="false" cascade="save-update,delete" column="USER_PERMISSIONS_ID"></many-to-one>
-		<!-- <property name="lastLogin" column="LAST_LOGIN" type="com.vimukti.accounter.core.LongUseType"></property> 
-			<property name="createdDate" column="CREATED_DATE"></property> <many-to-one 
-			name="admin" class="User" lazy="false" column="ADMIN_ID"> </many-to-one> 
-			<property name="maxUserCount" column="MAX_USER_COUNT"></property> <component 
-			name="userPreferences" class="UserPreferences" lazy="false"> <property name="dashBoardPreferences" 
-			column="USER_PREFERENCES_DASH_BOARD" not-null="true"></property> <property 
-			name="customerSectionViewPreferences" column="USER_PREFERENCES_CUSTOMER_SELECTION_VIEW" 
-			not-null="true"></property> <property name="vendorSectionViewPreferences" 
-			column="USER_PREFERENCES_VENDOR_SELECTION_VIEW" not-null="true"></property> 
-			<property name="bankingSectionViewPreferences" column="USER_PREFERENCES_BANKING_SELECTION_VIEW" 
-			not-null="true"></property> </component> <component name="address" class="Address" 
-			lazy="false"> <property name="type" column="USER_ADDRESS_TYPE" not-null="true"></property> 
-			<property name="street" column="USER_ADDRESS_STREET" not-null="true"></property> 
-			<property name="city" column="USER_ADDRESS_CITY" not-null="true"></property> 
-			<property name="stateOrProvinence" column="USER_ADDRESS_STATE" not-null="true"></property> 
-			<property name="zipOrPostalCode" column="USER_ADDRESS_ZIP" not-null="true"></property> 
-			<property name="countryOrRegion" column="USER_ADDRESS_COUNTRY" not-null="true"></property> 
-			<property name="isSelected" column="USER_ADDRESS_IS_SELECTED" not-null="true"></property> 
-			</component> <component name="contact" class="Contact" lazy="false"> <property 
-			name="isPrimary" column="USER_IS_PRIMARY" not-null="true"></property> <property 
-			name="name" column="USER_NAME" not-null="true"></property> <property name="title" 
-			column="USER_TITLE" not-null="true"></property> <property name="businessPhone" 
-			column="USER_BUSINESS_PHONE" not-null="true"></property> <property name="email" 
-			column="USER_EMAIL" not-null="true"></property> </component> -->
 	</class>
 	<!-- <class name="UserPreferences" table="USER_PREFERENCES"> <id name="id" 
 		column="ID"> <generator class="native" /> </id> <property name="version" 

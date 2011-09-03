@@ -11,6 +11,7 @@ import com.gdevelop.gwt.syncrpc.SyncProxy;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.Transaction;
+import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.Util;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.services.IS2SService;
@@ -165,12 +166,14 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 
 		IS2SService s2sSyncProxy = getS2sSyncProxy(ServerConfiguration
 				.getServerDomainName());
-
+		// Creating Use in Local Company Database
+		ClientUser coreUser = convertUserInfoToUser(invitedser);
 		// Creating Clien
 		try {
 			String company = getCookie(BaseServlet.COMPANY_COOKIE);
-			s2sSyncProxy.inviteUser(Integer.parseInt(company), invitedser,
+			boolean userExists = s2sSyncProxy.inviteUser(Integer.parseInt(company), invitedser,
 					getUserEmail());
+			coreUser.setActive(userExists);
 		} catch (Exception e) {
 			if (e instanceof AccounterException) {
 				throw (AccounterException) e;
@@ -178,8 +181,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 			throw new AccounterException(AccounterException.ERROR_INTERNAL);
 		}
 
-		// Creating Use in Local Company Database
-		ClientUser coreUser = convertUserInfoToUser(invitedser);
+		
 		String clientClassSimpleName = coreUser.getObjectType()
 				.getClientClassSimpleName();
 		FinanceTool financeTool = new FinanceTool();

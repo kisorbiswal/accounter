@@ -138,9 +138,7 @@ public class Client {
 		User user = new User();
 		user.setFirstName(this.firstName);
 		user.setLastName(this.lastName);
-		user.setCountry(this.country);
 		user.setEmail(this.emailId);
-		user.setPhoneNo(this.phoneNumber);
 		return user;
 	}
 

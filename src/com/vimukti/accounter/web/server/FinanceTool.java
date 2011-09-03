@@ -11545,6 +11545,7 @@ public class FinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
 		User admin = new User(user);
+		admin.setActive(true);
 		session.save(admin);
 		this.getCompany().getUsersList().add(admin);
 		session.saveOrUpdate(this);

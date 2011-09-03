@@ -9,8 +9,6 @@ public class ClientUser implements IAccounterCore {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	public static final String AVAILABLE = "Available";
-	public static final String OFFLINE = "Offline";
 
 	String firstName;
 
@@ -24,10 +22,6 @@ public class ClientUser implements IAccounterCore {
 
 	private String displayName;
 
-	public boolean isExternalCompany;
-
-	private String status;
-
 	private boolean isAdmin;
 
 	int version;
@@ -35,18 +29,15 @@ public class ClientUser implements IAccounterCore {
 
 	String fullName;
 	String email;
-	String passwordSha1Hash;
 
 	String admin;
 
-	int maxUserCount;
 
-	// ClientUserPreferences userPreferences = new ClientUserPreferences();
-	// long userPreferencesId;
+	private boolean isDeleted;
 
-	ClientAddress address = new ClientAddress();
 
-	ClientContact contact = new ClientContact();
+	private boolean isActive;
+
 
 	public ClientUser() {
 		// ClientUserPreferences userPreferences = new ClientUserPreferences();
@@ -133,20 +124,6 @@ public class ClientUser implements IAccounterCore {
 		this.email = email;
 	}
 
-	/**
-	 * @return the passwordSha1Hash
-	 */
-	public String getPasswordSha1Hash() {
-		return passwordSha1Hash;
-	}
-
-	/**
-	 * @param passwordSha1Hash
-	 *            the passwordSha1Hash to set
-	 */
-	public void setPasswordSha1Hash(String passwordSha1Hash) {
-		this.passwordSha1Hash = passwordSha1Hash;
-	}
 
 	/**
 	 * @return the admin
@@ -163,66 +140,15 @@ public class ClientUser implements IAccounterCore {
 		this.admin = adminId;
 	}
 
-	/**
-	 * @return the maxUserCount
-	 */
-	public int getMaxUserCount() {
-		return maxUserCount;
-	}
 
-	/**
-	 * @param maxUserCount
-	 *            the maxUserCount to set
-	 */
-	public void setMaxUserCount(int maxUserCount) {
-		this.maxUserCount = maxUserCount;
-	}
-
-	// /**
-	// * @return the companies
-	// */
-	// public Set<ClientCompany> getCompanies() {
-	// return companies;
-	// }
-	//
-	// /**
-	// * @param companies
-	// * the companies to set
-	// */
-	// public void setCompanies(Set<ClientCompany> companies) {
-	// this.companies = companies;
-	// }
-
-	/**
-	 * @return the userPreferences
-	 */
-
-	public ClientCompany getDefaultCompany() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	// public long getUserPreferencesId() {
-	// return userPreferencesId;
-	// }
-	// public ClientUserPreferences getUserPreferences() {
-	// return userPreferences;
-	// }
-	//
-	// public void setUserPreferences(ClientUserPreferences
-	// clientUserPreferencesId) {
-	// this.userPreferences = clientUserPreferencesId;
-	// }
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
 		return displayName;
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		if (getFirstName() == null && getLastName() == null)
 			return "";
 		else if (getFirstName() == null)
@@ -233,25 +159,8 @@ public class ClientUser implements IAccounterCore {
 
 	}
 
-	public ClientAddress getAddress() {
-		return address;
-	}
-
-	public void setAddress(ClientAddress addressId) {
-		this.address = addressId;
-	}
-
-	public ClientContact getContact() {
-		return contact;
-	}
-
-	public void setContact(ClientContact contactId) {
-		this.contact = contactId;
-	}
-
 	@Override
 	public AccounterCoreType getObjectType() {
-		// TODO Auto-generated method stub
 		return AccounterCoreType.USER;
 	}
 
@@ -288,24 +197,9 @@ public class ClientUser implements IAccounterCore {
 		return permissions;
 	}
 
-	// public void setActive(boolean isActive) {
-	// this.isActive = isActive;
-	// }
-	//
-	// public boolean isActive() {
-	// return isActive;
-	// }
 
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public String getStatus() {
-		return status;
 	}
 
 	public void setAdmin(boolean isAdmin) {
@@ -407,8 +301,22 @@ public class ClientUser implements IAccounterCore {
 	public ClientUser clone() {
 		ClientUser clientUserClone = (ClientUser) this.clone();
 		clientUserClone.permissions = this.permissions.clone();
-		clientUserClone.address = this.address.clone();
-		clientUserClone.contact = this.contact.clone();
 		return clientUserClone;
+	}
+	
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted=isDeleted;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive=isActive;
 	}
 }
