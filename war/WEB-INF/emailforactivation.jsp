@@ -40,7 +40,7 @@
 			</div>
   		  </c:if>
   		  
-		 <form id = "emailActivationForm" action="/emailforactivation" method="post">
+		 <form id = "emailActivationForm" action="/main/emailforactivation" method="post">
 		    <div class="reset-header">
 			   <h2>Resend activation code</h2>
 			</div>

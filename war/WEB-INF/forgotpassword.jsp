@@ -46,7 +46,7 @@ $(document).ready(function() {
 		   <div id="forgot-password_error" class="common-box">
 		      <p>Please enter your email address. You will receive a code to create a new password through the email.</p>	
 		   </div>
-		   <form id="accounterForm" method="post" action="/forgotpassword">
+		   <form id="accounterForm" method="post" action="/main/forgotpassword">
 		      <div>
 			    <label>E-mail<label>
 				<br>
@@ -57,7 +57,7 @@ $(document).ready(function() {
 			  </div>
 		   </form>
 		   <div class="form-bottom-options">
-		      <a href="/login" >Login</a>
+		      <a href="/main/login" >Login</a>
 		   </div>
 		</div>
 		

@@ -45,7 +45,7 @@
 				<span>${message} </span>
 		   </div>
 		   </c:if>	
-		   <form id="accounterForm" method="post" action="/login">
+		   <form id="accounterForm" method="post" action="/main/login">
 		      <div class="email_password">
 			    <label>Email</label>
 				<br>
@@ -65,10 +65,10 @@
 			  </div>
 		   </form>
 		   <div class="form-bottom-options">
-		      <a href="/forgotpassword" id="forget-link1" tabindex="5"> Lost your password?</a>
+		      <a href="/main/forgotpassword" id="forget-link1" tabindex="5"> Lost your password?</a>
 		   </div>
 		    <div class="form-bottom-options">
-		      <a href="/signup" id="forget-link1" tabindex="6"> Sign up Accounter?</a>
+		      <a href="/main/signup" id="forget-link1" tabindex="6"> Sign up Accounter?</a>
 		   </div>
 		</div>
 		

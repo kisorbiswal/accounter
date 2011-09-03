@@ -13,8 +13,8 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import com.vimukti.accounter.core.IAccounterServerCore;
+import com.vimukti.accounter.core.Server;
 import com.vimukti.accounter.core.Utility;
-import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HibernateUtil;
 

@@ -135,7 +135,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
   
   
   <c:if test="${successmessage==null}">
-    <form id="accounterForm" method="post" action="/signup">
+    <form id="accounterForm" method="post" action="/main/signup">
 	   <div>
 	      <span class="mandatory">All fields are mandatory</span>
 	   </div>
@@ -422,7 +422,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	</form>
   </c:if>
   <div class="form-bottom-options">
-  <a href="/login" id="forget-link1">I already have an account</a>
+  <a href="/main/login" id="forget-link1">I already have an account</a>
   <br><br>
   </div> 
 </div>

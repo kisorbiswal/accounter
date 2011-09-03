@@ -18,7 +18,7 @@ import org.hibernate.Session;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-import com.vimukti.accounter.main.Server;
+import com.vimukti.accounter.core.Server;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
 

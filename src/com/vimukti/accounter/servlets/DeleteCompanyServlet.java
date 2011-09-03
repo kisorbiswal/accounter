@@ -7,13 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.Server;
 import com.vimukti.accounter.core.ServerCompany;
-import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.services.IS2SService;
 import com.vimukti.accounter.utils.HibernateUtil;
 
@@ -87,7 +86,7 @@ public class DeleteCompanyServlet extends BaseServlet {
 					String schemaName = Server.COMPANY + companyID;
 
 					IS2SService s2sService = getS2sSyncProxy(serverCompany
-							.getServerAddress());
+							.getServer().getAddress());
 
 					boolean isAdmin = s2sService.isAdmin(
 							Long.parseLong(companyID), email);
@@ -111,10 +110,11 @@ public class DeleteCompanyServlet extends BaseServlet {
 						session.delete(serverCompany);
 						session.saveOrUpdate(client);
 
-						// Drop Company Database
-						Query dropSchema = session
-								.createSQLQuery("DROP SCHEMA " + schemaName);
-						dropSchema.executeUpdate();
+						// Deleting Company
+						IS2SService s2sSyncProxy = getS2sSyncProxy(serverCompany
+								.getServer().getAddress());
+						s2sSyncProxy.deleteCompany(serverCompany.getId());
+
 					} else {
 
 						// Deleting Client from ServerCompany
@@ -127,6 +127,7 @@ public class DeleteCompanyServlet extends BaseServlet {
 					transaction.commit();
 					httpSession
 							.setAttribute(COMPANY_DELETION_STATUS, "Success");
+					updateServers(serverCompany.getServer(), false);
 				} catch (Exception e) {
 					e.printStackTrace();
 					transaction.rollback();

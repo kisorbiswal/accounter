@@ -85,7 +85,7 @@
 						<td class="login-box-left-middle" ></td>
 						<td class="login-box">
 								<div class="mid-login-box">
-								<form id="accounterForm" method="post" action="/site/login" onsubmit="return loadImage()">
+								<form id="accounterForm" method="post" action="/main/login" onsubmit="return loadImage()">
 								
 								<c:if test="${message != null}">
 								<span style="background: #CC0000; color: #F2F3F5; line-height: 1.5;">
@@ -120,7 +120,7 @@
 								</div>
 										<div class ="fields-table">
 											<input id="checkbox1" type="checkbox" tabindex="4" name="staySignIn" checked/> Stay signed in 
-											<a href="/site/forgotpassword" id="forget-link1" tabindex="5"> Forgot your password?</a></br>
+											<a href="/main/forgotpassword" id="forget-link1" tabindex="5"> Forgot your password?</a></br>
 											<input id="submitButton" type="submit" class="signup-but" name="login" value="Login" tabindex="6"/>
 										</div>			
 								</div>

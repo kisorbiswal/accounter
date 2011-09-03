@@ -19,8 +19,8 @@ import javax.servlet.http.HttpSession;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.Server;
 import com.vimukti.accounter.core.ServerCompany;
-import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;

@@ -46,7 +46,7 @@ public class OpenCompanyServlet extends BaseServlet {
 					"/WEB-INF/Accounter.jsp");
 			dispatcher.forward(request, response);
 		} else {
-			response.sendRedirect("/login");
+			response.sendRedirect(LOGIN_URL);
 			// Session is there, so show the main page
 
 		}

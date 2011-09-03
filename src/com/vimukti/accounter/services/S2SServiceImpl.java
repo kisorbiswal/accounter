@@ -12,10 +12,10 @@ import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
+import com.vimukti.accounter.core.Server;
 import com.vimukti.accounter.core.ServerCompany;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mail.UsersMailSendar;
-import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -247,6 +247,23 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 			if (session.isOpen()) {
 				session.close();
 			}
+		}
+	}
+
+	@Override
+	public void deleteCompany(long serverCompanyID) throws AccounterException {
+		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+		Transaction transaction = session.beginTransaction();
+		try {
+			Query dropSchema = session.createSQLQuery("DROP SCHEMA "
+					+ Server.COMPANY + serverCompanyID);
+			dropSchema.executeUpdate();
+			transaction.commit();
+		} catch (Exception e) {
+			transaction.rollback();
+			throw new AccounterException(AccounterException.ERROR_INTERNAL, e);
+		} finally {
+			session.close();
 		}
 	}
 }

@@ -12,13 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.gdevelop.gwt.syncrpc.SyncProxy;
 import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.Server;
 import com.vimukti.accounter.mail.UsersMailSendar;
-import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.services.IS2SService;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -55,16 +56,17 @@ public class BaseServlet extends HttpServlet {
 	protected static final String ATTR_MESSAGE = "message";
 	protected static final String ATTR_COMPANY_LIST = "companeyList";
 
-	protected static final String LOGIN_URL = "/login";
-	protected static final String ACCOUNTER_URL = "/accounter";
+	protected static final String LOGIN_URL = "/main/login";
+	protected static final String LOGOUT_URL = "/main/logout";
+	protected static final String ACCOUNTER_URL = "/company/accounter";
+	protected static final String MAINTANANCE_URL = "/main/maintanance";
 
-	protected static final String RESET_PASSWORD_URL = "/resetpassword";
-	public static final String COMPANIES_URL = "/companies";
-	protected static final String ACTIVATION_URL = "/activation";
-	protected static final String CREATE_COMPANY_URL = "/createcompany";
-	protected static final String DELETE_COMPANY_URL = "/deletecompany";
-	protected static final String DELETE_COMPANY_FROM_USER = "/deletecompanyfromuser";
-	protected String COMPANY_STATUS_URL = "/companystatus";
+	protected static final String RESET_PASSWORD_URL = "/main/resetpassword";
+	public static final String COMPANIES_URL = "/main/companies";
+	protected static final String ACTIVATION_URL = "/main/activation";
+	protected static final String CREATE_COMPANY_URL = "/main/createcompany";
+	protected static final String DELETE_COMPANY_URL = "/main/deletecompany";
+	protected String COMPANY_STATUS_URL = "/main/companystatus";
 
 	/**
 	 * 
@@ -75,22 +77,6 @@ public class BaseServlet extends HttpServlet {
 	public static final int NAME = 1;
 	public static final int PHONE_NO = 2;
 	private static final int ACTIVATION_CODE_SIZE = 10;
-
-	protected Company getCompanyById(String companyId) {
-		Session session = HibernateUtil.openSession(Server.COMPANY + companyId);
-		try {
-			Company comapny = (Company) session.get(Company.class,
-					Long.valueOf(companyId));
-			if (comapny != null) {
-				return comapny;
-			}
-		} catch (Exception e) {
-			return null;
-		} finally {
-			session.close();
-		}
-		return null;
-	}
 
 	protected Company getCompany(HttpServletRequest req) {
 		String companyID = getCookie(req, COMPANY_COOKIE);
@@ -303,9 +289,63 @@ public class BaseServlet extends HttpServlet {
 
 	protected IS2SService getS2sSyncProxy(String domainName) {
 		String url = "http://" + domainName + ":"
-				+ ServerConfiguration.getMainServerPort() + "/stosservice";
+				+ ServerConfiguration.getMainServerPort()
+				+ "/company/stosservice";
 		return (IS2SService) SyncProxy.newProxyInstance(IS2SService.class, url,
 				"");
+	}
+
+	/**
+	 * @param serverId
+	 */
+	protected void updateServers(Server accounterServer, boolean isAddCompany) {
+		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+		Transaction transaction = session.beginTransaction();
+		try {
+			Server server = (Server) session.get(Server.class,
+					accounterServer.getId());
+			int companiesCount = server.getCompaniesCount();
+			companiesCount += isAddCompany ? 1 : -1;
+			server.setCompaniesCount(companiesCount);
+			session.saveOrUpdate(server);
+			transaction.commit();
+		} catch (Exception e) {
+			transaction.rollback();
+		} finally {
+			session.close();
+		}
+	}
+
+	/**
+	 * Builds the URL for MainServer
+	 * 
+	 * @param logoutUrl
+	 * @return
+	 */
+	protected String buildMainServerURL(String url) {
+		StringBuilder mainServerURL = new StringBuilder("http://");
+		mainServerURL.append(ServerConfiguration.getMainServerDomain());
+		mainServerURL.append(':');
+		mainServerURL.append(ServerConfiguration.getMainServerPort());
+		mainServerURL.append(url);
+		return mainServerURL.toString();
+	}
+
+	/**
+	 * Builds the URL for COMPANy
+	 * 
+	 * @param logoutUrl
+	 * @return
+	 */
+	protected String buildCompanyServerURL(String companyServerAddress,
+			String url) {
+
+		StringBuilder mainServerURL = new StringBuilder("http://");
+		mainServerURL.append(companyServerAddress);
+		mainServerURL.append(':');
+		mainServerURL.append(ServerConfiguration.getMainServerPort());
+		mainServerURL.append(url);
+		return mainServerURL.toString();
 	}
 
 }

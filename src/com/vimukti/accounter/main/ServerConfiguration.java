@@ -14,7 +14,6 @@ public class ServerConfiguration {
 	private static String attachmentsDir;
 	private static String serverURL;
 
-	private static String serverDomainName;
 	private static String financeDir;
 
 	// private static int mobilePort;
@@ -36,10 +35,8 @@ public class ServerConfiguration {
 
 	private static String emailPortNo;
 
-	private static String mainServer;
 	private static int mainServerPort;
 	private static String homeDir;
-	private static boolean isLocal;
 	private static boolean uploadToRackspace;
 	/**
 	 * Rackspace container Name
@@ -48,6 +45,10 @@ public class ServerConfiguration {
 
 	public static boolean isDebugMode;
 	private static boolean isUnderMaintanance;
+	private static String mainServerDbUrl;
+
+	private static String mainServerDomain;
+	private static String currentServerDomain;
 
 	public static String getRsContainerName() {
 		return rsContainerName;
@@ -91,8 +92,8 @@ public class ServerConfiguration {
 		return s3BucketName;
 	}
 
-	public static String getServerDomainName() {
-		return serverDomainName;
+	public static String getMainServerDomain() {
+		return mainServerDomain;
 	}
 
 	static void init(String config) {
@@ -109,8 +110,8 @@ public class ServerConfiguration {
 		}
 
 		try {
-			serverDomainName = prop.getProperty("serverDomainName", "");
-			setMainServer(prop.getProperty("mainServer", ""));
+			mainServerDomain = prop.getProperty("mainServerDomain", "");
+			currentServerDomain = prop.getProperty("currentServerDomain", null);
 
 			/*
 			 * mobilePort = Integer.parseInt(prop.getProperty("mobilePort",
@@ -128,16 +129,15 @@ public class ServerConfiguration {
 			mailServerHost = prop.getProperty("mailServerHost", "");
 			emailPortNo = prop.getProperty("emailPortNo", "");
 
-			if (serverDomainName.length() < 5) {
+			if (mainServerDomain.length() < 5) {
 				System.err
-						.println("Invalid confiuration: serverDomainName is invalid");
+						.println("Invalid confiuration: mainServerDomain is invalid");
 				System.exit(0);
 			}
 
 			uploadToS3 = prop.getProperty("uploadToS3", "false").equals("true");
 			uploadToRackspace = prop.getProperty("uploadToRackspace", "false")
 					.equals("true");
-			isLocal = prop.getProperty("isLocal", "false").equals("true");
 			awsSecretKey = prop.getProperty("awsSecretKey", "");
 			awsKeyID = prop.getProperty("awsKeyID", "");
 			s3BucketName = prop.getProperty("s3BucketName", "");
@@ -155,7 +155,7 @@ public class ServerConfiguration {
 					System.exit(0);
 				}
 			} else {
-				if (!isLocal() && !new File(attachmentsDir).exists()) {
+				if (!new File(attachmentsDir).exists()) {
 					System.err
 							.println("Invalid configuration for attachment dir");
 					System.exit(0);
@@ -182,16 +182,14 @@ public class ServerConfiguration {
 
 			setServerURL(prop.getProperty("serverURL", null));
 
+			mainServerDbUrl = prop.getProperty("mainServerDatabaseUrl", null);
+
 		} catch (NumberFormatException ne) {
 			System.err
 					.println("Invalid configuration for some numeric options");
 			System.exit(0);
 		}
 
-	}
-
-	public static boolean isLocal() {
-		return isLocal;
 	}
 
 	public static boolean uploadToS3() {
@@ -230,14 +228,6 @@ public class ServerConfiguration {
 			return false;
 		}
 		return true;
-	}
-
-	public static void setMainServer(String mainServer) {
-		ServerConfiguration.mainServer = mainServer;
-	}
-
-	public static String getMainServer() {
-		return mainServer;
 	}
 
 	public static void setMainServerPort(int mainServerPort) {
@@ -296,5 +286,31 @@ public class ServerConfiguration {
 	 */
 	public static String getAccountsDir() {
 		return "config/accounts";
+	}
+
+	/**
+	 * @return
+	 */
+	public static String getMainServerDbUrl() {
+		return mainServerDbUrl;
+	}
+
+	/**
+	 * @return
+	 */
+	public static String getServerCookieDomain() {
+		String[] domainParts = getMainServerDomain().split("\\.");
+		int size = domainParts.length;
+		if (size < 2) {
+			return '.' + getMainServerDomain();
+		}
+		return '.' + domainParts[size - 2] + '.' + domainParts[size - 1];
+	}
+
+	/**
+	 * @return the currentServerDomain
+	 */
+	public static String getCurrentServerDomain() {
+		return currentServerDomain;
 	}
 }

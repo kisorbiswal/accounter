@@ -1,15 +1,16 @@
 package com.vimukti.accounter.main;
 
-import org.mortbay.jetty.Connector;
-import org.mortbay.jetty.Handler;
-import org.mortbay.jetty.Server;
-import org.mortbay.jetty.SessionManager;
-import org.mortbay.jetty.handler.DefaultHandler;
-import org.mortbay.jetty.handler.HandlerCollection;
-import org.mortbay.jetty.nio.SelectChannelConnector;
-import org.mortbay.jetty.servlet.SessionHandler;
-import org.mortbay.jetty.webapp.WebAppContext;
-import org.mortbay.resource.Resource;
+import org.eclipse.jetty.security.ConstraintSecurityHandler;
+import org.eclipse.jetty.security.SecurityHandler;
+import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.nio.SelectChannelConnector;
+import org.eclipse.jetty.server.session.AbstractSessionManager;
+import org.eclipse.jetty.server.session.JDBCSessionIdManager;
+import org.eclipse.jetty.server.session.JDBCSessionManager;
+import org.eclipse.jetty.server.session.SessionHandler;
+import org.eclipse.jetty.util.resource.Resource;
+import org.eclipse.jetty.webapp.WebAppContext;
 
 public class JettyServer {
 	public static Server jettyServer;
@@ -17,15 +18,14 @@ public class JettyServer {
 	public static void start(int port) throws Exception {
 		jettyServer = new Server();
 		Connector connector = new SelectChannelConnector();
-		if (ServerConfiguration.isLocal()) {
-			connector.setHost("127.0.0.1");
-		}
 		connector.setPort(port);
 
 		SessionHandler sessionHandler = new SessionHandler();
 
-		WebAppContext webappcontext = new WebAppContext(null, sessionHandler,
-				null, null);
+		SecurityHandler securityHandler = new ConstraintSecurityHandler();
+
+		WebAppContext webappcontext = new WebAppContext(sessionHandler,
+				securityHandler, null, null);
 
 		webappcontext.setContextPath("/");
 		// webappcontext.setWar("webapp");
@@ -33,33 +33,77 @@ public class JettyServer {
 
 		webappcontext.setBaseResource(resource);
 
-		SessionManager sessionManager = sessionHandler.getSessionManager();
-		String maindomain = ServerConfiguration.getServerDomainName();
-		if (maindomain != null && maindomain.startsWith("www")) {
-			maindomain = maindomain.replaceAll("www\\.", "");
-			sessionManager.setSessionDomain("." + maindomain);
-		}
-		sessionManager.setSessionPath("/");
-
 		jettyServer.setConnectors(new Connector[] { connector });
 		webappcontext.setClassLoader(JettyServer.class.getClassLoader());
 
 		webappcontext.setAttribute("documentDomain",
-				ServerConfiguration.getServerDomainName());
-
-
+				ServerConfiguration.getMainServerDomain());
 
 		// for max post data
 		webappcontext.getServletContext().getContextHandler()
 				.setMaxFormContentSize(10000000);
 
-		HandlerCollection handlers = new HandlerCollection();
-		handlers.setHandlers(new Handler[] { webappcontext,
-				new DefaultHandler() });
+		// HandlerCollection handlers = new HandlerCollection();
+		// handlers.setHandlers(new Handler[] { webappcontext,
+		// new DefaultHandler() });
+		jettyServer.setHandler(webappcontext);
 
-		jettyServer.setHandler(handlers);
+		if (ServerConfiguration.getMainServerDbUrl() != null) {
+			setJDBCSessionManager(webappcontext.getSessionHandler());
+		}
 
 		jettyServer.start();
+
+	}
+
+	/**
+	 * @param sessionHandler
+	 */
+	private static void setJDBCSessionManager(SessionHandler sessionHandler) {
+
+		// ----------JDBCSessionIdManager-----------
+		JDBCSessionIdManager idMgr = new JDBCSessionIdManager(jettyServer);
+		String hostName = ServerConfiguration.getCurrentServerDomain();
+		idMgr.setWorkerName(hostName);
+		idMgr.setDriverInfo(System.getProperty("db.driver"),
+				ServerConfiguration.getMainServerDbUrl());
+		idMgr.setScavengeInterval(60);
+		jettyServer.setSessionIdManager(idMgr);
+
+		// -----------JDBCSessionManager-------------
+		JDBCSessionManager jdbcMgr = new JDBCSessionManager();
+		AbstractSessionManager sessionManager = (AbstractSessionManager) sessionHandler
+				.getSessionManager();
+
+		sessionManager.getSessionCookieConfig().setDomain(
+				ServerConfiguration.getServerCookieDomain());
+
+		jdbcMgr.setSessionTrackingModes(sessionManager
+				.getDefaultSessionTrackingModes());
+
+		jdbcMgr.setHttpOnly(sessionManager.getHttpOnly());
+		jdbcMgr.setCheckingRemoteSessionIdEncoding(sessionManager
+				.isCheckingRemoteSessionIdEncoding());
+		jdbcMgr.setMaxInactiveInterval(sessionManager.getMaxInactiveInterval());
+		jdbcMgr.setNodeIdInSessionId(sessionManager.isNodeIdInSessionId());
+		jdbcMgr.setRefreshCookieAge(sessionManager.getRefreshCookieAge());
+		// jdbcMgr.setSaveInterval(sessionHandler.getS)
+		jdbcMgr.getSessionCookieConfig().setSecure(
+				sessionManager.getSessionCookieConfig().isSecure());
+		jdbcMgr.getSessionCookieConfig().setComment(
+				sessionManager.getSessionCookieConfig().getComment());
+		jdbcMgr.getSessionCookieConfig().setDomain(
+				sessionManager.getSessionCookieConfig().getDomain());
+		jdbcMgr.getSessionCookieConfig().setMaxAge(
+				sessionManager.getSessionCookieConfig().getMaxAge());
+		jdbcMgr.getSessionCookieConfig().setName(
+				sessionManager.getSessionCookieConfig().getName());
+		jdbcMgr.getSessionCookieConfig().setPath(
+				sessionManager.getSessionCookieConfig().getPath());
+
+		jdbcMgr.setSessionIdManager(jettyServer.getSessionIdManager());
+
+		sessionHandler.setSessionManager(jdbcMgr);
 
 	}
 
@@ -71,4 +115,5 @@ public class JettyServer {
 			e.printStackTrace();
 		}
 	}
+
 }

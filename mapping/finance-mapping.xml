@@ -1449,11 +1449,6 @@
 
 	</class>
 
-	<!-- <class name="ServerMaintanance" table="SERVER_MAINTANANCE"> <id name="id" 
-		column=""ID" /> <property name="isUnderMaintanance" column="IS_UNDER_MAINTANANCE" 
-		/> </class> -->
-
-
 	<!-- budget item class -->
 	<class name="BudgetItem" table="BUDGETITEM">
 		<id name="id" column="ID">

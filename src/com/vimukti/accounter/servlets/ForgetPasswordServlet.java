@@ -10,8 +10,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.Server;
 import com.vimukti.accounter.mail.UsersMailSendar;
-import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class ForgetPasswordServlet extends BaseServlet {
@@ -20,7 +20,7 @@ public class ForgetPasswordServlet extends BaseServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private String view = "/WEB-INF/forgotpassword.jsp";
 
 	@Override
@@ -91,7 +91,7 @@ public class ForgetPasswordServlet extends BaseServlet {
 
 		session.save(client);
 
-		String link = "https://nextrelease.accounterlive.com/activation";
+		String link = "https://nextrelease.accounterlive.com/main/activation";
 
 		UsersMailSendar.sendResetPasswordLinkToUser(link, activationCode,
 				client.getEmailId());

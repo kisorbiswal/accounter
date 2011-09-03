@@ -15,11 +15,11 @@ import org.mortbay.util.UrlEncoded;
 
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.Server;
 import com.vimukti.accounter.core.ServerCompany;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.UserPermissions;
-import com.vimukti.accounter.main.Server;
-import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.main.ServerAllocationFactory;
 import com.vimukti.accounter.services.IS2SService;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientUser;
@@ -101,11 +101,13 @@ public class CreateCompanyServlet extends BaseServlet {
 
 			serverCompany = new ServerCompany();
 			serverCompany.getClients().add(client);
+			serverCompany.setActive(true);
 			serverCompany.setCompanyName(companyName);
 			serverCompany.setCompanyType(companyType);
 			serverCompany.setConfigured(false);
 			serverCompany.setCreatedDate(new Date());
-			serverCompany.setServerAddress(getServerAddress());
+			serverCompany.setServer(getPreferredServer(companyType,
+					companyName, request.getRemoteAddr()));
 			session.saveOrUpdate(serverCompany);
 
 			client.getCompanies().add(serverCompany);
@@ -121,7 +123,7 @@ public class CreateCompanyServlet extends BaseServlet {
 		}
 		final long serverId = serverCompany.getId();
 		final long clientId = client.getID();
-		final String domainName = serverCompany.getServerAddress();
+		final Server server = serverCompany.getServer();
 		final String serverCompanyName = serverCompany.getCompanyName();
 		final int serverCompanyType = serverCompany.getCompanyType();
 		final ClientUser user = getUser(client);
@@ -132,13 +134,16 @@ public class CreateCompanyServlet extends BaseServlet {
 			public void run() {
 				httpSession.setAttribute(COMPANY_CREATION_STATUS,
 						COMPANY_CREATING);
-				IS2SService s2sService = getS2sSyncProxy(domainName);
 				try {
+					IS2SService s2sService = getS2sSyncProxy(server
+							.getAddress());
 					s2sService.createComapny(serverId, serverCompanyName,
 							serverCompanyType, user);
 					httpSession
 							.setAttribute(COMPANY_CREATION_STATUS, "Success");
+					updateServers(server, true);
 				} catch (Exception e) {
+					e.printStackTrace();
 					rollback(serverId, clientId);
 					httpSession.setAttribute(COMPANY_CREATION_STATUS, "Fail");
 				}
@@ -152,9 +157,10 @@ public class CreateCompanyServlet extends BaseServlet {
 	 * 
 	 * @return
 	 */
-	private String getServerAddress() {
-		// TODO
-		return ServerConfiguration.getServerDomainName();
+	private Server getPreferredServer(int companyType, String companyName,
+			String sourceAddr) {
+		return ServerAllocationFactory.getServerAllocator().allocateServer(
+				companyType, companyName, sourceAddr);
 	}
 
 	private ClientUser getUser(Client client) {
@@ -275,7 +281,7 @@ public class CreateCompanyServlet extends BaseServlet {
 		}
 		String status = (String) session.getAttribute(COMPANY_CREATION_STATUS);
 		if (status != null) {
-			response.sendRedirect("/companystatus");
+			response.sendRedirect("/main/companystatus");
 			return;
 		}
 		// Set standard HTTP/1.1 no-cache headers.

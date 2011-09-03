@@ -175,7 +175,7 @@ padding-right: 5px;
 		       <tr><td>
 			    Server :</td><td><input type="text" name="companyUrl"/>.bizantra.com
 			    </td></tr>
-			    <tr align="right"><td colspan="2"><input type="submit" name="login" value="Import"/><input type="button" onclick="window.location='/login';" value="Cancel"/>
+			    <tr align="right"><td colspan="2"><input type="submit" name="login" value="Import"/><input type="button" onclick="window.location='/main/login';" value="Cancel"/>
 			    </td></tr>
 			</table>
 		</fieldset>

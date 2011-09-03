@@ -382,7 +382,7 @@ public class Accounter implements EntryPoint {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				Window.Location.assign("/site/login");
+				Window.Location.assign("/main/login");
 			}
 		});
 		vPanel.add(loginBtn);

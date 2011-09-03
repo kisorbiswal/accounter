@@ -82,5 +82,9 @@
 		company.id
 		=:id
 	</query>
+	
+	<query name="get.Prioritize.Servers">
+		from com.vimukti.accounter.core.Server s ORDER BY s.priority DESC, s.companiesCount 
+	</query>
 
 </hibernate-mapping>

@@ -85,7 +85,7 @@ $(document).ready(function() {
 					<div class ="Welcome-Accounter-box" style="padding:10px">
 							<h2 style="margin:0 0 10px 0px">Reset Password</h2>
 								<div class="reset-login-box">
-								<form id="accounterForm" method="post" action="/resetpassword">
+								<form id="accounterForm" method="post" action="/main/resetpassword">
 								<c:if test="${successMessage != null}">
 								<span style="color: #3299A4; line-height: 1.5;">
 								${successMessage} </span>
@@ -126,7 +126,7 @@ $(document).ready(function() {
 									 </ul>
 								     <ul class="reset-cancel-button">
 										<li><span class="signup-submit-left"></span></li>
-										<li><input type="button" tabindex="4" value="Cancel" name="cancel" class="signup-submit-mid forget-but" onClick="location.href='/login'"></li>
+										<li><input type="button" tabindex="4" value="Cancel" name="cancel" class="signup-submit-mid forget-but" onClick="location.href='/main/login'"></li>
 										<li><span class="signup-submit-right"></span></li>
 									 </ul>
 								  </td>

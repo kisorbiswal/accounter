@@ -28,19 +28,19 @@ public class RegistrationServlet extends BaseServlet {
 			throws ServletException, IOException {
 		HttpSession session = req.getSession();
 		if (session == null) {
-			resp.sendRedirect("/site/login?dest=/apiregistration");
+			resp.sendRedirect("/main/login?dest=/apiregistration");
 			return;
 		}
 		String emailId = (String) session.getAttribute("emailId");
 		if (emailId == null) {
-			resp.sendRedirect("/site/login?dest=/apiregistration");
+			resp.sendRedirect("/main/login?dest=/apiregistration");
 			return;
 		}
 		Session hibernateSession = HibernateUtil.openSession(LOCAL_DATABASE);
 		try {
 			Client client = getClient(emailId);
 			if (client == null) {
-				resp.sendRedirect("/site/login?dest=/apiregistration");
+				resp.sendRedirect("/main/login?dest=/apiregistration");
 				return;
 			}
 

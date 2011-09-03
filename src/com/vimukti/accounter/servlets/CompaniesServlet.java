@@ -14,20 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
-import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Client;
-import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.ServerCompany;
-import com.vimukti.accounter.core.User;
-import com.vimukti.accounter.core.UserPermissions;
-import com.vimukti.accounter.core.UserPreferences;
-import com.vimukti.accounter.main.Server;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class CompaniesServlet extends BaseServlet {
 
@@ -37,6 +29,7 @@ public class CompaniesServlet extends BaseServlet {
 
 	private static final String DELETE_SUCCESS = "Your company is deleted successfully.";
 	private static final String DELETE_FAIL = "Company Deletion failed.";
+	private static final String MIGRATION_VIEW = "/WEB-INF/companyMigration.jsp";
 
 	private String companiedListView = "/WEB-INF/companylist.jsp";
 
@@ -49,37 +42,13 @@ public class CompaniesServlet extends BaseServlet {
 			redirectExternal(req, resp, LOGIN_URL);
 			return;
 		}
-		String status = (String) httpSession
-				.getAttribute(COMPANY_CREATION_STATUS);
-		if (status != null) {
-			if (status.equals("Success")) {
-				req.setAttribute("message", CREATE_SUCCESS);
-			} else {
-				req.setAttribute("message", CREATE_FAIL);
-			}
-			httpSession.removeAttribute(COMPANY_CREATION_STATUS);
-		}
 
-		String deleteStatus = (String) httpSession
-				.getAttribute(COMPANY_DELETION_STATUS);
-		if (deleteStatus != null) {
-			if (deleteStatus.equals("Success")) {
-				req.setAttribute("message", DELETE_SUCCESS);
-			} else {
-				req.setAttribute("message", DELETE_FAIL + " "
-						+ httpSession.getAttribute("DeletionFailureMessage"));
-			}
-			httpSession.removeAttribute("DeletionFailureMessage");
-			httpSession.removeAttribute(COMPANY_DELETION_STATUS);
-		}
+		checkForStatus(req);
 
 		String companyID = req.getParameter(COMPANY_ID);
 
 		if (companyID != null) {
-			httpSession.setAttribute(COMPANY_ID, companyID);
-			addCompanyCookies(resp, Long.parseLong(companyID));
-			addMacAppCookie(req, resp);
-			redirectExternal(req, resp, ACCOUNTER_URL);
+			openCompany(req, resp, Long.parseLong(companyID));
 			return;
 		}
 
@@ -93,7 +62,7 @@ public class CompaniesServlet extends BaseServlet {
 
 			Set<ServerCompany> companies = client.getCompanies();
 			if (companies.isEmpty()) {
-				if (status == null) {
+				if (httpSession.getAttribute(COMPANY_CREATION_STATUS) == null) {
 					req.setAttribute("message",
 							"You don't have any companies now.");
 				}
@@ -129,77 +98,71 @@ public class CompaniesServlet extends BaseServlet {
 	}
 
 	/**
-	 * @param req
-	 * @param resp
-	 * @throws IOException
+	 * @param httpSession
+	 * 
 	 */
-	private void redirectToAccounter(HttpServletRequest req,
-			HttpServletResponse resp, Set<ServerCompany> companies,
-			Client client) throws IOException {
-		long companyID = 0;
-		if (companies.isEmpty()) {
-			redirectExternal(req, resp, CREATE_COMPANY_URL);
-			return;
-			// companyID = createNewCompany(client);
-		} else {
-			companyID = companies.iterator().next().getID();
+	private void checkForStatus(HttpServletRequest req) {
+		HttpSession httpSession = req.getSession();
+
+		// Checking CreateCompany Status
+		String status = (String) httpSession
+				.getAttribute(COMPANY_CREATION_STATUS);
+		if (status != null) {
+			if (status.equals("Success")) {
+				req.setAttribute("message", CREATE_SUCCESS);
+			} else {
+				req.setAttribute("message", CREATE_FAIL);
+			}
+			httpSession.removeAttribute(COMPANY_CREATION_STATUS);
 		}
-		redirectExternal(req, resp, ACCOUNTER_URL);
+
+		// Checking DeleteCompany Status
+		String deleteStatus = (String) httpSession
+				.getAttribute(COMPANY_DELETION_STATUS);
+		if (deleteStatus != null) {
+			if (deleteStatus.equals("Success")) {
+				req.setAttribute("message", DELETE_SUCCESS);
+			} else {
+				req.setAttribute(
+						"message",
+						DELETE_FAIL
+								+ " "
+								+ httpSession
+										.getAttribute("DeletionFailureMessage"));
+			}
+			httpSession.removeAttribute("DeletionFailureMessage");
+			httpSession.removeAttribute(COMPANY_DELETION_STATUS);
+		}
+
 	}
 
-	private long createNewCompany(Client client) {
-		ServerCompany serverCompany = new ServerCompany();
-		serverCompany.setConfigured(true);
-		Session session = HibernateUtil.getCurrentSession();
-		Transaction transaction = session.beginTransaction();
-		try {
-			session.save(serverCompany);
-			client.getCompanies().add(serverCompany);
-			session.save(serverCompany);
-			session.saveOrUpdate(client);
-			Query query = session.createSQLQuery("CREATE SCHEMA company"
-					+ serverCompany.getID());
-			query.executeUpdate();
-			transaction.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-			transaction.rollback();
-		} finally {
+	/**
+	 * @throws IOException
+	 * 
+	 */
+	private void openCompany(HttpServletRequest req, HttpServletResponse resp,
+			long companyID) throws IOException {
+		HttpSession httpSession = req.getSession();
+		httpSession.setAttribute(COMPANY_ID, companyID);
+		addCompanyCookies(resp, companyID);
+		addMacAppCookie(req, resp);
+
+		Session session = HibernateUtil.openSession(LOCAL_DATABASE);
+		ServerCompany company = (ServerCompany) session.get(
+				ServerCompany.class, companyID);
+		if (company != null) {
+
+			if (!company.isActive()) {
+				dispatch(req, resp, MIGRATION_VIEW);
+				return;
+			}
+
+			redirectExternal(
+					req,
+					resp,
+					buildCompanyServerURL(company.getServer().getAddress(),
+							ACCOUNTER_URL));
 		}
-
-		Session companySession = HibernateUtil.openSession(Server.COMPANY
-				+ serverCompany.getID(), true);
-		Transaction companyTrans = companySession.beginTransaction();
-		try {
-			Company company = new Company();
-			company.setCompanyID("vimukti");
-			company.setCompanyEmail(client.getEmailId());
-			company.setFullName("vimukti");
-			company.setTradingAddress(new Address());
-			company.setRegisteredAddress(new Address());
-			company.setAccountingType(Company.ACCOUNTING_TYPE_UK);
-			companySession.save(company);
-
-			// company.initialize();
-
-			User user = new User();
-			user.setEmail(client.getEmailId());
-			user.setFirstName(client.getFirstName());
-			user.setLastName(client.getLastName());
-			user.setUserRole(RolePermissions.ADMIN);
-			user.setAdmin(true);
-			user.setPermissions(new UserPermissions());
-			user.setUserPreferences(new UserPreferences());
-			companySession.save(user);
-
-			companyTrans.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-			companyTrans.rollback();
-		} finally {
-			companySession.close();
-		}
-		return serverCompany.getID();
 	}
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -208,10 +171,11 @@ public class CompaniesServlet extends BaseServlet {
 	}
 
 	private void addCompanyCookies(HttpServletResponse resp, long companyID) {
-		Cookie companyCookie = new Cookie(COMPANY_COOKIE, String
-				.valueOf(companyID));
+		Cookie companyCookie = new Cookie(COMPANY_COOKIE,
+				String.valueOf(companyID));
 		companyCookie.setMaxAge(2 * 7 * 24 * 60 * 60);// Two week
 		companyCookie.setPath("/");
+		companyCookie.setDomain(ServerConfiguration.getServerCookieDomain());
 		resp.addCookie(companyCookie);
 	}
 

@@ -45,7 +45,7 @@
 			</div>
   		  </c:if>
   		  
-		 <form id = "activationForm" action="/activation" method="post">
+		 <form id = "activationForm" action="/main/activation" method="post">
 		    <div class="reset-header">
 			   <h2>Activation Code</h2>
 			</div>
@@ -58,7 +58,7 @@
 			</div>
 		 </form>
 		 <div class="resend-code">
-		 	<a id= "emailforactivation" href="/emailforactivation">Resend activation code</a>
+		 	<a id= "emailforactivation" href="/main/emailforactivation">Resend activation code</a>
 		 </div>
      </div>
      

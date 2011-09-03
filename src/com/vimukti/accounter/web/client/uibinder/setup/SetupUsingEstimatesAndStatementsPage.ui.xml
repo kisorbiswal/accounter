@@ -11,7 +11,7 @@
 		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
 		<g:VerticalPanel ui:field="viewPanel">
 			<g:VerticalPanel styleName="estimate_stmt_acc">
-				<g:RadioButton name="estimateGroup" ui:field="estimatesYes" styleName="employee_yesno" />
+				<g:RadioButton name="estimateGroup" ui:field="estimatesYes" styleName="employee_yesno"/>
 				<g:RadioButton name="estimateGroup" ui:field="estimatesNo" styleName="employee_yesno" />
 			</g:VerticalPanel>
 			<!-- <g:VerticalPanel styleName="estimate_stmt_acc">

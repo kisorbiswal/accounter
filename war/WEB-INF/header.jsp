@@ -47,7 +47,7 @@ $(document).ready(function() {
 				</div>
 				<div class="remaining-header-part-login">
 					<ul>
-					   <li><a href="/login" id="login-id">Login</a></li>
+					   <li><a href="/main/login" id="login-id">Login</a></li>
 					</ul>
 				</div>
 			   </div>
@@ -80,7 +80,7 @@ $(document).ready(function() {
 				</div>
 				<div class="remaining-header-part-login">
 					<ul>
-					   <li><a href="/site/login" id="login-id">Login</a></li>
+					   <li><a href="/main/login" id="login-id">Login</a></li>
 					</ul>
 				</div>
 				</td>

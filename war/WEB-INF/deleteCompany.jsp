@@ -18,7 +18,7 @@
        		<div class="common-box create-company-message">${message}</div>
         </c:if>
         
-	   <form action="/deletecompany" method="post">
+	   <form action="/main/deletecompany" method="post">
              <input type="radio" name="delete" value="deleteUser" checked>
              	Delete company from this user
             <br>
@@ -28,7 +28,7 @@
             <br>
             <div class="company_list_buttons">
 	            <input type="submit" value="Delete" class="allviews-common-button">
-	            <input type="button" value="Cancel" class="allviews-common-button" onclick="parent.location='/companies'">
+	            <input type="button" value="Cancel" class="allviews-common-button" onclick="parent.location='/main/companies'">
             </div>
         </FORM>
 	    

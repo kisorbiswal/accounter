@@ -75,8 +75,9 @@ public class SignupServlet extends BaseServlet {
 				// HttpSession session = req.getSession(true);
 				// session.setAttribute(EMAIL_ID, emailId);
 				// redirectExternal(req, resp, LOGIN_URL);
-				req.setAttribute("errormessage",
-						"This Email ID is already registered with Accounter, try to signup with another Email ID. If you are the registered user click <a href=\"/login\">here</a> to login.");
+				req.setAttribute(
+						"errormessage",
+						"This Email ID is already registered with Accounter, try to signup with another Email ID. If you are the registered user click <a href=\"/main/login\">here</a> to login.");
 				dispatch(req, resp, view);
 				return;
 			} else {

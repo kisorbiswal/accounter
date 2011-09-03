@@ -20,12 +20,12 @@
        		<div class="common-box create-company-message">${message}</div>
         </c:if>
        <div class="form-box">
-      	<div> <a href="/createcompany" class="create_new_company">Create New Company </a></div>
+      	<div> <a href="/main/createcompany" class="create_new_company">Create New Company </a></div>
       	<ul>
 	    <c:if test="${companeyList != null}">
 		   <c:forEach var="company" items="${companeyList}">
-			   <c:set var='url' value="/companies?companyId=${company.id}"/>
-			    <c:set var='deleteurl' value="/deletecompany?companyId=${company.id}"/>
+			   <c:set var='url' value="/main/companies?companyId=${company.id}"/>
+			    <c:set var='deleteurl' value="/main/deletecompany?companyId=${company.id}"/>
 			    <c:choose>
 				    <c:when test="${company.companyType == 0}">
 				   		<c:set var='companyType' value="US"/>
@@ -48,7 +48,7 @@
 	  </div>
     </div>
     <div class="form-bottom-options">
-      <a href="/do/logout">Logout</a>
+      <a href="/main/logout">Logout</a>
     </div>
    </div>
    

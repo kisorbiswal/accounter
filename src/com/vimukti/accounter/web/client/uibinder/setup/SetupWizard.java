@@ -487,7 +487,7 @@ public class SetupWizard extends VerticalPanel {
 	 * 
 	 */
 	protected void redirectToCompaniesPage() throws RequestException {
-		Window.Location.assign("/login");
+		Window.Location.assign("/main/login");
 	}
 
 	public void initInterview(boolean isSkip) {

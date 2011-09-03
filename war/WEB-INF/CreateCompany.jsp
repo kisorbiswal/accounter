@@ -327,7 +327,7 @@ p {
 
 <c:if test="${message==null}">
  <div id="formDiv">
-	<form id = "activationForm" method="post" action="/createcompany"
+	<form id = "activationForm" method="post" action="/main/createcompany"
 		onsubmit="return validation(this)">
 		 <h2 class="company-heading"> Create Company</h2>
 	     <div>
@@ -341,7 +341,7 @@ p {
 				<option value="1">UK</option>
 				<option value="0">US</option>
 				<option value="2">India</option>
-				<option value="3">Others</option>
+				<!--<option value="3">Others</option>-->
 			</select>
 		 </div>
 		  <div class="createbutton">

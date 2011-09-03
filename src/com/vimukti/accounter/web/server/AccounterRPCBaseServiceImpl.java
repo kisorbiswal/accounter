@@ -21,9 +21,10 @@ import org.hibernate.Session;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.Server;
+import com.vimukti.accounter.core.ServerCompany;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.change.ChangeTracker;
-import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -152,15 +153,16 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 	// }
 
 	private String getCompanyName(HttpServletRequest req) {
-		String cookie = getCookie(req, BaseServlet.COMPANY_COOKIE);
-		if (cookie == null) {
+		String companyID = getCookie(req, BaseServlet.COMPANY_COOKIE);
+		if (companyID == null) {
 			// TODO Throw Exception
 		}
-		Session session = HibernateUtil.openSession(Server.COMPANY + cookie);
+		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
 		try {
-			Company company = (Company) session.load(Company.class, 1);
+			ServerCompany company = (ServerCompany) session.get(
+					ServerCompany.class, Long.parseLong(companyID));
 			if (company != null) {
-				return company.getFullName();
+				return company.getCompanyName();
 			}
 		} finally {
 			session.close();

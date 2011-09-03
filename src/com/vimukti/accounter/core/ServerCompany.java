@@ -11,10 +11,12 @@ public class ServerCompany implements IAccounterServerCore {
 	private String companyName;
 	private Date createdDate;
 	private int companyType;
-	private String serverAddress;
+	private Server server;
 	private boolean isConfigured;
 	private Set<Client> clients = new HashSet<Client>();
 	private int version;
+	private boolean isActive;
+
 	public String getCompanyName() {
 		return companyName;
 	}
@@ -23,12 +25,12 @@ public class ServerCompany implements IAccounterServerCore {
 		this.companyName = companyName;
 	}
 
-	public String getServerAddress() {
-		return serverAddress;
+	public Server getServer() {
+		return server;
 	}
 
-	public void setServerAddress(String serverAddress) {
-		this.serverAddress = serverAddress;
+	public void setServer(Server serverAddress) {
+		this.server = serverAddress;
 	}
 
 	public Date getCreatedDate() {
@@ -104,8 +106,22 @@ public class ServerCompany implements IAccounterServerCore {
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
-		
+		this.version = version;
+	}
+
+	/**
+	 * @return the isActive
+	 */
+	public boolean isActive() {
+		return isActive;
+	}
+
+	/**
+	 * @param isActive
+	 *            the isActive to set
+	 */
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 
 }

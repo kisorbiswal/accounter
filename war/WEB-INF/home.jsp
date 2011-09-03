@@ -35,7 +35,7 @@
 				<p align="center" class="easiest-label">Work on your finances from anywhere, anytime, it's Free</p>
 				<ul class="signup-for-free-button">
 				   <li><span class="sign-up-left"></span></li>
-				   <li><a href="/signup" id="but-g" class="sign-up-middle">Sign Up, Its Free</a></li>
+				   <li><a href="/main/signup" id="but-g" class="sign-up-middle">Sign Up, Its Free</a></li>
 				   <li><span class="sign-up-right"></span></li>
 				</ul>
 					</div>
