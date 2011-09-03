@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -40,12 +41,18 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 	IntegerField annualAmount;
 
+	HashMap<String, String> newMap;
+
 	DynamicForm budgetInfoForm;
 	DynamicForm budgetAddForm;
 	SelectCombo budgetAddBy;
 
-	public AddBudgetAmountDialogue(String title, String desc) {
+	public AddBudgetAmountDialogue(String title, String desc,
+			HashMap<String, String> map) {
 		super(title, desc);
+		newMap = new HashMap<String, String>();
+
+		map = newMap;
 		createControls();
 	}
 
@@ -236,7 +243,15 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 	@Override
 	protected boolean onOK() {
-		return false;
+
+		newMap.put("jan", janAmount.getNumber() != null ? janAmount.getNumber()
+				.toString() : "0");
+
+		newMap.put("feb", febAmount.getNumber() != null ? febAmount.getNumber()
+				.toString() : "0");
+
+		getCallback().actionResult(newMap);
+		return true;
 	}
 
 }
