@@ -1219,6 +1219,8 @@
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
 		<property name="isDefault" column="IS_DEFAULT" />
+		<property name ="invoiceTempleteName" column ="INVOICE_TEMPLETE_NAME" not-null="true"/>
+		<property name ="creditNoteTempleteName" column ="CREDITNOTE_TEMPLETE_NAME" not-null="true" />
 	</class>
 
 	<class name="ResetPasswordToken" table="RESET_PASSWORD_TOKEN">
