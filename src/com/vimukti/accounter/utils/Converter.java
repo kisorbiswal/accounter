@@ -44,8 +44,8 @@ public class Converter {
 	 */
 	public void generatePdfReports(ITemplate template, OutputStream outputStream)
 			throws Exception {
-		File pdfTempFile = File.createTempFile(
-				template.getFileName().replace(" ", ""), ".pdf");
+
+		File pdfTempFile = File.createTempFile("crdedit", ".pdf");
 		java.io.FileOutputStream fos = new java.io.FileOutputStream(pdfTempFile);
 		try {
 
