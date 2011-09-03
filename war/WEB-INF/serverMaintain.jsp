@@ -6,10 +6,10 @@
    <div class="common-box create-company-message">${message}</div>
 </c:if>
 <form id = "maintananceForm" method="post" action="/maintanance">
-<c:if test="${CheckedValue == false}">
-<input type="checkbox" name="option1" >${CheckedValue} Server under maintainace <br>
+<c:if test="${CheckedValue == "false"}">
+<input type="checkbox" name="option1" >Server under maintainace <br>
 </c:if>
-<c:if test="${CheckedValue == true}">
+<c:if test="${CheckedValue == "true"}">
 <input type="checkbox" name="option1" checked="checked" >Server under maintainace <br>
 </c:if>
 <label>Please enter your admin password:
