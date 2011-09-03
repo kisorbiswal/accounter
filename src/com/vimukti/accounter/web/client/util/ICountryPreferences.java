@@ -7,7 +7,7 @@ public interface ICountryPreferences {
 	
 	String getDefaultTimeZone(String state);
 	
-	IOrganizationTypes[] getOrganizationTypes();
+	OrganizationType[] getOrganizationTypes();
 	
 	boolean allowFlexibleFiscalYear();
 	
