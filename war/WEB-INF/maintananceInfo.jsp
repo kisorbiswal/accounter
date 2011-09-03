@@ -21,7 +21,6 @@
 	    <h5>We are performing maintenance on our systems to provide you with better service of Accounter.</h5>
 	    <span> Please visit again later.For more info, visit </span>
 	    <a  href="www.blog.accounterlive.com" style="color:RoyalBlue">blog.accounterlive.com</a>
-	    
 	</div>
    </div>
    </div>
