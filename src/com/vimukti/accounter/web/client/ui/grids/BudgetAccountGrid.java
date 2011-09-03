@@ -5,20 +5,26 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAccountBudget;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.company.AddBudgetAmountDialogue;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 
-public class BudgetAccountGrid extends ListGrid<ClientAccountBudget> {
+public class BudgetAccountGrid extends BaseListGrid<ClientAccountBudget> {
 
 	AccounterConstants companyConstants;
 
 	public BudgetAccountGrid() {
 		super(false);
-
 	}
 
 	@Override
 	protected int getColumnType(int index) {
 
-		return ListGrid.COLUMN_TYPE_TEXTBOX;
+		switch (index) {
+		case 14:
+			return ListGrid.COLUMN_TYPE_IMAGE;
+		default:
+			return ListGrid.COLUMN_TYPE_TEXTBOX;
+		}
 	}
 
 	@Override
@@ -52,6 +58,8 @@ public class BudgetAccountGrid extends ListGrid<ClientAccountBudget> {
 			return amountAsString(budget.getDecemberAmount());
 		case 13:
 			return amountAsString(budget.getTotalAmount());
+		case 14:
+			return Accounter.getFinanceMenuImages().delete();
 		default:
 			break;
 		}
@@ -60,56 +68,45 @@ public class BudgetAccountGrid extends ListGrid<ClientAccountBudget> {
 	}
 
 	@Override
-	protected String[] getSelectValues(ClientAccountBudget obj, int index) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected void onValueChange(ClientAccountBudget obj, int index,
-			Object value) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected boolean isEditable(ClientAccountBudget obj, int row, int index) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	protected void onClick(ClientAccountBudget obj, int row, int index) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onDoubleClick(ClientAccountBudget obj) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected int sort(ClientAccountBudget obj1, ClientAccountBudget obj2,
-			int index) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	protected int getCellWidth(int index) {
 		switch (index) {
-		case 0:
-			return 50;
-		default:
-			return 20;
+
+		case 1:
+			return 60;
+		case 2:
+			return 60;
+		case 3:
+			return 60;
+		case 4:
+			return 60;
+		case 5:
+			return 60;
+		case 6:
+			return 60;
+		case 7:
+			return 60;
+		case 8:
+			return 60;
+		case 9:
+			return 60;
+		case 10:
+			return 60;
+		case 11:
+			return 60;
+		case 12:
+			return 60;
+		case 13:
+			return 60;
+		case 14:
+			return 25;
+
 		}
+		return -1;
 	}
 
 	@Override
 	protected String[] getColumns() {
-		String[] colArray = new String[14];
+		String[] colArray = new String[15];
 		for (int index = 0; index < colArray.length; index++) {
 			switch (index) {
 			case 0:
@@ -154,6 +151,9 @@ public class BudgetAccountGrid extends ListGrid<ClientAccountBudget> {
 			case 13:
 				colArray[index] = Accounter.constants().total();
 				break;
+			case 14:
+				colArray[index] = Accounter.constants().add();
+				break;
 			default:
 				break;
 			}
@@ -164,6 +164,39 @@ public class BudgetAccountGrid extends ListGrid<ClientAccountBudget> {
 	public void addData(ClientAccountBudget obj, ClientAccount account) {
 		obj.setAccountsName(account.getName());
 		super.addData(obj);
+
+	}
+
+	@Override
+	protected int[] setColTypes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected void executeDelete(ClientAccountBudget object) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onDoubleClick(ClientAccountBudget obj) {
+		String budgetTitle = "Add Budget for " + obj.getAccountsName();
+		AddBudgetAmountDialogue assignAccountsTo1099Dialog = new AddBudgetAmountDialogue(
+				budgetTitle, "");
+		assignAccountsTo1099Dialog.setCallback(new ActionCallback<int[]>() {
+
+			@Override
+			public void actionResult(int[] result) {
+				refreshView();
+			}
+		});
+		assignAccountsTo1099Dialog.show();
+
+	}
+
+	private void refreshView() {
+		// TODO Auto-generated method stub
 
 	}
 }
