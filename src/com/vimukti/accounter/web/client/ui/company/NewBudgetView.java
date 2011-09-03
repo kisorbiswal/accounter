@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientAccountBudget;
+import com.vimukti.accounter.web.client.core.ClientBudgetItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -26,7 +26,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.BudgetAccountGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
-public class NewBudgetView extends BaseView<ClientAccountBudget> {
+public class NewBudgetView extends BaseView<ClientBudgetItem> {
 
 	public static final String AUCTUAL_AMOUNT_LAST_FISCAL_YEAR = "Actual Amount from last fiscal year";
 	public static final String AUCTUAL_AMOUNT_THIS_FISCAL_YEAR = "Actual Amount from this fiscal year";
@@ -179,7 +179,7 @@ public class NewBudgetView extends BaseView<ClientAccountBudget> {
 
 		listOfAccounts = getCompany().getAccounts();
 		for (ClientAccount account : listOfAccounts) {
-			ClientAccountBudget obj = new ClientAccountBudget();
+			ClientBudgetItem obj = new ClientBudgetItem();
 			gridView.addData(obj, account);
 		}
 
@@ -266,9 +266,6 @@ public class NewBudgetView extends BaseView<ClientAccountBudget> {
 	}
 
 	private void updateBudgetObject() {
-
-		data.setBudgetName(budgetNameText.getValue() != null ? budgetNameText
-				.getValue().toString() : "");
 
 	}
 
