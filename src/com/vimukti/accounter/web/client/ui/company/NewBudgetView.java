@@ -12,11 +12,14 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAccountBudget;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -252,6 +255,111 @@ public class NewBudgetView extends BaseView<ClientAccountBudget> {
 
 	public List<DynamicForm> getForms() {
 		return listforms;
+	}
+
+	@Override
+	public void saveAndUpdateView() {
+		updateBudgetObject();
+
+		saveOrUpdate(getData());
+
+	}
+
+	private void updateBudgetObject() {
+
+		data.setBudgetName(budgetNameText.getValue() != null ? budgetNameText
+				.getValue().toString() : "");
+
+	}
+
+	@Override
+	public void saveFailed(AccounterException exception) {
+		super.saveFailed(exception);
+		// BaseView.errordata.setHTML(exception.getMessage());
+		// BaseView.commentPanel.setVisible(true);
+		// this.errorOccured = true;
+		String exceptionMessage = exception.getMessage();
+		// addError(this, exceptionMessage);
+		AccounterException accounterException = (AccounterException) exception;
+		int errorCode = accounterException.getErrorCode();
+		String errorString = AccounterExceptions.getErrorString(errorCode);
+		Accounter.showError(errorString);
+
+		updateBudgetObject();
+		// if (exceptionMessage.contains("number"))
+		// data.setNumber(accountNo);
+		// if (exceptionMessage.contains("name"))
+		// data.setName(accountName);
+		// // if (takenAccount == null)
+		// // else
+		// // Accounter.showError(FinanceApplication.constants()
+		// // .accountUpdationFailed());
+	}
+
+	@Override
+	public void saveSuccess(IAccounterCore result) {
+		if (result == null) {
+			super.saveSuccess(result);
+			return;
+		}
+		// if (takenAccount == null)
+		// Accounter.showInformation("New account with name "
+		// + result.getName() + " is Created!");
+		// else
+		// Accounter.showInformation(result.getName()
+		// + " is updated successfully");
+
+		// if (this.yesClicked && accountType == ClientAccount.TYPE_CREDIT_CARD)
+		// {
+		if (accountType == ClientAccount.TYPE_CREDIT_CARD) {
+			ActionFactory.getNewVendorAction().run(null, false);
+		}
+
+		super.saveSuccess(result);
+
+	}
+
+	@Override
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+
+		result.add(budgetInfoForm.validate());
+		String name = budgetNameText.getValue().toString() != null ? budgetNameText
+				.getValue().toString() : "";
+		// Client company = getCompany();
+		// ClientAccount account = company.getAccountByName(name);
+		// if (name != null && !name.isEmpty()) {
+		// if (isInViewMode() ? (account == null ? false : !data.getName()
+		// .equalsIgnoreCase(name)) : account != null) {
+		//
+		// result.addError(budgetNameText, Accounter.constants()
+		// .alreadyExist());
+		// return result;
+		// }
+		// }
+		// long number = accNoText.getNumber();
+		// account = company.getAccountByNumber(number);
+		// if (isInViewMode() ? (account == null ? false : !(Long.parseLong(data
+		// .getNumber()) == number)) : account != null) {
+		//
+		// result.addError(accNameText, Accounter.messages()
+		// .alreadyAccountExist(Global.get().Account()));
+		// return result;
+		// }
+		//
+		// if (!(isInViewMode() && data.getName().equalsIgnoreCase(
+		// Accounter.constants().openingBalances()))) {
+		// validateAccountNumber(accNoText.getNumber());
+		// }
+		// if (AccounterValidator.isPriorToCompanyPreventPostingDate(asofDate
+		// .getEnteredDate())) {
+		// result.addError(asofDate, Accounter.constants().priorasOfDate());
+		// }
+		// if (accountType == ClientAccount.TYPE_BANK) {
+		// result.add(bankForm.validate());
+		// }
+		return result;
+
 	}
 
 }
