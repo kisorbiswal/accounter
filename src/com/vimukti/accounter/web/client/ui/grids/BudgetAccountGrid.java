@@ -73,6 +73,8 @@ public class BudgetAccountGrid extends BaseListGrid<ClientBudgetItem> {
 	protected int getCellWidth(int index) {
 		switch (index) {
 
+		case 0:
+			return 120;
 		case 1:
 			return 60;
 		case 2:
