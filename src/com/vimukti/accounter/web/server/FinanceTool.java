@@ -12453,7 +12453,7 @@ public class FinanceTool {
 
 			fileName = invoiceHtmlTemplete.getFileName();
 
-			output = invoiceHtmlTemplete.generatePDF();
+			output = invoiceHtmlTemplete.getPdfData();
 
 		} else if (type == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
 			// for Credit Note
@@ -12465,7 +12465,7 @@ public class FinanceTool {
 
 			fileName = creditNotePDFTemplete.getFileName();
 
-			output = creditNotePDFTemplete.generateCreditMemoPDF();
+			output = creditNotePDFTemplete.getPdfData();
 
 		}
 
