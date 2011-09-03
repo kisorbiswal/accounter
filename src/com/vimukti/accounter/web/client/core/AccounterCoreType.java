@@ -67,7 +67,7 @@ public enum AccounterCoreType implements IsSerializable {
 
 	CONTACT("ClientContact", "Contact"),
 
-	BUDGETITEM("ClientAccountBudget", "BudgetItem"),
+	BUDGETITEM("ClientBudgetItem", "BudgetItem"),
 
 	CREDITS_AND_PAYMENTS("ClientCreditsAndPayments", "CreditsAndPayments"),
 
