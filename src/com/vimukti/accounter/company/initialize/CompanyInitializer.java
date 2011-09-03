@@ -289,7 +289,8 @@ public abstract class CompanyInitializer {
 		BrandingTheme brandingTheme = new BrandingTheme("Standard",
 				SecureUtils.createID(), 1.35, 1.00, 1.00, "Times New Roman",
 				"10pt", "INVOICE", "CREDIT", "STATEMENT", "(None Added)", true,
-				"(None Added)", "(None Added)");
+				"(None Added)", "(None Added)", "Classic Tempalate",
+				"Classic Template");
 		session.save(brandingTheme);
 
 		createNominalCodesRanges();
