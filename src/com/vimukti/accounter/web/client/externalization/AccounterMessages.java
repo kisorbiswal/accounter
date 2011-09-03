@@ -814,9 +814,9 @@ public interface AccounterMessages extends Messages {
 	public SafeHtml comapnyInfo();
 
 	public SafeHtml otherDetails();
-	
+
 	public String getSalesByLocationDetails(String locationString);
-	
+
 	public SafeHtml employeeSettings();
 
 	public String venodrsThatMeetThreshold(String vendor);
@@ -830,10 +830,12 @@ public interface AccounterMessages extends Messages {
 	public SafeHtml changeAccounts(String account);
 
 	public String assignAccounts(String account);
+
 	public String dearCustomer(String custMsg);
-	
+
 	public String salesByLocationSummary(String locationString);
 
 	public SafeHtml selectMultiple();
 
+	public SafeHtml trackBills();
 }

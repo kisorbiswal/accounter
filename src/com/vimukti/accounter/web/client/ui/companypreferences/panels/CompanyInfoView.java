@@ -57,10 +57,10 @@ public class CompanyInfoView extends BaseView<ClientCompanyPreferences> {
 
 			// stackPanel.add(getBasicInfoPanel(), constants.basicInfo());
 			stackPanel.add(getCompanyInfoPanel(), constants.comapnyInfo());
-			stackPanel.add(getBankingAndFinancialInfoPanel(), constants
-					.otherDetails());
-			stackPanel.add(getOtherDetailsPanel(), constants
-					.accounterSettings());
+			stackPanel.add(getBankingAndFinancialInfoPanel(),
+					constants.otherDetails());
+			stackPanel.add(getOtherDetailsPanel(),
+					constants.accounterSettings());
 
 			companyInfoPanel = new CompanyRegisteredeDetailsPanel(
 					companyPreferences, company, this);
@@ -201,8 +201,8 @@ public class CompanyInfoView extends BaseView<ClientCompanyPreferences> {
 
 		VerticalPanel bankingAndFinancialInfoPanel = new VerticalPanel();
 
-		bankingAndOtherFinancialDetailsLink = new HTML(messages
-				.bankingAndOtherFinancialDetails());
+		bankingAndOtherFinancialDetailsLink = new HTML(
+				messages.bankingAndOtherFinancialDetails());
 
 		bankingAndFinancialInfoPanel.add(bankingAndOtherFinancialDetailsLink);
 		bankingAndOtherFinancialDetailsPanel = new BankingAndOtherFinancialDetailsPanel();
@@ -226,12 +226,12 @@ public class CompanyInfoView extends BaseView<ClientCompanyPreferences> {
 
 		VerticalPanel otherDetailsPanel = new VerticalPanel();
 
-		customerAndvendorSettingsLink = new HTML(messages
-				.customerAndvendorSettings());
-		doYouUseAndHowDoYouReferLink = new HTML(messages
-				.doYouUseAndHowDoYouRefer());
-		ageingAndSellingDetailsLink = new HTML(messages
-				.ageingAndSellingDetails());
+		customerAndvendorSettingsLink = new HTML(
+				messages.customerAndvendorSettings());
+		doYouUseAndHowDoYouReferLink = new HTML(
+				messages.doYouUseAndHowDoYouRefer());
+		ageingAndSellingDetailsLink = new HTML(
+				messages.ageingAndSellingDetails());
 		employeeSettingsLink = new HTML(messages.employeeSettings());
 
 		otherDetailsPanel.add(customerAndvendorSettingsLink);

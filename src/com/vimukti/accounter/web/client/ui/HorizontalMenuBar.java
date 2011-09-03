@@ -732,11 +732,20 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		}
 		vendorMenuBar.addSeparator();
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			vendorMenuBar.addItem(ActionFactory.getEnterBillsAction());
+			if (Accounter.getCompany().getPreferences()
+					.isDoyouKeepTrackofBills())
+				vendorMenuBar.addItem(ActionFactory.getEnterBillsAction());
 		if (Accounter.getUser().canDoBanking()) {
-			vendorMenuBar.addItem(ActionFactory.getPayBillsAction());
-			vendorMenuBar.addItem(ActionFactory.getIssuePaymentsAction());
-			vendorMenuBar.addItem(ActionFactory.getNewVendorPaymentAction());
+			if (Accounter.getCompany().getPreferences()
+					.isDoyouKeepTrackofBills())
+				vendorMenuBar.addItem(ActionFactory.getPayBillsAction());
+			if (Accounter.getCompany().getPreferences()
+					.isDoyouKeepTrackofBills())
+				vendorMenuBar.addItem(ActionFactory.getIssuePaymentsAction());
+			if (Accounter.getCompany().getPreferences()
+					.isDoyouKeepTrackofBills())
+				vendorMenuBar
+						.addItem(ActionFactory.getNewVendorPaymentAction());
 		}
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			vendorMenuBar.addItem(ActionFactory.getRecordExpensesAction());

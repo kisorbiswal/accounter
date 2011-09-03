@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 public class CustomerAndvendorSettingsPanel extends AbstractCompanyInfoPanel {
 	private RadioGroupItem chargeTaxGroupItem, trackTimeGroupItem,
 			managingBillsGroupItem, createEstimatesGroupItem,
-			usingStatementsGroupItem;
+			usingStatementsGroupItem, trackBillsGroupItem;
 
 	public CustomerAndvendorSettingsPanel() {
 		super();
@@ -24,20 +24,23 @@ public class CustomerAndvendorSettingsPanel extends AbstractCompanyInfoPanel {
 		VerticalPanel managingBillPanel = new VerticalPanel();
 		VerticalPanel createEstimatesPanel = new VerticalPanel();
 		VerticalPanel usingStatementsPanel = new VerticalPanel();
+		VerticalPanel billsPanel = new VerticalPanel();
 
 		DynamicForm chargeTaxForm = new DynamicForm();
 		// DynamicForm trackTimeForm = new DynamicForm();
 		DynamicForm managingBillForm = new DynamicForm();
 		DynamicForm createEstimatesForm = new DynamicForm();
 		DynamicForm usingStatementsForm = new DynamicForm();
+		DynamicForm billsForm = new DynamicForm();
 
 		Label chargeTaxLabelItem = new Label(constants.doyouchargesalestax());
 		// Label trackTimeLabelItem = new Label();
 		Label managingBillLabelItem = new Label(constants.managingBills());
-		Label createEstimatesLabelItem = new Label(constants
-				.wanttoCreateEstimatesInAccounter());
-		Label usingStatementsLabelItem = new Label(constants
-				.doyouWantToUseStatements());
+		Label createEstimatesLabelItem = new Label(
+				constants.wanttoCreateEstimatesInAccounter());
+		Label usingStatementsLabelItem = new Label(
+				constants.doyouWantToUseStatements());
+		Label billsLabel = new Label(constants.doyouwantTrackBills());
 
 		// trackTimeLabelItem.setValue(constants.doyouwantTrackTime());
 
@@ -46,7 +49,11 @@ public class CustomerAndvendorSettingsPanel extends AbstractCompanyInfoPanel {
 		managingBillsGroupItem = new RadioGroupItem();
 		createEstimatesGroupItem = new RadioGroupItem();
 		usingStatementsGroupItem = new RadioGroupItem();
+		trackBillsGroupItem = new RadioGroupItem();
 
+		trackBillsGroupItem.setGroupName(constants.doyouchargesalestax());
+		trackBillsGroupItem.setValue(constants.yes(), constants.no());
+		trackBillsGroupItem.setVertical(false);
 		chargeTaxGroupItem.setGroupName(constants.doyouchargesalestax());
 		chargeTaxGroupItem.setValue(constants.yes(), constants.no());
 		chargeTaxGroupItem.setVertical(false);
@@ -74,6 +81,7 @@ public class CustomerAndvendorSettingsPanel extends AbstractCompanyInfoPanel {
 		managingBillForm.setFields(managingBillsGroupItem);
 		createEstimatesForm.setFields(createEstimatesGroupItem);
 		usingStatementsForm.setFields(usingStatementsGroupItem);
+		billsForm.setFields(trackBillsGroupItem);
 
 		chargeTaxPanel.add(chargeTaxLabelItem);
 		chargeTaxLabelItem.addStyleName("header");
@@ -103,15 +111,24 @@ public class CustomerAndvendorSettingsPanel extends AbstractCompanyInfoPanel {
 		usingStatementsPanel.setCellHorizontalAlignment(usingStatementsForm,
 				HasAlignment.ALIGN_RIGHT);
 
+		billsLabel.addStyleName("header");
+		billsPanel.add(billsLabel);
+		billsPanel.add(billsForm);
+		billsForm.addStyleName("fullSizePanel");
+		billsPanel.setCellHorizontalAlignment(billsForm,
+				HasAlignment.ALIGN_RIGHT);
+
 		mainPanel.add(chargeTaxPanel);
 		mainPanel.add(managingBillPanel);
 		mainPanel.add(createEstimatesPanel);
 		mainPanel.add(usingStatementsPanel);
+		mainPanel.add(billsPanel);
 
 		chargeTaxPanel.addStyleName("companyInfoPanel");
 		managingBillPanel.addStyleName("companyInfoPanel");
 		createEstimatesPanel.addStyleName("companyInfoPanel");
 		usingStatementsPanel.addStyleName("companyInfoPanel");
+		billsPanel.addStyleName("companyInfoPanel");
 
 		mainPanel.addStyleName("fullSizePanel");
 		mainPanel.setSpacing(8);
@@ -143,6 +160,11 @@ public class CustomerAndvendorSettingsPanel extends AbstractCompanyInfoPanel {
 		else
 			usingStatementsGroupItem.setValue(constants.no());
 
+		if (companyPreferences.isDoyouKeepTrackofBills())
+			trackBillsGroupItem.setValue(constants.yes());
+		else
+			trackBillsGroupItem.setValue(constants.no());
+
 	}
 
 	@Override
@@ -172,5 +194,9 @@ public class CustomerAndvendorSettingsPanel extends AbstractCompanyInfoPanel {
 		else
 			companyPreferences.setDoyouwantstatements(false);
 
+		if (trackBillsGroupItem.getValue().equals(constants.yes()))
+			companyPreferences.setDoYouPaySalesTax(true);
+		else
+			companyPreferences.setDoYouChargesalesTax(false);
 	}
 }

@@ -39,12 +39,12 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 	@UiField
 	RadioButton managingYes;
 	@UiField
-	RadioButton trackingTimeYes;
-	@UiField
+	// RadioButton trackingTimeYes;
+	// @UiField
 	RadioButton managingNo;
 	@UiField
-	RadioButton trackingNo;
-	@UiField
+	// RadioButton trackingNo;
+	// @UiField
 	HTML managingInfo;
 	@UiField
 	HTML trackingTimeDes;
@@ -75,18 +75,18 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 	protected void createControls() {
 		headerLabel.setText(accounterConstants.managingBills());
 
-		trackOfBillsText.setHTML(accounterConstants.doyouwantTrackTime());
+		// trackOfBillsText.setHTML(accounterConstants.doyouwantTrackTime());
 		// trackOfBillsList.setHTML(accounterMessages.trackTimeList());
 		managingList.setHTML(accounterMessages.managingList());
-		trackTimeText.setHTML(accounterConstants.doyouwantTrackBills());
+		// trackTimeText.setHTML(accounterConstants.doyouwantTrackBills());
 		managingYes.setText(accounterConstants.yes());
-		trackingTimeYes.setText(accounterConstants.yes());
+		// trackingTimeYes.setText(accounterConstants.yes());
 		managingNo.setText(accounterConstants.no());
-		trackingNo.setText(accounterConstants.no());
-		trackingTimeDes.setHTML(accounterConstants.timetrackingdescription());
+		// trackingNo.setText(accounterConstants.no());
+		// trackingTimeDes.setHTML(accounterConstants.timetrackingdescription());
 		managingInfo.setHTML(Accounter.messages().billstrackingdescription(
 				Global.get().account()));
-		track_time_head.setText(accounterMessages.trackingtimehead());
+		// track_time_head.setText(accounterMessages.trackingtimehead());
 
 	}
 
@@ -103,11 +103,11 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 		} else {
 			managingNo.setValue(true);
 		}
-		if (preferences.isDoYouKeepTrackOfTime()) {
-			trackingTimeYes.setValue(true);
-		} else {
-			trackingNo.setValue(true);
-		}
+		// if (preferences.isDoYouKeepTrackOfTime()) {
+		// trackingTimeYes.setValue(true);
+		// } else {
+		// trackingNo.setValue(true);
+		// }
 	}
 
 	@Override
@@ -118,26 +118,29 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 			preferences.setDoyouKeepTrackofBills(false);
 		}
 
-		if (trackingTimeYes.getValue()) {
-			preferences.setDoYouKeepTrackOfTime(true);
-		} else {
-			preferences.setDoYouKeepTrackOfTime(false);
-		}
+		// if (trackingTimeYes.getValue()) {
+		// preferences.setDoYouKeepTrackOfTime(true);
+		// } else {
+		// preferences.setDoYouKeepTrackOfTime(false);
+		// }
 	}
 
 	@Override
 	protected boolean validate() {
 		if ((!(managingYes.getValue() || managingNo.getValue()))
-				&& (!(trackingTimeYes.getValue() || trackingNo.getValue()))) {
+		/* && (!(trackingTimeYes.getValue() || trackingNo.getValue()) */) {
 			Accounter.showError(accounterMessages
 					.pleaseEnter(accounterConstants.details()));
 			return false;
 		} else if (!(managingYes.getValue() || managingNo.getValue())) {
 			Accounter.showMessage(accounterConstants.managingBills());
 			return false;
-		} else if (!(trackingTimeYes.getValue() || trackingNo.getValue())) {
-			Accounter.showMessage(accounterConstants.doyouwantTrackBills());
-			return false;
+			/*
+			 * } else if (!(trackingTimeYes.getValue() ||
+			 * trackingNo.getValue())) {
+			 * Accounter.showMessage(accounterConstants.doyouwantTrackBills());
+			 * return false;
+			 */
 		} else {
 			return true;
 		}

@@ -54,7 +54,7 @@ public class SetupWizard extends VerticalPanel {
 			/* new SetupTrackEmployeesPage(), */new SetupSellTypeAndSalesTaxPage(),
 
 			new SetupUsingEstimatesAndStatementsPage(),
-			new SetupCurrencyPage(),/* new SetupTrackBillsAndTimePage(), */
+			new SetupCurrencyPage(), new SetupTrackBillsAndTimePage(),
 			new SetupSelectFiscalYrDatePage(),
 			new SetupSelectAccountsPage(this), new SetupComplitionPage() };
 
@@ -75,7 +75,7 @@ public class SetupWizard extends VerticalPanel {
 			Accounter.constants().whatDoYouSell(),
 			Accounter.constants().setEstimatesAndStatements(),
 			Accounter.constants().setCurrency(),
-			/* Accounter.constants().setBillTracking(), */
+			Accounter.constants().setBillTracking(),
 			Accounter.constants().setFiscalYear(),
 			Accounter.constants().Accounts() };
 
