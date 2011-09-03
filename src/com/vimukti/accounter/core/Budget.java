@@ -1,5 +1,7 @@
 package com.vimukti.accounter.core;
 
+import java.util.List;
+
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class Budget implements IAccounterServerCore {
@@ -10,7 +12,7 @@ public class Budget implements IAccounterServerCore {
 
 	private String budgetName;
 
-	private BudgetItem budgetItem;
+	private List<BudgetItem> budgetItems;
 
 	private int version;
 
@@ -37,14 +39,6 @@ public class Budget implements IAccounterServerCore {
 		this.budgetName = budgetname;
 	}
 
-	public BudgetItem getBudgetItem() {
-		return budgetItem;
-	}
-
-	public void setBudgetItem(BudgetItem budgetitem) {
-		this.budgetItem = budgetitem;
-	}
-
 	@Override
 	public int getVersion() {
 		return version;
@@ -61,5 +55,13 @@ public class Budget implements IAccounterServerCore {
 			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	public List<BudgetItem> getBudgetItems() {
+		return budgetItems;
+	}
+
+	public void setBudgetItems(List<BudgetItem> budgetItems) {
+		this.budgetItems = budgetItems;
 	}
 }

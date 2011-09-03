@@ -40,7 +40,6 @@ public class BudgetItem implements IAccounterServerCore {
 
 	@Override
 	public int getVersion() {
-		// TODO Auto-generated method stub
 		return version;
 	}
 
