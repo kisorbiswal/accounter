@@ -43,6 +43,7 @@ public class HibernateUtil {
 		if (createDB && executeSql) {
 			ScriptRunner runner = new ScriptRunner(session.connection(), true,
 					true);
+			runner.setLogWriter(null);
 			try {
 				runner.runScript(new BufferedReader(new FileReader(new File(
 						"config/tables.sql"))));
