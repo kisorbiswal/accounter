@@ -1,6 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
-public class ClientAccountBudget implements IAccounterCore {
+public class ClientBudgetItem implements IAccounterCore {
 
 	/**
 	 * 
@@ -10,8 +10,6 @@ public class ClientAccountBudget implements IAccounterCore {
 	private int version;
 
 	String name = "";
-
-	String budgetName = "";
 
 	String accountName = "";
 
@@ -53,7 +51,7 @@ public class ClientAccountBudget implements IAccounterCore {
 
 	@Override
 	public AccounterCoreType getObjectType() {
-		return AccounterCoreType.CLIENTACCOUNTBUDGET;
+		return AccounterCoreType.BUDGETITEM;
 	}
 
 	@Override
@@ -71,14 +69,6 @@ public class ClientAccountBudget implements IAccounterCore {
 	@Override
 	public String getClientClassSimpleName() {
 		return "ClientAccountBudget";
-	}
-
-	public String getBudgetName() {
-		return budgetName;
-	}
-
-	public void setBudgetName(String budgetname) {
-		this.budgetName = budgetname;
 	}
 
 	public double getJanuaryAmount() {
@@ -282,8 +272,8 @@ public class ClientAccountBudget implements IAccounterCore {
 		this.totalAmount = amount;
 	}
 
-	public ClientAccountBudget clone() {
-		ClientAccountBudget budget = (ClientAccountBudget) this.clone();
+	public ClientBudgetItem clone() {
+		ClientBudgetItem budget = (ClientBudgetItem) this.clone();
 		return budget;
 
 	}
@@ -293,8 +283,8 @@ public class ClientAccountBudget implements IAccounterCore {
 		if (obj == null) {
 			return false;
 		}
-		if (obj instanceof ClientAccountBudget) {
-			ClientAccountBudget clientBudget = (ClientAccountBudget) obj;
+		if (obj instanceof ClientBudgetItem) {
+			ClientBudgetItem clientBudget = (ClientBudgetItem) obj;
 
 			return true;
 		}

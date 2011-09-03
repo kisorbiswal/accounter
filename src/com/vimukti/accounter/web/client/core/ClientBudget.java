@@ -1,28 +1,59 @@
 package com.vimukti.accounter.web.client.core;
 
-public class ClientBudget implements IAccounterCore, IAccountable {
+import com.vimukti.accounter.core.BudgetItem;
+
+public class ClientBudget implements IAccounterCore {
+
+	private static final long serialVersionUID = 1L;
+
+	private long id;
+
+	private String budgetName;
+
+	private int version;
+
+	private BudgetItem budgetItem;
 
 	/**
-	 * 
+	 * @return the id
 	 */
-	private static final long serialVersionUID = 1L;
+	public long getID() {
+		return id;
+	}
+
+	/**
+	 * @param id
+	 *            the id to set
+	 */
+	public void setID(long id) {
+		this.id = id;
+	}
+
+	public String getBudgetName() {
+		return budgetName;
+	}
+
+	public void setBudgetName(String budgetname) {
+		this.budgetName = budgetname;
+	}
+
+	public BudgetItem getBudgetItem() {
+		return budgetItem;
+	}
+
+	public void setBudgetItem(BudgetItem budgetitem) {
+		this.budgetItem = budgetitem;
+	}
 
 	@Override
 	public int getVersion() {
-		// TODO Auto-generated method stub
-		return 0;
+		return version;
 	}
 
 	@Override
 	public void setVersion(int version) {
-		// TODO Auto-generated method stub
+		this.version = version;
 
-	}
-
-	@Override
-	public int getType() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	@Override
@@ -41,18 +72,6 @@ public class ClientBudget implements IAccounterCore, IAccountable {
 	public AccounterCoreType getObjectType() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public void setID(long id) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public long getID() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	@Override
