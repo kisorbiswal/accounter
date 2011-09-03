@@ -4,13 +4,13 @@ import java.util.HashMap;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientAccountBudget;
+import com.vimukti.accounter.web.client.core.ClientBudgetItem;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.company.AddBudgetAmountDialogue;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 
-public class BudgetAccountGrid extends BaseListGrid<ClientAccountBudget> {
+public class BudgetAccountGrid extends BaseListGrid<ClientBudgetItem> {
 
 	AccounterConstants companyConstants;
 
@@ -30,7 +30,7 @@ public class BudgetAccountGrid extends BaseListGrid<ClientAccountBudget> {
 	}
 
 	@Override
-	protected Object getColumnValue(ClientAccountBudget budget, int index) {
+	protected Object getColumnValue(ClientBudgetItem budget, int index) {
 		switch (index) {
 		case 0:
 			return budget.getAccountsName();
@@ -163,7 +163,7 @@ public class BudgetAccountGrid extends BaseListGrid<ClientAccountBudget> {
 		return colArray;
 	}
 
-	public void addData(ClientAccountBudget obj, ClientAccount account) {
+	public void addData(ClientBudgetItem obj, ClientAccount account) {
 		obj.setAccountsName(account.getName());
 		super.addData(obj);
 
@@ -176,13 +176,13 @@ public class BudgetAccountGrid extends BaseListGrid<ClientAccountBudget> {
 	}
 
 	@Override
-	protected void executeDelete(ClientAccountBudget object) {
+	protected void executeDelete(ClientBudgetItem object) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void onDoubleClick(final ClientAccountBudget obj) {
+	public void onDoubleClick(final ClientBudgetItem obj) {
 		HashMap<String, String> map = new HashMap<String, String>();
 		String budgetTitle = "Add Budget for " + obj.getAccountsName();
 		AddBudgetAmountDialogue assignAccountsTo1099Dialog = new AddBudgetAmountDialogue(
@@ -201,7 +201,7 @@ public class BudgetAccountGrid extends BaseListGrid<ClientAccountBudget> {
 	}
 
 	private void refreshView(HashMap<String, String> result,
-			ClientAccountBudget obj) {
+			ClientBudgetItem obj) {
 
 		obj.setJanuaryAmount(Double.parseDouble(result.get("jan")));
 		obj.setFebruaryAmount(Double.parseDouble(result.get("feb")));
