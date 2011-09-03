@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientBudgetItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -19,14 +20,13 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.BudgetAccountGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
-public class NewBudgetView extends BaseView<ClientBudgetItem> {
+public class NewBudgetView extends BaseView<ClientBudget> {
 
 	public static final String AUCTUAL_AMOUNT_LAST_FISCAL_YEAR = "Actual Amount from last fiscal year";
 	public static final String AUCTUAL_AMOUNT_THIS_FISCAL_YEAR = "Actual Amount from this fiscal year";
@@ -267,6 +267,41 @@ public class NewBudgetView extends BaseView<ClientBudgetItem> {
 
 	private void updateBudgetObject() {
 
+		data.setBudgetName(budgetNameText.getValue() != null ? budgetNameText
+				.getValue() : " ");
+
+		List<ClientBudgetItem> allGivenRecords = (List<ClientBudgetItem>) gridView
+				.getRecords();
+
+		// Set<ClientBudgetItem> allBudgetItems = new
+		// HashSet<ClientBudgetItem>();
+		//
+		// if (allGivenRecords.isEmpty()) {
+		// data.setBudgetItem(allBudgetItems);
+		// }
+		// for (IsSerializable rec : allGivenRecords) {
+		// ClientBudgetItem tempRecord = (ClientBudgetItem) rec;
+		// ClientBudgetItem budgetItem = new ClientBudgetItem();
+		//
+		// budgetItem.setAccountsName(tempRecord.getAccountsName());
+		// budgetItem.setJanuaryAmount(tempRecord.getJanuaryAmount());
+		// budgetItem.setFebruaryAmount(tempRecord.getFebruaryAmount());
+		// budgetItem.setMarchAmount(tempRecord.getMarchAmount());
+		// budgetItem.setAprilAmount(tempRecord.getAprilAmount());
+		// budgetItem.setMayAmount(tempRecord.getMayAmount());
+		// budgetItem.setJuneAmount(tempRecord.getJuneAmount());
+		// budgetItem.setJulyAmount(tempRecord.getJulyAmount());
+		// budgetItem.setAugustAmount(tempRecord.getAugustAmount());
+		// budgetItem.setSeptemberAmount(tempRecord.getSpetemberAmount());
+		// budgetItem.setOctoberAmount(tempRecord.getOctoberAmount());
+		// budgetItem.setNovemberAmount(tempRecord.getNovemberAmount());
+		// budgetItem.setDecemberAmount(tempRecord.getOctoberAmount());
+		//
+		// allBudgetItems.add(budgetItem);
+		//
+		// }
+		data.setBudgetItem(allGivenRecords);
+
 	}
 
 	@Override
@@ -298,18 +333,6 @@ public class NewBudgetView extends BaseView<ClientBudgetItem> {
 		if (result == null) {
 			super.saveSuccess(result);
 			return;
-		}
-		// if (takenAccount == null)
-		// Accounter.showInformation("New account with name "
-		// + result.getName() + " is Created!");
-		// else
-		// Accounter.showInformation(result.getName()
-		// + " is updated successfully");
-
-		// if (this.yesClicked && accountType == ClientAccount.TYPE_CREDIT_CARD)
-		// {
-		if (accountType == ClientAccount.TYPE_CREDIT_CARD) {
-			ActionFactory.getNewVendorAction().run(null, false);
 		}
 
 		super.saveSuccess(result);
