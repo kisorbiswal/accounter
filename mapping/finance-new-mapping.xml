@@ -78,6 +78,12 @@
 
 	</class>
 
+	<class name="ServerMaintanance" table="SERVER_MAINTANANCE">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="isUnderMaintanance" column="IS_UNDER_MAINTANANCE" />
+	</class>
 
 
 </hibernate-mapping>
