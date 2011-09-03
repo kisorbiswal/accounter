@@ -18,12 +18,18 @@ import org.zefer.pd4ml.PD4Constants;
 import com.vimukti.accounter.core.BrandingTheme;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreditNotePDFTemplete;
+import com.vimukti.accounter.core.CreditNoteQuickbooksTemplate;
+import com.vimukti.accounter.core.CreditNoteXeroTemplate;
+import com.vimukti.accounter.core.CreditNoteZohoTemplate;
 import com.vimukti.accounter.core.CustomerCreditMemo;
 import com.vimukti.accounter.core.ITemplate;
 import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.InvoicePDFTemplete;
+import com.vimukti.accounter.core.InvoiceQuickBookPdf;
+import com.vimukti.accounter.core.InvoiceXeroPdf;
+import com.vimukti.accounter.core.InvoiceZohoPdf;
 import com.vimukti.accounter.core.Misc1099PDFTemplate;
-import com.vimukti.accounter.core.Misc1099SamplePDFTemplate;
+import com.vimukti.accounter.core.PrintTemplete;
 import com.vimukti.accounter.core.ReportTemplate;
 import com.vimukti.accounter.core.ReportsGenerator;
 import com.vimukti.accounter.core.Server;
@@ -44,6 +50,12 @@ public class GeneratePDFservlet extends BaseServlet {
 	private StringBuilder outPutString;
 	private String fileName;
 	private int transactionType;
+	private PrintTemplete printTemplete;
+
+	public final static String CLASSIC = "Classic";
+	public final static String PROFESSIONAL = "Professional";
+	public final static String PLAIN = "Plain";
+	public final static String MODERN = "Modern";
 
 	/**
 	 * 
@@ -99,6 +111,7 @@ public class GeneratePDFservlet extends BaseServlet {
 				java.io.InputStream inputStr = new ByteArrayInputStream(
 						creditOutput.toString().getBytes());
 				InputStreamReader creditReader = new InputStreamReader(inputStr);
+				System.err.println(creditOutput.toString());
 				converter.generatePdfDocuments(fileName, sos, creditReader);
 				break;
 			case Transaction.TYPE_MISC_FORM:
@@ -107,13 +120,6 @@ public class GeneratePDFservlet extends BaseServlet {
 				InputStreamReader miscCreator = new InputStreamReader(
 						inputString);
 				converter.generatePdfDocuments(fileName, sos, miscCreator);
-				break;
-			case Transaction.TYPE_MISC_SAMPLE_FORM:
-				java.io.InputStream inputString1 = new ByteArrayInputStream(
-						outPutString.toString().getBytes());
-				InputStreamReader miscCreator1 = new InputStreamReader(
-						inputString1);
-				converter.generatePdfDocuments(fileName, sos, miscCreator1);
 				break;
 			default:
 				// for generating pdf document for reports
@@ -185,13 +191,13 @@ public class GeneratePDFservlet extends BaseServlet {
 						// template = new InvoiceTemplete(invoice,
 						// brandingTheme, footerImg, style);
 
-						InvoicePDFTemplete invoiceHtmlTemplete = new InvoicePDFTemplete(
-								invoice, brandingTheme, company);
+						printTemplete = getInvoiceReportTemplete(invoice,
+								brandingTheme, company);
 
-						fileName = invoiceHtmlTemplete.getFileName();
+						fileName = printTemplete.getFileName();
 
-						outPutString = outPutString.append(invoiceHtmlTemplete
-								.generatePDF());
+						outPutString = outPutString.append(printTemplete
+								.getPdfData());
 
 					}
 					if (transactionType == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
@@ -200,14 +206,13 @@ public class GeneratePDFservlet extends BaseServlet {
 										AccounterCoreType.CUSTOMERCREDITMEMO,
 										Long.parseLong(ids[i]));
 
-						CreditNotePDFTemplete creditNotePDFTemplete = new CreditNotePDFTemplete(
-								memo, brandingTheme, company);
+						printTemplete = getCreditReportTemplete(memo,
+								brandingTheme, company);
 
-						fileName = creditNotePDFTemplete.getFileName();
+						fileName = printTemplete.getFileName();
 
-						outPutString = outPutString
-								.append(creditNotePDFTemplete
-										.generateCreditMemoPDF());
+						outPutString = outPutString.append(printTemplete
+								.getPdfData());
 
 					}
 
@@ -230,16 +235,13 @@ public class GeneratePDFservlet extends BaseServlet {
 							.getServerObjectForid(AccounterCoreType.INVOICE,
 									Long.parseLong(objectId));
 
-					// template = new InvoiceTemplete(invoice,
-					// brandingTheme, footerImg, style);
+					printTemplete = getInvoiceReportTemplete(invoice,
+							brandingTheme, company);
 
-					InvoicePDFTemplete invoiceHtmlTemplete = new InvoicePDFTemplete(
-							invoice, brandingTheme, company);
+					fileName = printTemplete.getFileName();
 
-					fileName = invoiceHtmlTemplete.getFileName();
-
-					outPutString = outPutString.append(invoiceHtmlTemplete
-							.generatePDF());
+					outPutString = outPutString.append(printTemplete
+							.getPdfData());
 
 				} else if (transactionType == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
 					// for Credit Note
@@ -252,13 +254,13 @@ public class GeneratePDFservlet extends BaseServlet {
 									AccounterCoreType.CUSTOMERCREDITMEMO,
 									Long.parseLong(objectId));
 
-					CreditNotePDFTemplete creditNotePDFTemplete = new CreditNotePDFTemplete(
-							memo, brandingTheme, company);
+					printTemplete = getCreditReportTemplete(memo,
+							brandingTheme, company);
 
-					fileName = creditNotePDFTemplete.getFileName();
+					fileName = printTemplete.getFileName();
 
-					outPutString = outPutString.append(creditNotePDFTemplete
-							.generateCreditMemoPDF());
+					outPutString = outPutString.append(printTemplete
+							.getPdfData());
 
 				}// for MISC form
 				else if (transactionType == Transaction.TYPE_MISC_FORM) {
@@ -281,28 +283,6 @@ public class GeneratePDFservlet extends BaseServlet {
 					fileName = miscHtmlTemplete.getFileName();
 					outPutString = outPutString.append(miscHtmlTemplete
 							.generatePDF());
-
-				} else if (transactionType == Transaction.TYPE_MISC_SAMPLE_FORM) {
-					converter = new Converter(PD4Constants.LETTER);
-
-					long vendorID = Long.parseLong(request
-							.getParameter("vendorID"));
-
-					int horizontalValue = Integer.parseInt(request
-							.getParameter("horizontalValue"));
-
-					int verticalValue = Integer.parseInt(request
-							.getParameter("verticalValue"));
-
-					Vendor memo = (Vendor) financetool.getServerObjectForid(
-							AccounterCoreType.VENDOR, vendorID);
-
-					Misc1099SamplePDFTemplate miscHtmlTemplete = new Misc1099SamplePDFTemplate(
-							horizontalValue, verticalValue);
-					fileName = miscHtmlTemplete.getFileName();
-					outPutString = outPutString.append(miscHtmlTemplete
-							.generatePDF());
-
 				}
 			}
 			// for Reports
@@ -373,6 +353,44 @@ public class GeneratePDFservlet extends BaseServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
+	}
+
+	private PrintTemplete getInvoiceReportTemplete(Invoice invoice,
+			BrandingTheme theme, Company company) {
+
+		String invStyle = theme.getInvoiceTempleteName();
+
+		if (invStyle.contains(CLASSIC)) {
+			printTemplete = new InvoicePDFTemplete(invoice, theme, company);
+
+		} else if (invStyle.contains(PLAIN)) {
+			printTemplete = new InvoiceQuickBookPdf(invoice, theme, company);
+		} else if (invStyle.contains(PROFESSIONAL)) {
+			printTemplete = new InvoiceXeroPdf(invoice, theme, company);
+
+		} else if (invStyle.contains(MODERN)) {
+			printTemplete = new InvoiceZohoPdf(invoice, theme, company);
+		}
+		return printTemplete;
+	}
+
+	private PrintTemplete getCreditReportTemplete(CustomerCreditMemo memo,
+			BrandingTheme theme, Company company) {
+
+		String invStyle = theme.getCreditNoteTempleteName();
+
+		if (invStyle.contains(CLASSIC)) {
+			printTemplete = new CreditNotePDFTemplete(memo, theme, company);
+
+		} else if (invStyle.contains(PLAIN)) {
+			printTemplete = new CreditNoteQuickbooksTemplate(memo, theme,
+					company);
+		} else if (invStyle.contains(PROFESSIONAL)) {
+			printTemplete = new CreditNoteXeroTemplate(memo, theme, company);
+		} else if (invStyle.contains(MODERN)) {
+			printTemplete = new CreditNoteZohoTemplate(memo, theme, company);
+		}
+		return printTemplete;
 	}
 
 }
