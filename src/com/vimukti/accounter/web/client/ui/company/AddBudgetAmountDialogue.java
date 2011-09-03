@@ -46,6 +46,7 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 	DynamicForm budgetInfoForm;
 	DynamicForm budgetAddForm;
 	SelectCombo budgetAddBy;
+	private String name;
 
 	public AddBudgetAmountDialogue(String title, String desc,
 			HashMap<String, String> map) {
@@ -244,14 +245,127 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 	@Override
 	protected boolean onOK() {
 
-		newMap.put("jan", janAmount.getNumber() != null ? janAmount.getNumber()
-				.toString() : "0");
+		if (budgetAddBy.getSelectedValue() == MONTHS) {
 
-		newMap.put("feb", febAmount.getNumber() != null ? febAmount.getNumber()
-				.toString() : "0");
+			newMap.put("jan", janAmount.getNumber() != null ? janAmount
+					.getNumber().toString() : "0");
+
+			newMap.put("feb", febAmount.getNumber() != null ? febAmount
+					.getNumber().toString() : "0");
+
+			newMap.put("mar", marAmount.getNumber() != null ? marAmount
+					.getNumber().toString() : "0");
+
+			newMap.put("apr", aprAmount.getNumber() != null ? aprAmount
+					.getNumber().toString() : "0");
+
+			newMap.put("may", mayAmount.getNumber() != null ? mayAmount
+					.getNumber().toString() : "0");
+
+			newMap.put("jun", junAmount.getNumber() != null ? junAmount
+					.getNumber().toString() : "0");
+
+			newMap.put("jul", julAmount.getNumber() != null ? julAmount
+					.getNumber().toString() : "0");
+
+			newMap.put("aug", augAmount.getNumber() != null ? augAmount
+					.getNumber().toString() : "0");
+
+			newMap.put("sept", septAmount.getNumber() != null ? septAmount
+					.getNumber().toString() : "0");
+
+			newMap.put("oct", octAmount.getNumber() != null ? octAmount
+					.getNumber().toString() : "0");
+
+			newMap.put("nov", novAmount.getNumber() != null ? novAmount
+					.getNumber().toString() : "0");
+
+			newMap.put("dec", decAmount.getNumber() != null ? decAmount
+					.getNumber().toString() : "0");
+
+		} else if (budgetAddBy.getSelectedValue() == QUARTERS) {
+
+			String one, two, three, four;
+
+			if (quater1Amount.getNumber() != null)
+				one = Double.toString(quater1Amount.getNumber() / 3);
+			else
+				one = "0.00";
+
+			if (quater2Amount.getNumber() != null)
+				two = Double.toString(quater2Amount.getNumber() / 3);
+			else
+				two = "0.00";
+
+			if (quater3Amount.getNumber() != null)
+				three = Double.toString(quater3Amount.getNumber() / 3);
+			else
+				three = "0.00";
+
+			if (quater4Amount.getNumber() != null)
+				four = Double.toString(quater4Amount.getNumber() / 3);
+			else
+				four = "0.00";
+
+			newMap.put("jan", one);
+
+			newMap.put("feb", one);
+
+			newMap.put("mar", one);
+
+			newMap.put("apr", two);
+
+			newMap.put("may", two);
+
+			newMap.put("jun", two);
+
+			newMap.put("jul", three);
+
+			newMap.put("aug", three);
+
+			newMap.put("sept", three);
+
+			newMap.put("oct", four);
+
+			newMap.put("nov", four);
+
+			newMap.put("dec", four);
+
+		} else if (budgetAddBy.getSelectedValue() == YEARS) {
+
+			String one;
+
+			if (annualAmount.getNumber() != null)
+				one = Double.toString(annualAmount.getNumber() / 12);
+			else
+				one = "0.00";
+
+			newMap.put("jan", one);
+
+			newMap.put("feb", one);
+
+			newMap.put("mar", one);
+
+			newMap.put("apr", one);
+
+			newMap.put("may", one);
+
+			newMap.put("jun", one);
+
+			newMap.put("jul", one);
+
+			newMap.put("aug", one);
+
+			newMap.put("sept", one);
+
+			newMap.put("oct", one);
+
+			newMap.put("nov", one);
+
+			newMap.put("dec", one);
+		}
 
 		getCallback().actionResult(newMap);
 		return true;
 	}
-
 }
