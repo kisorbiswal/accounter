@@ -1454,12 +1454,11 @@
 		/> </class> -->
 
 
-	<!-- budget class -->
-	<class name="Budget" table="BUDGET">
+	<!-- budget item class -->
+	<class name="BudgetItem" table="BUDGETITEM">
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="budgetName" column="BUDGET_NAME"></property>
 		<property name="account" column="ACCOUNT"></property>
 		<property name="januaryAmount" column="JANUARY_AMOUNT"></property>
 		<property name="febrauaryAmount" column="FEBRUARY_AMOUNT"></property>
@@ -1473,7 +1472,18 @@
 		<property name="octoberAmount" column="OCTOBER_AMOUNT"></property>
 		<property name="novemberAmount" column="NOVEMBER_AMOUNT"></property>
 		<property name="decemberAmount" column="DECEMBER_AMOUNT"></property>
+		<property name="totalAmount" column="TOTAL_AMOUNT"></property>
 
+	</class>
+	
+	
+		<!-- budget class -->
+	<class name="Budget" table="BUDGET">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="budgetName" column="BUDGET_NAME"></property>
+		<property name="budgetItem" column="BUDGETITEM"></property>
 	</class>
 
 	<!-- <class name="TaxItemGroup" table="TAX_ITEM_GROUPS"> <id name="id" column="ID"> 
