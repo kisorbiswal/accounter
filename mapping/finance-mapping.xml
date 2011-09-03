@@ -32,10 +32,6 @@
 		<property name="isOpeningBalanceEditable" column="IS_OPENING_BALANCE_EDITABLE"></property>
 		<property name="hierarchy" column="HIERARCHY"></property>
 		<property name="version" column="VERSION"></property>
-		<set name="budget" inverse="true" lazy="false" cascade="save-update,delete">
-			<key column="ID"></key>
-			<one-to-many class="Budget" />
-		</set>
 		<property name="flow" column="FLOW"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			lazy="false" not-null="true"></many-to-one>
@@ -1478,7 +1474,11 @@
 			<generator class="native" />
 		</id>
 		<property name="budgetName" column="BUDGET_NAME"></property>
-		<property name="budgetItem" column="BUDGETITEM"></property>
+		<list name="budgetItems" lazy="false" cascade="save-update,delete">
+			<key column="BUDGET_ID"></key>
+			<list-index column="IDX" />
+			<one-to-many class="BudgetItem" />
+		</list>
 	</class>
 
 	<!-- <class name="TaxItemGroup" table="TAX_ITEM_GROUPS"> <id name="id" column="ID"> 
