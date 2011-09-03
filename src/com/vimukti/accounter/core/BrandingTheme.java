@@ -26,7 +26,7 @@ public class BrandingTheme extends CreatableObject implements
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final String FONT_ARIAL = "Arial";
 	public static final String FONT_CALIBIRI = "Calibiri";
 	public static final String FONT_CAMBRIA = "Cambria";
@@ -47,6 +47,10 @@ public class BrandingTheme extends CreatableObject implements
 
 	// public static final int SHOW_TAXES_AS_EXCLUSIVE = 1;
 	// public static final int SHOW_TAXES_AS_INCLUSIVE = 2;
+
+	// id of selected invoice and credit note templetes
+	String invoiceTempleteName;
+	String creditNoteTempleteName;
 
 	String themeName;
 	int pageSizeType;
@@ -447,13 +451,15 @@ public class BrandingTheme extends CreatableObject implements
 	}
 
 	public BrandingTheme(String themeName, String id, double topMargin,
-			double bottomMargin, double addressPadding,
+			double bottomMargin,
+			double addressPadding,
 			String font,
 			String fontSize,
 			// String openInvoiceTitle,
 			String overDueInvoiceTitle, String creditMemoTitle,
 			String statementTitle, String payPalEmailID, boolean isDefault,
-			String contactDetails, String Terms_And_Payment_Advice) {
+			String contactDetails, String Terms_And_Payment_Advice,
+			String invoiceTemplete, String creditNoteTemplete) {
 
 		this.themeName = themeName;
 		this.pageSizeType = PAGE_SIZE_US_LETTER;
@@ -480,6 +486,8 @@ public class BrandingTheme extends CreatableObject implements
 		this.isDefault = isDefault;
 		this.contactDetails = contactDetails;
 		this.Terms_And_Payment_Advice = Terms_And_Payment_Advice;
+		this.invoiceTempleteName = invoiceTemplete;
+		this.creditNoteTempleteName = creditNoteTemplete;
 	}
 
 	@Override
@@ -585,6 +593,22 @@ public class BrandingTheme extends CreatableObject implements
 
 	public boolean isLogoAdded() {
 		return isLogoAdded;
+	}
+
+	public String getInvoiceTempleteName() {
+		return invoiceTempleteName;
+	}
+
+	public void setInvoiceTempleteName(String invoiceTempleteName) {
+		this.invoiceTempleteName = invoiceTempleteName;
+	}
+
+	public String getCreditNoteTempleteName() {
+		return creditNoteTempleteName;
+	}
+
+	public void setCreditNoteTempleteName(String creditNoteTempleteId) {
+		this.creditNoteTempleteName = creditNoteTempleteId;
 	}
 
 }
