@@ -21,9 +21,7 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 	@Override
 	protected int getColumnType(int index) {
 		switch (index) {
-		// case 2:
-		// return ListGrid.COLUMN_TYPE_DATE;
-		case 4:
+		case 5:
 			return ListGrid.COLUMN_TYPE_IMAGE;
 		default:
 			return ListGrid.COLUMN_TYPE_TEXT;
@@ -43,14 +41,17 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 	@Override
 	protected int getCellWidth(int index) {
 		switch (index) {
-		case 4:
-			return 25;
+
 		case 0:
 			return 150;
 		case 1:
 			return 150;
 		case 2:
 			return 150;
+		case 4:
+			return 100;
+		case 5:
+			return 25;
 		default:
 			return -1;
 		}
@@ -62,7 +63,8 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 		return new String[] { Accounter.constants().firstName(),
 				Accounter.constants().lastName(),
 				Accounter.constants().userRole(),
-				Accounter.constants().emailId(), "" };
+				Accounter.constants().emailId(),
+				Accounter.constants().status(),"" };
 	}
 
 	public void setUsersView(UsersView usersView) {
@@ -90,6 +92,9 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 		case 3:
 			return obj.getEmail();
 		case 4:
+			return obj.isActive() ? Accounter.constants().active() : Accounter
+					.constants().inActive();
+		case 5:
 			return Accounter.getFinanceImages().delete();
 		default:
 			return "";
@@ -109,7 +114,7 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 	@Override
 	protected void onClick(ClientUserInfo obj, int row, int index) {
 
-		if (index == 4) {
+		if (index == 5) {
 			ClientUser user = Accounter.getUser();
 			if (user.isCanDoUserManagement()) {
 				if (user.getID() == obj.getID()) {
@@ -155,7 +160,6 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 	protected int[] setColTypes() {
 		return null;
 	}
-
 
 	@Override
 	public void deleteFailed(AccounterException caught) {

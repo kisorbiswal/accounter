@@ -9988,6 +9988,9 @@ public class FinanceTool {
 			throw new AccounterException(
 					AccounterException.ERROR_PERMISSION_DENIED);
 		}
+		if (!logInUser.isActive()) {
+			activateUser(logInUser);
+		}
 
 		Hibernate.initialize(company);
 
@@ -10110,6 +10113,20 @@ public class FinanceTool {
 		clientCompany.setConfigured(company.isConfigured());
 
 		return clientCompany;
+	}
+
+	private void activateUser(User user) throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		try {
+			user.setActive(true);
+			session.saveOrUpdate(user);
+			transaction.commit();
+		} catch (HibernateException e) {
+			transaction.rollback();
+			throw new AccounterException(AccounterException.ERROR_INTERNAL);
+		}
+
 	}
 
 	public List<FinanceLogger> getLog(long id, boolean isNext) {
@@ -12224,7 +12241,6 @@ public class FinanceTool {
 
 		return client1099Form;
 	}
-
 
 	/**
 	 * 

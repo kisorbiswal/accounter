@@ -290,11 +290,12 @@ public class ClientUser implements IAccounterCore {
 		userInfo.setFirstName(firstName);
 		userInfo.setLastName(lastName);
 		userInfo.setFullName(fullName);
-		userInfo.setEmail(email);
+		userInfo.setEmail(email); 
 		userInfo.setUserRole(userRole);
 		userInfo.setPermissions(permissions);
 		userInfo.setCanDoUserManagement(canDoUserManagement);
 		userInfo.setAdmin(isAdmin);
+		userInfo.setActive(this.isActive);
 		return userInfo;
 	}
 

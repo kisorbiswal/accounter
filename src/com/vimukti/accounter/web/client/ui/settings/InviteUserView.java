@@ -41,6 +41,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 	private void createControls() {
 		custForm = new DynamicForm();
 		VerticalPanel vPanel = new VerticalPanel();
+		vPanel.setWidth("100%");
 		firstNametext = new TextItem(Accounter.constants().firstName());
 		firstNametext.setRequired(true);
 		lastNametext = new TextItem(Accounter.constants().lastName());

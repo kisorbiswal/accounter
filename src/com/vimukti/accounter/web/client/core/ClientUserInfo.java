@@ -34,8 +34,9 @@ public class ClientUserInfo implements IAccounterCore {
 
 	private boolean isAdmin;
 
-
 	private int version;
+
+	private boolean isActive;
 
 	/**
 	 * @param id
@@ -180,7 +181,6 @@ public class ClientUserInfo implements IAccounterCore {
 		this.isAdmin = isAdmin;
 	}
 
-
 	@Override
 	public String getName() {
 		if (getFirstName() == null && getLastName() == null)
@@ -237,6 +237,14 @@ public class ClientUserInfo implements IAccounterCore {
 
 	@Override
 	public void setVersion(int version) {
-	this.version=version;
+		this.version = version;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 }

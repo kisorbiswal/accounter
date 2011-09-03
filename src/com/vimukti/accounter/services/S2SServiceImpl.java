@@ -93,6 +93,7 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 		try {
 			// Creating User
 			User user = new User(clientUser);
+			user.setActive(true);
 			companySession.save(user);
 
 			AccounterThreadLocal.set(user);
