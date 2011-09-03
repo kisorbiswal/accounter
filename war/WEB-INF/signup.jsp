@@ -35,7 +35,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 }, "Company ID shouldn't contain special characters");
 
 	$(document).ready(function() {
-		$('#checkbox').attr('checked', true);
+		$('#newsletter').attr('checked', true);
 		$('#mid-box4').attr('autocomplete', 'off');
 		$('#mid-box4').password_strength();
 	    var is_opera = navigator.userAgent.toLowerCase().indexOf('opera') > -1;
