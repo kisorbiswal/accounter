@@ -29,14 +29,6 @@ public class ProfitAndLossByLocationServerReport extends
 	protected Double otherExpense = 0.0D;
 	protected Double otherNetIncome = 0.0D;
 
-	protected Double totalincome2 = 0.0D;
-	protected Double totalCGOS2 = 0.0D;
-	protected Double grosProft2 = 0.0D;
-	protected Double totalexpese2 = 0.0D;
-	protected Double netIncome2 = 0.0D;
-	protected Double otherIncome2 = 0.0D;
-	protected Double otherExpense2 = 0.0D;
-	protected Double otherNetIncome2 = 0.0D;
 	private double rowTotal = 0;
 	public static ArrayList<ClientLocation> locations = null;
 	public static int noColumns = 0;

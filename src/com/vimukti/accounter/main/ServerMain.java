@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.ServerMaintanance;
 import com.vimukti.accounter.mail.EmailManager;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
@@ -29,6 +30,14 @@ public class ServerMain extends Main {
 
 		Session session = HibernateUtil
 				.openSession(Server.LOCAL_DATABASE, true);
+
+		ServerMaintanance maintanance = (ServerMaintanance) session.get(
+				ServerMaintanance.class, 1L);
+		if (maintanance != null) {
+			ServerConfiguration.setUnderMaintainance(maintanance
+					.isUnderMaintanance());
+		}
+
 		session.close();
 
 		EmailManager.getInstance().start();

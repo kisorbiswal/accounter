@@ -17,7 +17,6 @@ public class ServerConfiguration {
 	private static String serverDomainName;
 	private static String financeDir;
 
-
 	// private static int mobilePort;
 	private static String logsDir;
 	private static int webClientPort;
@@ -96,7 +95,6 @@ public class ServerConfiguration {
 		return serverDomainName;
 	}
 
-
 	static void init(String config) {
 		PropertyParser prop = new PropertyParser();
 		try {
@@ -113,7 +111,6 @@ public class ServerConfiguration {
 		try {
 			serverDomainName = prop.getProperty("serverDomainName", "");
 			setMainServer(prop.getProperty("mainServer", ""));
-
 
 			/*
 			 * mobilePort = Integer.parseInt(prop.getProperty("mobilePort",
@@ -178,6 +175,7 @@ public class ServerConfiguration {
 			System.setProperty("db.user", username);
 			System.setProperty("db.pass", password);
 			System.setProperty("dialect", dialect);
+			adminpassword = prop.getProperty("adminpassword", null);
 
 			tmpDir = prop.getProperty("tmpDir",
 					System.getProperty("java.io.tmpdir", ""));
@@ -195,8 +193,6 @@ public class ServerConfiguration {
 	public static boolean isLocal() {
 		return isLocal;
 	}
-
-
 
 	public static boolean uploadToS3() {
 		return uploadToS3;
@@ -218,7 +214,6 @@ public class ServerConfiguration {
 		return emailPassword;
 	}
 
-
 	public static String getMailPort() {
 		return emailPortNo;
 	}
@@ -236,7 +231,6 @@ public class ServerConfiguration {
 		}
 		return true;
 	}
-
 
 	public static void setMainServer(String mainServer) {
 		ServerConfiguration.mainServer = mainServer;
@@ -276,7 +270,6 @@ public class ServerConfiguration {
 	public static String getServerURL() {
 		return serverURL;
 	}
-
 
 	public static void setFinanceDir(String financeDir) {
 		ServerConfiguration.financeDir = financeDir;

@@ -46,7 +46,6 @@ public class ViewConfiguration {
 		return title != null ? title : "";
 	}
 
-	
 	List<AbstractBaseView> historyList = new ArrayList<AbstractBaseView>();
 
 	/**
@@ -145,7 +144,7 @@ public class ViewConfiguration {
 	/**
 	 * @return the historyList
 	 */
-	
+
 	public List<AbstractBaseView> getHistoryList() {
 		return historyList;
 	}
@@ -154,7 +153,7 @@ public class ViewConfiguration {
 	 * @param historyList
 	 *            the historyList to set
 	 */
-	
+
 	public void setHistoryList(List<AbstractBaseView> historyList) {
 		this.historyList = historyList;
 	}
