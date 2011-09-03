@@ -183,4 +183,38 @@ public interface FinanceImages extends ClientBundle {
 
 	@Source("helppanel.jpg")
 	ImageResource helpPannelIcon();
+	
+	// template images
+
+		@Source("ClassicCredit.png")
+		ImageResource vimuktiCredit();
+
+		@Source("ClassicInvoice.png")
+		ImageResource vimuktiInvoice();
+		
+		
+		@Source("professionalInvoice.png")
+		ImageResource xeroInvoice();
+
+		@Source("profesionalCredit.png")
+		ImageResource xeroCredit();
+		
+		@Source("modernCredit.png")
+		ImageResource zohoCredit();
+		
+
+		@Source("modernInvoice.png")
+		ImageResource zohoInvoice();
+		
+		
+
+		
+
+		@Source("plainCredit.png")
+		ImageResource quickbooksCredit();
+
+		@Source("PlainInvoice.png")
+		ImageResource quickbooksInvoice();
+
+		
 }
