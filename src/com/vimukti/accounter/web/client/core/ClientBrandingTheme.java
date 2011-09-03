@@ -30,6 +30,10 @@ public class ClientBrandingTheme implements IAccounterCore {
 	// public static final int SHOW_TAXES_AS_EXCLUSIVE = 1;
 	// public static final int SHOW_TAXES_AS_INCLUSIVE = 2;
 
+	// id of selected invoice and credit note templetes
+	String invoiceTempleteName;
+	String creditNoteTempleteName;
+
 	private long id;
 	private String themeName;
 	private int pageSizeType;
@@ -346,6 +350,23 @@ public class ClientBrandingTheme implements IAccounterCore {
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
+		this.version = version;
 	}
+
+	public String getInvoiceTempleteName() {
+		return invoiceTempleteName;
+	}
+
+	public void setInvoiceTempleteName(String invoiceTempleteName) {
+		this.invoiceTempleteName = invoiceTempleteName;
+	}
+
+	public String getCreditNoteTempleteName() {
+		return creditNoteTempleteName;
+	}
+
+	public void setCreditNoteTempleteName(String creditNoteTempleteName) {
+		this.creditNoteTempleteName = creditNoteTempleteName;
+	}
+
 }
