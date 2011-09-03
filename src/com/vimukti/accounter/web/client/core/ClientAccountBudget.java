@@ -11,6 +11,8 @@ public class ClientAccountBudget implements IAccounterCore {
 
 	String name = "";
 
+	String budgetName = "";
+
 	String accountName = "";
 
 	double januaryAmount = 0.0D;
@@ -25,6 +27,7 @@ public class ClientAccountBudget implements IAccounterCore {
 	double octoberAmount = 0.0D;
 	double novemberAmount = 0.0D;
 	double decemberAmount = 0.0D;
+	double totalAmount = 0.0D;
 
 	@Override
 	public int getVersion() {
@@ -68,6 +71,14 @@ public class ClientAccountBudget implements IAccounterCore {
 	@Override
 	public String getClientClassSimpleName() {
 		return "ClientAccountBudget";
+	}
+
+	public String getBudgetName() {
+		return budgetName;
+	}
+
+	public void setBudgetName(String budgetname) {
+		this.budgetName = budgetname;
 	}
 
 	public double getJanuaryAmount() {
@@ -250,6 +261,10 @@ public class ClientAccountBudget implements IAccounterCore {
 		return decemberAmount;
 	}
 
+	public void setDecemberAmount(double amount) {
+		this.decemberAmount = amount;
+	}
+
 	public Object getAccountsName() {
 
 		return accountName;
@@ -260,8 +275,11 @@ public class ClientAccountBudget implements IAccounterCore {
 	}
 
 	public Double getTotalAmount() {
-		// TODO Auto-generated method stub
-		return null;
+		return totalAmount;
+	}
+
+	public void setTotalAmount(double amount) {
+		this.totalAmount = amount;
 	}
 
 	public ClientAccountBudget clone() {
