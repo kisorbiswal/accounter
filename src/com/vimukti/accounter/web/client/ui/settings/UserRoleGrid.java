@@ -133,14 +133,32 @@ public class UserRoleGrid extends ListGrid<RolePermissions> {
 		switch (index) {
 		case 0:
 			return 15;
+		case 1:
+			return 100;
+		case 2:
+			return 100;
+		case 3:
+			return 100;
+		case 4:
+			return 100;
+		case 5:
+			return 100;
+		case 6:
+			return 100;
+		case 7:
+			return 100;
+		case 8:
+			return 100;
+
 		}
 		return -1;
 	}
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { "", "", RolePermissions.BANK_RECONCILATION,
-				RolePermissions.INVOICES, RolePermissions.EMPLOYEE_EXPENCES,
+		return new String[] { "", Accounter.constants().name(),
+				RolePermissions.BANK_RECONCILATION, RolePermissions.INVOICES,
+				RolePermissions.EMPLOYEE_EXPENCES,
 				RolePermissions.EDIT_SYSTEM_SETTINGS,
 				RolePermissions.VIEW_REPORTS, RolePermissions.LOCK_DATES,
 				RolePermissions.MANAGE_USERS };
