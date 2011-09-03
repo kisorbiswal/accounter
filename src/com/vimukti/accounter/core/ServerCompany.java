@@ -15,7 +15,7 @@ public class ServerCompany implements IAccounterServerCore {
 	private boolean isConfigured;
 	private Set<Client> clients = new HashSet<Client>();
 	private int version;
-	private boolean isActive;
+	private Boolean isActive;
 
 	public String getCompanyName() {
 		return companyName;
@@ -113,7 +113,7 @@ public class ServerCompany implements IAccounterServerCore {
 	 * @return the isActive
 	 */
 	public boolean isActive() {
-		return isActive;
+		return isActive==null?true:isActive;
 	}
 
 	/**
