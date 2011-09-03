@@ -38,7 +38,7 @@ public class InvoiceBrandingView<T> extends
 	private ClientBrandingTheme brandingTheme;
 	private HTML generalSettingsHTML, allLabelsHtml, ShowHtml, checkBoxHtml,
 			headingsHtml, paypalEmailHtml, termsHtml, radioButtonHtml,
-			contactDetailsHtml, titleHtml;
+			contactDetailsHtml, titleHtml, invoiceHtml, creditNoteHtml;
 	private Label titleLabel;
 	// helpHtml;
 	private VerticalPanel mainPanel, titlePanel, subLayPanel, uploadPanel,
@@ -291,6 +291,21 @@ public class InvoiceBrandingView<T> extends
 				.notAdded() : theme.getTerms_And_Payment_Advice();
 
 		termsHtml = new HTML("<p> " + messages.terms() + " : " + terms + "</p>");
+
+		// adding invoice templete name
+		String invoiceTemp = theme.getInvoiceTempleteName().isEmpty() ? messages
+				.none() : theme.getInvoiceTempleteName();
+
+		invoiceHtml = new HTML("<p>" + messages.invoiceTemplete() + " : "
+				+ invoiceTemp + "</p>");
+
+		// adding credit note templete note
+		String creditTemp = theme.getCreditNoteTempleteName().isEmpty() ? messages
+				.none() : theme.getCreditNoteTempleteName();
+
+		creditNoteHtml = new HTML("<p>" + messages.creditNoteTemplete() + " : "
+				+ creditTemp + "</p>");
+
 		showPanel = new HorizontalPanel();
 		showPanel.add(checkBoxHtml);
 		showPanel.add(radioButtonHtml);
@@ -433,6 +448,8 @@ public class InvoiceBrandingView<T> extends
 		subLayPanel.add(headingsHtml);
 		subLayPanel.add(paypalEmailHtml);
 		subLayPanel.add(termsHtml);
+		subLayPanel.add(invoiceHtml);
+		subLayPanel.add(creditNoteHtml);
 		// subLayPanel.setWidth("560px");
 
 		subLayPanel.setStyleName("general-setting-invoice");
@@ -695,6 +712,7 @@ public class InvoiceBrandingView<T> extends
 
 	}
 
+	
 
 	@Override
 	public void saveSuccess(IAccounterCore object) {
