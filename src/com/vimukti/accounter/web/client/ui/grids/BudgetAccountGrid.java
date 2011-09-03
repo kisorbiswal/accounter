@@ -61,7 +61,7 @@ public class BudgetAccountGrid extends BaseListGrid<ClientAccountBudget> {
 		case 13:
 			return amountAsString(budget.getTotalAmount());
 		case 14:
-			return Accounter.getFinanceMenuImages().delete();
+			return Accounter.getFinanceMenuImages().newAccount();
 		default:
 			break;
 		}
@@ -202,9 +202,37 @@ public class BudgetAccountGrid extends BaseListGrid<ClientAccountBudget> {
 
 	private void refreshView(HashMap<String, String> result,
 			ClientAccountBudget obj) {
-		result.get("jan");
+
 		obj.setJanuaryAmount(Double.parseDouble(result.get("jan")));
+		obj.setFebruaryAmount(Double.parseDouble(result.get("feb")));
+		obj.setMarchAmount(Double.parseDouble(result.get("mar")));
+		obj.setAprilAmount(Double.parseDouble(result.get("apr")));
+		obj.setMayAmount(Double.parseDouble(result.get("may")));
+		obj.setJuneAmount(Double.parseDouble(result.get("jun")));
+		obj.setJulyAmount(Double.parseDouble(result.get("jul")));
+		obj.setAugustAmount(Double.parseDouble(result.get("aug")));
+		obj.setOctoberAmount(Double.parseDouble(result.get("oct")));
+		obj.setNovemberAmount(Double.parseDouble(result.get("nov")));
+		obj.setSeptemberAmount(Double.parseDouble(result.get("sept")));
+		obj.setDecemberAmount(Double.parseDouble(result.get("dec")));
+
+		Double total;
+		total = Double.parseDouble(result.get("jan"))
+				+ Double.parseDouble(result.get("feb"))
+				+ Double.parseDouble(result.get("mar"))
+				+ Double.parseDouble(result.get("apr"))
+				+ Double.parseDouble(result.get("may"))
+				+ Double.parseDouble(result.get("jun"))
+				+ Double.parseDouble(result.get("jul"))
+				+ Double.parseDouble(result.get("aug"))
+				+ Double.parseDouble(result.get("oct"))
+				+ Double.parseDouble(result.get("nov"))
+				+ Double.parseDouble(result.get("sept"))
+				+ Double.parseDouble(result.get("dec"));
+
+		obj.setTotalAmount(total);
+
+		refreshAllRecords();
 
 	}
-
 }
