@@ -1,14 +1,12 @@
 package com.vimukti.accounter.core;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.hibernate.Session;
 
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.MiniTemplator;
-import com.vimukti.accounter.utils.MiniTemplator.TemplateSyntaxException;
 
 /**
  * this class is used to generate PDF file for Credit note Object
@@ -16,14 +14,21 @@ import com.vimukti.accounter.utils.MiniTemplator.TemplateSyntaxException;
  * @author vimukti28
  * 
  */
-public class CreditNotePDFTemplete {
+public class CreditNotePDFTemplete implements PrintTemplete {
 	private CustomerCreditMemo memo;
 	private BrandingTheme brandingTheme;
 	private int maxDecimalPoints;
-	private static final String templateFileName = "templetes" + File.separator
-			+ "CreditMemoTemplete.html";
 
 	Company company;
+
+	public String getTempleteName() {
+
+		String templeteName = brandingTheme.getCreditNoteTempleteName();
+
+		return "war" + File.separator + "files" + File.separator
+				+ "ClassicCredit" + ".html";
+
+	}
 
 	public CreditNotePDFTemplete(CustomerCreditMemo memo,
 			BrandingTheme brandingTheme, Company company) {
@@ -34,14 +39,14 @@ public class CreditNotePDFTemplete {
 	}
 
 	public String getFileName() {
-		return "CreditNote_Templete";
+		return "CreditNote_Templete_" + memo.getNumber();
 	}
 
-	public String generateCreditMemoPDF() throws TemplateSyntaxException,
-			IOException {
+	@Override
+	public String getPdfData() {
 
-		MiniTemplator t = new MiniTemplator(templateFileName);
 		try {
+			MiniTemplator t = new MiniTemplator(getTempleteName());
 			// setting logo Image
 			if (brandingTheme.isShowLogo()) {
 				String logoAlligment = getLogoAlignment();
@@ -163,11 +168,11 @@ public class CreditNotePDFTemplete {
 			t.setVariable("memoText", memoVal);
 			t.setVariable("subTotal", subTotal);
 			if (brandingTheme.isShowTaxColumn()) {
-				t.setVariable("vatTotalValue", "vatTotal");
+				t.setVariable("vatTotalValue", vatTotal);
 				t.addBlock("VatTotal");
 			}
 
-			t.setVariable("total", " total");
+			t.setVariable("total", total);
 			t.addBlock("itemDetails");
 
 			// for Vat String
@@ -217,20 +222,14 @@ public class CreditNotePDFTemplete {
 							+ reg.getCountryOrRegion();
 			}
 
-			if (company.getRegistrationNumber() != null
-					&& !company.getRegistrationNumber().equals("")) {
-				regAdd = company.getFullName() + regAdd
-						+ "<br/>Company Registration No: "
-						+ company.getRegistrationNumber();
-			}
-			// regAdd = company.getCompanyID() + regAdd + ((company
-			// .getRegistrationNumber() != null && !company
-			// .getRegistrationNumber().equals("")) ?
-			// "<br/>Company Registration No: "
-			// + company.getRegistrationNumber()
-			// : "");
+			regAdd = company.getFullName()
+					+ regAdd
+					+ ((company.getRegistrationNumber() != null && !company
+							.getRegistrationNumber().equals("")) ? "<br/>Company Registration No: "
+							+ company.getRegistrationNumber()
+							: "");
 
-			t.setVariable("compRegNamenNumber", "regAdd");
+			t.setVariable("compRegNamenNumber", regAdd);
 			t.addBlock("regAddress");
 
 			String outPutString = t.getFileString();
