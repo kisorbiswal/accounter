@@ -412,7 +412,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>deletecompany</servlet-name>
-		<url-pattern>/company/deletecompany</url-pattern>
+		<url-pattern>/main/deletecompany</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
