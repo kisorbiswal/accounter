@@ -1102,6 +1102,7 @@ h1 {
 	background: -webkit-gradient(linear, left top, left bottom, from(#E4E4E4), to(#DBDBDB)); /* for webkit browsers */
 	background: -moz-linear-gradient(top,  #E4E4E4,  #DBDBDB); /* for firefox 3.6+ */ 
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E4E4E4', endColorstr='#DBDBDB') !important; /* for IE */
+	background: -o-linear-gradient(top,  #E4E4E4,  #DBDBDB);
 }
 
 .gridHeaderLastTd {
@@ -4814,6 +4815,7 @@ table.dropdownFlex tr:hover,.gwt-ListBox option:HOVER {
 	background: -moz-linear-gradient(top, #3299A4, #1A5158) !important;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4', endColorstr='#1A5158'); 
     background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#1A5158)) !important;
+    background: -o-linear-gradient(top,  #3299A4, #1A5158);
     
 	border-radius: 5px 0 0 0;
 	-webkit-border-radius:5px 0 0 0;
@@ -4880,6 +4882,7 @@ table.dropdownFlex tr:hover,.gwt-ListBox option:HOVER {
 	background: -moz-linear-gradient(top,  #3299A4,   #1A5158) !important;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4', endColorstr='#1A5158'); /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#1A5158)) !important; /* for webkit browsers */
+    background: -o-linear-gradient(top,  #3299A4,  #1A5158) !important;
 	border: 0 !important;
 	margin-top: 0px\0  !important;
 	padding-left:11px;
@@ -4888,6 +4891,7 @@ table.dropdownFlex tr:hover,.gwt-ListBox option:HOVER {
 	background: -moz-linear-gradient(top,  #3299A4,   #1A5158) !important;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4', endColorstr='#1A5158'); /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#1A5158)) !important; /* for webkit browsers */
+    background: -o-linear-gradient(top,  #3299A4,   #1A5158);
     padding: 16px;
     width: 100%;
     margin-top:13px;
@@ -4921,6 +4925,7 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	background: -moz-linear-gradient(top, #3299A4, #1A5158) !important;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4', endColorstr='#1A5158'); 
     background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#1A5158)) !important;
+    background: -o-linear-gradient(top, #3299A4, #1A5158);
 	color: #FFFFFF;
 	vertical-align: top;
 }
@@ -4929,6 +4934,7 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	background: -moz-linear-gradient(top, #3299A4, #1A5158) !important;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4', endColorstr='#1A5158'); 
     background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#1A5158)) !important;
+    background: -o-linear-gradient(top, #3299A4, #1A5158);
 	  border-radius: 0 5px 0 0;
 	  -webkit-border-radius:0 5px 0 0;
 	  -moz-border-radius:0 5px 0 0;
@@ -5139,6 +5145,7 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	background: -moz-linear-gradient(top,  #3299A4,   #1A5158) !important;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4', endColorstr='#1A5158'); /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#1A5158)) !important; /* for webkit browsers */
+    background: -o-linear-gradient(top, #3299A4, #1A5158);
 	padding: 0px;
 }
 
@@ -5983,6 +5990,7 @@ input[type="text"],textarea {
 	background: -moz-linear-gradient(top,  #3299A4,   #2D8B93) !important;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4', endColorstr='#2D8B93'); /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#2D8B93)) !important; /* for webkit browsers */
+    background: -o-linear-gradient(top,  #3299A4,   #2D8B93);
     box-shadow: 0 -6px 10px #1A5158;
     -moz-box-shadow:0 -6px 10px #1A5158;
     -webkit-box-shadow:0 -6px 10px #1A5158;
@@ -6453,13 +6461,9 @@ body, table td, select,.gwt-Button,textarea,input,label{
 .view_help_panel .GI4MLOCBDG,.view_help_panel iframe{
 	width:100%;
 }
-input[type="text"]:hover, textarea:hover{
+input[type="text"]:FOCUS, textarea:FOCUS{
 	border: 1px solid #3299A4;
     box-shadow: 0 0 5px #3299A4;
-}
-input[disabled]:hover{
-	box-shadow:inherit;
-	border: 1px solid #B1B1B1;
 }
 
 
@@ -6492,6 +6496,7 @@ input[disabled]:hover{
 	background: -moz-linear-gradient(top, #3299A4, #2D8B93) !important;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4', endColorstr='#2D8B93'); /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#2D8B93)) !important; /* for webkit browsers */
+    background: -o-linear-gradient(top,  #3299A4,   #2D8B93);
 }
 .helpdialog .dialogTopCenterInner .caption .gwt-HTML{
 	color:white;
@@ -6500,6 +6505,7 @@ input[disabled]:hover{
 	background:-moz-linear-gradient(center top , #493F39, #3D2F29) repeat scroll 0 0 transparent !important;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#493F39', endColorstr='#3D2F29'); /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(#493F39), to(#3D2F29)) !important; /* for webkit browsers */
+    background: -o-linear-gradient(top,  #493F39, #3D2F29);
    /* background: -moz-linear-gradient(center top , #DCF7FA, #6FBFC6) repeat scroll 0 0 transparent !important; match to accounter*/
     height: 32px;
     width:101% !important;
@@ -6518,6 +6524,7 @@ input[disabled]:hover{
 	background:-moz-linear-gradient(center top , #493F39, #3D2F29) repeat scroll 0 0 transparent !important;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#493F39', endColorstr='#3D2F29'); /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(#493F39), to(#3D2F29)) !important; /* for webkit browsers */
+    background: -o-linear-gradient(top,  #493F39, #3D2F29);
 }
 .helpdialog .dialogMiddleCenter{
 	padding:0px !important;
