@@ -14,7 +14,7 @@ public class LiveConnectionProvider extends ConnectionProvider {
 
 	class ConnectionEvent {
 
-		private static final long IDLE_CONNECTION_TIMEOUT = 20 * 1000;
+		private static final long IDLE_CONNECTION_TIMEOUT = 60 * 1000;
 		String database;
 		Connection con;
 		long lastUsedAt;
@@ -32,7 +32,7 @@ public class LiveConnectionProvider extends ConnectionProvider {
 
 	private Set<ConnectionEvent> allocations = new HashSet<ConnectionEvent>();
 
-	// private static Logger LOG = Logger.getLogger(ConnectionProvider.class);
+//	private static Logger LOG = Logger.getLogger(LiveConnectionProvider.class);
 	private String user;
 	/**
 	 * We maintain password in static field because 1) In Server mode it will be
@@ -48,13 +48,13 @@ public class LiveConnectionProvider extends ConnectionProvider {
 	}
 
 	public void closeConnection(Connection conn) throws SQLException {
-		// LOG.info("Closing Connection: " + conn.hashCode());
+//		LOG.info("Closing Connection: " + conn.hashCode());
 		releaseConnection(conn);
 	}
 
 	private synchronized void releaseConnection(Connection conn)
 			throws SQLException {
-		// LOG.info("Releasing Connection: " + conn.hashCode());
+//		LOG.info("Releasing Connection: " + conn.hashCode());
 		ConnectionEvent event = getEvent(conn);
 		if (event == null) {
 			return;
@@ -70,7 +70,7 @@ public class LiveConnectionProvider extends ConnectionProvider {
 		ConnectionEvent lastUsed = null;
 		for (ConnectionEvent event : allocations) {
 			if (event.inUse) {
-				// LOG.info(event.hashCode() + "In useing");
+//				LOG.info(event.hashCode() + " In useing");
 				continue;
 			} else {
 				if (lastUsed == null) {
@@ -83,7 +83,7 @@ public class LiveConnectionProvider extends ConnectionProvider {
 			}
 		}
 		if (lastUsed != null) {
-			// LOG.info(lastUsed.con.hashCode() + "In removing");
+//			LOG.info(lastUsed.con.hashCode() + " In removing");
 			lastUsed.con.close();
 			allocations.remove(lastUsed);
 		}
@@ -115,7 +115,8 @@ public class LiveConnectionProvider extends ConnectionProvider {
 		ConnectionEvent event = getUnusedEvent();
 		if (event == null) {
 			event = createEvent();
-			System.out.println("New Connection: " + event.con.hashCode());
+//			LOG.info(event.con.hashCode() + " Created Connection");
+//			System.out.println("New Connection: " + event.con.hashCode());
 		}
 
 		return event.con;
