@@ -45,10 +45,12 @@ public class MaintananceServlet extends BaseServlet {
 				Transaction transaction = session.beginTransaction();
 				try {
 					ServerMaintanance maintanance = (ServerMaintanance) session
-							.load(ServerMaintanance.class, 1l);
-					maintanance.setUnderMaintanance(isUndermaintanance);
-					session.saveOrUpdate(maintanance);
-					transaction.commit();
+							.get(ServerMaintanance.class, 1l);
+					if (maintanance != null) {
+						maintanance.setUnderMaintanance(isUndermaintanance);
+						session.saveOrUpdate(maintanance);
+						transaction.commit();
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 					transaction.rollback();
@@ -59,7 +61,7 @@ public class MaintananceServlet extends BaseServlet {
 		if (ServerConfiguration.isUnderMaintainance()) {
 			dispatch(req, resp, UNDER_CONSTRUCTION_VIEW);
 		} else {
-			dispatch(req, resp, LOGIN_VIEW);
+			redirectExternal(req, resp, LOGIN_VIEW);
 		}
 
 	}
