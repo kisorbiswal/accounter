@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
+import java.util.HashMap;
+
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAccountBudget;
@@ -180,23 +182,29 @@ public class BudgetAccountGrid extends BaseListGrid<ClientAccountBudget> {
 	}
 
 	@Override
-	public void onDoubleClick(ClientAccountBudget obj) {
+	public void onDoubleClick(final ClientAccountBudget obj) {
+		HashMap<String, String> map = new HashMap<String, String>();
 		String budgetTitle = "Add Budget for " + obj.getAccountsName();
 		AddBudgetAmountDialogue assignAccountsTo1099Dialog = new AddBudgetAmountDialogue(
-				budgetTitle, "");
-		assignAccountsTo1099Dialog.setCallback(new ActionCallback<int[]>() {
+				budgetTitle, "", map);
+		assignAccountsTo1099Dialog
+				.setCallback(new ActionCallback<HashMap<String, String>>() {
 
-			@Override
-			public void actionResult(int[] result) {
-				refreshView();
-			}
-		});
+					@Override
+					public void actionResult(HashMap<String, String> result) {
+						refreshView(result, obj);
+
+					}
+				});
 		assignAccountsTo1099Dialog.show();
 
 	}
 
-	private void refreshView() {
-		// TODO Auto-generated method stub
+	private void refreshView(HashMap<String, String> result,
+			ClientAccountBudget obj) {
+		result.get("jan");
+		obj.setJanuaryAmount(Double.parseDouble(result.get("jan")));
 
 	}
+
 }
