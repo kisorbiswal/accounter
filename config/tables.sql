@@ -257,15 +257,14 @@ CREATE TABLE `BRANDING_THEME` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `BUDGET`
+-- Table structure for table `BUDGETITEM`
 --
 
-DROP TABLE IF EXISTS `BUDGET`;
+DROP TABLE IF EXISTS `BUDGETITEM`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `BUDGET` (
+CREATE TABLE `BUDGETITEM` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `BUDGET_NAME` varchar(255) DEFAULT NULL,
   `ACCOUNT` bigint(20) DEFAULT NULL,
   `JANUARY_AMOUNT` double DEFAULT NULL,
   `FEBRUARY_AMOUNT` double DEFAULT NULL,
@@ -279,6 +278,25 @@ CREATE TABLE `BUDGET` (
   `OCTOBER_AMOUNT` double DEFAULT NULL,
   `NOVEMBER_AMOUNT` double DEFAULT NULL,
   `DECEMBER_AMOUNT` double DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK756DA3ZYGBDEE512` (`ID`),
+  CONSTRAINT `FK756DA3ZYGBDEE512` FOREIGN KEY (`ID`) REFERENCES `BUDGET` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+
+--
+-- Table structure for table `BUDGET`
+--
+
+DROP TABLE IF EXISTS `BUDGET`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `BUDGET` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `BUDGET_NAME` varchar(255) DEFAULT NULL,
+  `BUDGETITEM` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `FK756DA34515DEE523` (`ID`),
   CONSTRAINT `FK756DA34515DEE523` FOREIGN KEY (`ID`) REFERENCES `ACCOUNT` (`ID`)
