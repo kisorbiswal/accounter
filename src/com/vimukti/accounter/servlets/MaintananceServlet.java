@@ -20,8 +20,6 @@ public class MaintananceServlet extends BaseServlet {
 	 */
 	private static final long serialVersionUID = -1163973484857078003L;
 	private static final String MAINTANANCE_VIEW = "/WEB-INF/serverMaintain.jsp";
-	private static final String UNDER_CONSTRUCTION_VIEW = "/WEB-INF/maintananceInfo.jsp";
-	private static final String LOGIN_VIEW = "/WEB-INF/login.jsp";
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -32,38 +30,37 @@ public class MaintananceServlet extends BaseServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-
 		String paswdString = req.getParameter("password");
-		if (paswdString != null
-				&& paswdString.equals(ServerConfiguration.getAdminPassword())) {
-			if (req.getParameter("option1") != null) {
-				boolean isUndermaintanance = req.getParameter("option1")
-						.equals("on");
-				ServerConfiguration.setUnderMaintainance(isUndermaintanance);
+		if (paswdString == null
+				|| !paswdString.equals(ServerConfiguration.getAdminPassword())) {
+			req.setAttribute("message", "PassWord Wrong");
+			dispatch(req, resp, MAINTANANCE_VIEW);
+			return;
+		}
 
-				Session session = HibernateUtil.openSession(LOCAL_DATABASE);
-				Transaction transaction = session.beginTransaction();
-				try {
-					ServerMaintanance maintanance = (ServerMaintanance) session
-							.get(ServerMaintanance.class, 1l);
-					if (maintanance != null) {
-						maintanance.setUnderMaintanance(isUndermaintanance);
-						session.saveOrUpdate(maintanance);
-						transaction.commit();
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-					transaction.rollback();
-				}
+		boolean isUndermaintanance = req.getParameter("option1") == null ? false
+				: req.getParameter("option1").equals("on");
+
+		ServerConfiguration.setUnderMaintainance(isUndermaintanance);
+
+		Session session = HibernateUtil.openSession(LOCAL_DATABASE);
+		Transaction transaction = session.beginTransaction();
+		try {
+			ServerMaintanance maintanance = (ServerMaintanance) session.get(
+					ServerMaintanance.class, 1l);
+			if (maintanance == null) {
+				maintanance = new ServerMaintanance();
 			}
-		}
+			maintanance.setUnderMaintanance(isUndermaintanance);
+			session.saveOrUpdate(maintanance);
+			transaction.commit();
 
-		if (ServerConfiguration.isUnderMaintainance()) {
-			dispatch(req, resp, UNDER_CONSTRUCTION_VIEW);
-		} else {
-			redirectExternal(req, resp, LOGIN_URL);
+		} catch (Exception e) {
+			e.printStackTrace();
+			transaction.rollback();
 		}
-
+		req.setAttribute("message", "Session Sucess");
+		dispatch(req, resp, MAINTANANCE_VIEW);
 	}
 
 }

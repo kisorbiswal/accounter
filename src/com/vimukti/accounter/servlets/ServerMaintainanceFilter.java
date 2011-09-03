@@ -20,7 +20,7 @@ import com.vimukti.accounter.main.ServerConfiguration;
  * @author Prasanna Kumar G
  * 
  */
-public class ServerMaintanceFilter implements Filter {
+public class ServerMaintainanceFilter implements Filter {
 
 	private static final String MAINTANACE_VIEW = "/WEB-INF/maintananceInfo.jsp";
 
@@ -33,14 +33,14 @@ public class ServerMaintanceFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest arg0, ServletResponse arg1,
 			FilterChain arg2) throws IOException, ServletException {
-		if (ServerConfiguration.isUnderMaintainance()) {
-			HttpServletRequest req = (HttpServletRequest) arg0;
+		HttpServletRequest req = (HttpServletRequest) arg0;
+		if (!req.getServletPath().endsWith("/maintanance")
+				&& ServerConfiguration.isUnderMaintainance()) {
 			req.getRequestDispatcher(MAINTANACE_VIEW).forward(req,
 					(HttpServletResponse) arg1);
+		} else {
+			arg2.doFilter(arg0, arg1);
 		}
-
-		arg2.doFilter(arg0, arg1);
-
 	}
 
 	@Override
