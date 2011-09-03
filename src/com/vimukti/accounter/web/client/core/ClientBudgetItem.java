@@ -255,7 +255,7 @@ public class ClientBudgetItem implements IAccounterCore {
 		this.decemberAmount = amount;
 	}
 
-	public Object getAccountsName() {
+	public String getAccountsName() {
 
 		return accountName;
 	}

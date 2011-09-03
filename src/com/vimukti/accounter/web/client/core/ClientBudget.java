@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
-import com.vimukti.accounter.core.BudgetItem;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClientBudget implements IAccounterCore {
 
@@ -12,7 +13,7 @@ public class ClientBudget implements IAccounterCore {
 
 	private int version;
 
-	private BudgetItem budgetItem;
+	List<ClientBudgetItem> budgetItems = new ArrayList<ClientBudgetItem>();
 
 	/**
 	 * @return the id
@@ -37,12 +38,12 @@ public class ClientBudget implements IAccounterCore {
 		this.budgetName = budgetname;
 	}
 
-	public BudgetItem getBudgetItem() {
-		return budgetItem;
+	public List<ClientBudgetItem> getBudgetItem() {
+		return budgetItems;
 	}
 
-	public void setBudgetItem(BudgetItem budgetitem) {
-		this.budgetItem = budgetitem;
+	public void setBudgetItem(List<ClientBudgetItem> budgetitems) {
+		this.budgetItems = budgetitems;
 	}
 
 	@Override
