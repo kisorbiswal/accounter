@@ -8,9 +8,11 @@ import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextArea;
@@ -22,11 +24,13 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.images.FinanceImages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.FileUploadDilaog;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.combo.TemplateCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
@@ -42,12 +46,12 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 	private Label pageSizeLabel, logoLabel, termsLabel;
-
+	private DecoratedTabPanel tabSet;
 	private RadioButton a4Button, usLetterButton, leftRadioButton,
 			rightRadioButton, cmButton, inchButton;
 	private VerticalPanel checkBoxPanel, radioButtonPanel,
 			check_radio_textAreaPanel, button_textBoxPanel;
-	private HorizontalPanel mainLayoutPanel, check_radioPanel;
+	private HorizontalPanel mainLayoutPanel, check_radioPanel, hPanel;
 	private CheckBox taxNumItem, headingItem, unitPriceItem,// paymentItem,
 			columnItem, addressItem, logoItem;
 	private TextItem topMarginBox, bottomMarginBox, addressPadBox, overdueBox,
@@ -63,7 +67,13 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	private AccounterConstants messages = Accounter.constants();
 	private AccounterMessages accounterMessages = Accounter.messages();
 	private DynamicForm nameForm;
+	private ArrayList<String> templatesList;
 
+	private TemplateCombo invoiceCombo, creditMemoCombo;
+	private FinanceImages financeImages = Accounter.getFinanceImages();
+	private Image invoiceTempImage;
+	private Image creditTempImage;
+private String invVal,creditVal;
 	public NewBrandingThemeView(String title, String desc) {
 	}
 
@@ -124,11 +134,28 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		termsPaymentArea.setValue(brandingTheme.getTerms_And_Payment_Advice());
 		contactDetailsArea.setValue(brandingTheme.getContactDetails());
 		logoNameBox.setValue(brandingTheme.getFileName());
+		invoiceCombo.setValue(brandingTheme.getInvoiceTempleteName());
+		creditMemoCombo.setValue(brandingTheme.getInvoiceTempleteName());
 
 	}
 
-
+	
 	private void createControls() {
+		tabSet = new DecoratedTabPanel();
+
+		tabSet.add(getGeneralLayout(), Accounter.constants().general());
+		tabSet.add(getTemplateLayout(), "Templates");
+		tabSet.selectTab(0);
+		tabSet.setSize("100%", "100%");
+
+		VerticalPanel mainPanel = new VerticalPanel();
+		mainPanel.setSize("100%", "100%");
+		mainPanel.add(tabSet);
+		this.add(mainPanel);
+	}
+
+	private VerticalPanel getGeneralLayout() {
+
 		VerticalPanel panel = new VerticalPanel();
 		HTML titleHtml = new HTML("New Branding Theme");
 
@@ -178,10 +205,11 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		mainLayoutPanel.add(addTextBoxTableControl());
 		mainLayoutPanel.add(check_radio_textAreaPanel);
 		panel.add(titleHtml);
+
 		panel.add(mainLayoutPanel);
 		button_textBoxPanel.add(panel);
 
-		this.add(button_textBoxPanel);
+		// this.add(button_textBoxPanel);
 
 		topMarginBox.addBlurHandler(new BlurHandler() {
 			@Override
@@ -215,6 +243,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 			}
 		});
 
+		return button_textBoxPanel;
 	}
 
 	private int getPageSize() {
@@ -273,6 +302,12 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		brandingTheme.setContactDetails(String.valueOf(contactDetailsArea
 				.getValue()));
 		brandingTheme.setLogoAlignmentType(getLogoType());
+
+		// for setting the selected templetes
+		
+		
+		brandingTheme.setInvoiceTempleteName(invVal);
+		brandingTheme.setCreditNoteTempleteName(creditVal);
 
 		if (logoNameBox.getValue().toString().isEmpty()) {
 			brandingTheme.setFileName(null);
@@ -335,7 +370,77 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		return radioButtonPanel;
 	}
 
+	private HorizontalPanel getTemplateLayout() {
+
+		hPanel = new HorizontalPanel();
+
+		VerticalPanel vPanel1 = new VerticalPanel();
+		VerticalPanel vPanel2 = new VerticalPanel();
+
+		DynamicForm invForm = UIUtils.form(messages.type());
+		invoiceCombo = new TemplateCombo(messages.invoiceTemplete(),
+				"Invoice.html");
+		templatesList = invoiceCombo.getTempletes();
+		invForm.setFields(invoiceCombo);
+
+		// setting the tempalte invoice image
+		invoiceTempImage = new Image();
+		changeTemplateImage(templatesList.get(0), "invoice");
+
+		vPanel1.add(invForm);
+		vPanel1.add(invoiceTempImage);
+
+		invVal =templatesList.get(0);
+		invoiceCombo.setValue(templatesList.get(0));
+		invoiceCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+
+						invoiceCombo.setComboItem(selectItem);
+						invVal = selectItem;
+						changeTemplateImage(selectItem, "invoice");
+
+					}
+
+				});
+
+		// for displaying the templetes combo boxes
+		DynamicForm crediteForm = UIUtils.form(messages.type());
+		creditMemoCombo = new TemplateCombo(messages.creditNoteTemplete(),
+				"Credit.html");
+		templatesList = creditMemoCombo.getTempletes();
+		creditMemoCombo.setValue(templatesList.get(0));
+		creditVal = templatesList.get(0);
+		crediteForm.setFields(creditMemoCombo);
+
+		// setting the credit note template image
+		creditTempImage = new Image();
+		changeTemplateImage(templatesList.get(0), "credit");
+
+		vPanel2.add(crediteForm);
+		vPanel2.add(creditTempImage);
+
+		creditMemoCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						creditMemoCombo.setComboItem(selectItem);
+						creditVal = selectItem;
+						changeTemplateImage(selectItem, "credit");
+					}
+
+				});
+		hPanel.add(vPanel1);
+		hPanel.add(vPanel2);
+		return hPanel;
+	}
+
 	private VerticalPanel addCheckBoxTableControls() {
+
+		checkBoxPanel = new VerticalPanel();
 
 		taxNumItem = new CheckBox(messages.showTaxNumber());
 		taxNumItem.setChecked(true);
@@ -356,7 +461,6 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		paypalTextBox = new TextItem();
 		paypalTextBox.textBox.setTitle(messages.paypalEmail());
 
-		checkBoxPanel = new VerticalPanel();
 		checkBoxPanel.add(taxNumItem);
 		checkBoxPanel.add(headingItem);
 		checkBoxPanel.add(unitPriceItem);
@@ -621,5 +725,45 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	protected void createButtons(ButtonBar buttonBar) {
 		super.createButtons(buttonBar);
 		buttonBar.remove(this.saveAndNewButton);
+	}
+
+	@Override
+	public boolean canEdit() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	/**
+	 * Used to change the image, when template is selected from the
+	 * corresponding template combo box
+	 * 
+	 * @param selectItem
+	 */
+	private void changeTemplateImage(String selectItem, String compareText) {
+		if (compareText.equalsIgnoreCase("invoice")) {
+			// for invoice reports
+			if (selectItem.contains("Classic")) {
+				invoiceTempImage.setResource(financeImages.vimuktiInvoice());
+
+			} else if (selectItem.contains("Professional")) {
+				invoiceTempImage.setResource(financeImages.xeroInvoice());
+			} else if (selectItem.contains("Modern")) {
+				invoiceTempImage.setResource(financeImages.zohoInvoice());
+			} else if (selectItem.contains("Plain")) {
+				invoiceTempImage.setResource(financeImages.quickbooksInvoice());
+			}
+		} else {
+			// for credit reports
+			if (selectItem.contains("Classic")) {
+				creditTempImage.setResource(financeImages.vimuktiCredit());
+			} else if (selectItem.contains("Professional")) {
+				creditTempImage.setResource(financeImages.xeroCredit());
+			} else if (selectItem.contains("Modern")) {
+				creditTempImage.setResource(financeImages.zohoCredit());
+			} else if (selectItem.contains("Plain")) {
+				creditTempImage.setResource(financeImages.quickbooksCredit());
+			}
+		}
+
 	}
 }
