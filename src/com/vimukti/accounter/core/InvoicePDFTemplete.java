@@ -1,13 +1,11 @@
 package com.vimukti.accounter.core;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.MiniTemplator;
-import com.vimukti.accounter.utils.MiniTemplator.TemplateSyntaxException;
 
 /**
  * this class is used to generate Invoice report in PDF format
@@ -15,12 +13,13 @@ import com.vimukti.accounter.utils.MiniTemplator.TemplateSyntaxException;
  * @author vimukti28
  * 
  */
-public class InvoicePDFTemplete {
+public class InvoicePDFTemplete implements PrintTemplete {
 	private Invoice invoice;
 	private BrandingTheme brandingTheme;
 	private int maxDecimalPoints;
-	private static final String templateFileName = "templetes" + File.separator
-			+ "InvoiceTemplete.html";
+	// private static final String templateFileName = "templetes" +
+	// File.separator
+	// + "InvoiceTemplete.html";
 	private Company company;
 
 	public InvoicePDFTemplete(Invoice invoice, BrandingTheme brandingTheme,
@@ -32,11 +31,17 @@ public class InvoicePDFTemplete {
 
 	}
 
-	public String getFileName() {
-		return "Invoice_" + this.invoice.getNumber();
+	public String getTempleteName() {
+
+		String templeteName = brandingTheme.getInvoiceTempleteName();
+
+		return "war" + File.separator + "files" + File.separator
+				+ "ClassicInvoice" + ".html";
+
 	}
 
-	public String generatePDF() throws TemplateSyntaxException, IOException {
+	@Override
+	public String getPdfData() {
 		String outPutString = "";
 		MiniTemplator t;
 
@@ -65,7 +70,7 @@ public class InvoicePDFTemplete {
 		}
 
 		try {
-			t = new MiniTemplator(templateFileName);
+			t = new MiniTemplator(getTempleteName());
 			String image = getImage();
 
 			// setting logo Image
@@ -378,7 +383,7 @@ public class InvoicePDFTemplete {
 			t.addBlock("theme");
 
 			outPutString = t.getFileString();
-
+			return outPutString;
 			// OutputStream outputstream = new ByteArrayOutputStream();
 			//
 			// java.io.InputStream inputStream = new ByteArrayInputStream(
@@ -395,7 +400,7 @@ public class InvoicePDFTemplete {
 		} catch (Exception e) {
 
 		}
-		return outPutString;
+		return "";
 	}
 
 	/*
@@ -511,4 +516,10 @@ public class InvoicePDFTemplete {
 		return original.toString();
 
 	}
+
+	@Override
+	public String getFileName() {
+		return "Invoice_" + this.invoice.getNumber();
+	}
+
 }
