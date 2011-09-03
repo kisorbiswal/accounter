@@ -24,7 +24,10 @@ public class MaintananceServlet extends BaseServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		req.setAttribute("CheckedValue",
+				ServerConfiguration.isUnderMaintainance());
 		dispatch(req, resp, MAINTANANCE_VIEW);
+
 	}
 
 	@Override
@@ -59,8 +62,8 @@ public class MaintananceServlet extends BaseServlet {
 			e.printStackTrace();
 			transaction.rollback();
 		}
+
 		req.setAttribute("message", "Session Sucess");
 		dispatch(req, resp, MAINTANANCE_VIEW);
 	}
-
 }
