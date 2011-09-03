@@ -61,7 +61,7 @@ public class MaintananceServlet extends BaseServlet {
 		if (ServerConfiguration.isUnderMaintainance()) {
 			dispatch(req, resp, UNDER_CONSTRUCTION_VIEW);
 		} else {
-			redirectExternal(req, resp, LOGIN_VIEW);
+			redirectExternal(req, resp, LOGIN_URL);
 		}
 
 	}
