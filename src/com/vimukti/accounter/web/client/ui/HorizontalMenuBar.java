@@ -697,8 +697,9 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		bankingMenuBar.addItem(ActionFactory.getNewBankAccountAction());
 		bankingMenuBar.addSeparator();
 		// bankingMenuBar.addItem(ActionFactory.getAccountRegisterAction());
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			bankingMenuBar.addItem(ActionFactory.getWriteChecksAction());
+		// if (Accounter.getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_US)
+		bankingMenuBar.addItem(ActionFactory.getWriteChecksAction());
 
 		bankingMenuBar.addItem(ActionFactory.getMakeDepositAction());
 		// bankingMenuBar.addItem(ActionFactory.getTransferFundsAction());
