@@ -5,13 +5,12 @@ import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
-public class NewBudgetAction extends Action<ClientAccount> {
+public class NewBudgetAction extends Action<ClientBudget> {
 
 	NewBudgetView view;
 
@@ -21,7 +20,7 @@ public class NewBudgetAction extends Action<ClientAccount> {
 		super.setToolTip(Global.get().constants().budget());
 	}
 
-	public NewBudgetAction(String text, ClientCustomer customer,
+	public NewBudgetAction(String text, ClientBudget budget,
 			AccounterAsyncCallback<Object> callback) {
 		super(text);
 		this.catagory = Global.get().constants().budget();

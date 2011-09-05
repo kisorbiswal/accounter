@@ -65,13 +65,17 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 	@Override
 	public void init() {
 		super.init();
+
+		ClientBudget account = new ClientBudget();
+		setData(account);
+
 		createControls();
-		// resetViews();
+
 	}
 
 	@Override
 	public void initData() {
-
+		super.initData();
 	}
 
 	private void initView() {
@@ -263,6 +267,12 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 
 		saveOrUpdate(getData());
 
+	}
+
+	@Override
+	public void setData(ClientBudget data) {
+		// TODO Auto-generated method stub
+		super.setData(data);
 	}
 
 	private void updateBudgetObject() {
