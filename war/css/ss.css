@@ -2122,7 +2122,7 @@ background-color: #dafcb1;
 .password_strength_5 {
 background-color: #bcfcb1;
 }
-.email_password{
+.email_password,.text_box_margin{
 	margin:10px 0px;
 }
 
