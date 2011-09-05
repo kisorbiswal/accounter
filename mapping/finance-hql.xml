@@ -26,7 +26,6 @@
 		fy.startDate</query>
 	<query name="list.Bank">from com.vimukti.accounter.core.Bank b order by
 		b.name</query>
-	<query name="list.Budget">from com.vimukti.accounter.core.Budget</query>
 	<query name="list.Company">from com.vimukti.accounter.core.Company c order by
 		c.fullName</query>
 	<query name="list.CreditRating">from com.vimukti.accounter.core.CreditRating cr order
@@ -139,6 +138,7 @@
 		order by
 		bt.id
 	</query>
+	<query name="list.Budget">from com.vimukti.accounter.core.Budget </query>
 	<query name="unique.name.Account">from com.vimukti.accounter.core.Account a where
 		a.name=?</query>
 	<query name="unique.name.Item">from com.vimukti.accounter.core.Item a where
