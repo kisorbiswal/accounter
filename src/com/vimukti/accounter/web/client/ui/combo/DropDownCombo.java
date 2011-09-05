@@ -568,7 +568,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		this.grid = grid;
 	}
 
-	private void removeComboItem(T coreObject) {
+	public void removeComboItem(T coreObject) {
 
 		int index = getObjectIndex(coreObject);
 		if (index >= 0) {
@@ -693,7 +693,20 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			index = -1;
 		}
 		selectedName = value;
-		changeValue(index);
+
+		if (isAddNewRequire && index == 0) {
+			selectionFaildOnClose();
+		} else {
+			changeValue(index);
+		}
+	}
+
+	/**
+	 * this will be called when {@link #isAddNewRequire} value is true, and
+	 * noting has been selected for the entered text on close.
+	 */
+	protected void selectionFaildOnClose() {
+		// implement as you required at child
 	}
 
 	private void updateComboItemsInSorted(List<T> comboObjects,
