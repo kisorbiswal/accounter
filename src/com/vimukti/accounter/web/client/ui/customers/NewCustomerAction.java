@@ -13,11 +13,20 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 public class NewCustomerAction extends Action<ClientCustomer> {
 
 	private CustomerView view;
+	private String quickAddText;
 
 	public NewCustomerAction(String text) {
 		super(text);
 		this.catagory = Global.get().customer();
 		super.setToolTip(Global.get().customer());
+	}
+
+	public NewCustomerAction(String text, String quickAddText) {
+		super(text);
+		this.catagory = Global.get().customer();
+		super.setToolTip(Global.get().customer());
+		this.quickAddText = quickAddText;
+
 	}
 
 	public NewCustomerAction(String text, ClientCustomer customer,
@@ -37,6 +46,10 @@ public class NewCustomerAction extends Action<ClientCustomer> {
 			@Override
 			public void onSuccess() {
 				view = new CustomerView();
+				if (quickAddText != null) {
+					view.prepareForQuickAdd(quickAddText);
+				}
+
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, NewCustomerAction.this);
 
