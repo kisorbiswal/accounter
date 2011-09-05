@@ -8,8 +8,17 @@ public class India implements ICountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		// TODO Auto-generated method stub
-		return null;
+		String[] states = new String[] { "Andaman and Nicobar Islands",
+				"Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bangla",
+				"Bihar", "Chandigarh", "Chhattisgarh",
+				"Dadra and Nagar Haveli", "Daman and Diu", "Delhi", "Goa",
+				"Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir",
+				"Jharkhand", "Karnataka", "Kerala", "Lakshadweep",
+				"Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya",
+				"Mizoram", "Nagaland", "Orissa", "Pondicherry", "Punjab",
+				"Rajasthan", "Sikkim", "Tamil Nadu", "Tripura", "Uttaranchal",
+				"Uttar Pradesh" };
+		return states;
 	}
 
 	@Override
@@ -19,7 +28,9 @@ public class India implements ICountryPreferences {
 
 	@Override
 	public String getDefaultTimeZone(String state) {
-		// TODO Auto-generated method stub
+		if (state != null) {
+			return "UTC-12:00 Etc/GMT+12";
+		}
 		return null;
 	}
 
