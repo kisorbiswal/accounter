@@ -598,6 +598,12 @@ public class ActionFactory {
 		return new NewCustomerAction(Accounter.messages().newCustomer(
 				Global.get().Customer()));
 	}
+	public static NewCustomerAction getNewCustomerAction(String quickAddText) {
+		return new NewCustomerAction(Accounter.messages().newCustomer(
+				Global.get().Customer()),quickAddText);
+	}
+	
+	
 
 	public static NewCustomerAction getNewCustomerAction(
 			ClientCustomer customer,
