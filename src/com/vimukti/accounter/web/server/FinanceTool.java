@@ -48,6 +48,7 @@ import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.Bank;
 import com.vimukti.accounter.core.Box;
 import com.vimukti.accounter.core.BrandingTheme;
+import com.vimukti.accounter.core.Budget;
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.CashSales;
 import com.vimukti.accounter.core.ClientConvertUtil;
@@ -10022,6 +10023,9 @@ public class FinanceTool {
 
 		company.setItemGroups(new ArrayList<ItemGroup>(session.getNamedQuery(
 				"list.ItemGroup").list()));
+
+		company.setBudget(new ArrayList<Budget>(session.getNamedQuery(
+				"list.Budget").list()));
 
 		company.setTaxGroups(new ArrayList<TAXGroup>(session.getNamedQuery(
 				"list.TAXGroup").list()));

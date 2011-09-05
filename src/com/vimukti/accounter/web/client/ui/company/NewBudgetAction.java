@@ -62,7 +62,7 @@ public class NewBudgetAction extends Action<ClientBudget> {
 	}
 
 	public ImageResource getSmallImage() {
-		return Accounter.getFinanceMenuImages().newCustomer();
+		return null;
 	}
 
 	// @Override

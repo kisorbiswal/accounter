@@ -1,53 +1,67 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
+import java.util.List;
+
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientBudgetItem;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
-import com.vimukti.accounter.web.client.core.Lists.BudgetList;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
-public class BudgetListGrid extends BaseListGrid<BudgetList> {
+public class BudgetListGrid extends BaseListGrid<ClientBudgetItem> {
 
 	public BudgetListGrid() {
 		super(false, true);
 	}
 
+	// public void initBudgetItems(ClientBudgetItem budgetItems) {
+	//
+	// ClientBudgetItem budgetItem = new ClientBudgetItem();
+	//
+	// // this.setRecords(budgetItem);
+	// }
+
+	public void initBudgetItems(List<ClientBudgetItem> allBudgetItems) {
+		this.setRecords(allBudgetItems);
+
+	}
+
 	@Override
-	protected Object getColumnValue(BudgetList budget, int col) {
+	protected Object getColumnValue(ClientBudgetItem budget, int col) {
 		switch (col) {
 		case 0:
 			return budget.getAccountsName();
 		case 1:
-			return amountAsString(budget.getJanuaryMonthAmount());
+			return amountAsString(budget.getJanuaryAmount());
 		case 2:
-			return amountAsString(budget.getFebruaryMonthAmount());
+			return amountAsString(budget.getFebruaryAmount());
 		case 3:
-			return amountAsString(budget.getMarchMonthAmount());
+			return amountAsString(budget.getMarchAmount());
 		case 4:
-			return amountAsString(budget.getAprilMonthAmount());
+			return amountAsString(budget.getAprilAmount());
 		case 5:
-			return amountAsString(budget.getMayMonthAmount());
+			return amountAsString(budget.getMayAmount());
 		case 6:
-			return amountAsString(budget.getJuneMonthAmount());
+			return amountAsString(budget.getJuneAmount());
 		case 7:
-			return amountAsString(budget.getJulyMonthAmount());
+			return amountAsString(budget.getJulyAmount());
 		case 8:
-			return amountAsString(budget.getAugustMonthAmount());
+			return amountAsString(budget.getAugustAmount());
 		case 9:
-			return amountAsString(budget.getSeptemberMonthAmount());
+			return amountAsString(budget.getSpetemberAmount());
 		case 10:
-			return amountAsString(budget.getOctoberMonthAmount());
+			return amountAsString(budget.getOctoberAmount());
 		case 11:
-			return amountAsString(budget.getNovemberMonthAmount());
+			return amountAsString(budget.getNovemberAmount());
 		case 12:
-			return amountAsString(budget.getDecemberMonthAmount());
+			return amountAsString(budget.getDecemberAmount());
 		case 13:
-			updateTotal(budget, true);
+			return amountAsString(budget.getTotalAmount());
 		default:
 			break;
 		}
@@ -64,43 +78,46 @@ public class BudgetListGrid extends BaseListGrid<BudgetList> {
 				colArray[index] = Global.get().Account();
 				break;
 			case 1:
-				colArray[index] = Accounter.constants().january();
+				colArray[index] = Accounter.constants().jan();
 				break;
 			case 2:
-				colArray[index] = Accounter.constants().february();
+				colArray[index] = Accounter.constants().feb();
 				break;
 			case 3:
-				colArray[index] = Accounter.constants().march();
+				colArray[index] = Accounter.constants().mar();
 				break;
 			case 4:
-				colArray[index] = Accounter.constants().april();
+				colArray[index] = Accounter.constants().apr();
 				break;
 			case 5:
 				colArray[index] = Accounter.constants().may();
 				break;
 			case 6:
-				colArray[index] = Accounter.constants().june();
+				colArray[index] = Accounter.constants().jun();
 				break;
 			case 7:
-				colArray[index] = Accounter.constants().july();
+				colArray[index] = Accounter.constants().jul();
 				break;
 			case 8:
-				colArray[index] = Accounter.constants().august();
+				colArray[index] = Accounter.constants().aug();
 				break;
 			case 9:
-				colArray[index] = Accounter.constants().september();
+				colArray[index] = Accounter.constants().sept();
 				break;
 			case 10:
-				colArray[index] = Accounter.constants().october();
+				colArray[index] = Accounter.constants().oct();
 				break;
 			case 11:
-				colArray[index] = Accounter.constants().november();
+				colArray[index] = Accounter.constants().nov();
 				break;
 			case 12:
-				colArray[index] = Accounter.constants().december();
+				colArray[index] = Accounter.constants().dec();
 				break;
 			case 13:
 				colArray[index] = Accounter.constants().total();
+				break;
+			case 14:
+				colArray[index] = Accounter.constants().add();
 				break;
 			default:
 				break;
@@ -111,11 +128,11 @@ public class BudgetListGrid extends BaseListGrid<BudgetList> {
 	}
 
 	@Override
-	protected void onClick(BudgetList obj, int row, int col) {
+	protected void onClick(ClientBudgetItem obj, int row, int col) {
 	}
 
 	@Override
-	protected void onValueChange(BudgetList obj, int col, Object value) {
+	protected void onValueChange(ClientBudgetItem obj, int col, Object value) {
 
 	}
 
@@ -156,15 +173,8 @@ public class BudgetListGrid extends BaseListGrid<BudgetList> {
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT, };
 	}
 
-	protected void updateTotal(BudgetList customer, boolean add) {
+	protected void updateTotal(ClientBudgetItem customer, boolean add) {
 
-		// if (add) {
-		// if (customer.isActive())
-		// total += customer.getBalance();
-		// else
-		// total += customer.getBalance();
-		// } else
-		// total -= customer.getBalance();
 	}
 
 	public Double getTotal() {
@@ -207,15 +217,13 @@ public class BudgetListGrid extends BaseListGrid<BudgetList> {
 		return -1;
 	}
 
-
 	public AccounterCoreType getType() {
-		return AccounterCoreType.CUSTOMER;
+		return AccounterCoreType.BUDGET;
 	}
 
 	@Override
-	public void addData(BudgetList obj) {
+	public void addData(ClientBudgetItem obj) {
 		super.addData(obj);
-		((CheckBox) this.getWidget(currentRow, 0)).setEnabled(false);
 	}
 
 	@Override
@@ -238,13 +246,13 @@ public class BudgetListGrid extends BaseListGrid<BudgetList> {
 	}
 
 	@Override
-	protected void executeDelete(BudgetList object) {
+	protected void executeDelete(ClientBudgetItem object) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void onDoubleClick(BudgetList obj) {
+	public void onDoubleClick(ClientBudgetItem obj) {
 		// TODO Auto-generated method stub
 
 	}

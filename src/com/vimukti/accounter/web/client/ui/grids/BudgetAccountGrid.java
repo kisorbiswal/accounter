@@ -61,7 +61,7 @@ public class BudgetAccountGrid extends BaseListGrid<ClientBudgetItem> {
 		case 13:
 			return amountAsString(budget.getTotalAmount());
 		case 14:
-			return Accounter.getFinanceMenuImages().newAccount();
+			return Accounter.getFinanceMenuImages().accounterRegisterIcon();
 		default:
 			break;
 		}
@@ -167,6 +167,7 @@ public class BudgetAccountGrid extends BaseListGrid<ClientBudgetItem> {
 
 	public void addData(ClientBudgetItem obj, ClientAccount account) {
 		obj.setAccountsName(account.getName());
+		obj.setAccount(account);
 		super.addData(obj);
 
 	}

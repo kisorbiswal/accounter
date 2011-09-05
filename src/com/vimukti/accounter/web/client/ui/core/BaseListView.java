@@ -125,9 +125,28 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		hlay.setWidth("100%");
 
 		viewSelect = getSelectItem();
-		// if (this instanceof BudgetListView) {
+		/*
+		 * if (this instanceof BudgetListView) { if (viewSelect == null) {
+		 * viewSelect = new SelectCombo(Accounter.constants() .currentBudget());
+		 * viewSelect.setHelpInformation(true); viewSelect.setWidth("150px");
+		 * List<String> typeList = new ArrayList<String>();
+		 * typeList.add(Accounter.constants().active());
+		 * typeList.add(Accounter.constants().inActive());
+		 * viewSelect.initCombo(typeList);
+		 * viewSelect.setComboItem(Accounter.constants().active()); viewSelect
+		 * .addSelectionChangeHandler(new
+		 * IAccounterComboSelectionChangeHandler<String>() {
+		 * 
+		 * @Override public void selectedComboBoxItem(String selectItem) { if
+		 * (viewSelect.getSelectedValue() != null) { if
+		 * (viewSelect.getSelectedValue() .toString()
+		 * .equalsIgnoreCase("Active")) filterList(true); else
+		 * filterList(false); }
+		 * 
+		 * } }); } } else {
+		 */
 		if (viewSelect == null) {
-			viewSelect = new SelectCombo(Accounter.constants().currentBudget());
+			viewSelect = new SelectCombo(Accounter.constants().currentView());
 			viewSelect.setHelpInformation(true);
 			viewSelect.setWidth("150px");
 			List<String> typeList = new ArrayList<String>();
@@ -150,36 +169,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 						}
 					});
-			// }
-		} else {
-			if (viewSelect == null) {
-				viewSelect = new SelectCombo(Accounter.constants()
-						.currentView());
-				viewSelect.setHelpInformation(true);
-				viewSelect.setWidth("150px");
-				List<String> typeList = new ArrayList<String>();
-				typeList.add(Accounter.constants().active());
-				typeList.add(Accounter.constants().inActive());
-				viewSelect.initCombo(typeList);
-				viewSelect.setComboItem(Accounter.constants().active());
-				viewSelect
-						.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-
-							@Override
-							public void selectedComboBoxItem(String selectItem) {
-								if (viewSelect.getSelectedValue() != null) {
-									if (viewSelect.getSelectedValue()
-											.toString()
-											.equalsIgnoreCase("Active"))
-										filterList(true);
-									else
-										filterList(false);
-								}
-
-							}
-						});
-			}
 		}
+		// }
 
 		dateRangeSelector = getDateRangeSelectItem();
 

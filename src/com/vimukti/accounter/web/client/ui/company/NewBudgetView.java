@@ -124,6 +124,7 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 				.budgetFinancialYear());
 		selectFinancialYear.setHelpInformation(true);
 		selectFinancialYear.initCombo(getFiscalYearList());
+		selectFinancialYear.setRequired(true);
 		selectFinancialYear
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -277,8 +278,11 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 
 	private void updateBudgetObject() {
 
-		data.setBudgetName(budgetNameText.getValue() != null ? budgetNameText
-				.getValue() : " ");
+		String budgetname = budgetNameText.getValue() != null ? budgetNameText
+				.getValue() : " ";
+		String financialYear = selectFinancialYear.getSelectedValue();
+
+		data.setBudgetName(budgetname + " " + financialYear);
 
 		List<ClientBudgetItem> allGivenRecords = (List<ClientBudgetItem>) gridView
 				.getRecords();
