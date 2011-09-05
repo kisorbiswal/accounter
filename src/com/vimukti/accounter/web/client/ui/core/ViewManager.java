@@ -297,6 +297,8 @@ public class ViewManager extends HorizontalPanel {
 			}
 			if (((IPrintableView) existingView).canPrint()) {
 				group2.add(printButton);
+			}else{
+				group2.remove(printButton);
 			}
 		} else {
 			group2.remove(exportButton);
