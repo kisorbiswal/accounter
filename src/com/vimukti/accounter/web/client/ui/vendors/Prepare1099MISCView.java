@@ -158,7 +158,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 			}
 		};
 		informationColumn
-		.setFieldUpdater(new FieldUpdater<Client1099Form, SafeHtml>() {
+				.setFieldUpdater(new FieldUpdater<Client1099Form, SafeHtml>() {
 
 			@Override
 			public void update(int index, Client1099Form object,
