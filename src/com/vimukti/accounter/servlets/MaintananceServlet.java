@@ -62,8 +62,11 @@ public class MaintananceServlet extends BaseServlet {
 			e.printStackTrace();
 			transaction.rollback();
 		}
-
-		req.setAttribute("message", "Session Sucess");
+		if (ServerConfiguration.isUnderMaintainance())
+			req.setAttribute("message", "Server will be under maintainence");
+		else
+			req.setAttribute("message",
+					"Remove the Server from  under maintainence");
 		dispatch(req, resp, MAINTANANCE_VIEW);
 	}
 }
