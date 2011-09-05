@@ -314,6 +314,7 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 		// allBudgetItems.add(budgetItem);
 		//
 		// }
+
 		data.setBudgetItem(allGivenRecords);
 
 	}
@@ -344,13 +345,12 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 
 	@Override
 	public void saveSuccess(IAccounterCore result) {
-		if (result == null) {
+		if (result != null) {
 			super.saveSuccess(result);
-			return;
+
+		} else {
+			saveFailed(new AccounterException());
 		}
-
-		super.saveSuccess(result);
-
 	}
 
 	@Override
