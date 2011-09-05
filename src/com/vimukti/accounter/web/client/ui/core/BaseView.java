@@ -23,6 +23,8 @@ public abstract class BaseView<T extends IAccounterCore> extends
 
 	protected CancelButton cancelButton;
 
+	protected String quickAddText;
+	
 	public BaseView() {
 		super();
 	}
@@ -142,5 +144,9 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		if (saveAndCloseButton != null) {
 			this.buttonBar.insert(saveAndCloseButton, 0);
 		}
+	}
+
+	public void prepareForQuickAdd(String text) {
+		quickAddText = text;
 	}
 }
