@@ -11,7 +11,7 @@
 		<c:if test="${message != null}">
 		   <div class="common-box create-company-message">${message}</div>
 		</c:if>
-		<form id = "maintananceForm" method="post" action="/maintanance">
+		<form id = "maintananceForm" method="post" action="/main/maintanance">
 			<div class="text_box_margin">
 				<label>Please enter your admin password:
 				<input type = "Password"  id = "adminPassword"  name ="password" >
