@@ -16,7 +16,14 @@
 				<label>Please enter your admin password:
 				<input type = "Password"  id = "adminPassword"  name ="password" >
 			</div>
-			<input type="checkbox" name="option1" ><label>Server under maintainace</label> <br>
+			<c:choose>
+			    <c:when test='${CheckedValue == "true"}'>
+			       <input type="checkbox" name="option1" checked="" ><label>${checkedValue}Server under maintainace</label> <br>
+			    </c:when>
+			    <c:otherwise>
+			       <input type="checkbox" name="option1"  ><label>${checkedValue}Server under maintainace</label> <br>
+			    </c:otherwise>
+		    </c:choose>
 			<div class="OkButton">
 			    <input type = "Submit" class="allviews-common-button" value = "Submit " id = "submitButton"  >
 			</div>
