@@ -15,17 +15,10 @@ public class ClientBudget implements IAccounterCore {
 
 	List<ClientBudgetItem> budgetItems = new ArrayList<ClientBudgetItem>();
 
-	/**
-	 * @return the id
-	 */
 	public long getID() {
 		return id;
 	}
 
-	/**
-	 * @param id
-	 *            the id to set
-	 */
 	public void setID(long id) {
 		this.id = id;
 	}
@@ -65,20 +58,17 @@ public class ClientBudget implements IAccounterCore {
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public AccounterCoreType getObjectType() {
-		// TODO Auto-generated method stub
-		return null;
+		return AccounterCoreType.BUDGET;
 	}
 
 	@Override
 	public String getClientClassSimpleName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "ClientBudget";
 	}
 
 }

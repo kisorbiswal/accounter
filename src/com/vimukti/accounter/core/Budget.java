@@ -1,10 +1,11 @@
 package com.vimukti.accounter.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class Budget implements IAccounterServerCore {
+public class Budget extends CreatableObject implements IAccounterServerCore {
 
 	private static final long serialVersionUID = 1L;
 
@@ -12,7 +13,7 @@ public class Budget implements IAccounterServerCore {
 
 	private String budgetName;
 
-	private List<BudgetItem> budgetItems;
+	List<BudgetItem> budgetItems = new ArrayList<BudgetItem>();
 
 	private int version;
 

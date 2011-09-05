@@ -184,6 +184,8 @@ public class ClientCompany implements IAccounterCore {
 
 	private ArrayList<ClientUserInfo> usersList;
 
+	private ArrayList<ClientBudget> budget = new ArrayList<ClientBudget>();
+
 	// private ArrayList<ClientTAXItemGroup> vatItemGroups;
 
 	Set<ClientNominalCodeRange> nominalCodeRange = new HashSet<ClientNominalCodeRange>();
@@ -2785,5 +2787,14 @@ public class ClientCompany implements IAccounterCore {
 	@Override
 	public void setVersion(int version) {
 		this.version = version;
+	}
+
+	public ArrayList<ClientBudget> getBudget() {
+		return budget;
+	}
+
+	public void setBudget(ArrayList<ClientBudget> budget) {
+		this.budget = budget;
+
 	}
 }

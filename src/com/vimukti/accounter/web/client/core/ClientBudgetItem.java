@@ -13,6 +13,8 @@ public class ClientBudgetItem implements IAccounterCore {
 
 	String accountName = "";
 
+	ClientAccount account;
+
 	double januaryAmount = 0.0D;
 	double febrauaryAmount = 0.0D;
 	double marchAmount = 0.0D;
@@ -68,11 +70,19 @@ public class ClientBudgetItem implements IAccounterCore {
 
 	@Override
 	public String getClientClassSimpleName() {
-		return "ClientAccountBudget";
+		return "ClientBudgetItem";
 	}
 
 	public double getJanuaryAmount() {
 		return januaryAmount;
+	}
+
+	public ClientAccount getAccount() {
+		return account;
+	}
+
+	public void setAccount(ClientAccount account) {
+		this.account = account;
 	}
 
 	/**

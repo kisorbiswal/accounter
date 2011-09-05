@@ -15,6 +15,8 @@ public class BudgetItem implements IAccounterServerCore {
 
 	private Account account;
 
+	String accountName = "";
+
 	private double januaryAmount = 0.0D;
 	private double febrauaryAmount = 0.0D;
 	private double marchAmount = 0.0D;
@@ -51,6 +53,14 @@ public class BudgetItem implements IAccounterServerCore {
 
 	public double getJanuaryAmount() {
 		return januaryAmount;
+	}
+
+	public String getAccountName() {
+		return accountName;
+	}
+
+	public void setAccountName(String accountName) {
+		this.accountName = accountName;
 	}
 
 	/**
@@ -233,12 +243,12 @@ public class BudgetItem implements IAccounterServerCore {
 		this.decemberAmount = amount;
 	}
 
-	public Account getAccountsName() {
+	public Account getBudgetAccount() {
 
 		return account;
 	}
 
-	public void setAccountsName(Account account) {
+	public void setBudgetAccount(Account account) {
 		this.account = account;
 	}
 
