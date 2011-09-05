@@ -12,6 +12,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerCreditMemo;
@@ -614,9 +615,21 @@ public class CustomerCreditMemoView extends
 	@Override
 	public void print() {
 		updateTransaction();
-		ActionFactory.getBrandingThemeComboAction().run(transaction, false);
-		// UIUtils.downloadAttachment(transaction.getID(),
-		// ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO);
+
+		ArrayList<ClientBrandingTheme> themesList = Accounter.getCompany()
+				.getBrandingTheme();
+		if (themesList.size() > 1) {
+			// if there are more than one branding themes, then show branding
+			// theme combo box
+			ActionFactory.getBrandingThemeComboAction().run(transaction, false);
+		} else {
+			// if there is only one branding theme
+			ClientBrandingTheme brandingTheme = themesList.get(0);
+			UIUtils.downloadAttachment(transaction.getID(),
+					ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO,
+					brandingTheme.getID());
+
+		}
 
 	}
 
