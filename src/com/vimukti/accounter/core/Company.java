@@ -247,6 +247,8 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 	private ArrayList<TAXItem> taxItems = new ArrayList<TAXItem>();
 
+	private ArrayList<Budget> budget = new ArrayList<Budget>();
+
 	private ArrayList<TAXAgency> taxAgencies = new ArrayList<TAXAgency>();
 
 	Set<NominalCodeRange> nominalCodeRange = new HashSet<NominalCodeRange>();
@@ -4317,6 +4319,8 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 		cmp.vendors = this.getVendors();
 
+		cmp.budget = this.getBudget();
+
 		cmp.taxAgencies = this.getTaxAgencies();
 
 		cmp.taxItemGroups = this.getTaxItemGroups();
@@ -4600,6 +4604,14 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 	public void setLocations(ArrayList<Location> arrayList) {
 		this.locations = arrayList;
+	}
+
+	public ArrayList<Budget> getBudget() {
+		return budget;
+	}
+
+	public void setBudget(ArrayList<Budget> budget) {
+		this.budget = budget;
 	}
 
 }
