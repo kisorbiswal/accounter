@@ -815,7 +815,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			CustomMenuItem item = new CustomMenuItem(itm, cmd);
 			item.addStyleName(itm);
 			ImageResource image = null;
-			if (itm.equals("Accounts")) {
+			if (itm.equalsIgnoreCase(Accounter.messages().accounts(
+					Global.get().Account()))) {
 				image = Accounter.getFinanceMenuImages().Accounts();
 			} else if (itm.equals("Product Item")) {
 				if (sellProducts) {

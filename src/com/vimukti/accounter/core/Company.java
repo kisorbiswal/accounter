@@ -66,12 +66,15 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	public static final int ACCOUNTING_TYPE_US = 0;
 	public static final int ACCOUNTING_TYPE_UK = 1;
 	public static final int ACCOUNTING_TYPE_INDIA = 2;
+	public static final int ACCOUNTING_TYPE_OTHER = 3;
 
 	public static final String UK = "UK";
 
 	public static final String US = "US";
 
 	public static final String INDIA = "India";
+
+	public static final String OTHER = "Other";
 
 	int accountingType = 0;
 
@@ -3181,6 +3184,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		accountingTypes.add(ACCOUNTING_TYPE_US);
 		accountingTypes.add(ACCOUNTING_TYPE_UK);
 		accountingTypes.add(ACCOUNTING_TYPE_INDIA);
+		accountingTypes.add(ACCOUNTING_TYPE_OTHER);
 		return accountingTypes;
 	}
 

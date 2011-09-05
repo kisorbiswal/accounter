@@ -64,7 +64,7 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 	protected IAccounterGETServiceAsync rpcGetService;
 	protected IAccounterCRUDServiceAsync rpcDoSerivce;
 	protected IAccounterHomeViewServiceAsync rpcUtilService;
-	protected ClientCompany company;
+	protected ClientCompany company = Accounter.getCompany();
 	protected VerticalPanel mainPanel, mainVLayPanel;
 	public VerticalPanel errorPanel;
 	private Map<Object, Widget> errorsMap = new HashMap<Object, Widget>();
@@ -89,8 +89,6 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		setText(text);
 		setModal(true);
 		this.description = desc;
-		initCompany();
-		initConstants();
 		initRPCService();
 		createControls();
 		okbtn.setFocus(true);
@@ -99,27 +97,10 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		sinkEvents(Event.ONMOUSEOVER);
 	}
 
-	protected void initConstants() {
-		try {
-			this.constants = Accounter.constants();
-
-		} catch (Exception e) {
-
-			// SC.logWarn(e.getMessage());
-			Accounter.showError(constants
-					.failedToInitializeCompanyConstants());
-
-		}
-	}
-
 	protected void initRPCService() {
 		this.rpcGetService = Accounter.createGETService();
 		this.rpcDoSerivce = Accounter.createCRUDService();
 		this.rpcUtilService = Accounter.createHomeService();
-	}
-
-	protected void initCompany() {
-		this.company = Accounter.getCompany();
 	}
 
 	private void createControls() {
@@ -273,11 +254,11 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 						}
 					});
 		} else {
-			boolean ok =onOK();
+			boolean ok = onOK();
 			if (dialogHandler != null) {
 				ok |= dialogHandler.onOK();
 			}
-			if(ok)
+			if (ok)
 				this.removeFromParent();
 		}
 
@@ -367,7 +348,7 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 
 	}
 
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 
@@ -391,7 +372,6 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 	public void setPreferences(ClientCompanyPreferences preferences) {
 		this.preferences = preferences;
 	}
-
 
 	protected void saveOrUpdate(final T core) {
 		Accounter.createOrUpdate(this, core);

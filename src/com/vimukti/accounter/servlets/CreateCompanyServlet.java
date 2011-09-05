@@ -259,7 +259,8 @@ public class CreateCompanyServlet extends BaseServlet {
 			int type = Integer.parseInt(companyType);
 			if (type == Company.ACCOUNTING_TYPE_UK
 					|| type == Company.ACCOUNTING_TYPE_US
-					|| type == Company.ACCOUNTING_TYPE_INDIA) {
+					|| type == Company.ACCOUNTING_TYPE_INDIA
+					|| type == Company.ACCOUNTING_TYPE_OTHER) {
 				return type;
 			}
 		}

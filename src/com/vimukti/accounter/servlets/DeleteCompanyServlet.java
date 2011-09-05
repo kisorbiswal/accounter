@@ -30,6 +30,13 @@ public class DeleteCompanyServlet extends BaseServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		HttpSession session = req.getSession();
+		String emailID = (String) session.getAttribute(EMAIL_ID);
+		if (emailID == null) {
+			redirectExternal(req, resp, LOGIN_URL);
+			return;
+		}
+
 		req.getSession().setAttribute(COMPANY_ID, req.getParameter(COMPANY_ID));
 		dispatch(req, resp, deleteCompanyView);
 	}
@@ -154,7 +161,8 @@ public class DeleteCompanyServlet extends BaseServlet {
 			throws ServletException, IOException {
 		String emailID = (String) req.getSession().getAttribute(EMAIL_ID);
 		if (emailID == null) {
-			req.setAttribute("message", "Session Expired.");
+			req.setAttribute("message",
+					"Company deletion failed because of invalide session.");
 			dispatch(req, resp, deleteCompanyView);
 			return;
 		}

@@ -9,7 +9,6 @@ import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.BrandingTheme;
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FiscalYear;
 import com.vimukti.accounter.core.NominalCodeRange;
@@ -22,10 +21,6 @@ import com.vimukti.accounter.utils.SecureUtils;
 
 public class USCompanyInitializer extends CompanyInitializer {
 
-	/**
-	 * This is the Account created by default for the purpose of US Sales Tax
-	 */
-	Account salesTaxPayable;
 	// Account prepaidVATaccount;
 	// Account ECAcquisitionVATaccount;
 
@@ -63,21 +58,6 @@ public class USCompanyInitializer extends CompanyInitializer {
 		return name;
 	}
 
-	/**
-	 * @return the preferences
-	 */
-	public CompanyPreferences getPreferences() {
-		return preferences;
-	}
-
-	/**
-	 * @param preferences
-	 *            the preferences to set
-	 */
-	public void setPreferences(CompanyPreferences preferences) {
-		this.preferences = preferences;
-	}
-
 	public void setNominalCodeRange(Set<NominalCodeRange> nominalCodeRange) {
 		this.nominalCodeRange = nominalCodeRange;
 	}
@@ -113,12 +93,10 @@ public class USCompanyInitializer extends CompanyInitializer {
 	public void initDefaultUSAccounts() {
 		// setDefaultsUSValues();
 
-		createAccount(Account.TYPE_OTHER_CURRENT_LIABILITY,
-				AccounterServerConstants.PENDING_ITEM_RECEIPTS,
-				Account.CASH_FLOW_CATEGORY_OPERATING);
-
-		this.salesTaxPayable = createAccount(
-				Account.TYPE_OTHER_CURRENT_LIABILITY, "Sales Tax Payable",
+		// This is the Account created by default for the purpose of US SalesTax
+		Account salesTaxPayable = createAccount(
+				Account.TYPE_OTHER_CURRENT_LIABILITY,
+				AccounterServerConstants.SALES_TAX_PAYABLE,
 				Account.CASH_FLOW_CATEGORY_OPERATING);
 
 		// Account retainedEarnings = new Account(Account.TYPE_EQUITY, "3100",
@@ -161,19 +139,12 @@ public class USCompanyInitializer extends CompanyInitializer {
 		// session.save(bankCharge);
 
 		// The following two accounts for Cash Basis Journal Entries purpose.
-		this.otherCashIncomeAccount = createAccount(Account.TYPE_INCOME,
-				AccounterServerConstants.OTHER_CASH_INCOME,
-				Account.CASH_FLOW_CATEGORY_FINANCING);
-
-		this.otherCashExpenseAccount = createAccount(Account.TYPE_EXPENSE,
-				AccounterServerConstants.OTHER_CASH_EXPENSE,
-				Account.CASH_FLOW_CATEGORY_FINANCING);
 
 		// this.accountsReceivableAccount = accountsReceivable;
 		// this.accountsPayableAccount = accountsPayable;
 		// this.openingBalancesAccount = openingBalancesAccount;
 		// this.retainedEarningsAccount = retainedEarnings;
-		company.setTaxLiabilityAccount(this.salesTaxPayable);
+		company.setTaxLiabilityAccount(salesTaxPayable);
 		// this.pendingItemReceiptsAccount = pendingItemReceipts;
 
 		createUSDefaultTaxGroup();
@@ -266,46 +237,6 @@ public class USCompanyInitializer extends CompanyInitializer {
 
 		// Set Default Preferences
 		// SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		CompanyPreferences preferences = new CompanyPreferences();
-		try {
-			preferences.setUseAccountNumbers(true);
-			preferences.setUseClasses(false);
-			preferences.setUseJobs(false);
-			preferences.setUseChangeLog(false);
-			preferences.setAllowDuplicateDocumentNumbers(true);
-			preferences.setDoYouPaySalesTax(true);
-			preferences.setIsAccuralBasis(true);
-			// preferences.setStartOfFiscalYear(format.parse("2009-01-01"));
-			// preferences.setEndOfFiscalYear(format.parse("2009-12-31"));
-
-			preferences.setStartOfFiscalYear(fiscalYearStartDate);
-			preferences.setEndOfFiscalYear(fiscalYearEndDate);
-			preferences.setEnableMultiCurrency(false);
-			preferences.setUseCustomerId(false);
-			preferences.setDefaultShippingTerm(null);
-			preferences.setDefaultAnnualInterestRate(0);
-			preferences.setDefaultMinimumFinanceCharge(0D);
-			preferences.setGraceDays(3);
-			preferences.setDoesCalculateFinanceChargeFromInvoiceDate(true);
-			preferences.setUseVendorId(false);
-			preferences.setUseItemNumbers(false);
-			preferences.setCheckForItemQuantityOnHand(true);
-			preferences.setUpdateCostAutomatically(false);
-			preferences.setStartDate(fiscalYearStartDate);
-			preferences.setPreventPostingBeforeDate(fiscalYearStartDate);
-			preferences.setDateFormat(dateFormat);
-
-			FinanceDate depreciationStartDateCal = new FinanceDate();
-			depreciationStartDateCal.set(fiscalYearStartDate);
-			// depreciationStartDateCal.set(Calendar.DAY_OF_MONTH, 01);
-			preferences.setDepreciationStartDate(depreciationStartDateCal);
-
-			this.setPreferences(preferences);
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
 
 		VendorGroup creditCardCompanies = new VendorGroup();
 		creditCardCompanies

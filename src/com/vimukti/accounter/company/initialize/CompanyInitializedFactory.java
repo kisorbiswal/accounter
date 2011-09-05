@@ -21,6 +21,8 @@ public class CompanyInitializedFactory {
 
 		case Company.ACCOUNTING_TYPE_INDIA:
 			return new IndianCompanyInitializer(company);
+		case Company.ACCOUNTING_TYPE_OTHER:
+			return new OtherCompanyInitializer(company);
 		}
 		return null;
 	}

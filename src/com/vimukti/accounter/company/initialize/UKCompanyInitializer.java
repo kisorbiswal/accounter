@@ -11,7 +11,6 @@ import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.BrandingTheme;
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.NominalCodeRange;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.TAXAgency;
@@ -26,19 +25,10 @@ import com.vimukti.accounter.utils.SecureUtils;
 
 public class UKCompanyInitializer extends CompanyInitializer {
 
-	/**
-	 * This is the Account created by default for the purpose of UK VAT
-	 */
-	Account vATliabilityAccount;
 	// Account prepaidVATaccount;
 	// Account ECAcquisitionVATaccount;
 
 	// Account pendingItemReceiptsAccount;
-	/**
-	 * This is the Account created by default for the purpose of UK when VAT is
-	 * Filed
-	 */
-	Account vATFiledLiabilityAccount;
 
 	Set<NominalCodeRange> nominalCodeRange = new HashSet<NominalCodeRange>();
 	/**
@@ -58,21 +48,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 	 */
 	public String getName() {
 		return name;
-	}
-
-	/**
-	 * @return the preferences
-	 */
-	public CompanyPreferences getPreferences() {
-		return preferences;
-	}
-
-	/**
-	 * @param preferences
-	 *            the preferences to set
-	 */
-	public void setPreferences(CompanyPreferences preferences) {
-		this.preferences = preferences;
 	}
 
 	public void setNominalCodeRange(Set<NominalCodeRange> nominalCodeRange) {
@@ -115,20 +90,20 @@ public class UKCompanyInitializer extends CompanyInitializer {
 		//
 		// session.save(fiscalYear);
 
-		vATliabilityAccount = createAccount(
+		// This is the Account created by default for the purpose of UK VAT
+		Account vATliabilityAccount = createAccount(
 				Account.TYPE_OTHER_CURRENT_LIABILITY,
 				AccounterServerConstants.SALES_TAX_VAT_UNFILED,
 				Account.CASH_FLOW_CATEGORY_OPERATING);
-
-		createAccount(Account.TYPE_LONG_TERM_LIABILITY,
-				AccounterServerConstants.DEFERRED_TAX,
-				Account.CASH_FLOW_CATEGORY_FINANCING);
 
 		createAccount(Account.TYPE_OTHER_ASSET,
 				AccounterServerConstants.VAT_ON_IMPORTS,
 				Account.CASH_FLOW_CATEGORY_INVESTING);
 
-		vATFiledLiabilityAccount = createAccount(
+		// This is the Account created by default for the purpose of UK when VAT
+		// is Filed
+
+		Account vATFiledLiabilityAccount = createAccount(
 				Account.TYPE_OTHER_CURRENT_LIABILITY,
 				AccounterServerConstants.SALES_TAX_VAT_FILED,
 				Account.CASH_FLOW_CATEGORY_OPERATING);
@@ -346,8 +321,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 		//
 		// session.save(ECSale);
 
-		company.setTaxLiabilityAccount(this.vATliabilityAccount);
-		company.setVATFiledLiabilityAccount(this.vATFiledLiabilityAccount);
+		company.setTaxLiabilityAccount(vATliabilityAccount);
+		company.setVATFiledLiabilityAccount(vATFiledLiabilityAccount);
 		// this.pendingItemReceiptsAccount = pendingItemReceipts;
 		// this.prepaidVATaccount = prepaidVATaccount;
 		// this.ECAcquisitionVATaccount = ECAcquisitionVAT;
@@ -641,7 +616,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 			TAXAgency defaultVATAgency = new TAXAgency();
 			defaultVATAgency.setActive(Boolean.TRUE);
-			defaultVATAgency.setName(getPreferences().getVATtaxAgencyName());
+			defaultVATAgency.setName(preferences.getVATtaxAgencyName());
 			defaultVATAgency.setVATReturn(VATReturn.VAT_RETURN_UK_VAT);
 
 			defaultVATAgency.setSalesLiabilityAccount((Account) session
@@ -1045,7 +1020,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 	@Override
 	public void init() {
-		// super.init();
 		initDefaultUKAccounts();
 		// createUKDefaultVATCodesAndVATAgency(session);
 

@@ -151,13 +151,11 @@ public class AccounterServerConstants implements IsSerializable, Serializable {
 
 	public static final String CUSTOMER_CREDIT_MEMO = "Customer Credit";
 	public static final String VENDOR_PAYMENT = Company.getCompany()
-			.getAccountingType() == Company.ACCOUNTING_TYPE_UK
-			? "Supplier Payment"
+			.getAccountingType() == Company.ACCOUNTING_TYPE_UK ? "Supplier Payment"
 			: "Vendor Payment";
 	public static final String CUSTOMER_PAYMENT = "Customer Payment";
 	public static final String VENDOR_CREDIT_MEMO = Company.getCompany()
-			.getAccountingType() == Company.ACCOUNTING_TYPE_UK
-			? "Supplier Credit"
+			.getAccountingType() == Company.ACCOUNTING_TYPE_UK ? "Supplier Credit"
 			: "Vendor Credit";
 
 	// constants for Transaction Names
@@ -169,22 +167,19 @@ public class AccounterServerConstants implements IsSerializable, Serializable {
 	public static final String TYPE_CUSTOMER_REFUNDS = "Customer Refund";
 	public static final String TYPE_CUSTOMER_PRE_PAYMENT = "Customer prepayment";
 	public static final String TYPE_ENTER_BILL = Company.getCompany()
-			.getAccountingType() == Company.ACCOUNTING_TYPE_UK
-			? "Supplier Bill"
+			.getAccountingType() == Company.ACCOUNTING_TYPE_UK ? "Supplier Bill"
 			: "Vendor Bill";
 	public static final String TYPE_ESTIMATE = "Quote";
 	public static final String TYPE_INVOICE = "Invoice";
 	public static final String TYPE_ISSUE_PAYMENT = "Issue Payment";
 	public static final String TYPE_MAKE_DEPOSIT = "Make Deposit";
 	public static final String TYPE_PAY_BILL = Company.getCompany()
-			.getAccountingType() == Company.ACCOUNTING_TYPE_UK
-			? "Supplier Payment"
+			.getAccountingType() == Company.ACCOUNTING_TYPE_UK ? "Supplier Payment"
 			: "Vendor Payment";
 	public static final String TYPE_RECEIVE_PAYMENT = "Customer Payment";
 	public static final String TYPE_TRANSFER_FUND = "Transfer Fund";
 	public static final String TYPE_VENDOR_CREDIT_MEMO = Company.getCompany()
-			.getAccountingType() == Company.ACCOUNTING_TYPE_UK
-			? "Supplier Credit"
+			.getAccountingType() == Company.ACCOUNTING_TYPE_UK ? "Supplier Credit"
 			: "Vendor Credit";
 	public static final String TYPE_WRITE_CHECK = "Check";
 	public static final String TYPE_JOURNAL_ENTRY = "Journal Entry";
@@ -209,8 +204,7 @@ public class AccounterServerConstants implements IsSerializable, Serializable {
 	public static final String TABLE_CREDIT_CARD_CHARGES = "CREDIT_CARD_CHARGES";
 	public static final String TABLE_CUSTOMER_CREDIT_MEMO = "CUSTOMER_CREDIT_MEMO";
 	public static final String TABLE_VENDOR_CREDIT_MEMO = Company.getCompany()
-			.getAccountingType() == Company.ACCOUNTING_TYPE_UK
-			? "SUPPLIER_CREDIT"
+			.getAccountingType() == Company.ACCOUNTING_TYPE_UK ? "SUPPLIER_CREDIT"
 			: "VENDOR_CREDIT";
 	public static final String TABLE_WRITE_CHECKS = "WRITE_CHECKS";
 	public static final String TABLE_TRANSACTION_MAKE_DEPOSIT = "TRANSACTION_MAKE_DEPOSIT";
@@ -536,12 +530,11 @@ public class AccounterServerConstants implements IsSerializable, Serializable {
 	public static final String VAT_ITEM_STANDARD_PURCHASES = "Standard Purchases";
 	public static final String VAT_ITEM_ZERO_RATED_PURCHASES = "Zero-Rated Purchases";
 	public static final String VAT_ITEM_EC_SALES_GOODS_STANDARD = "EC Sales Goods Standard";
-	
-	
+
 	/**
-	 * Expenses default accounts names constants 
+	 * Expenses default accounts names constants
 	 */
-	
+
 	public static final String EXPENSE_ADEVRTISING_AND_MARKETING = "Aderstising and Marketing";
 	public static final String EXPENSE_CONSULTING_AND_ACCOUNTING = "Consulting and Accounting";
 	public static final String EXPENSE_DEPRICATION = "Deprication";
@@ -550,7 +543,7 @@ public class AccounterServerConstants implements IsSerializable, Serializable {
 	public static final String EXPENSE_INSURANCE = "Insurance";
 	public static final String EXPENSE_INTEREST_EXPENSE = "Interest Expense";
 	public static final String EXPENSE_LEGAL_EXPENSE = "Legal Expense";
-	
+
 	public static final String EXPENSE_MOTOR_VEICHLE = "Motor Veichle Expense";
 	public static final String EXPENSE_VEICHEL_FUEL = "Veichle Fuel/Gas Expense";
 	public static final String EXPENSE_VEICHLE_LEASE = "Veichle lease Expense";
@@ -565,22 +558,22 @@ public class AccounterServerConstants implements IsSerializable, Serializable {
 	public static final String EXPENSE_BAD_DEBIT = "Bad Debit";
 	public static final String EXPENSE_BANK_FEE_CHARGE = "Bank Fee Charges";
 	public static final String EXPENSE_CREDIT_CARD_CHARGE = "Credit card charges";
-	
+
 	public static final String EXPENSE_TRAVEL = "Travel Expenses";
 	public static final String EXPENSE_TRAVEL_INTERNATIONAL = "Travel-International";
 	public static final String EXPENSE_TRAVEL_NATIONAL = "Travel-National";
-	
+
 	public static final String EXPENSE_AUTOMOBILE = "Automobile Expense";
 	public static final String EXPENSE_POSTAGE = "Postage";
-	
+
 	public static final String EXPENSE_OTHER = "Other Expenses";
 	public static final String EXPENSE_GAIN_LOSS = "Explain Gain or Loss";
 	public static final String EXPENSE_MISCELLANEOUS = "Miscellaneous";
 	public static final String EXPENSE_PENALTIES_SETELLMENTS = "Penalties & Settelments";
-	
+
 	public static final String EXPENSE_UTILITIES = "Utilities";
 	public static final String EXPENSE_TAX_LISENSES = "Tax and Lisence";
-	
+
 	public static final String EXPENSE_COST_OF_GOODS_SOLDs = "Cost of Goods Sold";
 	public static final String EXPENSE_PRODUCT_PURCHASE_A = "Product/Material purchased Type-A";
 	public static final String EXPENSE_PRODUCT_PURCHASE_B = "Product/Material purchased Type-B";
@@ -594,7 +587,7 @@ public class AccounterServerConstants implements IsSerializable, Serializable {
 	public static final String EXPENSE_STOCK_VALUE_CHAGE = "Stock Value Change";
 	public static final String EXPENSE_FINISHED_GOOD_VALUE = "Fisnished Good Value change";
 	public static final String EXPENSE_WORK_IN_PROGRESS_VALUE = "Work in progress Value Change";
-	
+
 	public static final String EXPENSE_OTHER_DIRECT_COST = "Other Direct Costs";
 	public static final String EXPENSE_DIRECT_LABOUR = "Direct Labour";
 	public static final String EXPENSE_DIRECT_EMPLOYEE_NI = "Direct Employee NI";
@@ -604,11 +597,9 @@ public class AccounterServerConstants implements IsSerializable, Serializable {
 	public static final String EXPENSE_DIRECT_CONSUMABLE = "Direct Consumable";
 	public static final String EXPENSE_MERCHANY_ACCOUNT_FEES = "Merchant Account Fees";
 	public static final String EXPENSE_COMISSION_PAID = "Cosmission Paid";
-	
+
 	public static final String EXPENSE_INDIRECT_COSTS = "Indirect Costs";
 
-
-	
 	/**
 	 * income default accounts names constants
 	 */
@@ -711,8 +702,7 @@ public class AccounterServerConstants implements IsSerializable, Serializable {
 	public static final String LIABLITY_ROUNDINGS = "Roundings";
 	public static final String LIABLITY_VAT_ON_IMPORTS = "Vat on Import";
 	public static final String LIABLITY_SUSPENSES = "Suspenses";
-	
-	
+
 	public static final String LIABLITY_CURRENT = "Current Liabilities";
 	public static final String LIABLITY_TAXPAYABLE = "Tax Payables";
 	public static final String LIABLITY_VATPAYABLE = "VAT Payable";
@@ -742,7 +732,8 @@ public class AccounterServerConstants implements IsSerializable, Serializable {
 	public static final String LIABLITY_DIRECTORS_CURRENT_ACCOUNT = "Directors Current Account";
 	public static final String LIABLITY_NET_SALARIES = "Net Salaries";
 	public static final String LIABLITY_PENSIONS = "Pensions";
-	public static final String ddMMyyyy="dd/MM/yyyy";
-	public static final String MMddyyyy="MM/dd/yyyy";
-	
+	public static final String ddMMyyyy = "dd/MM/yyyy";
+	public static final String MMddyyyy = "MM/dd/yyyy";
+
+	public static final String TDS_TAX_PAYABLE = "TDS Tax Payable";
 }

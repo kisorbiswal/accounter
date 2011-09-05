@@ -27,7 +27,6 @@ public class SalesQuoteListDialog extends BaseDialog {
 	public DialogGrid grid;
 	private List<ClientEstimate> estimates;
 	private ClientEstimate selectedEstimate;
-	private AccounterConstants customerConstants = Accounter.constants();
 	private AccounterConstants financeConstants = GWT
 			.create(AccounterConstants.class);
 
@@ -53,10 +52,9 @@ public class SalesQuoteListDialog extends BaseDialog {
 		mainLayout.add(infoLabel);
 
 		grid = new DialogGrid(false);
-		grid.addColumns(customerConstants.date(), customerConstants.no(),
-				customerConstants.type(),
-				Accounter.messages().customerName(Global.get().Customer()),
-				customerConstants.total());
+		grid.addColumns(constants.date(), constants.no(), constants.type(),
+				messages.customerName(Global.get().Customer()),
+				constants.total());
 		// grid.setWidth("100%");
 		grid.setCellsWidth(70, 30, 60, -1, 60);
 		grid.setView(this);
@@ -195,7 +193,6 @@ public class SalesQuoteListDialog extends BaseDialog {
 	public void setFocus() {
 		// cancelBtn.setFocus(true);
 	}
-
 
 	// setTitle(customerConstants.createForm());
 

@@ -36,32 +36,25 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 
 	@Override
 	public void init() {
-		// super.init();
-
 		initDefaultIndiaAccounts();
 	}
 
 	private void initDefaultIndiaAccounts() {
+		initDefaultUSAccounts();
+		createDefaultTDSTaxItemAndTaxAgency();
+	}
+
+	public void initDefaultUSAccounts() {
+
+		createAccount(Account.TYPE_OTHER_CURRENT_LIABILITY,
+				AccounterServerConstants.TDS_TAX_PAYABLE,
+				Account.CASH_FLOW_CATEGORY_OPERATING);
+
+	}
+
+	public void createDefaultTDSTaxItemAndTaxAgency() {
+
 		Session session = HibernateUtil.getCurrentSession();
-		initDefaultUSAccounts(session);
-		createDefaultTDSTaxItemAndTaxAgency(session);
-	}
-
-	public void initDefaultUSAccounts(Session session) {
-
-		Account tdsTaxPayable = new Account(Account.TYPE_TDS_PAYABLE, "2050",
-				"TDS Tax Payable", true, null,
-				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
-				null, true, true, openingBalancesAccount, "5", true,
-				this.preferences.getPreventPostingBeforeDate());
-
-		session.save(tdsTaxPayable);
-
-	}
-
-	public void createDefaultTDSTaxItemAndTaxAgency(Session session) {
-
-		// TODO create accounts
 
 		TAXAgency defaultTDSAgency = new TAXAgency();
 		defaultTDSAgency.setActive(Boolean.TRUE);
@@ -172,7 +165,6 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 
 	@Override
 	String getDateFormat() {
-
 		return AccounterServerConstants.ddMMyyyy;
 	}
 }

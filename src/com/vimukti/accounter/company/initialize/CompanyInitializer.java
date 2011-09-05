@@ -28,14 +28,6 @@ public abstract class CompanyInitializer {
 
 	protected Company company;
 
-	// protected Account expense;
-	//
-	// protected Account income;
-	//
-	// protected Account liability;
-	//
-	// protected Account assets;
-
 	/**
 	 * Each company have it's own preferences. This will hold all the
 	 * preferences related to the company.
@@ -43,50 +35,6 @@ public abstract class CompanyInitializer {
 	 * @see Company
 	 */
 	protected CompanyPreferences preferences;
-
-	/**
-	 * This is the direct references to the Accounts Receivable Account for the
-	 * purpose of the Transactions.
-	 */
-	Account accountsReceivableAccount;
-	/**
-	 * This is the direct references to the Accounts Payable Account for the
-	 * purpose of the Transactions.
-	 */
-	Account accountsPayableAccount;
-	/**
-	 * This is the direct references to the Opening Balances Account for the
-	 * purpose of the Transactions.
-	 */
-	Account openingBalancesAccount;
-	/**
-	 * This is the direct references to the Retained Earnings Account for the
-	 * purpose of the Transactions.
-	 */
-	Account retainedEarningsAccount;
-	/**
-	 * This is the direct references to the Other Cash Income Account for the
-	 * purpose of the Cash Basis Journal Entry.
-	 */
-	Account otherCashIncomeAccount;
-
-	/**
-	 * This is the direct references to the Other Cash Expense Account for the
-	 * purpose of the Cash Basis Journal Entry.
-	 */
-	Account otherCashExpenseAccount;
-
-	/**
-	 * This is the direct references to Cash Discounts Given to track the
-	 * discounts given.
-	 */
-	Account cashDiscountsGiven;
-
-	/**
-	 * This is the direct references to Cash Discounts Given to track the
-	 * discounts taken.
-	 */
-	Account cashDiscountsTaken;
 
 	private HashMap<Integer, Integer> accountNoMap = new HashMap<Integer, Integer>();
 
@@ -117,7 +65,9 @@ public abstract class CompanyInitializer {
 
 		// TODO Add All Accounts To Company
 
-		openingBalancesAccount = createAccount(Account.TYPE_EQUITY,
+		// This is the direct references to the Opening Balances Account for the
+		// purpose of the Transactions.
+		Account openingBalancesAccount = createAccount(Account.TYPE_EQUITY,
 				AccounterServerConstants.OPENING_BALANCE,
 				Account.CASH_FLOW_CATEGORY_FINANCING);
 
@@ -321,7 +271,9 @@ public abstract class CompanyInitializer {
 
 		// Opening is done
 
-		this.retainedEarningsAccount = createAccount(Account.TYPE_EQUITY,
+		// This is the direct references to the Retained Earnings Account for
+		// the purpose of the Transactions.
+		createAccount(Account.TYPE_EQUITY,
 				AccounterServerConstants.RESERVES_RETAINED_EARNINGS,
 				Account.CASH_FLOW_CATEGORY_FINANCING);
 
@@ -371,10 +323,20 @@ public abstract class CompanyInitializer {
 		// AccounterServerConstants.CARRIAGE,
 		// Account.CASH_FLOW_CATEGORY_OPERATING);
 
-		cashDiscountsTaken = createAccount(Account.TYPE_COST_OF_GOODS_SOLD,
+		// This is the direct references to Cash Discounts Given to track the
+		// discounts taken.
+		Account cashDiscountsTaken = createAccount(
+				Account.TYPE_COST_OF_GOODS_SOLD,
 				AccounterServerConstants.CASH_DISCOUNT_TAKEN,
 				Account.CASH_FLOW_CATEGORY_OPERATING);
-		company.setCashDiscountsTaken(this.cashDiscountsTaken);
+		company.setCashDiscountsTaken(cashDiscountsTaken);
+
+		// This is the direct references to the Other Cash Expense Account for
+		// the purpose of the Cash Basis Journal Entry.
+		createAccount(Account.TYPE_EXPENSE,
+				AccounterServerConstants.OTHER_CASH_EXPENSE,
+				Account.CASH_FLOW_CATEGORY_FINANCING);
+
 		//
 		// createAccount(Account.TYPE_COST_OF_GOODS_SOLD,
 		// AccounterServerConstants.IMPORT_DUTY,
@@ -702,10 +664,18 @@ public abstract class CompanyInitializer {
 		// AccounterServerConstants.DISTRIBUTION_AND_CARRIAGE,
 		// Account.CASH_FLOW_CATEGORY_OPERATING);
 
-		cashDiscountsGiven = createAccount(Account.TYPE_INCOME,
+		// This is the direct references to Cash Discounts Given to track the
+		// discounts given.
+		Account cashDiscountsGiven = createAccount(Account.TYPE_INCOME,
 				AccounterServerConstants.CASH_DISCOUNT_GIVEN,
 				Account.CASH_FLOW_CATEGORY_OPERATING);
 		company.setCashDiscountsGiven(cashDiscountsGiven);
+
+		// This is the direct references to the Other Cash Income Account for
+		// the purpose of the Cash Basis Journal Entry.
+		createAccount(Account.TYPE_INCOME,
+				AccounterServerConstants.OTHER_CASH_INCOME,
+				Account.CASH_FLOW_CATEGORY_FINANCING);
 
 		// createAccount(Account.TYPE_INCOME,
 		// AccounterServerConstants.COMMISSION_RECIEVED,
@@ -738,8 +708,10 @@ public abstract class CompanyInitializer {
 
 	public void initializeDefaultAssetsAccounts() {
 
+		// This is the direct references to the Accounts Receivable Account for
+		// the purpose of the Transactions.
 		// Current Accounts
-		accountsReceivableAccount = createAccount(
+		Account accountsReceivableAccount = createAccount(
 				Account.TYPE_OTHER_CURRENT_ASSET,
 				AccounterServerConstants.ACCOUNTS_RECEIVABLE,
 				Account.CASH_FLOW_CATEGORY_OPERATING);
@@ -928,11 +900,21 @@ public abstract class CompanyInitializer {
 		// Current Liabilities
 		// TODO Remaining 16
 
-		accountsPayableAccount = createAccount(
+		// This is the direct references to the Accounts Payable Account for the
+		// purpose of the Transactions.
+		Account accountsPayableAccount = createAccount(
 				Account.TYPE_OTHER_CURRENT_LIABILITY,
 				AccounterServerConstants.ACCOUNTS_PAYABLE,
 				Account.CASH_FLOW_CATEGORY_OPERATING);
 		company.setAccountsPayableAccount(accountsPayableAccount);
+
+		createAccount(Account.TYPE_OTHER_CURRENT_LIABILITY,
+				AccounterServerConstants.PENDING_ITEM_RECEIPTS,
+				Account.CASH_FLOW_CATEGORY_OPERATING);
+
+		createAccount(Account.TYPE_LONG_TERM_LIABILITY,
+				AccounterServerConstants.DEFERRED_TAX,
+				Account.CASH_FLOW_CATEGORY_FINANCING);
 
 		// createAccount(Account.TYPE_OTHER_CURRENT_LIABILITY,
 		// AccounterServerConstants.CREDIT_CARDS,
