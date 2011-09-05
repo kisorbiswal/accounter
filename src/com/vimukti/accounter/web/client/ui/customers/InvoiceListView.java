@@ -7,6 +7,7 @@ import java.util.Vector;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
@@ -40,6 +41,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 	protected ClientFinanceDate startDate;
 	protected ClientFinanceDate endDate;
 	public String viewType;
+	private ClientBrandingTheme brandingTheme;
 
 	public InvoiceListView() {
 		isDeleteDisable = true;
@@ -546,7 +548,21 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 			showDialogBox(errorMessage);
 		} else {
 			if (!isWriteCheck_cashsale) {
-				ActionFactory.getBrandingThemeComboAction().run(listOfInvoices);
+
+				ArrayList<ClientBrandingTheme> themesList = Accounter
+						.getCompany().getBrandingTheme();
+				if (themesList.size() > 1) {
+					// if there are more than one branding themes, then show
+					// branding
+					// theme dialog box
+					ActionFactory.getBrandingThemeComboAction().run(
+							listOfInvoices);
+				} else {
+					// else print directly
+					brandingTheme = themesList.get(0);
+					printDocument();
+				}
+
 			} else {
 				// if other reports are selected cash sale or write check
 				showDialogBox(cashsalemsg);
@@ -584,4 +600,51 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 
 		return false;
 	}
+	/**
+	 * used to print the documents based on the selected multiple objects
+	 */
+	public void printDocument() {
+
+		// for printing multiple documents
+		StringBuffer ids = new StringBuffer();
+
+		for (int i = 0; i < listOfInvoices.size(); i++) {
+			InvoicesList invoice = listOfInvoices.get(i);
+
+			if (invoice.isPrint()) {
+
+				String id = String.valueOf(invoice.getTransactionId());
+
+				ids = ids.append(id + ",");
+
+			}
+		}
+
+		String[] arrayIds = ids.toString().split(",");
+		int type = 0;
+		for (int i = 0; i < listOfInvoices.size(); i++) {
+			InvoicesList invoicesList = listOfInvoices.get(i);
+			if (invoicesList.isPrint()) {
+				if (Integer.parseInt(arrayIds[0]) == invoicesList
+						.getTransactionId()) {
+
+					type = invoicesList.getType();
+				}
+			}
+
+		}
+
+		if (type == ClientTransaction.TYPE_INVOICE) {
+			UIUtils.downloadMultipleAttachment(ids.toString(),
+					ClientTransaction.TYPE_INVOICE, brandingTheme.getID());
+
+		} else if (type == ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO) {
+			UIUtils.downloadMultipleAttachment(ids.toString(),
+					ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO,
+					brandingTheme.getID());
+
+		}
+
+	}
+
 }
