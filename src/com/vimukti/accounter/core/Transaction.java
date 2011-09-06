@@ -220,6 +220,8 @@ public abstract class Transaction extends CreatableObject implements
 	boolean amountsIncludeVAT;
 	transient protected boolean isOnSaveProccessed;
 	private boolean isDeleted;
+	
+	private AccounterClass accounterClass;
 
 	public String getPaymentMethod() {
 		return paymentMethod;
@@ -1163,11 +1165,21 @@ public abstract class Transaction extends CreatableObject implements
 		return clone;
 	}
 
+	public void resetID() {
+		id = 0;
+	}
+
+	public AccounterClass getAccounterClass() {
+		return accounterClass;
+	}
+
+	public void setAccounterClass(AccounterClass accounterClass) {
+		this.accounterClass = accounterClass;
+	}
+
+
 	public void setLocation(Location location) {
 		this.location = location;
 	}
 
-	public void resetID() {
-		id = 0;
-	}
 }
