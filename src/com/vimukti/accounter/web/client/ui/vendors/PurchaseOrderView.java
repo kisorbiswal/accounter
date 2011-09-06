@@ -343,11 +343,11 @@ public class PurchaseOrderView extends
 		dateform.setNumCols(2);
 		dateform.setItems(dueDateItem, despatchDateItem, deliveryDateItem);
 
-		// if (getPreferences().isClassTrackingEnabled()
-		// && getPreferences().isClassOnePerTransaction()) {
-		// classListCombo = createAccounterClassListCombo();
-		// dateform.setFields(classListCombo);
-		// }
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
+			classListCombo = createAccounterClassListCombo();
+			dateform.setFields(classListCombo);
+		}
 
 		termsForm = new DynamicForm();
 		termsForm.setWidth("100%");

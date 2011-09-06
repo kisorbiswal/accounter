@@ -150,6 +150,13 @@ public class NewVendorPaymentView extends
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
 		if (locationTrackingEnabled)
 			dateNoForm.setFields(locationCombo);
+
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
+			classListCombo = createAccounterClassListCombo();
+			dateNoForm.setFields(classListCombo);
+		}
+
 		VerticalPanel datepanel = new VerticalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);

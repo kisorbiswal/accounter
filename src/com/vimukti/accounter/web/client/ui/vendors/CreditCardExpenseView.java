@@ -303,11 +303,11 @@ public class CreditCardExpenseView extends
 		if (locationTrackingEnabled)
 			dateNoForm.setFields(locationCombo);
 
-		// if (getPreferences().isClassTrackingEnabled()
-		// && getPreferences().isClassOnePerTransaction()) {
-		// classListCombo = createAccounterClassListCombo();
-		// dateNoForm.setFields(classListCombo);
-		// }
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
+			classListCombo = createAccounterClassListCombo();
+			dateNoForm.setFields(classListCombo);
+		}
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 

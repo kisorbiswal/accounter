@@ -24,6 +24,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.PayBillTransactionList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -53,8 +54,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	AmountField endBalText;
 	DateField date;
 	DateField dueDate;
-	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
-			.constants();
+	AccounterConstants accounterConstants = Accounter.constants();
 	protected String vendorPaymentMethod;
 	private TransactionPayBillGrid grid;
 	protected AmountField cashDiscountTextItem;
@@ -213,7 +213,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		transaction.setTransactionPayBill(transactionPayBill);
 
 		transaction.setUnUsedCredits(this.unUsedCreditsText.getAmount());
-
 	}
 
 	private void initListGrid() {
@@ -481,6 +480,11 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		balForm.setIsGroup(true);
 		balForm.setGroupTitle(Accounter.constants().balances());
 		balForm.setFields(amtText, endBalText);
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
+			classListCombo = createAccounterClassListCombo();
+			balForm.setFields(classListCombo);
+		}
 
 		Label lab1 = new Label(Accounter.constants().billsDue());
 

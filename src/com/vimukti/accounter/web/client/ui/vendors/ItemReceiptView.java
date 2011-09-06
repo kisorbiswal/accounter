@@ -146,11 +146,11 @@ public class ItemReceiptView extends
 		termsForm.setWidth("100%");
 		termsForm.setFields(payTermsSelect, deliveryDateItem);
 
-		// if (getPreferences().isClassTrackingEnabled()
-		// && getPreferences().isClassOnePerTransaction()) {
-		// classListCombo = createAccounterClassListCombo();
-		// termsForm.setFields(classListCombo);
-		// }
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
+			classListCombo = createAccounterClassListCombo();
+			termsForm.setFields(classListCombo);
+		}
 
 		netAmount = new AmountLabel("Net Amount");
 		netAmount.setDefaultValue("£0.00");

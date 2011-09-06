@@ -182,6 +182,13 @@ public class CashPurchaseView extends
 		termsForm.setWidth("100%");
 		termsForm.setFields(paymentMethodCombo, payFromCombo, checkNo,
 				deliveryDateItem);
+
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
+			classListCombo = createAccounterClassListCombo();
+			termsForm.setFields(classListCombo);
+		}
+
 		termsForm.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.constants().width(), "203px");
 

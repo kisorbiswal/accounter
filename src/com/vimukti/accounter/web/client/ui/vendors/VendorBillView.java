@@ -396,11 +396,11 @@ public class VendorBillView extends
 		// billToCombo
 				);
 
-		// if (getPreferences().isClassTrackingEnabled()
-		// && getPreferences().isClassOnePerTransaction()) {
-		// classListCombo = createAccounterClassListCombo();
-		// vendorForm.setFields(classListCombo);
-		// }
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
+			classListCombo = createAccounterClassListCombo();
+			vendorForm.setFields(classListCombo);
+		}
 
 		// formItems.add(vendorCombo);
 		// formItems.add(contactCombo);

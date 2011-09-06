@@ -24,8 +24,7 @@ public class CashExpenseView extends CashPurchaseView {
 	// private ClientAccount pettycash;
 	protected List<String> selectedComboList;
 	// AccountCombo petycash;
-	AccounterConstants accounterConstants = Accounter
-			.constants();
+	AccounterConstants accounterConstants = Accounter.constants();
 
 	public CashExpenseView() {
 		super(ClientTransaction.TYPE_CASH_EXPENSE);
@@ -76,6 +75,13 @@ public class CashExpenseView extends CashPurchaseView {
 
 		// payFromCombo.setComboItem(pettycash);
 		termsForm.setFields(paymentMethodCombo, payFromCombo, checkNo);
+
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
+			classListCombo = createAccounterClassListCombo();
+			termsForm.setFields(classListCombo);
+		}
+
 		VerticalPanel vPanel = (VerticalPanel) termsForm.getParent();
 		termsForm.removeFromParent();
 		vPanel.add(termsForm);
