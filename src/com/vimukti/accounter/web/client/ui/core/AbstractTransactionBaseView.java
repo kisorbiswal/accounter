@@ -1055,7 +1055,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				transaction.setLocation(location.getID());
 
 			if (getPreferences().isClassTrackingEnabled()
-					&& getPreferences().isClassOnePerTransaction()
 					&& clientAccounterClass != null) {
 				transaction.setAccounterClass(clientAccounterClass);
 			}
@@ -1350,9 +1349,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 									public void onSuccess(Long result) {
 										accounterClass.setID(result);
 										classSelected(accounterClass);
-										getCompany()
-												.getAccounterClasses()
-												.add(accounterClass);
+										getCompany().getAccounterClasses().add(
+												accounterClass);
 									}
 
 									@Override
