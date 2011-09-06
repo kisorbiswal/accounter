@@ -644,6 +644,10 @@ public class MainFinanceWindow extends VerticalPanel {
 				.addItem(ActionFactory.getItemGroupListAction());
 		manageSupportListMenuBar.addItem(ActionFactory
 				.getCreditRatingListAction());
+		if (getCompany().getPreferences().isClassTrackingEnabled()) {
+			manageSupportListMenuBar.addItem(ActionFactory
+					.getAccounterClassGroupListAction());
+		}
 		// manageSupportListMenuBar.addItem(ActionFactory.getCountryRegionListAction());
 		// manageSupportListMenuBar.addItem(ActionFactory
 		// .getFormLayoutsListAction());
@@ -872,6 +876,9 @@ public class MainFinanceWindow extends VerticalPanel {
 				ActionFactory.getPriceLevelListAction());
 		actions.put(ActionFactory.getItemGroupListAction().getHistoryToken(),
 				ActionFactory.getItemGroupListAction());
+		actions.put(ActionFactory.getAccounterClassGroupListAction()
+				.getHistoryToken(), ActionFactory
+				.getAccounterClassGroupListAction());
 		actions.put(
 				ActionFactory.getCreditRatingListAction().getHistoryToken(),
 				ActionFactory.getCreditRatingListAction());

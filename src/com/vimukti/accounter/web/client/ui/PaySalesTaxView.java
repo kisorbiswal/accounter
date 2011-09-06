@@ -265,7 +265,6 @@ public class PaySalesTaxView extends
 		transaction.setEndingBalance(endingBalance);
 
 		transaction.setTransactionPaySalesTax(getTransactionPatSalesTaxList());
-
 	}
 
 	private List<ClientTransactionPaySalesTax> getTransactionPatSalesTaxList() {
@@ -371,6 +370,11 @@ public class PaySalesTaxView extends
 		balForm = UIUtils.form(Accounter.constants().balances());
 		balForm.setFields(amountText, endingBalanceText);
 		balForm.getCellFormatter().setWidth(0, 0, "222px");
+
+		if (getPreferences().isClassTrackingEnabled()) {
+			classListCombo = createAccounterClassListCombo();
+			balForm.setFields(classListCombo);
+		}
 
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");

@@ -90,6 +90,11 @@ public class VATPaymentView extends
 		// dateNoForm.setLayoutAlign(Alignment.RIGHT);
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
 
+		if (getPreferences().isClassTrackingEnabled()) {
+			classListCombo = createAccounterClassListCombo();
+			dateNoForm.setFields(classListCombo);
+		}
+
 		vatAgency = new TextItem(Accounter.constants().vatAgency());
 		// vatAgency.setWidth("*");
 		vatAgency.setDisabled(true);

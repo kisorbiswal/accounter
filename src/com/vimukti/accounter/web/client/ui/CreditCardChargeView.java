@@ -468,6 +468,12 @@ public class CreditCardChargeView extends
 		termsForm = UIUtils.form(Accounter.constants().terms());
 		termsForm.setWidth("100%");
 		termsForm.setFields(payMethSelect, payFrmSelect, delivDate);
+		
+		if (getPreferences().isClassTrackingEnabled()) {
+			classListCombo = createAccounterClassListCombo();
+			termsForm.setFields(classListCombo);
+		}
+		
 		termsForm.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.constants().width(), "203px");
 
@@ -739,7 +745,6 @@ public class CreditCardChargeView extends
 		transaction.setMemo(getMemoTextAreaItem());
 		// setting ref
 		// creditCardCharge.setReference(UIUtils.toStr(refText.getValue()));
-
 	}
 
 	public void createAlterObject() {

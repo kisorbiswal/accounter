@@ -1094,6 +1094,10 @@ public class HorizontalMenuBar extends HorizontalPanel {
 				.addItem(ActionFactory.getItemGroupListAction());
 		manageSupportListMenuBar.addItem(ActionFactory
 				.getCreditRatingListAction());
+		if (getPreferences().isClassTrackingEnabled()) {
+			manageSupportListMenuBar.addItem(ActionFactory
+					.getAccounterClassGroupListAction());
+		}
 		// manageSupportListMenuBar.addItem(ActionFactory.getCountryRegionListAction());
 		// manageSupportListMenuBar.addItem(ActionFactory
 		// .getFormLayoutsListAction());
