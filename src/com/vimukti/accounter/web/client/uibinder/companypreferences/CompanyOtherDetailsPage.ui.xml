@@ -6,8 +6,29 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:HTMLPanel>
-		Hello,
-		<g:Button styleName="{style.important}" ui:field="button" />
-	</g:HTMLPanel>
+	<g:VerticalPanel>
+		<g:VerticalPanel spacing="6">
+			<g:HorizontalPanel spacing="10">
+				<g:Label horizontalAlignment="ALIGN_LEFT" ui:field="contactDetailLabel"/>
+			</g:HorizontalPanel>
+			<g:VerticalPanel spacing="4">
+				<g:HorizontalPanel spacing="6">
+					<g:Label ui:field="phoneTextBoxLabel"/>
+					<g:TextBox ui:field="phoneTextBox"/>
+				</g:HorizontalPanel>
+				<g:HorizontalPanel spacing="6">
+					<g:Label ui:field="emailFieldBoxLabel"/>
+					<g:TextBox ui:field="emailFieldBox"/>
+				</g:HorizontalPanel>
+				<g:HorizontalPanel spacing="6">
+					<g:Label ui:field="faxTextBoxLabel"/>
+					<g:TextBox ui:field="faxTextBox"/>
+				</g:HorizontalPanel>
+				<g:HorizontalPanel spacing="6">
+					<g:Label ui:field="webTextBoxLabel"/>
+					<g:TextBox ui:field="webTextBox"/>
+				</g:HorizontalPanel>
+			</g:VerticalPanel>
+		</g:VerticalPanel>
+	</g:VerticalPanel>
 </ui:UiBinder> 
