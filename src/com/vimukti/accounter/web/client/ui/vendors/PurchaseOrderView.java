@@ -48,12 +48,12 @@ import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.edittable.VendorTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
-import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.grids.PurchaseOrderGrid;
 
 public class PurchaseOrderView extends
@@ -92,7 +92,7 @@ public class PurchaseOrderView extends
 	private DateField despatchDateItem;
 	AccounterConstants accounterConstants = Accounter.constants();
 	private boolean locationTrackingEnabled;
-	private PurchaseOrderGrid vendorTransactionGrid;
+	private VendorTransactionTable vendorTransactionTable;
 
 	public PurchaseOrderView() {
 		super(ClientTransaction.TYPE_PURCHASE_ORDER);
@@ -345,6 +345,12 @@ public class PurchaseOrderView extends
 		dateform.setNumCols(2);
 		dateform.setItems(dueDateItem, despatchDateItem, deliveryDateItem);
 
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
+			classListCombo = createAccounterClassListCombo();
+			dateform.setFields(classListCombo);
+		}
+
 		termsForm = new DynamicForm();
 		termsForm.setWidth("100%");
 		termsForm.setFields(transactionNumber, purchaseOrderText,
@@ -361,13 +367,9 @@ public class PurchaseOrderView extends
 		// formItems.add(deliveryDateItem);
 
 		// Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
-		vendorTransactionGrid = new PurchaseOrderGrid();
-		vendorTransactionGrid.setTransactionView(this);
-		vendorTransactionGrid.setCanEdit(true);
-		vendorTransactionGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
-		vendorTransactionGrid.isEnable = false;
-		vendorTransactionGrid.init();
-		vendorTransactionGrid.setDisabled(isInViewMode());
+		vendorTransactionTable = new VendorTransactionTable() {
+		};
+		vendorTransactionTable.setDisabled(isInViewMode());
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
 		// refText = createRefereceText();
@@ -445,7 +447,7 @@ public class PurchaseOrderView extends
 		mainVLay.add(topHLay);
 		// mainVLay.add(lab2);
 
-		mainVLay.add(vendorTransactionGrid);
+		mainVLay.add(vendorTransactionTable);
 		// mainVLay.add(menuButton);
 		mainVLay.add(bottomLayout);
 
@@ -677,8 +679,6 @@ public class PurchaseOrderView extends
 			memoTextAreaItem.setValue(transaction.getMemo());
 			memoTextAreaItem.setDisabled(isInViewMode());
 			// refText.setValue(purchaseOrderToBeEdited.getReference());
-			vendorTransactionGrid.setCanEdit(false);
-
 			int status = transaction.getStatus();
 			switch (status) {
 			case ClientTransaction.STATUS_OPEN:
@@ -823,13 +823,13 @@ public class PurchaseOrderView extends
 
 	@Override
 	public void updateNonEditableItems() {
-		transactionTotalNonEditableText.setAmount(vendorTransactionGrid
+		transactionTotalNonEditableText.setAmount(vendorTransactionTable
 				.getTotal());
-		netAmount.setAmount(vendorTransactionGrid.getGrandTotal());
+		netAmount.setAmount(vendorTransactionTable.getGrandTotal());
 		// vatTotalNonEditableText.setValue(vendorTransactionGrid.getVatTotal());
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			vatTotalNonEditableText.setAmount(vendorTransactionGrid.getTotal()
-					- vendorTransactionGrid.getGrandTotal());
+			vatTotalNonEditableText.setAmount(vendorTransactionTable.getTotal()
+					- vendorTransactionTable.getGrandTotal());
 		}
 
 	}
@@ -894,10 +894,9 @@ public class PurchaseOrderView extends
 					.getDate()));
 
 		transaction.setMemo(getMemoTextAreaItem());
-		transaction.setNetAmount(vendorTransactionGrid.getGrandTotal());
-		transaction.setTotal(vendorTransactionGrid.getTotal());
+		transaction.setNetAmount(vendorTransactionTable.getGrandTotal());
+		transaction.setTotal(vendorTransactionTable.getTotal());
 		// transaction.setReference(getRefText());
-
 	}
 
 	@Override
@@ -1061,11 +1060,11 @@ public class PurchaseOrderView extends
 
 		result.add(vendorForm.validate());
 
-		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
-			result.addError(vendorTransactionGrid,
+		if (vendorTransactionTable.getAllRows().isEmpty()) {
+			result.addError(vendorTransactionTable,
 					accounterConstants.blankTransaction());
 		} else
-			result.add(vendorTransactionGrid.validateGrid());
+			result.add(vendorTransactionTable.validateGrid());
 
 		// if (getCompany().getAccountingType() !=
 		// ClientCompany.ACCOUNTING_TYPE_UK
@@ -1131,8 +1130,7 @@ public class PurchaseOrderView extends
 		dueDateItem.setDisabled(isInViewMode());
 		despatchDateItem.setDisabled(isInViewMode());
 
-		vendorTransactionGrid.setDisabled(isInViewMode());
-		vendorTransactionGrid.setCanEdit(true);
+		vendorTransactionTable.setDisabled(isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
@@ -1164,7 +1162,7 @@ public class PurchaseOrderView extends
 		this.taxCode = taxCode;
 		if (taxCode != null) {
 			taxCodeSelect.setComboItem(taxCode);
-			vendorTransactionGrid.setTaxCode(taxCode.getID());
+			vendorTransactionTable.setTaxCode(taxCode.getID());
 		} else
 			taxCodeSelect.setValue("");
 		// updateNonEditableItems();
@@ -1173,22 +1171,21 @@ public class PurchaseOrderView extends
 	@Override
 	protected void addAllRecordToGrid(
 			List<ClientTransactionItem> transactionItems) {
-		vendorTransactionGrid.addRecords(transactionItems);
+		vendorTransactionTable.addRecords(transactionItems);
 	}
 
 	@Override
 	protected void removeAllRecordsFromGrid() {
-		vendorTransactionGrid.removeAllRecords();
+		vendorTransactionTable.removeAllRecords();
 	}
 
 	@Override
 	protected void addNewData(ClientTransactionItem transactionItem) {
-		vendorTransactionGrid.addData(transactionItem);
+		vendorTransactionTable.add(transactionItem);
 
 	}
 
 	@Override
 	protected void refreshTransactionGrid() {
-		vendorTransactionGrid.refreshAllRecords();
 	}
 }
