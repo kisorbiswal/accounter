@@ -178,6 +178,8 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	TAXCode taxCode;
 	// TAXItem vatItem;
 	private boolean isOnSaveProccessed;
+		
+	private AccounterClass accounterClass;
 
 	public TransactionItem() {
 
@@ -826,6 +828,14 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	public void setVersion(int version) {
 		this.version = version;
 		
+	}
+
+	public AccounterClass getAccounterClass() {
+		return accounterClass;
+	}
+
+	public void setAccounterClass(AccounterClass accounterClass) {
+		this.accounterClass = accounterClass;
 	}
 
 }
