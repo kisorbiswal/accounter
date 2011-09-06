@@ -2741,6 +2741,20 @@
 		WHERE IG.ID = :inputId
 		LIMIT 1
 	</sql-query>
+	<sql-query name="canDeleteAccounterClass">
+		<query-param name="inputId" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long"/>
+		<return-scalar column="TRANSACTION_ITEM_ID" type="long"/>
+		SELECT TRANS.ID AS TRANSACTION_ID,
+		TRANS_ITEM.ID AS TRANSACTION_ITEM_ID
+		FROM ACCOUNTER_CLASS AC
+		LEFT OUTER JOIN TRANSACTION TRANS
+		ON TRANS.TRANSACTION_ACCOUNTER_CLASS=:inputId
+		LEFT OUTER JOIN TRANSACTION_ITEM TRANS_ITEM
+		ON TRANS_ITEM.TRANS_ITEM_ACCOUNTER_CLASS=:inputId
+		WHERE AC.ID=:inputId
+		LIMIT 1
+	</sql-query>
 
 
 	<sql-query name="canDeleteSalesPerson">
