@@ -15,12 +15,15 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientBudget;
+import com.vimukti.accounter.web.client.core.ClientBudgetItem;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.BudgetListView;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.company.JournalEntryListView;
@@ -78,7 +81,6 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 	@Override
 	public void init() {
-
 		createControls();
 	}
 
@@ -125,52 +127,55 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		hlay.setWidth("100%");
 
 		viewSelect = getSelectItem();
-		/*
-		 * if (this instanceof BudgetListView) { if (viewSelect == null) {
-		 * viewSelect = new SelectCombo(Accounter.constants() .currentBudget());
-		 * viewSelect.setHelpInformation(true); viewSelect.setWidth("150px");
-		 * List<String> typeList = new ArrayList<String>();
-		 * typeList.add(Accounter.constants().active());
-		 * typeList.add(Accounter.constants().inActive());
-		 * viewSelect.initCombo(typeList);
-		 * viewSelect.setComboItem(Accounter.constants().active()); viewSelect
-		 * .addSelectionChangeHandler(new
-		 * IAccounterComboSelectionChangeHandler<String>() {
-		 * 
-		 * @Override public void selectedComboBoxItem(String selectItem) { if
-		 * (viewSelect.getSelectedValue() != null) { if
-		 * (viewSelect.getSelectedValue() .toString()
-		 * .equalsIgnoreCase("Active")) filterList(true); else
-		 * filterList(false); }
-		 * 
-		 * } }); } } else {
-		 */
-		if (viewSelect == null) {
-			viewSelect = new SelectCombo(Accounter.constants().currentView());
-			viewSelect.setHelpInformation(true);
-			viewSelect.setWidth("150px");
-			List<String> typeList = new ArrayList<String>();
-			typeList.add(Accounter.constants().active());
-			typeList.add(Accounter.constants().inActive());
-			viewSelect.initCombo(typeList);
-			viewSelect.setComboItem(Accounter.constants().active());
-			viewSelect
-					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+		if (this instanceof BudgetListView) {
+			if (viewSelect == null) {
+				viewSelect = new SelectCombo(Accounter.constants()
+						.currentBudget());
+				viewSelect.setHelpInformation(true);
+				viewSelect.setWidth("150px");
 
-						@Override
-						public void selectedComboBoxItem(String selectItem) {
-							if (viewSelect.getSelectedValue() != null) {
-								if (viewSelect.getSelectedValue().toString()
-										.equalsIgnoreCase("Active"))
-									filterList(true);
-								else
-									filterList(false);
+				viewSelect
+						.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+							@Override
+							public void selectedComboBoxItem(String selectItem) {
+								if (viewSelect.getSelectedValue() != null) {
+									changeBudgetGrid(viewSelect
+											.getSelectedIndex());
+								}
+
 							}
+						});
+			}
+		} else {
+			if (viewSelect == null) {
+				viewSelect = new SelectCombo(Accounter.constants()
+						.currentView());
+				viewSelect.setHelpInformation(true);
+				viewSelect.setWidth("150px");
+				List<String> typeList = new ArrayList<String>();
+				typeList.add(Accounter.constants().active());
+				typeList.add(Accounter.constants().inActive());
+				viewSelect.initCombo(typeList);
+				viewSelect.setComboItem(Accounter.constants().active());
+				viewSelect
+						.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
-						}
-					});
+							@Override
+							public void selectedComboBoxItem(String selectItem) {
+								if (viewSelect.getSelectedValue() != null) {
+									if (viewSelect.getSelectedValue()
+											.toString()
+											.equalsIgnoreCase("Active"))
+										filterList(true);
+									else
+										filterList(false);
+								}
+
+							}
+						});
+			}
 		}
-		// }
 
 		dateRangeSelector = getDateRangeSelectItem();
 
@@ -349,6 +354,9 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	protected void filterList(boolean isActive) {
 	}
 
+	protected void changeBudgetGrid(int numberSelected) {
+	}
+
 	protected abstract void initGrid();
 
 	protected HorizontalPanel getTotalLayout(BaseListGrid grid) {
@@ -439,9 +447,33 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		if (result != null) {
 			initialRecords = result;
 			this.records = result;
-			grid.setRecords(result);
+
+			if (this instanceof BudgetListView) {
+
+				List<String> typeList = new ArrayList<String>();
+				for (ClientBudget budget : (List<ClientBudget>) result) {
+					typeList.add(budget.getBudgetName());
+				}
+				if (typeList.size() < 1) {
+					typeList.add(Accounter.constants().emptyValue());
+				} else {
+					viewSelect.initCombo(typeList);
+				}
+				viewSelect.setSelectedItem(0);
+
+				ClientBudget budget = (ClientBudget) result.get(0);
+
+				List<ClientBudgetItem> budgetItems = new ArrayList<ClientBudgetItem>();
+				budgetItems = budget.getBudgetItem();
+
+				grid.setRecords(budgetItems);
+			} else {
+				grid.setRecords(result);
+			}
+
 			if (this instanceof CustomerListView
-					|| this instanceof VendorListView) {
+					|| this instanceof VendorListView
+					|| this instanceof BudgetListView) {
 				filterList(true);
 			}
 		} else {
