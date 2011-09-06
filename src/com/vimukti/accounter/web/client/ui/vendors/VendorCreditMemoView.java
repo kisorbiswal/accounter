@@ -25,11 +25,10 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.edittable.VendorTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.grids.ListGrid;
-import com.vimukti.accounter.web.client.ui.grids.VendorTransactionGrid;
 
 public class VendorCreditMemoView extends
 		AbstractVendorTransactionView<ClientVendorCreditMemo> {
@@ -37,7 +36,7 @@ public class VendorCreditMemoView extends
 	private ArrayList<DynamicForm> listforms;
 	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
 			.constants();
-	private VendorTransactionGrid vendorTransactionGrid;
+	private VendorTransactionTable vendorTransactionTable;
 	private boolean locationTrackingEnabled;
 
 	private VendorCreditMemoView() {
@@ -53,12 +52,12 @@ public class VendorCreditMemoView extends
 			ClientVendorCreditMemo ent = (ClientVendorCreditMemo) this.transaction;
 
 			if (ent != null && ent.getVendor() == vendor.getID()) {
-				this.vendorTransactionGrid.removeAllRecords();
-				this.vendorTransactionGrid
-						.setRecords(ent.getTransactionItems());
+				this.vendorTransactionTable.removeAllRecords();
+				this.vendorTransactionTable.setRecords(ent
+						.getTransactionItems());
 			} else if (ent != null && ent.getVendor() != vendor.getID()) {
-				this.vendorTransactionGrid.removeAllRecords();
-				this.vendorTransactionGrid.updateTotals();
+				this.vendorTransactionTable.removeAllRecords();
+				this.vendorTransactionTable.updateTotals();
 			}
 		}
 		if (vendor.getPhoneNo() != null)
@@ -67,10 +66,10 @@ public class VendorCreditMemoView extends
 			phoneSelect.setValue("");
 		super.vendorSelected(vendor);
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			for (ClientTransactionItem item : vendorTransactionGrid
+			for (ClientTransactionItem item : vendorTransactionTable
 					.getRecords()) {
 				if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT)
-					vendorTransactionGrid.setVendorTaxCode(item);
+					vendorTransactionTable.setVendorTaxCode(item);
 			}
 		}
 
@@ -98,7 +97,6 @@ public class VendorCreditMemoView extends
 			if (vatinclusiveCheck != null) {
 				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
 			}
-			vendorTransactionGrid.setCanEdit(false);
 		}
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
@@ -174,6 +172,12 @@ public class VendorCreditMemoView extends
 		DynamicForm phoneForm = UIUtils.form(Accounter.constants()
 				.phoneNumber());
 		phoneForm.setFields(phoneSelect);
+
+		// if (getPreferences().isClassTrackingEnabled()
+		// && getPreferences().isClassOnePerTransaction()) {
+		// classListCombo = createAccounterClassListCombo();
+		// phoneForm.setFields(classListCombo);
+		// }
 		if (this.isInViewMode()) {
 			// FiXME--The form need to be disabled
 			// phoneForm.setDisabled(true);
@@ -189,14 +193,11 @@ public class VendorCreditMemoView extends
 
 		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 		menuButton = createAddNewButton();
-		vendorTransactionGrid = new VendorTransactionGrid();
-		vendorTransactionGrid.setTransactionView(this);
-		vendorTransactionGrid.setCanEdit(true);
-		vendorTransactionGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
-		vendorTransactionGrid.isEnable = false;
-		vendorTransactionGrid.init();
-		vendorTransactionGrid.setDisabled(isInViewMode());
-		vendorTransactionGrid.getElement().getStyle().setMarginTop(10, Unit.PX);
+		vendorTransactionTable = new VendorTransactionTable() {
+		};
+		vendorTransactionTable.setDisabled(isInViewMode());
+		vendorTransactionTable.getElement().getStyle()
+				.setMarginTop(10, Unit.PX);
 
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
@@ -304,7 +305,7 @@ public class VendorCreditMemoView extends
 		mainVLay.add(topHLay1);
 		// mainVLay.add(lab2);
 
-		mainVLay.add(vendorTransactionGrid);
+		mainVLay.add(vendorTransactionTable);
 
 		mainVLay.add(bottomPanel);
 
@@ -367,7 +368,7 @@ public class VendorCreditMemoView extends
 			transaction.setPhone(phoneSelect.getValue().toString());
 
 		// Setting Total
-		transaction.setTotal(vendorTransactionGrid.getTotal());
+		transaction.setTotal(vendorTransactionTable.getTotal());
 
 		// Setting Memo
 		transaction.setMemo(getMemoTextAreaItem());
@@ -403,23 +404,23 @@ public class VendorCreditMemoView extends
 					accounterConstants.invalidateDate());
 		}
 		result.add(vendorForm.validate());
-		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
-			result.addError(vendorTransactionGrid,
+		if (vendorTransactionTable.getAllRows().isEmpty()) {
+			result.addError(vendorTransactionTable,
 					accounterConstants.blankTransaction());
 		} else
-			result.add(vendorTransactionGrid.validateGrid());
+			result.add(vendorTransactionTable.validateGrid());
 		return result;
 	}
 
 	@Override
 	public void updateNonEditableItems() {
 
-		transactionTotalNonEditableText.setAmount(vendorTransactionGrid
+		transactionTotalNonEditableText.setAmount(vendorTransactionTable
 				.getTotal());
-		netAmount.setAmount(vendorTransactionGrid.getGrandTotal());
+		netAmount.setAmount(vendorTransactionTable.getGrandTotal());
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			vatTotalNonEditableText.setAmount(vendorTransactionGrid.getTotal()
-					- vendorTransactionGrid.getGrandTotal());
+			vatTotalNonEditableText.setAmount(vendorTransactionTable.getTotal()
+					- vendorTransactionTable.getGrandTotal());
 		}
 	}
 
@@ -504,8 +505,7 @@ public class VendorCreditMemoView extends
 		transactionDateItem.setDisabled(isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
 		transactionNumber.setDisabled(isInViewMode());
-		vendorTransactionGrid.setDisabled(isInViewMode());
-		vendorTransactionGrid.setCanEdit(true);
+		vendorTransactionTable.setDisabled(isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 
@@ -546,22 +546,21 @@ public class VendorCreditMemoView extends
 	@Override
 	protected void addAllRecordToGrid(
 			List<ClientTransactionItem> transactionItems) {
-		vendorTransactionGrid.addRecords(transactionItems);
+		vendorTransactionTable.addRecords(transactionItems);
 	}
 
 	@Override
 	protected void removeAllRecordsFromGrid() {
-		vendorTransactionGrid.refreshAllRecords();
 	}
 
 	@Override
 	protected void addNewData(ClientTransactionItem transactionItem) {
-		vendorTransactionGrid.addData(transactionItem);
+		vendorTransactionTable.add(transactionItem);
 	}
 
 	@Override
 	protected void refreshTransactionGrid() {
-		vendorTransactionGrid.refreshAllRecords();
+		// vendorTransactionTable.refreshAllRecords();
 	}
 
 }
