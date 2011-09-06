@@ -18,14 +18,17 @@ public class CoreEvent<T> extends GwtEvent<CoreEventHandler<T>> {
 		obj = core;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public Type<CoreEventHandler<T>> getAssociatedType() {
+		return getType(obj.getClass());
+	}
+	@SuppressWarnings("unchecked")
+	public static <T> Type<CoreEventHandler<T>> getType(Class<?> cls) {
 		Type<CoreEventHandler<T>> type = (Type<CoreEventHandler<T>>) map
-				.get(obj.getClass());
+				.get(cls);
 		if (type == null) {
 			type = new Type<CoreEventHandler<T>>();
-			map.put(obj.getClass(), type);
+			map.put(cls, type);
 		}
 		return type;
 	}
