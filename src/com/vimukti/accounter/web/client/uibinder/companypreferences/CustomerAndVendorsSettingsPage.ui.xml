@@ -6,8 +6,41 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:HTMLPanel>
-		Hello,
-		<g:Button styleName="{style.important}" ui:field="button" />
-	</g:HTMLPanel>
+		<g:VerticalPanel>
+			<g:VerticalPanel>
+				<g:Label ui:field="chargeTaxLabelItem"/>
+				<g:HorizontalPanel>
+					<g:RadioButton name="chargeTaxRadioButton" ui:field="chargeTaxYesRadioButton"/>
+					<g:RadioButton name="chargeTaxRadioButton" ui:field="chargeTaxNoRadioButton"/>
+				</g:HorizontalPanel>
+			</g:VerticalPanel>
+			<g:VerticalPanel>
+				<g:Label ui:field="managingBillLabelItem"/>
+				<g:HorizontalPanel>
+					<g:RadioButton name="managingBillRadioButton" ui:field="managingBillYesRadioButton"/>
+					<g:RadioButton name="managingBillRadioButton" ui:field="managingBillNoRadioButton"/>
+				</g:HorizontalPanel>
+			</g:VerticalPanel>
+			<g:VerticalPanel>
+				<g:Label ui:field="createEstimatesLabelItem"/>
+				<g:HorizontalPanel>
+					<g:RadioButton name="createEstimatesRadioButton" ui:field="createEstimatesYesRadioButton"/>
+					<g:RadioButton name="createEstimatesRadioButton" ui:field="createEstimatesNoRadioButton"/>
+				</g:HorizontalPanel>
+			</g:VerticalPanel>
+			<g:VerticalPanel>
+				<g:Label ui:field="usingStatementsLabelItem"/>
+				<g:HorizontalPanel>
+					<g:RadioButton name="new nameusingStatementsRadioButton" ui:field="usingStatementsYesRadioButton"/>
+					<g:RadioButton name="new nameusingStatementsRadioButton" ui:field="usingStatementsNoRadioButton"/>
+				</g:HorizontalPanel>
+			</g:VerticalPanel>
+			<g:VerticalPanel>
+				<g:Label ui:field="billsLabel"/>
+				<g:HorizontalPanel>
+					<g:RadioButton name="billsRadioButton" ui:field="billsYesRadioButton"/>
+					<g:RadioButton name="billsRadioButton" ui:field="billsNoRadioButton"/>
+				</g:HorizontalPanel>
+			</g:VerticalPanel>
+		</g:VerticalPanel>
 </ui:UiBinder> 
