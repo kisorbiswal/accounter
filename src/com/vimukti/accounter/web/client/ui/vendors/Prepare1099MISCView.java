@@ -31,6 +31,8 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
@@ -160,12 +162,12 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		informationColumn
 				.setFieldUpdater(new FieldUpdater<Client1099Form, SafeHtml>() {
 
-			@Override
-			public void update(int index, Client1099Form object,
-					SafeHtml value) {
-				ActionFactory.getNewVendorAction().run(vendor, false);
-			}
-		});
+					@Override
+					public void update(int index, Client1099Form object,
+							SafeHtml value) {
+						ActionFactory.getNewVendorAction().run(vendor, false);
+					}
+				});
 
 		Column<Client1099Form, String> total1099PaymentsCell = new Column<Client1099Form, String>(
 				new ClickableTextCell()) {
@@ -251,18 +253,43 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				SelectVendorsTo1099Dialog selectVendorsTo1099Dialog = new SelectVendorsTo1099Dialog(
+				final SelectItemsTo1099Dialog<ClientVendor> selectVendorsTo1099Dialog = new SelectItemsTo1099Dialog<ClientVendor>(
 						Accounter.messages().vendorsSelected(
 								Global.get().Vendor()),
 						Accounter.messages().SelectVendorsToTrack1099(
 								Global.get().Vendor()));
+				ArrayList<ClientVendor> vendors = getCompany().getVendors();
+				ArrayList<ClientVendor> tempSelectedItemsList = new ArrayList<ClientVendor>();
+
+				tempSelectedItemsList.addAll(Utility.filteredList(
+						new ListFilter<ClientVendor>() {
+
+							@Override
+							public boolean filter(ClientVendor e) {
+								return e.isTrackPaymentsFor1099();
+							}
+						}, vendors));
 				selectVendorsTo1099Dialog
-						.setCallback(new ActionCallback<ArrayList<ClientVendor>>() {
+						.setSelectedItems(tempSelectedItemsList);
+
+				selectVendorsTo1099Dialog.setAvailableItems(getCompany()
+						.getVendors());
+
+				selectVendorsTo1099Dialog
+						.setCallBack(new ActionCallback<ArrayList<ClientVendor>>() {
 
 							@Override
 							public void actionResult(
 									ArrayList<ClientVendor> result) {
-								refreshView();
+								for (ClientVendor vendor : selectVendorsTo1099Dialog.tempSelectedItemsList) {
+									vendor.setTrackPaymentsFor1099(true);
+									saveOrUpdate(vendor);
+								}
+								for (ClientVendor vendor : selectVendorsTo1099Dialog.tempAvailItemsList) {
+									vendor.setTrackPaymentsFor1099(false);
+									saveOrUpdate(vendor);
+								}
+
 							}
 						});
 				selectVendorsTo1099Dialog.show();

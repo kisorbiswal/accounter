@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
@@ -14,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
@@ -28,6 +30,7 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 	private String[] strings;
 	private int[] boxNums = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 13, 14 };
 	private int rowCount = 0;
+	private ArrayList<BoxAccount> boxAccounts;
 
 	public AssignAccountsTo1099Dialog(String title, String desc) {
 		super(title, desc);
@@ -36,6 +39,7 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 				c.box4Label(), c.box5Label(), c.box6Label(), c.box7Label(),
 				c.box8Label(), c.box9Label(), c.box10Label(), c.box13Label(),
 				c.box14Label() };
+		boxAccounts = new ArrayList<AssignAccountsTo1099Dialog.BoxAccount>();
 		createControls();
 	}
 
@@ -66,7 +70,7 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 		center();
 	}
 
-	private void addRow(String string, int boxNo) {
+	private void addRow(String string, final int boxNo) {
 		final ArrayList<ClientAccount> activeAccounts = getCompany()
 				.getActiveAccounts();// getAccounts();
 		final CheckBox checkBox = new CheckBox();
@@ -79,6 +83,27 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 			}
 		};
 		accountCombo.setDisabled(true);
+
+		accountCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
+
+					@Override
+					public void selectedComboBoxItem(ClientAccount selectItem) {
+						BoxAccount account = null;
+						for (BoxAccount boxAccount : boxAccounts) {
+							if (boxAccount.boxNumber == boxNo) {
+								account = boxAccount;
+								break;
+							}
+						}
+						if (account == null) {
+							account = new BoxAccount();
+							account.boxNumber = boxNo;
+						}
+						account.accounts.add(accountCombo.getSelectedValue());
+					}
+				});
+
 		checkBox.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -101,10 +126,22 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 		accountCombo.setName("AccountsCombo");
 		accountsform.setFields(accountCombo);
 
+		Anchor anchor = new Anchor(Accounter.constants().selectMultiple());
+		anchor.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
 		flexTable.insertRow(rowCount);
 		flexTable.setWidget(rowCount, 0, checkBox);
 		flexTable.setWidget(rowCount, 1, label);
 		flexTable.setWidget(rowCount, 2, accountsform);
+		flexTable.setWidget(rowCount, 3, anchor);
+
 		rowCount++;
 	}
 
@@ -165,4 +202,9 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 		return true;
 	}
 
+	class BoxAccount {
+		int boxNumber;
+		boolean isMultiple;
+		ArrayList<ClientAccount> accounts = new ArrayList<ClientAccount>();
+	}
 }
