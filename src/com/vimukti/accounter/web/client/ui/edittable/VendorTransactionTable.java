@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ListFilter;
@@ -236,7 +237,7 @@ public abstract class VendorTransactionTable extends
 		update(selectedObject);
 	}
 
-	protected abstract Object getTransactionObject();
+	protected abstract ClientTransaction getTransactionObject();
 
 	protected abstract ClientVendor getSelectedVendor();
 
@@ -302,6 +303,11 @@ public abstract class VendorTransactionTable extends
 
 	public void setTaxCode(long id) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	public void setAllTransactionItems(
+			List<ClientTransactionItem> transactionItems) {
+		setAllRows(transactionItems);
 	}
 }
