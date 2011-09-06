@@ -6,14 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 
-public class DialogGrid extends ListGrid<IsSerializable> {
+public class DialogGrid<T extends IAccounterCore> extends ListGrid<T> {
 
 	protected BaseDialog view;
 	private String name;
@@ -66,7 +66,7 @@ public class DialogGrid extends ListGrid<IsSerializable> {
 	}
 
 	@Override
-	public void setRecords(List<IsSerializable> list) {
+	public void setRecords(List<T> list) {
 		super.setRecords(list);
 	}
 
@@ -111,7 +111,7 @@ public class DialogGrid extends ListGrid<IsSerializable> {
 	}
 
 	@Override
-	protected Object getColumnValue(IsSerializable obj, int index) {
+	protected Object getColumnValue(T obj, int index) {
 		return this.view.getGridColumnValue(obj, index);
 	}
 
@@ -121,19 +121,19 @@ public class DialogGrid extends ListGrid<IsSerializable> {
 	}
 
 	@Override
-	protected String[] getSelectValues(IsSerializable obj, int index) {
+	protected String[] getSelectValues(T obj, int index) {
 		return null;
 	}
 
 	@Override
-	protected boolean isEditable(IsSerializable obj, int row, int index) {
+	protected boolean isEditable(T obj, int row, int index) {
 		if (this.disableFields.contains(index))
 			return false;
 		return true;
 	}
 
 	@Override
-	protected void onClick(IsSerializable obj, int row, int index) {
+	protected void onClick(T obj, int row, int index) {
 		if (this.recordClickHandler != null) {
 			this.recordClickHandler.onRecordClick(obj, index);
 		}
@@ -162,12 +162,12 @@ public class DialogGrid extends ListGrid<IsSerializable> {
 	}
 
 	@Override
-	protected void onValueChange(IsSerializable obj, int index, Object value) {
+	protected void onValueChange(T obj, int index, Object value) {
 		// this.getCurrentView().onSelectBoxValueChange(index, value);
 	}
 
 	@Override
-	protected int sort(IsSerializable obj1, IsSerializable obj2, int index) {
+	protected int sort(T obj1, T obj2, int index) {
 
 		return 0;
 	}
@@ -198,25 +198,24 @@ public class DialogGrid extends ListGrid<IsSerializable> {
 		public void OnCellDoubleClick(T core, int column);
 	}
 
-	public interface RecordDeleteHandler {
-		public boolean onRecordDelete(IsSerializable core, int row);
+	public interface RecordDeleteHandler<T> {
+		public boolean onRecordDelete(T core, int row);
 	}
 
-	public interface GridRecordClickHandler {
-		public boolean onRecordClick(IsSerializable core, int column);
+	public interface GridRecordClickHandler<T> {
+		public boolean onRecordClick(T core, int column);
 	}
 
-	public interface EditCompleteHandler {
-		public void OnEditComplete(IsSerializable core, Object value, int col);
+	public interface EditCompleteHandler<T> {
+		public void OnEditComplete(T core, Object value, int col);
 	}
 
-	public interface SelectionChangedHandler {
-		public void OnSelectionChanged(IsSerializable core, int row,
-				boolean isChecked);
+	public interface SelectionChangedHandler<T> {
+		public void OnSelectionChanged(T core, int row, boolean isChecked);
 	}
 
 	@Override
-	protected void addOrEditSelectBox(IsSerializable obj, Object value) {
+	protected void addOrEditSelectBox(T obj, Object value) {
 		CustomCombo box = getCustomCombo(obj, currentCol);
 		if (box != null) {
 			FocusWidget widget = (FocusWidget) box.getMainWidget();
@@ -225,12 +224,12 @@ public class DialogGrid extends ListGrid<IsSerializable> {
 			super.addOrEditSelectBox(obj, value);
 	}
 
-	public <E> CustomCombo<E> getCustomCombo(IsSerializable obj, int colIndex) {
+	public <E> CustomCombo<E> getCustomCombo(T obj, int colIndex) {
 		return null;
 	}
 
 	@Override
-	protected void addColumnData(IsSerializable obj, int row, int col) {
+	protected void addColumnData(T obj, int row, int col) {
 		super.addColumnData(obj, row, col);
 	}
 
@@ -282,13 +281,12 @@ public class DialogGrid extends ListGrid<IsSerializable> {
 	}
 
 	@Override
-	public void onDoubleClick(IsSerializable obj) {
+	public void onDoubleClick(T obj) {
 		// NOTHING TO DO
 	}
 
 	@Override
-	protected void onSelectionChanged(IsSerializable obj, int row,
-			boolean isChecked) {
+	protected void onSelectionChanged(T obj, int row, boolean isChecked) {
 		if (this.selectionChangedHandler != null)
 			this.selectionChangedHandler
 					.OnSelectionChanged(obj, row, isChecked);
@@ -299,7 +297,7 @@ public class DialogGrid extends ListGrid<IsSerializable> {
 	}
 
 	@Override
-	protected void onDoubleClick(IsSerializable obj, int row, int index) {
+	protected void onDoubleClick(T obj, int row, int index) {
 		if (this.doubleClickHandler != null)
 			this.doubleClickHandler.OnCellDoubleClick(obj, index);
 		super.onDoubleClick(obj, row, index);

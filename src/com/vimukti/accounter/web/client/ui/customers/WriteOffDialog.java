@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -25,7 +24,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
  * 
  */
 
-public class WriteOffDialog extends BaseDialog {
+public class WriteOffDialog extends BaseDialog<ClientAccount> {
 
 	List<ClientAccount> allAccounts;
 	private ClientAccount selectedWriteOffAccount;
@@ -161,7 +160,7 @@ public class WriteOffDialog extends BaseDialog {
 	}
 
 	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
+	public Object getGridColumnValue(ClientAccount obj, int index) {
 
 		return null;
 	}

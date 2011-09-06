@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.customers;
 
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
@@ -41,15 +40,17 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 	private void initialise() {
 		this.button1.setFocus(true);
 		getGrid().setType(AccounterCoreType.CUSTOMER_GROUP);
-		getGrid().addRecordClickHandler(new GridRecordClickHandler() {
+		getGrid().addRecordClickHandler(
+				new GridRecordClickHandler<ClientCustomerGroup>() {
 
-			@Override
-			public boolean onRecordClick(IsSerializable core, int column) {
-				enableEditRemoveButtons(true);
-				return true;
-			}
+					@Override
+					public boolean onRecordClick(ClientCustomerGroup core,
+							int column) {
+						enableEditRemoveButtons(true);
+						return true;
+					}
 
-		});
+				});
 
 		dialogButtonsHandler = new GroupDialogButtonsHandler() {
 
@@ -116,8 +117,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 	}
 
 	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
-		ClientCustomerGroup group = (ClientCustomerGroup) obj;
+	public Object getGridColumnValue(ClientCustomerGroup group, int index) {
 		switch (index) {
 		case 0:
 			if (group != null)

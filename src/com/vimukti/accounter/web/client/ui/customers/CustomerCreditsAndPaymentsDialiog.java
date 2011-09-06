@@ -35,7 +35,8 @@ import com.vimukti.accounter.web.client.ui.grids.TransactionReceivePaymentGrid;
  * 
  */
 
-public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
+public class CustomerCreditsAndPaymentsDialiog extends
+		BaseDialog<ClientCustomer> {
 
 	AmountField amtDueText, totCredAmtText, cashDiscText, totBalText,
 			adjPayText, totAmtUseText;
@@ -145,14 +146,14 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 	public void setRecord(ClientTransactionReceivePayment record) {
 		this.record = record;
 		if (cashDiscText != null)
-			cashDiscText.setValue(amountAsString(record
-					.getCashDiscount()));
+			cashDiscText.setValue(amountAsString(record.getCashDiscount()));
 	}
 
 	public void setRecord(ClientTransactionPayBill record) {
 		this.transactionPaybill = record;
 		if (cashDiscText != null)
-			cashDiscText.setValue(amountAsString(transactionPaybill.getCashDiscount()));
+			cashDiscText.setValue(amountAsString(transactionPaybill
+					.getCashDiscount()));
 	}
 
 	public void setVendor(ClientVendor vendor) {
@@ -235,10 +236,10 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 			amtDueText = new AmountField(customerConstants.amountDue(), this);
 			amtDueText.setColSpan(1);
 			if (transactionPaybill != null)
-				amtDueText.setValue(amountAsString(transactionPaybill.getAmountDue()));
-			else if (record != null)
-				amtDueText.setValue(amountAsString(record
+				amtDueText.setValue(amountAsString(transactionPaybill
 						.getAmountDue()));
+			else if (record != null)
+				amtDueText.setValue(amountAsString(record.getAmountDue()));
 			amtDueText.setDisabled(true);
 		}
 
@@ -250,10 +251,10 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 		cashDiscText = new AmountField(customerConstants.cashDiscount(), this);
 		cashDiscText.setColSpan(1);
 		if (transactionPaybill != null)
-			cashDiscText.setValue(amountAsString(transactionPaybill.getCashDiscount()));
-		else if (record != null)
-			cashDiscText.setValue(amountAsString(record
+			cashDiscText.setValue(amountAsString(transactionPaybill
 					.getCashDiscount()));
+		else if (record != null)
+			cashDiscText.setValue(amountAsString(record.getCashDiscount()));
 		cashDiscText.setDisabled(true);
 
 		totBalText = new AmountField(customerConstants.totalBalance(), this);
@@ -277,10 +278,10 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 			adjPayText.setValue(amountAsString(initialAdjustPayment));
 		} else {
 			if (transactionPaybill != null)
-				adjPayText.setValue(amountAsString(transactionPaybill.getPayment()));
-			else if (record != null)
-				adjPayText.setValue(amountAsString(record
+				adjPayText.setValue(amountAsString(transactionPaybill
 						.getPayment()));
+			else if (record != null)
+				adjPayText.setValue(amountAsString(record.getPayment()));
 		}
 		totAmtUseText = new AmountField(customerConstants.totalAmountToUse(),
 				this);
@@ -335,8 +336,7 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 		if (adjPayText == null)
 			return;
 		if (!DecimalUtil.isLessThan(adjustPayment, 0))
-			this.adjPayText
-					.setValue(amountAsString(adjustPayment));
+			this.adjPayText.setValue(amountAsString(adjustPayment));
 		else
 			this.adjPayText.setValue("0.0");
 
@@ -367,7 +367,7 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 	// }
 
 	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
+	public Object getGridColumnValue(ClientCustomer obj, int index) {
 		return null;
 	}
 
