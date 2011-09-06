@@ -1,44 +1,36 @@
 package com.vimukti.accounter.web.client.countries;
 
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
-import com.vimukti.accounter.web.client.util.OrganizationType;
+import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
 
-public class Tunisia implements ICountryPreferences {
+public class Tunisia extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		// TODO Auto-generated method stub
-		return null;
+		String[] states = new String[] { "al-Kaf", "al-Mahdiyah",
+				"al-Munastir", "al-Qasrayn", "al-Qayrawan", "Aryanah", "Bajah",
+				"Bin 'Arus", "Binzart", "Jundubah", "Madaniyin", "Manubah",
+				"Nabul", "Qabis", "Qafsah", "Qibili", "Safaqis",
+				"Sidi Bu Zayd", "Silyanah", "Susah", "Tatawin", "Tawzar",
+				"Tunis", "Zagwan" };
+		return states;
 	}
 
 	@Override
 	public String getPreferredCurrency() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getDefaultTimeZone(String state) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public OrganizationType[] getOrganizationTypes() {
-		// TODO Auto-generated method stub
-		return null;
+		return "TND";
 	}
 
 	@Override
 	public boolean allowFlexibleFiscalYear() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return Accounter.constants().january();
 	}
 
 }

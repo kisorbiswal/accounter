@@ -1,10 +1,9 @@
 package com.vimukti.accounter.web.client.countries;
 
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
-import com.vimukti.accounter.web.client.util.OrganizationType;
+import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
 
-public class UnitedKingdom implements ICountryPreferences {
+public class UnitedKingdom extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
@@ -78,24 +77,12 @@ public class UnitedKingdom implements ICountryPreferences {
 
 	@Override
 	public String getPreferredCurrency() {
-		return "INR";
-	}
-
-	@Override
-	public String getDefaultTimeZone(String state) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public OrganizationType[] getOrganizationTypes() {
-		// TODO Auto-generated method stub
-		return null;
+		return "GBP";
 	}
 
 	@Override
 	public boolean allowFlexibleFiscalYear() {
-		return false;
+		return true;
 	}
 
 	@Override

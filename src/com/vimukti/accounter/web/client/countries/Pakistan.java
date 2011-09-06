@@ -1,44 +1,32 @@
 package com.vimukti.accounter.web.client.countries;
 
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
-import com.vimukti.accounter.web.client.util.OrganizationType;
+import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
 
-public class Pakistan implements ICountryPreferences {
+public class Pakistan extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		// TODO Auto-generated method stub
-		return null;
+		String[] states = new String[] { "Azad Kashmir", "Baluchistan",
+				"Federal Capital Area", "Federally administered Tribal Areas",
+				"Northern Areas", "North-West Frontier", "Punjab", "Sind" };
+		return states;
 	}
 
 	@Override
 	public String getPreferredCurrency() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getDefaultTimeZone(String state) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public OrganizationType[] getOrganizationTypes() {
-		// TODO Auto-generated method stub
-		return null;
+		return "PKR";
 	}
 
 	@Override
 	public boolean allowFlexibleFiscalYear() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-		// TODO Auto-generated method stub
-		return null;
+		return Accounter.constants().july();
 	}
 
 }

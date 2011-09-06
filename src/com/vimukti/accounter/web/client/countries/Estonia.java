@@ -1,44 +1,32 @@
 package com.vimukti.accounter.web.client.countries;
 
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
-import com.vimukti.accounter.web.client.util.OrganizationType;
+import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
 
-public class Estonia implements ICountryPreferences {
+public class Estonia extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		// TODO Auto-generated method stub
-		return null;
+		String[] states = new String[] { "Harju", "Hiiu", "Ida-Viru", "J‰rva",
+				"Jogeva", "L‰‰ne", "L‰‰ne-Viru", "P‰rnu", "Polva", "Rapla",
+				"Saare", "Tartu", "Valga", "Viljandi", "Voru" };
+		return states;
 	}
 
 	@Override
 	public String getPreferredCurrency() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getDefaultTimeZone(String state) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public OrganizationType[] getOrganizationTypes() {
-		// TODO Auto-generated method stub
-		return null;
+		return "EEK";
 	}
 
 	@Override
 	public boolean allowFlexibleFiscalYear() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-		// TODO Auto-generated method stub
-		return null;
+		return Accounter.constants().january();
 	}
 
 }

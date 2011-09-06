@@ -1,44 +1,39 @@
 package com.vimukti.accounter.web.client.countries;
 
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
-import com.vimukti.accounter.web.client.util.OrganizationType;
+import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
 
-public class Moldova implements ICountryPreferences {
+public class Moldova extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		// TODO Auto-generated method stub
-		return null;
+		String[] states = new String[] { "Anenii Noi", "Balti", "Basarabeasca",
+				"Briceni", "Cahul", "Calarasi", "Camenca", "Cantemir",
+				"Causeni", "Chisinau", "Cimislia", "Criuleni", "Donduseni",
+				"Drochia", "Dubasari municipiu", "Edinet", "Falesti",
+				"Floresti", "Gagauzia", "Glodeni", "Grigoriopol", "Hîncesti",
+				"Ialoveni", "Leova", "Nisporeni", "Ocnita", "Orhei", "Rezina",
+				"Rîbnita", "Rîscani", "Sîngerei", "Slobozia", "Soldanesti",
+				"Soroca", "Stefan Voda", "Straseni", "Taraclia", "Telenesti",
+				"Tighina", "Tiraspol", "Ungheni" };
+		return states;
 	}
 
 	@Override
 	public String getPreferredCurrency() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getDefaultTimeZone(String state) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public OrganizationType[] getOrganizationTypes() {
-		// TODO Auto-generated method stub
-		return null;
+		return "MDL";
 	}
 
 	@Override
 	public boolean allowFlexibleFiscalYear() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return Accounter.constants().january();
 	}
 
 }

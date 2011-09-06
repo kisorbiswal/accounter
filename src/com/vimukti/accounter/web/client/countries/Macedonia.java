@@ -1,44 +1,36 @@
 package com.vimukti.accounter.web.client.countries;
 
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
-import com.vimukti.accounter.web.client.util.OrganizationType;
+import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
 
-public class Macedonia implements ICountryPreferences {
+public class Macedonia extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		// TODO Auto-generated method stub
-		return null;
+		String[] states = new String[] { "Berovo", "Bitola", "Brod", "Debar",
+				"Delcevo", "Demir Hisar", "Gevgelija", "Gostivar", "Kavadarci",
+				"Kicevo", "Kocani", "Kratovo", "Kriva Palanka", "Kruševo",
+				"Kumanovo", "Negotino", "Ohrid", "Prilep", "Probištip",
+				"Radoviš", "Resen", "Skopje", "Štip", "Struga", "Strumica",
+				"Sveti Nikole", "Tetovo", "Valandovo", "Veles", "Vinica" };
+		return states;
 	}
 
 	@Override
 	public String getPreferredCurrency() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getDefaultTimeZone(String state) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public OrganizationType[] getOrganizationTypes() {
-		// TODO Auto-generated method stub
-		return null;
+		return "MKD";
 	}
 
 	@Override
 	public boolean allowFlexibleFiscalYear() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return Accounter.constants().january();
 	}
 
 }

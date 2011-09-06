@@ -1,44 +1,49 @@
 package com.vimukti.accounter.web.client.countries;
 
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
-import com.vimukti.accounter.web.client.util.OrganizationType;
+import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
 
-public class Russia implements ICountryPreferences {
+public class Russia extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		// TODO Auto-generated method stub
-		return null;
+		String[] states = new String[] { "Adygeja", "Aga", "Alanija", "Altaj",
+				"Amur", "Arhangelsk", "Astrahan", "Baškortostan", "Belgorod",
+				"Brjansk", "Burjatija", "Cecenija", "Celjabinsk", "Cita",
+				"Cukotka", "Cuvašija", "Dagestan", "Evenkija", "Gorno-Altaj",
+				"Habarovsk", "Hakasija", "Hanty-Mansija", "Ingušetija",
+				"Irkutsk", "Ivanovo", "Jamalo-Nenets", "Jaroslavl", "Jevrej",
+				"Kabardino-Balkarija", "Kaliningrad", "Kalmykija", "Kaluga",
+				"Kamcatka", "Karacaj-Cerkessija", "Karelija", "Kemerovo",
+				"Kirov", "Komi", "Komi-Permjak", "Korjakija", "Kostroma",
+				"Krasnodar", "Krasnojarsk", "Kurgan", "Kursk", "Leningrad",
+				"Lipeck", "Magadan", "Marij El", "Mordovija", "Moskau",
+				"Moskovskaja Oblast", "Murmansk", "Nenets", "Nižnij Novgorod",
+				"Novgorod", "Novosibirsk", "Omsk", "Orenburg", "Orjol",
+				"Penza", "Perm", "Primorje", "Pskov", "Rjazan", "Rostov",
+				"Saha", "Sahalin", "Samara", "Sankt Petersburg", "Saratov",
+				"Smolensk", "Stavropol", "Sverdlovsk", "Tajmyr", "Tambov",
+				"Tatarstan", "Tjumen", "Tomsk", "Tula", "Tver", "Tyva",
+				"Udmurtija", "Uljanovsk", "Ust-Orda", "Vladimir", "Volgograd",
+				"Vologda", "Voronež" };
+		return states;
 	}
 
 	@Override
 	public String getPreferredCurrency() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getDefaultTimeZone(String state) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public OrganizationType[] getOrganizationTypes() {
-		// TODO Auto-generated method stub
-		return null;
+		return "RUR";
 	}
 
 	@Override
 	public boolean allowFlexibleFiscalYear() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return Accounter.constants().january();
 	}
 
 }

@@ -1,44 +1,36 @@
 package com.vimukti.accounter.web.client.countries;
 
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
-import com.vimukti.accounter.web.client.util.OrganizationType;
+import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
 
-public class SriLanka implements ICountryPreferences {
+public class SriLanka extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		// TODO Auto-generated method stub
-		return null;
+		String[] states = new String[] { "Amparai", "Anuradhapuraya",
+				"Badulla", "Colombo", "Galla", "Gampaha", "Hambantota",
+				"Kalatura", "Kegalla", "Kilinochchi", "Kurunegala",
+				"Mad?akalpuwa", "Maha Nuwara", "Mannarama", "Matale", "Matara",
+				"Monaragala", "Nuwara Eliya", "Puttalama", "Ratnapuraya",
+				"Tirikunamalaya", "Vavuniyawa", "Yapanaya" };
+		return states;
 	}
 
 	@Override
 	public String getPreferredCurrency() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getDefaultTimeZone(String state) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public OrganizationType[] getOrganizationTypes() {
-		// TODO Auto-generated method stub
-		return null;
+		return "LKR";
 	}
 
 	@Override
 	public boolean allowFlexibleFiscalYear() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return Accounter.constants().january();
 	}
 
 }

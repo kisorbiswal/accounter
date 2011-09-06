@@ -1,10 +1,10 @@
 package com.vimukti.accounter.web.client.countries;
 
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
+import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
 import com.vimukti.accounter.web.client.util.OrganizationType;
 
-public class UnitedStates implements ICountryPreferences {
+public class UnitedStates extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
@@ -27,29 +27,37 @@ public class UnitedStates implements ICountryPreferences {
 
 	@Override
 	public String getPreferredCurrency() {
-		return "INR";
-	}
-
-	@Override
-	public String getDefaultTimeZone(String state) {
-		// TODO Auto-generated method stub
-		return null;
+		return "USD";
 	}
 
 	@Override
 	public OrganizationType[] getOrganizationTypes() {
-		// TODO Auto-generated method stub
-		return null;
+		OrganizationType[] types = {
+				new OrganizationType("", Accounter.constants()
+						.soleProprietorship(), Accounter.constants()
+						.soleProprietorshipDesc()),
+				new OrganizationType("", Accounter.constants()
+						.partnershipOrLLP(), Accounter.constants()
+						.partnershipOrLLPDesc()),
+				new OrganizationType("", Accounter.constants().LLC(), Accounter
+						.constants().LLCDesc()),
+				new OrganizationType("", Accounter.constants().corporation(),
+						Accounter.constants().corporationDesc()),
+				new OrganizationType("", Accounter.constants().sCorporation(),
+						Accounter.constants().sCorporationDesc()),
+				new OrganizationType("", Accounter.constants().nonProfit(),
+						Accounter.constants().nonProfitDesc()) };
+		return types;
 	}
 
 	@Override
 	public boolean allowFlexibleFiscalYear() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-		return Accounter.constants().april();
+		return Accounter.constants().october();
 	}
 
 }

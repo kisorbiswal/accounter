@@ -1,44 +1,38 @@
 package com.vimukti.accounter.web.client.countries;
 
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
-import com.vimukti.accounter.web.client.util.OrganizationType;
+import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
 
-public class Indonesia implements ICountryPreferences {
+public class Indonesia extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		// TODO Auto-generated method stub
-		return null;
+		String[] states = new String[] { "Aceh", "Bali", "Bangka-Belitung",
+				"Banten", "Bengkulu", "Gorontalo", "Jakarta", "Jambi",
+				"Jawa Barat", "Jawa Tengah", "Jawa Timur", "Kalimantan Barat",
+				"Kalimantan Selatan", "Kalimantan Tengah", "Kalimantan Timur",
+				"Lampung", "Maluku", "Maluku Utara", "Nusa Tenggara Barat",
+				"Nusa Tenggara Timur", "Papua", "Riau", "Riau Kepulauan",
+				"Sulawesi Selatan", "Sulawesi Tengah", "Sulawesi Tenggara",
+				"Sulawesi Utara", "Sumatera Barat", "Sumatera Selatan",
+				"Sumatera Utara", "Yogyakarta" };
+		return states;
 	}
 
 	@Override
 	public String getPreferredCurrency() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getDefaultTimeZone(String state) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public OrganizationType[] getOrganizationTypes() {
-		// TODO Auto-generated method stub
-		return null;
+		return "IDR";
 	}
 
 	@Override
 	public boolean allowFlexibleFiscalYear() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-		// TODO Auto-generated method stub
-		return null;
+		return Accounter.constants().january();
 	}
 
 }

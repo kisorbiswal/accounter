@@ -1,44 +1,39 @@
 package com.vimukti.accounter.web.client.countries;
 
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
-import com.vimukti.accounter.web.client.util.OrganizationType;
+import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
 
-public class DominicanRepublic implements ICountryPreferences {
+public class DominicanRepublic extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		// TODO Auto-generated method stub
-		return null;
+		String[] states = new String[] { "Azua", "Baoruco", "Barahona",
+				"Dajabón", "Duarte", "Elías Piña", "El Seibo", "Espaillat",
+				"Hato Mayor", "Independencia", "La Altagracia", "La Romana",
+				"La Vega", "María Trinidad Sánchez", "Monseñor Nouel",
+				"Monte Cristi", "Monte Plata", "Pedernales", "Peravia",
+				"Puerto Plata", "Salcedo", "Samaná", "Sánchez Ramírez",
+				"San Cristóbal", "San José de Ocoa", "San Juan",
+				"San Pedro de Macorís", "Santiago", "Santiago Rodríguez",
+				"Santo Domingo", "Valverde" };
+		return states;
 	}
 
 	@Override
 	public String getPreferredCurrency() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getDefaultTimeZone(String state) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public OrganizationType[] getOrganizationTypes() {
-		// TODO Auto-generated method stub
-		return null;
+		return "DOP";
 	}
 
 	@Override
 	public boolean allowFlexibleFiscalYear() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return Accounter.constants().january();
 	}
 
 }

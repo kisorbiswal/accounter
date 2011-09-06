@@ -1,10 +1,9 @@
 package com.vimukti.accounter.web.client.countries;
 
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
-import com.vimukti.accounter.web.client.util.OrganizationType;
+import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
 
-public class India implements ICountryPreferences {
+public class India extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
@@ -24,20 +23,6 @@ public class India implements ICountryPreferences {
 	@Override
 	public String getPreferredCurrency() {
 		return "INR";
-	}
-
-	@Override
-	public String getDefaultTimeZone(String state) {
-		if (state != null) {
-			return "UTC-12:00 Etc/GMT+12";
-		}
-		return null;
-	}
-
-	@Override
-	public OrganizationType[] getOrganizationTypes() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

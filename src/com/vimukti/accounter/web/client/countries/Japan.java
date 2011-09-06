@@ -1,44 +1,39 @@
 package com.vimukti.accounter.web.client.countries;
 
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
-import com.vimukti.accounter.web.client.util.OrganizationType;
+import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
 
-public class Japan implements ICountryPreferences {
+public class Japan extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		// TODO Auto-generated method stub
-		return null;
+		String[] states = new String[] { "Aichi", "Akita", "Aomori", "Chiba",
+				"Ehime", "Fukui", "Fukuoka", "Fukushima", "Gifu", "Gumma",
+				"Hiroshima", "Hokkaido", "Hyogo", "Ibaraki", "Ishikawa",
+				"Iwate", "Kagawa", "Kagoshima", "Kanagawa", "Kochi",
+				"Kumamoto", "Kyoto", "Mie", "Miyagi", "Miyazaki", "Nagano",
+				"Nagasaki", "Nara", "Niigata", "Oita", "Okayama", "Okinawa",
+				"Osaka", "Saga", "Saitama", "Shiga", "Shimane", "Shizuoka",
+				"Tochigi", "Tokio", "Tokushima", "Tottori", "Toyama",
+				"Wakayama", "Yamagata", "Yamaguchi", "Yamanashi" };
+		return states;
 	}
 
 	@Override
 	public String getPreferredCurrency() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getDefaultTimeZone(String state) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public OrganizationType[] getOrganizationTypes() {
-		// TODO Auto-generated method stub
-		return null;
+		return "JPY";
 	}
 
 	@Override
 	public boolean allowFlexibleFiscalYear() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return Accounter.constants().april();
 	}
 
 }
