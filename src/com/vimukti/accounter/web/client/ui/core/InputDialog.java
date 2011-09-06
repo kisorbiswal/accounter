@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -104,12 +103,6 @@ public class InputDialog extends BaseDialog {
 
 	public DynamicForm getForm() {
 		return this.form;
-	}
-
-	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	public void setFocus() {

@@ -169,7 +169,6 @@ import com.vimukti.accounter.web.client.ui.settings.WareHouseViewAction;
 import com.vimukti.accounter.web.client.ui.settings.WarehouseListAction;
 import com.vimukti.accounter.web.client.ui.settings.WarehouseTransferListAction;
 import com.vimukti.accounter.web.client.ui.vat.AdjustTAXAction;
-import com.vimukti.accounter.web.client.ui.vat.CreateTaxesAction;
 import com.vimukti.accounter.web.client.ui.vat.FileVatAction;
 import com.vimukti.accounter.web.client.ui.vat.ManageTAXCodesListAction;
 import com.vimukti.accounter.web.client.ui.vat.ManageVATGroupListAction;
@@ -598,12 +597,11 @@ public class ActionFactory {
 		return new NewCustomerAction(Accounter.messages().newCustomer(
 				Global.get().Customer()));
 	}
+
 	public static NewCustomerAction getNewCustomerAction(String quickAddText) {
 		return new NewCustomerAction(Accounter.messages().newCustomer(
-				Global.get().Customer()),quickAddText);
+				Global.get().Customer()), quickAddText);
 	}
-	
-	
 
 	public static NewCustomerAction getNewCustomerAction(
 			ClientCustomer customer,
@@ -1081,10 +1079,6 @@ public class ActionFactory {
 
 	public static NewTAXCodeAction getNewTAXCodeAction() {
 		return new NewTAXCodeAction(actionsConstants.newVATCode());
-	}
-
-	public static Action getCreateTaxesAction() {
-		return new CreateTaxesAction(actionsConstants.createTaxes());
 	}
 
 	// public static Action getManageVATCodeAction() {

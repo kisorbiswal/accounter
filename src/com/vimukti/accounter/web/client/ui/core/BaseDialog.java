@@ -336,7 +336,7 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		}
 	}
 
-	public Object getGridColumnValue(IsSerializable obj, int index) {
+	public Object getGridColumnValue(T obj, int index) {
 		return null;
 	}
 
