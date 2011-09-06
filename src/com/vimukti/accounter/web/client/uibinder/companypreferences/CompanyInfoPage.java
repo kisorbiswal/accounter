@@ -1,4 +1,4 @@
-package com.vimukti.accounter.web.client.ui.companypreferences.panels;
+package com.vimukti.accounter.web.client.uibinder.companypreferences;
 
 import java.util.List;
 
@@ -19,8 +19,9 @@ import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.CancelButton;
 import com.vimukti.accounter.web.client.ui.core.SaveAndCloseButton;
+import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
-public class CompanyInfoView extends BaseView<ClientCompanyPreferences> {
+public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 	private VerticalPanel detailPanel;
 	private AccounterConstants constants = Accounter.constants();
 	private AccounterMessages messages = Accounter.messages();
@@ -56,12 +57,12 @@ public class CompanyInfoView extends BaseView<ClientCompanyPreferences> {
 
 			// stackPanel.add(getBasicInfoPanel(), constants.basicInfo());
 			stackPanel.add(getCompanyInfoPanel(), constants.comapnyInfo());
-			stackPanel.add(getBankingAndFinancialInfoPanel(),
-					constants.otherDetails());
-			stackPanel.add(getOtherDetailsPanel(),
-					constants.accounterSettings());
+			stackPanel.add(getBankingAndFinancialInfoPanel(), constants
+					.otherDetails());
+			stackPanel.add(getOtherDetailsPanel(), constants
+					.accounterSettings());
 
-			companyInfoPanel = new CompanyRegisteredeDetailsPanel(
+			companyInfoPanel = new CompanyRegisteredDetailsPage(
 					companyPreferences, company, this);
 			companyRegisteredeDetailsLink.getElement().getParentElement()
 					.setClassName("contentSelected");
@@ -140,11 +141,11 @@ public class CompanyInfoView extends BaseView<ClientCompanyPreferences> {
 		companyInfo1Panel.add(companyTradingDetailsLink);
 		companyInfo1Panel.add(companyOtherDetailsLink);
 		companyInfo1Panel.add(organisationLink);
-		companyRegisteredeDetailsPanel = new CompanyRegisteredeDetailsPanel(
-				companyPreferences, company, CompanyInfoView.this);
-		companyTradingDetailsPanel = new CompanyTradingDetailsPanel();
-		companyOtherDetailsPanel = new CompanyOtherDetailsPanel();
-		organisationPanel = new OrganisationPanel();
+		companyRegisteredeDetailsPanel = new CompanyRegisteredDetailsPage(
+				companyPreferences, company, CompanyInfoPage.this);
+		companyTradingDetailsPanel = new CompanyTradingDetailsPage();
+		companyOtherDetailsPanel = new CompanyOtherDetailsPage();
+		organisationPanel = new OrganizationDetailsPage();
 
 		companyInfos[0] = new CompanyInfo(companyRegisteredeDetailsLink,
 				companyRegisteredeDetailsPanel);
@@ -198,11 +199,11 @@ public class CompanyInfoView extends BaseView<ClientCompanyPreferences> {
 
 		VerticalPanel bankingAndFinancialInfoPanel = new VerticalPanel();
 
-		bankingAndOtherFinancialDetailsLink = new HTML(
-				messages.bankingAndOtherFinancialDetails());
+		bankingAndOtherFinancialDetailsLink = new HTML(messages
+				.bankingAndOtherFinancialDetails());
 
 		bankingAndFinancialInfoPanel.add(bankingAndOtherFinancialDetailsLink);
-		bankingAndOtherFinancialDetailsPanel = new BankingAndOtherFinancialDetailsPanel();
+		bankingAndOtherFinancialDetailsPanel = new BankingAndOtherFinancialDetailsPage();
 		companyInfos[4] = new CompanyInfo(bankingAndOtherFinancialDetailsLink,
 				bankingAndOtherFinancialDetailsPanel);
 
@@ -223,12 +224,12 @@ public class CompanyInfoView extends BaseView<ClientCompanyPreferences> {
 
 		VerticalPanel otherDetailsPanel = new VerticalPanel();
 
-		customerAndvendorSettingsLink = new HTML(
-				messages.customerAndvendorSettings());
-		doYouUseAndHowDoYouReferLink = new HTML(
-				messages.doYouUseAndHowDoYouRefer());
-		ageingAndSellingDetailsLink = new HTML(
-				messages.ageingAndSellingDetails());
+		customerAndvendorSettingsLink = new HTML(messages
+				.customerAndvendorSettings());
+		doYouUseAndHowDoYouReferLink = new HTML(messages
+				.doYouUseAndHowDoYouRefer());
+		ageingAndSellingDetailsLink = new HTML(messages
+				.ageingAndSellingDetails());
 		employeeSettingsLink = new HTML(messages.employeeSettings());
 
 		otherDetailsPanel.add(customerAndvendorSettingsLink);
@@ -236,10 +237,10 @@ public class CompanyInfoView extends BaseView<ClientCompanyPreferences> {
 		otherDetailsPanel.add(ageingAndSellingDetailsLink);
 		otherDetailsPanel.add(employeeSettingsLink);
 
-		customerAndvendorSettingsPanel = new CustomerAndvendorSettingsPanel();
-		doYouUseAndHowDoYouReferPanel = new DoYouUseAndHowDoYouReferPanel();
-		ageingAndSellingDetailsPanel = new AgeingAndSellingDetailsPanel();
-		employeeSettingsPanel = new EmployeeSettingsPanel();
+		customerAndvendorSettingsPanel = new CustomerAndVendorsSettingsPage();
+		doYouUseAndHowDoYouReferPanel = new DoYouUseAndHowDoYouReferPage();
+		ageingAndSellingDetailsPanel = new AgeingAndSellingDetailsPage();
+		employeeSettingsPanel = new EmployeeSettingsPage();
 
 		companyInfos[5] = new CompanyInfo(customerAndvendorSettingsLink,
 				customerAndvendorSettingsPanel);
@@ -303,10 +304,10 @@ public class CompanyInfoView extends BaseView<ClientCompanyPreferences> {
 
 	private void getInstanceOfPanel(AbstractCompanyInfoPanel panel) {
 		for (int i = 0; i < companyInfos.length; i++) {
-			if (panel instanceof CompanyTradingDetailsPanel)
+			if (panel instanceof CompanyTradingDetailsPage)
 				companyTradingDetailsLink.getElement().getParentElement()
 						.addClassName("contentSelected");
-			else if (panel instanceof EmployeeSettingsPanel)
+			else if (panel instanceof EmployeeSettingsPage)
 				employeeSettingsLink.getElement().getParentElement()
 						.addClassName("contentSelected_LastChild");
 			else if (panel.equals(companyInfos[i].getPanel())) {
@@ -329,14 +330,15 @@ public class CompanyInfoView extends BaseView<ClientCompanyPreferences> {
 	}
 
 	@Override
-	public List getForms() {
+	public List<DynamicForm> getForms() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().companyPrefeTitle();
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

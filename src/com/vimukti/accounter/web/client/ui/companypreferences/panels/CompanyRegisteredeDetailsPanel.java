@@ -97,7 +97,7 @@ public class CompanyRegisteredeDetailsPanel extends AbstractCompanyInfoPanel {
 
 		addressPanel.add(addressLabel);
 		addressPanel.add(subAddressForm);
-		
+
 		addressLabel.addStyleName("header");
 		subAddressForm.getElement().getStyle().setPaddingLeft(150, Unit.PX);
 		subAddressForm.addStyleName("fullSizePanel");
