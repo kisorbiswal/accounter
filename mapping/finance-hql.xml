@@ -52,6 +52,9 @@
 	<query name="list.ShippingMethod">from com.vimukti.accounter.core.ShippingMethod sm
 		order by sm.name
 	</query>
+	<query name="list.TrackClass">from com.vimukti.accounter.core.AccounterClass accounterClass
+		order by accounterClass.className
+	</query>
 	<query name="list.ShippingTerms">from com.vimukti.accounter.core.ShippingTerms st
 		order by st.name
 	</query>
