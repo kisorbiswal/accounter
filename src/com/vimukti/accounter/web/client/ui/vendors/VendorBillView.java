@@ -396,6 +396,12 @@ public class VendorBillView extends
 		// billToCombo
 				);
 
+		// if (getPreferences().isClassTrackingEnabled()
+		// && getPreferences().isClassOnePerTransaction()) {
+		// classListCombo = createAccounterClassListCombo();
+		// vendorForm.setFields(classListCombo);
+		// }
+
 		// formItems.add(vendorCombo);
 		// formItems.add(contactCombo);
 		// formItems.add(billToCombo);
@@ -1086,23 +1092,20 @@ public class VendorBillView extends
 	@Override
 	protected void addAllRecordToGrid(
 			List<ClientTransactionItem> transactionItems) {
+		vendorTransactionTable.addRecords(transactionItems);
 	}
 
 	@Override
 	protected void removeAllRecordsFromGrid() {
-		// TODO Auto-generated method stub
-
+		vendorTransactionTable.removeAllRecords();
 	}
 
 	@Override
 	protected void addNewData(ClientTransactionItem transactionItem) {
-		// TODO Auto-generated method stub
-
+		vendorTransactionTable.add(transactionItem);
 	}
 
 	@Override
 	protected void refreshTransactionGrid() {
-		// TODO Auto-generated method stub
-
 	}
 }
