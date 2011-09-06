@@ -399,9 +399,10 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 					transactionItem.setTaxCode(zvatCodeid);
 			}
 		}
-		AbstractTransactionGrid<ClientTransactionItem> vendorTransactionGrid = getTransactionGrid();
-		vendorTransactionGrid.addData(transactionItem);
-
+		addNewData(transactionItem);
 	}
 
+	protected abstract void addNewData(ClientTransactionItem transactionItem);
+
+	public abstract AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid();
 }

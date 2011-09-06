@@ -1362,4 +1362,15 @@ public class WriteChequeView extends
 	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
 		return taxAgencyGrid;
 	}
+
+	@Override
+	protected void addNewData(ClientTransactionItem transactionItem) {
+		taxAgencyGrid.addData(transactionItem);
+	}
+
+	@Override
+	protected void refreshTransactionGrid() {
+		taxAgencyGrid.refreshAllRecords();
+
+	}
 }
