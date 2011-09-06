@@ -9,7 +9,6 @@
 	<g:HTMLPanel>
 		<g:VerticalPanel>
 			<g:Label text="New Label"/>
-			<g:TextBox/>
 		</g:VerticalPanel>
 		<g:Label text="New Label"/>
 	</g:HTMLPanel>
