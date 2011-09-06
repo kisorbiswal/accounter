@@ -106,8 +106,8 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 	@Override
 	protected boolean validate() {
 		if (industryList.getSelectedIndex() == -1) {
-			Accounter.showError(accounterConstants.selectYourIndustry());
-			return false;
+			//Accounter.showError(accounterConstants.selectYourIndustry());
+			return true;
 		} else {
 			return true;
 		}

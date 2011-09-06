@@ -186,7 +186,7 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 	public void onBrowserEvent(Event event) {
 		switch (DOM.eventGetType(event)) {
 		case Event.ONBLUR:
-			// popup.hidePopupCalendar();
+			 popup.hidePopupCalendar();
 			break;
 		case Event.ONCLICK:
 			this.setText("");
@@ -372,7 +372,7 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 		}
 		int x = this.getAbsoluteLeft();
 		int y = this.getAbsoluteTop() + 22;
-		this.setWidth(this.getOffsetWidth() + "px");
+//		this.setWidth(this.getOffsetWidth() + "px");
 		popup.setPopupPosition(x + 1, y);
 		popup.show();
 		int clientwidth = Window.getClientWidth();

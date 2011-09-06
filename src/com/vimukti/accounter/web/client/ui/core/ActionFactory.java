@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.core;
 
+
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
@@ -200,6 +201,7 @@ import com.vimukti.accounter.web.client.ui.vendors.PreviousClaimAction;
 import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderAction;
 import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderListAction;
 import com.vimukti.accounter.web.client.ui.vendors.RecordExpensesAction;
+import com.vimukti.accounter.web.client.ui.vendors.TDSPayAction;
 import com.vimukti.accounter.web.client.ui.vendors.TDSVendorsListAction;
 import com.vimukti.accounter.web.client.ui.vendors.VendorPaymentsAction;
 import com.vimukti.accounter.web.client.ui.vendors.VendorPaymentsListAction;
@@ -1325,7 +1327,13 @@ public class ActionFactory {
 				.Reconciliation());
 	}
 
+
 	public static AccounterClassListAction getAccounterClassGroupListAction() {
 		return new AccounterClassListAction(actionsConstants.accounterClassList());
 	}
+
+	public static TDSPayAction getpayTDSAction() {
+			return new TDSPayAction("Pay e-TDS");
+	}
+
 }

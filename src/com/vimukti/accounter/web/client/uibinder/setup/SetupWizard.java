@@ -49,6 +49,7 @@ public class SetupWizard extends VerticalPanel {
 			new SetupCompanyInfoPage(),
 			new SetupIndustrySelectionPage(this),
 			new SetupOrganisationSelectionPage(),
+			new SetupTDSSelectionPage(),
 			new SetupReferPage(),
 			// Employee Expanse Will be Added in Next Version
 			/* new SetupTrackEmployeesPage(), */new SetupSellTypeAndSalesTaxPage(),
@@ -70,8 +71,10 @@ public class SetupWizard extends VerticalPanel {
 			Accounter.constants().setCompanyInfo(),
 			Accounter.constants().selectIndustryType(),
 			Accounter.constants().companyOrganization(),
+			Accounter.constants().tdsSelection(),
 			Accounter.constants().selectReferringNames(),
-			/* Accounter.constants().trackEmployeeExpenses(), */
+			// Accounter.constants().trackEmployeeExpenses(),
+
 			Accounter.constants().whatDoYouSell(),
 			Accounter.constants().setEstimatesAndStatements(),
 			Accounter.constants().setCurrency(),
@@ -166,6 +169,7 @@ public class SetupWizard extends VerticalPanel {
 			buttonPanel.setCellHorizontalAlignment(backNextButtonPanel,
 					HasAlignment.ALIGN_RIGHT);
 			buttonPanel.setWidth("100%");
+			loadIndustriesDefaultAccounts();
 
 			// adding handlers
 			// skipButton.addClickHandler(new ClickHandler() {
@@ -223,7 +227,6 @@ public class SetupWizard extends VerticalPanel {
 			System.err.println(e);
 		}
 
-		loadIndustriesDefaultAccounts();
 	}
 
 	/**
@@ -236,6 +239,7 @@ public class SetupWizard extends VerticalPanel {
 					@Override
 					public void onException(AccounterException exception) {
 						// TODO
+						System.out.println("");
 					}
 
 					@Override
@@ -254,6 +258,12 @@ public class SetupWizard extends VerticalPanel {
 		} catch (Exception e) {
 			System.err.println(e);
 		}
+	}
+	/**
+	 * @return
+	 */
+	private boolean isTDSView() {
+		return viewToShow instanceof SetupTDSSelectionPage;
 	}
 
 	protected void showView(boolean isNext) {
@@ -287,6 +297,10 @@ public class SetupWizard extends VerticalPanel {
 
 		if (Accounter.getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_US
 				&& isOrganizationView()) {
+			showView(isNext);
+		}
+		if(Accounter.getCompany().getAccountingType()!=ClientCompany.ACCOUNTING_TYPE_INDIA && isTDSView())
+		{
 			showView(isNext);
 		}
 

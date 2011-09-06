@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
+
 public class ClientPayBill extends ClientTransaction {
 
 	/**
@@ -33,6 +34,8 @@ public class ClientPayBill extends ClientTransaction {
 	private double vendorBalance = 0D;
 
 	int payBillType;
+	
+	private ClientTAXItem taxItem;
 
 	ClientAddress address;
 
@@ -228,5 +231,13 @@ public class ClientPayBill extends ClientTransaction {
 		ClientPayBill clientPayBillClone = (ClientPayBill) this.clone();
 
 		return clientPayBillClone;
+	}
+
+	public ClientTAXItem getTaxItem() {
+		return taxItem;
+	}
+
+	public void setTaxItem(ClientTAXItem taxItem) {
+		this.taxItem = taxItem;
 	}
 }

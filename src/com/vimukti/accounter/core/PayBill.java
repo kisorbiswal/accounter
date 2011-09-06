@@ -164,6 +164,9 @@ public class PayBill extends Transaction {
 	List<TransactionPayBill> transactionPayBill;
 
 	String checkNumber;
+	
+	
+	private TAXItem taxItem;
 
 	//
 
@@ -687,5 +690,13 @@ public class PayBill extends Transaction {
 
 	public void setBillDueOnOrBefore(FinanceDate billDueOnOrBefore) {
 		this.billDueOnOrBefore = billDueOnOrBefore;
+	}
+
+	public TAXItem getTaxItem() {
+		return taxItem;
+	}
+
+	public void setTaxItem(TAXItem taxItem) {
+		this.taxItem = taxItem;
 	}
 }

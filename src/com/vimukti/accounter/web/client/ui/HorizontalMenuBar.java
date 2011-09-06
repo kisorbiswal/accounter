@@ -43,6 +43,15 @@ public class HorizontalMenuBar extends HorizontalPanel {
 						getVATMenu());
 				ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 			}
+
+		}
+
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
+			if (Accounter.getCompany().getPreferences().getDoYouPaySalesTax()) {
+				menuitem = menuBar.addItem(Accounter.constants().tax(),
+						getVATMenu());
+				ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
+			}
 		}
 
 		menuitem = menuBar.addItem(
@@ -110,7 +119,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 	private CustomMenuBar getSettingsMenu() {
 		CustomMenuBar settingsMenuBar = new CustomMenuBar();
 		settingsMenuBar.addItem(ActionFactory.getGeneralSettingsAction());
-		//settingsMenuBar.addItem(ActionFactory.getMeasurementsAction());
+		// settingsMenuBar.addItem(ActionFactory.getMeasurementsAction());
 		// settingsMenuBar.addItem(ActionFactory.getInventoryItemsAction());
 		// settingsMenuBar.addItem(ActionFactory.getChartOfAccountsAction());
 		return settingsMenuBar;
@@ -460,8 +469,9 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			vatmenu.addItem(ActionFactory.getreceiveVATAction());
 		}
 		vatmenu.addSeparator();
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
-			vatmenu.addItem("Pay TDS", ActionFactory.getpayVATAction());
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA
+				&& preferences.isTDSEnabled()) {
+			vatmenu.addItem(ActionFactory.getpayTDSAction());
 			vatmenu.addItem(Accounter.constants().tds(), getTDSMenu());
 			vatmenu.addSeparator();
 		}
@@ -473,7 +483,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 
 	private CustomMenuBar getTDSMenu() {
 		CustomMenuBar tdsMenu = getSubMenu();
-		tdsMenu.addItem("TDS Return", ActionFactory.getTDSVendorsAction());
+		tdsMenu.addItem("e-TDS Return", ActionFactory.getTDSVendorsAction());
 		tdsMenu.addItem("Form-16A", ActionFactory.getTDSVendorsAction());
 		return tdsMenu;
 	}

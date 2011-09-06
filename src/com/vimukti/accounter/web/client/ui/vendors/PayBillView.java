@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
+import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
@@ -32,6 +33,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.combo.TaxItemCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -60,7 +62,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	protected AmountField cashDiscountTextItem;
 	protected AmountField creditTextItem;
 	public AmountLabel unUsedCreditsText;
-	PercentageField tdsLabel;
+
+	TaxItemCombo taxItemCombo;
 	protected SelectCombo vendorPaymentMethodCombo;
 	protected List<PayBillTransactionList> paybillTransactionList;
 	protected List<PayBillTransactionList> filterList;
@@ -145,7 +148,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		// Setting Accounts Payable
 		transaction.setAccountsPayable(getCompany()
 
-		.getAccountsPayableAccount());
+		// transaction.setTaxItem(taxItem)
+				.getAccountsPayableAccount());
 
 		// Setting Date
 		transaction.setDate(date.getEnteredDate().getDate());
@@ -165,6 +169,9 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		// Setting Amount
 
 		transaction.setTotal(amtText.getAmount());
+
+		transaction
+				.setTaxItem(getCompany().getTAXItem(vendor.getTaxItemCode()));
 
 		// Setting ending Balance
 		transaction.setEndingBalance(endBalText.getAmount());
@@ -208,6 +215,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			tpbRecord.setTransactionCreditsAndPayments(trpList);
 			if (tpbRecord.getTempCredits() != null)
 				tpbRecord.getTempCredits().clear();
+
 			transactionPayBill.add(tpbRecord);
 		}
 		transaction.setTransactionPayBill(transactionPayBill);
@@ -500,8 +508,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		memoForm.setFields(memoTextAreaItem);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
-		tdsLabel = new PercentageField(this, "TDS");
-		tdsLabel.setDisabled(true);
+		taxItemCombo = new TaxItemCombo(Accounter.constants().tds(),
+				ClientTAXItem.TAX_TYPE_TDS);
 
 		unUsedCreditsText = new AmountLabel(Accounter.constants()
 				.unusedCredits());
@@ -511,7 +519,13 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		textForm.setNumCols(2);
 		textForm.setWidth("70%");
 		textForm.setStyleName("unused-payments");
-		textForm.setFields(unUsedCreditsText, tdsLabel);
+		if(preferences.isTDSEnabled())
+		{
+		textForm.setFields(unUsedCreditsText, taxItemCombo);
+		}else
+		{
+			textForm.setFields(unUsedCreditsText);
+		}
 
 		HorizontalPanel bottompanel = new HorizontalPanel();
 		bottompanel.setWidth("100%");
@@ -587,7 +601,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 	protected void vendorSelected(final ClientVendor vendor) {
 
-		tdsLabel.setPercentage(10.0);
+		taxItemCombo.setComboItem(getCompany().getTAXItem(
+				vendor.getTaxItemCode()));
 		if (vendor == null) {
 			paybillTransactionList = null;
 			return;

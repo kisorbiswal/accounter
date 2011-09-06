@@ -535,6 +535,9 @@
 			<many-to-one name="vendor" class="Vendor" lazy="false"
 				cascade="save-update" column="VENDOR_ID">
 			</many-to-one>
+			<many-to-one name="taxItem" class="TAXItem" lazy="false"
+				cascade="save-update" column="TDS_TAXITEM_ID">
+			</many-to-one>
 			<property name="isToBePrinted" column="IS_TO_BE_PRINTED"></property>
 			<property name="endingBalance" column="ENDING_BALANCE"></property>
 			<property name="unusedAmount" column="UNUSED_AMOUNT"></property>

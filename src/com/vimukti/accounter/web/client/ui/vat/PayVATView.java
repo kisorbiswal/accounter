@@ -238,6 +238,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 						selectedPayFromAccount.getTotalBalance(), 0) ? selectedPayFromAccount
 						.getTotalBalance() : 0D;
 
+
 		calculateEndingBalance();
 
 	}

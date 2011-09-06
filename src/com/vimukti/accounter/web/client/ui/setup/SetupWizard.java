@@ -32,6 +32,7 @@ public class SetupWizard extends VerticalPanel {
 			new SetupIndustrySelectionPage(),
 			new SetupOrganisationSelectionPage(),
 			new SetupReferPage(),
+	
 			/* new SetupTrackEmployeesPage(), */new SetupSellTypeAndSalesTaxPage(),
 			new SetupUsingEstimatesAndStatementsPage(),
 			new SetupCurrencyPage(), new SetupTrackBillsAndTimePage(),

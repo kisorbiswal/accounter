@@ -36,7 +36,7 @@ public class TDSVendorsListView extends BaseListView<PayeeList> {
 	private void createControls1() {
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		button = new Button("TDS Filing");
+		button = new Button(Accounter.constants().eTDSFiling());
 		button.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -53,6 +53,7 @@ public class TDSVendorsListView extends BaseListView<PayeeList> {
 		this.add(horizontalPanel);
 
 	}
+
 
 	@Override
 	public void onFailure(Throwable exception) {
