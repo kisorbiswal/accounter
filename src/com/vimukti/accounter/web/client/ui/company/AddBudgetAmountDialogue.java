@@ -7,6 +7,7 @@ import java.util.List;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientBudgetItem;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -46,13 +47,13 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 	DynamicForm budgetInfoForm;
 	DynamicForm budgetAddForm;
 	SelectCombo budgetAddBy;
-	private String name;
+	ClientBudgetItem defaultValues;
 
 	public AddBudgetAmountDialogue(String title, String desc,
-			HashMap<String, String> map) {
+			HashMap<String, String> map, ClientBudgetItem budgetItem) {
 		super(title, desc);
 		newMap = new HashMap<String, String>();
-
+		defaultValues = budgetItem;
 		map = newMap;
 		createControls();
 	}
@@ -175,6 +176,7 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 		setBodyLayout(verticalPanel);
 		center();
+		this.setDefaultValues();
 	}
 
 	private List<String> getStartWithList() {
@@ -367,5 +369,21 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 		getCallback().actionResult(newMap);
 		return true;
+	}
+
+	public void setDefaultValues() {
+
+		janAmount.setDefaultValue((int) defaultValues.getJanuaryAmount());
+		febAmount.setDefaultValue((int) defaultValues.getFebruaryAmount());
+		marAmount.setDefaultValue((int) defaultValues.getMarchAmount());
+		aprAmount.setDefaultValue((int) defaultValues.getAprilAmount());
+		mayAmount.setDefaultValue((int) defaultValues.getMayAmount());
+		junAmount.setDefaultValue((int) defaultValues.getJuneAmount());
+		julAmount.setDefaultValue((int) defaultValues.getJulyAmount());
+		augAmount.setDefaultValue((int) defaultValues.getAugustAmount());
+		septAmount.setDefaultValue((int) defaultValues.getSpetemberAmount());
+		octAmount.setDefaultValue((int) defaultValues.getOctoberAmount());
+		novAmount.setDefaultValue((int) defaultValues.getNovemberAmount());
+		decAmount.setDefaultValue((int) defaultValues.getDecemberAmount());
 	}
 }

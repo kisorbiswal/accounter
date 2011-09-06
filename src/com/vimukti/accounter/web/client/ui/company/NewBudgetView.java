@@ -359,6 +359,23 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 		String name = budgetNameText.getValue().toString() != null ? budgetNameText
 				.getValue().toString() : "";
 
+		String financialYear = selectFinancialYear.getSelectedValue();
+
+		String[] temp;
+		String delimiter = " ";
+		temp = financialYear.split(delimiter);
+
+		String budgetName = name + " - " + temp[0];
+
+		if (name != null && !name.isEmpty()) {
+
+			for (ClientBudget budget : budgetList) {
+				if (budgetName.equals(budget.getBudgetName())) {
+					result.addError(name, Accounter.constants().alreadyExist());
+					break;
+				}
+			}
+		}
 		return result;
 
 	}

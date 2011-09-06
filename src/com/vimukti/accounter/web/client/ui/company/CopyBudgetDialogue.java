@@ -43,6 +43,9 @@ public class CopyBudgetDialogue extends BaseDialog {
 		for (ClientBudget budget : budgetList) {
 			selectBudget.addComboItem(budget.getBudgetName());
 		}
+		if (budgetList.size() < 1) {
+			selectBudget.addComboItem(Accounter.constants().emptyValue());
+		}
 
 		selectBudget
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
