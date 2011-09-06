@@ -835,7 +835,5 @@ public interface AccounterMessages extends Messages {
 
 	public String salesByLocationSummary(String locationString);
 
-	public SafeHtml selectMultiple();
-
 	public SafeHtml trackBills();
 }
