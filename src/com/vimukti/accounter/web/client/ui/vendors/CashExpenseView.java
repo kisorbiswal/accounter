@@ -135,7 +135,7 @@ public class CashExpenseView extends CashPurchaseView {
 					.getDate());
 
 		// Setting Total
-		transaction.setTotal(vendorTransactionGrid.getTotal());
+		transaction.setTotal(vendorTransactionTable.getTotal());
 
 		// Setting Memo
 		transaction.setMemo(getMemoTextAreaItem());
