@@ -33,6 +33,7 @@ import com.vimukti.accounter.web.client.ui.banking.SyncOnlinePayeesAction;
 import com.vimukti.accounter.web.client.ui.banking.TransferFundsAction;
 import com.vimukti.accounter.web.client.ui.banking.WriteChecksAction;
 import com.vimukti.accounter.web.client.ui.combo.NewCurrencyAction;
+import com.vimukti.accounter.web.client.ui.company.AccounterClassListAction;
 import com.vimukti.accounter.web.client.ui.company.AddEditSalesTaxCodeAction;
 import com.vimukti.accounter.web.client.ui.company.BudgetAction;
 import com.vimukti.accounter.web.client.ui.company.ChangePasswordAction;
@@ -1317,5 +1318,9 @@ public class ActionFactory {
 	public static TDSVendorsListAction getTDSVendorsAction() {
 		return new TDSVendorsListAction("TDS Vendors List");
 
+	}
+
+	public static AccounterClassListAction getAccounterClassGroupListAction() {
+		return new AccounterClassListAction(actionsConstants.accounterClassList());
 	}
 }
