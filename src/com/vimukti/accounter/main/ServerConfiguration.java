@@ -175,13 +175,12 @@ public class ServerConfiguration {
 			System.setProperty("db.user", username);
 			System.setProperty("db.pass", password);
 			System.setProperty("dialect", dialect);
-			adminpassword = prop.getProperty("adminpassword", null);
-
-			tmpDir = prop.getProperty("tmpDir",
-					System.getProperty("java.io.tmpdir", ""));
+			adminpassword = prop.getProperty("adminpassword", "***REMOVED***");
+			adminID = prop.getProperty("adminId", "admin@accounter.com");
+			tmpDir = prop.getProperty("tmpDir", System.getProperty(
+					"java.io.tmpdir", ""));
 
 			setServerURL(prop.getProperty("serverURL", null));
-
 			mainServerDbUrl = prop.getProperty("mainServerDatabaseUrl", null);
 
 		} catch (NumberFormatException ne) {
@@ -240,8 +239,8 @@ public class ServerConfiguration {
 
 	public static String getHome() {
 		if (homeDir == null) {
-			StringBuilder sb = new StringBuilder(
-					System.getProperty("user.home"));
+			StringBuilder sb = new StringBuilder(System
+					.getProperty("user.home"));
 			sb.append(File.separator);
 			sb.append(".bizantra");
 			return sb.toString();
