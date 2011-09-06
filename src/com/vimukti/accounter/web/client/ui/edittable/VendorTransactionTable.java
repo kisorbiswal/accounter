@@ -302,7 +302,6 @@ public abstract class VendorTransactionTable extends
 	}
 
 	public void setTaxCode(long id) {
-		// TODO Auto-generated method stub
 
 	}
 

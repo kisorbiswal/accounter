@@ -78,6 +78,8 @@ public abstract class SalesOrderTable extends CustomerTransactionTable {
 			this.addColumn(new TransactionVatColumn());
 		}
 
+		
+		
 		this.addColumn(new DeleteColumn<ClientTransactionItem>() {
 
 			@Override
