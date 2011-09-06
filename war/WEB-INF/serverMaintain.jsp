@@ -18,10 +18,10 @@
 			</div>
 			<c:choose>
 			    <c:when test='${CheckedValue == "true"}'>
-			       <input type="checkbox" name="option1" checked="" ><label>${checkedValue}Server under maintainace</label> <br>
+			       <input type="checkbox" name="option1" value="CheckedValue" checked="" ><label>Server under maintainace</label> <br>
 			    </c:when>
 			    <c:otherwise>
-			       <input type="checkbox" name="option1"  ><label>${checkedValue}Server under maintainace</label> <br>
+			       <input type="checkbox" name="option1" ><label>Server under maintainace</label> <br>
 			    </c:otherwise>
 		    </c:choose>
 			<div class="OkButton">
