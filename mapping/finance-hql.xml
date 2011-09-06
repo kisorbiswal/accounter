@@ -138,7 +138,7 @@
 		order by
 		bt.id
 	</query>
-	<query name="list.Budget">from com.vimukti.accounter.core.Budget </query>
+	 <query name="list.Budget">from com.vimukti.accounter.core.Budget </query> 
 	<query name="unique.name.Account">from com.vimukti.accounter.core.Account a where
 		a.name=?</query>
 	<query name="unique.name.Item">from com.vimukti.accounter.core.Item a where
