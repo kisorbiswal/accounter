@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -77,9 +78,7 @@ public abstract class InvoiceTable extends EditTable<ClientTransactionItem> {
 					@Override
 					public boolean filter(ClientAccount account) {
 						if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-							if (Arrays.asList(
-									ClientAccount.TYPE_BANK,
-									// ClientAccount.TYPE_CASH,
+							if (Arrays.asList(ClientAccount.TYPE_BANK,
 									ClientAccount.TYPE_CREDIT_CARD,
 									ClientAccount.TYPE_OTHER_CURRENT_ASSET,
 									ClientAccount.TYPE_FIXED_ASSET).contains(
@@ -113,9 +112,13 @@ public abstract class InvoiceTable extends EditTable<ClientTransactionItem> {
 
 		this.addColumn(new TransactionTotalColumn());
 
-		this.addColumn(new TransactionVatCodeColumn());
+		if (getCompany().getPreferences().getDoYouPaySalesTax()) {
+			if (this.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+				this.addColumn(new TransactionVatCodeColumn());
+			}
 
-		this.addColumn(new TransactionVatColumn());
+			this.addColumn(new TransactionVatColumn());
+		}
 
 		this.addColumn(new DeleteColumn<ClientTransactionItem>() {
 
@@ -124,6 +127,10 @@ public abstract class InvoiceTable extends EditTable<ClientTransactionItem> {
 				delete(row);
 			}
 		});
+	}
+
+	private ClientCompany getCompany() {
+		return Accounter.getCompany();
 	}
 
 	private ImageResource getImage(ClientTransactionItem row) {
@@ -368,5 +375,35 @@ public abstract class InvoiceTable extends EditTable<ClientTransactionItem> {
 	public void setAllTransactionItems(
 			List<ClientTransactionItem> transactionItems) {
 		setAllRows(transactionItems);
+	}
+
+	public ValidationResult validateGrid() {
+		ValidationResult result = new ValidationResult();
+		// Validations
+		// 1. checking for the name of the transaction item
+		// 2. checking for the vat code if the company is of type UK
+		// TODO::: check whether this validation is working or not
+		for (ClientTransactionItem item : this.getRecords()) {
+			if (item.getType() == ClientTransactionItem.TYPE_COMMENT) {
+				continue;
+			}
+			if (item.getAccountable() == null) {
+				result.addError(
+						"GridItem-" + item.getAccount(),
+						Accounter.messages().pleaseEnter(
+								UIUtils.getTransactionTypeName(item.getType())));
+			}
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
+					&& item.getType() != ClientTransactionItem.TYPE_SALESTAX) {
+				if (item.getTaxCode() == 0) {
+					result.addError(
+							"GridItemUK-" + item.getAccount(),
+							Accounter.messages().pleaseEnter(
+									Accounter.constants().vatCode()));
+				}
+
+			}
+		}
+		return result;
 	}
 }

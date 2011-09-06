@@ -1426,6 +1426,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 						.salesOrderNumberGrater0());
 			}
 		}
+		result.add(invoiceTable.validateGrid());
 		return result;
 	}
 

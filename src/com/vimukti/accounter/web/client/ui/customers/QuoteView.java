@@ -773,6 +773,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 					+ Accounter.constants()
 							.cannotbeearlierthantransactiondate());
 		}
+		result.add(invoiceTable.validateGrid());
 		return result;
 
 	}

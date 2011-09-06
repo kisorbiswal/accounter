@@ -775,6 +775,7 @@ public class CashSalesView extends
 		// 2. depositInCombo validation i.e form items
 		result.add(FormItem.validate(this.paymentMethodCombo,
 				this.depositInCombo));
+		result.add(invoiceTable.validateGrid());
 		return result;
 
 	}

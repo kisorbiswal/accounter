@@ -128,11 +128,6 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		super(transactionType);
 	}
 
-	public AbstractTransactionGrid<ClientTransactionItem> getGrid() {
-		return new CustomerTransactionGrid();
-
-	}
-
 	public double getVATRate(long TAXCodeID) {
 		double vatRate = 0.0;
 		if (TAXCodeID != 0) {
