@@ -72,15 +72,15 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 		from = toAdd.get(0);
 		fromAddcombo.setValue(toAdd.get(0));
 
-		String message = "\n"
-				+ Accounter.messages().dearCustomer(Global.get().Customer())
-				+ "\n\n" + Accounter.constants().mayWeRemindInvoice()
-				+ this.invoice.getNumber() + Accounter.constants().issuedOn()
-				+ invoice.getDate() + Accounter.constants().isDueForPayment()
-				+ "\n\n" + Accounter.constants().ifUHaveAlreadyPaidInvoiceMsg()
-				+ "\n\n" + Accounter.constants().feelFreeTogetInTouch()
-				+ "\n\n" + Accounter.constants().thanksInAdvanceForPayment()
-				+ "\n\n\n" + Accounter.constants().regards();
+		// String message = "\n"
+		// + Accounter.messages().dearCustomer(Global.get().Customer())
+		// + "\n\n" + Accounter.constants().mayWeRemindInvoice()
+		// + this.invoice.getNumber() + Accounter.constants().issuedOn()
+		// + invoice.getDate() + Accounter.constants().isDueForPayment()
+		// + "\n\n" + Accounter.constants().ifUHaveAlreadyPaidInvoiceMsg()
+		// + "\n\n" + Accounter.constants().feelFreeTogetInTouch()
+		// + "\n\n" + Accounter.constants().thanksInAdvanceForPayment()
+		// + "\n\n\n" + Accounter.constants().regards();
 
 		// fromAddress = new EmailField(constants.from());
 		// fromAddress.setHelpInformation(true);
@@ -102,7 +102,11 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 
 		emailBody = new TextAreaItem();
 		emailBody.setMemo(true, this);
-		emailBody.setValue(message);
+		emailBody.setValue(Global
+				.get()
+				.messages()
+				.invoiceMailMessage(Global.get().Customer(),
+						this.invoice.getNumber(), invoice.getDate()));
 		emailBody.setWidth("100%");
 		emailBody.setHeight(200);
 

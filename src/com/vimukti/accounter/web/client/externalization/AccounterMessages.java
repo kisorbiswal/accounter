@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.externalization;
 
 import com.google.gwt.i18n.client.Messages;
 import com.google.gwt.safehtml.shared.SafeHtml;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
 public interface AccounterMessages extends Messages {
 	public String userName(String loginUserName);
@@ -836,4 +837,7 @@ public interface AccounterMessages extends Messages {
 	public String salesByLocationSummary(String locationString);
 
 	public SafeHtml trackBills();
+	
+	public String invoiceMailMessage(String customer, String number,
+			ClientFinanceDate date);
 }
