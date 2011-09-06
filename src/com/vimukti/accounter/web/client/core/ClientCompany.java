@@ -1875,7 +1875,7 @@ public class ClientCompany implements IAccounterCore {
 					loggedInUser.lastName = user.getLastName();
 					Accounter.setUser(loggedInUser);
 				}
-
+				break;
 			case ACCOUNTER_CLASS:
 
 				ClientAccounterClass accounterClass = (ClientAccounterClass) accounterCoreObject;
