@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;

@@ -15,7 +15,6 @@ import com.vimukti.accounter.web.client.core.ClientPaySalesTaxEntries;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionPaySalesTax;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -37,7 +36,6 @@ import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.TransactionPaySalesTaxGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 

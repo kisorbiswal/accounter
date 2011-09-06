@@ -13,7 +13,6 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPaySalesTax;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -26,7 +25,6 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 
 public class VATPaymentView extends
 		AbstractTransactionBaseView<ClientPaySalesTax> {
