@@ -1,5 +1,10 @@
 package com.vimukti.accounter.web.client.core;
 
+/**
+ * 
+ * @author Lingarao.R
+ * 
+ */
 public class ClientLocation implements IAccounterCore {
 
 	public static final int LOCATION = 1;
@@ -57,19 +62,15 @@ public class ClientLocation implements IAccounterCore {
 
 	@Override
 	public String getClientClassSimpleName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public int getVersion() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public void setVersion(int version) {
-		// TODO Auto-generated method stub
-
 	}
 }

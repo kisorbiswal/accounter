@@ -114,23 +114,22 @@ public abstract class AbstractGlobal implements IGlobal {
 		int locationTrackingId = (int) preferences().getLocationTrackingId();
 
 		switch (locationTrackingId) {
-
 		case ClientLocation.LOCATION:
-			return constants().location();
+			return constants().location().trim();
 		case ClientLocation.BUSINESS:
-			return constants().buisiness();
+			return constants().buisiness().trim();
 		case ClientLocation.DEPARTMENT:
-			return constants().department();
+			return constants().department().trim();
 		case ClientLocation.DIVISION:
-			return constants().division();
+			return constants().division().trim();
 		case ClientLocation.PROPERTY:
-			return constants().property();
+			return constants().property().trim();
 		case ClientLocation.STORE:
-			return constants().store();
+			return constants().store().trim();
 		case ClientLocation.TERRITORY:
-			return constants().territory();
+			return constants().territory().trim();
 		default:
-			return constants().location();
+			return constants().location().trim();
 		}
 	}
 }

@@ -1658,19 +1658,19 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	private String getValueById(long locationTrackingId) {
 		switch ((int) locationTrackingId) {
 		case ClientLocation.LOCATION:
-			return Accounter.constants().location();
+			return Accounter.constants().location().trim();
 		case ClientLocation.BUSINESS:
-			return Accounter.constants().buisiness();
+			return Accounter.constants().buisiness().trim();
 		case ClientLocation.DEPARTMENT:
-			return Accounter.constants().department();
+			return Accounter.constants().department().trim();
 		case ClientLocation.DIVISION:
-			return Accounter.constants().division();
+			return Accounter.constants().division().trim();
 		case ClientLocation.PROPERTY:
-			return Accounter.constants().property();
+			return Accounter.constants().property().trim();
 		case ClientLocation.STORE:
-			return Accounter.constants().store();
+			return Accounter.constants().store().trim();
 		case ClientLocation.TERRITORY:
-			return Accounter.constants().territory();
+			return Accounter.constants().territory().trim();
 		}
 		return null;
 	}

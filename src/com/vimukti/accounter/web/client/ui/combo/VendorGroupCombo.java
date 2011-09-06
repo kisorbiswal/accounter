@@ -1,6 +1,8 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.vendors.VendorGroupListDialog;
 
 public class VendorGroupCombo extends CustomCombo<ClientVendorGroup> {
@@ -11,7 +13,7 @@ public class VendorGroupCombo extends CustomCombo<ClientVendorGroup> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.newVendorGroup();
+		return Accounter.messages().newVendorGroup(Global.get().vendor());
 	}
 
 	@Override
