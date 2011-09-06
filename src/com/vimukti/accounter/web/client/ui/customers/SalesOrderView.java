@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
+import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -37,7 +38,12 @@ import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
+import com.vimukti.accounter.web.client.ui.combo.PriceLevelCombo;
+import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
+import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
@@ -54,14 +60,19 @@ import com.vimukti.accounter.web.client.ui.grids.SalesOrderGrid;
 
 public class SalesOrderView extends
 		AbstractCustomerTransactionView<ClientSalesOrder> {
-
+	private ShippingTermsCombo shippingTermsCombo;
+	private PriceLevelCombo priceLevelSelect;
+	private SalesPersonCombo salesPersonCombo;
+	private TAXCodeCombo taxCodeSelect;
+	private PaymentTermsCombo payTermsSelect;
 	private Double payments = 0.0;
-
+	private CustomerCombo customerCombo;
 	private Double balanceDue = 0.0;
 	private DateField dueDateItem;
 	private LabelItem quoteLabel;
 	private SalesQuoteListDialog dialog;
 	private long selectedEstimateId;
+	protected ClientSalesPerson salesPerson;
 
 	private ArrayList<DynamicForm> listforms;
 	private TextItem customerOrderText;
@@ -76,6 +87,14 @@ public class SalesOrderView extends
 	private boolean locationTrackingEnabled;
 
 	private SalesOrderGrid customerTransactionGrid;
+	protected ClientTAXCode taxCode;
+	private List<ClientPaymentTerms> paymentTermsList;
+	protected ClientPaymentTerms paymentTerm;
+	private AmountLabel transactionTotalNonEditableText, netAmountLabel,
+			vatTotalNonEditableText, balanceDueNonEditableText,
+			paymentsNonEditableText, salesTaxTextNonEditable;
+
+	private Double salesTax;
 
 	public SalesOrderView() {
 		super(ClientTransaction.TYPE_SALES_ORDER);
@@ -433,6 +452,33 @@ public class SalesOrderView extends
 
 	}
 
+	private ShippingTermsCombo createShippingTermsCombo() {
+
+		final ShippingTermsCombo shippingTermsCombo = new ShippingTermsCombo(
+				Accounter.constants().shippingTerms());
+		shippingTermsCombo.setHelpInformation(true);
+		shippingTermsCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingTerms>() {
+
+					public void selectedComboBoxItem(
+							ClientShippingTerms selectItem) {
+						shippingTerm = selectItem;
+						if (shippingTerm != null && shippingTermsCombo != null) {
+							shippingTermsCombo.setComboItem(getCompany()
+									.getShippingTerms(shippingTerm.getID()));
+							shippingTermsCombo.setDisabled(isInViewMode());
+						}
+					}
+
+				});
+
+		shippingTermsCombo.setDisabled(isInViewMode());
+
+		// formItems.add(shippingTermsCombo);
+
+		return shippingTermsCombo;
+	}
+
 	private void quoteLabelListener() {
 		if (!isInViewMode()) {
 			quoteLabel.addClickHandler(new ClickHandler() {
@@ -489,18 +535,37 @@ public class SalesOrderView extends
 
 	}
 
+	private void initCustomers() {
+		List<ClientCustomer> result = getCompany().getActiveCustomers();
+		customerCombo.initCombo(result);
+		customerCombo.setDisabled(isInViewMode());
+
+	}
+
 	@Override
 	protected void initTransactionViewData() {
 		if (transaction == null) {
 			setData(new ClientSalesOrder());
 			initCustomers();
-			initPriceLevels();
-			initTaxItemGroups();
+			ArrayList<ClientPriceLevel> priceLevels = getCompany()
+					.getPriceLevels();
+
+			priceLevelSelect.initCombo(priceLevels);
+
+			ArrayList<ClientTAXCode> taxCodes = getCompany().getTaxCodes();
+
+			taxCodeSelect.initCombo(taxCodes);
+
 			initSalesTaxNonEditableItem();
 			initTransactionTotalNonEditableItem();
 			initMemoAndReference();
-			initPaymentTerms();
-			initShippingTerms();
+			paymentTermsList = getCompany().getPaymentsTerms();
+			payTermsSelect.initCombo(paymentTermsList);
+			ArrayList<ClientShippingTerms> shippingTerms = getCompany()
+					.getShippingTerms();
+
+			shippingTermsCombo.initCombo(shippingTerms);
+
 			initShippingMethod();
 			initDueDate();
 		} else {
@@ -538,8 +603,14 @@ public class SalesOrderView extends
 					.getShippingMethod()));
 			this.paymentTerm = company.getPaymentTerms(transaction
 					.getPaymentTerm());
-			shippingTermSelected(company.getShippingTerms(transaction
-					.getShippingTerm()));
+			this.shippingTerm = company.getShippingTerms(transaction
+					.getShippingTerm());
+			if (shippingTerm != null && shippingTermsCombo != null) {
+				shippingTermsCombo.setComboItem(getCompany().getShippingTerms(
+						shippingTerm.getID()));
+				shippingTermsCombo.setDisabled(isInViewMode());
+			}
+
 			this.transactionItems = transaction.getTransactionItems();
 			// this.taxCode =
 			// getTaxItemGroupForTransactionItems(this.transactionItems);
@@ -576,7 +647,11 @@ public class SalesOrderView extends
 			salesPersonSelected(company.getSalesPerson(transaction
 					.getSalesPerson()));
 			shippingMethodSelected(this.shippingMethod);
-			shippingTermSelected(this.shippingTerm);
+			if (shippingTerm != null && shippingTermsCombo != null) {
+				shippingTermsCombo.setComboItem(getCompany().getShippingTerms(
+						shippingTerm.getID()));
+				shippingTermsCombo.setDisabled(isInViewMode());
+			}
 			taxCodeSelected(this.taxCode);
 			dueDateItem.setEnteredDate(new ClientFinanceDate(transaction
 					.getDueDate()));
@@ -604,12 +679,40 @@ public class SalesOrderView extends
 			// .getTransactionItems());
 			customerTransactionGrid.setCanEdit(false);
 		}
-		super.initTransactionViewData();
+		superinitTransactionViewData();
 		initTransactionNumber();
-		initSalesPersons();
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
+	}
+
+	private void superinitTransactionViewData() {
+
+		initTransactionNumber();
+
+		initCustomers();
+
+		ArrayList<ClientPriceLevel> priceLevels = getCompany().getPriceLevels();
+
+		priceLevelSelect.initCombo(priceLevels);
+
+		ArrayList<ClientSalesPerson> salesPersons = getCompany()
+				.getActiveSalesPersons();
+
+		salesPersonCombo.initCombo(salesPersons);
+
+		ArrayList<ClientTAXCode> taxCodes = getCompany().getTaxCodes();
+
+		taxCodeSelect.initCombo(taxCodes);
+
+		initSalesTaxNonEditableItem();
+
+		initTransactionTotalNonEditableItem();
+
+		initMemoAndReference();
+
+		initTransactionsItems();
+
 	}
 
 	@Override
@@ -620,6 +723,16 @@ public class SalesOrderView extends
 			setSalesTax(salesTaxAmout);
 
 		}
+
+	}
+
+	public void setSalesTax(Double salesTax) {
+		if (salesTax == null)
+			salesTax = 0.0D;
+		this.salesTax = salesTax;
+
+		if (salesTaxTextNonEditable != null)
+			salesTaxTextNonEditable.setAmount(salesTax);
 
 	}
 
@@ -634,19 +747,10 @@ public class SalesOrderView extends
 
 	}
 
-	private void initPayments() {
-
-		// if (isEdit) {
-		//
-		// ClientInvoice invoice = (ClientInvoice) transaction;
-		//
-		// // setPayments(invoice.getPayments());
-		// Double payment = invoice.getPayments();
-		// if (payment == null)
-		// payment = 0.0D;
-		// this.payments = payment;
-		// paymentsNonEditableText.setAmount(payment);
-		// }
+	public void setTransactionTotal(Double transactionTotal) {
+		if (transactionTotal == null)
+			transactionTotal = 0.0D;
+		transactionTotalNonEditableText.setAmount(transactionTotal);
 
 	}
 
@@ -661,6 +765,11 @@ public class SalesOrderView extends
 
 	protected void updateTransaction() {
 		super.updateTransaction();
+		if (taxCode != null && transactionItems != null) {
+			for (ClientTransactionItem item : transactionItems) {
+				item.setTaxCode(taxCode.getID());
+			}
+		}
 		if (statusSelect.getSelectedValue().equals(OPEN))
 			transaction.setStatus(ClientTransaction.STATUS_OPEN);
 		else if (statusSelect.getSelectedValue().equals(COMPLETED))
@@ -726,6 +835,20 @@ public class SalesOrderView extends
 			selectedSalesOrders = new ArrayList<ClientEstimate>();
 			this.setCustomer(customer);
 			super.customerSelected(customer);
+			shippingTermSelected(shippingTerm);
+
+			if (this.paymentTerm != null && payTermsSelect != null)
+				payTermsSelect.setComboItem(this.paymentTerm);
+
+			if (this.salesPerson != null && salesPersonCombo != null)
+				salesPersonCombo.setComboItem(this.salesPerson);
+
+			if (this.taxCode != null
+					&& taxCodeSelect != null
+					&& taxCodeSelect.getValue() != ""
+					&& !taxCodeSelect.getName().equalsIgnoreCase(
+							Accounter.constants().none()))
+				taxCodeSelect.setComboItem(this.taxCode);
 			customerCombo.setComboItem(customer);
 			// if (transactionObject == null)
 			// getEstimates();
@@ -748,6 +871,15 @@ public class SalesOrderView extends
 			List<ClientAddress> addresses = new ArrayList<ClientAddress>();
 			addresses.addAll(customer.getAddress());
 			shipToAddress.setAddress(addresses);
+		}
+	}
+
+	private void shippingTermSelected(ClientShippingTerms shippingTerm2) {
+		this.shippingTerm = shippingTerm2;
+		if (shippingTerm != null && shippingTermsCombo != null) {
+			shippingTermsCombo.setComboItem(getCompany().getShippingTerms(
+					shippingTerm.getID()));
+			shippingTermsCombo.setDisabled(isInViewMode());
 		}
 	}
 
@@ -1139,8 +1271,32 @@ public class SalesOrderView extends
 	}
 
 	@Override
-	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
-		return customerTransactionGrid;
+	protected void initTransactionsItems() {
+		if (transaction.getTransactionItems() != null)
+			customerTransactionGrid.setAllTransactionItems(transaction
+					.getTransactionItems());
+		if (transaction.getID() != 0) {
+			customerTransactionGrid.canDeleteRecord(false);
+		}
 	}
 
+	@Override
+	protected boolean isBlankTransactionGrid() {
+		return customerTransactionGrid.getRecords().isEmpty();
+	}
+
+	@Override
+	protected void addNewData(ClientTransactionItem transactionItem) {
+		customerTransactionGrid.addData(transactionItem);
+	}
+
+	@Override
+	protected void refreshTransactionGrid() {
+		customerTransactionGrid.refreshAllRecords();
+	}
+
+	@Override
+	public List<ClientTransactionItem> getAllTransactionItems() {
+		return customerTransactionGrid.getRecords();
+	}
 }

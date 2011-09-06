@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.core.ClientCustomerCreditMemo;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
+import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -28,25 +29,38 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
+import com.vimukti.accounter.web.client.ui.combo.PriceLevelCombo;
+import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
+import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
+import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
+import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
-import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionGrid;
-import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 public class CustomerCreditMemoView extends
 		AbstractCustomerTransactionView<ClientCustomerCreditMemo> implements
 		IPrintableView {
-
+	private ShippingTermsCombo shippingTermsCombo;
+	private PriceLevelCombo priceLevelSelect;
+	private TAXCodeCombo taxCodeSelect;
+	private SalesPersonCombo salesPersonCombo;
+	private CustomerCombo customerCombo;
+	private Double salesTax = 0.0D;
 	private ArrayList<DynamicForm> listforms;
 	private TextAreaItem billToTextArea;
 	private boolean locationTrackingEnabled;
-	private CustomerTransactionGrid customerTransactionGrid;
+	private InvoiceTable invoiceTable;
+	protected ClientPriceLevel priceLevel;
+	protected ClientTAXCode taxCode;
+	protected ClientSalesPerson salesPerson;
+	private AmountLabel transactionTotalNonEditableText, netAmountLabel,
+			vatTotalNonEditableText, salesTaxTextNonEditable;
 
 	public CustomerCreditMemoView() {
 
@@ -166,13 +180,25 @@ public class CustomerCreditMemoView extends
 		netAmountLabel = createNetAmountLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
-		customerTransactionGrid = new CustomerTransactionGrid();
-		customerTransactionGrid.setTransactionView(this);
-		customerTransactionGrid.isEnable = false;
-		customerTransactionGrid.init();
-		customerTransactionGrid.setCanEdit(true);
-		customerTransactionGrid.setDisabled(isInViewMode());
-		customerTransactionGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
+		invoiceTable = new InvoiceTable() {
+
+			@Override
+			public void updateNonEditableItems() {
+				CustomerCreditMemoView.this.updateNonEditableItems();
+			}
+
+			@Override
+			public boolean isShowPriceWithVat() {
+				return CustomerCreditMemoView.this.isShowPriceWithVat();
+			}
+
+			@Override
+			protected ClientCustomer getCustomer() {
+				return customer;
+			}
+		};
+
+		invoiceTable.setDisabled(isInViewMode());
 
 		final TextItem disabletextbox = new TextItem();
 		disabletextbox.setVisible(false);
@@ -248,7 +274,7 @@ public class CustomerCreditMemoView extends
 		mainVLay.add(lab1);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
-		mainVLay.add(customerTransactionGrid);
+		mainVLay.add(invoiceTable);
 		mainVLay.add(mainPanel);
 
 		if (UIUtils.isMSIEBrowser()) {
@@ -279,9 +305,9 @@ public class CustomerCreditMemoView extends
 
 		}
 
-		if (transaction == null && customerTransactionGrid != null) {
-			customerTransactionGrid.priceLevelSelected(priceLevel);
-			customerTransactionGrid.updatePriceLevel();
+		if (transaction == null && invoiceTable != null) {
+			invoiceTable.priceLevelSelected(priceLevel);
+			invoiceTable.updatePriceLevel();
 		}
 		updateNonEditableItems();
 
@@ -308,8 +334,14 @@ public class CustomerCreditMemoView extends
 
 	protected void updateTransaction() {
 		super.updateTransaction();
-		if (customer != null)
+		if (taxCode != null && transactionItems != null) {
 
+			for (ClientTransactionItem item : transactionItems) {
+				item.setTaxCode(taxCode.getID());
+
+			}
+		}
+		if (customer != null)
 			transaction.setCustomer(getCustomer().getID());
 		if (contact != null)
 			transaction.setContact(contact);
@@ -332,7 +364,6 @@ public class CustomerCreditMemoView extends
 			transaction.setSalesTax(this.salesTax);
 
 		transaction.setTotal(transactionTotalNonEditableText.getAmount());
-
 	}
 
 	@Override
@@ -382,12 +413,47 @@ public class CustomerCreditMemoView extends
 			}
 			transactionTotalNonEditableText.setAmount(transaction.getTotal());
 			memoTextAreaItem.setDisabled(true);
-			customerTransactionGrid.setCanEdit(false);
 		}
-		super.initTransactionViewData();
+		superinitTransactionViewData();
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
+	}
+
+	private void initCustomers() {
+		List<ClientCustomer> result = getCompany().getActiveCustomers();
+		customerCombo.initCombo(result);
+		customerCombo.setDisabled(isInViewMode());
+
+	}
+
+	private void superinitTransactionViewData() {
+
+		initTransactionNumber();
+
+		initCustomers();
+
+		ArrayList<ClientSalesPerson> salesPersons = getCompany()
+				.getActiveSalesPersons();
+
+		salesPersonCombo.initCombo(salesPersons);
+
+		ArrayList<ClientPriceLevel> priceLevels = getCompany().getPriceLevels();
+
+		priceLevelSelect.initCombo(priceLevels);
+
+		ArrayList<ClientTAXCode> taxCodes = getCompany().getTaxCodes();
+
+		taxCodeSelect.initCombo(taxCodes);
+
+		initSalesTaxNonEditableItem();
+
+		initTransactionTotalNonEditableItem();
+
+		initMemoAndReference();
+
+		initTransactionsItems();
+
 	}
 
 	@Override
@@ -444,11 +510,10 @@ public class CustomerCreditMemoView extends
 
 	@Override
 	public void updateNonEditableItems() {
-		if (customerTransactionGrid == null)
+		if (invoiceTable == null)
 			return;
 		if (getCompany().getAccountingType() == 0) {
-			Double taxableLineTotal = customerTransactionGrid
-					.getTaxableLineTotal();
+			Double taxableLineTotal = invoiceTable.getTaxableLineTotal();
 
 			if (taxableLineTotal == null)
 				return;
@@ -460,8 +525,7 @@ public class CustomerCreditMemoView extends
 
 			setSalesTax(salesTax);
 
-			setTransactionTotal(customerTransactionGrid.getTotal()
-					+ this.salesTax);
+			setTransactionTotal(invoiceTable.getTotal() + this.salesTax);
 
 			// salesTax = Utility.getCalculatedSalesTax(transactionDateItem
 			// .getEnteredDate(), taxableLineTotal, taxItemGroup);
@@ -475,14 +539,12 @@ public class CustomerCreditMemoView extends
 			// .setAmount(customerTransactionGrid.getTotal()
 			// + this.salesTax);
 		} else {
-			if (customerTransactionGrid.getGrandTotal() != 0
-					&& customerTransactionGrid.getTotalValue() != 0) {
-				netAmountLabel.setAmount(customerTransactionGrid
-						.getGrandTotal());
-				vatTotalNonEditableText.setAmount(customerTransactionGrid
-						.getTotalValue()
-						- customerTransactionGrid.getGrandTotal());
-				setTransactionTotal(customerTransactionGrid.getTotalValue());
+			if (invoiceTable.getGrandTotal() != 0
+					&& invoiceTable.getTotalValue() != 0) {
+				netAmountLabel.setAmount(invoiceTable.getGrandTotal());
+				vatTotalNonEditableText.setAmount(invoiceTable.getTotalValue()
+						- invoiceTable.getGrandTotal());
+				setTransactionTotal(invoiceTable.getTotalValue());
 			}
 		}
 
@@ -493,12 +555,27 @@ public class CustomerCreditMemoView extends
 
 	}
 
+	public void setTransactionTotal(Double transactionTotal) {
+		if (transactionTotal == null)
+			transactionTotal = 0.0D;
+		transactionTotalNonEditableText.setAmount(transactionTotal);
+	}
+
 	// @Override
 	// public boolean validate() throws InvalidTransactionEntryException,
 	// InvalidEntryException {
 	// return super.validate();
 	//
 	// }
+	public void setSalesTax(Double salesTax) {
+		if (salesTax == null)
+			salesTax = 0.0D;
+		this.salesTax = salesTax;
+
+		if (salesTaxTextNonEditable != null)
+			salesTaxTextNonEditable.setAmount(salesTax);
+
+	}
 
 	@Override
 	protected void customerSelected(ClientCustomer customer) {
@@ -506,22 +583,40 @@ public class CustomerCreditMemoView extends
 			ClientCustomerCreditMemo ent = (ClientCustomerCreditMemo) this.transaction;
 
 			if (ent != null && ent.getCustomer() == customer.getID()) {
-				this.customerTransactionGrid.removeAllRecords();
-				this.customerTransactionGrid.setRecords(ent
-						.getTransactionItems());
+				this.invoiceTable.removeAllRecords();
+				this.invoiceTable.setRecords(ent.getTransactionItems());
 			} else if (ent != null && ent.getCustomer() != customer.getID()) {
-				this.customerTransactionGrid.removeAllRecords();
-				this.customerTransactionGrid.updateTotals();
+				this.invoiceTable.removeAllRecords();
+				this.invoiceTable.updateTotals();
 			} else if (ent == null)
-				this.customerTransactionGrid.removeAllRecords();
+				this.invoiceTable.removeAllRecords();
 		}
 		super.customerSelected(customer);
+		shippingTermSelected(shippingTerm);
+
+		if (this.salesPerson != null && salesPersonCombo != null)
+			salesPersonCombo.setComboItem(this.salesPerson);
+
+		if (this.taxCode != null
+				&& taxCodeSelect != null
+				&& taxCodeSelect.getValue() != ""
+				&& !taxCodeSelect.getName().equalsIgnoreCase(
+						Accounter.constants().none()))
+			taxCodeSelect.setComboItem(this.taxCode);
+
+		if (this.priceLevel != null && priceLevelSelect != null)
+			priceLevelSelect.setComboItem(this.priceLevel);
+
 		this.setCustomer(customer);
 		if (customer != null) {
 			customerCombo.setComboItem(customer);
 		}
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
-			super.setCustomerTaxCodetoAccount();
+		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+			for (ClientTransactionItem item : invoiceTable.getRecords()) {
+				if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT)
+					invoiceTable.setCustomerTaxCode(item);
+			}
+		}
 		this.addressListOfCustomer = customer.getAddress();
 		billingAddress = getAddress(ClientAddress.TYPE_BILL_TO);
 		if (billingAddress != null) {
@@ -529,6 +624,15 @@ public class CustomerCreditMemoView extends
 
 		} else
 			billToTextArea.setValue("");
+	}
+
+	private void shippingTermSelected(ClientShippingTerms shippingTerm2) {
+		this.shippingTerm = shippingTerm2;
+		if (shippingTerm != null && shippingTermsCombo != null) {
+			shippingTermsCombo.setComboItem(getCompany().getShippingTerms(
+					shippingTerm.getID()));
+			shippingTermsCombo.setDisabled(isInViewMode());
+		}
 	}
 
 	public List<DynamicForm> getForms() {
@@ -559,10 +663,6 @@ public class CustomerCreditMemoView extends
 	@Override
 	public void fitToSize(int height, int width) {
 		super.fitToSize(height, width);
-	}
-
-	public AbstractTransactionGrid<ClientTransactionItem> getGridForPrinting() {
-		return customerTransactionGrid;
 	}
 
 	public void onEdit() {
@@ -599,8 +699,7 @@ public class CustomerCreditMemoView extends
 		priceLevelSelect.setDisabled(isInViewMode());
 		taxCodeSelect.setDisabled(isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
-		customerTransactionGrid.setDisabled(isInViewMode());
-		customerTransactionGrid.setCanEdit(true);
+		invoiceTable.setDisabled(isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 		super.onEdit();
@@ -647,7 +746,7 @@ public class CustomerCreditMemoView extends
 
 			taxCodeSelect
 					.setComboItem(getCompany().getTAXCode(taxCode.getID()));
-			customerTransactionGrid.setTaxCode(taxCode.getID());
+			invoiceTable.setTaxCode(taxCode.getID());
 		} else
 			taxCodeSelect.setValue("");
 		// updateNonEditableItems();
@@ -672,7 +771,33 @@ public class CustomerCreditMemoView extends
 	}
 
 	@Override
-	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
-		return customerTransactionGrid;
+	protected void initTransactionsItems() {
+		if (transaction.getTransactionItems() != null)
+			invoiceTable.setAllTransactionItems(transaction
+					.getTransactionItems());
+	}
+
+	@Override
+	protected boolean isBlankTransactionGrid() {
+		return invoiceTable.getRecords().isEmpty();
+	}
+
+	@Override
+	protected void addNewData(ClientTransactionItem transactionItem) {
+		invoiceTable.add(transactionItem);
+	}
+
+	@Override
+	protected void refreshTransactionGrid() {
+
+	}
+
+	@Override
+	public List<ClientTransactionItem> getAllTransactionItems() {
+		return invoiceTable.getAllRows();
+	}
+
+	public Double getSalesTax() {
+		return salesTax;
 	}
 }

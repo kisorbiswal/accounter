@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
+import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -31,13 +32,19 @@ import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.PriceLevelCombo;
+import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
+import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
+import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
+import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
@@ -50,16 +57,25 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
  */
 public class CashSalesView extends
 		AbstractCustomerTransactionView<ClientCashSales> {
-
-	// private CashSales cashSale;
-
+	private ShippingTermsCombo shippingTermsCombo;
+	private PriceLevelCombo priceLevelSelect;
+	private TAXCodeCombo taxCodeSelect;
+	private SalesPersonCombo salesPersonCombo;
+	private CustomerCombo customerCombo;
+	private Double salesTax = 0.0D;
+	protected DateField deliveryDate;
 	private ArrayList<DynamicForm> listforms;
 	private ShipToForm shipToAddress;
 	private boolean locationTrackingEnabled;
-	private CustomerTransactionGrid customerTransactionGrid;
+	private InvoiceTable invoiceTable;
+	private ClientPriceLevel priceLevel;
+	private ClientTAXCode taxCode;
+	private ClientSalesPerson salesPerson;
+	private AmountLabel transactionTotalNonEditableText, netAmountLabel,
+			vatTotalNonEditableText, salesTaxTextNonEditable;
+	private Double transactionTotal = 0.0D;
 
 	public CashSalesView() {
-
 		super(ClientTransaction.TYPE_CASH_SALES);
 		locationTrackingEnabled = getCompany().getPreferences()
 				.isLocationTrackingEnabled();
@@ -67,7 +83,11 @@ public class CashSalesView extends
 
 	private void initCashSalesView() {
 
-		initShippingTerms();
+		ArrayList<ClientShippingTerms> shippingTerms = getCompany()
+				.getShippingTerms();
+
+		shippingTermsCombo.initCombo(shippingTerms);
+
 		initDepositInAccounts();
 		initShippingMethod();
 
@@ -209,13 +229,24 @@ public class CashSalesView extends
 		netAmountLabel = createNetAmountLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
-		customerTransactionGrid = new CustomerTransactionGrid();
-		customerTransactionGrid.setTransactionView(this);
-		customerTransactionGrid.isEnable = false;
-		customerTransactionGrid.init();
-		customerTransactionGrid.setCanEdit(true);
-		customerTransactionGrid.setDisabled(isInViewMode());
-		customerTransactionGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
+		invoiceTable = new InvoiceTable() {
+
+			@Override
+			public void updateNonEditableItems() {
+				CashSalesView.this.updateNonEditableItems();
+			}
+
+			@Override
+			public boolean isShowPriceWithVat() {
+				return CashSalesView.this.isShowPriceWithVat();
+			}
+
+			@Override
+			protected ClientCustomer getCustomer() {
+				return customer;
+			}
+		};
+		invoiceTable.setDisabled(isInViewMode());
 
 		final TextItem disabletextbox = new TextItem();
 		disabletextbox.setVisible(false);
@@ -294,7 +325,7 @@ public class CashSalesView extends
 		mainVLay.add(lab1);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
-		mainVLay.add(customerTransactionGrid);
+		mainVLay.add(invoiceTable);
 		mainVLay.add(vPanel);
 
 		if (UIUtils.isMSIEBrowser())
@@ -312,22 +343,64 @@ public class CashSalesView extends
 
 	}
 
+	private ShippingTermsCombo createShippingTermsCombo() {
+
+		final ShippingTermsCombo shippingTermsCombo = new ShippingTermsCombo(
+				Accounter.constants().shippingTerms());
+		shippingTermsCombo.setHelpInformation(true);
+		shippingTermsCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingTerms>() {
+
+					public void selectedComboBoxItem(
+							ClientShippingTerms selectItem) {
+						shippingTerm = selectItem;
+						if (shippingTerm != null && shippingTermsCombo != null) {
+							shippingTermsCombo.setComboItem(getCompany()
+									.getShippingTerms(shippingTerm.getID()));
+							shippingTermsCombo.setDisabled(isInViewMode());
+						}
+					}
+
+				});
+
+		shippingTermsCombo.setDisabled(isInViewMode());
+
+		// formItems.add(shippingTermsCombo);
+
+		return shippingTermsCombo;
+	}
+
 	@Override
 	protected void customerSelected(ClientCustomer customer) {
 		if (this.getCustomer() != null && this.getCustomer() != customer) {
 			ClientCashSales ent = (ClientCashSales) this.transaction;
 
 			if (ent != null && ent.getCustomer() == customer.getID()) {
-				this.customerTransactionGrid.removeAllRecords();
-				this.customerTransactionGrid.setRecords(ent
-						.getTransactionItems());
+				this.invoiceTable.clear();
+				this.invoiceTable.setAllRows(ent.getTransactionItems());
 			} else if (ent != null && ent.getCustomer() != customer.getID()) {
-				this.customerTransactionGrid.removeAllRecords();
-				this.customerTransactionGrid.updateTotals();
+				this.invoiceTable.clear();
+				this.invoiceTable.updateTotals();
 			} else if (ent == null)
-				this.customerTransactionGrid.removeAllRecords();
+				this.invoiceTable.clear();
 		}
 		super.customerSelected(customer);
+		if (this.shippingTerm != null && shippingTermsCombo != null)
+			shippingTermsCombo.setComboItem(this.shippingTerm);
+
+		if (this.salesPerson != null && salesPersonCombo != null)
+			salesPersonCombo.setComboItem(this.salesPerson);
+
+		if (this.taxCode != null
+				&& taxCodeSelect != null
+				&& taxCodeSelect.getValue() != ""
+				&& !taxCodeSelect.getName().equalsIgnoreCase(
+						Accounter.constants().none()))
+			taxCodeSelect.setComboItem(this.taxCode);
+
+		if (this.priceLevel != null && priceLevelSelect != null)
+			priceLevelSelect.setComboItem(this.priceLevel);
+
 		if (customer.getPhoneNo() != null)
 			phoneSelect.setValue(customer.getPhoneNo());
 		else
@@ -347,9 +420,23 @@ public class CashSalesView extends
 		if (customer != null) {
 			customerCombo.setComboItem(customer);
 		}
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
-			super.setCustomerTaxCodetoAccount();
+		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+			// super.setCustomerTaxCodetoAccount();
+			for (ClientTransactionItem item : invoiceTable.getAllRows()) {
+				if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT)
+					invoiceTable.setCustomerTaxCode(item);
+			}
+		}
 
+	}
+
+	private void shippingTermSelected(ClientShippingTerms shippingTerm2) {
+		this.shippingTerm = shippingTerm2;
+		if (shippingTerm != null && shippingTermsCombo != null) {
+			shippingTermsCombo.setComboItem(getCompany().getShippingTerms(
+					shippingTerm.getID()));
+			shippingTermsCombo.setDisabled(isInViewMode());
+		}
 	}
 
 	@Override
@@ -374,9 +461,9 @@ public class CashSalesView extends
 					priceLevel.getID()));
 
 		}
-		if (transaction == null && customerTransactionGrid != null) {
-			customerTransactionGrid.priceLevelSelected(priceLevel);
-			customerTransactionGrid.updatePriceLevel();
+		if (transaction == null && invoiceTable != null) {
+			invoiceTable.priceLevelSelected(priceLevel);
+			invoiceTable.updatePriceLevel();
 		}
 		updateNonEditableItems();
 
@@ -393,6 +480,18 @@ public class CashSalesView extends
 
 	protected void updateTransaction() {
 		super.updateTransaction();
+		if (taxCode != null && transactionItems != null) {
+
+			for (ClientTransactionItem item : transactionItems) {
+				// if (taxCode instanceof ClientTAXItem)
+				// item.setTaxItem((ClientTAXItem) taxCode);
+				// if (taxCode instanceof ClientTAXGroup)
+				// item.setTaxGroup((ClientTAXGroup) taxCode);
+				item.setTaxCode(taxCode.getID());
+
+			}
+		}
+		transaction.setTransactionDate(transactionDate.getDate());
 		if (getCustomer() != null)
 			transaction.setCustomer(getCustomer().getID());
 		transaction.setPaymentMethod(paymentMethodCombo.getSelectedValue());
@@ -438,12 +537,11 @@ public class CashSalesView extends
 	@Override
 	public void updateNonEditableItems() {
 
-		if (customerTransactionGrid == null)
+		if (invoiceTable == null)
 			return;
 		if (getCompany().getAccountingType() == 0) {
 
-			Double taxableLineTotal = customerTransactionGrid
-					.getTaxableLineTotal();
+			Double taxableLineTotal = invoiceTable.getTaxableLineTotal();
 
 			if (taxableLineTotal == null)
 				return;
@@ -455,15 +553,23 @@ public class CashSalesView extends
 
 			setSalesTax(salesTax);
 
-			setTransactionTotal(customerTransactionGrid.getTotal()
-					+ this.salesTax);
+			setTransactionTotal(invoiceTable.getTotal() + this.salesTax);
 
 		} else {
-			netAmountLabel.setAmount(customerTransactionGrid.getGrandTotal());
-			vatTotalNonEditableText.setAmount(customerTransactionGrid
-					.getTotalValue() - customerTransactionGrid.getGrandTotal());
-			setTransactionTotal(customerTransactionGrid.getTotalValue());
+			netAmountLabel.setAmount(invoiceTable.getGrandTotal());
+			vatTotalNonEditableText.setAmount(invoiceTable.getTotalValue()
+					- invoiceTable.getGrandTotal());
+			setTransactionTotal(invoiceTable.getTotalValue());
 		}
+
+	}
+
+	public void setTransactionTotal(Double transactionTotal) {
+		if (transactionTotal == null)
+			transactionTotal = 0.0D;
+		this.transactionTotal = transactionTotal;
+		if (transactionTotalNonEditableText != null)
+			transactionTotalNonEditableText.setAmount(transactionTotal);
 
 	}
 
@@ -525,7 +631,7 @@ public class CashSalesView extends
 			priceLevelSelected(this.priceLevel);
 			salesPersonSelected(this.salesPerson);
 			shippingMethodSelected(this.shippingMethod);
-			shippingTermSelected(this.shippingTerm);
+			shippingTermSelected(shippingTerm);
 			depositInAccountSelected(this.depositInAccount);
 
 			this.transactionItems = transaction.getTransactionItems();
@@ -555,13 +661,48 @@ public class CashSalesView extends
 			}
 			memoTextAreaItem.setDisabled(true);
 			transactionTotalNonEditableText.setAmount(transaction.getTotal());
-			customerTransactionGrid.setCanEdit(false);
 		}
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
-		super.initTransactionViewData();
+		superinitTransactionViewData();
 		initCashSalesView();
+	}
+
+	private void superinitTransactionViewData() {
+
+		initTransactionNumber();
+
+		initCustomers();
+
+		ArrayList<ClientSalesPerson> salesPersons = getCompany()
+				.getActiveSalesPersons();
+
+		salesPersonCombo.initCombo(salesPersons);
+
+		ArrayList<ClientPriceLevel> priceLevels = getCompany().getPriceLevels();
+
+		priceLevelSelect.initCombo(priceLevels);
+
+		ArrayList<ClientTAXCode> taxCodes = getCompany().getTaxCodes();
+
+		taxCodeSelect.initCombo(taxCodes);
+
+		initSalesTaxNonEditableItem();
+
+		initTransactionTotalNonEditableItem();
+
+		initMemoAndReference();
+
+		initTransactionsItems();
+
+	}
+
+	private void initCustomers() {
+		List<ClientCustomer> result = getCompany().getActiveCustomers();
+		customerCombo.initCombo(result);
+		customerCombo.setDisabled(isInViewMode());
+
 	}
 
 	@Override
@@ -602,6 +743,16 @@ public class CashSalesView extends
 			setSalesTax(salesTaxAmout);
 
 		}
+
+	}
+
+	public void setSalesTax(Double salesTax) {
+		if (salesTax == null)
+			salesTax = 0.0D;
+		this.salesTax = salesTax;
+
+		if (salesTaxTextNonEditable != null)
+			salesTaxTextNonEditable.setAmount(salesTax);
 
 	}
 
@@ -703,10 +854,11 @@ public class CashSalesView extends
 		deliveryDate.setDisabled(isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
 		priceLevelSelect.setDisabled(isInViewMode());
-		customerTransactionGrid.setDisabled(isInViewMode());
-		customerTransactionGrid.setCanEdit(true);
+		invoiceTable.setDisabled(isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
+		if (shippingTermsCombo != null)
+			shippingTermsCombo.setDisabled(isInViewMode());
 		super.onEdit();
 	}
 
@@ -734,7 +886,7 @@ public class CashSalesView extends
 
 			taxCodeSelect
 					.setComboItem(getCompany().getTAXCode(taxCode.getID()));
-			customerTransactionGrid.setTaxCode(taxCode.getID());
+			invoiceTable.setTaxCode(taxCode.getID());
 		} else
 			taxCodeSelect.setValue("");
 		// updateNonEditableItems();
@@ -747,7 +899,28 @@ public class CashSalesView extends
 	}
 
 	@Override
-	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
-		return customerTransactionGrid;
+	protected void initTransactionsItems() {
+		if (transaction.getTransactionItems() != null)
+			invoiceTable.setAllRows(transaction.getTransactionItems());
+	}
+
+	@Override
+	protected boolean isBlankTransactionGrid() {
+		return invoiceTable.getAllRows().isEmpty();
+	}
+
+	@Override
+	protected void addNewData(ClientTransactionItem transactionItem) {
+		invoiceTable.add(transactionItem);
+	}
+
+	@Override
+	protected void refreshTransactionGrid() {
+
+	}
+
+	@Override
+	public List<ClientTransactionItem> getAllTransactionItems() {
+		return invoiceTable.getAllRows();
 	}
 }

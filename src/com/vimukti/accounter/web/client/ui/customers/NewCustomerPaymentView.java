@@ -37,6 +37,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
+import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -46,12 +47,13 @@ import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 
 public class NewCustomerPaymentView extends
 		AbstractCustomerTransactionView<ClientCustomerPrePayment> {
 	AccounterConstants accounterConstants = GWT
 			.create(AccounterConstants.class);
+
+	private CustomerCombo customerCombo;
 	private CheckboxItem printCheck;
 	private AmountField amountText, endBalText, customerBalText;
 	protected double enteredBalance;
@@ -253,6 +255,13 @@ public class NewCustomerPaymentView extends
 		initMemoAndReference();
 		initTransactionNumber();
 		initCustomers();
+	}
+
+	private void initCustomers() {
+		List<ClientCustomer> result = getCompany().getActiveCustomers();
+		customerCombo.initCombo(result);
+		customerCombo.setDisabled(isInViewMode());
+
 	}
 
 	private void accountSelected(ClientAccount account) {
@@ -769,7 +778,31 @@ public class NewCustomerPaymentView extends
 	}
 
 	@Override
-	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
+	protected void initTransactionsItems() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected boolean isBlankTransactionGrid() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	protected void addNewData(ClientTransactionItem transactionItem) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void refreshTransactionGrid() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public List<ClientTransactionItem> getAllTransactionItems() {
 		return null;
 	}
 }

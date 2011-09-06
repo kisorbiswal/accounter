@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
+import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -48,7 +49,13 @@ import com.vimukti.accounter.web.client.ui.AddressDialog;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.BrandingThemeCombo;
+import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
+import com.vimukti.accounter.web.client.ui.combo.PriceLevelCombo;
+import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
+import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
+import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -62,9 +69,6 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
-import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionGrid;
-import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyChangeListener;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
@@ -77,9 +81,22 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
  */
 public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		implements IPrintableView {
-
+	private ShippingTermsCombo shippingTermsCombo;
+	private PriceLevelCombo priceLevelSelect;
+	private TAXCodeCombo taxCodeSelect;
+	private SalesPersonCombo salesPersonCombo;
+	private PaymentTermsCombo payTermsSelect;
+	private CustomerCombo customerCombo;
+	private Double salesTax = 0.0D;
 	private CurrencyWidget currencyWidget;
 	private boolean locationTrackingEnabled;
+	private ClientTAXCode taxCode;
+	private DateField deliveryDate;
+	protected ClientSalesPerson salesPerson;
+	protected ClientPaymentTerms paymentTerm;
+	private AmountLabel transactionTotalNonEditableText, netAmountLabel,
+			vatTotalNonEditableText, balanceDueNonEditableText,
+			paymentsNonEditableText, salesTaxTextNonEditable;
 
 	private InvoiceView() {
 		super(ClientTransaction.TYPE_INVOICE);
@@ -104,7 +121,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	DynamicForm amountsForm;
 	private LinkedHashMap<Integer, ClientAddress> allAddresses;
 	private Button emailButton;
-	private CustomerTransactionGrid customerTransactionGrid;
+	private InvoiceTable invoiceTable;
+	private ClientPriceLevel priceLevel;
+	private List<ClientPaymentTerms> paymentTermsList;
+	private Double transactionTotal;
 
 	private void initBalanceDue() {
 
@@ -131,7 +151,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	}
 
-	@Override
 	protected void initPaymentTerms() {
 
 		paymentTermsList = Accounter.getCompany().getPaymentsTerms();
@@ -469,16 +488,24 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		salesTaxTextNonEditable = createSalesTaxNonEditableLabel();
 
-		customerTransactionGrid = new CustomerTransactionGrid();
-		customerTransactionGrid.setTransactionView(this);
+		invoiceTable = new InvoiceTable() {
 
-		customerTransactionGrid.isEnable = false;
+			@Override
+			public boolean isShowPriceWithVat() {
+				return InvoiceView.this.isShowPriceWithVat();
+			}
 
-		customerTransactionGrid.init();
-		customerTransactionGrid.setCanEdit(true);
-		customerTransactionGrid.setDisabled(isInViewMode());
-		customerTransactionGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
+			@Override
+			public void updateNonEditableItems() {
+				InvoiceView.this.updateNonEditableItems();
+			}
 
+			@Override
+			protected ClientCustomer getCustomer() {
+				return customer;
+			}
+		};
+		invoiceTable.setDisabled(isInViewMode());
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
 		prodAndServiceForm2.setWidth("50%");
 		prodAndServiceForm2.setNumCols(4);
@@ -596,7 +623,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		mainVLay.add(topHLay);
 		// mainVLay.add(printButton);
 
-		mainVLay.add(customerTransactionGrid);
+		mainVLay.add(invoiceTable);
 
 		mainVLay.add(panel11);
 
@@ -605,6 +632,33 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		this.add(mainVLay);
 
+	}
+
+	private ShippingTermsCombo createShippingTermsCombo() {
+
+		final ShippingTermsCombo shippingTermsCombo = new ShippingTermsCombo(
+				Accounter.constants().shippingTerms());
+		shippingTermsCombo.setHelpInformation(true);
+		shippingTermsCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingTerms>() {
+
+					public void selectedComboBoxItem(
+							ClientShippingTerms selectItem) {
+						shippingTerm = selectItem;
+						if (shippingTerm != null && shippingTermsCombo != null) {
+							shippingTermsCombo.setComboItem(getCompany()
+									.getShippingTerms(shippingTerm.getID()));
+							shippingTermsCombo.setDisabled(isInViewMode());
+						}
+					}
+
+				});
+
+		shippingTermsCombo.setDisabled(isInViewMode());
+
+		// formItems.add(shippingTermsCombo);
+
+		return shippingTermsCombo;
 	}
 
 	@Override
@@ -673,10 +727,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	}
 
-	public AbstractTransactionGrid<ClientTransactionItem> getGridForPrinting() {
-		return customerTransactionGrid;
-	}
-
 	protected void setDateValues(ClientFinanceDate date) {
 		if (date != null) {
 			deliveryDate.setEnteredDate(date);
@@ -698,9 +748,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 					priceLevel.getID()));
 
 		}
-		if (this.transaction == null || customerTransactionGrid != null) {
-			customerTransactionGrid.priceLevelSelected(priceLevel);
-			customerTransactionGrid.updatePriceLevel();
+		if (this.transaction == null || invoiceTable != null) {
+			invoiceTable.setPricingLevel(priceLevel);
 		}
 		updateNonEditableItems();
 
@@ -717,11 +766,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	@Override
 	public void updateNonEditableItems() {
 
-		if (customerTransactionGrid == null)
+		if (invoiceTable == null)
 			return;
 		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			Double taxableLineTotal = customerTransactionGrid
-					.getTaxableLineTotal();
+			Double taxableLineTotal = invoiceTable.getTaxableLineTotal();
 
 			if (taxableLineTotal == null)
 				return;
@@ -734,17 +782,14 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 			setSalesTax(salesTax);
 
-			setTransactionTotal(customerTransactionGrid.getTotal()
-					+ this.salesTax);
+			setTransactionTotal(invoiceTable.getTotal() + this.salesTax);
 		} else {
-			if (customerTransactionGrid.getGrandTotal() != 0
-					&& customerTransactionGrid.getTotalValue() != 0) {
-				netAmountLabel.setAmount(customerTransactionGrid
-						.getGrandTotal());
-				vatTotalNonEditableText.setAmount(customerTransactionGrid
-						.getTotalValue()
-						- customerTransactionGrid.getGrandTotal());
-				setTransactionTotal(customerTransactionGrid.getTotalValue());
+			if (invoiceTable.getGrandTotal() != 0
+					&& invoiceTable.getTotalValue() != 0) {
+				netAmountLabel.setAmount(invoiceTable.getGrandTotal());
+				vatTotalNonEditableText.setAmount(invoiceTable.getTotalValue()
+						- invoiceTable.getGrandTotal());
+				setTransactionTotal(invoiceTable.getTotalValue());
 			}
 		}
 		Double payments = this.paymentsNonEditableText.getAmount();
@@ -763,10 +808,28 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		if (this.getCustomer() != null && !this.getCustomer().equals(customer)
 				&& transaction == null)
-			customerTransactionGrid.removeAllRecords();
+			invoiceTable.clear();
 
 		this.setCustomer(customer);
 		super.customerSelected(customer);
+		shippingTermSelected(shippingTerm);
+
+		if (this.paymentTerm != null && payTermsSelect != null)
+			payTermsSelect.setComboItem(this.paymentTerm);
+
+		if (this.salesPerson != null && salesPersonCombo != null)
+			salesPersonCombo.setComboItem(this.salesPerson);
+
+		for (ClientPaymentTerms paymentTerm : paymentTermsList) {
+			if (paymentTerm.getName().equals(
+					Accounter.constants().dueOnReceipt())) {
+				payTermsSelect.addItemThenfireEvent(paymentTerm);
+				break;
+			}
+		}
+		this.paymentTerm = payTermsSelect.getSelectedValue();
+		paymentTermsSelected(this.paymentTerm);
+
 		selectedOrdersAndEstimates = new ArrayList<ClientTransaction>();
 
 		if (customer != null && customerCombo != null) {
@@ -786,9 +849,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		shipToAddress.setAddress(addresses);
 
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
-			super.setCustomerTaxCodetoAccount();
+			// super.setCustomerTaxCodetoAccount();
 
-		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
+			allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 		if (addressListOfCustomer != null) {
 			Iterator it = addressListOfCustomer.iterator();
 			while (it.hasNext()) {
@@ -796,6 +859,15 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 				allAddresses.put(add.getType(), add);
 			}
+		}
+	}
+
+	private void shippingTermSelected(ClientShippingTerms shippingTerm2) {
+		this.shippingTerm = shippingTerm2;
+		if (shippingTerm != null && shippingTermsCombo != null) {
+			shippingTermsCombo.setComboItem(getCompany().getShippingTerms(
+					shippingTerm.getID()));
+			shippingTermsCombo.setDisabled(isInViewMode());
 		}
 	}
 
@@ -812,9 +884,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			ClientInvoice inv = (ClientInvoice) this.transaction;
 
 			if (inv.getCustomer() == customer.getID()) {
-				this.customerTransactionGrid.removeAllRecords();
-				this.customerTransactionGrid.setRecords(inv
-						.getTransactionItems());
+				this.invoiceTable.clear();
+				this.invoiceTable.setAllRows(inv.getTransactionItems());
 				selectedSalesOrder = inv.getSalesOrder();
 				selectedEstimateId = inv.getEstimate();
 
@@ -862,12 +933,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	public void selectedQuote(ClientEstimate selectedEstimate) {
 		if (selectedEstimate == null)
 			return;
-		for (ClientTransactionItem record : this.customerTransactionGrid
-				.getRecords()) {
+		for (ClientTransactionItem record : this.invoiceTable.getAllRows()) {
 			for (ClientTransactionItem salesRecord : selectedEstimate
 					.getTransactionItems())
 				if (record.getReferringTransactionItem() == salesRecord.getID())
-					customerTransactionGrid.deleteRecord(record);
+					invoiceTable.delete(record);
 
 		}
 		// if (dialog.preCustomer == null || dialog.preCustomer !=
@@ -911,7 +981,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		selectedEstimateId = selectedEstimate.getID();
 		orderNum = selectedEstimate.getNumber();
 		orderNumText.setValue(orderNum);
-		customerTransactionGrid.setAllTransactionItems(itemsList);
+		invoiceTable.setAllRows(itemsList);
 
 		// if (selectedEstimate == null)
 		// return;
@@ -1021,10 +1091,16 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			// shipToAddressSelected(this.shippingAddress);
 			contactSelected(this.contact);
 			paymentTermsSelected(this.paymentTerm);
-			priceLevelSelected(this.priceLevel);
+			if (priceLevel != null) {
+				priceLevelSelected(this.priceLevel);
+			}
 			salesPersonSelected(this.salesPerson);
 			shippingMethodSelected(this.shippingMethod);
-			shippingTermSelected(this.shippingTerm);
+			if (shippingTerm != null && shippingTermsCombo != null) {
+				shippingTermsCombo.setComboItem(getCompany().getShippingTerms(
+						shippingTerm.getID()));
+				shippingTermsCombo.setDisabled(isInViewMode());
+			}
 			taxCodeSelected(this.taxCode);
 			if (transaction.getMemo() != null)
 				memoTextAreaItem.setValue(transaction.getMemo());
@@ -1058,17 +1134,62 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			paymentsNonEditableText.setAmount(transaction.getPayments());
 			balanceDueNonEditableText.setAmount(transaction.getBalanceDue());
 			quoteLabel.setDisabled(true);
-			customerTransactionGrid.setCanEdit(false);
 			memoTextAreaItem.setDisabled(true);
 		}
-		super.initTransactionViewData();
+		superinitTransactionViewData();
 
 		initPaymentTerms();
-		initShippingTerms();
+		ArrayList<ClientShippingTerms> shippingTerms = getCompany()
+				.getShippingTerms();
+
+		shippingTermsCombo.initCombo(shippingTerms);
+
 		initShippingMethod();
 		initDueDate();
 		initPayments();
 		initBalanceDue();
+	}
+
+	private void initCustomers() {
+		List<ClientCustomer> result = getCompany().getActiveCustomers();
+		customerCombo.initCombo(result);
+		customerCombo.setDisabled(isInViewMode());
+
+	}
+
+	private void superinitTransactionViewData() {
+
+		initTransactionNumber();
+
+		initCustomers();
+
+		ArrayList<ClientSalesPerson> salesPersons = getCompany()
+				.getActiveSalesPersons();
+
+		salesPersonCombo.initCombo(salesPersons);
+
+		ArrayList<ClientPriceLevel> priceLevels = getCompany().getPriceLevels();
+
+		priceLevelSelect.initCombo(priceLevels);
+
+		ArrayList<ClientTAXCode> taxCodes = getCompany().getTaxCodes();
+
+		taxCodeSelect.initCombo(taxCodes);
+
+		initSalesTaxNonEditableItem();
+
+		initTransactionTotalNonEditableItem();
+
+		initMemoAndReference();
+
+		initTransactionsItems();
+
+	}
+
+	@Override
+	public void initTransactionsItems() {
+		if (transaction.getTransactionItems() != null)
+			invoiceTable.setAllRows(transaction.getTransactionItems());
 	}
 
 	protected void shipToAddressSelected(ClientAddress selectItem) {
@@ -1089,6 +1210,16 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	}
 
+	public void setSalesTax(Double salesTax) {
+		if (salesTax == null)
+			salesTax = 0.0D;
+		this.salesTax = salesTax;
+
+		if (salesTaxTextNonEditable != null)
+			salesTaxTextNonEditable.setAmount(salesTax);
+
+	}
+
 	@Override
 	protected void initTransactionTotalNonEditableItem() {
 		if (transaction != null) {
@@ -1096,6 +1227,15 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			setTransactionTotal(transactionTotal);
 
 		}
+
+	}
+
+	public void setTransactionTotal(Double transactionTotal) {
+		if (transactionTotal == null)
+			transactionTotal = 0.0D;
+		this.transactionTotal = transactionTotal;
+		if (transactionTotalNonEditableText != null)
+			transactionTotalNonEditableText.setAmount(transactionTotal);
 
 	}
 
@@ -1149,6 +1289,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	protected void updateTransaction() {
 		super.updateTransaction();
+		if (taxCode != null && transactionItems != null) {
+			for (ClientTransactionItem item : transactionItems) {
+				item.setTaxCode(taxCode.getID());
+			}
+		}
 		if (getCustomer() != null) {
 			Set<ClientAddress> addr = shipToAddress.getAddresss();
 			billingAddress = allAddresses.get(ClientAddress.TYPE_BILL_TO);
@@ -1214,8 +1359,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			if (taxCode != null) {
-				for (ClientTransactionItem record : customerTransactionGrid
-						.getRecords()) {
+				for (ClientTransactionItem record : invoiceTable.getAllRows()) {
 					record.setTaxItemGroup(taxCode.getID());
 				}
 			}
@@ -1251,7 +1395,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (getCustomer() != null && getCustomer() != previousCustomer) {
 			getEstimatesAndSalesOrder();
 		}
-		result.add(super.validate());
+		// result.add(super.validate());
 
 		// Validations
 		// 1. IF(!isValidDueOrDeliveryDates(dueDate, transactionDate)) ERROR
@@ -1386,13 +1530,12 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		// this.transactionItems = salesOrder.getTransactionItems();
 		if (salesOrder == null)
 			return;
-		for (ClientTransactionItem record : this.customerTransactionGrid
-				.getRecords()) {
+		for (ClientTransactionItem record : this.invoiceTable.getAllRows()) {
 			for (ClientTransactionItem salesRecord : salesOrder
 					.getTransactionItems())
 
 				if (record.getReferringTransactionItem() == salesRecord.getID())
-					customerTransactionGrid.deleteRecord(record);
+					invoiceTable.delete(record);
 
 		}
 		// if (dialog.preCustomer == null || dialog.preCustomer !=
@@ -1435,8 +1578,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		selectedSalesOrder = salesOrder.getID();
 		orderNum = salesOrder.getNumber();
 		orderNumText.setValue(orderNum);
-		customerTransactionGrid.setAllTransactionItems(itemsList);
-		customerTransactionGrid.refreshVatValue();
+		invoiceTable.setAllRows(itemsList);
+		invoiceTable.refreshVatValue();
 	}
 
 	public List<DynamicForm> getForms() {
@@ -1528,11 +1671,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		orderNumText.setDisabled(isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
 
-		customerTransactionGrid.setDisabled(isInViewMode());
-		customerTransactionGrid.setCanEdit(true);
+		invoiceTable.setDisabled(isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
-
+		if (shippingTermsCombo != null)
+			shippingTermsCombo.setDisabled(isInViewMode());
 		super.onEdit();
 
 	}
@@ -1540,19 +1683,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	@Override
 	public void print() {
 		updateTransaction();
-		ArrayList<ClientBrandingTheme> themesList = Accounter.getCompany()
-				.getBrandingTheme();
-		if (themesList.size() > 1) {
-			// if there are more than one branding themes, then show branding
-			// theme combo box
-			ActionFactory.getBrandingThemeComboAction().run(transaction, false);
-		} else {
-			// if there is only one branding theme
-			ClientBrandingTheme clientBrandingTheme = themesList.get(0);
-			UIUtils.downloadAttachment(((ClientInvoice) transaction).getID(),
-					ClientTransaction.TYPE_INVOICE, clientBrandingTheme.getID());
-		}
-
+		ActionFactory.getBrandingThemeComboAction().run(transaction, false);
 	}
 
 	@Override
@@ -1581,7 +1712,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (taxCode != null) {
 
 			taxCodeSelect.setComboItem(taxCode);
-			customerTransactionGrid.setTaxCode(taxCode.getID());
+			invoiceTable.setTaxCode(taxCode.getID());
 		} else
 			taxCodeSelect.setValue("");
 		// updateNonEditableItems();
@@ -1596,11 +1727,12 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	@Override
 	public boolean canPrint() {
 		EditMode mode = getMode();
-		if (mode == EditMode.CREATE || mode== EditMode.EDIT) {
+		if (mode == EditMode.CREATE || mode == EditMode.EDIT) {
 			return false;
 		} else {
 			return true;
-		}}
+		}
+	}
 
 	@Override
 	public boolean canExportToCsv() {
@@ -1609,7 +1741,22 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	}
 
 	@Override
-	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
-		return customerTransactionGrid;
+	public List<ClientTransactionItem> getAllTransactionItems() {
+		return invoiceTable.getAllRows();
+	}
+
+	@Override
+	protected boolean isBlankTransactionGrid() {
+		return invoiceTable.getAllRows().isEmpty();
+	}
+
+	@Override
+	public void addNewData(ClientTransactionItem transactionItem) {
+		invoiceTable.add(transactionItem);
+	}
+
+	@Override
+	protected void refreshTransactionGrid() {
+
 	}
 }

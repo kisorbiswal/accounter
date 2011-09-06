@@ -33,8 +33,10 @@ import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
+import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -44,7 +46,6 @@ import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 
 public class CustomerRefundView extends
 		AbstractCustomerTransactionView<ClientCustomerRefund> {
@@ -55,6 +56,8 @@ public class CustomerRefundView extends
 	private AmountField endBalText, custBalText;
 	private TextItem checkNoText;
 	private CheckboxItem printCheck;
+	private CustomerCombo customerCombo;
+	private TAXCodeCombo taxCodeSelect;
 
 	private Double refundAmount;
 	private Double endingBalance;
@@ -579,6 +582,13 @@ public class CustomerRefundView extends
 		initPayFromAccounts();
 	}
 
+	private void initCustomers() {
+		List<ClientCustomer> result = getCompany().getActiveCustomers();
+		customerCombo.initCombo(result);
+		customerCombo.setDisabled(isInViewMode());
+
+	}
+
 	public void setCustomerBalance(Double amount) {
 		if (amount == null)
 			amount = 0.0D;
@@ -601,6 +611,18 @@ public class CustomerRefundView extends
 		// if (!AccounterValidator.isPositiveAmount(this.amtText.getAmount())) {
 		// result.addError(amtText, accounterConstants.invalidNegativeAmount());
 		// }
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
+				&& getCompany().getPreferences().getDoYouPaySalesTax()) {
+			if (taxCodeSelect != null)
+				if (!taxCodeSelect.validate()) {
+					result.addError(taxCodeSelect, Accounter.messages()
+							.pleaseEnter(taxCodeSelect.getTitle()));
+				}
+		}
+
+		if (isBlankTransactionGrid()) {
+			result.addError(null, accounterConstants.blankTransaction());
+		}
 
 		if (transaction.getTotal() <= 0) {
 			amtText.highlight();
@@ -736,8 +758,31 @@ public class CustomerRefundView extends
 	}
 
 	@Override
-	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
-		return null;
+	protected void initTransactionsItems() {
+		// TODO Auto-generated method stub
+
 	}
 
+	@Override
+	protected boolean isBlankTransactionGrid() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	protected void addNewData(ClientTransactionItem transactionItem) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void refreshTransactionGrid() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public List<ClientTransactionItem> getAllTransactionItems() {
+		return null;
+	}
 }
