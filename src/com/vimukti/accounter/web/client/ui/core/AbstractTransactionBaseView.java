@@ -158,7 +158,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected int gridType;
 
 	protected Button recurringButton;
-	protected AbstractTransactionGrid<ClientTransactionItem> vendorTransactionGrid;
 
 	public boolean isVatInclusive() {
 		return isVATInclusive;
