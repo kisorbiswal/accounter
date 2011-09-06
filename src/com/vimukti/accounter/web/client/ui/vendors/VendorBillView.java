@@ -465,23 +465,20 @@ public class VendorBillView extends
 
 		menuButton = createAddNewButton();
 		vendorTransactionTable = new VendorTransactionTable() {
-			
+
 			@Override
 			protected void updateNonEditableItems() {
-				// TODO Auto-generated method stub
-				
+				VendorBillView.this.updateNonEditableItems();
 			}
-			
+
 			@Override
-			protected Object getTransactionObject() {
-				// TODO Auto-generated method stub
-				return null;
+			protected ClientTransaction getTransactionObject() {
+				return VendorBillView.this.getTransactionObject();
 			}
-			
+
 			@Override
 			protected ClientVendor getSelectedVendor() {
-				// TODO Auto-generated method stub
-				return null;
+				return VendorBillView.this.getVendor();
 			}
 		};
 		vendorTransactionTable.setDisabled(isInViewMode());

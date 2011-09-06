@@ -166,20 +166,17 @@ public class ItemReceiptView extends
 
 			@Override
 			protected void updateNonEditableItems() {
-				// TODO Auto-generated method stub
-
+				ItemReceiptView.this.updateNonEditableItems();
 			}
 
 			@Override
-			protected Object getTransactionObject() {
-				// TODO Auto-generated method stub
-				return null;
+			protected ClientTransaction getTransactionObject() {
+				return ItemReceiptView.this.getTransactionObject();
 			}
 
 			@Override
 			protected ClientVendor getSelectedVendor() {
-				// TODO Auto-generated method stub
-				return null;
+				return ItemReceiptView.this.getVendor();
 			}
 		};
 		vendorTransactionTable.setDisabled(isInViewMode());
