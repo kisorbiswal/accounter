@@ -84,8 +84,6 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 		currentView = new SelectCombo(Accounter.constants().currentBudget());
 		currentView.setHelpInformation(true);
 
-		listOfBudgets = getCompany().getBudget();
-
 		listOfTypes = new ArrayList<String>();
 		for (ClientBudget budgets : listOfBudgets) {
 			listOfTypes.add(budgets.getBudgetName());
