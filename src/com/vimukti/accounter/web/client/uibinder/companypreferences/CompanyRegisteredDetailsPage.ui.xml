@@ -6,10 +6,38 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:HTMLPanel>
-		<g:VerticalPanel>
-			<g:Label text="New Label"/>
+	<g:VerticalPanel spacing="8">
+		<g:VerticalPanel spacing="8">
+			<g:HorizontalPanel spacing="8">
+				<g:Label ui:field="registeredCompanyNameLabel"/>
+				<g:TextBox ui:field="registeredCompanyName"/>
+			</g:HorizontalPanel>
+			<g:VerticalPanel>
+				<g:HorizontalPanel spacing="4">
+					<g:Label ui:field="address1Label"/>
+					<g:TextBox ui:field="address1TextBox"/>
+				</g:HorizontalPanel>
+				<g:HorizontalPanel spacing="4">
+					<g:Label ui:field="address2Label"/>
+					<g:TextBox ui:field="address2TextBox"/>
+				</g:HorizontalPanel>
+				<g:HorizontalPanel spacing="4">
+					<g:Label ui:field="cityLabel"/>
+					<g:TextBox ui:field="cityTextBox"/>
+				</g:HorizontalPanel>
+				<g:HorizontalPanel spacing="4">
+				<g:Label ui:field="postalCodeLabel"/>
+				<g:TextBox ui:field="postalCodeTextBox"/>
+			</g:HorizontalPanel>
+				<g:HorizontalPanel spacing="4">
+					<g:Label ui:field="countryLabel"/>
+					<g:ListBox ui:field="countryCombo"/>
+				</g:HorizontalPanel>
+				<g:HorizontalPanel spacing="4">
+					<g:Label ui:field="stateLabel"/>
+					<g:ListBox ui:field="stateCombo"/>
+				</g:HorizontalPanel>
+			</g:VerticalPanel>
 		</g:VerticalPanel>
-		<g:Label text="New Label"/>
-	</g:HTMLPanel>
+	</g:VerticalPanel>
 </ui:UiBinder> 
