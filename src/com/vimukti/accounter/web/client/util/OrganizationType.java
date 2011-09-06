@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.util;
 public class OrganizationType {
 	String id;
 
-	OrganizationType(String id, String name, String description) {
+	public OrganizationType(String id, String name, String description) {
 		this.id=id;
 		this.name=name;
 		this.description=description;
