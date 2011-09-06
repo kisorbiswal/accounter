@@ -8,7 +8,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
@@ -242,10 +241,9 @@ public class SelectItemsTo1099Dialog<T extends IAccounterCore> extends
 	}
 
 	private Object getSelectedGridItemsColumnValue(T obj, int index) {
-		ClientVendor vendor = (ClientVendor) obj;
 		switch (index) {
 		case 0:
-			return vendor.getName();
+			return obj.getName();
 
 		default:
 			return null;
@@ -253,10 +251,9 @@ public class SelectItemsTo1099Dialog<T extends IAccounterCore> extends
 	}
 
 	private Object getAvailableGridItemsColumnValue(T obj, int index) {
-		ClientVendor vendor = (ClientVendor) obj;
 		switch (index) {
 		case 0:
-			return vendor.getName();
+			return obj.getName();
 
 		default:
 			return null;
