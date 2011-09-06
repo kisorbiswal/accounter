@@ -42,6 +42,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
@@ -10054,6 +10055,9 @@ public class FinanceTool {
 
 		company.setFixedAssets(new ArrayList<FixedAsset>(session.getNamedQuery(
 				"list.FixedAsset").list()));
+
+		company.setAccounterClasses(new ArrayList<AccounterClass>(session
+				.getNamedQuery("list.TrackClass").list()));
 		// company
 		// .setSellingDisposingFixedAssets(new
 		// HashSet<SellingOrDisposingFixedAsset>(
