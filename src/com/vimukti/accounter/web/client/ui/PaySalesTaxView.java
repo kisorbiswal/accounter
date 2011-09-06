@@ -657,7 +657,7 @@ public class PaySalesTaxView extends
 	}
 
 	@Override
-	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
-		return null;
+	protected void refreshTransactionGrid() {
+
 	}
 }
