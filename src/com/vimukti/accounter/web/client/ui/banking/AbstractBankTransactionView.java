@@ -242,9 +242,12 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 				break;
 			}
 		}
-
-		billToCombo.initCombo(new ArrayList<ClientAddress>(tempSet));
-		billToCombo.setDisabled(isInViewMode());
+		List<ClientAddress> list = new ArrayList<ClientAddress>(tempSet);
+		billToCombo.initCombo(list);
+		if (list == null || list.size() == 0)
+			billToCombo.setDisabled(true);
+		else
+			billToCombo.setDisabled(isInViewMode());
 		// billToCombo.setShowDisabled(false);
 
 		if (isInViewMode()) {
