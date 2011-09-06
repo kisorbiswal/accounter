@@ -72,6 +72,8 @@
 		-->
 		<mapping resource="mapping/queries.xml" />
 		<mapping resource="mapping/usermanagment.xml" />
+		
+		<mapping resource="mapping/finance-admin-mapping.xml"/>
 
 		<!--  Mappings for Finance Module  -->
 
@@ -83,6 +85,7 @@
 		<mapping resource="mapping/finance-views.xml" />
 		<mapping resource="mapping/finance-new-mapping.xml"/>
 		<mapping resource="mapping/finance-new-queries.xml"/>
+		
 
 
 	</session-factory>
