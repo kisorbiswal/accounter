@@ -12,22 +12,40 @@
 				<g:Label horizontalAlignment="ALIGN_LEFT" ui:field="contactDetailLabel"/>
 			</g:HorizontalPanel>
 			<g:VerticalPanel spacing="4">
-				<g:HorizontalPanel spacing="6">
-					<g:Label ui:field="phoneTextBoxLabel"/>
-					<g:TextBox ui:field="phoneTextBox"/>
-				</g:HorizontalPanel>
-				<g:HorizontalPanel spacing="6">
-					<g:Label ui:field="emailFieldBoxLabel"/>
-					<g:TextBox ui:field="emailFieldBox"/>
-				</g:HorizontalPanel>
-				<g:HorizontalPanel spacing="6">
-					<g:Label ui:field="faxTextBoxLabel"/>
-					<g:TextBox ui:field="faxTextBox"/>
-				</g:HorizontalPanel>
-				<g:HorizontalPanel spacing="6">
-					<g:Label ui:field="webTextBoxLabel"/>
-					<g:TextBox ui:field="webTextBox"/>
-				</g:HorizontalPanel>
+				<g:Grid>
+					<g:row>
+						<g:customCell>
+							<g:Label ui:field="phoneTextBoxLabel"/>
+						</g:customCell>
+						<g:customCell>
+							<g:TextBox ui:field="phoneTextBox"/>
+						</g:customCell>
+					</g:row>
+					<g:row>
+						<g:customCell>
+							<g:Label ui:field="emailFieldBoxLabel"/>
+						</g:customCell>
+						<g:customCell>
+							<g:TextBox ui:field="emailFieldBox"/>
+						</g:customCell>
+					</g:row>
+					<g:row>
+						<g:customCell>
+							<g:Label ui:field="faxTextBoxLabel"/>
+						</g:customCell>
+						<g:customCell>
+							<g:TextBox ui:field="faxTextBox"/>
+						</g:customCell>
+					</g:row>
+					<g:row>
+						<g:customCell>
+							<g:Label ui:field="webTextBoxLabel"/>
+						</g:customCell>
+						<g:customCell>
+							<g:TextBox ui:field="webTextBox"/>
+						</g:customCell>
+					</g:row>
+				</g:Grid>
 			</g:VerticalPanel>
 		</g:VerticalPanel>
 	</g:VerticalPanel>
