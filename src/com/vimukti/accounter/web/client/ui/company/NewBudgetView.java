@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -62,6 +63,16 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 
 	private ArrayList<DynamicForm> listforms;
 
+	List<ClientBudget> budgetList;
+
+	public NewBudgetView(List<ClientBudget> listData) {
+		budgetList = listData;
+	}
+
+	public NewBudgetView() {
+
+	}
+
 	@Override
 	public void init() {
 		super.init();
@@ -98,12 +109,29 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 				.budgetStartWith());
 		budgetStartWithSelect.setHelpInformation(true);
 		budgetStartWithSelect.initCombo(getStartWithList());
+		budgetStartWithSelect.setSelectedItem(0);
 		budgetStartWithSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
+					@SuppressWarnings("unchecked")
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
+						if (selectItem == COPY_FROM_EXISTING) {
+							String budgetTitle = "Copy values from Existing Budget";
+							CopyBudgetDialogue copybudgetDialogue = new CopyBudgetDialogue(
+									budgetTitle, "", budgetList);
+							copybudgetDialogue
+									.setCallback(new ActionCallback<String>() {
 
+										@Override
+										public void actionResult(String result) {
+											refreshView(result);
+
+										}
+
+									});
+							copybudgetDialogue.show();
+						}
 					}
 				});
 
@@ -232,9 +260,9 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 	private List<String> getStartWithList() {
 		List<String> list = new ArrayList<String>();
 
+		list.add(NO_AMOUNT);
 		list.add(AUCTUAL_AMOUNT_LAST_FISCAL_YEAR);
 		list.add(AUCTUAL_AMOUNT_THIS_FISCAL_YEAR);
-		list.add(NO_AMOUNT);
 		list.add(COPY_FROM_EXISTING);
 
 		return list;
@@ -292,34 +320,6 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 		List<ClientBudgetItem> allGivenRecords = (List<ClientBudgetItem>) gridView
 				.getRecords();
 
-		// Set<ClientBudgetItem> allBudgetItems = new
-		// HashSet<ClientBudgetItem>();
-		//
-		// if (allGivenRecords.isEmpty()) {
-		// data.setBudgetItem(allBudgetItems);
-		// }
-		// for (IsSerializable rec : allGivenRecords) {
-		// ClientBudgetItem tempRecord = (ClientBudgetItem) rec;
-		// ClientBudgetItem budgetItem = new ClientBudgetItem();
-		//
-		// budgetItem.setAccountsName(tempRecord.getAccountsName());
-		// budgetItem.setJanuaryAmount(tempRecord.getJanuaryAmount());
-		// budgetItem.setFebruaryAmount(tempRecord.getFebruaryAmount());
-		// budgetItem.setMarchAmount(tempRecord.getMarchAmount());
-		// budgetItem.setAprilAmount(tempRecord.getAprilAmount());
-		// budgetItem.setMayAmount(tempRecord.getMayAmount());
-		// budgetItem.setJuneAmount(tempRecord.getJuneAmount());
-		// budgetItem.setJulyAmount(tempRecord.getJulyAmount());
-		// budgetItem.setAugustAmount(tempRecord.getAugustAmount());
-		// budgetItem.setSeptemberAmount(tempRecord.getSpetemberAmount());
-		// budgetItem.setOctoberAmount(tempRecord.getOctoberAmount());
-		// budgetItem.setNovemberAmount(tempRecord.getNovemberAmount());
-		// budgetItem.setDecemberAmount(tempRecord.getOctoberAmount());
-		//
-		// allBudgetItems.add(budgetItem);
-		//
-		// }
-
 		data.setBudgetItem(allGivenRecords);
 
 	}
@@ -338,14 +338,7 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 		Accounter.showError(errorString);
 
 		updateBudgetObject();
-		// if (exceptionMessage.contains("number"))
-		// data.setNumber(accountNo);
-		// if (exceptionMessage.contains("name"))
-		// data.setName(accountName);
-		// // if (takenAccount == null)
-		// // else
-		// // Accounter.showError(FinanceApplication.constants()
-		// // .accountUpdationFailed());
+
 	}
 
 	@Override
@@ -365,40 +358,25 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 		result.add(budgetInfoForm.validate());
 		String name = budgetNameText.getValue().toString() != null ? budgetNameText
 				.getValue().toString() : "";
-		// Client company = getCompany();
-		// ClientAccount account = company.getAccountByName(name);
-		// if (name != null && !name.isEmpty()) {
-		// if (isInViewMode() ? (account == null ? false : !data.getName()
-		// .equalsIgnoreCase(name)) : account != null) {
-		//
-		// result.addError(budgetNameText, Accounter.constants()
-		// .alreadyExist());
-		// return result;
-		// }
-		// }
-		// long number = accNoText.getNumber();
-		// account = company.getAccountByNumber(number);
-		// if (isInViewMode() ? (account == null ? false : !(Long.parseLong(data
-		// .getNumber()) == number)) : account != null) {
-		//
-		// result.addError(accNameText, Accounter.messages()
-		// .alreadyAccountExist(Global.get().Account()));
-		// return result;
-		// }
-		//
-		// if (!(isInViewMode() && data.getName().equalsIgnoreCase(
-		// Accounter.constants().openingBalances()))) {
-		// validateAccountNumber(accNoText.getNumber());
-		// }
-		// if (AccounterValidator.isPriorToCompanyPreventPostingDate(asofDate
-		// .getEnteredDate())) {
-		// result.addError(asofDate, Accounter.constants().priorasOfDate());
-		// }
-		// if (accountType == ClientAccount.TYPE_BANK) {
-		// result.add(bankForm.validate());
-		// }
+
 		return result;
 
 	}
 
+	private void refreshView(String result) {
+
+		gridView.removeAllRecords();
+
+		for (ClientBudget budget : budgetList) {
+			List<ClientBudgetItem> budgetItemList = budget.getBudgetItem();
+			if (result.equals(budget.getBudgetName())) {
+				for (ClientBudgetItem items : budgetItemList) {
+					items.setAccountsName(items.getAccount().getName());
+					gridView.addData(items);
+				}
+				break;
+			}
+
+		}
+	}
 }

@@ -65,7 +65,8 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 
 	@Override
 	protected Action getAddNewAction() {
-		return ActionFactory.getNewBudgetAction();
+		ActionFactory.getNewBudgetAction().run(listOfBudgets);
+		return null;
 	}
 
 	@Override

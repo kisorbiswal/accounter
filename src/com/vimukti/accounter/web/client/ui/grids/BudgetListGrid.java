@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.grids;
 
 import java.util.List;
 
-import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -10,7 +9,6 @@ import com.vimukti.accounter.web.client.core.ClientBudgetItem;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class BudgetListGrid extends BaseListGrid<ClientBudgetItem> {
@@ -225,19 +223,11 @@ public class BudgetListGrid extends BaseListGrid<ClientBudgetItem> {
 	@Override
 	public void headerCellClicked(int colIndex) {
 		super.headerCellClicked(colIndex);
-		for (int i = 0; i < this.getRowCount(); i++) {
-			((CheckBox) this.getWidget(i, 0)).setEnabled(false);
-		}
 	}
 
 	@Override
 	public void deleteFailed(AccounterException caught) {
-		int errorCode = caught.getErrorCode();
-		if (errorCode == AccounterException.ERROR_OBJECT_IN_USE) {
-			Accounter.showError(AccounterExceptions.accounterErrors
-					.customerInUse());
-			return;
-		}
+		// TODO Auto-generated method stub
 		super.deleteFailed(caught);
 	}
 

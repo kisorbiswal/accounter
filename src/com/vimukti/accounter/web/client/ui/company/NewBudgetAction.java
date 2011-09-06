@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
+import java.util.List;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
@@ -27,7 +29,34 @@ public class NewBudgetAction extends Action<ClientBudget> {
 	}
 
 	public void run() {
-		runAsync(data, isDependent);
+
+		if (listData != null) {
+			runAsync(listData);
+		} else {
+			runAsync(data, isDependent);
+		}
+	}
+
+	private void runAsync(final List<ClientBudget> listData) {
+
+		GWT.runAsync(new RunAsyncCallback() {
+
+			@Override
+			public void onSuccess() {
+				view = new NewBudgetView(listData);
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, NewBudgetAction.this);
+
+			}
+
+			@Override
+			public void onFailure(Throwable arg0) {
+				Accounter
+						.showError(Accounter.constants().unableToshowtheview());
+
+			}
+		});
+
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
