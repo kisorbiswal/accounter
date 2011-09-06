@@ -96,8 +96,7 @@ public class ViewManager extends HorizontalPanel {
 		leftPanel.add(viewHolder);
 		this.add(leftPanel);
 		if (isHelpPanelEnabled) {
-			accounterHelpView = (HelpPanel) createHelpPanel();
-			accounterHelpView.addStyleName("view_help_panel");
+			accounterHelpView = (HelpPanel) createHelpPanel();			
 		}
 		if (accounterHelpView != null) {
 			this.add(accounterHelpView);
@@ -116,6 +115,7 @@ public class ViewManager extends HorizontalPanel {
 			accounterHelpView = new HelpPanel();
 			accounterHelpView.setHelpUrl(this.getUrl());
 			accounterHelpView.setIsHelpPanel(true);
+			accounterHelpView.addStyleName("view_help_panel");
 			return accounterHelpView;
 		} else {
 			return null;
@@ -485,10 +485,15 @@ public class ViewManager extends HorizontalPanel {
 
 	public void toggleHelpPanel(boolean isHelpPanel) {
 		if (!isHelpPanel) {
+			HelpPanel prevhelpPanel = accounterHelpView;
 			accounterHelpView.removeFromParent();
 			helpDialog.removeFromParent();
-			accounterHelpView.setIsHelpPanel(true);
-			this.add(accounterHelpView);
+			accounterHelpView = (HelpPanel) createHelpPanel();
+			if (accounterHelpView != null) {
+				this.add(accounterHelpView);
+			} else {
+				this.add(prevhelpPanel);
+			}
 			this.setCellWidth(accounterHelpView, "50%");
 		} else {
 			accounterHelpView.removeFromParent();
