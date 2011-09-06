@@ -1307,8 +1307,7 @@ public class ActionFactory {
 	}
 
 	public static NewBudgetAction getNewBudgetAction() {
-		return new NewBudgetAction(Accounter.messages().newCustomer(
-				Global.get().Customer()));
+		return new NewBudgetAction(Accounter.constants().newBudget());
 	}
 
 	public static UsersActivityListAction getUsersActivityListAction() {
