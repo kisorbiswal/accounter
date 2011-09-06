@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui;
 
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
@@ -38,20 +37,22 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 
 	private void initialise() {
 		getGrid().setType(AccounterCoreType.SHIPPING_METHOD);
-		getGrid().addRecordClickHandler(new GridRecordClickHandler() {
+		getGrid().addRecordClickHandler(
+				new GridRecordClickHandler<ClientShippingMethod>() {
 
-			@Override
-			public boolean onRecordClick(IsSerializable core, int column) {
-				ClientShippingMethod clientShippingMethod = (ClientShippingMethod) core;
-				if (clientShippingMethod != null)
-					enableEditRemoveButtons(true);
-				else
-					enableEditRemoveButtons(false);
+					@Override
+					public boolean onRecordClick(
+							ClientShippingMethod clientShippingMethod,
+							int column) {
+						if (clientShippingMethod != null)
+							enableEditRemoveButtons(true);
+						else
+							enableEditRemoveButtons(false);
 
-				return true;
-			}
+						return true;
+					}
 
-		});
+				});
 
 		dialogButtonsHandler = new GroupDialogButtonsHandler() {
 
@@ -121,8 +122,8 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 	}
 
 	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
-		ClientShippingMethod shippingMethod = (ClientShippingMethod) obj;
+	public Object getGridColumnValue(ClientShippingMethod shippingMethod,
+			int index) {
 		if (shippingMethod != null) {
 			switch (index) {
 			case 0:

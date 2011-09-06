@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
@@ -24,7 +23,7 @@ import com.vimukti.accounter.web.client.ui.grids.ListGrid;
  * 
  */
 
-public class ApplyCreditDialog extends BaseDialog {
+public class ApplyCreditDialog extends BaseDialog<ClientCustomer> {
 
 	private static final String ATTR_CREDIT_AMOUNT = Accounter.constants()
 			.credit();
@@ -110,8 +109,7 @@ public class ApplyCreditDialog extends BaseDialog {
 				this);
 		adjPayText.setColSpan(1);
 		adjPayText.setDisabled(true);
-		adjPayText.setValue(amountAsString(DataUtils
-				.getBalance(amountDue)
+		adjPayText.setValue(amountAsString(DataUtils.getBalance(amountDue)
 				- DataUtils.getBalance(cashDiscount)));
 
 		totAmtUseText = new AmountField(Accounter.constants()
@@ -324,9 +322,8 @@ public class ApplyCreditDialog extends BaseDialog {
 	}
 
 	@Override
-	public Object getGridColumnValue(IsSerializable accounterCore, int col) {
+	public Object getGridColumnValue(ClientCustomer customer, int col) {
 
-		ClientCustomer customer = (ClientCustomer) accounterCore;
 		switch (col) {
 		case 0:
 			return "";
@@ -353,7 +350,7 @@ public class ApplyCreditDialog extends BaseDialog {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 
@@ -365,7 +362,6 @@ public class ApplyCreditDialog extends BaseDialog {
 	public void saveFailed(AccounterException exception) {
 
 	}
-
 
 	@Override
 	protected boolean onOK() {

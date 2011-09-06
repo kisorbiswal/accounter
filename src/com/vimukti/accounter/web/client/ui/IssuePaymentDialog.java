@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -36,7 +35,7 @@ import com.vimukti.accounter.web.client.ui.grids.TransactionIssuePaymentGrid;
  * @author Ravi Kiran.G
  * 
  */
-public class IssuePaymentDialog extends BaseDialog {
+public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 
 	private PayFromAccountsCombo accountCombo;
 	private SelectCombo payMethodSelect;
@@ -588,11 +587,10 @@ public class IssuePaymentDialog extends BaseDialog {
 	}
 
 	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
+	public Object getGridColumnValue(ClientIssuePayment obj, int index) {
 		// NOTHING TO DO.
 		return null;
 	}
-
 
 	@Override
 	protected boolean onOK() {

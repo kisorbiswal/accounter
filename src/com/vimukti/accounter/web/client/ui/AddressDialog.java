@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui;
 
 import java.util.LinkedHashMap;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -19,7 +18,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
  * 
  */
 
-public class AddressDialog extends BaseDialog {
+public class AddressDialog extends BaseDialog<ClientAddress> {
 
 	ClientAddress addNew;
 	TextAreaItem textAreaItem;
@@ -121,7 +120,7 @@ public class AddressDialog extends BaseDialog {
 	}
 
 	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
+	public Object getGridColumnValue(ClientAddress obj, int index) {
 		return null;
 	}
 
@@ -131,7 +130,7 @@ public class AddressDialog extends BaseDialog {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 
@@ -143,7 +142,6 @@ public class AddressDialog extends BaseDialog {
 	public void saveFailed(AccounterException exception) {
 
 	}
-
 
 	public String[] getCountryList() {
 		// List list = new ArrayList();

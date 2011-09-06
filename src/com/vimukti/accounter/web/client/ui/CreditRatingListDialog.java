@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui;
 
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCreditRating;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
@@ -36,18 +35,19 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 
 	private void initialise() {
 		getGrid().setType(AccounterCoreType.CREDIT_RATING);
-		getGrid().addRecordClickHandler(new GridRecordClickHandler() {
+		getGrid().addRecordClickHandler(
+				new GridRecordClickHandler<ClientCreditRating>() {
 
-			@Override
-			public boolean onRecordClick(IsSerializable core, int column) {
-				ClientCreditRating clientCreditRating = (ClientCreditRating) core;
-				if (clientCreditRating != null)
-					enableEditRemoveButtons(true);
-				else
-					enableEditRemoveButtons(false);
-				return false;
-			}
-		});
+					@Override
+					public boolean onRecordClick(
+							ClientCreditRating clientCreditRating, int column) {
+						if (clientCreditRating != null)
+							enableEditRemoveButtons(true);
+						else
+							enableEditRemoveButtons(false);
+						return false;
+					}
+				});
 		dialogButtonsHandler = new GroupDialogButtonsHandler() {
 
 			public void onCloseButtonClick() {
@@ -115,7 +115,7 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 	}
 
 	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
+	public Object getGridColumnValue(ClientCreditRating obj, int index) {
 		ClientCreditRating creditRating = (ClientCreditRating) obj;
 		if (creditRating != null) {
 			switch (index) {

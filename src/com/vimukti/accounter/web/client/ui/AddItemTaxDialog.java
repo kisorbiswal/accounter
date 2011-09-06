@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
-public class AddItemTaxDialog extends BaseDialog {
+public class AddItemTaxDialog extends BaseDialog<ClientTAXItem> {
 
 	public TextItem taxText;
 	public RadioGroupItem taxableRadio;
@@ -48,7 +48,7 @@ public class AddItemTaxDialog extends BaseDialog {
 	}
 
 	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
+	public Object getGridColumnValue(ClientTAXItem obj, int index) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -59,7 +59,7 @@ public class AddItemTaxDialog extends BaseDialog {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 

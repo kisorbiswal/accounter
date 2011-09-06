@@ -3,9 +3,9 @@ package com.vimukti.accounter.web.client.ui;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.ViewConfiguration;
@@ -19,7 +19,7 @@ import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
  * 
  */
 
-public class SelectAccountTypeDialog extends BaseDialog {
+public class SelectAccountTypeDialog extends BaseDialog<ClientAccount> {
 
 	DynamicForm incomeAndExpenseForm;
 	RadioGroupItem incomeAndExpenseRadioGroup;
@@ -99,7 +99,7 @@ public class SelectAccountTypeDialog extends BaseDialog {
 	}
 
 	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
+	public Object getGridColumnValue(ClientAccount obj, int index) {
 		// TODO Auto-generated method stub
 		return null;
 	}

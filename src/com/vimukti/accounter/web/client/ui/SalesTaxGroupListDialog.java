@@ -46,14 +46,15 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 
 	public void initialise() {
 		getGrid().setType(AccounterCoreType.TAX_GROUP);
-		getGrid().addRecordClickHandler(new GridRecordClickHandler() {
+		getGrid().addRecordClickHandler(
+				new GridRecordClickHandler<ClientTAXGroup>() {
 
-			@Override
-			public boolean onRecordClick(IsSerializable core, int column) {
-				enableEditRemoveButtons(true);
-				return true;
-			}
-		});
+					@Override
+					public boolean onRecordClick(ClientTAXGroup core, int column) {
+						enableEditRemoveButtons(true);
+						return true;
+					}
+				});
 
 		groupDialogButtonHandler = new GroupDialogButtonsHandler() {
 
@@ -189,8 +190,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 	}
 
 	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
-		ClientTAXGroup rec = (ClientTAXGroup) obj;
+	public Object getGridColumnValue(ClientTAXGroup rec, int index) {
 		switch (index) {
 		case 0:
 			if (rec.getName() != null)

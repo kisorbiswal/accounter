@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui;
 
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
@@ -36,20 +35,22 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 
 	private void initialise() {
 		getGrid().setType(AccounterCoreType.SHIPPING_TERM);
-		getGrid().addRecordClickHandler(new GridRecordClickHandler() {
+		getGrid().addRecordClickHandler(
+				new GridRecordClickHandler<ClientShippingTerms>() {
 
-			@Override
-			public boolean onRecordClick(IsSerializable core, int column) {
-				ClientShippingTerms clientShippingTerms = (ClientShippingTerms) core;
-				if (clientShippingTerms != null)
-					enableEditRemoveButtons(true);
-				else
-					enableEditRemoveButtons(false);
+					@Override
+					public boolean onRecordClick(ClientShippingTerms core,
+							int column) {
+						ClientShippingTerms clientShippingTerms = (ClientShippingTerms) core;
+						if (clientShippingTerms != null)
+							enableEditRemoveButtons(true);
+						else
+							enableEditRemoveButtons(false);
 
-				return true;
-			}
+						return true;
+					}
 
-		});
+				});
 
 		dialogButtonsHandler = new GroupDialogButtonsHandler() {
 
@@ -116,8 +117,8 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 	}
 
 	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
-		ClientShippingTerms shippingTerms = (ClientShippingTerms) obj;
+	public Object getGridColumnValue(ClientShippingTerms shippingTerms,
+			int index) {
 		if (shippingTerms != null) {
 			switch (index) {
 			case 0:

@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui;
 
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -36,20 +35,21 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 
 	private void initialise() {
 		getGrid().setType(AccounterCoreType.ITEM_GROUP);
-		getGrid().addRecordClickHandler(new GridRecordClickHandler() {
+		getGrid().addRecordClickHandler(
+				new GridRecordClickHandler<ClientItemGroup>() {
 
-			@Override
-			public boolean onRecordClick(IsSerializable core, int column) {
-				ClientItemGroup clientItemGroup = (ClientItemGroup) core;
-				if (clientItemGroup != null)
-					enableEditRemoveButtons(true);
-				else
-					enableEditRemoveButtons(false);
+					@Override
+					public boolean onRecordClick(
+							ClientItemGroup clientItemGroup, int column) {
+						if (clientItemGroup != null)
+							enableEditRemoveButtons(true);
+						else
+							enableEditRemoveButtons(false);
 
-				return false;
-			}
+						return false;
+					}
 
-		});
+				});
 
 		dialogButtonsHandler = new GroupDialogButtonsHandler() {
 
@@ -105,8 +105,7 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 	}
 
 	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
-		ClientItemGroup clientItemGroup = (ClientItemGroup) obj;
+	public Object getGridColumnValue(ClientItemGroup clientItemGroup, int index) {
 		if (clientItemGroup != null) {
 			switch (index) {
 			case 0:

@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui;
 
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -39,20 +38,21 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 
 	public void initialise() {
 		getGrid().setType(AccounterCoreType.PRICE_LEVEL);
-		getGrid().addRecordClickHandler(new GridRecordClickHandler() {
+		getGrid().addRecordClickHandler(
+				new GridRecordClickHandler<ClientPriceLevel>() {
 
-			@Override
-			public boolean onRecordClick(IsSerializable core, int column) {
-				ClientPriceLevel clientPriceLevel = (ClientPriceLevel) core;
-				if (clientPriceLevel != null)
-					enableEditRemoveButtons(true);
-				else
-					enableEditRemoveButtons(false);
+					@Override
+					public boolean onRecordClick(ClientPriceLevel core,
+							int column) {
+						if (core != null)
+							enableEditRemoveButtons(true);
+						else
+							enableEditRemoveButtons(false);
 
-				return false;
-			}
+						return false;
+					}
 
-		});
+				});
 
 		groupDialogButtonHandler = new GroupDialogButtonsHandler() {
 
@@ -144,14 +144,13 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 	}
 
 	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
-		ClientPriceLevel priceLevel = (ClientPriceLevel) obj;
-		if (priceLevel != null) {
+	public Object getGridColumnValue(ClientPriceLevel obj, int index) {
+		if (obj != null) {
 			switch (index) {
 			case 0:
-				return priceLevel.getName();
+				return obj.getName();
 			case 1:
-				return priceLevel.getPercentage();
+				return obj.getPercentage();
 			}
 		}
 		return null;

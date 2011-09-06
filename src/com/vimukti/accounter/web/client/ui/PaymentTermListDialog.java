@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui;
 
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -40,15 +39,17 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 		setSize("400px", "250px");
 
 		listGridView.setSize("400px", "300px");
-		listGridView.addRecordClickHandler(new GridRecordClickHandler() {
+		listGridView
+				.addRecordClickHandler(new GridRecordClickHandler<ClientPaymentTerms>() {
 
-			@Override
-			public boolean onRecordClick(IsSerializable core, int column) {
-				enableEditRemoveButtons(true);
-				return true;
-			}
+					@Override
+					public boolean onRecordClick(ClientPaymentTerms core,
+							int column) {
+						enableEditRemoveButtons(true);
+						return true;
+					}
 
-		});
+				});
 
 		dialogButtonsHandler = new GroupDialogButtonsHandler() {
 
@@ -192,8 +193,7 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 	}
 
 	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
-		ClientPaymentTerms paymentTerms = (ClientPaymentTerms) obj;
+	public Object getGridColumnValue(ClientPaymentTerms paymentTerms, int index) {
 		if (paymentTerms != null) {
 			switch (index) {
 			case 0:

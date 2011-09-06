@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -9,7 +8,7 @@ import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
-public class AddEditFiscalYearDialog extends BaseDialog {
+public class AddEditFiscalYearDialog extends BaseDialog<ClientFiscalYear> {
 
 	public AddEditFiscalYearDialog(String title, String desc,
 			ClientFiscalYear fiscalYear) {
@@ -42,7 +41,7 @@ public class AddEditFiscalYearDialog extends BaseDialog {
 	}
 
 	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
+	public Object getGridColumnValue(ClientFiscalYear obj, int index) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -53,7 +52,7 @@ public class AddEditFiscalYearDialog extends BaseDialog {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 
@@ -65,7 +64,6 @@ public class AddEditFiscalYearDialog extends BaseDialog {
 	public void saveFailed(AccounterException exception) {
 
 	}
-
 
 	@Override
 	protected boolean onOK() {

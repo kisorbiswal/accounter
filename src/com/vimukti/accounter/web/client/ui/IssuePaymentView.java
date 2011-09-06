@@ -35,7 +35,7 @@ import com.vimukti.accounter.web.client.ui.grids.TransactionIssuePaymentGrid;
  * @author Ravi Kiran.G
  * 
  */
-public class IssuePaymentView extends BaseDialog {
+public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 
 	private PayFromAccountsCombo accountCombo;
 	private SelectItem payMethodSelect;
@@ -433,7 +433,7 @@ public class IssuePaymentView extends BaseDialog {
 	}
 
 	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
+	public Object getGridColumnValue(ClientIssuePayment obj, int index) {
 		// NOTHING TO DO.
 		return null;
 	}

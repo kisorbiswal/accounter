@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -20,7 +21,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
  * 
  */
 
-public class AdjustSalesTaxDueDialog extends BaseDialog {
+public class AdjustSalesTaxDueDialog extends BaseDialog<ClientAccount> {
 	public AdjustSalesTaxDueDialog(String title, String description) {
 		super(title, description);
 		createControls();
@@ -81,7 +82,7 @@ public class AdjustSalesTaxDueDialog extends BaseDialog {
 	}
 
 	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
+	public Object getGridColumnValue(ClientAccount obj, int index) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -104,7 +105,6 @@ public class AdjustSalesTaxDueDialog extends BaseDialog {
 	public void saveFailed(AccounterException exception) {
 
 	}
-
 
 	@Override
 	protected boolean onOK() {

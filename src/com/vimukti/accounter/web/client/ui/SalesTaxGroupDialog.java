@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
+import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -131,8 +132,8 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 		selectTaxItemsGrid.setCellsWidth(new Integer[] { 109, 100 });
 	}
 
-	public Object getAvailTaxItemsGridColumnValue(IsSerializable accounterCore,
-			int col) {
+	public Object getAvailTaxItemsGridColumnValue(
+			ClientTAXItemGroup accounterCore, int col) {
 		ClientTAXItem taxItem = (ClientTAXItem) accounterCore;
 		switch (col) {
 		case 0:
@@ -257,14 +258,15 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 		setAvalableTCGridCellWidths();
 		availTaxItemsGrid.setView(SalesTaxGroupDialog.this);
 		// getAvailableRecords();
-		availTaxItemsGrid.addRecordClickHandler(new GridRecordClickHandler() {
+		availTaxItemsGrid
+				.addRecordClickHandler(new GridRecordClickHandler<ClientTAXGroup>() {
 
-			@Override
-			public boolean onRecordClick(IsSerializable core, int column) {
-				addButton.setEnabled(true);
-				return true;
-			}
-		});
+					@Override
+					public boolean onRecordClick(ClientTAXGroup core, int column) {
+						addButton.setEnabled(true);
+						return true;
+					}
+				});
 		availTaxItemsGrid.init();
 		// availTaxCodesGrid.setWidth("80%");
 		// availTaxCodesGrid.setHeight("100%");
@@ -288,14 +290,15 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 		selectTaxItemsGrid.setView(SalesTaxGroupDialog.this);
 		if (taxGroup != null)
 			getTaxItemsForTaxGroup(taxGroup);
-		selectTaxItemsGrid.addRecordClickHandler(new GridRecordClickHandler() {
+		selectTaxItemsGrid
+				.addRecordClickHandler(new GridRecordClickHandler<ClientTAXGroup>() {
 
-			@Override
-			public boolean onRecordClick(IsSerializable core, int column) {
-				removeButton.setEnabled(true);
-				return true;
-			}
-		});
+					@Override
+					public boolean onRecordClick(ClientTAXGroup core, int column) {
+						removeButton.setEnabled(true);
+						return true;
+					}
+				});
 		selectTaxItemsGrid.init();
 		// selectTaxCodesGrid.setWidth("80%");
 		// selectTaxCodesGrid.setHeight("100%");
@@ -325,7 +328,7 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 	}
 
 	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
+	public Object getGridColumnValue(ClientTAXGroup obj, int index) {
 
 		if (!flag) {
 			flag = true;

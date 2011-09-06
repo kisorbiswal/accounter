@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -23,7 +22,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
  * 
  */
 
-public class CashDiscountDialog extends BaseDialog {
+public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 	List<ClientAccount> allAccounts;
 	private int key;
 
@@ -124,7 +123,7 @@ public class CashDiscountDialog extends BaseDialog {
 	}
 
 	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
+	public Object getGridColumnValue(ClientAccount obj, int index) {
 		return null;
 	}
 
@@ -157,7 +156,6 @@ public class CashDiscountDialog extends BaseDialog {
 	public void saveFailed(AccounterException exception) {
 
 	}
-
 
 	@Override
 	protected boolean onOK() {
