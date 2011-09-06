@@ -47,6 +47,7 @@ import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.edittable.SalesOrderTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
@@ -86,7 +87,7 @@ public class SalesOrderView extends
 
 	private boolean locationTrackingEnabled;
 
-	private SalesOrderGrid customerTransactionGrid;
+	private SalesOrderTable customerTransactionTable;
 	protected ClientTAXCode taxCode;
 	private List<ClientPaymentTerms> paymentTermsList;
 	protected ClientPaymentTerms paymentTerm;
@@ -149,6 +150,13 @@ public class SalesOrderView extends
 		dateNoForm.setFields(statusSelect, transactionDateItem);
 		if (locationTrackingEnabled)
 			dateNoForm.setFields(locationCombo);
+
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
+			classListCombo = createAccounterClassListCombo();
+			dateNoForm.setFields(classListCombo);
+		}
+
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("99%");
 		datepanel.add(dateNoForm);
@@ -355,15 +363,26 @@ public class SalesOrderView extends
 
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
-		customerTransactionGrid = new SalesOrderGrid();
-		customerTransactionGrid.setTransactionView(this);
-		customerTransactionGrid.isEnable = false;
-		customerTransactionGrid.init();
-		customerTransactionGrid.setCanEdit(true);
-		customerTransactionGrid.setDisabled(isInViewMode());
-		customerTransactionGrid.setWidth("99.5%");
-		customerTransactionGrid.setHeight("250px");
-		customerTransactionGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
+		customerTransactionTable = new SalesOrderTable() {
+
+			@Override
+			public void updateNonEditableItems() {
+				SalesOrderView.this.updateNonEditableItems();
+			}
+
+			@Override
+			public boolean isShowPriceWithVat() {
+				return SalesOrderView.this.isShowPriceWithVat();
+			}
+
+			@Override
+			protected ClientCustomer getCustomer() {
+				return customer;
+			}
+		};
+		customerTransactionTable.setDisabled(isInViewMode());
+		customerTransactionTable.setWidth("99.5%");
+		customerTransactionTable.setHeight("250px");
 
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
 		prodAndServiceForm2.setWidth("100%");
@@ -433,7 +452,7 @@ public class SalesOrderView extends
 		mainVLay.add(topHLay);
 		// mainVLay.add(lab2);
 
-		mainVLay.add(customerTransactionGrid);
+		mainVLay.add(customerTransactionTable);
 		// mainVLay.add(createAddNewButton());
 		mainVLay.add(vpanel);
 
@@ -677,7 +696,6 @@ public class SalesOrderView extends
 			}
 			// customerTransactionGrid.setRecords(transaction
 			// .getTransactionItems());
-			customerTransactionGrid.setCanEdit(false);
 		}
 		superinitTransactionViewData();
 		initTransactionNumber();
@@ -803,7 +821,7 @@ public class SalesOrderView extends
 
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
 			if (taxCode != null) {
-				for (ClientTransactionItem record : customerTransactionGrid
+				for (ClientTransactionItem record : customerTransactionTable
 						.getRecords()) {
 					record.setTaxItemGroup(taxCode.getID());
 
@@ -831,7 +849,7 @@ public class SalesOrderView extends
 			if (this.getCustomer() != null
 					&& !this.getCustomer().equals(customer)
 					&& transaction == null)
-				customerTransactionGrid.removeAllRecords();
+				customerTransactionTable.removeAllRecords();
 			selectedSalesOrders = new ArrayList<ClientEstimate>();
 			this.setCustomer(customer);
 			super.customerSelected(customer);
@@ -960,10 +978,10 @@ public class SalesOrderView extends
 
 	@Override
 	public void updateNonEditableItems() {
-		if (customerTransactionGrid == null)
+		if (customerTransactionTable == null)
 			return;
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			Double taxableLineTotal = customerTransactionGrid
+			Double taxableLineTotal = customerTransactionTable
 					.getTaxableLineTotal();
 
 			if (taxableLineTotal == null)
@@ -977,17 +995,17 @@ public class SalesOrderView extends
 
 			setSalesTax(salesTax);
 
-			setTransactionTotal(customerTransactionGrid.getTotal()
+			setTransactionTotal(customerTransactionTable.getTotal()
 					+ this.salesTax);
 		} else {
-			if (customerTransactionGrid.getGrandTotal() != 0
-					&& customerTransactionGrid.getTotalValue() != 0) {
-				netAmountLabel.setAmount(customerTransactionGrid
+			if (customerTransactionTable.getGrandTotal() != 0
+					&& customerTransactionTable.getTotalValue() != 0) {
+				netAmountLabel.setAmount(customerTransactionTable
 						.getGrandTotal());
-				vatTotalNonEditableText.setAmount(customerTransactionGrid
+				vatTotalNonEditableText.setAmount(customerTransactionTable
 						.getTotalValue()
-						- customerTransactionGrid.getGrandTotal());
-				setTransactionTotal(customerTransactionGrid.getTotalValue());
+						- customerTransactionTable.getGrandTotal());
+				setTransactionTotal(customerTransactionTable.getTotalValue());
 			}
 		}
 		// Double payments = this.paymentsNonEditableText.getAmount();
@@ -1074,12 +1092,12 @@ public class SalesOrderView extends
 	public void selectedQuote(ClientEstimate selectedEstimate) {
 		if (selectedEstimate == null)
 			return;
-		for (ClientTransactionItem record : this.customerTransactionGrid
+		for (ClientTransactionItem record : this.customerTransactionTable
 				.getRecords()) {
 			for (ClientTransactionItem salesRecord : selectedEstimate
 					.getTransactionItems())
 				if (record.getReferringTransactionItem() == salesRecord.getID())
-					customerTransactionGrid.deleteRecord(record);
+					customerTransactionTable.delete(record);
 
 		}
 		// if (dialog.preCustomer == null || dialog.preCustomer !=
@@ -1122,7 +1140,7 @@ public class SalesOrderView extends
 		}
 		selectedEstimateId = selectedEstimate.getID();
 		orderNum = selectedEstimate.getNumber();
-		customerTransactionGrid.setAllTransactionItems(itemsList);
+		customerTransactionTable.setAllTransactionItems(itemsList);
 		// if (selectedEstimate == null)
 		// return;
 		//
@@ -1217,7 +1235,7 @@ public class SalesOrderView extends
 		}
 		taxCodeSelect.setDisabled(isInViewMode());
 		customerOrderText.setDisabled(isInViewMode());
-		customerTransactionGrid.setDisabled(false);
+		customerTransactionTable.setDisabled(false);
 		quoteLabel.setDisabled(isInViewMode());
 
 		quoteLabelListener();
@@ -1228,7 +1246,6 @@ public class SalesOrderView extends
 		shippingMethodsCombo.setDisabled(isInViewMode());
 		dueDateItem.setDisabled(isInViewMode());
 		shipToAddress.businessSelect.setDisabled(isInViewMode());
-		customerTransactionGrid.setCanEdit(true);
 		memoTextAreaItem.setDisabled(isInViewMode());
 		super.onEdit();
 		if (locationTrackingEnabled)
@@ -1252,7 +1269,7 @@ public class SalesOrderView extends
 
 			taxCodeSelect
 					.setComboItem(getCompany().getTAXCode(taxCode.getID()));
-			customerTransactionGrid.setTaxCode(taxCode.getID());
+			customerTransactionTable.setTaxCode(taxCode.getID());
 		} else
 			taxCodeSelect.setValue("");
 		// updateNonEditableItems();
@@ -1273,30 +1290,27 @@ public class SalesOrderView extends
 	@Override
 	protected void initTransactionsItems() {
 		if (transaction.getTransactionItems() != null)
-			customerTransactionGrid.setAllTransactionItems(transaction
+			customerTransactionTable.setAllTransactionItems(transaction
 					.getTransactionItems());
-		if (transaction.getID() != 0) {
-			customerTransactionGrid.canDeleteRecord(false);
-		}
 	}
 
 	@Override
 	protected boolean isBlankTransactionGrid() {
-		return customerTransactionGrid.getRecords().isEmpty();
+		return customerTransactionTable.getRecords().isEmpty();
 	}
 
 	@Override
 	protected void addNewData(ClientTransactionItem transactionItem) {
-		customerTransactionGrid.addData(transactionItem);
+		customerTransactionTable.add(transactionItem);
 	}
 
 	@Override
 	protected void refreshTransactionGrid() {
-		customerTransactionGrid.refreshAllRecords();
+		// customerTransactionTable.refreshAllRecords();
 	}
 
 	@Override
 	public List<ClientTransactionItem> getAllTransactionItems() {
-		return customerTransactionGrid.getRecords();
+		return customerTransactionTable.getRecords();
 	}
 }
