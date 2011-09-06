@@ -9,10 +9,11 @@ public class RenderContext<R> {
 	private RowFormatter rowFormatter;
 	private EditTable<R> table;
 	private R row;
+	private boolean isDesable;
 
-	public RenderContext(EditTable<R> table,R row) {
-		this.table=table;
-		this.row=row;
+	public RenderContext(EditTable<R> table, R row) {
+		this.table = table;
+		this.row = row;
 	}
 
 	public RowFormatter getRowFormatter() {
@@ -39,6 +40,12 @@ public class RenderContext<R> {
 		return row;
 	}
 
+	public boolean isDesable() {
+		return isDesable;
+	}
 
-	
+	public void setDesable(boolean isDesable) {
+		this.isDesable = isDesable;
+	}
+
 }

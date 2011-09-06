@@ -16,6 +16,7 @@ public class EditTable<R> extends SimplePanel {
 	private CellFormatter cellFormatter;
 	private RowFormatter rowFormatter;
 	private List<R> rows = new ArrayList<R>();
+	private boolean isDesable;
 
 	public EditTable() {
 		this.addStyleName("editTable");
@@ -36,6 +37,14 @@ public class EditTable<R> extends SimplePanel {
 		if (width != -1) {
 			cellFormatter.setWidth(0, index, width + "px");
 		}
+		column.setTable(this);
+	}
+
+	public void setDisabled(boolean isDesable) {
+		this.isDesable = isDesable;
+		for (R r : rows) {
+			update(r);
+		}
 	}
 
 	/**
@@ -47,6 +56,7 @@ public class EditTable<R> extends SimplePanel {
 		int index = rows.indexOf(row);
 		index += 1;// for header
 		RenderContext<R> context = new RenderContext<R>(this, row);
+		context.setDesable(isDesable);
 		context.setCellFormatter(cellFormatter);
 		context.setRowFormatter(rowFormatter);
 		for (int x = 0; x < columns.size(); x++) {
@@ -67,6 +77,7 @@ public class EditTable<R> extends SimplePanel {
 		index += 1;// for header
 		RenderContext<R> context = new RenderContext<R>(this, row);
 		context.setCellFormatter(cellFormatter);
+		context.setDesable(isDesable);
 		context.setRowFormatter(rowFormatter);
 		for (int x = 0; x < columns.size(); x++) {
 			EditColumn<R> column = columns.get(x);
@@ -105,6 +116,14 @@ public class EditTable<R> extends SimplePanel {
 		for (int x = 1; x <= rows.size(); x++) {
 			table.removeRow(x);
 		}
+		rows.clear();
 	}
-	
+
+	public void setAllRows(List<R> rows) {
+		clear();
+		for (R row : rows) {
+			add(row);
+		}
+
+	}
 }

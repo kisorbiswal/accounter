@@ -1,0 +1,28 @@
+package com.vimukti.accounter.web.client.ui.edittable;
+
+import com.google.gwt.user.client.ui.TextBox;
+
+public abstract class AmountColumn<T> extends TextEditColumn<T> {
+	@Override
+	protected String getValue(T row) {
+		return String.valueOf(getAmount(row));
+	}
+
+	protected abstract double getAmount(T row);
+
+	@Override
+	public void setValue(T row, String value) {
+		try {
+			setAmount(row, Double.valueOf(value));
+		} catch (NumberFormatException e) {
+		}
+	}
+
+	protected abstract void setAmount(T row, double value);
+
+	@Override
+	protected void configure(TextBox textBox) {
+		super.configure(textBox);
+		textBox.addStyleName("amount");
+	}
+}

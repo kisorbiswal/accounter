@@ -4,6 +4,8 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 
 public abstract class EditColumn<R> {
+	private EditTable<R> table;
+
 	public boolean onChange(R row) {
 		return false;
 
@@ -21,12 +23,20 @@ public abstract class EditColumn<R> {
 		return columnHeader;
 	}
 
-	private String getColumnName() {
+	protected String getColumnName() {
 		return "";
 	}
 
 	public abstract void render(IsWidget widget, RenderContext<R> context);
 
 	public abstract IsWidget getWidget(RenderContext<R> context);
+
+	public EditTable<R> getTable() {
+		return table;
+	}
+
+	public void setTable(EditTable<R> table) {
+		this.table = table;
+	}
 
 }
