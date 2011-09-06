@@ -45,6 +45,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.CustomMenuItem;
@@ -75,6 +76,7 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
  */
 public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		extends BaseView<T> {
+	protected AccounterConstants customerConstants = Accounter.constants();
 
 	protected int transactionType;
 
@@ -130,14 +132,14 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	// /**
 	// * // * The Transaction Grid meant to Serve in all Transactions //
 	// */
-	protected AbstractTransactionGrid<ClientTransactionItem> vendorTransactionGrid,
-			customerTransactionGrid;
+	// protected AbstractTransactionGrid<ClientTransactionItem>
+	// vendorTransactionGrid,
+	// customerTransactionGrid;
 	// /**
 	// * // * The Transaction Grid meant to Serve in all Transactions //
 	// */
 	// protected AbstractTransactionGrid<ClientTransactionItem>
 	// vendorTransactionGrid,
-	// customerTransactionGrid;
 
 	protected boolean showPriceWithVat;
 
@@ -156,6 +158,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected int gridType;
 
 	protected Button recurringButton;
+	protected AbstractTransactionGrid<ClientTransactionItem> vendorTransactionGrid;
 
 	public boolean isVatInclusive() {
 		return isVATInclusive;
@@ -269,7 +272,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	public CheckboxItem getVATInclusiveCheckBox() {
-		final AbstractTransactionGrid<ClientTransactionItem> customerTransactionGrid = getTransactionGrid();
 		vatinclusiveCheck = new CheckboxItem(Accounter.constants()
 				.amountIncludesVat());
 		vatinclusiveCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
@@ -277,21 +279,14 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				isVATInclusive = (Boolean) event.getValue();
-				if (customerTransactionGrid != null) {
-					customerTransactionGrid.refreshVatValue();
-				}
-
+				refreshTransactionGrid();
 			}
 		});
 		vatinclusiveCheck.setDisabled(isInViewMode());
 		return vatinclusiveCheck;
 	}
 
-	// public void setGridType(int gridType) {
-	// this.gridType = gridType;
-	// }
-
-	public abstract AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid();
+	protected abstract void refreshTransactionGrid();
 
 	protected void initTransactionNumber() {
 
@@ -516,18 +511,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	protected void reload() {
-		transaction = null;
-		AbstractTransactionGrid<ClientTransactionItem> customerTransactionGrid = getTransactionGrid();
-		if (customerTransactionGrid != null) {
-			customerTransactionGrid.canDeleteRecord(true);
-			// FIXME ::: no need of this statement
-			// transactionGrid.setEnableMenu(true);
-			customerTransactionGrid.canDeleteRecord(true);
-			// customerTransactionGrid.setShowMenu(true);
-			customerTransactionGrid.resetGridEditEvent();
-			customerTransactionGrid.removeAllRecords();
-			customerTransactionGrid.updateTotals();
-		}
 		initTransactionViewData();
 	}
 
@@ -635,14 +618,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	public void onAddNew() {
 		// TODO Auto-generated method stub
 		super.onAddNew();
-	}
-
-	private void processTransactionItems() {
-		AbstractTransactionGrid<ClientTransactionItem> customerTransactionGrid = getTransactionGrid();
-		if (customerTransactionGrid != null)
-			this.transactionItems = customerTransactionGrid
-					.getallTransactionItems(transaction);
-
 	}
 
 	public void setTransactionDate(ClientFinanceDate transactionDate) {
@@ -1115,11 +1090,15 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 			if (transactionNumber != null)
 				transaction.setNumber(transactionNumber.getValue().toString());
-			processTransactionItems();
+			transactionItems = getAllTransactionItems();
 			transaction.setTransactionItems(transactionItems);
 			if (location != null)
 				transaction.setLocation(location.getID());
 		}
+	}
+
+	public List<ClientTransactionItem> getAllTransactionItems() {
+		return null;
 	}
 
 	protected CurrencyWidget createCurrencyWidget() {
