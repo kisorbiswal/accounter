@@ -1241,27 +1241,26 @@ public class Utility implements IsSerializable, Serializable {
 
 		if (objectInList == null || objectsList == null)
 			return;
-		boolean change=false;
+		boolean change = false;
 		T existObj = getObject(objectsList, objectInList.getID());
 		if (existObj != null) {
 			objectsList.remove(existObj);
 			if (isDelete)
 				return;
-			change=true;
+			change = true;
 		}
 		if (objectInList.getName() != null)
 			UIUtils.updateComboItemsInSortedOrder(objectInList, objectsList);
 		else {
 			objectsList.add(objectInList);
-			if(change){
-				Accounter.getEventBus().fireEvent(
-						new CoreEvent<T>(ChangeType.CHANGE, objectInList));
-			}else{
-				Accounter.getEventBus().fireEvent(
-						new CoreEvent<T>(ChangeType.ADD, objectInList));
-			}
 		}
-	
+		if (change) {
+			Accounter.getEventBus().fireEvent(
+					new CoreEvent<T>(ChangeType.CHANGE, objectInList));
+		} else {
+			Accounter.getEventBus().fireEvent(
+					new CoreEvent<T>(ChangeType.ADD, objectInList));
+		}
 	}
 
 	public static <T> ArrayList<T> filteredList(ListFilter<T> filter,
