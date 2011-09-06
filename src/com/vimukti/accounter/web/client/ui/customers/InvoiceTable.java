@@ -31,6 +31,12 @@ import com.vimukti.accounter.web.client.ui.edittable.TransactionUnitPriceColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionVatCodeColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionVatColumn;
 
+/**
+ * This class is used for every Customer Transactions
+ * 
+ * @author vimukti04
+ * 
+ */
 public abstract class InvoiceTable extends EditTable<ClientTransactionItem> {
 	private Double totallinetotal = 0.0d;
 	private double taxableTotal;
