@@ -13,6 +13,11 @@
 				<g:TextBox ui:field="registeredCompanyName"/>
 			</g:HorizontalPanel>
 			<g:VerticalPanel>
+				<g:HorizontalPanel>
+					<g:Label ui:field="registeredAddress" horizontalAlignment="ALIGN_LEFT"/>
+				</g:HorizontalPanel>
+			</g:VerticalPanel>
+			<g:VerticalPanel>
 				<g:Grid>
 					<g:row>
 						<g:customCell>
