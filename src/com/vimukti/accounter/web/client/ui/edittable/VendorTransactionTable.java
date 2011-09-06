@@ -299,4 +299,9 @@ public abstract class VendorTransactionTable extends
 		}
 		return result;
 	}
+
+	public void setTaxCode(long id) {
+		// TODO Auto-generated method stub
+		
+	}
 }
