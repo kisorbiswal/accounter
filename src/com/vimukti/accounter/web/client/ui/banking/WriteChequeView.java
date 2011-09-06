@@ -41,7 +41,7 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
-import com.vimukti.accounter.web.client.ui.customers.InvoiceTable;
+import com.vimukti.accounter.web.client.ui.customers.CustomerTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 import com.vimukti.accounter.web.client.ui.edittable.VendorTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
@@ -107,7 +107,7 @@ public class WriteChequeView extends
 
 	private boolean locationTrackingEnabled;
 
-	private InvoiceTable transactionCustomerTable;
+	private CustomerTransactionTable transactionCustomerTable;
 	private VendorTransactionTable transactionVendorTable;
 
 	private WriteChequeView() {
@@ -880,7 +880,7 @@ public class WriteChequeView extends
 			switch (transaction.getPayToType()) {
 			case ClientWriteCheck.TYPE_CUSTOMER:
 
-				transactionCustomerTable = new InvoiceTable() {
+				transactionCustomerTable = new CustomerTransactionTable() {
 
 					@Override
 					public void updateNonEditableItems() {
@@ -932,7 +932,7 @@ public class WriteChequeView extends
 			// }
 
 		} else {
-			transactionCustomerTable = new InvoiceTable() {
+			transactionCustomerTable = new CustomerTransactionTable() {
 
 				@Override
 				public void updateNonEditableItems() {
