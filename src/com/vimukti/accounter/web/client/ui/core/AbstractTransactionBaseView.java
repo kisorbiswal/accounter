@@ -27,6 +27,7 @@ import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -52,6 +53,7 @@ import com.vimukti.accounter.web.client.ui.CustomMenuItem;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.WriteChequeView;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
+import com.vimukti.accounter.web.client.ui.combo.ClassListCombo;
 import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.LocationCombo;
@@ -157,6 +159,13 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected int gridType;
 
 	protected Button recurringButton;
+
+	// Class Tracking
+	protected ClassListCombo classListCombo;
+
+	protected ClientAccounterClass clientAccounterClass;
+
+	private ArrayList<ClientAccounterClass> clientAccounterClasses = new ArrayList<ClientAccounterClass>();
 
 	public boolean isVatInclusive() {
 		return isVATInclusive;
@@ -885,6 +894,12 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		if (menuButton != null)
 			menuButton.setEnabled(!isInViewMode());
 		setMode(EditMode.EDIT);
+		
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()
+				&& classListCombo != null) {
+			classListCombo.setDisabled(isInViewMode());
+		}
 	}
 
 	public boolean isEdit() {
@@ -1038,6 +1053,12 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			transaction.setTransactionItems(transactionItems);
 			if (location != null)
 				transaction.setLocation(location.getID());
+
+			if (getPreferences().isClassTrackingEnabled()
+					&& getPreferences().isClassOnePerTransaction()
+					&& clientAccounterClass != null) {
+				transaction.setAccounterClass(clientAccounterClass);
+			}
 		}
 	}
 
@@ -1297,5 +1318,75 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	 */
 	protected boolean canRecur() {
 		return transaction != null && transaction.getID() != 0;
+	}
+
+	public ClassListCombo createAccounterClassListCombo() {
+		classListCombo = new ClassListCombo("Class", true);
+		classListCombo.initCombo(getCompany().getAccounterClasses());
+		classListCombo.setHelpInformation(true);
+		classListCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccounterClass>() {
+
+					@Override
+					public void selectedComboBoxItem(
+							ClientAccounterClass selectItem) {
+						classSelected(selectItem);
+					}
+				});
+
+		classListCombo
+				.addNewAccounterClassHandler(new ValueCallBack<ClientAccounterClass>() {
+
+					@Override
+					public void execute(
+							final ClientAccounterClass accounterClass) {
+						Accounter.createCRUDService().create(accounterClass,
+								new AsyncCallback<Long>() {
+
+									@Override
+									public void onSuccess(Long result) {
+										accounterClass.setID(result);
+										classSelected(accounterClass);
+										getCompany()
+												.getAccounterClasses()
+												.add(accounterClass);
+									}
+
+									@Override
+									public void onFailure(Throwable caught) {
+										// TODO Auto-generated method stub
+									}
+								});
+					}
+				});
+
+		classListCombo.setDisabled(isInViewMode());
+
+		return classListCombo;
+	}
+
+	protected void classSelected(ClientAccounterClass clientAccounterClass) {
+		if (clientAccounterClass != null) {
+			this.clientAccounterClass = clientAccounterClass;
+			classListCombo.setComboItem(clientAccounterClass);
+		}
+	}
+
+	public ArrayList<ClientAccounterClass> getClientAccounterClasses() {
+		return clientAccounterClasses;
+	}
+
+	public void setClientAccounterClasses(
+			ArrayList<ClientAccounterClass> clientAccounterClasses) {
+		this.clientAccounterClasses = clientAccounterClasses;
+	}
+
+	public ClientAccounterClass getClientAccounterClass() {
+		return clientAccounterClass;
+	}
+
+	public void setClientAccounterClass(
+			ClientAccounterClass clientAccounterClass) {
+		this.clientAccounterClass = clientAccounterClass;
 	}
 }
