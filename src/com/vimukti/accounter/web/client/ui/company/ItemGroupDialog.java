@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
@@ -14,7 +13,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 
-public class ItemGroupDialog extends BaseDialog {
+public class ItemGroupDialog extends BaseDialog<ClientItem> {
 	ClientItemGroup itemgroup;
 	private DialogGrid dialoggrid;
 	// private ItemDialogGrid dialoggrid;
@@ -108,8 +107,7 @@ public class ItemGroupDialog extends BaseDialog {
 	}
 
 	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
-		ClientItem clientItem = (ClientItem) obj;
+	public Object getGridColumnValue(ClientItem clientItem, int index) {
 		switch (index) {
 		case 0:
 			return clientItem.getName();

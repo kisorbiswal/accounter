@@ -8,7 +8,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -41,7 +40,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
  * @modified By Ravi Kiran.G
  */
 
-public class CompanyInfoDialog extends BaseDialog {
+public class CompanyInfoDialog extends BaseDialog<ClientAddress> {
 
 	TextItem websiteText, taxIDText, companyNameText, trandigNameText,
 			registrationNumberText, bankAccountText, sortCodeText;
@@ -410,7 +409,7 @@ public class CompanyInfoDialog extends BaseDialog {
 	}
 
 	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
+	public Object getGridColumnValue(ClientAddress obj, int index) {
 		// TODO Auto-generated method stub
 		return null;
 	}

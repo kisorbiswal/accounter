@@ -2,13 +2,13 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
-public class ManageCountryRegionDialog extends GroupDialog {
+public class ManageCountryRegionDialog extends GroupDialog<ClientCustomer> {
 	protected GroupDialogButtonsHandler groupDialogButtonHandler;
 
 	public ManageCountryRegionDialog(String title, String description) {
@@ -54,7 +54,7 @@ public class ManageCountryRegionDialog extends GroupDialog {
 	}// end of initialise
 
 	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
+	public Object getGridColumnValue(ClientCustomer obj, int index) {
 		// NOTHING TO DO.
 		return null;
 	}

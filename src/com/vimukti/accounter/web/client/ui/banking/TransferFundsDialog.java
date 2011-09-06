@@ -6,7 +6,6 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -42,7 +41,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
  * 
  */
 
-public class TransferFundsDialog extends BaseDialog {
+public class TransferFundsDialog extends BaseDialog<ClientTransferFund> {
 
 	private DateField transferDate;
 	private DynamicForm transferForm, transferFromForm, transferToForm;
@@ -331,7 +330,7 @@ public class TransferFundsDialog extends BaseDialog {
 	}
 
 	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
+	public Object getGridColumnValue(ClientTransferFund obj, int index) {
 		// currently not using anywhere in the project.
 		return null;
 	}

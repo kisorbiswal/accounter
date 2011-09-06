@@ -2,8 +2,8 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
-public class AddPriceLevelDialog extends BaseDialog {
+public class AddPriceLevelDialog extends BaseDialog<ClientPriceLevel> {
 
 	public TextItem levelText;
 	public PercentageField percentText;
@@ -69,7 +69,7 @@ public class AddPriceLevelDialog extends BaseDialog {
 	}
 
 	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
+	public Object getGridColumnValue(ClientPriceLevel obj, int index) {
 		return null;
 	}
 
@@ -79,7 +79,7 @@ public class AddPriceLevelDialog extends BaseDialog {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 
@@ -99,7 +99,6 @@ public class AddPriceLevelDialog extends BaseDialog {
 	public String getIncrOrDecrPercentValue() {
 		return incrOrDecrPercentValue;
 	}
-
 
 	@Override
 	protected ValidationResult validate() {

@@ -3,13 +3,14 @@ package com.vimukti.accounter.web.client.ui.company;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
-public class PayTypeListDialog extends GroupDialog {
+public class PayTypeListDialog extends GroupDialog<ClientCustomer> {
 
 	protected GroupDialogButtonsHandler groupDialogButtonHandler;
 
@@ -61,7 +62,7 @@ public class PayTypeListDialog extends GroupDialog {
 	}
 
 	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
+	public Object getGridColumnValue(ClientCustomer obj, int index) {
 
 		return null;
 	}
