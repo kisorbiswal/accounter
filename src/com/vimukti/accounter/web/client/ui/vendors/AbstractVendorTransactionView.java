@@ -115,16 +115,17 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	@Override
 	protected void initTransactionViewData() {
-		AbstractTransactionGrid<ClientTransactionItem> vendorTransactionGrid = getTransactionGrid();
 		initVendors();
 		initTransactionTotalNonEditableItem();
-		if (vendorTransactionGrid != null) {
-			vendorTransactionGrid.removeAllRecords();
-			vendorTransactionGrid.setAllTransactionItems(transaction
-					.getTransactionItems());
-		}
+		removeAllRecordsFromGrid();
+		addAllRecordToGrid(transaction.getTransactionItems());
 
 	}
+
+	protected abstract void addAllRecordToGrid(
+			List<ClientTransactionItem> transactionItems);
+
+	protected abstract void removeAllRecordsFromGrid();
 
 	@Override
 	protected abstract void createControls();
@@ -182,14 +183,6 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 		addressListOfVendor = vendor.getAddress();
 		initBillToCombo();
 
-	}
-
-	protected void setVendorTaxcodeToAccount() {
-		AbstractTransactionGrid<ClientTransactionItem> vendorTransactionGrid = getTransactionGrid();
-		for (ClientTransactionItem item : vendorTransactionGrid.getRecords()) {
-			if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT)
-				vendorTransactionGrid.setVendorTaxCode(item);
-		}
 	}
 
 	protected AmountLabel createTransactionTotalNonEditableItem() {
@@ -708,10 +701,11 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 					transactionItem.setTaxCode(ztaxCodeid);
 			}
 		}
-		AbstractTransactionGrid<ClientTransactionItem> vendorTransactionGrid = getTransactionGrid();
-		vendorTransactionGrid.addData(transactionItem);
+		addNewData(transactionItem);
 
 	}
+
+	protected abstract void addNewData(ClientTransactionItem transactionItem);
 
 	protected ClientFinanceDate getTransactionDeliveryDate() {
 		return this.deliveryDateItem.getValue();
@@ -760,5 +754,10 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 				item.setTaxCode(taxCode.getID());
 			}
 		}
+	}
+
+	@Override
+	protected void refreshTransactionGrid() {
+		vendorTransactionGrid.refreshAllRecords();
 	}
 }
