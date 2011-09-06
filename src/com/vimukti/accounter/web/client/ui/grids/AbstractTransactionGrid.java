@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
@@ -85,7 +84,8 @@ public abstract class AbstractTransactionGrid<T> extends ListGrid<T> {
 		return 0.0;
 	}
 
-	public void setAllTransactionItems(List<ClientTransactionItem> transactionItems) {
+	public void setAllTransactionItems(
+			List<ClientTransactionItem> transactionItems) {
 
 	}
 
@@ -98,9 +98,9 @@ public abstract class AbstractTransactionGrid<T> extends ListGrid<T> {
 		if (box != null) {
 			Widget widget = box.getMainWidget();
 			this.widgetsMap.put(currentCol, widget);
-			((FocusWidget) widget).getElement().getStyle()
-					.setWidth(100, Unit.PCT);
+			widget.getElement().getStyle().setWidth(100, Unit.PCT);
 			this.setWidget(currentRow, currentCol, widget);
+			//box.setFocus();
 		} else
 			super.addOrEditSelectBox(obj, value);
 	}
