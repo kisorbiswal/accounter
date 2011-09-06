@@ -66,6 +66,8 @@
 			lazy="false" column="CREDITS_AND_PAYMENTS_ID">
 		</many-to-one>
 		<property name="isDefault" column="IS_DEFAULT"></property>
+		<many-to-one name="accounterClass" class="AccounterClass" column="TRANSACTION_ACCOUNTER_CLASS" lazy='false'>
+		</many-to-one>
 		<many-to-one name="transactionMakeDepositEntries" class="TransactionMakeDepositEntries"
 			cascade="save-update" lazy="false" column="TRANSACTION_MAKE_DEPOSIT_ENTRY_ID">
 		</many-to-one>
@@ -964,6 +966,15 @@
 			</many-to-one> <many-to-one name="journalEntry" class="JournalEntry" lazy="false" 
 			cascade="save-update,delete" column="JOURNAL_ENTRY_ID"> </many-to-one> </joined-subclass> -->
 	</class>
+	<!-- Accounter Class Tracking -->
+	<class name="AccounterClass" table="ACCOUNTER_CLASS">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="className" unique="true" not-null="true"
+			column="CLASS_NAME"></property>
+		<property name="version" column="VERSION"></property>
+	</class>
 	<class name="Entry" table="ENTRY">
 		<id name="id" column="ID">
 			<generator class="native" />
@@ -1055,6 +1066,8 @@
 			lazy="false" column="REFERRING_TRANSACTION_ITEM_ID">
 		</many-to-one>
 		<property name="isVoid" column="IS_VOID"></property>
+		<many-to-one name="accounterClass" class="AccounterClass" column="TRANS_ITEM_ACCOUNTER_CLASS" lazy='false'>
+		</many-to-one>
 	</class>
 	<class name="CreditsAndPayments" table="CREDITS_AND_PAYMENTS">
 		<id name="id" column="ID">
