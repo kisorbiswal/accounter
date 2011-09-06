@@ -197,7 +197,11 @@ public enum AccounterCoreType implements IsSerializable {
 			"ClientRecurringTransaction", "RecurringTransaction"), LOCATION(
 			"ClientLocation", "Location"),
 
-	ACTIVITY("ClientActivity", "Activity");
+	ACTIVITY("ClientActivity", "Activity"),
+
+	ADMIN("ClientAdmin", "Admin"),
+
+	ADMIN_USER("ClientAdminUser", "AdminUser");
 
 	private String clientName;
 	private String serverName;
