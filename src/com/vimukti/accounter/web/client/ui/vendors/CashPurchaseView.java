@@ -451,8 +451,13 @@ public class CashPurchaseView extends
 			billToAreaItem.setValue(getValidAddress(billingAddress));
 		} else
 			billToAreaItem.setValue("");
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
-			super.setVendorTaxcodeToAccount();
+		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+			for (ClientTransactionItem item : vendorTransactionGrid
+					.getRecords()) {
+				if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT)
+					vendorTransactionGrid.setVendorTaxCode(item);
+			}
+		}
 
 	}
 
@@ -738,7 +743,24 @@ public class CashPurchaseView extends
 	}
 
 	@Override
-	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
-		return vendorTransactionGrid;
+	protected void addAllRecordToGrid(
+			List<ClientTransactionItem> transactionItems) {
+		vendorTransactionGrid.addRecords(transactionItems);
+	}
+
+	@Override
+	protected void removeAllRecordsFromGrid() {
+		vendorTransactionGrid.removeAllRecords();
+	}
+
+	@Override
+	protected void addNewData(ClientTransactionItem transactionItem) {
+		vendorTransactionGrid.addData(transactionItem);
+
+	}
+
+	@Override
+	protected void refreshTransactionGrid() {
+		vendorTransactionGrid.refreshAllRecords();
 	}
 }

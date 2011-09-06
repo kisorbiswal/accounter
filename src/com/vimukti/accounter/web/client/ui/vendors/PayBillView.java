@@ -1079,8 +1079,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	}
 
 	@Override
-	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
-		return null;
+	protected void refreshTransactionGrid() {
+
 	}
 
 }

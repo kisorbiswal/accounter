@@ -1171,8 +1171,24 @@ public class PurchaseOrderView extends
 	}
 
 	@Override
-	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
-		return vendorTransactionGrid;
+	protected void addAllRecordToGrid(
+			List<ClientTransactionItem> transactionItems) {
+		vendorTransactionGrid.addRecords(transactionItems);
 	}
 
+	@Override
+	protected void removeAllRecordsFromGrid() {
+		vendorTransactionGrid.removeAllRecords();
+	}
+
+	@Override
+	protected void addNewData(ClientTransactionItem transactionItem) {
+		vendorTransactionGrid.addData(transactionItem);
+
+	}
+
+	@Override
+	protected void refreshTransactionGrid() {
+		vendorTransactionGrid.refreshAllRecords();
+	}
 }

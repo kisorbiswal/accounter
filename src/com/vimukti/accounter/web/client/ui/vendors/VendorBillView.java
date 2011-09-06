@@ -235,8 +235,13 @@ public class VendorBillView extends
 			setPaymentTermsCombo(vendor);
 		if (transaction.getID() == 0)
 			getPurchaseOrdersAndItemReceipt();
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
-			super.setVendorTaxcodeToAccount();
+		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+			for (ClientTransactionItem item : vendorTransactionGrid
+					.getRecords()) {
+				if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT)
+					vendorTransactionGrid.setVendorTaxCode(item);
+			}
+		}
 		if (vendor.getPhoneNo() != null) {
 			phoneSelect.setValue(vendor.getPhoneNo());
 		} else {
@@ -1071,8 +1076,25 @@ public class VendorBillView extends
 	}
 
 	@Override
-	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
+	protected void addAllRecordToGrid(
+			List<ClientTransactionItem> transactionItems) {
+	}
+
+	@Override
+	protected void removeAllRecordsFromGrid() {
 		// TODO Auto-generated method stub
-		return null;
+
+	}
+
+	@Override
+	protected void addNewData(ClientTransactionItem transactionItem) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void refreshTransactionGrid() {
+		// TODO Auto-generated method stub
+
 	}
 }

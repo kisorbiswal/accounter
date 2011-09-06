@@ -28,7 +28,6 @@ import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.grids.VendorTransactionGrid;
 
@@ -67,8 +66,13 @@ public class VendorCreditMemoView extends
 		else
 			phoneSelect.setValue("");
 		super.vendorSelected(vendor);
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
-			super.setVendorTaxcodeToAccount();
+		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+			for (ClientTransactionItem item : vendorTransactionGrid
+					.getRecords()) {
+				if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT)
+					vendorTransactionGrid.setVendorTaxCode(item);
+			}
+		}
 
 	}
 
@@ -540,7 +544,19 @@ public class VendorCreditMemoView extends
 	}
 
 	@Override
-	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
-		return vendorTransactionGrid;
+	protected void addAllRecordToGrid(
+			List<ClientTransactionItem> transactionItems) {
+		vendorTransactionGrid.addRecords(transactionItems);
 	}
+
+	@Override
+	protected void removeAllRecordsFromGrid() {
+		vendorTransactionGrid.refreshAllRecords();
+	}
+
+	@Override
+	protected void addNewData(ClientTransactionItem transactionItem) {
+		vendorTransactionGrid.addData(transactionItem);
+	}
+
 }
