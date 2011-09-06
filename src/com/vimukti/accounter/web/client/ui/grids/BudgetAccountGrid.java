@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
 import java.util.HashMap;
+import java.util.List;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -13,6 +14,8 @@ import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 public class BudgetAccountGrid extends BaseListGrid<ClientBudgetItem> {
 
 	AccounterConstants companyConstants;
+
+	List<ClientBudgetItem> budgetItem;
 
 	public BudgetAccountGrid() {
 		super(false);
@@ -166,6 +169,7 @@ public class BudgetAccountGrid extends BaseListGrid<ClientBudgetItem> {
 	}
 
 	public void addData(ClientBudgetItem obj, ClientAccount account) {
+		budgetItem.add(obj);
 		obj.setAccountsName(account.getName());
 		obj.setAccount(account);
 		super.addData(obj);
@@ -184,12 +188,13 @@ public class BudgetAccountGrid extends BaseListGrid<ClientBudgetItem> {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void onDoubleClick(final ClientBudgetItem obj) {
 		HashMap<String, String> map = new HashMap<String, String>();
 		String budgetTitle = "Add Budget for " + obj.getAccountsName();
 		AddBudgetAmountDialogue assignAccountsTo1099Dialog = new AddBudgetAmountDialogue(
-				budgetTitle, "", map);
+				budgetTitle, "", map, obj);
 		assignAccountsTo1099Dialog
 				.setCallback(new ActionCallback<HashMap<String, String>>() {
 
