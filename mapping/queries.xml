@@ -1562,5 +1562,11 @@
 		from com.vimukti.accounter.core.EnterBill e where
 		e.vendor.id=:vendorId
 	</query>
-
+	
+	<query name="get.transactions.by.account">
+		<query-param name="id" type="long" />
+		from com.vimukti.accounter.core.AccountTransaction at where
+		at.account.id=:id group by at.transaction
+	</query>
+	
 </hibernate-mapping>

@@ -199,8 +199,11 @@ public enum AccounterCoreType implements IsSerializable {
 
 	ACTIVITY("ClientActivity", "Activity"),
 
-	ADMIN_USER("ClientAdminUser", "AdminUser"), ACCOUNTER_CLASS(
-			"ClientAccounterClass", "AccounterClass");
+	ADMIN_USER("ClientAdminUser", "AdminUser"),
+
+	ACCOUNTER_CLASS("ClientAccounterClass", "AccounterClass"),
+
+	RECONCILIATION("ClientReconciliation", "Reconciliation");
 
 	private String clientName;
 	private String serverName;

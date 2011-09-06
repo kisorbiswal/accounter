@@ -10,6 +10,8 @@ import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.HelpLink;
 import com.vimukti.accounter.web.client.core.HrEmployee;
@@ -294,6 +296,10 @@ public interface IAccounterGETService extends RemoteService {
 	// public List<ClientCurrency> getCurrencies();
 
 	public List<AccountsTemplate> getAccountsTemplate()
+			throws AccounterException;
+
+	List<ClientTransaction> getAllTransactionsOfAccount(long id,
+			ClientFinanceDate startDate, ClientFinanceDate endDate)
 			throws AccounterException;
 
 }

@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.ui.banking.MatchTrasactionsAction;
 import com.vimukti.accounter.web.client.ui.banking.NewBankAccountAction;
 import com.vimukti.accounter.web.client.ui.banking.PaymentsAction;
 import com.vimukti.accounter.web.client.ui.banking.PrintChecksAction;
+import com.vimukti.accounter.web.client.ui.banking.ReconcileAccountAction;
 import com.vimukti.accounter.web.client.ui.banking.ServicesOverviewAction;
 import com.vimukti.accounter.web.client.ui.banking.SyncOnlinePayeesAction;
 import com.vimukti.accounter.web.client.ui.banking.TransferFundsAction;
@@ -1317,7 +1318,11 @@ public class ActionFactory {
 
 	public static TDSVendorsListAction getTDSVendorsAction() {
 		return new TDSVendorsListAction("TDS Vendors List");
+	}
 
+	public static ReconcileAccountAction getReconciliationAction() {
+		return new ReconcileAccountAction(Accounter.constants()
+				.Reconciliation());
 	}
 
 	public static AccounterClassListAction getAccounterClassGroupListAction() {

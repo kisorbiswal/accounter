@@ -223,6 +223,9 @@ public abstract class Transaction extends CreatableObject implements
 	
 	private AccounterClass accounterClass;
 
+	/** This Transaction belongs to which reconciliation */
+	private Reconciliation reconciliation;
+
 	public String getPaymentMethod() {
 		return paymentMethod;
 	}
@@ -1182,4 +1185,19 @@ public abstract class Transaction extends CreatableObject implements
 		this.location = location;
 	}
 
+
+	/**
+	 * @return the reconciliation
+	 */
+	public Reconciliation getReconciliation() {
+		return reconciliation;
+	}
+
+	/**
+	 * @param reconciliation
+	 *            the reconciliation to set
+	 */
+	public void setReconciliation(Reconciliation reconciliation) {
+		this.reconciliation = reconciliation;
+	}
 }

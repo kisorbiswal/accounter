@@ -177,8 +177,8 @@ public class ServerConfiguration {
 			System.setProperty("dialect", dialect);
 			adminpassword = prop.getProperty("adminpassword", "");
 			adminID = prop.getProperty("adminId", "");
-			tmpDir = prop.getProperty("tmpDir", System.getProperty(
-					"java.io.tmpdir", ""));
+			tmpDir = prop.getProperty("tmpDir",
+					System.getProperty("java.io.tmpdir", ""));
 
 			setServerURL(prop.getProperty("serverURL", null));
 			mainServerDbUrl = prop.getProperty("mainServerDatabaseUrl", null);
@@ -239,8 +239,8 @@ public class ServerConfiguration {
 
 	public static String getHome() {
 		if (homeDir == null) {
-			StringBuilder sb = new StringBuilder(System
-					.getProperty("user.home"));
+			StringBuilder sb = new StringBuilder(
+					System.getProperty("user.home"));
 			sb.append(File.separator);
 			sb.append(".bizantra");
 			return sb.toString();

@@ -242,7 +242,7 @@ public interface AccounterMessages extends Messages {
 
 	public String toAddCustomerGroup(String toAddCustomerGroup);
 
-	public String unableToGetCustomers(String unableToGetCustomers);
+	public String unableToGet(String string);
 
 	public String useCustomerId(String useCustomerId);
 

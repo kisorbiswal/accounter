@@ -1219,8 +1219,10 @@
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
 		<property name="isDefault" column="IS_DEFAULT" />
-		<property name ="invoiceTempleteName" column ="INVOICE_TEMPLETE_NAME" not-null="true"/>
-		<property name ="creditNoteTempleteName" column ="CREDITNOTE_TEMPLETE_NAME" not-null="true" />
+		<property name="invoiceTempleteName" column="INVOICE_TEMPLETE_NAME"
+			not-null="true" />
+		<property name="creditNoteTempleteName" column="CREDITNOTE_TEMPLETE_NAME"
+			not-null="true" />
 	</class>
 
 	<class name="ResetPasswordToken" table="RESET_PASSWORD_TOKEN">
@@ -1468,9 +1470,9 @@
 		<property name="totalAmount" column="TOTAL_AMOUNT"></property>
 
 	</class>
-	
-	
-		<!-- budget class -->
+
+
+	<!-- budget class -->
 	<class name="Budget" table="BUDGET">
 		<id name="id" column="ID">
 			<generator class="native" />
@@ -1481,6 +1483,28 @@
 			<list-index column="IDX" />
 			<one-to-many class="BudgetItem" />
 		</list>
+	</class>
+
+	<class name="Reconciliation" table="RECONCILIATION">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		
+		<property name="startDate" column="START_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="endDate" column="END_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="openingBalance" column="OPENING_BALANCE"></property>
+		<property name="closingBalance" column="CLOSING_BALANCE"></property>
+		<property name="reconcilationDate" column="RECONCILIATION_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+
+
+		<set name="transactions" inverse="true" cascade="save-update,delete-orphan"
+			lazy="false" table="RE">
+			<key column="RECONCILIATION_ID"></key>
+			<one-to-many class="Transaction" />
+		</set>
 	</class>
 
 	<!-- <class name="TaxItemGroup" table="TAX_ITEM_GROUPS"> <id name="id" column="ID"> 

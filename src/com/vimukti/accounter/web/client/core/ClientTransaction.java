@@ -130,6 +130,9 @@ public abstract class ClientTransaction implements IAccounterCore {
 	 */
 	private double currencyFactor;
 
+	/** This Transaction belongs to Which reconciliation */
+	private ClientReconciliation reconciliation;
+
 	private ClientAccounterClass accounterClass;
 
 	// boolean showPricesWithVATOrVATInclusive;
@@ -718,6 +721,16 @@ public abstract class ClientTransaction implements IAccounterCore {
 		return this != null && this instanceof ClientPaySalesTax;
 	}
 
+	public boolean isPayVAT() {
+
+		return this != null && this instanceof ClientPayVAT;
+	}
+
+	public boolean isReceiveVAT() {
+
+		return this != null && this instanceof ClientReceiveVAT;
+	}
+
 	@Override
 	public String getDisplayName() {
 		return "Transaction";
@@ -823,6 +836,21 @@ public abstract class ClientTransaction implements IAccounterCore {
 		this.location = location;
 	}
 
+	/**
+	 * @return the reconciliation
+	 */
+	public ClientReconciliation getReconciliation() {
+		return reconciliation;
+	}
+
+	/**
+	 * @param reconciliation
+	 *            the reconciliation to set
+	 */
+	public void setReconciliation(ClientReconciliation reconciliation) {
+		this.reconciliation = reconciliation;
+	}
+
 	/*
 	 * protected ClientTransaction(ClientTransaction original){
 	 * amountsIncludeVAT = original.amountsIncludeVAT; canEdit =
@@ -935,7 +963,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	 * 
 	 * type = original.type; version = original.version; }
 	 */
-	
+
 	public ClientAccounterClass getAccounterClass() {
 		return accounterClass;
 	}

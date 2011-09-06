@@ -4612,4 +4612,13 @@ public interface AccounterConstants extends Constants {
 
 	public String selectMultiple();
 
+	public String Reconcile();
+
+	public String Reconciliation();
+
+	public String ClosingBalance();
+
+	public String Difference();
+
+	public String ClearedAmount();
 }

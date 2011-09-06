@@ -42,6 +42,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.AccountTransaction;
 import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.Activity;
@@ -12588,5 +12589,27 @@ public class FinanceTool {
 			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
 		}
 
+	}
+
+	public List<ClientTransaction> getAllTransactionsOfAccount(long id)
+			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		List list = session.getNamedQuery("get.transactions.by.account")
+				.setParameter("id", id).list();
+		List<ClientTransaction> transactions = new ArrayList<ClientTransaction>();
+
+		Iterator iterator = list.iterator();
+		while (iterator.hasNext()) {
+			AccountTransaction next = (AccountTransaction) iterator.next();
+			Transaction transaction = next.getTransaction();
+			if (!transaction.isVoid()) {
+				transactions
+						.add((ClientTransaction) new ClientConvertUtil()
+								.toClientObject(transaction, Util
+										.getClientEqualentClass(transaction
+												.getClass())));
+			}
+		}
+		return transactions;
 	}
 }

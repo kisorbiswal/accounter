@@ -10,8 +10,12 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -40,6 +44,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
@@ -1438,7 +1443,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		super.fitToSize(height, width);
 	}
 
-
 	public void accounttype_selected() {
 		if (selectedId != null && !selectedId.isEmpty())
 			setAccountType(getAccountType(selectedId));
@@ -1506,5 +1510,25 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	@Override
 	protected String getViewTitle() {
 		return Accounter.messages().account(Global.get().account());
+	}
+
+	@Override
+	protected void createButtons(ButtonBar buttonBar) {
+		if (accountType == ClientAccount.TYPE_BANK
+				&& getMode() != EditMode.CREATE) {
+			Button reconcileBtn = new Button(constants.Reconcile());
+			reconcileBtn.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					ActionFactory.getReconciliationAction().run(
+							(ClientBankAccount) data, false);
+				}
+			});
+			buttonBar.add(reconcileBtn);
+			buttonBar.setCellHorizontalAlignment(reconcileBtn,
+					HasHorizontalAlignment.ALIGN_LEFT);
+		}
+		super.createButtons(buttonBar);
 	}
 }
