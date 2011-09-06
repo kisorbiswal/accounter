@@ -10024,9 +10024,6 @@ public class FinanceTool {
 		company.setItemGroups(new ArrayList<ItemGroup>(session.getNamedQuery(
 				"list.ItemGroup").list()));
 
-		company.setBudget(new ArrayList<Budget>(session.getNamedQuery(
-				"list.Budget").list()));
-
 		company.setTaxGroups(new ArrayList<TAXGroup>(session.getNamedQuery(
 				"list.TAXGroup").list()));
 
