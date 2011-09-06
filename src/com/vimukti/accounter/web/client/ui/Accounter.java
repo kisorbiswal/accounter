@@ -298,8 +298,14 @@ public class Accounter implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
+
+		boolean isAdmin = JNSI.getIsAdmin("isAdmin");
 		IGlobal global = GWT.create(ClientGlobal.class);
 		Global.set(global);
+		if (isAdmin) {
+			return;
+		}
+
 		eventBus = new SimpleEventBus();
 		placeController = new PlaceController(eventBus);
 		initializeIsMacApp();
