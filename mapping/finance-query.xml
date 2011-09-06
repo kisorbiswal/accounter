@@ -2241,7 +2241,7 @@
 
 		<return-scalar column="ACCOUNT_ID" type="long" />
 		<return-scalar column="ACCOUNT_TRANSACTION_ID" type="long" />
-		<return-scalar column="BUDGET_ID" type="long" />
+		<!-- <return-scalar column="BUDGET_ID" type="long" /> -->
 		<return-scalar column="CUSTOMER_ID" type="long" />
 		<return-scalar column="ITEM_ID" type="long" />
 		<return-scalar column="VENDOR_ID" type="long" />
@@ -2275,8 +2275,8 @@
 
 		SELECT AC.ID AS ACCOUNT_ID,
 		AT.ID AS ACCOUNT_TRANSACTION_ID,
-		B.ID AS
-		BUDGET_ID,
+		<!-- B.ID AS
+		BUDGET_ID, -->
 		C.ID AS CUSTOMER_ID,
 		I.ID AS ITEM_ID,
 		V.ID AS VENDOR_ID,
@@ -2321,9 +2321,9 @@
 		ACCOUNT_TRANSACTION AT
 		ON A.ID =
 		AT.ACCOUNT_ID
-		LEFT OUTER JOIN
+		<!-- LEFT OUTER JOIN
 		BUDGET B
-		ON A.ID = B.ACCOUNT_ID
+		ON A.ID = B.ACCOUNT_ID -->
 		LEFT OUTER
 		JOIN
 		COMPANY C
