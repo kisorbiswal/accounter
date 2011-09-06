@@ -136,6 +136,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -12557,5 +12558,31 @@ public class FinanceTool {
 		}
 
 		return new ArrayList<ProfitAndLossByLocation>(queryResult);
+	}
+
+	public List<ClientBudget> getBudgetList() throws DAOException {
+
+		Session session = HibernateUtil.getCurrentSession();
+
+		try {
+
+			ArrayList<Budget> budgetList = new ArrayList<Budget>(session
+					.getNamedQuery("list.Budget").list());
+
+			List<ClientBudget> clientBudgetObjs = new ArrayList<ClientBudget>();
+
+			for (Budget budget : budgetList) {
+				ClientBudget clientObject = new ClientConvertUtil()
+						.toClientObject(budget, ClientBudget.class);
+
+				clientBudgetObjs.add(clientObject);
+			}
+
+			return new ArrayList<ClientBudget>(clientBudgetObjs);
+
+		} catch (Exception e) {
+			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
+		}
+
 	}
 }

@@ -37,6 +37,7 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.IAccounterHomeViewService;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientActivity;
+import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
@@ -431,6 +432,19 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		}
 
 		return new ArrayList<ClientCashPurchase>(clientCashPurchase);
+	}
+
+	public ArrayList<ClientBudget> getBudgetList() {
+
+		List<ClientBudget> budgetList = null;
+		try {
+
+			budgetList = getFinanceTool().getBudgetList();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<ClientBudget>(budgetList);
 	}
 
 	public ArrayList<ClientCashSales> getLatestCashSales() {
