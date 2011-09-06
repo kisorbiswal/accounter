@@ -645,6 +645,7 @@ public class WriteChequeView extends
 		numForm.setFields(date, transactionNumber);
 		if (locationTrackingEnabled)
 			numForm.setFields(locationCombo);
+
 		nHPanel = new VerticalPanel();
 		nHPanel.setCellHorizontalAlignment(numForm,
 				HasHorizontalAlignment.ALIGN_RIGHT);
@@ -685,6 +686,10 @@ public class WriteChequeView extends
 
 		bankAccForm = new DynamicForm();
 		bankAccForm.setFields(bankAccSelect, balText);
+		if (getPreferences().isClassTrackingEnabled()) {
+			classListCombo = createAccounterClassListCombo();
+			bankAccForm.setFields(classListCombo);
+		}
 		bankAccForm.getCellFormatter().setWidth(0, 0, "232px");
 		// forms.add(bankAccForm);
 
