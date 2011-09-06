@@ -172,7 +172,6 @@ public class ReceiveVATView extends
 		dateForm.setNumCols(4);
 		dateForm.setStyleName("datenumber-panel");
 		dateForm.setFields(transactionDateItem, transNumber);
-
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateForm);
@@ -203,6 +202,13 @@ public class ReceiveVATView extends
 		balForm = new DynamicForm();
 		balForm = UIUtils.form(companyConstants.balances());
 		balForm.setFields(amountText, endingBalanceText);
+		
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
+			classListCombo = createAccounterClassListCombo();
+			balForm.setFields(classListCombo);
+		}
+		
 		balForm.getCellFormatter().setWidth(0, 0, "197px");
 
 		VerticalPanel leftVLay = new VerticalPanel();
@@ -234,15 +240,14 @@ public class ReceiveVATView extends
 		mainVLay.add(gridLayout);
 		this.add(mainVLay);
 		setSize("100%", "100%");
-		/* Adding dynamic forms in list */
 		listforms.add(mainform);
 		listforms.add(balForm);
 
 		selectedDepositInAccount = depositInAccCombo.getSelectedValue();
-		initialEndingBalance = !DecimalUtil.isEquals(
-				selectedDepositInAccount.getTotalBalance(), 0) ? selectedDepositInAccount
-				.getTotalBalance() : 0D;
-
+		initialEndingBalance = selectedDepositInAccount == null ? 0D
+				: !DecimalUtil.isEquals(
+						selectedDepositInAccount.getTotalBalance(), 0) ? selectedDepositInAccount
+						.getTotalBalance() : 0D;
 		calculateEndingBalance();
 
 	}

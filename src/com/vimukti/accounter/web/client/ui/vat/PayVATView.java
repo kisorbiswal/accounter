@@ -162,7 +162,6 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		dateForm.setNumCols(4);
 		dateForm.setStyleName("datenumber-panel");
 		dateForm.setFields(transactionDateItem, transNumber);
-
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateForm);
@@ -194,6 +193,12 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		balForm.setFields(amountText, endingBalanceText);
 		balForm.getCellFormatter().setWidth(0, 0, "197px");
 
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
+			classListCombo = createAccounterClassListCombo();
+			balForm.setFields(classListCombo);
+		}
+		
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
 		leftVLay.add(mainform);
@@ -228,9 +233,10 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		listforms.add(balForm);
 
 		selectedPayFromAccount = payFromAccCombo.getSelectedValue();
-		initialEndingBalance = !DecimalUtil.isEquals(
-				selectedPayFromAccount.getTotalBalance(), 0) ? selectedPayFromAccount
-				.getTotalBalance() : 0D;
+		initialEndingBalance = selectedPayFromAccount == null ? 0D
+				: !DecimalUtil.isEquals(
+						selectedPayFromAccount.getTotalBalance(), 0) ? selectedPayFromAccount
+						.getTotalBalance() : 0D;
 
 		calculateEndingBalance();
 
