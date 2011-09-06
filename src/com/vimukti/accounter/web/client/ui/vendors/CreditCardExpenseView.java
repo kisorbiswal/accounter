@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -43,14 +42,12 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.edittable.VendorTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
-import com.vimukti.accounter.web.client.ui.grids.ListGrid;
-import com.vimukti.accounter.web.client.ui.grids.VendorTransactionGrid;
 
 public class CreditCardExpenseView extends
 		AbstractBankTransactionView<ClientCreditCardCharge> {
@@ -62,8 +59,7 @@ public class CreditCardExpenseView extends
 	protected TextItem cheqNoText;
 	// protected TextItem refText;
 	AmountField totText;
-	AccounterConstants accounterConstants = GWT
-			.create(AccounterConstants.class);
+	AccounterConstants accounterConstants = Accounter.constants();
 	List<String> idPhoneNumberForContacts = new ArrayList<String>();
 	List<String> idNamesForContacts = new ArrayList<String>();
 
@@ -94,7 +90,7 @@ public class CreditCardExpenseView extends
 
 	private boolean locationTrackingEnabled;
 
-	private VendorTransactionGrid vendorTransactionGrid;
+	private VendorTransactionTable vendorTransactionTable;
 
 	public CreditCardExpenseView() {
 
@@ -306,6 +302,13 @@ public class CreditCardExpenseView extends
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
 		if (locationTrackingEnabled)
 			dateNoForm.setFields(locationCombo);
+
+		// if (getPreferences().isClassTrackingEnabled()
+		// && getPreferences().isClassOnePerTransaction()) {
+		// classListCombo = createAccounterClassListCombo();
+		// dateNoForm.setFields(classListCombo);
+		// }
+
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 
 		VerticalPanel regPanel = new VerticalPanel();
@@ -440,13 +443,24 @@ public class CreditCardExpenseView extends
 				.amountIncludesVat());
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
-		vendorTransactionGrid = new VendorTransactionGrid();
-		vendorTransactionGrid.setTransactionView(this);
-		vendorTransactionGrid.setCanEdit(true);
-		vendorTransactionGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
-		vendorTransactionGrid.isEnable = false;
-		vendorTransactionGrid.init();
-		vendorTransactionGrid.setDisabled(isInViewMode());
+		vendorTransactionTable = new VendorTransactionTable() {
+
+			@Override
+			protected void updateNonEditableItems() {
+				CreditCardExpenseView.this.updateNonEditableItems();
+			}
+
+			@Override
+			protected ClientTransaction getTransactionObject() {
+				return CreditCardExpenseView.this.getTransactionObject();
+			}
+
+			@Override
+			protected ClientVendor getSelectedVendor() {
+				return CreditCardExpenseView.this.getSelectedVendor();
+			}
+		};
+		vendorTransactionTable.setDisabled(isInViewMode());
 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
@@ -556,7 +570,7 @@ public class CreditCardExpenseView extends
 		// vLay1.add(lab2);
 		// vLay1.add(addButton);
 		// multi currency combo
-		vLay1.add(vendorTransactionGrid);
+		vLay1.add(vendorTransactionTable);
 		vLay1.setWidth("100%");
 		vLay1.add(bottompanel);
 
@@ -640,10 +654,9 @@ public class CreditCardExpenseView extends
 			payMethSelect.setComboItem(transaction.getPaymentMethod());
 			payMethSelect.setDisabled(isInViewMode());
 			cheqNoText.setDisabled(isInViewMode());
-			vendorTransactionGrid.setCanEdit(false);
-			vendorTransactionGrid.removeAllRecords();
-			vendorTransactionGrid.setAllTransactionItems(transaction
-					.getTransactionItems());
+			vendorTransactionTable.removeAllRecords();
+			vendorTransactionTable
+					.setAllRows(transaction.getTransactionItems());
 
 		}
 		if (locationTrackingEnabled)
@@ -814,11 +827,10 @@ public class CreditCardExpenseView extends
 		transaction.setDeliveryDate(UIUtils.toDate(delivDate.getValue()));
 
 		// Setting transactions
-		transaction.setTransactionItems(vendorTransactionGrid
-				.getallTransactionItems(transaction));
+		transaction.setTransactionItems(vendorTransactionTable.getAllRows());
 
 		// setting total
-		transaction.setTotal(vendorTransactionGrid.getTotal());
+		transaction.setTotal(vendorTransactionTable.getTotal());
 		// setting memo
 		transaction.setMemo(getMemoTextAreaItem());
 		// setting ref
@@ -834,7 +846,6 @@ public class CreditCardExpenseView extends
 				transaction.setContact(contact);
 			}
 		}
-
 	}
 
 	public void createAlterObject() {
@@ -900,9 +911,8 @@ public class CreditCardExpenseView extends
 		contactCombo.setDisabled(isInViewMode());
 		phoneSelect.setDisabled(isInViewMode());
 		payFrmSelect.setDisabled(isInViewMode());
-		vendorTransactionGrid.setCanEdit(true);
 		memoTextAreaItem.setDisabled(isInViewMode());
-		vendorTransactionGrid.setDisabled(isInViewMode());
+		vendorTransactionTable.setDisabled(isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 		super.onEdit();
@@ -969,13 +979,13 @@ public class CreditCardExpenseView extends
 	public void updateNonEditableItems() {
 
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			transactionTotalNonEditableText.setAmount(vendorTransactionGrid
+			transactionTotalNonEditableText.setAmount(vendorTransactionTable
 					.getTotal());
-			netAmount.setAmount(vendorTransactionGrid.getGrandTotal());
-			vatTotalNonEditableText.setAmount(vendorTransactionGrid.getTotal()
-					- vendorTransactionGrid.getGrandTotal());
+			netAmount.setAmount(vendorTransactionTable.getGrandTotal());
+			vatTotalNonEditableText.setAmount(vendorTransactionTable.getTotal()
+					- vendorTransactionTable.getGrandTotal());
 		} else {
-			transactionTotalNonEditableText.setAmount(vendorTransactionGrid
+			transactionTotalNonEditableText.setAmount(vendorTransactionTable
 					.getTotal());
 		}
 
@@ -1016,11 +1026,11 @@ public class CreditCardExpenseView extends
 
 	@Override
 	protected void addNewData(ClientTransactionItem transactionItem) {
-		vendorTransactionGrid.addData(transactionItem);
+		vendorTransactionTable.add(transactionItem);
 	}
 
 	@Override
 	protected void refreshTransactionGrid() {
-		vendorTransactionGrid.refreshAllRecords();
+		// vendorTransactionTable.refreshAllRecords();
 	}
 }
