@@ -314,6 +314,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 	private Set<Currency> currencies = new HashSet<Currency>();
 
+	private ArrayList<AccounterClass> accounterClasses = new ArrayList<AccounterClass>();
 	public String getCountryCode() {
 		return countryCode;
 	}
@@ -4376,6 +4377,8 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		cmp.brandingTheme = this.getBrandingTheme();
 
 		cmp.usersList = this.getUsersList();
+		
+		cmp.accounterClasses = this.getAccounterClasses();
 
 		cmp.locations = this.getLocations();
 
@@ -4594,6 +4597,14 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		this.cashDiscountsTaken = cashDiscountsTaken;
 	}
 
+	public ArrayList<AccounterClass> getAccounterClasses() {
+		return accounterClasses;
+	}
+
+	public void setAccounterClasses(ArrayList<AccounterClass> accounterClasses) {
+		this.accounterClasses = accounterClasses;
+	}
+
 	public ArrayList<Location> getLocations() {
 		return locations;
 	}
@@ -4601,5 +4612,4 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	public void setLocations(ArrayList<Location> arrayList) {
 		this.locations = arrayList;
 	}
-
 }
