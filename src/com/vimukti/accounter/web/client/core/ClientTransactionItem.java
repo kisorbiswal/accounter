@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.client.core;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.vimukti.accounter.web.client.ui.Accounter;
+
 /**
  * 
  * This transactionItem Object is used for
@@ -17,7 +19,7 @@ public class ClientTransactionItem implements IAccounterCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final int TYPE_ITEM = 1;
 	public static final int TYPE_COMMENT = 2;
 	public static final int TYPE_SALESTAX = 3;
@@ -476,29 +478,40 @@ public class ClientTransactionItem implements IAccounterCore {
 	public IAccountable getAccountable() {
 		switch (type) {
 		case TYPE_ACCOUNT:
+			if (tAccount == null) {
+				tAccount = Accounter.getCompany().getAccount(item);
+			}
 			return tAccount;
 		case TYPE_ITEM:
 		case TYPE_SERVICE:
+			if (tItem == null) {
+				tItem = Accounter.getCompany().getItem(item);
+			}
 			return tItem;
 		case TYPE_SALESTAX:
+			if (taxItem == null) {
+				taxItem = Accounter.getCompany().getTaxItem(item);
+			}
 			return taxItem;
 		}
 		return null;
 	}
 
 	public void setAccountable(IAccountable value) {
-		type=value.getType();
+		type = value.getType();
 		switch (type) {
 		case TYPE_ACCOUNT:
 			tAccount = (ClientAccount) value;
-			account=tAccount.id;
+			account = tAccount.id;
+			break;
 		case TYPE_ITEM:
 		case TYPE_SERVICE:
 			tItem = (ClientItem) value;
-			item=tItem.id;
+			item = tItem.id;
+			break;
 		case TYPE_SALESTAX:
 			taxItem = (ClientTAXItem) value;
 		}
-		name=value.getName();
+		name = value.getName();
 	}
 }
