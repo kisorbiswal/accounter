@@ -175,8 +175,8 @@ public class ServerConfiguration {
 			System.setProperty("db.user", username);
 			System.setProperty("db.pass", password);
 			System.setProperty("dialect", dialect);
-			adminpassword = prop.getProperty("adminpassword", "***REMOVED***");
-			adminID = prop.getProperty("adminId", "admin@accounter.com");
+			adminpassword = prop.getProperty("adminpassword", "");
+			adminID = prop.getProperty("adminId", "");
 			tmpDir = prop.getProperty("tmpDir", System.getProperty(
 					"java.io.tmpdir", ""));
 
