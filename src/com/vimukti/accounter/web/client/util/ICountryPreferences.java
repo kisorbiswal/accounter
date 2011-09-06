@@ -5,7 +5,7 @@ public interface ICountryPreferences {
 	
 	String getPreferredCurrency();
 	
-	String getDefaultTimeZone(String state);
+	//String getDefaultTimeZone(String state);
 	
 	OrganizationType[] getOrganizationTypes();
 	
