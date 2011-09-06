@@ -280,9 +280,14 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 
 		String budgetname = budgetNameText.getValue() != null ? budgetNameText
 				.getValue() : " ";
+
 		String financialYear = selectFinancialYear.getSelectedValue();
 
-		data.setBudgetName(budgetname + " " + financialYear);
+		String[] temp;
+		String delimiter = " ";
+		temp = financialYear.split(delimiter);
+
+		data.setBudgetName(budgetname + " - " + temp[0]);
 
 		List<ClientBudgetItem> allGivenRecords = (List<ClientBudgetItem>) gridView
 				.getRecords();
