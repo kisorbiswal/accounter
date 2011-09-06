@@ -28,13 +28,11 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.edittable.VendorTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
-import com.vimukti.accounter.web.client.ui.grids.ListGrid;
-import com.vimukti.accounter.web.client.ui.grids.VendorTransactionGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 /**
@@ -53,7 +51,7 @@ public class CashPurchaseView extends
 	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
 			.constants();
 	private boolean locationTrackingEnabled;
-	protected VendorTransactionGrid vendorTransactionGrid;
+	protected VendorTransactionTable vendorTransactionTable;
 
 	public CashPurchaseView() {
 		super(ClientTransaction.TYPE_CASH_PURCHASE);
@@ -201,13 +199,9 @@ public class CashPurchaseView extends
 		vatTotalNonEditableText = createVATTotalNonEditableItem();
 
 		vatinclusiveCheck = getVATInclusiveCheckBox();
-		vendorTransactionGrid = new VendorTransactionGrid();
-		vendorTransactionGrid.setTransactionView(this);
-		vendorTransactionGrid.setCanEdit(true);
-		vendorTransactionGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
-		vendorTransactionGrid.isEnable = false;
-		vendorTransactionGrid.init();
-		vendorTransactionGrid.setDisabled(isInViewMode());
+		vendorTransactionTable = new VendorTransactionTable() {
+		};
+		vendorTransactionTable.setDisabled(isInViewMode());
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
 		// refText = createRefereceText();
@@ -302,7 +296,7 @@ public class CashPurchaseView extends
 		mainVLay.add(topHLay);
 		// mainVLay.add(lab2);
 
-		mainVLay.add(vendorTransactionGrid);
+		mainVLay.add(vendorTransactionTable);
 
 		mainVLay.add(bottompanel);
 
@@ -410,8 +404,6 @@ public class CashPurchaseView extends
 			if (vatinclusiveCheck != null) {
 				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
 			}
-			vendorTransactionGrid.setCanEdit(false);
-
 		}
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
@@ -428,12 +420,12 @@ public class CashPurchaseView extends
 			ClientCashPurchase ent = (ClientCashPurchase) this.transaction;
 
 			if (ent != null && ent.getVendor() == vendor.getID()) {
-				this.vendorTransactionGrid.removeAllRecords();
-				this.vendorTransactionGrid
-						.setRecords(ent.getTransactionItems());
+				this.vendorTransactionTable.removeAllRecords();
+				this.vendorTransactionTable.setRecords(ent
+						.getTransactionItems());
 			} else if (ent != null && ent.getVendor() != vendor.getID()) {
-				this.vendorTransactionGrid.removeAllRecords();
-				this.vendorTransactionGrid.updateTotals();
+				this.vendorTransactionTable.removeAllRecords();
+				this.vendorTransactionTable.updateTotals();
 			}
 		}
 		super.vendorSelected(vendor);
@@ -452,10 +444,10 @@ public class CashPurchaseView extends
 		} else
 			billToAreaItem.setValue("");
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			for (ClientTransactionItem item : vendorTransactionGrid
+			for (ClientTransactionItem item : vendorTransactionTable
 					.getRecords()) {
 				if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT)
-					vendorTransactionGrid.setVendorTaxCode(item);
+					vendorTransactionTable.setVendorTaxCode(item);
 			}
 		}
 
@@ -548,7 +540,7 @@ public class CashPurchaseView extends
 					.getDate());
 
 		// Setting Total
-		transaction.setTotal(vendorTransactionGrid.getTotal());
+		transaction.setTotal(vendorTransactionTable.getTotal());
 
 		// Setting Memo
 		transaction.setMemo(getMemoTextAreaItem());
@@ -571,12 +563,12 @@ public class CashPurchaseView extends
 
 	@Override
 	public void updateNonEditableItems() {
-		netAmount.setAmount(vendorTransactionGrid.getGrandTotal());
+		netAmount.setAmount(vendorTransactionTable.getGrandTotal());
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			vatTotalNonEditableText.setAmount(vendorTransactionGrid.getTotal()
-					- vendorTransactionGrid.getGrandTotal());
+			vatTotalNonEditableText.setAmount(vendorTransactionTable.getTotal()
+					- vendorTransactionTable.getGrandTotal());
 		}
-		transactionTotalNonEditableText.setAmount(vendorTransactionGrid
+		transactionTotalNonEditableText.setAmount(vendorTransactionTable
 				.getTotal());
 	}
 
@@ -616,11 +608,11 @@ public class CashPurchaseView extends
 							.cannotbeearlierthantransactiondate());
 		}
 
-		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
-			result.addError(vendorTransactionGrid,
+		if (vendorTransactionTable.getAllRows().isEmpty()) {
+			result.addError(vendorTransactionTable,
 					accounterConstants.blankTransaction());
 		} else
-			result.add(vendorTransactionGrid.validateGrid());
+			result.add(vendorTransactionTable.validateGrid());
 		return result;
 
 	}
@@ -697,8 +689,7 @@ public class CashPurchaseView extends
 			checkNo.setDisabled(!isInViewMode());
 		}
 		deliveryDateItem.setDisabled(isInViewMode());
-		vendorTransactionGrid.setDisabled(isInViewMode());
-		vendorTransactionGrid.setCanEdit(true);
+		vendorTransactionTable.setDisabled(isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
@@ -745,22 +736,22 @@ public class CashPurchaseView extends
 	@Override
 	protected void addAllRecordToGrid(
 			List<ClientTransactionItem> transactionItems) {
-		vendorTransactionGrid.addRecords(transactionItems);
+		vendorTransactionTable.addRecords(transactionItems);
 	}
 
 	@Override
 	protected void removeAllRecordsFromGrid() {
-		vendorTransactionGrid.removeAllRecords();
+		vendorTransactionTable.removeAllRecords();
 	}
 
 	@Override
 	protected void addNewData(ClientTransactionItem transactionItem) {
-		vendorTransactionGrid.addData(transactionItem);
+		vendorTransactionTable.add(transactionItem);
 
 	}
 
 	@Override
 	protected void refreshTransactionGrid() {
-		vendorTransactionGrid.refreshAllRecords();
+		// vendorTransactionTable.refreshAllRecords();
 	}
 }
