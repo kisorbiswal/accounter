@@ -43,17 +43,15 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 	String from = "";
 	private Button sendBtn;
 	private Button cancelBtn;
-	final DynamicForm form1 = UIUtils.form(Accounter.constants().type());
-	final DynamicForm form2 = UIUtils.form(Accounter.constants().type());
-	final DynamicForm form3 = UIUtils.form(Accounter.constants().type());
+	final DynamicForm form1 = new DynamicForm();
+	final DynamicForm form2 = new DynamicForm();
+	final DynamicForm form3 = new DynamicForm();
 
 	public EmailView(ClientInvoice inovoice) {
 		this.invoice = inovoice;
-
 	}
 
 	public EmailView() {
-
 	}
 
 	@Override
@@ -71,7 +69,6 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 		ArrayList<String> toAdd = fromAddcombo.getToAddress();
 
 		from = toAdd.get(0);
-		System.err.println("......." + toAdd.get(0));
 		fromAddcombo.setValue(toAdd.get(0));
 
 		String message = "\n"
@@ -89,6 +86,9 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 		// fromAddress.setRequired(true);
 
 		String toemail = invoice.getContact().getEmail();
+		if (toemail == null) {
+			toemail = "";
+		}
 		toAddress = new EmailField(constants.to());
 		toAddress.setText(toemail.trim());
 		toAddress.setHelpInformation(true);
@@ -138,8 +138,19 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				// for checking the From and To email address
 
-				updateControls();
+				if (from.trim().length() == 0) {
+					Accounter.showError(Accounter.constants().invalidEmail());
+				}
+				if (UIUtils.isValidEmail(from)
+						&& UIUtils.isValidMultipleEmailIds(toAddress.getValue()
+								.toString())) {
+					updateControls();
+				} else {
+					Accounter.showError(Accounter.constants().invalidEmail());
+
+				}
 
 			}
 
@@ -171,7 +182,6 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 					public void selectedComboBoxItem(String selectItem) {
 						from = "";
 						from = (String) selectItem;
-						System.err.println("............." + from);
 					}
 
 				});
@@ -217,19 +227,15 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 
 	private void updateControls() {
 
-		// String fromAdd = fromAddress.getValue().toString() != null ?
-		// fromAddress
-		// .getValue().toString() : "";
 		String ToAdd = toAddress.getValue().toString() != null ? toAddress
 				.getValue().toString() : "";
+		getValidMail(toAddress.getValue().toString());
 		String ccAdd = ccAddress.getValue().toString() != null ? ccAddress
 				.getValue().toString() : "";
 		String sub = subject.getValue().toString() != null ? subject.getValue()
 				.toString() : "";
 		String body = emailBody.getValue().toString() != null ? emailBody
 				.getValue().toString() : "";
-
-		long themeId = 1;
 
 		Accounter.createHomeService().sendPdfInMail(
 				((ClientInvoice) invoice).getID(),
@@ -262,7 +268,6 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 		// TODO Auto-generated method stub
 		return constants.email();
 	}
-
 
 	@Override
 	public void onFailure(Throwable caught) {
