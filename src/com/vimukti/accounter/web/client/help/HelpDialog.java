@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.help;
 
+import com.google.gwt.dom.client.Element;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 
 public class HelpDialog extends CustomDialog {
@@ -9,8 +10,10 @@ public class HelpDialog extends CustomDialog {
 		this.setHeight("100%");
 		this.setModal(false);
 		this.addStyleName("helpdialog");
+		Element td = getCellElement(0, 1);
+		td.setInnerHTML("");
+		td.appendChild(helpPannel.getHorizontalPannel().getElement());
 		this.setPopupPosition(470, 200);
 		this.add(helpPannel);
 	}
-
 }
