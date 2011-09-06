@@ -2636,9 +2636,9 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	-webkit-border-radius:5px;
 	-moz-border-radius:5px;
 }
-.gwt-PopupPanel .popupContent{
+/*.gwt-PopupPanel .popupContent{
 	padding:10px 20px;
-}
+}*/
 .change-PopupPanel {
 	background: none repeat scroll 0 0 #3299A4 !important;
 	border-color: #3299A4 !important;
@@ -3850,4 +3850,40 @@ input[type="text"]:FOCUS, textarea:FOCUS{
 }
 .helpdialog .view_help_panel iframe{
 	height:auto !important;
+}
+
+
+
+.editTable .comboBox .gwt-TextBox{
+	float:left;
+}
+.editTable .gwt-TextBox{
+	width:100%;
+	border:0 none;
+	padding:0px !important;
+	border-radius:0px !important; 
+}
+.editTable table{
+   border-collapse: collapse;
+   background:#fff;
+}
+.editTable .header{
+	text-align:center;
+	background:-moz-linear-gradient(center top , #3299A4, #2D8B93) repeat scroll 0 0 transparent !important;
+}
+.editTable .header td{
+	color: white;
+    padding: 5px;
+    border:0 none !important;
+}
+.editTable td{
+	border-color: #CCCCCC;
+    border-style: solid;
+    border-width: 0 0 1px 1px;
+}
+.editTable td:last-child{
+	border-right:1px solid #ccc !important;
+}
+.amount{
+	text-align: right;
 }
