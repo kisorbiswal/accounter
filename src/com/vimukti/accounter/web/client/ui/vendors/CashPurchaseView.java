@@ -200,6 +200,21 @@ public class CashPurchaseView extends
 
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		vendorTransactionTable = new VendorTransactionTable() {
+
+			@Override
+			protected void updateNonEditableItems() {
+				CashPurchaseView.this.updateNonEditableItems();
+			}
+
+			@Override
+			protected ClientTransaction getTransactionObject() {
+				return CashPurchaseView.this.getTransactionObject();
+			}
+
+			@Override
+			protected ClientVendor getSelectedVendor() {
+				return CashPurchaseView.this.getVendor();
+			}
 		};
 		vendorTransactionTable.setDisabled(isInViewMode());
 		memoTextAreaItem = createMemoTextAreaItem();
@@ -748,6 +763,11 @@ public class CashPurchaseView extends
 	protected void addNewData(ClientTransactionItem transactionItem) {
 		vendorTransactionTable.add(transactionItem);
 
+	}
+
+	@Override
+	public List<ClientTransactionItem> getAllTransactionItems() {
+		return vendorTransactionTable.getAllRows();
 	}
 
 	@Override
