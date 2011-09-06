@@ -448,7 +448,10 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		List<ClientAddress> list = new ArrayList(tempSet);
 		billToCombo.initCombo(list);
 		billToaddressSelected(address);
-		billToCombo.setDisabled(isInViewMode());
+		if (list == null || list.size() == 0)
+			billToCombo.setDisabled(true);
+		else
+			billToCombo.setDisabled(isInViewMode());
 
 	}
 
