@@ -130,6 +130,8 @@ public abstract class ClientTransaction implements IAccounterCore {
 	 */
 	private double currencyFactor;
 
+	private ClientAccounterClass accounterClass;
+
 	// boolean showPricesWithVATOrVATInclusive;
 	// boolean EUVATExemptPayee;
 	// boolean isVATreturned;
@@ -933,4 +935,12 @@ public abstract class ClientTransaction implements IAccounterCore {
 	 * 
 	 * type = original.type; version = original.version; }
 	 */
+	
+	public ClientAccounterClass getAccounterClass() {
+		return accounterClass;
+	}
+
+	public void setAccounterClass(ClientAccounterClass accounterClass) {
+		this.accounterClass = accounterClass;
+	}
 }

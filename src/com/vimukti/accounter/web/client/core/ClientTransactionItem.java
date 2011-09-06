@@ -95,6 +95,8 @@ public class ClientTransactionItem implements IAccounterCore {
 	 */
 	long referringTransactionItem;
 
+	private ClientAccounterClass accounterClass;
+
 	public double getVATfraction() {
 		return VATfraction;
 	}
@@ -513,5 +515,13 @@ public class ClientTransactionItem implements IAccounterCore {
 			taxItem = (ClientTAXItem) value;
 		}
 		name = value.getName();
+	}
+	
+	public void setClientAccounterClass(ClientAccounterClass accounterClass) {
+		this.accounterClass = accounterClass;
+	}
+
+	public ClientAccounterClass getClientAccounterClass() {
+		return this.accounterClass;
 	}
 }
