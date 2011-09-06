@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.vendors;
 
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -29,9 +28,8 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 	private InputDialog inputDlg;
 
 	public VendorGroupListDialog() {
-		super(Global.get().messages()
-				.manageVendorGroup(Global.get().Vendor()), Global.get()
-				.messages().toAddVendorGroup(Global.get().Vendor()));
+		super(Global.get().messages().manageVendorGroup(Global.get().Vendor()),
+				Global.get().messages().toAddVendorGroup(Global.get().Vendor()));
 		setWidth("400px");
 		initialise();
 		center();
@@ -39,22 +37,24 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 
 	private void initialise() {
 		getGrid().setType(AccounterCoreType.VENDOR_GROUP);
-		getGrid().addRecordClickHandler(new GridRecordClickHandler() {
+		getGrid().addRecordClickHandler(
+				new GridRecordClickHandler<ClientVendorGroup>() {
 
-			@Override
-			public boolean onRecordClick(IsSerializable core, int column) {
-				if (core != null) {
-					ClientVendorGroup vendorGroup = (ClientVendorGroup) core;
-					if (vendorGroup.isDefault()) {
-						enableEditRemoveButtons(false);
-					} else {
-						enableEditRemoveButtons(true);
+					@Override
+					public boolean onRecordClick(ClientVendorGroup core,
+							int column) {
+						if (core != null) {
+							ClientVendorGroup vendorGroup = (ClientVendorGroup) core;
+							if (vendorGroup.isDefault()) {
+								enableEditRemoveButtons(false);
+							} else {
+								enableEditRemoveButtons(true);
+							}
+						}
+						return true;
 					}
-				}
-				return true;
-			}
 
-		});
+				});
 
 		dialogButtonsHandler = new GroupDialogButtonsHandler() {
 
@@ -123,7 +123,7 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 	}
 
 	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
+	public Object getGridColumnValue(ClientVendorGroup obj, int index) {
 		ClientVendorGroup group = (ClientVendorGroup) obj;
 		switch (index) {
 		case 0:
