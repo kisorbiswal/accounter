@@ -38,7 +38,8 @@ import com.vimukti.accounter.web.client.ui.edittable.TransactionVatColumn;
  * @author vimukti04
  * 
  */
-public abstract class CustomerTransactionTable extends EditTable<ClientTransactionItem> {
+public abstract class CustomerTransactionTable extends
+		EditTable<ClientTransactionItem> {
 	private Double totallinetotal = 0.0d;
 	private double taxableTotal;
 	private double totalVat;
@@ -54,7 +55,7 @@ public abstract class CustomerTransactionTable extends EditTable<ClientTransacti
 		company = Accounter.getCompany();
 	}
 
-	private void initColumns() {
+	protected void initColumns() {
 		this.addColumn(new ImageEditColumn<ClientTransactionItem>() {
 
 			@Override
@@ -129,11 +130,11 @@ public abstract class CustomerTransactionTable extends EditTable<ClientTransacti
 		});
 	}
 
-	private ClientCompany getCompany() {
+	protected ClientCompany getCompany() {
 		return Accounter.getCompany();
 	}
 
-	private ImageResource getImage(ClientTransactionItem row) {
+	protected ImageResource getImage(ClientTransactionItem row) {
 		switch (row.getType()) {
 		case ClientTransactionItem.TYPE_ITEM:
 			return Accounter.getFinanceImages().itemsIcon();
@@ -255,7 +256,7 @@ public abstract class CustomerTransactionTable extends EditTable<ClientTransacti
 		return taxableTotal;
 	}
 
-	public double getGrandTotal() {
+	public Double getGrandTotal() {
 		return grandTotal;
 	}
 
