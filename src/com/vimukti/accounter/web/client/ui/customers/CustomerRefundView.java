@@ -46,6 +46,7 @@ import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 
 public class CustomerRefundView extends
 		AbstractCustomerTransactionView<ClientCustomerRefund> {
@@ -342,6 +343,11 @@ public class CustomerRefundView extends
 		balForm.setFields(endBalText, custBalText);
 		balForm.getCellFormatter().setWidth(0, 0, "205px");
 
+		if (getPreferences().isClassTrackingEnabled()) {
+			classListCombo = createAccounterClassListCombo();
+			balForm.setFields(classListCombo);
+		}
+
 		VerticalPanel leftPanel = new VerticalPanel();
 		leftPanel.setWidth("100%");
 		leftPanel.setSpacing(5);
@@ -429,7 +435,6 @@ public class CustomerRefundView extends
 		transaction.setTotal(amtText.getAmount());
 
 		transaction.setBalanceDue(amtText.getAmount());
-
 	}
 
 	private String getCheckValue() {
@@ -570,6 +575,13 @@ public class CustomerRefundView extends
 			memoTextAreaItem.setDisabled(true);
 			memoTextAreaItem.setValue(transaction.getMemo());
 			// refText.setValue(customerRefundTobeEdited.getReference());
+			
+			this.clientAccounterClass = transaction.getAccounterClass();
+			if (getPreferences().isClassTrackingEnabled()
+					&& this.clientAccounterClass != null
+					&& classListCombo != null) {
+				classListCombo.setComboItem(this.getClientAccounterClass());
+			}
 		}
 		initRPCService();
 

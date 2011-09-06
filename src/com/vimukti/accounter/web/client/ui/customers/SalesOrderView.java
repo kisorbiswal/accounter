@@ -150,11 +150,11 @@ public class SalesOrderView extends
 		if (locationTrackingEnabled)
 			dateNoForm.setFields(locationCombo);
 
-		// if (getPreferences().isClassTrackingEnabled()
-		// && getPreferences().isClassOnePerTransaction()) {
-		// classListCombo = createAccounterClassListCombo();
-		// dateNoForm.setFields(classListCombo);
-		// }
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
+			classListCombo = createAccounterClassListCombo();
+			dateNoForm.setFields(classListCombo);
+		}
 
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("99%");

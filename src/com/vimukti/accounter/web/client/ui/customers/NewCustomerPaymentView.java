@@ -257,11 +257,10 @@ public class NewCustomerPaymentView extends
 		initCustomers();
 	}
 
-	private void initCustomers() {
-		List<ClientCustomer> result = getCompany().getActiveCustomers();
-		customerCombo.initCombo(result);
-		customerCombo.setDisabled(isInViewMode());
 
+	private void initCustomers() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void accountSelected(ClientAccount account) {

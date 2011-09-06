@@ -77,7 +77,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		super(ClientTransaction.TYPE_ESTIMATE);
 		locationTrackingEnabled = getCompany().getPreferences()
 				.isLocationTrackingEnabled();
-
 	}
 
 	private void initAllItems() {
@@ -362,6 +361,12 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		phoneForm.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.constants().width(), "203px");
 
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
+			classListCombo = createAccounterClassListCombo();
+			phoneForm.setFields(classListCombo);
+		}
+		
 		Label lab2 = new Label(customerConstants.productAndService());
 
 		HorizontalPanel buttLabHLay = new HorizontalPanel();

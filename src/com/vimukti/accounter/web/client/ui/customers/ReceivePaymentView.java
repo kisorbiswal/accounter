@@ -508,6 +508,11 @@ public class ReceivePaymentView extends
 		depoForm.setFields(customerNonEditablebalText, depositInCombo);
 		depoForm.getCellFormatter().setWidth(0, 0, "203px");
 
+		if (getPreferences().isClassTrackingEnabled()) {
+			classListCombo = createAccounterClassListCombo();
+			depoForm.setFields(classListCombo);
+		}
+
 		Label lab1 = new Label(Accounter.constants().dueForPayment());
 
 		initListGrid();
@@ -677,9 +682,7 @@ public class ReceivePaymentView extends
 
 		transaction.setUnUsedPayments(this.unUsedPayments);
 		transaction.setTotal(this.transactionTotal);
-
 		transaction.setUnUsedCredits(this.unUsedCreditsText.getAmount());
-
 	}
 
 	public void setUnusedPayments(Double unusedAmounts) {
@@ -743,6 +746,12 @@ public class ReceivePaymentView extends
 			List<ClientTransactionReceivePayment> tranReceivePaymnetsList = transaction
 					.getTransactionReceivePayment();
 			initListGridData(tranReceivePaymnetsList);
+			this.clientAccounterClass = transaction.getAccounterClass();
+			if (getPreferences().isClassTrackingEnabled()
+					&& this.clientAccounterClass != null
+					&& classListCombo != null) {
+				classListCombo.setComboItem(this.getClientAccounterClass());
+			}
 			gridView.setTranReceivePayments(tranReceivePaymnetsList);
 		}
 		initTransactionNumber();

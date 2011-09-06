@@ -205,6 +205,12 @@ public class CashSalesView extends
 		termsForm.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.constants().width(), "203px");
 
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
+			classListCombo = createAccounterClassListCombo();
+			termsForm.setFields(classListCombo);
+		}
+
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(160);
 
@@ -376,7 +382,8 @@ public class CashSalesView extends
 
 			if (ent != null && ent.getCustomer() == customer.getID()) {
 				this.customerTransactionTable.clear();
-				this.customerTransactionTable.setAllRows(ent.getTransactionItems());
+				this.customerTransactionTable.setAllRows(ent
+						.getTransactionItems());
 			} else if (ent != null && ent.getCustomer() != customer.getID()) {
 				this.customerTransactionTable.clear();
 				this.customerTransactionTable.updateTotals();
@@ -421,7 +428,8 @@ public class CashSalesView extends
 		}
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 			// super.setCustomerTaxCodetoAccount();
-			for (ClientTransactionItem item : customerTransactionTable.getAllRows()) {
+			for (ClientTransactionItem item : customerTransactionTable
+					.getAllRows()) {
 				if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT)
 					customerTransactionTable.setCustomerTaxCode(item);
 			}
@@ -519,7 +527,6 @@ public class CashSalesView extends
 			transaction.setPriceLevel(priceLevel.getID());
 		transaction.setMemo(getMemoTextAreaItem());
 		// transaction.setReference(getRefText());
-
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 			transaction.setNetAmount(netAmountLabel.getAmount());
 			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
@@ -540,7 +547,8 @@ public class CashSalesView extends
 			return;
 		if (getCompany().getAccountingType() == 0) {
 
-			Double taxableLineTotal = customerTransactionTable.getTaxableLineTotal();
+			Double taxableLineTotal = customerTransactionTable
+					.getTaxableLineTotal();
 
 			if (taxableLineTotal == null)
 				return;
@@ -552,12 +560,14 @@ public class CashSalesView extends
 
 			setSalesTax(salesTax);
 
-			setTransactionTotal(customerTransactionTable.getTotal() + this.salesTax);
+			setTransactionTotal(customerTransactionTable.getTotal()
+					+ this.salesTax);
 
 		} else {
 			netAmountLabel.setAmount(customerTransactionTable.getGrandTotal());
-			vatTotalNonEditableText.setAmount(customerTransactionTable.getTotalValue()
-					- customerTransactionTable.getGrandTotal());
+			vatTotalNonEditableText
+					.setAmount(customerTransactionTable.getTotalValue()
+							- customerTransactionTable.getGrandTotal());
 			setTransactionTotal(customerTransactionTable.getTotalValue());
 		}
 
@@ -660,6 +670,14 @@ public class CashSalesView extends
 			}
 			memoTextAreaItem.setDisabled(true);
 			transactionTotalNonEditableText.setAmount(transaction.getTotal());
+
+			this.clientAccounterClass = transaction.getAccounterClass();
+			if (getPreferences().isClassTrackingEnabled()
+					&& getPreferences().isClassOnePerTransaction()
+					&& this.clientAccounterClass != null
+					&& classListCombo != null) {
+				classListCombo.setComboItem(this.getClientAccounterClass());
+			}
 		}
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
@@ -901,7 +919,8 @@ public class CashSalesView extends
 	@Override
 	protected void initTransactionsItems() {
 		if (transaction.getTransactionItems() != null)
-			customerTransactionTable.setAllRows(transaction.getTransactionItems());
+			customerTransactionTable.setAllRows(transaction
+					.getTransactionItems());
 	}
 
 	@Override

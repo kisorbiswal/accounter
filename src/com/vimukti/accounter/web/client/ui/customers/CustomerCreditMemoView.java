@@ -42,6 +42,7 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 public class CustomerCreditMemoView extends
@@ -155,6 +156,12 @@ public class CustomerCreditMemoView extends
 		// phoneForm.setFields(phoneSelect, salesPersonCombo);
 		// phoneForm.setFields(salesPersonCombo);
 		phoneForm.setStyleName("align-form");
+
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
+			classListCombo = createAccounterClassListCombo();
+			phoneForm.setFields(classListCombo);
+		}
 
 		Label lab2 = new Label(customerConstants.productAndService());
 
@@ -356,7 +363,6 @@ public class CustomerCreditMemoView extends
 			transaction.setPriceLevel(priceLevel.getID());
 		transaction.setMemo(getMemoTextAreaItem());
 		// transaction.setReference(getRefText());
-
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 			transaction.setNetAmount(netAmountLabel.getAmount());
 			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
@@ -414,6 +420,13 @@ public class CustomerCreditMemoView extends
 			}
 			transactionTotalNonEditableText.setAmount(transaction.getTotal());
 			memoTextAreaItem.setDisabled(true);
+			
+			if (getPreferences().isClassTrackingEnabled()
+					&& getPreferences().isClassOnePerTransaction()
+					&& this.clientAccounterClass != null
+					&& classListCombo != null) {
+				classListCombo.setComboItem(this.getClientAccounterClass());
+			}
 		}
 		superinitTransactionViewData();
 		if (locationTrackingEnabled)

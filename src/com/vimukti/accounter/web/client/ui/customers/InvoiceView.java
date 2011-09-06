@@ -70,6 +70,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyChangeListener;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
@@ -427,6 +428,12 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				termsForm.setFields(shippingTermsCombo, shippingMethodsCombo,
 						deliveryDate);
 
+		}
+
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
+			classListCombo = createAccounterClassListCombo();
+			termsForm.setFields(classListCombo);
 		}
 
 		termsForm.setStyleName("align-form");
@@ -975,6 +982,13 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 						- item.getInvoiced());
 				clientItem.setTaxable(item.isTaxable());
 				clientItem.setReferringTransactionItem(item.getID());
+				if (getPreferences().isClassTrackingEnabled()
+						&& !getPreferences().isClassOnePerTransaction()) {
+					clientItem.setClientAccounterClass(item
+							.getClientAccounterClass());
+				} else {
+					clientItem.setClientAccounterClass(null);
+				}
 				itemsList.add(clientItem);
 			}
 
@@ -1136,6 +1150,12 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			balanceDueNonEditableText.setAmount(transaction.getBalanceDue());
 			quoteLabel.setDisabled(true);
 			memoTextAreaItem.setDisabled(true);
+			if (getPreferences().isClassTrackingEnabled()
+					&& getPreferences().isClassOnePerTransaction()
+					&& transaction.getAccounterClass() != null) {
+				this.clientAccounterClass = transaction.getAccounterClass();
+				classSelected(this.clientAccounterClass);
+			}
 		}
 		superinitTransactionViewData();
 
