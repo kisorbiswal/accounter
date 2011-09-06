@@ -4598,6 +4598,18 @@ public interface AccounterConstants extends Constants {
 
 	public String creditNoteTemplete();
 
+	public String addNewTrackClass();
+
+	public String toAddAccounterClass();
+
+	public String manageAccounterClass();
+
+	public String accounterClass();
+
+	public String createClass();
+
+	public String accounterClassList();
+
 	public String selectMultiple();
 
 }
