@@ -1169,7 +1169,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		List<ClientAddress> adressList = new ArrayList<ClientAddress>();
 		adressList.addAll(tempSet);
 		billToCombo.initCombo(adressList);
-		billToCombo.setDisabled(isInViewMode());
+		if (adressList == null || adressList.size() == 0)
+			billToCombo.setDisabled(true);
+		else
+			billToCombo.setDisabled(isInViewMode());
 		billToCombo.setDefaultToFirstOption(false);
 
 		if (isInViewMode() && billingAddress != null) {
