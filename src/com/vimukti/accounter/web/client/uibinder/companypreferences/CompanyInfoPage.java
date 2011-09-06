@@ -291,7 +291,6 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 		detailPanel.clear();
 		try {
 			panel.addStyleName("fullSizePanel");
-			;
 			removeAllLabelsStyle();
 			getInstanceOfPanel(panel);
 			detailPanel.add(panel);

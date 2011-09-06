@@ -6,8 +6,26 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:HTMLPanel>
-		Hello,
-		<g:Button styleName="{style.important}" ui:field="button" />
-	</g:HTMLPanel>
+	<g:VerticalPanel ui:field="mainViewPanel" spacing="8">
+		<g:VerticalPanel ui:field="employeePanel" styleName="companyInfoPanel">
+			<g:Label ui:field="headerLabel" styleName="header" />
+			<g:VerticalPanel ui:field="viewPanel">
+				<g:RadioButton name="trackEmployee" ui:field="trackEmployeeYes"
+					styleName="employee_yesno" />
+				<g:VerticalPanel styleName="check_label">
+					<g:CheckBox ui:field="w2Employees" />
+					<g:CheckBox ui:field="contractors" />
+				</g:VerticalPanel>
+				<g:RadioButton name="trackEmployee" ui:field="trackEmployeeNo"
+					styleName="employee_yesno" />
+			</g:VerticalPanel>
+		</g:VerticalPanel>
+		<g:VerticalPanel ui:field="trackPanel" styleName="companyInfoPanel">
+			<g:HTML wordWrap="true" ui:field="trackExpenses" styleName="header" />
+			<g:RadioButton name="trackEmployeeType" ui:field="trackEmployeeExpenseYes"
+				styleName="employee_yesno" />
+			<g:RadioButton name="trackEmployeeType" ui:field="trackEmployeeExpenseNo"
+				styleName="employee_yesno" />
+		</g:VerticalPanel>
+	</g:VerticalPanel>
 </ui:UiBinder> 

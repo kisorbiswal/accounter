@@ -6,8 +6,45 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:HTMLPanel>
-		Hello,
-		<g:Button styleName="{style.important}" ui:field="button" />
-	</g:HTMLPanel>
+		<g:VerticalPanel spacing="8">
+			<g:VerticalPanel styleName="companyInfoPanel">
+				<g:Label styleName="header" ui:field="doYouLabelItem"/>
+				<g:VerticalPanel>
+					<g:CheckBox ui:field="useCustomerNo"/>
+					<g:CheckBox ui:field="useVendorNo"/>
+					<g:CheckBox ui:field="useAccountNo"/>
+				</g:VerticalPanel>
+			</g:VerticalPanel>
+			<g:VerticalPanel styleName="companyInfoPanel">
+				<g:Label ui:field="howDoYouLabelItem" styleName="header"/>
+				<g:VerticalPanel>
+					<g:Grid>
+						<g:row>
+							<g:customCell>
+								<g:Label ui:field="customerComboLabel"/>
+							</g:customCell>
+							<g:customCell>
+								<g:ListBox visibleItemCount="1" ui:field="customerCombo"/>
+							</g:customCell>
+						</g:row>
+						<g:row>
+							<g:customCell>
+								<g:Label ui:field="supplierComboLabel"/>
+							</g:customCell>
+							<g:customCell>
+								<g:ListBox visibleItemCount="1" ui:field="supplierCombo"/>
+							</g:customCell>
+						</g:row>
+						<g:row>
+							<g:customCell>
+								<g:Label ui:field="accountComboLabel"/>
+							</g:customCell>
+							<g:customCell>
+								<g:ListBox visibleItemCount="1" ui:field="accountCombo"/>
+							</g:customCell>
+						</g:row>
+					</g:Grid>
+				</g:VerticalPanel>
+			</g:VerticalPanel>
+		</g:VerticalPanel>
 </ui:UiBinder> 

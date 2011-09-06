@@ -6,8 +6,21 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:HTMLPanel>
-		Hello,
-		<g:Button styleName="{style.important}" ui:field="button" />
-	</g:HTMLPanel>
+	<g:VerticalPanel spacing="8">
+		<g:VerticalPanel styleName="companyInfoPanel" >
+			<g:Label styleName="header" ui:field="ageingLabel"/>
+			<g:VerticalPanel>
+				<g:RadioButton name="ageingGroup" ui:field="ageingforduedateRadioButton"/>
+				<g:RadioButton name="ageingGroup" ui:field="ageingfortransactiondateRadioButton" checked="true"/>
+			</g:VerticalPanel>
+		</g:VerticalPanel>
+		<g:VerticalPanel styleName="companyInfoPanel" >
+			<g:Label ui:field="sellingsLabel" styleName="header"/>
+			<g:VerticalPanel>
+				<g:RadioButton name="sellingsGroup" ui:field="servicesRadioButton"/>
+				<g:RadioButton name="sellingsGroup" ui:field="productsRadioButton"/>
+				<g:RadioButton name="new name" ui:field="bothRadioButton" checked="true"/>
+			</g:VerticalPanel>
+		</g:VerticalPanel>
+	</g:VerticalPanel>
 </ui:UiBinder> 

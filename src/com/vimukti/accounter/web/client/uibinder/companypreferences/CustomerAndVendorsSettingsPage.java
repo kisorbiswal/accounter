@@ -82,57 +82,60 @@ public class CustomerAndVendorsSettingsPage extends AbstractCompanyInfoPanel {
 
 	@Override
 	public void onLoad() {
-		if (companyPreferences.isDoYouChargesalesTax())
+		if (companyPreferences.isDoYouChargesalesTax()) {
 			chargeTaxYesRadioButton.setValue(true);
-		else
+		} else {
 			chargeTaxNoRadioButton.setValue(false);
-
-		if (companyPreferences.isDoyouKeepTrackofBills())
+		}
+		if (companyPreferences.isDoyouKeepTrackofBills()) {
 			managingBillYesRadioButton.setValue(true);
-		else
+		} else {
 			managingBillNoRadioButton.setValue(false);
-		
-		if (companyPreferences.isDoyouwantEstimates())
+		}
+		if (companyPreferences.isDoyouwantEstimates()) {
 			createEstimatesYesRadioButton.setValue(true);
-		else
+		} else {
 			createEstimatesNoRadioButton.setValue(false);
-		if (companyPreferences.isDoyouwantstatements())
+		}
+		if (companyPreferences.isDoyouwantstatements()) {
 			usingStatementsYesRadioButton.setValue(true);
-		else
+		} else {
 			usingStatementsNoRadioButton.setValue(false);
-
-		if (companyPreferences.isDoyouKeepTrackofBills())
+		}
+		if (companyPreferences.isDoyouKeepTrackofBills()) {
 			billsYesRadioButton.setValue(true);
-		else
+		} else {
 			billsNoRadioButton.setValue(false);
+		}
 	}
 
 	@Override
 	public void onSave() {
-		if (chargeTaxYesRadioButton.getValue())
+		if (chargeTaxYesRadioButton.getValue()) {
 			companyPreferences.setDoYouPaySalesTax(true);
-		else
+		} else {
 			companyPreferences.setDoYouChargesalesTax(false);
-
-		if (managingBillYesRadioButton.getValue())
+		}
+		if (managingBillYesRadioButton.getValue()) {
 			companyPreferences.setDoyouKeepTrackofBills(true);
-		else
+		} else {
 			companyPreferences.setDoyouKeepTrackofBills(false);
-
-		if (createEstimatesYesRadioButton.getValue())
+		}
+		if (createEstimatesYesRadioButton.getValue()) {
 			companyPreferences.setDoyouwantEstimates(true);
-		else
+		} else {
 			companyPreferences.setDoyouwantEstimates(false);
-
-		if (usingStatementsYesRadioButton.getValue())
+		}
+		if (usingStatementsYesRadioButton.getValue()) {
 			companyPreferences.setDoyouwantstatements(true);
-		else
+		} else {
 			companyPreferences.setDoyouwantstatements(false);
-
-		if (billsYesRadioButton.getValue())
+		}
+		if (billsYesRadioButton.getValue()) {
 			companyPreferences.setDoyouKeepTrackofBills(true);
-		else
+		} else {
 			companyPreferences.setDoyouKeepTrackofBills(false);
+		}
 	}
 
 }

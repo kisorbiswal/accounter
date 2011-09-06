@@ -1,10 +1,40 @@
 package com.vimukti.accounter.web.client.uibinder.companypreferences;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RadioButton;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class EmployeeSettingsPage extends AbstractCompanyInfoPanel {
+
+	@UiField
+	VerticalPanel mainViewPanel;
+	@UiField
+	VerticalPanel viewPanel;
+	@UiField
+	CheckBox w2Employees;
+	@UiField
+	CheckBox contractors;
+	@UiField
+	Label trackExpenses;
+	@UiField
+	RadioButton trackEmployeeYes;
+	@UiField
+	RadioButton trackEmployeeNo;
+	@UiField
+	RadioButton trackEmployeeExpenseYes;
+	@UiField
+	RadioButton trackEmployeeExpenseNo;
+	@UiField
+	VerticalPanel trackPanel;
+	@UiField
+	Label headerLabel;
 
 	private static EmployeeSettingsPageUiBinder uiBinder = GWT
 			.create(EmployeeSettingsPageUiBinder.class);
@@ -15,18 +45,100 @@ public class EmployeeSettingsPage extends AbstractCompanyInfoPanel {
 
 	public EmployeeSettingsPage() {
 		initWidget(uiBinder.createAndBindUi(this));
+		createControls();
+	}
+
+	protected void createControls() {
+		headerLabel.setText(constants.doyouHaveEmployees());
+
+		w2Employees.setText(constants.wehavW2Employes());
+		contractors.setText(constants.wehavContractors());
+		trackExpenses.setText(constants.trackEmployeeExpenses());
+		trackEmployeeYes.setText(constants.yes());
+		trackEmployeeNo.setText(constants.no());
+		trackEmployeeExpenseYes.setText(constants.yes());
+		trackEmployeeExpenseNo.setText(constants.no());
+
+		if (!trackEmployeeExpenseYes.getValue()) {
+			// if (trackPanel.isAttached())
+			mainViewPanel.remove(trackPanel);
+		}
+
 	}
 
 	@Override
 	public void onLoad() {
-		// TODO Auto-generated method stub
+		if (companyPreferences.isHaveEpmloyees()) {
+			trackEmployeeYes.setValue(true);
+		} else {
+			trackEmployeeNo.setValue(true);
+		}
+
+		if (companyPreferences.isTrackEmployeeExpenses()) {
+			trackEmployeeExpenseYes.setValue(true);
+		} else {
+			trackEmployeeExpenseNo.setValue(true);
+		}
+		if (companyPreferences.isHaveW_2Employees()) {
+			w2Employees.setValue(true);
+		} else {
+			w2Employees.setValue(false);
+		}
+
+		if (companyPreferences.isHave1099contractors()) {
+			contractors.setValue(true);
+		} else {
+			contractors.setValue(false);
+		}
 
 	}
 
 	@Override
 	public void onSave() {
-		// TODO Auto-generated method stub
+		if (trackEmployeeYes.getValue()) {
+			if ((w2Employees.getValue() || contractors.getValue())) {
+				companyPreferences
+						.setHaveEpmloyees(trackEmployeeYes.getValue());
+				companyPreferences
+						.setTrackEmployeeExpenses(trackEmployeeExpenseYes
+								.getValue());
+				companyPreferences.setHaveW_2Employees(w2Employees.getValue());
+				companyPreferences.setHave1099contractors(contractors
+						.getValue());
+			}
+
+		} else {
+			companyPreferences.setHaveEpmloyees(trackEmployeeYes.getValue());
+			companyPreferences.setTrackEmployeeExpenses(trackEmployeeExpenseYes
+					.getValue());
+			companyPreferences.setHaveW_2Employees(w2Employees.getValue());
+			companyPreferences.setHave1099contractors(contractors.getValue());
+		}
 
 	}
+
+	@UiHandler("trackEmployeeYes")
+	void onTrackEmployeeYesClick(ClickEvent event) {
+		if (!trackPanel.isAttached())
+			mainViewPanel.add(trackPanel);
+	}
+
+	@UiHandler("trackEmployeeNo")
+	void onTrackEmployeeNoClick(ClickEvent event) {
+		if (trackPanel.isAttached())
+			mainViewPanel.remove(trackPanel);
+
+	}
+
+	/*
+	 * @Override protected boolean validate() { if (trackEmployeeYes.getValue())
+	 * { if (!(w2Employees.getValue() || contractors.getValue())) {
+	 * Accounter.showError(accounterMessages
+	 * .pleaseselectvalidtransactionGrid(accounterConstants .employeeType()));
+	 * return false; } else if (!(trackEmployeeExpenseYes.getValue() ||
+	 * trackEmployeeExpenseNo .getValue())) {
+	 * Accounter.showError(accounterConstants.trackEmployeeExpenses()); return
+	 * false; } else { return true; } } else { return true; } }
+	 */
 
 }

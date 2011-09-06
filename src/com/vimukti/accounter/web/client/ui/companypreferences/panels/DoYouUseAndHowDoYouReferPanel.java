@@ -7,9 +7,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
-import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -28,8 +25,6 @@ public class DoYouUseAndHowDoYouReferPanel extends AbstractCompanyInfoPanel {
 	private void createControls() {
 
 		VerticalPanel mainPanel = new VerticalPanel();
-		AccounterConstants constants = Accounter.constants();
-		AccounterMessages messages = Accounter.messages();
 
 		VerticalPanel doYouUsePanel = new VerticalPanel();
 		VerticalPanel howDoYouPanel = new VerticalPanel();
@@ -84,7 +79,7 @@ public class DoYouUseAndHowDoYouReferPanel extends AbstractCompanyInfoPanel {
 
 		doYouLabelItem.addStyleName("header");
 		howDoYouLabelItem.addStyleName("header");
-		
+
 		mainPanel.add(doYouUsePanel);
 		mainPanel.add(howDoYouPanel);
 
