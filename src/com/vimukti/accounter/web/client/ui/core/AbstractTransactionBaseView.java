@@ -791,13 +791,13 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			if (itm.equalsIgnoreCase(Accounter.messages().accounts(
 					Global.get().Account()))) {
 				image = Accounter.getFinanceMenuImages().Accounts();
-			} else if (itm.equals("Product Item")) {
+			} else if (itm.equals(Accounter.constants().productItem())) {
 				if (sellProducts) {
 					image = Accounter.getFinanceMenuImages().items();
 				} else {
 					continue;
 				}
-			} else if (itm.equals("Comment")) {
+			} else if (itm.equals(Accounter.constants().comment())) {
 				image = Accounter.getFinanceMenuImages().comments();
 			} else if (itm.equals("Sales Tax") || (itm.equals("Service Item"))
 					|| (itm.equals("Service"))) {
@@ -846,60 +846,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	@Override
 	public void showMenu(Event event) {
-		// // int x = DOM.eventGetClientX(event);
-		// // int y = DOM.eventGetClientY(event);
-		// // popupPanel.setPopupPosition(x, y);
-		// ClientCompanyPreferences preferences = getCompany().getPreferences();
-		// boolean sellProducts = preferences.isSellProducts();
-		// boolean sellServices = preferences.isSellServices();
-		// int childCount = 0;
-		// if (this instanceof EmployeeExpenseView) {
-		// if (sellServices) {
-		// childCount += 1;
-		// }
-		// } else if (this instanceof CreditCardExpenseView
-		// || this instanceof CashExpenseView) {
-		// childCount = 1;
-		// if (sellServices) {
-		// childCount += 1;
-		// }
-		// } else if (this instanceof WriteChequeView) {
-		// childCount = 1;
-		// if (sellProducts) {
-		// childCount += 1;
-		// }
-		// } else {
-		// childCount = 1;
-		// if (sellProducts) {
-		// childCount += 1;
-		// }
-		// if (sellServices) {
-		// childCount += 1;
-		// }
-		// }
-		//
-		// if (childCount == 1) {
-		// popupPanel.setPopupPosition(
-		// menuButton.getAbsoluteLeft() - 5,
-		// menuButton.getAbsoluteTop()
-		// - (popupMenuBar.getOffsetHeight() + 41));
-		// } else if (childCount == 2) {
-		// // if (this instanceof CashExpenseView || this instanceof
-		// // WriteChequeView)
-		// popupPanel.setPopupPosition(
-		// menuButton.getAbsoluteLeft() - 5,
-		// menuButton.getAbsoluteTop()
-		// - (popupMenuBar.getOffsetHeight() + 85));
-		// } else if (childCount == 3) {
-		// // if (this instanceof EmployeeExpenseView) {
-		// popupPanel.setPopupPosition(
-		// menuButton.getAbsoluteLeft() - 5,
-		// menuButton.getAbsoluteTop()
-		// - (popupMenuBar.getOffsetHeight() + 127));
-		// // }
-		// }
-		// popupPanel.show();
-
 		int menuTop = menuButton.getAbsoluteTop()
 				- (popupMenuBar.numberOfItems * 43);
 
