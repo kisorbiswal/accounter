@@ -39,14 +39,13 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.edittable.VendorTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
-import com.vimukti.accounter.web.client.ui.grids.ListGrid;
-import com.vimukti.accounter.web.client.ui.grids.VendorTransactionGrid;
 
 public class CreditCardChargeView extends
 		AbstractBankTransactionView<ClientCreditCardCharge> {
@@ -85,7 +84,7 @@ public class CreditCardChargeView extends
 	protected TextAreaItem billToAreaItem;
 	private List<ClientAccount> listOfAccounts;
 	private boolean locationTrackingEnabled;
-	private VendorTransactionGrid vendorTransactionGrid;
+	private VendorTransactionTable vendorTransactionTable;
 
 	public CreditCardChargeView() {
 
@@ -289,9 +288,8 @@ public class CreditCardChargeView extends
 			cheqNoText.setDisabled(true);
 			paymentMethodSelected(transaction.getPaymentMethod());
 			payMethSelect.setComboItem(transaction.getPaymentMethod());
-			vendorTransactionGrid.setCanEdit(false);
-			vendorTransactionGrid.removeAllRecords();
-			vendorTransactionGrid.setAllTransactionItems(transaction
+			vendorTransactionTable.removeAllRecords();
+			vendorTransactionTable.setAllTransactionItems(transaction
 					.getTransactionItems());
 
 		}
@@ -491,13 +489,24 @@ public class CreditCardChargeView extends
 				.amountIncludesVat());
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
-		vendorTransactionGrid = new VendorTransactionGrid();
-		vendorTransactionGrid.setTransactionView(this);
-		vendorTransactionGrid.setCanEdit(true);
-		vendorTransactionGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
-		vendorTransactionGrid.isEnable = false;
-		vendorTransactionGrid.init();
-		vendorTransactionGrid.setDisabled(isInViewMode());
+		vendorTransactionTable = new VendorTransactionTable() {
+
+			@Override
+			protected void updateNonEditableItems() {
+				CreditCardChargeView.this.updateNonEditableItems();
+			}
+
+			@Override
+			protected ClientTransaction getTransactionObject() {
+				return CreditCardChargeView.this.getTransactionObject();
+			}
+
+			@Override
+			protected ClientVendor getSelectedVendor() {
+				return CreditCardChargeView.this.getSelectedVendor();
+			}
+		};
+		vendorTransactionTable.setDisabled(isInViewMode());
 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
@@ -607,7 +616,7 @@ public class CreditCardChargeView extends
 		// vLay1.add(lab2);
 		// vLay1.add(addButton);
 		// multi currency combo
-		vLay1.add(vendorTransactionGrid);
+		vLay1.add(vendorTransactionTable);
 		vLay1.setWidth("100%");
 		vLay1.add(bottompanel);
 
@@ -723,11 +732,10 @@ public class CreditCardChargeView extends
 		transaction.setDeliveryDate(UIUtils.toDate(delivDate.getValue()));
 
 		// Setting transactions
-		transaction.setTransactionItems(vendorTransactionGrid
-				.getallTransactionItems(transaction));
+		transaction.setTransactionItems(vendorTransactionTable.getAllRows());
 
 		// setting total
-		transaction.setTotal(vendorTransactionGrid.getTotal());
+		transaction.setTotal(vendorTransactionTable.getTotal());
 		// setting memo
 		transaction.setMemo(getMemoTextAreaItem());
 		// setting ref
@@ -744,13 +752,13 @@ public class CreditCardChargeView extends
 	public void updateNonEditableItems() {
 
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			transactionTotalNonEditableText.setAmount(vendorTransactionGrid
+			transactionTotalNonEditableText.setAmount(vendorTransactionTable
 					.getTotal());
-			netAmount.setAmount(vendorTransactionGrid.getGrandTotal());
-			vatTotalNonEditableText.setAmount(vendorTransactionGrid.getTotal()
-					- vendorTransactionGrid.getGrandTotal());
+			netAmount.setAmount(vendorTransactionTable.getGrandTotal());
+			vatTotalNonEditableText.setAmount(vendorTransactionTable.getTotal()
+					- vendorTransactionTable.getGrandTotal());
 		} else {
-			transactionTotalNonEditableText.setAmount(vendorTransactionGrid
+			transactionTotalNonEditableText.setAmount(vendorTransactionTable
 					.getTotal());
 		}
 	}
@@ -785,11 +793,11 @@ public class CreditCardChargeView extends
 
 		result.add(vendorForm.validate());
 		result.add(termsForm.validate());
-		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
-			result.addError(vendorTransactionGrid,
+		if (vendorTransactionTable.getAllRows().isEmpty()) {
+			result.addError(vendorTransactionTable,
 					accounterConstants.blankTransaction());
 		} else
-			result.add(vendorTransactionGrid.validateGrid());
+			result.add(vendorTransactionTable.validateGrid());
 		return result;
 
 	}
@@ -866,9 +874,8 @@ public class CreditCardChargeView extends
 		contactCombo.setDisabled(isInViewMode());
 		phoneSelect.setDisabled(isInViewMode());
 		payFrmSelect.setDisabled(isInViewMode());
-		vendorTransactionGrid.setCanEdit(true);
 		memoTextAreaItem.setDisabled(isInViewMode());
-		vendorTransactionGrid.setDisabled(isInViewMode());
+		vendorTransactionTable.setDisabled(isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 		super.onEdit();
@@ -935,18 +942,13 @@ public class CreditCardChargeView extends
 	}
 
 	@Override
-	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
-		return vendorTransactionGrid;
-	}
-
-	@Override
 	protected void addNewData(ClientTransactionItem transactionItem) {
-		vendorTransactionGrid.addData(transactionItem);
+		vendorTransactionTable.add(transactionItem);
 
 	}
 
 	@Override
 	protected void refreshTransactionGrid() {
-		vendorTransactionGrid.refreshAllRecords();
+
 	}
 }
