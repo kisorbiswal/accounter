@@ -20,13 +20,13 @@ public class TransactionDiscountColumn extends
 
 	@Override
 	public int getWidth() {
-		return 80;
+		return 40;
 	}
 
 	@Override
 	protected void configure(TextBox textBox) {
 		super.configure(textBox);
-		textBox.addStyleName("discount");
+		textBox.addStyleName("Dis");
 	}
 
 	@Override

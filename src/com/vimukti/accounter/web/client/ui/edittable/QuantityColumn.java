@@ -28,7 +28,7 @@ public abstract class QuantityColumn<T> extends TextEditColumn<T> {
 
 	@Override
 	public int getWidth() {
-		return 80;
+		return 50;
 	}
 
 	@Override
@@ -39,6 +39,6 @@ public abstract class QuantityColumn<T> extends TextEditColumn<T> {
 	@Override
 	protected void configure(TextBox textBox) {
 		super.configure(textBox);
-		textBox.addStyleName("quantity");
+		textBox.addStyleName("Qty");
 	}
 }
