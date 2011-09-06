@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.companypreferences.panels;
 
+import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -36,10 +37,10 @@ public class CustomerAndvendorSettingsPanel extends AbstractCompanyInfoPanel {
 		Label chargeTaxLabelItem = new Label(constants.doyouchargesalestax());
 		// Label trackTimeLabelItem = new Label();
 		Label managingBillLabelItem = new Label(constants.managingBills());
-		Label createEstimatesLabelItem = new Label(
-				constants.wanttoCreateEstimatesInAccounter());
-		Label usingStatementsLabelItem = new Label(
-				constants.doyouWantToUseStatements());
+		Label createEstimatesLabelItem = new Label(constants
+				.wanttoCreateEstimatesInAccounter());
+		Label usingStatementsLabelItem = new Label(constants
+				.doyouWantToUseStatements());
 		Label billsLabel = new Label(constants.doyouwantTrackBills());
 
 		// trackTimeLabelItem.setValue(constants.doyouwantTrackTime());
@@ -51,30 +52,43 @@ public class CustomerAndvendorSettingsPanel extends AbstractCompanyInfoPanel {
 		usingStatementsGroupItem = new RadioGroupItem();
 		trackBillsGroupItem = new RadioGroupItem();
 
-		trackBillsGroupItem.setGroupName(constants.doyouchargesalestax());
+		trackBillsGroupItem.setGroupName(constants.doyouwantTrackBills());
 		trackBillsGroupItem.setValue(constants.yes(), constants.no());
 		trackBillsGroupItem.setVertical(false);
+		trackBillsGroupItem.getMainWidget().getElement().getStyle().setFloat(
+				Float.RIGHT);
+
 		chargeTaxGroupItem.setGroupName(constants.doyouchargesalestax());
 		chargeTaxGroupItem.setValue(constants.yes(), constants.no());
 		chargeTaxGroupItem.setVertical(false);
+		chargeTaxGroupItem.getMainWidget().getElement().getStyle().setFloat(
+				Float.RIGHT);
 
 		trackTimeGroupItem.setGroupName(constants.doyouwantTrackTime());
 		trackTimeGroupItem.setValue(constants.yes(), constants.no());
 		trackTimeGroupItem.setVertical(false);
+		trackTimeGroupItem.getMainWidget().getElement().getStyle().setFloat(
+				Float.RIGHT);
 
 		managingBillsGroupItem.setGroupName(constants.managingBills());
 		managingBillsGroupItem.setValue(constants.yes(), constants.no());
 		managingBillsGroupItem.setVertical(false);
+		managingBillsGroupItem.getMainWidget().getElement().getStyle()
+				.setFloat(Float.RIGHT);
 
 		createEstimatesGroupItem.setGroupName(constants
 				.wanttoCreateEstimatesInAccounter());
 		createEstimatesGroupItem.setValue(constants.yes(), constants.no());
 		createEstimatesGroupItem.setVertical(false);
+		createEstimatesGroupItem.getMainWidget().getElement().getStyle()
+				.setFloat(Float.RIGHT);
 
 		usingStatementsGroupItem.setGroupName(constants
 				.doyouWantToUseStatements());
 		usingStatementsGroupItem.setValue(constants.yes(), constants.no());
 		usingStatementsGroupItem.setVertical(false);
+		usingStatementsGroupItem.getMainWidget().getElement().getStyle()
+				.setFloat(Float.RIGHT);
 
 		chargeTaxForm.setFields(chargeTaxGroupItem);
 		// trackTimeForm.setFields(trackTimeLabelItem, trackTimeGroupItem);

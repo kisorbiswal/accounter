@@ -62,15 +62,15 @@ public class Header extends HorizontalPanel {
 							Accounter.getUser().getFullName()) + "<font>");
 		}
 		userName.addStyleName("userName-style");
-		// userName.setWidth(((Accounter.messages()
-		// .userName(Accounter.getUser().getFullName()).length() * 6) - 3)
-		// + "px");
+		userName.setWidth(((Accounter.messages().userName(
+				Accounter.getUser().getFullName()).length() * 6) - 3)
+				+ "px");
 		// userName.getElement().getStyle().setPaddingLeft(5, Unit.PX);
 
 		if (!Accounter.isLoggedInFromDomain()
 				&& Accounter.getCompany().isConfigured()) {
-			userName.getElement().getStyle()
-					.setTextDecoration(TextDecoration.UNDERLINE);
+			userName.getElement().getStyle().setTextDecoration(
+					TextDecoration.UNDERLINE);
 			userName.getElement().getStyle().setCursor(Cursor.POINTER);
 
 			userName.addClickHandler(new ClickHandler() {
@@ -90,7 +90,9 @@ public class Header extends HorizontalPanel {
 		initializeHelpBar();
 		helpBar.setStyleName("helpBar");
 		help = new HTML(Accounter.messages().helpHTML());
-		help.setWidth(((Accounter.constants().help().length() * 2) + 19) + "px");
+		help
+				.setWidth(((Accounter.constants().help().length() * 2) + 19)
+						+ "px");
 		help.addStyleName("help-style");
 		help.addStyleName("helpBar");
 		help.addClickHandler(new ClickHandler() {
