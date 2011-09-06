@@ -173,11 +173,11 @@ public class VendorCreditMemoView extends
 				.phoneNumber());
 		phoneForm.setFields(phoneSelect);
 
-//		if (getPreferences().isClassTrackingEnabled()
-//				&& getPreferences().isClassOnePerTransaction()) {
-//			classListCombo = createAccounterClassListCombo();
-//			phoneForm.setFields(classListCombo);
-//		}
+		// if (getPreferences().isClassTrackingEnabled()
+		// && getPreferences().isClassOnePerTransaction()) {
+		// classListCombo = createAccounterClassListCombo();
+		// phoneForm.setFields(classListCombo);
+		// }
 		if (this.isInViewMode()) {
 			// FiXME--The form need to be disabled
 			// phoneForm.setDisabled(true);
@@ -194,6 +194,24 @@ public class VendorCreditMemoView extends
 		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 		menuButton = createAddNewButton();
 		vendorTransactionTable = new VendorTransactionTable() {
+
+			@Override
+			protected void updateNonEditableItems() {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			protected Object getTransactionObject() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected ClientVendor getSelectedVendor() {
+				// TODO Auto-generated method stub
+				return null;
+			}
 		};
 		vendorTransactionTable.setDisabled(isInViewMode());
 		vendorTransactionTable.getElement().getStyle()
