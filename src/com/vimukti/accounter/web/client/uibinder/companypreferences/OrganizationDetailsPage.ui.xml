@@ -6,8 +6,37 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:HTMLPanel>
-		Hello,
-		<g:Button styleName="{style.important}" ui:field="button" />
-	</g:HTMLPanel>
+	<g:VerticalPanel>
+		<g:VerticalPanel spacing="10">
+			<g:VerticalPanel spacing="6">
+				<g:RadioButton name="new name" ui:field="soleProprietorshipRadio"/>
+				<g:Label ui:field="soleProprietorshipRadioLabel"/>
+			</g:VerticalPanel>
+			<g:VerticalPanel spacing="6">
+				<g:RadioButton name="new name" ui:field="partnershipRadio"/>
+				<g:Label ui:field="partnershipRadioLabel"/>
+			</g:VerticalPanel>
+			<g:VerticalPanel spacing="6">
+				<g:RadioButton name="new name" ui:field="llcRadio"/>
+				<g:Label ui:field="llcRadioLabel"/>
+				<g:ListBox ui:field="llcFormCombo"/>
+			</g:VerticalPanel>
+			<g:VerticalPanel spacing="6">
+				<g:RadioButton name="new name" ui:field="corporationRadio"/>
+				<g:Label ui:field="corporationRadioLabel"/>
+			</g:VerticalPanel>
+			<g:VerticalPanel spacing="6">
+				<g:RadioButton name="new name" ui:field="sCorporationRadio"/>
+				<g:Label ui:field="sCorporationRadioLabel"/>
+			</g:VerticalPanel>
+			<g:VerticalPanel spacing="6">
+				<g:RadioButton name="new name" ui:field="nonProfitRadio"/>
+				<g:Label ui:field="nonProfitRadioLabel"/>
+			</g:VerticalPanel>
+			<g:VerticalPanel spacing="6">
+				<g:RadioButton name="new name" ui:field="otherNoneRadio"/>
+				<g:Label ui:field="otherNoneRadioLabel"/>
+			</g:VerticalPanel>
+		</g:VerticalPanel>
+	</g:VerticalPanel>
 </ui:UiBinder> 
