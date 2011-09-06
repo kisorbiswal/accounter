@@ -387,7 +387,7 @@ public class JournalEntryView extends
 		creditTotalText.setDisabled(true);
 
 		totalForm = new DynamicForm();
-		totalForm.setWidth("50%");
+		totalForm.setWidth("75%");
 		totalForm.addStyleName("unused-payments");
 		totalForm.setFields(deditTotalText, creditTotalText);
 
