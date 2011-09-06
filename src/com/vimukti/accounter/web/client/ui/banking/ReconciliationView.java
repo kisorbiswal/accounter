@@ -265,6 +265,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		reconciliation.setEndDate(endDate.getDate());
 		reconciliation.setReconcilationDate(new ClientFinanceDate());
 		reconciliation.setTransactions(this.clearedTransactions);
+		reconciliation.setAccount(bankAccount);
 
 		saveOrUpdate(reconciliation);
 	}

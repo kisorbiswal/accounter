@@ -2050,6 +2050,7 @@ SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `RECONCILIATION` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `ACCOUNT` bigint(20) DEFAULT NULL,
   `START_DATE` bigint(20) DEFAULT NULL,
   `END_DATE` bigint(20) DEFAULT NULL,
   `OPENING_BALANCE` double DEFAULT NULL,

@@ -11,6 +11,9 @@ import java.util.Set;
  */
 public class Reconciliation extends CreatableObject {
 
+	/** Reconciliation of Account */
+	private BankAccount account;
+
 	/** StartDate of the Reconciliation */
 	private FinanceDate startDate;
 
@@ -117,5 +120,20 @@ public class Reconciliation extends CreatableObject {
 	 */
 	public void setTransactions(Set<Transaction> transactions) {
 		this.transactions = transactions;
+	}
+
+	/**
+	 * @return the account
+	 */
+	public BankAccount getAccount() {
+		return account;
+	}
+
+	/**
+	 * @param account
+	 *            the account to set
+	 */
+	public void setAccount(BankAccount account) {
+		this.account = account;
 	}
 }

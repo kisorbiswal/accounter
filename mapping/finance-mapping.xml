@@ -1489,7 +1489,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		
+		<many-to-one name="account" class="com.vimukti.accounter.core.BankAccount"
+			lazy="false" cascade="save-update" column="ACCOUNT">
+		</many-to-one>
 		<property name="startDate" column="START_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="endDate" column="END_DATE"
