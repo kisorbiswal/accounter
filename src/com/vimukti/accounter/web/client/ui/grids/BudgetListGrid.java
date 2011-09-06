@@ -36,31 +36,31 @@ public class BudgetListGrid extends BaseListGrid<ClientBudgetItem> {
 		switch (col) {
 		case 0:
 			return budget.getAccountsName();
+			// case 1:
+			// return amountAsString(budget.getJanuaryAmount());
+			// case 2:
+			// return amountAsString(budget.getFebruaryAmount());
+			// case 3:
+			// return amountAsString(budget.getMarchAmount());
+			// case 4:
+			// return amountAsString(budget.getAprilAmount());
+			// case 5:
+			// return amountAsString(budget.getMayAmount());
+			// case 6:
+			// return amountAsString(budget.getJuneAmount());
+			// case 7:
+			// return amountAsString(budget.getJulyAmount());
+			// case 8:
+			// return amountAsString(budget.getAugustAmount());
+			// case 9:
+			// return amountAsString(budget.getSpetemberAmount());
+			// case 10:
+			// return amountAsString(budget.getOctoberAmount());
+			// case 11:
+			// return amountAsString(budget.getNovemberAmount());
+			// case 12:
+			// return amountAsString(budget.getDecemberAmount());
 		case 1:
-			return amountAsString(budget.getJanuaryAmount());
-		case 2:
-			return amountAsString(budget.getFebruaryAmount());
-		case 3:
-			return amountAsString(budget.getMarchAmount());
-		case 4:
-			return amountAsString(budget.getAprilAmount());
-		case 5:
-			return amountAsString(budget.getMayAmount());
-		case 6:
-			return amountAsString(budget.getJuneAmount());
-		case 7:
-			return amountAsString(budget.getJulyAmount());
-		case 8:
-			return amountAsString(budget.getAugustAmount());
-		case 9:
-			return amountAsString(budget.getSpetemberAmount());
-		case 10:
-			return amountAsString(budget.getOctoberAmount());
-		case 11:
-			return amountAsString(budget.getNovemberAmount());
-		case 12:
-			return amountAsString(budget.getDecemberAmount());
-		case 13:
 			return amountAsString(budget.getTotalAmount());
 		default:
 			break;
@@ -71,53 +71,50 @@ public class BudgetListGrid extends BaseListGrid<ClientBudgetItem> {
 
 	@Override
 	protected String[] getColumns() {
-		String[] colArray = new String[14];
+		String[] colArray = new String[2];
 		for (int index = 0; index < colArray.length; index++) {
 			switch (index) {
 			case 0:
 				colArray[index] = Global.get().Account();
 				break;
+			// case 1:
+			// colArray[index] = Accounter.constants().jan();
+			// break;
+			// case 2:
+			// colArray[index] = Accounter.constants().feb();
+			// break;
+			// case 3:
+			// colArray[index] = Accounter.constants().mar();
+			// break;
+			// case 4:
+			// colArray[index] = Accounter.constants().apr();
+			// break;
+			// case 5:
+			// colArray[index] = Accounter.constants().may();
+			// break;
+			// case 6:
+			// colArray[index] = Accounter.constants().jun();
+			// break;
+			// case 7:
+			// colArray[index] = Accounter.constants().jul();
+			// break;
+			// case 8:
+			// colArray[index] = Accounter.constants().aug();
+			// break;
+			// case 9:
+			// colArray[index] = Accounter.constants().sept();
+			// break;
+			// case 10:
+			// colArray[index] = Accounter.constants().oct();
+			// break;
+			// case 11:
+			// colArray[index] = Accounter.constants().nov();
+			// break;
+			// case 12:
+			// colArray[index] = Accounter.constants().dec();
+			// break;
 			case 1:
-				colArray[index] = Accounter.constants().jan();
-				break;
-			case 2:
-				colArray[index] = Accounter.constants().feb();
-				break;
-			case 3:
-				colArray[index] = Accounter.constants().mar();
-				break;
-			case 4:
-				colArray[index] = Accounter.constants().apr();
-				break;
-			case 5:
-				colArray[index] = Accounter.constants().may();
-				break;
-			case 6:
-				colArray[index] = Accounter.constants().jun();
-				break;
-			case 7:
-				colArray[index] = Accounter.constants().jul();
-				break;
-			case 8:
-				colArray[index] = Accounter.constants().aug();
-				break;
-			case 9:
-				colArray[index] = Accounter.constants().sept();
-				break;
-			case 10:
-				colArray[index] = Accounter.constants().oct();
-				break;
-			case 11:
-				colArray[index] = Accounter.constants().nov();
-				break;
-			case 12:
-				colArray[index] = Accounter.constants().dec();
-				break;
-			case 13:
 				colArray[index] = Accounter.constants().total();
-				break;
-			case 14:
-				colArray[index] = Accounter.constants().add();
 				break;
 			default:
 				break;
@@ -158,19 +155,19 @@ public class BudgetListGrid extends BaseListGrid<ClientBudgetItem> {
 	@Override
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT, };
+				// ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+				// ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+				// ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+				// ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+				// ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+				// ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+				// ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+				// ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+				// ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+				// ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+				// ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+				// ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+				ListGrid.COLUMN_TYPE_DECIMAL_TEXT };
 	}
 
 	protected void updateTotal(ClientBudgetItem customer, boolean add) {
@@ -188,33 +185,32 @@ public class BudgetListGrid extends BaseListGrid<ClientBudgetItem> {
 	@Override
 	protected int getCellWidth(int index) {
 		if (index == 0) {
-			return 135;
-		} else if (index == 1) {
-			return 65;
-		} else if (index == 2) {
-			return 65;
-		} else if (index == 3) {
-			return 65;
-		} else if (index == 4) {
-			return 65;
-		} else if (index == 5) {
-			return 65;
-		} else if (index == 6) {
-			return 65;
-		} else if (index == 7) {
-			return 65;
-		} else if (index == 8) {
-			return 65;
-		} else if (index == 9) {
-			return 65;
-		} else if (index == 10) {
-			return 65;
-		} else if (index == 11) {
-			return 65;
-		} else if (index == 12) {
+			return 300;
+			// } else if (index == 1) {
+			// return 65;
+			// } else if (index == 2) {
+			// return 65;
+			// } else if (index == 3) {
+			// return 65;
+			// } else if (index == 4) {
+			// return 65;
+			// } else if (index == 5) {
+			// return 65;
+			// } else if (index == 6) {
+			// return 65;
+			// } else if (index == 7) {
+			// return 65;
+			// } else if (index == 8) {
+			// return 65;
+			// } else if (index == 9) {
+			// return 65;
+			// } else if (index == 10) {
+			// return 65;
+			// } else if (index == 11) {
+			// return 65;
+		} else {
 			return 65;
 		}
-		return -1;
 	}
 
 	public AccounterCoreType getType() {
