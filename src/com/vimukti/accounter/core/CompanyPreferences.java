@@ -163,6 +163,10 @@ public class CompanyPreferences implements IAccounterServerCore {
 	 */
 	private boolean isLocationTrackingEnabled;
 
+	private boolean isClassTrackingEnabled;
+
+	private boolean isClassOnePerTransaction;
+
 	public boolean isLocationTrackingEnabled() {
 		return isLocationTrackingEnabled;
 	}
@@ -1123,11 +1127,27 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	@Override
 	public int getVersion() {
-	return version;
+		return version;
 	}
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
+		this.version = version;
+	}
+
+	public void setisClassTrackingEnabled(boolean isClassTrackingEnabled) {
+		this.isClassTrackingEnabled = isClassTrackingEnabled;
+	}
+
+	public boolean isClassTrackingEnabled() {
+		return isClassTrackingEnabled;
+	}
+
+	public boolean isClassOnePerTransaction() {
+		return isClassOnePerTransaction;
+	}
+
+	public void setClassOnePerTransaction(boolean isClassOnePerTransaction) {
+		this.isClassOnePerTransaction = isClassOnePerTransaction;
 	}
 }
