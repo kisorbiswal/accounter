@@ -1204,6 +1204,11 @@ public class PurchaseOrderView extends
 	}
 
 	@Override
+	public List<ClientTransactionItem> getAllTransactionItems() {
+		return vendorTransactionTable.getAllRows();
+	}
+
+	@Override
 	protected void refreshTransactionGrid() {
 	}
 }
