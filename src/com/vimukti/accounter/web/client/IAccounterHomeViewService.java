@@ -7,6 +7,7 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientActivity;
+import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
@@ -329,5 +330,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 			String mimeType, String subject, String content,
 			String senderEmail, String recipientEmail, String ccEmail)
 			throws Exception, IOException, AccounterException;
+
+	public ArrayList<ClientBudget> getBudgetList();
 
 }

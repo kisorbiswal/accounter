@@ -9,6 +9,7 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientActivity;
+import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
@@ -366,5 +367,7 @@ public interface IAccounterHomeViewServiceAsync {
 			String mimeType, String subject, String content,
 			String senderEmail, String recipientEmail, String ccEmail,
 			AsyncCallback<Void> callback);
+
+	public void getBudgetList(AsyncCallback<ArrayList<ClientBudget>> callBack);
 
 }
