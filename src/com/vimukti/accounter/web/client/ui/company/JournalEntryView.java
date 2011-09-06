@@ -356,6 +356,11 @@ public class JournalEntryView extends
 		if (locationTrackingEnabled)
 			dateForm.setFields(locationCombo);
 
+		if (getPreferences().isClassTrackingEnabled()) {
+			classListCombo = createAccounterClassListCombo();
+			dateForm.setFields(classListCombo);
+		}
+
 		HorizontalPanel datepannel = new HorizontalPanel();
 		datepannel.setWidth("100%");
 		datepannel.add(dateForm);
