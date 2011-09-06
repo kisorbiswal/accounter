@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
-public class CompanyPreferenceStartPage extends Composite implements HasText {
+public class CompanyPreferenceStartPage extends AbstractCompanyInfoPanel {
 
 	private static CompanyPreferenceStartPageUiBinder uiBinder = GWT
 			.create(CompanyPreferenceStartPageUiBinder.class);
@@ -43,6 +43,18 @@ public class CompanyPreferenceStartPage extends Composite implements HasText {
 
 	public String getText() {
 		return button.getText();
+	}
+
+	@Override
+	public void onLoad() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onSave() {
+		// TODO Auto-generated method stub
+
 	}
 
 }
