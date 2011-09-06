@@ -837,7 +837,9 @@ public interface AccounterMessages extends Messages {
 	public String salesByLocationSummary(String locationString);
 
 	public SafeHtml trackBills();
-	
+
 	public String invoiceMailMessage(String customer, String number,
 			ClientFinanceDate date);
+
+	public String selectAccountsToAssign(String account);
 }
