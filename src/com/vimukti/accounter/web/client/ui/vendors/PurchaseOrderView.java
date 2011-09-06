@@ -345,11 +345,11 @@ public class PurchaseOrderView extends
 		dateform.setNumCols(2);
 		dateform.setItems(dueDateItem, despatchDateItem, deliveryDateItem);
 
-		// if (getPreferences().isClassTrackingEnabled()
-		// && getPreferences().isClassOnePerTransaction()) {
-		// classListCombo = createAccounterClassListCombo();
-		// dateform.setFields(classListCombo);
-		// }
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
+			classListCombo = createAccounterClassListCombo();
+			dateform.setFields(classListCombo);
+		}
 
 		termsForm = new DynamicForm();
 		termsForm.setWidth("100%");
@@ -368,6 +368,24 @@ public class PurchaseOrderView extends
 
 		// Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 		vendorTransactionTable = new VendorTransactionTable() {
+
+			@Override
+			protected void updateNonEditableItems() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			protected Object getTransactionObject() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected ClientVendor getSelectedVendor() {
+				// TODO Auto-generated method stub
+				return null;
+			}
 		};
 		vendorTransactionTable.setDisabled(isInViewMode());
 		memoTextAreaItem = createMemoTextAreaItem();
