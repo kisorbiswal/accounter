@@ -1215,4 +1215,16 @@ public class MakeDepositView extends
 		return null;
 	}
 
+	@Override
+	protected void addNewData(ClientTransactionItem transactionItem) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void refreshTransactionGrid() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
