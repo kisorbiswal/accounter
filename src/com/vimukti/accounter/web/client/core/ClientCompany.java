@@ -448,6 +448,8 @@ public class ClientCompany implements IAccounterCore {
 
 	private ArrayList<ClientUnit> units;
 
+	private ArrayList<ClientAccounterClass> accounterClasses = new ArrayList<ClientAccounterClass>();
+
 	// private List<ClientTaxItem> taxItems;
 
 	public void clientSideInit() {
@@ -1873,6 +1875,14 @@ public class ClientCompany implements IAccounterCore {
 					loggedInUser.lastName = user.getLastName();
 					Accounter.setUser(loggedInUser);
 				}
+
+			case ACCOUNTER_CLASS:
+
+				ClientAccounterClass accounterClass = (ClientAccounterClass) accounterCoreObject;
+
+				Utility.updateClientList(accounterClass, accounterClasses);
+
+				break;
 			}
 		// } catch (Exception e) {
 		// if (e instanceof JavaScriptException) {
@@ -2023,7 +2033,23 @@ public class ClientCompany implements IAccounterCore {
 		case BRANDINGTHEME:
 			deleteBrandingTheme(id);
 			break;
+		case ACCOUNTER_CLASS:
+			deleteAccounterClass(id);
+			break;
 		}
+	}
+
+	private void deleteAccounterClass(long id) {
+		ClientAccounterClass accounterClass = this.getAccounterClass(id);
+		if (accounterClass != null) {
+			this.accounterClasses.remove(accounterClass);
+			fireEvent(new CoreEvent<ClientAccounterClass>(ChangeType.DELETE,
+					accounterClass));
+		}
+	}
+
+	private ClientAccounterClass getAccounterClass(long classId) {
+		return Utility.getObject(this.accounterClasses, classId);
 	}
 
 	// private void deleteSoldDisposedAsset(String id) {
@@ -2785,5 +2811,14 @@ public class ClientCompany implements IAccounterCore {
 	@Override
 	public void setVersion(int version) {
 		this.version = version;
+	}
+
+	public void setAccounterClasses(
+			ArrayList<ClientAccounterClass> accounterClasses) {
+		this.accounterClasses = accounterClasses;
+	}
+
+	public ArrayList<ClientAccounterClass> getAccounterClasses() {
+		return this.accounterClasses;
 	}
 }
