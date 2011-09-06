@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -84,11 +85,8 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 		// fromAddress = new EmailField(constants.from());
 		// fromAddress.setHelpInformation(true);
 		// fromAddress.setRequired(true);
-
-		String toemail = invoice.getContact().getEmail();
-		if (toemail == null) {
-			toemail = "";
-		}
+		ClientContact contact = invoice.getContact();
+		String toemail = contact != null ? contact.getEmail() : "";
 		toAddress = new EmailField(constants.to());
 		toAddress.setText(toemail.trim());
 		toAddress.setHelpInformation(true);
