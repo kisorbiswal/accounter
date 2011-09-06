@@ -91,7 +91,6 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	private static final long WANT_STATEMENTS = 0x200000000L;
 	private static final long TDS_TAX_ENABLE = 0x400000000L;
 
-
 	public static int VAT_REPORTING_PERIOD_MONTHLY = 1;
 	public static int VAT_REPORTING_PERIOD_BIMONTHLY = 2;
 	public static int VAT_REPORTING_PERIOD_QUARTERLY = 3;
@@ -171,6 +170,10 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	private long preferencesFlag;
 
 	private int version;
+
+	private boolean isClassTrackingEnabled;
+
+	private boolean isClassOnePerTransaction;
 
 	/**
 	 * Creates new Instance
@@ -949,13 +952,28 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	public void setVersion(int version) {
 		this.version = version;
 	}
-	
+
 	public boolean isTDSEnabled() {
 		return get(TDS_TAX_ENABLE);
+	}
+
+	public void setisClassTrackingEnabled(boolean isClassTrackingEnabled) {
+		this.isClassTrackingEnabled = isClassTrackingEnabled;
+	}
+
+	public boolean isClassTrackingEnabled() {
+		return isClassTrackingEnabled;
+	}
+
+	public boolean isClassOnePerTransaction() {
+		return isClassOnePerTransaction;
+	}
+
+	public void setClassOnePerTransaction(boolean isClassOnePerTransaction) {
+		this.isClassOnePerTransaction = isClassOnePerTransaction;
 	}
 
 	public void setTDSEnabled(boolean value) {
 		set(TDS_TAX_ENABLE, value);
 	}
-
 }
