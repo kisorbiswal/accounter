@@ -173,11 +173,11 @@ public class VendorCreditMemoView extends
 				.phoneNumber());
 		phoneForm.setFields(phoneSelect);
 
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
-			classListCombo = createAccounterClassListCombo();
-			phoneForm.setFields(classListCombo);
-		}
+//		if (getPreferences().isClassTrackingEnabled()
+//				&& getPreferences().isClassOnePerTransaction()) {
+//			classListCombo = createAccounterClassListCombo();
+//			phoneForm.setFields(classListCombo);
+//		}
 		if (this.isInViewMode()) {
 			// FiXME--The form need to be disabled
 			// phoneForm.setDisabled(true);
