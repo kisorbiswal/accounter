@@ -1015,11 +1015,6 @@ public class CreditCardExpenseView extends
 	}
 
 	@Override
-	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
-		return vendorTransactionGrid;
-	}
-
-	@Override
 	protected void addNewData(ClientTransactionItem transactionItem) {
 		vendorTransactionGrid.addData(transactionItem);
 	}

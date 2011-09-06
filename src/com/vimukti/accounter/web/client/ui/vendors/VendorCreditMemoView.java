@@ -197,20 +197,17 @@ public class VendorCreditMemoView extends
 
 			@Override
 			protected void updateNonEditableItems() {
-				// TODO Auto-generated method stub
-
+				VendorCreditMemoView.this.updateNonEditableItems();
 			}
 
 			@Override
-			protected Object getTransactionObject() {
-				// TODO Auto-generated method stub
-				return null;
+			protected ClientTransaction getTransactionObject() {
+				return VendorCreditMemoView.this.getTransactionObject();
 			}
 
 			@Override
 			protected ClientVendor getSelectedVendor() {
-				// TODO Auto-generated method stub
-				return null;
+				return VendorCreditMemoView.this.getVendor();
 			}
 		};
 		vendorTransactionTable.setDisabled(isInViewMode());

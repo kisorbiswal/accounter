@@ -371,20 +371,17 @@ public class PurchaseOrderView extends
 
 			@Override
 			protected void updateNonEditableItems() {
-				// TODO Auto-generated method stub
-
+				PurchaseOrderView.this.updateNonEditableItems();
 			}
 
 			@Override
-			protected Object getTransactionObject() {
-				// TODO Auto-generated method stub
-				return null;
+			protected ClientTransaction getTransactionObject() {
+				return PurchaseOrderView.this.getTransactionObject();
 			}
 
 			@Override
 			protected ClientVendor getSelectedVendor() {
-				// TODO Auto-generated method stub
-				return null;
+				return PurchaseOrderView.this.getVendor();
 			}
 		};
 		vendorTransactionTable.setDisabled(isInViewMode());
