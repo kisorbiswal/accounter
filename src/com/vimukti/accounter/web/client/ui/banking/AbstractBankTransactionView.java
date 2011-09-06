@@ -24,7 +24,6 @@ import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
-import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 
 /*Pavani vimukti5 Abstract Class for all Banking Transaction Views
  *         modified by Ravi Kiran.G
@@ -403,6 +402,4 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	}
 
 	protected abstract void addNewData(ClientTransactionItem transactionItem);
-
-	public abstract AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid();
 }

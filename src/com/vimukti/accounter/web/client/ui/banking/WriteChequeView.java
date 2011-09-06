@@ -1359,11 +1359,6 @@ public class WriteChequeView extends
 	}
 
 	@Override
-	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
-		return taxAgencyGrid;
-	}
-
-	@Override
 	protected void addNewData(ClientTransactionItem transactionItem) {
 		taxAgencyGrid.addData(transactionItem);
 	}
