@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
