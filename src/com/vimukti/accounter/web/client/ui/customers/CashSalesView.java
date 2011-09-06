@@ -67,7 +67,7 @@ public class CashSalesView extends
 	private ArrayList<DynamicForm> listforms;
 	private ShipToForm shipToAddress;
 	private boolean locationTrackingEnabled;
-	private InvoiceTable invoiceTable;
+	private CustomerTransactionTable customerTransactionTable;
 	private ClientPriceLevel priceLevel;
 	private ClientTAXCode taxCode;
 	private ClientSalesPerson salesPerson;
@@ -229,7 +229,7 @@ public class CashSalesView extends
 		netAmountLabel = createNetAmountLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
-		invoiceTable = new InvoiceTable() {
+		customerTransactionTable = new CustomerTransactionTable() {
 
 			@Override
 			public void updateNonEditableItems() {
@@ -246,7 +246,7 @@ public class CashSalesView extends
 				return customer;
 			}
 		};
-		invoiceTable.setDisabled(isInViewMode());
+		customerTransactionTable.setDisabled(isInViewMode());
 
 		final TextItem disabletextbox = new TextItem();
 		disabletextbox.setVisible(false);
@@ -325,7 +325,7 @@ public class CashSalesView extends
 		mainVLay.add(lab1);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
-		mainVLay.add(invoiceTable);
+		mainVLay.add(customerTransactionTable);
 		mainVLay.add(vPanel);
 
 		if (UIUtils.isMSIEBrowser())
@@ -376,13 +376,13 @@ public class CashSalesView extends
 			ClientCashSales ent = (ClientCashSales) this.transaction;
 
 			if (ent != null && ent.getCustomer() == customer.getID()) {
-				this.invoiceTable.clear();
-				this.invoiceTable.setAllRows(ent.getTransactionItems());
+				this.customerTransactionTable.clear();
+				this.customerTransactionTable.setAllRows(ent.getTransactionItems());
 			} else if (ent != null && ent.getCustomer() != customer.getID()) {
-				this.invoiceTable.clear();
-				this.invoiceTable.updateTotals();
+				this.customerTransactionTable.clear();
+				this.customerTransactionTable.updateTotals();
 			} else if (ent == null)
-				this.invoiceTable.clear();
+				this.customerTransactionTable.clear();
 		}
 		super.customerSelected(customer);
 		if (this.shippingTerm != null && shippingTermsCombo != null)
@@ -422,9 +422,9 @@ public class CashSalesView extends
 		}
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 			// super.setCustomerTaxCodetoAccount();
-			for (ClientTransactionItem item : invoiceTable.getAllRows()) {
+			for (ClientTransactionItem item : customerTransactionTable.getAllRows()) {
 				if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT)
-					invoiceTable.setCustomerTaxCode(item);
+					customerTransactionTable.setCustomerTaxCode(item);
 			}
 		}
 
@@ -461,9 +461,9 @@ public class CashSalesView extends
 					priceLevel.getID()));
 
 		}
-		if (transaction == null && invoiceTable != null) {
-			invoiceTable.priceLevelSelected(priceLevel);
-			invoiceTable.updatePriceLevel();
+		if (transaction == null && customerTransactionTable != null) {
+			customerTransactionTable.priceLevelSelected(priceLevel);
+			customerTransactionTable.updatePriceLevel();
 		}
 		updateNonEditableItems();
 
@@ -537,11 +537,11 @@ public class CashSalesView extends
 	@Override
 	public void updateNonEditableItems() {
 
-		if (invoiceTable == null)
+		if (customerTransactionTable == null)
 			return;
 		if (getCompany().getAccountingType() == 0) {
 
-			Double taxableLineTotal = invoiceTable.getTaxableLineTotal();
+			Double taxableLineTotal = customerTransactionTable.getTaxableLineTotal();
 
 			if (taxableLineTotal == null)
 				return;
@@ -553,13 +553,13 @@ public class CashSalesView extends
 
 			setSalesTax(salesTax);
 
-			setTransactionTotal(invoiceTable.getTotal() + this.salesTax);
+			setTransactionTotal(customerTransactionTable.getTotal() + this.salesTax);
 
 		} else {
-			netAmountLabel.setAmount(invoiceTable.getGrandTotal());
-			vatTotalNonEditableText.setAmount(invoiceTable.getTotalValue()
-					- invoiceTable.getGrandTotal());
-			setTransactionTotal(invoiceTable.getTotalValue());
+			netAmountLabel.setAmount(customerTransactionTable.getGrandTotal());
+			vatTotalNonEditableText.setAmount(customerTransactionTable.getTotalValue()
+					- customerTransactionTable.getGrandTotal());
+			setTransactionTotal(customerTransactionTable.getTotalValue());
 		}
 
 	}
@@ -775,7 +775,7 @@ public class CashSalesView extends
 		// 2. depositInCombo validation i.e form items
 		result.add(FormItem.validate(this.paymentMethodCombo,
 				this.depositInCombo));
-		result.add(invoiceTable.validateGrid());
+		result.add(customerTransactionTable.validateGrid());
 		return result;
 
 	}
@@ -855,7 +855,7 @@ public class CashSalesView extends
 		deliveryDate.setDisabled(isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
 		priceLevelSelect.setDisabled(isInViewMode());
-		invoiceTable.setDisabled(isInViewMode());
+		customerTransactionTable.setDisabled(isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 		if (shippingTermsCombo != null)
@@ -887,7 +887,7 @@ public class CashSalesView extends
 
 			taxCodeSelect
 					.setComboItem(getCompany().getTAXCode(taxCode.getID()));
-			invoiceTable.setTaxCode(taxCode.getID());
+			customerTransactionTable.setTaxCode(taxCode.getID());
 		} else
 			taxCodeSelect.setValue("");
 		// updateNonEditableItems();
@@ -902,17 +902,17 @@ public class CashSalesView extends
 	@Override
 	protected void initTransactionsItems() {
 		if (transaction.getTransactionItems() != null)
-			invoiceTable.setAllRows(transaction.getTransactionItems());
+			customerTransactionTable.setAllRows(transaction.getTransactionItems());
 	}
 
 	@Override
 	protected boolean isBlankTransactionGrid() {
-		return invoiceTable.getAllRows().isEmpty();
+		return customerTransactionTable.getAllRows().isEmpty();
 	}
 
 	@Override
 	protected void addNewData(ClientTransactionItem transactionItem) {
-		invoiceTable.add(transactionItem);
+		customerTransactionTable.add(transactionItem);
 	}
 
 	@Override
@@ -922,6 +922,6 @@ public class CashSalesView extends
 
 	@Override
 	public List<ClientTransactionItem> getAllTransactionItems() {
-		return invoiceTable.getAllRows();
+		return customerTransactionTable.getAllRows();
 	}
 }

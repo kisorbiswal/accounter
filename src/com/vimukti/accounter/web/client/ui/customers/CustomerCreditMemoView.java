@@ -55,7 +55,7 @@ public class CustomerCreditMemoView extends
 	private ArrayList<DynamicForm> listforms;
 	private TextAreaItem billToTextArea;
 	private boolean locationTrackingEnabled;
-	private InvoiceTable invoiceTable;
+	private CustomerTransactionTable customerTransactionTable;
 	protected ClientPriceLevel priceLevel;
 	protected ClientTAXCode taxCode;
 	protected ClientSalesPerson salesPerson;
@@ -180,7 +180,7 @@ public class CustomerCreditMemoView extends
 		netAmountLabel = createNetAmountLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
-		invoiceTable = new InvoiceTable() {
+		customerTransactionTable = new CustomerTransactionTable() {
 
 			@Override
 			public void updateNonEditableItems() {
@@ -198,7 +198,7 @@ public class CustomerCreditMemoView extends
 			}
 		};
 
-		invoiceTable.setDisabled(isInViewMode());
+		customerTransactionTable.setDisabled(isInViewMode());
 
 		final TextItem disabletextbox = new TextItem();
 		disabletextbox.setVisible(false);
@@ -274,7 +274,7 @@ public class CustomerCreditMemoView extends
 		mainVLay.add(lab1);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
-		mainVLay.add(invoiceTable);
+		mainVLay.add(customerTransactionTable);
 		mainVLay.add(mainPanel);
 
 		if (UIUtils.isMSIEBrowser()) {
@@ -305,9 +305,9 @@ public class CustomerCreditMemoView extends
 
 		}
 
-		if (transaction == null && invoiceTable != null) {
-			invoiceTable.priceLevelSelected(priceLevel);
-			invoiceTable.updatePriceLevel();
+		if (transaction == null && customerTransactionTable != null) {
+			customerTransactionTable.priceLevelSelected(priceLevel);
+			customerTransactionTable.updatePriceLevel();
 		}
 		updateNonEditableItems();
 
@@ -510,10 +510,10 @@ public class CustomerCreditMemoView extends
 
 	@Override
 	public void updateNonEditableItems() {
-		if (invoiceTable == null)
+		if (customerTransactionTable == null)
 			return;
 		if (getCompany().getAccountingType() == 0) {
-			Double taxableLineTotal = invoiceTable.getTaxableLineTotal();
+			Double taxableLineTotal = customerTransactionTable.getTaxableLineTotal();
 
 			if (taxableLineTotal == null)
 				return;
@@ -525,7 +525,7 @@ public class CustomerCreditMemoView extends
 
 			setSalesTax(salesTax);
 
-			setTransactionTotal(invoiceTable.getTotal() + this.salesTax);
+			setTransactionTotal(customerTransactionTable.getTotal() + this.salesTax);
 
 			// salesTax = Utility.getCalculatedSalesTax(transactionDateItem
 			// .getEnteredDate(), taxableLineTotal, taxItemGroup);
@@ -539,12 +539,12 @@ public class CustomerCreditMemoView extends
 			// .setAmount(customerTransactionGrid.getTotal()
 			// + this.salesTax);
 		} else {
-			if (invoiceTable.getGrandTotal() != 0
-					&& invoiceTable.getTotalValue() != 0) {
-				netAmountLabel.setAmount(invoiceTable.getGrandTotal());
-				vatTotalNonEditableText.setAmount(invoiceTable.getTotalValue()
-						- invoiceTable.getGrandTotal());
-				setTransactionTotal(invoiceTable.getTotalValue());
+			if (customerTransactionTable.getGrandTotal() != 0
+					&& customerTransactionTable.getTotalValue() != 0) {
+				netAmountLabel.setAmount(customerTransactionTable.getGrandTotal());
+				vatTotalNonEditableText.setAmount(customerTransactionTable.getTotalValue()
+						- customerTransactionTable.getGrandTotal());
+				setTransactionTotal(customerTransactionTable.getTotalValue());
 			}
 		}
 
@@ -583,13 +583,13 @@ public class CustomerCreditMemoView extends
 			ClientCustomerCreditMemo ent = (ClientCustomerCreditMemo) this.transaction;
 
 			if (ent != null && ent.getCustomer() == customer.getID()) {
-				this.invoiceTable.removeAllRecords();
-				this.invoiceTable.setRecords(ent.getTransactionItems());
+				this.customerTransactionTable.removeAllRecords();
+				this.customerTransactionTable.setRecords(ent.getTransactionItems());
 			} else if (ent != null && ent.getCustomer() != customer.getID()) {
-				this.invoiceTable.removeAllRecords();
-				this.invoiceTable.updateTotals();
+				this.customerTransactionTable.removeAllRecords();
+				this.customerTransactionTable.updateTotals();
 			} else if (ent == null)
-				this.invoiceTable.removeAllRecords();
+				this.customerTransactionTable.removeAllRecords();
 		}
 		super.customerSelected(customer);
 		shippingTermSelected(shippingTerm);
@@ -612,9 +612,9 @@ public class CustomerCreditMemoView extends
 			customerCombo.setComboItem(customer);
 		}
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			for (ClientTransactionItem item : invoiceTable.getRecords()) {
+			for (ClientTransactionItem item : customerTransactionTable.getRecords()) {
 				if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT)
-					invoiceTable.setCustomerTaxCode(item);
+					customerTransactionTable.setCustomerTaxCode(item);
 			}
 		}
 		this.addressListOfCustomer = customer.getAddress();
@@ -699,7 +699,7 @@ public class CustomerCreditMemoView extends
 		priceLevelSelect.setDisabled(isInViewMode());
 		taxCodeSelect.setDisabled(isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
-		invoiceTable.setDisabled(isInViewMode());
+		customerTransactionTable.setDisabled(isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 		super.onEdit();
@@ -746,7 +746,7 @@ public class CustomerCreditMemoView extends
 
 			taxCodeSelect
 					.setComboItem(getCompany().getTAXCode(taxCode.getID()));
-			invoiceTable.setTaxCode(taxCode.getID());
+			customerTransactionTable.setTaxCode(taxCode.getID());
 		} else
 			taxCodeSelect.setValue("");
 		// updateNonEditableItems();
@@ -773,18 +773,18 @@ public class CustomerCreditMemoView extends
 	@Override
 	protected void initTransactionsItems() {
 		if (transaction.getTransactionItems() != null)
-			invoiceTable.setAllTransactionItems(transaction
+			customerTransactionTable.setAllTransactionItems(transaction
 					.getTransactionItems());
 	}
 
 	@Override
 	protected boolean isBlankTransactionGrid() {
-		return invoiceTable.getRecords().isEmpty();
+		return customerTransactionTable.getRecords().isEmpty();
 	}
 
 	@Override
 	protected void addNewData(ClientTransactionItem transactionItem) {
-		invoiceTable.add(transactionItem);
+		customerTransactionTable.add(transactionItem);
 	}
 
 	@Override
@@ -794,7 +794,7 @@ public class CustomerCreditMemoView extends
 
 	@Override
 	public List<ClientTransactionItem> getAllTransactionItems() {
-		return invoiceTable.getAllRows();
+		return customerTransactionTable.getAllRows();
 	}
 
 	public Double getSalesTax() {
