@@ -126,7 +126,8 @@ public class CashExpenseView extends CashPurchaseView {
 		transaction.setPaymentMethod(paymentMethod);
 
 		// Setting Pay From Account
-		transaction.setPayFrom(payFromAccount.getID());
+		if (payFromAccount != null)
+			transaction.setPayFrom(payFromAccount.getID());
 
 		// Setting Check number
 		transaction.setCheckNumber(checkNo.getValue().toString());
