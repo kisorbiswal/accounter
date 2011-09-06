@@ -679,8 +679,8 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 	}
 
 	@Override
-	public AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid() {
-		return null;
+	protected void refreshTransactionGrid() {
+
 	}
 
 }
