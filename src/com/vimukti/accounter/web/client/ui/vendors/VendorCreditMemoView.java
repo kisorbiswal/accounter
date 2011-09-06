@@ -559,4 +559,9 @@ public class VendorCreditMemoView extends
 		vendorTransactionGrid.addData(transactionItem);
 	}
 
+	@Override
+	protected void refreshTransactionGrid() {
+		vendorTransactionGrid.refreshAllRecords();
+	}
+
 }

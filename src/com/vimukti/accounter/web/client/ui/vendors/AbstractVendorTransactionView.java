@@ -755,9 +755,4 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 			}
 		}
 	}
-
-	@Override
-	protected void refreshTransactionGrid() {
-		vendorTransactionGrid.refreshAllRecords();
-	}
 }

@@ -78,6 +78,7 @@ public class VendorBillView extends
 	private ArrayList<DynamicForm> listforms;
 	private ArrayList<ClientTransaction> selectedOrdersAndItemReceipts;
 	private boolean locationTrackingEnabled;
+	protected AbstractTransactionGrid<ClientTransactionItem> vendorTransactionGrid;
 
 	private VendorBillView() {
 		super(ClientTransaction.TYPE_ENTER_BILL);
