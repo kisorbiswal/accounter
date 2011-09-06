@@ -345,11 +345,11 @@ public class PurchaseOrderView extends
 		dateform.setNumCols(2);
 		dateform.setItems(dueDateItem, despatchDateItem, deliveryDateItem);
 
-//		if (getPreferences().isClassTrackingEnabled()
-//				&& getPreferences().isClassOnePerTransaction()) {
-//			classListCombo = createAccounterClassListCombo();
-//			dateform.setFields(classListCombo);
-//		}
+		// if (getPreferences().isClassTrackingEnabled()
+		// && getPreferences().isClassOnePerTransaction()) {
+		// classListCombo = createAccounterClassListCombo();
+		// dateform.setFields(classListCombo);
+		// }
 
 		termsForm = new DynamicForm();
 		termsForm.setWidth("100%");
@@ -372,7 +372,7 @@ public class PurchaseOrderView extends
 			@Override
 			protected void updateNonEditableItems() {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
