@@ -20,7 +20,7 @@ public class BudgetAction extends Action {
 
 	public BudgetAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().company();
+		this.catagory = Accounter.constants().budget();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
@@ -32,7 +32,6 @@ public class BudgetAction extends Action {
 				view = new BudgetListView();
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, BudgetAction.this);
-
 			}
 
 			@Override
