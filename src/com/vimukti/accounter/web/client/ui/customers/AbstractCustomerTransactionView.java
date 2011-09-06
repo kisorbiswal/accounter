@@ -64,45 +64,8 @@ import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionGrid;
 public abstract class AbstractCustomerTransactionView<T extends ClientTransaction>
 		extends AbstractTransactionBaseView<T> {
 
-	AccounterConstants customerConstants = Accounter.constants();
-
-	protected ClientPriceLevel priceLevel;
-
-	protected ClientTAXGroup taxGroup;
-
-	protected ClientTAXItem taxItem;
-
-	protected ClientTAXCode taxCode;
-
-	protected ClientSalesPerson salesPerson;
-
-	protected ClientContact contact;
-
-	protected DateField deliveryDate;
-	protected ClientPaymentTerms paymentTerm;
-
-	protected List<ClientPaymentTerms> paymentTermsList;
-
-	// protected AmountField ;
-
-	protected AmountLabel transactionTotalNonEditableText, netAmountLabel,
-			vatTotalNonEditableText, balanceDueNonEditableText,
-			paymentsNonEditableText, salesTaxTextNonEditable;
-
-	public Double transactionTotal = 0.0D;
-
-	protected Double salesTax = 0.0D;
-
-	// @Override
-	// protected abstract void createControls();
-
 	protected CustomerCombo customerCombo;
-	protected PaymentTermsCombo payTermsSelect;
-	protected SalesPersonCombo salesPersonCombo;
-	protected TAXCodeCombo taxCodeSelect;
-	protected PriceLevelCombo priceLevelSelect;
-	protected ContactCombo contactCombo;
-	protected ShippingTermsCombo shippingTermsCombo;
+
 	protected AddressCombo billToCombo, shipToCombo;
 	protected DepositInAccountCombo depositInCombo;
 	protected ShippingMethodsCombo shippingMethodsCombo;
@@ -150,40 +113,16 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	private boolean useAccountNumbers;
 
-	@Override
-	protected void initTransactionViewData() {
+	// public void initTransactionsItems() {
+	// if (transaction.getTransactionItems() != null)
+	// customerTransactionGrid.setAllTransactionItems(transaction
+	// .getTransactionItems());
+	// if (transaction.getID() != 0) {
+	// customerTransactionGrid.canDeleteRecord(false);
+	// }
+	// }
 
-		initTransactionNumber();
-
-		initCustomers();
-
-		initSalesPersons();
-
-		initPriceLevels();
-
-		initTaxItemGroups();
-
-		initSalesTaxNonEditableItem();
-
-		initTransactionTotalNonEditableItem();
-
-		initMemoAndReference();
-
-		initTransactionsItems();
-
-	}
-
-	public abstract AbstractTransactionGrid<ClientTransactionItem> getTransactionGrid();
-
-	private void initTransactionsItems() {
-		AbstractTransactionGrid<ClientTransactionItem> customerTransactionGrid = getTransactionGrid();
-		if (transaction.getTransactionItems() != null)
-			customerTransactionGrid.setAllTransactionItems(transaction
-					.getTransactionItems());
-		if (transaction.getID() != 0) {
-			customerTransactionGrid.canDeleteRecord(false);
-		}
-	}
+	protected abstract void initTransactionsItems();
 
 	public AbstractCustomerTransactionView(int transactionType) {
 		super(transactionType);
@@ -223,14 +162,6 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	protected abstract void initTransactionTotalNonEditableItem();
 
 	protected abstract void initSalesTaxNonEditableItem();
-
-	protected void initShippingTerms() {
-		ArrayList<ClientShippingTerms> shippingTerms = getCompany()
-				.getShippingTerms();
-
-		shippingTermsCombo.initCombo(shippingTerms);
-
-	}
 
 	protected void initDepositInAccounts() {
 		// undepositedFunds = depositInCombo.getAccounts();
@@ -279,6 +210,8 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		phoneSelect.setDisabled(isInViewMode());
 
 	}
+
+	public abstract List<ClientTransactionItem> getAllTransactionItems();
 
 	protected void initContacts(ClientCustomer customer) {
 
@@ -330,20 +263,6 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		if (customer.getPaymentTerm() != 0)
 			paymentTermsSelected(company.getPaymentTerms(customer
 					.getPaymentTerm()));
-		else if (this instanceof InvoiceView) {
-			for (ClientPaymentTerms paymentTerm : paymentTermsList) {
-				if (paymentTerm.getName().equals(
-						Accounter.constants().dueOnReceipt())) {
-					payTermsSelect.addItemThenfireEvent(paymentTerm);
-					break;
-				}
-			}
-			this.paymentTerm = payTermsSelect.getSelectedValue();
-			paymentTermsSelected(this.paymentTerm);
-		}
-
-		shippingTermSelected(company.getShippingTerms(customer
-				.getShippingMethod()));
 
 		shippingMethodSelected(company.getShippingMethod(customer
 				.getShippingMethod()));
@@ -354,40 +273,13 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 		paymentMethodSelected(customer.getPaymentMethod());
 
-		if (this.salesPerson != null && salesPersonCombo != null)
-			salesPersonCombo.setComboItem(this.salesPerson);
-
-		if (this.paymentTerm != null && payTermsSelect != null)
-			payTermsSelect.setComboItem(this.paymentTerm);
-
-		if (this.shippingTerm != null && shippingTermsCombo != null)
-			shippingTermsCombo.setComboItem(this.shippingTerm);
-
 		if (this.shippingMethod != null && shippingMethodsCombo != null)
 			shippingMethodsCombo.setComboItem(this.shippingMethod);
-
-		if (this.taxCode != null
-				&& taxCodeSelect != null
-				&& taxCodeSelect.getValue() != ""
-				&& !taxCodeSelect.getName().equalsIgnoreCase(
-						Accounter.constants().none()))
-			taxCodeSelect.setComboItem(this.taxCode);
-
-		if (this.priceLevel != null && priceLevelSelect != null)
-			priceLevelSelect.setComboItem(this.priceLevel);
 
 		if (this.paymentMethod != null && paymentMethodCombo != null)
 			paymentMethodCombo.setComboItem(customer.getPaymentMethod());
 		// if (transactionObject == null)
 		initAddressAndContacts();
-	}
-
-	protected void setCustomerTaxCodetoAccount() {
-		AbstractTransactionGrid<ClientTransactionItem> customerTransactionGrid = getTransactionGrid();
-		for (ClientTransactionItem item : customerTransactionGrid.getRecords()) {
-			if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT)
-				customerTransactionGrid.setCustomerTaxCode(item);
-		}
 	}
 
 	@Override
@@ -410,17 +302,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	protected void updateTransaction() {
 		super.updateTransaction();
-		if (taxCode != null && transactionItems != null) {
-
-			for (ClientTransactionItem item : transactionItems) {
-				// if (taxCode instanceof ClientTAXItem)
-				// item.setTaxItem((ClientTAXItem) taxCode);
-				// if (taxCode instanceof ClientTAXGroup)
-				// item.setTaxGroup((ClientTAXGroup) taxCode);
-				item.setTaxCode(taxCode.getID());
-
-			}
-		}
+		transaction.setTransactionDate(transactionDate.getDate());
 	}
 
 	protected void initAddressAndContacts() {
@@ -430,55 +312,6 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		addressListOfCustomer = getCustomer().getAddress();
 		initBillToCombo();
 		initShipToCombo();
-	}
-
-	protected void initPaymentTerms() {
-
-		paymentTermsList = getCompany().getPaymentsTerms();
-
-		payTermsSelect.initCombo(paymentTermsList);
-
-	}
-
-	public void initTaxItemGroups() {
-		ArrayList<ClientTAXCode> taxCodes = getCompany().getTaxCodes();
-
-		taxCodeSelect.initCombo(taxCodes);
-
-	}
-
-	public ClientTAXGroup getTaxGroup() {
-		return taxGroup;
-	}
-
-	public void setTaxGroup(ClientTAXGroup taxGroup) {
-		this.taxGroup = taxGroup;
-	}
-
-	protected void initPriceLevels() {
-
-		ArrayList<ClientPriceLevel> priceLevels = getCompany().getPriceLevels();
-
-		priceLevelSelect.initCombo(priceLevels);
-
-	}
-
-	protected void initSalesPersons() {
-
-		ArrayList<ClientSalesPerson> salesPersons = getCompany()
-				.getActiveSalesPersons();
-
-		salesPersonCombo.initCombo(salesPersons);
-
-	}
-
-	protected void initCustomers() {
-		List<ClientCustomer> result = getCompany().getActiveCustomers();
-
-		customerCombo.initCombo(result);
-		// customerCombo.setHelpInformation(true);
-		customerCombo.setDisabled(isInViewMode());
-
 	}
 
 	public CustomerCombo createCustomerComboItem(String title) {
@@ -492,9 +325,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 					@Override
 					public void selectedComboBoxItem(ClientCustomer selectItem) {
 						customerSelected(selectItem);
-
 					}
-
 				});
 
 		customerCombo.setRequired(true);
@@ -720,30 +551,6 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	}
 
-	protected ShippingTermsCombo createShippingTermsCombo() {
-
-		ShippingTermsCombo shippingTermsCombo = new ShippingTermsCombo(
-				Accounter.constants().shippingTerms());
-		shippingTermsCombo.setHelpInformation(true);
-		shippingTermsCombo
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingTerms>() {
-
-					public void selectedComboBoxItem(
-							ClientShippingTerms selectItem) {
-
-						shippingTermSelected(selectItem);
-
-					}
-
-				});
-
-		shippingTermsCombo.setDisabled(isInViewMode());
-
-		// formItems.add(shippingTermsCombo);
-
-		return shippingTermsCombo;
-	}
-
 	protected ShippingMethodsCombo createShippingMethodCombo() {
 
 		ShippingMethodsCombo shippingMethodsCombo = new ShippingMethodsCombo(
@@ -959,57 +766,11 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		if (custForm != null) {
 			result.add(custForm.validate());
 		}
-		if (!(this.transactionType == ClientTransaction.TYPE_CUSTOMER_REFUNDS)) {
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
-					&& getCompany().getPreferences().getDoYouPaySalesTax()) {
-				if (taxCodeSelect != null)
-					if (!taxCodeSelect.validate()) {
-						result.addError(taxCodeSelect, Accounter.messages()
-								.pleaseEnter(taxCodeSelect.getTitle()));
-					}
-			}
-			AbstractTransactionGrid<ClientTransactionItem> customerTransactionGrid = getTransactionGrid();
-			if (!(customerTransactionGrid == null)) {
-
-				if (AccounterValidator
-						.isBlankTransaction(customerTransactionGrid)) {
-					result.addError(customerTransactionGrid,
-							accounterConstants.blankTransaction());
-				} else
-					result.add(customerTransactionGrid.validateGrid());
-
-			}
-		}
 		return result;
 
 	}
 
-	public void setSalesTax(Double salesTax) {
-		if (salesTax == null)
-			salesTax = 0.0D;
-		this.salesTax = salesTax;
-
-		if (salesTaxTextNonEditable != null)
-			salesTaxTextNonEditable.setAmount(salesTax);
-
-	}
-
-	public Double getSalesTax() {
-		return salesTax;
-	}
-
-	public void setTransactionTotal(Double transactionTotal) {
-		if (transactionTotal == null)
-			transactionTotal = 0.0D;
-		this.transactionTotal = transactionTotal;
-		if (transactionTotalNonEditableText != null)
-			transactionTotalNonEditableText.setAmount(transactionTotal);
-
-	}
-
-	public Double getTransactionTotal() {
-		return transactionTotal;
-	}
+	protected abstract boolean isBlankTransactionGrid();
 
 	@Override
 	public void init() {
@@ -1107,10 +868,11 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 			// if (zvatCodeid != null)
 			// transactionItem.setVatCode(zvatCodeid);
 		}
-		AbstractTransactionGrid<ClientTransactionItem> customerTransactionGrid = getTransactionGrid();
-		customerTransactionGrid.addData(transactionItem);
+		addNewData(transactionItem);
 
 	}
+
+	protected abstract void addNewData(ClientTransactionItem transactionItem);
 
 	protected void shippingMethodSelected(ClientShippingMethod selectItem) {
 		this.shippingMethod = selectItem;
@@ -1120,15 +882,6 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 			shippingMethodsCombo.setDisabled(isInViewMode());
 		}
 
-	}
-
-	protected void shippingTermSelected(ClientShippingTerms shippingTerm2) {
-		this.shippingTerm = shippingTerm2;
-		if (shippingTerm != null && shippingTermsCombo != null) {
-			shippingTermsCombo.setComboItem(getCompany().getShippingTerms(
-					shippingTerm.getID()));
-			shippingTermsCombo.setDisabled(isInViewMode());
-		}
 	}
 
 	protected void paymentTermsSelected(ClientPaymentTerms paymentTerm) {
@@ -1179,8 +932,6 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	public void onEdit() {
 		if (shippingMethodsCombo != null)
 			shippingMethodsCombo.setDisabled(isInViewMode());
-		if (shippingTermsCombo != null)
-			shippingTermsCombo.setDisabled(isInViewMode());
 		if (depositInCombo != null)
 			depositInCombo.setDisabled(isInViewMode());
 		if (phoneSelect != null)
