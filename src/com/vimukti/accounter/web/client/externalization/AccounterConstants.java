@@ -4629,4 +4629,6 @@ public interface AccounterConstants extends Constants {
 	public String eTDSFiling();
 
 	public String change();
+
+	public String box1099();
 }

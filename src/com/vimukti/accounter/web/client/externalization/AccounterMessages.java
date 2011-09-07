@@ -842,4 +842,7 @@ public interface AccounterMessages extends Messages {
 			ClientFinanceDate date);
 
 	public String selectAccountsToAssign(String account);
+
+
+	public String MISC1099TransactionDetailByVendor(String vendor);
 }
