@@ -24,20 +24,36 @@ public class CompanyRegisteredDetailsPage extends AbstractCompanyInfoPanel {
 
 	private static CompanyRegisteredDetailsPageUiBinder uiBinder = GWT
 			.create(CompanyRegisteredDetailsPageUiBinder.class);
-	@UiField Label registeredCompanyNameLabel;
-	@UiField TextBox registeredCompanyName;
-	@UiField Label address1Label;
-	@UiField TextBox address1TextBox;
-	@UiField Label address2Label;
-	@UiField TextBox address2TextBox;
-	@UiField Label cityLabel;
-	@UiField TextBox cityTextBox;
-	@UiField Label postalCodeLabel;
-	@UiField TextBox postalCodeTextBox;
-	@UiField Label countryLabel;
-	@UiField ListBox countryCombo;
-	@UiField Label stateLabel;
-	@UiField ListBox stateCombo;
+	@UiField
+	Label registeredCompanyNameLabel;
+	@UiField
+	TextBox registeredCompanyName;
+	@UiField
+	TextBox address1TextBox;
+	@UiField
+	Label address2Label;
+	@UiField
+	TextBox address2TextBox;
+	@UiField
+	Label cityLabel;
+	@UiField
+	TextBox cityTextBox;
+	@UiField
+	Label postalCodeLabel;
+	@UiField
+	TextBox postalCodeTextBox;
+	@UiField
+	Label countryLabel;
+	@UiField
+	ListBox countryCombo;
+	@UiField
+	Label stateLabel;
+	@UiField
+	ListBox stateCombo;
+	@UiField
+	Label address1Label;
+	@UiField
+	Label registeredAddress;
 
 	private List<String> countriesList, states;
 
@@ -61,6 +77,7 @@ public class CompanyRegisteredDetailsPage extends AbstractCompanyInfoPanel {
 	}
 
 	private void createControls() {
+		registeredAddress.setText(constants.registeredAddress());
 		registeredCompanyNameLabel.setText(Accounter.constants()
 				.registeredCompanyName());
 		address1Label.setText(Accounter.constants().address1());
@@ -97,6 +114,7 @@ public class CompanyRegisteredDetailsPage extends AbstractCompanyInfoPanel {
 			this.address1TextBox.setValue(address.getAddress1());
 			this.address2TextBox.setValue(address.getStreet());
 			this.cityTextBox.setValue(address.getCity());
+			this.postalCodeTextBox.setValue(address.getZipOrPostalCode());
 			if (address.getStateOrProvinence() != ""
 					&& address.getStateOrProvinence() != null
 					&& address.getStateOrProvinence().length() != 0) {
@@ -119,6 +137,7 @@ public class CompanyRegisteredDetailsPage extends AbstractCompanyInfoPanel {
 		address.setAddress1(address1TextBox.getValue());
 		address.setStreet(address2TextBox.getValue());
 		address.setCity(cityTextBox.getValue());
+		address.setZipOrPostalCode(postalCodeTextBox.getValue());
 		if (stateCombo.getSelectedIndex() != -1) {
 			address.setStateOrProvinence(states.get(stateCombo
 					.getSelectedIndex()));
@@ -135,9 +154,8 @@ public class CompanyRegisteredDetailsPage extends AbstractCompanyInfoPanel {
 		if (selectedCountry < 0) {
 			return;
 		}
-		List<String> states = CoreUtils
-				.getStatesAsListForCountry(countryCombo
-						.getItemText(selectedCountry));
+		List<String> states = CoreUtils.getStatesAsListForCountry(countryCombo
+				.getItemText(selectedCountry));
 		setStates(states);
 
 	}
