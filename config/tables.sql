@@ -130,6 +130,26 @@ CREATE TABLE `ACTIVATION` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+
+--
+-- Table structure for table `ACTIVITY`
+--
+
+DROP TABLE IF EXISTS `ACTIVITY`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ACTIVITY`(
+	`ID` BIGINT(20) NOT NULL AUTO_INCREMENT,
+	`OBJECT_ID` BIGINT(20) NOT NULL,
+	`TIME_STAMP` TIMESTAMP ,
+	`USER_NAME` VARCHAR(255) NOT NULL,
+	`ACTIVITY_TYPE` INT(11) NOT NULL,
+	`NAME` VARCHAR(255) DEFAULT NULL,
+	`TRANSACTION_DATE` BIGINT(20) DEFAULT NULL,
+	`AMOUNT` DOUBLE DEFAULT 0,
+	PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- Table structure for table `ADJUSTMENT_REASON`
 --
