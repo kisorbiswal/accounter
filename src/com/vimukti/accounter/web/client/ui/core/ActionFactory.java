@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.core;
 
-
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
@@ -122,6 +121,7 @@ import com.vimukti.accounter.web.client.ui.reports.ECSalesListAction;
 import com.vimukti.accounter.web.client.ui.reports.ECSalesListDetailAction;
 import com.vimukti.accounter.web.client.ui.reports.ExpenseReportAction;
 import com.vimukti.accounter.web.client.ui.reports.GLReportAction;
+import com.vimukti.accounter.web.client.ui.reports.MISC1099TransactionDetailAction;
 import com.vimukti.accounter.web.client.ui.reports.MostProfitableCustomersAction;
 import com.vimukti.accounter.web.client.ui.reports.ProfitAndLossAction;
 import com.vimukti.accounter.web.client.ui.reports.ProfitAndLossByLocationAction;
@@ -1324,13 +1324,18 @@ public class ActionFactory {
 				.Reconciliation());
 	}
 
-
 	public static AccounterClassListAction getAccounterClassGroupListAction() {
-		return new AccounterClassListAction(actionsConstants.accounterClassList());
+		return new AccounterClassListAction(
+				actionsConstants.accounterClassList());
 	}
 
 	public static TDSPayAction getpayTDSAction() {
-			return new TDSPayAction("Pay e-TDS");
+		return new TDSPayAction("Pay e-TDS");
+	}
+
+	public static MISC1099TransactionDetailAction getMisc1099TransactionDetailAction() {
+		return new MISC1099TransactionDetailAction(Accounter.messages()
+				.MISC1099TransactionDetailByVendor(Global.get().Vendor()));
 	}
 
 }

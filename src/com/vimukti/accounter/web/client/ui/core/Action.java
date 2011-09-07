@@ -151,8 +151,8 @@ public abstract class Action<T> implements Command {
 			return false;
 		}
 
-		boolean isSameClass = object.getClass().getName().equals(
-				this.getClass().getName());
+		boolean isSameClass = object.getClass().getName()
+				.equals(this.getClass().getName());
 
 		return isSameClass;
 

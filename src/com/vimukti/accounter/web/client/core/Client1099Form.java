@@ -4,6 +4,21 @@ import com.google.gwt.safehtml.shared.SafeHtml;
 
 public class Client1099Form implements IAccounterCore {
 
+	public static int TOTAL_1099_PAYMENTS = -1;
+	public static int TOATAL_ALL_PAYMENTS = -2;
+	public static int BOX_1 = 1;
+	public static int BOX_2 = 2;
+	public static int BOX_3 = 3;
+	public static int BOX_4 = 4;
+	public static int BOX_5 = 5;
+	public static int BOX_6 = 6;
+	public static int BOX_7 = 7;
+	public static int BOX_8 = 8;
+	public static int BOX_9 = 9;
+	public static int BOX_10 = 10;
+	public static int BOX_13 = 13;
+	public static int BOX_14 = 14;
+
 	/**
 	 * 
 	 */
