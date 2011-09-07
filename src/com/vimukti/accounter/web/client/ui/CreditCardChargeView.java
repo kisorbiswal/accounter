@@ -235,7 +235,8 @@ public class CreditCardChargeView extends
 			if (isInViewMode()) {
 				cheqNoText
 						.setValue(transaction.getCheckNumber() != null ? transaction
-								.getCheckNumber() : "");
+								.getCheckNumber()
+								: "");
 
 			}
 			cheqNoText.setDisabled(false);
@@ -368,8 +369,8 @@ public class CreditCardChargeView extends
 		labeldateNoLayout.add(regPanel);
 		labeldateNoLayout.setCellHorizontalAlignment(regPanel, ALIGN_RIGHT);
 
-		vendorNameSelect = new VendorCombo(Global.get().messages()
-				.vendorName(Global.get().Vendor()));
+		vendorNameSelect = new VendorCombo(Global.get().messages().vendorName(
+				Global.get().Vendor()));
 		vendorNameSelect.setHelpInformation(true);
 		vendorNameSelect.setWidth(100);
 		vendorNameSelect.setRequired(true);
@@ -452,8 +453,8 @@ public class CreditCardChargeView extends
 
 		cheqNoText = new TextItem(
 				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-						.constants().chequeNo() : Accounter.constants()
-						.checkNo());
+						.constants().chequeNo()
+						: Accounter.constants().checkNo());
 		cheqNoText.setHelpInformation(true);
 		cheqNoText.setDisabled(isInViewMode());
 		cheqNoText.setWidth(100);
@@ -468,14 +469,14 @@ public class CreditCardChargeView extends
 		termsForm = UIUtils.form(Accounter.constants().terms());
 		termsForm.setWidth("100%");
 		termsForm.setFields(payMethSelect, payFrmSelect, delivDate);
-		
+
 		if (getPreferences().isClassTrackingEnabled()) {
 			classListCombo = createAccounterClassListCombo();
 			termsForm.setFields(classListCombo);
 		}
-		
-		termsForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "203px");
+
+		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "203px");
 
 		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 
@@ -685,8 +686,8 @@ public class CreditCardChargeView extends
 		// setting number
 		if (transactionNumber != null)
 			transaction.setNumber(transactionNumber.getValue().toString());
-		if (selectedVendor != null) {
 
+		if (selectedVendor != null) {
 			// setting vendor
 			transaction.setVendor(selectedVendor.getID());
 
@@ -717,7 +718,8 @@ public class CreditCardChargeView extends
 		transaction.setPaymentMethod(paymentMethod);
 
 		// Setting pay from
-		payFromAccount = payFrmSelect.getSelectedValue().getID();
+		if (payFrmSelect.getSelectedValue() != null)
+			payFromAccount = payFrmSelect.getSelectedValue().getID();
 		if (payFromAccount != 0) {
 
 			transaction.setPayFrom(getCompany().getAccount(payFromAccount)
@@ -769,40 +771,47 @@ public class CreditCardChargeView extends
 
 	@Override
 	public ValidationResult validate() {
+		try {
+			ValidationResult result = super.validate();
+			// Validations
+			// 1. if(! validTransactionDate(transactionDate)) ERROR
+			// if transaction date is with in the open fiscal year range, then
+			// it is
+			// valid transaction date
 
-		ValidationResult result = super.validate();
-		// Validations
-		// 1. if(! validTransactionDate(transactionDate)) ERROR
-		// if transaction date is with in the open fiscal year range, then it is
-		// valid transaction date
+			// 2. if( isInPreventPostingBeforeDate(transactionDate)) ERROR
+			// i.e the transaction date should not be before the company's
+			// preferred
+			// preventPostingBeforeDate
 
-		// 2. if( isInPreventPostingBeforeDate(transactionDate)) ERROR
-		// i.e the transaction date should not be before the company's preferred
-		// preventPostingBeforeDate
+			// 3. vendorForm validation
+			// 4. termsForm validation
+			// 5. if(isBlankTransation(vendorTransactionGrid)) ERROR
+			// 6. vendorTransactionGrid validation
 
-		// 3. vendorForm validation
-		// 4. termsForm validation
-		// 5. if(isBlankTransation(vendorTransactionGrid)) ERROR
-		// 6. vendorTransactionGrid validation
+			if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
+				result.addError(transactionDate, accounterConstants
+						.invalidateTransactionDate());
+			}
 
-		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateTransactionDate());
+			if (AccounterValidator
+					.isInPreventPostingBeforeDate(transactionDate)) {
+				result.addError(transactionDate, accounterConstants
+						.invalidateDate());
+			}
+
+			result.add(vendorForm.validate());
+			result.add(termsForm.validate());
+			if (vendorTransactionTable.getAllRows().isEmpty()) {
+				result.addError(vendorTransactionTable, accounterConstants
+						.blankTransaction());
+			} else
+				result.add(vendorTransactionTable.validateGrid());
+			return result;
+		} catch (Exception e) {
+			System.err.println(e);
 		}
-
-		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
-		}
-
-		result.add(vendorForm.validate());
-		result.add(termsForm.validate());
-		if (vendorTransactionTable.getAllRows().isEmpty()) {
-			result.addError(vendorTransactionTable,
-					accounterConstants.blankTransaction());
-		} else
-			result.add(vendorTransactionTable.validateGrid());
-		return result;
+		return null;
 
 	}
 
