@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.core.reports.DepositDetail;
 import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
+import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeList;
@@ -2156,5 +2157,20 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			return tool.getCustomerStatement(customer, fromDate, toDate);
 		}
 		return null;
+	}
+
+	@Override
+	public ArrayList<MISC1099TransactionDetail> getMISC1099TransactionDetailReport(
+			long vendorId, int boxNo, ClientFinanceDate fromDate,
+			ClientFinanceDate toDate) {
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
+		ArrayList<MISC1099TransactionDetail> result = new ArrayList<MISC1099TransactionDetail>();
+		try {
+			result = getFinanceTool().getPaybillsByVendorAndBoxNumber(
+					financeDates[0], financeDates[1], vendorId, boxNo);
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 }

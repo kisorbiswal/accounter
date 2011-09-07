@@ -14,11 +14,13 @@ import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.VATReturn;
 import com.vimukti.accounter.core.Vendor;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.AccountBalance;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.core.reports.AmountsDueToVendor;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
+import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
 import com.vimukti.accounter.web.client.core.reports.SalesTaxLiability;
@@ -369,6 +371,14 @@ public class AccounterReportDAOService extends HibernateDaoSupport implements
 	public ArrayList<DepositDetail> getDepositDetail(String startDate,
 			String endDate) throws DAOException {
 
+		return null;
+	}
+
+	@Override
+	public ArrayList<MISC1099TransactionDetail> getMISC1099TransactionDetailReport(
+			String debitorName, ClientFinanceDate fromDate,
+			ClientFinanceDate toDate) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

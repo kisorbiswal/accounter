@@ -195,6 +195,7 @@ import com.vimukti.accounter.web.client.core.reports.DepositDetail;
 import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
+import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeList;
@@ -227,9 +228,21 @@ import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
 public class FinanceTool {
 
 	Logger log = Logger.getLogger(FinanceTool.class);
+	HashMap<Integer, Integer> boxThresholds = new HashMap<Integer, Integer>();
 
 	public FinanceTool() {
-
+		boxThresholds.put(1, 600);
+		boxThresholds.put(2, 10);
+		boxThresholds.put(3, 600);
+		boxThresholds.put(4, 0);
+		boxThresholds.put(5, 0);
+		boxThresholds.put(6, 600);
+		boxThresholds.put(7, 600);
+		boxThresholds.put(8, 10);
+		boxThresholds.put(9, 5000);
+		boxThresholds.put(10, 600);
+		boxThresholds.put(13, 0);
+		boxThresholds.put(14, 0);
 	}
 
 	// /**
@@ -12134,21 +12147,6 @@ public class FinanceTool {
 
 	public ArrayList<Client1099Form> get1099Vendors(int selected)
 			throws AccounterException {
-
-		HashMap<Integer, Integer> boxThresholds = new HashMap<Integer, Integer>();
-		boxThresholds.put(1, 600);
-		boxThresholds.put(2, 10);
-		boxThresholds.put(3, 600);
-		boxThresholds.put(4, 0);
-		boxThresholds.put(5, 0);
-		boxThresholds.put(6, 600);
-		boxThresholds.put(7, 600);
-		boxThresholds.put(8, 10);
-		boxThresholds.put(9, 5000);
-		boxThresholds.put(10, 600);
-		boxThresholds.put(13, 0);
-		boxThresholds.put(14, 0);
-
 		ArrayList<EnterBill> list = new ArrayList<EnterBill>();
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
@@ -12241,20 +12239,6 @@ public class FinanceTool {
 	}
 
 	public Client1099Form get1099InformationByVendor(long vendorId) {
-		HashMap<Integer, Integer> boxThresholds = new HashMap<Integer, Integer>();
-		boxThresholds.put(1, 600);
-		boxThresholds.put(2, 10);
-		boxThresholds.put(3, 600);
-		boxThresholds.put(4, 0);
-		boxThresholds.put(5, 0);
-		boxThresholds.put(6, 600);
-		boxThresholds.put(7, 600);
-		boxThresholds.put(8, 10);
-		boxThresholds.put(9, 5000);
-		boxThresholds.put(10, 600);
-		boxThresholds.put(13, 0);
-		boxThresholds.put(14, 0);
-
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
 		Client1099Form client1099Form = new Client1099Form();
@@ -12679,5 +12663,70 @@ public class FinanceTool {
 			}
 		}
 		return transactions;
+	}
+
+	public ArrayList<MISC1099TransactionDetail> getPaybillsByVendorAndBoxNumber(
+			FinanceDate startDate, FinanceDate endDate, long vendorId,
+			int boxNumber) {
+		Session session = HibernateUtil.getCurrentSession();
+
+		FinanceDate startDate1 = ((FinanceDate) ((session
+				.getNamedQuery("getFiscalYear.by.check.isCurrentFiscalYearistrue"))
+				.list().get(0)));
+
+		/*
+		 * Here endDate1 is used to store the previous month of endDate value
+		 */
+		int year = endDate.getYear();
+		int month = endDate.getMonth() - 1;
+		year = (month == 0) ? year - 1 : year;
+		month = (month == 0) ? 12 : month;
+		FinanceDate endDate1 = new FinanceDate(year, month, 31);
+
+		if (year != startDate1.getYear())
+			startDate1 = new FinanceDate(year, 01, 01);
+
+		if (boxNumber == Client1099Form.TOATAL_ALL_PAYMENTS) {
+
+		} else if (boxNumber == Client1099Form.TOTAL_1099_PAYMENTS) {
+
+		} else {
+			List l = ((Query) session
+					.getNamedQuery("getPaybillsByVendorAndBoxNumber")
+					.setParameter("startDate", startDate.getDate())
+					.setParameter("endDate", endDate.getDate())
+					.setParameter("vendorId", vendorId)
+					.setParameter("boxNumber", boxNumber)).list();
+
+			Object[] object = null;
+			Iterator iterator = l.iterator();
+			List<MISC1099TransactionDetail> queryResult = new ArrayList<MISC1099TransactionDetail>();
+			while (iterator.hasNext()) {
+				object = (Object[]) iterator.next();
+				MISC1099TransactionDetail record = new MISC1099TransactionDetail();
+				record.setName((String) object[0]);
+				record.setDate(new ClientFinanceDate(((BigInteger) object[1])
+						.longValue()));
+				record.setType(((Integer) object[2]).intValue());
+				record.setNumber((String) object[3]);
+				record.setBox1099(((Integer) object[4]).intValue());
+				record.setAccount((String) object[5]);
+				record.setAmount((Double) object[6]);
+
+				queryResult.add(record);
+			}
+
+			double amount = 0;
+
+			for (MISC1099TransactionDetail misc1099TransactionDetail : queryResult) {
+				amount += misc1099TransactionDetail.getAmount();
+			}
+
+			if (amount >= boxThresholds.get(boxNumber)) {
+				return new ArrayList<MISC1099TransactionDetail>(queryResult);
+			}
+		}
+		return null;
+
 	}
 }

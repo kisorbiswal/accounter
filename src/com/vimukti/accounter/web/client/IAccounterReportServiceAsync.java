@@ -18,6 +18,7 @@ import com.vimukti.accounter.web.client.core.reports.DepositDetail;
 import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
+import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeList;
@@ -311,4 +312,8 @@ public interface IAccounterReportServiceAsync {
 
 	void getCustomerStatement(long customer, long fromDate, long toDate,
 			AsyncCallback<ArrayList<PayeeStatementsList>> callBack);
+
+	public void getMISC1099TransactionDetailReport(long VendorId, int boxNo,
+			ClientFinanceDate fromDate, ClientFinanceDate toDate,
+			AsyncCallback<ArrayList<MISC1099TransactionDetail>> callback);
 }
