@@ -22,7 +22,6 @@ public class CopyThemeDialog extends BaseDialog {
 		createControls();
 	}
 
-
 	private void createControls() {
 
 		VerticalPanel copyPanel = new VerticalPanel();
@@ -39,18 +38,19 @@ public class CopyThemeDialog extends BaseDialog {
 	protected ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		String name = nameBox.getValue();
-		ClientBrandingTheme brandingThemeByName = company.getBrandingThemeByName(nameBox.getText());
+		ClientBrandingTheme brandingThemeByName = company
+				.getBrandingThemeByName(nameBox.getText());
 		if (name == null || name.isEmpty()) {
 			result.addError(this, Accounter.constants().pleaseenterThemename());
 		}
 
-		if (brandingThemeByName!=null){
+		if (brandingThemeByName != null) {
 			result.addError(this, Accounter.constants().themenamealreadyexist());
 		}
-//		if (Utility.isObjectExist(Accounter.getCompany().getBrandingTheme(),
-//				nameBox.getText())) {
-//			
-//		}
+		// if (Utility.isObjectExist(Accounter.getCompany().getBrandingTheme(),
+		// nameBox.getText())) {
+		//
+		// }
 
 		return result;
 	}
@@ -61,6 +61,7 @@ public class CopyThemeDialog extends BaseDialog {
 		clientBrandingTheme.setPageSizeType(theme.getPageSizeType());
 		clientBrandingTheme.setAddressPadding(theme.getAddressPadding());
 		clientBrandingTheme.setBottomMargin(theme.getBottomMargin());
+		clientBrandingTheme.setTopMargin(theme.getTopMargin());
 		clientBrandingTheme.setMarginsMeasurementType(theme
 				.getMarginsMeasurementType());
 		clientBrandingTheme.setFont(theme.getFont());
@@ -81,6 +82,10 @@ public class CopyThemeDialog extends BaseDialog {
 		clientBrandingTheme.setShowTaxNumber(theme.isShowTaxNumber());
 		clientBrandingTheme.setShowUnitPrice_And_Quantity(theme
 				.isShowUnitPrice_And_Quantity());
+		clientBrandingTheme.setInvoiceTempleteName(theme
+				.getInvoiceTempleteName());
+		clientBrandingTheme.setCreditNoteTempleteName(theme
+				.getCreditNoteTempleteName());
 
 		return clientBrandingTheme;
 	}
