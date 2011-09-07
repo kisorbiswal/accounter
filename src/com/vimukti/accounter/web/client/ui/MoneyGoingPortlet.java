@@ -172,29 +172,30 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 
 	Label getLabel(final String title) {
 		final Label label = new Label(title);
+		label.setWidth(((title.length() * 6) - 5) + "px");
 		label.addMouseOverHandler(new MouseOverHandler() {
 
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
 				label.getElement().getStyle().setCursor(Cursor.POINTER);
-				label.getElement().getStyle()
-						.setTextDecoration(TextDecoration.UNDERLINE);
+				label.getElement().getStyle().setTextDecoration(
+						TextDecoration.UNDERLINE);
 			}
 		});
 		label.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				label.getElement().getStyle()
-						.setTextDecoration(TextDecoration.NONE);
+				label.getElement().getStyle().setTextDecoration(
+						TextDecoration.NONE);
 			}
 		});
 		label.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				label.getElement().getStyle()
-						.setTextDecoration(TextDecoration.NONE);
+				label.getElement().getStyle().setTextDecoration(
+						TextDecoration.NONE);
 				if (title.equals(Accounter.constants().billsDue())) {
 					ActionFactory.getBillsAction().run(null, true,
 							Accounter.constants().open());

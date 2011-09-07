@@ -141,29 +141,40 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 
 	private Label getLabel(final String title) {
 		final Label label = new Label(title);
+
+		if (title.equals(Accounter.constants().cashExpenses())) {
+			label.setWidth(((title.length() * 6) + 10) + "px");
+		} else if (title.equals(Accounter.constants().creditCardExpenses())) {
+			label.setWidth(((title.length() * 6) + 2) + "px");
+		} else if (title.equals(Accounter.constants().employeeExpenses())) {
+			label.setWidth(((title.length() * 6) + 6) + "px");
+		} else if (title.equals(Accounter.constants().allExpenses())) {
+			label.setWidth(((title.length() * 6)) + "px");
+		}
+
 		label.addMouseOverHandler(new MouseOverHandler() {
 
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
 				label.getElement().getStyle().setCursor(Cursor.POINTER);
-				label.getElement().getStyle()
-						.setTextDecoration(TextDecoration.UNDERLINE);
+				label.getElement().getStyle().setTextDecoration(
+						TextDecoration.UNDERLINE);
 			}
 		});
 		label.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				label.getElement().getStyle()
-						.setTextDecoration(TextDecoration.NONE);
+				label.getElement().getStyle().setTextDecoration(
+						TextDecoration.NONE);
 			}
 		});
 		label.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				label.getElement().getStyle()
-						.setTextDecoration(TextDecoration.NONE);
+				label.getElement().getStyle().setTextDecoration(
+						TextDecoration.NONE);
 				if (title.equals(Accounter.constants().cashExpenses())) {
 					ActionFactory.getExpensesAction(
 							Accounter.constants().cash()).run(null, true);

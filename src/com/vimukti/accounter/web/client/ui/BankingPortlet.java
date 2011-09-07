@@ -100,23 +100,24 @@ public class BankingPortlet extends DashBoardPortlet {
 			for (final ClientAccount account : bankAccounts) {
 				HorizontalPanel hPanel = new HorizontalPanel();
 				final Label accountLabel = new Label(account.getName());
+				accountLabel.setWidth((account.getName().length() * 6) + "px");
 				accountLabel.addStyleName(Accounter.constants().labelBanking());
 				accountLabel.addMouseOverHandler(new MouseOverHandler() {
 
 					@Override
 					public void onMouseOver(MouseOverEvent event) {
-						accountLabel.getElement().getStyle()
-								.setCursor(Cursor.POINTER);
-						accountLabel.getElement().getStyle()
-								.setTextDecoration(TextDecoration.UNDERLINE);
+						accountLabel.getElement().getStyle().setCursor(
+								Cursor.POINTER);
+						accountLabel.getElement().getStyle().setTextDecoration(
+								TextDecoration.UNDERLINE);
 					}
 				});
 				accountLabel.addMouseOutHandler(new MouseOutHandler() {
 
 					@Override
 					public void onMouseOut(MouseOutEvent event) {
-						accountLabel.getElement().getStyle()
-								.setTextDecoration(TextDecoration.NONE);
+						accountLabel.getElement().getStyle().setTextDecoration(
+								TextDecoration.NONE);
 					}
 				});
 				accountLabel.addClickHandler(new ClickHandler() {
@@ -173,9 +174,11 @@ public class BankingPortlet extends DashBoardPortlet {
 													.getText().equals(
 															account.getName())) {
 												GraphChart chart = new GraphChart();
-												body.insert(
-														chart.createBankingChart(result),
-														++i);
+												body
+														.insert(
+																chart
+																		.createBankingChart(result),
+																++i);
 											}
 										}
 									}

@@ -11,6 +11,8 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -73,6 +75,14 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 		FlexTable fTable = new FlexTable();
 		hPanel.setWidth("100%");
 
+		hPanel.addHandler(new ResizeHandler() {
+
+			@Override
+			public void onResize(ResizeEvent event) {
+				// TODO Auto-generated method stub
+
+			}
+		}, ResizeEvent.getType());
 		Button addReceivableInvoiceBtn = new Button(Accounter.constants()
 				.addReceivableInvoice());
 		addReceivableInvoiceBtn.addStyleName("addButtonPortlet");
@@ -162,21 +172,22 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 
 	Label getLabel(final String title) {
 		final Label label = new Label(title);
+		label.setWidth((title.length() * 6) + "px");
 		label.addMouseOverHandler(new MouseOverHandler() {
 
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
 				label.getElement().getStyle().setCursor(Cursor.POINTER);
-				label.getElement().getStyle()
-						.setTextDecoration(TextDecoration.UNDERLINE);
+				label.getElement().getStyle().setTextDecoration(
+						TextDecoration.UNDERLINE);
 			}
 		});
 		label.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				label.getElement().getStyle()
-						.setTextDecoration(TextDecoration.NONE);
+				label.getElement().getStyle().setTextDecoration(
+						TextDecoration.NONE);
 			}
 		});
 		label.addClickHandler(new ClickHandler() {
@@ -184,8 +195,8 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 			@Override
 			public void onClick(ClickEvent event) {
 
-				label.getElement().getStyle()
-						.setTextDecoration(TextDecoration.NONE);
+				label.getElement().getStyle().setTextDecoration(
+						TextDecoration.NONE);
 				if (title.equals(Accounter.constants().invoicesDue())) {
 					ActionFactory.getInvoicesAction(null).run(null, true);
 				} else {
