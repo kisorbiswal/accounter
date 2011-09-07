@@ -782,6 +782,10 @@ public interface AccounterMessages extends Messages {
 
 	public String clickThisTo(String text, String viewName);
 
+	public String clickThisObjToOpen(String objType, String resultant);
+
+	public String allTransactionDetails(String text);
+
 	public String clickThisToOpenNew(String viewName);
 
 	public String clickThisToOpen(String next);

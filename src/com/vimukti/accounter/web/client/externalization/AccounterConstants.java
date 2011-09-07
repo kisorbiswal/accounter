@@ -4630,5 +4630,7 @@ public interface AccounterConstants extends Constants {
 
 	public String change();
 
+	public String link();
+
 	public String box1099();
 }

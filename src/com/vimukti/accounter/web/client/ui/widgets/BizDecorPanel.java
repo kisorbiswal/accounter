@@ -11,6 +11,7 @@ import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * 
@@ -115,6 +116,9 @@ public class BizDecorPanel extends FlexTable {
 	 */
 	private void setPanelTitle(String title) {
 		final Label panelTitle = new Label(title);
+		panelTitle.setTitle(Accounter.messages().clickThisObjToOpen(
+				Accounter.constants().link(),
+				Accounter.messages().allTransactionDetails(title)));
 		panelTitle.addStyleName("panel-title");
 		panelTitle.addMouseOverHandler(new MouseOverHandler() {
 
@@ -140,7 +144,7 @@ public class BizDecorPanel extends FlexTable {
 				panelTitle.getElement().getStyle().setTextDecoration(
 						TextDecoration.NONE);
 				titleClicked();
-				
+
 			}
 		});
 		TC.add(panelTitle);
