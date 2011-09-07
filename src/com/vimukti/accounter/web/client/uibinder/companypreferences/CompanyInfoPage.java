@@ -8,6 +8,8 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -32,13 +34,14 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 			companyOtherDetailsPanel, organisationPanel,
 			bankingAndOtherFinancialDetailsPanel,
 			customerAndvendorSettingsPanel, doYouUseAndHowDoYouReferPanel,
-			ageingAndSellingDetailsPanel, employeeSettingsPanel;
+			ageingAndSellingDetailsPanel, employeeSettingsPanel,
+			categoriesPanel, locationTrackingPanel, classTrackingPanel;
 	private HTML companyRegisteredeDetailsLink, companyTradingDetailsLink,
 			companyOtherDetailsLink, organisationLink,
 			bankingAndOtherFinancialDetailsLink, customerAndvendorSettingsLink,
 			doYouUseAndHowDoYouReferLink, ageingAndSellingDetailsLink,
-			employeeSettingsLink;
-	private CompanyInfo[] companyInfos = new CompanyInfo[9];
+			employeeSettingsLink,locationTrackingLink, classTrackingLink;
+	private CompanyInfo[] companyInfos = new CompanyInfo[11];
 
 	@Override
 	public void init() {
@@ -57,11 +60,11 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 
 			// stackPanel.add(getBasicInfoPanel(), constants.basicInfo());
 			stackPanel.add(getCompanyInfoPanel(), constants.comapnyInfo());
-			stackPanel.add(getBankingAndFinancialInfoPanel(), constants
-					.otherDetails());
-			stackPanel.add(getOtherDetailsPanel(), constants
-					.accounterSettings());
-
+			stackPanel.add(getBankingAndFinancialInfoPanel(),
+					constants.otherDetails());
+			stackPanel.add(getOtherDetailsPanel(),
+					constants.accounterSettings());
+			stackPanel.add(getCategoriesPanel(), constants.Categories());
 			companyInfoPanel = new CompanyRegisteredDetailsPage(
 					companyPreferences, company, this);
 			companyRegisteredeDetailsLink.getElement().getParentElement()
@@ -107,9 +110,57 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 				companyInfoPanel.onSave();
 				company.setPreferences(companyPreferences);
 				Accounter.setCompany(company);
-				// Accounter.
+				Accounter.createCRUDService().updateCompany(company,
+						new AccounterAsyncCallback<Long>() {
+
+							@Override
+							public void onException(AccounterException exception) {
+								// TODO Auto-generated method stub
+
+							}
+
+							@Override
+							public void onResultSuccess(Long result) {
+								// TODO Auto-generated method stub
+
+							}
+						});
 			}
 		});
+	}
+	
+	public VerticalPanel getCategoriesPanel() {
+		VerticalPanel categories1Panel = new VerticalPanel();
+		locationTrackingLink = new HTML("<a>" + messages.locationTracking(Global.get()
+				.Location())+"</a>");
+		classTrackingLink = new HTML("<a>"+ "Class Tracking" + "</a>");
+		categories1Panel.add(locationTrackingLink);
+		categories1Panel.add(classTrackingLink);
+		locationTrackingPanel = new LocationTrackingPage();
+		classTrackingPanel = new ClassTrackingPage();
+		companyInfos[9] = new CompanyInfo(locationTrackingLink,
+				locationTrackingPanel);
+		companyInfos[10] = new CompanyInfo(classTrackingLink,
+				classTrackingPanel);
+		locationTrackingLink.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				companyInfoPanel = locationTrackingPanel;
+				addDetailsPanel(companyInfoPanel);
+
+			}
+		});
+		classTrackingLink.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				companyInfoPanel = classTrackingPanel;
+				addDetailsPanel(companyInfoPanel);
+
+			}
+		});
+		categories1Panel.setWidth("100%");
+		return categories1Panel;
+
 	}
 
 	// public VerticalPanel getBasicInfoPanel() {
@@ -200,8 +251,8 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 
 		VerticalPanel bankingAndFinancialInfoPanel = new VerticalPanel();
 
-		bankingAndOtherFinancialDetailsLink = new HTML(messages
-				.bankingAndOtherFinancialDetails());
+		bankingAndOtherFinancialDetailsLink = new HTML(
+				messages.bankingAndOtherFinancialDetails());
 
 		bankingAndFinancialInfoPanel.add(bankingAndOtherFinancialDetailsLink);
 		bankingAndOtherFinancialDetailsPanel = new BankingAndOtherFinancialDetailsPage();
@@ -225,12 +276,12 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 
 		VerticalPanel otherDetailsPanel = new VerticalPanel();
 
-		customerAndvendorSettingsLink = new HTML(messages
-				.customerAndvendorSettings());
-		doYouUseAndHowDoYouReferLink = new HTML(messages
-				.doYouUseAndHowDoYouRefer());
-		ageingAndSellingDetailsLink = new HTML(messages
-				.ageingAndSellingDetails());
+		customerAndvendorSettingsLink = new HTML(
+				messages.customerAndvendorSettings());
+		doYouUseAndHowDoYouReferLink = new HTML(
+				messages.doYouUseAndHowDoYouRefer());
+		ageingAndSellingDetailsLink = new HTML(
+				messages.ageingAndSellingDetails());
 		employeeSettingsLink = new HTML(messages.employeeSettings());
 
 		otherDetailsPanel.add(customerAndvendorSettingsLink);
