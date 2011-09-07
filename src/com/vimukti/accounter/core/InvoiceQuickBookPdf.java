@@ -35,8 +35,7 @@ public class InvoiceQuickBookPdf implements PrintTemplete {
 
 		String templeteName = brandingTheme.getInvoiceTempleteName();
 
-		return "war" + File.separator + "files" + File.separator
-				+ "PlainInvoice" + ".html";
+		return "templetes" + File.separator + "PlainInvoice" + ".html";
 
 	}
 

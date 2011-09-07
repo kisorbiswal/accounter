@@ -34,8 +34,7 @@ public class CreditNoteZohoTemplate implements PrintTemplete {
 
 		String templeteName = brandingTheme.getCreditNoteTempleteName();
 
-		return "war" + File.separator + "files" + File.separator
-				+ "ModernCredit" + ".html";
+		return "templetes" + File.separator + "ModernCredit" + ".html";
 
 	}
 
@@ -151,14 +150,12 @@ public class CreditNoteZohoTemplate implements PrintTemplete {
 				}
 				// for displaying the total price details
 
-				
 				String memoVal = memo.getMemo();
-				if(memoVal != null && memoVal.trim().length()> 0){
+				if (memoVal != null && memoVal.trim().length() > 0) {
 					t.setVariable("blankText", memoVal);
 					t.addBlock("memoblock");
 				}
-				
-				
+
 				String subTotal = largeAmountConversation(memo.getNetAmount());
 				String vatTotal = largeAmountConversation(memo.getTotal()
 						- memo.getNetAmount());

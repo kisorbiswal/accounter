@@ -19,8 +19,7 @@ public class CreditNoteQuickbooksTemplate implements PrintTemplete {
 
 		String templeteName = brandingTheme.getCreditNoteTempleteName();
 
-		return "war" + File.separator + "files" + File.separator
-				+ "PlainCredit" + ".html";
+		return "templetes" + File.separator + "PlainCredit" + ".html";
 
 	}
 
@@ -154,17 +153,16 @@ public class CreditNoteQuickbooksTemplate implements PrintTemplete {
 			// for displaying the total price details
 
 			String memoVal = forNullValue(memo.getMemo());
-			if(memoVal != null && memoVal.trim().length()> 0){
+			if (memoVal != null && memoVal.trim().length() > 0) {
 				t.setVariable("memoText", memoVal);
 				t.addBlock("memoblock");
 			}
-			
+
 			String subTotal = largeAmountConversation(memo.getNetAmount());
 			String vatTotal = largeAmountConversation(memo.getTotal()
 					- memo.getNetAmount());
 			String total = largeAmountConversation(memo.getTotal());
 
-			
 			t.setVariable("subTotal", subTotal);
 			if (brandingTheme.isShowTaxColumn()) {
 				t.setVariable("vatTotalValue", vatTotal);

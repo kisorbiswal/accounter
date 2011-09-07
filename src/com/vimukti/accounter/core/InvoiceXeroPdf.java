@@ -39,8 +39,7 @@ public class InvoiceXeroPdf implements PrintTemplete {
 
 		String templeteName = brandingTheme.getInvoiceTempleteName();
 
-		return "war" + File.separator + "files" + File.separator
-				+ "ProfessionalInvoice" + ".html";
+		return "templetes" + File.separator + "ProfessionalInvoice" + ".html";
 
 	}
 

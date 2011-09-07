@@ -35,8 +35,7 @@ public class InvoicePDFTemplete implements PrintTemplete {
 
 		String templeteName = brandingTheme.getInvoiceTempleteName();
 
-		return "war" + File.separator + "files" + File.separator
-				+ "ClassicInvoice" + ".html";
+		return "templetes" + File.separator + "ClassicInvoice" + ".html";
 
 	}
 

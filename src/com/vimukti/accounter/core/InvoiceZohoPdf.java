@@ -29,8 +29,7 @@ public class InvoiceZohoPdf implements PrintTemplete {
 
 		String templeteName = brandingTheme.getInvoiceTempleteName();
 
-		return "war" + File.separator + "files" + File.separator
-				+ "ModernInvoice" + ".html";
+		return "templetes" + File.separator + "ModernInvoice" + ".html";
 
 	}
 
@@ -194,11 +193,11 @@ public class InvoiceZohoPdf implements PrintTemplete {
 			String total = largeAmountConversation(invoice.getTotal());
 			t.setVariable("total", total);
 			String memo = invoice.getMemo();
-			if(memo != null && memo.trim().length()> 0){
+			if (memo != null && memo.trim().length() > 0) {
 				t.setVariable("blankText", invoice.getMemo());
 				t.addBlock("memoblock");
 			}
-			
+
 			t.addBlock("itemDetails");
 
 			// setting the theme styles

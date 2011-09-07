@@ -25,8 +25,7 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 
 		String templeteName = brandingTheme.getCreditNoteTempleteName();
 
-		return "war" + File.separator + "files" + File.separator
-				+ "ClassicCredit" + ".html";
+		return "templetes" + File.separator + "ClassicCredit" + ".html";
 
 	}
 

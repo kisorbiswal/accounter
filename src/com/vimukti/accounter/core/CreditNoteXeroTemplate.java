@@ -34,8 +34,7 @@ public class CreditNoteXeroTemplate implements PrintTemplete {
 
 		String templeteName = brandingTheme.getCreditNoteTempleteName();
 
-		return "war" + File.separator + "files" + File.separator
-				+ "ProfessionalCredit" + ".html";
+		return "templetes" + File.separator + "ProfessionalCredit" + ".html";
 
 	}
 
@@ -161,13 +160,11 @@ public class CreditNoteXeroTemplate implements PrintTemplete {
 						- memo.getNetAmount());
 				String total = largeAmountConversation(memo.getTotal());
 
-			
-			
-				if(memoVal != null && memoVal.trim().length()> 0){
+				if (memoVal != null && memoVal.trim().length() > 0) {
 					t.setVariable("memoText", memoVal);
 					t.addBlock("memoblock");
 				}
-				
+
 				t.setVariable("subTotal", subTotal);
 				if (brandingTheme.isShowTaxColumn()) {
 					t.setVariable("vatTotalValue", vatTotal);
