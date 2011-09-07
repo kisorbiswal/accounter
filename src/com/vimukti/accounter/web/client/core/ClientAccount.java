@@ -31,6 +31,7 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 	public static final int TYPE_ACCOUNT_PAYABLE = 8;
 	public static final int TYPE_OTHER_CURRENT_LIABILITY = 9;
 	public static final int TYPE_CREDIT_CARD = 10;
+	public static final int TYPE_PAYPAL=19;
 	public static final int TYPE_PAYROLL_LIABILITY = 11;
 	public static final int TYPE_LONG_TERM_LIABILITY = 12;
 	public static final int TYPE_EQUITY = 13;
