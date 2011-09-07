@@ -65,6 +65,7 @@ public class CompanyTradingDetailsPage extends AbstractCompanyInfoPanel {
 	}
 
 	private void createControls() {
+		tradingAddressLabel.setText(constants.tradingAddress());
 		tradingCompanyNameLabel.setText(Accounter.constants()
 				.tradingCompanyName());
 		address1TextLabel.setText(Accounter.constants().address1());
