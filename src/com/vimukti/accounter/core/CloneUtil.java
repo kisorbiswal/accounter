@@ -3,6 +3,7 @@ package com.vimukti.accounter.core;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -159,8 +160,10 @@ public class CloneUtil<BT> extends ObjectConvertUtil {
 						dstField.set(dst, srcField.get(src));
 				} else if (isFinanceDate(dstfieldType)) {
 					dstField.set(dst, srcField.get(src));
-
-				} else if (isString(dstField.getType())) {
+				} else if (isDate(srcField.getType())) {
+					Date date = (Date) srcField.get(src);
+					dstField.setLong(dst, date != null ? date.getTime() : 0);
+				}else if (isString(dstField.getType())) {
 					dstField.set(dst, srcField.get(src));
 				} else if (clazz.isInstance(srcField.get(src))) {
 					dstField.set(

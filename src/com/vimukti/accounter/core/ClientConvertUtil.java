@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -101,7 +102,10 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 					if (isFinanceDate(srcField.getType())) {
 						FinanceDate date = (FinanceDate) srcField.get(src);
 						dstField.setLong(dst, date != null ? date.getDate() : 0);
-					} else {
+					}else if (isDate(srcField.getType())) {
+						Date date = (Date) srcField.get(src);
+						dstField.setLong(dst, date != null ? date.getTime() : 0);
+					}else {
 						// Both are primitive, so assign directly
 						dstField.set(dst, srcField.get(src));
 					}

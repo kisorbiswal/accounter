@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-import java.sql.Timestamp;
 
 public class ClientActivity implements IAccounterCore {
 
@@ -8,21 +7,21 @@ public class ClientActivity implements IAccounterCore {
 
 	private ClientUser clientUser;
 
-	// private ActivityType type;
-
-	private Timestamp time;
+	private long time;
 
 	private int objectType;
 
 	private long objectID;
 
 	private String name;
+	
+	private String userName;
 
-	private ClientFinanceDate date;
+	private ClientFinanceDate transactionDate;
 
-	private Double amount;
+	private double amount;
 
-	private String activity;
+	private int activityType;
 
 	public long getId() {
 		return id;
@@ -32,19 +31,11 @@ public class ClientActivity implements IAccounterCore {
 		this.id = id;
 	}
 
-	// public ActivityType getType() {
-	// return type;
-	// }
-	//
-	// public void setType(ActivityType type) {
-	// this.type = type;
-	// }
-
-	public Timestamp getTime() {
+	public long getTime() {
 		return time;
 	}
 
-	public void setTime(Timestamp time) {
+	public void setTime(long time) {
 		this.time = time;
 	}
 
@@ -85,19 +76,11 @@ public class ClientActivity implements IAccounterCore {
 	}
 
 	public ClientFinanceDate getDate() {
-		return date;
+		return transactionDate;
 	}
 
 	public void setDate(ClientFinanceDate date) {
-		this.date = date;
-	}
-
-	public String getActivity() {
-		return activity;
-	}
-
-	public void setActivity(String activity) {
-		this.activity = activity;
+		this.transactionDate = date;
 	}
 
 	@Override
@@ -127,12 +110,28 @@ public class ClientActivity implements IAccounterCore {
 
 	@Override
 	public String getClientClassSimpleName() {
-		return "ClientAvtivity";
+		return "ClientActivity";
 	}
 
 	@Override
 	public AccounterCoreType getObjectType() {
 		return AccounterCoreType.ACTIVITY;
+	}
+
+	public int getActivityType() {
+		return activityType;
+	}
+
+	public void setActivityType(int activityType) {
+		this.activityType = activityType;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 }

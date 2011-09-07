@@ -13,7 +13,13 @@ import net.zschech.gwt.comet.server.CometSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
+import com.vimukti.accounter.core.Activity;
+import com.vimukti.accounter.core.ActivityType;
+import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.server.CometManager;
 
 public class OpenCompanyServlet extends BaseServlet {
@@ -39,6 +45,18 @@ public class OpenCompanyServlet extends BaseServlet {
 			String serverCompanyID = getCookie(request, COMPANY_COOKIE);
 			initComet(request.getSession(), Long.parseLong(serverCompanyID),
 					emailID);
+
+			Session session = HibernateUtil.openSession("company"
+					+ serverCompanyID);
+			Transaction transaction = session.beginTransaction();
+
+			User user = (User) session.getNamedQuery("user.by.emailid")
+					.setParameter("emailID", emailID).uniqueResult();
+			Activity activity = new Activity(user, ActivityType.LOGIN);
+
+			session.save(activity);
+			transaction.commit();
+			session.close();
 			// there is no session, so do external redirect to login page
 			// response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
 			// response.setHeader("Location", "/Accounter.jsp");

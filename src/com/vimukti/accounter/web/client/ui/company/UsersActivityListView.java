@@ -3,10 +3,16 @@ package com.vimukti.accounter.web.client.ui.company;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.ColumnSortEvent;
+import com.google.gwt.user.cellview.client.ColumnSortEvent.Handler;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -21,8 +27,10 @@ public class UsersActivityListView extends BaseView {
 	private Label titleItem;
 	private DateField fromdate, endDate;
 	private VerticalPanel mainPanel;
-	private DynamicForm buttonForm;
+	private HorizontalPanel dateButtonPanel;
+	private DynamicForm dateForm, buttonForm;
 	private UsersActivityList activityList;
+	private Button updateButton, customizeButton;
 
 	@Override
 	public void init() {
@@ -50,10 +58,12 @@ public class UsersActivityListView extends BaseView {
 
 			}
 		});
-
 		buttonForm = new DynamicForm();
-		buttonForm.setNumCols(4);
-		buttonForm.setFields(fromdate, endDate);
+		buttonForm.setNumCols(2);
+
+		dateForm = new DynamicForm();
+		dateForm.setNumCols(6);
+		dateForm.setFields(fromdate, endDate);
 
 		activityList = new UsersActivityList(fromdate.getValue(),
 				endDate.getValue());
@@ -62,20 +72,22 @@ public class UsersActivityListView extends BaseView {
 		SimplePager pager = new SimplePager(TextLocation.CENTER,
 				pagerResources, false, 0, true);
 		pager.setDisplay(activityList);
-		// activityList.addColumnSortHandler(new Handler() {
-		//
-		// @Override
-		// public void onColumnSort(ColumnSortEvent event) {
-		// Column<?, ?> column = event.getColumn();
-		// int columnIndex = activityList
-		// .getColumnIndex((Column<ClientActivity, ?>) column);
-		// boolean isAscending = event.isSortAscending();
-		// activityList.sortRowData(columnIndex, isAscending);
-		// }
-		// });
+		pager.setStyleName("pager-alignment");
+		activityList.addColumnSortHandler(new Handler() {
+
+			@Override
+			public void onColumnSort(ColumnSortEvent event) {
+				Column<?, ?> column = event.getColumn();
+				int columnIndex = activityList
+						.getColumnIndex((Column<ClientActivity, ?>) column);
+				boolean isAscending = event.isSortAscending();
+				activityList.sortRowData(columnIndex, isAscending);
+
+			}
+		});
 
 		mainPanel.add(titleItem);
-		mainPanel.add(buttonForm);
+		mainPanel.add(dateForm);
 		mainPanel.add(activityList);
 		mainPanel.add(pager);
 		add(mainPanel);
@@ -83,7 +95,6 @@ public class UsersActivityListView extends BaseView {
 
 	@Override
 	public void deleteFailed(AccounterException caught) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -93,7 +104,6 @@ public class UsersActivityListView extends BaseView {
 
 	@Override
 	public void deleteSuccess(IAccounterCore result) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -104,7 +114,6 @@ public class UsersActivityListView extends BaseView {
 
 	@Override
 	public List<DynamicForm> getForms() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

@@ -75,7 +75,8 @@
 	<query name="list.RecurringTransaction">from com.vimukti.accounter.core.RecurringTransaction
 		rt order by
 		rt.name</query>
-	<query name="list.currentRecTransactions">from com.vimukti.accounter.core.RecurringTransaction rt where rt.nextScheduleOn = ? order by
+	<query name="list.currentRecTransactions">from com.vimukti.accounter.core.RecurringTransaction
+		rt where rt.nextScheduleOn = ? order by
 		rt.name</query>
 	<query name="list.VendorGroup">from com.vimukti.accounter.core.VendorGroup vg order
 		by vg.name
@@ -132,11 +133,17 @@
 		order by vig.name</query>
 
 	<query name="list.Box">from com.vimukti.accounter.core.Box</query>
+	
 	<query name="list.VATReturnBox">from com.vimukti.accounter.core.VATReturnBox vrb
 		order by vrb.name
 	</query>
+	
 	<query name="list.BrandingTheme">from com.vimukti.accounter.core.BrandingTheme bt
 		order by bt.id</query>
+
+	<query name="list.Activity">from com.vimukti.accounter.core.Activity at
+		order by at.id</query>
+		
 	<query name="list.locations">from com.vimukti.accounter.core.Location bt
 		order by
 		bt.id

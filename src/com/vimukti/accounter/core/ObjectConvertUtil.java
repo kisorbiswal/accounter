@@ -98,6 +98,8 @@ public class ObjectConvertUtil {
 	protected boolean isDate(Class class1) {
 		if (class1.getName().equals("java.util.Date"))
 			return true;
+		if (class1.getName().equals("java.sql.Timestamp"))
+			return true;
 		return false;
 	}
 
@@ -190,7 +192,7 @@ public class ObjectConvertUtil {
 	public boolean isPrimitive(Class<?> fieldType) {
 		if (fieldType.getName()
 				.equals("com.vimukti.accounter.core.FinanceDate")
-				|| fieldType.getName().equals("java.lang.String")) {
+				|| fieldType.getName().equals("java.lang.String")||fieldType.getName().equals("java.sql.Timestamp")) {
 			return true;
 		}
 		return fieldType.isPrimitive();

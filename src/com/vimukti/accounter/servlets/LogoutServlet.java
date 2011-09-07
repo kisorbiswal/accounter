@@ -7,6 +7,13 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import com.vimukti.accounter.core.Activity;
+import com.vimukti.accounter.core.ActivityType;
+import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.server.CometManager;
 
 public class LogoutServlet extends BaseServlet {
@@ -23,6 +30,18 @@ public class LogoutServlet extends BaseServlet {
 			if (userid != null) {
 				String cid = getCookie(req, COMPANY_COOKIE);
 				if (cid != null) {
+
+					Session session = HibernateUtil
+							.openSession("company" + cid);
+					Transaction transaction = session.beginTransaction();
+
+					User user = (User) session.getNamedQuery("user.by.emailid")
+							.setParameter("emailID", userid).uniqueResult();
+					Activity activity = new Activity(user, ActivityType.LOGOUT);
+
+					session.save(activity);
+					transaction.commit();
+					session.close();
 					long id = Long.parseLong(cid);
 					// Destroy the comet queue so that it wont take memory
 					CometManager.destroyStream(req.getSession().getId(), id,

@@ -6,12 +6,14 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 
 public class Activity implements IAccounterCore {
-	
+
 	private long id;
 
 	private User user;
 
 	private ActivityType type;
+
+	private int activityType;
 
 	private Timestamp time;
 
@@ -21,14 +23,21 @@ public class Activity implements IAccounterCore {
 
 	private String name;
 
-	private FinanceDate date;
+	private String userName;
 
-	private Double amount;
+	private FinanceDate transactionDate;
+
+	private double amount;
+
+	public Activity() {
+	}
 
 	public Activity(User user, ActivityType type) {
 		this.user = user;
 		this.type = type;
+		this.userName = user.getFirstName();
 		this.time = new Timestamp(System.currentTimeMillis());
+		setActivityType(type.getValue());
 	}
 
 	public Activity(User user, ActivityType type, IAccounterServerCore obj) {
@@ -40,7 +49,7 @@ public class Activity implements IAccounterCore {
 		if (obj instanceof Transaction) {
 			Transaction tr = (Transaction) obj;
 			this.amount = tr.getTotal();
-			this.date = tr.getDate();
+			this.transactionDate = tr.getDate();
 			Payee payee = tr.getPayee();
 			if (payee != null) {
 				this.name = payee.getName();
@@ -87,11 +96,11 @@ public class Activity implements IAccounterCore {
 	}
 
 	public FinanceDate getDate() {
-		return date;
+		return transactionDate;
 	}
 
 	public void setDate(FinanceDate date) {
-		this.date = date;
+		this.transactionDate = date;
 	}
 
 	public Double getAmount() {
@@ -143,6 +152,26 @@ public class Activity implements IAccounterCore {
 
 	public void setObjectType(int objectType) {
 		this.objectType = objectType;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public int getActivityType() {
+		return activityType;
+	}
+
+	public void setActivityType(int activityType) {
+		this.activityType = activityType;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 }

@@ -5392,6 +5392,20 @@ GROUP BY
 		 	
 	</sql-query>
 	
+	<sql-query name="getActivityLog">
+
+		<return-scalar column="TIME_STAMP" type="long" />
+		<return-scalar column="USER_NAME" type="string" />
+		<return-scalar column="ACTIVITY_TYPE" type="int" />
+		<return-scalar column="OBJECT_ID" type="long" />
+		<return-scalar column="NAME" type="string" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="AMOUNT" type="double" />
+		
+		SELECT * FROM ACTIVITY
+
+	</sql-query>
+	
 	<sql-query name="getCustomerStatement">
 	
 		<query-param name="customerId" type="long" />

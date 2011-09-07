@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
+import java.util.Date;
+
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -79,11 +81,12 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 	}
 
 	private void initTableColumns() {
+
 		TextColumn<ClientActivity> dateColumn = new TextColumn<ClientActivity>() {
 
 			@Override
 			public String getValue(ClientActivity object) {
-				return String.valueOf(object.getDate());
+				return new Date(object.getTime()).toString();
 			}
 		};
 		dateColumn.setSortable(true);
@@ -92,7 +95,7 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 
 			@Override
 			public String getValue(ClientActivity object) {
-				return null;
+				return object.getUserName();
 			}
 		};
 
@@ -100,7 +103,7 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 
 			@Override
 			public String getValue(ClientActivity object) {
-				return object.getActivity();
+				return getActivityType(object.getActivityType());
 			}
 		};
 		TextColumn<ClientActivity> idColumn = new TextColumn<ClientActivity>() {
@@ -114,7 +117,7 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 
 			@Override
 			public String getValue(ClientActivity object) {
-				return object.getActivity();
+				return object.getName();
 			}
 		};
 
@@ -135,11 +138,29 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 		this.addColumn(dateColumn, "Modified");
 		this.addColumn(userNameColumn, "User Name");
 		this.addColumn(activity, "Activity");
-		this.addColumn(idColumn, "ID");
+		// this.addColumn(idColumn, "ID");
 		this.addColumn(nameColumn, "Name");
 		this.addColumn(transactionDateColumn, "Date");
 		this.addColumn(amountColumn, "Amount");
 
+	}
+
+	protected String getActivityType(int activityType) {
+		switch (activityType) {
+		case 0:
+			return "Logged in";
+		case 1:
+			return "Logged Out";
+		case 2:
+			return "Added ";
+		case 3:
+			return "Edited ";
+		case 4:
+			return "Deleted ";
+		default:
+			break;
+		}
+		return null;
 	}
 
 	private int columnIndex;

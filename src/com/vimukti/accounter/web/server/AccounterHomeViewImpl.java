@@ -1662,19 +1662,13 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	public PaginationList<ClientActivity> getUsersActivityLog(
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			int startIndex, int length) throws AccounterException {
-		PaginationList<ClientActivity> clientActivities = new PaginationList<ClientActivity>();
-		int max = startIndex + length;
-		for (int i = startIndex; i < max; i++) {
-			ClientActivity a1 = new ClientActivity();
-			a1.setAmount(1000.0 + i);
-			a1.setDate(new ClientFinanceDate());
-			a1.setId(i);
-			a1.setObjectID(i);
-			a1.setActivity("invoice added-" + i);
-			clientActivities.add(a1);
+
+		FinanceTool tool = getFinanceTool();
+		if (tool != null) {
+			return tool.getUsersActivityLog(startIndex, length);
 		}
-		clientActivities.setTotalCount(200);
-		return clientActivities;
+		return null;
+
 	}
 
 	// public ArrayList<ClientEmployee> getAllEmployees()

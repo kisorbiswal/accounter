@@ -43,7 +43,6 @@ import org.hibernate.criterion.Restrictions;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccountTransaction;
-import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
@@ -137,6 +136,7 @@ import com.vimukti.accounter.utils.Security;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -162,6 +162,7 @@ import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.HrEmployee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
 import com.vimukti.accounter.web.client.core.Lists.DepreciableFixedAssetsEntry;
@@ -270,6 +271,7 @@ public class FinanceTool {
 		try {
 			IAccounterCore data = createContext.getData();
 			String userID = createContext.getUserEmail();
+			User user = getCompany().getUserByUserEmail(userID);
 
 			if (data == null) {
 				throw new AccounterException(
@@ -285,8 +287,12 @@ public class FinanceTool {
 			} catch (Exception e1) {
 				throw new AccounterException(AccounterException.ERROR_INTERNAL);
 			}
+
 			serverObject = new ServerConvertUtil().toServerObject(serverObject,
 					(IAccounterCore) data, session);
+
+			Activity activity = new Activity(user, ActivityType.ADD,
+					serverObject);
 
 			ObjectConvertUtil.setCompany((IAccounterServerCore) serverObject,
 					getCompany());
@@ -307,7 +313,7 @@ public class FinanceTool {
 			canEdit(serverObject, data);
 
 			isTransactionNumberExist((IAccounterCore) data);
-
+			session.save(activity);
 			session.save(serverObject);
 			transaction.commit();
 			ChangeTracker.put(serverObject);
@@ -338,6 +344,7 @@ public class FinanceTool {
 			User user = new User((ClientUser) data);
 			String email = user.getEmail();
 			User userByUserEmail = getUserByUserEmail(email);
+
 			if (userByUserEmail != null) {
 				if (userByUserEmail.isDeleted()) {
 					userByUserEmail.setDeleted(false);
@@ -349,9 +356,11 @@ public class FinanceTool {
 					session.saveOrUpdate(user);
 				}
 			} else {
+
 				Company company = getCompany();
 				company.addUser(user);
 			}
+
 			transaction.commit();
 			ClientUser clientObject = new ClientConvertUtil().toClientObject(
 					user, ClientUser.class);
@@ -394,10 +403,17 @@ public class FinanceTool {
 
 			User user = (User) session.get(User.class, clientUser.getID());
 
+			String userID = updateContext.getUserEmail();
+			User user1 = getCompany().getUserByUserEmail(userID);
 			new ServerConvertUtil().toServerObject(user,
 					(IAccounterCore) clientUser, session);
 			canEdit(user, data);
+
+			Activity userUpdateActivity = new Activity(user1,
+					ActivityType.EDIT, user);
+
 			session.flush();
+			session.save(userUpdateActivity);
 			session.saveOrUpdate(user);
 			hibernateTransaction.commit();
 			ChangeTracker.put(clientUser.toUserInfo());
@@ -426,6 +442,8 @@ public class FinanceTool {
 
 		org.hibernate.Transaction hibernateTransaction = session
 				.beginTransaction();
+		String userID = updateContext.getUserEmail();
+		User user = getCompany().getUserByUserEmail(userID);
 		try {
 			IAccounterCore data = updateContext.getData();
 
@@ -492,7 +510,11 @@ public class FinanceTool {
 								.currentTimeMillis()));
 			}
 
+			Activity activity = new Activity(user, ActivityType.EDIT,
+					serverObject);
+
 			session.flush();
+			session.saveOrUpdate(activity);
 			session.saveOrUpdate(serverObject);
 			ChangeTracker.put(serverObject);
 			hibernateTransaction.commit();
@@ -546,7 +568,10 @@ public class FinanceTool {
 		// IAccounterServerCore serverObject = (IAccounterServerCore)
 		// objects
 		// .get(0);
-
+		String userID = context.getUserEmail();
+		User user1 = getCompany().getUserByUserEmail(userID);
+		Activity activity = new Activity(user1, ActivityType.DELETE,
+				serverObject);
 		if (serverObject == null) {
 			throw new AccounterException(
 					AccounterException.ERROR_ILLEGAL_ARGUMENT);
@@ -569,6 +594,7 @@ public class FinanceTool {
 						AccounterException.ERROR_OBJECT_IN_USE);
 			}
 		}
+		session.save(activity);
 		try {
 			hibernateTransaction.commit();
 
@@ -630,6 +656,13 @@ public class FinanceTool {
 					session);
 
 			company.setPreferences(serverCompanyPreferences);
+
+			String userID = context.getUserEmail();
+			User user1 = getCompany().getUserByUserEmail(userID);
+
+			Activity activity = new Activity(user1, ActivityType.EDIT,
+					serverCompanyPreferences);
+			session.save(activity);
 			session.update(company);
 			transaction.commit();
 			// CompanyPreferences serverObject = serverCompanyPreferences;
@@ -656,6 +689,11 @@ public class FinanceTool {
 			Company cmp = Company.getCompany();
 			cmp.updatePreferences((ClientCompany) data);
 
+			String userID = context.getUserEmail();
+			User user1 = getCompany().getUserByUserEmail(userID);
+
+			Activity activity = new Activity(user1, ActivityType.EDIT, cmp);
+			session.save(activity);
 			HibernateUtil.getCurrentSession().update(cmp);
 			transaction.commit();
 			ChangeTracker.put(cmp.toClientCompany());
@@ -690,6 +728,11 @@ public class FinanceTool {
 		serverCompanyPreferences.setPreventPostingBeforeDate(modifiedStartDate);
 		serverCompanyPreferences.setStartOfFiscalYear(modifiedStartDate);
 		// CompanyPreferences serverObject = serverCompanyPreferences;
+		String userID = context.getUserEmail();
+		User user1 = getCompany().getUserByUserEmail(userID);
+
+		Activity activity = new Activity(user1, ActivityType.EDIT, company);
+		HibernateUtil.getCurrentSession().save(activity);
 		HibernateUtil.getCurrentSession().update(company);
 		ChangeTracker.put(serverCompanyPreferences);
 	}
@@ -713,6 +756,13 @@ public class FinanceTool {
 		company1.setPreferences(serverCompanyPreferences1);
 		serverCompanyPreferences1.setDepreciationStartDate(newStartDate);
 		// CompanyPreferences serverObject = serverCompanyPreferences1;
+
+		String userID = context.getUserEmail();
+		User user1 = getCompany().getUserByUserEmail(userID);
+
+		Activity activity = new Activity(user1, ActivityType.EDIT, company1);
+		HibernateUtil.getCurrentSession().save(activity);
+
 		HibernateUtil.getCurrentSession().saveOrUpdate(company1);
 		ChangeTracker.put(serverCompanyPreferences1);
 	}
@@ -10056,9 +10106,6 @@ public class FinanceTool {
 
 		company.setFixedAssets(new ArrayList<FixedAsset>(session.getNamedQuery(
 				"list.FixedAsset").list()));
-
-		company.setAccounterClasses(new ArrayList<AccounterClass>(session
-				.getNamedQuery("list.TrackClass").list()));
 		// company
 		// .setSellingDisposingFixedAssets(new
 		// HashSet<SellingOrDisposingFixedAsset>(
@@ -12563,6 +12610,27 @@ public class FinanceTool {
 		}
 
 		return new ArrayList<ProfitAndLossByLocation>(queryResult);
+	}
+
+	public PaginationList<ClientActivity> getUsersActivityLog(int startIndex,
+			int length) {
+
+		Session session = HibernateUtil.getCurrentSession();
+		List<Activity> activites = session.getNamedQuery("list.Activity")
+				.list();
+		PaginationList<ClientActivity> clientActivities = new PaginationList<ClientActivity>();
+		for (Activity activity : activites) {
+			ClientActivity clientActivity;
+			try {
+				clientActivity = new ClientConvertUtil().toClientObject(
+						activity, ClientActivity.class);
+				clientActivities.add(clientActivity);
+			} catch (AccounterException e) {
+				e.printStackTrace();
+			}
+
+		}
+		return clientActivities;
 	}
 
 	public List<ClientBudget> getBudgetList() throws DAOException {
