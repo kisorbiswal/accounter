@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class BudgetReportAction extends Action {
 
-	protected BudgetReportView report;
+	protected BudgetReport report;
 
 	public BudgetReportAction(String text) {
 		super(text);
@@ -22,7 +22,7 @@ public class BudgetReportAction extends Action {
 
 			public void onCreated() {
 
-				report = new BudgetReportView();
+				report = new BudgetReport();
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent, BudgetReportAction.this);
 				// Accounter.showError("Not yet Implemented");
