@@ -7,18 +7,17 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.ListBox;
 
 public class CompanyRegisteredDetailsPage extends AbstractCompanyInfoPanel {
 
@@ -28,6 +27,8 @@ public class CompanyRegisteredDetailsPage extends AbstractCompanyInfoPanel {
 	Label registeredCompanyNameLabel;
 	@UiField
 	TextBox registeredCompanyName;
+	@UiField
+	Label address1Label;
 	@UiField
 	TextBox address1TextBox;
 	@UiField
@@ -86,11 +87,16 @@ public class CompanyRegisteredDetailsPage extends AbstractCompanyInfoPanel {
 		stateLabel.setText(Accounter.constants().state());
 		postalCodeLabel.setText(Accounter.constants().postalCode());
 		countryLabel.setText(Accounter.constants().country());
+
+		ThemesUtil.addDivToListBox(countryCombo, countryLabel.getText());
+		ThemesUtil.addDivToListBox(stateCombo, stateLabel.getText());
+
 		countriesList = new ArrayList<String>();
 		countriesList.addAll(CoreUtils.getCountriesAsList());
 		for (int i = 0; i < countriesList.size(); i++) {
 			countryCombo.addItem(countriesList.get(i));
 		}
+
 		countryCombo.addChangeHandler(new ChangeHandler() {
 
 			@Override

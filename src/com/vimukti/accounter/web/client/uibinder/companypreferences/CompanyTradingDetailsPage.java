@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 
@@ -53,7 +53,6 @@ public class CompanyTradingDetailsPage extends AbstractCompanyInfoPanel {
 
 	private List<String> countriesList, states;
 
-	private ClientAddress address;
 
 	interface CompanyTradingDetailsPageUiBinder extends
 			UiBinder<Widget, CompanyTradingDetailsPage> {
@@ -72,6 +71,10 @@ public class CompanyTradingDetailsPage extends AbstractCompanyInfoPanel {
 		address2TextLabel.setText(Accounter.constants().address2());
 		cityTextLabel.setText(Accounter.constants().city());
 		stateComboLabel.setText(Accounter.constants().state());
+
+		ThemesUtil.addDivToListBox(countryCombo, countryComboLabel.getText());
+		ThemesUtil.addDivToListBox(stateCombo, stateComboLabel.getText());
+
 		postalcodeTextLabel.setText(Accounter.constants().postalCode());
 		countryComboLabel.setText(Accounter.constants().country());
 		countriesList = new ArrayList<String>();

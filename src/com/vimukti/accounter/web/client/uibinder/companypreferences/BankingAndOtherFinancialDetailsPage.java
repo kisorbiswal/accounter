@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 
 public class BankingAndOtherFinancialDetailsPage extends
@@ -72,6 +73,10 @@ public class BankingAndOtherFinancialDetailsPage extends
 		vatRegistartionNoTextLabel.setText(constants.vatRegistrationNumber());
 		federalTaxIDTextLabel.setText(constants.federalTaxId());
 		primaryCurrencyComboLabel.setText(constants.primaryCurrency());
+
+		ThemesUtil.addDivToListBox(primaryCurrencyCombo,
+				primaryCurrencyComboLabel.getText());
+
 		bankingLabelItem.setText(constants.bankingDetails());
 		otherFinancialLabelItem.setText(constants.otherDetails());
 

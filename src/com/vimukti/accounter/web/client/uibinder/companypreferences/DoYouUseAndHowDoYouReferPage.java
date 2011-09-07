@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 
 public class DoYouUseAndHowDoYouReferPage extends AbstractCompanyInfoPanel {
 
@@ -58,6 +59,11 @@ public class DoYouUseAndHowDoYouReferPage extends AbstractCompanyInfoPanel {
 		customerComboLabel.setText(constants.Customer());
 		supplierComboLabel.setText(constants.Supplier());
 		accountComboLabel.setText(constants.Account());
+
+		ThemesUtil.addDivToListBox(customerCombo, customerComboLabel.getText());
+		ThemesUtil.addDivToListBox(supplierCombo, supplierComboLabel.getText());
+		ThemesUtil.addDivToListBox(accountCombo, accountComboLabel.getText());
+
 		String customer[] = new String[] { constants.Customer(),
 				constants.Client(), constants.Tenant(), constants.Donar(),
 				constants.Guest(), constants.Member(), constants.patitent() };

@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.uibinder.companypreferences;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -35,6 +36,8 @@ public class EmployeeSettingsPage extends AbstractCompanyInfoPanel {
 	VerticalPanel trackPanel;
 	@UiField
 	Label headerLabel;
+	@UiField
+	VerticalPanel checkBoxPanel;
 
 	private static EmployeeSettingsPageUiBinder uiBinder = GWT
 			.create(EmployeeSettingsPageUiBinder.class);
@@ -50,6 +53,7 @@ public class EmployeeSettingsPage extends AbstractCompanyInfoPanel {
 
 	protected void createControls() {
 		headerLabel.setText(constants.doyouHaveEmployees());
+		checkBoxPanel.getElement().getStyle().setMarginLeft(15, Unit.PX);
 
 		w2Employees.setText(constants.wehavW2Employes());
 		contractors.setText(constants.wehavContractors());
@@ -70,8 +74,12 @@ public class EmployeeSettingsPage extends AbstractCompanyInfoPanel {
 	public void onLoad() {
 		if (companyPreferences.isHaveEpmloyees()) {
 			trackEmployeeYes.setValue(true);
+			if (!trackPanel.isAttached())
+				mainViewPanel.add(trackPanel);
 		} else {
 			trackEmployeeNo.setValue(true);
+			if (trackPanel.isAttached())
+				mainViewPanel.remove(trackPanel);
 		}
 
 		if (companyPreferences.isTrackEmployeeExpenses()) {

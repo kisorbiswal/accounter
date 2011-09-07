@@ -4,13 +4,13 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.setup.OrganizationTypeConstants;
-import com.google.gwt.uibinder.client.UiField;
 
 public class OrganizationDetailsPage extends AbstractCompanyInfoPanel {
 
@@ -81,8 +81,12 @@ public class OrganizationDetailsPage extends AbstractCompanyInfoPanel {
 		nonProfitRadioLabel.setText(constants.nonProfitDesc());
 		otherNoneRadio.setName(ORG_TYPE);
 		otherNoneRadio.setHTML(constants.otherNone());
+
 		llcFormCombo.addItem(constants.llcSingleMemberForm());
 		llcFormCombo.addItem(constants.llcMultiMemberForm());
+
+		ThemesUtil.addDivToListBox(llcFormCombo, llcRadioLabel.getText());
+
 		soleProprietorshipRadio.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -159,6 +163,9 @@ public class OrganizationDetailsPage extends AbstractCompanyInfoPanel {
 		case OrganizationTypeConstants.OTHER:
 			otherNoneRadio.setValue(true);
 		}
+		llcFormCombo
+				.setEnabled(companyPreferences.getOrganizationType() == OrganizationTypeConstants.LLC);
+
 	}
 
 	@Override

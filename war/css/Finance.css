@@ -3887,3 +3887,11 @@ input[type="text"]:FOCUS, textarea:FOCUS{
 .amount{
 	text-align: right;
 }
+.gwt-ListBox {
+    border: 1px solid #B1B1B1;
+    padding-top:2px;
+    border-radius: 3px 3px 3px 3px;
+    height: 24px;
+    vertical-align: bottom;
+    width: 154px;
+}

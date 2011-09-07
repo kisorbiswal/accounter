@@ -12,7 +12,7 @@
 			<g:VerticalPanel ui:field="viewPanel">
 				<g:RadioButton name="trackEmployee" ui:field="trackEmployeeYes"
 					styleName="employee_yesno" />
-				<g:VerticalPanel styleName="check_label">
+				<g:VerticalPanel ui:field="checkBoxPanel">
 					<g:CheckBox ui:field="w2Employees" />
 					<g:CheckBox ui:field="contractors" />
 				</g:VerticalPanel>

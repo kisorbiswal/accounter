@@ -19,7 +19,9 @@
 			<g:VerticalPanel spacing="6">
 				<g:RadioButton name="new name" ui:field="llcRadio"/>
 				<g:Label ui:field="llcRadioLabel"/>
-				<g:ListBox ui:field="llcFormCombo"/>
+				<g:HorizontalPanel>
+					<g:ListBox ui:field="llcFormCombo"/>
+				</g:HorizontalPanel>
 			</g:VerticalPanel>
 			<g:VerticalPanel spacing="6">
 				<g:RadioButton name="new name" ui:field="corporationRadio"/>

@@ -18,6 +18,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.company.PreferencesAction;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class GeneralSettingsView extends AbstractBaseView {
@@ -215,6 +216,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				PreferencesAction.CATEGORY = PreferencesAction.SETTINGS;
 				ActionFactory.getPreferencesAction().run(null, false);
 
 			}
@@ -223,6 +225,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				PreferencesAction.CATEGORY = PreferencesAction.SETTINGS;
 				ActionFactory.getPreferencesAction().run(null, false);
 				companySettingsHtml.getElement().getStyle()
 						.setTextDecoration(TextDecoration.NONE);
