@@ -102,6 +102,8 @@ public class CompanyTradingDetailsPage extends AbstractCompanyInfoPanel {
 		cityText.setValue(company.getTradingAddress().getCity());
 		stateCombo.setSelectedIndex(states.indexOf(company.getTradingAddress()
 				.getStateOrProvinence()));
+		postalcodeText.setValue(company.getTradingAddress()
+				.getZipOrPostalCode());
 		countryCombo.setSelectedIndex(countriesList.indexOf(company
 				.getTradingAddress().getCountryOrRegion()));
 
@@ -115,6 +117,8 @@ public class CompanyTradingDetailsPage extends AbstractCompanyInfoPanel {
 		company.getTradingAddress().setCity(cityText.getValue());
 		company.getTradingAddress().setStateOrProvinence(
 				states.get(stateCombo.getSelectedIndex()));
+		company.getTradingAddress().setZipOrPostalCode(
+				postalcodeText.getValue());
 		company.getTradingAddress().setCountryOrRegion(
 				countriesList.get(countryCombo.getSelectedIndex()));
 
