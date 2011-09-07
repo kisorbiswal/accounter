@@ -6,8 +6,38 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:HTMLPanel>
-		Hello,
-		<g:Button styleName="{style.important}" ui:field="button" />
-	</g:HTMLPanel>
+	<g:VerticalPanel spacing="8" styleName="companyInfoPanel">
+		<g:HorizontalPanel>
+			<g:Label ui:field="locationTrackingCheckBoxLabel"/>
+			<g:CheckBox ui:field="locationTrackingCheckBoxItm"/>
+		</g:HorizontalPanel>
+		<g:VerticalPanel spacing="5" ui:field="radioButtonsPanel">
+			<g:HorizontalPanel horizontalAlignment="ALIGN_RIGHT" spacing="6">
+			<g:Label ui:field="radioButtonsHeaderLabel" styleName="header"/>
+		</g:HorizontalPanel>
+			<g:VerticalPanel spacing="6">
+			<g:HorizontalPanel>
+				<g:RadioButton name="new name" ui:field="buisinessRadioButton"/>
+			</g:HorizontalPanel>
+			<g:HorizontalPanel>
+				<g:RadioButton name="new name" ui:field="locationRadioButton"/>
+			</g:HorizontalPanel>
+			<g:HorizontalPanel>
+				<g:RadioButton name="new name" ui:field="departmentRadioButton"/>
+			</g:HorizontalPanel>
+			<g:HorizontalPanel>
+				<g:RadioButton name="new name" ui:field="divisionRadioButton"/>
+			</g:HorizontalPanel>
+			<g:HorizontalPanel>
+				<g:RadioButton name="new name" ui:field="propertyRadioButton"/>
+			</g:HorizontalPanel>
+			<g:HorizontalPanel>
+				<g:RadioButton name="new name" ui:field="storeRadioButton"/>
+			</g:HorizontalPanel>
+			<g:HorizontalPanel>
+				<g:RadioButton name="new name" ui:field="territoryRadioButton"/>
+			</g:HorizontalPanel>
+		</g:VerticalPanel>
+		</g:VerticalPanel>
+	</g:VerticalPanel>
 </ui:UiBinder> 
