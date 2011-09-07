@@ -260,35 +260,42 @@ public class VendorView extends BaseView<ClientVendor> {
 				continue;
 			}
 			if (vendor.getName().equalsIgnoreCase(old.getName())) {
-				for (ClientVendor client : list) {
-					if (vendor.getVendorNumber().equals(
-							client.getVendorNumber())) {
-						error = Accounter.messages()
-								.vendorAlreadyExistsWithTheNameAndNumber(
-										Global.get().Vendor());
-						break;
+				if (getCompany().getPreferences().getUseVendorId()) {
+					for (ClientVendor client : list) {
+						if (vendor.getVendorNumber().equals(
+								client.getVendorNumber())) {
+							error = Accounter.messages()
+									.vendorAlreadyExistsWithTheNameAndNumber(
+											Global.get().Vendor());
+							break;
+						}
 					}
 				}
 				error = Accounter.messages().vendorAlreadyExistsWithTheName(
 						Global.get().vendor());
 				break;
-			} else if (vendor.getVendorNumber().isEmpty()) {
-				error = Accounter.messages()
-						.pleaseEnterVendorNumberItShouldNotBeEmpty(
-								Global.get().vendor());
-				break;
-			} else if (vendor.getVendorNumber().equals(old.getVendorNumber())) {
-				error = Accounter.messages().vendorAlreadyExistsWithTheNumber(
-						Global.get().Vendor());
-				break;
-			} else if (checkIfNotNumber(vendor.getVendorNumber())) {
-				error = Accounter.messages().vendorNumberShouldBeNumber(
-						Global.get().Vendor());
-				break;
-			} else if (Integer.parseInt(vendor.getVendorNumber().toString()) < 1) {
-				error = Accounter.messages().vendorNumberShouldBePos(
-						Global.get().Vendor());
-				break;
+			} else if (getCompany().getPreferences().getUseVendorId()) {
+				if (vendor.getVendorNumber().isEmpty()) {
+					error = Accounter.messages()
+							.pleaseEnterVendorNumberItShouldNotBeEmpty(
+									Global.get().vendor());
+					break;
+				} else if (vendor.getVendorNumber().equals(
+						old.getVendorNumber())) {
+					error = Accounter.messages()
+							.vendorAlreadyExistsWithTheNumber(
+									Global.get().Vendor());
+					break;
+				} else if (checkIfNotNumber(vendor.getVendorNumber())) {
+					error = Accounter.messages().vendorNumberShouldBeNumber(
+							Global.get().Vendor());
+					break;
+				} else if (Integer
+						.parseInt(vendor.getVendorNumber().toString()) < 1) {
+					error = Accounter.messages().vendorNumberShouldBePos(
+							Global.get().Vendor());
+					break;
+				}
 			}
 
 		}
@@ -1324,7 +1331,6 @@ public class VendorView extends BaseView<ClientVendor> {
 	// return vendorGroupSelect;
 	// return null;
 	// }
-
 
 	@Override
 	public void onEdit() {
