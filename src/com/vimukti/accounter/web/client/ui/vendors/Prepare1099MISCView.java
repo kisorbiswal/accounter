@@ -45,6 +45,7 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.ClickableSafeHtmlCell;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.reports.MISC1099TransactionDetailAction;
 
 public class Prepare1099MISCView extends AbstractBaseView {
 	private String[] boxes;
@@ -169,7 +170,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 					}
 				});
 
-		Column<Client1099Form, String> total1099PaymentsCell = new Column<Client1099Form, String>(
+		Column<Client1099Form, String> total1099PaymentsColumn = new Column<Client1099Form, String>(
 				new ClickableTextCell()) {
 
 			@Override
@@ -178,8 +179,20 @@ public class Prepare1099MISCView extends AbstractBaseView {
 				return total1099Payments != 0 ? "" + total1099Payments : "";
 			}
 		};
+		total1099PaymentsColumn
+				.setFieldUpdater(new FieldUpdater<Client1099Form, String>() {
 
-		Column<Client1099Form, String> totalAllPaymentsCell = new Column<Client1099Form, String>(
+					@Override
+					public void update(int index, Client1099Form object,
+							String value) {
+						MISC1099TransactionDetailAction action = ActionFactory
+								.getMisc1099TransactionDetailAction();
+						action.setBoxNo(Client1099Form.TOTAL_1099_PAYMENTS);
+						action.run(object.getVendor(), true);
+					}
+				});
+
+		Column<Client1099Form, String> totalAllPaymentsColumn = new Column<Client1099Form, String>(
 				new ClickableTextCell()) {
 
 			@Override
@@ -188,14 +201,26 @@ public class Prepare1099MISCView extends AbstractBaseView {
 				return totalAllPayments != 0 ? "" + totalAllPayments : "";
 			}
 		};
+		totalAllPaymentsColumn
+				.setFieldUpdater(new FieldUpdater<Client1099Form, String>() {
+
+					@Override
+					public void update(int index, Client1099Form object,
+							String value) {
+						MISC1099TransactionDetailAction action = ActionFactory
+								.getMisc1099TransactionDetailAction();
+						action.setBoxNo(Client1099Form.TOATAL_ALL_PAYMENTS);
+						action.run(object.getVendor(), true);
+					}
+				});
 
 		cellTable.addColumn(checkBoxColumn, Accounter.constants().select());
 		cellTable.addColumn(informationColumn, Accounter.messages()
 				.vendorInformation(Global.get().Vendor()));
 		addBoxColumnsToCellTable(cellTable);
-		cellTable.addColumn(total1099PaymentsCell, Accounter.constants()
+		cellTable.addColumn(total1099PaymentsColumn, Accounter.constants()
 				.total1099Payments());
-		cellTable.addColumn(totalAllPaymentsCell, Accounter.constants()
+		cellTable.addColumn(totalAllPaymentsColumn, Accounter.constants()
 				.totalAllPayments());
 
 		return cellTable;
@@ -214,18 +239,30 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 	private void addBoxColumnsToCellTable(CellTable<Client1099Form> cellTable) {
 		for (int i = 0; i < boxNums.length; i++) {
-			final int num = i;
-			ClientAccount clientAccount = getAccountByBoxNum(boxNums[i]);
+
+			final int boxNum = boxNums[i];
+			ClientAccount clientAccount = getAccountByBoxNum(boxNum);
 			if (clientAccount != null) {
 				Column<Client1099Form, String> boxCell = new Column<Client1099Form, String>(
 						new ClickableTextCell()) {
 
 					@Override
 					public String getValue(Client1099Form object) {
-						double box = object.getBox(boxNums[num]);
+						double box = object.getBox(boxNum);
 						return box != 0 ? "" + box : "";
 					}
 				};
+				boxCell.setFieldUpdater(new FieldUpdater<Client1099Form, String>() {
+
+					@Override
+					public void update(int index, Client1099Form object,
+							String value) {
+						MISC1099TransactionDetailAction action = ActionFactory
+								.getMisc1099TransactionDetailAction();
+						action.setBoxNo(boxNum);
+						action.run(object.getVendor(), true);
+					}
+				});
 				cellTable.addColumn(boxCell, boxes[i]);
 			}
 		}

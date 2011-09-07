@@ -34,6 +34,7 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 	private int[] boxNums = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 13, 14 };
 	private int rowCount = 0;
 	private HashMap<Integer, BoxAccount> boxAccounts;
+	private Anchor anchor;
 
 	public AssignAccountsTo1099Dialog(String title, String desc) {
 		super(title, desc);
@@ -122,6 +123,8 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 					}
 				});
 
+		anchor = new Anchor(Accounter.constants().selectMultiple());
+
 		checkBox.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -144,55 +147,57 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 		accountCombo.setName("AccountsCombo");
 		accountsform.setFields(accountCombo);
 
-		Anchor anchor = new Anchor(Accounter.constants().selectMultiple());
 		anchor.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				String accountsToAssign = Accounter.messages()
-						.selectAccountsToAssign(Global.get().Account());
-				final SelectItemsTo1099Dialog<ClientAccount> selectItemsTo1099Dialog = new SelectItemsTo1099Dialog<ClientAccount>(
-						accountsToAssign, accountsToAssign);
-				ArrayList<ClientAccount> selectedAccounts = new ArrayList<ClientAccount>();
-				BoxAccount boxAccount = boxAccounts.get(boxNo);
-				if (boxAccount != null) {
-					selectedAccounts = boxAccount.accounts;
-				}
-				selectItemsTo1099Dialog.setSelectedItems(selectedAccounts);
-				selectItemsTo1099Dialog.setAvailableItems(getCompany()
-						.getActiveAccounts());
+				if (checkBox.isChecked()) {
+					String accountsToAssign = Accounter.messages()
+							.selectAccountsToAssign(Global.get().Account());
+					final SelectItemsTo1099Dialog<ClientAccount> selectItemsTo1099Dialog = new SelectItemsTo1099Dialog<ClientAccount>(
+							accountsToAssign, accountsToAssign);
+					ArrayList<ClientAccount> selectedAccounts = new ArrayList<ClientAccount>();
+					BoxAccount boxAccount = boxAccounts.get(boxNo);
+					if (boxAccount != null) {
+						selectedAccounts = boxAccount.accounts;
+					}
+					selectItemsTo1099Dialog.setSelectedItems(selectedAccounts);
+					selectItemsTo1099Dialog.setAvailableItems(getCompany()
+							.getActiveAccounts());
 
-				selectItemsTo1099Dialog
-						.setCallBack(new ActionCallback<ArrayList<ClientAccount>>() {
+					selectItemsTo1099Dialog
+							.setCallBack(new ActionCallback<ArrayList<ClientAccount>>() {
 
-							@Override
-							public void actionResult(
-									ArrayList<ClientAccount> result) {
-								// for (ClientAccount account :
-								// selectItemsTo1099Dialog.tempSelectedItemsList)
-								// {
-								// account.setBoxNumber(boxNo);
-								// saveOrUpdate(account);
-								// }
-								// for (ClientAccount account :
-								// selectItemsTo1099Dialog.tempAvailItemsList) {
-								// if (account.getBoxNumber() == boxNo) {
-								// account.setBoxNumber(0);
-								// saveOrUpdate(account);
-								// }
-								// }
-								BoxAccount account = boxAccounts.get(boxNo);
-								if (account == null) {
-									account = new BoxAccount();
+								@Override
+								public void actionResult(
+										ArrayList<ClientAccount> result) {
+									// for (ClientAccount account :
+									// selectItemsTo1099Dialog.tempSelectedItemsList)
+									// {
+									// account.setBoxNumber(boxNo);
+									// saveOrUpdate(account);
+									// }
+									// for (ClientAccount account :
+									// selectItemsTo1099Dialog.tempAvailItemsList)
+									// {
+									// if (account.getBoxNumber() == boxNo) {
+									// account.setBoxNumber(0);
+									// saveOrUpdate(account);
+									// }
+									// }
+									BoxAccount account = boxAccounts.get(boxNo);
+									if (account == null) {
+										account = new BoxAccount();
+									}
+									account.isMultiple = true;
+									account.accounts = result;
+									boxAccounts.put(boxNo, account);
+
 								}
-								account.isMultiple = true;
-								account.accounts = result;
-								boxAccounts.put(boxNo, account);
+							});
+					selectItemsTo1099Dialog.show();
 
-							}
-						});
-				selectItemsTo1099Dialog.show();
-
+				}
 			}
 
 		});

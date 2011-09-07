@@ -39,8 +39,6 @@ public class SelectItemsTo1099Dialog<T extends IAccounterCore> extends
 		super(title, desc);
 		createControls();
 
-		// fillSelectedVendors();
-		// fillAvailableVendors();
 		mainPanel.setSpacing(3);
 		center();
 	}
@@ -52,18 +50,6 @@ public class SelectItemsTo1099Dialog<T extends IAccounterCore> extends
 	}
 
 	private ArrayList<T> getSelectedItems() {
-		// ArrayList<T> vendors = getCompany().getVendors();
-		// tempSelectedItemsList = new ArrayList<T>();
-		//
-		// tempSelectedItemsList.addAll(Utility.filteredList(
-		// new ListFilter<T>() {
-		//
-		// @Override
-		// public boolean filter(T e) {
-		// return e.isTrackPaymentsFor1099();
-		// }
-		// }, vendors));
-
 		return tempSelectedItemsList;
 	}
 
@@ -266,14 +252,6 @@ public class SelectItemsTo1099Dialog<T extends IAccounterCore> extends
 
 	@Override
 	protected boolean onOK() {
-		// for (T vendor : tempSelectedItemsList) {
-		// vendor.setTrackPaymentsFor1099(true);
-		// saveOrUpdate(vendor);
-		// }
-		// for (T vendor : tempAvailItemsList) {
-		// vendor.setTrackPaymentsFor1099(false);
-		// saveOrUpdate(vendor);
-		// }
 		callback.actionResult(tempSelectedItemsList);
 		return true;
 	}
