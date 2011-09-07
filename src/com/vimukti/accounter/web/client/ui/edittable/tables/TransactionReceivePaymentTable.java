@@ -13,7 +13,6 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
-import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -25,12 +24,11 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.customers.CustomerCreditsAndPaymentsDialiog;
-import com.vimukti.accounter.web.client.ui.customers.ReceivePaymentView;
 import com.vimukti.accounter.web.client.ui.customers.WriteOffDialog;
 import com.vimukti.accounter.web.client.ui.edittable.AnchorEditColumn;
+import com.vimukti.accounter.web.client.ui.edittable.CheckboxEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
-import com.vimukti.accounter.web.client.ui.grids.TransactionReceivePaymentGrid.TempCredit;
 
 public abstract class TransactionReceivePaymentTable extends
 		EditTable<ClientTransactionReceivePayment> {
@@ -55,12 +53,27 @@ public abstract class TransactionReceivePaymentTable extends
 
 	List<ClientTransactionReceivePayment> tranReceivePayments = new ArrayList<ClientTransactionReceivePayment>();
 
-	public TransactionReceivePaymentTable() {
+	public TransactionReceivePaymentTable(boolean canEdit) {
+		this.canEdit = canEdit;
 		initColumns();
 		this.company = Accounter.getCompany();
 	}
 
 	private void initColumns() {
+		this.addColumn(new CheckboxEditColumn<ClientTransactionReceivePayment>() {
+
+			@Override
+			protected void onHeaderValueChanged(boolean value) {
+				onHeaderCheckBoxClick(value);
+				selectAllRows();
+			}
+
+			@Override
+			protected void onChangeValue(boolean value,
+					ClientTransactionReceivePayment row) {
+				onSelectionChanged(row, value);
+			}
+		});
 		if (canEdit) {
 			TextEditColumn<ClientTransactionReceivePayment> dateCoulmn = new TextEditColumn<ClientTransactionReceivePayment>() {
 
@@ -176,7 +189,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.constants().invoiceAmount();
+					return Accounter.constants().amountDue();
 				}
 			};
 			this.addColumn(amountDueColumn);
@@ -215,8 +228,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected void onClick(ClientTransactionReceivePayment row) {
-				// TODO Auto-generated method stub
-
+				openCashDiscountDialog(row);
 			}
 
 			@Override
@@ -240,8 +252,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected void onClick(ClientTransactionReceivePayment row) {
-				// TODO Auto-generated method stub
-
+				openWriteOffDialog(row);
 			}
 
 			@Override
@@ -265,8 +276,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected void onClick(ClientTransactionReceivePayment row) {
-				// TODO Auto-generated method stub
-
+				openCreditsDialog(row);
 			}
 
 			@Override
@@ -289,15 +299,44 @@ public abstract class TransactionReceivePaymentTable extends
 		TextEditColumn<ClientTransactionReceivePayment> paymentColumn = new TextEditColumn<ClientTransactionReceivePayment>() {
 
 			@Override
-			protected void setValue(ClientTransactionReceivePayment row,
-					String value) {
-				// TODO Auto-generated method stub
-
+			protected String getValue(ClientTransactionReceivePayment row) {
+				return DataUtils.getAmountAsString(row.getPayment());
 			}
 
 			@Override
-			protected String getValue(ClientTransactionReceivePayment row) {
-				return DataUtils.getAmountAsString(row.getPayment());
+			protected void setValue(ClientTransactionReceivePayment item,
+					String value) {
+				double amt, originalPayment;
+				try {
+					originalPayment = item.getPayment();
+					amt = Double.valueOf(value);
+					if (!isSelected(item)) {
+						item.setPayment(item.getAmountDue());
+						onSelectionChanged(item, true);
+					}
+					item.setPayment(amt);
+					updateAmountDue(item);
+
+					double totalValue = item.getCashDiscount()
+							+ item.getWriteOff() + item.getAppliedCredits()
+							+ item.getPayment();
+					if (AccounterValidator.isValidReceive_Payment(item
+							.getAmountDue(), totalValue, Accounter.constants()
+							.receivePaymentExcessDue())) {
+						recalculateGridAmounts();
+						updateTotalPayment(0.0);
+					} else {
+						item.setPayment(originalPayment);
+					}
+					update(item);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+			@Override
+			protected String getColumnName() {
+				return Accounter.constants().payment();
 			}
 		};
 		this.addColumn(paymentColumn);
@@ -711,36 +750,29 @@ public abstract class TransactionReceivePaymentTable extends
 	}
 
 	private void resetValues() {
-		/* Revert all credits to its original state */
 		for (ClientCreditsAndPayments crdt : updatedCustomerCreditsAndPayments) {
 			crdt.setBalance(crdt.getActualAmt());
+			crdt.setRemaoningBalance(0);
+			crdt.setAmtTouse(0);
 		}
-		for (ClientTransactionReceivePayment obj : this.getAllRows()) {
-			obj.setTempCredits(null);
+		for (ClientTransactionReceivePayment obj : this.getRecords()) {
+			resetValue(obj);
+			recalculateGridAmounts();
 			if (creditsAndPaymentsDialiog != null
 					&& creditsAndPaymentsDialiog.grid.getRecords().size() == 0)
 				creditsStack.clear();
-
-			obj.setPayment(0.0);
-			obj.setCashDiscount(0);
-			obj.setAppliedCredits(0);
 			selectedValues.remove((Integer) indexOf(obj));
-			update(obj);
 		}
-		updateFootervalues(null, canEdit);
-		resetTotlas();
 		creditsAndPaymentsDialiog = null;
 		cashDiscountDialog = null;
+		writeOffDialog = null;
 	}
 
-	protected abstract void updateFootervalues(
-			ClientTransactionReceivePayment row, boolean canEdit);
+	protected abstract void recalculateGridAmounts();
 
 	public int indexOf(ClientTransactionReceivePayment selectedObject) {
 		return getAllRows().indexOf(selectedObject);
 	}
-
-	protected abstract void resetTotlas();
 
 	public void resetValue(ClientTransactionReceivePayment obj) {
 		if (obj.isCreditsApplied()) {
@@ -795,7 +827,7 @@ public abstract class TransactionReceivePaymentTable extends
 	protected abstract void deleteTotalPayment(double d);
 
 	public List<ClientTransactionReceivePayment> getSelectedRecords() {
-		return null;
+		return super.getSelectedRecords(0);
 	}
 
 	public void updateAmountDue(ClientTransactionReceivePayment item) {
@@ -820,13 +852,53 @@ public abstract class TransactionReceivePaymentTable extends
 		this.clear();
 	}
 
-	public void selectRow(int indexOf) {
+	public void selectRow(int count) {
+		onSelectionChanged(getAllRows().get(count), true);
+	}
+
+	private void onSelectionChanged(ClientTransactionReceivePayment obj,
+			boolean isChecked) {
+
+		int row = indexOf(obj);
+		if (isChecked && !selectedValues.contains(row)) {
+			selectedValues.add(row);
+			update(obj);
+		} else {
+			if (!isChecked) {
+				selectedValues.remove((Integer) row);
+				resetValue(obj);
+			}
+		}
+		super.checkColumn(row, 0, isChecked);
+
+		updateAmountReceived();
+	}
+
+	private void updateAmountReceived() {
+		double toBeSetAmount = 0.0;
+		for (ClientTransactionReceivePayment receivePayment : getSelectedRecords()) {
+			toBeSetAmount += receivePayment.getPayment();
+		}
+		setAmountRecieved(toBeSetAmount);
+	}
+
+	protected abstract void setAmountRecieved(double toBeSetAmount);
+
+	public void addLoadingImagePanel() {
 		// TODO Auto-generated method stub
 
 	}
 
-	public boolean isSelected(ClientTransactionReceivePayment trprecord) {
+	public void addEmptyMessage(String noRecordsToShow) {
 		// TODO Auto-generated method stub
-		return false;
+
+	}
+
+	public List<ClientTransactionReceivePayment> getRecords() {
+		return getAllRows();
+	}
+
+	public boolean isSelected(ClientTransactionReceivePayment trprecord) {
+		return super.isChecked(trprecord, 0);
 	}
 }
