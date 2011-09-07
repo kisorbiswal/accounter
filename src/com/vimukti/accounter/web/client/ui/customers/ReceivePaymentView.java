@@ -44,10 +44,11 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionReceivePaymentTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
+import com.vimukti.accounter.web.client.ui.grids.ListGrid;
+import com.vimukti.accounter.web.client.ui.grids.TransactionReceivePaymentGrid;
 
 /**
  * 
@@ -72,7 +73,7 @@ public class ReceivePaymentView extends
 
 	private HorizontalPanel topHLay;
 
-	public TransactionReceivePaymentTable receivePaymentTable;
+	public TransactionReceivePaymentGrid gridView;
 
 	AccounterConstants accounterConstants = Accounter.constants();
 
@@ -114,18 +115,19 @@ public class ReceivePaymentView extends
 					selectedCustomer.getID()));
 		}
 		this.setCustomer(selectedCustomer);
-		this.receivePaymentTable.setCustomer(getCustomer());
+		this.gridView.setCustomer(getCustomer());
 
 		/*
 		 * resetting the crdits dialog's refernce,so that a new object will
 		 * created for opening credits dialog
 		 */
-		receivePaymentTable.creditsAndPaymentsDialiog = null;
-		receivePaymentTable.creditsStack = null;
-		receivePaymentTable.initCreditsAndPayments(getCustomer());
+		gridView.creditsAndPaymentsDialiog = null;
+		gridView.creditsStack = null;
+		gridView.initCreditsAndPayments(getCustomer());
 
 		if (!isInViewMode()) {
-			receivePaymentTable.removeAllRecords();
+			gridView.removeAllRecords();
+			gridView.addLoadingImagePanel();
 			getTransactionReceivePayments(selectedCustomer);
 		}
 
@@ -159,6 +161,8 @@ public class ReceivePaymentView extends
 										.failedToGetRecievePayments(
 												Global.get().customer())
 										+ selectedCustomer.getName());
+								gridView.addEmptyMessage(Accounter.constants()
+										.noRecordsToShow());
 							}
 
 							public void onResultSuccess(
@@ -167,11 +171,12 @@ public class ReceivePaymentView extends
 								receivePaymentTransactionList = result;
 
 								if (result.size() > 0) {
-									receivePaymentTable.removeAllRecords();
-									receivePaymentTable
-											.initCreditsAndPayments(selectedCustomer);
+									gridView.removeAllRecords();
+									gridView.initCreditsAndPayments(selectedCustomer);
 									addTransactionRecievePayments(result);
 								} else {
+									gridView.addEmptyMessage(Accounter
+											.constants().noRecordsToShow());
 									totalInoiceAmt = 0.00d;
 									totalDueAmt = 0.00d;
 									transactionTotal = 0.00d;
@@ -185,7 +190,7 @@ public class ReceivePaymentView extends
 	public void calculateUnusedCredits() {
 
 		Double totalCredits = 0D;
-		for (ClientCreditsAndPayments credit : receivePaymentTable.updatedCustomerCreditsAndPayments) {
+		for (ClientCreditsAndPayments credit : gridView.updatedCustomerCreditsAndPayments) {
 
 			totalCredits += credit.getBalance();
 		}
@@ -257,7 +262,7 @@ public class ReceivePaymentView extends
 						.getTransactionId());
 			}
 			records.add(record);
-			receivePaymentTable.add(record);
+			gridView.addData(record);
 		}
 		// gridView.setRecords(records);
 		recalculateGridAmounts();
@@ -302,47 +307,15 @@ public class ReceivePaymentView extends
 	}
 
 	private void initListGrid() {
-		receivePaymentTable = new TransactionReceivePaymentTable() {
-
-			@Override
-			protected void updateUnuseAmt() {
-				unUsedPayments = (amountRecieved - transactionTotal);
-				setUnusedPayments(unUsedPayments);
-
-			}
-
-			@Override
-			public void updateTotalPayment(Double payment) {
-				transactionTotal += payment;
-			}
-
-			@Override
-			protected void updateFootervalues(
-					ClientTransactionReceivePayment row, boolean canEdit) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			protected void resetTotlas() {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			protected void deleteTotalPayment(double payment) {
-				transactionTotal -= payment;
-			}
-
-			@Override
-			protected void adjustAmountAndEndingBalance() {
-				// TODO Auto-generated method stub
-
-			}
-		};
-		receivePaymentTable.setCustomer(this.getCustomer());
-		receivePaymentTable.setDisabled(isInViewMode());
-		receivePaymentTable.setHeight("200px");
+		gridView = new TransactionReceivePaymentGrid(!isInViewMode(), true);
+		gridView.setPaymentView(this);
+		gridView.setCustomer(this.getCustomer());
+		gridView.setCanEdit(!isInViewMode());
+		gridView.isEnable = false;
+		gridView.init();
+		gridView.setDisabled(isInViewMode());
+		gridView.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
+		gridView.setHeight("200px");
 	}
 
 	protected ReceivePaymentTransactionList getRecievePayment(String attribute) {
@@ -361,7 +334,7 @@ public class ReceivePaymentView extends
 	private List<ClientTransactionReceivePayment> getTransactionRecievePayments(
 			ClientReceivePayment receivePayment) {
 		List<ClientTransactionReceivePayment> paymentsList = new ArrayList<ClientTransactionReceivePayment>();
-		for (ClientTransactionReceivePayment payment : receivePaymentTable
+		for (ClientTransactionReceivePayment payment : gridView
 				.getSelectedRecords()) {
 			// ClientAccount cashAcc =
 			// FinanceApplication.getCompany().getAccount(
@@ -386,8 +359,8 @@ public class ReceivePaymentView extends
 			// .getAttributeAsObject(FinanceApplication
 			// .constants().creditsAndPayments(),
 			// gridView.indexOf(payment));
-			if (receivePaymentTable.creditsAndPaymentsDialiog != null) {
-				List<ClientTransactionCreditsAndPayments> tranCreditsandPayments = receivePaymentTable.creditsAndPaymentsDialiog != null ? receivePaymentTable.creditsAndPaymentsDialiog
+			if (gridView.creditsAndPaymentsDialiog != null) {
+				List<ClientTransactionCreditsAndPayments> tranCreditsandPayments = gridView.creditsAndPaymentsDialiog != null ? gridView.creditsAndPaymentsDialiog
 						.getTransactionCredits(payment)
 						: new ArrayList<ClientTransactionCreditsAndPayments>();
 				if (tranCreditsandPayments != null)
@@ -606,7 +579,7 @@ public class ReceivePaymentView extends
 		gridLayout.setWidth("99%");
 		gridLayout.setHeight("50%");
 		gridLayout.add(lab1);
-		gridLayout.add(receivePaymentTable);
+		gridLayout.add(gridView);
 		gridLayout.add(bottomAmtsLayout);
 		gridLayout.add(bottompanel);
 
@@ -779,7 +752,7 @@ public class ReceivePaymentView extends
 					&& classListCombo != null) {
 				classListCombo.setComboItem(this.getClientAccounterClass());
 			}
-			receivePaymentTable.setTranReceivePayments(tranReceivePaymnetsList);
+			gridView.setTranReceivePayments(tranReceivePaymnetsList);
 		}
 		initTransactionNumber();
 		if (locationTrackingEnabled)
@@ -792,7 +765,7 @@ public class ReceivePaymentView extends
 
 		for (ClientTransactionReceivePayment receivePayment : list) {
 			totalInoiceAmt += receivePayment.getInvoiceAmount();
-			this.receivePaymentTable.add(receivePayment);
+			this.gridView.addData(receivePayment);
 			// this.gridView.selectRow(count);
 		}
 		this.transactionTotal = getGridTotal();
@@ -802,8 +775,7 @@ public class ReceivePaymentView extends
 
 	public Double getGridTotal() {
 		Double total = 0.0D;
-		for (ClientTransactionReceivePayment record : receivePaymentTable
-				.getAllRows()) {
+		for (ClientTransactionReceivePayment record : gridView.getRecords()) {
 			total += record.getPayment();
 		}
 		return total;
@@ -1075,16 +1047,14 @@ public class ReceivePaymentView extends
 		result.add(FormItem.validate(customerCombo, paymentMethodCombo,
 				depositInCombo));
 
-		if (receivePaymentTable == null
-				|| receivePaymentTable.getAllRows().isEmpty()
-				|| receivePaymentTable.getSelectedRecords().size() == 0) {
-			result.addError(receivePaymentTable, Accounter.constants()
+		if (gridView == null || gridView.getRecords().isEmpty()
+				|| gridView.getSelectedRecords().size() == 0) {
+			result.addError(gridView, Accounter.constants()
 					.youDontHaveAnyTransactionsToMakeReceivePayment());
-		} else if (receivePaymentTable.getAllRows().isEmpty()) {
-			result.addError(receivePaymentTable, Accounter.constants()
-					.selectTransaction());
+		} else if (AccounterValidator.isBlankTransaction(gridView)) {
+			result.addError(gridView, Accounter.constants().selectTransaction());
 		} else
-			result.add(receivePaymentTable.validateGrid());
+			result.add(gridView.validateGrid());
 
 		if (!isInViewMode()) {
 			try {
@@ -1109,9 +1079,9 @@ public class ReceivePaymentView extends
 	@Override
 	public void reload() {
 
-		if (receivePaymentTable == null)
+		if (gridView == null)
 			return;
-		receivePaymentTable.removeAllRecords();
+		gridView.removeAllRecords();
 		super.reload();
 	}
 
@@ -1213,9 +1183,9 @@ public class ReceivePaymentView extends
 
 		super.onEdit();
 
-		receivePaymentTable.removeFromParent();
+		gridView.removeFromParent();
 		initListGrid();
-		gridLayout.insert(receivePaymentTable, 2);
+		gridLayout.insert(gridView, 2);
 
 		getTransactionReceivePayments(this.getCustomer());
 		memoTextAreaItem.setDisabled(isInViewMode());
