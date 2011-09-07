@@ -288,7 +288,7 @@ public class ActionFactory {
 	}
 
 	public static NewBankAccountAction getNewBankAccountAction() {
-		return new NewBankAccountAction(Accounter.messages().newBankCategory(
+		return new NewBankAccountAction(Accounter.messages().newAccount(
 				Global.get().Account()));
 	}
 
