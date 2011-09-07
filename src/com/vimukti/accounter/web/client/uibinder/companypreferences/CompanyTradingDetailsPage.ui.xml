@@ -17,31 +17,57 @@
 					<g:Label horizontalAlignment="ALIGN_LEFT" ui:field="tradingAddressLabel"/>
 				</g:HorizontalPanel>
 			</g:VerticalPanel>
-			<g:VerticalPanel spacing="2">
-				<g:HorizontalPanel spacing="4">
-					<g:Label ui:field="address1TextLabel"/>
-					<g:TextBox ui:field="address1Text"/>
-				</g:HorizontalPanel>
-				<g:HorizontalPanel spacing="4">
-					<g:Label ui:field="address2TextLabel"/>
-					<g:TextBox ui:field="address2Text"/>
-				</g:HorizontalPanel>
-				<g:HorizontalPanel spacing="4">
-					<g:Label ui:field="cityTextLabel"/>
-					<g:TextBox ui:field="cityText"/>
-				</g:HorizontalPanel>
-				<g:HorizontalPanel spacing="4">
-					<g:Label ui:field="postalcodeTextLabel"/>
-					<g:TextBox ui:field="postalcodeText"/>
-				</g:HorizontalPanel>
-				<g:HorizontalPanel spacing="4">
-					<g:Label ui:field="countryComboLabel"/>
-					<g:ListBox ui:field="countryCombo"/>
-				</g:HorizontalPanel>
-				<g:HorizontalPanel spacing="4">
-					<g:Label ui:field="stateComboLabel"/>
-					<g:ListBox ui:field="stateCombo"/>
-				</g:HorizontalPanel>
+			<g:VerticalPanel>
+				<g:Grid>
+				<g:row>
+					<g:customCell>
+						<g:Label ui:field="address1TextLabel"/>
+					</g:customCell>
+					<g:customCell>
+						<g:TextBox ui:field="address1Text"/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label ui:field="address2TextLabel"/>
+					</g:customCell>
+					<g:customCell>
+						<g:TextBox ui:field="address2Text"/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label ui:field="cityTextLabel"/>
+					</g:customCell>
+					<g:customCell>
+						<g:TextBox ui:field="cityText"/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label ui:field="postalcodeTextLabel"/>
+					</g:customCell>
+					<g:customCell>
+						<g:TextBox ui:field="postalcodeText"/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label ui:field="countryComboLabel"/>
+					</g:customCell>
+					<g:customCell>
+						<g:ListBox ui:field="countryCombo"/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label ui:field="stateComboLabel"/>
+					</g:customCell>
+					<g:customCell>
+						<g:ListBox ui:field="stateCombo"/>
+					</g:customCell>
+				</g:row>
+			</g:Grid>
 			</g:VerticalPanel>
 		</g:VerticalPanel>
 	</g:VerticalPanel>
