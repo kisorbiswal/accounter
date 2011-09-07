@@ -44,11 +44,10 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
+import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionReceivePaymentTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
-import com.vimukti.accounter.web.client.ui.grids.ListGrid;
-import com.vimukti.accounter.web.client.ui.grids.TransactionReceivePaymentGrid;
 
 /**
  * 
@@ -73,7 +72,7 @@ public class ReceivePaymentView extends
 
 	private HorizontalPanel topHLay;
 
-	public TransactionReceivePaymentGrid gridView;
+	public TransactionReceivePaymentTable gridView;
 
 	AccounterConstants accounterConstants = Accounter.constants();
 
@@ -262,7 +261,7 @@ public class ReceivePaymentView extends
 						.getTransactionId());
 			}
 			records.add(record);
-			gridView.addData(record);
+			gridView.add(record);
 		}
 		// gridView.setRecords(records);
 		recalculateGridAmounts();
@@ -307,14 +306,42 @@ public class ReceivePaymentView extends
 	}
 
 	private void initListGrid() {
-		gridView = new TransactionReceivePaymentGrid(!isInViewMode(), true);
-		gridView.setPaymentView(this);
+		gridView = new TransactionReceivePaymentTable(!isInViewMode()) {
+
+			@Override
+			protected void updateUnuseAmt() {
+				ReceivePaymentView.this.unUsedPayments = (ReceivePaymentView.this.amountRecieved - ReceivePaymentView.this.transactionTotal);
+				ReceivePaymentView.this
+						.setUnusedPayments(ReceivePaymentView.this.unUsedPayments);
+			}
+
+			@Override
+			public void updateTotalPayment(Double payment) {
+				ReceivePaymentView.this.transactionTotal += payment;
+			}
+
+			@Override
+			protected void deleteTotalPayment(double payment) {
+				ReceivePaymentView.this.transactionTotal -= payment;
+			}
+
+			@Override
+			protected void adjustAmountAndEndingBalance() {
+				ReceivePaymentView.this.adjustAmountAndEndingBalance();
+			}
+
+			@Override
+			protected void recalculateGridAmounts() {
+				ReceivePaymentView.this.recalculateGridAmounts();
+			}
+
+			@Override
+			protected void setAmountRecieved(double totalInoiceAmt) {
+				ReceivePaymentView.this.setAmountRecieved(totalInoiceAmt);
+			}
+		};
 		gridView.setCustomer(this.getCustomer());
-		gridView.setCanEdit(!isInViewMode());
-		gridView.isEnable = false;
-		gridView.init();
 		gridView.setDisabled(isInViewMode());
-		gridView.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
 		gridView.setHeight("200px");
 	}
 
@@ -379,7 +406,7 @@ public class ReceivePaymentView extends
 	}
 
 	protected void adjustAmountAndEndingBalance() {
-
+		recalculateGridAmounts();
 	}
 
 	@Override
@@ -765,7 +792,7 @@ public class ReceivePaymentView extends
 
 		for (ClientTransactionReceivePayment receivePayment : list) {
 			totalInoiceAmt += receivePayment.getInvoiceAmount();
-			this.gridView.addData(receivePayment);
+			this.gridView.add(receivePayment);
 			// this.gridView.selectRow(count);
 		}
 		this.transactionTotal = getGridTotal();
@@ -995,6 +1022,7 @@ public class ReceivePaymentView extends
 	 */
 	public void recalculateGridAmounts() {
 		this.transactionTotal = getGridTotal();
+
 		this.unUsedPayments = (amountRecieved - transactionTotal);
 		setUnusedPayments(unUsedPayments);
 	}
@@ -1051,7 +1079,7 @@ public class ReceivePaymentView extends
 				|| gridView.getSelectedRecords().size() == 0) {
 			result.addError(gridView, Accounter.constants()
 					.youDontHaveAnyTransactionsToMakeReceivePayment());
-		} else if (AccounterValidator.isBlankTransaction(gridView)) {
+		} else if (gridView.getAllRows().isEmpty()) {
 			result.addError(gridView, Accounter.constants().selectTransaction());
 		} else
 			result.add(gridView.validateGrid());
