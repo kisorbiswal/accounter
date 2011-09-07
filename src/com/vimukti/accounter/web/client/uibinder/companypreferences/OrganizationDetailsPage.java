@@ -84,6 +84,7 @@ public class OrganizationDetailsPage extends AbstractCompanyInfoPanel {
 
 		llcFormCombo.addItem(constants.llcSingleMemberForm());
 		llcFormCombo.addItem(constants.llcMultiMemberForm());
+		llcFormCombo.setEnabled(false);
 
 		ThemesUtil.addDivToListBox(llcFormCombo, llcRadioLabel.getText());
 
@@ -153,6 +154,7 @@ public class OrganizationDetailsPage extends AbstractCompanyInfoPanel {
 			break;
 		case OrganizationTypeConstants.LLC:
 			llcRadio.setValue(true);
+			llcFormCombo.setEnabled(true);
 			break;
 		case OrganizationTypeConstants.PARTNERSHIP:
 			partnershipRadio.setValue(true);
@@ -182,6 +184,7 @@ public class OrganizationDetailsPage extends AbstractCompanyInfoPanel {
 		} else if (llcRadio.getValue()) {
 			companyPreferences
 					.setOrganizationType(OrganizationTypeConstants.LLC);
+			
 		} else if (partnershipRadio.getValue()) {
 			companyPreferences
 					.setOrganizationType(OrganizationTypeConstants.PARTNERSHIP);
