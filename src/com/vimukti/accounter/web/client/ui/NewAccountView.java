@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.combo.BankNameCombo;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.DropDownCombo;
@@ -89,6 +90,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	protected boolean isClose;
 	private List<String> typeMap;
 	protected List<ClientBank> allBanks;
+	private List<String> accTypeMap;
 	protected ClientBank selectedBank;
 
 	private List<ClientAccount> subAccounts;
@@ -109,6 +111,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	private DynamicForm bankForm;
 	private DynamicForm creditCardForm;
+	private DynamicForm paypalForm;
 
 	private Label lab1;
 
@@ -179,6 +182,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		hierarchy = new String("");
 		accTypeSelect = new SelectCombo(Accounter.messages().accountType(
 				Global.get().Account()));
+		accTypeMap = new ArrayList<String>();
+		accTypeMap.add(Accounter.constants().creditCard());
+		accTypeMap.add("Paypal");
+		accTypeSelect.initCombo(accTypeMap);
 		accTypeSelect.setHelpInformation(true);
 		// accTypeSelect.setWidth(100);
 		accTypeSelect
@@ -418,7 +425,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			leftLayout.add(accInfoForm);
 			if (accountType == ClientAccount.TYPE_BANK)
 				addBankForm();
-			else {
+			if (accountType == ClientAccount.TYPE_PAYPAL) {
+				addPaypalForm();
+			} else if (accountType == ClientAccount.TYPE_CREDIT_CARD) {
 				addCreditCardForm();
 				topHLay.setWidth("100%");
 
@@ -478,6 +487,75 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		listforms.add(cashBasisForm);
 
 		listforms.add(commentsForm);
+
+	}
+
+	private void addPaypalForm() {
+		if (bankForm != null) {
+			topHLay.remove(bankForm);
+		}
+		if (creditCardForm != null)
+
+			topHLay.remove(creditCardForm);
+
+		bankNameSelect = null;
+
+		if (paypalForm == null) {
+			lab1.setText("Paypal Account");
+
+			typeSelect = new SelectCombo("Paypal Type");
+			// typeSelect.setWidth(100);
+			// typeSelect.setWidth("*");
+			typeMap = new ArrayList<String>();
+
+			typeMap.add(AccounterClientConstants.ADD_NEW_TYPE);
+			typeMap.add(AccounterClientConstants.PERSONAL);
+			typeMap.add(AccounterClientConstants.PREMIUM);
+			typeMap.add(AccounterClientConstants.BUSINESS);
+			typeSelect.initCombo(typeMap);
+			typeSelect
+					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+						@Override
+						public void selectedComboBoxItem(String selectItem) {
+							if (selectItem != null)
+								typeSelect.setComboItem(selectItem);
+
+						}
+					});
+			typeSelect.setRequired(true);
+			// typeSelect.setDefaultToFirstOption(Boolean.TRUE);
+
+			bankAccNumText = new TextItem(Accounter.messages()
+					.bankAccountNumber(Global.get().account()));
+			bankAccNumText.setHelpInformation(true);
+			bankAccNumText.setWidth(100);
+
+			TextItem paypalEmail = new TextItem("Paypal Email");
+			paypalEmail.setWidth(100);
+			paypalEmail.setHelpInformation(true);
+
+			// accNameText.setWidth("*");
+
+			paypalForm = UIUtils.form("Paypal Information");
+			paypalForm.setWidth("100%");
+			paypalForm.setFields(/* getBankNameSelectItem(), */typeSelect,
+					paypalEmail);
+
+			// bankForm.setWidth("100%");
+			// bankForm.setAutoHeight();
+
+		}
+		// else {
+		// if (bankNameSelect == null)
+		// getBankNameSelectItem();
+		// reset(bankForm);
+		// }
+		accInfoForm.setWidth("100%");
+		topHLay.setWidth("100%");
+		leftLayout.setWidth("90%");
+		topHLay.add(leftLayout);
+		topHLay.add(paypalForm);
 
 	}
 
@@ -551,7 +629,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		else
 			opBalText.setDisabled(false);
 		if (accountType != ClientAccount.TYPE_BANK
-				&& accountType != ClientAccount.TYPE_CREDIT_CARD) {
+				&& accountType != ClientAccount.TYPE_CREDIT_CARD
+				&& accountType != ClientAccount.TYPE_PAYPAL) {
 			getSubAccounts();
 			selectedSubAccount = null;
 			subhierarchy = null;
@@ -607,8 +686,11 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			if (accountType == ClientAccount.TYPE_BANK) {
 
 				addBankForm();
+			} else if (accountType == ClientAccount.TYPE_PAYPAL) {
+				addPaypalForm();
+			}
 
-			} else if (accountType == ClientAccount.TYPE_CREDIT_CARD) {
+			else if (accountType == ClientAccount.TYPE_CREDIT_CARD) {
 				addCreditCardForm();
 
 			}
@@ -663,9 +745,34 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (bankForm != null) {
 
 			topHLay.remove(bankForm);
+			if (paypalForm != null) {
+				topHLay.remove(paypalForm);
+			}
+
 			bankNameSelect = null;
 		}
 		if (creditCardForm == null) {
+			lab1.setText("Credit Card Account");
+			typeSelect = new SelectCombo("Credit Card Type");
+			// typeSelect.setWidth(100);
+			// typeSelect.setWidth("*");
+			typeMap = new ArrayList<String>();
+
+			typeMap.add("Add New Type");
+			typeMap.add("Visa");
+			typeMap.add("Master");
+			typeSelect.initCombo(typeMap);
+			typeSelect
+					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+						@Override
+						public void selectedComboBoxItem(String selectItem) {
+							if (selectItem != null)
+								typeSelect.setComboItem(selectItem);
+
+						}
+					});
+			typeSelect.setRequired(true);
 
 			limitText = new AmountField(Accounter.constants().creditLimit(),
 					this);
@@ -708,8 +815,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			cardNumText.setWidth(100);
 			creditCardForm = UIUtils.form(Accounter.messages()
 					.creditCardAccountInformation((Global.get().Account())));
-			creditCardForm.setFields(getBankNameSelectItem(), limitText,
-					cardNumText);
+			creditCardForm.setFields(getBankNameSelectItem(), typeSelect,
+					limitText, cardNumText);
 			creditCardForm.setWidth("100%");
 			// creditCardForm.setAutoHeight();
 		} else {
@@ -728,9 +835,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (creditCardForm != null) {
 
 			topHLay.remove(creditCardForm);
-			bankNameSelect = null;
-
 		}
+		if (paypalForm != null)
+			topHLay.remove(paypalForm);
+		bankNameSelect = null;
 
 		if (bankForm == null) {
 
@@ -791,7 +899,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (isNewBankAccount) {
 			accTypeSelect.setComboItem(Utility
 					.getAccountTypeString(accountType));
-			accTypeSelect.setDisabled(true);
+			// accTypeSelect.setDisabled(true);
 			getNextAccountNo();
 			accNoText.setToolTip(Accounter.messages().accountNumberToolTipDesc(
 					"1100", "1179"));
@@ -1012,6 +1120,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (accountType == ClientAccount.TYPE_BANK) {
 			result.add(bankForm.validate());
 		}
+
 		return result;
 
 	}
