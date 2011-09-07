@@ -58,7 +58,7 @@ public abstract class TransactionPayBillTable extends
 			@Override
 			protected void onHeaderValueChanged(boolean value) {
 				onHeaderCheckBoxClick(value);
-				selectAllRows();
+				selectAllRows(value);
 			}
 
 			@Override
@@ -380,10 +380,10 @@ public abstract class TransactionPayBillTable extends
 		}
 	}
 
-	protected void selectAllRows() {
+	protected void selectAllRows(boolean value) {
 		List<ClientTransactionPayBill> allRows = getAllRows();
 		for (ClientTransactionPayBill row : allRows) {
-			onSelectionChanged(row, true);
+			onSelectionChanged(row, value);
 		}
 	}
 
@@ -861,6 +861,9 @@ public abstract class TransactionPayBillTable extends
 
 	private void resetValues() {
 		/* Revert all credits to its original state */
+		if (updatedCustomerCreditsAndPayments == null) {
+			return;
+		}
 		for (ClientCreditsAndPayments crdt : updatedCustomerCreditsAndPayments) {
 			crdt.setBalance(crdt.getActualAmt());
 			crdt.setRemaoningBalance(0);
