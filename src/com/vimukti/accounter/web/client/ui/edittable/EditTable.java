@@ -127,4 +127,23 @@ public class EditTable<R> extends SimplePanel {
 		}
 
 	}
+
+	public List<R> getSelectedRecords(int colInd) {
+		List<R> selected = new ArrayList<R>();
+		for (int x = 0; x < rows.size(); x++) {
+			IsWidget widget = table.getWidget(x + 1, colInd);
+			if (widget instanceof CheckedWidget) {
+				CheckedWidget checkedWidget = (CheckedWidget) widget;
+				if (checkedWidget.isChecked(widget)) {
+					selected.add(rows.get(x));
+				}
+			}
+		}
+		return selected;
+	}
+
+	public void checkColumn(int row, int colInd, boolean isChecked) {
+		// TODO Auto-generated method stub
+
+	}
 }
