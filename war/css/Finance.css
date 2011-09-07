@@ -3751,7 +3751,7 @@ body, table td, select,.gwt-Button,textarea,input,label{
 	border:1px solid #2D8B93 !important;
 }
 .companyInfoPanel{
-	/*border-bottom: 1px solid #2D8B93;*/
+	border-bottom: 1px solid #2D8B93;
     border-color: #2D8B93;
     border-top: 1px solid #2D8B93;
     padding: 8px;

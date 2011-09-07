@@ -6,41 +6,41 @@
 			font-weight: bold;
 		}
 	</ui:style>
-		<g:VerticalPanel spacing="8">
-			<g:VerticalPanel styleName="companyInfoPanel">
-				<g:Label ui:field="chargeTaxLabelItem" styleName="header"/>
-				<g:HorizontalPanel>
-					<g:RadioButton name="chargeTaxRadioButton" ui:field="chargeTaxYesRadioButton"/>
-					<g:RadioButton name="chargeTaxRadioButton" ui:field="chargeTaxNoRadioButton" checked="true"/>
-				</g:HorizontalPanel>
-			</g:VerticalPanel>
-			<g:VerticalPanel styleName="companyInfoPanel">
-				<g:Label ui:field="managingBillLabelItem" styleName="header"/>
-				<g:HorizontalPanel>
-					<g:RadioButton name="managingBillRadioButton" ui:field="managingBillYesRadioButton"/>
-					<g:RadioButton name="managingBillRadioButton" ui:field="managingBillNoRadioButton" checked="true"/>
-				</g:HorizontalPanel>
-			</g:VerticalPanel>
-			<g:VerticalPanel styleName="companyInfoPanel">
-				<g:Label ui:field="createEstimatesLabelItem" styleName="header"/>
-				<g:HorizontalPanel>
-					<g:RadioButton name="createEstimatesRadioButton" ui:field="createEstimatesYesRadioButton"/>
-					<g:RadioButton name="createEstimatesRadioButton" ui:field="createEstimatesNoRadioButton" checked="true"/>
-				</g:HorizontalPanel>
-			</g:VerticalPanel>
-			<g:VerticalPanel styleName="companyInfoPanel">
-				<g:Label ui:field="usingStatementsLabelItem" styleName="header"/>
-				<g:HorizontalPanel>
-					<g:RadioButton name="new nameusingStatementsRadioButton" ui:field="usingStatementsYesRadioButton"/>
-					<g:RadioButton name="new nameusingStatementsRadioButton" ui:field="usingStatementsNoRadioButton" checked="true"/>
-				</g:HorizontalPanel>
-			</g:VerticalPanel>
-			<g:VerticalPanel styleName="companyInfoPanel">
-				<g:Label ui:field="billsLabel" styleName="header"/>
-				<g:HorizontalPanel>
-					<g:RadioButton name="billsRadioButton" ui:field="billsYesRadioButton"/>
-					<g:RadioButton name="billsRadioButton" ui:field="billsNoRadioButton" checked="true"/>
-				</g:HorizontalPanel>
-			</g:VerticalPanel>
+	<g:VerticalPanel spacing="8">
+		<g:VerticalPanel styleName="companyInfoPanel">
+			<g:Label ui:field="chargeTaxLabelItem" styleName="header" />
+			<g:HorizontalPanel>
+				<g:RadioButton name="chargeTaxRadioButton" ui:field="chargeTaxYesRadioButton" />
+				<g:RadioButton name="chargeTaxRadioButton" ui:field="chargeTaxNoRadioButton"
+					checked="true" />
+			</g:HorizontalPanel>
 		</g:VerticalPanel>
+		<g:VerticalPanel styleName="companyInfoPanel">
+			<g:Label ui:field="managingBillLabelItem" styleName="header" />
+			<g:HorizontalPanel>
+				<g:RadioButton name="managingBillRadioButton"
+					ui:field="managingBillYesRadioButton" />
+				<g:RadioButton name="managingBillRadioButton"
+					ui:field="managingBillNoRadioButton" checked="true" />
+			</g:HorizontalPanel>
+		</g:VerticalPanel>
+		<g:VerticalPanel styleName="companyInfoPanel">
+			<g:Label ui:field="createEstimatesLabelItem" styleName="header" />
+			<g:HorizontalPanel>
+				<g:RadioButton name="createEstimatesRadioButton"
+					ui:field="createEstimatesYesRadioButton" />
+				<g:RadioButton name="createEstimatesRadioButton"
+					ui:field="createEstimatesNoRadioButton" checked="true" />
+			</g:HorizontalPanel>
+		</g:VerticalPanel>
+		<g:VerticalPanel styleName="companyInfoPanel">
+			<g:Label ui:field="usingStatementsLabelItem" styleName="header" />
+			<g:HorizontalPanel>
+				<g:RadioButton name="new nameusingStatementsRadioButton"
+					ui:field="usingStatementsYesRadioButton" />
+				<g:RadioButton name="new nameusingStatementsRadioButton"
+					ui:field="usingStatementsNoRadioButton" checked="true" />
+			</g:HorizontalPanel>
+		</g:VerticalPanel>
+	</g:VerticalPanel>
 </ui:UiBinder> 

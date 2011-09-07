@@ -6,18 +6,13 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel>
-		<g:VerticalPanel spacing="8">
-			<g:HorizontalPanel spacing="8">
+	<g:VerticalPanel spacing="8">
+			<g:HorizontalPanel styleName="companyInfoPanel">
 				<g:Label ui:field="tradingCompanyNameLabel"/>
 				<g:TextBox ui:field="tradingCompanyName"/>
 			</g:HorizontalPanel>
-			<g:VerticalPanel>
-				<g:HorizontalPanel>
-					<g:Label horizontalAlignment="ALIGN_LEFT" ui:field="tradingAddressLabel"/>
-				</g:HorizontalPanel>
-			</g:VerticalPanel>
-			<g:VerticalPanel>
+			<g:VerticalPanel spacing="8" styleName="companyInfoPanel">
+					<g:Label horizontalAlignment="ALIGN_LEFT" ui:field="tradingAddressLabel" styleName="header"/>
 				<g:Grid>
 				<g:row>
 					<g:customCell>
@@ -70,5 +65,4 @@
 			</g:Grid>
 			</g:VerticalPanel>
 		</g:VerticalPanel>
-	</g:VerticalPanel>
 </ui:UiBinder> 

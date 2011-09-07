@@ -105,6 +105,7 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 			@Override
 			public void onClick(ClickEvent event) {
 				companyInfoPanel.onSave();
+				company.setPreferences(companyPreferences);
 				Accounter.setCompany(company);
 				// Accounter.
 			}

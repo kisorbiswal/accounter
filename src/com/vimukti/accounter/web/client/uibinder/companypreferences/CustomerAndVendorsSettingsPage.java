@@ -33,12 +33,7 @@ public class CustomerAndVendorsSettingsPage extends AbstractCompanyInfoPanel {
 	RadioButton usingStatementsYesRadioButton;
 	@UiField
 	RadioButton usingStatementsNoRadioButton;
-	@UiField
-	Label billsLabel;
-	@UiField
-	RadioButton billsYesRadioButton;
-	@UiField
-	RadioButton billsNoRadioButton;
+
 	private static CustomerAndVendorsSettingsPageUiBinder uiBinder = GWT
 			.create(CustomerAndVendorsSettingsPageUiBinder.class);
 
@@ -73,46 +68,45 @@ public class CustomerAndVendorsSettingsPage extends AbstractCompanyInfoPanel {
 		usingStatementsYesRadioButton.setText(constants.yes());
 		usingStatementsNoRadioButton.setText(constants.no());
 
-		billsLabel.setText(constants.doyouwantTrackBills());
-
-		billsYesRadioButton.setText(constants.yes());
-		billsNoRadioButton.setText(constants.no());
-
 	}
 
 	@Override
 	public void onLoad() {
 		if (companyPreferences.isDoYouChargesalesTax()) {
 			chargeTaxYesRadioButton.setValue(true);
-		} else {
 			chargeTaxNoRadioButton.setValue(false);
+		} else {
+			chargeTaxYesRadioButton.setValue(false);
+			chargeTaxNoRadioButton.setValue(true);
 		}
 		if (companyPreferences.isDoyouKeepTrackofBills()) {
 			managingBillYesRadioButton.setValue(true);
-		} else {
 			managingBillNoRadioButton.setValue(false);
+		} else {
+			managingBillYesRadioButton.setValue(false);
+			managingBillNoRadioButton.setValue(true);
 		}
 		if (companyPreferences.isDoyouwantEstimates()) {
 			createEstimatesYesRadioButton.setValue(true);
-		} else {
 			createEstimatesNoRadioButton.setValue(false);
+		} else {
+			createEstimatesYesRadioButton.setValue(false);
+			createEstimatesNoRadioButton.setValue(true);
 		}
 		if (companyPreferences.isDoyouwantstatements()) {
 			usingStatementsYesRadioButton.setValue(true);
-		} else {
 			usingStatementsNoRadioButton.setValue(false);
-		}
-		if (companyPreferences.isDoyouKeepTrackofBills()) {
-			billsYesRadioButton.setValue(true);
 		} else {
-			billsNoRadioButton.setValue(false);
+			usingStatementsYesRadioButton.setValue(false);
+			usingStatementsNoRadioButton.setValue(true);
 		}
+		
 	}
 
 	@Override
 	public void onSave() {
 		if (chargeTaxYesRadioButton.getValue()) {
-			companyPreferences.setDoYouPaySalesTax(true);
+			companyPreferences.setDoYouChargesalesTax(true);
 		} else {
 			companyPreferences.setDoYouChargesalesTax(false);
 		}
@@ -131,11 +125,7 @@ public class CustomerAndVendorsSettingsPage extends AbstractCompanyInfoPanel {
 		} else {
 			companyPreferences.setDoyouwantstatements(false);
 		}
-		if (billsYesRadioButton.getValue()) {
-			companyPreferences.setDoyouKeepTrackofBills(true);
-		} else {
-			companyPreferences.setDoyouKeepTrackofBills(false);
-		}
+		
 	}
 
 }
