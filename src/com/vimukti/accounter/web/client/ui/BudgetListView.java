@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.IEditableView;
 import com.vimukti.accounter.web.client.ui.grids.BudgetListGrid;
 
 /**
@@ -20,7 +21,18 @@ import com.vimukti.accounter.web.client.ui.grids.BudgetListGrid;
  * @author Amrit Mishra
  * 
  */
-public class BudgetListView extends BaseListView<ClientBudget> {
+public class BudgetListView extends BaseListView<ClientBudget> implements
+		IEditableView {
+
+	@Override
+	public void onEdit() {
+		ActionFactory.getNewBudgetAction().runEdit(data);
+
+	}
+
+	public void setData(ClientBudget editBudget) {
+		data = editBudget;
+	};
 
 	SelectCombo currentView;
 
@@ -121,10 +133,9 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 		grid.setTotal();
 
 		ClientBudget budget = listOfBudgets.get(numberSelected);
-
+		setData(budget);
 		List<ClientBudgetItem> budgetItems = new ArrayList<ClientBudgetItem>();
 		budgetItems = budget.getBudgetItem();
-
 		for (ClientBudgetItem budgetItem : budgetItems) {
 
 			budgetItem.setAccountsName(budgetItem.getAccount().getName());
@@ -143,6 +154,7 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 
 		if (listOfBudgets.size() > 0) {
 			ClientBudget budget = listOfBudgets.get(0);
+			setData(budget);
 			List<ClientBudgetItem> budgetItems = new ArrayList<ClientBudgetItem>();
 			budgetItems = budget.getBudgetItem();
 
@@ -162,6 +174,16 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 	public void onSuccess(ArrayList<ClientBudget> result) {
 		this.listOfBudgets = result;
 		super.onSuccess(result);
+	}
+
+	@Override
+	public boolean canEdit() {
+		return true;
+	}
+
+	@Override
+	public boolean isDirty() {
+		return false;
 	}
 
 }

@@ -57,6 +57,7 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 	private HorizontalPanel leftLayout;
 	private Label lab1;
 	private List<ClientAccount> listOfAccounts;
+	boolean isEditing;
 
 	VerticalPanel mainVLay;
 	BudgetAccountGrid gridView;
@@ -65,8 +66,15 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 
 	List<ClientBudget> budgetList;
 
+	ClientBudget budgetForEditing = new ClientBudget();
+
 	public NewBudgetView(List<ClientBudget> listData) {
 		budgetList = listData;
+	}
+
+	public NewBudgetView(boolean isEdit, Object data1) {
+		isEditing = isEdit;
+		data = (ClientBudget) data1;
 	}
 
 	public NewBudgetView() {
@@ -76,17 +84,16 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 	@Override
 	public void init() {
 		super.init();
-
-		ClientBudget account = new ClientBudget();
-		setData(account);
-
 		createControls();
 
 	}
 
-	@Override
 	public void initData() {
 		super.initData();
+		if (data == null) {
+			ClientBudget account = new ClientBudget();
+			setData(account);
+		}
 	}
 
 	private void initView() {
@@ -152,7 +159,8 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 				.budgetFinancialYear());
 		selectFinancialYear.setHelpInformation(true);
 		selectFinancialYear.initCombo(getFiscalYearList());
-		selectFinancialYear.setRequired(true);
+		if (!isEditing)
+			selectFinancialYear.setRequired(true);
 		selectFinancialYear
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -169,7 +177,10 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 		budgetNameText.setHelpInformation(true);
 		budgetNameText.setRequired(true);
 		budgetNameText.setWidth(100);
-		budgetNameText.setDisabled(isInViewMode());
+		if (isEditing) {
+			budgetNameText.setDisabled(true);
+			budgetNameText.setValue(data.getBudgetName());
+		}
 		budgetNameText.addBlurHandler(new BlurHandler() {
 
 			public void onBlur(BlurEvent event) {
@@ -213,10 +224,22 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 		gridView.isEnable = false;
 		gridView.init();
 
-		listOfAccounts = getCompany().getAccounts();
-		for (ClientAccount account : listOfAccounts) {
-			ClientBudgetItem obj = new ClientBudgetItem();
-			gridView.addData(obj, account);
+		if (isEditing) {
+			List<ClientBudgetItem> itemsList = new ArrayList<ClientBudgetItem>();
+			itemsList = data.getBudgetItem();
+			for (ClientBudgetItem item : itemsList) {
+				ClientBudgetItem obj = new ClientBudgetItem();
+				obj.setAccountsName(item.getAccount().getName());
+				obj = item;
+				gridView.addData(obj);
+			}
+		} else {
+
+			listOfAccounts = getCompany().getAccounts();
+			for (ClientAccount account : listOfAccounts) {
+				ClientBudgetItem obj = new ClientBudgetItem();
+				gridView.addData(obj, account);
+			}
 		}
 
 		mainVLay = new VerticalPanel();
@@ -301,24 +324,19 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 
 	}
 
-	@Override
-	public void setData(ClientBudget data) {
-		// TODO Auto-generated method stub
-		super.setData(data);
-	}
-
 	private void updateBudgetObject() {
 
-		String budgetname = budgetNameText.getValue() != null ? budgetNameText
-				.getValue() : " ";
+		if (!isEditing) {
+			String budgetname = budgetNameText.getValue() != null ? budgetNameText
+					.getValue() : " ";
+			String financialYear = selectFinancialYear.getSelectedValue();
 
-		String financialYear = selectFinancialYear.getSelectedValue();
+			String[] temp;
+			String delimiter = " ";
+			temp = financialYear.split(delimiter);
 
-		String[] temp;
-		String delimiter = " ";
-		temp = financialYear.split(delimiter);
-
-		data.setBudgetName(budgetname + " - " + temp[0]);
+			data.setBudgetName(budgetname + " - " + temp[0]);
+		}
 
 		List<ClientBudgetItem> allGivenRecords = (List<ClientBudgetItem>) gridView
 				.getRecords();
@@ -359,23 +377,26 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 		ValidationResult result = new ValidationResult();
 
 		result.add(budgetInfoForm.validate());
-		String name = budgetNameText.getValue().toString() != null ? budgetNameText
-				.getValue().toString() : "";
+		if (!isEditing) {
+			String name = budgetNameText.getValue().toString() != null ? budgetNameText
+					.getValue().toString() : "";
 
-		String financialYear = selectFinancialYear.getSelectedValue();
+			String financialYear = selectFinancialYear.getSelectedValue();
 
-		String[] temp;
-		String delimiter = " ";
-		temp = financialYear.split(delimiter);
+			String[] temp;
+			String delimiter = " ";
+			temp = financialYear.split(delimiter);
 
-		String budgetName = name + " - " + temp[0];
+			String budgetName = name + " - " + temp[0];
 
-		if (name != null && !name.isEmpty()) {
+			if (name != null && !name.isEmpty()) {
 
-			for (ClientBudget budget : budgetList) {
-				if (budgetName.equals(budget.getBudgetName())) {
-					result.addError(name, Accounter.constants().alreadyExist());
-					break;
+				for (ClientBudget budget : budgetList) {
+					if (budgetName.equals(budget.getBudgetName())) {
+						result.addError(name, Accounter.constants()
+								.alreadyExist());
+						break;
+					}
 				}
 			}
 		}
@@ -399,4 +420,5 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 
 		}
 	}
+
 }

@@ -319,22 +319,26 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 			String one, two, three, four;
 
 			if (quater1Amount.getValue() != null)
-				one = Double.toString(quater1Amount.getNumber() / 3.00);
+				one = Double.toString(Double.parseDouble(quater1Amount
+						.getValue()) / 3.00);
 			else
 				one = "0.00";
 
 			if (quater2Amount.getValue() != null)
-				two = Double.toString(quater2Amount.getNumber() / 3.00);
+				two = Double.toString(Double.parseDouble(quater2Amount
+						.getValue()) / 3.00);
 			else
 				two = "0.00";
 
 			if (quater3Amount.getValue() != null)
-				three = Double.toString(quater3Amount.getNumber() / 3.00);
+				three = Double.toString(Double.parseDouble(quater3Amount
+						.getValue()) / 3.00);
 			else
 				three = "0.00";
 
 			if (quater4Amount.getValue() != null)
-				four = Double.toString(quater4Amount.getNumber() / 3.00);
+				four = Double.toString(Double.parseDouble(quater4Amount
+						.getValue()) / 3.00);
 			else
 				four = "0.00";
 
@@ -367,7 +371,8 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 			String one;
 
 			if (annualAmount.getValue() != null)
-				one = Double.toString(annualAmount.getNumber() / 12.00);
+				one = Double.toString(Double.parseDouble(annualAmount
+						.getValue()) / 12.00);
 			else
 				one = "0.00";
 
