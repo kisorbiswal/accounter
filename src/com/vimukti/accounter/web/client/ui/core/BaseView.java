@@ -127,7 +127,8 @@ public abstract class BaseView<T extends IAccounterCore> extends
 			return;
 		}
 		this.mode = mode;
-		getManager().updateButtons();
+		if (getManager() != null)
+			getManager().updateButtons();
 		if (!isInViewMode()) {
 			showSaveButtons();
 		}
