@@ -114,22 +114,16 @@ public abstract class CustomerTransactionTable extends
 		this.addColumn(new TransactionTotalColumn());
 
 		if (getCompany().getPreferences().getDoYouPaySalesTax()) {
-			
+
 			if (this.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-				
+
 				this.addColumn(new TransactionVatCodeColumn());
 			}
 
 			this.addColumn(new TransactionVatColumn());
 		}
 
-		this.addColumn(new DeleteColumn<ClientTransactionItem>() {
-
-			@Override
-			protected void onDelete(ClientTransactionItem row) {
-				delete(row);
-			}
-		});
+		this.addColumn(new DeleteColumn<ClientTransactionItem>());
 	}
 
 	protected ClientCompany getCompany() {
