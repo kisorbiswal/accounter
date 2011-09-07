@@ -321,13 +321,11 @@ public class AccounterValidator {
 							@Override
 							public boolean onYesClick() {
 								if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-									company
-											.setUkServiceItemDefaultIncomeAccount(selectItem
-													.getName());
+									company.setUkServiceItemDefaultIncomeAccount(selectItem
+											.getName());
 								else
-									company
-											.setServiceItemDefaultIncomeAccount(selectItem
-													.getName());
+									company.setServiceItemDefaultIncomeAccount(selectItem
+											.getName());
 								return true;
 							}
 
@@ -363,13 +361,11 @@ public class AccounterValidator {
 						@Override
 						public boolean onYesClick() {
 							if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-								company
-										.setUkNonInventoryItemDefaultIncomeAccount(selectItem
-												.getName());
+								company.setUkNonInventoryItemDefaultIncomeAccount(selectItem
+										.getName());
 							else
-								company
-										.setNonInventoryItemDefaultIncomeAccount(selectItem
-												.getName());
+								company.setNonInventoryItemDefaultIncomeAccount(selectItem
+										.getName());
 							return true;
 						}
 
@@ -405,13 +401,11 @@ public class AccounterValidator {
 							@Override
 							public boolean onYesClick() {
 								if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-									company
-											.setUkServiceItemDefaultExpenseAccount(selectItem
-													.getName());
+									company.setUkServiceItemDefaultExpenseAccount(selectItem
+											.getName());
 								else
-									company
-											.setServiceItemDefaultExpenseAccount(selectItem
-													.getName());
+									company.setServiceItemDefaultExpenseAccount(selectItem
+											.getName());
 								return true;
 							}
 
@@ -451,13 +445,11 @@ public class AccounterValidator {
 									@Override
 									public boolean onYesClick() {
 										if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-											company
-													.setUkNonInventoryItemDefaultExpenseAccount(selectExpAccount
-															.getName());
+											company.setUkNonInventoryItemDefaultExpenseAccount(selectExpAccount
+													.getName());
 										else
-											company
-													.setNonInventoryItemDefaultExpenseAccount(selectExpAccount
-															.getName());
+											company.setNonInventoryItemDefaultExpenseAccount(selectExpAccount
+													.getName());
 										return true;
 									}
 
@@ -823,10 +815,7 @@ public class AccounterValidator {
 
 	public static boolean validate_MakeDeposit_accountcombo(
 			ClientAccount selectedDepositInAccount,
-			AbstractTransactionGrid gridView) {
-		List<ClientTransactionMakeDeposit> selectedRecords = gridView
-				.getSelectedRecords();
-
+			List<ClientTransactionMakeDeposit> selectedRecords) {
 		for (ClientTransactionMakeDeposit rec : selectedRecords) {
 			if (rec.getAccount() == (selectedDepositInAccount.getID())) {
 				return false;
@@ -1305,8 +1294,8 @@ public class AccounterValidator {
 	public static boolean isAmountNegative(Double amount)
 			throws InvalidEntryException {
 		if (DecimalUtil.isLessThan(amount, 0.00)) {
-			throw new InvalidEntryException(accounterConstants
-					.invalidNegativeAmount());
+			throw new InvalidEntryException(
+					accounterConstants.invalidNegativeAmount());
 		}
 		return false;
 
