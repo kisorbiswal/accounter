@@ -42,12 +42,10 @@ import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.PercentageField;
+import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionPayBillTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
-import com.vimukti.accounter.web.client.ui.grids.ListGrid;
-import com.vimukti.accounter.web.client.ui.grids.TransactionPayBillGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
@@ -58,7 +56,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	DateField dueDate;
 	AccounterConstants accounterConstants = Accounter.constants();
 	protected String vendorPaymentMethod;
-	private TransactionPayBillGrid grid;
+	private TransactionPayBillTable grid;
 	protected AmountField cashDiscountTextItem;
 	protected AmountField creditTextItem;
 	public AmountLabel unUsedCreditsText;
@@ -205,8 +203,10 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			// if (cashAcc != null)
 			// tpbRecord.setDiscountAccount(cashAcc.getID());
 
-			List<ClientTransactionCreditsAndPayments> trpList = grid.creditsAndPaymentsDialiog != null ? grid.creditsAndPaymentsDialiog
-					.getTransactionCredits(tpbRecord)
+			List<ClientTransactionCreditsAndPayments> trpList = grid
+					.getCreditsAndPaymentsDialiog() != null ? grid
+					.getCreditsAndPaymentsDialiog().getTransactionCredits(
+							tpbRecord)
 					: new ArrayList<ClientTransactionCreditsAndPayments>();
 			if (trpList != null)
 				for (ClientTransactionCreditsAndPayments temp : trpList) {
@@ -224,11 +224,45 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	}
 
 	private void initListGrid() {
-		grid = new TransactionPayBillGrid(!isInViewMode(), true);
-		grid.setCanEdit(!isInViewMode());
-		grid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
-		grid.setPaymentView(this);
-		grid.init();
+		grid = new TransactionPayBillTable(!isInViewMode()) {
+
+			@Override
+			protected void updateFootervalues(ClientTransactionPayBill row,
+					boolean canEdit) {
+				PayBillView.this.updateFootervalues(row, canEdit);
+			}
+
+			@Override
+			protected void setUnUsedCreditsTextAmount(Double totalBalances) {
+				PayBillView.this.setUnUsedCredits(totalBalances);
+			}
+
+			@Override
+			protected void resetTotlas() {
+				PayBillView.this.resetTotlas();
+			}
+
+			@Override
+			protected void deleteTotalPayment(ClientTransactionPayBill obj) {
+				PayBillView.this.deleteTotalPayment(obj);
+			}
+
+			@Override
+			protected void calculateUnusedCredits() {
+				PayBillView.this.calculateUnusedCredits();
+			}
+
+			@Override
+			protected void adjustPaymentValue(
+					ClientTransactionPayBill selectedObject) {
+				PayBillView.this.adjustPaymentValue(selectedObject);
+			}
+
+			@Override
+			protected void adjustAmountAndEndingBalance() {
+				PayBillView.this.adjustAmountAndEndingBalance();
+			}
+		};
 		grid.setHeight("200px");
 		grid.setDisabled(isInViewMode());
 	}
@@ -249,7 +283,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		grid.updateAmountDue(rec);
 
-		grid.updateData(rec);
+		grid.update(rec);
 		adjustAmountAndEndingBalance();
 	}
 
@@ -519,11 +553,9 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		textForm.setNumCols(2);
 		textForm.setWidth("70%");
 		textForm.setStyleName("unused-payments");
-		if(preferences.isTDSEnabled())
-		{
-		textForm.setFields(unUsedCreditsText, taxItemCombo);
-		}else
-		{
+		if (preferences.isTDSEnabled()) {
+			textForm.setFields(unUsedCreditsText, taxItemCombo);
+		} else {
 			textForm.setFields(unUsedCreditsText);
 		}
 
@@ -591,7 +623,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	public void calculateUnusedCredits() {
 
 		Double totalCredits = 0D;
-		for (ClientCreditsAndPayments credit : grid.updatedCustomerCreditsAndPayments) {
+		for (ClientCreditsAndPayments credit : grid
+				.getUpdatedCustomerCreditsAndPayments()) {
 			totalCredits += credit.getBalance();
 		}
 
@@ -613,8 +646,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		 * resetting the crdits dialog's refernce,so that a new object will
 		 * created for opening credits dialog
 		 */
-		grid.creditsAndPaymentsDialiog = null;
-		grid.creditsStack = null;
+		grid.setCreditsAndPaymentsDialiog(null);
+		grid.setCreditsStack(null);
 		grid.initCreditsAndPayments(vendor);
 		grid.removeAllRecords();
 
@@ -633,9 +666,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 						new AccounterAsyncCallback<ArrayList<PayBillTransactionList>>() {
 
 							public void onException(AccounterException caught) {
-								// SC
-								// .say("Failed to Get List of Transaction Recieve Payments for this Vendor"
-								// + vendor.getName());
 								grid.addEmptyMessage(Accounter.constants()
 										.noRecordsToShow());
 							}
@@ -732,7 +762,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		// double payment = 0.0;
 		for (ClientTransactionPayBill receivePayment : list) {
 			totalOrgAmt += receivePayment.getOriginalAmount();
-			this.grid.addData(receivePayment);
+			this.grid.add(receivePayment);
 			this.grid.selectRow(count);
 			count++;
 		}
@@ -784,7 +814,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			return result;
 		}
 		if (!isInViewMode()) {
-			if (AccounterValidator.isBlankTransaction(grid)) {
+			if (grid.getAllRows().isEmpty()) {
 				result.addError(
 						grid,
 						Accounter.messages().noBillsAreAvailableFirstAddABill(
@@ -972,6 +1002,47 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 					.showError(Accounter.constants().failedtovoidTransaction());
 	}
 
+	public void updateFootervalues(ClientTransactionPayBill obj, boolean canEdit) {
+		ClientTransaction transactionObject = this.getTransactionObject();
+		if (canEdit) {
+			// paybillView.transactionTotal = 0.0;
+			transactionObject.setTotal(0.0);
+			this.totalCashDiscount = 0.0;
+			for (ClientTransactionPayBill rec : grid.getSelectedRecords()) {
+				// paybillView.transactionTotal += rec.getPayment();
+				transactionObject.setTotal(transactionObject.getTotal()
+						+ rec.getPayment());
+				this.totalCashDiscount += rec.getCashDiscount();
+			}
+			// this.updateFooterValues(DataUtils
+			// .getAmountAsString(paybillView.transactionTotal), 7);
+			// this.updateFooterValues(DataUtils
+			// .getAmountAsString(paybillView.totalCashDiscount), 5);
+		} else {
+			// paybillView.transactionTotal = 0.0;
+			transactionObject.setTotal(0.0);
+			this.totalCashDiscount = 0.0;
+			this.totalOriginalAmount = 0.0;
+			for (ClientTransactionPayBill rec : grid.getRecords()) {
+				this.totalOriginalAmount += rec.getOriginalAmount();
+				// paybillView.transactionTotal += rec.getPayment();
+				transactionObject.setTotal(transactionObject.getTotal()
+						+ rec.getPayment());
+				this.totalCashDiscount += rec.getCashDiscount();
+			}
+			/* */
+			// this.updateFooterValues(DataUtils
+			// .getAmountAsString(paybillView.totalOriginalAmount),
+			// canEdit ? 2 : 1);
+			// this.updateFooterValues(DataUtils
+			// .getAmountAsString(paybillView.transactionTotal),
+			// canEdit ? 7 : 6);
+			// this.updateFooterValues(DataUtils
+			// .getAmountAsString(paybillView.totalCashDiscount),
+			// canEdit ? 5 : 3);
+		}
+	}
+
 	private void enableFormItems() {
 
 		setMode(EditMode.EDIT);
@@ -1045,6 +1116,23 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		// vendorCombo.setShowDisabled(false);
 		return vendorCombo;
 
+	}
+
+	public void deleteTotalPayment(ClientTransactionPayBill rec) {
+		ClientTransaction transactionObject = getTransactionObject();
+		// paybillView.transactionTotal -= rec.getPayment();
+		transactionObject.setTotal(transactionObject.getTotal()
+				- rec.getPayment());
+		this.totalCashDiscount -= rec.getCashDiscount();
+
+		/* updating payment column's footer */
+		// this.updateFooterValues(DataUtils
+		// .getAmountAsString(paybillView.transactionTotal), canEdit ? 7
+		// : 6);
+		// if (!DecimalUtil.isLessThan(paybillView.totalCashDiscount, 0))
+		// this.updateFooterValues(DataUtils
+		// .getAmountAsString(paybillView.totalCashDiscount),
+		// canEdit ? 5 : 3);
 	}
 
 	public PayFromAccountsCombo createPayFromCombo(String title) {
