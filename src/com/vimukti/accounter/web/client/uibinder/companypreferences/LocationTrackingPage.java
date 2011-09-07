@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 
 public class LocationTrackingPage extends AbstractCompanyInfoPanel {
 
@@ -43,6 +44,8 @@ public class LocationTrackingPage extends AbstractCompanyInfoPanel {
 	Label locationTrackingCheckBoxLabel;
 	@UiField
 	VerticalPanel radioButtonsPanel;
+	@UiField
+	HorizontalPanel hpanel;
 
 	interface LocationTrackingPageUiBinder extends
 			UiBinder<Widget, LocationTrackingPage> {
@@ -68,6 +71,8 @@ public class LocationTrackingPage extends AbstractCompanyInfoPanel {
 		storeRadioButton.setHTML(Accounter.constants().store());
 		territoryRadioButton.setName(Accounter.constants().locationGroup());
 		territoryRadioButton.setHTML(Accounter.constants().territory());
+		hpanel.setCellWidth(locationTrackingCheckBoxItm, "20px");
+
 		locationTrackingCheckBoxItm.addClickListener(new ClickListener() {
 			@Override
 			public void onClick(Widget sender) {
