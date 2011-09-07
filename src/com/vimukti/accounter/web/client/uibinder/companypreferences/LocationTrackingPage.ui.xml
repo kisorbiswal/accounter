@@ -7,7 +7,7 @@
 		}
 	</ui:style>
 	<g:VerticalPanel spacing="8" styleName="companyInfoPanel">
-		<g:HorizontalPanel>
+		<g:HorizontalPanel spacing="5">
 			<g:Label ui:field="locationTrackingCheckBoxLabel"/>
 			<g:CheckBox ui:field="locationTrackingCheckBoxItm"/>
 		</g:HorizontalPanel>
