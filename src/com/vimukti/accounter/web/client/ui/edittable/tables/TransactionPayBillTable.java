@@ -303,12 +303,13 @@ public abstract class TransactionPayBillTable extends
 				protected String getValue(ClientTransactionPayBill row) {
 					ClientTAXItem taxItem = Accounter.getCompany().getTAXItem(
 							vendor.getTaxItemCode());
-					if (row.getPayment() != 0)
-						return DataUtils.getAmountAsString(row.getPayment()
-								- row.getOriginalAmount()
-								* (taxItem.getTaxRate()) / 100);
+					if (taxItem != null)
+						return DataUtils.getAmountAsString(row
+								.getOriginalAmount()
+								* (taxItem.getTaxRate() / 100));
 					else
 						return DataUtils.getAmountAsString(0.0);
+
 				}
 
 				@Override
