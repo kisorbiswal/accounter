@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 /**
  * 
  * @author Sai Prasad N
- *
+ * 
  */
 public class DateUtills {
 
@@ -34,6 +34,10 @@ public class DateUtills {
 
 		return dateFormatter.format(date);
 
+	}
+
+	public static String getDateAsString(long date) {
+		return getDateAsString(new Date(date));
 	}
 
 	public Date parseDate(String date) {
