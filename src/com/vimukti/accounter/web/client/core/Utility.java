@@ -167,6 +167,9 @@ public class Utility implements IsSerializable, Serializable {
 		case ClientAccount.TYPE_CREDIT_CARD:
 			accountTypeName = AccounterClientConstants.TYPE_CREDIT_CARD;
 			break;
+		case ClientAccount.TYPE_PAYPAL:
+			accountTypeName=AccounterClientConstants.TYPE_PAYPAL;
+			break;
 		case ClientAccount.TYPE_PAYROLL_LIABILITY:
 			accountTypeName = AccounterClientConstants.TYPE_PAYROLL_LIABILITY;
 			break;
