@@ -195,8 +195,11 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 		leftLayout = new HorizontalPanel();
 		leftLayout.setWidth("90%");
 
-		budgetInfoForm.setFields(budgetStartWithSelect, budgetSubdevideBy,
-				selectFinancialYear, budgetNameText);
+		// budgetInfoForm.setFields(budgetStartWithSelect, budgetSubdevideBy,
+		// selectFinancialYear, budgetNameText);
+
+		budgetInfoForm.setFields(budgetStartWithSelect, selectFinancialYear,
+				budgetNameText);
 
 		leftLayout.add(budgetInfoForm);
 		topHLay.add(leftLayout);

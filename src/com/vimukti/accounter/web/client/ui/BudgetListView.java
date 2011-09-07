@@ -141,16 +141,16 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 		grid.removeAllRecords();
 		grid.setTotal();
 
-		if(listOfBudgets.size()>1){
-		ClientBudget budget = listOfBudgets.get(0);
-		List<ClientBudgetItem> budgetItems = new ArrayList<ClientBudgetItem>();
-		budgetItems = budget.getBudgetItem();
+		if (listOfBudgets.size() > 0) {
+			ClientBudget budget = listOfBudgets.get(0);
+			List<ClientBudgetItem> budgetItems = new ArrayList<ClientBudgetItem>();
+			budgetItems = budget.getBudgetItem();
 
-		for (ClientBudgetItem budgetItem : budgetItems) {
+			for (ClientBudgetItem budgetItem : budgetItems) {
 
-			budgetItem.setAccountsName(budgetItem.getAccount().getName());
-			grid.addData(budgetItem);
-		}
+				budgetItem.setAccountsName(budgetItem.getAccount().getName());
+				grid.addData(budgetItem);
+			}
 		}
 		if (grid.getRecords().isEmpty())
 			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
