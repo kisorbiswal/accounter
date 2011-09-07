@@ -22,24 +22,28 @@ public class TemplateCombo extends CustomCombo {
 
 	public ArrayList<String> getTempletes() {
 		ArrayList<String> list = new ArrayList<String>();
+		list.add("Classic Template");
+		list.add("Modern Template");
+		list.add("Plain Template");
+		list.add("Professional Template");
 
-		File dir = new File("../templetes");
-
-		String[] children = dir.list();
-		if (children != null) {
-
-			for (int i = 0; i < children.length; i++) {
-
-				String filename = children[i];
-
-				int indexOf = filename.indexOf(compareText);
-				if (indexOf > 0) {
-					filename = filename.substring(0, indexOf) + " Template";
-
-					list.add(filename);
-				}
-			}
-		}
+//		File dir = new File("../templetes");
+//
+//		String[] children = dir.list();
+//		if (children != null) {
+//
+//			for (int i = 0; i < children.length; i++) {
+//
+//				String filename = children[i];
+//
+//				int indexOf = filename.indexOf(compareText);
+//				if (indexOf > 0) {
+//					filename = filename.substring(0, indexOf) + " Template";
+//
+//					list.add(filename);
+//				}
+//			}
+//		}
 		return list;
 	}
 
