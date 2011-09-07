@@ -61,7 +61,7 @@ public class UIUtils {
 			ClientAccount.TYPE_FIXED_ASSET, ClientAccount.TYPE_CREDIT_CARD,
 			ClientAccount.TYPE_PAYROLL_LIABILITY,
 			ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
-			ClientAccount.TYPE_LONG_TERM_LIABILITY, ClientAccount.TYPE_EQUITY };
+			ClientAccount.TYPE_LONG_TERM_LIABILITY, ClientAccount.TYPE_EQUITY,ClientAccount.TYPE_PAYPAL };
 	public static short scrollBarWidth = -1;
 
 	// public static void log(String msg) {
@@ -1227,6 +1227,8 @@ public class UIUtils {
 			return ClientAccount.SUBBASETYPE_INCOME;
 		case ClientAccount.TYPE_OTHER_EXPENSE:
 			return ClientAccount.SUBBASETYPE_OTHER_EXPENSE;
+		case ClientAccount.TYPE_PAYPAL:
+			return ClientAccount.SUBBASETYPE_CURRENT_LIABILITY;
 		default:
 			return 0;
 		}
