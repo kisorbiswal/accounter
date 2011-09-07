@@ -456,17 +456,21 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 				}
 				if (typeList.size() < 1) {
 					typeList.add(Accounter.constants().emptyValue());
-				} else {
-					viewSelect.initCombo(typeList);
-				}
+				} 
+				viewSelect.initCombo(typeList);
 				viewSelect.setSelectedItem(0);
 
+				if(result.size()>1){
 				ClientBudget budget = (ClientBudget) result.get(0);
-
 				List<ClientBudgetItem> budgetItems = new ArrayList<ClientBudgetItem>();
 				budgetItems = budget.getBudgetItem();
-
 				grid.setRecords(budgetItems);
+				}else{
+					List<ClientBudgetItem> budgetItems = new ArrayList<ClientBudgetItem>();
+					grid.setRecords(budgetItems);
+				}
+
+				
 			} else {
 				grid.setRecords(result);
 			}
