@@ -121,7 +121,7 @@ $(document).ready(function() {
 								  <td>
 								     <ul class="reset-ok-button">
 										<li><span class="signup-submit-left"></span></li>
-										<li><input type="submit" tabindex="3" value="Ok" name="ok" class="signup-submit-mid forget-but" id="submitButton"></li>
+										<li><input type="submit" tabindex="3" value="OK" name="ok" class="signup-submit-mid forget-but" id="submitButton"></li>
 										<li><span class="signup-submit-right"></span></li>
 									 </ul>
 								     <ul class="reset-cancel-button">
