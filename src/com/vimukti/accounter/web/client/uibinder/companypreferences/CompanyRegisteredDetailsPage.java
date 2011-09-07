@@ -52,8 +52,6 @@ public class CompanyRegisteredDetailsPage extends AbstractCompanyInfoPanel {
 	@UiField
 	ListBox stateCombo;
 	@UiField
-	Label address1Label;
-	@UiField
 	Label registeredAddress;
 
 	private List<String> countriesList, states;
