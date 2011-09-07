@@ -1162,9 +1162,10 @@ public class WriteChequeView extends
 							button,
 							Accounter.messages().accounts(
 									Global.get().Account()), Accounter
-									.constants().productItem(),
-							// FinanceApplication.constants().comment(),
-							Accounter.constants().vatItem());
+									.constants().productItem()
+					// FinanceApplication.constants().comment(),
+					// Accounter.constants().vatItem()
+					);
 				// break;
 				// case ClientWriteCheck.TYPE_VENDOR:
 				// if (FinanceApplication.getCompany().getAccountingType() ==
@@ -1391,12 +1392,15 @@ public class WriteChequeView extends
 
 	@Override
 	protected void addNewData(ClientTransactionItem transactionItem) {
-		taxAgencyGrid.addData(transactionItem);
+		if (ClientWriteCheck.TYPE_CUSTOMER == transaction.getPayToType()) {
+			transactionCustomerTable.add(transactionItem);
+		} else {
+			transactionVendorTable.add(transactionItem);
+		}
 	}
 
 	@Override
 	protected void refreshTransactionGrid() {
-		taxAgencyGrid.refreshAllRecords();
 
 	}
 }
