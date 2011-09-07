@@ -47,7 +47,7 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 	DynamicForm budgetInfoForm;
 	DynamicForm budgetAddForm;
 	SelectCombo budgetAddBy;
-	ClientBudgetItem defaultValues;
+	ClientBudgetItem defaultValues = new ClientBudgetItem();
 
 	public AddBudgetAmountDialogue(String title, String desc,
 			HashMap<String, String> map, ClientBudgetItem budgetItem) {
@@ -205,6 +205,10 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 			quater1Amount.setHelpInformation(true);
 			quater1Amount.setRequired(false);
 			quater1Amount.setWidth(100);
+			quater1Amount.setValue(Double.toString(Double.parseDouble(janAmount
+					.getValue())
+					+ Double.parseDouble(febAmount.getValue())
+					+ Double.parseDouble(marAmount.getValue())));
 
 			quater2Amount = new IntegerField(this, "Q2("
 					+ Global.get().constants().apr() + " - "
@@ -212,6 +216,10 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 			quater2Amount.setHelpInformation(true);
 			quater2Amount.setRequired(false);
 			quater2Amount.setWidth(100);
+			quater2Amount.setValue(Double.toString(Double.parseDouble(aprAmount
+					.getValue())
+					+ Double.parseDouble(mayAmount.getValue())
+					+ Double.parseDouble(junAmount.getValue())));
 
 			quater3Amount = new IntegerField(this, "Q3("
 					+ Global.get().constants().jun() + " - "
@@ -219,6 +227,10 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 			quater3Amount.setHelpInformation(true);
 			quater3Amount.setRequired(false);
 			quater3Amount.setWidth(100);
+			quater3Amount.setValue(Double.toString(Double.parseDouble(julAmount
+					.getValue())
+					+ Double.parseDouble(augAmount.getValue())
+					+ Double.parseDouble(septAmount.getValue())));
 
 			quater4Amount = new IntegerField(this, "Q4("
 					+ Global.get().constants().oct() + " - "
@@ -226,6 +238,10 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 			quater4Amount.setHelpInformation(true);
 			quater4Amount.setRequired(false);
 			quater4Amount.setWidth(100);
+			quater4Amount.setValue(Double.toString(Double.parseDouble(octAmount
+					.getValue())
+					+ Double.parseDouble(novAmount.getValue())
+					+ Double.parseDouble(decAmount.getValue())));
 
 			budgetAddForm.removeAllRows();
 			budgetAddForm.setFields(quater1Amount, quater2Amount,
@@ -237,6 +253,19 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 			annualAmount.setHelpInformation(true);
 			annualAmount.setRequired(false);
 			annualAmount.setWidth(100);
+			annualAmount.setValue(Double.toString(Double.parseDouble(janAmount
+					.getValue())
+					+ Double.parseDouble(febAmount.getValue())
+					+ Double.parseDouble(marAmount.getValue())
+					+ Double.parseDouble(aprAmount.getValue())
+					+ Double.parseDouble(mayAmount.getValue())
+					+ Double.parseDouble(junAmount.getValue())
+					+ Double.parseDouble(julAmount.getValue())
+					+ Double.parseDouble(augAmount.getValue())
+					+ Double.parseDouble(septAmount.getValue())
+					+ Double.parseDouble(octAmount.getValue())
+					+ Double.parseDouble(novAmount.getValue())
+					+ Double.parseDouble(decAmount.getValue())));
 
 			budgetAddForm.removeAllRows();
 			budgetAddForm.setFields(annualAmount);
@@ -249,63 +278,63 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 		if (budgetAddBy.getSelectedValue() == MONTHS) {
 
-			newMap.put("jan", janAmount.getNumber() != null ? janAmount
-					.getNumber().toString() : "0");
+			newMap.put("jan", janAmount.getValue() != null ? janAmount
+					.getValue().toString() : "0");
 
-			newMap.put("feb", febAmount.getNumber() != null ? febAmount
-					.getNumber().toString() : "0");
+			newMap.put("feb", febAmount.getValue() != null ? febAmount
+					.getValue().toString() : "0");
 
-			newMap.put("mar", marAmount.getNumber() != null ? marAmount
-					.getNumber().toString() : "0");
+			newMap.put("mar", marAmount.getValue() != null ? marAmount
+					.getValue().toString() : "0");
 
-			newMap.put("apr", aprAmount.getNumber() != null ? aprAmount
-					.getNumber().toString() : "0");
+			newMap.put("apr", aprAmount.getValue() != null ? aprAmount
+					.getValue().toString() : "0");
 
-			newMap.put("may", mayAmount.getNumber() != null ? mayAmount
-					.getNumber().toString() : "0");
+			newMap.put("may", mayAmount.getValue() != null ? mayAmount
+					.getValue().toString() : "0");
 
-			newMap.put("jun", junAmount.getNumber() != null ? junAmount
-					.getNumber().toString() : "0");
+			newMap.put("jun", junAmount.getValue() != null ? junAmount
+					.getValue().toString() : "0");
 
-			newMap.put("jul", julAmount.getNumber() != null ? julAmount
-					.getNumber().toString() : "0");
+			newMap.put("jul", julAmount.getValue() != null ? julAmount
+					.getValue().toString() : "0");
 
-			newMap.put("aug", augAmount.getNumber() != null ? augAmount
-					.getNumber().toString() : "0");
+			newMap.put("aug", augAmount.getValue() != null ? augAmount
+					.getValue().toString() : "0");
 
-			newMap.put("sept", septAmount.getNumber() != null ? septAmount
-					.getNumber().toString() : "0");
+			newMap.put("sept", septAmount.getValue() != null ? septAmount
+					.getValue().toString() : "0");
 
-			newMap.put("oct", octAmount.getNumber() != null ? octAmount
-					.getNumber().toString() : "0");
+			newMap.put("oct", octAmount.getValue() != null ? octAmount
+					.getValue().toString() : "0");
 
-			newMap.put("nov", novAmount.getNumber() != null ? novAmount
-					.getNumber().toString() : "0");
+			newMap.put("nov", novAmount.getValue() != null ? novAmount
+					.getValue().toString() : "0");
 
-			newMap.put("dec", decAmount.getNumber() != null ? decAmount
-					.getNumber().toString() : "0");
+			newMap.put("dec", decAmount.getValue() != null ? decAmount
+					.getValue().toString() : "0");
 
 		} else if (budgetAddBy.getSelectedValue() == QUARTERS) {
 
 			String one, two, three, four;
 
-			if (quater1Amount.getNumber() != null)
-				one = Double.toString(quater1Amount.getNumber() / 3);
+			if (quater1Amount.getValue() != null)
+				one = Double.toString(quater1Amount.getNumber() / 3.00);
 			else
 				one = "0.00";
 
-			if (quater2Amount.getNumber() != null)
-				two = Double.toString(quater2Amount.getNumber() / 3);
+			if (quater2Amount.getValue() != null)
+				two = Double.toString(quater2Amount.getNumber() / 3.00);
 			else
 				two = "0.00";
 
-			if (quater3Amount.getNumber() != null)
-				three = Double.toString(quater3Amount.getNumber() / 3);
+			if (quater3Amount.getValue() != null)
+				three = Double.toString(quater3Amount.getNumber() / 3.00);
 			else
 				three = "0.00";
 
-			if (quater4Amount.getNumber() != null)
-				four = Double.toString(quater4Amount.getNumber() / 3);
+			if (quater4Amount.getValue() != null)
+				four = Double.toString(quater4Amount.getNumber() / 3.00);
 			else
 				four = "0.00";
 
@@ -337,8 +366,8 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 			String one;
 
-			if (annualAmount.getNumber() != null)
-				one = Double.toString(annualAmount.getNumber() / 12);
+			if (annualAmount.getValue() != null)
+				one = Double.toString(annualAmount.getNumber() / 12.00);
 			else
 				one = "0.00";
 
@@ -373,17 +402,18 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 	public void setDefaultValues() {
 
-		janAmount.setDefaultValue((int) defaultValues.getJanuaryAmount());
-		febAmount.setDefaultValue((int) defaultValues.getFebruaryAmount());
-		marAmount.setDefaultValue((int) defaultValues.getMarchAmount());
-		aprAmount.setDefaultValue((int) defaultValues.getAprilAmount());
-		mayAmount.setDefaultValue((int) defaultValues.getMayAmount());
-		junAmount.setDefaultValue((int) defaultValues.getJuneAmount());
-		julAmount.setDefaultValue((int) defaultValues.getJulyAmount());
-		augAmount.setDefaultValue((int) defaultValues.getAugustAmount());
-		septAmount.setDefaultValue((int) defaultValues.getSpetemberAmount());
-		octAmount.setDefaultValue((int) defaultValues.getOctoberAmount());
-		novAmount.setDefaultValue((int) defaultValues.getNovemberAmount());
-		decAmount.setDefaultValue((int) defaultValues.getDecemberAmount());
+		janAmount.setValue(Double.toString(defaultValues.getJanuaryAmount()));
+		febAmount.setValue(Double.toString(defaultValues.getFebruaryAmount()));
+		marAmount.setValue(Double.toString(defaultValues.getMarchAmount()));
+		aprAmount.setValue(Double.toString(defaultValues.getAprilAmount()));
+		mayAmount.setValue(Double.toString(defaultValues.getMayAmount()));
+		junAmount.setValue(Double.toString(defaultValues.getJuneAmount()));
+		julAmount.setValue(Double.toString(defaultValues.getJulyAmount()));
+		augAmount.setValue(Double.toString(defaultValues.getAugustAmount()));
+		septAmount
+				.setValue(Double.toString(defaultValues.getSpetemberAmount()));
+		octAmount.setValue(Double.toString(defaultValues.getOctoberAmount()));
+		novAmount.setValue(Double.toString(defaultValues.getNovemberAmount()));
+		decAmount.setValue(Double.toString(defaultValues.getDecemberAmount()));
 	}
 }
