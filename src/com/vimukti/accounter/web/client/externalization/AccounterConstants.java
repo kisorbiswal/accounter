@@ -4621,9 +4621,12 @@ public interface AccounterConstants extends Constants {
 	public String Difference();
 
 	public String ClearedAmount();
+
 	public String tdsSelection();
 
 	public String doYouWantTDS();
 
 	public String eTDSFiling();
+
+	public String change();
 }
