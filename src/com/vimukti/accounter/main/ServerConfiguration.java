@@ -301,7 +301,7 @@ public class ServerConfiguration {
 		String[] domainParts = getMainServerDomain().split("\\.");
 		int size = domainParts.length;
 		if (size < 2) {
-			return '.' + getMainServerDomain();
+			return "";
 		}
 		return '.' + domainParts[size - 2] + '.' + domainParts[size - 1];
 	}
