@@ -2,13 +2,41 @@ package com.vimukti.accounter.web.client.ui.widgets;
 
 import java.util.Date;
 
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
+/**
+ * 
+ * @author Sai Prasad N
+ *
+ */
 public class DateUtills {
 
-	public  boolean isMonth=false;
-	
-	public  Date parseDate(String date) {
+	public boolean isMonth = false;
+
+	public static String getDateAsString(Date date) {
+		DateTimeFormat dateFormatter = null;
+		if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("dd/MMM/yyyy"))
+			dateFormatter = DateTimeFormat.getFormat("dd/MMM/yyyy");
+		else if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("dd/MM/yyyy"))
+			dateFormatter = DateTimeFormat.getFormat("dd/MM/yyyy");
+
+		else if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("MM/dd/yyyy"))
+			dateFormatter = DateTimeFormat.getFormat("MM/dd/yyyy");
+
+		else if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("MMM/dd/yyyy"))
+			dateFormatter = DateTimeFormat.getFormat("MMM/dd/yyyy");
+
+		return dateFormatter.format(date);
+
+	}
+
+	public Date parseDate(String date) {
 		String[] split = date.contains("/") ? date.split("/") : date
 				.contains("-") ? date.split("-") : spilitString(date);
 
@@ -20,7 +48,7 @@ public class DateUtills {
 		return null;
 	}
 
-	public  String[] spilitString(String date) {
+	public String[] spilitString(String date) {
 
 		String str[] = new String[3];
 		try {
@@ -54,7 +82,7 @@ public class DateUtills {
 			switch (length) {
 			case 7:
 			case 9:
-				if ((bytes[0] >= 48) && (bytes[0] <= 57) ) {
+				if ((bytes[0] >= 48) && (bytes[0] <= 57)) {
 					str[0] = date.substring(0, 2);
 					str[1] = date.substring(2, 5);
 					str[2] = date.substring(5);
@@ -67,15 +95,15 @@ public class DateUtills {
 					return str;
 				}
 			default:
-			//	Window.alert("Please enter valid date");
+				// Window.alert("Please enter valid date");
 				break;
 			}
-			
+
 		}
 		return null;
 	}
 
-	public  Date processDate(String dateFormat, String monthFormat,
+	public Date processDate(String dateFormat, String monthFormat,
 			String yearFormat) {
 		int temp = 0;
 		try {
@@ -145,19 +173,18 @@ public class DateUtills {
 					break;
 				}
 			default:
-				
+
 				break;
 			}
 		} catch (Exception e) {
-			
-			
+
 			Window.alert("Enter valid date");
 			return null;
 		}
 		return null;
 	}
 
-	public  int evaluateDate(String dateFormat) {
+	public int evaluateDate(String dateFormat) {
 		try {
 			return Integer.parseInt(dateFormat);
 		} catch (Exception e) {
@@ -204,7 +231,7 @@ public class DateUtills {
 		return 0;
 	}
 
-	public  int evaluateMonthFormat(String monthFormat) {
+	public int evaluateMonthFormat(String monthFormat) {
 		try {
 			return Integer.parseInt(monthFormat);
 		} catch (Exception e) {
@@ -243,8 +270,7 @@ public class DateUtills {
 			} else if (monthFormat.equalsIgnoreCase("Dec")
 					|| monthFormat.equalsIgnoreCase("December")) {
 				return 12;
-			}
-			else {
+			} else {
 				System.out.println("Please enter Valid Month Format DDMMYYYY ");
 			}
 		}
