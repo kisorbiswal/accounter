@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
-import java.io.File;
 import java.util.ArrayList;
 
 /**
