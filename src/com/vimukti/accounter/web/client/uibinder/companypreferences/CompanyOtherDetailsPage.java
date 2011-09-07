@@ -40,7 +40,6 @@ public class CompanyOtherDetailsPage extends AbstractCompanyInfoPanel {
 	}
 
 	private void createControls() {
-
 		contactDetailLabel.setText(constants.contactDetails());
 		phoneTextBoxLabel.setText(constants.phone());
 		emailFieldBoxLabel.setText(constants.email());
@@ -60,8 +59,8 @@ public class CompanyOtherDetailsPage extends AbstractCompanyInfoPanel {
 	public void onSave() {
 		company.setPhone(phoneTextBox.getValue());
 		company.setCompanyEmail(emailFieldBox.getValue());
-		company.setWebSite(emailFieldBox.getValue());
-		company.setFax(emailFieldBox.getValue());
+		company.setWebSite(webTextBox.getValue());
+		company.setFax(faxTextBox.getValue());
 	}
 
 }
