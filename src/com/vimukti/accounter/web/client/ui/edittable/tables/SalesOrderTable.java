@@ -87,14 +87,6 @@ public abstract class SalesOrderTable extends CustomerTransactionTable {
 			this.addColumn(new TransactionVatColumn());
 		}
 
-		
-		
-		this.addColumn(new DeleteColumn<ClientTransactionItem>() {
-
-			@Override
-			protected void onDelete(ClientTransactionItem row) {
-				delete(row);
-			}
-		});
+		this.addColumn(new DeleteColumn<ClientTransactionItem>());
 	}
 }
