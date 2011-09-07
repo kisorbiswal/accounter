@@ -30,7 +30,7 @@ public class BaseServlet extends HttpServlet {
 	public static final String USER_ID = "userID";
 	public static final String ACTIVATION_TOKEN = "activationToken";
 	public static final String ACTIVATION_TYPE = "resetpassword";
-	public static final String OUR_COOKIE = "_accounter_01_infinity_2711";
+	public static final String OUR_COOKIE = "_accounter_01_infinity_22";
 
 	public static final String COMPANY_COOKIE = "cid";
 
@@ -278,9 +278,8 @@ public class BaseServlet extends HttpServlet {
 	protected void addUserCookies(HttpServletResponse resp, Client client) {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append(client.getEmailId());
-		buffer.append(",");
+		buffer.append(':');
 		buffer.append(client.getPassword());
-		buffer.append("");
 		Cookie userCookie = new Cookie(OUR_COOKIE, buffer.toString());
 		userCookie.setMaxAge(2 * 7 * 24 * 60 * 60);// Two week
 		userCookie.setPath("/");

@@ -143,7 +143,7 @@ public class NewLoginServlet extends BaseServlet {
 				dispatch(request, response, LOGIN_VIEW);
 				return;
 			}
-			String[] split = userCookie.split(",");
+			String[] split = userCookie.split(":");
 			Session session = HibernateUtil.openSession(LOCAL_DATABASE);
 			Query query = session
 					.getNamedQuery("getclient.from.central.db.using.emailid.and.password");

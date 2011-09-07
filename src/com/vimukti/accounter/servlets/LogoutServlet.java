@@ -24,11 +24,11 @@ public class LogoutServlet extends BaseServlet {
 				String cid = getCookie(req, COMPANY_COOKIE);
 				if (cid != null) {
 					long id = Long.parseLong(cid);
-					deleteCookie(req, resp);
 					// Destroy the comet queue so that it wont take memory
 					CometManager.destroyStream(req.getSession().getId(), id,
 							userid);
 				}
+				deleteCookie(req, resp);
 				req.getSession().setAttribute(USER_ID, null);
 			}
 			req.getSession().invalidate();
@@ -48,6 +48,7 @@ public class LogoutServlet extends BaseServlet {
 			if (cookie.getName().endsWith(OUR_COOKIE)
 					|| cookie.getName().equals(COMPANY_COOKIE)) {
 				cookie.setMaxAge(0);
+				cookie.setValue("");
 				cookie.setPath("/");
 				response.addCookie(cookie);
 			}
