@@ -4587,6 +4587,16 @@ public interface AccounterConstants extends Constants {
 	public String invoicesDue();
 
 	public String overDueBills();
+	
+	public String locationGroupList();
+	
+	public String aLocationAlreadyExistswiththisname();
+
+	public String manageLocationGroup();
+
+	public String toAddLocation();
+
+	public String locationName();
 
 	public String invoiceTemplete();
 
@@ -4595,6 +4605,8 @@ public interface AccounterConstants extends Constants {
 	public String budgetSubdivide();
 
 	public String budgetFinancialYear();
+
+	public String Categories();
 
 	public String creditNoteTemplete();
 
