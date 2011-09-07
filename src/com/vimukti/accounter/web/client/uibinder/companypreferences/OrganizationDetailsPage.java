@@ -16,25 +16,38 @@ public class OrganizationDetailsPage extends AbstractCompanyInfoPanel {
 
 	private static OrganizationDetailsPageUiBinder uiBinder = GWT
 			.create(OrganizationDetailsPageUiBinder.class);
-	@UiField Label soleProprietorshipRadioLabel;
-	@UiField RadioButton partnershipRadio;
-	@UiField Label partnershipRadioLabel;
-	@UiField RadioButton llcRadio;
-	@UiField Label llcRadioLabel;
-	@UiField RadioButton corporationRadio;
-	@UiField Label corporationRadioLabel;
-	@UiField RadioButton sCorporationRadio;
-	@UiField Label sCorporationRadioLabel;
-	@UiField RadioButton nonProfitRadio;
-	@UiField Label nonProfitRadioLabel;
-	@UiField RadioButton otherNoneRadio;
-	@UiField Label otherNoneRadioLabel;
-	@UiField RadioButton soleProprietorshipRadio;
-	@UiField ListBox llcFormCombo;
+	@UiField
+	Label soleProprietorshipRadioLabel;
+	@UiField
+	RadioButton partnershipRadio;
+	@UiField
+	Label partnershipRadioLabel;
+	@UiField
+	RadioButton llcRadio;
+	@UiField
+	Label llcRadioLabel;
+	@UiField
+	RadioButton corporationRadio;
+	@UiField
+	Label corporationRadioLabel;
+	@UiField
+	RadioButton sCorporationRadio;
+	@UiField
+	Label sCorporationRadioLabel;
+	@UiField
+	RadioButton nonProfitRadio;
+	@UiField
+	Label nonProfitRadioLabel;
+	@UiField
+	RadioButton otherNoneRadio;
+	@UiField
+	Label otherNoneRadioLabel;
+	@UiField
+	RadioButton soleProprietorshipRadio;
+	@UiField
+	ListBox llcFormCombo;
 
-	 private String ORG_TYPE;
-	
-
+	private String ORG_TYPE;
 
 	interface OrganizationDetailsPageUiBinder extends
 			UiBinder<Widget, OrganizationDetailsPage> {
@@ -42,7 +55,7 @@ public class OrganizationDetailsPage extends AbstractCompanyInfoPanel {
 
 	public OrganizationDetailsPage() {
 		initWidget(uiBinder.createAndBindUi(this));
-		 createControls();
+		createControls();
 	}
 
 	private void createControls() {
@@ -124,54 +137,54 @@ public class OrganizationDetailsPage extends AbstractCompanyInfoPanel {
 
 	@Override
 	public void onLoad() {
-		 switch (companyPreferences.getOrganizationType()) {
-		 case OrganizationTypeConstants.SOLE_PROPRIETORSHIP:
-		 soleProprietorshipRadio.setValue(true);
-		 break;
-		 case OrganizationTypeConstants.CORPORATION:
-		 corporationRadio.setValue(true);
-		 break;
-		 case OrganizationTypeConstants.S_CORPORATION:
-		 sCorporationRadio.setValue(true);
-		 break;
-		 case OrganizationTypeConstants.LLC:
-		 llcRadio.setValue(true);
-		 break;
-		 case OrganizationTypeConstants.PARTNERSHIP:
-		 partnershipRadio.setValue(true);
-		 break;
-		 case OrganizationTypeConstants.NON_PROFIT:
-		 nonProfitRadio.setValue(true);
-		 break;
-		 case OrganizationTypeConstants.OTHER:
-		 otherNoneRadio.setValue(true);
-		 }
+		switch (companyPreferences.getOrganizationType()) {
+		case OrganizationTypeConstants.SOLE_PROPRIETORSHIP:
+			soleProprietorshipRadio.setValue(true);
+			break;
+		case OrganizationTypeConstants.CORPORATION:
+			corporationRadio.setValue(true);
+			break;
+		case OrganizationTypeConstants.S_CORPORATION:
+			sCorporationRadio.setValue(true);
+			break;
+		case OrganizationTypeConstants.LLC:
+			llcRadio.setValue(true);
+			break;
+		case OrganizationTypeConstants.PARTNERSHIP:
+			partnershipRadio.setValue(true);
+			break;
+		case OrganizationTypeConstants.NON_PROFIT:
+			nonProfitRadio.setValue(true);
+			break;
+		case OrganizationTypeConstants.OTHER:
+			otherNoneRadio.setValue(true);
+		}
 	}
 
 	@Override
 	public void onSave() {
-		 if (soleProprietorshipRadio.getValue()) {
-		 companyPreferences
-		 .setOrganizationType(OrganizationTypeConstants.SOLE_PROPRIETORSHIP);
-		 } else if (corporationRadio.getValue()) {
-		 companyPreferences
-		 .setOrganizationType(OrganizationTypeConstants.CORPORATION);
-		 } else if (sCorporationRadio.getValue()) {
-		 companyPreferences
-		 .setOrganizationType(OrganizationTypeConstants.S_CORPORATION);
-		 } else if (llcRadio.getValue()) {
-		 companyPreferences
-		 .setOrganizationType(OrganizationTypeConstants.LLC);
-		 } else if (partnershipRadio.getValue()) {
-		 companyPreferences
-		 .setOrganizationType(OrganizationTypeConstants.PARTNERSHIP);
-		 } else if (nonProfitRadio.getValue()) {
-		 companyPreferences
-		 .setOrganizationType(OrganizationTypeConstants.NON_PROFIT);
-		 } else {
-		 companyPreferences
-		 .setOrganizationType(OrganizationTypeConstants.OTHER);
-		 }
+		if (soleProprietorshipRadio.getValue()) {
+			companyPreferences
+					.setOrganizationType(OrganizationTypeConstants.SOLE_PROPRIETORSHIP);
+		} else if (corporationRadio.getValue()) {
+			companyPreferences
+					.setOrganizationType(OrganizationTypeConstants.CORPORATION);
+		} else if (sCorporationRadio.getValue()) {
+			companyPreferences
+					.setOrganizationType(OrganizationTypeConstants.S_CORPORATION);
+		} else if (llcRadio.getValue()) {
+			companyPreferences
+					.setOrganizationType(OrganizationTypeConstants.LLC);
+		} else if (partnershipRadio.getValue()) {
+			companyPreferences
+					.setOrganizationType(OrganizationTypeConstants.PARTNERSHIP);
+		} else if (nonProfitRadio.getValue()) {
+			companyPreferences
+					.setOrganizationType(OrganizationTypeConstants.NON_PROFIT);
+		} else {
+			companyPreferences
+					.setOrganizationType(OrganizationTypeConstants.OTHER);
+		}
 	}
 
 }
