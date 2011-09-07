@@ -60,28 +60,28 @@ public class NewBudgetAction extends Action<ClientBudget> {
 
 	}
 
-	private void runAsync(final boolean isEdit, final Object data) {
-
-		GWT.runAsync(new RunAsyncCallback() {
-
-			@Override
-			public void onSuccess() {
-				view = new NewBudgetView(isEdit, data);
-				view.onEdit();
-				MainFinanceWindow.getViewManager().showView(view, data,
-						isDependent, NewBudgetAction.this);
-
-			}
-
-			@Override
-			public void onFailure(Throwable arg0) {
-				Accounter
-						.showError(Accounter.constants().unableToshowtheview());
-
-			}
-		});
-
-	}
+	// private void runAsync(final boolean isEdit, final Object data) {
+	//
+	// GWT.runAsync(new RunAsyncCallback() {
+	//
+	// @Override
+	// public void onSuccess() {
+	// view = new NewBudgetView(isEdit, data);
+	// view.onEdit();
+	// MainFinanceWindow.getViewManager().showView(view, data,
+	// isDependent, NewBudgetAction.this);
+	//
+	// }
+	//
+	// @Override
+	// public void onFailure(Throwable arg0) {
+	// Accounter
+	// .showError(Accounter.constants().unableToshowtheview());
+	//
+	// }
+	// });
+	//
+	// }
 
 	public void runAsync(final Object data, final Boolean isDependent) {
 
@@ -135,7 +135,7 @@ public class NewBudgetAction extends Action<ClientBudget> {
 
 	public void runEdit(Object budgetItem) {
 		edit = true;
-		runAsync(edit, budgetItem);
+		// runAsync(edit, budgetItem);
 
 	}
 }

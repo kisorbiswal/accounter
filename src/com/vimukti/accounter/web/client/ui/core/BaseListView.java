@@ -78,6 +78,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	public DateItem toItem;
 	public Button updateButton;
 	public Button prepare1099MiscForms;
+	public Button budgetDetails;
 
 	@Override
 	public void init() {
@@ -235,6 +236,17 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			}
 		});
 
+		budgetDetails = new Button(Accounter.constants().details());
+		budgetDetails.setWidth("10");
+		budgetDetails.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				ActionFactory.getNewBudgetAction().run((ClientBudget) data,
+						false);
+			}
+		});
+
 		DynamicForm form = new DynamicForm();
 
 		if (this instanceof InvoiceListView) {
@@ -252,6 +264,13 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			form.setFields(viewSelect);
 			hlay.add(prepare1099MiscForms);
 			hlay.add(form);
+			hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
+		} else if (this instanceof BudgetListView
+				&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			form.setFields(viewSelect);
+			hlay.add(form);
+			hlay.add(budgetDetails);
+			hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
 		} else {
 
 			if (!(this instanceof JournalEntryListView))
@@ -456,21 +475,20 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 				}
 				if (typeList.size() < 1) {
 					typeList.add(Accounter.constants().emptyValue());
-				} 
+				}
 				viewSelect.initCombo(typeList);
 				viewSelect.setSelectedItem(0);
 
-				if(result.size()>1){
-				ClientBudget budget = (ClientBudget) result.get(0);
-				List<ClientBudgetItem> budgetItems = new ArrayList<ClientBudgetItem>();
-				budgetItems = budget.getBudgetItem();
-				grid.setRecords(budgetItems);
-				}else{
+				if (result.size() > 1) {
+					ClientBudget budget = (ClientBudget) result.get(0);
+					List<ClientBudgetItem> budgetItems = new ArrayList<ClientBudgetItem>();
+					budgetItems = budget.getBudgetItem();
+					grid.setRecords(budgetItems);
+				} else {
 					List<ClientBudgetItem> budgetItems = new ArrayList<ClientBudgetItem>();
 					grid.setRecords(budgetItems);
 				}
 
-				
 			} else {
 				grid.setRecords(result);
 			}

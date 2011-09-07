@@ -9,8 +9,6 @@ public class Budget extends CreatableObject implements IAccounterServerCore {
 
 	private static final long serialVersionUID = 1L;
 
-	private long id;
-
 	private String budgetName;
 
 	List<BudgetItem> budgetItems = new ArrayList<BudgetItem>();

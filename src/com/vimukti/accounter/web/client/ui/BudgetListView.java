@@ -13,7 +13,6 @@ import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
-import com.vimukti.accounter.web.client.ui.core.IEditableView;
 import com.vimukti.accounter.web.client.ui.grids.BudgetListGrid;
 
 /**
@@ -21,18 +20,13 @@ import com.vimukti.accounter.web.client.ui.grids.BudgetListGrid;
  * @author Amrit Mishra
  * 
  */
-public class BudgetListView extends BaseListView<ClientBudget> implements
-		IEditableView {
+public class BudgetListView extends BaseListView<ClientBudget> {
 
-	@Override
-	public void onEdit() {
-		ActionFactory.getNewBudgetAction().runEdit(data);
-
-	}
-
-	public void setData(ClientBudget editBudget) {
-		data = editBudget;
-	};
+	// @Override
+	// public void onEdit() {
+	// ActionFactory.getNewBudgetAction().run((ClientBudget) data, false);
+	//
+	// }
 
 	SelectCombo currentView;
 
@@ -176,14 +170,14 @@ public class BudgetListView extends BaseListView<ClientBudget> implements
 		super.onSuccess(result);
 	}
 
-	@Override
-	public boolean canEdit() {
-		return true;
-	}
-
-	@Override
-	public boolean isDirty() {
-		return false;
-	}
+	// @Override
+	// public boolean canEdit() {
+	// return true;
+	// }
+	//
+	// @Override
+	// public boolean isDirty() {
+	// return false;
+	// }
 
 }
