@@ -62,6 +62,9 @@ public class QuickAddDialog extends CustomDialog {
 			@Override
 			public void onClick(ClickEvent event) {
 				// Doubt
+				if (listener != null) {
+					listener.onCancel();
+				}
 				hide();
 
 			}
@@ -103,6 +106,8 @@ public class QuickAddDialog extends CustomDialog {
 		T getData(String text);
 
 		void onAddAllInfo(String text);
+		
+		void onCancel();
 	}
 
 	public void setDefaultText(String text) {

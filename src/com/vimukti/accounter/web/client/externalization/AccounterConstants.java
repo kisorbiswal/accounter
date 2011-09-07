@@ -1028,7 +1028,7 @@ public interface AccounterConstants extends Constants {
 
 	public String discountDate();
 
-	public String discountPerc();
+	public String discPerc();
 
 	public String discounts();
 

@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -107,7 +108,13 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 		public ClientCustomer getData(String text) {
 			ClientCustomer clientCustomer = new ClientCustomer();
 			clientCustomer.setName(text);
+			clientCustomer.setBalanceAsOf(new ClientFinanceDate().getDate());
 			return clientCustomer;
+		}
+
+		@Override
+		public void onCancel() {
+			changeValue(-1);
 		}
 
 	}

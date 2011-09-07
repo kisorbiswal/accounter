@@ -25,7 +25,7 @@ public class SalesOrderGrid extends CustomerTransactionGrid {
 						Accounter.constants().description(),
 						Accounter.constants().quantity(),
 						Accounter.constants().unitPrice(),
-						Accounter.constants().discountPerc(),
+						Accounter.constants().discPerc(),
 						Accounter.constants().total(),
 						Accounter.constants().newVATCode(),
 						Accounter.constants().vat(),
@@ -35,7 +35,7 @@ public class SalesOrderGrid extends CustomerTransactionGrid {
 						Accounter.constants().description(),
 						Accounter.constants().quantity(),
 						Accounter.constants().unitPrice(),
-						Accounter.constants().discountPerc(),
+						Accounter.constants().discPerc(),
 						Accounter.constants().total(),
 						Accounter.constants().tax(),
 						Accounter.constants().invoiced(), " " };
@@ -46,7 +46,7 @@ public class SalesOrderGrid extends CustomerTransactionGrid {
 					Accounter.constants().description(),
 					Accounter.constants().quantity(),
 					Accounter.constants().unitPrice(),
-					Accounter.constants().discountPerc(),
+					Accounter.constants().discPerc(),
 					Accounter.constants().total(),
 					Accounter.constants().invoiced(), " " };
 		}

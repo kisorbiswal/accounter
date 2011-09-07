@@ -495,6 +495,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		case -1:
 			if (popup.isShowing())
 				popup.hide();
+			setSelectedItem(selectedObject, rowIndex);
 			break;
 		case 0:
 			if (isAddNewRequire) {

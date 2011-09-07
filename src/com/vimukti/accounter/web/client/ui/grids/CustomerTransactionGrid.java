@@ -1511,7 +1511,7 @@ public class CustomerTransactionGrid extends
 						Accounter.constants().description(),
 						Accounter.constants().quantity(),
 						Accounter.constants().unitPrice(),
-						Accounter.constants().discountPerc(),
+						Accounter.constants().discPerc(),
 						Accounter.constants().total(),
 						Accounter.constants().vatCode(),
 						Accounter.constants().vat(), " " };
@@ -1521,14 +1521,14 @@ public class CustomerTransactionGrid extends
 							Accounter.constants().description(),
 							Accounter.constants().quantity(),
 							Accounter.constants().unitPrice(),
-							Accounter.constants().discountPerc(),
+							Accounter.constants().discPerc(),
 							Accounter.constants().total(), " " };
 				else
 					return new String[] { "", Accounter.constants().name(),
 							Accounter.constants().description(),
 							Accounter.constants().quantity(),
 							Accounter.constants().unitPrice(),
-							Accounter.constants().discountPerc(),
+							Accounter.constants().discPerc(),
 							Accounter.constants().total(),
 							Accounter.constants().tax(), " " };
 			}
@@ -1537,7 +1537,7 @@ public class CustomerTransactionGrid extends
 					Accounter.constants().description(),
 					Accounter.constants().quantity(),
 					Accounter.constants().unitPrice(),
-					Accounter.constants().discountPerc(),
+					Accounter.constants().discPerc(),
 					Accounter.constants().total(), " " };
 		}
 	}
