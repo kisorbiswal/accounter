@@ -261,11 +261,6 @@ public abstract class TransactionPayBillTable extends
 			}
 
 			@Override
-			public int getWidth() {
-				return 40;
-			}
-
-			@Override
 			protected String getColumnName() {
 				return Accounter.constants().cashDiscount();
 			}
@@ -360,7 +355,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getValue(ClientTransactionPayBill row) {
-					return "";
+					return DataUtils.getAmountAsString(row.getPayment());
 				}
 
 				@Override
