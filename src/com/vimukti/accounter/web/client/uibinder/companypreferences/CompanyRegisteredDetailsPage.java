@@ -109,7 +109,7 @@ public class CompanyRegisteredDetailsPage extends AbstractCompanyInfoPanel {
 	@Override
 	public void onLoad() {
 		registeredCompanyName.setValue(company.getDisplayName());
-		address = company.getTradingAddress();
+		address = company.getRegisteredAddress();
 		if (address != null) {
 			this.address1TextBox.setValue(address.getAddress1());
 			this.address2TextBox.setValue(address.getStreet());
@@ -145,7 +145,7 @@ public class CompanyRegisteredDetailsPage extends AbstractCompanyInfoPanel {
 		if (countryCombo.getSelectedIndex() != -1)
 			address.setCountryOrRegion(countriesList.get(countryCombo
 					.getSelectedIndex()));
-		company.setTradingAddress(address);
+		company.setRegisteredAddress(address);
 		Accounter.setCompany(company);
 	}
 
