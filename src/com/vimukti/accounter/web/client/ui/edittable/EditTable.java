@@ -155,4 +155,14 @@ public class EditTable<R> extends SimplePanel {
 			}
 		}
 	}
+
+	public boolean isChecked(R row, int colInd) {
+		int x = getAllRows().indexOf(row);
+		IsWidget widget = table.getWidget(x + 1, colInd);
+		if (widget instanceof CheckBox) {
+			CheckBox checkedWidget = (CheckBox) widget;
+			return checkedWidget.getValue();
+		}
+		return false;
+	}
 }
