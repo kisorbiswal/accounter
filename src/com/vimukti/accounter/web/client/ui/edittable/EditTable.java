@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.edittable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.RowFormatter;
@@ -132,9 +133,9 @@ public class EditTable<R> extends SimplePanel {
 		List<R> selected = new ArrayList<R>();
 		for (int x = 0; x < rows.size(); x++) {
 			IsWidget widget = table.getWidget(x + 1, colInd);
-			if (widget instanceof CheckedWidget) {
-				CheckedWidget checkedWidget = (CheckedWidget) widget;
-				if (checkedWidget.isChecked(widget)) {
+			if (widget instanceof CheckBox) {
+				CheckBox checkedWidget = (CheckBox) widget;
+				if (checkedWidget.getValue()) {
 					selected.add(rows.get(x));
 				}
 			}
@@ -143,7 +144,15 @@ public class EditTable<R> extends SimplePanel {
 	}
 
 	public void checkColumn(int row, int colInd, boolean isChecked) {
-		// TODO Auto-generated method stub
-
+		IsWidget widget = table.getWidget(row + 1, colInd);
+		if (widget instanceof CheckBox) {
+			CheckBox checkedWidget = (CheckBox) widget;
+			checkedWidget.setValue(isChecked);
+			if (isChecked) {
+				rowFormatter.removeStyleName(row + 1, "selected");
+			} else {
+				rowFormatter.addStyleName(row + 1, "selected");
+			}
+		}
 	}
 }

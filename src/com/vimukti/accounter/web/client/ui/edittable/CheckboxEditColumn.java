@@ -5,8 +5,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.IsWidget;
 
-public abstract class CheckboxEditColumn<T> extends EditColumn<T> implements
-		CheckedWidget {
+public abstract class CheckboxEditColumn<T> extends EditColumn<T> {
 
 	@Override
 	public int getWidth() {
@@ -59,12 +58,6 @@ public abstract class CheckboxEditColumn<T> extends EditColumn<T> implements
 			}
 		});
 		return box;
-	}
-
-	@Override
-	public boolean isChecked(IsWidget widget) {
-		CheckBox box = (CheckBox) widget;
-		return box.getValue();
 	}
 
 	protected abstract void onChangeValue(boolean value, T row);
