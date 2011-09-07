@@ -702,4 +702,9 @@ public class ItemReceiptView extends
 		// vendorTransactionTable.refreshAllRecords();
 	}
 
+	@Override
+	public List<ClientTransactionItem> getAllTransactionItems() {
+		return vendorTransactionTable.getAllRows();
+	}
+
 }

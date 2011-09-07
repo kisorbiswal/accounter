@@ -1108,4 +1108,9 @@ public class VendorBillView extends
 	@Override
 	protected void refreshTransactionGrid() {
 	}
+
+	@Override
+	public List<ClientTransactionItem> getAllTransactionItems() {
+		return vendorTransactionTable.getAllRows();
+	}
 }

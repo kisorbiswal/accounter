@@ -749,4 +749,6 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 			}
 		}
 	}
+	
+	public abstract List<ClientTransactionItem> getAllTransactionItems();
 }
