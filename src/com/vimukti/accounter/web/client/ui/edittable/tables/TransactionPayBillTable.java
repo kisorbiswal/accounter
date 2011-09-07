@@ -16,7 +16,6 @@ import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CashDiscountDialog;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -25,17 +24,16 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.customers.CustomerCreditsAndPaymentsDialiog;
 import com.vimukti.accounter.web.client.ui.edittable.AnchorEditColumn;
+import com.vimukti.accounter.web.client.ui.edittable.CheckboxEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
+import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 public abstract class TransactionPayBillTable extends
 		EditTable<ClientTransactionPayBill> {
 	private boolean canEdit;
-	private boolean isAlreadyOpened;
-	private AccounterConstants vendorConstants = Accounter.constants();
 	private ClientVendor vendor;
 	private List<Integer> selectedValues = new ArrayList<Integer>();
-	private AccounterConstants accounterConstants = Accounter.constants();
 	private boolean gotCreditsAndPayments;
 	private CashDiscountDialog cashDiscountDialog;
 	private CustomerCreditsAndPaymentsDialiog creditsAndPaymentsDialiog;
@@ -45,21 +43,38 @@ public abstract class TransactionPayBillTable extends
 	private Stack<Map<Integer, Object>> creditsStack;
 	private Stack<Map<Integer, Object>> revertedCreditsStack;
 
-	private boolean hasRecords;
 	private Stack<Map<Integer, Map<Integer, Object>>> tobeReverCredittStk = new Stack<Map<Integer, Map<Integer, Object>>>();
 	private ArrayList<Map<Integer, Object>> pendingRevertedCredit = new ArrayList<Map<Integer, Object>>();
+	public boolean isAlreadyOpened;
 
-	public TransactionPayBillTable() {
+	public TransactionPayBillTable(boolean canEdit) {
+		this.canEdit = canEdit;
 		initColumn();
 	}
 
 	private void initColumn() {
+		this.addColumn(new CheckboxEditColumn<ClientTransactionPayBill>() {
+
+			@Override
+			protected void onHeaderValueChanged(boolean value) {
+				onHeaderCheckBoxClick(value);
+				selectAllRows();
+			}
+
+			@Override
+			protected void onChangeValue(boolean value,
+					ClientTransactionPayBill row) {
+				onSelectionChanged(row, value);
+			}
+
+		});
+
 		if (canEdit) {
 			TextEditColumn<ClientTransactionPayBill> dueDate = new TextEditColumn<ClientTransactionPayBill>() {
 
 				@Override
 				protected String getValue(ClientTransactionPayBill row) {
-					return "";// new FinanceDate(row.getDueDate()).toString();
+					return DateUtills.getDateAsString(row.getDueDate());
 				}
 
 				@Override
@@ -208,7 +223,7 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			protected String getValue(ClientTransactionPayBill row) {
-				return "";// new FinanceDate(row.getDiscountDate()).toString();
+				return DateUtills.getDateAsString(row.getDiscountDate());
 			}
 
 			@Override
@@ -365,15 +380,35 @@ public abstract class TransactionPayBillTable extends
 		}
 	}
 
+	protected void selectAllRows() {
+		List<ClientTransactionPayBill> allRows = getAllRows();
+		for (ClientTransactionPayBill row : allRows) {
+			onSelectionChanged(row, true);
+		}
+	}
+
+	private void onSelectionChanged(ClientTransactionPayBill obj,
+			boolean isChecked) {
+		int row = indexOf(obj);
+		if (isChecked && !selectedValues.contains(row)) {
+			selectedValues.add(row);
+			update(obj);
+		} else {
+			selectedValues.remove((Integer) row);
+			resetValue(obj);
+		}
+		super.checkColumn(row, 0, isChecked);
+	}
+
 	private void initCreditsDialogInstance(
 			ClientTransactionPayBill selectedObject) {
 		for (ClientCreditsAndPayments rec : updatedCustomerCreditsAndPayments) {
 			rec.setActualAmt(rec.getBalance());
 			rec.setRemaoningBalance(rec.getBalance());
 		}
-		creditsAndPaymentsDialiog = new CustomerCreditsAndPaymentsDialiog(
+		setCreditsAndPaymentsDialiog(new CustomerCreditsAndPaymentsDialiog(
 				this.vendor, updatedCustomerCreditsAndPayments, canEdit,
-				selectedObject);
+				selectedObject));
 
 	}
 
@@ -393,7 +428,7 @@ public abstract class TransactionPayBillTable extends
 				siz = pek.get(ky).size();
 			}
 		}
-		for (int s = 0; pendingCredits.hasNext(); s++) {
+		for (; pendingCredits.hasNext();) {
 			Map<Integer, Map<Integer, Object>> pendingCrs = pendingCredits
 					.next();
 			if (pendingCrs.containsKey(curntPayBillRecIndx)) {
@@ -421,13 +456,13 @@ public abstract class TransactionPayBillTable extends
 
 	}
 
-	private int indexOf(ClientTransactionPayBill selectedObject) {
+	public int indexOf(ClientTransactionPayBill selectedObject) {
 		return getAllRows().indexOf(selectedObject);
 	}
 
 	private void openCreditsDialog(final ClientTransactionPayBill selectedObject) {
 		if (gotCreditsAndPayments) {
-			if (creditsAndPaymentsDialiog == null) {
+			if (getCreditsAndPaymentsDialiog() == null) {
 				initCreditsDialogInstance(selectedObject);
 			} else {
 				if (selectedObject.isCreditsApplied()) {
@@ -521,21 +556,21 @@ public abstract class TransactionPayBillTable extends
 						}
 					}
 				}
-				creditsAndPaymentsDialiog
-						.setUpdatedCreditsAndPayments(updatedCustomerCreditsAndPayments);
-				creditsAndPaymentsDialiog.setCanEdit(canEdit);
-				creditsAndPaymentsDialiog.setRecord(selectedObject);
-				creditsAndPaymentsDialiog.setVendor(vendor);
-				creditsAndPaymentsDialiog.updateFields();
+				getCreditsAndPaymentsDialiog().setUpdatedCreditsAndPayments(
+						updatedCustomerCreditsAndPayments);
+				getCreditsAndPaymentsDialiog().setCanEdit(canEdit);
+				getCreditsAndPaymentsDialiog().setRecord(selectedObject);
+				getCreditsAndPaymentsDialiog().setVendor(vendor);
+				getCreditsAndPaymentsDialiog().updateFields();
 
 			}
 
-			creditsAndPaymentsDialiog
-					.addInputDialogHandler(new InputDialogHandler() {
+			getCreditsAndPaymentsDialiog().addInputDialogHandler(
+					new InputDialogHandler() {
 
 						@Override
 						public void onCancel() {
-							creditsAndPaymentsDialiog.cancelClicked = true;
+							getCreditsAndPaymentsDialiog().cancelClicked = true;
 							// selectedObject
 							// .setAppliedCredits(creditsAndPaymentsDialiog
 							// .getTotalCreditAmount());
@@ -544,7 +579,7 @@ public abstract class TransactionPayBillTable extends
 
 						@Override
 						public boolean onOK() {
-							List<ClientCreditsAndPayments> appliedCreditsForThisRec = creditsAndPaymentsDialiog.grid
+							List<ClientCreditsAndPayments> appliedCreditsForThisRec = getCreditsAndPaymentsDialiog().grid
 									.getSelectedRecords();
 							Map<Integer, Object> appliedCredits = new HashMap<Integer, Object>();
 							TempCredit creditRec = null;
@@ -556,7 +591,7 @@ public abstract class TransactionPayBillTable extends
 									Accounter.showError(e.getMessage());
 									return false;
 								}
-								Integer recordIndx = creditsAndPaymentsDialiog.grid
+								Integer recordIndx = getCreditsAndPaymentsDialiog().grid
 										.indexOf(rec);
 								creditRec = new TempCredit();
 								for (ClientTransactionPayBill pb : getSelectedRecords()) {
@@ -579,7 +614,7 @@ public abstract class TransactionPayBillTable extends
 
 							try {
 
-								creditsAndPaymentsDialiog.okClicked = true;
+								getCreditsAndPaymentsDialiog().okClicked = true;
 
 								// creditsAndPaymentsDialiog.validateTransaction();
 
@@ -601,7 +636,7 @@ public abstract class TransactionPayBillTable extends
 							creditsStack.push(appliedCredits);
 
 							selectedObject
-									.setAppliedCredits(creditsAndPaymentsDialiog
+									.setAppliedCredits(getCreditsAndPaymentsDialiog()
 											.getTotalCreditAmount());
 
 							// selectedObject.setPayment(selectedObject
@@ -617,11 +652,11 @@ public abstract class TransactionPayBillTable extends
 							update(selectedObject);
 
 							updateFootervalues(selectedObject, canEdit);
-							setUnUsedCreditsTextAmount(creditsAndPaymentsDialiog.totalBalances);
+							setUnUsedCreditsTextAmount(getCreditsAndPaymentsDialiog().totalBalances);
 							return true;
 						}
 					});
-			creditsAndPaymentsDialiog.show();
+			getCreditsAndPaymentsDialiog().show();
 
 		} else {
 			Accounter.showInformation(Accounter.messages()
@@ -632,9 +667,8 @@ public abstract class TransactionPayBillTable extends
 
 	protected abstract void setUnUsedCreditsTextAmount(Double totalBalances);
 
-	protected List<ClientTransactionPayBill> getSelectedRecords() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ClientTransactionPayBill> getSelectedRecords() {
+		return super.getSelectedRecords(0);
 	}
 
 	private void checkBalance(double amount) throws Exception {
@@ -825,18 +859,6 @@ public abstract class TransactionPayBillTable extends
 
 	}
 
-	private void selectAllRows() {
-		// for (ClientTransactionPayBill obj : this.getAllRows()) {
-		// // if (!isSelected(obj)) {
-		// ((CheckBox) this.body.getWidget(indexOf(obj), 0)).setValue(true);
-		// selectedValues.add(indexOf(obj));
-		// this.rowFormatter.addStyleName(indexOf(obj), "selected");
-		// // updateValue(obj);
-		// // }
-		// }
-		adjustAmountAndEndingBalance();
-	}
-
 	private void resetValues() {
 		/* Revert all credits to its original state */
 		for (ClientCreditsAndPayments crdt : updatedCustomerCreditsAndPayments) {
@@ -846,21 +868,19 @@ public abstract class TransactionPayBillTable extends
 		}
 		for (ClientTransactionPayBill obj : this.getAllRows()) {
 			obj.setTempCredits(null);
-			if (creditsAndPaymentsDialiog != null
-					&& creditsAndPaymentsDialiog.grid.getRecords().size() == 0)
+			if (getCreditsAndPaymentsDialiog() != null
+					&& getCreditsAndPaymentsDialiog().grid.getRecords().size() == 0)
 				creditsStack.clear();
 
 			obj.setPayment(0.0);
 			obj.setCashDiscount(0);
 			obj.setAppliedCredits(0);
-			// TODO this.rowFormatter.removeStyleName((Integer) indexOf(obj),
-			// "selected");
 			selectedValues.remove((Integer) indexOf(obj));
 			update(obj);
 		}
 		updateFootervalues(null, canEdit);
 		resetTotlas();
-		creditsAndPaymentsDialiog = null;
+		setCreditsAndPaymentsDialiog(null);
 		cashDiscountDialog = null;
 	}
 
@@ -934,7 +954,8 @@ public abstract class TransactionPayBillTable extends
 							crdt.setBalance(crdt.getActualAmt());
 							crdt.setRemaoningBalance(0);
 							crdt.setAmtTouse(0);
-							creditsAndPaymentsDialiog.grid.updateData(crdt);
+							getCreditsAndPaymentsDialiog().grid
+									.updateData(crdt);
 						}
 					}
 				}
@@ -942,8 +963,8 @@ public abstract class TransactionPayBillTable extends
 			obj.setTempCredits(null);
 			obj.setCreditsApplied(false);
 		}
-		if (creditsAndPaymentsDialiog != null
-				&& creditsAndPaymentsDialiog.grid.getRecords().size() == 0)
+		if (getCreditsAndPaymentsDialiog() != null
+				&& getCreditsAndPaymentsDialiog().grid.getRecords().size() == 0)
 			creditsStack.clear();
 		updateAmountDue(obj);
 		deleteTotalPayment(obj);
@@ -959,13 +980,13 @@ public abstract class TransactionPayBillTable extends
 
 	private void onHeaderCheckBoxClick(boolean isChecked) {
 		if (isChecked) {
-			selectAllRows();
+			adjustAmountAndEndingBalance();
 		} else {
 			resetValues();
 		}
 	}
 
-	private void updateAmountDue(ClientTransactionPayBill item) {
+	public void updateAmountDue(ClientTransactionPayBill item) {
 		double totalValue = item.getCashDiscount() + item.getAppliedCredits()
 				+ item.getPayment();
 
@@ -980,5 +1001,52 @@ public abstract class TransactionPayBillTable extends
 		double totalValue = payment.getCashDiscount()
 				+ payment.getAppliedCredits() + payment.getPayment();
 		return totalValue;
+	}
+
+	public CustomerCreditsAndPaymentsDialiog getCreditsAndPaymentsDialiog() {
+		return creditsAndPaymentsDialiog;
+	}
+
+	public void setCreditsAndPaymentsDialiog(
+			CustomerCreditsAndPaymentsDialiog creditsAndPaymentsDialiog) {
+		this.creditsAndPaymentsDialiog = creditsAndPaymentsDialiog;
+	}
+
+	public void setRecords(List<ClientTransactionPayBill> records) {
+		setAllRows(records);
+	}
+
+	public List<ClientCreditsAndPayments> getUpdatedCustomerCreditsAndPayments() {
+		return updatedCustomerCreditsAndPayments;
+	}
+
+	public Stack<Map<Integer, Object>> getCreditsStack() {
+		return creditsStack;
+	}
+
+	public void setCreditsStack(Stack<Map<Integer, Object>> creditsStack) {
+		this.creditsStack = creditsStack;
+	}
+
+	public void removeAllRecords() {
+		clear();
+	}
+
+	public void addEmptyMessage(String noRecordsToShow) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void addLoadingImagePanel() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void selectRow(int count) {
+		onSelectionChanged(getRecords().get(count), true);
+	}
+
+	public List<ClientTransactionPayBill> getRecords() {
+		return getAllRows();
 	}
 }
