@@ -137,7 +137,6 @@ public class CompanyRegisteredDetailsPage extends AbstractCompanyInfoPanel {
 	@Override
 	public void onSave() {
 		address = new ClientAddress();
-		company.setTradingName(registeredCompanyName.getValue());
 		address.setAddress1(address1TextBox.getValue());
 		address.setStreet(address2TextBox.getValue());
 		address.setCity(cityTextBox.getValue());
