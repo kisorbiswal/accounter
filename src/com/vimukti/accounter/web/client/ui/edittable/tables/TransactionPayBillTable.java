@@ -164,7 +164,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getValue(ClientTransactionPayBill row) {
-					return DataUtils.getAmountAsString(row.getAmountDue());
+					return DataUtils.getAmountAsString(row.getDummyDue());
 				}
 
 				@Override
@@ -315,6 +315,7 @@ public abstract class TransactionPayBillTable extends
 				@Override
 				protected void setValue(ClientTransactionPayBill row,
 						String value) {
+					onSelectionChanged(row, true);
 					double payment = Double.parseDouble(DataUtils
 							.getReformatedAmount(value.toString()) + "");
 					row.setPayment(payment);
