@@ -726,10 +726,10 @@ public class AccounterValidator {
 				Double amount = amountToDistribute;
 				double updatedValue = 0.0D;
 				// FIXME--need to check the code
-				for (ClientTransactionReceivePayment trprecord : view.gridView
-						.getRecords()) {
-					if (!view.gridView.isSelected(trprecord))
-						view.gridView.selectRow(view.gridView
+				for (ClientTransactionReceivePayment trprecord : view.receivePaymentTable
+						.getAllRows()) {
+					if (!view.receivePaymentTable.isSelected(trprecord))
+						view.receivePaymentTable.selectRow(view.receivePaymentTable
 								.indexOf(trprecord));
 
 					try {
@@ -743,7 +743,7 @@ public class AccounterValidator {
 							updatedValue += amount;
 							amount = 0D;
 						}
-						view.gridView.updateData(trprecord);
+						view.receivePaymentTable.update(trprecord);
 						// view.gridView.updateFooterValues(DataUtils
 						// .getAmountAsString(updatedValue), 8);
 						if (!DecimalUtil.isGreaterThan(amount, 0D))
