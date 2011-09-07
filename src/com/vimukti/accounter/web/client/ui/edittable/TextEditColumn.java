@@ -48,4 +48,9 @@ public abstract class TextEditColumn<T> extends EditColumn<T> {
 	protected void configure(TextBox textBox) {
 		textBox.addStyleName("textEdit");
 	}
+
+	@Override
+	public int getWidth() {
+		return -1;
+	}
 }

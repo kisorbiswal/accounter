@@ -21,7 +21,8 @@ public abstract class ComboColumn<T, C> extends EditColumn<T> {
 	@Override
 	public IsWidget getWidget(final RenderContext<T> context) {
 		ComboBox<C> comboBox = new ComboBox<C>();
-		comboBox.setDropDown(getDisplayTable(context.getRow()));
+		AbstractDropDownTable<C> displayTable = getDisplayTable(context.getRow());
+		comboBox.setDropDown(displayTable);
 		comboBox.setComboChangeHandler(new ComboChangeHandler<C>() {
 
 			@Override

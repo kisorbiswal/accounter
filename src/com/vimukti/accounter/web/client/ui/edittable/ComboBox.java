@@ -121,6 +121,7 @@ public class ComboBox<T> extends FlowPanel {
 		});
 		popupPanel = new PopupPanel(false, false);
 		scrollPanel = new ScrollPanel();
+		popupPanel.add(scrollPanel);
 	}
 
 	private void hidePopup(boolean updateValue) {
@@ -145,30 +146,8 @@ public class ComboBox<T> extends FlowPanel {
 		if (popupPanel.isShowing()) {
 			return;
 		}
-		dropDown.addRowSelectHandler(new RowSelectHandler<T>() {
-
-			@Override
-			public void onRowSelect(T selectedObj, boolean isClicked) {
-				value = selectedObj;
-				if (selectedObj != null) {
-					String text = textBox.getText().toLowerCase();
-					String displayValue = dropDown.getDisplayValue(selectedObj);
-					textBox.setText(displayValue);
-					int len = displayValue.length() - text.length();
-					int pos = displayValue.toLowerCase().indexOf(text);
-					if (len > 0) {
-						textBox.setSelectionRange(pos + text.length(), len);
-					}
-				} else {
-					if (isClicked) {
-						textBox.setText("");
-						dropDown.addNewItem();
-						hidePopup(false);
-					}
-				}
-			}
-		});
-
+		scrollPanel.clear();
+		scrollPanel.add(dropDown);
 		int x = textBox.getAbsoluteLeft();
 		int y = textBox.getAbsoluteTop() + textBox.getOffsetHeight();
 
@@ -221,10 +200,31 @@ public class ComboBox<T> extends FlowPanel {
 		return dropDown;
 	}
 
-	public void setDropDown(AbstractDropDownTable<T> dropDown) {
-		this.dropDown = dropDown;
-		scrollPanel.add(dropDown);
-		popupPanel.add(scrollPanel);
+	public void setDropDown(AbstractDropDownTable<T> table) {
+		this.dropDown = table;
+		dropDown.addRowSelectHandler(new RowSelectHandler<T>() {
+
+			@Override
+			public void onRowSelect(T selectedObj, boolean isClicked) {
+				value = selectedObj;
+				if (selectedObj != null) {
+					String text = textBox.getText().toLowerCase();
+					String displayValue = dropDown.getDisplayValue(selectedObj);
+					textBox.setText(displayValue);
+					int len = displayValue.length() - text.length();
+					int pos = displayValue.toLowerCase().indexOf(text);
+					if (len > 0) {
+						textBox.setSelectionRange(pos + text.length(), len);
+					}
+				} else {
+					if (isClicked) {
+						textBox.setText("");
+						dropDown.addNewItem();
+						hidePopup(false);
+					}
+				}
+			}
+		});
 	}
 
 	public void setDesable(boolean desable) {

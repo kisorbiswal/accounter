@@ -38,7 +38,6 @@ public class ItensDropDownTable extends AbstractDropDownTable<ClientItem> {
 			}
 		};
 		this.addColumn(textColumn);
-		//this.setColumnWidth(textColumn, "100px");
 	}
 
 	@Override

@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
-public abstract class DeleteColumn<T> extends ImageEditColumn<T> {
+public class DeleteColumn<T> extends ImageEditColumn<T> {
 
 	@Override
 	public ImageResource getResource(T row) {
@@ -21,15 +21,13 @@ public abstract class DeleteColumn<T> extends ImageEditColumn<T> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if(!context.isDesable()){
-					DeleteColumn.this.onDelete(context.getRow());
+				if (!context.isDesable()) {
+					getTable().delete(context.getRow());
 				}
 			}
 		});
 		return image;
 	}
-
-	protected abstract void onDelete(T row);
 
 	@Override
 	public int getWidth() {

@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.edittable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.event.shared.GwtEvent.Type;
@@ -21,7 +22,7 @@ public abstract class AbstractDropDownTable<T> extends CellTable<T> {
 	private boolean isClicked;
 
 	public AbstractDropDownTable(List<T> newData) {
-		this.data = newData;
+		this.data = new ArrayList<T>(newData);
 		T newRow = getAddNewRow();
 		data.add(0, newRow);
 		Type<CoreEventHandler<T>> type = CoreEvent.getType(getType());
@@ -65,7 +66,7 @@ public abstract class AbstractDropDownTable<T> extends CellTable<T> {
 	}
 
 	protected void reInitData() {
-		data = getTotalRowsData();
+		data = new ArrayList<T>(getTotalRowsData());
 		data.add(0, getAddNewRow());
 		dataProvider.setList(data);
 		dataProvider.refresh();
@@ -167,6 +168,9 @@ public abstract class AbstractDropDownTable<T> extends CellTable<T> {
 		singleSelectionModel.setSelected(t2, true);
 	}
 
+	/**
+	 * When select Add New Item
+	 */
 	protected abstract void addNewItem();
 
 	protected void selectRow(T result) {

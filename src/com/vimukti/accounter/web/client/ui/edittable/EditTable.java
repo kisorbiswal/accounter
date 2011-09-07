@@ -94,6 +94,7 @@ public class EditTable<R> extends SimplePanel {
 	 */
 	public void delete(R row) {
 		int index = rows.indexOf(row);
+		rows.remove(row);
 		if (index != -1) {
 			index += 1;// For header
 			table.removeRow(index);

@@ -97,7 +97,7 @@ public class AccountDropDownTable extends AbstractDropDownTable<ClientAccount> {
 			@Override
 			public void actionResult(ClientAccount result) {
 				if (result.getIsActive()) {
-					// addRow(result);
+					selectRow(result);
 				}
 
 			}
