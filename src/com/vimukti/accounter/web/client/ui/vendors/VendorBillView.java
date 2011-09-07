@@ -121,11 +121,11 @@ public class VendorBillView extends
 			ClientVendor vendor = getCompany().getVendor(
 					transaction.getVendor());
 			vendorCombo.setValue(vendor);
-			phoneSelect.setValue(transaction.getPhone());
-			phoneSelect.setDisabled(true);
 			billToaddressSelected(transaction.getVendorAddress());
 			selectedVendor(vendor);
 			contactSelected(transaction.getContact());
+			phoneSelect.setValue(transaction.getPhone());
+			phoneSelect.setDisabled(true);
 			transactionNumber.setValue(transaction.getNumber());
 			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 				netAmount.setAmount(transaction.getNetAmount());
@@ -694,8 +694,8 @@ public class VendorBillView extends
 			transaction.setVendorAddress(billingAddress);
 
 		// Setting Phone
-		if (phoneNo != null)
-			transaction.setPhone(phoneNo);
+		if (phoneSelect.getValue() != null)
+			transaction.setPhone(phoneSelect.getValue().toString());
 		// else
 		// transaction.setPhone(phoneNo);
 
