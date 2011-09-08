@@ -12739,7 +12739,10 @@ public class FinanceTool {
 				record.setType(((Integer) object[2]).intValue());
 				record.setNumber((String) object[3]);
 				record.setMemo((String) object[4]);
-				record.setBox1099(((Integer) object[5]).intValue());
+				Integer i = ((Integer) object[5]);
+				if (i != null) {
+					record.setBox1099(((Integer) object[5]).intValue());
+				}
 				record.setAccount((String) object[6]);
 				record.setAmount((Double) object[7]);
 				record.setTransactionId(((BigInteger) object[8]).longValue());
