@@ -37,6 +37,7 @@ public class CompanyOtherDetailsPage extends AbstractCompanyInfoPanel {
 	public CompanyOtherDetailsPage() {
 		initWidget(uiBinder.createAndBindUi(this));
 		createControls();
+		initData();
 	}
 
 	private void createControls() {
@@ -47,8 +48,7 @@ public class CompanyOtherDetailsPage extends AbstractCompanyInfoPanel {
 		webTextBoxLabel.setText(constants.webSite());
 	}
 
-	@Override
-	public void onLoad() {
+	private void initData() {
 		phoneTextBox.setValue(company.getPhone());
 		emailFieldBox.setValue(company.getCompanyEmail());
 		webTextBox.setValue(company.getWebSite());
@@ -61,6 +61,12 @@ public class CompanyOtherDetailsPage extends AbstractCompanyInfoPanel {
 		company.setCompanyEmail(emailFieldBox.getValue());
 		company.setWebSite(webTextBox.getValue());
 		company.setFax(faxTextBox.getValue());
+	}
+
+	@Override
+	public void validate() {
+		// TODO Auto-generated method stub
+
 	}
 
 }
