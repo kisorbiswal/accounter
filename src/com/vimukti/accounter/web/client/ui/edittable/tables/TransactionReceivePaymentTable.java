@@ -29,6 +29,7 @@ import com.vimukti.accounter.web.client.ui.edittable.AnchorEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.CheckboxEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
+import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 public abstract class TransactionReceivePaymentTable extends
 		EditTable<ClientTransactionReceivePayment> {
@@ -84,7 +85,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 				@Override
 				protected String getValue(ClientTransactionReceivePayment row) {
-					return "";
+					return DateUtills.getDateAsString(row.getDueDate());
 				}
 
 				@Override
