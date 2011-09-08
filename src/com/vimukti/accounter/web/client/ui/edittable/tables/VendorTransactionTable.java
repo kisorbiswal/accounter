@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.edittable.tables;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -77,27 +78,23 @@ public abstract class VendorTransactionTable extends
 
 					@Override
 					public boolean filter(ClientAccount account) {
-						if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-							if (Arrays.asList(
-									ClientAccount.TYPE_BANK,
-									// ClientAccount.TYPE_CASH,
-									ClientAccount.TYPE_CREDIT_CARD,
-									ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-									ClientAccount.TYPE_FIXED_ASSET).contains(
-									account.getType())) {
-								return true;
-							}
-						} else {
-							if (Arrays.asList(ClientAccount.TYPE_CREDIT_CARD,
-									ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-									ClientAccount.TYPE_BANK,
-									ClientAccount.TYPE_FIXED_ASSET).contains(
-									account.getType())) {
 
-								return true;
-							}
+						if (account.getType() != ClientAccount.TYPE_CASH
+								&& account.getType() != ClientAccount.TYPE_BANK
+								&& account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
+								&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
+								&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
+								&& account.getType() != ClientAccount.TYPE_INCOME
+								&& account.getType() != ClientAccount.TYPE_OTHER_INCOME
+								&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_ASSET
+								&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
+								&& account.getType() != ClientAccount.TYPE_OTHER_ASSET
+								&& account.getType() != ClientAccount.TYPE_EQUITY
+								&& account.getType() != ClientAccount.TYPE_LONG_TERM_LIABILITY) {
+							return true;
+						} else {
+							return false;
 						}
-						return false;
 					}
 				};
 			}
