@@ -40,6 +40,7 @@ public class ExpenseReport extends AbstractReportView<ExpenseList> {
 			ClientFinanceDate endDate) {
 		Accounter.createReportService().getExpenseReportByType(status,
 				startDate, endDate, this);
+
 		ExpenseReport.status = status;
 	}
 

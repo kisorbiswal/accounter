@@ -7,38 +7,39 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 
-public class BudgetReportToolbar extends ReportToolbar {
+public class BudgetReportToolbar extends ReportToolbar implements
+		AsyncCallback<ArrayList<ClientBudget>> {
 
 	private DateItem fromItem;
 	private DateItem toItem;
 	protected SelectCombo budgetCombo, budgetType;
 	protected List<String> statusList, dateRangeList;
 	private Button updateButton;
-	public static int EMPLOYEE = 1;
-	public static int CASH = 2;
-	public static int CREDITCARD = 3;
-	private int status;
+	List<String> budgetArray = new ArrayList<String>();
+	List<Long> idArray = new ArrayList<Long>();
+
+	private Long isStatus;
 
 	public BudgetReportToolbar() {
-		createControls();
-		// selectedDateRange = FinanceApplication.constants().all();
+
+		Accounter.createHomeService().getBudgetList(this);
 	}
 
 	@Override
 	public void changeDates(ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
-		// TODO Auto-generated method stub
+		reportview.makeReportRequest(isStatus, startDate, endDate);
 
 	}
 
@@ -57,20 +58,7 @@ public class BudgetReportToolbar extends ReportToolbar {
 
 	public void createControls() {
 
-		String[] statusArray;
-		if (ClientCompanyPreferences.get().isHaveEpmloyees()
-				&& ClientCompanyPreferences.get().isTrackEmployeeExpenses()) {
-			statusArray = new String[] { Accounter.constants().allExpenses(),
-					Accounter.constants().cash(),
-					Accounter.constants().creditCard(),
-					Accounter.constants().employee() };
-		} else {
-			statusArray = new String[] { Accounter.constants().allExpenses(),
-					Accounter.constants().cash(),
-					Accounter.constants().creditCard() };
-		}
-
-		String[] dateRangeArray = { Accounter.constants().custom(),
+		String[] dateRangeArray = { Accounter.constants().accountVScustom(),
 				Accounter.constants().accountVSmonths(),
 				Accounter.constants().accountVSquaters(),
 				Accounter.constants().accountVSyears() };
@@ -78,41 +66,20 @@ public class BudgetReportToolbar extends ReportToolbar {
 		budgetCombo = new SelectCombo(Accounter.constants().budget());
 		budgetCombo.setHelpInformation(true);
 		statusList = new ArrayList<String>();
-		for (int i = 0; i < statusArray.length; i++) {
-			statusList.add(statusArray[i]);
+		for (String str : budgetArray) {
+			statusList.add(str);
+		}
+		if (budgetArray.size() < 1) {
+			statusList.add(Accounter.constants().emptyValue());
 		}
 		budgetCombo.initCombo(statusList);
-		budgetCombo.setComboItem(statusArray[0]);
+		budgetCombo.setSelected(statusList.get(0));
 		budgetCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-
-						if (selectItem.toString().equals(
-								Accounter.constants().allExpenses())) {
-							/*
-							 * status 0 used to get all expenses like Cash,
-							 * Credit Card
-							 */
-
-							status = 0;
-						} else if (selectItem.toString().equals(
-								Accounter.constants().cash())) {
-							status = ClientTransaction.TYPE_CASH_EXPENSE;
-						} else if (selectItem.toString().equals(
-								Accounter.constants().creditCard())) {
-							status = ClientTransaction.TYPE_CREDIT_CARD_EXPENSE;
-						} else if (selectItem.toString().equals(
-								Accounter.constants().employee())) {
-							status = ClientTransaction.TYPE_EMPLOYEE_EXPENSE;
-						}
-
-						ClientFinanceDate startDate = fromItem.getDate();
-						ClientFinanceDate endDate = toItem.getDate();
-						reportview
-								.makeReportRequest(status, startDate, endDate);
-
+						isStatus = idArray.get(budgetCombo.getSelectedIndex());
 					}
 				});
 
@@ -124,14 +91,20 @@ public class BudgetReportToolbar extends ReportToolbar {
 		}
 		budgetType.initCombo(dateRangeList);
 		budgetType.setDefaultValue(dateRangeArray[0]);
-		budgetType.setComboItem(Accounter.constants().all());
 		budgetType
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
 
-						dateRangeChanged(budgetType.getSelectedValue());
+						if (selectItem.endsWith(Accounter.constants()
+								.accountVScustom())) {
+							fromItem.setDisabled(false);
+							toItem.setDisabled(false);
+						} else {
+							fromItem.setDisabled(true);
+							toItem.setDisabled(true);
+						}
 
 					}
 				});
@@ -140,9 +113,11 @@ public class BudgetReportToolbar extends ReportToolbar {
 		fromItem.setHelpInformation(true);
 		fromItem.setDatethanFireEvent(Accounter.getStartDate());
 		fromItem.setTitle(Accounter.constants().from());
+		fromItem.setDisabled(true);
 
 		toItem = new DateItem();
 		toItem.setHelpInformation(true);
+		toItem.setDisabled(true);
 		ClientFinanceDate date = Accounter.getCompany()
 				.getLastandOpenedFiscalYearEndDate();
 
@@ -202,4 +177,19 @@ public class BudgetReportToolbar extends ReportToolbar {
 
 	}
 
+	@Override
+	public void onFailure(Throwable caught) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onSuccess(ArrayList<ClientBudget> result) {
+
+		for (ClientBudget budget : result) {
+			budgetArray.add(budget.getBudgetName());
+			idArray.add(budget.getID());
+		}
+		createControls();
+	}
 }

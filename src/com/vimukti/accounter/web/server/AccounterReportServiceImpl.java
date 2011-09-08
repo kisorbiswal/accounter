@@ -30,6 +30,7 @@ import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.core.reports.AmountsDueToVendor;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
+import com.vimukti.accounter.web.client.core.reports.ClientBudgetList;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
 import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
@@ -2052,6 +2053,12 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		return expenseList;
 	}
 
+	public ArrayList<ClientBudgetList> getBudgetItemsList(long id,
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+		return null;
+
+	}
+
 	@Override
 	public ArrayList<DepositDetail> getDepositDetail(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
@@ -2173,4 +2180,5 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		}
 		return result;
 	}
+
 }
