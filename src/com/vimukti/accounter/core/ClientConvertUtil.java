@@ -119,7 +119,7 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 				}
 			} else if (isNotMappingEntity(srcType)) {
 				dstField.set(dst,
-						toClientObjectInternal(srcField.get(src), dstType));
+						toClientObjectInternal(srcField.get(src), dstFieldType));
 			} else {
 				if (isSet(dstFieldType)) {
 					if (isList(srcField.getType())) {
