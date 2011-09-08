@@ -4677,4 +4677,6 @@ public interface AccounterConstants extends Constants {
 	public String onepertransaction();
 
 	public String oneperdetailline();
+
+	public String discountPerc();
 }
