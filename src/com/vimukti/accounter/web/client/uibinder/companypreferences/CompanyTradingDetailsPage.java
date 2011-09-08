@@ -112,10 +112,12 @@ public class CompanyTradingDetailsPage extends AbstractCompanyInfoPanel {
 		company.getTradingAddress().setAddress1(address1Text.getValue());
 		company.getTradingAddress().setStreet(address2Text.getValue());
 		company.getTradingAddress().setCity(cityText.getValue());
+		if (stateCombo.getSelectedIndex() > 0)
 		company.getTradingAddress().setStateOrProvinence(
 				states.get(stateCombo.getSelectedIndex()));
 		company.getTradingAddress().setZipOrPostalCode(
 				postalcodeText.getValue());
+		if (countryCombo.getSelectedIndex() > 0)
 		company.getTradingAddress().setCountryOrRegion(
 				countriesList.get(countryCombo.getSelectedIndex()));
 
