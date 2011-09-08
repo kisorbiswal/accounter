@@ -4667,4 +4667,14 @@ public interface AccounterConstants extends Constants {
 	public String budgetMonth();
 
 	public String classTracking();
+
+	public String classWarning();
+
+	public String classesonsales();
+
+	public String classunderscoretracking();
+
+	public String onepertransaction();
+
+	public String oneperdetailline();
 }
