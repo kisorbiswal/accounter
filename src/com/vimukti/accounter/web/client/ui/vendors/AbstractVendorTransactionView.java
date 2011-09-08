@@ -331,7 +331,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 					@Override
 					public void selectedComboBoxItem(ClientVendor selectItem) {
 						vendorSelected(selectItem);
-
+						contactCombo.setDisabled(false);
 					}
 
 				});
@@ -346,6 +346,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 		ContactCombo contactCombo = new ContactCombo(Accounter.constants()
 				.contactName(), true);
 		contactCombo.setHelpInformation(true);
+		contactCombo.setDisabled(true);
 		contactCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientContact>() {
 
@@ -365,7 +366,6 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 			}
 		});
-		contactCombo.setDisabled(isInViewMode());
 		// contactCombo.setShowDisabled(false);
 		return contactCombo;
 

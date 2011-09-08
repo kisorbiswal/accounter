@@ -33,7 +33,6 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.PriceLevelCombo;
 import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
@@ -57,7 +56,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	private PaymentTermsCombo payTermsSelect;
 	protected DateField quoteExpiryDate;
 	private HorizontalPanel panel;
-	private CustomerCombo customerCombo;
 	private ArrayList<DynamicForm> listforms;
 	private boolean locationTrackingEnabled;
 

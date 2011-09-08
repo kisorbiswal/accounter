@@ -32,7 +32,6 @@ import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PriceLevelCombo;
 import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
@@ -60,7 +59,6 @@ public class CashSalesView extends
 	private PriceLevelCombo priceLevelSelect;
 	private TAXCodeCombo taxCodeSelect;
 	private SalesPersonCombo salesPersonCombo;
-	private CustomerCombo customerCombo;
 	private Double salesTax = 0.0D;
 	protected DateField deliveryDate;
 	private ArrayList<DynamicForm> listforms;

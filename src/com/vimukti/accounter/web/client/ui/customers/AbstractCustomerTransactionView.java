@@ -311,6 +311,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 					@Override
 					public void selectedComboBoxItem(ClientCustomer selectItem) {
 						customerSelected(selectItem);
+						contactCombo.setDisabled(false);
 					}
 				});
 
@@ -325,6 +326,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 		ContactCombo contactCombo = new ContactCombo(Accounter.constants()
 				.contact(), true);
+		contactCombo.setDisabled(true);
 		contactCombo.setHelpInformation(true);
 		contactCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientContact>() {
@@ -343,7 +345,6 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 				addContactToCustomer(value);
 			}
 		});
-		contactCombo.setDisabled(isInViewMode());
 
 		// formItems.add(contactCombo);
 

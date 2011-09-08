@@ -29,7 +29,6 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.PriceLevelCombo;
 import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
@@ -51,7 +50,6 @@ public class CustomerCreditMemoView extends
 	private PriceLevelCombo priceLevelSelect;
 	private TAXCodeCombo taxCodeSelect;
 	private SalesPersonCombo salesPersonCombo;
-	private CustomerCombo customerCombo;
 	private Double salesTax = 0.0D;
 	private ArrayList<DynamicForm> listforms;
 	private TextAreaItem billToTextArea;

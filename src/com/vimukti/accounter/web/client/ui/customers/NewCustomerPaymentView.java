@@ -37,7 +37,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
-import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -53,7 +52,6 @@ public class NewCustomerPaymentView extends
 	AccounterConstants accounterConstants = GWT
 			.create(AccounterConstants.class);
 
-	private CustomerCombo customerCombo;
 	private CheckboxItem printCheck;
 	private AmountField amountText, endBalText, customerBalText;
 	protected double enteredBalance;

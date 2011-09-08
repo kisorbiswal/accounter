@@ -33,7 +33,6 @@ import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
@@ -56,7 +55,6 @@ public class CustomerRefundView extends
 	private AmountField endBalText, custBalText;
 	private TextItem checkNoText;
 	private CheckboxItem printCheck;
-	private CustomerCombo customerCombo;
 	private TAXCodeCombo taxCodeSelect;
 
 	private Double refundAmount;

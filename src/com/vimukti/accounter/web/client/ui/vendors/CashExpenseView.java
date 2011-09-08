@@ -166,7 +166,8 @@ public class CashExpenseView extends CashPurchaseView {
 		// }
 
 		if (!payFromCombo.validate()) {
-			result.addError(payFromCombo, payFromCombo.getTitle());
+			result.addError(payFromCombo, Accounter.messages()
+					.pleaseSelectVendor(Accounter.constants().payFrom()));
 		}
 		//
 		// if (!AccounterValidator.isValidDueOrDelivaryDates(
@@ -222,13 +223,13 @@ public class CashExpenseView extends CashPurchaseView {
 	@Override
 	public void showMenu(Widget button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button,
-					Accounter.messages().accounts(Global.get().account()),
-					Accounter.constants().serviceItem());
+			setMenuItems(button, Accounter.messages().accounts(
+					Global.get().account()), Accounter.constants()
+					.serviceItem());
 		else
-			setMenuItems(button,
-					Accounter.messages().accounts(Global.get().account()),
-					Accounter.constants().serviceItem());
+			setMenuItems(button, Accounter.messages().accounts(
+					Global.get().account()), Accounter.constants()
+					.serviceItem());
 	}
 
 	@Override

@@ -236,8 +236,8 @@ public class NewVendorPaymentView extends
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				isChecked = (Boolean) event.getValue();
 				if (isChecked) {
-					if (printCheck.getValue().toString()
-							.equalsIgnoreCase("true")) {
+					if (printCheck.getValue().toString().equalsIgnoreCase(
+							"true")) {
 						checkNo.setValue(Accounter.constants().toBePrinted());
 						checkNo.setDisabled(true);
 					} else {
@@ -258,7 +258,8 @@ public class NewVendorPaymentView extends
 			}
 		});
 		checkNo = createCheckNumberItem(getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-				.constants().chequeNo() : Accounter.constants().checkNo());
+				.constants().chequeNo()
+				: Accounter.constants().checkNo());
 		checkNo.setValue(Accounter.constants().toBePrinted());
 		checkNo.setWidth(100);
 		checkNo.setDisabled(true);
@@ -290,7 +291,8 @@ public class NewVendorPaymentView extends
 
 		endBalText
 				.setAmount(payFromCombo.getSelectedValue() != null ? payFromCombo
-						.getSelectedValue().getCurrentBalance() : 0.00);
+						.getSelectedValue().getCurrentBalance()
+						: 0.00);
 
 		payForm.setCellSpacing(5);
 		payForm.setWidth("100%");
@@ -362,7 +364,8 @@ public class NewVendorPaymentView extends
 			if (billingAddress != null)
 				transaction.setAddress(billingAddress);
 
-			transaction.setPayFrom(payFromAccount);
+			if (payFromAccount != null)
+				transaction.setPayFrom(payFromAccount);
 
 			// adjustBalance();
 			transaction.setTotal(enteredBalance);
@@ -371,8 +374,8 @@ public class NewVendorPaymentView extends
 
 			if (checkNo.getValue() != null && !checkNo.getValue().equals("")) {
 				String value;
-				if (checkNo.getValue().toString()
-						.equalsIgnoreCase(Accounter.constants().toBePrinted())) {
+				if (checkNo.getValue().toString().equalsIgnoreCase(
+						Accounter.constants().toBePrinted())) {
 					value = String.valueOf(Accounter.constants().toBePrinted());
 				} else {
 					value = String.valueOf(checkNo.getValue());
@@ -506,12 +509,12 @@ public class NewVendorPaymentView extends
 		// 3. pay form valid?
 
 		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateTransactionDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateTransactionDate());
 		}
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 
 		result.add(payForm.validate());
