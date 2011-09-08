@@ -764,7 +764,7 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			protected boolean isEnable() {
-				return canEdit;
+				return false;
 			}
 
 			@Override
