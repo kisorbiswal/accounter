@@ -484,8 +484,8 @@ public class HorizontalMenuBar extends HorizontalPanel {
 
 	private CustomMenuBar getTDSMenu() {
 		CustomMenuBar tdsMenu = getSubMenu();
-		tdsMenu.addItem("e-TDS Return", ActionFactory.getTDSVendorsAction());
-		tdsMenu.addItem("Form-16A", ActionFactory.getTDSVendorsAction());
+		tdsMenu.addItem("e-TDS Return", ActionFactory.getTDSVendorsAction(true));
+		tdsMenu.addItem("Form-16A", ActionFactory.getTDSVendorsAction(false));
 		return tdsMenu;
 	}
 
@@ -660,10 +660,8 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		if (getPreferences().isSalesOrderEnabled()) {
 			salesMenuBar.addItem(ActionFactory.getSalesOpenOrderAction());
 		}
-			salesMenuBar.addItem(ActionFactory
-					.getSalesByLocationDetailsAction());
-			salesMenuBar.addItem(ActionFactory
-					.getSalesByLocationSummaryAction());
+		salesMenuBar.addItem(ActionFactory.getSalesByLocationDetailsAction());
+		salesMenuBar.addItem(ActionFactory.getSalesByLocationSummaryAction());
 		return salesMenuBar;
 	}
 
@@ -1120,10 +1118,8 @@ public class HorizontalMenuBar extends HorizontalPanel {
 				.getCreditRatingListAction());
 		manageSupportListMenuBar.addItem(ActionFactory
 				.getLocationGroupListAction());
-		if (getPreferences().isClassTrackingEnabled()) {
-			manageSupportListMenuBar.addItem(ActionFactory
-					.getAccounterClassGroupListAction());
-		}
+		manageSupportListMenuBar.addItem(ActionFactory
+				.getAccounterClassGroupListAction());
 		// manageSupportListMenuBar.addItem(ActionFactory.getCountryRegionListAction());
 		// manageSupportListMenuBar.addItem(ActionFactory
 		// .getFormLayoutsListAction());
