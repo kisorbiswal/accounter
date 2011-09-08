@@ -20,14 +20,14 @@
 						}
 					});
 				});
-				$('input#actiovationTextbox').keypress(function(e) {
-					  if (e.keyCode == '9') {
+				$('input#actiovationTextbox').keydown(function(e) {
+					  if (e.keyCode == '9' || e..which =='9') {
 					     e.preventDefault();
 					    $('#submitButton').focus();
 					   }
 					});
-				$('#submitButton').keypress(function(e) {
-					  if (e.keyCode == '9') {
+				$('#submitButton').keydown(function(e) {
+					  if (e.keyCode == '9'|| e.which =='9') {
 					     e.preventDefault();
 					    $('#emailforactivation').focus();
 					   }

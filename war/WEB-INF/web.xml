@@ -297,6 +297,7 @@
 			com.vimukti.accounter.web.server.AccounterGETServiceImpl
 		</servlet-class>
 	</servlet>
+	
 	<servlet-mapping>
 		<servlet-name>iAccounterGetImpl</servlet-name>
 		<url-pattern>/do/accounter/get/rpc/service </url-pattern>
@@ -534,6 +535,61 @@
 	<servlet-mapping>
 		<servlet-name>maintanance</servlet-name>
 		<url-pattern>/main/maintanance</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>adminlogin</servlet-name>
+		<servlet-class>com.vimukti.accounter.admin.server.AdminLoginServlet
+		</servlet-class>
+	</servlet> 
+		<servlet-mapping>
+		<servlet-name>adminlogin</servlet-name>
+		<url-pattern>/adminlogin</url-pattern>
+	</servlet-mapping>
+	
+	
+
+	<servlet>
+		<servlet-name>adminhome</servlet-name>
+		<servlet-class>com.vimukti.accounter.admin.server.AdminHomeServlet
+		</servlet-class>
+	</servlet> 
+		<servlet-mapping>
+		<servlet-name>adminhome</servlet-name>
+		<url-pattern>/adminhome</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>adminserviceimpl</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.admin.server.AdminCRUDServiceImpl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>adminserviceimpl</servlet-name>
+		<url-pattern>/do/admin/crud/rpc/service</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>adminlogout</servlet-name>
+		<servlet-class>com.vimukti.accounter.admin.server.AdminLogoutServlet
+		</servlet-class>
+	</servlet> 
+		<servlet-mapping>
+		<servlet-name>adminlogout</servlet-name>
+		<url-pattern>/adminlogout</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>AdminHomeViewImpl
+		</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.admin.server.AdminHomeViewImpl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminHomeViewImpl </servlet-name>
+		<url-pattern>/do/admin/home/rpc/service</url-pattern>
 	</servlet-mapping>
 
 </web-app>

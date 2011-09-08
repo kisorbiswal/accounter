@@ -33,8 +33,8 @@ $(document).ready(function() {
 			}
 		});
 	});
-	$('#SelectcompanyType').keypress(function(e) {
-		  if (e.keyCode == '9') {
+	$('#SelectcompanyType').keydown(function(e) {
+		  if (e.keyCode == '9' || e.which == '9') {
 		     e.preventDefault();
 		    $('#submitButton').focus();
 		   }
