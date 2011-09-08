@@ -1320,8 +1320,8 @@ public class ActionFactory {
 		return new UsersActivityListAction("Users Activity Log");
 	}
 
-	public static TDSVendorsListAction getTDSVendorsAction() {
-		return new TDSVendorsListAction("TDS Vendors List");
+	public static TDSVendorsListAction getTDSVendorsAction(boolean isTDSView) {
+		return new TDSVendorsListAction("TDS Vendors List",isTDSView);
 	}
 
 	public static ReconcileAccountAction getReconciliationAction() {
