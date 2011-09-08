@@ -1666,7 +1666,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
-			return tool.getUsersActivityLog(startIndex, length);
+			return tool.getUsersActivityLog(startDate, endDate, startIndex,
+					length);
 		}
 		return null;
 

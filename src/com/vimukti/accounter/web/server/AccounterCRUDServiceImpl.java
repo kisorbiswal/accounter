@@ -83,8 +83,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	public boolean delete(AccounterCoreType type, long id)
 			throws AccounterException {
 		FinanceTool tool = getFinanceTool();
-		OperationContext opContext = new OperationContext(type,
-				String.valueOf(id));
+		OperationContext opContext = new OperationContext(type, getUserEmail());
 		opContext.setArg1(String.valueOf(id));
 		opContext.setArg2(type.getClientClassSimpleName());
 		return tool.delete(opContext);
