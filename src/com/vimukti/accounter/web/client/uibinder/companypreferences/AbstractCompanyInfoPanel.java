@@ -15,7 +15,7 @@ public abstract class AbstractCompanyInfoPanel extends Composite {
 	protected AccounterConstants constants = Accounter.constants();
 	protected AccounterMessages messages = Accounter.messages();
 
-	public abstract void onLoad();
-
 	public abstract void onSave();
+
+	public abstract void validate();
 }
