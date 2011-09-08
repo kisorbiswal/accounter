@@ -2175,6 +2175,10 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 			result = getFinanceTool().getPaybillsByVendorAndBoxNumber(
 					financeDates[0], financeDates[1], vendorId, boxNo);
+			MISC1099TransactionDetail obj = new MISC1099TransactionDetail();
+			if (result != null)
+				result.add((MISC1099TransactionDetail) setStartEndDates(obj,
+						financeDates));
 		} catch (AccounterException e) {
 			e.printStackTrace();
 		}

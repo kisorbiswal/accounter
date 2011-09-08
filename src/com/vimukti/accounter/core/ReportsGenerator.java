@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.CustomerTransactionHist
 import com.vimukti.accounter.web.client.ui.serverreports.ECSalesListDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ECSalesListServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ExpenseServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.MISC1099TransactionDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.MostProfitableCustomerServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.PriorVATReturnsServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ProfitAndLossServerReport;
@@ -100,6 +101,7 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_SALESBYLOCATIONDETAIL = 151;
 	public final static int REPORT_TYPE_SALESBYLOCATIONDETAILFORLOCATION = 152;
 	public final static int REPORT_TYPE_PROFITANDLOSSBYLOCATION = 153;
+	private static final int REPORT_TYPE_1099TRANSACTIONDETAIL = 154;
 
 	private static int companyType;
 	private ClientCompanyPreferences preferences = Global.get().preferences();
@@ -109,6 +111,8 @@ public class ReportsGenerator {
 	private FinanceDate endDate;
 	private String navigateObjectName;
 	private String status;
+	private int boxNo;
+	private long vendorId;
 
 	public static final int GENERATIONTYPEPDF = 1001;
 	public static final int GENERATIONTYPECSV = 1002;
@@ -131,6 +135,18 @@ public class ReportsGenerator {
 		this.endDate = new FinanceDate(endDate);
 		this.navigateObjectName = navigateObjectName;
 		this.status = status;
+	}
+
+	public ReportsGenerator(int reportType, long startDate, long endDate,
+			String navigateObjectName, int generationtypecsv, long vendorId,
+			int boxNo, int companyType) {
+		ReportsGenerator.companyType = companyType;
+		this.reportType = reportType;
+		this.startDate = new FinanceDate(startDate);
+		this.endDate = new FinanceDate(endDate);
+		this.navigateObjectName = navigateObjectName;
+		this.vendorId = vendorId;
+		this.boxNo = boxNo;
 	}
 
 	public String generate(FinanceTool financeTool, int generationType)
@@ -1218,6 +1234,29 @@ public class ReportsGenerator {
 				e.printStackTrace();
 			}
 			return profitAndLossBylocationServerReport.getGridTemplate();
+
+		case REPORT_TYPE_1099TRANSACTIONDETAIL:
+			MISC1099TransactionDetailServerReport misc1099TransactionDetailServerReport = new MISC1099TransactionDetailServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					ReportsGenerator.companyType = Company.getCompany().accountingType;
+					ReportUtility.companyType = companyType;
+					return ReportsGenerator.getDateByCompanyType(date);
+				}
+			};
+			updateReport(misc1099TransactionDetailServerReport, finaTool);
+			misc1099TransactionDetailServerReport.resetVariables();
+			try {
+				misc1099TransactionDetailServerReport.onResultSuccess(finaTool
+						.getPaybillsByVendorAndBoxNumber(this.startDate,
+								this.endDate, this.vendorId, this.boxNo));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return misc1099TransactionDetailServerReport.getGridTemplate();
+
 		default:
 			break;
 		}
@@ -1336,6 +1375,8 @@ public class ReportsGenerator {
 			return "Sales By Location Detail For Location";
 		case REPORT_TYPE_PROFITANDLOSSBYLOCATION:
 			return "Profit and Loss by Location";
+		case REPORT_TYPE_1099TRANSACTIONDETAIL:
+			return "1099 Transaction Detail By Vendor";
 		default:
 			break;
 		}

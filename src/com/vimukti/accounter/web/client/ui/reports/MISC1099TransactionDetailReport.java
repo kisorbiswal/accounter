@@ -1,19 +1,18 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.MISC1099TransactionDetailServerReport;
 
 public class MISC1099TransactionDetailReport extends
-
-AbstractReportView<MISC1099TransactionDetail> {
+		AbstractReportView<MISC1099TransactionDetail> {
 	private long vendorId;
 	private int boxNo;
 
 	public MISC1099TransactionDetailReport(long vendorId, int boxNo) {
-		this.serverReport = new MISC1099TransactionDetailServerReport();
+		this.serverReport = new MISC1099TransactionDetailServerReport(this);
 		this.vendorId = vendorId;
 		this.boxNo = boxNo;
 	}
@@ -26,14 +25,32 @@ AbstractReportView<MISC1099TransactionDetail> {
 
 	@Override
 	public int getToolbarType() {
-		// TODO Auto-generated method stub
-		return 0;
+		return TOOLBAR_TYPE_DATE_RANGE;
 	}
 
 	@Override
 	public void OnRecordClick(MISC1099TransactionDetail record) {
-		// TODO Auto-generated method stub
-		// ReportsRPC.openTransactionView(record.getType(), record.gett)
+		record.setStartDate(toolbar.getStartDate());
+		record.setEndDate(toolbar.getEndDate());
+		record.setDateRange(toolbar.getSelectedDateRange());
+		ReportsRPC.openTransactionView(record.getType(),
+				record.getTransactionid());
+	}
+
+	@Override
+	public void print() {
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 154, "",
+				"");
+	}
+
+	@Override
+	public void exportToCsv() {
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 154, "",
+				"");
 	}
 
 }

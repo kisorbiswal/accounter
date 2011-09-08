@@ -988,13 +988,13 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 	public static void updateEntryMemo(Session session, String oldName,
 			String newName) {
 		session.getNamedQuery("update.Entry.oldNameTo.newName")
-				.setParameter("newName", newName)
-				.setParameter("oldName", oldName).executeUpdate();
+				.setString("newName", newName).setString("oldName", oldName)
+				.executeUpdate();
 	}
 
 	@Override
 	public void setVersion(int version) {
-	this.version=version;	
+		this.version = version;
 	}
 
 }

@@ -12677,7 +12677,7 @@ public class FinanceTool {
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		List list = session.getNamedQuery("get.transactions.by.account")
-				.setParameter("id", id).list();
+				.setLong("id", id).list();
 		List<ClientTransaction> transactions = new ArrayList<ClientTransaction>();
 
 		Iterator iterator = list.iterator();
@@ -12723,12 +12723,10 @@ public class FinanceTool {
 			startDate1 = new FinanceDate(year, 01, 01);
 
 		if (boxNumber == Client1099Form.TOATAL_ALL_PAYMENTS) {
-
-		} else if (boxNumber == Client1099Form.TOTAL_1099_PAYMENTS) {
-			List l = ((Query) session.getNamedQuery("get1099PaybillsByVendor")
-					.setParameter("startDate", startDate.getDate())
-					.setParameter("endDate", endDate.getDate())
-					.setParameter("vendorId", vendorId)).list();
+			List l = ((Query) session.getNamedQuery("getAllPaybillsByVendor")
+					.setLong("startDate", startDate.getDate())
+					.setLong("endDate", endDate.getDate())
+					.setLong("vId", vendorId)).list();
 
 			Object[] object = null;
 			Iterator iterator = l.iterator();
@@ -12741,9 +12739,38 @@ public class FinanceTool {
 						.longValue()));
 				record.setType(((Integer) object[2]).intValue());
 				record.setNumber((String) object[3]);
-				record.setBox1099(((Integer) object[4]).intValue());
-				record.setAccount((String) object[5]);
-				record.setAmount((Double) object[6]);
+				record.setMemo((String) object[4]);
+				record.setBox1099(((Integer) object[5]).intValue());
+				record.setAccount((String) object[6]);
+				record.setAmount((Double) object[7]);
+				record.setTransactionId(((BigInteger) object[8]).longValue());
+
+				queryResult.add(record);
+			}
+			return (ArrayList<MISC1099TransactionDetail>) queryResult;
+
+		} else if (boxNumber == Client1099Form.TOTAL_1099_PAYMENTS) {
+			List l = ((Query) session.getNamedQuery("get1099PaybillsByVendor")
+					.setLong("startDate", startDate.getDate())
+					.setLong("endDate", endDate.getDate())
+					.setLong("vId", vendorId)).list();
+
+			Object[] object = null;
+			Iterator iterator = l.iterator();
+			List<MISC1099TransactionDetail> queryResult = new ArrayList<MISC1099TransactionDetail>();
+			while (iterator.hasNext()) {
+				object = (Object[]) iterator.next();
+				MISC1099TransactionDetail record = new MISC1099TransactionDetail();
+				record.setName((String) object[0]);
+				record.setDate(new ClientFinanceDate(((BigInteger) object[1])
+						.longValue()));
+				record.setType(((Integer) object[2]).intValue());
+				record.setNumber((String) object[3]);
+				record.setMemo((String) object[4]);
+				record.setBox1099(((Integer) object[5]).intValue());
+				record.setAccount((String) object[6]);
+				record.setAmount((Double) object[7]);
+				record.setTransactionId(((BigInteger) object[8]).longValue());
 
 				queryResult.add(record);
 			}
@@ -12751,15 +12778,24 @@ public class FinanceTool {
 			for (MISC1099TransactionDetail misc1099TransactionDetail : queryResult) {
 				int box = misc1099TransactionDetail.getBox1099();
 				Double amount = amounts.get(box);
-				amount += misc1099TransactionDetail.getAmount();
-				amounts.put(box, amount);
+				double amt = 0;
+				if (amount != null) {
+					amt = amount;
+				}
+				amt += misc1099TransactionDetail.getAmount();
+				amounts.put(box, amt);
 			}
 
 			for (java.util.Map.Entry<Integer, Integer> box : boxThresholds
 					.entrySet()) {
 				Integer boxNum = box.getKey();
 				Integer boxThreshold = box.getValue();
-				if (amounts.get(boxNum) < boxThreshold) {
+				Double amt = amounts.get(boxNum);
+				double amount = 0;
+				if (amt != null) {
+					amount = amt;
+				}
+				if (amount != 0 && amount < boxThreshold) {
 					for (MISC1099TransactionDetail misc1099TransactionDetail : queryResult) {
 						if (misc1099TransactionDetail.getBox1099() == boxNum) {
 							queryResult.remove(misc1099TransactionDetail);
@@ -12772,10 +12808,10 @@ public class FinanceTool {
 		} else {
 			List l = ((Query) session
 					.getNamedQuery("getPaybillsByVendorAndBoxNumber")
-					.setParameter("startDate", startDate.getDate())
-					.setParameter("endDate", endDate.getDate())
-					.setParameter("vendorId", vendorId)
-					.setParameter("boxNumber", boxNumber)).list();
+					.setLong("startDate", startDate.getDate())
+					.setLong("endDate", endDate.getDate())
+					.setLong("vId", vendorId).setInteger("bNo", boxNumber))
+					.list();
 
 			Object[] object = null;
 			Iterator iterator = l.iterator();
@@ -12788,9 +12824,11 @@ public class FinanceTool {
 						.longValue()));
 				record.setType(((Integer) object[2]).intValue());
 				record.setNumber((String) object[3]);
-				record.setBox1099(((Integer) object[4]).intValue());
-				record.setAccount((String) object[5]);
-				record.setAmount((Double) object[6]);
+				record.setMemo((String) object[4]);
+				record.setBox1099(((Integer) object[5]).intValue());
+				record.setAccount((String) object[6]);
+				record.setAmount((Double) object[7]);
+				record.setTransactionId(((BigInteger) object[8]).longValue());
 
 				queryResult.add(record);
 			}

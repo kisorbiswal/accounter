@@ -1242,9 +1242,8 @@ public class Account extends CreatableObject implements IAccounterServerCore {
 		// "Account Name already existed Enter Unique name for Account");
 
 		Query query = session.getNamedQuery("getAccounts")
-				.setParameter("name", this.name)
-				.setParameter("number", this.number)
-				.setParameter("id", this.id);
+				.setString("name", this.name).setString("number", this.number)
+				.setLong("id", this.id);
 
 		List list = query.list();
 		Iterator it = list.iterator();

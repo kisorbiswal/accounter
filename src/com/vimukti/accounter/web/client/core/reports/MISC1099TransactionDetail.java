@@ -21,6 +21,8 @@ public class MISC1099TransactionDetail extends BaseReport {
 
 	private double amount;
 
+	private long transactionId;
+
 	public String getName() {
 		return name;
 	}
@@ -83,6 +85,14 @@ public class MISC1099TransactionDetail extends BaseReport {
 
 	public void setAmount(double amount) {
 		this.amount = amount;
+	}
+
+	public long getTransactionid() {
+		return transactionId;
+	}
+
+	public void setTransactionId(long transactionId) {
+		this.transactionId = transactionId;
 	}
 
 }

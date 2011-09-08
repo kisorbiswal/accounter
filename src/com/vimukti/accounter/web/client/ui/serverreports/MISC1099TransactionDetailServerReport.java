@@ -2,12 +2,26 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ReportUtility;
+import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 public class MISC1099TransactionDetailServerReport extends
 		AbstractFinaneReport<MISC1099TransactionDetail> {
+
+	private String sectionName = "";
+
+	public MISC1099TransactionDetailServerReport(
+			IFinanceReport<MISC1099TransactionDetail> reportView) {
+		this.reportView = reportView;
+	}
+
+	public MISC1099TransactionDetailServerReport(long startDate, long endDate,
+			int generationType) {
+		super(startDate, endDate, generationType);
+	}
 
 	@Override
 	public String[] getDynamicHeaders() {
@@ -40,8 +54,24 @@ public class MISC1099TransactionDetailServerReport extends
 
 	@Override
 	public void processRecord(MISC1099TransactionDetail record) {
-		// TODO Auto-generated method stub
+		if (sectionDepth == 0) {
+			this.sectionName = "";
+			addSection(new String[] { sectionName }, new String[] { "" },
+					new int[] { 7 });
+		} else if (sectionDepth == 1) {
+			// No need to do anything, just allow adding this record
+			if (!sectionName.equals("")) {
+				endSection();
+			} else {
+				return;
+			}
+		} else if (sectionDepth == 2) {
+			addSection(new String[] { "", "" }, new String[] { "", "", "", "",
+					constants.total() }, new int[] { 7 });
+		}
 
+		// Go on recursive calling if we reached this place
+		processRecord(record);
 	}
 
 	@Override
@@ -86,6 +116,11 @@ public class MISC1099TransactionDetailServerReport extends
 	@Override
 	public ClientFinanceDate getEndDate(MISC1099TransactionDetail obj) {
 		return obj.getEndDate();
+	}
+
+	@Override
+	protected ClientFinanceDate getPreviousReportEndDate(Object object) {
+		return ((BaseReport) object).getEndDate();
 	}
 
 	@Override

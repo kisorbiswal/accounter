@@ -495,8 +495,7 @@ public class BrandingTheme extends CreatableObject implements
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getBrandingTheme")
-				.setParameter("themeName", this.themeName)
-				.setParameter("id", this.id);
+				.setString("themeName", this.themeName).setLong("id", this.id);
 		List list = query.list();
 
 		if (list != null || list.size() > 0 || list.get(0) != null) {

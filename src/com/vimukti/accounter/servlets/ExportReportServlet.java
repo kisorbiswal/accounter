@@ -119,16 +119,23 @@ public class ExportReportServlet extends BaseServlet {
 		String dateRangeHtml = request.getParameter("dateRangeHtml");
 		String navigatedName = request.getParameter("navigatedName");
 		String status = request.getParameter("status");
+		long vendorId = Long.parseLong(request.getParameter("vendorId"));
+		int boxNo = Integer.parseInt(request.getParameter("boxNo"));
 
-		ReportsGenerator generator;
+		ReportsGenerator generator = null;
 
-		if (status == null) {
+		if (vendorId != 0) {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
 					navigatedName, ReportsGenerator.GENERATIONTYPECSV,
+					vendorId, boxNo, companyType);
+
+		} else if (status != null) {
+			generator = new ReportsGenerator(reportType, startDate, endDate,
+					navigatedName, ReportsGenerator.GENERATIONTYPECSV, status,
 					companyType);
 		} else {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
-					navigatedName, ReportsGenerator.GENERATIONTYPECSV, status,
+					navigatedName, ReportsGenerator.GENERATIONTYPECSV,
 					companyType);
 		}
 

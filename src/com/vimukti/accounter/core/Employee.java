@@ -385,9 +385,9 @@ public class Employee extends CreatableObject implements IAccounterServerCore {
 		Employee employeeDetail = (Employee) clientObject;
 
 		Query query = session.getNamedQuery("getEmployeeDetails")
-				.setParameter("name", this.employeeName)
-				.setParameter("number", this.employeeNumber)
-				.setParameter("id", this.id);
+				.setString("name", this.employeeName)
+				.setString("number", this.employeeNumber)
+				.setLong("id", this.id);
 
 		List list = query.list();
 		Iterator it = list.iterator();
