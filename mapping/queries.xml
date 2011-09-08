@@ -1577,4 +1577,11 @@
 		at.account.id=:id group by at.transaction
 	</query>
 	
+	<query name="get.Activities.by.date">
+		<query-param name="fromDate" type="timestamp" />
+		<query-param name="endDate" type="timestamp" />
+		from com.vimukti.accounter.core.Activity at where
+		at.time between :fromDate and :endDate
+	</query>
+	
 </hibernate-mapping>
