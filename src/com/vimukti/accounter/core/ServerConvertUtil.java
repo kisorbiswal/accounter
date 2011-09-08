@@ -13,6 +13,7 @@ import java.util.Set;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -134,8 +135,6 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 		}
 
 	}
-
-	
 
 	public <D extends IAccounterServerCore, S extends IAccounterCore> D toServerObject(
 			D dst, S src, Session session) throws AccounterException {
@@ -305,8 +304,9 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 
 						} else if (isDate(srcField.getType())) {
 							Date date = (Date) srcField.get(src);
-							dstField.setLong(dst, date != null ? date.getTime() : 0);
-						}else {
+							dstField.setLong(dst, date != null ? date.getTime()
+									: 0);
+						} else {
 							// load the object by given Id.
 							Object object = loadObjectByid(session,
 									dstfieldType, longValue);
@@ -349,6 +349,9 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 											(ClientQuantity) srcField.get(src),
 											session));
 
+						} else if (isClientFinanceDate(srcfieldType)) {
+							dstField.set(dst, new FinanceDate(
+									(ClientFinanceDate) srcField.get(src)));
 						} else {
 							D d = getServerAfterCheckingInCache(
 									(D) dstField.get(dst),

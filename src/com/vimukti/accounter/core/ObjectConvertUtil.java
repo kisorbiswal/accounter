@@ -14,7 +14,6 @@ public class ObjectConvertUtil {
 	protected ThreadLocal<Map<Object, Object>> cache = new ThreadLocal<Map<Object, Object>>();
 	public ThreadLocal<Map<String, Object>> importedObjectsCache = new ThreadLocal<Map<String, Object>>();
 
-
 	protected Map<String, Field> getAllFields(Class<?> cls) {
 		Map<String, Field> mapFields = new HashMap<String, Field>();
 
@@ -109,6 +108,11 @@ public class ObjectConvertUtil {
 		return false;
 	}
 
+	protected boolean isClientFinanceDate(Class class1) {
+		return class1.getName().equals(
+				"com.vimukti.accounter.web.client.core.ClientFinanceDate");
+	}
+
 	protected boolean isQuantity(Class<?> className) {
 		return className.getName()
 				.equals("com.vimukti.accounter.core.Quantity");
@@ -129,16 +133,14 @@ public class ObjectConvertUtil {
 
 	public boolean isList(Class<?> fieldType) {
 		if (fieldType.getName().endsWith("java.util.List")
-				|| fieldType.getName().endsWith(
-						"java.util.ArrayList")
+				|| fieldType.getName().endsWith("java.util.ArrayList")
 				|| fieldType.getName().equals(
 						"org.hibernate.collection.PersistentList")) {
 			return true;
 		}
 		for (Class<?> inter : fieldType.getInterfaces()) {
 			if (inter.getName().endsWith("java.util.List")
-					|| inter.getName().endsWith(
-							"java.util.ArrayList")
+					|| inter.getName().endsWith("java.util.ArrayList")
 					|| inter.getName().equals(
 							"org.hibernate.collection.PersistentList")) {
 				return true;
@@ -192,7 +194,8 @@ public class ObjectConvertUtil {
 	public boolean isPrimitive(Class<?> fieldType) {
 		if (fieldType.getName()
 				.equals("com.vimukti.accounter.core.FinanceDate")
-				|| fieldType.getName().equals("java.lang.String")||fieldType.getName().equals("java.sql.Timestamp")) {
+				|| fieldType.getName().equals("java.lang.String")
+				|| fieldType.getName().equals("java.sql.Timestamp")) {
 			return true;
 		}
 		return fieldType.isPrimitive();
