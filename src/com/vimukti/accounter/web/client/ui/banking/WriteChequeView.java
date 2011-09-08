@@ -695,7 +695,7 @@ public class WriteChequeView extends
 		bankAccSelect.setDefaultPayFromAccount();
 
 		bankAccForm = new DynamicForm();
-		bankAccForm.setFields(bankAccSelect, balText);
+		bankAccForm.setFields(bankAccSelect, balText,vendorTDSTaxCode);
 		if (getPreferences().isClassTrackingEnabled()) {
 			classListCombo = createAccounterClassListCombo();
 			bankAccForm.setFields(classListCombo);
@@ -717,6 +717,11 @@ public class WriteChequeView extends
 									transactionCustomerTable.removeAllRecords();
 							} else if (payee instanceof ClientVendor
 									|| payee instanceof ClientTAXAgency) {
+								
+									vendorTDSTaxCode.setSelected(vendorTDSTaxCode
+											.getDisplayName(getCompany().getTAXItem(
+													payee.getTaxItemCode())));
+								
 								if (transaction == null)
 									transactionVendorTable.removeAllRecords();
 								// } else if (payee instanceof ClientTAXAgency)
