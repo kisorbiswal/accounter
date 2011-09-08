@@ -41,7 +41,7 @@ public class ViewManager extends HorizontalPanel {
 	 * This reference var. holds currently opened view. it is not only
 	 * AbstractBaseView, it is may be AbstractReportView also
 	 */
-	private AbstractView<?> existingView;
+	public AbstractView<?> existingView;
 
 	private MainFinanceWindow mainWindow;
 
@@ -96,7 +96,7 @@ public class ViewManager extends HorizontalPanel {
 		leftPanel.add(viewHolder);
 		this.add(leftPanel);
 		if (isHelpPanelEnabled) {
-			accounterHelpView = (HelpPanel) createHelpPanel();			
+			accounterHelpView = (HelpPanel) createHelpPanel();
 		}
 		if (accounterHelpView != null) {
 			this.add(accounterHelpView);
@@ -281,6 +281,10 @@ public class ViewManager extends HorizontalPanel {
 		updateButtons();
 	}
 
+	public void removeEditButton() {
+		group4.remove(editButton);
+	}
+
 	public void updateButtons() {
 		if (existingView instanceof IEditableView
 				&& ((IEditableView) existingView).canEdit()) {
@@ -297,7 +301,7 @@ public class ViewManager extends HorizontalPanel {
 			}
 			if (((IPrintableView) existingView).canPrint()) {
 				group2.add(printButton);
-			}else{
+			} else {
 				group2.remove(printButton);
 			}
 		} else {
