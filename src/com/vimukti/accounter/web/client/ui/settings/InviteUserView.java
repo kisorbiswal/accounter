@@ -54,49 +54,53 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 			@Override
 			public void onChange(ChangeEvent event) {
 				if (event != null) {
-					final String em = emailField.getValue().toString();
-					if (!UIUtils.isValidEmail(em)) {
-						Accounter.showError(Accounter.constants()
-								.invalidEmail());
-						emailField.setText("");
-					} else {
-						// ClientEmail email = new ClientEmail();
-						// email.setType(UIUtils.getEmailType(businesEmailSelect
-						// .getSelectedValue()));
-						// email.setEmail(em);
-						// allEmails.put(UIUtils.getEmailType(businesEmailSelect
-						// .getSelectedValue()), email);
-						Accounter
-								.createHomeService()
-								.getAllUsers(
-										new AccounterAsyncCallback<ArrayList<ClientUserInfo>>() {
+					final String em = emailField.getValue().toString().trim();
+					if (em.length() != 0) {
+						if (!UIUtils.isValidEmail(em)) {
+							Accounter.showError(Accounter.constants()
+									.invalidEmail());
+							emailField.setText("");
+						} else {
+							// ClientEmail email = new ClientEmail();
+							// email.setType(UIUtils.getEmailType(businesEmailSelect
+							// .getSelectedValue()));
+							// email.setEmail(em);
+							// allEmails.put(UIUtils.getEmailType(businesEmailSelect
+							// .getSelectedValue()), email);
+							Accounter
+									.createHomeService()
+									.getAllUsers(
+											new AccounterAsyncCallback<ArrayList<ClientUserInfo>>() {
 
-											@Override
-											public void onResultSuccess(
-													ArrayList<ClientUserInfo> result) {
-												for (int i = 0; i < result
-														.size(); i++) {
-													if (em
-															.equals(result
-																	.get(i).getEmail()))
-														Accounter.showError(Accounter.constants().mailExistedAlready());
-													emailField.setText("");
+												@Override
+												public void onResultSuccess(
+														ArrayList<ClientUserInfo> result) {
+													for (int i = 0; i < result
+															.size(); i++) {
+														if (em.equals(result
+																.get(i)
+																.getEmail()))
+															Accounter
+																	.showError(Accounter
+																			.constants()
+																			.mailExistedAlready());
+														emailField.setText("");
+													}
 												}
-											}
 
-											@Override
-											public void onException(
-													AccounterException caught) {
-												Accounter
-														.showError(Accounter
-																.constants()
-																.failedtoloadusersList());
-											}
-										});
+												@Override
+												public void onException(
+														AccounterException caught) {
+													Accounter
+															.showError(Accounter
+																	.constants()
+																	.failedtoloadusersList());
+												}
+											});
 
+						}
 					}
 				}
-
 			}
 		});
 		userManagementBox = new CheckBox(Accounter.constants()
