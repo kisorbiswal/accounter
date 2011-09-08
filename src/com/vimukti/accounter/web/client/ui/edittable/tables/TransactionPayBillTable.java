@@ -747,13 +747,9 @@ public abstract class TransactionPayBillTable extends
 	protected abstract void adjustAmountAndEndingBalance();
 
 	private void addTdsColumn() {
-		this.addColumn(new AnchorEditColumn<ClientTransactionPayBill>() {
+		this.addColumn(new TextEditColumn<ClientTransactionPayBill>() {
 
-			@Override
-			protected void onClick(ClientTransactionPayBill row) {
-				// TODO Auto-generated method stub
-
-			}
+		
 
 			@Override
 			protected String getValue(ClientTransactionPayBill row) {
@@ -774,6 +770,12 @@ public abstract class TransactionPayBillTable extends
 			@Override
 			protected String getColumnName() {
 				return Accounter.constants().tds();
+			}
+
+			@Override
+			protected void setValue(ClientTransactionPayBill row, String value) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 	}
