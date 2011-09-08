@@ -298,7 +298,6 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	}
 
 	protected void initAddressAndContacts() {
-
 		initContacts(getCustomer());
 		initPhones(getCustomer());
 		addressListOfCustomer = getCustomer().getAddress();

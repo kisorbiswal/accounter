@@ -9,6 +9,7 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -53,7 +54,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 			@Override
 			public void onChange(ChangeEvent event) {
 				if (event != null) {
-					String em = emailField.getValue().toString();
+					final String em = emailField.getValue().toString();
 					if (!UIUtils.isValidEmail(em)) {
 						Accounter.showError(Accounter.constants()
 								.invalidEmail());
@@ -65,6 +66,34 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 						// email.setEmail(em);
 						// allEmails.put(UIUtils.getEmailType(businesEmailSelect
 						// .getSelectedValue()), email);
+						Accounter
+								.createHomeService()
+								.getAllUsers(
+										new AccounterAsyncCallback<ArrayList<ClientUserInfo>>() {
+
+											@Override
+											public void onResultSuccess(
+													ArrayList<ClientUserInfo> result) {
+												for (int i = 0; i < result
+														.size(); i++) {
+													if (em
+															.equals(result
+																	.get(i).getEmail()))
+														Accounter.showError(Accounter.constants().mailExistedAlready());
+													emailField.setText("");
+												}
+											}
+
+											@Override
+											public void onException(
+													AccounterException caught) {
+												Accounter
+														.showError(Accounter
+																.constants()
+																.failedtoloadusersList());
+											}
+										});
+
 					}
 				}
 
@@ -159,7 +188,6 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 	public void deleteSuccess(IAccounterCore result) {
 		// TODO Auto-generated method stub
 	}
-
 
 	public void checkBoxClicked(RolePermissions obj) {
 		if (canDoUserManagement(obj)) {

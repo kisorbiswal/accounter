@@ -337,6 +337,6 @@ public interface IAccounterHomeViewService extends RemoteService {
 	
 	//for TDS
 	
-	public ArrayList<ClientPayTDS>getPayBillsByTDS() throws AccounterException;
+	public ArrayList<ClientPayTDS> getPayBillsByTDS() throws AccounterException;
 
 }
