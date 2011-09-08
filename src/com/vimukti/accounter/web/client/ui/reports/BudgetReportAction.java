@@ -11,8 +11,11 @@ public class BudgetReportAction extends Action {
 
 	protected BudgetReport report;
 
-	public BudgetReportAction(String text) {
+	int budgetType;
+
+	public BudgetReportAction(String text, int i) {
 		super(text);
+		budgetType = i;
 		this.catagory = Accounter.constants().report();
 	}
 
@@ -22,7 +25,7 @@ public class BudgetReportAction extends Action {
 
 			public void onCreated() {
 
-				report = new BudgetReport();
+				report = new BudgetReport(budgetType);
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent, BudgetReportAction.this);
 				// Accounter.showError("Not yet Implemented");

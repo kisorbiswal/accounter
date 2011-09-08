@@ -7,9 +7,15 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class BudgetReport extends AbstractReportView<ClientBudgetList> {
 
-	public BudgetReport() {
+	int budgettype;
+
+	public BudgetReport(int budgetType) {
 		super(false, "");
-		this.serverReport = new BudgetServerReport(this);
+		budgettype = budgetType;
+		BudgetServerReport serverreport = new BudgetServerReport(this,
+				budgetType);
+
+		this.serverReport = serverreport;
 		this.serverReport.setIshowGridFooter(true);
 	}
 
@@ -21,7 +27,14 @@ public class BudgetReport extends AbstractReportView<ClientBudgetList> {
 
 	@Override
 	public int getToolbarType() {
-		return TOOLBAR_TYPE_BUDGET;
+		if (budgettype == 2)
+			return TOOLBAR_TYPE_BUDGET2;
+		else if (budgettype == 3)
+			return TOOLBAR_TYPE_BUDGET3;
+		else if (budgettype == 4)
+			return TOOLBAR_TYPE_BUDGET4;
+		else
+			return TOOLBAR_TYPE_BUDGET1;
 	}
 
 	@Override

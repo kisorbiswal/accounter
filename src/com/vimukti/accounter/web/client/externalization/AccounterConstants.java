@@ -4663,4 +4663,6 @@ public interface AccounterConstants extends Constants {
 	public String differenceValidate();
 
 	public String accountVScustom();
+
+	public String budgetMonth();
 }

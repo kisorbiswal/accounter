@@ -23,16 +23,20 @@ public class BudgetReportToolbar extends ReportToolbar implements
 
 	private DateItem fromItem;
 	private DateItem toItem;
-	protected SelectCombo budgetCombo, budgetType;
-	protected List<String> statusList, dateRangeList;
+	protected SelectCombo budgetCombo;
+	protected SelectCombo budgetYear;
+	protected SelectCombo budgetMonth;
+	protected List<String> statusList, dateRangeList, yearRangeList;
 	private Button updateButton;
 	List<String> budgetArray = new ArrayList<String>();
 	List<Long> idArray = new ArrayList<Long>();
 
 	private Long isStatus;
 
-	public BudgetReportToolbar() {
+	int budgetToolbarType;
 
+	public BudgetReportToolbar(int i) {
+		budgetToolbarType = i;
 		Accounter.createHomeService().getBudgetList(this);
 	}
 
@@ -58,10 +62,15 @@ public class BudgetReportToolbar extends ReportToolbar implements
 
 	public void createControls() {
 
-		String[] dateRangeArray = { Accounter.constants().accountVScustom(),
-				Accounter.constants().accountVSmonths(),
-				Accounter.constants().accountVSquaters(),
-				Accounter.constants().accountVSyears() };
+		String[] dateRangeArray = { Accounter.constants().january(),
+				Accounter.constants().february(),
+				Accounter.constants().march(), Accounter.constants().april(),
+				Accounter.constants().may(), Accounter.constants().june(),
+				Accounter.constants().july(), Accounter.constants().august(),
+				Accounter.constants().september(),
+				Accounter.constants().october(),
+				Accounter.constants().november(),
+				Accounter.constants().december() };
 
 		budgetCombo = new SelectCombo(Accounter.constants().budget());
 		budgetCombo.setHelpInformation(true);
@@ -83,15 +92,42 @@ public class BudgetReportToolbar extends ReportToolbar implements
 					}
 				});
 
-		budgetType = new SelectCombo(Accounter.constants().budgetType());
-		budgetType.setHelpInformation(true);
+		budgetMonth = new SelectCombo(Accounter.constants().budgetMonth());
+		budgetMonth.setHelpInformation(true);
 		dateRangeList = new ArrayList<String>();
 		for (int i = 0; i < dateRangeArray.length; i++) {
 			dateRangeList.add(dateRangeArray[i]);
 		}
-		budgetType.initCombo(dateRangeList);
-		budgetType.setDefaultValue(dateRangeArray[0]);
-		budgetType
+		budgetMonth.initCombo(dateRangeList);
+		budgetMonth.setDefaultValue(dateRangeArray[0]);
+		budgetMonth
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+
+						if (selectItem.endsWith(Accounter.constants()
+								.accountVScustom())) {
+							fromItem.setDisabled(false);
+							toItem.setDisabled(false);
+						} else {
+							fromItem.setDisabled(true);
+							toItem.setDisabled(true);
+						}
+
+					}
+				});
+
+		budgetYear = new SelectCombo(Accounter.constants().budget() + " "
+				+ Accounter.constants().year());
+		budgetYear.setHelpInformation(true);
+		yearRangeList = new ArrayList<String>();
+		for (int i = 1990; i < 2030; i++) {
+			yearRangeList.add(Integer.toString(i));
+		}
+		budgetYear.initCombo(yearRangeList);
+		budgetYear.setDefaultValue(yearRangeList.get(0));
+		budgetYear
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
 					@Override
@@ -145,7 +181,7 @@ public class BudgetReportToolbar extends ReportToolbar implements
 				setEndDate(toItem.getDate());
 
 				changeDates(fromItem.getDate(), toItem.getDate());
-				budgetType.setDefaultValue(Accounter.constants().custom());
+				budgetMonth.setDefaultValue(Accounter.constants().custom());
 				setSelectedDateRange(Accounter.constants().custom());
 
 			}
@@ -167,10 +203,19 @@ public class BudgetReportToolbar extends ReportToolbar implements
 		});
 
 		if (UIUtils.isMSIEBrowser()) {
-			budgetType.setWidth("170px");
+			budgetMonth.setWidth("170px");
+			budgetYear.setWidth("170px");
 			budgetCombo.setWidth("90px");
 		}
-		addItems(budgetCombo, budgetType, fromItem, toItem);
+		if (budgetToolbarType == 2)
+			addItems(budgetCombo, budgetMonth);
+		else if (budgetToolbarType == 3)
+			addItems(budgetCombo, budgetYear);
+		else if (budgetToolbarType == 4)
+			addItems(budgetCombo, budgetYear);
+		else
+			addItems(budgetCombo, fromItem, toItem);
+
 		add(updateButton);
 		this.setCellVerticalAlignment(updateButton,
 				HasVerticalAlignment.ALIGN_MIDDLE);

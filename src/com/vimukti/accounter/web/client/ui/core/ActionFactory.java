@@ -1342,8 +1342,21 @@ public class ActionFactory {
 				.MISC1099TransactionDetailByVendor(Global.get().Vendor()));
 	}
 
-	public static BudgetReportAction getBudgetReportsAction() {
-		return new BudgetReportAction(actionsConstants.budgetView());
+	public static BudgetReportAction getBudgetReportsAction(int i) {
+		switch (i) {
+		case 1:
+			return new BudgetReportAction(actionsConstants.accountVScustom(), i);
+		case 2:
+			return new BudgetReportAction(actionsConstants.accountVSmonths(), i);
+		case 3:
+			return new BudgetReportAction(actionsConstants.accountVSquaters(),
+					i);
+		case 4:
+			return new BudgetReportAction(actionsConstants.accountVSyears(), i);
+		default:
+			return new BudgetReportAction(actionsConstants.accountVScustom(), i);
+		}
+
 	}
 
 }

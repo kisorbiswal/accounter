@@ -76,6 +76,12 @@ public abstract class AbstractFinaneReport<R> extends
 		this.constants = Global.get().constants();
 		this.messages = Global.get().messages();
 
+	}
+
+	public void initGrid() {
+		if (grid != null) {
+			return;
+		}
 		this.columns = this.getColunms();
 		if (generationType == 1001) {
 			this.grid = new PDFReportGridTemplate<R>(columns, ishowGridFooter);
@@ -88,22 +94,12 @@ public abstract class AbstractFinaneReport<R> extends
 
 	@SuppressWarnings({ "unchecked" })
 	public AbstractFinaneReport(long startDate, long endDate, int generationType) {
-
-		this.preferences = Global.get().preferences();
-		this.constants = Global.get().constants();
-		this.messages = Global.get().messages();
+		this();
 
 		this.startDate = new ClientFinanceDate(startDate);
 		this.endDate = new ClientFinanceDate(endDate);
 		this.generationType = generationType;
 
-		this.columns = this.getColunms();
-		if (generationType == 1001) {
-			this.grid = new PDFReportGridTemplate<R>(columns, ishowGridFooter);
-		} else {
-			this.grid = new CSVReportGridTemplate<R>(columns, ishowGridFooter);
-		}
-		this.grid.setReportView(this);
 	}
 
 	void setReportGridTemplate(ReportGridTemplate<R> reportGridTemplate) {
@@ -177,6 +173,7 @@ public abstract class AbstractFinaneReport<R> extends
 
 	@Override
 	public void initRecords(List<R> records) {
+		initGrid();
 		removeAllRows();
 		this.records = records;
 

@@ -11,12 +11,14 @@ public class BudgetServerReport extends AbstractFinaneReport<ClientBudgetList> {
 
 	private String sectionName = "";
 
-	private double accountBalance = 0.0D;
-
 	private String currentsectionName = "";
 
-	public BudgetServerReport(IFinanceReport<ClientBudgetList> reportView) {
+	int budgettype;
+
+	public BudgetServerReport(IFinanceReport<ClientBudgetList> reportView,
+			int budgetType) {
 		this.reportView = reportView;
+		budgettype = budgetType;
 	}
 
 	public BudgetServerReport(long startDate, long endDate, int generationType) {
@@ -73,8 +75,24 @@ public class BudgetServerReport extends AbstractFinaneReport<ClientBudgetList> {
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { " ", getConstants().transactionDate(),
-				getConstants().amount(), getConstants().balance() };
+
+		if (budgettype == 2) {
+			return new String[] { getConstants().accountName(),
+					getConstants().month(), getConstants().total() };
+		} else if (budgettype == 3) {
+			return new String[] { getConstants().accountName(),
+					getConstants().jan() + " - " + getConstants().mar(),
+					getConstants().apr() + " - " + getConstants().jun(),
+					getConstants().jul() + " - " + getConstants().sept(),
+					getConstants().oct() + " - " + getConstants().dec(),
+					getConstants().total() };
+		} else if (budgettype == 4) {
+			return new String[] { getConstants().accountName(),
+					getConstants().total() };
+		} else {
+			return new String[] { getConstants().accountName(),
+					getConstants().date(), getConstants().total() };
+		}
 	}
 
 	@Override
@@ -176,14 +194,43 @@ public class BudgetServerReport extends AbstractFinaneReport<ClientBudgetList> {
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getConstants().accountName(),
-				getConstants().jan(), getConstants().feb(),
-				getConstants().mar(), getConstants().apr(),
-				getConstants().may(), getConstants().jun(),
-				getConstants().jul(), getConstants().aug(),
-				getConstants().sept(), getConstants().oct(),
-				getConstants().nov(), getConstants().dec(),
-				getConstants().total() };
+		if (budgettype == 2) {
+			return new String[] { getConstants().accountName(),
+					getConstants().jan(), getConstants().feb(),
+					getConstants().mar(), getConstants().apr(),
+					getConstants().may(), getConstants().jun(),
+					getConstants().jul(), getConstants().aug(),
+					getConstants().sept(), getConstants().oct(),
+					getConstants().nov(), getConstants().dec(),
+					getConstants().total() };
+		} else if (budgettype == 3) {
+			return new String[] { getConstants().accountName(),
+					getConstants().jan(), getConstants().feb(),
+					getConstants().mar(), getConstants().apr(),
+					getConstants().may(), getConstants().jun(),
+					getConstants().jul(), getConstants().aug(),
+					getConstants().sept(), getConstants().oct(),
+					getConstants().nov(), getConstants().dec(),
+					getConstants().total() };
+		} else if (budgettype == 4) {
+			return new String[] { getConstants().accountName(),
+					getConstants().jan(), getConstants().feb(),
+					getConstants().mar(), getConstants().apr(),
+					getConstants().may(), getConstants().jun(),
+					getConstants().jul(), getConstants().aug(),
+					getConstants().sept(), getConstants().oct(),
+					getConstants().nov(), getConstants().dec(),
+					getConstants().total() };
+		} else {
+			return new String[] { getConstants().accountName(),
+					getConstants().jan(), getConstants().feb(),
+					getConstants().mar(), getConstants().apr(),
+					getConstants().may(), getConstants().jun(),
+					getConstants().jul(), getConstants().aug(),
+					getConstants().sept(), getConstants().oct(),
+					getConstants().nov(), getConstants().dec(),
+					getConstants().total() };
+		}
 	}
 
 	@Override
