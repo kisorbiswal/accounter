@@ -166,6 +166,8 @@ public class CompanyPreferences implements IAccounterServerCore {
 	private boolean isClassTrackingEnabled;
 
 	private boolean isClassOnePerTransaction;
+	
+	private boolean isWarningEnabled;
 
 	public boolean isLocationTrackingEnabled() {
 		return isLocationTrackingEnabled;
@@ -1149,5 +1151,13 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	public void setClassOnePerTransaction(boolean isClassOnePerTransaction) {
 		this.isClassOnePerTransaction = isClassOnePerTransaction;
+	}
+
+	public boolean isWarningEnabled() {
+		return isWarningEnabled;
+	}
+
+	public void setWarningEnabled(boolean isWarningEnabled) {
+		this.isWarningEnabled = isWarningEnabled;
 	}
 }
