@@ -43,6 +43,16 @@ public class DoYouUseAndHowDoYouReferPage extends AbstractCompanyInfoPanel {
 	public DoYouUseAndHowDoYouReferPage() {
 		initWidget(uiBinder.createAndBindUi(this));
 		createControls();
+		initData();
+	}
+
+	private void initData() {
+		useCustomerNo.setValue(companyPreferences.getUseCustomerId());
+		useVendorNo.setValue(companyPreferences.getUseVendorId());
+		useAccountNo.setValue(companyPreferences.getUseAccountNumbers());
+		customerCombo.setSelectedIndex(companyPreferences.getReferCustomers());
+		customerCombo.setSelectedIndex(companyPreferences.getReferVendors());
+		accountCombo.setSelectedIndex(companyPreferences.getReferAccounts());
 	}
 
 	private void createControls() {
@@ -78,16 +88,6 @@ public class DoYouUseAndHowDoYouReferPage extends AbstractCompanyInfoPanel {
 	}
 
 	@Override
-	public void onLoad() {
-		useCustomerNo.setValue(companyPreferences.getUseCustomerId());
-		useVendorNo.setValue(companyPreferences.getUseVendorId());
-		useAccountNo.setValue(companyPreferences.getUseAccountNumbers());
-		customerCombo.setSelectedIndex(companyPreferences.getReferCustomers());
-		customerCombo.setSelectedIndex(companyPreferences.getReferVendors());
-		accountCombo.setSelectedIndex(companyPreferences.getReferAccounts());
-	}
-
-	@Override
 	public void onSave() {
 		companyPreferences.setUseCustomerId(useCustomerNo.getValue());
 		companyPreferences.setUseVendorId(useVendorNo.getValue());
@@ -96,6 +96,12 @@ public class DoYouUseAndHowDoYouReferPage extends AbstractCompanyInfoPanel {
 		companyPreferences.setReferCustomers(customerCombo.getSelectedIndex());
 		companyPreferences.setReferVendors(customerCombo.getSelectedIndex());
 		companyPreferences.setReferAccounts(accountCombo.getSelectedIndex());
+	}
+
+	@Override
+	public void validate() {
+		// TODO Auto-generated method stub
+
 	}
 
 }
