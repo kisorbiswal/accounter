@@ -33,6 +33,7 @@ public class HelpPanel extends Composite implements HasText {
 		Face downFace = button.getDownFace();
 		downFace.setImage(new Image(Accounter.getFinanceImages()
 				.helpPannelIcon()));
+		verticalPannel.setWidth("100%");
 	}
 
 	@Override
