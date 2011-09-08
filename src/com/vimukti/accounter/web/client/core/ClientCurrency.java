@@ -17,6 +17,8 @@ public class ClientCurrency implements IAccounterCore {
 	String name;
 
 	String formalName;
+	
+	String symbol;
 
 	/*
 	 * String countryName;
@@ -26,6 +28,14 @@ public class ClientCurrency implements IAccounterCore {
 	 * public void setCountryName(String countryName) { this.countryName =
 	 * countryName; }
 	 */
+
+	public String getSymbol() {
+		return symbol;
+	}
+
+	public void setSymbol(String symbol) {
+		this.symbol = symbol;
+	}
 
 	/**
 	 * @return the version
