@@ -4527,7 +4527,10 @@
 
 		LEFT OUTER JOIN PAYEE P ON P.ID = C.ID
 
-		WHERE (C.NUMBER =:number OR P.NAME =:name) AND P.ID !=:id
+		WHERE (CASE WHEN :number = "" OR :number IS NULL 
+				THEN FALSE
+				ELSE C.NUMBER =:number
+				END OR P.NAME =:name) AND P.ID !=:id
 
 	</sql-query>
 
