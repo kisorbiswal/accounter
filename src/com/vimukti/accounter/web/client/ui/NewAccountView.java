@@ -716,6 +716,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (bankNameSelect == null) {
 
 			bankNameSelect = new BankNameCombo(Accounter.constants().bankName());
+			bankNameSelect.setDisabled(isInViewMode());
 			// bankNameSelect.setWidth(100);
 			bankNameSelect
 					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientBank>() {
@@ -754,6 +755,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (creditCardForm == null) {
 			lab1.setText("Credit Card Account");
 			typeSelect = new SelectCombo("Credit Card Type");
+			typeSelect.setDisabled(isInViewMode());
 			// typeSelect.setWidth(100);
 			// typeSelect.setWidth("*");
 			typeMap = new ArrayList<String>();
@@ -815,6 +817,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			cardNumText.setWidth(100);
 			creditCardForm = UIUtils.form(Accounter.messages()
 					.creditCardAccountInformation((Global.get().Account())));
+			creditCardForm.setDisabled(isInViewMode());
 			creditCardForm.setFields(getBankNameSelectItem(), typeSelect,
 					limitText, cardNumText);
 			creditCardForm.setWidth("100%");
@@ -844,6 +847,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 			typeSelect = new SelectCombo(Accounter.messages().bankAccountType(
 					Global.get().Account()));
+			typeSelect.setDisabled(isInViewMode());
 			// typeSelect.setWidth(100);
 			// typeSelect.setWidth("*");
 			typeMap = new ArrayList<String>();
@@ -1091,7 +1095,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		ClientCompany company = getCompany();
 		ClientAccount account = company.getAccountByName(name);
 		if (name != null && !name.isEmpty()) {
-			if (isInViewMode() ? (account == null ? false : !data.getName()
+			if (!isInViewMode() ? (account == null ? false : !data.getName()
 					.equalsIgnoreCase(name)) : account != null) {
 
 				result.addError(accNameText, Accounter.constants()
@@ -1101,7 +1105,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		}
 		long number = accNoText.getNumber();
 		account = company.getAccountByNumber(number);
-		if (isInViewMode() ? (account == null ? false : !(Long.parseLong(data
+		if (!isInViewMode() ? (account == null ? false : !(Long.parseLong(data
 				.getNumber()) == number)) : account != null) {
 
 			result.addError(accNameText, Accounter.messages()
@@ -1601,6 +1605,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		cashAccountCheck.setDisabled(isInViewMode());
 		statusBox.setDisabled(isInViewMode());
 		commentsArea.setDisabled(isInViewMode());
+		creditCardForm.setDisabled(isInViewMode());
 		super.onEdit();
 
 	}
