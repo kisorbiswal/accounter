@@ -312,9 +312,13 @@ public class AccounterClientConstants implements IsSerializable, Serializable {
 			.vendorPrePayment(Global.get().Vendor());
 	// constant terms of paypal account types
 	public static final String ADD_NEW_TYPE = "Add New Type";
-	public static final String PERSONAL = "Personal";
-	public static final String PREMIUM = "Premium";
-	public static final String BUSINESS = "Business";
+	public static final String PAYPALTYPE_PERSONAL = "Personal";
+	public static final String PAYPALTYPE_PREMIUM = "Premium";
+	public static final String PAYPALTYPE_BUSINESS = "Business";
 
 	public static final String TYPE_PAYPAL = "Paypal";
+
+	public static final String CREDITCARDTYPE_MASTER = "Master";
+	public static final String CREDITCARDTYPE_VISA = "Visa";
+
 }
