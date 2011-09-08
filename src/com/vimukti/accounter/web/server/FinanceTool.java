@@ -12598,12 +12598,39 @@ public class FinanceTool {
 		return new ArrayList<ProfitAndLossByLocation>(queryResult);
 	}
 
-	public PaginationList<ClientActivity> getUsersActivityLog(int startIndex,
-			int length) {
+	public PaginationList<ClientActivity> getUsersActivityLog(
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			int startIndex, int length) {
 
 		Session session = HibernateUtil.getCurrentSession();
-		List<Activity> activites = session.getNamedQuery("list.Activity")
-				.list();
+		Timestamp startTime = new Timestamp(startDate.getDateAsObject()
+				.getTime());
+		Timestamp endTime = new Timestamp(endDate.getDateAsObject().getTime());
+		endTime.setHours(23);
+		endTime.setMinutes(59);
+		endTime.setSeconds(59);
+		Query query;
+		int count;
+		if (startDate.getDate() == 0 || endDate.getDate() == 0) {
+			query = session.getNamedQuery("list.Activity");
+			query.setFirstResult(startIndex);
+			query.setMaxResults(length);
+			count = ((BigInteger) session.createSQLQuery(
+					"SELECT COUNT(*) FROM ACTIVITY").uniqueResult()).intValue();
+		} else {
+			query = session.getNamedQuery("get.Activities.by.date");
+			query.setParameter("fromDate", startTime);
+			query.setParameter("endDate", endTime);
+			query.setFirstResult(startIndex);
+			query.setMaxResults(length);
+			count = ((BigInteger) session
+					.createSQLQuery(
+							"SELECT COUNT(*) FROM ACTIVITY A WHERE A.TIME_STAMP BETWEEN :fromDate AND :endDate")
+					.setParameter("fromDate", startTime)
+					.setParameter("endDate", endTime).uniqueResult())
+					.intValue();
+		}
+		List<Activity> activites = query.list();
 		PaginationList<ClientActivity> clientActivities = new PaginationList<ClientActivity>();
 		for (Activity activity : activites) {
 			ClientActivity clientActivity;
@@ -12616,6 +12643,7 @@ public class FinanceTool {
 			}
 
 		}
+		clientActivities.setTotalCount(count);
 		return clientActivities;
 	}
 
