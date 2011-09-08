@@ -33,25 +33,10 @@ public class AgeingAndSellingDetailsPage extends AbstractCompanyInfoPanel {
 	public AgeingAndSellingDetailsPage() {
 		initWidget(uiBinder.createAndBindUi(this));
 		createControls();
+		initData();
 	}
 
-	private void createControls() {
-
-		ageingforduedateRadioButton.setText(constants.ageingforduedate());
-		ageingfortransactiondateRadioButton.setText(constants
-				.ageingfortransactiondate());
-
-		ageingLabel.setText(constants.ageingDetails());
-		sellingsLabel.setText(constants.sellingDetails());
-
-		servicesRadioButton.setText(constants.services());
-		productsRadioButton.setText(constants.products());
-		bothRadioButton.setText(constants.both());
-
-	}
-
-	@Override
-	public void onLoad() {
+	private void initData() {
 		if (companyPreferences.getAgeingFromTransactionDateORDueDate() == 1) {
 			ageingforduedateRadioButton.setValue(true);
 			ageingfortransactiondateRadioButton.setValue(false);
@@ -75,6 +60,21 @@ public class AgeingAndSellingDetailsPage extends AbstractCompanyInfoPanel {
 		}
 	}
 
+	private void createControls() {
+
+		ageingforduedateRadioButton.setText(constants.ageingforduedate());
+		ageingfortransactiondateRadioButton.setText(constants
+				.ageingfortransactiondate());
+
+		ageingLabel.setText(constants.ageingDetails());
+		sellingsLabel.setText(constants.sellingDetails());
+
+		servicesRadioButton.setText(constants.services());
+		productsRadioButton.setText(constants.products());
+		bothRadioButton.setText(constants.both());
+
+	}
+
 	@Override
 	public void onSave() {
 		if (ageingforduedateRadioButton.getValue())
@@ -92,6 +92,12 @@ public class AgeingAndSellingDetailsPage extends AbstractCompanyInfoPanel {
 			companyPreferences.setSellProducts(true);
 			companyPreferences.setSellServices(false);
 		}
+	}
+
+	@Override
+	public void validate() {
+		// TODO Auto-generated method stub
+
 	}
 
 }
