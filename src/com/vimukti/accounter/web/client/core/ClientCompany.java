@@ -1418,7 +1418,11 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	private void deleteLocation(long locationId) {
-		this.locations.remove(this.getLocation(locationId));
+		ClientLocation location = this.getLocation(locationId);
+		if (location != null) {
+			this.locations.remove(location);
+			fireEvent(new CoreEvent<ClientLocation>(ChangeType.DELETE, location));
+		}
 	}
 
 	public ClientLocation getLocation(long locationId) {
@@ -2659,6 +2663,10 @@ public class ClientCompany implements IAccounterCore {
 
 	public ClientItemGroup getItemGroupByName(String name) {
 		return Utility.getObjectByName(getItemGroups(), name);
+	}
+	
+	public ClientLocation getLocationByName(String name){
+		return Utility.getObjectByName(getLocations(), name);
 	}
 
 	public ClientCreditRating getCreditRatingByName(String name) {
