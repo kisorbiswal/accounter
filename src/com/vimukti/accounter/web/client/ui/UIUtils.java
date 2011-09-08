@@ -2044,5 +2044,18 @@ public class UIUtils {
 		return clientCurrencies;
 
 	}
+	
+	public static boolean isCharactersOnly(String location) {
+		char[] charArray = location.toCharArray();
+		for (int i = 0; i < charArray.length; i++) {
+			if ((charArray[i] >= 'A' && charArray[i] <= 'Z')
+					|| (charArray[i] >= 'a' && charArray[i] <= 'z')) {
+				continue;
+			} else {
+				return false;
+			}
+		}
+		return true;
+}
 
 }
