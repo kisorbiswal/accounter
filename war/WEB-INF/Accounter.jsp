@@ -218,7 +218,7 @@
 	<iframe id="__printingFrame" style="width: 0; height: 0; border: 0"></iframe>
 	 <iframe id="__printingFrame" style="width: 0; height: 0; border: 0">
         </iframe>
-        <iframe id="__generatePdfFrame" style="width: 0; height: 0; border: 0" src="#">
+        <iframe id="__generatePdfFrame" style="width: 0; height: 0; border: 0">
            
         </iframe>
         
