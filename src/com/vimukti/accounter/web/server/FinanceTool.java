@@ -89,6 +89,7 @@ import com.vimukti.accounter.core.ObjectConvertUtil;
 import com.vimukti.accounter.core.PayBill;
 import com.vimukti.accounter.core.PaySalesTax;
 import com.vimukti.accounter.core.PaySalesTaxEntries;
+import com.vimukti.accounter.core.PayTDS;
 import com.vimukti.accounter.core.PayVAT;
 import com.vimukti.accounter.core.PayVATEntries;
 import com.vimukti.accounter.core.Payee;
@@ -146,6 +147,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
+import com.vimukti.accounter.web.client.core.ClientPayTDS;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -12665,7 +12667,7 @@ public class FinanceTool {
 		return transactions;
 	}
 
-	public ArrayList<ClientPayBill> getPayBillsByTDS() {
+	public ArrayList<ClientPayTDS> getPayBillsByTDS() {
 		Session session = HibernateUtil.getCurrentSession();
 
 		return null;

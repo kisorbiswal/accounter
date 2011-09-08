@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientPayVAT;
+import com.vimukti.accounter.web.client.core.ClientPayTDS;
 import com.vimukti.accounter.web.client.core.ClientPayVATEntries;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -27,15 +27,13 @@ import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.grids.TransactionPayVATGrid;
-import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
+import com.vimukti.accounter.web.client.ui.grids.TransactionPayTDSGrid;
 
-public class PayTDSView extends AbstractTransactionBaseView<ClientPayVAT> {
+public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 
 	private ArrayList<DynamicForm> listforms;
 	private DateField date;
 	private PayFromAccountsCombo payFromAccCombo;
-	private DateField billsDue;
 	private TAXAgencyCombo taxAgencyCombo;
 	private DynamicForm mainform;
 	private AmountField amountText;
@@ -45,7 +43,7 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayVAT> {
 	protected double initialEndingBalance;
 	protected ClientTAXAgency selectedVATAgency;
 	private VerticalPanel gridLayout;
-	private TransactionPayVATGrid grid;
+	private TransactionPayTDSGrid grid;
 	private Double totalAmount = 0.0D;
 	private String transactionNumber;
 	protected List<ClientPayVATEntries> entries;
@@ -124,22 +122,7 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayVAT> {
 		paymentMethodCombo.setRequired(true);
 		// paymentMethodCombo.setWidth(100);
 
-		billsDue = new DateField(companyConstants.returnsDueOnOrBefore());
-
-		billsDue.setHelpInformation(true);
-		billsDue.setTitle(companyConstants.returnsDueOnOrBefore());
-		billsDue.setDisabled(isInViewMode());
-
-		billsDue.addDateValueChangeHandler(new DateValueChangeHandler() {
-
-			@Override
-			public void onDateValueChange(ClientFinanceDate date) {
-				if (transaction == null) {
-					dueDateOnOrBefore = date;
-					// filterGrid();
-				}
-			}
-		});
+		
 
 		// vatAgencyCombo = new VATAgencyCombo("Filter By "
 		// + companyConstants.vatAgency());
@@ -170,9 +153,9 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayVAT> {
 		mainform = new DynamicForm();
 		// filterForm.setWidth("100%");
 		mainform = UIUtils.form(companyConstants.filter());
-		mainform.setFields(payFromAccCombo, paymentMethodCombo, billsDue);
+		mainform.setFields(payFromAccCombo, paymentMethodCombo);
 		mainform.setWidth("80%");
-
+		
 		// fileterForm = new DynamicForm();
 		// fileterForm.setFields(billsDue);
 		// fileterForm.setWidth("80%");
@@ -217,7 +200,7 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 		Label lab1 = new Label("" + companyConstants.billsToPay() + "");
 
-		// initListGrid();
+		 initListGrid();
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
@@ -225,7 +208,7 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayVAT> {
 		mainVLay.add(datepanel);
 		mainVLay.add(topHLay);
 		mainVLay.add(lab1);
-	//	mainVLay.add(gridLayout);
+		mainVLay.add(gridLayout);
 		this.add(mainVLay);
 		setSize("100%", "100%");
 		/* Adding dynamic forms in list */
@@ -270,6 +253,27 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayVAT> {
 	public List<DynamicForm> getForms() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	// initializes the grid.
+	private void initListGrid() {
+
+		gridLayout = new VerticalPanel();
+		gridLayout.setWidth("100%");
+		grid = new TransactionPayTDSGrid(!isInViewMode(), true);
+		grid.setCanEdit(!isInViewMode());
+		grid.isEnable = false;
+		grid.init();
+		//grid.setPayVATView(this);
+		grid.setDisabled(isInViewMode());
+		// grid.setHeight("200px");
+		if (!isInViewMode()) {
+			// grid.addFooterValue("Total", 1);
+			// grid
+			// .updateFooterValues(DataUtils
+			// .getAmountAsString(totalAmount), 2);
+		}
+		gridLayout.add(grid);
+
 	}
 
 }

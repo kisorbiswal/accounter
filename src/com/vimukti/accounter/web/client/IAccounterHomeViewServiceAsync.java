@@ -26,6 +26,7 @@ import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientPaySalesTaxEntries;
+import com.vimukti.accounter.web.client.core.ClientPayTDS;
 import com.vimukti.accounter.web.client.core.ClientPayVATEntries;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
@@ -372,6 +373,6 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getBudgetList(AsyncCallback<ArrayList<ClientBudget>> callBack);
 	
 	//For tds
-	public void getPayBillsByTDS(AsyncCallback<ArrayList<ClientPayBill>> callback);
+	public void getPayBillsByTDS(AsyncCallback<ArrayList<ClientPayTDS>> callback);
 
 }

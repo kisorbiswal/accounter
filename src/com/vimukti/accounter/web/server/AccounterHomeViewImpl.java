@@ -52,8 +52,8 @@ import com.vimukti.accounter.web.client.core.ClientFinanceLogger;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
-import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientPaySalesTaxEntries;
+import com.vimukti.accounter.web.client.core.ClientPayTDS;
 import com.vimukti.accounter.web.client.core.ClientPayVATEntries;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
@@ -1695,7 +1695,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<ClientPayBill> getPayBillsByTDS() throws AccounterException {
+	public ArrayList<ClientPayTDS> getPayBillsByTDS() throws AccounterException {
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
 
