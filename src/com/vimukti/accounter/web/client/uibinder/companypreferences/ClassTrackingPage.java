@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class ClassTrackingPage extends AbstractCompanyInfoPanel {
 
@@ -44,10 +45,30 @@ public class ClassTrackingPage extends AbstractCompanyInfoPanel {
 	public ClassTrackingPage() {
 		initWidget(uiBinder.createAndBindUi(this));
 		createControls();
+		initData();
+	}
+
+	private void initData() {
+		if (companyPreferences.isClassTrackingEnabled()) {
+			classTrackingCheckBox.setValue(true);
+			hiddenPanel.setVisible(true);
+			if (companyPreferences.isClassOnePerTransaction()) {
+				onePerTransactionRadio.setValue(true);
+			} else {
+				onePerDetailLineRadio.setValue(true);
+			}
+
+			if (companyPreferences.isWarningEnabled()) {
+				classWarningCheckBox.setValue(true);
+			}
+		} else {
+			hiddenPanel.setVisible(false);
+		}
+
 	}
 
 	private void createControls() {
-		classTrackingCheckBox.setText("Class Tracking");
+		classTrackingCheckBox.setText(Accounter.constants().classTracking());
 		classWarningCheckBox.setText("Class Warning");
 		classesOnSalesLabel.setText("Classes on sales");
 		onePerTransactionRadio.setName("class_tracking");
@@ -70,14 +91,16 @@ public class ClassTrackingPage extends AbstractCompanyInfoPanel {
 
 	@Override
 	public void onSave() {
-		// TODO Auto-generated method stub
-
+		companyPreferences.setisClassTrackingEnabled(classTrackingCheckBox
+				.getValue());
+		companyPreferences.setClassOnePerTransaction(onePerTransactionRadio
+				.getValue());
+		companyPreferences.setWarningEnabled(classWarningCheckBox.getValue());
 	}
 
 	@Override
 	public void validate() {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 }
