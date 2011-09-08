@@ -7,25 +7,27 @@ package com.vimukti.accounter.web.client.core;
  */
 public class ClientLocation implements IAccounterCore {
 
-	public static final int LOCATION = 1;
+	public static final int LOCATION = 0;
 
-	public static final int BUSINESS = 2;
+	public static final int BUSINESS = 1;
 
-	public static final int DEPARTMENT = 3;
+	public static final int DEPARTMENT = 2;
 
-	public static final int DIVISION = 4;
+	public static final int DIVISION = 3;
 
-	public static final int PROPERTY = 5;
+	public static final int PROPERTY = 4;
 
-	public static final int STORE = 6;
+	public static final int STORE = 5;
 
-	public static final int TERRITORY = 7;
+	public static final int TERRITORY = 6;
 
 	private static final long serialVersionUID = 1L;
 
 	private String locationName;
 
 	private long id;
+
+	private int version;
 
 	public String getLocationName() {
 		return locationName;
@@ -62,15 +64,22 @@ public class ClientLocation implements IAccounterCore {
 
 	@Override
 	public String getClientClassSimpleName() {
-		return null;
+		return "ClientLocation";
 	}
 
 	@Override
 	public int getVersion() {
-		return 0;
+		return version;
 	}
 
 	@Override
 	public void setVersion(int version) {
+		this.version = version;
 	}
+
+	public ClientLocation clone() {
+		ClientLocation location = (ClientLocation) this.clone();
+		return location;
+	}
+	
 }
