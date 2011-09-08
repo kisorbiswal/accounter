@@ -100,7 +100,7 @@ public class BankingPortlet extends DashBoardPortlet {
 			for (final ClientAccount account : bankAccounts) {
 				HorizontalPanel hPanel = new HorizontalPanel();
 				final Label accountLabel = new Label(account.getName());
-				accountLabel.setWidth((account.getName().length() * 6) + "px");
+				accountLabel.setWidth((account.getName().length() * 5) + "px");
 				accountLabel.addStyleName(Accounter.constants().labelBanking());
 				accountLabel.addMouseOverHandler(new MouseOverHandler() {
 
