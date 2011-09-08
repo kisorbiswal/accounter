@@ -85,7 +85,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				public int getWidth() {
-					return 40;
+					return 108;
 				}
 
 				@Override
@@ -120,7 +120,7 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			public int getWidth() {
-				return 40;
+				return 108;
 			}
 
 			@Override
@@ -146,7 +146,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				public int getWidth() {
-					return 40;
+					return 108;
 				}
 
 				@Override
@@ -175,7 +175,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				public int getWidth() {
-					return 40;
+					return 108;
 				}
 
 				@Override
@@ -209,7 +209,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				public int getWidth() {
-					return 40;
+					return 108;
 				}
 
 				@Override
@@ -239,7 +239,7 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			public int getWidth() {
-				return 40;
+				return 108;
 			}
 
 			@Override
@@ -296,14 +296,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getValue(ClientTransactionPayBill row) {
-					ClientTAXItem taxItem = Accounter.getCompany().getTAXItem(
-							vendor.getTaxItemCode());
-					if (taxItem != null)
-						return DataUtils.getAmountAsString(row
-								.getOriginalAmount()
-								* (taxItem.getTaxRate() / 100));
-					else
-						return DataUtils.getAmountAsString(0.0);
+					return DataUtils.getAmountAsString(row.getPayment());
 
 				}
 
@@ -389,13 +382,26 @@ public abstract class TransactionPayBillTable extends
 		int row = indexOf(obj);
 		if (isChecked && !selectedValues.contains(row)) {
 			selectedValues.add(row);
-			update(obj);
+			updateValue(obj);
 		} else {
 			selectedValues.remove((Integer) row);
 			resetValue(obj);
 		}
 		super.checkColumn(row, 0, isChecked);
 	}
+
+	/*
+	 * This method invoked each time when record(s) get selected & it updates
+	 * the footer values
+	 */
+	public void updateValue(ClientTransactionPayBill obj) {
+		obj.setPayment(obj.getAmountDue());
+		updateAmountDue(obj);
+		updateTotalPayment(obj);
+		update(obj);
+	}
+
+	protected abstract void updateTotalPayment(ClientTransactionPayBill obj);
 
 	private void initCreditsDialogInstance(
 			ClientTransactionPayBill selectedObject) {
