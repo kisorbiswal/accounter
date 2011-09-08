@@ -1,10 +1,8 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientLocation;
-import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.customers.AddnewLocationDialog;
+import com.vimukti.accounter.web.client.ui.LocationGroupListDialog;
 
 /**
  * 
@@ -44,9 +42,10 @@ public class LocationCombo extends CustomCombo<ClientLocation> {
 
 	@Override
 	public void onAddNew() {
-		AddnewLocationDialog locationDialog = new AddnewLocationDialog(
-				Accounter.messages().location(Global.get().Location()));
-		locationDialog.addSuccessCallback(newLocationtHandler);
+		LocationGroupListDialog itemGroupDialog = new LocationGroupListDialog("", "");
+		itemGroupDialog.removeFromParent();
+		itemGroupDialog.showAddEditGroupDialog(null);
+		itemGroupDialog.addCallBack(createAddNewCallBack());
 	}
 
 	/**
