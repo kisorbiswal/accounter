@@ -101,7 +101,11 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_SALESBYLOCATIONDETAIL = 151;
 	public final static int REPORT_TYPE_SALESBYLOCATIONDETAILFORLOCATION = 152;
 	public final static int REPORT_TYPE_PROFITANDLOSSBYLOCATION = 153;
-	private static final int REPORT_TYPE_1099TRANSACTIONDETAIL = 154;
+	public final static int REPORT_TYPE_BUDGET1 = 154;
+	public final static int REPORT_TYPE_BUDGET2 = 155;
+	public final static int REPORT_TYPE_BUDGET3 = 156;
+	public final static int REPORT_TYPE_BUDGET4 = 157;
+	private static final int REPORT_TYPE_1099TRANSACTIONDETAIL = 158;
 
 	private static int companyType;
 	private ClientCompanyPreferences preferences = Global.get().preferences();
@@ -1375,6 +1379,14 @@ public class ReportsGenerator {
 			return "Sales By Location Detail For Location";
 		case REPORT_TYPE_PROFITANDLOSSBYLOCATION:
 			return "Profit and Loss by Location";
+		case REPORT_TYPE_BUDGET1:
+			return "Custom Budget";
+		case REPORT_TYPE_BUDGET2:
+			return "Monthly Budget";
+		case REPORT_TYPE_BUDGET3:
+			return "Quaterly Budget";
+		case REPORT_TYPE_BUDGET4:
+			return "Yearly Budget";
 		case REPORT_TYPE_1099TRANSACTIONDETAIL:
 			return "1099 Transaction Detail By Vendor";
 		default:
