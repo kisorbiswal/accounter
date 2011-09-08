@@ -116,7 +116,7 @@ public class EditTable<R> extends SimplePanel {
 	 */
 	public void clear() {
 		for (int x = 1; x <= rows.size(); x++) {
-			table.removeRow(x);
+			table.removeRow(1);
 		}
 		rows.clear();
 	}
