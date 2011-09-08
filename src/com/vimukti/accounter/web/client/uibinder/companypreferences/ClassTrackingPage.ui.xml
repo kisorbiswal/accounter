@@ -6,25 +6,26 @@
 			font-weight: bold;
 		}
 	</ui:style>
-		<g:VerticalPanel spacing="6">
-			<g:VerticalPanel spacing="6">
-				<g:HorizontalPanel spacing="4">
-					<g:CheckBox ui:field="classTrackingCheckBox"/>
-					<g:Label ui:field="classTrackingCheckBoxLabel"/>
-				</g:HorizontalPanel>
-			</g:VerticalPanel>
-			<g:VerticalPanel spacing="6" ui:field="hiddenPanel">
+	<g:VerticalPanel spacing="6">
+		<g:VerticalPanel spacing="6" styleName="fullSizePanel">
+			<g:HorizontalPanel spacing="4" styleName="companyInfoPanel">
+				<g:CheckBox ui:field="classTrackingCheckBox" />
+				<g:Label ui:field="classTrackingCheckBoxLabel" />
+			</g:HorizontalPanel>
+			<g:VerticalPanel spacing="6" ui:field="hiddenPanel"  styleName="companyInfoPanel">
 				<g:HorizontalPanel spacing="6">
-					<g:CheckBox ui:field="classWarningCheckBox"/>
-					<g:Label ui:field="classWarningCheckBoxLabel" horizontalAlignment="ALIGN_LEFT"/>
+					<g:CheckBox ui:field="classWarningCheckBox" />
+					<g:Label ui:field="classWarningCheckBoxLabel"
+						horizontalAlignment="ALIGN_LEFT" />
 				</g:HorizontalPanel>
-				<g:Label ui:field="classesOnSalesLabel"/>
-				<g:HorizontalPanel spacing="6">
-					<g:RadioButton name="new name" ui:field="onePerTransactionRadio"/>
-				</g:HorizontalPanel>
-				<g:HorizontalPanel spacing="6">
-					<g:RadioButton name="new name" ui:field="onePerDetailLineRadio"/>
-				</g:HorizontalPanel>
+				<g:VerticalPanel ui:field="classOnSalesPanel">
+					<g:Label ui:field="classesOnSalesLabel" styleName="header" />
+					<g:VerticalPanel ui:field="onePerRadioPanel" spacing="6">
+						<g:RadioButton name="onePerRadioGroup" ui:field="onePerTransactionRadio" />
+						<g:RadioButton name="onePerRadioGroup" ui:field="onePerDetailLineRadio" />
+					</g:VerticalPanel>
+				</g:VerticalPanel>
 			</g:VerticalPanel>
 		</g:VerticalPanel>
+	</g:VerticalPanel>
 </ui:UiBinder> 
