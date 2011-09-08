@@ -7,17 +7,27 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class TDSVendorsListGrid extends BaseListGrid<PayeeList> {
 
-	public TDSVendorsListGrid(boolean isMultiSelectionEnable) {
+	private boolean isTdsView;
+
+	public TDSVendorsListGrid(boolean isMultiSelectionEnable, boolean isTdsView) {
 		super(isMultiSelectionEnable, true);
+		this.isTdsView = isTdsView;
 
 	}
 
 	@Override
 	protected int[] setColTypes() {
+		if (isTdsView) {
+			return new int[] { ListGrid.COLUMN_TYPE_CHECK,
+					ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+					ListGrid.COLUMN_TYPE_DECIMAL_TEXT };
+		}
 		return new int[] { ListGrid.COLUMN_TYPE_CHECK,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT };
+				ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_IMAGE };
 	}
 
 	@Override
@@ -49,7 +59,7 @@ public class TDSVendorsListGrid extends BaseListGrid<PayeeList> {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	@Override
 	protected int getCellWidth(int index) {
 		// TODO Auto-generated method stub
