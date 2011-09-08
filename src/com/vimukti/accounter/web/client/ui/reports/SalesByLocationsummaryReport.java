@@ -32,7 +32,7 @@ public class SalesByLocationsummaryReport extends
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
 		UIUtils.runAction(record,
-				ActionFactory.getSalesByLocationSummaryAction());
+				ActionFactory.getSalesByLocationDetailsAction());
 	}
 
 	@Override
