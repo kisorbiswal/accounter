@@ -175,6 +175,8 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	private boolean isClassOnePerTransaction;
 
+	private boolean isWarningEnabled;
+
 	/**
 	 * Creates new Instance
 	 */
@@ -954,7 +956,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	}
 
 	public boolean isTDSEnabled() {
-		return get(TDS_TAX_ENABLE);
+		return true;// get(TDS_TAX_ENABLE);
 	}
 
 	public void setisClassTrackingEnabled(boolean isClassTrackingEnabled) {
@@ -975,5 +977,13 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	public void setTDSEnabled(boolean value) {
 		set(TDS_TAX_ENABLE, value);
+	}
+
+	public boolean isWarningEnabled() {
+		return isWarningEnabled;
+	}
+
+	public void setWarningEnabled(boolean isWarningEnabled) {
+		this.isWarningEnabled = isWarningEnabled;
 	}
 }
