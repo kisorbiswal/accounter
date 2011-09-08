@@ -5,11 +5,14 @@ package com.vimukti.accounter.core;
 
 import java.util.Set;
 
+import com.vimukti.accounter.web.client.exception.AccounterException;
+
 /**
  * @author Prasanna Kumar G
  * 
  */
-public class Reconciliation extends CreatableObject {
+public class Reconciliation extends CreatableObject implements
+		IAccounterServerCore {
 
 	/** Reconciliation of Account */
 	private BankAccount account;
@@ -135,5 +138,11 @@ public class Reconciliation extends CreatableObject {
 	 */
 	public void setAccount(BankAccount account) {
 		this.account = account;
+	}
+
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject)
+			throws AccounterException {
+		return false;
 	}
 }

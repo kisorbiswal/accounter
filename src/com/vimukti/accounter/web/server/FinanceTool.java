@@ -89,7 +89,6 @@ import com.vimukti.accounter.core.ObjectConvertUtil;
 import com.vimukti.accounter.core.PayBill;
 import com.vimukti.accounter.core.PaySalesTax;
 import com.vimukti.accounter.core.PaySalesTaxEntries;
-import com.vimukti.accounter.core.PayTDS;
 import com.vimukti.accounter.core.PayVAT;
 import com.vimukti.accounter.core.PayVATEntries;
 import com.vimukti.accounter.core.Payee;

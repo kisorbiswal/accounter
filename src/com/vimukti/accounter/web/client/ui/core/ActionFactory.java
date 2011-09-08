@@ -382,7 +382,7 @@ public class ActionFactory {
 	public static PreferencesAction getPreferencesAction() {
 		return new PreferencesAction(actionsConstants.companyPreferences());
 	}
-	
+
 	public static IntegrateWithBusinessContactManagerAction getIntegrateWithBusinessContactManagerAction() {
 		return new IntegrateWithBusinessContactManagerAction(
 				actionsConstants.integrateWithBusinessContactManager());
@@ -1328,9 +1328,11 @@ public class ActionFactory {
 		return new ReconcileAccountAction(Accounter.constants()
 				.Reconciliation());
 	}
+
 	public static LocationGroupListAction getLocationGroupListAction() {
 		return new LocationGroupListAction(actionsConstants.locationGroupList());
 	}
+
 	public static AccounterClassListAction getAccounterClassGroupListAction() {
 		return new AccounterClassListAction(
 				actionsConstants.accounterClassList());
@@ -1339,6 +1341,7 @@ public class ActionFactory {
 	public static TDSPayAction getpayTDSAction() {
 		return new TDSPayAction("Pay e-TDS");
 	}
+
 	public static MISC1099TransactionDetailAction getMisc1099TransactionDetailAction() {
 		return new MISC1099TransactionDetailAction(Accounter.messages()
 				.MISC1099TransactionDetailByVendor(Global.get().Vendor()));

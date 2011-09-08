@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.vat;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -15,7 +14,6 @@ import com.vimukti.accounter.web.client.core.ClientPayVAT;
 import com.vimukti.accounter.web.client.core.ClientPayVATEntries;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayVAT;
 import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -40,9 +38,7 @@ import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.TransactionPayVATGrid;
-import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {

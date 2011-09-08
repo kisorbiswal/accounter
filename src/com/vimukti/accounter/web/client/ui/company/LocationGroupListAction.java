@@ -4,7 +4,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.ItemGroupListDialog;
 import com.vimukti.accounter.web.client.ui.LocationGroupListDialog;
 import com.vimukti.accounter.web.client.ui.core.Action;
 

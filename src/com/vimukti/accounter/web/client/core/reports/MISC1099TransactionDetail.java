@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.core.reports;
 
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
 public class MISC1099TransactionDetail extends BaseReport {

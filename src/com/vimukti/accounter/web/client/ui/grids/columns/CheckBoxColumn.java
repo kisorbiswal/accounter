@@ -19,6 +19,7 @@ public abstract class CheckBoxColumn<T> extends Column<T, Boolean> implements
 	 */
 	public CheckBoxColumn() {
 		super(new CheckboxCell(true, true));
+		setFieldUpdater(this);
 	}
 
 }

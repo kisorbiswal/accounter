@@ -2058,4 +2058,14 @@ public class UIUtils {
 		return true;
 }
 
+	public static boolean isMoneyOut(ClientTransaction transaction) {
+		return transaction.isPayBill() || transaction.isPayVAT()
+				|| transaction.isWriteCheck();
+	}
+
+	public static boolean isMoneyIn(ClientTransaction transaction) {
+		return transaction.isReceivePayment() || transaction.isReceiveVAT()
+				|| transaction.isMakeDeposit();
+	}
+
 }

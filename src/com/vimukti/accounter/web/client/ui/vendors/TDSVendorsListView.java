@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;

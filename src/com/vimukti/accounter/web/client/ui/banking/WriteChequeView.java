@@ -43,7 +43,6 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
-import com.vimukti.accounter.web.client.ui.core.PercentageField;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorTransactionTable;

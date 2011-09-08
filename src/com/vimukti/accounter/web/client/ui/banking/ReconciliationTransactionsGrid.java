@@ -9,6 +9,7 @@ import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.view.client.ListDataProvider;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -51,7 +52,7 @@ public class ReconciliationTransactionsGrid extends
 
 			@Override
 			public String getValue(ClientTransaction object) {
-				return UIUtils.getTransactionTypeName(object.getType());
+				return Utility.getTransactionName(object.getType());
 			}
 		};
 
@@ -68,8 +69,7 @@ public class ReconciliationTransactionsGrid extends
 			@Override
 			public String getValue(ClientTransaction object) {
 
-				if (object.isPayBill() || object.isPayVAT()
-						|| object.isWriteCheck()) {
+				if (UIUtils.isMoneyOut(object)) {
 					return String.valueOf(object.getTotal());
 				}
 				return "";
@@ -80,8 +80,8 @@ public class ReconciliationTransactionsGrid extends
 
 			@Override
 			public String getValue(ClientTransaction object) {
-				if (object.isReceivePayment() || object.isReceiveVAT()
-						|| object.isMakeDeposit()) {
+				boolean makeDeposit = object.isMakeDeposit();
+				if (UIUtils.isMoneyIn(object)) {
 					return String.valueOf(object.getTotal());
 				}
 				return "";

@@ -29,12 +29,12 @@ import com.vimukti.accounter.web.client.core.ClientBank;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.combo.BankNameCombo;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.DropDownCombo;
@@ -1655,18 +1655,22 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
-		if (accountType == ClientAccount.TYPE_BANK
-				&& getMode() != EditMode.CREATE) {
+		if (accountType == ClientAccount.TYPE_BANK && getData() != null) {
 			Button reconcileBtn = new Button(constants.Reconcile());
 			reconcileBtn.addClickHandler(new ClickHandler() {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					ActionFactory.getReconciliationAction().run(
-							(ClientBankAccount) data, false);
+					ClientReconciliation clientReconciliation = new ClientReconciliation();
+					clientReconciliation.setAccount((ClientBankAccount) data);
+					ReconciliationDailog dialog = new ReconciliationDailog(
+							Global.get().constants().Reconciliation(),
+							clientReconciliation);
+					dialog.show();
 				}
 			});
 			buttonBar.add(reconcileBtn);
+
 			buttonBar.setCellHorizontalAlignment(reconcileBtn,
 					HasHorizontalAlignment.ALIGN_LEFT);
 		}

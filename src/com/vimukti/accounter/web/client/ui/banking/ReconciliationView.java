@@ -4,6 +4,7 @@
 package com.vimukti.accounter.web.client.ui.banking;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -16,17 +17,15 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientBankAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.core.ValidationResult.Error;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.ReconciliationDailog;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DateField;
@@ -34,7 +33,8 @@ import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.SelectionChangedHandler;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
+import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 /**
  * @author Prasanna Kumar G
@@ -46,88 +46,113 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 	private SelectCombo bankAccountsField;
 	private DateField startDate;
 	private DateField endDate;
-	private TextItem closingBalance;
 	private ReconciliationTransactionsGrid grid;
-	private ClientBankAccount bankAccount;
-	private Set<ClientTransaction> clearedTransactions;
+	private ClientReconciliation reconcilition;
+	private Set<ClientTransaction> clearedTransactions = new HashSet<ClientTransaction>();
+	private LabelItem bankaccountLabel, startdateLable, enddateLable;
+	AmountLabel closebalanceLable, openingBalance, closingBalance,
+			clearedAmount, difference;
 
 	/**
 	 * Creates new Instance
 	 */
-	public ReconciliationView(ClientBankAccount data) {
-		this.bankAccount = data;
+	public ReconciliationView(ClientReconciliation data) {
+		this.reconcilition = data;
 	}
 
 	public void createControls() {
-
 		// Creating Title for View
 		Label label = new Label();
 		label.removeStyleName("gwt-Label");
 		label.addStyleName(Accounter.constants().labelTitle());
 		label.setText(constants.Reconciliation());
 
-		// Creating Input Fields to Start Reconciliation of an Account
-		bankAccountsField = new SelectCombo(messages.bankAccount(Global.get()
-				.Account()));
+		bankaccountLabel = new LabelItem();
+		bankaccountLabel.setTitle(messages.bankAccount(Global.get().Account()));
+		bankaccountLabel.setValue(reconcilition.getAccount().getName());
 
-		bankAccountsField
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+		closebalanceLable = new AmountLabel(constants.ClosingBalance());
+		// closebalanceLable.setTitle(constants.ClosingBalance());
+		closebalanceLable.setAmount(reconcilition.getClosingBalance());
 
-					@Override
-					public void selectedComboBoxItem(String selectItem) {
-						// TODO Auto-generated method stub
+		startdateLable = new LabelItem();
+		startdateLable.setTitle(constants.startDate());
+		startdateLable.setValue(DateUtills.getDateAsString(reconcilition
+				.getStartDate().getDateAsObject()));
 
-					}
-				});
+		enddateLable = new LabelItem();
+		enddateLable.setTitle(constants.endDate());
+		enddateLable.setValue(DateUtills.getDateAsString(reconcilition
+				.getEndDate().getDateAsObject()));
 
-		startDate = new DateField(constants.startDate());
-		endDate = new DateField(constants.endDate());
-		closingBalance = new TextItem(constants.ClosingBalance());
+		// // Creating Input Fields to Start Reconciliation of an Account
+		// bankAccountsField = new SelectCombo(messages.bankAccount(Global.get()
+		// .Account()));
+		//
+		// bankAccountsField
+		// .addSelectionChangeHandler(new
+		// IAccounterComboSelectionChangeHandler<String>() {
+		//
+		// @Override
+		// public void selectedComboBoxItem(String selectItem) {
+		// // TODO Auto-generated method stub
+		//
+		// }
+		// });
+		//
+		// startDate = new DateField(constants.startDate());
+		// endDate = new DateField(constants.endDate());
+		// closingBalance = new TextItem(constants.ClosingBalance());
 
 		DynamicForm form = new DynamicForm();
-		form.setWidth("40%");
-		form.setFields(bankAccountsField, closingBalance);
+		form.setFields(bankaccountLabel, closebalanceLable);
+		form.setStyleName("recouncilation_value");
 
 		DynamicForm datesForm = new DynamicForm();
-		form.setWidth("60%");
-		datesForm.setFields(startDate, endDate);
+		datesForm.setFields(startdateLable, enddateLable);
 
 		HorizontalPanel hPanel = new HorizontalPanel();
 		hPanel.setWidth("100%");
 		hPanel.add(form);
 		hPanel.add(datesForm);
-
-		Button startBtn = new Button(constants.Reconcile());
+		hPanel.setCellWidth(form, "40%");
+		Button startBtn = new Button(constants.change());
 		startBtn.addClickHandler(new ClickHandler() {
-
 			@Override
 			public void onClick(ClickEvent event) {
-				startReconcile();
+				ReconciliationDailog dialog = new ReconciliationDailog(Global
+						.get().constants().Reconciliation(),
+						(ClientReconciliation) reconcilition);
+				dialog.show();
 			}
 		});
 
 		HorizontalPanel btnPanel = new HorizontalPanel();
 		btnPanel.setWidth("100%");
 		btnPanel.add(startBtn);
+		btnPanel.setStyleName("recoucilation_change");
 		btnPanel.setCellHorizontalAlignment(startBtn,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 
 		// Creating Amount Fields
 		VerticalPanel amountsPanel = new VerticalPanel();
 		amountsPanel.setWidth("100%");
-		AmountLabel openingBalance = new AmountLabel(constants.openingBalance());
+
+		openingBalance = new AmountLabel(constants.openingBalance());
+		openingBalance.setHelpInformation(true);
+		openingBalance.setDisabled(true);
+		openingBalance.setAmount(reconcilition.getOpeningBalance());
+
+		closingBalance = new AmountLabel(constants.ClosingBalance());
+		openingBalance.setHelpInformation(true);
+		openingBalance.setDisabled(true);
+		closingBalance.setAmount(reconcilition.getClosingBalance());
+
+		clearedAmount = new AmountLabel(constants.ClearedAmount());
 		openingBalance.setHelpInformation(true);
 		openingBalance.setDisabled(true);
 
-		AmountLabel closingBalance = new AmountLabel(constants.ClosingBalance());
-		openingBalance.setHelpInformation(true);
-		openingBalance.setDisabled(true);
-
-		AmountLabel clearedAmount = new AmountLabel(constants.ClearedAmount());
-		openingBalance.setHelpInformation(true);
-		openingBalance.setDisabled(true);
-
-		AmountLabel difference = new AmountLabel(constants.Difference());
+		difference = new AmountLabel(constants.Difference());
 		openingBalance.setHelpInformation(true);
 		openingBalance.setDisabled(true);
 		DynamicForm amountsForm = new DynamicForm();
@@ -170,31 +195,29 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		} else {
 			clearedTransactions.remove(value);
 		}
-
-		// TODO Update Amounts
-	}
-
-	/**
-	 * 
-	 */
-	protected void startReconcile() {
-		ValidationResult validationResult = validateInputs();
-		if (validationResult.haveErrors()) {
-			for (Error error : validationResult.getErrors()) {
-				addError(error.getSource(), error.getMessage());
-			}
-			return;
+		double transactionAmount = UIUtils.isMoneyOut(value) ? value.getTotal()
+				* -1 : value.getTotal();
+		if (!isClear) {
+			transactionAmount *= -1;
 		}
 
-		getTransactions();
+		updateAmounts(transactionAmount);
+	}
+
+	private void updateAmounts(double changedAmount) {
+		clearedAmount.setAmount(clearedAmount.getAmount() + changedAmount);
+		difference.setAmount(closingBalance.getAmount()
+				- clearedAmount.getAmount());
 	}
 
 	/**
 	 * Gets All the Transaction in between StartDate and EndDate
 	 */
+
 	private void getTransactions() {
-		rpcGetService.getAllTransactionsOfAccount(bankAccount.getID(),
-				startDate.getDate(), endDate.getDate(),
+		rpcGetService.getAllTransactionsOfAccount(reconcilition.getAccount()
+				.getID(), reconcilition.getStartDate(), reconcilition
+				.getEndDate(),
 				new AccounterAsyncCallback<List<ClientTransaction>>() {
 
 					@Override
@@ -205,29 +228,17 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 
 					@Override
 					public void onResultSuccess(List<ClientTransaction> result) {
-						grid.setData(result);
+						List<ClientTransaction> list = new ArrayList<ClientTransaction>();
+						for (ClientTransaction clientTransaction : result) {
+
+							if (UIUtils.isMoneyOut(clientTransaction)
+									|| UIUtils.isMoneyIn(clientTransaction)) {
+								list.add(clientTransaction);
+							}
+						}
+						grid.setData(list);
 					}
 				});
-	}
-
-	/**
-	 * Validates the Inputs
-	 */
-	private ValidationResult validateInputs() {
-		ValidationResult result = new ValidationResult();
-		ClientFinanceDate sDate = startDate.getDate();
-		ClientFinanceDate eDate = endDate.getDate();
-		if (eDate.before(sDate)) {
-			result.addError(endDate, "EndDate");
-		}
-
-		if (closingBalance.getValue().isEmpty()) {
-			result.addError(closingBalance, "ClosingBalance");
-		}
-		if (bankAccountsField.getSelectedIndex() < 0) {
-			result.addError(bankAccountsField, "BankAccount");
-		}
-		return result;
 	}
 
 	@Override
@@ -238,35 +249,23 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 	}
 
 	@Override
-	public void initData() {
-		super.initData();
-
-		ArrayList<ClientAccount> accounts = Accounter.getCompany().getAccounts(
-				ClientAccount.TYPE_BANK);
-		for (ClientAccount account : accounts) {
-			bankAccountsField.addItem(account.getName());
-		}
-		bankAccountsField.setSelected(bankAccount.getName());
-	}
-
-	@Override
 	public ValidationResult validate() {
-		validateInputs();
-		return super.validate();
+		ValidationResult result = new ValidationResult();
+		if (difference.getAmount() != 0.0D) {
+			result.addError(difference, constants.differenceValidate());
+		}
+		return result;
 	}
 
 	@Override
 	public void saveAndUpdateView() {
 		ClientReconciliation reconciliation = new ClientReconciliation();
-		reconciliation.setClosingBalance(Double.parseDouble(closingBalance
-				.getValue()));
-		reconciliation.setOpeningBalance(bankAccount.getOpeningBalance());
-		reconciliation.setStartDate(startDate.getDate());
-		reconciliation.setEndDate(endDate.getDate());
+		reconciliation.setClosingBalance(reconcilition.getClosingBalance());
+		reconciliation.setOpeningBalance(reconciliation.getOpeningBalance());
+		reconciliation.setStartDate(reconcilition.getStartDate());
+		reconciliation.setEndDate(reconcilition.getEndDate());
 		reconciliation.setReconcilationDate(new ClientFinanceDate());
-		reconciliation.setTransactions(this.clearedTransactions);
-		reconciliation.setAccount(bankAccount);
-
+		reconciliation.setAccount(reconcilition.getAccount());
 		saveOrUpdate(reconciliation);
 	}
 
@@ -294,4 +293,16 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		return null;
 	}
 
+	@Override
+	public void onEdit() {
+		// TODO Auto-generated method stub
+		super.onEdit();
+	}
+
+	@Override
+	public void initData() {
+		getTransactions();
+		updateAmounts(0);
+		super.initData();
+	}
 }
