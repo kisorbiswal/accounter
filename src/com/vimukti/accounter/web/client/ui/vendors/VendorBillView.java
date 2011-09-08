@@ -392,9 +392,7 @@ public class VendorBillView extends
 		vendorForm = UIUtils.form(Global.get().Vendor());
 		vendorForm.setWidth("100%");
 		vendorForm.setNumCols(3);
-		vendorForm.setFields(vendorCombo, emptylabel, contactCombo, emptylabel
-		// billToCombo
-				);
+		vendorForm.setFields(vendorCombo, emptylabel, contactCombo, emptylabel,vendorTDSTaxCode);
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -508,7 +506,7 @@ public class VendorBillView extends
 
 		DynamicForm tdsForm = new DynamicForm();
 		tdsForm.setWidth("100%");
-		tdsForm.setFields(vendorTDSTaxCode);
+		tdsForm.setFields();
 
 		DynamicForm memoForm = new DynamicForm();
 		memoForm.setWidth("100%");
