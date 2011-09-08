@@ -1,10 +1,14 @@
 package com.vimukti.accounter.admin.core;
 
+import com.vimukti.accounter.admin.client.ClientAdminUser;
 import com.vimukti.accounter.core.CreatableObject;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class AdminUser extends CreatableObject implements IAccounterServerCore {
+
+	public AdminUser() {
+	}
 
 	/**
 	 * 
@@ -22,8 +26,6 @@ public class AdminUser extends CreatableObject implements IAccounterServerCore {
 	private String status;
 
 	boolean isPermissionsGiven;
-
-	long id;
 
 	public String getName() {
 		return name;
@@ -65,14 +67,6 @@ public class AdminUser extends CreatableObject implements IAccounterServerCore {
 		this.isPermissionsGiven = permission;
 	}
 
-	public long getID() {
-		return id;
-	}
-
-	public void setID(long id) {
-		this.id = id;
-	}
-
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
@@ -88,4 +82,12 @@ public class AdminUser extends CreatableObject implements IAccounterServerCore {
 		return status;
 	}
 
+	public AdminUser(ClientAdminUser clientuser) {
+		super.id = clientuser.getID();
+		this.name = clientuser.getName();
+		this.emailId = clientuser.getEmailId();
+		this.password = clientuser.getPassword();
+		this.status = clientuser.getStatus();
+
+	}
 }
