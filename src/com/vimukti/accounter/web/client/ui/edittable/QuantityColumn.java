@@ -28,17 +28,17 @@ public abstract class QuantityColumn<T> extends TextEditColumn<T> {
 
 	@Override
 	public int getWidth() {
-		return 50;
+		return 40;
 	}
 
 	@Override
 	protected String getColumnName() {
-		return Accounter.constants().quantity();
+		return Accounter.constants().qty();
 	}
 
 	@Override
 	protected void configure(TextBox textBox) {
 		super.configure(textBox);
-		textBox.addStyleName("Qty");
+		textBox.addStyleName("quantity");
 	}
 }
