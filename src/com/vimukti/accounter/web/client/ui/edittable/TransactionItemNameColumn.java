@@ -60,7 +60,7 @@ public abstract class TransactionItemNameColumn extends
 
 	@Override
 	public int getWidth() {
-		return 100;
+		return 150;
 	}
 
 	@Override

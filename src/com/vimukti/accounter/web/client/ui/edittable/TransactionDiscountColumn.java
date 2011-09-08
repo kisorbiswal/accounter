@@ -26,7 +26,7 @@ public class TransactionDiscountColumn extends
 	@Override
 	protected void configure(TextBox textBox) {
 		super.configure(textBox);
-		textBox.addStyleName("Dis");
+		textBox.addStyleName("discount");
 	}
 
 	@Override
