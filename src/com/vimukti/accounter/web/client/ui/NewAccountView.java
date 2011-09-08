@@ -126,6 +126,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	String accountName;
 	String accountNo;
+	private TextItem paypalEmail;
 
 	public NewAccountView() {
 		super();
@@ -502,16 +503,19 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		if (paypalForm == null) {
 			lab1.setText("Paypal Account");
+			paypalForm = UIUtils.form("Paypal Information");
+			paypalForm.setWidth("100%");
 
 			typeSelect = new SelectCombo("Paypal Type");
+			typeSelect.setRequired(true);
 			// typeSelect.setWidth(100);
 			// typeSelect.setWidth("*");
 			typeMap = new ArrayList<String>();
 
 			typeMap.add(AccounterClientConstants.ADD_NEW_TYPE);
-			typeMap.add(AccounterClientConstants.PERSONAL);
-			typeMap.add(AccounterClientConstants.PREMIUM);
-			typeMap.add(AccounterClientConstants.BUSINESS);
+			typeMap.add(AccounterClientConstants.PAYPALTYPE_PERSONAL);
+			typeMap.add(AccounterClientConstants.PAYPALTYPE_PREMIUM);
+			typeMap.add(AccounterClientConstants.PAYPALTYPE_BUSINESS);
 			typeSelect.initCombo(typeMap);
 			typeSelect
 					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -531,14 +535,29 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			bankAccNumText.setHelpInformation(true);
 			bankAccNumText.setWidth(100);
 
-			TextItem paypalEmail = new TextItem("Paypal Email");
+			paypalEmail = new TextItem("Paypal Email");
 			paypalEmail.setWidth(100);
 			paypalEmail.setHelpInformation(true);
+			paypalEmail.setRequired(true);
+			paypalEmail.addChangeHandler(new ChangeHandler() {
+
+				@Override
+				public void onChange(ChangeEvent event) {
+					if (event != null) {
+						String em = paypalEmail.getValue().toString();
+
+						if (em.equals("")) {
+							return;
+						}
+						if (!UIUtils.isValidEmail(em)) {
+							Accounter.showError("Invalid Email");
+						}
+
+					}
+				}
+			});
 
 			// accNameText.setWidth("*");
-
-			paypalForm = UIUtils.form("Paypal Information");
-			paypalForm.setWidth("100%");
 			paypalForm.setFields(/* getBankNameSelectItem(), */typeSelect,
 					paypalEmail);
 
@@ -761,8 +780,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			typeMap = new ArrayList<String>();
 
 			typeMap.add("Add New Type");
-			typeMap.add("Visa");
-			typeMap.add("Master");
+			typeMap.add(AccounterClientConstants.CREDITCARDTYPE_MASTER);
+			typeMap.add(AccounterClientConstants.CREDITCARDTYPE_VISA);
 			typeSelect.initCombo(typeMap);
 			typeSelect
 					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -1125,6 +1144,12 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (accountType == ClientAccount.TYPE_BANK) {
 			result.add(bankForm.validate());
 		}
+		if (accountType == ClientAccount.TYPE_CREDIT_CARD) {
+			result.add(creditCardForm.validate());
+		}
+		if (accountType == ClientAccount.TYPE_PAYPAL) {
+			result.add(paypalForm.validate());
+		}
 
 		return result;
 
@@ -1471,7 +1496,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			return true;
 
 		List<ClientAccount> accounts = getCompany().getAccounts();
-		if (!isInViewMode()) {
+		if (isInViewMode()) {
 			for (ClientAccount account : accounts) {
 				if (number.toString().equals(account.getNumber())
 						&& account.getID() != getData().getID()) {
