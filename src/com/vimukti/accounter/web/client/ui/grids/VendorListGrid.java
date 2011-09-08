@@ -167,7 +167,7 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 
 	@Override
 	protected int getCellWidth(int index) {
-		if (index == 9) {
+		if (index == 10) {
 			if (UIUtils.isMSIEBrowser())
 				return 25;
 			else
@@ -188,6 +188,8 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 			return 80;
 		} else if (index == 8) {
 			return 80;
+		} else if (index == 9) {
+			return 70;
 		}
 		return -1;
 	}
@@ -339,8 +341,8 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 	protected int sort(PayeeList obj1, PayeeList obj2, int index) {
 		switch (index) {
 		case 1:
-			return obj1.getPayeeName().toLowerCase().compareTo(
-					obj2.getPayeeName().toLowerCase());
+			return obj1.getPayeeName().toLowerCase()
+					.compareTo(obj2.getPayeeName().toLowerCase());
 			//
 			// case 3:
 			//
@@ -405,7 +407,6 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 
 		return 0;
 	}
-
 
 	public AccounterCoreType getType() {
 		return AccounterCoreType.VENDOR;
