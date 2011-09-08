@@ -49,29 +49,10 @@ public class EmployeeSettingsPage extends AbstractCompanyInfoPanel {
 	public EmployeeSettingsPage() {
 		initWidget(uiBinder.createAndBindUi(this));
 		createControls();
+		initData();
 	}
 
-	protected void createControls() {
-		headerLabel.setText(constants.doyouHaveEmployees());
-		checkBoxPanel.getElement().getStyle().setMarginLeft(15, Unit.PX);
-
-		w2Employees.setText(constants.wehavW2Employes());
-		contractors.setText(constants.wehavContractors());
-		trackExpenses.setText(constants.trackEmployeeExpenses());
-		trackEmployeeYes.setText(constants.yes());
-		trackEmployeeNo.setText(constants.no());
-		trackEmployeeExpenseYes.setText(constants.yes());
-		trackEmployeeExpenseNo.setText(constants.no());
-
-		if (!trackEmployeeExpenseYes.getValue()) {
-			// if (trackPanel.isAttached())
-			mainViewPanel.remove(trackPanel);
-		}
-
-	}
-
-	@Override
-	public void onLoad() {
+	private void initData() {
 		if (companyPreferences.isHaveEpmloyees()) {
 			trackEmployeeYes.setValue(true);
 			if (!trackPanel.isAttached())
@@ -97,6 +78,25 @@ public class EmployeeSettingsPage extends AbstractCompanyInfoPanel {
 			contractors.setValue(true);
 		} else {
 			contractors.setValue(false);
+		}
+
+	}
+
+	protected void createControls() {
+		headerLabel.setText(constants.doyouHaveEmployees());
+		checkBoxPanel.getElement().getStyle().setMarginLeft(15, Unit.PX);
+
+		w2Employees.setText(constants.wehavW2Employes());
+		contractors.setText(constants.wehavContractors());
+		trackExpenses.setText(constants.trackEmployeeExpenses());
+		trackEmployeeYes.setText(constants.yes());
+		trackEmployeeNo.setText(constants.no());
+		trackEmployeeExpenseYes.setText(constants.yes());
+		trackEmployeeExpenseNo.setText(constants.no());
+
+		if (!trackEmployeeExpenseYes.getValue()) {
+			// if (trackPanel.isAttached())
+			mainViewPanel.remove(trackPanel);
 		}
 
 	}
@@ -135,6 +135,12 @@ public class EmployeeSettingsPage extends AbstractCompanyInfoPanel {
 	void onTrackEmployeeNoClick(ClickEvent event) {
 		if (trackPanel.isAttached())
 			mainViewPanel.remove(trackPanel);
+
+	}
+
+	@Override
+	public void validate() {
+		// TODO Auto-generated method stub
 
 	}
 
