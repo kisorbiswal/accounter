@@ -69,14 +69,15 @@ public class ClassTrackingPage extends AbstractCompanyInfoPanel {
 	}
 
 	@Override
-	public void onLoad() {
+	public void onSave() {
+		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void onSave() {
+	public void validate() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 }
