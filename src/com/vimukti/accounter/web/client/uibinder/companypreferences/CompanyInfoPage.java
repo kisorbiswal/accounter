@@ -40,7 +40,7 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 			companyOtherDetailsLink, organisationLink,
 			bankingAndOtherFinancialDetailsLink, customerAndvendorSettingsLink,
 			doYouUseAndHowDoYouReferLink, ageingAndSellingDetailsLink,
-			employeeSettingsLink,locationTrackingLink, classTrackingLink;
+			employeeSettingsLink, locationTrackingLink, classTrackingLink;
 	private CompanyInfo[] companyInfos = new CompanyInfo[11];
 
 	@Override
@@ -107,33 +107,21 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				companyInfoPanel.onSave();
+				for ( CompanyInfo infoPanel: companyInfos){
+					infoPanel.getPanel().onSave();
+				}
 				company.setPreferences(companyPreferences);
 				Accounter.setCompany(company);
-				Accounter.createCRUDService().updateCompany(company,
-						new AccounterAsyncCallback<Long>() {
-
-							@Override
-							public void onException(AccounterException exception) {
-								// TODO Auto-generated method stub
-
-							}
-
-							@Override
-							public void onResultSuccess(Long result) {
-								// TODO Auto-generated method stub
-
-							}
-						});
+				Accounter.updateCompany(CompanyInfoPage.this, company);
 			}
 		});
 	}
-	
+
 	public VerticalPanel getCategoriesPanel() {
 		VerticalPanel categories1Panel = new VerticalPanel();
-		locationTrackingLink = new HTML("<a>" + messages.locationTracking(Global.get()
-				.Location())+"</a>");
-		classTrackingLink = new HTML("<a>"+ "Class Tracking" + "</a>");
+		locationTrackingLink = new HTML("<a>"
+				+ messages.locationTracking(Global.get().Location()) + "</a>");
+		classTrackingLink = new HTML("<a>" + "Class Tracking" + "</a>");
 		categories1Panel.add(locationTrackingLink);
 		categories1Panel.add(classTrackingLink);
 		locationTrackingPanel = new LocationTrackingPage();
@@ -346,7 +334,6 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 			removeAllLabelsStyle();
 			getInstanceOfPanel(panel);
 			detailPanel.add(panel);
-			panel.onLoad();
 		} catch (Exception e) {
 			System.err.println(e);
 		}
@@ -358,6 +345,27 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 			if (panel instanceof CompanyTradingDetailsPage)
 				companyTradingDetailsLink.getElement().getParentElement()
 						.addClassName("contentSelected");
+			else if (panel instanceof CompanyRegisteredDetailsPage)
+				companyRegisteredeDetailsLink.getElement().getParentElement()
+						.addClassName("contentSelected");
+			else if (panel instanceof CompanyOtherDetailsPage)
+				companyOtherDetailsLink.getElement().getParentElement()
+				.addClassName("contentSelected");
+			else if (panel instanceof OrganizationDetailsPage)
+				organisationLink.getElement().getParentElement()
+				.addClassName("contentSelected");
+			else if (panel instanceof BankingAndOtherFinancialDetailsPage)
+				bankingAndOtherFinancialDetailsLink.getElement().getParentElement()
+				.addClassName("contentSelected");
+			else if (panel instanceof CustomerAndVendorsSettingsPage)
+				customerAndvendorSettingsLink.getElement().getParentElement()
+				.addClassName("contentSelected");
+			else if (panel instanceof DoYouUseAndHowDoYouReferPage)
+				doYouUseAndHowDoYouReferLink.getElement().getParentElement()
+				.addClassName("contentSelected");
+			else if (panel instanceof AgeingAndSellingDetailsPage)
+				ageingAndSellingDetailsLink.getElement().getParentElement()
+				.addClassName("contentSelected");
 			else if (panel instanceof EmployeeSettingsPage)
 				employeeSettingsLink.getElement().getParentElement()
 						.addClassName("contentSelected_LastChild");
@@ -366,7 +374,6 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 						.removeClassName("contentSelected");
 				companyInfos[i].getHTML().getElement().getParentElement()
 						.addClassName("contentSelected");
-
 			}
 		}
 	}
