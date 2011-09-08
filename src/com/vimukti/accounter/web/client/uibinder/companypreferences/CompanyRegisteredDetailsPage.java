@@ -63,7 +63,6 @@ public class CompanyRegisteredDetailsPage extends AbstractCompanyInfoPanel {
 
 	public CompanyRegisteredDetailsPage() {
 		initWidget(uiBinder.createAndBindUi(this));
-		createControls();
 	}
 
 	public CompanyRegisteredDetailsPage(ClientCompanyPreferences preferences,
@@ -72,6 +71,7 @@ public class CompanyRegisteredDetailsPage extends AbstractCompanyInfoPanel {
 		companyPreferences = preferences;
 		company = clientCompany;
 		createControls();
+		initData();
 	}
 
 	private void createControls() {
@@ -106,8 +106,7 @@ public class CompanyRegisteredDetailsPage extends AbstractCompanyInfoPanel {
 		countryChanged();
 	}
 
-	@Override
-	public void onLoad() {
+	public void initData() {
 		registeredCompanyName.setValue(company.getDisplayName());
 		address = company.getRegisteredAddress();
 		if (address != null) {
@@ -128,6 +127,7 @@ public class CompanyRegisteredDetailsPage extends AbstractCompanyInfoPanel {
 						.indexOf(address.getCountryOrRegion()));
 			}
 		}
+
 	}
 
 	@Override
@@ -165,6 +165,12 @@ public class CompanyRegisteredDetailsPage extends AbstractCompanyInfoPanel {
 		for (int i = 0; i < states.size(); i++) {
 			stateCombo.addItem(states.get(i));
 		}
+
+	}
+
+	@Override
+	public void validate() {
+		// TODO Auto-generated method stub
 
 	}
 }
