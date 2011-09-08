@@ -53,6 +53,7 @@ import com.vimukti.accounter.web.client.ui.company.IntegrateWithBusinessContactM
 import com.vimukti.accounter.web.client.ui.company.ItemGroupListAction;
 import com.vimukti.accounter.web.client.ui.company.ItemsAction;
 import com.vimukti.accounter.web.client.ui.company.JournalEntriesAction;
+import com.vimukti.accounter.web.client.ui.company.LocationGroupListAction;
 import com.vimukti.accounter.web.client.ui.company.MakeActiveAction;
 import com.vimukti.accounter.web.client.ui.company.MakeInActiveAction;
 import com.vimukti.accounter.web.client.ui.company.ManageFiscalYearAction;
@@ -381,7 +382,7 @@ public class ActionFactory {
 	public static PreferencesAction getPreferencesAction() {
 		return new PreferencesAction(actionsConstants.companyPreferences());
 	}
-
+	
 	public static IntegrateWithBusinessContactManagerAction getIntegrateWithBusinessContactManagerAction() {
 		return new IntegrateWithBusinessContactManagerAction(
 				actionsConstants.integrateWithBusinessContactManager());
@@ -1327,7 +1328,9 @@ public class ActionFactory {
 		return new ReconcileAccountAction(Accounter.constants()
 				.Reconciliation());
 	}
-
+	public static LocationGroupListAction getLocationGroupListAction() {
+		return new LocationGroupListAction(actionsConstants.locationGroupList());
+	}
 	public static AccounterClassListAction getAccounterClassGroupListAction() {
 		return new AccounterClassListAction(
 				actionsConstants.accounterClassList());
@@ -1336,7 +1339,6 @@ public class ActionFactory {
 	public static TDSPayAction getpayTDSAction() {
 		return new TDSPayAction("Pay e-TDS");
 	}
-
 	public static MISC1099TransactionDetailAction getMisc1099TransactionDetailAction() {
 		return new MISC1099TransactionDetailAction(Accounter.messages()
 				.MISC1099TransactionDetailByVendor(Global.get().Vendor()));
