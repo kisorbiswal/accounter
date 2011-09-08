@@ -59,6 +59,18 @@ public class BankingAndOtherFinancialDetailsPage extends
 	public BankingAndOtherFinancialDetailsPage() {
 		initWidget(uiBinder.createAndBindUi(this));
 		createControls();
+		initData();
+	}
+
+	private void initData() {
+		bankAccountNoTextBox.setValue(company.getBankAccountNo());
+		sortCodeTextBox.setValue(company.getSortCode());
+		companyRegistrationNoTextBox.setValue(company.getRegistrationNumber());
+		vatRegistartionNoTextBox.setValue(companyPreferences
+				.getVATregistrationNumber());
+		federalTaxIDTextBox.setValue(company.getTaxId());
+		primaryCurrencyCombo.setSelectedIndex(currenciesList
+				.indexOf(companyPreferences.getPrimaryCurrency()));
 	}
 
 	private void createControls() {
@@ -83,17 +95,6 @@ public class BankingAndOtherFinancialDetailsPage extends
 		}
 	}
 
-	@Override
-	public void onLoad() {
-		bankAccountNoTextBox.setValue(company.getBankAccountNo());
-		sortCodeTextBox.setValue(company.getSortCode());
-		companyRegistrationNoTextBox.setValue(company.getRegistrationNumber());
-		vatRegistartionNoTextBox.setValue(companyPreferences
-				.getVATregistrationNumber());
-		federalTaxIDTextBox.setValue(company.getTaxId());
-		primaryCurrencyCombo.setSelectedIndex(currenciesList
-				.indexOf(companyPreferences.getPrimaryCurrency()));
-	}
 
 	@Override
 	public void onSave() {
@@ -103,8 +104,15 @@ public class BankingAndOtherFinancialDetailsPage extends
 		companyPreferences.setVATregistrationNumber(vatRegistartionNoTextBox
 				.getValue());
 		company.setTaxId(federalTaxIDTextBox.getValue());
+		if (primaryCurrencyCombo.getSelectedIndex() > 0)
 		companyPreferences.setPrimaryCurrency(currenciesList
 				.get(primaryCurrencyCombo.getSelectedIndex()));
+	}
+
+	@Override
+	public void validate() {
+		// TODO Auto-generated method stub
+
 	}
 
 }
