@@ -4656,5 +4656,9 @@ public interface AccounterConstants extends Constants {
 
 	public String budgetType();
 
+	public String validateEndAndStartDate();
+
+	public String differenceValidate();
+
 	public String accountVScustom();
 }
