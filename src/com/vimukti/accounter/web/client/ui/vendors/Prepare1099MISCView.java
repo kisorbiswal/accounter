@@ -188,7 +188,8 @@ public class Prepare1099MISCView extends AbstractBaseView {
 						MISC1099TransactionDetailAction action = ActionFactory
 								.getMisc1099TransactionDetailAction();
 						action.setBoxNo(Client1099Form.TOTAL_1099_PAYMENTS);
-						action.run(object.getVendor(), true);
+						action.setVendorId(object.getVendor().getID());
+						action.run();
 					}
 				});
 
@@ -210,7 +211,8 @@ public class Prepare1099MISCView extends AbstractBaseView {
 						MISC1099TransactionDetailAction action = ActionFactory
 								.getMisc1099TransactionDetailAction();
 						action.setBoxNo(Client1099Form.TOATAL_ALL_PAYMENTS);
-						action.run(object.getVendor(), true);
+						action.setVendorId(object.getVendor().getID());
+						action.run();
 					}
 				});
 
@@ -260,7 +262,8 @@ public class Prepare1099MISCView extends AbstractBaseView {
 						MISC1099TransactionDetailAction action = ActionFactory
 								.getMisc1099TransactionDetailAction();
 						action.setBoxNo(boxNum);
-						action.run(object.getVendor(), true);
+						action.setVendorId(object.getVendor().getID());
+						action.run();
 					}
 				});
 				cellTable.addColumn(boxCell, boxes[i]);

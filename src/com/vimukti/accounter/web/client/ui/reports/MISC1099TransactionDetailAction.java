@@ -11,6 +11,7 @@ public class MISC1099TransactionDetailAction extends Action {
 
 	private MISC1099TransactionDetailReport report;
 	private int boxNo;
+	private long vendorId;
 
 	public MISC1099TransactionDetailAction(String text) {
 		super(text);
@@ -27,7 +28,7 @@ public class MISC1099TransactionDetailAction extends Action {
 
 			@Override
 			public void onSuccess() {
-				report = new MISC1099TransactionDetailReport(boxNo);
+				report = new MISC1099TransactionDetailReport(vendorId, boxNo);
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent, MISC1099TransactionDetailAction.this);
 
@@ -64,5 +65,9 @@ public class MISC1099TransactionDetailAction extends Action {
 
 	public void setBoxNo(int boxNo) {
 		this.boxNo = boxNo;
+	}
+
+	public void setVendorId(long vendorId) {
+		this.vendorId = vendorId;
 	}
 }

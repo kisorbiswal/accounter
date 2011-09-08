@@ -3453,7 +3453,7 @@
 	</sql-query>
 
 	<sql-query name="getPaybillsByVendorAndBoxNumber">
-	<query-param name="startDate" type="long" />
+		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<query-param name="vendorId" type="long" />
 		<query-param name="boxNumber" type="int" />
@@ -3474,7 +3474,33 @@
 		LEFT JOIN ACCOUNT a on a.ID=at.ACCOUNT_ID
 		LEFT JOIN TRANSACTION t on
 		t.ID=tp.PAYBILL_ID
-		WHERE t.T_DATE BETWEEN :startDate AND :endDate p.ID=vendorId AND a.BOX_NUMBER=boxNumber;
+		WHERE t.T_DATE BETWEEN :startDate AND :endDate
+		p.ID=vendorId AND a.BOX_NUMBER=boxNumber;
+	</sql-query>
+
+	<sql-query name="get1099PaybillsByVendor">
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		<query-param name="vendorId" type="long" />
+		SELECT
+		v.NAME,
+		at.CREATED_DATE,
+		t.T_TYPE,
+		t.NUMBER,
+		a.BOX_NUMBER,
+		a.NAME,
+		tp.PAYMENT
+		FROM TRANSACTION_PAYBILL tp
+		LEFT JOIN PAY_BILL p ON
+		p.ID=tp.PAYBILL_ID
+		LEFT JOIN ACCOUNT_TRANSACTION at ON
+		at.TRANSACTION_ID=tp.PAYBILL_ID
+		LEFT JOIN PAYEE v on v.ID=p.VENDOR_ID
+		LEFT JOIN ACCOUNT a on a.ID=at.ACCOUNT_ID
+		LEFT JOIN TRANSACTION t on
+		t.ID=tp.PAYBILL_ID
+		WHERE t.T_DATE BETWEEN :startDate AND :endDate
+		p.ID=vendorId AND a.BOX_NUMBER!=0;
 	</sql-query>
 
 	<!-- ================================================================================================================================== -->

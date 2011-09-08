@@ -12,11 +12,9 @@ AbstractReportView<MISC1099TransactionDetail> {
 	private long vendorId;
 	private int boxNo;
 
-	public MISC1099TransactionDetailReport(int boxNo) {
+	public MISC1099TransactionDetailReport(long vendorId, int boxNo) {
 		this.serverReport = new MISC1099TransactionDetailServerReport();
-		ClientVendor vendor = (ClientVendor) data;
-		if (vendor != null)
-			this.vendorId = vendor.getID();
+		this.vendorId = vendorId;
 		this.boxNo = boxNo;
 	}
 

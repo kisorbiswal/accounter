@@ -12689,6 +12689,49 @@ public class FinanceTool {
 		if (boxNumber == Client1099Form.TOATAL_ALL_PAYMENTS) {
 
 		} else if (boxNumber == Client1099Form.TOTAL_1099_PAYMENTS) {
+			List l = ((Query) session.getNamedQuery("get1099PaybillsByVendor")
+					.setParameter("startDate", startDate.getDate())
+					.setParameter("endDate", endDate.getDate())
+					.setParameter("vendorId", vendorId)).list();
+
+			Object[] object = null;
+			Iterator iterator = l.iterator();
+			List<MISC1099TransactionDetail> queryResult = new ArrayList<MISC1099TransactionDetail>();
+			while (iterator.hasNext()) {
+				object = (Object[]) iterator.next();
+				MISC1099TransactionDetail record = new MISC1099TransactionDetail();
+				record.setName((String) object[0]);
+				record.setDate(new ClientFinanceDate(((BigInteger) object[1])
+						.longValue()));
+				record.setType(((Integer) object[2]).intValue());
+				record.setNumber((String) object[3]);
+				record.setBox1099(((Integer) object[4]).intValue());
+				record.setAccount((String) object[5]);
+				record.setAmount((Double) object[6]);
+
+				queryResult.add(record);
+			}
+			HashMap<Integer, Double> amounts = new HashMap<Integer, Double>();
+			for (MISC1099TransactionDetail misc1099TransactionDetail : queryResult) {
+				int box = misc1099TransactionDetail.getBox1099();
+				Double amount = amounts.get(box);
+				amount += misc1099TransactionDetail.getAmount();
+				amounts.put(box, amount);
+			}
+
+			for (java.util.Map.Entry<Integer, Integer> box : boxThresholds
+					.entrySet()) {
+				Integer boxNum = box.getKey();
+				Integer boxThreshold = box.getValue();
+				if (amounts.get(boxNum) < boxThreshold) {
+					for (MISC1099TransactionDetail misc1099TransactionDetail : queryResult) {
+						if (misc1099TransactionDetail.getBox1099() == boxNum) {
+							queryResult.remove(misc1099TransactionDetail);
+						}
+					}
+				}
+			}
+			return (ArrayList<MISC1099TransactionDetail>) queryResult;
 
 		} else {
 			List l = ((Query) session
