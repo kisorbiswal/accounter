@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
@@ -168,8 +169,12 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		transaction.setTotal(amtText.getAmount());
 
-		transaction
-				.setTaxItem(getCompany().getTAXItem(vendor.getTaxItemCode()));
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA
+				&& preferences.isTDSEnabled()) {
+			transaction.setTaxAgency(getCompany().getTaxAgency(
+					getCompany().getTAXItem(vendor.getTaxItemCode())
+							.getTaxAgency()));
+		}
 
 		// Setting ending Balance
 		transaction.setEndingBalance(endBalText.getAmount());
@@ -213,6 +218,17 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 					temp.setTransactionPayBill(tpbRecord);
 				}
 			tpbRecord.setTransactionCreditsAndPayments(trpList);
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA
+					&& preferences.isTDSEnabled()) {
+
+				ClientTAXItem taxItem = getCompany().getTAXItem(
+						vendor.getTaxItemCode());
+
+				tpbRecord.setTdsAmount(taxItem.getTaxRate() / 100
+						* tpbRecord.getOriginalAmount());
+				tpbRecord.setAmountDue(tpbRecord.getOriginalAmount()
+						- tpbRecord.getPayment());
+			}
 			if (tpbRecord.getTempCredits() != null)
 				tpbRecord.getTempCredits().clear();
 
@@ -544,6 +560,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		taxItemCombo = new TaxItemCombo(Accounter.constants().tds(),
 				ClientTAXItem.TAX_TYPE_TDS);
+		taxItemCombo.setDisabled(true);
 
 		unUsedCreditsText = new AmountLabel(Accounter.constants()
 				.unusedCredits());

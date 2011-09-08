@@ -12665,6 +12665,12 @@ public class FinanceTool {
 		return transactions;
 	}
 
+	public ArrayList<ClientPayBill> getPayBillsByTDS() {
+		Session session = HibernateUtil.getCurrentSession();
+
+		return null;
+	}
+
 	public ArrayList<MISC1099TransactionDetail> getPaybillsByVendorAndBoxNumber(
 			FinanceDate startDate, FinanceDate endDate, long vendorId,
 			int boxNumber) {

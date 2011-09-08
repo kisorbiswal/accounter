@@ -23,6 +23,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
+import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -36,11 +37,13 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.PayeeCombo;
+import com.vimukti.accounter.web.client.ui.combo.TaxItemCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.PercentageField;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorTransactionTable;
@@ -74,6 +77,8 @@ public class WriteChequeView extends
 
 	protected ClientSalesPerson selectedSalesPerson;
 	protected ClientAccount selectedBalance;
+	
+	private TaxItemCombo vendorTDSTaxCode;
 
 	protected ClientPayee payee;
 	private VerticalPanel mainVLay, nHPanel;
@@ -657,6 +662,11 @@ public class WriteChequeView extends
 		labelLayout.add(nHPanel);
 		labelLayout.setCellHorizontalAlignment(nHPanel,
 				HasHorizontalAlignment.ALIGN_RIGHT);
+		
+		
+		vendorTDSTaxCode=new TaxItemCombo(Accounter.constants().tds(), ClientTAXItem.TAX_TYPE_TDS);
+		
+		
 
 		balText = new AmountField(Accounter.constants().balance(), this);
 		balText.setWidth(100);

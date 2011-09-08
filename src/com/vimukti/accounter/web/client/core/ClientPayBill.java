@@ -35,7 +35,7 @@ public class ClientPayBill extends ClientTransaction {
 
 	int payBillType;
 	
-	private ClientTAXItem taxItem;
+	private ClientTAXAgency taxAgency;
 
 	ClientAddress address;
 
@@ -229,15 +229,14 @@ public class ClientPayBill extends ClientTransaction {
 
 	public ClientPayBill clone() {
 		ClientPayBill clientPayBillClone = (ClientPayBill) this.clone();
-
-		return clientPayBillClone;
+			return clientPayBillClone;
 	}
 
-	public ClientTAXItem getTaxItem() {
-		return taxItem;
+	public ClientTAXAgency getTaxAgency() {
+		return taxAgency;
 	}
 
-	public void setTaxItem(ClientTAXItem taxItem) {
-		this.taxItem = taxItem;
+	public void setTaxAgency(ClientTAXAgency taxAgency) {
+		this.taxAgency = taxAgency;
 	}
 }

@@ -8,8 +8,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.Lists.PayeeList;
+import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -19,11 +18,11 @@ import com.vimukti.accounter.web.client.ui.grids.TDSVendorsListGrid;
 /**
  * 
  * @author Sai Prasad N
- *
+ * 
  */
-public class TDSVendorsListView extends BaseListView<PayeeList> {
+public class TDSVendorsListView extends BaseListView<ClientPayBill> {
 
-	private List<PayeeList> listOfPayees;
+	private List<ClientPayBill> listOfPayees;
 
 	Button button;
 
@@ -45,15 +44,13 @@ public class TDSVendorsListView extends BaseListView<PayeeList> {
 
 			}
 		});
-	
 
 		horizontalPanel.add(button);
-	
+
 		horizontalPanel.setHorizontalAlignment(ALIGN_CENTER);
 		this.add(horizontalPanel);
 
 	}
-
 
 	@Override
 	public void onFailure(Throwable exception) {
@@ -62,13 +59,13 @@ public class TDSVendorsListView extends BaseListView<PayeeList> {
 	}
 
 	@Override
-	public void onSuccess(ArrayList<PayeeList> result) {
+	public void onSuccess(ArrayList<ClientPayBill> result) {
 		listOfPayees = result;
 		super.onSuccess(result);
 	}
 
 	@Override
-	public void updateInGrid(PayeeList objectTobeModified) {
+	public void updateInGrid(ClientPayBill objectTobeModified) {
 		// TODO Auto-generated method stub
 
 	}
@@ -106,15 +103,13 @@ public class TDSVendorsListView extends BaseListView<PayeeList> {
 	@Override
 	protected String getAddNewLabelString() {
 
-		
-			return "";
+		return "";
 	}
 
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		Accounter.createHomeService().getPayeeList(
-				ClientTransaction.CATEGORY_VENDOR, this);
+		Accounter.createHomeService().getPayBillsByTDS(this);
 	}
 
 	@Override

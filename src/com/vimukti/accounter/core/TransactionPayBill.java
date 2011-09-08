@@ -86,6 +86,9 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 	 * The reference of PayBill which holds this TransactionPayBill object holds
 	 * this TransactionPayExpense reference.
 	 */
+
+	double tdsAmount = 0D;
+
 	@ReffereredObject
 	PayBill payBill;
 
@@ -369,6 +372,14 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 						.getBalanceDue() - amount);
 			}
 
+		}
+
+		// Update TDS Account if Company is INDIA
+		if (Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_INDIA) {
+			TAXItem taxItem = this.payBill.getVendor().getTAXItem();
+			TAXAgency taxAgency = taxItem.getTaxAgency();
+			Account account = taxAgency.getAccount();
+			account.updateCurrentBalance(this.payBill, -tdsAmount);
 		}
 		return false;
 	}
@@ -654,8 +665,16 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
-		
+		this.version = version;
+
+	}
+
+	public double getTdsAmount() {
+		return tdsAmount;
+	}
+
+	public void setTdsAmount(double tdsAmount) {
+		this.tdsAmount = tdsAmount;
 	}
 
 }

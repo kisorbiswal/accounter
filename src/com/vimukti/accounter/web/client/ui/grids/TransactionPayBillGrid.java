@@ -90,7 +90,7 @@ public class TransactionPayBillGrid extends
 		if (canEdit) {
 			if (col == 5 || col == 6)
 				return COLUMN_TYPE_LINK;
-			if (col == 7)
+			if (col == 7 || col==8)
 				return COLUMN_TYPE_DECIMAL_TEXTBOX;
 			if (col == 2 || col == 3 || col == 8)
 				return COLUMN_TYPE_DECIMAL_TEXT;
@@ -132,19 +132,26 @@ public class TransactionPayBillGrid extends
 			case 6:
 				return amountAsString(paybill.getAppliedCredits());
 			case 7:
+				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA)
+				{
 				if (taxItem != null)
 					return amountAsString(paybill.getOriginalAmount()
 							* (taxItem.getTaxRate() / 100));
 				else
 					return amountAsString(0.0);
+				}else
+				{
+					return amountAsString(paybill.getPayment());
+				}
 
 			case 8:
+				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA)
+				{
 				if (paybill.getPayment() != 0)
-					return amountAsString(paybill.getPayment()
-							- paybill.getOriginalAmount()
-							* (taxItem.getTaxRate()) / 100);
+					return amountAsString(paybill.getPayment());
 				else
 					return amountAsString(0.0);
+				}
 
 			default:
 				return "";
@@ -220,18 +227,33 @@ public class TransactionPayBillGrid extends
 	protected boolean isEditable(ClientTransactionPayBill obj, int row, int col) {
 
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
+		
+			if(canEdit && col==8)
+			{
+				if (!isSelected(obj)) {
+					selectRow(row);
+					currentRow = row;
+					currentCol = col;
+				}
+				return true;
+			}
 			if (canEdit && col == 7)
 				return false;
+			
+		}
+
+		else {
+			if ((canEdit && col == 7) || (!canEdit && col == 6)) {
+				if (!isSelected(obj)) {
+					selectRow(row);
+					currentRow = row;
+					currentCol = col;
 				}
-		if ((canEdit && col == 7) || (!canEdit && col == 6)) {
-			if (!isSelected(obj)) {
-				selectRow(row);
-				currentRow = row;
-				currentCol = col;
+				return true;
 			}
-			return true;
 		}
 		return false;
+
 	}
 
 	@Override
@@ -284,6 +306,14 @@ public class TransactionPayBillGrid extends
 			// }
 			double payment = Double.parseDouble(DataUtils
 					.getReformatedAmount(value.toString()) + "");
+
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA
+					&& getCompany().getPreferences().isTDSEnabled()) {
+				ClientTAXItem taxItem = getCompany().getTAXItem(
+						vendor.getTaxItemCode());
+				payment -= editingRecord.getOriginalAmount()
+						* (taxItem.getTaxRate() / 100);
+			}
 			editingRecord.setPayment(payment);
 			updateAmountDue(editingRecord);
 			updateData(editingRecord);
@@ -754,8 +784,19 @@ public class TransactionPayBillGrid extends
 				.getTransactionObject();
 		// paybillView.gettrantransactionTotal = 0.0;
 		transactionObject.setTotal(0.0);
+		double payment = 0.0;
 		for (ClientTransactionPayBill rec : getSelectedRecords()) {
 			// paybillView.transactionTotal += rec.getPayment();
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA
+					&& getCompany().getPreferences().isTDSEnabled()) {
+				ClientTAXItem taxItem = getCompany().getTAXItem(
+						vendor.getTaxItemCode());
+				payment = obj.getOriginalAmount()
+						* (taxItem.getTaxRate() / 100);
+				payment = obj.getOriginalAmount() - payment;
+				obj.setPayment(payment);
+			}
+
 			transactionObject.setTotal(transactionObject.getTotal()
 					+ rec.getPayment());
 			paybillView.totalCashDiscount += rec.getCashDiscount();

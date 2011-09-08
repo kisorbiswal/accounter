@@ -166,7 +166,7 @@ public class PayBill extends Transaction {
 	String checkNumber;
 	
 	
-	private TAXItem taxItem;
+	private TAXAgency taxAgency;
 
 	//
 
@@ -354,6 +354,8 @@ public class PayBill extends Transaction {
 				this.vendor.updateBalance(session, this, this.unusedAmount
 						- this.total);
 			}
+			
+			//TODO Update TDS Account if Company is IND
 		}
 		return false;
 	}
@@ -692,11 +694,11 @@ public class PayBill extends Transaction {
 		this.billDueOnOrBefore = billDueOnOrBefore;
 	}
 
-	public TAXItem getTaxItem() {
-		return taxItem;
+	public TAXAgency getTaxAgency() {
+		return taxAgency;
 	}
 
-	public void setTaxItem(TAXItem taxItem) {
-		this.taxItem = taxItem;
+	public void setTaxAgency(TAXAgency taxAgency) {
+		this.taxAgency = taxAgency;
 	}
 }

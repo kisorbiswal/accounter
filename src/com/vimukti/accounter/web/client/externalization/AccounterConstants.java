@@ -4640,6 +4640,8 @@ public interface AccounterConstants extends Constants {
 
 	public String eTDSFiling();
 
+	public String payTDS();
+
 	public String change();
 
 	public String link();

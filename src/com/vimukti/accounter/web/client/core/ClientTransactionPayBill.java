@@ -23,6 +23,7 @@ public class ClientTransactionPayBill implements IAccounterCore {
 	double cashDiscount = 0D;
 	double appliedCredits = 0D;
 	double payment = 0D;
+	double tdsAmount=0D;
 	ClientPayBill payBill;
 	private double dummyDue;
 
@@ -367,5 +368,13 @@ public class ClientTransactionPayBill implements IAccounterCore {
 		clientTransactionCreditsAndPaymentsClone.transactionCreditsAndPayments = transactionCreditsAndPayment;
 
 		return null;
+	}
+
+	public double getTdsAmount() {
+		return tdsAmount;
+	}
+
+	public void setTdsAmount(double tdsAmount) {
+		this.tdsAmount = tdsAmount;
 	}
 }

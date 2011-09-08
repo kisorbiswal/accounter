@@ -912,6 +912,14 @@
 		t.type =? and
 		t.number =? and t.id !=?
 	</query>
+	<query name="get.transactionsPayBills.by.tds">
+		from com.vimukti.accounter.core.PayBill b where
+		b.taxAgency =?
+	</query>
+	
+	
+	
+	
 
 
 	<query name="getJournalEntry">
