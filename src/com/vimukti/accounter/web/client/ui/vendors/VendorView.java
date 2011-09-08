@@ -14,7 +14,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -23,6 +22,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.AddButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -109,7 +109,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	CheckboxItem track1099MISC;
 	CheckboxItem isTDS;
 	TabPanel tabSet;
-	Button addButton;
+	AddButton addButton;
 
 	LinkedHashMap<String, ClientAddress> allAddresses;
 	LinkedHashMap<String, ClientPhone> allPhones;
@@ -316,8 +316,8 @@ public class VendorView extends BaseView<ClientVendor> {
 	}
 
 	private VerticalPanel getGeneralTab() {
-		vendorNameText = new TextItem(
-				messages.vendorName(Global.get().Vendor()));
+		vendorNameText = new TextItem(messages
+				.vendorName(Global.get().Vendor()));
 		vendorNameText.setHelpInformation(true);
 		vendorNameText.setRequired(true);
 		vendorNameText.setWidth(100);
@@ -411,7 +411,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		Label l1 = new Label(Accounter.constants().contacts());
 
-		addButton = new Button(Accounter.constants().add());
+		addButton = new AddButton(this);
 
 		addButton.addClickHandler(new ClickHandler() {
 
@@ -724,8 +724,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		} else {
 			vendorGrpForm.setFields(vendorGroupSelect);
 		}
-		vendorGrpForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "136px");
+		vendorGrpForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "136px");
 
 		vatRegistrationNumber = new TextItem(Accounter.constants()
 				.vatRegistrationNumber());
@@ -758,8 +758,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setSize("100%", "100%");
 		leftVLay.setHeight("350px");
-		leftVLay.getElement().getStyle()
-				.setBorderColor("none repeat scroll 0 0 #eee !important");
+		leftVLay.getElement().getStyle().setBorderColor(
+				"none repeat scroll 0 0 #eee !important");
 		leftVLay.setSpacing(10);
 		leftVLay.add(financeDetailsForm);
 
@@ -806,24 +806,24 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	protected void adjustFormWidths(int titlewidth, int listBoxWidth) {
 
-		addrsForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "25px");
-		addrsForm.getCellFormatter().getElement(0, 1)
-				.setAttribute(Accounter.constants().width(), "186px");
+		addrsForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "25px");
+		addrsForm.getCellFormatter().getElement(0, 1).setAttribute(
+				Accounter.constants().width(), "186px");
 
-		fonFaxForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "240px");
+		fonFaxForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "240px");
 		// fonFaxForm.getCellFormatter().getElement(0, 1).setAttribute(
 		// FinanceApplication.constants().width(), "185px");
 
-		vendorForm.getCellFormatter().getElement(0, 0).getStyle()
-				.setWidth(150, Unit.PX);
-		emailForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "240px");
+		vendorForm.getCellFormatter().getElement(0, 0).getStyle().setWidth(150,
+				Unit.PX);
+		emailForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "240px");
 		// emailForm.getCellFormatter().getElement(0, 1).setAttribute(
 		// FinanceApplication.constants().width(), "");
-		accInfoForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "150px");
+		accInfoForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "150px");
 
 	}
 
@@ -900,8 +900,10 @@ public class VendorView extends BaseView<ClientVendor> {
 		// Setting data from General Tab
 
 		// Setting Vendor Name
-		data.setName(vendorNameText.getValue().toString() != null ? vendorNameText
-				.getValue().toString() : "");
+		data
+				.setName(vendorNameText.getValue().toString() != null ? vendorNameText
+						.getValue().toString()
+						: "");
 
 		data.setVendorNumber(vendorNoText.getValue().toString());
 
@@ -1007,8 +1009,9 @@ public class VendorView extends BaseView<ClientVendor> {
 				.getID(selectShippingMethodFromDetailsTab));
 
 		// Setting Preferred Payment Method
-		data.setPaymentMethod(selectPaymentMethodFromDetialsTab != null ? selectPaymentMethodFromDetialsTab
-				: preferredPaymentSelect.getSelectedValue());
+		data
+				.setPaymentMethod(selectPaymentMethodFromDetialsTab != null ? selectPaymentMethodFromDetialsTab
+						: preferredPaymentSelect.getSelectedValue());
 		// Setting Preferred Payment Terms
 		data.setPaymentTerms(Utility.getID(selectPaymentTermFromDetailsTab));
 
@@ -1023,8 +1026,9 @@ public class VendorView extends BaseView<ClientVendor> {
 				data.setPanNumber(panNumberText.getValue().toString());
 			}
 			if (serviceTaxRegisterationNumber.getValue() != null) {
-				data.setServiceTaxRegistrationNumber(serviceTaxRegisterationNumber
-						.getValue().toString());
+				data
+						.setServiceTaxRegistrationNumber(serviceTaxRegisterationNumber
+								.getValue().toString());
 			}
 		}
 		// Setting Account Number
@@ -1046,7 +1050,8 @@ public class VendorView extends BaseView<ClientVendor> {
 			if (vatRegistrationNumber != null) {
 
 				String vatReg = vatRegistrationNumber.getValue() != null ? vatRegistrationNumber
-						.getValue().toString() : "";
+						.getValue().toString()
+						: "";
 				data.setVATRegistrationNumber(vatReg.length() != 0 ? vatReg
 						: null);
 
@@ -1362,7 +1367,6 @@ public class VendorView extends BaseView<ClientVendor> {
 		addrsForm.setDisabled(isInViewMode());
 		fonFaxForm.setDisabled(isInViewMode());
 		emailForm.setDisabled(isInViewMode());
-		addButton.setVisible(isInViewMode());
 		super.onEdit();
 
 	}
