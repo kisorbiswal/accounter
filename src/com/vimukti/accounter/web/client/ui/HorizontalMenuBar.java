@@ -660,12 +660,10 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		if (getPreferences().isSalesOrderEnabled()) {
 			salesMenuBar.addItem(ActionFactory.getSalesOpenOrderAction());
 		}
-		if (getPreferences().isLocationTrackingEnabled()) {
 			salesMenuBar.addItem(ActionFactory
 					.getSalesByLocationDetailsAction());
 			salesMenuBar.addItem(ActionFactory
 					.getSalesByLocationSummaryAction());
-		}
 		return salesMenuBar;
 	}
 
@@ -1120,6 +1118,8 @@ public class HorizontalMenuBar extends HorizontalPanel {
 				.addItem(ActionFactory.getItemGroupListAction());
 		manageSupportListMenuBar.addItem(ActionFactory
 				.getCreditRatingListAction());
+		manageSupportListMenuBar.addItem(ActionFactory
+				.getLocationGroupListAction());
 		if (getPreferences().isClassTrackingEnabled()) {
 			manageSupportListMenuBar.addItem(ActionFactory
 					.getAccounterClassGroupListAction());
