@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 
+
 /**
  * @author Prasanna Kumar G
  * 
@@ -1816,6 +1817,8 @@ public class CoreUtils {
 			ClientCurrency clientCurrency = new ClientCurrency();
 			clientCurrency.setFormalName(currencyCodes[i]);
 			clientCurrency.setName(currencyNames[i]);
+			clientCurrency.setSymbol(currencyCodes[i]);
+
 			currencies.add(clientCurrency);
 		}
 		return currencies;
