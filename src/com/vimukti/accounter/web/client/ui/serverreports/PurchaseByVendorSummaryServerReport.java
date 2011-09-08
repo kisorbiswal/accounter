@@ -39,18 +39,16 @@ public class PurchaseByVendorSummaryServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] {
-				getVendorString(messages.vendorName(Global.get().Vendor()),
-						messages.vendorName(Global.get().Vendor())),
+		return new String[] { messages.vendorName(Global.get().Vendor()),
+
 				// getVendorString("Supplier Group", "Vendor Group"),
 				constants.amount() };
 	}
 
 	@Override
 	public String getTitle() {
-		return getVendorString(
-				messages.purchaseByVendorSummary(Global.get().vendor()),
-				messages.purchaseByVendorSummary(Global.get().vendor()));
+		return messages.purchaseByVendorSummary(Global.get().vendor());
+
 	}
 
 	@Override
@@ -155,9 +153,7 @@ public class PurchaseByVendorSummaryServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] {
-				getVendorString(messages.vendorName(Global.get().vendor()),
-						messages.vendorName(Global.get().Vendor())),
+		return new String[] { messages.vendorName(Global.get().vendor()),
 				// getVendorString("Supplier Group", "Vendor Group"),
 				constants.amount() };
 	}

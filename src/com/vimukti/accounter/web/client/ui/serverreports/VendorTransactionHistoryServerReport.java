@@ -39,8 +39,7 @@ public class VendorTransactionHistoryServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] {
-				getVendorString(Global.get().vendor(), getConstants().vendor()),
+		return new String[] { messages.vendor1099(Global.get().vendor()),
 				getConstants().date(), getConstants().type(),
 				getConstants().no(),
 				// FinanceApplication.constants().reference(),
@@ -229,11 +228,9 @@ public class VendorTransactionHistoryServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] {
-				getVendorString(getConstants().vendor(), getConstants()
-						.vendor()), getConstants().date(),
-				getConstants().type(), getConstants().no(),
-				Global.get().account(), constants.amount() };
+		return new String[] { messages.vendorName(Global.get().vendor()),
+				getConstants().date(), getConstants().type(),
+				getConstants().no(), Global.get().account(), constants.amount() };
 	}
 
 }

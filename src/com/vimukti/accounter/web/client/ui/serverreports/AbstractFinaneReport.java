@@ -675,10 +675,6 @@ public abstract class AbstractFinaneReport<R> extends
 		this.currentFiscalYearEndDate = currentFiscalYearEndDate;
 	}
 
-	public String getVendorString(String forUk, String forUs) {
-		return companyType == ClientCompany.ACCOUNTING_TYPE_UK ? forUk : forUs;
-	}
-
 	@Override
 	public void setStartAndEndDates(ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {

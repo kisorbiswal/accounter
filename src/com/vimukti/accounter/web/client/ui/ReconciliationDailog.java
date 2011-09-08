@@ -14,7 +14,6 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
@@ -70,13 +69,13 @@ public class ReconciliationDailog extends BaseDialog<ClientReconciliation>
 		startDate = new DateField(constants.startDate());
 		endDate = new DateField(constants.endDate());
 		// set the month start date and end date
-		Calendar calendar = Calendar.getInstance();
-		ClientFinanceDate clientFinanceDate = new ClientFinanceDate();
-		clientFinanceDate.setDay(1);
-		startDate.setValue(clientFinanceDate.getDateAsObject());
-		clientFinanceDate.setDay(calendar
-				.getActualMaximum(Calendar.DAY_OF_MONTH));
-		endDate.setValue(clientFinanceDate.getDateAsObject());
+		// Calendar calendar = Calendar.getInstance();
+		// ClientFinanceDate clientFinanceDate = new ClientFinanceDate();
+		// clientFinanceDate.setDay(1);
+		startDate.setValue(new ClientFinanceDate());
+		// clientFinanceDate.setDay(calendar
+		// .getActualMaximum(Calendar.DAY_OF_MONTH));
+		endDate.setValue(new ClientFinanceDate());
 
 		closingBalance = new AmountField(constants.ClosingBalance(), this);
 		if (reconcilition.getStartDate() != null)
