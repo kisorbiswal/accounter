@@ -59,6 +59,7 @@ public class CompanyTradingDetailsPage extends AbstractCompanyInfoPanel {
 	public CompanyTradingDetailsPage() {
 		initWidget(uiBinder.createAndBindUi(this));
 		createControls();
+		initData();
 	}
 
 	private void createControls() {
@@ -92,8 +93,7 @@ public class CompanyTradingDetailsPage extends AbstractCompanyInfoPanel {
 		countryChanged();
 	}
 
-	@Override
-	public void onLoad() {
+	private void initData() {
 		tradingCompanyName.setValue(company.getTradingName());
 		address1Text.setValue(company.getTradingAddress().getAddress1());
 		address2Text.setValue(company.getTradingAddress().getStreet());
@@ -104,7 +104,6 @@ public class CompanyTradingDetailsPage extends AbstractCompanyInfoPanel {
 				.getZipOrPostalCode());
 		countryCombo.setSelectedIndex(countriesList.indexOf(company
 				.getTradingAddress().getCountryOrRegion()));
-
 	}
 
 	@Override
@@ -139,6 +138,12 @@ public class CompanyTradingDetailsPage extends AbstractCompanyInfoPanel {
 		for (int i = 0; i < states.size(); i++) {
 			stateCombo.addItem(states.get(i));
 		}
+
+	}
+
+	@Override
+	public void validate() {
+		// TODO Auto-generated method stub
 
 	}
 
