@@ -11,7 +11,9 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
+import com.vimukti.accounter.admin.core.AdminUser;
 import com.vimukti.accounter.core.Server;
 import com.vimukti.accounter.core.ServerMaintanance;
 import com.vimukti.accounter.mail.EmailManager;
@@ -38,7 +40,7 @@ public class ServerMain extends Main {
 			ServerConfiguration.setUnderMaintainance(maintanance
 					.isUnderMaintanance());
 		}
-	//	createAdminUser();
+		createAdminUser();
 
 		session.close();
 
@@ -53,20 +55,20 @@ public class ServerMain extends Main {
 
 	}
 
-//	private static void createAdminUser() {
-//		Session currentSession = HibernateUtil.getCurrentSession();
-//		Object load = currentSession.get(AdminUser.class, 1l);
-//		if (load != null) {
-//			return;
-//		}
-//		Transaction beginTransaction = currentSession.beginTransaction();
-//		AdminUser user = new AdminUser();
-//		user.setEmailId(ServerConfiguration.getAdminID());
-//		user.setPassword(ServerConfiguration.getAdminPassword());
-//		user.setName("Admin");
-//		currentSession.saveOrUpdate(user);
-//		beginTransaction.commit();
-//	}
+	private static void createAdminUser() {
+		Session currentSession = HibernateUtil.getCurrentSession();
+		Object load = currentSession.get(AdminUser.class, 1l);
+		if (load != null) {
+			return;
+		}
+		Transaction beginTransaction = currentSession.beginTransaction();
+		AdminUser user = new AdminUser();
+		user.setEmailId(ServerConfiguration.getAdminID());
+		user.setPassword(ServerConfiguration.getAdminPassword());
+		user.setName("Admin");
+		currentSession.saveOrUpdate(user);
+		beginTransaction.commit();
+	}
 
 	private static void initLogger() {
 		File logsdir = new File("logs");
