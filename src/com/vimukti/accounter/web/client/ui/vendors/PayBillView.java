@@ -264,6 +264,11 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			}
 
 			@Override
+			protected void updateTotalPayment(ClientTransactionPayBill obj) {
+				PayBillView.this.updateTotalPayment(obj);
+			}
+
+			@Override
 			protected void calculateUnusedCredits() {
 				PayBillView.this.calculateUnusedCredits();
 			}
@@ -281,6 +286,34 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		};
 		grid.setHeight("200px");
 		grid.setDisabled(isInViewMode());
+	}
+
+	/**
+	 * @param obj
+	 */
+	protected void updateTotalPayment(ClientTransactionPayBill obj) {
+		ClientTransaction transactionObject = getTransactionObject();
+		// paybillView.gettrantransactionTotal = 0.0;
+		transactionObject.setTotal(0.0);
+		double payment = 0.0;
+		for (ClientTransactionPayBill rec : grid.getSelectedRecords()) {
+			// paybillView.transactionTotal += rec.getPayment();
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA
+					&& getCompany().getPreferences().isTDSEnabled()) {
+				ClientTAXItem taxItem = getCompany().getTAXItem(
+						vendor.getTaxItemCode());
+				payment = obj.getOriginalAmount()
+						* (taxItem.getTaxRate() / 100);
+				payment = obj.getOriginalAmount() - payment;
+				obj.setPayment(payment);
+			}
+
+			transactionObject.setTotal(transactionObject.getTotal()
+					+ rec.getPayment());
+			totalCashDiscount += rec.getCashDiscount();
+		}
+		adjustPaymentValue(obj);
+
 	}
 
 	/*
