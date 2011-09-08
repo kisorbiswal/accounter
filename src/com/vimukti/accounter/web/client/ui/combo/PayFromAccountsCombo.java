@@ -50,7 +50,7 @@ public class PayFromAccountsCombo extends AccountCombo {
 		for (ClientAccount account : getCompany().getActiveAccounts()) {
 			if (Arrays.asList(ClientAccount.TYPE_BANK,
 			// ClientAccount.TYPE_CASH,
-			// ClientAccount.TYPE_CREDIT_CARD,
+			 ClientAccount.TYPE_CREDIT_CARD,ClientAccount.TYPE_PAYPAL,
 			// ClientAccount.TYPE_LONG_TERM_LIABILITY,
 			// ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
 					ClientAccount.TYPE_OTHER_CURRENT_ASSET
