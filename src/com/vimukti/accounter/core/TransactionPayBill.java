@@ -378,7 +378,7 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 		if (Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_INDIA) {
 			TAXItem taxItem = this.payBill.getVendor().getTAXItem();
 			TAXAgency taxAgency = taxItem.getTaxAgency();
-			Account account = taxAgency.getAccount();
+			Account account = taxAgency.getSalesLiabilityAccount();
 			account.updateCurrentBalance(this.payBill, -tdsAmount);
 		}
 		return false;
