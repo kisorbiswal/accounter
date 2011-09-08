@@ -44,6 +44,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	public static final int TOOLBAR_TYPE_EXPENSE = 6;
 	public static final int TOOLBAR_TYPE_CHECKDETAIl = 7;
 	public static final int TOOLBAR_TYPE_CUSTOMER = 8;
+	public static final int TOOLBAR_TYPE_BUDGET = 9;
 	public static final int TOP_MARGIN = 305;
 
 	protected ReportToolbar toolbar;
@@ -465,6 +466,9 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 				break;
 			case TOOLBAR_TYPE_EXPENSE:
 				toolbar = new ExpenseReportToolbar();
+				break;
+			case TOOLBAR_TYPE_BUDGET:
+				toolbar = new BudgetReportToolbar();
 				break;
 			case TOOLBAR_TYPE_CUSTOMER:
 				toolbar = new CreateStatementToolBar(this);

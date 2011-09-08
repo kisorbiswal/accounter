@@ -22,7 +22,7 @@ public class BudgetReport extends AbstractReportView<TrialBalance> {
 
 	@Override
 	public int getToolbarType() {
-		return TOOLBAR_TYPE_AS_OF;
+		return TOOLBAR_TYPE_BUDGET;
 	}
 
 	@Override
