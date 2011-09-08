@@ -445,6 +445,9 @@ public class Accounter implements EntryPoint {
 			}
 
 			public void onResultSuccess(Long result) {
+				if (coreObj.getID() != 0) {
+					coreObj.setVersion(coreObj.getVersion() + 1);
+				}
 				coreObj.setID(result);
 				company.processUpdateOrCreateObject(coreObj);
 				source.saveSuccess(coreObj);

@@ -1103,15 +1103,16 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				return result;
 			}
 		}
-		long number = accNoText.getNumber();
-		account = company.getAccountByNumber(number);
-		if (!isInViewMode() ? (account == null ? false : !(Long.parseLong(data
-				.getNumber()) == number)) : account != null) {
-
-			result.addError(accNameText, Accounter.messages()
-					.alreadyAccountExist(Global.get().Account()));
-			return result;
-		}
+		// long number = accNoText.getNumber();
+		// account = company.getAccountByNumber(number);
+		// if (!isInViewMode() ? (account == null ? false :
+		// !(Long.parseLong(data
+		// .getNumber()) == number)) : account != null) {
+		//
+		// result.addError(accNameText, Accounter.messages()
+		// .alreadyAccountExist(Global.get().Account()));
+		// return result;
+		// }
 
 		if (!(isInViewMode() && data.getName().equalsIgnoreCase(
 				Accounter.constants().openingBalances()))) {
@@ -1472,7 +1473,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		List<ClientAccount> accounts = getCompany().getAccounts();
 		if (!isInViewMode()) {
 			for (ClientAccount account : accounts) {
-				if (number.toString().equals(account.getNumber())) {
+				if (number.toString().equals(account.getNumber())
+						&& account.getID() != getData().getID()) {
 					addError(accNoText, Accounter.messages()
 							.alreadyAccountExist(Global.get().account()));
 					return false;
