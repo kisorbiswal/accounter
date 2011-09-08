@@ -8,18 +8,22 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class TDSVendorsListAction extends Action {
 
-	public TDSVendorsListAction(String text) {
+	private boolean isTDSView;
+
+	public TDSVendorsListAction(String text, boolean isTDSView) {
 		super(text);
+		this.isTDSView = isTDSView;
 	}
 
 	@Override
 	public void run() {
+		final boolean isTdsView = isTDSView;
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			public void onCreated() {
 
 				MainFinanceWindow.getViewManager().showView(
-						new TDSVendorsListView(), null, false,
+						new TDSVendorsListView(isTdsView), null, false,
 						TDSVendorsListAction.this);
 
 			}

@@ -31,15 +31,18 @@ public class TDSVendorsListView extends BaseListView<ClientPayTDS> {
 	private DateItem fromDate;
 	private DateItem toDate;
 
-	public TDSVendorsListView() {
+	private boolean isTdsView;
+
+	public TDSVendorsListView(boolean isTdsView) {
 		super();
+		this.isTdsView = isTdsView;
 		createControls1();
 
 	}
 
 	private void createControls1() {
 
-		VerticalPanel mainPanel=new VerticalPanel();
+		VerticalPanel mainPanel = new VerticalPanel();
 		fromDate = new DateItem(Accounter.constants().from());
 		fromDate.setHelpInformation(true);
 		fromDate.setWidth(100);
@@ -52,44 +55,41 @@ public class TDSVendorsListView extends BaseListView<ClientPayTDS> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				
+
 			}
 		});
-		
-		
+
 		DynamicForm topForm = new DynamicForm();
 		topForm.setIsGroup(true);
 		topForm.setGroupTitle(Accounter.constants().top());
 		topForm.setNumCols(6);
-		topForm.setFields( fromDate, toDate);
+		topForm.setFields(fromDate, toDate);
 		topForm.setWidth("100%");
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		button = new Button(Accounter.constants().eTDSFiling());
-		button.addClickHandler(new ClickHandler() {
+		if (isTdsView) {
+			button = new Button(Accounter.constants().eTDSFiling());
+			button.addClickHandler(new ClickHandler() {
 
-			@Override
-			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
+				@Override
+				public void onClick(ClickEvent event) {
+					// TODO Auto-generated method stub
 
-			}
-		});
+				}
+			});
+			horizontalPanel.add(button);
+		}
 
-		
 		HorizontalPanel topLayout = new HorizontalPanel();
 		topLayout.add(topForm);
 		topLayout.add(updateButton);
 
-		
-		horizontalPanel.add(button);
-	
 		horizontalPanel.setWidth("100%");
 
 		mainPanel.add(horizontalPanel);
 		mainPanel.add(topLayout);
-		//mainPanel.add(grid);
+		// mainPanel.add(grid);
 		this.add(mainPanel);
-				
 
 	}
 
@@ -99,10 +99,9 @@ public class TDSVendorsListView extends BaseListView<ClientPayTDS> {
 		super.onFailure(exception);
 	}
 
-
 	@Override
 	protected void initGrid() {
-		grid = new TDSVendorsListGrid(false);
+		grid = new TDSVendorsListGrid(false, isTdsView);
 		grid.init();
 
 	}
