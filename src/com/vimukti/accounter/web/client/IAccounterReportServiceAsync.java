@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.core.reports.AmountsDueToVendor;
+import com.vimukti.accounter.web.client.core.reports.ClientBudgetList;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
 import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
@@ -316,4 +317,9 @@ public interface IAccounterReportServiceAsync {
 	public void getMISC1099TransactionDetailReport(long VendorId, int boxNo,
 			ClientFinanceDate fromDate, ClientFinanceDate toDate,
 			AsyncCallback<ArrayList<MISC1099TransactionDetail>> callback);
+
+	public void getBudgetItemsList(long id, ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
+			AsyncCallback<ArrayList<ClientBudgetList>> callback);
+
 }

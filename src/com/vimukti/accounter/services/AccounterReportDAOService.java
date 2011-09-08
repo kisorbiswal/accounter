@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.core.reports.AccountBalance;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.core.reports.AmountsDueToVendor;
+import com.vimukti.accounter.web.client.core.reports.ClientBudgetList;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
 import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
@@ -382,4 +383,9 @@ public class AccounterReportDAOService extends HibernateDaoSupport implements
 		return null;
 	}
 
+	public ArrayList<ClientBudgetList> getBudgetItemsList(long id,
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+		return null;
+
+	}
 }

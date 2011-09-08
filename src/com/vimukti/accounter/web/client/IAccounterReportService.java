@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client;
 
 import java.util.ArrayList;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -15,6 +14,7 @@ import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.core.reports.AmountsDueToVendor;
+import com.vimukti.accounter.web.client.core.reports.ClientBudgetList;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
 import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
@@ -263,4 +263,7 @@ public interface IAccounterReportService extends RemoteService {
 	public ArrayList<MISC1099TransactionDetail> getMISC1099TransactionDetailReport(
 			long vendorId, int boxNo, ClientFinanceDate fromDate,
 			ClientFinanceDate toDate);
+
+	public ArrayList<ClientBudgetList> getBudgetItemsList(long id,
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 }

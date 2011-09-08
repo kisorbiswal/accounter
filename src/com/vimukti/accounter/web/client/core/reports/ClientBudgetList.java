@@ -1,0 +1,164 @@
+package com.vimukti.accounter.web.client.core.reports;
+
+import java.io.Serializable;
+
+import com.google.gwt.user.client.rpc.IsSerializable;
+import com.vimukti.accounter.web.client.core.ClientAccount;
+
+public class ClientBudgetList extends BaseReport implements IsSerializable,
+		Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	String name = "";
+
+	String accountName = "";
+
+	ClientAccount account;
+
+	double januaryAmount = 0.0D;
+	double febrauaryAmount = 0.0D;
+	double marchAmount = 0.0D;
+	double aprilAmount = 0.0D;
+	double mayAmount = 0.0D;
+	double juneAmount = 0.0D;
+	double julyAmount = 0.0D;
+	double augustAmount = 0.0D;
+	double septemberAmount = 0.0D;
+	double octoberAmount = 0.0D;
+	double novemberAmount = 0.0D;
+	double decemberAmount = 0.0D;
+	double totalAmount = 0.0D;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getAccountName() {
+		return accountName;
+	}
+
+	public void setAccountName(String accountName) {
+		this.accountName = accountName;
+	}
+
+	public ClientAccount getAccount() {
+		return account;
+	}
+
+	public void setAccount(ClientAccount account) {
+		this.account = account;
+	}
+
+	public double getJanuaryAmount() {
+		return januaryAmount;
+	}
+
+	public void setJanuaryAmount(double januaryAmount) {
+		this.januaryAmount = januaryAmount;
+	}
+
+	public double getFebrauaryAmount() {
+		return febrauaryAmount;
+	}
+
+	public void setFebrauaryAmount(double febrauaryAmount) {
+		this.febrauaryAmount = febrauaryAmount;
+	}
+
+	public double getMarchAmount() {
+		return marchAmount;
+	}
+
+	public void setMarchAmount(double marchAmount) {
+		this.marchAmount = marchAmount;
+	}
+
+	public double getAprilAmount() {
+		return aprilAmount;
+	}
+
+	public void setAprilAmount(double aprilAmount) {
+		this.aprilAmount = aprilAmount;
+	}
+
+	public double getMayAmount() {
+		return mayAmount;
+	}
+
+	public void setMayAmount(double mayAmount) {
+		this.mayAmount = mayAmount;
+	}
+
+	public double getJuneAmount() {
+		return juneAmount;
+	}
+
+	public void setJuneAmount(double juneAmount) {
+		this.juneAmount = juneAmount;
+	}
+
+	public double getJulyAmount() {
+		return julyAmount;
+	}
+
+	public void setJulyAmount(double julyAmount) {
+		this.julyAmount = julyAmount;
+	}
+
+	public double getAugustAmount() {
+		return augustAmount;
+	}
+
+	public void setAugustAmount(double augustAmount) {
+		this.augustAmount = augustAmount;
+	}
+
+	public double getSeptemberAmount() {
+		return septemberAmount;
+	}
+
+	public void setSeptemberAmount(double septemberAmount) {
+		this.septemberAmount = septemberAmount;
+	}
+
+	public double getOctoberAmount() {
+		return octoberAmount;
+	}
+
+	public void setOctoberAmount(double octoberAmount) {
+		this.octoberAmount = octoberAmount;
+	}
+
+	public double getNovemberAmount() {
+		return novemberAmount;
+	}
+
+	public void setNovemberAmount(double novemberAmount) {
+		this.novemberAmount = novemberAmount;
+	}
+
+	public double getDecemberAmount() {
+		return decemberAmount;
+	}
+
+	public void setDecemberAmount(double decemberAmount) {
+		this.decemberAmount = decemberAmount;
+	}
+
+	public double getTotalAmount() {
+		return totalAmount;
+	}
+
+	public void setTotalAmount(double totalAmount) {
+		this.totalAmount = totalAmount;
+	}
+
+}

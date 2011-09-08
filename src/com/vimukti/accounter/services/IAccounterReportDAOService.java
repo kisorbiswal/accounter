@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.reports.AccountBalance;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.core.reports.AmountsDueToVendor;
+import com.vimukti.accounter.web.client.core.reports.ClientBudgetList;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
 import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
@@ -150,6 +151,9 @@ public interface IAccounterReportDAOService {
 	public ArrayList<MISC1099TransactionDetail> getMISC1099TransactionDetailReport(
 			String debitorName, ClientFinanceDate fromDate,
 			ClientFinanceDate toDate);
+
+	public ArrayList<ClientBudgetList> getBudgetItemsList(long id,
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	// For UK
 

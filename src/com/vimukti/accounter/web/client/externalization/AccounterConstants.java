@@ -4655,4 +4655,6 @@ public interface AccounterConstants extends Constants {
 	public String accountVSyears();
 
 	public String budgetType();
+
+	public String accountVScustom();
 }
