@@ -90,8 +90,8 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 	 */
 	public DatePicker() {
 		super();
-		setText(dateFormatter.getPattern());
-
+		
+		setText( DateUtills.getDateAsString(System.currentTimeMillis()));
 		this.addStyleName("empty_date_field");
 
 		// sinkEvents(Event.ONCLICK);
