@@ -237,6 +237,9 @@
 
 			<property name="isLocationTrackingEnabled" column="IS_LOCATION_TRACKING_ENABLED"></property>
 			<property name="locationTrackingId" column="LOCATION_TRACKING_ID"></property>
+			<property name="isClassTrackingEnabled" column="IS_CLASS_TRACKING_ENABLED"></property>
+			<property name="isClassOnePerTransaction" column="IS_CLASS_ONE_PER_TRANSACTION"></property>
+			
 
 
 		</component>
