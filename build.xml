@@ -11,8 +11,8 @@
 	<property name="tmp.dir" value="${build.dir}/tmp" />
 	<property name="linuxtar-lib.dir" value="${setup.dir}/tar/libs" />
 	<property name="win-lib.dir" value="${setup.dir}/windows/libs" />
-	<property name="gwt.sdk" location="${env.GWT_SDK}" />
-	<property name="version-number" value="1.0.0.4" />
+	<property name="gwt.sdk" location="C:\Documents and Settings\vimukti55\Desktop\Eclipse_3.7\plugins\com.google.gwt.eclipse.sdkbundle_2.3.0.r37v201106211634\gwt-2.3.0" />
+	<property name="version-number" value="1.0.1" />
 
 	<!-- Checking GWT path -->
 	<target name="check-gwtpath">
@@ -25,6 +25,7 @@
 		<pathelement location="${gwt.sdk}/gwt-user.jar" />
 		<pathelement location="${gwt.sdk}/validation-api-1.0.0.GA.jar"/>
 		<pathelement location="${gwt.sdk}/validation-api-1.0.0.GA-sources.jar"/>
+		<pathelement location="$./libs/gwt-comet-1.2.3.jar"/>
 		<fileset dir="${gwt.sdk}" includes="gwt-dev*.jar" />
 		<fileset dir="${acc.dir}">
 			<include name="**/*.jar" />
