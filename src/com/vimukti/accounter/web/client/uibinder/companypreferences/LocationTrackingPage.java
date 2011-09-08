@@ -58,6 +58,7 @@ public class LocationTrackingPage extends AbstractCompanyInfoPanel {
 	public LocationTrackingPage() {
 		initWidget(uiBinder.createAndBindUi(this));
 		createcontrols();
+		initData();
 	}
 
 	private void createcontrols() {
@@ -75,7 +76,9 @@ public class LocationTrackingPage extends AbstractCompanyInfoPanel {
 		storeRadioButton.setHTML(Accounter.constants().store());
 		territoryRadioButton.setName(Accounter.constants().locationGroup());
 		territoryRadioButton.setHTML(Accounter.constants().territory());
-		radioButtonPanel.getElement().getStyle()
+		radioButtonPanel
+				.getElement()
+				.getStyle()
 				.setPaddingLeft(
 						(messages.useTerminologyFor(Global.get().Location())
 								.length() * 6), Unit.PX);
@@ -91,8 +94,7 @@ public class LocationTrackingPage extends AbstractCompanyInfoPanel {
 		});
 	}
 
-	@Override
-	public void onLoad() {
+	private void initData() {
 		long locationType = companyPreferences.getLocationTrackingId();
 		locationTrackingCheckBoxLabel.setText(Accounter.messages()
 				.locationTracking(Global.get().Location()));
@@ -156,6 +158,50 @@ public class LocationTrackingPage extends AbstractCompanyInfoPanel {
 		} else {
 			companyPreferences.setLocationTrackingId(ClientLocation.LOCATION);
 		}
+	}
+
+	@Override
+	public void validate() {
+
+		long locationType = companyPreferences.getLocationTrackingId();
+		locationTrackingCheckBoxLabel.setText(Accounter.messages()
+				.locationTracking(Global.get().Location()));
+		radioButtonsHeaderLabel.setText(Accounter.messages().useTerminologyFor(
+				Global.get().Location()));
+		switch ((int) locationType) {
+		case ClientLocation.BUSINESS:
+			buisinessRadioButton.setValue(true);
+			break;
+		case ClientLocation.DEPARTMENT:
+			departmentRadioButton.setValue(true);
+			break;
+		case ClientLocation.DIVISION:
+			divisionRadioButton.setValue(true);
+			break;
+		case ClientLocation.LOCATION:
+			locationRadioButton.setValue(true);
+			break;
+		case ClientLocation.PROPERTY:
+			propertyRadioButton.setValue(true);
+			break;
+		case ClientLocation.STORE:
+			storeRadioButton.setValue(true);
+			break;
+		case ClientLocation.TERRITORY:
+			territoryRadioButton.setValue(true);
+			break;
+		}
+		boolean isLocationEnabled = companyPreferences
+				.isLocationTrackingEnabled();
+		if (isLocationEnabled) {
+			locationTrackingCheckBoxItm.setValue(true);
+			radioButtonsPanel
+					.setVisible(locationTrackingCheckBoxItm.getValue());
+		} else {
+			radioButtonsPanel
+					.setVisible(locationTrackingCheckBoxItm.getValue());
+		}
+
 	}
 
 }
