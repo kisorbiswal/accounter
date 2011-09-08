@@ -22,8 +22,7 @@ public class AddNewAdminUserDialog extends AdminBaseDialog<ClientAdminUser> {
 		form = new DynamicForm();
 		userNameBox = new TextItem(AdminHomePage.getAdminConstants().username());
 		emailIdBox = new TextItem(AdminHomePage.getAdminConstants().emailID());
-		passwordBox = new PasswordItem(AdminHomePage.getAdminConstants()
-				.password());
+		passwordBox = new PasswordItem(AdminHomePage.getAdminConstants().password());
 		form.setFields(userNameBox, emailIdBox, passwordBox);
 		vbodyLayout.add(form);
 		setBodyLayout(vbodyLayout);
@@ -35,6 +34,7 @@ public class AddNewAdminUserDialog extends AdminBaseDialog<ClientAdminUser> {
 		clientUser.setEmailId(UIUtils.toStr(emailIdBox.getValue()));
 		clientUser.setPassword(UIUtils.toStr(passwordBox.getValue()));
 		saveOrUpdate(clientUser);
+
 	}
 
 	@Override

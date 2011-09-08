@@ -64,14 +64,6 @@ public class ClientAdminUser implements IAccounterCore {
 		this.isPermissionsGiven = permission;
 	}
 
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
 	@Override
 	public String getClientClassSimpleName() {
 
@@ -86,19 +78,17 @@ public class ClientAdminUser implements IAccounterCore {
 
 	@Override
 	public long getID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return id;
 	}
 
 	@Override
 	public AccounterCoreType getObjectType() {
-		// TODO Auto-generated method stub
-		return null;
+		return AccounterCoreType.ADMIN_USER;
 	}
 
 	@Override
 	public void setID(long id) {
-		// TODO Auto-generated method stub
+		this.id = id;
 
 	}
 

@@ -371,7 +371,7 @@ public abstract class AdminBaseDialog<T extends IAccounterCore> extends
 	}
 
 	protected void saveOrUpdate(final T core) {
-		Accounter.createOrUpdate(this, core);
+		AdminHomePage.createORUpdate(this, core);
 	}
 
 	protected abstract boolean onOK();

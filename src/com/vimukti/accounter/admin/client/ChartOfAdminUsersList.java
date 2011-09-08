@@ -3,65 +3,79 @@ package com.vimukti.accounter.admin.client;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.view.client.ListDataProvider;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.IDeleteCallback;
+import com.vimukti.accounter.web.client.ui.grids.columns.ImageActionColumn;
 
-public class ChartOfAdminUsersList extends CellTable<ClientAdminUser> {
+public class ChartOfAdminUsersList extends CellTable<ClientAdminUser> implements
+		IDeleteCallback {
 	List<ClientAdminUser> userlistList;
+	ListDataProvider<ClientAdminUser> dataProvider;
+	TextColumn<ClientAdminUser> serialNo, name, email, type, password;
+	ImageActionColumn<ClientAdminUser> deleteImage;
 
 	ChartOfAdminUsersList() {
 		createControls();
 	}
 
 	private void createControls() {
-		userlistList = getUsersList();
-		ListDataProvider<ClientAdminUser> dataProvider = new ListDataProvider<ClientAdminUser>(
-				userlistList);
+		dataProvider = new ListDataProvider<ClientAdminUser>();
 		dataProvider.addDataDisplay(this);
 		initTableColumns();
+		initList();
 
 	}
 
-	private List<ClientAdminUser> getUsersList() {
-		List<ClientAdminUser> userNames = new ArrayList<ClientAdminUser>();
-		for (int i = 0; i <= 10; i++) {
-			ClientAdminUser cAdminUser = new ClientAdminUser();
-			cAdminUser.setId(1 + i);
-			cAdminUser.setEmailId(i + "dummay@email.com");
-			cAdminUser.setStatus(i + "activated");
-			cAdminUser.setTypeOfUser(1);
-			userNames.add(cAdminUser);
-		}
-		return userNames;
+	private void initList() {
+		AdminHomePage.createHomeService().getAdminUsersList(
+				new AccounterAsyncCallback<ArrayList<ClientAdminUser>>() {
+
+					@Override
+					public void onException(AccounterException exception) {
+					}
+
+					@Override
+					public void onResultSuccess(
+							ArrayList<ClientAdminUser> result) {
+						dataProvider.setList(result);
+					}
+				});
 	}
 
 	private void initTableColumns() {
 
-		TextColumn<ClientAdminUser> serialNo = new TextColumn<ClientAdminUser>() {
+		serialNo = new TextColumn<ClientAdminUser>() {
 
 			@Override
 			public String getValue(ClientAdminUser object) {
-				return String.valueOf(object.getId());
+				return String.valueOf(object.getID());
 			}
 		};
 
-		TextColumn<ClientAdminUser> email = new TextColumn<ClientAdminUser>() {
+		name = new TextColumn<ClientAdminUser>() {
+
+			@Override
+			public String getValue(ClientAdminUser object) {
+				return String.valueOf(object.getName());
+			}
+		};
+
+		email = new TextColumn<ClientAdminUser>() {
 
 			@Override
 			public String getValue(ClientAdminUser object) {
 				return String.valueOf(object.getEmailId());
 			}
 		};
-		TextColumn<ClientAdminUser> status = new TextColumn<ClientAdminUser>() {
 
-			@Override
-			public String getValue(ClientAdminUser object) {
-				return String.valueOf(object.getStatus());
-			}
-		};
-
-		TextColumn<ClientAdminUser> type = new TextColumn<ClientAdminUser>() {
+		type = new TextColumn<ClientAdminUser>() {
 
 			@Override
 			public String getValue(ClientAdminUser object) {
@@ -69,10 +83,52 @@ public class ChartOfAdminUsersList extends CellTable<ClientAdminUser> {
 			}
 		};
 
+		password = new TextColumn<ClientAdminUser>() {
+
+			@Override
+			public String getValue(ClientAdminUser object) {
+
+				return String.valueOf(object.getPassword());
+			}
+		};
+		deleteImage = new ImageActionColumn<ClientAdminUser>() {
+
+			@Override
+			protected void onSelect(int index, ClientAdminUser object) {
+				deleteAdminUser(object);
+			}
+
+			@Override
+			public ImageResource getValue(ClientAdminUser object) {
+
+				return Accounter.getFinanceImages().delete();
+			}
+
+		};
+
 		this.addColumn(serialNo, "S.no");
+		this.addColumn(name, "Name");
 		this.addColumn(email, "Email");
-		this.addColumn(status, "Status");
 		this.addColumn(type, "Type");
+		this.addColumn(password, "Password");
+		this.addColumn(deleteImage, "X");
+
+	}
+
+	protected void deleteAdminUser(ClientAdminUser object) {
+		AdminHomePage.deleteAdminuser(this, object);
+
+	}
+
+	@Override
+	public void deleteFailed(AccounterException caught) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void deleteSuccess(IAccounterCore result) {
+		// TODO Auto-generated method stub
 
 	}
 
