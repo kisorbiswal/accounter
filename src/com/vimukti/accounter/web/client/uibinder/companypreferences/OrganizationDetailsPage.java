@@ -55,6 +55,7 @@ public class OrganizationDetailsPage extends AbstractCompanyInfoPanel {
 	public OrganizationDetailsPage() {
 		initWidget(uiBinder.createAndBindUi(this));
 		createControls();
+		initData();
 	}
 
 	private void createControls() {
@@ -137,8 +138,7 @@ public class OrganizationDetailsPage extends AbstractCompanyInfoPanel {
 
 	}
 
-	@Override
-	public void onLoad() {
+	private void initData() {
 		switch (companyPreferences.getOrganizationType()) {
 		case OrganizationTypeConstants.SOLE_PROPRIETORSHIP:
 			soleProprietorshipRadio.setValue(true);
@@ -164,7 +164,6 @@ public class OrganizationDetailsPage extends AbstractCompanyInfoPanel {
 		}
 		llcFormCombo
 				.setEnabled(companyPreferences.getOrganizationType() == OrganizationTypeConstants.LLC);
-
 	}
 
 	@Override
@@ -181,7 +180,7 @@ public class OrganizationDetailsPage extends AbstractCompanyInfoPanel {
 		} else if (llcRadio.getValue()) {
 			companyPreferences
 					.setOrganizationType(OrganizationTypeConstants.LLC);
-			
+
 		} else if (partnershipRadio.getValue()) {
 			companyPreferences
 					.setOrganizationType(OrganizationTypeConstants.PARTNERSHIP);
@@ -192,6 +191,12 @@ public class OrganizationDetailsPage extends AbstractCompanyInfoPanel {
 			companyPreferences
 					.setOrganizationType(OrganizationTypeConstants.OTHER);
 		}
+	}
+
+	@Override
+	public void validate() {
+		// TODO Auto-generated method stub
+
 	}
 
 }
