@@ -9,7 +9,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.setup.OrganizationTypeConstants;
 
 public class OrganizationDetailsPage extends AbstractCompanyInfoPanel {
@@ -85,8 +84,6 @@ public class OrganizationDetailsPage extends AbstractCompanyInfoPanel {
 		llcFormCombo.addItem(constants.llcSingleMemberForm());
 		llcFormCombo.addItem(constants.llcMultiMemberForm());
 		llcFormCombo.setEnabled(false);
-
-		ThemesUtil.addDivToListBox(llcFormCombo, llcRadioLabel.getText());
 
 		soleProprietorshipRadio.addClickHandler(new ClickHandler() {
 

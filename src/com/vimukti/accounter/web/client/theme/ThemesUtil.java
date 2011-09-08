@@ -1,13 +1,11 @@
 package com.vimukti.accounter.web.client.theme;
 
-import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -49,18 +47,6 @@ public class ThemesUtil {
 
 		btnEle.getParentElement().insertAfter(divEle, btnEle);
 
-	}
-
-	public static void addDivToListBox(ListBox listBox, String Id) {
-
-		Element listBoxEle = listBox.getElement();
-
-		Element divEle = DOM.createDiv();
-		divEle.setId(Id);
-		divEle.addClassName("downarrow-button");
-		divEle.getStyle().setFloat(Float.RIGHT);
-
-		listBoxEle.getParentElement().insertAfter(divEle, listBoxEle);
 	}
 
 	public static void removeDivToButton(Button button) {

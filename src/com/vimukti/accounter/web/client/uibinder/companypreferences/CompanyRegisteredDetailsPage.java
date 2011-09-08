@@ -15,7 +15,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 
@@ -85,9 +84,6 @@ public class CompanyRegisteredDetailsPage extends AbstractCompanyInfoPanel {
 		stateLabel.setText(Accounter.constants().state());
 		postalCodeLabel.setText(Accounter.constants().postalCode());
 		countryLabel.setText(Accounter.constants().country());
-
-		ThemesUtil.addDivToListBox(countryCombo, countryLabel.getText());
-		ThemesUtil.addDivToListBox(stateCombo, stateLabel.getText());
 
 		countriesList = new ArrayList<String>();
 		countriesList.addAll(CoreUtils.getCountriesAsList());
