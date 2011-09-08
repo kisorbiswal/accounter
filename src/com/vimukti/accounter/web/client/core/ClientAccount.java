@@ -31,7 +31,7 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 	public static final int TYPE_ACCOUNT_PAYABLE = 8;
 	public static final int TYPE_OTHER_CURRENT_LIABILITY = 9;
 	public static final int TYPE_CREDIT_CARD = 10;
-	public static final int TYPE_PAYPAL=19;
+	public static final int TYPE_PAYPAL = 19;
 	public static final int TYPE_PAYROLL_LIABILITY = 11;
 	public static final int TYPE_LONG_TERM_LIABILITY = 12;
 	public static final int TYPE_EQUITY = 13;
@@ -69,6 +69,13 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 	public static final int SUBBASETYPE_OTHER_EXPENSE = 10;
 
 	public static final int GROUPTYPE_CASH = 1;
+
+	public static final int CREDITCARDTYPE_MASTER = 1;
+	public static final int CREDITCARDTYPE_VISA = 2;
+
+	public static final int PAYPALTYPE_PERSONAL = 1;
+	public static final int PAYPALTYPE_PREMIUM = 2;
+	public static final int PAYPALTYPE_BUSINESS = 3;
 
 	// long id;
 
