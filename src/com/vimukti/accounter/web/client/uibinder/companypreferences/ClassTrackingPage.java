@@ -69,12 +69,15 @@ public class ClassTrackingPage extends AbstractCompanyInfoPanel {
 
 	private void createControls() {
 		classTrackingCheckBox.setText(Accounter.constants().classTracking());
-		classWarningCheckBox.setText("Class Warning");
-		classesOnSalesLabel.setText("Classes on sales");
-		onePerTransactionRadio.setName("class_tracking");
-		onePerTransactionRadio.setHTML("One per transaction");
-		onePerDetailLineRadio.setName("class_tracking");
-		onePerDetailLineRadio.setHTML("One per detail line");
+		classWarningCheckBox.setText(Accounter.constants().classWarning());
+		classesOnSalesLabel.setText(Accounter.constants().classesonsales());
+		onePerTransactionRadio.setName(Accounter.constants()
+				.classunderscoretracking());
+		onePerTransactionRadio.setHTML(Accounter.constants()
+				.onepertransaction());
+		onePerDetailLineRadio.setName(Accounter.constants()
+				.classunderscoretracking());
+		onePerDetailLineRadio.setHTML(Accounter.constants().oneperdetailline());
 
 		classOnSalesPanel.getElement().getStyle().setPaddingLeft(15, Unit.PX);
 		onePerRadioPanel.getElement().getStyle().setPaddingLeft(20, Unit.PX);
