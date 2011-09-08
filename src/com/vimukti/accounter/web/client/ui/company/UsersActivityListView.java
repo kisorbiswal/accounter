@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.client.ui.company;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.Handler;
@@ -25,7 +27,7 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 public class UsersActivityListView extends BaseView {
 
 	private Label titleItem;
-	private DateField fromdate, endDate;
+	private DateField fromdate, toDate;
 	private VerticalPanel mainPanel;
 	private HorizontalPanel dateButtonPanel;
 	private DynamicForm dateForm, buttonForm;
@@ -43,30 +45,26 @@ public class UsersActivityListView extends BaseView {
 		titleItem = new Label("User's Activity Log");
 
 		fromdate = new DateField("From Date");
-		fromdate.addDateValueChangeHandler(new DateValueChangeHandler() {
+		toDate = new DateField("End Date");
+
+		updateButton = new Button("Update");
+		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
-			public void onDateValueChange(ClientFinanceDate date) {
-
+			public void onClick(ClickEvent event) {
+				refreshActivityList();
 			}
 		});
-		endDate = new DateField("End Date");
-		endDate.addDateValueChangeHandler(new DateValueChangeHandler() {
 
-			@Override
-			public void onDateValueChange(ClientFinanceDate date) {
-
-			}
-		});
 		buttonForm = new DynamicForm();
 		buttonForm.setNumCols(2);
 
 		dateForm = new DynamicForm();
 		dateForm.setNumCols(6);
-		dateForm.setFields(fromdate, endDate);
+		dateForm.setFields(fromdate, toDate);
 
 		activityList = new UsersActivityList(fromdate.getValue(),
-				endDate.getValue());
+				toDate.getValue());
 		SimplePager.Resources pagerResources = GWT
 				.create(SimplePager.Resources.class);
 		SimplePager pager = new SimplePager(TextLocation.CENTER,
@@ -86,11 +84,25 @@ public class UsersActivityListView extends BaseView {
 			}
 		});
 
+		HorizontalPanel panel = new HorizontalPanel();
+		panel.add(dateForm);
+		panel.add(updateButton);
+		panel.setCellHorizontalAlignment(updateButton, ALIGN_RIGHT);
+
 		mainPanel.add(titleItem);
-		mainPanel.add(dateForm);
+		mainPanel.add(panel);
 		mainPanel.add(activityList);
 		mainPanel.add(pager);
 		add(mainPanel);
+	}
+
+	private void refreshActivityList() {
+		ClientFinanceDate startDate = fromdate.getEnteredDate();
+		ClientFinanceDate endDate = toDate.getEnteredDate();
+		activityList.setFromDate(startDate);
+		activityList.setEndDate(endDate);
+		activityList.setVisibleRangeAndClearData(
+				activityList.getVisibleRange(), true);
 	}
 
 	@Override

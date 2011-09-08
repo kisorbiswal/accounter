@@ -20,10 +20,10 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 		createControls();
 	}
 
-	public UsersActivityList(ClientFinanceDate fromdate2,
-			ClientFinanceDate endDate2) {
-		this.fromDate = fromdate2;
-		this.endDate = endDate2;
+	public UsersActivityList(ClientFinanceDate fromdate,
+			ClientFinanceDate endDate) {
+		this.setFromDate(fromdate);
+		this.setEndDate(endDate);
 		createControls();
 	}
 
@@ -33,15 +33,15 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 			protected void onRangeChanged(HasData<ClientActivity> display) {
 				final int start = display.getVisibleRange().getStart();
 				int length = display.getVisibleRange().getLength();
-				Accounter.createHomeService().getUsersActivityLog(fromDate,
-						endDate, start, length,
+				Accounter.createHomeService().getUsersActivityLog(
+						getFromDate(), getEndDate(), start, length,
 						new AsyncCallback<PaginationList<ClientActivity>>() {
 
 							@Override
 							public void onSuccess(
 									PaginationList<ClientActivity> result) {
 								updateRowData(start, result);
-								setRowCount(result.getTotalCount());
+								setRowCount(result.getTotalCount(), false);
 							}
 
 							@Override
@@ -51,8 +51,8 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 						});
 			}
 		};
+		setPageSize(10);
 		listDataProvider.addDataDisplay(this);
-		setPageSize(50);
 
 		this.setWidth("100%", true);
 		this.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
@@ -170,5 +170,21 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 		this.columnIndex = columnIndex;
 		this.isAscending = isAscending;
 		redraw();
+	}
+
+	public ClientFinanceDate getFromDate() {
+		return fromDate;
+	}
+
+	public void setFromDate(ClientFinanceDate fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	public ClientFinanceDate getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(ClientFinanceDate endDate) {
+		this.endDate = endDate;
 	}
 }
