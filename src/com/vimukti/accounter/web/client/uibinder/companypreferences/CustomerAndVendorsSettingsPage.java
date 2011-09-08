@@ -44,34 +44,10 @@ public class CustomerAndVendorsSettingsPage extends AbstractCompanyInfoPanel {
 	public CustomerAndVendorsSettingsPage() {
 		initWidget(uiBinder.createAndBindUi(this));
 		createControls();
+		initData();
 	}
 
-	private void createControls() {
-		chargeTaxLabelItem.setText(constants.doyouchargesalestax());
-
-		chargeTaxYesRadioButton.setText(constants.yes());
-		chargeTaxNoRadioButton.setText(constants.no());
-
-		managingBillLabelItem.setText(constants.managingBills());
-
-		managingBillYesRadioButton.setText(constants.yes());
-		managingBillNoRadioButton.setText(constants.no());
-
-		createEstimatesLabelItem.setText(constants
-				.wanttoCreateEstimatesInAccounter());
-
-		createEstimatesYesRadioButton.setText(constants.yes());
-		createEstimatesNoRadioButton.setText(constants.no());
-
-		usingStatementsLabelItem.setText(constants.doyouWantToUseStatements());
-
-		usingStatementsYesRadioButton.setText(constants.yes());
-		usingStatementsNoRadioButton.setText(constants.no());
-
-	}
-
-	@Override
-	public void onLoad() {
+	private void initData() {
 		if (companyPreferences.isDoYouChargesalesTax()) {
 			chargeTaxYesRadioButton.setValue(true);
 			chargeTaxNoRadioButton.setValue(false);
@@ -100,7 +76,31 @@ public class CustomerAndVendorsSettingsPage extends AbstractCompanyInfoPanel {
 			usingStatementsYesRadioButton.setValue(false);
 			usingStatementsNoRadioButton.setValue(true);
 		}
-		
+
+	}
+
+	private void createControls() {
+		chargeTaxLabelItem.setText(constants.doyouchargesalestax());
+
+		chargeTaxYesRadioButton.setText(constants.yes());
+		chargeTaxNoRadioButton.setText(constants.no());
+
+		managingBillLabelItem.setText(constants.managingBills());
+
+		managingBillYesRadioButton.setText(constants.yes());
+		managingBillNoRadioButton.setText(constants.no());
+
+		createEstimatesLabelItem.setText(constants
+				.wanttoCreateEstimatesInAccounter());
+
+		createEstimatesYesRadioButton.setText(constants.yes());
+		createEstimatesNoRadioButton.setText(constants.no());
+
+		usingStatementsLabelItem.setText(constants.doyouWantToUseStatements());
+
+		usingStatementsYesRadioButton.setText(constants.yes());
+		usingStatementsNoRadioButton.setText(constants.no());
+
 	}
 
 	@Override
@@ -125,7 +125,13 @@ public class CustomerAndVendorsSettingsPage extends AbstractCompanyInfoPanel {
 		} else {
 			companyPreferences.setDoyouwantstatements(false);
 		}
-		
+
+	}
+
+	@Override
+	public void validate() {
+		// TODO Auto-generated method stub
+
 	}
 
 }
