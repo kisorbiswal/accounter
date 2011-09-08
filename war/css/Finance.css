@@ -1835,7 +1835,7 @@ body, table td, select,.gwt-Button,textarea,input,label{
 }
 .gwt-StackPanel .gwt-StackPanelItem {
 	background: -moz-linear-gradient(center top , #3299A4, #2D8B93) repeat scroll 0 0 transparent !important;
-	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#2D8B93)); /* for webkit browsers */
+	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#2D8B93)) !important;  /* for webkit browsers */
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4', endColorstr='#2D8B93') !important; /* for IE */
 	background: -o-linear-gradient(top,  #3299A4,  #2D8B93);
     color: white;
