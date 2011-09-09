@@ -4712,4 +4712,5 @@ public interface AccounterConstants extends Constants {
 
 	public String employerIdentificationNumber();
 
+	public String terminology();
 }
