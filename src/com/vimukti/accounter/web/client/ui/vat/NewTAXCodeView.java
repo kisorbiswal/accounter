@@ -322,7 +322,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 
 		ClientTAXCode taxCodeByName = getCompany().getTAXCodeByName(name);
 
-		if ((!isInViewMode() && taxCodeByName != null)) {
+		if ((isInViewMode() && taxCodeByName != null)) {
 			result.addError(vatCodeTxt, Accounter.constants().alreadyExist());
 			return result;
 		}
