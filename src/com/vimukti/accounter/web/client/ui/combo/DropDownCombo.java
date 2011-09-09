@@ -857,4 +857,12 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		super.onAttach();
 		// addDiv();
 	}
+
+	protected void onAddAllInfo(String text) {
+
+	}
+
+	protected T getQuickAddData(String text) {
+		return null;
+	}
 }

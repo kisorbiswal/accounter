@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.QuickAddDialog;
-import com.vimukti.accounter.web.client.ui.core.QuickAddDialog.QuickAddListener;
 import com.vimukti.accounter.web.client.ui.customers.NewCustomerAction;
 
 public class CustomerCombo extends CustomCombo<ClientCustomer> {

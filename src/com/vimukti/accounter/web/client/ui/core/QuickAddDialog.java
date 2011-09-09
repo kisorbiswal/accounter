@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.ISaveCallback;
+import com.vimukti.accounter.web.client.ui.combo.QuickAddListener;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 import com.vimukti.accounter.web.client.ui.forms.TextBoxItem;
 
@@ -93,21 +93,6 @@ public class QuickAddDialog extends CustomDialog {
 
 	public void setListener(QuickAddListener<? extends IAccounterCore> listener) {
 		this.listener = listener;
-	}
-
-	/**
-	 * @author Srikanth Jessu
-	 * 
-	 * @param <T>
-	 */
-	public interface QuickAddListener<T extends IAccounterCore> extends
-			ISaveCallback {
-
-		T getData(String text);
-
-		void onAddAllInfo(String text);
-		
-		void onCancel();
 	}
 
 	public void setDefaultText(String text) {
