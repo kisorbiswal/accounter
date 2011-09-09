@@ -42,6 +42,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.edittable.tables.MakeDepositTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -65,7 +66,7 @@ public class MakeDepositView extends
 	DynamicForm memoForm, totForm;
 	DynamicForm form1, form2;
 
-	private MakeDepositTransactionGrid gridView;
+	private MakeDepositTransactionTable gridView;
 
 	protected ClientTransactionMakeDeposit currentRecord;
 	protected boolean isClose;
@@ -363,35 +364,16 @@ public class MakeDepositView extends
 	}
 
 	public void initListGrid() {
-		gridView = new MakeDepositTransactionGrid();
-		gridView.setTransactionView(this);
-		gridView.setCanEdit(true);
-		gridView.init();
+		gridView = new MakeDepositTransactionTable() {
+
+			@Override
+			protected void updateNonEditableItems() {
+				MakeDepositView.this.updateNonEditableItems();
+			}
+		};
 		gridView.setHeight("250px");
 		gridView.setDisabled(isInViewMode());
 		gridView.getElement().getStyle().setMarginTop(10, Unit.PX);
-	}
-
-	protected void setEditorTypeForAccountFiled(int selectedType) {
-		ClientTransactionMakeDeposit selectedRecord = gridView.getSelection();
-		selectedRecord.setType(selectedType);
-		switch (selectedType) {
-		case ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
-			selectedRecord.setType(TYPE_FINANCIAL_ACCOUNT);
-
-			// accountField.setEditorType(financeAccountSelect);
-			break;
-
-		case ClientTransactionMakeDeposit.TYPE_VENDOR:
-			selectedRecord.setType(TYPE_VENDOR);
-			// accountField.setEditorType(vendorSelect);
-			break;
-		case ClientTransactionMakeDeposit.TYPE_CUSTOMER:
-			selectedRecord.setType(TYPE_CUSTOMER);
-			// accountField.setEditorType(customerSelect);
-		default:
-			break;
-		}
 	}
 
 	protected void validateAmountField(
@@ -786,8 +768,7 @@ public class MakeDepositView extends
 				deposit.setIsNewEntry(true);
 				deposit.setType(ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT);
 				// deposit.set
-				gridView.addData(deposit);
-				gridView.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
+				gridView.add(deposit);
 			}
 		});
 
