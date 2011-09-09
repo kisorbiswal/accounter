@@ -47,9 +47,17 @@ public class CustomDialog extends DialogBox {
 	public void showHeader() {
 
 		cross = new Image(Accounter.getFinanceImages().dialougueCloseicon());
+		cross.setTitle(Accounter.messages().clickThisTo(
+				Accounter.constants().close().toLowerCase(),
+				Accounter.constants().dialog()));
 		// help = new Image("/images/help-icon.png");
 		help = new Image(Accounter.getFinanceImages().helpIcon());
 		help.setStyleName("dialog_help_icon");
+		help.setTitle(Accounter.messages().clickThisTo(
+				Accounter.constants().help(), "").replace(
+				Accounter.constants().to().toLowerCase()+" ",
+				Accounter.constants().For()).replace(
+				Accounter.constants().This(), ""));
 		// help.setStyleName("helpAlign");
 		caption = new HTML();
 

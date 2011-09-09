@@ -80,6 +80,12 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 		buttonsLayout.setSpacing(5);
 
 		button1 = new Button(constants.add());
+		button1.setTitle(Accounter.messages().clickThisTo(
+				Accounter.constants().addnew()
+						+ " "
+						+ this.getText().replace(
+								Accounter.constants().manage(), ""),
+				Accounter.constants().dialog()));
 		button1.setWidth("80px");
 
 		button1.addClickHandler(new ClickHandler() {
@@ -94,6 +100,9 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 		button2 = new Button(constants.edit());
 		button2.setEnabled(false);
 		button2.setWidth("80px");
+		button2.setTitle(Accounter.messages().clickThisTo(
+				Accounter.constants().edit(),
+				this.getText().replace(Accounter.constants().manage(), "")));
 		button2.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -105,6 +114,9 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 		button3 = new Button(this.constants.remove());
 		button3.setEnabled(false);
 		button3.setWidth("80px");
+		button2.setTitle(Accounter.messages().clickThisTo(
+				Accounter.constants().delete(),
+				this.getText().replace(Accounter.constants().manage(), "")));
 		button3.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -124,8 +136,8 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 		bodyLayout.add(listGridView);
 		if (Accounter.getUser().canDoInvoiceTransactions())
 			bodyLayout.add(buttonsLayout);
-		buttonsLayout.getElement().getParentElement()
-				.setAttribute("width", "25%");
+		buttonsLayout.getElement().getParentElement().setAttribute("width",
+				"25%");
 		setBodyLayout(bodyLayout);
 		cancelBtn.setTitle(this.constants.close());
 		dialogHandler = new InputDialogHandler() {
@@ -354,7 +366,6 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 	public String toString() {
 		return Accounter.constants().classNameis() + this.getText();
 	}
-
 
 	public void addCallBack(AccounterAsyncCallback<T> callback) {
 		this.callBack = callback;
