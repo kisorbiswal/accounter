@@ -53,7 +53,9 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 		form.setItems(bankAccountsCombo);
 		mainPanel.add(form);
 		mainPanel.add(grid);
-		grid.setStyleName("recounciliation_grid");
+		mainPanel.setCellHeight(grid, "200px");
+		grid.getElement().getParentElement()
+				.addClassName("recounciliation_grid");
 		this.add(mainPanel);
 	}
 

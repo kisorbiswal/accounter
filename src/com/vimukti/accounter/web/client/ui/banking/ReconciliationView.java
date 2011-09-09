@@ -181,7 +181,9 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		mainPanel.add(hPanel);
 		mainPanel.add(btnPanel);
 		mainPanel.add(grid);
-		grid.setStyleName("recounciliation_grid");
+		mainPanel.setCellHeight(grid, "200px");
+		grid.getElement().getParentElement()
+				.addClassName("recounciliation_grid");
 		mainPanel.add(amountsPanel);
 
 		this.add(mainPanel);
