@@ -21,13 +21,14 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
-public class ComboBox<T> extends FlowPanel {
-	private T value;
+public class ComboBox<T, C> extends FlowPanel implements RowSelectHandler<C> {
+	private T row;
+	private C value;
 	private PopupPanel popupPanel;
 	// private ScrollPanel scrollPanel;
 	private TextBox textBox;
-	private ComboChangeHandler<T> changeHandler;
-	private AbstractDropDownTable<T> dropDown;
+	private ComboChangeHandler<T, C> changeHandler;
+	private AbstractDropDownTable<C> dropDown;
 	private ScrollPanel scrollPanel;
 
 	public ComboBox() {
@@ -64,8 +65,7 @@ public class ComboBox<T> extends FlowPanel {
 
 					@Override
 					public boolean execute() {
-						hidePopup(false);
-						editComplete();
+						hidePopup(true);
 						return false;
 					}
 				}, 200);
@@ -126,19 +126,22 @@ public class ComboBox<T> extends FlowPanel {
 
 	private void hidePopup(boolean updateValue) {
 		if (updateValue) {
-			T filteredValue = dropDown.getFilteredValue(textBox.getText());
-			if (filteredValue != null && filteredValue != value) {
+			C filteredValue = dropDown.getFilteredValue(textBox.getText());
+			if (filteredValue != null) {
 				setValue(filteredValue);
 				editComplete();
+			} else {
+				if (changeHandler != null) {
+					changeHandler.onAddNew(textBox.getText());
+				}
 			}
-
 		}
 		popupPanel.hide();
 	}
 
 	private void editComplete() {
 		if (changeHandler != null && value != null) {
-			changeHandler.onChange(value);
+			changeHandler.onChange(row, value);
 		}
 	}
 
@@ -148,6 +151,7 @@ public class ComboBox<T> extends FlowPanel {
 		}
 		scrollPanel.clear();
 		scrollPanel.add(dropDown);
+		dropDown.addRowSelectHandler(this);
 		int x = textBox.getAbsoluteLeft();
 		int y = textBox.getAbsoluteTop() + textBox.getOffsetHeight();
 
@@ -180,11 +184,11 @@ public class ComboBox<T> extends FlowPanel {
 		popupPanel.show();
 	}
 
-	public T getValue() {
+	public C getValue() {
 		return value;
 	}
 
-	public void setValue(T value) {
+	public void setValue(C value) {
 		if (value != null) {
 			textBox.setText(dropDown.getDisplayValue(value));
 			dropDown.selectRow(value);
@@ -192,43 +196,49 @@ public class ComboBox<T> extends FlowPanel {
 		this.value = value;
 	}
 
-	public void setComboChangeHandler(ComboChangeHandler<T> changeHandler) {
+	public void setComboChangeHandler(ComboChangeHandler<T, C> changeHandler) {
 		this.changeHandler = changeHandler;
 	}
 
-	public AbstractDropDownTable<T> getDropDown() {
+	public AbstractDropDownTable<C> getDropDown() {
 		return dropDown;
 	}
 
-	public void setDropDown(AbstractDropDownTable<T> table) {
+	public void setDropDown(AbstractDropDownTable<C> table) {
 		this.dropDown = table;
-		dropDown.addRowSelectHandler(new RowSelectHandler<T>() {
-
-			@Override
-			public void onRowSelect(T selectedObj, boolean isClicked) {
-				value = selectedObj;
-				if (selectedObj != null) {
-					String text = textBox.getText().toLowerCase();
-					String displayValue = dropDown.getDisplayValue(selectedObj);
-					textBox.setText(displayValue);
-					int len = displayValue.length() - text.length();
-					int pos = displayValue.toLowerCase().indexOf(text);
-					if (len > 0) {
-						textBox.setSelectionRange(pos + text.length(), len);
-					}
-					editComplete();
-				} else {
-					if (isClicked) {
-						textBox.setText("");
-						dropDown.addNewItem();
-						hidePopup(false);
-					}
-				}
-			}
-		});
 	}
 
 	public void setDesable(boolean desable) {
 		textBox.setEnabled(!desable);
+	}
+
+	public T getRow() {
+		return row;
+	}
+
+	public void setRow(T row) {
+		this.row = row;
+	}
+
+	@Override
+	public void onRowSelect(C selectedObj, boolean isClicked) {
+		value = selectedObj;
+		if (selectedObj != null) {
+			String text = textBox.getText().toLowerCase();
+			String displayValue = dropDown.getDisplayValue(selectedObj);
+			textBox.setText(displayValue);
+			int len = displayValue.length() - text.length();
+			int pos = displayValue.toLowerCase().indexOf(text);
+			if (len > 0) {
+				textBox.setSelectionRange(pos + text.length(), len);
+			}
+			editComplete();
+		} else {
+			if (isClicked) {
+				textBox.setText("");
+				dropDown.addNewItem();
+				hidePopup(false);
+			}
+		}
 	}
 }

@@ -7,7 +7,7 @@ public abstract class ComboColumn<T, C> extends EditColumn<T> {
 	@Override
 	public void render(IsWidget widget, RenderContext<T> context) {
 		@SuppressWarnings("unchecked")
-		ComboBox<C> box = (ComboBox<C>) widget;
+		ComboBox<T, C> box = (ComboBox<T, C>) widget;
 		box.setDesable(!isEnable() || context.isDesable());
 		box.setValue(getValue(context.getRow()));
 	}
@@ -20,15 +20,14 @@ public abstract class ComboColumn<T, C> extends EditColumn<T> {
 
 	@Override
 	public IsWidget getWidget(RenderContext<T> context) {
-		final T row = context.getRow();
-		ComboBox<C> comboBox = new ComboBox<C>();
+		ComboBox<T, C> comboBox = new ComboBox<T, C>();
 		AbstractDropDownTable<C> displayTable = getDisplayTable(context
 				.getRow());
 		comboBox.setDropDown(displayTable);
-		comboBox.setComboChangeHandler(new ComboChangeHandler<C>() {
+		comboBox.setComboChangeHandler(new ComboChangeHandler<T, C>() {
 
 			@Override
-			public void onChange(C newValue) {
+			public void onChange(T row, C newValue) {
 				setValue(row, newValue);
 			}
 
@@ -38,6 +37,7 @@ public abstract class ComboColumn<T, C> extends EditColumn<T> {
 
 			}
 		});
+		comboBox.setRow(context.getRow());
 		return comboBox;
 	}
 
