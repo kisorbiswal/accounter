@@ -41,7 +41,7 @@ public class AmountField extends TextItem {
 	private void setKeyPressFilter(String string) {
 	}
 
-	private BlurHandler getBlurHandler() {
+	protected BlurHandler getBlurHandler() {
 
 		BlurHandler blurHandler = new BlurHandler() {
 
@@ -49,7 +49,7 @@ public class AmountField extends TextItem {
 
 			public void onBlur(BlurEvent event) {
 				try {
-
+					errorsWidget.clearError(this);
 					value = getValue();
 
 					if (value == null)
