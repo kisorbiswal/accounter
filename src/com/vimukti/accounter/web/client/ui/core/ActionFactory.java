@@ -609,6 +609,11 @@ public class ActionFactory {
 				Global.get().Customer()), quickAddText);
 	}
 
+	public static NewVendorAction getNewVendorAction(String quickAddText) {
+		return new NewVendorAction(Accounter.messages().newVendor(
+				Global.get().vendor()), quickAddText);
+	}
+
 	public static NewCustomerAction getNewCustomerAction(
 			ClientCustomer customer,
 			AccounterAsyncCallback<Object> callBackObject) {
@@ -1321,7 +1326,7 @@ public class ActionFactory {
 	}
 
 	public static TDSVendorsListAction getTDSVendorsAction(boolean isTDSView) {
-		return new TDSVendorsListAction("TDS Vendors List",isTDSView);
+		return new TDSVendorsListAction("TDS Vendors List", isTDSView);
 	}
 
 	public static ReconcileAccountAction getReconciliationAction() {

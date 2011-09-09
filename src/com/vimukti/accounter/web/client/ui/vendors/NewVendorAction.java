@@ -21,10 +21,19 @@ public class NewVendorAction extends Action<ClientVendor> {
 	public final static int FROM_CREDIT_CARD_EXPENSE = 119;
 
 	private int openedFrom;
+	private String quickAddText;
 
 	public NewVendorAction(String text) {
 		super(Global.get().messages().newVendor(Global.get().Vendor()));
 		this.catagory = Global.get().Vendor();
+	}
+
+	public NewVendorAction(String text, String quickAddText) {
+		super(text);
+		this.catagory = Global.get().customer();
+		super.setToolTip(Global.get().customer());
+		this.quickAddText = quickAddText;
+
 	}
 
 	public NewVendorAction(String text, ClientVendor vendor,
@@ -43,10 +52,10 @@ public class NewVendorAction extends Action<ClientVendor> {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			public void onCreated() {
-
 				view = new VendorView();
-				// UIUtils.setCanvas(view, getViewConfiguration());
-
+				if (quickAddText != null) {
+					view.prepareForQuickAdd(quickAddText);
+				}
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, NewVendorAction.this);
 
