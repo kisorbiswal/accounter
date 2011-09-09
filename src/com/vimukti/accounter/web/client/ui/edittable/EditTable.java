@@ -26,7 +26,7 @@ public class EditTable<R> extends SimplePanel {
 		this.add(table);
 		cellFormatter = table.getCellFormatter();
 		rowFormatter = table.getRowFormatter();
-		rowFormatter.addStyleName(0, "header");
+		rowFormatter.addStyleName(0, "editheader");
 	}
 
 	public void addColumn(EditColumn<R> column) {
