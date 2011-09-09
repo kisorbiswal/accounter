@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.edittable;
 import java.util.List;
 
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -33,7 +34,8 @@ public class VendorDropDownTable extends AbstractDropDownTable<ClientVendor> {
 	@Override
 	protected ClientVendor getAddNewRow() {
 		ClientVendor clientVendor = new ClientVendor();
-		clientVendor.setName("Add New");
+		clientVendor.setName(Accounter.messages().addaNewVendor(
+				Global.get().Vendor()));
 		return clientVendor;
 	}
 
