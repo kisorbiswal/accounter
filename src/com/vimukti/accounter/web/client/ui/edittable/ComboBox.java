@@ -216,6 +216,7 @@ public class ComboBox<T> extends FlowPanel {
 					if (len > 0) {
 						textBox.setSelectionRange(pos + text.length(), len);
 					}
+					editComplete();
 				} else {
 					if (isClicked) {
 						textBox.setText("");

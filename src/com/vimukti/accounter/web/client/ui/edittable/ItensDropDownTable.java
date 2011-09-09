@@ -60,7 +60,7 @@ public class ItensDropDownTable extends AbstractDropDownTable<ClientItem> {
 	@Override
 	public void addNewItem() {
 		NewItemAction action;
-		action = ActionFactory.getNewItemAction(false);
+		action = ActionFactory.getNewItemAction(true);
 		action.setCallback(new ActionCallback<ClientItem>() {
 
 			@Override

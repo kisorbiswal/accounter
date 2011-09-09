@@ -112,4 +112,8 @@ public class AccountDropDownTable extends AbstractDropDownTable<ClientAccount> {
 		return getAccounts(filter);
 	}
 
+	@Override
+	protected Class<?> getType() {
+		return ClientAccount.class;
+	}
 }

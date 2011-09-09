@@ -78,4 +78,9 @@ public class CustomerDropDownTable extends
 	protected boolean filter(ClientCustomer t, String string) {
 		return t.getDisplayName().toLowerCase().startsWith(string);
 	}
+
+	@Override
+	protected Class<?> getType() {
+		return ClientCustomer.class;
+	}
 }

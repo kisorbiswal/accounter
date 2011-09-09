@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.edittable;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccountable;
@@ -34,11 +35,6 @@ public abstract class TransactionItemNameColumn extends
 	@Override
 	protected IAccountable getValue(ClientTransactionItem row) {
 		return row.getAccountable();
-	}
-
-	@Override
-	protected void setValue(ClientTransactionItem row, IAccountable newValue) {
-		row.setAccountable(newValue);
 	}
 
 	public abstract ListFilter<ClientAccount> getAccountsFilter();

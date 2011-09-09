@@ -74,4 +74,9 @@ public class VendorDropDownTable extends AbstractDropDownTable<ClientVendor> {
 	protected boolean filter(ClientVendor t, String string) {
 		return t.getDisplayName().toLowerCase().startsWith(string);
 	}
+
+	@Override
+	protected Class<?> getType() {
+		return ClientVendor.class;
+	}
 }

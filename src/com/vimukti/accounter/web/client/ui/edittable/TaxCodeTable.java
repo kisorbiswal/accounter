@@ -3,8 +3,13 @@ package com.vimukti.accounter.web.client.ui.edittable;
 import java.util.List;
 
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.customers.TaxDialog;
+import com.vimukti.accounter.web.client.ui.vat.NewTAXCodeAction;
 
 public class TaxCodeTable extends AbstractDropDownTable<ClientTAXCode> {
 
@@ -79,7 +84,31 @@ public class TaxCodeTable extends AbstractDropDownTable<ClientTAXCode> {
 
 	@Override
 	public void addNewItem() {
-		// TODO
+
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			NewTAXCodeAction action = ActionFactory.getNewTAXCodeAction();
+			action.setCallback(new ActionCallback<ClientTAXCode>() {
+
+				@Override
+				public void actionResult(ClientTAXCode result) {
+					selectRow(result);
+				}
+			});
+
+			action.run(null, true);
+		} else {
+			TaxDialog dialog = new TaxDialog();
+			dialog.setCallback(new ActionCallback<ClientTAXCode>() {
+
+				@Override
+				public void actionResult(ClientTAXCode result) {
+					selectRow(result);
+
+				}
+			});
+			dialog.show();
+		}
+
 	}
 
 	@Override
@@ -87,4 +116,8 @@ public class TaxCodeTable extends AbstractDropDownTable<ClientTAXCode> {
 		return Accounter.getCompany().getTaxCodes();
 	}
 
+	@Override
+	protected Class<?> getType() {
+		return ClientTAXCode.class;
+	}
 }
