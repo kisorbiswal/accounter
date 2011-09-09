@@ -139,7 +139,11 @@ public class MacMenuServlet extends BaseServlet {
 	}
 
 	private boolean canViewReports() {
-		return user.getPermissions().getTypeOfViewReports() == RolePermissions.TYPE_READ_ONLY;
+		if (user.getPermissions().getTypeOfViewReports() == RolePermissions.TYPE_YES
+				|| user.getPermissions().getTypeOfViewReports() == RolePermissions.TYPE_READ_ONLY)
+			return true;
+		else
+			return false;
 	}
 
 	private boolean canDoBanking() {
