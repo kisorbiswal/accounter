@@ -53,7 +53,7 @@ public class ItensDropDownTable extends AbstractDropDownTable<ClientItem> {
 	@Override
 	protected ClientItem getAddNewRow() {
 		ClientItem clientItem = new ClientItem();
-		clientItem.setName("Add New Item");
+		clientItem.setName(Accounter.constants().addNewItem());
 		return clientItem;
 	}
 
