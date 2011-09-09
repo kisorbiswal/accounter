@@ -235,13 +235,7 @@
 			<property name="referVendors" column="CP_REFER_VENDORS"></property>
 			<property name="referAccounts" column="CP_REFER_ACCOUNTS"></property>
 
-			<property name="isLocationTrackingEnabled" column="IS_LOCATION_TRACKING_ENABLED"></property>
 			<property name="locationTrackingId" column="LOCATION_TRACKING_ID"></property>
-			<property name="isClassTrackingEnabled" column="IS_CLASS_TRACKING_ENABLED"></property>
-			<property name="isClassOnePerTransaction" column="IS_CLASS_ONE_PER_TRANSACTION"></property>
-			<property name="isWarningEnabled" column="IS_WARNING_ENABLED"></property>
-			
-
 
 		</component>
 		<property name="phone" column="PHONE"></property>
