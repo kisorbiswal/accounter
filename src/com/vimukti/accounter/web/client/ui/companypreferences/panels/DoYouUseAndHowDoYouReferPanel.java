@@ -41,7 +41,7 @@ public class DoYouUseAndHowDoYouReferPanel extends AbstractCompanyInfoPanel {
 		useAccountNo = new CheckboxItem(messages.useAccountNos(Global.get()
 				.account()));
 
-		Label howDoYouLabelItem = new Label(constants.howDoYouRefer());
+		Label howDoYouLabelItem = new Label(constants.terminology());
 
 		customerCombo = new SelectCombo(constants.Customer());
 		supplierCombo = new SelectCombo(constants.Supplier());
