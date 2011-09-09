@@ -3,10 +3,10 @@ package com.vimukti.accounter.admin.server;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.admin.client.AdminHomeViewService;
 import com.vimukti.accounter.admin.client.ClientAdminUser;
 import com.vimukti.accounter.admin.core.AdminUser;
 import com.vimukti.accounter.core.ClientConvertUtil;
-import com.vimukti.accounter.web.client.AdminHomeViewService;
 
 public class AdminHomeViewImpl extends AdminRPCBaseServiceImpl implements
 		AdminHomeViewService {
