@@ -187,4 +187,10 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 
 		return true;
 	}
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+		
+	}
 }

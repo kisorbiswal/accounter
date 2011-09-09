@@ -83,4 +83,10 @@ public class PayTypeListDialog extends GroupDialog<ClientCustomer> {
 		return true;
 	}
 
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

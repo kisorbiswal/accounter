@@ -127,4 +127,10 @@ public class AddNewContactDialog extends BaseDialog<ClientContact> {
 			ValueCallBack<ClientContact> newContactHandler) {
 		this.successCallback = newContactHandler;
 	}
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+		
+	}
 }

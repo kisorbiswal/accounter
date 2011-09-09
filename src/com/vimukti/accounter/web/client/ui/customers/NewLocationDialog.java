@@ -164,4 +164,10 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 
 		return this.clientLocation;
 	}
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+		
+	}
 }
