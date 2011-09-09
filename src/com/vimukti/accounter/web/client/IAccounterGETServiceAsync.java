@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.HelpLink;
@@ -404,5 +405,11 @@ public interface IAccounterGETServiceAsync {
 	public void getAllTransactionsOfAccount(long id,
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			AsyncCallback<List<ClientTransaction>> asyncCallback);
+
+	/**
+	 * @param accountName
+	 */
+	public void getReconciliationsByBankAccountID(long accountName,
+			AsyncCallback<List<ClientReconciliation>> callback);
 
 }

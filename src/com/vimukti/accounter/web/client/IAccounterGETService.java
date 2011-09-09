@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.HelpLink;
@@ -301,5 +302,8 @@ public interface IAccounterGETService extends RemoteService {
 	List<ClientTransaction> getAllTransactionsOfAccount(long id,
 			ClientFinanceDate startDate, ClientFinanceDate endDate)
 			throws AccounterException;
+
+	List<ClientReconciliation> getReconciliationsByBankAccountID(
+			long accountName) throws AccounterException;
 
 }
