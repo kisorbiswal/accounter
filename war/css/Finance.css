@@ -1221,6 +1221,9 @@ iframe {
 	.gwt-MenuBar-horizontal .gwt-MenuItem{
 	   height:18px !important;
 	}
+	.downarrow-button{
+	   margin-left:-24px !important;
+	}
 	input[disabled], input[disabled="disabled"]{
 	   color:black !important;
 	}
