@@ -135,6 +135,9 @@ public abstract class AbstractDropDownTable<T> extends CellTable<T> {
 	public T getFilteredValue(String text) {
 		for (T t : data) {
 			if (filter(t, text)) {
+				if (data.indexOf(t) == 0) {
+					return null;
+				}
 				return t;
 			}
 		}
