@@ -2,6 +2,8 @@ package com.vimukti.accounter.web.client.ui;
 
 import java.util.ArrayList;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -11,10 +13,12 @@ import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.DateField;
+import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 /**
@@ -77,7 +81,36 @@ public class ReconciliationDailog extends BaseDialog<ClientReconciliation>
 		// .getActualMaximum(Calendar.DAY_OF_MONTH));
 		endDate.setValue(new ClientFinanceDate());
 
-		closingBalance = new AmountField(constants.ClosingBalance(), this);
+		closingBalance = new AmountField(constants.ClosingBalance(), this) {
+			@Override
+			protected BlurHandler getBlurHandler() {
+				return new BlurHandler() {
+					Object value = null;
+
+					public void onBlur(BlurEvent event) {
+						try {
+							clearError(this);
+							value = getValue();
+
+							if (value == null)
+								return;
+							Double amount = DataUtils
+									.getAmountStringAsDouble(value.toString());
+							if (!AccounterValidator.isAmountTooLarge(amount)) {
+								setAmount(DataUtils.isValidAmount(amount + "") ? amount
+										: 0.00);
+							}
+						} catch (Exception e) {
+							if (e instanceof InvalidEntryException) {
+								addError(this, e.getMessage());
+							}
+
+							setAmount(0.00);
+						}
+					}
+				};
+			}
+		};
 		if (reconcilition.getStartDate() != null)
 			startDate.setValue(reconcilition.getStartDate().getDateAsObject());
 		if (reconcilition.getEndDate() != null)
