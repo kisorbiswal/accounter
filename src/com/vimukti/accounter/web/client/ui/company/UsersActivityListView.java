@@ -42,7 +42,6 @@ public class UsersActivityListView extends BaseView {
 	private void createControls() {
 		mainPanel = new VerticalPanel();
 		mainPanel.setWidth("100%");
-		mainPanel.setStyleName("user_activity_log");
 		titleItem = new Label("User's Activity Log");
 
 		fromdate = new DateField("From Date");
@@ -93,6 +92,7 @@ public class UsersActivityListView extends BaseView {
 		mainPanel.add(titleItem);
 		mainPanel.add(panel);
 		mainPanel.add(activityList);
+		activityList.setStyleName("user_activity_log");
 		mainPanel.add(pager);
 		add(mainPanel);
 	}
