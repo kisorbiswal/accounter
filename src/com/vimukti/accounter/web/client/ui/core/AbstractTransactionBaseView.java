@@ -1222,7 +1222,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			phoneSelect.setValue(this.phoneNo);
 
 		}
-		contactCombo.setSelected(contact.getName());
+		contactCombo.setComboItem(contact);
 		// contactCombo.setDisabled(isEdit);
 
 	}
