@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.IAccountable;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -101,6 +102,21 @@ public abstract class CustomerTransactionTable extends
 				};
 			}
 
+			@Override
+			protected void setValue(ClientTransactionItem row,
+					IAccountable newValue) {
+				row.setAccountable(newValue);
+				if (newValue != null) {
+					ClientItem selectItem = (ClientItem) newValue;
+					row.setUnitPrice(selectItem.getSalesPrice());
+					row.setTaxable(selectItem.isTaxable());
+					if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+						row.setTaxCode(selectItem.getTaxCode() != 0 ? selectItem
+								.getTaxCode() : 0);
+					}
+					applyPriceLevel(row);
+				}
+			}
 		});
 
 		this.addColumn(new DescriptionEditColumn());
@@ -148,9 +164,18 @@ public abstract class CustomerTransactionTable extends
 		return Accounter.getFinanceImages().errorImage();
 	}
 
-	public void setPricingLevel(ClientPriceLevel priceLevel) {
-		// TODO Auto-generated method stub
+	protected void applyPriceLevel(ClientTransactionItem item) {
+		priceLevelSelected(priceLevel);
+		selectedRecord = item;
+		if (priceLevel != null) {
+			setUnitPriceForSelectedItem(getCompany().getItem(item.getItem()));
+		} else {
+			update(item);
+		}
+	}
 
+	public void setPricingLevel(ClientPriceLevel priceLevel) {
+		this.priceLevel = priceLevel;
 	}
 
 	public void refreshVatValue(ClientTransactionItem obj) {
