@@ -282,4 +282,10 @@ public class CustomerSectionHomeView extends BaseHomeView {
 					}
 				});
 	}
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+		super.setFocus();
+	}
 }

@@ -256,9 +256,7 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 	}
 
 	@Override
-	public void setFocus() {
-
-	}
+	public abstract void setFocus();
 
 	//
 	// @Override
@@ -356,7 +354,6 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 	public void setCloseOnSave(boolean closeOnSave) {
 		this.saveAndClose = true;
 	}
-
 
 	/**
 	 * 

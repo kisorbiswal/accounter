@@ -119,10 +119,15 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 
 	}
 
-
 	@Override
 	protected String getViewTitle() {
 		return Accounter.constants().userDetails();
+	}
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

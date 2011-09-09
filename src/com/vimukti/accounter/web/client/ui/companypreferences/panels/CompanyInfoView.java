@@ -351,6 +351,12 @@ public class CompanyInfoView extends BaseView<ClientCompanyPreferences> {
 
 	}
 
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
 
 class CompanyInfo {

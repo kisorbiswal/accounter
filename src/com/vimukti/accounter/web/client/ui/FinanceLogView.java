@@ -341,4 +341,10 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 	protected String getViewTitle() {
 		return Accounter.constants().showLog();
 	}
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
+	}
 }

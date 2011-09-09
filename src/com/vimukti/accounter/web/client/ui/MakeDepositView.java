@@ -1010,7 +1010,7 @@ public class MakeDepositView extends
 	 */
 	@Override
 	public void setFocus() {
-		this.memoText.setFocus();
+		this.depositInSelect.setFocus();
 	}
 
 	@Override

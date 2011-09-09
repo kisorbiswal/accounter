@@ -128,4 +128,10 @@ public class UsersActivityListView extends BaseView {
 	public List<DynamicForm> getForms() {
 		return null;
 	}
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
+	}
 }

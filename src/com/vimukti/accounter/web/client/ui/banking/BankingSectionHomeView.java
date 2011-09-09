@@ -263,4 +263,8 @@ public class BankingSectionHomeView extends BaseHomeView {
 
 	}
 
+	@Override
+	public void setFocus() {
+
+	}
 }

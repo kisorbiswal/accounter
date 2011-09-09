@@ -495,4 +495,10 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 		super.onEdit();
 
 	}
+
+	@Override
+	public void setFocus() {
+		this.budgetStartWithSelect.setFocus();
+
+	}
 }

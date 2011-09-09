@@ -1473,7 +1473,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	 */
 	@Override
 	public void setFocus() {
-		this.accNoText.setFocus();
+		this.accTypeSelect.setFocus();
 	}
 
 	// private void getNextAccountNumber() {

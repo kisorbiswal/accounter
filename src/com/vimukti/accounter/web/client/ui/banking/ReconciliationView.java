@@ -307,4 +307,10 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		updateAmounts(0);
 		super.initData();
 	}
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
+	}
 }

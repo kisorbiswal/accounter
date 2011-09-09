@@ -144,7 +144,6 @@ public class CurrencyView extends BaseView<ClientCurrency> {
 
 	}
 
-
 	@Override
 	protected String getViewTitle() {
 		// TODO Auto-generated method stub
@@ -170,6 +169,12 @@ public class CurrencyView extends BaseView<ClientCurrency> {
 
 	@Override
 	public void print() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setFocus() {
 		// TODO Auto-generated method stub
 
 	}

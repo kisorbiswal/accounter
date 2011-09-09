@@ -282,4 +282,10 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+		
+	}
 }

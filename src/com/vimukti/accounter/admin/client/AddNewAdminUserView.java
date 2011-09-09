@@ -24,4 +24,10 @@ public class AddNewAdminUserView extends AbstractBaseView {
 
 	}
 
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

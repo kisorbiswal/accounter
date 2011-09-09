@@ -126,4 +126,10 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 	public List<DynamicForm> getForms() {
 		return null;
 	}
+	@Override
+	public void setFocus() {
+		this.bankAccountsCombo.setFocus();
+
+	}
+
 }
