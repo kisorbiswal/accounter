@@ -31,7 +31,6 @@ a,.falseHyperlink,.update-link span,.actionOver,#mainFooter a:hover,.hr-reports 
 	border: 1px solid #ccc;
 	left: 45%;
 	top: 40%;
-	padding: 0px !important;
 	z-index: 20001;
 	height: auto;
 }
@@ -39,9 +38,7 @@ a,.falseHyperlink,.update-link span,.actionOver,#mainFooter a:hover,.hr-reports 
 	color: #225588;
 }
 #loading .loadingIndicator {
-	background: #FFF;
 	font: bold 13px tahoma, arial, helvetica;
-	padding: 10px;
 	margin: 0;
 	height: auto;
 	color: #444;
@@ -56,13 +53,8 @@ a,.falseHyperlink,.update-link span,.actionOver,#mainFooter a:hover,.hr-reports 
     -moz-box-shadow: 0 0 10px #1A5158;
     -webkit-box-shadow:0 0 10px #1A5158;
 }
-.serverResponseLabelError,.star{
-	color: red;
-}
 .toolbox {
 	border-bottom: 1px solid #2A8EBF;
-	width: 100%;
-	position: relative;
 	z-index: 1;
 }
 .highlightedFormItem {
@@ -75,7 +67,7 @@ a,.falseHyperlink,.update-link span,.actionOver,#mainFooter a:hover,.hr-reports 
 	z-index: 500000;
 }
 .selectedview_labelstyle,.selectedview_tiny_labelstyle,.selectedview_large_labelstyle,.selectedview_medium_labelstyle{
-	color: #0000;
+	color: #000000;
 	padding: 5px 0;
 }
 .selectedview_textarea_label {
@@ -90,7 +82,6 @@ a,.falseHyperlink,.update-link span,.actionOver,#mainFooter a:hover,.hr-reports 
 	line-height: 1.6;
 }
 .selectedview_textareadata {
-	background: #FFF;
 	border: 2px solid #fff;
 	min-height: 53px;
 	height: auto !important;
@@ -116,7 +107,6 @@ a,.falseHyperlink,.update-link span,.actionOver,#mainFooter a:hover,.hr-reports 
 .gwt-SuggestBox,.gwt-TextBox,.gwt-PasswordTextBox {
 	border: 1px solid #AAAAAA;
 	height: 22px !important;
-	padding: 0px;
 }
 .gridBody1 tr td div,.selectedview,.childNode tr td,.parentNode tr td,.gridBody tr td div,.gridHeader tr td div{
 	overflow: hidden;
@@ -126,7 +116,6 @@ a,.falseHyperlink,.update-link span,.actionOver,#mainFooter a:hover,.hr-reports 
 }
 .gridHeader {
 	height: 21px;
-	width: 100%;
 	border-bottom:1px solid #1a1a1a;
 	background: -webkit-gradient(linear, left top, left bottom, from(#E4E4E4), to(#DBDBDB)); /* for webkit browsers */
 	background: -moz-linear-gradient(top,  #E4E4E4,  #DBDBDB); /* for firefox 3.6+ */ 
@@ -139,9 +128,6 @@ a,.falseHyperlink,.update-link span,.actionOver,#mainFooter a:hover,.hr-reports 
 .gridHeader td {
 	border-right:1px solid #1a1a1a;
 	overflow-x: hidden;
-}
-.gridHeader td.gridHeaderCell {
-	font-size: 12px;
 }
 .selected, table tr.ReportGridRow:HOVER,.gridAscend,.gridDecend,table.dropdownFlex tr:hover,.gwt-ListBox option:HOVER,
 .report-toolbar,.datePickerDayIsValue{
@@ -159,7 +145,6 @@ noindex:-o-prefocus,.gridBody tr td {
 }
 .gridBody tr td { 
 	overflow-x: hidden;
-	font-size: 13px;
 	border-right:1px solid #1A1A1A;
 }
 .grid-resizeable-proxy-column {
@@ -178,14 +163,10 @@ noindex:-o-prefocus,.gridBody tr td {
 }
 input[type="checkbox"] {
 	margin: 0 3px 0 0;
-	padding: 0;
 	vertical-align: text-bottom;
 }
 .gridEvenRow,.gridOddRow{
 	height:23px;
-}
-.gridEvenRow {
-	background:none repeat scroll 0 0 #E8E8E8;
 }
 .gridOddRow { 
     background:none repeat scroll 0 0 #f4f4f4;
@@ -202,9 +183,6 @@ input[type="checkbox"] {
 .gridBody1 td {
 	border-bottom: 1px solid #e6e6e6;
 }
-.gridTextBoxCell input {
-	padding: 0;
-}
 .childNode {
 	margin-left: 23px;
 }
@@ -213,12 +191,6 @@ input[type="checkbox"] {
 }
 .treeCellIcon {
 	padding-left: 4px;
-}
-.treeGrid {
-	border: 1px solid #a7abb4;
-}
-.gwt-Tree .gwt-TreeItem {
-	padding: 0;
 }
 .gwt-Tree .gwt-TreeItem-selected {
 	background: #ccc;
@@ -236,16 +208,16 @@ input[type="checkbox"] {
 	background-position: 0 1px;
 	width: 20px;
 	height: 20px;
-	float: left;
+}
+.close,.downarrow-button,.standard_label,.custom-combo,.editTable .comboBox .gwt-TextBox{
+	float:left;
 }
 table td,select,.gwt-Button {
 	font-size: 10pt;
-	font-weight: normal;
 }
 .Caption img,.gwt-TreeItem img {
 	padding-left: 8px;
 	padding-top: 2px;
-	vertical-align: top;
 }
 .message {
 	background: #FFFFCD none repeat scroll 0 0;
@@ -254,11 +226,9 @@ table td,select,.gwt-Button {
 	padding: 40px 0 0 !important;
 }
 .gridLabelCell img {
-	vertical-align: top;
 	margin-right: 3px !important;
 }
 select[multiple] {
-	background: #FFF;
 	border: 1px solid #A7ABB4 !important;
 }
 noindex:-o-prefocus,.table-checkbox-cell span input[type="checkbox"] {
@@ -268,13 +238,10 @@ noindex:-o-prefocus,.table-checkbox-cell span input[type="checkbox"] {
 .dropdown-disabled input[disabled],.dropdown-disabled input[disabled='disabled']
 ,.gwt-TextBox input[disabled],.gwt-TextBox input[disabled='disabled']{
 	background: none repeat scroll 0 0 #E6E0DA !important;
-    border: 1px solid #B1B1B1;
 	color: #b1a7ad;
 }
 textarea[disabled] {
 	background: none repeat scroll 0 0 #E6E0DA !important;
-    border: 1px solid #B1B1B1 !important;
-    border-radius: 3px 3px 3px 3px;
     color: #B1A7AD;
 }
 .ReportGrid tr td.underline {
@@ -282,27 +249,25 @@ textarea[disabled] {
 	border-bottom: 0px none;
 	border-left: 0px none;
 	border-right: 0px none;
-	cursor: default;
 }
 .selection-view {
 	background: #CDE3FB none repeat scroll 0 0;
 }
-.usd-errormsg {
+.usd-errormsg,.serverResponseLabelError,.star {
 	color: #E23333;
 }
 .gwt-DialogBox .Caption {
 	color: #555555;
 }
-
-.workflowFilterList,.report-toolbar .ibutton,.button-panel,.standard-options .ibutton,.Writecheck_addNew{
+.workflowFilterList,.report-toolbar .ibutton,.button-panel,.standard-options .ibutton,.Writecheck_addNew,
+.recoucilation_change button,.skip_start tr td button,.view_panel table table tr:last-child td .gwt-Button{
 	float: right !important;
 }
 .alternate-row {
 	background: #f1f8fe;
 }
-.helpContent {
-	background-color: #FFF;
-	border: 0 none;
+.helpContent,.measurePanel,.commentPanel,.portlet-body {
+	background-color: #FFFFFF;
 }
 
 .picture-link,.status,.blue-day-grid,.blue-month-line,.blue-week-line,.message,
@@ -321,40 +286,30 @@ textarea[disabled] {
 .vender-form textarea,.previous-container,.next-container,.action-panel,
 .welcome-panel,.finance-portlet .portlet .decor10,.fullSizePanel,.biz-decor-panel,
 .view_help_panel iframe,.progress_panel_show table
-,.gridEvenRow,.gridOddRow,.helpPanel,.view_panel,.HEADER_GRID,.financeWindow,.noScroll,.listgridfooter {
+,.gridEvenRow,.gridOddRow,.helpPanel,.view_panel,.HEADER_GRID,.financeWindow,.noScroll,.listgridfooter,
+.gridHeader,.toolbox,.companyInfoPanel,.MENU_BAR_BG,.error-panel,.commentPanel,#mainFooter,.portlet-body,.empty_menu_bar,.address {
 	width: 100%;
 }
-.biz-decor-panel {
-	table-layout: fixed;
+.biz-decor-panel,.page-layout,.MenuBarParent table,.dropdownFlex {
 	border-spacing: 0;
-	position: relative;
 }
 .no-title {
 	position: static !important;
 }
-.biz-decor-panel .decor01 {
-	position: relative;
+.biz-decor-panel .decor01,.page-layout {
 	top: 0;
 }
-.page-layout {
-	border-spacing: 0;
-	top: 0;
-}
-.td00,.td01,.td02,.td10,.td11,.td12,.td20,.td21,.td22 {
-	padding: 0;
-	margin: 0;
-}
-.td11,td.sidebar,.recounciliation_grid tbody tr{
+.td11,td.sidebar,.recounciliation_grid tbody tr,.gridLabelCell img,.Caption img,.gwt-TreeItem img,
+.memoFormAlign,.addrsFormCellAlign,td.td01,.no-title .biz-decor-panel td.td01{
 	vertical-align: top;
 }
 
-.td00,.td01,.td02,.decor00,.decor02,.no-title .biz-decor-panel .td00,.no-title .biz-decor-panel .td01,.no-title .biz-decor-panel .td02,.no-title .biz-decor-panel .decor00,.no-title .biz-decor-panel .decor02
-	{
+.td00,.td01,.td02,.decor00,.decor02,.no-title .biz-decor-panel .td00,.no-title .biz-decor-panel .td01,
+.no-title .biz-decor-panel .td02,.no-title .biz-decor-panel .decor00,.no-title .biz-decor-panel .decor02{
 	height: 29px;
 }
 
-.no-title .td00,.no-title .td01,.no-title .td02,.no-title .decor00,.no-title .decor02
-	{
+.no-title .td00,.no-title .td01,.no-title .td02,.no-title .decor00,.no-title .decor02{
 	height: 5px;
 }
 
@@ -371,11 +326,12 @@ html,body,.td12,.decor12,.decor10,.fullSizePanel,.imageLink-div,.action-vp,.grid
 }
 
 .no-title .decor00 {
-	background: transparent url(/images/title-shade-l.png) no-repeat scroll
-		3px 0;
+	background: transparent url(/images/title-shade-l.png) no-repeat scroll 3px 0;
 }
-.no-title td.td01 {
-	background: #FFFFFF none repeat scroll 0 0;
+.no-title td.td01,.main-w,td.td11,td.td10,.users-listGrid .gridBodyContainer .onsort,
+.workspaces-listGrid .gridBodyContainer .onsort,.dropdownFlex,.blue-day-grid,
+select[multiple],.selectedview_textareadata,#loading .loadingIndicator,.main-class-pannel,.recounciliation_grid,.editTable table{
+	background: none repeat scroll 0 0 #FFFFFF;
 }
 .decor11,div.gridBodyContainer,.action-panel .panelBody .panelContent,.action-panel,.scroll-panel {
 	overflow-x: hidden;
@@ -386,29 +342,21 @@ html,body,.td12,.decor12,.decor10,.fullSizePanel,.imageLink-div,.action-vp,.grid
 	font-size: 9pt;
 	margin-left: 1px;
 	margin-top: 7px;
-	position: relative;
 	text-transform: uppercase;
 }
-
-.border {
+.border,.treeGrid {
 	border: 1px solid #A7ABB4;
 }
 .address {
 	margin-top: 5px;
 	border: 1px solid #888888;
 	font-size: small;
-	width: 100%;
 }
 .address div {
 	height: 15px;
-	display: block;
 }
 .users-grid tr:hover {
 	background: #6bc3cb;
-}
-.workspace-panel .listgrid,.user-panel .listgrid,.workspace-panel .listgrid .gridBody tr td,.user-panel .listgrid .gridBody tr td
-	{
-	border: 0 none;
 }
 .plain00 {
 	padding-bottom: 6px;
@@ -430,15 +378,10 @@ html,body,.td12,.decor12,.decor10,.fullSizePanel,.imageLink-div,.action-vp,.grid
 .no-title .main-w {
 	padding: 0 5px;
 }
-.main-w,td.td11,td.td10,.users-listGrid .gridBodyContainer .onsort,
-.workspaces-listGrid .gridBodyContainer .onsort,.dropdownFlex,.blue-day-grid {
-	background: #FFFFFF;
-}
-.ele-disable,.menuPopupTop,.menuPopupMiddleLeft,.disconnected .gridLabelCell .gwt-HTML img,.listgridfooter{
+.ele-disable,.menuPopupTop,.menuPopupMiddleLeft,.disconnected .gridLabelCell .gwt-HTML img,.listgridfooter,.progress_panel_hide{
 	display: none;
 }
 .gwt-DialogBox .caption {
-	cursor: default;
 	height: 30px !important;
 	padding: 6px 4px 3px 6px !important;
 	border-top: 0 none !important;
@@ -459,7 +402,6 @@ html,body,.td12,.decor12,.decor10,.fullSizePanel,.imageLink-div,.action-vp,.grid
 }
 .gwt-TabBar .gwt-TabBarItem {
 	color: #FFF;
-	font-weight: normal;
 }
 .name-label,.label-company,.bold,.text-bold,.unreadmessage td,.tax-form tr td,.unused-payments td,
 .financialDataTitle:FIRST-CHILD,.selected-page,.plain-panel-title,
@@ -468,15 +410,15 @@ html,body,.td12,.decor12,.decor10,.fullSizePanel,.imageLink-div,.action-vp,.grid
 .label-title-list,.label-title,.error-panel,.inviteUserLabel,.invoice-total tr td div,.amountLabelPortlet,
 .selectedview_labelstyle,.selectedview_tiny_labelstyle,.selectedview_large_labelstyle,.selectedview_medium_labelstyle,
 .companyInfoPanel .header,.progress_header,.gwt-DecoratedTabBar .tabMiddleCenter,
-.plain00,.panel-title,.gwt-DialogBox .Caption,.headerlabel,.selectedview_textarea_label,.bottom_total_view td {
+.plain00,.panel-title,.gwt-DialogBox .Caption,.headerlabel,.selectedview_textarea_label,.bottom_total_view td,
+.select_industry,.organized_radio,.employee_yesno,.billing_question {
 	font-weight: bold;
 }
 .gwt-DecoratedTabBar .tabMiddleLeft,.gwt-DecoratedTabBar .tabMiddleRight{
-	padding: 0;
 	width: 6px;
 }
-.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleCenter,
-.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopCenter {
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleCenter,.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopCenter,
+.ReportGrid tr td.underline,.file-vat .gridRow,.ReportGrid tr td.underline,.ReportGrid tr td.underline,.boldcell,.gwt-DialogBox .caption {
 	cursor: default;
 }
 .gwt-DecoratedTabBar .tabMiddleCenter,.gwt-DecoratedTabBar .tabTopCenter,.gwt-DecoratedTabBar .tabTopLeft,
@@ -487,7 +429,9 @@ html,body,.td12,.decor12,.decor10,.fullSizePanel,.imageLink-div,.action-vp,.grid
 .gwt-DecoratedTabBar .tabMiddleCenter {
 	padding: 0 4px 2px;
 }
-.gwt-DecoratedTabBar .tabTopCenter {
+.gwt-DecoratedTabBar .tabTopCenter,.gwt-DecoratedTabBar .tabMiddleLeft,.gwt-DecoratedTabBar .tabMiddleRight,
+.menubar-devider,.gwt-SuggestBox,.gwt-TextBox,.gwt-PasswordTextBox,.gridSelectBoxCell .downarrow-button,
+.gwt-Tree .gwt-TreeItem,.gridTextBoxCell input,input[type="checkbox"],.main-finance-window {
 	padding: 0;
 }
 .gwt-DecoratedTabBar .tabTopLeft,.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopLeft {
@@ -534,16 +478,9 @@ html,body,.td12,.decor12,.decor10,.fullSizePanel,.imageLink-div,.action-vp,.grid
 }
 .widget { 
 	background: none repeat scroll 0 0 #E3E3E3;
-	width: 100% !important;
 }
 .GL0PBETBEC {
 	background: none repeat scroll 0 0 #F3F4F4 !important;
-}
-.GL0PBETBEC div,.GL0PBETBED div {
-	font-size: 12px;
-}
-.GL0PBETBED {
-	background: none repeat scroll 0 0 #E8E8E8 !important;
 }
 .removeHeadBorder {
 	border-top: 0px !important;
@@ -566,15 +503,11 @@ html,body,.td12,.decor12,.decor10,.fullSizePanel,.imageLink-div,.action-vp,.grid
 	border-left: 1px solid #8fbbe9;
 	border-bottom: 1px solid #8fbbe9;
 }
-.boldcell {
-	cursor: default;
-}
 .ReportGrid tr td.underline {
 	border-top: 1px solid black;
 	border-bottom: 0px solid black;
 	border-left: 0px none;
 	border-right: 0px none;
-	cursor: default;
 }
 .popup {
 	border: 1px solid #aaa;
@@ -595,7 +528,6 @@ html,body,.td12,.decor12,.decor10,.fullSizePanel,.imageLink-div,.action-vp,.grid
 	border-bottom: 0px none;
 	border-left: 0px none;
 	border-right: 0px none;
-	cursor: default;
 }
 .ReportGrid .gridBody tr td {
 	border-right: 0px none !important;
@@ -653,7 +585,7 @@ html,body,.td12,.decor12,.decor10,.fullSizePanel,.imageLink-div,.action-vp,.grid
 .margin-b {
 	margin-bottom: 10px;
 }
-.table-fixed,.listgridfooter {
+.table-fixed,.listgridfooter,.biz-decor-panel {
 	table-layout: fixed !important;
 }
 .dateList {
@@ -664,10 +596,9 @@ html,body,.td12,.decor12,.decor10,.fullSizePanel,.imageLink-div,.action-vp,.grid
 }
 .borders {
 	border-top: 1px solid #000;
-	border-bottom: 1px solid #000;
 	padding: 5px;
 }
-.borders td {
+.borders td,.borders {
 	border-bottom: 1px solid #000;
 }
 .borders td td {
@@ -679,9 +610,6 @@ html,body,.td12,.decor12,.decor10,.fullSizePanel,.imageLink-div,.action-vp,.grid
 .finance-portlet .portlet {
 	margin-top: 2px;
 	padding: 0 !important;
-}
-.loading-panel tr td {
-	border: 0 none !important;
 }
 .report-toolbar {
 	padding-right: 3px;
@@ -697,11 +625,7 @@ tr.net-profit td {
 	padding-right: 5px;
 }
 .custom-combo {
-	border: 1px solid #B1B1B1;
-    border-radius: 3px 3px 3px 3px;
-    float: left;
     height: 22px !important;
-    position: relative;
 }
 .dropdownTable {
 	  overflow-x:hidden !important;
@@ -709,9 +633,6 @@ tr.net-profit td {
 }
 .dropdownFlex td,.button-layout button,.action-panel .panelContent a {
 	white-space: nowrap;
-}
-.dropdownFlex{
-	border-spacing: 0;
 }
 .gwt-DecoratedTabBar .tabTopLeftInner,.gwt-DecoratedTabBar .tabTopRightInner
 	{
@@ -723,7 +644,6 @@ tr.net-profit td {
 }
 .listgrid .custom-combo {
 	height: 22px !important;
-	width: 100% !important;
 }
 .disable-TextField {
 	background: none repeat scroll 0 0 #E6E0DA;
@@ -736,10 +656,7 @@ tr.net-profit td {
 .gwt-MenuBar-vertical .subMenuIcon-selected,.addAccountPortlet,.addButtonPortlet,.account_portlet {
 	background: none repeat scroll 0 0 #29646C !important;
 }
-.gwt-MenuBar-vertical {
-	border: 0px none !important;
-}
-.tablelayout,.tablelayout1,.tablelayoutInIE,.tablelayoutInIE1 {
+.tablelayout,.tablelayout1,.tablelayoutInIE,.tablelayoutInIE1,.listgrid .custom-combo,.widget,.invoice-total {
 	width: 100% !important
 }
 .ReportGrid tr td {
@@ -782,25 +699,22 @@ tr.net-profit td {
     background: -o-linear-gradient(top,  #3299A4,  #1A5158) !important;
 }
 .gwt-MenuBar-horizontal {
-	border: 0 !important;
 	margin-top: 0px\0  !important;
 	padding-left:11px;
 }
 .empty_menu_bar{
     padding: 16px;
-    width: 100%;
     margin-top:13px;
 }
 .gwt-MenuBar-horizontal .gwt-MenuItem { 
-	font-weight: normal !important;
 	vertical-align: bottom;
-	border: 0 none !important;
 	height: 31px;
 	padding: 5px 10px 8px !important;
-	font-size: 12px;
 	height: 20px\0  !important;
 }
-.gwt-MenuBar-vertical .subMenuIcon-selected {
+.gwt-MenuBar-vertical .subMenuIcon-selected,.gwt-MenuBar-horizontal .gwt-MenuItem,.gwt-MenuBar-horizontal,
+.gwt-MenuBar-vertical,.loading-panel tr td,.workspace-panel .listgrid,.user-panel .listgrid,.workspace-panel .listgrid .gridBody tr td,
+.user-panel .listgrid .gridBody tr td,.helpContent,.gwt-MenuBar-vertical .gwt-MenuItemSeparator .menuSeparatorInner,.custom-button{
 	border: 0px none !important;
 }
 .gwt-MenuBarPopup {
@@ -815,10 +729,7 @@ td.td01,.no-title .biz-decor-panel td.td01,.viewTitle,.blue-month-line,.blue-wee
 .helpdialog .dialogTopCenter table div,.breadcrumb a,.helpdialog .dialogTopCenterInner .caption .gwt-HTML,.recounciliation_grid thead th {
 	color: #FFFFFF !important;
 }
-td.td01,.no-title .biz-decor-panel td.td01 {
-	vertical-align: top;
-}
-.decor02,.no-title .biz-decor-panel div.decor02 {
+.decor02,.no-title .biz-decor-panel div.decor02,.gwt-DialogBox .dialogTopRight {
 	  border-radius: 0 5px 0 0;
 	  -webkit-border-radius:0 5px 0 0;
 	  -moz-border-radius:0 5px 0 0;
@@ -829,9 +740,11 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	background: none !important;
 	-background: none !important;
 }
+.gwt-PopupPanel,#loading,.gwt-StackPanelContent{
+	padding: 0px !important;
+}
 .gwt-PopupPanel {
 	border: 1px solid #1A5158 !important;
-	padding: 0px !important;
 	z-index: 500000;
 }
 
@@ -840,7 +753,6 @@ td.td01,.no-title .biz-decor-panel td.td01 {
     border-radius: 5px 5px 5px 5px;
     display: inline;
     float: left !important;
-    font-weight: normal;
     height: 25px !important;
     margin: 0 3px !important;
     padding: 0 5px 5px !important;
@@ -849,39 +761,31 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 .gwt-Button:hover,.image-button-hover,.gwt-Button,.addAccountPortlet,.addButtonPortlet,.account_portlet{
 	border:1px solid #002E36 !important;
 }
-.gwt-Button:hover,.image-button-hover{
-	background-color:#002e36 !important;
-}
 .custom-button {
 	background: url("/images/Button_1x27.png") repeat-x scroll 0 0
 		transparent !important;
 	height: 29px !important;
 	padding: 0 25px 5px 5px !important;
-	border: 0px none !important;
-	border-radius: 3px 3px 3px 3px !important;
 	font-size: 13px !important;
 }
 .gwt-MenuBarPopup table tr {
 	margin-top: -3px;
 }
-.MenuBarParent table {
-	border-spacing: 0px;
-}
-
 .header {
 	margin-left: 0 !important;
 }
-
-.gwt-Label {
+.gwt-Label,.gwt-MenuBar-horizontal .gwt-MenuItem,.GL0PBETBEC div,.GL0PBETBED div,.gridHeader td.gridHeaderCell,
+.gwt-HTML,.gwt-MenuBar table tr td {
 	font-size: 12px;
 }
-.portletLabel {
+.gridBody tr td,.companyInfoPanel .header,.label-title-list,.gwt-RadioButton label,.portletLabel {
 	font-size: 13px;
+}
+.portletLabel {
 	margin-top: -2px;
 }
 .invoice-total {
 	margin: 10px 0;
-	width: 100% !important;
 }
 .invoice-total tr td div {
 	margin: 0 4px !important;
@@ -906,7 +810,6 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 }
 .userName-style {
 	background: url("/images/User.png") no-repeat scroll 0 3px transparent;
-	color: #3299A4 !important;
 	padding: 5px 5px 5px 21px;
 }
 .standard-options {
@@ -914,7 +817,6 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	width: 99.4%;
 }
 .standard_label {
-	float: left;
 	margin: 5px 0 0 15px;
 }
 .terms-payment-area {
@@ -925,23 +827,21 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	width: 200px;
 	height: 75px;
 }
-.menubar-devider {
-	padding: 0px;
+.gwt-TextBox,.gwt-TextArea,.memoTextArea,textarea[disabled],.gwt-ListBox,.company_Info_table .gwt-ListBox,.refer_listbox,
+.fiscal_listbox,.currency_listbox,.gridTextBoxCell input[type="text"],.custom-button,.custom-combo{
+	border-radius: 3px 3px 3px 3px !important;
 }
-.gwt-TextBox {
+.gwt-TextBox,.gwt-TextArea,.memoTextArea,.gwt-ListBox,.company_Info_table .gwt-ListBox,.refer_listbox,.fiscal_listbox,
+.currency_listbox,.gridTextBoxCell input[type="text"],.dropdown-disabled input[disabled],.dropdown-disabled input[disabled='disabled']
+,.gwt-TextBox input[disabled],.gwt-TextBox input[disabled='disabled'],.custom-combo,textarea[disabled] {
 	border: 1px solid #B1B1B1;
-    border-radius: 3px 3px 3px 3px;
 }
 .gwt-TextArea {
-	border: 1px solid #B1B1B1;
-    border-radius: 3px 3px 3px 3px;
     height: 65px;
     resize: none;
     padding:0px 5px !important;
 }
 .memoTextArea {
-	border: 1px solid #B1B1B1;
-    border-radius: 4px 4px 4px 4px;
     height: 65px;
     resize: none;
     width: 359px !important;
@@ -949,14 +849,15 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 .memoTextArea[disabled] {
 	color: #b1a7ad;
 }
+.downarrow-button,.custom-combo,.panel-title,.biz-decor-panel .decor01,.biz-decor-panel,.toolbox,#mainFooter{
+	position: relative;
+}
 .downarrow-button {
 	background: url("/images/Drop-down-button_20x22.png") no-repeat scroll 0
 		0 transparent !important;
-	float: left;
 	height: 22px !important;
 	margin-left: -22px;
 	margin-left: -23px\0  !important;
-	position: relative;
 	width: 22px;
 	z-index: 1;
 	margin-top:1px;
@@ -964,19 +865,17 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 .gwt-MenuBar-vertical .gwt-MenuItemSeparator .menuSeparatorInner {
 	background: url("/images/Menu list seperator.png") repeat scroll 0 0
 		transparent !important;
-	border: 0 none !important;
 	height: 2px !important;
 }
 .gwt-MenuBar table tr td {
 	color: #F3F3F3 !important;
-	font-size: 12px;
 }
 .gwt-TabPanelBottom {
 	border-color: #1A5158 !important;
 	border-width: 1px !important;
 	background: none repeat scroll 0 0 #F0F0F0 !important;
 }
-.logout-html a,.help-style span {
+.logout-html a,.help-style span,.userName-style,.helpBar {
 	color: #3299A4 !important;
 }
 .gwt-MenuBar-vertical .gwt-MenuItem {
@@ -988,12 +887,10 @@ td.td01,.no-title .biz-decor-panel td.td01 {
     box-shadow: 0 2px 10px #1A5158;
     padding: 15px;
 }
-.button_bar{
+.button_bar,.panel-right-align{
 	float:right;
 }
 .gridTextBoxCell input[type="text"] {
-	border: 1px solid #B1B1B1;
-    border-radius: 3px 3px 3px 3px;
 	height: 22px !important;
 	padding: 0 0 0 5px;
 }
@@ -1006,7 +903,6 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	float: none\0;
 	width: 22px;
 	z-index: 1;
-	padding: 0px;
 }
 .accounter-button-seperater {
 	background: url("/images/Divider.png") no-repeat scroll 0 0 transparent
@@ -1017,12 +913,9 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	width: 2px;
 }
 .panel-right-align {
-	float: right;
 	margin-top:5px;
 }
 .portlet-body {
-	background-color: white;
-	width: 100%;
 	margin-top: 10px\0  !important;
 	border-radius: 0 0 5px 5px;
 	-webkit-border-radius:0 0 5px 5px;
@@ -1033,11 +926,9 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 		0 transparent !important;
 }
 .addrsFormCellAlign {
-	vertical-align: top;
 	padding-top: 3px;
 }
 .memoFormAlign {
-	vertical-align: top;
 	width: 55px;
 }
 .gwt-DialogBox .dialogTopLeft {
@@ -1045,12 +936,6 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	 -webkit-border-radius:5px 0 0 0;
 	 -moz-border-radius:5px 0 0 0;
 	 height: 16px;
-}
-.gwt-DialogBox .dialogTopRight {
-	width: 5px;
-	border-radius: 0 5px 0 0;
-	-webkit-border-radius:0 5px 0 0;
-	-moz-border-radius:0 5px 0 0;
 }
 .gwt-DialogBox .dialogBottomLeft {
 	-moz-border-radius: 0px 0px 0 5px;
@@ -1071,14 +956,15 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 .inviteUserLabel {
 	margin-top: 10px;
 }
-iframe {
+iframe,.address div {
 	display: block;
+}
+.helpBar,.gwt-Button,.gwt-MenuBar-horizontal .gwt-MenuItem,.gwt-TabBar .gwt-TabBarItem,table td,select,.gwt-Button{
+	font-weight: normal !important;
 }
 .helpBar {
 	background: url("/images/Help.png") no-repeat scroll 0 0 transparent
 		!important;
-	color: #3299A4 !important;
-	font-weight: normal !important;
 	margin-top: -2px !important;
 	padding-left: 21px !important;
 	height: 14px;
@@ -1088,7 +974,7 @@ iframe {
 	color: #545454 !important;
 	font-size: 20px;
 	margin-left: 30px;
-	padding: 4px 5px 5px;
+	padding: 4px 200px;
 	margin-top: 20px;
 }
 .general-setting-invoice {
@@ -1118,7 +1004,8 @@ iframe {
 	margin-top: 3px;
 	height: 16px;
 }
-.gwt-DialogBox .dialogTopLeftInner,.dialogMiddleRightInner ,.discussion-dialog .dialogMiddleLeft,.discussion-dialog .dialogMiddleRight{
+.gwt-DialogBox .dialogTopLeftInner,.dialogMiddleRightInner ,.discussion-dialog .dialogMiddleLeft,
+.discussion-dialog .dialogMiddleRight,.gwt-DialogBox .dialogTopRight{
 	width: 5px !important;
 }
 .report-toolbar input[type="text"] {
@@ -1128,34 +1015,29 @@ iframe {
 	width: 105px !important;
 }
 .commentPanel {
-	border: 1px solid gray;
-	background-color: #FFFFFF;
-	width: 100%;
 	margin: 15px 15px 0px;
 }
 .error-panel li{
-	list-style-type:none;
+	list-style-type: none;
 }
 .error-panel{
 	background: none repeat scroll 0 0 #FFEBE8;
     border: 1px solid red;
     margin-bottom: 10px;
-    width: 100%;
-    padding: 10px;
 }
 .help-data {
 	margin-bottom: 280px !important;
 }
 .main-class-pannel { 
 	border: 1px solid #1A5158;
-	background: #fff;
+}
+.main-class-pannel,.change_password_view,.error-panel,#loading .loadingIndicator,.skip_setup,.start_setup{
 	padding: 10px;
 }
 .change_password_view {
 	border-color: #989898;
 	border-style: solid;
 	border-width: 1px 1px;
-	padding: 10px;
 }
 .down-panel {
 	font-weight: bold !important;
@@ -1167,7 +1049,6 @@ iframe {
     height: auto;
     margin: 0;
     min-height: 100%;
-    padding: 0;
 }
 .setting-class-panel {
 	border-color: #989898;
@@ -1185,7 +1066,6 @@ iframe {
 .measurePanel {
 	margin-top: 80px;
 	border: #989898 solid 1px;
-	background-color: #FFFFFF;
 	padding: 2px;
 }
 .rightBorder {
@@ -1209,9 +1089,6 @@ iframe {
 }
 .name-item {
 	margin-left: 75px;
-}
-.gwt-HTML {
-	font-size: 12px;
 }
 /* Only for chrome */
 @media screen and (-webkit-min-device-pixel-ratio:0) {
@@ -1285,9 +1162,6 @@ noindex:-o-prefocus,.phone-fax-formatter td .gwt-TextBox {
 noindex:-o-prefocus,.ibutton {
 	margin-right: 5px !important;
 }
-.file-vat .gridRow {
-	cursor: default !important;
-}
 .button-expense {
 	margin-top: 20px;
 }
@@ -1297,12 +1171,15 @@ noindex:-o-prefocus,.ibutton {
 .invoice-branding-html p font,.user-html p font,.company-settings-html p font{
 	font-size: 20px;
 }
-.new_service_table td input[type="checkbox"],.new_service_table td .gwt-TextArea,.new_service_table td .gwt-TextBox,.new_service_table td .custom-combo,.new_service_table td label,.purchase_info_form td input[type="checkbox"],.purchase_info_form td .gwt-TextArea,.purchase_info_form td .gwt-TextBox,.purchase_info_form td .custom-combo,.purchase_info_form td label,.service-item-group td input[type="checkbox"],.service-item-group td .gwt-TextBox,.service-item-group td .custom-combo,.service-item-group td label
+.new_service_table td input[type="checkbox"],.new_service_table td .gwt-TextArea,.new_service_table td .gwt-TextBox,
+.new_service_table td .custom-combo,.new_service_table td label,.purchase_info_form td input[type="checkbox"],
+.purchase_info_form td .gwt-TextArea,.purchase_info_form td .gwt-TextBox,.purchase_info_form td .custom-combo,
+.purchase_info_form td label,.service-item-group td input[type="checkbox"],.service-item-group td .gwt-TextBox,
+.service-item-group td .custom-combo,.service-item-group td label
 	{
 	float: left\0;
 }
 .MENU_BAR_BG {
-	width: 100%;
 	margin-top:18px;
 }
 .help-panel tr td table td {
@@ -1317,9 +1194,6 @@ noindex:-o-prefocus,.ibutton {
 input[type="text"],textarea {
 	padding:0px 5px;
 }
-.gwt-RadioButton label {
-	font-size: 13px;
-}
 .portlet-body .ibutton {
 	margin-left: 10px;
 }
@@ -1330,8 +1204,10 @@ input[type="text"],textarea {
 .gwt-DialogBox .dialogTopRightInner{
 	width:5px !important;
 }
-.setup_panel{
+.setup_panel,.commentPanel,.skip_setup,.start_setup{
  	border: 1px solid gray;
+}
+.setup_panel{
     height: 500px;
     margin: 4em auto;
     width: 800px;
@@ -1348,7 +1224,6 @@ input[type="text"],textarea {
 .progress_panel_hide{
 	border-right: 1px solid gray;
     padding-right: 25px;
-    display: none;
 }
 .view_button{
 	padding-left:30px;
@@ -1432,17 +1307,19 @@ input[type="text"],textarea {
 .image-button:hover{
 	background-color:#002E36;
 }
-.cancle-Btn{
+.cancle-Btn,.grouped-buttons td:FIRST-CHILD .image-button,.grouped-buttons td:last-child .image-button,.grouped-buttons .image-button{
 	background-color: #E4E4E4 !important;
+}
+.cancle-Btn{
     border: 1px solid #A0A0A0 !important;
     color: black !important;
     padding-left:22px !important;
     padding:0 5px 0 22px\0 !important;
 }
-.cancle-Btn:hover{
+.cancle-Btn:hover,.cancle-Btn:hover,.cancle-Btn-hover{
 	background-color:#A0A0A0 !important;
 }
-.grouped-buttons{
+.grouped-buttons,.progress_panel_data td .gwt-Label,.progress_panel table tr td{
 	padding:5px 0px;
 }
 .Empty-text{
@@ -1481,7 +1358,6 @@ input[type="text"],textarea {
 }
 .grouped-buttons td:FIRST-CHILD .image-button,.grouped-buttons td:last-child .image-button,.grouped-buttons .image-button{
 	border-color:#a0a0a0;
-    background-color: #e4e4e4;
     background-color: #e4e4e4\0 !important;
     color:black;
     color:black\0 !important;
@@ -1497,7 +1373,6 @@ input[type="text"],textarea {
 }
 .cancle-Btn:hover,.cancle-Btn-hover{
 	border:1px solid #A0A0A0 !important;
-	background-color:#A0A0A0 !important;
 }
 .report-toolbar .downarrow-button{
 	width:47px\0 !important;
@@ -1505,20 +1380,16 @@ input[type="text"],textarea {
 .ReportGrid .gridHeaderRow td:FIRST-CHILD,.ReportGrid .gridEvenRow td:FIRST-CHILD{
 	width:inherit !important;
 }
+.panel-right-align .gwt-Button button,.td00,.td01,.td02,.td10,.td11,.td12,.td20,.td21,.td22{
+	margin: 0;
+    padding: 0;
+}
 .panel-right-align .gwt-Button button{
 	background: none repeat scroll 0 0 #1A5158;
     border: medium none;
-    margin: 0;
-    padding: 0;
 }
 .label-title{
 	font-size: 18px;
-}
-.label-title-list {
-    font-size: 13px;
-}
-.progress_panel table tr td{
-	padding:5px 0px;
 }
 .caption table td:FIRST-CHILD img{
 	padding-right:5px;
@@ -1539,8 +1410,6 @@ input[type="text"],textarea {
 	clear: both;
     height: 25px;
     margin-top: -35px;
-    position: relative;
-    width: 100%;
     z-index: 10;
     border-top: 1px solid #CCCCCC;
     color: #666666;
@@ -1557,11 +1426,9 @@ input[type="text"],textarea {
 	text-transform: lowercase;
 }
 .skip_setup,.start_setup{
-	border: 1px solid gray;
     margin: 50px 15px 10px;
-    padding: 10px;
 }
-.skip_setup td:last-child,.start_setup td:last-child,.editTable .header{
+.skip_setup td:last-child,.start_setup td:last-child{
 	text-align:center;
 }
 .skip_setup .gwt-Button,.start_setup .gwt-Button{
@@ -1572,7 +1439,6 @@ input[type="text"],textarea {
 	padding-right:30px;
 }
 .skip_start tr td button{
-	float: right !important;
     margin: 20px 100px 0 0 !important;
 }
 .setup_Info,.company_Info_table{
@@ -1584,9 +1450,7 @@ input[type="text"],textarea {
 .company_Info_table .gwt-ListBox,.refer_listbox,.fiscal_listbox,.currency_listbox{
 	  width: 193px;
 }
-.company_Info_table .gwt-ListBox,.refer_listbox,.fiscal_listbox,.currency_listbox{
-	border: 1px solid #B1B1B1;
-    border-radius: 3px 3px 3px 3px;
+.company_Info_table .gwt-ListBox,.refer_listbox,.fiscal_listbox,.currency_listbox,.gridTextBoxCell input[type="text"]{
     box-shadow: 1px 2px 2px #CCCCCC inset;
     -moz-box-shadow: 1px 2px 2px #CCCCCC inset;
     -webkit-box-shadow:1px 2px 2px #CCCCCC inset;
@@ -1614,9 +1478,6 @@ input[type="text"],textarea {
 }
 .settings_later{
 	padding:10px 0px;
-}
-.select_industry,.organized_radio,.employee_yesno,.billing_question{
-	font-weight:bold;
 }
 .organisation_Info{
 	color:black;
@@ -1686,9 +1547,6 @@ input[type="text"],textarea {
 .setup_accounts{
 	padding-top:20px;
 }
-.progress_panel_data td .gwt-Label{
-	padding:5px 0px;
-}
 .finance-portlet td:FIRST-CHILD table,.finance-portlet table{
 	width:100% !important;
 }
@@ -1734,7 +1592,6 @@ body, table td, select,.gwt-Button,textarea,input,label{
 	margin:5px;
 }
 .view_panel table table tr:last-child td .gwt-Button{
-	float:right !important;
 	margin:14px 14px 0 0 !important;
 }
 .abstract_base_view{
@@ -1751,7 +1608,6 @@ body, table td, select,.gwt-Button,textarea,input,label{
 	padding:10px !important;
 }
 .gwt-StackPanelContent{
-	padding: 0px !important;
 	border-radius:0 0 8px 8px !important;
 	border:1px solid #2D8B93 !important;
 }
@@ -1760,13 +1616,9 @@ body, table td, select,.gwt-Button,textarea,input,label{
     border-color: #2D8B93;
     border-top: 1px solid #2D8B93;
     padding: 8px;
-    width: 100%;
 }
 .gwt-StackPanel{
 	border-bottom: 0px !important;
-}
-.companyInfoPanel .header{
-	font-size: 13px;
 }
 .contentSelected{
 	background:#ccc;
@@ -1794,9 +1646,11 @@ a#fdbk_tab{
 	border-bottom:0 none !important;
 	height:25px;
 }
-.recounciliation_grid{
+.recounciliation_grid,.editTable{
 	border:1px solid #2D8B93;
-	background:#ffffff;
+}
+.editTable{
+	height:200px;
 }
 #branding,.group-toolbar,.editTable .header,.gwt-StackPanel .gwt-StackPanelItem,.recounciliation_grid thead tr{
 	background: -moz-linear-gradient(top, #3299A4, #2D8B93) !important;
@@ -1837,43 +1691,32 @@ a#fdbk_tab{
 .helpdialog .view_help_panel iframe{
 	height:auto !important;
 }
-
-
-
-.editTable .comboBox .gwt-TextBox{
-	float:left;
-}
 .editTable .gwt-TextBox{
 	width:100%;
 	border:0 none;
 	padding:0px !important;
 	border-radius:0px !important; 
 }
-.editTable table{
-   background:#fff;
-}
-
 .editTable .header td{
     padding: 5px;
-    border:0 none !important;
+}
+.editTable .header td{
+	border-color: #55B8C1;
+}
+.editTable .header td,.editTable td{
+	border-style: solid;
+    border-width: 0 1px 1px 0;
 }
 .editTable td{
 	border-color: #CCCCCC;
-    border-style: solid;
-    border-width: 0 0 1px 1px;
-}
-.editTable td:last-child{
-	border-right:1px solid #ccc !important;
 }
 .gwt-ListBox {
-    border: 1px solid #B1B1B1;
     padding-top:2px;
-    border-radius: 3px 3px 3px 3px;
     height: 24px;
     vertical-align: bottom;
     width: 154px;
 }
-.dropdownFlex .GI4MLOCBID,.user_activity_log tr:nth-child(even){
+.dropdownFlex .GI4MLOCBID,.user_activity_log tr:nth-child(even),.GL0PBETBED,.gridEvenRow{
 	background:none repeat scroll 0 0 #E8E8E8 !important;
 }
 .user_activity_log tr:nth-child(even) td,.user_activity_log tr:nth-child(even):hover{
@@ -1883,6 +1726,5 @@ a#fdbk_tab{
 	margin-left: 90px;
 }
 .recoucilation_change button {
-	float: right !important;
 	margin-right: 150px !important;
 }
