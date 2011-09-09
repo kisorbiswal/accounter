@@ -8,13 +8,10 @@
 body {
 	overflow: auto !important;
 }
-.viewTitle,.blue-month-line,.blue-week-line{
-	color: #ffffff;
-}
 .viewTitle{
 	margin: 3px 0 0 10px;
 }
-a{
+a,.falseHyperlink,.update-link span,.actionOver,#mainFooter a:hover,.hr-reports a,.handCursor{
     text-decoration: underline;
 }
 .panelTitle {
@@ -26,9 +23,12 @@ a{
 .imageLink img {
 	margin-right: 3px;
 }
+#loading,.gridSelectBoxCell .downarrow-button,.portlet .panel-title,.page-layout,.gwt-DecoratedPopupPanel,
+.gwt-MenuBarPopup,.accounter-button-seperater {
+	position: absolute;
+}
 #loading {
 	border: 1px solid #ccc;
-	position: absolute;
 	left: 45%;
 	top: 40%;
 	padding: 0px !important;
@@ -70,11 +70,8 @@ a{
 	border-radius:3px 3px 3px 3px;
 }
 .gwt-MenuBarPopup {
-	overflow: visible;
 	left: 441px;
 	top: 117px;
-	visibility: visible;
-	position: absolute;
 	z-index: 500000;
 }
 .selectedview_labelstyle,.selectedview_tiny_labelstyle,.selectedview_large_labelstyle,.selectedview_medium_labelstyle{
@@ -87,12 +84,10 @@ a{
 }
 .selectedview {
 	background: #D2D2C6;
-	overflow: hidden;
 }
 .headerlabel {
 	background: none repeat scroll 0 0 #999999;
 	line-height: 1.6;
-	text-align: center;
 }
 .selectedview_textareadata {
 	background: #FFF;
@@ -103,12 +98,15 @@ a{
 	text-align: justify;
 	margin: 0 2px;
 }
-.gwt-DecoratedPopupPanel {
+.gwt-DecoratedPopupPanel,.gwt-MenuBarPopup,.address div{
 	overflow: visible;
-	position: absolute;
+}
+.gwt-DecoratedPopupPanel {
 	z-index: 500000;
 }
-.gwt-DecoratorPanel .bottomLeft,.gwt-DecoratorPanel .topCenter,.gwt-DecoratorPanel .bottomCenter,.gwt-DecoratorPanel .bottomRight,.gwt-DecoratorPanel .middleRight,.gwt-DecoratorPanel .middleLeft,.gwt-DecoratorPanel .middleRight,.gwt-DecoratorPanel .topLeft,.gwt-DecoratorPanel .topRight
+.gwt-DecoratorPanel .bottomLeft,.gwt-DecoratorPanel .topCenter,.gwt-DecoratorPanel .bottomCenter,
+.gwt-DecoratorPanel .bottomRight,.gwt-DecoratorPanel .middleRight,.gwt-DecoratorPanel .middleLeft,
+.gwt-DecoratorPanel .middleRight,.gwt-DecoratorPanel .topLeft,.gwt-DecoratorPanel .topRight
 	{
 	background: none !important;
 }
@@ -120,13 +118,13 @@ a{
 	height: 22px !important;
 	padding: 0px;
 }
-.gridBody1 tr td div {
-	overflow: hidden;
-	font-size: 10pt;
+.gridBody1 tr td div,.selectedview,.childNode tr td,.parentNode tr td,.gridBody tr td div,.gridHeader tr td div{
 	overflow: hidden;
 }
+.gridBody1 tr td div {
+	font-size: 10pt;
+}
 .gridHeader {
-	border-collapse: collapse;
 	height: 21px;
 	width: 100%;
 	border-bottom:1px solid #1a1a1a;
@@ -145,14 +143,14 @@ a{
 .gridHeader td.gridHeaderCell {
 	font-size: 12px;
 }
-.selected {
-	background: #CCCCCC !important;
+.selected, table tr.ReportGridRow:HOVER,.gridAscend,.gridDecend,table.dropdownFlex tr:hover,.gwt-ListBox option:HOVER,
+.report-toolbar,.datePickerDayIsValue{
+	background: none repeat scroll 0 0 #CCCCCC !important;
 }
-.gridBody,.gridHeader,.blue-day-grid,.dropdownFlex{
+.gridBody,.gridHeader,.blue-day-grid,.dropdownFlex,.gridHeader,.editTable table,.invoice-total,.borders,.biz-decor-panel{
 	border-collapse: collapse;
 }
 .gridBody tr td div,.gridHeader tr td div {
-	overflow: hidden;
 	height: 18px;
 	white-space: nowrap;
 }
@@ -168,12 +166,8 @@ noindex:-o-prefocus,.gridBody tr td {
 	cursor: e-resize;
 	margin: 0 auto;
 	width: 1px;
-	height: 100%;
 	color: #e6e6e6;
 	background: black;
-}
-.gridBody tbody {
-	height: 100%;
 }
 .listgrid {
 	border-style: solid !important;
@@ -215,7 +209,6 @@ input[type="checkbox"] {
 	margin-left: 23px;
 }
 .childNode tr td,.parentNode tr td {
-	overflow: hidden;
 	border: none;
 }
 .treeCellIcon {
@@ -259,7 +252,6 @@ table td,select,.gwt-Button {
 	border: 1px solid #AAAAAA;
 	font-size: 14px;
 	padding: 40px 0 0 !important;
-	text-align: center;
 }
 .gridLabelCell img {
 	vertical-align: top;
@@ -312,11 +304,9 @@ textarea[disabled] {
 	background-color: #FFF;
 	border: 0 none;
 }
-.update-link span,.actionOver,#mainFooter a:hover,
-.hr-reports a{
-	text-decoration: underline;
-}
-.picture-link,.status,.blue-day-grid,.blue-month-line,.blue-week-line {
+
+.picture-link,.status,.blue-day-grid,.blue-month-line,.blue-week-line,.message,
+.headerlabel,.progress_header,#mainFooter,.companyName {
 	text-align: center;
 }
 .image-pointer,select[multiple] option,.gridHeadCell,.gridRow,.gridBody1 tr:HOVER,
@@ -329,17 +319,15 @@ textarea[disabled] {
 .myacc-form1 td input[type=text],.gridBodyContainer,.gridHeader tr td div,.builder,
 .finance_window,.group-toolbar,.vender-form input[type="text"],.vender-form select,
 .vender-form textarea,.previous-container,.next-container,.action-panel,
-.welcome-panel,.finance-portlet .portlet .decor10,.fullSizePanel,
+.welcome-panel,.finance-portlet .portlet .decor10,.fullSizePanel,.biz-decor-panel,
 .view_help_panel iframe,.progress_panel_show table
 ,.gridEvenRow,.gridOddRow,.helpPanel,.view_panel,.HEADER_GRID,.financeWindow,.noScroll,.listgridfooter {
 	width: 100%;
 }
 .biz-decor-panel {
 	table-layout: fixed;
-	border-collapse: collapse;
 	border-spacing: 0;
 	position: relative;
-	width: 100%;
 }
 .no-title {
 	position: static !important;
@@ -350,7 +338,6 @@ textarea[disabled] {
 }
 .page-layout {
 	border-spacing: 0;
-	position: absolute;
 	top: 0;
 }
 .td00,.td01,.td02,.td10,.td11,.td12,.td20,.td21,.td22 {
@@ -378,7 +365,8 @@ textarea[disabled] {
 .td00,.decor00,.td10,.td20,.decor20,.td02,.decor02,.td12,.decor12,.td22,.decor22 {
 	width: 8px;
 }
-.td12,.decor12,.decor10,.fullSizePanel,.imageLink-div,.action-vp{
+html,body,.td12,.decor12,.decor10,.fullSizePanel,.imageLink-div,.action-vp,.gridBody tbody,
+.grid-resizeable-proxy-column,.portlet-body,.no-title .main-w{
 	height: 100%;
 }
 
@@ -414,7 +402,6 @@ textarea[disabled] {
 .address div {
 	height: 15px;
 	display: block;
-	overflow: visible;
 }
 .users-grid tr:hover {
 	background: #6bc3cb;
@@ -442,7 +429,6 @@ textarea[disabled] {
 }
 .no-title .main-w {
 	padding: 0 5px;
-	height: 100%;
 }
 .main-w,td.td11,td.td10,.users-listGrid .gridBodyContainer .onsort,
 .workspaces-listGrid .gridBodyContainer .onsort,.dropdownFlex,.blue-day-grid {
@@ -451,13 +437,8 @@ textarea[disabled] {
 .ele-disable,.menuPopupTop,.menuPopupMiddleLeft,.disconnected .gridLabelCell .gwt-HTML img,.listgridfooter{
 	display: none;
 }
-.gridAscend,.gridDecend { 
-	background: #CCCCCC !important;
-}
 .gwt-DialogBox .caption {
-	background:none repeat scroll 0 0 #1A5158 !important;
 	cursor: default;
-	color: white;
 	height: 30px !important;
 	padding: 6px 4px 3px 6px !important;
 	border-top: 0 none !important;
@@ -466,11 +447,14 @@ textarea[disabled] {
 	background: none repeat scroll 0 0 #eeeeee !important;
 	padding: 3px;
 }
-.gwt-DialogBox .dialogMiddleRight,.gwt-DialogBox .dialogMiddleLeft,
-.gwt-DialogBox .dialogBottomCenter,.gwt-DialogBox .dialogTopLeft,.gwt-DialogBox .dialogTopRight{
-	background:none repeat scroll 0 0 #1A5158 !important;
-}
-.gwt-DialogBox .dialogBottomLeft {
+.gwt-DialogBox .dialogMiddleRight,.gwt-DialogBox .dialogMiddleLeft,.gwt-DialogBox .dialogBottomLeft,
+.gwt-DialogBox .dialogBottomCenter,.gwt-DialogBox .dialogTopLeft,.gwt-DialogBox .dialogTopRight,
+.gwt-DialogBox .dialogTopRight,.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleRight,
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopRight,.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopLeft,
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleLeft,.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleRight,
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleCenter,.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopCenter,
+.gwt-DialogBox .caption,.gwt-DialogBox .dialogBottomCenter,.gwt-DialogBox .dialogBottomRight,
+.gwt-DialogBox .dialogBottomLeft,.gwt-DialogBox .dialogMiddleRight,.gwt-DialogBox .dialogMiddleLeft,.gwt-Button{
 	background:none repeat scroll 0 0 #1A5158 !important;
 }
 .gwt-TabBar .gwt-TabBarItem {
@@ -487,60 +471,40 @@ textarea[disabled] {
 .plain00,.panel-title,.gwt-DialogBox .Caption,.headerlabel,.selectedview_textarea_label {
 	font-weight: bold;
 }
-.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleLeft,.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleRight{
-	background: none repeat scroll 0 0 #1A5158 !important;
-}
 .gwt-DecoratedTabBar .tabMiddleLeft,.gwt-DecoratedTabBar .tabMiddleRight{
-	background: none repeat scroll 0 0 #39828B !important;
 	padding: 0;
 	width: 6px;
 }
 .gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleCenter,
 .gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopCenter {
-	background:none repeat scroll 0 0 #1A5158 !important;
 	cursor: default;
 }
-.gwt-DecoratedTabBar .tabMiddleCenter {
+.gwt-DecoratedTabBar .tabMiddleCenter,.gwt-DecoratedTabBar .tabTopCenter,.gwt-DecoratedTabBar .tabTopLeft,
+.gwt-DecoratedTabBar .tabTopRight,.gwt-DecoratedTabBar .tabMiddleLeft,.gwt-DecoratedTabBar .tabMiddleRight,
+.gwt-MenuBar-vertical,.gwt-DecoratedTabBar .tabMiddleLeft{
 	background: none repeat scroll 0 0 #39828B !important;
-	color: #FFFFFF;
+}
+.gwt-DecoratedTabBar .tabMiddleCenter {
 	padding: 0 4px 2px;
 }
 .gwt-DecoratedTabBar .tabTopCenter {
-	background: none repeat scroll 0 0 #39828B !important;
 	padding: 0;
 }
-.gwt-DecoratedTabBar .tabTopLeft {
-	 background: none repeat scroll 0 0 #39828B !important;
+.gwt-DecoratedTabBar .tabTopLeft,.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopLeft {
      border-radius: 4px 0 0 0;
      -webkit-border-radius:4px 0 0 0;
      -moz-border-radius:4px 0 0 0;
 }
-.gwt-DecoratedTabBar .tabTopRight {
-	 background: none repeat scroll 0 0 #39828B !important;
+.gwt-DecoratedTabBar .tabTopRight,.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopRight {
      border-radius: 0 4px 0 0;
      -webkit-border-radius:0 4px 0 0;
      -moz-border-radius:0 4px 0 0;
 }
-.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopLeft {
-	background: none repeat scroll 0 0 #1A5158 !important;
-    border-radius: 4px 0 0 0;
-    -webkit-border-radius:4px 0 0 0;
-	-moz-border-radius:4px 0 0 0;
-}
-.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopRight {
-	background: none repeat scroll 0 0 #1A5158 !important;
-    border-radius: 0px 4px 0 0;
-    -webkit-border-radius:0px 4px 0 0;
-	-moz-border-radius:0px 4px 0 0;
-}
-.datePickerWeekdayLabel,.datePickerWeekendLabel {
+.datePickerWeekdayLabel,.datePickerWeekendLabel,.financialDataTitle {
 	background: #BBBBBB none repeat scroll 0 0;
 }
 .datePickerMonthSelector{
 	background:none repeat scroll 0 0 #3299A4 !important;
-}
-.datePickerDayIsValue {
-	background: #CCCCCC none repeat scroll 0 0;
 }
 .datePickerPreviousButton,.datePickerNextButton,td.datePickerMonth {
 	color: #000;
@@ -563,12 +527,6 @@ textarea[disabled] {
 }
 .tabMiddleCenter,.gwt-Image,.MenuBarParent tr td  {
 	margin: 0px !important;
-}
-.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleRight {
-	background: none repeat scroll 0 0 #1A5158 !important;
-}
-.gwt-DecoratedTabBar .tabMiddleLeft {
-	background:none repeat scroll 0 0 #39828B !important;
 }
 @font-face {
 	font-family: "ColabThi";
@@ -595,11 +553,6 @@ textarea[disabled] {
 }
 .portlet .panel-title { 
 	left: 0;
-	position: absolute;
-	color: white;
-}
-html,body {
-	height: 100% !important;
 }
 .widget img {
 	margin-top: 3px;
@@ -632,7 +585,6 @@ html,body {
 	background:#F0F0F0;
 }
 .handCursor {
-	text-decoration: underline;
 	color: #44700C;
 	white-space: nowrap;
 	margin-bottom: 10px;
@@ -650,9 +602,6 @@ html,body {
 	padding-left: 5px;
 	overflow-x: hidden;
 	border-bottom: 0px none !important;
-}
-table tr.ReportGridRow:HOVER {
-	background: none repeat scroll 0 0 #CCCCCC !important;
 }
 .listgridfooter {
 	background: #EEEEEE none repeat scroll 0 0;
@@ -710,16 +659,12 @@ table tr.ReportGridRow:HOVER {
 .dateList {
 	min-width: 15px !important;
 }
-.financialDataTitle {
-	background: #BBBBBB;
-}
 .column-seperater {
 	padding: 0 30px;
 }
 .borders {
 	border-top: 1px solid #000;
 	border-bottom: 1px solid #000;
-	border-collapse: collapse;
 	padding: 5px;
 }
 .borders td {
@@ -739,7 +684,6 @@ table tr.ReportGridRow:HOVER {
 	border: 0 none !important;
 }
 .report-toolbar {
-	background: #CCCCCC;
 	padding-right: 3px;
 }
 .logview-border {
@@ -751,7 +695,6 @@ tr.net-profit td {
 }
 .ReportGrid td.gridDecimalCell {
 	padding-right: 5px;
-	text-align: right !important;
 }
 .custom-combo {
 	border: 1px solid #B1B1B1;
@@ -774,9 +717,6 @@ tr.net-profit td {
 	{
 	width: 3px !important;
 }
-table.dropdownFlex tr:hover,.gwt-ListBox option:HOVER { 
-	background: #CCCCCC !important;
-}
 .dropdown-button {
 	padding-right: 22px !important;
 	padding-left: 3px;
@@ -792,11 +732,11 @@ table.dropdownFlex tr:hover,.gwt-ListBox option:HOVER {
 .finance-portlet .portlet .gridBody tr td div {
 	font-size: 10pt;
 }
-.gwt-MenuBar .gwt-MenuItem-selected,.gwt-MenuBar-vertical .subMenuIcon-selected{
-	background: #29646c !important;
+.gwt-MenuBar .gwt-MenuItem-selected,.gwt-MenuBar-vertical .subMenuIcon-selected,
+.gwt-MenuBar-vertical .subMenuIcon-selected,.addAccountPortlet,.addButtonPortlet,.account_portlet {
+	background: none repeat scroll 0 0 #29646C !important;
 }
 .gwt-MenuBar-vertical {
-	background: none repeat scroll 0 0 #39828B !important;
 	border: 0px none !important;
 }
 .tablelayout,.tablelayout1,.tablelayoutInIE,.tablelayoutInIE1 {
@@ -822,7 +762,6 @@ table.dropdownFlex tr:hover,.gwt-ListBox option:HOVER {
 }
 .falseHyperlink {
 	color: blue;
-	text-decoration: underline;
 }
 .label-banking {
 	font-size: 12pt;
@@ -835,26 +774,24 @@ table.dropdownFlex tr:hover,.gwt-ListBox option:HOVER {
 	background: none repeat scroll 0 0 #b7b7b7 !important;
 	border:1px solid #858585 !important;
 }
-.gwt-MenuBar-horizontal {
+.gwt-MenuBar-horizontal,.empty_menu_bar,.menubar-devider,td.td01,.no-title .biz-decor-panel td.td01,
+.decor02,.no-title .biz-decor-panel div.decor02{
 	background: -moz-linear-gradient(top,  #3299A4,   #1A5158) !important;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4', endColorstr='#1A5158'); /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#1A5158)) !important; /* for webkit browsers */
     background: -o-linear-gradient(top,  #3299A4,  #1A5158) !important;
+}
+.gwt-MenuBar-horizontal {
 	border: 0 !important;
 	margin-top: 0px\0  !important;
 	padding-left:11px;
 }
 .empty_menu_bar{
-	background: -moz-linear-gradient(top,  #3299A4,   #1A5158) !important;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4', endColorstr='#1A5158'); /* for IE */
-    background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#1A5158)) !important; /* for webkit browsers */
-    background: -o-linear-gradient(top,  #3299A4,   #1A5158);
     padding: 16px;
     width: 100%;
     margin-top:13px;
 }
 .gwt-MenuBar-horizontal .gwt-MenuItem { 
-	color: #ffffff !important;
 	font-weight: normal !important;
 	vertical-align: bottom;
 	border: 0 none !important;
@@ -864,7 +801,6 @@ table.dropdownFlex tr:hover,.gwt-ListBox option:HOVER {
 	height: 20px\0  !important;
 }
 .gwt-MenuBar-vertical .subMenuIcon-selected {
-	background: none repeat scroll 0 0 #29646C !important;
 	border: 0px none !important;
 }
 .gwt-MenuBarPopup {
@@ -873,19 +809,16 @@ table.dropdownFlex tr:hover,.gwt-ListBox option:HOVER {
 .decor00,.no-title .biz-decor-panel div.decor00 {
 	  background:background:none repeat scroll 0 0 #29646C;
 }
+td.td01,.no-title .biz-decor-panel td.td01,.viewTitle,.blue-month-line,.blue-week-line,.gwt-DecoratedTabBar .tabMiddleCenter,
+.gwt-StackPanel .gwt-StackPanelItem,.panel-right-align .gwt-Button button,.image-button,.portletLabel,.custom-button,.gwt-Button,
+.portlet .panel-title,.gwt-DialogBox .caption,.editTable .header td,.view_help_panel td:FIRST-CHILD table div,
+.helpdialog .dialogTopCenter table div,.breadcrumb a,.helpdialog .dialogTopCenterInner .caption .gwt-HTML,.recounciliation_grid thead th {
+	color: #FFFFFF !important;
+}
 td.td01,.no-title .biz-decor-panel td.td01 {
-	background: -moz-linear-gradient(top, #3299A4, #1A5158) !important;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4', endColorstr='#1A5158'); 
-    background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#1A5158)) !important;
-    background: -o-linear-gradient(top, #3299A4, #1A5158);
-	color: #FFFFFF;
 	vertical-align: top;
 }
 .decor02,.no-title .biz-decor-panel div.decor02 {
-	background: -moz-linear-gradient(top, #3299A4, #1A5158) !important;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4', endColorstr='#1A5158'); 
-    background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#1A5158)) !important;
-    background: -o-linear-gradient(top, #3299A4, #1A5158);
 	  border-radius: 0 5px 0 0;
 	  -webkit-border-radius:0 5px 0 0;
 	  -moz-border-radius:0 5px 0 0;
@@ -902,27 +835,25 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 }
 
 .gwt-Button {
-	background: none repeat scroll 0 0 #1A5158 !important;
 	background: none repeat scroll 0 0 #1A5158\0;
     border-radius: 5px 5px 5px 5px;
-    color: white;
     display: inline;
     float: left !important;
     font-weight: normal;
     height: 25px !important;
     margin: 0 3px !important;
     padding: 0 5px 5px !important;
-     padding: 4px 5px 5px\0 !important;
-    border:1px solid #002E36 !important;
+    padding: 4px 5px 5px\0 !important;
+}
+.gwt-Button:hover,.image-button-hover,.gwt-Button,.addAccountPortlet,.addButtonPortlet,.account_portlet{
+	border:1px solid #002E36 !important;
 }
 .gwt-Button:hover,.image-button-hover{
 	background-color:#002e36 !important;
-	border:1px solid #002E36 !important;
 }
 .custom-button {
 	background: url("/images/Button_1x27.png") repeat-x scroll 0 0
 		transparent !important;
-	color: white !important;
 	height: 29px !important;
 	padding: 0 25px 5px 5px !important;
 	border: 0px none !important;
@@ -944,12 +875,10 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	font-size: 12px;
 }
 .portletLabel {
-	color: white !important;
 	font-size: 13px;
 	margin-top: -2px;
 }
 .invoice-total {
-	border-collapse: collapse;
 	margin: 10px 0;
 	width: 100% !important;
 }
@@ -996,10 +925,6 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	height: 75px;
 }
 .menubar-devider {
-	background: -moz-linear-gradient(top,  #3299A4,   #1A5158) !important;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4', endColorstr='#1A5158'); /* for IE */
-    background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#1A5158)) !important; /* for webkit browsers */
-    background: -o-linear-gradient(top, #3299A4, #1A5158);
 	padding: 0px;
 }
 .gwt-TextBox {
@@ -1078,7 +1003,6 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	height: 22px;
 	margin-left: -18px;
 	float: none\0;
-	position: absolute;
 	width: 22px;
 	z-index: 1;
 	padding: 0px;
@@ -1089,7 +1013,6 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	height: 25px;
 	margin-left: 5px;
 	margin-top: -2px;
-	position: absolute;
 	width: 2px;
 }
 .panel-right-align {
@@ -1098,7 +1021,6 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 }
 .portlet-body {
 	background-color: white;
-	height: 100%;
 	width: 100%;
 	margin-top: 10px\0  !important;
 	border-radius: 0 0 5px 5px;
@@ -1124,29 +1046,22 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	 height: 16px;
 }
 .gwt-DialogBox .dialogTopRight {
-	background:none repeat scroll 0 0 #1A5158 !important;
 	width: 5px;
 	border-radius: 0 5px 0 0;
 	-webkit-border-radius:0 5px 0 0;
 	-moz-border-radius:0 5px 0 0;
 }
-.gwt-DialogBox .dialogMiddleRight,.gwt-DialogBox .dialogMiddleLeft {
-	background: none repeat scroll 0 0 #1A5158 !important;
-}
 .gwt-DialogBox .dialogBottomLeft {
-	background: none repeat scroll 0 0 #1A5158 !important;
 	-moz-border-radius: 0px 0px 0 5px;
 	-webkit-radius-border: 0px 0px 0 5px;
 	border-radius: 0px 0px 0 5px;
 }
 .gwt-DialogBox .dialogBottomRight {
-	background: none repeat scroll 0 0 #1A5158 !important;
 	-moz-border-radius: 0px 0 5px 0px;
 	-webkit-radius-border: 0px 0 5px 0px;
 	border-radius: 0px 0 5px 0px;
 }
 .gwt-DialogBox .dialogBottomCenter {
-	background: none repeat scroll 0 0 #1A5158 !important;
 	height: 5px;
 }
 .calendar-picker {
@@ -1173,7 +1088,6 @@ iframe {
 	font-size: 20px;
 	margin-left: 30px;
 	padding: 4px 5px 5px;
-	text-align: center;
 	margin-top: 20px;
 }
 .general-setting-invoice {
@@ -1421,7 +1335,6 @@ input[type="text"],textarea {
 .progress_panel_show{
 	background: none repeat scroll 0 0 #ECECEC;
     padding-right: 15px;
-    visibility: visible;
     width:190px;
 }
 .progress_panel_data{
@@ -1442,10 +1355,6 @@ input[type="text"],textarea {
     padding-bottom: 15px;
 }
 .group-toolbar{
-	background: -moz-linear-gradient(top,  #3299A4,   #2D8B93) !important;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4', endColorstr='#2D8B93'); /* for IE */
-    background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#2D8B93)) !important; /* for webkit browsers */
-    background: -o-linear-gradient(top,  #3299A4,   #2D8B93);
     box-shadow: 0 -6px 10px #1A5158;
     -moz-box-shadow:0 -6px 10px #1A5158;
     -webkit-box-shadow:0 -6px 10px #1A5158;
@@ -1489,8 +1398,6 @@ input[type="text"],textarea {
 }
 .addAccountPortlet,.addButtonPortlet,.account_portlet{
 	margin-left:30px !important;
-	background:none repeat scroll 0 0 #29646C !important;
-	border:1px solid #002E36 !important;
 	margin-top:10px !important;
 }
 .addAccountPortlet:hover,.addButtonPortlet:hover{
@@ -1508,7 +1415,6 @@ input[type="text"],textarea {
     color: white\0 !important;
     
     border: 1px solid #002E36;
-    color: white;
     padding-left: 27px !important;
     padding:0 5px 0 27px\0 !important;
     border-radius:5px 5px 5px 5px;
@@ -1598,7 +1504,6 @@ input[type="text"],textarea {
 .panel-right-align .gwt-Button button{
 	background: none repeat scroll 0 0 #1A5158;
     border: medium none;
-    color: white;
     margin: 0;
     padding: 0;
 }
@@ -1636,7 +1541,6 @@ input[type="text"],textarea {
     border-top: 1px solid #CCCCCC;
     color: #666666;
     padding-top: 8px;
-    text-align: center;
 }
 #mainFooter a,#mainFooter span{
 	 color: #666666;
@@ -1653,7 +1557,7 @@ input[type="text"],textarea {
     margin: 50px 15px 10px;
     padding: 10px;
 }
-.skip_setup td:last-child,.start_setup td:last-child{
+.skip_setup td:last-child,.start_setup td:last-child,.editTable .header{
 	text-align:center;
 }
 .skip_setup .gwt-Button,.start_setup .gwt-Button{
@@ -1684,22 +1588,24 @@ input[type="text"],textarea {
     -webkit-box-shadow:1px 2px 2px #CCCCCC inset;
     height: 24px;
 }
-.tick_hidden{
-	visibility: hidden;
+.tick_hidden,.tick_show{
 	padding-right:5px;
 }
-.tick_show{
+.tick_hidden{
+	visibility: hidden;
+}
+.tick_show,.progress_panel_show,.gwt-MenuBarPopup{
 	visibility: visible;
-	padding-right:5px;
 }
 .progress_header{
 	color: #000000;
     font-size: 20px;
     margin-top: 10px;
-    text-align: center;
+}
+.company_Info_table tr td:FIRST-CHILD,.amount,.ReportGrid td.gridDecimalCell{
+	text-align: right;
 }
 .company_Info_table tr td:FIRST-CHILD {
-	text-align: right;
 	padding-right:25px;
 }
 .settings_later{
@@ -1834,11 +1740,6 @@ body, table td, select,.gwt-Button,textarea,input,label{
 	display:none;
 }
 .gwt-StackPanel .gwt-StackPanelItem {
-	background: -moz-linear-gradient(center top , #3299A4, #2D8B93) repeat scroll 0 0 transparent !important;
-	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#2D8B93)) !important;  /* for webkit browsers */
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4', endColorstr='#2D8B93') !important; /* for IE */
-	background: -o-linear-gradient(top,  #3299A4,  #2D8B93);
-    color: white;
     padding: 6px !important;
     border-radius: 8px 8px 0 0 !important;
 }
@@ -1881,44 +1782,27 @@ input[type="text"]:FOCUS, textarea:FOCUS{
 	border: 1px solid #3299A4;
     box-shadow: 0 0 5px #3299A4;
 }
-/*Help theme need to apply for help*/
-/*#page a{
-    color:#2D8B93 !important;
+a#fdbk_tab{
+	top:50% !important;
 }
-#branding h1.page-title{
-	color:white !important;
+.recounciliation_grid thead th{
+	text-shadow: none !important;
+	border-bottom:0 none !important;
 }
-#page{
-	margin:0 10px !important;
-	padding:0px !important;
+.recounciliation_grid{
+	margin-top:20px;
 }
-.book-navigation .page-links{
-	margin:15px 0 0 15px;
+.recounciliation_grid{
+	/*height:400px;*/
+	border:1px solid #2D8B93;
 }
-#branding{
-	 padding: 10px 10px 0 !important;
-}*/
-.breadcrumb a{
-	color:white;
-}
-.view_help_panel td:FIRST-CHILD table div,.helpdialog .dialogTopCenter table div{
-	color:white;
-}
-#branding{
+#branding,.group-toolbar,.editTable .header,.gwt-StackPanel .gwt-StackPanelItem,.recounciliation_grid thead tr{
 	background: -moz-linear-gradient(top, #3299A4, #2D8B93) !important;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4', endColorstr='#2D8B93'); /* for IE */
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4', endColorstr='#2D8B93') !important; /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#2D8B93)) !important; /* for webkit browsers */
     background: -o-linear-gradient(top,  #3299A4,   #2D8B93);
 }
-.helpdialog .dialogTopCenterInner .caption .gwt-HTML{
-	color:white;
-}
 .view_help_panel td:FIRST-CHILD table,.helpdialog .dialogTopCenter table{
-	background:-moz-linear-gradient(center top , #493F39, #3D2F29) repeat scroll 0 0 transparent !important;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#493F39', endColorstr='#3D2F29'); /* for IE */
-    background: -webkit-gradient(linear, left top, left bottom, from(#493F39), to(#3D2F29)) !important; /* for webkit browsers */
-    background: -o-linear-gradient(top,  #493F39, #3D2F29);
-   /* background: -moz-linear-gradient(center top , #DCF7FA, #6FBFC6) repeat scroll 0 0 transparent !important; match to accounter*/
     height: 32px;
     width:101% !important;
 }
@@ -1932,9 +1816,10 @@ input[type="text"]:FOCUS, textarea:FOCUS{
 }
 .helpdialog .caption,.helpdialog .dialogTopLeft,
 .helpdialog .dialogTopRight,.helpdialog .dialogMiddleLeft,.helpdialog .dialogMiddleRight,
-.helpdialog .dialogBottomLeft,.helpdialog .dialogBottomCenter,.helpdialog .dialogBottomRight{
+.helpdialog .dialogBottomLeft,.helpdialog .dialogBottomCenter,.helpdialog .dialogBottomRight,
+.view_help_panel td:FIRST-CHILD table,.helpdialog .dialogTopCenter table{
 	background:-moz-linear-gradient(center top , #493F39, #3D2F29) repeat scroll 0 0 transparent !important;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#493F39', endColorstr='#3D2F29'); /* for IE */
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#493F39', endColorstr='#3D2F29') !important; /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(#493F39), to(#3D2F29)) !important; /* for webkit browsers */
     background: -o-linear-gradient(top,  #493F39, #3D2F29);
 }
@@ -1963,18 +1848,10 @@ input[type="text"]:FOCUS, textarea:FOCUS{
 	border-radius:0px !important; 
 }
 .editTable table{
-   border-collapse: collapse;
    background:#fff;
 }
-.editTable .header{
-	text-align:center;
-	background:-moz-linear-gradient(center top , #3299A4, #2D8B93) repeat scroll 0 0 transparent !important;
-	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#2D8B93)); /* for webkit browsers */
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4', endColorstr='#2D8B93') !important; /* for IE */
-	background: -o-linear-gradient(top,  #3299A4,  #2D8B93);
-}
+
 .editTable .header td{
-	color: white;
     padding: 5px;
     border:0 none !important;
 }
@@ -1986,9 +1863,6 @@ input[type="text"]:FOCUS, textarea:FOCUS{
 .editTable td:last-child{
 	border-right:1px solid #ccc !important;
 }
-.amount{
-	text-align: right;
-}
 .gwt-ListBox {
     border: 1px solid #B1B1B1;
     padding-top:2px;
@@ -1997,25 +1871,15 @@ input[type="text"]:FOCUS, textarea:FOCUS{
     vertical-align: bottom;
     width: 154px;
 }
-.dropdownFlex .GI4MLOCBID{
+.dropdownFlex .GI4MLOCBID,.user_activity_log tr:nth-child(even){
 	background:none repeat scroll 0 0 #E8E8E8 !important;
 }
-/*.user_activity_log .GCCSC1UCID,.GCCSC1UCID{
-	background:none repeat scroll 0 0 #E8E8E8 !important;
-}
-.user_activity_log .GCCSC1UCPC{
-	background:none repeat scroll 0 0 #EEEEEE !important;
-}
-.user_activity_log .GCCSC1UCJD{
+.user_activity_log tr:nth-child(even) td,.user_activity_log tr:nth-child(even):hover{
 	border:2px solid #E8E8E8 !important;
 }
-.user_activity_log .GCCSC1UCAD{
-	border:2px solid #EEEEEE !important;
-}*/
 .recouncilation_value {
 	margin-left: 90px;
 }
-
 .recoucilation_change button {
 	float: right !important;
 	margin-right: 150px !important;
