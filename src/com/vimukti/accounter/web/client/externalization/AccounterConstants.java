@@ -4676,6 +4676,16 @@ public interface AccounterConstants extends Constants {
 
 	public String classTracking();
 
+	public String useDifferentTitle();
+
+	public String useDifferentComapanyName();
+
+	public String useDifferentAddrerss();
+
+	public String useDifferentEmail();
+
+	public String useDifferentPhoneNumber();
+
 	public String classWarning();
 
 	public String classesonsales();
