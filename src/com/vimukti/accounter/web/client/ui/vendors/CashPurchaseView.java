@@ -468,13 +468,11 @@ public class CashPurchaseView extends
 			billToAreaItem.setValue(getValidAddress(billingAddress));
 		} else
 			billToAreaItem.setValue("");
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			for (ClientTransactionItem item : vendorTransactionTable
-					.getRecords()) {
-				if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT)
-					vendorTransactionTable.setVendorTaxCode(item);
-			}
+		long code = vendor.getTAXCode();
+		if (code == 0) {
+			code = Accounter.getCompany().getDefaultTaxCode();
 		}
+		vendorTransactionTable.setTaxCode(code);
 
 	}
 
