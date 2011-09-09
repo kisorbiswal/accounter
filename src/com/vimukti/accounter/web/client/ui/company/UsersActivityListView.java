@@ -102,8 +102,7 @@ public class UsersActivityListView extends BaseView {
 		ClientFinanceDate endDate = toDate.getEnteredDate();
 		activityList.setFromDate(startDate);
 		activityList.setEndDate(endDate);
-		activityList.setVisibleRangeAndClearData(
-				activityList.getVisibleRange(), true);
+		activityList.setVisibleRange(0, 50);
 	}
 
 	@Override

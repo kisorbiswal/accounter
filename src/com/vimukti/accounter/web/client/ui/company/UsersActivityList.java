@@ -41,7 +41,7 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 							public void onSuccess(
 									PaginationList<ClientActivity> result) {
 								updateRowData(start, result);
-								setRowCount(result.getTotalCount(), false);
+								setRowCount(result.getTotalCount());
 							}
 
 							@Override
@@ -51,7 +51,7 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 						});
 			}
 		};
-		setPageSize(10);
+		setPageSize(50);
 		listDataProvider.addDataDisplay(this);
 
 		this.setWidth("100%", true);
