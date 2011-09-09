@@ -306,8 +306,8 @@ public abstract class TransactionPayBillTable extends
 					onSelectionChanged(row, true);
 					double payment = Double.parseDouble(DataUtils
 							.getReformatedAmount(value.toString()) + "");
-					// row.setPayment(payment);
-					// updateAmountDue(row);
+					row.setPayment(payment);
+					updateAmountDue(row);
 					adjustAmountAndEndingBalance();
 					updateFootervalues(row, canEdit);
 					update(row);
@@ -395,8 +395,8 @@ public abstract class TransactionPayBillTable extends
 	 * the footer values
 	 */
 	public void updateValue(ClientTransactionPayBill obj) {
-		// obj.setPayment(obj.getAmountDue());
-		// updateAmountDue(obj);
+		obj.setPayment(obj.getAmountDue());
+		updateAmountDue(obj);
 		updateTotalPayment(obj);
 		update(obj);
 	}
@@ -749,6 +749,8 @@ public abstract class TransactionPayBillTable extends
 	private void addTdsColumn() {
 		this.addColumn(new TextEditColumn<ClientTransactionPayBill>() {
 
+		
+
 			@Override
 			protected String getValue(ClientTransactionPayBill row) {
 				ClientTAXItem taxItem = Accounter.getCompany().getTAXItem(
@@ -773,7 +775,7 @@ public abstract class TransactionPayBillTable extends
 			@Override
 			protected void setValue(ClientTransactionPayBill row, String value) {
 				// TODO Auto-generated method stub
-
+				
 			}
 		});
 	}

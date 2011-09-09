@@ -18,6 +18,12 @@
 				<g:RadioButton name="sell_type" ui:field="both" />
 				<g:Label ui:field="bothText" styleName="organisation_comment" />
 			</g:VerticalPanel>
+			<g:VerticalPanel ui:field="vat" styleName="sales_tax">
+				<g:HTML wordWrap="true" ui:field="vatHeader" styleName="setup_header_label" />
+				<g:RadioButton name="vat" ui:field="vatYes" styleName="employee_yesno" />
+				<g:RadioButton name="vat" ui:field="vatNo" styleName="employee_yesno" />
+			</g:VerticalPanel>
+			
 			<g:VerticalPanel ui:field="salesTax" styleName="sales_tax">
 				<g:HTML wordWrap="true" ui:field="salesTaxHead" styleName="setup_header_label" />
 				<g:RadioButton name="sales_tax" ui:field="salesTaxYes" styleName="employee_yesno" />

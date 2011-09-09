@@ -11,10 +11,10 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.ProductCombo;
 import com.vimukti.accounter.web.client.ui.combo.ServiceCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
@@ -264,9 +264,10 @@ public abstract class VendorTransactionTable extends
 				switch (validationcount++) {
 				case 1:
 					if (item.getAccountable() == null) {
-						result.addError(row + "," + 1, Accounter.messages()
-								.pleaseEnter(
-										UIUtils.getTransactionTypeName(item
+						result.addError(
+								row + "," + 1,
+								Accounter.messages().pleaseEnter(
+										Utility.getTransactionName(item
 												.getType())));
 					}
 					// ,
@@ -275,8 +276,9 @@ public abstract class VendorTransactionTable extends
 					if (accountingType == ClientCompany.ACCOUNTING_TYPE_UK
 							&& item.getType() != ClientTransactionItem.TYPE_SALESTAX) {
 						if (item.getTaxCode() == 0) {
-							result.addError(row + "," + 6, Accounter.messages()
-									.pleaseEnter(
+							result.addError(
+									row + "," + 6,
+									Accounter.messages().pleaseEnter(
 											Accounter.constants().vatCode()));
 						}
 						// .vatCode());

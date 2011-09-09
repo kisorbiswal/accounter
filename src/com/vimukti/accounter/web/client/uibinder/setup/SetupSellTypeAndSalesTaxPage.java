@@ -49,6 +49,15 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 	@UiField
 	Label headerLabel;
 
+	@UiField
+	VerticalPanel vat;
+	@UiField
+	RadioButton vatNo;
+	@UiField
+	RadioButton vatYes;
+	@UiField
+	HTML vatHeader;
+
 	interface SetupSellTypeAndSalesTaxPageUiBinder extends
 			UiBinder<Widget, SetupSellTypeAndSalesTaxPage> {
 	}
@@ -77,16 +86,22 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		productsOnlyText.setText(accounterConstants.productsOnly());
 		both.setText(accounterConstants.bothservicesandProduct_labelonly());
 		bothText.setText(accounterConstants.bothServicesandProducts());
+
+		salesTaxHead.setHTML(accounterConstants.doyouchargesalestax());
 		salesTaxNo.setText(accounterConstants.no());
 		salesTaxYes.setText(accounterConstants.yes());
+
+		vatHeader.setHTML(Accounter.constants().doyouchargeVat());
+		vatNo.setText(accounterConstants.no());
+		vatYes.setText(accounterConstants.yes());
+
 		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			salesTaxHead.setText(Accounter.constants().doyouchargeVat());
-		} else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			salesTaxHead.setText(accounterConstants.doyouchargesalestax());
-		} else {
-			salesTaxHead.setText("");
+			salesTax.setVisible(false);
 		}
 
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			vat.setVisible(false);
+		}
 	}
 
 	@Override
@@ -100,10 +115,10 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		if (sellServices && sellProducts)
 			both.setValue(true);
 
-		if (preferences.isChargeSalesTax()) {
-			salesTaxYes.setValue(true);
+		if (preferences.isRegisteredForVAT()) {
+			vatYes.setValue(true);
 		} else {
-			salesTaxNo.setValue(true);
+			vatNo.setValue(true);
 		}
 		if (preferences.isChargeSalesTax()) {
 			salesTaxYes.setValue(true);
@@ -124,11 +139,9 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 			preferences.setSellProducts(true);
 		}
 
-		if (salesTaxYes.getValue()) {
-			preferences.setChargeSalesTax(true);
-		} else {
-			preferences.setChargeSalesTax(false);
-		}
+		preferences.setRegisteredForVAT(vatYes.getValue());
+
+		preferences.setChargeSalesTax(salesTaxYes.getValue());
 
 	}
 

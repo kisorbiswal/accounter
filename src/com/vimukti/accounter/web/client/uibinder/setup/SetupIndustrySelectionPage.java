@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @author Administrator
@@ -105,8 +106,8 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 	@Override
 	protected boolean validate() {
 		if (industryList.getSelectedIndex() == -1) {
-			//Accounter.showError(accounterConstants.selectYourIndustry());
-			return true;
+			Accounter.showError(accounterConstants.selectYourIndustry());
+			return false;
 		} else {
 			return true;
 		}
