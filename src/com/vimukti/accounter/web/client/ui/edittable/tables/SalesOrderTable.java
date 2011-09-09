@@ -5,7 +5,9 @@ import java.util.Arrays;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.IAccountable;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
@@ -65,6 +67,22 @@ public abstract class SalesOrderTable extends CustomerTransactionTable {
 						return false;
 					}
 				};
+			}
+
+			@Override
+			protected void setValue(ClientTransactionItem row,
+					IAccountable newValue) {
+				row.setAccountable(newValue);
+				if (newValue != null) {
+					ClientItem selectItem = (ClientItem) newValue;
+					row.setUnitPrice(selectItem.getSalesPrice());
+					row.setTaxable(selectItem.isTaxable());
+					if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+						row.setTaxCode(selectItem.getTaxCode() != 0 ? selectItem
+								.getTaxCode() : 0);
+					}
+					applyPriceLevel(row);
+				}
 			}
 
 		});
