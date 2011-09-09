@@ -847,6 +847,7 @@ public interface AccounterMessages extends Messages {
 
 	public String selectAccountsToAssign(String account);
 
+	public String to(String string, String string2);
 
 	public String MISC1099TransactionDetailByVendor(String vendor);
 }

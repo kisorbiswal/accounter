@@ -4634,6 +4634,14 @@ public interface AccounterConstants extends Constants {
 
 	public String ClearedAmount();
 
+	public String ReconciliationsList();
+
+	public String selectBankAccount();
+
+	public String ReconciliationDate();
+
+	public String ReconciliationPeriod();
+
 	public String tdsSelection();
 
 	public String doYouWantTDS();
