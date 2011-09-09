@@ -500,7 +500,6 @@ public class ClientTransactionItem implements IAccounterCore {
 	}
 
 	public void setAccountable(IAccountable value) {
-		type = value.getType();
 		switch (type) {
 		case TYPE_ACCOUNT:
 			tAccount = (ClientAccount) value;
@@ -516,7 +515,7 @@ public class ClientTransactionItem implements IAccounterCore {
 		}
 		name = value.getName();
 	}
-	
+
 	public void setClientAccounterClass(ClientAccounterClass accounterClass) {
 		this.accounterClass = accounterClass;
 	}
