@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.tools.ant.taskdefs.condition.IsReference;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -236,13 +238,11 @@ public class VendorBillView extends
 			setPaymentTermsCombo(vendor);
 		if (transaction.getID() == 0)
 			getPurchaseOrdersAndItemReceipt();
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			for (ClientTransactionItem item : vendorTransactionTable
-					.getRecords()) {
-				if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT)
-					vendorTransactionTable.setVendorTaxCode(item);
-			}
+		long code = vendor.getTAXCode();
+		if (code == 0) {
+			code = Accounter.getCompany().getDefaultTaxCode();
 		}
+		vendorTransactionTable.setTaxCode(code);
 		if (vendor.getPhoneNo() != null) {
 			phoneSelect.setValue(vendor.getPhoneNo());
 		} else {
