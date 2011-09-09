@@ -318,6 +318,9 @@ public class VendorView extends BaseView<ClientVendor> {
 	private VerticalPanel getGeneralTab() {
 		vendorNameText = new TextItem(messages
 				.vendorName(Global.get().Vendor()));
+		if (quickAddText != null) {
+			vendorNameText.setValue(quickAddText);
+		}
 		vendorNameText.setHelpInformation(true);
 		vendorNameText.setRequired(true);
 		vendorNameText.setWidth(100);
@@ -424,8 +427,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		});
 
 		gridView = new ContactGrid();
-		gridView.setDisabled(true);
-		gridView.setCanEdit(true);
+		gridView.setDisabled(isInViewMode());
+		gridView.setCanEdit(!isInViewMode());
 		gridView.setEditEventType(ListGrid.EDIT_EVENT_DBCLICK);
 		gridView.isEnable = false;
 		gridView.init();
