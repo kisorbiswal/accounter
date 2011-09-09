@@ -1584,4 +1584,9 @@
 		at.time between :fromDate and :endDate
 	</query>
 	
+	<query name="get.reconciliations.by.accountId">
+		<query-param name="accountID" type="long" />
+		from com.vimukti.accounter.core.Reconciliation re where re.account.id=:accountID
+	</query>
+	
 </hibernate-mapping>
