@@ -42,6 +42,7 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.VATAgencyAccountCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.edittable.tables.ContactsTable;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -75,7 +76,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	private VATAgencyAccountCombo liabilitySalesAccountCombo;
 	private VATAgencyAccountCombo liabilityPurchaseAccountCombo;
 
-	private ContactGrid gridView;
+	private ContactsTable gridView;
 
 	private ClientPaymentTerms selectedPaymentTerm;
 	private ClientAccount selectedSalesAccount, selectedPurchaseAccount;
@@ -414,7 +415,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 				ClientContact clientContact = new ClientContact();
 				gridView.setDisabled(false);
 				// clientContact.setName("");
-				gridView.addData(clientContact);
+				gridView.add(clientContact);
 			}
 		});
 
@@ -507,8 +508,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			}
 
 			// gridView.
-			gridView.setRecords(Arrays.asList(records));
-			gridView.setRecords(Arrays.asList(records));
+			gridView.setAllRows(Arrays.asList(records));
 			// if (temp != null)
 			// gridView.selectRecord(temp);
 			// Setting Memo
@@ -592,11 +592,11 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	}
 
 	private void initListGrid() {
-		gridView = new ContactGrid();
+		gridView = new ContactsTable();
 		gridView.setDisabled(true);
-		gridView.setCanEdit(true);
-		gridView.isEnable = false;
-		gridView.init();
+		// gridView.setCanEdit(true);
+		// gridView.isEnable = false;
+		// gridView.init();
 		gridView.setHeight("175px");
 
 	}
@@ -748,7 +748,6 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	public void fitToSize(int height, int width) {
 		super.fitToSize(height, width);
 	}
-
 
 	@Override
 	public void onEdit() {

@@ -42,7 +42,7 @@ public class EditTable<R> extends SimplePanel {
 	}
 
 	public void setDisabled(boolean isDesable) {
-		this.isDesable = isDesable;
+		this.setDesable(isDesable);
 		for (R r : rows) {
 			update(r);
 		}
@@ -57,7 +57,7 @@ public class EditTable<R> extends SimplePanel {
 		int index = rows.indexOf(row);
 		index += 1;// for header
 		RenderContext<R> context = new RenderContext<R>(this, row);
-		context.setDesable(isDesable);
+		context.setDesable(isDesable());
 		context.setCellFormatter(cellFormatter);
 		context.setRowFormatter(rowFormatter);
 		for (int x = 0; x < columns.size(); x++) {
@@ -78,7 +78,7 @@ public class EditTable<R> extends SimplePanel {
 		index += 1;// for header
 		RenderContext<R> context = new RenderContext<R>(this, row);
 		context.setCellFormatter(cellFormatter);
-		context.setDesable(isDesable);
+		context.setDesable(isDesable());
 		context.setRowFormatter(rowFormatter);
 		for (int x = 0; x < columns.size(); x++) {
 			EditColumn<R> column = columns.get(x);
@@ -164,5 +164,13 @@ public class EditTable<R> extends SimplePanel {
 			return checkedWidget.getValue();
 		}
 		return false;
+	}
+
+	public boolean isDesable() {
+		return isDesable;
+	}
+
+	public void setDesable(boolean isDesable) {
+		this.isDesable = isDesable;
 	}
 }

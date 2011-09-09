@@ -21,7 +21,7 @@ public class DeleteColumn<T> extends ImageEditColumn<T> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if (!context.isDesable()) {
+				if (!getTable().isDesable()) {
 					getTable().delete(context.getRow());
 				}
 			}

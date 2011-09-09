@@ -63,12 +63,11 @@ import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.edittable.tables.ContactsTable;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.grids.ContactGrid;
-import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
 /*
  * @modified by Rajesh.A,Ravi Kiran.G, Murali Annamneni,B.srinivasa rao
@@ -110,7 +109,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	TaxGroupCombo taxGroupSelect;
 	SalesPersonCombo salesPersonSelect;
 
-	ContactGrid gridView;
+	ContactsTable gridView;
 	SelectCombo payMethSelect;
 
 	CurrencyCombo currencyCombo;
@@ -388,7 +387,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		data.setNumber(custNoText.getValue().toString());
 
-		gridView.validateGrid();
+		// gridView.validateGrid();
 
 		return result;
 
@@ -689,16 +688,16 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			public void onClick(ClickEvent event) {
 				ClientContact clientContact = new ClientContact();
 				gridView.setDisabled(false);
-				gridView.addData(clientContact);
+				gridView.add(clientContact);
 			}
 		});
 
-		gridView = new ContactGrid();
-		gridView.setDisabled(true);
-		gridView.setCanEdit(true);
-		gridView.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
-		gridView.isEnable = false;
-		gridView.init();
+		gridView = new ContactsTable();
+		gridView.setDisabled(isInViewMode());
+		// gridView.setCanEdit(!isInViewMode());
+		// gridView.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
+		// gridView.isEnable = false;
+		// gridView.init();
 
 		VerticalPanel panel = new VerticalPanel() {
 			@Override
@@ -1154,7 +1153,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// Setting AddressForm
 		addrsForm.setAddress(data.getAddress());
 		// Setting Contacts
-		gridView.initContacts(data.getContacts());
+		gridView.setAllRows(new ArrayList<ClientContact>(data.getContacts()));
 
 		// Setting salesPerson
 		selectSalesPersonFromDetailsTab = getCompany().getSalesPerson(
@@ -1249,7 +1248,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		super.fitToSize(height, width);
 	}
 
-
 	@Override
 	public void onEdit() {
 		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
@@ -1282,6 +1280,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		statusCheck.setDisabled(isInViewMode());
 		fonFaxForm.setDisabled(isInViewMode());
 		emailForm.setDisabled(isInViewMode());
+		gridView.setDisabled(isInViewMode());
 		super.onEdit();
 
 	}

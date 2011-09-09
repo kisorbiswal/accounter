@@ -68,12 +68,11 @@ import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
+import com.vimukti.accounter.web.client.ui.edittable.tables.ContactsTable;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.grids.ContactGrid;
-import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 /**
@@ -118,7 +117,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	CheckboxItem statusCheck;
 
-	ContactGrid gridView;
+	ContactsTable gridView;
 
 	List<ClientFax> faxList;
 	List<ClientEmail> emailList;
@@ -422,16 +421,16 @@ public class VendorView extends BaseView<ClientVendor> {
 			public void onClick(ClickEvent event) {
 				ClientContact clientContact = new ClientContact();
 				gridView.setDisabled(false);
-				gridView.addData(clientContact);
+				gridView.add(clientContact);
 			}
 		});
 
-		gridView = new ContactGrid();
+		gridView = new ContactsTable();
 		gridView.setDisabled(isInViewMode());
-		gridView.setCanEdit(!isInViewMode());
-		gridView.setEditEventType(ListGrid.EDIT_EVENT_DBCLICK);
-		gridView.isEnable = false;
-		gridView.init();
+		// gridView.setCanEdit(!isInViewMode());
+		// gridView.setEditEventType(ListGrid.EDIT_EVENT_DBCLICK);
+		// gridView.isEnable = false;
+		// gridView.init();
 
 		VerticalPanel panel = new VerticalPanel() {
 			@Override
@@ -1199,7 +1198,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		balanceDate.setDisabled(true);
 
 		// Setting Contacts
-		gridView.initContacts(data.getContacts());
+		gridView.setAllRows(new ArrayList<ClientContact>(data.getContacts()));
 
 		// Setting Memo
 		memoArea.setValue(data.getMemo());
@@ -1350,6 +1349,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		addrsForm.setDisabled(isInViewMode());
 		fonFaxForm.setDisabled(isInViewMode());
 		emailForm.setDisabled(isInViewMode());
+		gridView.setDisabled(isInViewMode());
 		super.onEdit();
 
 	}

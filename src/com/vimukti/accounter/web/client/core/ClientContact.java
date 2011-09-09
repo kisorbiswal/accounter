@@ -128,33 +128,6 @@ public class ClientContact implements IAccounterCore {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		if (obj instanceof ClientContact) {
-			ClientContact clientContact = (ClientContact) obj;
-			if (!clientContact.getEmail().equals(getEmail())) {
-				return false;
-			}
-			if (!clientContact.getName().equals(getName())) {
-				return false;
-			}
-			if (!clientContact.getTitle().equals(getTitle())) {
-				return false;
-			}
-			if (!clientContact.getBusinessPhone().equals(getBusinessPhone())) {
-				return false;
-			}
-			if (clientContact.isPrimary() != isPrimary()) {
-				return false;
-			}
-			return true;
-		}
-		return false;
-	}
-
-	@Override
 	public int getVersion() {
 		return version;
 	}
