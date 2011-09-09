@@ -377,6 +377,8 @@ public class CreditCardExpenseView extends
 		billToAreaItem.setDisabled(true);
 		// formItems.add(billToCombo);
 		phoneSelect = new TextItem(Accounter.constants().phone());
+		phoneSelect.setToolTip(Accounter.messages().phoneNumber(
+				this.getAction().getCatagory()));
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		// formItems.add(phoneSelect);

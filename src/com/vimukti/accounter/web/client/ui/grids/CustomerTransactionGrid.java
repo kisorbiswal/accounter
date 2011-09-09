@@ -385,8 +385,8 @@ public class CustomerTransactionGrid extends
 
 							// database always has the currency values in base
 							// currency.
-							editComplete(selectedObject,
-									selectItem.getSalesPrice(), 4);
+							editComplete(selectedObject, selectItem
+									.getSalesPrice(), 4);
 							applyPriceLevel(selectedObject);
 
 						}
@@ -439,8 +439,8 @@ public class CustomerTransactionGrid extends
 							// needs line total for this,linetotal
 							// calculated in
 							// editcomplete()
-							editComplete(selectedObject,
-									selectItem.getSalesPrice(), 4);
+							editComplete(selectedObject, selectItem
+									.getSalesPrice(), 4);
 							applyPriceLevel(selectedObject);
 
 						}
@@ -689,7 +689,8 @@ public class CustomerTransactionGrid extends
 				return item.getQuantity();
 			else {
 				return (item.getQuantity() != null || item.getLineTotal() == 0) ? item
-						.getQuantity() : "";
+						.getQuantity()
+						: "";
 			}
 		case 4:
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
@@ -1204,8 +1205,8 @@ public class CustomerTransactionGrid extends
 				} else {
 					d = 0.0D; // zero. no need conversions.
 					item.setUnitPrice(d);
-					transactionView.addError(this,
-							accounterConstants.unitPrice());
+					transactionView.addError(this, accounterConstants
+							.unitPrice());
 				}
 
 				break;
@@ -1217,7 +1218,8 @@ public class CustomerTransactionGrid extends
 				// }
 				// discount = discount.replaceAll(",", "");
 				Double discountRate = Double.parseDouble(DataUtils
-						.getReformatedAmount(discount) + "");
+						.getReformatedAmount(discount)
+						+ "");
 				if (AccounterValidator.isNegativeAmount(discountRate)) {
 					item.setUnitPrice(0.0D);
 					discountRate = 0.0D;
@@ -1239,7 +1241,8 @@ public class CustomerTransactionGrid extends
 					// lineTotalAmtString.replaceAll(",",
 					// "");
 					Double lineTotal = Double.parseDouble(DataUtils
-							.getReformatedAmount(lineTotalAmtString) + "");
+							.getReformatedAmount(lineTotalAmtString)
+							+ "");
 					try {
 						if ((!AccounterValidator
 								.isValidGridLineTotal(lineTotal))
@@ -1467,16 +1470,16 @@ public class CustomerTransactionGrid extends
 				continue;
 			}
 			if (AccounterValidator.isEmpty(this.getColumnValue(item, 1))) {
-				result.addError(
-						"GridItem-" + item.getAccount(),
-						Accounter.messages().pleaseEnter(
-								UIUtils.getTransactionTypeName(item.getType())));
+				result
+						.addError("GridItem-" + item.getAccount(), Accounter
+								.messages().pleaseEnter(
+										UIUtils.getTransactionTypeName(item
+												.getType())));
 			}
 			if (accountingType == ClientCompany.ACCOUNTING_TYPE_UK
 					&& item.getType() != ClientTransactionItem.TYPE_SALESTAX) {
 				if (AccounterValidator.isEmpty(this.getColumnValue(item, 7))) {
-					result.addError(
-							"GridItemUK-" + item.getAccount(),
+					result.addError("GridItemUK-" + item.getAccount(),
 							Accounter.messages().pleaseEnter(
 									Accounter.constants().vatCode()));
 				}
@@ -1561,8 +1564,8 @@ public class CustomerTransactionGrid extends
 												.vatitemslctdalreadyusedinVATEnterdiffVATItem());
 							}
 							selectedObject.setVatItem(selectItem.getID());
-							setText(currentRow, currentCol,
-									selectItem.getName());
+							setText(currentRow, currentCol, selectItem
+									.getName());
 						}
 					}
 				});
@@ -1579,8 +1582,8 @@ public class CustomerTransactionGrid extends
 
 							selectedObject.setTaxCode(selectItem.getID());
 							if (selectedObject.getType() == TYPE_ACCOUNT)
-								editComplete(selectedObject,
-										selectedObject.getLineTotal(), 7);
+								editComplete(selectedObject, selectedObject
+										.getLineTotal(), 7);
 							else
 
 								editComplete(

@@ -143,7 +143,8 @@ public class VendorBillView extends
 			}
 			this.dueDateItem
 					.setValue(transaction.getDueDate() != 0 ? new ClientFinanceDate(
-							transaction.getDueDate()) : getTransactionDate());
+							transaction.getDueDate())
+							: getTransactionDate());
 			initMemoAndReference();
 		}
 		if (locationTrackingEnabled)
@@ -414,6 +415,8 @@ public class VendorBillView extends
 		// formItems.add(billToCombo);
 
 		phoneSelect = new TextItem(Accounter.constants().phone());
+		phoneSelect.setToolTip(Accounter.messages().phoneNumber(
+				this.getAction().getCatagory()));
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(80);
 		phoneSelect.setDisabled(false);
@@ -778,18 +781,18 @@ public class VendorBillView extends
 		// 5. isBlank transaction?
 		// 6. is vendor transaction grid valid?
 		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateTransactionDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 		result.add(vendorForm.validate());
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(
-				dueDateItem.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(dueDateItem
+				.getEnteredDate(), this.transactionDate)) {
 			result.addError(dueDateItem, Accounter.constants().the()
 					+ " "
 					+ Accounter.constants().dueDate()
@@ -799,8 +802,8 @@ public class VendorBillView extends
 							.cannotbeearlierthantransactiondate());
 		}
 		if (vendorTransactionTable.getAllRows().isEmpty()) {
-			result.addError(vendorTransactionTable,
-					accounterConstants.blankTransaction());
+			result.addError(vendorTransactionTable, accounterConstants
+					.blankTransaction());
 		} else
 			result.add(vendorTransactionTable.validateGrid());
 		return result;

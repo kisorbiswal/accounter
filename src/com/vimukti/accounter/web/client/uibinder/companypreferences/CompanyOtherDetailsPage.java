@@ -6,6 +6,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class CompanyOtherDetailsPage extends AbstractCompanyInfoPanel {
 
@@ -43,6 +44,8 @@ public class CompanyOtherDetailsPage extends AbstractCompanyInfoPanel {
 	private void createControls() {
 		contactDetailLabel.setText(constants.contactDetails());
 		phoneTextBoxLabel.setText(constants.phone());
+		phoneTextBox.setTitle(Accounter.messages().phoneNumber(
+				Accounter.constants().company()));
 		emailFieldBoxLabel.setText(constants.email());
 		faxTextBoxLabel.setText(constants.fax());
 		webTextBoxLabel.setText(constants.webSite());

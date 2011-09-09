@@ -28,6 +28,8 @@ public class CompanyOtherDetailsPanel extends AbstractCompanyInfoPanel {
 
 		Label contactDetailsLabelItem = new Label(constants.contactDetails());
 		phoneField = new IntegerField(view, constants.phone());
+		phoneField.setToolTip(Accounter.messages().phoneNumber(
+				Accounter.constants().company()));
 		emailField = new EmailField(constants.email());
 		faxField = new IntegerField(view, constants.fax());
 		webTextItem = new TextItem(constants.webSite());

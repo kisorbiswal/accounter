@@ -422,6 +422,8 @@ public class CreditCardChargeView extends
 		billToAreaItem.setDisabled(true);
 		// formItems.add(billToCombo);
 		phoneSelect = new TextItem(Accounter.constants().phone());
+		phoneSelect.setToolTip(Accounter.messages().phoneNumber(
+				Global.get().vendor()));
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		// formItems.add(phoneSelect);

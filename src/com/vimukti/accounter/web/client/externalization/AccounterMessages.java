@@ -850,4 +850,6 @@ public interface AccounterMessages extends Messages {
 	public String to(String string, String string2);
 
 	public String MISC1099TransactionDetailByVendor(String vendor);
+
+	public String phoneNumber(String catagory);
 }

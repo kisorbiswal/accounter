@@ -141,6 +141,8 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		zipLabel.setText(accounterConstants.zipCode());
 		countryLabel.setText(accounterConstants.country());
 		phoneLabel.setText(accounterConstants.phone());
+		phone.setTitle(Accounter.messages().phoneNumber(
+				Accounter.constants().company()));
 		faxLabel.setText(accounterConstants.fax());
 		emailAdressLabel.setText(accounterConstants.emailId());
 		webSiteLabel.setText(accounterConstants.webSite());
@@ -264,7 +266,8 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 					.getSelectedIndex()));
 		}
 		if (country.getSelectedIndex() != -1)
-			address.setCountryOrRegion(countries.get(country.getSelectedIndex()));
+			address.setCountryOrRegion(countries
+					.get(country.getSelectedIndex()));
 		company.setTradingAddress(address);
 
 		if (timezoneslistbox.getSelectedIndex() != -1)

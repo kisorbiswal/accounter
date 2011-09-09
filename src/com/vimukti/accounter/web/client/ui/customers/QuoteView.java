@@ -103,7 +103,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 			if (ent != null && ent.getCustomer() == (customer.getID())) {
 				this.customerTransactionTable.clear();
-				this.customerTransactionTable.setAllRows(ent.getTransactionItems());
+				this.customerTransactionTable.setAllRows(ent
+						.getTransactionItems());
 			} else if (ent != null
 					&& !(ent.getCustomer() == (customer.getID()))) {
 				this.customerTransactionTable.clear();
@@ -146,7 +147,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			customerCombo.setComboItem(customer);
 		}
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			for (ClientTransactionItem item : customerTransactionTable.getAllRows()) {
+			for (ClientTransactionItem item : customerTransactionTable
+					.getAllRows()) {
 				if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT)
 					customerTransactionTable.setCustomerTaxCode(item);
 			}
@@ -319,6 +321,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		billToTextArea.setDisabled(true);
 
 		phoneSelect = new TextItem(customerConstants.phone());
+		phoneSelect.setToolTip(Accounter.messages().phoneNumber(
+				this.getAction().getCatagory()));
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		phoneSelect.setDisabled(isInViewMode());
@@ -356,15 +360,15 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			phoneForm.setFields(payTermsSelect, quoteExpiryDate, deliveryDate);
 		}
 		phoneForm.setStyleName("align-form");
-		phoneForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "203px");
+		phoneForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "203px");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
 			phoneForm.setFields(classListCombo);
 		}
-		
+
 		Label lab2 = new Label(customerConstants.productAndService());
 
 		HorizontalPanel buttLabHLay = new HorizontalPanel();
@@ -637,7 +641,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 				netAmountLabel.setAmount(transaction.getNetAmount());
 				vatTotalNonEditableText.setValue(String.valueOf(transaction
-						.getTotal() - transaction.getNetAmount()));
+						.getTotal()
+						- transaction.getNetAmount()));
 			}
 			memoTextAreaItem.setDisabled(true);
 			transactionTotalNonEditableText.setAmount(transaction.getTotal());
@@ -723,25 +728,27 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			return;
 		int accountType = getCompany().getAccountingType();
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
-			Double taxableLineTotal = customerTransactionTable.getTaxableLineTotal();
+			Double taxableLineTotal = customerTransactionTable
+					.getTaxableLineTotal();
 
 			if (taxableLineTotal == null)
 				return;
 
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(),
-					taxableLineTotal,
+					transactionDateItem.getEnteredDate(), taxableLineTotal,
 					getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
 			setSalesTax(salesTax);
 
-			setTransactionTotal(customerTransactionTable.getTotal() + this.salesTax);
+			setTransactionTotal(customerTransactionTable.getTotal()
+					+ this.salesTax);
 			netAmountLabel.setAmount(customerTransactionTable.getGrandTotal());
 
 		} else if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 			netAmountLabel.setAmount(customerTransactionTable.getGrandTotal());
-			vatTotalNonEditableText.setAmount(customerTransactionTable.getTotalValue()
+			vatTotalNonEditableText.setAmount(customerTransactionTable
+					.getTotalValue()
 					- customerTransactionTable.getGrandTotal());
 			setTransactionTotal(customerTransactionTable.getTotalValue());
 		}
@@ -767,8 +774,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		// Validations
 		// 1. isValidDueOrDeliveryDate?
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(
-				this.quoteExpiryDate.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(this.quoteExpiryDate
+				.getEnteredDate(), this.transactionDate)) {
 			result.addError(this.quoteExpiryDate, Accounter.constants().the()
 					+ " "
 					+ customerConstants.expirationDate()
@@ -910,7 +917,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	@Override
 	protected void initTransactionsItems() {
 		if (transaction.getTransactionItems() != null)
-			customerTransactionTable.setAllRows(transaction.getTransactionItems());
+			customerTransactionTable.setAllRows(transaction
+					.getTransactionItems());
 	}
 
 	@Override

@@ -123,6 +123,8 @@ public class ItemReceiptView extends
 		billToCombo = createBillToComboItem();
 		billToCombo.setWidth(100);
 		phoneSelect = new TextItem(Accounter.constants().phone());
+		phoneSelect.setToolTip(Accounter.messages().phoneNumber(
+				this.getAction().getCatagory()));
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		phoneSelect.setDisabled(false);
@@ -588,19 +590,19 @@ public class ItemReceiptView extends
 		// 6. validateGrid?
 
 		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateTransactionDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 
 		result.add(vendorForm.validate());
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(
-				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(deliveryDateItem
+				.getEnteredDate(), this.transactionDate)) {
 
 			result.addError(deliveryDateItem, Accounter.constants().the()
 					+ " "
@@ -612,8 +614,8 @@ public class ItemReceiptView extends
 
 		}
 		if (vendorTransactionTable.getAllRows().isEmpty()) {
-			result.addError(vendorTransactionTable,
-					accounterConstants.blankTransaction());
+			result.addError(vendorTransactionTable, accounterConstants
+					.blankTransaction());
 		} else
 			result.add(vendorTransactionTable.validateGrid());
 		return result;

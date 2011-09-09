@@ -127,6 +127,8 @@ public class CashPurchaseView extends
 		billToAreaItem.setWidth(100);
 		billToAreaItem.setDisabled(true);
 		phoneSelect = new TextItem(Accounter.constants().phone());
+		phoneSelect.setToolTip(Accounter.messages().phoneNumber(
+				this.getAction().getCatagory()));
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		if (isInViewMode())
@@ -146,7 +148,8 @@ public class CashPurchaseView extends
 		// payFromCombo.setWidth(100);
 		payFromCombo.setPopupWidth("500px");
 		checkNo = createCheckNumberItem(getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-				.constants().chequeNo() : Accounter.constants().checkNo());
+				.constants().chequeNo()
+				: Accounter.constants().checkNo());
 		checkNo.setDisabled(true);
 		checkNo.setWidth(100);
 		deliveryDateItem = createTransactionDeliveryDateItem();
@@ -189,8 +192,8 @@ public class CashPurchaseView extends
 			termsForm.setFields(classListCombo);
 		}
 
-		termsForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "203px");
 
 		// formItems.add(checkNo);
 		// formItems.add(deliveryDateItem);
@@ -547,7 +550,8 @@ public class CashPurchaseView extends
 		// Setting Pay From Account
 		transaction
 				.setPayFrom(payFromCombo.getSelectedValue() != null ? payFromCombo
-						.getSelectedValue().getID() : 0);
+						.getSelectedValue().getID()
+						: 0);
 
 		// Setting Check number
 		transaction.setCheckNumber(checkNo.getValue().toString());
@@ -607,20 +611,20 @@ public class CashPurchaseView extends
 		// 6. validateGrid?
 
 		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateTransactionDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 
 		result.add(vendorForm.validate());
 		result.add(termsForm.validate());
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(
-				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(deliveryDateItem
+				.getEnteredDate(), this.transactionDate)) {
 			result.addError(deliveryDateItem, Accounter.constants().the()
 					+ " "
 					+ Accounter.constants().deliveryDate()
@@ -631,8 +635,8 @@ public class CashPurchaseView extends
 		}
 
 		if (vendorTransactionTable.getAllRows().isEmpty()) {
-			result.addError(vendorTransactionTable,
-					accounterConstants.blankTransaction());
+			result.addError(vendorTransactionTable, accounterConstants
+					.blankTransaction());
 		} else
 			result.add(vendorTransactionTable.validateGrid());
 		return result;

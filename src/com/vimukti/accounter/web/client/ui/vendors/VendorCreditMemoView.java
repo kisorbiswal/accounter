@@ -166,6 +166,8 @@ public class VendorCreditMemoView extends
 		// vendorForm.setDisabled(true);
 
 		phoneSelect = new TextItem(Accounter.constants().phone());
+		phoneSelect.setToolTip(Accounter.messages().phoneNumber(
+				this.getAction().getCatagory()));
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 

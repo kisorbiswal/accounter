@@ -59,6 +59,8 @@ public class PhoneFaxForm extends DynamicForm {
 				});
 
 		businessPhoneText = new TextItem(Accounter.constants().phone());
+		businessPhoneText
+				.setToolTip(Accounter.messages().phoneNumber(category));
 		businessPhoneText.setToolTip(Accounter.messages().giveOf(
 				Accounter.constants().phoneNumber(), category));
 		businessPhoneText.setHelpInformation(true);
