@@ -110,7 +110,7 @@ public class CopyThemeDialog extends BaseDialog {
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
+		nameBox.setFocus(true);
 
 	}
 

@@ -42,7 +42,7 @@ public class CustomThemeDialog extends BaseDialog {
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
+		titleBox.setFocus(true);
 
 	}
 
