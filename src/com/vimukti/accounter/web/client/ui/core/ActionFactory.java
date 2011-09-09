@@ -26,9 +26,10 @@ import com.vimukti.accounter.web.client.ui.banking.ImportBankFilesAction;
 import com.vimukti.accounter.web.client.ui.banking.MakeDepositAction;
 import com.vimukti.accounter.web.client.ui.banking.MatchTrasactionsAction;
 import com.vimukti.accounter.web.client.ui.banking.NewBankAccountAction;
+import com.vimukti.accounter.web.client.ui.banking.NewReconcileAccountAction;
 import com.vimukti.accounter.web.client.ui.banking.PaymentsAction;
 import com.vimukti.accounter.web.client.ui.banking.PrintChecksAction;
-import com.vimukti.accounter.web.client.ui.banking.ReconcileAccountAction;
+import com.vimukti.accounter.web.client.ui.banking.ReconciliationsListAction;
 import com.vimukti.accounter.web.client.ui.banking.ServicesOverviewAction;
 import com.vimukti.accounter.web.client.ui.banking.SyncOnlinePayeesAction;
 import com.vimukti.accounter.web.client.ui.banking.TransferFundsAction;
@@ -1329,9 +1330,14 @@ public class ActionFactory {
 		return new TDSVendorsListAction("TDS Vendors List", isTDSView);
 	}
 
-	public static ReconcileAccountAction getReconciliationAction() {
-		return new ReconcileAccountAction(Accounter.constants()
+	public static NewReconcileAccountAction getNewReconciliationAction() {
+		return new NewReconcileAccountAction(Accounter.constants()
 				.Reconciliation());
+	}
+
+	public static ReconciliationsListAction getReconciliationsListAction() {
+		return new ReconciliationsListAction(Accounter.constants()
+				.ReconciliationsList());
 	}
 
 	public static LocationGroupListAction getLocationGroupListAction() {
