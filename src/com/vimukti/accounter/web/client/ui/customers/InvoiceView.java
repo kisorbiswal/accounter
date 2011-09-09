@@ -755,6 +755,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		}
 		if (this.transaction == null || customerTransactionTable != null) {
 			customerTransactionTable.setPricingLevel(priceLevel);
+			customerTransactionTable.updatePriceLevel();
 		}
 		updateNonEditableItems();
 
