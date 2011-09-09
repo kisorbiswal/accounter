@@ -256,4 +256,10 @@ public class SelectItemsTo1099Dialog<T extends IAccounterCore> extends
 		return true;
 	}
 
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

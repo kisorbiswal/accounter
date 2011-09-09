@@ -326,4 +326,10 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 		boolean isMultiple;
 		ArrayList<ClientAccount> accounts = new ArrayList<ClientAccount>();
 	}
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
+	}
 }
