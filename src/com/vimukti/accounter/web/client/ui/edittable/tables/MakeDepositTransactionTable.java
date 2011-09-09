@@ -154,7 +154,7 @@ public abstract class MakeDepositTransactionTable extends
 
 			@Override
 			public int getWidth() {
-				return 80;
+				return 180;
 			}
 		});
 
@@ -200,7 +200,7 @@ public abstract class MakeDepositTransactionTable extends
 				} else {
 					row.setAmount(lineTotal);
 				}
-
+				update(row);
 			}
 
 			@Override
@@ -283,6 +283,6 @@ public abstract class MakeDepositTransactionTable extends
 
 	public void addLoadingImagePanel() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
