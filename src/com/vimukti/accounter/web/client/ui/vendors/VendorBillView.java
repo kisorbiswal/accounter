@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -29,6 +30,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceiptsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
+import com.vimukti.accounter.web.client.externalization.AccounterErrors;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -392,7 +394,8 @@ public class VendorBillView extends
 		vendorForm = UIUtils.form(Global.get().Vendor());
 		vendorForm.setWidth("100%");
 		vendorForm.setNumCols(3);
-		vendorForm.setFields(vendorCombo, emptylabel, contactCombo, emptylabel,vendorTDSTaxCode);
+		vendorForm.setFields(vendorCombo, emptylabel, contactCombo, emptylabel,
+				vendorTDSTaxCode);
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -1010,8 +1013,15 @@ public class VendorBillView extends
 
 			@Override
 			public void onException(AccounterException caught) {
-				String errorString = AccounterExceptions.getErrorString(caught
-						.getErrorCode());
+				int errorCode = caught.getErrorCode();
+				String errorString = null;
+				if (errorCode == AccounterException.ERROR_CANT_EDIT) {
+					AccounterErrors accounterErrors = (AccounterErrors) GWT
+							.create(AccounterErrors.class);
+					errorString = accounterErrors.billPaidSoYouCantEdit();
+				} else {
+					errorString = AccounterExceptions.getErrorString(errorCode);
+				}
 				Accounter.showError(errorString);
 			}
 
