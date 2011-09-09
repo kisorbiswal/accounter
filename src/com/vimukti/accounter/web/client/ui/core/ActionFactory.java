@@ -1350,7 +1350,7 @@ public class ActionFactory {
 	}
 
 	public static TDSPayAction getpayTDSAction() {
-		return new TDSPayAction("Pay e-TDS");
+		return new TDSPayAction("Pay TDS");
 	}
 
 	public static MISC1099TransactionDetailAction getMisc1099TransactionDetailAction() {
