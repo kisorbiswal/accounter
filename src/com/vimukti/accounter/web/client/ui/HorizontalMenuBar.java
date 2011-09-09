@@ -5,9 +5,11 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
+import com.vimukti.accounter.web.client.ui.company.ChartOfAccountsAction;
 import com.vimukti.accounter.web.client.ui.company.ItemsAction;
 import com.vimukti.accounter.web.client.ui.company.PreferencesAction;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
@@ -742,7 +744,10 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		// bankingListMenuBar.addItem(ActionFactory
 		// .getChartsOfAccountsAction());
 		bankingListMenuBar.addItem(ActionFactory.getPaymentsAction());
-
+		ChartOfAccountsAction chartOfAccountsAction = new ChartOfAccountsAction(
+				Accounter.messages().bankAccounts(Global.get().Account()),
+				ClientAccount.TYPE_BANK);
+		bankingListMenuBar.addItem(chartOfAccountsAction);
 		return bankingListMenuBar;
 	}
 
