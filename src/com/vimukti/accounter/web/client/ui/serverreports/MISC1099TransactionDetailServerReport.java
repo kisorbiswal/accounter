@@ -49,7 +49,7 @@ public class MISC1099TransactionDetailServerReport extends
 	public int[] getColumnTypes() {
 		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_DATE,
 				COLUMN_TYPE_TEXT, COLUMN_TYPE_NUMBER, COLUMN_TYPE_TEXT,
-				COLUMN_TYPE_NUMBER, COLUMN_TYPE_TEXT, COLUMN_TYPE_AMOUNT };
+				COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT, COLUMN_TYPE_AMOUNT };
 	}
 
 	@Override
@@ -94,7 +94,12 @@ public class MISC1099TransactionDetailServerReport extends
 			return record.getMemo();
 
 		case 5:
-			return record.getBox1099();
+			int box1099 = record.getBox1099();
+			String box = "";
+			if (box1099 > 0) {
+				box = Accounter.constants().box() + box1099;
+			}
+			return box;
 
 		case 6:
 			return record.getAccount();

@@ -4703,9 +4703,11 @@ public interface AccounterConstants extends Constants {
 	public String dialog();
 
 	public String addnew();
-	
+
 	public String For();
 
 	public String This();
+
+	public String box();
 
 }
