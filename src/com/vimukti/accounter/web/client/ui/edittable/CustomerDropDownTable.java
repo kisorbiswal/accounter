@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -37,7 +38,8 @@ public class CustomerDropDownTable extends
 	@Override
 	protected ClientCustomer getAddNewRow() {
 		ClientCustomer clientCustomer = new ClientCustomer();
-		clientCustomer.setName("Add New");
+		clientCustomer.setName(Accounter.messages().addaNewCustomer(
+				Global.get().Customer()));
 		return clientCustomer;
 	}
 
