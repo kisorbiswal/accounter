@@ -48,11 +48,12 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 		grid.setWidth("100%");
 
 		VerticalPanel mainPanel = new VerticalPanel();
-		mainPanel.setSize("100%", "400px");
+		mainPanel.setWidth("100%");
 		DynamicForm form = new DynamicForm();
 		form.setItems(bankAccountsCombo);
 		mainPanel.add(form);
 		mainPanel.add(grid);
+		grid.setStyleName("recounciliation_grid");
 		this.add(mainPanel);
 	}
 

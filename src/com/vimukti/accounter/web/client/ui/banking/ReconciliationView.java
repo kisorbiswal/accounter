@@ -160,6 +160,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		amountsForm.setItems(openingBalance, closingBalance, clearedAmount,
 				difference);
 		amountsPanel.add(amountsForm);
+		amountsPanel.setStyleName("bottom_total_view");
 		amountsPanel.setCellHorizontalAlignment(amountsForm,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 
@@ -173,14 +174,14 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 					}
 				});
 		grid.setWidth("100%");
-		grid.setHeight("100px");
 
 		this.mainPanel = new VerticalPanel();
-		mainPanel.setSize("100%", "300px");
+		mainPanel.setWidth("100%");
 		mainPanel.add(label);
 		mainPanel.add(hPanel);
 		mainPanel.add(btnPanel);
 		mainPanel.add(grid);
+		grid.setStyleName("recounciliation_grid");
 		mainPanel.add(amountsPanel);
 
 		this.add(mainPanel);
