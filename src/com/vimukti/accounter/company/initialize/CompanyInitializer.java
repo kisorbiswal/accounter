@@ -177,7 +177,6 @@ public abstract class CompanyInitializer {
 		this.preferences.setUseJobs(false);
 		this.preferences.setUseChangeLog(false);
 		this.preferences.setAllowDuplicateDocumentNumbers(true);
-		this.preferences.setDoYouPaySalesTax(true);
 		this.preferences.setIsAccuralBasis(true);
 		this.preferences.setStartOfFiscalYear(fiscalYearStartDate);
 		this.preferences.setEndOfFiscalYear(fiscalYearEndDate);

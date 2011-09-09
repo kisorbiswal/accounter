@@ -161,8 +161,8 @@ public class CloneUtil<BT> extends ObjectConvertUtil {
 				} else if (isFinanceDate(dstfieldType)) {
 					dstField.set(dst, srcField.get(src));
 				} else if (isDate(srcField.getType())) {
-					Date date = (Date) srcField.get(src);
-					dstField.setLong(dst, date != null ? date.getTime() : 0);
+//					Date date = (Date) srcField.get(src);
+					dstField.set(dst, srcField.get(src));
 				}else if (isString(dstField.getType())) {
 					dstField.set(dst, srcField.get(src));
 				} else if (clazz.isInstance(srcField.get(src))) {

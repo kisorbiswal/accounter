@@ -92,16 +92,16 @@ public class CompanyInfoDialog extends BaseDialog<ClientAddress> {
 			this.emailText.setValue(company.getCompanyEmail());
 			this.bankAccountText.setValue(company.getBankAccountNo());
 			this.sortCodeText.setValue(company.getSortCode());
-			allAddresses.put(ClientAddress.TYPE_COMPANY,
-					company.getTradingAddress());
+			allAddresses.put(ClientAddress.TYPE_COMPANY, company
+					.getTradingAddress());
 			setAddressToTextItem(textareaItem, company.getTradingAddress());
-			allAddresses.put(ClientAddress.TYPE_COMPANY_REGISTRATION,
-					company.getRegisteredAddress());
+			allAddresses.put(ClientAddress.TYPE_COMPANY_REGISTRATION, company
+					.getRegisteredAddress());
 			setAddressToTextItem(textareaItem2, company.getRegisteredAddress());
 			registrationNumberText.setValue(company.getRegistrationNumber());
 
 			doupaySalesChecBox.setValue(getCompany().getPreferences()
-					.getDoYouPaySalesTax());
+					.isDoYouChargesalesTax());
 
 			if (doupaySalesChecBox.getValue() == Boolean.FALSE) {
 				vatRegNumber.setDisabled(true);
@@ -246,8 +246,8 @@ public class CompanyInfoDialog extends BaseDialog<ClientAddress> {
 					.areYouRegisteredForVAT());
 		vatRegNumber = new TextItem(
 				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-						.constants().vatRegistrationNumber() : Accounter
-						.constants().taxRegNo());
+						.constants().vatRegistrationNumber()
+						: Accounter.constants().taxRegNo());
 		vatRegNumber.setHelpInformation(true);
 		vatRegNumber.setWidth(100);
 		vatRegNumber.setDisabled(false);
@@ -310,7 +310,9 @@ public class CompanyInfoDialog extends BaseDialog<ClientAddress> {
 		// .getPreferences().getIsAccuralBasis() ? "1" : "2" : "1");
 
 		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
-		map.put("1", Accounter.messages().accrualBasis(Global.get().customer()));
+		map
+				.put("1", Accounter.messages().accrualBasis(
+						Global.get().customer()));
 		map.put("2", Accounter.messages().cashBasis(Global.get().customer()));
 		paysalesTaxgroupItem.setValueMap(map);
 
@@ -374,7 +376,7 @@ public class CompanyInfoDialog extends BaseDialog<ClientAddress> {
 			companyPreferences = new ClientCompanyPreferences();
 		}
 		companyPreferences
-				.setDoYouPaySalesTax(getBooleanValue(doupaySalesChecBox));
+				.setDoYouChargesalesTax(getBooleanValue(doupaySalesChecBox));
 		companyPreferences.setVATregistrationNumber(vatRegNumber.getValue()
 				.toString());
 

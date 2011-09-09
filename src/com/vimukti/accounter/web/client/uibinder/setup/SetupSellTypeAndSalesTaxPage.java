@@ -100,7 +100,7 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		if (sellServices && sellProducts)
 			both.setValue(true);
 
-		if (preferences.getDoYouPaySalesTax()) {
+		if (preferences.isDoYouChargesalesTax()) {
 			salesTaxYes.setValue(true);
 		} else {
 			salesTaxNo.setValue(true);

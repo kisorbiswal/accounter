@@ -184,7 +184,7 @@ public class CustomerAndvendorSettingsPanel extends AbstractCompanyInfoPanel {
 	@Override
 	public void onSave() {
 		if (chargeTaxGroupItem.getValue().equals(constants.yes()))
-			companyPreferences.setDoYouPaySalesTax(true);
+			companyPreferences.setDoYouChargesalesTax(true);
 		else
 			companyPreferences.setDoYouChargesalesTax(false);
 
@@ -208,9 +208,5 @@ public class CustomerAndvendorSettingsPanel extends AbstractCompanyInfoPanel {
 		else
 			companyPreferences.setDoyouwantstatements(false);
 
-		if (trackBillsGroupItem.getValue().equals(constants.yes()))
-			companyPreferences.setDoYouPaySalesTax(true);
-		else
-			companyPreferences.setDoYouChargesalesTax(false);
 	}
 }

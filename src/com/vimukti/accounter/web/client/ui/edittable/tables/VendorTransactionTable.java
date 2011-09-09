@@ -110,7 +110,7 @@ public abstract class VendorTransactionTable extends
 		this.addColumn(new TransactionTotalColumn());
 
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
-				&& getCompany().getPreferences().getDoYouPaySalesTax()) {
+				&& getCompany().getPreferences().isDoYouChargesalesTax()) {
 
 			this.addColumn(new TransactionVatCodeColumn());
 
@@ -264,9 +264,8 @@ public abstract class VendorTransactionTable extends
 				switch (validationcount++) {
 				case 1:
 					if (item.getAccountable() == null) {
-						result.addError(
-								row + "," + 1,
-								Accounter.messages().pleaseEnter(
+						result.addError(row + "," + 1, Accounter.messages()
+								.pleaseEnter(
 										UIUtils.getTransactionTypeName(item
 												.getType())));
 					}
@@ -276,9 +275,8 @@ public abstract class VendorTransactionTable extends
 					if (accountingType == ClientCompany.ACCOUNTING_TYPE_UK
 							&& item.getType() != ClientTransactionItem.TYPE_SALESTAX) {
 						if (item.getTaxCode() == 0) {
-							result.addError(
-									row + "," + 6,
-									Accounter.messages().pleaseEnter(
+							result.addError(row + "," + 6, Accounter.messages()
+									.pleaseEnter(
 											Accounter.constants().vatCode()));
 						}
 						// .vatCode());

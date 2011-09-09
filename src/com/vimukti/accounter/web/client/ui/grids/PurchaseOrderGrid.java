@@ -17,7 +17,7 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 	@Override
 	protected String[] getColumns() {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
-				&& getCompany().getPreferences().getDoYouPaySalesTax()) {
+				&& getCompany().getPreferences().isDoYouChargesalesTax()) {
 			return new String[] { "", Accounter.constants().name(),
 					Accounter.constants().description(),
 					Accounter.constants().quantity(),
@@ -57,7 +57,7 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 			return ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX;
 		case 7:
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
-					&& getCompany().getPreferences().getDoYouPaySalesTax())
+					&& getCompany().getPreferences().isDoYouChargesalesTax())
 				return ListGrid.COLUMN_TYPE_SELECT;
 			else
 				return ListGrid.COLUMN_TYPE_IMAGE;
@@ -105,7 +105,7 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 		} else if (index == 8)
 			return 80;
 		else if (index == 7) {
-			if (!getCompany().getPreferences().getDoYouPaySalesTax()) {
+			if (!getCompany().getPreferences().isDoYouChargesalesTax()) {
 				if (UIUtils.isMSIEBrowser())
 					return 25;
 				else
@@ -149,7 +149,8 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 				return item.getQuantity();
 			else {
 				return (item.getQuantity() != null || item.getLineTotal() == 0) ? item
-						.getQuantity() : "";
+						.getQuantity()
+						: "";
 			}
 		case 4:
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
@@ -158,7 +159,8 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 			else {
 				return (getAmountInForeignCurrency(item.getUnitPrice()) != 0 || item
 						.getLineTotal() == 0) ? amountAsString(getAmountInForeignCurrency(item
-						.getUnitPrice())) : "";
+						.getUnitPrice()))
+						: "";
 			}
 		case 5:
 			return amountAsString(item.getLineTotal());
@@ -166,7 +168,7 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 			return item.getInvoiced() + "";
 		case 7:
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
-					&& getCompany().getPreferences().getDoYouPaySalesTax()) {
+					&& getCompany().getPreferences().isDoYouChargesalesTax()) {
 				return getTAXCodeName(item.getTaxCode());
 			} else {
 				return Accounter.getFinanceMenuImages().delete();
@@ -245,7 +247,8 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 				// lineTotalAmtString = lineTotalAmtString.replaceAll(",",
 				// "");
 				Double lineTotal = Double.parseDouble(DataUtils
-						.getReformatedAmount(lineTotalAmtString) + "");
+						.getReformatedAmount(lineTotalAmtString)
+						+ "");
 				try {
 					if (!AccounterValidator.isValidGridLineTotal(lineTotal)
 							&& !AccounterValidator.isAmountTooLarge(lineTotal)) {

@@ -19,7 +19,7 @@ public class SalesOrderGrid extends CustomerTransactionGrid {
 
 	@Override
 	protected String[] getColumns() {
-		if (getCompany().getPreferences().getDoYouPaySalesTax()) {
+		if (getCompany().getPreferences().isDoYouChargesalesTax()) {
 			if (this.accountingType == ClientCompany.ACCOUNTING_TYPE_UK) {
 				return new String[] { "", Accounter.constants().name(),
 						Accounter.constants().description(),
@@ -72,7 +72,7 @@ public class SalesOrderGrid extends CustomerTransactionGrid {
 		if (index == 5)
 			return 80;
 		if (index == 8) {
-			if (!getCompany().getPreferences().getDoYouPaySalesTax()) {
+			if (!getCompany().getPreferences().isDoYouChargesalesTax()) {
 				if (UIUtils.isMSIEBrowser())
 					return 25;
 				else
@@ -103,7 +103,7 @@ public class SalesOrderGrid extends CustomerTransactionGrid {
 				return 100;
 			}
 		} else if (index == 8) {
-			if (!getCompany().getPreferences().getDoYouPaySalesTax()) {
+			if (!getCompany().getPreferences().isDoYouChargesalesTax()) {
 				if (UIUtils.isMSIEBrowser())
 					return 25;
 				else
@@ -133,12 +133,12 @@ public class SalesOrderGrid extends CustomerTransactionGrid {
 		case 6:
 			return ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX;
 		case 7:
-			if (getCompany().getPreferences().getDoYouPaySalesTax())
+			if (getCompany().getPreferences().isDoYouChargesalesTax())
 				return ListGrid.COLUMN_TYPE_SELECT;
 			else
 				return ListGrid.COLUMN_TYPE_DECIMAL_TEXT;
 		case 8:
-			if (getCompany().getPreferences().getDoYouPaySalesTax())
+			if (getCompany().getPreferences().isDoYouChargesalesTax())
 				return ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX;
 			else {
 				return ListGrid.COLUMN_TYPE_IMAGE;
@@ -291,14 +291,16 @@ public class SalesOrderGrid extends CustomerTransactionGrid {
 				return item.getQuantity();
 			else {
 				return (item.getQuantity() != null || item.getLineTotal() == 0) ? item
-						.getQuantity() : "";
+						.getQuantity()
+						: "";
 			}
 		case 4:
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
 				return amountAsString(item.getUnitPrice());
 			else {
 				return (item.getUnitPrice() != 0 || item.getLineTotal() == 0) ? amountAsString(item
-						.getUnitPrice()) : "";
+						.getUnitPrice())
+						: "";
 			}
 		case 5:
 			return DataUtils.getNumberAsPercentString(item.getDiscount() + "");
@@ -307,7 +309,7 @@ public class SalesOrderGrid extends CustomerTransactionGrid {
 		case 6:
 			return amountAsString(item.getLineTotal());
 		case 7:
-			if (getCompany().getPreferences().getDoYouPaySalesTax()) {
+			if (getCompany().getPreferences().isDoYouChargesalesTax()) {
 				if (this.accountingType == ClientCompany.ACCOUNTING_TYPE_UK) {
 					return getTAXCodeName(item.getTaxCode());
 				} else {
@@ -318,7 +320,7 @@ public class SalesOrderGrid extends CustomerTransactionGrid {
 				return amountAsString(item.getInvoiced());
 			}
 		case 8:
-			if (getCompany().getPreferences().getDoYouPaySalesTax()) {
+			if (getCompany().getPreferences().isDoYouChargesalesTax()) {
 				if (this.accountingType == ClientCompany.ACCOUNTING_TYPE_UK) {
 					return amountAsString(item.getVATfraction());
 				} else {

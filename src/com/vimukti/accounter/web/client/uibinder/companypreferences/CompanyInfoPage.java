@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.StackPanel;
@@ -59,10 +60,10 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 
 			// stackPanel.add(getBasicInfoPanel(), constants.basicInfo());
 			stackPanel.add(getCompanyInfoPanel(), constants.comapnyInfo());
-			stackPanel.add(getBankingAndFinancialInfoPanel(),
-					constants.otherDetails());
-			stackPanel.add(getOtherDetailsPanel(),
-					constants.accounterSettings());
+			stackPanel.add(getBankingAndFinancialInfoPanel(), constants
+					.otherDetails());
+			stackPanel.add(getOtherDetailsPanel(), constants
+					.accounterSettings());
 			stackPanel.add(getCategoriesPanel(), constants.Categories());
 			companyInfoPanel = new CompanyRegisteredDetailsPage(
 					companyPreferences, company, this);
@@ -106,12 +107,13 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				for ( CompanyInfo infoPanel: companyInfos){
+				for (CompanyInfo infoPanel : companyInfos) {
 					infoPanel.getPanel().onSave();
 				}
 				company.setPreferences(companyPreferences);
 				Accounter.setCompany(company);
 				Accounter.updateCompany(CompanyInfoPage.this, company);
+				Window.Location.reload();
 			}
 		});
 	}
@@ -238,8 +240,8 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 
 		VerticalPanel bankingAndFinancialInfoPanel = new VerticalPanel();
 
-		bankingAndOtherFinancialDetailsLink = new HTML(
-				messages.bankingAndOtherFinancialDetails());
+		bankingAndOtherFinancialDetailsLink = new HTML(messages
+				.bankingAndOtherFinancialDetails());
 
 		bankingAndFinancialInfoPanel.add(bankingAndOtherFinancialDetailsLink);
 		bankingAndOtherFinancialDetailsPanel = new BankingAndOtherFinancialDetailsPage();
@@ -263,12 +265,12 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 
 		VerticalPanel otherDetailsPanel = new VerticalPanel();
 
-		customerAndvendorSettingsLink = new HTML(
-				messages.customerAndvendorSettings());
-		doYouUseAndHowDoYouReferLink = new HTML(
-				messages.doYouUseAndHowDoYouRefer());
-		ageingAndSellingDetailsLink = new HTML(
-				messages.ageingAndSellingDetails());
+		customerAndvendorSettingsLink = new HTML(messages
+				.customerAndvendorSettings());
+		doYouUseAndHowDoYouReferLink = new HTML(messages
+				.doYouUseAndHowDoYouRefer());
+		ageingAndSellingDetailsLink = new HTML(messages
+				.ageingAndSellingDetails());
 		employeeSettingsLink = new HTML(messages.employeeSettings());
 
 		otherDetailsPanel.add(customerAndvendorSettingsLink);
@@ -349,22 +351,22 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 						.addClassName("contentSelected");
 			else if (panel instanceof CompanyOtherDetailsPage)
 				companyOtherDetailsLink.getElement().getParentElement()
-				.addClassName("contentSelected");
+						.addClassName("contentSelected");
 			else if (panel instanceof OrganizationDetailsPage)
-				organisationLink.getElement().getParentElement()
-				.addClassName("contentSelected");
+				organisationLink.getElement().getParentElement().addClassName(
+						"contentSelected");
 			else if (panel instanceof BankingAndOtherFinancialDetailsPage)
-				bankingAndOtherFinancialDetailsLink.getElement().getParentElement()
-				.addClassName("contentSelected");
+				bankingAndOtherFinancialDetailsLink.getElement()
+						.getParentElement().addClassName("contentSelected");
 			else if (panel instanceof CustomerAndVendorsSettingsPage)
 				customerAndvendorSettingsLink.getElement().getParentElement()
-				.addClassName("contentSelected");
+						.addClassName("contentSelected");
 			else if (panel instanceof DoYouUseAndHowDoYouReferPage)
 				doYouUseAndHowDoYouReferLink.getElement().getParentElement()
-				.addClassName("contentSelected");
+						.addClassName("contentSelected");
 			else if (panel instanceof AgeingAndSellingDetailsPage)
 				ageingAndSellingDetailsLink.getElement().getParentElement()
-				.addClassName("contentSelected");
+						.addClassName("contentSelected");
 			else if (panel instanceof EmployeeSettingsPage)
 				employeeSettingsLink.getElement().getParentElement()
 						.addClassName("contentSelected_LastChild");

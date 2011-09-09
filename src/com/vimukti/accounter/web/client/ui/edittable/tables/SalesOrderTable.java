@@ -79,7 +79,7 @@ public abstract class SalesOrderTable extends CustomerTransactionTable {
 
 		this.addColumn(new TransactionTotalColumn());
 
-		if (getCompany().getPreferences().getDoYouPaySalesTax()) {
+		if (getCompany().getPreferences().isDoYouChargesalesTax()) {
 			if (this.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 				this.addColumn(new TransactionVatCodeColumn());
 			}

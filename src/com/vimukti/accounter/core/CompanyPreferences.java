@@ -41,10 +41,6 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	private static final long CHARGE_SALES_TAX = 0x4000L;
 
-	/**
-	 * whether the Customers in our company pay Sales Tax or not
-	 */
-	private static final long PAY_SALES_TAX = 0x8000L;
 
 	/**
 	 * whether we can use Id's for the Customer while creating them or not.
@@ -166,7 +162,7 @@ public class CompanyPreferences implements IAccounterServerCore {
 	private boolean isClassTrackingEnabled;
 
 	private boolean isClassOnePerTransaction;
-	
+
 	private boolean isWarningEnabled;
 
 	public boolean isLocationTrackingEnabled() {
@@ -529,21 +525,6 @@ public class CompanyPreferences implements IAccounterServerCore {
 	 */
 	public void setAllowDuplicateDocumentNumbers(boolean value) {
 		set(ALLOW_DUPLICATE_DOCUMENT_NO, value);
-	}
-
-	/**
-	 * @return the doYouPaySalesTax
-	 */
-	public boolean getDoYouPaySalesTax() {
-		return get(PAY_SALES_TAX);
-	}
-
-	/**
-	 * @param doYouPaySalesTax
-	 *            the doYouPaySalesTax to set
-	 */
-	public void setDoYouPaySalesTax(boolean value) {
-		set(PAY_SALES_TAX, value);
 	}
 
 	public boolean isAccuralBasis() {

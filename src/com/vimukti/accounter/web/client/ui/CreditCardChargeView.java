@@ -385,8 +385,8 @@ public class CreditCardChargeView extends
 							paymentMethodSelected(selectedVendor
 									.getPaymentMethod());
 							payMethSelect.setSelected(paymentMethod);
-
 						}
+						contactCombo.setDisabled(false);
 						addPhonesContactsAndAddress();
 						initContacts(selectItem);
 					}
@@ -396,6 +396,7 @@ public class CreditCardChargeView extends
 		contactCombo = new ContactCombo(Accounter.constants().contactName(),
 				true);
 		contactCombo.setHelpInformation(true);
+		contactCombo.setDisabled(true);
 		contactCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientContact>() {
 
@@ -947,7 +948,7 @@ public class CreditCardChargeView extends
 			}
 
 			public void onResultSuccess(Long result) {
-				// contactSelected(contact);
+				contactSelected(contact);
 			}
 
 		};

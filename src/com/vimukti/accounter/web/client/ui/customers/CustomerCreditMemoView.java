@@ -137,8 +137,8 @@ public class CustomerCreditMemoView extends
 		custForm = UIUtils.form(Global.get().customer());
 		custForm.setFields(customerCombo, contactCombo, billToTextArea);
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
-		custForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Global.get().constants().width(), "190px");
+		custForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Global.get().constants().width(), "190px");
 		custForm.setWidth("100%");
 		custForm.setStyleName("align-form");
 
@@ -219,7 +219,7 @@ public class CustomerCreditMemoView extends
 			prodAndServiceForm2.addStyleName("invoice-total");
 		} else {
 
-			if (getPreferences().getDoYouPaySalesTax()) {
+			if (getPreferences().isDoYouChargesalesTax()) {
 				prodAndServiceForm2.setFields(taxCodeSelect,
 						salesTaxTextNonEditable, disabletextbox,
 						transactionTotalNonEditableText);
@@ -417,7 +417,7 @@ public class CustomerCreditMemoView extends
 			}
 			transactionTotalNonEditableText.setAmount(transaction.getTotal());
 			memoTextAreaItem.setDisabled(true);
-			
+
 			if (getPreferences().isClassTrackingEnabled()
 					&& getPreferences().isClassOnePerTransaction()
 					&& this.clientAccounterClass != null
@@ -524,19 +524,20 @@ public class CustomerCreditMemoView extends
 		if (customerTransactionTable == null)
 			return;
 		if (getCompany().getAccountingType() == 0) {
-			Double taxableLineTotal = customerTransactionTable.getTaxableLineTotal();
+			Double taxableLineTotal = customerTransactionTable
+					.getTaxableLineTotal();
 
 			if (taxableLineTotal == null)
 				return;
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(),
-					taxableLineTotal,
+					transactionDateItem.getEnteredDate(), taxableLineTotal,
 					getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
 			setSalesTax(salesTax);
 
-			setTransactionTotal(customerTransactionTable.getTotal() + this.salesTax);
+			setTransactionTotal(customerTransactionTable.getTotal()
+					+ this.salesTax);
 
 			// salesTax = Utility.getCalculatedSalesTax(transactionDateItem
 			// .getEnteredDate(), taxableLineTotal, taxItemGroup);
@@ -552,8 +553,10 @@ public class CustomerCreditMemoView extends
 		} else {
 			if (customerTransactionTable.getGrandTotal() != 0
 					&& customerTransactionTable.getTotalValue() != 0) {
-				netAmountLabel.setAmount(customerTransactionTable.getGrandTotal());
-				vatTotalNonEditableText.setAmount(customerTransactionTable.getTotalValue()
+				netAmountLabel.setAmount(customerTransactionTable
+						.getGrandTotal());
+				vatTotalNonEditableText.setAmount(customerTransactionTable
+						.getTotalValue()
 						- customerTransactionTable.getGrandTotal());
 				setTransactionTotal(customerTransactionTable.getTotalValue());
 			}
@@ -595,7 +598,8 @@ public class CustomerCreditMemoView extends
 
 			if (ent != null && ent.getCustomer() == customer.getID()) {
 				this.customerTransactionTable.removeAllRecords();
-				this.customerTransactionTable.setRecords(ent.getTransactionItems());
+				this.customerTransactionTable.setRecords(ent
+						.getTransactionItems());
 			} else if (ent != null && ent.getCustomer() != customer.getID()) {
 				this.customerTransactionTable.removeAllRecords();
 				this.customerTransactionTable.updateTotals();
@@ -623,7 +627,8 @@ public class CustomerCreditMemoView extends
 			customerCombo.setComboItem(customer);
 		}
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			for (ClientTransactionItem item : customerTransactionTable.getRecords()) {
+			for (ClientTransactionItem item : customerTransactionTable
+					.getRecords()) {
 				if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT)
 					customerTransactionTable.setCustomerTaxCode(item);
 			}
@@ -736,8 +741,8 @@ public class CustomerCreditMemoView extends
 			// if there is only one branding theme
 			ClientBrandingTheme brandingTheme = themesList.get(0);
 			UIUtils.downloadAttachment(transaction.getID(),
-					ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO,
-					brandingTheme.getID());
+					ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO, brandingTheme
+							.getID());
 
 		}
 
