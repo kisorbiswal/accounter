@@ -56,10 +56,9 @@ public class NewItemAction extends Action<ClientItem> {
 					SelectItemTypeDialog dialog = new SelectItemTypeDialog(
 							forCustomer);
 					dialog.setDependent(isDependent);
+					dialog.setCallback(getCallback());
 					dialog.show();
-
 				} else {
-
 					ItemView view = new ItemView(type, forCustomer);
 					MainFinanceWindow.getViewManager().showView(view, data,
 							isDependent, NewItemAction.this);
