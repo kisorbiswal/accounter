@@ -1,12 +1,12 @@
 package com.vimukti.accounter.web.client.ui.edittable;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccountable;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.ItemView;
 
 public abstract class TransactionItemNameColumn extends
 		ComboColumn<ClientTransactionItem, IAccountable> {
@@ -30,6 +30,7 @@ public abstract class TransactionItemNameColumn extends
 				public boolean filter(ClientItem e) {
 					return true;
 				}
+
 			});
 
 	@Override
@@ -40,13 +41,16 @@ public abstract class TransactionItemNameColumn extends
 	public abstract ListFilter<ClientAccount> getAccountsFilter();
 
 	@Override
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings("unchecked")
 	public AbstractDropDownTable getDisplayTable(ClientTransactionItem row) {
 		switch (row.getType()) {
 		case ClientTransactionItem.TYPE_ACCOUNT:
 			return accountsList;
 		case ClientTransactionItem.TYPE_ITEM:
+			itemsList.setItemType(ItemView.NON_INVENTORY_PART);
+			return itemsList;
 		case ClientTransactionItem.TYPE_SERVICE:
+			itemsList.setItemType(ItemView.TYPE_SERVICE);
 			return itemsList;
 		default:
 			break;
