@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.ProductCombo;
 import com.vimukti.accounter.web.client.ui.combo.ServiceCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
@@ -47,7 +48,6 @@ public abstract class VendorTransactionTable extends
 	private double taxableTotal;
 	private int accountingType;
 	protected boolean isPurchseOrderTransaction;
-	private long ztaxCodeid;
 	protected int maxDecimalPoint;
 
 	public VendorTransactionTable() {
@@ -233,27 +233,18 @@ public abstract class VendorTransactionTable extends
 		return getAllRows();
 	}
 
-	public void setVendorTaxCode(ClientTransactionItem selectedObject) {
-		List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
-		for (ClientTAXCode taxCode : taxCodes) {
-			if (taxCode.getName().equals("S")) {
-				ztaxCodeid = taxCode.getID();
-				break;
+	public void setTaxCode(long taxCode) {
+		for (ClientTransactionItem item : getRecords()) {
+			if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT
+					&& item.getTaxCode() == 0) {
+				// Only set this for account and if we have not specified
+				// already
+				// This works only once
+				item.setTaxCode(taxCode);
+				update(item);
 			}
 		}
-
-		ClientVendor selectedVendor = getSelectedVendor();
-		if (getTransactionObject() == null && selectedVendor != null)
-			selectedObject
-					.setTaxCode(selectedObject.getTaxCode() != 0 ? selectedObject
-							.getTaxCode()
-							: selectedVendor.getTAXCode() > 0 ? selectedVendor
-									.getTAXCode() : ztaxCodeid);
-		else
-			selectedObject.setTaxCode(ztaxCodeid);
-
 		updateTotals();
-		update(selectedObject);
 	}
 
 	protected abstract ClientTransaction getTransactionObject();
@@ -283,6 +274,10 @@ public abstract class VendorTransactionTable extends
 				switch (validationcount++) {
 				case 1:
 					if (item.getAccountable() == null) {
+						result.addError(
+								row + "," + 1,
+								Accounter.messages().pleaseEnter(
+										UIUtils.getTransactionTypeName(item.getType())));
 						result.addError(
 								row + "," + 1,
 								Accounter.messages().pleaseEnter(
@@ -318,10 +313,6 @@ public abstract class VendorTransactionTable extends
 			// return false;
 		}
 		return result;
-	}
-
-	public void setTaxCode(long id) {
-
 	}
 
 	public void setAllTransactionItems(
