@@ -65,13 +65,11 @@ public class VendorCreditMemoView extends
 		else
 			phoneSelect.setValue("");
 		super.vendorSelected(vendor);
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			for (ClientTransactionItem item : vendorTransactionTable
-					.getRecords()) {
-				if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT)
-					vendorTransactionTable.setVendorTaxCode(item);
-			}
+		long code = vendor.getTAXCode();
+		if (code == 0) {
+			code = Accounter.getCompany().getDefaultTaxCode();
 		}
+		vendorTransactionTable.setTaxCode(code);
 
 	}
 
@@ -87,7 +85,7 @@ public class VendorCreditMemoView extends
 			contactSelected(transaction.getContact());
 			phoneSelect.setValue(transaction.getPhone());
 			transactionNumber.setValue(transaction.getNumber());
-			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (isRegistedForVAT()) {
 				netAmount.setAmount(transaction.getNetAmount());
 				vatTotalNonEditableText.setAmount(transaction.getTotal()
 						- transaction.getNetAmount());
@@ -113,6 +111,10 @@ public class VendorCreditMemoView extends
 		setMemoTextAreaItem("");
 		// setRefText("");
 
+	}
+
+	private boolean isRegistedForVAT() {
+		return Accounter.getCompany().getPreferences().isRegisteredForVAT();
 	}
 
 	@Override
@@ -222,8 +224,8 @@ public class VendorCreditMemoView extends
 		vendorForm = UIUtils.form(Global.get().vendor());
 		vendorForm.setWidth("50%");
 		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect);
-		vendorForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "190px");
+		vendorForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "190px");
 
 		leftVLay.add(vendorForm);
 
@@ -277,8 +279,7 @@ public class VendorCreditMemoView extends
 		bottomPanel.setWidth("100%");
 
 		int accountType = getCompany().getAccountingType();
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-
+		if (isRegistedForVAT()) {
 			VerticalPanel vPanel = new VerticalPanel();
 			vPanel.setWidth("100%");
 			vPanel.setHorizontalAlignment(ALIGN_RIGHT);
@@ -393,8 +394,7 @@ public class VendorCreditMemoView extends
 		// Setting Reference
 		// transaction.setReference(getRefText());
 
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
-			transaction.setNetAmount(netAmount.getAmount());
+		transaction.setNetAmount(netAmount.getAmount());
 		// itemReceipt.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 		// .getValue());
 
@@ -413,18 +413,18 @@ public class VendorCreditMemoView extends
 		// 4. isBlank transaction?
 		// 5. is vendor transaction grid valid?
 		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateTransactionDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
 		}
 		result.add(vendorForm.validate());
 		if (vendorTransactionTable.getAllRows().isEmpty()) {
-			result.addError(vendorTransactionTable, accounterConstants
-					.blankTransaction());
+			result.addError(vendorTransactionTable,
+					accounterConstants.blankTransaction());
 		} else
 			result.add(vendorTransactionTable.validateGrid());
 		return result;
@@ -436,7 +436,7 @@ public class VendorCreditMemoView extends
 		transactionTotalNonEditableText.setAmount(vendorTransactionTable
 				.getTotal());
 		netAmount.setAmount(vendorTransactionTable.getGrandTotal());
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (isRegistedForVAT()) {
 			vatTotalNonEditableText.setAmount(vendorTransactionTable.getTotal()
 					- vendorTransactionTable.getGrandTotal());
 		}
