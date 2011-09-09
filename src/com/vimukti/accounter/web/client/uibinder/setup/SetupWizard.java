@@ -58,6 +58,21 @@ public class SetupWizard extends VerticalPanel {
 			new SetupCurrencyPage(), new SetupTrackBillsAndTimePage(),
 			new SetupSelectFiscalYrDatePage(),
 			new SetupSelectAccountsPage(this), new SetupComplitionPage() };
+	
+	private AbstractSetupPage viewList1[] = new AbstractSetupPage[] {
+			new SetupStartPage(this),
+			new SetupCompanyInfoPage(),
+			new SetupIndustrySelectionPage(this),
+			new SetupOrganisationSelectionPage(),
+			new SetupReferPage(),
+			// Employee Expanse Will be Added in Next Version
+			/* new SetupTrackEmployeesPage(), */new SetupSellTypeAndSalesTaxPage(),
+
+			new SetupUsingEstimatesAndStatementsPage(),
+			new SetupCurrencyPage(), new SetupTrackBillsAndTimePage(),
+			new SetupSelectFiscalYrDatePage(),
+			new SetupSelectAccountsPage(this), new SetupComplitionPage() };
+
 
 	private AbstractSetupPage[] skipViewList = new AbstractSetupPage[] {
 			new SetupStartPage(this), new SetupCompanyInfoPage(),
@@ -67,7 +82,24 @@ public class SetupWizard extends VerticalPanel {
 			new SetupComplitionPage() };
 
 	private Image startProgressImages[] = new Image[viewList.length - 2];
+	private Image startProgressImages1[] = new Image[viewList1.length -2];
+	
 	private String startProgressLabels[] = new String[] {
+			Accounter.constants().setCompanyInfo(),
+			Accounter.constants().selectIndustryType(),
+			Accounter.constants().companyOrganization(),
+
+			Accounter.constants().selectReferringNames(),
+			// Accounter.constants().trackEmployeeExpenses(),
+
+			Accounter.constants().whatDoYouSell(),
+			Accounter.constants().setEstimatesAndStatements(),
+			Accounter.constants().setCurrency(),
+			Accounter.constants().setBillTracking(),
+			Accounter.constants().setFiscalYear(),
+			Accounter.constants().Accounts() };
+
+	private String startProgressLabels1[] = new String[] {
 			Accounter.constants().setCompanyInfo(),
 			Accounter.constants().selectIndustryType(),
 			Accounter.constants().companyOrganization(),
@@ -259,6 +291,7 @@ public class SetupWizard extends VerticalPanel {
 			System.err.println(e);
 		}
 	}
+
 	/**
 	 * @return
 	 */
@@ -277,8 +310,9 @@ public class SetupWizard extends VerticalPanel {
 			}
 			previousView.onSave();
 			if (currentViewIndex > 0) {
-				getProgressImages()[currentViewIndex - 1]
-						.addStyleName("tick_show");
+					getProgressImages()[currentViewIndex - 1]
+							.addStyleName("tick_show");	
+				
 			}
 			if (!isLastView()) {
 				currentViewIndex++;
@@ -294,15 +328,11 @@ public class SetupWizard extends VerticalPanel {
 
 		this.viewPanel.remove(previousView);
 		viewToShow = getNextView();
-
 		if (Accounter.getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_US
 				&& isOrganizationView()) {
 			showView(isNext);
 		}
-		if(Accounter.getCompany().getAccountingType()!=ClientCompany.ACCOUNTING_TYPE_INDIA && isTDSView())
-		{
-			showView(isNext);
-		}
+	
 
 		if (viewToShow == null) {
 			return;
@@ -350,9 +380,11 @@ public class SetupWizard extends VerticalPanel {
 			CustomLabel label = new CustomLabel(progressLabels[iii]);
 			progressImages[iii] = new Image(Accounter.getFinanceImages()
 					.tickMark());
+
 			progressImages[iii].addStyleName("tick_hidden");
 			progressTable.setWidget(iii, 0, progressImages[iii]);
 			progressTable.setWidget(iii, 1, label);
+
 		}
 
 		progressPanel.add(progressTable);
@@ -365,14 +397,25 @@ public class SetupWizard extends VerticalPanel {
 		if (isSkip) {
 			return skipProgressLabels;
 		}
-		return startProgressLabels;
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
+			return startProgressLabels1;
+		} else {
+			return startProgressLabels;
+		}
 	}
 
 	private Image[] getProgressImages() {
 		if (isSkip) {
 			return skipProgressImages;
 		}
+		if(Accounter.getCompany().getAccountingType()==ClientCompany.ACCOUNTING_TYPE_INDIA)
+		{
 		return startProgressImages;
+		}
+		else
+		{
+			return startProgressImages1;
+		}
 	}
 
 	/**
@@ -396,6 +439,9 @@ public class SetupWizard extends VerticalPanel {
 	}
 
 	private AbstractSetupPage getNextView() {
+		
+		
+		
 		AbstractSetupPage nextView = getViewsList()[currentViewIndex];
 		while (!nextView.canShow()) {
 			currentViewIndex++;
@@ -417,9 +463,13 @@ public class SetupWizard extends VerticalPanel {
 	private AbstractSetupPage[] getViewsList() {
 		if (isSkip) {
 			return skipViewList;
-		} else {
+		} 
+
+		if(Accounter.getCompany().getAccountingType()==ClientCompany.ACCOUNTING_TYPE_INDIA)
 			return viewList;
-		}
+		else
+			return viewList1;
+		
 	}
 
 	/**
