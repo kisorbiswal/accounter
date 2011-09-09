@@ -51,7 +51,7 @@ public class DoYouUseAndHowDoYouReferPage extends AbstractCompanyInfoPanel {
 		useVendorNo.setValue(companyPreferences.getUseVendorId());
 		useAccountNo.setValue(companyPreferences.getUseAccountNumbers());
 		customerCombo.setSelectedIndex(companyPreferences.getReferCustomers());
-		customerCombo.setSelectedIndex(companyPreferences.getReferVendors());
+		supplierCombo.setSelectedIndex(companyPreferences.getReferVendors());
 		accountCombo.setSelectedIndex(companyPreferences.getReferAccounts());
 	}
 
@@ -63,7 +63,7 @@ public class DoYouUseAndHowDoYouReferPage extends AbstractCompanyInfoPanel {
 		useVendorNo.setText(messages.useVendorId(Global.get().vendor()));
 		useAccountNo.setText(messages.useAccountNos(Global.get().account()));
 
-		howDoYouLabelItem.setText(constants.howDoYouRefer());
+		howDoYouLabelItem.setText(constants.terminology());
 
 		customerComboLabel.setText(constants.Customer());
 		supplierComboLabel.setText(constants.Supplier());

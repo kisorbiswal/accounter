@@ -19,7 +19,7 @@ public class SetupReferPage extends AbstractSetupPage {
 
 	@Override
 	public String getHeader() {
-		return this.accounterConstants.howDoYouRefer();
+		return this.accounterConstants.terminology();
 	}
 
 	@Override

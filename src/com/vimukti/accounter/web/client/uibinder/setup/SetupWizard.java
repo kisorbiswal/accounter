@@ -89,7 +89,7 @@ public class SetupWizard extends VerticalPanel {
 			Accounter.constants().selectIndustryType(),
 			Accounter.constants().companyOrganization(),
 
-			Accounter.constants().selectReferringNames(),
+			Accounter.constants().terminology(),
 			// Accounter.constants().trackEmployeeExpenses(),
 
 			Accounter.constants().whatDoYouSell(),
@@ -104,7 +104,7 @@ public class SetupWizard extends VerticalPanel {
 			Accounter.constants().selectIndustryType(),
 			Accounter.constants().companyOrganization(),
 		//	Accounter.constants().tdsSelection(),
-			Accounter.constants().selectReferringNames(),
+			Accounter.constants().terminology(),
 			// Accounter.constants().trackEmployeeExpenses(),
 
 			Accounter.constants().whatDoYouSell(),

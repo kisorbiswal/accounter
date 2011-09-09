@@ -63,7 +63,7 @@ public class SetupReferPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		headerLabel.setText(accounterConstants.howDoYouRefer());
+		headerLabel.setText(accounterConstants.terminology());
 		// adding Items to customer list box
 		customerListBox.addItem(accounterConstants.Customer());
 		customerListBox.addItem(accounterConstants.Client());
@@ -103,15 +103,9 @@ public class SetupReferPage extends AbstractSetupPage {
 		int referSuplliers = preferences.getReferVendors();
 		int referAccounts = preferences.getReferAccounts();
 
-		if (referCustomers > 0) {
-			customerListBox.setSelectedIndex(referCustomers - 1);
-		}
-		if (referAccounts > 0) {
-			accountListBox.setSelectedIndex(referAccounts - 1);
-		}
-		if (referSuplliers > 0) {
-			vendorListBox.setSelectedIndex(referSuplliers - 1);
-		}
+		customerListBox.setSelectedIndex(referCustomers);
+		accountListBox.setSelectedIndex(referAccounts);
+		vendorListBox.setSelectedIndex(referSuplliers);
 	}
 
 	@Override
@@ -119,15 +113,9 @@ public class SetupReferPage extends AbstractSetupPage {
 		int customer = customerListBox.getSelectedIndex();
 		int vendor = vendorListBox.getSelectedIndex();
 		int accounts = accountListBox.getSelectedIndex();
-		if (customer > 0) {
-			preferences.setReferCustomers(customer + 1);
-		}
-		if (vendor > 0) {
-			preferences.setReferVendors(vendor + 1);
-		}
-		if (accounts > 0) {
-			preferences.setReferAccounts(accounts + 1);
-		}
+		preferences.setReferCustomers(customer);
+		preferences.setReferVendors(vendor);
+		preferences.setReferAccounts(accounts);
 	}
 
 	@Override
