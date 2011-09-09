@@ -17,6 +17,8 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.company.PreferencePage;
+import com.vimukti.accounter.web.client.ui.company.options.AbstractPreferenceOption;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.CancelButton;
@@ -60,10 +62,10 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 
 			// stackPanel.add(getBasicInfoPanel(), constants.basicInfo());
 			stackPanel.add(getCompanyInfoPanel(), constants.comapnyInfo());
-			stackPanel.add(getBankingAndFinancialInfoPanel(), constants
-					.otherDetails());
-			stackPanel.add(getOtherDetailsPanel(), constants
-					.accounterSettings());
+			stackPanel.add(getBankingAndFinancialInfoPanel(),
+					constants.otherDetails());
+			stackPanel.add(getOtherDetailsPanel(),
+					constants.accounterSettings());
 			stackPanel.add(getCategoriesPanel(), constants.Categories());
 			companyInfoPanel = new CompanyRegisteredDetailsPage(
 					companyPreferences, company, this);
@@ -88,6 +90,23 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 		} catch (Exception e) {
 			System.err.println(e);
 		}
+	}
+
+	private VerticalPanel createPageView(final PreferencePage page) {
+		VerticalPanel pageView = new VerticalPanel();
+		List<AbstractPreferenceOption> options = page.getOptions();
+		for (final AbstractPreferenceOption option : options) {
+			HTML optionLink = new HTML(option.getTitle());
+			pageView.add(optionLink);
+			optionLink.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					page.show(option);
+				}
+			});
+		}
+		return pageView;
 	}
 
 	@Override
@@ -240,8 +259,8 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 
 		VerticalPanel bankingAndFinancialInfoPanel = new VerticalPanel();
 
-		bankingAndOtherFinancialDetailsLink = new HTML(messages
-				.bankingAndOtherFinancialDetails());
+		bankingAndOtherFinancialDetailsLink = new HTML(
+				messages.bankingAndOtherFinancialDetails());
 
 		bankingAndFinancialInfoPanel.add(bankingAndOtherFinancialDetailsLink);
 		bankingAndOtherFinancialDetailsPanel = new BankingAndOtherFinancialDetailsPage();
@@ -265,12 +284,12 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 
 		VerticalPanel otherDetailsPanel = new VerticalPanel();
 
-		customerAndvendorSettingsLink = new HTML(messages
-				.customerAndvendorSettings());
-		doYouUseAndHowDoYouReferLink = new HTML(messages
-				.doYouUseAndHowDoYouRefer());
-		ageingAndSellingDetailsLink = new HTML(messages
-				.ageingAndSellingDetails());
+		customerAndvendorSettingsLink = new HTML(
+				messages.customerAndvendorSettings());
+		doYouUseAndHowDoYouReferLink = new HTML(
+				messages.doYouUseAndHowDoYouRefer());
+		ageingAndSellingDetailsLink = new HTML(
+				messages.ageingAndSellingDetails());
 		employeeSettingsLink = new HTML(messages.employeeSettings());
 
 		otherDetailsPanel.add(customerAndvendorSettingsLink);
@@ -353,8 +372,8 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 				companyOtherDetailsLink.getElement().getParentElement()
 						.addClassName("contentSelected");
 			else if (panel instanceof OrganizationDetailsPage)
-				organisationLink.getElement().getParentElement().addClassName(
-						"contentSelected");
+				organisationLink.getElement().getParentElement()
+						.addClassName("contentSelected");
 			else if (panel instanceof BankingAndOtherFinancialDetailsPage)
 				bankingAndOtherFinancialDetailsLink.getElement()
 						.getParentElement().addClassName("contentSelected");
