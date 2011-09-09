@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.view.client.ListDataProvider;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 /**
  * @author Prasanna Kumar G
@@ -37,6 +38,7 @@ public class ReconciliationsTable extends CellTable<ClientReconciliation> {
 	 * 
 	 */
 	private void initColumns() {
+
 		TextColumn<ClientReconciliation> reconciliationDate = new TextColumn<ClientReconciliation>() {
 
 			@Override
@@ -80,7 +82,6 @@ public class ReconciliationsTable extends CellTable<ClientReconciliation> {
 							public void onClick(ClickEvent event) {
 								deleteReconciliation(object);
 							}
-
 						});
 
 						return "<div>"
@@ -118,17 +119,16 @@ public class ReconciliationsTable extends CellTable<ClientReconciliation> {
 		this.addColumn(closingBalance, Accounter.constants().ClosingBalance());
 	}
 
-	private void openReconciliation(ClientReconciliation object) {
-		// TODO Auto-generated method stub
-
-	}
-
 	private void deleteReconciliation(ClientReconciliation object) {
 		// TODO Auto-generated method stub
-
 	}
 
 	public void setData(List<ClientReconciliation> data) {
 		this.dataprovider.setList(data);
 	}
+
+	public void openReconciliation(ClientReconciliation reconciliation) {
+		ActionFactory.getNewReconciliationAction().run(reconciliation, false);
+	}
+
 }

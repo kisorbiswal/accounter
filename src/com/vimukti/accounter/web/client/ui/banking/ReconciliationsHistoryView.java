@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -51,7 +52,11 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 		mainPanel.setWidth("100%");
 		DynamicForm form = new DynamicForm();
 		form.setItems(bankAccountsCombo);
+		Label label = new Label("Reconciliation List");
+		label.setStyleName("bold");
+
 		mainPanel.add(form);
+		mainPanel.add(label);
 		mainPanel.add(grid);
 		mainPanel.setCellHeight(grid, "200px");
 		grid.getElement().getParentElement()
@@ -91,6 +96,8 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 	public void initData() {
 		ArrayList<ClientAccount> bankAccounts = Accounter.getCompany()
 				.getAccounts(ClientAccount.TYPE_BANK);
+		if (bankAccounts == null)
+			return;
 		for (ClientAccount account : bankAccounts) {
 			bankAccountsCombo.addItem(account.getName());
 			this.bankAccounts.put(account.getName(),
@@ -98,31 +105,25 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 		}
 		bankAccountsCombo.setSelectedItem(0);
 		bankAccountChanged(bankAccountsCombo.getSelectedValue());
-
 	}
 
 	@Override
 	public void deleteFailed(AccounterException caught) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void deleteSuccess(IAccounterCore result) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected String getViewTitle() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<DynamicForm> getForms() {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

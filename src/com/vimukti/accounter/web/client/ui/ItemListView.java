@@ -186,7 +186,6 @@ public class ItemListView extends BaseListView<ClientItem> {
 		// NOTHING TO DO.
 	}
 
-
 	@Override
 	protected String getViewTitle() {
 		return Accounter.constants().items();

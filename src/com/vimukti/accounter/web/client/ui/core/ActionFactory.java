@@ -222,7 +222,6 @@ public class ActionFactory {
 
 	public static InventoryItemsAction getInventoryItemsAction() {
 		return new InventoryItemsAction(actionsConstants.inventoryItems());
-
 	}
 
 	public static ConversionBalancesAction getConversionBalancesAction() {

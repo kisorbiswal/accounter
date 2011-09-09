@@ -40,6 +40,7 @@ public class ReconciliationTransactionsGrid extends
 	}
 
 	private void initColumns() {
+
 		TextColumn<ClientTransaction> date = new TextColumn<ClientTransaction>() {
 
 			@Override
@@ -80,7 +81,6 @@ public class ReconciliationTransactionsGrid extends
 
 			@Override
 			public String getValue(ClientTransaction object) {
-				boolean makeDeposit = object.isMakeDeposit();
 				if (UIUtils.isMoneyIn(object)) {
 					return String.valueOf(object.getTotal());
 				}
