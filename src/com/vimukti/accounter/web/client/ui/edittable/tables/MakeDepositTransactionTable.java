@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.edittable.AbstractDropDownTable;
 import com.vimukti.accounter.web.client.ui.edittable.AccountDropDownTable;
+import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
 import com.vimukti.accounter.web.client.ui.edittable.ComboColumn;
 import com.vimukti.accounter.web.client.ui.edittable.CustomerDropDownTable;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
@@ -180,20 +181,21 @@ public abstract class MakeDepositTransactionTable extends
 			}
 		});
 
-		this.addColumn(new TextEditColumn<ClientTransactionMakeDeposit>() {
+		this.addColumn(new AmountColumn<ClientTransactionMakeDeposit>() {
 
 			@Override
-			protected String getValue(ClientTransactionMakeDeposit row) {
-				return String.valueOf(row.getAmount());
+			protected String getColumnName() {
+				return Accounter.constants().amount();
 			}
 
 			@Override
-			protected void setValue(ClientTransactionMakeDeposit row,
-					String value) {
-				String lineTotalAmtString = value.toString();
-				Double lineTotal = Double.parseDouble(DataUtils
-						.getReformatedAmount(lineTotalAmtString) + "");
+			protected double getAmount(ClientTransactionMakeDeposit row) {
+				return row.getAmount();
+			}
 
+			@Override
+			protected void setAmount(ClientTransactionMakeDeposit row,
+					double lineTotal) {
 				if (!AccounterValidator.isPositiveAmount(lineTotal)) {
 					lineTotal = 0.0D;
 					row.setAmount(lineTotal);
@@ -201,11 +203,6 @@ public abstract class MakeDepositTransactionTable extends
 					row.setAmount(lineTotal);
 				}
 				update(row);
-			}
-
-			@Override
-			protected String getColumnName() {
-				return Accounter.constants().amount();
 			}
 		});
 

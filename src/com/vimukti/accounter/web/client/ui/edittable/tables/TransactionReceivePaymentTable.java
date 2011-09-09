@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.customers.CustomerCreditsAndPaymentsDialiog;
 import com.vimukti.accounter.web.client.ui.customers.WriteOffDialog;
+import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
 import com.vimukti.accounter.web.client.ui.edittable.AnchorEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.CheckboxEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
@@ -136,17 +137,7 @@ public abstract class TransactionReceivePaymentTable extends
 		};
 		this.addColumn(invoiceNumber);
 
-		TextEditColumn<ClientTransactionReceivePayment> invoiceAmountColumn = new TextEditColumn<ClientTransactionReceivePayment>() {
-
-			@Override
-			protected void setValue(ClientTransactionReceivePayment row,
-					String value) {
-			}
-
-			@Override
-			protected String getValue(ClientTransactionReceivePayment row) {
-				return DataUtils.getAmountAsString(row.getInvoiceAmount());
-			}
+		AmountColumn<ClientTransactionReceivePayment> invoiceAmountColumn = new AmountColumn<ClientTransactionReceivePayment>() {
 
 			@Override
 			protected boolean isEnable() {
@@ -162,21 +153,22 @@ public abstract class TransactionReceivePaymentTable extends
 			protected String getColumnName() {
 				return Accounter.constants().invoiceAmount();
 			}
+
+			@Override
+			protected double getAmount(ClientTransactionReceivePayment row) {
+				return row.getInvoiceAmount();
+			}
+
+			@Override
+			protected void setAmount(ClientTransactionReceivePayment row,
+					double value) {
+
+			}
 		};
 		this.addColumn(invoiceAmountColumn);
 
 		if (canEdit) {
-			TextEditColumn<ClientTransactionReceivePayment> amountDueColumn = new TextEditColumn<ClientTransactionReceivePayment>() {
-
-				@Override
-				protected void setValue(ClientTransactionReceivePayment row,
-						String value) {
-				}
-
-				@Override
-				protected String getValue(ClientTransactionReceivePayment row) {
-					return DataUtils.getAmountAsString(row.getDummyDue());
-				}
+			AmountColumn<ClientTransactionReceivePayment> amountDueColumn = new AmountColumn<ClientTransactionReceivePayment>() {
 
 				@Override
 				protected boolean isEnable() {
@@ -191,6 +183,17 @@ public abstract class TransactionReceivePaymentTable extends
 				@Override
 				protected String getColumnName() {
 					return Accounter.constants().amountDue();
+				}
+
+				@Override
+				protected double getAmount(ClientTransactionReceivePayment row) {
+					return row.getDummyDue();
+				}
+
+				@Override
+				protected void setAmount(ClientTransactionReceivePayment row,
+						double value) {
+
 				}
 			};
 			this.addColumn(amountDueColumn);
@@ -297,20 +300,25 @@ public abstract class TransactionReceivePaymentTable extends
 		};
 		this.addColumn(appliedCreditsColumn);
 
-		TextEditColumn<ClientTransactionReceivePayment> paymentColumn = new TextEditColumn<ClientTransactionReceivePayment>() {
+		TextEditColumn<ClientTransactionReceivePayment> paymentColumn = new AmountColumn<ClientTransactionReceivePayment>() {
 
 			@Override
-			protected String getValue(ClientTransactionReceivePayment row) {
-				return DataUtils.getAmountAsString(row.getPayment());
+			protected String getColumnName() {
+				return Accounter.constants().payment();
 			}
 
 			@Override
-			protected void setValue(ClientTransactionReceivePayment item,
-					String value) {
+			protected double getAmount(ClientTransactionReceivePayment row) {
+				return row.getPayment();
+			}
+
+			@Override
+			protected void setAmount(ClientTransactionReceivePayment item,
+					double value) {
 				double amt, originalPayment;
 				try {
 					originalPayment = item.getPayment();
-					amt = Double.valueOf(value);
+					amt = value;
 					if (!isSelected(item)) {
 						item.setPayment(item.getAmountDue());
 						onSelectionChanged(item, true);
@@ -333,11 +341,7 @@ public abstract class TransactionReceivePaymentTable extends
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			}
 
-			@Override
-			protected String getColumnName() {
-				return Accounter.constants().payment();
 			}
 		};
 		this.addColumn(paymentColumn);

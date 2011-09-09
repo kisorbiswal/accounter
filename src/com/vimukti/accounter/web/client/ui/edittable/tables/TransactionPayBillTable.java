@@ -23,6 +23,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.customers.CustomerCreditsAndPaymentsDialiog;
+import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
 import com.vimukti.accounter.web.client.ui.edittable.AnchorEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.CheckboxEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
@@ -131,18 +132,7 @@ public abstract class TransactionPayBillTable extends
 		this.addColumn(billNo);
 
 		if (canEdit) {
-			this.addColumn(new TextEditColumn<ClientTransactionPayBill>() {
-
-				@Override
-				protected String getValue(ClientTransactionPayBill row) {
-					return DataUtils.getAmountAsString(row.getOriginalAmount());
-				}
-
-				@Override
-				protected void setValue(ClientTransactionPayBill row,
-						String value) {
-					// No Need
-				}
+			this.addColumn(new AmountColumn<ClientTransactionPayBill>() {
 
 				@Override
 				public int getWidth() {
@@ -158,20 +148,20 @@ public abstract class TransactionPayBillTable extends
 				protected String getColumnName() {
 					return Accounter.constants().originalAmount();
 				}
+
+				@Override
+				protected double getAmount(ClientTransactionPayBill row) {
+					return row.getOriginalAmount();
+				}
+
+				@Override
+				protected void setAmount(ClientTransactionPayBill row,
+						double value) {
+
+				}
 			});
 
-			this.addColumn(new TextEditColumn<ClientTransactionPayBill>() {
-
-				@Override
-				protected String getValue(ClientTransactionPayBill row) {
-					return DataUtils.getAmountAsString(row.getDummyDue());
-				}
-
-				@Override
-				protected void setValue(ClientTransactionPayBill row,
-						String value) {
-					// No Need
-				}
+			this.addColumn(new AmountColumn<ClientTransactionPayBill>() {
 
 				@Override
 				public int getWidth() {
@@ -187,20 +177,20 @@ public abstract class TransactionPayBillTable extends
 				protected String getColumnName() {
 					return Accounter.constants().amountDue();
 				}
+
+				@Override
+				protected double getAmount(ClientTransactionPayBill row) {
+					return row.getDummyDue();
+				}
+
+				@Override
+				protected void setAmount(ClientTransactionPayBill row,
+						double value) {
+
+				}
 			});
 		} else {
-			this.addColumn(new TextEditColumn<ClientTransactionPayBill>() {
-
-				@Override
-				protected String getValue(ClientTransactionPayBill row) {
-					return DataUtils.getAmountAsString(row.getOriginalAmount());
-				}
-
-				@Override
-				protected void setValue(ClientTransactionPayBill row,
-						String value) {
-					// No Need
-				}
+			this.addColumn(new AmountColumn<ClientTransactionPayBill>() {
 
 				@Override
 				protected boolean isEnable() {
@@ -215,6 +205,18 @@ public abstract class TransactionPayBillTable extends
 				@Override
 				protected String getColumnName() {
 					return Accounter.constants().billAmount();
+				}
+
+				@Override
+				protected double getAmount(ClientTransactionPayBill row) {
+					return row.getOriginalAmount();
+				}
+
+				@Override
+				protected void setAmount(ClientTransactionPayBill row,
+						double value) {
+					//
+
 				}
 			});
 		}
@@ -267,9 +269,9 @@ public abstract class TransactionPayBillTable extends
 		});
 
 		if (!canEdit) {
-		
-				addTdsColumn();
-			
+
+			addTdsColumn();
+
 		}
 		if (canEdit) {
 			this.addColumn(new AnchorEditColumn<ClientTransactionPayBill>() {
@@ -294,30 +296,27 @@ public abstract class TransactionPayBillTable extends
 				addTdsColumn();
 			}
 
-			this.addColumn(new TextEditColumn<ClientTransactionPayBill>() {
-
-				@Override
-				protected String getValue(ClientTransactionPayBill row) {
-					return DataUtils.getAmountAsString(row.getPayment());
-
-				}
-
-				@Override
-				protected void setValue(ClientTransactionPayBill row,
-						String value) {
-					onSelectionChanged(row, true);
-					double payment = Double.parseDouble(DataUtils
-							.getReformatedAmount(value.toString()) + "");
-					row.setPayment(payment);
-					updateAmountDue(row);
-					adjustAmountAndEndingBalance();
-					updateFootervalues(row, canEdit);
-					update(row);
-				}
+			this.addColumn(new AmountColumn<ClientTransactionPayBill>() {
 
 				@Override
 				protected String getColumnName() {
 					return Accounter.constants().payments();
+				}
+
+				@Override
+				protected double getAmount(ClientTransactionPayBill row) {
+					return row.getPayment();
+				}
+
+				@Override
+				protected void setAmount(ClientTransactionPayBill row,
+						double value) {
+					onSelectionChanged(row, true);
+					row.setPayment(value);
+					updateAmountDue(row);
+					adjustAmountAndEndingBalance();
+					updateFootervalues(row, canEdit);
+					update(row);
 				}
 			});
 		}
@@ -346,17 +345,11 @@ public abstract class TransactionPayBillTable extends
 					return Accounter.constants().referenceNo();
 				}
 			});
-			this.addColumn(new TextEditColumn<ClientTransactionPayBill>() {
+			this.addColumn(new AmountColumn<ClientTransactionPayBill>() {
 
 				@Override
 				protected String getValue(ClientTransactionPayBill row) {
 					return DataUtils.getAmountAsString(row.getPayment());
-				}
-
-				@Override
-				protected void setValue(ClientTransactionPayBill row,
-						String value) {
-					// No Need
 				}
 
 				@Override
@@ -367,6 +360,17 @@ public abstract class TransactionPayBillTable extends
 				@Override
 				protected String getColumnName() {
 					return Accounter.constants().amountPaid();
+				}
+
+				@Override
+				protected double getAmount(ClientTransactionPayBill row) {
+					return row.getPayment();
+				}
+
+				@Override
+				protected void setAmount(ClientTransactionPayBill row,
+						double value) {
+
 				}
 			});
 		}
@@ -749,39 +753,39 @@ public abstract class TransactionPayBillTable extends
 	protected abstract void adjustAmountAndEndingBalance();
 
 	private void addTdsColumn() {
-		
-		
+
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA
 				&& getCompany().getPreferences().isTDSEnabled()) {
-		this.addColumn(new TextEditColumn<ClientTransactionPayBill>() {
+			this.addColumn(new AmountColumn<ClientTransactionPayBill>() {
 
-			@Override
-			protected String getValue(ClientTransactionPayBill row) {
-				ClientTAXItem taxItem = Accounter.getCompany().getTAXItem(
-						vendor.getTaxItemCode());
-				if (taxItem != null)
-					return DataUtils.getAmountAsString(row.getOriginalAmount()
-							* (taxItem.getTaxRate() / 100));
-				else
-					return DataUtils.getAmountAsString(0.0);
-			}
+				@Override
+				protected boolean isEnable() {
+					return false;
+				}
 
-			@Override
-			protected boolean isEnable() {
-				return false;
-			}
+				@Override
+				protected String getColumnName() {
+					return Accounter.constants().tds();
+				}
 
-			@Override
-			protected String getColumnName() {
-				return Accounter.constants().tds();
-			}
+				@Override
+				protected double getAmount(ClientTransactionPayBill row) {
+					ClientTAXItem taxItem = Accounter.getCompany().getTAXItem(
+							vendor.getTaxItemCode());
+					if (taxItem != null)
+						return row.getOriginalAmount()
+								* (taxItem.getTaxRate() / 100);
+					else
+						return 0;
+				}
 
-			@Override
-			protected void setValue(ClientTransactionPayBill row, String value) {
-				// TODO Auto-generated method stub
+				@Override
+				protected void setAmount(ClientTransactionPayBill row,
+						double value) {
+					// No Need
 
-			}
-		});
+				}
+			});
 		}
 	}
 
