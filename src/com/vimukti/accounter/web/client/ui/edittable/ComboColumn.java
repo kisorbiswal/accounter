@@ -19,15 +19,17 @@ public abstract class ComboColumn<T, C> extends EditColumn<T> {
 	protected abstract C getValue(T row);
 
 	@Override
-	public IsWidget getWidget(final RenderContext<T> context) {
+	public IsWidget getWidget(RenderContext<T> context) {
+		final T row = context.getRow();
 		ComboBox<C> comboBox = new ComboBox<C>();
-		AbstractDropDownTable<C> displayTable = getDisplayTable(context.getRow());
+		AbstractDropDownTable<C> displayTable = getDisplayTable(context
+				.getRow());
 		comboBox.setDropDown(displayTable);
 		comboBox.setComboChangeHandler(new ComboChangeHandler<C>() {
 
 			@Override
 			public void onChange(C newValue) {
-				setValue(context.getRow(), newValue);
+				setValue(row, newValue);
 			}
 
 			@Override
