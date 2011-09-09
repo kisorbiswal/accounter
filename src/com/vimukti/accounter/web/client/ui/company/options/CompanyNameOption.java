@@ -17,7 +17,8 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Prasanna Kumar G
  * 
  */
-public class CompanyNameOption extends AbstractOptionPanel implements HasText {
+public class CompanyNameOption extends AbstractPreferenceOption implements
+		HasText {
 
 	private static CompanyNameOptionUiBinder uiBinder = GWT
 			.create(CompanyNameOptionUiBinder.class);
@@ -70,6 +71,18 @@ public class CompanyNameOption extends AbstractOptionPanel implements HasText {
 	public void onSave() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public String getTitle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getAnchor() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

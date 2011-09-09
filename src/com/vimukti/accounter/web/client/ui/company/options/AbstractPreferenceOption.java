@@ -4,20 +4,12 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
 import com.google.gwt.user.client.ui.Composite;
-import com.vimukti.accounter.web.client.ui.company.IPreferenceOption;
 
 /**
  * @author Prasanna Kumar G
  * 
  */
-public abstract class AbstractOptionPanel extends Composite implements
-		IPreferenceOption {
-
-	@Override
-	public String getAnchor() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+public abstract class AbstractPreferenceOption extends Composite {
 
 	@Override
 	public void onLoad() {
@@ -25,4 +17,10 @@ public abstract class AbstractOptionPanel extends Composite implements
 		super.onLoad();
 	}
 
+	public abstract String getTitle();
+
+	public abstract void onSave();
+
+	public abstract String getAnchor();
+	
 }
