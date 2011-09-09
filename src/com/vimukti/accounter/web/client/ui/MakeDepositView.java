@@ -974,6 +974,8 @@ public class MakeDepositView extends
 		// 5. if(!validMakeDepositCombo(selectedDepositInAccount, gridAcconts))
 		// ERROR
 
+		result.add(depoForm.validate());
+
 		if ((gridView == null)
 				|| (gridView != null && gridView.getRecords().isEmpty())) {
 			result.addError(gridView, accounterConstants.blankTransaction());
@@ -990,7 +992,7 @@ public class MakeDepositView extends
 					accounterConstants.invalidateDate());
 		}
 
-		result.add(depoForm.validate());
+		// result.add(depoForm.validate());
 
 		// if
 		// (AccounterValidator.isNegativeAmount(cashBackAmountText.getAmount()))
@@ -1180,7 +1182,8 @@ public class MakeDepositView extends
 			transaction.setDate(date.getValue().getDate());
 		}
 		// Setting Deposit in
-		transaction.setDepositIn(selectedDepositInAccount.getID());
+		if (depositInSelect.getSelectedValue() != null)
+			transaction.setDepositIn(selectedDepositInAccount.getID());
 
 		// Setting Memo
 		if (memoText.getValue() != null)
