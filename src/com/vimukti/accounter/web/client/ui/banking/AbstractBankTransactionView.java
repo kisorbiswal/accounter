@@ -122,13 +122,15 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	@Override
 	public void showMenu(Widget button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, Accounter.messages().accounts(
-					Global.get().Account()), Accounter.constants().service(),
-					Accounter.constants().productItem());
+			setMenuItems(button,
+					Accounter.messages().accounts(Global.get().Account()),
+					Accounter.constants().service(), Accounter.constants()
+							.productItem());
 		else
-			setMenuItems(button, Accounter.messages().accounts(
-					Global.get().Account()), Accounter.constants().service(),
-					Accounter.constants().productItem());
+			setMenuItems(button,
+					Accounter.messages().accounts(Global.get().Account()),
+					Accounter.constants().service(), Accounter.constants()
+							.productItem());
 		// FinanceApplication.constants().comment());
 
 	}
@@ -328,7 +330,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 				Global.get().Account()))) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
-					&& !getCompany().getPreferences().isDoYouChargesalesTax()) {
+					&& !getCompany().getPreferences().isChargeSalesTax()) {
 				List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
 				long zvatCodeid = 0;
 				for (ClientTAXCode taxCode : taxCodes) {
@@ -342,7 +344,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 				// .getVATCode() != null ? vendor.getVATCode() : "") : "");
 			}
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
-					&& getCompany().getPreferences().isDoYouChargesalesTax()) {
+					&& getCompany().getPreferences().isChargeSalesTax()) {
 				List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
 				long svatCodeid = 0;
 				for (ClientTAXCode taxCode : taxCodes) {
@@ -360,7 +362,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 		} else if (menuItem.equals(Accounter.constants().productItem())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
-			if (getCompany().getPreferences().isDoYouChargesalesTax()) {
+			if (getCompany().getPreferences().isChargeSalesTax()) {
 				List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
 				long svatCodeid = 0;
 				for (ClientTAXCode taxCode : taxCodes) {
@@ -379,7 +381,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 			transactionItem.setType(ClientTransactionItem.TYPE_SERVICE);
 			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
 			long zvatCodeid = 0;
-			if (getCompany().getPreferences().isDoYouChargesalesTax()) {
+			if (getCompany().getPreferences().isChargeSalesTax()) {
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("S")) {
 						zvatCodeid = taxCode.getID();

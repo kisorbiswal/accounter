@@ -265,8 +265,8 @@ public class CustomerRefundView extends
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				isChecked = (Boolean) event.getValue();
 				if (isChecked) {
-					if (printCheck.getValue().toString().equalsIgnoreCase(
-							"true")) {
+					if (printCheck.getValue().toString()
+							.equalsIgnoreCase("true")) {
 						checkNoText.setValue(Accounter.constants()
 								.toBePrinted());
 						checkNoText.setDisabled(true);
@@ -288,8 +288,7 @@ public class CustomerRefundView extends
 
 		checkNoText = new TextItem(
 				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? customerConstants
-						.chequeNo()
-						: customerConstants.checkNo());
+						.chequeNo() : customerConstants.checkNo());
 		checkNoText.setValue(Accounter.constants().toBePrinted());
 		checkNoText.setHelpInformation(true);
 		checkNoText.setWidth(100);
@@ -622,7 +621,7 @@ public class CustomerRefundView extends
 		// result.addError(amtText, accounterConstants.invalidNegativeAmount());
 		// }
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
-				&& getCompany().getPreferences().isDoYouChargesalesTax()) {
+				&& getCompany().getPreferences().isChargeSalesTax()) {
 			if (taxCodeSelect != null)
 				if (!taxCodeSelect.validate()) {
 					result.addError(taxCodeSelect, Accounter.messages()

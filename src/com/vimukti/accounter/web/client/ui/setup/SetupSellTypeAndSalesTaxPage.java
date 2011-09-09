@@ -80,7 +80,7 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		if (sellServices && sellProducts)
 			bothserviceandprductRadioButton.setValue(true);
 
-		if (preferences.isDoYouChargesalesTax()) {
+		if (preferences.isChargeSalesTax()) {
 			yesRadioButton.setValue(true);
 		} else {
 			noRadioButton.setValue(true);
@@ -101,9 +101,9 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		}
 
 		if (yesRadioButton.getValue()) {
-			preferences.setDoYouChargesalesTax(true);
+			preferences.setChargeSalesTax(true);
 		} else {
-			preferences.setDoYouChargesalesTax(false);
+			preferences.setChargeSalesTax(false);
 		}
 
 	}

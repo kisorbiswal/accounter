@@ -137,8 +137,8 @@ public class CustomerCreditMemoView extends
 		custForm = UIUtils.form(Global.get().customer());
 		custForm.setFields(customerCombo, contactCombo, billToTextArea);
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
-		custForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Global.get().constants().width(), "190px");
+		custForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Global.get().constants().width(), "190px");
 		custForm.setWidth("100%");
 		custForm.setStyleName("align-form");
 
@@ -219,7 +219,7 @@ public class CustomerCreditMemoView extends
 			prodAndServiceForm2.addStyleName("invoice-total");
 		} else {
 
-			if (getPreferences().isDoYouChargesalesTax()) {
+			if (getPreferences().isChargeSalesTax()) {
 				prodAndServiceForm2.setFields(taxCodeSelect,
 						salesTaxTextNonEditable, disabletextbox,
 						transactionTotalNonEditableText);
@@ -530,7 +530,8 @@ public class CustomerCreditMemoView extends
 			if (taxableLineTotal == null)
 				return;
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(), taxableLineTotal,
+					transactionDateItem.getEnteredDate(),
+					taxableLineTotal,
 					getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
@@ -741,8 +742,8 @@ public class CustomerCreditMemoView extends
 			// if there is only one branding theme
 			ClientBrandingTheme brandingTheme = themesList.get(0);
 			UIUtils.downloadAttachment(transaction.getID(),
-					ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO, brandingTheme
-							.getID());
+					ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO,
+					brandingTheme.getID());
 
 		}
 

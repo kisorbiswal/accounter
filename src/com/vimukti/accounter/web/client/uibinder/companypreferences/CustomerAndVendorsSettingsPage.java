@@ -48,14 +48,14 @@ public class CustomerAndVendorsSettingsPage extends AbstractCompanyInfoPanel {
 	}
 
 	private void initData() {
-		if (companyPreferences.isDoYouChargesalesTax()) {
+		if (companyPreferences.isChargeSalesTax()) {
 			chargeTaxYesRadioButton.setValue(true);
 			chargeTaxNoRadioButton.setValue(false);
 		} else {
 			chargeTaxYesRadioButton.setValue(false);
 			chargeTaxNoRadioButton.setValue(true);
 		}
-		if (companyPreferences.isDoyouKeepTrackofBills()) {
+		if (companyPreferences.isKeepTrackofBills()) {
 			managingBillYesRadioButton.setValue(true);
 			managingBillNoRadioButton.setValue(false);
 		} else {
@@ -106,14 +106,14 @@ public class CustomerAndVendorsSettingsPage extends AbstractCompanyInfoPanel {
 	@Override
 	public void onSave() {
 		if (chargeTaxYesRadioButton.getValue()) {
-			companyPreferences.setDoYouChargesalesTax(true);
+			companyPreferences.setChargeSalesTax(true);
 		} else {
-			companyPreferences.setDoYouChargesalesTax(false);
+			companyPreferences.setChargeSalesTax(false);
 		}
 		if (managingBillYesRadioButton.getValue()) {
-			companyPreferences.setDoyouKeepTrackofBills(true);
+			companyPreferences.setKeepTrackofBills(true);
 		} else {
-			companyPreferences.setDoyouKeepTrackofBills(false);
+			companyPreferences.setKeepTrackofBills(false);
 		}
 		if (createEstimatesYesRadioButton.getValue()) {
 			companyPreferences.setDoyouwantEstimates(true);

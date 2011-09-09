@@ -274,14 +274,16 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	@Override
 	public void showMenu(Widget button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, Accounter.messages().accounts(
-					Global.get().Account()), Accounter.constants()
-					.serviceItem(), Accounter.constants().productItem());
+			setMenuItems(button,
+					Accounter.messages().accounts(Global.get().Account()),
+					Accounter.constants().serviceItem(), Accounter.constants()
+							.productItem());
 		// FinanceApplication.constants().salesTax());
 		else
-			setMenuItems(button, Accounter.messages().accounts(
-					Global.get().Account()), Accounter.constants()
-					.serviceItem(), Accounter.constants().productItem());
+			setMenuItems(button,
+					Accounter.messages().accounts(Global.get().Account()),
+					Accounter.constants().serviceItem(), Accounter.constants()
+							.productItem());
 		// FinanceApplication.constants().comment(),
 		// FinanceApplication.constants().VATItem());
 
@@ -746,13 +748,13 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		// }
 
 		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
-			result.addError(transactionDateItem, customerConstants
-					.invalidateTransactionDate());
+			result.addError(transactionDateItem,
+					customerConstants.invalidateTransactionDate());
 		}
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result.addError(transactionDateItem, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDateItem,
+					accounterConstants.invalidateDate());
 		}
 		if (custForm != null) {
 			result.add(custForm.validate());
@@ -800,7 +802,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
 			long ztaxCodeid = 0;
-			if (getCompany().getPreferences().isDoYouChargesalesTax()) {
+			if (getCompany().getPreferences().isChargeSalesTax()) {
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("S")) {
 						ztaxCodeid = taxCode.getID();
@@ -822,7 +824,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 			// transactionItem.setVatCode(zvatCodeid);
 		} else if (item.equals(Accounter.constants().productItem())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
-			if (getCompany().getPreferences().isDoYouChargesalesTax()) {
+			if (getCompany().getPreferences().isChargeSalesTax()) {
 				List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
 				long staxCodeid = 0;
 				for (ClientTAXCode taxCode : taxCodes) {
@@ -839,7 +841,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 			transactionItem.setType(ClientTransactionItem.TYPE_SERVICE);
 			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
 			long ztaxCodeid = 0;
-			if (getCompany().getPreferences().isDoYouChargesalesTax()) {
+			if (getCompany().getPreferences().isChargeSalesTax()) {
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("S")) {
 						ztaxCodeid = taxCode.getID();

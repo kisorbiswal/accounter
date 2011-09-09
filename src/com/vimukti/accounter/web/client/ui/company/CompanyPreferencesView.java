@@ -181,17 +181,17 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			this.bankAccountText.setValue(company.getBankAccountNo());
 			this.sortCodeText.setValue(company.getSortCode());
 
-			allAddresses.put(ClientAddress.TYPE_COMPANY, company
-					.getTradingAddress());
+			allAddresses.put(ClientAddress.TYPE_COMPANY,
+					company.getTradingAddress());
 			setAddressToTextItem(textareaItem, company.getTradingAddress());
 
-			allAddresses.put(ClientAddress.TYPE_COMPANY_REGISTRATION, company
-					.getRegisteredAddress());
+			allAddresses.put(ClientAddress.TYPE_COMPANY_REGISTRATION,
+					company.getRegisteredAddress());
 			setAddressToTextItem(textareaItem2, company.getRegisteredAddress());
 			registrationNumberText.setValue(company.getRegistrationNumber());
 
 			doupaySalesChecBox.setValue(getCompany().getPreferences()
-					.isDoYouChargesalesTax());
+					.isChargeSalesTax());
 
 			if (doupaySalesChecBox.getValue() == Boolean.FALSE) {
 				vatRegNumber.setDisabled(true);
@@ -588,9 +588,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
 
-		map
-				.put("1", Accounter.messages().accrualBasis(
-						Global.get().customer()));
+		map.put("1", Accounter.messages().accrualBasis(Global.get().customer()));
 		map.put("2", Accounter.messages().cashBasis(Global.get().customer()));
 		paysalesTaxgroupItem.setValueMap(map);
 
@@ -675,8 +673,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// case 2:
 		if (!emailText.validate()) {
 
-			result.addError(emailText, Accounter.messages().pleaseEnter(
-					emailText.getTitle()));
+			result.addError(emailText,
+					Accounter.messages().pleaseEnter(emailText.getTitle()));
 		}
 		// return AccounterValidator.validateFormItem(false, emailText);
 		// case 1:
@@ -839,7 +837,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		clientCompany.setSortCode(getStringValue(sortCodeText));
 
 		companyPreferences
-				.setDoYouChargesalesTax(getBooleanValue(doupaySalesChecBox));
+				.setChargeSalesTax(getBooleanValue(doupaySalesChecBox));
 		companyPreferences.setVATregistrationNumber(vatRegNumber.getValue()
 				.toString());
 
@@ -1630,23 +1628,23 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 		if (Accounter.constants().location().equalsIgnoreCase(locationTracking)) {
 			setLocationTrackingId(ClientLocation.LOCATION);
-		} else if (Accounter.constants().buisiness().equalsIgnoreCase(
-				locationTracking)) {
+		} else if (Accounter.constants().buisiness()
+				.equalsIgnoreCase(locationTracking)) {
 			setLocationTrackingId(ClientLocation.BUSINESS);
-		} else if (Accounter.constants().department().equalsIgnoreCase(
-				locationTracking)) {
+		} else if (Accounter.constants().department()
+				.equalsIgnoreCase(locationTracking)) {
 			setLocationTrackingId(ClientLocation.DEPARTMENT);
-		} else if (Accounter.constants().division().equalsIgnoreCase(
-				locationTracking)) {
+		} else if (Accounter.constants().division()
+				.equalsIgnoreCase(locationTracking)) {
 			setLocationTrackingId(ClientLocation.DIVISION);
-		} else if (Accounter.constants().property().equalsIgnoreCase(
-				locationTracking)) {
+		} else if (Accounter.constants().property()
+				.equalsIgnoreCase(locationTracking)) {
 			setLocationTrackingId(ClientLocation.PROPERTY);
-		} else if (Accounter.constants().store().equalsIgnoreCase(
-				locationTracking)) {
+		} else if (Accounter.constants().store()
+				.equalsIgnoreCase(locationTracking)) {
 			setLocationTrackingId(ClientLocation.STORE);
-		} else if (Accounter.constants().territory().equalsIgnoreCase(
-				locationTracking)) {
+		} else if (Accounter.constants().territory()
+				.equalsIgnoreCase(locationTracking)) {
 			setLocationTrackingId(ClientLocation.TERRITORY);
 		}
 

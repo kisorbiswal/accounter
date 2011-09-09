@@ -113,7 +113,7 @@ public abstract class CustomerTransactionTable extends
 
 		this.addColumn(new TransactionTotalColumn());
 
-		if (getCompany().getPreferences().isDoYouChargesalesTax()) {
+		if (getCompany().getPreferences().isChargeSalesTax()) {
 
 			if (this.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 
@@ -292,8 +292,7 @@ public abstract class CustomerTransactionTable extends
 						.setTaxCode(selectedObject.getTaxCode() != 0 ? selectedObject
 								.getTaxCode()
 								: getCustomer().getTAXCode() > 0 ? getCustomer()
-										.getTAXCode()
-										: ztaxCodeid);
+										.getTAXCode() : ztaxCodeid);
 			else
 				selectedObject.setTaxCode(ztaxCodeid);
 		}
@@ -386,16 +385,16 @@ public abstract class CustomerTransactionTable extends
 				continue;
 			}
 			if (item.getAccountable() == null) {
-				result
-						.addError("GridItem-" + item.getAccount(), Accounter
-								.messages().pleaseEnter(
-										UIUtils.getTransactionTypeName(item
-												.getType())));
+				result.addError(
+						"GridItem-" + item.getAccount(),
+						Accounter.messages().pleaseEnter(
+								UIUtils.getTransactionTypeName(item.getType())));
 			}
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
 					&& item.getType() != ClientTransactionItem.TYPE_SALESTAX) {
 				if (item.getTaxCode() == 0) {
-					result.addError("GridItemUK-" + item.getAccount(),
+					result.addError(
+							"GridItemUK-" + item.getAccount(),
 							Accounter.messages().pleaseEnter(
 									Accounter.constants().vatCode()));
 				}

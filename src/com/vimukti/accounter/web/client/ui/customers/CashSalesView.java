@@ -145,8 +145,8 @@ public class CashSalesView extends
 		shipToAddress = new ShipToForm(null);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
-		shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "40px");
+		shipToAddress.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -200,8 +200,8 @@ public class CashSalesView extends
 		}
 
 		termsForm.setStyleName("align-form");
-		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "203px");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -271,7 +271,7 @@ public class CashSalesView extends
 			// salesTaxTextNonEditable, priceLevelSelect,
 			// transactionTotalNonEditableText);
 
-			if (getPreferences().isDoYouChargesalesTax()) {
+			if (getPreferences().isChargeSalesTax()) {
 				prodAndServiceForm2.setFields(taxCodeSelect,
 						salesTaxTextNonEditable, disabletextbox,
 						transactionTotalNonEditableText);
@@ -551,7 +551,8 @@ public class CashSalesView extends
 			if (taxableLineTotal == null)
 				return;
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(), taxableLineTotal,
+					transactionDateItem.getEnteredDate(),
+					taxableLineTotal,
 					getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
@@ -562,9 +563,9 @@ public class CashSalesView extends
 
 		} else {
 			netAmountLabel.setAmount(customerTransactionTable.getGrandTotal());
-			vatTotalNonEditableText.setAmount(customerTransactionTable
-					.getTotalValue()
-					- customerTransactionTable.getGrandTotal());
+			vatTotalNonEditableText
+					.setAmount(customerTransactionTable.getTotalValue()
+							- customerTransactionTable.getGrandTotal());
 			setTransactionTotal(customerTransactionTable.getTotalValue());
 		}
 

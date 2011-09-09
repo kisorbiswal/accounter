@@ -37,10 +37,10 @@ public class CustomerAndvendorSettingsPanel extends AbstractCompanyInfoPanel {
 		Label chargeTaxLabelItem = new Label(constants.doyouchargesalestax());
 		// Label trackTimeLabelItem = new Label();
 		Label managingBillLabelItem = new Label(constants.managingBills());
-		Label createEstimatesLabelItem = new Label(constants
-				.wanttoCreateEstimatesInAccounter());
-		Label usingStatementsLabelItem = new Label(constants
-				.doyouWantToUseStatements());
+		Label createEstimatesLabelItem = new Label(
+				constants.wanttoCreateEstimatesInAccounter());
+		Label usingStatementsLabelItem = new Label(
+				constants.doyouWantToUseStatements());
 		Label billsLabel = new Label(constants.doyouwantTrackBills());
 
 		// trackTimeLabelItem.setValue(constants.doyouwantTrackTime());
@@ -55,20 +55,20 @@ public class CustomerAndvendorSettingsPanel extends AbstractCompanyInfoPanel {
 		trackBillsGroupItem.setGroupName(constants.doyouwantTrackBills());
 		trackBillsGroupItem.setValue(constants.yes(), constants.no());
 		trackBillsGroupItem.setVertical(false);
-		trackBillsGroupItem.getMainWidget().getElement().getStyle().setFloat(
-				Float.RIGHT);
+		trackBillsGroupItem.getMainWidget().getElement().getStyle()
+				.setFloat(Float.RIGHT);
 
 		chargeTaxGroupItem.setGroupName(constants.doyouchargesalestax());
 		chargeTaxGroupItem.setValue(constants.yes(), constants.no());
 		chargeTaxGroupItem.setVertical(false);
-		chargeTaxGroupItem.getMainWidget().getElement().getStyle().setFloat(
-				Float.RIGHT);
+		chargeTaxGroupItem.getMainWidget().getElement().getStyle()
+				.setFloat(Float.RIGHT);
 
 		trackTimeGroupItem.setGroupName(constants.doyouwantTrackTime());
 		trackTimeGroupItem.setValue(constants.yes(), constants.no());
 		trackTimeGroupItem.setVertical(false);
-		trackTimeGroupItem.getMainWidget().getElement().getStyle().setFloat(
-				Float.RIGHT);
+		trackTimeGroupItem.getMainWidget().getElement().getStyle()
+				.setFloat(Float.RIGHT);
 
 		managingBillsGroupItem.setGroupName(constants.managingBills());
 		managingBillsGroupItem.setValue(constants.yes(), constants.no());
@@ -151,17 +151,17 @@ public class CustomerAndvendorSettingsPanel extends AbstractCompanyInfoPanel {
 
 	@Override
 	public void onLoad() {
-		if (companyPreferences.isDoYouChargesalesTax())
+		if (companyPreferences.isChargeSalesTax())
 			chargeTaxGroupItem.setValue(constants.yes());
 		else
 			chargeTaxGroupItem.setValue(constants.no());
 
-		if (companyPreferences.isDoYouKeepTrackOfTime())
+		if (companyPreferences.isKeepTrackOfTime())
 			trackTimeGroupItem.setValue(constants.yes());
 		else
 			trackTimeGroupItem.setValue(constants.no());
 
-		if (companyPreferences.isDoyouKeepTrackofBills())
+		if (companyPreferences.isKeepTrackofBills())
 			managingBillsGroupItem.setValue(constants.yes());
 		else
 			managingBillsGroupItem.setValue(constants.no());
@@ -174,7 +174,7 @@ public class CustomerAndvendorSettingsPanel extends AbstractCompanyInfoPanel {
 		else
 			usingStatementsGroupItem.setValue(constants.no());
 
-		if (companyPreferences.isDoyouKeepTrackofBills())
+		if (companyPreferences.isKeepTrackofBills())
 			trackBillsGroupItem.setValue(constants.yes());
 		else
 			trackBillsGroupItem.setValue(constants.no());
@@ -183,20 +183,18 @@ public class CustomerAndvendorSettingsPanel extends AbstractCompanyInfoPanel {
 
 	@Override
 	public void onSave() {
-		if (chargeTaxGroupItem.getValue().equals(constants.yes()))
-			companyPreferences.setDoYouChargesalesTax(true);
-		else
-			companyPreferences.setDoYouChargesalesTax(false);
+		companyPreferences.setChargeSalesTax(chargeTaxGroupItem.getValue()
+				.equals(constants.yes()));
 
 		if (trackTimeGroupItem.getValue().equals(constants.yes()))
-			companyPreferences.setDoYouKeepTrackOfTime(true);
+			companyPreferences.setKeepTrackOfTime(true);
 		else
-			companyPreferences.setDoYouKeepTrackOfTime(false);
+			companyPreferences.setKeepTrackOfTime(false);
 
 		if (managingBillsGroupItem.getValue().equals(constants.yes()))
-			companyPreferences.setDoyouKeepTrackofBills(true);
+			companyPreferences.setKeepTrackofBills(true);
 		else
-			companyPreferences.setDoyouKeepTrackofBills(false);
+			companyPreferences.setKeepTrackofBills(false);
 
 		if (createEstimatesGroupItem.getValue().equals(constants.yes()))
 			companyPreferences.setDoyouwantEstimates(true);
@@ -208,5 +206,9 @@ public class CustomerAndvendorSettingsPanel extends AbstractCompanyInfoPanel {
 		else
 			companyPreferences.setDoyouwantstatements(false);
 
+		if (trackBillsGroupItem.getValue().equals(constants.yes()))
+			companyPreferences.setChargeSalesTax(true);
+		else
+			companyPreferences.setChargeSalesTax(false);
 	}
 }

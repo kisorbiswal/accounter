@@ -98,7 +98,7 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 	@Override
 	public void onLoad() {
 
-		if (preferences.isDoyouKeepTrackofBills()) {
+		if (preferences.isKeepTrackofBills()) {
 			managingYes.setValue(true);
 		} else {
 			managingNo.setValue(true);
@@ -113,9 +113,9 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 	@Override
 	public void onSave() {
 		if (managingYes.getValue()) {
-			preferences.setDoyouKeepTrackofBills(true);
+			preferences.setKeepTrackofBills(true);
 		} else {
-			preferences.setDoyouKeepTrackofBills(false);
+			preferences.setKeepTrackofBills(false);
 		}
 
 		// if (trackingTimeYes.getValue()) {

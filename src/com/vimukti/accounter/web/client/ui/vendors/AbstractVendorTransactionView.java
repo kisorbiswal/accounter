@@ -129,13 +129,15 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	@Override
 	public void showMenu(Widget button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, Accounter.messages().accounts(
-					Global.get().account()), Accounter.constants()
-					.serviceItem(), Accounter.constants().productItem());
+			setMenuItems(button,
+					Accounter.messages().accounts(Global.get().account()),
+					Accounter.constants().serviceItem(), Accounter.constants()
+							.productItem());
 		else
-			setMenuItems(button, Accounter.messages().accounts(
-					Global.get().account()), Accounter.constants()
-					.serviceItem(), Accounter.constants().productItem());
+			setMenuItems(button,
+					Accounter.messages().accounts(Global.get().account()),
+					Accounter.constants().serviceItem(), Accounter.constants()
+							.productItem());
 	}
 
 	protected void initVendors() {
@@ -546,9 +548,9 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	protected TextItem createCheckNumberItem(String title) {
 
 		final TextItem checkNo = new TextItem(title);
-		checkNo.setToolTip(Accounter.messages().giveNoTo(
-				this.getAction().getViewName()).replace(
-				Accounter.constants().no(), title));
+		checkNo.setToolTip(Accounter.messages()
+				.giveNoTo(this.getAction().getViewName())
+				.replace(Accounter.constants().no(), title));
 		checkNo.setHelpInformation(true);
 		checkNo.setDisabled(isInViewMode());
 		// checkNo.setShowDisabled(false);
@@ -630,7 +632,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 				Global.get().account()))) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
-					&& !getCompany().getPreferences().isDoYouChargesalesTax()) {
+					&& !getCompany().getPreferences().isChargeSalesTax()) {
 				List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
 				long ztaxCodeid = 0;
 				for (ClientTAXCode taxCode : taxCodes) {
@@ -644,7 +646,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 				// .getVATCode() != null ? vendor.getVATCode() : "") : "");
 			}
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
-					&& getCompany().getPreferences().isDoYouChargesalesTax()) {
+					&& getCompany().getPreferences().isChargeSalesTax()) {
 				List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
 				long staxCodeid = 0;
 				for (ClientTAXCode taxCode : taxCodes) {
@@ -660,7 +662,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 			}
 		} else if (menuItem.equals(Accounter.constants().productItem())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
-			if (getCompany().getPreferences().isDoYouChargesalesTax()) {
+			if (getCompany().getPreferences().isChargeSalesTax()) {
 				List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
 				long staxCodeid = 0;
 				for (ClientTAXCode taxCode : taxCodes) {
@@ -676,7 +678,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 			transactionItem.setType(ClientTransactionItem.TYPE_SERVICE);
 			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
 			long ztaxCodeid = 0;
-			if (getCompany().getPreferences().isDoYouChargesalesTax()) {
+			if (getCompany().getPreferences().isChargeSalesTax()) {
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("S")) {
 						ztaxCodeid = taxCode.getID();

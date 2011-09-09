@@ -110,8 +110,7 @@ public class ItemView extends BaseView<ClientItem> {
 				if (isInViewMode()) {
 					taxCode.setComboItem(getCompany().getTAXCode(
 							data.getTaxCode()));
-				} else if (!getCompany().getPreferences()
-						.isDoYouChargesalesTax()) {
+				} else if (!getCompany().getPreferences().isChargeSalesTax()) {
 					// vatCode.setDisabled(true);
 					List<ClientTAXCode> taxCodes = Accounter.getCompany()
 							.getActiveTaxCodes();
@@ -217,10 +216,11 @@ public class ItemView extends BaseView<ClientItem> {
 
 		salesDescArea.setDisabled(isInViewMode());
 
-		salesDescArea.setToolTip(Accounter.messages().writeCommentsForThis(
-				this.getAction().getViewName()).replace(
-				Accounter.constants().comments(),
-				Accounter.constants().salesDescription()));
+		salesDescArea.setToolTip(Accounter
+				.messages()
+				.writeCommentsForThis(this.getAction().getViewName())
+				.replace(Accounter.constants().comments(),
+						Accounter.constants().salesDescription()));
 		salesPriceText = new AmountField(Accounter.constants().salesPrice(),
 				this);
 		salesPriceText.setHelpInformation(true);
@@ -302,12 +302,11 @@ public class ItemView extends BaseView<ClientItem> {
 		// vatCode.setDisabled(true);
 		// }
 
-		taxCode
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
-					public void selectedComboBoxItem(ClientTAXCode selectItem) {
-						selectTaxCode = selectItem;
-					}
-				});
+		taxCode.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
+			public void selectedComboBoxItem(ClientTAXCode selectItem) {
+				selectTaxCode = selectItem;
+			}
+		});
 		taxCode.setDefaultValue(Accounter.constants().ztozeroperc());
 		activeCheck = new CheckboxItem(Accounter.constants().active());
 		activeCheck.setValue(true);
@@ -898,16 +897,16 @@ public class ItemView extends BaseView<ClientItem> {
 
 		if (isellCheck.isChecked()) {
 			if (AccounterValidator.isNegativeAmount(salesPriceText.getAmount())) {
-				result.addError(salesPriceText, accounterConstants
-						.enterValidAmount());
+				result.addError(salesPriceText,
+						accounterConstants.enterValidAmount());
 			}
 		}
 
 		if (ibuyCheck.isChecked()) {
 			if (AccounterValidator.isNegativeAmount(purchasePriceTxt
 					.getAmount())) {
-				result.addError(purchasePriceTxt, accounterConstants
-						.enterValidAmount());
+				result.addError(purchasePriceTxt,
+						accounterConstants.enterValidAmount());
 			}
 		}
 

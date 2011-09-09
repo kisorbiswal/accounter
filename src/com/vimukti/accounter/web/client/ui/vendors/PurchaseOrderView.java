@@ -169,7 +169,7 @@ public class PurchaseOrderView extends
 		prodAndServiceHLay.add(amountsForm);
 		prodAndServiceHLay.setCellHorizontalAlignment(amountsForm, ALIGN_RIGHT);
 
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isChargeSalesTax()) {
 
 			DynamicForm priceLevelForm = new DynamicForm();
 			// priceLevelForm.setCellSpacing(4);
@@ -207,14 +207,16 @@ public class PurchaseOrderView extends
 			// balanceDueNonEditableText, taxCodeSelect, priceLevelSelect);
 			amountsForm.setNumCols(4);
 			amountsForm.addStyleName("tax-form");
-			// amountsForm.setFields(taxCodeSelect, salesTaxTextNonEditable,
-			// disabletextbox, transactionTotalNonEditableText,
-			// disabletextbox, paymentsNonEditableText, disabletextbox,
-			// balanceDueNonEditableText);
+			amountsForm.setFields(/* taxCodeSelect, salesTaxTextNonEditable, */
+			disabletextbox, transactionTotalNonEditableText, disabletextbox
+			/*
+			 * paymentsNonEditableText, disabletextbox,
+			 * balanceDueNonEditableText
+			 */);
 
-			prodAndServiceHLay.add(amountsForm);
-			prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
-					ALIGN_RIGHT);
+			// prodAndServiceHLay.add(amountsForm);
+			// prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
+			// ALIGN_RIGHT);
 		}
 
 		vendorCombo = new VendorCombo(Global.get().Vendor(), true);
@@ -383,8 +385,10 @@ public class PurchaseOrderView extends
 			}
 		};
 		vendorTransactionTable.setDisabled(isInViewMode());
+		vendorTransactionTable.setHeight("250px");
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
+
 		// refText = createRefereceText();
 		// refText.setWidth(100);
 		addLinksButton = new Button(Accounter.constants().addLinks());
@@ -398,9 +402,9 @@ public class PurchaseOrderView extends
 		// formItems.add(linksText);
 
 		DynamicForm memoForm = new DynamicForm();
-		memoForm.setWidth("80%");
+		// memoForm.setWidth("80%");
 		memoForm.setFields(memoTextAreaItem);
-		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
+		// memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 		DynamicForm linksform = new DynamicForm();
 		linksform.setWidth("100%");
 		linksform.setItems(linksText);
@@ -439,8 +443,9 @@ public class PurchaseOrderView extends
 		Hpanel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
 		HorizontalPanel panel = new HorizontalPanel();
+		panel.setWidth("100%");
 		panel.add(memoForm);
-		// panel.add(amountsForm);
+		panel.add(prodAndServiceHLay);
 
 		// panel.setHorizontalAlignment(ALIGN_RIGHT);
 
@@ -451,6 +456,8 @@ public class PurchaseOrderView extends
 		bottomLayout.setCellHorizontalAlignment(Hpanel, ALIGN_RIGHT);
 		bottomLayout.add(panel);
 		panel.setCellHorizontalAlignment(memoForm, ALIGN_LEFT);
+		panel.setCellHorizontalAlignment(prodAndServiceHLay,
+				HasHorizontalAlignment.ALIGN_RIGHT);
 		// bottomLayout.add(linkspanel);
 
 		VerticalPanel mainVLay = new VerticalPanel();

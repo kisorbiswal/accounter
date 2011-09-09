@@ -58,7 +58,7 @@ public class ClassTrackingPage extends AbstractCompanyInfoPanel {
 				onePerDetailLineRadio.setValue(true);
 			}
 
-			if (companyPreferences.isWarningEnabled()) {
+			if (companyPreferences.isWarnOnEmptyClass()) {
 				classWarningCheckBox.setValue(true);
 			}
 		} else {
@@ -94,11 +94,11 @@ public class ClassTrackingPage extends AbstractCompanyInfoPanel {
 
 	@Override
 	public void onSave() {
-		companyPreferences.setisClassTrackingEnabled(classTrackingCheckBox
+		companyPreferences.setClassTrackingEnabled(classTrackingCheckBox
 				.getValue());
 		companyPreferences.setClassOnePerTransaction(onePerTransactionRadio
 				.getValue());
-		companyPreferences.setWarningEnabled(classWarningCheckBox.getValue());
+		companyPreferences.setWarnOnEmptyClass(classWarningCheckBox.getValue());
 	}
 
 	@Override

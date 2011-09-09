@@ -86,6 +86,15 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	private static final long WANT_STATEMENTS = 0x200000000L;
 	private static final long TDS_TAX_ENABLE = 0x400000000L;
+	private static final long REGISTERED_FOR_VAT = 0x800000000L;
+
+	private static final long LOCATION_TRACKING = 0x1000000000L;
+
+	private static final long CLASS_TRACKING = 0x2000000000L;
+
+	private static final long CLASS_ONE_PER_TRANSACTION = 0x4000000000L;
+
+	private static final long CLASS_WARRNING = 0x8000000000L;
 
 	public static int VAT_REPORTING_PERIOD_MONTHLY = 1;
 	public static int VAT_REPORTING_PERIOD_BIMONTHLY = 2;
@@ -99,8 +108,6 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	private static ClientCompanyPreferences preferences;
 
 	private String dateFormat;
-
-	private boolean isLocationTrackingEnabled;
 
 	private long locationTrackingId;
 
@@ -166,12 +173,6 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	private long preferencesFlag;
 
 	private int version;
-
-	private boolean isClassTrackingEnabled;
-
-	private boolean isClassOnePerTransaction;
-
-	private boolean isWarningEnabled;
 
 	/**
 	 * Creates new Instance
@@ -811,27 +812,27 @@ public class ClientCompanyPreferences implements IAccounterCore {
 		set(TRACK_EMPLOYEE_EXPENSES, value);
 	}
 
-	public boolean isDoYouChargesalesTax() {
+	public boolean isChargeSalesTax() {
 		return get(CHARGE_SALES_TAX);
 	}
 
-	public void setDoYouChargesalesTax(boolean value) {
+	public void setChargeSalesTax(boolean value) {
 		set(CHARGE_SALES_TAX, value);
 	}
 
-	public boolean isDoyouKeepTrackofBills() {
+	public boolean isKeepTrackofBills() {
 		return get(KEEP_TRACK_OF_BILLS);
 	}
 
-	public void setDoyouKeepTrackofBills(boolean value) {
+	public void setKeepTrackofBills(boolean value) {
 		set(KEEP_TRACK_OF_BILLS, value);
 	}
 
-	public boolean isDoYouKeepTrackOfTime() {
+	public boolean isKeepTrackOfTime() {
 		return get(KEEP_TRACK_OF_TIME);
 	}
 
-	public void setDoYouKeepTrackOfTime(boolean value) {
+	public void setKeepTrackOfTime(boolean value) {
 		set(KEEP_TRACK_OF_TIME, value);
 	}
 
@@ -911,11 +912,11 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	}
 
 	public boolean isLocationTrackingEnabled() {
-		return isLocationTrackingEnabled;
+		return get(LOCATION_TRACKING);
 	}
 
-	public void setLocationTrackingEnabled(boolean isLocationTrackingEnabled) {
-		this.isLocationTrackingEnabled = isLocationTrackingEnabled;
+	public void setLocationTrackingEnabled(boolean value) {
+		set(LOCATION_TRACKING, value);
 	}
 
 	public long getLocationTrackingId() {
@@ -937,34 +938,42 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	}
 
 	public boolean isTDSEnabled() {
-		return true;// get(TDS_TAX_ENABLE);
-	}
-
-	public void setisClassTrackingEnabled(boolean isClassTrackingEnabled) {
-		this.isClassTrackingEnabled = isClassTrackingEnabled;
-	}
-
-	public boolean isClassTrackingEnabled() {
-		return isClassTrackingEnabled;
-	}
-
-	public boolean isClassOnePerTransaction() {
-		return isClassOnePerTransaction;
-	}
-
-	public void setClassOnePerTransaction(boolean isClassOnePerTransaction) {
-		this.isClassOnePerTransaction = isClassOnePerTransaction;
+		return get(TDS_TAX_ENABLE);
 	}
 
 	public void setTDSEnabled(boolean value) {
 		set(TDS_TAX_ENABLE, value);
 	}
 
-	public boolean isWarningEnabled() {
-		return isWarningEnabled;
+	public void setClassTrackingEnabled(boolean value) {
+		set(CLASS_TRACKING, value);
 	}
 
-	public void setWarningEnabled(boolean isWarningEnabled) {
-		this.isWarningEnabled = isWarningEnabled;
+	public boolean isClassTrackingEnabled() {
+		return get(CLASS_TRACKING);
+	}
+
+	public boolean isClassOnePerTransaction() {
+		return get(CLASS_ONE_PER_TRANSACTION);
+	}
+
+	public void setClassOnePerTransaction(boolean value) {
+		set(CLASS_ONE_PER_TRANSACTION, value);
+	}
+
+	public boolean isWarnOnEmptyClass() {
+		return get(CLASS_WARRNING);
+	}
+
+	public void setWarnOnEmptyClass(boolean value) {
+		set(CLASS_WARRNING, value);
+	}
+
+	public boolean isRegisteredForVAT() {
+		return get(REGISTERED_FOR_VAT);
+	}
+
+	public void setRegisteredForVAT(boolean value) {
+		set(REGISTERED_FOR_VAT, value);
 	}
 }

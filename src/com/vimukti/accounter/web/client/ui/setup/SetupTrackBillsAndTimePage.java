@@ -95,12 +95,12 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 	@Override
 	public void onLoad() {
 
-		if (preferences.isDoyouKeepTrackofBills()) {
+		if (preferences.isKeepTrackofBills()) {
 			billsyesRadioButton.setValue(true);
 		} else {
 			billsnoRadioButton.setValue(true);
 		}
-		if (preferences.isDoYouKeepTrackOfTime()) {
+		if (preferences.isKeepTrackOfTime()) {
 			timeyesRadioButton.setValue(true);
 		} else {
 			timenoRadioButton.setValue(true);
@@ -110,15 +110,15 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 	@Override
 	public void onSave() {
 		if (billsyesRadioButton.getValue()) {
-			preferences.setDoyouKeepTrackofBills(true);
+			preferences.setKeepTrackofBills(true);
 		} else {
-			preferences.setDoyouKeepTrackofBills(false);
+			preferences.setKeepTrackofBills(false);
 		}
 
 		if (timeyesRadioButton.getValue()) {
-			preferences.setDoYouKeepTrackOfTime(true);
+			preferences.setKeepTrackOfTime(true);
 		} else {
-			preferences.setDoYouKeepTrackOfTime(false);
+			preferences.setKeepTrackOfTime(false);
 		}
 	}
 

@@ -50,15 +50,15 @@ public class LogoutServlet extends BaseServlet {
 				deleteCookie(req, resp);
 				req.getSession().setAttribute(USER_ID, null);
 			}
-			req.getSession().invalidate();
-
-			redirectExternal(req, resp, LOGIN_URL);
-
 			// resp.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
 			// resp.setHeader("Location", "/login");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		req.getSession().invalidate();
+
+		redirectExternal(req, resp, LOGIN_URL);
 	}
 
 	private void deleteCookie(HttpServletRequest request,

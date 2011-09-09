@@ -49,9 +49,7 @@ public class CreateCompanyServlet extends BaseServlet {
 		HttpSession session = request.getSession();
 		String emailID = (String) session.getAttribute(EMAIL_ID);
 		if (emailID == null) {
-			request.setAttribute("errormessage",
-					"Company creation failed because of Invalid session.");
-			dispatch(request, response, view);
+			redirectExternal(request, response, LOGIN_URL);
 			return;
 		}
 		String status = (String) session.getAttribute(COMPANY_CREATION_STATUS);

@@ -41,7 +41,6 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	private static final long CHARGE_SALES_TAX = 0x4000L;
 
-
 	/**
 	 * whether we can use Id's for the Customer while creating them or not.
 	 */
@@ -84,6 +83,18 @@ public class CompanyPreferences implements IAccounterServerCore {
 	private static final long IS_BEGINNING_ON_TODAYS_DATE = 0x100000000L;
 
 	private static final long WANT_STATEMENTS = 0x200000000L;
+
+	private static final long TDS_TAX_ENABLE = 0x400000000L;
+
+	private static final long REGISTERED_FOR_VAT = 0x800000000L;
+
+	private static final long LOCATION_TRACKING = 0x1000000000L;
+
+	private static final long CLASS_TRACKING = 0x2000000000L;
+
+	private static final long CLASS_ONE_PER_TRANSACTION = 0x4000000000L;
+
+	private static final long CLASS_WARRNING = 0x8000000000L;
 
 	public static int VAT_REPORTING_PERIOD_MONTHLY = 1;
 	public static int VAT_REPORTING_PERIOD_BIMONTHLY = 2;
@@ -154,23 +165,12 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	private long preferencesFlag;
 
-	/*
-	 * *********Start Location Tracking******
-	 */
-	private boolean isLocationTrackingEnabled;
-
-	private boolean isClassTrackingEnabled;
-
-	private boolean isClassOnePerTransaction;
-
-	private boolean isWarningEnabled;
-
 	public boolean isLocationTrackingEnabled() {
-		return isLocationTrackingEnabled;
+		return get(LOCATION_TRACKING);
 	}
 
-	public void setLocationTrackingEnabled(boolean isLocationTrackingEnabled) {
-		this.isLocationTrackingEnabled = isLocationTrackingEnabled;
+	public void setLocationTrackingEnabled(boolean value) {
+		set(LOCATION_TRACKING, value);
 	}
 
 	private long locationTrackingId;
@@ -1118,27 +1118,35 @@ public class CompanyPreferences implements IAccounterServerCore {
 		this.version = version;
 	}
 
-	public void setisClassTrackingEnabled(boolean isClassTrackingEnabled) {
-		this.isClassTrackingEnabled = isClassTrackingEnabled;
+	public void setClassTrackingEnabled(boolean value) {
+		set(CLASS_TRACKING, value);
 	}
 
 	public boolean isClassTrackingEnabled() {
-		return isClassTrackingEnabled;
+		return get(CLASS_TRACKING);
 	}
 
 	public boolean isClassOnePerTransaction() {
-		return isClassOnePerTransaction;
+		return get(CLASS_ONE_PER_TRANSACTION);
 	}
 
-	public void setClassOnePerTransaction(boolean isClassOnePerTransaction) {
-		this.isClassOnePerTransaction = isClassOnePerTransaction;
+	public void setClassOnePerTransaction(boolean value) {
+		set(CLASS_ONE_PER_TRANSACTION, value);
 	}
 
-	public boolean isWarningEnabled() {
-		return isWarningEnabled;
+	public boolean isWarnOnEmptyClass() {
+		return get(CLASS_WARRNING);
 	}
 
-	public void setWarningEnabled(boolean isWarningEnabled) {
-		this.isWarningEnabled = isWarningEnabled;
+	public void setWarnOnEmptyClass(boolean value) {
+		set(CLASS_WARRNING, value);
+	}
+
+	public boolean isRegisteredForVAT() {
+		return get(REGISTERED_FOR_VAT);
+	}
+
+	public void setRegisteredForVAT(boolean value) {
+		set(REGISTERED_FOR_VAT, value);
 	}
 }
