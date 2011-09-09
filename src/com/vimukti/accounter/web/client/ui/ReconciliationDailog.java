@@ -147,7 +147,7 @@ public class ReconciliationDailog extends BaseDialog<ClientReconciliation>
 
 	@Override
 	protected boolean onOK() {
-		ActionFactory.getReconciliationAction().run(createReconciliation(),
+		ActionFactory.getNewReconciliationAction().run(createReconciliation(),
 				false);
 		return true;
 	}
