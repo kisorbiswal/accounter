@@ -2829,4 +2829,14 @@ public class ClientCompany implements IAccounterCore {
 	public ArrayList<ClientAccounterClass> getAccounterClasses() {
 		return this.accounterClasses;
 	}
+	
+	public long getDefaultTaxCode(){
+		List<ClientTAXCode> taxCodes = getActiveTaxCodes();
+		for (ClientTAXCode taxCode : taxCodes) {
+			if (taxCode.getName().equals("S")) {
+				return taxCode.id;
+			}
+		}
+		return 0;
+	}
 }
