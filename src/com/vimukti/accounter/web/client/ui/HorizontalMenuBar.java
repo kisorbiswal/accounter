@@ -484,7 +484,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 
 	private CustomMenuBar getTDSMenu() {
 		CustomMenuBar tdsMenu = getSubMenu();
-		tdsMenu.addItem("e-TDS Return", ActionFactory.getTDSVendorsAction(true));
+		tdsMenu.addItem("TDS Return", ActionFactory.getTDSVendorsAction(true));
 		tdsMenu.addItem("Form-16A", ActionFactory.getTDSVendorsAction(false));
 		return tdsMenu;
 	}

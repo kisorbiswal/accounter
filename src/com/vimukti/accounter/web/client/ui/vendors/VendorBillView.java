@@ -223,7 +223,7 @@ public class VendorBillView extends
 			vendorTDSTaxCode.setDisabled(false);
 		} else {
 			vendorTDSTaxCode.setValue(null);
-			vendorTDSTaxCode.setDisabled(true);
+			vendorTDSTaxCode.setDisabled(false);
 		}
 
 		super.vendorSelected(vendor);
@@ -394,8 +394,14 @@ public class VendorBillView extends
 		vendorForm = UIUtils.form(Global.get().Vendor());
 		vendorForm.setWidth("100%");
 		vendorForm.setNumCols(3);
-		vendorForm.setFields(vendorCombo, emptylabel, contactCombo, emptylabel,
-				vendorTDSTaxCode);
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA
+				&& getCompany().getPreferences().isTDSEnabled()) {
+			vendorForm.setFields(vendorCombo, emptylabel, contactCombo,
+					emptylabel, vendorTDSTaxCode);
+		} else {
+			vendorForm.setFields(vendorCombo, emptylabel, contactCombo,
+					emptylabel);
+		}
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -736,6 +742,7 @@ public class VendorBillView extends
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK
 				|| accountType == ClientCompany.ACCOUNTING_TYPE_INDIA)
 			transaction.setNetAmount(netAmount.getAmount());
+
 		// enterBill.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 		// .getValue());
 	}

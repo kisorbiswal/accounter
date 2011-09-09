@@ -76,7 +76,7 @@ public class WriteChequeView extends
 
 	protected ClientSalesPerson selectedSalesPerson;
 	protected ClientAccount selectedBalance;
-	
+
 	private TaxItemCombo vendorTDSTaxCode;
 
 	protected ClientPayee payee;
@@ -591,6 +591,7 @@ public class WriteChequeView extends
 
 				break;
 			}
+
 		transaction.setTotal(amtText.getAmount());
 		transaction.setAmount(amtText.getAmount());
 		transaction.setInWords(amtText.getValue().toString());
@@ -661,11 +662,11 @@ public class WriteChequeView extends
 		labelLayout.add(nHPanel);
 		labelLayout.setCellHorizontalAlignment(nHPanel,
 				HasHorizontalAlignment.ALIGN_RIGHT);
-		
-		
-		vendorTDSTaxCode=new TaxItemCombo(Accounter.constants().tds(), ClientTAXItem.TAX_TYPE_TDS);
-		
-		
+
+		vendorTDSTaxCode = new TaxItemCombo(Accounter.constants().tds(),
+				ClientTAXItem.TAX_TYPE_TDS);
+
+		vendorTDSTaxCode.setDisabled(true);
 
 		balText = new AmountField(Accounter.constants().balance(), this);
 		balText.setWidth(100);
@@ -694,7 +695,14 @@ public class WriteChequeView extends
 		bankAccSelect.setDefaultPayFromAccount();
 
 		bankAccForm = new DynamicForm();
-		bankAccForm.setFields(bankAccSelect, balText,vendorTDSTaxCode);
+
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA
+				&& getCompany().getPreferences().isTDSEnabled()) {
+			bankAccForm.setFields(bankAccSelect, balText, vendorTDSTaxCode);
+		} else {
+			bankAccForm.setFields(bankAccSelect, balText);
+
+		}
 		if (getPreferences().isClassTrackingEnabled()) {
 			classListCombo = createAccounterClassListCombo();
 			bankAccForm.setFields(classListCombo);
@@ -710,17 +718,17 @@ public class WriteChequeView extends
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPayee>() {
 					public void selectedComboBoxItem(ClientPayee selectItem) {
 						amtText.setValue("0.00");
+						vendorTDSTaxCode.setSelected("");
 						if (payee != null) {
 							if (payee instanceof ClientCustomer) {
 								if (transaction == null)
 									transactionCustomerTable.removeAllRecords();
 							} else if (payee instanceof ClientVendor
 									|| payee instanceof ClientTAXAgency) {
-								
-									vendorTDSTaxCode.setSelected(vendorTDSTaxCode
-											.getDisplayName(getCompany().getTAXItem(
-													payee.getTaxItemCode())));
-								
+
+								vendorTDSTaxCode.setSelected(vendorTDSTaxCode.getDisplayName(getCompany()
+										.getTAXItem(payee.getTaxItemCode())));
+
 								if (transaction == null)
 									transactionVendorTable.removeAllRecords();
 								// } else if (payee instanceof ClientTAXAgency)
@@ -739,11 +747,17 @@ public class WriteChequeView extends
 														Global.get().Vendor()));
 								paytoSelect.setComboItem(payee);
 							} else {
+
 								PayToSelected(selectItem);
+
 								payee = selectItem;
 							}
 						} else {
 							payee = selectItem;
+							vendorTDSTaxCode.setSelected(vendorTDSTaxCode
+									.getDisplayName(getCompany().getTAXItem(
+											payee.getTaxItemCode())));
+
 						}
 						updateAddressAndGrid();
 

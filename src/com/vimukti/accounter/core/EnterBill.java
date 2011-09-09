@@ -208,6 +208,11 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		this.isOnSaveProccessed = true;
 		super.onSave(session);
 		this.balanceDue = this.total;
+		
+		
+			
+		
+		
 		/**
 		 * To check if any Purchase Order is involved in this Purchase Invoice.
 		 * If this Purchase Invoice uses any Purchase Order then we should

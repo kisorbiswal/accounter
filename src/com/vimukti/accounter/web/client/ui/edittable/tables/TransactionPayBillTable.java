@@ -267,7 +267,9 @@ public abstract class TransactionPayBillTable extends
 		});
 
 		if (!canEdit) {
-			addTdsColumn();
+		
+				addTdsColumn();
+			
 		}
 		if (canEdit) {
 			this.addColumn(new AnchorEditColumn<ClientTransactionPayBill>() {
@@ -747,9 +749,11 @@ public abstract class TransactionPayBillTable extends
 	protected abstract void adjustAmountAndEndingBalance();
 
 	private void addTdsColumn() {
-		this.addColumn(new TextEditColumn<ClientTransactionPayBill>() {
-
 		
+		
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA
+				&& getCompany().getPreferences().isTDSEnabled()) {
+		this.addColumn(new TextEditColumn<ClientTransactionPayBill>() {
 
 			@Override
 			protected String getValue(ClientTransactionPayBill row) {
@@ -775,9 +779,10 @@ public abstract class TransactionPayBillTable extends
 			@Override
 			protected void setValue(ClientTransactionPayBill row, String value) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
+		}
 	}
 
 	public ValidationResult validateGrid() {

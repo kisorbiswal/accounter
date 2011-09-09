@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
@@ -335,15 +336,26 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 			// We need to update the enterBill payments and balance due with the
 			// sum of cash discount and applied credits and payments.
 			double amount = (this.cashDiscount) + (this.appliedCredits)
-					+ (this.payment);
+					+ (this.payment) - (this.tdsAmount);
 
 			if (this.enterBill != null) {
 				// Update the Payments and the balance due of the corresponding
 				// enterBill
 				this.enterBill.setPayments(this.enterBill.getPayments()
 						+ amount);
-				this.enterBill.setBalanceDue(this.enterBill.getBalanceDue()
-						- amount);
+				// TODO
+
+				if (Company.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
+
+					this.enterBill.setBalanceDue(this.enterBill.getBalanceDue()
+							- (amount + this.tdsAmount));
+					
+
+				} else {
+
+					this.enterBill.setBalanceDue(this.enterBill.getBalanceDue()
+							- amount);
+				}
 
 				if (DecimalUtil.isGreaterThan(this.enterBill.getBalanceDue(),
 						0D)

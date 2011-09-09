@@ -226,8 +226,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 				tpbRecord.setTdsAmount(taxItem.getTaxRate() / 100
 						* tpbRecord.getOriginalAmount());
-				tpbRecord.setAmountDue(tpbRecord.getOriginalAmount()
-						- tpbRecord.getPayment());
+				
 			}
 			if (tpbRecord.getTempCredits() != null)
 				tpbRecord.getTempCredits().clear();
