@@ -105,17 +105,8 @@ public abstract class CustomerTransactionTable extends
 			@Override
 			protected void setValue(ClientTransactionItem row,
 					IAccountable newValue) {
-				row.setAccountable(newValue);
-				if (newValue != null) {
-					ClientItem selectItem = (ClientItem) newValue;
-					row.setUnitPrice(selectItem.getSalesPrice());
-					row.setTaxable(selectItem.isTaxable());
-					if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-						row.setTaxCode(selectItem.getTaxCode() != 0 ? selectItem
-								.getTaxCode() : 0);
-					}
-					applyPriceLevel(row);
-				}
+				super.setValue(row, newValue);
+				applyPriceLevel(row);
 			}
 		});
 
@@ -230,8 +221,8 @@ public abstract class CustomerTransactionTable extends
 
 	@Override
 	public void update(ClientTransactionItem row) {
-		updateTotals();
 		super.update(row);
+		updateTotals();
 	}
 
 	public void updateTotals() {

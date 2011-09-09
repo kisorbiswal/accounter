@@ -6,7 +6,6 @@ import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientItem;
-import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -96,25 +95,6 @@ public abstract class VendorTransactionTable extends
 						}
 					}
 				};
-			}
-
-			@Override
-			protected void setValue(ClientTransactionItem selectedObject,
-					IAccountable newValue) {
-				selectedObject.setAccountable(newValue);
-				if (newValue != null) {
-					ClientItem selectItem = (ClientItem) newValue;
-					selectedObject.setItem(selectItem.getID());
-					selectedObject.setUnitPrice(selectItem.getPurchasePrice());
-					if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-						selectedObject.setTaxable(selectItem.isTaxable());
-					else
-						selectedObject.setTaxable(false);
-					if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-						selectedObject.setTaxCode(selectItem.getTaxCode() != 0 ? selectItem
-								.getTaxCode() : 0);
-					}
-				}
 			}
 		});
 
@@ -277,7 +257,8 @@ public abstract class VendorTransactionTable extends
 						result.addError(
 								row + "," + 1,
 								Accounter.messages().pleaseEnter(
-										UIUtils.getTransactionTypeName(item.getType())));
+										UIUtils.getTransactionTypeName(item
+												.getType())));
 						result.addError(
 								row + "," + 1,
 								Accounter.messages().pleaseEnter(
