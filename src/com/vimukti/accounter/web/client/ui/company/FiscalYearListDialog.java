@@ -174,5 +174,4 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 		// TODO Auto-generated method stub
 		return true;
 	}
-
 }

@@ -103,10 +103,9 @@ public class ChangePasswordDialog extends BaseDialog {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
-
 
 	@Override
 	public ValidationResult validate() {
@@ -115,7 +114,13 @@ public class ChangePasswordDialog extends BaseDialog {
 
 	@Override
 	protected boolean onOK() {
-		return savePassword();		
+		return savePassword();
+	}
+
+	@Override
+	public void setFocus() {
+		oldPasswordTextItem.setFocus();
+
 	}
 
 }

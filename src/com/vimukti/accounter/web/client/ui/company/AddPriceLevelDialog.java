@@ -66,6 +66,7 @@ public class AddPriceLevelDialog extends BaseDialog<ClientPriceLevel> {
 		cancelBtn.setWidth("60px");
 
 		setBodyLayout(mainVLay);
+
 	}
 
 	@Override
@@ -110,6 +111,12 @@ public class AddPriceLevelDialog extends BaseDialog<ClientPriceLevel> {
 	@Override
 	protected boolean onOK() {
 		return parent.onOK();
+	}
+
+	@Override
+	public void setFocus() {
+		levelText.setFocus();
+
 	}
 
 }

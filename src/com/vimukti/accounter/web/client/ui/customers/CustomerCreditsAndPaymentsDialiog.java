@@ -477,4 +477,10 @@ public class CustomerCreditsAndPaymentsDialiog extends
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
+	}
 }

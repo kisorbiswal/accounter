@@ -137,4 +137,10 @@ public class ItemGroupDialog extends BaseDialog<ClientItem> {
 	protected boolean onOK() {
 		return parent.onOK();
 	}
+
+	@Override
+	public void setFocus() {
+		itemGtext.setFocus();
+
+	}
 }

@@ -178,4 +178,10 @@ public class StartDateDialog extends BaseDialog {
 		return false;
 	}
 
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

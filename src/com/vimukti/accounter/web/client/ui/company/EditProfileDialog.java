@@ -37,6 +37,7 @@ public class EditProfileDialog extends BaseDialog<ClientUserInfo> {
 		mainPanel.add(form);
 		okbtn.setText(Accounter.constants().saveButton());
 		setBodyLayout(mainPanel);
+
 	}
 
 	protected boolean saveEditedProfile() {
@@ -98,10 +99,15 @@ public class EditProfileDialog extends BaseDialog<ClientUserInfo> {
 
 	}
 
-
 	@Override
 	protected boolean onOK() {
 		return saveEditedProfile();
+	}
+
+	@Override
+	public void setFocus() {
+		firstNameTextItem.setFocus();
+
 	}
 
 }

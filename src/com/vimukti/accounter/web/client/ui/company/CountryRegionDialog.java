@@ -11,6 +11,7 @@ public class CountryRegionDialog extends BaseDialog {
 	private DynamicForm form1;
 	private DynamicForm form2;
 	private VerticalPanel bodyLayout;
+	private TextItem countryRegionNameItem;
 
 	public CountryRegionDialog(String title, String desc) {
 
@@ -26,7 +27,7 @@ public class CountryRegionDialog extends BaseDialog {
 		form1 = new DynamicForm();
 		form2 = new DynamicForm();
 
-		TextItem countryRegionNameItem = new TextItem();
+		countryRegionNameItem = new TextItem();
 		countryRegionNameItem.setTitle(Accounter.constants()
 				.countryRegionName());
 		// countryRegionNameItem.setWidth("100%");
@@ -64,6 +65,12 @@ public class CountryRegionDialog extends BaseDialog {
 	protected boolean onOK() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void setFocus() {
+		countryRegionNameItem.setFocus();
+
 	}
 
 }

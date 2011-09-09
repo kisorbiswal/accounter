@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.ui.vendors.NewVendorAction;
 public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 
 	RadioGroupItem typeRadio;
+
 	// private ClientCompany company;
 	public SelectPayeeDialog() {
 		super(Accounter.constants().selectPayeeType(), Accounter.constants()
@@ -101,6 +102,12 @@ public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 		}
 		hide();
 		return true;
+	}
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

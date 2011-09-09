@@ -25,8 +25,8 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
-import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHandler;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
+import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHandler;
 
 public class CustomerQuoteListDialog extends BaseDialog {
 	public DialogGrid grid;
@@ -78,9 +78,9 @@ public class CustomerQuoteListDialog extends BaseDialog {
 
 		grid = new DialogGrid(false);
 		grid.addColumns(customerConstants.date(), customerConstants.no(),
-				customerConstants.type(),
-				Accounter.messages().customerName(Global.get().Customer()),
-				customerConstants.total(), customerConstants.remainingTotal());
+				customerConstants.type(), Accounter.messages().customerName(
+						Global.get().Customer()), customerConstants.total(),
+				customerConstants.remainingTotal());
 		grid.setView(this);
 		grid.setCellsWidth(70, 30, 80, -1, 60, 95);
 		grid.init();
@@ -88,15 +88,16 @@ public class CustomerQuoteListDialog extends BaseDialog {
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT);
-		grid.addRecordDoubleClickHandler(new RecordDoubleClickHandler<EstimatesAndSalesOrdersList>() {
+		grid
+				.addRecordDoubleClickHandler(new RecordDoubleClickHandler<EstimatesAndSalesOrdersList>() {
 
-			@Override
-			public void OnCellDoubleClick(EstimatesAndSalesOrdersList core,
-					int column) {
-				setRecord(core);
+					@Override
+					public void OnCellDoubleClick(
+							EstimatesAndSalesOrdersList core, int column) {
+						setRecord(core);
 
-			}
-		});
+					}
+				});
 
 		// getGridData();
 		setQuoteList(estimatesAndSalesOrder);
@@ -189,8 +190,8 @@ public class CustomerQuoteListDialog extends BaseDialog {
 			}
 
 		};
-		rpcGetService.getObjectById(AccounterCoreType.SALESORDER,
-				record.getTransactionId(), callback);
+		rpcGetService.getObjectById(AccounterCoreType.SALESORDER, record
+				.getTransactionId(), callback);
 	}
 
 	private void getEstimate(EstimatesAndSalesOrdersList record) {
@@ -204,7 +205,7 @@ public class CustomerQuoteListDialog extends BaseDialog {
 
 			@Override
 			public void onResultSuccess(ClientEstimate result) {
-				//super.onSuccess(result);
+				// super.onSuccess(result);
 				if (invoiceView != null && result != null)
 					invoiceView.selectedQuote(result);
 				removeFromParent();
@@ -212,8 +213,8 @@ public class CustomerQuoteListDialog extends BaseDialog {
 			}
 
 		};
-		rpcGetService.getObjectById(AccounterCoreType.ESTIMATE,
-				record.getTransactionId(), callback);
+		rpcGetService.getObjectById(AccounterCoreType.ESTIMATE, record
+				.getTransactionId(), callback);
 
 	}
 
@@ -253,7 +254,6 @@ public class CustomerQuoteListDialog extends BaseDialog {
 
 	}
 
-
 	// setTitle(customerConstants.createForm());
 
 	@Override
@@ -262,5 +262,11 @@ public class CustomerQuoteListDialog extends BaseDialog {
 				.getSelection();
 		setRecord(record);
 		return true;
+	}
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
 	}
 }

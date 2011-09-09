@@ -39,7 +39,6 @@ public class BrandingThemeComboDialog extends BaseDialog {
 		super(title, desc);
 	}
 
-
 	private void createControls() {
 		brandingThemeTypeCombo = new BrandingThemeCombo(Accounter.constants()
 				.selectTheme());
@@ -72,9 +71,9 @@ public class BrandingThemeComboDialog extends BaseDialog {
 			// for printing individual invoice and customer credit memo pdf
 			// documents
 			if (ClientTransaction.TYPE_INVOICE == clientTransaction.getType()) {
-				UIUtils.downloadAttachment(
-						((ClientInvoice) clientTransaction).getID(),
-						ClientTransaction.TYPE_INVOICE, brandingTheme.getID());
+				UIUtils.downloadAttachment(((ClientInvoice) clientTransaction)
+						.getID(), ClientTransaction.TYPE_INVOICE, brandingTheme
+						.getID());
 			} else if (ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO == clientTransaction
 					.getType()) {
 				UIUtils.downloadAttachment(clientTransaction.getID(),
@@ -134,6 +133,12 @@ public class BrandingThemeComboDialog extends BaseDialog {
 		}
 		print();
 		return true;
+	}
+
+	@Override
+	public void setFocus() {
+		brandingThemeTypeCombo.setFocus();
+
 	}
 
 }

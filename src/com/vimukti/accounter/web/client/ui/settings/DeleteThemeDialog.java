@@ -22,7 +22,6 @@ public class DeleteThemeDialog extends BaseDialog {
 		createControls();
 	}
 
-
 	private void createControls() {
 		VerticalPanel deletePanel = new VerticalPanel();
 
@@ -39,7 +38,7 @@ public class DeleteThemeDialog extends BaseDialog {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 		super.deleteSuccess(result);
 		ActionFactory.getInvoiceBrandingAction().run(null, true);
 	}
@@ -48,10 +47,8 @@ public class DeleteThemeDialog extends BaseDialog {
 	protected ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		if (brandingTheme.isDefault()) {
-			result.addError(
-					this,
-					Accounter.messages().wecantDeleteThisTheme(
-							brandingTheme.getThemeName()));
+			result.addError(this, Accounter.messages().wecantDeleteThisTheme(
+					brandingTheme.getThemeName()));
 		}
 		return result;
 	}
@@ -60,6 +57,12 @@ public class DeleteThemeDialog extends BaseDialog {
 	protected boolean onOK() {
 		Accounter.deleteObject(this, brandingTheme);
 		return true;
+	}
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

@@ -189,4 +189,10 @@ public class RollBackDepreciationDialog extends BaseDialog {
 		return true;
 	}
 
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

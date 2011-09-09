@@ -31,7 +31,8 @@ public class RecurringTransactionDialog extends
 		BaseDialog<ClientRecurringTransaction> {
 
 	private final static AccounterConstants CONSTANTS = Accounter.constants();
-	private final static String OPTIONAL_DUE_DATE_OPTION = CONSTANTS.ofTheCurrentMonth();
+	private final static String OPTIONAL_DUE_DATE_OPTION = CONSTANTS
+			.ofTheCurrentMonth();
 
 	private TextItem nameField;
 	private DateItem startDateField;
@@ -67,9 +68,7 @@ public class RecurringTransactionDialog extends
 	private CheckboxItem unbilledChargesCkBox;
 
 	private Panel mainLayout;
-	
-	
-	
+
 	/**
 	 * for creating new Recurring transaction.
 	 * 
@@ -78,7 +77,7 @@ public class RecurringTransactionDialog extends
 	public RecurringTransactionDialog(
 			AbstractTransactionBaseView<? extends ClientTransaction> parentView) {
 		this(parentView, null);
-		
+
 	}
 
 	/**
@@ -107,7 +106,8 @@ public class RecurringTransactionDialog extends
 		intervalValueField = new IntervalValueInputField();
 		endDateTypeForm = new DynamicForm();
 
-		unbilledChargesCkBox = new CheckboxItem(CONSTANTS.includeUnbilledCharges());
+		unbilledChargesCkBox = new CheckboxItem(CONSTANTS
+				.includeUnbilledCharges());
 
 		initRadioBtns();
 
@@ -130,7 +130,8 @@ public class RecurringTransactionDialog extends
 
 		daysInAdvanceField = new TextItem(Accounter.constants().daysInAdvance());
 
-		occurrencesField = new TextItem(Accounter.constants().endAfterSpecifiedOccurences());
+		occurrencesField = new TextItem(Accounter.constants()
+				.endAfterSpecifiedOccurences());
 		occurrencesField.setRequired(false);
 		nameField.setHelpInformation(true);
 
@@ -146,7 +147,8 @@ public class RecurringTransactionDialog extends
 		actionComboField.setRequired(true);
 		actionComboField.setHelpInformation(true);
 
-		dueField = new TextAndComboPairForm(Accounter.constants().due(), getDueDateOptions(true));
+		dueField = new TextAndComboPairForm(Accounter.constants().due(),
+				getDueDateOptions(true));
 
 		form.setFields(recurringTypeCombo, nameField, startDateField,
 				actionComboField, daysInAdvanceField, unbilledChargesCkBox,
@@ -155,7 +157,7 @@ public class RecurringTransactionDialog extends
 		dynamicForms.add(form);
 
 		intervalLayout = new VerticalPanel();
-		//intervalLayout.setBorderWidth(1);
+		// intervalLayout.setBorderWidth(1);
 
 		mainLayout = new VerticalPanel();
 		mainLayout.add(form);
@@ -178,7 +180,8 @@ public class RecurringTransactionDialog extends
 	}
 
 	private void initRadioBtns() {
-		onSpecificWeekRadioBtn = new RadioButton(Accounter.constants().monthly(), Accounter.constants().onSpecificWeek());
+		onSpecificWeekRadioBtn = new RadioButton(Accounter.constants()
+				.monthly(), Accounter.constants().onSpecificWeek());
 		onSpecificWeekRadioBtn.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -195,7 +198,9 @@ public class RecurringTransactionDialog extends
 			}
 		});
 
-		onSpecificDayRadioBtn = new RadioButton(Accounter.constants().monthly(),Accounter.constants().onSpecificDay());
+		onSpecificDayRadioBtn = new RadioButton(
+				Accounter.constants().monthly(), Accounter.constants()
+						.onSpecificDay());
 		onSpecificDayRadioBtn.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -285,12 +290,14 @@ public class RecurringTransactionDialog extends
 			switch (selected) {
 			case 0:// Daily
 				panel = getDailyIntervalLayout();
-				intervalValueField.setIntervalTypeLabel(Accounter.constants().days());
+				intervalValueField.setIntervalTypeLabel(Accounter.constants()
+						.days());
 				break;
 			case 1: // weekly
 				enableAllCombos();
 				panel = getWeeklyIntervalLayout();
-				intervalValueField.setIntervalTypeLabel(Accounter.constants().weeks());
+				intervalValueField.setIntervalTypeLabel(Accounter.constants()
+						.weeks());
 
 				// need to hide the option "due date of the currenct month" in
 				// DueField.
@@ -298,7 +305,8 @@ public class RecurringTransactionDialog extends
 				break;
 			case 2: // monthly
 				panel = getMonthlyIntervalLayout();
-				intervalValueField.setIntervalTypeLabel(Accounter.constants().months());
+				intervalValueField.setIntervalTypeLabel(Accounter.constants()
+						.months());
 
 				if (onSpecificWeekRadioBtn.getValue()) {
 					hideOptionalDueDateOption();
@@ -308,7 +316,8 @@ public class RecurringTransactionDialog extends
 			case 3: // yearly
 				enableAllCombos();
 				panel = getYearlyIntervalLayout();
-				intervalValueField.setIntervalTypeLabel(Accounter.constants().years());
+				intervalValueField.setIntervalTypeLabel(Accounter.constants()
+						.years());
 				break;
 			}
 
@@ -332,13 +341,16 @@ public class RecurringTransactionDialog extends
 		recurringTypeCombo.setRequired(true);
 
 		dayOfWeekCombo = createCombo(CONSTANTS.dayOfWeek(), getWeekOptions());
-		dayOfMonthCombo = createCombo(CONSTANTS.dayOfMonth(), getMonthDayOptions());
-		weekOfMonthCombo = createCombo(CONSTANTS.weekOfMonth(), getMonthWeekOptions());
+		dayOfMonthCombo = createCombo(CONSTANTS.dayOfMonth(),
+				getMonthDayOptions());
+		weekOfMonthCombo = createCombo(CONSTANTS.weekOfMonth(),
+				getMonthWeekOptions());
 		monthOfYearCombo = createCombo(CONSTANTS.month(), getMonthOptions());
 		intervalTypeCombo = createCombo(CONSTANTS.intervalType(),
 				getIntervalTypeOptions());
 		intervalTypeCombo.setRequired(true);
-		endDateTypeCombo = createCombo(CONSTANTS.endDateType(), getEndDateTypeOptions());
+		endDateTypeCombo = createCombo(CONSTANTS.endDateType(),
+				getEndDateTypeOptions());
 		endDateTypeCombo.setRequired(true);
 	}
 
@@ -441,7 +453,7 @@ public class RecurringTransactionDialog extends
 	}
 
 	private CellPanel getYearlyIntervalLayout() {
-		VerticalPanel panel = new VerticalPanel();		
+		VerticalPanel panel = new VerticalPanel();
 		panel.add(intervalValueField);
 
 		HorizontalPanel tempPanel = new HorizontalPanel();
@@ -874,5 +886,11 @@ public class RecurringTransactionDialog extends
 		onSpecificWeekRadioBtn.setEnabled(!selected);
 		unbilledChargesCkBox.setDisabled(selected);
 		dueField.setDisabled(selected);
+	}
+
+	@Override
+	public void setFocus() {
+		recurringTypeCombo.setFocus();
+
 	}
 }

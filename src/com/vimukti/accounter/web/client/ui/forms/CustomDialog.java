@@ -151,5 +151,4 @@ public class CustomDialog extends DialogBox {
 	protected void onHelp() {
 
 	}
-
 }

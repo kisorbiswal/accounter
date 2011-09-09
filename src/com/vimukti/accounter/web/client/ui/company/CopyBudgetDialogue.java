@@ -77,6 +77,7 @@ public class CopyBudgetDialogue extends BaseDialog {
 
 		setBodyLayout(verticalPanel);
 		center();
+
 	}
 
 	@Override
@@ -84,5 +85,11 @@ public class CopyBudgetDialogue extends BaseDialog {
 
 		getCallback().actionResult(budgetName);
 		return true;
+	}
+
+	@Override
+	public void setFocus() {
+		selectBudget.setFocus();
+
 	}
 }

@@ -153,6 +153,7 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 
 		setBodyLayout(mainVLay);
 		setWidth("450px");
+
 	}
 
 	public void setObject(ClientPaymentTerms paymentTerm) {
@@ -209,6 +210,12 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 	@Override
 	protected boolean onOK() {
 		return parent.onOK();
+	}
+
+	@Override
+	public void setFocus() {
+		payTermText.setFocus();
+
 	}
 
 }

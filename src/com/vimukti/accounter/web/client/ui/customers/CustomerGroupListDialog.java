@@ -190,4 +190,5 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 		}
 		return true;
 	}
+
 }

@@ -23,7 +23,6 @@ public class AutomaticSequenceDialog extends BaseDialog {
 		createControls();
 	}
 
-
 	private void createControls() {
 		subLayoutPanel = new VerticalPanel();
 		paraHTML = new HTML(messages.automaticSequencingData());
@@ -65,6 +64,12 @@ public class AutomaticSequenceDialog extends BaseDialog {
 	protected boolean onOK() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

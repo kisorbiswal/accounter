@@ -170,7 +170,8 @@ public class JournalViewDialog extends BaseDialog {
 				value = disposalJOurnal.get(keyValue);
 				if (DecimalUtil.isLessThan(value, 0)) {
 					debitvalue = value * (-1);
-					disposalJournalForm.setText(row, col++, amountAsString(debitvalue));
+					disposalJournalForm.setText(row, col++,
+							amountAsString(debitvalue));
 					disposalJournalForm.setText(row, col++, "" + " ");
 					disposalJournalForm.getCellFormatter().setStyleName(row,
 							col - 1, "column-seperater");
@@ -182,7 +183,8 @@ public class JournalViewDialog extends BaseDialog {
 					disposalJournalForm.setText(row, col++, "" + " ");
 					disposalJournalForm.getCellFormatter().setStyleName(row,
 							col - 1, "column-seperater");
-					disposalJournalForm.setText(row, col++, amountAsString(value));
+					disposalJournalForm.setText(row, col++,
+							amountAsString(value));
 
 					setCreditTotal(value);
 				}
@@ -223,11 +225,11 @@ public class JournalViewDialog extends BaseDialog {
 	private void setTotalLabelForm(DynamicForm form, int row) {
 		HTML totalLabel = new HTML();
 		totalLabel.setHTML(Accounter.constants().total());
-		String debittotal = "<strong>"
-				+ amountAsString(this.debitTotal) + "</strong>";
+		String debittotal = "<strong>" + amountAsString(this.debitTotal)
+				+ "</strong>";
 		HTML debitValueLabel = new HTML(debittotal);
-		String credittotal = "<strong>"
-				+ amountAsString(this.creditTotal) + "</strong>";
+		String credittotal = "<strong>" + amountAsString(this.creditTotal)
+				+ "</strong>";
 		HTML creditValueLabel = new HTML(credittotal);
 		form.setWidget(row, 0, totalLabel);
 		form.setWidget(row, 1, debitValueLabel);
@@ -364,6 +366,12 @@ public class JournalViewDialog extends BaseDialog {
 	protected boolean onOK() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

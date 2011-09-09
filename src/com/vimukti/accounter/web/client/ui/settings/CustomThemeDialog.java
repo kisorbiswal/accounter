@@ -19,7 +19,6 @@ public class CustomThemeDialog extends BaseDialog {
 		createControls();
 	}
 
-
 	private void createControls() {
 		subTable = new FlexTable();
 		titleHTML = new HTML(Accounter.constants().yourTitle());
@@ -39,6 +38,12 @@ public class CustomThemeDialog extends BaseDialog {
 	protected boolean onOK() {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

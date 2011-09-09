@@ -177,6 +177,7 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 		setBodyLayout(verticalPanel);
 		center();
 		this.setDefaultValues();
+
 	}
 
 	private List<String> getStartWithList() {
@@ -421,4 +422,11 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 		novAmount.setValue(Double.toString(defaultValues.getNovemberAmount()));
 		decAmount.setValue(Double.toString(defaultValues.getDecemberAmount()));
 	}
+
+	@Override
+	public void setFocus() {
+		budgetAddBy.setFocus();
+
+	}
+
 }

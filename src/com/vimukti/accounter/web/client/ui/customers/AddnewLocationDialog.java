@@ -102,4 +102,10 @@ public class AddnewLocationDialog extends BaseDialog<ClientLocation> {
 
 		return this.clientLocation;
 	}
+
+	@Override
+	public void setFocus() {
+		locationName.setFocus();
+
+	}
 }

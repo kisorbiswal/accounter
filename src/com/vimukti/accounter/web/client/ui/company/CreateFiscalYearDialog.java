@@ -112,6 +112,7 @@ public class CreateFiscalYearDialog extends BaseDialog {
 		mainVlayout.add(descriptionLabel);
 		mainVlayout.add(dynamicForm);
 		setBodyLayout(mainVlayout);
+
 	}
 
 	protected ClientFiscalYear getEditFiscalYear() {
@@ -138,7 +139,7 @@ public class CreateFiscalYearDialog extends BaseDialog {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 
@@ -160,7 +161,6 @@ public class CreateFiscalYearDialog extends BaseDialog {
 	public void saveFailed(AccounterException exception) {
 
 	}
-
 
 	@Override
 	protected ValidationResult validate() {
@@ -190,5 +190,11 @@ public class CreateFiscalYearDialog extends BaseDialog {
 		}
 		saveOrUpdate(fiscalYear);
 		return true;
+	}
+
+	@Override
+	public void setFocus() {
+		startOfFiscalYear.setFocus();
+
 	}
 }

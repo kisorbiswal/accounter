@@ -45,7 +45,9 @@ public class CopyThemeDialog extends BaseDialog {
 		}
 
 		if (brandingThemeByName != null) {
-			result.addError(this, Accounter.constants().themenamealreadyexist());
+			result
+					.addError(this, Accounter.constants()
+							.themenamealreadyexist());
 		}
 		// if (Utility.isObjectExist(Accounter.getCompany().getBrandingTheme(),
 		// nameBox.getText())) {
@@ -104,6 +106,12 @@ public class CopyThemeDialog extends BaseDialog {
 		brandingTheme.setThemeName(nameBox.getText());
 		saveOrUpdate(brandingTheme);
 		return true;
+	}
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

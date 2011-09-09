@@ -127,5 +127,4 @@ public class AddNewContactDialog extends BaseDialog<ClientContact> {
 			ValueCallBack<ClientContact> newContactHandler) {
 		this.successCallback = newContactHandler;
 	}
-
 }

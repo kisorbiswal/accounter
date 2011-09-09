@@ -66,6 +66,7 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 		mainVlayout.add(enterStartDateLabel);
 		mainVlayout.add(dynamicForm);
 		setBodyLayout(mainVlayout);
+
 	}
 
 	protected void createFiscalYear(ClientFinanceDate changedFiscalStartDate) {
@@ -95,7 +96,7 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 				callback);
 	}
 
-	@SuppressWarnings({ "deprecation", "unused" })
+	@SuppressWarnings( { "deprecation", "unused" })
 	private void createNessasaryFiscalYears() {
 		ArrayList<ClientFiscalYear> listofNewFiscalYears = new ArrayList<ClientFiscalYear>();
 		ClientFinanceDate changedStartDate = startDateItem.getDate();
@@ -124,8 +125,8 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 				tempEndDate.setYear(tempEndDate.getYear() + 1);
 				tempEndDate.setDay(tempEndDate.getDay() - 1);
 				if (tempEndDate.after(firstStartDate)) {
-					tempEndDate = new ClientFinanceDate(
-							firstStartDate.getDate());
+					tempEndDate = new ClientFinanceDate(firstStartDate
+							.getDate());
 				}
 				ClientFiscalYear newFiscalYear = new ClientFiscalYear();
 				newFiscalYear.setStartDate(tempStartDate.getDate());
@@ -144,8 +145,8 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 				tempEndDate.setYear(tempEndDate.getYear() + 1);
 				tempEndDate.setDay(tempEndDate.getDay() - 1);
 				if (tempEndDate.after(changedStartDate)) {
-					tempEndDate = new ClientFinanceDate(
-							changedStartDate.getDate());
+					tempEndDate = new ClientFinanceDate(changedStartDate
+							.getDate());
 				}
 				ClientFiscalYear newFiscalYear = new ClientFiscalYear();
 				newFiscalYear.setStartDate(tempStartDate.getDate());
@@ -169,7 +170,7 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 
@@ -191,7 +192,6 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 	public void saveFailed(AccounterException exception) {
 
 	}
-
 
 	public void addFiscalYearsToList() {
 		listofperiods.removeAllRecords();
@@ -229,6 +229,12 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 
 		createFiscalYear(changedFiscalStartDate);
 		return true;
+	}
+
+	@Override
+	public void setFocus() {
+		startDateItem.setFocus();
+
 	}
 
 }

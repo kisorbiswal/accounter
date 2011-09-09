@@ -38,6 +38,7 @@ public class AddBankDialog extends BaseDialog {
 
 		setBodyLayout(bankForm);
 		setWidth("275px");
+
 	}
 
 	protected void createBank() {
@@ -80,7 +81,6 @@ public class AddBankDialog extends BaseDialog {
 		Accounter.showError(errorString);
 	}
 
-
 	public void addCallBack(AccounterAsyncCallback<ClientBank> callback) {
 		this.callBack = callback;
 	}
@@ -94,6 +94,12 @@ public class AddBankDialog extends BaseDialog {
 	@Override
 	public void deleteFailed(AccounterException caught) {
 		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setFocus() {
+		bankNameText.setFocus();
 
 	}
 
