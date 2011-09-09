@@ -2073,30 +2073,34 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			for (ClientBudget budget : budgets) {
 				ArrayList<ClientBudgetItem> budgetItems = new ArrayList<ClientBudgetItem>();
 
-				budgetItems = (ArrayList<ClientBudgetItem>) budget
-						.getBudgetItem();
+				if (budget.getID() == id) {
+					budgetItems = (ArrayList<ClientBudgetItem>) budget
+							.getBudgetItem();
 
-				for (ClientBudgetItem item : budgetItems) {
-					if (item.getTotalAmount() > 0.0) {
-						ClientBudgetList e = new ClientBudgetList();
-						e.setAccount(item.getAccount());
-						e.setJanuaryAmount(item.getJanuaryAmount());
-						e.setFebrauaryAmount(item.getFebruaryAmount());
-						e.setMarchAmount(item.getMarchAmount());
-						e.setAprilAmount(item.getAprilAmount());
-						e.setMayAmount(item.getMayAmount());
-						e.setJuneAmount(item.getJuneAmount());
-						e.setJulyAmount(item.getJulyAmount());
-						e.setAugustAmount(item.getAugustAmount());
-						e.setSeptemberAmount(item.getSpetemberAmount());
-						e.setOctoberAmount(item.getOctoberAmount());
-						e.setNovemberAmount(item.getNovemberAmount());
-						e.setDecemberAmount(item.getDecemberAmount());
-						e.setTotalAmount(item.getTotalAmount());
-						budgetList.add(e);
+					for (ClientBudgetItem item : budgetItems) {
+
+						if (item.getTotalAmount() > 0.0) {
+							ClientBudgetList e = new ClientBudgetList();
+							e.setAccount(item.getAccount());
+							e.setJanuaryAmount(item.getJanuaryAmount());
+							e.setFebrauaryAmount(item.getFebruaryAmount());
+							e.setMarchAmount(item.getMarchAmount());
+							e.setAprilAmount(item.getAprilAmount());
+							e.setMayAmount(item.getMayAmount());
+							e.setJuneAmount(item.getJuneAmount());
+							e.setJulyAmount(item.getJulyAmount());
+							e.setAugustAmount(item.getAugustAmount());
+							e.setSeptemberAmount(item.getSpetemberAmount());
+							e.setOctoberAmount(item.getOctoberAmount());
+							e.setNovemberAmount(item.getNovemberAmount());
+							e.setDecemberAmount(item.getDecemberAmount());
+							e.setTotalAmount(item.getTotalAmount());
+							budgetList.add(e);
+						}
+
 					}
-
 				}
+
 			}
 
 		} catch (Exception e) {
