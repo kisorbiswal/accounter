@@ -68,7 +68,11 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 	@Override
 	protected Action getAddNewAction() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return ActionFactory.getNewAccountAction();
+			if (typeOfAccount == ClientAccount.TYPE_BANK) {
+				return ActionFactory.getNewBankAccountAction();
+			} else {
+				return ActionFactory.getNewAccountAction();
+			}
 		else
 			return null;
 
@@ -154,7 +158,6 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 	public void printPreview() {
 
 	}
-
 
 	@Override
 	protected String getViewTitle() {
