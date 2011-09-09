@@ -91,16 +91,21 @@ public class WareHouseTransferView extends BaseView<ClientWarehouse> {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 		// currently not using
 
 	}
-
 
 	@Override
 	public List getForms() {
 		// currently not using
 		return null;
+	}
+
+	@Override
+	public void setFocus() {
+		this.fromCombo.setFocus();
+
 	}
 
 }

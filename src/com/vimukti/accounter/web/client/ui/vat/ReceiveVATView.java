@@ -200,13 +200,13 @@ public class ReceiveVATView extends
 		balForm = new DynamicForm();
 		balForm = UIUtils.form(companyConstants.balances());
 		balForm.setFields(amountText, endingBalanceText);
-		
+
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
 			balForm.setFields(classListCombo);
 		}
-		
+
 		balForm.getCellFormatter().setWidth(0, 0, "197px");
 
 		VerticalPanel leftVLay = new VerticalPanel();
@@ -701,7 +701,13 @@ public class ReceiveVATView extends
 
 	@Override
 	protected void refreshTransactionGrid() {
-		
+
+	}
+
+	@Override
+	public void setFocus() {
+		this.depositInAccCombo.setFocus();
+
 	}
 
 }

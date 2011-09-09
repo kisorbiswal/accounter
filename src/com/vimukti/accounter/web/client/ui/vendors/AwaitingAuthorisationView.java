@@ -237,4 +237,10 @@ public class AwaitingAuthorisationView extends BaseView {
 	protected void createButtons(ButtonBar buttonBar) {
 	}
 
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

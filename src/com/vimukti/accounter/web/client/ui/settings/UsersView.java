@@ -205,9 +205,8 @@ public class UsersView extends BaseView<ClientUserInfo> {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 	}
-
 
 	@Override
 	public void fitToSize(int height, int width) {
@@ -223,6 +222,12 @@ public class UsersView extends BaseView<ClientUserInfo> {
 
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
+	}
+
+	@Override
+	public void setFocus() {
+		this.inviteUserButton.setFocus(true);
+
 	}
 
 }

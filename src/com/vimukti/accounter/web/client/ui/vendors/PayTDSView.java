@@ -122,8 +122,6 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 		paymentMethodCombo.setRequired(true);
 		// paymentMethodCombo.setWidth(100);
 
-		
-
 		// vatAgencyCombo = new VATAgencyCombo("Filter By "
 		// + companyConstants.vatAgency());
 		// vatAgencyCombo.setDisabled(isEdit);
@@ -155,7 +153,7 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 		mainform = UIUtils.form(companyConstants.filter());
 		mainform.setFields(payFromAccCombo, paymentMethodCombo);
 		mainform.setWidth("80%");
-		
+
 		// fileterForm = new DynamicForm();
 		// fileterForm.setFields(billsDue);
 		// fileterForm.setWidth("80%");
@@ -200,7 +198,7 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 
 		Label lab1 = new Label("" + companyConstants.billsToPay() + "");
 
-		 initListGrid();
+		initListGrid();
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
@@ -254,6 +252,7 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	// initializes the grid.
 	private void initListGrid() {
 
@@ -263,7 +262,7 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 		grid.setCanEdit(!isInViewMode());
 		grid.isEnable = false;
 		grid.init();
-		//grid.setPayVATView(this);
+		// grid.setPayVATView(this);
 		grid.setDisabled(isInViewMode());
 		// grid.setHeight("200px");
 		if (!isInViewMode()) {
@@ -273,6 +272,12 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 			// .getAmountAsString(totalAmount), 2);
 		}
 		gridLayout.add(grid);
+
+	}
+
+	@Override
+	public void setFocus() {
+		this.payFromAccCombo.setFocus();
 
 	}
 

@@ -736,4 +736,10 @@ public class InvoiceBrandingView<T> extends
 		return Accounter.constants().invoiceBranding();
 	}
 
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

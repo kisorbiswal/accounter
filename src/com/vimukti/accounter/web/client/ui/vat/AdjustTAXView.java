@@ -144,8 +144,8 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 					@Override
 					public void selectedComboBoxItem(ClientTAXItem selectItem) {
 						// clientVATItem = selectItem;
-						refreshVatLineLabel(vatLinetxt, selectItem
-								.getVatReturnBox());
+						refreshVatLineLabel(vatLinetxt,
+								selectItem.getVatReturnBox());
 
 						refreshVatAccountLabel(vatAccounttxt, selectItem);
 
@@ -297,7 +297,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 
 	@Override
 	public void setFocus() {
-
+		this.taxAgencyCombo.setFocus();
 	}
 
 	protected void refreshVatAccountLabel(LabelItem vatAccountLabel,
@@ -365,11 +365,11 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		// return true;
 		// case 3:
 		if (AccounterValidator.isZeroAmount(amount.getAmount())) {
-			result.addError(amount, Accounter.messages().shouldNotbeZero(
-					amount.getName()));
+			result.addError(amount,
+					Accounter.messages().shouldNotbeZero(amount.getName()));
 		} else if (AccounterValidator.isNegativeAmount(amount.getAmount())) {
-			result.addError(amount, Accounter.messages().shouldBePositive(
-					amount.getName()));
+			result.addError(amount,
+					Accounter.messages().shouldBePositive(amount.getName()));
 		}
 
 		// case 2:
@@ -414,9 +414,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 			data.setTaxItem(vatItemCombo.getSelectedValue().getID());
 		data.setTaxAgency(clientTAXAgency.getID());
 
-		data
-				.setAdjustmentAccount(adjustAccountCombo.getSelectedValue()
-						.getID());
+		data.setAdjustmentAccount(adjustAccountCombo.getSelectedValue().getID());
 
 		data.setTotal(amount.getAmount());
 		if (typeRadio.getValue()
@@ -442,7 +440,6 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 	public void fitToSize(int height, int width) {
 		super.fitToSize(height, width);
 	}
-
 
 	@Override
 	public void onEdit() {

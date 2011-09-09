@@ -203,4 +203,10 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 			data.addUnit(unit.getType(), unit.getFactor());
 		}
 	}
+
+	@Override
+	public void setFocus() {
+		this.nameItem.setFocus();
+
+	}
 }

@@ -53,8 +53,8 @@ public class PreviousClaimsView extends BaseView {
 
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.setStyleName("button-expense");
-		Button notShowInList = new Button(Accounter
-				.constants().dontShowinList());
+		Button notShowInList = new Button(Accounter.constants()
+				.dontShowinList());
 		notShowInList.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -102,7 +102,8 @@ public class PreviousClaimsView extends BaseView {
 							}
 
 							@Override
-							public void onResultSuccess(ClientCashPurchase result) {
+							public void onResultSuccess(
+									ClientCashPurchase result) {
 								result.setExpenseStatus(expenceStatus);
 								updateTransactionItems(result);
 								setAction(ActionFactory
@@ -174,7 +175,8 @@ public class PreviousClaimsView extends BaseView {
 						new AccounterAsyncCallback<ArrayList<BillsList>>() {
 
 							@Override
-							public void onResultSuccess(ArrayList<BillsList> result) {
+							public void onResultSuccess(
+									ArrayList<BillsList> result) {
 								for (BillsList list : result)
 									grid.addData(list);
 							}
@@ -214,10 +216,9 @@ public class PreviousClaimsView extends BaseView {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
-
 
 	@Override
 	protected String getViewTitle() {
@@ -226,6 +227,12 @@ public class PreviousClaimsView extends BaseView {
 
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
+	}
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

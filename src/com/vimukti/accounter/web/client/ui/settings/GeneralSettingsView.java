@@ -278,14 +278,19 @@ public class GeneralSettingsView extends AbstractBaseView {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
-
 
 	@Override
 	protected String getViewTitle() {
 		return Accounter.constants().generalSettings();
+	}
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

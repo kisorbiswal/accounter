@@ -145,10 +145,9 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
-
 
 	@Override
 	protected String getViewTitle() {
@@ -173,6 +172,12 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 
 	@Override
 	public void print() {
+
+	}
+
+	@Override
+	public void setFocus() {
+		this.titleItem.setFocus();
 
 	}
 

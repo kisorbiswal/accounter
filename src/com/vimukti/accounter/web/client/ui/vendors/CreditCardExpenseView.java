@@ -1054,4 +1054,10 @@ public class CreditCardExpenseView extends
 	protected void refreshTransactionGrid() {
 		// vendorTransactionTable.refreshAllRecords();
 	}
+
+	@Override
+	public void setFocus() {
+		this.Ccard.setFocus();
+
+	}
 }

@@ -78,7 +78,6 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 	protected void createControls() {
 		listforms = new ArrayList<DynamicForm>();
 
-			
 		// setTitle(UIUtils.title(FinanceApplication.constants()
 		// .transaction()));
 
@@ -197,7 +196,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 			classListCombo = createAccounterClassListCombo();
 			balForm.setFields(classListCombo);
 		}
-		
+
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
 		leftVLay.add(mainform);
@@ -236,7 +235,6 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 				: !DecimalUtil.isEquals(
 						selectedPayFromAccount.getTotalBalance(), 0) ? selectedPayFromAccount
 						.getTotalBalance() : 0D;
-
 
 		calculateEndingBalance();
 
@@ -686,6 +684,12 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 	@Override
 	protected void refreshTransactionGrid() {
+
+	}
+
+	@Override
+	public void setFocus() {
+		this.payFromAccCombo.setFocus();
 
 	}
 

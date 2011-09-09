@@ -250,14 +250,19 @@ public class ConversionDateView extends AbstractBaseView {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
-
 
 	@Override
 	protected String getViewTitle() {
 		return Accounter.constants().conversionDate();
+	}
+
+	@Override
+	public void setFocus() {
+		this.monthCombo.setFocus();
+
 	}
 
 }

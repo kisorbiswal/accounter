@@ -233,4 +233,10 @@ public class ExpenseClaimList extends BaseView {
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
 	}
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -28,11 +28,10 @@ public class MesurementListView extends BaseView {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 		// TODO Auto-generated method stub
 
 	}
-
 
 	@Override
 	protected String getViewTitle() {
@@ -108,6 +107,12 @@ public class MesurementListView extends BaseView {
 	}
 
 	private void setExistingListToView() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setFocus() {
 		// TODO Auto-generated method stub
 
 	}

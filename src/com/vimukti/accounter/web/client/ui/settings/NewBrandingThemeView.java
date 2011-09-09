@@ -73,7 +73,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	private FinanceImages financeImages = Accounter.getFinanceImages();
 	private Image invoiceTempImage;
 	private Image creditTempImage;
-private String invVal,creditVal;
+	private String invVal, creditVal;
+
 	public NewBrandingThemeView(String title, String desc) {
 	}
 
@@ -139,7 +140,6 @@ private String invVal,creditVal;
 
 	}
 
-	
 	private void createControls() {
 		tabSet = new DecoratedTabPanel();
 
@@ -304,8 +304,7 @@ private String invVal,creditVal;
 		brandingTheme.setLogoAlignmentType(getLogoType());
 
 		// for setting the selected templetes
-		
-		
+
 		brandingTheme.setInvoiceTempleteName(invVal);
 		brandingTheme.setCreditNoteTempleteName(creditVal);
 
@@ -390,7 +389,7 @@ private String invVal,creditVal;
 		vPanel1.add(invForm);
 		vPanel1.add(invoiceTempImage);
 
-		invVal =templatesList.get(0);
+		invVal = templatesList.get(0);
 		invoiceCombo.setValue(templatesList.get(0));
 		invoiceCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -764,6 +763,12 @@ private String invVal,creditVal;
 				creditTempImage.setResource(financeImages.quickbooksCredit());
 			}
 		}
+
+	}
+
+	@Override
+	public void setFocus() {
+		this.nameItem.setFocus();
 
 	}
 }

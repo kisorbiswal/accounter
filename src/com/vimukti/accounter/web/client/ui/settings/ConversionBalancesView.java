@@ -242,4 +242,10 @@ public class ConversionBalancesView extends BaseView {
 		return null;
 	}
 
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

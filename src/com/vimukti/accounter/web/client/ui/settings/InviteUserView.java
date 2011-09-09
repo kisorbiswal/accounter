@@ -412,4 +412,10 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		return Accounter.constants().inviteUser();
 	}
 
+	@Override
+	public void setFocus() {
+		this.firstNametext.setFocus();
+
+	}
+
 }
