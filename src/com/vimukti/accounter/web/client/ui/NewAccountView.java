@@ -56,6 +56,7 @@ import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
 
 /**
  * @modified by Ravi Kiran.G
@@ -112,6 +113,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	private DynamicForm bankForm;
 	private DynamicForm creditCardForm;
 	private DynamicForm paypalForm;
+	private CurrencyWidget currency;
 
 	private Label lab1;
 
@@ -466,20 +468,30 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				.setVerticalAlign(VerticalAlign.TOP);
 		commentsForm.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.constants().width(), "200");
+		currency = createCurrencyWidget();
 
 		if (getData() == null) {
 			ClientAccount account = accountType != ClientAccount.TYPE_BANK ? new ClientAccount()
 					: new ClientBankAccount();
 			setData(account);
 		}
+		currency = createCurrencyWidget();
+		VerticalPanel v = new VerticalPanel();
+
+		v.add(currency);
+		v.setCellWidth(currency, "44%");
 
 		mainVLay = new VerticalPanel();
 
 		mainVLay.setSize("100%", "300px");
 		mainVLay.add(lab1);
 		mainVLay.add(topHLay);
+
 		mainVLay.add(cashBasisForm);
+
 		mainVLay.add(commentsForm);
+		mainVLay.add(currency);
+
 		// setHeightForCanvas("450");
 		this.add(mainVLay);
 
@@ -489,6 +501,19 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		listforms.add(commentsForm);
 
+	}
+
+	private CurrencyWidget createCurrencyWidget() {
+		List<String> currencies = new ArrayList<String>();
+		String baseCurrency = null;
+		for (int i = 0; i < 10; i++) {
+			String currency = "CU" + i;
+			currencies.add(currency);
+			if (i == 5) {
+				baseCurrency = currency;
+			}
+		}
+		return new CurrencyWidget(currencies, baseCurrency);
 	}
 
 	private void addPaypalForm() {
