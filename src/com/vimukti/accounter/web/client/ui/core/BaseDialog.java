@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.client.ui.core;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -90,8 +92,7 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		this.description = desc;
 		initRPCService();
 		createControls();
-		okbtn.setFocus(true);
-
+okbtn.setFocus(true);
 		sinkEvents(Event.ONKEYPRESS);
 		sinkEvents(Event.ONMOUSEOVER);
 	}
@@ -404,4 +405,21 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 	public String amountAsString(Double amount) {
 		return DataUtils.getAmountAsString(amount);
 	}
+
+	public abstract void setFocus();
+
+	@Override
+	protected void onAttach() {
+
+		super.onAttach();
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+			@Override
+			public void execute() {
+				setFocus();
+			}
+		});
+
+	}
+
 }
