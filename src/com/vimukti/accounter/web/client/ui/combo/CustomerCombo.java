@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.client.ui.combo;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -70,51 +68,29 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 	protected void selectionFaildOnClose() {
 		QuickAddDialog dialog = new QuickAddDialog("New Customer");
 		dialog.setDefaultText(textBox.getText());
-		dialog.setListener(new QuickAddListenerImpl());
+		dialog.setListener(new QuickAddListenerImpl(this));
 		dialog.show();
 	}
 
-	private class QuickAddListenerImpl implements
-			QuickAddListener<ClientCustomer> {
+	@Override
+	protected void onAddAllInfo(String text) {
+		NewCustomerAction action = ActionFactory.getNewCustomerAction(text);
+		action.setCallback(new ActionCallback<ClientCustomer>() {
 
-		@Override
-		public void onAddAllInfo(String text) {
-			NewCustomerAction action = ActionFactory.getNewCustomerAction(text);
-			action.setCallback(new ActionCallback<ClientCustomer>() {
-
-				@Override
-				public void actionResult(ClientCustomer result) {
-					if (result.getDisplayName() != null)
-						addItemThenfireEvent(result);
-				}
-			});
-			action.run(null, true);
-		}
-
-		@Override
-		public void saveFailed(AccounterException exception) {
-			Accounter.showError(exception.getMessage());
-		}
-
-		@Override
-		public void saveSuccess(IAccounterCore object) {
-			if (object instanceof ClientCustomer) {
-				addItemThenfireEvent((ClientCustomer) object);
+			@Override
+			public void actionResult(ClientCustomer result) {
+				if (result.getDisplayName() != null)
+					addItemThenfireEvent(result);
 			}
-		}
-
-		@Override
-		public ClientCustomer getData(String text) {
-			ClientCustomer clientCustomer = new ClientCustomer();
-			clientCustomer.setName(text);
-			clientCustomer.setBalanceAsOf(new ClientFinanceDate().getDate());
-			return clientCustomer;
-		}
-
-		@Override
-		public void onCancel() {
-			changeValue(-1);
-		}
-
+		});
+		action.run(null, true);
+	}
+	
+	@Override
+	protected ClientCustomer getQuickAddData(String text) {
+		ClientCustomer clientCustomer = new ClientCustomer();
+		clientCustomer.setName(text);
+		clientCustomer.setBalanceAsOf(new ClientFinanceDate().getDate());
+		return clientCustomer;
 	}
 }

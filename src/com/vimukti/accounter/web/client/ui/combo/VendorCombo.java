@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.client.ui.combo;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientVendor;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -67,51 +65,29 @@ public class VendorCombo extends CustomCombo<ClientVendor> {
 		QuickAddDialog dialog = new QuickAddDialog(Accounter.messages()
 				.newVendor(Global.get().vendor()));
 		dialog.setDefaultText(textBox.getText());
-		dialog.setListener(new QuickAddListenerImpl());
+		dialog.setListener(new QuickAddListenerImpl(this));
 		dialog.show();
 	}
 
-	private class QuickAddListenerImpl implements
-			QuickAddListener<ClientVendor> {
+	@Override
+	protected void onAddAllInfo(String text) {
+		NewVendorAction action = ActionFactory.getNewVendorAction(text);
+		action.setCallback(new ActionCallback<ClientVendor>() {
 
-		@Override
-		public void onAddAllInfo(String text) {
-			NewVendorAction action = ActionFactory.getNewVendorAction(text);
-			action.setCallback(new ActionCallback<ClientVendor>() {
-
-				@Override
-				public void actionResult(ClientVendor result) {
-					if (result.getDisplayName() != null)
-						addItemThenfireEvent(result);
-				}
-			});
-			action.run(null, true);
-		}
-
-		@Override
-		public void saveFailed(AccounterException exception) {
-			Accounter.showError(exception.getMessage());
-		}
-
-		@Override
-		public void saveSuccess(IAccounterCore object) {
-			if (object instanceof ClientVendor) {
-				addItemThenfireEvent((ClientVendor) object);
+			@Override
+			public void actionResult(ClientVendor result) {
+				if (result.getDisplayName() != null)
+					addItemThenfireEvent(result);
 			}
-		}
+		});
+		action.run(null, true);
+	}
 
-		@Override
-		public ClientVendor getData(String text) {
-			ClientVendor clientVendor = new ClientVendor();
-			clientVendor.setName(text);
-			clientVendor.setBalanceAsOf(new ClientFinanceDate().getDate());
-			return clientVendor;
-		}
-
-		@Override
-		public void onCancel() {
-			changeValue(-1);
-		}
-
+	@Override
+	protected ClientVendor getQuickAddData(String text) {
+		ClientVendor clientVendor = new ClientVendor();
+		clientVendor.setName(text);
+		clientVendor.setBalanceAsOf(new ClientFinanceDate().getDate());
+		return clientVendor;
 	}
 }
