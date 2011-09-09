@@ -235,9 +235,9 @@ public class ComboBox<T, C> extends FlowPanel implements RowSelectHandler<C> {
 			editComplete();
 		} else {
 			if (isClicked) {
+				hidePopup(false);
 				textBox.setText("");
 				dropDown.addNewItem();
-				hidePopup(false);
 			}
 		}
 	}
