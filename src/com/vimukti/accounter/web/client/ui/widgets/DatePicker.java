@@ -224,7 +224,7 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 			showPopup();
 			break;
 		case KeyCodes.KEY_ESCAPE:
-				popup.hidePopupCalendar();
+			popup.hide();
 			break;
 		case KeyCodes.KEY_UP:
 			processIncrementDate(this.getCursorPos());
@@ -502,7 +502,7 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 	@Override
 	public void onFocus(FocusEvent arg0) {
 
-		showPopup();
+	showPopup();
 
 	}
 
