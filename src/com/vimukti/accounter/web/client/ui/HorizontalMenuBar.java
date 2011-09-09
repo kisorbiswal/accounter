@@ -57,9 +57,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			}
 		}
 
-		menuitem = menuBar.addItem(
-				Accounter.messages().Customer(Global.get().Customer()),
-				getCustomerMenu());
+		menuitem = menuBar.addItem(Global.get().Customer(), getCustomerMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		menuitem = menuBar.addItem(Global.get().Vendor(), getVendorMenu());
