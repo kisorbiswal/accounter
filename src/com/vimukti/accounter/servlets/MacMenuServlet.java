@@ -165,7 +165,7 @@ public class MacMenuServlet extends BaseServlet {
 
 	private void addHeader() {
 		builder
-				.append("<xml><AccounterLogout text=\"Logout\">do/logout</AccounterLogout><ChangePassword text= \"User Details\">accounter#userDetails</ChangePassword><menus>");
+				.append("<xml><AccounterLogout text=\"Logout\">main/logout</AccounterLogout><ChangePassword text= \"User Details\">accounter#userDetails</ChangePassword><menus>");
 	}
 
 	private void addVatMenuItem() {
