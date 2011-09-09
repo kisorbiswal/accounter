@@ -21,8 +21,14 @@ import com.vimukti.accounter.web.client.ui.forms.DateItem;
 public class BudgetReportToolbar extends ReportToolbar implements
 		AsyncCallback<ArrayList<ClientBudget>> {
 
+	private int TOOLBAR_TYPE_CUSTOM = 1;
+	private int TOOLBAR_TYPE_MONTH = 2;
+	private int TOOLBAR_TYPE_QUATER = 3;
+	private int TOOLBAR_TYPE_YEAR = 4;
+
 	private DateItem fromItem;
 	private DateItem toItem;
+
 	protected SelectCombo budgetCombo;
 	protected SelectCombo budgetYear;
 	protected SelectCombo budgetMonth;
@@ -32,7 +38,7 @@ public class BudgetReportToolbar extends ReportToolbar implements
 	List<Long> idArray = new ArrayList<Long>();
 
 	private Long isStatus;
-
+	int monthSelected;
 	int budgetToolbarType;
 
 	public BudgetReportToolbar(int i) {
@@ -40,10 +46,12 @@ public class BudgetReportToolbar extends ReportToolbar implements
 		Accounter.createHomeService().getBudgetList(this);
 	}
 
-	@Override
 	public void changeDates(ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
-		reportview.makeReportRequest(isStatus, startDate, endDate);
+		fromItem.setValue(startDate);
+		toItem.setValue(endDate);
+		reportview.makeReportRequest(isStatus, startDate, endDate,
+				monthSelected);
 
 	}
 
@@ -62,7 +70,7 @@ public class BudgetReportToolbar extends ReportToolbar implements
 
 	public void createControls() {
 
-		String[] dateRangeArray = { Accounter.constants().january(),
+		final String[] dateRangeArray = { Accounter.constants().january(),
 				Accounter.constants().february(),
 				Accounter.constants().march(), Accounter.constants().april(),
 				Accounter.constants().may(), Accounter.constants().june(),
@@ -105,16 +113,13 @@ public class BudgetReportToolbar extends ReportToolbar implements
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-
-						if (selectItem.endsWith(Accounter.constants()
-								.accountVScustom())) {
-							fromItem.setDisabled(false);
-							toItem.setDisabled(false);
-						} else {
-							fromItem.setDisabled(true);
-							toItem.setDisabled(true);
+						for (int i = 0; i < dateRangeArray.length; i++) {
+							if (selectItem.endsWith(dateRangeArray[i]))
+								monthSelected = i + 1;
 						}
-
+						setStartDate(fromItem.getDate());
+						setEndDate(toItem.getDate());
+						changeDates(fromItem.getDate(), toItem.getDate());
 					}
 				});
 
@@ -149,14 +154,12 @@ public class BudgetReportToolbar extends ReportToolbar implements
 		fromItem.setHelpInformation(true);
 		fromItem.setDatethanFireEvent(Accounter.getStartDate());
 		fromItem.setTitle(Accounter.constants().from());
-		fromItem.setDisabled(true);
+		ClientFinanceDate date = Accounter.getCompany()
+				.getLastandOpenedFiscalYearEndDate();
+		fromItem.setValue(date);
 
 		toItem = new DateItem();
 		toItem.setHelpInformation(true);
-		toItem.setDisabled(true);
-		ClientFinanceDate date = Accounter.getCompany()
-				.getLastandOpenedFiscalYearEndDate();
-
 		if (date != null)
 			toItem.setDatethanFireEvent(date);
 		else
@@ -181,7 +184,6 @@ public class BudgetReportToolbar extends ReportToolbar implements
 				setEndDate(toItem.getDate());
 
 				changeDates(fromItem.getDate(), toItem.getDate());
-				budgetMonth.setDefaultValue(Accounter.constants().custom());
 				setSelectedDateRange(Accounter.constants().custom());
 
 			}
@@ -207,12 +209,12 @@ public class BudgetReportToolbar extends ReportToolbar implements
 			budgetYear.setWidth("170px");
 			budgetCombo.setWidth("90px");
 		}
-		if (budgetToolbarType == 2)
+		if (budgetToolbarType == TOOLBAR_TYPE_MONTH)
 			addItems(budgetCombo, budgetMonth);
-		else if (budgetToolbarType == 3)
-			addItems(budgetCombo, budgetYear);
-		else if (budgetToolbarType == 4)
-			addItems(budgetCombo, budgetYear);
+		else if (budgetToolbarType == TOOLBAR_TYPE_QUATER)
+			addItems(budgetCombo);
+		else if (budgetToolbarType == TOOLBAR_TYPE_YEAR)
+			addItems(budgetCombo);
 		else
 			addItems(budgetCombo, fromItem, toItem);
 

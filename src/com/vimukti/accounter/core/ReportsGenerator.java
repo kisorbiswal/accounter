@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.core.ReportUtility;
+import com.vimukti.accounter.web.client.ui.reports.BudgetServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingSummaryServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ARAgingDetailServerReport;
@@ -1261,6 +1262,31 @@ public class ReportsGenerator {
 			}
 			return misc1099TransactionDetailServerReport.getGridTemplate();
 
+		case REPORT_TYPE_BUDGET1:
+			BudgetServerReport budgetServerReport = new BudgetServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					ReportsGenerator.companyType = Company.getCompany().accountingType;
+					ReportUtility.companyType = companyType;
+					return ReportsGenerator.getDateByCompanyType(date);
+				}
+
+			};
+			updateReport(budgetServerReport, finaTool);
+			budgetServerReport.resetVariables();
+			try {
+				budgetServerReport
+						.onResultSuccess(reportsSerivce.getBudgetItemsList(
+								Integer.parseInt(status),
+								startDate.toClientFinanceDate(),
+								endDate.toClientFinanceDate(), generationType1));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return budgetServerReport.getGridTemplate();
 		default:
 			break;
 		}

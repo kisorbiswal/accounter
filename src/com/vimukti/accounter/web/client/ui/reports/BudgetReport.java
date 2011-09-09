@@ -7,31 +7,37 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class BudgetReport extends AbstractReportView<ClientBudgetList> {
 
+	private int BUDGET_TYPE_CUSTOM = 1;
+	private int BUDGET_TYPE_MONTH = 2;
+	private int BUDGET_TYPE_QUATER = 3;
+	private int BUDGET_TYPE_YEAR = 4;
+
 	int budgettype;
+	BudgetServerReport serverreport;
 
 	public BudgetReport(int budgetType) {
 		super(false, "");
 		budgettype = budgetType;
-		BudgetServerReport serverreport = new BudgetServerReport(this,
-				budgetType);
-
+		serverreport = new BudgetServerReport(this, budgetType);
 		this.serverReport = serverreport;
 		this.serverReport.setIshowGridFooter(true);
 	}
 
 	@Override
 	public void OnRecordClick(ClientBudgetList record) {
-		// TODO Auto-generated method stub
-
+		record.setStartDate(toolbar.getStartDate());
+		record.setEndDate(toolbar.getEndDate());
+		record.setDateRange(toolbar.getSelectedDateRange());
+		// ReportsRPC.openTransactionView(record.getTransactionType(),record.getTransactionId());
 	}
 
 	@Override
 	public int getToolbarType() {
-		if (budgettype == 2)
+		if (budgettype == BUDGET_TYPE_MONTH)
 			return TOOLBAR_TYPE_BUDGET2;
-		else if (budgettype == 3)
+		else if (budgettype == BUDGET_TYPE_QUATER)
 			return TOOLBAR_TYPE_BUDGET3;
-		else if (budgettype == 4)
+		else if (budgettype == BUDGET_TYPE_YEAR)
 			return TOOLBAR_TYPE_BUDGET4;
 		else
 			return TOOLBAR_TYPE_BUDGET1;
@@ -39,9 +45,11 @@ public class BudgetReport extends AbstractReportView<ClientBudgetList> {
 
 	@Override
 	public void makeReportRequest(long id, ClientFinanceDate start,
-			ClientFinanceDate end) {
-		Accounter.createReportService().getBudgetItemsList(id, startDate,
-				endDate, this);
+			ClientFinanceDate end, int month) {
+
+		serverreport.setMonth(month);
+		Accounter.createReportService().getBudgetItemsList(id, start, end,
+				month, this);
 	}
 
 	@Override

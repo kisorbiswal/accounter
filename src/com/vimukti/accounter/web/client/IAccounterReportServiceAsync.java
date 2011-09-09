@@ -319,7 +319,7 @@ public interface IAccounterReportServiceAsync {
 			AsyncCallback<ArrayList<MISC1099TransactionDetail>> callback);
 
 	public void getBudgetItemsList(long id, ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
+			ClientFinanceDate endDate, int month,
 			AsyncCallback<ArrayList<ClientBudgetList>> callback);
 
 }

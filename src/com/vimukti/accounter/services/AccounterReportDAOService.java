@@ -384,7 +384,7 @@ public class AccounterReportDAOService extends HibernateDaoSupport implements
 	}
 
 	public ArrayList<ClientBudgetList> getBudgetItemsList(long id,
-			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+			ClientFinanceDate startDate, ClientFinanceDate endDate, int month) {
 		return null;
 
 	}

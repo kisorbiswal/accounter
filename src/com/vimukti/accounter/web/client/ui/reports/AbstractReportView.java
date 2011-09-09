@@ -565,6 +565,11 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 
 	}
 
+	public void makeReportRequest(long vatAgency, ClientFinanceDate startDate,
+			ClientFinanceDate endDate, int value) {
+
+	}
+
 	/**
 	 * This method is used for Sales and Purchase order reports by sending the
 	 * status.This method is override in the SalesOpenOrderReport and
