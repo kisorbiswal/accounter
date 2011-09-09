@@ -12241,6 +12241,117 @@ public class FinanceTool {
 		}
 	}
 
+	public ArrayList<MISC1099TransactionDetail> getPaybillsByVendorAndBoxNumber(
+			FinanceDate startDate, FinanceDate endDate, long vendorId, int boxNo) {
+
+		ArrayList<EnterBill> list = new ArrayList<EnterBill>();
+		Session session = HibernateUtil.getCurrentSession();
+		org.hibernate.Transaction begintransaction = session.beginTransaction();
+
+		Query query = session.getNamedQuery(
+				"get.selected.vendors.enterbills.list.by.id").setLong(
+				"vendorId", vendorId);
+		;
+		list = (ArrayList<EnterBill>) query.list();
+
+		ArrayList<MISC1099TransactionDetail> arraylist = new ArrayList<MISC1099TransactionDetail>();
+
+		for (EnterBill enterBill : list) {
+
+			Vendor vendor = enterBill.getVendor();
+
+			double payments = enterBill.getPayments();
+			for (TransactionItem ti : enterBill.getTransactionItems()) {
+				Transaction transaction = ti.getTransaction();
+				long date = transaction.getDate().getDate();
+				if (startDate.getDate() <= date && date <= endDate.getDate()) {
+					MISC1099TransactionDetail misc1099TransactionDetail = null;
+					double amount = ti.getEffectiveAmount();
+					Account account = ti.getEffectingAccount();
+					int boxNumber = account.getBoxNumber();
+					if (boxNo == Client1099Form.TOATAL_ALL_PAYMENTS) {
+						if (payments >= amount) {
+
+							misc1099TransactionDetail = new MISC1099TransactionDetail();
+							misc1099TransactionDetail.setAccount(account
+									.getName());
+							misc1099TransactionDetail.setAmount(amount);
+							misc1099TransactionDetail.setBox1099(account
+									.getBoxNumber());
+							misc1099TransactionDetail
+									.setDate(new ClientFinanceDate(date));
+							misc1099TransactionDetail.setMemo(transaction
+									.getMemo());
+							misc1099TransactionDetail.setName(vendor.getName());
+							misc1099TransactionDetail.setNumber(account
+									.getNumber());
+							misc1099TransactionDetail
+									.setTransactionId(transaction.getID());
+							misc1099TransactionDetail.setType(transaction
+									.getType());
+						}
+					} else if (boxNo == Client1099Form.TOTAL_1099_PAYMENTS) {
+						if (boxNumber != 0) {
+							if (payments >= amount
+									&& payments >= boxThresholds.get(boxNumber)) {
+
+								misc1099TransactionDetail = new MISC1099TransactionDetail();
+								misc1099TransactionDetail.setAccount(account
+										.getName());
+								misc1099TransactionDetail.setAmount(amount);
+								misc1099TransactionDetail.setBox1099(account
+										.getBoxNumber());
+								misc1099TransactionDetail
+										.setDate(new ClientFinanceDate(date));
+								misc1099TransactionDetail.setMemo(transaction
+										.getMemo());
+								misc1099TransactionDetail.setName(vendor
+										.getName());
+								misc1099TransactionDetail.setNumber(account
+										.getNumber());
+								misc1099TransactionDetail
+										.setTransactionId(transaction.getID());
+								misc1099TransactionDetail.setType(transaction
+										.getType());
+							}
+						}
+					} else {
+						if (boxNumber == boxNo) {
+							if (payments >= amount
+									&& payments >= boxThresholds.get(boxNumber)) {
+
+								misc1099TransactionDetail = new MISC1099TransactionDetail();
+								misc1099TransactionDetail.setAccount(account
+										.getName());
+								misc1099TransactionDetail.setAmount(amount);
+								misc1099TransactionDetail.setBox1099(account
+										.getBoxNumber());
+								misc1099TransactionDetail
+										.setDate(new ClientFinanceDate(date));
+								misc1099TransactionDetail.setMemo(transaction
+										.getMemo());
+								misc1099TransactionDetail.setName(vendor
+										.getName());
+								misc1099TransactionDetail.setNumber(account
+										.getNumber());
+								misc1099TransactionDetail
+										.setTransactionId(transaction.getID());
+								misc1099TransactionDetail.setType(transaction
+										.getType());
+							}
+						}
+					}
+					if (misc1099TransactionDetail != null) {
+						arraylist.add(misc1099TransactionDetail);
+					}
+				}
+			}
+
+		}
+
+		return arraylist;
+	}
+
 	public Client1099Form get1099InformationByVendor(long vendorId) {
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
@@ -12722,152 +12833,4 @@ public class FinanceTool {
 		return null;
 	}
 
-	public ArrayList<MISC1099TransactionDetail> getPaybillsByVendorAndBoxNumber(
-			FinanceDate startDate, FinanceDate endDate, long vendorId,
-			int boxNumber) {
-		Session session = HibernateUtil.getCurrentSession();
-
-		FinanceDate startDate1 = ((FinanceDate) ((session
-				.getNamedQuery("getFiscalYear.by.check.isCurrentFiscalYearistrue"))
-				.list().get(0)));
-
-		/*
-		 * Here endDate1 is used to store the previous month of endDate value
-		 */
-		int year = endDate.getYear();
-		int month = endDate.getMonth() - 1;
-		year = (month == 0) ? year - 1 : year;
-		month = (month == 0) ? 12 : month;
-		FinanceDate endDate1 = new FinanceDate(year, month, 31);
-
-		if (year != startDate1.getYear())
-			startDate1 = new FinanceDate(year, 01, 01);
-
-		if (boxNumber == Client1099Form.TOATAL_ALL_PAYMENTS) {
-			List l = ((Query) session.getNamedQuery("getAllPaybillsByVendor")
-					.setLong("startDate", startDate.getDate())
-					.setLong("endDate", endDate.getDate())
-					.setLong("vId", vendorId)).list();
-
-			Object[] object = null;
-			Iterator iterator = l.iterator();
-			List<MISC1099TransactionDetail> queryResult = new ArrayList<MISC1099TransactionDetail>();
-			while (iterator.hasNext()) {
-				object = (Object[]) iterator.next();
-				MISC1099TransactionDetail record = new MISC1099TransactionDetail();
-				record.setName((String) object[0]);
-				record.setDate(new ClientFinanceDate(((BigInteger) object[1])
-						.longValue()));
-				record.setType(((Integer) object[2]).intValue());
-				record.setNumber((String) object[3]);
-				record.setMemo((String) object[4]);
-				Integer i = ((Integer) object[5]);
-				if (i != null) {
-					record.setBox1099(((Integer) object[5]).intValue());
-				}
-				record.setAccount((String) object[6]);
-				record.setAmount((Double) object[7]);
-				record.setTransactionId(((BigInteger) object[8]).longValue());
-
-				queryResult.add(record);
-			}
-			return (ArrayList<MISC1099TransactionDetail>) queryResult;
-
-		} else if (boxNumber == Client1099Form.TOTAL_1099_PAYMENTS) {
-			List l = ((Query) session.getNamedQuery("get1099PaybillsByVendor")
-					.setLong("startDate", startDate.getDate())
-					.setLong("endDate", endDate.getDate())
-					.setLong("vId", vendorId)).list();
-
-			Object[] object = null;
-			Iterator iterator = l.iterator();
-			List<MISC1099TransactionDetail> queryResult = new ArrayList<MISC1099TransactionDetail>();
-			while (iterator.hasNext()) {
-				object = (Object[]) iterator.next();
-				MISC1099TransactionDetail record = new MISC1099TransactionDetail();
-				record.setName((String) object[0]);
-				record.setDate(new ClientFinanceDate(((BigInteger) object[1])
-						.longValue()));
-				record.setType(((Integer) object[2]).intValue());
-				record.setNumber((String) object[3]);
-				record.setMemo((String) object[4]);
-				record.setBox1099(((Integer) object[5]).intValue());
-				record.setAccount((String) object[6]);
-				record.setAmount((Double) object[7]);
-				record.setTransactionId(((BigInteger) object[8]).longValue());
-
-				queryResult.add(record);
-			}
-			HashMap<Integer, Double> amounts = new HashMap<Integer, Double>();
-			for (MISC1099TransactionDetail misc1099TransactionDetail : queryResult) {
-				int box = misc1099TransactionDetail.getBox1099();
-				Double amount = amounts.get(box);
-				double amt = 0;
-				if (amount != null) {
-					amt = amount;
-				}
-				amt += misc1099TransactionDetail.getAmount();
-				amounts.put(box, amt);
-			}
-
-			for (java.util.Map.Entry<Integer, Integer> box : boxThresholds
-					.entrySet()) {
-				Integer boxNum = box.getKey();
-				Integer boxThreshold = box.getValue();
-				Double amt = amounts.get(boxNum);
-				double amount = 0;
-				if (amt != null) {
-					amount = amt;
-				}
-				if (amount != 0 && amount < boxThreshold) {
-					for (MISC1099TransactionDetail misc1099TransactionDetail : queryResult) {
-						if (misc1099TransactionDetail.getBox1099() == boxNum) {
-							queryResult.remove(misc1099TransactionDetail);
-						}
-					}
-				}
-			}
-			return (ArrayList<MISC1099TransactionDetail>) queryResult;
-
-		} else {
-			List l = ((Query) session
-					.getNamedQuery("getPaybillsByVendorAndBoxNumber")
-					.setLong("startDate", startDate.getDate())
-					.setLong("endDate", endDate.getDate())
-					.setLong("vId", vendorId).setInteger("bNo", boxNumber))
-					.list();
-
-			Object[] object = null;
-			Iterator iterator = l.iterator();
-			List<MISC1099TransactionDetail> queryResult = new ArrayList<MISC1099TransactionDetail>();
-			while (iterator.hasNext()) {
-				object = (Object[]) iterator.next();
-				MISC1099TransactionDetail record = new MISC1099TransactionDetail();
-				record.setName((String) object[0]);
-				record.setDate(new ClientFinanceDate(((BigInteger) object[1])
-						.longValue()));
-				record.setType(((Integer) object[2]).intValue());
-				record.setNumber((String) object[3]);
-				record.setMemo((String) object[4]);
-				record.setBox1099(((Integer) object[5]).intValue());
-				record.setAccount((String) object[6]);
-				record.setAmount((Double) object[7]);
-				record.setTransactionId(((BigInteger) object[8]).longValue());
-
-				queryResult.add(record);
-			}
-
-			double amount = 0;
-
-			for (MISC1099TransactionDetail misc1099TransactionDetail : queryResult) {
-				amount += misc1099TransactionDetail.getAmount();
-			}
-
-			if (amount >= boxThresholds.get(boxNumber)) {
-				return new ArrayList<MISC1099TransactionDetail>(queryResult);
-			}
-		}
-		return null;
-
-	}
 }
