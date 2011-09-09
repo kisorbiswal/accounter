@@ -95,6 +95,7 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 		horizontalPanel.add(layout);
 		horizontalPanel.add(layout1);
 		setBodyLayout(horizontalPanel);
+
 	}
 
 	private VendorCombo createVendorCombo1() {
@@ -119,7 +120,7 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 
 	private VendorCombo createVendorCombo() {
 		vendorCombo = new VendorCombo(Accounter.messages().vendorFrom(
-				Global.get().Vendor()),false);
+				Global.get().Vendor()), false);
 		vendorCombo.setHelpInformation(true);
 		vendorCombo.setRequired(true);
 		vendorCombo
@@ -155,8 +156,8 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 	protected ValidationResult validate() {
 		ValidationResult result = form.validate();
 		if (fromclientVendor.getID() == toClientVendor.getID()) {
-			result.addError(fromclientVendor,
-					Accounter.messages().notMove(Global.get().vendor()));
+			result.addError(fromclientVendor, Accounter.messages().notMove(
+					Global.get().vendor()));
 		}
 
 		result = form.validate();
@@ -188,6 +189,12 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 	@Override
 	public void onSuccess(Void result) {
 		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setFocus() {
+		vendorCombo.setFocus();
 
 	}
 }

@@ -133,6 +133,7 @@ public class ReconciliationDailog extends BaseDialog<ClientReconciliation>
 
 		mainpanel.add(form);
 		setBodyLayout(mainpanel);
+
 	}
 
 	/**
@@ -183,5 +184,11 @@ public class ReconciliationDailog extends BaseDialog<ClientReconciliation>
 		ActionFactory.getNewReconciliationAction().run(createReconciliation(),
 				false);
 		return true;
+	}
+
+	@Override
+	public void setFocus() {
+		bankAccountsField.setFocus();
+
 	}
 }

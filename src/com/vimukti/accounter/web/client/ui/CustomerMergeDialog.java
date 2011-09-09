@@ -98,6 +98,7 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 		horizontalPanel.add(layout);
 		horizontalPanel.add(layout1);
 		setBodyLayout(horizontalPanel);
+
 	}
 
 	private CustomerCombo createCustomerCombo1() {
@@ -166,7 +167,8 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 
 		ValidationResult result = new ValidationResult();
 		if (clientCustomer1.getID() == clientCustomer.getID()) {
-			result.addError(clientCustomer, Accounter.messages().notMove(Global.get().customer()));
+			result.addError(clientCustomer, Accounter.messages().notMove(
+					Global.get().customer()));
 			return result;
 		}
 		result = form.validate();
@@ -196,6 +198,12 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 	@Override
 	public void onSuccess(Void result) {
 		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setFocus() {
+		customerCombo.setFocus();
 
 	}
 

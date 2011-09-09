@@ -46,6 +46,7 @@ public class CreateClassDialog extends BaseDialog<ClientAccounterClass> {
 		this.center();
 
 		show();
+
 	}
 
 	@Override
@@ -72,6 +73,12 @@ public class CreateClassDialog extends BaseDialog<ClientAccounterClass> {
 	public void addSuccessCallback(
 			ValueCallBack<ClientAccounterClass> newClassHandler) {
 		this.successCallback = newClassHandler;
+	}
+
+	@Override
+	public void setFocus() {
+		createClassTextItem.setFocus();
+
 	}
 
 }

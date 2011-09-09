@@ -109,4 +109,11 @@ public class AdjustSalesTaxDueDialog extends BaseDialog<ClientAccount> {
 	protected boolean onOK() {
 		return true;
 	}
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

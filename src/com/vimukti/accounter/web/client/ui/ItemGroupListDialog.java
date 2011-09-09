@@ -164,4 +164,10 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 		return true;
 	}
 
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

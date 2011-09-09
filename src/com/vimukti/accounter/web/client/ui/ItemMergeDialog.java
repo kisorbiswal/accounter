@@ -87,6 +87,7 @@ public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 		horizontalPanel.add(layout);
 		horizontalPanel.add(layout1);
 		setBodyLayout(horizontalPanel);
+
 	}
 
 	private ItemCombo createItemCombo1() {
@@ -180,6 +181,12 @@ public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 	@Override
 	public void onSuccess(Void result) {
 		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setFocus() {
+		itemCombo.setFocus();
 
 	}
 

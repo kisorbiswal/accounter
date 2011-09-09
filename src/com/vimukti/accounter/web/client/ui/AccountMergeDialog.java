@@ -76,6 +76,7 @@ public class AccountMergeDialog extends BaseDialog implements
 
 		form.setItems(accountCombo, accountNumberTextItem, name,
 				balanceTextItem);
+
 		form1.setItems(accountCombo1, accountNumberTextItem1, name1,
 				balanceTextItem1);
 		// form.setItems(getTextItems());
@@ -84,6 +85,7 @@ public class AccountMergeDialog extends BaseDialog implements
 		horizontalPanel.add(layout);
 		horizontalPanel.add(layout1);
 		setBodyLayout(horizontalPanel);
+
 	}
 
 	private OtherAccountsCombo createAccountCombo1() {
@@ -139,8 +141,8 @@ public class AccountMergeDialog extends BaseDialog implements
 
 	private void customerSelected1(ClientAccount selectItem) {
 		accountNumberTextItem1.setValue(String.valueOf(selectItem.getNumber()));
-		balanceTextItem1
-				.setValue(String.valueOf(selectItem.getOpeningBalance()));
+		balanceTextItem1.setValue(String
+				.valueOf(selectItem.getOpeningBalance()));
 
 		name1.setValue(selectItem.getName());
 
@@ -152,8 +154,8 @@ public class AccountMergeDialog extends BaseDialog implements
 
 		if ((toAccount.getID() == fromAccount.getID())
 				|| !(toAccount.getType() == fromAccount.getType())) {
-			result.addError(fromAccount,
-					Accounter.messages().notMove(Global.get().account()));
+			result.addError(fromAccount, Accounter.messages().notMove(
+					Global.get().account()));
 			return result;
 		}
 		result = form.validate();
@@ -181,6 +183,12 @@ public class AccountMergeDialog extends BaseDialog implements
 	@Override
 	public void onSuccess(Void result) {
 		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setFocus() {
+		accountCombo.setFocus();
 
 	}
 

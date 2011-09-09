@@ -802,7 +802,6 @@ public class AddWidgetDialog extends BaseDialog {
 		}
 	}
 
-
 	@Override
 	protected boolean onOK() {
 		// TODO Auto-generated method stub
@@ -814,4 +813,11 @@ public class AddWidgetDialog extends BaseDialog {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

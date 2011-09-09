@@ -40,8 +40,8 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 					Global.get().Vendor());
 		}
 
-		typeRadio.setValueMap(paymentType,
-				Accounter.messages().customerRefund(Global.get().Customer()));
+		typeRadio.setValueMap(paymentType, Accounter.messages().customerRefund(
+				Global.get().Customer()));
 
 		final DynamicForm typeForm = new DynamicForm();
 		typeForm.setFields(typeRadio);
@@ -84,6 +84,12 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

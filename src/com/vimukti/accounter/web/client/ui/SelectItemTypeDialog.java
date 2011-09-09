@@ -93,4 +93,10 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 	public void setDependent(boolean isDependent) {
 		this.isDependent = isDependent;
 	}
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
+	}
 }

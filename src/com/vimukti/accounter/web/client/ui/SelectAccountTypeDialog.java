@@ -62,20 +62,18 @@ public class SelectAccountTypeDialog extends BaseDialog<ClientAccount> {
 		accountTypes = new LinkedHashMap<String, String>();
 		if (options != null && options.size() != 0) {
 			for (int type : options) {
-				accountTypes.put(String.valueOf(type),
-						" " + UIUtils.nbsp(Utility.getAccountTypeString(type))
-								+ " ");
+				accountTypes.put(String.valueOf(type), " "
+						+ UIUtils.nbsp(Utility.getAccountTypeString(type))
+						+ " ");
 			}
 			defaultId = String.valueOf(options.get(0));
 
 		} else {
 			for (int i = 0; i < UIUtils.accountTypes.length - 2; i++) {
-				accountTypes
-						.put(String.valueOf(UIUtils.accountTypes[i]),
-								" "
-										+ UIUtils.nbsp(Utility
-												.getAccountTypeString(UIUtils.accountTypes[i]))
-										+ " ");
+				accountTypes.put(String.valueOf(UIUtils.accountTypes[i]), " "
+						+ UIUtils.nbsp(Utility
+								.getAccountTypeString(UIUtils.accountTypes[i]))
+						+ " ");
 
 			}
 			defaultId = String.valueOf(UIUtils.accountTypes[0]);
@@ -115,5 +113,11 @@ public class SelectAccountTypeDialog extends BaseDialog<ClientAccount> {
 		// FIX ME
 		// UIUtils.setCanvas(accountView, configuration);
 		return true;
+	}
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
 	}
 }

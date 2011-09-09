@@ -118,21 +118,23 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 			clientPaymentTerms
 					.setName(dialog.payTermText.getValue() != null ? dialog.payTermText
-							.getValue().toString() : "");
+							.getValue().toString()
+							: "");
 			clientPaymentTerms
 					.setDescription(dialog.descText.getValue() != null ? dialog.descText
-							.getValue().toString() : "");
+							.getValue().toString()
+							: "");
 			clientPaymentTerms.setIfPaidWithIn(UIUtils.toInt(dialog.discDayText
 					.getValue() != null ? dialog.discDayText.getValue() : "0"));
 			clientPaymentTerms.setDiscountPercent(UIUtils
-					.toDbl(dialog.discText.getValue().toString()
-							.replaceAll("%", "") != null ? dialog.discText
-							.getValue().toString().replaceAll("%", "") : "0"));
+					.toDbl(dialog.discText.getValue().toString().replaceAll(
+							"%", "") != null ? dialog.discText.getValue()
+							.toString().replaceAll("%", "") : "0"));
 
 			for (int i = 0; i < dialog.dueValues.length; i++) {
 				if (dialog.dueSelect.getValue() != null) {
-					if (dialog.dueSelect.getValue().toString()
-							.equals(dialog.dueValues[i]))
+					if (dialog.dueSelect.getValue().toString().equals(
+							dialog.dueValues[i]))
 						clientPaymentTerms.setDue(i + 1);
 				}
 			}
@@ -143,10 +145,12 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 			clientPaymentTerms
 					.setName(dialog.payTermText.getValue() != null ? dialog.payTermText
-							.getValue().toString() : "");
+							.getValue().toString()
+							: "");
 			clientPaymentTerms
 					.setDescription(dialog.descText.getValue() != null ? dialog.descText
-							.getValue().toString() : "");
+							.getValue().toString()
+							: "");
 			clientPaymentTerms
 					.setIfPaidWithIn(UIUtils.toInt(dialog.discDayText
 							.getNumber() != null ? dialog.discDayText
@@ -159,8 +163,8 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 			for (int i = 0; i < dialog.dueValues.length; i++) {
 				if (dialog.dueSelect.getValue() != null) {
-					if (dialog.dueSelect.getValue().toString()
-							.equals(dialog.dueValues[i]))
+					if (dialog.dueSelect.getValue().toString().equals(
+							dialog.dueValues[i]))
 						clientPaymentTerms.setDue(i + 1);
 				}
 			}
@@ -204,7 +208,8 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 				return paymentTerms.getIfPaidWithIn();
 			case 3:
 				return DataUtils.getNumberAsPercentString(paymentTerms
-						.getDiscountPercent() + "");
+						.getDiscountPercent()
+						+ "");
 			}
 		}
 		return null;
@@ -229,7 +234,8 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 		ValidationResult result = new ValidationResult();
 		if (paymentTerm != null) {
 			if (validateName(dialog.payTermText.getValue() != null ? dialog.payTermText
-					.getValue().toString() : "")) {
+					.getValue().toString()
+					: "")) {
 				result.addError(this, Accounter.constants().alreadyExist());
 			}
 		} else {
@@ -254,4 +260,11 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 		}
 		return true;
 	}
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

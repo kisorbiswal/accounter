@@ -120,6 +120,7 @@ public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 
 		setBodyLayout(mainVLay);
 		setWidth("350px");
+
 	}
 
 	@Override
@@ -160,6 +161,11 @@ public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 	@Override
 	protected boolean onOK() {
 		return false;
+	}
+
+	@Override
+	public void setFocus() {
+		discAccSelect.setFocus();
 	}
 
 }

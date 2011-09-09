@@ -78,4 +78,10 @@ public class AddItemTaxDialog extends BaseDialog<ClientTAXItem> {
 		return true;
 	}
 
+	@Override
+	public void setFocus() {
+		taxText.setFocus();
+
+	}
+
 }

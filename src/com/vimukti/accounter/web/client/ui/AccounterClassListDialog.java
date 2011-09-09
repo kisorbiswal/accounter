@@ -100,7 +100,8 @@ public class AccounterClassListDialog extends GroupDialog<ClientAccounterClass> 
 	}
 
 	@Override
-	public Object getGridColumnValue(ClientAccounterClass accounterClass, int index) {
+	public Object getGridColumnValue(ClientAccounterClass accounterClass,
+			int index) {
 		switch (index) {
 		case 0:
 			if (accounterClass != null) {
@@ -109,4 +110,11 @@ public class AccounterClassListDialog extends GroupDialog<ClientAccounterClass> 
 		}
 		return null;
 	}
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

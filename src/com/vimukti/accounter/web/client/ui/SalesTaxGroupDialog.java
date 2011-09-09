@@ -457,6 +457,12 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 		return getCompany().getTaxGroups();
 	}
 
+	@Override
+	public void setFocus() {
+		taxGroupText.setFocus();
+
+	}
+
 	// @Override
 	// public Object getGridColumnValue(IsSerializable obj, int index) {
 	// return null;

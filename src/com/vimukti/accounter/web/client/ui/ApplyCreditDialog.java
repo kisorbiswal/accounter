@@ -369,4 +369,10 @@ public class ApplyCreditDialog extends BaseDialog<ClientCustomer> {
 		return true;
 	}
 
+	@Override
+	public void setFocus() {
+		amtDueText.setFocus();
+
+	}
+
 }

@@ -187,4 +187,11 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 		}
 		return true;
 	}
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

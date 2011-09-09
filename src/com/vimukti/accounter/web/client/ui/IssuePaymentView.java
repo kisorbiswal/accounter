@@ -366,8 +366,8 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 		if (!selectedpaymentMethod.isEmpty()) {
 			checkNoText = new TextItem(
 					getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-							.constants().startingCheckNo() : Accounter
-							.constants().startingChequeNo());
+							.constants().startingCheckNo()
+							: Accounter.constants().startingChequeNo());
 			checkNoText.setWidth(100);
 			checkNoText.setRequired(true);
 			if (selectedPayFromAccount != null)
@@ -468,6 +468,12 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 	protected boolean onOK() {
 		createIssuePayment();
 		return true;
+	}
+
+	@Override
+	public void setFocus() {
+		payMethodSelect.setFocus();
+
 	}
 
 }
