@@ -68,7 +68,7 @@ public class ComboBox<T> extends FlowPanel {
 						editComplete();
 						return false;
 					}
-				}, 100);
+				}, 200);
 			}
 		});
 		textBox.addFocusHandler(focusHandler);
