@@ -97,6 +97,7 @@ import com.vimukti.accounter.core.PriceLevel;
 import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.ReceiveVAT;
 import com.vimukti.accounter.core.ReceiveVATEntries;
+import com.vimukti.accounter.core.Reconciliation;
 import com.vimukti.accounter.core.RecurringTransaction;
 import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.core.ServerConvertUtil;
@@ -12704,14 +12705,20 @@ public class FinanceTool {
 		List list = session.getNamedQuery("get.reconciliations.by.accountId")
 				.setParameter("accountID", accountID).list();
 
-		return (List<ClientReconciliation>) new ClientConvertUtil()
-				.toCollection(list, new ArrayList<ClientReconciliation>());
+		List<ClientReconciliation> reconciliationsList = new ArrayList<ClientReconciliation>();
+		Iterator iterator = list.iterator();
+		ClientConvertUtil convertUtil = new ClientConvertUtil();
+		while (iterator.hasNext()) {
+			Reconciliation next = (Reconciliation) iterator.next();
+			reconciliationsList.add(convertUtil.toClientObject(next,
+					ClientReconciliation.class));
+		}
+		return reconciliationsList;
 
 	}
 
 	public ArrayList<ClientPayTDS> getPayBillsByTDS() {
 		Session session = HibernateUtil.getCurrentSession();
-
 		return null;
 	}
 
