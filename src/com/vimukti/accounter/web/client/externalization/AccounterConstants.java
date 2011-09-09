@@ -4710,4 +4710,6 @@ public interface AccounterConstants extends Constants {
 
 	public String box();
 
+	public String employerIdentificationNumber();
+
 }
