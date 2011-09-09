@@ -100,12 +100,12 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		if (sellServices && sellProducts)
 			both.setValue(true);
 
-		if (preferences.isDoYouChargesalesTax()) {
+		if (preferences.isChargeSalesTax()) {
 			salesTaxYes.setValue(true);
 		} else {
 			salesTaxNo.setValue(true);
 		}
-		if (preferences.isDoYouChargesalesTax()) {
+		if (preferences.isChargeSalesTax()) {
 			salesTaxYes.setValue(true);
 		} else {
 			salesTaxNo.setValue(true);
@@ -125,9 +125,9 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		}
 
 		if (salesTaxYes.getValue()) {
-			preferences.setDoYouChargesalesTax(true);
+			preferences.setChargeSalesTax(true);
 		} else {
-			preferences.setDoYouChargesalesTax(false);
+			preferences.setChargeSalesTax(false);
 		}
 
 	}

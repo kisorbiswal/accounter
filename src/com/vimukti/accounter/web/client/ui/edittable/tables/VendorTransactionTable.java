@@ -110,7 +110,7 @@ public abstract class VendorTransactionTable extends
 		this.addColumn(new TransactionTotalColumn());
 
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
-				&& getCompany().getPreferences().isDoYouChargesalesTax()) {
+				&& getCompany().getPreferences().isChargeSalesTax()) {
 
 			this.addColumn(new TransactionVatCodeColumn());
 
