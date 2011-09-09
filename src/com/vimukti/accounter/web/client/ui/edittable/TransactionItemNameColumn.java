@@ -28,7 +28,7 @@ public abstract class TransactionItemNameColumn extends
 
 				@Override
 				public boolean filter(ClientItem e) {
-					return e.getType() == ClientItem.TYPE_SERVICE;
+					return true;
 				}
 			});
 
