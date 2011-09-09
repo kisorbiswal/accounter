@@ -730,6 +730,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		bankingMenuBar.addSeparator();
 		bankingMenuBar.addItem(ActionFactory.getCreditCardChargeAction());
 		bankingMenuBar.addSeparator();
+		bankingMenuBar.addItem(ActionFactory.getReconciliationsListAction());
 		bankingMenuBar.addItem(Accounter.constants().bankingList(),
 				getBankingListMenu());
 
