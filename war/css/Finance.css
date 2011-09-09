@@ -693,7 +693,7 @@ tr.net-profit td {
 }
 td.td01,.no-title .biz-decor-panel td.td01,.viewTitle,.blue-month-line,.blue-week-line,.gwt-DecoratedTabBar .tabMiddleCenter,
 .gwt-StackPanel .gwt-StackPanelItem,.panel-right-align .gwt-Button button,.image-button,.portletLabel,.custom-button,.gwt-Button,
-.portlet .panel-title,.gwt-DialogBox .caption,.editTable .header td,.view_help_panel td:FIRST-CHILD table div,
+.portlet .panel-title,.gwt-DialogBox .caption,.editTable .editheader td,.view_help_panel td:FIRST-CHILD table div,
 .helpdialog .dialogTopCenter table div,.breadcrumb a,.helpdialog .dialogTopCenterInner .caption .gwt-HTML,.recounciliation_grid thead th,
 .gwt-TabBar .gwt-TabBarItem,.tabMiddle .tabMiddleCenterInner .gwt-Label {
 	color: #FFFFFF;
@@ -1600,7 +1600,7 @@ a#fdbk_tab{
 .recounciliation_grid,.editTable{
 	border:1px solid #2D8B93;
 }
-#branding,.group-toolbar,.editTable .header,.gwt-StackPanel .gwt-StackPanelItem,.recounciliation_grid thead tr{
+#branding,.group-toolbar,.editTable .editheader,.gwt-StackPanel .gwt-StackPanelItem,.recounciliation_grid thead tr{
 	background: -moz-linear-gradient(top, #3299A4, #2D8B93) !important;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4', endColorstr='#2D8B93') !important; /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#2D8B93)) !important; /* for webkit browsers */
@@ -1645,16 +1645,16 @@ a#fdbk_tab{
 	padding:0px !important;
 	border-radius:0px !important; 
 }
-.editTable .header td{
+.editTable .editheader td{
     padding: 5px;
 }
 .editTable{
 	min-height:200px;
 }
-.editTable .header td{
+.editTable .editheader td{
 	border-color: #55B8C1;
 }
-.editTable .header td,.editTable td{
+.editTable .editheader td,.editTable td{
 	border-style: solid;
     border-width: 0 1px 1px 0;
 }
