@@ -21,7 +21,7 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 	// private ViewConfiguration configuration;
 	boolean forCustomer;
 	private DynamicForm typeForm;
-	private boolean isDependent=true;
+	private boolean isDependent = true;
 
 	public SelectItemTypeDialog(boolean isGeneratedFromCustomer) {
 		super(Accounter.constants().selectItemType(), Accounter.constants()
@@ -74,12 +74,14 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 						.newItem(), forCustomer);
 				action.setDependent(isDependent);
 				action.setType(ClientItem.TYPE_SERVICE);
+				action.setCallback(getCallback());
 				action.run();
 			} else if (radio.equals(Accounter.constants().product())) {
 				NewItemAction action = new NewItemAction(Accounter.constants()
 						.newItem(), forCustomer);
 				action.setDependent(isDependent);
 				action.setType(ClientItem.TYPE_NON_INVENTORY_PART);
+				action.setCallback(getCallback());
 				action.run();
 			}
 			// UIUtils.setCanvas(itemView, configuration);
