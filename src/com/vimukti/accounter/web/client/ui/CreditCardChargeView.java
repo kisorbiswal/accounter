@@ -410,7 +410,6 @@ public class CreditCardChargeView extends
 
 			@Override
 			public void execute(ClientContact value) {
-				value.setVersion(value.getVersion() + 1);
 				addContactToVendor(value);
 			}
 		});

@@ -359,7 +359,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	 * @param value
 	 */
 	protected void addContactToCustomer(final ClientContact contact) {
-		ClientCustomer selectedCutomer = customerCombo.getSelectedValue();
+		final ClientCustomer selectedCutomer = customerCombo.getSelectedValue();
 		if (selectedCutomer == null) {
 			return;
 		}
@@ -371,6 +371,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 			}
 
 			public void onResultSuccess(Long result) {
+				selectedCutomer.setVersion(selectedCutomer.getVersion() + 1);
 				contactSelected(contact);
 			}
 

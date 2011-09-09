@@ -374,7 +374,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	}
 
 	protected void addContactToVendor(final ClientContact value) {
-		ClientVendor selectedVendor = vendorCombo.getSelectedValue();
+		final ClientVendor selectedVendor = vendorCombo.getSelectedValue();
 		if (selectedVendor == null) {
 			return;
 		}
@@ -387,6 +387,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 			}
 
 			public void onResultSuccess(Long result) {
+				selectedVendor.setVersion(selectedVendor.getVersion() + 1);
 				contactSelected(value);
 			}
 
