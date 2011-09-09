@@ -752,7 +752,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		vatform.setWidth("50%");
 		vatform.setGroupTitle(Accounter.constants().vatDetails());
 
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA && getCompany().getPreferences().isTDSEnabled()) {
 			vatform.setFields(vatRegistrationNumber, vendorTaxCode, isTDS,
 					vendorTDSTaxCode);
 		} else {
