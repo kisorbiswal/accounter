@@ -71,7 +71,6 @@ public class ItensDropDownTable extends AbstractDropDownTable<ClientItem> {
 
 			}
 		});
-		action.setType(ItemView.TYPE_SERVICE);
 		action.run(null, true);
 	}
 
