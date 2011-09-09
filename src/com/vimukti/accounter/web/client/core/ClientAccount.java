@@ -6,9 +6,9 @@ package com.vimukti.accounter.web.client.core;
  */
 public class ClientAccount implements IAccounterCore, IAccountable {
 
-	public static final int ACCOUNT = 1;
+	public static final int ACCOUNT = 0;
 
-	public static final int LEGAND = 2;
+	public static final int LEGAND = 1;
 
 	/**
 	 * 
