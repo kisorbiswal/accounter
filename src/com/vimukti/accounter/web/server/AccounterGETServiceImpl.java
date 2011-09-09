@@ -12,6 +12,7 @@ import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.HelpLink;
@@ -2086,5 +2087,11 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate startDate, ClientFinanceDate endDate)
 			throws AccounterException {
 		return getFinanceTool().getAllTransactionsOfAccount(id);
+	}
+
+	@Override
+	public List<ClientReconciliation> getReconciliationsByBankAccountID(
+			long accountID) throws AccounterException {
+		return getFinanceTool().getReconciliationsByBankAccountID(accountID);
 	}
 }

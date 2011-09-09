@@ -148,6 +148,7 @@ import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientPayTDS;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
+import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionIssuePayment;
@@ -12692,6 +12693,20 @@ public class FinanceTool {
 			}
 		}
 		return transactions;
+	}
+
+	/**
+	 * @param accountID
+	 */
+	public List<ClientReconciliation> getReconciliationsByBankAccountID(
+			long accountID) throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		List list = session.getNamedQuery("get.reconciliations.by.accountId")
+				.setParameter("accountID", accountID).list();
+
+		return (List<ClientReconciliation>) new ClientConvertUtil()
+				.toCollection(list, new ArrayList<ClientReconciliation>());
+
 	}
 
 	public ArrayList<ClientPayTDS> getPayBillsByTDS() {
