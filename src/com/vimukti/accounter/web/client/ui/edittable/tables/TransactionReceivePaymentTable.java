@@ -75,6 +75,7 @@ public abstract class TransactionReceivePaymentTable extends
 					ClientTransactionReceivePayment row) {
 				onSelectionChanged(row, value);
 			}
+
 		});
 		if (canEdit) {
 			TextEditColumn<ClientTransactionReceivePayment> dateCoulmn = new TextEditColumn<ClientTransactionReceivePayment>() {
@@ -91,7 +92,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 				@Override
 				public int getWidth() {
-					return 40;
+					return 80;
 				}
 
 				@Override
@@ -127,7 +128,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			public int getWidth() {
-				return 40;
+				return 85;
 			}
 
 			@Override
@@ -146,7 +147,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			public int getWidth() {
-				return 40;
+				return 85;
 			}
 
 			@Override
@@ -177,7 +178,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 				@Override
 				public int getWidth() {
-					return 40;
+					return 80;
 				}
 
 				@Override
@@ -218,7 +219,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			public int getWidth() {
-				return 40;
+				return 80;
 			}
 
 			@Override
@@ -242,7 +243,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			public int getWidth() {
-				return 40;
+				return 80;
 			}
 
 			@Override
@@ -266,7 +267,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			public int getWidth() {
-				return 40;
+				return 80;
 			}
 
 			@Override
@@ -290,7 +291,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			public int getWidth() {
-				return 40;
+				return 80;
 			}
 
 			@Override
