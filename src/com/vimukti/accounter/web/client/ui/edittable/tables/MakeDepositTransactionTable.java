@@ -280,4 +280,9 @@ public abstract class MakeDepositTransactionTable extends
 	}
 
 	protected abstract void updateNonEditableItems();
+
+	public void addLoadingImagePanel() {
+		// TODO Auto-generated method stub
+		
+	}
 }
