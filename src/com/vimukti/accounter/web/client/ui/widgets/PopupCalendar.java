@@ -146,8 +146,7 @@ public class PopupCalendar extends PopupPanel {
 				Timer t = new Timer() {
 					public void run() {
 						if (leave) {
-							leave = true;
-						//	hide();
+							hide();
 						} else {
 							leave = true;
 						}

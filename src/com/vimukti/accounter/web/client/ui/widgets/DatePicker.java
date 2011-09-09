@@ -43,7 +43,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
  * 
  */
 public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
-		KeyPressHandler, BlurHandler, FocusHandler, MouseWheelHandler {
+		KeyPressHandler,  FocusHandler, MouseWheelHandler {
 
 	private PopupCalendar popup;
 	private Date selectedDate;
@@ -95,12 +95,13 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 		this.addStyleName("empty_date_field");
 
 		// sinkEvents(Event.ONCLICK);
+		sinkEvents(Event.ONBLUR);
 		// addClickHandler(this);
 		addChangeHandler(this);
 		addKeyPressHandler(this);
 		addFocusHandler(this);
 		addMouseWheelHandler(this);
-		addBlurHandler(this);
+		//addBlurHandler(this);
 	}
 
 	/**
@@ -517,11 +518,6 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 
 	}
 
-	@Override
-	public void onBlur(BlurEvent event) {
 
-		this.popup.hidePopupCalendar();
-
-	}
 
 }
