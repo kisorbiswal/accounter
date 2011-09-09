@@ -484,6 +484,7 @@
 			<generator class="native"></generator>
 		</id>
 		<property name="name" unique="true" not-null="true" column="NAME"></property>
+		<property name="version" column="VERSION"></property>
 		<property name="description" column="DESCRIPTION"></property>
 		<property name="isActive" column="IS_ACTIVE"></property>
 		<property name="isSalesType" column="IS_SALES_TYPE"></property>
