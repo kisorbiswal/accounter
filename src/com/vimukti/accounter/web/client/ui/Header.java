@@ -62,15 +62,12 @@ public class Header extends HorizontalPanel {
 							Accounter.getUser().getFullName()) + "<font>");
 		}
 		userName.addStyleName("userName-style");
-		userName.setWidth(((Accounter.messages().userName(
-				Accounter.getUser().getFullName()).length() * 6) - 3)
-				+ "px");
 		// userName.getElement().getStyle().setPaddingLeft(5, Unit.PX);
 
 		if (!Accounter.isLoggedInFromDomain()
 				&& Accounter.getCompany().isConfigured()) {
-			userName.getElement().getStyle().setTextDecoration(
-					TextDecoration.UNDERLINE);
+			userName.getElement().getStyle()
+					.setTextDecoration(TextDecoration.UNDERLINE);
 			userName.getElement().getStyle().setCursor(Cursor.POINTER);
 
 			userName.addClickHandler(new ClickHandler() {
@@ -90,9 +87,7 @@ public class Header extends HorizontalPanel {
 		initializeHelpBar();
 		helpBar.setStyleName("helpBar");
 		help = new HTML(Accounter.messages().helpHTML());
-		help
-				.setWidth(((Accounter.constants().help().length() * 2) + 19)
-						+ "px");
+		help.setWidth(((Accounter.constants().help().length() * 2) + 19) + "px");
 		help.addStyleName("help-style");
 		help.addStyleName("helpBar");
 		help.addClickHandler(new ClickHandler() {
@@ -125,14 +120,12 @@ public class Header extends HorizontalPanel {
 		panel1.add(logo);
 
 		panel2 = new VerticalPanel();
-		panel2.setWidth("85%");
 		panel2.add(companyName);
 
 		headerLinks = new SimplePanel();
 		headerLinks.addStyleName("header_links");
 
 		panel3 = new VerticalPanel();
-		panel3.setWidth("85%");
 		panel3.addStyleName("logout-help-welcome");
 		panel3.add(userName);
 		panel3.add(help);
