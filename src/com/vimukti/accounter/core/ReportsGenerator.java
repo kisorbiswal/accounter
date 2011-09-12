@@ -107,6 +107,9 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_BUDGET3 = 156;
 	public final static int REPORT_TYPE_BUDGET4 = 157;
 	private static final int REPORT_TYPE_1099TRANSACTIONDETAIL = 158;
+	public final static int REPORT_TYPE_SALESBYCLASSDETAIL = 159;
+	public final static int REPORT_TYPE_SALESBYCLASSDETAILFORCLASS = 160;
+	public final static int REPORT_TYPE_PROFITANDLOSSBYCLASS = 161;
 
 	private static int companyType;
 	private ClientCompanyPreferences preferences = Global.get().preferences();
@@ -213,74 +216,19 @@ public class ReportsGenerator {
 				e.printStackTrace();
 			}
 			return profitAndLossServerReport.getGridTemplate();
+		case REPORT_TYPE_SALESBYCLASSDETAILFORCLASS:
+			return generateSalesByClassorLocationTemplate(reportsSerivce,
+					false, generationType1, finaTool);
+
 		case REPORT_TYPE_SALESBYLOCATIONDETAILFORLOCATION:
-			SalesByLocationsummaryServerReport salesByLocationsummaryServerReport = new SalesByLocationsummaryServerReport(
-					startDate.getDate(), endDate.getDate(), generationType1) {
-
-				@Override
-				public ClientFinanceDate getCurrentFiscalYearEndDate() {
-					return Utility_R.getCurrentFiscalYearEndDate();
-				}
-
-				@Override
-				public ClientFinanceDate getCurrentFiscalYearStartDate() {
-					return Utility_R.getCurrentFiscalYearStartDate();
-				}
-
-				@Override
-				public String getDateByCompanyType(ClientFinanceDate date) {
-					ReportsGenerator.companyType = Company.getCompany().accountingType;
-					ReportUtility.companyType = companyType;
-					ReportUtility.companyType = companyType;
-					return ReportsGenerator.getDateByCompanyType(date);
-				}
-			};
-			updateReport(salesByLocationsummaryServerReport, finaTool);
-			salesByLocationsummaryServerReport.resetVariables();
-			try {
-				salesByLocationsummaryServerReport
-						.onResultSuccess(reportsSerivce
-								.getSalesByLocationSummaryReport(
-										startDate.toClientFinanceDate(),
-										endDate.toClientFinanceDate()));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return salesByLocationsummaryServerReport.getGridTemplate();
+			return generateSalesByClassorLocationTemplate(reportsSerivce, true,
+					generationType1, finaTool);
+		case REPORT_TYPE_SALESBYCLASSDETAIL:
+			return generateSalesByLocationorClassDetailReport(false,
+					generationType1, finaTool, reportsSerivce);
 		case REPORT_TYPE_SALESBYLOCATIONDETAIL:
-			SalesByLocationDetailsServerReport salesByLocationDetailsServerReport = new SalesByLocationDetailsServerReport(
-					startDate.getDate(), endDate.getDate(), generationType1) {
-
-				@Override
-				public ClientFinanceDate getCurrentFiscalYearEndDate() {
-					return Utility_R.getCurrentFiscalYearEndDate();
-				}
-
-				@Override
-				public ClientFinanceDate getCurrentFiscalYearStartDate() {
-					return Utility_R.getCurrentFiscalYearStartDate();
-				}
-
-				@Override
-				public String getDateByCompanyType(ClientFinanceDate date) {
-					ReportsGenerator.companyType = Company.getCompany().accountingType;
-					ReportUtility.companyType = companyType;
-					ReportUtility.companyType = companyType;
-					return ReportsGenerator.getDateByCompanyType(date);
-				}
-			};
-			updateReport(salesByLocationDetailsServerReport, finaTool);
-			salesByLocationDetailsServerReport.resetVariables();
-			try {
-				salesByLocationDetailsServerReport
-						.onResultSuccess(reportsSerivce
-								.getSalesByLocationDetailsReport(
-										startDate.toClientFinanceDate(),
-										endDate.toClientFinanceDate()));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return salesByLocationDetailsServerReport.getGridTemplate();
+			return generateSalesByLocationorClassDetailReport(true,
+					generationType1, finaTool, reportsSerivce);
 		case REPORT_TYPE_BALANCESHEET:
 			BalanceSheetServerReport balanceSheetServerReport = new BalanceSheetServerReport(
 					this.startDate.getDate(), this.endDate.getDate(),
@@ -1205,40 +1153,12 @@ public class ReportsGenerator {
 				e.printStackTrace();
 			}
 			return statementReport.getGridTemplate();
-
+		case REPORT_TYPE_PROFITANDLOSSBYCLASS:
+			return generateProfitandLossByLocationorClass(false,
+					generationType1, finaTool, reportsSerivce);
 		case REPORT_TYPE_PROFITANDLOSSBYLOCATION:
-			ProfitAndLossServerReport profitAndLossBylocationServerReport = new ProfitAndLossServerReport(
-					startDate.getDate(), endDate.getDate(), generationType1) {
-
-				@Override
-				public ClientFinanceDate getCurrentFiscalYearEndDate() {
-					return Utility_R.getCurrentFiscalYearEndDate();
-				}
-
-				@Override
-				public ClientFinanceDate getCurrentFiscalYearStartDate() {
-					return Utility_R.getCurrentFiscalYearStartDate();
-				}
-
-				@Override
-				public String getDateByCompanyType(ClientFinanceDate date) {
-					ReportsGenerator.companyType = Company.getCompany().accountingType;
-					ReportUtility.companyType = companyType;
-					ReportUtility.companyType = companyType;
-					return ReportsGenerator.getDateByCompanyType(date);
-				}
-			};
-			updateReport(profitAndLossBylocationServerReport, finaTool);
-			profitAndLossBylocationServerReport.resetVariables();
-			try {
-				profitAndLossBylocationServerReport
-						.onResultSuccess(reportsSerivce.getProfitAndLossReport(
-								startDate.toClientFinanceDate(),
-								endDate.toClientFinanceDate()));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return profitAndLossBylocationServerReport.getGridTemplate();
+			return generateProfitandLossByLocationorClass(true,
+					generationType1, finaTool, reportsSerivce);
 
 		case REPORT_TYPE_1099TRANSACTIONDETAIL:
 			MISC1099TransactionDetailServerReport misc1099TransactionDetailServerReport = new MISC1099TransactionDetailServerReport(
@@ -1261,7 +1181,6 @@ public class ReportsGenerator {
 				e.printStackTrace();
 			}
 			return misc1099TransactionDetailServerReport.getGridTemplate();
-
 		case REPORT_TYPE_BUDGET1:
 			BudgetServerReport budgetServerReport = new BudgetServerReport(
 					this.startDate.getDate(), this.endDate.getDate(),
@@ -1292,6 +1211,116 @@ public class ReportsGenerator {
 		}
 
 		return null;
+	}
+
+	private ReportGridTemplate<?> generateProfitandLossByLocationorClass(
+			boolean isLocation, int generationType1, FinanceTool finaTool,
+			AccounterReportServiceImpl reportsSerivce) {
+		ProfitAndLossServerReport profitAndLossBylocationServerReport = new ProfitAndLossServerReport(
+				startDate.getDate(), endDate.getDate(), generationType1) {
+
+			@Override
+			public ClientFinanceDate getCurrentFiscalYearEndDate() {
+				return Utility_R.getCurrentFiscalYearEndDate();
+			}
+
+			@Override
+			public ClientFinanceDate getCurrentFiscalYearStartDate() {
+				return Utility_R.getCurrentFiscalYearStartDate();
+			}
+
+			@Override
+			public String getDateByCompanyType(ClientFinanceDate date) {
+				ReportsGenerator.companyType = Company.getCompany().accountingType;
+				ReportUtility.companyType = companyType;
+				ReportUtility.companyType = companyType;
+				return ReportsGenerator.getDateByCompanyType(date);
+			}
+		};
+		updateReport(profitAndLossBylocationServerReport, finaTool);
+		profitAndLossBylocationServerReport.resetVariables();
+		try {
+			profitAndLossBylocationServerReport.onResultSuccess(reportsSerivce
+					.getProfitAndLossReport(startDate.toClientFinanceDate(),
+							endDate.toClientFinanceDate()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return profitAndLossBylocationServerReport.getGridTemplate();
+	}
+
+	private ReportGridTemplate<?> generateSalesByLocationorClassDetailReport(
+			boolean isLocation, int generationType1, FinanceTool finaTool,
+			AccounterReportServiceImpl reportsSerivce) {
+		SalesByLocationDetailsServerReport salesByLocationDetailsServerReport = new SalesByLocationDetailsServerReport(
+				startDate.getDate(), endDate.getDate(), generationType1) {
+
+			@Override
+			public ClientFinanceDate getCurrentFiscalYearEndDate() {
+				return Utility_R.getCurrentFiscalYearEndDate();
+			}
+
+			@Override
+			public ClientFinanceDate getCurrentFiscalYearStartDate() {
+				return Utility_R.getCurrentFiscalYearStartDate();
+			}
+
+			@Override
+			public String getDateByCompanyType(ClientFinanceDate date) {
+				ReportsGenerator.companyType = Company.getCompany().accountingType;
+				ReportUtility.companyType = companyType;
+				ReportUtility.companyType = companyType;
+				return ReportsGenerator.getDateByCompanyType(date);
+			}
+		};
+		updateReport(salesByLocationDetailsServerReport, finaTool);
+		salesByLocationDetailsServerReport.resetVariables();
+		try {
+			salesByLocationDetailsServerReport.onResultSuccess(reportsSerivce
+					.getSalesByLocationDetailsReport(isLocation,
+							startDate.toClientFinanceDate(),
+							endDate.toClientFinanceDate()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return salesByLocationDetailsServerReport.getGridTemplate();
+	}
+
+	private ReportGridTemplate<?> generateSalesByClassorLocationTemplate(
+			AccounterReportServiceImpl reportsSerivce, boolean isLocation,
+			int generationType1, FinanceTool finaTool) {
+		SalesByLocationsummaryServerReport salesByLocationsummaryServerReport = new SalesByLocationsummaryServerReport(
+				startDate.getDate(), endDate.getDate(), generationType1) {
+
+			@Override
+			public ClientFinanceDate getCurrentFiscalYearEndDate() {
+				return Utility_R.getCurrentFiscalYearEndDate();
+			}
+
+			@Override
+			public ClientFinanceDate getCurrentFiscalYearStartDate() {
+				return Utility_R.getCurrentFiscalYearStartDate();
+			}
+
+			@Override
+			public String getDateByCompanyType(ClientFinanceDate date) {
+				ReportsGenerator.companyType = Company.getCompany().accountingType;
+				ReportUtility.companyType = companyType;
+				ReportUtility.companyType = companyType;
+				return ReportsGenerator.getDateByCompanyType(date);
+			}
+		};
+		updateReport(salesByLocationsummaryServerReport, finaTool);
+		salesByLocationsummaryServerReport.resetVariables();
+		try {
+			salesByLocationsummaryServerReport.onResultSuccess(reportsSerivce
+					.getSalesByLocationSummaryReport(isLocation,
+							startDate.toClientFinanceDate(),
+							endDate.toClientFinanceDate()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return salesByLocationsummaryServerReport.getGridTemplate();
 	}
 
 	private void updateReport(AbstractFinaneReport<?> abstractFinaneReport,
@@ -1415,6 +1444,12 @@ public class ReportsGenerator {
 			return "Yearly Budget";
 		case REPORT_TYPE_1099TRANSACTIONDETAIL:
 			return "1099 Transaction Detail By Vendor";
+		case REPORT_TYPE_SALESBYCLASSDETAIL:
+			return "Sales By Class Details Report";
+		case REPORT_TYPE_SALESBYCLASSDETAILFORCLASS:
+			return "Sales By Class Detail For Class";
+		case REPORT_TYPE_PROFITANDLOSSBYCLASS:
+			return "Profit and Loss by Class";
 		default:
 			break;
 		}
