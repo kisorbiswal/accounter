@@ -1189,7 +1189,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	public ArrayList<ProfitAndLossByLocation> getProfitAndLossByLocationReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+			boolean isLocation, ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
 		ArrayList<ProfitAndLossByLocation> profitAndLossByLocationList = new ArrayList<ProfitAndLossByLocation>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
@@ -1197,7 +1198,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 			profitAndLossByLocationList = getFinanceTool()
-					.getProfitAndLossByLocation(financeDates[0],
+					.getProfitAndLossByLocation(isLocation, financeDates[0],
 							financeDates[1]);
 			ProfitAndLossByLocation obj = new ProfitAndLossByLocation();
 			if (profitAndLossByLocationList != null)
@@ -1214,7 +1215,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<SalesByLocationDetails> getSalesByLocationDetailsReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+			boolean isLocation, ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
 		ArrayList<SalesByLocationDetails> salesByLocationDetailList = new ArrayList<SalesByLocationDetails>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
@@ -1222,7 +1224,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 			salesByLocationDetailList = getFinanceTool()
-					.getSalesByLocationDetail(financeDates[0], financeDates[1]);
+					.getSalesByLocationDetail(isLocation,financeDates[0], financeDates[1]);
 			SalesByLocationDetails obj = new SalesByLocationDetails();
 			if (salesByLocationDetailList != null)
 				salesByLocationDetailList
@@ -1238,8 +1240,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<SalesByLocationDetails> getSalesByLocationDetailsForLocation(
-			String locationName, ClientFinanceDate startDate,
-			ClientFinanceDate endDate) {
+			boolean isLocation, String locationName,
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		ArrayList<SalesByLocationDetails> salesByLocationDetailList = new ArrayList<SalesByLocationDetails>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
@@ -1247,7 +1249,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 			salesByLocationDetailList = getFinanceTool()
-					.getSalesByLocationDetailForLocation(locationName,
+					.getSalesByLocationDetailForLocation(isLocation,locationName,
 							financeDates[0], financeDates[1]);
 			SalesByLocationDetails obj = new SalesByLocationDetails();
 			if (salesByLocationDetailList != null)
@@ -1264,7 +1266,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<SalesByLocationSummary> getSalesByLocationSummaryReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+			boolean isLocation, ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
 		ArrayList<SalesByLocationSummary> salesByLocationDetailList = new ArrayList<SalesByLocationSummary>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
@@ -1272,7 +1275,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 			salesByLocationDetailList = getFinanceTool()
-					.getSalesByLocationSummary(financeDates[0], financeDates[1]);
+					.getSalesByLocationSummary(isLocation, financeDates[0],
+							financeDates[1]);
 			SalesByLocationSummary obj = new SalesByLocationSummary();
 			if (salesByLocationDetailList != null)
 				salesByLocationDetailList

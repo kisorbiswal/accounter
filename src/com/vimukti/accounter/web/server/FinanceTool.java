@@ -12396,12 +12396,13 @@ public class FinanceTool {
 
 	/**
 	 * 
+	 * @param isLocation
 	 * @param startDate
 	 * @param endDate
 	 * @return
 	 */
 	public ArrayList<SalesByLocationDetails> getSalesByLocationDetail(
-			FinanceDate startDate, FinanceDate endDate) {
+			boolean isLocation, FinanceDate startDate, FinanceDate endDate) {
 		Session session = HibernateUtil.getCurrentSession();
 
 		FinanceDate startDate1 = ((FinanceDate) ((session
@@ -12420,11 +12421,18 @@ public class FinanceTool {
 
 		if (year != startDate1.getYear())
 			startDate1 = new FinanceDate(year, 01, 01);
+		List l;
+		if (isLocation) {
+			l = ((Query) session.getNamedQuery("getSalesByLocationDetail")
 
-		List l = ((Query) session.getNamedQuery("getSalesByLocationDetail")
+			.setParameter("startDate", startDate.getDate())
+					.setParameter("endDate", endDate.getDate())).list();
+		} else {
+			l = ((Query) session.getNamedQuery("getSalesByClassDetail")
 
-		.setParameter("startDate", startDate.getDate())
-				.setParameter("endDate", endDate.getDate())).list();
+			.setParameter("startDate", startDate.getDate())
+					.setParameter("endDate", endDate.getDate())).list();
+		}
 
 		Iterator iterator = l.iterator();
 		Object[] object = null;
@@ -12458,7 +12466,8 @@ public class FinanceTool {
 	}
 
 	public ArrayList<SalesByLocationDetails> getSalesByLocationDetailForLocation(
-			String locationName, FinanceDate startDate, FinanceDate endDate) {
+			boolean isLocation, String locationName, FinanceDate startDate,
+			FinanceDate endDate) {
 		Session session = HibernateUtil.getCurrentSession();
 
 		FinanceDate startDate1 = ((FinanceDate) ((session
@@ -12478,11 +12487,20 @@ public class FinanceTool {
 		if (year != startDate1.getYear())
 			startDate1 = new FinanceDate(year, 01, 01);
 
-		List l = ((Query) session
-				.getNamedQuery("getSalesByLocationDetailForLocation")
-				.setParameter("startDate", startDate.getDate())
-				.setParameter("endDate", endDate.getDate())
-				.setParameter("locationName", locationName)).list();
+		List l;
+
+		if (isLocation) {
+			l = ((Query) session
+					.getNamedQuery("getSalesByLocationDetailForLocation")
+					.setParameter("startDate", startDate.getDate())
+					.setParameter("endDate", endDate.getDate())
+					.setParameter("locationName", locationName)).list();
+		} else {
+			l = ((Query) session.getNamedQuery("getSalesByClassDetailForClass")
+					.setParameter("startDate", startDate.getDate())
+					.setParameter("endDate", endDate.getDate())
+					.setParameter("className", locationName)).list();
+		}
 
 		Iterator iterator = l.iterator();
 		Object[] object = null;
@@ -12516,7 +12534,7 @@ public class FinanceTool {
 	}
 
 	public ArrayList<SalesByLocationSummary> getSalesByLocationSummary(
-			FinanceDate startDate, FinanceDate endDate) {
+			boolean isLocation, FinanceDate startDate, FinanceDate endDate) {
 		Session session = HibernateUtil.getCurrentSession();
 
 		FinanceDate startDate1 = ((FinanceDate) ((session
@@ -12536,10 +12554,18 @@ public class FinanceTool {
 		if (year != startDate1.getYear())
 			startDate1 = new FinanceDate(year, 01, 01);
 
-		List l = ((Query) session.getNamedQuery("getSalesByLocationSummary")
+		List l;
+		if (isLocation) {
+			l = ((Query) session.getNamedQuery("getSalesByLocationSummary")
 
-		.setParameter("startDate", startDate.getDate())
-				.setParameter("endDate", endDate.getDate())).list();
+			.setParameter("startDate", startDate.getDate())
+					.setParameter("endDate", endDate.getDate())).list();
+		} else {
+			l = ((Query) session.getNamedQuery("getSalesByClassSummary")
+
+			.setParameter("startDate", startDate.getDate())
+					.setParameter("endDate", endDate.getDate())).list();
+		}
 
 		Iterator iterator = l.iterator();
 		Object[] object = null;
@@ -12641,12 +12667,14 @@ public class FinanceTool {
 	/**
 	 * For profit and loss by location query.
 	 * 
+	 * @param isLocation
+	 * 
 	 * @param startDate
 	 * @param endDate
 	 * @return {@link ArrayList<ProfitAndLossByLocation>}
 	 */
 	public ArrayList<ProfitAndLossByLocation> getProfitAndLossByLocation(
-			FinanceDate startDate, FinanceDate endDate) {
+			boolean isLocation, FinanceDate startDate, FinanceDate endDate) {
 		Session session = HibernateUtil.getCurrentSession();
 
 		FinanceDate startDate1 = ((FinanceDate) ((session
@@ -12664,11 +12692,19 @@ public class FinanceTool {
 
 		if (year != startDate1.getYear())
 			startDate1 = new FinanceDate(year, 01, 01);
+		List l;
+		if (isLocation) {
+			l = ((Query) session.getNamedQuery("getProfitAndLossByLocation")
 
-		List l = ((Query) session.getNamedQuery("getProfitAndLossByLocation")
+			.setParameter("startDate", startDate.getDate())
+					.setParameter("endDate", endDate.getDate())).list();
+		} else {
+			l = ((Query) session.getNamedQuery("getProfitAndLossByClass")
 
-		.setParameter("startDate", startDate.getDate())
-				.setParameter("endDate", endDate.getDate())).list();
+			.setParameter("startDate", startDate.getDate())
+					.setParameter("endDate", endDate.getDate())).list();
+		}
+
 		Object[] object = null;
 		Iterator iterator = l.iterator();
 		List<ProfitAndLossByLocation> queryResult = new ArrayList<ProfitAndLossByLocation>();
