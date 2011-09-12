@@ -1637,8 +1637,11 @@ a#fdbk_tab{
     vertical-align: bottom;
     width: 154px;
 }
-.dropdownFlex .GI4MLOCBID,.user_activity_log tr:nth-child(even),.GL0PBETBED,.gridEvenRow{
+.dropdownFlex .GI4MLOCBID,.user_activity_log tr:nth-child(even),.GL0PBETBED{
 	background:none repeat scroll 0 0 #E8E8E8 !important;
+}
+.gridEvenRow{
+	background:none repeat scroll 0 0 #E8E8E8;
 }
 .user_activity_log tr:nth-child(even) td,.user_activity_log tr:nth-child(even):hover{
 	border:2px solid #E8E8E8 !important;
