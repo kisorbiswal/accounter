@@ -338,19 +338,7 @@ public class WriteChequeView extends
 				paytoSelect.setDisabled(isInViewMode());
 				return;
 			}
-
-			// if (isInViewMode()) {
-			// selectedTaxAgency = company.getTaxAgency(transaction
-			// .getTaxAgency());
-			// if (selectedTaxAgency != null) {
-			// // paytoSelect.setPayee((Payee) selectedTaxAgency);
-			// paytoSelect.setComboItem(selectedTaxAgency);
-			// }
-			//
-			// paytoSelect.setDisabled(isInViewMode());
-			// // paytoSelect.setDisabled(false);
-			// return;
-			// }
+	
 			newPayToMethod();
 		}
 	}
