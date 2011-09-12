@@ -340,7 +340,8 @@ public class CustomerRefundView extends
 		balForm.setFields(endBalText, custBalText);
 		balForm.getCellFormatter().setWidth(0, 0, "205px");
 
-		if (getPreferences().isClassTrackingEnabled()) {
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
 			balForm.setFields(classListCombo);
 		}

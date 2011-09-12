@@ -535,7 +535,8 @@ public class ReceivePaymentView extends
 		depoForm.setFields(customerNonEditablebalText, depositInCombo);
 		depoForm.getCellFormatter().setWidth(0, 0, "203px");
 
-		if (getPreferences().isClassTrackingEnabled()) {
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
 			depoForm.setFields(classListCombo);
 		}
