@@ -470,7 +470,8 @@ public class UsersMailSendar {
 		}
 
 		String content = propertyParser.getProperty("contentForInviteUser", "");
-		content = content.replaceAll("%USER%", user.getFirstName());
+		content = content
+				.replaceAll("%USER%", getUserName(user.getFirstName()));
 		content = content.replaceAll("%COMPANY%", companyName);
 		content = content.replaceAll("%PASSWORD%", password);
 		content = content.replaceAll("%EMAILID%", user.getEmailId());
@@ -515,7 +516,8 @@ public class UsersMailSendar {
 
 		String content = propertyParser
 				.getProperty("contentForDefaultUser", "");
-		content = content.replaceAll("%USERNAME%", admin.getFirstName());
+		content = content.replaceAll("%USERNAME%",
+				getUserName(admin.getFirstName()));
 		content = content.replaceAll("%COMPANY%", companyName);
 		content = replaceServerUrl(content);
 
@@ -607,8 +609,8 @@ public class UsersMailSendar {
 		String subject = propertyParser.getProperty("subjectForActivation", "");
 
 		StringBuffer content = new StringBuffer();
-		content.append("Hello " + client.getFirstName() + " "
-				+ client.getLastName() + ",\n");
+		content.append("Hello " + getUserName(client.getFirstName()) + " "
+				+ getUserName(client.getLastName()) + ",\n");
 		content.append(propertyParser.getProperty("contentForActivation", ""));
 		String contentStr = content.toString().replaceAll("%TOKEN%", token);
 		contentStr = replaceServerUrl(contentStr);
@@ -640,7 +642,8 @@ public class UsersMailSendar {
 		// String content = getContentForExternalUser();
 		String content = propertyParser.getProperty(
 				"contentForInviteExternalUser", "");
-		content = content.replaceAll("%USER%", invitedClient.getFirstName());
+		content = content.replaceAll("%USER%",
+				getUserName(invitedClient.getFirstName()));
 		content = content.replaceAll("%USERID%", invitedClient.getEmailId());
 		content = content.replaceAll("%SENDERNAME%", inviter.getEmailId());
 		content = content.replaceAll("%COMPANY%", companyName);
@@ -675,7 +678,8 @@ public class UsersMailSendar {
 		}
 
 		String content = getContentForDeleteInvitedUser();
-		content = content.replaceAll("%USER%", deletedUserMail.getFirstName());
+		content = content.replaceAll("%USER%",
+				getUserName(deletedUserMail.getFirstName()));
 		content = content.replaceAll("%USERID%", deletedUserMail.getEmailId());
 		content = content.replaceAll("%SENDERNAME%", sendermail);
 		content = content.replaceAll("%COMPANY%", companyName);
@@ -712,5 +716,15 @@ public class UsersMailSendar {
 	private static String replaceServerUrl(String content) {
 		return content.replaceAll("%SERVERURL%",
 				ServerConfiguration.getServerURL());
+	}
+
+	private static String getUserName(String name) {
+		String firstName = name;
+		String firstChar = firstName.substring(0, 1);
+		String substring = firstName.substring(1);
+
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(firstChar.toUpperCase()).append(substring);
+		return buffer.toString();
 	}
 }
