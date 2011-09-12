@@ -341,8 +341,8 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 	protected int sort(PayeeList obj1, PayeeList obj2, int index) {
 		switch (index) {
 		case 1:
-			return obj1.getPayeeName().toLowerCase()
-					.compareTo(obj2.getPayeeName().toLowerCase());
+			return obj1.getPayeeName().toLowerCase().compareTo(
+					obj2.getPayeeName().toLowerCase());
 			//
 			// case 3:
 			//
@@ -430,8 +430,8 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 	public void deleteFailed(AccounterException caught) {
 		int errorCode = caught.getErrorCode();
 		if (errorCode == AccounterException.ERROR_OBJECT_IN_USE) {
-			Accounter.showError(AccounterExceptions.accounterErrors
-					.vendorInUse());
+			Accounter.showError(AccounterExceptions.accounterErrorMessages
+					.customerInUse(Global.get().Vendor()));
 		} else {
 			super.deleteFailed(caught);
 		}

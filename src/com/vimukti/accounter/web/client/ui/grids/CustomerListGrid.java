@@ -366,7 +366,6 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 		return 0;
 	}
 
-
 	public AccounterCoreType getType() {
 		return AccounterCoreType.CUSTOMER;
 	}
@@ -389,8 +388,8 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 	public void deleteFailed(AccounterException caught) {
 		int errorCode = caught.getErrorCode();
 		if (errorCode == AccounterException.ERROR_OBJECT_IN_USE) {
-			Accounter.showError(AccounterExceptions.accounterErrors
-					.customerInUse());
+			Accounter.showError(AccounterExceptions.accounterErrorMessages
+					.vendorInUse(Global.get().Customer()));
 			return;
 		}
 		super.deleteFailed(caught);
