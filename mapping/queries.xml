@@ -141,10 +141,8 @@
 
 	<query name="update.merge.Payee.mergeoldbalance.tonewbalance">
 		<query-param name="id" type="long" />
-		<query-param name="status" type="boolean" />
 		<query-param name="balance" type="double" />
-		update com.vimukti.accounter.core.Payee set balance=:balance,
-		isActive=:status where
+		update com.vimukti.accounter.core.Payee set balance=:balance where
 		id=:id
 	</query>
 
@@ -215,6 +213,20 @@
 		<query-param name="toID" type="long" />
 		update com.vimukti.accounter.core.ReceivePayment set customer.id=:toID
 		where
+		customer.id=:fromID
+	</query>
+	<query name="update.merge.transactionMakeDeposit.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.TransactionMakeDeposit set
+		customer.id=:toID where
+		customer.id=:fromID
+	</query>
+	<query name="update.merge.writeCheck.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.WriteCheck set
+		customer.id=:toID where
 		customer.id=:fromID
 	</query>
 
@@ -290,6 +302,41 @@
 		update com.vimukti.accounter.core.PayBill set vendor.id=:toID
 		where
 		vendor.id=:fromID
+	</query>
+	<query name="update.mergeVendor.transactionMakeDeposit.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.TransactionMakeDeposit set
+		vendor.id=:toID where
+		vendor.id=:fromID
+	</query>
+	<query name="update.mergeVendor.vendorCreditMemo.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.VendorCreditMemo set
+		vendor.id=:toID where
+		vendor.id=:fromID
+	</query>
+	<query name="update.mergeVendor.writeCheck.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.WriteCheck set
+		vendor.id=:toID where
+		vendor.id=:fromID
+	</query>
+	<query name="update.mergeVendor.Entry.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.Entry set
+		vendor.id=:toID where
+		vendor.id=:fromID
+	</query>
+	<query name="update.mergeVendor.Item.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.Item set
+		preferredVendor.id=:toID where
+		preferredVendor.id=:fromID
 	</query>
 
 	<query name="delete.vendorentry.old">

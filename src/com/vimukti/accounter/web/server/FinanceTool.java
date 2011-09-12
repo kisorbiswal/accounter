@@ -11988,7 +11988,6 @@ public class FinanceTool {
 			session.getNamedQuery(
 					"update.merge.Payee.mergeoldbalance.tonewbalance")
 					.setParameter("id", toClientCustomer.getID())
-					.setParameter("status", fromClientCustomer.isActive())
 					.setParameter("balance", mergeBalance).executeUpdate();
 
 			session.getNamedQuery("update.merge.invoice.old.tonew")
@@ -12000,6 +11999,12 @@ public class FinanceTool {
 					.setParameter("fromID", fromClientCustomer.getID())
 					.setParameter("toID", toClientCustomer.getID())
 					.executeUpdate();
+
+			session.getNamedQuery("update.merge.customercreditmemo.old.tonew")
+					.setParameter("fromID", fromClientCustomer.getID())
+					.setParameter("toID", toClientCustomer.getID())
+					.executeUpdate();
+
 			session.getNamedQuery("update.merge.salesOrder.old.tonew")
 					.setParameter("fromID", fromClientCustomer.getID())
 					.setParameter("toID", toClientCustomer.getID())
@@ -12019,17 +12024,27 @@ public class FinanceTool {
 			session.getNamedQuery("update.merge.CustomerRefund.old.tonew")
 					.setParameter("fromID", fromClientCustomer.getID())
 					.setParameter("toID", toClientCustomer.getID())
-
 					.executeUpdate();
+
 			session.getNamedQuery("update.merge.ReceivePayment.old.tonew")
 					.setParameter("fromID", fromClientCustomer.getID())
 					.setParameter("toID", toClientCustomer.getID())
-
 					.executeUpdate();
+
 			session.getNamedQuery("update.merge.Estimate.old.tonew")
 					.setParameter("fromID", fromClientCustomer.getID())
 					.setParameter("toID", toClientCustomer.getID())
+					.executeUpdate();
 
+			session.getNamedQuery(
+					"update.merge.transactionMakeDeposit.old.tonew")
+					.setParameter("fromID", fromClientCustomer.getID())
+					.setParameter("toID", toClientCustomer.getID())
+					.executeUpdate();
+
+			session.getNamedQuery("update.merge.writeCheck.old.tonew")
+					.setParameter("fromID", fromClientCustomer.getID())
+					.setParameter("toID", toClientCustomer.getID())
 					.executeUpdate();
 
 			session.getNamedQuery("delete.entry.old")
@@ -12080,6 +12095,22 @@ public class FinanceTool {
 				.setParameter("fromID", fromClientVendor.getID())
 				.setParameter("toID", toClientVendor.getID()).executeUpdate();
 		session.getNamedQuery("update.mergeVendor.PayBill.old.tonew")
+				.setParameter("fromID", fromClientVendor.getID())
+				.setParameter("toID", toClientVendor.getID()).executeUpdate();
+		session.getNamedQuery(
+				"update.mergeVendor.transactionMakeDeposit.old.tonew")
+				.setParameter("fromID", fromClientVendor.getID())
+				.setParameter("toID", toClientVendor.getID()).executeUpdate();
+		session.getNamedQuery("update.mergeVendor.vendorCreditMemo.old.tonew")
+				.setParameter("fromID", fromClientVendor.getID())
+				.setParameter("toID", toClientVendor.getID()).executeUpdate();
+		session.getNamedQuery("update.mergeVendor.writeCheck.old.tonew")
+				.setParameter("fromID", fromClientVendor.getID())
+				.setParameter("toID", toClientVendor.getID()).executeUpdate();
+		session.getNamedQuery("update.mergeVendor.Entry.old.tonew")
+				.setParameter("fromID", fromClientVendor.getID())
+				.setParameter("toID", toClientVendor.getID()).executeUpdate();
+		session.getNamedQuery("update.mergeVendor.Item.old.tonew")
 				.setParameter("fromID", fromClientVendor.getID())
 				.setParameter("toID", toClientVendor.getID()).executeUpdate();
 
