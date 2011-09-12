@@ -1295,22 +1295,34 @@ public class ActionFactory {
 				actionsConstants.prepare1099MiscForms());
 	}
 
-	public static SalesByLocationDetailsAction getSalesByLocationDetailsAction() {
-		return new SalesByLocationDetailsAction(Accounter.messages()
-				.getSalesByLocationDetails(Global.get().Location()));
+	public static SalesByLocationDetailsAction getSalesByLocationDetailsAction(
+			boolean isLocation) {
+		String actionsting = Accounter.messages().getSalesByLocationDetails(
+				Global.get().Location());
+		if (!isLocation) {
+			actionsting = Accounter.constants().salesByClassDetails();
+		}
+		return new SalesByLocationDetailsAction(actionsting, isLocation);
 	}
 
-	public static SalesByLocationSummaryAction getSalesByLocationSummaryAction() {
-		return new SalesByLocationSummaryAction(Accounter.messages()
-				.salesByLocationSummary(Global.get().Location()));
+	public static SalesByLocationSummaryAction getSalesByLocationSummaryAction(
+			boolean isLocation) {
+		String actionsting = Accounter.messages().salesByLocationSummary(
+				Global.get().Location());
+		if (!isLocation) {
+			actionsting = Accounter.constants().salesByClassSummary();
+		}
+		return new SalesByLocationSummaryAction(actionsting, isLocation);
 	}
 
-	public static ProfitAndLossByLocationAction getProfitAndLossByLocationAction() {
-		return new ProfitAndLossByLocationAction(
-				actionsConstants.profitAndLoss()
-						+ "By"
-						+ Accounter.messages()
-								.location(Global.get().Location()));
+	public static ProfitAndLossByLocationAction getProfitAndLossByLocationAction(
+			boolean isLocation) {
+		String actionstring = actionsConstants.profitAndLoss() + "By"
+				+ Accounter.messages().location(Global.get().Location());
+		if (!isLocation) {
+			actionstring = actionsConstants.profitAndLossbyClass();
+		}
+		return new ProfitAndLossByLocationAction(actionstring, isLocation);
 	}
 
 	public static BudgetAction getBudgetActions() {
@@ -1373,5 +1385,4 @@ public class ActionFactory {
 		}
 
 	}
-
 }
