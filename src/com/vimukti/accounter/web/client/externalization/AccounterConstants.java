@@ -4774,4 +4774,8 @@ public interface AccounterConstants extends Constants {
 
 	public String getTurnOnTextWrappinginReportColumns();
 
+	public String customerAddress();
+	
+	public String getCompanyLegalCheckBoxText();
+
 }
