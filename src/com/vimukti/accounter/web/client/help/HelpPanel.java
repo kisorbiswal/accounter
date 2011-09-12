@@ -101,6 +101,10 @@ public class HelpPanel extends Composite implements HasText {
 	}
 
 	public void setIsHelpPanel(boolean isHelpPanel) {
+		if (isHelpPanel) {
+			button.setEnabled(true);
+			setButtonPushed(false);
+		}
 		this.isHelpPanel = isHelpPanel;
 	}
 
@@ -118,5 +122,9 @@ public class HelpPanel extends Composite implements HasText {
 
 	public boolean isRemoved() {
 		return isRemoved;
+	}
+
+	public void setButtonDisabled(boolean isEnable) {
+		button.setEnabled(isEnable);
 	}
 }
