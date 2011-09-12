@@ -4753,4 +4753,11 @@ public interface AccounterConstants extends Constants {
 	public String enableAutoRecall();
 
 	public String enableQuickFillAutosuggest();
+
+	public String getDifferentLegalName();
+
+	public String getCustomersEmailId();
+
+	public String getDefaultAccountingMethodForSummary();
+
 }
