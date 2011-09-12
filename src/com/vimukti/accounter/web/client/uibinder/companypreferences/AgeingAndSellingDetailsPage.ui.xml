@@ -19,7 +19,7 @@
 			<g:VerticalPanel>
 				<g:RadioButton name="sellingsGroup" ui:field="servicesRadioButton"/>
 				<g:RadioButton name="sellingsGroup" ui:field="productsRadioButton"/>
-				<g:RadioButton name="new name" ui:field="bothRadioButton" checked="true"/>
+				<g:RadioButton name="sellingsGroup" ui:field="bothRadioButton" checked="true"/>
 			</g:VerticalPanel>
 		</g:VerticalPanel>
 	</g:VerticalPanel>

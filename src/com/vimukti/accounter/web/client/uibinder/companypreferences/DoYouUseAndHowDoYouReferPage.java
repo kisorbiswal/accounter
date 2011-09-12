@@ -94,7 +94,7 @@ public class DoYouUseAndHowDoYouReferPage extends AbstractCompanyInfoPanel {
 		companyPreferences.setUseAccountNumbers(useAccountNo.getValue());
 
 		companyPreferences.setReferCustomers(customerCombo.getSelectedIndex());
-		companyPreferences.setReferVendors(customerCombo.getSelectedIndex());
+		companyPreferences.setReferVendors(supplierCombo.getSelectedIndex());
 		companyPreferences.setReferAccounts(accountCombo.getSelectedIndex());
 	}
 

@@ -71,7 +71,7 @@ public class AgeingAndSellingDetailsPage extends AbstractCompanyInfoPanel {
 
 		servicesRadioButton.setText(constants.services());
 		productsRadioButton.setText(constants.products());
-		bothRadioButton.setText(constants.both());
+		bothRadioButton.setText(constants.bothServiceProducts());
 
 	}
 

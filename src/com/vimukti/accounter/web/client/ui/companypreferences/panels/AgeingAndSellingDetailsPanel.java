@@ -33,7 +33,7 @@ public class AgeingAndSellingDetailsPanel extends AbstractCompanyInfoPanel {
 		sellingRadioGroup.setGroupName(constants.sell());
 		sellingRadioGroup.setValues(getClickHandler(), Accounter.constants()
 				.services(), Accounter.constants().products(), Accounter
-				.constants().both());
+				.constants().bothServiceProducts());
 
 		DynamicForm ageingGroupForm = new DynamicForm();
 		ageingGroupForm.setFields(ageingRadioGroup);
@@ -80,7 +80,7 @@ public class AgeingAndSellingDetailsPanel extends AbstractCompanyInfoPanel {
 			ageingRadioGroup.setValue(constants.ageingfortransactiondate());
 		if (companyPreferences.isSellServices()
 				&& companyPreferences.isSellProducts())
-			sellingRadioGroup.setValue(constants.both());
+			sellingRadioGroup.setValue(constants.bothServiceProducts());
 		else if (companyPreferences.isSellServices())
 			sellingRadioGroup.setValue(constants.services());
 		else
@@ -94,7 +94,7 @@ public class AgeingAndSellingDetailsPanel extends AbstractCompanyInfoPanel {
 		else
 			companyPreferences.setAgeingFromTransactionDateORDueDate(2);
 
-		if (sellingRadioGroup.getValue().equals(constants.both())) {
+		if (sellingRadioGroup.getValue().equals(constants.bothServiceProducts())) {
 			companyPreferences.setSellServices(true);
 			companyPreferences.setSellProducts(true);
 		} else if (sellingRadioGroup.getValue().equals(constants.services())) {

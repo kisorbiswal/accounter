@@ -4422,7 +4422,7 @@ public interface AccounterConstants extends Constants {
 
 	public String services();
 
-	public String both();
+	public String bothServiceProducts();
 
 	public String location();
 
