@@ -719,7 +719,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	public void updateNonEditableItems() {
 		if (customerTransactionTable == null)
 			return;
-		if (getCompany().getPreferences().isChargeSalesTax() && getCompany().getAccountingType()==ClientCompany.ACCOUNTING_TYPE_INDIA) {
+		if (getCompany().getPreferences().isChargeSalesTax()
+				&& (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA || getCompany()
+						.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)) {
 			Double taxableLineTotal = customerTransactionTable
 					.getTaxableLineTotal();
 
@@ -737,11 +739,11 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			setTransactionTotal(customerTransactionTable.getTotal()
 					+ this.salesTax);
 			netAmountLabel.setAmount(customerTransactionTable.getGrandTotal());
-		
 
 		}
 
-		if (getCompany().getPreferences().isRegisteredForVAT() && getCompany().getAccountingType()==ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()
+				&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			netAmountLabel.setAmount(customerTransactionTable.getGrandTotal());
 			vatTotalNonEditableText
 					.setAmount(customerTransactionTable.getTotalValue()
@@ -902,7 +904,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			customerTransactionTable.setTaxCode(taxCode.getID());
 		} else
 			taxCodeSelect.setValue("");
-		 updateNonEditableItems();
+		updateNonEditableItems();
 	}
 
 	@Override
