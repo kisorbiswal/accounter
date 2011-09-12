@@ -4751,4 +4751,6 @@ public interface AccounterConstants extends Constants {
 	public String restart();
 
 	public String enableAutoRecall();
+
+	public String enableQuickFillAutosuggest();
 }
