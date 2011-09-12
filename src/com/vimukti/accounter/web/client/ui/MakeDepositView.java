@@ -678,11 +678,6 @@ public class MakeDepositView extends
 		if (locationTrackingEnabled)
 			dateForm.setFields(locationCombo);
 
-		if (getPreferences().isClassTrackingEnabled()) {
-			classListCombo = createAccounterClassListCombo();
-			dateForm.setFields(classListCombo);
-		}
-
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateForm);
@@ -753,6 +748,11 @@ public class MakeDepositView extends
 		depoForm.setIsGroup(true);
 		depoForm.setGroupTitle(Accounter.constants().deposit());
 		depoForm.setFields(depositInSelect);
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
+			classListCombo = createAccounterClassListCombo();
+			depoForm.setFields(classListCombo);
+		}
 		depoForm.setWidth("40%");
 
 		// Label lab1 = new Label(FinanceApplication.constants()
@@ -1195,12 +1195,6 @@ public class MakeDepositView extends
 
 		// Setting Transaction type
 		transaction.setType(ClientTransaction.TYPE_MAKE_DEPOSIT);
-
-		if (getPreferences().isClassTrackingEnabled()
-				&& clientAccounterClass != null) {
-			transaction.setAccounterClass(clientAccounterClass);
-		}
-
 		super.saveAndUpdateView();
 
 	}

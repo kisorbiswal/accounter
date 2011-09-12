@@ -90,7 +90,8 @@ public class VATPaymentView extends
 		// dateNoForm.setLayoutAlign(Alignment.RIGHT);
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
 
-		if (getPreferences().isClassTrackingEnabled()) {
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
 			dateNoForm.setFields(classListCombo);
 		}
@@ -284,7 +285,6 @@ public class VATPaymentView extends
 		transaction.setEndingBalance(endingBalance);
 
 		transaction.setPaymentMethod(paymentMethod);
-
 	}
 
 	@Override

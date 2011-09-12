@@ -371,7 +371,8 @@ public class PaySalesTaxView extends
 		balForm.setFields(amountText, endingBalanceText);
 		balForm.getCellFormatter().setWidth(0, 0, "222px");
 
-		if (getPreferences().isClassTrackingEnabled()) {
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
 			balForm.setFields(classListCombo);
 		}
