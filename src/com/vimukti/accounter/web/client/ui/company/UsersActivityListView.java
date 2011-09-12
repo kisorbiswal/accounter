@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.view.client.Range;
 import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -46,6 +47,8 @@ public class UsersActivityListView extends BaseView {
 
 		fromdate = new DateField("From Date");
 		toDate = new DateField("End Date");
+		fromdate.setEnteredDate(new ClientFinanceDate());
+		toDate.setEnteredDate(new ClientFinanceDate());
 
 		updateButton = new Button("Update");
 		updateButton.addClickHandler(new ClickHandler() {
@@ -102,7 +105,7 @@ public class UsersActivityListView extends BaseView {
 		ClientFinanceDate endDate = toDate.getEnteredDate();
 		activityList.setFromDate(startDate);
 		activityList.setEndDate(endDate);
-		activityList.setVisibleRange(0, 50);
+		activityList.setVisibleRangeAndClearData(new Range(0, 50), true);
 	}
 
 	@Override
