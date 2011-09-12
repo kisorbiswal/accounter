@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.company.options.AbstractPreferenceOption;
 
 /**
@@ -19,24 +21,28 @@ public class PreferencePage extends ScrollPanel {
 
 	private List<AbstractPreferenceOption> options = new ArrayList<AbstractPreferenceOption>();
 
+	private VerticalPanel optionsPane = new VerticalPanel();
+
 	/**
 	 * Creates new Instance
 	 */
 	public PreferencePage(String title) {
 		this.title = title;
+		this.setHeight("250px");
+		this.add(this.optionsPane);
 	}
 
-	void addPreferenceOption(AbstractPreferenceOption option) {
-		this.add(option);
+	public void addPreferenceOption(AbstractPreferenceOption option) {
+		optionsPane.add(option);
 		this.options.add(option);
 	}
 
-	void removePreferenceOption(AbstractPreferenceOption option) {
-		this.remove(option);
+	public void removePreferenceOption(AbstractPreferenceOption option) {
+		optionsPane.remove(option);
 		this.options.remove(option);
 	}
 
-	void onSave() {
+	public void onSave() {
 		for (AbstractPreferenceOption option : options) {
 			option.onSave();
 		}
