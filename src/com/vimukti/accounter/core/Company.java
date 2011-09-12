@@ -86,8 +86,6 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 */
 	// Set<Address> addresses = new HashSet<Address>();
 
-	Address tradingAddress;
-
 	Address registeredAddress;
 
 	String companyEmail;
@@ -731,11 +729,14 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 	public Company(int accountingType) {
 		this.accountingType = accountingType;
-		tradingAddress = new Address();
+
+		this.preferences = new CompanyPreferences();
+		Address tradingAddress = new Address();
 		tradingAddress.type = Address.TYPE_COMPANY;
+		preferences.setTradingAddress(tradingAddress);
 		registeredAddress = new Address();
 		registeredAddress.type = Address.TYPE_COMPANY_REGISTRATION;
-		this.preferences = new CompanyPreferences();
+
 		if (accountingType == ACCOUNTING_TYPE_UK) {
 			preferences.setReferVendors(ClientVendor.SUPPLIER);
 		}
@@ -4221,7 +4222,6 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		cmp.accounts = this.getAccounts();
 
 		cmp.companyEmail = this.getCompanyEmail();
-		cmp.tradingAddress = this.getRegisteredAddress();
 		cmp.registeredAddress = this.getTradingAddress();
 		cmp.companyEmailForCustomers = this.getCompanyEmailForCustomers();
 		cmp.contact = this.getContact();
@@ -4355,9 +4355,6 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		ServerConvertUtil serverConvertUtil = new ServerConvertUtil();
 		this.setFullName(clientCompany.getName());
 
-		this.setTradingAddress(serverConvertUtil.toServerObject(
-				this.tradingAddress, clientCompany.getTradingAddress(),
-				HibernateUtil.getCurrentSession()));
 		this.setRegisteredAddress(serverConvertUtil.toServerObject(
 				this.registeredAddress, clientCompany.getRegisteredAddress(),
 				HibernateUtil.getCurrentSession()));
@@ -4447,7 +4444,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * @return the tradingAddress
 	 */
 	public Address getTradingAddress() {
-		return tradingAddress;
+		return this.preferences.getTradingAddress();
 	}
 
 	/**
@@ -4455,7 +4452,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 *            the tradingAddress to set
 	 */
 	public void setTradingAddress(Address tradingAddress) {
-		this.tradingAddress = tradingAddress;
+		this.preferences.setTradingAddress(tradingAddress);
 	}
 
 	/**
