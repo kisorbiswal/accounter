@@ -77,15 +77,10 @@ $(document).ready(function() {
 </script>
 </head>
 	<body>
-		<div class="login clearfix" id="login" >
-	    <div class ="body-container">
-	      <%@ include file="./header.jsp" %>
-			<div class="middle-part" id="cen">
-				<div class="middle-signup-box" id="mid-1">
-					<div class ="Welcome-Accounter-box" style="padding:10px">
-							<h2 style="margin:0 0 10px 0px">Reset Password</h2>
-								<div class="reset-login-box">
-								<form id="accounterForm" method="post" action="/main/resetpassword">
+	<div id="commanContainer">
+		   <img class="accounterLogo" src="../images/Accounter_logo_title.png">
+		   	
+		 <form id="accounterForm" method="post" action="/resetpassword">
 								<c:if test="${successMessage != null}">
 								<span style="color: #3299A4; line-height: 1.5;">
 								${successMessage} </span>
@@ -97,54 +92,28 @@ $(document).ready(function() {
 								<c:if test="${successMessage == null}">
 								<c:if test="${errorMessage == null}">
 								<div class="mid-login-box1">
-							   <table width="100%">
-							      <tr>
-								     <td width="140px">New Password : </td>
-									 <td>
+							   <div width="100%">
+								     <div>New Password : </div>
+									 <div>
 										<input id="mid-box"  type="password" name="newPassword" onkeyup="CheckPassword(this.value)" tabindex="1" value="" class="reset_password">								
-									 </td>
-									 <td id="reset_hint_box">
+									 </div>
+									 <div id="reset_hint_box">
 									 
-									 </td>
-								  </tr>
-								  <tr>
-								<tr>
-									 <td>Confirm Password : </td>
-									 <td>
+									 </div>
+									 <div>Confirm Password : </div>
+									 <div>
 										<input id="mid-box1"  type="password" name="confirmPassword" tabindex="2" value="">
-									</td>
-								  </tr>
-								   <tr>
-								  <td>
-								      
-								  </td>
-								  <td>
-								     <ul class="reset-ok-button">
-										<li><span class="signup-submit-left"></span></li>
-										<li><input type="submit" tabindex="3" value="OK" name="ok" class="signup-submit-mid forget-but" id="submitButton"></li>
-										<li><span class="signup-submit-right"></span></li>
-									 </ul>
-								     <ul class="reset-cancel-button">
-										<li><span class="signup-submit-left"></span></li>
-										<li><input type="button" tabindex="4" value="Cancel" name="cancel" class="signup-submit-mid forget-but" onClick="location.href='/main/login'"></li>
-										<li><span class="signup-submit-right"></span></li>
-									 </ul>
-								  </td>
-								  </tr>
-								  </table>
-								</div>
+									</div>
+								   <div class="OkButton">
+			  						   <input type="submit" tabindex="6" value="Reset" name="login" class="allviews-common-button" style="width:60px" id="submitButton">
+			 						 </div>
+								  </div>
 								</c:if>
 								</c:if>
 								</div>
-									
 					</form>
-				
-				</div>
-			</div>
-				<div class="down-test" id="down"></div>
-			<%@ include file="./footer.jsp" %>
-		</div>
-		</div>
+					</div>
+	<div class="down-test" id="down"></div>
 		
 		<script type="text/javascript" charset="utf-8">
 			var is_ssl = ("https:" == document.location.protocol);
