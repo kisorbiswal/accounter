@@ -286,7 +286,7 @@ public class MacMenuServlet extends BaseServlet {
 				"company/accounter#apAgingDetail");
 		subMenu(suppliersValue,
 				iGlobal.messages().vendorTransactionHistory(iGlobal.Vendor()),
-				"company/accounter#supplierTransactionHistory");
+				"company/accounter#vendorTransactionHistory");
 		menu(reportsValue,
 				iGlobal.messages().vendorsAndPayables(iGlobal.Vendor()),
 				suppliersValue);
@@ -294,10 +294,10 @@ public class MacMenuServlet extends BaseServlet {
 		StringBuilder purchasesValue = new StringBuilder();
 		subMenu(purchasesValue,
 				iGlobal.messages().purchaseByVendorSummary(iGlobal.Vendor()),
-				"company/accounter#purchaseBySupplierSummary");
+				"company/accounter#purchaseByVendorSummary");
 		subMenu(purchasesValue,
 				iGlobal.messages().purchaseByVendorDetail(iGlobal.Vendor()),
-				"company/accounter#purchaseBySupplierDetail");
+				"company/accounter#purchaseByVendorDetail");
 		subMenu(purchasesValue, iGlobal.constants().purchaseByItemSummary(),
 				"company/accounter#purchaseByItemSummary");
 		subMenu(purchasesValue, iGlobal.constants().purchaseByProductDetail(),
