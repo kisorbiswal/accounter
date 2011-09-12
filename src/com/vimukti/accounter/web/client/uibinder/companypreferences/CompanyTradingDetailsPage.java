@@ -95,15 +95,17 @@ public class CompanyTradingDetailsPage extends AbstractCompanyInfoPanel {
 
 	private void initData() {
 		tradingCompanyName.setValue(company.getTradingName());
-		address1Text.setValue(company.getTradingAddress().getAddress1());
-		address2Text.setValue(company.getTradingAddress().getStreet());
-		cityText.setValue(company.getTradingAddress().getCity());
-		stateCombo.setSelectedIndex(states.indexOf(company.getTradingAddress()
-				.getStateOrProvinence()));
-		postalcodeText.setValue(company.getTradingAddress()
-				.getZipOrPostalCode());
-		countryCombo.setSelectedIndex(countriesList.indexOf(company
-				.getTradingAddress().getCountryOrRegion()));
+		if (company.getTradingAddress() != null) {
+			address1Text.setValue(company.getTradingAddress().getAddress1());
+			address2Text.setValue(company.getTradingAddress().getStreet());
+			cityText.setValue(company.getTradingAddress().getCity());
+			stateCombo.setSelectedIndex(states.indexOf(company
+					.getTradingAddress().getStateOrProvinence()));
+			postalcodeText.setValue(company.getTradingAddress()
+					.getZipOrPostalCode());
+			countryCombo.setSelectedIndex(countriesList.indexOf(company
+					.getTradingAddress().getCountryOrRegion()));
+		}
 	}
 
 	@Override
@@ -113,13 +115,13 @@ public class CompanyTradingDetailsPage extends AbstractCompanyInfoPanel {
 		company.getTradingAddress().setStreet(address2Text.getValue());
 		company.getTradingAddress().setCity(cityText.getValue());
 		if (stateCombo.getSelectedIndex() > 0)
-		company.getTradingAddress().setStateOrProvinence(
-				states.get(stateCombo.getSelectedIndex()));
+			company.getTradingAddress().setStateOrProvinence(
+					states.get(stateCombo.getSelectedIndex()));
 		company.getTradingAddress().setZipOrPostalCode(
 				postalcodeText.getValue());
 		if (countryCombo.getSelectedIndex() > 0)
-		company.getTradingAddress().setCountryOrRegion(
-				countriesList.get(countryCombo.getSelectedIndex()));
+			company.getTradingAddress().setCountryOrRegion(
+					countriesList.get(countryCombo.getSelectedIndex()));
 
 	}
 
