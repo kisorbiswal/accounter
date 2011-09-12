@@ -371,7 +371,7 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 			}
 
 		}
-		return true;
+		return false;
 	}
 
 	protected void saveOrUpdate(final ClientTAXGroup core) {
@@ -379,6 +379,7 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 
 			@Override
 			public void onSuccess(Long result) {
+				removeFromParent();
 				if (core.getID() == 0) {
 					core.setID(result);
 				}
@@ -386,7 +387,6 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 				if (getCallback() != null) {
 					getCallback().actionResult(core);
 				}
-
 			}
 
 			@Override
