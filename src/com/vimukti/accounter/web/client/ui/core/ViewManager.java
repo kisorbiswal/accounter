@@ -525,7 +525,7 @@ public class ViewManager extends HorizontalPanel {
 
 	private HelpDialog helpDialog;
 
-	private boolean isHelpPanelEnabled;
+	private boolean isHelpPanelEnabled = true;
 
 	private void createHelpDialog() {
 		helpPanel.setIsHelpPanel(false);
