@@ -703,7 +703,8 @@ public class WriteChequeView extends
 			bankAccForm.setFields(bankAccSelect, balText);
 
 		}
-		if (getPreferences().isClassTrackingEnabled()) {
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
 			bankAccForm.setFields(classListCombo);
 		}

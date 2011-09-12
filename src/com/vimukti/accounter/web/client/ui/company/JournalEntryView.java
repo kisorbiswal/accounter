@@ -356,7 +356,8 @@ public class JournalEntryView extends
 		if (locationTrackingEnabled)
 			dateForm.setFields(locationCombo);
 
-		if (getPreferences().isClassTrackingEnabled()) {
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
 			dateForm.setFields(classListCombo);
 		}
