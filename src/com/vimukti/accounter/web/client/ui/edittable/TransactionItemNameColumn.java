@@ -15,15 +15,6 @@ public abstract class TransactionItemNameColumn extends
 	AccountDropDownTable accountsList = new AccountDropDownTable(
 			getAccountsFilter());
 
-	// ItensDropDownTable productsList = new ItensDropDownTable(
-	// new ListFilter<ClientItem>() {
-	//
-	// @Override
-	// public boolean filter(ClientItem e) {
-	// return e.getType() != ClientItem.TYPE_SERVICE;
-	// }
-	// });
-
 	ItensDropDownTable itemsList = new ItensDropDownTable(
 			new ListFilter<ClientItem>() {
 

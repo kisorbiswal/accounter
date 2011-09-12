@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.ItemView;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -19,13 +18,13 @@ public class ItensDropDownTable extends AbstractDropDownTable<ClientItem> {
 	private int type;
 
 	public ItensDropDownTable(ListFilter<ClientItem> filter) {
-		super(getProducts(filter));
+		super(getItems(filter));
 		this.filter = filter;
 	}
 
-	private static List<ClientItem> getProducts(ListFilter<ClientItem> filter) {
+	private static List<ClientItem> getItems(ListFilter<ClientItem> filter) {
 		ArrayList<ClientItem> filteredList = Utility.filteredList(filter,
-				Accounter.getCompany().getItems());
+				Accounter.getCompany().getActiveItems());
 		return filteredList;
 	}
 
@@ -91,6 +90,6 @@ public class ItensDropDownTable extends AbstractDropDownTable<ClientItem> {
 
 	@Override
 	public List<ClientItem> getTotalRowsData() {
-		return getProducts(filter);
+		return getItems(filter);
 	}
 }
