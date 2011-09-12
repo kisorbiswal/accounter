@@ -9,24 +9,26 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class ProfitAndLossByLocationAction extends Action {
 	protected ProfitAndLossByLocationReport locationReport;
+	private boolean isLocation;
 
-	public ProfitAndLossByLocationAction(String text) {
+	public ProfitAndLossByLocationAction(String text, boolean isLocation) {
 		super(text);
+		this.isLocation = isLocation;
 	}
 
 	@Override
 	public void run() {
-		runAsync(data, isDependent);
-
+		runAsync(data, isDependent, isLocation);
 	}
 
-	public void runAsync(final Object data, final Boolean isDependent) {
+	public void runAsync(final Object data, final Boolean isDependent,
+			final boolean isLocation) {
 
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			public void onCreated() {
 
-				locationReport = new ProfitAndLossByLocationReport();
+				locationReport = new ProfitAndLossByLocationReport(isLocation);
 				MainFinanceWindow.getViewManager().showView(locationReport,
 						data, isDependent, ProfitAndLossByLocationAction.this);
 			}

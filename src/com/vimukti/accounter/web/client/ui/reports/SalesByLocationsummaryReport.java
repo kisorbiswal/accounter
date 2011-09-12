@@ -10,15 +10,18 @@ import com.vimukti.accounter.web.client.ui.serverreports.SalesByLocationsummaryS
 public class SalesByLocationsummaryReport extends
 		AbstractReportView<SalesByLocationSummary> {
 
-	public SalesByLocationsummaryReport() {
-		this.serverReport = new SalesByLocationsummaryServerReport(this);
+	private boolean isLocation;
+
+	public SalesByLocationsummaryReport(boolean isLocation) {
+		this.isLocation = isLocation;
+		this.serverReport = new SalesByLocationsummaryServerReport(this,
+				isLocation);
 	}
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		Accounter.createReportService().getSalesByLocationSummaryReport(start,
-				end, this);
-
+		Accounter.createReportService().getSalesByLocationSummaryReport(
+				isLocation, start, end, this);
 	}
 
 	@Override
@@ -32,24 +35,32 @@ public class SalesByLocationsummaryReport extends
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
 		UIUtils.runAction(record,
-				ActionFactory.getSalesByLocationDetailsAction());
+				ActionFactory.getSalesByLocationDetailsAction(isLocation));
 	}
 
 	@Override
 	public void print() {
+		int reportType = 152;
+		if (!isLocation) {
+			reportType = 160;
+		}
 		UIUtils.generateReportPDF(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 152, "",
-				"");
+				Integer.parseInt(String.valueOf(endDate.getDate())),
+				reportType, "", "");
 
 	}
 
 	@Override
 	public void exportToCsv() {
+		int reportType = 152;
+		if (!isLocation) {
+			reportType = 160;
+		}
 		UIUtils.exportReport(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 152, "",
-				"");
+				Integer.parseInt(String.valueOf(endDate.getDate())),
+				reportType, "", "");
 	}
 
 }

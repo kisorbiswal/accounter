@@ -11,23 +11,29 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class SalesByLocationDetailsAction extends Action {
 
-	public SalesByLocationDetailsAction(String text) {
+	private boolean isLocation;
+
+	public SalesByLocationDetailsAction(String text, boolean isLocation) {
 		super(text);
+		this.isLocation = isLocation;
 	}
 
 	@Override
 	public void run() {
-		runAsync(data, isDependent);
+		final boolean isLoction = this.isLocation;
+		runAsync(data, isDependent, isLoction);
 
 	}
 
-	private void runAsync(final Object data, final boolean isDependent) {
+	private void runAsync(final Object data, final boolean isDependent,
+			final boolean isLoction) {
 
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			public void onCreated() {
 
-				AbstractReportView<SalesByLocationDetails> report = new SalesByLocationDetailsReport();
+				AbstractReportView<SalesByLocationDetails> report = new SalesByLocationDetailsReport(
+						isLoction);
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent, SalesByLocationDetailsAction.this);
 
@@ -54,12 +60,18 @@ public class SalesByLocationDetailsAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
+		if (!isLocation) {
+			return "SalesByLocationDetails";
+		}
 		return Accounter.messages().getSalesByLocationDetails(
 				Global.get().Location());
 	}
 
 	@Override
 	public String getHelpToken() {
+		if (!isLocation) {
+			return "sales-by-class";
+		}
 		return "sales-by-location";
 	}
 
