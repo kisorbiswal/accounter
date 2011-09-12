@@ -102,10 +102,7 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_SALESBYLOCATIONDETAIL = 151;
 	public final static int REPORT_TYPE_SALESBYLOCATIONDETAILFORLOCATION = 152;
 	public final static int REPORT_TYPE_PROFITANDLOSSBYLOCATION = 153;
-	public final static int REPORT_TYPE_BUDGET1 = 154;
-	public final static int REPORT_TYPE_BUDGET2 = 155;
-	public final static int REPORT_TYPE_BUDGET3 = 156;
-	public final static int REPORT_TYPE_BUDGET4 = 157;
+	public final static int REPORT_TYPE_BUDGET = 154;
 	private static final int REPORT_TYPE_1099TRANSACTIONDETAIL = 158;
 	public final static int REPORT_TYPE_SALESBYCLASSDETAIL = 159;
 	public final static int REPORT_TYPE_SALESBYCLASSDETAILFORCLASS = 160;
@@ -1181,7 +1178,7 @@ public class ReportsGenerator {
 				e.printStackTrace();
 			}
 			return misc1099TransactionDetailServerReport.getGridTemplate();
-		case REPORT_TYPE_BUDGET1:
+		case REPORT_TYPE_BUDGET:
 			BudgetServerReport budgetServerReport = new BudgetServerReport(
 					this.startDate.getDate(), this.endDate.getDate(),
 					generationType1) {
@@ -1434,14 +1431,8 @@ public class ReportsGenerator {
 			return "Sales By Location Detail For Location";
 		case REPORT_TYPE_PROFITANDLOSSBYLOCATION:
 			return "Profit and Loss by Location";
-		case REPORT_TYPE_BUDGET1:
-			return "Custom Budget";
-		case REPORT_TYPE_BUDGET2:
-			return "Monthly Budget";
-		case REPORT_TYPE_BUDGET3:
-			return "Quaterly Budget";
-		case REPORT_TYPE_BUDGET4:
-			return "Yearly Budget";
+		case REPORT_TYPE_BUDGET:
+			return "Budget Report";
 		case REPORT_TYPE_1099TRANSACTIONDETAIL:
 			return "1099 Transaction Detail By Vendor";
 		case REPORT_TYPE_SALESBYCLASSDETAIL:

@@ -60,18 +60,22 @@ public class BudgetReport extends AbstractReportView<ClientBudgetList> {
 	@Override
 	public void print() {
 
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 112, "",
-				"");
+		if (budgettype == BUDGET_TYPE_MONTH)
+			UIUtils.generateBudgetReportPDF(154, BUDGET_TYPE_MONTH);
+		else if (budgettype == BUDGET_TYPE_QUATER)
+			UIUtils.generateBudgetReportPDF(154, BUDGET_TYPE_QUATER);
+		else if (budgettype == BUDGET_TYPE_YEAR)
+			UIUtils.generateBudgetReportPDF(154, BUDGET_TYPE_YEAR);
+		else
+			UIUtils.generateBudgetReportPDF(154, BUDGET_TYPE_CUSTOM);
 
 	}
 
 	public void exportToCsv() {
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 112, "",
-				"");
+		// UIUtils.exportBudgetReport(
+		// Integer.parseInt(String.valueOf(startDate.getDate())),
+		// Integer.parseInt(String.valueOf(endDate.getDate())), 154, "",
+		// "");
 	}
 
 	@Override

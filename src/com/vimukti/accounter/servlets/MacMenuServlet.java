@@ -398,7 +398,7 @@ public class MacMenuServlet extends BaseServlet {
 		if (canDoInvoiceTransactions()) {
 			subMenu(newValues, iGlobal.messages().newVendor(iGlobal.Vendor()),
 					"company/accounter#newVendor");
-			subMenu(newValues, iGlobal.constants().newItem(),
+			subMenu(newValues, iGlobal.constants().newItem() + "s",
 					"company/accounter#newItem");
 			items += 2;
 		}

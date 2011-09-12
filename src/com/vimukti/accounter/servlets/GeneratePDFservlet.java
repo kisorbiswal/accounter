@@ -288,7 +288,6 @@ public class GeneratePDFservlet extends BaseServlet {
 			// for Reports
 			else {
 				transactionType = 0;
-
 				converter = new Converter();
 				template = getReportTemplate(request, financetool, footerImg,
 						style, companyType);
