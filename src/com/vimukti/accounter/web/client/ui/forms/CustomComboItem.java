@@ -1,18 +1,14 @@
 package com.vimukti.accounter.web.client.ui.forms;
 
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.user.client.ui.FocusWidget;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.forms.TextBoxItem.KeyPressListener;
@@ -26,17 +22,11 @@ public class CustomComboItem extends FormItem {
 
 	public TextBoxItem textBox;
 	private SimplePanel downarrowpanel;
-	private CustomFocusWidget customFocusWidget;
-	private ClickHandler clickHandler;
-	private KeyPressHandler keyPressHandler;
-	private KeyDownHandler keyDownHandler;
+	private Widget mainWidget;
 
-	// public BlurHandler blurHandler;
-
-	// TextBoxItem textBoxItem;
 	public CustomComboItem() {
 
-		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		FlowPanel panel = new FlowPanel();
 
 		textBox = new TextBoxItem() {
 			protected void onAttach() {
@@ -44,90 +34,25 @@ public class CustomComboItem extends FormItem {
 				CustomComboItem.this.onAttach();
 			};
 		};
-
-		horizontalPanel.add(textBox);
+		textBox.sinkEvents(0);
+		panel.add(textBox);
 		downarrowpanel = new SimplePanel();
+
 		downarrowpanel.addStyleName("downarrow-button");
-		horizontalPanel.add(downarrowpanel);
-		horizontalPanel.getWidget(0).getElement().getParentElement().getStyle()
-				.setPaddingLeft(0, Unit.PX);
-		// textBoxItem= new TextBoxItem();
-		// @Override
-		// public void sinkEvents(int eventBitsToAdd) {
-		// super.sinkEvents(Event.ONFOCUS);
-		// }
-		//
-		// @Override
-		// public void onBrowserEvent(Event event) {
-		// TextItem.this.showValidated();
-		// super.onBrowserEvent(event);
-		// }
-		// };
-
-		this.textBox.addBlurHandler(new BlurHandler() {
-
-			@Override
-			public void onBlur(BlurEvent event) {
-
-				CustomComboItem.this.showValidated();
-
-			}
-		});
-
-		customFocusWidget = new CustomFocusWidget(horizontalPanel.getElement());
-
 		ClickHandler clickHandler = new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if (textBox.isEnabled())
-					CustomComboItem.this.clickHandler.onClick(event);
+				textBox.setFocus(true);
 			}
 		};
+		addClickHandler(clickHandler);
+		downarrowpanel.addDomHandler(clickHandler, ClickEvent.getType());
+		panel.add(downarrowpanel);
 
-		customFocusWidget.addClickHandler(clickHandler);
-
-		KeyPressHandler keyPressHandler = new KeyPressHandler() {
-
-			@Override
-			public void onKeyPress(KeyPressEvent event) {
-				if (CustomComboItem.this.keyPressHandler != null)
-					CustomComboItem.this.keyPressHandler.onKeyPress(event);
-			}
-		};
-
-		customFocusWidget.addKeyPressHandler(keyPressHandler);
-
-		KeyDownHandler keyDownHandler = new KeyDownHandler() {
-
-			@Override
-			public void onKeyDown(KeyDownEvent event) {
-				if (CustomComboItem.this.keyDownHandler != null)
-					CustomComboItem.this.keyDownHandler.onKeyDown(event);
-			}
-		};
-
-		customFocusWidget.addKeyDownHandler(keyDownHandler);
-
-		// BlurHandler blurHandler = new BlurHandler() {
-		//
-		// @Override
-		// public void onBlur(BlurEvent event) {
-		// textBox.setFocus(true);
-		// }
-		// };
-		//
-		// customFocusWidget.addBlurHandler(blurHandler);
-
-		// if(!validate()){
-		// parent.setNumCols(3);
-		// addLabelWidget(parent);
-		// parent.add(getMainWidget(), columnSpan);
-		// Label label = new Label("Error");
-		// label.setStyleName("ErrorLabel");
-		// parent.add(label,1);
-		// }
-		// else{
+		panel.getWidget(0).getElement().getParentElement().getStyle()
+				.setPaddingLeft(0, Unit.PX);
+		mainWidget = panel;
 
 	}
 
@@ -174,19 +99,21 @@ public class CustomComboItem extends FormItem {
 	}
 
 	@Override
+	public void addFocusHandler(FocusHandler handler) {
+		textBox.addFocusHandler(handler);
+	}
+
+	@Override
 	public void addBlurHandler(BlurHandler blurHandler) {
 		textBox.addBlurHandler(blurHandler);
-		// this.blurHandler = blurHandler;
 	}
 
 	public void setKeyBoardHandler(KeyPressHandler keyPressHandler) {
 		textBox.addKeyPressHandler(keyPressHandler);
-		this.keyPressHandler = keyPressHandler;
 	}
 
 	public void setKeyDownHandler(KeyDownHandler keyDownHandler) {
 		textBox.addKeyDownHandler(keyDownHandler);
-		this.keyDownHandler = keyDownHandler;
 	}
 
 	@Override
@@ -196,8 +123,7 @@ public class CustomComboItem extends FormItem {
 
 	@Override
 	public void addClickHandler(ClickHandler handler) {
-		// textBox.addClickHandler(handler);
-		this.clickHandler = handler;
+		textBox.addClickHandler(handler);
 	}
 
 	public void setDefaultValue(int i) {
@@ -218,13 +144,9 @@ public class CustomComboItem extends FormItem {
 
 	}
 
-	private void setBorder() {
-
-	}
-
 	@Override
 	public Widget getMainWidget() {
-		return customFocusWidget;
+		return mainWidget;
 	}
 
 	@Override
@@ -245,21 +167,4 @@ public class CustomComboItem extends FormItem {
 	public void removeStyleName(String style) {
 		textBox.removeStyleName(style);
 	}
-
-	public class CustomFocusWidget extends FocusWidget {
-		public CustomFocusWidget() {
-			super();
-		}
-
-		public CustomFocusWidget(Element element) {
-			super(element);
-		}
-
-		@Override
-		protected void onAttach() {
-			super.onAttach();
-			textBox.setFocus(true);
-		}
-	}
-
 }
