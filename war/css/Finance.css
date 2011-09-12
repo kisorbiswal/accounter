@@ -820,10 +820,13 @@ td.td01,.no-title .biz-decor-panel td.td01,.viewTitle,.blue-month-line,.blue-wee
 	background: url("/images/Drop-down-button_20x22.png") no-repeat scroll 0
 		0 transparent !important;
 	margin-left: -22px;
-	margin-left: -23px\0  !important;
+	margin-left: -23px\0;
 	width: 22px;
 	z-index: 1;
 	margin-top:1px;
+}
+.editTable .downarrow-button{
+	margin-left: -25px\0 !important;
 }
 .gwt-MenuBar-vertical .gwt-MenuItemSeparator .menuSeparatorInner {
 	background: url("/images/Menu list seperator.png") repeat scroll 0 0
@@ -1615,7 +1618,7 @@ a#fdbk_tab{
 .editTable .editheader td{
     padding: 5px;
 }
-.editTable{
+* html .editTable,.editTable{
 	min-height:200px;
 }
 .editTable .editheader td{
