@@ -481,7 +481,7 @@ public class MacMenuServlet extends BaseServlet {
 					.newCustomer(iGlobal.Customer()), "C",
 					"company/accounter#newCustomer");
 			subMenu(newValue, iGlobal.constants().newItem(),
-					"company/accounter#newCustomerItem");
+					"company/accounter#newItem");
 			if (preferences.isDoyouwantEstimates()) {
 				subMenu(newValue, iGlobal.constants().newQuote(),
 						"company/accounter#newQuote");
