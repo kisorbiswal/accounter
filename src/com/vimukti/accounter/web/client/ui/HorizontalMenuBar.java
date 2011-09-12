@@ -660,8 +660,19 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		if (getPreferences().isSalesOrderEnabled()) {
 			salesMenuBar.addItem(ActionFactory.getSalesOpenOrderAction());
 		}
-		salesMenuBar.addItem(ActionFactory.getSalesByLocationDetailsAction());
-		salesMenuBar.addItem(ActionFactory.getSalesByLocationSummaryAction());
+		if (Accounter.getCompany().getPreferences().isLocationTrackingEnabled()) {
+			salesMenuBar.addItem(ActionFactory
+					.getSalesByLocationDetailsAction(true));
+			salesMenuBar.addItem(ActionFactory
+					.getSalesByLocationSummaryAction(true));
+		}
+
+		if (Accounter.getCompany().getPreferences().isClassTrackingEnabled()) {
+			salesMenuBar.addItem(ActionFactory
+					.getSalesByLocationDetailsAction(false));
+			salesMenuBar.addItem(ActionFactory
+					.getSalesByLocationSummaryAction(false));
+		}
 		return salesMenuBar;
 	}
 
@@ -708,7 +719,10 @@ public class HorizontalMenuBar extends HorizontalPanel {
 					.getTransactionDetailByTaxItemAction());
 		if (Accounter.getCompany().getPreferences().isLocationTrackingEnabled())
 			companyAndFinancialMenuBar.addItem(ActionFactory
-					.getProfitAndLossByLocationAction());
+					.getProfitAndLossByLocationAction(true));
+		if (Accounter.getCompany().getPreferences().isClassTrackingEnabled())
+			companyAndFinancialMenuBar.addItem(ActionFactory
+					.getProfitAndLossByLocationAction(false));
 		return companyAndFinancialMenuBar;
 	}
 
