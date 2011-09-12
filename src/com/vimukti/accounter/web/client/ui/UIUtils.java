@@ -1973,7 +1973,7 @@ public class UIUtils {
 	}
 
 	public static native void exportReport(int start, int end, int reportType,
-			String name, String dateRangeHtmal, long vendorId, int boxNum)/*-{
+			String name, String dateRangeHtmal, String vendorId, int boxNum)/*-{
 		try {
 			var frame = document.createElement("IFRAME");
 			frame.setAttribute("src",
