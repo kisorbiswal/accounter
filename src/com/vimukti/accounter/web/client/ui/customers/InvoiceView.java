@@ -260,6 +260,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		 * }
 		 */
 
+		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 		customerCombo = createCustomerComboItem(Accounter.messages()
 				.customerName(Global.get().Customer()));
 		customerCombo.setHelpInformation(true);
@@ -1080,7 +1081,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			List<ClientAddress> addresses = new ArrayList<ClientAddress>();
 			if (getCustomer() != null)
 				addresses.addAll(getCustomer().getAddress());
-			allAddresses = new LinkedHashMap<Integer, ClientAddress>();
+		
 			Iterator<ClientAddress> it = addresses.iterator();
 			while (it.hasNext()) {
 				ClientAddress add = (ClientAddress) it.next();

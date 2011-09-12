@@ -632,6 +632,9 @@ public class PurchaseOrderView extends
 
 			ClientCompany company = getCompany();
 
+			vendorTransactionTable
+					.setRecords(transaction.getTransactionItems());
+
 			// String status;
 			// if (purchaseOrderToBeEdited.getStatus() ==
 			// ClientPurchaseOrder.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
