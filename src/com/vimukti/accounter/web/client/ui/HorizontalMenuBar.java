@@ -27,6 +27,8 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		AccounterDOM.addStyleToparent(menuBar.getElement(), Accounter
 				.constants().menuBarParent());
 	}
+	
+	
 
 	private MenuBar getMenuBar() {
 		MenuBar menuBar = new MenuBar();

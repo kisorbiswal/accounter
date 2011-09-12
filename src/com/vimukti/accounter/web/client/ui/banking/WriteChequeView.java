@@ -153,6 +153,7 @@ public class WriteChequeView extends
 
 	protected void updateAddressAndGrid() {
 		// Set<Address> add = null;
+
 		if (payee instanceof ClientCustomer) {
 			selectedCustomer = (ClientCustomer) payee;
 			addressList = selectedCustomer.getAddress();
@@ -312,18 +313,44 @@ public class WriteChequeView extends
 		if (payees != null) {
 
 			paytoSelect.initCombo(payees);
-			if (isInViewMode()) {
-				selectedTaxAgency = company.getTaxAgency(transaction
-						.getTaxAgency());
-				if (selectedTaxAgency != null) {
-					// paytoSelect.setPayee((Payee) selectedTaxAgency);
-					paytoSelect.setComboItem(selectedTaxAgency);
-				}
 
+			if (isInViewMode()) {
+				ClientCustomer customer = null;
+				if (transaction.getPayToType() == ClientPayee.TYPE_CUSTOMER) {
+					customer = getCompany().getCustomer(
+							transaction.getCustomer());
+					payee = customer;
+					transactionCustomerTable.setRecords(transaction
+							.getTransactionItems());
+					paytoSelect.setComboItem(customer);
+				} else if (transaction.getPayToType() == ClientPayee.TYPE_VENDOR) {
+					ClientVendor vendor2 = getCompany().getVendor(
+							transaction.getVendor());
+					payee = vendor2;
+					transactionVendorTable.setRecords(transaction
+							.getTransactionItems());
+					paytoSelect.setComboItem(vendor2);
+				} else if (transaction.getPayToType() == ClientPayee.TYPE_TAX_AGENCY) {
+					ClientTAXAgency taxAgency = getCompany().getTaxAgency(
+							transaction.getTaxAgency());
+					paytoSelect.setComboItem(taxAgency);
+				}
 				paytoSelect.setDisabled(isInViewMode());
-				paytoSelect.setDisabled(false);
 				return;
 			}
+
+			// if (isInViewMode()) {
+			// selectedTaxAgency = company.getTaxAgency(transaction
+			// .getTaxAgency());
+			// if (selectedTaxAgency != null) {
+			// // paytoSelect.setPayee((Payee) selectedTaxAgency);
+			// paytoSelect.setComboItem(selectedTaxAgency);
+			// }
+			//
+			// paytoSelect.setDisabled(isInViewMode());
+			// // paytoSelect.setDisabled(false);
+			// return;
+			// }
 			newPayToMethod();
 		}
 	}
@@ -1402,8 +1429,10 @@ public class WriteChequeView extends
 		}
 		initTransactionNumber();
 		initPayToCombo();
+
 		setDisableFields();
 		initBankaccountCombo();
+		updateAddressAndGrid();
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
@@ -1412,11 +1441,11 @@ public class WriteChequeView extends
 	@Override
 	public List<ClientTransactionItem> getAllTransactionItems() {
 		if (ClientWriteCheck.TYPE_CUSTOMER == transaction.getPayToType()) {
-			transactionCustomerTable.getAllRows();
+			return transactionCustomerTable.getAllRows();
 		} else {
-			transactionVendorTable.getAllRows();
+			return transactionVendorTable.getAllRows();
 		}
-		return null;
+
 	}
 
 	@Override
