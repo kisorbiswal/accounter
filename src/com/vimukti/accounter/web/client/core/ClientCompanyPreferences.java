@@ -1106,7 +1106,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	 * @return the tradingAddress
 	 */
 	public ClientAddress getTradingAddress() {
-		return tradingAddress;
+		return this.tradingAddress;
 	}
 
 	/**

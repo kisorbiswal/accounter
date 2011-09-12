@@ -1093,7 +1093,7 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	public void setWebSite(String stringValue) {
-		this.setWebSite(stringValue);
+		 this.preferences.setWebSite(stringValue);
 	}
 
 	public void setIndustry(int typeBasic) {
