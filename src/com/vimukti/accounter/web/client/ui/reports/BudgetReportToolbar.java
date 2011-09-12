@@ -64,7 +64,8 @@ public class BudgetReportToolbar extends ReportToolbar implements
 
 	@Override
 	public void setDefaultDateRange(String defaultDateRange) {
-		// TODO Auto-generated method stub
+
+		dateRangeChanged(defaultDateRange);
 
 	}
 
@@ -87,7 +88,7 @@ public class BudgetReportToolbar extends ReportToolbar implements
 			statusList.add(str);
 		}
 		if (budgetArray.size() < 1) {
-			statusList.add(Accounter.constants().emptyValue());
+			statusList.add("");
 		}
 		budgetCombo.initCombo(statusList);
 		budgetCombo.setSelected(statusList.get(0));
@@ -107,7 +108,7 @@ public class BudgetReportToolbar extends ReportToolbar implements
 			dateRangeList.add(dateRangeArray[i]);
 		}
 		budgetMonth.initCombo(dateRangeList);
-		budgetMonth.setDefaultValue(dateRangeArray[0]);
+		budgetMonth.setSelectedItem(0);
 		budgetMonth
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -238,5 +239,13 @@ public class BudgetReportToolbar extends ReportToolbar implements
 			idArray.add(budget.getID());
 		}
 		createControls();
+
+		if (idArray.size() > 0) {
+			isStatus = idArray.get(0);
+			setStartDate(fromItem.getDate());
+			setEndDate(toItem.getDate());
+			monthSelected = 1;
+			changeDates(fromItem.getDate(), toItem.getDate());
+		}
 	}
 }
