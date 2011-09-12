@@ -32,8 +32,8 @@ import com.vimukti.accounter.web.client.ui.grids.DialogGrid.GridRecordClickHandl
 
 public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 
-	protected DialogGrid availTaxItemsGrid;
-	protected DialogGrid selectTaxItemsGrid;
+	protected DialogGrid<ClientTAXItem> availTaxItemsGrid;
+	protected DialogGrid<ClientTAXItem> selectTaxItemsGrid;
 	protected Button addButton, removeButton;
 	ClientTAXGroup taxGroup;
 
@@ -250,7 +250,12 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 		});
 		removeButton.setEnabled(false);
 
-		availTaxItemsGrid = new DialogGrid(false);
+		availTaxItemsGrid = new DialogGrid<ClientTAXItem>(false) {
+			@Override
+			protected Object getColumnValue(ClientTAXItem obj, int index) {
+				return getAvailTaxItemsGridColumnValue(obj, index);
+			}
+		};
 		// availTaxCodesGrid.setCellsWidth(cellsWidth)
 
 		availTaxItemsGrid.setName(Accounter.constants().available());
@@ -259,10 +264,10 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 		availTaxItemsGrid.setView(SalesTaxGroupDialog.this);
 		// getAvailableRecords();
 		availTaxItemsGrid
-				.addRecordClickHandler(new GridRecordClickHandler<ClientTAXGroup>() {
+				.addRecordClickHandler(new GridRecordClickHandler<ClientTAXItem>() {
 
 					@Override
-					public boolean onRecordClick(ClientTAXGroup core, int column) {
+					public boolean onRecordClick(ClientTAXItem core, int column) {
 						addButton.setEnabled(true);
 						return true;
 					}
@@ -283,7 +288,12 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 		// Selected Tax Codes Layout
 		// DynamicForm selectForm = new DynamicForm();
 
-		selectTaxItemsGrid = new DialogGrid(false);
+		selectTaxItemsGrid = new DialogGrid<ClientTAXItem>(false) {
+			@Override
+			protected Object getColumnValue(ClientTAXItem obj, int index) {
+				return getAvailTaxItemsGridColumnValue(obj, index);
+			}
+		};
 		selectTaxItemsGrid.setName(Accounter.constants().selected());
 		setSelectedTaxItemsGridFields();
 		setSelectedTCGridCellWidths();
@@ -291,10 +301,10 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 		if (taxGroup != null)
 			getTaxItemsForTaxGroup(taxGroup);
 		selectTaxItemsGrid
-				.addRecordClickHandler(new GridRecordClickHandler<ClientTAXGroup>() {
+				.addRecordClickHandler(new GridRecordClickHandler<ClientTAXItem>() {
 
 					@Override
-					public boolean onRecordClick(ClientTAXGroup core, int column) {
+					public boolean onRecordClick(ClientTAXItem core, int column) {
 						removeButton.setEnabled(true);
 						return true;
 					}
@@ -428,10 +438,9 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 
 	private List<ClientTAXItem> getSelectedTaxItems(ClientTAXGroup taxGroup) {
 		List<ClientTAXItem> taxItems = new ArrayList<ClientTAXItem>();
-		List<IsSerializable> records = selectTaxItemsGrid.getRecords();
+		List<ClientTAXItem> records = selectTaxItemsGrid.getRecords();
 		ClientTAXItem item;
-		for (IsSerializable rec : records) {
-			ClientTAXItem clientTaxItem = (ClientTAXItem) rec;
+		for (ClientTAXItem clientTaxItem : records) {
 			item = getTaxItemByName(clientTaxItem.getName());
 			if (item != null) {
 				taxItems.add(item);

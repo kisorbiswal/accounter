@@ -144,11 +144,10 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 
 	private List<ClientTAXItem> getSelectedTaxItems(ClientTAXGroup taxGroup) {
 		List<ClientTAXItem> taxItems = new ArrayList<ClientTAXItem>();
-		List<IsSerializable> records = salesTaxGroupDialog.selectTaxItemsGrid
+		List<ClientTAXItem> records = salesTaxGroupDialog.selectTaxItemsGrid
 				.getRecords();
 		ClientTAXItem item;
-		for (IsSerializable rec : records) {
-			ClientTAXItem clientTaxItem = (ClientTAXItem) rec;
+		for (ClientTAXItem clientTaxItem : records) {
 			item = getTaxItemByName(clientTaxItem.getName());
 			if (item != null) {
 				taxItems.add(item);
