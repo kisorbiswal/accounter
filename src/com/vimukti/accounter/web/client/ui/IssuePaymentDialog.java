@@ -360,7 +360,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		// .createdSuccessfully());
 		IssuePaymentDialog.this.removeFromParent();
 		super.saveSuccess(object);
-		ActionFactory.getExpensesAction(null).run(null, true);
+		// ActionFactory.getExpensesAction(null).run(null, true);
 	}
 
 	public void saveFailed(AccounterException exception) {
@@ -487,8 +487,8 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		if (!selectedpaymentMethod.isEmpty()) {
 			checkNoText = new TextItem(
 					getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-							.constants().startingCheckNo()
-							: Accounter.constants().startingChequeNo());
+							.constants().startingCheckNo() : Accounter
+							.constants().startingChequeNo());
 			checkNoText.setHelpInformation(true);
 			checkNoText.setWidth(100);
 			// checkNoText.setRequired(true);
