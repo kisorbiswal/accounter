@@ -1274,7 +1274,8 @@ public class Account extends CreatableObject implements IAccounterServerCore {
 					}
 				}
 				throw new AccounterException(
-						AccounterException.ERROR_NUMBER_CONFLICT);
+						AccounterException.ERROR_NUMBER_CONFLICT,
+						"number conflict");
 				// "An Account already exists with this number");
 			}
 		}
