@@ -106,7 +106,7 @@ public class ViewManager extends HorizontalPanel {
 			if (isPanelEnabled()) {
 				this.add(helpPanel);
 			} else {
-				createHelpDialog();
+				helpPanel.setIsRemoved(true);
 			}
 			this.setCellWidth(helpPanel, "50%");
 		}
@@ -505,6 +505,7 @@ public class ViewManager extends HorizontalPanel {
 			helpPanel = (HelpPanel) createHelpPanel();
 			if (helpPanel != null) {
 				this.add(helpPanel);
+				this.setCellWidth(helpPanel, "50%");
 			} else {
 				this.add(prevhelpPanel);
 			}
@@ -561,13 +562,26 @@ public class ViewManager extends HorizontalPanel {
 
 		if (helpPanel == null) {
 			createHelpPanel();
-			this.add(helpPanel);
+			if (isPanelEnabled()) {
+				this.add(helpPanel);
+				this.setCellWidth(helpPanel, "50%");
+			} else {
+				helpPanel.setIsRemoved(false);
+				helpPanel.setButtonDisabled(false);
+				helpPanel.setButtonPushed(true);
+				createHelpDialog();
+			}
 		}
 
 		if (helpPanel.isRemoved()) {
-			this.add(helpPanel);
-			helpPanel.setIsHelpPanel(true);
-			helpPanel.setIsRemoved(false);
+			if (isPanelEnabled()) {
+				this.add(helpPanel);
+				this.setCellWidth(helpPanel, "50%");
+				helpPanel.setIsHelpPanel(true);
+				helpPanel.setIsRemoved(false);
+			} else {
+				helpPanel.setIsRemoved(true);
+			}
 		}
 
 		url = helpTopic;
@@ -584,7 +598,10 @@ public class ViewManager extends HorizontalPanel {
 			helpPanel = (HelpPanel) createHelpPanel();
 			if (isPanelEnabled()) {
 				this.add(helpPanel);
+				this.setCellWidth(helpPanel, "50%");
 			} else {
+				helpPanel.setButtonDisabled(false);
+				helpPanel.setButtonPushed(true);
 				createHelpDialog();
 			}
 			return;
@@ -599,8 +616,11 @@ public class ViewManager extends HorizontalPanel {
 		if (helpPanel.isRemoved()) {
 			if (isPanelEnabled()) {
 				this.add(helpPanel);
+				this.setCellWidth(helpPanel, "50%");
 				helpPanel.setIsHelpPanel(true);
 			} else {
+				helpPanel.setButtonDisabled(false);
+				helpPanel.setButtonPushed(true);
 				createHelpDialog();
 			}
 			helpPanel.setIsRemoved(false);
