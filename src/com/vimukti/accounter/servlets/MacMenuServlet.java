@@ -622,7 +622,7 @@ public class MacMenuServlet extends BaseServlet {
 					"company/accounter#customerGroupList");
 			subMenu(manageSupportLists,
 					iGlobal.messages().vendorGroupList(iGlobal.vendor()),
-					"company/accounter#supplierGroupList");
+					"company/accounter#vendorGroupList");
 			subMenu(manageSupportLists, iGlobal.constants().paymentTermList(),
 					"company/accounter#paymentTerms");
 			subMenu(manageSupportLists, iGlobal.constants()
