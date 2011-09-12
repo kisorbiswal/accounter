@@ -124,10 +124,11 @@ public abstract class AbstractFinaneReport<R> extends
 		try {
 			if (result != null && result.size() > 0) {
 				// removeAllRows();
-				setFromAndToDate(result);
 				initRecords(result);
+				setFromAndToDate(result);
 
 			} else {
+				initGrid();
 				removeAllRows();
 				if (result != null && result.size() == 1)
 					setFromAndToDate(result);
