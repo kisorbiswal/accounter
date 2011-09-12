@@ -565,6 +565,7 @@
 		<property name="middleName2" column="MIDDLE_NAME2"></property>
 		<property name="middleName3" column="MIDDLE_NAME3"></property>
 		<property name="lastName" column="LAST_NAME"></property>
+		<property name="version" column="VERSION"></property>
 		<property name="suffix" column="SUFFIX"></property>
 		<property name="jobTitle" column="JOB_TITLE"></property>
 		<many-to-one name="expenseAccount" class="Account"
