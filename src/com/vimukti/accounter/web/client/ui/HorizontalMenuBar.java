@@ -1056,10 +1056,11 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			companyMenuBar.addSeparator();
 		}
 
-		companyMenuBar.addItem(
-				Accounter.messages().mergeAccounts(Global.get().Account()),
-				getMergeSubMenu());
-		companyMenuBar.addSeparator();
+		// FIXME > Need Complete merging functionality
+		// companyMenuBar.addItem(
+		// Accounter.messages().mergeAccounts(Global.get().Account()),
+		// getMergeSubMenu());
+		// companyMenuBar.addSeparator();
 		companyMenuBar.addItem(Accounter.constants().companyLists(),
 				getCompanyListMenu());
 
