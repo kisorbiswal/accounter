@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
@@ -30,21 +31,30 @@ public class ProfitAndLossByLocationServerReport extends
 	protected Double otherNetIncome = 0.0D;
 
 	private double rowTotal = 0;
+	private boolean isLocation;
 	public static ArrayList<ClientLocation> locations = null;
 	public static int noColumns = 0;
+	public static ArrayList<ClientAccounterClass> classes = null;
 
 	public ProfitAndLossByLocationServerReport(
-			IFinanceReport<ProfitAndLossByLocation> profitAndLossByLocationReport) {
+			IFinanceReport<ProfitAndLossByLocation> profitAndLossByLocationReport,
+			boolean isLocation) {
 		this.reportView = profitAndLossByLocationReport;
-
+		this.isLocation = isLocation;
 	}
 
 	@Override
 	public String[] getDynamicHeaders() {
 		String[] headers = new String[noColumns];
 		headers[0] = "Category Number  ";
-		for (int i = 0; i < locations.size(); i++) {
-			headers[i + 1] = locations.get(i).getLocationName();
+		if (isLocation) {
+			for (int i = 0; i < locations.size(); i++) {
+				headers[i + 1] = locations.get(i).getLocationName();
+			}
+		} else {
+			for (int i = 0; i < classes.size(); i++) {
+				headers[i + 1] = classes.get(i).getClassName();
+			}
 		}
 		headers[noColumns - 1] = "Total";
 		return headers;
@@ -52,6 +62,9 @@ public class ProfitAndLossByLocationServerReport extends
 
 	@Override
 	public String getTitle() {
+		if (!isLocation) {
+			return getConstants().profitAndLossbyClass();
+		}
 		return getConstants().profitAndLoss() + "  By  "
 				+ Accounter.messages().location(Global.get().Location());
 	}
@@ -60,8 +73,14 @@ public class ProfitAndLossByLocationServerReport extends
 	public String[] getColunms() {
 		String[] headers = new String[noColumns];
 		headers[0] = "Category Number ";
-		for (int i = 0; i < locations.size(); i++) {
-			headers[i + 1] = locations.get(i).getLocationName();
+		if (isLocation) {
+			for (int i = 0; i < locations.size(); i++) {
+				headers[i + 1] = locations.get(i).getLocationName();
+			}
+		} else {
+			for (int i = 0; i < classes.size(); i++) {
+				headers[i + 1] = classes.get(i).getClassName();
+			}
 		}
 		headers[noColumns - 1] = "Total";
 		return headers;
@@ -101,19 +120,6 @@ public class ProfitAndLossByLocationServerReport extends
 	@Override
 	public int getColumnWidth(int index) {
 		return -1;
-		// switch (index) {
-		// case 0:
-		// return 150;
-		// case 2:
-		// return 135;
-		// case 3:
-		// return 95;
-		// case 4:
-		// return 135;
-		// case 5:
-		// return 90;
-		// }
-
 	}
 
 	public String getAccountNameById(long id) {
@@ -218,7 +224,13 @@ public class ProfitAndLossByLocationServerReport extends
 		} else if (columnIndex == noColumns - 1) {
 			return rowTotal;
 		} else {
-			long location_id = locations.get(columnIndex - 1).getID();
+			long location_id = 0;
+			if (isLocation) {
+				location_id = locations.get(columnIndex - 1).getID();
+			} else {
+				location_id = classes.get(columnIndex - 1).getID();
+			}
+
 			Map<Long, Double> map = record.getMap();
 			Double value = map.get(location_id);
 			if (value != null) {
