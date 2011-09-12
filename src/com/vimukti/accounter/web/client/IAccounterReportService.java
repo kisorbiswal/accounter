@@ -150,11 +150,13 @@ public interface IAccounterReportService extends RemoteService {
 	public ArrayList<TrialBalance> getProfitAndLossReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public ArrayList<ProfitAndLossByLocation> getProfitAndLossByLocationReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
+	ArrayList<ProfitAndLossByLocation> getProfitAndLossByLocationReport(
+			boolean isLocation, ClientFinanceDate startDate,
+			ClientFinanceDate endDate);
 
-	public ArrayList<SalesByLocationDetails> getSalesByLocationDetailsReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
+	ArrayList<SalesByLocationDetails> getSalesByLocationDetailsReport(
+			boolean isLocation, ClientFinanceDate startDate,
+			ClientFinanceDate endDate);
 
 	public ArrayList<TrialBalance> getCashFlowReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
@@ -253,12 +255,13 @@ public interface IAccounterReportService extends RemoteService {
 	ArrayList<PayeeStatementsList> getCustomerStatement(long customer,
 			long fromDate, long toDate) throws AccounterException;
 
-	public ArrayList<SalesByLocationSummary> getSalesByLocationSummaryReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public ArrayList<SalesByLocationDetails> getSalesByLocationDetailsForLocation(
-			String locationName, ClientFinanceDate startDate,
+	ArrayList<SalesByLocationSummary> getSalesByLocationSummaryReport(
+			boolean isLocation, ClientFinanceDate startDate,
 			ClientFinanceDate endDate);
+
+	ArrayList<SalesByLocationDetails> getSalesByLocationDetailsForLocation(
+			boolean isLocation, String locationName,
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	public ArrayList<MISC1099TransactionDetail> getMISC1099TransactionDetailReport(
 			long vendorId, int boxNo, ClientFinanceDate fromDate,

@@ -171,20 +171,20 @@ public interface IAccounterReportServiceAsync {
 			ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<TrialBalance>> callBack);
 
-	public void getProfitAndLossByLocationReport(ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
+	public void getProfitAndLossByLocationReport(boolean isLocation,
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<ProfitAndLossByLocation>> callBack);
 
-	public void getSalesByLocationDetailsReport(ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<SalesByLocationDetails>> callBack);
-
-	public void getSalesByLocationDetailsForLocation(String locationName,
+	public void getSalesByLocationDetailsReport(boolean isLocation,
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<SalesByLocationDetails>> callBack);
 
-	public void getSalesByLocationSummaryReport(ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
+	public void getSalesByLocationDetailsForLocation(boolean isLocation, String locationName,
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			AsyncCallback<ArrayList<SalesByLocationDetails>> callBack);
+
+	public void getSalesByLocationSummaryReport(boolean isLocation,
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<SalesByLocationSummary>> callBack);
 
 	public void getCashFlowReport(ClientFinanceDate startDate,
@@ -321,5 +321,4 @@ public interface IAccounterReportServiceAsync {
 	public void getBudgetItemsList(long id, ClientFinanceDate startDate,
 			ClientFinanceDate endDate, int month,
 			AsyncCallback<ArrayList<ClientBudgetList>> callback);
-
 }
