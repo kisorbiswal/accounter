@@ -28,7 +28,7 @@ public class AccounterWarningType {
 	public static final String distributePaymentToOutstandingInvoices = "Do you want to distribute this payment to the outstanding invoices";
 	public static final String recievePayment = "The full payment has not been applied to the invoices. Are you sure want to save this payment?";
 	public static final String total_Exceeds_BankBalance = "The total amount exceeds the bank balance. Do you want to continue";
-	public static final String transferFromAccount = "The selected transfer from Finance Category contains insufficient funds to support this transaction. Do you want to comtiue? ";
+	public static final String transferFromAccount = "The selected transfer from Finance Category contains insufficient funds to support this transaction. Do you want to contiue? ";
 	public static final String INVALID_CUSTOMERREFUND_AMOUNT = "The total Amount exceeds the bank balance.Do you want to continue ";
 	public static final String RECORDSEMPTY = "No Records to show";
 	public static final String NOT_YET_IMPLEMENTED = "Not yet implemeted...";
@@ -39,4 +39,5 @@ public class AccounterWarningType {
 	public static final String prior_CustomerSinceDate = "Customer Since date is prior to the company start date. Do you want to continue?";
 	public static final String PAYSALESTAX_EDITING = "Editing this Pay Sales Tax will void this transaction and create a new Pay Sales Tax. Do you want to continue?";
 	public static final String PAYVAT_EDITING = "Editing this Pay VAT will void this transaction and create a new Pay VAT. Do you want to continue?";
+	public static final String EMPTY_CLASS = "You did n't selected class for this transaction.Do you want to continue?";
 }
