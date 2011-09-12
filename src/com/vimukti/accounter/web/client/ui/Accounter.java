@@ -175,6 +175,17 @@ public class Accounter implements EntryPoint {
 	private static void initGUI() {
 		mainWindow = new MainFinanceWindow();
 		RootPanel.get("mainWindow").add(mainWindow);
+		}
+
+	public static void reset()
+	{
+		mainWindow.removeFromParent();
+		initGUI();
+	}
+	
+	public static MainFinanceWindow getMainFinanceWindow()
+	{
+		return mainWindow;
 	}
 
 	public static IAccounterCompanyInitializationServiceAsync createCompanyInitializationService() {

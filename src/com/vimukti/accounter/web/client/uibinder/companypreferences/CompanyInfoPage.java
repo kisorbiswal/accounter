@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.company.PreferencePage;
 import com.vimukti.accounter.web.client.ui.company.options.AbstractPreferenceOption;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
@@ -132,7 +133,8 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 				company.setPreferences(companyPreferences);
 				Accounter.setCompany(company);
 				Accounter.updateCompany(CompanyInfoPage.this, company);
-				Window.Location.reload();
+				Accounter.reset();
+			
 			}
 		});
 	}
@@ -434,7 +436,7 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
