@@ -533,8 +533,8 @@ public class HorizontalMenuBar extends HorizontalPanel {
 				getVendorAndPayablesMenu());
 		reportMenuBar.addItem(Accounter.constants().purchase(),
 				getPurchaseMenu());
-		reportMenuBar.addItem(Accounter.constants().budget() + " "
-				+ Accounter.constants().report(), getBudgetSubMenus());
+		// reportMenuBar.addItem(Accounter.constants().budget() + " "
+		// + Accounter.constants().report(), getBudgetSubMenus());
 		// if (Accounter.getCompany().getAccountingType() ==
 		// ClientCompany.ACCOUNTING_TYPE_US) {
 		// reportMenuBar.addItem(Accounter.constants()
@@ -1039,8 +1039,8 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			companyMenuBar.addItem(ActionFactory.getPreferencesAction());
 			companyMenuBar.addSeparator();
 		}
-		companyMenuBar.addItem(ActionFactory.getBudgetActions());
-		companyMenuBar.addSeparator();
+		// companyMenuBar.addItem(ActionFactory.getBudgetActions());
+		// companyMenuBar.addSeparator();
 
 		if (getPreferences().isChargeSalesTax()) {
 			companyMenuBar.addItem(Accounter.constants().itemTax(),
