@@ -871,7 +871,7 @@ public class ItemView extends BaseView<ClientItem> {
 		// valid income accont and valid expense account?
 
 		String name = nameText.getValue().toString();
-		if (!isInViewMode()) {
+		if (isInViewMode()) {
 			ClientItem clientItem = company.getItemByName(name);
 			if (clientItem != null) {
 				result.addError(nameText, Accounter.constants()
