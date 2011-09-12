@@ -586,8 +586,6 @@ public class FinanceTool {
 		// .get(0);
 		String userID = context.getUserEmail();
 		User user1 = getCompany().getUserByUserEmail(userID);
-		Activity activity = new Activity(user1, ActivityType.DELETE,
-				serverObject);
 		if (serverObject == null) {
 			throw new AccounterException(
 					AccounterException.ERROR_ILLEGAL_ARGUMENT);
@@ -610,6 +608,8 @@ public class FinanceTool {
 						AccounterException.ERROR_OBJECT_IN_USE);
 			}
 		}
+		Activity activity = new Activity(user1, ActivityType.DELETE,
+				serverObject);
 		session.save(activity);
 		try {
 			hibernateTransaction.commit();
