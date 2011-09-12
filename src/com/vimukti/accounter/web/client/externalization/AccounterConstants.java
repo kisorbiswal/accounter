@@ -4770,4 +4770,8 @@ public interface AccounterConstants extends Constants {
 
 	public String getDefaultAccountingMethodForSummary();
 
+	public String getDefaultDisplayAndPrintSettings();
+
+	public String getTurnOnTextWrappinginReportColumns();
+
 }
