@@ -15,24 +15,19 @@ public abstract class TransactionItemNameColumn extends
 	AccountDropDownTable accountsList = new AccountDropDownTable(
 			getAccountsFilter());
 
-	ItensDropDownTable itemsList = new ItensDropDownTable(
-			new ListFilter<ClientItem>() {
-
-				@Override
-				public boolean filter(ClientItem e) {
-					return true;
-				}
-			});
+	ItensDropDownTable itemsList = new ItensDropDownTable(getItemsFilter());
 
 	@Override
 	protected IAccountable getValue(ClientTransactionItem row) {
 		return row.getAccountable();
 	}
 
+	public abstract ListFilter<ClientItem> getItemsFilter();
+
 	public abstract ListFilter<ClientAccount> getAccountsFilter();
 
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public AbstractDropDownTable getDisplayTable(ClientTransactionItem row) {
 		switch (row.getType()) {
 		case ClientTransactionItem.TYPE_ACCOUNT:
