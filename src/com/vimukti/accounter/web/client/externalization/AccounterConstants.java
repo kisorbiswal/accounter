@@ -4712,8 +4712,28 @@ public interface AccounterConstants extends Constants {
 
 	public String employerIdentificationNumber();
 
+	public String firstMonthofIncomeTaxyear();
+
+	public String firstMonthofmyfiscalyear();
+
+	public String showAccounterNumbers();
+
+	public String Accounnumbers();
+
 	public String terminology();
-	
+
+	public String OneOwener();
+
+	public String twoOrMoreOwners();
+
+	public String oneormoreshareholders();
+
+	public String otherorNone();
+
+	public String taxform();
+
+	public String taxFormGroup();
+
 	public String salesByClassDetail();
 
 	public String salesByClassSummary();
