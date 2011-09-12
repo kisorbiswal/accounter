@@ -189,6 +189,8 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	protected void showPopup() {
 		if (DropDownCombo.this.getDisabled())
 			return;
+		if(!isAddNewRequire && comboItems.isEmpty())
+			return;
 		dropDown.getRowElement(0).getStyle().setHeight(15, Unit.PX);
 		int x = getMainWidget().getAbsoluteLeft();
 		int y = getMainWidget().getAbsoluteTop() + 27;
