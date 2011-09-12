@@ -197,6 +197,24 @@
 			<property name="fax" column="FAX"></property>
 			<property name="webSite" column="WEBSITE"></property>
 
+			<component name="tradingAddress" class="Address" lazy="false">
+				<property name="type" column="TRADING_ADDRESS_TYPE"></property>
+				<property name="address1" column="TRADING_ADDRESS1"
+					not-null="true" length="100"></property>
+				<property name="street" column="TRADING_STREET" not-null="true"
+					length="100"></property>
+				<property name="city" column="TRADING_CITY" not-null="true"
+					length="100"></property>
+				<property name="stateOrProvinence" column="TRADING_STATE"
+					not-null="true" length="100"></property>
+				<property name="zipOrPostalCode" column="TRADING_ZIP"
+					not-null="true" length="100"></property>
+				<property name="countryOrRegion" column="TRADING_COUNTRY"
+					not-null="true" length="100"></property>
+				<property name="isSelected" column="TRADING_IS_SELECTED"
+					not-null="true"></property>
+			</component>
+
 			<!-- Company Preferences -->
 			<property name="logSpaceUsed" column="CP_LOG_SPACE_USED"
 				not-null="true"></property>
@@ -309,7 +327,7 @@
 
 		<property name="registrationNumber" column="REGISTRATION_NUMBER"></property>
 
-		<component name="tradingAddress" class="Address" lazy="false">
+		<!-- <component name="tradingAddress" class="Address" lazy="false">
 			<property name="type" column="TRADING_ADDRESS_TYPE"></property>
 			<property name="address1" column="TRADING_ADDRESS1"
 				not-null="true" length="100"></property>
@@ -325,7 +343,7 @@
 				not-null="true" length="100"></property>
 			<property name="isSelected" column="TRADING_IS_SELECTED"
 				not-null="true"></property>
-		</component>
+		</component> -->
 
 		<component name="registeredAddress" class="Address" lazy="false">
 			<property name="type" column="REGISTRED_ADDRESS_TYPE"></property>
