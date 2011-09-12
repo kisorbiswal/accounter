@@ -4741,4 +4741,8 @@ public interface AccounterConstants extends Constants {
 	public String salesByClassDetails();
 
 	public String profitAndLossbyClass();
+
+	public String emailAlerts();
+
+	public String signoutafterInactivity();
 }
