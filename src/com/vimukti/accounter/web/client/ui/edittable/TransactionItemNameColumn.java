@@ -68,17 +68,21 @@ public abstract class TransactionItemNameColumn extends
 	protected void setValue(ClientTransactionItem row, IAccountable newValue) {
 		row.setAccountable(newValue);
 		if (newValue != null) {
-			ClientItem selectItem = (ClientItem) newValue;
-			row.setUnitPrice(selectItem.getSalesPrice());
-			row.setTaxable(selectItem.isTaxable());
-			double lt = row.getQuantity().getValue() * row.getUnitPrice();
-			double disc = row.getDiscount();
-			row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
-					* disc / 100)) : lt);
+			if (newValue instanceof ClientItem) {
+				ClientItem selectItem = (ClientItem) newValue;
+				row.setUnitPrice(selectItem.getSalesPrice());
+				row.setTaxable(selectItem.isTaxable());
+				double lt = row.getQuantity().getValue() * row.getUnitPrice();
+				double disc = row.getDiscount();
+				row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
+						* disc / 100)) : lt);
 
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-				row.setTaxCode(selectItem.getTaxCode() != 0 ? selectItem
-						.getTaxCode() : 0);
+				if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+					row.setTaxCode(selectItem.getTaxCode() != 0 ? selectItem
+							.getTaxCode() : 0);
+				}
+			} else {
+				row.setTaxable(true);
 			}
 		}
 	}

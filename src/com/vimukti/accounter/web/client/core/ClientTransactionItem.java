@@ -481,7 +481,7 @@ public class ClientTransactionItem implements IAccounterCore {
 		switch (type) {
 		case TYPE_ACCOUNT:
 			if (tAccount == null) {
-				tAccount = Accounter.getCompany().getAccount(item);
+				tAccount = Accounter.getCompany().getAccount(account);
 			}
 			return tAccount;
 		case TYPE_ITEM:

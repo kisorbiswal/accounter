@@ -73,7 +73,8 @@ public class AccountDropDownTable extends AbstractDropDownTable<ClientAccount> {
 			return true;
 		}
 		if (canUseAccountNumbers) {
-			return t.getNumber().startsWith(string);
+			return t.getNumber() != null ? t.getNumber().startsWith(string)
+					: false;
 		}
 		return false;
 	}
