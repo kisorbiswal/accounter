@@ -6,8 +6,14 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:HTMLPanel>
-		Hello,
-		<g:Button styleName="{style.important}" ui:field="button" />
-	</g:HTMLPanel>
+	<g:VerticalPanel >
+		<g:HorizontalPanel>
+			<g:CheckBox ui:field="accountNumbersCheckBox"/>
+			<g:Label ui:field="accountNumbersLabel"/>
+		</g:HorizontalPanel>
+		<g:HorizontalPanel>
+			<g:CheckBox ui:field="showAccountNumbersCheckBox"/>
+			<g:Label ui:field="showAccountNumbers"/>
+		</g:HorizontalPanel>
+	</g:VerticalPanel>
 </ui:UiBinder> 

@@ -2,47 +2,65 @@ package com.vimukti.accounter.web.client.ui.company.options;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public class RestartSetupInterviewOption extends Composite implements HasText {
+public class RestartSetupInterviewOption extends AbstractPreferenceOption {
 
 	private static RestartSetupInterviewOptionUiBinder uiBinder = GWT
 			.create(RestartSetupInterviewOptionUiBinder.class);
+	@UiField
+	Button restartButton;
+	@UiField
+	Label restartLable;
 
 	interface RestartSetupInterviewOptionUiBinder extends
 			UiBinder<Widget, RestartSetupInterviewOption> {
+
 	}
 
 	public RestartSetupInterviewOption() {
 		initWidget(uiBinder.createAndBindUi(this));
+		createControls();
 	}
 
-	@UiField
-	Button button;
+	private void createControls() {
+		restartLable.setText(constants.restartsetupinterviews());
+		restartButton.setText(constants.restart());
+		restartButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+	}
 
 	public RestartSetupInterviewOption(String firstName) {
 		initWidget(uiBinder.createAndBindUi(this));
-		button.setText(firstName);
 	}
 
-	@UiHandler("button")
-	void onClick(ClickEvent e) {
-		Window.alert("Hello!");
+	@Override
+	public String getTitle() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	public void setText(String text) {
-		button.setText(text);
+	@Override
+	public void onSave() {
+		// TODO Auto-generated method stub
+
 	}
 
-	public String getText() {
-		return button.getText();
+	@Override
+	public String getAnchor() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

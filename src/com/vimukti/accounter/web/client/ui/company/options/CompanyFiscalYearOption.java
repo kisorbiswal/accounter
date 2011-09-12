@@ -1,20 +1,30 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
-public class CompanyFiscalYearOption extends Composite implements HasText {
-
+public class CompanyFiscalYearOption extends AbstractPreferenceOption {
+	private AccounterConstants constants;
 	private static CompanyFiscalYearOptionUiBinder uiBinder = GWT
 			.create(CompanyFiscalYearOptionUiBinder.class);
+	@UiField
+	Label firstMonthofFiscalyear;
+	@UiField
+	ListBox calenderMonths;
+	@UiField
+	Label firstMonthofIncomeTaxyear;
+	@UiField
+	RadioButton firstMonthofmyfiscalyear;
+	@UiField
+	RadioButton januaryRadioButton;
+	String[] monthNames;
 
 	interface CompanyFiscalYearOptionUiBinder extends
 			UiBinder<Widget, CompanyFiscalYearOption> {
@@ -22,27 +32,60 @@ public class CompanyFiscalYearOption extends Composite implements HasText {
 
 	public CompanyFiscalYearOption() {
 		initWidget(uiBinder.createAndBindUi(this));
+		createControls();
+		initData();
 	}
 
-	@UiField
-	Button button;
+	private void createControls() {
+
+		constants = Accounter.constants();
+		firstMonthofFiscalyear
+				.setText(constants.selectFirstMonthOfFiscalYear());
+
+		monthNames = new String[] { constants.january(), constants.february(),
+				constants.march(), constants.april(), constants.may(),
+				constants.june(), constants.july(), constants.august(),
+				constants.september(), constants.october(),
+				constants.november(), constants.december() };
+		// fiscalStartsList = null;
+		for (int i = 0; i < monthNames.length; i++) {
+			calenderMonths.addItem(monthNames[i]);
+		}
+
+		firstMonthofIncomeTaxyear
+				.setText(constants.firstMonthofIncomeTaxyear());
+
+		firstMonthofmyfiscalyear.setText(constants.firstMonthofmyfiscalyear());
+
+		januaryRadioButton.setText(constants.january());
+
+	}
+
+	private void initData() {
+		// TODO Auto-generated method stub
+
+	}
 
 	public CompanyFiscalYearOption(String firstName) {
 		initWidget(uiBinder.createAndBindUi(this));
-		button.setText(firstName);
 	}
 
-	@UiHandler("button")
-	void onClick(ClickEvent e) {
-		Window.alert("Hello!");
+	@Override
+	public String getTitle() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	public void setText(String text) {
-		button.setText(text);
+	@Override
+	public void onSave() {
+		// TODO Auto-generated method stub
+
 	}
 
-	public String getText() {
-		return button.getText();
+	@Override
+	public String getAnchor() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

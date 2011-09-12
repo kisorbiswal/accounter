@@ -4,69 +4,65 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author vimukti36
- *
+ * 
  */
-public class QuantityOnHandOption extends Composite implements HasText {
+public class QuantityOnHandOption extends AbstractPreferenceOption {
 
 	private static QuantityOnHandOptionUiBinder uiBinder = GWT
 			.create(QuantityOnHandOptionUiBinder.class);
+	@UiField
+	CheckBox quantityOnHAndOptionCheckBox;
 
 	interface QuantityOnHandOptionUiBinder extends
 			UiBinder<Widget, QuantityOnHandOption> {
 	}
 
 	/**
-	 * Because this class has a default constructor, it can
-	 * be used as a binder template. In other words, it can be used in other
-	 * *.ui.xml files as follows:
-	 * <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	 *   xmlns:g="urn:import:**user's package**">
-	 *  <g:**UserClassName**>Hello!</g:**UserClassName>
-	 * </ui:UiBinder>
-	 * Note that depending on the widget that is used, it may be necessary to
-	 * implement HasHTML instead of HasText.
+	 * Because this class has a default constructor, it can be used as a binder
+	 * template. In other words, it can be used in other *.ui.xml files as
+	 * follows: <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	 * xmlns:g="urn:import:**user's package**">
+	 * <g:**UserClassName**>Hello!</g:**UserClassName> </ui:UiBinder> Note that
+	 * depending on the widget that is used, it may be necessary to implement
+	 * HasHTML instead of HasText.
 	 */
 	public QuantityOnHandOption() {
 		initWidget(uiBinder.createAndBindUi(this));
+		createControls();
 	}
 
-	@UiField
-	Button button;
+	private void createControls() {
+		quantityOnHAndOptionCheckBox.setText(constants.quantityonhand());
+	}
 
 	public QuantityOnHandOption(String firstName) {
 		initWidget(uiBinder.createAndBindUi(this));
 
-		// Can access @UiField after calling createAndBindUi
-		button.setText(firstName);
 	}
 
-	@UiHandler("button")
-	void onClick(ClickEvent e) {
-		Window.alert("Hello!");
+	@Override
+	public String getTitle() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	public void setText(String text) {
-		button.setText(text);
+	@Override
+	public void onSave() {
+		// TODO Auto-generated method stub
+
 	}
 
-	/**
-	 * Gets invoked when the default constructor is called
-	 * and a string is provided in the ui.xml file.
-	 */
-	public String getText() {
-		return button.getText();
+	@Override
+	public String getAnchor() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

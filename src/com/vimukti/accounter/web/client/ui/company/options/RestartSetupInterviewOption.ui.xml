@@ -6,8 +6,10 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:HTMLPanel>
-		Hello,
-		<g:Button styleName="{style.important}" ui:field="button" />
-	</g:HTMLPanel>
+	<g:VerticalPanel >
+		<g:HorizontalPanel spacing="2">
+			<g:Label ui:field="restartLable"/>
+			<g:Button ui:field="restartButton"/>
+		</g:HorizontalPanel>
+	</g:VerticalPanel>
 </ui:UiBinder> 

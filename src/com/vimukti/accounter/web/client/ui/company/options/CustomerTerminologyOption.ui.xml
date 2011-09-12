@@ -7,11 +7,35 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:HTMLPanel>
-		<!-- Add GWT widgets here. Enter < and hit Ctrl-Space to auto-complete 
-			widget names. The ui:field attribute binds an element to a field in the owner 
-			class. See the GWT docs on UI Binder for more details. -->
-		Hello,
-		<g:Button styleName="{style.important}" ui:field="button" />
-	</g:HTMLPanel>
+	<g:VerticalPanel>
+		<g:VerticalPanel spacing="7">
+			<g:HorizontalPanel spacing="7" horizontalAlignment="ALIGN_RIGHT">
+				<g:Label ui:field="terminologyforCustomerLabel" />
+			</g:HorizontalPanel>
+			<g:VerticalPanel horizontalAlignment="ALIGN_RIGHT"
+				spacing="7">
+				<g:HorizontalPanel>
+					<g:RadioButton name="new name" ui:field="clientsRadioButton" />
+				</g:HorizontalPanel>
+				<g:HorizontalPanel>
+					<g:RadioButton name="new name" ui:field="custimersRadioBuitton" />
+				</g:HorizontalPanel>
+				<g:HorizontalPanel>
+					<g:RadioButton name="new name" ui:field="DonorsRadioButton" />
+				</g:HorizontalPanel>
+				<g:HorizontalPanel>
+					<g:RadioButton name="new name" ui:field="guestardioButton" />
+				</g:HorizontalPanel>
+				<g:HorizontalPanel>
+					<g:RadioButton name="new name" ui:field="membersRadioButton" />
+				</g:HorizontalPanel>
+				<g:HorizontalPanel>
+					<g:RadioButton name="new name" ui:field="PatientRadioButton" />
+				</g:HorizontalPanel>
+				<g:HorizontalPanel>
+					<g:RadioButton name="new name" ui:field="tenantsLabelRadioButton" />
+				</g:HorizontalPanel>
+			</g:VerticalPanel>
+		</g:VerticalPanel>
+	</g:VerticalPanel>
 </ui:UiBinder> 

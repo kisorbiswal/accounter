@@ -6,8 +6,17 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:HTMLPanel>
-		Hello,
-		<g:Button styleName="{style.important}" ui:field="button" />
-	</g:HTMLPanel>
+	<g:VerticalPanel horizontalAlignment="ALIGN_LEFT" spacing="10" >
+		<g:HorizontalPanel>
+			<g:Label ui:field="firstMonthofFiscalyear"/>
+			<g:ListBox ui:field="calenderMonths" width="92px" height="26px"/>
+		</g:HorizontalPanel>
+		<g:HorizontalPanel>
+			<g:Label ui:field="firstMonthofIncomeTaxyear"/>
+			<g:VerticalPanel verticalAlignment="ALIGN_MIDDLE" horizontalAlignment="ALIGN_CENTER">
+				<g:RadioButton name="" ui:field="januaryRadioButton"/>
+				<g:RadioButton name="" ui:field="firstMonthofmyfiscalyear"/>
+			</g:VerticalPanel>
+		</g:HorizontalPanel>
+	</g:VerticalPanel>
 </ui:UiBinder> 
