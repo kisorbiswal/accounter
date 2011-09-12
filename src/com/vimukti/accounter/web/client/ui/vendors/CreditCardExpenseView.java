@@ -207,13 +207,7 @@ public class CreditCardExpenseView extends
 	protected void createControls() {
 		String vendorString = null;
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			vendorString = Accounter.messages().vendorName(
-					Global.get().Vendor());
-		} else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			vendorString = Accounter.messages().vendorName(
-					Global.get().Vendor());
-		}
+		vendorString = Accounter.messages().vendorName(Global.get().Vendor());
 
 		Ccard = new VendorCombo(vendorString, true) {
 			@Override
@@ -506,7 +500,7 @@ public class CreditCardExpenseView extends
 		panel.add(createAddNewButton());
 		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			totalForm.setFields(netAmount, vatTotalNonEditableText,
 					transactionTotalNonEditableText);
 			VerticalPanel vPanel = new VerticalPanel();
@@ -653,7 +647,7 @@ public class CreditCardExpenseView extends
 					.getDeliveryDate()));
 			delivDate.setDisabled(isInViewMode());
 			phoneSelect.setValue(transaction.getPhone());
-			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (getCompany().getPreferences().isRegisteredForVAT()) {
 				netAmount.setAmount(transaction.getNetAmount());
 				vatTotalNonEditableText.setAmount(transaction.getTotal()
 						- transaction.getNetAmount());
@@ -940,21 +934,16 @@ public class CreditCardExpenseView extends
 
 	@Override
 	public void showMenu(Widget button) {
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button,
-					Accounter.messages().accounts(Global.get().Account()),
-					Accounter.constants().serviceItem());
-		else
-			setMenuItems(button,
-					Accounter.messages().accounts(Global.get().Account()),
-					Accounter.constants().serviceItem());
+		setMenuItems(button,
+				Accounter.messages().accounts(Global.get().Account()),
+				Accounter.constants().serviceItem());
 	}
 
 	public void saveAndUpdateView() {
 
 		updateTransaction();
 
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
+		if (getCompany().getPreferences().isRegisteredForVAT())
 			transaction.setNetAmount(netAmount.getAmount());
 		// creditCardCharge.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 		// .getValue());
@@ -998,7 +987,7 @@ public class CreditCardExpenseView extends
 	@Override
 	public void updateNonEditableItems() {
 
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			transactionTotalNonEditableText.setAmount(vendorTransactionTable
 					.getTotal());
 			netAmount.setAmount(vendorTransactionTable.getGrandTotal());

@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -125,8 +124,8 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 	protected int sort(ClientTAXItem obj1, ClientTAXItem obj2, int index) {
 		switch (index) {
 		case 1:
-			return obj1.getName().toLowerCase().compareTo(
-					obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase()
+					.compareTo(obj2.getName().toLowerCase());
 
 		case 2:
 			String agency1 = null;
@@ -136,7 +135,7 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 			// agency1 = getTaxAgency(obj1);
 			// agency2 = getTaxAgency(obj2);
 			// }
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (getCompany().getPreferences().isRegisteredForVAT()) {
 				agency1 = getVATAgencyID(obj1);
 				agency2 = getVATAgencyID(obj2);
 			}
@@ -178,15 +177,13 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 		ClientTAXAgency agency = null;
 		if (obj.getTaxAgency() != 0) {
 
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (getCompany().getPreferences().isRegisteredForVAT()) {
 				agency = getCompany().getTaxAgency(obj.getTaxAgency());
-
 			}
 		}
 		return agency != null ? agency.getName() : "";
 
 	}
-
 
 	public AccounterCoreType getType() {
 		return AccounterCoreType.TAXITEM;

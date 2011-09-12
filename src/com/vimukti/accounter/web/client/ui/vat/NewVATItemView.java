@@ -9,7 +9,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientVATReturnBox;
@@ -397,7 +396,6 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		super.fitToSize(height, width);
 	}
 
-
 	@Override
 	public void onEdit() {
 
@@ -445,7 +443,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 	@Override
 	protected String getViewTitle() {
 		String flag;
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+		if (getCompany().getPreferences().isRegisteredForVAT())
 			flag = Accounter.constants().newVATItem();
 		else
 			flag = Accounter.constants().newTaxItem();

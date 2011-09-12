@@ -42,21 +42,16 @@ public class HorizontalMenuBar extends HorizontalPanel {
 				getCompanyMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			if (Accounter.getCompany().getPreferences().isChargeSalesTax()) {
+		if (Accounter.getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_INDIA) {
+			if (Accounter.getCompany().getPreferences().isRegisteredForVAT()) {
 				menuitem = menuBar.addItem(Accounter.constants().vat(),
 						getVATMenu());
 				ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 			}
-
-		}
-
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
-			if (Accounter.getCompany().getPreferences().isChargeSalesTax()) {
-				menuitem = menuBar.addItem(Accounter.constants().tax(),
-						getVATMenu());
-				ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
-			}
+		} else {
+			menuitem = menuBar.addItem(Accounter.constants().tax(),
+					getVATMenu());
+			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		}
 
 		menuitem = menuBar.addItem(Global.get().Customer(), getCustomerMenu());
@@ -472,8 +467,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			vatmenu.addItem(ActionFactory.getreceiveVATAction());
 		}
 		vatmenu.addSeparator();
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA
-				&& preferences.isTDSEnabled()) {
+		if (preferences.isTDSEnabled()) {
 			vatmenu.addItem(ActionFactory.getpayTDSAction());
 			vatmenu.addItem(Accounter.constants().tds(), getTDSMenu());
 			vatmenu.addSeparator();
@@ -549,7 +543,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		// .banking(), getBankingSubMenu());
 		// }
 		if (Accounter.getCompany().getPreferences().isChargeSalesTax()) {
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (Accounter.getCompany().getPreferences().isRegisteredForVAT()) {
 				reportMenuBar.addItem(Accounter.constants().vat(),
 						getVATReportMenu());
 			}
@@ -713,12 +707,14 @@ public class HorizontalMenuBar extends HorizontalPanel {
 					.getGlReportAction());
 		companyAndFinancialMenuBar.addItem(ActionFactory
 				.getExpenseReportAction());
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (Accounter.getCompany().getPreferences().isChargeSalesTax()) {
 			companyAndFinancialMenuBar.addItem(ActionFactory
 					.getSalesTaxLiabilityAction());
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		}
+		if (Accounter.getCompany().getPreferences().isChargeSalesTax()) {
 			companyAndFinancialMenuBar.addItem(ActionFactory
 					.getTransactionDetailByTaxItemAction());
+		}
 		if (Accounter.getCompany().getPreferences().isLocationTrackingEnabled())
 			companyAndFinancialMenuBar.addItem(ActionFactory
 					.getProfitAndLossByLocationAction(true));
@@ -1047,12 +1043,9 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		companyMenuBar.addItem(ActionFactory.getBudgetActions());
 		companyMenuBar.addSeparator();
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-
-			if (getPreferences().isChargeSalesTax()) {
-				companyMenuBar.addItem(Accounter.constants().itemTax(),
-						getSalesTaxSubmenu());
-			}
+		if (getPreferences().isChargeSalesTax()) {
+			companyMenuBar.addItem(Accounter.constants().itemTax(),
+					getSalesTaxSubmenu());
 		}
 		if (Accounter.getUser().canChangeSettings()) {
 			companyMenuBar.addItem(Accounter.constants().manageSupportLists(),

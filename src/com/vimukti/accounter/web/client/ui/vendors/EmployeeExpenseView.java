@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
@@ -269,10 +268,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 	@Override
 	public void showMenu(Widget button) {
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, Accounter.constants().serviceItem());
-		else
-			setMenuItems(button, Accounter.constants().serviceItem());
+		setMenuItems(button, Accounter.constants().serviceItem());
 	}
 
 	@Override

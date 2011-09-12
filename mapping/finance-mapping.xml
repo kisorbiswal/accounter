@@ -134,10 +134,9 @@
 		</id>
 		<property name="isConfigured" column="IS_CONFIGURED"></property>
 		<property name="accountingType" column="ACCOUNTING_TYPE"></property>
-		<property name="fullName" unique="true" not-null="true"
-			column="FULL_NAME"></property>
+
 		<property name="companyID" column="COMPANY_ID"></property>
-		<property name="timezone" column="TIMEZONE"></property>
+
 		<set name="users" lazy="false" cascade="save-update,delete">
 			<key column="COMPANY_ID"></key>
 			<one-to-many class="User" />
@@ -158,7 +157,7 @@
 				<property name="maximum" column="MAXIMUM" not-null="true"></property>
 			</composite-element>
 		</set>
-		<property name="companyEmail" column="COMPANY_EMAIL"></property>
+
 		<property name="companyEmailForCustomers" column="COMPANY_EMAIL_FOR_CUSTOMERS"></property>
 		<component name="contact" class="Contact" lazy="false">
 			<property name="isPrimary" column="COMPANY_CONTACT__IS_PRIMARY"
@@ -185,10 +184,18 @@
 		<property name="restartSetupInterviews" column="RESTART_SETUP_INTERVIEWS"></property>
 		<property name="fiscalYearStarting" column="FISCAL_YEAR_STARTING"></property>
 		<property name="industry" column="INDUSTRY"></property>
-		<property name="taxId" column="TAX_ID"></property>
-		<property name="legalName" column="LEGALNAME"></property>
+
 		<component name="preferences" class="CompanyPreferences"
 			lazy="false">
+			<property name="fullName" unique="true" not-null="true"
+				column="FULL_NAME"></property>
+			<property name="timezone" column="TIMEZONE"></property>
+			<property name="companyEmail" column="COMPANY_EMAIL"></property>
+			<property name="taxId" column="TAX_ID"></property>
+			<property name="legalName" column="LEGALNAME"></property>
+			<property name="phone" column="PHONE"></property>
+			<property name="fax" column="FAX"></property>
+			<property name="webSite" column="WEBSITE"></property>
 
 			<!-- Company Preferences -->
 			<property name="logSpaceUsed" column="CP_LOG_SPACE_USED"
@@ -238,9 +245,7 @@
 			<property name="locationTrackingId" column="LOCATION_TRACKING_ID"></property>
 
 		</component>
-		<property name="phone" column="PHONE"></property>
-		<property name="fax" column="FAX"></property>
-		<property name="webSite" column="WEBSITE"></property>
+
 		<property name="bankAccountNo" column="BANK_ACCOUNT_NO"></property>
 		<property name="sortCode" column="SORT_CODE"></property>
 		<many-to-one name="accountsReceivableAccount" class="Account"

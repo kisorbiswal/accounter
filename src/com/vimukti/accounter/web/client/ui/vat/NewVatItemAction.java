@@ -71,7 +71,7 @@ public class NewVatItemAction extends Action<ClientTAXItem> {
 
 	@Override
 	public String getHistoryToken() {
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+		if (Accounter.getCompany().getPreferences().isRegisteredForVAT())
 			return "newVatItem";
 		else
 			return "newTaxItem";

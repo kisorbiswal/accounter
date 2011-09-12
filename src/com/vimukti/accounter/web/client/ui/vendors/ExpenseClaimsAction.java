@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.vendors;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
@@ -20,8 +19,7 @@ public class ExpenseClaimsAction extends Action {
 	public ExpenseClaimsAction(String text, int selectedTab) {
 		super(text);
 		this.selectedTab = selectedTab;
-		catagory = Accounter.getCompany().isUKAccounting() ? Accounter
-				.constants().vendor() : Global.get().vendor();
+		catagory = Global.get().vendor();
 	}
 
 	@Override

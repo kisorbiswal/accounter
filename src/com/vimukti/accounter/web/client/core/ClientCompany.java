@@ -35,10 +35,6 @@ public class ClientCompany implements IAccounterCore {
 
 	public long companyID;
 
-	private String fullName;
-
-	private String legalName;
-
 	private String registrationNumber;
 
 	private String companyEmail;
@@ -66,8 +62,6 @@ public class ClientCompany implements IAccounterCore {
 	private boolean enableAutoRecall;
 
 	boolean restartSetupInterviews;
-
-	private String taxId;
 
 	private int fiscalYearStarting;
 
@@ -97,15 +91,7 @@ public class ClientCompany implements IAccounterCore {
 	// String prepaidVATaccount;
 	// String ECAcquisitionVATaccount;
 
-	private String timezone;
-
 	private Set<ClientCurrency> currencies;
-
-	String phone;
-
-	String fax;
-
-	String webSite;
 
 	String bankAccountNo;
 
@@ -192,7 +178,6 @@ public class ClientCompany implements IAccounterCore {
 
 	private ClientFinanceDate transactionEndDate;
 
-	private ClientAddress tradingAddress;
 	private ClientAddress registeredAddress;
 	private int version;
 
@@ -986,13 +971,13 @@ public class ClientCompany implements IAccounterCore {
 
 	@Override
 	public String getDisplayName() {
-		return this.fullName;
+		return this.preferences.getFullName();
 	}
 
 	@Override
 	public String getName() {
 
-		return this.fullName;
+		return this.preferences.getFullName();
 	}
 
 	/**
@@ -1035,24 +1020,24 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	public String getTradingName() {
-		return this.legalName;
+		return this.preferences.getLegalName();
 	}
 
 	public String getTaxId() {
 
-		return this.taxId;
+		return this.preferences.getTaxId();
 	}
 
 	public String getFax() {
-		return this.fax;
+		return this.preferences.getFax();
 	}
 
 	public String getPhone() {
-		return this.phone;
+		return this.preferences.getPhone();
 	}
 
 	public String getWebSite() {
-		return this.webSite;
+		return this.preferences.getWebSite();
 	}
 
 	public String getBankAccountNo() {
@@ -1076,23 +1061,23 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	public void setName(String stringValue) {
-		this.fullName = stringValue;
+		this.preferences.setFullName(stringValue);
 	}
 
 	public void setTradingName(String stringValue) {
-		this.legalName = stringValue;
+		this.preferences.setLegalName(stringValue);
 	}
 
 	public String gettimezone() {
-		return timezone;
+		return preferences.getTimezone();
 	}
 
 	public void settimezone(String timezone) {
-		this.timezone = timezone;
+		this.preferences.setTimezone(timezone);
 	}
 
 	public void setPhone(String stringValue) {
-		this.phone = stringValue;
+		this.preferences.setPhone(stringValue);
 	}
 
 	public void setCompanyEmail(String stringValue) {
@@ -1100,15 +1085,15 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	public void setTaxId(String stringValue) {
-		this.taxId = stringValue;
+		this.preferences.setTaxId(stringValue);
 	}
 
 	public void setFax(String stringValue) {
-		this.fax = stringValue;
+		this.preferences.setFax(stringValue);
 	}
 
 	public void setWebSite(String stringValue) {
-		this.webSite = stringValue;
+		this.setWebSite(stringValue);
 	}
 
 	public void setIndustry(int typeBasic) {
@@ -2231,14 +2216,8 @@ public class ClientCompany implements IAccounterCore {
 
 	public void getToClientCompany(ClientCompany clientCompany) {
 
-		this.fullName = clientCompany.fullName;
-		this.phone = clientCompany.phone;
 		this.companyEmail = clientCompany.companyEmail;
-		this.legalName = clientCompany.legalName;
-		this.fax = clientCompany.fax;
-		this.webSite = clientCompany.webSite;
 		this.registrationNumber = clientCompany.registrationNumber;
-		this.taxId = clientCompany.taxId;
 		this.bankAccountNo = clientCompany.bankAccountNo;
 		this.sortCode = clientCompany.sortCode;
 		this.preferences = clientCompany.preferences;
@@ -2396,7 +2375,7 @@ public class ClientCompany implements IAccounterCore {
 	 * @return the tradingAddress
 	 */
 	public ClientAddress getTradingAddress() {
-		return tradingAddress;
+		return this.preferences.getTradingAddress();
 	}
 
 	/**
@@ -2404,7 +2383,7 @@ public class ClientCompany implements IAccounterCore {
 	 *            the tradingAddress to set
 	 */
 	public void setTradingAddress(ClientAddress tradingAddress) {
-		this.tradingAddress = tradingAddress;
+		this.preferences.setTradingAddress(tradingAddress);
 	}
 
 	/**
@@ -2622,7 +2601,7 @@ public class ClientCompany implements IAccounterCore {
 		clientCompany.loggedInUser = this.loggedInUser.clone();
 		clientCompany.preferences = this.preferences.clone();
 		clientCompany.registeredAddress = this.registeredAddress.clone();
-		clientCompany.tradingAddress = this.tradingAddress.clone();
+		clientCompany.setTradingAddress(this.getTradingAddress().clone());
 		clientCompany.transactionEndDate = this.transactionEndDate.clone();
 		clientCompany.transactionStartDate = this.transactionStartDate.clone();
 
@@ -2664,8 +2643,8 @@ public class ClientCompany implements IAccounterCore {
 	public ClientItemGroup getItemGroupByName(String name) {
 		return Utility.getObjectByName(getItemGroups(), name);
 	}
-	
-	public ClientLocation getLocationByName(String name){
+
+	public ClientLocation getLocationByName(String name) {
 		return Utility.getObjectByName(getLocations(), name);
 	}
 
@@ -2829,8 +2808,8 @@ public class ClientCompany implements IAccounterCore {
 	public ArrayList<ClientAccounterClass> getAccounterClasses() {
 		return this.accounterClasses;
 	}
-	
-	public long getDefaultTaxCode(){
+
+	public long getDefaultTaxCode() {
 		List<ClientTAXCode> taxCodes = getActiveTaxCodes();
 		for (ClientTAXCode taxCode : taxCodes) {
 			if (taxCode.getName().equals("S")) {

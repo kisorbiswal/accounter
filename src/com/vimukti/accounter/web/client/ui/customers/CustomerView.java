@@ -371,7 +371,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// grid valid?
 
 		result.add(customerForm.validate());
-		if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+		if (company.getPreferences().isChargeSalesTax()) {
 			// FIXME:: its not required
 			if (!custTaxCode.validate())
 				result.addError(custTaxCode,
@@ -553,11 +553,12 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		// Setting customer Group
 		data.setCustomerGroup(Utility.getID(selectCustomerGroupFromDetailsTab));
-		if (company.getAccountingType() == 0)
+		if (getCompany().getPreferences().isChargeSalesTax()) {
 			// Setting Tax Group
 			data.setTAXCode(Utility.getID(selectVatCodeFromDetailsTab));
+		}
 
-		else if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			// setting Vat Code
 			data.setTAXCode(Utility.getID(selectVatCodeFromDetailsTab));
 			if (vatregno.getValue() != null)

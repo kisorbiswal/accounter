@@ -103,7 +103,7 @@ public class ItemView extends BaseView<ClientItem> {
 	}
 
 	private void initTaxCodes() {
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			List<ClientTAXCode> result = getCompany().getActiveTaxCodes();
 			if (result != null) {
 				taxCode.initCombo(getCompany().getActiveTaxCodes());
@@ -414,7 +414,7 @@ public class ItemView extends BaseView<ClientItem> {
 
 		});
 
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+		if (getCompany().getPreferences().isRegisteredForVAT())
 			salesInfoForm.setFields(isellCheck, salesDescArea, salesPriceText,
 					accountCombo, comCheck, stdCostText);
 		else
@@ -540,10 +540,12 @@ public class ItemView extends BaseView<ClientItem> {
 			purchasePriceTxt.setAmount(data.getPurchasePrice());
 
 			selectVendor = company.getVendor(data.getPreferredVendor());
-			if (data.getVendorItemNumber() != null)
+			if (data.getVendorItemNumber() != null) {
 				vendItemNumText.setValue(data.getVendorItemNumber());
-			if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+			}
+			if (getCompany().getPreferences().isRegisteredForVAT()) {
 				selectTaxCode = company.getTAXCode(data.getTaxCode());
+			}
 
 			itemTaxCheck.setValue(data.isTaxable());
 
@@ -737,7 +739,7 @@ public class ItemView extends BaseView<ClientItem> {
 		initAccountList();
 		initVendorsList();
 		initItemGroups();
-		if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+		if (getCompany().getPreferences().isRegisteredForVAT())
 			initTaxCodes();
 		super.initData();
 
@@ -801,13 +803,11 @@ public class ItemView extends BaseView<ClientItem> {
 							.getUkServiceItemDefaultIncomeAccount());
 					defaultExpAccount = getDefaultAccount(company
 							.getUkServiceItemDefaultExpenseAccount());
-
 				} else if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
 					defaultIncomeAccount = getDefaultAccount(Accounter
 							.constants().incomeandDistribution());
 					defaultExpAccount = getDefaultAccount(Accounter.constants()
 							.cashDiscountTaken());
-
 				}
 				selectAccount = defaultIncomeAccount;
 				accountCombo.setComboItem(defaultIncomeAccount);
@@ -888,7 +888,7 @@ public class ItemView extends BaseView<ClientItem> {
 		if (isellCheck.isChecked()) {
 			result.add(salesInfoForm.validate());
 		}
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			result.add(itemInfoForm.validate());
 		}
 		if (ibuyCheck.isChecked()) {

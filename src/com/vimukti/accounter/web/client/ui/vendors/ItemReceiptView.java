@@ -228,13 +228,15 @@ public class ItemReceiptView extends
 		HorizontalPanel bottomLayout = new HorizontalPanel();
 		bottomLayout.setWidth("100%");
 		int accountType = getCompany().getAccountingType();
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			bottomLayout.add(memoForm);
 			bottomLayout.add(vatCheckform);
 			bottomLayout.setCellHorizontalAlignment(vatCheckform, ALIGN_RIGHT);
 			bottomLayout.add(totalForm);
 			bottomLayout.setCellHorizontalAlignment(totalForm, ALIGN_RIGHT);
-		} else if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
+		}
+
+		if (getCompany().getPreferences().isChargeSalesTax()) {
 			memoForm.setStyleName("align-form");
 			bottomLayout.add(memoForm);
 			// bottomLayout.add(amountForm);
@@ -371,7 +373,7 @@ public class ItemReceiptView extends
 			vendorSelected(this.getVendor());
 			paymentTermsSelected(this.paymentTerm);
 
-			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (getCompany().getPreferences().isRegisteredForVAT()) {
 				netAmount.setAmount(transaction.getNetAmount());
 				vatTotalNonEditableText.setAmount(transaction.getTotal()
 						- transaction.getNetAmount());
@@ -394,7 +396,7 @@ public class ItemReceiptView extends
 		transactionTotalNonEditableText.setAmount(vendorTransactionTable
 				.getTotal());
 		netAmount.setAmount(vendorTransactionTable.getGrandTotal());
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			vatTotalNonEditableText.setAmount(vendorTransactionTable.getTotal()
 					- vendorTransactionTable.getGrandTotal());
 		}
@@ -442,7 +444,7 @@ public class ItemReceiptView extends
 
 		transaction.setPurchaseOrder(selectedPurchaseOrder);
 
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
+		if (getCompany().getPreferences().isRegisteredForVAT())
 			transaction.setNetAmount(netAmount.getAmount());
 		// itemReceipt.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 	}
@@ -459,7 +461,7 @@ public class ItemReceiptView extends
 					clientItem.setType(item.getType());
 					clientItem.setItem(item.getItem());
 					clientItem.setAccount(item.getAccount());
-					if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+					if (getCompany().getPreferences().isRegisteredForVAT()) {
 						clientItem.setVatItem(item.getVatItem());
 						clientItem.setTaxCode(item.getTaxCode());
 						clientItem.setTaxable(item.isTaxable());
@@ -590,19 +592,19 @@ public class ItemReceiptView extends
 		// 6. validateGrid?
 
 		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateTransactionDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
 		}
 
 		result.add(vendorForm.validate());
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(deliveryDateItem
-				.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(
+				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
 
 			result.addError(deliveryDateItem, Accounter.constants().the()
 					+ " "
@@ -614,8 +616,8 @@ public class ItemReceiptView extends
 
 		}
 		if (vendorTransactionTable.getAllRows().isEmpty()) {
-			result.addError(vendorTransactionTable, accounterConstants
-					.blankTransaction());
+			result.addError(vendorTransactionTable,
+					accounterConstants.blankTransaction());
 		} else
 			result.add(vendorTransactionTable.validateGrid());
 		return result;

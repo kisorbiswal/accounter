@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 
@@ -97,7 +98,8 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	Label timezone;
 	@UiField
 	ListBox timezoneslistbox;
-	private ClientCompany company;
+	private ClientCompanyPreferences preferences = Accounter.getCompany()
+			.getPreferences();
 	private ClientAddress address;
 	private List<String> countries, states, timezones;
 
@@ -212,16 +214,15 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 	public void onLoad() {
 
-		this.company = Accounter.getCompany();
-		if (this.company != null) {
-			companyName.setValue(company.getName());
-			legalName.setValue(company.getTradingName());
-			this.taxId.setValue(company.getTaxId());
-			this.fax.setValue(company.getFax());
-			this.phone.setValue(company.getPhone());
-			this.webSite.setValue(company.getWebSite());
-			this.emailAddress.setValue(company.getCompanyEmail());
-			address = company.getTradingAddress();
+		if (this.preferences != null) {
+			companyName.setValue(preferences.getFullName());
+			legalName.setValue(preferences.getLegalName());
+			this.taxId.setValue(preferences.getTaxId());
+			this.fax.setValue(preferences.getFax());
+			this.phone.setValue(preferences.getPhone());
+			this.webSite.setValue(preferences.getWebSite());
+			this.emailAddress.setValue(preferences.getCompanyEmail());
+			address = preferences.getTradingAddress();
 			if (address != null) {
 				this.streetAddress1.setValue(address.getAddress1());
 				this.streetAdress2.setValue(address.getStreet());
@@ -238,10 +239,10 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 					this.country.setSelectedIndex(countries.indexOf(address
 							.getCountryOrRegion()));
 				}
-				if (company.gettimezone() != ""
-						&& company.gettimezone() != null) {
+				if (preferences.getTimezone() != ""
+						&& preferences.getTimezone() != null) {
 					this.timezoneslistbox.setSelectedIndex(timezones
-							.indexOf(company.gettimezone()));
+							.indexOf(preferences.getTimezone()));
 				}
 			}
 		}
@@ -251,13 +252,13 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	public void onSave() {
 
 		address = new ClientAddress();
-		company.setName(companyName.getValue().toString());
-		company.setTradingName(legalName.getValue().toString());
-		company.setPhone(phone.getValue().toString());
-		company.setCompanyEmail(emailAddress.getValue().toString());
-		company.setTaxId(taxId.getValue().toString());
-		company.setFax(fax.getValue().toString());
-		company.setWebSite(webSite.getValue().toString());
+		preferences.setFullName(companyName.getValue().toString());
+		preferences.setLegalName(legalName.getValue().toString());
+		preferences.setPhone(phone.getValue().toString());
+		preferences.setCompanyEmail(emailAddress.getValue().toString());
+		preferences.setTaxId(taxId.getValue().toString());
+		preferences.setFax(fax.getValue().toString());
+		preferences.setWebSite(webSite.getValue().toString());
 		address.setAddress1(streetAddress1.getValue());
 		address.setStreet(streetAdress2.getValue());
 		address.setCity(cityTextBox.getValue());
@@ -266,14 +267,12 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 					.getSelectedIndex()));
 		}
 		if (country.getSelectedIndex() != -1)
-			address.setCountryOrRegion(countries
-					.get(country.getSelectedIndex()));
-		company.setTradingAddress(address);
+			address.setCountryOrRegion(countries.get(country.getSelectedIndex()));
+		preferences.setTradingAddress(address);
 
 		if (timezoneslistbox.getSelectedIndex() != -1)
-			company.settimezone(timezones.get(timezoneslistbox
+			preferences.setTimezone(timezones.get(timezoneslistbox
 					.getSelectedIndex()));
-		Accounter.setCompany(company);
 
 	}
 

@@ -11,10 +11,14 @@ import org.hibernate.Transaction;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.ServerConvertUtil;
+import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.services.IS2SService;
+import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.IAccounterCompanyInitializationService;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * @author Prasanna Kumar G
@@ -142,7 +146,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 
 	@Override
 	public boolean initalizeCompany(ClientCompanyPreferences preferences,
-			List<TemplateAccount> accounts) {
+			List<TemplateAccount> accounts) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Transaction transaction = session.beginTransaction();
 		try {
@@ -155,6 +159,13 @@ public class AccounterCompanyInitializationServiceImpl extends
 					serverCompanyPreferences, preferences, session);
 			company.setPreferences(serverCompanyPreferences);
 
+			// Updating ServerCompany
+			IS2SService s2sSyncProxy = getS2sSyncProxy(ServerConfiguration
+					.getMainServerDomain());
+			String serverCompanyId = getCookie(BaseServlet.COMPANY_COOKIE);
+			s2sSyncProxy.updateServerCompany(Long.parseLong(serverCompanyId),
+					preferences.getFullName());
+
 			// Initializing Accounts
 			company.initialize(accounts);
 			company.setConfigured(true);
@@ -163,7 +174,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 		} catch (Exception e) {
 			e.printStackTrace();
 			transaction.rollback();
-			return false;
+			throw new AccounterException(AccounterException.ERROR_INTERNAL);
 		}
 		return true;
 	}

@@ -9,7 +9,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -121,16 +120,10 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	@Override
 	public void showMenu(Widget button) {
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button,
-					Accounter.messages().accounts(Global.get().Account()),
-					Accounter.constants().service(), Accounter.constants()
-							.productItem());
-		else
-			setMenuItems(button,
-					Accounter.messages().accounts(Global.get().Account()),
-					Accounter.constants().service(), Accounter.constants()
-							.productItem());
+		setMenuItems(button,
+				Accounter.messages().accounts(Global.get().Account()),
+				Accounter.constants().service(), Accounter.constants()
+						.productItem());
 		// FinanceApplication.constants().comment());
 
 	}
@@ -329,8 +322,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 		if (menuItem.equals(Accounter.messages().accounts(
 				Global.get().Account()))) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
-					&& !getCompany().getPreferences().isChargeSalesTax()) {
+			if (!getCompany().getPreferences().isRegisteredForVAT()) {
 				List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
 				long zvatCodeid = 0;
 				for (ClientTAXCode taxCode : taxCodes) {
@@ -343,8 +335,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 				// transactionItem.setVatCode(vendor != null ? (vendor
 				// .getVATCode() != null ? vendor.getVATCode() : "") : "");
 			}
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
-					&& getCompany().getPreferences().isChargeSalesTax()) {
+			if (getCompany().getPreferences().isRegisteredForVAT()) {
 				List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
 				long svatCodeid = 0;
 				for (ClientTAXCode taxCode : taxCodes) {

@@ -537,7 +537,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				});
 		amountsForm = new DynamicForm();
 		amountsForm.setWidth("100%");
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 
 			DynamicForm priceLevelForm = new DynamicForm();
 			// priceLevelForm.setCellSpacing(4);
@@ -594,7 +594,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(amountsForm);
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			prodAndServiceHLay.setCellWidth(amountsForm, "30%");
 		} else
 			prodAndServiceHLay.setCellWidth(amountsForm, "50%");
@@ -710,12 +710,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	}
 
 	public void showMenu(Widget button) {
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, Accounter.constants().serviceItem(), Accounter
-					.constants().productItem());
-		else
-			setMenuItems(button, Accounter.constants().serviceItem(), Accounter
-					.constants().productItem());
+		setMenuItems(button, Accounter.constants().serviceItem(), Accounter
+				.constants().productItem());
 
 	}
 
@@ -774,7 +770,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		if (customerTransactionTable == null)
 			return;
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+		if (getCompany().getPreferences().isChargeSalesTax()) {
 			Double taxableLineTotal = customerTransactionTable
 					.getTaxableLineTotal();
 
@@ -858,10 +854,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		addresses.addAll(customer.getAddress());
 		shipToAddress.setAddress(addresses);
 
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
-			// super.setCustomerTaxCodetoAccount();
+		// if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
+		// super.setCustomerTaxCodetoAccount();
 
-			allAddresses = new LinkedHashMap<Integer, ClientAddress>();
+		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 		if (addressListOfCustomer != null) {
 			Iterator it = addressListOfCustomer.iterator();
 			while (it.hasNext()) {
@@ -1133,12 +1129,13 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 					.setValue(transaction.getDueDate() != 0 ? new ClientFinanceDate(
 							transaction.getDueDate()) : getTransactionDate());
 
-			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (getCompany().getPreferences().isRegisteredForVAT()) {
 				netAmountLabel.setAmount(transaction.getNetAmount());
 				vatTotalNonEditableText.setAmount(transaction.getTotal()
 						- transaction.getNetAmount());
 				// vatinclusiveCheck.setValue(invoiceToBeEdited.isAmountsIncludeVAT());
-			} else if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
+			}
+			if (getCompany().getPreferences().isChargeSalesTax()) {
 				this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 				if (taxCode != null) {
 					this.taxCodeSelect
@@ -1383,7 +1380,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		// if (taxItemGroup != null)
 		// transaction.setTaxItemGroup(taxItemGroup);
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+		if (Accounter.getCompany().getPreferences().isChargeSalesTax()) {
 			if (taxCode != null) {
 				for (ClientTransactionItem record : customerTransactionTable
 						.getAllRows()) {
@@ -1391,7 +1388,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				}
 			}
 			transaction.setSalesTaxAmount(this.salesTax);
-		} else if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+		}
+		if (Accounter.getCompany().getPreferences().isRegisteredForVAT()) {
 			transaction.setNetAmount(netAmountLabel.getAmount());
 			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 					.getValue());

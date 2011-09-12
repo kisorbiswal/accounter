@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.edittable;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccountable;
@@ -77,7 +76,8 @@ public abstract class TransactionItemNameColumn extends
 				row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
 						* disc / 100)) : lt);
 
-				if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+				if (Accounter.getCompany().getPreferences()
+						.isRegisteredForVAT()) {
 					row.setTaxCode(selectItem.getTaxCode() != 0 ? selectItem
 							.getTaxCode() : 0);
 				}

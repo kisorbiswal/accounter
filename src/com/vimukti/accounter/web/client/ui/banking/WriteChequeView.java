@@ -227,7 +227,7 @@ public class WriteChequeView extends
 			mainVLay.remove(transactionCustomerTable);
 		mainVLay.add(gridView);
 		mainVLay.add(vPanel);
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			// It should be like thid only,becoz vatPanel is getting add befor
 			// the gird.So,we need to remove n add after grid
 			mainVLay.remove(vatPanel);
@@ -1035,9 +1035,6 @@ public class WriteChequeView extends
 			mainVLay.add(transactionCustomerTable);
 		}
 
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-			mainVLay.add(vatPanel);
-
 		AddNewButton addNewButton = createAddNewButton();
 		vPanel = new VerticalPanel();
 		vPanel.setWidth("100%");
@@ -1045,8 +1042,15 @@ public class WriteChequeView extends
 		addNewButton.getElement().getParentElement()
 				.setClassName("Writecheck_addNew");
 
-		vPanel.add(memoForm);
-		vPanel.setCellHorizontalAlignment(memoForm, ALIGN_LEFT);
+		HorizontalPanel bottomPanel = new HorizontalPanel();
+		bottomPanel.setWidth("100%");
+		bottomPanel.add(memoForm);
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
+			bottomPanel.add(vatPanel);
+		}
+
+		vPanel.add(bottomPanel);
+		bottomPanel.setCellHorizontalAlignment(memoForm, ALIGN_LEFT);
 		vPanel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
 		mainVLay.add(vPanel);
@@ -1191,25 +1195,13 @@ public class WriteChequeView extends
 			case ClientWriteCheck.TYPE_CUSTOMER:
 			case ClientWriteCheck.TYPE_VENDOR:
 			case ClientWriteCheck.TYPE_TAX_AGENCY:
-				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-					setMenuItems(
-							button,
-							Accounter.messages().accounts(
-									Global.get().Account()), Accounter
-									.constants().productItem()
-					// FinanceApplication.constants().comment(),
-					// FinanceApplication.constants()
-					// .salesTax()
-					);
-				else
-					setMenuItems(
-							button,
-							Accounter.messages().accounts(
-									Global.get().Account()), Accounter
-									.constants().productItem()
-					// FinanceApplication.constants().comment(),
-					// Accounter.constants().vatItem()
-					);
+				setMenuItems(button,
+						Accounter.messages().accounts(Global.get().Account()),
+						Accounter.constants().productItem()
+				// FinanceApplication.constants().comment(),
+				// FinanceApplication.constants()
+				// .salesTax()
+				);
 				// break;
 				// case ClientWriteCheck.TYPE_VENDOR:
 				// if (FinanceApplication.getCompany().getAccountingType() ==

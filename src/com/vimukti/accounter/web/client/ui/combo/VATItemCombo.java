@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.combo;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
@@ -105,10 +104,7 @@ public class VATItemCombo extends CustomCombo<ClientTAXItem> {
 	 */
 	@Override
 	public String getDefaultAddNewCaption() {
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			return comboMessages.newTaxItem();
-		else
-			return comboMessages.newVATItem();
+		return comboMessages.newVATItem();
 	}
 
 	/*

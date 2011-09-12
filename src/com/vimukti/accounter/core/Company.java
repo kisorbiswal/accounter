@@ -80,19 +80,6 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 	String companyID;
 
-	/**
-	 * Name of the Company
-	 */
-	String fullName;
-
-	/**
-	 * Legal Name of the Company
-	 */
-
-	String legalName;// registered name
-
-	String timezone;// time zones
-
 	private boolean isConfigured;
 	/**
 	 * this can hold a Set of {@link Address}
@@ -134,8 +121,6 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	boolean enableAutoRecall;
 
 	boolean restartSetupInterviews;
-
-	String taxId;
 
 	int fiscalYearStarting;
 
@@ -315,6 +300,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	private Set<Currency> currencies = new HashSet<Currency>();
 
 	private ArrayList<AccounterClass> accounterClasses = new ArrayList<AccounterClass>();
+
 	public String getCountryCode() {
 		return countryCode;
 	}
@@ -546,12 +532,6 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	private ArrayList<TAXCode> taxCodes;
 
 	private ArrayList<TAXItemGroup> taxItemGroups;
-
-	String phone;
-
-	String fax;
-
-	String webSite;
 
 	String bankAccountNo;
 
@@ -3193,42 +3173,30 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * @return the name
 	 */
 	public String getFullName() {
-		return fullName;
+		return getPreferences().getFullName();
 	}
 
 	/**
 	 * @return the legalName
 	 */
 	public String getTradingName() {
-		return legalName;
+		return getPreferences().getLegalName();
 	}
 
 	public void setTradingName(String legalName) {
-		this.legalName = legalName;
+		getPreferences().setLegalName(legalName);
 	}
 
 	public String gettimezone() {
-		return timezone;
+		return getPreferences().getTimezone();
 	}
 
 	public void settimezone(String timezone) {
-		this.timezone = timezone;
+		getPreferences().setTimezone(timezone);
 	}
 
 	public void setCompanyEmail(String companyEmail) {
 		this.companyEmail = companyEmail;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public void setFax(String fax) {
-		this.fax = fax;
-	}
-
-	public void setWebSite(String webSite) {
-		this.webSite = webSite;
 	}
 
 	/**
@@ -3326,7 +3294,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * @return the taxId
 	 */
 	public String getTaxId() {
-		return taxId;
+		return getPreferences().getTaxId();
 	}
 
 	/**
@@ -3356,18 +3324,6 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 */
 	public void setPreferences(CompanyPreferences preferences) {
 		this.preferences = preferences;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public String getFax() {
-		return fax;
-	}
-
-	public String getWebSite() {
-		return webSite;
 	}
 
 	public String getBankAccountNo() {
@@ -3588,12 +3544,12 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	@Override
 	public String toString() {
 
-		return fullName + " " + companyEmail;
+		return getFullName() + " " + companyEmail;
 
 	}
 
 	public void setFullName(String name) {
-		this.fullName = name;
+		this.getPreferences().setFullName(name);
 
 	}
 
@@ -4262,11 +4218,8 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 		cmp.accountingType = this.getAccountingType();
 		cmp.id = this.getID();
-		cmp.fullName = this.getFullName();
 		cmp.accounts = this.getAccounts();
 
-		cmp.legalName = this.getTradingName();
-		cmp.timezone = this.gettimezone();
 		cmp.companyEmail = this.getCompanyEmail();
 		cmp.tradingAddress = this.getRegisteredAddress();
 		cmp.registeredAddress = this.getTradingAddress();
@@ -4356,19 +4309,11 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 		cmp.taxAdjustments = this.getTaxAdjustments();
 
-		cmp.phone = this.getPhone();
-
-		cmp.fax = this.getFax();
-
-		cmp.webSite = this.getWebSite();
-
 		cmp.vatBoxes = this.getVatBoxes();
 
 		cmp.vatReturns = this.getVatReturns();
 
 		cmp.registrationNumber = this.getRegistrationNumber();
-
-		cmp.taxId = this.getTaxId();
 
 		cmp.bankAccountNo = this.getBankAccountNo();
 
@@ -4377,7 +4322,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		cmp.brandingTheme = this.getBrandingTheme();
 
 		cmp.usersList = this.getUsersList();
-		
+
 		cmp.accounterClasses = this.getAccounterClasses();
 
 		cmp.locations = this.getLocations();
@@ -4401,7 +4346,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	}
 
 	public void setTaxId(String taxId) {
-		this.taxId = taxId;
+		getPreferences().setTaxId(taxId);
 	}
 
 	public void updatePreferences(ClientCompany clientCompany)
@@ -4421,10 +4366,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		// RegisteredName=legalName
 		this.setTradingName(clientCompany.getTradingName());
 		this.setRegistrationNumber(clientCompany.getRegistrationNumber());
-		this.setPhone(clientCompany.getPhone());
-		this.setFax(clientCompany.getFax());
 		this.setTaxId(clientCompany.getTaxId());
-		this.setWebSite(clientCompany.getWebSite());
 		this.setBankAccountNo(clientCompany.getBankAccountNo());
 		this.setSortCode(clientCompany.getSortCode());
 		this.setPreferences(serverConvertUtil.toServerObject(this.preferences,
@@ -4434,16 +4376,9 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 	public ClientCompany toClientCompany() throws AccounterException {
 		ClientCompany clientCompany = new ClientCompany();
-		clientCompany.setName(this.fullName);
 		clientCompany.setID(this.id);
 		clientCompany.setCompanyEmail(this.companyEmail);
-		clientCompany.setPhone(this.phone);
-		clientCompany.setFax(this.fax);
-		clientCompany.setWebSite(this.webSite);
 		clientCompany.setRegistrationNumber(this.registrationNumber);
-		clientCompany.setTradingName(this.legalName);
-		clientCompany.settimezone(this.timezone);
-		clientCompany.setTaxId(this.taxId);
 		clientCompany.setBankAccountNo(this.bankAccountNo);
 		clientCompany.setSortCode(this.sortCode);
 		if (this.preferences != null) {

@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -16,8 +15,7 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 
 	@Override
 	protected String[] getColumns() {
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
-				&& getCompany().getPreferences().isChargeSalesTax()) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			return new String[] { "", Accounter.constants().name(),
 					Accounter.constants().description(),
 					Accounter.constants().quantity(),
@@ -56,13 +54,12 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 		case 6:
 			return ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX;
 		case 7:
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
-					&& getCompany().getPreferences().isChargeSalesTax())
+			if (getCompany().getPreferences().isRegisteredForVAT())
 				return ListGrid.COLUMN_TYPE_SELECT;
 			else
 				return ListGrid.COLUMN_TYPE_IMAGE;
 		case 8:
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+			if (getCompany().getPreferences().isRegisteredForVAT())
 				return ListGrid.COLUMN_TYPE_DECIMAL_TEXT;
 			else
 				return ListGrid.COLUMN_TYPE_IMAGE;
@@ -76,7 +73,7 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 
 	@Override
 	protected int getCellWidth(int index) {
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			return getUKGridCellWidth(index);
 		} else {
 			return getUSGridCellWidth(index);
@@ -165,15 +162,14 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 		case 6:
 			return item.getInvoiced() + "";
 		case 7:
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
-					&& getCompany().getPreferences().isChargeSalesTax()) {
+			if (getCompany().getPreferences().isRegisteredForVAT()) {
 				return getTAXCodeName(item.getTaxCode());
 			} else {
 				return Accounter.getFinanceMenuImages().delete();
 			}
 
 		case 8:
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+			if (getCompany().getPreferences().isRegisteredForVAT())
 				return amountAsString(item.getVATfraction());
 		case 9:
 			return Accounter.getFinanceMenuImages().delete();

@@ -30,7 +30,6 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -956,7 +955,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 									.transactionitemtotalcannotbe0orlessthan0());
 				}
 
-				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+				if (getCompany().getPreferences().isRegisteredForVAT()) {
 					if (transactionItem.getTaxCode() != 0) {
 						ClientTAXCode code = getCompany().getTAXCode(
 								transactionItem.getTaxCode());

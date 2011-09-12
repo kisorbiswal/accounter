@@ -11,7 +11,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -306,7 +305,7 @@ public class VendorCreditMemoView extends
 			// bottomLayout1.add(totalForm);
 			// bottomLayout1.setCellHorizontalAlignment(totalForm,
 			// HasHorizontalAlignment.ALIGN_RIGHT);
-		} else if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
+		} else if (getCompany().getPreferences().isChargeSalesTax()) {
 			memoForm.setStyleName("align-form");
 			VerticalPanel vPanel = new VerticalPanel();
 			vPanel.setWidth("100%");

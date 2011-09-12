@@ -13,7 +13,6 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class DepositInAccountCombo extends AccountCombo {
 
-
 	public DepositInAccountCombo(String title) {
 		super(title);
 	}
@@ -21,7 +20,7 @@ public class DepositInAccountCombo extends AccountCombo {
 	public List<ClientAccount> getAccounts() {
 		ArrayList<ClientAccount> deposiInAccounts = new ArrayList<ClientAccount>();
 		for (ClientAccount account : getCompany().getActiveAccounts()) {
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (getCompany().getPreferences().isRegisteredForVAT()) {
 				if (Arrays.asList(
 						ClientAccount.TYPE_BANK,
 						// ClientAccount.TYPE_CASH,
@@ -53,7 +52,7 @@ public class DepositInAccountCombo extends AccountCombo {
 	public void setAccounts() {
 		ArrayList<ClientAccount> deposiInAccounts = new ArrayList<ClientAccount>();
 		for (ClientAccount account : getCompany().getActiveAccounts()) {
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (getCompany().getPreferences().isRegisteredForVAT()) {
 				if (Arrays.asList(
 						ClientAccount.TYPE_BANK,
 						// ClientAccount.TYPE_CASH,

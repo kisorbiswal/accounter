@@ -509,19 +509,20 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// taxesForm.setPadding(10);
 
 		doupaySalesChecBox = new CheckboxItem();
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			doupaySalesChecBox.setTitle(Accounter.constants()
-					.doYoupaySalesTaxes());
-
-		} else {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			doupaySalesChecBox.setTitle(Accounter.constants()
 					.areYouRegisteredForVAT());
+			vatRegNumber = new TextItem(Accounter.constants()
+					.vatRegistrationNumber());
 		}
-		vatRegNumber = new TextItem(
-				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
 
-				.constants().vatRegistrationNumber()
-						: Accounter.constants().taxRegNo());
+		if (getCompany().getPreferences().isChargeSalesTax()) {
+			doupaySalesChecBox.setTitle(Accounter.constants()
+					.doYoupaySalesTaxes());
+			vatRegNumber = new TextItem(Accounter.constants().taxRegNo());
+
+		}
+
 		vatRegNumber.setHelpInformation(true);
 		vatRegNumber.setWidth(100);
 		vatRegNumber.setDisabled(false);
@@ -529,7 +530,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 				vatRegNumber.getTitle().toLowerCase(),
 				Accounter.constants().company()));
 
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+		if (getCompany().getPreferences().isChargeSalesTax()) {
 			doupaySalesChecBox.addChangeHandler(new ChangeHandler() {
 
 				private FocusWidget taxgroupBtn;

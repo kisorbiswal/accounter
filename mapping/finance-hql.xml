@@ -27,7 +27,7 @@
 	<query name="list.Bank">from com.vimukti.accounter.core.Bank b order by
 		b.name</query>
 	<query name="list.Company">from com.vimukti.accounter.core.Company c order by
-		c.fullName</query>
+		c.preferences.fullName</query>
 	<query name="list.CreditRating">from com.vimukti.accounter.core.CreditRating cr order
 		by cr.name
 	</query>

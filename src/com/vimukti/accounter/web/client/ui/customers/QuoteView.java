@@ -158,17 +158,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	@Override
 	public void showMenu(Widget button) {
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button,
-			// Accounter.messages().accounts(Global.get().Account()),
-					Accounter.constants().serviceItem(), Accounter.constants()
-							.productItem());
-		// FinanceApplication.constants().salesTax());
-		else
-			setMenuItems(button,
-			// Accounter.messages().accounts(Global.get().Account()),
-					Accounter.constants().serviceItem(), Accounter.constants()
-							.productItem());
+		setMenuItems(button,
+		// Accounter.messages().accounts(Global.get().Account()),
+				Accounter.constants().serviceItem(), Accounter.constants()
+						.productItem());
 		// FinanceApplication.constants().comment(),
 		// FinanceApplication.constants().VATItem());
 
@@ -254,7 +247,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		quote.setPaymentTerm(Utility.getID(paymentTerm));
 		quote.setNetAmount(netAmountLabel.getAmount());
 
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			quote.setAmountsIncludeVAT((Boolean) vatinclusiveCheck.getValue());
 		} else
 			quote.setSalesTax(this.salesTax);
@@ -360,8 +353,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			phoneForm.setFields(payTermsSelect, quoteExpiryDate, deliveryDate);
 		}
 		phoneForm.setStyleName("align-form");
-		phoneForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "203px");
+		phoneForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "203px");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -424,8 +417,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		prodAndServiceForm2.setNumCols(4);
 		prodAndServiceForm2.setCellSpacing(5);
 
-		int accountType = getCompany().getAccountingType();
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			// prodAndServiceForm2.setFields(priceLevelSelect, netAmountLabel,
 			// disabletextbox, vatTotalNonEditableText, disabletextbox,
 			// transactionTotalNonEditableText);
@@ -433,7 +425,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 					disabletextbox, vatTotalNonEditableText, disabletextbox,
 					transactionTotalNonEditableText);
 			prodAndServiceForm2.addStyleName("invoice-total");
-		} else if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
+		}
+
+		if (getCompany().getPreferences().isChargeSalesTax()) {
 			// prodAndServiceForm2.setFields(taxCodeSelect,
 			// salesTaxTextNonEditable, priceLevelSelect,
 			// transactionTotalNonEditableText);
@@ -460,7 +454,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(prodAndServiceForm2);
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "30%");
 		} else
 			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
@@ -638,11 +632,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 			memoTextAreaItem.setValue(transaction.getMemo());
 			// refText.setValue(estimate.getReference());
-			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (getCompany().getPreferences().isRegisteredForVAT()) {
 				netAmountLabel.setAmount(transaction.getNetAmount());
 				vatTotalNonEditableText.setValue(String.valueOf(transaction
-						.getTotal()
-						- transaction.getNetAmount()));
+						.getTotal() - transaction.getNetAmount()));
 			}
 			memoTextAreaItem.setDisabled(true);
 			transactionTotalNonEditableText.setAmount(transaction.getTotal());
@@ -726,8 +719,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	public void updateNonEditableItems() {
 		if (customerTransactionTable == null)
 			return;
-		int accountType = getCompany().getAccountingType();
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
+		if (getCompany().getPreferences().isChargeSalesTax()) {
 			Double taxableLineTotal = customerTransactionTable
 					.getTaxableLineTotal();
 
@@ -735,7 +727,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				return;
 
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(), taxableLineTotal,
+					transactionDateItem.getEnteredDate(),
+					taxableLineTotal,
 					getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
@@ -745,11 +738,13 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 					+ this.salesTax);
 			netAmountLabel.setAmount(customerTransactionTable.getGrandTotal());
 
-		} else if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+		}
+
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			netAmountLabel.setAmount(customerTransactionTable.getGrandTotal());
-			vatTotalNonEditableText.setAmount(customerTransactionTable
-					.getTotalValue()
-					- customerTransactionTable.getGrandTotal());
+			vatTotalNonEditableText
+					.setAmount(customerTransactionTable.getTotalValue()
+							- customerTransactionTable.getGrandTotal());
 			setTransactionTotal(customerTransactionTable.getTotalValue());
 		}
 
@@ -774,8 +769,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		// Validations
 		// 1. isValidDueOrDeliveryDate?
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(this.quoteExpiryDate
-				.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(
+				this.quoteExpiryDate.getEnteredDate(), this.transactionDate)) {
 			result.addError(this.quoteExpiryDate, Accounter.constants().the()
 					+ " "
 					+ customerConstants.expirationDate()

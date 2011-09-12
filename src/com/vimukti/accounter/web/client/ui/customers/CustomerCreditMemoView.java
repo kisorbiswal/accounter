@@ -13,7 +13,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerCreditMemo;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -137,8 +136,8 @@ public class CustomerCreditMemoView extends
 		custForm = UIUtils.form(Global.get().customer());
 		custForm.setFields(customerCombo, contactCombo, billToTextArea);
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
-		custForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Global.get().constants().width(), "190px");
+		custForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Global.get().constants().width(), "190px");
 		custForm.setWidth("100%");
 		custForm.setStyleName("align-form");
 
@@ -362,7 +361,7 @@ public class CustomerCreditMemoView extends
 			transaction.setPriceLevel(priceLevel.getID());
 		transaction.setMemo(getMemoTextAreaItem());
 		// transaction.setReference(getRefText());
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			transaction.setNetAmount(netAmountLabel.getAmount());
 			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 					.getValue());
@@ -405,7 +404,7 @@ public class CustomerCreditMemoView extends
 			} else
 				billToTextArea.setValue("");
 
-			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (getCompany().getPreferences().isRegisteredForVAT()) {
 				netAmountLabel.setAmount(transaction.getNetAmount());
 				vatTotalNonEditableText.setAmount(transaction.getTotal()
 						- transaction.getNetAmount());
@@ -532,7 +531,8 @@ public class CustomerCreditMemoView extends
 			if (taxableLineTotal == null)
 				return;
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(), taxableLineTotal,
+					transactionDateItem.getEnteredDate(),
+					taxableLineTotal,
 					getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
@@ -628,7 +628,7 @@ public class CustomerCreditMemoView extends
 		if (customer != null) {
 			customerCombo.setComboItem(customer);
 		}
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			for (ClientTransactionItem item : customerTransactionTable
 					.getRecords()) {
 				if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT)
@@ -743,8 +743,8 @@ public class CustomerCreditMemoView extends
 			// if there is only one branding theme
 			ClientBrandingTheme brandingTheme = themesList.get(0);
 			UIUtils.downloadAttachment(transaction.getID(),
-					ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO, brandingTheme
-							.getID());
+					ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO,
+					brandingTheme.getID());
 
 		}
 

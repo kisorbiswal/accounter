@@ -403,7 +403,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		});
 
 		accInfoForm.setStyleName("vender-form");
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+		if (getCompany().getPreferences().isChargeSalesTax()) {
 			accInfoForm.setFields(statusCheck, vendorSinceDate, balanceText,
 					balanceDate, taxID, track1099MISC);
 		} else {
@@ -713,7 +713,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		 * In UK n US versions we need different widths as for the view
 		 * requirement
 		 */
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (getCompany().getPreferences().isChargeSalesTax())
 			vendorGrpForm.setWidth("88%");
 		else
 			vendorGrpForm.setWidth("100%");
@@ -751,7 +751,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		vatform.setWidth("50%");
 		vatform.setGroupTitle(Accounter.constants().vatDetails());
 
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA && getCompany().getPreferences().isTDSEnabled()) {
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA
+				&& getCompany().getPreferences().isTDSEnabled()) {
 			vatform.setFields(vatRegistrationNumber, vendorTaxCode, isTDS,
 					vendorTDSTaxCode);
 		} else {

@@ -238,7 +238,7 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 				UsersMailSendar.sendMailToInvitedUser(invitedClient,
 						randomString, serverCompany.getCompanyName());
 			}
-			
+
 			return userExists;
 		} catch (Exception e) {
 			transaction.rollback();
@@ -264,6 +264,22 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 			throw new AccounterException(AccounterException.ERROR_INTERNAL, e);
 		} finally {
 			session.close();
+		}
+	}
+
+	@Override
+	public void updateServerCompany(long serverCompanyID, String fullName)
+			throws AccounterException {
+		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+		Transaction transaction = session.beginTransaction();
+		try {
+			ServerCompany company = (ServerCompany) session.get(
+					ServerCompany.class, serverCompanyID);
+			company.setCompanyName(fullName);
+			session.saveOrUpdate(company);
+			transaction.commit();
+		} catch (Exception e) {
+			throw new AccounterException(AccounterException.ERROR_INTERNAL, e);
 		}
 	}
 }

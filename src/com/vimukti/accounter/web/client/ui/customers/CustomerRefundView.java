@@ -621,8 +621,7 @@ public class CustomerRefundView extends
 		// if (!AccounterValidator.isPositiveAmount(this.amtText.getAmount())) {
 		// result.addError(amtText, accounterConstants.invalidNegativeAmount());
 		// }
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
-				&& getCompany().getPreferences().isChargeSalesTax()) {
+		if (getCompany().getPreferences().isChargeSalesTax()) {
 			if (taxCodeSelect != null)
 				if (!taxCodeSelect.validate()) {
 					result.addError(taxCodeSelect, Accounter.messages()

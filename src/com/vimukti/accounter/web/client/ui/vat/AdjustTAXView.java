@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAdjustment;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
@@ -85,7 +84,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 	private void createControls() {
 		listforms = new ArrayList<DynamicForm>();
 		Label infoLabel;
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (getCompany().getPreferences().isChargeSalesTax())
 			infoLabel = new Label(Accounter.constants().taxAdjustment());
 		else
 			infoLabel = new Label(Accounter.constants().vatAdjustment());
@@ -182,10 +181,8 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		vatform.getCellFormatter().setWidth(0, 1, "182");
 
 		taxAgencyCombo.setRequired(true);
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			vatItemCombo.setRequired(false);
-		else
-			vatItemCombo.setRequired(true);
+		vatItemCombo.setRequired(getCompany().getPreferences()
+				.isRegisteredForVAT());
 
 		adjustAccountCombo = new OtherAccountsCombo(Accounter.messages()
 				.adjustmentAccount(Global.get().Account()));
@@ -199,7 +196,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		amount.setWidth(100);
 		typeRadio = new RadioGroupItem("");
 		// typeRadio.setRequired(true);
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			typeRadio.setValueMap(Accounter.constants().increaseVATLine(),
 					Accounter.constants().decreaseVATLine());
 			typeRadio.setDefaultValue(Accounter.constants().increaseVATLine());
@@ -214,7 +211,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		memo.setMemo(false, this);
 		memo.setHelpInformation(true);
 		memo.setWidth(100);
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+		if (getCompany().getPreferences().isChargeSalesTax()) {
 			taxAgencyCombo.setTitle(Accounter.constants().taxAgency());
 			vatItemCombo.setTitle(Accounter.constants().taxItem());
 			vatLine.setValue(Accounter.constants().taxLine());
@@ -233,10 +230,11 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 				HasHorizontalAlignment.ALIGN_RIGHT);
 
 		DynamicForm topform = new DynamicForm();
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (getCompany().getPreferences().isChargeSalesTax()) {
 			topform.setFields(taxAgencyCombo);
-		else
+		} else {
 			topform.setFields(taxAgencyCombo, vatItemCombo);
+		}
 
 		topform.setWidth("50%");
 		topform.getCellFormatter().setWidth(0, 0, "190");
@@ -252,8 +250,9 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		mainPanel.add(infoLabel);
 		mainPanel.add(datepanel);
 		mainPanel.add(topform);
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			mainPanel.add(vatform);
+		}
 		mainPanel.add(memoForm);
 		mainPanel.setSpacing(10);
 
@@ -408,10 +407,11 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		data.setTransactionDate(adjustDate.getDate().getDate());
 
 		// vatAdjustment.setVatAgency(clientVATAgency.getID());s
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (getCompany().getPreferences().isChargeSalesTax()) {
 			data.setTaxItem(0);
-		else
+		} else {
 			data.setTaxItem(vatItemCombo.getSelectedValue().getID());
+		}
 		data.setTaxAgency(clientTAXAgency.getID());
 
 		data.setAdjustmentAccount(adjustAccountCombo.getSelectedValue().getID());

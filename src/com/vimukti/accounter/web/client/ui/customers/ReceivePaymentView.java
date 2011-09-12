@@ -15,7 +15,6 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
@@ -512,10 +511,7 @@ public class ReceivePaymentView extends
 		payForm.setIsGroup(true);
 		payForm.setGroupTitle(Accounter.constants().payment());
 
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			payForm.setFields(customerCombo, amtText, paymentMethodCombo);
-		} else
-			payForm.setFields(customerCombo, amtText, paymentMethodCombo);
+		payForm.setFields(customerCombo, amtText, paymentMethodCombo);
 		payForm.setStyleName("align-form");
 		payForm.getCellFormatter().setWidth(0, 0, "180px");
 

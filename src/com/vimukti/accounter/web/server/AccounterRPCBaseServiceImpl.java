@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import com.gdevelop.gwt.syncrpc.SyncProxy;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Company;
@@ -25,6 +26,8 @@ import com.vimukti.accounter.core.Server;
 import com.vimukti.accounter.core.ServerCompany;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.services.IS2SService;
 import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -254,5 +257,13 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 			throw new AccounterException(AccounterException.ERROR_INTERNAL,
 					e.getMessage());
 		}
+	}
+
+	protected IS2SService getS2sSyncProxy(String domainName) {
+		String url = "http://" + domainName + ":"
+				+ ServerConfiguration.getMainServerPort()
+				+ "/company/stosservice";
+		return (IS2SService) SyncProxy.newProxyInstance(IS2SService.class, url,
+				"");
 	}
 }

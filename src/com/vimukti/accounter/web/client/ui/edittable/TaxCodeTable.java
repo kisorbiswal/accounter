@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.edittable;
 import java.util.List;
 
 import com.google.gwt.user.cellview.client.TextColumn;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
@@ -85,7 +84,7 @@ public class TaxCodeTable extends AbstractDropDownTable<ClientTAXCode> {
 	@Override
 	public void addNewItem() {
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (Accounter.getCompany().getPreferences().isRegisteredForVAT()) {
 			NewTAXCodeAction action = ActionFactory.getNewTAXCodeAction();
 			action.setCallback(new ActionCallback<ClientTAXCode>() {
 

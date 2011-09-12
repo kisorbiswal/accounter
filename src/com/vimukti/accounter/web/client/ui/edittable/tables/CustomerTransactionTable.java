@@ -79,7 +79,7 @@ public abstract class CustomerTransactionTable extends
 
 					@Override
 					public boolean filter(ClientAccount account) {
-						if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+						if (getCompany().getPreferences().isRegisteredForVAT()) {
 							if (Arrays.asList(ClientAccount.TYPE_BANK,
 									ClientAccount.TYPE_CREDIT_CARD,
 									ClientAccount.TYPE_OTHER_CURRENT_ASSET,
@@ -122,7 +122,7 @@ public abstract class CustomerTransactionTable extends
 
 		if (getCompany().getPreferences().isChargeSalesTax()) {
 
-			if (this.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (getCompany().getPreferences().isRegisteredForVAT()) {
 
 				this.addColumn(new TransactionVatCodeColumn());
 			}
@@ -239,14 +239,14 @@ public abstract class CustomerTransactionTable extends
 
 			Double lineTotalAmt = citem.getLineTotal();
 			totallinetotal += lineTotalAmt;
-			if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
+			if (getCompany().getPreferences().isChargeSalesTax()) {
 				if (citem != null && citem.isTaxable())
 					taxableTotal += lineTotalAmt;
 			}
 			totalVat += citem.getVATfraction();
 		}
 
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_US)
+		if (getCompany().getPreferences().isChargeSalesTax())
 			grandTotal = totalVat + totallinetotal;
 		else {
 			// if (transactionView.vatinclusiveCheck != null
@@ -406,8 +406,7 @@ public abstract class CustomerTransactionTable extends
 						Accounter.messages().pleaseEnter(
 								UIUtils.getTransactionTypeName(item.getType())));
 			}
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
-					&& item.getType() != ClientTransactionItem.TYPE_SALESTAX) {
+			if (getCompany().getPreferences().isRegisteredForVAT()) {
 				if (item.getTaxCode() == 0) {
 					result.addError(
 							"GridItemUK-" + item.getAccount(),

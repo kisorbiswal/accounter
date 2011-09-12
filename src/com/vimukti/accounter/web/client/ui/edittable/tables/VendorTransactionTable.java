@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
-import com.vimukti.accounter.web.client.core.IAccountable;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -108,8 +107,7 @@ public abstract class VendorTransactionTable extends
 
 		this.addColumn(new TransactionTotalColumn());
 
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
-				&& getCompany().getPreferences().isChargeSalesTax()) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 
 			this.addColumn(new TransactionVatCodeColumn());
 
@@ -185,7 +183,7 @@ public abstract class VendorTransactionTable extends
 		// this.addFooterValue(amountAsString(totallinetotal), 5);
 		// }
 
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (getCompany().getPreferences().isChargeSalesTax())
 			grandTotal = totalVat + totallinetotal;
 		else {
 			// if (transactionView.vatinclusiveCheck != null
@@ -268,8 +266,7 @@ public abstract class VendorTransactionTable extends
 					// ,
 					// UIUtils.getTransactionTypeName(item.getType()));
 				case 2:
-					if (accountingType == ClientCompany.ACCOUNTING_TYPE_UK
-							&& item.getType() != ClientTransactionItem.TYPE_SALESTAX) {
+					if (getCompany().getPreferences().isRegisteredForVAT()) {
 						if (item.getTaxCode() == 0) {
 							result.addError(
 									row + "," + 6,

@@ -20,8 +20,6 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
@@ -1026,10 +1024,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		} else {
 			for (int type : UIUtils.accountTypes) {
-				if (getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK)
+				if (getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK) {
 					accountTypesMap.put(String.valueOf(type),
 							Utility.getAccountTypeString(type));
-				else if (type != ClientAccount.TYPE_BANK
+				} else if (type != ClientAccount.TYPE_BANK
 						&& type != ClientAccount.TYPE_CASH
 						&& type != ClientAccount.TYPE_OTHER_INCOME
 						&& type != ClientAccount.TYPE_INVENTORY_ASSET

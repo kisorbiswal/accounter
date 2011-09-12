@@ -4,8 +4,6 @@ import java.util.Arrays;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccountable;
 import com.vimukti.accounter.web.client.core.ListFilter;
@@ -46,7 +44,7 @@ public abstract class SalesOrderTable extends CustomerTransactionTable {
 
 					@Override
 					public boolean filter(ClientAccount account) {
-						if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+						if (getCompany().getPreferences().isRegisteredForVAT()) {
 							if (Arrays.asList(ClientAccount.TYPE_BANK,
 									ClientAccount.TYPE_CREDIT_CARD,
 									ClientAccount.TYPE_OTHER_CURRENT_ASSET,
@@ -88,12 +86,15 @@ public abstract class SalesOrderTable extends CustomerTransactionTable {
 
 		this.addColumn(new TransactionTotalColumn());
 
-		if (getCompany().getPreferences().isChargeSalesTax()) {
-			if (this.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-				this.addColumn(new TransactionVatCodeColumn());
-			}
-
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
+			this.addColumn(new TransactionVatCodeColumn());
 			this.addColumn(new TransactionVatColumn());
+		} else if (getCompany().getPreferences().isChargeSalesTax()) {
+			this.addColumn(new TransactionVatColumn() {
+				protected String getColumnName() {
+					return Accounter.constants().tax();
+				};
+			});
 		}
 
 		this.addColumn(new DeleteColumn<ClientTransactionItem>());

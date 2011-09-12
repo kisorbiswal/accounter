@@ -255,8 +255,9 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 		shippingMethodSelected(company.getShippingMethod(customer
 				.getShippingMethod()));
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (getCompany().getPreferences().isChargeSalesTax()) {
 			taxCodeSelected(company.getTAXCode(customer.getTAXCode()));
+		}
 
 		priceLevelSelected(company.getPriceLevel(customer.getPriceLevel()));
 
@@ -273,17 +274,11 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	@Override
 	public void showMenu(Widget button) {
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button,
-					Accounter.messages().accounts(Global.get().Account()),
-					Accounter.constants().serviceItem(), Accounter.constants()
-							.productItem());
+		setMenuItems(button,
+				Accounter.messages().accounts(Global.get().Account()),
+				Accounter.constants().serviceItem(), Accounter.constants()
+						.productItem());
 		// FinanceApplication.constants().salesTax());
-		else
-			setMenuItems(button,
-					Accounter.messages().accounts(Global.get().Account()),
-					Accounter.constants().serviceItem(), Accounter.constants()
-							.productItem());
 		// FinanceApplication.constants().comment(),
 		// FinanceApplication.constants().VATItem());
 

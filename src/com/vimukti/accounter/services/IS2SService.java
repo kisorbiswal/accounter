@@ -33,4 +33,12 @@ public interface IS2SService extends RemoteService {
 	 */
 	public void deleteCompany(long serverCompanyID) throws AccounterException;
 
+	/**
+	 * @param parseLong
+	 * @param fullName
+	 * @throws AccounterException
+	 */
+	public void updateServerCompany(long serverCompanyID, String fullName)
+			throws AccounterException;
+
 }

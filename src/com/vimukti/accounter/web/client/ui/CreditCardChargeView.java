@@ -269,7 +269,7 @@ public class CreditCardChargeView extends
 					.getDeliveryDate()));
 			delivDate.setDisabled(isInViewMode());
 			phoneSelect.setValue(transaction.getPhone());
-			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (getCompany().getPreferences().isRegisteredForVAT()) {
 				netAmount.setAmount(transaction.getNetAmount());
 				vatTotalNonEditableText.setAmount(transaction.getTotal()
 						- transaction.getNetAmount());
@@ -558,7 +558,7 @@ public class CreditCardChargeView extends
 		panel.add(createAddNewButton());
 		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			totalForm.setFields(netAmount, vatTotalNonEditableText,
 					transactionTotalNonEditableText);
 			VerticalPanel vPanel = new VerticalPanel();
@@ -668,7 +668,7 @@ public class CreditCardChargeView extends
 
 		updateTransaction();
 
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
+		if (getCompany().getPreferences().isRegisteredForVAT())
 			transaction.setNetAmount(netAmount.getAmount());
 		// creditCardCharge.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 		// .getValue());
@@ -760,7 +760,7 @@ public class CreditCardChargeView extends
 	@Override
 	public void updateNonEditableItems() {
 
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			transactionTotalNonEditableText.setAmount(vendorTransactionTable
 					.getTotal());
 			netAmount.setAmount(vendorTransactionTable.getGrandTotal());

@@ -21,7 +21,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
@@ -191,7 +190,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		// Setting TaxAgency
 		data.setName(taxAgencyText.getValue().toString());
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			if (vatReturnCombo.getSelectedValue() == "") {
 				data.setVATReturn(ClientTAXAgency.RETURN_TYPE_NONE);
 			} else if (vatReturnCombo.getSelectedValue() == "UK VAT") {
@@ -231,7 +230,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		data.setSalesLiabilityAccount(selectedSalesAccount.getID());
 
 		// Setting Purchase Liability account
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+		if (getCompany().getPreferences().isRegisteredForVAT())
 			data.setPurchaseLiabilityAccount(selectedPurchaseAccount.getID());
 		else
 			data.setPurchaseLiabilityAccount(0);
@@ -262,7 +261,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	private VerticalPanel getTopLayout() {
 		Label lab;
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			lab = new Label(Accounter.constants().vatAgency());
 			taxAgencyText = new TextItem(Accounter.constants().vatAgency());
 			taxAgencyText.setHelpInformation(true);
@@ -297,7 +296,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		taxAgencyForm = UIUtils.form(companyConstants.taxAgency());
 		taxAgencyForm.setWidth("100%");
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			taxAgencyForm.getCellFormatter().setWidth(0, 0, "167px");
 		} else
 			taxAgencyForm.getCellFormatter().setWidth(0, 0, "166px");
@@ -382,7 +381,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		Label contacts = new Label(companyConstants.contacts());
 		initListGrid();
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			accInfoForm.setFields(statusCheck, paymentTermsCombo,
 					vatReturnCombo, liabilitySalesAccountCombo,
 					liabilityPurchaseAccountCombo);
@@ -798,7 +797,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	@Override
 	protected String getViewTitle() {
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			return Accounter.constants().vatAgency();
 		} else {
 			return Accounter.constants().taxAgency();

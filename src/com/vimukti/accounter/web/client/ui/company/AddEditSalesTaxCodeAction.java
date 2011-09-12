@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.company;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddEditSalesTaxCodeView;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -61,7 +60,7 @@ public class AddEditSalesTaxCodeAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+		if (Accounter.getCompany().getPreferences().isRegisteredForVAT())
 			return "newVatCode";
 		else
 			return "newTaxCode";

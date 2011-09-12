@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.tools.ant.taskdefs.condition.IsReference;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -131,7 +129,7 @@ public class VendorBillView extends
 			phoneSelect.setValue(transaction.getPhone());
 			phoneSelect.setDisabled(true);
 			transactionNumber.setValue(transaction.getNumber());
-			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (getCompany().getPreferences().isRegisteredForVAT()) {
 				netAmount.setAmount(transaction.getNetAmount());
 				vatTotalNonEditableText.setAmount(transaction.getTotal()
 						- transaction.getNetAmount());
@@ -741,8 +739,7 @@ public class VendorBillView extends
 		if (selectedPurchaseOrder != 0)
 			transaction.setPurchaseOrder(selectedPurchaseOrder);
 
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK
-				|| accountType == ClientCompany.ACCOUNTING_TYPE_INDIA)
+		if (getCompany().getPreferences().isRegisteredForVAT())
 			transaction.setNetAmount(netAmount.getAmount());
 
 		// enterBill.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
@@ -754,7 +751,7 @@ public class VendorBillView extends
 		transactionTotalNonEditableText.setAmount(vendorTransactionTable
 				.getTotal());
 		netAmount.setAmount(vendorTransactionTable.getGrandTotal());
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			vatTotalNonEditableText.setAmount(vendorTransactionTable.getTotal()
 					- vendorTransactionTable.getGrandTotal());
 		}

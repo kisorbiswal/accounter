@@ -12,6 +12,7 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
@@ -168,6 +169,8 @@ public class PurchaseOrderView extends
 		prodAndServiceHLay.setWidth("100%");
 		prodAndServiceHLay.add(amountsForm);
 		prodAndServiceHLay.setCellHorizontalAlignment(amountsForm, ALIGN_RIGHT);
+		prodAndServiceHLay.setCellVerticalAlignment(amountsForm,
+				HasVerticalAlignment.ALIGN_BOTTOM);
 
 		if (getCompany().getPreferences().isChargeSalesTax()) {
 
@@ -191,14 +194,14 @@ public class PurchaseOrderView extends
 			taxCodeSelect = createTaxCodeSelectItem();
 			salesTaxTextNonEditable = createSalesTaxNonEditableLabel();
 			transactionTotalNonEditableText = createTransactionTotalNonEditableLabelforPurchase();
-			paymentsNonEditableText = new AmountLabel(accounterConstants
-					.payments());
+			paymentsNonEditableText = new AmountLabel(
+					accounterConstants.payments());
 			paymentsNonEditableText.setDisabled(true);
 			paymentsNonEditableText.setDefaultValue(""
 					+ UIUtils.getCurrencySymbol() + " 0.00");
 
-			balanceDueNonEditableText = new AmountField(accounterConstants
-					.balanceDue(), this);
+			balanceDueNonEditableText = new AmountField(
+					accounterConstants.balanceDue(), this);
 			balanceDueNonEditableText.setDisabled(true);
 			balanceDueNonEditableText.setDefaultValue(""
 					+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -248,8 +251,8 @@ public class PurchaseOrderView extends
 		shipToAddress = new ShipToForm(null);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
-		shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "40px");
+		shipToAddress.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -300,8 +303,9 @@ public class PurchaseOrderView extends
 		// dueDateItem.setWidth(100);
 		if (isInViewMode()) {
 			// setDueDate(((ClientEnterBill) transactionObject).getDueDate());
-		} else
+		} else {
 			setDueDate(new ClientFinanceDate().getDate());
+		}
 		dueDateItem.addChangedHandler(new ChangeHandler() {
 
 			@Override
@@ -593,8 +597,8 @@ public class PurchaseOrderView extends
 
 	public AddressCombo createVendorAddressComboItem() {
 
-		AddressCombo addressCombo = new AddressCombo(messages
-				.vendorAddress(Global.get().Vendor()));
+		AddressCombo addressCombo = new AddressCombo(
+				messages.vendorAddress(Global.get().Vendor()));
 
 		addressCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
@@ -838,7 +842,7 @@ public class PurchaseOrderView extends
 				.getTotal());
 		netAmount.setAmount(vendorTransactionTable.getGrandTotal());
 		// vatTotalNonEditableText.setValue(vendorTransactionGrid.getVatTotal());
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			vatTotalNonEditableText.setAmount(vendorTransactionTable.getTotal()
 					- vendorTransactionTable.getGrandTotal());
 		}
@@ -852,8 +856,8 @@ public class PurchaseOrderView extends
 
 		saveOrUpdate((ClientPurchaseOrder) transaction);
 
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_US
-				|| accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isChargeSalesTax()
+				|| getCompany().getPreferences().isRegisteredForVAT()) {
 			netAmount.setAmount(transaction.getNetAmount());
 			vatTotalNonEditableText.setAmount(transaction.getTotal()
 					- transaction.getNetAmount());
@@ -1038,13 +1042,13 @@ public class PurchaseOrderView extends
 		// 6. is blank transaction?
 		// 7. vendor transaction grid valid?
 		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateTransactionDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
 		}
 
 		// TODO::: isvalid received date
@@ -1072,8 +1076,8 @@ public class PurchaseOrderView extends
 		result.add(vendorForm.validate());
 
 		if (vendorTransactionTable.getAllRows().isEmpty()) {
-			result.addError(vendorTransactionTable, accounterConstants
-					.blankTransaction());
+			result.addError(vendorTransactionTable,
+					accounterConstants.blankTransaction());
 		} else
 			result.add(vendorTransactionTable.validateGrid());
 

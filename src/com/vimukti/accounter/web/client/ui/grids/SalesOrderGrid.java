@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.grids;
 
 import java.util.Arrays;
 
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
@@ -19,27 +18,24 @@ public class SalesOrderGrid extends CustomerTransactionGrid {
 
 	@Override
 	protected String[] getColumns() {
-		if (getCompany().getPreferences().isChargeSalesTax()) {
-			if (this.accountingType == ClientCompany.ACCOUNTING_TYPE_UK) {
-				return new String[] { "", Accounter.constants().name(),
-						Accounter.constants().description(),
-						Accounter.constants().quantity(),
-						Accounter.constants().unitPrice(),
-						Accounter.constants().discPerc(),
-						Accounter.constants().total(),
-						Accounter.constants().newVATCode(),
-						Accounter.constants().vat(),
-						Accounter.constants().invoiced(), " " };
-			} else {
-				return new String[] { "", Accounter.constants().name(),
-						Accounter.constants().description(),
-						Accounter.constants().quantity(),
-						Accounter.constants().unitPrice(),
-						Accounter.constants().discPerc(),
-						Accounter.constants().total(),
-						Accounter.constants().tax(),
-						Accounter.constants().invoiced(), " " };
-			}
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
+			return new String[] { "", Accounter.constants().name(),
+					Accounter.constants().description(),
+					Accounter.constants().quantity(),
+					Accounter.constants().unitPrice(),
+					Accounter.constants().discPerc(),
+					Accounter.constants().total(),
+					Accounter.constants().newVATCode(),
+					Accounter.constants().vat(),
+					Accounter.constants().invoiced(), " " };
+		} else if (getCompany().getPreferences().isChargeSalesTax()) {
+			return new String[] { "", Accounter.constants().name(),
+					Accounter.constants().description(),
+					Accounter.constants().quantity(),
+					Accounter.constants().unitPrice(),
+					Accounter.constants().discPerc(),
+					Accounter.constants().total(), Accounter.constants().tax(),
+					Accounter.constants().invoiced(), " " };
 
 		} else {
 			return new String[] { "", Accounter.constants().name(),
@@ -54,7 +50,7 @@ public class SalesOrderGrid extends CustomerTransactionGrid {
 
 	@Override
 	protected int getCellWidth(int index) {
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			return getUKGridCellWidth(index);
 		} else {
 			return getUSGridCellWidth(index);
@@ -144,7 +140,7 @@ public class SalesOrderGrid extends CustomerTransactionGrid {
 				return ListGrid.COLUMN_TYPE_IMAGE;
 			}
 		case 9:
-			if (this.accountingType == ClientCompany.ACCOUNTING_TYPE_UK)
+			if (getCompany().getPreferences().isRegisteredForVAT())
 				return ListGrid.COLUMN_TYPE_DECIMAL_TEXT;
 			else
 				return ListGrid.COLUMN_TYPE_IMAGE;
@@ -308,7 +304,7 @@ public class SalesOrderGrid extends CustomerTransactionGrid {
 			return amountAsString(item.getLineTotal());
 		case 7:
 			if (getCompany().getPreferences().isChargeSalesTax()) {
-				if (this.accountingType == ClientCompany.ACCOUNTING_TYPE_UK) {
+				if (getCompany().getPreferences().isRegisteredForVAT()) {
 					return getTAXCodeName(item.getTaxCode());
 				} else {
 					return item.isTaxable() ? Accounter.constants().taxable()
@@ -319,7 +315,7 @@ public class SalesOrderGrid extends CustomerTransactionGrid {
 			}
 		case 8:
 			if (getCompany().getPreferences().isChargeSalesTax()) {
-				if (this.accountingType == ClientCompany.ACCOUNTING_TYPE_UK) {
+				if (getCompany().getPreferences().isRegisteredForVAT()) {
 					return amountAsString(item.getVATfraction());
 				} else {
 					return amountAsString(item.getInvoiced());
@@ -328,7 +324,7 @@ public class SalesOrderGrid extends CustomerTransactionGrid {
 				return Accounter.getFinanceMenuImages().delete();
 			}
 		case 9:
-			if (this.accountingType == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (getCompany().getPreferences().isRegisteredForVAT()) {
 				return amountAsString(item.getInvoiced());
 			} else {
 				return Accounter.getFinanceMenuImages().delete();

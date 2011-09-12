@@ -7,7 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import com.gdevelop.gwt.syncrpc.SyncProxy;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.Transaction;
@@ -186,14 +185,6 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 				getUserEmail(), String.valueOf(coreObject.getID()),
 				clientClassSimpleName);
 		return financeTool.inviteUser(context);
-	}
-
-	private IS2SService getS2sSyncProxy(String domainName) {
-		String url = "http://" + domainName + ":"
-				+ ServerConfiguration.getMainServerPort()
-				+ "/company/stosservice";
-		return (IS2SService) SyncProxy.newProxyInstance(IS2SService.class, url,
-				"");
 	}
 
 	private ClientUser convertUserInfoToUser(ClientUserInfo clientUserInfo) {

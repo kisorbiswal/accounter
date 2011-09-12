@@ -76,12 +76,14 @@ public class TDSVendorsListGrid extends BaseListGrid<PayeeList> {
 				colArray[index] = Accounter.constants().active();
 				break;
 			case 1:
-				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+				if (getCompany().getPreferences().isChargeSalesTax()) {
 					colArray[index] = Accounter.messages().vendorName(
 							Global.get().Vendor());
-				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA)
+				}
+				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
 					colArray[index] = Accounter.messages().vendorName(
 							Global.get().Vendor());
+				}
 				break;
 			case 2:
 				colArray[index] = Accounter.constants().originalAmount();

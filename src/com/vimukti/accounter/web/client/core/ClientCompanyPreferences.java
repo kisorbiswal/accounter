@@ -174,6 +174,26 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	private int version;
 
+	// --------Company Details---------------
+
+	private String fullName;
+
+	private String legalName;
+
+	private String companyEmail;
+
+	String phone;
+
+	String fax;
+
+	String webSite;
+
+	private String taxId;
+
+	private ClientAddress tradingAddress;
+
+	private String timezone;
+
 	/**
 	 * Creates new Instance
 	 */
@@ -650,12 +670,12 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	@Override
 	public String getDisplayName() {
-		return null;
+		return fullName;
 	}
 
 	@Override
 	public String getName() {
-		return null;
+		return fullName;
 	}
 
 	@Override
@@ -975,5 +995,140 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	public void setRegisteredForVAT(boolean value) {
 		set(REGISTERED_FOR_VAT, value);
+	}
+
+	/**
+	 * @return the fullName
+	 */
+	public String getFullName() {
+		return fullName;
+	}
+
+	/**
+	 * @param fullName
+	 *            the fullName to set
+	 */
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+	/**
+	 * @return the legalName
+	 */
+	public String getLegalName() {
+		return legalName;
+	}
+
+	/**
+	 * @param legalName
+	 *            the legalName to set
+	 */
+	public void setLegalName(String legalName) {
+		this.legalName = legalName;
+	}
+
+	/**
+	 * @return the companyEmail
+	 */
+	public String getCompanyEmail() {
+		return companyEmail;
+	}
+
+	/**
+	 * @param companyEmail
+	 *            the companyEmail to set
+	 */
+	public void setCompanyEmail(String companyEmail) {
+		this.companyEmail = companyEmail;
+	}
+
+	/**
+	 * @return the phone
+	 */
+	public String getPhone() {
+		return phone;
+	}
+
+	/**
+	 * @param phone
+	 *            the phone to set
+	 */
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	/**
+	 * @return the fax
+	 */
+	public String getFax() {
+		return fax;
+	}
+
+	/**
+	 * @param fax
+	 *            the fax to set
+	 */
+	public void setFax(String fax) {
+		this.fax = fax;
+	}
+
+	/**
+	 * @return the webSite
+	 */
+	public String getWebSite() {
+		return webSite;
+	}
+
+	/**
+	 * @param webSite
+	 *            the webSite to set
+	 */
+	public void setWebSite(String webSite) {
+		this.webSite = webSite;
+	}
+
+	/**
+	 * @return the taxId
+	 */
+	public String getTaxId() {
+		return taxId;
+	}
+
+	/**
+	 * @param taxId
+	 *            the taxId to set
+	 */
+	public void setTaxId(String taxId) {
+		this.taxId = taxId;
+	}
+
+	/**
+	 * @return the tradingAddress
+	 */
+	public ClientAddress getTradingAddress() {
+		return tradingAddress;
+	}
+
+	/**
+	 * @param tradingAddress
+	 *            the tradingAddress to set
+	 */
+	public void setTradingAddress(ClientAddress tradingAddress) {
+		this.tradingAddress = tradingAddress;
+	}
+
+	/**
+	 * @return the timezone
+	 */
+	public String getTimezone() {
+		return timezone;
+	}
+
+	/**
+	 * @param timezone
+	 *            the timezone to set
+	 */
+	public void setTimezone(String timezone) {
+		this.timezone = timezone;
 	}
 }

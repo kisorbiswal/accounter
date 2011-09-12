@@ -76,10 +76,7 @@ public class TaxItemCombo extends CustomCombo<ClientTAXItem> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA)
-			return comboMessages.addNewItem();
-		else
-			return comboMessages.newVATCode();
+		return comboMessages.addNewItem();
 
 	}
 

@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -32,13 +31,7 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 		typeRadio.setShowTitle(false);
 		typeRadio.setRequired(true);
 		String paymentType;
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			paymentType = Accounter.messages().vendorPayment(
-					Global.get().Vendor());
-		} else {
-			paymentType = Accounter.messages().vendorPayment(
-					Global.get().Vendor());
-		}
+		paymentType = Accounter.messages().vendorPayment(Global.get().Vendor());
 
 		typeRadio.setValueMap(paymentType, Accounter.messages().customerRefund(
 				Global.get().Customer()));
@@ -68,13 +61,8 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 		if (typeRadio.getValue() != null) {
 			String radio = typeRadio.getValue().toString();
 			String paymentType;
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-				paymentType = Accounter.messages().vendorPayment(
-						Global.get().Vendor());
-			} else {
-				paymentType = Accounter.messages().vendorPayment(
-						Global.get().Vendor());
-			}
+			paymentType = Accounter.messages().vendorPayment(
+					Global.get().Vendor());
 			if (radio.equals(paymentType)) {
 				ActionFactory.getNewVendorPaymentAction().run(null, false);
 			} else if (radio.equals(Accounter.messages().customerRefund(

@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.grids;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -60,7 +59,6 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 				Accounter.constants().taxAgency(), "" };
 	}
 
-
 	@Override
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
@@ -98,7 +96,7 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 
 		ClientTAXAgency agency = null;
 		if (obj.getTaxAgency() != 0) {
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			if (getCompany().getPreferences().isChargeSalesTax()) {
 				agency = getCompany().getTaxAgency(obj.getTaxAgency());
 			}
 		}
@@ -110,8 +108,8 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 	protected int sort(ClientTAXItem obj1, ClientTAXItem obj2, int index) {
 		switch (index) {
 		case 1:
-			return obj1.getName().toLowerCase().compareTo(
-					obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase()
+					.compareTo(obj2.getName().toLowerCase());
 
 		case 2:
 			String desc1 = obj1.getDescription() != null ? obj1
@@ -132,7 +130,7 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 			// agency1 = getTaxAgency(obj1);
 			// agency2 = getTaxAgency(obj2);
 			// }
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			if (getCompany().getPreferences().isChargeSalesTax()) {
 				// agency1 = getTaxAgencyID(obj1);
 				// agency2 = getTaxAgencyID(obj2);
 			}

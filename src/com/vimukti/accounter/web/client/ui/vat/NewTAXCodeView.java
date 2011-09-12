@@ -9,7 +9,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -369,7 +368,6 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		super.fitToSize(height, width);
 	}
 
-
 	@Override
 	public void onEdit() {
 		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
@@ -415,7 +413,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 
 	@Override
 	protected String getViewTitle() {
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			return Accounter.constants().vatCode();
 		} else {
 			return Accounter.constants().taxCode();

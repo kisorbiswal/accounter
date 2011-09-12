@@ -147,8 +147,8 @@ public class CashSalesView extends
 		shipToAddress = new ShipToForm(null);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
-		shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "40px");
+		shipToAddress.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -202,8 +202,8 @@ public class CashSalesView extends
 		}
 
 		termsForm.setStyleName("align-form");
-		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "203px");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -527,7 +527,7 @@ public class CashSalesView extends
 			transaction.setPriceLevel(priceLevel.getID());
 		transaction.setMemo(getMemoTextAreaItem());
 		// transaction.setReference(getRefText());
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			transaction.setNetAmount(netAmountLabel.getAmount());
 			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 					.getValue());
@@ -553,7 +553,8 @@ public class CashSalesView extends
 			if (taxableLineTotal == null)
 				return;
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(), taxableLineTotal,
+					transactionDateItem.getEnteredDate(),
+					taxableLineTotal,
 					getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
@@ -564,9 +565,9 @@ public class CashSalesView extends
 
 		} else {
 			netAmountLabel.setAmount(customerTransactionTable.getGrandTotal());
-			vatTotalNonEditableText.setAmount(customerTransactionTable
-					.getTotalValue()
-					- customerTransactionTable.getGrandTotal());
+			vatTotalNonEditableText
+					.setAmount(customerTransactionTable.getTotalValue()
+							- customerTransactionTable.getGrandTotal());
 			setTransactionTotal(customerTransactionTable.getTotalValue());
 		}
 
@@ -654,7 +655,7 @@ public class CashSalesView extends
 			}
 			memoTextAreaItem.setValue(transaction.getMemo());
 			// refText.setValue(cashSale.getReference());
-			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (getCompany().getPreferences().isRegisteredForVAT()) {
 				netAmountLabel.setAmount(transaction.getNetAmount());
 				vatTotalNonEditableText.setAmount(transaction.getTotal()
 						- transaction.getNetAmount());

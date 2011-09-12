@@ -8,7 +8,6 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
@@ -37,12 +36,8 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 				colArray[index] = Accounter.constants().active();
 				break;
 			case 1:
-				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-					colArray[index] = Accounter.messages().vendorName(
-							Global.get().Vendor());
-				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-					colArray[index] = Accounter.messages().vendorName(
-							Global.get().Vendor());
+				colArray[index] = Accounter.messages().vendorName(
+						Global.get().Vendor());
 				break;
 			case 2:
 				colArray[index] = Accounter.constants().currentMonth();
@@ -232,17 +227,13 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 			}
 
 		};
-		if (payee.getType() == ClientPayee.TYPE_VENDOR)
+		if (payee.getType() == ClientPayee.TYPE_VENDOR) {
 			Accounter.createGETService().getObjectById(
 					AccounterCoreType.VENDOR, payee.id, callback);
-		else if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
-				&& payee.getType() == ClientPayee.TYPE_TAX_AGENCY)
+		} else if (payee.getType() == ClientPayee.TYPE_TAX_AGENCY) {
 			Accounter.createGETService().getObjectById(
 					AccounterCoreType.TAXAGENCY, payee.id, callback);
-		else if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
-				&& payee.getType() == ClientPayee.TYPE_TAX_AGENCY)
-			Accounter.createGETService().getObjectById(
-					AccounterCoreType.TAXAGENCY, payee.id, callback);
+		}
 	}
 
 	// public ClientAddress getBillToAddress(ClientPayee payee) {
@@ -294,16 +285,17 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 		if (recordToBeDeleted.getType() == ClientPayee.TYPE_VENDOR)
 			Accounter.createGETService().getObjectById(
 					AccounterCoreType.VENDOR, recordToBeDeleted.id, callback);
-		else if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
-				&& recordToBeDeleted.getType() == ClientPayee.TYPE_TAX_AGENCY)
+		else if (getCompany().getPreferences().isChargeSalesTax()
+				&& recordToBeDeleted.getType() == ClientPayee.TYPE_TAX_AGENCY) {
 			Accounter.createGETService()
 					.getObjectById(AccounterCoreType.TAXAGENCY,
 							recordToBeDeleted.id, callback);
-		else if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
-				&& recordToBeDeleted.getType() == ClientPayee.TYPE_TAX_AGENCY)
+		} else if (getCompany().getPreferences().isRegisteredForVAT()
+				&& recordToBeDeleted.getType() == ClientPayee.TYPE_TAX_AGENCY) {
 			Accounter.createGETService()
 					.getObjectById(AccounterCoreType.TAXAGENCY,
 							recordToBeDeleted.id, callback);
+		}
 
 		// rpcDoSerivce = FinanceApplication.createCRUDService();
 

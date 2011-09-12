@@ -28,4 +28,7 @@ public interface IS2SServiceAsync {
 			String senderEmailId, AsyncCallback<Boolean> callback);
 
 	void deleteCompany(long serverCompanyID, AsyncCallback<Void> callback);
+
+	void updateServerCompany(long serverCompanyID, String fullName,
+			AsyncCallback<Void> callback);
 }

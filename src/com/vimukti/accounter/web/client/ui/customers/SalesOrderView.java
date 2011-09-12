@@ -391,14 +391,18 @@ public class SalesOrderView extends
 
 		TextItem dummyItem = new TextItem("");
 		dummyItem.setVisible(false);
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			prodAndServiceForm2.setFields(dummyItem, netAmountLabel, dummyItem,
 					vatTotalNonEditableText, dummyItem,
 					transactionTotalNonEditableText);
 			prodAndServiceForm2.setStyleName("invoice-total");
-		} else {
+		} else if (getCompany().getPreferences().isChargeSalesTax()) {
 			prodAndServiceForm2.setFields(taxCodeSelect,
 					salesTaxTextNonEditable, dummyItem,
+					transactionTotalNonEditableText);
+			prodAndServiceForm2.setStyleName("tax-form");
+		} else {
+			prodAndServiceForm2.setFields(dummyItem,
 					transactionTotalNonEditableText);
 			prodAndServiceForm2.setStyleName("tax-form");
 		}
@@ -412,7 +416,7 @@ public class SalesOrderView extends
 		prodAndServiceHLay.setWidth("100%");
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(prodAndServiceForm2);
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "30%");
 		} else
 			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
@@ -680,11 +684,13 @@ public class SalesOrderView extends
 			memoTextAreaItem.setDisabled(isInViewMode());
 			// refText.setValue(salesOrderToBeEdited.getReference());
 
-			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+			if (getCompany().getPreferences().isChargeSalesTax()) {
 				netAmountLabel.setAmount(transaction.getNetAmount());
 				vatTotalNonEditableText.setAmount(transaction.getTotal()
 						- transaction.getNetAmount());
-			} else if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
+			}
+
+			if (getCompany().getPreferences().isRegisteredForVAT()) {
 				this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 				if (taxCode != null) {
 					this.taxCodeSelect
@@ -820,7 +826,7 @@ public class SalesOrderView extends
 		if (dueDateItem.getEnteredDate() != null)
 			transaction.setDueDate(dueDateItem.getEnteredDate().getDate());
 
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
+		if (getCompany().getPreferences().isChargeSalesTax()) {
 			if (taxCode != null) {
 				for (ClientTransactionItem record : customerTransactionTable
 						.getRecords()) {
@@ -829,7 +835,9 @@ public class SalesOrderView extends
 				}
 			}
 			transaction.setSalesTaxAmount(this.salesTax);
-		} else if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+		}
+
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			transaction.setNetAmount(netAmountLabel.getAmount());
 			// transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 			// .getValue());
@@ -981,7 +989,7 @@ public class SalesOrderView extends
 	public void updateNonEditableItems() {
 		if (customerTransactionTable == null)
 			return;
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+		if (getCompany().getPreferences().isChargeSalesTax()) {
 			Double taxableLineTotal = customerTransactionTable
 					.getTaxableLineTotal();
 
@@ -998,7 +1006,9 @@ public class SalesOrderView extends
 
 			setTransactionTotal(customerTransactionTable.getTotal()
 					+ this.salesTax);
-		} else {
+		}
+
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			if (customerTransactionTable.getGrandTotal() != 0
 					&& customerTransactionTable.getTotalValue() != 0) {
 				netAmountLabel.setAmount(customerTransactionTable

@@ -4,7 +4,6 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerCreditMemo;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
@@ -546,7 +545,7 @@ public class ActionFactory {
 
 	public static NewTAXAgencyAction getNewTAXAgencyAction() {
 		String flag;
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+		if (Accounter.getCompany().getPreferences().isRegisteredForVAT())
 			flag = actionsConstants.newVATAgency();
 
 		else
@@ -575,7 +574,7 @@ public class ActionFactory {
 
 	public static AdjustTAXAction getAdjustTaxAction() {
 		String flag;
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+		if (Accounter.getCompany().getPreferences().isRegisteredForVAT())
 			flag = actionsConstants.vatAdjustment();
 
 		else
@@ -1064,11 +1063,12 @@ public class ActionFactory {
 	// vat action factory
 
 	public static NewVatItemAction getNewVatItemAction() {
-		String flag;
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+		String flag = "";
+		if (Accounter.getCompany().getPreferences().isRegisteredForVAT()) {
 			flag = actionsConstants.newVATItem();
-		else
+		} else {
 			flag = actionsConstants.newTaxItem();
+		}
 		return new NewVatItemAction(flag);
 	}
 
