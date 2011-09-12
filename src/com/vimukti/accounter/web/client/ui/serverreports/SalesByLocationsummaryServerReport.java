@@ -11,10 +11,13 @@ public class SalesByLocationsummaryServerReport extends
 	private String sectionName = "";
 	private String currentsectionName = "";
 	private double accountBalance = 0.0D;
+	private boolean isLocation;
 
 	public SalesByLocationsummaryServerReport(
-			IFinanceReport<SalesByLocationSummary> reportView) {
+			IFinanceReport<SalesByLocationSummary> reportView,
+			boolean isLocation) {
 		this.reportView = reportView;
+		this.isLocation = isLocation;
 	}
 
 	public SalesByLocationsummaryServerReport(long startDate, long endDate,
@@ -29,6 +32,9 @@ public class SalesByLocationsummaryServerReport extends
 
 	@Override
 	public String getTitle() {
+		if (!isLocation) {
+			return Accounter.constants().salesByClassSummary();
+		}
 		return Accounter.messages().salesByLocationSummary(
 				Global.get().Location());
 	}
@@ -46,9 +52,8 @@ public class SalesByLocationsummaryServerReport extends
 	@Override
 	public void processRecord(SalesByLocationSummary record) {
 		if (sectionDepth == 0) {
-			addSection(new String[] { "" },
-					new String[] {  getConstants().total() },
-					new int[] { 1 });
+			addSection(new String[] { "" }, new String[] { getConstants()
+					.total() }, new int[] { 1 });
 		} else if (sectionDepth == 1) {
 			return;
 		}

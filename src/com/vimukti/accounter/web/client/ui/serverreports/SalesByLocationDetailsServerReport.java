@@ -15,10 +15,13 @@ public class SalesByLocationDetailsServerReport extends
 	private double accountBalance = 0.0D;
 
 	private String currentsectionName = "";
+	private boolean isLocation;
 
 	public SalesByLocationDetailsServerReport(
-			IFinanceReport<SalesByLocationDetails> reportView) {
+			IFinanceReport<SalesByLocationDetails> reportView,
+			boolean isLocation) {
 		this.reportView = reportView;
+		this.isLocation = isLocation;
 	}
 
 	public SalesByLocationDetailsServerReport(long startDate, long endDate,
@@ -38,6 +41,9 @@ public class SalesByLocationDetailsServerReport extends
 
 	@Override
 	public String getTitle() {
+		if (!isLocation) {
+			return Accounter.constants().salesByClassDetails();
+		}
 		return Accounter.messages().getSalesByLocationDetails(
 				Global.get().Location());
 	}
