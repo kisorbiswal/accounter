@@ -804,7 +804,7 @@ td.td01,.no-title .biz-decor-panel td.td01,.viewTitle,.blue-month-line,.blue-wee
     height: 65px;
     resize: none;
     padding:0px 5px !important;
-    width: 188px !important;
+    width: 190px !important;
 }
 .memoTextArea {
     height: 65px;
@@ -1657,8 +1657,8 @@ a#fdbk_tab{
 	border:1px solid #1A1A1A;
 }
 .custom-combo{
-	width:150px;
+	width:155px;
 }
-.gwt-Textbox{
-	width: 165px !important;
+.gwt-TextBox{
+	width:172px !important;
 }
