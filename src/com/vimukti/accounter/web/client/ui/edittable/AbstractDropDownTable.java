@@ -122,7 +122,11 @@ public abstract class AbstractDropDownTable<T> extends CellTable<T> {
 	public void updateSelection(String string) {
 		for (T t : data) {
 			if (filter(t, string)) {
-				singleSelectionModel.setSelected(t, true);
+				if (t == singleSelectionModel.getSelectedObject()) {
+					sendSelectedObject(t);
+				} else {
+					singleSelectionModel.setSelected(t, true);
+				}
 				break;
 			}
 		}
@@ -177,6 +181,7 @@ public abstract class AbstractDropDownTable<T> extends CellTable<T> {
 	protected abstract void addNewItem();
 
 	protected void selectRow(T result) {
+		isClicked = true;
 		singleSelectionModel.setSelected(result, true);
 	}
 }
