@@ -15,7 +15,6 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class ComboBox<T, C> extends FlowPanel implements RowSelectHandler<C> {
 	private T row;
@@ -152,13 +151,7 @@ public class ComboBox<T, C> extends FlowPanel implements RowSelectHandler<C> {
 		int popupWdth = popupPanel.getOffsetWidth();
 		int popupHeight = popupPanel.getOffsetHeight();
 
-		if (UIUtils.isMSIEBrowser()) {
-			popupPanel.setHeight(Math.min(dropDown.getOffsetHeight(), 100)
-					+ "px");
-			popupPanel.setWidth(dropDown.getOffsetWidth() + "px");
-		} else {
-			popupPanel.setWidth(textBox.getOffsetWidth() + "px");
-		}
+		popupPanel.setWidth(textBox.getOffsetWidth() + "px");
 		// popupPanel.setHeight(Math.min(dropDown.getOffsetHeight(), 200) +
 		// "px");
 		popupPanel.setHeight("100px");
