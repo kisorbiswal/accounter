@@ -4745,4 +4745,10 @@ public interface AccounterConstants extends Constants {
 	public String emailAlerts();
 
 	public String signoutafterInactivity();
+
+	public String restartsetupinterviews();
+
+	public String restart();
+
+	public String enableAutoRecall();
 }
