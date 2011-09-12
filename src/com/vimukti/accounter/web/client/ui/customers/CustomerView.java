@@ -444,7 +444,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		data.setBankAccountNo(bankAccountSelect.getValue().toString());
 
 		// Setting currency
-		data.setCurrency(currencyCombo.getValue().toString());
+		// data.setCurrency(currencyCombo.getSelectedValue().toString());
 
 		// Setting Bank name
 		data.setBankName(bankNameSelect.getValue().toString());
@@ -885,7 +885,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 					@Override
 					public void selectedComboBoxItem(ClientCurrency selectItem) {
-
+						// selectCurrency = selectItem;
 					}
 				});
 		bankAccountSelect = new TextItem(Accounter.messages().bankAccountNo(
