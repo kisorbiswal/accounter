@@ -383,7 +383,7 @@ public class SalesOrderView extends
 		};
 		customerTransactionTable.setDisabled(isInViewMode());
 		customerTransactionTable.setWidth("99.5%");
-		customerTransactionTable.setHeight("250px");
+		// customerTransactionTable.setHeight("250px");
 
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
 		prodAndServiceForm2.setWidth("100%");
