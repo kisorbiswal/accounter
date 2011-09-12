@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientVATReturnBox;
@@ -62,7 +63,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		Label infoLabel = null;
 		Label infolabel1 = null;
 
-		if (accounttype == 1) {
+		if (accounttype == ClientCompany.ACCOUNTING_TYPE_UK) {
 			infoLabel = new Label(Accounter.constants().vatItem());
 			infoLabel.setStyleName(Accounter.constants().labelTitle());
 			// infoLabel.setHeight("35px");
@@ -144,7 +145,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		form1.setWidth("80%");
 		form1.setIsGroup(true);
 
-		if (accounttype == 0) {
+		if (accounttype == ClientCompany.ACCOUNTING_TYPE_US  || accountType==ClientCompany.ACCOUNTING_TYPE_INDIA) {
 
 			vatItemNameText.setTitle(Accounter.constants().taxItemName());
 			vatRateText.setTitle(Accounter.constants().taxAmount());
@@ -199,7 +200,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		form1.getCellFormatter().setWidth(0, 0, "250px");
 		form1.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
 
-		if (accounttype == 0)
+		if (accounttype == ClientCompany.ACCOUNTING_TYPE_US || accountType==ClientCompany.ACCOUNTING_TYPE_INDIA )
 			if (data != null && data.isPercentage()) {
 				form1.setFields(vatItemNameText, descriptionText,
 						isPercentatateAmtCheck, vatRateTextPerT,

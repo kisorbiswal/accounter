@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.combo;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
@@ -75,7 +76,7 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 
 	@Override
 	public void onAddNew() {
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (getCompany().getPreferences().isRegisteredForVAT() && getCompany().getAccountingType()==ClientCompany.ACCOUNTING_TYPE_UK) {
 			NewTAXCodeAction action = ActionFactory.getNewTAXCodeAction();
 			action.setCallback(new ActionCallback<ClientTAXCode>() {
 
@@ -88,7 +89,7 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 			});
 
 			action.run(null, true);
-		} else {
+		} else  {
 			TaxDialog dialog = new TaxDialog();
 			dialog.setCallback(new ActionCallback<ClientTAXCode>() {
 
