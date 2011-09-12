@@ -10,8 +10,8 @@ import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -26,7 +26,6 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.vimukti.accounter.web.client.externalization.AccounterComboMessges;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -48,6 +47,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	String selectedName;
 	int selectedIndex = -1;
 	protected T selectedObject;
+	private boolean haveCloseHandle;
 
 	List<T> maincomboItems = new ArrayList<T>();
 
@@ -156,6 +156,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 						this.hide();
 					}
 					break;
+
 				default:
 					break;
 				}
@@ -166,22 +167,33 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		if (!UIUtils.isMSIEBrowser()) {
 			popup.setWidth("100%");
 		}
+
 		popup.add(panel);
 		popup.setStyleName("popup");
 		popup.getElement().setAttribute("id", "popuppaneldropdown");
 		dropDown.getElement().getStyle().setCursor(Cursor.POINTER);
 
-		addClickHandler(new ClickHandler() {
+		FocusHandler focusHandler = new FocusHandler() {
 
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onFocus(FocusEvent event) {
 				showPopup();
 			}
-		});
+		};
+		addFocusHandler(focusHandler);
 
+		dropDown.addEscapEventHandler(new EscapEventHandler() {
+
+			@Override
+			public void onEscap(KeyDownEvent event) {
+				popup.hide();
+				textBox.setFocus(true);
+			}
+		});
+		// addBlurHandler(blurHandler);
+		// dropDown.addDomHandler(focusHandler, FocusEvent.getType());
+		// dropDown.addDomHandler(blurHandler, BlurEvent.getType());
 		addKeyPressHandler();
-		// addBlurHandler();
-		// addChangeHandler();
 
 		this.removeStyleName("gwt-TextBox");
 	}
@@ -206,7 +218,8 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			public void onClose(CloseEvent<PopupPanel> event) {
 				if ((selectedName == null || !selectedName.equals(getValue()
 						.toString())) && selectedIndex == -1)
-					setRelatedComboItem(getValue().toString());
+					if (haveCloseHandle)
+						setRelatedComboItem(getValue().toString());
 			}
 		});
 		int clientwidth = Window.getClientWidth();
@@ -236,20 +249,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 							.getOffsetHeight());
 			popup.setPopupPosition(x, y - 42);
 		}
-
 		panel.setHeight(Math.min(dropDown.getOffsetHeight(), 200) + "px");
-
-	}
-
-	private void addDiv() {
-		TextBox box = (TextBox) getMainWidget();
-		com.google.gwt.user.client.Element parent = (com.google.gwt.user.client.Element) box
-				.getElement().getParentElement();
-		if (DOM.getChildCount(parent) <= 1) {
-			Element div = DOM.createDiv();
-			div.setClassName("downarrow-button");
-			box.getElement().getParentElement().appendChild(div);
-		}
 	}
 
 	private void resetComboList() {
@@ -265,7 +265,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 			@Override
 			public void onKeyPress(KeyPressEvent event) {
-
+				haveCloseHandle = true;
 				char key = event.getCharCode();
 				// if ((key >= 48 && key <= 57) || (key >= 65 && key <= 90)
 				// || (key >= 96 && key <= 122)) {
@@ -287,12 +287,28 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 						&& popup.isShowing()) {
 					dropDown.setKeyboardSelected(0, true, true);
 
+					// dropDown.setKeyboardSelected(++dropDown.selectedPosition,
+					// true, true);
+					// if (dropDown.selectedPosition == dropDown
+					// .getDisplayedItems().size()) {
+					// dropDown.selectedPosition = -1;
+					// }
 				} else if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_UP
 						&& popup.isShowing()) {
 					dropDown.setKeyboardSelected(dropDown.getDisplayedItems()
 							.size() - 1, true, true);
-				} else if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE
+
+					// int posi = dropDown.getDisplayedItems().size();
+					// dropDown.setKeyboardSelected(posi
+					// + (--dropDown.selectedPosition), true, true);
+					// if ((dropDown.selectedPosition + dropDown
+					// .getDisplayedItems().size()) == 0) {
+					// dropDown.selectedPosition = 0;
+					// }
+				} else if ((event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE || event
+						.getNativeEvent().getKeyCode() == KeyCodes.KEY_TAB)
 						&& popup.isShowing()) {
+					haveCloseHandle = false;
 					popup.hide();
 				}
 			}
@@ -596,12 +612,12 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		return comboItems.indexOf(coreObject);
 	}
 
-	// public void updateComboItem(T coreObject) {
-	// if (getObjectIndex(coreObject) != -1) {
-	// removeComboItem(coreObject);
-	// addComboItem(coreObject);
-	// }
-	// }
+	public void updateComboItem(T coreObject) {
+		if (getObjectIndex(coreObject) != -1) {
+			removeComboItem(coreObject);
+			addComboItem(coreObject);
+		}
+	}
 
 	public T getSelectedValue() {
 		return selectedObject;

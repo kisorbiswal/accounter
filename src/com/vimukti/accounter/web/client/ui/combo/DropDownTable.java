@@ -8,6 +8,9 @@ import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.dom.client.TableSectionElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.DOM;
@@ -34,6 +37,7 @@ public class DropDownTable<T> extends CellTable<T> {
 	boolean isAddNewRequire;
 	private Element bodyrowElem;
 	protected ClickableTextCell clickableTextCell;
+	private EscapEventHandler escapEventHandler;
 
 	public DropDownTable(DropDownCombo<T> combo) {
 		this.combo = combo;
@@ -45,6 +49,18 @@ public class DropDownTable<T> extends CellTable<T> {
 	 * Initialise the table
 	 */
 	private void initGrid() {
+		addDomHandler(new KeyDownHandler() {
+
+			@Override
+			public void onKeyDown(KeyDownEvent event) {
+				if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE
+						|| event.getNativeEvent().getKeyCode() == KeyCodes.KEY_TAB) {
+					if (escapEventHandler != null) {
+						escapEventHandler.onEscap(event);
+					}
+				}
+			}
+		}, KeyDownEvent.getType());
 		this.body = new FlexTable();
 		this.setStyleName("dropdownFlex");
 
@@ -59,6 +75,10 @@ public class DropDownTable<T> extends CellTable<T> {
 		this.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		this.setSize("100%", "");
 
+	}
+
+	public void addEscapEventHandler(EscapEventHandler handler) {
+		escapEventHandler = handler;
 	}
 
 	@Override
@@ -313,7 +333,6 @@ public class DropDownTable<T> extends CellTable<T> {
 
 			eatEvent(event);
 			break;
-
 		}
 		super.onBrowserEvent2(event);
 	}
@@ -326,4 +345,8 @@ public class DropDownTable<T> extends CellTable<T> {
 		DOM.eventCancelBubble(event, true);
 		DOM.eventPreventDefault(event);
 	}
+}
+
+interface EscapEventHandler {
+	public void onEscap(KeyDownEvent event);
 }
