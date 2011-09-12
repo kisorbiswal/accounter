@@ -9,6 +9,7 @@ import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.IAccountable;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -94,6 +95,14 @@ public abstract class VendorTransactionTable extends
 						}
 					}
 				};
+
+			}
+
+			@Override
+			protected void setValue(ClientTransactionItem row,
+					IAccountable newValue) {
+				super.setValue(row, newValue);
+				update(row);
 			}
 		});
 
