@@ -33,8 +33,7 @@ public class QuantitiyAndRateOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Quantity and Rate";
 	}
 
 	@Override
@@ -45,8 +44,7 @@ public class QuantitiyAndRateOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Products and Services";
 	}
 
 }

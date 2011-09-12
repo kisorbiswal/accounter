@@ -6,14 +6,10 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel >
-		<g:HorizontalPanel>
+	<g:VerticalPanel spacing="5" >
+		<g:VerticalPanel spacing="5">
 			<g:CheckBox ui:field="accountNumbersCheckBox"/>
-			<g:Label ui:field="accountNumbersLabel"/>
-		</g:HorizontalPanel>
-		<g:HorizontalPanel>
 			<g:CheckBox ui:field="showAccountNumbersCheckBox"/>
-			<g:Label ui:field="showAccountNumbers"/>
-		</g:HorizontalPanel>
+		</g:VerticalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 

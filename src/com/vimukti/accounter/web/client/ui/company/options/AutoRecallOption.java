@@ -60,8 +60,7 @@ public class AutoRecallOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		// TODO Auto-generated method stub
-		return null;
+		return " AutoRecall";
 	}
 
 	@Override
@@ -72,8 +71,7 @@ public class AutoRecallOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		// TODO Auto-generated method stub
-		return null;
+		return constants.company();
 	}
 
 }

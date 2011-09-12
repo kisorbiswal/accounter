@@ -6,17 +6,24 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel horizontalAlignment="ALIGN_LEFT" spacing="10" >
-		<g:HorizontalPanel>
-			<g:Label ui:field="firstMonthofFiscalyear"/>
-			<g:ListBox ui:field="calenderMonths" width="92px" height="26px"/>
-		</g:HorizontalPanel>
-		<g:HorizontalPanel>
-			<g:Label ui:field="firstMonthofIncomeTaxyear"/>
-			<g:VerticalPanel verticalAlignment="ALIGN_MIDDLE" horizontalAlignment="ALIGN_CENTER">
-				<g:RadioButton name="" ui:field="januaryRadioButton"/>
-				<g:RadioButton name="" ui:field="firstMonthofmyfiscalyear"/>
+	<g:VerticalPanel horizontalAlignment="ALIGN_LEFT" >
+		<g:VerticalPanel spacing="10">
+			<g:HorizontalPanel spacing="5">
+				<g:ListBox height="26px" width="92px" ui:field="monthNameComboBox"/>
+			</g:HorizontalPanel>
+			<g:VerticalPanel spacing="6">
+				<g:HorizontalPanel spacing="6" width="13" height="12">
+					<g:Label ui:field="radioButtonHeaderLabel"/>
+				</g:HorizontalPanel>
+				<g:VerticalPanel horizontalAlignment="ALIGN_LEFT" spacing="6" verticalAlignment="ALIGN_MIDDLE">
+					<g:HorizontalPanel spacing="1">
+						<g:RadioButton name="" ui:field="firstMonthOfmyfiscalyearRadioButton"/>
+					</g:HorizontalPanel>
+					<g:HorizontalPanel spacing="1">
+						<g:RadioButton name="" ui:field="januaryMonthRadioButton"/>
+					</g:HorizontalPanel>
+				</g:VerticalPanel>
 			</g:VerticalPanel>
-		</g:HorizontalPanel>
+		</g:VerticalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 

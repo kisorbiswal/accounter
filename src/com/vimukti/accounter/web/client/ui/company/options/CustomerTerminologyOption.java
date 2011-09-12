@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
 
 /**
  * @author vimukti36
@@ -40,19 +41,14 @@ public class CustomerTerminologyOption extends AbstractPreferenceOption {
 			UiBinder<Widget, CustomerTerminologyOption> {
 	}
 
-	/**
-	 * Because this class has a default constructor, it can be used as a binder
-	 * template. In other words, it can be used in other *.ui.xml files as
-	 * follows: <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	 * xmlns:g="urn:import:**user's package**">
-	 * <g:**UserClassName**>Hello!</g:**UserClassName> </ui:UiBinder> Note that
-	 * depending on the widget that is used, it may be necessary to implement
-	 * HasHTML instead of HasText.
-	 */
 	public CustomerTerminologyOption() {
 		initWidget(uiBinder.createAndBindUi(this));
 		createControls();
 		initdata();
+	}
+
+	public CustomerTerminologyOption(String firstName) {
+		initWidget(uiBinder.createAndBindUi(this));
 	}
 
 	private void createControls() {
@@ -72,34 +68,66 @@ public class CustomerTerminologyOption extends AbstractPreferenceOption {
 		clientsRadioButton.setHTML(constants.Client());
 		DonorsRadioButton.setName(constants.group());
 		DonorsRadioButton.setHTML(constants.Donar());
-
 	}
 
 	private void initdata() {
-		// TODO Auto-generated method stub
-	}
-
-	public CustomerTerminologyOption(String firstName) {
-		initWidget(uiBinder.createAndBindUi(this));
-
+		int referCustomers = companyPreferences.getReferCustomers();
+		terminologyforCustomerLabel.setText(messages.useTerminologyFor(Global
+				.get().Customer()));
+		switch (referCustomers) {
+		case ClientCustomer.TENANT:
+			tenantsLabelRadioButton.setValue(true);
+			break;
+		case ClientCustomer.CUSTOMER:
+			custimersRadioBuitton.setValue(true);
+			break;
+		case ClientCustomer.GUEST:
+			guestardioButton.setValue(true);
+			break;
+		case ClientCustomer.MEMBER:
+			tenantsLabelRadioButton.setValue(true);
+			break;
+		case ClientCustomer.PATITEINT:
+			PatientRadioButton.setValue(true);
+			break;
+		case ClientCustomer.CLIENT:
+			clientsRadioButton.setValue(true);
+			break;
+		case ClientCustomer.DONAR:
+			DonorsRadioButton.setValue(true);
+			break;
+		}
 	}
 
 	@Override
 	public String getTitle() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Customer Terminology";
 	}
 
 	@Override
 	public void onSave() {
-		// TODO Auto-generated method stub
+
+		if (tenantsLabelRadioButton.getValue()) {
+			companyPreferences.setReferCustomers(ClientCustomer.TENANT);
+		} else if (custimersRadioBuitton.getValue()) {
+			companyPreferences.setReferCustomers(ClientCustomer.CUSTOMER);
+		} else if (guestardioButton.getValue()) {
+			companyPreferences.setReferCustomers(ClientCustomer.GUEST);
+		} else if (membersRadioButton.getValue()) {
+			companyPreferences.setReferCustomers(ClientCustomer.MEMBER);
+		} else if (PatientRadioButton.getValue()) {
+			companyPreferences.setReferCustomers(ClientCustomer.PATITEINT);
+		} else if (clientsRadioButton.getValue()) {
+			companyPreferences.setReferCustomers(ClientCustomer.CLIENT);
+		} else {
+			companyPreferences.setReferCustomers(ClientCustomer.DONAR);
+		}
 
 	}
 
 	@Override
 	public String getAnchor() {
-		// TODO Auto-generated method stub
-		return null;
+		return constants.company();
 	}
 
 }

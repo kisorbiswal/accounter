@@ -38,6 +38,11 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 	public ProductAndServicesOption() {
 		initWidget(uiBinder.createAndBindUi(this));
 		createControls();
+		initdata();
+	}
+
+	private void initdata() {
+		// TODO
 	}
 
 	private void createControls() {
@@ -45,7 +50,6 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 				.productsandservicesforpurchases());
 		productsAndservicesforSalesCheckBox.setText(constants
 				.productsandservicesforsales());
-
 	}
 
 	public ProductAndServicesOption(String firstName) {
@@ -56,18 +60,19 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 	@Override
 	public String getTitle() {
 		// TODO Auto-generated method stub
-		return null;
+		return "Products and Services";
 	}
 
 	@Override
 	public void onSave() {
-		// TODO Auto-generated method stub
+		productsAndservicesforPurchasesCheckBox.getValue();
+		productsAndservicesforSalesCheckBox.getValue();
 
 	}
 
 	@Override
 	public String getAnchor() {
 		// TODO Auto-generated method stub
-		return null;
+		return " Products and Services";
 	}
 }

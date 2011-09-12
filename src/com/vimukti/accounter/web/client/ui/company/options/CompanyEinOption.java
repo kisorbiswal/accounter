@@ -6,7 +6,7 @@ package com.vimukti.accounter.web.client.ui.company.options;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
@@ -19,7 +19,7 @@ public class CompanyEinOption extends AbstractPreferenceOption {
 	private static CompanyEinOptionUiBinder uiBinder = GWT
 			.create(CompanyEinOptionUiBinder.class);
 	@UiField
-	Label employerIdentificationNumber;
+	TextBox EINTextBox;
 
 	interface CompanyEinOptionUiBinder extends
 			UiBinder<Widget, CompanyEinOption> {
@@ -45,8 +45,8 @@ public class CompanyEinOption extends AbstractPreferenceOption {
 	}
 
 	private void createControls() {
-		employerIdentificationNumber.setText(Accounter.constants()
-				.employerIdentificationNumber());
+		EINTextBox
+				.setText(Accounter.constants().employerIdentificationNumber());
 	}
 
 	public CompanyEinOption(String firstName) {
@@ -56,20 +56,17 @@ public class CompanyEinOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		// TODO Auto-generated method stub
-		return null;
+		return "EIN";
 	}
 
 	@Override
 	public void onSave() {
-		// TODO Auto-generated method stub
+		String EINvalue = EINTextBox.getValue();
 
 	}
 
 	@Override
 	public String getAnchor() {
-		// TODO Auto-generated method stub
-		return null;
+		return constants.company();
 	}
-
 }

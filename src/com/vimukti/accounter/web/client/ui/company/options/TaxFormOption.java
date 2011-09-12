@@ -79,7 +79,7 @@ public class TaxFormOption extends AbstractPreferenceOption {
 	}
 
 	private void initData() {
-		// TODO Auto-generated method stub
+		int taxForm = company.getTaxForm();
 
 	}
 
@@ -90,20 +90,16 @@ public class TaxFormOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Tax Form";
 	}
 
 	@Override
 	public void onSave() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public String getAnchor() {
-		// TODO Auto-generated method stub
-		return null;
+		return constants.company();
 	}
 
 }

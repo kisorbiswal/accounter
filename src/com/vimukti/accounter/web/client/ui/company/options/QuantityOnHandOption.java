@@ -49,8 +49,7 @@ public class QuantityOnHandOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Quantity on Hand";
 	}
 
 	@Override
@@ -61,8 +60,7 @@ public class QuantityOnHandOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		// TODO Auto-generated method stub
-		return null;
+		return "  Products and Services";
 	}
 
 }

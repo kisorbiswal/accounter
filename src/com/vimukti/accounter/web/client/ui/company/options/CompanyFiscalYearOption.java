@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
+import java.util.List;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -8,22 +10,20 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class CompanyFiscalYearOption extends AbstractPreferenceOption {
 	private AccounterConstants constants;
 	private static CompanyFiscalYearOptionUiBinder uiBinder = GWT
 			.create(CompanyFiscalYearOptionUiBinder.class);
 	@UiField
-	Label firstMonthofFiscalyear;
+	RadioButton januaryMonthRadioButton;
 	@UiField
-	ListBox calenderMonths;
+	RadioButton firstMonthOfmyfiscalyearRadioButton;
 	@UiField
-	Label firstMonthofIncomeTaxyear;
+	Label radioButtonHeaderLabel;
 	@UiField
-	RadioButton firstMonthofmyfiscalyear;
-	@UiField
-	RadioButton januaryRadioButton;
+	ListBox monthNameComboBox;
+	List<String> monthNam;
 	String[] monthNames;
 
 	interface CompanyFiscalYearOptionUiBinder extends
@@ -36,56 +36,52 @@ public class CompanyFiscalYearOption extends AbstractPreferenceOption {
 		initData();
 	}
 
+	public CompanyFiscalYearOption(String firstName) {
+		initWidget(uiBinder.createAndBindUi(this));
+	}
+
 	private void createControls() {
 
-		constants = Accounter.constants();
-		firstMonthofFiscalyear
-				.setText(constants.selectFirstMonthOfFiscalYear());
+		monthNameComboBox.setTitle(constants.selectFirstMonthOfFiscalYear());
 
 		monthNames = new String[] { constants.january(), constants.february(),
 				constants.march(), constants.april(), constants.may(),
 				constants.june(), constants.july(), constants.august(),
 				constants.september(), constants.october(),
 				constants.november(), constants.december() };
-		// fiscalStartsList = null;
+
 		for (int i = 0; i < monthNames.length; i++) {
-			calenderMonths.addItem(monthNames[i]);
+			monthNameComboBox.addItem(monthNames[i]);
+			monthNam.add(monthNames[i]);
 		}
-
-		firstMonthofIncomeTaxyear
-				.setText(constants.firstMonthofIncomeTaxyear());
-
-		firstMonthofmyfiscalyear.setText(constants.firstMonthofmyfiscalyear());
-
-		januaryRadioButton.setText(constants.january());
+		radioButtonHeaderLabel.setText(constants.firstMonthofIncomeTaxyear());
+		firstMonthOfmyfiscalyearRadioButton.setText(constants
+				.firstMonthofmyfiscalyear());
+		januaryMonthRadioButton.setText(constants.january());
 
 	}
 
 	private void initData() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public CompanyFiscalYearOption(String firstName) {
-		initWidget(uiBinder.createAndBindUi(this));
+		if (monthNam.size() > 0)
+			monthNameComboBox.setItemText(
+					companyPreferences.getFiscalYearFirstMonth(), "MonThs");
 	}
 
 	@Override
 	public String getTitle() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Fiscal & Tax Year";
 	}
 
 	@Override
 	public void onSave() {
-		// TODO Auto-generated method stub
+		companyPreferences.setFiscalYearFirstMonth(monthNam
+				.indexOf(monthNameComboBox.getSelectedIndex()));
 
 	}
 
 	@Override
 	public String getAnchor() {
-		// TODO Auto-generated method stub
-		return null;
+		return constants.company();
 	}
 
 }

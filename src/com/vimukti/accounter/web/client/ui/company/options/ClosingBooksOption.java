@@ -49,8 +49,7 @@ public class ClosingBooksOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Closing the Books";
 	}
 
 	@Override
@@ -61,8 +60,7 @@ public class ClosingBooksOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		// TODO Auto-generated method stub
-		return null;
+		return constants.company();
 	}
 
 }

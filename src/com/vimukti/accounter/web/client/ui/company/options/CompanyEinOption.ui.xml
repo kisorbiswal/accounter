@@ -7,10 +7,7 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel>
-		<g:HorizontalPanel>
-			<g:Label ui:field="employerIdentificationNumber"/>
-			<g:TextBox textAlignment="ALIGN_RIGHT"/>
-		</g:HorizontalPanel>
+	<g:VerticalPanel spacing="5">
+		<g:TextBox textAlignment="ALIGN_RIGHT" ui:field="EINTextBox"/>
 	</g:VerticalPanel>
 </ui:UiBinder> 

@@ -62,8 +62,7 @@ public class LogOutAfterInactivityOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Log Out After Inactivity ";
 	}
 
 	@Override
@@ -74,8 +73,7 @@ public class LogOutAfterInactivityOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		// TODO Auto-generated method stub
-		return null;
+		return constants.company();
 	}
 
 }

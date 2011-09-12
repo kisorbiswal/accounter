@@ -64,8 +64,7 @@ public class EmailAlertsOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Email Alerts";
 	}
 
 	@Override
@@ -75,8 +74,7 @@ public class EmailAlertsOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		// TODO Auto-generated method stub
-		return null;
+		return constants.company();
 	}
 
 }
