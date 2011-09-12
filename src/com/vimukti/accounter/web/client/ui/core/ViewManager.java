@@ -118,7 +118,6 @@ public class ViewManager extends HorizontalPanel {
 	private HelpPanel helpPanel;
 
 	private Widget createHelpPanel() {
-		isHelpPanelEnabled = true;
 		if (isHelpPanelEnabled) {
 			helpPanel = new HelpPanel();
 			helpPanel.setHelpUrl(this.getUrl());
@@ -526,7 +525,7 @@ public class ViewManager extends HorizontalPanel {
 
 	private HelpDialog helpDialog;
 
-	private boolean isHelpPanelEnabled = true;
+	private boolean isHelpPanelEnabled;
 
 	private void createHelpDialog() {
 		helpPanel.setIsHelpPanel(false);
