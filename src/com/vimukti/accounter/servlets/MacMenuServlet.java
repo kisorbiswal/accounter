@@ -675,7 +675,7 @@ public class MacMenuServlet extends BaseServlet {
 				"company/accounter#customers");
 		subMenu(companyLists,
 				iGlobal.messages().companySuppliers(iGlobal.Vendor()),
-				"company/accounter#supplierList");
+				"company/accounter#VendorList");
 		if (canSeeBanking()) {
 			subMenu(companyLists, iGlobal.constants().payments(),
 					"company/accounter#payments");
