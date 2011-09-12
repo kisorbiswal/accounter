@@ -104,6 +104,17 @@ public abstract class VendorTransactionTable extends
 				super.setValue(row, newValue);
 				update(row);
 			}
+
+			@Override
+			public ListFilter<ClientItem> getItemsFilter() {
+				return new ListFilter<ClientItem>() {
+
+					@Override
+					public boolean filter(ClientItem e) {
+						return e.isISellThisItem();
+					}
+				};
+			}
 		});
 
 		this.addColumn(new DescriptionEditColumn());

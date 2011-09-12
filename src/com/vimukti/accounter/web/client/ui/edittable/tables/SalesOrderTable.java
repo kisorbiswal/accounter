@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccountable;
 import com.vimukti.accounter.web.client.core.ListFilter;
@@ -72,6 +73,17 @@ public abstract class SalesOrderTable extends CustomerTransactionTable {
 					IAccountable newValue) {
 				super.setValue(row, newValue);
 				applyPriceLevel(row);
+			}
+
+			@Override
+			public ListFilter<ClientItem> getItemsFilter() {
+				return new ListFilter<ClientItem>() {
+
+					@Override
+					public boolean filter(ClientItem e) {
+						return e.isIBuyThisItem();
+					}
+				};
 			}
 
 		});

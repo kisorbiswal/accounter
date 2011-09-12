@@ -103,6 +103,17 @@ public abstract class CustomerTransactionTable extends
 			}
 
 			@Override
+			public ListFilter<ClientItem> getItemsFilter() {
+				return new ListFilter<ClientItem>() {
+
+					@Override
+					public boolean filter(ClientItem e) {
+						return e.isIBuyThisItem();
+					}
+				};
+			}
+
+			@Override
 			protected void setValue(ClientTransactionItem row,
 					IAccountable newValue) {
 				super.setValue(row, newValue);
