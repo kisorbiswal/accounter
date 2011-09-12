@@ -119,8 +119,16 @@ public class ExportReportServlet extends BaseServlet {
 		String dateRangeHtml = request.getParameter("dateRangeHtml");
 		String navigatedName = request.getParameter("navigatedName");
 		String status = request.getParameter("status");
-		long vendorId = Long.parseLong(request.getParameter("vendorId"));
-		int boxNo = Integer.parseInt(request.getParameter("boxNo"));
+		String vendor = request.getParameter("vendorId");
+		long vendorId = 0;
+		int boxNo = 0;
+		if (vendor != null) {
+			vendorId = Long.parseLong(vendor);
+		}
+		String box = request.getParameter("boxNo");
+		if (box != null) {
+			boxNo = Integer.parseInt(box);
+		}
 
 		ReportsGenerator generator = null;
 

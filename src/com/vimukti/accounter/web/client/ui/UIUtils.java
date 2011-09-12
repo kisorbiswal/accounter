@@ -61,7 +61,8 @@ public class UIUtils {
 			ClientAccount.TYPE_FIXED_ASSET, ClientAccount.TYPE_CREDIT_CARD,
 			ClientAccount.TYPE_PAYROLL_LIABILITY,
 			ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
-			ClientAccount.TYPE_LONG_TERM_LIABILITY, ClientAccount.TYPE_EQUITY,ClientAccount.TYPE_PAYPAL };
+			ClientAccount.TYPE_LONG_TERM_LIABILITY, ClientAccount.TYPE_EQUITY,
+			ClientAccount.TYPE_PAYPAL };
 	public static short scrollBarWidth = -1;
 
 	// public static void log(String msg) {
@@ -1971,6 +1972,23 @@ public class UIUtils {
 	}
 
 	public static native void exportReport(int start, int end, int reportType,
+			String name, String dateRangeHtmal, long vendorId, int boxNum)/*-{
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src",
+					"/do/finance/ExportReportServlet?startDate=" + start
+							+ "&endDate=" + end + "&reportType=" + reportType
+							+ "&navigatedName=" + name + "&dateRangeHtml="
+							+ dateRangeHtml + "&vendorId=" + vendorId
+							+ "&boxNo=" + boxNum);
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
+		}
+	}-*/;
+
+	public static native void exportReport(int start, int end, int reportType,
 			String name, String dateRangeHtml, String status)/*-{
 		try {
 			var frame = document.createElement("IFRAME");
@@ -2044,7 +2062,7 @@ public class UIUtils {
 		return clientCurrencies;
 
 	}
-	
+
 	public static boolean isCharactersOnly(String location) {
 		char[] charArray = location.toCharArray();
 		for (int i = 0; i < charArray.length; i++) {
@@ -2056,7 +2074,7 @@ public class UIUtils {
 			}
 		}
 		return true;
-}
+	}
 
 	public static boolean isMoneyOut(ClientTransaction transaction) {
 		return transaction.isPayBill() || transaction.isPayVAT()
