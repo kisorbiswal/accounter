@@ -142,6 +142,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	protected String selectPaymentMethodFromDetialsTab;
 	protected ClientPaymentTerms selectPaymentTermFromDetailsTab;
 	protected ClientVendorGroup selectVendorGroupFromDetailsTab;
+	// protected ClientCurrency clientCurrency;
 
 	private AddressForm addrsForm;
 	private PhoneFaxForm fonFaxForm;
@@ -623,7 +624,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 					@Override
 					public void selectedComboBoxItem(ClientCurrency selectItem) {
-
+						// clientCurrency = selectItem;
 					}
 				});
 		DynamicForm financeDetailsForm = new DynamicForm();
