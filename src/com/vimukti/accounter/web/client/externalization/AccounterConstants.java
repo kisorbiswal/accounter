@@ -4713,4 +4713,12 @@ public interface AccounterConstants extends Constants {
 	public String employerIdentificationNumber();
 
 	public String terminology();
+	
+	public String salesByClassDetail();
+
+	public String salesByClassSummary();
+
+	public String salesByClassDetails();
+
+	public String profitAndLossbyClass();
 }
