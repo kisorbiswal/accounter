@@ -79,12 +79,14 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 															.size(); i++) {
 														if (em.equals(result
 																.get(i)
-																.getEmail()))
+																.getEmail())) {
 															Accounter
 																	.showError(Accounter
 																			.constants()
 																			.mailExistedAlready());
-														emailField.setText("");
+															emailField
+																	.setText("");
+														}
 													}
 												}
 
