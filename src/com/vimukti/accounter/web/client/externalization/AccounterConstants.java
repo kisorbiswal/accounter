@@ -4754,6 +4754,16 @@ public interface AccounterConstants extends Constants {
 
 	public String enableQuickFillAutosuggest();
 
+	public String closingthebooks();
+
+	public String productsandservicesforsales();
+
+	public String productsandservicesforpurchases();
+
+	public String quantityandPriceandRate();
+
+	public String quantityonhand();
+
 	public String getDifferentLegalName();
 
 	public String getCustomersEmailId();
