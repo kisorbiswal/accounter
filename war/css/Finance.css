@@ -624,7 +624,7 @@ tr.net-profit td {
 	background: none repeat scroll 0 0 #29646C !important;
 }
 .tablelayout,.tablelayout1,.tablelayoutInIE,.tablelayoutInIE1,.listgrid .custom-combo,.widget,.invoice-total,
-.email_textarea textarea,.finance-portlet td:FIRST-CHILD table,.finance-portlet table {
+.email_textarea textarea,.finance-portlet td:FIRST-CHILD table,.finance-portlet table,.editTable .gwt-TextBox {
 	width: 100% !important
 }
 .ReportGrid tr td {
