@@ -589,10 +589,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
-		if (canRecur()) {
-			recurringButton = createMakeRecurringButton();
-			buttonBar.add(recurringButton);
-		}
+		// FIXME > Need to complete Recurring transaction feature.
+		// if (canRecur()) {
+		// recurringButton = createMakeRecurringButton();
+		// buttonBar.add(recurringButton);
+		// }
 		super.createButtons(buttonBar);
 	}
 
