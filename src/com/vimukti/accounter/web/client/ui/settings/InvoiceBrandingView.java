@@ -66,18 +66,18 @@ public class InvoiceBrandingView<T> extends
 
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
-				generalSettingsHTML.getElement().getStyle().setCursor(
-						Cursor.POINTER);
-				generalSettingsHTML.getElement().getStyle().setTextDecoration(
-						TextDecoration.UNDERLINE);
+				generalSettingsHTML.getElement().getStyle()
+						.setCursor(Cursor.POINTER);
+				generalSettingsHTML.getElement().getStyle()
+						.setTextDecoration(TextDecoration.UNDERLINE);
 			}
 		});
 		generalSettingsHTML.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				generalSettingsHTML.getElement().getStyle().setTextDecoration(
-						TextDecoration.NONE);
+				generalSettingsHTML.getElement().getStyle()
+						.setTextDecoration(TextDecoration.NONE);
 			}
 		});
 		titleLabel = new Label(messages.invoiceBrandingLabel());
@@ -271,11 +271,9 @@ public class InvoiceBrandingView<T> extends
 
 		// adding titles.....
 		String overDueTitle = theme.getOverDueInvoiceTitle().isEmpty() ? messages
-				.none()
-				: theme.getOverDueInvoiceTitle();
+				.none() : theme.getOverDueInvoiceTitle();
 		String creditMemoTitle = theme.getCreditMemoTitle().isEmpty() ? messages
-				.none()
-				: theme.getCreditMemoTitle();
+				.none() : theme.getCreditMemoTitle();
 		String statementTitle = theme.getStatementTitle().isEmpty() ? messages
 				.none() : theme.getStatementTitle();
 
@@ -299,16 +297,14 @@ public class InvoiceBrandingView<T> extends
 
 		// adding invoice templete name
 		String invoiceTemp = theme.getInvoiceTempleteName().isEmpty() ? messages
-				.none()
-				: theme.getInvoiceTempleteName();
+				.none() : theme.getInvoiceTempleteName();
 
 		invoiceHtml = new HTML("<p>" + messages.invoiceTemplete() + " : "
 				+ invoiceTemp + "</p>");
 
 		// adding credit note templete note
 		String creditTemp = theme.getCreditNoteTempleteName().isEmpty() ? messages
-				.none()
-				: theme.getCreditNoteTempleteName();
+				.none() : theme.getCreditNoteTempleteName();
 
 		creditNoteHtml = new HTML("<p>" + messages.creditNoteTemplete() + " : "
 				+ creditTemp + "</p>");
@@ -318,15 +314,23 @@ public class InvoiceBrandingView<T> extends
 		showPanel.add(radioButtonHtml);
 
 		// adding contact details.....
-		String contactDetails = theme.getContactDetails() == null ? messages
+		String contactDetails = theme.getContactDetails().isEmpty() ? messages
 				.notAdded() : theme.getContactDetails();
 
 		contactDetailsHtml = new HTML("<p><b>" + messages.contactDetailsLabel()
 				+ "</b><br>" + contactDetails + "</p>");
 
-		contactDetailsPanel = new VerticalPanel();
-		contactDetailsPanel.add(contactDetailsHtml);
-		contactDetailsPanel.setStyleName("contact-deatails-panel");
+		if (theme.getContactDetails().isEmpty()) {
+			contactDetailsPanel = new VerticalPanel();
+			contactDetailsPanel.add(contactDetailsHtml);
+			contactDetailsPanel.setStyleName("contact-deatails-panel");
+			contactDetailsPanel.setVisible(false);
+		} else {
+			contactDetailsPanel = new VerticalPanel();
+			contactDetailsPanel.add(contactDetailsHtml);
+			contactDetailsPanel.setStyleName("contact-deatails-panel");
+			contactDetailsPanel.setVisible(true);
+		}
 
 		if ((theme.getFileName() == null)) {
 			uploadPictureHtml = new HTML(Accounter.messages().uploadLogo());
@@ -336,8 +340,8 @@ public class InvoiceBrandingView<T> extends
 
 				@Override
 				public void onMouseOver(MouseOverEvent event) {
-					uploadPictureHtml.getElement().getStyle().setCursor(
-							Cursor.POINTER);
+					uploadPictureHtml.getElement().getStyle()
+							.setCursor(Cursor.POINTER);
 					uploadPictureHtml.getElement().getStyle()
 							.setTextDecoration(TextDecoration.UNDERLINE);
 				}
@@ -378,16 +382,16 @@ public class InvoiceBrandingView<T> extends
 			public void onMouseOver(MouseOverEvent event) {
 				changeLogoHtml.getElement().getStyle()
 						.setCursor(Cursor.POINTER);
-				changeLogoHtml.getElement().getStyle().setTextDecoration(
-						TextDecoration.UNDERLINE);
+				changeLogoHtml.getElement().getStyle()
+						.setTextDecoration(TextDecoration.UNDERLINE);
 			}
 		});
 		changeLogoHtml.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				changeLogoHtml.getElement().getStyle().setTextDecoration(
-						TextDecoration.NONE);
+				changeLogoHtml.getElement().getStyle()
+						.setTextDecoration(TextDecoration.NONE);
 			}
 		});
 		changeLogoHtml.addClickHandler(new ClickHandler() {
@@ -404,16 +408,16 @@ public class InvoiceBrandingView<T> extends
 			public void onMouseOver(MouseOverEvent event) {
 				removeLogoHtml.getElement().getStyle()
 						.setCursor(Cursor.POINTER);
-				removeLogoHtml.getElement().getStyle().setTextDecoration(
-						TextDecoration.UNDERLINE);
+				removeLogoHtml.getElement().getStyle()
+						.setTextDecoration(TextDecoration.UNDERLINE);
 			}
 		});
 		removeLogoHtml.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				removeLogoHtml.getElement().getStyle().setTextDecoration(
-						TextDecoration.NONE);
+				removeLogoHtml.getElement().getStyle()
+						.setTextDecoration(TextDecoration.NONE);
 			}
 		});
 		removeLogoHtml.addClickHandler(new ClickHandler() {
@@ -487,15 +491,15 @@ public class InvoiceBrandingView<T> extends
 
 		nameAndMenuPanel.add(buttonPanel2);
 
-		buttonPanel2.getElement().getParentElement().setAttribute("width",
-				"18%");
+		buttonPanel2.getElement().getParentElement()
+				.setAttribute("width", "18%");
 		buttonPanel2.setWidth("100%");
 
 		// optionsButton.setStyleName("ibutton-right-align") ;
 		if (theme.getName().equalsIgnoreCase(Accounter.constants().standard())) {
 			deleteButton.setVisible(false);
-			buttonPanel2.getElement().getParentElement().setAttribute("width",
-					"12%");
+			buttonPanel2.getElement().getParentElement()
+					.setAttribute("width", "12%");
 		} else {
 			deleteButton.setVisible(true);
 		}
