@@ -2087,4 +2087,24 @@ public class UIUtils {
 				|| transaction.isMakeDeposit();
 	}
 
+	public static void generateBudgetReportPDF(int reportType, int BUDGET_TYPE) {
+
+		generateBudgetReportPDF(Integer.toString(reportType),
+				Integer.toString(BUDGET_TYPE));
+	}
+
+	public static native void generateBudgetReportPDF(String reportType,
+			String budgetType)/*-{
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src",
+					"/do/finance/generatePDFServlet?budgetType=" + budgetType
+							+ "&reportType=" + reportType);
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
+		}
+	}-*/;
+
 }
