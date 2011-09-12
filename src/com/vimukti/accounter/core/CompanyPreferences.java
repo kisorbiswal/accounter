@@ -1304,4 +1304,12 @@ public class CompanyPreferences implements IAccounterServerCore {
 	public void setTimezone(String timezone) {
 		this.timezone = timezone;
 	}
+
+	public boolean isTDSEnabled() {
+		return get(TDS_TAX_ENABLE);
+	}
+
+	public void setTDSEnabled(boolean value) {
+		set(TDS_TAX_ENABLE, value);
+	}
 }

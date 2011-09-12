@@ -31,10 +31,9 @@ public class NewReconcileAccountAction extends Action<ClientReconciliation> {
 
 			@Override
 			public void onSuccess() {
-				ReconciliationView view = new ReconciliationView(data);
-				MainFinanceWindow.getViewManager().showView(view,
-						data.getID() == 0 ? null : data, isDependent,
-						NewReconcileAccountAction.this);
+				ReconciliationView view = new ReconciliationView();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, NewReconcileAccountAction.this);
 			}
 
 			@Override

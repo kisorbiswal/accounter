@@ -46,18 +46,10 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 	private DateField startDate;
 	private DateField endDate;
 	private ReconciliationTransactionsGrid grid;
-	private ClientReconciliation reconcilition;
 	private Set<ClientTransaction> clearedTransactions = new HashSet<ClientTransaction>();
 	private LabelItem bankaccountLabel, startdateLable, enddateLable;
 	AmountLabel closebalanceLable, openingBalance, closingBalance,
 			clearedAmount, difference;
-
-	/**
-	 * Creates new Instance
-	 */
-	public ReconciliationView(ClientReconciliation data) {
-		this.reconcilition = data;
-	}
 
 	public void createControls() {
 		// Creating Title for View
@@ -68,21 +60,21 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 
 		bankaccountLabel = new LabelItem();
 		bankaccountLabel.setTitle(messages.bankAccount(Global.get().Account()));
-		bankaccountLabel.setValue(reconcilition.getAccount().getName());
+		bankaccountLabel.setValue(data.getAccount().getName());
 
 		closebalanceLable = new AmountLabel(constants.ClosingBalance());
 		// closebalanceLable.setTitle(constants.ClosingBalance());
-		closebalanceLable.setAmount(reconcilition.getClosingBalance());
+		closebalanceLable.setAmount(data.getClosingBalance());
 
 		startdateLable = new LabelItem();
 		startdateLable.setTitle(constants.startDate());
-		startdateLable.setValue(DateUtills.getDateAsString(reconcilition
-				.getStartDate().getDateAsObject()));
+		startdateLable.setValue(DateUtills.getDateAsString(data.getStartDate()
+				.getDateAsObject()));
 
 		enddateLable = new LabelItem();
 		enddateLable.setTitle(constants.endDate());
-		enddateLable.setValue(DateUtills.getDateAsString(reconcilition
-				.getEndDate().getDateAsObject()));
+		enddateLable.setValue(DateUtills.getDateAsString(data.getEndDate()
+				.getDateAsObject()));
 
 		// // Creating Input Fields to Start Reconciliation of an Account
 		// bankAccountsField = new SelectCombo(messages.bankAccount(Global.get()
@@ -121,7 +113,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 			public void onClick(ClickEvent event) {
 				ReconciliationDailog dialog = new ReconciliationDailog(Global
 						.get().constants().Reconciliation(),
-						(ClientReconciliation) reconcilition);
+						(ClientReconciliation) data);
 				dialog.show();
 			}
 		});
@@ -140,12 +132,12 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		openingBalance = new AmountLabel(constants.openingBalance());
 		openingBalance.setHelpInformation(true);
 		openingBalance.setDisabled(true);
-		openingBalance.setAmount(reconcilition.getOpeningBalance());
+		openingBalance.setAmount(data.getOpeningBalance());
 
 		closingBalance = new AmountLabel(constants.ClosingBalance());
 		openingBalance.setHelpInformation(true);
 		openingBalance.setDisabled(true);
-		closingBalance.setAmount(reconcilition.getClosingBalance());
+		closingBalance.setAmount(data.getClosingBalance());
 
 		clearedAmount = new AmountLabel(constants.ClearedAmount());
 		openingBalance.setHelpInformation(true);
@@ -169,7 +161,9 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 					@Override
 					public void selectionChanged(ClientTransaction obj,
 							boolean isSelected) {
-						clearTransaction(obj, isSelected);
+						if (isCreating()) {
+							clearTransaction(obj, isSelected);
+						}
 					}
 				});
 		grid.setWidth("100%");
@@ -178,7 +172,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		mainPanel.setWidth("100%");
 		mainPanel.add(label);
 		mainPanel.add(hPanel);
-		if (getData() == null) {
+		if (isCreating()) {
 			mainPanel.add(btnPanel);
 		}
 		mainPanel.add(grid);
@@ -187,6 +181,13 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 				.addClassName("recounciliation_grid");
 		mainPanel.add(amountsPanel);
 		this.add(mainPanel);
+	}
+
+	/**
+	 * @return
+	 */
+	private boolean isCreating() {
+		return data.getID() == 0;
 	}
 
 	/**
@@ -218,9 +219,8 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 	 */
 
 	private void getTransactions() {
-		rpcGetService.getAllTransactionsOfAccount(reconcilition.getAccount()
-				.getID(), reconcilition.getStartDate(), reconcilition
-				.getEndDate(),
+		rpcGetService.getAllTransactionsOfAccount(data.getAccount().getID(),
+				data.getStartDate(), data.getEndDate(),
 				new AccounterAsyncCallback<List<ClientTransaction>>() {
 
 					@Override
@@ -263,14 +263,9 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 
 	@Override
 	public void saveAndUpdateView() {
-		ClientReconciliation reconciliation = new ClientReconciliation();
-		reconciliation.setClosingBalance(reconcilition.getClosingBalance());
-		reconciliation.setOpeningBalance(reconciliation.getOpeningBalance());
-		reconciliation.setStartDate(reconcilition.getStartDate());
-		reconciliation.setEndDate(reconcilition.getEndDate());
-		reconciliation.setReconcilationDate(new ClientFinanceDate());
-		reconciliation.setAccount(reconcilition.getAccount());
-		saveOrUpdate(reconciliation);
+		this.data.setReconcilationDate(new ClientFinanceDate());
+		data.setTransactions(this.clearedTransactions);
+		saveOrUpdate(data);
 	}
 
 	@Override
@@ -311,8 +306,10 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 	@Override
 	public void initData() {
 		getTransactions();
-		if (getData() != null) {
-			ClientReconciliation data = this.getData();
+		if (!isCreating()) {
+			// ClientReconciliation data = this.getData();
+			// grid.setData(new ArrayList<ClientTransaction>(data
+			// .getTransactions()));
 			clearedAmount.setAmount(data.getClosingBalance());
 		} else {
 			updateAmounts(0);

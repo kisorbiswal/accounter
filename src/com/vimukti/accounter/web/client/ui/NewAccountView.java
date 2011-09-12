@@ -948,7 +948,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (isNewBankAccount) {
 			accTypeSelect.setComboItem(Utility
 					.getAccountTypeString(accountType));
-			// accTypeSelect.setDisabled(true);
+			accTypeSelect.setDisabled(true);
 			getNextAccountNo();
 			accNoText.setToolTip(Accounter.messages().accountNumberToolTipDesc(
 					"1100", "1179"));

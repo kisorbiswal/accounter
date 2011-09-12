@@ -349,7 +349,6 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 
 					this.enterBill.setBalanceDue(this.enterBill.getBalanceDue()
 							- (amount + this.tdsAmount));
-					
 
 				} else {
 
@@ -387,7 +386,7 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 		}
 
 		// Update TDS Account if Company is INDIA
-		if (Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_INDIA) {
+		if (Company.getCompany().getPreferences().isTDSEnabled()) {
 			TAXItem taxItem = this.payBill.getVendor().getTAXItem();
 			TAXAgency taxAgency = taxItem.getTaxAgency();
 			Account account = taxAgency.getSalesLiabilityAccount();
