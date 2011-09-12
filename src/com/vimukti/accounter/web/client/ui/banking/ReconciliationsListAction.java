@@ -21,6 +21,7 @@ public class ReconciliationsListAction extends Action {
 	 */
 	public ReconciliationsListAction(String text) {
 		super(text);
+		this.catagory = Accounter.constants().banking();
 	}
 
 	@Override

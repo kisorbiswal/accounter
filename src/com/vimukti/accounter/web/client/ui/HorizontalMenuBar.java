@@ -27,8 +27,6 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		AccounterDOM.addStyleToparent(menuBar.getElement(), Accounter
 				.constants().menuBarParent());
 	}
-	
-	
 
 	private MenuBar getMenuBar() {
 		MenuBar menuBar = new MenuBar();
@@ -743,6 +741,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		bankingMenuBar.addItem(ActionFactory.getCreditCardChargeAction());
 		bankingMenuBar.addSeparator();
 		bankingMenuBar.addItem(ActionFactory.getReconciliationsListAction());
+		bankingMenuBar.addSeparator();
 		bankingMenuBar.addItem(Accounter.constants().bankingList(),
 				getBankingListMenu());
 

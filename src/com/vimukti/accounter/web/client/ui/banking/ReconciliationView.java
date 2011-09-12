@@ -29,7 +29,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DateField;
-import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.SelectionChangedHandler;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -116,8 +115,8 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		hPanel.add(form);
 		hPanel.add(datesForm);
 		hPanel.setCellWidth(form, "40%");
-		Button startBtn = new Button(constants.change());
-		startBtn.addClickHandler(new ClickHandler() {
+		Button changeBtn = new Button(constants.change());
+		changeBtn.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				ReconciliationDailog dialog = new ReconciliationDailog(Global
@@ -129,9 +128,9 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 
 		HorizontalPanel btnPanel = new HorizontalPanel();
 		btnPanel.setWidth("100%");
-		btnPanel.add(startBtn);
+		btnPanel.add(changeBtn);
 		btnPanel.setStyleName("recoucilation_change");
-		btnPanel.setCellHorizontalAlignment(startBtn,
+		btnPanel.setCellHorizontalAlignment(changeBtn,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 
 		// Creating Amount Fields
@@ -179,7 +178,9 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		mainPanel.setWidth("100%");
 		mainPanel.add(label);
 		mainPanel.add(hPanel);
-		mainPanel.add(btnPanel);
+		if (getData() == null) {
+			mainPanel.add(btnPanel);
+		}
 		mainPanel.add(grid);
 		mainPanel.setCellHeight(grid, "200px");
 		grid.getElement().getParentElement()
@@ -246,7 +247,8 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 	@Override
 	public void init() {
 		super.init();
-		setMode(EditMode.CREATE);
+		// if(getData())
+		// setMode(EditMode.CREATE);
 		createControls();
 	}
 
@@ -302,9 +304,19 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 	}
 
 	@Override
+	public boolean canEdit() {
+		return false;
+	}
+
+	@Override
 	public void initData() {
 		getTransactions();
-		updateAmounts(0);
+		if (getData() != null) {
+			ClientReconciliation data = this.getData();
+			clearedAmount.setAmount(data.getClosingBalance());
+		} else {
+			updateAmounts(0);
+		}
 		super.initData();
 	}
 

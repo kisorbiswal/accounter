@@ -5,24 +5,24 @@ package com.vimukti.accounter.web.client.ui.banking;
 
 import java.util.List;
 
-import com.google.gwt.cell.client.SafeHtmlCell;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.view.client.ListDataProvider;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.IDeleteCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.grids.columns.ImageActionColumn;
 
 /**
  * @author Prasanna Kumar G
  * 
  */
-public class ReconciliationsTable extends CellTable<ClientReconciliation> {
+public class ReconciliationsTable extends CellTable<ClientReconciliation>
+		implements IDeleteCallback {
 
 	private ListDataProvider<ClientReconciliation> dataprovider = new ListDataProvider<ClientReconciliation>();
 
@@ -57,44 +57,6 @@ public class ReconciliationsTable extends CellTable<ClientReconciliation> {
 			}
 		};
 
-		Column<ClientReconciliation, SafeHtml> reconciliationDetails = new Column<ClientReconciliation, SafeHtml>(
-				new SafeHtmlCell()) {
-
-			@Override
-			public SafeHtml getValue(final ClientReconciliation object) {
-				SafeHtml html = new SafeHtml() {
-
-					@Override
-					public String asString() {
-						Anchor show = new Anchor("Show");
-						show.addClickHandler(new ClickHandler() {
-
-							@Override
-							public void onClick(ClickEvent event) {
-								openReconciliation(object);
-							}
-
-						});
-						Anchor undo = new Anchor("Undo");
-						undo.addClickHandler(new ClickHandler() {
-
-							@Override
-							public void onClick(ClickEvent event) {
-								deleteReconciliation(object);
-							}
-						});
-
-						return "<div>"
-								+ Accounter.messages().to(
-										object.getStartDate().toString(),
-										object.getEndDate().toString())
-								+ "<br>" + show + "  " + undo + "</div>";
-					}
-				};
-				return html;
-			}
-		};
-
 		TextColumn<ClientReconciliation> openingBalance = new TextColumn<ClientReconciliation>() {
 
 			@Override
@@ -111,16 +73,45 @@ public class ReconciliationsTable extends CellTable<ClientReconciliation> {
 			}
 		};
 
+		ImageActionColumn<ClientReconciliation> show = new ImageActionColumn<ClientReconciliation>() {
+
+			@Override
+			protected void onSelect(int index, ClientReconciliation object) {
+				openReconciliation(object);
+			}
+
+			@Override
+			public ImageResource getValue(ClientReconciliation object) {
+				return Accounter.getFinanceMenuImages().accounterRegisterIcon();
+			}
+		};
+
+		ImageActionColumn<ClientReconciliation> delete = new ImageActionColumn<ClientReconciliation>() {
+
+			@Override
+			protected void onSelect(int index, ClientReconciliation object) {
+				// Accounter.getFinanceMenuImages().accounterRegisterIcon()
+				deleteReconciliation(object);
+			}
+
+			@Override
+			public ImageResource getValue(ClientReconciliation object) {
+				return Accounter.getFinanceImages().delete();
+			}
+		};
+
 		this.addColumn(reconciliationDate, Accounter.constants()
 				.ReconciliationDate());
-		this.addColumn(reconciliationDetails, Accounter.constants()
+		this.addColumn(reconciliationPeriod, Accounter.constants()
 				.ReconciliationPeriod());
 		this.addColumn(openingBalance, Accounter.constants().openBalance());
 		this.addColumn(closingBalance, Accounter.constants().ClosingBalance());
+		this.addColumn(show, Accounter.constants().show());
+		this.addColumn(delete);
 	}
 
 	private void deleteReconciliation(ClientReconciliation object) {
-		// TODO Auto-generated method stub
+		Accounter.deleteObject(this, object);
 	}
 
 	public void setData(List<ClientReconciliation> data) {
@@ -129,6 +120,18 @@ public class ReconciliationsTable extends CellTable<ClientReconciliation> {
 
 	public void openReconciliation(ClientReconciliation reconciliation) {
 		ActionFactory.getNewReconciliationAction().run(reconciliation, false);
+	}
+
+	@Override
+	public void deleteFailed(AccounterException caught) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void deleteSuccess(IAccounterCore result) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

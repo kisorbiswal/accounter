@@ -22,6 +22,7 @@ public class NewReconcileAccountAction extends Action<ClientReconciliation> {
 	 */
 	public NewReconcileAccountAction(String text) {
 		super(text);
+		this.catagory = Accounter.constants().banking();
 	}
 
 	@Override
@@ -31,8 +32,9 @@ public class NewReconcileAccountAction extends Action<ClientReconciliation> {
 			@Override
 			public void onSuccess() {
 				ReconciliationView view = new ReconciliationView(data);
-				MainFinanceWindow.getViewManager().showView(view, null,
-						isDependent, NewReconcileAccountAction.this);
+				MainFinanceWindow.getViewManager().showView(view,
+						data.getID() == 0 ? null : data, isDependent,
+						NewReconcileAccountAction.this);
 			}
 
 			@Override

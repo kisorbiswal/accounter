@@ -2092,7 +2092,6 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public List<ClientReconciliation> getReconciliationsByBankAccountID(
 			long accountID) throws AccounterException {
-		return null;
-		// return getFinanceTool().getReconciliationsByBankAccountID(accountID);
+		return getFinanceTool().getReconciliationsByBankAccountID(accountID);
 	}
 }

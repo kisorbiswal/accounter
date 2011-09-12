@@ -81,7 +81,9 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 					@Override
 					public void onResultSuccess(
 							List<ClientReconciliation> result) {
-						grid.setData(result);
+						if (result != null) {
+							grid.setData(result);
+						}
 					}
 				});
 	}
@@ -96,8 +98,9 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 	public void initData() {
 		ArrayList<ClientAccount> bankAccounts = Accounter.getCompany()
 				.getAccounts(ClientAccount.TYPE_BANK);
-		if (bankAccounts == null)
+		if (bankAccounts == null || bankAccounts.isEmpty()) {
 			return;
+		}
 		for (ClientAccount account : bankAccounts) {
 			bankAccountsCombo.addItem(account.getName());
 			this.bankAccounts.put(account.getName(),
@@ -126,6 +129,7 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 	public List<DynamicForm> getForms() {
 		return null;
 	}
+
 	@Override
 	public void setFocus() {
 		this.bankAccountsCombo.setFocus();
