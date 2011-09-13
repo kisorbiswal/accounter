@@ -17,14 +17,6 @@ public class AgeingAndSellingDetailsOption extends AbstractPreferenceOption {
 	RadioButton ageingforduedateRadioButton;
 	@UiField
 	RadioButton ageingfortransactiondateRadioButton;
-	@UiField
-	Label sellingsLabel;
-	@UiField
-	RadioButton servicesRadioButton;
-	@UiField
-	RadioButton productsRadioButton;
-	@UiField
-	RadioButton bothRadioButton;
 
 	interface AgeingAndSellingDetailsOptionUiBinder extends
 			UiBinder<Widget, AgeingAndSellingDetailsOption> {
@@ -44,20 +36,6 @@ public class AgeingAndSellingDetailsOption extends AbstractPreferenceOption {
 			ageingforduedateRadioButton.setValue(false);
 			ageingfortransactiondateRadioButton.setValue(true);
 		}
-		if (companyPreferences.isSellServices()
-				&& companyPreferences.isSellProducts()) {
-			bothRadioButton.setValue(true);
-			servicesRadioButton.setValue(false);
-			productsRadioButton.setValue(false);
-		} else if (companyPreferences.isSellServices()) {
-			bothRadioButton.setValue(false);
-			servicesRadioButton.setValue(true);
-			productsRadioButton.setValue(false);
-		} else {
-			bothRadioButton.setValue(false);
-			servicesRadioButton.setValue(false);
-			productsRadioButton.setValue(true);
-		}
 	}
 
 	private void createControls() {
@@ -67,11 +45,6 @@ public class AgeingAndSellingDetailsOption extends AbstractPreferenceOption {
 				.ageingfortransactiondate());
 
 		ageingLabel.setText(constants.ageingDetails());
-		sellingsLabel.setText(constants.sellingDetails());
-
-		servicesRadioButton.setText(constants.services());
-		productsRadioButton.setText(constants.products());
-		bothRadioButton.setText(constants.bothServiceProducts());
 
 	}
 
@@ -91,16 +64,6 @@ public class AgeingAndSellingDetailsOption extends AbstractPreferenceOption {
 		else
 			companyPreferences.setAgeingFromTransactionDateORDueDate(2);
 
-		if (bothRadioButton.getValue()) {
-			companyPreferences.setSellServices(true);
-			companyPreferences.setSellProducts(true);
-		} else if (servicesRadioButton.getValue()) {
-			companyPreferences.setSellServices(true);
-			companyPreferences.setSellProducts(false);
-		} else {
-			companyPreferences.setSellProducts(true);
-			companyPreferences.setSellServices(false);
-		}
 	}
 
 	@Override
