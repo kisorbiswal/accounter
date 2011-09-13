@@ -662,8 +662,10 @@ public class VendorBillView extends
 		listforms.add(memoForm);
 		listforms.add(vatCheckform);
 		listforms.add(totalForm);
-
+  
+	settabIndexes();	
 	}
+
 
 	private void paymentTermSelected(ClientPaymentTerms selectItem) {
 		selectedPaymentTerm = selectItem;
@@ -1132,5 +1134,20 @@ public class VendorBillView extends
 	@Override
 	public List<ClientTransactionItem> getAllTransactionItems() {
 		return vendorTransactionTable.getAllRows();
+	}
+	private void settabIndexes() {
+		vendorCombo.setTabIndex(1);
+		contactCombo.setTabIndex(2);
+		transactionDateItem.setTabIndex(3);
+		transactionNumber.setTabIndex(4);
+		phoneSelect.setTabIndex(5);
+		paymentTermsCombo.setTabIndex(6);
+		dueDateItem.setTabIndex(7);
+		deliveryDateItem.setTabIndex(8);
+		memoTextAreaItem.setTabIndex(9);
+		menuButton.setTabIndex(10);
+		saveAndCloseButton.setTabIndex(11);
+		saveAndNewButton.setTabIndex(12);
+		cancelButton.setTabIndex(13);
 	}
 }
