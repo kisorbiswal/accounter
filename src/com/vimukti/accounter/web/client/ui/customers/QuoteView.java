@@ -871,7 +871,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		customerTransactionTable.setDisabled(isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
-		shippingTermsCombo.setDisabled(isInViewMode());
 		super.onEdit();
 	}
 
