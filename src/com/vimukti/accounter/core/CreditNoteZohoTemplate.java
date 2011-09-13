@@ -80,8 +80,6 @@ public class CreditNoteZohoTemplate implements PrintTemplete {
 				t.setVariable("creditNoteDate", memo.getDate().toString());
 				t.setVariable("customerNumber", memo.getCustomer().getNumber());
 
-				t.addBlock("creditHead");
-
 				// for displaying customer name and billing Address
 				String customernameAddress = "";
 				Address bill = memo.getBillingAddress();
@@ -98,7 +96,7 @@ public class CreditNoteZohoTemplate implements PrintTemplete {
 				}
 
 				t.setVariable("customerNameNBillAddress", customernameAddress);
-
+				t.addBlock("creditHead");
 				// for checking to show column headings
 				if (brandingTheme.isShowColumnHeadings()) {
 					// for checking to show tax columns
@@ -152,10 +150,10 @@ public class CreditNoteZohoTemplate implements PrintTemplete {
 
 				String memoVal = memo.getMemo();
 				if (memoVal != null && memoVal.trim().length() > 0) {
-					t.setVariable("blankText", memoVal);
+					t.setVariable("memoText", memoVal);
 					t.addBlock("memoblock");
 				}
-
+				String vatString = getVendorString("VAT Total ", "Tax Total ");
 				String subTotal = largeAmountConversation(memo.getNetAmount());
 				String vatTotal = largeAmountConversation(memo.getTotal()
 						- memo.getNetAmount());
@@ -164,6 +162,7 @@ public class CreditNoteZohoTemplate implements PrintTemplete {
 				t.setVariable("memoText", memoVal);
 				t.setVariable("subTotal", subTotal);
 				if (brandingTheme.isShowTaxColumn()) {
+					t.setVariable("vatlabel", vatString);
 					t.setVariable("vatTotalValue", vatTotal);
 					t.addBlock("VatTotal");
 				}
@@ -200,7 +199,8 @@ public class CreditNoteZohoTemplate implements PrintTemplete {
 				return outPutString;
 
 			} catch (Exception e) {
-
+				System.err.println("credit memeo err......." + e.getMessage()
+						+ "..." + e.getStackTrace());
 			}
 		} catch (Exception e) {
 			System.err.println("credit memeo err......." + e.getMessage()
@@ -224,12 +224,10 @@ public class CreditNoteZohoTemplate implements PrintTemplete {
 		return "";
 	}
 
-	private static String getVendorString(String forUk, String forUs) {
-		// return company.getAccountingType() == company.ACCOUNTING_TYPE_US ?
-		// forUs
-		// : forUk;
+	private String getVendorString(String forUk, String forUs) {
+		return company.getAccountingType() == company.ACCOUNTING_TYPE_US ? forUs
+				: forUk;
 
-		return forUk;
 	}
 
 	public String forZeroAmounts(String amount) {

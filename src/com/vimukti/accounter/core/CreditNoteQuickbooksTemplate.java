@@ -162,9 +162,10 @@ public class CreditNoteQuickbooksTemplate implements PrintTemplete {
 			String vatTotal = largeAmountConversation(memo.getTotal()
 					- memo.getNetAmount());
 			String total = largeAmountConversation(memo.getTotal());
-
+			String vatStringLabel = getVendorString("VAT Total ", "Tax Total ");
 			t.setVariable("subTotal", subTotal);
 			if (brandingTheme.isShowTaxColumn()) {
+				t.setVariable("vatlabel", vatStringLabel);
 				t.setVariable("vatTotalValue", vatTotal);
 				t.addBlock("VatTotal");
 			}
@@ -253,12 +254,10 @@ public class CreditNoteQuickbooksTemplate implements PrintTemplete {
 		return "";
 	}
 
-	private static String getVendorString(String forUk, String forUs) {
-		// return company.getAccountingType() == company.ACCOUNTING_TYPE_US ?
-		// forUs
-		// : forUk;
+	private String getVendorString(String forUk, String forUs) {
+		return company.getAccountingType() == company.ACCOUNTING_TYPE_US ? forUs
+				: forUk;
 
-		return forUk;
 	}
 
 	public String forZeroAmounts(String amount) {
