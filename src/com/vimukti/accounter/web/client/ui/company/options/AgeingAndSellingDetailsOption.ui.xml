@@ -15,14 +15,10 @@
 					ui:field="ageingfortransactiondateRadioButton" checked="true" />
 			</g:VerticalPanel>
 		</g:VerticalPanel>
-		<g:VerticalPanel styleName="companyInfoPanel">
-			<g:Label ui:field="sellingsLabel" styleName="header" />
-			<g:VerticalPanel>
-				<g:RadioButton name="sellingsGroup" ui:field="servicesRadioButton" />
-				<g:RadioButton name="sellingsGroup" ui:field="productsRadioButton" />
-				<g:RadioButton name="sellingsGroup" ui:field="bothRadioButton"
-					checked="true" />
-			</g:VerticalPanel>
-		</g:VerticalPanel>
+	<!-- <g:VerticalPanel styleName="companyInfoPanel"> <g:Label ui:field="sellingsLabel" 
+		styleName="header" /> <g:VerticalPanel> <g:RadioButton name="sellingsGroup" 
+		ui:field="servicesRadioButton" /> <g:RadioButton name="sellingsGroup" ui:field="productsRadioButton" 
+		/> <g:RadioButton name="sellingsGroup" ui:field="bothRadioButton" checked="true" 
+		/> </g:VerticalPanel> </g:VerticalPanel> -->
 	</g:VerticalPanel>
 </ui:UiBinder> 
