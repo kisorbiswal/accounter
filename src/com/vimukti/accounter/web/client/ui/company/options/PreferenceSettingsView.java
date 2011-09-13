@@ -231,6 +231,10 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 				for (PreferencePage page : preferencePages) {
 					page.onSave();
 				}
+
+				Accounter.setCompany(company);
+				Accounter.updateCompany(PreferenceSettingsView.this, company);
+				Accounter.reset();
 			}
 		});
 	}
