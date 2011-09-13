@@ -4777,5 +4777,7 @@ public interface AccounterConstants extends Constants {
 	public String customerAddress();
 	
 	public String getCompanyLegalCheckBoxText();
+	
+	public String cashOrAccural();
 
 }
