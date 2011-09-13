@@ -6,6 +6,7 @@ import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -193,6 +194,11 @@ public abstract class VendorTransactionTable extends
 
 			ClientItem item = getCompany().getItem(rec.getItem());
 			if (item != null && item.isTaxable()) {
+				ClientTAXItem taxItem = getCompany().getTAXItem(
+						rec.getTaxCode());
+				if (taxItem != null) {
+					totalVat += taxItem.getTaxRate() / 100 * lineTotalAmt;
+				}
 				taxableTotal += lineTotalAmt;
 			}
 			totalVat += rec.getVATfraction();

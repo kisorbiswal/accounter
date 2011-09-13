@@ -251,12 +251,20 @@ public abstract class CustomerTransactionTable extends
 
 			Double lineTotalAmt = citem.getLineTotal();
 			totallinetotal += lineTotalAmt;
-			if (getCompany().getPreferences().isChargeSalesTax()) {
-				if (citem != null && citem.isTaxable())
+		
+				if (citem != null && citem.isTaxable()) {
+					ClientTAXItem taxItem = getCompany().getTAXItem(
+							citem.getTaxCode());
+
+					if (taxItem != null) {
+						totalVat += taxItem.getTaxRate() / 100 * lineTotalAmt;
+					}
 					taxableTotal += lineTotalAmt;
-			}
-			totalVat += citem.getVATfraction();
-		}
+				}
+			
+	totalVat += citem.getVATfraction();
+	}
+	
 
 		if (getCompany().getPreferences().isChargeSalesTax())
 			grandTotal = totalVat + totallinetotal;
