@@ -788,10 +788,13 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 							taxCode.getTAXItemGrpForSales())) : 0;
 
 			setSalesTax(salesTax);
-
 			setTransactionTotal(customerTransactionTable.getTotal()
 					+ this.salesTax);
-		} else {
+
+			
+		}
+		if(getCompany().getPreferences().isRegisteredForVAT())
+		{
 			if (customerTransactionTable.getGrandTotal() != 0
 					&& customerTransactionTable.getTotalValue() != 0) {
 				netAmountLabel.setAmount(customerTransactionTable
@@ -802,6 +805,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				setTransactionTotal(customerTransactionTable.getTotalValue());
 			}
 		}
+		
+		
 		Double payments = this.paymentsNonEditableText.getAmount();
 		if (transaction != null) {
 			payments = this.transactionTotal < payments ? this.transactionTotal
@@ -1788,7 +1793,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	@Override
 	protected void refreshTransactionGrid() {
-
+	
 	}
 	private void settabIndexes() {
 		customerCombo.setTabIndex(1);

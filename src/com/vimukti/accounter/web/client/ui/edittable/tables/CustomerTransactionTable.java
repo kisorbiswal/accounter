@@ -188,6 +188,7 @@ public abstract class CustomerTransactionTable extends
 		if (taxCode == 0)
 			return;
 		record.setVATfraction(getVATAmount(taxCode, record));
+
 		updateTotals();
 		update(record);
 	}
@@ -245,30 +246,32 @@ public abstract class CustomerTransactionTable extends
 		taxableTotal = 0.0;
 		totalVat = 0.0;
 		int accountType = Accounter.getCompany().getAccountingType();
+
 		for (ClientTransactionItem citem : allrecords) {
+			ClientTransactionItem record = (ClientTransactionItem) citem;
 
 			totaldiscount += citem.getDiscount();
 
 			Double lineTotalAmt = citem.getLineTotal();
 			totallinetotal += lineTotalAmt;
-		
-				if (citem != null && citem.isTaxable()) {
-					ClientTAXItem taxItem = getCompany().getTAXItem(
-							citem.getTaxCode());
 
-					if (taxItem != null) {
-						totalVat += taxItem.getTaxRate() / 100 * lineTotalAmt;
-					}
-					taxableTotal += lineTotalAmt;
+			if (citem != null && citem.isTaxable()) {
+				ClientTAXItem taxItem = getCompany().getTAXItem(
+						citem.getTaxCode());
+				if (taxItem != null) {
+					totalVat += taxItem.getTaxRate() / 100 * lineTotalAmt;
 				}
+				taxableTotal += lineTotalAmt;
+			}
 			
-	totalVat += citem.getVATfraction();
-	}
-	
+			record.setVATfraction(getVATAmount(citem.getTaxCode(), record));
+			super.update(citem);
+		//	totalVat += citem.getVATfraction();
+		}
 
 		if (getCompany().getPreferences().isChargeSalesTax())
 			grandTotal = totalVat + totallinetotal;
-		else {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			// if (transactionView.vatinclusiveCheck != null
 			// && (Boolean) transactionView.vatinclusiveCheck.getValue()) {
 			// grandTotal = totallinetotal - totalVat;
@@ -279,6 +282,7 @@ public abstract class CustomerTransactionTable extends
 			totalValue = grandTotal + totalVat;
 			// }
 		}
+
 		updateNonEditableItems();
 	}
 
