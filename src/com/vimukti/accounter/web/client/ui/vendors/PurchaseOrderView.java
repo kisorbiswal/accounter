@@ -916,7 +916,8 @@ public class PurchaseOrderView extends
 					.getDate()));
 
 		transaction.setMemo(getMemoTextAreaItem());
-		transaction.setNetAmount(vendorTransactionTable.getGrandTotal());
+		if (transaction.getNetAmount() != 0)
+			transaction.setNetAmount(vendorTransactionTable.getGrandTotal());
 		transaction.setTotal(vendorTransactionTable.getTotal());
 		// transaction.setReference(getRefText());
 	}
