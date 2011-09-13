@@ -6,12 +6,12 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel spacing="50" styleName="companyInfoPanel" horizontalAlignment="ALIGN_CENTER">
-		<g:HorizontalPanel spacing="10"  ui:field="hpanel" width="440" height="0" horizontalAlignment="ALIGN_LEFT">
+	<g:VerticalPanel spacing="8" styleName="companyInfoPanel" horizontalAlignment="ALIGN_CENTER">
+		<g:HorizontalPanel spacing="10"  ui:field="hpanel"  horizontalAlignment="ALIGN_LEFT">
 			<g:CheckBox ui:field="locationTrackingCheckBoxItm" width=""/>
 			<g:Label ui:field="locationTrackingCheckBoxLabel"/>
 		</g:HorizontalPanel>
-		<g:VerticalPanel spacing="5" ui:field="radioButtonsPanel"  width="440" horizontalAlignment="ALIGN_CENTER">
+		<g:VerticalPanel spacing="5" ui:field="radioButtonsPanel" horizontalAlignment="ALIGN_CENTER">
 			<g:HorizontalPanel horizontalAlignment="ALIGN_RIGHT" spacing="6">
 			<g:Label ui:field="radioButtonsHeaderLabel" styleName="header"/>
 		</g:HorizontalPanel>
