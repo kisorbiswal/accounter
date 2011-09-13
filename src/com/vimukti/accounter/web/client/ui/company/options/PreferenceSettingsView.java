@@ -130,7 +130,8 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 	private PreferencePage getCompanyInfoPage() {
 		PreferencePage companyInfoPage = new PreferencePage(Accounter
 				.constants().company());
-		CustomerTerminologyOption terminologyOption = new CustomerTerminologyOption();
+		// CustomerTerminologyOption terminologyOption = new
+		// CustomerTerminologyOption();
 		TaxFormOption formOption = new TaxFormOption();
 		// AccountNumbersOption numbersOption = new AccountNumbersOption();
 		CompanyEinOption einOption = new CompanyEinOption();
@@ -145,7 +146,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		// LogOutAfterInactivityOption afterInactivityOption = new
 		// LogOutAfterInactivityOption();
 
-		companyInfoPage.addPreferenceOption(terminologyOption);
+		// companyInfoPage.addPreferenceOption(terminologyOption);
 		companyInfoPage.addPreferenceOption(formOption);
 		// companyPage.addPreferenceOption(numbersOption);
 		companyInfoPage.addPreferenceOption(einOption);
@@ -177,7 +178,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 
 	private PreferencePage getTerminoligies() {
 		PreferencePage teriminalogyPreferencePage = new PreferencePage(
-				constants.customerAndvendorSettings());
+				constants.accounterTerminologies());
 		CustomerTerminologyOption productAndServicesOption = new CustomerTerminologyOption();
 		VendorTerninalogyOption terminalogyOption = new VendorTerninalogyOption();
 		AccountTerminalogyOption accountTerminalogyOption = new AccountTerminalogyOption();
