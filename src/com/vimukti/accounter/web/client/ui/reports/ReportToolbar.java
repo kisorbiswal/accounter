@@ -398,9 +398,7 @@ public abstract class ReportToolbar extends HorizontalPanel {
 					Accounter.constants().thisWeek())
 					&& dateRange.equals(Accounter.constants().thisWeek())) {
 				startDate = getWeekStartDate();
-				// endDate = new ClientFinanceDate();
-				endDate = getWeekStartDate();
-				endDate.setDay(endDate.getDay() + 6);
+				endDate.setDay(startDate.getDay() + 6);
 				setSelectedDateRange(Accounter.constants().thisWeek());
 			} else if (!getSelectedDateRange().equals(
 					Accounter.constants().thisMonth())
@@ -765,9 +763,9 @@ public abstract class ReportToolbar extends HorizontalPanel {
 
 	public ClientFinanceDate getWeekStartDate() {
 		ClientFinanceDate date = new ClientFinanceDate();
-		int day = date.getDay();
+		int day = date.getDay()%6;
 		ClientFinanceDate newDate = new ClientFinanceDate();
-		newDate.setDay(Math.abs(date.getDay() - day));
+		newDate.setDay(date.getDay()-day);
 		return newDate;
 	}
 
