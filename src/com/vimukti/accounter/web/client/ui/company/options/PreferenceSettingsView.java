@@ -92,6 +92,9 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		PreferencePage agningDetailsPage = new PreferencePage(
 				constants.productAndServices());
 		AgeingAndSellingDetailsOption ageingAndSellingDetailsOption = new AgeingAndSellingDetailsOption();
+		ProductAndServicesOption productAndServicesOption = new ProductAndServicesOption();
+
+		agningDetailsPage.addPreferenceOption(productAndServicesOption);
 		agningDetailsPage.addPreferenceOption(ageingAndSellingDetailsOption);
 		return agningDetailsPage;
 	}
@@ -100,6 +103,8 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		PreferencePage customerAndVendorPage = new PreferencePage(
 				constants.vendorAndPurchases());
 		CustomerAndVendorsSettingsOption customerAndVendorsSettingsPage = new CustomerAndVendorsSettingsOption();
+		ManageBillsOption manageBillsOption = new ManageBillsOption();
+		customerAndVendorPage.addPreferenceOption(manageBillsOption);
 		customerAndVendorPage
 				.addPreferenceOption(customerAndVendorsSettingsPage);
 		return customerAndVendorPage;
@@ -108,8 +113,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 	private PreferencePage getProductAndServicePage() {
 		PreferencePage productAndServicePage = new PreferencePage(
 				constants.productAndServices());
-		ProductAndServicesOption productAndServicesOption = new ProductAndServicesOption();
-		productAndServicePage.addPreferenceOption(productAndServicesOption);
+
 		return productAndServicePage;
 	}
 
