@@ -78,7 +78,7 @@ public class VendorTerninalogyOption extends AbstractPreferenceOption {
 		if (vendorRadioButton.getValue()) {
 			companyPreferences.setReferVendors(ClientVendor.VENDOR);
 		} else if (supplierRadioButton.getValue()) {
-			companyPreferences.setReferCustomers(ClientVendor.SUPPLIER);
+			companyPreferences.setReferVendors(ClientVendor.SUPPLIER);
 		}
 	}
 
