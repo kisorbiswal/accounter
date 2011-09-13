@@ -785,12 +785,14 @@ public class WriteChequeView extends
 
 		billToCombo = createBillToComboItem();
 		billToCombo.setDisabled(true);
+		
 		// billToCombo.setWidth(100);
 
 		amtText = new AmountField(Accounter.constants().amount(), this);
 		amtText.setWidth(100);
 		amtText.setAmount(0.00);
 		amtText.setDisabled(isInViewMode());
+
 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
@@ -1064,8 +1066,10 @@ public class WriteChequeView extends
 		listforms.add(bankAccForm);
 		listforms.add(payForm);
 		listforms.add(amtForm);
+		settabIndexes();
 
 	}
+
 
 	// protected void setCheckNumber() {
 	//
@@ -1440,5 +1444,16 @@ public class WriteChequeView extends
 	@Override
 	protected void refreshTransactionGrid() {
 
+	}
+	private void settabIndexes() {
+		paytoSelect.setTabIndex(1);
+		billToCombo.setTabIndex(2);
+		amtText.setTabIndex(3);
+		date.setTabIndex(4);
+		transactionNumber.setTabIndex(5);
+		bankAccSelect.setTabIndex(6);
+		balText.setTabIndex(7);
+		memoTextAreaItem.setTabIndex(8);
+		vatInclusiveCheck.setTabIndex(9);
 	}
 }

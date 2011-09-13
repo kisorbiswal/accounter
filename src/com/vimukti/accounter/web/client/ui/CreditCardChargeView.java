@@ -346,7 +346,6 @@ public class CreditCardChargeView extends
 		// titlelabel.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		transactionNumber = createTransactionNumberItem();
-
 		listforms = new ArrayList<DynamicForm>();
 		locationCombo = createLocationCombo();
 		DynamicForm dateNoForm = new DynamicForm();
@@ -657,6 +656,7 @@ public class CreditCardChargeView extends
 			payFrmSelect.setComboItem(getCompany().getAccount(
 					transaction.getPayFrom()));
 		}
+		settabIndexes();
 	}
 
 	// protected void payFromMethodSelected(Account account2) {
@@ -965,6 +965,20 @@ public class CreditCardChargeView extends
 
 	@Override
 	protected void refreshTransactionGrid() {
+
+	}
+
+	private void settabIndexes() {
+		vendorNameSelect.setTabIndex(1);
+		contactCombo.setTabIndex(2);
+		phoneSelect.setTabIndex(3);
+		billToAreaItem.setTabIndex(4);
+		transactionDateItem.setTabIndex(5);
+		transactionNumber.setTabIndex(6);
+		payMethSelect.setTabIndex(7);
+		payFrmSelect.setTabIndex(8);
+		delivDate.setTabIndex(9);
+		memoTextAreaItem.setTabIndex(10);
 
 	}
 }

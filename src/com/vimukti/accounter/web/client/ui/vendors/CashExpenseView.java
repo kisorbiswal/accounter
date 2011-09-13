@@ -73,6 +73,7 @@ public class CashExpenseView extends CashPurchaseView {
 		}
 
 		// payFromCombo.setComboItem(pettycash);
+
 		termsForm.setFields(paymentMethodCombo, payFromCombo, checkNo);
 
 		if (getPreferences().isClassTrackingEnabled()
@@ -99,6 +100,8 @@ public class CashExpenseView extends CashPurchaseView {
 					.getDeliveryDate()));
 
 		}
+
+		settabIndexes();
 	}
 
 	@Override
@@ -229,5 +232,15 @@ public class CashExpenseView extends CashPurchaseView {
 	@Override
 	protected String getViewTitle() {
 		return Accounter.constants().cashExpense();
+	}
+
+	private void settabIndexes() {
+		paymentMethodCombo.setTabIndex(1);
+		payFromCombo.setTabIndex(2);
+		checkNo.setTabIndex(3);
+		transactionDateItem.setTabIndex(4);
+		transactionNumber.setTabIndex(5);
+		memoTextAreaItem.setTabIndex(6);
+
 	}
 }

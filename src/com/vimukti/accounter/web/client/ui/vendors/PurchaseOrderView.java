@@ -228,6 +228,7 @@ public class PurchaseOrderView extends
 
 		vendorCombo.setDisabled(isInViewMode());
 		// vendorCombo.setShowDisabled(false);
+
 		vendorCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 
@@ -241,12 +242,14 @@ public class PurchaseOrderView extends
 		// vendorCombo.setWidth(100);
 		contactCombo = createContactComboItem();
 		contactCombo.setTitle(Accounter.constants().contact());
+
 		// contactCombo.setWidth(100);
 		// billToCombo = createVendorAddressComboItem();
 		// billToCombo.setTitle(FinanceApplication.constants().billTo());
 		billtoAreaItem = new TextAreaItem(Accounter.constants().billTo());
 		billtoAreaItem.setWidth("100%");
 		billtoAreaItem.setDisabled(true);
+
 		// shipToCombo = createShipToComboItem();
 		shipToAddress = new ShipToForm(null);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
@@ -326,6 +329,7 @@ public class PurchaseOrderView extends
 		if (isInViewMode()) {
 		} else
 			setDespatchDate(new ClientFinanceDate().getDate());
+
 		despatchDateItem.addChangedHandler(new ChangeHandler() {
 
 			@Override
@@ -498,7 +502,7 @@ public class PurchaseOrderView extends
 		listforms.add(termsForm);
 		listforms.add(memoForm);
 		listforms.add(linksform);
-
+		settabIndexes();
 	}
 
 	private PaymentTermsCombo createPaymentTermsSelectItem() {
@@ -1211,4 +1215,21 @@ public class PurchaseOrderView extends
 	@Override
 	protected void refreshTransactionGrid() {
 	}
+
+	private void settabIndexes() {
+		vendorCombo.setTabIndex(1);
+		contactCombo.setTabIndex(2);
+		phoneSelect.setTabIndex(3);
+		billtoAreaItem.setTabIndex(4);
+		statusSelect.setTabIndex(5);
+		transactionDateItem.setTabIndex(6);
+		transactionNumber.setTabIndex(7);
+		purchaseOrderText.setTabIndex(8);
+		payTermsSelect.setTabIndex(9);
+		dueDateItem.setTabIndex(10);
+		despatchDateItem.setTabIndex(11);
+		deliveryDateItem.setTabIndex(12);
+		memoTextAreaItem.setTabIndex(13);
+	}
+
 }

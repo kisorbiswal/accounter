@@ -83,5 +83,9 @@ public class CheckboxItem extends FormItem<Boolean> {
 	public boolean isChecked() {
 		return (Boolean) getValue();
 	}
+	
+	public void setTabIndex(int index){
+		checkBox.setTabIndex(index);
+	}
 
 }

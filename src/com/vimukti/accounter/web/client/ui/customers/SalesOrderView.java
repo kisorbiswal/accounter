@@ -140,6 +140,7 @@ public class SalesOrderView extends
 		transactionNumber = createTransactionNumberItem();
 		transactionNumber.setTitle(Accounter.constants().orderNo());
 		transactionNumber.setWidth(50);
+
 		locationCombo = createLocationCombo();
 		listforms = new ArrayList<DynamicForm>();
 
@@ -318,6 +319,7 @@ public class SalesOrderView extends
 		termsForm.setIsGroup(true);
 		termsForm.setGroupTitle(customerConstants.terms());
 		termsForm.setNumCols(2);
+
 		if (getPreferences().isSalesPersonEnabled()) {
 			termsForm.setFields(transactionNumber, customerOrderText,
 					salesPersonCombo, payTermsSelect, shippingTermsCombo,
@@ -332,6 +334,7 @@ public class SalesOrderView extends
 		Label lab2 = new Label(customerConstants.productAndService());
 
 		memoTextAreaItem = createMemoTextAreaItem();
+
 		// refText = createRefereceText();
 		// refText.setWidth(100);
 
@@ -352,8 +355,8 @@ public class SalesOrderView extends
 		paymentsNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
 
-		balanceDueNonEditableText = new AmountLabel(
-				customerConstants.balanceDue());
+		balanceDueNonEditableText = new AmountLabel(customerConstants
+				.balanceDue());
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -473,6 +476,8 @@ public class SalesOrderView extends
 		listforms.add(termsForm);
 		listforms.add(prodAndServiceForm1);
 		listforms.add(prodAndServiceForm2);
+
+		settabIndexes();
 
 	}
 
@@ -997,8 +1002,7 @@ public class SalesOrderView extends
 				return;
 
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(),
-					taxableLineTotal,
+					transactionDateItem.getEnteredDate(), taxableLineTotal,
 					getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
@@ -1324,5 +1328,22 @@ public class SalesOrderView extends
 	@Override
 	public List<ClientTransactionItem> getAllTransactionItems() {
 		return customerTransactionTable.getRecords();
+	}
+
+	private void settabIndexes() {
+
+		customerCombo.setTabIndex(1);
+		contactCombo.setTabIndex(2);
+		phoneSelect.setTabIndex(3);
+		billToTextArea.setTabIndex(4);
+		statusSelect.setTabIndex(5);
+		transactionDateItem.setTabIndex(6);
+		transactionNumber.setTabIndex(7);
+		customerOrderText.setTabIndex(8);
+		payTermsSelect.setTabIndex(9);
+		shippingTermsCombo.setTabIndex(10);
+		shippingMethodsCombo.setTabIndex(11);
+		dueDateItem.setTabIndex(12);
+		memoTextAreaItem.setTabIndex(13);
 	}
 }

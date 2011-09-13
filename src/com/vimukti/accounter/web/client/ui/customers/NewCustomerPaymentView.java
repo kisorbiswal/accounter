@@ -525,7 +525,7 @@ public class NewCustomerPaymentView extends
 		listforms.add(dateNoForm);
 		listforms.add(balForm);
 		listforms.add(payForm);
-
+		settabIndexes();
 	}
 
 	private AddressCombo createBillToComboItem(String address) {
@@ -800,4 +800,20 @@ public class NewCustomerPaymentView extends
 	public List<ClientTransactionItem> getAllTransactionItems() {
 		return null;
 	}
+
+	private void settabIndexes() {
+		customerCombo.setTabIndex(1);
+		billToCombo.setTabIndex(2);
+		depositInCombo.setTabIndex(3);
+		amountText.setTabIndex(4);
+		paymentMethodCombo.setTabIndex(5);
+		printCheck.setTabIndex(6);
+		checkNo.setTabIndex(7);
+		memoTextAreaItem.setTabIndex(8);
+		transactionDateItem.setTabIndex(9);
+		transactionNumber.setTabIndex(10);
+		endBalText.setTabIndex(11);
+		customerBalText.setTabIndex(12);
+	}
+
 }

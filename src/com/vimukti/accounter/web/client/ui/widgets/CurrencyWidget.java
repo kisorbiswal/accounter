@@ -101,7 +101,7 @@ public class CurrencyWidget extends DynamicForm {
 		baseCurrencyLbl.setTitle(baseCurrency);
 		setStyleName("currencyTextBox");
 		setNumCols(4);
-		setFields(currencyCombo,new LabelItem());		
+		setFields(currencyCombo, new LabelItem());
 	}
 
 	private void factorFieldChagned(double factor) {
@@ -113,26 +113,25 @@ public class CurrencyWidget extends DynamicForm {
 	private void currencyChanged(String selectItem) {
 
 		boolean factorFieldDisableStatus = selectItem.equals(baseCurrency);
-		
-		
+
 		factorField.setDisabled(factorFieldDisableStatus);
 		updateFactorFieldTitle(); // 1<SELCTED currency>=
 		double factor = factorFieldDisableStatus ? 1 : getFactorByRPC(
 				selectItem, baseCurrency);
 		factorField.setValue(String.valueOf(factor));
-				
+
 		// hide or show factor fields
-		if(factorFieldDisableStatus){
-			// hide the fields			
+		if (factorFieldDisableStatus) {
+			// hide the fields
 			remove(factorField);
 			remove(baseCurrencyLbl);
-		}else{
+		} else {
 			// show the fields
-			if(!getFormItems().contains(factorField)){
-				setFields(factorField,baseCurrencyLbl);
+			if (!getFormItems().contains(factorField)) {
+				setFields(factorField, baseCurrencyLbl);
 			}
 		}
-		
+
 		if (listener != null) {
 			listener.currencyChanged(selectItem, factor);
 		}
@@ -175,5 +174,10 @@ public class CurrencyWidget extends DynamicForm {
 
 	public double getCurrencyFactor() {
 		return Double.parseDouble(factorField.getValue().toString());
+	}
+
+	public void setTabIndex(int index) {
+		currencyCombo.setTabIndex(index);
+
 	}
 }

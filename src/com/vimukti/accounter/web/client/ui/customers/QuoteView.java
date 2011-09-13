@@ -337,6 +337,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		salesPersonCombo = createSalesPersonComboItem();
 
 		payTermsSelect = createPaymentTermsSelectItem();
+
 		quoteExpiryDate = new DateField(customerConstants.expirationDate());
 		quoteExpiryDate.setHelpInformation(true);
 		quoteExpiryDate.setEnteredDate(getTransactionDate());
@@ -345,6 +346,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		deliveryDate = createTransactionDeliveryDateItem();
 		deliveryDate.setEnteredDate(getTransactionDate());
+
 		// formItems.add(deliveryDate);
 		if (getPreferences().isSalesPersonEnabled()) {
 			phoneForm.setFields(salesPersonCombo, payTermsSelect,
@@ -509,7 +511,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		listforms.add(phoneForm);
 		listforms.add(prodAndServiceForm1);
 		listforms.add(prodAndServiceForm2);
-
+		settabIndexes();
 	}
 
 	@Override
@@ -938,4 +940,17 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		return customerTransactionTable.getAllRows();
 	}
 
+	private void settabIndexes() {
+		customerCombo.setTabIndex(1);
+		contactCombo.setTabIndex(2);
+		phoneSelect.setTabIndex(3);
+		billToTextArea.setTabIndex(4);
+		transactionDateItem.setTabIndex(5);
+		transactionNumber.setTabIndex(6);
+		payTermsSelect.setTabIndex(7);
+		quoteExpiryDate.setTabIndex(8);
+		deliveryDate.setTabIndex(9);
+		memoTextAreaItem.setTabIndex(10);
+
+	}
 }

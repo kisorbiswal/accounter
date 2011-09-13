@@ -12,13 +12,13 @@ public class TextBoxItem extends TextBox {
 
 	public TextBoxItem() {
 		sinkEvents(Event.ONBLUR | Event.ONCHANGE | Event.ONKEYPRESS);
-		
+
 		this.addKeyPressHandler(new KeyPressHandler() {
 
 			@Override
 			public void onKeyPress(KeyPressEvent event) {
-				if(keyPressHandler != null)
-				keyPressHandler.onKeyPress(event.getCharCode());
+				if (keyPressHandler != null)
+					keyPressHandler.onKeyPress(event.getCharCode());
 			}
 		});
 	}

@@ -15,6 +15,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
@@ -573,6 +574,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		custNameText = new TextItem(Accounter.messages().customerName(
 				Global.get().Customer()));
+		 TextBox t= new TextBox();
 		if (quickAddText != null) {
 			custNameText.setValue(quickAddText);
 		}

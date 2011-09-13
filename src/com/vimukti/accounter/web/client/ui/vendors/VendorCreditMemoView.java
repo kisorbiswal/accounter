@@ -161,7 +161,6 @@ public class VendorCreditMemoView extends
 				.Vendor()));
 
 		contactCombo = createContactComboItem();
-
 		// if (this.isEdit)
 		// FIXME--need to disable the form
 		// vendorForm.setDisabled(true);
@@ -223,8 +222,8 @@ public class VendorCreditMemoView extends
 		vendorForm = UIUtils.form(Global.get().vendor());
 		vendorForm.setWidth("50%");
 		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect);
-		vendorForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "190px");
+		vendorForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "190px");
 
 		leftVLay.add(vendorForm);
 
@@ -342,7 +341,7 @@ public class VendorCreditMemoView extends
 
 		listforms.add(vatCheckform);
 		listforms.add(totalForm);
-
+		settabIndexes();
 	}
 
 	@Override
@@ -412,18 +411,18 @@ public class VendorCreditMemoView extends
 		// 4. isBlank transaction?
 		// 5. is vendor transaction grid valid?
 		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateTransactionDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 		result.add(vendorForm.validate());
 		if (vendorTransactionTable.getAllRows().isEmpty()) {
-			result.addError(vendorTransactionTable,
-					accounterConstants.blankTransaction());
+			result.addError(vendorTransactionTable, accounterConstants
+					.blankTransaction());
 		} else
 			result.add(vendorTransactionTable.validateGrid());
 		return result;
@@ -583,6 +582,14 @@ public class VendorCreditMemoView extends
 	@Override
 	protected void refreshTransactionGrid() {
 		// vendorTransactionTable.refreshAllRecords();
+	}
+
+	private void settabIndexes() {
+		vendorCombo.setTabIndex(1);
+		contactCombo.setTabIndex(2);
+		phoneSelect.setTabIndex(3);
+		transactionDateItem.setTabIndex(4);
+		transactionNumber.setTabIndex(5);
 	}
 
 }

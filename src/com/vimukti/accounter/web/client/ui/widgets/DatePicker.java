@@ -515,6 +515,11 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 		}
 
 	}
+	
+	@Override
+	public void setTabIndex(int index) {
+		super.setTabIndex(index);
+	}
 
 
 

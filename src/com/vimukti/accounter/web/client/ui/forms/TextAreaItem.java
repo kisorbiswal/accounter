@@ -80,5 +80,8 @@ public class TextAreaItem extends FormItem<String> {
 
 		this.textArea.addClickHandler(handler);
 	}
+	public void setTabIndex(int index) {
+		textArea.setTabIndex(index);
+	}
 
 }

@@ -159,4 +159,7 @@ public class CustomComboItem extends FormItem {
 	public void removeStyleName(String style) {
 		textBox.removeStyleName(style);
 	}
+	public void setTabIndex(int index) {
+		textBox.setTabIndex(index);
+	}
 }

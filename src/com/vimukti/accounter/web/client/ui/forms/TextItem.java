@@ -169,4 +169,7 @@ public class TextItem extends FormItem<String> {
 		textBox.removeStyleName(style);
 	}
 
+	public void setTabIndex(int index) {
+		textBox.setTabIndex(index);
+	}
 }

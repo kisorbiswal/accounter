@@ -73,6 +73,7 @@ public class DateItem extends FormItem<ClientFinanceDate> {
 				if (!datePicker.isEnabled())
 					return;
 				datePicker.showPopup();
+				
 			}
 		});
 
@@ -248,5 +249,9 @@ public class DateItem extends FormItem<ClientFinanceDate> {
 
 	public void removeEmpty_Date_FieldStyle() {
 		datePicker.removeStyleName("empty_date_field");
+	}
+	
+	public void setTabIndex(int index){
+		datePicker.setTabIndex(index);
 	}
 }

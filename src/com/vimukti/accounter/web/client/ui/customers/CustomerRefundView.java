@@ -168,6 +168,7 @@ public class CustomerRefundView extends
 		totalLabel.setCellHorizontalAlignment(labeldateNoLayout, ALIGN_RIGHT);
 
 		customerCombo = createCustomerComboItem(customerConstants.payTo());
+
 		// customerCombo.setWidth(100);
 		billToCombo = createBillToComboItem();
 		billToCombo.setTitle(customerConstants.address());
@@ -189,6 +190,7 @@ public class CustomerRefundView extends
 		payFromSelect.setDisabled(isInViewMode());
 		// payFromSelect.setWidth("100%");
 		payFromSelect.setPopupWidth("500px");
+
 		payFromSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
@@ -265,8 +267,8 @@ public class CustomerRefundView extends
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				isChecked = (Boolean) event.getValue();
 				if (isChecked) {
-					if (printCheck.getValue().toString()
-							.equalsIgnoreCase("true")) {
+					if (printCheck.getValue().toString().equalsIgnoreCase(
+							"true")) {
 						checkNoText.setValue(Accounter.constants()
 								.toBePrinted());
 						checkNoText.setDisabled(true);
@@ -288,7 +290,8 @@ public class CustomerRefundView extends
 
 		checkNoText = new TextItem(
 				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? customerConstants
-						.chequeNo() : customerConstants.checkNo());
+						.chequeNo()
+						: customerConstants.checkNo());
 		checkNoText.setValue(Accounter.constants().toBePrinted());
 		checkNoText.setHelpInformation(true);
 		checkNoText.setWidth(100);
@@ -317,6 +320,7 @@ public class CustomerRefundView extends
 		endBalText = new AmountField(customerConstants.endingBalance(), this);
 		endBalText.setHelpInformation(true);
 		endBalText.setDisabled(true);
+
 		setEndingBalance(null);
 
 		custBalText = new AmountField(Accounter.messages().customerBalance(
@@ -386,6 +390,23 @@ public class CustomerRefundView extends
 		listforms.add(dateNoForm);
 		listforms.add(payForm);
 		listforms.add(balForm);
+		settabIndexes();
+
+	}
+
+	private void settabIndexes() {
+		customerCombo.setTabIndex(1);
+		billToCombo.setTabIndex(2);
+		payFromSelect.setTabIndex(3);
+		amtText.setTabIndex(4);
+		paymentMethodCombo.setTabIndex(5);
+		printCheck.setTabIndex(6);
+		checkNoText.setTabIndex(7);
+		memoTextAreaItem.setTabIndex(8);
+		transactionDateItem.setTabIndex(9);
+		transactionNumber.setTabIndex(10);
+		endBalText.setTabIndex(11);
+		custBalText.setTabIndex(12);
 
 	}
 
