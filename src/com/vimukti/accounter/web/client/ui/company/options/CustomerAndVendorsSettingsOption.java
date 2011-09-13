@@ -8,7 +8,10 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @author vimukti2
@@ -43,6 +46,16 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 	RadioButton usingStatementsYesRadioButton;
 	@UiField
 	RadioButton usingStatementsNoRadioButton;
+	@UiField
+	VerticalPanel salesTaXPanel;
+	@UiField
+	VerticalPanel VatPanel;
+	@UiField
+	RadioButton vatNoRadioButton;
+	@UiField
+	RadioButton vatYesRadioButton;
+	@UiField
+	Label vatLabel;
 
 	interface CustomerAndVendorsSettingsOptionUiBinder extends
 			UiBinder<Widget, CustomerAndVendorsSettingsOption> {
@@ -76,6 +89,12 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 			chargeTaxYesRadioButton.setValue(false);
 			chargeTaxNoRadioButton.setValue(true);
 		}
+
+		if (companyPreferences.isRegisteredForVAT()) {
+			vatYesRadioButton.setValue(true);
+		} else {
+			vatNoRadioButton.setValue(true);
+		}
 		if (companyPreferences.isKeepTrackofBills()) {
 			managingBillYesRadioButton.setValue(true);
 			managingBillNoRadioButton.setValue(false);
@@ -102,9 +121,12 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 
 	private void createControls() {
 		chargeTaxLabelItem.setText(constants.doyouchargesalestax());
-
 		chargeTaxYesRadioButton.setText(constants.yes());
 		chargeTaxNoRadioButton.setText(constants.no());
+
+		vatLabel.setText(constants.doyouchargeVat());
+		vatNoRadioButton.setText(constants.no());
+		vatYesRadioButton.setText(constants.yes());
 
 		managingBillLabelItem.setText(constants.managingBills());
 
@@ -122,6 +144,12 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 		usingStatementsYesRadioButton.setText(constants.yes());
 		usingStatementsNoRadioButton.setText(constants.no());
 
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			salesTaXPanel.setVisible(false);
+		}
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			VatPanel.setVisible(false);
+		}
 	}
 
 	@Override
@@ -137,6 +165,13 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 		} else {
 			companyPreferences.setChargeSalesTax(false);
 		}
+
+		if (vatYesRadioButton.getValue())
+			companyPreferences
+					.setRegisteredForVAT(vatYesRadioButton.getValue());
+		else
+			companyPreferences.setRegisteredForVAT(vatNoRadioButton.getValue());
+
 		if (managingBillYesRadioButton.getValue()) {
 			companyPreferences.setKeepTrackofBills(true);
 		} else {
