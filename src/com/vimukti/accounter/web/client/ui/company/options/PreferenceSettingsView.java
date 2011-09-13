@@ -254,4 +254,10 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 
 	}
 
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
+	}
+
 }
