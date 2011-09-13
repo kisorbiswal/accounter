@@ -235,4 +235,8 @@ public class ShipToForm extends DynamicForm {
 		}
 		return toToSet;
 	}
+	
+	public void setTabIndex(int index){
+		addrArea.setTabIndex(index);
+	}
 }
