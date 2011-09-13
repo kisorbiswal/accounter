@@ -9,8 +9,8 @@
 	<g:VerticalPanel horizontalAlignment="ALIGN_LEFT"
 		styleName="companyInfoPanel">
 		<g:VerticalPanel spacing="10">
-			<g:HorizontalPanel spacing="5">
-				<g:Label ui:field="monthsCheckboxLabel" />
+			<g:HorizontalPanel spacing="10">
+				<g:Label ui:field="monthsCheckboxLabel" styleName="header" />
 				<g:ListBox height="26px" width="92px" ui:field="monthNameComboBox" />
 			</g:HorizontalPanel>
 		</g:VerticalPanel>
