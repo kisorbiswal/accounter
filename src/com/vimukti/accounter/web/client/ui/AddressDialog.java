@@ -233,7 +233,7 @@ public class AddressDialog extends BaseDialog<ClientAddress> {
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
+	address1.setFocus();
 
 	}
 }

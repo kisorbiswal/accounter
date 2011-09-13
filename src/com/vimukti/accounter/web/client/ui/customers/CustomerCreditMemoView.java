@@ -298,6 +298,7 @@ public class CustomerCreditMemoView extends
 		listforms.add(prodAndServiceForm1);
 		listforms.add(prodAndServiceForm2);
 
+		settabIndexes();
 	}
 
 	@Override
@@ -817,5 +818,14 @@ public class CustomerCreditMemoView extends
 
 	public Double getSalesTax() {
 		return salesTax;
+	}
+	private void settabIndexes() {
+		customerCombo.setTabIndex(1);
+		contactCombo.setTabIndex(2);
+		billToTextArea.setTabIndex(3);
+		transactionDateItem.setTabIndex(4);
+		transactionNumber.setTabIndex(5);
+		memoTextAreaItem.setTabIndex(6);
+		
 	}
 }
