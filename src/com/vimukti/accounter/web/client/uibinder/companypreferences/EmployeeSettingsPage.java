@@ -59,8 +59,11 @@ public class EmployeeSettingsPage extends AbstractCompanyInfoPanel {
 				mainViewPanel.add(trackPanel);
 		} else {
 			trackEmployeeNo.setValue(true);
-			if (trackPanel.isAttached())
+			if (trackPanel.isAttached()) {
 				mainViewPanel.remove(trackPanel);
+				checkBoxPanel.setVisible(false);
+			}
+
 		}
 
 		if (companyPreferences.isTrackEmployeeExpenses()) {
@@ -97,6 +100,7 @@ public class EmployeeSettingsPage extends AbstractCompanyInfoPanel {
 		if (!trackEmployeeExpenseYes.getValue()) {
 			// if (trackPanel.isAttached())
 			mainViewPanel.remove(trackPanel);
+			checkBoxPanel.setVisible(false);
 		}
 
 	}
@@ -127,14 +131,18 @@ public class EmployeeSettingsPage extends AbstractCompanyInfoPanel {
 
 	@UiHandler("trackEmployeeYes")
 	void onTrackEmployeeYesClick(ClickEvent event) {
-		if (!trackPanel.isAttached())
+		if (!trackPanel.isAttached()) {
 			mainViewPanel.add(trackPanel);
+			checkBoxPanel.setVisible(true);
+		}
 	}
 
 	@UiHandler("trackEmployeeNo")
 	void onTrackEmployeeNoClick(ClickEvent event) {
-		if (trackPanel.isAttached())
+		if (trackPanel.isAttached()) {
 			mainViewPanel.remove(trackPanel);
+			checkBoxPanel.setVisible(false);
+		}
 
 	}
 
