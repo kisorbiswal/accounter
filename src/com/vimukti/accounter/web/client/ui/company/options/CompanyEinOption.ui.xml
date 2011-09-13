@@ -10,7 +10,7 @@
 	<g:VerticalPanel spacing="5" styleName="companyInfoPanel">
 		<g:HorizontalPanel>
 			<g:Label ui:field="EINLabel" />
-			<g:TextBox textAlignment="ALIGN_RIGHT" ui:field="EINTextBox" />
+			<g:TextBox  ui:field="EINTextBox" />
 		</g:HorizontalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 
