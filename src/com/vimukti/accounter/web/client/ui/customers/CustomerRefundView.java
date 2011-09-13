@@ -407,6 +407,9 @@ public class CustomerRefundView extends
 		transactionNumber.setTabIndex(10);
 		endBalText.setTabIndex(11);
 		custBalText.setTabIndex(12);
+		saveAndCloseButton.setTabIndex(13);
+		saveAndNewButton.setTabIndex(14);
+		cancelButton.setTabIndex(15);
 
 	}
 

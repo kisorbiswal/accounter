@@ -826,6 +826,10 @@ public class CustomerCreditMemoView extends
 		transactionDateItem.setTabIndex(4);
 		transactionNumber.setTabIndex(5);
 		memoTextAreaItem.setTabIndex(6);
+		 menuButton.setTabIndex(7);
+		 saveAndCloseButton.setTabIndex(8);
+		 saveAndNewButton.setTabIndex(9);
+		 cancelButton.setTabIndex(10);
 		
 	}
 }

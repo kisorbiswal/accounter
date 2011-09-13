@@ -956,6 +956,10 @@ private void settabIndexes() {
 	paymentMethodCombo.setTabIndex(7);
 	depositInCombo.setTabIndex(8);
 	memoTextAreaItem.setTabIndex(9);
+	menuButton.setTabIndex(10);
+	saveAndCloseButton.setTabIndex(11);
+	saveAndNewButton.setTabIndex(12);
+	cancelButton.setTabIndex(13);
 		
 	}
 }

@@ -478,6 +478,10 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		memo.setTabIndex(5);
 		adjustDate.setTabIndex(6);
 		entryNo.setTabIndex(7);
+		saveAndCloseButton.setTabIndex(8);
+		saveAndNewButton.setTabIndex(9);
+		cancelButton.setTabIndex(10);
+		
 		
 	}
 }

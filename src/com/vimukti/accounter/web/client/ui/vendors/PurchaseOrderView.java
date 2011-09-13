@@ -1231,6 +1231,10 @@ public class PurchaseOrderView extends
 		despatchDateItem.setTabIndex(11);
 		deliveryDateItem.setTabIndex(12);
 		memoTextAreaItem.setTabIndex(13);
+		menuButton.setTabIndex(14);
+		saveAndCloseButton.setTabIndex(15);
+		saveAndNewButton.setTabIndex(16);
+		cancelButton.setTabIndex(17);
 	}
 
 }

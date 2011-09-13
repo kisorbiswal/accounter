@@ -719,6 +719,9 @@ public class ReceiveVATView extends
 		transNumber.setTabIndex(5);
 		amountText.setTabIndex(6);
 		endingBalanceText.setTabIndex(7);
+		saveAndCloseButton.setTabIndex(8);
+		saveAndNewButton.setTabIndex(9);
+		cancelButton.setTabIndex(10);
 		
 	}
 

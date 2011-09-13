@@ -951,6 +951,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		quoteExpiryDate.setTabIndex(8);
 		deliveryDate.setTabIndex(9);
 		memoTextAreaItem.setTabIndex(10);
+		menuButton.setTabIndex(11);
+		saveAndCloseButton.setTabIndex(12);
+		saveAndNewButton.setTabIndex(13);
+		cancelButton.setTabIndex(14);
 
 	}
 }

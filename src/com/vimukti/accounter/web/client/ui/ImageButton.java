@@ -49,5 +49,13 @@ public class ImageButton extends Button {
 		super.onLoad();
 		setImage(res);
 	}
+	
+	@Override
+	public void setTabIndex(int index) {
+		super.setTabIndex(index);
+	}
+
+	
+	
 
 }

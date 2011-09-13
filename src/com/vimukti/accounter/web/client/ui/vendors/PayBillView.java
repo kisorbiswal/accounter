@@ -1250,6 +1250,9 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		amtText.setTabIndex(7);
 		endBalText.setTabIndex(8);
 		memoTextAreaItem.setTabIndex(9);
+		saveAndCloseButton.setTabIndex(10);
+		saveAndNewButton.setTabIndex(11);
+		cancelButton.setTabIndex(12);
 
 	}
 

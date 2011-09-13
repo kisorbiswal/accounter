@@ -1035,5 +1035,8 @@ public class ItemView extends BaseView<ClientItem> {
 		expAccCombo.setTabIndex(15);
 		prefVendorCombo.setTabIndex(16);
 		vendItemNumText.setTabIndex(17);
+		saveAndCloseButton.setTabIndex(18);
+		saveAndNewButton.setTabIndex(19);
+		cancelButton.setTabIndex(20);
 	}
 }

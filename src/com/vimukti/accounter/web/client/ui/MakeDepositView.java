@@ -1217,6 +1217,10 @@ public class MakeDepositView extends
 		date.setTabIndex(2);
 		transNumber.setTabIndex(3);
 		memoText.setTabIndex(4);
+		addButton.setTabIndex(5);
+		saveAndCloseButton.setTabIndex(6);
+		saveAndNewButton.setTabIndex(7);
+		cancelButton.setTabIndex(8);
 
 	}
 }

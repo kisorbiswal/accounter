@@ -114,6 +114,8 @@ public class WriteChequeView extends
 	private CustomerTransactionTable transactionCustomerTable;
 	private VendorTransactionTable transactionVendorTable;
 
+	private AddNewButton addNewButton;
+
 	private WriteChequeView() {
 		super(ClientTransaction.TYPE_WRITE_CHECK);
 		this.company = getCompany();
@@ -338,7 +340,7 @@ public class WriteChequeView extends
 				paytoSelect.setDisabled(isInViewMode());
 				return;
 			}
-	
+
 			newPayToMethod();
 		}
 	}
@@ -489,8 +491,8 @@ public class WriteChequeView extends
 			case ClientPayee.TYPE_VENDOR:
 			case ClientPayee.TYPE_TAX_AGENCY:
 				if (transactionVendorTable.getAllRows().isEmpty()) {
-					result.addError(transactionVendorTable,
-							accounterConstants.blankTransaction());
+					result.addError(transactionVendorTable, accounterConstants
+							.blankTransaction());
 				} else
 					result.add(transactionVendorTable.validateGrid());
 				break;
@@ -501,8 +503,8 @@ public class WriteChequeView extends
 		}
 
 		if (!validateAmount()) {
-			result.addError(memoTextAreaItem,
-					accounterConstants.transactiontotalcannotbe0orlessthan0());
+			result.addError(memoTextAreaItem, accounterConstants
+					.transactiontotalcannotbe0orlessthan0());
 		}
 
 		return result;
@@ -742,8 +744,12 @@ public class WriteChequeView extends
 							} else if (payee instanceof ClientVendor
 									|| payee instanceof ClientTAXAgency) {
 
-								vendorTDSTaxCode.setSelected(vendorTDSTaxCode.getDisplayName(getCompany()
-										.getTAXItem(payee.getTaxItemCode())));
+								vendorTDSTaxCode
+										.setSelected(vendorTDSTaxCode
+												.getDisplayName(getCompany()
+														.getTAXItem(
+																payee
+																		.getTaxItemCode())));
 
 								if (transaction == null)
 									transactionVendorTable.removeAllRecords();
@@ -785,14 +791,13 @@ public class WriteChequeView extends
 
 		billToCombo = createBillToComboItem();
 		billToCombo.setDisabled(true);
-		
+
 		// billToCombo.setWidth(100);
 
 		amtText = new AmountField(Accounter.constants().amount(), this);
 		amtText.setWidth(100);
 		amtText.setAmount(0.00);
 		amtText.setDisabled(isInViewMode());
-
 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
@@ -1037,12 +1042,12 @@ public class WriteChequeView extends
 			mainVLay.add(transactionCustomerTable);
 		}
 
-		AddNewButton addNewButton = createAddNewButton();
+		addNewButton = createAddNewButton();
 		vPanel = new VerticalPanel();
 		vPanel.setWidth("100%");
 		vPanel.add(addNewButton);
-		addNewButton.getElement().getParentElement()
-				.setClassName("Writecheck_addNew");
+		addNewButton.getElement().getParentElement().setClassName(
+				"Writecheck_addNew");
 
 		HorizontalPanel bottomPanel = new HorizontalPanel();
 		bottomPanel.setWidth("100%");
@@ -1069,7 +1074,6 @@ public class WriteChequeView extends
 		settabIndexes();
 
 	}
-
 
 	// protected void setCheckNumber() {
 	//
@@ -1199,9 +1203,9 @@ public class WriteChequeView extends
 			case ClientWriteCheck.TYPE_CUSTOMER:
 			case ClientWriteCheck.TYPE_VENDOR:
 			case ClientWriteCheck.TYPE_TAX_AGENCY:
-				setMenuItems(button,
-						Accounter.messages().accounts(Global.get().Account()),
-						Accounter.constants().productItem()
+				setMenuItems(button, Accounter.messages().accounts(
+						Global.get().Account()), Accounter.constants()
+						.productItem()
 				// FinanceApplication.constants().comment(),
 				// FinanceApplication.constants()
 				// .salesTax()
@@ -1238,9 +1242,9 @@ public class WriteChequeView extends
 				// FinanceApplication.constants().comment());
 			}
 		} else
-			setMenuItems(button,
-					Accounter.messages().accounts(Global.get().Account()),
-					Accounter.constants().productItem()
+			setMenuItems(button, Accounter.messages().accounts(
+					Global.get().Account()), Accounter.constants()
+					.productItem()
 			// FinanceApplication.constants().comment(),
 			// FinanceApplication.constants().salesTax()
 			);
@@ -1445,6 +1449,7 @@ public class WriteChequeView extends
 	protected void refreshTransactionGrid() {
 
 	}
+
 	private void settabIndexes() {
 		paytoSelect.setTabIndex(1);
 		billToCombo.setTabIndex(2);
@@ -1455,5 +1460,10 @@ public class WriteChequeView extends
 		balText.setTabIndex(7);
 		memoTextAreaItem.setTabIndex(8);
 		vatInclusiveCheck.setTabIndex(9);
+		addNewButton.setTabIndex(10);
+		saveAndCloseButton.setTabIndex(11);
+		saveAndNewButton.setTabIndex(12);
+		cancelButton.setTabIndex(13);
+
 	}
 }
