@@ -684,6 +684,7 @@ public abstract class TransactionReceivePaymentTable extends
 		double paymentValue = payment.getAmountDue() - getTotalValue(payment);
 		payment.setPayment(paymentValue);
 		updateAmountDue(payment);
+		updateValue(payment);
 	}
 
 	public void openWriteOffDialog(
@@ -868,6 +869,7 @@ public abstract class TransactionReceivePaymentTable extends
 		int row = indexOf(obj);
 		if (isChecked && !selectedValues.contains(row)) {
 			selectedValues.add(row);
+			updatePayment(obj);
 			update(obj);
 		} else {
 			if (!isChecked) {
