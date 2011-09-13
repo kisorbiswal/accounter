@@ -2,7 +2,7 @@ package com.vimukti.accounter.core;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class AccounterClass implements IAccounterServerCore {
+public class AccounterClass implements IAccounterServerCore ,INamedObject{
 
 	private String className;
 
@@ -43,5 +43,15 @@ public class AccounterClass implements IAccounterServerCore {
 	@Override
 	public long getID() {
 		return id;
+	}
+
+	@Override
+	public String getName() {
+		return className;
+	}
+
+	@Override
+	public void setName(String name) {
+		this.className=name;
 	}
 }

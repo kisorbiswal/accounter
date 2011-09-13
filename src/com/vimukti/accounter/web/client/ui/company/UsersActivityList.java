@@ -103,7 +103,7 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 
 			@Override
 			public String getValue(ClientActivity object) {
-				return getActivityType(object.getActivityType());
+				return getActivityDataType(object);
 			}
 		};
 		TextColumn<ClientActivity> idColumn = new TextColumn<ClientActivity>() {
@@ -125,38 +125,57 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 
 			@Override
 			public String getValue(ClientActivity object) {
-				return String.valueOf(object.getDate());
+				return String.valueOf(object.getDate() != null ? object
+						.getDate() : "");
 			}
 		};
 		TextColumn<ClientActivity> amountColumn = new TextColumn<ClientActivity>() {
 
 			@Override
 			public String getValue(ClientActivity object) {
-				return String.valueOf(object.getAmount());
+				return String.valueOf(object.getAmount() != 0.0 ? object
+						.getAmount() : "");
 			}
 		};
 		this.addColumn(dateColumn, Accounter.constants().modifiedTime());
 		this.addColumn(userNameColumn, Accounter.constants().userName());
 		this.addColumn(activity, Accounter.constants().activity());
-		// this.addColumn(idColumn, "ID");
 		this.addColumn(nameColumn, Accounter.constants().name());
 		this.addColumn(transactionDateColumn, Accounter.constants().date());
 		this.addColumn(amountColumn, Accounter.constants().amount());
+		this.setColumnWidth(dateColumn, "250px");
 
 	}
 
-	protected String getActivityType(int activityType) {
-		switch (activityType) {
+	protected String getActivityDataType(ClientActivity activity) {
+		String dataType = "";
+		StringBuffer buffer = new StringBuffer();
+		int type = activity.getActivityType();
+		switch (type) {
 		case 0:
-			return Accounter.constants().loggedIn();
+			return dataType = Accounter.constants().loggedIn();
 		case 1:
-			return Accounter.constants().loggedOut();
+			return dataType = Accounter.constants().loggedOut();
 		case 2:
-			return Accounter.constants().added();
+			buffer.append(Accounter.constants().added());
+			buffer.append(" : ");
+			buffer.append(activity.getDataType() != null ? activity
+					.getDataType() : "");
+			return buffer.toString();
 		case 3:
-			return Accounter.constants().edited();
+			buffer.append(Accounter.constants().edited());
+			buffer.append(" : ");
+			buffer.append(activity.getDataType() != null ? activity
+					.getDataType() : "");
+			return buffer.toString();
 		case 4:
-			return Accounter.constants().deleted();
+			buffer.append(Accounter.constants().deleted());
+			buffer.append(" : ");
+			buffer.append(activity.getDataType() != null ? activity
+					.getDataType() : "");
+			return buffer.toString();
+		case 5:
+			return dataType = Accounter.constants().updatedPreferences();
 		default:
 			break;
 		}

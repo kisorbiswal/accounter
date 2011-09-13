@@ -20,7 +20,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * @author Srikanth.J
  * 
  */
-public class Warehouse extends CreatableObject implements IAccounterServerCore {
+public class Warehouse extends CreatableObject implements IAccounterServerCore , INamedObject{
 
 	/**
 	 * 

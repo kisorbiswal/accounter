@@ -1,7 +1,7 @@
 package com.vimukti.accounter.core;
 
 public enum ActivityType {
-	LOGIN(0), LOGOUT(1), ADD(2), EDIT(3), DELETE(4);
+	LOGIN(0), LOGOUT(1), ADD(2), EDIT(3), DELETE(4), UPDATE_PREFERENCE(5);
 
 	private int type;
 

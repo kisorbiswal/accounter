@@ -17,7 +17,7 @@ public class Activity implements IAccounterCore {
 
 	private Timestamp time;
 
-	private String objectType;
+	private String dataType;
 
 	private long objectID;
 
@@ -152,7 +152,7 @@ public class Activity implements IAccounterCore {
 	}
 
 	public void setObjectType(String objectType) {
-		this.objectType = objectType;
+		this.setDataType(objectType);
 	}
 
 	public void setUser(User user) {
@@ -173,6 +173,14 @@ public class Activity implements IAccounterCore {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public String getDataType() {
+		return dataType;
+	}
+
+	public void setDataType(String dataType) {
+		this.dataType = dataType;
 	}
 
 }

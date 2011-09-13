@@ -8,7 +8,7 @@ import org.hibernate.Session;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class Bank implements IAccounterServerCore {
+public class Bank implements IAccounterServerCore, INamedObject {
 
 	/**
 	 * 
@@ -93,6 +93,11 @@ public class Bank implements IAccounterServerCore {
 	@Override
 	public void setVersion(int version) {
 		this.version = version;
+	}
+
+	@Override
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

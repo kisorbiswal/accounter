@@ -708,7 +708,7 @@ public class FinanceTool {
 			String userID = context.getUserEmail();
 			User user1 = getCompany().getUserByUserEmail(userID);
 
-			Activity activity = new Activity(user1, ActivityType.EDIT, cmp);
+			Activity activity = new Activity(user1, ActivityType.UPDATE_PREFERENCE, cmp);
 			session.save(activity);
 			HibernateUtil.getCurrentSession().update(cmp);
 			transaction.commit();

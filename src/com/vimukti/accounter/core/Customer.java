@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
-public class Customer extends Payee implements IAccounterServerCore {
+public class Customer extends Payee implements IAccounterServerCore ,INamedObject{
 
 	/**
 	 * 

@@ -6,7 +6,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * 
  * @author vimukti16 Not used Yet
  */
-public class Currency implements IAccounterServerCore {
+public class Currency implements IAccounterServerCore, INamedObject {
 
 	/**
 	 * 

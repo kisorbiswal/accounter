@@ -14,7 +14,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class CustomerGroup extends CreatableObject implements
-		IAccounterServerCore {
+		IAccounterServerCore ,INamedObject{
 
 	/**
 	 * 

@@ -20,7 +20,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * 
  */
 public class BrandingTheme extends CreatableObject implements
-		IAccounterServerCore {
+		IAccounterServerCore, INamedObject {
 
 	/**
 	 * 
@@ -608,6 +608,16 @@ public class BrandingTheme extends CreatableObject implements
 
 	public void setCreditNoteTempleteName(String creditNoteTempleteId) {
 		this.creditNoteTempleteName = creditNoteTempleteId;
+	}
+
+	@Override
+	public String getName() {
+		return themeName;
+	}
+
+	@Override
+	public void setName(String name) {
+		this.themeName = name;
 	}
 
 }

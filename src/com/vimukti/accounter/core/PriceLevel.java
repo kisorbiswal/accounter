@@ -10,13 +10,13 @@ import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class PriceLevel extends CreatableObject implements IAccounterServerCore {
+public class PriceLevel extends CreatableObject implements
+		IAccounterServerCore, INamedObject {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 5616443741745926670L;
-	
 
 	/**
 	 * This field stores the name of the Price Level
@@ -123,5 +123,10 @@ public class PriceLevel extends CreatableObject implements IAccounterServerCore 
 		// }
 
 		return true;
+	}
+
+	@Override
+	public void setName(String name) {
+		this.name = name;
 	}
 }

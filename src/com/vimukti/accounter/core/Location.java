@@ -7,20 +7,18 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * @author Lingarao.R
  * 
  */
-public class Location implements IAccounterServerCore {
+public class Location implements IAccounterServerCore, INamedObject {
 
 	private static final long serialVersionUID = 1L;
 	private String locationName;
 	long id;
 	private String title;
 	private String companyName;
-	
-	
-//	private Address address;
+
+	// private Address address;
 	private String email;
 	private String phone;
-	
-	
+
 	public String getTitle() {
 		return title;
 	}
@@ -37,13 +35,13 @@ public class Location implements IAccounterServerCore {
 		this.companyName = companyName;
 	}
 
-//	public Address getAddress() {
-//		return address;
-//	}
-//
-//	public void setAddress(Address address) {
-//		this.address = address;
-//	}
+	// public Address getAddress() {
+	// return address;
+	// }
+	//
+	// public void setAddress(Address address) {
+	// this.address = address;
+	// }
 
 	public String getEmail() {
 		return email;
@@ -60,10 +58,6 @@ public class Location implements IAccounterServerCore {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-
-
-	
-	
 
 	@Override
 	public long getID() {
@@ -95,6 +89,16 @@ public class Location implements IAccounterServerCore {
 
 	@Override
 	public void setVersion(int version) {
+	}
+
+	@Override
+	public String getName() {
+		return locationName;
+	}
+
+	@Override
+	public void setName(String name) {
+		this.locationName = name;
 	}
 
 }

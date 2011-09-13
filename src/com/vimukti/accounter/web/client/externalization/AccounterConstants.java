@@ -4808,6 +4808,12 @@ public interface AccounterConstants extends Constants {
 
 	public String vendorAndPurchases();
 
+	public String templates();
+
+	public String newBrandThemeTitle();
+
+	public String updatedPreferences();
+
 	public String managingBillsTitle();
 
 	public String accounterTerminologies();

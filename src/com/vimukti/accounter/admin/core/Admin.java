@@ -3,9 +3,10 @@ package com.vimukti.accounter.admin.core;
 import java.util.List;
 
 import com.vimukti.accounter.core.IAccounterServerCore;
+import com.vimukti.accounter.core.INamedObject;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class Admin implements IAccounterServerCore {
+public class Admin implements IAccounterServerCore,INamedObject {
 
 	private static final long serialVersionUID = 1L;
 
@@ -37,13 +38,11 @@ public class Admin implements IAccounterServerCore {
 
 	@Override
 	public int getVersion() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public void setVersion(int version) {
-		// TODO Auto-generated method stub
 
 	}
 

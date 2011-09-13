@@ -144,7 +144,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		tabSet = new DecoratedTabPanel();
 
 		tabSet.add(getGeneralLayout(), Accounter.constants().general());
-		tabSet.add(getTemplateLayout(), "Templates");
+		tabSet.add(getTemplateLayout(), Accounter.constants().templates());
 		tabSet.selectTab(0);
 		tabSet.setSize("100%", "100%");
 
@@ -157,7 +157,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	private VerticalPanel getGeneralLayout() {
 
 		VerticalPanel panel = new VerticalPanel();
-		HTML titleHtml = new HTML("New Branding Theme");
+		HTML titleHtml = new HTML(Accounter.constants().newBrandThemeTitle());
 		titleHtml.setStyleName(Accounter.constants().labelTitle());
 
 		mainLayoutPanel = new HorizontalPanel();
@@ -699,25 +699,21 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void printPreview() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void deleteFailed(AccounterException caught) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void deleteSuccess(IAccounterCore result) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -729,7 +725,6 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 	@Override
 	public boolean canEdit() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 

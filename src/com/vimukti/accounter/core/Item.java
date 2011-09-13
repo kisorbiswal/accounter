@@ -21,7 +21,8 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * 
  */
 
-public class Item extends CreatableObject implements IAccounterServerCore {
+public class Item extends CreatableObject implements IAccounterServerCore,
+		INamedObject {
 	/**
 	 * 
 	 */

@@ -9,14 +9,13 @@ import com.vimukti.accounter.core.change.ChangeTracker;
 
 /**
  * Payee is the object which represents a real-time entity of either
- * {@link Customer}, {@link Vendor}, {@link SalesPerson} or
- * {@link TAXAgency}
+ * {@link Customer}, {@link Vendor}, {@link SalesPerson} or {@link TAXAgency}
  * 
  * @author Chandan
  * 
  */
 public abstract class Payee extends CreatableObject implements
-		IAccounterServerCore {
+		IAccounterServerCore, INamedObject {
 
 	/**
 	 * 
@@ -60,6 +59,7 @@ public abstract class Payee extends CreatableObject implements
 	String VATRegistrationNumber;
 	TAXCode TAXCode;
 	TAXItem TAXItem;
+
 	public TAXItem getTAXItem() {
 		return TAXItem;
 	}
@@ -78,7 +78,7 @@ public abstract class Payee extends CreatableObject implements
 	String cstNumber;
 	String serviceTaxRegistrationNumber;
 	String tinNumber;
-	private String currency;
+	String currency;
 
 	public transient boolean isOnSaveProccessed;
 

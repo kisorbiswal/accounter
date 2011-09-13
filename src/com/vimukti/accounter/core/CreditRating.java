@@ -11,7 +11,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class CreditRating extends CreatableObject implements
-		IAccounterServerCore {
+		IAccounterServerCore, INamedObject {
 
 	/**
 	 * 
@@ -88,5 +88,10 @@ public class CreditRating extends CreatableObject implements
 			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	@Override
+	public void setName(String name) {
+		this.name = name;
 	}
 }

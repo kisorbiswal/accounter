@@ -2,7 +2,7 @@ package com.vimukti.accounter.core;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class UnitOfMeasure implements IAccounterServerCore {
+public class UnitOfMeasure implements IAccounterServerCore, INamedObject {
 
 	/**
 	 * 
@@ -68,8 +68,13 @@ public class UnitOfMeasure implements IAccounterServerCore {
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
-		
+		this.version = version;
+
+	}
+
+	@Override
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

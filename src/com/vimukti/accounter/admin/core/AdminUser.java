@@ -3,9 +3,10 @@ package com.vimukti.accounter.admin.core;
 import com.vimukti.accounter.admin.client.ClientAdminUser;
 import com.vimukti.accounter.core.CreatableObject;
 import com.vimukti.accounter.core.IAccounterServerCore;
+import com.vimukti.accounter.core.INamedObject;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class AdminUser extends CreatableObject implements IAccounterServerCore {
+public class AdminUser extends CreatableObject implements IAccounterServerCore ,INamedObject{
 
 	public AdminUser() {
 	}

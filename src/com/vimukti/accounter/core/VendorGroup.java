@@ -22,7 +22,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  */
 
 public class VendorGroup extends CreatableObject implements
-		IAccounterServerCore {
+		IAccounterServerCore ,INamedObject{
 
 	/**
 	 * 

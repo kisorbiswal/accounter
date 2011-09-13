@@ -14,13 +14,12 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class ShippingTerms extends CreatableObject implements
-		IAccounterServerCore {
+		IAccounterServerCore, INamedObject {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -7376956338052948369L;
-
 
 	String name;
 	String description;
@@ -31,8 +30,6 @@ public class ShippingTerms extends CreatableObject implements
 
 	public ShippingTerms() {
 	}
-
-	
 
 	/**
 	 * @return the id
@@ -118,5 +115,10 @@ public class ShippingTerms extends CreatableObject implements
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public void setName(String name) {
+		this.name = name;
 	}
 }

@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-
 public class ClientActivity implements IAccounterCore {
 
 	private long id;
@@ -9,12 +8,12 @@ public class ClientActivity implements IAccounterCore {
 
 	private long time;
 
-	private int objectType;
+	private String dataType;
 
 	private long objectID;
 
 	private String name;
-	
+
 	private String userName;
 
 	private ClientFinanceDate transactionDate;
@@ -37,10 +36,6 @@ public class ClientActivity implements IAccounterCore {
 
 	public void setTime(long time) {
 		this.time = time;
-	}
-
-	public void setObjectType(int objectType) {
-		this.objectType = objectType;
 	}
 
 	public long getObjectID() {
@@ -134,4 +129,11 @@ public class ClientActivity implements IAccounterCore {
 		this.userName = userName;
 	}
 
+	public String getDataType() {
+		return dataType;
+	}
+
+	public void setDataType(String dataType) {
+		this.dataType = dataType;
+	}
 }

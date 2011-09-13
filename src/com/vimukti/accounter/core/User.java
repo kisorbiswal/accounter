@@ -10,7 +10,8 @@ import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class User extends CreatableObject implements IAccounterServerCore {
+public class User extends CreatableObject implements IAccounterServerCore,
+		INamedObject {
 
 	/**
 	 * 
@@ -34,10 +35,8 @@ public class User extends CreatableObject implements IAccounterServerCore {
 	private boolean isAdmin;
 
 	private boolean isDeleted;
-	
+
 	private boolean isActive;
-	
-	
 
 	/**
 	 * The full name of the user.
@@ -246,7 +245,7 @@ public class User extends CreatableObject implements IAccounterServerCore {
 	}
 
 	public void setDeleted(boolean isDeleted) {
-		this.isDeleted=isDeleted;
+		this.isDeleted = isDeleted;
 	}
 
 	public boolean isActive() {
@@ -254,6 +253,11 @@ public class User extends CreatableObject implements IAccounterServerCore {
 	}
 
 	public void setActive(boolean isActive) {
-		this.isActive=isActive;
+		this.isActive = isActive;
+	}
+
+	@Override
+	public void setName(String name) {
+		this.displayName = name;
 	}
 }

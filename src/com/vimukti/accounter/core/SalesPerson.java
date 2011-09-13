@@ -11,7 +11,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class SalesPerson extends CreatableObject implements
-		IAccounterServerCore {
+		IAccounterServerCore, INamedObject {
 
 	/**
 	 * 
@@ -97,8 +97,8 @@ public class SalesPerson extends CreatableObject implements
 	 */
 	FinanceDate dateOfRelease;
 
-//	String createdBy;
-//	String lastModifier;
+	// String createdBy;
+	// String lastModifier;
 
 	private boolean isActive;
 	private String memo;
@@ -316,6 +316,16 @@ public class SalesPerson extends CreatableObject implements
 			throws AccounterException {
 		// FIXME have to check
 		return true;
+	}
+
+	@Override
+	public String getName() {
+		return null;
+	}
+
+	@Override
+	public void setName(String name) {
+		this.firstName = name;
 	}
 
 }

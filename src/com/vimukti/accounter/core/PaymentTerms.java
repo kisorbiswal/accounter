@@ -14,7 +14,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class PaymentTerms extends CreatableObject implements
-		IAccounterServerCore {
+		IAccounterServerCore ,INamedObject{
 
 	/**
 	 * 
@@ -155,5 +155,10 @@ public class PaymentTerms extends CreatableObject implements
 		}
 
 		return true;
+	}
+
+	@Override
+	public void setName(String name) {
+this.name=name;		
 	}
 }

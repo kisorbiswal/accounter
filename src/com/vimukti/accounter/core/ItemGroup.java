@@ -14,14 +14,14 @@ import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class ItemGroup extends CreatableObject implements IAccounterServerCore {
+public class ItemGroup extends CreatableObject implements IAccounterServerCore,
+		INamedObject {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 5174008021450044426L;
 
-	
 	/**
 	 * Item Group Name
 	 */
@@ -51,7 +51,8 @@ public class ItemGroup extends CreatableObject implements IAccounterServerCore {
 	 */
 	public void setDefault(boolean isDefault) {
 		this.isDefault = isDefault;
-	}	
+	}
+
 	/**
 	 * return false; return false;
 	 * 
