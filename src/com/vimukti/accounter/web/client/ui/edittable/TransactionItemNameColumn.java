@@ -77,4 +77,8 @@ public abstract class TransactionItemNameColumn extends
 	protected String getColumnName() {
 		return Accounter.constants().name();
 	}
+
+	public void setItemForCustomer(boolean isForCustomer) {
+		itemsList.setForCustomer(isForCustomer);
+	}
 }

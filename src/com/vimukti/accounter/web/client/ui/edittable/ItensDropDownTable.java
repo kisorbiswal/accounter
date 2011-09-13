@@ -16,6 +16,7 @@ public class ItensDropDownTable extends AbstractDropDownTable<ClientItem> {
 
 	private ListFilter<ClientItem> filter;
 	private int type;
+	private boolean isForCustomer = true;
 
 	public ItensDropDownTable(ListFilter<ClientItem> filter) {
 		super(getItems(filter));
@@ -60,7 +61,7 @@ public class ItensDropDownTable extends AbstractDropDownTable<ClientItem> {
 	@Override
 	public void addNewItem() {
 		NewItemAction action;
-		action = ActionFactory.getNewItemAction(true);
+		action = ActionFactory.getNewItemAction(isForCustomer());
 		action.setType(getItemType());
 		action.setCallback(new ActionCallback<ClientItem>() {
 
@@ -91,5 +92,13 @@ public class ItensDropDownTable extends AbstractDropDownTable<ClientItem> {
 	@Override
 	public List<ClientItem> getTotalRowsData() {
 		return getItems(filter);
+	}
+
+	public boolean isForCustomer() {
+		return isForCustomer;
+	}
+
+	public void setForCustomer(boolean isForCustomer) {
+		this.isForCustomer = isForCustomer;
 	}
 }

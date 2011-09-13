@@ -69,7 +69,7 @@ public abstract class VendorTransactionTable extends
 
 		});
 
-		this.addColumn(new TransactionItemNameColumn() {
+		TransactionItemNameColumn transactionItemNameColumn = new TransactionItemNameColumn() {
 
 			@Override
 			public ListFilter<ClientAccount> getAccountsFilter() {
@@ -116,7 +116,9 @@ public abstract class VendorTransactionTable extends
 					}
 				};
 			}
-		});
+		};
+		transactionItemNameColumn.setItemForCustomer(false);
+		this.addColumn(transactionItemNameColumn);
 
 		this.addColumn(new DescriptionEditColumn());
 
