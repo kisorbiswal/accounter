@@ -10,6 +10,8 @@ import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -30,6 +32,7 @@ import com.vimukti.accounter.web.client.externalization.AccounterComboMessges;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.forms.CustomComboItem;
+import com.vimukti.accounter.web.client.ui.forms.TextBoxItem.KeyPressListener;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
 public abstract class DropDownCombo<T> extends CustomComboItem {
@@ -173,14 +176,15 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		popup.getElement().setAttribute("id", "popuppaneldropdown");
 		dropDown.getElement().getStyle().setCursor(Cursor.POINTER);
 
-		FocusHandler focusHandler = new FocusHandler() {
+		ClickHandler clickHandler = new ClickHandler() {
 
 			@Override
-			public void onFocus(FocusEvent event) {
+			public void onClick(ClickEvent arg0) {
 				showPopup();
+
 			}
 		};
-		addFocusHandler(focusHandler);
+		addClickHandler(clickHandler);
 
 		dropDown.addEscapEventHandler(new EscapEventHandler() {
 
@@ -201,7 +205,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	protected void showPopup() {
 		if (DropDownCombo.this.getDisabled())
 			return;
-		if(!isAddNewRequire && comboItems.isEmpty())
+		if (!isAddNewRequire && comboItems.isEmpty())
 			return;
 		dropDown.getRowElement(0).getStyle().setHeight(15, Unit.PX);
 		int x = getMainWidget().getAbsoluteLeft();

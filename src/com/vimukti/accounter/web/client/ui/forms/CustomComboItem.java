@@ -39,15 +39,6 @@ public class CustomComboItem extends FormItem {
 		downarrowpanel = new SimplePanel();
 
 		downarrowpanel.addStyleName("downarrow-button");
-		ClickHandler clickHandler = new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				textBox.setFocus(true);
-			}
-		};
-		addClickHandler(clickHandler);
-		downarrowpanel.addDomHandler(clickHandler, ClickEvent.getType());
 		panel.add(downarrowpanel);
 
 		panel.getWidget(0).getElement().getParentElement().getStyle()
@@ -124,6 +115,7 @@ public class CustomComboItem extends FormItem {
 	@Override
 	public void addClickHandler(ClickHandler handler) {
 		textBox.addClickHandler(handler);
+		downarrowpanel.addDomHandler(handler, ClickEvent.getType());
 	}
 
 	public void setDefaultValue(int i) {
