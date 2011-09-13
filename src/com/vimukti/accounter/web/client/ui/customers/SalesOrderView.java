@@ -66,7 +66,7 @@ public class SalesOrderView extends
 	private TAXCodeCombo taxCodeSelect;
 	private PaymentTermsCombo payTermsSelect;
 	private Double payments = 0.0;
-	private CustomerCombo customerCombo;
+
 	private Double balanceDue = 0.0;
 	private DateField dueDateItem;
 	private LabelItem quoteLabel;
