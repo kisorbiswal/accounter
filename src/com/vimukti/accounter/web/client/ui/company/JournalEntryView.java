@@ -38,6 +38,7 @@ import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionJournalEntryTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -48,7 +49,7 @@ import com.vimukti.accounter.web.client.ui.grids.TransactionJournalEntryGrid;
 public class JournalEntryView extends
 		AbstractTransactionBaseView<ClientJournalEntry> {
 
-	private TransactionJournalEntryGrid grid;
+	private TransactionJournalEntryTable grid;
 	double debit, credit;
 
 	Label lab1;
@@ -109,10 +110,10 @@ public class JournalEntryView extends
 					accounterConstants.invalidateDate());
 		}
 		result.add(dateForm.validate());
-		if (AccounterValidator.isBlankTransaction(grid)) {
-			result.addError(grid, accounterConstants.blankTransaction());
-		} else
-			result.add(grid.validateGrid());
+		// if (AccounterValidator.isBlankTransaction(grid)) {
+		// result.addError(grid, accounterConstants.blankTransaction());
+		// } else
+		result.add(grid.validateGrid());
 		if (!grid.isValidTotal()) {
 			result.addError(grid, Accounter.constants().totalMustBeSame());
 		}
@@ -126,11 +127,13 @@ public class JournalEntryView extends
 	// }
 
 	public void initListGrid() {
-		grid = new TransactionJournalEntryGrid(isInViewMode());
-		grid.setTransactionView(this);
-		grid.setCanEdit(true);
-		grid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
-		grid.init();
+		grid = new TransactionJournalEntryTable() {
+
+			@Override
+			public void updateNonEditableItems() {
+				JournalEntryView.this.updateNonEditableItems();
+			}
+		};
 		grid.setDisabled(isInViewMode());
 		grid.getElement().getStyle().setMarginTop(10, Unit.PX);
 	}
@@ -175,7 +178,7 @@ public class JournalEntryView extends
 
 	public List<ClientEntry> getallEntries(ClientTransaction object) {
 
-		List<ClientEntry> records = grid.getRecords();
+		List<ClientEntry> records = grid.getAllRows();
 		final List<ClientEntry> transactionItems = new ArrayList<ClientEntry>();
 		if (records != null) {
 			for (ClientEntry record : records) {
@@ -248,9 +251,6 @@ public class JournalEntryView extends
 			// FIXME--need to implement this feature
 			// grid.setEnableMenu(false);
 
-			grid.canDeleteRecord(false);
-			grid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
-			grid.setCanEdit(false);
 			grid.setDisabled(true);
 			// Disabling the cells
 			// FIXME
@@ -269,7 +269,7 @@ public class JournalEntryView extends
 			transaction.setCreditTotal(grid.getTotalCredittotal());
 			transaction.setTotal(grid.getTotalDebittotal());
 		}
-		List<ClientEntry> allGivenRecords = grid.getRecords();
+		List<ClientEntry> allGivenRecords = grid.getAllRows();
 		transaction.setEntry(allGivenRecords);
 	}
 
@@ -290,7 +290,7 @@ public class JournalEntryView extends
 	protected void clearFields() {
 		// FIXME-- The form values need to be reset
 		// jourForm.resetValues();
-		grid.removeAllRecords();
+		grid.clear();
 
 	}
 
@@ -326,7 +326,7 @@ public class JournalEntryView extends
 		memoText.setHelpInformation(true);
 
 		initListGrid();
-		grid.initTransactionData();
+		// grid.initTransactionData();
 		gridPanel = new VerticalPanel();
 		addButton = new AddButton(this);
 		addButton.addClickHandler(new ClickHandler() {
@@ -444,7 +444,7 @@ public class JournalEntryView extends
 		if (transaction != null) {
 			jourNoText.setValue(transaction.getNumber());
 			transactionDateItem.setEnteredDate(transaction.getDate());
-			grid.setVoucherNumber(transaction.getNumber());
+			// grid.setVoucherNumber(transaction.getNumber());
 
 			List<ClientEntry> entries = transaction.getEntry();
 
@@ -484,7 +484,7 @@ public class JournalEntryView extends
 
 				i++;
 			}
-			grid.setAllRecords(Arrays.asList(rec));
+			grid.setAllRows(Arrays.asList(rec));
 			if (transaction.getMemo() != null)
 				memoText.setValue(transaction.getMemo());
 			updateTransaction();
@@ -536,7 +536,7 @@ public class JournalEntryView extends
 					public void onResultSuccess(String result) {
 						voucharNocame = true;
 						vouchNo = result;
-						grid.setVoucherNumber(vouchNo);
+						// grid.setVoucherNumber(vouchNo);
 					}
 
 					@Override
@@ -549,13 +549,13 @@ public class JournalEntryView extends
 	}
 
 	public void VoucherNoreset() {
-		if (!voucharNocame)
-			grid.addLoadingImagePanel();
+		// if (!voucharNocame)
+		// grid.addLoadingImagePanel();
 		Timer timer = new Timer() {
 			@Override
 			public void run() {
 				if (voucharNocame) {
-					grid.removeLoadingImage();
+					// grid.removeLoadingImage();
 					addEmptRecords();
 					this.cancel();
 				}
@@ -573,10 +573,12 @@ public class JournalEntryView extends
 		entry1.setMemo("");
 		entry.setType(ClientEntry.TYPE_FINANCIAL_ACCOUNT);
 		entry1.setType(ClientEntry.TYPE_FINANCIAL_ACCOUNT);
+		entry.setVoucherNumber(vouchNo);
+		entry1.setVoucherNumber(vouchNo);
 
-		grid.addData(entry);
-		if (grid.getRecords().size() < 2)
-			grid.addData(entry1);
+		grid.add(entry);
+		if (grid.getAllRows().size() < 2)
+			grid.add(entry1);
 
 	}
 
@@ -658,7 +660,7 @@ public class JournalEntryView extends
 		setMode(EditMode.EDIT);
 		jourNoText.setDisabled(isInViewMode());
 		grid.setDisabled(isInViewMode());
-		grid.setCanEdit(true);
+		// grid.setCanEdit(true);
 		addButton.setEnabled(!isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
