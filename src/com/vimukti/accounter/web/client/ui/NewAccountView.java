@@ -1723,9 +1723,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		cashAccountCheck.setTabIndex(7);
 		commentsArea.setTabIndex(8);
 		currency.setTabIndex(9);
-		bankNameSelect.setTabIndex(10);
-		typeSelect.setTabIndex(11);
-		bankAccNumText.setTabIndex(12);
+//		bankNameSelect.setTabIndex(10);
+//		typeSelect.setTabIndex(11);
+//		bankAccNumText.setTabIndex(12);
 
 	}
 }
