@@ -6,9 +6,9 @@ package com.vimukti.accounter.web.client.ui.company.options;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @author vimukti36
@@ -18,6 +18,8 @@ public class CompanyEinOption extends AbstractPreferenceOption {
 
 	private static CompanyEinOptionUiBinder uiBinder = GWT
 			.create(CompanyEinOptionUiBinder.class);
+	@UiField
+	Label EINLabel;
 	@UiField
 	TextBox EINTextBox;
 
@@ -41,12 +43,12 @@ public class CompanyEinOption extends AbstractPreferenceOption {
 	}
 
 	private void initData() {
-
+		String taxId = companyPreferences.getTaxId();
+		EINTextBox.setValue(taxId);
 	}
 
 	private void createControls() {
-		EINTextBox
-				.setText(Accounter.constants().employerIdentificationNumber());
+		EINLabel.setText(constants.employerIdentificationNumber());
 	}
 
 	public CompanyEinOption(String firstName) {
@@ -56,13 +58,13 @@ public class CompanyEinOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		return "EIN";
+		return constants.employerIdentificationNumber();
 	}
 
 	@Override
 	public void onSave() {
-		String EINvalue = EINTextBox.getValue();
-
+		if (EINTextBox.getValue() != null)
+			companyPreferences.setTaxId(EINTextBox.getValue());
 	}
 
 	@Override

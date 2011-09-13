@@ -6,7 +6,9 @@ package com.vimukti.accounter.web.client.ui.company.options;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RadioButton;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -18,9 +20,23 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 	private static ProductAndServicesOptionUiBinder uiBinder = GWT
 			.create(ProductAndServicesOptionUiBinder.class);
 	@UiField
-	CheckBox productsAndservicesforPurchasesCheckBox;
+	VerticalPanel viewPanel;
 	@UiField
-	CheckBox productsAndservicesforSalesCheckBox;
+	RadioButton servicesOnly;
+	@UiField
+	Label servicesOnlyText;
+	@UiField
+	Label headerLabel;
+	@UiField
+	RadioButton productsOnly;
+	@UiField
+	Label productsOnlyText;
+	@UiField
+	RadioButton both;
+	@UiField
+	Label bothText;
+	@UiField
+	VerticalPanel sell;
 
 	interface ProductAndServicesOptionUiBinder extends
 			UiBinder<Widget, ProductAndServicesOption> {
@@ -41,38 +57,55 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 		initdata();
 	}
 
-	private void initdata() {
-		// TODO
-	}
-
-	private void createControls() {
-		productsAndservicesforPurchasesCheckBox.setText(constants
-				.productsandservicesforpurchases());
-		productsAndservicesforSalesCheckBox.setText(constants
-				.productsandservicesforsales());
-	}
-
 	public ProductAndServicesOption(String firstName) {
 		initWidget(uiBinder.createAndBindUi(this));
 
 	}
 
+	private void createControls() {
+
+		headerLabel.setText(constants.whatDoYouSell());
+		// servicesOnlyText.setText(constants.whatDoYouSell());
+		servicesOnly.setText(constants.services_labelonly());
+		servicesOnlyText.setText(constants.servicesOnly());
+		productsOnly.setText(constants.products_labelonly());
+		productsOnlyText.setText(constants.productsOnly());
+		both.setText(constants.bothservicesandProduct_labelonly());
+		bothText.setText(constants.bothServicesandProducts());
+	}
+
+	private void initdata() {
+
+		boolean sellServices = companyPreferences.isSellServices();
+		if (sellServices)
+			servicesOnly.setValue(true);
+		boolean sellProducts = companyPreferences.isSellProducts();
+		if (sellProducts)
+			productsOnly.setValue(true);
+		if (sellServices && sellProducts)
+			both.setValue(true);
+	}
+
 	@Override
 	public String getTitle() {
-		// TODO Auto-generated method stub
-		return "Products and Services";
+		return constants.productAndServices();
 	}
 
 	@Override
 	public void onSave() {
-		productsAndservicesforPurchasesCheckBox.getValue();
-		productsAndservicesforSalesCheckBox.getValue();
 
+		if (servicesOnly.getValue())
+			companyPreferences.setSellServices(true);
+		if (productsOnly.getValue())
+			companyPreferences.setSellProducts(true);
+		if (both.getValue()) {
+			companyPreferences.setSellServices(true);
+			companyPreferences.setSellProducts(true);
+		}
 	}
 
 	@Override
 	public String getAnchor() {
-		// TODO Auto-generated method stub
-		return " Products and Services";
+		return constants.productAndServices();
 	}
 }

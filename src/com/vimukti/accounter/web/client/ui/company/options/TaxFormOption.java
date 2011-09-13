@@ -4,14 +4,20 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.setup.OrganizationTypeConstants;
 
 /**
  * @author vimukti36
@@ -24,21 +30,43 @@ public class TaxFormOption extends AbstractPreferenceOption {
 	@UiField
 	Label radioButtonHeaderLabel;
 	@UiField
-	RadioButton oneOwnerRadioButton;
-	@UiField
-	RadioButton twoOrmoreownersRadioButton;
-	@UiField
-	RadioButton oneormoreshareholdersRadioButton;
-	@UiField
-	RadioButton nonprofitRadioButton;
-	@UiField
-	RadioButton otherAndNoneRadioButton;
-	@UiField
-	VerticalPanel radioButtonsPanel;
-	@UiField
 	HorizontalPanel headerLabelPanel;
 	@UiField
 	VerticalPanel radioButtonsMainPanel;
+	@UiField
+	VerticalPanel viewPanel;
+	@UiField
+	Label organizeText;
+	@UiField
+	RadioButton propriterShip;
+	@UiField
+	Label uninCorporated;
+	@UiField
+	RadioButton partnership;
+	@UiField
+	Label morePartners;
+	@UiField
+	RadioButton lLC;
+	@UiField
+	Label lLCText;
+	@UiField
+	ListBox lLCCombo;
+	@UiField
+	RadioButton corporation;
+	@UiField
+	Label corporationText;
+	@UiField
+	RadioButton sCorporation;
+	@UiField
+	Label sCorporationText;
+	@UiField
+	RadioButton nonProfit;
+	@UiField
+	Label nonProfitText;
+	@UiField
+	RadioButton other;
+	@UiField
+	HTML organizationLink;
 
 	interface TaxFormOptionUiBinder extends UiBinder<Widget, TaxFormOption> {
 	}
@@ -59,28 +87,117 @@ public class TaxFormOption extends AbstractPreferenceOption {
 	}
 
 	private void createControls() {
-		radioButtonHeaderLabel.setText(Accounter.constants().taxform());
+		radioButtonHeaderLabel.setText(constants.howIsYourCompanyOrganized());
 
-		oneOwnerRadioButton.setName(Accounter.constants().taxFormGroup());
-		oneOwnerRadioButton.setHTML(Accounter.constants().OneOwener());
-		twoOrmoreownersRadioButton
-				.setName(Accounter.constants().taxFormGroup());
-		twoOrmoreownersRadioButton.setHTML(Accounter.constants()
-				.twoOrMoreOwners());
-		oneormoreshareholdersRadioButton.setName(Accounter.constants()
-				.taxFormGroup());
-		oneormoreshareholdersRadioButton.setHTML(Accounter.constants()
-				.oneormoreshareholders());
-		nonprofitRadioButton.setName(Accounter.constants().taxFormGroup());
-		nonprofitRadioButton.setHTML(Accounter.constants().nonProfit());
-		otherAndNoneRadioButton.setName(Accounter.constants().taxFormGroup());
-		otherAndNoneRadioButton.setHTML(Accounter.constants().otherorNone());
+		organizeText.setText(Accounter.messages()
+				.howIsYourCompanyOrganizedDesc(Global.get().account()));
+		propriterShip.setText(constants.soleProprietorship());
+		partnership.setText(constants.partnershipOrLLP());
+		lLC.setText(constants.LLC());
+		corporation.setText(constants.corporation());
+		sCorporation.setText(constants.sCorporation());
+		nonProfit.setText(constants.nonProfit());
+		other.setText(constants.otherNone());
 
+		organizeText.setText(Accounter.messages()
+				.howIsYourCompanyOrganizedDesc(Global.get().account()));
+		uninCorporated.setText(constants.soleProprietorshipDesc());
+		morePartners.setText(constants.partnershipOrLLPDesc());
+		lLCText.setText(constants.LLCDesc());
+		corporationText.setText(constants.sCorporationDesc());
+		sCorporationText.setText(constants.corporationDesc());
+		nonProfitText.setText(constants.nonProfitDesc());
+
+		organizeText.addStyleName("organisation_comment");
+		uninCorporated.addStyleName("organisation_comment");
+		morePartners.addStyleName("organisation_comment");
+		lLCText.addStyleName("organisation_comment");
+		corporationText.addStyleName("organisation_comment");
+		sCorporationText.addStyleName("organisation_comment");
+		nonProfitText.addStyleName("organisation_comment");
+
+		// HTML organizationLink;
+
+		propriterShip.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				lLCCombo.setEnabled(false);
+			}
+		});
+		partnership.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				lLCCombo.setEnabled(false);
+			}
+		});
+
+		lLCCombo.addStyleName("organisation_combo");
+
+		lLCCombo.addItem(constants.llcSingleMemberForm());
+		lLCCombo.addItem(constants.llcMultiMemberForm());
+		lLCCombo.setEnabled(false);
+		lLC.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				lLCCombo.setEnabled(true);
+			}
+		});
+		corporation.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				lLCCombo.setEnabled(false);
+			}
+		});
+		sCorporation.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				lLCCombo.setEnabled(false);
+			}
+		});
+		nonProfit.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				lLCCombo.setEnabled(false);
+			}
+		});
+		other.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				lLCCombo.setEnabled(false);
+			}
+		});
 	}
 
 	private void initData() {
-		int taxForm = company.getTaxForm();
-
+		switch (companyPreferences.getOrganizationType()) {
+		case OrganizationTypeConstants.SOLE_PROPRIETORSHIP:
+			propriterShip.setValue(true);
+			break;
+		case OrganizationTypeConstants.CORPORATION:
+			partnership.setValue(true);
+			break;
+		case OrganizationTypeConstants.S_CORPORATION:
+			sCorporation.setValue(true);
+			break;
+		case OrganizationTypeConstants.LLC:
+			lLC.setValue(true);
+			break;
+		case OrganizationTypeConstants.PARTNERSHIP:
+			partnership.setValue(true);
+			break;
+		case OrganizationTypeConstants.NON_PROFIT:
+			nonProfit.setValue(true);
+			break;
+		case OrganizationTypeConstants.OTHER:
+			other.setValue(true);
+		}
 	}
 
 	public TaxFormOption(String firstName) {
@@ -90,11 +207,33 @@ public class TaxFormOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		return "Tax Form";
+		return constants.companyOrganization();
 	}
 
 	@Override
 	public void onSave() {
+		if (propriterShip.getValue()) {
+			companyPreferences
+					.setOrganizationType(OrganizationTypeConstants.SOLE_PROPRIETORSHIP);
+		} else if (partnership.getValue()) {
+			companyPreferences
+					.setOrganizationType(OrganizationTypeConstants.CORPORATION);
+		} else if (sCorporation.getValue()) {
+			companyPreferences
+					.setOrganizationType(OrganizationTypeConstants.S_CORPORATION);
+		} else if (lLC.getValue()) {
+			companyPreferences
+					.setOrganizationType(OrganizationTypeConstants.LLC);
+		} else if (partnership.getValue()) {
+			companyPreferences
+					.setOrganizationType(OrganizationTypeConstants.PARTNERSHIP);
+		} else if (nonProfit.getValue()) {
+			companyPreferences
+					.setOrganizationType(OrganizationTypeConstants.NON_PROFIT);
+		} else {
+			companyPreferences
+					.setOrganizationType(OrganizationTypeConstants.OTHER);
+		}
 	}
 
 	@Override

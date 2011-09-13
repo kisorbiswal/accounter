@@ -6,10 +6,10 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel spacing="5" >
+	<g:VerticalPanel spacing="5" styleName="companyInfoPanel">
 		<g:VerticalPanel spacing="5">
-			<g:CheckBox ui:field="accountNumbersCheckBox"/>
-			<g:CheckBox ui:field="showAccountNumbersCheckBox"/>
+			<g:CheckBox ui:field="accountNumbersCheckBox" />
+			<g:CheckBox ui:field="showAccountNumbersCheckBox" />
 		</g:VerticalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 

@@ -47,8 +47,7 @@ public class RestartSetupInterviewOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Setup Interviews";
 	}
 
 	@Override
@@ -60,7 +59,7 @@ public class RestartSetupInterviewOption extends AbstractPreferenceOption {
 	@Override
 	public String getAnchor() {
 		// TODO Auto-generated method stub
-		return null;
+		return constants.company();
 	}
 
 }

@@ -59,8 +59,7 @@ public class QuickFillAutosuggestOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		// TODO Auto-generated method stub
-		return null;
+		return "QuickFill Autosuggest";
 	}
 
 	@Override
@@ -72,7 +71,7 @@ public class QuickFillAutosuggestOption extends AbstractPreferenceOption {
 	@Override
 	public String getAnchor() {
 		// TODO Auto-generated method stub
-		return null;
+		return constants.company();
 	}
 
 }

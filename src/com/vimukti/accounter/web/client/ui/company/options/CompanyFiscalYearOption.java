@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
@@ -7,23 +8,17 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 
 public class CompanyFiscalYearOption extends AbstractPreferenceOption {
-	private AccounterConstants constants;
+
 	private static CompanyFiscalYearOptionUiBinder uiBinder = GWT
 			.create(CompanyFiscalYearOptionUiBinder.class);
 	@UiField
-	RadioButton januaryMonthRadioButton;
-	@UiField
-	RadioButton firstMonthOfmyfiscalyearRadioButton;
-	@UiField
-	Label radioButtonHeaderLabel;
-	@UiField
 	ListBox monthNameComboBox;
-	List<String> monthNam;
+	@UiField
+	Label monthsCheckboxLabel;
+	List<String> monthNam = new ArrayList<String>();
 	String[] monthNames;
 
 	interface CompanyFiscalYearOptionUiBinder extends
@@ -42,7 +37,7 @@ public class CompanyFiscalYearOption extends AbstractPreferenceOption {
 
 	private void createControls() {
 
-		monthNameComboBox.setTitle(constants.selectFirstMonthOfFiscalYear());
+		monthsCheckboxLabel.setText(constants.selectFirstMonthOfFiscalYear());
 
 		monthNames = new String[] { constants.january(), constants.february(),
 				constants.march(), constants.april(), constants.may(),
@@ -54,17 +49,12 @@ public class CompanyFiscalYearOption extends AbstractPreferenceOption {
 			monthNameComboBox.addItem(monthNames[i]);
 			monthNam.add(monthNames[i]);
 		}
-		radioButtonHeaderLabel.setText(constants.firstMonthofIncomeTaxyear());
-		firstMonthOfmyfiscalyearRadioButton.setText(constants
-				.firstMonthofmyfiscalyear());
-		januaryMonthRadioButton.setText(constants.january());
-
 	}
 
 	private void initData() {
 		if (monthNam.size() > 0)
-			monthNameComboBox.setItemText(
-					companyPreferences.getFiscalYearFirstMonth(), "MonThs");
+			monthNameComboBox.setSelectedIndex(companyPreferences
+					.getFiscalYearFirstMonth());
 	}
 
 	@Override
@@ -76,7 +66,6 @@ public class CompanyFiscalYearOption extends AbstractPreferenceOption {
 	public void onSave() {
 		companyPreferences.setFiscalYearFirstMonth(monthNam
 				.indexOf(monthNameComboBox.getSelectedIndex()));
-
 	}
 
 	@Override
