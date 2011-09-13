@@ -1,20 +1,22 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ManageBillsOption extends Composite implements HasText {
+public class ManageBillsOption extends AbstractPreferenceOption {
 
 	private static ManageBillsOptionUiBinder uiBinder = GWT
 			.create(ManageBillsOptionUiBinder.class);
+	@UiField
+	Label managingBillLabelItem;
+	@UiField
+	RadioButton managingBillYesRadioButton;
+	@UiField
+	RadioButton managingBillNoRadioButton;
 
 	interface ManageBillsOptionUiBinder extends
 			UiBinder<Widget, ManageBillsOption> {
@@ -22,27 +24,51 @@ public class ManageBillsOption extends Composite implements HasText {
 
 	public ManageBillsOption() {
 		initWidget(uiBinder.createAndBindUi(this));
+		createControls();
+		initData();
 	}
 
-	@UiField
-	Button button;
+	private void initData() {
+		if (companyPreferences.isKeepTrackofBills()) {
+			managingBillYesRadioButton.setValue(true);
+			managingBillNoRadioButton.setValue(false);
+		} else {
+			managingBillYesRadioButton.setValue(false);
+			managingBillNoRadioButton.setValue(true);
+		}
+
+	}
+
+	private void createControls() {
+		managingBillLabelItem.setText(constants.managingBills());
+
+		managingBillYesRadioButton.setText(constants.yes());
+		managingBillNoRadioButton.setText(constants.no());
+
+	}
 
 	public ManageBillsOption(String firstName) {
 		initWidget(uiBinder.createAndBindUi(this));
-		button.setText(firstName);
 	}
 
-	@UiHandler("button")
-	void onClick(ClickEvent e) {
-		Window.alert("Hello!");
+	@Override
+	public String getTitle() {
+		return constants.managingBillsTitle();
 	}
 
-	public void setText(String text) {
-		button.setText(text);
+	@Override
+	public void onSave() {
+		if (managingBillYesRadioButton.getValue()) {
+			companyPreferences.setKeepTrackofBills(true);
+		} else {
+			companyPreferences.setKeepTrackofBills(false);
+		}
+
 	}
 
-	public String getText() {
-		return button.getText();
+	@Override
+	public String getAnchor() {
+		return constants.managingBillsTitle();
 	}
 
 }
