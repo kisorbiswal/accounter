@@ -17,7 +17,7 @@ public class Activity implements IAccounterCore {
 
 	private Timestamp time;
 
-	private int objectType;
+	private String objectType;
 
 	private long objectID;
 
@@ -54,11 +54,12 @@ public class Activity implements IAccounterCore {
 			if (payee != null) {
 				this.name = payee.getName();
 			}
-			this.setObjectType(tr.getType());
+			this.setObjectType(Utility.getTransactionName(tr.getType()));
 		} else {
 			if (obj instanceof INamedObject) {
 				this.name = ((INamedObject) obj).getName();
 			}
+			this.setObjectType(obj.getClass().getSimpleName());
 		}
 		this.objectID = obj.getID();
 	}
@@ -150,7 +151,7 @@ public class Activity implements IAccounterCore {
 		return null;
 	}
 
-	public void setObjectType(int objectType) {
+	public void setObjectType(String objectType) {
 		this.objectType = objectType;
 	}
 
