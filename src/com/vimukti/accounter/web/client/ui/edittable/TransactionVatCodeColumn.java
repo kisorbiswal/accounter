@@ -38,5 +38,6 @@ public class TransactionVatCodeColumn extends
 	@Override
 	protected void setValue(ClientTransactionItem row, ClientTAXCode newValue) {
 		row.setTaxCode(newValue.getID());
+		getTable().update(row);
 	}
 }
