@@ -43,7 +43,7 @@ public class CompanyEinOption extends AbstractPreferenceOption {
 	}
 
 	private void initData() {
-		String taxId = companyPreferences.getTaxId();
+		String taxId = company.getTaxId();
 		EINTextBox.setValue(taxId);
 	}
 
@@ -64,7 +64,7 @@ public class CompanyEinOption extends AbstractPreferenceOption {
 	@Override
 	public void onSave() {
 		if (EINTextBox.getValue() != null)
-			companyPreferences.setTaxId(EINTextBox.getValue());
+			company.setTaxId(EINTextBox.getValue());
 	}
 
 	@Override

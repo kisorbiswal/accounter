@@ -2,19 +2,32 @@ package com.vimukti.accounter.web.client.ui.company.options;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
-public class CompanyEmailOption extends Composite implements HasText {
+public class CompanyEmailOption extends AbstractPreferenceOption {
 
 	private static CompanyEmailOptionUiBinder uiBinder = GWT
 			.create(CompanyEmailOptionUiBinder.class);
+	@UiField
+	Label companyEmailHeaderLabel;
+	@UiField
+	TextBox companyEmailTextBox;
+//	@UiField
+//	CheckBox customersEmailAddressCheckBox;
+//	@UiField
+//	VerticalPanel companyLegalAddressPanel;
+//	@UiField
+//	Label customerEmailHeaderLabel;
+//	@UiField
+//	TextBox customerEmailTextBox;
 
 	interface CompanyEmailOptionUiBinder extends
 			UiBinder<Widget, CompanyEmailOption> {
@@ -22,27 +35,45 @@ public class CompanyEmailOption extends Composite implements HasText {
 
 	public CompanyEmailOption() {
 		initWidget(uiBinder.createAndBindUi(this));
+		creatControls();
+		initData();
 	}
 
-	@UiField
-	Button button;
-
-	public CompanyEmailOption(String firstName) {
-		initWidget(uiBinder.createAndBindUi(this));
-		button.setText(firstName);
+	private void initData() {
+		companyEmailTextBox.setText(company.getCompanyEmail());
+//		customerEmailTextBox.setText(company.getCompanyEmailForCustomers());
 	}
 
-	@UiHandler("button")
-	void onClick(ClickEvent e) {
-		Window.alert("Hello!");
+	private void creatControls() {
+		companyEmailHeaderLabel.setText(Accounter.constants().emailId());
+//		customersEmailAddressCheckBox.setText(Accounter.constants()
+//				.getCustomersEmailId());
+//		customersEmailAddressCheckBox.addClickHandler(new ClickHandler() {
+//
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				companyLegalAddressPanel
+//						.setVisible(customersEmailAddressCheckBox.getValue());
+//
+//			}
+//		});
+//		customerEmailHeaderLabel.setText(Accounter.constants().customerID());
 	}
 
-	public void setText(String text) {
-		button.setText(text);
+	@Override
+	public String getTitle() {
+		return Accounter.constants().email();
 	}
 
-	public String getText() {
-		return button.getText();
+	@Override
+	public void onSave() {
+		company.setCompanyEmail(companyEmailTextBox.getValue());
+//		company.setCompanyEmailForCustomers(customerEmailTextBox.getValue());
+	}
+
+	@Override
+	public String getAnchor() {
+		return Accounter.constants().email();
 	}
 
 }

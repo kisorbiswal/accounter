@@ -1,17 +1,20 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
-public class ComapnyWebsiteOption extends Composite implements HasText {
+public class ComapnyWebsiteOption extends AbstractPreferenceOption {
+
+	@UiField
+	Label companyWebsiteHeaderLabel;
+
+	@UiField
+	TextBox companyWebsiteTextBox;
 
 	private static ComapnyWebsiteOptionUiBinder uiBinder = GWT
 			.create(ComapnyWebsiteOptionUiBinder.class);
@@ -22,27 +25,32 @@ public class ComapnyWebsiteOption extends Composite implements HasText {
 
 	public ComapnyWebsiteOption() {
 		initWidget(uiBinder.createAndBindUi(this));
+		createControls();
+		initData();
 	}
 
-	@UiField
-	Button button;
-
-	public ComapnyWebsiteOption(String firstName) {
-		initWidget(uiBinder.createAndBindUi(this));
-		button.setText(firstName);
+	private void initData() {
+		companyWebsiteTextBox.setText(company.getWebSite());
 	}
 
-	@UiHandler("button")
-	void onClick(ClickEvent e) {
-		Window.alert("Hello!");
+	private void createControls() {
+		companyWebsiteHeaderLabel.setText(Accounter.constants().webSite());
 	}
 
-	public void setText(String text) {
-		button.setText(text);
+	@Override
+	public String getTitle() {
+		return Accounter.constants().webSite();
 	}
 
-	public String getText() {
-		return button.getText();
+	@Override
+	public void onSave() {
+		company.setWebSite(companyWebsiteTextBox.getValue());
+
+	}
+
+	@Override
+	public String getAnchor() {
+		return Accounter.constants().webSite();
 	}
 
 }

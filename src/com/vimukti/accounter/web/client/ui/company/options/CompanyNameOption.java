@@ -4,10 +4,15 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -18,8 +23,19 @@ public class CompanyNameOption extends AbstractPreferenceOption {
 
 	private static CompanyNameOptionUiBinder uiBinder = GWT
 			.create(CompanyNameOptionUiBinder.class);
-	@UiField Label companyNameLabel;
-	@UiField TextBox companyNameTextBox;
+	@UiField
+	Label companyNameLabel;
+	@UiField
+	TextBox companyNameTextBox;
+
+	// @UiField
+	// CheckBox legalNmaeCheckBox;
+	// @UiField
+	// Label companyLegalNameLabel;
+	// @UiField
+	// TextBox comapnyLegalNameTextBox;
+	// @UiField
+	// HorizontalPanel comapnyLegalNameHeaderPanel;
 
 	interface CompanyNameOptionUiBinder extends
 			UiBinder<Widget, CompanyNameOption> {
@@ -36,24 +52,44 @@ public class CompanyNameOption extends AbstractPreferenceOption {
 	 */
 	public CompanyNameOption() {
 		initWidget(uiBinder.createAndBindUi(this));
+		createControls();
+		initData();
+	}
+
+	private void createControls() {
+		companyNameLabel.setText(Accounter.constants().companyName());
+		// companyLegalNameLabel.setText(Accounter.constants().legalName());
+		// legalNmaeCheckBox
+		// .setText(Accounter.constants().getDifferentLegalName());
+		// legalNmaeCheckBox.addClickHandler(new ClickHandler() {
+		//
+		// @Override
+		// public void onClick(ClickEvent event) {
+		// comapnyLegalNameHeaderPanel.setVisible(legalNmaeCheckBox
+		// .getValue());
+		// }
+		// });
+	}
+
+	private void initData() {
+		companyNameTextBox.setText(company.getDisplayName());
+		// comapnyLegalNameTextBox.setText(company.getDisplayName());
 	}
 
 	@Override
 	public void onSave() {
-		// TODO Auto-generated method stub
-
+		company.setName(companyNameTextBox.getValue());
+		// company.setTradingName(comapnyLegalNameTextBox.getValue());
 	}
 
 	@Override
 	public String getTitle() {
-		// TODO Auto-generated method stub
-		return null;
+		return Accounter.constants().name();
 	}
 
 	@Override
 	public String getAnchor() {
-		// TODO Auto-generated method stub
-		return null;
+		return Accounter.constants().name();
 	}
 
 }

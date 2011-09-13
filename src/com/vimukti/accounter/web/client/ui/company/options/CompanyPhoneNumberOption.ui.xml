@@ -7,11 +7,10 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:HTMLPanel>
-		<!-- Add GWT widgets here. Enter < and hit Ctrl-Space to auto-complete 
-			widget names. The ui:field attribute binds an element to a field in the owner 
-			class. See the GWT docs on UI Binder for more details. -->
-		Hello,
-		<g:Button styleName="{style.important}" ui:field="button" />
-	</g:HTMLPanel>
+	<g:VerticalPanel spacing="8" styleName="companyInfoPanel">
+		<g:HorizontalPanel spacing="10">
+			<g:Label ui:field="companyPhoneNumberLabel" styleName="header"/>
+			<g:TextBox visibleLength="35" ui:field="companyPhoneNumberTextBox"/>
+		</g:HorizontalPanel>
+	</g:VerticalPanel>
 </ui:UiBinder> 
