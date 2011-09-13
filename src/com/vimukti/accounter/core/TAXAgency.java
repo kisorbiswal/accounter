@@ -54,8 +54,6 @@ public class TAXAgency extends Payee {
 	int VATReturn;
 	int taxType;
 
-	
-
 	public int getTaxType() {
 		return taxType;
 	}
@@ -157,9 +155,11 @@ public class TAXAgency extends Payee {
 		} else if (transactionCategory == Transaction.CATEGORY_VENDOR) {
 			account = this.purchaseLiabilityAccount;
 		}
-		account.updateCurrentBalance(transaction, amount);
-		session.update(account);
-		account.onUpdate(session);
+		if (account != null) {
+			account.updateCurrentBalance(transaction, amount);
+			session.update(account);
+			account.onUpdate(session);
+		}
 
 		FinanceLogger.log(
 				"VATAgency account has been updated with amount: {0}",
