@@ -286,6 +286,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		if (this instanceof InvoiceListView) {
 			vlayTop.add(addNewLabel);
 			vlayTop.add(hlayTop);
+			addNewLabel.setWidth((getAddNewLabelString().length() * 6) + "px");
 		} else {
 			hlayTop.add(addNewLabel);
 			if (getAddNewLabelString().length() != 0) {
