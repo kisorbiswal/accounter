@@ -637,8 +637,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			resetFromView();
 
 		this.add(mainVLay);
+		
+		settabIndexes();
 
 	}
+
 
 	private ShippingTermsCombo createShippingTermsCombo() {
 
@@ -1787,4 +1790,18 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	protected void refreshTransactionGrid() {
 
 	}
+	private void settabIndexes() {
+		customerCombo.setTabIndex(1);
+		contactCombo.setTabIndex(2);
+		billToTextArea.setTabIndex(3);
+		shipToCombo.setTabIndex(4);
+		shipToAddress.setTabIndex(5);
+		transactionDateItem.setTabIndex(6);
+		transactionNumber.setTabIndex(7);
+		payTermsSelect.setTabIndex(8);
+		dueDateItem.setTabIndex(9);
+		orderNumText.setTabIndex(10);
+		memoTextAreaItem.setTabIndex(11);
+	}
 }
+
