@@ -6,8 +6,8 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel spacing="8">
-		<g:VerticalPanel styleName="companyInfoPanel">
+	<g:VerticalPanel spacing="8" styleName="companyInfoPanel">
+		<g:VerticalPanel>
 			<g:Label styleName="header" ui:field="ageingLabel" />
 			<g:VerticalPanel>
 				<g:RadioButton name="ageingGroup" ui:field="ageingforduedateRadioButton" />
@@ -15,10 +15,10 @@
 					ui:field="ageingfortransactiondateRadioButton" checked="true" />
 			</g:VerticalPanel>
 		</g:VerticalPanel>
-	<!-- <g:VerticalPanel styleName="companyInfoPanel"> <g:Label ui:field="sellingsLabel" 
-		styleName="header" /> <g:VerticalPanel> <g:RadioButton name="sellingsGroup" 
-		ui:field="servicesRadioButton" /> <g:RadioButton name="sellingsGroup" ui:field="productsRadioButton" 
-		/> <g:RadioButton name="sellingsGroup" ui:field="bothRadioButton" checked="true" 
-		/> </g:VerticalPanel> </g:VerticalPanel> -->
+		<!-- <g:VerticalPanel styleName="companyInfoPanel"> <g:Label ui:field="sellingsLabel" 
+			styleName="header" /> <g:VerticalPanel> <g:RadioButton name="sellingsGroup" 
+			ui:field="servicesRadioButton" /> <g:RadioButton name="sellingsGroup" ui:field="productsRadioButton" 
+			/> <g:RadioButton name="sellingsGroup" ui:field="bothRadioButton" checked="true" 
+			/> </g:VerticalPanel> </g:VerticalPanel> -->
 	</g:VerticalPanel>
 </ui:UiBinder> 

@@ -8,8 +8,7 @@
 		}
 	</ui:style>
 	<g:VerticalPanel spacing="8" styleName="companyInfoPanel">
-		<g:VerticalPanel styleName="companyInfoPanel"
-			ui:field="salesTaXPanel">
+		<g:VerticalPanel ui:field="salesTaXPanel">
 			<g:Label ui:field="chargeTaxLabelItem" styleName="header" />
 			<g:HorizontalPanel>
 				<g:RadioButton name="chargeTaxRadioButton" ui:field="chargeTaxYesRadioButton" />
