@@ -92,7 +92,8 @@ public class GeneralSettingsView extends AbstractBaseView {
 		conversationPanel.add(conversionHTML);
 		conversationPanel.add(conversationCommentHTML);
 		conversationPanel.setVisible(false);
-		conversationImage = new Image("images/conversion-Balances.png");
+		conversationImage = new Image(Accounter.getFinanceImages()
+				.conversionBalances());// "images/conversion-Balances.png");
 		conversationImage.setStyleName("general-image");
 		conversationImage.addClickHandler(new ClickHandler() {
 
@@ -130,7 +131,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 		invoiceBrandingPanel.add(invoiceBrandingHTML);
 		invoiceBrandingPanel.add(invoiceCommentHtml);
-		invoiceImage = new Image("images/invoice-general.png");
+		invoiceImage = new Image(Accounter.getFinanceImages().invoiceGeneral());
 		invoiceImage.setStyleName("general-image");
 		invoiceImage.addClickHandler(new ClickHandler() {
 
@@ -172,7 +173,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 		userPanel.add(userHtml);
 		userPanel.add(userCommentHtml);
-		usersImage = new Image("images/users-general.png");
+		usersImage = new Image(Accounter.getFinanceImages().usersGeneral());
 		usersImage.setStyleName("general-image");
 		usersImage.addClickHandler(new ClickHandler() {
 
@@ -210,7 +211,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 		});
 
 		companyPanel = new VerticalPanel();
-		companyImage = new Image("images/companySettings.png");
+		companyImage = new Image(Accounter.getFinanceImages().companySettings());
 		companyImage.setStyleName("general-image");
 		companyImage.addClickHandler(new ClickHandler() {
 
