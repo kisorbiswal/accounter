@@ -4810,4 +4810,6 @@ public interface AccounterConstants extends Constants {
 
 	public String managingBillsTitle();
 
+	public String accounterTerminologies();
+
 }
