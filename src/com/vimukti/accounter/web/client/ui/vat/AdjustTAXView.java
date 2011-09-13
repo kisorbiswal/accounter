@@ -259,8 +259,10 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		this.add(mainPanel);
 		listforms.add(memoForm);
 		listforms.add(topform);
+		settabIndexes();
 
 	}
+
 
 	private void initEntryNumber() {
 
@@ -467,5 +469,15 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 			setData(new ClientTAXAdjustment());
 		}
 		super.initData();
+	}
+	private void settabIndexes() {
+		taxAgencyCombo.setTabIndex(1);
+		vatItemCombo.setTabIndex(2);
+		adjustAccountCombo.setTabIndex(3);
+		amount.setTabIndex(4);
+		memo.setTabIndex(5);
+		adjustDate.setTabIndex(6);
+		entryNo.setTabIndex(7);
+		
 	}
 }

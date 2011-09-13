@@ -237,7 +237,19 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 						.getTotalBalance() : 0D;
 
 		calculateEndingBalance();
+		settabIndexes();
 
+	}
+
+	private void settabIndexes() {
+
+		payFromAccCombo.setTabIndex(1);
+		paymentMethodCombo.setTabIndex(2);
+		billsDue.setTabIndex(3);
+		transactionDateItem.setTabIndex(4);
+		transNumber.setTabIndex(5);
+		amountText.setTabIndex(6);
+		endingBalanceText.setTabIndex(7);
 	}
 
 	protected void filterGrid() {

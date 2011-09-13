@@ -247,6 +247,7 @@ public class ReceiveVATView extends
 						selectedDepositInAccount.getTotalBalance(), 0) ? selectedDepositInAccount
 						.getTotalBalance() : 0D;
 		calculateEndingBalance();
+		settabIndexes();
 
 	}
 
@@ -709,5 +710,17 @@ public class ReceiveVATView extends
 		this.depositInAccCombo.setFocus();
 
 	}
+
+	private void settabIndexes() {
+		depositInAccCombo.setTabIndex(1);
+		paymentMethodCombo.setTabIndex(2); 
+		billsDue.setTabIndex(3);
+		transactionDateItem.setTabIndex(4);
+		transNumber.setTabIndex(5);
+		amountText.setTabIndex(6);
+		endingBalanceText.setTabIndex(7);
+		
+	}
+
 
 }
