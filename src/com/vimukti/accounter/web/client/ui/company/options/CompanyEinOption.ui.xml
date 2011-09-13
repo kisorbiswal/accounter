@@ -8,9 +8,9 @@
 		}
 	</ui:style>
 	<g:VerticalPanel spacing="5" styleName="companyInfoPanel">
-		<g:HorizontalPanel>
-			<g:Label ui:field="EINLabel" />
-			<g:TextBox  ui:field="EINTextBox" />
+		<g:HorizontalPanel spacing="5">
+			<g:Label ui:field="EINLabel" styleName="header" />
+			<g:TextBox ui:field="EINTextBox" visibleLength="35" />
 		</g:HorizontalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 
