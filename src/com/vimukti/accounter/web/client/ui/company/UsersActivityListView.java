@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.DateField;
@@ -29,10 +30,9 @@ public class UsersActivityListView extends BaseView {
 	private Label titleItem;
 	private DateField fromdate, toDate;
 	private VerticalPanel mainPanel;
-	private HorizontalPanel dateButtonPanel;
 	private DynamicForm dateForm, buttonForm;
 	private UsersActivityList activityList;
-	private Button updateButton, customizeButton;
+	private Button updateButton;
 
 	@Override
 	public void init() {
@@ -43,14 +43,15 @@ public class UsersActivityListView extends BaseView {
 	private void createControls() {
 		mainPanel = new VerticalPanel();
 		mainPanel.setWidth("100%");
-		titleItem = new Label("User's Activity Log");
+		titleItem = new Label(Accounter.constants().usersActivityLogTitle());
+		titleItem.setStyleName(Accounter.constants().labelTitle());
 
-		fromdate = new DateField("From Date");
-		toDate = new DateField("End Date");
+		fromdate = new DateField(Accounter.constants().fromDate());
+		toDate = new DateField(Accounter.constants().endDate());
 		fromdate.setEnteredDate(new ClientFinanceDate());
 		toDate.setEnteredDate(new ClientFinanceDate());
 
-		updateButton = new Button("Update");
+		updateButton = new Button(Accounter.constants().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override

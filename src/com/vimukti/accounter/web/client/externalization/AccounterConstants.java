@@ -4780,4 +4780,28 @@ public interface AccounterConstants extends Constants {
 	
 	public String cashOrAccural();
 
+	public String stockItemIncomeAccount();
+
+	public String stockItemExpenseAccount();
+
+	public String usersActivityLogTitle();
+
+	public String modifiedTime();
+
+	public String userName();
+
+	public String loggedIn();
+
+	public String loggedOut();
+
+	public String added();
+
+	public String edited();
+
+	public String deleted();
+
+	public String activity();
+
+	public String fromDate();
+
 }

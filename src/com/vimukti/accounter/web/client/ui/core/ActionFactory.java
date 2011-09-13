@@ -168,6 +168,7 @@ import com.vimukti.accounter.web.client.ui.settings.InviteUserAction;
 import com.vimukti.accounter.web.client.ui.settings.InvoiceBrandingAction;
 import com.vimukti.accounter.web.client.ui.settings.MeasurementAction;
 import com.vimukti.accounter.web.client.ui.settings.NewBrandThemeAction;
+import com.vimukti.accounter.web.client.ui.settings.StockSettingsAction;
 import com.vimukti.accounter.web.client.ui.settings.UsersAction;
 import com.vimukti.accounter.web.client.ui.settings.WareHouseTransferAction;
 import com.vimukti.accounter.web.client.ui.settings.WareHouseViewAction;
@@ -1367,6 +1368,10 @@ public class ActionFactory {
 	public static MISC1099TransactionDetailAction getMisc1099TransactionDetailAction() {
 		return new MISC1099TransactionDetailAction(Accounter.messages()
 				.MISC1099TransactionDetailByVendor(Global.get().Vendor()));
+	}
+
+	public static StockSettingsAction getStockSettingsAction() {
+		return new StockSettingsAction("Stock Settings");
 	}
 
 	public static BudgetReportAction getBudgetReportsAction(int i) {

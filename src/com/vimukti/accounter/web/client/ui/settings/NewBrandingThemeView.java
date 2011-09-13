@@ -158,6 +158,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 		VerticalPanel panel = new VerticalPanel();
 		HTML titleHtml = new HTML("New Branding Theme");
+		titleHtml.setStyleName(Accounter.constants().labelTitle());
 
 		mainLayoutPanel = new HorizontalPanel();
 		check_radioPanel = new HorizontalPanel();

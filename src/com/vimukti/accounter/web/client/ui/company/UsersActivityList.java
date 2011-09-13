@@ -135,28 +135,28 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 				return String.valueOf(object.getAmount());
 			}
 		};
-		this.addColumn(dateColumn, "Modified");
-		this.addColumn(userNameColumn, "User Name");
-		this.addColumn(activity, "Activity");
+		this.addColumn(dateColumn, Accounter.constants().modifiedTime());
+		this.addColumn(userNameColumn, Accounter.constants().userName());
+		this.addColumn(activity, Accounter.constants().activity());
 		// this.addColumn(idColumn, "ID");
-		this.addColumn(nameColumn, "Name");
-		this.addColumn(transactionDateColumn, "Date");
-		this.addColumn(amountColumn, "Amount");
+		this.addColumn(nameColumn, Accounter.constants().name());
+		this.addColumn(transactionDateColumn, Accounter.constants().date());
+		this.addColumn(amountColumn, Accounter.constants().amount());
 
 	}
 
 	protected String getActivityType(int activityType) {
 		switch (activityType) {
 		case 0:
-			return "Logged in";
+			return Accounter.constants().loggedIn();
 		case 1:
-			return "Logged Out";
+			return Accounter.constants().loggedOut();
 		case 2:
-			return "Added ";
+			return Accounter.constants().added();
 		case 3:
-			return "Edited ";
+			return Accounter.constants().edited();
 		case 4:
-			return "Deleted ";
+			return Accounter.constants().deleted();
 		default:
 			break;
 		}

@@ -115,6 +115,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 	private CustomMenuBar getSettingsMenu() {
 		CustomMenuBar settingsMenuBar = new CustomMenuBar();
 		settingsMenuBar.addItem(ActionFactory.getGeneralSettingsAction());
+		// settingsMenuBar.addItem(ActionFactory.getStockSettingsAction());
 		// settingsMenuBar.addItem(ActionFactory.getMeasurementsAction());
 		// settingsMenuBar.addItem(ActionFactory.getInventoryItemsAction());
 		// settingsMenuBar.addItem(ActionFactory.getChartOfAccountsAction());
