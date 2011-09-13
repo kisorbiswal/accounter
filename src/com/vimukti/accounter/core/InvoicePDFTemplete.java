@@ -87,6 +87,9 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			// TODO For setting the Contact Details
 			String contactDetails = forNullValue(brandingTheme
 					.getContactDetails());
+			if (contactDetails.equalsIgnoreCase("(None Added)")) {
+				contactDetails = "";
+			}
 			t.setVariable("companyDetails", contactDetails);
 
 			// setting invoice number
@@ -293,11 +296,20 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			t.setVariable("dueDate", invoice.getDueDate().toString());
 			t.addBlock("dueDateDetails");
 
-			t.setVariable("termsAndPaymentAdvice",
-					brandingTheme.getTerms_And_Payment_Advice());
-			t.addBlock("termsAndAdvice");
+			String termsNCondn = forNullValue(brandingTheme
+					.getTerms_And_Payment_Advice());
+			if (termsNCondn.equalsIgnoreCase("(None Added)")) {
+				termsNCondn = "";
+			}
+			if (termsNCondn.trim().length() > 0) {
+				t.setVariable("termsAndPaymentAdvice", termsNCondn);
+				t.addBlock("termsAndAdvice");
+			}
 
 			String email = forNullValue(brandingTheme.getPayPalEmailID());
+			if (email.equalsIgnoreCase("(None Added)")) {
+				email = "";
+			}
 			if (email.trim().length() > 0) {
 				t.setVariable("email", email);
 				t.addBlock("paypalemail");
