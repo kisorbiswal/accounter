@@ -342,6 +342,8 @@ public class CashPurchaseView extends
 			resetFormView();
 
 		initViewType();
+		
+		settabIndexes();
 	}
 
 	@Override
@@ -781,4 +783,20 @@ public class CashPurchaseView extends
 	protected void refreshTransactionGrid() {
 		// vendorTransactionTable.refreshAllRecords();
 	}
+	private void settabIndexes() {
+		vendorCombo.setTabIndex(1);
+		contactCombo.setTabIndex(2);
+		phoneSelect.setTabIndex(3);
+		billToAreaItem.setTabIndex(4);
+		transactionDateItem.setTabIndex(5);
+		transactionNumber.setTabIndex(6);
+		paymentMethodCombo.setTabIndex(7);
+		payFromCombo.setTabIndex(8);
+		checkNo.setTabIndex(9);
+		deliveryDateItem.setTabIndex(10);
+		memoTextAreaItem.setTabIndex(11);
+		 
+		
+	}
+
 }

@@ -583,13 +583,15 @@ public class VendorCreditMemoView extends
 	protected void refreshTransactionGrid() {
 		// vendorTransactionTable.refreshAllRecords();
 	}
-
+	
 	private void settabIndexes() {
 		vendorCombo.setTabIndex(1);
 		contactCombo.setTabIndex(2);
 		phoneSelect.setTabIndex(3);
 		transactionDateItem.setTabIndex(4);
 		transactionNumber.setTabIndex(5);
+		memoTextAreaItem.setTabIndex(6);
+		
 	}
 
 }
