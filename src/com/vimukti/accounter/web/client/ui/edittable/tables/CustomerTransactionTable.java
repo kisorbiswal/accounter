@@ -108,7 +108,7 @@ public abstract class CustomerTransactionTable extends
 
 					@Override
 					public boolean filter(ClientItem e) {
-						return e.isIBuyThisItem();
+						return e.isISellThisItem();
 					}
 				};
 			}
@@ -131,15 +131,16 @@ public abstract class CustomerTransactionTable extends
 
 		this.addColumn(new TransactionTotalColumn());
 
-		if (getCompany().getPreferences().isChargeSalesTax()) {
+		// if (getCompany().getPreferences().isChargeSalesTax()) {
 
-			if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 
-				this.addColumn(new TransactionVatCodeColumn());
-			}
+			this.addColumn(new TransactionVatCodeColumn());
 
 			this.addColumn(new TransactionVatColumn());
 		}
+
+		// }
 
 		this.addColumn(new DeleteColumn<ClientTransactionItem>());
 	}

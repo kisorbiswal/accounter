@@ -111,7 +111,7 @@ public abstract class VendorTransactionTable extends
 
 					@Override
 					public boolean filter(ClientItem e) {
-						return e.isISellThisItem();
+						return e.isIBuyThisItem();
 					}
 				};
 			}

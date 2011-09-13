@@ -139,9 +139,11 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 			preferences.setSellProducts(true);
 		}
 
-		preferences.setRegisteredForVAT(vatYes.getValue());
+		if (Accounter.getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_US)
+			preferences.setRegisteredForVAT(vatYes.getValue());
 
-		preferences.setChargeSalesTax(salesTaxYes.getValue());
+		if (Accounter.getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK)
+			preferences.setChargeSalesTax(salesTaxYes.getValue());
 
 	}
 

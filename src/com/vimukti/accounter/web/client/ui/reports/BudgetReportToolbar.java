@@ -18,8 +18,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 
-public class BudgetReportToolbar extends ReportToolbar implements
-		AsyncCallback<ArrayList<ClientBudget>> {
+public class BudgetReportToolbar extends ReportToolbar {
 
 	private int TOOLBAR_TYPE_CUSTOM = 1;
 	private int TOOLBAR_TYPE_MONTH = 2;
@@ -43,7 +42,7 @@ public class BudgetReportToolbar extends ReportToolbar implements
 
 	public BudgetReportToolbar(int i) {
 		budgetToolbarType = i;
-		Accounter.createHomeService().getBudgetList(this);
+		createControls();
 	}
 
 	public void changeDates(ClientFinanceDate startDate,
@@ -225,13 +224,6 @@ public class BudgetReportToolbar extends ReportToolbar implements
 
 	}
 
-	@Override
-	public void onFailure(Throwable caught) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void onSuccess(ArrayList<ClientBudget> result) {
 
 		for (ClientBudget budget : result) {
