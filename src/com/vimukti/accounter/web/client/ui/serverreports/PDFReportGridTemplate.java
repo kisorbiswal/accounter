@@ -139,9 +139,15 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 			this.body = this.body + string + " ";
 		}
 
-		this.body = this.body + "ReportGridcustomFont 'title='" + cellValue
-				+ "'align='left' width='" + cellWidth + "'>" + cellValue
-				+ "</td>";
+		if (columnType == COLUMN_TYPE_AMOUNT) {
+			this.body = this.body + "ReportGridcustomFont 'title='" + cellValue
+					+ "'align='right' width='" + cellWidth + "'>" + cellValue
+					+ "</td>";
+		} else {
+			this.body = this.body + "ReportGridcustomFont 'title='" + cellValue
+					+ "'align='left' width='" + cellWidth + "'>" + cellValue
+					+ "</td>";
+		}
 	}
 
 	@Override
