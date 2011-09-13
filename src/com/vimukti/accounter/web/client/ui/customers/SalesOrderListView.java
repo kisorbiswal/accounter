@@ -52,8 +52,10 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		// return FinanceApplication.constants().newSalesOrder();
-		return "";
+		if (Accounter.getUser().canDoInvoiceTransactions())
+			return Accounter.constants().newSalesOrder();
+		else
+			return "";
 	}
 
 	@Override
@@ -205,7 +207,6 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 			grid.setWidth("100%");
 		}
 	}
-
 
 	@Override
 	public void onEdit() {

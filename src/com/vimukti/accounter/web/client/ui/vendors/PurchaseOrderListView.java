@@ -45,8 +45,10 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		// return FinanceApplication.constants().newPurchaseOrder();
-		return "";
+		if (Accounter.getUser().canDoInvoiceTransactions())
+			return Accounter.constants().newPurchaseOrder();
+		else
+			return "";
 	}
 
 	@Override
@@ -131,7 +133,7 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 		listOfTypes.add(COMPLETED);
 		listOfTypes.add(CANCELLED);
 		viewSelect.initCombo(listOfTypes);
-		
+
 		if (UIUtils.isMSIEBrowser())
 			viewSelect.setWidth("120px");
 		viewSelect.setComboItem(OPEN);
@@ -144,7 +146,6 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 							grid.setViewType(viewSelect.getSelectedValue()
 									.toString());
 							filterList(viewSelect.getSelectedValue().toString());
-							
 
 						}
 
@@ -204,7 +205,6 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 						.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
 			}
 	}
-
 
 	@Override
 	public void onEdit() {
