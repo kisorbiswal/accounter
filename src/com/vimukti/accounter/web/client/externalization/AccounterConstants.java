@@ -4804,4 +4804,6 @@ public interface AccounterConstants extends Constants {
 
 	public String fromDate();
 
+	public String vendorAndPurchases();
+
 }
