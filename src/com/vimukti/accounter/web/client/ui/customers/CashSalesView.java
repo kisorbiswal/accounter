@@ -345,8 +345,11 @@ public class CashSalesView extends
 		listforms.add(termsForm);
 		listforms.add(prodAndServiceForm1);
 		listforms.add(prodAndServiceForm2);
+		
+		settabIndexes();
 
 	}
+
 
 	private ShippingTermsCombo createShippingTermsCombo() {
 
@@ -941,5 +944,18 @@ public class CashSalesView extends
 	@Override
 	public List<ClientTransactionItem> getAllTransactionItems() {
 		return customerTransactionTable.getAllRows();
+	}
+	
+private void settabIndexes() {
+	customerCombo.setTabIndex(1);
+	contactCombo.setTabIndex(2);
+	phoneSelect.setTabIndex(3);
+	billToTextArea.setTabIndex(4);
+	transactionDateItem.setTabIndex(5);
+	transactionNumber.setTabIndex(6);
+	paymentMethodCombo.setTabIndex(7);
+	depositInCombo.setTabIndex(8);
+	memoTextAreaItem.setTabIndex(9);
+		
 	}
 }
