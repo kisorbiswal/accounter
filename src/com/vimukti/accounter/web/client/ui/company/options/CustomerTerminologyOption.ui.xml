@@ -7,13 +7,13 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel>
-		<g:VerticalPanel spacing="7">
-			<g:HorizontalPanel spacing="7" horizontalAlignment="ALIGN_RIGHT">
-				<g:Label ui:field="terminologyforCustomerLabel" />
+	<g:VerticalPanel styleName="companyInfoPanel">
+		<g:VerticalPanel spacing="6" height="145">
+			<g:HorizontalPanel spacing="6" horizontalAlignment="ALIGN_RIGHT">
+				<g:Label ui:field="terminologyforCustomerLabel" styleName="header" />
 			</g:HorizontalPanel>
-			<g:VerticalPanel horizontalAlignment="ALIGN_RIGHT"
-				spacing="7">
+			<g:VerticalPanel horizontalAlignment="ALIGN_LEFT"
+				spacing="6" height="116">
 				<g:HorizontalPanel>
 					<g:RadioButton name="new name" ui:field="clientsRadioButton" />
 				</g:HorizontalPanel>

@@ -7,10 +7,17 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel spacing="5" >
-		<g:VerticalPanel spacing="5">
-			<g:CheckBox ui:field="productsAndservicesforSalesCheckBox"/>
-			<g:CheckBox ui:field="productsAndservicesforPurchasesCheckBox"/>
+	<g:VerticalPanel spacing="5" styleName="companyInfoPanel">
+		<g:Label ui:field="headerLabel" styleName="header" />
+		<g:VerticalPanel ui:field="viewPanel">
+			<g:VerticalPanel ui:field="sell" styleName="sell_panel">
+				<g:RadioButton name="sell_type" ui:field="servicesOnly" />
+				<g:Label ui:field="servicesOnlyText" styleName="organisation_comment" />
+				<g:RadioButton name="sell_type" ui:field="productsOnly" />
+				<g:Label ui:field="productsOnlyText" styleName="organisation_comment" />
+				<g:RadioButton name="sell_type" ui:field="both" />
+				<g:Label ui:field="bothText" styleName="organisation_comment" />
+			</g:VerticalPanel>
 		</g:VerticalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 

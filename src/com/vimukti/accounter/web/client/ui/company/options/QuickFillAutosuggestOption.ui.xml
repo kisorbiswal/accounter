@@ -7,7 +7,7 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel spacing="5" >
-		<g:CheckBox ui:field="quickFillAutosuggestCheckBox"/>
+	<g:VerticalPanel spacing="5" styleName="companyInfoPanel">
+		<g:CheckBox ui:field="quickFillAutosuggestCheckBox" />
 	</g:VerticalPanel>
 </ui:UiBinder> 

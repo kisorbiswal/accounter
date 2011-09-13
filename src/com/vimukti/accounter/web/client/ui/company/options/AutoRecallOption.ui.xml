@@ -7,7 +7,7 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel >
-		<g:CheckBox ui:field="enableAutoRecallCheckBox"/>
+	<g:VerticalPanel styleName="companyInfoPanel">
+		<g:CheckBox ui:field="enableAutoRecallCheckBox" />
 	</g:VerticalPanel>
 </ui:UiBinder> 

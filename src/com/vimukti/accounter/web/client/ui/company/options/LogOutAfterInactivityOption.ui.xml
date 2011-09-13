@@ -7,7 +7,7 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel >
-		<g:ListBox ui:field="signoutAfterInactivity"/>
+	<g:VerticalPanel styleName="companyInfoPanel">
+		<g:ListBox ui:field="signoutAfterInactivity" />
 	</g:VerticalPanel>
 </ui:UiBinder> 
