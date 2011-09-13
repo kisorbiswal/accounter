@@ -419,7 +419,6 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		super.fitToSize(height, width);
 	}
 
-
 	@Override
 	public void onEdit() {
 		setMode(EditMode.EDIT);
@@ -456,6 +455,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		// can save file vat or not
 
 		if (this.selectedVatAgency == null && this.isInViewMode()) {
+			taxAgencyCombo.addStyleName("highlightedFormItem");
 			result.addError(selectedVatAgency, Accounter.constants()
 					.pleaseSelectValidVATAgency());
 		} else {
@@ -464,8 +464,16 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 			// AccounterValidator.validate_FileVat(this);
 		}
 		if (!canSaveFileVat) {
+			taxAgencyCombo.addStyleName("highlightedFormItem");
+			fromDate.addStyleName("highlightedFormItem");
+			toDate.addStyleName("highlightedFormItem");
 			result.addError(this, Accounter.constants()
 					.fileVATcantsavewithemptyvalues());
+		}
+		List<ClientBox> records = gridView.getRecords();
+		if (records.isEmpty()) {
+			result.addError(this, Accounter.constants()
+					.pleaseselectvaliddateranges());
 		}
 		return result;
 	}
