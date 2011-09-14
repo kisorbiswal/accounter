@@ -12,7 +12,7 @@
 			<g:Label ui:field="locationTrackingCheckBoxLabel"/>
 		</g:HorizontalPanel>
 		<g:VerticalPanel spacing="5" ui:field="radioButtonsPanel" horizontalAlignment="ALIGN_CENTER">
-			<g:HorizontalPanel horizontalAlignment="ALIGN_RIGHT" spacing="6">
+			<g:HorizontalPanel >
 			<g:Label ui:field="radioButtonsHeaderLabel" styleName="header"/>
 		</g:HorizontalPanel>
 			<g:VerticalPanel spacing="6" ui:field="radioButtonPanel">
