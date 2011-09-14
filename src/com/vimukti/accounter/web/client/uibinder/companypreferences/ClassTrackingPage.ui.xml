@@ -6,13 +6,13 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel spacing="6">
-		<g:VerticalPanel spacing="6" styleName="fullSizePanel">
-			<g:HorizontalPanel spacing="4" styleName="companyInfoPanel">
+	<g:VerticalPanel spacing="6" styleName="companyInfoPanel">
+		<g:VerticalPanel spacing="6" styleName="fullSizePanel" width="440">
+			<g:HorizontalPanel spacing="4" width="430" >
 				<g:CheckBox ui:field="classTrackingCheckBox" />
 				<g:Label ui:field="classTrackingCheckBoxLabel" />
 			</g:HorizontalPanel>
-			<g:VerticalPanel spacing="6" ui:field="hiddenPanel"  styleName="companyInfoPanel">
+			<g:VerticalPanel spacing="6" ui:field="hiddenPanel" width="430" >
 				<g:HorizontalPanel spacing="6">
 					<g:CheckBox ui:field="classWarningCheckBox" />
 					<g:Label ui:field="classWarningCheckBoxLabel"
