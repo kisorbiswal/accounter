@@ -55,6 +55,7 @@
 	<servlet-mapping>
 		<servlet-name>webLogin</servlet-name>
 		<url-pattern>/main/login</url-pattern>
+		<url-pattern>/login</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
