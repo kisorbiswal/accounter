@@ -64,7 +64,7 @@ public class ReconciliationsListAction extends Action {
 
 	@Override
 	public String getHelpToken() {
-		return "RecounciliationsList";
+		return "recounciliations-list";
 	}
 
 }

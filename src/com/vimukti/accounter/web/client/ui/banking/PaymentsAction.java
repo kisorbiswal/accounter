@@ -64,6 +64,6 @@ public class PaymentsAction extends Action {
 
 	@Override
 	public String getHelpToken() {
-		return "payment-action";
+		return "payments";
 	}
 }

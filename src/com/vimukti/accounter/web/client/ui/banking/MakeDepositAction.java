@@ -74,6 +74,6 @@ public class MakeDepositAction extends Action {
 
 	@Override
 	public String getHelpToken() {
-		return "makedeposit";
+		return "deposite_transfer-funds";
 	}
 }
