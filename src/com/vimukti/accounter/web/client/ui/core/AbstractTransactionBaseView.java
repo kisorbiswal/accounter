@@ -929,7 +929,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		if (transaction != null)
 			if (this.transaction.getTotal() <= 0) {
 				if (transaction instanceof ClientPayBill) {
-					result.addError(this, Accounter.constants().nullAmount());
+					result.addError(
+							this,
+							Accounter.messages().valueCannotBe0orlessthan0(
+									Accounter.constants().amount()));
 				} else {
 					if (!(this instanceof CustomerRefundView)
 							&& !(this instanceof WriteChequeView))
@@ -941,8 +944,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				&& getPreferences().isClassOnePerTransaction()
 				&& getPreferences().isWarnOnEmptyClass()
 				&& this.transaction.getAccounterClass() == null) {
-			result.addWarning(classListCombo,
-					AccounterWarningType.EMPTY_CLASS);
+			result.addWarning(classListCombo, AccounterWarningType.EMPTY_CLASS);
 		}
 
 		if (transactionItems != null) {
