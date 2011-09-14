@@ -1064,9 +1064,6 @@ iframe,.address div {
 	.gwt-MenuBar-horizontal .gwt-MenuItem{
 	   height:18px !important;
 	}
-	.downarrow-button{
-	   margin-left:-24px !important;
-	}
 	input[disabled], input[disabled="disabled"]{
 	   color:black !important;
 	}
@@ -1328,7 +1325,7 @@ input[type="text"],textarea {
 	width:47px\0 !important;
 }
 .ReportGrid .gridHeaderRow td:FIRST-CHILD,.ReportGrid .gridEvenRow td:FIRST-CHILD{
-	width:inherit !important;
+	/*width:inherit !important;*/
 }
 .main-finance-window,#loading .loadingIndicator,.panel-right-align .gwt-Button button,.td00,.td01,.td02,.td10,.td11,.td12,.td20,.td21,.td22 {
     margin: 0;
