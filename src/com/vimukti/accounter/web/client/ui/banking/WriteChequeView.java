@@ -113,7 +113,6 @@ public class WriteChequeView extends
 	private CustomerTransactionTable transactionCustomerTable;
 	private VendorTransactionTable transactionVendorTable;
 
-
 	private WriteChequeView() {
 		super(ClientTransaction.TYPE_WRITE_CHECK);
 		this.company = getCompany();
@@ -1042,6 +1041,8 @@ public class WriteChequeView extends
 
 		vPanel = new VerticalPanel();
 		vPanel.setWidth("100%");
+		vPanel.add(createAddNewButton());
+		menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 
 		HorizontalPanel bottomPanel = new HorizontalPanel();
 		bottomPanel.setWidth("100%");
@@ -1054,8 +1055,6 @@ public class WriteChequeView extends
 		bottomPanel.setCellHorizontalAlignment(memoForm, ALIGN_LEFT);
 		vPanel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
-		mainVLay.add(createAddNewButton());
-		menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(vPanel);
 
 		this.setWidth("100%");
