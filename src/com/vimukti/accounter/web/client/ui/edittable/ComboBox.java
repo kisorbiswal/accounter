@@ -39,6 +39,7 @@ public class ComboBox<T, C> extends FlowPanel implements RowSelectHandler<C> {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				if(textBox.isEnabled())
 				showPopup();
 			}
 		}, ClickEvent.getType());
