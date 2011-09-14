@@ -474,7 +474,7 @@ li {
 	margin-right: -21px;
 }
 
-.abt-jbg,.home-jbg,.sup-jbg,.fea-jbg {
+.header-hover {
 	color: #3299a4 !important;
 	/*float: left;
 	margin-left: 13px;
@@ -692,7 +692,7 @@ ul li a {
 	color: #3299A4;
 }
 
-ul li a:HOVER {
+ul li a:HOVER,ul li a:FOCUS {
 	color: #3299a4 !important;
 }
 
