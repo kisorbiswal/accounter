@@ -11,6 +11,15 @@
 <script src="/jscripts/jquery-1.6.2.js" type="text/javascript"></script>
 <script type="text/javascript" src="/jscripts/stepcarousel.js"></script>
 <script type="text/javascript">
+jQuery.noConflict();
+jQuery(document).ready(function() {
+	jQuery('#blog-bg').click(function(event){
+		event.preventDefault();
+		jQuery('.menu-bar').find('a').removeClass("header-hover");
+		jQuery(this).addClass("header-hover");
+		window.open("http://blog.accounterlive.com/","_blank");
+	});
+});
 			stepcarousel.setup({
 				galleryid: 'mygallery', //id of carousel DIV
 				beltclass: 'belt', //class of inner "belt" DIV containing all the panel DIVs
@@ -21,11 +30,44 @@
 				statusvars: ['statusA', 'statusB', 'statusC'], //register 3 variables that contain current panel (start), current panel (last), and total panels
 				contenttype: ['inline'] //content setting ['inline'] or ['ajax', 'path_to_external_file']
 				})
-			</script>
+</script>	
 </head>
 	<body>
 		<div class ="body-container">
-		<%@ include file="./header.jsp" %>
+			<div class ="main_body-container">
+			<div class ="header" id="top">
+			
+			<div class="menu-table">
+			   <div class="acc_logo_image">
+			       <div class="logo-image">
+					  <a href="/"><img src="/images/Accounter_logo_title.png"></a>
+				   </div>
+			   </div>
+			   <div class="menu-bar-login">
+			      <div class="menu-bar">
+				<ul>
+					 <li>
+					    <a href="/site/home" id="home-bg" class="header-hover">Home</a>
+					 </li> 
+					 <li>
+					    <a href="/site/features" id="fea-bg">Features</a>
+					 </li> 
+					 <li>
+						<a href="/site/support" id="sup-bg">Support</a>
+					</li>
+					 <li>
+					    <a id="blog-bg">Blog</a>
+					 </li>
+			  </ul>
+				</div>
+				<div class="remaining-header-part-login">
+					<ul>
+					   <li><a href="/main/login" id="login-id">Login</a></li>
+					</ul>
+				</div>
+			   </div>
+			</div>
+			</div>
 			<div class="middle-part">
 				<div class="upper-part" id="cen">
 				<div class="left-middle">
@@ -115,5 +157,6 @@
 		
 			var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
 		</script>
+		</div>
 	</body>
 </html>
