@@ -376,7 +376,13 @@ public class FinanceTool {
 				Company company = getCompany();
 				company.addUser(user);
 			}
+			String userID = context.getUserEmail();
+			User inviteduser = (User) session.getNamedQuery("user.by.emailid")
+					.setParameter("emailID", userID).uniqueResult();
+			Activity inviteuserActivity = new Activity(inviteduser,
+					ActivityType.ADD, user);
 
+			session.save(inviteuserActivity);
 			transaction.commit();
 			ClientUser clientObject = new ClientConvertUtil().toClientObject(
 					user, ClientUser.class);
@@ -710,7 +716,8 @@ public class FinanceTool {
 			String userID = context.getUserEmail();
 			User user1 = getCompany().getUserByUserEmail(userID);
 
-			Activity activity = new Activity(user1, ActivityType.UPDATE_PREFERENCE, cmp);
+			Activity activity = new Activity(user1,
+					ActivityType.UPDATE_PREFERENCE, cmp);
 			session.save(activity);
 			HibernateUtil.getCurrentSession().update(cmp);
 			transaction.commit();

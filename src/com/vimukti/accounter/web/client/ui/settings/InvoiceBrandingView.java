@@ -314,8 +314,7 @@ public class InvoiceBrandingView<T> extends
 		showPanel.add(radioButtonHtml);
 
 		// adding contact details.....
-		String contactDetails = theme.getContactDetails().isEmpty() ? messages
-				.notAdded() : theme.getContactDetails();
+		String contactDetails = theme.getContactDetails();
 
 		contactDetailsHtml = new HTML("<p><b>" + messages.contactDetailsLabel()
 				+ "</b><br>" + contactDetails + "</p>");

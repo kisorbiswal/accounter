@@ -25,6 +25,8 @@ public enum ActivityType {
 			return EDIT;
 		case 4:
 			return DELETE;
+		case 5:
+			return UPDATE_PREFERENCE;
 		}
 		return null;
 	}
