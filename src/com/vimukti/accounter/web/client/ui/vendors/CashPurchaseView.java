@@ -225,6 +225,11 @@ public class CashPurchaseView extends
 			protected ClientVendor getSelectedVendor() {
 				return CashPurchaseView.this.getVendor();
 			}
+			
+			@Override
+			public boolean isShowPriceWithVat() {
+				return CashPurchaseView.this.isShowPriceWithVat();
+			}
 		};
 		vendorTransactionTable.setDisabled(isInViewMode());
 		memoTextAreaItem = createMemoTextAreaItem();

@@ -510,6 +510,11 @@ public class CreditCardChargeView extends
 			protected ClientVendor getSelectedVendor() {
 				return CreditCardChargeView.this.getSelectedVendor();
 			}
+			
+			@Override
+			public boolean isShowPriceWithVat() {
+				return CreditCardChargeView.this.isShowPriceWithVat();
+			}
 		};
 		vendorTransactionTable.setDisabled(isInViewMode());
 

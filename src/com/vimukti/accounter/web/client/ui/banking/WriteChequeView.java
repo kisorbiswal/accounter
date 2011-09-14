@@ -974,6 +974,11 @@ public class WriteChequeView extends
 					protected ClientVendor getSelectedVendor() {
 						return WriteChequeView.this.selectedVendor;
 					}
+					
+					@Override
+					public boolean isShowPriceWithVat() {
+						return WriteChequeView.this.isShowPriceWithVat();
+					}
 				};
 				transactionVendorTable.setWidth("100%");
 				mainVLay.add(topHLay);
@@ -1018,6 +1023,11 @@ public class WriteChequeView extends
 				@Override
 				protected ClientVendor getSelectedVendor() {
 					return WriteChequeView.this.selectedVendor;
+				}
+				
+				@Override
+				public boolean isShowPriceWithVat() {
+					return WriteChequeView.this.isShowPriceWithVat();
 				}
 			};
 			transactionVendorTable.setWidth("100%");

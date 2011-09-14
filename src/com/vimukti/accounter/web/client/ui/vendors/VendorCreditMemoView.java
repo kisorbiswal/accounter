@@ -211,6 +211,11 @@ public class VendorCreditMemoView extends
 			protected ClientVendor getSelectedVendor() {
 				return VendorCreditMemoView.this.getVendor();
 			}
+			
+			@Override
+			public boolean isShowPriceWithVat() {
+				return VendorCreditMemoView.this.isShowPriceWithVat();
+			}
 		};
 		vendorTransactionTable.setDisabled(isInViewMode());
 		vendorTransactionTable.getElement().getStyle()

@@ -6,7 +6,6 @@ import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientItem;
-import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -156,8 +155,8 @@ public abstract class VendorTransactionTable extends
 
 	@Override
 	public void update(ClientTransactionItem row) {
-		updateTotals();
 		super.update(row);
+		updateTotals();
 	}
 
 	private ClientCompany getCompany() {
@@ -208,16 +207,18 @@ public abstract class VendorTransactionTable extends
 			Double lineTotalAmt = rec.getLineTotal();
 			totallinetotal += lineTotalAmt;
 
-			ClientItem item = getCompany().getItem(rec.getItem());
-			if (item != null && item.isTaxable()) {
-				ClientTAXItem taxItem = getCompany().getTAXItem(
-						rec.getTaxCode());
-				if (taxItem != null) {
-					totalVat += taxItem.getTaxRate() / 100 * lineTotalAmt;
-				}
+			// ClientItem item = getCompany().getItem(rec.getItem());
+			if (rec != null && rec.isTaxable()) {
+				// ClientTAXItem taxItem = getCompany().getTAXItem(
+				// rec.getTaxCode());
+				// if (taxItem != null) {
+				// totalVat += taxItem.getTaxRate() / 100 * lineTotalAmt;
+				// }
 				taxableTotal += lineTotalAmt;
 			}
+			rec.setVATfraction(getVATAmount(rec.getTaxCode(), rec));
 			totalVat += rec.getVATfraction();
+			super.update(rec);
 		}
 		// if (isPurchseOrderTransaction) {
 		// this.addFooterValue(amountAsString(totallinetotal), 7);
@@ -338,5 +339,41 @@ public abstract class VendorTransactionTable extends
 	public void setAllTransactionItems(
 			List<ClientTransactionItem> transactionItems) {
 		setAllRows(transactionItems);
+	}
+
+	public double getVATAmount(long TAXCodeID, ClientTransactionItem record) {
+
+		double vatRate = 0.0;
+		try {
+			if (TAXCodeID != 0) {
+				// Checking the selected object is VATItem or VATGroup.
+				// If it is VATItem,the we should get 'VATRate',otherwise
+				// 'GroupRate
+				vatRate = UIUtils.getVATItemRate(Accounter.getCompany()
+						.getTAXCode(TAXCodeID), false);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		Double vat = 0.0;
+		if (isShowPriceWithVat()) {
+			// TODO raj
+			vat = ((ClientTransactionItem) record).getLineTotal()
+					- (100 * (((ClientTransactionItem) record).getLineTotal() / (100 + vatRate)));
+		} else {
+			vat = ((ClientTransactionItem) record).getLineTotal() * vatRate
+					/ 100;
+		}
+		vat = UIUtils.getRoundValue(vat);
+		return vat.doubleValue();
+	}
+
+	public abstract boolean isShowPriceWithVat();
+	
+	@Override
+	public void delete(ClientTransactionItem row) {
+		super.delete(row);
+		updateTotals();
 	}
 }

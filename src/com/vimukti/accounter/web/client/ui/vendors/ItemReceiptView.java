@@ -179,6 +179,11 @@ public class ItemReceiptView extends
 			protected ClientVendor getSelectedVendor() {
 				return ItemReceiptView.this.getVendor();
 			}
+			
+			@Override
+			public boolean isShowPriceWithVat() {
+				return ItemReceiptView.this.isShowPriceWithVat();
+			}
 		};
 		vendorTransactionTable.setDisabled(isInViewMode());
 

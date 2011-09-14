@@ -492,6 +492,11 @@ public class VendorBillView extends
 			protected ClientVendor getSelectedVendor() {
 				return VendorBillView.this.getVendor();
 			}
+			
+			@Override
+			public boolean isShowPriceWithVat() {
+				return VendorBillView.this.isShowPriceWithVat();
+			}
 		};
 		vendorTransactionTable.setDisabled(isInViewMode());
 		vendorTransactionTable.getElement().getStyle()

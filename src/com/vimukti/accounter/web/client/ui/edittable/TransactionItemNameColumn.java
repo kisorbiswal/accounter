@@ -83,5 +83,6 @@ public abstract class TransactionItemNameColumn extends
 
 	public void setItemForCustomer(boolean isForCustomer) {
 		itemsList.setForCustomer(isForCustomer);
+		serviceItemsList.setForCustomer(isForCustomer);
 	}
 }

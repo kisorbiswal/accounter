@@ -393,6 +393,11 @@ public class PurchaseOrderView extends
 			protected ClientVendor getSelectedVendor() {
 				return PurchaseOrderView.this.getVendor();
 			}
+			
+			@Override
+			public boolean isShowPriceWithVat() {
+				return PurchaseOrderView.this.isShowPriceWithVat();
+			}
 		};
 		vendorTransactionTable.setDisabled(isInViewMode());
 		vendorTransactionTable.setHeight("250px");

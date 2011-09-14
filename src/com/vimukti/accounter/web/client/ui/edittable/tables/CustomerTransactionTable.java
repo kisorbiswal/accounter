@@ -256,15 +256,16 @@ public abstract class CustomerTransactionTable extends
 			totallinetotal += lineTotalAmt;
 
 			if (citem != null && citem.isTaxable()) {
-				ClientTAXItem taxItem = getCompany().getTAXItem(
-						citem.getTaxCode());
-				if (taxItem != null) {
-					totalVat += taxItem.getTaxRate() / 100 * lineTotalAmt;
-				}
+				// ClientTAXItem taxItem = getCompany().getTAXItem(
+				// citem.getTaxCode());
+				// if (taxItem != null) {
+				// totalVat += taxItem.getTaxRate() / 100 * lineTotalAmt;
+				// }
 				taxableTotal += lineTotalAmt;
 			}
 			
 			record.setVATfraction(getVATAmount(citem.getTaxCode(), record));
+			totalVat += record.getVATfraction();
 			super.update(citem);
 		//	totalVat += citem.getVATfraction();
 		}
@@ -441,5 +442,11 @@ public abstract class CustomerTransactionTable extends
 			}
 		}
 		return result;
+	}
+	
+	@Override
+	public void delete(ClientTransactionItem row) {
+		super.delete(row);
+		updateTotals();
 	}
 }
