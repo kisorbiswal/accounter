@@ -86,9 +86,9 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 		}
 
 		if (companyPreferences.isRegisteredForVAT()) {
-			vatYesRadioButton.setValue(true);
+			vatYesRadioButton.setValue(companyPreferences.isRegisteredForVAT());
 		} else {
-			vatNoRadioButton.setValue(true);
+			vatNoRadioButton.setValue(companyPreferences.isRegisteredForVAT());
 		}
 
 		// if (companyPreferences.isDoyouwantEstimates()) {
