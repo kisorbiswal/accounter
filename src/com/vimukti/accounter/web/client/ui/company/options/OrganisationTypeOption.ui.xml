@@ -11,7 +11,7 @@
 		<g:VerticalPanel ui:field="radioButtonsMainPanel"
 			spacing="6" horizontalAlignment="ALIGN_LEFT" styleName="companyInfoPanel">
 			<g:HorizontalPanel ui:field="headerLabelPanel"
-				spacing="6" horizontalAlignment="ALIGN_RIGHT">
+				spacing="6" >
 				<g:Label ui:field="radioButtonHeaderLabel" styleName="header" />
 			</g:HorizontalPanel>
 			<g:VerticalPanel ui:field="viewPanel" spacing="1">
