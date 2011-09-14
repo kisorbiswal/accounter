@@ -1550,7 +1550,7 @@ body, table td, select,.gwt-Button,textarea,input,label{
 .contentSelected_LastChild{
 	border-radius:0 0 8px 8px !important;
 }
-.stackPanelLink A{
+.stackPanelLink{
 	color: #2D8B93 !important;
 }	
 .company_stackpanel_view{
@@ -1673,4 +1673,7 @@ input[type="text"]{
   .viewholder{
     border:1px solid #3299A4;
   }
+}
+.pre_scroll_table div table {
+	width:100%;
 }
