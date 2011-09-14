@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
@@ -20,94 +19,88 @@ import com.vimukti.accounter.web.client.ui.CoreUtils;
 public class CompanyAddressOption extends AbstractPreferenceOption {
 
 	@UiField
-	Label registeredAddress;
+	Label tradingAddressTitle;
 
 	@UiField
-	Label address1Label;
+	Label tAddress1Label;
 
 	@UiField
-	TextBox address1TextBox;
+	TextBox tAddress1TextBox;
 
 	@UiField
-	Label address2Label;
+	Label tAddress2Label;
 
 	@UiField
-	TextBox address2TextBox;
+	TextBox tAddress2TextBox;
 
 	@UiField
-	Label cityLabel;
+	Label tCityLabel;
 
 	@UiField
-	TextBox cityTextBox;
+	TextBox tCityTextBox;
 
 	@UiField
-	Label postalCodeLabel;
+	Label tPostalCodeLabel;
 
 	@UiField
-	TextBox postalCodeTextBox;
+	TextBox tPostalCodeTextBox;
 
 	@UiField
-	Label countryLabel;
+	Label tCountryLabel;
 
 	@UiField
-	ListBox countryCombo;
+	ListBox tCountryCombo;
 
 	@UiField
-	Label stateLabel;
+	Label tStateLabel;
 
 	@UiField
-	ListBox stateCombo;
+	ListBox tStateCombo;
 
 	@UiField
-	Label customerHeaderLabel;
+	Label registeredAddressTitle;
 
 	@UiField
-	Label customerAddress1Label;
+	Label rAddress1Label;
 
 	@UiField
-	TextBox customerAddress1TextBox;
+	TextBox rAddress1TextBox;
 
 	@UiField
-	Label customerAddress2Label;
+	Label rAddress2Label;
 
 	@UiField
-	TextBox customerAddress2TextBox;
+	TextBox rAddress2TextBox;
 
 	@UiField
-	Label customerCityLabel;
+	Label rCityLabel;
 
 	@UiField
-	TextBox customerCityTextBox;
+	TextBox rCityTextBox;
 
 	@UiField
-	Label customerPostalCodeLabel;
+	Label rPostalCodeLabel;
 
 	@UiField
-	TextBox customerPostalCodeTextbox;
+	TextBox rPostalCodeTextbox;
 
 	@UiField
-	Label customerCountryComboLabel;
+	Label rCountryComboLabel;
 
 	@UiField
-	ListBox custmerComboBox;
+	ListBox rCountryCombo;
 
 	@UiField
-	Label customerStateComboLabel;
+	Label rStateComboLabel;
 
 	@UiField
-	ListBox customerStateComboBox;
+	ListBox rStateCombo;
 
-//	@UiField
-//	CheckBox companyLegalCheckBox;
+	// @UiField
+	// CheckBox companyLegalCheckBox;
 
 	@UiField
 	VerticalPanel companyCustomerPanel;
-
-	ArrayList<String> countriesList;
-
-	private List<String> states;
-
-	private ClientAddress address;
 
 	private static CompanyAddressOptionUiBinder uiBinder = GWT
 			.create(CompanyAddressOptionUiBinder.class);
@@ -123,161 +116,132 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 	}
 
 	private void initData() {
-		address1TextBox.setValue(company.getTradingAddress().getAddress1());
-		address2TextBox.setValue(company.getTradingAddress().getStreet());
-		cityTextBox.setValue(company.getTradingAddress().getCity());
-		stateCombo.setSelectedIndex(states.indexOf(company.getTradingAddress()
-				.getStateOrProvinence()));
-		postalCodeTextBox.setValue(company.getTradingAddress()
-				.getZipOrPostalCode());
-		countryCombo.setSelectedIndex(countriesList.indexOf(company
-				.getTradingAddress().getCountryOrRegion()));
-		address = company.getRegisteredAddress();
-		if (address != null) {
-			this.customerAddress1TextBox.setValue(address.getAddress1());
-			this.customerAddress2TextBox.setValue(address.getStreet());
-			this.customerCityTextBox.setValue(address.getCity());
-			this.customerPostalCodeTextbox.setValue(address
-					.getZipOrPostalCode());
-			if (address.getStateOrProvinence() != ""
-					&& address.getStateOrProvinence() != null
-					&& address.getStateOrProvinence().length() != 0) {
-				this.customerStateComboBox.setSelectedIndex(states
-						.indexOf(address.getStateOrProvinence()));
-			}
-			if (address.getCountryOrRegion() != ""
-					&& address.getCountryOrRegion() != null
-					&& address.getStateOrProvinence().length() != 0) {
-				this.custmerComboBox.setSelectedIndex(countriesList
-						.indexOf(address.getCountryOrRegion()));
-			}
-		} else {
-			this.customerAddress1TextBox.setValue(company.getTradingAddress()
-					.getAddress1());
-			this.customerAddress2TextBox.setValue(company.getTradingAddress()
-					.getStreet());
-			this.customerCityTextBox.setValue(company.getTradingAddress()
-					.getCity());
-			this.customerPostalCodeTextbox.setValue(company.getTradingAddress()
-					.getZipOrPostalCode());
-			if (address.getStateOrProvinence() != ""
-					&& address.getStateOrProvinence() != null
-					&& address.getStateOrProvinence().length() != 0) {
-				this.customerStateComboBox.setSelectedIndex(states
-						.indexOf(company.getTradingAddress()
-								.getStateOrProvinence()));
-			}
-			if (address.getCountryOrRegion() != ""
-					&& address.getCountryOrRegion() != null
-					&& address.getStateOrProvinence().length() != 0) {
-				this.custmerComboBox.setSelectedIndex(countriesList
-						.indexOf(company.getTradingAddress()
-								.getCountryOrRegion()));
-			}
+		ClientAddress tradingAddress = company.getTradingAddress();
+		if (tradingAddress != null) {
+			tAddress1TextBox.setValue(tradingAddress.getAddress1());
+			tAddress2TextBox.setValue(tradingAddress.getStreet());
+			tCityTextBox.setValue(tradingAddress.getCity());
+			tPostalCodeTextBox.setValue(tradingAddress.getZipOrPostalCode());
 		}
+		ClientAddress registeredAddress = company.getRegisteredAddress();
+		if (registeredAddress == null) {
+			registeredAddress = tradingAddress;
+		}
+		if (registeredAddress == null) {
+			return;
+		}
+		this.rAddress1TextBox.setValue(registeredAddress.getAddress1());
+		this.rAddress2TextBox.setValue(registeredAddress.getStreet());
+		this.rCityTextBox.setValue(registeredAddress.getCity());
+		this.rPostalCodeTextbox
+				.setValue(registeredAddress.getZipOrPostalCode());
 
 	}
 
 	private void createControls() {
-		registeredAddress.setText(constants.tradingAddress());
-		address1Label.setText(Accounter.constants().address1());
-		address2Label.setText(Accounter.constants().address2());
-		cityLabel.setText(Accounter.constants().city());
-		stateLabel.setText(Accounter.constants().state());
-		postalCodeLabel.setText(Accounter.constants().postalCode());
-		countryLabel.setText(Accounter.constants().country());
-		countriesList = new ArrayList<String>();
-		countriesList.addAll(CoreUtils.getCountriesAsList());
-		for (int i = 0; i < countriesList.size(); i++) {
-			countryCombo.addItem(countriesList.get(i));
-		}
+		List<String> countriesList = CoreUtils.getCountriesAsList();
 
-		countryCombo.addChangeHandler(new ChangeHandler() {
+		tradingAddressTitle.setText(constants.tradingAddress());
+		tAddress1Label.setText(constants.address1());
+		tAddress2Label.setText(constants.address2());
+		tCityLabel.setText(constants.city());
+		tStateLabel.setText(constants.state());
+		tPostalCodeLabel.setText(constants.postalCode());
+		tCountryLabel.setText(constants.country());
+
+		registeredAddressTitle.setText(constants.registeredAddress());
+		rAddress1Label.setText(constants.address1());
+		rAddress2Label.setText(constants.address2());
+		rCityLabel.setText(constants.city());
+		rStateComboLabel.setText(constants.state());
+		rPostalCodeLabel.setText(constants.postalCode());
+		rCountryComboLabel.setText(constants.country());
+
+		for (int i = 0; i < countriesList.size(); i++) {
+			tCountryCombo.addItem(countriesList.get(i));
+			rCountryCombo.addItem(countriesList.get(i));
+		}
+		if (company.getTradingAddress() != null
+				&& company.getTradingAddress().getCountryOrRegion() != null) {
+			tCountryCombo.setSelectedIndex(countriesList.indexOf(company
+					.getTradingAddress().getCountryOrRegion()));
+		}
+		ClientAddress addr = company.getRegisteredAddress();
+		if (addr == null) {
+			addr = company.getTradingAddress();
+		}
+		if (addr != null && addr.getCountryOrRegion() != null) {
+			rCountryCombo.setSelectedIndex(countriesList.indexOf(company
+					.getTradingAddress().getCountryOrRegion()));
+		}
+		tCountryCombo.addChangeHandler(new ChangeHandler() {
 
 			@Override
 			public void onChange(ChangeEvent event) {
-				if (stateCombo.getItemCount() != 0) {
-					for (int i = 0; i < stateCombo.getItemCount(); i++) {
-						stateCombo.removeItem(i);
-					}
-				}
-				countryChanged1(countryCombo, stateCombo);
+				tCountryChanged();
 			}
 		});
-		countryChanged1(countryCombo, stateCombo);
-//		companyLegalCheckBox.setText(Accounter.constants()
-//				.getCompanyLegalCheckBoxText());
-//		companyLegalCheckBox.addClickHandler(new ClickHandler() {
-//
-//			@Override
-//			public void onClick(ClickEvent event) {
-//				companyCustomerPanel.setVisible(companyLegalCheckBox.getValue());
-//			}
-//		});
-		customerHeaderLabel.setText(constants.registeredAddress());
-		customerAddress1Label.setText(Accounter.constants().address1());
-		customerAddress2Label.setText(Accounter.constants().address2());
-		customerCityLabel.setText(Accounter.constants().city());
-		customerStateComboLabel.setText(Accounter.constants().state());
-		customerPostalCodeLabel.setText(Accounter.constants().postalCode());
-		customerCountryComboLabel.setText(Accounter.constants().country());
-		for (int i = 0; i < countriesList.size(); i++) {
-			custmerComboBox.addItem(countriesList.get(i));
-		}
-
-		custmerComboBox.addChangeHandler(new ChangeHandler() {
+		tCountryChanged();
+		rCountryCombo.addChangeHandler(new ChangeHandler() {
 
 			@Override
 			public void onChange(ChangeEvent event) {
-				if (customerStateComboBox.getItemCount() != 0) {
-					for (int i = 0; i < customerStateComboBox.getItemCount(); i++) {
-						customerStateComboBox.removeItem(i);
-					}
-				}
-				countryChanged(custmerComboBox, customerStateComboBox);
+				rCountryChanged();
 			}
 		});
-		countryChanged(custmerComboBox, customerStateComboBox);
+		rCountryChanged();
+
+		// companyLegalCheckBox.setText(Accounter.constants()
+		// .getCompanyLegalCheckBoxText());
+		// companyLegalCheckBox.addClickHandler(new ClickHandler() {
+		//
+		// @Override
+		// public void onClick(ClickEvent event) {
+		// companyCustomerPanel.setVisible(companyLegalCheckBox.getValue());
+		// }
+		// });
 
 	}
 
-	private void countryChanged1(ListBox countryCombo2, ListBox stateCombo2) {
-		int selectedCountry = countryCombo2.getSelectedIndex();
+	private void rCountryChanged() {
+		int selectedCountry = rCountryCombo.getSelectedIndex();
 		if (selectedCountry < 0) {
 			return;
 		}
-		List<String> states = CoreUtils.getStatesAsListForCountry(countryCombo2
-				.getItemText(selectedCountry));
-		setStates1(states, stateCombo2);
-
-	}
-
-	private void setStates1(List<String> states2, ListBox stateCombo1) {
-		this.states = states2;
-		stateCombo1.clear();
-		for (int i = 0; i < states.size(); i++) {
-			stateCombo1.addItem(states.get(i));
+		String countryName = rCountryCombo.getItemText(selectedCountry);
+		List<String> states = CoreUtils.getStatesAsListForCountry(countryName);
+		rStateCombo.clear();
+		for (String state : states) {
+			rStateCombo.addItem(state);
+		}
+		ClientAddress address = company.getRegisteredAddress();
+		if (address != null && address.getStateOrProvinence() != null) {
+			if (states.contains(address.getStateOrProvinence())) {
+				rStateCombo.setSelectedIndex(states.indexOf(address
+						.getStateOrProvinence()));
+			}
 		}
 	}
 
-	private void countryChanged(ListBox countryCombo2, ListBox stateCombo2) {
-		int selectedCountry = countryCombo2.getSelectedIndex();
+	private void tCountryChanged() {
+		int selectedCountry = tCountryCombo.getSelectedIndex();
 		if (selectedCountry < 0) {
 			return;
 		}
-		List<String> states = CoreUtils.getStatesAsListForCountry(countryCombo2
-				.getItemText(selectedCountry));
-		setStates(states, stateCombo2);
-
-	}
-
-	private void setStates(List<String> states2, ListBox stateCombo1) {
-		this.states = states2;
-		stateCombo1.clear();
-		for (int i = 0; i < states.size(); i++) {
-			stateCombo1.addItem(states.get(i));
+		String countryName = tCountryCombo.getItemText(selectedCountry);
+		List<String> states = CoreUtils.getStatesAsListForCountry(countryName);
+		tStateCombo.clear();
+		for (String state : states) {
+			tStateCombo.addItem(state);
 		}
-
+		ClientAddress tradingAddress = companyPreferences.getTradingAddress();
+		if (tradingAddress != null
+				&& tradingAddress.getStateOrProvinence() != null) {
+			if (states.contains(tradingAddress.getStateOrProvinence())) {
+				tStateCombo.setSelectedIndex(states.indexOf(tradingAddress
+						.getStateOrProvinence()));
+			}
+		}
 	}
 
 	public CompanyAddressOption(String firstName) {
@@ -291,37 +255,41 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 
 	@Override
 	public void onSave() {
-		company.getTradingAddress().setAddress1(address1TextBox.getValue());
-		company.getTradingAddress().setStreet(address2TextBox.getValue());
-		company.getTradingAddress().setCity(cityTextBox.getValue());
-		if (stateCombo.getSelectedIndex() > 0)
-			company.getTradingAddress().setStateOrProvinence(
-					states.get(stateCombo.getSelectedIndex()));
-		company.getTradingAddress().setZipOrPostalCode(
-				postalCodeTextBox.getValue());
-		if (countryCombo.getSelectedIndex() > 0)
-			company.getTradingAddress().setCountryOrRegion(
-					countriesList.get(countryCombo.getSelectedIndex()));
-		address = company.getRegisteredAddress();
-		if (address != null) {
-			this.customerAddress1TextBox.setValue(address.getAddress1());
-			this.customerAddress2TextBox.setValue(address.getStreet());
-			this.customerCityTextBox.setValue(address.getCity());
-			this.customerPostalCodeTextbox.setValue(address
-					.getZipOrPostalCode());
-			if (address.getStateOrProvinence() != ""
-					&& address.getStateOrProvinence() != null
-					&& address.getStateOrProvinence().length() != 0) {
-				this.customerStateComboBox.setSelectedIndex(states
-						.indexOf(address.getStateOrProvinence()));
-			}
-			if (address.getCountryOrRegion() != ""
-					&& address.getCountryOrRegion() != null
-					&& address.getStateOrProvinence().length() != 0) {
-				this.custmerComboBox.setSelectedIndex(countriesList
-						.indexOf(address.getCountryOrRegion()));
-			}
+		ClientAddress tAddress = company.getPreferences().getTradingAddress();
+		if (tAddress == null) {
+			tAddress = new ClientAddress();
 		}
+		tAddress.setAddress1(tAddress1TextBox.getValue());
+		tAddress.setStreet(tAddress2TextBox.getValue());
+		tAddress.setCity(tCityTextBox.getValue());
+		if (tStateCombo.getSelectedIndex() > 0) {
+			tAddress.setStateOrProvinence(tStateCombo.getItemText(tStateCombo
+					.getSelectedIndex()));
+		}
+		tAddress.setZipOrPostalCode(tPostalCodeTextBox.getValue());
+		if (tCountryCombo.getSelectedIndex() > 0) {
+			tAddress.setCountryOrRegion(tCountryCombo.getItemText(tCountryCombo
+					.getSelectedIndex()));
+		}
+		ClientAddress rAddress = company.getRegisteredAddress();
+		if (rAddress == null) {
+			rAddress = new ClientAddress();
+		}
+		rAddress.setAddress1(rAddress1TextBox.getValue());
+		rAddress.setStreet(rAddress2TextBox.getValue());
+		rAddress.setCity(rCityTextBox.getValue());
+		rAddress.setZipOrPostalCode(rPostalCodeTextbox.getValue());
+
+		this.rPostalCodeTextbox.setValue(rAddress.getZipOrPostalCode());
+		if (rStateCombo.getSelectedIndex() > 0) {
+			rAddress.setStateOrProvinence(rStateCombo.getItemText(rStateCombo
+					.getSelectedIndex()));
+		}
+		if (rCountryCombo.getSelectedIndex() > 0) {
+			rAddress.setCountryOrRegion(rCountryCombo.getItemText(rCountryCombo
+					.getSelectedIndex()));
+		}
+		company.setRegisteredAddress(rAddress);
 
 	}
 

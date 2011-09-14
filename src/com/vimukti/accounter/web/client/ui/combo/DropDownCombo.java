@@ -179,8 +179,9 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
-				showPopup();
-
+				if (!isDisabled) {
+					showPopup();
+				}
 			}
 		};
 		addClickHandler(clickHandler);

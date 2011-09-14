@@ -142,13 +142,15 @@ public class CustomComboItem extends FormItem {
 	}
 
 	@Override
-	public void setDisabled(boolean b) {
-		if (b)
+	public void setDisabled(boolean value) {
+		super.setDisabled(value);
+		if (value) {
 			this.textBox.addStyleName("disable-TextField");
-		else
+		} else {
 			this.textBox.removeStyleName("disable-TextField");
-		this.textBox.setEnabled(!b);
-		this.downarrowpanel.getElement().getStyle().setOpacity(b ? 0.6 : 1);
+		}
+		this.textBox.setEnabled(!value);
+		this.downarrowpanel.getElement().getStyle().setOpacity(value ? 0.6 : 1);
 
 	}
 
@@ -159,6 +161,7 @@ public class CustomComboItem extends FormItem {
 	public void removeStyleName(String style) {
 		textBox.removeStyleName(style);
 	}
+
 	public void setTabIndex(int index) {
 		textBox.setTabIndex(index);
 	}
