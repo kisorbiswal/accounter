@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.edittable;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -39,8 +41,8 @@ public class ComboBox<T, C> extends FlowPanel implements RowSelectHandler<C> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if(textBox.isEnabled())
-				showPopup();
+				if (textBox.isEnabled())
+					showPopup();
 			}
 		}, ClickEvent.getType());
 		this.add(downarrowpanel);
@@ -107,6 +109,13 @@ public class ComboBox<T, C> extends FlowPanel implements RowSelectHandler<C> {
 					showPopup();
 					dropDown.updateSelection(textBox.getText().toLowerCase());
 				}
+			}
+		});
+		textBox.addBlurHandler(new BlurHandler() {
+
+			@Override
+			public void onBlur(BlurEvent event) {
+				popupPanel.hide();
 			}
 		});
 		popupPanel = new PopupPanel(true, false);
