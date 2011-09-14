@@ -378,16 +378,6 @@ public class ItemView extends BaseView<ClientItem> {
 				.isellthisproduct());
 		isellCheck.setDisabled(isInViewMode());
 
-		if (isGeneratedFromCustomer) {
-			isellCheck.setValue(isGeneratedFromCustomer);
-			// isellCheck.setDisabled(!isGeneratedFromCustomer);
-
-			disablePurchaseFormItems(isGeneratedFromCustomer);
-		} else {
-			isellCheck.setDisabled(isGeneratedFromCustomer);
-			disableSalesFormItems(isGeneratedFromCustomer);
-		}
-
 		isellCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
@@ -414,6 +404,17 @@ public class ItemView extends BaseView<ClientItem> {
 			}
 
 		});
+
+		if (isGeneratedFromCustomer) {
+			isellCheck.setValue(isGeneratedFromCustomer);
+			// isellCheck.setDisabled(!isGeneratedFromCustomer);
+
+			disablePurchaseFormItems(isGeneratedFromCustomer);
+		} else {
+			isellCheck.setDisabled(isGeneratedFromCustomer);
+			ibuyCheck.setValue(!isGeneratedFromCustomer);
+			disableSalesFormItems(isGeneratedFromCustomer);
+		}
 
 		if (getCompany().getPreferences().isRegisteredForVAT())
 			salesInfoForm.setFields(isellCheck, salesDescArea, salesPriceText,
