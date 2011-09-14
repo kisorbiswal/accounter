@@ -23,7 +23,7 @@ import com.vimukti.accounter.web.client.ui.setup.OrganizationTypeConstants;
  * @author vimukti36
  * 
  */
-public class TaxFormOption extends AbstractPreferenceOption {
+public class OrganisationTypeOption extends AbstractPreferenceOption {
 
 	private static TaxFormOptionUiBinder uiBinder = GWT
 			.create(TaxFormOptionUiBinder.class);
@@ -68,7 +68,7 @@ public class TaxFormOption extends AbstractPreferenceOption {
 	@UiField
 	HTML organizationLink;
 
-	interface TaxFormOptionUiBinder extends UiBinder<Widget, TaxFormOption> {
+	interface TaxFormOptionUiBinder extends UiBinder<Widget, OrganisationTypeOption> {
 	}
 
 	/**
@@ -80,7 +80,7 @@ public class TaxFormOption extends AbstractPreferenceOption {
 	 * depending on the widget that is used, it may be necessary to implement
 	 * HasHTML instead of HasText.
 	 */
-	public TaxFormOption() {
+	public OrganisationTypeOption() {
 		initWidget(uiBinder.createAndBindUi(this));
 		createControls();
 		initData();
@@ -200,7 +200,7 @@ public class TaxFormOption extends AbstractPreferenceOption {
 		}
 	}
 
-	public TaxFormOption(String firstName) {
+	public OrganisationTypeOption(String firstName) {
 		initWidget(uiBinder.createAndBindUi(this));
 
 	}

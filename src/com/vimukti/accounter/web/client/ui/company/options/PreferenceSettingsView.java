@@ -134,7 +134,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 				.constants().company());
 		// CustomerTerminologyOption terminologyOption = new
 		// CustomerTerminologyOption();
-		TaxFormOption formOption = new TaxFormOption();
+		OrganisationTypeOption formOption = new OrganisationTypeOption();
 		// AccountNumbersOption numbersOption = new AccountNumbersOption();
 		CompanyEinOption einOption = new CompanyEinOption();
 		CompanyFiscalYearOption fiscalYearOption = new CompanyFiscalYearOption();
