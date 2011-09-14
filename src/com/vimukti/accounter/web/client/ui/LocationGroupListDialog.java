@@ -8,7 +8,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
-import com.vimukti.accounter.web.client.ui.customers.AddnewLocationDialog;
+import com.vimukti.accounter.web.client.ui.customers.NewLocationDialog;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.GridRecordClickHandler;
 
 public class LocationGroupListDialog extends GroupDialog<ClientLocation> {
@@ -17,7 +17,7 @@ public class LocationGroupListDialog extends GroupDialog<ClientLocation> {
 	private GroupDialogButtonsHandler dialogButtonsHandler;
 	AccounterConstants accounterConstants = Accounter.constants();
 	List<ClientLocation> clientLocationGroups;
-	private AddnewLocationDialog locationGroupDg;
+	private NewLocationDialog locationGroupDg;
 
 	public LocationGroupListDialog(String title, String descript) {
 		super(title, descript);
@@ -81,7 +81,7 @@ public class LocationGroupListDialog extends GroupDialog<ClientLocation> {
 
 	public void showAddEditGroupDialog(ClientLocation rec) {
 		clientLocation = rec;
-		locationGroupDg = new AddnewLocationDialog(this, Accounter.constants()
+		locationGroupDg = new NewLocationDialog(this, Accounter.constants()
 				.locationGroup(), "", clientLocation);
 		locationGroupDg.show();
 	}
