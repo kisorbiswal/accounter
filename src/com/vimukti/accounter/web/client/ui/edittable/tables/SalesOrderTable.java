@@ -81,7 +81,7 @@ public abstract class SalesOrderTable extends CustomerTransactionTable {
 
 					@Override
 					public boolean filter(ClientItem e) {
-						return e.isIBuyThisItem();
+						return e.isISellThisItem();
 					}
 				};
 			}
