@@ -1026,8 +1026,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setSize("100%", "100%");
 		leftVLay.setHeight("350px");
-		leftVLay.getElement().getStyle()
-				.setBorderColor("none repeat scroll 0 0 #eee !important");
+		// leftVLay.getElement().getStyle()
+		// .setBorderColor("none repeat scroll 0 0 #eee !important");
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setWidth("100%");
 
