@@ -59,8 +59,7 @@ public class Prepare1099MISCAction extends Action {
 
 	@Override
 	public String getHelpToken() {
-		// TODO Auto-generated method stub
-		return null;
+		return "prepare-1099-MISC";
 	}
 
 }

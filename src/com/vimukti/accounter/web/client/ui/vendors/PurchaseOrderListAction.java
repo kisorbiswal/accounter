@@ -70,6 +70,6 @@ public class PurchaseOrderListAction extends Action {
 
 	@Override
 	public String getHelpToken() {
-		return "purchase-order";
+		return "purchase-order-list";
 	}
 }
