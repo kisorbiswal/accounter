@@ -24,13 +24,14 @@ public class ComboBox<T, C> extends FlowPanel implements RowSelectHandler<C> {
 	private ComboChangeHandler<T, C> changeHandler;
 	private AbstractDropDownTable<C> dropDown;
 	private ScrollPanel scrollPanel;
+	private SimplePanel downarrowpanel;
 
 	public ComboBox() {
 		this.addStyleName("comboBox");
 		textBox = new TextBox();
 		textBox.sinkEvents(0);// Check and remove
 		this.add(textBox);
-		SimplePanel downarrowpanel = new SimplePanel();
+		downarrowpanel = new SimplePanel();
 
 		downarrowpanel.addStyleName("downarrow-button");
 
@@ -194,6 +195,11 @@ public class ComboBox<T, C> extends FlowPanel implements RowSelectHandler<C> {
 
 	public void setDesable(boolean desable) {
 		textBox.setEnabled(!desable);
+		if (desable) {
+			downarrowpanel.addStyleName("editTable_disable");
+		} else {
+			downarrowpanel.removeStyleName("editTable_disable");
+		}
 	}
 
 	public T getRow() {
