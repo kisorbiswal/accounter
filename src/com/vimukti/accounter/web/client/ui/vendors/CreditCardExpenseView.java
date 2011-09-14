@@ -453,6 +453,11 @@ public class CreditCardExpenseView extends
 			protected ClientVendor getSelectedVendor() {
 				return CreditCardExpenseView.this.getSelectedVendor();
 			}
+			
+			@Override
+			public boolean isShowPriceWithVat() {
+				return CreditCardExpenseView.this.isShowPriceWithVat();
+			}
 		};
 		vendorTransactionTable.setDisabled(isInViewMode());
 
