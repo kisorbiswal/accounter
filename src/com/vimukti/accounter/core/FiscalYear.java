@@ -47,7 +47,6 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 	 */
 	transient FinanceDate previousStartDate;
 
-
 	transient int previousStatus;
 
 	boolean isDefault;
@@ -408,7 +407,7 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 	}
 
 	private void addOrUpdateFiscalYears(FiscalYear presentFiscalYear) {
-		modifyFiscalYears(presentFiscalYear);
+		// modifyFiscalYears(presentFiscalYear);
 		Session session = HibernateUtil.getCurrentSession();
 		List transactionDates = session
 				.getNamedQuery("get.TransactionDate.from.TransactionbyDate")
