@@ -55,8 +55,10 @@ a,.falseHyperlink,.update-link span,.actionOver,#mainFooter a:hover,.hr-reports 
 	z-index: 1;
 }
 .highlightedFormItem {
-	border: 1px solid #FF0000 !important;
-	border-radius:3px 3px 3px 3px;
+	border: 1px solid #FF0000;
+    border-radius: 3px 3px 3px 3px;
+    overflow: auto;
+    width: 184px !important;
 }
 .gwt-MenuBarPopup {
 	left: 441px;
@@ -365,7 +367,7 @@ select[multiple],.selectedview_textareadata,#loading .loadingIndicator,.main-cla
 	padding: 0 5px;
 }
 .ele-disable,.menuPopupTop,.menuPopupMiddleLeft,.disconnected .gridLabelCell .gwt-HTML img,.listgridfooter,
-.progress_panel_hide,.customize_Accounter_labels a,.expense_question_link a,.view_panel a{
+.progress_panel_hide,.customize_Accounter_labels a,.expense_question_link a,.view_panel a,.editTable_disable{
 	display: none;
 }
 .gwt-DialogBox .caption {
@@ -437,12 +439,15 @@ select[multiple],.selectedview_textareadata,#loading .loadingIndicator,.main-cla
 }
 .datePickerPreviousButton,.datePickerNextButton,td.datePickerMonth,.selectedview_textarea_label,.selectedview_labelstyle,
 .selectedview_tiny_labelstyle,.selectedview_large_labelstyle,.selectedview_medium_labelstyle,.progress_header,.panel-title,
-.organisation_Info,.grouped-buttons td:FIRST-CHILD .image-button,.grouped-buttons td:last-child .image-button,
-.grouped-buttons .image-button,.blue-current-month-other-day,.blue-current-month-week-end,.blue-current-month-selected {
+.organisation_Info,.grouped-buttons td:FIRST-CHILD .image-button,.grouped-buttons .image-button,
+.blue-current-month-other-day,.blue-current-month-week-end,.blue-current-month-selected {
 	color: #000;
 }
 .gwt-PopupPanel {
 	border: 3px solid #D1E8A3;
+}
+.grouped-buttons td:last-child .image-button{
+	color: #000;
 }
 .portlet .gridHeader {
 	border: medium none !important;
@@ -1228,43 +1233,42 @@ input[type="text"],textarea {
 	margin-left:30px !important;
 	margin-top:10px !important;
 }
-.addAccountPortlet:hover,.addButtonPortlet:hover,.account_portlet:hover{
+.addAccountPortlet:hover,.addButtonPortlet:hover,.account_portlet:hover,.gwt-Button:hover{
 	background:none repeat scroll 0 0 #002E36 !important;
 }
 .image-button{
 	background-color: #1A5158;
     background-position: 5px center;
     background-repeat: no-repeat;
-    background-color: #1A5158\0 !important;
     background-position: 5px center\0 !important;
     background-repeat: no-repeat\0 !important;
-    border: 1px solid #002E36\0 !important;
-    color: white\0 !important;
-    
     border: 1px solid #002E36;
-    padding-left: 27px !important;
-    padding:0 5px 0 27px\0 !important;
     border-radius:5px 5px 5px 5px;
 	-webkit-border-radius:5px 5px 5px 5px;
 	-moz-border-radius:5px 5px 5px 5px;
-    padding-bottom: 5px;
+    padding:0 5px 5px 27px !important;
+    padding:0 5px 0 27px\0 !important;
 }
 .accounter-button-seperater,.image-button,#mainFooter{
 	 height: 25px;
 }
-.image-button:hover{
-	background-color:#002E36;
+.image-button:hover,.saveAndClose-Btn:hover{
+	background-color:#002E36 !important;
 }
-.cancle-Btn,.grouped-buttons td:FIRST-CHILD .image-button,.grouped-buttons td:last-child .image-button,.grouped-buttons .image-button{
+.cancle-Btn,.grouped-buttons .image-button{
 	background-color: #E4E4E4 !important;
 }
+.grouped-buttons td:FIRST-CHILD .image-button,.grouped-buttons td:last-child .image-button{
+	background-color: #E4E4E4;
+}
 .cancle-Btn{
+	background-color: #E4E4E4 !important\0;
     border: 1px solid #A0A0A0 !important;
     color: black !important;
     padding-left:22px !important;
     padding:0 5px 0 22px\0 !important;
 }
-.cancle-Btn:hover,.cancle-Btn:hover,.cancle-Btn-hover{
+.cancle-Btn:hover,.cancle-Btn-hover{
 	background-color:#A0A0A0 !important;
 }
 .grouped-buttons,.progress_panel_data td .gwt-Label,.progress_panel table tr td{
@@ -1305,7 +1309,7 @@ input[type="text"],textarea {
 }
 .grouped-buttons td:FIRST-CHILD .image-button,.grouped-buttons td:last-child .image-button,.grouped-buttons .image-button{
 	border-color:#a0a0a0;
-    background-color: #e4e4e4\0 !important;
+    background-color: #e4e4e4\0;
     color:black\0 !important;
 }
 .grouped-buttons td:only-child .Empty-text,.grouped-buttons td:only-child .image-button{
@@ -1336,7 +1340,7 @@ input[type="text"],textarea {
 .label-title{
 	font-size: 18px;
 }
-.caption table td:FIRST-CHILD img,.tick_hidden,.tick_show,.image-button{
+.caption table td:FIRST-CHILD img,.tick_hidden,.tick_show{
 	padding-right:5px;
 }
 .tabMiddle .tabMiddleCenterInner .gwt-Label{
@@ -1620,7 +1624,7 @@ a#fdbk_tab{
     padding: 5px;
 }
 * html .editTable,.editTable{
-	min-height:200px;
+	min-height:138px;
 }
 .editTable .editheader td{
 	border-color: #55B8C1;
@@ -1661,4 +1665,15 @@ a#fdbk_tab{
 }
 .gwt-TextBox{
 	width:172px !important;
+}
+input[type="text"]{
+	line-height /*\**/: 1.8\9
+}
+@media \0screen {
+  input[type="text"]{
+	line-height: 1.8;
+  }
+  .viewholder{
+    border:1px solid #3299A4;
+  }
 }
