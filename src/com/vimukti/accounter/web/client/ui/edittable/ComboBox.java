@@ -111,13 +111,6 @@ public class ComboBox<T, C> extends FlowPanel implements RowSelectHandler<C> {
 				}
 			}
 		});
-		textBox.addBlurHandler(new BlurHandler() {
-
-			@Override
-			public void onBlur(BlurEvent event) {
-				popupPanel.hide();
-			}
-		});
 		popupPanel = new PopupPanel(true, false);
 		popupPanel.addCloseHandler(new CloseHandler<PopupPanel>() {
 
