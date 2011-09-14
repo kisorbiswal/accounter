@@ -77,6 +77,6 @@ public class SalesOrderAction extends Action {
 
 	@Override
 	public String getHelpToken() {
-		return "sales_order-list";
+		return "new-sales";
 	}
 }

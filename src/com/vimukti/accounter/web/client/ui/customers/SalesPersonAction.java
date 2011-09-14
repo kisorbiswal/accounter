@@ -69,6 +69,6 @@ public class SalesPersonAction extends Action {
 
 	@Override
 	public String getHelpToken() {
-		return "new_sales-person";
+		return "sales-person-list";
 	}
 }
