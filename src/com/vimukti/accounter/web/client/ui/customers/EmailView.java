@@ -102,11 +102,9 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 
 		emailBody = new TextAreaItem();
 		emailBody.setMemo(true, this);
-		emailBody.setValue(Global
-				.get()
-				.messages()
-				.invoiceMailMessage(Global.get().Customer(),
-						this.invoice.getNumber(), invoice.getDate()));
+		emailBody.setValue(Global.get().messages().invoiceMailMessage(
+				Global.get().Customer(), this.invoice.getNumber(),
+				invoice.getDate()));
 		emailBody.setWidth("100%");
 		emailBody.setHeight(200);
 
@@ -218,13 +216,14 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 	}
 
 	private String getValidMail(String email) {
-
-		if (!UIUtils.isValidMultipleEmailIds(email)) {
-			Accounter.showError(Accounter.constants().invalidEmail());
-			return "";
-		} else
-			return email;
-
+		if (email.trim().length() != 0) {
+			if (!UIUtils.isValidMultipleEmailIds(email)) {
+				Accounter.showError(Accounter.constants().invalidEmail());
+				return "";
+			} else
+				return email;
+		}
+		return email;
 	}
 
 	private void updateControls() {
@@ -286,6 +285,6 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
