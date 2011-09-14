@@ -551,18 +551,6 @@ public class ViewManager extends HorizontalPanel {
 		if (helpPanel == null) {
 			return;
 		}
-
-		if (helpPanel.isRemoved()) {
-			if (isPanelEnabled()) {
-				this.add(helpPanel);
-				this.setCellWidth(helpPanel, "50%");
-				helpPanel.setIsHelpPanel(true);
-				helpPanel.setIsRemoved(false);
-			} else {
-				helpPanel.setIsRemoved(true);
-			}
-		}
-
 		helpPanel.setHelpUrl(getUrl());
 	}
 
