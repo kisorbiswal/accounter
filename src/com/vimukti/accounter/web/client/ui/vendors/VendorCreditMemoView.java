@@ -268,11 +268,6 @@ public class VendorCreditMemoView extends
 		HorizontalPanel bottomLayout1 = new HorizontalPanel();
 		bottomLayout1.setWidth("100%");
 
-		HorizontalPanel panel = new HorizontalPanel();
-		panel.setHorizontalAlignment(ALIGN_RIGHT);
-		panel.add(createAddNewButton());
-		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
-
 		VerticalPanel bottomPanel = new VerticalPanel();
 		bottomPanel.setWidth("100%");
 
@@ -281,7 +276,6 @@ public class VendorCreditMemoView extends
 			VerticalPanel vPanel = new VerticalPanel();
 			vPanel.setWidth("100%");
 			vPanel.setHorizontalAlignment(ALIGN_RIGHT);
-			vPanel.add(panel);
 			vPanel.add(totalForm);
 
 			bottomLayout1.add(memoForm);
@@ -308,8 +302,6 @@ public class VendorCreditMemoView extends
 			memoForm.setStyleName("align-form");
 			VerticalPanel vPanel = new VerticalPanel();
 			vPanel.setWidth("100%");
-			vPanel.add(panel);
-			vPanel.setCellHorizontalAlignment(panel, ALIGN_RIGHT);
 			vPanel.add(memoForm);
 			bottomPanel.add(vPanel);
 		}
@@ -322,7 +314,8 @@ public class VendorCreditMemoView extends
 		// mainVLay.add(lab2);
 
 		mainVLay.add(vendorTransactionTable);
-
+		mainVLay.add(createAddNewButton());
+		menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(bottomPanel);
 
 		if (UIUtils.isMSIEBrowser())
@@ -583,7 +576,7 @@ public class VendorCreditMemoView extends
 	protected void refreshTransactionGrid() {
 		// vendorTransactionTable.refreshAllRecords();
 	}
-	
+
 	private void settabIndexes() {
 		vendorCombo.setTabIndex(1);
 		contactCombo.setTabIndex(2);
@@ -595,7 +588,7 @@ public class VendorCreditMemoView extends
 		saveAndCloseButton.setTabIndex(8);
 		saveAndNewButton.setTabIndex(9);
 		cancelButton.setTabIndex(10);
-		
+
 	}
 
 }

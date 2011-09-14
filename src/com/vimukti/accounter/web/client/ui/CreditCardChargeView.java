@@ -14,7 +14,6 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientContact;
@@ -235,7 +234,8 @@ public class CreditCardChargeView extends
 			if (isInViewMode()) {
 				cheqNoText
 						.setValue(transaction.getCheckNumber() != null ? transaction
-								.getCheckNumber() : "");
+								.getCheckNumber()
+								: "");
 
 			}
 			cheqNoText.setDisabled(false);
@@ -367,8 +367,8 @@ public class CreditCardChargeView extends
 		labeldateNoLayout.add(regPanel);
 		labeldateNoLayout.setCellHorizontalAlignment(regPanel, ALIGN_RIGHT);
 
-		vendorNameSelect = new VendorCombo(Global.get().messages()
-				.vendorName(Global.get().Vendor()));
+		vendorNameSelect = new VendorCombo(Global.get().messages().vendorName(
+				Global.get().Vendor()));
 		vendorNameSelect.setHelpInformation(true);
 		vendorNameSelect.setWidth(100);
 		vendorNameSelect.setRequired(true);
@@ -454,8 +454,8 @@ public class CreditCardChargeView extends
 
 		cheqNoText = new TextItem(
 				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-						.constants().chequeNo() : Accounter.constants()
-						.checkNo());
+						.constants().chequeNo()
+						: Accounter.constants().checkNo());
 		cheqNoText.setHelpInformation(true);
 		cheqNoText.setDisabled(isInViewMode());
 		cheqNoText.setWidth(100);
@@ -477,13 +477,10 @@ public class CreditCardChargeView extends
 			termsForm.setFields(classListCombo);
 		}
 
-		termsForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "203px");
 
 		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
-
-		AddNewButton addButton = createAddNewButton();// new
-		// Button(FinanceApplication
 
 		netAmount = new AmountLabel(Accounter.constants().netAmount());
 		netAmount.setDefaultValue(Accounter.constants().atozero());
@@ -552,18 +549,12 @@ public class CreditCardChargeView extends
 		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");
 
-		HorizontalPanel panel = new HorizontalPanel();
-		panel.setHorizontalAlignment(ALIGN_RIGHT);
-		panel.add(createAddNewButton());
-		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
-
 		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			totalForm.setFields(netAmount, vatTotalNonEditableText,
 					transactionTotalNonEditableText);
 			VerticalPanel vPanel = new VerticalPanel();
 			vPanel.setHorizontalAlignment(ALIGN_RIGHT);
 			vPanel.setWidth("100%");
-			vPanel.add(panel);
 			vPanel.add(totalForm);
 
 			botPanel.add(memoForm);
@@ -595,8 +586,6 @@ public class CreditCardChargeView extends
 
 			VerticalPanel vpanel = new VerticalPanel();
 			vpanel.setWidth("100%");
-			vpanel.add(panel);
-			vpanel.setCellHorizontalAlignment(panel, ALIGN_RIGHT);
 			vpanel.add(hPanel);
 
 			bottompanel.add(vpanel);
@@ -625,6 +614,8 @@ public class CreditCardChargeView extends
 		// vLay1.add(addButton);
 		// multi currency combo
 		vLay1.add(vendorTransactionTable);
+		vLay1.add(createAddNewButton());
+		menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		vLay1.setWidth("100%");
 		vLay1.add(bottompanel);
 
@@ -793,21 +784,21 @@ public class CreditCardChargeView extends
 			// 6. vendorTransactionGrid validation
 
 			if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-				result.addError(transactionDate,
-						accounterConstants.invalidateTransactionDate());
+				result.addError(transactionDate, accounterConstants
+						.invalidateTransactionDate());
 			}
 
 			if (AccounterValidator
 					.isInPreventPostingBeforeDate(transactionDate)) {
-				result.addError(transactionDate,
-						accounterConstants.invalidateDate());
+				result.addError(transactionDate, accounterConstants
+						.invalidateDate());
 			}
 
 			result.add(vendorForm.validate());
 			result.add(termsForm.validate());
 			if (vendorTransactionTable.getAllRows().isEmpty()) {
-				result.addError(vendorTransactionTable,
-						accounterConstants.blankTransaction());
+				result.addError(vendorTransactionTable, accounterConstants
+						.blankTransaction());
 			} else
 				result.add(vendorTransactionTable.validateGrid());
 			return result;

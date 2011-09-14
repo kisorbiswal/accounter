@@ -476,7 +476,6 @@ public class VendorBillView extends
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
 
-		menuButton = createAddNewButton();
 		vendorTransactionTable = new VendorTransactionTable() {
 
 			@Override
@@ -562,11 +561,6 @@ public class VendorBillView extends
 		HorizontalPanel bottomLayout = new HorizontalPanel();
 		bottomLayout.setWidth("100%");
 
-		HorizontalPanel hpanel = new HorizontalPanel();
-		hpanel.setHorizontalAlignment(ALIGN_RIGHT);
-		hpanel.add(createAddNewButton());
-		hpanel.getElement().getStyle().setMarginTop(8, Unit.PX);
-
 		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");
 		//
@@ -576,7 +570,6 @@ public class VendorBillView extends
 			VerticalPanel verticalPanel = new VerticalPanel();
 			verticalPanel.setWidth("100%");
 			verticalPanel.setHorizontalAlignment(ALIGN_RIGHT);
-			verticalPanel.add(hpanel);
 			VerticalPanel vpanel = new VerticalPanel();
 			vpanel.setHorizontalAlignment(ALIGN_RIGHT);
 			// vpanel.setWidth("100%");
@@ -624,9 +617,7 @@ public class VendorBillView extends
 			memoForm.setStyleName("align-form");
 			VerticalPanel vPanel = new VerticalPanel();
 			vPanel.setWidth("100%");
-			vPanel.add(hpanel);
 
-			vPanel.setCellHorizontalAlignment(hpanel, ALIGN_RIGHT);
 			vPanel.add(memoForm);
 
 			bottompanel.add(vPanel);
@@ -639,7 +630,8 @@ public class VendorBillView extends
 		mainVLay.setCellHorizontalAlignment(topHLay, ALIGN_RIGHT);
 		mainVLay.add(topHLay);
 		mainVLay.add(vendorTransactionTable);
-
+		mainVLay.add(createAddNewButton());
+		menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(bottompanel);
 
 		if (UIUtils.isMSIEBrowser()) {

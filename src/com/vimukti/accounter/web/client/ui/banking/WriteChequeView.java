@@ -14,7 +14,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -114,7 +113,6 @@ public class WriteChequeView extends
 	private CustomerTransactionTable transactionCustomerTable;
 	private VendorTransactionTable transactionVendorTable;
 
-	private AddNewButton addNewButton;
 
 	private WriteChequeView() {
 		super(ClientTransaction.TYPE_WRITE_CHECK);
@@ -1042,12 +1040,8 @@ public class WriteChequeView extends
 			mainVLay.add(transactionCustomerTable);
 		}
 
-		addNewButton = createAddNewButton();
 		vPanel = new VerticalPanel();
 		vPanel.setWidth("100%");
-		vPanel.add(addNewButton);
-		addNewButton.getElement().getParentElement().setClassName(
-				"Writecheck_addNew");
 
 		HorizontalPanel bottomPanel = new HorizontalPanel();
 		bottomPanel.setWidth("100%");
@@ -1060,6 +1054,8 @@ public class WriteChequeView extends
 		bottomPanel.setCellHorizontalAlignment(memoForm, ALIGN_LEFT);
 		vPanel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
+		mainVLay.add(createAddNewButton());
+		menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(vPanel);
 
 		this.setWidth("100%");
@@ -1460,7 +1456,7 @@ public class WriteChequeView extends
 		balText.setTabIndex(7);
 		memoTextAreaItem.setTabIndex(8);
 		vatInclusiveCheck.setTabIndex(9);
-		addNewButton.setTabIndex(10);
+		menuButton.setTabIndex(10);
 		saveAndCloseButton.setTabIndex(11);
 		saveAndNewButton.setTabIndex(12);
 		cancelButton.setTabIndex(13);

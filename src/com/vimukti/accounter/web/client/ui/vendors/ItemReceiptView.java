@@ -163,7 +163,6 @@ public class ItemReceiptView extends
 
 		HTML lab2 = new HTML("<strong>"
 				+ Accounter.constants().itemsAndExpenses() + "</strong>");
-		menuButton = createAddNewButton();
 		vendorTransactionTable = new VendorTransactionTable() {
 
 			@Override

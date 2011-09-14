@@ -55,7 +55,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	private TAXCodeCombo taxCodeSelect;
 	private PaymentTermsCombo payTermsSelect;
 	protected DateField quoteExpiryDate;
-	private HorizontalPanel panel;
 	private ArrayList<DynamicForm> listforms;
 	private boolean locationTrackingEnabled;
 
@@ -355,8 +354,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			phoneForm.setFields(payTermsSelect, quoteExpiryDate, deliveryDate);
 		}
 		phoneForm.setStyleName("align-form");
-		phoneForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "203px");
+		phoneForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "203px");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -368,8 +367,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		HorizontalPanel buttLabHLay = new HorizontalPanel();
 		buttLabHLay.add(lab2);
-
-		menuButton = createAddNewButton();
 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
@@ -442,15 +439,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
 
-		panel = new HorizontalPanel();
-		panel.setHorizontalAlignment(ALIGN_RIGHT);
-		panel.add(createAddNewButton());
-		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
-
 		VerticalPanel vPanel = new VerticalPanel();
 		vPanel.setHorizontalAlignment(ALIGN_RIGHT);
 		vPanel.setWidth("100%");
-		vPanel.add(panel);
 
 		vPanel.add(prodAndServiceForm2);
 
@@ -494,6 +485,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		gridPanel.add(customerTransactionTable);
 		mainVLay.add(gridPanel);
+		mainVLay.add(createAddNewButton());
+		menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(mainpanel);
 		gridPanel.setWidth("100%");
 
@@ -637,7 +630,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			if (getCompany().getPreferences().isRegisteredForVAT()) {
 				netAmountLabel.setAmount(transaction.getNetAmount());
 				vatTotalNonEditableText.setValue(String.valueOf(transaction
-						.getTotal() - transaction.getNetAmount()));
+						.getTotal()
+						- transaction.getNetAmount()));
 			}
 			memoTextAreaItem.setDisabled(true);
 			transactionTotalNonEditableText.setAmount(transaction.getTotal());
@@ -731,8 +725,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				return;
 
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(),
-					taxableLineTotal,
+					transactionDateItem.getEnteredDate(), taxableLineTotal,
 					getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
@@ -747,9 +740,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		if (getCompany().getPreferences().isRegisteredForVAT()
 				&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			netAmountLabel.setAmount(customerTransactionTable.getGrandTotal());
-			vatTotalNonEditableText
-					.setAmount(customerTransactionTable.getTotalValue()
-							- customerTransactionTable.getGrandTotal());
+			vatTotalNonEditableText.setAmount(customerTransactionTable
+					.getTotalValue()
+					- customerTransactionTable.getGrandTotal());
 			setTransactionTotal(customerTransactionTable.getTotalValue());
 		}
 
@@ -774,8 +767,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		// Validations
 		// 1. isValidDueOrDeliveryDate?
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(
-				this.quoteExpiryDate.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(this.quoteExpiryDate
+				.getEnteredDate(), this.transactionDate)) {
 			result.addError(this.quoteExpiryDate, Accounter.constants().the()
 					+ " "
 					+ customerConstants.expirationDate()

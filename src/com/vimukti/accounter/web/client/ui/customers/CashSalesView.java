@@ -287,11 +287,6 @@ public class CashSalesView extends
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
 
-		HorizontalPanel panel = new HorizontalPanel();
-		panel.setHorizontalAlignment(ALIGN_RIGHT);
-		panel.add(createAddNewButton());
-		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
-
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(prodAndServiceForm2);
 		if (getCompany().getAccountingType() == 1) {
@@ -302,7 +297,6 @@ public class CashSalesView extends
 		VerticalPanel vPanel = new VerticalPanel();
 		vPanel.setHorizontalAlignment(ALIGN_RIGHT);
 		vPanel.setWidth("100%");
-		vPanel.add(panel);
 
 		vPanel.add(prodAndServiceHLay);
 
@@ -331,6 +325,8 @@ public class CashSalesView extends
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
 		mainVLay.add(customerTransactionTable);
+		mainVLay.add(createAddNewButton());
+		menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(vPanel);
 
 		if (UIUtils.isMSIEBrowser())

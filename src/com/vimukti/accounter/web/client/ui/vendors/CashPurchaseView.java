@@ -148,7 +148,8 @@ public class CashPurchaseView extends
 		// payFromCombo.setWidth(100);
 		payFromCombo.setPopupWidth("500px");
 		checkNo = createCheckNumberItem(getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-				.constants().chequeNo() : Accounter.constants().checkNo());
+				.constants().chequeNo()
+				: Accounter.constants().checkNo());
 		checkNo.setDisabled(true);
 		checkNo.setWidth(100);
 		deliveryDateItem = createTransactionDeliveryDateItem();
@@ -191,8 +192,8 @@ public class CashPurchaseView extends
 			termsForm.setFields(classListCombo);
 		}
 
-		termsForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "203px");
 
 		// formItems.add(checkNo);
 		// formItems.add(deliveryDateItem);
@@ -268,11 +269,6 @@ public class CashPurchaseView extends
 		HorizontalPanel bottomLayout = new HorizontalPanel();
 		bottomLayout.setWidth("100%");
 
-		HorizontalPanel panel = new HorizontalPanel();
-		panel.setHorizontalAlignment(ALIGN_RIGHT);
-		panel.add(createAddNewButton());
-		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
-
 		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");
 
@@ -280,7 +276,6 @@ public class CashPurchaseView extends
 			VerticalPanel vpanel = new VerticalPanel();
 			vpanel.setWidth("100%");
 			vpanel.setHorizontalAlignment(ALIGN_RIGHT);
-			vpanel.add(panel);
 			vpanel.add(totalForm);
 
 			bottomLayout.add(memoForm);
@@ -306,8 +301,6 @@ public class CashPurchaseView extends
 			memoForm.setStyleName("align-form");
 			VerticalPanel vPanel = new VerticalPanel();
 			vPanel.setWidth("100%");
-			vPanel.add(panel);
-			vPanel.setCellHorizontalAlignment(panel, ALIGN_RIGHT);
 			vPanel.add(memoForm);
 
 			bottompanel.add(vPanel);
@@ -321,7 +314,8 @@ public class CashPurchaseView extends
 		// mainVLay.add(lab2);
 
 		mainVLay.add(vendorTransactionTable);
-
+		mainVLay.add(createAddNewButton());
+		menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(bottompanel);
 
 		// setOverflow(Overflow.SCROLL);
@@ -342,7 +336,7 @@ public class CashPurchaseView extends
 			resetFormView();
 
 		initViewType();
-		
+
 		settabIndexes();
 	}
 
@@ -549,7 +543,8 @@ public class CashPurchaseView extends
 		// Setting Pay From Account
 		transaction
 				.setPayFrom(payFromCombo.getSelectedValue() != null ? payFromCombo
-						.getSelectedValue().getID() : 0);
+						.getSelectedValue().getID()
+						: 0);
 
 		// Setting Check number
 		transaction.setCheckNumber(checkNo.getValue().toString());
@@ -609,20 +604,20 @@ public class CashPurchaseView extends
 		// 6. validateGrid?
 
 		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateTransactionDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 
 		result.add(vendorForm.validate());
 		result.add(termsForm.validate());
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(
-				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(deliveryDateItem
+				.getEnteredDate(), this.transactionDate)) {
 			result.addError(deliveryDateItem, Accounter.constants().the()
 					+ " "
 					+ Accounter.constants().deliveryDate()
@@ -633,8 +628,8 @@ public class CashPurchaseView extends
 		}
 
 		if (vendorTransactionTable.getAllRows().isEmpty()) {
-			result.addError(vendorTransactionTable,
-					accounterConstants.blankTransaction());
+			result.addError(vendorTransactionTable, accounterConstants
+					.blankTransaction());
 		} else
 			result.add(vendorTransactionTable.validateGrid());
 		return result;
@@ -783,6 +778,7 @@ public class CashPurchaseView extends
 	protected void refreshTransactionGrid() {
 		// vendorTransactionTable.refreshAllRecords();
 	}
+
 	private void settabIndexes() {
 		vendorCombo.setTabIndex(1);
 		contactCombo.setTabIndex(2);
@@ -799,8 +795,7 @@ public class CashPurchaseView extends
 		saveAndCloseButton.setTabIndex(13);
 		saveAndNewButton.setTabIndex(14);
 		cancelButton.setTabIndex(15);
-		 
-		
+
 	}
 
 }

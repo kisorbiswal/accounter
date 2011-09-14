@@ -410,11 +410,6 @@ public class SalesOrderView extends
 			prodAndServiceForm2.setStyleName("tax-form");
 		}
 
-		HorizontalPanel panel = new HorizontalPanel();
-		panel.setHorizontalAlignment(ALIGN_RIGHT);
-		panel.add(createAddNewButton());
-		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
-
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
 		prodAndServiceHLay.add(prodAndServiceForm1);
@@ -429,7 +424,6 @@ public class SalesOrderView extends
 		VerticalPanel vpanel = new VerticalPanel();
 		vpanel.setWidth("100%");
 		vpanel.setHorizontalAlignment(ALIGN_RIGHT);
-		vpanel.add(panel);
 
 		vpanel.add(prodAndServiceHLay);
 
@@ -461,7 +455,8 @@ public class SalesOrderView extends
 		// mainVLay.add(lab2);
 
 		mainVLay.add(customerTransactionTable);
-		// mainVLay.add(createAddNewButton());
+		mainVLay.add(createAddNewButton());
+		menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(vpanel);
 
 		if (UIUtils.isMSIEBrowser()) {

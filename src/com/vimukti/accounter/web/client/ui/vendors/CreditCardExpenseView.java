@@ -245,15 +245,16 @@ public class CreditCardExpenseView extends
 			}
 		};
 		Ccard.setHelpInformation(true);
-		Ccard.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
+		Ccard
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 
-			@Override
-			public void selectedComboBoxItem(ClientVendor selectItem) {
-				selectedVendor = selectItem;
-				Ccard.setComboItem(selectItem);
-				addPhonesContactsAndAddress();
-			}
-		});
+					@Override
+					public void selectedComboBoxItem(ClientVendor selectItem) {
+						selectedVendor = selectItem;
+						Ccard.setComboItem(selectItem);
+						addPhonesContactsAndAddress();
+					}
+				});
 
 		Ccard.setRequired(true);
 		String listString[] = new String[] {
@@ -404,8 +405,8 @@ public class CreditCardExpenseView extends
 
 		cheqNoText = new TextItem(
 				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-						.constants().chequeNo() : Accounter.constants()
-						.checkNo());
+						.constants().chequeNo()
+						: Accounter.constants().checkNo());
 		cheqNoText.setHelpInformation(true);
 		cheqNoText.setDisabled(isInViewMode());
 		cheqNoText.setWidth(100);
@@ -420,13 +421,10 @@ public class CreditCardExpenseView extends
 		termsForm = UIUtils.form(Accounter.constants().terms());
 		termsForm.setWidth("100%");
 		termsForm.setFields(payMethSelect, payFrmSelect, delivDate);
-		termsForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "203px");
 
 		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
-
-		AddNewButton addButton = createAddNewButton();// new
-		// Button(FinanceApplication
 
 		netAmount = new AmountLabel(Accounter.constants().netAmount());
 		netAmount.setDefaultValue(Accounter.constants().atozero());
@@ -495,18 +493,12 @@ public class CreditCardExpenseView extends
 		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");
 
-		HorizontalPanel panel = new HorizontalPanel();
-		panel.setHorizontalAlignment(ALIGN_RIGHT);
-		panel.add(createAddNewButton());
-		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
-
 		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			totalForm.setFields(netAmount, vatTotalNonEditableText,
 					transactionTotalNonEditableText);
 			VerticalPanel vPanel = new VerticalPanel();
 			vPanel.setHorizontalAlignment(ALIGN_RIGHT);
 			vPanel.setWidth("100%");
-			vPanel.add(panel);
 			vPanel.add(totalForm);
 
 			botPanel.add(memoForm);
@@ -538,8 +530,6 @@ public class CreditCardExpenseView extends
 
 			VerticalPanel vpanel = new VerticalPanel();
 			vpanel.setWidth("100%");
-			vpanel.add(panel);
-			vpanel.setCellHorizontalAlignment(panel, ALIGN_RIGHT);
 			vpanel.add(hPanel);
 
 			bottompanel.add(vpanel);
@@ -568,6 +558,8 @@ public class CreditCardExpenseView extends
 		// vLay1.add(addButton);
 		// multi currency combo
 		vLay1.add(vendorTransactionTable);
+		vLay1.add(createAddNewButton());
+		menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		vLay1.setWidth("100%");
 		vLay1.add(bottompanel);
 
@@ -605,10 +597,8 @@ public class CreditCardExpenseView extends
 		ValidationResult result = super.validate();
 
 		if (Ccard.getSelectedValue() == null)
-			result.addError(
-					Ccard,
-					Accounter.messages().pleaseSelectVendor(
-							Global.get().vendor()));
+			result.addError(Ccard, Accounter.messages().pleaseSelectVendor(
+					Global.get().vendor()));
 
 		if (payFrmSelect.getSelectedValue() == null)
 			result.addError(payFrmSelect, Accounter.messages()
@@ -934,9 +924,8 @@ public class CreditCardExpenseView extends
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button,
-				Accounter.messages().accounts(Global.get().Account()),
-				Accounter.constants().serviceItem());
+		setMenuItems(button, Accounter.messages().accounts(
+				Global.get().Account()), Accounter.constants().serviceItem());
 	}
 
 	public void saveAndUpdateView() {

@@ -581,7 +581,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		Label lab1 = new Label(Accounter.constants().billsDue());
 
-		menuButton = createAddNewButton();
 
 		initListGrid();
 
