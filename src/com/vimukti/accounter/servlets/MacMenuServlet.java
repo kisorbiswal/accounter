@@ -95,7 +95,7 @@ public class MacMenuServlet extends BaseServlet {
 		addCompanyMenuItem();
 
 		if (isUKType()) {
-			if (preferences.isDoYouChargesalesTax()) {
+			if (preferences.isChargeSalesTax()) {
 				addVatMenuItem();
 			}
 		}
@@ -308,7 +308,7 @@ public class MacMenuServlet extends BaseServlet {
 		}
 		menu(reportsValue, iGlobal.constants().purchases(), purchasesValue);
 
-		if (preferences.isDoYouChargesalesTax()) {
+		if (preferences.isChargeSalesTax()) {
 			StringBuilder vatValue = new StringBuilder();
 			subMenu(vatValue, iGlobal.constants().priorVATReturns(),
 					"company/accounter#priorVatReturns");
@@ -573,7 +573,7 @@ public class MacMenuServlet extends BaseServlet {
 		}
 
 		if (isUSType()) {
-			if (preferences.isDoYouChargesalesTax()) {
+			if (preferences.isChargeSalesTax()) {
 				StringBuilder salesTaxValues = new StringBuilder();
 				if (canDoInvoiceTransactions()) {
 					subMenu(salesTaxValues, iGlobal.constants()
