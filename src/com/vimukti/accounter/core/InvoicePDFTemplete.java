@@ -142,7 +142,6 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			}
 
 			// setting billing address
-			boolean hasbillAddress = false;
 			Address bill = invoice.getBillingAddress();
 			if (bill != null) {
 				String billAddress = forUnusedAddress(invoice.getCustomer()
@@ -155,17 +154,12 @@ public class InvoicePDFTemplete implements PrintTemplete {
 						+ bill.getCountryOrRegion();
 
 				if (billAddress.trim().length() > 0) {
-					hasbillAddress = true;
 					t.setVariable("billingAddress", billAddress);
-					t.addBlock("billingAddressDetails");
-				}
-				if (hasbillAddress) {
 					t.addBlock("billhead");
 
 				}
 			}
 			// setting shipping address
-			boolean hasShippingAdd = false;
 			String shipAddress = "";
 			Address shpAdres = invoice.getShippingAdress();
 			if (shpAdres != null) {
@@ -180,11 +174,7 @@ public class InvoicePDFTemplete implements PrintTemplete {
 						+ forUnusedAddress(shpAdres.getCountryOrRegion(), false);
 			}
 			if (shipAddress.trim().length() > 0) {
-				hasShippingAdd = true;
 				t.setVariable("shippingAddress", shipAddress);
-				t.addBlock("shippingAddressDetails");
-			}
-			if (hasShippingAdd) {
 				t.addBlock("shiphead");
 			}
 
