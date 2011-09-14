@@ -789,11 +789,15 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 					+ this.salesTax);
 
 		}
+
 		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			netAmountLabel.setAmount(customerTransactionTable.getGrandTotal());
 			vatTotalNonEditableText
 					.setAmount(customerTransactionTable.getTotalValue()
 							- customerTransactionTable.getGrandTotal());
+			setTransactionTotal(customerTransactionTable.getTotalValue());
+		} else {
+			netAmountLabel.setAmount(customerTransactionTable.getGrandTotal());
 			setTransactionTotal(customerTransactionTable.getTotalValue());
 		}
 
