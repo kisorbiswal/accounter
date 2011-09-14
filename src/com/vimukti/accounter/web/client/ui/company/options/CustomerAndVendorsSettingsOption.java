@@ -79,9 +79,7 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 	private void initData() {
 		if (companyPreferences.isChargeSalesTax()) {
 			chargeTaxYesRadioButton.setValue(true);
-			chargeTaxNoRadioButton.setValue(false);
 		} else {
-			chargeTaxYesRadioButton.setValue(false);
 			chargeTaxNoRadioButton.setValue(true);
 		}
 
@@ -144,17 +142,10 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 
 	@Override
 	public void onSave() {
-		if (chargeTaxYesRadioButton.getValue()) {
-			companyPreferences.setChargeSalesTax(true);
-		} else {
-			companyPreferences.setChargeSalesTax(false);
-		}
+		companyPreferences
+				.setChargeSalesTax(chargeTaxYesRadioButton.getValue());
 
-		if (vatYesRadioButton.getValue())
-			companyPreferences
-					.setRegisteredForVAT(vatYesRadioButton.getValue());
-		else
-			companyPreferences.setRegisteredForVAT(vatNoRadioButton.getValue());
+		companyPreferences.setRegisteredForVAT(vatYesRadioButton.getValue());
 
 		// if (createEstimatesYesRadioButton.getValue()) {
 		// companyPreferences.setDoyouwantEstimates(true);

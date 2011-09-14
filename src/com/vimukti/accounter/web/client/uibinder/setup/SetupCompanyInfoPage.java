@@ -262,6 +262,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		address.setAddress1(streetAddress1.getValue());
 		address.setStreet(streetAdress2.getValue());
 		address.setCity(cityTextBox.getValue());
+		address.setZipOrPostalCode(zip.getValue());
 		if (stateListBox.getSelectedIndex() != -1) {
 			address.setStateOrProvinence(states.get(stateListBox
 					.getSelectedIndex()));
