@@ -41,7 +41,10 @@ public class GWTCacheControlFilter implements Filter {
 			httpResponse.setHeader("Cache-control",
 					"no-cache, no-store, max-age=0, must-revalidate");
 		} else if (isStaticContentUri(requestURI)) {
-			httpResponse.setHeader("Cache-control", "max-age=2592000, public");
+			Date now = new Date();
+			httpResponse.setDateHeader("Expires", now.getTime() + 31536000000L);
+			// httpResponse.setHeader("Cache-control",
+			// "max-age=2592000, public");
 		}
 
 		filterChain.doFilter(request, response);
