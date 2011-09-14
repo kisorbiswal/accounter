@@ -1,6 +1,6 @@
 package com.vimukti.accounter.web.client.ui;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientItem;
@@ -20,10 +20,10 @@ import com.vimukti.accounter.web.client.ui.grids.ItemsListGrid;
  * 
  */
 public class ItemListView extends BaseListView<ClientItem> {
-	List<ClientItem> allItems;
+	ArrayList<ClientItem> allItems = new ArrayList<ClientItem>();
 	private Double total = 0.00;
 	private ClientItem toBeDeletedItem;
-	private List<ClientItem> listOfItems;
+	private ArrayList<ClientItem> listOfItems = new ArrayList<ClientItem>();
 
 	private int actionType;
 	private String catageory;
@@ -69,8 +69,10 @@ public class ItemListView extends BaseListView<ClientItem> {
 			if (!DecimalUtil.isEquals(item.getSalesPrice(), 0))
 				total += item.getSalesPrice();
 		}
-		totalLabel.setText(Accounter.constants().totalSalesPrice() + " = "
-				+ DataUtils.getAmountAsString(total));
+		if (totalLabel != null) {
+			totalLabel.setText(Accounter.constants().totalSalesPrice() + " = "
+					+ DataUtils.getAmountAsString(total));
+		}
 	}
 
 	@Override
