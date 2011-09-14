@@ -324,6 +324,8 @@ public class BaseServlet extends HttpServlet {
 	protected String buildMainServerURL(String url) {
 		StringBuilder mainServerURL = new StringBuilder("http://");
 		mainServerURL.append(ServerConfiguration.getMainServerDomain());
+		// mainServerURL.append(':');
+		// mainServerURL.append(ServerConfiguration.getMainServerPort());
 		mainServerURL.append(url);
 		return mainServerURL.toString();
 	}
@@ -339,6 +341,8 @@ public class BaseServlet extends HttpServlet {
 
 		StringBuilder mainServerURL = new StringBuilder("http://");
 		mainServerURL.append(companyServerAddress);
+		// mainServerURL.append(':');
+		// mainServerURL.append(ServerConfiguration.getMainServerPort());
 		mainServerURL.append(url);
 		return mainServerURL.toString();
 	}
