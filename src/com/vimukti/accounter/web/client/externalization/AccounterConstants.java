@@ -4064,8 +4064,6 @@ public interface AccounterConstants extends Constants {
 
 	public String invalidateEntry();
 
-	public String invalidNegativeAmount();
-
 	// error messages for Transactions
 
 	public String invalidateTransactionDate();
@@ -4097,8 +4095,6 @@ public interface AccounterConstants extends Constants {
 	public String unitPriceRate();
 
 	public String discountAmountRate();
-
-	public String amountRate();
 
 	public String lineTotalAmount();
 

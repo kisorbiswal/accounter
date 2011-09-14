@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CashDiscountDialog;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -38,6 +39,8 @@ public abstract class TransactionReceivePaymentTable extends
 	private boolean canEdit;
 
 	AccounterConstants customerConstants = Accounter.constants();
+	AccounterMessages accounterMessages = Accounter.messages();
+
 	ClientCustomer customer;
 	List<Integer> selectedValues = new ArrayList<Integer>();
 	protected boolean gotCreditsAndPayments;
@@ -62,21 +65,22 @@ public abstract class TransactionReceivePaymentTable extends
 	}
 
 	private void initColumns() {
-		this.addColumn(new CheckboxEditColumn<ClientTransactionReceivePayment>() {
+		this
+				.addColumn(new CheckboxEditColumn<ClientTransactionReceivePayment>() {
 
-			@Override
-			protected void onHeaderValueChanged(boolean value) {
-				onHeaderCheckBoxClick(value);
-				selectAllRows();
-			}
+					@Override
+					protected void onHeaderValueChanged(boolean value) {
+						onHeaderCheckBoxClick(value);
+						selectAllRows();
+					}
 
-			@Override
-			protected void onChangeValue(boolean value,
-					ClientTransactionReceivePayment row) {
-				onSelectionChanged(row, value);
-			}
+					@Override
+					protected void onChangeValue(boolean value,
+							ClientTransactionReceivePayment row) {
+						onSelectionChanged(row, value);
+					}
 
-		});
+				});
 		if (canEdit) {
 			TextEditColumn<ClientTransactionReceivePayment> dateCoulmn = new TextEditColumn<ClientTransactionReceivePayment>() {
 
@@ -355,7 +359,8 @@ public abstract class TransactionReceivePaymentTable extends
 				.getAllRows()) {
 			double totalValue = getTotalValue(transactionReceivePayment);
 			if (DecimalUtil.isLessThan(totalValue, 0.00)) {
-				result.addError(this, customerConstants.invalidNegativeAmount());
+				result.addError(this, accounterMessages
+						.valueCannotBe0orlessthan0(customerConstants.amount()));
 			} else if (DecimalUtil.isGreaterThan(totalValue,
 					transactionReceivePayment.getAmountDue())
 					|| DecimalUtil.isEquals(totalValue, 0)) {
@@ -406,9 +411,8 @@ public abstract class TransactionReceivePaymentTable extends
 
 	public void openCashDiscountDialog(
 			final ClientTransactionReceivePayment selectedObject) {
-		cashDiscountDialog = new CashDiscountDialog(canEdit,
-				selectedObject.getCashDiscount(),
-				getCashDiscountAccount(selectedObject));
+		cashDiscountDialog = new CashDiscountDialog(canEdit, selectedObject
+				.getCashDiscount(), getCashDiscountAccount(selectedObject));
 		// } else {
 		// cashDiscountDialog.setCanEdit(canEdit);
 		// cashDiscountDialog.setCashDiscountValue(selectedObject

@@ -14,10 +14,11 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.banking.TransferFundsDialog;
 import com.vimukti.accounter.web.client.ui.customers.ReceivePaymentView;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
@@ -36,6 +37,7 @@ public class AccounterValidator {
 
 	private static ClientCompany company;
 	static AccounterConstants accounterConstants = Accounter.constants();
+	static AccounterMessages accounterMessages = Accounter.messages();
 
 	public static boolean isPositiveAmount(Double amt) {
 		if (DecimalUtil.isLessThan(amt, 0.00)
@@ -321,11 +323,13 @@ public class AccounterValidator {
 							@Override
 							public boolean onYesClick() {
 								if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-									company.setUkServiceItemDefaultIncomeAccount(selectItem
-											.getName());
+									company
+											.setUkServiceItemDefaultIncomeAccount(selectItem
+													.getName());
 								else
-									company.setServiceItemDefaultIncomeAccount(selectItem
-											.getName());
+									company
+											.setServiceItemDefaultIncomeAccount(selectItem
+													.getName());
 								return true;
 							}
 
@@ -361,11 +365,13 @@ public class AccounterValidator {
 						@Override
 						public boolean onYesClick() {
 							if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-								company.setUkNonInventoryItemDefaultIncomeAccount(selectItem
-										.getName());
+								company
+										.setUkNonInventoryItemDefaultIncomeAccount(selectItem
+												.getName());
 							else
-								company.setNonInventoryItemDefaultIncomeAccount(selectItem
-										.getName());
+								company
+										.setNonInventoryItemDefaultIncomeAccount(selectItem
+												.getName());
 							return true;
 						}
 
@@ -401,11 +407,13 @@ public class AccounterValidator {
 							@Override
 							public boolean onYesClick() {
 								if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-									company.setUkServiceItemDefaultExpenseAccount(selectItem
-											.getName());
+									company
+											.setUkServiceItemDefaultExpenseAccount(selectItem
+													.getName());
 								else
-									company.setServiceItemDefaultExpenseAccount(selectItem
-											.getName());
+									company
+											.setServiceItemDefaultExpenseAccount(selectItem
+													.getName());
 								return true;
 							}
 
@@ -445,11 +453,13 @@ public class AccounterValidator {
 									@Override
 									public boolean onYesClick() {
 										if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-											company.setUkNonInventoryItemDefaultExpenseAccount(selectExpAccount
-													.getName());
+											company
+													.setUkNonInventoryItemDefaultExpenseAccount(selectExpAccount
+															.getName());
 										else
-											company.setNonInventoryItemDefaultExpenseAccount(selectExpAccount
-													.getName());
+											company
+													.setNonInventoryItemDefaultExpenseAccount(selectExpAccount
+															.getName());
 										return true;
 									}
 
@@ -779,7 +789,8 @@ public class AccounterValidator {
 	public static boolean isValidReceive_Payment(double amountDue,
 			double totalValue, String errormessg) {
 		if (DecimalUtil.isLessThan(totalValue, 0.00)) {
-			Accounter.showError(accounterConstants.invalidNegativeAmount());
+			Accounter.showError(accounterMessages
+					.valueCannotBe0orlessthan0(accounterConstants.amount()));
 			// Accounter.stopExecution();
 			return false;
 		} else if (DecimalUtil.isGreaterThan(totalValue, amountDue)
@@ -1294,8 +1305,8 @@ public class AccounterValidator {
 	public static boolean isAmountNegative(Double amount)
 			throws InvalidEntryException {
 		if (DecimalUtil.isLessThan(amount, 0.00)) {
-			throw new InvalidEntryException(
-					accounterConstants.invalidNegativeAmount());
+			throw new InvalidEntryException(accounterMessages
+					.valueCannotBe0orlessthan0(accounterConstants.amount()));
 		}
 		return false;
 

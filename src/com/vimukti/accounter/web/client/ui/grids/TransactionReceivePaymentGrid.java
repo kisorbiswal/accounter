@@ -19,6 +19,8 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CashDiscountDialog;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -32,8 +34,9 @@ import com.vimukti.accounter.web.client.ui.customers.WriteOffDialog;
 
 public class TransactionReceivePaymentGrid extends
 		AbstractTransactionGrid<ClientTransactionReceivePayment> {
-	com.vimukti.accounter.web.client.externalization.AccounterConstants customerConstants = Accounter
-			.constants();
+	AccounterConstants customerConstants = Accounter.constants();
+	AccounterMessages accounterMessages = Accounter.messages();
+
 	ReceivePaymentView paymentView;
 	ClientCustomer customer;
 	List<Integer> selectedValues = new ArrayList<Integer>();
@@ -239,7 +242,8 @@ public class TransactionReceivePaymentGrid extends
 				.getSelectedRecords()) {
 			double totalValue = getTotalValue(transactionReceivePayment);
 			if (DecimalUtil.isLessThan(totalValue, 0.00)) {
-				result.addError(this, customerConstants.invalidNegativeAmount());
+				result.addError(this, accounterMessages
+						.valueCannotBe0orlessthan0(customerConstants.amount()));
 			} else if (DecimalUtil.isGreaterThan(totalValue,
 					transactionReceivePayment.getAmountDue())
 					|| DecimalUtil.isEquals(totalValue, 0)) {
@@ -378,8 +382,8 @@ public class TransactionReceivePaymentGrid extends
 	}
 
 	public void openCashDiscountDialog() {
-		cashDiscountDialog = new CashDiscountDialog(canEdit,
-				selectedObject.getCashDiscount(), getCashDiscountAccount());
+		cashDiscountDialog = new CashDiscountDialog(canEdit, selectedObject
+				.getCashDiscount(), getCashDiscountAccount());
 		// } else {
 		// cashDiscountDialog.setCanEdit(canEdit);
 		// cashDiscountDialog.setCashDiscountValue(selectedObject
@@ -898,8 +902,8 @@ public class TransactionReceivePaymentGrid extends
 		}
 		return total;
 	}
-	
-	private void updateAmountReceived(){
+
+	private void updateAmountReceived() {
 		double toBeSetAmount = 0.0;
 		for (ClientTransactionReceivePayment receivePayment : getSelectedRecords()) {
 			toBeSetAmount += receivePayment.getPayment();
