@@ -385,6 +385,8 @@ public class ManageFiscalYearDialog extends BaseDialog {
 	@Override
 	public void deleteSuccess(IAccounterCore result) {
 		listOfperiods.deleteRecord(listOfperiods.getSelection());
+		listOfperiods.removeAllRecords();
+		listOfperiods.setRecords(company.getFiscalYears());
 	}
 
 	@Override
