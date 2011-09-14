@@ -88,7 +88,7 @@ public abstract class AbstractDropDownTable<T> extends CellTable<T> {
 		if (rowSelectHandler != null) {
 			if (indexOf == 0) {
 				rowSelectHandler.onRowSelect(null, isClicked);
-			} else {
+			} else if(indexOf > 0) {
 				rowSelectHandler.onRowSelect(selectedObject, isClicked);
 			}
 		}

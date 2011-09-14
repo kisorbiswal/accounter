@@ -103,6 +103,20 @@ public abstract class VendorTransactionTable extends
 			protected void setValue(ClientTransactionItem row,
 					IAccountable newValue) {
 				super.setValue(row, newValue);
+				// Unit Price is different. So that overriden the code here
+				if (newValue != null) {
+					if (newValue instanceof ClientItem) {
+						ClientItem selectItem = (ClientItem) newValue;
+						row.setUnitPrice(selectItem.getPurchasePrice());
+						row.setTaxable(selectItem.isTaxable());
+						double lt = row.getQuantity().getValue()
+								* row.getUnitPrice();
+						double disc = row.getDiscount();
+						row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
+								* disc / 100))
+								: lt);
+					}
+				}
 				update(row);
 			}
 
