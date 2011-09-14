@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -53,37 +54,35 @@ public class SalesQuoteListDialog extends BaseDialog {
 
 		grid = new DialogGrid(false);
 		grid.addColumns(constants.date(), constants.no(), constants.type(),
-				messages.customerName(Global.get().Customer()), constants
-						.total());
+				messages.customerName(Global.get().Customer()),
+				constants.total());
 		// grid.setWidth("100%");
 		grid.setCellsWidth(70, 30, 60, -1, 60);
 		grid.setView(this);
 		grid.init();
 
-		grid
-				.addRecordDoubleClickHandler(new RecordDoubleClickHandler<ClientEstimate>() {
+		grid.addRecordDoubleClickHandler(new RecordDoubleClickHandler<ClientEstimate>() {
 
-					@Override
-					public void OnCellDoubleClick(ClientEstimate core,
-							int column) {
-						try {
-							ClientEstimate record = (ClientEstimate) core;
+			@Override
+			public void OnCellDoubleClick(ClientEstimate core, int column) {
+				try {
+					ClientEstimate record = (ClientEstimate) core;
 
-							long estimateId = record.getID();
-							selectedEstimate = getEstimate(estimateId);
+					long estimateId = record.getID();
+					selectedEstimate = getEstimate(estimateId);
 
-							if (salesView != null && selectedEstimate != null)
-								salesView.selectedQuote(selectedEstimate);
+					if (salesView != null && selectedEstimate != null)
+						salesView.selectedQuote(selectedEstimate);
 
-							removeFromParent();
+					removeFromParent();
 
-						} catch (Exception e) {
-							Accounter.showError(Accounter.constants()
-									.errorLoadingQuote());
-						}
+				} catch (Exception e) {
+					Accounter.showError(Accounter.constants()
+							.errorLoadingQuote());
+				}
 
-					}
-				});
+			}
+		});
 
 		// getGridData();
 		setQuoteList(estimates);
@@ -172,7 +171,7 @@ public class SalesQuoteListDialog extends BaseDialog {
 		}
 	}
 
-	public Object getGridColumnValue(IsSerializable obj, int index) {
+	public Object getGridColumnValue(IAccounterCore obj, int index) {
 		ClientEstimate estimate = (ClientEstimate) obj;
 		if (estimate != null) {
 			switch (index) {
