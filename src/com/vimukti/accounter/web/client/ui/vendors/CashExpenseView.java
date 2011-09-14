@@ -225,7 +225,7 @@ public class CashExpenseView extends CashPurchaseView {
 	@Override
 	public void showMenu(Widget button) {
 		setMenuItems(button,
-				Accounter.messages().accounts(Global.get().account()),
+				Accounter.messages().accounts(Global.get().Account()),
 				Accounter.constants().serviceItem());
 	}
 

@@ -128,7 +128,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	@Override
 	public void showMenu(Widget button) {
 		setMenuItems(button,
-				Accounter.messages().accounts(Global.get().account()),
+				Accounter.messages().accounts(Global.get().Account()),
 				Accounter.constants().serviceItem(), Accounter.constants()
 						.productItem());
 	}
@@ -623,7 +623,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	protected void onAddNew(String menuItem) {
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
 		if (menuItem.equals(Accounter.messages().accounts(
-				Global.get().account()))) {
+				Global.get().Account()))) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 			if (!getCompany().getPreferences().isRegisteredForVAT()) {
 				List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();

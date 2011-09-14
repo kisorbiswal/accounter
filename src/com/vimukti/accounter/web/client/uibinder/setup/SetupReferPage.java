@@ -126,7 +126,7 @@ public class SetupReferPage extends AbstractSetupPage {
 			Accounter.showError(accounterConstants.howDoYouRefer() + " "
 					+ Accounter.messages().customers(Global.get().customer())
 					+ " " + Global.get().vendor() + " "
-					+ Accounter.messages().accounts(Global.get().account())
+					+ Accounter.messages().accounts(Global.get().Account())
 					+ "?");
 			return false;
 		} else if (customerListBox.getSelectedIndex() == -1
@@ -139,7 +139,7 @@ public class SetupReferPage extends AbstractSetupPage {
 				&& accountListBox.getSelectedIndex() == -1) {
 			Accounter.showError(accounterConstants.howDoYouRefer() + " "
 					+ Global.get().vendor() + " "
-					+ Accounter.messages().accounts(Global.get().account())
+					+ Accounter.messages().accounts(Global.get().Account())
 					+ "?");
 			return false;
 		} else if (customerListBox.getSelectedIndex() == -1
