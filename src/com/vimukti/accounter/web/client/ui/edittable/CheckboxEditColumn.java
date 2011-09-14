@@ -51,9 +51,9 @@ public abstract class CheckboxEditColumn<T> extends EditColumn<T> {
 				int index = getTable().getAllRows().indexOf(context.getRow()) + 1;
 				if (value) {
 					context.getRowFormatter()
-							.removeStyleName(index, "selected");
+							.addStyleName(index, "selected");
 				} else {
-					context.getRowFormatter().addStyleName(index, "selected");
+					context.getRowFormatter().removeStyleName(index, "selected");
 				}
 			}
 		});
