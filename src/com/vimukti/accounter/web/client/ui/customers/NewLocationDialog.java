@@ -1,13 +1,9 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.LocationGroupListDialog;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -64,69 +60,72 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 		locationName.setRequired(true);
 		VerticalPanel layout = new VerticalPanel();
 		form.setItems(locationName);
-		DynamicForm addDynamicForm = new DynamicForm();
+		// DynamicForm addDynamicForm = new DynamicForm();
 		if (this.clientLocation != null) {
 			locationName.setValue(clientLocation.getName());
 		}
-		CheckBox titleCheckBox = new CheckBox(Accounter.constants()
-				.useDifferentTitle());
-		CheckBox companyNameCheckBox = new CheckBox(Accounter.constants()
-				.useDifferentComapanyName());
-		CheckBox addressCheckBox = new CheckBox(Accounter.constants()
-				.useDifferentAddrerss());
-		CheckBox emailCheckBox = new CheckBox(Accounter.constants()
-				.useDifferentEmail());
-		CheckBox phoneCheckBox = new CheckBox(Accounter.constants()
-				.useDifferentPhoneNumber());
-		TextItem titleTextBox = new TextItem(Accounter.constants().title());
-		TextItem companyNameTextBox = new TextItem(Accounter.constants().name());
-		// AddressDialog addressDialog = new AddressDialog(title, description,
-		// textAreaItem, addressType, allAddresses)
-		TextItem email = new TextItem(Accounter.constants().email());
-		TextItem phone = new TextItem(Accounter.constants().phone());
-		addDynamicForm.setItems(titleTextBox, companyNameTextBox, email, phone);
-		titleCheckBox.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				// titleTextBox.setVisible(titleCheckBox.getValue());
-			}
-		});
-		companyNameCheckBox.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				// companyNameTextBox.setVisible(companyNameCheckBox.getValue());
-			}
-		});
-		addressCheckBox.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				// companyNameTextBox.setVisible(addressCheckBox.getValue());
-			}
-		});
-		emailCheckBox.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				// email.setVisible(emailCheckBox.getValue());
-			}
-		});
-		phoneCheckBox.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				// phone.setVisible(phoneCheckBox.getValue());
-			}
-		});
+		// CheckBox titleCheckBox = new CheckBox(Accounter.constants()
+		// .useDifferentTitle());
+		// CheckBox companyNameCheckBox = new CheckBox(Accounter.constants()
+		// .useDifferentComapanyName());
+		// CheckBox addressCheckBox = new CheckBox(Accounter.constants()
+		// .useDifferentAddrerss());
+		// CheckBox emailCheckBox = new CheckBox(Accounter.constants()
+		// .useDifferentEmail());
+		// CheckBox phoneCheckBox = new CheckBox(Accounter.constants()
+		// .useDifferentPhoneNumber());
+		// TextItem titleTextBox = new TextItem(Accounter.constants().title());
+		// TextItem companyNameTextBox = new
+		// TextItem(Accounter.constants().name());
+		// // AddressDialog addressDialog = new AddressDialog(title,
+		// description,
+		// // textAreaItem, addressType, allAddresses)
+		// TextItem email = new TextItem(Accounter.constants().email());
+		// TextItem phone = new TextItem(Accounter.constants().phone());
+		// addDynamicForm.setItems(titleTextBox, companyNameTextBox, email,
+		// phone);
+		// titleCheckBox.addClickHandler(new ClickHandler() {
+		//
+		// @Override
+		// public void onClick(ClickEvent event) {
+		// // titleTextBox.setVisible(titleCheckBox.getValue());
+		// }
+		// });
+		// companyNameCheckBox.addClickHandler(new ClickHandler() {
+		//
+		// @Override
+		// public void onClick(ClickEvent event) {
+		// // companyNameTextBox.setVisible(companyNameCheckBox.getValue());
+		// }
+		// });
+		// addressCheckBox.addClickHandler(new ClickHandler() {
+		//
+		// @Override
+		// public void onClick(ClickEvent event) {
+		// // companyNameTextBox.setVisible(addressCheckBox.getValue());
+		// }
+		// });
+		// emailCheckBox.addClickHandler(new ClickHandler() {
+		//
+		// @Override
+		// public void onClick(ClickEvent event) {
+		// // email.setVisible(emailCheckBox.getValue());
+		// }
+		// });
+		// phoneCheckBox.addClickHandler(new ClickHandler() {
+		//
+		// @Override
+		// public void onClick(ClickEvent event) {
+		// // phone.setVisible(phoneCheckBox.getValue());
+		// }
+		// });
 		layout.add(form);
-		layout.add(addDynamicForm);
-		layout.add(titleCheckBox);
-		layout.add(companyNameCheckBox);
-		layout.add(addressCheckBox);
-		layout.add(emailCheckBox);
-		layout.add(phoneCheckBox);
+		// layout.add(addDynamicForm);
+		// layout.add(titleCheckBox);
+		// layout.add(companyNameCheckBox);
+		// layout.add(addressCheckBox);
+		// layout.add(emailCheckBox);
+		// layout.add(phoneCheckBox);
 		setBodyLayout(layout);
 	}
 
@@ -168,6 +167,6 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
