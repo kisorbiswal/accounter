@@ -43,6 +43,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		HorizontalPanel mainPanel = new HorizontalPanel();
 		final StackPanel stackPanel = new StackPanel();
 		pageDetailsPane = new ScrollPanel();
+		pageDetailsPane.addStyleName("pre_scroll_table");
 		preferencePages = getPreferencePages();
 		for (PreferencePage page : preferencePages) {
 			stackPanel.add(createPageView(page), page.getTitle());
@@ -197,7 +198,8 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		pageView.setWidth("100%");
 		List<AbstractPreferenceOption> options = page.getOptions();
 		for (final AbstractPreferenceOption option : options) {
-			HTML optionLink = new HTML("<a>" + option.getTitle() + "</a>");
+			HTML optionLink = new HTML("<a class='stackPanelLink'>"
+					+ option.getTitle() + "</a>");
 			pageView.add(optionLink);
 			optionLink.addClickHandler(new ClickHandler() {
 
