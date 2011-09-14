@@ -17,6 +17,9 @@ public abstract class TransactionItemNameColumn extends
 
 	ItensDropDownTable itemsList = new ItensDropDownTable(getItemsFilter());
 
+	ItensDropDownTable serviceItemsList = new ItensDropDownTable(
+			getItemsFilter());
+
 	@Override
 	protected IAccountable getValue(ClientTransactionItem row) {
 		return row.getAccountable();
@@ -33,11 +36,13 @@ public abstract class TransactionItemNameColumn extends
 		case ClientTransactionItem.TYPE_ACCOUNT:
 			return accountsList;
 		case ClientTransactionItem.TYPE_ITEM:
+			itemsList = new ItensDropDownTable(getItemsFilter());
 			itemsList.setItemType(ItemView.NON_INVENTORY_PART);
 			return itemsList;
 		case ClientTransactionItem.TYPE_SERVICE:
-			itemsList.setItemType(ItemView.TYPE_SERVICE);
-			return itemsList;
+			serviceItemsList = new ItensDropDownTable(getItemsFilter());
+			serviceItemsList.setItemType(ItemView.TYPE_SERVICE);
+			return serviceItemsList;
 		default:
 			break;
 		}
