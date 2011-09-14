@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.view.client.ProvidesKey;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.edittable.CheckboxEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
@@ -23,6 +24,7 @@ public class ContactsTable extends EditTable<ClientContact> {
 
 	public ContactsTable() {
 		initColumns();
+
 	}
 
 	/**
@@ -106,7 +108,12 @@ public class ContactsTable extends EditTable<ClientContact> {
 
 			@Override
 			protected void setValue(ClientContact row, String value) {
-				row.setBusinessPhone(value);
+				if (UIUtils.isValidPhone(value))
+					row.setBusinessPhone(value);
+				else
+					Accounter.showError(Accounter.constants()
+							.invalidBusinessPhoneVal());
+
 			}
 
 			@Override
@@ -129,7 +136,11 @@ public class ContactsTable extends EditTable<ClientContact> {
 
 			@Override
 			protected void setValue(ClientContact row, String value) {
-				row.setEmail(value);
+				if (UIUtils.isValidEmail(value))
+					row.setEmail(value);
+				else
+					Accounter.showError(Accounter.constants().invalidEmail());
+
 			}
 
 			@Override
