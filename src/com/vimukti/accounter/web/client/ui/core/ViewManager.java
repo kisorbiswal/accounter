@@ -397,8 +397,8 @@ public class ViewManager extends HorizontalPanel {
 			this.views.clear();
 		}
 		view.setAction(action);
-		showView(view, action, !isDependent);
 		showHelp(action.getHelpToken());
+		showView(view, action, !isDependent);		
 	}
 
 	void initilizeToolBar() {
@@ -526,7 +526,7 @@ public class ViewManager extends HorizontalPanel {
 
 	private HelpDialog helpDialog;
 
-	private boolean isHelpPanelEnabled = true;
+	private boolean isHelpPanelEnabled = false;
 
 	private void createHelpDialog() {
 		helpPanel.setIsHelpPanel(false);

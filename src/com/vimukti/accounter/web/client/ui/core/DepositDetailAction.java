@@ -59,8 +59,7 @@ public class DepositDetailAction extends Action {
 
 	@Override
 	public String getHelpToken() {
-		// TODO Auto-generated method stub
-		return null;
+		return "deposit-detail";
 	}
 
 }
