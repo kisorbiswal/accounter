@@ -3,6 +3,7 @@
 <link rel='stylesheet' type='text/css' href='templetes/FinancePrint.css' media='all'></link>
 </head>
 <div style="margin:40px;">
+<div style="font-family:segoe script;font-size:${font};margin-bottom:${bottomMargin};margin-top:${topMargin};">
 <table style="width:100%;" cellspacing="10"  >
 <!-- $BeginBlock creditHead -->
 	<tr>
@@ -12,43 +13,43 @@
 				<strong>Credit Note</strong></font>
 			</p>
 		</td>
-		<td style="vertical-align: top;" align="right" width="25%">
+				<td style="vertical-align: top;" align="right" width="25%">
 			<div class="gwt-HTML">
-			<p>
-				<font style="font-family:sans-serif;" size="6px">
-				<strong> ${companyName}</strong></font><br>
-				<font style="font-family:sans-serif; color:#504040;">
-				&nbsp;${companyRegistrationAddress}</font></br>
-			</p>
+				<div>
+				<table >
+					<colgroup><col></colgroup>
+					
+					<tr>
+						<td align="left" style=" padding: 5px;"> Credit Note Number</td>
+					</tr>
+					<tr>
+					    <td align="left" width="55%" style="padding: 5px;">${creditNoteNumber}</td>
+					</tr>
+					<tr>
+						<td align="left" style=" padding: 5px; ">Credit Note Date</td>
+					</tr>
+					<tr>
+					   <td align="left" width="55%" style=" padding: 5px;">${creditNoteDate}</td>
+					</tr>
+					<tr>
+						<td align="left" style=" padding: 5px;">Customer Number</td>
+					</tr>
+					<tr>
+					    <td  align="left" width="55%" style="padding:5px;">${customerNumber}</td>
+					</tr>
+					
+				   </table>
+				</div>
 			</div>
 		</td>
 		<td style="vertical-align: top;" align="right" width="25%">
 			<div class="gwt-HTML">
-				<div>
-					<table >
-					<colgroup><col></colgroup>
-					
-					<tr>
-						<td align="right" style=" padding: 6px;"> Credit Note Number</td>
-					</tr>
-					<tr>
-					    <td align="right" width="55%" style="padding: 6px;">${creditNoteNumber}</td>
-					</tr>
-					<tr>
-						<td align="right" style=" padding: 6px; ">Credit Note Date</td>
-					</tr>
-					<tr>
-					   <td align="right" width="55%" style=" padding: 6px;">${creditNoteDate}</td>
-					</tr>
-					<tr>
-						<td align="right" style=" padding: 6px;">Customer Number</td>
-					</tr>
-					<tr>
-					    <td  align="right" width="55%" style="padding: 6px;">${customerNumber}</td>
-					</tr>
-					
-					</table>
-				</div>
+			<p>
+				<font style="font-family:sans-serif;">
+				<strong> ${companyName}</strong></font><br>
+				<font style="font-family:sans-serif; color:#504040;">
+				&nbsp;${companyRegistrationAddress}</font></br>
+			</p>
 			</div>
 		</td>
 	</tr>
@@ -128,6 +129,7 @@
 	</td>
   </tr><!-- $EndBlock itemDetails -->
 </table>
+</div>
 </div>
 </html>
 

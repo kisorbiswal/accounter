@@ -3,6 +3,7 @@
 <link rel='stylesheet' type='text/css' href='templetes/FinancePrint.css' media='all'></link>
 </head>
 <!-- $BeginBlock theme -->
+<div style="margin:40px;">
 <div style="font-family:segoe script;font-size:${font};margin-bottom:${bottomMargin};margin-top:${topMargin};">
 <div class="invoice_main_div">
  
@@ -21,18 +22,17 @@
 			   </div>
 			</td>
 		</tr>
-		<tr>
-		  <td style="vertical-align: top;" align="left">
-		     <table id="header-part-invoice" style="font-family:${fontStyle};font-size:${font};" width="100%">
-			    <tr>
-				  <td width="60%">
-				    <div class="gwt-HTML">
-						<p>
-						   <strong>${comapany}</strong>
-						   <table><tr><td>${companyDetails}</td></tr></table> 
-						</p>
-			        </div>
-				  </td>
+   </table>
+   	 <table id="header-part-invoice" style="margin:20px 0;font-family:${fontStyle};font-size:${font};" width="100%">
+		 <tr>
+			<td width="60%">
+				  <div class="gwt-HTML">
+					<p>
+						<strong>${comapany}</strong>
+						<table><tr><td>${companyDetails}</td></tr></table> 
+					</p>
+			      </div>
+			</td>
 				  <td width="40%">
 				     <table width="100%" class="invoice_details_table" border="1"  style="font-family:${fontStyle};font-size:${font};">
 					    <colgroup><col></colgroup>
@@ -80,45 +80,38 @@
 				  </td>
 				</tr>
 			 </table>
-		   </td>
-		</tr> 
-   </table>
    <table border="0" id="billingAddressTable" width="100%" style="font-family:${fontStyle};font-size:${font};">
      <tr>
 	   <td style="vertical-align: top;" align="left">
-	     <table border="1"  id="billto" style="font-family:${fontStyle};font-size:${font};"><colgroup><col></colgroup>
-		 <!-- $BeginBlock billhead -->
+	    <!-- $BeginBlock billhead -->
+	     <table border="1"  id="billto" style="width:300px;font-family:${fontStyle};font-size:${font};"><colgroup><col></colgroup>
           <tr>
 			<td class="gridHeaderBackGround"><p class="fontSetting"><center>Bill To</center></p></td>
 		  </tr>
-		  <!-- $EndBlock billhead -->
-          <!-- $BeginBlock billingAddressDetails -->
 		  <tr>
-			<td align="left" style="vertical-align:top">
+			<td align="left" style="vertical-align:top;height:150px">
 			   <p class="fontSetting">
 			     <div align="left">&nbsp;${billingAddress}</div>
 			   </p>
 			</td>
 		  </tr>
-		  <!-- $EndBlock billingAddressDetails -->
 		 </table>
+		 <!-- $EndBlock billhead -->
 		</td>
 		<td style="vertical-align: top;" align="right">
-		 <table  id = "shippingAddressTable" border="1" class="gridHeader" style="font-family:${fontStyle};font-size:${font};"> 
+		<!-- $BeginBlock shiphead -->
+		 <table  id = "shippingAddressTable" border="1" class="gridHeader" style="width:300px;font-family:${fontStyle};font-size:${font};"> 
 		    <colgroup><col></colgroup>
-			<!-- $BeginBlock shiphead -->
 			<tr>
-			  <td class="gridHeaderBackGround"><center class="fontSetting">Ship To</center></td>
+			  <td class="gridHeaderBackGround" ><center class="fontSetting">Ship To</center></td>
 			</tr>
-			<!-- $EndBlock shiphead -->
-			<!-- $BeginBlock shippingAddressDetails -->
 			<tr>
-			  <td align="left" style="vertical-align:top">
+			  <td align="left" style="vertical-align:top;height:150px">
 				<p class="fontSetting">${shippingAddress}</p>
 			  </td>
 			</tr> 
-			<!-- $EndBlock shippingAddressDetails --> 
 		 </table>
+		 <!-- $EndBlock shiphead -->
 		</td>
 	 </tr>
  </table>
@@ -158,7 +151,7 @@
 			<!-- $EndBlock paymentterms -->
 		 </tr>
   </table>
-<table border="1" class="removeHeadBorder" id="items" style="font-family:${fontStyle};font-size:${font};">
+<table width="100%" border="1" class="removeHeadBorder" id="items" style="font-family:${fontStyle};font-size:${font};">
 <!-- $BeginBlock  itemDetails -->
   <tr><!-- $BeginBlock showLabels -->
     <th><p class="fontSetting">Description</p></th>
@@ -197,17 +190,19 @@
 	</td>
 	<!-- $EndBlock vatValueBlock -->
   </tr><!-- $EndBlock invoiceRecord -->
-  <tr>
-	<td class="blank" colspan="4" rowspan="3" >
+</table>
+<table width="100%" border="1" id="items">
+ <tr>
+	<td class="blank" colspan="4" rowspan="3" width="63%">
 	  <p class="fontSetting">${blankText}</p>
 	</td>
 	<td class="total-line, item-column" ><p class="fontSetting">&nbsp;&nbsp;Sub Total</p></td>
-	<td class="total-value, item-column">
-	  <div id="subtotal">
-	    <p class="fontSetting" align="right">
-		 ${subTotal}
-		</p>
-	  </div>
+		<td class="total-value, item-column" >
+		  <div id="subtotal">
+			<p class="fontSetting" align="right">
+			 ${subTotal}
+			</p>
+		  </div>
 	</td>
   </tr>
   <!-- $BeginBlock VatTotal -->
@@ -277,6 +272,7 @@
        <!-- $EndBlock logo -->
 	</tr>
 </table>
+</div>
 </div>
 </div>
 <!-- $EndBlock theme -->
