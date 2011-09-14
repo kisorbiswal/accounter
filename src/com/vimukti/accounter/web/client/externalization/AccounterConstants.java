@@ -4818,4 +4818,6 @@ public interface AccounterConstants extends Constants {
 
 	public String accounterTerminologies();
 
+	public String pleaseSelectTaxCode();
+
 }

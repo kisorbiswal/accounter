@@ -755,6 +755,14 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		if (custForm != null) {
 			result.add(custForm.validate());
 		}
+		if (getCompany().getPreferences().isChargeSalesTax()) {
+			for (ClientTransactionItem transactionItem : transactionItems) {
+				if (transactionItem.getTaxCode() == 0) {
+					result.addError("taxCode", Accounter.constants()
+							.pleaseSelectTaxCode());
+				}
+			}
+		}
 		return result;
 
 	}
