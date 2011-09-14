@@ -92,7 +92,7 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		this.description = desc;
 		initRPCService();
 		createControls();
-okbtn.setFocus(true);
+		okbtn.setFocus(true);
 		sinkEvents(Event.ONKEYPRESS);
 		sinkEvents(Event.ONMOUSEOVER);
 	}

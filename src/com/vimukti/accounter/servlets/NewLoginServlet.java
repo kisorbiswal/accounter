@@ -3,6 +3,7 @@ package com.vimukti.accounter.servlets;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -123,9 +124,18 @@ public class NewLoginServlet extends BaseServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		LOG.info(request);
+		for (Cookie cookie : request.getCookies()) {
+			System.err.println("Cookie  " + cookie.getName() + " : "
+					+ cookie.getValue() + ',' + cookie.getMaxAge() + ','
+					+ cookie.getPath() + ',' + cookie.getDomain());
+		}
 		// We check if the session is already there, if it is, we check if user
 		// have to reset his password(by using a flag on the user object)
-		HttpSession httpSession = request.getSession();
+		HttpSession httpSession = request.getSession(false);
+		if (httpSession == null) {
+			dispatch(request, response, LOGIN_VIEW);
+			return;
+		}
 		String activationType = (String) httpSession
 				.getAttribute(ACTIVATION_TYPE);
 		if (activationType != null && activationType.equals("resetpassword")) {

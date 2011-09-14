@@ -599,6 +599,8 @@ public class FinanceTool {
 			session.saveOrUpdate(user);
 		} else if (serverObject instanceof RecurringTransaction) {
 			session.delete(serverObject);
+		} else if (serverObject instanceof Reconciliation) {
+			session.delete(serverObject);
 		} else {
 			if (canDelete(serverClass.getSimpleName(), Long.parseLong(arg1))) {
 				session.delete(serverObject);
@@ -12851,11 +12853,13 @@ public class FinanceTool {
 
 	}
 
-	public List<ClientTransaction> getAllTransactionsOfAccount(long id)
+	public List<ClientTransaction> getAllTransactionsOfAccount(long id,
+			ClientFinanceDate startDate, ClientFinanceDate endDate)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		List list = session.getNamedQuery("get.transactions.by.account")
-				.setLong("id", id).list();
+				.setLong("id", id).setParameter("startDate", startDate)
+				.setParameter("endDate", endDate).list();
 		List<ClientTransaction> transactions = new ArrayList<ClientTransaction>();
 
 		Iterator iterator = list.iterator();
@@ -12897,6 +12901,22 @@ public class FinanceTool {
 	public ArrayList<ClientPayTDS> getPayBillsByTDS() {
 		Session session = HibernateUtil.getCurrentSession();
 		return null;
+	}
+
+	/**
+	 * @param accountID
+	 * @return
+	 */
+	public double getOpeningBalanceforReconciliation(long accountID) {
+		Session session = HibernateUtil.getCurrentSession();
+		List list = session
+				.getNamedQuery(
+						"get.OpeningBalance.Of.Account.from.Reconciliations")
+				.setParameter("accountID", accountID).list();
+		if (list.isEmpty()) {
+			return 0.0;
+		}
+		return ((Reconciliation) list.get(0)).getClosingBalance();
 	}
 
 }

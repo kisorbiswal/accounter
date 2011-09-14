@@ -77,7 +77,7 @@
 		
 		<many-to-one name="reconciliation" class="Reconciliation" lazy="false"
 			column="RECONCILIATION_ID">
-		</many-to-one>
+		</many-to-one> 
 		
 		<joined-subclass name="PaySalesTax" table="PAY_SALES_TAX">
 			<key column="ID" />

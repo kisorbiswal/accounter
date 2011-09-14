@@ -12,6 +12,7 @@ import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
+import com.vimukti.accounter.core.Server;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.server.CometManager;
@@ -25,40 +26,48 @@ public class LogoutServlet extends BaseServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		try {
-			String userid = (String) req.getSession().getAttribute(EMAIL_ID);
-			if (userid != null) {
-				String cid = getCookie(req, COMPANY_COOKIE);
-				if (cid != null) {
+		String userid = (String) req.getSession().getAttribute(EMAIL_ID);
+		if (userid != null) {
+			String cid = getCookie(req, COMPANY_COOKIE);
+			if (cid != null) {
+				try {
+					updateActivity(userid, cid);
 
-					Session session = HibernateUtil
-							.openSession("company" + cid);
-					Transaction transaction = session.beginTransaction();
-
-					User user = (User) session.getNamedQuery("user.by.emailid")
-							.setParameter("emailID", userid).uniqueResult();
-					Activity activity = new Activity(user, ActivityType.LOGOUT);
-
-					session.save(activity);
-					transaction.commit();
-					session.close();
 					long id = Long.parseLong(cid);
 					// Destroy the comet queue so that it wont take memory
 					CometManager.destroyStream(req.getSession().getId(), id,
 							userid);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-				deleteCookie(req, resp);
-				req.getSession().setAttribute(USER_ID, null);
 			}
-			// resp.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
-			// resp.setHeader("Location", "/login");
-		} catch (Exception e) {
-			e.printStackTrace();
+			req.getSession().removeAttribute(EMAIL_ID);
 		}
+		// resp.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
+		// resp.setHeader("Location", "/login");
 
 		req.getSession().invalidate();
-
+		deleteCookie(req, resp);
 		redirectExternal(req, resp, LOGIN_URL);
+	}
+
+	/**
+	 * @param cid
+	 */
+	private void updateActivity(String userid, String cid) {
+		Session session = HibernateUtil.openSession(Server.COMPANY + cid);
+		Transaction transaction = session.beginTransaction();
+		try {
+			User user = (User) session.getNamedQuery("user.by.emailid")
+					.setParameter("emailID", userid).uniqueResult();
+			Activity activity = new Activity(user, ActivityType.LOGOUT);
+			session.save(activity);
+			transaction.commit();
+		} catch (Exception e) {
+			transaction.rollback();
+		} finally {
+			session.close();
+		}
 	}
 
 	private void deleteCookie(HttpServletRequest request,
@@ -69,6 +78,7 @@ public class LogoutServlet extends BaseServlet {
 				cookie.setMaxAge(0);
 				cookie.setValue("");
 				cookie.setPath("/");
+				cookie.setDomain(request.getHeader("host"));
 				response.addCookie(cookie);
 			}
 		}

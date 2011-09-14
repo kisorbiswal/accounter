@@ -1620,8 +1620,10 @@
 	
 	<query name="get.transactions.by.account">
 		<query-param name="id" type="long" />
+		<query-param name="stratDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.AccountTransaction at where
-		at.account.id=:id group by at.transaction
+		at.account.id=:id  and at.transaction.reconciliation is null and at.transaction.transactionDate between :startDate and :endDate group by at.transaction
 	</query>
 	
 	<query name="get.Activities.by.date">
@@ -1634,6 +1636,11 @@
 	<query name="get.reconciliations.by.accountId">
 		<query-param name="accountID" type="long" />
 		from com.vimukti.accounter.core.Reconciliation re where re.account.id=:accountID
+	</query>
+	
+	<query name="get.OpeningBalance.Of.Account.from.Reconciliations">
+		<query-param name="accountID" type="long"/>
+		from com.vimukti.accounter.core.Reconciliation re where re.account.id=:accountID order by re.id desc
 	</query>
 	
 </hibernate-mapping>

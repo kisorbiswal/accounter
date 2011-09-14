@@ -73,8 +73,7 @@ public abstract class CreatableObject implements Lifecycle {
 
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
-		// TODO Auto-generated method stub
-		return true;
+		return false;
 	}
 
 	@Override

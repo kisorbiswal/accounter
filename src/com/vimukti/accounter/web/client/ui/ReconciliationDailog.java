@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -35,11 +36,18 @@ public class ReconciliationDailog extends BaseDialog<ClientReconciliation>
 	private AmountField closingBalance;
 	private ClientReconciliation reconcilition;
 	private String account;
+	private ValueCallBack<ClientReconciliation> reconciliationCallback;
 
 	public ReconciliationDailog(String reconciliation,
 			ClientReconciliation reconcilition) {
+		this(reconciliation, reconcilition, null);
+	}
 
+	public ReconciliationDailog(String reconciliation,
+			ClientReconciliation reconcilition,
+			ValueCallBack<ClientReconciliation> callback) {
 		super(reconciliation, "");
+		this.reconciliationCallback = callback;
 		this.reconcilition = reconcilition;
 		setWidth("400px");
 		createControls();
@@ -134,6 +142,8 @@ public class ReconciliationDailog extends BaseDialog<ClientReconciliation>
 		mainpanel.add(form);
 		setBodyLayout(mainpanel);
 
+		okbtn.setText(constants.startReconciliation());
+
 	}
 
 	/**
@@ -181,8 +191,12 @@ public class ReconciliationDailog extends BaseDialog<ClientReconciliation>
 
 	@Override
 	protected boolean onOK() {
-		ActionFactory.getNewReconciliationAction().run(createReconciliation(),
-				false);
+		if (reconciliationCallback != null) {
+			reconciliationCallback.execute(createReconciliation());
+		} else {
+			ActionFactory.getNewReconciliationAction().run(
+					createReconciliation(), false);
+		}
 		return true;
 	}
 

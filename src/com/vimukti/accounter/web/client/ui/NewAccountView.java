@@ -307,7 +307,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		opBalText.setToolTip(Accounter.messages().giveOpeningBalanceToThis(
 				this.getAction().getViewName()));
 		opBalText.setHelpInformation(true);
-
+		opBalText.setDisabled(isInViewMode());
 		opBalText.setWidth(100);
 		opBalText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
 		// opBalText.setShowDisabled(false);
@@ -1324,7 +1324,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		opBalText.setAmount(data.getTotalBalance());
 		// if (!data.isOpeningBalanceEditable()) {
-		opBalText.setDisabled(true);
+		// opBalText.setDisabled(true);
 		// }
 		// Enable Opening Balance to All Balancesheet accounts
 		enableOpeningBalaceTxtByType();
@@ -1655,13 +1655,17 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
-		// opBalText.setDisabled(isInViewMode());
+		if (data.isOpeningBalanceEditable()) {
+			opBalText.setDisabled(isInViewMode());
+		}
 		accNoText.setDisabled(isInViewMode());
 		accNameText.setDisabled(isInViewMode());
 		cashAccountCheck.setDisabled(isInViewMode());
 		statusBox.setDisabled(isInViewMode());
 		commentsArea.setDisabled(isInViewMode());
-		creditCardForm.setDisabled(isInViewMode());
+		if (creditCardForm != null) {
+			creditCardForm.setDisabled(isInViewMode());
+		}
 		super.onEdit();
 
 	}
@@ -1719,10 +1723,12 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (bankNameSelect != null) {
 			bankNameSelect.setTabIndex(10);
 		}
-		if (typeSelect != null)
+		if (typeSelect != null) {
 			typeSelect.setTabIndex(11);
-		if (bankAccNumText != null)
+		}
+		if (bankAccNumText != null) {
 			bankAccNumText.setTabIndex(12);
+		}
 		saveAndCloseButton.setTabIndex(13);
 		saveAndNewButton.setTabIndex(14);
 		cancelButton.setTabIndex(15);

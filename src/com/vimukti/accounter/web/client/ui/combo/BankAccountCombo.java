@@ -34,10 +34,9 @@ public class BankAccountCombo extends AccountCombo {
 
 	@Override
 	public void onAddNew() {
-		NewBankAccountAction action = ActionFactory
-				.getNewBankAccountAction();
+		NewBankAccountAction action = ActionFactory.getNewBankAccountAction();
 		action.setCallback(new ActionCallback<ClientBankAccount>() {
-			
+
 			@Override
 			public void actionResult(ClientBankAccount result) {
 				addItemThenfireEvent(result);

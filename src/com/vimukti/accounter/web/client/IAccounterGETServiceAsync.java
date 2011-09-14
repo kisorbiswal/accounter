@@ -412,4 +412,11 @@ public interface IAccounterGETServiceAsync {
 	public void getReconciliationsByBankAccountID(long accountName,
 			AsyncCallback<List<ClientReconciliation>> callback);
 
+	/**
+	 * @param id
+	 * @param accounterAsyncCallback
+	 */
+	public void getOpeningBalanceforReconciliation(long id,
+			AsyncCallback<Double> accounterAsyncCallback);
+
 }

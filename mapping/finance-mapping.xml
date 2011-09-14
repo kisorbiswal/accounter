@@ -1542,8 +1542,8 @@
 			type="com.vimukti.accounter.core.LongUseType"></property>
 
 
-		<set name="transactions" inverse="true" cascade="save-update"
-			lazy="false" table="RE">
+		<set name="transactions" cascade="save-update"
+			lazy="false" table="RECONCILIATION">
 			<key column="RECONCILIATION_ID"></key>
 			<one-to-many class="Transaction" />
 		</set>

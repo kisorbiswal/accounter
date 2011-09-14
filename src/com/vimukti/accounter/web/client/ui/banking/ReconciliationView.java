@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -26,9 +27,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ReconciliationDailog;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.SelectionChangedHandler;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -42,9 +41,6 @@ import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 public class ReconciliationView extends BaseView<ClientReconciliation> {
 
 	private VerticalPanel mainPanel;
-	private SelectCombo bankAccountsField;
-	private DateField startDate;
-	private DateField endDate;
 	private ReconciliationTransactionsGrid grid;
 	private Set<ClientTransaction> clearedTransactions = new HashSet<ClientTransaction>();
 	private LabelItem bankaccountLabel, startdateLable, enddateLable;
@@ -113,7 +109,24 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 			public void onClick(ClickEvent event) {
 				ReconciliationDailog dialog = new ReconciliationDailog(Global
 						.get().constants().Reconciliation(),
-						(ClientReconciliation) data);
+						(ClientReconciliation) data,
+						new ValueCallBack<ClientReconciliation>() {
+
+							@Override
+							public void execute(ClientReconciliation value) {
+								setData(value);
+								closingBalance.setAmount(value
+										.getClosingBalance());
+								startdateLable.setValue(value.getStartDate()
+										.toString());
+								enddateLable.setValue(value.getEndDate()
+										.toString());
+								bankaccountLabel.setValue(value.getAccount()
+										.getName());
+								initData();
+								setOpeningBalance();
+							}
+						});
 				dialog.show();
 			}
 		});
@@ -200,7 +213,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 			clearedTransactions.remove(value);
 		}
 		double transactionAmount = UIUtils.isMoneyOut(value) ? value.getTotal()
-				* -1 : value.getTotal();
+				: value.getTotal() * -1;
 		if (!isClear) {
 			transactionAmount *= -1;
 		}
@@ -210,8 +223,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 
 	private void updateAmounts(double changedAmount) {
 		clearedAmount.setAmount(clearedAmount.getAmount() + changedAmount);
-		difference.setAmount(closingBalance.getAmount()
-				- clearedAmount.getAmount());
+		difference.setAmount(difference.getAmount() - changedAmount);
 	}
 
 	/**
@@ -242,6 +254,29 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 						grid.setData(list);
 					}
 				});
+	}
+
+	private void setOpeningBalance() {
+		rpcGetService.getOpeningBalanceforReconciliation(data.getAccount()
+				.getID(), new AccounterAsyncCallback<Double>() {
+
+			@Override
+			public void onException(AccounterException exception) {
+				Accounter.showError(messages.unableToGet(constants
+						.openBalance()));
+			}
+
+			@Override
+			public void onResultSuccess(Double result) {
+				if (result == 0.0) {
+					openingBalance.setAmount(data.getAccount()
+							.getOpeningBalance());
+				} else {
+					openingBalance.setAmount(data.getAccount()
+							.getOpeningBalance());
+				}
+			}
+		});
 	}
 
 	@Override
@@ -305,14 +340,16 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 
 	@Override
 	public void initData() {
-		getTransactions();
 		if (!isCreating()) {
-			// ClientReconciliation data = this.getData();
-			// grid.setData(new ArrayList<ClientTransaction>(data
-			// .getTransactions()));
+			ClientReconciliation data = this.getData();
+			grid.setData(new ArrayList<ClientTransaction>(data
+					.getTransactions()));
 			clearedAmount.setAmount(data.getClosingBalance());
 		} else {
-			updateAmounts(0);
+			getTransactions();
+			difference.setAmount(closingBalance.getAmount()
+					- openingBalance.getAmount());
+			setOpeningBalance();
 		}
 		super.initData();
 	}

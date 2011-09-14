@@ -565,7 +565,7 @@ public class VendorBillView extends
 		bottompanel.setWidth("100%");
 		//
 
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK || getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 
 			VerticalPanel verticalPanel = new VerticalPanel();
 			verticalPanel.setWidth("100%");
@@ -597,22 +597,22 @@ public class VendorBillView extends
 			// bottomLayout.setCellHorizontalAlignment(totalForm,
 			// HasHorizontalAlignment.ALIGN_RIGHT);
 		} else if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
-//			bottomLayout.add(horizontalPanel);
-//			bottomLayout.add(totalForm);
-//			bottomLayout.setCellWidth(totalForm, "30%");
-//
-//			memoForm.setStyleName("align-form");
-//			VerticalPanel vPanel = new VerticalPanel();
-//			vPanel.add(hpanel);
-//			vPanel.setWidth("100%");
-//
-//			vPanel.setCellHorizontalAlignment(hpanel, ALIGN_RIGHT);
-//			vPanel.add(horizontalPanel);
-//			vPanel.add(memoForm);
-//
-//			bottompanel.add(vPanel);
-//			bottompanel.add(bottomLayout);
-			
+			// bottomLayout.add(horizontalPanel);
+			// bottomLayout.add(totalForm);
+			// bottomLayout.setCellWidth(totalForm, "30%");
+			//
+			// memoForm.setStyleName("align-form");
+			// VerticalPanel vPanel = new VerticalPanel();
+			// vPanel.add(hpanel);
+			// vPanel.setWidth("100%");
+			//
+			// vPanel.setCellHorizontalAlignment(hpanel, ALIGN_RIGHT);
+			// vPanel.add(horizontalPanel);
+			// vPanel.add(memoForm);
+			//
+			// bottompanel.add(vPanel);
+			// bottompanel.add(bottomLayout);
+
 		} else {
 			memoForm.setStyleName("align-form");
 			VerticalPanel vPanel = new VerticalPanel();

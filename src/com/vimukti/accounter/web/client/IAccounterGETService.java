@@ -306,4 +306,7 @@ public interface IAccounterGETService extends RemoteService {
 	List<ClientReconciliation> getReconciliationsByBankAccountID(
 			long accountName) throws AccounterException;
 
+	double getOpeningBalanceforReconciliation(long id)
+			throws AccounterException;
+
 }

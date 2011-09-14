@@ -24,8 +24,8 @@ public class BudgetReportToolbar extends ReportToolbar {
 	private int TOOLBAR_TYPE_QUATER = 3;
 	private int TOOLBAR_TYPE_YEAR = 4;
 
-	private DateItem fromItem;
-	private DateItem toItem;
+	private DateItem fromItem = new DateItem();
+	private DateItem toItem = new DateItem();
 
 	protected SelectCombo budgetCombo;
 	protected SelectCombo budgetYear;

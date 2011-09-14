@@ -2086,12 +2086,19 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 	public List<ClientTransaction> getAllTransactionsOfAccount(long id,
 			ClientFinanceDate startDate, ClientFinanceDate endDate)
 			throws AccounterException {
-		return getFinanceTool().getAllTransactionsOfAccount(id);
+		return getFinanceTool().getAllTransactionsOfAccount(id, startDate,
+				endDate);
 	}
 
 	@Override
 	public List<ClientReconciliation> getReconciliationsByBankAccountID(
 			long accountID) throws AccounterException {
 		return getFinanceTool().getReconciliationsByBankAccountID(accountID);
+	}
+
+	@Override
+	public double getOpeningBalanceforReconciliation(long accountID)
+			throws AccounterException {
+		return getFinanceTool().getOpeningBalanceforReconciliation(accountID);
 	}
 }
