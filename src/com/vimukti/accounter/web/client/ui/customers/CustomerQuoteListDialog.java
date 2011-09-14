@@ -18,6 +18,7 @@ import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
@@ -78,9 +79,9 @@ public class CustomerQuoteListDialog extends BaseDialog {
 
 		grid = new DialogGrid(false);
 		grid.addColumns(customerConstants.date(), customerConstants.no(),
-				customerConstants.type(), Accounter.messages().customerName(
-						Global.get().Customer()), customerConstants.total(),
-				customerConstants.remainingTotal());
+				customerConstants.type(),
+				Accounter.messages().customerName(Global.get().Customer()),
+				customerConstants.total(), customerConstants.remainingTotal());
 		grid.setView(this);
 		grid.setCellsWidth(70, 30, 80, -1, 60, 95);
 		grid.init();
@@ -88,16 +89,15 @@ public class CustomerQuoteListDialog extends BaseDialog {
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT);
-		grid
-				.addRecordDoubleClickHandler(new RecordDoubleClickHandler<EstimatesAndSalesOrdersList>() {
+		grid.addRecordDoubleClickHandler(new RecordDoubleClickHandler<EstimatesAndSalesOrdersList>() {
 
-					@Override
-					public void OnCellDoubleClick(
-							EstimatesAndSalesOrdersList core, int column) {
-						setRecord(core);
+			@Override
+			public void OnCellDoubleClick(EstimatesAndSalesOrdersList core,
+					int column) {
+				setRecord(core);
 
-					}
-				});
+			}
+		});
 
 		// getGridData();
 		setQuoteList(estimatesAndSalesOrder);
@@ -190,8 +190,8 @@ public class CustomerQuoteListDialog extends BaseDialog {
 			}
 
 		};
-		rpcGetService.getObjectById(AccounterCoreType.SALESORDER, record
-				.getTransactionId(), callback);
+		rpcGetService.getObjectById(AccounterCoreType.SALESORDER,
+				record.getTransactionId(), callback);
 	}
 
 	private void getEstimate(EstimatesAndSalesOrdersList record) {
@@ -213,8 +213,8 @@ public class CustomerQuoteListDialog extends BaseDialog {
 			}
 
 		};
-		rpcGetService.getObjectById(AccounterCoreType.ESTIMATE, record
-				.getTransactionId(), callback);
+		rpcGetService.getObjectById(AccounterCoreType.ESTIMATE,
+				record.getTransactionId(), callback);
 
 	}
 
@@ -228,7 +228,7 @@ public class CustomerQuoteListDialog extends BaseDialog {
 		}
 	}
 
-	public Object getGridColumnValue(IsSerializable obj, int index) {
+	public Object getGridColumnValue(IAccounterCore obj, int index) {
 		EstimatesAndSalesOrdersList estimate = (EstimatesAndSalesOrdersList) obj;
 		if (estimate != null) {
 			switch (index) {
