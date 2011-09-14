@@ -22,7 +22,7 @@
 <table style="width: 100%;margin:20px 0px" cellspacing="10" >
 <!-- $BeginBlock creditHead -->
 	<tr>
-		<td style="vertical-align: top;" align="left">
+		<td style="vertical-align: top;" align="left" width="50%">
 		  <table>
 		    <tr>
 			  <td>
@@ -38,22 +38,25 @@
 			</tr>
 		  </table>
 		</td>
-		<td style="vertical-align: top;" align="right">
+		<td style="vertical-align: top;" align="right" class="credit_quick_number" width="50%">
 			<div class="gwt-HTML">
 				<div>
-					<table border="1" class="credit_note_vimukti">
+					<table border="1" class="credit_note_vimukti" width="80%" style="text-align:center">
 						<colgroup></colgroup>
 						<tr>
-							<td class="credit-head"> Credit Note Number</td>
-							<td align="right" width="55%">${creditNoteNumber}</td>
+							<td class="credit-head" width="50%"> Credit Note Number</td>
+							<td class="credit-head" width="50%">Credit Note Date</td>
+							
 						</tr>
 						<tr>
-							<td class="credit-head">Credit Note Date</td>
-							<td align="right" width="55%">${creditNoteDate}</td>
+						    <td >${creditNoteNumber}</td>
+							<td  width="50%">${creditNoteDate}</td>
 						</tr>
 						<tr>
-							<td class="credit-head">Customer Number</td>
-							<td align="right" width="55%">${customerNumber}</td>
+							<td class="credit-head" colspan="2">Customer Number</td>
+						</tr>
+						<tr>
+						    <td  width="50%" colspan="2">${customerNumber}</td>
 						</tr>
 					</table>
 				</div>
@@ -62,20 +65,30 @@
 	</tr>
 <!-- $EndBlock creditHead -->
 </table>
-<table  class="gridHeader credito_vimukti" border="1" style="margin:20px 0">
+<table  class="gridHeader credito_vimukti credit_quick_upp" border="1" style="margin:20px 0">
 		<colgroup><col></colgroup>
 		<tr>
 			<td class="gridHeaderBackGround"><center>Credit To</center></td>
 		</tr>
 		<!-- $BeginBlock billAddress -->
 		<tr>
-		   <td align="left" class="plaincredit" style="width:400px;height:200px" >
+		   <td align="left" class="plaincredit" style="width:400px;height:150px" >
 		     <div align="left">&nbsp;${customerNameNBillAddress}</div>
 		   </td>
 		</tr>
 		<!-- $EndBlock billAddress -->
 </table>
-<table border="1" style="margin:20px 0" class="main_credit_vimukti" width="100%">
+<table class="dueamount_enclosed" border="1">
+    <tr>
+	   <td class="table-head"><p class="fontSetting"><center>Amount Due</center></p></td>
+	   <td class="table-head"><p class="fontSetting"><center>Enclosed</center></p></td>
+    </tr>
+    <tr>
+	   <td><p class="fontSetting"><center>${amountDue}</center></p></td>
+	   <td><p class="fontSetting"><center>${enclosed}</center></p></td>
+	</tr>
+ </table>
+<table border="1" style="margin:20px 0;clear:both" class="main_credit_vimukti credit_quick_upp" width="100%">
 <!-- $BeginBlock  itemDetails -->
   <tr><!-- $BeginBlock showLabels -->
     <th><p class="fontSetting">Description</p></th>
@@ -117,7 +130,7 @@
   </tr><!-- $EndBlock itemRecord -->
   </tbody>
  </table>
- <table border="1" class="quick_credit_total">
+ <table border="1" class="quick_credit_total" width="50%">
   <tr>
   	<!-- $BeginBlock memoblock -->
 	<td class="blank" colspan="4" rowspan="3" >
@@ -141,7 +154,7 @@
 	</td>
   </tr>
    <!-- $EndBlock VatTotal -->
-  <tr style="background:#ccc">
+  <tr style="background:#f2f2f2">
 	<td class="total-line balance, item-column"><p class="fontSetting">&nbsp;&nbsp;TOTAL</p></td>
 	<td class="total-value, item-column" align="right">
 	  <div class="total"><p class="fontSetting">${total}</p></div>

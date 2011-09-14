@@ -319,9 +319,9 @@ table tr.gridHeaderRow td {
    padding:3px;
 }
 .quick_total_table td,.quick_credit_total td{
-    height: 50px;
+    height: 40px;
     text-align: center;
-    width: 227px;
+    width: 200px;
 }
 .dueamount_enclosed  tr:last-child td,.zoho_subtotal_table td,.credit_zoho_total td{
    height: 50px;
@@ -358,7 +358,7 @@ table tr.gridHeaderRow td {
 .xero_credit_memo td,.xero_credit_memo th,.xero_invoice_table td,.xero_invoice_table th{
     padding:10px;
 }
-.xero_credit_memo td{
+.xero_credit_memo td,.credit_quick_number .credit_note_vimukti td{
     text-align:center;
 }
 .xero_credit_total,.xero_sub_total {
@@ -370,7 +370,7 @@ table tr.gridHeaderRow td {
    padding: 10px 50px;
 }
 .credit_zoho_header{
-   margin-bottom:-15px;
+   margin-bottom:-25px;
 }
 .credit_to_zoho{
     height: 150px;
@@ -412,4 +412,8 @@ table tr.gridHeaderRow td {
 }
 .invoice_xero_header{
 	font-size: 20px;
+}
+.credit_quick_number  .credit_note_vimukti .credit-head,.credit_quick_upp .gridHeaderBackGround,
+.credit_quick_upp th{
+     text-transform: uppercase;
 }

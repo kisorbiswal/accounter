@@ -3,6 +3,7 @@
 <link rel='stylesheet' type='text/css' href='templetes/FinancePrint.css' media='all'></link>
 </head>
 <!-- $BeginBlock theme -->
+<div style="margin:40px">
 <div style="font-family:segoe script;font-size:${font};margin-bottom:${bottomMargin};margin-top:${topMargin};">
 <div class="invoice_main_div">
  <table style="font-family:${fontStyle};font-size:${font};" width="100%">
@@ -69,10 +70,10 @@
 		   </td>
 		</tr> 
    </table>
-   <table border="0" id="billingAddressTable" width="100%" style="font-family:${fontStyle};font-size:${font};">
+   <table border="0" id="billingAddressTable" width="100%" style="margin:20px 0;font-family:${fontStyle};font-size:${font};">
      <tr>
 	   <td style="vertical-align: top;" align="left">
-	     <table border="1"  id="billto" class="billto_quick" style="font-family:${fontStyle};font-size:${font};"><colgroup><col></colgroup>
+	     <table border="1"  id="billto" class="billto_quick" style="width:400px;font-family:${fontStyle};font-size:${font};"><colgroup><col></colgroup>
 		 <!-- $BeginBlock billhead -->
           <tr>
 			<td class="table-head"><p class="fontSetting"><center>Bill To</center></p></td>
@@ -80,7 +81,7 @@
 		  <!-- $EndBlock billhead -->
           <!-- $BeginBlock billingAddressDetails -->
 		  <tr>
-			<td align="left" style="vertical-align:top">
+			<td align="left" style="vertical-align:top;height:150px">
 			   <p class="fontSetting">
 			     <div align="left">&nbsp;${billingAddress}</div>
 			   </p>
@@ -101,7 +102,7 @@
 	   <td><p class="fontSetting"><center>${enclosed}</center></p></td>
 	</tr>
  </table>
-<table border="1" width="100%"  class="removeHeadBorder quick_invoice_header" id="items" style="font-family:${fontStyle};font-size:${font};clear:both">
+<table border="1" width="100%"  class="removeHeadBorder quick_invoice_header" id="items" style="margin:20px 0;clear:both;font-family:${fontStyle};font-size:${font};clear:both">
 <!-- $BeginBlock  itemDetails -->
 <thead>
   <tr class="table-head"><!-- $BeginBlock showLabels -->
@@ -145,7 +146,7 @@
   </tr><!-- $EndBlock invoiceRecord -->
   </tbody>
   </table>
-  <table border="1" class="quick_total_table">
+  <table border="1" width="50%" class="quick_total_table" style="margin:20px 0">
   <tr>
 	<td class="blank" colspan="4" rowspan="3" >
 	  <p class="fontSetting">${blankText}</p>
@@ -200,6 +201,7 @@
        <!-- $EndBlock logo -->
 	</tr>
 </table>
+</div>
 </div>
 </div>
 <!-- $EndBlock theme -->

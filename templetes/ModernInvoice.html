@@ -3,6 +3,7 @@
 <link rel='stylesheet' type='text/css' href='templetes/FinancePrint.css' media='all'></link>
 </head>
 <!-- $BeginBlock theme -->
+<div style="margin:40px">
 <div style="font-family:segoe script;font-size:${font};margin-bottom:${bottomMargin};margin-top:${topMargin};">
 <div class="invoice_main_div">
 <table>
@@ -19,7 +20,7 @@
 </table>
 <table width="100%">
   <tr>
-	  <td width="65%" style="border-bottom:1px solid" ></td>
+	  <td width="65%" style="border-bottom:3px solid" ></td>
 	  <td align="center;">
 		 <div class="invoice_zoho_header">
 			<p align="center">
@@ -27,20 +28,20 @@
 			</p>
 		  </div>
 	  </td>
-	  <td width="25%" style="border-bottom:1px solid"></td>
+	  <td width="25%" style="border-bottom:3px solid"></td>
 		</tr>
 		<tr>
 </table>
  <table style="font-family:${fontStyle};font-size:${font};" width="100%">
 		<tr>
 		  <td style="vertical-align: top;" align="left">
-		     <table id="header-part-invoice" style="font-family:${fontStyle};font-size:${font};" width="100%">
+		     <table id="header-part-invoice" style="margin:20px 0;font-family:${fontStyle};font-size:${font};" width="100%">
 			    <tr>
 				  <td width="60%">
 				      <table border="0" id="billingAddressTable" width="100%" style="font-family:${fontStyle};font-size:${font};">
 						 <tr>
 						   <td style="vertical-align: top;" align="left">
-							 <table border="1"  id="billto" class="billto_quick" style="font-family:${fontStyle};font-size:${font};"><colgroup><col></colgroup>
+							 <table border="1"  id="billto" class="billto_quick" style="width:300px;font-family:${fontStyle};font-size:${font};"><colgroup><col></colgroup>
 							 <!-- $BeginBlock billhead -->
 							  <tr>
 								<td class="table-head"><p class="fontSetting"><center>Bill To</center></p></td>
@@ -48,7 +49,7 @@
 							  <!-- $EndBlock billhead -->
 							  <!-- $BeginBlock billingAddressDetails -->
 							  <tr>
-								<td align="left" style="vertical-align:top">
+								<td align="left" style="vertical-align:top;height:150px">
 								   <p class="fontSetting">
 									 <div align="left">&nbsp;${billingAddress}</div>
 								   </p>
@@ -203,6 +204,7 @@
        <!-- $EndBlock logo -->
 	</tr>
 </table>
+</div>
 </div>
 </div>
 <!-- $EndBlock theme -->
