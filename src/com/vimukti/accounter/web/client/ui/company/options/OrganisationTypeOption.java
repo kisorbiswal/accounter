@@ -68,7 +68,8 @@ public class OrganisationTypeOption extends AbstractPreferenceOption {
 	@UiField
 	HTML organizationLink;
 
-	interface TaxFormOptionUiBinder extends UiBinder<Widget, OrganisationTypeOption> {
+	interface TaxFormOptionUiBinder extends
+			UiBinder<Widget, OrganisationTypeOption> {
 	}
 
 	/**
