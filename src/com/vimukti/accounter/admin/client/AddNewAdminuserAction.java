@@ -18,8 +18,7 @@ public class AddNewAdminuserAction extends Action {
 
 	@Override
 	public String getHelpToken() {
-		// TODO Auto-generated method stub
-		return null;
+		return "add-new-admin-user";
 	}
 
 	@Override
