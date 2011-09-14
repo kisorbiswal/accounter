@@ -47,7 +47,7 @@ public class CopyThemeAction extends Action {
 
 	@Override
 	public String getHelpToken() {
-		return null;
+		return "copy-theme";
 	}
 
 }

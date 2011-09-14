@@ -49,6 +49,6 @@ public class CustomThemeAction extends Action {
 
 	@Override
 	public String getHelpToken() {
-		return null;
+		return "custom-theme";
 	}
 }

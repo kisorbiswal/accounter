@@ -46,6 +46,6 @@ public class DeleteThemeAction extends Action {
 
 	@Override
 	public String getHelpToken() {
-		return null;
+		return "delete-theme";
 	}
 }
