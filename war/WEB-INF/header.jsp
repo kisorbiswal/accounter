@@ -1,24 +1,3 @@
-<script type="text/javascript">
-$(document).ready(function() {
-	$("#login-id").click(function(){
-		$("#login-id").addClass("login-hover");
-		$("#home-bg").removeAttr("class");
-	});
-	var urlpath = location.pathname;
-	var paths = urlpath.split("/");
-	pageName = paths[paths.length - 1];
-	if (pageName == "home") {
-		$("#home-bg").addClass("home-jbg");
-	} else if (pageName == "support") {
-		$("#sup-bg").addClass("sup-jbg");
-        $("#home-bg").removeAttr("class");
-	} else if (pageName == "features") {
-		$("#fea-bg").addClass("fea-jbg");
-        $("#home-bg").removeAttr("class");
-	}
-
-});
-</script>
 		<div class ="main_body-container">
 			<div class ="header" id="top">
 			
