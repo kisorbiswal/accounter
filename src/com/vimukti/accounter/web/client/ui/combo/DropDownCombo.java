@@ -193,14 +193,6 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 				textBox.setFocus(true);
 			}
 		});
-		BlurHandler blurHandler = new BlurHandler() {
-
-			@Override
-			public void onBlur(BlurEvent event) {
-				popup.hide();
-			}
-		};
-		addBlurHandler(blurHandler);
 		// dropDown.addDomHandler(focusHandler, FocusEvent.getType());
 		// dropDown.addDomHandler(blurHandler, BlurEvent.getType());
 		addKeyPressHandler();
