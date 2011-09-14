@@ -55,7 +55,7 @@ public class UsersActivityListAction extends Action<ClientActivity> {
 
 	@Override
 	public String getHelpToken() {
-		return null;
+		return "users-activity-log";
 	}
 
 }

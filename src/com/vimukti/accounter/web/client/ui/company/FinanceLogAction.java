@@ -71,9 +71,7 @@ public class FinanceLogAction extends Action {
 
 	@Override
 	public String getHelpToken() {
-		// TODO Auto-generated method stub
-		// Nothing to do
-		return null;
+		return "finance-log";
 	}
 
 }

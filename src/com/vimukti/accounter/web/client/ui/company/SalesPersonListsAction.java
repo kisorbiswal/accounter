@@ -62,8 +62,7 @@ public class SalesPersonListsAction extends Action {
 
 	@Override
 	public String getHelpToken() {
-		// TODO Auto-generated method stub
-		return null;
+		return "sales-person-list";
 	}
 
 }

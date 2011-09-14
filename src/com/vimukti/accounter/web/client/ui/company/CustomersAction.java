@@ -64,7 +64,7 @@ public class CustomersAction extends Action {
 
 	@Override
 	public String getHelpToken() {
-		return "customer";
+		return "customers";
 	}
 
 }

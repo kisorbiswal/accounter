@@ -38,7 +38,6 @@ public class CompanyInfoAction extends Action {
 
 	@Override
 	public String getHelpToken() {
-		// Not using
 		return "company-info";
 	}
 }
