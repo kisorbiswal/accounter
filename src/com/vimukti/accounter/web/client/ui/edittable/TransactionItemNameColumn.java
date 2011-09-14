@@ -36,11 +36,9 @@ public abstract class TransactionItemNameColumn extends
 		case ClientTransactionItem.TYPE_ACCOUNT:
 			return accountsList;
 		case ClientTransactionItem.TYPE_ITEM:
-			itemsList = new ItensDropDownTable(getItemsFilter());
 			itemsList.setItemType(ItemView.NON_INVENTORY_PART);
 			return itemsList;
 		case ClientTransactionItem.TYPE_SERVICE:
-			serviceItemsList = new ItensDropDownTable(getItemsFilter());
 			serviceItemsList.setItemType(ItemView.TYPE_SERVICE);
 			return serviceItemsList;
 		default:
