@@ -533,6 +533,7 @@ public class ViewManager extends HorizontalPanel {
 	}
 
 	public void showHelp(String helpTopic) {
+		url = helpTopic;
 		if (!isHelpPanelEnabled) {
 			if (helpPanel != null) {
 				helpPanel.removeFromParent();
@@ -562,7 +563,6 @@ public class ViewManager extends HorizontalPanel {
 			}
 		}
 
-		url = helpTopic;
 		helpPanel.setHelpUrl(getUrl());
 	}
 
