@@ -153,7 +153,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 				viewSelect = new SelectCombo(Accounter.constants()
 						.currentView());
 				viewSelect.setHelpInformation(true);
-				viewSelect.setWidth("150px");
+				// viewSelect.setWidth("150px");
 				List<String> typeList = new ArrayList<String>();
 				typeList.add(Accounter.constants().active());
 				typeList.add(Accounter.constants().inActive());
