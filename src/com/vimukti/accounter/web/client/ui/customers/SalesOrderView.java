@@ -47,6 +47,7 @@ import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.SalesOrderTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -355,8 +356,8 @@ public class SalesOrderView extends
 		paymentsNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
 
-		balanceDueNonEditableText = new AmountLabel(customerConstants
-				.balanceDue());
+		balanceDueNonEditableText = new AmountLabel(
+				customerConstants.balanceDue());
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -784,6 +785,8 @@ public class SalesOrderView extends
 		updateTransaction();
 
 		super.saveAndUpdateView();
+		transactionTotalNonEditableText.setAmount(customerTransactionTable
+				.getTotal());
 
 		saveOrUpdate(transaction);
 	}
@@ -989,6 +992,7 @@ public class SalesOrderView extends
 	public void updateNonEditableItems() {
 		if (customerTransactionTable == null)
 			return;
+
 		if (getCompany().getPreferences().isChargeSalesTax()) {
 			Double taxableLineTotal = customerTransactionTable
 					.getTaxableLineTotal();
@@ -997,7 +1001,8 @@ public class SalesOrderView extends
 				return;
 
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(), taxableLineTotal,
+					transactionDateItem.getEnteredDate(),
+					taxableLineTotal,
 					getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
@@ -1018,6 +1023,8 @@ public class SalesOrderView extends
 				setTransactionTotal(customerTransactionTable.getTotalValue());
 			}
 		}
+		transactionTotalNonEditableText.setAmount(customerTransactionTable
+				.getTotal());
 		// Double payments = this.paymentsNonEditableText.getAmount();
 		// setBalanceDue((this.transactionTotal - payments));
 	}
