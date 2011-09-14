@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
+import com.google.gwt.user.client.rpc.StatusCodeException;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
@@ -29,11 +29,14 @@ public abstract class AccounterAsyncCallback<T> implements AsyncCallback<T> {
 		if (exception instanceof AccounterException) {
 			onException((AccounterException) exception);
 			return;
-		} else if (exception instanceof InvocationException) {
-			Accounter.showMessage(Global.get().constants().sessionExpired());
-		} else {
-			Accounter.showInformation(Global.get().constants()
-					.unableToPerformTryAfterSomeTime());
+		} else if (exception instanceof StatusCodeException) {
+			if (((StatusCodeException) exception).getStatusCode() == 403) {
+				Accounter
+						.showMessage(Global.get().constants().sessionExpired());
+			} else {
+				Accounter.showInformation(Global.get().constants()
+						.unableToPerformTryAfterSomeTime());
+			}
 		}
 		exception.printStackTrace();
 
