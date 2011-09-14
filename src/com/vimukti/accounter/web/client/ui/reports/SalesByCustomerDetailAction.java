@@ -70,7 +70,7 @@ public class SalesByCustomerDetailAction extends Action {
 
 	@Override
 	public String getHelpToken() {
-		return "sales-by-customer";
+		return "sales-by-customer-details";
 	}
 
 }

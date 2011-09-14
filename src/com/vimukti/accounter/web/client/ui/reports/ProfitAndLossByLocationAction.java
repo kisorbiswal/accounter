@@ -58,7 +58,10 @@ public class ProfitAndLossByLocationAction extends Action {
 
 	@Override
 	public String getHelpToken() {
-		return " profit-loss By Location";
+		if(isLocation) {
+		return "profit-loss-by-location";
+		}
+		return "profit-loss-by-class";
 	}
 
 }

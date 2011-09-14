@@ -66,7 +66,7 @@ public class APAgingDetailAction extends Action {
 
 	@Override
 	public String getHelpToken() {
-		return "ap-aging-details";
+		return "reports-aging-details";
 	}
 
 }
