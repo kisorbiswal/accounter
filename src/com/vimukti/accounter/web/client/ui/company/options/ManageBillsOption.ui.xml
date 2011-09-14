@@ -6,9 +6,9 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel styleName="companyInfoPanel" horizontalAlignment="ALIGN_LEFT" spacing="6">
+	<g:VerticalPanel styleName="companyInfoPanel"  spacing="8">
 		<g:Label ui:field="managingBillLabelItem" styleName="header" />
-		<g:HorizontalPanel horizontalAlignment="ALIGN_CENTER" spacing="6">
+		<g:HorizontalPanel spacing="5">
 			<g:RadioButton name="managingBillRadioButton" ui:field="managingBillYesRadioButton" />
 			<g:RadioButton name="managingBillRadioButton" ui:field="managingBillNoRadioButton"
 				checked="true" />
