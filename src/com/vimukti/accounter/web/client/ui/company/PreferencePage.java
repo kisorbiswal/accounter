@@ -14,30 +14,31 @@ import com.vimukti.accounter.web.client.ui.company.options.AbstractPreferenceOpt
  * @author Prasanna Kumar G
  * 
  */
-public class PreferencePage extends ScrollPanel {
+public class PreferencePage extends VerticalPanel {
 
 	private String title;
 
 	private List<AbstractPreferenceOption> options = new ArrayList<AbstractPreferenceOption>();
 
-	private VerticalPanel optionsPane = new VerticalPanel();
+//	private VerticalPanel optionsPane = new VerticalPanel();
 
 	/**
 	 * Creates new Instance
 	 */
 	public PreferencePage(String title) {
 		this.title = title;
-		this.setHeight("250px");
-		this.add(this.optionsPane);
+//		this.setHeight("350px");
+//		optionsPane.setSize("100%", "100%");
+//		this.add(this.optionsPane);
 	}
 
 	public void addPreferenceOption(AbstractPreferenceOption option) {
-		optionsPane.add(option);
+		add(option);
 		this.options.add(option);
 	}
 
 	public void removePreferenceOption(AbstractPreferenceOption option) {
-		optionsPane.remove(option);
+		remove(option);
 		this.options.remove(option);
 	}
 
@@ -68,7 +69,7 @@ public class PreferencePage extends ScrollPanel {
 	 * @param option
 	 */
 	public void show(AbstractPreferenceOption option) {
-		ensureVisible(option);
+//		ensureVisible(option);
 	}
 
 }
