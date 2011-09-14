@@ -12,7 +12,7 @@ import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
-public class CreateFiscalYearDialog extends BaseDialog {
+public class CreateFiscalYearDialog extends BaseDialog<ClientFiscalYear> {
 
 	private HTML createFiscalYearLabel;
 	private HTML descriptionLabel;
@@ -53,8 +53,8 @@ public class CreateFiscalYearDialog extends BaseDialog {
 			endDate.setDay(endDate.getDay() - 1);
 		} else {
 			presentDate = new ClientFinanceDate();
-			startdate = new ClientFinanceDate(presentDate.getYear(), 00, 01);
-			endDate = new ClientFinanceDate(presentDate.getYear(), 11, 31);
+			startdate = new ClientFinanceDate(presentDate.getYear(), 01, 01);
+			endDate = new ClientFinanceDate(presentDate.getYear(), 12, 31);
 		}
 
 		startOfFiscalYear.setDatethanFireEvent(startdate);
