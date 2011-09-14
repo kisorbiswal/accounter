@@ -474,12 +474,11 @@ public class FinanceTool {
 
 			IAccounterServerCore serverObject = (IAccounterServerCore) session
 					.get(classforName, Long.parseLong(updateContext.getArg1()));
-
-			int version = serverObject.getVersion();
-			if (version != data.getVersion()) {
-				throw new AccounterException(
-						AccounterException.ERROR_VERSION_MISMATCH);
-			}
+			int version =data.getVersion();
+//			if (version != data.getVersion()) {
+//				throw new AccounterException(
+//						AccounterException.ERROR_VERSION_MISMATCH);
+//			}
 
 			IAccounterServerCore clonedObject = new CloneUtil<IAccounterServerCore>(
 					IAccounterServerCore.class).clone(null, serverObject);
