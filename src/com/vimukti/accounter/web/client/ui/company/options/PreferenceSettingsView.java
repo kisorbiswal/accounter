@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -31,6 +32,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 	private ClientCompanyPreferences companyPreferences = Accounter
 			.getCompany().getPreferences();
 	private List<PreferencePage> preferencePages;
+	private List<HTML> optionLinks = new ArrayList<HTML>();
 
 	@Override
 	public void init() {
@@ -194,18 +196,33 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 	}
 
 	private VerticalPanel createPageView(final PreferencePage page) {
-		VerticalPanel pageView = new VerticalPanel();
+		final VerticalPanel pageView = new VerticalPanel();
 		pageView.setWidth("100%");
 		List<AbstractPreferenceOption> options = page.getOptions();
-		for (final AbstractPreferenceOption option : options) {
-			HTML optionLink = new HTML("<a class='stackPanelLink'>"
+		for (int index = 0; index < options.size(); index++) {
+			final AbstractPreferenceOption option = options.get(index);
+			final HTML optionLink = new HTML("<a class='stackPanelLink'>"
 					+ option.getTitle() + "</a>");
 			pageView.add(optionLink);
+			// PreferenceOptionLinks.addLink(optionLink);
+			if (index == 0) {
+				optionLink.getElement().getParentElement()
+						.addClassName("contentSelected");
+			}
 			optionLink.addClickHandler(new ClickHandler() {
 
 				@Override
 				public void onClick(ClickEvent event) {
+					for (int index = 0; index < pageView.getWidgetCount(); index++) {
+						Widget widget = pageView.getWidget(index);
+						widget.getElement().getParentElement()
+								.removeClassName("contentSelected");
+						System.out.println(widget);
+					}
+					optionLink.getElement().getParentElement()
+							.addClassName("contentSelected");
 					pageDetailsPane.ensureVisible(option);
+
 				}
 			});
 		}
