@@ -818,11 +818,11 @@ public class CompanyPreferences implements IAccounterServerCore {
 		this.organizationType = organizationType;
 	}
 
-	public boolean isDoYouChargesalesTax() {
+	public boolean isChargeSalesTax() {
 		return get(CHARGE_SALES_TAX);
 	}
 
-	public void setDoYouChargesalesTax(boolean value) {
+	public void setChargeSalesTax(boolean value) {
 		set(CHARGE_SALES_TAX, value);
 	}
 
