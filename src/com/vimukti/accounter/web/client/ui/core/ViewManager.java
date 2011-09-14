@@ -580,6 +580,7 @@ public class ViewManager extends HorizontalPanel {
 			helpPanel.removeFromParent();
 		}
 		if (helpPanel.isRemoved()) {
+			helpPanel = (HelpPanel) createHelpPanel();
 			if (isPanelEnabled()) {
 				this.add(helpPanel);
 				this.setCellWidth(helpPanel, "50%");
