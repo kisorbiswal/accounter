@@ -269,9 +269,16 @@ public abstract class CustomerTransactionTable extends
 			super.update(citem);
 		//	totalVat += citem.getVATfraction();
 		}
-
+		
 		if (getCompany().getPreferences().isChargeSalesTax())
+		{
 			grandTotal = totalVat + totallinetotal;
+		}
+		else
+		{
+			grandTotal=totallinetotal;
+			totalValue=grandTotal;
+		}
 		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			// if (transactionView.vatinclusiveCheck != null
 			// && (Boolean) transactionView.vatinclusiveCheck.getValue()) {
@@ -282,6 +289,11 @@ public abstract class CustomerTransactionTable extends
 			grandTotal = totallinetotal;
 			totalValue = grandTotal + totalVat;
 			// }
+		}
+		else
+		{
+			grandTotal=totallinetotal;
+			totalValue=grandTotal;
 		}
 
 		updateNonEditableItems();
