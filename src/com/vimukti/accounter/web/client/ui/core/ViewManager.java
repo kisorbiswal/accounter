@@ -99,18 +99,6 @@ public class ViewManager extends HorizontalPanel {
 		leftPanel.add(toolBar);
 		leftPanel.add(viewHolder);
 		this.add(leftPanel);
-		if (isHelpPanelEnabled) {
-			helpPanel = (HelpPanel) createHelpPanel();
-		}
-		if (helpPanel != null) {
-			if (isPanelEnabled()) {
-				this.add(helpPanel);
-			} else {
-				helpPanel.setIsRemoved(true);
-			}
-			this.setCellWidth(helpPanel, "50%");
-		}
-
 		initilizeToolBar();
 		initializeActivityManager();
 	}
@@ -398,7 +386,7 @@ public class ViewManager extends HorizontalPanel {
 		}
 		view.setAction(action);
 		showHelp(action.getHelpToken());
-		showView(view, action, !isDependent);		
+		showView(view, action, !isDependent);
 	}
 
 	void initilizeToolBar() {
@@ -491,7 +479,6 @@ public class ViewManager extends HorizontalPanel {
 		toolBar.add(HasHorizontalAlignment.ALIGN_RIGHT, group2);
 		toolBar.add(HasHorizontalAlignment.ALIGN_RIGHT, group3);
 		toolBar.addStyleName("group-toolbar");
-
 	}
 
 	public void toggleHelpPanel(boolean isHelpPanel) {
@@ -526,7 +513,7 @@ public class ViewManager extends HorizontalPanel {
 
 	private HelpDialog helpDialog;
 
-	private boolean isHelpPanelEnabled = false;
+	private boolean isHelpPanelEnabled = true;
 
 	private void createHelpDialog() {
 		helpPanel.setIsHelpPanel(false);
@@ -561,16 +548,7 @@ public class ViewManager extends HorizontalPanel {
 		}
 
 		if (helpPanel == null) {
-			createHelpPanel();
-			if (isPanelEnabled()) {
-				this.add(helpPanel);
-				this.setCellWidth(helpPanel, "50%");
-			} else {
-				helpPanel.setIsRemoved(false);
-				helpPanel.setButtonDisabled(false);
-				helpPanel.setButtonPushed(true);
-				createHelpDialog();
-			}
+			return;
 		}
 
 		if (helpPanel.isRemoved()) {
