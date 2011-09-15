@@ -199,7 +199,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 
 	private VerticalPanel createPageView(final PreferencePage page) {
 		final VerticalPanel pageView = new VerticalPanel();
-		pageView.setWidth("100%");
+		pageView.setSize("100%", "230px");
 		List<AbstractPreferenceOption> options = page.getOptions();
 		for (int index = 0; index < options.size(); index++) {
 			final AbstractPreferenceOption option = options.get(index);
