@@ -121,6 +121,7 @@ public class Header extends HorizontalPanel {
 
 		panel2 = new VerticalPanel();
 		panel2.add(companyName);
+		panel2.setWidth("100%");
 
 		headerLinks = new SimplePanel();
 		headerLinks.addStyleName("header_links");
