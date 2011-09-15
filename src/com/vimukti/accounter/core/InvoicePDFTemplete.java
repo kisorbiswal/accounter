@@ -551,6 +551,9 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				+ companyId + "/" + brandingTheme.getFileName());
 		original.append("/>");
 
+		if (original.toString().contains("null")) {
+			return "";
+		}
 		return original.toString();
 
 	}
