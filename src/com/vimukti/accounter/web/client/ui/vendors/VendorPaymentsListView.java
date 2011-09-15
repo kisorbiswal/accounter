@@ -93,7 +93,7 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 		if (UIUtils.isMSIEBrowser())
 			currentView.setWidth("150px");
 
-		currentView.setComboItem(Accounter.constants().all());
+		currentView.setComboItem(Accounter.constants().notIssued());
 		currentView
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -115,7 +115,7 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 			List<PaymentsList> allRecs = initialRecords;
 			for (PaymentsList rec : allRecs) {
 				if (Utility.getStatus(rec.getType(), rec.getStatus())
-						.equalsIgnoreCase("Not Issued")) {
+						.equalsIgnoreCase("Not Issued") && !rec.isVoided()) {
 					notIssuedRecs.add(rec);
 				}
 			}
@@ -162,7 +162,6 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
 
 	}
-
 
 	@Override
 	public void fitToSize(int height, int width) {
