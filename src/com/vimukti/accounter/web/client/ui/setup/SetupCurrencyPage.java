@@ -37,7 +37,8 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 		clientCurrenciesList = new ArrayList<ClientCurrency>();
 		clientCurrenciesSet = Accounter.getCompany().getCurrencies();
 		clientCurrenciesList.addAll(clientCurrenciesSet);
-		baseCurrencyListCombo = new CurrencyCombo("Primary Currency");
+		baseCurrencyListCombo = new CurrencyCombo(Accounter.constants()
+				.primaryCurrency());
 		baseCurrencyListCombo.initCombo(UIUtils.getCurrenciesList());
 
 		currenciesGrid = new CurrenciesGrid();
