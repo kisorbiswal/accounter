@@ -84,8 +84,14 @@ public class CreditNoteZohoTemplate implements PrintTemplete {
 
 				t.setVariable("creditNoteNumber", memo.getNumber());
 				t.setVariable("creditNoteDate", memo.getDate().toString());
-				t.setVariable("customerNumber", memo.getCustomer().getNumber());
+				int customerNumber = memo.getCustomer().getNumber() == null ? 0
+						: Integer.parseInt(memo.getCustomer().getNumber());
 
+				if (customerNumber > 0) {
+					t.setVariable("customerNumber", memo.getCustomer()
+							.getNumber());
+					t.addBlock("customernum");
+				}
 				// for displaying customer name and billing Address
 				String customernameAddress = "";
 				Address bill = memo.getBillingAddress();
@@ -100,8 +106,11 @@ public class CreditNoteZohoTemplate implements PrintTemplete {
 							+ forUnusedAddress(bill.getZipOrPostalCode(), false)
 							+ bill.getCountryOrRegion();
 				}
-
-				t.setVariable("customerNameNBillAddress", customernameAddress);
+				if (customernameAddress.trim().length() > 0) {
+					t.setVariable("customerNameNBillAddress",
+							customernameAddress);
+					t.addBlock("address");
+				}
 				t.addBlock("creditHead");
 				// for checking to show column headings
 				if (brandingTheme.isShowColumnHeadings()) {
