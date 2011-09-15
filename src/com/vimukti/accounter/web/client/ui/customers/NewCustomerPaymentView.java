@@ -32,6 +32,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -106,13 +107,13 @@ public class NewCustomerPaymentView extends
 		// 4. isNegativeAmount?
 
 		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
-			result.addError(transactionDateItem, accounterConstants
-					.invalidateTransactionDate());
+			result.addError(transactionDateItem,
+					accounterConstants.invalidateTransactionDate());
 		}
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result.addError(transactionDateItem, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDateItem,
+					accounterConstants.invalidateDate());
 		}
 
 		result.add(payForm.validate());
@@ -165,8 +166,8 @@ public class NewCustomerPaymentView extends
 
 		if (checkNo.getValue() != null && !checkNo.getValue().equals("")) {
 			String value;
-			if (checkNo.getValue().toString().equalsIgnoreCase(
-					Accounter.constants().toBePrinted())) {
+			if (checkNo.getValue().toString()
+					.equalsIgnoreCase(Accounter.constants().toBePrinted())) {
 				value = String.valueOf(Accounter.constants().toBePrinted());
 			} else {
 				value = String.valueOf(checkNo.getValue());
@@ -435,8 +436,8 @@ public class NewCustomerPaymentView extends
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				isChecked = (Boolean) event.getValue();
 				if (isChecked) {
-					if (printCheck.getValue().toString().equalsIgnoreCase(
-							"true")) {
+					if (printCheck.getValue().toString()
+							.equalsIgnoreCase("true")) {
 						checkNo.setValue(Accounter.constants().toBePrinted());
 						checkNo.setDisabled(true);
 					} else {
@@ -444,9 +445,8 @@ public class NewCustomerPaymentView extends
 							checkNo.setValue(Accounter.constants()
 									.toBePrinted());
 						else if (isInViewMode()) {
-							checkNo
-									.setValue(((ClientCustomerPrePayment) transaction)
-											.getCheckNumber());
+							checkNo.setValue(((ClientCustomerPrePayment) transaction)
+									.getCheckNumber());
 						}
 					}
 				} else
@@ -481,8 +481,7 @@ public class NewCustomerPaymentView extends
 		// memo and Reference
 		endBalText
 				.setAmount(depositInCombo.getSelectedValue() != null ? depositInCombo
-						.getSelectedValue().getCurrentBalance()
-						: 0.00);
+						.getSelectedValue().getCurrentBalance() : 0.00);
 
 		payForm.setCellSpacing(5);
 		payForm.setWidth("100%");
@@ -556,10 +555,9 @@ public class NewCustomerPaymentView extends
 	}
 
 	private TextItem createCheckNumberItem() {
-		TextItem checkNoTextItem = new TextItem(UIUtils
-				.getpaymentMethodCheckBy_CompanyType(Accounter.constants()
-						.check())
-				+ " " + "No");
+		TextItem checkNoTextItem = new TextItem(
+				UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
+						.constants().check()) + " " + "No");
 		checkNoTextItem.setHelpInformation(true);
 		return checkNoTextItem;
 	}
@@ -675,7 +673,12 @@ public class NewCustomerPaymentView extends
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(caught.getMessage());
+
+				int errorCode = ((AccounterException) caught).getErrorCode();
+
+				Accounter.showError(AccounterExceptions
+						.getErrorString(errorCode));
+
 			}
 
 			@Override
