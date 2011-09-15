@@ -327,23 +327,17 @@
 
 		<property name="registrationNumber" column="REGISTRATION_NUMBER"></property>
 
-		<!-- <component name="tradingAddress" class="Address" lazy="false">
-			<property name="type" column="TRADING_ADDRESS_TYPE"></property>
-			<property name="address1" column="TRADING_ADDRESS1"
-				not-null="true" length="100"></property>
-			<property name="street" column="TRADING_STREET" not-null="true"
-				length="100"></property>
-			<property name="city" column="TRADING_CITY" not-null="true"
-				length="100"></property>
-			<property name="stateOrProvinence" column="TRADING_STATE"
-				not-null="true" length="100"></property>
-			<property name="zipOrPostalCode" column="TRADING_ZIP"
-				not-null="true" length="100"></property>
-			<property name="countryOrRegion" column="TRADING_COUNTRY"
-				not-null="true" length="100"></property>
-			<property name="isSelected" column="TRADING_IS_SELECTED"
-				not-null="true"></property>
-		</component> -->
+		<!-- <component name="tradingAddress" class="Address" lazy="false"> <property 
+			name="type" column="TRADING_ADDRESS_TYPE"></property> <property name="address1" 
+			column="TRADING_ADDRESS1" not-null="true" length="100"></property> <property 
+			name="street" column="TRADING_STREET" not-null="true" length="100"></property> 
+			<property name="city" column="TRADING_CITY" not-null="true" length="100"></property> 
+			<property name="stateOrProvinence" column="TRADING_STATE" not-null="true" 
+			length="100"></property> <property name="zipOrPostalCode" column="TRADING_ZIP" 
+			not-null="true" length="100"></property> <property name="countryOrRegion" 
+			column="TRADING_COUNTRY" not-null="true" length="100"></property> <property 
+			name="isSelected" column="TRADING_IS_SELECTED" not-null="true"></property> 
+			</component> -->
 
 		<component name="registeredAddress" class="Address" lazy="false">
 			<property name="type" column="REGISTRED_ADDRESS_TYPE"></property>
@@ -1218,6 +1212,8 @@
 			</property> -->
 		<property name="isShowTaxColumn" column="IS_SHOW_TAX_COLUMN">
 		</property>
+		<property name="isShowVatColumn" column="IS_SHOW_VAT_COLUMN">
+		</property>
 		<property name="isShowRegisteredAddress" column="IS_SHOW_REGISTERED_ADDRESS">
 		</property>
 		<property name="isShowLogo" column="IS_SHOW_LOGO">
@@ -1522,7 +1518,7 @@
 			column="TRANSACTION_DATE"></property>
 		<property name="amount" column="AMOUNT"></property>
 		<property name="dataType" column="DATA_TYPE"></property>
-		
+
 
 	</class>
 
@@ -1543,8 +1539,8 @@
 			type="com.vimukti.accounter.core.LongUseType"></property>
 
 
-		<set name="transactions" cascade="save-update"
-			lazy="false" table="RECONCILIATION">
+		<set name="transactions" cascade="save-update" lazy="false"
+			table="RECONCILIATION">
 			<key column="RECONCILIATION_ID"></key>
 			<one-to-many class="Transaction" />
 		</set>
