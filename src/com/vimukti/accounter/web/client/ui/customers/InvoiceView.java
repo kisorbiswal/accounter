@@ -1789,12 +1789,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	protected void refreshTransactionGrid() {
 
 	}
-
 	private void settabIndexes() {
 		customerCombo.setTabIndex(1);
 		contactCombo.setTabIndex(2);
 		billToTextArea.setTabIndex(3);
-		shipToCombo.setTabIndex(4);
+		shipToAddress.setTabIndexforShiptocombo(4);
 		shipToAddress.setTabIndex(5);
 		transactionDateItem.setTabIndex(6);
 		transactionNumber.setTabIndex(7);
