@@ -40,19 +40,6 @@ public class AutoRecallOption extends AbstractPreferenceOption {
 		createControls();
 	}
 
-	private void createControls() {
-		enableAutoRecallCheckBox.setText(constants.enableAutoRecall());
-		enableAutoRecallCheckBox.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-
-	}
-
 	public AutoRecallOption(String firstName) {
 		initWidget(uiBinder.createAndBindUi(this));
 
@@ -72,6 +59,26 @@ public class AutoRecallOption extends AbstractPreferenceOption {
 	@Override
 	public String getAnchor() {
 		return constants.company();
+	}
+
+	@Override
+	public void createControls() {
+		enableAutoRecallCheckBox.setText(constants.enableAutoRecall());
+		enableAutoRecallCheckBox.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
+	}
+
+	@Override
+	public void initData() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

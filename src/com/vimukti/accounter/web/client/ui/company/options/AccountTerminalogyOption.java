@@ -30,7 +30,7 @@ public class AccountTerminalogyOption extends AbstractPreferenceOption {
 		initData();
 	}
 
-	private void initData() {
+	public void initData() {
 		int referAccounts = companyPreferences.getReferAccounts();
 		switch (referAccounts) {
 		case ClientAccount.ACCOUNT:
@@ -42,7 +42,7 @@ public class AccountTerminalogyOption extends AbstractPreferenceOption {
 		}
 	}
 
-	private void createControls() {
+	public void createControls() {
 		accountHeaderLabel.setText(messages.useTerminologyFor(Global.get()
 				.account()));
 		acountRadioButton.setText(constants.account());

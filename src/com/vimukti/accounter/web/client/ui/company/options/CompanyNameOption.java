@@ -52,7 +52,7 @@ public class CompanyNameOption extends AbstractPreferenceOption {
 		initData();
 	}
 
-	private void createControls() {
+	public void createControls() {
 		companyNameLabel.setText(Accounter.constants().companyName());
 		// companyLegalNameLabel.setText(Accounter.constants().legalName());
 		// legalNmaeCheckBox
@@ -67,7 +67,7 @@ public class CompanyNameOption extends AbstractPreferenceOption {
 		// });
 	}
 
-	private void initData() {
+	public void initData() {
 		companyNameTextBox.setText(company.getDisplayName());
 		// comapnyLegalNameTextBox.setText(company.getDisplayName());
 	}

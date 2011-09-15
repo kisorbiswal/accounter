@@ -54,7 +54,7 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 	public ProductAndServicesOption() {
 		initWidget(uiBinder.createAndBindUi(this));
 		createControls();
-		initdata();
+		initData();
 	}
 
 	public ProductAndServicesOption(String firstName) {
@@ -62,7 +62,7 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 
 	}
 
-	private void createControls() {
+	public void createControls() {
 
 		headerLabel.setText(constants.whatDoYouSell());
 		// servicesOnlyText.setText(constants.whatDoYouSell());
@@ -72,18 +72,6 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 		productsOnlyText.setText(constants.productsOnly());
 		both.setText(constants.bothservicesandProduct_labelonly());
 		bothText.setText(constants.bothServicesandProducts());
-	}
-
-	private void initdata() {
-
-		boolean sellServices = companyPreferences.isSellServices();
-		if (sellServices)
-			servicesOnly.setValue(true);
-		boolean sellProducts = companyPreferences.isSellProducts();
-		if (sellProducts)
-			productsOnly.setValue(true);
-		if (sellServices && sellProducts)
-			both.setValue(true);
 	}
 
 	@Override
@@ -107,5 +95,18 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 	@Override
 	public String getAnchor() {
 		return constants.productAndServices();
+	}
+
+	@Override
+	public void initData() {
+
+		boolean sellServices = companyPreferences.isSellServices();
+		if (sellServices)
+			servicesOnly.setValue(true);
+		boolean sellProducts = companyPreferences.isSellProducts();
+		if (sellProducts)
+			productsOnly.setValue(true);
+		if (sellServices && sellProducts)
+			both.setValue(true);
 	}
 }

@@ -44,14 +44,14 @@ public class CustomerTerminologyOption extends AbstractPreferenceOption {
 	public CustomerTerminologyOption() {
 		initWidget(uiBinder.createAndBindUi(this));
 		createControls();
-		initdata();
+		initData();
 	}
 
 	public CustomerTerminologyOption(String firstName) {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
-	private void createControls() {
+	public void createControls() {
 		terminologyforCustomerLabel.setText(messages.useTerminologyFor(Global
 				.get().Customer()));
 		tenantsLabelRadioButton.setName(constants.group());
@@ -68,35 +68,6 @@ public class CustomerTerminologyOption extends AbstractPreferenceOption {
 		clientsRadioButton.setHTML(constants.Client());
 		DonorsRadioButton.setName(constants.group());
 		DonorsRadioButton.setHTML(constants.Donar());
-	}
-
-	private void initdata() {
-		int referCustomers = companyPreferences.getReferCustomers();
-		terminologyforCustomerLabel.setText(messages.useTerminologyFor(Global
-				.get().Customer()));
-		switch (referCustomers) {
-		case ClientCustomer.TENANT:
-			tenantsLabelRadioButton.setValue(true);
-			break;
-		case ClientCustomer.CUSTOMER:
-			custimersRadioBuitton.setValue(true);
-			break;
-		case ClientCustomer.GUEST:
-			guestardioButton.setValue(true);
-			break;
-		case ClientCustomer.MEMBER:
-			tenantsLabelRadioButton.setValue(true);
-			break;
-		case ClientCustomer.PATITEINT:
-			PatientRadioButton.setValue(true);
-			break;
-		case ClientCustomer.CLIENT:
-			clientsRadioButton.setValue(true);
-			break;
-		case ClientCustomer.DONAR:
-			DonorsRadioButton.setValue(true);
-			break;
-		}
 	}
 
 	@Override
@@ -128,6 +99,38 @@ public class CustomerTerminologyOption extends AbstractPreferenceOption {
 	@Override
 	public String getAnchor() {
 		return constants.company();
+	}
+
+	@Override
+	public void initData() {
+
+		int referCustomers = companyPreferences.getReferCustomers();
+		terminologyforCustomerLabel.setText(messages.useTerminologyFor(Global
+				.get().Customer()));
+		switch (referCustomers) {
+		case ClientCustomer.TENANT:
+			tenantsLabelRadioButton.setValue(true);
+			break;
+		case ClientCustomer.CUSTOMER:
+			custimersRadioBuitton.setValue(true);
+			break;
+		case ClientCustomer.GUEST:
+			guestardioButton.setValue(true);
+			break;
+		case ClientCustomer.MEMBER:
+			tenantsLabelRadioButton.setValue(true);
+			break;
+		case ClientCustomer.PATITEINT:
+			PatientRadioButton.setValue(true);
+			break;
+		case ClientCustomer.CLIENT:
+			clientsRadioButton.setValue(true);
+			break;
+		case ClientCustomer.DONAR:
+			DonorsRadioButton.setValue(true);
+			break;
+		}
+
 	}
 
 }

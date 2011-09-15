@@ -35,7 +35,7 @@ public class CompanyFiscalYearOption extends AbstractPreferenceOption {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
-	private void createControls() {
+	public void createControls() {
 
 		monthsCheckboxLabel.setText(constants.selectFirstMonthOfFiscalYear());
 
@@ -51,7 +51,7 @@ public class CompanyFiscalYearOption extends AbstractPreferenceOption {
 		}
 	}
 
-	private void initData() {
+	public void initData() {
 		if (monthNam.size() > 0)
 			monthNameComboBox.setSelectedIndex(companyPreferences
 					.getFiscalYearFirstMonth());

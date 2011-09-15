@@ -28,7 +28,7 @@ public class AgeingAndSellingDetailsOption extends AbstractPreferenceOption {
 		initData();
 	}
 
-	private void initData() {
+	public void initData() {
 		if (companyPreferences.getAgeingFromTransactionDateORDueDate() == 1) {
 			ageingforduedateRadioButton.setValue(true);
 			ageingfortransactiondateRadioButton.setValue(false);
@@ -38,7 +38,7 @@ public class AgeingAndSellingDetailsOption extends AbstractPreferenceOption {
 		}
 	}
 
-	private void createControls() {
+	public void createControls() {
 
 		ageingforduedateRadioButton.setText(constants.ageingforduedate());
 		ageingfortransactiondateRadioButton.setText(constants

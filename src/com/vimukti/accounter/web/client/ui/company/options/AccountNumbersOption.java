@@ -26,14 +26,14 @@ public class AccountNumbersOption extends AbstractPreferenceOption {
 		initData();
 	}
 
-	private void createControls() {
+	public void createControls() {
 		accountNumbersCheckBox.setText(Accounter.constants().Accounnumbers());
 		showAccountNumbersCheckBox.setText(Accounter.constants()
 				.showAccounterNumbers());
 
 	}
 
-	private void initData() {
+	public void initData() {
 		// TODO Auto-generated method stub
 
 	}

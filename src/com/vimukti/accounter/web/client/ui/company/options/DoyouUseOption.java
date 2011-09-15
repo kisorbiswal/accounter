@@ -27,17 +27,13 @@ public class DoyouUseOption extends AbstractPreferenceOption {
 	public DoyouUseOption() {
 		initWidget(uiBinder.createAndBindUi(this));
 		createControls();
-		initdata();
+		initData();
 	}
 
 	private void initdata() {
-		useCustomerNo.setValue(companyPreferences.getUseCustomerId());
-		useVendorNo.setValue(companyPreferences.getUseVendorId());
-		useAccountNo.setValue(companyPreferences.getUseAccountNumbers());
-
 	}
 
-	private void createControls() {
+	public void createControls() {
 		doYouLabelItem.setText(constants.doYouUse());
 
 		useCustomerNo.setText(messages.useCustomerId(Global.get().customer()));
@@ -60,6 +56,14 @@ public class DoyouUseOption extends AbstractPreferenceOption {
 	@Override
 	public String getAnchor() {
 		return "Do you use";
+	}
+
+	@Override
+	public void initData() {
+		useCustomerNo.setValue(companyPreferences.getUseCustomerId());
+		useVendorNo.setValue(companyPreferences.getUseVendorId());
+		useAccountNo.setValue(companyPreferences.getUseAccountNumbers());
+
 	}
 
 }

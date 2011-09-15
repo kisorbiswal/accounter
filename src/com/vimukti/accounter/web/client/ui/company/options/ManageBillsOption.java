@@ -28,7 +28,7 @@ public class ManageBillsOption extends AbstractPreferenceOption {
 		initData();
 	}
 
-	private void initData() {
+	public void initData() {
 		if (companyPreferences.isKeepTrackofBills()) {
 			managingBillYesRadioButton.setValue(true);
 			managingBillNoRadioButton.setValue(false);
@@ -39,7 +39,7 @@ public class ManageBillsOption extends AbstractPreferenceOption {
 
 	}
 
-	private void createControls() {
+	public void createControls() {
 		managingBillLabelItem.setText(constants.managingBills());
 
 		managingBillYesRadioButton.setText(constants.yes());

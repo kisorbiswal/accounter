@@ -38,10 +38,10 @@ public class EmailAlertsOption extends AbstractPreferenceOption {
 	public EmailAlertsOption() {
 		initWidget(uiBinder.createAndBindUi(this));
 		createControls();
-		initdata();
+		initData();
 	}
 
-	private void createControls() {
+	public void createControls() {
 		emailAlertCheckBox.setText(constants.emailAlerts());
 		emailAlertCheckBox.addClickHandler(new ClickHandler() {
 			@Override
@@ -49,11 +49,6 @@ public class EmailAlertsOption extends AbstractPreferenceOption {
 				// TODO Auto-generated method stub
 			}
 		});
-
-	}
-
-	private void initdata() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -75,6 +70,12 @@ public class EmailAlertsOption extends AbstractPreferenceOption {
 	@Override
 	public String getAnchor() {
 		return constants.company();
+	}
+
+	@Override
+	public void initData() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

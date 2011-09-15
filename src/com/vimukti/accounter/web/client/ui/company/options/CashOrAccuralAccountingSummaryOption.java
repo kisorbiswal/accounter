@@ -30,12 +30,13 @@ public class CashOrAccuralAccountingSummaryOption extends
 		initData();
 	}
 
-	private void initData() {
-		
+	public void initData() {
+
 	}
 
-	private void createControls() {
-		accountingMethodForSummaryLabel.setText(Accounter.constants().getDefaultAccountingMethodForSummary());
+	public void createControls() {
+		accountingMethodForSummaryLabel.setText(Accounter.constants()
+				.getDefaultAccountingMethodForSummary());
 		cashRadioButton.setName("cash-or-accural");
 		cashRadioButton.setHTML(Accounter.constants().cash());
 		accuralRadioButton.setName("cash-or-accural");

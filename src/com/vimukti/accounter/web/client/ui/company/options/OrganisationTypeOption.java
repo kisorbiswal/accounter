@@ -87,7 +87,7 @@ public class OrganisationTypeOption extends AbstractPreferenceOption {
 		initData();
 	}
 
-	private void createControls() {
+	public void createControls() {
 		radioButtonHeaderLabel.setText(constants.howIsYourCompanyOrganized());
 
 		organizeText.setText(Accounter.messages()
@@ -176,7 +176,7 @@ public class OrganisationTypeOption extends AbstractPreferenceOption {
 		});
 	}
 
-	private void initData() {
+	public void initData() {
 		switch (companyPreferences.getOrganizationType()) {
 		case OrganizationTypeConstants.SOLE_PROPRIETORSHIP:
 			propriterShip.setValue(true);

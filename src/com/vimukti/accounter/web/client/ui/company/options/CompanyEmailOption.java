@@ -32,28 +32,12 @@ public class CompanyEmailOption extends AbstractPreferenceOption {
 
 	public CompanyEmailOption() {
 		initWidget(uiBinder.createAndBindUi(this));
-		creatControls();
+		createControls();
 		initData();
 	}
 
-	private void initData() {
+	public void initData() {
 		companyEmailTextBox.setText(companyPreferences.getCompanyEmail());
-	}
-
-	private void creatControls() {
-		companyEmailHeaderLabel.setText(Accounter.constants().emailId());
-		// customersEmailAddressCheckBox.setText(Accounter.constants()
-		// .getCustomersEmailId());
-		// customersEmailAddressCheckBox.addClickHandler(new ClickHandler() {
-		//
-		// @Override
-		// public void onClick(ClickEvent event) {
-		// companyLegalAddressPanel
-		// .setVisible(customersEmailAddressCheckBox.getValue());
-		//
-		// }
-		// });
-		// customerEmailHeaderLabel.setText(Accounter.constants().customerID());
 	}
 
 	@Override
@@ -70,6 +54,25 @@ public class CompanyEmailOption extends AbstractPreferenceOption {
 	@Override
 	public String getAnchor() {
 		return Accounter.constants().email();
+	}
+
+	@Override
+	public void createControls() {
+
+		companyEmailHeaderLabel.setText(Accounter.constants().emailId());
+		// customersEmailAddressCheckBox.setText(Accounter.constants()
+		// .getCustomersEmailId());
+		// customersEmailAddressCheckBox.addClickHandler(new ClickHandler() {
+		//
+		// @Override
+		// public void onClick(ClickEvent event) {
+		// companyLegalAddressPanel
+		// .setVisible(customersEmailAddressCheckBox.getValue());
+		//
+		// }
+		// });
+		// customerEmailHeaderLabel.setText(Accounter.constants().customerID());
+
 	}
 
 }

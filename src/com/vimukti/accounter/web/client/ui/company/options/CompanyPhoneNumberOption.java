@@ -43,11 +43,11 @@ public class CompanyPhoneNumberOption extends AbstractPreferenceOption {
 		initData();
 	}
 
-	private void initData() {
+	public void initData() {
 		companyPhoneNumberTextBox.setText(company.getPhone());
 	}
 
-	private void createControls() {
+	public void createControls() {
 		companyPhoneNumberLabel.setText(Accounter.constants().phoneNumber());
 
 	}

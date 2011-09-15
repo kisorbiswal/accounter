@@ -115,7 +115,7 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 		initData();
 	}
 
-	private void initData() {
+	public void initData() {
 		ClientAddress tradingAddress = company.getTradingAddress();
 		if (tradingAddress != null) {
 			tAddress1TextBox.setValue(tradingAddress.getAddress1());
@@ -138,7 +138,7 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 
 	}
 
-	private void createControls() {
+	public void createControls() {
 		List<String> countriesList = CoreUtils.getCountriesAsList();
 
 		tradingAddressTitle.setText(constants.tradingAddress());

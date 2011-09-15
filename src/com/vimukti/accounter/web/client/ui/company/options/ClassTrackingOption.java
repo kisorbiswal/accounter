@@ -65,7 +65,7 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 		initData();
 	}
 
-	private void initData() {
+	public void initData() {
 		if (companyPreferences.isClassTrackingEnabled()) {
 			classTrackingCheckBox.setValue(true);
 			hiddenPanel.setVisible(true);
@@ -84,7 +84,7 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 
 	}
 
-	private void createControls() {
+	public void createControls() {
 		classTrackingCheckBox.setText(Accounter.constants().classTracking());
 		classWarningCheckBox.setText(Accounter.constants().classWarning());
 		classesOnSalesLabel.setText(Accounter.constants().classesonsales());

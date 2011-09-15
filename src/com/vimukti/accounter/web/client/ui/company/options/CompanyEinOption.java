@@ -42,12 +42,12 @@ public class CompanyEinOption extends AbstractPreferenceOption {
 		initData();
 	}
 
-	private void initData() {
+	public void initData() {
 		String taxId = company.getTaxId();
 		EINTextBox.setValue(taxId);
 	}
 
-	private void createControls() {
+	public void createControls() {
 		EINLabel.setText(constants.employerIdentificationNumber());
 	}
 

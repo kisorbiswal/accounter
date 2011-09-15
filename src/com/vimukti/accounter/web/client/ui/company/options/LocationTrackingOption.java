@@ -55,7 +55,7 @@ public class LocationTrackingOption extends AbstractPreferenceOption {
 
 	public LocationTrackingOption() {
 		initWidget(uiBinder.createAndBindUi(this));
-		createcontrols();
+		createControls();
 		initData();
 	}
 
@@ -73,40 +73,7 @@ public class LocationTrackingOption extends AbstractPreferenceOption {
 			UiBinder<Widget, LocationTrackingPage> {
 	}
 
-	private void createcontrols() {
-		locationRadioButton.setName(Accounter.constants().locationGroup());
-		locationRadioButton.setHTML(Accounter.constants().location());
-		buisinessRadioButton.setName(Accounter.constants().locationGroup());
-		buisinessRadioButton.setHTML(Accounter.constants().buisiness());
-		departmentRadioButton.setName(Accounter.constants().locationGroup());
-		departmentRadioButton.setHTML(Accounter.constants().department());
-		divisionRadioButton.setName(Accounter.constants().locationGroup());
-		divisionRadioButton.setHTML(Accounter.constants().division());
-		propertyRadioButton.setName(Accounter.constants().locationGroup());
-		propertyRadioButton.setHTML(Accounter.constants().property());
-		storeRadioButton.setName(Accounter.constants().locationGroup());
-		storeRadioButton.setHTML(Accounter.constants().store());
-		territoryRadioButton.setName(Accounter.constants().locationGroup());
-		territoryRadioButton.setHTML(Accounter.constants().territory());
-		radioButtonPanel
-				.getElement()
-				.getStyle()
-				.setPaddingLeft(
-						(messages.useTerminologyFor(Global.get().Location())
-								.length() * 6), Unit.PX);
-		hpanel.setCellWidth(locationTrackingCheckBoxItm, "20px");
-
-		locationTrackingCheckBoxItm.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				radioButtonsPanel.setVisible(locationTrackingCheckBoxItm
-						.getValue());
-			}
-		});
-	}
-
-	private void initData() {
+	public void initData() {
 		long locationType = companyPreferences.getLocationTrackingId();
 		locationTrackingCheckBoxLabel.setText(Accounter.messages()
 				.locationTracking(Global.get().Location()));
@@ -170,6 +137,40 @@ public class LocationTrackingOption extends AbstractPreferenceOption {
 		} else {
 			companyPreferences.setLocationTrackingId(ClientLocation.LOCATION);
 		}
+	}
+
+	@Override
+	public void createControls() {
+		locationRadioButton.setName(Accounter.constants().locationGroup());
+		locationRadioButton.setHTML(Accounter.constants().location());
+		buisinessRadioButton.setName(Accounter.constants().locationGroup());
+		buisinessRadioButton.setHTML(Accounter.constants().buisiness());
+		departmentRadioButton.setName(Accounter.constants().locationGroup());
+		departmentRadioButton.setHTML(Accounter.constants().department());
+		divisionRadioButton.setName(Accounter.constants().locationGroup());
+		divisionRadioButton.setHTML(Accounter.constants().division());
+		propertyRadioButton.setName(Accounter.constants().locationGroup());
+		propertyRadioButton.setHTML(Accounter.constants().property());
+		storeRadioButton.setName(Accounter.constants().locationGroup());
+		storeRadioButton.setHTML(Accounter.constants().store());
+		territoryRadioButton.setName(Accounter.constants().locationGroup());
+		territoryRadioButton.setHTML(Accounter.constants().territory());
+		radioButtonPanel
+				.getElement()
+				.getStyle()
+				.setPaddingLeft(
+						(messages.useTerminologyFor(Global.get().Location())
+								.length() * 6), Unit.PX);
+		hpanel.setCellWidth(locationTrackingCheckBoxItm, "20px");
+
+		locationTrackingCheckBoxItm.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				radioButtonsPanel.setVisible(locationTrackingCheckBoxItm
+						.getValue());
+			}
+		});
 	}
 
 }

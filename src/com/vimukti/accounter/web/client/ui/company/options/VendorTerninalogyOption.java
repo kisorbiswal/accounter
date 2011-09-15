@@ -43,29 +43,16 @@ public class VendorTerninalogyOption extends AbstractPreferenceOption {
 	public VendorTerninalogyOption() {
 		initWidget(uiBinder.createAndBindUi(this));
 		createControls();
-		initdata();
+		initData();
 	}
 
-	private void createControls() {
+	public void createControls() {
 		vendorsHeaderLabel.setText(messages.useTerminologyFor(Global.get()
 				.Vendor()));
 		vendorRadioButton.setName(constants.Vendor());
 		vendorRadioButton.setHTML(constants.Vendor());
 		supplierRadioButton.setName(constants.Vendor());
 		supplierRadioButton.setHTML(constants.Supplier());
-	}
-
-	private void initdata() {
-		int referVendors = companyPreferences.getReferVendors();
-		switch (referVendors) {
-		case ClientVendor.VENDOR:
-			vendorRadioButton.setValue(true);
-			break;
-		case ClientVendor.SUPPLIER:
-			supplierRadioButton.setValue(true);
-			break;
-		}
-
 	}
 
 	@Override
@@ -85,6 +72,20 @@ public class VendorTerninalogyOption extends AbstractPreferenceOption {
 	@Override
 	public String getAnchor() {
 		return "Vendor Terminology";
+	}
+
+	@Override
+	public void initData() {
+		int referVendors = companyPreferences.getReferVendors();
+		switch (referVendors) {
+		case ClientVendor.VENDOR:
+			vendorRadioButton.setValue(true);
+			break;
+		case ClientVendor.SUPPLIER:
+			supplierRadioButton.setValue(true);
+			break;
+		}
+
 	}
 
 }

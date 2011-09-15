@@ -76,7 +76,7 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 
 	}
 
-	private void initData() {
+	public void initData() {
 		if (companyPreferences.isChargeSalesTax()) {
 			chargeTaxYesRadioButton.setValue(true);
 		} else {
@@ -106,7 +106,7 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 
 	}
 
-	private void createControls() {
+	public void createControls() {
 		chargeTaxLabelItem.setText(constants.doyouchargesalestax());
 		chargeTaxYesRadioButton.setText(constants.yes());
 		chargeTaxNoRadioButton.setText(constants.no());

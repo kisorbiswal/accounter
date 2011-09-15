@@ -29,11 +29,11 @@ public class ComapnyWebsiteOption extends AbstractPreferenceOption {
 		initData();
 	}
 
-	private void initData() {
+	public void initData() {
 		companyWebsiteTextBox.setText(company.getWebSite());
 	}
 
-	private void createControls() {
+	public void createControls() {
 		companyWebsiteHeaderLabel.setText(Accounter.constants().webSite());
 	}
 
