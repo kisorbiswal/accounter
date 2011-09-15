@@ -109,9 +109,11 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 				constants.vendorAndPurchases());
 		CustomerAndVendorsSettingsOption customerAndVendorsSettingsPage = new CustomerAndVendorsSettingsOption();
 		ManageBillsOption manageBillsOption = new ManageBillsOption();
+		DoyouUseOption doyouUseOption = new DoyouUseOption();
 		customerAndVendorPage.addPreferenceOption(manageBillsOption);
 		customerAndVendorPage
 				.addPreferenceOption(customerAndVendorsSettingsPage);
+		customerAndVendorPage.addPreferenceOption(doyouUseOption);
 		return customerAndVendorPage;
 	}
 
