@@ -147,6 +147,7 @@ var stepcarousel={
 
 	stepBy:function(galleryid, steps, isauto){
 		var config=stepcarousel.configholder[galleryid]
+		steps=config.reverse?-steps:steps
 		if (typeof config=="undefined"){
 			//alert("There's an error with your set up of Carousel Viewer \""+galleryid+ "\"!")
 			return
@@ -165,10 +166,14 @@ var stepcarousel={
 			if (pindex>config.lastvisiblepanel && direction=="forward"){
 				//if destination pindex is greater than last visible panel, yet we're currently not at the end of the carousel yet
 				pindex=(config.currentpanel<config.lastvisiblepanel)? config.lastvisiblepanel : 0
+				config.reverse=true
+				return
 			}
 			else if (pindex<0 && direction=="back"){
 				//if destination pindex is less than 0, yet we're currently not at the beginning of the carousel yet
 				pindex=(config.currentpanel>0)? 0 : config.lastvisiblepanel /*wrap around left*/
+				config.reverse=false
+				return
 			}
 		}
 		var endpoint=config.paneloffsets[pindex]+(pindex==0? 0 : config.beltoffset) //left distance for Belt DIV to travel to
