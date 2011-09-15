@@ -3,7 +3,12 @@
 <link rel='stylesheet' type='text/css' href='templetes/FinancePrint.css' media='all'></link>
 </head>
 <div style="margin:40px;">
-<table width="100%">
+ <table width="100%" style="font-family:${fontStyle};font-size:${font};margin-bottom:${bottomMargin};margin-top:${topMargin};">
+  		<!-- $BeginBlock showlogo -->
+  		<tr><td style="width:400px;height:120px" align=${getLogoAlignment}> ${logoImage}</td></tr>
+  		<!-- $EndBlock showlogo -->
+ </table>
+<table width="100%" style="margin:20px 0">
     <tr>
 	  <td style="vertical-align: top;" align="left">
 		<div class="gwt-HTML">
@@ -23,7 +28,7 @@
 	  <td align="center;">
 		 <div class="credit_zoho_header">
 			<p align="center">
-				<font color="black" style="font-family:sans-serif;" size="6px">
+				<font color="black" style="font-family:sans-serif;">
 				<strong>Credit Note</strong></font>
 			</p>
 		  </div>

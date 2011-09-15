@@ -277,7 +277,8 @@ table tr.gridHeaderRow td {
 .invoice_header p,.invoice_quick_header p{   
     padding-bottom: 15px;
 }
-.invoice_details_table td:first-child,.removeHeadBorder th,.removeHeadBorder th p{
+.invoice_details_table td:first-child,.removeHeadBorder th,.removeHeadBorder th p,
+.xero_invoice_table th,.xero_credit_memo th{
    background-color:#F2F2F2 !important;
    font-weight:bold;
 }
@@ -389,7 +390,7 @@ table tr.gridHeaderRow td {
    padding:3px;
    vertical-align: top;
 }
-.credit_note_vimukti td,.main_credit_vimukti td,.main_credit_vimukti th,#items th,#items td{
+.credit_note_vimukti td,.main_credit_vimukti td,.main_credit_vimukti th,#items th,#items td,.due_xerodate td{
    padding:5px;
 }
 .credit_note_head{
