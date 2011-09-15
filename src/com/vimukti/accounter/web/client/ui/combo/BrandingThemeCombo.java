@@ -53,6 +53,7 @@ public class BrandingThemeCombo extends CustomCombo<ClientBrandingTheme> {
 
 			@Override
 			public void actionResult(ClientBrandingTheme result) {
+				if(result.getName()!=null)
 				addItemThenfireEvent(result);
 				if (themeDialog != null) {
 					themeDialog.show();
