@@ -3390,6 +3390,8 @@ public interface AccounterConstants extends Constants {
 
 	public String toAddItemGroup();
 
+	public String toAddCurrencyGroup();
+
 	public String toAddOrRemoveTaxCode();
 
 	public String toAddPayType();
@@ -4606,6 +4608,20 @@ public interface AccounterConstants extends Constants {
 
 	public String creditNoteTemplete();
 
+	public String EnableMultiCurrency();
+
+	public String addCurrency();
+
+	public String manageCurrency();
+
+	public String currencyGroupList();
+
+	public String CurrencyAlreadyExists();
+
+	public String CannotDeletePrimaryCurrency();
+
+	public String selectcurrency();
+
 	public String addNewTrackClass();
 
 	public String toAddAccounterClass();
@@ -4815,6 +4831,8 @@ public interface AccounterConstants extends Constants {
 	public String managingBillsTitle();
 
 	public String accounterTerminologies();
+
+	public String showVatColumn();
 
 	public String pleaseSelectTaxCode();
 
