@@ -4,12 +4,10 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -20,22 +18,6 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.company.PreferencePage;
 import com.vimukti.accounter.web.client.ui.company.options.AbstractPreferenceOption;
-import com.vimukti.accounter.web.client.ui.company.options.AccountNumbersOption;
-import com.vimukti.accounter.web.client.ui.company.options.AccountTerminalogyOption;
-import com.vimukti.accounter.web.client.ui.company.options.AgeingAndSellingDetailsOption;
-import com.vimukti.accounter.web.client.ui.company.options.AutoRecallOption;
-import com.vimukti.accounter.web.client.ui.company.options.ClosingBooksOption;
-import com.vimukti.accounter.web.client.ui.company.options.CompanyEinOption;
-import com.vimukti.accounter.web.client.ui.company.options.CompanyFiscalYearOption;
-import com.vimukti.accounter.web.client.ui.company.options.CustomerAndVendorsSettingsOption;
-import com.vimukti.accounter.web.client.ui.company.options.CustomerTerminologyOption;
-import com.vimukti.accounter.web.client.ui.company.options.EmailAlertsOption;
-import com.vimukti.accounter.web.client.ui.company.options.LogOutAfterInactivityOption;
-import com.vimukti.accounter.web.client.ui.company.options.ManageBillsOption;
-import com.vimukti.accounter.web.client.ui.company.options.QuickFillAutosuggestOption;
-import com.vimukti.accounter.web.client.ui.company.options.RestartSetupInterviewOption;
-import com.vimukti.accounter.web.client.ui.company.options.OrganisationTypeOption;
-import com.vimukti.accounter.web.client.ui.company.options.VendorTerninalogyOption;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.CancelButton;
@@ -61,7 +43,6 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 			doYouUseAndHowDoYouReferLink, ageingAndSellingDetailsLink,
 			employeeSettingsLink, locationTrackingLink, classTrackingLink;
 	private CompanyInfo[] companyInfos = new CompanyInfo[11];
-	private PreferencePage[] preferencePages = new PreferencePage[4];
 
 	@Override
 	public void init() {
@@ -75,34 +56,23 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 			company = Accounter.getCompany();
 			companyPreferences = company.getPreferences();
 			HorizontalPanel mainPanel = new HorizontalPanel();
-			final StackPanel stackPanel = new StackPanel();
+			StackPanel stackPanel = new StackPanel();
 			detailPanel = new VerticalPanel();
 
 			// stackPanel.add(getBasicInfoPanel(), constants.basicInfo());
-			// stackPanel.add(getCompanyInfoPanel(), constants.comapnyInfo());
-			// stackPanel.add(getcompanyPanel(), constants.company());
-			stackPanel.add(getProductAndServicesPanel(),
-					constants.productAndServices());
-			// stackPanel.add(getCustomerAndVendorSettings(),
-			// "Vendors & Purchases");
+			stackPanel.add(getCompanyInfoPanel(), constants.comapnyInfo());
 			stackPanel.add(getBankingAndFinancialInfoPanel(),
 					constants.otherDetails());
 			stackPanel.add(getOtherDetailsPanel(),
 					constants.accounterSettings());
 			stackPanel.add(getCategoriesPanel(), constants.Categories());
-			stackPanel.addHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent event) {
-					int selectedIndex = stackPanel.getSelectedIndex();
+			companyInfoPanel = new CompanyRegisteredDetailsPage(
+					companyPreferences, company, this);
+			companyRegisteredeDetailsLink.getElement().getParentElement()
+					.setClassName("contentSelected");
+			companyInfoPanel.addStyleName("fullSizePanel");
+			detailPanel.add(companyInfoPanel);
 
-				}
-			}, ClickEvent.getType());
-			// companyInfoPanel = new CompanyRegisteredDetailsPage(
-			// companyPreferences, company, this);
-			// companyRegisteredeDetailsLink.getElement().getParentElement()
-			// .setClassName("contentSelected");
-			// companyInfoPanel.addStyleName("fullSizePanel");
-			// detailPanel.add(companyInfoPanel);
 			mainPanel.add(stackPanel);
 			mainPanel.add(detailPanel);
 			mainPanel.setCellWidth(detailPanel, "70%");
@@ -121,81 +91,11 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 		}
 	}
 
-	private VerticalPanel getAgeingAndSellingDetaials() {
-		PreferencePage preferencePage = new PreferencePage(
-				constants.productAndServices());
-		AgeingAndSellingDetailsOption ageingAndSellingDetailsOption = new AgeingAndSellingDetailsOption();
-		preferencePage.addPreferenceOption(ageingAndSellingDetailsOption);
-		detailPanel.add(preferencePage);
-		return createPageView(preferencePage);
-	}
-
-	private Widget preferencePages() {
-		PreferencePage preferencePage = new PreferencePage(
-				constants.productAndServices());
-		// AgeingAndSellingDetailsOption customerAndVendorsSettingsPage = new
-		// AgeingAndSellingDetailsOption();
-		// preferencePage.addPreferenceOption(customerAndVendorsSettingsPage);
-		detailPanel.add(preferencePage);
-		return createPageView(preferencePage);
-	}
-
-	private VerticalPanel getProductAndServicesPanel() {
-		preferencePages[0] = new PreferencePage(
-				constants.customerAndvendorSettings());
-		CustomerAndVendorsSettingsOption productAndServicesOption = new CustomerAndVendorsSettingsOption();
-		ManageBillsOption manageBillsOption = new ManageBillsOption();
-
-		VendorTerninalogyOption terminalogyOption = new VendorTerninalogyOption();
-		AccountTerminalogyOption accountTerminalogyOption = new AccountTerminalogyOption();
-		preferencePages[0].addPreferenceOption(productAndServicesOption);
-		preferencePages[0].addPreferenceOption(terminalogyOption);
-		preferencePages[0].addPreferenceOption(accountTerminalogyOption);
-		detailPanel.add(preferencePages[0]);
-		return createPageView(preferencePages[0]);
-	}
-
-	private VerticalPanel getcompanyPanel() {
-
-		preferencePages[2] = new PreferencePage(Accounter.constants().company());
-
-		CustomerTerminologyOption terminologyOption = new CustomerTerminologyOption();
-		OrganisationTypeOption formOption = new OrganisationTypeOption();
-		// AccountNumbersOption numbersOption = new AccountNumbersOption();
-		CompanyEinOption einOption = new CompanyEinOption();
-		CompanyFiscalYearOption fiscalYearOption = new CompanyFiscalYearOption();
-		// ClosingBooksOption booksOption = new ClosingBooksOption();
-		// QuickFillAutosuggestOption autosuggestOption = new
-		// QuickFillAutosuggestOption();
-		// EmailAlertsOption alertsOption = new EmailAlertsOption();
-		// AutoRecallOption autoRecallOption = new AutoRecallOption();
-		// RestartSetupInterviewOption interviewOption = new
-		// RestartSetupInterviewOption();
-		// LogOutAfterInactivityOption afterInactivityOption = new
-		// LogOutAfterInactivityOption();
-
-		preferencePages[2].addPreferenceOption(terminologyOption);
-		preferencePages[2].addPreferenceOption(formOption);
-		// companyPage.addPreferenceOption(numbersOption);
-		preferencePages[2].addPreferenceOption(einOption);
-		preferencePages[2].addPreferenceOption(fiscalYearOption);
-		// companyPage.addPreferenceOption(booksOption);
-		// companyPage.addPreferenceOption(autosuggestOption);
-		// companyPage.addPreferenceOption(alertsOption);
-		// companyPage.addPreferenceOption(autoRecallOption);
-		// companyPage.addPreferenceOption(interviewOption);
-		// companyPage.addPreferenceOption(afterInactivityOption);
-
-		detailPanel.add(preferencePages[2]);
-		return createPageView(preferencePages[2]);
-
-	}
-
 	private VerticalPanel createPageView(final PreferencePage page) {
 		VerticalPanel pageView = new VerticalPanel();
 		List<AbstractPreferenceOption> options = page.getOptions();
 		for (final AbstractPreferenceOption option : options) {
-			HTML optionLink = new HTML("<a>" + option.getTitle() + "</a>");
+			HTML optionLink = new HTML(option.getTitle());
 			pageView.add(optionLink);
 			optionLink.addClickHandler(new ClickHandler() {
 
@@ -231,7 +131,8 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 				company.setPreferences(companyPreferences);
 				Accounter.setCompany(company);
 				Accounter.updateCompany(CompanyInfoPage.this, company);
-				Window.Location.reload();
+				Accounter.reset();
+			
 			}
 		});
 	}
@@ -289,96 +190,69 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 	// }
 
 	public VerticalPanel getCompanyInfoPanel() {
-		PreferencePage companyInfoPage = new PreferencePage(Accounter
-				.constants().company());
+		VerticalPanel companyInfo1Panel = new VerticalPanel();
 
-		CustomerTerminologyOption terminologyOption = new CustomerTerminologyOption();
-		OrganisationTypeOption formOption = new OrganisationTypeOption();
-		AccountNumbersOption numbersOption = new AccountNumbersOption();
-		CompanyEinOption einOption = new CompanyEinOption();
-		CompanyFiscalYearOption fiscalYearOption = new CompanyFiscalYearOption();
-		ClosingBooksOption booksOption = new ClosingBooksOption();
-		QuickFillAutosuggestOption autosuggestOption = new QuickFillAutosuggestOption();
-		EmailAlertsOption alertsOption = new EmailAlertsOption();
-		AutoRecallOption autoRecallOption = new AutoRecallOption();
-		RestartSetupInterviewOption interviewOption = new RestartSetupInterviewOption();
-		LogOutAfterInactivityOption afterInactivityOption = new LogOutAfterInactivityOption();
+		companyRegisteredeDetailsLink = new HTML(messages.registeredDetails());
+		companyTradingDetailsLink = new HTML(messages.tradingDetails());
+		companyOtherDetailsLink = new HTML(messages.companyOtherDetails());
+		organisationLink = new HTML("<a>" + constants.organisation() + "</a>");
 
-		companyInfoPage.addPreferenceOption(terminologyOption);
-		companyInfoPage.addPreferenceOption(formOption);
-		companyInfoPage.addPreferenceOption(numbersOption);
-		companyInfoPage.addPreferenceOption(einOption);
-		companyInfoPage.addPreferenceOption(fiscalYearOption);
-		companyInfoPage.addPreferenceOption(booksOption);
-		companyInfoPage.addPreferenceOption(autosuggestOption);
-		companyInfoPage.addPreferenceOption(alertsOption);
-		companyInfoPage.addPreferenceOption(autoRecallOption);
-		companyInfoPage.addPreferenceOption(interviewOption);
-		companyInfoPage.addPreferenceOption(afterInactivityOption);
+		companyInfo1Panel.add(companyRegisteredeDetailsLink);
+		companyInfo1Panel.add(companyTradingDetailsLink);
+		companyInfo1Panel.add(companyOtherDetailsLink);
+		companyInfo1Panel.add(organisationLink);
+		companyRegisteredeDetailsPanel = new CompanyRegisteredDetailsPage(
+				companyPreferences, company, CompanyInfoPage.this);
+		companyTradingDetailsPanel = new CompanyTradingDetailsPage();
+		companyOtherDetailsPanel = new CompanyOtherDetailsPage();
+		organisationPanel = new OrganizationDetailsPage();
 
-		detailPanel.add(companyInfoPage);
-		return createPageView(companyInfoPage);
-		// companyRegisteredeDetailsLink = new
-		// HTML(messages.registeredDetails());
-		// companyTradingDetailsLink = new HTML(messages.tradingDetails());
-		// companyOtherDetailsLink = new HTML(messages.companyOtherDetails());
-		// organisationLink = new HTML("<a>" + constants.organisation() +
-		// "</a>");
-		//
-		// companyInfo1Panel.add(companyRegisteredeDetailsLink);
-		// companyInfo1Panel.add(companyTradingDetailsLink);
-		// companyInfo1Panel.add(companyOtherDetailsLink);
-		// companyInfo1Panel.add(organisationLink);
-		// companyRegisteredeDetailsPanel = new CompanyRegisteredDetailsPage(
-		// companyPreferences, company, CompanyInfoPage.this);
-		// companyTradingDetailsPanel = new CompanyTradingDetailsPage();
-		// companyOtherDetailsPanel = new CompanyOtherDetailsPage();
-		// organisationPanel = new OrganizationDetailsPage();
-		//
-		// companyInfos[0] = new CompanyInfo(companyRegisteredeDetailsLink,
-		// companyRegisteredeDetailsPanel);
-		// companyInfos[1] = new CompanyInfo(companyTradingDetailsLink,
-		// companyTradingDetailsPanel);
-		// companyInfos[2] = new CompanyInfo(companyOtherDetailsLink,
-		// companyOtherDetailsPanel);
-		// companyInfos[3] = new CompanyInfo(organisationLink,
-		// organisationPanel);
-		//
-		// companyRegisteredeDetailsLink.addClickHandler(new ClickHandler() {
-		// @Override
-		// public void onClick(ClickEvent event) {
-		// companyInfoPanel = companyRegisteredeDetailsPanel;
-		// addDetailsPanel(companyInfoPanel);
-		//
-		// }
-		// });
-		// companyTradingDetailsLink.addClickHandler(new ClickHandler() {
-		//
-		// @Override
-		// public void onClick(ClickEvent event) {
-		// companyInfoPanel = companyTradingDetailsPanel;
-		// addDetailsPanel(companyInfoPanel);
-		// }
-		// });
-		//
-		// companyOtherDetailsLink.addClickHandler(new ClickHandler() {
-		//
-		// @Override
-		// public void onClick(ClickEvent event) {
-		// companyInfoPanel = companyOtherDetailsPanel;
-		// addDetailsPanel(companyInfoPanel);
-		// }
-		// });
-		//
-		// organisationLink.addClickHandler(new ClickHandler() {
-		//
-		// @Override
-		// public void onClick(ClickEvent event) {
-		// companyInfoPanel = organisationPanel;
-		// addDetailsPanel(companyInfoPanel);
-		// }
-		// });
-		// companyInfo1Panel.setWidth("100%");
+		companyInfos[0] = new CompanyInfo(companyRegisteredeDetailsLink,
+				companyRegisteredeDetailsPanel);
+		companyInfos[1] = new CompanyInfo(companyTradingDetailsLink,
+				companyTradingDetailsPanel);
+		companyInfos[2] = new CompanyInfo(companyOtherDetailsLink,
+				companyOtherDetailsPanel);
+		companyInfos[3] = new CompanyInfo(organisationLink, organisationPanel);
+
+		companyRegisteredeDetailsLink.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				companyInfoPanel = companyRegisteredeDetailsPanel;
+				addDetailsPanel(companyInfoPanel);
+
+			}
+		});
+		companyTradingDetailsLink.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				companyInfoPanel = companyTradingDetailsPanel;
+				companyInfos[1] = new CompanyInfo(
+						companyRegisteredeDetailsLink, companyInfoPanel);
+				addDetailsPanel(companyInfoPanel);
+			}
+		});
+
+		companyOtherDetailsLink.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				companyInfoPanel = companyOtherDetailsPanel;
+				addDetailsPanel(companyInfoPanel);
+			}
+		});
+
+		organisationLink.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				companyInfoPanel = organisationPanel;
+				addDetailsPanel(companyInfoPanel);
+			}
+		});
+		companyInfo1Panel.setWidth("100%");
+		return companyInfo1Panel;
 	}
 
 	public VerticalPanel getBankingAndFinancialInfoPanel() {
@@ -515,6 +389,12 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 			else if (panel instanceof EmployeeSettingsPage)
 				employeeSettingsLink.getElement().getParentElement()
 						.addClassName("contentSelected_LastChild");
+			else if (panel.equals(companyInfos[i].getPanel())) {
+				companyTradingDetailsLink.getElement().getParentElement()
+						.removeClassName("contentSelected");
+				companyInfos[i].getHTML().getElement().getParentElement()
+						.addClassName("contentSelected");
+			}
 		}
 	}
 
