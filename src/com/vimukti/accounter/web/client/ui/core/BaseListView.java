@@ -475,7 +475,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 					typeList.add(budget.getBudgetName());
 				}
 				if (typeList.size() < 1) {
-					typeList.add(Accounter.constants().emptyValue());
+					typeList.add("");
 				}
 				viewSelect.initCombo(typeList);
 				viewSelect.setSelectedItem(0);
