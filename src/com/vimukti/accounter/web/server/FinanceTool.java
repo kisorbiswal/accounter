@@ -12647,62 +12647,60 @@ public class FinanceTool {
 	public void sendPdfInMail(long objectID, int type, long brandingThemeId,
 			String mimeType, String subject, String content,
 			String senderEmail, String toEmail, String ccEmail)
-			throws Exception, IOException {
+			throws Exception, IOException {BrandingTheme brandingTheme = (BrandingTheme) getServerObjectForid(
+					AccounterCoreType.BRANDINGTHEME, brandingThemeId);
 
-		BrandingTheme brandingTheme = (BrandingTheme) getServerObjectForid(
-				AccounterCoreType.BRANDINGTHEME, brandingThemeId);
+			String fileName = "";
+			String output = "";
 
-		String fileName = "";
-		String output = "";
+			Company company = getCompany();
+			String companyName = company.getFullName();
 
-		Company company = getCompany();
-		String companyName = company.getFullName();
-
-		// for printing individual pdf documents
-		if (type == Transaction.TYPE_INVOICE) {
+			// for printing individual pdf documents
+			if (type == Transaction.TYPE_INVOICE) {
 			Invoice invoice = (Invoice) getServerObjectForid(
-					AccounterCoreType.INVOICE, objectID);
+			AccounterCoreType.INVOICE, objectID);
 
 			// template = new InvoiceTemplete(invoice,
 			// brandingTheme, footerImg, style);
 
 			InvoicePDFTemplete invoiceHtmlTemplete = new InvoicePDFTemplete(
-					invoice, brandingTheme, company);
+			invoice, brandingTheme, company, getCompany()
+			.getCompanyID());
 
 			fileName = invoiceHtmlTemplete.getFileName();
 
 			output = invoiceHtmlTemplete.getPdfData();
 
-		} else if (type == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
+			} else if (type == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
 			// for Credit Note
 			CustomerCreditMemo memo = (CustomerCreditMemo) getServerObjectForid(
-					AccounterCoreType.CUSTOMERCREDITMEMO, objectID);
+			AccounterCoreType.CUSTOMERCREDITMEMO, objectID);
 
 			CreditNotePDFTemplete creditNotePDFTemplete = new CreditNotePDFTemplete(
-					memo, brandingTheme, company);
+			memo, brandingTheme, company, getCompany().getCompanyID());
 
 			fileName = creditNotePDFTemplete.getFileName();
 
 			output = creditNotePDFTemplete.getPdfData();
 
-		}
+			}
 
-		InputStream inputStream = new ByteArrayInputStream(output.getBytes());
-		InputStreamReader reader = new InputStreamReader(inputStream);
+			InputStream inputStream = new ByteArrayInputStream(output.getBytes());
+			InputStreamReader reader = new InputStreamReader(inputStream);
 
-		Converter converter = new Converter();
-		File file = converter.getPdfFile(fileName, reader);
-		// converter.getPdfFile(fileName, reader);
-		// InputStream inputStream = new
-		// ByteArrayInputStream(output.getBytes());
+			Converter converter = new Converter();
+			File file = converter.getPdfFile(fileName, reader);
+			// converter.getPdfFile(fileName, reader);
+			// InputStream inputStream = new
+			// ByteArrayInputStream(output.getBytes());
 
-		// UsersMailSendar.sendPdfMail(fileName, inputStream, mimeType,
-		// companyName, subject, content, senderEmail, toEmail, ccEmail);
+			// UsersMailSendar.sendPdfMail(fileName, inputStream, mimeType,
+			// companyName, subject, content, senderEmail, toEmail, ccEmail);
 
-		UsersMailSendar.sendPdfMail(file, companyName, subject, content,
-				senderEmail, toEmail, ccEmail);
-
-	}
+			UsersMailSendar.sendPdfMail(file, companyName, subject, content,
+			senderEmail, toEmail, ccEmail);
+}
 
 	/**
 	 * For profit and loss by location query.
