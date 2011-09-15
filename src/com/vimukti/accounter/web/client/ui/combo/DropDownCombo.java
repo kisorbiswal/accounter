@@ -662,7 +662,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		}
 
 		final String val1 = val.toLowerCase();
-		List<T> autocompleteItems = getMatchedComboItems(val);
+		List<T> autocompleteItems = getMatchedComboItems(val1);
 
 		updateComboItemsInSorted(autocompleteItems, val1);
 
