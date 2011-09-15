@@ -98,4 +98,13 @@
 		<property name="priority" column="PRIORITY"></property>
 	</class>
 	
+	<class name="RememberMeKey" table="REMEMBER_ME_KEY">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="key" column="REMEMBER_KEY"></property>
+		<property name="emailID" column="EMAIL_ID"></property>
+	</class>
+
+	
 </hibernate-mapping>

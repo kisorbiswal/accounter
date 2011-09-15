@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
@@ -267,8 +268,8 @@ public class CustomerRefundView extends
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				isChecked = (Boolean) event.getValue();
 				if (isChecked) {
-					if (printCheck.getValue().toString().equalsIgnoreCase(
-							"true")) {
+					if (printCheck.getValue().toString()
+							.equalsIgnoreCase("true")) {
 						checkNoText.setValue(Accounter.constants()
 								.toBePrinted());
 						checkNoText.setDisabled(true);
@@ -290,8 +291,7 @@ public class CustomerRefundView extends
 
 		checkNoText = new TextItem(
 				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? customerConstants
-						.chequeNo()
-						: customerConstants.checkNo());
+						.chequeNo() : customerConstants.checkNo());
 		checkNoText.setValue(Accounter.constants().toBePrinted());
 		checkNoText.setHelpInformation(true);
 		checkNoText.setWidth(100);
@@ -816,6 +816,6 @@ public class CustomerRefundView extends
 
 	@Override
 	public List<ClientTransactionItem> getAllTransactionItems() {
-		return null;
+		return Collections.emptyList();
 	}
 }

@@ -14,6 +14,7 @@ import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.Server;
 import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.server.CometManager;
 
@@ -72,15 +73,31 @@ public class LogoutServlet extends BaseServlet {
 
 	private void deleteCookie(HttpServletRequest request,
 			HttpServletResponse response) {
+		String userKey = getCookie(request, OUR_COOKIE);
 		for (Cookie cookie : request.getCookies()) {
 			if (cookie.getName().endsWith(OUR_COOKIE)
 					|| cookie.getName().equals(COMPANY_COOKIE)) {
 				cookie.setMaxAge(0);
 				cookie.setValue("");
 				cookie.setPath("/");
-				cookie.setDomain(request.getHeader("host"));
+				cookie.setDomain(ServerConfiguration.getServerCookieDomain());
 				response.addCookie(cookie);
 			}
+		}
+
+		if (userKey == null || userKey.isEmpty()) {
+			return;
+		}
+		// Deleting RememberMEKEy from Database
+		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+		Transaction transaction = session.beginTransaction();
+		try {
+			session.getNamedQuery("delete.remembermeKeys")
+					.setParameter("key", userKey).executeUpdate();
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			transaction.rollback();
 		}
 
 	}

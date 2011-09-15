@@ -145,7 +145,8 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		form1.setWidth("80%");
 		form1.setIsGroup(true);
 
-		if (accounttype == ClientCompany.ACCOUNTING_TYPE_US  || accountType==ClientCompany.ACCOUNTING_TYPE_INDIA) {
+		if (accounttype == ClientCompany.ACCOUNTING_TYPE_US
+				|| accountType == ClientCompany.ACCOUNTING_TYPE_INDIA) {
 
 			vatItemNameText.setTitle(Accounter.constants().taxItemName());
 			vatRateText.setTitle(Accounter.constants().taxAmount());
@@ -158,7 +159,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		isPercentatateAmtCheck = new CheckboxItem(Accounter.constants()
 				.isConsiderAsPercentange());
 		isPercentatateAmtCheck.setValue(true);
-
+		isPercentatateAmtCheck.setDisabled(isInViewMode());
 		isPercentatateAmtCheck
 				.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
@@ -200,7 +201,8 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		form1.getCellFormatter().setWidth(0, 0, "250px");
 		form1.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
 
-		if (accounttype == ClientCompany.ACCOUNTING_TYPE_US || accountType==ClientCompany.ACCOUNTING_TYPE_INDIA )
+		if (accounttype == ClientCompany.ACCOUNTING_TYPE_US
+				|| accountType == ClientCompany.ACCOUNTING_TYPE_INDIA)
 			if (data != null && data.isPercentage()) {
 				form1.setFields(vatItemNameText, descriptionText,
 						isPercentatateAmtCheck, vatRateTextPerT,
@@ -427,6 +429,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		vatReturnBoxCombo.setDisabled(isInViewMode());
 		vatAgencyCombo.setDisabled(isInViewMode());
 		statusCheck.setDisabled(isInViewMode());
+		isPercentatateAmtCheck.setDisabled(isInViewMode());
 		super.onEdit();
 
 	}

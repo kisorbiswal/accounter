@@ -41,6 +41,7 @@ import org.hibernate.classic.Lifecycle;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
+import com.gdevelop.gwt.syncrpc.SyncProxy;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccountTransaction;
 import com.vimukti.accounter.core.AccounterServerConstants;
@@ -127,7 +128,9 @@ import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.mail.UsersMailSendar;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.services.IS2SService;
 import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.Converter;
 import com.vimukti.accounter.utils.HexUtil;
@@ -480,8 +483,8 @@ public class FinanceTool {
 
 			IAccounterServerCore serverObject = (IAccounterServerCore) session
 					.get(classforName, Long.parseLong(updateContext.getArg1()));
-			
-			int version =serverObject.getVersion();
+
+			int version = serverObject.getVersion();
 			if (version != data.getVersion()) {
 				throw new AccounterException(
 						AccounterException.ERROR_VERSION_MISMATCH);
@@ -698,7 +701,7 @@ public class FinanceTool {
 		}
 	}
 
-	public Long updateCompany(OperationContext context)
+	public Long updateCompany(OperationContext context, long serverCompanyID)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
@@ -719,7 +722,14 @@ public class FinanceTool {
 			Activity activity = new Activity(user1,
 					ActivityType.UPDATE_PREFERENCE, cmp);
 			session.save(activity);
-			HibernateUtil.getCurrentSession().update(cmp);
+			session.update(cmp);
+
+			// Updating ServerCompany
+			IS2SService s2sSyncProxy = getS2sSyncProxy(ServerConfiguration
+					.getMainServerDomain());
+			s2sSyncProxy.updateServerCompany(serverCompanyID, cmp
+					.getPreferences().getFullName());
+
 			transaction.commit();
 			ChangeTracker.put(cmp.toClientCompany());
 			return cmp.getID();
@@ -12864,8 +12874,9 @@ public class FinanceTool {
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		List list = session.getNamedQuery("get.transactions.by.account")
-				.setLong("id", id).setParameter("startDate", startDate)
-				.setParameter("endDate", endDate).list();
+				.setLong("id", id)
+				.setParameter("startDate", new FinanceDate(startDate))
+				.setParameter("endDate", new FinanceDate(endDate)).list();
 		List<ClientTransaction> transactions = new ArrayList<ClientTransaction>();
 
 		Iterator iterator = list.iterator();
@@ -12923,6 +12934,14 @@ public class FinanceTool {
 			return 0.0;
 		}
 		return ((Reconciliation) list.get(0)).getClosingBalance();
+	}
+
+	protected IS2SService getS2sSyncProxy(String domainName) {
+		String url = "http://" + domainName + ":"
+				+ ServerConfiguration.getMainServerPort()
+				+ "/company/stosservice";
+		return (IS2SService) SyncProxy.newProxyInstance(IS2SService.class, url,
+				"");
 	}
 
 }

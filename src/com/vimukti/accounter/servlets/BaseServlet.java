@@ -275,17 +275,6 @@ public class BaseServlet extends HttpServlet {
 				.setString("emailId", emailId).executeUpdate();
 	}
 
-	protected void addUserCookies(HttpServletResponse resp, Client client) {
-		StringBuffer buffer = new StringBuffer();
-		buffer.append(client.getEmailId());
-		buffer.append(':');
-		buffer.append(client.getPassword());
-		Cookie userCookie = new Cookie(OUR_COOKIE, buffer.toString());
-		userCookie.setMaxAge(2 * 7 * 24 * 60 * 60);// Two week
-		userCookie.setPath("/");
-		resp.addCookie(userCookie);
-	}
-
 	protected IS2SService getS2sSyncProxy(String domainName) {
 		String url = "http://" + domainName + ":"
 				+ ServerConfiguration.getMainServerPort()
@@ -324,8 +313,8 @@ public class BaseServlet extends HttpServlet {
 	protected String buildMainServerURL(String url) {
 		StringBuilder mainServerURL = new StringBuilder("http://");
 		mainServerURL.append(ServerConfiguration.getMainServerDomain());
-		mainServerURL.append(':');
-		mainServerURL.append(ServerConfiguration.getMainServerPort());
+		// mainServerURL.append(':');
+		// mainServerURL.append(ServerConfiguration.getMainServerPort());
 		mainServerURL.append(url);
 		return mainServerURL.toString();
 	}
@@ -341,8 +330,8 @@ public class BaseServlet extends HttpServlet {
 
 		StringBuilder mainServerURL = new StringBuilder("http://");
 		mainServerURL.append(companyServerAddress);
-		mainServerURL.append(':');
-		mainServerURL.append(ServerConfiguration.getMainServerPort());
+		// mainServerURL.append(':');
+		// mainServerURL.append(ServerConfiguration.getMainServerPort());
 		mainServerURL.append(url);
 		return mainServerURL.toString();
 	}

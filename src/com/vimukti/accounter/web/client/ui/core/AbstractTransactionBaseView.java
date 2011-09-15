@@ -120,7 +120,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	private Event event;
 	private boolean isMenuRequired = true;
 
-	protected List<ClientTransactionItem> transactionItems;
+	protected List<ClientTransactionItem> transactionItems = new ArrayList<ClientTransactionItem>();
 
 	private List<String> payVatMethodList;
 

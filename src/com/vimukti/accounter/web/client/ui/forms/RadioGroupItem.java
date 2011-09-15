@@ -189,4 +189,12 @@ public class RadioGroupItem extends FormItem<String> {
 
 		}
 	}
+
+	@Override
+	public void setDisabled(boolean b) {
+		super.setDisabled(b);
+		for (RadioButton btn : radioButtonList) {
+			btn.setEnabled(!b);
+		}
+	}
 }

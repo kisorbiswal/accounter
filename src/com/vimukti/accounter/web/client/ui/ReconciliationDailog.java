@@ -141,7 +141,7 @@ public class ReconciliationDailog extends BaseDialog<ClientReconciliation>
 
 		mainpanel.add(form);
 		setBodyLayout(mainpanel);
-
+		okbtn.setWidth("130px");
 		okbtn.setText(constants.startReconciliation());
 
 	}

@@ -108,8 +108,8 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 		FinanceTool tool = getFinanceTool();
 		OperationContext opContext = new OperationContext(clientCompany,
 				getUserEmail());
-
-		return tool.updateCompany(opContext);
+		String serverCompanyID = getCookie(BaseServlet.COMPANY_COOKIE);
+		return tool.updateCompany(opContext, Long.parseLong(serverCompanyID));
 
 	}
 

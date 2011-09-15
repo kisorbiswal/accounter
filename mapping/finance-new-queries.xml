@@ -86,5 +86,15 @@
 	<query name="get.Prioritize.Servers">
 		from com.vimukti.accounter.core.Server s ORDER BY s.priority DESC, s.companiesCount 
 	</query>
+	
+	<query name="delete.remembermeKeys">
+		<query-param name="key" type="String" />
+		delete from com.vimukti.accounter.core.RememberMeKey rk where rk.key=:key
+	</query>
+	
+	<query name="get.remembermeKey">
+		<query-param name="key" type="String" />
+		from com.vimukti.accounter.core.RememberMeKey rk where rk.key=:key
+	</query>
 
 </hibernate-mapping>

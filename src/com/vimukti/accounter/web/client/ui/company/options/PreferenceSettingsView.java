@@ -157,7 +157,9 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		// LogOutAfterInactivityOption();
 
 		// companyInfoPage.addPreferenceOption(terminologyOption);
-		companyInfoPage.addPreferenceOption(formOption);
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			companyInfoPage.addPreferenceOption(formOption);
+		}
 		// companyPage.addPreferenceOption(numbersOption);
 		companyInfoPage.addPreferenceOption(einOption);
 		companyInfoPage.addPreferenceOption(fiscalYearOption);

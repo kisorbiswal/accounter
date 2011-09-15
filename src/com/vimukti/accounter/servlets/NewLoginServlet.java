@@ -1,8 +1,11 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -15,6 +18,8 @@ import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.RememberMeKey;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
@@ -67,33 +72,53 @@ public class NewLoginServlet extends BaseServlet {
 					}
 
 				}
-				return;
 			} else {
 				request.setAttribute(
 						"message",
 						"The details that you have are incorrect. If you have forgotten your details, please refer to your invitation or contact the person who invited you to Accounter.");
 				dispatch(request, response, LOGIN_VIEW);
 			}
+			transaction.commit();
 		} catch (Exception e) {
+			e.printStackTrace();
+			transaction.rollback();
 		} finally {
 			if (session.isOpen()) {
-				transaction.commit();
 				session.close();
 			}
 		}
 	}
 
 	private Client doLogin(HttpServletRequest request,
-			HttpServletResponse response) {
+			HttpServletResponse response) throws NoSuchAlgorithmException {
 		String emailId = request.getParameter(EMAIL_ID);
 		String password = request.getParameter(PASSWORD);
 
 		Client client = getClient(emailId, password);
 		if (client != null && request.getParameter("staySignIn") != null
 				&& request.getParameter("staySignIn").equals("on")) {
-			addUserCookies(response, client);
+			// Inserting RememberMeKey
+			Session session = HibernateUtil.getCurrentSession();
+
+			byte[] makeHash = Security.makeHash(client.getEmailId()
+					+ Security.makeHash(client.getPassword()));
+			MessageDigest md = MessageDigest.getInstance("SHA-256");
+			byte[] digest = md.digest(makeHash);
+			String rememberMeKey = HexUtil.bytesToHex(digest);
+			RememberMeKey rememberMe = new RememberMeKey(client.getEmailId(),
+					rememberMeKey);
+			session.save(rememberMe);
+			addUserCookies(response, rememberMeKey);
 		}
 		return client;
+	}
+
+	protected void addUserCookies(HttpServletResponse resp, String key) {
+		Cookie userCookie = new Cookie(OUR_COOKIE, key);
+		userCookie.setMaxAge(2 * 7 * 24 * 60 * 60);// Two week
+		userCookie.setPath("/");
+		userCookie.setDomain(ServerConfiguration.getServerCookieDomain());
+		resp.addCookie(userCookie);
 	}
 
 	private Client getClient(String emailId, String password) {
@@ -147,18 +172,17 @@ public class NewLoginServlet extends BaseServlet {
 				dispatch(request, response, LOGIN_VIEW);
 				return;
 			}
-			String[] split = userCookie.split(":");
+
 			Session session = HibernateUtil.openSession(LOCAL_DATABASE);
-			Query query = session
-					.getNamedQuery("getclient.from.central.db.using.emailid.and.password");
-			query.setParameter(EMAIL_ID, split[0]);
-			query.setParameter(PASSWORD, split[1]);
-			Client client = (Client) query.uniqueResult();
-			if (client == null) {
+			Query query = session.getNamedQuery("get.remembermeKey");
+			query.setParameter("key", userCookie);
+			RememberMeKey rememberMeKey = (RememberMeKey) query.uniqueResult();
+			Client client = getClient(rememberMeKey.getEmailID());
+			if (rememberMeKey == null || client == null) {
 				dispatch(request, response, LOGIN_VIEW);
 				return;
 			}
-			httpSession.setAttribute(EMAIL_ID, client.getEmailId());
+			httpSession.setAttribute(EMAIL_ID, rememberMeKey.getEmailID());
 
 			Transaction transaction = session.beginTransaction();
 			try {
