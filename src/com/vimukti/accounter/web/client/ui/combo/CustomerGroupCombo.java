@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
 import com.vimukti.accounter.web.client.ui.customers.CustomerGroupListDialog;
 
@@ -11,7 +12,7 @@ public class CustomerGroupCombo extends CustomCombo<ClientCustomerGroup> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.newCustomerGroup();
+		return comboMessages.newCustomerGroup(Global.get().Customer());
 	}
 
 	@Override

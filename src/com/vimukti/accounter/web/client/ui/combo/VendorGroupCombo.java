@@ -13,7 +13,7 @@ public class VendorGroupCombo extends CustomCombo<ClientVendorGroup> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return Accounter.messages().newVendorGroup(Global.get().vendor());
+		return Accounter.comboMessages().newVendorGroup(Global.get().vendor());
 	}
 
 	@Override

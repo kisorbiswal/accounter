@@ -110,9 +110,9 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 
 	public void showAddEditGroupDialog(ClientVendorGroup rec) {
 		vendorGroup = rec;
-		inputDlg = new InputDialog(this, messages.vendorGroup(Global.get()
-				.Vendor()), messages.vendorCredit(Global.get().Vendor()), "",
-				messages.vendorGroup(Global.get().Vendor())) {
+		inputDlg = new InputDialog(this, Accounter.messages().vendorGroup(
+				Global.get().Vendor()), "", Accounter.messages().vendorGroup(
+				Global.get().Vendor())) {
 		};
 
 		if (vendorGroup != null) {
@@ -191,6 +191,6 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

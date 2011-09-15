@@ -13,8 +13,6 @@ public interface AccounterComboMessges extends Messages {
 
 	public String newCreditRating();
 
-	public String newCustomerGroup();
-
 	public String newSalesPerson();
 
 	public String newItem();
@@ -98,4 +96,8 @@ public interface AccounterComboMessges extends Messages {
 	public String newTAXAgency();
 
 	public String newSupplier(String vendor);
+
+	public String newVendorGroup(String vendor);
+
+	public String newCustomerGroup(String customer);
 }
