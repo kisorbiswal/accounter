@@ -53,6 +53,7 @@ public class ClientBrandingTheme implements IAccounterCore {
 	private boolean isShowUnitPrice_And_Quantity;
 	// private boolean isShowPaymentAdviceCut_Away;
 	private boolean isShowTaxColumn;
+	private boolean isShowVatColumn;
 	private boolean isShowRegisteredAddress;
 	private boolean isShowLogo;
 	private boolean isDefault;
@@ -367,6 +368,14 @@ public class ClientBrandingTheme implements IAccounterCore {
 
 	public void setCreditNoteTempleteName(String creditNoteTempleteName) {
 		this.creditNoteTempleteName = creditNoteTempleteName;
+	}
+
+	public boolean isShowVatColumn() {
+		return isShowVatColumn;
+	}
+
+	public void setShowVatColumn(boolean isShowSalesColumn) {
+		this.isShowVatColumn = isShowSalesColumn;
 	}
 
 }
