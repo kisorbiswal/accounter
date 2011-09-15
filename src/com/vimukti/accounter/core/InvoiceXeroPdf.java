@@ -21,12 +21,14 @@ public class InvoiceXeroPdf implements PrintTemplete {
 	// File.separator
 	// + "InvoiceTemplete.html";
 	private Company company;
+	private String companyId;
 
 	public InvoiceXeroPdf(Invoice invoice, BrandingTheme brandingTheme,
-			Company company) {
+			Company company, String companyId) {
 		this.invoice = invoice;
 		this.brandingTheme = brandingTheme;
 		this.company = company;
+		this.companyId = companyId;
 		this.maxDecimalPoints = getMaxDecimals(invoice);
 
 	}
@@ -51,25 +53,24 @@ public class InvoiceXeroPdf implements PrintTemplete {
 		// TODO for displaying the company address
 
 		String cmpAdd = "";
-		Address cmpTrad = company.getTradingAddress();
-		if (cmpTrad.getType() == Address.TYPE_COMPANY_REGISTRATION) {
-			if (cmpTrad != null)
-				cmpAdd = forUnusedAddress(cmpTrad.getAddress1(), false)
-						+ forUnusedAddress(cmpTrad.getStreet(), false)
-						+ forUnusedAddress(cmpTrad.getCity(), false)
-						+ forUnusedAddress(cmpTrad.getStateOrProvinence(),
-								false)
-						+ forUnusedAddress(cmpTrad.getZipOrPostalCode(), false)
-						+ forUnusedAddress(cmpTrad.getCountryOrRegion(), false);
+		Address cmpTrad = company.getRegisteredAddress();
+		if (cmpTrad != null) {
+
+			cmpAdd = forUnusedAddress(cmpTrad.getAddress1(), false)
+					+ forUnusedAddress(cmpTrad.getStreet(), false)
+					+ forUnusedAddress(cmpTrad.getCity(), false)
+					+ forUnusedAddress(cmpTrad.getStateOrProvinence(), false)
+					+ forUnusedAddress(cmpTrad.getZipOrPostalCode(), false)
+					+ forUnusedAddress(cmpTrad.getCountryOrRegion(), false);
 		}
 
 		if (cmpAdd.equals("")) {
 			// String contactDetails = brandingTheme.getContactDetails() != null
 			// ? brandingTheme
 			// .getContactDetails() : this.company.getName();
-			cmpAdd = forNullValue(company.getTradingName());
+			cmpAdd = forNullValue(company.getFullName());
 		} else {
-			cmpAdd = forNullValue(company.getTradingName()) + "<br/>" + cmpAdd;
+			cmpAdd = forNullValue(company.getFullName()) + "<br/>" + cmpAdd;
 		}
 
 		try {
@@ -114,17 +115,19 @@ public class InvoiceXeroPdf implements PrintTemplete {
 				t.addBlock("invDateHead");
 			}
 
-			// for vat details
-			String vatLabel = getVendorString("VAT Rate", "Tax Rate");
-			t.setVariable("VATRate", vatLabel);
-
-			String vatAmountLabel = getVendorString("VAT Amount", "Tax Amount");
-			t.setVariable("VATAmount", vatAmountLabel);
-
 			// for checking the show Column Headings
 			if (brandingTheme.isShowColumnHeadings()) {
 
-				if (brandingTheme.isShowTaxColumn()) {
+				if (company.getPreferences().isRegisteredForVAT()
+						&& brandingTheme.isShowVatColumn()) {
+					t.setVariable("VATRate", "Vat Code");
+					t.setVariable("VATAmount", "Vat ");
+					t.addBlock("vatBlock");
+				} else if (company.getPreferences().isChargeSalesTax()
+						&& brandingTheme.isShowTaxColumn()) {
+
+					t.setVariable("VATRate", "Tax Code");
+					t.setVariable("VATAmount", "Tax ");
 					t.addBlock("vatBlock");
 				}
 				t.addBlock("showLabels");
@@ -149,31 +152,58 @@ public class InvoiceXeroPdf implements PrintTemplete {
 				String vatAmount = getDecimalsUsingMaxDecimals(
 						item.getVATfraction(), null, 2);
 
+				t.setVariable("name", item.getItem().getName());
+				t.setVariable("discount",
+						largeAmountConversation(item.getDiscount()));
+
 				t.setVariable("description", description);
 				t.setVariable("quantity", qty);
 				t.setVariable("itemUnitPrice", unitPrice);
 				t.setVariable("itemTotalPrice", totalPrice);
-				if (brandingTheme.isShowTaxColumn()) {
+
+				if (company.getPreferences().isRegisteredForVAT()
+						&& brandingTheme.isShowVatColumn()) {
+
+					t.setVariable("itemVatRate", vatRate);
+					t.setVariable("itemVatAmount", vatAmount);
+					t.addBlock("vatValueBlock");
+				} else if (company.getPreferences().isChargeSalesTax()
+						&& brandingTheme.isShowTaxColumn()) {
 					t.setVariable("itemVatRate", vatRate);
 					t.setVariable("itemVatAmount", vatAmount);
 					t.addBlock("vatValueBlock");
 				}
-				t.addBlock("invoiceRecord");
+
 			}
 			// for displaying sub total, vat total, total
 			String subtotal = largeAmountConversation(invoice.getNetAmount());
-			t.setVariable("subTotal", subtotal);
-			if (brandingTheme.isShowTaxColumn()) {
+			if (company.getPreferences().isRegisteredForVAT()) {
+				t.setVariable("NetAmount", "Net Amount");
+				t.setVariable("subTotal", subtotal);
+			}
 
-				String vatlabel = getVendorString("VAT Total", "Tax Total");
-				t.setVariable("vatlabel", vatlabel);
+			if (company.getPreferences().isRegisteredForVAT()
+					&& brandingTheme.isShowVatColumn()) {
+				t.setVariable("vatlabel", "Vat ");
 				t.setVariable("vatTotal", largeAmountConversation((invoice
 						.getTotal() - invoice.getNetAmount())));
 				t.addBlock("VatTotal");
+
+			} else if (company.getPreferences().isChargeSalesTax()
+					&& brandingTheme.isShowTaxColumn()) {
+				t.setVariable("vatlabel", "Sales Tax ");
+				t.setVariable("vatTotal",
+						largeAmountConversation(invoice.getSalesTaxAmount()));
+				t.addBlock("VatTotal");
 			}
+
 			String total = largeAmountConversation(invoice.getTotal());
 			t.setVariable("total", total);
 			t.setVariable("blankText", invoice.getMemo());
+			t.setVariable("balancedue",
+					largeAmountConversation(invoice.getBalanceDue()));
+			t.setVariable("payment",
+					largeAmountConversation(invoice.getPayments()));
 			t.addBlock("itemDetails");
 
 			t.setVariable("dueDate", invoice.getDueDate().toString());
@@ -286,7 +316,7 @@ public class InvoiceXeroPdf implements PrintTemplete {
 
 	private String getLogoAlignment() {
 		String logoAlignment = null;
-		if (brandingTheme.getPageSizeType() == 1) {
+		if (brandingTheme.getLogoAlignmentType() == 1) {
 			logoAlignment = "left";
 		} else {
 			logoAlignment = "right";
@@ -295,8 +325,16 @@ public class InvoiceXeroPdf implements PrintTemplete {
 	}
 
 	private String getVendorString(String forUk, String forUs) {
-		return company.getAccountingType() == company.ACCOUNTING_TYPE_US ? forUs
-				: forUk;
+		// return company.getAccountingType() == company.ACCOUNTING_TYPE_US ?
+		// forUs
+		// : forUk;
+		// : forUk;
+		if (company.getPreferences().isRegisteredForVAT()) {
+			return forUk;
+		} else if (company.getPreferences().isChargeSalesTax()) {
+			return forUs;
+		}
+		return "";
 	}
 
 	private String getDecimalsUsingMaxDecimals(double quantity, String amount,
@@ -355,8 +393,7 @@ public class InvoiceXeroPdf implements PrintTemplete {
 
 		original.append("<img src='file:///");
 		original.append(ServerConfiguration.getAttachmentsDir() + "/"
-				+ company.getAccountingType() + "/"
-				+ brandingTheme.getFileName());
+				+ companyId + "/" + brandingTheme.getFileName());
 		original.append("'/>");
 
 		return original.toString();

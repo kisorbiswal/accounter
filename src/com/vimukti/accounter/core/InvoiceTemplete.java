@@ -118,7 +118,7 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 				+ "\">"
 				+ getImage()
 				+ "</td></tr></table>";
-		if (brandingTheme.isShowLogo) {
+		if (brandingTheme.isShowLogo()) {
 			header1 = header1 + imgCode;
 		}
 
@@ -367,7 +367,7 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 				+ getUnits()
 				+ "\"><p><br></p></td></tr></table>";
 
-		if (brandingTheme.isShowRegisteredAddress) {
+		if (brandingTheme.isShowRegisteredAddress()) {
 			footerEndingHtml = regAdd + footerEndingHtml;
 		}
 		if (brandingTheme.isShowTaxNumber()) {
