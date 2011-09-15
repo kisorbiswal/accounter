@@ -807,7 +807,8 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			ItemsAction itemsAction = ActionFactory.getItemsAction();
 			itemsAction.setCatagory(Global.get().vendor());
 			vendorListMenuBar.addItem(itemsAction);
-			vendorListMenuBar.addItem(ActionFactory.getBillsAction());
+			if (Accounter.getCompany().getPreferences().isKeepTrackofBills())
+				vendorListMenuBar.addItem(ActionFactory.getBillsAction());
 		}
 		if (Accounter.getUser().canSeeBanking())
 			vendorListMenuBar.addItem(ActionFactory.getVendorPaymentsAction());

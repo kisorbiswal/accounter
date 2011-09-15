@@ -249,11 +249,11 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		tabSet.add(getGeneralTab(), customerConstants.general());
 		tabSet.add(getDetailsTab(), customerConstants.details());
+
 		tabSet.selectTab(0);
 		tabSet.setSize("100%", "100%");
 
 		VerticalPanel mainVLay = new VerticalPanel();
-
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(tabSet);
 
@@ -574,7 +574,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		custNameText = new TextItem(Accounter.messages().customerName(
 				Global.get().Customer()));
-		 TextBox t= new TextBox();
+		TextBox t = new TextBox();
 		if (quickAddText != null) {
 			custNameText.setValue(quickAddText);
 		}
@@ -1021,6 +1021,27 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				termsForm.setFields(shipMethSelect);
 			}
 		}
+
+		salesPersonSelect.setDisabled(isInViewMode());
+		creditLimitText.setDisabled(isInViewMode());
+		priceLevelSelect.setDisabled(isInViewMode());
+		creditRatingSelect.setDisabled(isInViewMode());
+		currencyCombo.setDisabled(isInViewMode());
+		bankAccountSelect.setDisabled(isInViewMode());
+		bankNameSelect.setDisabled(isInViewMode());
+		bankBranchSelect.setDisabled(isInViewMode());
+		panNumberText.setDisabled(isInViewMode());
+		cstNumberText.setDisabled(isInViewMode());
+		serviceTaxRegistrationNo.setDisabled(isInViewMode());
+		tinNumberText.setDisabled(isInViewMode());
+		shipMethSelect.setDisabled(isInViewMode());
+		payMethSelect.setDisabled(isInViewMode());
+		payTermsSelect.setDisabled(isInViewMode());
+		custGroupSelect.setDisabled(isInViewMode());
+		taxGroupSelect.setDisabled(isInViewMode());
+		vatregno.setDisabled(isInViewMode());
+		custTaxCode.setDisabled(isInViewMode());
+
 		termsForm.setWidth("100%");
 
 		VerticalPanel leftVLay = new VerticalPanel();
@@ -1284,6 +1305,25 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		fonFaxForm.setDisabled(isInViewMode());
 		emailForm.setDisabled(isInViewMode());
 		gridView.setDisabled(isInViewMode());
+		salesPersonSelect.setDisabled(isInViewMode());
+		creditLimitText.setDisabled(isInViewMode());
+		priceLevelSelect.setDisabled(isInViewMode());
+		creditRatingSelect.setDisabled(isInViewMode());
+		currencyCombo.setDisabled(isInViewMode());
+		bankAccountSelect.setDisabled(isInViewMode());
+		bankNameSelect.setDisabled(isInViewMode());
+		bankBranchSelect.setDisabled(isInViewMode());
+		panNumberText.setDisabled(isInViewMode());
+		cstNumberText.setDisabled(isInViewMode());
+		serviceTaxRegistrationNo.setDisabled(isInViewMode());
+		tinNumberText.setDisabled(isInViewMode());
+		shipMethSelect.setDisabled(isInViewMode());
+		payMethSelect.setDisabled(isInViewMode());
+		payTermsSelect.setDisabled(isInViewMode());
+		custGroupSelect.setDisabled(isInViewMode());
+		taxGroupSelect.setDisabled(isInViewMode());
+		vatregno.setDisabled(isInViewMode());
+		custTaxCode.setDisabled(isInViewMode());
 		super.onEdit();
 
 	}

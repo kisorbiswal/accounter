@@ -571,11 +571,13 @@ public class VendorView extends BaseView<ClientVendor> {
 						selectAccountFromDetailsTab = selectItem;
 					}
 				});
+		expenseAccountsSelect.setDisabled(isInViewMode());
 
 		creditLimitText = new AmountField(Accounter.constants().creditLimit(),
 				this);
 		creditLimitText.setHelpInformation(true);
 		creditLimitText.setWidth(100);
+		creditLimitText.setDisabled(isInViewMode());
 
 		preferredShippingSelect = new ShippingMethodsCombo(Accounter
 				.constants().preferredShippingMethod());
@@ -588,6 +590,7 @@ public class VendorView extends BaseView<ClientVendor> {
 					}
 
 				});
+		preferredShippingSelect.setDisabled(isInViewMode());
 
 		preferredPaymentSelect = UIUtils.getPaymentMethodCombo();
 		// preferredPaymentSelect.setWidth(100);
@@ -600,6 +603,7 @@ public class VendorView extends BaseView<ClientVendor> {
 								.getSelectedValue();
 					}
 				});
+		preferredPaymentSelect.setDisabled(isInViewMode());
 
 		payTermsSelect = new PaymentTermsCombo(Accounter.constants()
 				.paymentTerms());
@@ -611,13 +615,16 @@ public class VendorView extends BaseView<ClientVendor> {
 						selectPaymentTermFromDetailsTab = selectItem;
 					}
 				});
+		payTermsSelect.setDisabled(isInViewMode());
 		accountText = new TextItem(messages.accountNo(Global.get().Account()));
 		accountText.setHelpInformation(true);
-
+		accountText.setDisabled(isInViewMode());
 		bankNameText = new TextItem(Accounter.constants().bankName());
 		bankNameText.setHelpInformation(true);
+		bankNameText.setDisabled(isInViewMode());
 		bankBranchText = new TextItem(Accounter.constants().bankBranch());
 		bankBranchText.setHelpInformation(true);
+		bankBranchText.setDisabled(isInViewMode());
 		currencyCombo = new CurrencyCombo(Accounter.constants().currency());
 		currencyCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCurrency>() {
@@ -627,6 +634,7 @@ public class VendorView extends BaseView<ClientVendor> {
 						// clientCurrency = selectItem;
 					}
 				});
+		currencyCombo.setDisabled(isInViewMode());
 		DynamicForm financeDetailsForm = new DynamicForm();
 		financeDetailsForm.setIsGroup(true);
 		financeDetailsForm.setWidth("100%");
@@ -648,6 +656,7 @@ public class VendorView extends BaseView<ClientVendor> {
 					}
 
 				});
+		vendorGroupSelect.setDisabled(isInViewMode());
 		NewVendorAction newVendorAction = (NewVendorAction) this.getAction();
 		if (newVendorAction.getOpenedFrom() == NewVendorAction.FROM_CREDIT_CARD_EXPENSE) {
 			vendorGroupList = getCompany().getVendorGroups();
@@ -666,10 +675,12 @@ public class VendorView extends BaseView<ClientVendor> {
 		federalText = new TextItem(Accounter.constants().federalTaxId());
 		federalText.setHelpInformation(true);
 		federalText.setWidth(100);
+		federalText.setDisabled(isInViewMode());
 		vendorTDSTaxCode = new TaxItemCombo(messages.vendorTDSCode(Global.get()
 				.Vendor()), ClientTAXItem.TAX_TYPE_TDS);
 		vendorTDSTaxCode.setHelpInformation(true);
 		vendorTDSTaxCode.setWidth(100);
+		vendorTDSTaxCode.setDisabled(isInViewMode());
 		// panNumber=new TextItem(Accounter.constants().panNumber());
 		// panNumber.setHelpInformation(true);
 		// panNumber.setWidth("100%");
@@ -684,7 +695,6 @@ public class VendorView extends BaseView<ClientVendor> {
 				});
 		isTDS = new CheckboxItem(Accounter.constants().tdsApplicable());
 		isTDS.setValue(true);
-		vendorTDSTaxCode.setDisabled(true);
 		isTDS.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
@@ -697,16 +707,17 @@ public class VendorView extends BaseView<ClientVendor> {
 				}
 			}
 		});
+		isTDS.setDisabled(isInViewMode());
 		panNumberText = new TextItem(Accounter.messages().panNumber(
 				Global.get().Account()));
 		panNumberText.setHelpInformation(true);
 		panNumberText.setWidth(100);
-
+		panNumberText.setDisabled(isInViewMode());
 		serviceTaxRegisterationNumber = new TextItem(Accounter.constants()
 				.serviceTaxRegistrationNumber());
 		serviceTaxRegisterationNumber.setHelpInformation(true);
 		serviceTaxRegisterationNumber.setWidth(100);
-
+		serviceTaxRegisterationNumber.setDisabled(isInViewMode());
 		DynamicForm vendorGrpForm = new DynamicForm();
 		vendorGrpForm.setIsGroup(false);
 
@@ -734,6 +745,7 @@ public class VendorView extends BaseView<ClientVendor> {
 				.vatRegistrationNumber());
 		vatRegistrationNumber.setHelpInformation(true);
 		vatRegistrationNumber.setWidth(100);
+		vatRegistrationNumber.setDisabled(isInViewMode());
 		vendorTaxCode = new TAXCodeCombo(messages.vendorVatCode(Global.get()
 				.Vendor()), false);
 		vendorTaxCode.setHelpInformation(true);
@@ -746,7 +758,7 @@ public class VendorView extends BaseView<ClientVendor> {
 					}
 
 				});
-
+		vendorTaxCode.setDisabled(isInViewMode());
 		DynamicForm vatform = new DynamicForm();
 		vatform.setIsGroup(true);
 		vatform.setWidth("50%");
@@ -1352,6 +1364,22 @@ public class VendorView extends BaseView<ClientVendor> {
 		fonFaxForm.setDisabled(isInViewMode());
 		emailForm.setDisabled(isInViewMode());
 		gridView.setDisabled(isInViewMode());
+		expenseAccountsSelect.setDisabled(isInViewMode());
+		creditLimitText.setDisabled(isInViewMode());
+		preferredShippingSelect.setDisabled(isInViewMode());
+		preferredPaymentSelect.setDisabled(isInViewMode());
+		payTermsSelect.setDisabled(isInViewMode());
+		accountText.setDisabled(isInViewMode());
+		bankNameText.setDisabled(isInViewMode());
+		bankBranchText.setDisabled(isInViewMode());
+		vendorGroupSelect.setDisabled(isInViewMode());
+		panNumberText.setDisabled(isInViewMode());
+		serviceTaxRegisterationNumber.setDisabled(isInViewMode());
+		vatRegistrationNumber.setDisabled(isInViewMode());
+		vendorTaxCode.setDisabled(isInViewMode());
+		isTDS.setDisabled(isInViewMode());
+		vendorTDSTaxCode.setDisabled(isInViewMode());
+		federalText.setDisabled(isInViewMode());
 		super.onEdit();
 
 	}
