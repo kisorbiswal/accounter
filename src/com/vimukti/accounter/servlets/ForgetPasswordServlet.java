@@ -12,6 +12,7 @@ import org.hibernate.Transaction;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Server;
 import com.vimukti.accounter.mail.UsersMailSendar;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class ForgetPasswordServlet extends BaseServlet {
@@ -90,11 +91,12 @@ public class ForgetPasswordServlet extends BaseServlet {
 		client.setRequirePasswordReset(true);
 
 		session.save(client);
+		StringBuffer link = new StringBuffer("https://");
+		link.append(ServerConfiguration.getMainServerDomain());
+		link.append(ACTIVATION_URL);
 
-		String link = "https://nextrelease.accounterlive.com/main/activation";
-
-		UsersMailSendar.sendResetPasswordLinkToUser(link, activationCode,
-				client.getEmailId());
+		UsersMailSendar.sendResetPasswordLinkToUser(link.toString(),
+				activationCode, client.getEmailId());
 
 	}
 
