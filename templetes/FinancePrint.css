@@ -418,3 +418,7 @@ table tr.gridHeaderRow td {
 .credit_quick_upp th{
      text-transform: uppercase;
 }
+.branding_theme_logo{
+	width:400px;
+	height:120px;
+}
