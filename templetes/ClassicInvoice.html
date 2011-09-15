@@ -154,9 +154,11 @@
 <table width="100%" border="1" class="removeHeadBorder" id="items" style="font-family:${fontStyle};font-size:${font};">
 <!-- $BeginBlock  itemDetails -->
   <tr><!-- $BeginBlock showLabels -->
+  	<th><p class="fontSetting">Name</p></th>
     <th><p class="fontSetting">Description</p></th>
 	<th><p class="fontSetting">Qty</p></th>
 	<th><p class="fontSetting">Unit Price</p></th>
+	<th><p class="fontSetting">Discount %</p></th>
 	<th><p class="fontSetting">Total Price</p></th>
 	<!-- $BeginBlock vatBlock -->
 	<th><p class="fontSetting">${VATRate}</p></th>
@@ -165,6 +167,9 @@
 	<!-- $EndBlock showLabels -->
   </tr>
  <!-- $BeginBlock invoiceRecord --> <tr class="item-row">
+ <td class="description">
+	   <div><p class="fontSetting">${name}</p></div>
+	</td>
 	<td class="description">
 	   <div><p class="fontSetting">${description}</p></div>
 	</td>
@@ -174,6 +179,11 @@
 	<td align="right">
 	   <div class="cost">
 	     <p class="fontSetting">${itemUnitPrice}</p>
+	   </div>
+	</td>
+	<td align="right">
+	   <div class="cost">
+	     <p class="fontSetting">${discount}</p>
 	   </div>
 	</td>
     <td align="right">
@@ -193,17 +203,18 @@
 </table>
 <table width="100%" border="1" id="items">
  <tr>
-	<td class="blank" colspan="4" rowspan="3" width="63%">
+	<td class="blank" colspan="4" rowspan="5" width="63%">
 	  <p class="fontSetting">${blankText}</p>
 	</td>
-	<td class="total-line, item-column" ><p class="fontSetting">&nbsp;&nbsp;Sub Total</p></td>
+	 <!-- $BeginBlock subtotal -->
+	<td class="total-line, item-column" ><p class="fontSetting">&nbsp;&nbsp;${NetAmount}</p></td>
 		<td class="total-value, item-column" >
 		  <div id="subtotal">
 			<p class="fontSetting" align="right">
 			 ${subTotal}
 			</p>
 		  </div>
-	</td>
+  <!-- $EndBlock subtotal -->
   </tr>
   <!-- $BeginBlock VatTotal -->
   <tr>
@@ -218,7 +229,20 @@
 	<td class="total-value, item-column" align="right">
 	  <div class="total"><p class="fontSetting">${total}</p></div>
 	</td>
-  </tr><!-- $EndBlock itemDetails -->
+  </tr>
+   <tr>
+	<td class="total-line balance, item-column"><p class="fontSetting">&nbsp;&nbsp;Payments</p></td>
+	<td class="total-value, item-column" align="right">
+	  <div class="total"><p class="fontSetting">${payment}</p></div>
+	</td>
+  </tr>
+    <tr>
+	<td class="total-line balance, item-column"><p class="fontSetting">&nbsp;&nbsp;Balance Due</p></td>
+	<td class="total-value, item-column" align="right">
+	  <div class="total"><p class="fontSetting">${balancedue}</p></div>
+	</td>
+  </tr>
+  <!-- $EndBlock itemDetails -->
 </table>
 <table border="1" class="due_date" style="font-family:${fontStyle};font-size:${font};">
     <tr><!-- $BeginBlock dueDateDetails -->
