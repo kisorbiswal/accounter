@@ -21,7 +21,10 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 
 	private static CustomerAndVendorsSettingsOptionUiBinder uiBinder = GWT
 			.create(CustomerAndVendorsSettingsOptionUiBinder.class);
-
+	@UiField
+	Label salesTaxDescriptionLabel;
+	@UiField
+	Label VatdescritionLabel;
 	@UiField
 	Label chargeTaxLabelItem;
 	@UiField
@@ -84,9 +87,9 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 		}
 
 		if (companyPreferences.isRegisteredForVAT()) {
-			vatYesRadioButton.setValue(companyPreferences.isRegisteredForVAT());
+			vatYesRadioButton.setValue(true);
 		} else {
-			vatNoRadioButton.setValue(companyPreferences.isRegisteredForVAT());
+			vatNoRadioButton.setValue(true);
 		}
 
 		// if (companyPreferences.isDoyouwantEstimates()) {
@@ -108,12 +111,16 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 
 	public void createControls() {
 		chargeTaxLabelItem.setText(constants.doyouchargesalestax());
+		salesTaxDescriptionLabel.setText(constants.salesTaxDescrition());
 		chargeTaxYesRadioButton.setText(constants.yes());
 		chargeTaxNoRadioButton.setText(constants.no());
+		salesTaxDescriptionLabel.setStyleName("organisation_comment");
 
 		vatLabel.setText(constants.doyouchargeVat());
+		VatdescritionLabel.setText(constants.vatDescrition());
 		vatNoRadioButton.setText(constants.no());
 		vatYesRadioButton.setText(constants.yes());
+		VatdescritionLabel.setStyleName("organisation_comment");
 
 		// createEstimatesLabelItem.setText(constants
 		// .wanttoCreateEstimatesInAccounter());
