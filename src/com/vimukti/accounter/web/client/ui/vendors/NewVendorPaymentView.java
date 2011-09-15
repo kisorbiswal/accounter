@@ -24,6 +24,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -632,8 +633,9 @@ public class NewVendorPaymentView extends
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter
-						.showError("You can't edit it. This vendor or supplier was voided.");
+				int errorCode = caught.getErrorCode();
+				Accounter.showError(AccounterExceptions
+						.getErrorString(errorCode));
 			}
 
 			@Override
