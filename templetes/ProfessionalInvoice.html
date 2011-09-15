@@ -3,68 +3,79 @@
 <link rel='stylesheet' type='text/css' href='templetes/FinancePrint.css' media='all'></link>
 </head>
 <!-- $BeginBlock theme -->
-<div style="margin:40px">
 <div style="font-family:segoe script;font-size:${font};margin-bottom:${bottomMargin};margin-top:${topMargin};">
 <div class="invoice_main_div">
  
  <table style="font-family:${fontStyle};font-size:${font};" width="100%">
 	   <tr>
-	       <td align="left;" style="vertical-align: top;">
+	       <td align="left;">
 			   <div class="invoice_xero_header">
 			     <p align="left">
 				    <font color="black"><strong>${title}</strong></font>
 				 </p>
 			   </div>
 			</td>
-			<td style="vertical-align: top;" width="25%" align="right">
-				 <table class="invoice_xerodetails_table"  style="font-family:${fontStyle};font-size:${font};">
+			<td style="vertical-align: top;" align="right">
+		     <table id="header-part-invoice" style="font-family:${fontStyle};font-size:${font};" width="100%">
+			    <tr>
+				  <td>
+				     <table width="100%" class="invoice_xerodetails_table"  style="font-family:${fontStyle};font-size:${font};">
 					    <colgroup><col></colgroup>
 						<!-- $BeginBlock invNumberHead -->
 						<tr>
-						   <td id ="invoiceNumber" align="left" style=" padding: 5px;"> Invoice Number</td>
+						   <td id ="invoiceNumber" align="left"> Invoice Number</td>
 						</tr>
 						<tr>
-						   <td align="left" style=" padding: 5px;">
+						   <td align="left">
 							 ${invoiceNumber}
 						   </td>
 						</tr>
 						<!-- $EndBlock invNumberHead -->
                         <!-- $BeginBlock invDateHead -->
 						<tr>
-						  <td  style=" padding: 5px;"id = "invoiceDate" align="left">Invoice Date</td>
+						  <td id = "invoiceDate" align="left">Invoice Date</td>
 						</tr>
 						<tr>
-						  <td align="left" style=" padding: 5px;">
+						  <td align="left">
 							 ${invoiceDate}
 						  </td>
 						</tr>
 						 <!-- $EndBlock invDateHead -->
-				</table> 
+					 </table> 
+				  </td>
+				  <td>
+				    <div class="gwt-HTML">
+						<p>
+						   <strong>${comapany}</strong>
+						   <table><tr><td>${companyDetails}</td></tr></table> 
+						</p>
+			        </div>
+				  </td>
+				</tr>
+			 </table>
 		   </td>
-		   <td width="25%" align="right" style="vertical-align: top;>
-				<div class="gwt-HTML">
-				  <p>
-					<strong>${comapany}</strong>
-					<table><tr><td>${companyDetails}</td></tr></table> 
-				  </p>
-			    </div>
-		    </td>
 		</tr>
+		
    </table>
-<table class="xero_invoice_table"  border="1" id="items" width="100%" style="font-family:${fontStyle};font-size:${font};">
+<table class="xero_invoice_table"  id="items" width="100%" style="font-family:${fontStyle};font-size:${font};">
 <!-- $BeginBlock  itemDetails -->
   <tr><!-- $BeginBlock showLabels -->
+   <th><p class="fontSetting">Name</p></th>
     <th><p class="fontSetting">Description</p></th>
 	<th><p class="fontSetting">Qty</p></th>
 	<th><p class="fontSetting">Unit Price</p></th>
+	 <th><p class="fontSetting">Discount %</p></th>
 	<th><p class="fontSetting">Total Price</p></th>
 	<!-- $BeginBlock vatBlock -->
-	<th><p class="fontSetting">${VATRate}</p></th>
+<th><p class="fontSetting">${VATRate}</p></th>
 	<th><p class="fontSetting">${VATAmount}</p></th>
 	<!-- $EndBlock vatBlock -->
 	<!-- $EndBlock showLabels -->
-  </tr>
- <!-- $BeginBlock invoiceRecord --> <tr class="item-row">
+   </tr>
+ <!- BeginBlock invoiceRecord --> <tr class="item-row">
+ <td class="description" align="center">
+	   <div><p class="fontSetting">${name}</p></div>
+	</td>
 	<td class="description" align="center">
 	   <div><p class="fontSetting">${description}</p></div>
 	</td>
@@ -74,6 +85,11 @@
 	<td align="center">
 	   <div class="cost">
 	     <p class="fontSetting">${itemUnitPrice}</p>
+	   </div>
+	</td>
+	<td align="center">
+	   <div class="cost">
+	     <p class="fontSetting">${discount}</p>
 	   </div>
 	</td>
     <td align="center">
@@ -89,20 +105,22 @@
 	   <div><p class="fontSetting">${itemVatAmount}</p></div>
 	</td>
 	<!-- $EndBlock vatValueBlock -->
-  </tr><!-- $EndBlock invoiceRecord -->
+  </tr>
   </table>
   <table class="xero_sub_total" >
   <tr>
-	<td class="blank memo-text" colspan="4" rowspan="3" >
+	<td class="blank" colspan="4" rowspan="5" >
 	  <p class="fontSetting">${blankText}</p>
 	</td>
-	<td class="total-line, item-column" ><p class="fontSetting">&nbsp;&nbsp;Sub Total</p></td>
-	<td class="total-value, item-column">
+	 <!-- $BeginBlock subtotal -->
+	<td class="	<td class="total-line, item-column" ><p class="fontSetting">&nbsp;&nbsp;${NetAmount}</p></td>
+<td class="total-value, item-column">
 	  <div id="subtotal">
 	    <p class="fontSetting">
 		 ${subTotal}
 		</p>
 	  </div>
+	    <!-- $EndBlock subtotal -->
 	</td>
   </tr>
   <!-- $BeginBlock VatTotal -->
@@ -118,7 +136,20 @@
 	<td class="total-value, item-column" >
 	  <div class="total"><p class="fontSetting">${total}</p></div>
 	</td>
-  </tr><!-- $EndBlock itemDetails -->
+  </tr>
+  <tr>
+	<td class="total-line balance, item-column"><p class="fontSetting">&nbsp;&nbsp;Payments</p></td>
+	<td class="total-value, item-column" align="right">
+	  <div class="total"><p class="fontSetting">${payment}</p></div>
+  </td>
+  </tr>
+  <tr>
+	<td class="total-line balance, item-column"><p class="fontSetting">&nbsp;&nbsp;Balance Due</p></td>
+	<td class="total-value, item-column" align="right">
+	  <div class="total"><p class="fontSetting">${balancedue}</p></div>
+	</td>
+  </tr>
+  <!-- $EndBlock itemDetails -->
 </table>
 <table class="due_xerodate" style="font-family:${fontStyle};font-size:${font};">
     <tr><!-- $BeginBlock dueDateDetails -->
@@ -161,7 +192,6 @@
        <!-- $EndBlock logo -->
 	</tr>
 </table>
-</div>
 </div>
 </div>
 <!-- $EndBlock theme -->

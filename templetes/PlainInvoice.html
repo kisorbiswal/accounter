@@ -71,15 +71,14 @@
 		</tr> 
    </table>
    <table border="0" id="billingAddressTable" width="100%" style="margin:20px 0;font-family:${fontStyle};font-size:${font};">
+     <!-- $BeginBlock billhead -->
      <tr>
 	   <td style="vertical-align: top;" align="left">
 	     <table border="1"  id="billto" class="billto_quick" style="width:400px;font-family:${fontStyle};font-size:${font};"><colgroup><col></colgroup>
-		 <!-- $BeginBlock billhead -->
+		
           <tr>
 			<td class="table-head"><p class="fontSetting"><center>Bill To</center></p></td>
 		  </tr>
-		  <!-- $EndBlock billhead -->
-          <!-- $BeginBlock billingAddressDetails -->
 		  <tr>
 			<td align="left" style="vertical-align:top;height:150px">
 			   <p class="fontSetting">
@@ -87,28 +86,29 @@
 			   </p>
 			</td>
 		  </tr>
-		  <!-- $EndBlock billingAddressDetails -->
+		
 		 </table>
 		</td>
 	 </tr>
+	   <!-- $EndBlock billhead -->
  </table>
  <table class="dueamount_enclosed" border="1">
     <tr>
 	   <td class="table-head"><p class="fontSetting"><center>Amount Due</center></p></td>
-	   <td class="table-head"><p class="fontSetting"><center>Enclosed</center></p></td>
     </tr>
     <tr>
 	   <td><p class="fontSetting"><center>${amountDue}</center></p></td>
-	   <td><p class="fontSetting"><center>${enclosed}</center></p></td>
 	</tr>
  </table>
 <table border="1" width="100%"  class="removeHeadBorder quick_invoice_header" id="items" style="margin:20px 0;clear:both;font-family:${fontStyle};font-size:${font};clear:both">
 <!-- $BeginBlock  itemDetails -->
 <thead>
   <tr class="table-head"><!-- $BeginBlock showLabels -->
+   <td><p class="fontSetting">Name</p></td>
     <td><p class="fontSetting">Description</p></td>
 	<td><p class="fontSetting">Qty</p></td>
 	<td><p class="fontSetting">Unit Price</p></td>
+	 <td><p class="fontSetting">Discount %</p></td>
 	<td><p class="fontSetting">Total Price</p></td>
 	<!-- $BeginBlock vatBlock -->
 	<td><p class="fontSetting">${VATRate}</p></td>
@@ -119,6 +119,9 @@
 </thead>
 <tbody height="400">
  <!-- $BeginBlock invoiceRecord --> <tr class="item-row">
+ <td class="description">
+	   <div><p class="fontSetting">${name}</p></div>
+	</td>
 	<td class="description">
 	   <div><p class="fontSetting">${description}</p></div>
 	</td>
@@ -128,6 +131,11 @@
 	<td>
 	   <div class="cost">
 	     <p class="fontSetting">${itemUnitPrice}</p>
+	   </div>
+	</td>
+	<td>
+	   <div class="cost">
+	     <p class="fontSetting">${discount}</p>
 	   </div>
 	</td>
     <td>
@@ -148,16 +156,18 @@
   </table>
   <table border="1" width="50%" class="quick_total_table" style="margin:20px 0">
   <tr>
-	<td class="blank" colspan="4" rowspan="3" >
+	<td class="blank" colspan="4" rowspan="5" >
 	  <p class="fontSetting">${blankText}</p>
 	</td>
-	<td class="total-line, item-column" ><p class="fontSetting">&nbsp;&nbsp;Sub Total</p></td>
+	 <!-- $BeginBlock subtotal -->
+	<td class="total-line, item-column" ><p class="fontSetting">&nbsp;&nbsp;${NetAmount}</p></td>
 	<td class="total-value, item-column">
 	  <div id="subtotal">
 	    <p class="fontSetting" align="right">
 		 ${subTotal}
 		</p>
 	  </div>
+	     <!-- $EndBlock subtotal -->
 	</td>
   </tr>
   <!-- $BeginBlock VatTotal -->
@@ -173,7 +183,20 @@
 	<td class="table-head total-value, item-column" align="right">
 	  <div class="total"><p class="fontSetting">${total}</p></div>
 	</td>
-  </tr><!-- $EndBlock itemDetails -->
+  </tr>
+     <tr>
+	<td class="total-line balance, item-column"><p class="fontSetting">&nbsp;&nbsp;Payments</p></td>
+	<td class="total-value, item-column" align="right">
+	  <div class="total"><p class="fontSetting">${payment}</p></div>
+	</td>
+  </tr>
+  <tr>
+	<td class="total-line balance, item-column"><p class="fontSetting">&nbsp;&nbsp;Balance Due</p></td>
+	<td class="total-value, item-column" align="right">
+	  <div class="total"><p class="fontSetting">${balancedue}</p></div>
+	</td>
+  </tr>
+<!-- $EndBlock itemDetails -->
 </table>
 <table id="footer" width="100%" style="font-family:${fontStyle};font-size:${font};clear:both">
    <tr>

@@ -58,9 +58,11 @@
 <table border="1" width="100%" class="xero_credit_memo">
 <!-- $BeginBlock  itemDetails -->
   <tr><!-- $BeginBlock showLabels -->
+   <th><p class="fontSetting">Name</p></th>
     <th><p class="fontSetting">Description</p></th>
 	<th><p class="fontSetting">Qty</p></th>
 	<th><p class="fontSetting">Unit Price</p></th>
+	 <th><p class="fontSetting">Discount %</p></th>
 	<th><p class="fontSetting">Total Price</p></th>
 	<!-- $BeginBlock vatBlock -->
 	<th><p class="fontSetting">${vatRate}</p></th>
@@ -71,6 +73,9 @@
  <tbody height="400px">
  <!-- $BeginBlock itemRecord --> 
  <tr class="item-row">
+ <td class="description">
+	   <div><p class="fontSetting">${Name}</p></div>
+	</td>
 	<td class="description">
 	   <div><p class="fontSetting">${description}</p></div>
 	</td>
@@ -80,6 +85,11 @@
 	<td>
 	   <div class="cost">
 	     <p class="fontSetting">${unitPrice}</p>
+	   </div>
+	</td>
+	<td>
+	   <div class="cost">
+	     <p class="fontSetting">${discount}</p>
 	   </div>
 	</td>
     <td>
@@ -105,7 +115,8 @@
 	  <p class="fontSetting">${memoText}</p>
 	</td>
 	<!-- $EndBlock memoblock -->
-	<td class="total-line, item-column" ><p class="fontSetting">&nbsp;&nbsp;Sub Total</p></td>
+	 <!-- $BeginBlock subtotal -->
+	<td class="total-line, item-column" ><p class="fontSetting">&nbsp;&nbsp;${NetAmount}</p></td>
 	<td class="total-value, item-column">
 	  <div id="subtotal">
 	    <p class="fontSetting">
@@ -113,6 +124,7 @@
 		</p>
 	  </div>
 	</td>
+	<!-- $EndBlock subtotal -->
   </tr>
   <!-- $BeginBlock VatTotal -->
   <tr>

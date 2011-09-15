@@ -33,8 +33,10 @@
 		<tr>
 </table>
  <table style="font-family:${fontStyle};font-size:${font};" width="100%">
+	 <!-- $BeginBlock billhead -->
 		<tr>
 		  <td style="vertical-align: top;" align="left">
+		    
 		     <table id="header-part-invoice" style="margin:20px 0;font-family:${fontStyle};font-size:${font};" width="100%">
 			    <tr>
 				  <td width="60%">
@@ -42,12 +44,10 @@
 						 <tr>
 						   <td style="vertical-align: top;" align="left">
 							 <table border="1"  id="billto" class="billto_quick" style="width:300px;font-family:${fontStyle};font-size:${font};"><colgroup><col></colgroup>
-							 <!-- $BeginBlock billhead -->
+							
 							  <tr>
 								<td class="table-head"><p class="fontSetting"><center>Bill To</center></p></td>
 							  </tr>
-							  <!-- $EndBlock billhead -->
-							  <!-- $BeginBlock billingAddressDetails -->
 							  <tr>
 								<td align="left" style="vertical-align:top;height:150px">
 								   <p class="fontSetting">
@@ -55,10 +55,11 @@
 								   </p>
 								</td>
 							  </tr>
-							  <!-- $EndBlock billingAddressDetails -->
+							
 							 </table>
 							</td>
 						 </tr>
+						  <!-- $EndBlock billhead -->
 					 </table>
 				  </td>
 				  <td width="40%">
@@ -107,9 +108,11 @@
 <!-- $BeginBlock  itemDetails -->
 <thead>
   <tr class="table-head"><!-- $BeginBlock showLabels -->
+  <td><p class="fontSetting">Name</p></td>
     <td><p class="fontSetting">Description</p></td>
 	<td><p class="fontSetting">Qty</p></td>
 	<td><p class="fontSetting">Unit Price</p></td>
+	<td><p class="fontSetting">Discount %</p></td>
 	<td><p class="fontSetting">Total Price</p></td>
 	<!-- $BeginBlock vatBlock -->
 	<td><p class="fontSetting">${VATRate}</p></td>
@@ -120,6 +123,9 @@
 </thead>
 <tbody height="400">
  <!-- $BeginBlock invoiceRecord --> <tr class="item-row">
+ <td class="description">
+	   <div><p class="fontSetting">${name}</p></div>
+	</td>
 	<td class="description">
 	   <div><p class="fontSetting">${description}</p></div>
 	</td>
@@ -129,6 +135,11 @@
 	<td>
 	   <div class="cost">
 	     <p class="fontSetting">${itemUnitPrice}</p>
+	   </div>
+	</td>
+	<td>
+	   <div class="cost">
+	     <p class="fontSetting">${discount}</p>
 	   </div>
 	</td>
     <td>
@@ -150,11 +161,12 @@
   <table border="0" class="zoho_subtotal_table">
   <tr>
   <!-- $BeginBlock memoblock -->
-	<td class="blank memo-text" colspan="4" rowspan="3">
+	<td class="blank memo-text" colspan="4" rowspan="5">
 	  <p class="fontSetting">${blankText}</p>
 	</td>
 	<!-- $EndBlock memoblock -->
-	<td class="total-line, item-column" ><p class="fontSetting">&nbsp;&nbsp;Sub Total</p></td>
+	 <!-- $BeginBlock subtotal -->
+	<td class="total-line, item-column" ><p class="fontSetting">&nbsp;&nbsp;${NetAmount}</p></td>
 	<td class="total-value, item-column">
 	  <div id="subtotal">
 	    <p class="fontSetting" align="right">
@@ -162,6 +174,7 @@
 		</p>
 	  </div>
 	</td>
+	<!-- $EndBlock subtotal -->
   </tr>
   <!-- $BeginBlock VatTotal -->
   <tr>
@@ -176,7 +189,20 @@
 	<td class="total-value, item-column" align="right">
 	  <div class="total"><p class="fontSetting">${total}</p></div>
 	</td>
-  </tr><!-- $EndBlock itemDetails -->
+  </tr>
+     <tr>
+	<td class="total-line balance, item-column"><p class="fontSetting">&nbsp;&nbsp;Payments</p></td>
+	<td class="total-value, item-column" align="right">
+	  <div class="total"><p class="fontSetting">${payment}</p></div>
+	</td>
+  </tr>
+  <tr>
+	<td class="total-line balance, item-column"><p class="fontSetting">&nbsp;&nbsp;Balance Due</p></td>
+	<td class="total-value, item-column" align="right">
+	  <div class="total"><p class="fontSetting">${balancedue}</p></div>
+	</td>
+  </tr>
+ <!-- $EndBlock itemDetails -->
 </table>
 <table id="footer" width="100%" style="font-family:${fontStyle};font-size:${font};clear:both">
    <tr>

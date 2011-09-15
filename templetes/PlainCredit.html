@@ -91,9 +91,11 @@
 <table border="1" style="margin:20px 0;clear:both" class="main_credit_vimukti credit_quick_upp" width="100%">
 <!-- $BeginBlock  itemDetails -->
   <tr><!-- $BeginBlock showLabels -->
+    <th><p class="fontSetting">Name</p></th>
     <th><p class="fontSetting">Description</p></th>
 	<th><p class="fontSetting">Qty</p></th>
 	<th><p class="fontSetting">Unit Price</p></th>
+	<th><p class="fontSetting">Dsicount</p></th>
 	<th><p class="fontSetting">Total Price</p></th>
 	<!-- $BeginBlock vatBlock -->
 	<th><p class="fontSetting">${vatRate}</p></th>
@@ -103,6 +105,9 @@
   </tr>
   <tbody height="400">
  <!-- $BeginBlock itemRecord --> <tr class="item-row">
+ <td class="description">
+	   <div><p class="fontSetting">${name}</p></div>
+	</td>
 	<td class="description">
 	   <div><p class="fontSetting">${description}</p></div>
 	</td>
@@ -112,6 +117,11 @@
 	<td>
 	   <div class="cost">
 	     <p class="fontSetting">${unitPrice}</p>
+	   </div>
+	</td>
+	<td>
+	   <div class="cost">
+	     <p class="fontSetting">${discount}</p>
 	   </div>
 	</td>
     <td>
@@ -137,7 +147,8 @@
 	  <p class="fontSetting">${memoText}</p>
 	   <!-- $EndBlock memoblock -->
 	</td>
-	<td class="total-line, item-column" ><p class="fontSetting">&nbsp;&nbsp;Sub Total</p></td>
+	 <!-- $BeginBlock subtotal -->
+	<td class="total-line, item-column" ><p class="fontSetting">&nbsp;&nbsp;${NetAmount}</p></td>
 	<td class="total-value, item-column">
 	  <div id="subtotal">
 	    <p class="fontSetting">
@@ -145,6 +156,7 @@
 		</p>
 	  </div>
 	</td>
+	<!-- $EndBlock subtotal -->
   </tr>
   <!-- $BeginBlock VatTotal -->
   <tr>
