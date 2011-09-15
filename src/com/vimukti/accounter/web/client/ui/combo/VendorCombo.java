@@ -42,7 +42,7 @@ public class VendorCombo extends CustomCombo<ClientVendor> {
 
 			@Override
 			public void actionResult(ClientVendor result) {
-				if (result.getName() != null)
+				if (result.getName() != null && result.isActive())
 					addItemThenfireEvent(result);
 
 			}
