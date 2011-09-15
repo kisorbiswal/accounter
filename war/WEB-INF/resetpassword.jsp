@@ -80,7 +80,7 @@ $(document).ready(function() {
 	<div id="commanContainer">
 		   <img class="accounterLogo" src="../images/Accounter_logo_title.png">
 		   	
-		 <form id="accounterForm" method="post" action="/resetpassword">
+		 <form id="accounterForm" method="post" action="/main/resetpassword">
 								<c:if test="${successMessage != null}">
 								<span style="color: #3299A4; line-height: 1.5;">
 								${successMessage} </span>
