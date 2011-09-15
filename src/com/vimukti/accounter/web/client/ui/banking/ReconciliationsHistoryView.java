@@ -83,6 +83,7 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 					public void onResultSuccess(
 							List<ClientReconciliation> result) {
 						grid.setData(result);
+						grid.getLoadingIndicator().removeFromParent();						
 					}
 				});
 	}
