@@ -239,4 +239,7 @@ public class ShipToForm extends DynamicForm {
 	public void setTabIndex(int index){
 		addrArea.setTabIndex(index);
 	}
+	public void setTabIndexforShiptocombo(int index){
+		businessSelect.setTabIndex(index);
+	}
 }
