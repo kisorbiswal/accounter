@@ -9,7 +9,7 @@
 	<g:VerticalPanel spacing="8" styleName="companyInfoPanel" horizontalAlignment="ALIGN_CENTER">
 		<g:HorizontalPanel spacing="10"  ui:field="hpanel"  horizontalAlignment="ALIGN_LEFT">
 			<g:CheckBox ui:field="locationTrackingCheckBoxItm" width=""/>
-			<g:Label ui:field="locationTrackingCheckBoxLabel"/>
+			<g:Label ui:field="locationTrackingCheckBoxLabel"  styleName="header"/>
 		</g:HorizontalPanel>
 		<g:VerticalPanel spacing="5" ui:field="radioButtonsPanel" horizontalAlignment="ALIGN_CENTER">
 			<g:HorizontalPanel >
