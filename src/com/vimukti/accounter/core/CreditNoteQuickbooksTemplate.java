@@ -2,16 +2,14 @@ package com.vimukti.accounter.core;
 
 import java.io.File;
 
-import org.hibernate.Session;
-
 import com.vimukti.accounter.main.ServerConfiguration;
-import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.MiniTemplator;
 
 public class CreditNoteQuickbooksTemplate implements PrintTemplete {
 	private CustomerCreditMemo memo;
 	private BrandingTheme brandingTheme;
 	private int maxDecimalPoints;
+	private String companyId;
 
 	Company company;
 
@@ -24,10 +22,11 @@ public class CreditNoteQuickbooksTemplate implements PrintTemplete {
 	}
 
 	public CreditNoteQuickbooksTemplate(CustomerCreditMemo memo,
-			BrandingTheme brandingTheme, Company company) {
+			BrandingTheme brandingTheme, Company company, String companyId) {
 		this.memo = memo;
 		this.brandingTheme = brandingTheme;
 		this.company = company;
+		this.companyId = companyId;
 		this.maxDecimalPoints = getMaxDecimals(memo);
 	}
 
@@ -50,27 +49,38 @@ public class CreditNoteQuickbooksTemplate implements PrintTemplete {
 				t.addBlock("showlogo");
 			}
 
-			String cmpAddress = "";
-			Address companyAddr = company.getTradingAddress();
+			String cmpAdd = "";
+			Address cmpTrad = company.getRegisteredAddress();
+			if (cmpTrad != null) {
 
-			if (companyAddr.getType() == Address.TYPE_COMPANY_REGISTRATION) {
-				if (companyAddr != null)
-
-					cmpAddress = forUnusedAddress(companyAddr.getAddress1(),
-							false)
-							+ forUnusedAddress(companyAddr.getStreet(), false)
-							+ forUnusedAddress(companyAddr.getCity(), false)
-							+ forUnusedAddress(
-									companyAddr.getStateOrProvinence(), false)
-							+ forUnusedAddress(
-									companyAddr.getZipOrPostalCode(), false)
-							+ forUnusedAddress(
-									companyAddr.getCountryOrRegion(), false);
+				cmpAdd = forUnusedAddress(cmpTrad.getAddress1(), false)
+						+ forUnusedAddress(cmpTrad.getStreet(), false)
+						+ forUnusedAddress(cmpTrad.getCity(), false)
+						+ forUnusedAddress(cmpTrad.getStateOrProvinence(),
+								false)
+						+ forUnusedAddress(cmpTrad.getZipOrPostalCode(), false)
+						+ forUnusedAddress(cmpTrad.getCountryOrRegion(), false);
 			}
 
-			String companyName = forNullValue(company.getCompanyID());
-			t.setVariable("companyName", companyName);
-			t.setVariable("companyRegistrationAddress", cmpAddress);
+			if (cmpAdd.equals("")) {
+				// String contactDetails = brandingTheme.getContactDetails() !=
+				// null
+				// ? brandingTheme
+				// .getContactDetails() : this.company.getName();
+				cmpAdd = forNullValue(company.getFullName());
+			} else {
+				cmpAdd = forNullValue(company.getFullName()) + "<br/>" + cmpAdd;
+			}
+
+			// TODO For setting the Contact Details
+			String contactDetails = forNullValue(brandingTheme
+					.getContactDetails());
+			if (contactDetails.equalsIgnoreCase("(None Added)")) {
+				contactDetails = "";
+			}
+
+			t.setVariable("companyName", cmpAdd);
+			t.setVariable("companyRegistrationAddress", contactDetails);
 
 			t.setVariable("creditNoteNumber", memo.getNumber());
 			t.setVariable("creditNoteDate", memo.getDate().toString());
@@ -104,17 +114,20 @@ public class CreditNoteQuickbooksTemplate implements PrintTemplete {
 			// for checking to show column headings
 			if (brandingTheme.isShowColumnHeadings()) {
 				// for checking to show tax columns
-				if (brandingTheme.isShowTaxColumn()) {
 
-					String vatrate = getVendorString("VAT Rate", "Tax Rate");
-					String vatamount = getVendorString("VAT Amount",
-							"Tax Amount");
+				if (company.getPreferences().isRegisteredForVAT()
+						&& brandingTheme.isShowVatColumn()) {
+					t.setVariable("VATRate", "Vat Code");
+					t.setVariable("VATAmount", "Vat ");
+					t.addBlock("vatBlock");
+				} else if (company.getPreferences().isChargeSalesTax()
+						&& brandingTheme.isShowTaxColumn()) {
 
-					t.setVariable("vatRate", vatrate);
-					t.setVariable("vatAmount", vatamount);
-
+					t.setVariable("VATRate", "Tax Code");
+					t.setVariable("VATAmount", "Tax ");
 					t.addBlock("vatBlock");
 				}
+
 				t.addBlock("showLabels");
 			}
 
@@ -136,17 +149,27 @@ public class CreditNoteQuickbooksTemplate implements PrintTemplete {
 					String vatAmount = getDecimalsUsingMaxDecimals(
 							item.getVATfraction(), null, 2);
 
+					t.setVariable("name", item.getItem().getName());
+					t.setVariable("discount",
+							largeAmountConversation(item.getDiscount()));
+
 					t.setVariable("description", description);
 					t.setVariable("quantity", qty);
 					t.setVariable("unitPrice", unitPrice);
 					t.setVariable("itemTotalPrice", totalPrice);
 
-					if (brandingTheme.isShowTaxColumn()) {
+					if (company.getPreferences().isRegisteredForVAT()
+							&& brandingTheme.isShowVatColumn()) {
+
+						t.setVariable("itemVatRate", vatRate);
+						t.setVariable("itemVatAmount", vatAmount);
+						t.addBlock("vatValueBlock");
+					} else if (company.getPreferences().isChargeSalesTax()
+							&& brandingTheme.isShowTaxColumn()) {
 						t.setVariable("itemVatRate", vatRate);
 						t.setVariable("itemVatAmount", vatAmount);
 						t.addBlock("vatValueBlock");
 					}
-
 					t.addBlock("itemRecord");
 				}
 			}
@@ -162,11 +185,19 @@ public class CreditNoteQuickbooksTemplate implements PrintTemplete {
 			String vatTotal = largeAmountConversation(memo.getTotal()
 					- memo.getNetAmount());
 			String total = largeAmountConversation(memo.getTotal());
-			String vatStringLabel = getVendorString("VAT Total ", "Tax Total ");
 			t.setVariable("subTotal", subTotal);
-			if (brandingTheme.isShowTaxColumn()) {
-				t.setVariable("vatlabel", vatStringLabel);
+
+			if (company.getPreferences().isRegisteredForVAT()
+					&& brandingTheme.isShowVatColumn()) {
+				t.setVariable("vatlabel", "Vat ");
 				t.setVariable("vatTotalValue", vatTotal);
+				t.addBlock("VatTotal");
+
+			} else if (company.getPreferences().isChargeSalesTax()
+					&& brandingTheme.isShowTaxColumn()) {
+				t.setVariable("vatlabel", "Tax ");
+				t.setVariable("vatTotalValue",
+						largeAmountConversation(memo.getSalesTax()));
 				t.addBlock("VatTotal");
 			}
 
@@ -255,8 +286,16 @@ public class CreditNoteQuickbooksTemplate implements PrintTemplete {
 	}
 
 	private String getVendorString(String forUk, String forUs) {
-		return company.getAccountingType() == company.ACCOUNTING_TYPE_US ? forUs
-				: forUk;
+		// return company.getAccountingType() == company.ACCOUNTING_TYPE_US ?
+		// forUs
+		// : forUk;
+
+		if (company.getPreferences().isRegisteredForVAT()) {
+			return forUk;
+		} else if (company.getPreferences().isChargeSalesTax()) {
+			return forUs;
+		}
+		return "";
 
 	}
 
@@ -331,7 +370,7 @@ public class CreditNoteQuickbooksTemplate implements PrintTemplete {
 
 	private String getLogoAlignment() {
 		String logoAlignment = null;
-		if (brandingTheme.getPageSizeType() == 1) {
+		if (brandingTheme.getLogoAlignmentType() == 1) {
 			logoAlignment = "left";
 		} else {
 			logoAlignment = "right";
@@ -341,14 +380,9 @@ public class CreditNoteQuickbooksTemplate implements PrintTemplete {
 
 	private StringBuffer getImage() {
 		StringBuffer original = new StringBuffer();
-		// String imagesDomain = "/do/downloadFileFromFile?";
-		Session session = HibernateUtil.getCurrentSession();
-		// BizantraCompany bizantraCompany = (BizantraCompany) session.get(
-		// BizantraCompany.class, 1L);
 		original.append("<img src='file:///");
 		original.append(ServerConfiguration.getAttachmentsDir() + "/"
-				+ company.getAccountingType() + "/"
-				+ brandingTheme.getFileName());
+				+ companyId + "/" + brandingTheme.getFileName());
 		original.append("'/>");
 		return original;
 	}
