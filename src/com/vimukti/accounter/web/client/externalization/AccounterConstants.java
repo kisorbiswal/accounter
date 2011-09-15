@@ -4846,4 +4846,26 @@ public interface AccounterConstants extends Constants {
 
 	public String managingBillDescription();
 
+	public String accountDescription();
+
+	public String vendorDescription();
+
+	public String customerDescription();
+
+	public String registeredAddresDescription();
+
+	public String tradingAddressDescription();
+
+	public String agingDetailsDescription();
+
+	public String emailIdDescription();
+
+	public String FiscalYearDescription();
+
+	public String EINDescription();
+
+	public String locationTrackingDescription();
+
+	public String classTrackingDescription();
+
 }
