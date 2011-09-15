@@ -178,7 +178,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	TAXCode taxCode;
 	// TAXItem vatItem;
 	private boolean isOnSaveProccessed;
-		
+
 	private AccounterClass accounterClass;
 
 	public TransactionItem() {
@@ -513,7 +513,10 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 						effectingAccount.onUpdate(session);
 					}
 
-					if (this.isTaxable)
+					if ((Company.getCompany().getPreferences()
+							.isRegisteredForVAT() || Company.getCompany()
+							.getPreferences().isChargeSalesTax())
+							&& this.isTaxable)
 						Company.setTAXRateCalculation(this, session);
 
 				} else if (this.type == TYPE_SALESTAX) {
@@ -817,17 +820,18 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	@Override
 	protected TransactionItem clone() throws CloneNotSupportedException {
 		TransactionItem item = (TransactionItem) super.clone();
-		item.id=0;		
+		item.id = 0;
 		return item;
 	}
-	public void resetId(){
-		id =0;
+
+	public void resetId() {
+		id = 0;
 	}
 
 	@Override
 	public void setVersion(int version) {
 		this.version = version;
-		
+
 	}
 
 	public AccounterClass getAccounterClass() {
