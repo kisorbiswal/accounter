@@ -832,7 +832,7 @@ td.td01,.no-title .biz-decor-panel td.td01,.viewTitle,.blue-month-line,.blue-wee
 	margin-top:1px;
 }
 .editTable .downarrow-button{
-	margin-left: -25px\0 !important;
+	/*margin-left: -25px\0 !important;*/
 }
 .gwt-MenuBar-vertical .gwt-MenuItemSeparator .menuSeparatorInner {
 	background: url("/images/Menu list seperator.png") repeat scroll 0 0
@@ -945,7 +945,7 @@ iframe,.address div {
 	color: #545454 !important;
 	font-size: 20px;
 	padding: 4px 0;
-	margin-top: 20px;
+	margin: 20px 0 0 10px;
 }
 .general-setting-invoice {
 	margin: 0 30px;
@@ -1062,7 +1062,7 @@ iframe,.address div {
 	.gwt-MenuBar-horizontal .gwt-MenuItem{
 	   height:18px !important;
 	}
-	.downarrow-button{
+	.editTable .downarrow-button{
 	  margin-left:-24px !important;
 	}
 	input[disabled], input[disabled="disabled"]{
