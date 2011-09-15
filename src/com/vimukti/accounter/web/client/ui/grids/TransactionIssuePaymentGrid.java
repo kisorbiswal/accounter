@@ -116,7 +116,23 @@ public class TransactionIssuePaymentGrid extends
 
 	@Override
 	protected int getCellWidth(int index) {
-		return -1;
+		switch (index) {
+		case 0:
+			return 85;
+		case 1:
+			return 100;
+		case 2:
+			return 120;
+		case 3:
+			return 220;
+		case 4:
+			return 120;
+		case 5:
+			return 120;
+		default:
+			return -1;
+		}
+
 	}
 
 	@Override
