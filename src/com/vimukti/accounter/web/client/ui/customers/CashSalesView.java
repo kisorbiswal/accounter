@@ -173,7 +173,6 @@ public class CashSalesView extends
 		custForm.setWidth("100%");
 		salesPersonCombo = createSalesPersonComboItem();
 		paymentMethodCombo = createPaymentMethodSelectItem();
-		paymentMethodCombo.setWidth("92%");
 		depositInCombo = createDepositInComboItem();
 		depositInCombo.setPopupWidth("500px");
 		shippingTermsCombo = createShippingTermsCombo();
@@ -341,11 +340,10 @@ public class CashSalesView extends
 		listforms.add(termsForm);
 		listforms.add(prodAndServiceForm1);
 		listforms.add(prodAndServiceForm2);
-		
+
 		settabIndexes();
 
 	}
-
 
 	private ShippingTermsCombo createShippingTermsCombo() {
 
@@ -941,21 +939,21 @@ public class CashSalesView extends
 	public List<ClientTransactionItem> getAllTransactionItems() {
 		return customerTransactionTable.getAllRows();
 	}
-	
-private void settabIndexes() {
-	customerCombo.setTabIndex(1);
-	contactCombo.setTabIndex(2);
-	phoneSelect.setTabIndex(3);
-	billToTextArea.setTabIndex(4);
-	transactionDateItem.setTabIndex(5);
-	transactionNumber.setTabIndex(6);
-	paymentMethodCombo.setTabIndex(7);
-	depositInCombo.setTabIndex(8);
-	memoTextAreaItem.setTabIndex(9);
-	menuButton.setTabIndex(10);
-	saveAndCloseButton.setTabIndex(11);
-	saveAndNewButton.setTabIndex(12);
-	cancelButton.setTabIndex(13);
-		
+
+	private void settabIndexes() {
+		customerCombo.setTabIndex(1);
+		contactCombo.setTabIndex(2);
+		phoneSelect.setTabIndex(3);
+		billToTextArea.setTabIndex(4);
+		transactionDateItem.setTabIndex(5);
+		transactionNumber.setTabIndex(6);
+		paymentMethodCombo.setTabIndex(7);
+		depositInCombo.setTabIndex(8);
+		memoTextAreaItem.setTabIndex(9);
+		menuButton.setTabIndex(10);
+		saveAndCloseButton.setTabIndex(11);
+		saveAndNewButton.setTabIndex(12);
+		cancelButton.setTabIndex(13);
+
 	}
 }
