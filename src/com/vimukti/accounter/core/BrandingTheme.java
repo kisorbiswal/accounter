@@ -49,32 +49,33 @@ public class BrandingTheme extends CreatableObject implements
 	// public static final int SHOW_TAXES_AS_INCLUSIVE = 2;
 
 	// id of selected invoice and credit note templetes
-	String invoiceTempleteName;
-	String creditNoteTempleteName;
+	private String invoiceTempleteName;
+	private String creditNoteTempleteName;
 
-	String themeName;
-	int pageSizeType;
-	double topMargin, bottomMargin;
-	int marginsMeasurementType;
-	double addressPadding;
-	String font;
-	String fontSize;
+	private String themeName;
+	private int pageSizeType;
+	private double topMargin, bottomMargin;
+	private int marginsMeasurementType;
+	private double addressPadding;
+	private String font;
+	private String fontSize;
 	// String openInvoiceTitle;
-	String overDueInvoiceTitle;
-	String creditMemoTitle;
-	String statementTitle;
+	private String overDueInvoiceTitle;
+	private String creditMemoTitle;
+	private String statementTitle;
 
-	boolean isShowTaxNumber;
-	boolean isShowColumnHeadings;
-	boolean isShowUnitPrice_And_Quantity;
+	private boolean isShowTaxNumber;
+	private boolean isShowColumnHeadings;
+	private boolean isShowUnitPrice_And_Quantity;
 	// boolean isShowPaymentAdviceCut_Away;
-	boolean isShowTaxColumn;
-	boolean isShowRegisteredAddress;
-	boolean isShowLogo;
-	boolean isLogoAdded;
+	private boolean isShowTaxColumn;
+	private boolean isShowVatColumn;
+	private boolean isShowRegisteredAddress;
+	private boolean isShowLogo;
+	private boolean isLogoAdded;
 
 	String payPalEmailID;
-	int logoAlignmentType;
+	private int logoAlignmentType;
 	// int showTaxesAsType;
 	String contactDetails;
 	String Terms_And_Payment_Advice;
@@ -478,6 +479,7 @@ public class BrandingTheme extends CreatableObject implements
 		this.isShowUnitPrice_And_Quantity = true;
 		// this.isShowPaymentAdviceCut_Away = true;
 		this.isShowTaxColumn = true;
+		this.isShowVatColumn = true;
 		this.isShowRegisteredAddress = true;
 		this.isShowLogo = true;
 		this.payPalEmailID = payPalEmailID;
@@ -618,6 +620,14 @@ public class BrandingTheme extends CreatableObject implements
 	@Override
 	public void setName(String name) {
 		this.themeName = name;
+	}
+
+	public boolean isShowVatColumn() {
+		return isShowVatColumn;
+	}
+
+	public void setShowVatColumn(boolean isShowVatColumn) {
+		this.isShowVatColumn = isShowVatColumn;
 	}
 
 }
