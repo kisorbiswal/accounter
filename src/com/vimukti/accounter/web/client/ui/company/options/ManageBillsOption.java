@@ -17,6 +17,8 @@ public class ManageBillsOption extends AbstractPreferenceOption {
 	RadioButton managingBillYesRadioButton;
 	@UiField
 	RadioButton managingBillNoRadioButton;
+	@UiField
+	Label managingBilldescritionLabel;
 
 	interface ManageBillsOptionUiBinder extends
 			UiBinder<Widget, ManageBillsOption> {
@@ -41,6 +43,9 @@ public class ManageBillsOption extends AbstractPreferenceOption {
 
 	public void createControls() {
 		managingBillLabelItem.setText(constants.managingBills());
+		managingBilldescritionLabel
+				.setText(constants.managingBillDescription());
+		managingBilldescritionLabel.setStyleName("organisation_comment");
 
 		managingBillYesRadioButton.setText(constants.yes());
 		managingBillNoRadioButton.setText(constants.no());

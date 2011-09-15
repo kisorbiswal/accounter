@@ -4836,4 +4836,10 @@ public interface AccounterConstants extends Constants {
 
 	public String pleaseSelectTaxCode();
 
+	public String salesTaxDescrition();
+
+	public String vatDescrition();
+
+	public String managingBillDescription();
+
 }

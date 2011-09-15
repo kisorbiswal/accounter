@@ -7,17 +7,19 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel spacing="8" styleName="companyInfoPanel" >
-		<g:VerticalPanel ui:field="salesTaXPanel" >
+	<g:VerticalPanel spacing="8" styleName="companyInfoPanel">
+		<g:VerticalPanel ui:field="salesTaXPanel">
 			<g:Label ui:field="chargeTaxLabelItem" styleName="header" />
-			<g:HorizontalPanel >
+			<g:Label ui:field="salesTaxDescriptionLabel" />
+			<g:HorizontalPanel>
 				<g:RadioButton name="chargeTaxRadioButton" ui:field="chargeTaxYesRadioButton" />
-				<g:RadioButton name="chargeTaxRadioButton" ui:field="chargeTaxNoRadioButton"/>
+				<g:RadioButton name="chargeTaxRadioButton" ui:field="chargeTaxNoRadioButton" />
 			</g:HorizontalPanel>
 		</g:VerticalPanel>
-		<g:VerticalPanel ui:field="VatPanel" >
-			<g:Label ui:field="vatLabel" styleName="header"/>
-			<g:HorizontalPanel >
+		<g:VerticalPanel ui:field="VatPanel">
+			<g:Label ui:field="vatLabel" styleName="header" />
+			<g:Label ui:field="VatdescritionLabel" />
+			<g:HorizontalPanel>
 				<g:RadioButton name="new name" ui:field="vatYesRadioButton" />
 				<g:RadioButton name="new name" ui:field="vatNoRadioButton" />
 			</g:HorizontalPanel>
