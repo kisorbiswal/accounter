@@ -53,7 +53,7 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return Accounter.constants().newSalesOrder();
+			return Accounter.constants().addNewSalesOrder();
 		else
 			return "";
 	}

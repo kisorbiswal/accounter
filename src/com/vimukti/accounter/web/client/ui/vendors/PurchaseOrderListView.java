@@ -46,7 +46,7 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return Accounter.constants().newPurchaseOrder();
+			return Accounter.constants().addNewPurchaseOrder();
 		else
 			return "";
 	}
@@ -113,8 +113,8 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 
 			}
 		};
-		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER,
-				obj.getTransactionId(), callbackforsalesOrder);
+		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER, obj
+				.getTransactionId(), callbackforsalesOrder);
 
 	}
 

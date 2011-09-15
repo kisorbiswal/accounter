@@ -2902,6 +2902,10 @@ public interface AccounterConstants extends Constants {
 
 	public String salepriceExcludingTax();
 
+	public String addNewSalesOrder();
+
+	public String addNewPurchaseOrder();
+
 	public String sales();
 
 	public String salesAnalysis();
