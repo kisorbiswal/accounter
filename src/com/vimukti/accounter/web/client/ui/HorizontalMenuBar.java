@@ -518,8 +518,8 @@ public class HorizontalMenuBar extends HorizontalPanel {
 
 	private CustomMenuBar getReportMenu() {
 		CustomMenuBar reportMenuBar = getSubMenu();
-		// reportMenuBar.addItem(ActionFactory.getReportsHomeAction());
-		// reportMenuBar.addSeparator();
+		reportMenuBar.addItem(ActionFactory.getReportsHomeAction());
+		reportMenuBar.addSeparator();
 		reportMenuBar.addItem(Accounter.constants().companyAndFinancial(),
 				getCompanyAndFinancialMenu());
 		reportMenuBar.addItem(
