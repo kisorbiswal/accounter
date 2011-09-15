@@ -48,7 +48,10 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		pageDetailsPane.addStyleName("pre_scroll_table");
 		preferencePages = getPreferencePages();
 		for (PreferencePage page : preferencePages) {
-			stackPanel.add(createPageView(page), page.getTitle());
+			VerticalPanel pageView = createPageView(page);
+			stackPanel.add(pageView, page.getTitle());
+			pageView.getElement().getParentElement()
+					.setAttribute("height", "230px");
 		}
 		stackPanel.addHandler(new ClickHandler() {
 			@Override
@@ -199,7 +202,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 
 	private VerticalPanel createPageView(final PreferencePage page) {
 		final VerticalPanel pageView = new VerticalPanel();
-		pageView.setSize("100%", "230px");
+		pageView.setWidth("100%");
 		List<AbstractPreferenceOption> options = page.getOptions();
 		for (int index = 0; index < options.size(); index++) {
 			final AbstractPreferenceOption option = options.get(index);
