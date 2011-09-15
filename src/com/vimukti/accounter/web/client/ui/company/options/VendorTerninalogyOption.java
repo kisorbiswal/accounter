@@ -26,6 +26,8 @@ public class VendorTerninalogyOption extends AbstractPreferenceOption {
 	RadioButton supplierRadioButton;
 	@UiField
 	Label vendorsHeaderLabel;
+	@UiField
+	Label vendorsDescriptionLabel;
 
 	interface VendorTerninalogyOptionUiBinder extends
 			UiBinder<Widget, VendorTerninalogyOption> {
@@ -49,6 +51,8 @@ public class VendorTerninalogyOption extends AbstractPreferenceOption {
 	public void createControls() {
 		vendorsHeaderLabel.setText(messages.useTerminologyFor(Global.get()
 				.Vendor()));
+		vendorsDescriptionLabel.setText(constants.vendorDescription());
+		vendorsDescriptionLabel.setStyleName("organisation_comment");
 		vendorRadioButton.setName(constants.Vendor());
 		vendorRadioButton.setHTML(constants.Vendor());
 		supplierRadioButton.setName(constants.Vendor());

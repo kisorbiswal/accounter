@@ -9,6 +9,7 @@
 	<g:VerticalPanel spacing="8" styleName="companyInfoPanel">
 		<g:VerticalPanel>
 			<g:Label styleName="header" ui:field="ageingLabel" />
+			<g:Label ui:field="ageingdescriptionLabel" />
 			<g:VerticalPanel>
 				<g:RadioButton name="ageingGroup" ui:field="ageingforduedateRadioButton" />
 				<g:RadioButton name="ageingGroup"

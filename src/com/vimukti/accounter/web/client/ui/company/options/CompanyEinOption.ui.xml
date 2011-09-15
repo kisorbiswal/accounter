@@ -12,5 +12,8 @@
 			<g:Label ui:field="EINLabel" styleName="header" />
 			<g:TextBox ui:field="EINTextBox" visibleLength="35" />
 		</g:HorizontalPanel>
+		<g:HorizontalPanel>
+			<g:Label ui:field="EindescriptionLabel" />
+		</g:HorizontalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 

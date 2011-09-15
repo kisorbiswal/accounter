@@ -36,6 +36,8 @@ public class CustomerTerminologyOption extends AbstractPreferenceOption {
 	RadioButton membersRadioButton;
 	@UiField
 	RadioButton PatientRadioButton;
+	@UiField
+	Label customerDescriptionLabel;
 
 	interface CustomerTerminologyOptionUiBinder extends
 			UiBinder<Widget, CustomerTerminologyOption> {
@@ -54,6 +56,8 @@ public class CustomerTerminologyOption extends AbstractPreferenceOption {
 	public void createControls() {
 		terminologyforCustomerLabel.setText(messages.useTerminologyFor(Global
 				.get().Customer()));
+		customerDescriptionLabel.setText(constants.customerDescription());
+		customerDescriptionLabel.setStyleName("organisation_comment");
 		tenantsLabelRadioButton.setName(constants.group());
 		tenantsLabelRadioButton.setHTML(constants.tenant());
 		custimersRadioBuitton.setName(constants.group());

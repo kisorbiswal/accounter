@@ -6,11 +6,13 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel 
-		styleName="companyInfoPanel" spacing="5">
+	<g:VerticalPanel styleName="companyInfoPanel" spacing="5">
 		<g:HorizontalPanel spacing="10">
-				<g:Label ui:field="monthsCheckboxLabel" styleName="header" />
-				<g:ListBox height="26px" width="92px" ui:field="monthNameComboBox" />
-			</g:HorizontalPanel>
+			<g:Label ui:field="monthsCheckboxLabel" styleName="header" />
+			<g:ListBox height="26px" width="92px" ui:field="monthNameComboBox" />
+		</g:HorizontalPanel>
+		<g:HorizontalPanel>
+			<g:Label ui:field="fiscalYearDescriptionLabel" />
+		</g:HorizontalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 

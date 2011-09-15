@@ -17,6 +17,8 @@ public class AgeingAndSellingDetailsOption extends AbstractPreferenceOption {
 	RadioButton ageingforduedateRadioButton;
 	@UiField
 	RadioButton ageingfortransactiondateRadioButton;
+	@UiField
+	Label ageingdescriptionLabel;
 
 	interface AgeingAndSellingDetailsOptionUiBinder extends
 			UiBinder<Widget, AgeingAndSellingDetailsOption> {
@@ -43,9 +45,9 @@ public class AgeingAndSellingDetailsOption extends AbstractPreferenceOption {
 		ageingforduedateRadioButton.setText(constants.ageingforduedate());
 		ageingfortransactiondateRadioButton.setText(constants
 				.ageingfortransactiondate());
-
 		ageingLabel.setText(constants.ageingDetails());
-
+		ageingdescriptionLabel.setText(constants.agingDetailsDescription());
+		ageingdescriptionLabel.setStyleName("organisation_comment");
 	}
 
 	public AgeingAndSellingDetailsOption(String firstName) {

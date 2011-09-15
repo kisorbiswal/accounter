@@ -45,7 +45,8 @@ public class LocationTrackingOption extends AbstractPreferenceOption {
 	HorizontalPanel hpanel;
 	@UiField
 	VerticalPanel radioButtonPanel;
-
+	@UiField
+	Label locationTrackingDescriptionLabel;
 	private static LocationTrackingOptionUiBinder uiBinder = GWT
 			.create(LocationTrackingOptionUiBinder.class);
 
@@ -141,6 +142,9 @@ public class LocationTrackingOption extends AbstractPreferenceOption {
 
 	@Override
 	public void createControls() {
+		locationTrackingDescriptionLabel.setText(constants
+				.locationTrackingDescription());
+		locationTrackingDescriptionLabel.setStyleName("organisation_comment");
 		locationRadioButton.setName(Accounter.constants().locationGroup());
 		locationRadioButton.setHTML(Accounter.constants().location());
 		buisinessRadioButton.setName(Accounter.constants().locationGroup());

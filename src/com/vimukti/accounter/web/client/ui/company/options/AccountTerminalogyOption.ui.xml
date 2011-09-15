@@ -12,6 +12,9 @@
 			<g:HorizontalPanel spacing="6">
 				<g:Label ui:field="accountHeaderLabel" styleName="header" />
 			</g:HorizontalPanel>
+			<g:HorizontalPanel spacing="2">
+				<g:Label ui:field="accountdescriptionLabel" />
+			</g:HorizontalPanel>
 			<g:VerticalPanel spacing="6">
 				<g:HorizontalPanel>
 					<g:RadioButton name="new name" ui:field="acountRadioButton" />

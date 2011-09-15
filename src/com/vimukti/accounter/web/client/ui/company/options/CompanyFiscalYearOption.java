@@ -18,6 +18,8 @@ public class CompanyFiscalYearOption extends AbstractPreferenceOption {
 	ListBox monthNameComboBox;
 	@UiField
 	Label monthsCheckboxLabel;
+	@UiField
+	Label fiscalYearDescriptionLabel;
 	List<String> monthNam = new ArrayList<String>();
 	String[] monthNames;
 
@@ -38,7 +40,8 @@ public class CompanyFiscalYearOption extends AbstractPreferenceOption {
 	public void createControls() {
 
 		monthsCheckboxLabel.setText(constants.selectFirstMonthOfFiscalYear());
-
+		fiscalYearDescriptionLabel.setText(constants.FiscalYearDescription());
+		fiscalYearDescriptionLabel.setStyleName("organisation_comment");
 		monthNames = new String[] { constants.january(), constants.february(),
 				constants.march(), constants.april(), constants.may(),
 				constants.june(), constants.july(), constants.august(),

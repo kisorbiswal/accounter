@@ -42,7 +42,8 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 	VerticalPanel classOnSalesPanel;
 	@UiField
 	VerticalPanel onePerRadioPanel;
-
+	@UiField
+	Label classTrackingdescriptionLabel;
 	private static ClassTrackingOptionUiBinder uiBinder = GWT
 			.create(ClassTrackingOptionUiBinder.class);
 
@@ -85,6 +86,10 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 	}
 
 	public void createControls() {
+
+		classTrackingdescriptionLabel.setText(constants
+				.classTrackingDescription());
+		classTrackingdescriptionLabel.setStyleName("organisation_comment");
 		classTrackingCheckBox.setText(Accounter.constants().classTracking());
 		classWarningCheckBox.setText(Accounter.constants().classWarning());
 		classesOnSalesLabel.setText(Accounter.constants().classesonsales());

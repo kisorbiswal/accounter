@@ -6,38 +6,44 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel spacing="8" styleName="companyInfoPanel" horizontalAlignment="ALIGN_CENTER">
-		<g:HorizontalPanel spacing="10"  ui:field="hpanel"  horizontalAlignment="ALIGN_LEFT">
-			<g:CheckBox ui:field="locationTrackingCheckBoxItm" width=""/>
-			<g:Label ui:field="locationTrackingCheckBoxLabel"  styleName="header"/>
+	<g:VerticalPanel spacing="8" styleName="companyInfoPanel"
+		horizontalAlignment="ALIGN_CENTER">
+		<g:HorizontalPanel spacing="10" ui:field="hpanel"
+			horizontalAlignment="ALIGN_LEFT">
+			<g:CheckBox ui:field="locationTrackingCheckBoxItm" width="" />
+			<g:Label ui:field="locationTrackingCheckBoxLabel" styleName="header" />
 		</g:HorizontalPanel>
-		<g:VerticalPanel spacing="5" ui:field="radioButtonsPanel" horizontalAlignment="ALIGN_CENTER">
-			<g:HorizontalPanel >
-			<g:Label ui:field="radioButtonsHeaderLabel" styleName="header"/>
+		<g:HorizontalPanel>
+			<g:Label ui:field="locationTrackingDescriptionLabel" />
 		</g:HorizontalPanel>
+		<g:VerticalPanel spacing="5" ui:field="radioButtonsPanel"
+			horizontalAlignment="ALIGN_CENTER">
+			<g:HorizontalPanel>
+				<g:Label ui:field="radioButtonsHeaderLabel" styleName="header" />
+			</g:HorizontalPanel>
 			<g:VerticalPanel spacing="6" ui:field="radioButtonPanel">
-			<g:HorizontalPanel>
-				<g:RadioButton name="new name" ui:field="buisinessRadioButton"/>
-			</g:HorizontalPanel>
-			<g:HorizontalPanel>
-				<g:RadioButton name="new name" ui:field="locationRadioButton"/>
-			</g:HorizontalPanel>
-			<g:HorizontalPanel>
-				<g:RadioButton name="new name" ui:field="departmentRadioButton"/>
-			</g:HorizontalPanel>
-			<g:HorizontalPanel>
-				<g:RadioButton name="new name" ui:field="divisionRadioButton"/>
-			</g:HorizontalPanel>
-			<g:HorizontalPanel>
-				<g:RadioButton name="new name" ui:field="propertyRadioButton"/>
-			</g:HorizontalPanel>
-			<g:HorizontalPanel>
-				<g:RadioButton name="new name" ui:field="storeRadioButton"/>
-			</g:HorizontalPanel>
-			<g:HorizontalPanel>
-				<g:RadioButton name="new name" ui:field="territoryRadioButton"/>
-			</g:HorizontalPanel>
-		</g:VerticalPanel>
+				<g:HorizontalPanel>
+					<g:RadioButton name="new name" ui:field="buisinessRadioButton" />
+				</g:HorizontalPanel>
+				<g:HorizontalPanel>
+					<g:RadioButton name="new name" ui:field="locationRadioButton" />
+				</g:HorizontalPanel>
+				<g:HorizontalPanel>
+					<g:RadioButton name="new name" ui:field="departmentRadioButton" />
+				</g:HorizontalPanel>
+				<g:HorizontalPanel>
+					<g:RadioButton name="new name" ui:field="divisionRadioButton" />
+				</g:HorizontalPanel>
+				<g:HorizontalPanel>
+					<g:RadioButton name="new name" ui:field="propertyRadioButton" />
+				</g:HorizontalPanel>
+				<g:HorizontalPanel>
+					<g:RadioButton name="new name" ui:field="storeRadioButton" />
+				</g:HorizontalPanel>
+				<g:HorizontalPanel>
+					<g:RadioButton name="new name" ui:field="territoryRadioButton" />
+				</g:HorizontalPanel>
+			</g:VerticalPanel>
 		</g:VerticalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 

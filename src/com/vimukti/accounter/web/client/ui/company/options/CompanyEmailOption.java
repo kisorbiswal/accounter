@@ -16,6 +16,8 @@ public class CompanyEmailOption extends AbstractPreferenceOption {
 	Label companyEmailHeaderLabel;
 	@UiField
 	TextBox companyEmailTextBox;
+	@UiField
+	Label emailIDDescriptionLabel;
 
 	// @UiField
 	// CheckBox customersEmailAddressCheckBox;
@@ -58,6 +60,8 @@ public class CompanyEmailOption extends AbstractPreferenceOption {
 
 	@Override
 	public void createControls() {
+		emailIDDescriptionLabel.setText(constants.emailIdDescription());
+		emailIDDescriptionLabel.setStyleName("organisation_comment");
 
 		companyEmailHeaderLabel.setText(Accounter.constants().emailId());
 		// customersEmailAddressCheckBox.setText(Accounter.constants()

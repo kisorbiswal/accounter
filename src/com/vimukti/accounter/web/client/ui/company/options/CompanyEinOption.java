@@ -21,6 +21,8 @@ public class CompanyEinOption extends AbstractPreferenceOption {
 	@UiField
 	Label EINLabel;
 	@UiField
+	Label EindescriptionLabel;
+	@UiField
 	TextBox EINTextBox;
 
 	interface CompanyEinOptionUiBinder extends
@@ -48,6 +50,8 @@ public class CompanyEinOption extends AbstractPreferenceOption {
 	}
 
 	public void createControls() {
+		EindescriptionLabel.setText(constants.EINDescription());
+		EindescriptionLabel.setStyleName("organisation_comment");
 		EINLabel.setText(constants.employerIdentificationNumber());
 	}
 

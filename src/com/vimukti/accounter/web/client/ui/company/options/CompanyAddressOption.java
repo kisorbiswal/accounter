@@ -95,7 +95,10 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 
 	@UiField
 	ListBox rStateCombo;
-
+	@UiField
+	Label registeredAddressDescription;
+	@UiField
+	Label tradingAddressDescription;
 	// @UiField
 	// CheckBox companyLegalCheckBox;
 
@@ -141,6 +144,9 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 	public void createControls() {
 		List<String> countriesList = CoreUtils.getCountriesAsList();
 
+		tradingAddressDescription
+				.setText(constants.tradingAddressDescription());
+		tradingAddressDescription.setStyleName("organisation_comment");
 		tradingAddressTitle.setText(constants.tradingAddress());
 		tAddress1Label.setText(constants.address1());
 		tAddress2Label.setText(constants.address2());
@@ -149,6 +155,9 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 		tPostalCodeLabel.setText(constants.postalCode());
 		tCountryLabel.setText(constants.country());
 
+		registeredAddressDescription.setText(constants
+				.registeredAddresDescription());
+		registeredAddressDescription.setStyleName("organisation_comment");
 		registeredAddressTitle.setText(constants.registeredAddress());
 		rAddress1Label.setText(constants.address1());
 		rAddress2Label.setText(constants.address2());

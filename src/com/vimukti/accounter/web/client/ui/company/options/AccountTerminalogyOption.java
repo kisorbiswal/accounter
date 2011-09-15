@@ -19,6 +19,8 @@ public class AccountTerminalogyOption extends AbstractPreferenceOption {
 	RadioButton acountRadioButton;
 	@UiField
 	RadioButton leagandRadioButton;
+	@UiField
+	Label accountdescriptionLabel;
 
 	interface AccountTerminalogyOptionUiBinder extends
 			UiBinder<Widget, AccountTerminalogyOption> {
@@ -45,6 +47,8 @@ public class AccountTerminalogyOption extends AbstractPreferenceOption {
 	public void createControls() {
 		accountHeaderLabel.setText(messages.useTerminologyFor(Global.get()
 				.account()));
+		accountdescriptionLabel.setText(constants.accountDescription());
+		accountdescriptionLabel.setStyleName("organisation_comment");
 		acountRadioButton.setText(constants.account());
 		leagandRadioButton.setText(constants.legand());
 
