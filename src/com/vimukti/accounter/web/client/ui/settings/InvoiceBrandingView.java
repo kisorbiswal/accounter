@@ -247,16 +247,17 @@ public class InvoiceBrandingView<T> extends
 				+ "</b> , <b>" + theme.getFontSize() + " </b>.</p>");
 
 		boolean[] showArray = new boolean[] { theme.isShowTaxNumber(),
-				theme.isShowTaxColumn(), theme.isShowColumnHeadings(),
+				theme.isShowTaxColumn(), theme.isShowVatColumn(),
+				theme.isShowColumnHeadings(),
 				theme.isShowUnitPrice_And_Quantity(),
 				// theme.isShowPaymentAdviceCut_Away(),
 				theme.isShowRegisteredAddress(), theme.isShowLogo() };
 
 		String[] showDataArray = new String[] { messages.taxNumber(),
+				messages.taxColumn(), messages.showVatColumn(),
 				messages.columnHeadings(), messages.unitPriceAndQuantity(),
 				// messages.paymentAdviceCutAway(),
-				messages.taxColumn(), messages.registeredAddress(),
-				messages.logo() };
+				messages.registeredAddress(), messages.logo() };
 		String showItem = new String();
 		for (int i = 0; i < showArray.length; i++) {
 			if (showArray[i]) {
@@ -742,7 +743,7 @@ public class InvoiceBrandingView<T> extends
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

@@ -55,7 +55,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 			check_radio_textAreaPanel, button_textBoxPanel;
 	private HorizontalPanel mainLayoutPanel, check_radioPanel, hPanel;
 	private CheckBox taxNumItem, headingItem, unitPriceItem,// paymentItem,
-			columnItem, addressItem, logoItem;
+			columnItem, salesItem, addressItem, logoItem;
 	private TextItem topMarginBox, bottomMarginBox, addressPadBox, overdueBox,
 			creditNoteBox, statementBox, paypalTextBox, logoNameBox;
 	private TextItem nameItem;
@@ -131,6 +131,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		headingItem.setValue(brandingTheme.isShowColumnHeadings());
 		unitPriceItem.setValue(brandingTheme.isShowUnitPrice_And_Quantity());
 		columnItem.setValue(brandingTheme.isShowTaxColumn());
+		salesItem.setValue(brandingTheme.isShowVatColumn());
 		addressItem.setValue(brandingTheme.isShowRegisteredAddress());
 		logoItem.setValue(brandingTheme.isShowLogo());
 		paypalTextBox.setValue(brandingTheme.getPayPalEmailID());
@@ -296,6 +297,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		brandingTheme.setShowColumnHeadings(headingItem.isChecked());
 		brandingTheme.setShowUnitPrice_And_Quantity(unitPriceItem.isChecked());
 		brandingTheme.setShowTaxColumn(columnItem.isChecked());
+		brandingTheme.setShowVatColumn(salesItem.isChecked());
 		brandingTheme.setShowRegisteredAddress(addressItem.isChecked());
 		brandingTheme.setShowLogo(logoItem.isChecked());
 		brandingTheme
@@ -455,6 +457,9 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		// paymentItem.setChecked(true);
 		columnItem = new CheckBox(messages.showTaxColumn());
 		columnItem.setChecked(true);
+		salesItem = new CheckBox(messages.showVatColumn());
+		salesItem.setChecked(true);
+
 		addressItem = new CheckBox(messages.showRegisteredAddress());
 		addressItem.setChecked(true);
 		logoItem = new CheckBox(messages.showLogo());
@@ -468,6 +473,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		checkBoxPanel.add(unitPriceItem);
 		// checkBoxPanel.add(paymentItem);
 		checkBoxPanel.add(columnItem);
+		checkBoxPanel.add(salesItem);
 		checkBoxPanel.add(addressItem);
 		checkBoxPanel.add(logoItem);
 		checkBoxPanel.add(paypalEmailHtml);
