@@ -85,37 +85,37 @@ public class InvoiceQuickBookPdf implements PrintTemplete {
 			// setting invoice number
 
 			String invNumber = forNullValue(invoice.getNumber());
-			if (invNumber.trim().length() > 0) {
-				t.setVariable("invoiceNumber", invNumber);
-				t.addBlock("invNumberHead");
-			}
+			// if (invNumber.trim().length() > 0) {
+			t.setVariable("invoiceNumber", invNumber);
+			t.addBlock("invNumberHead");
+			// }
 
 			// setting invoice date
 
 			String invDate = invoice.getDate().toString();
-			if (invDate.trim().length() > 0) {
-				t.setVariable("invoiceDate", invDate);
-				t.addBlock("invDateHead");
-			}
+			// if (invDate.trim().length() > 0) {
+			t.setVariable("invoiceDate", invDate);
+			t.addBlock("invDateHead");
+			// }
 
 			// setting invoice order number
 
 			String invOrderNum = forNullValue(invoice.getOrderNum());
-			if (invOrderNum.trim().length() > 0) {
+			// if (invOrderNum.trim().length() > 0) {
 
-				t.setVariable("invoiceOrderNumber", invOrderNum);
-				t.addBlock("invOrderNumHead");
-			}
+			t.setVariable("invoiceOrderNumber", invOrderNum);
+			t.addBlock("invOrderNumHead");
+			// }
 
 			// setting invoice customer number
 			boolean hascustomernum = false;
 			String invCustomerNum = forNullValue(invoice.getCustomer()
 					.getNumber());
-			if (invCustomerNum.trim().length() > 0) {
+			// if (invCustomerNum.trim().length() > 0) {
 
-				t.setVariable("invoiceCustomerNumber", invCustomerNum);
-				t.addBlock("invCustNumHead");
-			}
+			t.setVariable("invoiceCustomerNumber", invCustomerNum);
+			t.addBlock("invCustNumHead");
+			// }
 
 			// setting billing address
 			Address bill = invoice.getBillingAddress();
