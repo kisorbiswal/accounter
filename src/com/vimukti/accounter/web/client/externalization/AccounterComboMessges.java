@@ -41,8 +41,6 @@ public interface AccounterComboMessges extends Messages {
 
 	public String newTaxGroup();
 
-	public String newVendorGroup();
-
 	public String newVATItem();
 
 	public String addNew();
