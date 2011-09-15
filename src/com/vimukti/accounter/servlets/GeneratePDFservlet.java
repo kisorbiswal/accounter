@@ -95,6 +95,7 @@ public class GeneratePDFservlet extends BaseServlet {
 			case Transaction.TYPE_INVOICE:
 				String output = outPutString.toString().replaceAll(
 						"</html><html>", "");
+				System.err.println(output);
 				java.io.InputStream inputStream = new ByteArrayInputStream(
 						output.getBytes());
 				InputStreamReader reader = new InputStreamReader(inputStream);
@@ -107,7 +108,7 @@ public class GeneratePDFservlet extends BaseServlet {
 				creditOutput = creditOutput.toString().replaceAll("<html>", "");
 
 				creditOutput = "<html>" + creditOutput + "</html>";
-
+				System.err.println(creditOutput);
 				java.io.InputStream inputStr = new ByteArrayInputStream(
 						creditOutput.toString().getBytes());
 				InputStreamReader creditReader = new InputStreamReader(inputStr);
@@ -150,6 +151,7 @@ public class GeneratePDFservlet extends BaseServlet {
 		try {
 
 			String companyID = getCookie(request, COMPANY_COOKIE);
+
 			session = HibernateUtil.openSession(Server.COMPANY + companyID);
 
 			FinanceTool financetool = new FinanceTool();
@@ -192,7 +194,7 @@ public class GeneratePDFservlet extends BaseServlet {
 						// brandingTheme, footerImg, style);
 
 						printTemplete = getInvoiceReportTemplete(invoice,
-								brandingTheme, company);
+								brandingTheme, company, companyID);
 
 						fileName = printTemplete.getFileName();
 
@@ -207,7 +209,7 @@ public class GeneratePDFservlet extends BaseServlet {
 										Long.parseLong(ids[i]));
 
 						printTemplete = getCreditReportTemplete(memo,
-								brandingTheme, company);
+								brandingTheme, company, companyID);
 
 						fileName = printTemplete.getFileName();
 
@@ -236,7 +238,7 @@ public class GeneratePDFservlet extends BaseServlet {
 									Long.parseLong(objectId));
 
 					printTemplete = getInvoiceReportTemplete(invoice,
-							brandingTheme, company);
+							brandingTheme, company, companyID);
 
 					fileName = printTemplete.getFileName();
 
@@ -255,7 +257,7 @@ public class GeneratePDFservlet extends BaseServlet {
 									Long.parseLong(objectId));
 
 					printTemplete = getCreditReportTemplete(memo,
-							brandingTheme, company);
+							brandingTheme, company, companyID);
 
 					fileName = printTemplete.getFileName();
 
@@ -326,8 +328,6 @@ public class GeneratePDFservlet extends BaseServlet {
 
 		ReportTemplate template = new ReportTemplate(reportType, new String[] {
 				gridTemplate, footerImg, style, dateRangeHtml });
-		/*  */
-
 		return template;
 	}
 
@@ -355,39 +355,46 @@ public class GeneratePDFservlet extends BaseServlet {
 	}
 
 	private PrintTemplete getInvoiceReportTemplete(Invoice invoice,
-			BrandingTheme theme, Company company) {
+			BrandingTheme theme, Company company, String companyID) {
 
 		String invStyle = theme.getInvoiceTempleteName();
 
 		if (invStyle.contains(CLASSIC)) {
-			printTemplete = new InvoicePDFTemplete(invoice, theme, company);
+			printTemplete = new InvoicePDFTemplete(invoice, theme, company,
+					companyID);
 
 		} else if (invStyle.contains(PLAIN)) {
-			printTemplete = new InvoiceQuickBookPdf(invoice, theme, company);
+			printTemplete = new InvoiceQuickBookPdf(invoice, theme, company,
+					companyID);
 		} else if (invStyle.contains(PROFESSIONAL)) {
-			printTemplete = new InvoiceXeroPdf(invoice, theme, company);
+			printTemplete = new InvoiceXeroPdf(invoice, theme, company,
+					companyID);
 
 		} else if (invStyle.contains(MODERN)) {
-			printTemplete = new InvoiceZohoPdf(invoice, theme, company);
+			printTemplete = new InvoiceZohoPdf(invoice, theme, company,
+					companyID);
 		}
 		return printTemplete;
 	}
 
 	private PrintTemplete getCreditReportTemplete(CustomerCreditMemo memo,
-			BrandingTheme theme, Company company) {
+			BrandingTheme theme, Company company, String companyID) {
 
 		String invStyle = theme.getCreditNoteTempleteName();
 
 		if (invStyle.contains(CLASSIC)) {
-			printTemplete = new CreditNotePDFTemplete(memo, theme, company);
+			printTemplete = new CreditNotePDFTemplete(memo, theme, company,
+					companyID);
 
 		} else if (invStyle.contains(PLAIN)) {
 			printTemplete = new CreditNoteQuickbooksTemplate(memo, theme,
-					company);
+					company, companyID);
 		} else if (invStyle.contains(PROFESSIONAL)) {
-			printTemplete = new CreditNoteXeroTemplate(memo, theme, company);
+			printTemplete = new CreditNoteXeroTemplate(memo, theme, company,
+					companyID);
 		} else if (invStyle.contains(MODERN)) {
-			printTemplete = new CreditNoteZohoTemplate(memo, theme, company);
+			printTemplete = new CreditNoteZohoTemplate(memo, theme, company,
+					companyID);
 		}
 		return printTemplete;
 	}
