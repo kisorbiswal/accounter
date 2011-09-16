@@ -1157,6 +1157,7 @@ public class SalesOrderView extends
 		selectedEstimateId = selectedEstimate.getID();
 		orderNum = selectedEstimate.getNumber();
 		customerTransactionTable.setAllTransactionItems(itemsList);
+		customerTransactionTable.updateTotals();
 		// if (selectedEstimate == null)
 		// return;
 		//
@@ -1178,7 +1179,7 @@ public class SalesOrderView extends
 		// // initTransactionViewData(convertedSalesOrder);
 		// this.transactionItems = convertedSalesOrder.getTransactionItems();
 		// customerTransactionGrid.setAllTransactions(transactionItems);
-
+		updateNonEditableItems();
 	}
 
 	public List<DynamicForm> getForms() {
