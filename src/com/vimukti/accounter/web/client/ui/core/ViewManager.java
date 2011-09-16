@@ -401,7 +401,7 @@ public class ViewManager extends HorizontalPanel {
 		previousButton = new ImageButton(Accounter.getFinanceImages()
 				.previousIcon());
 		previousButton.setTitle(Accounter.messages().clickThisToOpen(
-				Accounter.constants().next().replace(" >", "")));
+				Accounter.constants().previous()));
 		previousButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -411,7 +411,7 @@ public class ViewManager extends HorizontalPanel {
 		});
 		nextButton = new ImageButton(Accounter.getFinanceImages().nextIcon());
 		nextButton.setTitle(Accounter.messages().clickThisToOpen(
-				Accounter.constants().previous()));
+				Accounter.constants().next()));
 		nextButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -463,8 +463,9 @@ public class ViewManager extends HorizontalPanel {
 				closeCurrentView();
 			}
 		});
-		group1.add(nextButton);
 		group1.add(previousButton);
+		group1.add(nextButton);
+		
 		group1.add(viewTitleLabel);
 
 		group4.add(editButton);
