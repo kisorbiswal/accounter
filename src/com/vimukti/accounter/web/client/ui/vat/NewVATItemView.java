@@ -113,7 +113,6 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 						selectedVATAgency = (ClientTAXAgency) selectItem;
 						loadVATReturnBoxes(selectedVATAgency);
 					}
-
 				});
 		// vatAgencyCombo.setWidth(80);
 		vatAgencyCombo.setRequired(true);
@@ -143,6 +142,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		statusCheck.setDisabled(isInViewMode());
 
 		form1.setWidth("80%");
+		form1.addStyleName("new_vat_item");
 		form1.setIsGroup(true);
 
 		if (accounttype == ClientCompany.ACCOUNTING_TYPE_US
