@@ -265,7 +265,7 @@ public class CustomerPrePayment extends Transaction {
 			} else if (!DecimalUtil.isEquals(customerPrePayment.total,
 					this.total)) {
 
-				this.customer.updateBalance(session, customerPrePayment,
+				this.customer.updateBalance(session, this,
 						this.total - customerPrePayment.total);
 				this.creditsAndPayments.updateCreditPayments(this.total);
 
@@ -274,7 +274,7 @@ public class CustomerPrePayment extends Transaction {
 
 				Account depositInAccount = (Account) session.get(Account.class,
 						customerPrePayment.depositIn.id);
-				depositInAccount.updateCurrentBalance(customerPrePayment,
+				depositInAccount.updateCurrentBalance(this,
 						customerPrePayment.total);
 				depositInAccount.onUpdate(session);
 				this.depositIn.updateCurrentBalance(this, -this.total);

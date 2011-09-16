@@ -556,7 +556,7 @@ public class PayBill extends Transaction {
 				if (!this.payFrom.equals(payBill.payFrom)) {
 					Account payFromAccount = (Account) session.get(
 							Account.class, payBill.payFrom.id);
-					payFromAccount.updateCurrentBalance(clonedObject,
+					payFromAccount.updateCurrentBalance(this,
 							-payBill.total);
 					payFromAccount.onUpdate(session);
 					this.payFrom.updateCurrentBalance(this, this.total);
@@ -570,7 +570,7 @@ public class PayBill extends Transaction {
 
 				if ((this.vendor.equals(payBill.vendor))
 						&& !(DecimalUtil.isEquals(this.total, payBill.total))) {
-					this.vendor.updateBalance(session, payBill, payBill.total
+					this.vendor.updateBalance(session, this, payBill.total
 							- this.total);
 					// this.payFrom.updateCurrentBalance(clonedObject,
 					// payBill.total - this.total);

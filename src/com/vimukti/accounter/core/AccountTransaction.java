@@ -22,8 +22,7 @@ public class AccountTransaction extends CreatableObject implements
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	long id;
+
 	/**
 	 * This reference is maintained to know from what transaction the
 	 * AccountTransaction reference is created and stored.

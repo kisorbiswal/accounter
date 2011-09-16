@@ -358,7 +358,7 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 			if (!this.payTo.equals(customerRefund.payTo)) {
 				Customer preCustomer = (Customer) session.get(Customer.class,
 						customerRefund.payTo.id);
-				preCustomer.updateBalance(session, customerRefund,
+				preCustomer.updateBalance(session, this,
 						customerRefund.total);
 				customerRefund.doVoidEffect(session);
 			}
@@ -369,10 +369,10 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 			// if (!this.payFrom.equals(customerRefund.payFrom)) {
 			Account oldAccount = (Account) session.get(Account.class,
 					customerRefund.payFrom.id);
-			oldAccount.updateCurrentBalance(clonedObject, -clonedObject.total);
+			oldAccount.updateCurrentBalance(this, -clonedObject.total);
 			oldAccount.onUpdate(session);
 			// }
-			this.payFrom.updateCurrentBalance(clonedObject, this.total);
+			this.payFrom.updateCurrentBalance(this, this.total);
 			this.payFrom.onUpdate(session);
 
 			// }

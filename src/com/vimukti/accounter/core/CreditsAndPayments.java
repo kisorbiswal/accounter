@@ -383,16 +383,25 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 
 	}
 
-	public void voidCreditsAndPayments(Transaction transaction, double amount) {
+	/**
+	 * 
+	 * @param transaction
+	 * @param presentTransaction
+	 *            {this parameter is to pass in updateBalance method to update
+	 *            accountTransactionEntriesList in presentTransaction}
+	 * @param amount
+	 */
+	public void voidCreditsAndPayments(Transaction transaction,
+			Transaction presentTransaction, double amount) {
 
 		Session session = HibernateUtil.getCurrentSession();
 		if (this.transaction.type != Transaction.TYPE_JOURNAL_ENTRY) {
 			if (this.getPayee().type == Payee.TYPE_CUSTOMER) {
-				this.payee.updateBalance(session, transaction,
+				this.payee.updateBalance(session, presentTransaction,
 						-transaction.total);
 
 			} else {
-				this.payee.updateBalance(session, transaction,
+				this.payee.updateBalance(session, presentTransaction,
 						transaction.total);
 			}
 		}
@@ -412,6 +421,6 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
+		this.version = version;
 	}
 }

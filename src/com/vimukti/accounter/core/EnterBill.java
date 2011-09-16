@@ -586,7 +586,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 
 				Vendor vendor = (Vendor) session.get(Vendor.class,
 						enterBill.vendor.id);
-				vendor.updateBalance(session, enterBill, -enterBill.total);
+				vendor.updateBalance(session, this, -enterBill.total);
 
 				// this.onSave(session);
 
@@ -641,7 +641,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 					// modifyItemReceipt(this, true);
 				}
 
-				this.vendor.updateBalance(session, enterBill, -1
+				this.vendor.updateBalance(session, this, -1
 						* (enterBill.total - this.total));
 			}
 

@@ -922,7 +922,7 @@ public class Invoice extends Transaction implements Lifecycle {
 
 				Customer customer = (Customer) session.get(Customer.class,
 						invoice.customer.id);
-				customer.updateBalance(session, invoice, invoice.total);
+				customer.updateBalance(session, this, invoice.total);
 				this.onSave(session);
 				return;
 			}
@@ -930,7 +930,7 @@ public class Invoice extends Transaction implements Lifecycle {
 				if (DecimalUtil.isGreaterThan(this.total, this.payments)) {
 					Customer customer = (Customer) session.get(Customer.class,
 							invoice.customer.id);
-					customer.updateBalance(session, invoice, invoice.total);
+					customer.updateBalance(session, this, invoice.total);
 					this.customer.updateBalance(session, this, -this.total);
 				}
 			}

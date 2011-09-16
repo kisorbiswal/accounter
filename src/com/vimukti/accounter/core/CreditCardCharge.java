@@ -273,7 +273,7 @@ public class CreditCardCharge extends Transaction {
 			if (!this.payFrom.equals(creditCardCharge.payFrom)) {
 				Account prePayFrom = (Account) session.get(Account.class,
 						creditCardCharge.payFrom.id);
-				prePayFrom.updateCurrentBalance(creditCardCharge,
+				prePayFrom.updateCurrentBalance(this,
 						-creditCardCharge.total);
 				prePayFrom.onUpdate(session);
 				this.payFrom.updateCurrentBalance(this, this.total);

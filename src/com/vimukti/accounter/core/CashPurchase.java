@@ -431,7 +431,7 @@ public class CashPurchase extends Transaction {
 				 * Updating the balance values of present and previous accounts
 				 * of vendors
 				 */
-				payFromAccount.updateCurrentBalance(cashPurchase,
+				payFromAccount.updateCurrentBalance(this,
 						isDebitTransaction() ? -cashPurchase.total
 								: cashPurchase.total);
 				payFromAccount.onUpdate(session);

@@ -572,7 +572,7 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 			// if (cashSales.depositIn.id != this.depositIn.id) {
 			Account preDepositAccnt = (Account) session.get(Account.class,
 					cashSales.depositIn.id);
-			preDepositAccnt.updateCurrentBalance(cashSales, cashSales.total);
+			preDepositAccnt.updateCurrentBalance(this, cashSales.total);
 			preDepositAccnt.onUpdate(session);
 
 			this.depositIn.updateCurrentBalance(this, -this.total);
