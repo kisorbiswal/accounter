@@ -597,11 +597,12 @@
 		<servlet-name>OpenIdServlet
 		</servlet-name>
 		<servlet-class>
-			com.vimukti.accounter.admin.server.OpenIdServlet
+			com.vimukti.accounter.servlets.OpenIdServlet
 		</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>OpenIdServlet </servlet-name>
-		<url-pattern>/main/openId</url-pattern>
+		<url-pattern>/main/openid</url-pattern>
 	</servlet-mapping>
+
 </web-app>

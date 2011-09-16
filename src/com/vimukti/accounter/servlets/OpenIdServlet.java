@@ -2,20 +2,15 @@ package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.openid4java.OpenIDException;
@@ -47,7 +42,7 @@ public class OpenIdServlet extends BaseServlet {
 
 	private static final String OPTIONAL_VALUE = "0";
 	private static final String REQUIRED_VALUE = "1";
-	
+
 	private static final String LOGIN_VIEW = "/WEB-INF/login.jsp";
 	private ConsumerManager manager;
 
@@ -224,7 +219,8 @@ public class OpenIdServlet extends BaseServlet {
 		Session session = HibernateUtil.openSession(LOCAL_DATABASE);
 		Transaction transaction = session.beginTransaction();
 		try {
-			Client client = (Client) session.getNamedQuery("getClient.by.mailId")
+			Client client = (Client) session
+					.getNamedQuery("getClient.by.mailId")
 					.setString("emailId", email).uniqueResult();
 			if (client != null) {
 				// if valid credentials are there we redirect to <dest> param or
@@ -252,9 +248,8 @@ public class OpenIdServlet extends BaseServlet {
 
 				}
 			} else {
-				request.setAttribute(
-						"message",
-						"The details that you have are incorrect. If you have forgotten your details, please refer to your invitation or contact the person who invited you to Accounter.");
+				request.setAttribute("message",
+						"No account exists with this emailid.");
 				dispatch(request, response, LOGIN_VIEW);
 			}
 			transaction.commit();
@@ -346,20 +341,20 @@ public class OpenIdServlet extends BaseServlet {
 			FetchResponse fetchResp = (FetchResponse) authSuccess
 					.getExtension(AxMessage.OPENID_NS_AX);
 
-			 List emails = fetchResp.getAttributeValues("email");
-			 String email = (String) emails.get(0);
+			List emails = fetchResp.getAttributeValues("email");
+			String email = (String) emails.get(0);
 
-//			List aliases = fetchResp.getAttributeAliases();
-//			Map attributes = new LinkedHashMap();
-//			for (Iterator iter = aliases.iterator(); iter.hasNext();) {
-//				String alias = (String) iter.next();
-//				List values = fetchResp.getAttributeValues(alias);
-//				if (values.size() > 0) {
-//					String[] arr = new String[values.size()];
-//					values.toArray(arr);
-//					attributes.put(alias, StringUtils.join(arr));
-//				}
-//			}
+			// List aliases = fetchResp.getAttributeAliases();
+			// Map attributes = new LinkedHashMap();
+			// for (Iterator iter = aliases.iterator(); iter.hasNext();) {
+			// String alias = (String) iter.next();
+			// List values = fetchResp.getAttributeValues(alias);
+			// if (values.size() > 0) {
+			// String[] arr = new String[values.size()];
+			// values.toArray(arr);
+			// attributes.put(alias, StringUtils.join(arr));
+			// }
+			// }
 			httpReq.setAttribute("email", email);
 		}
 	}
