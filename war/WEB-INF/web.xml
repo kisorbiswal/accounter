@@ -593,4 +593,15 @@
 		<url-pattern>/do/admin/home/rpc/service</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>OpenIdServlet
+		</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.admin.server.OpenIdServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>OpenIdServlet </servlet-name>
+		<url-pattern>/main/openId</url-pattern>
+	</servlet-mapping>
 </web-app>
