@@ -117,7 +117,7 @@
 	
 <h3>End of Terms & Conditions</h3>	
 <div class="">
-<p> If you have any queries or concern regarding this agreement, then you may contact us at : <a href="support@vimukti.com" target="_blank">  support@vimukti.com</a></p>
+<p> If you have any queries or concern regarding this agreement, then you may contact us at : <a href="mailto:support@vimukti.com" >  support@vimukti.com</a></p>
 </div>
 <br>
 	 			
