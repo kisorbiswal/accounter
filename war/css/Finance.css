@@ -1678,3 +1678,6 @@ input[type="text"]{
 .pre_scroll_table div table {
 	width:100%;
 }
+.new_vat_item tr td:FIRST-CHILD {
+	width:250px;
+}
