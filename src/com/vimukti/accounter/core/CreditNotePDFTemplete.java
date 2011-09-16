@@ -157,8 +157,7 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 							.getUnitPrice()));
 					String totalPrice = largeAmountConversation(item
 							.getLineTotal());
-					String vatRate = String.valueOf(Utility.getVATItemRate(
-							item.getTaxCode(), true));
+					String vatRate = item.getTaxCode().getName();
 					String vatAmount = getDecimalsUsingMaxDecimals(
 							item.getVATfraction(), null, 2);
 
@@ -195,7 +194,11 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 			String total = largeAmountConversation(memo.getTotal());
 
 			t.setVariable("memoText", memoVal);
-			t.setVariable("subTotal", subTotal);
+			if (company.getPreferences().isRegisteredForVAT()) {
+				t.setVariable("NetAmount", "Net Amount");
+				t.setVariable("subTotal", subTotal);
+				t.addBlock("subtotal");
+			}
 
 			if (company.getPreferences().isRegisteredForVAT()
 					&& brandingTheme.isShowVatColumn()) {

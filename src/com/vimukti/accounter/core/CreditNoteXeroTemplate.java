@@ -44,6 +44,15 @@ public class CreditNoteXeroTemplate implements PrintTemplete {
 			t = new MiniTemplator(getTempleteName());
 
 			try {
+				// for logo image
+				if (brandingTheme.isShowLogo()) {
+					String logoAlligment = getLogoAlignment();
+					t.setVariable("getLogoAlignment", logoAlligment);
+
+					String image = getImage().toString();
+					t.setVariable("logoImage", image);
+					t.addBlock("showlogo");
+				}
 
 				String cmpAdd = "";
 				Address cmpTrad = company.getRegisteredAddress();
@@ -146,8 +155,7 @@ public class CreditNoteXeroTemplate implements PrintTemplete {
 								.getUnitPrice()));
 						String totalPrice = largeAmountConversation(item
 								.getLineTotal());
-						String vatRate = String.valueOf(Utility.getVATItemRate(
-								item.getTaxCode(), true));
+						String vatRate = item.getTaxCode().getName();
 						String vatAmount = getDecimalsUsingMaxDecimals(
 								item.getVATfraction(), null, 2);
 
@@ -188,7 +196,11 @@ public class CreditNoteXeroTemplate implements PrintTemplete {
 					t.addBlock("memoblock");
 				}
 
-				t.setVariable("subTotal", subTotal);
+				if (company.getPreferences().isRegisteredForVAT()) {
+					t.setVariable("NetAmount", "Net Amount");
+					t.setVariable("subTotal", subTotal);
+					t.addBlock("subtotal");
+				}
 
 				if (company.getPreferences().isRegisteredForVAT()
 						&& brandingTheme.isShowVatColumn()) {
