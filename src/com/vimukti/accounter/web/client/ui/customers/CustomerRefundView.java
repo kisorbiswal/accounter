@@ -745,10 +745,9 @@ public class CustomerRefundView extends
 		amtText.setDisabled(isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
 		paymentMethodCombo.setDisabled(isInViewMode());
-		paymentMethodSelected(paymentMethodCombo.getSelectedValue());
+		paymentMethodSelected(transaction.getPaymentMethod());
 		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
 			checkNoText.setValue(Accounter.constants().toBePrinted());
-			checkNoText.setDisabled(true);
 		}
 		// paymentMethodSelected(paymentMethodCombo.getValue().toString());
 		// checkNoText.setValue(((ClientCustomerRefund) transactionObject)
