@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -119,11 +120,11 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 		IAccounterServerCore serverCore = (IAccounterServerCore) loadObjectById(
 				accounterCoreType.getServerClassFullyQualifiedName(), id);
 		if (serverCore instanceof Transaction) {
-			Transaction trans = (Transaction) serverCore;
-			trans.setVoid(true);
-			update((IAccounterCore) new ClientConvertUtil().toClientObject(
-					serverCore,
-					Util.getClientEqualentClass(serverCore.getClass())));
+			IAccounterCore clientObject = (IAccounterCore) new ClientConvertUtil()
+					.toClientObject(serverCore,
+							Util.getClientEqualentClass(serverCore.getClass()));
+			((ClientTransaction) clientObject).setVoid(true);
+			update(clientObject);
 
 			return true;
 		}
