@@ -12,9 +12,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.openid4java.OpenIDException;
 import org.openid4java.association.AssociationSessionType;
 import org.openid4java.consumer.ConsumerManager;
@@ -37,10 +40,15 @@ import org.openid4java.message.sreg.SRegResponse;
 import org.openid4java.util.HttpClientFactory;
 import org.openid4java.util.ProxyProperties;
 
-public class OpenIdServlet extends HttpServlet {
+import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.utils.HibernateUtil;
+
+public class OpenIdServlet extends BaseServlet {
 
 	private static final String OPTIONAL_VALUE = "0";
 	private static final String REQUIRED_VALUE = "1";
+	
+	private static final String LOGIN_VIEW = "/WEB-INF/login.jsp";
 	private ConsumerManager manager;
 
 	/**
@@ -78,7 +86,8 @@ public class OpenIdServlet extends HttpServlet {
 			if (identifier != null) {
 				this.authRequest(identifier, req, resp);
 			} else {
-				this.getServletContext().getRequestDispatcher("/index.jsp")
+				this.getServletContext()
+						.getRequestDispatcher("/WEB-INF/openid.jsp")
 						.forward(req, resp);
 			}
 		}
@@ -124,7 +133,7 @@ public class OpenIdServlet extends HttpServlet {
 				// Option 2: HTML FORM Redirection (Allows payloads >2048 bytes)
 
 				RequestDispatcher dispatcher = getServletContext()
-						.getRequestDispatcher("/formredirection.jsp");
+						.getRequestDispatcher("/WEB-INF/formredirection.jsp");
 				httpReq.setAttribute("prameterMap", httpReq.getParameterMap());
 				httpReq.setAttribute("message", authReq);
 				// httpReq.setAttribute("destinationUrl", httpResp
@@ -190,19 +199,9 @@ public class OpenIdServlet extends HttpServlet {
 	 */
 	private void addAttributeExchangeToAuthRequest(HttpServletRequest httpReq,
 			AuthRequest authReq) throws MessageException {
-		String[] aliases = httpReq.getParameterValues("alias");
-		String[] typeUris = httpReq.getParameterValues("typeUri");
-		String[] counts = httpReq.getParameterValues("count");
 		FetchRequest fetch = FetchRequest.createFetchRequest();
-		for (int i = 0, l = typeUris == null ? 0 : typeUris.length; i < l; i++) {
-			String typeUri = typeUris[i];
-			if (StringUtils.isNotBlank(typeUri)) {
-				String alias = aliases[i];
-				boolean required = httpReq.getParameter("required" + i) != null;
-				int count = NumberUtils.toInt(counts[i], 1);
-				fetch.addAttribute(alias, typeUri, required, count);
-			}
-		}
+		fetch.addAttribute("email", "http://axschema.org/contact/email", true,
+				1);
 		authReq.addExtension(fetch);
 	}
 
@@ -210,12 +209,62 @@ public class OpenIdServlet extends HttpServlet {
 			throws ServletException, IOException {
 		Identifier identifier = this.verifyResponse(req);
 		if (identifier == null) {
-			this.getServletContext().getRequestDispatcher("/index.jsp")
+			this.getServletContext()
+					.getRequestDispatcher("/WEB-INF/openid.jsp")
 					.forward(req, resp);
 		} else {
 			req.setAttribute("identifier", identifier.getIdentifier());
-			this.getServletContext().getRequestDispatcher("/return.jsp")
-					.forward(req, resp);
+			String email = (String) req.getAttribute("email");
+			loginForUser(email, req, resp);
+		}
+	}
+
+	private void loginForUser(String email, HttpServletRequest request,
+			HttpServletResponse response) {
+		Session session = HibernateUtil.openSession(LOCAL_DATABASE);
+		Transaction transaction = session.beginTransaction();
+		try {
+			Client client = (Client) session.getNamedQuery("getClient.by.mailId")
+					.setString("emailId", email).uniqueResult();
+			if (client != null) {
+				// if valid credentials are there we redirect to <dest> param or
+				// /companies
+
+				if (!client.isActive()) {
+					client.setActive(true);
+				} else {
+					if (client.isRequirePasswordReset()) {
+						client.setRequirePasswordReset(false);
+						session.saveOrUpdate(client);
+					}
+
+					String destUrl = request.getParameter(PARAM_DESTINATION);
+					HttpSession httpSession = request.getSession();
+					httpSession.setAttribute(EMAIL_ID, client.getEmailId());
+					if (destUrl == null || destUrl.isEmpty()) {
+						client.setLoginCount(client.getLoginCount() + 1);
+						client.setLastLoginTime(System.currentTimeMillis());
+						session.saveOrUpdate(client);
+						redirectExternal(request, response, COMPANIES_URL);
+					} else {
+						redirectExternal(request, response, destUrl);
+					}
+
+				}
+			} else {
+				request.setAttribute(
+						"message",
+						"The details that you have are incorrect. If you have forgotten your details, please refer to your invitation or contact the person who invited you to Accounter.");
+				dispatch(request, response, LOGIN_VIEW);
+			}
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			transaction.rollback();
+		} finally {
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 	}
 
@@ -297,21 +346,21 @@ public class OpenIdServlet extends HttpServlet {
 			FetchResponse fetchResp = (FetchResponse) authSuccess
 					.getExtension(AxMessage.OPENID_NS_AX);
 
-			// List emails = fetchResp.getAttributeValues("email");
-			// String email = (String) emails.get(0);
+			 List emails = fetchResp.getAttributeValues("email");
+			 String email = (String) emails.get(0);
 
-			List aliases = fetchResp.getAttributeAliases();
-			Map attributes = new LinkedHashMap();
-			for (Iterator iter = aliases.iterator(); iter.hasNext();) {
-				String alias = (String) iter.next();
-				List values = fetchResp.getAttributeValues(alias);
-				if (values.size() > 0) {
-					String[] arr = new String[values.size()];
-					values.toArray(arr);
-					attributes.put(alias, StringUtils.join(arr));
-				}
-			}
-			httpReq.setAttribute("attributes", attributes);
+//			List aliases = fetchResp.getAttributeAliases();
+//			Map attributes = new LinkedHashMap();
+//			for (Iterator iter = aliases.iterator(); iter.hasNext();) {
+//				String alias = (String) iter.next();
+//				List values = fetchResp.getAttributeValues(alias);
+//				if (values.size() > 0) {
+//					String[] arr = new String[values.size()];
+//					values.toArray(arr);
+//					attributes.put(alias, StringUtils.join(arr));
+//				}
+//			}
+			httpReq.setAttribute("email", email);
 		}
 	}
 
