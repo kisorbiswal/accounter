@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayee;
@@ -488,8 +489,8 @@ public class WriteChequeView extends
 			case ClientPayee.TYPE_VENDOR:
 			case ClientPayee.TYPE_TAX_AGENCY:
 				if (transactionVendorTable.getAllRows().isEmpty()) {
-					result.addError(transactionVendorTable, accounterConstants
-							.blankTransaction());
+					result.addError(transactionVendorTable,
+							accounterConstants.blankTransaction());
 				} else
 					result.add(transactionVendorTable.validateGrid());
 				break;
@@ -500,8 +501,8 @@ public class WriteChequeView extends
 		}
 
 		if (!validateAmount()) {
-			result.addError(memoTextAreaItem, accounterConstants
-					.transactiontotalcannotbe0orlessthan0());
+			result.addError(memoTextAreaItem,
+					accounterConstants.transactiontotalcannotbe0orlessthan0());
 		}
 
 		return result;
@@ -741,12 +742,8 @@ public class WriteChequeView extends
 							} else if (payee instanceof ClientVendor
 									|| payee instanceof ClientTAXAgency) {
 
-								vendorTDSTaxCode
-										.setSelected(vendorTDSTaxCode
-												.getDisplayName(getCompany()
-														.getTAXItem(
-																payee
-																		.getTaxItemCode())));
+								vendorTDSTaxCode.setSelected(vendorTDSTaxCode.getDisplayName(getCompany()
+										.getTAXItem(payee.getTaxItemCode())));
 
 								if (transaction == null)
 									transactionVendorTable.removeAllRecords();
@@ -867,7 +864,8 @@ public class WriteChequeView extends
 		totalForm.setFields(totalTxt, netAmount);
 
 		DynamicForm vatCheckForm = new DynamicForm();
-		vatCheckForm.setFields(vatInclusiveCheck);
+		if (ClientCompanyPreferences.get().isRegisteredForVAT())
+			vatCheckForm.setFields(vatInclusiveCheck);
 		vatPanel.add(vatCheckForm);
 		vatPanel.setCellHorizontalAlignment(vatCheckForm, ALIGN_RIGHT);
 		vatPanel.add(totalForm);
@@ -974,7 +972,7 @@ public class WriteChequeView extends
 					protected ClientVendor getSelectedVendor() {
 						return WriteChequeView.this.selectedVendor;
 					}
-					
+
 					@Override
 					public boolean isShowPriceWithVat() {
 						return WriteChequeView.this.isShowPriceWithVat();
@@ -1024,7 +1022,7 @@ public class WriteChequeView extends
 				protected ClientVendor getSelectedVendor() {
 					return WriteChequeView.this.selectedVendor;
 				}
-				
+
 				@Override
 				public boolean isShowPriceWithVat() {
 					return WriteChequeView.this.isShowPriceWithVat();
@@ -1057,9 +1055,9 @@ public class WriteChequeView extends
 		HorizontalPanel bottomPanel = new HorizontalPanel();
 		bottomPanel.setWidth("100%");
 		bottomPanel.add(memoForm);
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			bottomPanel.add(vatPanel);
-		}
+		// if (getCompany().getPreferences().isRegisteredForVAT()) {
+		bottomPanel.add(vatPanel);
+		// }
 
 		vPanel.add(bottomPanel);
 		bottomPanel.setCellHorizontalAlignment(memoForm, ALIGN_LEFT);
@@ -1208,9 +1206,9 @@ public class WriteChequeView extends
 			case ClientWriteCheck.TYPE_CUSTOMER:
 			case ClientWriteCheck.TYPE_VENDOR:
 			case ClientWriteCheck.TYPE_TAX_AGENCY:
-				setMenuItems(button, Accounter.messages().accounts(
-						Global.get().Account()), Accounter.constants()
-						.productItem()
+				setMenuItems(button,
+						Accounter.messages().accounts(Global.get().Account()),
+						Accounter.constants().productItem()
 				// FinanceApplication.constants().comment(),
 				// FinanceApplication.constants()
 				// .salesTax()
@@ -1247,9 +1245,9 @@ public class WriteChequeView extends
 				// FinanceApplication.constants().comment());
 			}
 		} else
-			setMenuItems(button, Accounter.messages().accounts(
-					Global.get().Account()), Accounter.constants()
-					.productItem()
+			setMenuItems(button,
+					Accounter.messages().accounts(Global.get().Account()),
+					Accounter.constants().productItem()
 			// FinanceApplication.constants().comment(),
 			// FinanceApplication.constants().salesTax()
 			);
