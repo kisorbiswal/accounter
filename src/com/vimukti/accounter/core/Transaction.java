@@ -81,6 +81,9 @@ public abstract class Transaction extends CreatableObject implements
 	public static final int STATUS_PAID_OR_APPLIED_OR_ISSUED = 2;
 	public static final int STATUS_DELETED = 3;
 
+	public static final int STATUS_DRAFT = 201;
+	public static final int STATUS_APPROVE = 202;
+
 	public static final int STATUS_OPEN = 101;
 	public static final int STATUS_COMPLETED = 102;
 	public static final int STATUS_CANCELLED = 103;
@@ -140,6 +143,12 @@ public abstract class Transaction extends CreatableObject implements
 	 * (Unapplied/Notissued/Accepted/Issued/NotAccepted..............)
 	 */
 	int status = 0;
+
+	/**
+	 * To set the status of transaction whether it is approved or saved as
+	 * draft.
+	 */
+	private int saveStatus = 0;
 
 	/**
 	 * To indicate whether the transaction can be voided/edited or not
@@ -220,7 +229,7 @@ public abstract class Transaction extends CreatableObject implements
 	boolean amountsIncludeVAT;
 	transient protected boolean isOnSaveProccessed;
 	private boolean isDeleted;
-	
+
 	private AccounterClass accounterClass;
 
 	/** This Transaction belongs to which reconciliation */
@@ -1082,7 +1091,7 @@ public abstract class Transaction extends CreatableObject implements
 			// this.getPayee().updateBalance(HibernateUtil.getCurrentSession(),
 			// this, this.total);
 			transaction.creditsAndPayments.voidCreditsAndPayments(transaction,
-					transaction.total);
+					this, transaction.total);
 			HibernateUtil.getCurrentSession().saveOrUpdate(
 					transaction.creditsAndPayments);
 			this.setCreditsAndPayments(null);
@@ -1180,11 +1189,9 @@ public abstract class Transaction extends CreatableObject implements
 		this.accounterClass = accounterClass;
 	}
 
-
 	public void setLocation(Location location) {
 		this.location = location;
 	}
-
 
 	/**
 	 * @return the reconciliation
@@ -1193,11 +1200,55 @@ public abstract class Transaction extends CreatableObject implements
 		return reconciliation;
 	}
 
+	public int getSaveStatus() {
+		return saveStatus;
+	}
+
+	public void setSaveStatus(int saveStatus) {
+		this.saveStatus = saveStatus;
+	}
+
+	public boolean isDraft() {
+		return this.saveStatus == STATUS_DRAFT;
+	}
+
 	/**
 	 * @param reconciliation
 	 *            the reconciliation to set
 	 */
 	public void setReconciliation(Reconciliation reconciliation) {
 		this.reconciliation = reconciliation;
+	}
+
+	public boolean addAccountTransaction(AccountTransaction accountTransaction) {
+		AccountTransaction similar = getSimilarAccountTransaction(accountTransaction);
+		if (similar == null) {
+			FinanceLogger.log("Accounter Transaction Added :"
+					+ accountTransaction.getAmount());
+			accountTransactionEntriesList.add(accountTransaction);
+			return true;
+		} else {
+			FinanceLogger.log("Accounter Transaction deleted :"
+					+ similar.getID());
+			accountTransactionEntriesList.remove(similar);
+			Session session = HibernateUtil.getCurrentSession();
+			session.delete(similar);
+			return false;
+		}
+	}
+
+	private AccountTransaction getSimilarAccountTransaction(
+			AccountTransaction accountTransaction) {
+		for (AccountTransaction record : accountTransactionEntriesList) {
+			if (record.getTransaction().getID() == accountTransaction
+					.getTransaction().getID()
+					&& record.getAccount().getID() == accountTransaction
+							.getAccount().getID()
+					&& record.getAmount() == -1
+							* accountTransaction.getAmount()) {
+				return record;
+			}
+		}
+		return null;
 	}
 }
