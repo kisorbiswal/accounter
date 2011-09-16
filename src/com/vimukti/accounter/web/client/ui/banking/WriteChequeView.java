@@ -862,10 +862,12 @@ public class WriteChequeView extends
 		netAmount = new AmountLabel(Accounter.constants().netAmount());
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setFields(totalTxt, netAmount);
-
+		totalForm.addStyleName("invoice-total");
 		DynamicForm vatCheckForm = new DynamicForm();
 		if (ClientCompanyPreferences.get().isRegisteredForVAT())
 			vatCheckForm.setFields(vatInclusiveCheck);
+		vatCheckForm.addStyleName("invoice-total");
+
 		vatPanel.add(vatCheckForm);
 		vatPanel.setCellHorizontalAlignment(vatCheckForm, ALIGN_RIGHT);
 		vatPanel.add(totalForm);
