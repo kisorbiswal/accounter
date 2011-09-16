@@ -3,6 +3,7 @@
  */
 package com.vimukti.accounter.web.client.ui.edittable.tables;
 
+import java.util.Iterator;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.IsWidget;
@@ -110,10 +111,11 @@ public class ContactsTable extends EditTable<ClientContact> {
 			protected void setValue(ClientContact row, String value) {
 				if (UIUtils.isValidPhone(value))
 					row.setBusinessPhone(value);
-				else
+				else {
 					Accounter.showError(Accounter.constants()
 							.invalidBusinessPhoneVal());
-
+					row.setBusinessPhone("");
+				}
 			}
 
 			@Override
@@ -138,9 +140,10 @@ public class ContactsTable extends EditTable<ClientContact> {
 			protected void setValue(ClientContact row, String value) {
 				if (UIUtils.isValidEmail(value))
 					row.setEmail(value);
-				else
+				else {
 					Accounter.showError(Accounter.constants().invalidEmail());
-
+					row.setEmail("");
+				}
 			}
 
 			@Override
@@ -186,4 +189,5 @@ public class ContactsTable extends EditTable<ClientContact> {
 	public List<ClientContact> getRecords() {
 		return getAllRows();
 	}
+
 }

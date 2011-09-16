@@ -340,7 +340,8 @@ public abstract class CustomerTransactionTable extends
 						.setTaxCode(selectedObject.getTaxCode() != 0 ? selectedObject
 								.getTaxCode()
 								: getCustomer().getTAXCode() > 0 ? getCustomer()
-										.getTAXCode() : ztaxCodeid);
+										.getTAXCode()
+										: ztaxCodeid);
 			else
 				selectedObject.setTaxCode(ztaxCodeid);
 		}
@@ -433,15 +434,13 @@ public abstract class CustomerTransactionTable extends
 				continue;
 			}
 			if (item.getAccountable() == null) {
-				result.addError(
-						"GridItem-" + item.getAccount(),
-						Accounter.messages().pleaseEnter(
-								UIUtils.getTransactionTypeName(item.getType())));
+				result.addError("GridItem-" + item.getType(), Accounter
+						.messages().pleaseSelectCustomer(
+								Utility.getItemType(item.getType())));
 			}
 			if (getCompany().getPreferences().isRegisteredForVAT()) {
 				if (item.getTaxCode() == 0) {
-					result.addError(
-							"GridItemUK-" + item.getAccount(),
+					result.addError("GridItemUK-" + item.getAccount(),
 							Accounter.messages().pleaseEnter(
 									Accounter.constants().vatCode()));
 				}

@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.edittable;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.google.gwt.user.cellview.client.TextColumn;
@@ -54,7 +55,7 @@ public class ItensDropDownTable extends AbstractDropDownTable<ClientItem> {
 	@Override
 	protected ClientItem getAddNewRow() {
 		ClientItem clientItem = new ClientItem();
-		clientItem.setName(Accounter.constants().addNewItem());
+		clientItem.setName(Accounter.comboMessages().newItem());
 		return clientItem;
 	}
 
@@ -101,4 +102,6 @@ public class ItensDropDownTable extends AbstractDropDownTable<ClientItem> {
 	public void setForCustomer(boolean isForCustomer) {
 		this.isForCustomer = isForCustomer;
 	}
+
+
 }

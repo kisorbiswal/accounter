@@ -111,9 +111,10 @@ public abstract class VendorTransactionTable extends
 						double lt = row.getQuantity().getValue()
 								* row.getUnitPrice();
 						double disc = row.getDiscount();
-						row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
-								* disc / 100))
-								: lt);
+						row
+								.setLineTotal(DecimalUtil
+										.isGreaterThan(disc, 0) ? (lt - (lt
+										* disc / 100)) : lt);
 					}
 				}
 				update(row);
@@ -297,25 +298,21 @@ public abstract class VendorTransactionTable extends
 				switch (validationcount++) {
 				case 1:
 					if (item.getAccountable() == null) {
-						result.addError(
-								row + "," + 1,
-								Accounter.messages().pleaseEnter(
-										UIUtils.getTransactionTypeName(item
-												.getType())));
-						result.addError(
-								row + "," + 1,
-								Accounter.messages().pleaseEnter(
-										Utility.getTransactionName(item
-												.getType())));
+						// result.addError(row + "," + 1, Accounter.messages()
+						// .pleaseSelectCustomer(
+						// UIUtils.getTransactionTypeName(item
+						// .getType())));
+						result.addError(row + "," + 1, Accounter.messages()
+								.pleaseSelectCustomer(
+										Utility.getItemType(item.getType())));
 					}
 					// ,
 					// UIUtils.getTransactionTypeName(item.getType()));
 				case 2:
 					if (getCompany().getPreferences().isRegisteredForVAT()) {
 						if (item.getTaxCode() == 0) {
-							result.addError(
-									row + "," + 6,
-									Accounter.messages().pleaseEnter(
+							result.addError(row + "," + 6, Accounter.messages()
+									.pleaseEnter(
 											Accounter.constants().vatCode()));
 						}
 						// .vatCode());
