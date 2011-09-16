@@ -282,6 +282,8 @@ public abstract class VendorTransactionTable extends
 
 	public void addRecords(List<ClientTransactionItem> transactionItems) {
 		for (ClientTransactionItem item : transactionItems) {
+			item.setID(0);
+			item.taxRateCalculationEntriesList.clear();
 			add(item);
 		}
 	}
@@ -381,6 +383,7 @@ public abstract class VendorTransactionTable extends
 	public void setAllRows(List<ClientTransactionItem> rows) {
 		for (ClientTransactionItem item : rows) {
 			item.setID(0);
+			item.taxRateCalculationEntriesList.clear();
 		}
 		super.setAllRows(rows);
 	}

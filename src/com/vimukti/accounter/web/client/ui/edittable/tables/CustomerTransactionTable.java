@@ -461,6 +461,7 @@ public abstract class CustomerTransactionTable extends
 	public void setAllRows(List<ClientTransactionItem> rows) {
 		for (ClientTransactionItem item : rows) {
 			item.setID(0);
+			item.taxRateCalculationEntriesList.clear();
 		}
 		super.setAllRows(rows);
 	}
