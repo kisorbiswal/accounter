@@ -8,7 +8,7 @@
 <div class="invoice_main_div">
   <table style="font-family:${fontStyle};font-size:${font};margin-bottom:${bottomMargin};margin-top:${topMargin};">
   		<!-- $BeginBlock showlogo -->
-  		<tr><td style="width:400px;height:120px" align=${getLogoAlignment}> ${logoImage}</td></tr>
+  		<tr><td class="branding_theme_logo" align=${getLogoAlignment}> ${logoImage}</td></tr>
   		<!-- $EndBlock showlogo -->
  </table>
  <table style="margin:20px 0;font-family:${fontStyle};font-size:${font};" width="100%">
@@ -71,7 +71,7 @@
 	<!-- $EndBlock vatBlock -->
 	<!-- $EndBlock showLabels -->
    </tr>
- <!- $BeginBlock invoiceRecord --> <tr class="item-row">
+ <!-- $BeginBlock invoiceRecord --> <tr class="item-row">
     <td class="description" align="center">
 	   <div><p class="fontSetting">${name}</p></div>
 	</td>
@@ -105,6 +105,7 @@
 	</td>
 	<!-- $EndBlock vatValueBlock -->
   </tr>
+   <!-- $EndBlock invoiceRecord -->
   </table>
   <table class="xero_sub_total" >
   <tr>
