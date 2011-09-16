@@ -157,12 +157,16 @@ public class OpenIdServlet extends HttpServlet {
 		// FetchRequest fetch = FetchRequest.createFetchRequest();
 		SRegRequest sregReq = SRegRequest.createFetchRequest();
 
-		String attribute = "email";
-		String value = httpReq.getParameter(attribute);
-		if (OPTIONAL_VALUE.equals(value)) {
-			sregReq.addAttribute(attribute, false);
-		} else if (REQUIRED_VALUE.equals(value)) {
-			sregReq.addAttribute(attribute, true);
+		String[] attributes = { "nickname", "email", "fullname", "dob",
+				"gender", "postcode", "country", "language", "timezone" };
+		for (int i = 0, l = attributes.length; i < l; i++) {
+			String attribute = attributes[i];
+			String value = httpReq.getParameter(attribute);
+			if (OPTIONAL_VALUE.equals(value)) {
+				sregReq.addAttribute(attribute, false);
+			} else if (REQUIRED_VALUE.equals(value)) {
+				sregReq.addAttribute(attribute, true);
+			}
 		}
 
 		// attach the extension to the authentication request
