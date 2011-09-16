@@ -34,15 +34,12 @@ public class AddressForm extends DynamicForm {
 
 	public AddressForm(Set<ClientAddress> addresses) {
 
-		
-		Label l1 = new Label(Accounter.constants()
-				.enterAddress());
+		Label l1 = new Label(Accounter.constants().enterAddress());
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 
 		setAddresses(addresses);
 
-		businessSelect = new SelectCombo(Accounter
-				.constants().address());
+		businessSelect = new SelectCombo(Accounter.constants().address());
 		businessSelect.setHelpInformation(true);
 		// businessSelect.setWidth(85);
 		businessSelect.getMainWidget().removeStyleName(
@@ -123,7 +120,6 @@ public class AddressForm extends DynamicForm {
 		setFields(businessSelect, addrArea);
 	}
 
-	
 	private void setAddresses(Set<ClientAddress> addresses) {
 		if (addresses != null) {
 			Iterator it = addresses.iterator();
@@ -140,18 +136,18 @@ public class AddressForm extends DynamicForm {
 		}
 	}
 
-	
 	public Set<ClientAddress> getAddresss() {
 		String string = businessSelect.getSelectedValue();
-		if(string == null) {
+		if (string == null) {
 			return Collections.emptySet();
 		}
 		ClientAddress selectedAddress = allAddresses.get(UIUtils
 				.getAddressType(businessSelect.getSelectedValue()));
 		if (selectedAddress != null) {
 			selectedAddress.setIsSelected(true);
-			allAddresses.put(UIUtils.getAddressType(businessSelect
-					.getSelectedValue()), selectedAddress);
+			allAddresses.put(
+					UIUtils.getAddressType(businessSelect.getSelectedValue()),
+					selectedAddress);
 		}
 		Collection add = allAddresses.values();
 		Set<ClientAddress> toBeSet = new HashSet<ClientAddress>();
@@ -166,14 +162,14 @@ public class AddressForm extends DynamicForm {
 		return toBeSet;
 	}
 
-	
 	public List<ClientAddress> getAddresssList() {
 		ClientAddress selectedAddress = allAddresses.get(businessSelect
 				.getSelectedValue());
 		if (selectedAddress != null) {
 			selectedAddress.setIsSelected(true);
-			allAddresses.put(UIUtils.getAddressType(businessSelect
-					.getSelectedValue()), selectedAddress);
+			allAddresses.put(
+					UIUtils.getAddressType(businessSelect.getSelectedValue()),
+					selectedAddress);
 		}
 		Collection add = allAddresses.values();
 		List<ClientAddress> toBeSet = new ArrayList<ClientAddress>();
@@ -198,7 +194,8 @@ public class AddressForm extends DynamicForm {
 			addrArea.setValue(address.getAddress1() + "\n"
 					+ address.getStreet() + "\n" + address.getCity() + "\n"
 					+ address.getStateOrProvinence() + "\n"
-					+ address.getZipOrPostalCode());
+					+ address.getZipOrPostalCode() + "\n"
+					+ address.getCountryOrRegion());
 
 		}
 	}
