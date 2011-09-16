@@ -917,7 +917,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		for (EstimatesAndSalesOrdersList record : result) {
 			for (ClientTransaction estimate : selectedOrdersAndEstimates) {
-				if (estimate.getID() == record.getID())
+				if (estimate.getID() == record.getTransactionId())
 					filteredList.remove(record);
 			}
 		}
