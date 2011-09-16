@@ -173,4 +173,8 @@ public class EditTable<R> extends SimplePanel {
 	public void setDesable(boolean isDesable) {
 		this.isDesable = isDesable;
 	}
+
+	protected void onDelete(R obj) {
+
+	}
 }

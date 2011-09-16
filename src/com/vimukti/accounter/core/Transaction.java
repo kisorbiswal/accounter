@@ -204,6 +204,11 @@ public abstract class Transaction extends CreatableObject implements
 	double totalNonTaxableAmount;
 
 	transient Transaction oldTransaction;
+
+	// Last Activity
+	@Exempted
+	private Activity lastActivity;
+
 	/**
 	 * For every Transaction there are one or more {@link AccountTransaction}
 	 * entries. So a set of AccountTransaction are to be maintained here.
@@ -1218,6 +1223,21 @@ public abstract class Transaction extends CreatableObject implements
 	 */
 	public void setReconciliation(Reconciliation reconciliation) {
 		this.reconciliation = reconciliation;
+	}
+
+	/**
+	 * @return the lastActivity
+	 */
+	public Activity getLastActivity() {
+		return lastActivity;
+	}
+
+	/**
+	 * @param lastActivity
+	 *            the lastActivity to set
+	 */
+	public void setLastActivity(Activity lastActivity) {
+		this.lastActivity = lastActivity;
 	}
 
 	public boolean addAccountTransaction(AccountTransaction accountTransaction) {

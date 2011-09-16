@@ -51,4 +51,7 @@ public interface IAccounterCRUDService extends RemoteService {
 			throws AccounterException;
 
 	Client1099Form get1099InformationByVendor(long vendorId);
+
+	long createNote(long transactionId, String details)
+			throws AccounterException;
 }

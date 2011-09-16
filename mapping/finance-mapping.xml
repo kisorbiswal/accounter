@@ -1518,7 +1518,7 @@
 			column="TRANSACTION_DATE"></property>
 		<property name="amount" column="AMOUNT"></property>
 		<property name="dataType" column="DATA_TYPE"></property>
-
+		<property name="description" column="DESCRIPTION"></property>
 
 	</class>
 

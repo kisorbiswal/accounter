@@ -9,6 +9,7 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
+import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
@@ -418,5 +419,8 @@ public interface IAccounterGETServiceAsync {
 	 */
 	public void getOpeningBalanceforReconciliation(long id,
 			AsyncCallback<Double> accounterAsyncCallback);
+
+	public void getTransactionHistory(long transactionId,
+			AsyncCallback<List<ClientActivity>> callback);
 
 }

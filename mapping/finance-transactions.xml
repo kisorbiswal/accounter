@@ -66,7 +66,8 @@
 			lazy="false" column="CREDITS_AND_PAYMENTS_ID">
 		</many-to-one>
 		<property name="isDefault" column="IS_DEFAULT"></property>
-		<many-to-one name="accounterClass" class="AccounterClass" column="TRANSACTION_ACCOUNTER_CLASS" lazy='false'>
+		<many-to-one name="accounterClass" class="AccounterClass"
+			column="TRANSACTION_ACCOUNTER_CLASS" lazy='false'>
 		</many-to-one>
 		<many-to-one name="transactionMakeDepositEntries" class="TransactionMakeDepositEntries"
 			cascade="save-update" lazy="false" column="TRANSACTION_MAKE_DEPOSIT_ENTRY_ID">
@@ -74,11 +75,14 @@
 		<many-to-one name="location" class="Location" lazy="false"
 			column="LOCATION_ID">
 		</many-to-one>
-		
-		<many-to-one name="reconciliation" class="Reconciliation" lazy="false"
-			column="RECONCILIATION_ID">
-		</many-to-one> 
-		
+
+		<many-to-one name="reconciliation" class="Reconciliation"
+			lazy="false" column="RECONCILIATION_ID">
+		</many-to-one>
+
+		<many-to-one name="lastActivity" class="Activity" column="LAST_ACTIVITY"
+			not-null="true" unique="true"></many-to-one>
+
 		<joined-subclass name="PaySalesTax" table="PAY_SALES_TAX">
 			<key column="ID" />
 			<property name="billsDueOnOrBefore" column="BILLS_DUE_ON_OR_BEFORE"
@@ -1074,7 +1078,8 @@
 			lazy="false" column="REFERRING_TRANSACTION_ITEM_ID">
 		</many-to-one>
 		<property name="isVoid" column="IS_VOID"></property>
-		<many-to-one name="accounterClass" class="AccounterClass" column="TRANS_ITEM_ACCOUNTER_CLASS" lazy='false'>
+		<many-to-one name="accounterClass" class="AccounterClass"
+			column="TRANS_ITEM_ACCOUNTER_CLASS" lazy='false'>
 		</many-to-one>
 	</class>
 	<class name="CreditsAndPayments" table="CREDITS_AND_PAYMENTS">

@@ -45,6 +45,7 @@ import com.gdevelop.gwt.syncrpc.SyncProxy;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccountTransaction;
 import com.vimukti.accounter.core.AccounterServerConstants;
+import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.Bank;
@@ -313,6 +314,10 @@ public class FinanceTool {
 			Activity activity = new Activity(user, ActivityType.ADD,
 					serverObject);
 
+			if (serverObject instanceof Transaction) {
+				((Transaction) serverObject).setLastActivity(activity);
+			}
+
 			ObjectConvertUtil.setCompany((IAccounterServerCore) serverObject,
 					getCompany());
 
@@ -502,10 +507,13 @@ public class FinanceTool {
 
 			serverObject.setVersion(++version);
 
+			Activity activity = new Activity(user, ActivityType.EDIT,
+					serverObject);
+
 			if (serverObject instanceof Transaction) {
 				Transaction transaction = (Transaction) serverObject;
 				transaction.onEdit((Transaction) clonedObject);
-
+				transaction.setLastActivity(activity);
 			}
 			if (serverObject instanceof Lifecycle) {
 				Lifecycle lifecycle = (Lifecycle) serverObject;
@@ -534,9 +542,6 @@ public class FinanceTool {
 						.setLastModifiedDate(new Timestamp(System
 								.currentTimeMillis()));
 			}
-
-			Activity activity = new Activity(user, ActivityType.EDIT,
-					serverObject);
 
 			session.flush();
 			session.saveOrUpdate(activity);
@@ -12657,60 +12662,61 @@ public class FinanceTool {
 	public void sendPdfInMail(long objectID, int type, long brandingThemeId,
 			String mimeType, String subject, String content,
 			String senderEmail, String toEmail, String ccEmail)
-			throws Exception, IOException {BrandingTheme brandingTheme = (BrandingTheme) getServerObjectForid(
-					AccounterCoreType.BRANDINGTHEME, brandingThemeId);
+			throws Exception, IOException {
+		BrandingTheme brandingTheme = (BrandingTheme) getServerObjectForid(
+				AccounterCoreType.BRANDINGTHEME, brandingThemeId);
 
-			String fileName = "";
-			String output = "";
+		String fileName = "";
+		String output = "";
 
-			Company company = getCompany();
-			String companyName = company.getFullName();
+		Company company = getCompany();
+		String companyName = company.getFullName();
 
-			// for printing individual pdf documents
-			if (type == Transaction.TYPE_INVOICE) {
+		// for printing individual pdf documents
+		if (type == Transaction.TYPE_INVOICE) {
 			Invoice invoice = (Invoice) getServerObjectForid(
-			AccounterCoreType.INVOICE, objectID);
+					AccounterCoreType.INVOICE, objectID);
 
 			// template = new InvoiceTemplete(invoice,
 			// brandingTheme, footerImg, style);
 
 			InvoicePDFTemplete invoiceHtmlTemplete = new InvoicePDFTemplete(
-			invoice, brandingTheme, company, getCompany()
-			.getCompanyID());
+					invoice, brandingTheme, company, getCompany()
+							.getCompanyID());
 
 			fileName = invoiceHtmlTemplete.getFileName();
 
 			output = invoiceHtmlTemplete.getPdfData();
 
-			} else if (type == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
+		} else if (type == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
 			// for Credit Note
 			CustomerCreditMemo memo = (CustomerCreditMemo) getServerObjectForid(
-			AccounterCoreType.CUSTOMERCREDITMEMO, objectID);
+					AccounterCoreType.CUSTOMERCREDITMEMO, objectID);
 
 			CreditNotePDFTemplete creditNotePDFTemplete = new CreditNotePDFTemplete(
-			memo, brandingTheme, company, getCompany().getCompanyID());
+					memo, brandingTheme, company, getCompany().getCompanyID());
 
 			fileName = creditNotePDFTemplete.getFileName();
 
 			output = creditNotePDFTemplete.getPdfData();
 
-			}
+		}
 
-			InputStream inputStream = new ByteArrayInputStream(output.getBytes());
-			InputStreamReader reader = new InputStreamReader(inputStream);
+		InputStream inputStream = new ByteArrayInputStream(output.getBytes());
+		InputStreamReader reader = new InputStreamReader(inputStream);
 
-			Converter converter = new Converter();
-			File file = converter.getPdfFile(fileName, reader);
-			// converter.getPdfFile(fileName, reader);
-			// InputStream inputStream = new
-			// ByteArrayInputStream(output.getBytes());
+		Converter converter = new Converter();
+		File file = converter.getPdfFile(fileName, reader);
+		// converter.getPdfFile(fileName, reader);
+		// InputStream inputStream = new
+		// ByteArrayInputStream(output.getBytes());
 
-			// UsersMailSendar.sendPdfMail(fileName, inputStream, mimeType,
-			// companyName, subject, content, senderEmail, toEmail, ccEmail);
+		// UsersMailSendar.sendPdfMail(fileName, inputStream, mimeType,
+		// companyName, subject, content, senderEmail, toEmail, ccEmail);
 
-			UsersMailSendar.sendPdfMail(file, companyName, subject, content,
-			senderEmail, toEmail, ccEmail);
-}
+		UsersMailSendar.sendPdfMail(file, companyName, subject, content,
+				senderEmail, toEmail, ccEmail);
+	}
 
 	/**
 	 * For profit and loss by location query.
@@ -12942,6 +12948,54 @@ public class FinanceTool {
 				+ "/company/stosservice";
 		return (IS2SService) SyncProxy.newProxyInstance(IS2SService.class, url,
 				"");
+	}
+
+	/**
+	 * @param transactionId
+	 * @param noteDescription
+	 * @throws AccounterException
+	 */
+	public long createNote(long transactionId, String noteDescription)
+			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		try {
+			Activity noteActivity = new Activity(AccounterThreadLocal.get(),
+					ActivityType.NOTE);
+			noteActivity.setObjectID(transactionId);
+			noteActivity.setDescription(noteDescription);
+			session.save(noteActivity);
+			transaction.commit();
+			return noteActivity.getId();
+		} catch (Exception e) {
+			e.printStackTrace();
+			transaction.rollback();
+			throw new AccounterException(AccounterException.ERROR_INTERNAL, e);
+		}
+
+	}
+
+	/**
+	 * Return Transactions All Activity
+	 * 
+	 * @param transactionId
+	 * @return
+	 * @throws AccounterException
+	 */
+	public List<ClientActivity> getTransactionHistory(long transactionId)
+			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		List list = session.getNamedQuery("get.all.activities.of.transaction")
+				.list();
+		List<ClientActivity> history = new ArrayList<ClientActivity>();
+		Iterator iterator = list.iterator();
+		while (iterator.hasNext()) {
+			Activity activity = (Activity) iterator.next();
+			ClientActivity clientActivity = new ClientConvertUtil()
+					.toClientObject(activity, ClientActivity.class);
+			history.add(clientActivity);
+		}
+		return history;
 	}
 
 }

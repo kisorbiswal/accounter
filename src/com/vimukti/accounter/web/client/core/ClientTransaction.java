@@ -135,6 +135,8 @@ public abstract class ClientTransaction implements IAccounterCore {
 
 	private ClientAccounterClass accounterClass;
 
+	private ClientActivity lastActivity;
+
 	// boolean showPricesWithVATOrVATInclusive;
 	// boolean EUVATExemptPayee;
 	// boolean isVATreturned;
@@ -970,5 +972,20 @@ public abstract class ClientTransaction implements IAccounterCore {
 
 	public void setAccounterClass(ClientAccounterClass accounterClass) {
 		this.accounterClass = accounterClass;
+	}
+
+	/**
+	 * @return the lastActivity
+	 */
+	public ClientActivity getLastActivity() {
+		return lastActivity;
+	}
+
+	/**
+	 * @param lastActivity
+	 *            the lastActivity to set
+	 */
+	public void setLastActivity(ClientActivity lastActivity) {
+		this.lastActivity = lastActivity;
 	}
 }

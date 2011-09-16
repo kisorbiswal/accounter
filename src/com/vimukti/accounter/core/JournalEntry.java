@@ -310,7 +310,8 @@ public class JournalEntry extends Transaction {
 			entry.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 			entry.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
 			entry.setAccount(account);
-			if (account.getName().equals(AccounterServerConstants.RETAINED_EARNINGS)) {
+			if (account.getName().equals(
+					AccounterServerConstants.RETAINED_EARNINGS)) {
 				entry.setMemo("Net income");
 			} else {
 				entry.setMemo("Balance moved to Retained Earnings");
@@ -842,6 +843,7 @@ public class JournalEntry extends Transaction {
 	public void setBalanceDue(double balanceDue) {
 		this.balanceDue = balanceDue;
 	}
+
 	/**
 	 * @return the id
 	 */
@@ -975,6 +977,12 @@ public class JournalEntry extends Transaction {
 						String.valueOf(this.getNumber()),
 						String.valueOf(this.debitTotal),
 						String.valueOf(creditTotal));
+
+		// Creating Activity
+		Activity activity = new Activity(AccounterThreadLocal.get(),
+				ActivityType.ADD, this);
+		session.save(activity);
+		this.setLastActivity(activity);
 
 		return false;
 	}

@@ -1643,4 +1643,9 @@
 		from com.vimukti.accounter.core.Reconciliation re where re.account.id=:accountID order by re.id desc
 	</query>
 	
+	<query name="get.all.activities.of.transaction">
+		<query-param name="transactionId" type="long"/>
+		from com.vimukti.accounter.core.Activity act where act.objectID=:transactionId
+	</query>
+	
 </hibernate-mapping>

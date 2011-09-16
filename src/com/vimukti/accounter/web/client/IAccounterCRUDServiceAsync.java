@@ -48,4 +48,7 @@ public interface IAccounterCRUDServiceAsync {
 
 	void get1099InformationByVendor(long vendorId,
 			AsyncCallback<Client1099Form> callback);
+
+	void createNote(long transactionId, String details,
+			AsyncCallback<Long> callback);
 }

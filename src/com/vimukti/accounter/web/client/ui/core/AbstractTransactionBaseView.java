@@ -20,6 +20,7 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
@@ -715,7 +716,17 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	public void init() {
 		super.init();
 		createControls();
+		createHistoryView();
 		setSize("100%", "100%");
+	}
+
+	/**
+	 * Creates HistoryView
+	 */
+	private void createHistoryView() {
+		VerticalPanel transactionHistoryPanel = new VerticalPanel();
+		// TODO Create History View Here
+		this.add(transactionHistoryPanel);
 	}
 
 	@Override

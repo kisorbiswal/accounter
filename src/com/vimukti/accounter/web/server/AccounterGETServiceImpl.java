@@ -9,6 +9,7 @@ import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.web.client.IAccounterGETService;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
+import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -2100,5 +2101,11 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 	public double getOpeningBalanceforReconciliation(long accountID)
 			throws AccounterException {
 		return getFinanceTool().getOpeningBalanceforReconciliation(accountID);
+	}
+
+	@Override
+	public List<ClientActivity> getTransactionHistory(long transactionId)
+			throws AccounterException {
+		return getFinanceTool().getTransactionHistory(transactionId);
 	}
 }

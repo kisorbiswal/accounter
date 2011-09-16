@@ -265,4 +265,10 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 		return financeTool.get1099InformationByVendor(vendorId);
 	}
 
+	@Override
+	public long createNote(long transactionId, String noteDetails)
+			throws AccounterException {
+		return getFinanceTool().createNote(transactionId, noteDetails);
+	}
+
 }

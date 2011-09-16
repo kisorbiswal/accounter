@@ -29,6 +29,8 @@ public class Activity implements IAccounterCore {
 
 	private double amount;
 
+	private String description;
+
 	public Activity() {
 	}
 
@@ -181,6 +183,21 @@ public class Activity implements IAccounterCore {
 
 	public void setDataType(String dataType) {
 		this.dataType = dataType;
+	}
+
+	/**
+	 * @return the details
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @param details
+	 *            the details to set
+	 */
+	public void setDescription(String details) {
+		this.description = details;
 	}
 
 }
