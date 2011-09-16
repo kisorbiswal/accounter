@@ -997,7 +997,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 					public void selectedComboBoxItem(ClientTAXCode selectItem) {
 						selectVatCodeFromDetailsTab = selectItem;
-
 					}
 
 				});
@@ -1007,16 +1006,19 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		int accounttype = getCompany().getAccountingType();
 
 		if (accounttype == 1) {
-			termsForm.setFields(payMethSelect, payTermsSelect, custGroupSelect,
-					vatregno, custTaxCode);
+			termsForm.setFields(payMethSelect, payTermsSelect, custGroupSelect);
+			if (getPreferences().isRegisteredForVAT()) {
+				termsForm.setFields(vatregno, custTaxCode);
+			}
 			if (getPreferences().isDoProductShipMents()) {
 				termsForm.setFields(shipMethSelect);
 			}
 		} else if (accounttype == 0) {
 			custTaxCode.setTitle(customerConstants.taxGroup());
 			// custTaxCode.setRequired(true);
-			termsForm.setFields(payMethSelect, payTermsSelect, custGroupSelect,
-					custTaxCode);
+			termsForm.setFields(payMethSelect, payTermsSelect, custGroupSelect);
+			if (getPreferences().isChargeSalesTax())
+				termsForm.setFields(custTaxCode);
 			if (getPreferences().isDoProductShipMents()) {
 				termsForm.setFields(shipMethSelect);
 			}
