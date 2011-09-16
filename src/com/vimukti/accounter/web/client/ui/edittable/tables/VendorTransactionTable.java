@@ -370,10 +370,18 @@ public abstract class VendorTransactionTable extends
 	}
 
 	public abstract boolean isShowPriceWithVat();
-	
+
 	@Override
 	public void delete(ClientTransactionItem row) {
 		super.delete(row);
 		updateTotals();
+	}
+
+	@Override
+	public void setAllRows(List<ClientTransactionItem> rows) {
+		for (ClientTransactionItem item : rows) {
+			item.setID(0);
+		}
+		super.setAllRows(rows);
 	}
 }
