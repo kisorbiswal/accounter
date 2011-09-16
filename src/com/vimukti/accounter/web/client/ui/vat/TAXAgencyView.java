@@ -249,6 +249,11 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			contact.setTitle(record.getTitle());
 			contact.setBusinessPhone(record.getBusinessPhone());
 			contact.setEmail(record.getEmail());
+			if (contact.getName().isEmpty() || contact.getTitle().isEmpty()
+					|| contact.getBusinessPhone().isEmpty()
+					|| contact.getEmail().isEmpty()) {
+				continue;
+			}
 			allContacts.add(contact);
 		}
 		data.setContacts(allContacts);
