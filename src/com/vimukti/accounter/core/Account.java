@@ -228,7 +228,7 @@ public class Account extends CreatableObject implements IAccounterServerCore {
 	/**
 	 * This is not Persistent variable, logically we have used in our code.
 	 */
-	transient AccountTransaction accountTransaction;
+	// transient AccountTransaction accountTransaction;
 
 	/**
 	 * This is not Persistent variable, logically we have used in our code.
@@ -976,14 +976,16 @@ public class Account extends CreatableObject implements IAccounterServerCore {
 		// This condition checking is for the purpose of not to consider
 		// this entry in Profit and Loss Report if the entry is for the
 		// closing Fiscal Year.
+		boolean closingFYEntry, cashBasisEntry;
+		AccountTransaction accountTransaction;
 		if (transaction.type == Transaction.TYPE_JOURNAL_ENTRY
 				&& ((JournalEntry) transaction).journalEntryType == JournalEntry.TYPE_NORMAL_JOURNAL_ENTRY
 				&& transaction.memo != null
 				&& transaction.memo.equals("Closing Fiscal Year")) {
 			FinanceLogger
 					.log("Create AccountTransaction when  Fiscal Year closed ");
-			accountTransaction = new AccountTransaction(this, transaction,
-					amount, true, false);
+			closingFYEntry = true;
+			cashBasisEntry = false;
 
 		}
 		// The below condition never satisfy because while creating
@@ -992,15 +994,18 @@ public class Account extends CreatableObject implements IAccounterServerCore {
 				&& ((JournalEntry) transaction).journalEntryType == JournalEntry.TYPE_CASH_BASIS_JOURNAL_ENTRY
 				&& transaction.memo != null
 				&& transaction.memo.equals("Closing Fiscal Year")) {
-			accountTransaction = new AccountTransaction(this, transaction,
-					amount, true, true);
+			closingFYEntry = true;
+			cashBasisEntry = true;
 		} else {
-			accountTransaction = new AccountTransaction(this, transaction,
-					amount, false, false);
+			closingFYEntry = false;
+			cashBasisEntry = false;
 		}
+		accountTransaction = new AccountTransaction(this, transaction, amount,
+				closingFYEntry, cashBasisEntry);
+		transaction.addAccountTransaction(accountTransaction);
 
 		if (this.name.equalsIgnoreCase("Un Deposited Funds")) {
-			TransactionMakeDepositEntries transactionMakeDepositEntries = this.accountTransaction
+			TransactionMakeDepositEntries transactionMakeDepositEntries = accountTransaction
 					.getTransaction().getTransactionMakeDepositEntries();
 
 			if (transactionMakeDepositEntries != null) {
@@ -1008,7 +1013,7 @@ public class Account extends CreatableObject implements IAccounterServerCore {
 			} else {
 				transactionMakeDepositEntries = new TransactionMakeDepositEntries(
 						this, transaction, amount);
-				this.accountTransaction.getTransaction()
+				accountTransaction.getTransaction()
 						.setTransactionMakeDepositEntries(
 								transactionMakeDepositEntries);
 			}
@@ -1113,9 +1118,9 @@ public class Account extends CreatableObject implements IAccounterServerCore {
 			session.save(journalEntry);
 		}
 
-		if (this.accountTransaction != null) {
-			session.saveOrUpdate(this.accountTransaction);
-		}
+		// if (this.accountTransaction != null) {
+		// session.saveOrUpdate(this.accountTransaction);
+		// }
 
 		// Object object =
 		// session.createQuery(
