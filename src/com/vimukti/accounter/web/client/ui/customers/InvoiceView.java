@@ -915,6 +915,13 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		List<EstimatesAndSalesOrdersList> filteredList = new ArrayList<EstimatesAndSalesOrdersList>();
 		filteredList.addAll(result);
 
+		for (EstimatesAndSalesOrdersList record : result) {
+			for (ClientTransaction estimate : selectedOrdersAndEstimates) {
+				if (estimate.getID() == record.getID())
+					filteredList.remove(record);
+			}
+		}
+
 		if (dialog == null) {
 			dialog = new CustomerQuoteListDialog(this, filteredList);
 		}
@@ -1000,7 +1007,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		orderNum = selectedEstimate.getNumber();
 		orderNumText.setValue(orderNum);
 		customerTransactionTable.setAllRows(itemsList);
-
+		customerTransactionTable.updateTotals();
 		// if (selectedEstimate == null)
 		// return;
 		// if (selectedOrdersAndEstimates != null)
@@ -1019,7 +1026,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		// this.transactionItems = convertedIinvoice.getTransactionItems();
 		// customerTransactionGrid.setAllTransactions(transactionItems);
 		// // customerTransactionGrid.updateData(obj)
-
+		updateNonEditableItems();
 	}
 
 	private ClientInvoice convertToInvoice(ClientEstimate selectedEstimate) {
@@ -1789,6 +1796,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	protected void refreshTransactionGrid() {
 
 	}
+
 	private void settabIndexes() {
 		customerCombo.setTabIndex(1);
 		contactCombo.setTabIndex(2);
