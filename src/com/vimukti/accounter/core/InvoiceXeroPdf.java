@@ -79,8 +79,11 @@ public class InvoiceXeroPdf implements PrintTemplete {
 
 			// setting logo Image
 			if (brandingTheme.isShowLogo()) {
+				String logoAlligment = getLogoAlignment();
+				t.setVariable("getLogoAlignment", logoAlligment);
 
-				t.addBlock("logo");
+				t.setVariable("logoImage", image);
+				t.addBlock("showlogo");
 			}
 
 			// TODO for company trading name and address
@@ -147,8 +150,7 @@ public class InvoiceXeroPdf implements PrintTemplete {
 				String unitPrice = forZeroAmounts(largeAmountConversation(item
 						.getUnitPrice()));
 				String totalPrice = largeAmountConversation(item.getLineTotal());
-				String vatRate = String.valueOf(Utility.getVATItemRate(
-						item.getTaxCode(), true));
+				String vatRate = item.getTaxCode().getName();
 				String vatAmount = getDecimalsUsingMaxDecimals(
 						item.getVATfraction(), null, 2);
 
@@ -174,12 +176,14 @@ public class InvoiceXeroPdf implements PrintTemplete {
 					t.addBlock("vatValueBlock");
 				}
 
+				t.addBlock("invoiceRecord");
 			}
 			// for displaying sub total, vat total, total
 			String subtotal = largeAmountConversation(invoice.getNetAmount());
 			if (company.getPreferences().isRegisteredForVAT()) {
 				t.setVariable("NetAmount", "Net Amount");
 				t.setVariable("subTotal", subtotal);
+				t.addBlock("subtotal");
 			}
 
 			if (company.getPreferences().isRegisteredForVAT()
