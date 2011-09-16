@@ -253,8 +253,7 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				String unitPrice = forZeroAmounts(largeAmountConversation(item
 						.getUnitPrice()));
 				String totalPrice = largeAmountConversation(item.getLineTotal());
-				String vatRate = String.valueOf(Utility.getVATItemRate(
-						item.getTaxCode(), true));
+				String vatRate = item.getTaxCode().getName();
 				String vatAmount = getDecimalsUsingMaxDecimals(
 						item.getVATfraction(), null, 2);
 
@@ -287,6 +286,7 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			if (company.getPreferences().isRegisteredForVAT()) {
 				t.setVariable("NetAmount", "Net Amount");
 				t.setVariable("subTotal", subtotal);
+				t.addBlock("subtotal");
 			}
 			if (company.getPreferences().isRegisteredForVAT()
 					&& brandingTheme.isShowVatColumn()) {
