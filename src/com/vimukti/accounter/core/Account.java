@@ -43,7 +43,8 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  * 
  */
 @SuppressWarnings({ "serial", "unchecked" })
-public class Account extends CreatableObject implements IAccounterServerCore {
+public class Account extends CreatableObject implements IAccounterServerCore,
+		INamedObject {
 
 	Logger log = Logger.getLogger(Account.class);
 
