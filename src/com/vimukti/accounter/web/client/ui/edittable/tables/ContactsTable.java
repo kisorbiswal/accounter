@@ -3,7 +3,6 @@
  */
 package com.vimukti.accounter.web.client.ui.edittable.tables;
 
-import java.util.Iterator;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.IsWidget;

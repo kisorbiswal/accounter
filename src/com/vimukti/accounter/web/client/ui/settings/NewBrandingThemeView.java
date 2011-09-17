@@ -27,7 +27,6 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.images.FinanceImages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.FileUploadDilaog;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -35,7 +34,6 @@ import com.vimukti.accounter.web.client.ui.combo.TemplateCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -139,7 +137,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		contactDetailsArea.setValue(brandingTheme.getContactDetails());
 		logoNameBox.setValue(brandingTheme.getFileName());
 		invoiceCombo.setValue(brandingTheme.getInvoiceTempleteName());
-		creditMemoCombo.setValue(brandingTheme.getInvoiceTempleteName());
+		creditMemoCombo.setValue(brandingTheme.getCreditNoteTempleteName());
 
 	}
 

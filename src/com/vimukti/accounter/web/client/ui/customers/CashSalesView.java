@@ -280,7 +280,7 @@ public class CashSalesView extends
 				prodAndServiceForm2.setFields(disabletextbox,
 						transactionTotalNonEditableText);
 			}
-			prodAndServiceForm2.addStyleName("tax-form");
+			prodAndServiceForm2.addStyleName("invoice-total");
 		}
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();

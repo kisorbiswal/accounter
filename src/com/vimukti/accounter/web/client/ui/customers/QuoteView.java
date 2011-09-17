@@ -431,7 +431,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			prodAndServiceForm2.setFields(taxCodeSelect,
 					salesTaxTextNonEditable, disabletextbox,
 					transactionTotalNonEditableText);
-			prodAndServiceForm2.addStyleName("tax-form");
+			prodAndServiceForm2.addStyleName("invoice-total");
 		}
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();

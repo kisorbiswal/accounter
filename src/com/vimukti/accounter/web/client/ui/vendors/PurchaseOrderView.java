@@ -209,7 +209,7 @@ public class PurchaseOrderView extends
 			// transactionTotalNonEditableText, ,
 			// balanceDueNonEditableText, taxCodeSelect, priceLevelSelect);
 			amountsForm.setNumCols(4);
-			amountsForm.addStyleName("tax-form");
+			amountsForm.addStyleName("invoice-total");
 			amountsForm.setFields(/* taxCodeSelect, salesTaxTextNonEditable, */
 			disabletextbox, transactionTotalNonEditableText, disabletextbox
 			/*
