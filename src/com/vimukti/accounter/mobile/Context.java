@@ -8,6 +8,7 @@ import java.util.Map;
 import org.hibernate.Session;
 
 import com.google.gwt.dev.util.collect.HashMap;
+import com.vimukti.accounter.core.Address;
 
 public class Context {
 
@@ -22,8 +23,7 @@ public class Context {
 		this.session = hibernateSession;
 	}
 
-	public Result forward(String command) {
-		return null;
+	public void forward(String command) {
 
 	}
 
@@ -151,5 +151,10 @@ public class Context {
 	 */
 	public <T> List<T> getSelections(String name) {
 		return (List<T>) selectedRecords.get(name);
+	}
+
+	public Address getAddress() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
