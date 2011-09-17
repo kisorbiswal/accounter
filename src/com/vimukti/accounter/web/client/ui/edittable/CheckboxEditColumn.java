@@ -1,8 +1,11 @@
 package com.vimukti.accounter.web.client.ui.edittable;
 
+import java.util.List;
+
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.IsWidget;
 
 public abstract class CheckboxEditColumn<T> extends EditColumn<T> {
@@ -21,6 +24,16 @@ public abstract class CheckboxEditColumn<T> extends EditColumn<T> {
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				boolean value = event.getValue();
 				onHeaderValueChanged(value);
+				List<T> allRows = getTable().getAllRows();
+				for (int x = 1; x <= allRows.size(); x++) {
+					FlexTable flexTable = (FlexTable) getTable().getWidget();
+					IsWidget widget = flexTable.getWidget(x, 0);
+					if (widget instanceof CheckBox) {
+						CheckBox checkedWidget = (CheckBox) widget;
+						checkedWidget.setValue(value);
+					}
+					onChangeValue(value, allRows.get(x - 1));
+				}
 			}
 		});
 		box.setEnabled(isEnable());
@@ -50,10 +63,10 @@ public abstract class CheckboxEditColumn<T> extends EditColumn<T> {
 				onChangeValue(value, context.getRow());
 				int index = getTable().getAllRows().indexOf(context.getRow()) + 1;
 				if (value) {
-					context.getRowFormatter()
-							.addStyleName(index, "selected");
+					context.getRowFormatter().addStyleName(index, "selected");
 				} else {
-					context.getRowFormatter().removeStyleName(index, "selected");
+					context.getRowFormatter()
+							.removeStyleName(index, "selected");
 				}
 			}
 		});
