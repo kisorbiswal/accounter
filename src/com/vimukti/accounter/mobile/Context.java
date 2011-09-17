@@ -22,7 +22,8 @@ public class Context {
 		this.session = hibernateSession;
 	}
 
-	public void forward(String command) {
+	public Result forward(String command) {
+		return null;
 
 	}
 
