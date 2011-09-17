@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.mobile.commands.NameSearchCommand;
+import com.vimukti.accounter.mobile.commands.NumberSearchCommand;
+
 /**
  * Handles the Request from User and Executes corresponding Command
  * 
@@ -29,10 +32,10 @@ public class CommandProcessor {
 			// TODO
 			break;
 		case NUMBER:
-			processNumber(userMessage);
+			userMessage.setResult(processNumber(userMessage));
 			break;
 		case NAME:
-			processName(userMessage);
+			userMessage.setResult(processName(userMessage));
 			break;
 		default:
 			// TODO Return Default Result
@@ -50,16 +53,21 @@ public class CommandProcessor {
 	/**
 	 * @param userMessage
 	 */
-	private void processName(UserMessage userMessage) {
-		// TODO Auto-generated method stub
-
+	private Result processName(UserMessage userMessage) {
+		NameSearchCommand command = new NameSearchCommand();
+		Context context = new Context(getCurrentSession());
+		context.setInputs(userMessage.getInputs());
+		return command.run(context);
 	}
 
 	/**
 	 * @param userMessage
 	 */
-	private void processNumber(UserMessage userMessage) {
-		// TODO Auto-generated method stub
+	private Result processNumber(UserMessage userMessage) {
+		NumberSearchCommand command = new NumberSearchCommand();
+		Context context = new Context(getCurrentSession());
+		context.setInputs(userMessage.getInputs());
+		return command.run(context);
 
 	}
 
