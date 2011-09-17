@@ -1,10 +1,12 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.TransactionItem;
@@ -28,7 +30,7 @@ public abstract class AbstractTransactionCommand extends Command {
 			if (transactionItems.size() > 0) {
 				itemsReq.setValue(transactionItems);
 			} else {
-				return itemsResult(context);
+				return items(context);
 			}
 		}
 		if (transactionItems != null && transactionItems.size() > 0) {
@@ -38,7 +40,7 @@ public abstract class AbstractTransactionCommand extends Command {
 		return null;
 	}
 
-	protected Result itemsResult(Context context) {
+	protected Result items(Context context) {
 		Result result = context.makeResult();
 		List<Item> items = getItems(context.getSession());
 		ResultList list = new ResultList("items");
@@ -83,7 +85,7 @@ public abstract class AbstractTransactionCommand extends Command {
 			if (customer != null) {
 				customerReq.setValue(customer);
 			} else {
-				return customerResult(context);
+				return customers(context);
 			}
 		}
 		if (customer != null) {
@@ -92,7 +94,7 @@ public abstract class AbstractTransactionCommand extends Command {
 		return null;
 	}
 
-	protected Result customerResult(Context context) {
+	protected Result customers(Context context) {
 		Result result = context.makeResult();
 		ResultList customersList = new ResultList("customers");
 
@@ -143,6 +145,37 @@ public abstract class AbstractTransactionCommand extends Command {
 	}
 
 	protected Record createCustomerRecord(Customer last) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	protected Result text(Context context, String string, String memo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	protected Result address(Context context, Address billTo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	protected Result number(Context context, String invoiceNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	protected Result paymentList(Context context, String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	protected Result contactList(Context context, Customer customer,
+			String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	protected Result date(Context context, Date date) {
 		// TODO Auto-generated method stub
 		return null;
 	}

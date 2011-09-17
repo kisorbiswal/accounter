@@ -77,7 +77,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 			ActionNames actionName = (ActionNames) selection;
 			switch (actionName) {
 			case ADD_MORE_ITEMS:
-				return itemsResult(context);
+				return items(context);
 			case FINISH:
 				return null;
 			default:
@@ -102,8 +102,6 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 			return customerRequirement(context);
 		}
 
-		Result result = context.makeResult();
-		result.add("Invoice is ready to create with following values.");
 		ResultList list = new ResultList("values");
 
 		Record custRecord = new Record(customer);
@@ -112,29 +110,53 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 
 		list.add(custRecord);
 
-		result = invoiceDateRequirement(context, list, selection);
+		Result result = invoiceDateRequirement(context, list, selection);
 		if (result != null) {
 			return result;
 		}
 
 		result = contactRequirement(context, list, selection, customer);
+		if (result != null) {
+			return result;
+		}
 
-		// list.add(paymentTermRequirement(context));
-		//
-		// list.add(invoiceNoRequirement(context));
-		//
-		// list.add(billToRequirement(context));
-		//
-		// list.add(shipToRequirement(context));
-		//
-		// list.add(dueDateRequirement(context));
-		//
-		// list.add(orderNoRequirement(context));
-		//
-		// list.add(memoRequirement(context));
+		result = paymentTermRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
 
+		result = invoiceNoRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+
+		result = billToRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+		result = shipToRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+
+		result = dueDateRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+
+		result = orderNoRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+
+		result = memoRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+
+		result = context.makeResult();
+		result.add("Invoice is ready to create with following values.");
 		result.add(list);
-
 		result.add("Items:-");
 		ResultList items = new ResultList("transactionItems");
 		for (TransactionItem item : transItems) {
@@ -157,67 +179,195 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
-	private Record memoRequirement(Context context) {
-		Requirement memoReq = get("memo");
-		String memo = (String) memoReq.getDefaultValue();
+	private Result memoRequirement(Context context, ResultList list,
+			Object selection) {
+		Requirement req = get("memo");
+		String memo = (String) req.getDefaultValue();
+		String attribute = (String) context.getAttribute("input");
+		if (attribute.equals("memo")) {
+			String order = context.getSelection("text");
+			if (order == null) {
+				order = context.getString();
+			}
+			memo = order;
+			req.setDefaultValue(memo);
+		}
+
+		if (selection == memo) {
+			context.setAttribute("input", "memo");
+			return number(context, memo);
+		}
+
+		if (selection == memo) {
+			return text(context, "orderNo", memo);
+		}
+
 		Record memoRecord = new Record(memo);
 		memoRecord.add("Name", "Order No");
 		memoRecord.add("Value", memo);
-		return memoRecord;
+		list.add(memoRecord);
+		return null;
 	}
 
-	private Record orderNoRequirement(Context context) {
-		Requirement orderNoReq = get("orderNo");
-		String orderNo = (String) orderNoReq.getDefaultValue();
+	private Result orderNoRequirement(Context context, ResultList list,
+			Object selection) {
+
+		Requirement req = get("orderNo");
+		String orderNo = (String) req.getDefaultValue();
+
+		String attribute = (String) context.getAttribute("input");
+		if (attribute.equals("orderNo")) {
+			String order = context.getSelection("number");
+			if (order == null) {
+				order = context.getString();
+			}
+			orderNo = order;
+			req.setDefaultValue(orderNo);
+		}
+
+		if (selection == orderNo) {
+			context.setAttribute("input", "orderNo");
+			return number(context, orderNo);
+		}
+
 		Record orderNoRecord = new Record(orderNo);
 		orderNoRecord.add("Name", "Order No");
 		orderNoRecord.add("Value", orderNo);
-		return orderNoRecord;
+		list.add(orderNoRecord);
+		return null;
 	}
 
-	private Record dueDateRequirement(Context context) {
-		Requirement dueDateReq = get("due");
-		Date dueDate = (Date) dueDateReq.getDefaultValue();
+	private Result dueDateRequirement(Context context, ResultList list,
+			Object selection) {
+		Requirement req = get("due");
+		Date dueDate = (Date) req.getDefaultValue();
+
+		String attribute = (String) context.getAttribute("input");
+		if (attribute.equals("dueDate")) {
+			Date date = context.getSelection("date");
+			if (date == null) {
+				date = context.getDate();
+			}
+			dueDate = date;
+			req.setDefaultValue(dueDate);
+		}
+		if (selection == dueDate) {
+			context.setAttribute("input", "dueDate");
+			return date(context, dueDate);
+		}
+
+		if (selection == dueDate) {
+			return date(context, dueDate);
+		}
+
 		Record dueDateRecord = new Record(dueDate);
 		dueDateRecord.add("Name", "Due Date");
 		dueDateRecord.add("Value", dueDate.toString());
-		return dueDateRecord;
+		list.add(dueDateRecord);
+		return null;
 	}
 
-	private Record shipToRequirement(Context context) {
-		Requirement shipToReq = get("shipTo");
-		Address shipTo = (Address) shipToReq.getValue();
+	private Result shipToRequirement(Context context, ResultList list,
+			Object selection) {
+		Requirement req = get("shipTo");
+		Address shipTo = (Address) req.getValue();
+
+		String attribute = (String) context.getAttribute("input");
+		if (attribute.equals("shipTo")) {
+			Address input = context.getSelection("address");
+			if (input == null) {
+				input = context.getAddress();
+			}
+			shipTo = input;
+			req.setDefaultValue(shipTo);
+		}
+
+		if (selection == shipTo) {
+			context.setAttribute("input", "shipTo");
+			return address(context, shipTo);
+		}
+
 		Record shipToRecord = new Record(shipTo);
 		shipToRecord.add("Name", "Ship To");
 		shipToRecord.add("Value", shipTo.toString());
-		return shipToRecord;
+		list.add(shipToRecord);
+		return null;
 	}
 
-	private Record billToRequirement(Context context) {
-		Requirement billToReq = get("billTo");
-		Address billTo = (Address) billToReq.getValue();
+	private Result billToRequirement(Context context, ResultList list,
+			Object selection) {
+		Requirement req = get("billTo");
+		Address billTo = (Address) req.getValue();
+
+		String attribute = (String) context.getAttribute("input");
+		if (attribute.equals("billTo")) {
+			Address input = context.getSelection("address");
+			if (input == null) {
+				input = context.getAddress();
+			}
+			billTo = input;
+			req.setDefaultValue(billTo);
+		}
+
+		if (selection == billTo) {
+			context.setAttribute("input", "billTo");
+			return address(context, billTo);
+		}
+
 		Record billToRecord = new Record(billTo);
 		billToRecord.add("Name", "Bill To");
 		billToRecord.add("Value", billTo.toString());
-		return billToRecord;
+		list.add(billToRecord);
+		return null;
 	}
 
-	private Record invoiceNoRequirement(Context context) {
-		Requirement invoiceNoReq = get("number");
-		String invoiceNo = (String) invoiceNoReq.getValue();
+	private Result invoiceNoRequirement(Context context, ResultList list,
+			Object selection) {
+		Requirement req = get("number");
+		String invoiceNo = (String) req.getValue();
+
+		String attribute = (String) context.getAttribute("input");
+		if (attribute.equals("orderNo")) {
+			String order = context.getSelection("number");
+			if (order == null) {
+				order = context.getString();
+			}
+			invoiceNo = order;
+			req.setDefaultValue(invoiceNo);
+		}
+
+		if (selection == invoiceNo) {
+			context.setAttribute("input", "orderNo");
+			return number(context, invoiceNo);
+		}
+
 		Record invoiceNoRec = new Record(invoiceNo);
 		invoiceNoRec.add("Name", "Invoice Number");
 		invoiceNoRec.add("Value", invoiceNo);
-		return invoiceNoRec;
+		list.add(invoiceNoRec);
+		return null;
 	}
 
-	private Record paymentTermRequirement(Context context) {
+	private Result paymentTermRequirement(Context context, ResultList list,
+			Object selection) {
+		Object payamentObj = context.getSelection("payamentTerms");
 		Requirement paymentReq = get("paymentTerms");
 		PaymentTerms paymentTerm = (PaymentTerms) paymentReq.getValue();
+
+		if (selection == paymentTerm) {
+			return paymentList(context, "payamentTerms");
+
+		}
+		if (payamentObj != null) {
+			paymentTerm = (PaymentTerms) payamentObj;
+			paymentReq.setDefaultValue(paymentTerm);
+		}
+
 		Record paymentTermRecord = new Record(paymentTerm);
 		paymentTermRecord.add("Name", "Payment Terms");
 		paymentTermRecord.add("Value", paymentTerm.getName());
-		return paymentTermRecord;
+		list.add(paymentTermRecord);
+		return null;
 	}
 
 	private Result contactRequirement(Context context, ResultList list,
@@ -241,34 +391,29 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		return null;
 	}
 
-	private Result contactList(Context context, Customer customer, String string) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	private Result invoiceDateRequirement(Context context, ResultList list,
 			Object selection) {
-		Object date = context.getSelection("invoiceDate");
+
 		Requirement dateReq = get("date");
 		Date transDate = (Date) dateReq.getDefaultValue();
-		if (selection == transDate) {
-			return dateRequirement(context, "invoiceDate", transDate);
-
-		}
-		if (date != null) {
-			transDate = (Date) date;
+		String attribute = (String) context.getAttribute("input");
+		if (attribute.equals("invoiceDate")) {
+			Date date = context.getSelection("date");
+			if (date == null) {
+				date = context.getDate();
+			}
+			transDate = date;
 			dateReq.setDefaultValue(transDate);
+		}
+		if (selection == transDate) {
+			context.setAttribute("input", "invoiceDate");
+			return date(context, transDate);
 		}
 
 		Record transDateRecord = new Record(transDate);
 		transDateRecord.add("Name", "Invoice Date");
 		transDateRecord.add("Value", transDate.toString());
 		list.add(transDateRecord);
-		return null;
-	}
-
-	private Result dateRequirement(Context context, String string, Date date) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }
