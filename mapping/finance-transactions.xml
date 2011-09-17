@@ -47,7 +47,7 @@
 			not-null="true" />
 		<property name="currencyCode" column="CURRENCY_CODE"></property>
 		<property name="currencyFactor" column="CURRENCY_FACTOR"></property>
-		<set name="accountTransactionEntriesList" inverse="true" cascade="save-update"
+		<set name="accountTransactionEntriesList" inverse="true" cascade="all-delete-orphan"
 			lazy="false">
 			<key column="TRANSACTION_ID"></key>
 			<one-to-many class="AccountTransaction" />
@@ -522,7 +522,7 @@
 			</many-to-one>
 			<property name="cashBackMemo" column="CASH_BACK_MEMO"></property>
 			<property name="cashBackAmount" column="CASH_BACK_AMOUNT"></property>
-			<list name="transactionMakeDeposit" cascade="save-update,delete"
+			<list name="transactionMakeDeposit" cascade="save-update,delete-orphan"
 				lazy="false">
 				<key column="TRANSACTION_ID" />
 				<list-index column="IDX" />
