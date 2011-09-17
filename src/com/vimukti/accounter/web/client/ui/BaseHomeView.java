@@ -8,6 +8,7 @@ public class BaseHomeView extends AbstractView<Object> {
 	private VerticalPanel widgetLayout;
 
 	public BaseHomeView() {
+		createView();
 	}
 
 	private void createView() {
