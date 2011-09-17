@@ -44,5 +44,26 @@
 			<command code="2" text="Customers List" />
 		</output>
 	</input>
+	<input text="Account">
+		<output>
+			<command value="New Account">Create New Account</command>
+			<command value="Edit Account">Edit Account</command>
+			<command value="Accounts List">Accounts List</command>
+			<command value="Delete Account">Delete Account</command>
+		</output>
+	</input>
+	<input text="Accounts">
+		<output>
+			<command value="Accounts List">Accounts List</command>
+		</output>
+	</input>
+	<input text="JounalEntry">
+		<output>
+			<command value="New JournalEntry">Create a New JournalEntry</command>
+			<command value="Edit JournalEntry">Edit JournalEntry</command>
+			<command value="Delete journalEntry">Delete JournalEntry</command>
+			<command value="JournalEntry List">Show JoournalEntry List</command>
+		</output>
+	</input>
 
 </patterns>
