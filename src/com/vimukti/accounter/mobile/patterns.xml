@@ -41,7 +41,7 @@
 		<output>
 			<text text="Customer " />
 			<command code="1" text="Create New Customer" />
-			<command code="2" text="Customer List" />
+			<command code="2" text="Customers List" />
 		</output>
 	</input>
 
