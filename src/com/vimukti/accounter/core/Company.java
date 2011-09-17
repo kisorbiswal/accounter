@@ -3923,8 +3923,9 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		} else {
 
 			TAXItem vatItem = transactionItem.getTaxItem();
-
-			setVatItemVRC(vatItem, transactionItem, session);
+			if (vatItem != null) {
+				setVatItemVRC(vatItem, transactionItem, session);
+			}
 
 		}
 

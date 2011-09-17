@@ -543,10 +543,10 @@ public class FinanceTool {
 								.currentTimeMillis()));
 			}
 
-			session.flush();
 			session.saveOrUpdate(activity);
 			session.saveOrUpdate(serverObject);
 			ChangeTracker.put(serverObject);
+			session.flush();
 			hibernateTransaction.commit();
 			return serverObject.getID();
 		} catch (Exception e) {
