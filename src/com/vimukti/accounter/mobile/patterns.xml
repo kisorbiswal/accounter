@@ -3,14 +3,14 @@
 
 	<input text="Invoice">
 		<output>
-			<text text="Invoice is a Transaction" />
-			<command code="1" text="Create New Invoice" />
-			<command code="2" text="Invoices List" />
+		<output>
+			<text text="Invoice is a Transaction"/>
+			<command value="New Invoice">Create New Invoice</command>
+			<command value="Invoices List">List of All Invoices</command>
+		</output>
 		</output>
 	</input>
-</patterns>
-<pattern>
-	<include pattern="" />
+
 	<input text="DashBoard">
 		<text text="Multiple components into a unified display" />
 		<command code="1" text="Add BankAccount" />
@@ -22,8 +22,7 @@
 		<command code="7" text="Money Comming In" />
 		<command code="8" text="Money Going Out" />
 	</input>
-</pattern>
-<pattern>
+
 	<include pattern="" />
 	<input text="Fiscal Year">
 		<output>
@@ -34,4 +33,4 @@
 			<command code="4" text="Delete Fiscal Year" />
 		</output>
 	</input>
-</pattern>
+</patterns>
