@@ -29,6 +29,7 @@ public class QuickAddListenerImpl<T extends IAccounterCore> implements
 
 	@Override
 	public void onCancel() {
+		combo.selectedName = null;
 		combo.changeValue(-1);
 	}
 
