@@ -542,10 +542,8 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		// .banking(), getBankingSubMenu());
 		// }
 		if (Accounter.getCompany().getPreferences().isChargeSalesTax()) {
-			if (Accounter.getCompany().getPreferences().isRegisteredForVAT()) {
 				reportMenuBar.addItem(Accounter.constants().vat(),
 						getVATReportMenu());
-			}
 		}
 		// reportMenuBar.addItem(Accounter.constants()
 		// .salesAndPurchaseOrders(), getSalesAndPurchaseMenu());
