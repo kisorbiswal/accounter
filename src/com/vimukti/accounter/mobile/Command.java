@@ -12,6 +12,7 @@ public abstract class Command {
 	List<Requirement> requirements = new ArrayList<Requirement>();
 	private boolean isDone;
 	private String successMessage;
+	private String name;
 
 	protected abstract void addRequirements(List<Requirement> list);
 
@@ -69,6 +70,13 @@ public abstract class Command {
 	 */
 	public String getSuccessMessage() {
 		return successMessage;
+	}
+
+	/**
+	 * 
+	 */
+	public String getName() {
+		return this.name;
 	}
 
 }

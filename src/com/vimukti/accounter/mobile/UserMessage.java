@@ -4,6 +4,7 @@
 package com.vimukti.accounter.mobile;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -61,6 +62,13 @@ public class UserMessage {
 	 */
 	public Result getResult() {
 		return this.result;
+	}
+
+	/**
+	 * @param split
+	 */
+	public void setInputs(String[] split) {
+		this.inputs = Arrays.asList(split);
 	}
 
 }

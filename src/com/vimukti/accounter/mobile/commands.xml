@@ -1,0 +1,7 @@
+<commands>
+	<command class="NewInvoiceCommand" name="New Invoice">
+		<alias>
+			<name>Create Invoice</name>
+		</alias>
+	</command>
+</commands>

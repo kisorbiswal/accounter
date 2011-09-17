@@ -13,12 +13,12 @@ import com.vimukti.accounter.mobile.commands.NumberSearchCommand;
  */
 public class CommandProcessor {
 
-	public String handleMessage(String message) {
+	public String handleMessage(String message) throws AccounterMobileException {
 
 		// TODO Open Hibernate Session
 
 		// Parsing Message
-		UserMessage userMessage = parseMessage(message);
+		UserMessage userMessage = parseMessage(message.trim());
 
 		switch (userMessage.getType()) {
 		case COMMAND:
@@ -46,7 +46,7 @@ public class CommandProcessor {
 		if (currentSession != null && currentSession.isOpen()) {
 			currentSession.close();
 		}
-
+		setLastResult(userMessage.getResult());
 		return buildResult(userMessage.getResult());
 	}
 
@@ -68,7 +68,6 @@ public class CommandProcessor {
 		Context context = new Context(getCurrentSession());
 		context.setInputs(userMessage.getInputs());
 		return command.run(context);
-
 	}
 
 	/**
@@ -121,9 +120,64 @@ public class CommandProcessor {
 	 * 
 	 * @param message
 	 * @return
+	 * @throws AccounterMobileException
 	 */
-	private UserMessage parseMessage(String message) {
+	private UserMessage parseMessage(String message)
+			throws AccounterMobileException {
+		UserMessage userMessage = new UserMessage();
+		Command command = null;
+		if (isProcessingAnyCommand()) {
+			command = getCurrentCommand();
+		} else {
+			command = getCommandFactory().searchCommand(message);
+		}
+		if (command != null) {
+			userMessage.setCommand(command);
+			String name = command.getName();
+			userMessage.setInputs(message.replace(name, "").split(" "));
+			return userMessage;
+		}
+
+		Result result = searchForPatterns(message);
+		if (result != null) {
+			userMessage.setResult(result);
+			return userMessage;
+		}
+
+		if (message.startsWith("#")) {
+			userMessage.setInputs(message.replaceAll("#", "").split(" "));
+			return userMessage;
+		}
+
+		// TODO Check is Name
+
+		userMessage.setInputs(message.split(" "));
+
+		return userMessage;
+	}
+
+	/**
+	 * @return
+	 * 
+	 */
+	private Command getCurrentCommand() {
+		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/**
+	 * @param message
+	 */
+	private Result searchForPatterns(String message) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * @return
+	 */
+	private CommandFactory getCommandFactory() {
+		return CommandFactory.INSTANCE;
 	}
 
 	public Session getCurrentSession() {
@@ -140,6 +194,12 @@ public class CommandProcessor {
 	}
 
 	public Result getLastResult() {
+		// TODO
 		return null;
 	}
+
+	private void setLastResult(Result result) {
+		// TODO
+	}
+
 }
