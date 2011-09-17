@@ -437,7 +437,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		companyInfopanel.add(einNumPanel);
 
 		amountPanel = new VerticalPanel();
-		amountPanel.addStyleName("invoice-total");
+		amountPanel.addStyleName("tax-form");
 
 		amountForm = new DynamicForm();
 		noOf1099FormsLabel = new Label(Accounter.constants()

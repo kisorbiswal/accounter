@@ -403,11 +403,11 @@ public class SalesOrderView extends
 			prodAndServiceForm2.setFields(taxCodeSelect,
 					salesTaxTextNonEditable, dummyItem,
 					transactionTotalNonEditableText);
-			prodAndServiceForm2.setStyleName("invoice-total");
+			prodAndServiceForm2.setStyleName("tax-form");
 		} else {
 			prodAndServiceForm2.setFields(dummyItem,
 					transactionTotalNonEditableText);
-			prodAndServiceForm2.setStyleName("invoice-total");
+			prodAndServiceForm2.setStyleName("tax-form");
 		}
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();

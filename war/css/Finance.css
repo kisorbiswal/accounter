@@ -389,7 +389,7 @@ select[multiple],.selectedview_textareadata,#loading .loadingIndicator,.main-cla
 .gwt-DialogBox .dialogBottomLeft,.gwt-DialogBox .dialogMiddleRight,.gwt-DialogBox .dialogMiddleLeft,.gwt-Button{
 	background:none repeat scroll 0 0 #1A5158 !important;
 }
-.name-label,.label-company,.bold,.text-bold,.unreadmessage td,.tax-form tr td,.unused-payments td,
+.name-label,.label-company,.bold,.text-bold,.unreadmessage td,.tax-form tr td,
 .financialDataTitle:FIRST-CHILD,.selected-page,.plain-panel-title,
 .datePickerPreviousButton,.datePickerNextButton,td.datePickerMonth,
 .label-banking,.financialDataTitle,.lable-title,.listgridfooter td,.boldcell,
@@ -399,6 +399,12 @@ select[multiple],.selectedview_textareadata,#loading .loadingIndicator,.main-cla
 .plain00,.panel-title,.gwt-DialogBox .Caption,.headerlabel,.selectedview_textarea_label,.bottom_total_view td,
 .select_industry,.organized_radio,.employee_yesno,.billing_question {
 	font-weight: bold;
+}
+.tax-form td{
+	font-weight: bold !important;
+}
+.unused-payments td {
+	font-weight: bold !important;
 }
 .gwt-DecoratedTabBar .tabMiddleLeft,.gwt-DecoratedTabBar .tabMiddleRight{
 	width: 6px;
