@@ -4839,6 +4839,10 @@ public interface AccounterConstants extends Constants {
 	public String showVatColumn();
 
 	public String pleaseSelectTaxCode();
+	public String tdsAmount();
+
+
+	public String tdsVendorsList();
 
 	public String salesTaxDescrition();
 
@@ -4869,5 +4873,6 @@ public interface AccounterConstants extends Constants {
 	public String classTrackingDescription();
 
 	public String thereIsNoTrasationsToFile();
+
 
 }
