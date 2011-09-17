@@ -1,11 +1,33 @@
 <patterns>
-	<include pattern=""/>
-	
+	<include pattern="" />
+
 	<input text="Invoice">
 		<output>
-			<text text="Invoice is a Transaction"/>
-			<command code="1" text="Create New Invoice"/>
-			<command code="2" text="Invoices List"/>
+			<text text="Invoice is a Transaction" />
+			<command code="1" text="Create New Invoice" />
+			<command code="2" text="Invoices List" />
 		</output>
 	</input>
 </patterns>
+<pattern>
+	<include pattern="" />
+	<input text="DashBoard">
+		<text text="Multiple components into a unified display" />
+		<command code="1" text="Add BankAccount" />
+		<command code="2" text="Add Receivable Invoice" />
+		<command code="3" text="Add Payable Invoice" />
+		<command code="4" text="Add Expenses" />
+	</input>
+</pattern>
+<pattern>
+	<include pattern="" />
+	<input text="Fiscal Year">
+		<output>
+			<text text="Fiscal year" />
+			<command code="1" text="New Fiscal Year" />
+			<command code="2" text="Close Fiscal Year" />
+			<command code="3" text="Edit Fiscal Year" />
+			<command code="4" text="Delete Fiscal Year" />
+		</output>
+	</input>
+</pattern>
