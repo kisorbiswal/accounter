@@ -12,25 +12,27 @@
 	</input>
 
 	<input text="DashBoard">
-		<text text="Multiple components into a unified display" />
-		<command code="1" text="Add BankAccount" />
-		<command code="2" text="Add Receivable Invoice" />
-		<command code="3" text="Add Payable Invoice" />
-		<command code="4" text="Add Expenses" />
-		<command code="5" text="View BankAccounts" />
-		<command code="6" text="Expense Claims list" />
-		<command code="7" text="Money Comming In" />
-		<command code="8" text="Money Going Out" />
+		<output>
+			<output>
+				<text text="Multiple components into a unified display" />
+				<command value="New Bank Accoount">Create New Bank Account</command>
+				<command value="New Invoice">Create New Invoice</command>
+				<command value="New Enter Bill">Create New Bill</command>
+				<command value="New Expense">Create New Expense</command>
+				<command value="Expense Claims">Expenses List</command>
+				<command value="Accoount Register-Debtors">Money Coming In</command>
+				<command value="Account Register-Creditors">Money Going Out</command>
+			</output>
+		</output>
 	</input>
 
-	<include pattern="" />
 	<input text="Fiscal Year">
 		<output>
 			<text text="Fiscal year" />
-			<command code="1" text="New Fiscal Year" />
-			<command code="2" text="Close Fiscal Year" />
-			<command code="3" text="Edit Fiscal Year" />
-			<command code="4" text="Delete Fiscal Year" />
+			<command value="New Fiscal Year">Create New Fiscal Year</command>
+			<command value="Close Fiscal Year">Close Fiscal Year</command>
+			<command value="Edit Fiscal Year">Edit Fiscal Year</command>
+			<command vallue="Delete Fiscal Year">Delete Fiscal Year</command>
 		</output>
 	</input>
 
