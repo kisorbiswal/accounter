@@ -243,11 +243,10 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 		} else {
 			Account depositInAccount = (Account) session.get(Account.class,
 					makeDeposit.depositIn.id);
-			depositInAccount.updateCurrentBalance(this,
-					makeDeposit.total);
+			depositInAccount.updateCurrentBalance(this, makeDeposit.total);
 			depositInAccount.onUpdate(session);
 
-			makeDeposit.doVoidEffect(session);
+			// makeDeposit.doVoidEffect(session);
 			cleanTransactionMakeDeposits(makeDeposit);
 
 			this.onSave(session);

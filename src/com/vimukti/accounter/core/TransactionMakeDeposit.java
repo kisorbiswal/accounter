@@ -252,7 +252,34 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		// ChangeTracker.put(this);
+		if (!this.isNewEntry) {
+			this.cashAccount.updateCurrentBalance(this.makeDeposit, -1
+					* this.amount);
+			this.depositedTransaction.setIsDeposited(Boolean.FALSE);
+		} else {
+			switch (this.type) {
+			case TransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
+
+				this.account.updateCurrentBalance(this.makeDeposit, -1
+						* this.amount);
+				this.account.onUpdate(session);
+				break;
+			case TransactionMakeDeposit.TYPE_CUSTOMER:
+				this.customer.updateBalance(session, this.makeDeposit, -1
+						* this.amount);
+				// this.creditsAndPayments.delete(session);
+				this.creditsAndPayments = null;
+				break;
+			case TransactionMakeDeposit.TYPE_VENDOR:
+				this.vendor.updateBalance(session, this.makeDeposit, -1
+						* this.amount);
+				this.balanceDue -= this.amount;
+				for (TransactionPayBill transactionPayBill : this.transactionPayBills) {
+					transactionPayBill.makeVoid(session);
+				}
+				break;
+			}
+		}
 		return false;
 	}
 
@@ -533,8 +560,8 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
-		
+		this.version = version;
+
 	}
 
 }
