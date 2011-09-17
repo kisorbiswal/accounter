@@ -17,6 +17,10 @@
 		<command code="2" text="Add Receivable Invoice" />
 		<command code="3" text="Add Payable Invoice" />
 		<command code="4" text="Add Expenses" />
+		<command code="5" text="View BankAccounts" />
+		<command code="6" text="Expense Claims list" />
+		<command code="7" text="Money Comming In" />
+		<command code="8" text="Money Going Out" />
 	</input>
 </pattern>
 <pattern>
