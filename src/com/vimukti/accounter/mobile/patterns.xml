@@ -1,7 +1,11 @@
 <patterns>
 	<include pattern=""/>
 	
-	<input text="why should i use Accounter">
-		<output result=""/>
+	<input text="Invoice">
+		<output>
+			<text text="Invoice is a Transaction"/>
+			<command code="1" text="Create New Invoice"/>
+			<command code="2" text="Invoices List"/>
+		</output>
 	</input>
 </patterns>
