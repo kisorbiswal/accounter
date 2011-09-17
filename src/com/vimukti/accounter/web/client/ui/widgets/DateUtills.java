@@ -46,7 +46,12 @@ public class DateUtills {
 
 		if (split.length == 3) {
 
-			return processDate(split[0], split[1], split[2]);
+			if (Accounter.getCompany().getPreferences().getDateFormat()
+					.equals("MM/dd/yyyy")) {
+				return processDate(split[1], split[0], split[2]);
+			} else {
+				return processDate(split[0], split[1], split[2]);
+			}
 
 		}
 		return null;

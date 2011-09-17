@@ -99,6 +99,7 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 		addKeyPressHandler(this);
 		addFocusHandler(this);
 		addMouseWheelHandler(this);
+		
 		//addBlurHandler(this);
 	}
 
@@ -185,6 +186,7 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 	public void onBrowserEvent(Event event) {
 		switch (DOM.eventGetType(event)) {
 		case Event.ONBLUR:
+			parseDate();
 			 popup.hidePopupCalendar();
 			break;
 		case Event.ONCLICK:
