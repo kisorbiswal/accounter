@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -22,29 +23,39 @@ public abstract class AbstractTransactionCommand extends Command {
 
 	protected Result itemsRequirement(Context context) {
 		Requirement itemsReq = get("items");
+		List<TransactionItem> transactionItems = context.getSelections("items");
 		if (!itemsReq.isDone()) {
-			List<TransactionItem> transactionItems = context.getSelections();
 			if (transactionItems.size() > 0) {
 				itemsReq.setValue(transactionItems);
 			} else {
-				return itemsResult(itemsReq, context);
+				return itemsResult(context);
 			}
+		}
+		if (transactionItems != null && transactionItems.size() > 0) {
+			List<TransactionItem> items = itemsReq.getValue();
+			items.addAll(transactionItems);
 		}
 		return null;
 	}
 
-	protected Result itemsResult(Requirement itemsReq, Context context) {
+	protected Result itemsResult(Context context) {
 		Result result = context.makeResult();
 		List<Item> items = getItems(context.getSession());
-		ResultList list = new ResultList();
+		ResultList list = new ResultList("items");
 		Object last = context.getLast(RequirementType.ITEM);
 		int num = 0;
 		if (last != null) {
 			list.add(creatItemRecord((Item) last));
 			num++;
 		}
+		Requirement itemsReq = get("items");
+		List<TransactionItem> transItems = itemsReq.getValue();
+		List<Item> availableItems = new ArrayList<Item>();
+		for (TransactionItem transactionItem : transItems) {
+			availableItems.add(transactionItem.getItem());
+		}
 		for (Item item : items) {
-			if (item != last) {
+			if (item != last || !availableItems.contains(item)) {
 				list.add(creatItemRecord(item));
 				num++;
 			}
@@ -67,20 +78,23 @@ public abstract class AbstractTransactionCommand extends Command {
 
 	protected Result customerRequirement(Context context) {
 		Requirement customerReq = get("customer");
+		Customer customer = context.getSelection("customers");
 		if (!customerReq.isDone()) {
-			Customer customer = context.getSelection();
 			if (customer != null) {
 				customerReq.setValue(customer);
 			} else {
 				return customerResult(context);
 			}
 		}
+		if (customer != null) {
+			customerReq.setValue(customer);
+		}
 		return null;
 	}
 
 	protected Result customerResult(Context context) {
 		Result result = context.makeResult();
-		ResultList customersList = new ResultList();
+		ResultList customersList = new ResultList("customers");
 
 		Object last = context.getLast(RequirementType.CUSTOMER);
 		int num = 0;
