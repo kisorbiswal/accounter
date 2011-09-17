@@ -124,12 +124,12 @@ public class Context {
 	/**
 	 * @param record
 	 */
-	public void putSelection(String name, Record record) {
+	public void putSelection(String name, Object obj) {
 		if (selectedRecords.containsKey(name)) {
-			selectedRecords.get(name).add(record.getObject());
+			selectedRecords.get(name).add(obj);
 		} else {
 			List<Object> records = new ArrayList<Object>();
-			records.add(record.getObject());
+			records.add(obj);
 			selectedRecords.put(name, records);
 		}
 	}

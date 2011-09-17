@@ -91,12 +91,14 @@ public class CommandProcessor {
 			for (Record record : result) {
 				if (message.getInputs().contains(record.getCode())) {
 					if (!result.isMultiSelection()) {
-						context.putSelection(result.getName(), record);
+						context.putSelection(result.getName(),
+								record.getObject());
 						// FIXME GOT MULTIPLE SELECTION FROM USER EVEN THOUGH
 						// SINGLE SELECTION ENABLED
 						break;
 					} else {
-						context.putSelection(result.getName(), record);
+						context.putSelection(result.getName(),
+								record.getObject());
 					}
 				}
 			}
