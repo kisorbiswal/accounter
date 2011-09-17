@@ -700,11 +700,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			}
 			// leftLayout.add(accInfoForm);
 			reset(accInfoForm);
-			if (selectedId == null)
-				accTypeSelect.setComboItem(Accounter.constants().income());
 			accNoText.setToolTip(Accounter.messages().accountNumberToolTipDesc(
 					"4000", "4999"));
-			accTypeSelect.setSelected(selectedId);
+			accTypeSelect.setComboItem(Utility
+					.getAccountTypeString(accountType));
 			topHLay.setWidth("50%");
 
 		}
@@ -959,6 +958,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			if (!isInViewMode()) {
 				accTypeSelect.initCombo(getAccountsList());
 				setAccountType(Integer.parseInt(defaultId));
+				accTypeSelect.setComboItem(Utility.getAccountTypeString(Integer
+						.parseInt(defaultId)));
 				accounttype_selected();
 
 			} else {
