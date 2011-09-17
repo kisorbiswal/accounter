@@ -79,4 +79,9 @@ public class VendorDropDownTable extends AbstractDropDownTable<ClientVendor> {
 	protected Class<?> getType() {
 		return ClientVendor.class;
 	}
+
+	@Override
+	protected void addNewItem(String text) {
+		addNewItem();
+	}
 }

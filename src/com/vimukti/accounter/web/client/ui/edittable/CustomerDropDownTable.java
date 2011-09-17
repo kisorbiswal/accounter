@@ -83,4 +83,9 @@ public class CustomerDropDownTable extends
 	protected Class<?> getType() {
 		return ClientCustomer.class;
 	}
+
+	@Override
+	protected void addNewItem(String text) {
+		addNewItem();
+	}
 }

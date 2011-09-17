@@ -59,7 +59,7 @@ public class ItensDropDownTable extends AbstractDropDownTable<ClientItem> {
 	}
 
 	@Override
-	public void addNewItem() {
+	public void addNewItem(String text) {
 		NewItemAction action;
 		action = ActionFactory.getNewItemAction(isForCustomer());
 		action.setType(getItemType());
@@ -73,7 +73,13 @@ public class ItensDropDownTable extends AbstractDropDownTable<ClientItem> {
 
 			}
 		});
+		action.setItemText(text);
 		action.run(null, true);
+	}
+
+	@Override
+	public void addNewItem() {
+		addNewItem("");
 	}
 
 	public int getItemType() {
@@ -101,6 +107,5 @@ public class ItensDropDownTable extends AbstractDropDownTable<ClientItem> {
 	public void setForCustomer(boolean isForCustomer) {
 		this.isForCustomer = isForCustomer;
 	}
-
 
 }

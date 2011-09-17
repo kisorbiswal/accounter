@@ -117,4 +117,9 @@ public class AccountDropDownTable extends AbstractDropDownTable<ClientAccount> {
 	protected Class<?> getType() {
 		return ClientAccount.class;
 	}
+
+	@Override
+	protected void addNewItem(String text) {
+		addNewItem();
+	}
 }

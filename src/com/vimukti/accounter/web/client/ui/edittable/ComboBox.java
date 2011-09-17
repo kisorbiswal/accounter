@@ -131,7 +131,9 @@ public class ComboBox<T, C> extends FlowPanel implements RowSelectHandler<C> {
 			}
 		} else {
 			if (changeHandler != null) {
-				changeHandler.onAddNew(textBox.getText());
+				if (!text.isEmpty()) {
+					changeHandler.onAddNew(text);
+				}
 			}
 		}
 	}

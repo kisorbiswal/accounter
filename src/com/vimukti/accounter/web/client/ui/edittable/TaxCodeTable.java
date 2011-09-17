@@ -119,4 +119,9 @@ public class TaxCodeTable extends AbstractDropDownTable<ClientTAXCode> {
 	protected Class<?> getType() {
 		return ClientTAXCode.class;
 	}
+
+	@Override
+	protected void addNewItem(String text) {
+		addNewItem();
+	}
 }

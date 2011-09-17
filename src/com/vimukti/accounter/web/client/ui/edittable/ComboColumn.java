@@ -1,6 +1,10 @@
 package com.vimukti.accounter.web.client.ui.edittable;
 
 import com.google.gwt.user.client.ui.IsWidget;
+import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.combo.QuickAddListenerImpl;
+import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.QuickAddDialog;
 
 public abstract class ComboColumn<T, C> extends EditColumn<T> {
 
@@ -21,9 +25,9 @@ public abstract class ComboColumn<T, C> extends EditColumn<T> {
 	protected abstract C getValue(T row);
 
 	@Override
-	public IsWidget getWidget(RenderContext<T> context) {
+	public IsWidget getWidget(final RenderContext<T> context) {
 		ComboBox<T, C> comboBox = new ComboBox<T, C>();
-		AbstractDropDownTable<C> displayTable = getDisplayTable(context
+		final AbstractDropDownTable<C> displayTable = getDisplayTable(context
 				.getRow());
 		comboBox.setDropDown(displayTable);
 		comboBox.setComboChangeHandler(new ComboChangeHandler<T, C>() {
@@ -34,10 +38,36 @@ public abstract class ComboColumn<T, C> extends EditColumn<T> {
 			}
 
 			@Override
-			public void onAddNew(String text) {
-				// TODO Auto-generated method stub
+			public void onAddNew(final String text) {
+				addNewItemDialog dialog = new addNewItemDialog(
+						"Add new",
+						"The name you entered '"
+								+ text
+								+ "' does not exists , Do you want to create it now ?") {
+					@Override
+					protected boolean onOK() {
+						displayTable.addNewItem(text);
+						hide();
+						return false;
+					}
+				};
+				dialog.show();
+				dialog.setModal(true);
+				dialog.center();
 
 			}
+
+			// QuickAddDialog dialog = new QuickAddDialog("Add New Item") {
+			// @Override
+			// protected void onOkClick(String text) {
+			// displayTable.addNewItem(text);
+			// }
+			//
+			// };
+			// dialog.setDefaultText(text);
+			// dialog.setAddallinfoHide();
+			// dialog.show();
+
 		});
 		comboBox.setRow(context.getRow());
 		return comboBox;
@@ -46,5 +76,4 @@ public abstract class ComboColumn<T, C> extends EditColumn<T> {
 	protected abstract void setValue(T row, C newValue);
 
 	public abstract AbstractDropDownTable<C> getDisplayTable(T row);
-
 }

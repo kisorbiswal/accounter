@@ -179,6 +179,8 @@ public abstract class AbstractDropDownTable<T> extends CellTable<T> {
 	/**
 	 * When select Add New Item
 	 */
+	protected abstract void addNewItem(String text);
+
 	protected abstract void addNewItem();
 
 	protected void selectRow(T result) {
