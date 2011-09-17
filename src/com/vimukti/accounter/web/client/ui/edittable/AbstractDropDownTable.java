@@ -56,6 +56,8 @@ public abstract class AbstractDropDownTable<T> extends CellTable<T> {
 				T selectedObject = singleSelectionModel.getSelectedObject();
 				if (!clickFired) {
 					sendSelectedObject(selectedObject);
+				} else {
+					clickFired = false;
 				}
 			}
 
@@ -88,11 +90,10 @@ public abstract class AbstractDropDownTable<T> extends CellTable<T> {
 		if (rowSelectHandler != null) {
 			if (indexOf == 0) {
 				rowSelectHandler.onRowSelect(null, isClicked);
-			} else if(indexOf > 0) {
+			} else if (indexOf > 0) {
 				rowSelectHandler.onRowSelect(selectedObject, isClicked);
 			}
 		}
-		clickFired = false;
 		isClicked = false;
 	}
 
@@ -102,10 +103,10 @@ public abstract class AbstractDropDownTable<T> extends CellTable<T> {
 	protected void onBrowserEvent2(Event event) {
 		if (event.getTypeInt() == Event.ONCLICK) {
 			super.onBrowserEvent2(event);
-			clickFired = true;
 			isClicked = true;
 			T selectedObject = singleSelectionModel.getSelectedObject();
 			sendSelectedObject(selectedObject);
+			clickFired = true;
 			return;
 		}
 		super.onBrowserEvent2(event);
