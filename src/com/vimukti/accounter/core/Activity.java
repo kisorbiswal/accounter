@@ -37,7 +37,7 @@ public class Activity implements IAccounterCore {
 	public Activity(User user, ActivityType type) {
 		this.user = user;
 		this.type = type;
-		this.userName = user.getFirstName();
+		this.userName = user.getFullName();
 		this.time = new Timestamp(System.currentTimeMillis());
 		setActivityType(type.getValue());
 	}
