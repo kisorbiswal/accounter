@@ -22,7 +22,7 @@ public class Context {
 		this.session = hibernateSession;
 	}
 
-	public void process(String command) {
+	public void forward(String command) {
 
 	}
 
