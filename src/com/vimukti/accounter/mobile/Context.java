@@ -73,4 +73,14 @@ public class Context {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public <T> T getSelection() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public <T> List<T> getSelections() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
