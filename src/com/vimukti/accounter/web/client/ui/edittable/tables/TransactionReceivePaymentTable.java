@@ -65,22 +65,21 @@ public abstract class TransactionReceivePaymentTable extends
 	}
 
 	private void initColumns() {
-		this
-				.addColumn(new CheckboxEditColumn<ClientTransactionReceivePayment>() {
+		this.addColumn(new CheckboxEditColumn<ClientTransactionReceivePayment>() {
 
-					@Override
-					protected void onHeaderValueChanged(boolean value) {
-						onHeaderCheckBoxClick(value);
-						selectAllRows();
-					}
+			@Override
+			protected void onHeaderValueChanged(boolean value) {
+				onHeaderCheckBoxClick(value);
+				selectAllRows();
+			}
 
-					@Override
-					protected void onChangeValue(boolean value,
-							ClientTransactionReceivePayment row) {
-						onSelectionChanged(row, value);
-					}
+			@Override
+			protected void onChangeValue(boolean value,
+					ClientTransactionReceivePayment row) {
+				onSelectionChanged(row, value);
+			}
 
-				});
+		});
 		if (canEdit) {
 			TextEditColumn<ClientTransactionReceivePayment> dateCoulmn = new TextEditColumn<ClientTransactionReceivePayment>() {
 
@@ -356,7 +355,7 @@ public abstract class TransactionReceivePaymentTable extends
 		ValidationResult result = new ValidationResult();
 		// Validates receive amount exceeds due amount
 		for (ClientTransactionReceivePayment transactionReceivePayment : this
-				.getAllRows()) {
+				.getSelectedRecords()) {
 			double totalValue = getTotalValue(transactionReceivePayment);
 			if (DecimalUtil.isLessThan(totalValue, 0.00)) {
 				result.addError(this, accounterMessages
@@ -411,8 +410,9 @@ public abstract class TransactionReceivePaymentTable extends
 
 	public void openCashDiscountDialog(
 			final ClientTransactionReceivePayment selectedObject) {
-		cashDiscountDialog = new CashDiscountDialog(canEdit, selectedObject
-				.getCashDiscount(), getCashDiscountAccount(selectedObject));
+		cashDiscountDialog = new CashDiscountDialog(canEdit,
+				selectedObject.getCashDiscount(),
+				getCashDiscountAccount(selectedObject));
 		// } else {
 		// cashDiscountDialog.setCanEdit(canEdit);
 		// cashDiscountDialog.setCashDiscountValue(selectedObject
