@@ -90,6 +90,8 @@ public class ItemView extends BaseView<ClientItem> {
 	private boolean isGeneratedFromCustomer;
 	private ArrayList<DynamicForm> listforms;
 	String name;
+	private String itemName;
+
 
 	private SelectCombo measurement, wareHouse;
 
@@ -157,10 +159,13 @@ public class ItemView extends BaseView<ClientItem> {
 		nameText = new TextItem(this.type == TYPE_SERVICE ? Accounter
 				.constants().serviceName() : Accounter.constants()
 				.productName());
+		nameText.setValue(itemName);
 		nameText.setHelpInformation(true);
 		nameText.setWidth(100);
 		nameText.setRequired(true);
 		nameText.setDisabled(isInViewMode());
+		
+		
 		isservice = new CheckboxItem(Accounter.constants().isService());
 		isservice.setValue(true);
 		isservice.setDisabled(true);
@@ -1020,6 +1025,9 @@ public class ItemView extends BaseView<ClientItem> {
 	protected String getViewTitle() {
 		return Accounter.constants().item();
 	}
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
 
 	private void settabIndexes() {
 		nameText.setTabIndex(1);
@@ -1044,4 +1052,5 @@ public class ItemView extends BaseView<ClientItem> {
 		saveAndNewButton.setTabIndex(19);
 		cancelButton.setTabIndex(20);
 	}
+	
 }
