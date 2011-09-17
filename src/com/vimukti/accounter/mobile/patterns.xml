@@ -3,11 +3,11 @@
 
 	<input text="Invoice">
 		<output>
-		<output>
-			<text text="Invoice is a Transaction"/>
-			<command value="New Invoice">Create New Invoice</command>
-			<command value="Invoices List">List of All Invoices</command>
-		</output>
+			<output>
+				<text text="Invoice is a Transaction" />
+				<command value="New Invoice">Create New Invoice</command>
+				<command value="Invoices List">List of All Invoices</command>
+			</output>
 		</output>
 	</input>
 
@@ -33,4 +33,14 @@
 			<command code="4" text="Delete Fiscal Year" />
 		</output>
 	</input>
+
+	<include pattern="" />
+	<input text="Customer">
+		<output>
+			<text text="Customer " />
+			<command code="1" text="Create New Customer" />
+			<command code="2" text="Customer List" />
+		</output>
+	</input>
+
 </patterns>
