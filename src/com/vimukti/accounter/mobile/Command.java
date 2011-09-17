@@ -37,4 +37,8 @@ public abstract class Command {
 		// TODO
 		return true;
 	}
+
+	public void markDone() {
+		// TODO
+	}
 }
