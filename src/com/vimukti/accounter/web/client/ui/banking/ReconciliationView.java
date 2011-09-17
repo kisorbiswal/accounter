@@ -272,9 +272,10 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 					openingBalance.setAmount(data.getAccount()
 							.getOpeningBalance());
 				} else {
-					openingBalance.setAmount(data.getAccount()
-							.getOpeningBalance());
+					openingBalance.setAmount(result);
 				}
+				difference.setAmount(closingBalance.getAmount()
+						- openingBalance.getAmount());
 			}
 		});
 	}
@@ -347,8 +348,6 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 			clearedAmount.setAmount(data.getClosingBalance());
 		} else {
 			getTransactions();
-			difference.setAmount(closingBalance.getAmount()
-					- openingBalance.getAmount());
 			setOpeningBalance();
 		}
 		super.initData();

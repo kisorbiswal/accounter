@@ -83,7 +83,7 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 					public void onResultSuccess(
 							List<ClientReconciliation> result) {
 						grid.setData(result);
-						grid.getLoadingIndicator().removeFromParent();						
+						grid.getLoadingIndicator().removeFromParent();
 					}
 				});
 	}
@@ -99,6 +99,7 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 		ArrayList<ClientAccount> bankAccounts = Accounter.getCompany()
 				.getAccounts(ClientAccount.TYPE_BANK);
 		if (bankAccounts == null || bankAccounts.isEmpty()) {
+			grid.setData(new ArrayList<ClientReconciliation>());
 			return;
 		}
 		for (ClientAccount account : bankAccounts) {
