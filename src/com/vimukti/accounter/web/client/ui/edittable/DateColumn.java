@@ -1,15 +1,12 @@
 package com.vimukti.accounter.web.client.ui.edittable;
 
-import java.util.Date;
-
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.datepicker.client.DateBox;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.widgets.DatePicker;
+import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 public abstract class DateColumn<T> extends EditColumn<T> {
 
@@ -38,13 +35,13 @@ public abstract class DateColumn<T> extends EditColumn<T> {
 
 	@Override
 	public void render(IsWidget widget, RenderContext<T> context) {
-		DateBox box = (DateBox) widget;
+		DatePicker box = (DatePicker) widget;
 		ClientFinanceDate value = getValue(context.getRow());
 		box.setEnabled(isEnable() && !context.isDesable());
 		if (value == null || value.getDate() == 0) {
-			box.setValue(new ClientFinanceDate().getDateAsObject());
+			box.setSelectedDate(new ClientFinanceDate().getDateAsObject());
 		} else {
-			box.setValue(value.getDateAsObject());
+			box.setSelectedDate(value.getDateAsObject());
 		}
 	}
 
@@ -54,30 +51,30 @@ public abstract class DateColumn<T> extends EditColumn<T> {
 
 	@Override
 	public IsWidget getWidget(final RenderContext<T> context) {
-		final DateBox dateBox = new DateBox();
-		configure(dateBox);
-		dateBox.addValueChangeHandler(new ValueChangeHandler<Date>() {
+		final DatePicker datePicker = new DatePicker();
+		configure(datePicker);
+		datePicker.addDateValueChangeHandler(new DateValueChangeHandler() {
 
 			@Override
-			public void onValueChange(ValueChangeEvent<Date> event) {
+			public void onDateValueChange(ClientFinanceDate date) {
 				ClientFinanceDate prevValue = getValue(context.getRow());
 				if (prevValue == null) {
 					prevValue = new ClientFinanceDate();
 				}
-				ClientFinanceDate newValue = new ClientFinanceDate(dateBox
-						.getValue());
+				ClientFinanceDate newValue = new ClientFinanceDate(datePicker
+						.getSelectedDate());
 				if (!prevValue.equals(newValue)) {
 					setValue(context.getRow(), newValue);
 				}
 			}
 		});
-		dateBox.setFormat(new DateBox.DefaultFormat(format));
-		dateBox.setValue(new ClientFinanceDate().getDateAsObject());
-		return dateBox;
+		// datePicker.set(new DateBox.DefaultFormat(format));
+		// datePicker.setValue(new ClientFinanceDate().getDateAsObject());
+		return datePicker;
 	}
 
-	protected void configure(DateBox dateBox) {
-		dateBox.addStyleName("textEdit");
+	protected void configure(DatePicker datePicker) {
+		datePicker.addStyleName("textEdit");
 	}
 
 	protected abstract ClientFinanceDate getValue(T row);
