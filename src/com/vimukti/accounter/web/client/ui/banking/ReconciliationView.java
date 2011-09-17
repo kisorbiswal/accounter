@@ -148,17 +148,17 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		openingBalance.setAmount(data.getOpeningBalance());
 
 		closingBalance = new AmountLabel(constants.ClosingBalance());
-		openingBalance.setHelpInformation(true);
-		openingBalance.setDisabled(true);
+		closingBalance.setHelpInformation(true);
+		closingBalance.setDisabled(true);
 		closingBalance.setAmount(data.getClosingBalance());
 
 		clearedAmount = new AmountLabel(constants.ClearedAmount());
-		openingBalance.setHelpInformation(true);
-		openingBalance.setDisabled(true);
+		clearedAmount.setHelpInformation(true);
+		clearedAmount.setDisabled(true);
 
 		difference = new AmountLabel(constants.Difference());
-		openingBalance.setHelpInformation(true);
-		openingBalance.setDisabled(true);
+		difference.setHelpInformation(true);
+		difference.setDisabled(true);
 		DynamicForm amountsForm = new DynamicForm();
 		amountsForm.setWidth("50%");
 		amountsForm.setItems(openingBalance, closingBalance, clearedAmount,
