@@ -9,7 +9,9 @@ public abstract class ComboColumn<T, C> extends EditColumn<T> {
 		@SuppressWarnings("unchecked")
 		ComboBox<T, C> box = (ComboBox<T, C>) widget;
 		box.setDesable(!isEnable() || context.isDesable());
-		box.setValue(getValue(context.getRow()));
+		T row = context.getRow();
+		C value = getValue(row);
+		box.setValue(value);
 	}
 
 	protected boolean isEnable() {
