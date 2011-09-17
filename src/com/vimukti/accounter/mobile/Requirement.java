@@ -17,8 +17,8 @@ public class Requirement {
 		this.isAllowFromContext = isAllowFromContext;
 	}
 
-	public Object getValue() {
-		return value;
+	public <T> T getValue() {
+		return (T) value;
 	}
 
 	public void setValue(Object value) {
