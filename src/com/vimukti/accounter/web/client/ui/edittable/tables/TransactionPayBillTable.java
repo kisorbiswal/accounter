@@ -983,11 +983,11 @@ public abstract class TransactionPayBillTable extends
 		if (getCreditsAndPaymentsDialiog() != null
 				&& getCreditsAndPaymentsDialiog().grid.getRecords().size() == 0)
 			creditsStack.clear();
-		updateAmountDue(obj);
 		deleteTotalPayment(obj);
 		obj.setPayment(0.0d);
 		obj.setCashDiscount(0.0d);
 		obj.setAppliedCredits(0.0d);
+		updateAmountDue(obj);
 		update(obj);
 		adjustAmountAndEndingBalance();
 		updateFootervalues(obj, canEdit);
