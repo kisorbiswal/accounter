@@ -10,6 +10,8 @@ public abstract class Command {
 	public abstract String getId();
 
 	List<Requirement> requirements = new ArrayList<Requirement>();
+	private boolean isDone;
+	private String successMessage;
 
 	protected abstract void addRequirements(List<Requirement> list);
 
@@ -38,7 +40,35 @@ public abstract class Command {
 		return true;
 	}
 
-	public void markDone() {
-		// TODO
+	/**
+	 * @return
+	 */
+	public boolean isDone() {
+		return this.isDone;
 	}
+
+	public void markDone() {
+		this.isDone = true;
+	}
+
+	/**
+	 * 
+	 * Sets the SuccessMessage
+	 * 
+	 * @param message
+	 */
+	public void setSuccessMessage(String message) {
+		this.successMessage = message;
+	}
+
+	/**
+	 * 
+	 * Returns the SuccessMessage
+	 * 
+	 * @return
+	 */
+	public String getSuccessMessage() {
+		return successMessage;
+	}
+
 }

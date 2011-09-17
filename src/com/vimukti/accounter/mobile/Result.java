@@ -17,4 +17,11 @@ public class Result {
 	public void add(CommandList list) {
 		this.resultParts.add(list);
 	}
+
+	/**
+	 * 
+	 */
+	public List<ResultList> getResultList() {
+		return null;
+	}
 }

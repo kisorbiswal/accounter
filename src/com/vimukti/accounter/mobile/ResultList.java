@@ -8,6 +8,8 @@ public class ResultList extends ArrayList<Record> {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private String name;
+
 	private boolean isMultiSelection;
 
 	public boolean isMultiSelection() {
@@ -16,6 +18,13 @@ public class ResultList extends ArrayList<Record> {
 
 	public void setMultiSelection(boolean isMultiSelection) {
 		this.isMultiSelection = isMultiSelection;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getName() {
+		return this.name;
 	}
 
 }
