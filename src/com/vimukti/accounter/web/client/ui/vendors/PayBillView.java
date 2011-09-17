@@ -101,8 +101,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		amtText.setAmount(0.0);
 		endBalText
 				.setAmount(payFromCombo.getSelectedValue() != null ? payFromCombo
-						.getSelectedValue().getTotalBalance()
-						: 0.0);
+						.getSelectedValue().getTotalBalance() : 0.0);
 	}
 
 	/*
@@ -172,9 +171,15 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA
 				&& preferences.isTDSEnabled()) {
-			transaction.setTaxAgency(getCompany().getTaxAgency(
-					getCompany().getTAXItem(vendor.getTaxItemCode())
-							.getTaxAgency()));
+
+			ClientTAXItem taxItem = getCompany().getTAXItem(
+					vendor.getTaxItemCode());
+			if (taxItem != null) {
+				transaction.setTaxAgency(getCompany().getTaxAgency(
+
+				taxItem.getTaxAgency()));
+			}
+
 		}
 
 		// Setting ending Balance
@@ -225,8 +230,13 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				ClientTAXItem taxItem = getCompany().getTAXItem(
 						vendor.getTaxItemCode());
 
-				tpbRecord.setTdsAmount(taxItem.getTaxRate() / 100
-						* tpbRecord.getOriginalAmount());
+				if (taxItem != null) {
+					double tds = taxItem.getTaxRate() / 100
+
+					* tpbRecord.getPayment();
+
+					tpbRecord.setTdsAmount(tds);
+				}
 
 			}
 			if (tpbRecord.getTempCredits() != null)
@@ -302,8 +312,9 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 					&& getCompany().getPreferences().isTDSEnabled()) {
 				ClientTAXItem taxItem = getCompany().getTAXItem(
 						vendor.getTaxItemCode());
-				payment = obj.getOriginalAmount()
-						* (taxItem.getTaxRate() / 100);
+				if (taxItem != null)
+					payment = obj.getOriginalAmount()
+							* (taxItem.getTaxRate() / 100);
 				payment = obj.getOriginalAmount() - payment;
 				obj.setPayment(payment);
 			}
@@ -361,10 +372,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 				record.setAppliedCredits(curntRec.getCredits());
 
-				record
-						.setDiscountDate(curntRec.getDiscountDate() != null ? curntRec
-								.getDiscountDate().getDate()
-								: 0);
+				record.setDiscountDate(curntRec.getDiscountDate() != null ? curntRec
+						.getDiscountDate().getDate() : 0);
 
 				record.setDueDate(curntRec.getDueDate() != null ? curntRec
 						.getDueDate().getDate() : 0);
@@ -381,6 +390,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				totalDueAmt += record.getAmountDue();
 				totalPayment += record.getPayment();
 				cashDiscount += record.getCashDiscount();
+
 				records.add(record);
 			}
 			// gridView.updateFooterValues(FinanceApplication.constants()
@@ -567,12 +577,15 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		endBalText.setWidth(100);
 		endBalText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
 		endBalText.setDisabled(true);
+		taxItemCombo = new TaxItemCombo(Accounter.constants().tds(),
+				ClientTAXItem.TAX_TYPE_TDS);
+		taxItemCombo.setDisabled(true);
 
 		DynamicForm balForm = new DynamicForm();
 		balForm.setWidth("100%");
 		balForm.setIsGroup(true);
 		balForm.setGroupTitle(Accounter.constants().balances());
-		balForm.setFields(amtText, endBalText);
+		balForm.setFields(amtText, endBalText, taxItemCombo);
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
@@ -580,7 +593,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		}
 
 		Label lab1 = new Label(Accounter.constants().billsDue());
-
 
 		initListGrid();
 
@@ -592,10 +604,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		memoForm.setFields(memoTextAreaItem);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
-		taxItemCombo = new TaxItemCombo(Accounter.constants().tds(),
-				ClientTAXItem.TAX_TYPE_TDS);
-		taxItemCombo.setDisabled(true);
-
 		unUsedCreditsText = new AmountLabel(Accounter.constants()
 				.unusedCredits());
 		unUsedCreditsText.setDisabled(true);
@@ -605,7 +613,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		textForm.setWidth("70%");
 		textForm.setStyleName("unused-payments");
 		if (preferences.isTDSEnabled()) {
-			textForm.setFields(unUsedCreditsText, taxItemCombo);
+			textForm.setFields(unUsedCreditsText);
 		} else {
 			textForm.setFields(unUsedCreditsText);
 		}
@@ -784,7 +792,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			this.setVendor(getCompany().getVendor(transaction.getVendor()));
 			vendorSelected(getCompany().getVendor(transaction.getVendor()));
 
-			amtText.setAmount(transaction.getTotal());
+			amtText.setAmount(transaction.getNetAmount());
 			endBalText.setAmount(transaction.getEndingBalance());
 			initListGridData(this.transaction.getTransactionPayBill());
 			initTransactionTotalNonEditableItem();
@@ -846,13 +854,13 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		// 6. grid valid?
 
 		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateTransactionDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
 		}
 		ValidationResult payFormValidationResult = payForm.validate();
 		if (payFormValidationResult.haveErrors()
@@ -867,7 +875,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		}
 		if (!isInViewMode()) {
 			if (grid.getAllRows().isEmpty()) {
-				result.addError(grid,
+				result.addError(
+						grid,
 						Accounter.messages().noBillsAreAvailableFirstAddABill(
 								Global.get().Vendor()));
 			}
@@ -919,8 +928,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		if (getVendor() != null) {
 
 			for (PayBillTransactionList cont : filterList) {
-				if (getVendor().getName().toString().equalsIgnoreCase(
-						cont.getVendorName().toString())) {
+				if (getVendor().getName().toString()
+						.equalsIgnoreCase(cont.getVendorName().toString())) {
 
 					tempList.add(cont);
 				}

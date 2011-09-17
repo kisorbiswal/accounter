@@ -773,7 +773,7 @@ public abstract class TransactionPayBillTable extends
 					ClientTAXItem taxItem = Accounter.getCompany().getTAXItem(
 							vendor.getTaxItemCode());
 					if (taxItem != null)
-						return row.getOriginalAmount()
+						return row.getPayment()
 								* (taxItem.getTaxRate() / 100);
 					else
 						return 0;
@@ -1008,7 +1008,19 @@ public abstract class TransactionPayBillTable extends
 				+ item.getPayment();
 
 		if (!DecimalUtil.isGreaterThan(totalValue, item.getAmountDue())) {
-			item.setDummyDue(item.getAmountDue() - totalValue);
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA
+					&& getCompany().getPreferences().isTDSEnabled()) {
+
+				ClientTAXItem taxItem = Accounter.getCompany().getTAXItem(
+						vendor.getTaxItemCode());
+				if(taxItem!=null)
+				item.setDummyDue(item.getAmountDue()
+						- (totalValue + (taxItem.getTaxRate() / 100 * item
+								.getOriginalAmount())));
+				//item.setDummyDue(item.getAmountDue() - totalValue);
+			} else {
+				item.setDummyDue(item.getAmountDue() - totalValue);
+			}
 		} else {
 			item.setDummyDue(0.0);
 		}

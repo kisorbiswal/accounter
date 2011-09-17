@@ -665,6 +665,8 @@ public class SalesOrderView extends
 			// billToaddressSelected(this.billingAddress);
 			// shipToAddressSelected(shippingAddress);
 
+			vatTotalNonEditableText.setAmount(transaction.getTotal()
+					- transaction.getNetAmount());
 			customerOrderText.setValue(transaction.getCustomerOrderNumber());
 			paymentTermsSelected(this.paymentTerm);
 			// priceLevelSelected(this.priceLevel);
@@ -700,11 +702,13 @@ public class SalesOrderView extends
 						.getSalesTaxAmount());
 				this.transactionTotalNonEditableText.setAmount(transaction
 						.getTotal());
+			
 			}
 			// customerTransactionGrid.setRecords(transaction
 			// .getTransactionItems());
 		}
 		superinitTransactionViewData();
+		//vatTotalNonEditableText.setAmount(customerTransactionTable.getTotal());
 		initTransactionNumber();
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()

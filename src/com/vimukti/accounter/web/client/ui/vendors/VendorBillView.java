@@ -220,10 +220,10 @@ public class VendorBillView extends
 			vendorTDSTaxCode.setSelected(vendorTDSTaxCode
 					.getDisplayName(getCompany().getTAXItem(
 							vendor.getTaxItemCode())));
-			vendorTDSTaxCode.setDisabled(false);
+			vendorTDSTaxCode.setVisible(true);
 		} else {
 			vendorTDSTaxCode.setValue(null);
-			vendorTDSTaxCode.setDisabled(false);
+			vendorTDSTaxCode.setVisible(false);
 		}
 
 		super.vendorSelected(vendor);
@@ -361,7 +361,7 @@ public class VendorBillView extends
 		vendorTDSTaxCode = new TaxItemCombo(messages.vendorTDSCode(Global.get()
 				.Vendor()), 1);
 		vendorTDSTaxCode.setHelpInformation(true);
-		vendorTDSTaxCode.setDisabled(true);
+		
 
 		vendorCombo = createVendorComboItem(messages.vendorName(Global.get()
 				.Vendor()));
@@ -407,6 +407,8 @@ public class VendorBillView extends
 			vendorForm.setFields(classListCombo);
 		}
 
+		
+		vendorTDSTaxCode.setVisible(false);
 		// formItems.add(vendorCombo);
 		// formItems.add(contactCombo);
 		// formItems.add(billToCombo);
@@ -602,21 +604,21 @@ public class VendorBillView extends
 			// bottomLayout.setCellHorizontalAlignment(totalForm,
 			// HasHorizontalAlignment.ALIGN_RIGHT);
 		} else if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
-			// bottomLayout.add(horizontalPanel);
-			// bottomLayout.add(totalForm);
-			// bottomLayout.setCellWidth(totalForm, "30%");
-			//
-			// memoForm.setStyleName("align-form");
-			// VerticalPanel vPanel = new VerticalPanel();
-			// vPanel.add(hpanel);
-			// vPanel.setWidth("100%");
-			//
-			// vPanel.setCellHorizontalAlignment(hpanel, ALIGN_RIGHT);
-			// vPanel.add(horizontalPanel);
-			// vPanel.add(memoForm);
-			//
-			// bottompanel.add(vPanel);
-			// bottompanel.add(bottomLayout);
+//			 bottomLayout.add(horizontalPanel);
+//			 bottomLayout.add(totalForm);
+//			 bottomLayout.setCellWidth(totalForm, "30%");
+//			
+//			 memoForm.setStyleName("align-form");
+//			 VerticalPanel vPanel = new VerticalPanel();
+//			 vPanel.add(hpanel);
+//			 vPanel.setWidth("100%");
+//			
+//			 vPanel.setCellHorizontalAlignment(hpanel, ALIGN_RIGHT);
+//			 vPanel.add(horizontalPanel);
+//			 vPanel.add(memoForm);
+//			
+//			 bottompanel.add(vPanel);
+//			 bottompanel.add(bottomLayout);
 
 		} else {
 			memoForm.setStyleName("align-form");
@@ -655,7 +657,7 @@ public class VendorBillView extends
 		listforms.add(termsForm);
 
 		listforms.add(dateform);
-		// listforms.add(tdsForm);
+		 listforms.add(tdsForm);
 		listforms.add(memoForm);
 		listforms.add(vatCheckform);
 		listforms.add(totalForm);

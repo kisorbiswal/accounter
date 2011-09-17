@@ -1,74 +1,116 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientPayBill;
-import com.vimukti.accounter.web.client.core.ClientPayTDS;
+import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.Lists.ClientTDSInfo;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
-import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
+import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.grids.TDSVendorsListGrid;
 
 /**
  * 
  * @author Sai Prasad N
  * 
  */
-public class TDSVendorsListView extends BaseListView<ClientPayTDS> {
+public class TDSVendorsListView extends BaseView<ClientTDSInfo> implements
+		AsyncCallback<ArrayList<ClientTDSInfo>> {
 
-	private List<ClientPayBill> listOfPayees;
-
-	Button button;
+	private Button button;
 	private DateItem fromDate;
 	private DateItem toDate;
 
+	Label label;
+	ArrayList<ClientTDSInfo> clientTDSInfos;
+
+	private VendorCombo vendorCombo;
+	private Button updateButton;
+	private TDSVendorsTable grid;
+
 	private boolean isTdsView;
 
-	public TDSVendorsListView(boolean isTdsView) {
-		super();
-		this.isTdsView = isTdsView;
+	@Override
+	public void init() {
+		super.init();
 		createControls1();
+	}
 
+	public TDSVendorsListView(boolean isTdsView) {
+
+		this.isTdsView = isTdsView;
 	}
 
 	private void createControls1() {
 
-		VerticalPanel mainPanel = new VerticalPanel();
-		fromDate = new DateItem(Accounter.constants().from());
-		fromDate.setHelpInformation(true);
-		fromDate.setWidth(100);
-		toDate = new DateItem(Accounter.constants().to());
-		toDate.setHelpInformation(true);
-		toDate.setWidth(100);
+		label=new Label();
+		label.removeStyleName("gwt-style");
+		label.setWidth("100%");
+		label.addStyleName(Accounter.constants().labelTitle());
+		label.setText(Accounter.constants().tdsVendorsList());
+		this.fromDate = new DateItem(Accounter.constants().from());
+		this.fromDate.setHelpInformation(true);
 
-		updateButton = new Button(Accounter.constants().update());
+		this.toDate = new DateItem(Accounter.constants().to());
+		this.toDate.setHelpInformation(true);
+
+		this.vendorCombo = new VendorCombo(Global.get().messages()
+				.vendorName(Global.get().Vendor()), true);
+		vendorCombo.setValue(new String((Accounter.constants().all())));
+
+		vendorCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
+
+					@Override
+					public void selectedComboBoxItem(ClientVendor selectItem) {
+						filterListByVendor(selectItem);
+
+					}
+
+				});
+
+		this.updateButton = new Button(Accounter.constants().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 
+				filterListByDate();
+
 			}
+
 		});
 
+		this.grid = new TDSVendorsTable();
+		grid.setWidth("100%");
 		DynamicForm topForm = new DynamicForm();
 		topForm.setIsGroup(true);
 		topForm.setGroupTitle(Accounter.constants().top());
-		topForm.setNumCols(6);
-		topForm.setFields(fromDate, toDate);
-		topForm.setWidth("100%");
+		topForm.setNumCols(4);
+		topForm.setItems(fromDate, toDate);
+		// topForm.setWidth("100%");
+		DynamicForm form2 = new DynamicForm();
+		
+		form2.setFields(vendorCombo);
+
+		Accounter.createHomeService().getPayBillsByTDS(this);
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		if (isTdsView) {
-			button = new Button(Accounter.constants().eTDSFiling());
+			this.button = new Button(Accounter.constants().eTDSFiling());
 			button.addClickHandler(new ClickHandler() {
 
 				@Override
@@ -79,72 +121,51 @@ public class TDSVendorsListView extends BaseListView<ClientPayTDS> {
 			});
 			horizontalPanel.add(button);
 		}
-
+		horizontalPanel.setWidth("100%");
+		horizontalPanel.setHorizontalAlignment(ALIGN_CENTER);
 		HorizontalPanel topLayout = new HorizontalPanel();
 		topLayout.add(topForm);
 		topLayout.add(updateButton);
+		topLayout.setCellHorizontalAlignment(updateButton, ALIGN_RIGHT);
+		HorizontalPanel h1 = new HorizontalPanel();
+
+	
+		
+		h1.add(label);
+		h1.setWidth("100%");
+
+		h1.setHorizontalAlignment(ALIGN_RIGHT);
+		h1.add(form2);
+	
 
 		horizontalPanel.setWidth("100%");
 
-		mainPanel.add(horizontalPanel);
+		VerticalPanel mainPanel = new VerticalPanel();
+		mainPanel.setWidth("100%");
+		mainPanel.add(topForm);
 		mainPanel.add(topLayout);
-		// mainPanel.add(grid);
+		mainPanel.add(h1);
+	//	mainPanel.add(label);
+		mainPanel.add(grid);
+		mainPanel.add(horizontalPanel);
+		mainPanel.setCellHeight(grid, "200px");
+
 		this.add(mainPanel);
 
 	}
 
-	@Override
-	public void onFailure(Throwable exception) {
+	private void filterListByVendor(ClientVendor selectItem) {
 
-		super.onFailure(exception);
-	}
+		List<ClientTDSInfo> cl = new ArrayList<ClientTDSInfo>();
+		for (ClientTDSInfo clientTDSInfo : clientTDSInfos) {
+			if (selectItem.getID() == clientTDSInfo.getVendor().getID()) {
+				cl.add(clientTDSInfo);
+			}
 
-	@Override
-	protected void initGrid() {
-		grid = new TDSVendorsListGrid(false, isTdsView);
-		grid.init();
+		}
 
-	}
+		grid.setData(cl);
 
-	@Override
-	protected SelectCombo getSelectItem() {
-		// TODO Auto-generated method stub
-		return super.getSelectItem();
-	}
-
-	@Override
-	public void fitToSize(int height, int width) {
-		// TODO Auto-generated method stub
-		super.fitToSize(height, width);
-	}
-
-	@Override
-	protected String getListViewHeading() {
-		return messages.vendorList(Global.get().Vendor());
-	}
-
-	@Override
-	protected Action getAddNewAction() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected String getAddNewLabelString() {
-
-		return "";
-	}
-
-	@Override
-	public void initListCallback() {
-		super.initListCallback();
-		Accounter.createHomeService().getPayBillsByTDS(this);
-	}
-
-	@Override
-	public void customManage() {
-		// TODO Auto-generated method stub
-		super.customManage();
 	}
 
 	@Override
@@ -152,10 +173,58 @@ public class TDSVendorsListView extends BaseListView<ClientPayTDS> {
 		return messages.vendors(Global.get().Vendor());
 	}
 
-	@Override
-	public void updateInGrid(ClientPayTDS objectTobeModified) {
-		// TODO Auto-generated method stub
+	private void filterListByDate() {
 		
+		List<ClientTDSInfo> cl = new ArrayList<ClientTDSInfo>();
+		for (ClientTDSInfo clientTDSInfo : clientTDSInfos) {
+			if ((clientTDSInfo.getDate().after(fromDate.getDate()))
+					&& (clientTDSInfo.getDate().before(toDate.getDate()))) {
+				cl.add(clientTDSInfo);
+			}
+
+		}
+		grid.setData(cl);
+
+	}
+
+	@Override
+	public void deleteFailed(AccounterException caught) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void deleteSuccess(IAccounterCore result) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public List<DynamicForm> getForms() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onFailure(Throwable caught) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onSuccess(ArrayList<ClientTDSInfo> result) {
+
+		if (result != null) {
+			clientTDSInfos = result;
+			grid.setData(result);
+		}
+
 	}
 
 }
