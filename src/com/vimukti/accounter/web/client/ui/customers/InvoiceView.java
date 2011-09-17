@@ -1720,7 +1720,18 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	@Override
 	public void print() {
 		updateTransaction();
-		ActionFactory.getBrandingThemeComboAction().run(transaction, false);
+		ArrayList<ClientBrandingTheme> themesList = Accounter.getCompany()
+				.getBrandingTheme();
+		if (themesList.size() > 1) {
+			// if there are more than one branding themes, then show branding
+			// theme combo box
+			ActionFactory.getBrandingThemeComboAction().run(transaction, false);
+		} else {
+			// if there is only one branding theme
+			ClientBrandingTheme clientBrandingTheme = themesList.get(0);
+			UIUtils.downloadAttachment(((ClientInvoice) transaction).getID(),
+					ClientTransaction.TYPE_INVOICE, clientBrandingTheme.getID());
+		}
 	}
 
 	@Override
