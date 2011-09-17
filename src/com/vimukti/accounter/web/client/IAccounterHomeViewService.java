@@ -37,6 +37,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
+import com.vimukti.accounter.web.client.core.Lists.ClientTDSInfo;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
 import com.vimukti.accounter.web.client.core.Lists.DepreciableFixedAssetsList;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
@@ -336,6 +337,6 @@ public interface IAccounterHomeViewService extends RemoteService {
 	
 	//for TDS
 	
-	public ArrayList<ClientPayTDS> getPayBillsByTDS() throws AccounterException;
+	public ArrayList<ClientTDSInfo> getPayBillsByTDS() throws AccounterException;
 
 }

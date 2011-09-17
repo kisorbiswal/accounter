@@ -117,6 +117,7 @@ import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.TransactionMakeDeposit;
 import com.vimukti.accounter.core.TransactionMakeDepositEntries;
+import com.vimukti.accounter.core.TransactionPayBill;
 import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.core.User;
@@ -151,7 +152,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
-import com.vimukti.accounter.web.client.core.ClientPayTDS;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
@@ -171,6 +171,7 @@ import com.vimukti.accounter.web.client.core.HrEmployee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
+import com.vimukti.accounter.web.client.core.Lists.ClientTDSInfo;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
 import com.vimukti.accounter.web.client.core.Lists.DepreciableFixedAssetsEntry;
 import com.vimukti.accounter.web.client.core.Lists.DepreciableFixedAssetsList;
@@ -12921,9 +12922,52 @@ public class FinanceTool {
 
 	}
 
-	public ArrayList<ClientPayTDS> getPayBillsByTDS() {
+	public ArrayList<ClientTDSInfo> getPayBillsByTDS()
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
-		return null;
+
+		ArrayList<ClientTDSInfo> tdsInfos = new ArrayList<ClientTDSInfo>();
+
+		List<PayBill> paybills = new ArrayList<PayBill>();
+		List<PayBill> transactionPaybills = new ArrayList<PayBill>();
+		ClientConvertUtil clientConvertUtil = new ClientConvertUtil();
+		ClientVendor clientVendor = null;
+		ClientFinanceDate clientFinanceDate = null;
+
+		Query query = session.getNamedQuery("get.PayBills.by.tds");
+		paybills = (List<PayBill>) query.list();
+		ClientTDSInfo clientTDSInfo = null;
+		ClientPayBill clientPayBill = null;
+		for (PayBill p : paybills) {
+
+			try {
+				clientVendor = clientConvertUtil.toClientObject(p.getVendor(),
+						ClientVendor.class);
+				clientFinanceDate = clientConvertUtil.toClientObject(
+						p.getDate(), ClientFinanceDate.class);
+			} catch (Exception e) {
+
+			}
+			clientTDSInfo = new ClientTDSInfo();
+			clientTDSInfo.setVendor(clientVendor);
+			clientTDSInfo.setDate(clientFinanceDate);
+
+			for (TransactionPayBill tp : p.getTransactionPayBill()) {
+
+				clientTDSInfo.setTdsAmount(tp.getTdsAmount());
+				clientTDSInfo.setPayment(tp.getPayment());
+				clientTDSInfo.setOrginalBalance(tp.getOriginalAmount());
+				tdsInfos.add(clientTDSInfo);
+
+			}
+
+			// Query query1 = session.getNamedQuery(
+			// "get.transactionsPayBills.by.tds").setParameter(0, p);
+			// transactionPaybills = (List<PayBill>) query1.list();
+
+		}
+
+		return tdsInfos;
 	}
 
 	/**

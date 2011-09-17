@@ -959,12 +959,15 @@
 		t.type =? and
 		t.number =? and t.id !=?
 	</query>
-	<query name="get.transactionsPayBills.by.tds">
+	<query name="get.PayBills.by.tds">
 		from com.vimukti.accounter.core.PayBill b where
-		b.taxAgency =?
+		b.taxAgency !=null
 	</query>
 	
-	
+	<query name="get.transactionsPayBills.by.tds">
+		from com.vimukti.accounter.core.TransactionPayBill b where
+		b.payBill =?
+	</query>
 	
 	
 

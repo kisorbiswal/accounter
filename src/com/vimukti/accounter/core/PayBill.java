@@ -701,4 +701,6 @@ public class PayBill extends Transaction {
 	public void setTaxAgency(TAXAgency taxAgency) {
 		this.taxAgency = taxAgency;
 	}
+
+
 }

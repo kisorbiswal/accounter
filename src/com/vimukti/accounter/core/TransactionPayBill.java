@@ -336,7 +336,7 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 			// We need to update the enterBill payments and balance due with the
 			// sum of cash discount and applied credits and payments.
 			double amount = (this.cashDiscount) + (this.appliedCredits)
-					+ (this.payment) - (this.tdsAmount);
+					+ (this.payment);
 
 			if (this.enterBill != null) {
 				// Update the Payments and the balance due of the corresponding
@@ -348,7 +348,7 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 				if (Company.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
 
 					this.enterBill.setBalanceDue(this.enterBill.getBalanceDue()
-							- (amount + this.tdsAmount));
+							- amount);
 
 				} else {
 
@@ -388,9 +388,11 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 		// Update TDS Account if Company is INDIA
 		if (Company.getCompany().getPreferences().isTDSEnabled()) {
 			TAXItem taxItem = this.payBill.getVendor().getTAXItem();
-			TAXAgency taxAgency = taxItem.getTaxAgency();
-			Account account = taxAgency.getSalesLiabilityAccount();
-			account.updateCurrentBalance(this.payBill, -tdsAmount);
+			if (taxItem != null) {
+				TAXAgency taxAgency = taxItem.getTaxAgency();
+				Account account = taxAgency.getSalesLiabilityAccount();
+				account.updateCurrentBalance(this.payBill, -tdsAmount);
+			}
 		}
 		return false;
 	}

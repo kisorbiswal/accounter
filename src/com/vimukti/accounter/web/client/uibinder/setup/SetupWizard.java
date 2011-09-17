@@ -49,7 +49,7 @@ public class SetupWizard extends VerticalPanel {
 			new SetupCompanyInfoPage(),
 			new SetupIndustrySelectionPage(this),
 			new SetupOrganisationSelectionPage(),
-			//new SetupTDSSelectionPage(),
+			new SetupTDSSelectionPage(),
 			new SetupReferPage(),
 			// Employee Expanse Will be Added in Next Version
 			/* new SetupTrackEmployeesPage(), */new SetupSellTypeAndSalesTaxPage(),
@@ -103,7 +103,7 @@ public class SetupWizard extends VerticalPanel {
 			Accounter.constants().setCompanyInfo(),
 			Accounter.constants().selectIndustryType(),
 			Accounter.constants().companyOrganization(),
-		//	Accounter.constants().tdsSelection(),
+			Accounter.constants().tdsSelection(),
 			Accounter.constants().terminology(),
 			// Accounter.constants().trackEmployeeExpenses(),
 

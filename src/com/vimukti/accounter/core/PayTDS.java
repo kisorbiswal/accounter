@@ -10,6 +10,20 @@ public class PayTDS extends Transaction implements IAccounterServerCore,
 	 */
 	private static final long serialVersionUID = 3752025091243352402L;
 
+	/**
+	 * PayFrom {@link Account},
+	 */
+	@ReffereredObject
+	Account payFrom;
+	/**
+	 * The Default TaxAgency Set for Transaction
+	 * 
+	 */
+	@ReffereredObject
+	TAXAgency taxAgency;
+
+	
+	
 	@Override
 	public boolean isPositiveTransaction() {
 		// TODO Auto-generated method stub
