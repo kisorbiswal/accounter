@@ -22,6 +22,7 @@ public class NewItemAction extends Action<ClientItem> {
 	private boolean forCustomer;
 	public static final int TYPE_SERVICE = 1;
 	public static final int NON_INVENTORY_PART = 3;
+	private String itemName;
 
 	public NewItemAction(String text) {
 		super(text);
@@ -60,8 +61,10 @@ public class NewItemAction extends Action<ClientItem> {
 					dialog.show();
 				} else {
 					ItemView view = new ItemView(type, forCustomer);
+					view.setItemName(itemName);
 					MainFinanceWindow.getViewManager().showView(view, data,
 							isDependent, NewItemAction.this);
+					
 				}
 
 			}
@@ -96,5 +99,10 @@ public class NewItemAction extends Action<ClientItem> {
 	@Override
 	public String getHelpToken() {
 		return "customer-item";
+	}
+	
+	public void setItemText(String text){
+		this.itemName = text;
+		
 	}
 }
