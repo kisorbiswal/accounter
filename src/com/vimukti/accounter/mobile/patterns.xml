@@ -1,0 +1,7 @@
+<patterns>
+	<include pattern=""/>
+	
+	<input text="why should i use Accounter">
+		<output result=""/>
+	</input>
+</patterns>
