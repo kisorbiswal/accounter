@@ -4,11 +4,18 @@ public class Requirement {
 	Object value;
 	Object defaultValue;
 	String name;
-	
+
 	RequirementType type;
 
 	boolean isOptional;
 	boolean isAllowFromContext;
+
+	public Requirement(String name, boolean isOptional,
+			boolean isAllowFromContext) {
+		this.name = name;
+		this.isOptional = isOptional;
+		this.isAllowFromContext = isAllowFromContext;
+	}
 
 	public Object getValue() {
 		return value;
@@ -48,6 +55,13 @@ public class Requirement {
 
 	public void setAllowFromContext(boolean isAllowFromContext) {
 		this.isAllowFromContext = isAllowFromContext;
+	}
+
+	public boolean isDone() {
+		if (!isOptional) {
+			return value != null;
+		}
+		return true;
 	}
 
 }

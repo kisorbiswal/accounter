@@ -6,7 +6,7 @@ import java.util.List;
 import org.hibernate.Session;
 
 public class Context {
-	
+
 	private Session session;
 
 	public void process(String command) {
@@ -65,7 +65,12 @@ public class Context {
 		this.session = session;
 	}
 
-	public Result makeResult(){
+	public Result makeResult() {
 		return new Result();
+	}
+
+	public Object getLast(RequirementType customer) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

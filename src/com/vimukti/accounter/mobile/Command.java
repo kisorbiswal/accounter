@@ -32,4 +32,9 @@ public abstract class Command {
 		return messages;
 
 	}
+
+	public boolean isAllRequirementsFulfilled() {
+		// TODO
+		return true;
+	}
 }

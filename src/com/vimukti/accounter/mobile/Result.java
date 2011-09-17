@@ -6,10 +6,15 @@ import java.util.List;
 public class Result {
 	List<Object> resultParts = new ArrayList<Object>();
 
-	public void add(String message){
+	public void add(String message) {
 		this.resultParts.add(message);
 	}
-	public void add(ResultList list){
+
+	public void add(ResultList list) {
+		this.resultParts.add(list);
+	}
+
+	public void add(CommandList list) {
 		this.resultParts.add(list);
 	}
 }
