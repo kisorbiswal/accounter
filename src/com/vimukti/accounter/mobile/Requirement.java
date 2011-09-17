@@ -1,0 +1,53 @@
+package com.vimukti.accounter.mobile;
+
+public class Requirement {
+	Object value;
+	Object defaultValue;
+	String name;
+	
+	RequirementType type;
+
+	boolean isOptional;
+	boolean isAllowFromContext;
+
+	public Object getValue() {
+		return value;
+	}
+
+	public void setValue(Object value) {
+		this.value = value;
+	}
+
+	public Object getDefaultValue() {
+		return defaultValue;
+	}
+
+	public void setDefaultValue(Object defaultValue) {
+		this.defaultValue = defaultValue;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public boolean isOptional() {
+		return isOptional;
+	}
+
+	public void setOptional(boolean isOptional) {
+		this.isOptional = isOptional;
+	}
+
+	public boolean isAllowFromContext() {
+		return isAllowFromContext;
+	}
+
+	public void setAllowFromContext(boolean isAllowFromContext) {
+		this.isAllowFromContext = isAllowFromContext;
+	}
+
+}
