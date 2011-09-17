@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.edittable.tables;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.google.gwt.resources.client.ImageResource;
@@ -111,10 +112,9 @@ public abstract class VendorTransactionTable extends
 						double lt = row.getQuantity().getValue()
 								* row.getUnitPrice();
 						double disc = row.getDiscount();
-						row
-								.setLineTotal(DecimalUtil
-										.isGreaterThan(disc, 0) ? (lt - (lt
-										* disc / 100)) : lt);
+						row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
+								* disc / 100))
+								: lt);
 					}
 				}
 				update(row);
@@ -129,6 +129,14 @@ public abstract class VendorTransactionTable extends
 						return e.isIBuyThisItem();
 					}
 				};
+			}
+
+			@Override
+			public List<Integer> getCanAddedAccountTypes() {
+				return Arrays.asList(ClientAccount.TYPE_COST_OF_GOODS_SOLD,
+						ClientAccount.TYPE_OTHER_EXPENSE,
+						ClientAccount.TYPE_FIXED_ASSET,
+						ClientAccount.TYPE_EXPENSE);
 			}
 		};
 		transactionItemNameColumn.setItemForCustomer(false);
@@ -302,8 +310,9 @@ public abstract class VendorTransactionTable extends
 						// .pleaseSelectCustomer(
 						// UIUtils.getTransactionTypeName(item
 						// .getType())));
-						result.addError(row + "," + 1, Accounter.messages()
-								.pleaseSelectCustomer(
+						result.addError(
+								row + "," + 1,
+								Accounter.messages().pleaseSelectCustomer(
 										Utility.getItemType(item.getType())));
 					}
 					// ,
@@ -311,8 +320,9 @@ public abstract class VendorTransactionTable extends
 				case 2:
 					if (getCompany().getPreferences().isRegisteredForVAT()) {
 						if (item.getTaxCode() == 0) {
-							result.addError(row + "," + 6, Accounter.messages()
-									.pleaseEnter(
+							result.addError(
+									row + "," + 6,
+									Accounter.messages().pleaseEnter(
 											Accounter.constants().vatCode()));
 						}
 						// .vatCode());

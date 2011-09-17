@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.edittable.tables;
 
 import java.util.Arrays;
+import java.util.List;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -84,6 +85,12 @@ public abstract class SalesOrderTable extends CustomerTransactionTable {
 						return e.isISellThisItem();
 					}
 				};
+			}
+
+			@Override
+			public List<Integer> getCanAddedAccountTypes() {
+				return Arrays.asList(ClientAccount.TYPE_INCOME,
+						ClientAccount.TYPE_FIXED_ASSET);
 			}
 
 		});

@@ -16,11 +16,14 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 public class AccountDropDownTable extends AbstractDropDownTable<ClientAccount> {
 
 	private ListFilter<ClientAccount> filter;
+	List<Integer> canAddAccountTypes;
 	private boolean canUseAccountNumbers;
 
-	public AccountDropDownTable(ListFilter<ClientAccount> filter) {
+	public AccountDropDownTable(ListFilter<ClientAccount> filter,
+			List<Integer> canAddAccountTypes) {
 		super(getAccounts(filter));
 		this.filter = filter;
+		this.canAddAccountTypes = canAddAccountTypes;
 		canUseAccountNumbers = Accounter.getCompany().getPreferences()
 				.getUseAccountNumbers();
 	}
@@ -105,6 +108,7 @@ public class AccountDropDownTable extends AbstractDropDownTable<ClientAccount> {
 
 			}
 		});
+		action.setAccountTypes(canAddAccountTypes);
 		action.run(null, true);
 	}
 

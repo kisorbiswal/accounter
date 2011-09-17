@@ -99,7 +99,7 @@ public abstract class TransactionJournalEntryTable extends
 					public boolean filter(ClientAccount e) {
 						return true;
 					}
-				});
+				}, null);
 
 		final CustomerDropDownTable customerDropDownTable = new CustomerDropDownTable(
 				new ListFilter<ClientCustomer>() {

@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.edittable;
 
+import java.util.List;
+
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -13,7 +15,7 @@ public abstract class TransactionItemNameColumn extends
 		ComboColumn<ClientTransactionItem, IAccountable> {
 
 	AccountDropDownTable accountsList = new AccountDropDownTable(
-			getAccountsFilter());
+			getAccountsFilter(), getCanAddedAccountTypes());
 
 	ItensDropDownTable itemsList = new ItensDropDownTable(getItemsFilter());
 
@@ -28,6 +30,8 @@ public abstract class TransactionItemNameColumn extends
 	public abstract ListFilter<ClientItem> getItemsFilter();
 
 	public abstract ListFilter<ClientAccount> getAccountsFilter();
+
+	public abstract List<Integer> getCanAddedAccountTypes();
 
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })

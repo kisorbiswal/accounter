@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.edittable.tables;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.Global;
@@ -78,9 +79,18 @@ public abstract class MakeDepositTransactionTable extends
 
 					@Override
 					public boolean filter(ClientAccount e) {
-						return true;
+						if (Arrays.asList(ClientAccount.TYPE_BANK,
+								ClientAccount.TYPE_OTHER_CURRENT_ASSET,
+								ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
+								ClientAccount.TYPE_EQUITY)
+								.contains(e.getType())) {
+							return true;
+						}
+						return false;
 					}
-				});
+				}, Arrays.asList(ClientAccount.TYPE_OTHER_CURRENT_ASSET,
+						ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
+						ClientAccount.TYPE_BANK, ClientAccount.TYPE_EQUITY));
 
 		final CustomerDropDownTable customerDropDownTable = new CustomerDropDownTable(
 				new ListFilter<ClientCustomer>() {

@@ -79,23 +79,20 @@ public abstract class CustomerTransactionTable extends
 
 					@Override
 					public boolean filter(ClientAccount account) {
-						if (getCompany().getPreferences().isRegisteredForVAT()) {
-							if (Arrays.asList(ClientAccount.TYPE_BANK,
-									ClientAccount.TYPE_CREDIT_CARD,
-									ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-									ClientAccount.TYPE_FIXED_ASSET).contains(
-									account.getType())) {
-								return true;
-							}
-						} else {
-							if (Arrays.asList(ClientAccount.TYPE_CREDIT_CARD,
-									ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-									ClientAccount.TYPE_BANK,
-									ClientAccount.TYPE_FIXED_ASSET).contains(
-									account.getType())) {
-
-								return true;
-							}
+						if (account.getType() != ClientAccount.TYPE_CASH
+								&& account.getType() != ClientAccount.TYPE_BANK
+								&& account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
+								&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
+								&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
+								&& account.getType() != ClientAccount.TYPE_EXPENSE
+								&& account.getType() != ClientAccount.TYPE_OTHER_EXPENSE
+								&& account.getType() != ClientAccount.TYPE_COST_OF_GOODS_SOLD
+								&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_ASSET
+								&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
+								&& account.getType() != ClientAccount.TYPE_LONG_TERM_LIABILITY
+								&& account.getType() != ClientAccount.TYPE_OTHER_ASSET
+								&& account.getType() != ClientAccount.TYPE_EQUITY) {
+							return true;
 						}
 						return false;
 					}
@@ -118,6 +115,12 @@ public abstract class CustomerTransactionTable extends
 					IAccountable newValue) {
 				super.setValue(row, newValue);
 				applyPriceLevel(row);
+			}
+
+			@Override
+			public List<Integer> getCanAddedAccountTypes() {
+				return Arrays.asList(ClientAccount.TYPE_INCOME,
+						ClientAccount.TYPE_FIXED_ASSET);
 			}
 		});
 
@@ -340,8 +343,7 @@ public abstract class CustomerTransactionTable extends
 						.setTaxCode(selectedObject.getTaxCode() != 0 ? selectedObject
 								.getTaxCode()
 								: getCustomer().getTAXCode() > 0 ? getCustomer()
-										.getTAXCode()
-										: ztaxCodeid);
+										.getTAXCode() : ztaxCodeid);
 			else
 				selectedObject.setTaxCode(ztaxCodeid);
 		}
@@ -434,13 +436,15 @@ public abstract class CustomerTransactionTable extends
 				continue;
 			}
 			if (item.getAccountable() == null) {
-				result.addError("GridItem-" + item.getType(), Accounter
-						.messages().pleaseSelectCustomer(
+				result.addError(
+						"GridItem-" + item.getType(),
+						Accounter.messages().pleaseSelectCustomer(
 								Utility.getItemType(item.getType())));
 			}
 			if (getCompany().getPreferences().isRegisteredForVAT()) {
 				if (item.getTaxCode() == 0) {
-					result.addError("GridItemUK-" + item.getAccount(),
+					result.addError(
+							"GridItemUK-" + item.getAccount(),
 							Accounter.messages().pleaseEnter(
 									Accounter.constants().vatCode()));
 				}

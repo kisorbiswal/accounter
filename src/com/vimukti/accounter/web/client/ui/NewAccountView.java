@@ -1143,8 +1143,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		ClientCompany company = getCompany();
 		ClientAccount account = company.getAccountByName(name);
 		if (name != null && !name.isEmpty()) {
-			if (!isInViewMode() ? (account == null ? false : !data.getName()
-					.equalsIgnoreCase(name)) : account != null) {
+			if (!isInViewMode() ? (account == null ? false
+					: data.getName() == null ? true : !data.getName()
+							.equalsIgnoreCase(name)) : account != null) {
 
 				result.addError(accNameText, Accounter.constants()
 						.alreadyExist());
