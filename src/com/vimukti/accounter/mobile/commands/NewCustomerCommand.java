@@ -631,7 +631,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 
 		if (selection == billTo) {
 			context.setAttribute("input", "billTo");
-			return address(context, billTo);
+			return address(context, "billTo", billTo);
 		}
 
 		Record billToRecord = new Record(billTo);
