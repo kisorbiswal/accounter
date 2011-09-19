@@ -361,7 +361,6 @@ public class VendorBillView extends
 		vendorTDSTaxCode = new TaxItemCombo(messages.vendorTDSCode(Global.get()
 				.Vendor()), 1);
 		vendorTDSTaxCode.setHelpInformation(true);
-		
 
 		vendorCombo = createVendorComboItem(messages.vendorName(Global.get()
 				.Vendor()));
@@ -392,8 +391,7 @@ public class VendorBillView extends
 		vendorForm = UIUtils.form(Global.get().Vendor());
 		vendorForm.setWidth("100%");
 		vendorForm.setNumCols(3);
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA
-				&& getCompany().getPreferences().isTDSEnabled()) {
+		if (getCompany().getPreferences().isTDSEnabled()) {
 			vendorForm.setFields(vendorCombo, emptylabel, contactCombo,
 					emptylabel, vendorTDSTaxCode);
 		} else {
@@ -407,7 +405,6 @@ public class VendorBillView extends
 			vendorForm.setFields(classListCombo);
 		}
 
-		
 		vendorTDSTaxCode.setVisible(false);
 		// formItems.add(vendorCombo);
 		// formItems.add(contactCombo);
@@ -494,7 +491,7 @@ public class VendorBillView extends
 			protected ClientVendor getSelectedVendor() {
 				return VendorBillView.this.getVendor();
 			}
-			
+
 			@Override
 			public boolean isShowPriceWithVat() {
 				return VendorBillView.this.isShowPriceWithVat();
@@ -604,21 +601,21 @@ public class VendorBillView extends
 			// bottomLayout.setCellHorizontalAlignment(totalForm,
 			// HasHorizontalAlignment.ALIGN_RIGHT);
 		} else if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
-//			 bottomLayout.add(horizontalPanel);
-//			 bottomLayout.add(totalForm);
-//			 bottomLayout.setCellWidth(totalForm, "30%");
-//			
-//			 memoForm.setStyleName("align-form");
-//			 VerticalPanel vPanel = new VerticalPanel();
-//			 vPanel.add(hpanel);
-//			 vPanel.setWidth("100%");
-//			
-//			 vPanel.setCellHorizontalAlignment(hpanel, ALIGN_RIGHT);
-//			 vPanel.add(horizontalPanel);
-//			 vPanel.add(memoForm);
-//			
-//			 bottompanel.add(vPanel);
-//			 bottompanel.add(bottomLayout);
+			// bottomLayout.add(horizontalPanel);
+			// bottomLayout.add(totalForm);
+			// bottomLayout.setCellWidth(totalForm, "30%");
+			//
+			// memoForm.setStyleName("align-form");
+			// VerticalPanel vPanel = new VerticalPanel();
+			// vPanel.add(hpanel);
+			// vPanel.setWidth("100%");
+			//
+			// vPanel.setCellHorizontalAlignment(hpanel, ALIGN_RIGHT);
+			// vPanel.add(horizontalPanel);
+			// vPanel.add(memoForm);
+			//
+			// bottompanel.add(vPanel);
+			// bottompanel.add(bottomLayout);
 
 		} else {
 			memoForm.setStyleName("align-form");
@@ -657,14 +654,13 @@ public class VendorBillView extends
 		listforms.add(termsForm);
 
 		listforms.add(dateform);
-		 listforms.add(tdsForm);
+
 		listforms.add(memoForm);
 		listforms.add(vatCheckform);
 		listforms.add(totalForm);
-  
-	settabIndexes();	
-	}
 
+		settabIndexes();
+	}
 
 	private void paymentTermSelected(ClientPaymentTerms selectItem) {
 		selectedPaymentTerm = selectItem;
@@ -1134,6 +1130,7 @@ public class VendorBillView extends
 	public List<ClientTransactionItem> getAllTransactionItems() {
 		return vendorTransactionTable.getAllRows();
 	}
+
 	private void settabIndexes() {
 		vendorCombo.setTabIndex(1);
 		contactCombo.setTabIndex(2);
