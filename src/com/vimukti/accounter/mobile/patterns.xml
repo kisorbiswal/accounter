@@ -44,6 +44,7 @@
 			<command code="2" text="Customers List" />
 		</output>
 	</input>
+	
 	<input text="Account">
 		<output>
 			<command value="New Account">Create New Account</command>
@@ -52,17 +53,28 @@
 			<command value="Delete Account">Delete Account</command>
 		</output>
 	</input>
+	
 	<input text="Accounts">
 		<output>
 			<command value="Accounts List">Accounts List</command>
 		</output>
 	</input>
+	
 	<input text="JounalEntry">
 		<output>
 			<command value="New JournalEntry">Create a New JournalEntry</command>
 			<command value="Edit JournalEntry">Edit JournalEntry</command>
 			<command value="Delete journalEntry">Delete JournalEntry</command>
-			<command value="JournalEntry List">Show JoournalEntry List</command>
+			<command value="JournalEntry List">Show JournalEntry List</command>
+		</output>
+	</input>
+	
+	<input text="Sales">
+		<output>
+			<command value="New Sales Order">Create a New Sales Order</command>
+			<command value="Sales Tax">Sales Tax</command>
+			<command value="Sales Person">Sales Person</command>
+			<command value="Sales Order List">Sales Order List</command>
 		</output>
 	</input>
 
