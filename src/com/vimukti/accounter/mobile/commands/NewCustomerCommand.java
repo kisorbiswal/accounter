@@ -185,13 +185,6 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				return contact;
 			}
 		}
-
-		// String customerContact = (String) get("customerContact").getValue();
-		// Record customerContactRecord = new Record(customerContact);
-		// customerContactRecord.add("Name", "customerContact");
-		// customerContactRecord.add("Value", customerContact);
-		// list.add(customerContactRecord);
-
 		boolean isActive = (Boolean) get("isactive").getDefaultValue();
 		Record isActiveRecord = new Record(isActive);
 		isActiveRecord.add("Name", "Is Active");
@@ -206,7 +199,6 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-
 		result = balanceAsOfDateRequirement(context, list, selection);
 		if (result != null) {
 			return result;
@@ -275,13 +267,6 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		String vatRegisterationNum = (String) get("vatRegisterationNum")
-				.getValue();
-		Record vatRegisterationNumRecord = new Record("vatRegisterationNum");
-		vatRegisterationNumRecord.add("Name", "Vat Registeration Number");
-		vatRegisterationNumRecord.add("Value", vatRegisterationNum);
-		list.add(vatRegisterationNumRecord);
-
 		result = customerVatCodeRequirement(context, list, selection);
 		if (result != null) {
 			return result;
