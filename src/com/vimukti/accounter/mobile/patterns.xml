@@ -9,6 +9,7 @@
 			<command>Create New Invoice</command>
 			<command>List of All Invoices</command>
 		</output>
+
 	</pattern>
 
 	<pattern>
@@ -26,16 +27,17 @@
 		</output>
 	</pattern>
 
-	<input text="Fiscal Year">
+	<pattern>
+		<input>Fiscal Year</input>
+		<input>Financial Year</input>
 		<output>
-			<text text="Fiscal year" />
-			<command value="New Fiscal Year">Create New Fiscal Year</command>
-			<command value="Close Fiscal Year">Close Fiscal Year</command>
-			<command value="Edit Fiscal Year">Edit Fiscal Year</command>
-			<command vallue="Delete Fiscal Year">Delete Fiscal Year</command>
+			<command>Create New Fiscal Year</command>
+			<command> Close Fiscal Year</command>
+			<command>Edit Fiscal Year</command>
+			<command>Delete Fiscal Year</command>
 		</output>
-	</input>
 
+	</pattern>
 	<include pattern="" />
 	<input text="Customer">
 		<output>
@@ -45,51 +47,52 @@
 		</output>
 	</input>
 
-	<input text="Account">
-		<output>
-			<command value="New Account">Create New Account</command>
-			<command value="Edit Account">Edit Account</command>
-			<command value="Accounts List">Accounts List</command>
-			<command value="Delete Account">Delete Account</command>
-		</output>
-	</input>
-
-	<input text="Accounts">
-		<output>
-			<command value="Accounts List">Accounts List</command>
-		</output>
-	</input>
-
-	<input text="JounalEntry">
-		<output>
-			<command value="New JournalEntry">Create a New JournalEntry</command>
-			<command value="Edit JournalEntry">Edit JournalEntry</command>
-			<command value="Delete journalEntry">Delete JournalEntry</command>
-			<command value="JournalEntry List">Show JournalEntry List</command>
-		</output>
-	</input>
-
-
 	<pattern>
-		<input text="Sale"/>
-		<input text="Sales"/>
-			<output>
-				<text text="Sales Description" />
-				<command value="New Sales Order">Create a New Sales Order</command>
-				<command value="Sales Tax">Sales Tax</command>
-				<command value="Sales Person">Sales Person</command>
-				<command value="Sales Order List">Sales Order List</command>
-			</output>
+		<input>Account</input>
+		<output>
+			<command>Create New Account</command>
+			<command>Edit Account</command>
+			<command>Accounts List</command>
+			<command>Delete Account</command>
+		</output>
+	</pattern>
+	<pattern>
+		<input>Accounts</input>
+		<output>
+			<command>Accounts List</command>
+		</output>
+
+	</pattern>
+	<pattern>
+		<input>JounalEntry</input>
+		<output>
+			<command>Create a New JournalEntry</command>
+			<command>Edit JournalEntry</command>
+			<command>Delete JournalEntry</command>
+			<command>Show JournalEntry List</command>
+		</output>
 	</pattern>
 
 	<pattern>
-		<input text="Purchase"/>
-		<input text="Purchases"/>
-			<output>
-				<text text="Purchase Description" />
-				<command value="New Purchase Order">Create a New Purchase Order</command>
-				<command value="Purchase Order List">Purchase Order List</command>
-			</output>
+		<input text="Sale" />
+		<input text="Sales" />
+		<output>
+			<text text="Sales Description" />
+			<command value="New Sales Order">Create a New Sales Order</command>
+			<command value="Sales Tax">Sales Tax</command>
+			<command value="Sales Person">Sales Person</command>
+			<command value="Sales Order List">Sales Order List</command>
+		</output>
 	</pattern>
-	
+
+	<pattern>
+		<input text="Purchase" />
+		<input text="Purchases" />
+		<output>
+			<text text="Purchase Description" />
+			<command value="New Purchase Order">Create a New Purchase Order</command>
+			<command value="Purchase Order List">Purchase Order List</command>
+		</output>
+	</pattern>
+
 </patterns>
