@@ -29,11 +29,14 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	private static final int CUSTOMERGROUP_TO_SHOW = 5;
 	protected static final String NUMBER = "customerNumber";
 	protected static final String BALANCE = "balance";
-	private static final int VATCODE_TO_SHOW = 5;
 	private static final String PHONE = "phone";
 	private static final String FAX = "fax";
 	private static final String EMAIL = "email";
 	private static final String WEBADRESS = "webPageAdress";
+	private static final String BANK_NAME = "bankName";
+	private static final String BANK_ACCOUNT_NUM = "bankAccountNum";
+	private static final String BANK_BRANCH = "bankBranch";
+	private static final String VATREGISTER_NUM = "vatRegisterationNum";
 
 	@Override
 	public String getId() {
@@ -208,7 +211,6 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-
 		result = billToRequirement(context, list, selection);
 		if (result != null) {
 			return result;
@@ -244,24 +246,18 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-
-		String bankName = (String) get("bankName").getValue();
-		Record bankRecord = new Record("bankName");
-		bankRecord.add("Name", "Bank Name");
-		bankRecord.add("Value", bankName);
-		list.add(bankRecord);
-
-		String bankAccountNum = (String) get("bankAccountNum").getValue();
-		Record bankAccountNumRecord = new Record("bankAccountNum");
-		bankAccountNumRecord.add("Name", "Bank AccountNum");
-		bankAccountNumRecord.add("Value", bankAccountNum);
-		list.add(bankAccountNumRecord);
-
-		String bankBranchName = (String) get("bankBranch").getValue();
-		Record bankBranchRecord = new Record("bankBranch");
-		bankBranchRecord.add("Name", "Bank Branch");
-		bankBranchRecord.add("Value", bankBranchName);
-		list.add(bankBranchRecord);
+		result = bankNameRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+		result = bankAccountNumRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+		result = bankBranchRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
 
 		result = paymentMethodRequirement(context, list, selection);
 		if (result != null) {
@@ -275,7 +271,10 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-
+		result = vatRegisterationNumRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
 		String vatRegisterationNum = (String) get("vatRegisterationNum")
 				.getValue();
 		Record vatRegisterationNumRecord = new Record("vatRegisterationNum");
@@ -314,6 +313,152 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
+	private Result vatRegisterationNumRequirement(Context context,
+			ResultList list, Object selection) {
+
+		Requirement req = get("vatRegisterationNum");
+		String vatRegisterationNum = (String) req.getValue();
+
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals("vatRegisterationNum")) {
+			String order = context.getSelection(VATREGISTER_NUM);
+			if (order == null) {
+				order = context.getString();
+			}
+			vatRegisterationNum = order;
+			req.setDefaultValue(vatRegisterationNum);
+		}
+
+		if (selection == vatRegisterationNum) {
+			context.setAttribute(INPUT_ATTR, "vatRegisterationNum");
+			return text(context, "Enter vatRegisteration Number ",
+					vatRegisterationNum);
+		}
+
+		Record vatRegisterationNumRecord = new Record(vatRegisterationNum);
+		vatRegisterationNumRecord.add("Name", "vatRegisterationNum");
+		vatRegisterationNumRecord.add("Value", vatRegisterationNum);
+		list.add(vatRegisterationNumRecord);
+		Result result = new Result();
+		result.add(list);
+		return result;
+
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @param list
+	 * @param selection
+	 * @return
+	 */
+	private Result bankBranchRequirement(Context context, ResultList list,
+			Object selection) {
+
+		Requirement req = get("bankBranch");
+		String bankBranch = (String) req.getValue();
+
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals("bankBranch")) {
+			String order = context.getSelection(BANK_BRANCH);
+			if (order == null) {
+				order = context.getString();
+			}
+			bankBranch = order;
+			req.setDefaultValue(bankBranch);
+		}
+
+		if (selection == bankBranch) {
+			context.setAttribute(INPUT_ATTR, "bankBranch");
+			return text(context, "Enter bankBranch Name ", bankBranch);
+		}
+
+		Record bankBranchRecord = new Record(bankBranch);
+		bankBranchRecord.add("Name", "bankBranch");
+		bankBranchRecord.add("Value", bankBranch);
+		list.add(bankBranchRecord);
+		Result result = new Result();
+		result.add(list);
+		return result;
+
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @param list
+	 * @param selection
+	 * @return
+	 */
+	private Result bankAccountNumRequirement(Context context, ResultList list,
+			Object selection) {
+
+		Requirement req = get("bankAccount");
+		String bankAccountNumber = (String) req.getValue();
+
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals("bankAccount")) {
+			String order = context.getSelection(BANK_ACCOUNT_NUM);
+			if (order == null) {
+				order = context.getString();
+			}
+			bankAccountNumber = order;
+			req.setDefaultValue(bankAccountNumber);
+		}
+
+		if (selection == bankAccountNumber) {
+			context.setAttribute(INPUT_ATTR, "bankAccount");
+			return text(context, "Enter bankAccount Number ", bankAccountNumber);
+		}
+
+		Record bankAccountNumRecord = new Record(bankAccountNumber);
+		bankAccountNumRecord.add("Name", "bankAccount");
+		bankAccountNumRecord.add("Value", bankAccountNumber);
+		list.add(bankAccountNumRecord);
+		Result result = new Result();
+		result.add(list);
+		return result;
+
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @param list
+	 * @param selection
+	 * @return
+	 */
+	private Result bankNameRequirement(Context context, ResultList list,
+			Object selection) {
+
+		Requirement req = get("webPageAdress");
+		String bankName = (String) req.getValue();
+
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals("webPageAdress")) {
+			String order = context.getSelection(BANK_NAME);
+			if (order == null) {
+				order = context.getString();
+			}
+			bankName = order;
+			req.setDefaultValue(bankName);
+		}
+
+		if (selection == bankName) {
+			context.setAttribute(INPUT_ATTR, "webPageAdress");
+			return text(context, "Enter webPageAdress ", bankName);
+		}
+
+		Record bankNameRecord = new Record(bankName);
+		bankNameRecord.add("Name", "webPageAdress");
+		bankNameRecord.add("Value", bankName);
+		list.add(bankNameRecord);
+		Result result = new Result();
+		result.add(list);
+		return result;
+
+	}
+
 	/**
 	 * 
 	 * @param context
@@ -346,7 +491,9 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		balanceRecord.add("Name", "webPageAdress");
 		balanceRecord.add("Value", phone);
 		list.add(balanceRecord);
-		return null;
+		Result result = new Result();
+		result.add(list);
+		return result;
 
 	}
 
@@ -381,7 +528,9 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		balanceRecord.add("Name", "email");
 		balanceRecord.add("Value", phone);
 		list.add(balanceRecord);
-		return null;
+		Result result = new Result();
+		result.add(list);
+		return result;
 	}
 
 	/**
@@ -415,7 +564,9 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		balanceRecord.add("Name", "fax");
 		balanceRecord.add("Value", phone);
 		list.add(balanceRecord);
-		return null;
+		Result result = new Result();
+		result.add(list);
+		return result;
 	}
 
 	/**
@@ -449,7 +600,9 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		balanceRecord.add("Name", "phone");
 		balanceRecord.add("Value", phone);
 		list.add(balanceRecord);
-		return null;
+		Result result = new Result();
+		result.add(list);
+		return result;
 	}
 
 	/**
@@ -483,7 +636,9 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		balanceRecord.add("Name", "Balance");
 		balanceRecord.add("Value", balance);
 		list.add(balanceRecord);
-		return null;
+		Result result = new Result();
+		result.add(list);
+		return result;
 	}
 
 	/**
@@ -501,7 +656,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		TAXCode vatCode = (TAXCode) customerVatCodeReq.getValue();
 
 		if (selection == vatCode) {
-			return vatCodes(context, vatCode);
+			return taxCode(context, vatCode);
 		}
 
 		if (customerVatCodeObj != null) {
@@ -514,53 +669,9 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		customerVatCodeRecord.add("Value", vatCode.getName());
 		list.add(customerVatCodeRecord);
 
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param string
-	 * @return
-	 */
-	private Result vatCodes(Context context, TAXCode oldTaxCode) {
-		List<TAXCode> taxCodes = getTaxCodesList();
-		Result result = context.makeResult();
-		result.add("Select VatCode");
-
-		ResultList list = new ResultList("customerVatCode");
-		int num = 0;
-		if (oldTaxCode != null) {
-			list.add(createTAXCodeRecord(oldTaxCode));
-			num++;
-		}
-		for (TAXCode taxCode : taxCodes) {
-			if (taxCode != oldTaxCode) {
-				list.add(createTAXCodeRecord(taxCode));
-				num++;
-			}
-			if (num == VATCODE_TO_SHOW) {
-				break;
-			}
-		}
+		Result result = new Result();
 		result.add(list);
-
-		CommandList commandList = new CommandList();
-		commandList.add("Create VatCode");
-		result.add(commandList);
-
 		return result;
-	}
-
-	/**
-	 * 
-	 * @param oldTaxCode
-	 * @return
-	 */
-	private Record createTAXCodeRecord(TAXCode oldTaxCode) {
-		Record record = new Record(oldTaxCode);
-		record.add("Name", oldTaxCode.getName());
-		return record;
 	}
 
 	/**
@@ -593,7 +704,9 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		customerGroupRecord.add("Value", customerGroup.getName());
 		list.add(customerGroupRecord);
 
-		return null;
+		Result result = new Result();
+		result.add(list);
+		return result;
 	}
 
 	/**
@@ -706,7 +819,9 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		priceLevelRecord.add("Value", creditRating.getName());
 		list.add(priceLevelRecord);
 
-		return null;
+		Result result = new Result();
+		result.add(list);
+		return result;
 	}
 
 	/**
@@ -783,7 +898,9 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		priceLevelRecord.add("Value", priceLevel.getName());
 		list.add(priceLevelRecord);
 
-		return null;
+		Result result = new Result();
+		result.add(list);
+		return result;
 	}
 
 	/**
@@ -859,7 +976,9 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		salesPersonRecord.add("Value", salesPerson.getName());
 		list.add(salesPersonRecord);
 
-		return null;
+		Result result = new Result();
+		result.add(list);
+		return result;
 	}
 
 	/**
@@ -894,7 +1013,9 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		billToRecord.add("Name", "Bill To");
 		billToRecord.add("Value", billTo.toString());
 		list.add(billToRecord);
-		return null;
+		Result result = new Result();
+		result.add(list);
+		return result;
 	}
 
 	/**
@@ -927,7 +1048,9 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		transDateRecord.add("Name", "Balance AsOf Date");
 		transDateRecord.add("Value", balanceAsofdate.toString());
 		list.add(transDateRecord);
-		return null;
+		Result result = new Result();
+		result.add(list);
+		return result;
 	}
 
 	/**
@@ -960,7 +1083,9 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		transDateRecord.add("Name", "Customer SinceDate");
 		transDateRecord.add("Value", customerSincedate.toString());
 		list.add(transDateRecord);
-		return null;
+		Result result = new Result();
+		result.add(list);
+		return result;
 	}
 
 	/**
@@ -1012,7 +1137,9 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		paymentTermRecord.add("Name", "Payment Terms");
 		paymentTermRecord.add("Value", paymentTerm.getName());
 		list.add(paymentTermRecord);
-		return null;
+		Result result = new Result();
+		result.add(list);
+		return result;
 	}
 
 	/**
@@ -1063,15 +1190,6 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	}
 
 	private List<SalesPerson> getsalePersonsList() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	private List<TAXCode> getTaxCodesList() {
 		// TODO Auto-generated method stub
 		return null;
 	}
