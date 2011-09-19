@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.Date;
 
 import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Command;
 import com.vimukti.accounter.mobile.Context;
@@ -21,6 +22,11 @@ public abstract class AbstractCommand extends Command {
 	protected static final String ADDRESS_MESSAGE_ATTR = "addressMessage";
 	protected static final String OLD_ADDRESS_ATTR = "oldAddress";
 	private static final String ADDRESS_LINE_ATTR = null;
+	private static final String CONTACT_ATTR = "contact";
+	private static final String OLD_CONTACT_ATTR = "oldContact";
+	private static final String CONTACT_LINE_ATTR = null;
+	private static final String CONTACT_PROCESS = "contactProcess";
+	protected static final String CONTACTS = "contact";
 
 	protected Result text(Context context, String message, String oldText) {
 		Result result = context.makeResult();
@@ -163,4 +169,112 @@ public abstract class AbstractCommand extends Command {
 		finish.add(record);
 		return result;
 	}
+
+	/**
+	 * 
+	 * @param context
+	 * @return
+	 */
+	protected Result contactProcess(Context context) {
+		String message = (String) context.getAttribute(CONTACT_ATTR);
+		Contact contact = (Contact) context.getAttribute(OLD_CONTACT_ATTR);
+		return contact(context, message, contact);
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @param message
+	 * @param oldContact
+	 * @return {@link Result}
+	 */
+	protected Result contact(Context context, String message, Contact oldContact) {
+		context.setAttribute(PROCESS_ATTR, CONTACT_PROCESS);
+		context.setAttribute(CONTACT_ATTR, message);
+		context.setAttribute(OLD_CONTACT_ATTR, oldContact);
+
+		String lineAttr = (String) context.getAttribute(CONTACT_LINE_ATTR);
+		if (lineAttr != null) {
+			String input = context.getString();
+			context.removeAttribute(CONTACT_LINE_ATTR);
+			if (lineAttr.equals("contactName")) {
+				oldContact.setName(input);
+			} else if (lineAttr.equals("title")) {
+				oldContact.setTitle(input);
+			} else if (lineAttr.equals("businessPhone")) {
+				oldContact.setBusinessPhone(input);
+			} else if (lineAttr.equals("email")) {
+				oldContact.setEmail(input);
+			}
+		} else {
+			Object selection = context.getSelection(CONTACTS);
+			if (selection != null) {
+
+				if (selection.equals("isActive")) {
+					oldContact.setPrimary(!oldContact.isPrimary());
+				} else if (selection == oldContact.getName()) {
+					context.setAttribute(CONTACT_LINE_ATTR, "contactName");
+					return text(context, "Enter conatactName",
+							oldContact.getName());
+				} else if (selection == oldContact.getTitle()) {
+					context.setAttribute(CONTACT_LINE_ATTR, "title");
+					return text(context, "Enter Title", oldContact.getTitle());
+				} else if (selection == oldContact.getBusinessPhone()) {
+					context.setAttribute(CONTACT_LINE_ATTR, "businessPhone");
+					return text(context, "Enter Businessphone Number ",
+							oldContact.getBusinessPhone());
+				} else if (selection == oldContact.getEmail()) {
+					context.setAttribute(CONTACT_LINE_ATTR, "email");
+					return text(context, "Enter Email", oldContact.getEmail());
+				} else {
+					selection = context.getSelection(ACTIONS);
+					if (selection == ActionNames.FINISH) {
+						context.removeAttribute(PROCESS_ATTR);
+						context.removeAttribute(CONTACT_ATTR);
+						context.removeAttribute(OLD_ADDRESS_ATTR);
+						context.removeAttribute(CONTACT_LINE_ATTR);// No need
+						return null;
+					}
+				}
+			}
+		}
+		ResultList list = new ResultList(CONTACTS);
+		Record record = new Record("isActive");
+		record.add("", "IsActive");
+		record.add("", oldContact.isPrimary());
+		list.add(record);
+
+		record = new Record(oldContact.getName());
+		record.add("", "contactName");
+		record.add("", oldContact.getName());
+		list.add(record);
+
+		record = new Record(oldContact.getTitle());
+		record.add("", "title");
+		record.add("", oldContact.getTitle());
+		list.add(record);
+
+		record = new Record(oldContact.getBusinessPhone());
+		record.add("", "businessPhone");
+		record.add("", oldContact.getBusinessPhone());
+		list.add(record);
+
+		record = new Record(oldContact.getEmail());
+		record.add("", "email");
+		record.add("", oldContact.getEmail());
+		list.add(record);
+
+		Result result = context.makeResult();
+		result.add(message);
+
+		result.add(list);
+		result.add("Select any line to edit");
+
+		ResultList finish = new ResultList(ACTIONS);
+		record = new Record(ActionNames.FINISH);
+		record.add("", "Finish");
+		finish.add(record);
+		return result;
+	}
+
 }
