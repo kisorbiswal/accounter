@@ -153,9 +153,11 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return record;
 	}
 
-	protected Record createPaymentTermRecord(PaymentTerms oldPaymentTerms) {
-		// TODO Auto-generated method stub
-		return null;
+	protected Record createPaymentTermRecord(PaymentTerms paymentTerms) {
+		Record record = new Record(paymentTerms);
+		record.add("Name", paymentTerms.getName());
+		record.add("Desc", paymentTerms.getDescription());
+		return record;
 	}
 
 	private List<Item> getItems(Session session) {
