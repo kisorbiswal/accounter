@@ -1,11 +1,14 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.Date;
+import java.util.List;
 
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Contact;
+import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Command;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Result;
@@ -27,6 +30,8 @@ public abstract class AbstractCommand extends Command {
 	protected static final String CONTACT_LINE_ATTR = null;
 	protected static final String CONTACT_PROCESS = "contactProcess";
 	protected static final String CONTACTS = "contact";
+	protected static final String TAXCODE = null;
+	private static final int TAXCODE_TO_SHOW = 0;
 
 	protected Result text(Context context, String message, String oldText) {
 		Result result = context.makeResult();
@@ -167,6 +172,41 @@ public abstract class AbstractCommand extends Command {
 		record = new Record(ActionNames.FINISH);
 		record.add("", "Finish");
 		finish.add(record);
+		return result;
+	}
+
+	private Record createTaxCodeRecord(TAXCode taxCode) {
+		Record record = new Record(taxCode);
+		record.add("", taxCode.getName());
+		return record;
+	}
+
+	private List<TAXCode> getTaxCodes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	protected Result taxCode(Context context, TAXCode oldTaxCode) {
+		Result result = context.makeResult();
+		List<TAXCode> codes = getTaxCodes();
+		ResultList list = new ResultList(TAXCODE);
+		int num = 0;
+		if (oldTaxCode != null) {
+			list.add(createTaxCodeRecord(oldTaxCode));
+			num++;
+		}
+		for (TAXCode code : codes) {
+			if (code != oldTaxCode) {
+				list.add(createTaxCodeRecord(code));
+				num++;
+			}
+			if (num == TAXCODE_TO_SHOW) {
+				break;
+			}
+		}
+
+		CommandList commands = new CommandList();
+		commands.add("Create New Taxcode");
 		return result;
 	}
 
