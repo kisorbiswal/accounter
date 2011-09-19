@@ -30,6 +30,10 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	protected static final String NUMBER = "customerNumber";
 	protected static final String BALANCE = "balance";
 	private static final int VATCODE_TO_SHOW = 5;
+	private static final String PHONE = "phone";
+	private static final String FAX = "fax";
+	private static final String EMAIL = "email";
+	private static final String WEBADRESS = "webPageAdress";
 
 	@Override
 	public String getId() {
@@ -196,12 +200,9 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		result = balanceRequirement(context, list, selection);
-
-		String customerBalance = (String) get("Balance").getValue();
-		Record balanceRecord = new Record(customerBalance);
-		balanceRecord.add("Name", "Customer Balanace");
-		balanceRecord.add("Value", customerBalance);
-		list.add(balanceRecord);
+		if (result != null) {
+			return result;
+		}
 
 		result = balanceAsOfDateRequirement(context, list, selection);
 		if (result != null) {
@@ -212,29 +213,22 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		String phoneNum = (String) get("phone").getValue();
-		Record phoneRecord = new Record(phoneNum);
-		phoneRecord.add("Name", "Phone");
-		phoneRecord.add("Value", phoneNum);
-		list.add(phoneRecord);
-
-		String faxNum = (String) get("fax").getValue();
-		Record faxRecord = new Record(faxNum);
-		faxRecord.add("Name", "Fax");
-		faxRecord.add("Value", faxNum);
-		list.add(faxRecord);
-
-		String email = (String) get("email").getValue();
-		Record emailRecord = new Record(email);
-		emailRecord.add("Name", "Email");
-		emailRecord.add("Value", email);
-		list.add(emailRecord);
-
-		String webPageAdress = (String) get("webPageAdress").getValue();
-		Record webPageAdressRecord = new Record(webPageAdress);
-		webPageAdressRecord.add("Name", "WebPage Adress");
-		webPageAdressRecord.add("Value", webPageAdress);
-		list.add(webPageAdressRecord);
+		result = faxNumRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+		result = emailRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+		result = phoneNumRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+		result = webAdressRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
 
 		result = salesPersonRequirement(context, list, selection);
 		if (result != null) {
@@ -320,6 +314,151 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param context
+	 * @param list
+	 * @param selection
+	 * @return
+	 */
+	private Result webAdressRequirement(Context context, ResultList list,
+			Object selection) {
+
+		Requirement req = get("webPageAdress");
+		String phone = (String) req.getValue();
+
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals("webPageAdress")) {
+			String order = context.getSelection(WEBADRESS);
+			if (order == null) {
+				order = context.getString();
+			}
+			phone = order;
+			req.setDefaultValue(phone);
+		}
+
+		if (selection == phone) {
+			context.setAttribute(INPUT_ATTR, "webPageAdress");
+			return text(context, "Enter webPageAdress ", phone);
+		}
+
+		Record balanceRecord = new Record(phone);
+		balanceRecord.add("Name", "webPageAdress");
+		balanceRecord.add("Value", phone);
+		list.add(balanceRecord);
+		return null;
+
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @param list
+	 * @param selection
+	 * @return
+	 */
+	private Result emailRequirement(Context context, ResultList list,
+			Object selection) {
+		Requirement req = get("email");
+		String phone = (String) req.getValue();
+
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals("email")) {
+			String order = context.getSelection(EMAIL);
+			if (order == null) {
+				order = context.getString();
+			}
+			phone = order;
+			req.setDefaultValue(phone);
+		}
+
+		if (selection == phone) {
+			context.setAttribute(INPUT_ATTR, "email");
+			return text(context, "Enter email ", phone);
+		}
+
+		Record balanceRecord = new Record(phone);
+		balanceRecord.add("Name", "email");
+		balanceRecord.add("Value", phone);
+		list.add(balanceRecord);
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @param list
+	 * @param selection
+	 * @return
+	 */
+	private Result faxNumRequirement(Context context, ResultList list,
+			Object selection) {
+		Requirement req = get("fax");
+		String phone = (String) req.getValue();
+
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals("fax")) {
+			String order = context.getSelection(FAX);
+			if (order == null) {
+				order = context.getString();
+			}
+			phone = order;
+			req.setDefaultValue(phone);
+		}
+
+		if (selection == phone) {
+			context.setAttribute(INPUT_ATTR, "fax");
+			return text(context, "Enter Fax Number", phone);
+		}
+
+		Record balanceRecord = new Record(phone);
+		balanceRecord.add("Name", "fax");
+		balanceRecord.add("Value", phone);
+		list.add(balanceRecord);
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @param list
+	 * @param selection
+	 * @return
+	 */
+	private Result phoneNumRequirement(Context context, ResultList list,
+			Object selection) {
+		Requirement req = get("phone");
+		String phone = (String) req.getValue();
+
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals("phone")) {
+			String order = context.getSelection(PHONE);
+			if (order == null) {
+				order = context.getString();
+			}
+			phone = order;
+			req.setDefaultValue(phone);
+		}
+
+		if (selection == phone) {
+			context.setAttribute(INPUT_ATTR, "phone");
+			return text(context, "Enter Phone Number", phone);
+		}
+
+		Record balanceRecord = new Record(phone);
+		balanceRecord.add("Name", "phone");
+		balanceRecord.add("Value", phone);
+		list.add(balanceRecord);
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @param list
+	 * @param selection
+	 * @return
+	 */
 	private Result balanceRequirement(Context context, ResultList list,
 			Object selection) {
 		Requirement req = get("balance");
@@ -337,7 +476,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 
 		if (selection == balance) {
 			context.setAttribute(INPUT_ATTR, "balance");
-			return number(context, "Enter Balance", balance);
+			return amount(context, "Enter Balance", balance);
 		}
 
 		Record balanceRecord = new Record(balance);
