@@ -229,15 +229,11 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected Result customerRequirement(Context context) {
 		Requirement customerReq = get("customer");
 		Customer customer = context.getSelection("customers");
-		if (!customerReq.isDone()) {
-			if (customer != null) {
-				customerReq.setValue(customer);
-			} else {
-				return customers(context);
-			}
-		}
 		if (customer != null) {
 			customerReq.setValue(customer);
+		}
+		if (!customerReq.isDone()) {
+			return customers(context);
 		}
 		return null;
 	}
