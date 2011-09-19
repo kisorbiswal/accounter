@@ -1,0 +1,86 @@
+<reportpattern>
+	<include pattern="" />
+	<input text="Report">
+		<output>
+			<text
+				text="Report is a formatted and organized presentation of your company data."></text>
+			<command code="1" text="Company  &amp; Financial Reports"></command>
+			<command code="2" text="Customers and Receivables Reports"></command>
+			<command code="3" text="Sales Reports"></command>
+			<command code="4" text="Suppliers and Payables Reports"></command>
+			<command code="5" text="Purchases Reports"></command>
+			<command code="6" text="VAT Reports"></command>
+		</output>
+	</input>
+	<input text="Company  &amp; Financial Reports">
+		<output>
+			<text text="Company  &amp; Financial Reports"></text>
+			<command code="1" text="Profit and Loss"></command>
+			<command code="2" text="Balance Sheet"></command>
+			<command code="3" text="Cash Flow Report"></command>
+			<command code="4" text="Trial Balance"></command>
+			<command code="5" text="Transaction Detail By Account"></command>
+			<command code="6" text="Expense Report"></command>
+		</output>
+	</input>
+	<input text="Company  &amp; Financial Reports">
+		<output>
+			<text text="Company  &amp; Financial Reports"></text>
+			<command code="1" text="Profit and Loss"></command>
+			<command code="2" text="Balance Sheet"></command>
+			<command code="3" text="Cash Flow Report"></command>
+			<command code="4" text="Trial Balance"></command>
+			<command code="5" text="Transaction Detail By Account"></command>
+			<command code="6" text="Expense Report"></command>
+		</output>
+	</input>
+
+	<input text="Customers and Receivable">
+		<output>
+			<text text="Sales Reports"></text>
+			<command code="1" text="A/R Aging Summary"></command>
+			<command code="2" text="A/R Aging Summary"></command>
+			<command code="3" text="Customer Statement"></command>
+			<command code="4" text="Customer Transaction History"></command>
+		</output>
+	</input>
+	<input text="Sales Reports">
+		<output>
+			<text text="Suppliers and Payables Reports"></text>
+			<command code="1" text="Sales By Customer Summary"></command>
+			<command code="2" text="Sales By Customer Detail"></command>
+			<command code="3" text="Sales By Item Summary"></command>
+			<command code="4" text="Sales By Item Detail"></command>
+			<command code="5" text="Sales Order Report"></command>
+		</output>
+	</input>
+	<input text="Suppliers and Payables Reports">
+		<output>
+			<text text="Suppliers and Payables Reports"></text>
+			<command code="1" text="A/P Aging Summary"></command>
+			<command code="2" text="A/P Aging Detail"></command>
+			<command code="3" text="Supplier Transaction History"></command>
+		</output>
+	</input>
+	<input text="Purchases Reports">
+		<output>
+			<text text="Purchases Reports"></text>
+			<command code="1" text="Purchase By Supplier Summary"></command>
+			<command code="2" text="Purchase By Supplier Detail"></command>
+			<command code="3" text="Purchase By Item Summary"></command>
+			<command code="4" text="Purchase By Item Detail"></command>
+			<command code="5" text="Purchase Order Report"></command>
+		</output>
+	</input>
+	<input text="VAT Reports">
+		<output>
+			<text text="VAT Reports"></text>
+			<command code="1" text="Prior VAT Return"></command>
+			<command code="2" text="VAT Detail"></command>
+			<command code="3" text="VAT 100"></command>
+			<command code="4" text="Uncategorised VAT Amounts"></command>
+			<command code="5" text="VAT Item Summary"></command>
+			<command code="6" text="EC Sales List"></command>
+		</output>
+	</input>
+</reportpattern>
