@@ -19,7 +19,6 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CashDiscountDialog;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.customers.CustomerCreditsAndPaymentsDialiog;
@@ -773,8 +772,7 @@ public abstract class TransactionPayBillTable extends
 					ClientTAXItem taxItem = Accounter.getCompany().getTAXItem(
 							vendor.getTaxItemCode());
 					if (taxItem != null)
-						return row.getPayment()
-								* (taxItem.getTaxRate() / 100);
+						return row.getPayment() * (taxItem.getTaxRate() / 100);
 					else
 						return 0;
 				}
@@ -796,18 +794,18 @@ public abstract class TransactionPayBillTable extends
 					.pleaseSelectAnyOneOfTheTransactions());
 		}
 
-		// validates receive payment amount excesses due amount or not
-		for (ClientTransactionPayBill transactionPayBill : this
-				.getSelectedRecords()) {
-
-			double totalValue = getTotalValue(transactionPayBill);
-			if (!AccounterValidator.isValidReceive_Payment(transactionPayBill
-					.getAmountDue(), totalValue, Accounter.constants()
-					.receivePaymentExcessDue())) {
-				result.addError(transactionPayBill.getBillNumber(), Accounter
-						.constants().receivePaymentExcessDue());
-			}
-		}
+		// // validates receive payment amount excesses due amount or not
+		// for (ClientTransactionPayBill transactionPayBill : this
+		// .getSelectedRecords()) {
+		//
+		// double totalValue = getTotalValue(transactionPayBill);
+		// if (!AccounterValidator.isValidReceive_Payment(transactionPayBill
+		// .getAmountDue(), totalValue, Accounter.constants()
+		// .receivePaymentExcessDue())) {
+		// result.addError(transactionPayBill.getBillNumber(), Accounter
+		// .constants().receivePaymentExcessDue());
+		// }
+		// }
 
 		return result;
 	}
@@ -1013,11 +1011,11 @@ public abstract class TransactionPayBillTable extends
 
 				ClientTAXItem taxItem = Accounter.getCompany().getTAXItem(
 						vendor.getTaxItemCode());
-				if(taxItem!=null)
-				item.setDummyDue(item.getAmountDue()
-						- (totalValue + (taxItem.getTaxRate() / 100 * item
-								.getOriginalAmount())));
-				//item.setDummyDue(item.getAmountDue() - totalValue);
+				if (taxItem != null)
+					item.setDummyDue(item.getAmountDue()
+							- (totalValue + (taxItem.getTaxRate() / 100 * item
+									.getOriginalAmount())));
+				// item.setDummyDue(item.getAmountDue() - totalValue);
 			} else {
 				item.setDummyDue(item.getAmountDue() - totalValue);
 			}
