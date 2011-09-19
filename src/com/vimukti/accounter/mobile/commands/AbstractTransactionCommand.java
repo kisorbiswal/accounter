@@ -84,13 +84,11 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 					context.setAttribute(ITEM_PROPERTY_ATTR, "quantity");
 					return amount(context, "Enter Quantity", transactionItem
 							.getQuantity().getValue());
-				} else if (((Double) selection) == transactionItem
-						.getUnitPrice()) {
+				} else if (selection.equals("unitPrice")) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, "unitPrice");
 					return amount(context, "Enter Unitprice",
 							transactionItem.getUnitPrice());
-				} else if (((Double) selection) == transactionItem
-						.getDiscount()) {
+				} else if (selection.equals("discount")) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, "discount");
 					return amount(context, "Enter Discount",
 							transactionItem.getDiscount());
@@ -119,12 +117,12 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		record.add("", transactionItem.getQuantity());
 		list.add(record);
 
-		record = new Record(transactionItem.getUnitPrice());
+		record = new Record("unitPrice");
 		record.add("", "Unit Price");
 		record.add("", transactionItem.getUnitPrice());
 		list.add(record);
 
-		record = new Record(transactionItem.getDiscount());
+		record = new Record("discount");
 		record.add("", "Discount %");
 		record.add("", transactionItem.getDiscount());
 		list.add(record);
