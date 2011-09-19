@@ -39,7 +39,7 @@ public abstract class ComboColumn<T, C> extends EditColumn<T> {
 
 			@Override
 			public void onAddNew(final String text) {
-				addNewItemDialog dialog = new addNewItemDialog(
+				NewItemDialog dialog = new NewItemDialog(
 						"Add new",
 						"The name you entered '"
 								+ text
