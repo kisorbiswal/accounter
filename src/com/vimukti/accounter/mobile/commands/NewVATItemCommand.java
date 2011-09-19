@@ -52,24 +52,45 @@ public class NewVATItemCommand extends Command {
 		Result result = null;
 
 		result = nameRequirement(context);
+		if (result == null) {
+			// TODO
+		}
 
 		result = taxRateRequirement(context);
+		if (result == null) {
+			// TODO
+		}
 
 		result = taxAgencyRequirement(context);
+		if (result == null) {
+			// TODO
+		}
+
+		result = vatReturnBoxRequirement(context);
+		if (result == null) {
+			// TODO
+		}
 
 		result = createOptionalResult(context);
+		if (result == null) {
+			// TODO
+		}
 
 		return createVATItem(context);
+	}
+
+	private Result vatReturnBoxRequirement(Context context) {
+		Requirement vatReturnBox = get(VAT_RETURN_BOX);
+		if (!vatReturnBox.isDone()) {
+			return getVatReturnBoxResult(context);
+		}
+		return null;
 	}
 
 	private Result taxAgencyRequirement(Context context) {
 		Requirement taxAgency = get(TAX_AGENCY);
 		if (!taxAgency.isDone()) {
 			return getTaxAgencyResult(context);
-		}
-		Requirement vatReturnBox = get(VAT_RETURN_BOX);
-		if (!vatReturnBox.isDone()) {
-			return getVatReturnBoxResult(context);
 		}
 		return null;
 	}
@@ -109,59 +130,157 @@ public class NewVATItemCommand extends Command {
 				break;
 			}
 		}
+		selection = context.getSelection("values");
 
-		Result result = context.makeResult();
+		Requirement nameReq = get(NAME);
+		String name = (String) nameReq.getValue();
+		if (name == selection) {
+			return nameRequirement(context);
+		}
 
-		result.add("VAT Item is ready to create with following values.");
-		ResultList list = new ResultList("");
+		Requirement taxRateReq = get(TAX_RATE);
+		Double taxRate = (Double) taxRateReq.getValue();
+		if (taxRate == selection) {
+			return taxRateRequirement(context);
+		}
 
-		String name = (String) get(NAME).getValue();
+		Requirement taxAgencyrReq = get(TAX_AGENCY);
+		TAXAgency taxAgency = (TAXAgency) taxAgencyrReq.getValue();
+		if (taxAgency == selection) {
+			return taxAgencyRequirement(context);
+		}
+
+		Requirement vatReturnBoxReq = get(VAT_RETURN_BOX);
+		VATReturnBox vatReturnBox = (VATReturnBox) vatReturnBoxReq.getValue();
+		if (vatReturnBox == selection) {
+			return vatReturnBoxRequirement(context);
+		}
+
+		ResultList list = new ResultList("values");
+
 		Record nameRecord = new Record(name);
 		nameRecord.add("Name", "Name");
 		nameRecord.add("Value", name);
 		list.add(nameRecord);
 
-		String description = (String) get(DESCRIPTION).getDefaultValue();
-		Record descriptionRecord = new Record(description);
-		descriptionRecord.add("Name", "Description");
-		descriptionRecord.add("Value", description);
-		list.add(descriptionRecord);
+		Result result = descriptionRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
 
-		boolean isPercentage = (Boolean) get(IS_PERCENTAGE).getDefaultValue();
-		Record isPercentageRecord = new Record(isPercentage);
-		isPercentageRecord.add("Name", "IsPercentage");
-		isPercentageRecord.add("Value", isPercentage);
-		list.add(isPercentageRecord);
+		result = isPercentageRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
 
-		double taxRate = (Double) get(TAX_RATE).getValue();
 		Record taxRateRecord = new Record(taxRate);
 		taxRateRecord.add("Name", "Tax Rate");
 		taxRateRecord.add("Value", taxRate);
 		list.add(taxRateRecord);
 
-		boolean isActive = (Boolean) get(IS_ACTIVE).getDefaultValue();
-		Record isActiveRecord = new Record(isActive);
-		isActiveRecord.add("Name", "Is Active");
-		isActiveRecord.add("Value", isActive);
-		list.add(isActiveRecord);
+		result = isActiveRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
 
-		TAXAgency taxAgency = (TAXAgency) get(TAX_AGENCY).getValue();
 		Record taxAgencyRecord = new Record(taxAgency);
 		taxAgencyRecord.add("Name", "Tax Agency");
 		taxAgencyRecord.add("Value", taxAgency);
 		list.add(taxAgencyRecord);
 
-		VATReturnBox vatReturnBox = (VATReturnBox) get(VAT_RETURN_BOX)
-				.getValue();
 		Record vatReturnBoxRecord = new Record(vatReturnBox);
 		vatReturnBoxRecord.add("Name", "VAT Return Box");
 		vatReturnBoxRecord.add("Value", vatReturnBox);
 		list.add(vatReturnBoxRecord);
 
+		result = context.makeResult();
+		result.add("VAT Item is ready to create with following values.");
 		result.add(list);
-		result.add("Finish to create VAT Item");
+		ResultList actions = new ResultList("actions");
+		Record finish = new Record(ActionNames.FINISH);
+		finish.add("", "Finish to create VAT Item.");
+		actions.add(finish);
+		result.add(actions);
 
 		return result;
+	}
+
+	private Result isActiveRequirement(Context context, ResultList list,
+			Object selection) {
+
+		Requirement isActiveReq = get(IS_ACTIVE);
+		Boolean isActive = (Boolean) isActiveReq.getDefaultValue();
+		String attribute = (String) context.getAttribute("input");
+		if (attribute.equals(IS_ACTIVE)) {
+			Boolean isAct = context.getSelection(IS_ACTIVE);
+			if (isAct == null) {
+				isAct = context.getInteger() == 1 ? true : false;
+			}
+			isActive = isAct;
+			isActiveReq.setDefaultValue(isActive);
+		}
+		if (selection == isActive) {
+			context.setAttribute("input", IS_ACTIVE);
+			// TODO return text(context, description);
+		}
+
+		Record isActiveRecord = new Record(isActive);
+		isActiveRecord.add("Name", "Is Active");
+		isActiveRecord.add("Value", isActive);
+		list.add(isActiveRecord);
+		return null;
+	}
+
+	private Result isPercentageRequirement(Context context, ResultList list,
+			Object selection) {
+
+		Requirement isPercentageReq = get(IS_PERCENTAGE);
+		Boolean isPercentage = (Boolean) isPercentageReq.getDefaultValue();
+		String attribute = (String) context.getAttribute("input");
+		if (attribute.equals(IS_PERCENTAGE)) {
+			Boolean isPerc = context.getSelection(IS_PERCENTAGE);
+			if (isPerc == null) {
+				isPerc = context.getInteger() == 1 ? true : false;
+			}
+			isPercentage = isPerc;
+			isPercentageReq.setDefaultValue(isPercentage);
+		}
+		if (selection == isPercentage) {
+			context.setAttribute("input", IS_PERCENTAGE);
+			// TODO return text(context, description);
+		}
+
+		Record isPercentageRecord = new Record(isPercentage);
+		isPercentageRecord.add("Name", "Is Percentage");
+		isPercentageRecord.add("Value", isPercentage);
+		list.add(isPercentageRecord);
+		return null;
+	}
+
+	private Result descriptionRequirement(Context context, ResultList list,
+			Object selection) {
+
+		Requirement descriptionReq = get(DESCRIPTION);
+		String description = (String) descriptionReq.getDefaultValue();
+		String attribute = (String) context.getAttribute("input");
+		if (attribute.equals(DESCRIPTION)) {
+			String desc = context.getSelection(DESCRIPTION);
+			if (desc == null) {
+				desc = context.getString();
+			}
+			description = desc;
+			descriptionReq.setDefaultValue(description);
+		}
+		if (selection == description) {
+			context.setAttribute("input", DESCRIPTION);
+			// TODO return text(context, description);
+		}
+
+		Record descRecord = new Record(description);
+		descRecord.add("Name", "Description");
+		descRecord.add("Value", description);
+		list.add(descRecord);
+		return null;
 	}
 
 	private Result createVATItem(Context context) {
