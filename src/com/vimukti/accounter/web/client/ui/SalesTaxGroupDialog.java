@@ -380,9 +380,10 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 			@Override
 			public void onSuccess(Long result) {
 				removeFromParent();
-				if (core.getID() == 0) {
-					core.setID(result);
+				if (core.getID() != 0) {
+					core.setVersion(core.getVersion() + 1);
 				}
+				core.setID(result);
 				getCompany().processUpdateOrCreateObject(core);
 				if (getCallback() != null) {
 					getCallback().actionResult(core);
