@@ -170,8 +170,7 @@ public class ReceivePaymentView extends
 
 								if (result.size() > 0) {
 									gridView.removeAllRecords();
-									gridView
-											.initCreditsAndPayments(selectedCustomer);
+									gridView.initCreditsAndPayments(selectedCustomer);
 									addTransactionRecievePayments(result);
 								} else {
 									gridView.addEmptyMessage(Accounter
@@ -223,10 +222,8 @@ public class ReceivePaymentView extends
 
 			ClientTransactionReceivePayment record = new ClientTransactionReceivePayment();
 
-			record
-					.setDueDate(receivePaymentTransaction.getDueDate() != null ? receivePaymentTransaction
-							.getDueDate().getDate()
-							: 0);
+			record.setDueDate(receivePaymentTransaction.getDueDate() != null ? receivePaymentTransaction
+					.getDueDate().getDate() : 0);
 			record.setNumber(receivePaymentTransaction.getNumber());
 
 			record.setInvoiceAmount(receivePaymentTransaction
@@ -235,11 +232,8 @@ public class ReceivePaymentView extends
 			record.setInvoice(receivePaymentTransaction.getTransactionId());
 			record.setAmountDue(receivePaymentTransaction.getAmountDue());
 			record.setDummyDue(receivePaymentTransaction.getAmountDue());
-			record
-					.setDiscountDate(receivePaymentTransaction
-							.getDiscountDate() != null ? receivePaymentTransaction
-							.getDiscountDate().getDate()
-							: 0);
+			record.setDiscountDate(receivePaymentTransaction.getDiscountDate() != null ? receivePaymentTransaction
+					.getDiscountDate().getDate() : 0);
 
 			record.setCashDiscount(receivePaymentTransaction.getCashDiscount());
 
@@ -322,7 +316,7 @@ public class ReceivePaymentView extends
 
 			@Override
 			public void updateTotalPayment(Double payment) {
-				ReceivePaymentView.this.transactionTotal += payment;
+				transactionTotal = getGridTotal();
 			}
 
 			@Override
@@ -401,8 +395,7 @@ public class ReceivePaymentView extends
 								.setTransactionReceivePayment(payment);
 					}
 
-				payment
-						.setTransactionCreditsAndPayments(tranCreditsandPayments);
+				payment.setTransactionCreditsAndPayments(tranCreditsandPayments);
 			}
 			paymentsList.add(payment);
 			payment.getTempCredits().clear();
@@ -470,8 +463,7 @@ public class ReceivePaymentView extends
 					return;
 				Double amount = 0.00D;
 				try {
-					amount = DataUtils
-							.getAmountStringAsDouble(value.toString());
+					amount = DataUtils.getAmountStringAsDouble(value.toString());
 					setAmount(DataUtils.isValidAmount(value.toString()) ? amount
 							: 0.00D);
 					paymentAmountChanged(amount);
@@ -689,9 +681,9 @@ public class ReceivePaymentView extends
 			// .getNearestTaxRate(((Date) transactionDateItem
 			// .getValue()).getTime())));
 		} // else
-		// fraction = 0.0;
-		// if (vatFraction != null)
-		// vatFraction.setAmount(fraction);
+			// fraction = 0.0;
+			// if (vatFraction != null)
+			// vatFraction.setAmount(fraction);
 	}
 
 	@Override
@@ -1082,14 +1074,14 @@ public class ReceivePaymentView extends
 		// 6. isValidReceivePaymentAmount?
 		// 7. unUsedPaymentsAmount > 0 add warning
 		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
-			result.addError(transactionDateItem, accounterConstants
-					.invalidateTransactionDate());
+			result.addError(transactionDateItem,
+					accounterConstants.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result.addError(transactionDateItem, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDateItem,
+					accounterConstants.invalidateDate());
 		}
 
 		result.add(FormItem.validate(customerCombo, paymentMethodCombo,
@@ -1100,9 +1092,7 @@ public class ReceivePaymentView extends
 			result.addError(gridView, Accounter.constants()
 					.youDontHaveAnyTransactionsToMakeReceivePayment());
 		} else if (gridView.getAllRows().isEmpty()) {
-			result
-					.addError(gridView, Accounter.constants()
-							.selectTransaction());
+			result.addError(gridView, Accounter.constants().selectTransaction());
 		} else
 			result.add(gridView.validateGrid());
 
