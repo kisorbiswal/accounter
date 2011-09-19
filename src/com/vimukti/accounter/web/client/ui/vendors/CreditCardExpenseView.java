@@ -244,16 +244,15 @@ public class CreditCardExpenseView extends
 			}
 		};
 		Ccard.setHelpInformation(true);
-		Ccard
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
+		Ccard.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 
-					@Override
-					public void selectedComboBoxItem(ClientVendor selectItem) {
-						selectedVendor = selectItem;
-						Ccard.setComboItem(selectItem);
-						addPhonesContactsAndAddress();
-					}
-				});
+			@Override
+			public void selectedComboBoxItem(ClientVendor selectItem) {
+				selectedVendor = selectItem;
+				Ccard.setComboItem(selectItem);
+				addPhonesContactsAndAddress();
+			}
+		});
 
 		Ccard.setRequired(true);
 		String listString[] = new String[] {
@@ -382,8 +381,8 @@ public class CreditCardExpenseView extends
 		vendorForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		vendorForm.getCellFormatter().setWidth(0, 0, "180px");
 
-		payMethSelect = createPaymentMethodSelectItem();
-		payMethSelect.setTitle(Accounter.constants().paymentMethod());
+		payMethSelect = new SelectCombo(Accounter.constants().paymentMethod());
+		payMethSelect.setRequired(true);
 		payMethSelect.setWidth(90);
 		List<String> paymentMthds = new ArrayList<String>();
 		paymentMthds.add(Accounter.constants().creditCard());
@@ -404,8 +403,8 @@ public class CreditCardExpenseView extends
 
 		cheqNoText = new TextItem(
 				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-						.constants().chequeNo()
-						: Accounter.constants().checkNo());
+						.constants().chequeNo() : Accounter.constants()
+						.checkNo());
 		cheqNoText.setHelpInformation(true);
 		cheqNoText.setDisabled(isInViewMode());
 		cheqNoText.setWidth(100);
@@ -420,8 +419,8 @@ public class CreditCardExpenseView extends
 		termsForm = UIUtils.form(Accounter.constants().terms());
 		termsForm.setWidth("100%");
 		termsForm.setFields(payMethSelect, payFrmSelect, delivDate);
-		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "203px");
 
 		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 
@@ -453,7 +452,7 @@ public class CreditCardExpenseView extends
 			protected ClientVendor getSelectedVendor() {
 				return CreditCardExpenseView.this.getSelectedVendor();
 			}
-			
+
 			@Override
 			public boolean isShowPriceWithVat() {
 				return CreditCardExpenseView.this.isShowPriceWithVat();
@@ -601,8 +600,10 @@ public class CreditCardExpenseView extends
 		ValidationResult result = super.validate();
 
 		if (Ccard.getSelectedValue() == null)
-			result.addError(Ccard, Accounter.messages().pleaseSelectVendor(
-					Global.get().vendor()));
+			result.addError(
+					Ccard,
+					Accounter.messages().pleaseSelectVendor(
+							Global.get().vendor()));
 
 		if (payFrmSelect.getSelectedValue() == null)
 			result.addError(payFrmSelect, Accounter.messages()
@@ -813,7 +814,7 @@ public class CreditCardExpenseView extends
 
 		// Setting payment method
 
-		transaction.setPaymentMethod(paymentMethod);
+		transaction.setPaymentMethod(payMethSelect.getSelectedValue());
 
 		// Setting pay from
 		if (payFrmSelect.getSelectedValue() != null)
@@ -928,8 +929,9 @@ public class CreditCardExpenseView extends
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button, Accounter.messages().accounts(
-				Global.get().Account()), Accounter.constants().serviceItem());
+		setMenuItems(button,
+				Accounter.messages().accounts(Global.get().Account()),
+				Accounter.constants().serviceItem());
 	}
 
 	public void saveAndUpdateView() {

@@ -273,8 +273,7 @@ public class CreditCardCharge extends Transaction {
 			if (!this.payFrom.equals(creditCardCharge.payFrom)) {
 				Account prePayFrom = (Account) session.get(Account.class,
 						creditCardCharge.payFrom.id);
-				prePayFrom.updateCurrentBalance(this,
-						-creditCardCharge.total);
+				prePayFrom.updateCurrentBalance(this, -creditCardCharge.total);
 				prePayFrom.onUpdate(session);
 				this.payFrom.updateCurrentBalance(this, this.total);
 				payFrom.onUpdate(session);
@@ -286,14 +285,11 @@ public class CreditCardCharge extends Transaction {
 				this.payFrom.onUpdate(session);
 
 			}
-			this.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
 
-			if ((creditCardCharge.paymentMethod
-					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) || creditCardCharge.paymentMethod
-					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))
-					&& (!this.paymentMethod
-							.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) && !this.paymentMethod
-							.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
+			if (!this.paymentMethod
+					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK)
+					&& !this.paymentMethod
+							.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK)) {
 				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 			}
 		}

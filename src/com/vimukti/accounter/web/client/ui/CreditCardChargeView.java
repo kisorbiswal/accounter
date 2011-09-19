@@ -431,8 +431,8 @@ public class CreditCardChargeView extends
 		vendorForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		vendorForm.getCellFormatter().setWidth(0, 0, "180px");
 
-		payMethSelect = createPaymentMethodSelectItem();
-		payMethSelect.setTitle(Accounter.constants().paymentMethod());
+		payMethSelect = new SelectCombo(Accounter.constants().paymentMethod());
+		payMethSelect.setRequired(true);
 		List<String> paymentMthds = new ArrayList<String>();
 		paymentMthds.add(Accounter.constants().creditCard());
 		payMethSelect.initCombo(paymentMthds);
@@ -711,7 +711,7 @@ public class CreditCardChargeView extends
 
 		// Setting payment method
 
-		transaction.setPaymentMethod(paymentMethod);
+		transaction.setPaymentMethod(payMethSelect.getSelectedValue());
 
 		// Setting pay from
 		if (payFrmSelect.getSelectedValue() != null)
