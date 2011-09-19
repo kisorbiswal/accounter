@@ -17,8 +17,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
  */
 public abstract class AbstractPreferenceOption extends Composite {
 
-	protected static ClientCompanyPreferences companyPreferences = Global.get()
-			.preferences();
+	protected static ClientCompanyPreferences companyPreferences = Accounter.getCompany().getPreferences();
 	protected static ClientCompany company = Accounter.getCompany();
 
 	@Override
