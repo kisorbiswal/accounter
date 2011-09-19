@@ -153,24 +153,28 @@ public class NewVATItemCommand extends AbstractCommand {
 		Requirement nameReq = get(NAME);
 		String name = (String) nameReq.getValue();
 		if (name == selection) {
+			context.setAttribute("input", NAME);
 			return text(context, "Please Enter the VAT Item Name.", name);
 		}
 
 		Requirement taxRateReq = get(TAX_RATE);
 		Double taxRate = (Double) taxRateReq.getValue();
 		if (taxRate == selection) {
+			context.setAttribute("input", TAX_RATE);
 			return number(context, "Please Enter the TaxRate.", "" + taxRate);
 		}
 
 		Requirement taxAgencyrReq = get(TAX_AGENCY);
 		TAXAgency taxAgency = (TAXAgency) taxAgencyrReq.getValue();
 		if (taxAgency == selection) {
+			context.setAttribute("input", TAX_AGENCY);
 			return getTaxAgencyResult(context);
 		}
 
 		Requirement vatReturnBoxReq = get(VAT_RETURN_BOX);
 		VATReturnBox vatReturnBox = (VATReturnBox) vatReturnBoxReq.getValue();
 		if (vatReturnBox == selection) {
+			context.setAttribute("input", VAT_RETURN_BOX);
 			return getVatReturnBoxResult(context);
 		}
 
@@ -214,7 +218,7 @@ public class NewVATItemCommand extends AbstractCommand {
 		} else {
 			percentageString = "Considered As Amount.";
 		}
-		Record isPercentageRecord = new Record(isPercentage);
+		Record isPercentageRecord = new Record(IS_PERCENTAGE);
 		isPercentageRecord.add("Name", "");
 		isPercentageRecord.add("Value", percentageString);
 		list.add(isPercentageRecord);
@@ -232,7 +236,7 @@ public class NewVATItemCommand extends AbstractCommand {
 		} else {
 			activeString = "This Item is InActive";
 		}
-		Record isActiveRecord = new Record(isActive);
+		Record isActiveRecord = new Record(IS_ACTIVE);
 		isActiveRecord.add("Name", "");
 		isActiveRecord.add("Value", activeString);
 		list.add(isActiveRecord);
