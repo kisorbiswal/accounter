@@ -1,7 +1,9 @@
 <patterns>
 	<include pattern="" />
 
-	<input text="Invoice">
+	<pattern>
+		<input text="Invoice"/>
+		<input text="Invoices"/>
 		<output>
 			<output>
 				<text text="Invoice is a Transaction" />
@@ -9,22 +11,22 @@
 				<command value="Invoices List">List of All Invoices</command>
 			</output>
 		</output>
-	</input>
+	</pattern>
 
-	<input text="DashBoard">
+	<pattern>
+		<input text="DashBoard"/>
+		<input text="DashBord"/>
 		<output>
-			<output>
-				<text text="Multiple components into a unified display" />
-				<command value="New Bank Accoount">Create New Bank Account</command>
-				<command value="New Invoice">Create New Invoice</command>
-				<command value="New Enter Bill">Create New Bill</command>
-				<command value="New Expense">Create New Expense</command>
-				<command value="Expense Claims">Expenses List</command>
-				<command value="Accoount Register-Debtors">Money Coming In</command>
-				<command value="Account Register-Creditors">Money Going Out</command>
-			</output>
+			<text text="Multiple components into a unified display" />
+			<command value="New Bank Accoount">Create New Bank Account</command>
+			<command value="New Invoice">Create New Invoice</command>
+			<command value="New Enter Bill">Create New Bill</command>
+			<command value="New Expense">Create New Expense</command>
+			<command value="Expense Claims">Expenses List</command>
+			<command value="Accoount Register-Debtors">Money Coming In</command>
+			<command value="Account Register-Creditors">Money Going Out</command>
 		</output>
-	</input>
+	</pattern>
 
 	<input text="Fiscal Year">
 		<output>
@@ -44,7 +46,7 @@
 			<command code="2" text="Customers List" />
 		</output>
 	</input>
-	
+
 	<input text="Account">
 		<output>
 			<command value="New Account">Create New Account</command>
@@ -53,13 +55,13 @@
 			<command value="Delete Account">Delete Account</command>
 		</output>
 	</input>
-	
+
 	<input text="Accounts">
 		<output>
 			<command value="Accounts List">Accounts List</command>
 		</output>
 	</input>
-	
+
 	<input text="JounalEntry">
 		<output>
 			<command value="New JournalEntry">Create a New JournalEntry</command>
@@ -68,7 +70,7 @@
 			<command value="JournalEntry List">Show JournalEntry List</command>
 		</output>
 	</input>
-	
+
 	<input text="Sales">
 		<output>
 			<command value="New Sales Order">Create a New Sales Order</command>
