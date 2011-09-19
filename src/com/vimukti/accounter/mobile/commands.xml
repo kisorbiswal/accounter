@@ -2,6 +2,7 @@
 	<command class="NewInvoiceCommand" name="New Invoice">
 		<alias>
 			<name>Create Invoice</name>
+			<name>Add Invoice</name>
 		</alias>
 	</command>
 </commands>
