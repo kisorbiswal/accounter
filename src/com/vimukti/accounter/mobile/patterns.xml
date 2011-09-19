@@ -1,30 +1,28 @@
 <patterns>
-	<include pattern="" />
+	<include>reportpattern.xml</include>
 
 	<pattern>
-		<input text="Invoice"/>
-		<input text="Invoices"/>
+		<input>Invoice</input>
+		<input>Invoices</input>
 		<output>
-			<output>
-				<text text="Invoice is a Transaction" />
-				<command value="New Invoice">Create New Invoice</command>
-				<command value="Invoices List">List of All Invoices</command>
-			</output>
+			<text>Invoice is a Transaction</text>
+			<command>Create New Invoice</command>
+			<command>List of All Invoices</command>
 		</output>
 	</pattern>
 
 	<pattern>
-		<input text="DashBoard"/>
-		<input text="DashBord"/>
+		<input>DashBoard</input>
+		<input>DashBord</input>
 		<output>
-			<text text="Multiple components into a unified display" />
-			<command value="New Bank Accoount">Create New Bank Account</command>
-			<command value="New Invoice">Create New Invoice</command>
-			<command value="New Enter Bill">Create New Bill</command>
-			<command value="New Expense">Create New Expense</command>
-			<command value="Expense Claims">Expenses List</command>
-			<command value="Accoount Register-Debtors">Money Coming In</command>
-			<command value="Account Register-Creditors">Money Going Out</command>
+			<text>Multiple components into a unified display</text>
+			<command>Create New Bank Account</command>
+			<command>Create New Invoice</command>
+			<command>Create New Bill</command>
+			<command>Create New Expense</command>
+			<command>Expenses List</command>
+			<command>Money Coming In</command>
+			<command>Money Going Out</command>
 		</output>
 	</pattern>
 
@@ -83,7 +81,7 @@
 				<command value="Sales Order List">Sales Order List</command>
 			</output>
 	</pattern>
-	
+
 	<pattern>
 		<input text="Purchase"/>
 		<input text="Purchases"/>
