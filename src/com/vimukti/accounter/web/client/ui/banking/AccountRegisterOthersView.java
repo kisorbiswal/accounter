@@ -138,11 +138,8 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 		selectedOption = showTransactionSelect.getSelectedValue();
 		if (!selectedDateRange.equals(Accounter.constants().all())
 				&& selectedOption.equals(Accounter.constants().all())) {
-			startDate = Accounter.getStartDate();
-			endDate = Accounter.getCompany()
-					.getLastandOpenedFiscalYearEndDate();
-			if (endDate == null)
-				endDate = new ClientFinanceDate();
+			startDate = new ClientFinanceDate(0);
+			endDate = new ClientFinanceDate(0);
 			selectedDateRange = Accounter.constants().all();
 
 		} else if (!selectedDateRange.equals(Accounter.constants().today())
