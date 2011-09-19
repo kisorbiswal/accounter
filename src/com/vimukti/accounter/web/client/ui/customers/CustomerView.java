@@ -88,7 +88,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	TextItem linksText, accNameText, sortcode, accNumber, paymentref;
 	TextItem vatregno;
 	TextAreaItem memoArea;
-
+	AddButton addButton;
 	TAXCodeCombo custTaxCode;
 
 	CheckboxItem statusCheck, selectCheckBox;
@@ -375,9 +375,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		if (company.getPreferences().isChargeSalesTax()) {
 			// FIXME:: its not required
 			if (!custTaxCode.validate())
-				result.addError(custTaxCode,
-						Accounter.messages()
-								.pleaseEnter(custTaxCode.getTitle()));
+				result.addError(custTaxCode, Accounter.messages().pleaseEnter(
+						custTaxCode.getTitle()));
 		}
 		ClientFinanceDate asOfDate = balanceDate.getEnteredDate();
 
@@ -683,7 +682,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				balanceDate);
 
 		Label l1 = new Label(Accounter.constants().contacts());
-		AddButton addButton = new AddButton(this);
+		addButton = new AddButton(this);
 
 		addButton.addClickHandler(new ClickHandler() {
 
@@ -694,6 +693,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				gridView.add(clientContact);
 			}
 		});
+		addButton.setEnabled(!isInViewMode());
 
 		gridView = new ContactsTable();
 		gridView.setDisabled(isInViewMode());
@@ -811,32 +811,32 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	protected void adjustFormWidths(int titlewidth, int listBoxWidth) {
 
-		addrsForm.getCellFormatter().getElement(0, 0)
-				.setAttribute("width", titlewidth + "");
+		addrsForm.getCellFormatter().getElement(0, 0).setAttribute("width",
+				titlewidth + "");
 
-		addrsForm.getCellFormatter().getElement(0, 1)
-				.setAttribute(Accounter.constants().width(), "185px");
+		addrsForm.getCellFormatter().getElement(0, 1).setAttribute(
+				Accounter.constants().width(), "185px");
 
-		fonFaxForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "240px");
+		fonFaxForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "240px");
 		// fonFaxForm.getCellFormatter().getElement(0, 1).setAttribute(
 		// FinanceApplication.constants().width(), "185px");
 
-		customerForm.getCellFormatter().getElement(0, 0).getStyle()
-				.setWidth(150, Unit.PX);
-		emailForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "240px");
+		customerForm.getCellFormatter().getElement(0, 0).getStyle().setWidth(
+				150, Unit.PX);
+		emailForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "240px");
 		// emailForm.getCellFormatter().getElement(0, 1).setAttribute(
 		// FinanceApplication.constants().width(), "");
-		accInfoForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "150px");
+		accInfoForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "150px");
 
 	}
 
 	private HorizontalPanel getDetailsTab() {
 
-		salesPersonSelect = new SalesPersonCombo(
-				customerConstants.salesPerson());
+		salesPersonSelect = new SalesPersonCombo(customerConstants
+				.salesPerson());
 		salesPersonSelect.setHelpInformation(true);
 		salesPersonSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientSalesPerson>() {
@@ -869,8 +869,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 				});
 
-		creditRatingSelect = new CreditRatingCombo(
-				customerConstants.creditRating());
+		creditRatingSelect = new CreditRatingCombo(customerConstants
+				.creditRating());
 		creditRatingSelect.setHelpInformation(true);
 		creditRatingSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCreditRating>() {
@@ -902,8 +902,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		panNumberText.setHelpInformation(true);
 		cstNumberText = new TextItem(customerConstants.cstNumber());
 		cstNumberText.setHelpInformation(true);
-		serviceTaxRegistrationNo = new TextItem(
-				customerConstants.serviceTaxRegistrationNumber());
+		serviceTaxRegistrationNo = new TextItem(customerConstants
+				.serviceTaxRegistrationNumber());
 		serviceTaxRegistrationNo.setHelpInformation(true);
 		tinNumberText = new TextItem(customerConstants.tinNumber());
 		tinNumberText.setHelpInformation(true);
@@ -920,8 +920,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		}
 		financeDitailsForm.setWidth("100%");
 
-		shipMethSelect = new ShippingMethodsCombo(
-				customerConstants.preferredShippingMethod());
+		shipMethSelect = new ShippingMethodsCombo(customerConstants
+				.preferredShippingMethod());
 		shipMethSelect.setHelpInformation(true);
 		shipMethSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingMethod>() {
@@ -1299,6 +1299,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	private void enableFormItems() {
 		setMode(EditMode.EDIT);
 		custNameText.setDisabled(isInViewMode());
+		addButton.setEnabled(!isInViewMode());
 		custNoText.setDisabled(isInViewMode());
 		customerSinceDate.setDisabled(isInViewMode());
 		balanceText.setDisabled(isInViewMode());

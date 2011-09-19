@@ -172,7 +172,9 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		if (taxAgenciesByName != null
 				&& taxAgenciesByName.getID() != this.getData().getID()) {
-			result.addError(taxAgencyText, Accounter.constants().alreadyExist());
+			result
+					.addError(taxAgencyText, Accounter.constants()
+							.alreadyExist());
 		}
 
 		List<DynamicForm> forms = this.getForms();
@@ -314,8 +316,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		statusCheck.setValue(true);
 		statusCheck.setDisabled(isInViewMode());
 
-		paymentTermsCombo = new PaymentTermsCombo(
-				companyConstants.paymentTerm());
+		paymentTermsCombo = new PaymentTermsCombo(companyConstants
+				.paymentTerm());
 		paymentTermsCombo.setHelpInformation(true);
 		paymentTermsCombo.setDisabled(isInViewMode());
 		paymentTermsCombo
@@ -409,7 +411,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
 		addButton = new AddButton(this);
-
+		addButton.setEnabled(!isInViewMode());
 		// addButton.setStyleName("addButton");
 		addButton.addClickHandler(new ClickHandler() {
 
@@ -775,6 +777,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
+		addButton.setEnabled(!isInViewMode());
 		taxAgencyText.setDisabled(isInViewMode());
 		fileAsText.setDisabled(isInViewMode());
 		statusCheck.setDisabled(isInViewMode());

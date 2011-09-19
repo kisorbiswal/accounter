@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -23,6 +25,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -225,7 +228,7 @@ public class CashPurchaseView extends
 			protected ClientVendor getSelectedVendor() {
 				return CashPurchaseView.this.getVendor();
 			}
-			
+
 			@Override
 			public boolean isShowPriceWithVat() {
 				return CashPurchaseView.this.isShowPriceWithVat();
@@ -679,15 +682,23 @@ public class CashPurchaseView extends
 	}
 
 	public void onEdit() {
-		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
+		AsyncCallback<Boolean> editCallBack = new AsyncCallback<Boolean>() {
 
 			@Override
-			public void onException(AccounterException caught) {
-				Accounter.showError(caught.getMessage());
+			public void onFailure(Throwable caught) {
+				if (caught instanceof InvocationException) {
+					Accounter.showMessage(Global.get().constants()
+							.sessionExpired());
+				} else {
+					int errorCode = ((AccounterException) caught)
+							.getErrorCode();
+					Accounter.showError(AccounterExceptions
+							.getErrorString(errorCode));
+				}
 			}
 
 			@Override
-			public void onResultSuccess(Boolean result) {
+			public void onSuccess(Boolean result) {
 				if (result)
 					enableFormItems();
 			}
