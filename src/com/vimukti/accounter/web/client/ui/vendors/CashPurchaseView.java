@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -682,23 +680,17 @@ public class CashPurchaseView extends
 	}
 
 	public void onEdit() {
-		AsyncCallback<Boolean> editCallBack = new AsyncCallback<Boolean>() {
+		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
 
 			@Override
-			public void onFailure(Throwable caught) {
-				if (caught instanceof InvocationException) {
-					Accounter.showMessage(Global.get().constants()
-							.sessionExpired());
-				} else {
-					int errorCode = ((AccounterException) caught)
-							.getErrorCode();
-					Accounter.showError(AccounterExceptions
-							.getErrorString(errorCode));
-				}
+			public void onException(AccounterException caught) {
+				int errorCode = ((AccounterException) caught).getErrorCode();
+				Accounter.showError(AccounterExceptions
+						.getErrorString(errorCode));
 			}
 
 			@Override
-			public void onSuccess(Boolean result) {
+			public void onResultSuccess(Boolean result) {
 				if (result)
 					enableFormItems();
 			}
