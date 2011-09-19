@@ -6,7 +6,7 @@
 		</alias>
 	</command>
 
-	<command class="NewAccount" name="New Account">
+	<command class="NewAccountCommand" name="New Account">
 		<alias>
 			<name>Create Account</name>
 			<name>Add Account</name>
