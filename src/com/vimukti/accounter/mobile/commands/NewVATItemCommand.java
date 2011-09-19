@@ -74,9 +74,8 @@ public class NewVATItemCommand extends AbstractCommand {
 		if (result != null) {
 			return result;
 		}
-		result = createVATItem(context);
-		markDone();
-		return result;
+
+		return createVATItem(context);
 	}
 
 	private Result vatReturnBoxRequirement(Context context) {
@@ -390,6 +389,8 @@ public class NewVATItemCommand extends AbstractCommand {
 		Transaction transaction = session.beginTransaction();
 		session.saveOrUpdate(taxItem);
 		transaction.commit();
+
+		markDone();
 
 		Result result = new Result();
 		result.add("VAT Item was created successfully.");
