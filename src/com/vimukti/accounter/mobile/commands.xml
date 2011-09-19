@@ -5,4 +5,12 @@
 			<name>Add Invoice</name>
 		</alias>
 	</command>
+	
+	<command class="NewAccount" name="New Account">
+		<alias>
+			<name>Create Account</name>
+			<name>Add Account</name>
+		</alias>
+	</command>
+	
 </commands>
