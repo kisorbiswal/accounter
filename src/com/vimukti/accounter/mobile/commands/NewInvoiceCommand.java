@@ -72,7 +72,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 				result = transactionItemProcess(context);
 				if (result != null) {
 					return result;
-				}
+				} 
 			}
 		}
 
