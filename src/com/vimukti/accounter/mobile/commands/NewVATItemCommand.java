@@ -3,12 +3,12 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.VATReturnBox;
 import com.vimukti.accounter.mobile.ActionNames;
-import com.vimukti.accounter.mobile.Command;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -17,7 +17,7 @@ import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 
-public class NewVATItemCommand extends Command {
+public class NewVATItemCommand extends AbstractCommand {
 
 	private static final String NAME = "name";
 	private static final String DESCRIPTION = "description";
@@ -27,8 +27,8 @@ public class NewVATItemCommand extends Command {
 	private static final String TAX_AGENCY = "taxAgency";
 	private static final String VAT_RETURN_BOX = "vatReturnBox";
 
-	private static final int TAXAGENCIES_TO_SHOW = 0;
-	private static final int VATRETURN_BOXES_TO_SHOW = 0;
+	private static final int TAXAGENCIES_TO_SHOW = 5;
+	private static final int VATRETURN_BOXES_TO_SHOW = 5;
 
 	@Override
 	public String getId() {
@@ -75,8 +75,9 @@ public class NewVATItemCommand extends Command {
 		if (result == null) {
 			// TODO
 		}
-
-		return createVATItem(context);
+		createVATItem(context);
+		markDone();
+		return result;
 	}
 
 	private Result vatReturnBoxRequirement(Context context) {
@@ -221,12 +222,19 @@ public class NewVATItemCommand extends Command {
 		}
 		if (selection == isActive) {
 			context.setAttribute("input", IS_ACTIVE);
-			// TODO return text(context, description);
+			isActive = !isActive;
+			isActiveReq.setDefaultValue(isActive);
 		}
 
+		String string = "";
+		if (isActive) {
+			string = "This Item is Active";
+		} else {
+			string = "This Item is InActive";
+		}
 		Record isActiveRecord = new Record(isActive);
-		isActiveRecord.add("Name", "Is Active");
-		isActiveRecord.add("Value", isActive);
+		isActiveRecord.add("Name", "");
+		isActiveRecord.add("Value", string);
 		list.add(isActiveRecord);
 		return null;
 	}
@@ -247,12 +255,18 @@ public class NewVATItemCommand extends Command {
 		}
 		if (selection == isPercentage) {
 			context.setAttribute("input", IS_PERCENTAGE);
-			// TODO return text(context, description);
+			isPercentage = !isPercentage;
+			isPercentageReq.setDefaultValue(isPercentage);
 		}
-
+		String string = "";
+		if (isPercentage) {
+			string = "Considerd As Percentage.";
+		} else {
+			string = "Considered As Amount.";
+		}
 		Record isPercentageRecord = new Record(isPercentage);
-		isPercentageRecord.add("Name", "Is Percentage");
-		isPercentageRecord.add("Value", isPercentage);
+		isPercentageRecord.add("Name", "");
+		isPercentageRecord.add("Value", string);
 		list.add(isPercentageRecord);
 		return null;
 	}
@@ -273,7 +287,7 @@ public class NewVATItemCommand extends Command {
 		}
 		if (selection == description) {
 			context.setAttribute("input", DESCRIPTION);
-			// TODO return text(context, description);
+			return text(context, "Description", description);
 		}
 
 		Record descRecord = new Record(description);
@@ -301,6 +315,11 @@ public class NewVATItemCommand extends Command {
 		taxItem.setActive(isActive);
 		taxItem.setTaxAgency(taxAgency);
 		taxItem.setVatReturnBox(vatReturnBox);
+
+		Session session = context.getSession();
+		Transaction transaction = session.beginTransaction();
+		session.saveOrUpdate(taxItem);
+		transaction.commit();
 
 		return null;
 	}
