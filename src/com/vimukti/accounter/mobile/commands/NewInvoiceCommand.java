@@ -378,7 +378,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		String invoiceNo = (String) req.getValue();
 
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("orderNo")) {
+		if (attribute.equals("invoiceNo")) {
 			String order = context.getSelection(NUMBER);
 			if (order == null) {
 				order = context.getString();
@@ -388,7 +388,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		}
 
 		if (selection == invoiceNo) {
-			context.setAttribute(INPUT_ATTR, "orderNo");
+			context.setAttribute(INPUT_ATTR, "invoiceNo");
 			return number(context, "Enter Invoice number", invoiceNo);
 		}
 
