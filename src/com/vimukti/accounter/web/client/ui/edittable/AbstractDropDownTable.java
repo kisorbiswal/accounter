@@ -185,6 +185,7 @@ public abstract class AbstractDropDownTable<T> extends CellTable<T> {
 
 	protected void selectRow(T result) {
 		isClicked = true;
+		clickFired = false;
 		singleSelectionModel.setSelected(result, true);
 	}
 }
