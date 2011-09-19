@@ -5,8 +5,10 @@ import java.util.List;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.VATReturn;
+import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.ObjectListRequirement;
@@ -15,8 +17,11 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class NewVATAgencyCommand extends AbstractCommand {
+
+	private static final String INPUT_ATTR = "input";
 
 	private static final String NAME = "name";
 	private static final String PAYMENT_TERM = "paymentTerm";
@@ -49,9 +54,11 @@ public class NewVATAgencyCommand extends AbstractCommand {
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new Requirement(NAME, false, true));
 		list.add(new Requirement(PAYMENT_TERM, false, true));
-		list.add(new Requirement(VAT_RETURN, false, true));
 		list.add(new Requirement(SALES_ACCOUNT, false, true));
-		list.add(new Requirement(PURCHASE_ACCOUNT, false, true));
+		if (getCompanyType() == 0) {
+			list.add(new Requirement(VAT_RETURN, false, true));
+			list.add(new Requirement(PURCHASE_ACCOUNT, false, true));
+		}
 		list.add(new Requirement(ADDRESS, true, true));
 		list.add(new Requirement(PHONE, true, true));
 		list.add(new Requirement(FAX, true, true));
@@ -75,26 +82,106 @@ public class NewVATAgencyCommand extends AbstractCommand {
 		Result result = null;
 
 		result = nameRequirement(context);
-		if (result == null) {
-			// TODO
+		if (result != null) {
+			return result;
 		}
 
 		result = paymentTermsRequirement(context);
-		if (result == null) {
-			// TODO
-		}
-
-		result = vatReturnRequirement(context);
-		if (result == null) {
-			// TODO
+		if (result != null) {
+			return result;
 		}
 
 		result = salesAccountRequirement(context);
-		if (result == null) {
-			// TODO
+		if (result != null) {
+			return result;
 		}
 
+		if (getCompanyType() == 0) {
+			result = purchaseAccountRequirement(context);
+			if (result != null) {
+				return result;
+			}
+			result = vatReturnRequirement(context);
+			if (result != null) {
+				return result;
+			}
+		}
+
+		result = createOptionalResult(context);
+
 		return result;
+	}
+
+	private Result createOptionalResult(Context context) {
+		context.setAttribute(INPUT_ATTR, "optional");
+
+		Object selection = context.getSelection(ACTIONS);
+		if (selection != null) {
+			ActionNames actionName = (ActionNames) selection;
+			switch (actionName) {
+			case ADD_MORE_CONTACTS:
+				// return items(context);
+			case FINISH:
+				context.removeAttribute(INPUT_ATTR);
+				return null;
+			default:
+				break;
+			}
+		}
+
+		return null;
+	}
+
+	private Result purchaseAccountRequirement(Context context) {
+		Requirement purchaseAccountReq = get(PURCHASE_ACCOUNT);
+		Account purchaseAccount = context.getSelection(PURCHASE_ACCOUNT);
+		if (purchaseAccount != null) {
+			purchaseAccountReq.setValue(purchaseAccount);
+		}
+		if (!purchaseAccountReq.isDone()) {
+			return getPurchseAccountResult(context);
+		}
+		return null;
+	}
+
+	private Result getPurchseAccountResult(Context context) {
+		Result result = context.makeResult();
+		ResultList purchseAccountsList = new ResultList(PURCHASE_ACCOUNT);
+
+		Object last = context.getLast(RequirementType.ACCOUNT);
+		if (last != null) {
+			purchseAccountsList.add(createPurchAccountRecord((Account) last));
+		}
+
+		List<Account> purchseAccounts = getAccounts(context.getSession());
+		for (int i = 0; i < VALUES_TO_SHOW || i < purchseAccounts.size(); i++) {
+			Account purchseAccount = purchseAccounts.get(i);
+			if (purchseAccount != last) {
+				purchseAccountsList
+						.add(createSalesAccountRecord((Account) purchseAccount));
+			}
+		}
+
+		int size = purchseAccountsList.size();
+		StringBuilder message = new StringBuilder();
+		if (size > 0) {
+			message.append("Please Select the Purchase Liability Account");
+		}
+
+		CommandList commandList = new CommandList();
+		commandList.add("create");
+
+		result.add(message.toString());
+		result.add(purchseAccountsList);
+		result.add(commandList);
+		result.add("Select the Purchse Liability Account");
+
+		return result;
+	}
+
+	private Record createPurchAccountRecord(Account last) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	private Result salesAccountRequirement(Context context) {
@@ -120,10 +207,10 @@ public class NewVATAgencyCommand extends AbstractCommand {
 
 		List<Account> salesAccounts = getAccounts(context.getSession());
 		for (int i = 0; i < VALUES_TO_SHOW || i < salesAccounts.size(); i++) {
-			Account vatReturn = salesAccounts.get(i);
-			if (vatReturn != last) {
+			Account salesAccount = salesAccounts.get(i);
+			if (salesAccount != last) {
 				salesAccountsList
-						.add(createSalesAccountRecord((Account) vatReturn));
+						.add(createSalesAccountRecord((Account) salesAccount));
 			}
 		}
 
@@ -269,17 +356,36 @@ public class NewVATAgencyCommand extends AbstractCommand {
 	}
 
 	private Result nameRequirement(Context context) {
-		Requirement name = get(NAME);
-		String selName = context.getSelection(NAME);
-		if (selName != null) {
-			name.setValue(selName);
+		Requirement nameReq = get(NAME);
+		if (!nameReq.isDone()) {
+			String string = context.getString();
+			if (string != null) {
+				nameReq.setValue(string);
+			} else {
+				return text(context, "Please Enter the " + getString()
+						+ " Agency Name.", null);
+			}
 		}
-		if (!name.isDone()) {
-			Result result = context.makeResult();
-			result.add("Please Enter the VAT Agency Name.");
-			return result;
+		String input = (String) context.getAttribute("input");
+		if (input.equals(NAME)) {
+			nameReq.setValue(input);
 		}
 		return null;
+
+	}
+
+	private int getCompanyType() {
+		Company company = new FinanceTool().getCompany();
+		int accountingType = company.getAccountingType();
+		return accountingType;
+	}
+
+	private String getString() {
+		String s = "TAX";
+		if (getCompanyType() == 1) {
+			s = "VAT";
+		}
+		return s;
 	}
 
 }
