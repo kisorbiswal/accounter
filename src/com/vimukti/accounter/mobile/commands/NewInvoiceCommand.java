@@ -244,11 +244,11 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		String memo = (String) req.getDefaultValue();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals("memo")) {
-			String order = context.getSelection(TEXT);
-			if (order == null) {
-				order = context.getString();
+			String input = context.getSelection(TEXT);
+			if (input == null) {
+				input = context.getString();
 			}
-			memo = order;
+			memo = input;
 			req.setDefaultValue(memo);
 		}
 
