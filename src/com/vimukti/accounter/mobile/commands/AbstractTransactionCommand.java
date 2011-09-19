@@ -33,8 +33,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final String OLD_TRANSACTION_ITEM_ATTR = null;
 	private static final String ITEM_DETAILS = null;
 	private static final String ITEM_PROPERTY_ATTR = null;
-	protected static final String TAXCODE = null;
-	private static final int TAXCODE_TO_SHOW = 0;
 
 	protected Result itemsRequirement(Context context) {
 		Requirement itemsReq = get("items");
@@ -174,30 +172,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return result;
 	}
 
-	protected Result taxCode(Context context, TAXCode oldTaxCode) {
-		Result result = context.makeResult();
-		List<TAXCode> codes = getTaxCodes();
-		ResultList list = new ResultList(TAXCODE);
-		int num = 0;
-		if (oldTaxCode != null) {
-			list.add(createTaxCodeRecord(oldTaxCode));
-			num++;
-		}
-		for (TAXCode code : codes) {
-			if (code != oldTaxCode) {
-				list.add(createTaxCodeRecord(code));
-				num++;
-			}
-			if (num == TAXCODE_TO_SHOW) {
-				break;
-			}
-		}
-
-		CommandList commands = new CommandList();
-		commands.add("Create New Taxcode");
-		return result;
-	}
-
 	protected Result items(Context context) {
 		Result result = context.makeResult();
 		List<Item> items = getItems(context.getSession());
@@ -283,12 +257,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return result;
 	}
 
-	private Record createTaxCodeRecord(TAXCode taxCode) {
-		Record record = new Record(taxCode);
-		record.add("", taxCode.getName());
-		return record;
-	}
-
 	private Record creatItemRecord(Item item) {
 		Record record = new Record(item);
 		record.add("Name", item.getName());
@@ -317,11 +285,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	}
 
 	protected Company getCompany() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private List<TAXCode> getTaxCodes() {
 		// TODO Auto-generated method stub
 		return null;
 	}
