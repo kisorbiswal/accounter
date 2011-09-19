@@ -689,6 +689,7 @@ public abstract class TransactionReceivePaymentTable extends
 		payment.setPayment(paymentValue);
 		updateAmountDue(payment);
 		updateValue(payment);
+		updateAmountReceived();
 	}
 
 	public void openWriteOffDialog(
