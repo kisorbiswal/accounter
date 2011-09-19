@@ -14,7 +14,7 @@ public class Contact implements IAccounterServerCore, Lifecycle {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * This will specify which Contact is Primary among all the Contacts of a
 	 * {@link Payee}
@@ -50,6 +50,18 @@ public class Contact implements IAccounterServerCore, Lifecycle {
 	 */
 	public boolean isPrimary() {
 		return isPrimary;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setPrimary(boolean isPrimary) {
+		this.isPrimary = isPrimary;
+	}
+
+	public void setBusinessPhone(String businessPhone) {
+		this.businessPhone = businessPhone;
 	}
 
 	/**
@@ -131,7 +143,7 @@ public class Contact implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
+		this.version = version;
 	}
 
 }
