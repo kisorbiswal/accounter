@@ -153,13 +153,13 @@ public class NewVATItemCommand extends AbstractCommand {
 		Requirement nameReq = get(NAME);
 		String name = (String) nameReq.getValue();
 		if (name == selection) {
-			return getResultToAsk(context, "Please Enter the VAT Item Name.");
+			return text(context, "Please Enter the VAT Item Name.", name);
 		}
 
 		Requirement taxRateReq = get(TAX_RATE);
 		Double taxRate = (Double) taxRateReq.getValue();
 		if (taxRate == selection) {
-			return getResultToAsk(context, "Please Enter the TaxRate.");
+			return number(context, "Please Enter the TaxRate.", "" + taxRate);
 		}
 
 		Requirement taxAgencyrReq = get(TAX_AGENCY);
@@ -361,12 +361,6 @@ public class NewVATItemCommand extends AbstractCommand {
 	private Record createTaxAgencyRecord(TAXAgency last) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	private Result getResultToAsk(Context context, String message) {
-		Result result = context.makeResult();
-		result.add(message);
-		return result;
 	}
 
 	private Result createVATItem(Context context) {
