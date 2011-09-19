@@ -28,9 +28,6 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 
 	private ScrollPanel pageDetailsPane;
 	private AccounterConstants constants = Accounter.constants();
-	private ClientCompany company = Accounter.getCompany();
-	private ClientCompanyPreferences companyPreferences = Accounter
-			.getCompany().getPreferences();
 	private List<PreferencePage> preferencePages;
 	private List<HTML> optionLinks = new ArrayList<HTML>();
 
@@ -258,10 +255,10 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 				}
 				for (PreferencePage page : preferencePages) {
 					page.onSave();
+					
 				}
-				company.setPreferences(companyPreferences);
-				Accounter.setCompany(company);
-				Accounter.updateCompany(PreferenceSettingsView.this, company);
+
+							Accounter.updateCompany(PreferenceSettingsView.this, Accounter.getCompany());
 				Accounter.reset();
 			}
 		});
