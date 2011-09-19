@@ -56,9 +56,9 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected Result transactionItemProcess(Context context) {
 		TransactionItem transactionItem = (TransactionItem) context
 				.getAttribute(OLD_TRANSACTION_ITEM_ATTR);
-		ActionNames actionName = context.getSelection(ACTIONS);
 		Result result = transactionItem(context, transactionItem);
 		if (result == null) {
+			ActionNames actionName = context.getSelection(ACTIONS);
 			if (actionName == ActionNames.DELETE_ITEM) {
 				Requirement itemsReq = get("items");
 				List<TransactionItem> transItems = itemsReq.getValue();
