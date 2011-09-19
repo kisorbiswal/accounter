@@ -103,7 +103,7 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 
 	@Override
 	public void onDoubleClick(ClientSalesPerson obj) {
-		ActionFactory.getNewSalesperSonAction().run(obj, true);
+		ActionFactory.getNewSalesperSonAction().run(obj, false);
 	}
 
 	protected void executeDelete(ClientSalesPerson object) {
