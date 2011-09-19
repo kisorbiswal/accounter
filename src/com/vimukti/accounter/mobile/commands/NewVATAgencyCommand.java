@@ -5,7 +5,9 @@ import java.util.List;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.VATReturn;
 import com.vimukti.accounter.mobile.ActionNames;
@@ -17,6 +19,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class NewVATAgencyCommand extends AbstractCommand {
@@ -107,7 +110,20 @@ public class NewVATAgencyCommand extends AbstractCommand {
 			}
 		}
 
+		String process = (String) context.getAttribute(PROCESS_ATTR);
+		if (process != null) {
+			if (process.equals(CONTACT_PROCESS)) {
+				result = contactProcess(context);
+				if (result != null) {
+					return result;
+				}
+			}
+		}
+
 		result = createOptionalResult(context);
+		if (result != null) {
+			return result;
+		}
 
 		return result;
 	}
@@ -120,7 +136,7 @@ public class NewVATAgencyCommand extends AbstractCommand {
 			ActionNames actionName = (ActionNames) selection;
 			switch (actionName) {
 			case ADD_MORE_CONTACTS:
-				// return items(context);
+				return contact(context, "Enter the Contact Details", null);
 			case FINISH:
 				context.removeAttribute(INPUT_ATTR);
 				return null;
@@ -129,6 +145,263 @@ public class NewVATAgencyCommand extends AbstractCommand {
 			}
 		}
 
+		selection = context.getSelection("values");
+
+		Requirement nameReq = get(NAME);
+		String name = (String) nameReq.getValue();
+		if (name == selection) {
+			context.setAttribute(INPUT_ATTR, NAME);
+			return text(context, "Please Enter the " + getString()
+					+ " Agency Name.", name);
+		}
+
+		Requirement paymentTermReq = get(PAYMENT_TERM);
+		PaymentTerms paymentTerm = (PaymentTerms) paymentTermReq.getValue();
+		if (paymentTerm == selection) {
+			context.setAttribute(INPUT_ATTR, PAYMENT_TERM);
+			return getPaymentTermsResult(context);
+		}
+
+		Requirement salesAccountReq = get(SALES_ACCOUNT);
+		Account salesAccount = (Account) salesAccountReq.getValue();
+		if (salesAccount == selection) {
+			context.setAttribute(INPUT_ATTR, SALES_ACCOUNT);
+			return getSalesAccountResult(context);
+		}
+
+		ResultList list = new ResultList("values");
+
+		Record nameRecord = new Record(name);
+		nameRecord.add(INPUT_ATTR, "Name");
+		nameRecord.add("Value", name);
+		list.add(nameRecord);
+
+		Record paymentTermRecord = new Record(paymentTerm);
+		paymentTermRecord.add(INPUT_ATTR, "Payment Term");
+		paymentTermRecord.add("Value", paymentTerm);
+		list.add(paymentTermRecord);
+
+		Record salesAccountRecord = new Record(salesAccount);
+		salesAccountRecord.add(INPUT_ATTR, "Sales Liability Account");
+		salesAccountRecord.add("Value", salesAccount);
+		list.add(salesAccountRecord);
+
+		if (getCompanyType() == 0) {
+			Requirement purchseAccountReq = get(PURCHASE_ACCOUNT);
+			Account purchaseAccount = (Account) purchseAccountReq.getValue();
+			if (purchaseAccount == selection) {
+				context.setAttribute(INPUT_ATTR, PURCHASE_ACCOUNT);
+				return getPurchaseAccountResult(context);
+			}
+
+			Requirement vatReturnReq = get(VAT_RETURN);
+			VATReturn vatReturn = (VATReturn) vatReturnReq.getValue();
+			if (vatReturn == selection) {
+				context.setAttribute(INPUT_ATTR, SALES_ACCOUNT);
+				return getVatReturnResult(context);
+			}
+
+			Record purchaseAccountRecord = new Record(purchaseAccount);
+			purchaseAccountRecord.add(INPUT_ATTR, "Purchase Liability Account");
+			purchaseAccountRecord.add("Value", purchaseAccount);
+			list.add(purchaseAccountRecord);
+		}
+
+		Result result = addressRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+
+		result = phoneRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+
+		result = faxRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+
+		result = emailRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+
+		result = websiteRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+
+		Requirement contactReq = get("customerContact");
+		List<Contact> contacts = contactReq.getValue();
+		selection = context.getSelection("customerContact");
+		if (selection != null) {
+			Result contact = contact(context, "customer contact",
+					(Contact) selection);
+			if (contact != null) {
+				return contact;
+			}
+		}
+
+		result = context.makeResult();
+		result.add(getString()
+				+ " Agency is ready to create with following values.");
+		result.add(list);
+		ResultList contactsList = new ResultList("customerContact");
+		for (Contact contact : contacts) {
+			Record contactRec = new Record(contact);
+			contactRec.add("primary", contact.getVersion());
+			contactRec.add("contactName", contact.getName());
+			contactRec.add("title", contact.getTitle());
+			contactRec.add("businessPhone", contact.getBusinessPhone());
+			contactRec.add("email", contact.getEmail());
+		}
+
+		result.add(contactsList);
+		ResultList actions = new ResultList("actions");
+		Record moreContacts = new Record(ActionNames.ADD_MORE_ITEMS);
+		moreContacts.add("", "Add more contacts");
+		actions.add(moreContacts);
+		Record finish = new Record(ActionNames.FINISH);
+		finish.add("", "Finish to create " + getString() + " Agency.");
+		actions.add(finish);
+		result.add(actions);
+
+		return null;
+	}
+
+	private Result websiteRequirement(Context context, ResultList list,
+			Object selection) {
+		Requirement websiteReq = get(WEBSITE);
+		String website = (String) websiteReq.getValue();
+
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals(WEBSITE)) {
+			String input = context.getSelection(WEBSITE);
+			if (input == null) {
+				input = context.getString();
+			}
+			website = input;
+			websiteReq.setDefaultValue(website);
+		}
+
+		if (selection == website) {
+			context.setAttribute(INPUT_ATTR, WEBSITE);
+			return text(context, "Website", website);
+		}
+
+		Record websiteRecord = new Record(website);
+		websiteRecord.add("Name", "Website");
+		websiteRecord.add("Value", website);
+		list.add(websiteRecord);
+		return null;
+	}
+
+	private Result emailRequirement(Context context, ResultList list,
+			Object selection) {
+		Requirement emailReq = get(EMAIL);
+		String email = (String) emailReq.getValue();
+
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals(EMAIL)) {
+			String input = context.getSelection(EMAIL);
+			if (input == null) {
+				input = context.getString();
+			}
+			email = input;
+			emailReq.setDefaultValue(email);
+		}
+
+		if (selection == email) {
+			context.setAttribute(INPUT_ATTR, EMAIL);
+			return text(context, "Email", email);
+		}
+
+		Record emailRecord = new Record(email);
+		emailRecord.add("Name", "Email");
+		emailRecord.add("Value", email);
+		list.add(emailRecord);
+		return null;
+	}
+
+	private Result faxRequirement(Context context, ResultList list,
+			Object selection) {
+		Requirement faxReq = get(FAX);
+		String fax = (String) faxReq.getValue();
+
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals(FAX)) {
+			String input = context.getSelection(FAX);
+			if (input == null) {
+				input = context.getString();
+			}
+			fax = input;
+			faxReq.setDefaultValue(fax);
+		}
+
+		if (selection == fax) {
+			context.setAttribute(INPUT_ATTR, FAX);
+			return text(context, "Fax", fax);
+		}
+
+		Record faxRecord = new Record(fax);
+		faxRecord.add("Name", "Fax");
+		faxRecord.add("Value", fax);
+		list.add(faxRecord);
+		return null;
+	}
+
+	private Result phoneRequirement(Context context, ResultList list,
+			Object selection) {
+		Requirement phoneReq = get(PHONE);
+		String phone = (String) phoneReq.getValue();
+
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals(PHONE)) {
+			String input = context.getSelection(PHONE);
+			if (input == null) {
+				input = context.getString();
+			}
+			phone = input;
+			phoneReq.setDefaultValue(phone);
+		}
+
+		if (selection == phone) {
+			context.setAttribute(INPUT_ATTR, PHONE);
+			return text(context, "Phone", phone);
+		}
+
+		Record phoneRecord = new Record(phone);
+		phoneRecord.add("Name", "Phone");
+		phoneRecord.add("Value", phone);
+		list.add(phoneRecord);
+		return null;
+	}
+
+	private Result addressRequirement(Context context, ResultList list,
+			Object selection) {
+		Requirement req = get(ADDRESS);
+		Address address = (Address) req.getValue();
+
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals(ADDRESS)) {
+			Address input = context.getSelection(ADDRESS);
+			if (input == null) {
+				input = context.getAddress();
+			}
+			address = input;
+			req.setDefaultValue(address);
+		}
+
+		if (selection == address) {
+			context.setAttribute(INPUT_ATTR, ADDRESS);
+			return address(context, "Address", address);
+		}
+
+		Record addressRecord = new Record(address);
+		addressRecord.add("Name", "Address");
+		addressRecord.add("Value", address.toString());
+		list.add(addressRecord);
 		return null;
 	}
 
@@ -139,18 +412,18 @@ public class NewVATAgencyCommand extends AbstractCommand {
 			purchaseAccountReq.setValue(purchaseAccount);
 		}
 		if (!purchaseAccountReq.isDone()) {
-			return getPurchseAccountResult(context);
+			return getPurchaseAccountResult(context);
 		}
 		return null;
 	}
 
-	private Result getPurchseAccountResult(Context context) {
+	private Result getPurchaseAccountResult(Context context) {
 		Result result = context.makeResult();
 		ResultList purchseAccountsList = new ResultList(PURCHASE_ACCOUNT);
 
 		Object last = context.getLast(RequirementType.ACCOUNT);
 		if (last != null) {
-			purchseAccountsList.add(createPurchAccountRecord((Account) last));
+			purchseAccountsList.add(createAccountRecord((Account) last));
 		}
 
 		List<Account> purchseAccounts = getAccounts(context.getSession());
@@ -158,7 +431,7 @@ public class NewVATAgencyCommand extends AbstractCommand {
 			Account purchseAccount = purchseAccounts.get(i);
 			if (purchseAccount != last) {
 				purchseAccountsList
-						.add(createSalesAccountRecord((Account) purchseAccount));
+						.add(createAccountRecord((Account) purchseAccount));
 			}
 		}
 
@@ -179,9 +452,12 @@ public class NewVATAgencyCommand extends AbstractCommand {
 		return result;
 	}
 
-	private Record createPurchAccountRecord(Account last) {
-		// TODO Auto-generated method stub
-		return null;
+	private Record createAccountRecord(Account account) {
+		Record record = new Record(account);
+		record.add("Number", account.getNumber());
+		record.add("Name", account.getName());
+		record.add("Type", Utility.getAccountTypeString(account.getType()));
+		return record;
 	}
 
 	private Result salesAccountRequirement(Context context) {
@@ -202,7 +478,7 @@ public class NewVATAgencyCommand extends AbstractCommand {
 
 		Object last = context.getLast(RequirementType.ACCOUNT);
 		if (last != null) {
-			salesAccountsList.add(createSalesAccountRecord((Account) last));
+			salesAccountsList.add(createAccountRecord((Account) last));
 		}
 
 		List<Account> salesAccounts = getAccounts(context.getSession());
@@ -210,7 +486,7 @@ public class NewVATAgencyCommand extends AbstractCommand {
 			Account salesAccount = salesAccounts.get(i);
 			if (salesAccount != last) {
 				salesAccountsList
-						.add(createSalesAccountRecord((Account) salesAccount));
+						.add(createAccountRecord((Account) salesAccount));
 			}
 		}
 
@@ -236,14 +512,9 @@ public class NewVATAgencyCommand extends AbstractCommand {
 		return null;
 	}
 
-	private Record createSalesAccountRecord(Account last) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	private Result vatReturnRequirement(Context context) {
 		Requirement vatReturnReq = get(VAT_RETURN);
-		VATReturn vatReturn = context.getSelection(VAT_RETURNS);
+		String vatReturn = context.getSelection(VAT_RETURNS);
 		if (vatReturn != null) {
 			vatReturnReq.setValue(vatReturn);
 		}
@@ -259,15 +530,14 @@ public class NewVATAgencyCommand extends AbstractCommand {
 
 		Object last = context.getLast(RequirementType.VAT_RETURN);
 		if (last != null) {
-			vatReturnsList.add(createVatReturnRecord((VATReturn) last));
+			vatReturnsList.add(createVatReturnRecord((String) last));
 		}
 
-		List<VATReturn> vatReturns = getVatReturns(context.getSession());
+		List<String> vatReturns = getVatReturns(context.getSession());
 		for (int i = 0; i < VALUES_TO_SHOW || i < vatReturns.size(); i++) {
-			VATReturn vatReturn = vatReturns.get(i);
+			String vatReturn = vatReturns.get(i);
 			if (vatReturn != last) {
-				vatReturnsList
-						.add(createVatReturnRecord((VATReturn) vatReturn));
+				vatReturnsList.add(createVatReturnRecord((String) vatReturn));
 			}
 		}
 
@@ -288,12 +558,13 @@ public class NewVATAgencyCommand extends AbstractCommand {
 		return result;
 	}
 
-	private Record createVatReturnRecord(VATReturn last) {
-		// TODO Auto-generated method stub
-		return null;
+	private Record createVatReturnRecord(String vatReturn) {
+		Record record = new Record(vatReturn);
+		record.add("Name", vatReturn);
+		return record;
 	}
 
-	private List<VATReturn> getVatReturns(Session session) {
+	private List<String> getVatReturns(Session session) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -350,9 +621,10 @@ public class NewVATAgencyCommand extends AbstractCommand {
 		return null;
 	}
 
-	private Record createPaymentTermRecord(PaymentTerms last) {
-		// TODO Auto-generated method stub
-		return null;
+	private Record createPaymentTermRecord(PaymentTerms paymentTerm) {
+		Record record = new Record(paymentTerm);
+		record.add("Name", paymentTerm.getName());
+		return record;
 	}
 
 	private Result nameRequirement(Context context) {

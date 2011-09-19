@@ -18,6 +18,8 @@
 			<name>Create VAT Item</name>
 			<name>Add VAT Item</name>
 			<name>Add vat Item</name>
+			<name>Add TAX Item</name>
+			<name>Create TAX Item</name>
 		</alias>
 	</command>
 

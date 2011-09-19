@@ -346,7 +346,6 @@ public class NewVATItemCommand extends AbstractCommand {
 	private Record createVATReturnBoxRecord(VATReturnBox vatReturnBox) {
 		Record record = new Record(vatReturnBox);
 		record.add("Name", vatReturnBox.getName());
-		record.add("VAT Return Box", vatReturnBox.getName());
 		return record;
 	}
 
@@ -393,7 +392,6 @@ public class NewVATItemCommand extends AbstractCommand {
 	private Record createTaxAgencyRecord(TAXAgency taxAgency) {
 		Record record = new Record(taxAgency);
 		record.add("Name", taxAgency.getName());
-		record.add(getString() + " Agency", taxAgency.getName());
 		return record;
 	}
 
