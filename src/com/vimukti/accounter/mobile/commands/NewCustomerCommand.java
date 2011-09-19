@@ -102,130 +102,130 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			default:
 				break;
 			}
+		}
+		
+		result = context.makeResult();
+		result.add("Customer is ready to create with following values.");
+		ResultList list = new ResultList("values");
 
-			result = context.makeResult();
-			result.add("Customer is ready to create with following values.");
-			ResultList list = new ResultList("values");
+		String customerName = (String) get("customerName").getValue();
+		Record nameRecord = new Record(customerName);
+		nameRecord.add("Name", "customerName");
+		nameRecord.add("Value", customerName);
+		list.add(nameRecord);
 
-			String customerName = (String) get("customerName").getValue();
-			Record nameRecord = new Record(customerName);
-			nameRecord.add("Name", "customerName");
-			nameRecord.add("Value", customerName);
-			list.add(nameRecord);
+		String customerContact = (String) get("customerContact").getValue();
+		Record customerContactRecord = new Record(customerContact);
+		customerContactRecord.add("Name", "customerContact");
+		customerContactRecord.add("Value", customerContact);
+		list.add(customerContactRecord);
 
-			String customerContact = (String) get("customerContact").getValue();
-			Record customerContactRecord = new Record(customerContact);
-			customerContactRecord.add("Name", "customerContact");
-			customerContactRecord.add("Value", customerContact);
-			list.add(customerContactRecord);
+		boolean isActive = (Boolean) get("isactive").getDefaultValue();
+		Record isActiveRecord = new Record(isActive);
+		isActiveRecord.add("Name", "Is Active");
+		isActiveRecord.add("Value", isActive);
+		list.add(isActiveRecord);
 
-			boolean isActive = (Boolean) get("isactive").getDefaultValue();
-			Record isActiveRecord = new Record(isActive);
-			isActiveRecord.add("Name", "Is Active");
-			isActiveRecord.add("Value", isActive);
-			list.add(isActiveRecord);
+		result = customerSinceDateRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
 
-			result = customerSinceDateRequirement(context, list, selection);
-			if (result != null) {
-				return result;
-			}
+		String customerBalance = (String) get("Balance").getValue();
+		Record balanceRecord = new Record(customerBalance);
+		balanceRecord.add("Name", "Customer Balanace");
+		balanceRecord.add("Value", customerBalance);
+		list.add(balanceRecord);
 
-			String customerBalance = (String) get("Balance").getValue();
-			Record balanceRecord = new Record(customerBalance);
-			balanceRecord.add("Name", "Customer Balanace");
-			balanceRecord.add("Value", customerBalance);
-			list.add(balanceRecord);
+		result = balanceAsOfDateRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
 
-			result = balanceAsOfDateRequirement(context, list, selection);
-			if (result != null) {
-				return result;
-			}
+		result = billToRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+		String phoneNum = (String) get("phone").getValue();
+		Record phoneRecord = new Record(phoneNum);
+		phoneRecord.add("Name", "Phone");
+		phoneRecord.add("Value", phoneNum);
+		list.add(phoneRecord);
 
-			result = billToRequirement(context, list, selection);
-			if (result != null) {
-				return result;
-			}
-			String phoneNum = (String) get("phone").getValue();
-			Record phoneRecord = new Record(phoneNum);
-			phoneRecord.add("Name", "Phone");
-			phoneRecord.add("Value", phoneNum);
-			list.add(phoneRecord);
+		String faxNum = (String) get("fax").getValue();
+		Record faxRecord = new Record(faxNum);
+		faxRecord.add("Name", "Fax");
+		faxRecord.add("Value", faxNum);
+		list.add(faxRecord);
 
-			String faxNum = (String) get("fax").getValue();
-			Record faxRecord = new Record(faxNum);
-			faxRecord.add("Name", "Fax");
-			faxRecord.add("Value", faxNum);
-			list.add(faxRecord);
+		String email = (String) get("email").getValue();
+		Record emailRecord = new Record(email);
+		emailRecord.add("Name", "Email");
+		emailRecord.add("Value", email);
+		list.add(emailRecord);
 
-			String email = (String) get("email").getValue();
-			Record emailRecord = new Record(email);
-			emailRecord.add("Name", "Email");
-			emailRecord.add("Value", email);
-			list.add(emailRecord);
+		String webPageAdress = (String) get("webPageAdress").getValue();
+		Record webPageAdressRecord = new Record(webPageAdress);
+		webPageAdressRecord.add("Name", "WebPage Adress");
+		webPageAdressRecord.add("Value", webPageAdress);
+		list.add(webPageAdressRecord);
 
-			String webPageAdress = (String) get("webPageAdress").getValue();
-			Record webPageAdressRecord = new Record(webPageAdress);
-			webPageAdressRecord.add("Name", "WebPage Adress");
-			webPageAdressRecord.add("Value", webPageAdress);
-			list.add(webPageAdressRecord);
+		result = salesPersonRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
 
-			result = salesPersonRequirement(context, list, selection);
-			if (result != null) {
-				return result;
-			}
+		result = priceLevelRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
 
-			result = priceLevelRequirement(context, list, selection);
-			if (result != null) {
-				return result;
-			}
+		result = creditRatingRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
 
-			result = creditRatingRequirement(context, list, selection);
-			if (result != null) {
-				return result;
-			}
+		String bankName = (String) get("bankName").getValue();
+		Record bankRecord = new Record("bankName");
+		bankRecord.add("Name", "Bank Name");
+		bankRecord.add("Value", bankName);
+		list.add(bankRecord);
 
-			String bankName = (String) get("bankName").getValue();
-			Record bankRecord = new Record("bankName");
-			bankRecord.add("Name", "Bank Name");
-			bankRecord.add("Value", bankName);
-			list.add(bankRecord);
+		String bankAccountNum = (String) get("bankAccountNum").getValue();
+		Record bankAccountNumRecord = new Record("bankAccountNum");
+		bankAccountNumRecord.add("Name", "Bank AccountNum");
+		bankAccountNumRecord.add("Value", bankAccountNum);
+		list.add(bankAccountNumRecord);
 
-			String bankAccountNum = (String) get("bankAccountNum").getValue();
-			Record bankAccountNumRecord = new Record("bankAccountNum");
-			bankAccountNumRecord.add("Name", "Bank AccountNum");
-			bankAccountNumRecord.add("Value", bankAccountNum);
-			list.add(bankAccountNumRecord);
+		String bankBranchName = (String) get("bankBranch").getValue();
+		Record bankBranchRecord = new Record("bankBranch");
+		bankBranchRecord.add("Name", "Bank Branch");
+		bankBranchRecord.add("Value", bankBranchName);
+		list.add(bankBranchRecord);
 
-			String bankBranchName = (String) get("bankBranch").getValue();
-			Record bankBranchRecord = new Record("bankBranch");
-			bankBranchRecord.add("Name", "Bank Branch");
-			bankBranchRecord.add("Value", bankBranchName);
-			list.add(bankBranchRecord);
+		result = paymentMethodRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+		result = paymentTermRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+		result = customerGroupRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
 
-			result = paymentMethodRequirement(context, list, selection);
-			if (result != null) {
-				return result;
-			}
-			result = paymentTermRequirement(context, list, selection);
-			if (result != null) {
-				return result;
-			}
-			result = customerGroupRequirement(context, list, selection);
-			if (result != null) {
-				return result;
-			}
+		String vatRegisterationNum = (String) get("vatRegisterationNum")
+				.getValue();
+		Record vatRegisterationNumRecord = new Record("vatRegisterationNum");
+		vatRegisterationNumRecord.add("Name", "Vat Registeration Number");
+		vatRegisterationNumRecord.add("Value", vatRegisterationNum);
+		list.add(vatRegisterationNumRecord);
 
-			String vatRegisterationNum = (String) get("vatRegisterationNum")
-					.getValue();
-			Record vatRegisterationNumRecord = new Record("vatRegisterationNum");
-			vatRegisterationNumRecord.add("Name", "Vat Registeration Number");
-			vatRegisterationNumRecord.add("Value", vatRegisterationNum);
-			list.add(vatRegisterationNumRecord);
-
-			result = customerVatCodeRequirement(context, list, selection);
-			if (result != null) {
-				return result;
-			}
+		result = customerVatCodeRequirement(context, list, selection);
+		if (result != null) {
+			return result;
 		}
 		return null;
 	}
@@ -715,13 +715,14 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	private Result customerNameRequirement(Context context) {
 		Requirement requirement = get("customerName");
 		if (!requirement.isDone()) {
-			String customerName = context.getSelection("customerName");
+			String customerName = context.getSelection(TEXT);
 			if (customerName != null) {
 				requirement.setValue(customerName);
 			} else {
-				return customerNameresult(context);
+				return text(context, "Please enter the  Customer Name", null);
 			}
 		}
+
 		return null;
 	}
 
