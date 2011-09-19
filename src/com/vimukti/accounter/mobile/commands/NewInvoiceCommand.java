@@ -72,16 +72,6 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 				result = transactionItemProcess(context);
 				if (result != null) {
 					return result;
-				} else {
-					ActionNames actionName = context.getSelection(ACTIONS);
-					if (actionName == ActionNames.DELETE_ITEM) {
-						Requirement itemsReq = get("items");
-						List<TransactionItem> transItems = itemsReq.getValue();
-						TransactionItem transactionItem = (TransactionItem) context
-								.getAttribute(OLD_TRANSACTION_ITEM_ATTR);
-						transItems.remove(transactionItem);
-						context.removeAttribute(OLD_TRANSACTION_ITEM_ATTR);
-					}
 				}
 			}
 		}
@@ -141,6 +131,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 				break;
 			}
 		}
+
 		Requirement itemsReq = get("items");
 		List<TransactionItem> transItems = itemsReq.getValue();
 
@@ -153,16 +144,11 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 			}
 		}
 
-		Requirement custmerReq = get("customer");
-		Customer customer = (Customer) custmerReq.getValue();
-
 		selection = context.getSelection("values");
-		if (customer == selection) {
-			return customerRequirement(context);
-		}
-
 		ResultList list = new ResultList("values");
 
+		Requirement custmerReq = get("customer");
+		Customer customer = (Customer) custmerReq.getValue();
 		Record custRecord = new Record(customer);
 		custRecord.add("Name", "Customer");
 		custRecord.add("Value", customer.getName());
@@ -216,6 +202,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		result = context.makeResult();
 		result.add("Invoice is ready to create with following values.");
 		result.add(list);
+
 		result.add("Items:-");
 		ResultList items = new ResultList("transactionItems");
 		for (TransactionItem item : transItems) {
