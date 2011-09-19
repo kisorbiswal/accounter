@@ -71,20 +71,27 @@
 		</output>
 	</input>
 
-	<input text="Sales">
-		<output>
-			<command value="New Sales Order">Create a New Sales Order</command>
-			<command value="Sales Tax">Sales Tax</command>
-			<command value="Sales Person">Sales Person</command>
-			<command value="Sales Order List">Sales Order List</command>
-		</output>
-	</input>
-	
-	<input text="Purchase">
-		<output>
-			<command value="New Purchase Order">Create a New Purchase Order</command>
-			<command value="Purchase Order List">Purchase Order List</command>
-		</output>
-	</input>
 
+	<pattern>
+		<input text="Sale"/>
+		<input text="Sales"/>
+			<output>
+				<text text="Sales Description" />
+				<command value="New Sales Order">Create a New Sales Order</command>
+				<command value="Sales Tax">Sales Tax</command>
+				<command value="Sales Person">Sales Person</command>
+				<command value="Sales Order List">Sales Order List</command>
+			</output>
+	</pattern>
+	
+	<pattern>
+		<input text="Purchase"/>
+		<input text="Purchases"/>
+			<output>
+				<text text="Purchase Description" />
+				<command value="New Purchase Order">Create a New Purchase Order</command>
+				<command value="Purchase Order List">Purchase Order List</command>
+			</output>
+	</pattern>
+	
 </patterns>
