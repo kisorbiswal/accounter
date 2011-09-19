@@ -914,18 +914,12 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		List<EstimatesAndSalesOrdersList> filteredList = new ArrayList<EstimatesAndSalesOrdersList>();
 		filteredList.addAll(result);
-
-		for (EstimatesAndSalesOrdersList record : result) {
-			for (ClientTransaction estimate : selectedOrdersAndEstimates) {
-				if (estimate.getID() == record.getTransactionId())
-					filteredList.remove(record);
-			}
-		}
-
+		
 		if (dialog == null) {
 			dialog = new CustomerQuoteListDialog(this, filteredList);
 		}
 
+		
 		dialog.setQuoteList(filteredList);
 		dialog.show();
 
@@ -957,7 +951,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				if (record.getReferringTransactionItem() == salesRecord.getID())
 					customerTransactionTable.delete(record);
 
-		}
+	}
 		// if (dialog.preCustomer == null || dialog.preCustomer !=
 		// this.customer) {
 		// dialog.preCustomer = this.customer;

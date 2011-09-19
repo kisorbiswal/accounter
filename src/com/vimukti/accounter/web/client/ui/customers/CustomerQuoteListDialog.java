@@ -76,7 +76,7 @@ public class CustomerQuoteListDialog extends BaseDialog {
 		}
 		mainLayout.add(infoLabel);
 
-		grid = new DialogGrid(false);
+		grid = new DialogGrid(true);
 		grid.addColumns(customerConstants.date(), customerConstants.no(),
 				customerConstants.type(),
 				Accounter.messages().customerName(Global.get().Customer()),
@@ -93,10 +93,13 @@ public class CustomerQuoteListDialog extends BaseDialog {
 			@Override
 			public void OnCellDoubleClick(EstimatesAndSalesOrdersList core,
 					int column) {
-				setRecord(core);
+				setRecord1(core);
 
 			}
+
 		});
+		
+		
 
 		// getGridData();
 		setQuoteList(estimatesAndSalesOrder);
@@ -124,9 +127,9 @@ public class CustomerQuoteListDialog extends BaseDialog {
 
 			public void onClick(ClickEvent event) {
 
-				EstimatesAndSalesOrdersList record = (EstimatesAndSalesOrdersList) grid
-						.getSelection();
-				setRecord(record);
+				List<EstimatesAndSalesOrdersList> record = (List<EstimatesAndSalesOrdersList>) grid
+						.getSelectedRecords();
+				setRecord(null);
 
 			}
 
@@ -156,9 +159,22 @@ public class CustomerQuoteListDialog extends BaseDialog {
 		// add(mainLayout);
 		setBodyLayout(mainLayout);
 	}
+	
+	
+	protected void setRecord(List<EstimatesAndSalesOrdersList> records) {
 
-	protected void setRecord(EstimatesAndSalesOrdersList record) {
+		for (EstimatesAndSalesOrdersList rec : records) {
+			if (rec.getType() == ClientTransaction.TYPE_ESTIMATE) {
+				getEstimate(rec);
+			} else {
+				getSalesOrder(rec);
+			}
 
+		}
+
+	}
+
+	private void setRecord1(EstimatesAndSalesOrdersList record) {
 		if (record != null) {
 			if (record.getType() == ClientTransaction.TYPE_ESTIMATE) {
 				getEstimate(record);
@@ -167,7 +183,7 @@ public class CustomerQuoteListDialog extends BaseDialog {
 				getSalesOrder(record);
 			}
 		}
-
+		removeFromParent();
 	}
 
 	private void getSalesOrder(EstimatesAndSalesOrdersList record) {
@@ -184,7 +200,8 @@ public class CustomerQuoteListDialog extends BaseDialog {
 			public void onResultSuccess(ClientSalesOrder result) {
 				if (invoiceView != null && result != null)
 					invoiceView.selectedSalesOrder(result);
-				removeFromParent();
+				return;
+				// removeFromParent();
 
 			}
 
@@ -207,7 +224,8 @@ public class CustomerQuoteListDialog extends BaseDialog {
 				// super.onSuccess(result);
 				if (invoiceView != null && result != null)
 					invoiceView.selectedQuote(result);
-				removeFromParent();
+				return;
+				// removeFromParent();
 
 			}
 
@@ -222,6 +240,7 @@ public class CustomerQuoteListDialog extends BaseDialog {
 			return;
 		this.estimatesAndSalesOrder = result;
 		grid.removeAllRecords();
+		
 		for (EstimatesAndSalesOrdersList rec : estimatesAndSalesOrder) {
 			grid.addData(rec);
 		}
@@ -257,8 +276,7 @@ public class CustomerQuoteListDialog extends BaseDialog {
 
 	@Override
 	protected boolean onOK() {
-		EstimatesAndSalesOrdersList record = (EstimatesAndSalesOrdersList) grid
-				.getSelection();
+		List<EstimatesAndSalesOrdersList> record = grid.getSelectedRecords();
 		setRecord(record);
 		return true;
 	}
