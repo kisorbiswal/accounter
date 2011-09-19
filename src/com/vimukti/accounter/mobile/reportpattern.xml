@@ -75,7 +75,7 @@
 	</input>
 	<input text="dateRanges">
 		<output>
-			<text text="Date Range"></text>
+			<text text="Select A Date Range"></text>
 			<command value="All">All</command>
 			<command value="This Week">This Week</command>
 			<command value="This Month">This Month</command>
@@ -91,11 +91,20 @@
 	</input>
 	<input text="status">
 		<output>
-			<text text="status">
+			<text text="Select A Status">
 				<command value="Open">Open</command>
 				<command value="Completed">Completed</command>
 				<command value="Canceled">Canceled</command>
 				<command value="All">All</command>
+			</text>
+		</output>
+	</input>
+	<input text="expenceType">
+		<output>
+			<text text="Select An Expense Type">
+				<command value="All Expenses">All Expenses</command>
+				<command value="Cash">Cash Expense</command>
+				<command value="Credit Card">Credit Card Expenses</command>
 			</text>
 		</output>
 	</input>
