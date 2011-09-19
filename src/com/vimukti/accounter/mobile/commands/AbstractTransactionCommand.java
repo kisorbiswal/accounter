@@ -3,12 +3,15 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Item;
+import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.mobile.Command;
 import com.vimukti.accounter.mobile.CommandList;
@@ -22,6 +25,13 @@ import com.vimukti.accounter.mobile.ResultList;
 public abstract class AbstractTransactionCommand extends Command {
 	private static final int ITEMS_TO_SHOW = 5;
 	private static final int CUSTOMERS_TO_SHOW = 5;
+	private static final int PAYMENTTERMS_TO_SHOW = 0;
+	private static final int CONTACTS_TO_SHOW = 5;
+	protected static final String DATE = "date";
+	protected static final String CONTACTS = "contacts";
+	protected static final String NUMBER = "number";
+	protected static final String TEXT = "text";
+	protected static final String PAYMENT_TERMS = "paymentTerms";
 
 	protected Result itemsRequirement(Context context) {
 		Requirement itemsReq = get("items");
@@ -130,6 +140,26 @@ public abstract class AbstractTransactionCommand extends Command {
 	}
 
 	private Record creatItemRecord(Item item) {
+		Record record = new Record(item);
+		record.add("Name", item.getName());
+		record.add("Tax Code", item.getTaxCode().getName());
+		return record;
+	}
+
+	protected Record createCustomerRecord(Customer customer) {
+		Record record = new Record(customer);
+		record.add("Name", customer.getName());
+		record.add("Balance", customer.getBalance());
+		return record;
+	}
+
+	protected Record createContactRecord(Contact contact) {
+		Record record = new Record(contact);
+		record.add("Name", contact.getName());
+		return record;
+	}
+
+	protected Record createPaymentTermRecord(PaymentTerms oldPaymentTerms) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -144,39 +174,110 @@ public abstract class AbstractTransactionCommand extends Command {
 		return null;
 	}
 
-	protected Record createCustomerRecord(Customer last) {
+	private List<PaymentTerms> getPaymentTerms() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	protected Result text(Context context, String string, String memo) {
+	protected Result address(Context context, Address oldAddress) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	protected Result address(Context context, Address billTo) {
-		// TODO Auto-generated method stub
-		return null;
+	protected Result paymentTerms(Context context, PaymentTerms oldPaymentTerms) {
+		List<PaymentTerms> paymentTerms = getPaymentTerms();
+		Result result = context.makeResult();
+		result.add("Select PaymentTerms");
+
+		ResultList list = new ResultList(PAYMENT_TERMS);
+		int num = 0;
+		if (oldPaymentTerms != null) {
+			list.add(createPaymentTermRecord(oldPaymentTerms));
+			num++;
+		}
+		for (PaymentTerms term : paymentTerms) {
+			if (term != oldPaymentTerms) {
+				list.add(createPaymentTermRecord(term));
+				num++;
+			}
+			if (num == PAYMENTTERMS_TO_SHOW) {
+				break;
+			}
+		}
+		result.add(list);
+
+		CommandList commandList = new CommandList();
+		commandList.add("Create PaymentTerms");
+		result.add(commandList);
+		return result;
 	}
 
-	protected Result number(Context context, String invoiceNo) {
-		// TODO Auto-generated method stub
-		return null;
+	protected Result text(Context context, String message, String oldText) {
+		Result result = context.makeResult();
+		result.add(message);
+		if (oldText != null) {
+			ResultList list = new ResultList(TEXT);
+			Record record = new Record(oldText);
+			record.add("", oldText);
+			list.add(record);
+			result.add(list);
+		}
+		return result;
 	}
 
-	protected Result paymentList(Context context, String string) {
-		// TODO Auto-generated method stub
-		return null;
+	protected Result number(Context context, String message, String oldNumber) {
+		Result result = context.makeResult();
+		result.add(message);
+		if (oldNumber != null) {
+			ResultList list = new ResultList(NUMBER);
+			Record record = new Record(oldNumber);
+			record.add("", oldNumber);
+			list.add(record);
+			result.add(list);
+		}
+		return result;
 	}
 
 	protected Result contactList(Context context, Customer customer,
-			String string) {
-		// TODO Auto-generated method stub
-		return null;
+			Contact oldContact) {
+		Set<Contact> contacts = customer.getContacts();
+		ResultList list = new ResultList(CONTACTS);
+		int num = 0;
+		if (oldContact != null) {
+			list.add(createContactRecord(oldContact));
+			num++;
+		}
+		for (Contact contact : contacts) {
+			if (contact != oldContact) {
+				list.add(createContactRecord(contact));
+				num++;
+			}
+			if (num == CONTACTS_TO_SHOW) {
+				break;
+			}
+		}
+
+		Result result = context.makeResult();
+		result.add("Select " + customer.getName() + "'s Contact");
+		result.add(list);
+
+		CommandList commandList = new CommandList();
+		commandList.add("Create Contact");
+		result.add(commandList);
+
+		return result;
 	}
 
-	protected Result date(Context context, Date date) {
-		// TODO Auto-generated method stub
-		return null;
+	protected Result date(Context context, String message, Date date) {
+		Result result = context.makeResult();
+		result.add(message);
+		if (date != null) {
+			ResultList list = new ResultList(DATE);
+			Record record = new Record(date);
+			record.add("", date.toString());
+			list.add(record);
+			result.add(list);
+		}
+		return result;
 	}
 }
