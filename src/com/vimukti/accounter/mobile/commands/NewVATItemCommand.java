@@ -104,25 +104,35 @@ public class NewVATItemCommand extends AbstractCommand {
 	}
 
 	private Result taxRateRequirement(Context context) {
-		Requirement taxRate = get(TAX_RATE);
-		double selTaxRate = context.getSelection(TAX_RATE);
-		if (selTaxRate != 0) {
-			taxRate.setValue(selTaxRate);
+		Requirement taxRateReq = get(TAX_RATE);
+		if (!taxRateReq.isDone()) {
+			Double taxRate = context.getDouble();
+			if (taxRate != null) {
+				taxRateReq.setValue(taxRate);
+			} else {
+				return number(context, "Please Enter the TaxRate.", null);
+			}
 		}
-		if (!taxRate.isDone()) {
-			return getResultToAsk(context, "Please Enter the TaxRate.");
+		String input = (String) context.getAttribute("input");
+		if (input.equals(TAX_RATE)) {
+			taxRateReq.setValue(input);
 		}
 		return null;
 	}
 
 	private Result nameRequirement(Context context) {
-		Requirement name = get(NAME);
-		String selName = context.getSelection(NAME);
-		if (selName != null) {
-			name.setValue(selName);
+		Requirement nameReq = get(NAME);
+		if (!nameReq.isDone()) {
+			String string = context.getString();
+			if (string != null) {
+				nameReq.setValue(string);
+			} else {
+				return text(context, "Please Enter the VAT Item Name.", null);
+			}
 		}
-		if (!name.isDone()) {
-			return getResultToAsk(context, "Please Enter the VAT Item Name.");
+		String input = (String) context.getAttribute("input");
+		if (input.equals(NAME)) {
+			nameReq.setValue(input);
 		}
 		return null;
 	}
