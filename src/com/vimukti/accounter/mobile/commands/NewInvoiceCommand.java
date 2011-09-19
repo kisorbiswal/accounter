@@ -257,12 +257,8 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 			return text(context, "Enter Invoice memo", memo);
 		}
 
-		if (selection == memo) {
-			return text(context, "orderNo", memo);
-		}
-
 		Record memoRecord = new Record(memo);
-		memoRecord.add("Name", "Order No");
+		memoRecord.add("Name", "Memo");
 		memoRecord.add("Value", memo);
 		list.add(memoRecord);
 		return null;
