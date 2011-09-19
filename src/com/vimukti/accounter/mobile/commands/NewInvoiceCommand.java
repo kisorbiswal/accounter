@@ -4,9 +4,11 @@ import java.util.Date;
 import java.util.List;
 
 import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.PaymentTerms;
+import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
@@ -17,6 +19,8 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 
 public class NewInvoiceCommand extends AbstractTransactionCommand {
+
+	private static final String INPUT_ATTR = "input";
 
 	@Override
 	public String getId() {
@@ -48,50 +52,105 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		list.add(new Requirement("due", true, true));
 		list.add(new Requirement("orderNo", true, true));
 		list.add(new Requirement("memo", true, true));
+		Company company = getCompany();
+		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+			list.add(new Requirement("tax", false, true));
+		}
 	}
 
 	@Override
 	public Result run(Context context) {
-		Result result = customerRequirement(context);
-		if (result == null) {
-			// TODO
+		String process = (String) context.getAttribute(PROCESS_ATTR);
+		Result result = null;
+		if (process != null) {
+			if (process.equals(ADDRESS_PROCESS)) {
+				result = addressProcess(context);
+				if (result != null) {
+					return result;
+				}
+			} else if (process.equals(TRANSACTION_ITEM_PROCESS)) {
+				result = transactionItemProcess(context);
+				if (result != null) {
+					return result;
+				} else {
+					ActionNames actionName = context.getSelection(ACTIONS);
+					if (actionName == ActionNames.DELETE_ITEM) {
+						Requirement itemsReq = get("items");
+						List<TransactionItem> transItems = itemsReq.getValue();
+						TransactionItem transactionItem = (TransactionItem) context
+								.getAttribute(OLD_TRANSACTION_ITEM_ATTR);
+						transItems.remove(transactionItem);
+						context.removeAttribute(OLD_TRANSACTION_ITEM_ATTR);
+					}
+				}
+			}
+		}
+
+		result = customerRequirement(context);
+		if (result != null) {
+			return result;
 		}
 
 		result = itemsRequirement(context);
-		if (result == null) {
-			// TODO
+		if (result != null) {
+			return result;
+		}
+
+		Company company = getCompany();
+		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+			Requirement taxReq = get("tax");
+			TAXCode taxcode = context.getSelection(TAXCODE);
+			if (!taxReq.isDone()) {
+				if (taxcode != null) {
+					taxReq.setValue(taxcode);
+				} else {
+					return taxCode(context, null);
+				}
+			}
+			if (taxcode != null) {
+				taxReq.setValue(taxcode);
+			}
 		}
 
 		result = createOptionalResult(context);
-		if (result == null) {
-			// TODO
+		if (result != null) {
+			return result;
 		}
-
+		completeProcess(context);
 		markDone();
 		return null;
 	}
 
+	private void completeProcess(Context context) {
+		// TODO
+	}
+
 	private Result createOptionalResult(Context context) {
-		Object selection = context.getSelection("actions");
+		context.setAttribute(INPUT_ATTR, "optional");
+
+		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
 			ActionNames actionName = (ActionNames) selection;
 			switch (actionName) {
 			case ADD_MORE_ITEMS:
 				return items(context);
 			case FINISH:
+				context.removeAttribute(INPUT_ATTR);
 				return null;
 			default:
 				break;
 			}
 		}
-
 		Requirement itemsReq = get("items");
 		List<TransactionItem> transItems = itemsReq.getValue();
 
 		selection = context.getSelection("transactionItems");
 		if (selection != null) {
-			TransactionItem transItem = (TransactionItem) selection;
-			transItems.add(transItem);
+			Result result = transactionItem(context,
+					(TransactionItem) selection);
+			if (result != null) {
+				return result;
+			}
 		}
 
 		Requirement custmerReq = get("customer");
@@ -167,7 +226,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		}
 		result.add(items);
 
-		ResultList actions = new ResultList("actions");
+		ResultList actions = new ResultList(ACTIONS);
 		Record moreItems = new Record(ActionNames.ADD_MORE_ITEMS);
 		moreItems.add("", "Add more items");
 		actions.add(moreItems);
@@ -183,7 +242,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 			Object selection) {
 		Requirement req = get("memo");
 		String memo = (String) req.getDefaultValue();
-		String attribute = (String) context.getAttribute("input");
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals("memo")) {
 			String order = context.getSelection(TEXT);
 			if (order == null) {
@@ -194,7 +253,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		}
 
 		if (selection == memo) {
-			context.setAttribute("input", "memo");
+			context.setAttribute(attribute, "memo");
 			return text(context, "Enter Invoice memo", memo);
 		}
 
@@ -215,7 +274,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		Requirement req = get("orderNo");
 		String orderNo = (String) req.getDefaultValue();
 
-		String attribute = (String) context.getAttribute("input");
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals("orderNo")) {
 			String order = context.getSelection(NUMBER);
 			if (order == null) {
@@ -226,7 +285,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		}
 
 		if (selection == orderNo) {
-			context.setAttribute("input", "orderNo");
+			context.setAttribute(INPUT_ATTR, "orderNo");
 			return number(context, "Enter Order number", orderNo);
 		}
 
@@ -242,7 +301,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		Requirement req = get("due");
 		Date dueDate = (Date) req.getDefaultValue();
 
-		String attribute = (String) context.getAttribute("input");
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals("dueDate")) {
 			Date date = context.getSelection(DATE);
 			if (date == null) {
@@ -252,7 +311,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 			req.setDefaultValue(dueDate);
 		}
 		if (selection == dueDate) {
-			context.setAttribute("input", "dueDate");
+			context.setAttribute(INPUT_ATTR, "dueDate");
 			return date(context, "Due", dueDate);
 		}
 
@@ -268,9 +327,9 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		Requirement req = get("shipTo");
 		Address shipTo = (Address) req.getValue();
 
-		String attribute = (String) context.getAttribute("input");
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals("shipTo")) {
-			Address input = context.getSelection("address");
+			Address input = context.getAddress();
 			if (input == null) {
 				input = context.getAddress();
 			}
@@ -279,8 +338,8 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		}
 
 		if (selection == shipTo) {
-			context.setAttribute("input", "shipTo");
-			return address(context, shipTo);
+			context.setAttribute(INPUT_ATTR, "shipTo");
+			return address(context, "Ship to Address", shipTo);
 		}
 
 		Record shipToRecord = new Record(shipTo);
@@ -295,7 +354,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		Requirement req = get("billTo");
 		Address billTo = (Address) req.getValue();
 
-		String attribute = (String) context.getAttribute("input");
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals("billTo")) {
 			Address input = context.getSelection("address");
 			if (input == null) {
@@ -306,8 +365,8 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		}
 
 		if (selection == billTo) {
-			context.setAttribute("input", "billTo");
-			return address(context, billTo);
+			context.setAttribute(INPUT_ATTR, "billTo");
+			return address(context, "Bill to Address", billTo);
 		}
 
 		Record billToRecord = new Record(billTo);
@@ -322,7 +381,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		Requirement req = get("number");
 		String invoiceNo = (String) req.getValue();
 
-		String attribute = (String) context.getAttribute("input");
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals("orderNo")) {
 			String order = context.getSelection(NUMBER);
 			if (order == null) {
@@ -333,7 +392,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		}
 
 		if (selection == invoiceNo) {
-			context.setAttribute("input", "orderNo");
+			context.setAttribute(INPUT_ATTR, "orderNo");
 			return number(context, "Enter Invoice number", invoiceNo);
 		}
 
@@ -392,7 +451,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 
 		Requirement dateReq = get("date");
 		Date transDate = (Date) dateReq.getDefaultValue();
-		String attribute = (String) context.getAttribute("input");
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals("invoiceDate")) {
 			Date date = context.getSelection(DATE);
 			if (date == null) {
@@ -402,7 +461,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 			dateReq.setDefaultValue(transDate);
 		}
 		if (selection == transDate) {
-			context.setAttribute("input", "invoiceDate");
+			context.setAttribute(INPUT_ATTR, "invoiceDate");
 			return date(context, "Enter Invoice Date", transDate);
 		}
 

@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.Date;
 
 import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Command;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -13,6 +14,13 @@ public abstract class AbstractCommand extends Command {
 	protected static final String DATE = "date";
 	protected static final String NUMBER = "number";
 	protected static final String TEXT = "text";
+	protected static final String ADDRESS = "address";
+	protected static final String ACTIONS = "actions";
+	protected static final String ADDRESS_PROCESS = "addressProcess";
+	protected static final String PROCESS_ATTR = "process";
+	protected static final String ADDRESS_MESSAGE_ATTR = "addressMessage";
+	protected static final String OLD_ADDRESS_ATTR = "oldAddress";
+	private static final String ADDRESS_LINE_ATTR = null;
 
 	protected Result text(Context context, String message, String oldText) {
 		Result result = context.makeResult();
@@ -25,6 +33,10 @@ public abstract class AbstractCommand extends Command {
 			result.add(list);
 		}
 		return result;
+	}
+
+	protected Result amount(Context context, String message, Double oldAmount) {
+		return number(context, message, oldAmount.toString());
 	}
 
 	protected Result number(Context context, String message, String oldNumber) {
@@ -53,9 +65,102 @@ public abstract class AbstractCommand extends Command {
 		return result;
 	}
 
-	protected Result address(Context context, Address oldAddress) {
+	protected Result addressProcess(Context context) {
+		String message = (String) context.getAttribute(ADDRESS_MESSAGE_ATTR);
+		Address address = (Address) context.getAttribute(OLD_ADDRESS_ATTR);
+		return address(context, message, address);
+	}
+
+	protected Result address(Context context, String message, Address oldAddress) {
+		context.setAttribute(PROCESS_ATTR, ADDRESS_PROCESS);
+		context.setAttribute(ADDRESS_MESSAGE_ATTR, message);
+		context.setAttribute(OLD_ADDRESS_ATTR, oldAddress);
+
+		String lineAttr = (String) context.getAttribute(ADDRESS_LINE_ATTR);
+		if (lineAttr != null) {
+			String input = context.getString();
+			context.removeAttribute(ADDRESS_LINE_ATTR);
+			if (lineAttr.equals("address1")) {
+				oldAddress.setAddress1(input);
+			} else if (lineAttr.equals("city")) {
+				oldAddress.setCity(input);
+			} else if (lineAttr.equals("street")) {
+				oldAddress.setStreet(input);
+			} else if (lineAttr.equals("stateOrProvinence")) {
+				oldAddress.setStateOrProvinence(input);
+			} else if (lineAttr.equals("countryOrRegion")) {
+				oldAddress.setCountryOrRegion(input);
+			}
+		} else {
+			Object selection = context.getSelection(ADDRESS);
+			if (selection != null) {
+				if (selection == oldAddress.getAddress1()) {
+					context.setAttribute(ADDRESS_LINE_ATTR, "address1");
+					return text(context, "Enter Address1",
+							oldAddress.getAddress1());
+				} else if (selection == oldAddress.getCity()) {
+					context.setAttribute(ADDRESS_LINE_ATTR, "city");
+					return text(context, "Enter City", oldAddress.getCity());
+				} else if (selection == oldAddress.getStreet()) {
+					context.setAttribute(ADDRESS_LINE_ATTR, "street");
+					return text(context, "Enter Street", oldAddress.getStreet());
+				} else if (selection == oldAddress.getStateOrProvinence()) {
+					context.setAttribute(ADDRESS_LINE_ATTR, "stateOrProvinence");
+					return text(context, "Enter State/Provinence",
+							oldAddress.getStateOrProvinence());
+				} else if (selection == oldAddress.getCountryOrRegion()) {
+					context.setAttribute(ADDRESS_LINE_ATTR, "countryOrRegion");
+					return text(context, "Enter Country/Region",
+							oldAddress.getCountryOrRegion());
+				}
+			} else {
+				selection = context.getSelection(ACTIONS);
+				if (selection == ActionNames.FINISH) {
+					context.removeAttribute(PROCESS_ATTR);
+					context.removeAttribute(ADDRESS_MESSAGE_ATTR);
+					context.removeAttribute(OLD_ADDRESS_ATTR);
+					context.removeAttribute(ADDRESS_LINE_ATTR);// No need
+					return null;
+				}
+			}
+		}
+
+		ResultList list = new ResultList(ADDRESS);
+		Record record = new Record(oldAddress.getAddress1());
+		record.add("", "Address1");
+		record.add("", oldAddress.getAddress1());
+		list.add(record);
+
+		record = new Record(oldAddress.getStreet());
+		record.add("", "Streat");
+		record.add("", oldAddress.getStreet());
+		list.add(record);
+
+		record = new Record(oldAddress.getCity());
+		record.add("", "City");
+		record.add("", oldAddress.getCity());
+		list.add(record);
+
+		record = new Record(oldAddress.getStateOrProvinence());
+		record.add("", "State/Provinence");
+		record.add("", oldAddress.getStateOrProvinence());
+		list.add(record);
+
+		record = new Record(oldAddress.getCountryOrRegion());
+		record.add("", "Country/Region");
+		record.add("", oldAddress.getCountryOrRegion());
+		list.add(record);
+
 		Result result = context.makeResult();
-		result.add("Enter ");
-		return null;
+		result.add(message);
+
+		result.add(list);
+		result.add("Select any line to edit");
+
+		ResultList finish = new ResultList(ACTIONS);
+		record = new Record(ActionNames.FINISH);
+		record.add("", "Finish");
+		finish.add(record);
+		return result;
 	}
 }
