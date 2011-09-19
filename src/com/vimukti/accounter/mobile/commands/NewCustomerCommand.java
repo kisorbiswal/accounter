@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.CreditRating;
 import com.vimukti.accounter.core.CustomerGroup;
 import com.vimukti.accounter.core.PaymentTerms;
@@ -13,6 +14,7 @@ import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.ObjectListRequirement;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -20,12 +22,14 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class NewCustomerCommand extends AbstractTransactionCommand {
-
+	private static final String INPUT_ATTR = "input";
 	private static final int SALESPERSON_TO_SHOW = 5;
 	private static final int PRICELEVEL_TO_SHOW = 5;
 	private static final int CREDITRATING_TO_SHOW = 5;
 	private static final int CUSTOMERGROUP_TO_SHOW = 5;
-	private int VATCODE_TO_SHOW;
+	protected static final String NUMBER = "customerNumber";
+	protected static final String BALANCE = "balance";
+	private static final int VATCODE_TO_SHOW = 5;
 
 	@Override
 	public String getId() {
@@ -37,7 +41,18 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new Requirement("customerName", false, true));
-		list.add(new Requirement("customerContact", true, true));
+		list.add(new Requirement("customerNumber", false, true));
+		list.add(new ObjectListRequirement("customerContact", true, true) {
+			@Override
+			public void addRequirements(List<Requirement> list) {
+				list.add(new Requirement("primary", true, true));
+				list.add(new Requirement("contactName", false, true));
+				list.add(new Requirement("title", true, true));
+				list.add(new Requirement("businessPhone", true, true));
+				list.add(new Requirement("email", true, true));
+
+			}
+		});
 		list.add(new Requirement("isactive", true, true));
 		list.add(new Requirement("customerSinceDate", true, true));
 		list.add(new Requirement("balance", true, true));
@@ -63,15 +78,55 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 
 	@Override
 	public Result run(Context context) {
-		Result customerNameRequirement = customerNameRequirement(context);
-		if (customerNameRequirement == null) {
+		String process = (String) context.getAttribute(PROCESS_ATTR);
+		Result result = null;
+		if (process != null) {
+			if (process.equals(CONTACT_PROCESS)) {
+				result = contactProcess(context);
+				if (result != null) {
+					return result;
+				}
+			}
+		}
+		result = customerNameRequirement(context);
+		if (result == null) {
 			// TODO
 		}
-		Result optionalRequirements = optionalRequirements(context);
-		if (optionalRequirements == null) {
+		result = customerNumberRequirement(context);
+		if (result == null) {
+			// TODO
+		}
+
+		result = optionalRequirements(context);
+		if (result == null) {
 			// TODO
 		}
 		return createCustomerObject(context);
+	}
+
+	/*
+	 * * customer Number.
+	 * 
+	 * @param context
+	 * 
+	 * @return {@link Result}
+	 */
+	private Result customerNumberRequirement(Context context) {
+		Requirement customerNumReq = get("customerNumber");
+		if (!customerNumReq.isDone()) {
+			String customerNum = context.getString();
+			if (customerNum != null) {
+				customerNumReq.setValue(customerNum);
+			} else {
+				return number(context, "Please Enter the Customer Number.",
+						null);
+			}
+		}
+		String input = (String) context.getAttribute("input");
+		if (input.equals(NUMBER)) {
+			customerNumReq.setValue(input);
+		}
+		return null;
 	}
 
 	/**
@@ -90,22 +145,21 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @return
 	 */
 	private Result optionalRequirements(Context context) {
-		Result result = null;
-		Object selection = context.getSelection("actions");
+		context.setAttribute(INPUT_ATTR, "optional");
+		Object selection = context.getSelection(ACTIONS);
+
 		if (selection != null) {
 			ActionNames actionName = (ActionNames) selection;
 			switch (actionName) {
-			case ADD_MORE_CUSTOMERS:
-				return customerNameresult(context);
+			case ADD_MORE_CONTACTS:
+				return contact(context, "Enter the Contact Details", null);
 			case FINISH:
+				context.removeAttribute(INPUT_ATTR);
 				return null;
 			default:
 				break;
 			}
 		}
-		
-		result = context.makeResult();
-		result.add("Customer is ready to create with following values.");
 		ResultList list = new ResultList("values");
 
 		String customerName = (String) get("customerName").getValue();
@@ -114,11 +168,22 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		nameRecord.add("Value", customerName);
 		list.add(nameRecord);
 
-		String customerContact = (String) get("customerContact").getValue();
-		Record customerContactRecord = new Record(customerContact);
-		customerContactRecord.add("Name", "customerContact");
-		customerContactRecord.add("Value", customerContact);
-		list.add(customerContactRecord);
+		Requirement contactReq = get("customerContact");
+		List<Contact> contacts = contactReq.getValue();
+		selection = context.getSelection("customerContact");
+		if (selection != null) {
+			Result contact = contact(context, "customer contact",
+					(Contact) selection);
+			if (contact != null) {
+				return contact;
+			}
+		}
+
+		// String customerContact = (String) get("customerContact").getValue();
+		// Record customerContactRecord = new Record(customerContact);
+		// customerContactRecord.add("Name", "customerContact");
+		// customerContactRecord.add("Value", customerContact);
+		// list.add(customerContactRecord);
 
 		boolean isActive = (Boolean) get("isactive").getDefaultValue();
 		Record isActiveRecord = new Record(isActive);
@@ -126,10 +191,11 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		isActiveRecord.add("Value", isActive);
 		list.add(isActiveRecord);
 
-		result = customerSinceDateRequirement(context, list, selection);
+		Result result = customerSinceDateRequirement(context, list, selection);
 		if (result != null) {
 			return result;
 		}
+		result = balanceRequirement(context, list, selection);
 
 		String customerBalance = (String) get("Balance").getValue();
 		Record balanceRecord = new Record(customerBalance);
@@ -227,6 +293,57 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
+
+		result = context.makeResult();
+		result.add("Customer is ready to create with following values.");
+		result.add(list);
+		result.add("Items:-");
+		ResultList items = new ResultList("customerContact");
+		for (Contact item : contacts) {
+			Record itemRec = new Record(item);
+			itemRec.add("primary", item.getVersion());
+			itemRec.add("contactName", item.getName());
+			itemRec.add("title", item.getTitle());
+			itemRec.add("businessPhone", item.getBusinessPhone());
+			itemRec.add("email", item.getEmail());
+		}
+
+		result.add(items);
+		ResultList actions = new ResultList(ACTIONS);
+		Record moreItems = new Record(ActionNames.ADD_MORE_CONTACTS);
+		moreItems.add("", "Add more contacts");
+		actions.add(moreItems);
+		Record finish = new Record(ActionNames.FINISH);
+		finish.add("", "Finish to create Customer.");
+		actions.add(finish);
+		result.add(actions);
+		return result;
+	}
+
+	private Result balanceRequirement(Context context, ResultList list,
+			Object selection) {
+		Requirement req = get("balance");
+		Double balance = (Double) req.getValue();
+
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals("balance")) {
+			Double order = context.getSelection(BALANCE);
+			if (order == null) {
+				order = context.getDouble();
+			}
+			balance = order;
+			req.setDefaultValue(balance);
+		}
+
+		if (selection == balance) {
+			context.setAttribute(INPUT_ATTR, "balance");
+			return number(context, "Enter Balance", balance);
+		}
+
+		Record balanceRecord = new Record(balance);
+		balanceRecord.add("Name", "Balance");
+		balanceRecord.add("Value", balance);
+		list.add(balanceRecord);
 		return null;
 	}
 
@@ -722,21 +839,11 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				return text(context, "Please enter the  Customer Name", null);
 			}
 		}
-
+		String input = (String) context.getAttribute("input");
+		if (input.equals("name")) {
+			requirement.setValue(input);
+		}
 		return null;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @return {@link Result}
-	 */
-	private Result customerNameresult(Context context) {
-		Result result = context.makeResult();
-		result.add("Please enter the  Customer Name");
-		CommandList commands = new CommandList();
-		commands.add("Create New customer");
-		return result;
 	}
 
 	/**
