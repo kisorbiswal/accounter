@@ -21,7 +21,6 @@ import com.vimukti.accounter.mobile.ResultList;
 
 public class NewServiceItemCommand extends AbstractCommand {
 	private static final String INPUT_ATTR = "input";
-	private static boolean buyservice = false;
 
 	@Override
 	protected Company getCompany() {
@@ -73,12 +72,13 @@ public class NewServiceItemCommand extends AbstractCommand {
 		if (result != null) {
 			return result;
 		}
-		if (buyservice)
+		Boolean buyService = get("buyservice").getValue();
+		if (buyService) {
 			result = incomeorExpenseAccountRequirement(context, false);
-		if (result != null) {
-			return result;
+			if (result != null) {
+				return result;
+			}
 		}
-
 		result = createOptionalResult(context);
 		if (result != null) {
 			return result;
@@ -141,14 +141,7 @@ public class NewServiceItemCommand extends AbstractCommand {
 			context.setAttribute(INPUT_ATTR, "incomeaccount");
 			return incomeorExpenseAccountRequirement(context, true);
 		}
-		if (buyservice) {
-			Requirement expenseAccountReq = get("expenseAccount");
-			Account exAccount = (Account) expenseAccountReq.getValue();
-			if (exAccount == selection) {
-				context.setAttribute(INPUT_ATTR, "expenseAccount");
-				return incomeorExpenseAccountRequirement(context, false);
-			}
-		}
+
 		Result result = descriptionRequirement(context, list, selection);
 		if (result != null) {
 			return result;
@@ -178,7 +171,14 @@ public class NewServiceItemCommand extends AbstractCommand {
 		if (result != null) {
 			return result;
 		}
-		if (buyservice) {
+		Boolean buyService = get("buyservice").getValue();
+		if (buyService) {
+			Requirement expenseAccountReq = get("expenseAccount");
+			Account exAccount = (Account) expenseAccountReq.getValue();
+			if (exAccount == selection) {
+				context.setAttribute(INPUT_ATTR, "expenseAccount");
+				return incomeorExpenseAccountRequirement(context, false);
+			}
 			result = purchaseDescriptionRequirement(context, list, selection);
 			if (result != null) {
 				return result;
@@ -325,10 +325,8 @@ public class NewServiceItemCommand extends AbstractCommand {
 		String isbuyserviceString = "";
 		if (isbuyservice) {
 			isbuyserviceString = "I buy this Service is Active";
-			buyservice = true;
 		} else {
 			isbuyserviceString = "I buy this Service InActive";
-			buyservice = false;
 		}
 		Record isbuyserviceRecord = new Record("buyservice");
 		isbuyserviceRecord.add("Name", "");
