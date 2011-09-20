@@ -74,14 +74,14 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 	private Result createNewAccount(Context context) {
 		Account account = new Account();
 
-		Integer accType = (Integer) get(ACCOUNT_TYPE).getDefaultValue();
+		Integer accType = (Integer) get(ACCOUNT_TYPE).getValue();
 		String accname = (String) get(ACCOUNT_NAME).getValue();
 		String accountNum = (String) get(ACCOUNT_NUMBER).getValue();
 		double openingBal = (Double) get(OPENINGBALANCE).getValue();
-		boolean isActive = (Boolean) get(ACTIVE).getDefaultValue();
+		boolean isActive = (Boolean) get(ACTIVE).getValue();
 		boolean isCashAcount = (Boolean) get(CONSIDER_AS_CASH_ACCOUNT)
-				.getDefaultValue();
-		Date asOf = (Date) get(ASOF).getDefaultValue();
+				.getValue();
+		Date asOf = (Date) get(ASOF).getValue();
 
 		account.setType(accType);
 		account.setName(accname);
@@ -158,11 +158,11 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		list.add(nameRecord);
 
 		Requirement isActiveReq = get(ACTIVE);
-		Boolean isActive = (Boolean) isActiveReq.getDefaultValue();
+		Boolean isActive = (Boolean) isActiveReq.getValue();
 		if (selection == isActive) {
 			context.setAttribute(INPUT_ATTR, ACTIVE);
 			isActive = !isActive;
-			isActiveReq.setDefaultValue(isActive);
+			isActiveReq.setValue(isActive);
 		}
 		String activeString = "";
 		if (isActive) {
@@ -179,7 +179,7 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		Double bal = (Double) openingBalanceReq.getValue();
 		if (bal == selection) {
 			context.setAttribute(INPUT_ATTR, OPENINGBALANCE);
-			openingBalanceReq.setDefaultValue(0.0D);
+			openingBalanceReq.setValue(0.0D);
 		}
 
 		Record openingBalRec = new Record(OPENINGBALANCE);
@@ -193,11 +193,11 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		}
 
 		Requirement isCashAccountReq = get(CONSIDER_AS_CASH_ACCOUNT);
-		Boolean isCashAccoount = (Boolean) isCashAccountReq.getDefaultValue();
+		Boolean isCashAccoount = (Boolean) isCashAccountReq.getValue();
 		if (selection == isCashAccoount) {
 			context.setAttribute(INPUT_ATTR, CONSIDER_AS_CASH_ACCOUNT);
 			isCashAccoount = !isCashAccoount;
-			isCashAccountReq.setDefaultValue(isCashAccoount);
+			isCashAccountReq.setValue(isCashAccoount);
 		}
 		String isCashAccount = "";
 		if (isCashAccoount) {
@@ -231,7 +231,7 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 	private Result commentsRequirement(Context context, ResultList list,
 			Object selection) {
 		Requirement req = get(COMMENTS);
-		String comments = (String) req.getDefaultValue();
+		String comments = (String) req.getValue();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals(COMMENTS)) {
 			String input = context.getSelection(TEXT);
@@ -239,7 +239,7 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 				input = context.getString();
 			}
 			comments = input;
-			req.setDefaultValue(comments);
+			req.setValue(comments);
 		}
 
 		if (selection == comments) {
@@ -293,7 +293,7 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 			Object selection) {
 
 		Requirement dateReq = get("asof");
-		Date asOfDate = (Date) dateReq.getDefaultValue();
+		Date asOfDate = (Date) dateReq.getValue();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals(ASOF)) {
 			Date date = context.getSelection(ASOF);
@@ -301,7 +301,7 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 				date = context.getDate();
 			}
 			asOfDate = date;
-			dateReq.setDefaultValue(asOfDate);
+			dateReq.setValue(asOfDate);
 		}
 		if (selection == asOfDate) {
 			context.setAttribute(INPUT_ATTR, "asOf");
