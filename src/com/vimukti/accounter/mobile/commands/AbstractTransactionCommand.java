@@ -723,7 +723,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			payeeList.add(createPayeeRecord((Payee) last));
 			num++;
 		}
-		List<Payee> payees = getPayees(context.getSession());
+		List<Payee> payees = getPayees(context.getHibernateSession());
 		for (Payee payee : payees) {
 			if (payee != last) {
 				payeeList.add(createPayeeRecord(payee));
