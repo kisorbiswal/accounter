@@ -94,5 +94,11 @@
 			<command value="Purchase Order List">Purchase Order List</command>
 		</output>
 	</pattern>
+	<pattern>
+		<input>UserActiviityLog</input>
+		<output>
+			<command>Show ActiviityLog</command>
+		</output>
+	</pattern>
 
 </patterns>
