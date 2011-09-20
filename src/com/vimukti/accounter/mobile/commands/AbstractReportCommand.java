@@ -84,7 +84,7 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 				dateRange = context.getString();
 			}
 			range = dateRange;
-			dateRangeReq.setDefaultValue(range);
+			dateRangeReq.setValue(range);
 		}
 		if (selection == range) {
 			context.setAttribute("input", "fromDate");
@@ -109,7 +109,7 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 				date = context.getDate();
 			}
 			fromDate = date;
-			dateReq.setDefaultValue(fromDate);
+			dateReq.setValue(fromDate);
 		}
 		if (selection == fromDate) {
 			context.setAttribute("input", "fromDate");
@@ -134,7 +134,7 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 				date = context.getDate();
 			}
 			toDate = date;
-			dateReq.setDefaultValue(toDate);
+			dateReq.setValue(toDate);
 		}
 		if (selection == toDate) {
 			context.setAttribute("input", "toDate");
@@ -223,7 +223,7 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 				dateRange = context.getString();
 			}
 			status = dateRange;
-			statusReq.setDefaultValue(status);
+			statusReq.setValue(status);
 		}
 		if (selection == status) {
 			context.setAttribute("input", "status");
@@ -248,7 +248,7 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 				dateRange = context.getString();
 			}
 			expenseType = dateRange;
-			expenseTypeReq.setDefaultValue(expenseType);
+			expenseTypeReq.setValue(expenseType);
 		}
 		if (selection == expenseType) {
 			context.setAttribute("input", "expenseType");
