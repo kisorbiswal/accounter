@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Contact;
+import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Command;
@@ -319,4 +320,8 @@ public abstract class AbstractCommand extends Command {
 		return result;
 	}
 
+	protected void create(IAccounterServerCore obj) {
+		// TODO Auto-generated method stub
+
+	}
 }
