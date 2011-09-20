@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -64,7 +65,7 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 				Accounter.constants().lastName(),
 				Accounter.constants().userRole(),
 				Accounter.constants().emailId(),
-				Accounter.constants().status(),"" };
+				Accounter.constants().status(), "" };
 	}
 
 	public void setUsersView(UsersView usersView) {
@@ -173,6 +174,13 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 		String errorString = AccounterExceptions.getErrorString(errorCode);
 		Accounter.showError(errorString);
 		caught.fillInStackTrace();
+	}
+
+	@Override
+	public void deleteSuccess(IAccounterCore result) {
+		// Accounter.showInformation("Deleted Successfully");
+		deleteRecord(this.getSelection());
+		usersView.deleteSuccess(result);
 	}
 
 }
