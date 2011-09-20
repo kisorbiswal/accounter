@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
@@ -138,12 +137,12 @@ public class NewVATAgencyCommand extends AbstractCommand {
 		String name = get(NAME).getValue();
 		PaymentTerms paymentTerm = get(PAYMENT_TERM).getValue();
 		Account salesAccount = get(SALES_ACCOUNT).getValue();
-		Address address = (Address) get(ADDRESS).getDefaultValue();
-		String phone = (String) get(PHONE).getDefaultValue();
-		String fax = (String) get(FAX).getDefaultValue();
-		String email = (String) get(EMAIL).getDefaultValue();
-		String website = (String) get(WEBSITE).getDefaultValue();
-		Set<Contact> contacts = (Set<Contact>) get(CONTACTS).getDefaultValue();
+		Address address = (Address) get(ADDRESS).getValue();
+		String phone = (String) get(PHONE).getValue();
+		String fax = (String) get(FAX).getValue();
+		String email = (String) get(EMAIL).getValue();
+		String website = (String) get(WEBSITE).getValue();
+		Set<Contact> contacts = (Set<Contact>) get(CONTACTS).getValue();
 
 		HashSet<Address> addresses = new HashSet<Address>();
 		if (address != null) {
@@ -296,11 +295,11 @@ public class NewVATAgencyCommand extends AbstractCommand {
 		}
 
 		Requirement isActiveReq = get(IS_ACTIVE);
-		Boolean isActive = (Boolean) isActiveReq.getDefaultValue();
+		Boolean isActive = (Boolean) isActiveReq.getValue();
 		if (selection == isActive) {
 			context.setAttribute(INPUT_ATTR, IS_ACTIVE);
 			isActive = !isActive;
-			isActiveReq.setDefaultValue(isActive);
+			isActiveReq.setValue(isActive);
 		}
 		String activeString = "";
 		if (isActive) {
@@ -352,7 +351,7 @@ public class NewVATAgencyCommand extends AbstractCommand {
 				input = context.getString();
 			}
 			website = input;
-			websiteReq.setDefaultValue(website);
+			websiteReq.setValue(website);
 		}
 
 		if (selection == website) {
@@ -379,7 +378,7 @@ public class NewVATAgencyCommand extends AbstractCommand {
 				input = context.getString();
 			}
 			email = input;
-			emailReq.setDefaultValue(email);
+			emailReq.setValue(email);
 		}
 
 		if (selection == email) {
@@ -406,7 +405,7 @@ public class NewVATAgencyCommand extends AbstractCommand {
 				input = context.getString();
 			}
 			fax = input;
-			faxReq.setDefaultValue(fax);
+			faxReq.setValue(fax);
 		}
 
 		if (selection == fax) {
@@ -433,7 +432,7 @@ public class NewVATAgencyCommand extends AbstractCommand {
 				input = context.getString();
 			}
 			phone = input;
-			phoneReq.setDefaultValue(phone);
+			phoneReq.setValue(phone);
 		}
 
 		if (selection == phone) {
@@ -460,7 +459,7 @@ public class NewVATAgencyCommand extends AbstractCommand {
 				input = context.getAddress();
 			}
 			address = input;
-			req.setDefaultValue(address);
+			req.setValue(address);
 		}
 
 		if (selection == address) {

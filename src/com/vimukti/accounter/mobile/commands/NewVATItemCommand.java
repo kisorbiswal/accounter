@@ -3,7 +3,6 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.List;
 
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.TAXAgency;
@@ -227,11 +226,11 @@ public class NewVATItemCommand extends AbstractCommand {
 			list.add(vatReturnBoxRecord);
 
 			Requirement isPercentageReq = get(IS_PERCENTAGE);
-			Boolean isPercentage = (Boolean) isPercentageReq.getDefaultValue();
+			Boolean isPercentage = (Boolean) isPercentageReq.getValue();
 			if (selection == isPercentage) {
 				context.setAttribute(INPUT_ATTR, IS_PERCENTAGE);
 				isPercentage = !isPercentage;
-				isPercentageReq.setDefaultValue(isPercentage);
+				isPercentageReq.setValue(isPercentage);
 			}
 			String percentageString = "";
 			if (isPercentage) {
@@ -246,11 +245,11 @@ public class NewVATItemCommand extends AbstractCommand {
 		}
 
 		Requirement isActiveReq = get(IS_ACTIVE);
-		Boolean isActive = (Boolean) isActiveReq.getDefaultValue();
+		Boolean isActive = (Boolean) isActiveReq.getValue();
 		if (selection == isActive) {
 			context.setAttribute(INPUT_ATTR, IS_ACTIVE);
 			isActive = !isActive;
-			isActiveReq.setDefaultValue(isActive);
+			isActiveReq.setValue(isActive);
 		}
 		String activeString = "";
 		if (isActive) {
@@ -280,7 +279,7 @@ public class NewVATItemCommand extends AbstractCommand {
 			Object selection) {
 
 		Requirement descriptionReq = get(DESCRIPTION);
-		String description = (String) descriptionReq.getDefaultValue();
+		String description = (String) descriptionReq.getValue();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals(DESCRIPTION)) {
 			String desc = context.getSelection(TEXT);
@@ -288,7 +287,7 @@ public class NewVATItemCommand extends AbstractCommand {
 				desc = context.getString();
 			}
 			description = desc;
-			descriptionReq.setDefaultValue(description);
+			descriptionReq.setValue(description);
 		}
 		if (selection == description) {
 			context.setAttribute(INPUT_ATTR, DESCRIPTION);
@@ -396,14 +395,13 @@ public class NewVATItemCommand extends AbstractCommand {
 		TAXItem taxItem = new TAXItem();
 
 		String name = (String) get(NAME).getValue();
-		String description = (String) get(DESCRIPTION).getDefaultValue();
-		double taxRate = (Double) get(TAX_RATE).getDefaultValue();
-		boolean isActive = (Boolean) get(IS_ACTIVE).getDefaultValue();
+		String description = (String) get(DESCRIPTION).getValue();
+		double taxRate = (Double) get(TAX_RATE).getValue();
+		boolean isActive = (Boolean) get(IS_ACTIVE).getValue();
 		TAXAgency taxAgency = (TAXAgency) get(TAX_AGENCY).getValue();
 
 		if (isUkCompany()) {
-			boolean isPercentage = (Boolean) get(IS_PERCENTAGE)
-					.getDefaultValue();
+			boolean isPercentage = (Boolean) get(IS_PERCENTAGE).getValue();
 			VATReturnBox vatReturnBox = (VATReturnBox) get(VAT_RETURN_BOX)
 					.getValue();
 			taxItem.setPercentage(isPercentage);

@@ -3,7 +3,6 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.List;
 
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXCode;
@@ -76,9 +75,9 @@ public class NewVATCodeCommand extends AbstractCommand {
 		TAXCode taxCode = new TAXCode();
 
 		String name = get(NAME).getValue();
-		String description = (String) get(DESCRIPTION).getDefaultValue();
-		Boolean isTaxable = (Boolean) get(IS_TAXABLE).getDefaultValue();
-		Boolean isActive = (Boolean) get(IS_ACTIVE).getDefaultValue();
+		String description = (String) get(DESCRIPTION).getValue();
+		Boolean isTaxable = (Boolean) get(IS_TAXABLE).getValue();
+		Boolean isActive = (Boolean) get(IS_ACTIVE).getValue();
 
 		taxCode.setName(name);
 		taxCode.setDescription(description);
@@ -189,11 +188,11 @@ public class NewVATCodeCommand extends AbstractCommand {
 		}
 
 		Requirement isTaxableReq = get(IS_TAXABLE);
-		Boolean isTaxable = (Boolean) isTaxableReq.getDefaultValue();
+		Boolean isTaxable = (Boolean) isTaxableReq.getValue();
 		if (selection == isTaxable) {
 			context.setAttribute(INPUT_ATTR, IS_TAXABLE);
 			isTaxable = !isTaxable;
-			isTaxableReq.setDefaultValue(isTaxable);
+			isTaxableReq.setValue(isTaxable);
 		}
 		String taxableString = "";
 		if (isTaxable) {
@@ -231,11 +230,11 @@ public class NewVATCodeCommand extends AbstractCommand {
 		}
 
 		Requirement isActiveReq = get(IS_ACTIVE);
-		Boolean isActive = (Boolean) isActiveReq.getDefaultValue();
+		Boolean isActive = (Boolean) isActiveReq.getValue();
 		if (selection == isActive) {
 			context.setAttribute(INPUT_ATTR, IS_ACTIVE);
 			isActive = !isActive;
-			isActiveReq.setDefaultValue(isActive);
+			isActiveReq.setValue(isActive);
 		}
 		String activeString = "";
 		if (isActive) {
@@ -322,7 +321,7 @@ public class NewVATCodeCommand extends AbstractCommand {
 	private Result descriptionRequirement(Context context, ResultList list,
 			Object selection) {
 		Requirement descriptionReq = get(DESCRIPTION);
-		String description = (String) descriptionReq.getDefaultValue();
+		String description = (String) descriptionReq.getValue();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals(DESCRIPTION)) {
 			String desc = context.getSelection(TEXT);
@@ -330,7 +329,7 @@ public class NewVATCodeCommand extends AbstractCommand {
 				desc = context.getString();
 			}
 			description = desc;
-			descriptionReq.setDefaultValue(description);
+			descriptionReq.setValue(description);
 		}
 		if (selection == description) {
 			context.setAttribute(INPUT_ATTR, DESCRIPTION);
