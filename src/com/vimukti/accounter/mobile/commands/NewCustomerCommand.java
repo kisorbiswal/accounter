@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.Date;
 import java.util.List;
 
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.CreditRating;
 import com.vimukti.accounter.core.CustomerGroup;
@@ -17,6 +18,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class NewCustomerCommand extends AbstractTransactionCommand {
 
@@ -50,6 +52,13 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	private static final String CREDIT_RATING = "creditRating";
 	private static final String PAYMENT_METHOD = "paymentMethod";
 	private static final String CUSTOMER_GROUP = "cusomerGroup";
+	private static final String PAN_NUM = " Personal Ledger number";
+	private static final String CST_NUM = "CST number";
+	private static final String SERVICE_TAX_NUM = "Service tax registration no";
+	private static final String TIN_NUM = "Taxpayer identification number";
+	public static final int ACCOUNTING_TYPE_US = 0;
+	public static final int ACCOUNTING_TYPE_UK = 1;
+	public static final int ACCOUNTING_TYPE_INDIA = 2;
 
 	@Override
 	public String getId() {
@@ -92,6 +101,10 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		list.add(new Requirement(CUSTOMER_GROUP, true, true));
 		list.add(new Requirement(VATREGISTER_NUM, true, true));
 		list.add(new Requirement(CUSTOMER_VATCODE, true, true));
+		list.add(new Requirement(PAN_NUM, true, true));
+		list.add(new Requirement(CST_NUM, true, true));
+		list.add(new Requirement(SERVICE_TAX_NUM, true, true));
+		list.add(new Requirement(TIN_NUM, true, true));
 
 	}
 
@@ -111,6 +124,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result == null) {
 			// TODO
 		}
+
 		result = customerNumberRequirement(context);
 		if (result == null) {
 			// TODO
@@ -225,6 +239,8 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		isActiveRecord.add("Value", activeString);
 		list.add(isActiveRecord);
 
+		int company = new FinanceTool().getCompany().getAccountingType();
+
 		Result result = customerSinceDateRequirement(context, list, selection);
 		if (result != null) {
 			return result;
@@ -284,10 +300,11 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-
-		result = paymentMethodRequirement(context, (String) selection);
-		if (result != null) {
-			return result;
+		if (company == ACCOUNTING_TYPE_UK || company == ACCOUNTING_TYPE_US) {
+			result = paymentMethodRequirement(context, (String) selection);
+			if (result != null) {
+				return result;
+			}
 		}
 		result = paymentTermRequirement(context, list, selection);
 		if (result != null) {
@@ -297,15 +314,34 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = vatRegisterationNumRequirement(context, list, selection);
-		if (result != null) {
-			return result;
+		if (company == ACCOUNTING_TYPE_US) {
+			result = vatRegisterationNumRequirement(context, list, selection);
+			if (result != null) {
+				return result;
+			}
 		}
 		result = customerVatCodeRequirement(context, list, selection);
 		if (result != null) {
 			return result;
 		}
-
+		if (company == ACCOUNTING_TYPE_INDIA) {
+			result = panNumRequirement(context, list, selection);
+			if (result != null) {
+				return result;
+			}
+			result = cstNumRequirement(context, list, selection);
+			if (result != null) {
+				return result;
+			}
+			result = serviceTaxRequirement(context, list, selection);
+			if (result != null) {
+				return result;
+			}
+			result = tinNumRequirement(context, list, selection);
+			if (result != null) {
+				return result;
+			}
+		}
 		result = context.makeResult();
 		result.add("Customer is ready to create with following values.");
 		result.add(list);
@@ -330,6 +366,168 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		actions.add(finish);
 		result.add(actions);
 		return result;
+	}
+
+	/**
+	 * tin Num
+	 * 
+	 * @param context
+	 * @param list
+	 * @param selection
+	 * @return
+	 */
+	private Result tinNumRequirement(Context context, ResultList list,
+			Object selection) {
+
+		Requirement req = get(TIN_NUM);
+		String tinNumber = (String) req.getValue();
+
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals(TIN_NUM)) {
+			String order = context.getSelection(TIN_NUM);
+			if (order == null) {
+				order = context.getString();
+			}
+			tinNumber = order;
+			req.setDefaultValue(tinNumber);
+		}
+
+		if (selection == tinNumber) {
+			context.setAttribute(INPUT_ATTR, TIN_NUM);
+			return text(context, "Enter Taxpayer identification number",
+					tinNumber);
+		}
+
+		Record tinNumRecord = new Record(tinNumber);
+		tinNumRecord.add("Name", TIN_NUM);
+		tinNumRecord.add("Value", tinNumber);
+		list.add(tinNumRecord);
+
+		Result result = new Result();
+		result.add(list);
+		return result;
+
+	}
+
+	/**
+	 * Service Tax Num
+	 * 
+	 * @param context
+	 * @param list
+	 * @param selection
+	 * @return
+	 */
+	private Result serviceTaxRequirement(Context context, ResultList list,
+			Object selection) {
+
+		Requirement req = get(SERVICE_TAX_NUM);
+		String serviceTaxNumber = (String) req.getValue();
+
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals(SERVICE_TAX_NUM)) {
+			String order = context.getSelection(SERVICE_TAX_NUM);
+			if (order == null) {
+				order = context.getString();
+			}
+			serviceTaxNumber = order;
+			req.setDefaultValue(serviceTaxNumber);
+		}
+
+		if (selection == serviceTaxNumber) {
+			context.setAttribute(INPUT_ATTR, SERVICE_TAX_NUM);
+			return text(context, "Enter Service tax registration Number ",
+					serviceTaxNumber);
+		}
+
+		Record serviceTaxRecord = new Record(serviceTaxNumber);
+		serviceTaxRecord.add("Name", SERVICE_TAX_NUM);
+		serviceTaxRecord.add("Value", serviceTaxNumber);
+		list.add(serviceTaxRecord);
+
+		Result result = new Result();
+		result.add(list);
+		return result;
+
+	}
+
+	/**
+	 * CST Num
+	 * 
+	 * @param context
+	 * @param list
+	 * @param selection
+	 * @return
+	 */
+	private Result cstNumRequirement(Context context, ResultList list,
+			Object selection) {
+
+		Requirement req = get(CST_NUM);
+		String cstNum = (String) req.getValue();
+
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals(CST_NUM)) {
+			String order = context.getSelection(CST_NUM);
+			if (order == null) {
+				order = context.getString();
+			}
+			cstNum = order;
+			req.setDefaultValue(cstNum);
+		}
+
+		if (selection == cstNum) {
+			context.setAttribute(INPUT_ATTR, CST_NUM);
+			return text(context, "Enter CST Number ", cstNum);
+		}
+
+		Record cstNumRecord = new Record(cstNum);
+		cstNumRecord.add("Name", BANK_ACCOUNT_NUM);
+		cstNumRecord.add("Value", cstNum);
+		list.add(cstNumRecord);
+
+		Result result = new Result();
+		result.add(list);
+		return result;
+
+	}
+
+	/**
+	 * Pan NUmber
+	 * 
+	 * @param context
+	 * @param list
+	 * @param selection
+	 * @return
+	 */
+	private Result panNumRequirement(Context context, ResultList list,
+			Object selection) {
+
+		Requirement req = get(PAN_NUM);
+		String panNumber = (String) req.getValue();
+
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals(PAN_NUM)) {
+			String order = context.getSelection(PAN_NUM);
+			if (order == null) {
+				order = context.getString();
+			}
+			panNumber = order;
+			req.setDefaultValue(panNumber);
+		}
+
+		if (selection == panNumber) {
+			context.setAttribute(INPUT_ATTR, PAN_NUM);
+			return text(context, "Enter Personal Ledger number", panNumber);
+		}
+
+		Record panNumRecord = new Record(panNumber);
+		panNumRecord.add("Name", PAN_NUM);
+		panNumRecord.add("Value", panNumber);
+		list.add(panNumRecord);
+
+		Result result = new Result();
+		result.add(list);
+		return result;
+
 	}
 
 	/**
@@ -441,6 +639,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		bankAccountNumRecord.add("Name", BANK_ACCOUNT_NUM);
 		bankAccountNumRecord.add("Value", bankAccountNumber);
 		list.add(bankAccountNumRecord);
+
 		Result result = new Result();
 		result.add(list);
 		return result;
@@ -1139,5 +1338,18 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	private List<PriceLevel> getPriceLevelsList() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	private boolean getcompanyType() {
+		Company company = new FinanceTool().getCompany();
+		int accountingType = company.getAccountingType();
+		if (accountingType == ACCOUNTING_TYPE_UK) {
+			return true;
+		} else if (accountingType == ACCOUNTING_TYPE_US) {
+			return true;
+		} else if (accountingType == ACCOUNTING_TYPE_INDIA) {
+			return true;
+		}
+		return false;
 	}
 }
