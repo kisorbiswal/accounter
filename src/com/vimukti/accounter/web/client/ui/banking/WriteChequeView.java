@@ -9,6 +9,8 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DisclosurePanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -121,6 +123,9 @@ public class WriteChequeView extends
 	private VendorAccountTransactionTable transactionVendorAccountTable;
 	private VendorItemTransactionTable transactionVendorItemTable;
 	private Button accountTableButton, itemTableButton;
+	private DisclosurePanel customerAccountsDisclosurePanel,
+			customerItemsDisclosurePanel, vendorAccountsDisclosurePanel,
+			vendorItemsDisclosurePanel;
 
 	private WriteChequeView() {
 		super(ClientTransaction.TYPE_WRITE_CHECK);
@@ -242,15 +247,15 @@ public class WriteChequeView extends
 		// // mainVLay.add(taxAgencyGrid);
 		// }Ou
 		if (transactionVendorAccountTable != null)
-			mainVLay.remove(transactionVendorAccountTable);
+			mainVLay.remove(vendorAccountsDisclosurePanel);
 		if (transactionVendorItemTable != null)
-			mainVLay.remove(transactionVendorItemTable);
+			mainVLay.remove(vendorItemsDisclosurePanel);
 		// if (taxAgencyGrid != null)
 		// mainVLay.remove(taxAgencyGrid);
 		if (transactionCustomerAccountTable != null)
-			mainVLay.remove(transactionCustomerAccountTable);
+			mainVLay.remove(customerAccountsDisclosurePanel);
 		if (transactionCustomerItemTable != null)
-			mainVLay.remove(transactionCustomerItemTable);
+			mainVLay.remove(customerItemsDisclosurePanel);
 		mainVLay.add(gridView);
 		mainVLay.add(accountTableButton);
 		mainVLay.add(gridView2);
@@ -543,8 +548,8 @@ public class WriteChequeView extends
 		}
 
 		if (!validateAmount()) {
-			result.addError(memoTextAreaItem,
-					accounterConstants.transactiontotalcannotbe0orlessthan0());
+			result.addError(memoTextAreaItem, accounterConstants
+					.transactiontotalcannotbe0orlessthan0());
 		}
 
 		return result;
@@ -795,8 +800,12 @@ public class WriteChequeView extends
 							} else if (payee instanceof ClientVendor
 									|| payee instanceof ClientTAXAgency) {
 
-								vendorTDSTaxCode.setSelected(vendorTDSTaxCode.getDisplayName(getCompany()
-										.getTAXItem(payee.getTaxItemCode())));
+								vendorTDSTaxCode
+										.setSelected(vendorTDSTaxCode
+												.getDisplayName(getCompany()
+														.getTAXItem(
+																payee
+																		.getTaxItemCode())));
 
 								transactionVendorAccountTable
 										.removeAllRecords();
@@ -1061,6 +1070,24 @@ public class WriteChequeView extends
 			}
 		});
 
+		FlowPanel customerAccountFlowPanel = new FlowPanel();
+		customerAccountsDisclosurePanel = new DisclosurePanel(
+				"Itemize by Account");
+		customerAccountFlowPanel.add(transactionCustomerAccountTable);
+		customerAccountFlowPanel.add(accountTableButton);
+		customerAccountsDisclosurePanel.setContent(customerAccountFlowPanel);
+		customerAccountsDisclosurePanel.setOpen(true);
+		customerAccountsDisclosurePanel.setWidth("100%");
+
+		FlowPanel vendorAccountFlowPanel = new FlowPanel();
+		vendorAccountsDisclosurePanel = new DisclosurePanel(
+				"Itemize by Account");
+		vendorAccountFlowPanel.add(transactionVendorAccountTable);
+		vendorAccountFlowPanel.add(accountTableButton);
+		vendorAccountsDisclosurePanel.setContent(vendorAccountFlowPanel);
+		vendorAccountsDisclosurePanel.setOpen(true);
+		vendorAccountsDisclosurePanel.setWidth("100%");
+
 		itemTableButton = new Button(Accounter.constants()
 				.productOrServiceItem());
 		itemTableButton.setEnabled(!isInViewMode());
@@ -1071,6 +1098,22 @@ public class WriteChequeView extends
 				addItem();
 			}
 		});
+
+		FlowPanel customerItemsFlowPanel = new FlowPanel();
+		customerItemsDisclosurePanel = new DisclosurePanel(
+				"Itemize by Product/Service");
+		customerItemsFlowPanel.add(transactionCustomerAccountTable);
+		customerItemsFlowPanel.add(itemTableButton);
+		customerItemsDisclosurePanel.setContent(customerItemsFlowPanel);
+		customerItemsDisclosurePanel.setWidth("100%");
+
+		FlowPanel vendorItemsFlowPanel = new FlowPanel();
+		vendorItemsDisclosurePanel = new DisclosurePanel(
+				"Itemize by Product/Service");
+		vendorItemsFlowPanel.add(transactionCustomerAccountTable);
+		vendorItemsFlowPanel.add(itemTableButton);
+		vendorItemsDisclosurePanel.setContent(vendorItemsFlowPanel);
+		vendorItemsDisclosurePanel.setWidth("100%");
 
 		if (isInViewMode()) {
 			transactionItems = transaction.getTransactionItems();
@@ -1095,10 +1138,8 @@ public class WriteChequeView extends
 				transactionCustomerItemTable.setDisabled(isInViewMode());
 				mainVLay.add(topHLay);
 				setMenuRequired(true);
-				mainVLay.add(transactionCustomerAccountTable);
-				mainVLay.add(accountTableButton);
-				mainVLay.add(transactionCustomerItemTable);
-				mainVLay.add(itemTableButton);
+				mainVLay.add(customerAccountsDisclosurePanel);
+				mainVLay.add(customerItemsDisclosurePanel);
 				break;
 			case ClientWriteCheck.TYPE_VENDOR:
 			case ClientWriteCheck.TYPE_TAX_AGENCY:
@@ -1106,10 +1147,8 @@ public class WriteChequeView extends
 				transactionVendorAccountTable.setWidth("100%");
 				mainVLay.add(topHLay);
 				setMenuRequired(true);
-				mainVLay.add(transactionVendorAccountTable);
-				mainVLay.add(accountTableButton);
-				mainVLay.add(transactionVendorItemTable);
-				mainVLay.add(itemTableButton);
+				mainVLay.add(vendorAccountsDisclosurePanel);
+				mainVLay.add(vendorItemsDisclosurePanel);
 				break;
 
 			}
@@ -1137,10 +1176,8 @@ public class WriteChequeView extends
 			mainVLay.add(topHLay);
 			setMenuRequired(true);
 
-			mainVLay.add(transactionCustomerAccountTable);
-			mainVLay.add(accountTableButton);
-			mainVLay.add(transactionCustomerItemTable);
-			mainVLay.add(itemTableButton);
+			mainVLay.add(customerAccountsDisclosurePanel);
+			mainVLay.add(customerItemsDisclosurePanel);
 		}
 
 		vPanel = new VerticalPanel();

@@ -7,6 +7,8 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DisclosurePanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -155,7 +157,8 @@ public class CashPurchaseView extends
 		// payFromCombo.setWidth(100);
 		payFromCombo.setPopupWidth("500px");
 		checkNo = createCheckNumberItem(getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-				.constants().chequeNo() : Accounter.constants().checkNo());
+				.constants().chequeNo()
+				: Accounter.constants().checkNo());
 		checkNo.setDisabled(true);
 		checkNo.setWidth(100);
 		deliveryDateItem = createTransactionDeliveryDateItem();
@@ -198,8 +201,8 @@ public class CashPurchaseView extends
 			termsForm.setFields(classListCombo);
 		}
 
-		termsForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "203px");
 
 		// formItems.add(checkNo);
 		// formItems.add(deliveryDateItem);
@@ -237,6 +240,7 @@ public class CashPurchaseView extends
 				return CashPurchaseView.this.isShowPriceWithVat();
 			}
 		};
+
 		vendorAccountTransactionTable.setDisabled(isInViewMode());
 
 		accountTableButton = new Button(Global.get().Account());
@@ -248,6 +252,15 @@ public class CashPurchaseView extends
 				addAccount();
 			}
 		});
+
+		FlowPanel accountFlowPanel = new FlowPanel();
+		DisclosurePanel accountsDisclosurePanel = new DisclosurePanel(
+				"Itemize by Account");
+		accountFlowPanel.add(vendorAccountTransactionTable);
+		accountFlowPanel.add(accountTableButton);
+		accountsDisclosurePanel.setContent(accountFlowPanel);
+		accountsDisclosurePanel.setOpen(true);
+		accountsDisclosurePanel.setWidth("100%");
 
 		vendorItemTransactionTable = new VendorItemTransactionTable() {
 
@@ -271,6 +284,7 @@ public class CashPurchaseView extends
 				return CashPurchaseView.this.isShowPriceWithVat();
 			}
 		};
+
 		vendorItemTransactionTable.setDisabled(isInViewMode());
 
 		itemTableButton = new Button(Accounter.constants()
@@ -283,6 +297,14 @@ public class CashPurchaseView extends
 				addItem();
 			}
 		});
+
+		FlowPanel itemsFlowPanel = new FlowPanel();
+		DisclosurePanel itemsDisclosurePanel = new DisclosurePanel(
+				"Itemize by Product/Service");
+		itemsFlowPanel.add(vendorItemTransactionTable);
+		itemsFlowPanel.add(itemTableButton);
+		itemsDisclosurePanel.setContent(itemsFlowPanel);
+		itemsDisclosurePanel.setWidth("100%");
 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
@@ -365,10 +387,8 @@ public class CashPurchaseView extends
 		mainVLay.add(topHLay);
 		// mainVLay.add(lab2);
 
-		mainVLay.add(vendorAccountTransactionTable);
-		mainVLay.add(accountTableButton);
-		mainVLay.add(vendorItemTransactionTable);
-		mainVLay.add(itemTableButton);
+		mainVLay.add(accountsDisclosurePanel);
+		mainVLay.add(itemsDisclosurePanel);
 		// mainVLay.add(createAddNewButton());
 		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(bottompanel);
@@ -602,7 +622,8 @@ public class CashPurchaseView extends
 		// Setting Pay From Account
 		transaction
 				.setPayFrom(payFromCombo.getSelectedValue() != null ? payFromCombo
-						.getSelectedValue().getID() : 0);
+						.getSelectedValue().getID()
+						: 0);
 
 		// Setting Check number
 		transaction.setCheckNumber(checkNo.getValue().toString());
@@ -670,20 +691,20 @@ public class CashPurchaseView extends
 		// 6. validateGrid?
 
 		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateTransactionDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 
 		result.add(vendorForm.validate());
 		result.add(termsForm.validate());
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(
-				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(deliveryDateItem
+				.getEnteredDate(), this.transactionDate)) {
 			result.addError(deliveryDateItem, Accounter.constants().the()
 					+ " "
 					+ Accounter.constants().deliveryDate()
@@ -694,8 +715,8 @@ public class CashPurchaseView extends
 		}
 
 		if (getAllTransactionItems().isEmpty()) {
-			result.addError(vendorAccountTransactionTable,
-					accounterConstants.blankTransaction());
+			result.addError(vendorAccountTransactionTable, accounterConstants
+					.blankTransaction());
 		} else {
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());

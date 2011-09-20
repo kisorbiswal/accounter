@@ -9,6 +9,8 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DisclosurePanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -250,15 +252,16 @@ public class CreditCardExpenseView extends
 			}
 		};
 		Ccard.setHelpInformation(true);
-		Ccard.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
+		Ccard
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 
-			@Override
-			public void selectedComboBoxItem(ClientVendor selectItem) {
-				selectedVendor = selectItem;
-				Ccard.setComboItem(selectItem);
-				addPhonesContactsAndAddress();
-			}
-		});
+					@Override
+					public void selectedComboBoxItem(ClientVendor selectItem) {
+						selectedVendor = selectItem;
+						Ccard.setComboItem(selectItem);
+						addPhonesContactsAndAddress();
+					}
+				});
 
 		Ccard.setRequired(true);
 		String listString[] = new String[] {
@@ -409,8 +412,8 @@ public class CreditCardExpenseView extends
 
 		cheqNoText = new TextItem(
 				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-						.constants().chequeNo() : Accounter.constants()
-						.checkNo());
+						.constants().chequeNo()
+						: Accounter.constants().checkNo());
 		cheqNoText.setHelpInformation(true);
 		cheqNoText.setDisabled(isInViewMode());
 		cheqNoText.setWidth(100);
@@ -425,8 +428,8 @@ public class CreditCardExpenseView extends
 		termsForm = UIUtils.form(Accounter.constants().terms());
 		termsForm.setWidth("100%");
 		termsForm.setFields(payMethSelect, payFrmSelect, delivDate);
-		termsForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "203px");
 
 		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 
@@ -464,6 +467,7 @@ public class CreditCardExpenseView extends
 				return CreditCardExpenseView.this.isShowPriceWithVat();
 			}
 		};
+
 		vendorAccountTransactionTable.setDisabled(isInViewMode());
 
 		accountTableButton = new Button(Global.get().Account());
@@ -475,7 +479,14 @@ public class CreditCardExpenseView extends
 				addAccount();
 			}
 		});
-
+		FlowPanel accountFlowPanel = new FlowPanel();
+		DisclosurePanel accountsDisclosurePanel = new DisclosurePanel(
+				"Itemize by Account");
+		accountFlowPanel.add(vendorAccountTransactionTable);
+		accountFlowPanel.add(accountTableButton);
+		accountsDisclosurePanel.setContent(accountFlowPanel);
+		accountsDisclosurePanel.setOpen(true);
+		accountsDisclosurePanel.setWidth("100%");
 		vendorItemTransactionTable = new VendorItemTransactionTable() {
 
 			@Override
@@ -498,6 +509,7 @@ public class CreditCardExpenseView extends
 				return CreditCardExpenseView.this.getSelectedVendor();
 			}
 		};
+
 		vendorItemTransactionTable.setDisabled(isInViewMode());
 
 		itemTableButton = new Button(Accounter.constants()
@@ -510,7 +522,13 @@ public class CreditCardExpenseView extends
 				addItem();
 			}
 		});
-
+		FlowPanel itemsFlowPanel = new FlowPanel();
+		DisclosurePanel itemsDisclosurePanel = new DisclosurePanel(
+				"Itemize by Product/Service");
+		itemsFlowPanel.add(vendorItemTransactionTable);
+		itemsFlowPanel.add(itemTableButton);
+		itemsDisclosurePanel.setContent(itemsFlowPanel);
+		itemsDisclosurePanel.setWidth("100%");
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
 		memoTextAreaItem.setDisabled(false);
@@ -611,10 +629,8 @@ public class CreditCardExpenseView extends
 		// vLay1.add(lab2);
 		// vLay1.add(addButton);
 		// multi currency combo
-		vLay1.add(vendorAccountTransactionTable);
-		vLay1.add(accountTableButton);
-		vLay1.add(vendorItemTransactionTable);
-		vLay1.add(itemTableButton);
+		vLay1.add(accountsDisclosurePanel);
+		vLay1.add(itemsDisclosurePanel);
 		// vLay1.add(createAddNewButton());
 		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		vLay1.setWidth("100%");
@@ -654,10 +670,8 @@ public class CreditCardExpenseView extends
 		ValidationResult result = super.validate();
 
 		if (Ccard.getSelectedValue() == null)
-			result.addError(
-					Ccard,
-					Accounter.messages().pleaseSelectVendor(
-							Global.get().vendor()));
+			result.addError(Ccard, Accounter.messages().pleaseSelectVendor(
+					Global.get().vendor()));
 
 		if (payFrmSelect.getSelectedValue() == null)
 			result.addError(payFrmSelect, Accounter.messages()
@@ -992,9 +1006,9 @@ public class CreditCardExpenseView extends
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button,
-				Accounter.messages().accounts(Global.get().Account()),
-				Accounter.constants().productOrServiceItem());
+		setMenuItems(button, Accounter.messages().accounts(
+				Global.get().Account()), Accounter.constants()
+				.productOrServiceItem());
 	}
 
 	public void saveAndUpdateView() {

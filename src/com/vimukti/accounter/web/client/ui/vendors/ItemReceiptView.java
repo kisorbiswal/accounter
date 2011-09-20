@@ -6,6 +6,8 @@ import java.util.List;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DisclosurePanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -189,6 +191,7 @@ public class ItemReceiptView extends
 				return ItemReceiptView.this.isShowPriceWithVat();
 			}
 		};
+
 		vendorAccountTransactionTable.setDisabled(isInViewMode());
 
 		accountTableButton = new Button(Global.get().Account());
@@ -200,7 +203,14 @@ public class ItemReceiptView extends
 				addAccount();
 			}
 		});
-
+		FlowPanel accountFlowPanel = new FlowPanel();
+		DisclosurePanel accountsDisclosurePanel = new DisclosurePanel(
+				"Itemize by Account");
+		accountFlowPanel.add(vendorAccountTransactionTable);
+		accountFlowPanel.add(accountTableButton);
+		accountsDisclosurePanel.setContent(accountFlowPanel);
+		accountsDisclosurePanel.setOpen(true);
+		accountsDisclosurePanel.setWidth("100%");
 		vendorItemTransactionTable = new VendorItemTransactionTable() {
 
 			@Override
@@ -223,6 +233,7 @@ public class ItemReceiptView extends
 				return ItemReceiptView.this.getVendor();
 			}
 		};
+
 		vendorItemTransactionTable.setDisabled(isInViewMode());
 
 		itemTableButton = new Button(Accounter.constants()
@@ -235,7 +246,13 @@ public class ItemReceiptView extends
 				addItem();
 			}
 		});
-
+		FlowPanel itemsFlowPanel = new FlowPanel();
+		DisclosurePanel itemsDisclosurePanel = new DisclosurePanel(
+				"Itemize by Product/Service");
+		itemsFlowPanel.add(vendorItemTransactionTable);
+		itemsFlowPanel.add(itemTableButton);
+		itemsDisclosurePanel.setContent(itemsFlowPanel);
+		itemsDisclosurePanel.setWidth("100%");
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
 		memoTextAreaItem = createMemoTextAreaItem();
@@ -303,10 +320,8 @@ public class ItemReceiptView extends
 		mainVLay.add(topHLay);
 		mainVLay.add(lab2);
 		// mainVLay.add(menuButton);
-		mainVLay.add(vendorAccountTransactionTable);
-		mainVLay.add(accountTableButton);
-		mainVLay.add(vendorItemTransactionTable);
-		mainVLay.add(itemTableButton);
+		mainVLay.add(accountsDisclosurePanel);
+		mainVLay.add(itemsDisclosurePanel);
 		mainVLay.add(bottomLayout);
 
 		this.add(mainVLay);
@@ -659,19 +674,19 @@ public class ItemReceiptView extends
 		// 6. validateGrid?
 
 		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateTransactionDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 
 		result.add(vendorForm.validate());
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(
-				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(deliveryDateItem
+				.getEnteredDate(), this.transactionDate)) {
 
 			result.addError(deliveryDateItem, Accounter.constants().the()
 					+ " "
@@ -683,8 +698,8 @@ public class ItemReceiptView extends
 
 		}
 		if (getAllTransactionItems().isEmpty()) {
-			result.addError(vendorAccountTransactionTable,
-					accounterConstants.blankTransaction());
+			result.addError(vendorAccountTransactionTable, accounterConstants
+					.blankTransaction());
 		} else {
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());

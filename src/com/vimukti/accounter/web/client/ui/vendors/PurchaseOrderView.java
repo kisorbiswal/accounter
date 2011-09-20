@@ -11,6 +11,8 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DisclosurePanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -198,14 +200,14 @@ public class PurchaseOrderView extends
 			taxCodeSelect = createTaxCodeSelectItem();
 			salesTaxTextNonEditable = createSalesTaxNonEditableLabel();
 			transactionTotalNonEditableText = createTransactionTotalNonEditableLabelforPurchase();
-			paymentsNonEditableText = new AmountLabel(
-					accounterConstants.payments());
+			paymentsNonEditableText = new AmountLabel(accounterConstants
+					.payments());
 			paymentsNonEditableText.setDisabled(true);
 			paymentsNonEditableText.setDefaultValue(""
 					+ UIUtils.getCurrencySymbol() + " 0.00");
 
-			balanceDueNonEditableText = new AmountField(
-					accounterConstants.balanceDue(), this);
+			balanceDueNonEditableText = new AmountField(accounterConstants
+					.balanceDue(), this);
 			balanceDueNonEditableText.setDisabled(true);
 			balanceDueNonEditableText.setDefaultValue(""
 					+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -258,8 +260,8 @@ public class PurchaseOrderView extends
 		shipToAddress = new ShipToForm(null);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
-		shipToAddress.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "40px");
+		shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -403,6 +405,7 @@ public class PurchaseOrderView extends
 				return PurchaseOrderView.this.isShowPriceWithVat();
 			}
 		};
+
 		vendorAccountTransactionTable.setDisabled(isInViewMode());
 
 		accountTableButton = new Button(Global.get().Account());
@@ -414,7 +417,14 @@ public class PurchaseOrderView extends
 				addAccount();
 			}
 		});
-
+		FlowPanel accountFlowPanel = new FlowPanel();
+		DisclosurePanel accountsDisclosurePanel = new DisclosurePanel(
+				"Itemize by Account");
+		accountFlowPanel.add(vendorAccountTransactionTable);
+		accountFlowPanel.add(accountTableButton);
+		accountsDisclosurePanel.setContent(accountFlowPanel);
+		accountsDisclosurePanel.setOpen(true);
+		accountsDisclosurePanel.setWidth("100%");
 		vendorItemTransactionTable = new VendorItemTransactionTable() {
 
 			@Override
@@ -437,6 +447,7 @@ public class PurchaseOrderView extends
 				return PurchaseOrderView.this.getVendor();
 			}
 		};
+
 		vendorItemTransactionTable.setDisabled(isInViewMode());
 
 		itemTableButton = new Button(Global.get().Account());
@@ -448,7 +459,13 @@ public class PurchaseOrderView extends
 				addItem();
 			}
 		});
-
+		FlowPanel itemsFlowPanel = new FlowPanel();
+		DisclosurePanel itemsDisclosurePanel = new DisclosurePanel(
+				"Itemize by Product/Service");
+		itemsFlowPanel.add(vendorItemTransactionTable);
+		itemsFlowPanel.add(itemTableButton);
+		itemsDisclosurePanel.setContent(itemsFlowPanel);
+		itemsDisclosurePanel.setWidth("100%");
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
 
@@ -523,10 +540,8 @@ public class PurchaseOrderView extends
 		mainVLay.add(topHLay);
 		// mainVLay.add(lab2);
 
-		mainVLay.add(vendorAccountTransactionTable);
-		mainVLay.add(accountTableButton);
-		mainVLay.add(vendorItemTransactionTable);
-		mainVLay.add(itemTableButton);
+		mainVLay.add(accountsDisclosurePanel);
+		mainVLay.add(itemsDisclosurePanel);
 		// mainVLay.add(createAddNewButton());
 		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(bottomLayout);
@@ -651,8 +666,8 @@ public class PurchaseOrderView extends
 
 	public AddressCombo createVendorAddressComboItem() {
 
-		AddressCombo addressCombo = new AddressCombo(
-				messages.vendorAddress(Global.get().Vendor()));
+		AddressCombo addressCombo = new AddressCombo(messages
+				.vendorAddress(Global.get().Vendor()));
 
 		addressCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
@@ -1114,13 +1129,13 @@ public class PurchaseOrderView extends
 		// 6. is blank transaction?
 		// 7. vendor transaction grid valid?
 		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateTransactionDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 
 		// TODO::: isvalid received date
@@ -1148,8 +1163,8 @@ public class PurchaseOrderView extends
 		result.add(vendorForm.validate());
 
 		if (getAllTransactionItems().isEmpty()) {
-			result.addError(vendorAccountTransactionTable,
-					accounterConstants.blankTransaction());
+			result.addError(vendorAccountTransactionTable, accounterConstants
+					.blankTransaction());
 		} else {
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());

@@ -6,6 +6,8 @@ import java.util.List;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DisclosurePanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -141,8 +143,8 @@ public class CustomerCreditMemoView extends
 		custForm = UIUtils.form(Global.get().customer());
 		custForm.setFields(customerCombo, contactCombo, billToTextArea);
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
-		custForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Global.get().constants().width(), "190px");
+		custForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Global.get().constants().width(), "190px");
 		custForm.setWidth("100%");
 		custForm.setStyleName("align-form");
 
@@ -218,6 +220,15 @@ public class CustomerCreditMemoView extends
 			}
 		});
 
+		FlowPanel accountFlowPanel = new FlowPanel();
+		DisclosurePanel accountsDisclosurePanel = new DisclosurePanel(
+				"Itemize by Account");
+		accountFlowPanel.add(customerAccountTransactionTable);
+		accountFlowPanel.add(accountTableButton);
+		accountsDisclosurePanel.setContent(accountFlowPanel);
+		accountsDisclosurePanel.setOpen(true);
+		accountsDisclosurePanel.setWidth("100%");
+
 		customerItemTransactionTable = new CustomerItemTransactionTable() {
 
 			@Override
@@ -247,6 +258,14 @@ public class CustomerCreditMemoView extends
 				addItem();
 			}
 		});
+
+		FlowPanel itemsFlowPanel = new FlowPanel();
+		DisclosurePanel itemsDisclosurePanel = new DisclosurePanel(
+				"Itemize by Product/Service");
+		itemsFlowPanel.add(customerItemTransactionTable);
+		itemsFlowPanel.add(itemTableButton);
+		itemsDisclosurePanel.setContent(itemsFlowPanel);
+		itemsDisclosurePanel.setWidth("100%");
 
 		final TextItem disabletextbox = new TextItem();
 		disabletextbox.setVisible(false);
@@ -316,10 +335,8 @@ public class CustomerCreditMemoView extends
 		mainVLay.add(lab1);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
-		mainVLay.add(customerAccountTransactionTable);
-		mainVLay.add(accountTableButton);
-		mainVLay.add(customerItemTransactionTable);
-		mainVLay.add(itemTableButton);
+		mainVLay.add(accountsDisclosurePanel);
+		mainVLay.add(itemsDisclosurePanel);
 		// mainVLay.add(createAddNewButton());
 		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(mainPanel);
@@ -575,8 +592,7 @@ public class CustomerCreditMemoView extends
 					+ customerItemTransactionTable.getTotal();
 
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(),
-					taxableLineTotal,
+					transactionDateItem.getEnteredDate(), taxableLineTotal,
 					getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
@@ -792,8 +808,8 @@ public class CustomerCreditMemoView extends
 			// if there is only one branding theme
 			ClientBrandingTheme brandingTheme = themesList.get(0);
 			UIUtils.downloadAttachment(transaction.getID(),
-					ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO,
-					brandingTheme.getID());
+					ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO, brandingTheme
+							.getID());
 
 		}
 
