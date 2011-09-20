@@ -156,11 +156,24 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 		isTobePrintedRecord.add("Value", tobePrintedString);
 		list.add(isTobePrintedRecord);
 
-		result = memoRequirement(context, list, selection);
+		if (!isTobePrinted) {
+			result = checkNumRequirement(context, list, selection);
+			if (result != null) {
+				return result;
+			}
+		}
+		result = stringOptionalRequirement(context, list, selection, MEMO,
+				"Enter Memo");
 		if (result != null) {
 			return result;
 		}
 
+		return null;
+	}
+
+	private Result checkNumRequirement(Context context, ResultList list,
+			Object selection) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
