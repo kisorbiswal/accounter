@@ -96,13 +96,19 @@
 			<command value="Purchase Order List">Purchase Order List</command>
 		</output>
 	</pattern>
-		<pattern>
+	<pattern>
 		<input>UserActiviityLog</input>
 		<output>
 			<command>Show ActiviityLog</command>
 		</output>
 	</pattern>
-	
+	<pattern>
+		<input>ExpensesList</input>
+		<output>
+			<command>ExpensesListCommand</command>
+		</output>
+	</pattern>
+
 
 </patterns>
 
