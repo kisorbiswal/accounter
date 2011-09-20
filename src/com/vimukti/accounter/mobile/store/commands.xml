@@ -232,7 +232,7 @@
 			<name>Create TAX Item</name>
 		</alias>
 	</command>
-	
+
 	<command clazz="NewServiceItemCommand" name="New Service Item">
 		<alias>
 			<name>Create Item</name>
@@ -254,5 +254,14 @@
 			<name>Log</name>
 			<name>UserLog</name>
 		</alias>
+	</command>
+	<command clazz="ExpensesListCommand" name="ExpensesList">
+		<alias>
+			<name>Expenses Claims</name>
+			<name>Expenses</name>
+			<name>Expenses list</name>
+
+		</alias>
+
 	</command>
 </commands>
