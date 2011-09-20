@@ -25,6 +25,11 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 	@Override
 	protected abstract void addRequirements(List<Requirement> list);
 
+	/**
+	 * 3 requirements of many report...
+	 * 
+	 * @param list
+	 */
 	protected void add3ReportRequirements(List<Requirement> list) {
 		list.add(new Requirement("dateRange", true, true));
 		list.add(new Requirement("fromDate", true, true));
@@ -72,10 +77,30 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 		plReportResult.add(recordsList);
 	}
 
+	/**
+	 * Creating report record to show user...
+	 * 
+	 * @param record
+	 * @return
+	 */
 	protected abstract Record createReportRecord(T record);
 
+	/**
+	 * get report records based on session..
+	 * 
+	 * @param session
+	 * @return
+	 */
 	protected abstract List<T> getRecords(Session session);
 
+	/**
+	 * creating date range based report requirement
+	 * 
+	 * @param context
+	 * @param list
+	 * @param selection
+	 * @return
+	 */
 	protected Result dateRangeRequirement(Context context, ResultList list,
 			Object selection) {
 		Requirement dateRangeReq = get("dateRange");
@@ -101,6 +126,14 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 		return null;
 	}
 
+	/**
+	 * Creating from date based on report requirement...
+	 * 
+	 * @param context
+	 * @param list
+	 * @param selection
+	 * @return
+	 */
 	protected Result fromDateRequirement(Context context, ResultList list,
 			Object selection) {
 		Requirement dateReq = get("fromDate");
@@ -126,15 +159,14 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 		return null;
 	}
 
-	protected Date getStartDate() {
-		return null;
-
-	}
-
-	protected Date getEndDate() {
-		return null;
-
-	}
+	/**
+	 * Creating To date based on report requirement...
+	 * 
+	 * @param context
+	 * @param list
+	 * @param selection
+	 * @return
+	 */
 
 	protected Result toDateRequirement(Context context, ResultList list,
 			Object selection) {
@@ -161,6 +193,13 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 		return null;
 	}
 
+	/**
+	 * Creating VAT agency based on report requirement..
+	 * 
+	 * @param context
+	 * @return
+	 */
+
 	protected Result vatAgencyRequirement(Context context) {
 		Requirement vatAgencyReq = get("vatAgency");
 		TAXAgency taxAgency = context.getSelection("vatAgencies");
@@ -177,6 +216,12 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 		return null;
 	}
 
+	/**
+	 * creating VAT agencies list based context to show user..
+	 * 
+	 * @param context
+	 * @return
+	 */
 	protected Result vatAgencies(Context context) {
 		Result result = context.makeResult();
 		ResultList vatAgencysList = new ResultList("vatAgencies");
@@ -210,22 +255,36 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 		return result;
 	}
 
+	/**
+	 * creating VAT agency record to show user..
+	 * 
+	 * @param vatAgency
+	 * @return
+	 */
 	private Record createVatAgencyRecord(TAXAgency vatAgency) {
 		Record record = new Record(vatAgency);
 		record.add("Name", vatAgency.getName());
-		record.add("Payment Term", vatAgency.getPaymentTerm());
-		record.add("VAT Return", vatAgency.getVATReturn());
-		record.add("Sales Liability Account", vatAgency
-				.getSalesLiabilityAccount());
-		record.add("Purchase Liability Account", vatAgency
-				.getPurchaseLiabilityAccount());
 		return record;
 	}
 
+	/**
+	 * get VAT agencies based on session which is passed..
+	 * 
+	 * @param session
+	 * @return
+	 */
 	private List<TAXAgency> getVatAgencies(Session session) {
 		return null;
 	}
 
+	/**
+	 * creating status lists for reports requirements
+	 * 
+	 * @param context
+	 * @param list
+	 * @param selection
+	 * @return
+	 */
 	protected Result statusRequirement(Context context, ResultList list,
 			Object selection) {
 		Requirement statusReq = get("status");
@@ -251,6 +310,14 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 		return null;
 	}
 
+	/**
+	 * creating expense type list for reports requirements
+	 * 
+	 * @param context
+	 * @param list
+	 * @param selection
+	 * @return
+	 */
 	protected Result expenseTypeRequirement(Context context, ResultList list,
 			Object selection) {
 		Requirement expenseTypeReq = get("expenseType");
@@ -276,6 +343,13 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 		return null;
 	}
 
+	/**
+	 * creating required fields for reports
+	 * 
+	 * @param reportResult
+	 * @param context
+	 * @return
+	 */
 	protected Result createReqReportRecord(Result reportResult, Context context) {
 		ResultList resultList = new ResultList("values");
 
@@ -317,6 +391,12 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 		return null;
 	}
 
+	/**
+	 * showing customers list based on context...
+	 * 
+	 * @param context
+	 * @return
+	 */
 	protected Result customers(Context context) {
 		Result result = context.makeResult();
 		ResultList customersList = new ResultList("customers");
@@ -345,11 +425,20 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 		return result;
 	}
 
+	/**
+	 * get customers from given session.
+	 * 
+	 * @param session
+	 * @return customers list
+	 */
 	private List<Customer> getCustomers(Session session) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * customer record to show user when customer statement report selected
+	 * */
 	private Record createCustomerRecord(Customer customer) {
 		Record record = new Record(customer);
 		record.add("Name", customer.getName());
@@ -357,6 +446,30 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 		return record;
 	}
 
+	/**
+	 * start date of report..
+	 * 
+	 * @return
+	 */
+	protected Date getStartDate() {
+		return null;
+
+	}
+
+	/**
+	 * end date of report..
+	 * 
+	 * @return
+	 */
+
+	protected Date getEndDate() {
+		return null;
+
+	}
+
+	/**
+	 * to get last date of the month.
+	 **/
 	public FinanceDate getLastMonth(FinanceDate date) {
 		int month = date.getMonth() - 1;
 		int year = date.getYear();
