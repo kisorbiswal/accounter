@@ -235,19 +235,19 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		customer.setPriceLevel(priceLevel);
 		customer.setCreditRating(creditRating);
 		customer.setActive(isActive);
-
-		if (getCompany().getAccountingType() != ACCOUNTING_TYPE_INDIA) {
+		int accountingType = getCompany().getAccountingType();
+		if (accountingType != ACCOUNTING_TYPE_INDIA) {
 			customer.setPaymentMethod(paymentMethod);
 			customer.setPaymentTerm(paymentTerms);
 			customer.setCustomerGroup(customerGroup);
 		}
-		if (getCompany().getAccountingType() == ACCOUNTING_TYPE_UK) {
+		if (accountingType == ACCOUNTING_TYPE_UK) {
 			if (getCompany().getPreferences().isRegisteredForVAT()) {
 				customer.setTAXCode(taxCode);
 				customer.setVATRegistrationNumber(vatRegistredNum);
 			}
 		}
-		if (getCompany().getAccountingType() == ACCOUNTING_TYPE_INDIA) {
+		if (accountingType == ACCOUNTING_TYPE_INDIA) {
 			customer.setPANno(panNum);
 			customer.setCSTno(cstNum);
 			customer.setServiceTaxRegistrationNo(serviceTaxNum);
@@ -380,7 +380,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		if (company == ACCOUNTING_TYPE_UK || company == ACCOUNTING_TYPE_US) {
-			result = paymentMethodRequirement(context, (String) selection);
+			result = paymentMethodRequirement(context, list, (String) selection);
 			if (result != null) {
 				return result;
 			}
