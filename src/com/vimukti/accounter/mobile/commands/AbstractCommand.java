@@ -84,6 +84,32 @@ public abstract class AbstractCommand extends Command {
 		return result;
 	}
 
+	protected Result dateOptionalRequirement(Context context, ResultList list,
+			String name, Object selection) {
+		Requirement req = get(name);
+		Date dueDate = (Date) req.getValue();
+
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals(name)) {
+			Date date = context.getSelection(DATE);
+			if (date == null) {
+				date = context.getDate();
+			}
+			dueDate = date;
+			req.setValue(dueDate);
+		}
+		if (selection == dueDate) {
+			context.setAttribute(INPUT_ATTR, name);
+			return date(context, name, dueDate);
+		}
+
+		Record dueDateRecord = new Record(dueDate);
+		dueDateRecord.add("Name", name);
+		dueDateRecord.add("Value", dueDate.toString());
+		list.add(dueDateRecord);
+		return null;
+	}
+
 	protected Result date(Context context, String message, Date date) {
 		Result result = context.makeResult();
 		result.add(message);
@@ -128,8 +154,8 @@ public abstract class AbstractCommand extends Command {
 			if (selection != null) {
 				if (selection == oldAddress.getAddress1()) {
 					context.setAttribute(ADDRESS_LINE_ATTR, "address1");
-					return text(context, "Enter Address1", oldAddress
-							.getAddress1());
+					return text(context, "Enter Address1",
+							oldAddress.getAddress1());
 				} else if (selection == oldAddress.getCity()) {
 					context.setAttribute(ADDRESS_LINE_ATTR, "city");
 					return text(context, "Enter City", oldAddress.getCity());
@@ -137,15 +163,13 @@ public abstract class AbstractCommand extends Command {
 					context.setAttribute(ADDRESS_LINE_ATTR, "street");
 					return text(context, "Enter Street", oldAddress.getStreet());
 				} else if (selection == oldAddress.getStateOrProvinence()) {
-					context
-							.setAttribute(ADDRESS_LINE_ATTR,
-									"stateOrProvinence");
-					return text(context, "Enter State/Provinence", oldAddress
-							.getStateOrProvinence());
+					context.setAttribute(ADDRESS_LINE_ATTR, "stateOrProvinence");
+					return text(context, "Enter State/Provinence",
+							oldAddress.getStateOrProvinence());
 				} else if (selection == oldAddress.getCountryOrRegion()) {
 					context.setAttribute(ADDRESS_LINE_ATTR, "countryOrRegion");
-					return text(context, "Enter Country/Region", oldAddress
-							.getCountryOrRegion());
+					return text(context, "Enter Country/Region",
+							oldAddress.getCountryOrRegion());
 				}
 			} else {
 				selection = context.getSelection(ACTIONS);
@@ -277,8 +301,8 @@ public abstract class AbstractCommand extends Command {
 					oldContact.setPrimary(!oldContact.isPrimary());
 				} else if (selection == oldContact.getName()) {
 					context.setAttribute(CONTACT_LINE_ATTR, "contactName");
-					return text(context, "Enter conatactName", oldContact
-							.getName());
+					return text(context, "Enter conatactName",
+							oldContact.getName());
 				} else if (selection == oldContact.getTitle()) {
 					context.setAttribute(CONTACT_LINE_ATTR, "title");
 					return text(context, "Enter Title", oldContact.getTitle());
@@ -393,7 +417,7 @@ public abstract class AbstractCommand extends Command {
 		record.add("Balance", last.getBalance());
 		return record;
 	}
-	
+
 	protected Result memoRequirement(Context context, ResultList list,
 			Object selection) {
 		Requirement req = get(MEMO);
@@ -473,7 +497,6 @@ public abstract class AbstractCommand extends Command {
 		list.add(transDateRecord);
 		return null;
 	}
-
 
 	private List<Vendor> getVendors(Session session) {
 		// TODO Auto-generated method stub
