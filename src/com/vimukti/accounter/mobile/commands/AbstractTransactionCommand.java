@@ -39,6 +39,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	private static final String ITEM_DETAILS = null;
 	private static final String ITEM_PROPERTY_ATTR = null;
 	private static final int PAYMENTMETHODS_TO_SHOW = 5;
+	private static final String PAYMENT_MENTHOD = "Payment method";
 
 	protected Result itemsRequirement(Context context) {
 		Requirement itemsReq = get("items");
@@ -251,6 +252,18 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		}
 		if (!customerReq.isDone()) {
 			return customers(context);
+		}
+		return null;
+	}
+
+	protected Result paymentMethodRequirement(Context context) {
+		Requirement paymentMethodReq = get(PAYMENT_MENTHOD);
+		String paymentMethod = context.getSelection(PAYMENT_MENTHOD);
+		if (paymentMethod != null) {
+			paymentMethodReq.setValue(paymentMethod);
+		}
+		if (!paymentMethodReq.isDone()) {
+			return paymentMethod(context, null);
 		}
 		return null;
 	}
