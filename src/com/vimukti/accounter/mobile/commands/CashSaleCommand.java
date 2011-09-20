@@ -269,7 +269,7 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 				order = context.getString();
 			}
 			phoneNo = order;
-			req.setDefaultValue(phoneNo);
+			req.setValue(phoneNo);
 		}
 
 		if (selection == phoneNo) {
@@ -392,7 +392,7 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 	private Result memoRequirement(Context context, ResultList list,
 			Object selection) {
 		Requirement req = get("memo");
-		String memo = (String) req.getDefaultValue();
+		String memo = (String) req.getValue();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals("memo")) {
 			String order = context.getSelection(TEXT);
@@ -400,7 +400,7 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 				order = context.getString();
 			}
 			memo = order;
-			req.setDefaultValue(memo);
+			req.setValue(memo);
 		}
 
 		if (selection == memo) {
@@ -431,7 +431,7 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 				order = context.getString();
 			}
 			cashSaleNo = order;
-			req.setDefaultValue(cashSaleNo);
+			req.setValue(cashSaleNo);
 		}
 
 		if (selection == cashSaleNo) {
@@ -450,7 +450,7 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 			Object selection) {
 
 		Requirement dateReq = get("date");
-		Date transDate = (Date) dateReq.getDefaultValue();
+		Date transDate = (Date) dateReq.getValue();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals("Cash Sale Date")) {
 			Date date = context.getSelection(DATE);
@@ -458,7 +458,7 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 				date = context.getDate();
 			}
 			transDate = date;
-			dateReq.setDefaultValue(transDate);
+			dateReq.setValue(transDate);
 		}
 		if (selection == transDate) {
 			context.setAttribute(INPUT_ATTR, "Cash Sale Date");
