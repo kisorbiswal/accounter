@@ -227,7 +227,7 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 		}
 		if (shippingObj != null) {
 			shippingTerm = (ShippingTerms) shippingObj;
-			shippingTermsReq.setDefaultValue(shippingTerm);
+			shippingTermsReq.setValue(shippingTerm);
 		}
 
 		Record shippingTermRecord = new Record(shippingTerm);
@@ -297,7 +297,7 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 		}
 		if (shippingMethodObj != null) {
 			shippingMethods = (ShippingMethod) shippingMethodObj;
-			shippingMethodReq.setDefaultValue(shippingMethods);
+			shippingMethodReq.setValue(shippingMethods);
 		}
 
 		Record shippingTermRecord = new Record(shippingMethods);
@@ -360,7 +360,7 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 			Object selection) {
 
 		Requirement req = get("orderNo");
-		String orderNo = (String) req.getDefaultValue();
+		String orderNo = (String) req.getValue();
 
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals("orderNo")) {
@@ -369,7 +369,7 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 				order = context.getString();
 			}
 			orderNo = order;
-			req.setDefaultValue(orderNo);
+			req.setValue(orderNo);
 		}
 
 		if (selection == orderNo) {
@@ -395,7 +395,7 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 	private Result dueDateRequirement(Context context, ResultList list,
 			Object selection) {
 		Requirement req = get("due");
-		Date dueDate = (Date) req.getDefaultValue();
+		Date dueDate = (Date) req.getValue();
 
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals("dueDate")) {
@@ -404,7 +404,7 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 				date = context.getDate();
 			}
 			dueDate = date;
-			req.setDefaultValue(dueDate);
+			req.setValue(dueDate);
 		}
 		if (selection == dueDate) {
 			context.setAttribute(INPUT_ATTR, "dueDate");

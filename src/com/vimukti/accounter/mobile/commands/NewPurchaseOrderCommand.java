@@ -220,7 +220,7 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 			Object selection) {
 
 		Requirement req = get("orderNo");
-		String orderNo = (String) req.getDefaultValue();
+		String orderNo = (String) req.getValue();
 
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals("orderNo")) {
@@ -229,7 +229,7 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 				order = context.getString();
 			}
 			orderNo = order;
-			req.setDefaultValue(orderNo);
+			req.setValue(orderNo);
 		}
 
 		if (selection == orderNo) {
@@ -255,7 +255,7 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 	private Result dueDateRequirement(Context context, ResultList list,
 			Object selection) {
 		Requirement req = get("due");
-		Date dueDate = (Date) req.getDefaultValue();
+		Date dueDate = (Date) req.getValue();
 
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals("dueDate")) {
@@ -264,7 +264,7 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 				date = context.getDate();
 			}
 			dueDate = date;
-			req.setDefaultValue(dueDate);
+			req.setValue(dueDate);
 		}
 		if (selection == dueDate) {
 			context.setAttribute(INPUT_ATTR, "dueDate");
@@ -328,7 +328,7 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 		}
 		if (contactObj != null) {
 			contact = (Contact) contactObj;
-			contactReq.setDefaultValue(contact);
+			contactReq.setValue(contact);
 		}
 
 		Record contactRecord = new Record(contact);
