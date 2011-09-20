@@ -3,22 +3,16 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.Session;
-
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.mobile.ActionNames;
-import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.ObjectListRequirement;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.client.core.AccounterClientConstants;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 
 public class CashSaleCommand extends AbstractTransactionCommand {
 
@@ -57,7 +51,17 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 
 	@Override
 	public Result run(Context context) {
-		Result result = customerRequirement(context);
+		String process = (String) context.getAttribute(PROCESS_ATTR);
+		Result result = null;
+		if (process != null) {
+			if (process.equals(TRANSACTION_ITEM_PROCESS)) {
+				result = transactionItemProcess(context);
+				if (result != null) {
+					return result;
+				}
+			}
+		}
+		result = customerRequirement(context);
 		if (result == null) {
 			return result;
 		}
@@ -71,72 +75,18 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
+
 		result = createOptionalResult(context);
 		if (result != null) {
 			return result;
 		}
+		completeProcess(context);
+		markDone();
 		return null;
 	}
 
-	private Result depositeOrTransferTo(Context context) {
-		Requirement transferedReq = get("depositOrTransferTo");
-		Account account = context.getSelection("depositOrTransferTo");
-		if (!transferedReq.isDone()) {
-			if (account != null) {
-				transferedReq.setValue(account);
-			} else {
-				return accounts(context);
-			}
-		}
-		if (account != null) {
-			transferedReq.setValue(account);
-
-		}
-		return null;
-	}
-
-	private Result accounts(Context context) {
-		Result result = context.makeResult();
-		ResultList list = new ResultList("depositOrTransferTo");
-
-		Object last = context.getLast(RequirementType.ACCOUNT);
-		int num = 0;
-		if (last != null) {
-			list.add(createAccountRecord((Account) last));
-			num++;
-		}
-
-		List<Account> transferAccountList = getAccounts(context.getSession());
-		for (Account account : transferAccountList) {
-			if (account != last) {
-				list.add(createAccountRecord(account));
-				num++;
-			}
-			if (num == ACCOUNTS_TO_SHOW) {
-				break;
-			}
-		}
-
-		if (list.size() > 0) {
-			result.add("Slect an Account.");
-		}
-		result.add(list);
-		CommandList commands = new CommandList();
-		commands.add("Create New Account");
-		return result;
-	}
-
-	private Record createAccountRecord(Account last) {
-		Record record = new Record(last);
-		record.add("Account Number", last.getNumber());
-		record.add("Account Name", last.getName());
-		record.add("Account Type", getAccountTypeString(last.getType()));
-		return record;
-	}
-
-	private List<Account> getAccounts(Session session) {
+	private void completeProcess(Context context) {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	private Result createOptionalResult(Context context) {
@@ -256,139 +206,6 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
-	private Result phoneRequirement(Context context, ResultList list,
-			String selection) {
-		Result result = context.makeResult();
-		Requirement req = get("phone");
-		String phoneNo = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("phone")) {
-			String order = context.getSelection(NUMBER);
-			if (order == null) {
-				order = context.getString();
-			}
-			phoneNo = order;
-			req.setValue(phoneNo);
-		}
-
-		if (selection == phoneNo) {
-			context.setAttribute(INPUT_ATTR, "phone");
-			return number(context, "Enter Phone number", phoneNo);
-		}
-
-		Record cashSaleNoRec = new Record(phoneNo);
-		cashSaleNoRec.add("Name", "Phone Number");
-		cashSaleNoRec.add("Value", phoneNo);
-		list.add(cashSaleNoRec);
-		result.add(list);
-		return result;
-	}
-
-	private Result accountItem(Context context, Account accountItem) {
-		context.setAttribute(PROCESS_ATTR, TRANSACTION_ITEM_PROCESS);
-		context.setAttribute(OLD_TRANSACTION_ITEM_ATTR, accountItem);
-
-		// String lineAttr = (String) context.getAttribute(ITEM_PROPERTY_ATTR);
-		// if (lineAttr != null) {
-		// context.removeAttribute(ITEM_PROPERTY_ATTR);
-		// if (lineAttr.equals("account no")) {
-		// accountItem.setNumber(context.getString());
-		// } else if (lineAttr.equals("unitPrice")) {
-		// transactionItem.setUnitPrice(context.getDouble());
-		// } else if (lineAttr.equals("discount")) {
-		// transactionItem.setDiscount(context.getDouble());
-		// } else if (lineAttr.equals("taxCode")) {
-		// TAXCode taxCode = context.getSelection(TAXCODE);
-		// transactionItem.setTaxCode(taxCode);
-		// }
-		// } else {
-		// Object selection = context.getSelection(ITEM_DETAILS);
-		// if (selection != null) {
-		// if (selection == transactionItem.getQuantity()) {
-		// context.setAttribute(ITEM_PROPERTY_ATTR, "quantity");
-		// return amount(context, "Enter Quantity", transactionItem
-		// .getQuantity().getValue());
-		// } else if (selection.equals("unitPrice")) {
-		// context.setAttribute(ITEM_PROPERTY_ATTR, "unitPrice");
-		// return amount(context, "Enter Unitprice",
-		// transactionItem.getUnitPrice());
-		// } else if (selection.equals("discount")) {
-		// context.setAttribute(ITEM_PROPERTY_ATTR, "discount");
-		// return amount(context, "Enter Discount",
-		// transactionItem.getDiscount());
-		// } else if (selection == transactionItem.getTaxCode().getName()) {
-		// context.setAttribute(ITEM_PROPERTY_ATTR, "taxCode");
-		// return taxCode(context, transactionItem.getTaxCode());
-		// } else if (selection.equals("Tax")) {
-		// transactionItem.setTaxable(!transactionItem.isTaxable());
-		// }
-		// } else {
-		// selection = context.getSelection(ACTIONS);
-		// if (selection == ActionNames.FINISH) {
-		// context.removeAttribute(PROCESS_ATTR);
-		// context.removeAttribute(OLD_TRANSACTION_ITEM_ATTR);
-		// return null;
-		// } else if (selection == ActionNames.DELETE_ITEM) {
-		// context.removeAttribute(PROCESS_ATTR);
-		// return null;
-		// }
-		// }
-		// }
-
-		// ResultList list = new ResultList(ITEM_DETAILS);
-		// Record record = new Record(transactionItem.getQuantity());
-		// record.add("", "Quantity");
-		// record.add("", transactionItem.getQuantity());
-		// list.add(record);
-		//
-		// record = new Record("unitPrice");
-		// record.add("", "Unit Price");
-		// record.add("", transactionItem.getUnitPrice());
-		// list.add(record);
-		//
-		// record = new Record("discount");
-		// record.add("", "Discount %");
-		// record.add("", transactionItem.getDiscount());
-		// list.add(record);
-		//
-		// Company company = getCompany();
-		// if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-		// record = new Record(transactionItem.getTaxCode().getName());
-		// record.add("", "VatCode");
-		// record.add("", transactionItem.getTaxCode().getName());
-		// list.add(record);
-		// } else {
-		// record = new Record("Tax");
-		// record.add("", "Tax");
-		// if (transactionItem.isTaxable()) {
-		// record.add("", "Taxable");
-		// } else {
-		// record.add("", "Non-Taxable");
-		// }
-		// list.add(record);
-		// }
-		//
-		// Result result = context.makeResult();
-		// result.add("Item details");
-		// result.add("Item Name :" + transactionItem.getItem().getName());
-		// result.add(list);
-		// if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-		// result.add("Item Vat :" + transactionItem.getVATfraction());
-		// }
-		// result.add("Item Total :" + transactionItem.getLineTotal());
-		//
-		// ResultList actions = new ResultList(ACTIONS);
-		// record = new Record(ActionNames.DELETE_ITEM);
-		// record.add("", "Delete");
-		// actions.add(record);
-		// record = new Record(ActionNames.FINISH);
-		// record.add("", "Finish");
-		// actions.add(record);
-		// result.add(actions);
-		return null;
-	}
-
 	private Result memoRequirement(Context context, ResultList list,
 			Object selection) {
 		Requirement req = get("memo");
@@ -470,72 +287,6 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 		transDateRecord.add("Value", transDate.toString());
 		list.add(transDateRecord);
 		return null;
-	}
-
-	private String getAccountTypeString(int accountType) {
-
-		String accountTypeName = null;
-		switch (accountType) {
-		case ClientAccount.TYPE_INCOME:
-			accountTypeName = AccounterClientConstants.TYPE_INCOME;
-			break;
-		case ClientAccount.TYPE_OTHER_INCOME:
-			accountTypeName = AccounterClientConstants.TYPE_OTHER_INCOME;
-			break;
-		case ClientAccount.TYPE_EXPENSE:
-			accountTypeName = AccounterClientConstants.TYPE_EXPENSE;
-			break;
-		case ClientAccount.TYPE_OTHER_EXPENSE:
-			accountTypeName = AccounterClientConstants.TYPE_OTHER_EXPENSE;
-			break;
-		case ClientAccount.TYPE_COST_OF_GOODS_SOLD:
-			accountTypeName = AccounterClientConstants.TYPE_COST_OF_GOODS_SOLD;
-			break;
-		case ClientAccount.TYPE_CASH:
-			accountTypeName = AccounterClientConstants.TYPE_CASH;
-			break;
-		case ClientAccount.TYPE_BANK:
-			accountTypeName = AccounterClientConstants.TYPE_BANK;
-			break;
-		case ClientAccount.TYPE_OTHER_CURRENT_ASSET:
-			accountTypeName = AccounterClientConstants.TYPE_OTHER_CURRENT_ASSET;
-			break;
-		case ClientAccount.TYPE_INVENTORY_ASSET:
-			accountTypeName = AccounterClientConstants.TYPE_INVENTORY_ASSET;
-			break;
-		case ClientAccount.TYPE_OTHER_ASSET:
-			accountTypeName = AccounterClientConstants.TYPE_OTHER_ASSET;
-			break;
-		case ClientAccount.TYPE_FIXED_ASSET:
-			accountTypeName = AccounterClientConstants.TYPE_FIXED_ASSET;
-			break;
-		case ClientAccount.TYPE_CREDIT_CARD:
-			accountTypeName = AccounterClientConstants.TYPE_CREDIT_CARD;
-			break;
-		case ClientAccount.TYPE_PAYPAL:
-			accountTypeName = AccounterClientConstants.TYPE_PAYPAL;
-			break;
-		case ClientAccount.TYPE_PAYROLL_LIABILITY:
-			accountTypeName = AccounterClientConstants.TYPE_PAYROLL_LIABILITY;
-			break;
-		case ClientAccount.TYPE_OTHER_CURRENT_LIABILITY:
-			accountTypeName = AccounterClientConstants.TYPE_OTHER_CURRENT_LIABILITY;
-			break;
-		case ClientAccount.TYPE_LONG_TERM_LIABILITY:
-			accountTypeName = AccounterClientConstants.TYPE_LONG_TERM_LIABILITY;
-			break;
-		case ClientAccount.TYPE_EQUITY:
-			accountTypeName = AccounterClientConstants.TYPE_EQUITY;
-			break;
-		case ClientAccount.TYPE_ACCOUNT_RECEIVABLE:
-			accountTypeName = AccounterClientConstants.TYPE_ACCOUNT_RECEIVABLE;
-			break;
-		case ClientAccount.TYPE_ACCOUNT_PAYABLE:
-			accountTypeName = AccounterClientConstants.TYPE_ACCOUNT_PAYABLE;
-			break;
-
-		}
-		return accountTypeName;
 	}
 
 }
