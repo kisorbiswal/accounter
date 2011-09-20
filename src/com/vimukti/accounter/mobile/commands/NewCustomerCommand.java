@@ -253,7 +253,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		Result result = new Result();
 		result.add(" Customer was created successfully.");
 
-		return null;
+		return result;
 	}
 
 	/**
