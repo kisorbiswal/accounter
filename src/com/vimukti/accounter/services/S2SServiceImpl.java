@@ -161,10 +161,10 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 		try {
 			serverCompany = (ServerCompany) session.load(ServerCompany.class,
 					serverCompanyId);
-			serverCompany.getClients().remove(deletingClient);
-			session.saveOrUpdate(serverCompany);
-			// deletableClient.getCompanies().remove(serverCompany);
-			// openSession.saveOrUpdate(deletableClient);
+			// serverCompany.getClients().remove(deletingClient);
+			// session.saveOrUpdate(serverCompany);
+			deletingClient.getCompanies().remove(serverCompany);
+			session.saveOrUpdate(deletingClient);
 			transaction.commit();
 		} catch (Exception e) {
 			transaction.rollback();
