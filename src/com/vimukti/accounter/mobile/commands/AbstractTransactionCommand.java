@@ -518,10 +518,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			}
 		}
 		result.add(list);
-
-		CommandList commandList = new CommandList();
-		commandList.add("Create Paymentmethods");
-		result.add(commandList);
 		return result;
 	}
 
