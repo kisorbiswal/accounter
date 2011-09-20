@@ -44,6 +44,10 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	private static final int PAYEES_TO_SHOW = 5;
 	private static final int BANK_ACCOUNTS_TO_SHOW = 5;
 	protected static final int EXPENSES_TO_SHOW = 5;
+	protected static final String TRANSACTION_ACCOUNT_ITEM_PROCESS = null;
+	protected static final String OLD_TRANSACTION_ACCOUNT_ITEM_ATTR = null;
+	private static final String ACCOUNT_ITEM_PROPERTY_ATTR = null;
+	private static final String ACCOUNT_ITEM_DETAILS = null;
 
 	protected Result itemsRequirement(Context context) {
 		Requirement itemsReq = get("items");
@@ -76,6 +80,24 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			}
 		}
 		return result;
+	}
+
+	protected Result transactionAccountProcess(Context context) {
+
+		TransactionItem transactionItem = (TransactionItem) context
+				.getAttribute(OLD_TRANSACTION_ACCOUNT_ITEM_ATTR);
+		Result result = transactionItem(context, transactionItem);
+		if (result == null) {
+			ActionNames actionName = context.getSelection(ACTIONS);
+			if (actionName == ActionNames.DELETE_ITEM) {
+				Requirement itemsReq = get("accounts");
+				List<TransactionItem> transItems = itemsReq.getValue();
+				transItems.remove(transactionItem);
+				context.removeAttribute(OLD_TRANSACTION_ACCOUNT_ITEM_ATTR);
+			}
+		}
+		return result;
+
 	}
 
 	protected Result transactionItem(Context context,
@@ -171,6 +193,113 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			result.add("Item Vat :" + transactionItem.getVATfraction());
 		}
 		result.add("Item Total :" + transactionItem.getLineTotal());
+
+		ResultList actions = new ResultList(ACTIONS);
+		record = new Record(ActionNames.DELETE_ITEM);
+		record.add("", "Delete");
+		actions.add(record);
+		record = new Record(ActionNames.FINISH);
+		record.add("", "Finish");
+		actions.add(record);
+		result.add(actions);
+		return result;
+	}
+
+	protected Result transactionAccountItem(Context context,
+			TransactionItem transactionItem) {
+		context.setAttribute(PROCESS_ATTR, TRANSACTION_ACCOUNT_ITEM_PROCESS);
+		context.setAttribute(OLD_TRANSACTION_ACCOUNT_ITEM_ATTR, transactionItem);
+
+		String lineAttr = (String) context
+				.getAttribute(ACCOUNT_ITEM_PROPERTY_ATTR);
+		if (lineAttr != null) {
+			context.removeAttribute(ACCOUNT_ITEM_PROPERTY_ATTR);
+			if (lineAttr.equals("quantity")) {
+				transactionItem.getQuantity().setValue(context.getDouble());
+			} else if (lineAttr.equals("unitPrice")) {
+				transactionItem.setUnitPrice(context.getDouble());
+			} else if (lineAttr.equals("discount")) {
+				transactionItem.setDiscount(context.getDouble());
+			} else if (lineAttr.equals("taxCode")) {
+				TAXCode taxCode = context.getSelection(TAXCODE);
+				transactionItem.setTaxCode(taxCode);
+			}
+		} else {
+			Object selection = context.getSelection(ACCOUNT_ITEM_DETAILS);
+			if (selection != null) {
+				if (selection == transactionItem.getQuantity()) {
+					context.setAttribute(ACCOUNT_ITEM_PROPERTY_ATTR, "quantity");
+					return amount(context, "Enter Quantity", transactionItem
+							.getQuantity().getValue());
+				} else if (selection.equals("unitPrice")) {
+					context.setAttribute(ACCOUNT_ITEM_PROPERTY_ATTR,
+							"unitPrice");
+					return amount(context, "Enter Unitprice",
+							transactionItem.getUnitPrice());
+				} else if (selection.equals("discount")) {
+					context.setAttribute(ACCOUNT_ITEM_PROPERTY_ATTR, "discount");
+					return amount(context, "Enter Discount",
+							transactionItem.getDiscount());
+				} else if (selection == transactionItem.getTaxCode().getName()) {
+					context.setAttribute(ACCOUNT_ITEM_PROPERTY_ATTR, "taxCode");
+					return taxCode(context, transactionItem.getTaxCode());
+				} else if (selection.equals("Tax")) {
+					transactionItem.setTaxable(!transactionItem.isTaxable());
+				}
+			} else {
+				selection = context.getSelection(ACTIONS);
+				if (selection == ActionNames.FINISH) {
+					context.removeAttribute(PROCESS_ATTR);
+					context.removeAttribute(OLD_TRANSACTION_ACCOUNT_ITEM_ATTR);
+					return null;
+				} else if (selection == ActionNames.DELETE_ITEM) {
+					context.removeAttribute(PROCESS_ATTR);
+					return null;
+				}
+			}
+		}
+
+		ResultList list = new ResultList(ACCOUNT_ITEM_DETAILS);
+		Record record = new Record(transactionItem.getQuantity());
+		record.add("", "Quantity");
+		record.add("", transactionItem.getQuantity());
+		list.add(record);
+
+		record = new Record("unitPrice");
+		record.add("", "Unit Price");
+		record.add("", transactionItem.getUnitPrice());
+		list.add(record);
+
+		record = new Record("discount");
+		record.add("", "Discount %");
+		record.add("", transactionItem.getDiscount());
+		list.add(record);
+
+		Company company = getCompany();
+		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+			record = new Record(transactionItem.getTaxCode().getName());
+			record.add("", "VatCode");
+			record.add("", transactionItem.getTaxCode().getName());
+			list.add(record);
+		} else {
+			record = new Record("Tax");
+			record.add("", "Tax");
+			if (transactionItem.isTaxable()) {
+				record.add("", "Taxable");
+			} else {
+				record.add("", "Non-Taxable");
+			}
+			list.add(record);
+		}
+
+		Result result = context.makeResult();
+		result.add("Account details");
+		result.add("Account Name :" + transactionItem.getItem().getName());
+		result.add(list);
+		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+			result.add("Account Vat :" + transactionItem.getVATfraction());
+		}
+		result.add("Account Total :" + transactionItem.getLineTotal());
 
 		ResultList actions = new ResultList(ACTIONS);
 		record = new Record(ActionNames.DELETE_ITEM);
