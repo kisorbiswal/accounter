@@ -186,7 +186,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 				input = context.getAddress();
 			}
 			shipTo = input;
-			req.setDefaultValue(shipTo);
+			req.setValue(shipTo);
 		}
 
 		if (selection == shipTo) {
@@ -298,7 +298,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		}
 		if (payamentObj != null) {
 			paymentTerm = (PaymentTerms) payamentObj;
-			paymentReq.setDefaultValue(paymentTerm);
+			paymentReq.setValue(paymentTerm);
 		}
 
 		Record paymentTermRecord = new Record(paymentTerm);
@@ -320,7 +320,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 				input = context.getAddress();
 			}
 			billTo = input;
-			req.setDefaultValue(billTo);
+			req.setValue(billTo);
 		}
 
 		if (selection == billTo) {
@@ -346,7 +346,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		}
 		if (contactObj != null) {
 			contact = (Contact) contactObj;
-			contactReq.setDefaultValue(contact);
+			contactReq.setValue(contact);
 		}
 
 		Record contactRecord = new Record(contact);
