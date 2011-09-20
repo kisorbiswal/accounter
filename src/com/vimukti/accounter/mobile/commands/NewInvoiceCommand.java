@@ -354,7 +354,8 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = memoRequirement(context, list, selection);
+		result = stringOptionalRequirement(context, list, selection, MEMO,
+				"Enter Memo");
 		if (result != null) {
 			return result;
 		}
