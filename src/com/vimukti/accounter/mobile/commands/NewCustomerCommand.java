@@ -325,7 +325,8 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = balanceRequirement(context, list, selection);
+		result = amountOptionalRequirement(context, list, selection, BALANCE,
+				"Enter Balance");
 		if (result != null) {
 			return result;
 		}
@@ -906,42 +907,6 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		Record balanceRecord = new Record(phone);
 		balanceRecord.add("Name", PHONE);
 		balanceRecord.add("Value", phone);
-		list.add(balanceRecord);
-		Result result = new Result();
-		result.add(list);
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result balanceRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get(BALANCE);
-		Double balance = (Double) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(BALANCE)) {
-			Double order = context.getSelection(BALANCE);
-			if (order == null) {
-				order = context.getDouble();
-			}
-			balance = order;
-			req.setValue(balance);
-		}
-
-		if (selection == balance) {
-			context.setAttribute(INPUT_ATTR, BALANCE);
-			return amount(context, "Enter Balance", balance);
-		}
-
-		Record balanceRecord = new Record(balance);
-		balanceRecord.add("Name", BALANCE);
-		balanceRecord.add("Value", balance);
 		list.add(balanceRecord);
 		Result result = new Result();
 		result.add(list);
