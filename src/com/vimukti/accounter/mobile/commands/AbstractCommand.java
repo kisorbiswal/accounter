@@ -85,7 +85,7 @@ public abstract class AbstractCommand extends Command {
 	}
 
 	protected Result dateOptionalRequirement(Context context, ResultList list,
-			String name, Object selection) {
+			String name, String displayString, Object selection) {
 		Requirement req = get(name);
 		Date dueDate = (Date) req.getValue();
 
@@ -104,7 +104,7 @@ public abstract class AbstractCommand extends Command {
 		}
 
 		Record dueDateRecord = new Record(dueDate);
-		dueDateRecord.add("Name", name);
+		dueDateRecord.add("Name", displayString);
 		dueDateRecord.add("Value", dueDate.toString());
 		list.add(dueDateRecord);
 		return null;
