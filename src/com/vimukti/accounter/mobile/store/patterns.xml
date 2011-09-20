@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <patterns>
 	<include>reportpattern.xml</include>
 
@@ -38,14 +39,15 @@
 		</output>
 
 	</pattern>
-	<include pattern="" />
-	<input text="Customer">
-		<output>
-			<text text="Customer " />
-			<command code="1" text="Create New Customer" />
-			<command code="2" text="Customers List" />
-		</output>
-	</input>
+	<pattern>
+		<input text="Customer">
+			<output>
+				<text text="Customer " />
+				<command code="1" text="Create New Customer" />
+				<command code="2" text="Customers List" />
+			</output>
+		</input>
+	</pattern>
 
 	<pattern>
 		<input>Account</input>
@@ -94,11 +96,13 @@
 			<command value="Purchase Order List">Purchase Order List</command>
 		</output>
 	</pattern>
-	<pattern>
+		<pattern>
 		<input>UserActiviityLog</input>
 		<output>
 			<command>Show ActiviityLog</command>
 		</output>
 	</pattern>
+	
 
 </patterns>
+

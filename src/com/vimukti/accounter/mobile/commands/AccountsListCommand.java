@@ -89,7 +89,8 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 		Result result = context.makeResult();
 		ResultList accountsList = new ResultList("accountsList");
 		int num = 0;
-		List<Account> accounts = getAccounts(context.getSession(), isActive);
+		List<Account> accounts = getAccounts(context.getHibernateSession(),
+				isActive);
 		for (Account account : accounts) {
 			accountsList.add(createAccountRecord(account));
 			num++;
@@ -102,7 +103,7 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 
 	}
 
-	private Record createAccountRecord(Account account) {
+	protected Record createAccountRecord(Account account) {
 		Record record = new Record(account);
 		record.add("Number", account.getNumber());
 		record.add("Name", account.getName());

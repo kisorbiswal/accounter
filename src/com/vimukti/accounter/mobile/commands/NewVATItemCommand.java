@@ -248,7 +248,7 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		}
 
 		List<VATReturnBox> vatReturnBoxes = getVATReturnBoxes(context
-				.getSession());
+				.getHibernateSession());
 		for (int i = 0; i < VALUES_TO_SHOW || i < vatReturnBoxes.size(); i++) {
 			VATReturnBox vatReturnBox = vatReturnBoxes.get(i);
 			if (vatReturnBox != last) {

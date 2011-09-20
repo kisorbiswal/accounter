@@ -91,7 +91,7 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		account.setAsOf(new FinanceDate(asOf));
 		account.setConsiderAsCashAccount(isCashAcount);
 
-		Session session = context.getSession();
+		Session session = context.getHibernateSession();
 		Transaction transaction = session.beginTransaction();
 		session.saveOrUpdate(account);
 		transaction.commit();

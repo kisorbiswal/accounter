@@ -118,7 +118,7 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 		}
 
 		List<TAXItem> vatItemGroups = getPurchaseVatItemGroups(context
-				.getSession());
+				.getHibernateSession());
 		for (int i = 0; i < VALUES_TO_SHOW || i < vatItemGroups.size(); i++) {
 			TAXItem vatItem = vatItemGroups.get(i);
 			if (vatItem != last) {
@@ -278,7 +278,7 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 		}
 
 		List<TAXItem> vatItemGroups = getSalesVatItemGroups(context
-				.getSession());
+				.getHibernateSession());
 		for (int i = 0; i < VALUES_TO_SHOW || i < vatItemGroups.size(); i++) {
 			TAXItem vatItemGroup = vatItemGroups.get(i);
 			if (vatItemGroup != last) {

@@ -49,7 +49,7 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 			recordsList.add(createReportRecord((T) last));
 			num++;
 		}
-		List<T> records = (List<T>) getRecords(context.getSession());
+		List<T> records = (List<T>) getRecords(context.getHibernateSession());
 		for (T record : records) {
 			if (record != last) {
 				recordsList.add(createReportRecord(record));
@@ -174,7 +174,8 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 			vatAgencysList.add(createVatAgencyRecord((TAXAgency) last));
 			num++;
 		}
-		List<TAXAgency> vatAgencys = getVatAgencies(context.getSession());
+		List<TAXAgency> vatAgencys = getVatAgencies(context
+				.getHibernateSession());
 		for (TAXAgency vatAgency : vatAgencys) {
 			if (vatAgency != last) {
 				vatAgencysList.add(createVatAgencyRecord(vatAgency));
@@ -201,10 +202,10 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 		record.add("Name", vatAgency.getName());
 		record.add("Payment Term", vatAgency.getPaymentTerm());
 		record.add("VAT Return", vatAgency.getVATReturn());
-		record.add("Sales Liability Account", vatAgency
-				.getSalesLiabilityAccount());
-		record.add("Purchase Liability Account", vatAgency
-				.getPurchaseLiabilityAccount());
+		record.add("Sales Liability Account",
+				vatAgency.getSalesLiabilityAccount());
+		record.add("Purchase Liability Account",
+				vatAgency.getPurchaseLiabilityAccount());
 		return record;
 	}
 
@@ -313,7 +314,7 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 			customersList.add(createCustomerRecord((Customer) last));
 			num++;
 		}
-		List<Customer> customers = getCustomers(context.getSession());
+		List<Customer> customers = getCustomers(context.getHibernateSession());
 		for (Customer customer : customers) {
 			if (customer != last) {
 				customersList.add(createCustomerRecord(customer));

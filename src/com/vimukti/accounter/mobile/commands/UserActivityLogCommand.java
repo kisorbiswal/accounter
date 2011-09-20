@@ -131,8 +131,8 @@ public class UserActivityLogCommand extends AbstractTransactionCommand {
 		Result result = context.makeResult();
 		ResultList activitiesList = new ResultList("activitylog");
 		int num = 0;
-		List<Activity> activities = getActivityList(context.getSession(),
-				fromDate, endDate);
+		List<Activity> activities = getActivityList(
+				context.getHibernateSession(), fromDate, endDate);
 		for (Activity activity : activities) {
 			activitiesList.add(createActivityRecord(activity));
 			num++;

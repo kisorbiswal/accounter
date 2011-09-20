@@ -386,7 +386,7 @@ public abstract class AbstractCommand extends Command {
 			supplierList.add(createVendorRecord((Vendor) last));
 			num++;
 		}
-		List<Vendor> vendors = getVendors(context.getSession());
+		List<Vendor> vendors = getVendors(context.getHibernateSession());
 		for (Vendor vendor : vendors) {
 			if (vendor != last) {
 				supplierList.add(createVendorRecord(vendor));

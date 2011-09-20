@@ -1,5 +1,5 @@
-<reportpattern>
-	<include pattern="" />
+<?xml version="1.0" encoding="utf-8"?>
+<patterns>
 	<pattern>
 		<input>Report</input>
 		<input>Reports</input>
@@ -115,4 +115,4 @@
 			<command value="Credit Card">Credit Card Expenses</command>
 		</output>
 	</pattern>
-</reportpattern>
+</patterns>

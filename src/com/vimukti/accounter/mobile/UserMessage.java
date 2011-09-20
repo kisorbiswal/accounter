@@ -14,10 +14,10 @@ import java.util.List;
 public class UserMessage {
 
 	public enum Type {
-		COMMAND, HELP, NUMBER, NAME;
+		COMMAND, HELP, NUMBER, NAME, UNKNOWN;
 	}
 
-	private Type type;
+	private Type type = Type.UNKNOWN;
 	private Result result;
 	private Command command;
 	private List<String> inputs = new ArrayList<String>();
@@ -27,6 +27,13 @@ public class UserMessage {
 	 */
 	public Type getType() {
 		return type;
+	}
+
+	/**
+	 * @param command2
+	 */
+	public void setType(Type type) {
+		this.type = type;
 	}
 
 	/**

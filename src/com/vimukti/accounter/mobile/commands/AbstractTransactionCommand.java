@@ -209,7 +209,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	protected Result items(Context context) {
 		Result result = context.makeResult();
-		List<Item> items = getItems(context.getSession());
+		List<Item> items = getItems(context.getHibernateSession());
 		ResultList list = new ResultList("items");
 		Object last = context.getLast(RequirementType.ITEM);
 		int num = 0;
@@ -279,7 +279,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			customersList.add(createCustomerRecord((Customer) last));
 			num++;
 		}
-		List<Customer> customers = getCustomers(context.getSession());
+		List<Customer> customers = getCustomers(context.getHibernateSession());
 		for (Customer customer : customers) {
 			if (customer != last) {
 				customersList.add(createCustomerRecord(customer));
@@ -572,7 +572,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			num++;
 		}
 
-		List<Account> transferAccountList = getAccounts(context.getSession());
+		List<Account> transferAccountList = getAccounts(context
+				.getHibernateSession());
 		for (Account account : transferAccountList) {
 			if (account != last) {
 				list.add(createAccountRecord(account));

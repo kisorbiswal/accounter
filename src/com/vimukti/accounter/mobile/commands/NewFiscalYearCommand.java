@@ -76,7 +76,7 @@ public class NewFiscalYearCommand extends AbstractTransactionCommand {
 		fiscalYear.setEndDate(new FinanceDate(endDate));
 		fiscalYear.setStatus(status);
 
-		Session session = context.getSession();
+		Session session = context.getHibernateSession();
 		Transaction transaction = session.beginTransaction();
 		session.saveOrUpdate(fiscalYear);
 		transaction.commit();

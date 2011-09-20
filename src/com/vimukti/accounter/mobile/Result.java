@@ -6,6 +6,19 @@ import java.util.List;
 public class Result {
 	List<Object> resultParts = new ArrayList<Object>();
 
+	/**
+	 * Creates new Instance
+	 */
+	public Result() {
+	}
+
+	/**
+	 * Creates new Instance
+	 */
+	public Result(String message) {
+		resultParts.add(message);
+	}
+
 	public void add(String message) {
 		this.resultParts.add(message);
 	}
@@ -19,9 +32,10 @@ public class Result {
 	}
 
 	/**
-	 * 
+	 * Returns the ResiltParts
 	 */
-	public List<ResultList> getResultList() {
-		return null;
+	public List<Object> getResultParts() {
+		return resultParts;
 	}
+
 }

@@ -79,4 +79,19 @@ public abstract class Command {
 		return this.name;
 	}
 
+	/**
+	 * @return
+	 */
+	public Object getResultObject() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * @param commandString
+	 */
+	public void setName(String commandString) {
+		this.name = commandString;
+	}
+
 }

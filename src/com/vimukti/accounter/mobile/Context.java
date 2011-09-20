@@ -2,86 +2,172 @@ package com.vimukti.accounter.mobile;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.hibernate.Session;
 
-import com.google.gwt.dev.util.collect.HashMap;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.mobile.utils.StringUtils;
 
 public class Context {
 
-	private Session session;
+	private MobileSession session;
 	private Map<String, Object> attributes = new HashMap<String, Object>();
 	private Map<String, List<Object>> selectedRecords = new HashMap<String, List<Object>>();
 
 	/**
 	 * Creates new Instance
 	 */
-	public Context(Session hibernateSession) {
-		this.session = hibernateSession;
+	public Context(MobileSession mobileSession) {
+		this.session = mobileSession;
 	}
 
 	public Result forward(String command) {
 		return null;
 	}
 
+	/**
+	 * Returns the Date in the Inputs if Any
+	 * 
+	 * @return
+	 */
 	public Date getDate() {
+		List<Date> dates = getDates();
+		if (dates != null && !dates.isEmpty()) {
+			return dates.get(0);
+		}
 		return null;
 
 	}
 
+	/**
+	 * Returns the String in the Inputs if Any
+	 * 
+	 * @return
+	 */
 	public String getString() {
+		List<String> strings = getStrings();
+		if (strings != null && !strings.isEmpty()) {
+			return strings.get(0);
+		}
 		return null;
-
 	}
 
+	/**
+	 * Returns the Strings in the Inputs if Any
+	 * 
+	 * @return
+	 */
 	public List<String> getStrings() {
-		return null;
+		return (List<String>) this.attributes.get("string");
 
 	}
 
+	/**
+	 * Returns the Dates in the Inputs if Any
+	 * 
+	 * @return
+	 */
 	public List<Date> getDates() {
-		return null;
+		return (List<Date>) this.attributes.get("dates");
 
 	}
 
+	/**
+	 * Returns the Integer in the Inputs if Any
+	 * 
+	 * @return
+	 */
 	public Integer getInteger() {
+		List<Integer> integers = getIntegers();
+		if (integers != null && !integers.isEmpty()) {
+			return integers.get(0);
+		}
 		return null;
 
 	}
 
+	/**
+	 * Returns the Integers in the Inputs if Any
+	 * 
+	 * @return
+	 */
 	public List<Integer> getIntegers() {
-		return null;
+		return (List<Integer>) this.attributes.get("integers");
 
 	}
 
+	/**
+	 * Returns the Numbers in the Inputs if Any
+	 * 
+	 * @return
+	 */
 	public List<Number> getNumbers() {
-		return null;
+		return (List<Number>) this.attributes.get("numbers");
 
 	}
 
+	/**
+	 * Returns the Doubles in the Inputs if Any
+	 * 
+	 * @return
+	 */
 	public List<Double> getDoubles() {
-		return null;
+		return (List<Double>) this.attributes.get("doubles");
 
 	}
 
-	public void setInputs(List<String> inputs) {
-		// TODO
-	}
-
+	/**
+	 * Returns the Double in the Inputs if Any
+	 * 
+	 * @return
+	 */
 	public Double getDouble() {
+		List<Double> doubles = getDoubles();
+		if (doubles != null && !doubles.isEmpty()) {
+			return doubles.get(0);
+		}
 		return null;
 	}
 
-	public Session getSession() {
-		return session;
+	public void setInputs(List<String> inputs) throws AccounterMobileException {
+		try {
+			List<Number> numbers = new ArrayList<Number>();
+			List<Integer> integers = new ArrayList<Integer>();
+			List<Double> doubles = new ArrayList<Double>();
+			List<String> strings = new ArrayList<String>();
+			List<Date> dates = new ArrayList<Date>();
+			for (String string : inputs) {
+				if (StringUtils.isInteger(string)) {
+					int parseInt = Integer.parseInt(string);
+					integers.add(parseInt);
+					numbers.add(parseInt);
+				} else if (StringUtils.isDouble(string)) {
+					double parseInt = Double.parseDouble(string);
+					doubles.add(parseInt);
+					numbers.add(parseInt);
+				} else if (StringUtils.isDate(string)) {
+
+				} else {
+					strings.add(string);
+				}
+			}
+			this.attributes.put("numbers", numbers);
+			this.attributes.put("integers", numbers);
+			this.attributes.put("doubles", numbers);
+			this.attributes.put("string", numbers);
+			this.attributes.put("dates", dates);
+		} catch (Exception e) {
+			throw new AccounterMobileException(
+					AccounterMobileException.ERROR_INVALID_INPUTS, e);
+		}
 	}
 
-	public void setSession(Session session) {
-		this.session = session;
+	public Session getHibernateSession() {
+		return session.getHibernateSession();
 	}
 
 	public Result makeResult() {
@@ -95,7 +181,7 @@ public class Context {
 	 * @param value
 	 */
 	public void setAttribute(String name, Object value) {
-		attributes.put(name, value);
+		this.session.setAttribute(name, value);
 	}
 
 	/**
@@ -105,7 +191,7 @@ public class Context {
 	 * @return
 	 */
 	public Object getAttribute(String name) {
-		return attributes.get(name);
+		return this.session.getAttribute(name);
 	}
 
 	/**
@@ -118,9 +204,12 @@ public class Context {
 		return attributes.remove(name);
 	}
 
-	public Object getLast(RequirementType customer) {
-		// TODO Auto-generated method stub
-		return null;
+	public Object getLast(RequirementType type) {
+		return this.session.getLast(type);
+	}
+
+	public void setLast(RequirementType type, Object obj) {
+		this.session.setLast(type, obj);
 	}
 
 	/**
@@ -142,7 +231,11 @@ public class Context {
 	 * @return
 	 */
 	public <T> T getSelection(String name) {
-		return (T) selectedRecords.get(name).get(0);
+		List<Object> list = selectedRecords.get(name);
+		if (list != null && !list.isEmpty()) {
+			return (T) selectedRecords.get(name).get(0);
+		}
+		return null;
 	}
 
 	/**
@@ -159,8 +252,11 @@ public class Context {
 		return null;
 	}
 
+	public MobileSession getIOSession() {
+		return session;
+	}
+
 	public User getUser() {
-		// TODO Auto-generated method stub
-		return null;
+		return session.getUser();
 	}
 }

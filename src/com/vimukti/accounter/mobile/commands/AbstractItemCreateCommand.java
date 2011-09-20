@@ -240,8 +240,8 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		}
 		if (selection == supplierService) {
 			context.setAttribute(INPUT_ATTR, "supplierServiceNo");
-			return text(context, "Enter Supplier Service No.", supplierService
-					.toString());
+			return text(context, "Enter Supplier Service No.",
+					supplierService.toString());
 		}
 
 		Long supplierServiceNo = (Long) get("supplierServiceNo").getValue();
@@ -542,8 +542,8 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			incomeaccountsList.add(createincomeAccountRecord((Account) last));
 			num++;
 		}
-		List<Account> accounts = getAccountsByType(context.getSession(),
-				accountType);
+		List<Account> accounts = getAccountsByType(
+				context.getHibernateSession(), accountType);
 		for (Account account : accounts) {
 			if (account != last) {
 				incomeaccountsList.add(createincomeAccountRecord(account));
@@ -629,7 +629,8 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			itemgroupsList.add(createitemGroupRecord((ItemGroup) last));
 			num++;
 		}
-		List<ItemGroup> itemgroups = getItemGroups(context.getSession());
+		List<ItemGroup> itemgroups = getItemGroups(context
+				.getHibernateSession());
 		for (ItemGroup itemGroup : itemgroups) {
 			if (itemGroup != last) {
 				itemgroupsList.add(createitemGroupRecord(itemGroup));

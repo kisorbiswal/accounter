@@ -25,4 +25,17 @@ public class Record extends ArrayList<Cell> {
 	public Object getObject() {
 		return object;
 	}
+
+	/**
+	 * @param i
+	 */
+	public void setCode(int i) {
+		this.code = String.valueOf(i);
+	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

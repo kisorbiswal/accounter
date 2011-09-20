@@ -1,11 +1,14 @@
 package com.vimukti.accounter.mobile;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.Server;
 import com.vimukti.accounter.mobile.commands.NameSearchCommand;
 import com.vimukti.accounter.mobile.commands.NumberSearchCommand;
+import com.vimukti.accounter.utils.HibernateUtil;
 
 /**
  * Handles the Request from User and Executes corresponding Command
@@ -13,72 +16,99 @@ import com.vimukti.accounter.mobile.commands.NumberSearchCommand;
  */
 public class CommandProcessor {
 
-	public String handleMessage(String message) throws AccounterMobileException {
+	private static final String LAST_RESULT = "lastResult";
+	public static CommandProcessor INSTANCE = new CommandProcessor();
 
-		// TODO Open Hibernate Session
+	public synchronized Result handleMessage(MobileSession session,
+			UserMessage message) throws AccounterMobileException {
 
-		// Parsing Message
-		UserMessage userMessage = parseMessage(message.trim());
+		try {
+			// if (!session.isAuthenticated()) {
+			// Session hibernateSession = HibernateUtil
+			// .openSession(Server.LOCAL_DATABASE);
+			// session.sethibernateSession(hibernateSession);
+			// Command authentication = new AuthenticationCommand();
+			// Result result = authentication.run(new Context(session));
+			// return result;
+			// }
 
-		switch (userMessage.getType()) {
-		case COMMAND:
-			if (userMessage.getCommand().isDone()) {
+			// Parsing Message
+			switch (message.getType()) {
+			case COMMAND:
+				Result reply = processCommand(session, message);
+				message.setResult(reply);
+				break;
+			case HELP:
+				// TODO
+				break;
+			case NUMBER:
+				processNumber(session, message);
+				break;
+			case NAME:
+				processName(session, message);
+				break;
+			default:
 				break;
 			}
-			Result reply = processCommand(userMessage);
-			userMessage.setResult(reply);
-			break;
-		case HELP:
-			// TODO
-			break;
-		case NUMBER:
-			userMessage.setResult(processNumber(userMessage));
-			break;
-		case NAME:
-			userMessage.setResult(processName(userMessage));
-			break;
-		default:
-			// TODO Return Default Result
-			break;
-		}
+			Command command = message.getCommand();
 
-		Session currentSession = getCurrentSession();
-		if (currentSession != null && currentSession.isOpen()) {
-			currentSession.close();
+			if (command != null && session.getCurrentCommand() == null
+					&& !command.isDone()) {
+				session.setCurrentCommand(command);
+			}
+
+			if (message.getResult() == null) {
+				Result result = new Result(
+						"Sorry, We are unable to find the answer for '"
+								+ message.getInputs().get(0) + "'");
+				message.setResult(result);
+			}
+
+			session.setAttribute(LAST_RESULT, message.getResult());
+			return message.getResult();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (e instanceof AccounterMobileException) {
+				throw (AccounterMobileException) e;
+			}
+			throw new AccounterMobileException(e);
+
+		} finally {
+			Session currentSession = session.getHibernateSession();
+			if (currentSession != null && currentSession.isOpen()) {
+				currentSession.close();
+			}
 		}
-		setLastResult(userMessage.getResult());
-		return buildResult(userMessage.getResult());
 	}
 
 	/**
+	 * @param session
 	 * @param userMessage
+	 * @throws AccounterMobileException
 	 */
-	private Result processName(UserMessage userMessage) {
+	private void processName(MobileSession session, UserMessage userMessage)
+			throws AccounterMobileException {
 		NameSearchCommand command = new NameSearchCommand();
-		Context context = new Context(getCurrentSession());
+		Context context = getContext(session);
 		context.setInputs(userMessage.getInputs());
-		return command.run(context);
+		Result result = command.run(context);
+		userMessage.setCommand(command);
+		userMessage.setResult(result);
 	}
 
 	/**
+	 * @param session
 	 * @param userMessage
+	 * @throws AccounterMobileException
 	 */
-	private Result processNumber(UserMessage userMessage) {
+	private void processNumber(MobileSession session, UserMessage userMessage)
+			throws AccounterMobileException {
 		NumberSearchCommand command = new NumberSearchCommand();
-		Context context = new Context(getCurrentSession());
+		Context context = getContext(session);
 		context.setInputs(userMessage.getInputs());
-		return command.run(context);
-	}
-
-	/**
-	 * Builds the Result String from Result
-	 * 
-	 * @param result
-	 * @return
-	 */
-	private String buildResult(Result result) {
-		// TODO Auto-generated method stub
-		return null;
+		Result result = command.run(context);
+		userMessage.setCommand(command);
+		userMessage.setResult(result);
 	}
 
 	/**
@@ -87,25 +117,35 @@ public class CommandProcessor {
 	 * 
 	 * @param message
 	 * @return
+	 * @throws AccounterMobileException
 	 */
-	private Result processCommand(UserMessage message) {
+	private Result processCommand(MobileSession session, UserMessage message)
+			throws AccounterMobileException {
 		Command command = message.getCommand();
-		Context context = new Context(getCurrentSession());
+		Context context = getContext(session);
 
-		Result lastResult = getLastResult();
-		List<ResultList> resultList = lastResult.getResultList();
-		for (ResultList result : resultList) {
-			for (Record record : result) {
-				if (message.getInputs().contains(record.getCode())) {
-					if (!result.isMultiSelection()) {
-						context.putSelection(result.getName(),
-								record.getObject());
-						// FIXME GOT MULTIPLE SELECTION FROM USER EVEN THOUGH
-						// SINGLE SELECTION ENABLED
-						break;
-					} else {
-						context.putSelection(result.getName(),
-								record.getObject());
+		Result lastResult = getLastResult(session);
+		if (lastResult != null) {
+			List<Object> resultParts = lastResult.getResultParts();
+			Iterator<Object> iterator = resultParts.iterator();
+			while (iterator.hasNext()) {
+				Object next = iterator.next();
+				if (!(next instanceof ResultList)) {
+					continue;
+				}
+				ResultList resultList = (ResultList) next;
+				for (Record record : resultList) {
+					if (message.getInputs().contains(record.getCode())) {
+						if (!resultList.isMultiSelection()) {
+							context.putSelection(resultList.getName(),
+									record.getObject());
+							// FIXME GOT MULTIPLE SELECTION FROM USER EVEN
+							// THOUGH SINGLE SELECTION ENABLED
+							break;
+						} else {
+							context.putSelection(resultList.getName(),
+									record.getObject());
+						}
 					}
 				}
 			}
@@ -116,90 +156,18 @@ public class CommandProcessor {
 	}
 
 	/**
-	 * Parse the UserMessage
-	 * 
-	 * @param message
-	 * @return
-	 * @throws AccounterMobileException
-	 */
-	private UserMessage parseMessage(String message)
-			throws AccounterMobileException {
-		UserMessage userMessage = new UserMessage();
-		Command command = null;
-		if (isProcessingAnyCommand()) {
-			command = getCurrentCommand();
-		} else {
-			command = getCommandFactory().searchCommand(message);
-		}
-		if (command != null) {
-			userMessage.setCommand(command);
-			String name = command.getName();
-			userMessage.setInputs(message.replace(name, "").split(" "));
-			return userMessage;
-		}
-
-		Result result = searchForPatterns(message);
-		if (result != null) {
-			userMessage.setResult(result);
-			return userMessage;
-		}
-
-		if (message.startsWith("#")) {
-			userMessage.setInputs(message.replaceAll("#", "").split(" "));
-			return userMessage;
-		}
-
-		// TODO Check is Name
-
-		userMessage.setInputs(message.split(" "));
-
-		return userMessage;
-	}
-
-	/**
-	 * @return
-	 * 
-	 */
-	private Command getCurrentCommand() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * @param message
-	 */
-	private Result searchForPatterns(String message) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
 	 * @return
 	 */
-	private CommandFactory getCommandFactory() {
-		return CommandFactory.INSTANCE;
+	private Result getLastResult(MobileSession session) {
+		return (Result) session.getAttribute(LAST_RESULT);
 	}
 
-	public Session getCurrentSession() {
-		return null;
-	}
-
-	/**
-	 * Returns true if Processing Any Command
-	 * 
-	 * @return
-	 */
-	public boolean isProcessingAnyCommand() {
-		return false;
-	}
-
-	public Result getLastResult() {
-		// TODO
-		return null;
-	}
-
-	private void setLastResult(Result result) {
-		// TODO
+	private Context getContext(MobileSession mSession) {
+		long companyId = mSession.getCompanyId();
+		Session session = HibernateUtil.openSession(Server.COMPANY + companyId);
+		mSession.sethibernateSession(session);
+		Context context = new Context(mSession);
+		return context;
 	}
 
 }

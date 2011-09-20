@@ -52,7 +52,8 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 			taxAgenciesList.add(createTaxAgencyRecord((TAXAgency) last));
 		}
 
-		List<TAXAgency> taxAgencies = getTaxAgencies(context.getSession());
+		List<TAXAgency> taxAgencies = getTaxAgencies(context
+				.getHibernateSession());
 		for (int i = 0; i < VALUES_TO_SHOW || i < taxAgencies.size(); i++) {
 			TAXAgency taxAgency = taxAgencies.get(i);
 			if (taxAgency != last) {
@@ -110,7 +111,7 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 			taxItemsList.add(createTaxItemRecord((TAXItem) last));
 		}
 
-		List<TAXItem> taxItems = getTaxItems(context.getSession());
+		List<TAXItem> taxItems = getTaxItems(context.getHibernateSession());
 		for (int i = 0; i < VALUES_TO_SHOW || i < taxItems.size(); i++) {
 			TAXItem vatItem = taxItems.get(i);
 			if (vatItem != last) {
@@ -175,7 +176,7 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 			accountsList.add(createAccountRecord((Account) last));
 		}
 
-		List<Account> accounts = getAccounts(context.getSession());
+		List<Account> accounts = getAccounts(context.getHibernateSession());
 		for (int i = 0; i < VALUES_TO_SHOW || i < accounts.size(); i++) {
 			Account salesAccount = accounts.get(i);
 			if (salesAccount != last) {

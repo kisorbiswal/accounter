@@ -25,13 +25,13 @@ public class Requirement {
 		this.value = value;
 	}
 
-//	public Object getDefaultValue() {
-//		return defaultValue;
-//	}
-//
-//	public void setDefaultValue(Object defaultValue) {
-//		this.defaultValue = defaultValue;
-//	}
+	public Object getDefaultValue() {
+		return defaultValue;
+	}
+
+	public void setDefaultValue(Object defaultValue) {
+		this.defaultValue = defaultValue;
+	}
 
 	public String getName() {
 		return name;

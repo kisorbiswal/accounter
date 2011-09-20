@@ -148,7 +148,7 @@ public class NewBrandingThemeCommand extends AbstractTransactionCommand {
 		brandingTheme.setCreditNoteTempleteName((String) get(CREDIT_TEMPLATE)
 				.getValue());
 
-		Session session = context.getSession();
+		Session session = context.getHibernateSession();
 		Transaction transaction = session.beginTransaction();
 		session.saveOrUpdate(brandingTheme);
 		transaction.commit();
