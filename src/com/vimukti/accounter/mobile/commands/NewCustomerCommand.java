@@ -70,7 +70,6 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				list.add(new Requirement(TITLE, true, true));
 				list.add(new Requirement(BUSINESS_PHONE, true, true));
 				list.add(new Requirement(EMAIL, true, true));
-
 			}
 		});
 		list.add(new Requirement(IS_ACTIVE, true, true));
@@ -132,7 +131,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @return {@link Result}
 	 */
 	private Result customerNumberRequirement(Context context) {
-		Requirement customerNumReq = get("customerNumber");
+		Requirement customerNumReq = get(NUMBER);
 		if (!customerNumReq.isDone()) {
 			String customerNum = context.getString();
 			if (customerNum != null) {
@@ -142,7 +141,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 						null);
 			}
 		}
-		String input = (String) context.getAttribute("input");
+		String input = (String) context.getAttribute(INPUT_ATTR);
 		if (input.equals(NUMBER)) {
 			input = context.getString();
 			customerNumReq.setValue(input);
@@ -185,15 +184,15 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		ResultList list = new ResultList("values");
 		selection = context.getSelection("values");
 
-		String customerName = (String) get("customerName").getValue();
+		String customerName = (String) get(CUSTOMER_NAME).getValue();
 		Record nameRecord = new Record(customerName);
 		nameRecord.add("Name", "customerName");
 		nameRecord.add("Value", customerName);
 		list.add(nameRecord);
 
-		Requirement contactReq = get("customerContact");
+		Requirement contactReq = get(CUSTOMER_CONTACT);
 		List<Contact> contacts = contactReq.getValue();
-		selection = context.getSelection("customerContact");
+		selection = context.getSelection(CUSTOMER_CONTACT);
 		if (selection != null) {
 			Result contact = contact(context, "customer contact",
 					(Contact) selection);
@@ -311,14 +310,14 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		result.add("Customer is ready to create with following values.");
 		result.add(list);
 		result.add("Items:-");
-		ResultList items = new ResultList("customerContact");
+		ResultList items = new ResultList(CUSTOMER_CONTACT);
 		for (Contact item : contacts) {
 			Record itemRec = new Record(item);
-			itemRec.add("primary", item.getVersion());
-			itemRec.add("contactName", item.getName());
-			itemRec.add("title", item.getTitle());
-			itemRec.add("businessPhone", item.getBusinessPhone());
-			itemRec.add("email", item.getEmail());
+			itemRec.add(PRIMARY, item.getVersion());
+			itemRec.add(CONTACT_NAME, item.getName());
+			itemRec.add(TITLE, item.getTitle());
+			itemRec.add(BUSINESS_PHONE, item.getBusinessPhone());
+			itemRec.add(EMAIL, item.getEmail());
 		}
 
 		result.add(items);
@@ -343,11 +342,11 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	private Result vatRegisterationNumRequirement(Context context,
 			ResultList list, Object selection) {
 
-		Requirement req = get("vatRegisterationNum");
+		Requirement req = get(VATREGISTER_NUM);
 		String vatRegisterationNum = (String) req.getValue();
 
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("vatRegisterationNum")) {
+		if (attribute.equals(VATREGISTER_NUM)) {
 			String order = context.getSelection(VATREGISTER_NUM);
 			if (order == null) {
 				order = context.getString();
@@ -357,7 +356,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		}
 
 		if (selection == vatRegisterationNum) {
-			context.setAttribute(INPUT_ATTR, "vatRegisterationNum");
+			context.setAttribute(INPUT_ATTR, VATREGISTER_NUM);
 			return text(context, "Enter vatRegisteration Number ",
 					vatRegisterationNum);
 		}
@@ -382,11 +381,11 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	private Result bankBranchRequirement(Context context, ResultList list,
 			Object selection) {
 
-		Requirement req = get("bankBranch");
+		Requirement req = get(BANK_BRANCH);
 		String bankBranch = (String) req.getValue();
 
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("bankBranch")) {
+		if (attribute.equals(bankBranch)) {
 			String order = context.getSelection(BANK_BRANCH);
 			if (order == null) {
 				order = context.getString();
@@ -396,7 +395,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		}
 
 		if (selection == bankBranch) {
-			context.setAttribute(INPUT_ATTR, "bankBranch");
+			context.setAttribute(INPUT_ATTR, BANK_BRANCH);
 			return text(context, "Enter bankBranch Name ", bankBranch);
 		}
 
@@ -420,11 +419,11 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	private Result bankAccountNumRequirement(Context context, ResultList list,
 			Object selection) {
 
-		Requirement req = get("bankAccount");
+		Requirement req = get(BANK_ACCOUNT_NUM);
 		String bankAccountNumber = (String) req.getValue();
 
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("bankAccount")) {
+		if (attribute.equals(BANK_ACCOUNT_NUM)) {
 			String order = context.getSelection(BANK_ACCOUNT_NUM);
 			if (order == null) {
 				order = context.getString();
@@ -434,12 +433,12 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		}
 
 		if (selection == bankAccountNumber) {
-			context.setAttribute(INPUT_ATTR, "bankAccount");
+			context.setAttribute(INPUT_ATTR, BANK_ACCOUNT_NUM);
 			return text(context, "Enter bankAccount Number ", bankAccountNumber);
 		}
 
 		Record bankAccountNumRecord = new Record(bankAccountNumber);
-		bankAccountNumRecord.add("Name", "bankAccount");
+		bankAccountNumRecord.add("Name", BANK_ACCOUNT_NUM);
 		bankAccountNumRecord.add("Value", bankAccountNumber);
 		list.add(bankAccountNumRecord);
 		Result result = new Result();
@@ -458,11 +457,11 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	private Result bankNameRequirement(Context context, ResultList list,
 			Object selection) {
 
-		Requirement req = get("webPageAdress");
+		Requirement req = get(BANK_NAME);
 		String bankName = (String) req.getValue();
 
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("webPageAdress")) {
+		if (attribute.equals(BANK_NAME)) {
 			String order = context.getSelection(BANK_NAME);
 			if (order == null) {
 				order = context.getString();
@@ -472,12 +471,12 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		}
 
 		if (selection == bankName) {
-			context.setAttribute(INPUT_ATTR, "webPageAdress");
+			context.setAttribute(INPUT_ATTR, BANK_NAME);
 			return text(context, "Enter webPageAdress ", bankName);
 		}
 
 		Record bankNameRecord = new Record(bankName);
-		bankNameRecord.add("Name", "webPageAdress");
+		bankNameRecord.add("Name", BANK_NAME);
 		bankNameRecord.add("Value", bankName);
 		list.add(bankNameRecord);
 		Result result = new Result();
@@ -496,11 +495,11 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	private Result webAdressRequirement(Context context, ResultList list,
 			Object selection) {
 
-		Requirement req = get("webPageAdress");
+		Requirement req = get(WEBADRESS);
 		String phone = (String) req.getValue();
 
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("webPageAdress")) {
+		if (attribute.equals(WEBADRESS)) {
 			String order = context.getSelection(WEBADRESS);
 			if (order == null) {
 				order = context.getString();
@@ -510,7 +509,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		}
 
 		if (selection == phone) {
-			context.setAttribute(INPUT_ATTR, "webPageAdress");
+			context.setAttribute(INPUT_ATTR, WEBADRESS);
 			return text(context, "Enter webPageAdress ", phone);
 		}
 
@@ -533,11 +532,11 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 */
 	private Result emailRequirement(Context context, ResultList list,
 			Object selection) {
-		Requirement req = get("email");
+		Requirement req = get(EMAIL);
 		String phone = (String) req.getValue();
 
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("email")) {
+		if (attribute.equals(EMAIL)) {
 			String order = context.getSelection(EMAIL);
 			if (order == null) {
 				order = context.getString();
@@ -547,7 +546,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		}
 
 		if (selection == phone) {
-			context.setAttribute(INPUT_ATTR, "email");
+			context.setAttribute(INPUT_ATTR, EMAIL);
 			return text(context, "Enter email ", phone);
 		}
 
@@ -569,11 +568,11 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 */
 	private Result faxNumRequirement(Context context, ResultList list,
 			Object selection) {
-		Requirement req = get("fax");
+		Requirement req = get(FAX);
 		String phone = (String) req.getValue();
 
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("fax")) {
+		if (attribute.equals(FAX)) {
 			String order = context.getSelection(FAX);
 			if (order == null) {
 				order = context.getString();
@@ -583,7 +582,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		}
 
 		if (selection == phone) {
-			context.setAttribute(INPUT_ATTR, "fax");
+			context.setAttribute(INPUT_ATTR, FAX);
 			return text(context, "Enter Fax Number", phone);
 		}
 
@@ -605,11 +604,11 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 */
 	private Result phoneNumRequirement(Context context, ResultList list,
 			Object selection) {
-		Requirement req = get("phone");
+		Requirement req = get(PHONE);
 		String phone = (String) req.getValue();
 
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("phone")) {
+		if (attribute.equals(PHONE)) {
 			String order = context.getSelection(PHONE);
 			if (order == null) {
 				order = context.getString();
@@ -619,12 +618,12 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		}
 
 		if (selection == phone) {
-			context.setAttribute(INPUT_ATTR, "phone");
+			context.setAttribute(INPUT_ATTR, PHONE);
 			return text(context, "Enter Phone Number", phone);
 		}
 
 		Record balanceRecord = new Record(phone);
-		balanceRecord.add("Name", "phone");
+		balanceRecord.add("Name", PHONE);
 		balanceRecord.add("Value", phone);
 		list.add(balanceRecord);
 		Result result = new Result();
@@ -641,11 +640,11 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 */
 	private Result balanceRequirement(Context context, ResultList list,
 			Object selection) {
-		Requirement req = get("balance");
+		Requirement req = get(BALANCE);
 		Double balance = (Double) req.getValue();
 
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("balance")) {
+		if (attribute.equals(BALANCE)) {
 			Double order = context.getSelection(BALANCE);
 			if (order == null) {
 				order = context.getDouble();
@@ -655,12 +654,12 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		}
 
 		if (selection == balance) {
-			context.setAttribute(INPUT_ATTR, "balance");
+			context.setAttribute(INPUT_ATTR, BALANCE);
 			return amount(context, "Enter Balance", balance);
 		}
 
 		Record balanceRecord = new Record(balance);
-		balanceRecord.add("Name", "Balance");
+		balanceRecord.add("Name", BALANCE);
 		balanceRecord.add("Value", balance);
 		list.add(balanceRecord);
 		Result result = new Result();
@@ -678,8 +677,8 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	private Result customerVatCodeRequirement(Context context, ResultList list,
 			Object selection) {
 
-		Object customerVatCodeObj = context.getSelection("customerVatCode");
-		Requirement customerVatCodeReq = get("customerVatCode");
+		Object customerVatCodeObj = context.getSelection(CUSTOMER_VATCODE);
+		Requirement customerVatCodeReq = get(CUSTOMER_VATCODE);
 		TAXCode vatCode = (TAXCode) customerVatCodeReq.getValue();
 
 		if (selection == vatCode) {
@@ -692,7 +691,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		}
 
 		Record customerVatCodeRecord = new Record(vatCode);
-		customerVatCodeRecord.add("Name", "Customer VatCode");
+		customerVatCodeRecord.add("Name", CUSTOMER_VATCODE);
 		customerVatCodeRecord.add("Value", vatCode.getName());
 		list.add(customerVatCodeRecord);
 
@@ -712,8 +711,8 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	private Result customerGroupRequirement(Context context, ResultList list,
 			Object selection) {
 
-		Object customerGroupObj = context.getSelection("cusomerGroup");
-		Requirement customerGroupReq = get("cusomerGroup");
+		Object customerGroupObj = context.getSelection(CUSTOMER_GROUP);
+		Requirement customerGroupReq = get(CUSTOMER_GROUP);
 		CustomerGroup customerGroup = (CustomerGroup) customerGroupReq
 				.getValue();
 
@@ -727,7 +726,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		}
 
 		Record customerGroupRecord = new Record(customerGroup);
-		customerGroupRecord.add("Name", "Cusomer Group");
+		customerGroupRecord.add("Name", CUSTOMER_GROUP);
 		customerGroupRecord.add("Value", customerGroup.getName());
 		list.add(customerGroupRecord);
 
@@ -748,7 +747,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		Result result = context.makeResult();
 		result.add("Select CustomerGroup");
 
-		ResultList list = new ResultList("customerGroup");
+		ResultList list = new ResultList(CUSTOMER_GROUP);
 		int num = 0;
 		if (oldCustomerGroup != null) {
 			list.add(createTAXCodeRecord(oldCustomerGroup));
@@ -782,8 +781,8 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	private Result creditRatingRequirement(Context context, ResultList list,
 			Object selection) {
 
-		Object crediRatingObj = context.getSelection("creditRating");
-		Requirement creditRatingReq = get("creditRating");
+		Object crediRatingObj = context.getSelection(CREDIT_RATING);
+		Requirement creditRatingReq = get(CREDIT_RATING);
 		CreditRating creditRating = (CreditRating) creditRatingReq.getValue();
 
 		if (selection == creditRating) {
@@ -796,7 +795,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		}
 
 		Record priceLevelRecord = new Record(creditRating);
-		priceLevelRecord.add("Name", "Credit Rating");
+		priceLevelRecord.add("Name", CREDIT_RATING);
 		priceLevelRecord.add("Value", creditRating.getName());
 		list.add(priceLevelRecord);
 
@@ -817,7 +816,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		Result result = context.makeResult();
 		result.add("Select CreditRating");
 
-		ResultList list = new ResultList("creditRating");
+		ResultList list = new ResultList(CREDIT_RATING);
 		int num = 0;
 		if (oldCreditRating != null) {
 			list.add(createCreditRatingRecord(oldCreditRating));
@@ -861,8 +860,8 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	private Result priceLevelRequirement(Context context, ResultList list,
 			Object selection) {
 
-		Object priceLevelObj = context.getSelection("priceLevel");
-		Requirement priceLevelReq = get("priceLevel");
+		Object priceLevelObj = context.getSelection(PRICE_LEVEL);
+		Requirement priceLevelReq = get(PRICE_LEVEL);
 		PriceLevel priceLevel = (PriceLevel) priceLevelReq.getValue();
 
 		if (selection == priceLevel) {
@@ -875,7 +874,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		}
 
 		Record priceLevelRecord = new Record(priceLevel);
-		priceLevelRecord.add("Name", "Price Level");
+		priceLevelRecord.add("Name", PRICE_LEVEL);
 		priceLevelRecord.add("Value", priceLevel.getName());
 		list.add(priceLevelRecord);
 
@@ -896,7 +895,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		Result result = context.makeResult();
 		result.add("Select PriceLevel");
 
-		ResultList list = new ResultList("priceLevel");
+		ResultList list = new ResultList(PRICE_LEVEL);
 		int num = 0;
 		if (oldPriceLevel != null) {
 			list.add(createCreditRatingRecord(oldPriceLevel));
@@ -940,8 +939,8 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	private Result salesPersonRequirement(Context context, ResultList list,
 			Object selection) {
 
-		Object salesPersonObj = context.getSelection("salesPerson");
-		Requirement salesPersonReq = get("salesPerson");
+		Object salesPersonObj = context.getSelection(SALESPERSON);
+		Requirement salesPersonReq = get(SALESPERSON);
 		SalesPerson salesPerson = (SalesPerson) salesPersonReq.getValue();
 
 		if (selection == salesPerson) {
@@ -953,7 +952,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		}
 
 		Record salesPersonRecord = new Record(salesPerson);
-		salesPersonRecord.add("Name", "sales Person");
+		salesPersonRecord.add("Name", SALESPERSON);
 		salesPersonRecord.add("Value", salesPerson.getName());
 		list.add(salesPersonRecord);
 
@@ -972,11 +971,11 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 */
 	private Result balanceAsOfDateRequirement(Context context, ResultList list,
 			Object selection) {
-		Requirement dateReq = get("date");
+		Requirement dateReq = get(BALANCE_ASOF_DATE);
 		Date balanceAsofdate = (Date) dateReq.getDefaultValue();
-		String attribute = (String) context.getAttribute("input");
-		if (attribute.equals("balanceAsOfDate")) {
-			Date date = context.getSelection("date");
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals(BALANCE_ASOF_DATE)) {
+			Date date = context.getSelection(BALANCE_ASOF_DATE);
 			if (date == null) {
 				date = context.getDate();
 			}
@@ -984,12 +983,12 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			dateReq.setDefaultValue(balanceAsofdate);
 		}
 		if (selection == balanceAsofdate) {
-			context.setAttribute("input", "balanceAsOfDate");
+			context.setAttribute(INPUT_ATTR, BALANCE_ASOF_DATE);
 			return date(context, "Enter BalanceAsOf  Date", balanceAsofdate);
 		}
 
 		Record transDateRecord = new Record(balanceAsofdate);
-		transDateRecord.add("Name", "Balance AsOf Date");
+		transDateRecord.add("Name", BALANCE_ASOF_DATE);
 		transDateRecord.add("Value", balanceAsofdate.toString());
 		list.add(transDateRecord);
 		Result result = new Result();
@@ -1007,11 +1006,11 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 */
 	private Result customerSinceDateRequirement(Context context,
 			ResultList list, Object selection) {
-		Requirement dateReq = get("date");
+		Requirement dateReq = get(CUSTOMER_SINCEDATE);
 		Date customerSincedate = (Date) dateReq.getDefaultValue();
-		String attribute = (String) context.getAttribute("input");
-		if (attribute.equals("customerSinceDate")) {
-			Date date = context.getSelection("date");
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals(CUSTOMER_GROUP)) {
+			Date date = context.getSelection(CUSTOMER_SINCEDATE);
 			if (date == null) {
 				date = context.getDate();
 			}
@@ -1019,12 +1018,12 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			dateReq.setDefaultValue(customerSincedate);
 		}
 		if (selection == customerSincedate) {
-			context.setAttribute("input", "customerSinceDate");
+			context.setAttribute("input", CUSTOMER_SINCEDATE);
 			return date(context, "Enter Customer Since Date", customerSincedate);
 		}
 
 		Record transDateRecord = new Record(customerSincedate);
-		transDateRecord.add("Name", "Customer SinceDate");
+		transDateRecord.add("Name", CUSTOMER_SINCEDATE);
 		transDateRecord.add("Value", customerSincedate.toString());
 		list.add(transDateRecord);
 		Result result = new Result();
@@ -1038,7 +1037,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @return {@link Result}
 	 */
 	private Result customerNameRequirement(Context context) {
-		Requirement requirement = get("customerName");
+		Requirement requirement = get(CUSTOMER_NAME);
 		if (!requirement.isDone()) {
 			String customerName = context.getSelection(TEXT);
 			if (customerName != null) {
@@ -1047,15 +1046,14 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				return text(context, "Please enter the  Customer Name", null);
 			}
 		}
-		String input = (String) context.getAttribute("input");
-		if (input.equals("name")) {
+		String input = (String) context.getAttribute(INPUT_ATTR);
+		if (input.equals(CUSTOMER_NAME)) {
 			requirement.setValue(input);
 		}
 		return null;
 	}
 
 	/**
-	 * SalesPerson
 	 * 
 	 * @param context
 	 * 
@@ -1067,7 +1065,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		Result result = context.makeResult();
 		result.add("Select SalesPerson");
 
-		ResultList list = new ResultList("salesPerson");
+		ResultList list = new ResultList(SALESPERSON);
 		int num = 0;
 		if (oldsalesPerson != null) {
 			list.add(createSalesPersonRecord(oldsalesPerson));
