@@ -95,7 +95,7 @@
 		<alias>PSS</alias>
 		<alias>PSS report</alias>
 	</command>
-	<command clazz="PurchaseOrderReportCommand" name="Purchase Order Report">
+	<command clazz="PurchaseOpenOrderReportCommand" name="Purchase Order Report">
 		<alias>Purchase Order Report</alias>
 		<alias>PO</alias>
 		<alias>PO report</alias>
@@ -120,7 +120,7 @@
 		<alias>SIS</alias>
 		<alias>SIS report</alias>
 	</command>
-	<command clazz="SalesOrderReportCommand" name="Sales Order Report">
+	<command clazz="SalesOpenOrderReportCommand" name="Sales Order Report">
 		<alias>Sales Order Report</alias>
 		<alias>SO</alias>
 		<alias>SO report</alias>

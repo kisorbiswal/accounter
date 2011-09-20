@@ -60,7 +60,7 @@ public class ItemView extends BaseView<ClientItem> {
 			defaultSellPrice, defaultPurchasePrice, salesTaxRate,
 			purcahseTaxRate;
 	private TextAreaItem salesDescArea, purchaseDescArea;
-	CheckboxItem isservice, isellCheck, comCheck, activeCheck, ibuyCheck,
+	CheckboxItem /* isservice, */isellCheck, comCheck, activeCheck, ibuyCheck,
 			itemTaxCheck;
 
 	private ItemGroupCombo itemGroupCombo, commodityCode;
@@ -91,7 +91,6 @@ public class ItemView extends BaseView<ClientItem> {
 	private ArrayList<DynamicForm> listforms;
 	String name;
 	private String itemName;
-
 
 	private SelectCombo measurement, wareHouse;
 
@@ -164,12 +163,11 @@ public class ItemView extends BaseView<ClientItem> {
 		nameText.setWidth(100);
 		nameText.setRequired(true);
 		nameText.setDisabled(isInViewMode());
-		
-		
-		isservice = new CheckboxItem(Accounter.constants().isService());
-		isservice.setValue(true);
-		isservice.setDisabled(true);
-		isservice.setDisabled(isInViewMode());
+
+		// isservice = new CheckboxItem(Accounter.constants().isService());
+		// isservice.setValue(true);
+		// isservice.setDisabled(true);
+		// isservice.setDisabled(isInViewMode());
 
 		floatRangeValidator = new FloatRangeValidator();
 		floatRangeValidator.setMin(0);
@@ -202,10 +200,10 @@ public class ItemView extends BaseView<ClientItem> {
 		if (type == TYPE_SERVICE) {
 			lab1.setText(Accounter.constants().newService());
 			if (getCompany().getAccountingType() == 1)
-				itemForm.setFields(nameText, isservice);
+				itemForm.setFields(nameText/* , isservice */);
 			else
 
-				itemForm.setFields(nameText, isservice, skuText);
+				itemForm.setFields(nameText, /* isservice, */skuText);
 		} else {
 			lab1.setText(Accounter.constants().newProduct());
 			if (getCompany().getAccountingType() == 1)
@@ -221,11 +219,10 @@ public class ItemView extends BaseView<ClientItem> {
 
 		salesDescArea.setDisabled(isInViewMode());
 
-		salesDescArea.setToolTip(Accounter
-				.messages()
-				.writeCommentsForThis(this.getAction().getViewName())
-				.replace(Accounter.constants().comments(),
-						Accounter.constants().salesDescription()));
+		salesDescArea.setToolTip(Accounter.messages().writeCommentsForThis(
+				this.getAction().getViewName()).replace(
+				Accounter.constants().comments(),
+				Accounter.constants().salesDescription()));
 		salesPriceText = new AmountField(Accounter.constants().salesPrice(),
 				this);
 		salesPriceText.setHelpInformation(true);
@@ -308,11 +305,12 @@ public class ItemView extends BaseView<ClientItem> {
 		// vatCode.setDisabled(true);
 		// }
 
-		taxCode.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
-			public void selectedComboBoxItem(ClientTAXCode selectItem) {
-				selectTaxCode = selectItem;
-			}
-		});
+		taxCode
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
+					public void selectedComboBoxItem(ClientTAXCode selectItem) {
+						selectTaxCode = selectItem;
+					}
+				});
 		taxCode.setDefaultValue(Accounter.constants().ztozeroperc());
 		activeCheck = new CheckboxItem(Accounter.constants().active());
 		activeCheck.setValue(true);
@@ -425,7 +423,7 @@ public class ItemView extends BaseView<ClientItem> {
 			salesInfoForm.setFields(isellCheck, salesDescArea, salesPriceText,
 					accountCombo, comCheck, stdCostText);
 		else
-			salesInfoForm.setFields(isservice, isellCheck, salesDescArea,
+			salesInfoForm.setFields(/* isservice, */isellCheck, salesDescArea,
 					salesPriceText, accountCombo, itemTaxCheck, comCheck,
 					stdCostText);
 
@@ -905,16 +903,16 @@ public class ItemView extends BaseView<ClientItem> {
 
 		if (isellCheck.isChecked()) {
 			if (AccounterValidator.isNegativeAmount(salesPriceText.getAmount())) {
-				result.addError(salesPriceText,
-						accounterConstants.enterValidAmount());
+				result.addError(salesPriceText, accounterConstants
+						.enterValidAmount());
 			}
 		}
 
 		if (ibuyCheck.isChecked()) {
 			if (AccounterValidator.isNegativeAmount(purchasePriceTxt
 					.getAmount())) {
-				result.addError(purchasePriceTxt,
-						accounterConstants.enterValidAmount());
+				result.addError(purchasePriceTxt, accounterConstants
+						.enterValidAmount());
 			}
 		}
 
@@ -987,7 +985,7 @@ public class ItemView extends BaseView<ClientItem> {
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
 		nameText.setDisabled(isInViewMode());
-		isservice.setDisabled(isInViewMode());
+		// isservice.setDisabled(isInViewMode());
 		skuText.setDisabled(isInViewMode());
 		weightText.setDisabled(isInViewMode());
 		salesDescArea.setDisabled(isInViewMode());
@@ -1025,13 +1023,14 @@ public class ItemView extends BaseView<ClientItem> {
 	protected String getViewTitle() {
 		return Accounter.constants().item();
 	}
+
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
 	}
 
 	private void settabIndexes() {
 		nameText.setTabIndex(1);
-		isservice.setTabIndex(2);
+		// isservice.setTabIndex(2);
 		weightText.setTabIndex(2);
 		isellCheck.setTabIndex(3);
 		salesDescArea.setTabIndex(4);
@@ -1052,5 +1051,5 @@ public class ItemView extends BaseView<ClientItem> {
 		saveAndNewButton.setTabIndex(19);
 		cancelButton.setTabIndex(20);
 	}
-	
+
 }

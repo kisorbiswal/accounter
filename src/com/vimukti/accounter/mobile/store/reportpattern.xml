@@ -28,6 +28,7 @@
 	</pattern>
 	<pattern>
 		<input>Customers and Receivable</input>
+		<input>customer reports</input>
 		<output>
 			<text>Sales Reports</text>
 			<command>A/R Aging Summary</command>
@@ -49,6 +50,9 @@
 	</pattern>
 	<pattern>
 		<input>Suppliers and Payables Reports</input>
+		<input>Vendors and Payables Reports</input>
+		<input>vendor reports</input>
+		<input>supplier reports</input>
 		<output>
 			<text>Suppliers and Payables Reports</text>
 			<command>A/P Aging Summary</command>
@@ -69,6 +73,7 @@
 	</pattern>
 	<pattern>
 		<input>VAT Reports</input>
+		<input>TAX Reports</input>
 		<output>
 			<text>VAT Reports</text>
 			<command>Prior VAT Return</command>
