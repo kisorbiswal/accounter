@@ -45,6 +45,10 @@ public abstract class AbstractCommand extends Command {
 	protected static final int VENDORS_TO_SHOW = 5;
 	protected static final int ITEMGROUPS_TO_SHOW = 5;
 
+	protected static final String MEMO = "memo";
+
+	protected static final String ORDER_NO = "orderNo";
+
 	protected Result text(Context context, String message, String oldText) {
 		Result result = context.makeResult();
 		result.add(message);
@@ -389,6 +393,87 @@ public abstract class AbstractCommand extends Command {
 		record.add("Balance", last.getBalance());
 		return record;
 	}
+	
+	protected Result memoRequirement(Context context, ResultList list,
+			Object selection) {
+		Requirement req = get(MEMO);
+		String memo = (String) req.getValue();
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals(MEMO)) {
+			String input = context.getSelection(TEXT);
+			if (input == null) {
+				input = context.getString();
+			}
+			memo = input;
+			req.setValue(memo);
+		}
+
+		if (selection == memo) {
+			context.setAttribute(attribute, MEMO);
+			return text(context, "Enter memo", memo);
+		}
+
+		Record memoRecord = new Record(memo);
+		memoRecord.add("Name", "Memo");
+		memoRecord.add("Value", memo);
+		list.add(memoRecord);
+		return null;
+	}
+
+	protected Result orderNoRequirement(Context context, ResultList list,
+			Object selection) {
+
+		Requirement req = get(ORDER_NO);
+		String orderNo = (String) req.getValue();
+
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals(ORDER_NO)) {
+			String order = context.getSelection(NUMBER);
+			if (order == null) {
+				order = context.getString();
+			}
+			orderNo = order;
+			req.setValue(orderNo);
+		}
+
+		if (selection == orderNo) {
+			context.setAttribute(INPUT_ATTR, ORDER_NO);
+			return number(context, "Enter Order number", orderNo);
+		}
+
+		Record orderNoRecord = new Record(orderNo);
+		orderNoRecord.add("Name", "Order No");
+		orderNoRecord.add("Value", orderNo);
+		list.add(orderNoRecord);
+		return null;
+	}
+
+	protected Result dateRequirement(Context context, ResultList list,
+			Object selection) {
+
+		Requirement dateReq = get(DATE);
+		Date transDate = (Date) dateReq.getValue();
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals(DATE)) {
+			Date date = context.getSelection(DATE);
+			if (date == null) {
+				date = context.getDate();
+			}
+			transDate = date;
+			dateReq.setValue(transDate);
+		}
+		if (selection == transDate) {
+			context.setAttribute(INPUT_ATTR, DATE);
+			return date(context, "Enter Date", transDate);
+		}
+
+		Record transDateRecord = new Record(transDate);
+		transDateRecord.add("Name", "Date");
+		transDateRecord.add("Value", transDate.toString());
+		list.add(transDateRecord);
+		return null;
+	}
+
 
 	private List<Vendor> getVendors(Session session) {
 		// TODO Auto-generated method stub

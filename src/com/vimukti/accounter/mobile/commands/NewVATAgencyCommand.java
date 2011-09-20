@@ -9,7 +9,6 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
-import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.TAXAgency;
@@ -26,11 +25,9 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.server.FinanceTool;
 
-public class NewVATAgencyCommand extends AbstractCommand {
+public class NewVATAgencyCommand extends AbstractVATCommand {
 
-	private static final String NAME = "name";
 	private static final String PAYMENT_TERM = "paymentTerm";
 	private static final String VAT_RETURN = "vatReturn";
 	private static final String SALES_ACCOUNT = "salesLiabilityAccount";
@@ -49,7 +46,6 @@ public class NewVATAgencyCommand extends AbstractCommand {
 	private static final String SALES_ACCOUNTS = "salesAccounts";
 	private static final String VAT_RETURNS = "vatReturns";
 	private static final String PAYMENT_TERMS = "paymentTerms";
-	private static final int VALUES_TO_SHOW = 5;
 
 	@Override
 	public String getId() {
@@ -328,7 +324,7 @@ public class NewVATAgencyCommand extends AbstractCommand {
 
 		result.add(contactsList);
 		ResultList actions = new ResultList("actions");
-		Record moreContacts = new Record(ActionNames.ADD_MORE_ITEMS);
+		Record moreContacts = new Record(ActionNames.ADD_MORE_CONTACTS);
 		moreContacts.add("", "Add more contacts");
 		actions.add(moreContacts);
 		Record finish = new Record(ActionNames.FINISH);
@@ -521,14 +517,6 @@ public class NewVATAgencyCommand extends AbstractCommand {
 		return result;
 	}
 
-	private Record createAccountRecord(Account account) {
-		Record record = new Record(account);
-		record.add("Number", account.getNumber());
-		record.add("Name", account.getName());
-		record.add("Type", Utility.getAccountTypeString(account.getType()));
-		return record;
-	}
-
 	private Result salesAccountRequirement(Context context) {
 		Requirement salesAccountReq = get(SALES_ACCOUNT);
 		Account salesAccount = context.getSelection(SALES_ACCOUNTS);
@@ -574,11 +562,6 @@ public class NewVATAgencyCommand extends AbstractCommand {
 		result.add("Select the Sales Liability Account");
 
 		return result;
-	}
-
-	private List<Account> getAccounts(Session session) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	private Result vatReturnRequirement(Context context) {
@@ -698,37 +681,6 @@ public class NewVATAgencyCommand extends AbstractCommand {
 		Record record = new Record(paymentTerm);
 		record.add("Name", paymentTerm.getName());
 		return record;
-	}
-
-	private Result nameRequirement(Context context) {
-		Requirement nameReq = get(NAME);
-		String input = (String) context.getAttribute(INPUT_ATTR);
-		if (input.equals(NAME)) {
-			input = context.getString();
-			nameReq.setValue(input);
-			context.setAttribute(INPUT_ATTR, "default");
-		}
-		if (!nameReq.isDone()) {
-			context.setAttribute(INPUT_ATTR, NAME);
-			return text(context, "Please Enter the " + getString()
-					+ " Agency Name.", null);
-		}
-
-		return null;
-	}
-
-	private int getCompanyType() {
-		Company company = new FinanceTool().getCompany();
-		int accountingType = company.getAccountingType();
-		return accountingType;
-	}
-
-	private String getString() {
-		String s = "TAX";
-		if (getCompanyType() == 1) {
-			s = "VAT";
-		}
-		return s;
 	}
 
 }

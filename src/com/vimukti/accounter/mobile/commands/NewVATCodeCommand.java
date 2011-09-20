@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.hibernate.Session;
 
-import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.mobile.ActionNames;
@@ -16,16 +15,14 @@ import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 
-public class NewVATCodeCommand extends AbstractCommand {
+public class NewVATCodeCommand extends AbstractVATCommand {
 
-	private static final String NAME = "name";
 	private static final String DESCRIPTION = "description";
 	private static final String IS_TAXABLE = "isTaxable";
 	private static final String VATITEM_FOR_SALES = "vatItemForSales";
 	private static final String VATITEM_FOR_PURCHASE = "vatItemForPurchase";
 	private static final String IS_ACTIVE = "isActive";
 	private static final String SALES_VAT_ITEMS = "salesVatItems";
-	private static final int VALUES_TO_SHOW = 5;
 	private static final String PURCHASE_VAT_ITEMS = "purchaseVatItems";
 
 	@Override
@@ -101,7 +98,7 @@ public class NewVATCodeCommand extends AbstractCommand {
 
 	private Result vatItemForPurchaseRequirement(Context context) {
 		Requirement vatItemForPurchaseReq = get(VATITEM_FOR_PURCHASE);
-		TAXAgency vatItemPurchase = context.getSelection(VATITEM_FOR_PURCHASE);
+		TAXItem vatItemPurchase = context.getSelection(VATITEM_FOR_PURCHASE);
 		if (vatItemPurchase != null) {
 			vatItemForPurchaseReq.setValue(vatItemPurchase);
 		}
@@ -117,7 +114,7 @@ public class NewVATCodeCommand extends AbstractCommand {
 
 		Object last = context.getLast(RequirementType.TAXITEM_GROUP);
 		if (last != null) {
-			vatItemGroupsList.add(createVatItemRecord((TAXItem) last));
+			vatItemGroupsList.add(createTaxItemRecord((TAXItem) last));
 		}
 
 		List<TAXItem> vatItemGroups = getPurchaseVatItemGroups(context
@@ -125,7 +122,7 @@ public class NewVATCodeCommand extends AbstractCommand {
 		for (int i = 0; i < VALUES_TO_SHOW || i < vatItemGroups.size(); i++) {
 			TAXItem vatItem = vatItemGroups.get(i);
 			if (vatItem != last) {
-				vatItemGroupsList.add(createVatItemRecord((TAXItem) vatItem));
+				vatItemGroupsList.add(createTaxItemRecord((TAXItem) vatItem));
 			}
 		}
 
@@ -261,7 +258,7 @@ public class NewVATCodeCommand extends AbstractCommand {
 
 	private Result vatItemForSalesRequirement(Context context) {
 		Requirement vatItemForSalesReq = get(VATITEM_FOR_SALES);
-		TAXAgency vatItemSale = context.getSelection(VATITEM_FOR_SALES);
+		TAXItem vatItemSale = context.getSelection(VATITEM_FOR_SALES);
 		if (vatItemSale != null) {
 			vatItemForSalesReq.setValue(vatItemSale);
 		}
@@ -277,7 +274,7 @@ public class NewVATCodeCommand extends AbstractCommand {
 
 		Object last = context.getLast(RequirementType.TAXITEM_GROUP);
 		if (last != null) {
-			vatItemGroupsList.add(createVatItemRecord((TAXItem) last));
+			vatItemGroupsList.add(createTaxItemRecord((TAXItem) last));
 		}
 
 		List<TAXItem> vatItemGroups = getSalesVatItemGroups(context
@@ -286,7 +283,7 @@ public class NewVATCodeCommand extends AbstractCommand {
 			TAXItem vatItemGroup = vatItemGroups.get(i);
 			if (vatItemGroup != last) {
 				vatItemGroupsList
-						.add(createVatItemRecord((TAXItem) vatItemGroup));
+						.add(createTaxItemRecord((TAXItem) vatItemGroup));
 			}
 		}
 
@@ -312,12 +309,6 @@ public class NewVATCodeCommand extends AbstractCommand {
 		return null;
 	}
 
-	private Record createVatItemRecord(TAXItem taxItem) {
-		Record record = new Record(taxItem);
-		record.add("Name", taxItem.getName());
-		return record;
-	}
-
 	private Result descriptionRequirement(Context context, ResultList list,
 			Object selection) {
 		Requirement descriptionReq = get(DESCRIPTION);
@@ -340,21 +331,6 @@ public class NewVATCodeCommand extends AbstractCommand {
 		descRecord.add("Name", "Description");
 		descRecord.add("Value", description);
 		list.add(descRecord);
-		return null;
-	}
-
-	private Result nameRequirement(Context context) {
-		Requirement nameReq = get(NAME);
-		String input = (String) context.getAttribute(INPUT_ATTR);
-		if (input.equals(NAME)) {
-			input = context.getString();
-			nameReq.setValue(input);
-			context.setAttribute(INPUT_ATTR, "default");
-		}
-		if (!nameReq.isDone()) {
-			context.setAttribute(INPUT_ATTR, NAME);
-			return text(context, "Please Enter the VAT Code Name.", null);
-		}
 		return null;
 	}
 

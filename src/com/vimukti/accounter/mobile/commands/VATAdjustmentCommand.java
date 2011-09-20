@@ -1,0 +1,158 @@
+package com.vimukti.accounter.mobile.commands;
+
+import java.util.List;
+
+import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.TAXAgency;
+import com.vimukti.accounter.core.TAXItem;
+import com.vimukti.accounter.mobile.ActionNames;
+import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.Record;
+import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
+
+public class VATAdjustmentCommand extends AbstractVATCommand {
+
+	private static final String AMOUNT = null;
+	private static final String IS_INCREASE_VATLINE = null;
+	private static final String MEMO = null;
+
+	@Override
+	public String getId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected void addRequirements(List<Requirement> list) {
+		list.add(new Requirement(TAX_AGENCY, false, true));
+		list.add(new Requirement(TAX_ITEM, false, true));
+		list.add(new Requirement(ACCOUNT, false, true));
+		list.add(new Requirement(AMOUNT, false, true));
+		list.add(new Requirement(IS_INCREASE_VATLINE, true, true));
+		list.add(new Requirement(DATE, true, true));
+		list.add(new Requirement(NUMBER, true, true));
+		list.add(new Requirement(MEMO, true, true));
+	}
+
+	@Override
+	public Result run(Context context) {
+		Result result = null;
+
+		result = taxAgencyRequirement(context);
+		if (result != null) {
+			return result;
+		}
+
+		result = taxItemRequirement(context);
+		if (result != null) {
+			return result;
+		}
+
+		result = accountRequirement(context);
+		if (result != null) {
+			return result;
+		}
+
+		result = amountRequirement(context);
+		if (result != null) {
+			return result;
+		}
+
+		result = createOptionalRequirement(context);
+		if (result != null) {
+			return result;
+		}
+
+		return null;
+	}
+
+	private Result createOptionalRequirement(Context context) {
+		context.setAttribute(INPUT_ATTR, "optional");
+
+		Object selection = context.getSelection(ACTIONS);
+		if (selection != null) {
+			ActionNames actionName = (ActionNames) selection;
+			switch (actionName) {
+			case FINISH:
+				return null;
+			default:
+				break;
+			}
+		}
+		selection = context.getSelection("values");
+
+		Requirement taxAgencyrReq = get(TAX_AGENCY);
+		TAXAgency taxAgency = (TAXAgency) taxAgencyrReq.getValue();
+		if (taxAgency == selection) {
+			context.setAttribute(INPUT_ATTR, TAX_AGENCY);
+			return getTaxAgencyResult(context);
+		}
+
+		Requirement taxItemReq = get(TAX_ITEM);
+		TAXItem taxItem = (TAXItem) taxItemReq.getValue();
+		if (taxItem == selection) {
+			context.setAttribute(INPUT_ATTR, TAX_ITEM);
+			return getTaxItemResult(context);
+		}
+
+		Requirement accountReq = get(ACCOUNT);
+		Account account = (Account) accountReq.getValue();
+		if (account == selection) {
+			context.setAttribute(INPUT_ATTR, ACCOUNT);
+			return getAccountResult(context);
+		}
+
+		Requirement amountReq = get(AMOUNT);
+		Double amount = (Double) amountReq.getValue();
+		if (amount == selection) {
+			context.setAttribute(INPUT_ATTR, AMOUNT);
+			return number(context,
+					"Please Enter the " + getString() + " Rate.", "" + amount);
+		}
+
+		ResultList list = new ResultList("values");
+
+		Record taxAgencyRecord = new Record(taxAgency);
+		taxAgencyRecord.add(INPUT_ATTR, "Tax Agency");
+		taxAgencyRecord.add("Value", taxAgency);
+		list.add(taxAgencyRecord);
+
+		Record taxItemRecord = new Record(taxItem);
+		taxItemRecord.add(INPUT_ATTR, "Tax Item");
+		taxItemRecord.add("Value", taxItem);
+		list.add(taxItemRecord);
+
+		Record accountRecord = new Record(account);
+		accountRecord.add(INPUT_ATTR, "Adjustment Account");
+		accountRecord.add("Value", account);
+		list.add(accountRecord);
+
+		Record amountRecord = new Record(amount);
+		amountRecord.add(INPUT_ATTR, "Amount");
+		amountRecord.add("Value", amount);
+		list.add(amountRecord);
+
+		Requirement isIncreaseVatReq = get(IS_INCREASE_VATLINE);
+		Boolean isIncreaseVat = (Boolean) isIncreaseVatReq.getValue();
+		if (selection == isIncreaseVat) {
+			context.setAttribute(INPUT_ATTR, IS_INCREASE_VATLINE);
+			isIncreaseVat = !isIncreaseVat;
+			isIncreaseVatReq.setValue(isIncreaseVat);
+		}
+		String increaseVatString = "";
+		if (isIncreaseVat) {
+			increaseVatString = "Increase VAT line.";
+		} else {
+			increaseVatString = "Decrease VAT line.";
+		}
+		Record isIncreaseVatRecord = new Record(IS_INCREASE_VATLINE);
+		isIncreaseVatRecord.add("Name", "");
+		isIncreaseVatRecord.add("Value", increaseVatString);
+		list.add(isIncreaseVatRecord);
+
+		return null;
+	}
+
+}

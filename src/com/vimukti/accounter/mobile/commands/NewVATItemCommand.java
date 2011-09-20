@@ -4,32 +4,24 @@ import java.util.List;
 
 import org.hibernate.Session;
 
-import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.VATReturnBox;
 import com.vimukti.accounter.mobile.ActionNames;
-import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.server.FinanceTool;
 
-public class NewVATItemCommand extends AbstractCommand {
+public class NewVATItemCommand extends AbstractVATCommand {
 
-	private static final String NAME = "name";
 	private static final String DESCRIPTION = "description";
 	private static final String IS_PERCENTAGE = "isPercentage";
-	private static final String TAX_RATE = "taxRate";
 	private static final String IS_ACTIVE = "isActive";
-	private static final String TAX_AGENCY = "taxAgency";
 	private static final String VAT_RETURN_BOX = "vatReturnBox";
-	private static final String TAX_AGENCIES = "taxAgencies";
 	private static final String VAT_RETURN_BOXES = "vatReturnBoxes";
-	private static final int VALUES_TO_SHOW = 5;
 
 	@Override
 	public String getId() {
@@ -41,22 +33,13 @@ public class NewVATItemCommand extends AbstractCommand {
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new Requirement(NAME, false, true));
 		list.add(new Requirement(DESCRIPTION, true, true));
-		list.add(new Requirement(TAX_RATE, false, true));
+		list.add(new Requirement(AMOUNT, false, true));
 		list.add(new Requirement(IS_ACTIVE, true, true));
 		list.add(new Requirement(TAX_AGENCY, false, true));
 		if (isUkCompany()) {
 			list.add(new Requirement(IS_PERCENTAGE, true, true));
 			list.add(new Requirement(VAT_RETURN_BOX, false, true));
 		}
-	}
-
-	private boolean isUkCompany() {
-		Company company = new FinanceTool().getCompany();
-		int accountingType = company.getAccountingType();
-		if (accountingType == 1) {
-			return true;
-		}
-		return false;
 	}
 
 	@Override
@@ -68,7 +51,7 @@ public class NewVATItemCommand extends AbstractCommand {
 			return result;
 		}
 
-		result = taxRateRequirement(context);
+		result = amountRequirement(context);
 		if (result != null) {
 			return result;
 		}
@@ -105,53 +88,6 @@ public class NewVATItemCommand extends AbstractCommand {
 		return null;
 	}
 
-	private Result taxAgencyRequirement(Context context) {
-		Requirement taxAgencyReq = get(TAX_AGENCY);
-		TAXAgency taxAgency = context.getSelection(TAX_AGENCIES);
-		if (taxAgency != null) {
-			taxAgencyReq.setValue(taxAgency);
-		}
-		if (!taxAgencyReq.isDone()) {
-			return getTaxAgencyResult(context);
-		}
-		return null;
-	}
-
-	private Result taxRateRequirement(Context context) {
-
-		Requirement taxRateReq = get(TAX_RATE);
-		String input = (String) context.getAttribute(INPUT_ATTR);
-		if (input.equals(TAX_RATE)) {
-			input = context.getString();
-			taxRateReq.setValue(input);
-			context.setAttribute(INPUT_ATTR, "default");
-		}
-		if (!taxRateReq.isDone()) {
-			context.setAttribute(INPUT_ATTR, TAX_RATE);
-			return text(context, "Please Enter the " + getString() + " Rate.",
-					null);
-		}
-
-		return null;
-	}
-
-	private Result nameRequirement(Context context) {
-		Requirement nameReq = get(NAME);
-		String input = (String) context.getAttribute("input");
-		if (input.equals(NAME)) {
-			input = context.getString();
-			nameReq.setValue(input);
-			context.setAttribute(INPUT_ATTR, "default");
-		}
-		if (!nameReq.isDone()) {
-			context.setAttribute(INPUT_ATTR, NAME);
-			return text(context, "Please Enter the " + getString()
-					+ " Agency Name.", null);
-		}
-
-		return null;
-	}
-
 	private Result createOptionalResult(Context context) {
 		context.setAttribute(INPUT_ATTR, "optional");
 
@@ -175,10 +111,10 @@ public class NewVATItemCommand extends AbstractCommand {
 					+ " Item Name.", name);
 		}
 
-		Requirement taxRateReq = get(TAX_RATE);
+		Requirement taxRateReq = get(AMOUNT);
 		Double taxRate = (Double) taxRateReq.getValue();
 		if (taxRate == selection) {
-			context.setAttribute(INPUT_ATTR, TAX_RATE);
+			context.setAttribute(INPUT_ATTR, AMOUNT);
 			return number(context,
 					"Please Enter the " + getString() + " Rate.", "" + taxRate);
 		}
@@ -345,58 +281,12 @@ public class NewVATItemCommand extends AbstractCommand {
 		return record;
 	}
 
-	private Result getTaxAgencyResult(Context context) {
-		Result result = context.makeResult();
-		ResultList taxAgenciesList = new ResultList(TAX_AGENCIES);
-
-		Object last = context.getLast(RequirementType.TAXAGENCY);
-		if (last != null) {
-			taxAgenciesList.add(createTaxAgencyRecord((TAXAgency) last));
-		}
-
-		List<TAXAgency> taxAgencies = getTaxAgencies(context.getSession());
-		for (int i = 0; i < VALUES_TO_SHOW || i < taxAgencies.size(); i++) {
-			TAXAgency taxAgency = taxAgencies.get(i);
-			if (taxAgency != last) {
-				taxAgenciesList
-						.add(createTaxAgencyRecord((TAXAgency) taxAgency));
-			}
-		}
-
-		int size = taxAgenciesList.size();
-		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append("Please Select the " + getString() + " Agency");
-		}
-
-		CommandList commandList = new CommandList();
-		commandList.add("create");
-
-		result.add(message.toString());
-		result.add(taxAgenciesList);
-		result.add(commandList);
-		result.add("Select the " + getString() + " Agency");
-
-		return result;
-	}
-
-	private List<TAXAgency> getTaxAgencies(Session session) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private Record createTaxAgencyRecord(TAXAgency taxAgency) {
-		Record record = new Record(taxAgency);
-		record.add("Name", taxAgency.getName());
-		return record;
-	}
-
 	private Result createVATItem(Context context) {
 		TAXItem taxItem = new TAXItem();
 
 		String name = (String) get(NAME).getValue();
 		String description = (String) get(DESCRIPTION).getValue();
-		double taxRate = (Double) get(TAX_RATE).getValue();
+		double taxRate = (Double) get(AMOUNT).getValue();
 		boolean isActive = (Boolean) get(IS_ACTIVE).getValue();
 		TAXAgency taxAgency = (TAXAgency) get(TAX_AGENCY).getValue();
 
@@ -422,14 +312,6 @@ public class NewVATItemCommand extends AbstractCommand {
 		result.add(getString() + " Item was created successfully.");
 
 		return result;
-	}
-
-	private String getString() {
-		String s = "TAX";
-		if (isUkCompany()) {
-			s = "VAT";
-		}
-		return s;
 	}
 
 }

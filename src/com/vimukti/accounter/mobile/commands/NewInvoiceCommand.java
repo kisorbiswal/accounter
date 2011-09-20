@@ -50,15 +50,15 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 			}
 		});
 
-		list.add(new Requirement("date", true, true));
+		list.add(new Requirement(DATE, true, true));
 		list.add(new Requirement("number", true, false));
 		list.add(new Requirement("paymentTerms", true, true));
 		list.add(new Requirement("contact", true, true));
 		list.add(new Requirement("billTo", true, true));
 		list.add(new Requirement("shipTo", true, true));
 		list.add(new Requirement("due", true, true));
-		list.add(new Requirement("orderNo", true, true));
-		list.add(new Requirement("memo", true, true));
+		list.add(new Requirement(ORDER_NO, true, true));
+		list.add(new Requirement(MEMO, true, true));
 		Company company = getCompany();
 		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 			list.add(new Requirement("tax", false, true));
@@ -122,7 +122,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		Company company = getCompany();
 		Invoice invoice = new Invoice();
 
-		Date date = get("date").getValue();
+		Date date = get(DATE).getValue();
 		invoice.setDate(new FinanceDate(date));
 
 		invoice.setType(Transaction.TYPE_INVOICE);
@@ -172,14 +172,14 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		PaymentTerms paymentTerm = get("paymentTerms").getValue();
 		invoice.setPaymentTerm(paymentTerm);
 
-		String orderNo = get("orderNo").getValue();
+		String orderNo = get(ORDER_NO).getValue();
 		invoice.setOrderNum(orderNo);
 
 		invoice.setTotal(getTransactionTotal(items, company));
 
 		// TODO Payments
 
-		String memo = get("memo").getValue();
+		String memo = get(MEMO).getValue();
 		invoice.setMemo(memo);
 
 		// TODO Discount Date
@@ -314,7 +314,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 
 		list.add(custRecord);
 
-		Result result = invoiceDateRequirement(context, list, selection);
+		Result result = dateRequirement(context, list, selection);
 		if (result != null) {
 			return result;
 		}
@@ -384,34 +384,6 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
-	private Result orderNoRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement req = get("orderNo");
-		String orderNo = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("orderNo")) {
-			String order = context.getSelection(NUMBER);
-			if (order == null) {
-				order = context.getString();
-			}
-			orderNo = order;
-			req.setValue(orderNo);
-		}
-
-		if (selection == orderNo) {
-			context.setAttribute(INPUT_ATTR, "orderNo");
-			return number(context, "Enter Order number", orderNo);
-		}
-
-		Record orderNoRecord = new Record(orderNo);
-		orderNoRecord.add("Name", "Order No");
-		orderNoRecord.add("Value", orderNo);
-		list.add(orderNoRecord);
-		return null;
-	}
-
 	private Result dueDateRequirement(Context context, ResultList list,
 			Object selection) {
 		Requirement req = get("due");
@@ -444,7 +416,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		String invoiceNo = (String) req.getValue();
 
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("invoiceNo")) {
+		if (attribute.equals(ORDER_NO)) {
 			String order = context.getSelection(NUMBER);
 			if (order == null) {
 				order = context.getString();
@@ -454,7 +426,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		}
 
 		if (selection == invoiceNo) {
-			context.setAttribute(INPUT_ATTR, "invoiceNo");
+			context.setAttribute(INPUT_ATTR, ORDER_NO);
 			return number(context, "Enter Invoice number", invoiceNo);
 		}
 
@@ -465,29 +437,4 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		return null;
 	}
 
-	private Result invoiceDateRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement dateReq = get("date");
-		Date transDate = (Date) dateReq.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("invoiceDate")) {
-			Date date = context.getSelection(DATE);
-			if (date == null) {
-				date = context.getDate();
-			}
-			transDate = date;
-			dateReq.setValue(transDate);
-		}
-		if (selection == transDate) {
-			context.setAttribute(INPUT_ATTR, "invoiceDate");
-			return date(context, "Enter Invoice Date", transDate);
-		}
-
-		Record transDateRecord = new Record(transDate);
-		transDateRecord.add("Name", "Invoice Date");
-		transDateRecord.add("Value", transDate.toString());
-		list.add(transDateRecord);
-		return null;
-	}
 }
