@@ -76,7 +76,7 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 	protected Result dateRangeRequirement(Context context, ResultList list,
 			Object selection) {
 		Requirement dateRangeReq = get("dateRange");
-		String range = (String) dateRangeReq.getDefaultValue();
+		String range = (String) dateRangeReq.getValue();
 		String attribute = (String) context.getAttribute("input");
 		if (attribute.equals("dateRange")) {
 			String dateRange = context.getSelection("dateRanges");
@@ -101,7 +101,7 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 	protected Result fromDateRequirement(Context context, ResultList list,
 			Object selection) {
 		Requirement dateReq = get("fromDate");
-		Date fromDate = (Date) dateReq.getDefaultValue();
+		Date fromDate = (Date) dateReq.getValue();
 		String attribute = (String) context.getAttribute("input");
 		if (attribute.equals("fromDate")) {
 			Date date = context.getSelection(DATE);
@@ -126,7 +126,7 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 	protected Result toDateRequirement(Context context, ResultList list,
 			Object selection) {
 		Requirement dateReq = get("toDate");
-		Date toDate = (Date) dateReq.getDefaultValue();
+		Date toDate = (Date) dateReq.getValue();
 		String attribute = (String) context.getAttribute("input");
 		if (attribute.equals("toDate")) {
 			Date date = context.getSelection(DATE);
@@ -215,7 +215,7 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 	protected Result statusRequirement(Context context, ResultList list,
 			Object selection) {
 		Requirement statusReq = get("status");
-		String status = (String) statusReq.getDefaultValue();
+		String status = (String) statusReq.getValue();
 		String attribute = (String) context.getAttribute("input");
 		if (attribute.equals("status")) {
 			String dateRange = context.getSelection("status");
@@ -240,7 +240,7 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 	protected Result expenseTypeRequirement(Context context, ResultList list,
 			Object selection) {
 		Requirement expenseTypeReq = get("expenseType");
-		String expenseType = (String) expenseTypeReq.getDefaultValue();
+		String expenseType = (String) expenseTypeReq.getValue();
 		String attribute = (String) context.getAttribute("input");
 		if (attribute.equals("expenseType")) {
 			String dateRange = context.getSelection("expenseType");
