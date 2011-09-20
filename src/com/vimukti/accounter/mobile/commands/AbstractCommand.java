@@ -10,16 +10,16 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.TAXCode;
-import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Command;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
+import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.server.FinanceTool;
 
 public abstract class AbstractCommand extends Command {
 	protected static final String INPUT_ATTR = "input";
@@ -334,6 +334,65 @@ public abstract class AbstractCommand extends Command {
 		record.add("", "Finish");
 		finish.add(record);
 		return result;
+	}
+
+	protected Result createSupplierRequirement(Context context) {
+		Requirement supplierReq = get("supplier");
+		Vendor vendor = context.getSelection("suppliers");
+		if (vendor != null) {
+			supplierReq.setValue(vendor);
+		}
+		if (!supplierReq.isDone()) {
+			return vendors(context);
+		}
+		return null;
+	}
+
+	protected Result vendors(Context context) {
+		Result result = context.makeResult();
+		ResultList supplierList = new ResultList("suppliers");
+
+		Object last = context.getLast(RequirementType.VENDOR);
+		int num = 0;
+		if (last != null) {
+			supplierList.add(createVendorRecord((Vendor) last));
+			num++;
+		}
+		List<Vendor> vendors = getVendors(context.getSession());
+		for (Vendor vendor : vendors) {
+			if (vendor != last) {
+				supplierList.add(createVendorRecord(vendor));
+				num++;
+			}
+			if (num == VENDORS_TO_SHOW) {
+				break;
+			}
+		}
+		int size = supplierList.size();
+		StringBuilder message = new StringBuilder();
+		if (size > 0) {
+			message.append("Select a Supplier");
+		}
+		CommandList commandList = new CommandList();
+		commandList.add("Create");
+
+		result.add(message.toString());
+		result.add(supplierList);
+		result.add(commandList);
+		result.add("Type for Supplier");
+		return result;
+	}
+
+	private Record createVendorRecord(Vendor last) {
+		Record record = new Record(last);
+		record.add("Name", last.getName());
+		record.add("Balance", last.getBalance());
+		return record;
+	}
+
+	private List<Vendor> getVendors(Session session) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	protected void create(IAccounterServerCore obj, Context context) {
