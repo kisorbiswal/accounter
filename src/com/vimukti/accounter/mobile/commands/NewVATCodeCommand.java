@@ -91,10 +91,7 @@ public class NewVATCodeCommand extends AbstractCommand {
 			taxCode.setTAXItemGrpForPurchases(purchaseVatItem);
 		}
 
-		Session session = context.getSession();
-		Transaction transaction = session.beginTransaction();
-		session.saveOrUpdate(taxCode);
-		transaction.commit();
+		create(taxCode, context);
 
 		markDone();
 		Result result = new Result();

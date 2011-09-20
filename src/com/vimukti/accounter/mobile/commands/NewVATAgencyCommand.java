@@ -171,10 +171,7 @@ public class NewVATAgencyCommand extends AbstractCommand {
 				taxAgency.setVATReturn(ClientTAXAgency.RETURN_TYPE_IRELAND_VAT);
 			}
 		}
-		Session session = context.getSession();
-		Transaction transaction = session.beginTransaction();
-		session.saveOrUpdate(taxAgency);
-		transaction.commit();
+		create(taxAgency, context);
 
 		markDone();
 		Result result = new Result();

@@ -416,10 +416,7 @@ public class NewVATItemCommand extends AbstractCommand {
 		taxItem.setActive(isActive);
 		taxItem.setTaxAgency(taxAgency);
 
-		Session session = context.getSession();
-		Transaction transaction = session.beginTransaction();
-		session.saveOrUpdate(taxItem);
-		transaction.commit();
+		create(taxItem, context);
 
 		markDone();
 
