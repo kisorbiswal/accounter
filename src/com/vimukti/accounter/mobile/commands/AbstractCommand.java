@@ -15,6 +15,8 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 
 public abstract class AbstractCommand extends Command {
+	protected static final String INPUT_ATTR = "input";
+
 	protected static final String DATE = "date";
 	protected static final String NUMBER = "number";
 	protected static final String TEXT = "text";
