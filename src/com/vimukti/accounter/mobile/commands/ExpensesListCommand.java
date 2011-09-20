@@ -43,31 +43,20 @@ public class ExpensesListCommand extends AbstractTransactionCommand {
 	private Result createOptionalResult(Context context) {
 		context.setAttribute(INPUT_ATTR, "optional");
 
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case FINISH:
-				return null;
-			default:
-				break;
-			}
-		}
-		selection = context.getSelection("values");
-
-		ResultList list = new ResultList("values");
+		Object selection = context.getSelection(VIEW_TYPE);
 
 		Result result = isViewTypeRequirement(context, selection);
-		String viewType = (String) get(VIEW_TYPE).getValue();
-		result = expensesList(context, viewType);
 		if (result != null) {
 			return result;
 		}
+		String viewType = get(VIEW_TYPE).getValue();
+		result = expensesList(context, viewType);
 		return result;
 	}
 
 	private Result expensesList(Context context, String viewType) {
 		Result result = context.makeResult();
+		result.add("");
 		ResultList expensesList = new ResultList("accountsList");
 		int num = 0;
 		List<Expense> expenses = getExpenses(context.getHibernateSession(),
