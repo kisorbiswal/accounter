@@ -100,7 +100,7 @@ public abstract class AbstractCommand extends Command {
 		}
 		if (selection == dueDate) {
 			context.setAttribute(INPUT_ATTR, name);
-			return date(context, name, dueDate);
+			return date(context, "Enter the " + name, dueDate);
 		}
 
 		Record dueDateRecord = new Record(dueDate);
