@@ -1,7 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -320,7 +319,9 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 
 		int company = getCompany().getAccountingType();
 
-		Result result = customerSinceDateRequirement(context, list, selection);
+		Result result = dateOptionalRequirement(context, list,
+				CUSTOMER_SINCEDATE, CUSTOMER_SINCEDATE, selection);
+
 		if (result != null) {
 			return result;
 		}
@@ -328,7 +329,8 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = balanceAsOfDateRequirement(context, list, selection);
+		result = dateOptionalRequirement(context, list, BALANCE_ASOF_DATE,
+				BALANCE_ASOF_DATE, selection);
 		if (result != null) {
 			return result;
 		}
@@ -1241,76 +1243,6 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		salesPersonRecord.add("Value", salesPerson.getName());
 		list.add(salesPersonRecord);
 
-		Result result = new Result();
-		result.add(list);
-		return result;
-	}
-
-	/**
-	 * balanceAsOfDate
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return {@link Result}
-	 */
-	private Result balanceAsOfDateRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement dateReq = get(BALANCE_ASOF_DATE);
-		Date balanceAsofdate = (Date) dateReq.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(BALANCE_ASOF_DATE)) {
-			Date date = context.getSelection(BALANCE_ASOF_DATE);
-			if (date == null) {
-				date = context.getDate();
-			}
-			balanceAsofdate = date;
-			dateReq.setValue(balanceAsofdate);
-		}
-		if (selection == balanceAsofdate) {
-			context.setAttribute(INPUT_ATTR, BALANCE_ASOF_DATE);
-			return date(context, "Enter BalanceAsOf  Date", balanceAsofdate);
-		}
-
-		Record transDateRecord = new Record(balanceAsofdate);
-		transDateRecord.add("Name", BALANCE_ASOF_DATE);
-		transDateRecord.add("Value", balanceAsofdate.toString());
-		list.add(transDateRecord);
-		Result result = new Result();
-		result.add(list);
-		return result;
-	}
-
-	/**
-	 * customerSinceDate
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return {@link Result}
-	 */
-	private Result customerSinceDateRequirement(Context context,
-			ResultList list, Object selection) {
-		Requirement dateReq = get(CUSTOMER_SINCEDATE);
-		Date customerSincedate = (Date) dateReq.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(CUSTOMER_GROUP)) {
-			Date date = context.getSelection(CUSTOMER_SINCEDATE);
-			if (date == null) {
-				date = context.getDate();
-			}
-			customerSincedate = date;
-			dateReq.setValue(customerSincedate);
-		}
-		if (selection == customerSincedate) {
-			context.setAttribute("input", CUSTOMER_SINCEDATE);
-			return date(context, "Enter Customer Since Date", customerSincedate);
-		}
-
-		Record transDateRecord = new Record(customerSincedate);
-		transDateRecord.add("Name", CUSTOMER_SINCEDATE);
-		transDateRecord.add("Value", customerSincedate.toString());
-		list.add(transDateRecord);
 		Result result = new Result();
 		result.add(list);
 		return result;
