@@ -922,7 +922,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	@Override
 	protected void initTransactionsItems() {
-		if (transaction.getTransactionItems() != null)
+		if (transaction.getTransactionItems() != null
+				&& !transaction.getTransactionItems().isEmpty())
 			customerTransactionTable.setAllRows(transaction
 					.getTransactionItems());
 	}

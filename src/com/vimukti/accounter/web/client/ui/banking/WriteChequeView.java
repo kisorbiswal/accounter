@@ -349,10 +349,12 @@ public class WriteChequeView extends
 					customer = getCompany().getCustomer(
 							transaction.getCustomer());
 					payee = customer;
-					transactionCustomerAccountTable.setRecords(getAccountTransactionItems(transaction
-							.getTransactionItems()));
-					transactionCustomerItemTable.setRecords(getItemTransactionItems(transaction
-							.getTransactionItems()));
+					transactionCustomerAccountTable
+							.setRecords(getAccountTransactionItems(transaction
+									.getTransactionItems()));
+					transactionCustomerItemTable
+							.setRecords(getItemTransactionItems(transaction
+									.getTransactionItems()));
 					paytoSelect.setComboItem(customer);
 				} else if (transaction.getPayToType() == ClientPayee.TYPE_VENDOR) {
 					ClientVendor vendor2 = getCompany().getVendor(
@@ -1243,6 +1245,10 @@ public class WriteChequeView extends
 		if (payee != null) {
 
 			if (payee instanceof ClientCustomer) {
+				if (transactionCustomerAccountTable == null
+						|| transactionCustomerItemTable == null) {
+					return;
+				}
 				double total = transactionCustomerAccountTable.getTotal()
 						+ transactionCustomerItemTable.getTotal();
 				this.amtText.setAmount(total);
@@ -1254,6 +1260,10 @@ public class WriteChequeView extends
 
 			} else if (payee instanceof ClientVendor
 					|| payee instanceof ClientTAXAgency) {
+				if (transactionVendorAccountTable == null
+						|| transactionVendorItemTable == null) {
+					return;
+				}
 				double total = transactionVendorAccountTable.getTotal()
 						+ transactionVendorItemTable.getTotal();
 				this.amtText.setAmount(total);

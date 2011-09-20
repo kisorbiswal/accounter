@@ -1324,7 +1324,8 @@ public class SalesOrderView extends
 
 	@Override
 	protected void initTransactionsItems() {
-		if (transaction.getTransactionItems() != null)
+		if (transaction.getTransactionItems() != null
+				&& !transaction.getTransactionItems().isEmpty())
 			customerTransactionTable.setAllTransactionItems(transaction
 					.getTransactionItems());
 	}

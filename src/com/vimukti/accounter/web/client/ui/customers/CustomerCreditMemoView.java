@@ -564,7 +564,8 @@ public class CustomerCreditMemoView extends
 
 	@Override
 	public void updateNonEditableItems() {
-		if (customerAccountTransactionTable == null)
+		if (customerAccountTransactionTable == null
+				|| customerItemTransactionTable == null)
 			return;
 		if (getCompany().getAccountingType() == 0) {
 			Double taxableLineTotal = customerAccountTransactionTable
@@ -840,12 +841,15 @@ public class CustomerCreditMemoView extends
 	@Override
 	protected void initTransactionsItems() {
 		if (transaction.getTransactionItems() != null) {
-			customerAccountTransactionTable
-					.setAllRows(getAccountTransactionItems(transaction
-							.getTransactionItems()));
-			customerItemTransactionTable
-					.setAllRows(getItemTransactionItems(transaction
-							.getTransactionItems()));
+			List<ClientTransactionItem> list = getAccountTransactionItems(transaction
+					.getTransactionItems());
+			if (!list.isEmpty()) {
+				customerAccountTransactionTable.setAllRows(list);
+			}
+			list = getItemTransactionItems(transaction.getTransactionItems());
+			if (!list.isEmpty()) {
+				customerItemTransactionTable.setAllRows(list);
+			}
 		}
 	}
 

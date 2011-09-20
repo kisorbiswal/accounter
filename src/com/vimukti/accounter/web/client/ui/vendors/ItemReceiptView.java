@@ -449,6 +449,10 @@ public class ItemReceiptView extends
 
 	@Override
 	public void updateNonEditableItems() {
+		if (vendorAccountTransactionTable == null
+				|| vendorItemTransactionTable == null) {
+			return;
+		}
 		double total = vendorAccountTransactionTable.getTotal()
 				+ vendorItemTransactionTable.getTotal();
 		double grandTotal = vendorAccountTransactionTable.getGrandTotal()

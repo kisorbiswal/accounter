@@ -34,4 +34,9 @@ public class AddNewButton extends ImageButton {
 		});
 	}
 
+	public AddNewButton() {
+		super(Accounter.constants().addNew(), Accounter.getFinanceImages()
+				.addIcon());
+	}
+
 }

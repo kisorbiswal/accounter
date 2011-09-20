@@ -316,13 +316,8 @@ public class CashPurchaseView extends
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
 
-		if (this instanceof CashExpenseView) {
-			topHLay.setCellWidth(leftVLay, "0");
-			topHLay.setCellWidth(rightVLay, "100%");
-		} else {
-			topHLay.setCellWidth(leftVLay, "50%");
-			topHLay.setCellWidth(rightVLay, "41%");
-		}
+		topHLay.setCellWidth(leftVLay, "50%");
+		topHLay.setCellWidth(rightVLay, "41%");
 		HorizontalPanel bottomLayout = new HorizontalPanel();
 		bottomLayout.setWidth("100%");
 
@@ -517,12 +512,10 @@ public class CashPurchaseView extends
 		if (vendor == null) {
 			return;
 		}
-		if (!(this instanceof CashExpenseView)) {
-			if (vendor.getPhoneNo() != null)
-				phoneSelect.setValue(vendor.getPhoneNo());
-			else
-				phoneSelect.setValue("");
-		}
+		if (vendor.getPhoneNo() != null)
+			phoneSelect.setValue(vendor.getPhoneNo());
+		else
+			phoneSelect.setValue("");
 		billingAddress = getAddress(ClientAddress.TYPE_BILL_TO);
 		if (billingAddress != null) {
 			billToAreaItem.setValue(getValidAddress(billingAddress));
@@ -648,6 +641,10 @@ public class CashPurchaseView extends
 
 	@Override
 	public void updateNonEditableItems() {
+		if (vendorAccountTransactionTable == null
+				|| vendorItemTransactionTable == null) {
+			return;
+		}
 		double total = vendorAccountTransactionTable.getTotal()
 				+ vendorItemTransactionTable.getTotal();
 		double grandTotal = vendorAccountTransactionTable.getGrandTotal()

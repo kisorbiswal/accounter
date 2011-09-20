@@ -325,7 +325,8 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 					@Override
 					public void selectedComboBoxItem(ClientVendor selectItem) {
 						vendorSelected(selectItem);
-						contactCombo.setDisabled(false);
+						if (contactCombo != null)
+							contactCombo.setDisabled(false);
 					}
 
 				});

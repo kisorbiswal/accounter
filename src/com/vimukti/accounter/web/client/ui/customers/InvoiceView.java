@@ -1225,7 +1225,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	@Override
 	public void initTransactionsItems() {
-		if (transaction.getTransactionItems() != null)
+		if (transaction.getTransactionItems() != null
+				&& !transaction.getTransactionItems().isEmpty())
 			customerTransactionTable.setAllRows(transaction
 					.getTransactionItems());
 	}
