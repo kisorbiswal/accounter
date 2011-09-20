@@ -384,32 +384,6 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
-	private Result memoRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get("memo");
-		String memo = (String) req.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("memo")) {
-			String input = context.getSelection(TEXT);
-			if (input == null) {
-				input = context.getString();
-			}
-			memo = input;
-			req.setValue(memo);
-		}
-
-		if (selection == memo) {
-			context.setAttribute(attribute, "memo");
-			return text(context, "Enter Invoice memo", memo);
-		}
-
-		Record memoRecord = new Record(memo);
-		memoRecord.add("Name", "Memo");
-		memoRecord.add("Value", memo);
-		list.add(memoRecord);
-		return null;
-	}
-
 	private Result orderNoRequirement(Context context, ResultList list,
 			Object selection) {
 
