@@ -585,7 +585,11 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		balForm.setWidth("100%");
 		balForm.setIsGroup(true);
 		balForm.setGroupTitle(Accounter.constants().balances());
-		balForm.setFields(amtText, endBalText, taxItemCombo);
+		if (getCompany().getPreferences().isTDSEnabled()) {
+			balForm.setFields(amtText, endBalText, taxItemCombo);
+		} else {
+			balForm.setFields(amtText, endBalText);
+		}
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
