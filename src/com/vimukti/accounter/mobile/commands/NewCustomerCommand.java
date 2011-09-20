@@ -3,11 +3,9 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.Date;
 import java.util.List;
 
-import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.CreditRating;
 import com.vimukti.accounter.core.CustomerGroup;
-import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.PriceLevel;
 import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.core.TAXCode;
@@ -146,6 +144,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		}
 		String input = (String) context.getAttribute("input");
 		if (input.equals(NUMBER)) {
+			input = context.getString();
 			customerNumReq.setValue(input);
 		}
 		return null;
@@ -964,43 +963,6 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	}
 
 	/**
-	 * Bill To Address
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return {@link Result}
-	 */
-	private Result billToRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get("billTo");
-		Address billTo = (Address) req.getValue();
-
-		String attribute = (String) context.getAttribute("input");
-		if (attribute.equals("billTo")) {
-			Address input = context.getSelection("address");
-			if (input == null) {
-				input = context.getAddress();
-			}
-			billTo = input;
-			req.setDefaultValue(billTo);
-		}
-
-		if (selection == billTo) {
-			context.setAttribute("input", "billTo");
-			return address(context, "billTo", billTo);
-		}
-
-		Record billToRecord = new Record(billTo);
-		billToRecord.add("Name", "Bill To");
-		billToRecord.add("Value", billTo.toString());
-		list.add(billToRecord);
-		Result result = new Result();
-		result.add(list);
-		return result;
-	}
-
-	/**
 	 * balanceAsOfDate
 	 * 
 	 * @param context
@@ -1090,38 +1052,6 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			requirement.setValue(input);
 		}
 		return null;
-	}
-
-	/**
-	 * paymentTerms
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return {@link PaymentTerms Result}
-	 */
-	private Result paymentTermRequirement(Context context, ResultList list,
-			Object selection) {
-		Object payamentObj = context.getSelection(PAYMENT_TERMS);
-		Requirement paymentReq = get("paymentTerms");
-		PaymentTerms paymentTerm = (PaymentTerms) paymentReq.getValue();
-
-		if (selection == paymentTerm) {
-			return paymentTerms(context, paymentTerm);
-
-		}
-		if (payamentObj != null) {
-			paymentTerm = (PaymentTerms) payamentObj;
-			paymentReq.setDefaultValue(paymentTerm);
-		}
-
-		Record paymentTermRecord = new Record(paymentTerm);
-		paymentTermRecord.add("Name", "Payment Terms");
-		paymentTermRecord.add("Value", paymentTerm.getName());
-		list.add(paymentTermRecord);
-		Result result = new Result();
-		result.add(list);
-		return result;
 	}
 
 	/**
