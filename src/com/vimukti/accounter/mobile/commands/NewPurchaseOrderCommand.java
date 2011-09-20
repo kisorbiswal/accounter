@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.core.Contact;
-import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
@@ -279,35 +278,35 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 		return null;
 	}
 
-	/**
-	 * payment terms requirement
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result paymentTermRequirement(Context context, ResultList list,
-			Object selection) {
-		Object payamentObj = context.getSelection(PAYMENT_TERMS);
-		Requirement paymentReq = get("paymentTerms");
-		PaymentTerms paymentTerm = (PaymentTerms) paymentReq.getValue();
-
-		if (selection == paymentTerm) {
-			return paymentTerms(context, paymentTerm);
-
-		}
-		if (payamentObj != null) {
-			paymentTerm = (PaymentTerms) payamentObj;
-			paymentReq.setDefaultValue(paymentTerm);
-		}
-
-		Record paymentTermRecord = new Record(paymentTerm);
-		paymentTermRecord.add("Name", "Payment Terms");
-		paymentTermRecord.add("Value", paymentTerm.getName());
-		list.add(paymentTermRecord);
-		return null;
-	}
+	// /**
+	// * payment terms requirement
+	// *
+	// * @param context
+	// * @param list
+	// * @param selection
+	// * @return
+	// */
+	// private Result paymentTermRequirement(Context context, ResultList list,
+	// Object selection) {
+	// Object payamentObj = context.getSelection(PAYMENT_TERMS);
+	// Requirement paymentReq = get("paymentTerms");
+	// PaymentTerms paymentTerm = (PaymentTerms) paymentReq.getValue();
+	//
+	// if (selection == paymentTerm) {
+	// return paymentTerms(context, paymentTerm);
+	//
+	// }
+	// if (payamentObj != null) {
+	// paymentTerm = (PaymentTerms) payamentObj;
+	// paymentReq.setDefaultValue(paymentTerm);
+	// }
+	//
+	// Record paymentTermRecord = new Record(paymentTerm);
+	// paymentTermRecord.add("Name", "Payment Terms");
+	// paymentTermRecord.add("Value", paymentTerm.getName());
+	// list.add(paymentTermRecord);
+	// return null;
+	// }
 
 	/**
 	 * Contact requirement checking
