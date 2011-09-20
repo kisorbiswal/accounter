@@ -20,7 +20,6 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 
 public class NewServiceItemCommand extends AbstractCommand {
-	private static final String INPUT_ATTR = "input";
 
 	@Override
 	protected Company getCompany() {
@@ -205,7 +204,16 @@ public class NewServiceItemCommand extends AbstractCommand {
 			return result;
 		}
 
-		return null;
+		result = context.makeResult();
+		result.add(" Item is ready to create with following values.");
+		result.add(list);
+		ResultList actions = new ResultList("actions");
+		Record finish = new Record(ActionNames.FINISH);
+		finish.add("", "Finish to create Item.");
+		actions.add(finish);
+		result.add(actions);
+
+		return result;
 	}
 
 	private Result supplierServiceNoRequirement(Context context,
@@ -701,11 +709,6 @@ public class NewServiceItemCommand extends AbstractCommand {
 		Record record = new Record(last);
 		record.add("Name", last.getName());
 		return record;
-	}
-
-	private Record createItemRecord(Item last) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	private Result createItem(Context context) {
