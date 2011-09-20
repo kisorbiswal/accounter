@@ -349,42 +349,6 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 	}
 
 	/**
-	 * order no requirement
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result orderNoRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement req = get("orderNo");
-		String orderNo = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("orderNo")) {
-			String order = context.getSelection(NUMBER);
-			if (order == null) {
-				order = context.getString();
-			}
-			orderNo = order;
-			req.setValue(orderNo);
-		}
-
-		if (selection == orderNo) {
-			context.setAttribute(INPUT_ATTR, "orderNo");
-			return number(context, "Enter Order number", orderNo);
-		}
-
-		Record orderNoRecord = new Record(orderNo);
-		orderNoRecord.add("Name", "Order No");
-		orderNoRecord.add("Value", orderNo);
-		list.add(orderNoRecord);
-		return null;
-	}
-
-	/**
 	 * due date requirement
 	 * 
 	 * @param context
