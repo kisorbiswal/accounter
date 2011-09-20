@@ -343,7 +343,8 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = dateOptionalRequirement(context, list, "due", selection);
+		result = dateOptionalRequirement(context, list, "due", "Due Date",
+				selection);
 		if (result != null) {
 			return result;
 		}
