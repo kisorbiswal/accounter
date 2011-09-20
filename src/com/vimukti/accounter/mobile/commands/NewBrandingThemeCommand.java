@@ -16,30 +16,36 @@ import com.vimukti.accounter.mobile.ResultList;
 public class NewBrandingThemeCommand extends AbstractTransactionCommand {
 
 	private static final String THEME_NAME = "Name";
-	private static final String PAGE_SIZE = "pageSize";
-	private static final String TOP_MARGIN = "topMargin";
-	private static final String BOTTOM_MARGIN = "bottomMargin";
-	private static final String ADDRESS_PADDING = "addressPadding";
-	private static final String FONT = "font";
-	private static final String FONT_SIZE = "fontSize";
-	private static final String OVERDUE_INVOICE_TITLE = "overDueInvoiceTitle";
-	private static final String CREDIT_TITLE = "creditnoteTitle";
-	private static final String STATEMENT_TITLE = "statementTitle";
-	private static final String LOGO = "Addlogo";
-	private static final String MEASURE_IN = "measureIn";
-	private static final String SHOW_TAX_NUMBER = "showTaxNumber";
-	private static final String SHOW_COLUMN_HEADINGS = "showColumnHeadings";
-	private static final String SHOW_UNITPRICE_N_QUANTITY = "showUnitPricenQuantity";
-	private static final String SHOW_TAX = "showTax";
-	private static final String SHOW_VAT = "showVat";
-	private static final String SHOW_REG_ADDRESS = "showRegAddress";
-	private static final String SHOW_LOGO = "showLogo";
-	private static final String PAYPALID = "paypalId";
-	private static final String LOGO_ALLIGNMENT = "logoAlignment";
-	private static final String TERMS_N_PAYMENT_ADVICE = "termsnPaymentAdvice";
-	private static final String INVOICE_TEMPLATE = "invoiceTemplate";
-	private static final String CREDIT_TEMPLATE = "creditTemplate";
-	private static final String CONTACT_DETAILS = "contactDetails";
+	private static final String PAGE_SIZE = "Page Size";
+	private static final String TOP_MARGIN = "Top Margin";
+	private static final String BOTTOM_MARGIN = "Bottom Margin";
+	private static final String ADDRESS_PADDING = "Address Padding";
+	private static final String FONT = "Font";
+	private static final String FONT_SIZE = "font Size";
+	private static final String OVERDUE_INVOICE_TITLE = "Overdue Invoice Title";
+	private static final String CREDIT_TITLE = "Creditnote Title";
+	private static final String STATEMENT_TITLE = "Statement Title";
+	private static final String LOGO = "Add logo";
+	private static final String MEASURE_IN = "Measure in";
+	private static final String SHOW_TAX_NUMBER = "Show Tax Number";
+	private static final String SHOW_COLUMN_HEADINGS = "Show Column Headings";
+	private static final String SHOW_UNITPRICE_N_QUANTITY = "Show Unit Price &amp; Quantity";
+	private static final String SHOW_TAX = "Show Tax Column";
+	private static final String SHOW_VAT = "Show Vat Column";
+	private static final String SHOW_REG_ADDRESS = "Show Registered Address";
+	private static final String SHOW_LOGO = "Show Logo";
+	private static final String PAYPALID = "Paypal Id";
+	private static final String LOGO_ALLIGNMENT = "Logo Alignment";
+	private static final String TERMS_N_PAYMENT_ADVICE = "Terms &amp; Payment Advice";
+	private static final String INVOICE_TEMPLATE = "Invoice Template";
+	private static final String CREDIT_TEMPLATE = "Credit Template";
+	private static final String CONTACT_DETAILS = "Contact Details";
+
+	public static final int MEASURES_IN_CM = 1;
+	public static final int MEASURES_IN_INCHES = 2;
+
+	public static final int LOGO_ALIGNMENT_LEFT = 1;
+	public static final int LOGO_ALIGNMENT_RIGHT = 2;
 
 	@Override
 	public String getId() {
@@ -115,9 +121,13 @@ public class NewBrandingThemeCommand extends AbstractTransactionCommand {
 		boolean showVat = (Boolean) get(SHOW_VAT).getValue();
 		boolean showRegAddress = (Boolean) get(SHOW_REG_ADDRESS).getValue();
 
+		int measuresIn = get(MEASURE_IN).getValue();
+		int logoAllignmentType = get(LOGO_ALLIGNMENT).getValue();
+
 		brandingTheme.setThemeName((String) get(THEME_NAME).getValue());
 		brandingTheme.setPageSizeType(pageSize.intValue());
 		brandingTheme.setTopMargin(topMargin);
+		brandingTheme.setMarginsMeasurementType(measuresIn);
 		brandingTheme.setBottomMargin(bottomMargin);
 		brandingTheme.setAddressPadding(addressPadding);
 		brandingTheme.setFont((String) get(FONT).getValue());
@@ -139,6 +149,7 @@ public class NewBrandingThemeCommand extends AbstractTransactionCommand {
 		brandingTheme.setShowLogo(showLogo);
 
 		brandingTheme.setPayPalEmailID((String) get(PAYPALID).getValue());
+		brandingTheme.setLogoAlignmentType(logoAllignmentType);
 		brandingTheme.setContactDetails((String) get(CONTACT_DETAILS)
 				.getValue());
 		brandingTheme.setTerms_And_Payment_Advice((String) get(
@@ -204,6 +215,11 @@ public class NewBrandingThemeCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
+		result = getMeasuresInRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+
 		result = getBottomMarginRequirement(context, list, selection);
 		if (result != null) {
 			return result;
@@ -236,6 +252,11 @@ public class NewBrandingThemeCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
+		result = getLogoAllignmentRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+
 		result = getContactDetailsRequirement(context, list, selection);
 		if (result != null) {
 			return result;
@@ -451,7 +472,7 @@ public class NewBrandingThemeCommand extends AbstractTransactionCommand {
 
 		if (selection == pageSize) {
 			context.setAttribute(INPUT_ATTR, PAGE_SIZE);
-			return text(context, "Enter page size ", pageSize.toString());
+			return number(context, "Enter page size ", pageSize.toString());
 		}
 
 		Record balanceRecord = new Record(pageSize);
@@ -480,7 +501,7 @@ public class NewBrandingThemeCommand extends AbstractTransactionCommand {
 
 		if (selection == topMargin) {
 			context.setAttribute(INPUT_ATTR, TOP_MARGIN);
-			return text(context, "Enter top margin ", topMargin.toString());
+			return amount(context, "Enter top margin ", topMargin);
 		}
 
 		Record balanceRecord = new Record(topMargin);
@@ -490,6 +511,32 @@ public class NewBrandingThemeCommand extends AbstractTransactionCommand {
 		Result result = new Result();
 		result.add(list);
 		return result;
+	}
+
+	private Result getMeasuresInRequirement(Context context, ResultList list,
+			Object selection) {
+
+		Requirement measuresInReq = get(MEASURE_IN);
+		Boolean measuresin = (Boolean) measuresInReq.getValue();
+		if (selection == measuresin) {
+			context.setAttribute(INPUT_ATTR, MEASURE_IN);
+			measuresin = !measuresin;
+			measuresInReq.setValue(measuresin);
+		}
+		int measures;
+		if (measuresin) {
+			measures = MEASURES_IN_CM;
+		} else {
+			measures = MEASURES_IN_INCHES;
+		}
+		Record isTaxableRecord = new Record(measuresin);
+		isTaxableRecord.add("Name", MEASURE_IN);
+		isTaxableRecord.add("Value", measures);
+		list.add(isTaxableRecord);
+		Result result = new Result();
+		result.add(list);
+		return result;
+
 	}
 
 	private Result getBottomMarginRequirement(Context context, ResultList list,
@@ -509,8 +556,7 @@ public class NewBrandingThemeCommand extends AbstractTransactionCommand {
 
 		if (selection == bottomMargin) {
 			context.setAttribute(INPUT_ATTR, BOTTOM_MARGIN);
-			return text(context, "Enter bottom margin ",
-					bottomMargin.toString());
+			return amount(context, "Enter bottom margin ", bottomMargin);
 		}
 
 		Record balanceRecord = new Record(bottomMargin);
@@ -539,8 +585,7 @@ public class NewBrandingThemeCommand extends AbstractTransactionCommand {
 
 		if (selection == addressPadding) {
 			context.setAttribute(INPUT_ATTR, ADDRESS_PADDING);
-			return text(context, "Enter address padding ",
-					addressPadding.toString());
+			return amount(context, "Enter address padding ", addressPadding);
 		}
 
 		Record balanceRecord = new Record(addressPadding);
@@ -609,6 +654,32 @@ public class NewBrandingThemeCommand extends AbstractTransactionCommand {
 		Result result = new Result();
 		result.add(list);
 		return result;
+	}
+
+	private Result getLogoAllignmentRequirement(Context context,
+			ResultList list, Object selection) {
+
+		Requirement measuresInReq = get(LOGO_ALLIGNMENT);
+		Boolean logoAllign = (Boolean) measuresInReq.getValue();
+		if (selection == logoAllign) {
+			context.setAttribute(INPUT_ATTR, LOGO_ALLIGNMENT);
+			logoAllign = !logoAllign;
+			measuresInReq.setValue(logoAllign);
+		}
+		int measures;
+		if (logoAllign) {
+			measures = LOGO_ALIGNMENT_LEFT;
+		} else {
+			measures = LOGO_ALIGNMENT_RIGHT;
+		}
+		Record logo = new Record(logoAllign);
+		logo.add("Name", LOGO_ALLIGNMENT);
+		logo.add("Value", measures);
+		list.add(logo);
+		Result result = new Result();
+		result.add(list);
+		return result;
+
 	}
 
 	private Result getContactDetailsRequirement(Context context,
@@ -873,38 +944,6 @@ public class NewBrandingThemeCommand extends AbstractTransactionCommand {
 		Result result = new Result();
 		result.add(list);
 		return result;
-
-	}
-
-	private Result createOptionalResult(Context context) {
-		Result result = context.makeResult();
-
-		ResultList list = new ResultList(null);
-
-		// TODO pending measure in
-		// TODO pending for all check boxes
-
-		Boolean showTaxNumber = (Boolean) get("showTaxNumber").getValue();
-		Record showTaxNumberRecord = new Record(showTaxNumber);
-		showTaxNumberRecord.add("Name", "Show tax number");
-		showTaxNumberRecord.add("Value", showTaxNumber.booleanValue());
-		list.add(showTaxNumberRecord);
-
-		Boolean showColumns = (Boolean) get("showColumns").getValue();
-		Record showColumnsRecord = new Record(showColumns);
-		showColumnsRecord.add("Name", "Show Column Headings");
-		showColumnsRecord.add("Value", showColumns.booleanValue());
-		list.add(showColumnsRecord);
-
-		Boolean showUnitPricenQty = (Boolean) get("showUnitPricenQuantity")
-				.getValue();
-		Record pricenQtyRecord = new Record(showUnitPricenQty);
-		pricenQtyRecord.add("Name", "Show unit price & quantity");
-		pricenQtyRecord.add("Value", showUnitPricenQty.booleanValue());
-		list.add(pricenQtyRecord);
-
-		return null;
-
 	}
 
 }
