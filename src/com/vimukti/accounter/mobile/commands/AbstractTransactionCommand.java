@@ -12,10 +12,10 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Item;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TransactionItem;
-import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
@@ -39,7 +39,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	private static final String ITEM_DETAILS = null;
 	private static final String ITEM_PROPERTY_ATTR = null;
 	private static final int PAYMENTMETHODS_TO_SHOW = 5;
-	private static final int VENDORS_TO_SHOW = 5;
 
 	protected Result itemsRequirement(Context context) {
 		Requirement itemsReq = get("items");
@@ -341,12 +340,12 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	}
 
 	protected Result contactRequirement(Context context, ResultList list,
-			Object selection, Customer customer) {
+			Object selection, Payee payee) {
 		Object contactObj = context.getSelection(CONTACTS);
 		Requirement contactReq = get("contact");
 		Contact contact = (Contact) contactReq.getValue();
 		if (selection == contact) {
-			return contactList(context, customer, contact);
+			return contactList(context, payee, contact);
 
 		}
 		if (contactObj != null) {
@@ -431,7 +430,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return result;
 	}
 
-	protected Result contactList(Context context, Customer customer,
+	protected Result contactList(Context context, Payee customer,
 			Contact oldContact) {
 		Set<Contact> contacts = customer.getContacts();
 		ResultList list = new ResultList(CONTACTS);
@@ -658,63 +657,33 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return accountTypeName;
 	}
 
-	protected Result createSupplierRequirement(Context context) {
-		Requirement supplierReq = get("supplier");
-		Vendor vendor = context.getSelection("suppliers");
-		if (vendor != null) {
-			supplierReq.setValue(vendor);
-		}
-		if (!supplierReq.isDone()) {
-			return vendors(context);
-		}
-		return null;
-	}
-
-	protected Result vendors(Context context) {
+	protected Result phoneRequirement(Context context, ResultList list,
+			String selection) {
 		Result result = context.makeResult();
-		ResultList supplierList = new ResultList("suppliers");
+		Requirement req = get("phone");
+		String phoneNo = (String) req.getValue();
 
-		Object last = context.getLast(RequirementType.VENDOR);
-		int num = 0;
-		if (last != null) {
-			supplierList.add(createVendorRecord((Vendor) last));
-			num++;
-		}
-		List<Vendor> vendors = getVendors(context.getSession());
-		for (Vendor vendor : vendors) {
-			if (vendor != last) {
-				supplierList.add(createVendorRecord(vendor));
-				num++;
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals("phone")) {
+			String order = context.getSelection(NUMBER);
+			if (order == null) {
+				order = context.getString();
 			}
-			if (num == VENDORS_TO_SHOW) {
-				break;
-			}
+			phoneNo = order;
+			req.setValue(phoneNo);
 		}
-		int size = supplierList.size();
-		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append("Select a Supplier");
-		}
-		CommandList commandList = new CommandList();
-		commandList.add("Create");
 
-		result.add(message.toString());
-		result.add(supplierList);
-		result.add(commandList);
-		result.add("Type for Supplier");
+		if (selection == phoneNo) {
+			context.setAttribute(INPUT_ATTR, "phone");
+			return number(context, "Enter Phone number", phoneNo);
+		}
+
+		Record cashSaleNoRec = new Record(phoneNo);
+		cashSaleNoRec.add("Name", "Phone Number");
+		cashSaleNoRec.add("Value", phoneNo);
+		list.add(cashSaleNoRec);
+		result.add(list);
 		return result;
-	}
-
-	private Record createVendorRecord(Vendor last) {
-		Record record = new Record(last);
-		record.add("Name", last.getName());
-		record.add("Balance", last.getBalance());
-		return record;
-	}
-
-	private List<Vendor> getVendors(Session session) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }
