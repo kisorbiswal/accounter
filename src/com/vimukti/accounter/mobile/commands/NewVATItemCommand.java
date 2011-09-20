@@ -21,8 +21,6 @@ import com.vimukti.accounter.web.server.FinanceTool;
 
 public class NewVATItemCommand extends AbstractCommand {
 
-	private static final String INPUT_ATTR = "input";
-
 	private static final String NAME = "name";
 	private static final String DESCRIPTION = "description";
 	private static final String IS_PERCENTAGE = "isPercentage";

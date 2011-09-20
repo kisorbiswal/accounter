@@ -31,8 +31,6 @@ import com.vimukti.accounter.web.server.FinanceTool;
 
 public class NewVATAgencyCommand extends AbstractCommand {
 
-	private static final String INPUT_ATTR = "input";
-
 	private static final String NAME = "name";
 	private static final String PAYMENT_TERM = "paymentTerm";
 	private static final String VAT_RETURN = "vatReturn";
@@ -91,6 +89,16 @@ public class NewVATAgencyCommand extends AbstractCommand {
 	public Result run(Context context) {
 		Result result = null;
 
+		String process = (String) context.getAttribute(PROCESS_ATTR);
+		if (process != null) {
+			if (process.equals(CONTACT_PROCESS)) {
+				result = contactProcess(context);
+				if (result != null) {
+					return result;
+				}
+			}
+		}
+
 		result = nameRequirement(context);
 		if (result != null) {
 			return result;
@@ -114,16 +122,6 @@ public class NewVATAgencyCommand extends AbstractCommand {
 			result = vatReturnRequirement(context);
 			if (result != null) {
 				return result;
-			}
-		}
-
-		String process = (String) context.getAttribute(PROCESS_ATTR);
-		if (process != null) {
-			if (process.equals(CONTACT_PROCESS)) {
-				result = contactProcess(context);
-				if (result != null) {
-					return result;
-				}
 			}
 		}
 
@@ -299,6 +297,24 @@ public class NewVATAgencyCommand extends AbstractCommand {
 				return contact;
 			}
 		}
+
+		Requirement isActiveReq = get(IS_ACTIVE);
+		Boolean isActive = (Boolean) isActiveReq.getDefaultValue();
+		if (selection == isActive) {
+			context.setAttribute(INPUT_ATTR, IS_ACTIVE);
+			isActive = !isActive;
+			isActiveReq.setDefaultValue(isActive);
+		}
+		String activeString = "";
+		if (isActive) {
+			activeString = "This Agency is Active";
+		} else {
+			activeString = "This Agency is InActive";
+		}
+		Record isActiveRecord = new Record(IS_ACTIVE);
+		isActiveRecord.add("Name", "");
+		isActiveRecord.add("Value", activeString);
+		list.add(isActiveRecord);
 
 		result = context.makeResult();
 		result.add(getString()
@@ -690,7 +706,7 @@ public class NewVATAgencyCommand extends AbstractCommand {
 
 	private Result nameRequirement(Context context) {
 		Requirement nameReq = get(NAME);
-		String input = (String) context.getAttribute("input");
+		String input = (String) context.getAttribute(INPUT_ATTR);
 		if (input.equals(NAME)) {
 			input = context.getString();
 			nameReq.setValue(input);
