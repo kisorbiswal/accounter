@@ -32,8 +32,18 @@ public class APAgingSummaryReportCommand extends
 
 	@Override
 	protected Record createReportRecord(DummyDebitor record) {
-		// TODO Auto-generated method stub
-		return null;
+		Record agingRecord = new Record(record);
+		agingRecord.add("Creditor", record.getDebitorName());
+		agingRecord.add("0-30 days", record.getDebitdays_in30()
+				+ record.getDebitdays_incurrent());
+		agingRecord.add("31-60 days", record.getDebitdays_in60());
+		agingRecord.add("61-90 days", record.getDebitdays_in90());
+		agingRecord.add("Older", record.getDebitdays_inolder());
+		agingRecord.add("Total balance", record.getDebitdays_in30()
+				+ record.getDebitdays_in60() + record.getDebitdays_in90()
+				+ record.getDebitdays_inolder()
+				+ record.getDebitdays_incurrent());
+		return agingRecord;
 	}
 
 	@Override

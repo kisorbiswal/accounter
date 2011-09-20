@@ -6,6 +6,7 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
 
 public class SalesByCustomerDetailReportCommand extends
@@ -18,8 +19,14 @@ public class SalesByCustomerDetailReportCommand extends
 
 	@Override
 	protected Record createReportRecord(SalesByCustomerDetail record) {
-		// TODO Auto-generated method stub
-		return null;
+		Record transactionRecord = new Record(record);
+		transactionRecord.add("Customer Name", "");
+		transactionRecord.add("Date", record.getDate());
+		transactionRecord.add("Type", Utility.getTransactionName(record
+				.getType()));
+		transactionRecord.add("No.", record.getNumber());
+		transactionRecord.add("Amount", record.getAmount());
+		return transactionRecord;
 	}
 
 	@Override

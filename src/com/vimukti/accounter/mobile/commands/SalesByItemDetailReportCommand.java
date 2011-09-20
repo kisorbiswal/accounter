@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
+import com.vimukti.accounter.web.client.ui.core.ReportUtility;
 
 public class SalesByItemDetailReportCommand extends
 		AbstractReportCommand<SalesByCustomerDetail> {
@@ -18,9 +19,17 @@ public class SalesByItemDetailReportCommand extends
 
 	@Override
 	protected Record createReportRecord(SalesByCustomerDetail record) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		Record salesRecord = new Record(record);
+		salesRecord.add("Item", "");
+		salesRecord.add("Date", record.getDate());
+		salesRecord.add("Type", ReportUtility.getTransactionName(record
+				.getType()));
+		salesRecord.add("No.", record.getNumber());
+		salesRecord.add("Quantity", record.getQuantity());
+		salesRecord.add("Unit price", record.getUnitPrice());
+		salesRecord.add("Discount", record.getDiscount());
+		salesRecord.add("Amount", record.getAmount());
+		return salesRecord;	}
 
 	@Override
 	public String getId() {

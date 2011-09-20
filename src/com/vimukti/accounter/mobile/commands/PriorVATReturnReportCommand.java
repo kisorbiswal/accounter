@@ -43,8 +43,10 @@ public class PriorVATReturnReportCommand extends
 
 	@Override
 	protected Record createReportRecord(VATSummary record) {
-		// TODO Auto-generated method stub
-		return null;
+		Record vatRecord = new Record(record);
+		vatRecord.add("", record.getName());
+		vatRecord.add(getEndDate() + "", record.getValue());
+		return vatRecord;
 	}
 
 	@Override

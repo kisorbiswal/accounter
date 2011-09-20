@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 
 public class CustomerStatementReportCommand extends
@@ -33,8 +35,19 @@ public class CustomerStatementReportCommand extends
 
 	@Override
 	protected Record createReportRecord(PayeeStatementsList record) {
-		// TODO Auto-generated method stub
-		return null;
+		Record statementRecord = new Record(record);
+		statementRecord.add("Date", record.getTransactionDate());
+		statementRecord.add("Type", Utility.getTransactionName(record
+				.getTransactiontype()));
+		statementRecord.add("No.", record.getTransactionNumber());
+		statementRecord.add("Aging", record.getDueDate());
+		if (record.getTransactiontype() == Transaction.TYPE_INVOICE)
+			statementRecord.add("Amount", record.getTotal());
+		if (record.getTransactiontype() == Transaction.TYPE_RECEIVE_PAYMENT)
+			statementRecord.add("Amount", record.getTotal());
+		statementRecord.add("Amount", record.getBalance());
+
+		return statementRecord;
 	}
 
 	@Override

@@ -10,8 +10,9 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 
-public class SalesOrderReportCommand extends
+public class PurchaseClosedOrderReportCommand extends
 		AbstractReportCommand<OpenAndClosedOrders> {
 
 	@Override
@@ -35,8 +36,18 @@ public class SalesOrderReportCommand extends
 
 	@Override
 	protected Record createReportRecord(OpenAndClosedOrders record) {
-		// TODO Auto-generated method stub
-		return null;
+		Record openRecord = new Record(record);
+		if (record.getTransactionDate() != null)
+			openRecord.add("Order Date", UIUtils.getDateByCompanyType(record
+					.getTransactionDate()));
+		else
+			openRecord.add("", "");
+		openRecord.add("Supplier", record.getVendorOrCustomerName());
+		openRecord.add("Description", record.getDescription());
+		openRecord.add("Quantity", ((Double) record.getQuantity()).toString());
+		openRecord.add("Value", record.getAmount());
+
+		return openRecord;
 	}
 
 	@Override
@@ -50,4 +61,5 @@ public class SalesOrderReportCommand extends
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 }

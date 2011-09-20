@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Customer;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -13,6 +14,8 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 
 public abstract class AbstractReportCommand<T> extends AbstractCommand {
 	protected static final int REPORTS_TO_SHOW = 5;
@@ -123,6 +126,16 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 		return null;
 	}
 
+	protected Date getStartDate() {
+		return null;
+
+	}
+
+	protected Date getEndDate() {
+		return null;
+
+	}
+
 	protected Result toDateRequirement(Context context, ResultList list,
 			Object selection) {
 		Requirement dateReq = get("toDate");
@@ -202,10 +215,10 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 		record.add("Name", vatAgency.getName());
 		record.add("Payment Term", vatAgency.getPaymentTerm());
 		record.add("VAT Return", vatAgency.getVATReturn());
-		record.add("Sales Liability Account",
-				vatAgency.getSalesLiabilityAccount());
-		record.add("Purchase Liability Account",
-				vatAgency.getPurchaseLiabilityAccount());
+		record.add("Sales Liability Account", vatAgency
+				.getSalesLiabilityAccount());
+		record.add("Purchase Liability Account", vatAgency
+				.getPurchaseLiabilityAccount());
 		return record;
 	}
 
@@ -344,4 +357,43 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 		return record;
 	}
 
+	public FinanceDate getLastMonth(FinanceDate date) {
+		int month = date.getMonth() - 1;
+		int year = date.getYear();
+
+		int lastDay;
+		switch (month) {
+		case 0:
+		case 2:
+		case 4:
+		case 6:
+		case 7:
+		case 9:
+		case 11:
+			lastDay = 31;
+			break;
+		case 1:
+			if (year % 4 == 0 && year % 100 == 0)
+				lastDay = 29;
+			else
+				lastDay = 28;
+			break;
+
+		default:
+			lastDay = 30;
+			break;
+		}
+		return new FinanceDate(date.getYear(), date.getMonth() - 1, lastDay);
+		// return lastDay;
+	}
+
+	protected int getType(TransactionDetailByAccount record) {
+		if (record.getTransactionType() == 11) {
+			return (record.getMemo() != null && record.getMemo()
+					.equalsIgnoreCase("supplier prepayment")) ? ClientTransaction.TYPE_VENDOR_PAYMENT
+					: ClientTransaction.TYPE_PAY_BILL;
+		}
+
+		return record.getTransactionType();
+	}
 }

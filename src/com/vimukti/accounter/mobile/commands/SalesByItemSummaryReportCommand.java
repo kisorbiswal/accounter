@@ -18,8 +18,13 @@ public class SalesByItemSummaryReportCommand extends
 
 	@Override
 	protected Record createReportRecord(SalesByCustomerDetail record) {
-		// TODO Auto-generated method stub
-		return null;
+
+		Record salesRecord = new Record(record);
+		salesRecord.add("Item", record.getItemName());
+		salesRecord.add("Quantity", record.getQuantity());
+		salesRecord.add("Amount", record.getAmount());
+
+		return salesRecord;
 	}
 
 	@Override

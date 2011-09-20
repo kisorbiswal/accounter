@@ -9,9 +9,12 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 
 public class ExpenseReportCommand extends AbstractReportCommand<ExpenseList> {
+	private String currentsectionName = "";
+	private Double accountBalance = 0.0;
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
@@ -36,8 +39,18 @@ public class ExpenseReportCommand extends AbstractReportCommand<ExpenseList> {
 
 	@Override
 	protected Record createReportRecord(ExpenseList record) {
-		// TODO Auto-generated method stub
-		return null;
+		Record expenseRecord = new Record(record);
+
+		expenseRecord.add("", Utility.getTransactionName(record
+				.getTransactionType()));
+		expenseRecord.add("Transaction date", record.getTransactionDate());
+		expenseRecord.add("Amount", record.getTotal());
+		if (!currentsectionName.equals(record.getName())) {
+			currentsectionName = record.getName();
+			accountBalance = 0.0D;
+		}
+		expenseRecord.add("Balance", accountBalance += record.getTotal());
+		return expenseRecord;
 	}
 
 	@Override

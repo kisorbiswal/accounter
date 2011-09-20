@@ -45,8 +45,16 @@ public class TrialBalanceReportCommand extends
 
 	@Override
 	protected Record createReportRecord(TrialBalance record) {
-		// TODO Auto-generated method stub
-		return null;
+		Record trialRecord = new Record(record);
+
+		trialRecord.add("Account Name", record.getAccountName());
+		if (getCompany().getPreferences().getUseAccountNumbers())
+			trialRecord.add("Account Number", record.getAccountNumber());
+		else
+			trialRecord.add("", "");
+		trialRecord.add("Debit", record.getDebitAmount());
+		trialRecord.add("Credit", record.getCreditAmount());
+		return trialRecord;
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 
 public class ARAgingDetailReportCommand extends
@@ -19,8 +20,14 @@ public class ARAgingDetailReportCommand extends
 
 	@Override
 	protected Record createReportRecord(AgedDebtors record) {
-		// TODO Auto-generated method stub
-		return null;
+		Record agingRecord = new Record(record);
+		agingRecord.add("Name", record.getName());
+		agingRecord.add("Date", record.getDate());
+		agingRecord.add("Type", Utility.getTransactionName(record.getType()));
+		agingRecord.add("No.", record.getNumber());
+		agingRecord.add("Aging", record.getAgeing());
+		agingRecord.add("Amount", record.getTotal());
+		return agingRecord;
 	}
 
 	@Override

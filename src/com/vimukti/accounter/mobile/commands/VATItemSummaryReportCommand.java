@@ -18,8 +18,10 @@ public class VATItemSummaryReportCommand extends
 
 	@Override
 	protected Record createReportRecord(VATItemSummary record) {
-		// TODO Auto-generated method stub
-		return null;
+		Record vatItemRecord = new Record(record);
+		vatItemRecord.add("Name", record.getName());
+		vatItemRecord.add("Amout", record.getAmount());
+		return vatItemRecord;
 	}
 
 	@Override

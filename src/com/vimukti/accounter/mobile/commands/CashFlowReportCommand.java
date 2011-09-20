@@ -23,8 +23,13 @@ public class CashFlowReportCommand extends AbstractReportCommand<TrialBalance> {
 
 	@Override
 	protected Record createReportRecord(TrialBalance record) {
-		// TODO Auto-generated method stub
-		return null;
+		Record trialRecord = new Record(record);
+		trialRecord.add("", record.getAccountNumber() != null ? record
+				.getAccountNumber()
+				+ "-" + record.getAccountName() : "" + record.getAccountName());
+		trialRecord
+				.add(getStartDate() + "_" + getEndDate(), record.getAmount());
+		return trialRecord;
 	}
 
 	@Override

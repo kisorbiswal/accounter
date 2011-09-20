@@ -6,10 +6,14 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 
 public class TransacctionDetailByAccountReportCommand extends
 		AbstractReportCommand<TransactionDetailByAccount> {
+
+	private double accountBalance;
+	private String currentsectionName;
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
@@ -18,8 +22,19 @@ public class TransacctionDetailByAccountReportCommand extends
 
 	@Override
 	protected Record createReportRecord(TransactionDetailByAccount record) {
-		// TODO Auto-generated method stub
-		return null;
+		Record transactionRecord = new Record(record);
+		transactionRecord.add("", "");
+		transactionRecord.add("Name", record.getName());
+		transactionRecord.add("Date", record.getTransactionDate());
+		transactionRecord.add("", Utility.getTransactionName(getType(record)));
+		transactionRecord.add("No.", record.getTransactionNumber());
+		transactionRecord.add("Amount", record.getTotal());
+		if (!currentsectionName.equals(record.getAccountName())) {
+			currentsectionName = record.getAccountName();
+			accountBalance = 0.0D;
+		}
+		transactionRecord.add("Balance", accountBalance += record.getTotal());
+		return transactionRecord;
 	}
 
 	@Override

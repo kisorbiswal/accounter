@@ -20,8 +20,11 @@ public class VAT100ReportCommand extends AbstractReportCommand<VATSummary> {
 
 	@Override
 	protected Record createReportRecord(VATSummary record) {
-		// TODO Auto-generated method stub
-		return null;
+		Record vatItemRecord = new Record(record);
+		vatItemRecord.add("Name", record.getVatReturnEntryName());
+		vatItemRecord.add(getStartDate() + "_" + getEndDate(), record
+				.getValue());
+		return vatItemRecord;
 	}
 
 	@Override
