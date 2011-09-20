@@ -7,7 +7,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 
-public class EditJournalEntryCommand extends Command {
+public class EditJournalEntryCommand extends AbstractTransactionCommand {
 
 	@Override
 	public String getId() {

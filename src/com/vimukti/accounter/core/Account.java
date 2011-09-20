@@ -598,9 +598,9 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	 * @param isConsiderAsCashAccount
 	 *            the isConsiderAsCashAccount to set
 	 */
-	// public void setConsiderAsCashAccount(boolean isConsiderAsCashAccount) {
-	// this.isConsiderAsCashAccount = isConsiderAsCashAccount;
-	// }
+	 public void setConsiderAsCashAccount(boolean isConsiderAsCashAccount) {
+	 this.isConsiderAsCashAccount = isConsiderAsCashAccount;
+	 }
 	/**
 	 * @return the comment
 	 */

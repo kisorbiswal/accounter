@@ -1,7 +1,13 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -9,6 +15,11 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 
+/**
+ * 
+ * @author Sai Prasad N
+ * 
+ */
 public class NewAccountCommand extends AbstractTransactionCommand {
 	private static final String ACCOUNT_TYPE = "Account Type";
 	private static final String ACCOUNT_NAME = "Account Name";
@@ -18,9 +29,6 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 	private static final String ASOF = "AsOf";
 	private static final String COMMENTS = "Comments";
 	private static final String CONSIDER_AS_CASH_ACCOUNT = "Consider As Cash Account";
-
-	private static final int ACCOUNT_TYPES_TO_SHOW = 5;
-	private static final String INPUT_ATTR = "input";
 
 	@Override
 	public String getId() {
@@ -43,19 +51,13 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 	@Override
 	public Result run(Context context) {
 		Result result = null;
-		result = accountTypeRequirement(context);
-		if (result != null) {
-			return result;
-		}
-		result = nameRequirement(context);
-		if (result != null) {
-			return result;
-		}
+
 		result = accountNumberRequirement(context);
 		if (result != null) {
 			return result;
 		}
-		result = openingBalanceRequirement(context);
+
+		result = nameRequirement(context);
 		if (result != null) {
 			return result;
 		}
@@ -64,7 +66,42 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 			return null;
 		}
 
-		return null;
+		return createNewAccount(context);
+		// markDone();
+
+	}
+
+	private Result createNewAccount(Context context) {
+		Account account = new Account();
+
+		Integer accType = (Integer) get(ACCOUNT_TYPE).getDefaultValue();
+		String accname = (String) get(ACCOUNT_NAME).getValue();
+		String accountNum = (String) get(ACCOUNT_NUMBER).getValue();
+		double openingBal = (Double) get(OPENINGBALANCE).getValue();
+		boolean isActive = (Boolean) get(ACTIVE).getDefaultValue();
+		boolean isCashAcount = (Boolean) get(CONSIDER_AS_CASH_ACCOUNT)
+				.getDefaultValue();
+		Date asOf = (Date) get(ASOF).getDefaultValue();
+
+		account.setType(accType);
+		account.setName(accname);
+		account.setNumber(accountNum);
+		account.setOpeningBalance(openingBal);
+		account.setIsActive(isActive);
+		account.setAsOf(new FinanceDate(asOf));
+		account.setConsiderAsCashAccount(isCashAcount);
+
+		Session session = context.getSession();
+		Transaction transaction = session.beginTransaction();
+		session.saveOrUpdate(account);
+		transaction.commit();
+
+		markDone();
+
+		Result result = new Result();
+		result.add(" Account was created successfully.");
+
+		return result;
 	}
 
 	private Result createOptionalResult(Context context) {
@@ -83,7 +120,11 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		selection = context.getSelection("values");
 
 		Requirement accTypeReq = get(ACCOUNT_TYPE);
-		// TODO
+		Integer actype = (Integer) accTypeReq.getValue();
+		if (actype == selection) {
+			context.setAttribute(INPUT_ATTR, ACCOUNT_TYPE);
+			return number(context, "Please enter the account Type", "" + actype);
+		}
 
 		Requirement accNameReq = get(ACCOUNT_NAME);
 		String name = (String) accNameReq.getValue();
@@ -93,77 +134,185 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		}
 
 		Requirement accounNumberReq = get(ACCOUNT_NUMBER);
-		Integer num = (Integer) accounNumberReq.getValue();
+		String num = (String) accounNumberReq.getValue();
 		if (num == selection) {
 			context.setAttribute(INPUT_ATTR, ACCOUNT_NUMBER);
-			return number(context, "Please Enter Accoount Number",
-					String.valueOf(num));
+			return text(context, "Please Enter Accoount Number", num);
 		}
 
-		return null;
-	}
+		ResultList list = new ResultList("values");
 
-	private Result openingBalanceRequirement(Context context) {
-		Requirement openingBal = get(OPENINGBALANCE);
-		Double balance = context.getSelection(OPENINGBALANCE);
-		if (balance != null) {
-			openingBal.setValue(balance);
+		Record accTypeRecord = new Record(actype);
+		accTypeRecord.add(INPUT_ATTR, "actype");
+		accTypeRecord.add("Value", actype);
+		list.add(accTypeRecord);
+
+		Record numberRecord = new Record(num);
+		numberRecord.add(INPUT_ATTR, "accountNumber");
+		numberRecord.add("Value", num);
+		list.add(numberRecord);
+
+		Record nameRecord = new Record(name);
+		nameRecord.add(INPUT_ATTR, "Name");
+		nameRecord.add("Value", name);
+		list.add(nameRecord);
+
+		Requirement isActiveReq = get(ACTIVE);
+		Boolean isActive = (Boolean) isActiveReq.getDefaultValue();
+		if (selection == isActive) {
+			context.setAttribute(INPUT_ATTR, ACTIVE);
+			isActive = !isActive;
+			isActiveReq.setDefaultValue(isActive);
 		}
-		if (!openingBal.isDone()) {
-			return getResultToAsk(context, "Please enter opening Balance:");
+		String activeString = "";
+		if (isActive) {
+			activeString = "This account is Active";
+		} else {
+			activeString = "This account is InActive";
+		}
+		Record isActiveRecord = new Record(ACTIVE);
+		isActiveRecord.add("Name", "");
+		isActiveRecord.add("Value", activeString);
+		list.add(isActiveRecord);
+
+		Requirement openingBalanceReq = get(OPENINGBALANCE);
+		Double bal = (Double) openingBalanceReq.getValue();
+		if (bal == selection) {
+			context.setAttribute(INPUT_ATTR, OPENINGBALANCE);
+			openingBalanceReq.setDefaultValue(0.0D);
 		}
 
-		return null;
-	}
+		Record openingBalRec = new Record(OPENINGBALANCE);
+		openingBalRec.add("Name", OPENINGBALANCE);
+		openingBalRec.add("Value", bal);
+		list.add(openingBalRec);
 
-	private Result accountTypeRequirement(Context context) {
-		Requirement accType = get(ACCOUNT_TYPE);
-		if (!accType.isDone()) {
-			return getAccountTypesResult(context);
+		Result result = asOfDateRequirement(context, list, selection);
+		if (result != null) {
+			return result;
 		}
-		return null;
-	}
 
-	private Result getAccountTypesResult(Context context) {
-		Result result = context.makeResult();
-		ResultList accountTypesList = new ResultList("");
+		Requirement isCashAccountReq = get(CONSIDER_AS_CASH_ACCOUNT);
+		Boolean isCashAccoount = (Boolean) isCashAccountReq.getDefaultValue();
+		if (selection == isCashAccoount) {
+			context.setAttribute(INPUT_ATTR, CONSIDER_AS_CASH_ACCOUNT);
+			isCashAccoount = !isCashAccoount;
+			isCashAccountReq.setDefaultValue(isCashAccoount);
+		}
+		String isCashAccount = "";
+		if (isCashAccoount) {
+			isCashAccount = "This account is cash account";
+		} else {
+			isCashAccount = "This account is not a cash account";
+		}
+		Record isCashAccountRecord = new Record(CONSIDER_AS_CASH_ACCOUNT);
+		isCashAccountRecord.add("Name", "");
+		isCashAccountRecord.add("Value", isCashAccount);
+		list.add(isCashAccountRecord);
+
+		result = commentsRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+
+		result = context.makeResult();
+		result.add(" Account is ready to create with following values.");
+		result.add(list);
+		ResultList actions = new ResultList("actions");
+		Record finish = new Record(ActionNames.FINISH);
+		finish.add("", "Finish to create Account");
+		actions.add(finish);
+		result.add(actions);
 
 		return result;
+
 	}
 
-	private Record createAccountTypeRecord(Object last) {
-		// TODO Auto-generated method stub
+	private Result commentsRequirement(Context context, ResultList list,
+			Object selection) {
+		Requirement req = get(COMMENTS);
+		String comments = (String) req.getDefaultValue();
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals(COMMENTS)) {
+			String input = context.getSelection(TEXT);
+			if (input == null) {
+				input = context.getString();
+			}
+			comments = input;
+			req.setDefaultValue(comments);
+		}
+
+		if (selection == comments) {
+			context.setAttribute(attribute, COMMENTS);
+			return text(context, "Enter Comments", comments);
+		}
+
+		Record memoRecord = new Record(comments);
+		memoRecord.add("Name", COMMENTS);
+		memoRecord.add("Value", comments);
+		list.add(memoRecord);
 		return null;
 	}
 
 	private Result accountNumberRequirement(Context context) {
-		Requirement accNumber = get(ACCOUNT_NUMBER);
-		int number = context.getSelection(ACCOUNT_NUMBER);
-		if (number != 0) {
-			accNumber.setValue(number);
+		Requirement numberReq = get(ACCOUNT_NUMBER);
+		if (!numberReq.isDone()) {
+			String num = context.getString();
+			if (num != null) {
+				numberReq.setValue(num);
+			} else {
+				return text(context, "Please Enter the account number ", ""
+						+ num);
+			}
 		}
-		if (!accNumber.isDone()) {
-			return getResultToAsk(context, "Please enter Account Number:");
+		String input = (String) context.getAttribute(INPUT_ATTR);
+		if (input.equals(ACCOUNT_NUMBER)) {
+			numberReq.setValue(input);
 		}
 		return null;
 	}
 
 	private Result nameRequirement(Context context) {
-		Requirement accName = get(ACCOUNT_NAME);
-		String accountName = context.getSelection(ACCOUNT_NAME);
-		if (accountName != null) {
-			accName.setValue(accountName);
+		Requirement nameReq = get(ACCOUNT_NAME);
+		if (!nameReq.isDone()) {
+			String string = context.getString();
+			if (string != null) {
+				nameReq.setValue(string);
+			} else {
+				return text(context, "Please Enter the account name ", string);
+			}
 		}
-		if (!accName.isDone()) {
-			return getResultToAsk(context, "Please enter the Accoount name.");
+		String input = (String) context.getAttribute(INPUT_ATTR);
+		if (input.equals(ACCOUNT_NAME)) {
+			nameReq.setValue(input);
 		}
 		return null;
 	}
 
-	private Result getResultToAsk(Context context, String mesg) {
-		Result result = context.makeResult();
-		result.add(mesg);
-		return result;
-	}
+	private Result asOfDateRequirement(Context context, ResultList list,
+			Object selection) {
 
+		Requirement dateReq = get("asof");
+		Date asOfDate = (Date) dateReq.getDefaultValue();
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals(ASOF)) {
+			Date date = context.getSelection(ASOF);
+			if (date == null) {
+				date = context.getDate();
+			}
+			asOfDate = date;
+			dateReq.setDefaultValue(asOfDate);
+		}
+		if (selection == asOfDate) {
+			context.setAttribute(INPUT_ATTR, "asOf");
+			return date(context, "Enter asOf Date", asOfDate);
+		}
+
+		Record asOfDateRecord = new Record(asOfDate);
+		asOfDateRecord.add("Name", "asOf");
+		asOfDateRecord.add("Value", asOfDate.toString());
+		list.add(asOfDateRecord);
+
+		return null;
+	}
 }

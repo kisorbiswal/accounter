@@ -13,7 +13,7 @@ import com.vimukti.accounter.mobile.Result;
  * @author Sai Prasad N
  *
  */
-public class NewJournalEntryCommand extends Command {
+public class NewJournalEntryCommand extends AbstractTransactionCommand {
 
 	@Override
 	public String getId() {

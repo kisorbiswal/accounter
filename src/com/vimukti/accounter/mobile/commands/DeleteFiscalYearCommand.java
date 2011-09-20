@@ -7,7 +7,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 
-public class DeleteFiscalYearCommand extends Command{
+public class DeleteFiscalYearCommand extends AbstractTransactionCommand{
 
 	@Override
 	public String getId() {

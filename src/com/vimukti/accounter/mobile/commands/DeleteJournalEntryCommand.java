@@ -7,7 +7,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 
-public class DeleteJournalEntryCommand extends Command{
+public class DeleteJournalEntryCommand extends AbstractTransactionCommand{
 
 	@Override
 	public String getId() {
