@@ -157,7 +157,8 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 		list.add(isTobePrintedRecord);
 
 		if (!isTobePrinted) {
-			result = checkNumRequirement(context, list, selection);
+			result = amountOptionalRequirement(context, list, selection, CHEQUE_NUM,
+					"Enter check Number");
 			if (result != null) {
 				return result;
 			}
@@ -168,12 +169,6 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		return null;
-	}
-
-	private Result checkNumRequirement(Context context, ResultList list,
-			Object selection) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
