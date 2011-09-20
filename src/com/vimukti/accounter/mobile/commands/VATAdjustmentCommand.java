@@ -3,6 +3,8 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.core.TAXAdjustment;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.mobile.ActionNames;
@@ -27,7 +29,9 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new Requirement(TAX_AGENCY, false, true));
-		list.add(new Requirement(TAX_ITEM, false, true));
+		if (isUkCompany()) {
+			list.add(new Requirement(TAX_ITEM, false, true));
+		}
 		list.add(new Requirement(ACCOUNT, false, true));
 		list.add(new Requirement(AMOUNT, false, true));
 		list.add(new Requirement(IS_INCREASE_VATLINE, true, true));
@@ -65,7 +69,38 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 			return result;
 		}
 
-		return null;
+		return createTaxAdjustment(context);
+	}
+
+	private Result createTaxAdjustment(Context context) {
+		TAXAdjustment taxAdjustment = new TAXAdjustment();
+		TAXAgency taxAgency = get(TAX_AGENCY).getValue();
+		Account account = get(ACCOUNT).getValue();
+		double amount = get(AMOUNT).getValue();
+		boolean isIncreaseVatLine = get(IS_INCREASE_VATLINE).getValue();
+		FinanceDate date = get(DATE).getValue();
+		String number = get(NUMBER).getValue();
+		String memo = get(MEMO).getValue();
+
+		taxAdjustment.setTaxAgency(taxAgency);
+		taxAdjustment.setAdjustmentAccount(account);
+		taxAdjustment.setNetAmount(amount);
+		taxAdjustment.setIncreaseVATLine(isIncreaseVatLine);
+		taxAdjustment.setDate(date);
+		taxAdjustment.setNumber(number);
+		taxAdjustment.setMemo(memo);
+		if (isUkCompany()) {
+			TAXItem taxItem = get(TAX_ITEM).getValue();
+			taxAdjustment.setTaxItem(taxItem);
+		}
+
+		create(taxAdjustment, context);
+		markDone();
+
+		Result result = new Result();
+		result.add("Tax Adjustment was created successfully.");
+
+		return result;
 	}
 
 	private Result createOptionalRequirement(Context context) {
@@ -90,13 +125,6 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 			return getTaxAgencyResult(context);
 		}
 
-		Requirement taxItemReq = get(TAX_ITEM);
-		TAXItem taxItem = (TAXItem) taxItemReq.getValue();
-		if (taxItem == selection) {
-			context.setAttribute(INPUT_ATTR, TAX_ITEM);
-			return getTaxItemResult(context);
-		}
-
 		Requirement accountReq = get(ACCOUNT);
 		Account account = (Account) accountReq.getValue();
 		if (account == selection) {
@@ -119,10 +147,19 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 		taxAgencyRecord.add("Value", taxAgency);
 		list.add(taxAgencyRecord);
 
-		Record taxItemRecord = new Record(taxItem);
-		taxItemRecord.add(INPUT_ATTR, "Tax Item");
-		taxItemRecord.add("Value", taxItem);
-		list.add(taxItemRecord);
+		if (isUkCompany()) {
+			Requirement taxItemReq = get(TAX_ITEM);
+			TAXItem taxItem = (TAXItem) taxItemReq.getValue();
+			if (taxItem == selection) {
+				context.setAttribute(INPUT_ATTR, TAX_ITEM);
+				return getTaxItemResult(context);
+			}
+
+			Record taxItemRecord = new Record(taxItem);
+			taxItemRecord.add(INPUT_ATTR, "Tax Item");
+			taxItemRecord.add("Value", taxItem);
+			list.add(taxItemRecord);
+		}
 
 		Record accountRecord = new Record(account);
 		accountRecord.add(INPUT_ATTR, "Adjustment Account");
@@ -152,7 +189,32 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 		isIncreaseVatRecord.add("Value", increaseVatString);
 		list.add(isIncreaseVatRecord);
 
-		return null;
+		Result result = memoRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+
+		result = orderNoRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+
+		result = dateRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+
+		result = context.makeResult();
+		result.add(getString()
+				+ " Adjustment is ready to create with following values.");
+		result.add(list);
+		ResultList actions = new ResultList("actions");
+		Record finish = new Record(ActionNames.FINISH);
+		finish.add("", "Finish to create " + getString() + " Adjustment.");
+		actions.add(finish);
+		result.add(actions);
+
+		return result;
 	}
 
 }
