@@ -19,9 +19,9 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class NewCustomerCommand extends AbstractTransactionCommand {
+
 	private static final String INPUT_ATTR = "input";
 	private static final int SALESPERSON_TO_SHOW = 5;
 	private static final int PRICELEVEL_TO_SHOW = 5;
@@ -37,6 +37,21 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	private static final String BANK_ACCOUNT_NUM = "bankAccountNum";
 	private static final String BANK_BRANCH = "bankBranch";
 	private static final String VATREGISTER_NUM = "vatRegisterationNum";
+	private static final String IS_ACTIVE = "isActive";
+	private static final String CUSTOMER_NAME = "customerName";
+	private static final String CUSTOMER_CONTACT = "customerContact";
+	private static final String PRIMARY = "primary";
+	private static final String CONTACT_NAME = "contactName";
+	private static final String TITLE = "title";
+	private static final String BUSINESS_PHONE = "businessPhone";
+	private static final String CUSTOMER_VATCODE = "customerVatCode";
+	private static final String CUSTOMER_SINCEDATE = "customerSinceDate";
+	private static final String BALANCE_ASOF_DATE = "balanceAsOfDate";
+	private static final String SALESPERSON = "salesPerson";
+	private static final String PRICE_LEVEL = "priceLevel";
+	private static final String CREDIT_RATING = "creditRating";
+	private static final String PAYMENT_METHOD = "paymentMethod";
+	private static final String CUSTOMER_GROUP = "cusomerGroup";
 
 	@Override
 	public String getId() {
@@ -47,39 +62,39 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new Requirement("customerName", false, true));
-		list.add(new Requirement("customerNumber", false, true));
-		list.add(new ObjectListRequirement("customerContact", true, true) {
+		list.add(new Requirement(CUSTOMER_NAME, false, true));
+		list.add(new Requirement(NUMBER, false, true));
+		list.add(new ObjectListRequirement(CUSTOMER_CONTACT, true, true) {
 			@Override
 			public void addRequirements(List<Requirement> list) {
-				list.add(new Requirement("primary", true, true));
-				list.add(new Requirement("contactName", false, true));
-				list.add(new Requirement("title", true, true));
-				list.add(new Requirement("businessPhone", true, true));
-				list.add(new Requirement("email", true, true));
+				list.add(new Requirement(PRIMARY, true, true));
+				list.add(new Requirement(CONTACT_NAME, false, true));
+				list.add(new Requirement(TITLE, true, true));
+				list.add(new Requirement(BUSINESS_PHONE, true, true));
+				list.add(new Requirement(EMAIL, true, true));
 
 			}
 		});
-		list.add(new Requirement("isactive", true, true));
-		list.add(new Requirement("customerSinceDate", true, true));
-		list.add(new Requirement("balance", true, true));
-		list.add(new Requirement("balanceAsOfDate", true, true));
-		list.add(new Requirement("address", true, true));
-		list.add(new Requirement("phone", true, true));
-		list.add(new Requirement("fax", true, true));
-		list.add(new Requirement("email", true, true));
-		list.add(new Requirement("webPageAdress", true, true));
-		list.add(new Requirement("salesPerson", true, true));
-		list.add(new Requirement("priceLevel", true, true));
-		list.add(new Requirement("creditRating", true, true));
-		list.add(new Requirement("bankName", true, true));
-		list.add(new Requirement("bankAccountNum", true, true));
-		list.add(new Requirement("bankBranch", true, true));
-		list.add(new Requirement("paymentMethod", true, true));
-		list.add(new Requirement("paymentTerms", true, true));
-		list.add(new Requirement("cusomerGroup", true, true));
-		list.add(new Requirement("vatRegisterationNum", true, true));
-		list.add(new Requirement("customerVatCode", true, true));
+		list.add(new Requirement(IS_ACTIVE, true, true));
+		list.add(new Requirement(CUSTOMER_SINCEDATE, true, true));
+		list.add(new Requirement(BALANCE, true, true));
+		list.add(new Requirement(BALANCE_ASOF_DATE, true, true));
+		list.add(new Requirement(ADDRESS, true, true));
+		list.add(new Requirement(PHONE, true, true));
+		list.add(new Requirement(FAX, true, true));
+		list.add(new Requirement(EMAIL, true, true));
+		list.add(new Requirement(WEBADRESS, true, true));
+		list.add(new Requirement(SALESPERSON, true, true));
+		list.add(new Requirement(PRICE_LEVEL, true, true));
+		list.add(new Requirement(CREDIT_RATING, true, true));
+		list.add(new Requirement(BANK_NAME, true, true));
+		list.add(new Requirement(BANK_ACCOUNT_NUM, true, true));
+		list.add(new Requirement(BANK_BRANCH, true, true));
+		list.add(new Requirement(PAYMENT_METHOD, true, true));
+		list.add(new Requirement(PAYMENT_TERMS, true, true));
+		list.add(new Requirement(CUSTOMER_GROUP, true, true));
+		list.add(new Requirement(VATREGISTER_NUM, true, true));
+		list.add(new Requirement(CUSTOMER_VATCODE, true, true));
 
 	}
 
@@ -167,7 +182,9 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				break;
 			}
 		}
+
 		ResultList list = new ResultList("values");
+		selection = context.getSelection("values");
 
 		String customerName = (String) get("customerName").getValue();
 		Record nameRecord = new Record(customerName);
@@ -185,10 +202,29 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				return contact;
 			}
 		}
-		boolean isActive = (Boolean) get("isactive").getDefaultValue();
-		Record isActiveRecord = new Record(isActive);
-		isActiveRecord.add("Name", "Is Active");
-		isActiveRecord.add("Value", isActive);
+
+		// boolean isActive = (Boolean) get("isactive").getDefaultValue();
+		// Record isActiveRecord = new Record(isActive);
+		// isActiveRecord.add("Name", "Is Active");
+		// isActiveRecord.add("Value", isActive);
+		// list.add(isActiveRecord);
+
+		Requirement isActiveReq = get(IS_ACTIVE);
+		Boolean isActive = (Boolean) isActiveReq.getDefaultValue();
+		if (selection == isActive) {
+			context.setAttribute(INPUT_ATTR, IS_ACTIVE);
+			isActive = !isActive;
+			isActiveReq.setDefaultValue(isActive);
+		}
+		String activeString = "";
+		if (isActive) {
+			activeString = "This Item is Active";
+		} else {
+			activeString = "This Item is InActive";
+		}
+		Record isActiveRecord = new Record(IS_ACTIVE);
+		isActiveRecord.add("Name", "");
+		isActiveRecord.add("Value", activeString);
 		list.add(isActiveRecord);
 
 		Result result = customerSinceDateRequirement(context, list, selection);
@@ -251,7 +287,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = paymentMethodRequirement(context, list, selection);
+		result = paymentMethodRequirement(context, (String) selection);
 		if (result != null) {
 			return result;
 		}
@@ -298,6 +334,13 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param context
+	 * @param list
+	 * @param selection
+	 * @return
+	 */
 	private Result vatRegisterationNumRequirement(Context context,
 			ResultList list, Object selection) {
 
@@ -728,52 +771,6 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		result.add(commandList);
 
 		return result;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result paymentMethodRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Result result = context.makeResult();
-
-		result.add("Select PaymentMethod");
-
-		ResultList paymethodResultList = new ResultList("paymentmethod");
-
-		paymethodResultList.add(createPayMentMethodRecord(Accounter.constants()
-				.cash()));
-		paymethodResultList.add(createPayMentMethodRecord(Accounter.constants()
-				.check()));
-		paymethodResultList.add(createPayMentMethodRecord(Accounter.constants()
-				.creditCard()));
-		paymethodResultList.add(createPayMentMethodRecord(Accounter.constants()
-				.directDebit()));
-		paymethodResultList.add(createPayMentMethodRecord(Accounter.constants()
-				.masterCard()));
-		paymethodResultList.add(createPayMentMethodRecord(Accounter.constants()
-				.standingOrder()));
-		paymethodResultList.add(createPayMentMethodRecord(Accounter.constants()
-				.onlineBanking()));
-		paymethodResultList.add(createPayMentMethodRecord(Accounter.constants()
-				.switchMaestro()));
-
-		result.add(paymethodResultList);
-
-		return result;
-
-	}
-
-	private Record createPayMentMethodRecord(String paymentMethod) {
-		Record record = new Record(paymentMethod);
-		record.add("Name", "Payment Method");
-		record.add("value", paymentMethod);
-		return record;
 	}
 
 	/**
