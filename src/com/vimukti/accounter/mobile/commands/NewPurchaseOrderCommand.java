@@ -99,7 +99,14 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 	}
 
 	private Result VendorRequirement(Context context) {
-		// TODO Auto-generated method stub
+		Requirement vendReq = get("vendor");
+		Vendor vendor = context.getSelection("vendors");
+		if (vendor != null) {
+			vendReq.setValue(vendor);
+		}
+		if (!vendReq.isDone()) {
+			return vendors(context);
+		}
 		return null;
 	}
 
