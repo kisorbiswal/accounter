@@ -3,8 +3,7 @@ package com.vimukti.accounter.web.client.ui.edittable.tables;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DescriptionEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.ItemNameColumn;
@@ -15,18 +14,28 @@ import com.vimukti.accounter.web.client.ui.edittable.TransactionUnitPriceColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionVatCodeColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionVatColumn;
 
-public abstract class SalesOrderTable extends CustomerItemTransactionTable {
-
+public abstract class VendorItemTransactionTable extends VendorTransactionTable {
 	@Override
 	protected void initColumns() {
 
-		this.addColumn(new ItemNameColumn() {
+		ItemNameColumn transactionItemNameColumn = new ItemNameColumn() {
 
 			@Override
 			protected void setValue(ClientTransactionItem row,
 					ClientItem newValue) {
 				super.setValue(row, newValue);
-				applyPriceLevel(row);
+				// Unit Price is different. So that overriden the code here
+				if (newValue != null) {
+					row.setUnitPrice(newValue.getPurchasePrice());
+					row.setTaxable(newValue.isTaxable());
+					double lt = row.getQuantity().getValue()
+							* row.getUnitPrice();
+					double disc = row.getDiscount();
+					row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
+							* disc / 100))
+							: lt);
+				}
+				update(row);
 			}
 
 			@Override
@@ -35,12 +44,14 @@ public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 
 					@Override
 					public boolean filter(ClientItem e) {
-						return e.isISellThisItem();
+						return e.isIBuyThisItem();
 					}
 				};
 			}
+		};
+		transactionItemNameColumn.setItemForCustomer(false);
 
-		});
+		this.addColumn(transactionItemNameColumn);
 
 		this.addColumn(new DescriptionEditColumn());
 
@@ -53,38 +64,11 @@ public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 		this.addColumn(new TransactionTotalColumn());
 
 		if (getCompany().getPreferences().isRegisteredForVAT()) {
+
 			this.addColumn(new TransactionVatCodeColumn());
+
 			this.addColumn(new TransactionVatColumn());
-		} else if (getCompany().getPreferences().isChargeSalesTax()) {
-			this.addColumn(new TransactionVatColumn() {
-				protected String getColumnName() {
-					return Accounter.constants().tax();
-				};
-			});
 		}
-
-		this.addColumn(new AmountColumn<ClientTransactionItem>() {
-
-			@Override
-			protected double getAmount(ClientTransactionItem row) {
-				return row.getInvoiced();
-			}
-
-			@Override
-			protected void setAmount(ClientTransactionItem row, double value) {
-				row.setInvoiced(value);
-			}
-
-			@Override
-			protected boolean isEnable() {
-				return false;
-			}
-
-			@Override
-			protected String getColumnName() {
-				return Accounter.constants().invoiced();
-			}
-		});
 
 		this.addColumn(new DeleteColumn<ClientTransactionItem>());
 	}

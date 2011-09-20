@@ -29,7 +29,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	public static final int TYPE_COMMENT = 2;
 	public static final int TYPE_SALESTAX = 3;
 	public static final int TYPE_ACCOUNT = 4;
-	public static final int TYPE_SERVICE = 6;
+	// public static final int TYPE_SERVICE = 6;
 
 	int version;
 
@@ -384,8 +384,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			double amount = (isPositiveTransaction() ? -1d : 1d)
 					* (this.transaction.isAmountsIncludeVAT() ? this.lineTotal
 							- this.VATfraction : this.lineTotal);
-			if (this.type == TYPE_ACCOUNT || this.type == TYPE_ITEM
-					|| this.type == TYPE_SERVICE) {
+			if (this.type == TYPE_ACCOUNT || this.type == TYPE_ITEM) {
 				Account effectingAccount = this.getEffectingAccount();
 				if (effectingAccount != null) {
 					effectingAccount.updateCurrentBalance(this.transaction,
@@ -489,7 +488,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		 * First take the Back up of the TransactionItem information
 		 */
 		// ItemBackUp itemBackUp = null;
-		if (this.type == TYPE_ITEM || this.type == TYPE_SERVICE) {
+		if (this.type == TYPE_ITEM) {
 			this.itemBackUp = new ItemBackUp(this);
 			// this.itemBackUpList.add(itemBackUp);
 		}
@@ -503,8 +502,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 						* (this.transaction.isAmountsIncludeVAT() ? this.lineTotal
 								- this.VATfraction
 								: this.lineTotal);
-				if (this.type == TYPE_ACCOUNT || this.type == TYPE_ITEM
-						|| this.type == TYPE_SERVICE) {
+				if (this.type == TYPE_ACCOUNT || this.type == TYPE_ITEM) {
 					Account effectingAccount = getEffectingAccount();
 					if (effectingAccount != null) {
 						effectingAccount.updateCurrentBalance(this.transaction,
@@ -561,8 +559,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		double amount = (isPositiveTransaction() ? -1d : 1d)
 				* (this.transaction.isAmountsIncludeVAT() ? this.lineTotal
 						- this.VATfraction : this.lineTotal);
-		if (this.type == TYPE_ACCOUNT || this.type == TYPE_ITEM
-				|| this.type == TYPE_SERVICE) {
+		if (this.type == TYPE_ACCOUNT || this.type == TYPE_ITEM) {
 			Account effectingAccount = this.getEffectingAccount();
 			if (effectingAccount != null) {
 				effectingAccount.updateCurrentBalance(this.transaction, amount);
@@ -672,56 +669,6 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 				}
 			}
-		case TYPE_SERVICE:
-			// ItemBackUp itemBackUp1 = getItemBackUp(itemBackUpList,
-			// this.item);
-
-			if (this.isVoid) {
-				if (this.transaction.isDebitTransaction()) {
-					if (this.transaction.getType() == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
-						return this.itemBackUp.getIncomeAccount();
-					} else if (this.transaction.getType() == Transaction.TYPE_WRITE_CHECK
-							&& ((WriteCheck) this.transaction).getCustomer() != null) {
-
-						return this.itemBackUp.getIncomeAccount();
-
-					} else {
-
-						return this.itemBackUp.getExpenseAccount();
-					}
-
-				} else {
-					if (this.transaction.getType() == Transaction.TYPE_VENDOR_CREDIT_MEMO) {
-						return this.itemBackUp.getExpenseAccount();
-					} else {
-						return this.itemBackUp.getIncomeAccount();
-					}
-
-				}
-			} else {
-				if (this.transaction.isDebitTransaction()) {
-					if (this.transaction.getType() == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
-						return this.item.getIncomeAccount();
-					} else if (this.transaction.getType() == Transaction.TYPE_WRITE_CHECK
-							&& ((WriteCheck) this.transaction).getCustomer() != null) {
-
-						return this.item.getIncomeAccount();
-
-					} else {
-
-						return this.item.getExpenseAccount();
-					}
-
-				} else {
-					if (this.transaction.getType() == Transaction.TYPE_VENDOR_CREDIT_MEMO) {
-						return this.item.getExpenseAccount();
-					} else {
-						return this.item.getIncomeAccount();
-					}
-
-				}
-			}
-
 		}
 		return null;
 	}

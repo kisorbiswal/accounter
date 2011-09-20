@@ -62,7 +62,6 @@ public class ItensDropDownTable extends AbstractDropDownTable<ClientItem> {
 	public void addNewItem(String text) {
 		NewItemAction action;
 		action = ActionFactory.getNewItemAction(isForCustomer());
-		action.setType(getItemType());
 		action.setCallback(new ActionCallback<ClientItem>() {
 
 			@Override

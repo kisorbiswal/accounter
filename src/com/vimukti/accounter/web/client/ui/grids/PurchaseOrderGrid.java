@@ -202,17 +202,6 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 			default:
 				return true;
 			}
-		case ClientTransactionItem.TYPE_SERVICE:
-			switch (col) {
-			case 6:
-				return false;
-			case 8:
-				return false;
-
-			default:
-				return true;
-			}
-
 		}
 
 		return true;

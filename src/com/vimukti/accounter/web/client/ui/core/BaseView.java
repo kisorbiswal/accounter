@@ -23,8 +23,10 @@ public abstract class BaseView<T extends IAccounterCore> extends
 
 	protected CancelButton cancelButton;
 
+	protected ApproveButton approveButton;
+
 	protected String quickAddText;
-	
+
 	public BaseView() {
 		super();
 	}
@@ -101,9 +103,16 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		this.saveAndCloseButton = new SaveAndCloseButton(this);
 		this.saveAndNewButton = new SaveAndNewButtom(this);
 		this.cancelButton = new CancelButton(this);
+		// if (this instanceof AbstractTransactionBaseView<?>) {
+		// this.approveButton = new ApproveButton(
+		// (AbstractTransactionBaseView<?>) this);
+		// }
 		if (!isInViewMode()) {
 			buttonBar.add(saveAndCloseButton);
 			buttonBar.add(saveAndNewButton);
+			// if (this instanceof AbstractTransactionBaseView<?>) {
+			// buttonBar.add(approveButton);
+			// }
 		}
 		buttonBar.add(cancelButton);
 	}
@@ -139,6 +148,9 @@ public abstract class BaseView<T extends IAccounterCore> extends
 	}
 
 	private void showSaveButtons() {
+		// if (approveButton != null) {
+		// this.buttonBar.insert(approveButton, 0);
+		// }
 		if (saveAndNewButton != null) {
 			this.buttonBar.insert(saveAndNewButton, 0);
 		}

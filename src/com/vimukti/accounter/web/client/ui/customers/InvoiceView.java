@@ -6,7 +6,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -63,7 +62,7 @@ import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerTransactionTable;
+import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
@@ -120,10 +119,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	DynamicForm amountsForm;
 	private LinkedHashMap<Integer, ClientAddress> allAddresses;
 	private Button emailButton;
-	private CustomerTransactionTable customerTransactionTable;
+	private CustomerItemTransactionTable customerTransactionTable;
 	private ClientPriceLevel priceLevel;
 	private List<ClientPaymentTerms> paymentTermsList;
 	private Double transactionTotal;
+	private Button itemTableButton;
 
 	private void initBalanceDue() {
 
@@ -494,7 +494,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		salesTaxTextNonEditable = createSalesTaxNonEditableLabel();
 
-		customerTransactionTable = new CustomerTransactionTable() {
+		customerTransactionTable = new CustomerItemTransactionTable() {
 
 			@Override
 			public boolean isShowPriceWithVat() {
@@ -512,6 +512,18 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			}
 		};
 		customerTransactionTable.setDisabled(isInViewMode());
+
+		itemTableButton = new Button(Accounter.constants()
+				.productOrServiceItem());
+		itemTableButton.setEnabled(!isInViewMode());
+		itemTableButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				addItem();
+			}
+		});
+
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
 		prodAndServiceForm2.setWidth("50%");
 		prodAndServiceForm2.setNumCols(4);
@@ -595,8 +607,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			prodAndServiceHLay.setCellWidth(amountsForm, "50%");
 		VerticalPanel panel11 = new VerticalPanel();
 
-		panel11.add(createAddNewButton());
-		menuButton.getElement().getStyle().setMargin(5, Unit.PX);
+		// panel11.add(createAddNewButton());
+		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 
 		panel11.setWidth("100%");
 		panel11.add(panel);
@@ -628,6 +640,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		// mainVLay.add(printButton);
 
 		mainVLay.add(customerTransactionTable);
+		mainVLay.add(itemTableButton);
 
 		mainVLay.add(panel11);
 
@@ -711,8 +724,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	}
 
 	public void showMenu(Widget button) {
-		setMenuItems(button, Accounter.constants().serviceItem(), Accounter
-				.constants().productItem());
+		setMenuItems(button, Accounter.constants().productOrServiceItem());
 
 	}
 
@@ -914,12 +926,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		List<EstimatesAndSalesOrdersList> filteredList = new ArrayList<EstimatesAndSalesOrdersList>();
 		filteredList.addAll(result);
-		
+
 		if (dialog == null) {
 			dialog = new CustomerQuoteListDialog(this, filteredList);
 		}
 
-		
 		dialog.setQuoteList(filteredList);
 		dialog.show();
 
@@ -951,7 +962,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				if (record.getReferringTransactionItem() == salesRecord.getID())
 					customerTransactionTable.delete(record);
 
-	}
+		}
 		// if (dialog.preCustomer == null || dialog.preCustomer !=
 		// this.customer) {
 		// dialog.preCustomer = this.customer;
@@ -1703,6 +1714,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		memoTextAreaItem.setDisabled(isInViewMode());
 
 		customerTransactionTable.setDisabled(isInViewMode());
+		itemTableButton.setEnabled(!isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 		if (shippingTermsCombo != null)
@@ -1814,9 +1826,20 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		dueDateItem.setTabIndex(9);
 		orderNumText.setTabIndex(10);
 		memoTextAreaItem.setTabIndex(11);
-		menuButton.setTabIndex(12);
+		// menuButton.setTabIndex(12);
 		saveAndCloseButton.setTabIndex(13);
 		saveAndNewButton.setTabIndex(14);
 		cancelButton.setTabIndex(15);
+	}
+
+	@Override
+	protected void addAccountTransactionItem(ClientTransactionItem item) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void addItemTransactionItem(ClientTransactionItem item) {
+		customerTransactionTable.add(item);
 	}
 }

@@ -60,6 +60,9 @@ public abstract class ClientTransaction implements IAccounterCore {
 	public static final int STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED = 1;
 	public static final int STATUS_PAID_OR_APPLIED_OR_ISSUED = 2;
 	public static final int STATUS_DELETED = 3;
+	
+	public static final int STATUS_DRAFT = 201;
+	public static final int STATUS_APPROVE = 202;
 
 	public static final int STATUS_OPEN = 101;
 	public static final int STATUS_COMPLETED = 102;
@@ -100,6 +103,12 @@ public abstract class ClientTransaction implements IAccounterCore {
 	boolean canVoidOrEdit = true;
 	boolean isDeposited = false;
 
+	/**
+	 * To set the status of transaction whether it is approved or saved as
+	 * draft.
+	 */
+	private int saveStatus = 0;
+	
 	boolean isVoid;
 	boolean isDeleted;
 	boolean isEdited;
@@ -836,6 +845,14 @@ public abstract class ClientTransaction implements IAccounterCore {
 
 	public void setLocation(long location) {
 		this.location = location;
+	}
+
+	public int getSaveStatus() {
+		return saveStatus;
+	}
+
+	public void setSaveStatus(int saveStatus) {
+		this.saveStatus = saveStatus;
 	}
 
 	/**

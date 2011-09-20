@@ -129,8 +129,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	public void showMenu(Widget button) {
 		setMenuItems(button,
 				Accounter.messages().accounts(Global.get().Account()),
-				Accounter.constants().serviceItem(), Accounter.constants()
-						.productItem());
+				Accounter.constants().productOrServiceItem());
 	}
 
 	protected void initVendors() {
@@ -652,7 +651,8 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 						.getTAXCode() > 0 ? getVendor().getTAXCode()
 						: staxCodeid) : staxCodeid);
 			}
-		} else if (menuItem.equals(Accounter.constants().productItem())) {
+		} else if (menuItem
+				.equals(Accounter.constants().productOrServiceItem())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 			if (getCompany().getPreferences().isChargeSalesTax()) {
 				List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
@@ -665,28 +665,6 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 				transactionItem.setTaxCode(getVendor() != null ? (getVendor()
 						.getTAXCode() > 0 ? getVendor().getTAXCode()
 						: staxCodeid) : staxCodeid);
-			}
-		} else if (menuItem.equals(Accounter.constants().serviceItem())) {
-			transactionItem.setType(ClientTransactionItem.TYPE_SERVICE);
-			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
-			long ztaxCodeid = 0;
-			if (getCompany().getPreferences().isChargeSalesTax()) {
-				for (ClientTAXCode taxCode : taxCodes) {
-					if (taxCode.getName().equals("S")) {
-						ztaxCodeid = taxCode.getID();
-					}
-				}
-				transactionItem.setTaxCode(getVendor() != null ? (getVendor()
-						.getTAXCode() != 0 ? getVendor().getTAXCode()
-						: ztaxCodeid) : ztaxCodeid);
-			} else {
-				for (ClientTAXCode taxCode : taxCodes) {
-					if (taxCode.getName().equals("Z")) {
-						ztaxCodeid = taxCode.getID();
-					}
-				}
-				if (ztaxCodeid != 0)
-					transactionItem.setTaxCode(ztaxCodeid);
 			}
 		}
 		addNewData(transactionItem);
@@ -745,4 +723,62 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	}
 
 	public abstract List<ClientTransactionItem> getAllTransactionItems();
+
+	@Override
+	protected void addAccount() {
+		ClientTransactionItem transactionItem = new ClientTransactionItem();
+		transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
+		if (!getCompany().getPreferences().isRegisteredForVAT()) {
+			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
+			long ztaxCodeid = 0;
+			for (ClientTAXCode taxCode : taxCodes) {
+				if (taxCode.getName().equals("Z")) {
+					ztaxCodeid = taxCode.getID();
+				}
+			}
+			if (ztaxCodeid != 0)
+				transactionItem.setTaxCode(ztaxCodeid);
+			// transactionItem.setVatCode(vendor != null ? (vendor
+			// .getVATCode() != null ? vendor.getVATCode() : "") : "");
+		}
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
+			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
+			long staxCodeid = 0;
+			for (ClientTAXCode taxCode : taxCodes) {
+				if (taxCode.getName().equals("S")) {
+					staxCodeid = taxCode.getID();
+				}
+			}
+			// if (zvatCodeid != null)
+			// transactionItem.setVatCode(zvatCodeid);
+			transactionItem.setTaxCode(getVendor() != null ? (getVendor()
+					.getTAXCode() > 0 ? getVendor().getTAXCode() : staxCodeid)
+					: staxCodeid);
+		}
+		addAccountTransactionItem(transactionItem);
+	}
+
+	@Override
+	protected void addItem() {
+		ClientTransactionItem transactionItem = new ClientTransactionItem();
+
+		transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
+		if (getCompany().getPreferences().isChargeSalesTax()) {
+			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
+			long staxCodeid = 0;
+			for (ClientTAXCode taxCode : taxCodes) {
+				if (taxCode.getName().equals("S")) {
+					staxCodeid = taxCode.getID();
+				}
+			}
+			transactionItem.setTaxCode(getVendor() != null ? (getVendor()
+					.getTAXCode() > 0 ? getVendor().getTAXCode() : staxCodeid)
+					: staxCodeid);
+		}
+		addItemTransactionItem(transactionItem);
+	}
+
+	protected abstract void addAccountTransactionItem(ClientTransactionItem item);
+
+	protected abstract void addItemTransactionItem(ClientTransactionItem item);
 }

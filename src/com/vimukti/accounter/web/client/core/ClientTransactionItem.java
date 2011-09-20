@@ -24,7 +24,7 @@ public class ClientTransactionItem implements IAccounterCore {
 	public static final int TYPE_COMMENT = 2;
 	public static final int TYPE_SALESTAX = 3;
 	public static final int TYPE_ACCOUNT = 4;
-	public static final int TYPE_SERVICE = 6;
+	// public static final int TYPE_SERVICE = 6;
 
 	int version;
 
@@ -485,7 +485,6 @@ public class ClientTransactionItem implements IAccounterCore {
 			}
 			return tAccount;
 		case TYPE_ITEM:
-		case TYPE_SERVICE:
 			if (tItem == null) {
 				tItem = Accounter.getCompany().getItem(item);
 			}
@@ -506,7 +505,6 @@ public class ClientTransactionItem implements IAccounterCore {
 			account = tAccount.id;
 			break;
 		case TYPE_ITEM:
-		case TYPE_SERVICE:
 			tItem = (ClientItem) value;
 			item = tItem.id;
 			break;
@@ -522,5 +520,17 @@ public class ClientTransactionItem implements IAccounterCore {
 
 	public ClientAccounterClass getClientAccounterClass() {
 		return this.accounterClass;
+	}
+
+	public boolean isEmpty() {
+		if (this.item == 0
+				&& this.account == 0
+				&& this.unitPrice == 0
+				&& this.lineTotal == 0
+				&& (this.quantity == null || this.quantity.getValue() == 0 || this.quantity
+						.getValue() == 1) && this.discount == 0) {
+			return true;
+		}
+		return false;
 	}
 }

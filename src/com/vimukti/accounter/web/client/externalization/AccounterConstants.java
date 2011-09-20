@@ -4873,6 +4873,8 @@ public interface AccounterConstants extends Constants {
 	public String classTrackingDescription();
 
 	public String thereIsNoTrasationsToFile();
+	
+	public String productOrServiceItem();
 
 
 }

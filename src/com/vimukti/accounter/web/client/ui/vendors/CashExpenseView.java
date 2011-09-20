@@ -144,7 +144,8 @@ public class CashExpenseView extends CashPurchaseView {
 					.getDate());
 
 		// Setting Total
-		transaction.setTotal(vendorTransactionTable.getTotal());
+		transaction.setTotal(vendorAccountTransactionTable.getTotal()
+				+ vendorItemTransactionTable.getTotal());
 
 		// Setting Memo
 		transaction.setMemo(getMemoTextAreaItem());
@@ -226,7 +227,7 @@ public class CashExpenseView extends CashPurchaseView {
 	public void showMenu(Widget button) {
 		setMenuItems(button,
 				Accounter.messages().accounts(Global.get().Account()),
-				Accounter.constants().serviceItem());
+				Accounter.constants().productOrServiceItem());
 	}
 
 	@Override
@@ -241,7 +242,7 @@ public class CashExpenseView extends CashPurchaseView {
 		transactionDateItem.setTabIndex(4);
 		transactionNumber.setTabIndex(5);
 		memoTextAreaItem.setTabIndex(6);
-		menuButton.setTabIndex(7);
+		// menuButton.setTabIndex(7);
 		saveAndCloseButton.setTabIndex(8);
 		saveAndNewButton.setTabIndex(9);
 		cancelButton.setTabIndex(10);

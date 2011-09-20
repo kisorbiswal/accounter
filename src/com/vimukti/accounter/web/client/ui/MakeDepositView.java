@@ -1224,4 +1224,16 @@ public class MakeDepositView extends
 		cancelButton.setTabIndex(8);
 
 	}
+
+	@Override
+	protected void addAccountTransactionItem(ClientTransactionItem item) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void addItemTransactionItem(ClientTransactionItem item) {
+		// TODO Auto-generated method stub
+
+	}
 }

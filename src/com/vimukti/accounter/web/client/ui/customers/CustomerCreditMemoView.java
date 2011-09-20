@@ -3,7 +3,9 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -35,7 +37,8 @@ import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
-import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerTransactionTable;
+import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerAccountTransactionTable;
+import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -53,12 +56,14 @@ public class CustomerCreditMemoView extends
 	private ArrayList<DynamicForm> listforms;
 	private TextAreaItem billToTextArea;
 	private boolean locationTrackingEnabled;
-	private CustomerTransactionTable customerTransactionTable;
+	private CustomerAccountTransactionTable customerAccountTransactionTable;
+	private CustomerItemTransactionTable customerItemTransactionTable;
 	protected ClientPriceLevel priceLevel;
 	protected ClientTAXCode taxCode;
 	protected ClientSalesPerson salesPerson;
 	private AmountLabel transactionTotalNonEditableText, netAmountLabel,
 			vatTotalNonEditableText, salesTaxTextNonEditable;
+	private Button accountTableButton, itemTableButton;
 
 	public CustomerCreditMemoView() {
 
@@ -136,8 +141,8 @@ public class CustomerCreditMemoView extends
 		custForm = UIUtils.form(Global.get().customer());
 		custForm.setFields(customerCombo, contactCombo, billToTextArea);
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
-		custForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Global.get().constants().width(), "190px");
+		custForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Global.get().constants().width(), "190px");
 		custForm.setWidth("100%");
 		custForm.setStyleName("align-form");
 
@@ -160,8 +165,6 @@ public class CustomerCreditMemoView extends
 			classListCombo = createAccounterClassListCombo();
 			phoneForm.setFields(classListCombo);
 		}
-
-		Label lab2 = new Label(customerConstants.productAndService());
 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setTitle(Accounter.constants().reasonForIssue());
@@ -186,7 +189,7 @@ public class CustomerCreditMemoView extends
 		netAmountLabel = createNetAmountLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
-		customerTransactionTable = new CustomerTransactionTable() {
+		customerAccountTransactionTable = new CustomerAccountTransactionTable() {
 
 			@Override
 			public void updateNonEditableItems() {
@@ -203,8 +206,47 @@ public class CustomerCreditMemoView extends
 				return customer;
 			}
 		};
+		customerAccountTransactionTable.setDisabled(isInViewMode());
 
-		customerTransactionTable.setDisabled(isInViewMode());
+		accountTableButton = new Button(Global.get().Account());
+		accountTableButton.setEnabled(!isInViewMode());
+		accountTableButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				addAccount();
+			}
+		});
+
+		customerItemTransactionTable = new CustomerItemTransactionTable() {
+
+			@Override
+			public void updateNonEditableItems() {
+				CustomerCreditMemoView.this.updateNonEditableItems();
+			}
+
+			@Override
+			public boolean isShowPriceWithVat() {
+				return CustomerCreditMemoView.this.isShowPriceWithVat();
+			}
+
+			@Override
+			protected ClientCustomer getCustomer() {
+				return customer;
+			}
+		};
+		customerItemTransactionTable.setDisabled(isInViewMode());
+
+		itemTableButton = new Button(Accounter.constants()
+				.productOrServiceItem());
+		itemTableButton.setEnabled(!isInViewMode());
+		itemTableButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				addItem();
+			}
+		});
 
 		final TextItem disabletextbox = new TextItem();
 		disabletextbox.setVisible(false);
@@ -274,9 +316,12 @@ public class CustomerCreditMemoView extends
 		mainVLay.add(lab1);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
-		mainVLay.add(customerTransactionTable);
-		mainVLay.add(createAddNewButton());
-		menuButton.getElement().getStyle().setMargin(5, Unit.PX);
+		mainVLay.add(customerAccountTransactionTable);
+		mainVLay.add(accountTableButton);
+		mainVLay.add(customerItemTransactionTable);
+		mainVLay.add(itemTableButton);
+		// mainVLay.add(createAddNewButton());
+		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(mainPanel);
 
 		if (UIUtils.isMSIEBrowser()) {
@@ -308,9 +353,9 @@ public class CustomerCreditMemoView extends
 
 		}
 
-		if (transaction == null && customerTransactionTable != null) {
-			customerTransactionTable.priceLevelSelected(priceLevel);
-			customerTransactionTable.updatePriceLevel();
+		if (transaction == null && customerAccountTransactionTable != null) {
+			customerAccountTransactionTable.priceLevelSelected(priceLevel);
+			customerAccountTransactionTable.updatePriceLevel();
 		}
 		updateNonEditableItems();
 
@@ -519,23 +564,24 @@ public class CustomerCreditMemoView extends
 
 	@Override
 	public void updateNonEditableItems() {
-		if (customerTransactionTable == null)
+		if (customerAccountTransactionTable == null)
 			return;
 		if (getCompany().getAccountingType() == 0) {
-			Double taxableLineTotal = customerTransactionTable
-					.getTaxableLineTotal();
+			Double taxableLineTotal = customerAccountTransactionTable
+					.getTaxableLineTotal()
+					+ customerItemTransactionTable.getTaxableLineTotal();
+			double total = customerAccountTransactionTable.getTotal()
+					+ customerItemTransactionTable.getTotal();
 
-			if (taxableLineTotal == null)
-				return;
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(), taxableLineTotal,
+					transactionDateItem.getEnteredDate(),
+					taxableLineTotal,
 					getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
 			setSalesTax(salesTax);
 
-			setTransactionTotal(customerTransactionTable.getTotal()
-					+ this.salesTax);
+			setTransactionTotal(total + this.salesTax);
 
 			// salesTax = Utility.getCalculatedSalesTax(transactionDateItem
 			// .getEnteredDate(), taxableLineTotal, taxItemGroup);
@@ -549,15 +595,13 @@ public class CustomerCreditMemoView extends
 			// .setAmount(customerTransactionGrid.getTotal()
 			// + this.salesTax);
 		} else {
-			if (customerTransactionTable.getGrandTotal() != 0
-					&& customerTransactionTable.getTotalValue() != 0) {
-				netAmountLabel.setAmount(customerTransactionTable
-						.getGrandTotal());
-				vatTotalNonEditableText.setAmount(customerTransactionTable
-						.getTotalValue()
-						- customerTransactionTable.getGrandTotal());
-				setTransactionTotal(customerTransactionTable.getTotalValue());
-			}
+			double grandTotal = customerAccountTransactionTable.getGrandTotal()
+					+ customerItemTransactionTable.getGrandTotal();
+			double total = customerAccountTransactionTable.getTotalValue()
+					+ customerItemTransactionTable.getTotalValue();
+			netAmountLabel.setAmount(grandTotal);
+			vatTotalNonEditableText.setAmount(total - grandTotal);
+			setTransactionTotal(total);
 		}
 
 		// this.paymentsNonEditableText.setValue(transactionGrid.);
@@ -595,14 +639,19 @@ public class CustomerCreditMemoView extends
 			ClientCustomerCreditMemo ent = (ClientCustomerCreditMemo) this.transaction;
 
 			if (ent != null && ent.getCustomer() == customer.getID()) {
-				this.customerTransactionTable.removeAllRecords();
-				this.customerTransactionTable.setRecords(ent
-						.getTransactionItems());
+				this.customerAccountTransactionTable.removeAllRecords();
+				this.customerAccountTransactionTable
+						.setAllRows(getAccountTransactionItems(ent
+								.getTransactionItems()));
+				this.customerItemTransactionTable
+						.setAllRows(getItemTransactionItems(ent
+								.getTransactionItems()));
 			} else if (ent != null && ent.getCustomer() != customer.getID()) {
-				this.customerTransactionTable.removeAllRecords();
-				this.customerTransactionTable.updateTotals();
+				this.customerAccountTransactionTable.removeAllRecords();
+				this.customerAccountTransactionTable.updateTotals();
+				this.customerItemTransactionTable.updateTotals();
 			} else if (ent == null)
-				this.customerTransactionTable.removeAllRecords();
+				this.customerAccountTransactionTable.removeAllRecords();
 		}
 		super.customerSelected(customer);
 		shippingTermSelected(shippingTerm);
@@ -625,10 +674,10 @@ public class CustomerCreditMemoView extends
 			customerCombo.setComboItem(customer);
 		}
 		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			for (ClientTransactionItem item : customerTransactionTable
+			for (ClientTransactionItem item : customerAccountTransactionTable
 					.getRecords()) {
 				if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT)
-					customerTransactionTable.setCustomerTaxCode(item);
+					customerAccountTransactionTable.setCustomerTaxCode(item);
 			}
 		}
 		this.addressListOfCustomer = customer.getAddress();
@@ -713,7 +762,10 @@ public class CustomerCreditMemoView extends
 		priceLevelSelect.setDisabled(isInViewMode());
 		taxCodeSelect.setDisabled(isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
-		customerTransactionTable.setDisabled(isInViewMode());
+		customerAccountTransactionTable.setDisabled(isInViewMode());
+		customerItemTransactionTable.setDisabled(isInViewMode());
+		accountTableButton.setEnabled(!isInViewMode());
+		itemTableButton.setEnabled(!isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 		super.onEdit();
@@ -739,8 +791,8 @@ public class CustomerCreditMemoView extends
 			// if there is only one branding theme
 			ClientBrandingTheme brandingTheme = themesList.get(0);
 			UIUtils.downloadAttachment(transaction.getID(),
-					ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO, brandingTheme
-							.getID());
+					ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO,
+					brandingTheme.getID());
 
 		}
 
@@ -760,7 +812,8 @@ public class CustomerCreditMemoView extends
 
 			taxCodeSelect
 					.setComboItem(getCompany().getTAXCode(taxCode.getID()));
-			customerTransactionTable.setTaxCode(taxCode.getID());
+			customerAccountTransactionTable.setTaxCode(taxCode.getID());
+			customerItemTransactionTable.setTaxCode(taxCode.getID());
 		} else
 			taxCodeSelect.setValue("");
 		// updateNonEditableItems();
@@ -786,19 +839,24 @@ public class CustomerCreditMemoView extends
 
 	@Override
 	protected void initTransactionsItems() {
-		if (transaction.getTransactionItems() != null)
-			customerTransactionTable.setAllTransactionItems(transaction
-					.getTransactionItems());
+		if (transaction.getTransactionItems() != null) {
+			customerAccountTransactionTable
+					.setAllRows(getAccountTransactionItems(transaction
+							.getTransactionItems()));
+			customerItemTransactionTable
+					.setAllRows(getItemTransactionItems(transaction
+							.getTransactionItems()));
+		}
 	}
 
 	@Override
 	protected boolean isBlankTransactionGrid() {
-		return customerTransactionTable.getRecords().isEmpty();
+		return getAllTransactionItems().isEmpty();
 	}
 
 	@Override
 	protected void addNewData(ClientTransactionItem transactionItem) {
-		customerTransactionTable.add(transactionItem);
+		customerAccountTransactionTable.add(transactionItem);
 	}
 
 	@Override
@@ -808,7 +866,10 @@ public class CustomerCreditMemoView extends
 
 	@Override
 	public List<ClientTransactionItem> getAllTransactionItems() {
-		return customerTransactionTable.getAllRows();
+		List<ClientTransactionItem> list = new ArrayList<ClientTransactionItem>();
+		list.addAll(customerAccountTransactionTable.getRecords());
+		list.addAll(customerItemTransactionTable.getRecords());
+		return list;
 	}
 
 	public Double getSalesTax() {
@@ -822,10 +883,20 @@ public class CustomerCreditMemoView extends
 		transactionDateItem.setTabIndex(4);
 		transactionNumber.setTabIndex(5);
 		memoTextAreaItem.setTabIndex(6);
-		menuButton.setTabIndex(7);
+		// menuButton.setTabIndex(7);
 		saveAndCloseButton.setTabIndex(8);
 		saveAndNewButton.setTabIndex(9);
 		cancelButton.setTabIndex(10);
 
+	}
+
+	@Override
+	protected void addAccountTransactionItem(ClientTransactionItem item) {
+		customerAccountTransactionTable.add(item);
+	}
+
+	@Override
+	protected void addItemTransactionItem(ClientTransactionItem item) {
+		customerItemTransactionTable.add(item);
 	}
 }

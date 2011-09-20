@@ -5,6 +5,9 @@ import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -40,7 +43,8 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
-import com.vimukti.accounter.web.client.ui.edittable.tables.VendorTransactionTable;
+import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
+import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -79,7 +83,9 @@ public class VendorBillView extends
 	private ArrayList<DynamicForm> listforms;
 	private ArrayList<ClientTransaction> selectedOrdersAndItemReceipts;
 	private boolean locationTrackingEnabled;
-	protected VendorTransactionTable vendorTransactionTable;
+	protected VendorAccountTransactionTable vendorAccountTransactionTable;
+	protected VendorItemTransactionTable vendorItemTransactionTable;
+	private Button accountTableButton, itemTableButton;
 
 	private VendorBillView() {
 		super(ClientTransaction.TYPE_ENTER_BILL);
@@ -228,7 +234,7 @@ public class VendorBillView extends
 
 		super.vendorSelected(vendor);
 		if (transaction == null)
-			vendorTransactionTable.removeAllRecords();
+			vendorAccountTransactionTable.removeAllRecords();
 
 		selectedOrdersAndItemReceipts = new ArrayList<ClientTransaction>();
 		if (!(isInViewMode() && vendor.getID() == transaction.getVendor()))
@@ -239,7 +245,8 @@ public class VendorBillView extends
 		if (code == 0) {
 			code = Accounter.getCompany().getDefaultTaxCode();
 		}
-		vendorTransactionTable.setTaxCode(code);
+		vendorAccountTransactionTable.setTaxCode(code);
+		vendorItemTransactionTable.setTaxCode(code);
 		if (vendor.getPhoneNo() != null) {
 			phoneSelect.setValue(vendor.getPhoneNo());
 		} else {
@@ -252,14 +259,19 @@ public class VendorBillView extends
 			ClientEnterBill ent = (ClientEnterBill) this.transaction;
 
 			if (ent != null && ent.getVendor() == vendor.getID()) {
-				this.vendorTransactionTable.removeAllRecords();
-				this.vendorTransactionTable.setRecords(ent
-						.getTransactionItems());
+				this.vendorAccountTransactionTable.removeAllRecords();
+				this.vendorAccountTransactionTable
+						.setRecords(getAccountTransactionItems(ent
+								.getTransactionItems()));
+				this.vendorItemTransactionTable
+						.setRecords(getItemTransactionItems(ent
+								.getTransactionItems()));
 				selectedPurchaseOrder = ent.getPurchaseOrder();
 				selectedItemReceipt = ent.getItemReceipt();
 			} else if (ent != null && ent.getVendor() != vendor.getID()) {
-				this.vendorTransactionTable.removeAllRecords();
-				this.vendorTransactionTable.updateTotals();
+				this.vendorAccountTransactionTable.removeAllRecords();
+				this.vendorAccountTransactionTable.updateTotals();
+				this.vendorItemTransactionTable.updateTotals();
 
 				selectedPurchaseOrder = 0;
 				selectedItemReceipt = 0;
@@ -475,7 +487,7 @@ public class VendorBillView extends
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
 
-		vendorTransactionTable = new VendorTransactionTable() {
+		vendorAccountTransactionTable = new VendorAccountTransactionTable() {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -497,9 +509,55 @@ public class VendorBillView extends
 				return VendorBillView.this.isShowPriceWithVat();
 			}
 		};
-		vendorTransactionTable.setDisabled(isInViewMode());
-		vendorTransactionTable.getElement().getStyle()
+		vendorAccountTransactionTable.setDisabled(isInViewMode());
+		vendorAccountTransactionTable.getElement().getStyle()
 				.setMarginTop(10, Unit.PX);
+
+		accountTableButton = new Button(Global.get().Account());
+		accountTableButton.setEnabled(!isInViewMode());
+		accountTableButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				addAccount();
+			}
+		});
+
+		vendorItemTransactionTable = new VendorItemTransactionTable() {
+
+			@Override
+			protected void updateNonEditableItems() {
+				VendorBillView.this.updateNonEditableItems();
+			}
+
+			@Override
+			public boolean isShowPriceWithVat() {
+				return VendorBillView.this.isShowPriceWithVat();
+			}
+
+			@Override
+			protected ClientTransaction getTransactionObject() {
+				return VendorBillView.this.getTransactionObject();
+			}
+
+			@Override
+			protected ClientVendor getSelectedVendor() {
+				return VendorBillView.this.getVendor();
+			}
+		};
+		vendorItemTransactionTable.setDisabled(isInViewMode());
+
+		itemTableButton = new Button(Accounter.constants()
+				.productOrServiceItem());
+		itemTableButton.setEnabled(!isInViewMode());
+		itemTableButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				addItem();
+			}
+		});
+
 		memoTextAreaItem = createMemoTextAreaItem();
 		// memoTextAreaItem.setWidth(100);
 		// refText = createRefereceText();
@@ -633,9 +691,12 @@ public class VendorBillView extends
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.setCellHorizontalAlignment(topHLay, ALIGN_RIGHT);
 		mainVLay.add(topHLay);
-		mainVLay.add(vendorTransactionTable);
-		mainVLay.add(createAddNewButton());
-		menuButton.getElement().getStyle().setMargin(5, Unit.PX);
+		mainVLay.add(vendorAccountTransactionTable);
+		mainVLay.add(accountTableButton);
+		mainVLay.add(vendorItemTransactionTable);
+		mainVLay.add(itemTableButton);
+		// mainVLay.add(createAddNewButton());
+		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(bottompanel);
 
 		if (UIUtils.isMSIEBrowser()) {
@@ -722,7 +783,8 @@ public class VendorBillView extends
 			transaction.setDeliveryDate(deliveryDateItem.getEnteredDate());
 
 		// Setting Total
-		transaction.setTotal(vendorTransactionTable.getTotal());
+		transaction.setTotal(vendorAccountTransactionTable.getTotal()
+				+ vendorItemTransactionTable.getTotal());
 
 		// Setting Memo
 		transaction.setMemo(getMemoTextAreaItem());
@@ -751,12 +813,15 @@ public class VendorBillView extends
 
 	@Override
 	public void updateNonEditableItems() {
-		transactionTotalNonEditableText.setAmount(vendorTransactionTable
-				.getTotal());
-		netAmount.setAmount(vendorTransactionTable.getGrandTotal());
+		double total = vendorAccountTransactionTable.getTotal()
+				+ vendorItemTransactionTable.getTotal();
+		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
+				+ vendorItemTransactionTable.getGrandTotal();
+
+		transactionTotalNonEditableText.setAmount(total);
+		netAmount.setAmount(grandTotal);
 		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			vatTotalNonEditableText.setAmount(vendorTransactionTable.getTotal()
-					- vendorTransactionTable.getGrandTotal());
+			vatTotalNonEditableText.setAmount(total - grandTotal);
 		}
 	}
 
@@ -800,11 +865,13 @@ public class VendorBillView extends
 					+ Accounter.constants()
 							.cannotbeearlierthantransactiondate());
 		}
-		if (vendorTransactionTable.getAllRows().isEmpty()) {
-			result.addError(vendorTransactionTable,
+		if (getAllTransactionItems().isEmpty()) {
+			result.addError(vendorAccountTransactionTable,
 					accounterConstants.blankTransaction());
-		} else
-			result.add(vendorTransactionTable.validateGrid());
+		} else {
+			result.add(vendorAccountTransactionTable.validateGrid());
+			result.add(vendorItemTransactionTable.validateGrid());
+		}
 		return result;
 	}
 
@@ -907,12 +974,20 @@ public class VendorBillView extends
 	public void selectedPurchaseOrder(ClientPurchaseOrder purchaseOrder) {
 		if (purchaseOrder == null)
 			return;
-		for (ClientTransactionItem record : this.vendorTransactionTable
+		for (ClientTransactionItem record : this.vendorAccountTransactionTable
 				.getRecords()) {
 			for (ClientTransactionItem salesRecord : purchaseOrder
 					.getTransactionItems())
 				if (record.getReferringTransactionItem() == salesRecord.getID())
-					vendorTransactionTable.delete(record);
+					vendorAccountTransactionTable.delete(record);
+
+		}
+		for (ClientTransactionItem record : this.vendorItemTransactionTable
+				.getRecords()) {
+			for (ClientTransactionItem salesRecord : purchaseOrder
+					.getTransactionItems())
+				if (record.getReferringTransactionItem() == salesRecord.getID())
+					vendorItemTransactionTable.delete(record);
 
 		}
 		// if (dialog.preCustomer == null || dialog.preCustomer !=
@@ -952,7 +1027,10 @@ public class VendorBillView extends
 		}
 
 		selectedPurchaseOrder = purchaseOrder.getID();
-		vendorTransactionTable.setAllRows(itemsList);
+		vendorAccountTransactionTable
+				.setAllRows(getAccountTransactionItems(itemsList));
+		vendorItemTransactionTable
+				.setAllRows(getItemTransactionItems(itemsList));
 	}
 
 	public void selectedItemReceipt(ClientItemReceipt itemReceipt) {
@@ -984,7 +1062,10 @@ public class VendorBillView extends
 
 		selectedItemReceipt = itemReceipt.getID();
 
-		vendorTransactionTable.setAllRows(itemsList);
+		vendorAccountTransactionTable
+				.setAllRows(getAccountTransactionItems(itemsList));
+		vendorItemTransactionTable
+				.setAllRows(getItemTransactionItems(itemsList));
 	}
 
 	public List<DynamicForm> getForms() {
@@ -1058,7 +1139,10 @@ public class VendorBillView extends
 		paymentTermsCombo.setDisabled(isInViewMode());
 		dueDateItem.setDisabled(isInViewMode());
 		deliveryDateItem.setDisabled(isInViewMode());
-		vendorTransactionTable.setDisabled(isInViewMode());
+		vendorAccountTransactionTable.setDisabled(isInViewMode());
+		vendorItemTransactionTable.setDisabled(isInViewMode());
+		accountTableButton.setEnabled(!isInViewMode());
+		itemTableButton.setEnabled(!isInViewMode());
 		balanceDueNonEditableText.setDisabled(true);
 		memoTextAreaItem.setDisabled(isInViewMode());
 		if (locationTrackingEnabled)
@@ -1101,7 +1185,8 @@ public class VendorBillView extends
 		this.taxCode = taxCode;
 		if (taxCode != null) {
 			taxCodeSelect.setComboItem(taxCode);
-			vendorTransactionTable.setTaxCode(taxCode.getID());
+			vendorAccountTransactionTable.setTaxCode(taxCode.getID());
+			vendorItemTransactionTable.setTaxCode(taxCode.getID());
 		} else
 			taxCodeSelect.setValue("");
 	}
@@ -1109,17 +1194,21 @@ public class VendorBillView extends
 	@Override
 	protected void addAllRecordToGrid(
 			List<ClientTransactionItem> transactionItems) {
-		vendorTransactionTable.addRecords(transactionItems);
+		vendorAccountTransactionTable
+				.addRecords(getAccountTransactionItems(transactionItems));
+		vendorItemTransactionTable
+				.addRecords(getItemTransactionItems(transactionItems));
 	}
 
 	@Override
 	protected void removeAllRecordsFromGrid() {
-		vendorTransactionTable.removeAllRecords();
+		vendorAccountTransactionTable.removeAllRecords();
+		vendorItemTransactionTable.removeAllRecords();
 	}
 
 	@Override
 	protected void addNewData(ClientTransactionItem transactionItem) {
-		vendorTransactionTable.add(transactionItem);
+		vendorAccountTransactionTable.add(transactionItem);
 	}
 
 	@Override
@@ -1128,7 +1217,10 @@ public class VendorBillView extends
 
 	@Override
 	public List<ClientTransactionItem> getAllTransactionItems() {
-		return vendorTransactionTable.getAllRows();
+		List<ClientTransactionItem> list = new ArrayList<ClientTransactionItem>();
+		list.addAll(vendorAccountTransactionTable.getRecords());
+		list.addAll(vendorItemTransactionTable.getRecords());
+		return list;
 	}
 
 	private void settabIndexes() {
@@ -1141,9 +1233,19 @@ public class VendorBillView extends
 		dueDateItem.setTabIndex(7);
 		deliveryDateItem.setTabIndex(8);
 		memoTextAreaItem.setTabIndex(9);
-		menuButton.setTabIndex(10);
+		// menuButton.setTabIndex(10);
 		saveAndCloseButton.setTabIndex(11);
 		saveAndNewButton.setTabIndex(12);
 		cancelButton.setTabIndex(13);
+	}
+
+	@Override
+	protected void addAccountTransactionItem(ClientTransactionItem item) {
+		vendorAccountTransactionTable.add(item);
+	}
+
+	@Override
+	protected void addItemTransactionItem(ClientTransactionItem item) {
+		vendorItemTransactionTable.add(item);
 	}
 }

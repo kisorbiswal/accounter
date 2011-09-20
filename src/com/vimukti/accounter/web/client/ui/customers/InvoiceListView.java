@@ -37,6 +37,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 	public static String OVER_DUE = Accounter.constants().overDue();
 	public static String VOID = Accounter.constants().voided();
 	public static String ALL = Accounter.constants().all();
+	public static String DRAFT = Accounter.constants().draft();
 	// private static String DELETE = "Deleted";
 	protected ClientFinanceDate startDate;
 	protected ClientFinanceDate endDate;
@@ -129,6 +130,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 		listOfTypes.add(OVER_DUE);
 		listOfTypes.add(VOID);
 		listOfTypes.add(ALL);
+		// listOfTypes.add(DRAFT);
 		viewSelect.initCombo(listOfTypes);
 
 		if (viewType != null && !viewType.equals(""))
@@ -208,8 +210,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 					grid.addData(invoice);
 				continue;
 
-			}
-			if (text.equals(OVER_DUE)) {
+			} else if (text.equals(OVER_DUE)) {
 				if (invoice.getBalance() != null
 						&& DecimalUtil.isGreaterThan(invoice.getBalance(), 0)
 						&& invoice.getDueDate() != null
@@ -218,21 +219,17 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 						&& !invoice.isVoided())
 					grid.addData(invoice);
 				continue;
-			}
-			if (text.equals(VOID)) {
+			} else if (text.equals(VOID)) {
 				if (invoice.isVoided()
 				// && !invoice.isDeleted()
 				)
 					grid.addData(invoice);
 				continue;
-			}
-			// if (text.equals(DELETE)) {
-			// if (invoice.isDeleted())
-			// grid.addData(invoice);
-			// continue;
-			// }
-			if (text.equals(ALL)) {
+			} else if (text.equals(ALL)) {
 				grid.addData(invoice);
+			} else if (text.equals(DRAFT)) {
+				if (invoice.getSaveStatus() == ClientTransaction.STATUS_DRAFT)
+					grid.addData(invoice);
 			}
 		}
 		if (grid.getRecords().isEmpty()) {
@@ -487,13 +484,11 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 		this.endDate = endDate;
 	}
 
-
 	@Override
 	public void fitToSize(int height, int width) {
 		super.fitToSize(height, width);
 
 	}
-
 
 	@Override
 	public void onEdit() {
@@ -600,6 +595,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 
 		return false;
 	}
+
 	/**
 	 * used to print the documents based on the selected multiple objects
 	 */

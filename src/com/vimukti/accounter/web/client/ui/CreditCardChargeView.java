@@ -7,6 +7,9 @@ import java.util.Set;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -38,7 +41,8 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
-import com.vimukti.accounter.web.client.ui.edittable.tables.VendorTransactionTable;
+import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
+import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -82,7 +86,9 @@ public class CreditCardChargeView extends
 	protected TextAreaItem billToAreaItem;
 	private List<ClientAccount> listOfAccounts;
 	private boolean locationTrackingEnabled;
-	private VendorTransactionTable vendorTransactionTable;
+	private VendorAccountTransactionTable vendorAccountTransactionTable;
+	private VendorItemTransactionTable vendorItemTransactionTable;
+	private Button accountTableButton, itemTableButton;
 
 	public CreditCardChargeView() {
 
@@ -286,9 +292,14 @@ public class CreditCardChargeView extends
 			cheqNoText.setDisabled(true);
 			paymentMethodSelected(transaction.getPaymentMethod());
 			payMethSelect.setComboItem(transaction.getPaymentMethod());
-			vendorTransactionTable.removeAllRecords();
-			vendorTransactionTable.setAllTransactionItems(transaction
-					.getTransactionItems());
+			vendorAccountTransactionTable.removeAllRecords();
+			vendorAccountTransactionTable
+					.setAllTransactionItems(getAccountTransactionItems(transaction
+							.getTransactionItems()));
+			vendorItemTransactionTable.removeAllRecords();
+			vendorItemTransactionTable
+					.setAllTransactionItems(getItemTransactionItems(transaction
+							.getTransactionItems()));
 
 		}
 		if (locationTrackingEnabled)
@@ -491,7 +502,7 @@ public class CreditCardChargeView extends
 				.amountIncludesVat());
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
-		vendorTransactionTable = new VendorTransactionTable() {
+		vendorAccountTransactionTable = new VendorAccountTransactionTable() {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -513,7 +524,52 @@ public class CreditCardChargeView extends
 				return CreditCardChargeView.this.isShowPriceWithVat();
 			}
 		};
-		vendorTransactionTable.setDisabled(isInViewMode());
+		vendorAccountTransactionTable.setDisabled(isInViewMode());
+
+		accountTableButton = new Button(Global.get().Account());
+		accountTableButton.setEnabled(!isInViewMode());
+		accountTableButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				addAccount();
+			}
+		});
+
+		vendorItemTransactionTable = new VendorItemTransactionTable() {
+
+			@Override
+			protected void updateNonEditableItems() {
+				CreditCardChargeView.this.updateNonEditableItems();
+			}
+
+			@Override
+			public boolean isShowPriceWithVat() {
+				return CreditCardChargeView.this.isShowPriceWithVat();
+			}
+
+			@Override
+			protected ClientTransaction getTransactionObject() {
+				return CreditCardChargeView.this.getTransactionObject();
+			}
+
+			@Override
+			protected ClientVendor getSelectedVendor() {
+				return CreditCardChargeView.this.getSelectedVendor();
+			}
+		};
+		vendorItemTransactionTable.setDisabled(isInViewMode());
+
+		itemTableButton = new Button(Accounter.constants()
+				.productOrServiceItem());
+		itemTableButton.setEnabled(!isInViewMode());
+		itemTableButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				addItem();
+			}
+		});
 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
@@ -615,9 +671,12 @@ public class CreditCardChargeView extends
 		// vLay1.add(lab2);
 		// vLay1.add(addButton);
 		// multi currency combo
-		vLay1.add(vendorTransactionTable);
-		vLay1.add(createAddNewButton());
-		menuButton.getElement().getStyle().setMargin(5, Unit.PX);
+		vLay1.add(vendorAccountTransactionTable);
+		vLay1.add(accountTableButton);
+		vLay1.add(vendorItemTransactionTable);
+		vLay1.add(itemTableButton);
+		// vLay1.add(createAddNewButton());
+		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		vLay1.setWidth("100%");
 		vLay1.add(bottompanel);
 
@@ -735,10 +794,11 @@ public class CreditCardChargeView extends
 		transaction.setDeliveryDate(UIUtils.toDate(delivDate.getValue()));
 
 		// Setting transactions
-		transaction.setTransactionItems(vendorTransactionTable.getAllRows());
+		transaction.setTransactionItems(getAllTransactionItems());
 
 		// setting total
-		transaction.setTotal(vendorTransactionTable.getTotal());
+		transaction.setTotal(vendorAccountTransactionTable.getTotal()
+				+ vendorItemTransactionTable.getTotal());
 		// setting memo
 		transaction.setMemo(getMemoTextAreaItem());
 		// setting ref
@@ -752,16 +812,17 @@ public class CreditCardChargeView extends
 
 	@Override
 	public void updateNonEditableItems() {
+		double total = vendorAccountTransactionTable.getTotal()
+				+ vendorItemTransactionTable.getTotal();
+		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
+				+ vendorItemTransactionTable.getGrandTotal();
 
 		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			transactionTotalNonEditableText.setAmount(vendorTransactionTable
-					.getTotal());
-			netAmount.setAmount(vendorTransactionTable.getGrandTotal());
-			vatTotalNonEditableText.setAmount(vendorTransactionTable.getTotal()
-					- vendorTransactionTable.getGrandTotal());
+			transactionTotalNonEditableText.setAmount(total);
+			netAmount.setAmount(grandTotal);
+			vatTotalNonEditableText.setAmount(total - grandTotal);
 		} else {
-			transactionTotalNonEditableText.setAmount(vendorTransactionTable
-					.getTotal());
+			transactionTotalNonEditableText.setAmount(total);
 		}
 	}
 
@@ -798,11 +859,13 @@ public class CreditCardChargeView extends
 
 			result.add(vendorForm.validate());
 			result.add(termsForm.validate());
-			if (vendorTransactionTable.getAllRows().isEmpty()) {
-				result.addError(vendorTransactionTable,
+			if (getAllTransactionItems().isEmpty()) {
+				result.addError(vendorAccountTransactionTable,
 						accounterConstants.blankTransaction());
-			} else
-				result.add(vendorTransactionTable.validateGrid());
+			} else {
+				result.add(vendorAccountTransactionTable.validateGrid());
+				result.add(vendorItemTransactionTable.validateGrid());
+			}
 			return result;
 		} catch (Exception e) {
 			System.err.println(e);
@@ -884,7 +947,10 @@ public class CreditCardChargeView extends
 		phoneSelect.setDisabled(isInViewMode());
 		payFrmSelect.setDisabled(isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
-		vendorTransactionTable.setDisabled(isInViewMode());
+		vendorAccountTransactionTable.setDisabled(isInViewMode());
+		vendorItemTransactionTable.setDisabled(isInViewMode());
+		accountTableButton.setEnabled(!isInViewMode());
+		itemTableButton.setEnabled(!isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 		super.onEdit();
@@ -952,7 +1018,7 @@ public class CreditCardChargeView extends
 
 	@Override
 	protected void addNewData(ClientTransactionItem transactionItem) {
-		vendorTransactionTable.add(transactionItem);
+		vendorAccountTransactionTable.add(transactionItem);
 
 	}
 
@@ -972,10 +1038,28 @@ public class CreditCardChargeView extends
 		payFrmSelect.setTabIndex(8);
 		delivDate.setTabIndex(9);
 		memoTextAreaItem.setTabIndex(10);
-		menuButton.setTabIndex(11);
+		// menuButton.setTabIndex(11);
 		saveAndCloseButton.setTabIndex(12);
 		saveAndNewButton.setTabIndex(13);
 		cancelButton.setTabIndex(14);
 
+	}
+
+	@Override
+	protected void addAccountTransactionItem(ClientTransactionItem item) {
+		vendorAccountTransactionTable.add(item);
+	}
+
+	@Override
+	protected void addItemTransactionItem(ClientTransactionItem item) {
+		vendorItemTransactionTable.add(item);
+	}
+
+	@Override
+	public List<ClientTransactionItem> getAllTransactionItems() {
+		List<ClientTransactionItem> list = new ArrayList<ClientTransactionItem>();
+		list.addAll(vendorAccountTransactionTable.getRecords());
+		list.addAll(vendorItemTransactionTable.getRecords());
+		return list;
 	}
 }

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -29,7 +32,8 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
-import com.vimukti.accounter.web.client.ui.edittable.tables.VendorTransactionTable;
+import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
+import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -52,7 +56,9 @@ public class CashPurchaseView extends
 	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
 			.constants();
 	private boolean locationTrackingEnabled;
-	protected VendorTransactionTable vendorTransactionTable;
+	protected VendorAccountTransactionTable vendorAccountTransactionTable;
+	protected VendorItemTransactionTable vendorItemTransactionTable;
+	protected Button accountTableButton, itemTableButton;
 
 	public CashPurchaseView() {
 		super(ClientTransaction.TYPE_CASH_PURCHASE);
@@ -149,8 +155,7 @@ public class CashPurchaseView extends
 		// payFromCombo.setWidth(100);
 		payFromCombo.setPopupWidth("500px");
 		checkNo = createCheckNumberItem(getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-				.constants().chequeNo()
-				: Accounter.constants().checkNo());
+				.constants().chequeNo() : Accounter.constants().checkNo());
 		checkNo.setDisabled(true);
 		checkNo.setWidth(100);
 		deliveryDateItem = createTransactionDeliveryDateItem();
@@ -193,14 +198,14 @@ public class CashPurchaseView extends
 			termsForm.setFields(classListCombo);
 		}
 
-		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "203px");
 
 		// formItems.add(checkNo);
 		// formItems.add(deliveryDateItem);
 
 		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
-		menuButton = createAddNewButton();
+		// menuButton = createAddNewButton();
 
 		netAmount = new AmountLabel(Accounter.constants().netAmount());
 		netAmount.setDefaultValue("£0.00");
@@ -210,7 +215,7 @@ public class CashPurchaseView extends
 		vatTotalNonEditableText = createVATTotalNonEditableItem();
 
 		vatinclusiveCheck = getVATInclusiveCheckBox();
-		vendorTransactionTable = new VendorTransactionTable() {
+		vendorAccountTransactionTable = new VendorAccountTransactionTable() {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -232,7 +237,53 @@ public class CashPurchaseView extends
 				return CashPurchaseView.this.isShowPriceWithVat();
 			}
 		};
-		vendorTransactionTable.setDisabled(isInViewMode());
+		vendorAccountTransactionTable.setDisabled(isInViewMode());
+
+		accountTableButton = new Button(Global.get().Account());
+		accountTableButton.setEnabled(!isInViewMode());
+		accountTableButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				addAccount();
+			}
+		});
+
+		vendorItemTransactionTable = new VendorItemTransactionTable() {
+
+			@Override
+			protected void updateNonEditableItems() {
+				CashPurchaseView.this.updateNonEditableItems();
+			}
+
+			@Override
+			protected ClientTransaction getTransactionObject() {
+				return CashPurchaseView.this.getTransactionObject();
+			}
+
+			@Override
+			protected ClientVendor getSelectedVendor() {
+				return CashPurchaseView.this.getVendor();
+			}
+
+			@Override
+			public boolean isShowPriceWithVat() {
+				return CashPurchaseView.this.isShowPriceWithVat();
+			}
+		};
+		vendorItemTransactionTable.setDisabled(isInViewMode());
+
+		itemTableButton = new Button(Accounter.constants()
+				.productOrServiceItem());
+		itemTableButton.setEnabled(!isInViewMode());
+		itemTableButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				addItem();
+			}
+		});
+
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
 		// refText = createRefereceText();
@@ -319,9 +370,12 @@ public class CashPurchaseView extends
 		mainVLay.add(topHLay);
 		// mainVLay.add(lab2);
 
-		mainVLay.add(vendorTransactionTable);
-		mainVLay.add(createAddNewButton());
-		menuButton.getElement().getStyle().setMargin(5, Unit.PX);
+		mainVLay.add(vendorAccountTransactionTable);
+		mainVLay.add(accountTableButton);
+		mainVLay.add(vendorItemTransactionTable);
+		mainVLay.add(itemTableButton);
+		// mainVLay.add(createAddNewButton());
+		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(bottompanel);
 
 		// setOverflow(Overflow.SCROLL);
@@ -446,12 +500,17 @@ public class CashPurchaseView extends
 			ClientCashPurchase ent = (ClientCashPurchase) this.transaction;
 
 			if (ent != null && ent.getVendor() == vendor.getID()) {
-				this.vendorTransactionTable.removeAllRecords();
-				this.vendorTransactionTable.setRecords(ent
-						.getTransactionItems());
+				this.vendorAccountTransactionTable.removeAllRecords();
+				this.vendorAccountTransactionTable
+						.setRecords(getAccountTransactionItems(ent
+								.getTransactionItems()));
+				this.vendorItemTransactionTable
+						.setRecords(getItemTransactionItems(ent
+								.getTransactionItems()));
 			} else if (ent != null && ent.getVendor() != vendor.getID()) {
-				this.vendorTransactionTable.removeAllRecords();
-				this.vendorTransactionTable.updateTotals();
+				this.vendorAccountTransactionTable.removeAllRecords();
+				this.vendorAccountTransactionTable.updateTotals();
+				this.vendorItemTransactionTable.updateTotals();
 			}
 		}
 		super.vendorSelected(vendor);
@@ -473,7 +532,8 @@ public class CashPurchaseView extends
 		if (code == 0) {
 			code = Accounter.getCompany().getDefaultTaxCode();
 		}
-		vendorTransactionTable.setTaxCode(code);
+		vendorAccountTransactionTable.setTaxCode(code);
+		vendorItemTransactionTable.setTaxCode(code);
 
 	}
 
@@ -549,8 +609,7 @@ public class CashPurchaseView extends
 		// Setting Pay From Account
 		transaction
 				.setPayFrom(payFromCombo.getSelectedValue() != null ? payFromCombo
-						.getSelectedValue().getID()
-						: 0);
+						.getSelectedValue().getID() : 0);
 
 		// Setting Check number
 		transaction.setCheckNumber(checkNo.getValue().toString());
@@ -565,7 +624,8 @@ public class CashPurchaseView extends
 					.getDate());
 
 		// Setting Total
-		transaction.setTotal(vendorTransactionTable.getTotal());
+		transaction.setTotal(vendorAccountTransactionTable.getTotal()
+				+ vendorItemTransactionTable.getTotal());
 
 		// Setting Memo
 		transaction.setMemo(getMemoTextAreaItem());
@@ -588,13 +648,16 @@ public class CashPurchaseView extends
 
 	@Override
 	public void updateNonEditableItems() {
-		netAmount.setAmount(vendorTransactionTable.getGrandTotal());
+		double total = vendorAccountTransactionTable.getTotal()
+				+ vendorItemTransactionTable.getTotal();
+		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
+				+ vendorItemTransactionTable.getGrandTotal();
+
+		netAmount.setAmount(grandTotal);
 		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			vatTotalNonEditableText.setAmount(vendorTransactionTable.getTotal()
-					- vendorTransactionTable.getGrandTotal());
+			vatTotalNonEditableText.setAmount(total - grandTotal);
 		}
-		transactionTotalNonEditableText.setAmount(vendorTransactionTable
-				.getTotal());
+		transactionTotalNonEditableText.setAmount(total);
 	}
 
 	@Override
@@ -610,20 +673,20 @@ public class CashPurchaseView extends
 		// 6. validateGrid?
 
 		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateTransactionDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
 		}
 
 		result.add(vendorForm.validate());
 		result.add(termsForm.validate());
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(deliveryDateItem
-				.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(
+				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
 			result.addError(deliveryDateItem, Accounter.constants().the()
 					+ " "
 					+ Accounter.constants().deliveryDate()
@@ -633,11 +696,13 @@ public class CashPurchaseView extends
 							.cannotbeearlierthantransactiondate());
 		}
 
-		if (vendorTransactionTable.getAllRows().isEmpty()) {
-			result.addError(vendorTransactionTable, accounterConstants
-					.blankTransaction());
-		} else
-			result.add(vendorTransactionTable.validateGrid());
+		if (getAllTransactionItems().isEmpty()) {
+			result.addError(vendorAccountTransactionTable,
+					accounterConstants.blankTransaction());
+		} else {
+			result.add(vendorAccountTransactionTable.validateGrid());
+			result.add(vendorItemTransactionTable.validateGrid());
+		}
 		return result;
 
 	}
@@ -716,7 +781,10 @@ public class CashPurchaseView extends
 			checkNo.setDisabled(!isInViewMode());
 		}
 		deliveryDateItem.setDisabled(isInViewMode());
-		vendorTransactionTable.setDisabled(isInViewMode());
+		vendorAccountTransactionTable.setDisabled(isInViewMode());
+		vendorItemTransactionTable.setDisabled(isInViewMode());
+		accountTableButton.setEnabled(!isInViewMode());
+		itemTableButton.setEnabled(!isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
@@ -763,23 +831,30 @@ public class CashPurchaseView extends
 	@Override
 	protected void addAllRecordToGrid(
 			List<ClientTransactionItem> transactionItems) {
-		vendorTransactionTable.addRecords(transactionItems);
+		vendorAccountTransactionTable
+				.addRecords(getAccountTransactionItems(transactionItems));
+		vendorItemTransactionTable
+				.addRecords(getItemTransactionItems(transactionItems));
 	}
 
 	@Override
 	protected void removeAllRecordsFromGrid() {
-		vendorTransactionTable.removeAllRecords();
+		vendorAccountTransactionTable.removeAllRecords();
+		vendorItemTransactionTable.removeAllRecords();
 	}
 
 	@Override
 	protected void addNewData(ClientTransactionItem transactionItem) {
-		vendorTransactionTable.add(transactionItem);
+		vendorAccountTransactionTable.add(transactionItem);
 
 	}
 
 	@Override
 	public List<ClientTransactionItem> getAllTransactionItems() {
-		return vendorTransactionTable.getAllRows();
+		List<ClientTransactionItem> list = new ArrayList<ClientTransactionItem>();
+		list.addAll(vendorAccountTransactionTable.getRecords());
+		list.addAll(vendorItemTransactionTable.getRecords());
+		return list;
 	}
 
 	@Override
@@ -799,11 +874,21 @@ public class CashPurchaseView extends
 		checkNo.setTabIndex(9);
 		deliveryDateItem.setTabIndex(10);
 		memoTextAreaItem.setTabIndex(11);
-		menuButton.setTabIndex(12);
+		// menuButton.setTabIndex(12);
 		saveAndCloseButton.setTabIndex(13);
 		saveAndNewButton.setTabIndex(14);
 		cancelButton.setTabIndex(15);
 
+	}
+
+	@Override
+	protected void addAccountTransactionItem(ClientTransactionItem item) {
+		vendorAccountTransactionTable.add(item);
+	}
+
+	@Override
+	protected void addItemTransactionItem(ClientTransactionItem item) {
+		vendorItemTransactionTable.add(item);
 	}
 
 }

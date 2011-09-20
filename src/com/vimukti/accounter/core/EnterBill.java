@@ -812,8 +812,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 					double amount = 0d;
 
 					if (!isAddition)
-						if (transactionItem.type == TransactionItem.TYPE_ITEM
-								|| transactionItem.type == TransactionItem.TYPE_SERVICE) {
+						if (transactionItem.type == TransactionItem.TYPE_ITEM) {
 							if (DecimalUtil
 									.isLessThan(
 											transactionItem.lineTotal,
@@ -833,8 +832,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 							referringTransactionItem.usedamt -= transactionItem.lineTotal;
 
 					else {
-						if (transactionItem.type == TransactionItem.TYPE_ITEM
-								|| transactionItem.type == TransactionItem.TYPE_SERVICE) {
+						if (transactionItem.type == TransactionItem.TYPE_ITEM) {
 							if (DecimalUtil
 									.isLessThan(
 											transactionItem.lineTotal,
@@ -861,7 +859,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 
 					if (flag
 							&& ((transactionItem.type == TransactionItem.TYPE_ACCOUNT
-									|| transactionItem.type == TransactionItem.TYPE_SALESTAX || ((transactionItem.type == TransactionItem.TYPE_ITEM || transactionItem.type == TransactionItem.TYPE_SERVICE) && transactionItem
+									|| transactionItem.type == TransactionItem.TYPE_SALESTAX || ((transactionItem.type == TransactionItem.TYPE_ITEM) && transactionItem
 									.getQuantity().compareTo(
 											referringTransactionItem
 													.getQuantity()) < 0)))) {

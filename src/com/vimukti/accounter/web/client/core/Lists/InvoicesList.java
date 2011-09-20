@@ -45,6 +45,8 @@ public class InvoicesList implements IsSerializable, Serializable {
 	boolean isVoided;
 
 	int status;
+	
+	private int saveStatus;
 
 	boolean isPrint;
 
@@ -216,5 +218,13 @@ public class InvoicesList implements IsSerializable, Serializable {
 
 	public void setPrint(boolean isPrint) {
 		this.isPrint = isPrint;
+	}
+
+	public int getSaveStatus() {
+		return saveStatus;
+	}
+
+	public void setSaveStatus(int saveStatus) {
+		this.saveStatus = saveStatus;
 	}
 }

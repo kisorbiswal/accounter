@@ -42,7 +42,7 @@ public class VendorTransactionGrid extends
 
 	private PurchaseAccountsCombo accountsCombo;
 	// ItemCombo itemCombo;
-	ServiceCombo serviceItemCombo;
+	// ServiceCombo serviceItemCombo;
 	ProductCombo productItemCombo;
 	TAXCodeCombo taxCodeCombo;
 	VATItemCombo vatItemCombo;
@@ -101,17 +101,17 @@ public class VendorTransactionGrid extends
 			if (item.isIBuyThisItem())
 				vendorItems.add(item);
 		}
-		List<ClientItem> serviceitems = new ArrayList<ClientItem>();
-		List<ClientItem> productitems = new ArrayList<ClientItem>();
-		for (ClientItem item : vendorItems) {
-			if (item.getType() == ClientItem.TYPE_SERVICE)
-				serviceitems.add(item);
-			else
-				productitems.add(item);
-		}
-		serviceItemCombo.initCombo(serviceitems);
+		// List<ClientItem> serviceitems = new ArrayList<ClientItem>();
+		// List<ClientItem> productitems = new ArrayList<ClientItem>();
+		// for (ClientItem item : vendorItems) {
+		// if (item.getType() == ClientItem.TYPE_SERVICE)
+		// serviceitems.add(item);
+		// else
+		// productitems.add(item);
+		// }
+		// serviceItemCombo.initCombo(serviceitems);
 
-		productItemCombo.initCombo(productitems);
+		productItemCombo.initCombo(vendorItems);
 		// itemCombo.initCombo(vendorItems);
 	}
 
@@ -125,48 +125,49 @@ public class VendorTransactionGrid extends
 		setWidth("100%");
 		// setSize("100%", "200px");
 
-		// Passing 1 for Customer, 2 For Vendor For Item View- Raj Vimal
-		serviceItemCombo = new ServiceCombo(Accounter.constants().item(), 2,
-				isAddNewRequired);
-		serviceItemCombo
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientItem>() {
-
-					@Override
-					public void selectedComboBoxItem(ClientItem selectItem) {
-						if (selectItem != null) {
-							selectedObject.setItem(selectItem.getID());
-							selectedObject.setUnitPrice(selectItem
-									.getPurchasePrice());
-							if (getCompany().getPreferences()
-									.isRegisteredForVAT()) {
-								selectedObject.setTaxable(selectItem
-										.isTaxable());
-							} else {
-								selectedObject.setTaxable(false);
-							}
-							setText(currentRow, currentCol,
-									selectItem.getName());
-							if (getCompany().getPreferences()
-									.isRegisteredForVAT()) {
-								selectedObject.setTaxCode(selectItem
-										.getTaxCode() != 0 ? selectItem
-										.getTaxCode() : 0);
-							}
-							editComplete(selectedObject,
-									selectItem.getPurchasePrice(), 4);
-
-							// it should be here only for vat calculations(it
-							// needs line total for this,linetotal calculated in
-							// editcomplete()
-							if (getCompany().getPreferences()
-									.isRegisteredForVAT()
-									&& !isPurchseOrderTransaction) {
-								refreshVatValue(selectedObject);
-							}
-						}
-					}
-				});
-		serviceItemCombo.setGrid(this);
+		// // Passing 1 for Customer, 2 For Vendor For Item View- Raj Vimal
+		// serviceItemCombo = new ServiceCombo(Accounter.constants().item(), 2,
+		// isAddNewRequired);
+		// serviceItemCombo
+		// .addSelectionChangeHandler(new
+		// IAccounterComboSelectionChangeHandler<ClientItem>() {
+		//
+		// @Override
+		// public void selectedComboBoxItem(ClientItem selectItem) {
+		// if (selectItem != null) {
+		// selectedObject.setItem(selectItem.getID());
+		// selectedObject.setUnitPrice(selectItem
+		// .getPurchasePrice());
+		// if (getCompany().getPreferences()
+		// .isRegisteredForVAT()) {
+		// selectedObject.setTaxable(selectItem
+		// .isTaxable());
+		// } else {
+		// selectedObject.setTaxable(false);
+		// }
+		// setText(currentRow, currentCol,
+		// selectItem.getName());
+		// if (getCompany().getPreferences()
+		// .isRegisteredForVAT()) {
+		// selectedObject.setTaxCode(selectItem
+		// .getTaxCode() != 0 ? selectItem
+		// .getTaxCode() : 0);
+		// }
+		// editComplete(selectedObject,
+		// selectItem.getPurchasePrice(), 4);
+		//
+		// // it should be here only for vat calculations(it
+		// // needs line total for this,linetotal calculated in
+		// // editcomplete()
+		// if (getCompany().getPreferences()
+		// .isRegisteredForVAT()
+		// && !isPurchseOrderTransaction) {
+		// refreshVatValue(selectedObject);
+		// }
+		// }
+		// }
+		// });
+		// serviceItemCombo.setGrid(this);
 
 		productItemCombo = new ProductCombo(
 				Accounter.constants().productItem(), 2, isAddNewRequired);
@@ -267,13 +268,16 @@ public class VendorTransactionGrid extends
 									.getCompany().getItem(core.getItem()));
 						else
 							productItemCombo.setValue("");
-					} else if (core.getType() == ClientTransactionItem.TYPE_SERVICE) {
-						if (core.getItem() != 0)
-							serviceItemCombo.setComboItem(Accounter
-									.getCompany().getItem(core.getItem()));
-						else
-							serviceItemCombo.setValue("");
-					} else if (core.getType() == ClientTransactionItem.TYPE_SALESTAX) {
+					}
+					// else if (core.getType() ==
+					// ClientTransactionItem.TYPE_SERVICE) {
+					// if (core.getItem() != 0)
+					// serviceItemCombo.setComboItem(Accounter
+					// .getCompany().getItem(core.getItem()));
+					// else
+					// serviceItemCombo.setValue("");
+					// }
+					else if (core.getType() == ClientTransactionItem.TYPE_SALESTAX) {
 						if (core.getTaxCode() != 0)
 							vatItemCombo.setComboItem(Accounter.getCompany()
 									.getTaxItem(core.getVatItem()));
@@ -874,8 +878,7 @@ public class VendorTransactionGrid extends
 		// column index starts from '1'.
 
 		try {
-			boolean isItem = (item.getType() == ClientTransactionItem.TYPE_ITEM || item
-					.getType() == ClientTransactionItem.TYPE_SERVICE) ? true
+			boolean isItem = (item.getType() == ClientTransactionItem.TYPE_ITEM) ? true
 					: false;
 			switch (col) {
 			case 1:
@@ -1103,17 +1106,17 @@ public class VendorTransactionGrid extends
 			default:
 				return true;
 			}
-		case ClientTransactionItem.TYPE_SERVICE:
-			switch (col) {
-			// case 3:
-			// return false;
-			// case 4:
-			// return false;
-
-			default:
-				return true;
-			}
-
+			// case ClientTransactionItem.TYPE_SERVICE:
+			// switch (col) {
+			// // case 3:
+			// // return false;
+			// // case 4:
+			// // return false;
+			//
+			// default:
+			// return true;
+			// }
+			//
 		}
 
 		return true;
@@ -1129,9 +1132,10 @@ public class VendorTransactionGrid extends
 				combo = (CustomCombo<E>) accountsCombo;
 			} else if (obj.getType() == ClientTransactionItem.TYPE_ITEM)
 				combo = (CustomCombo<E>) productItemCombo;
-			else if (obj.getType() == ClientTransactionItem.TYPE_SERVICE) {
-				combo = (CustomCombo<E>) serviceItemCombo;
-			} else if (obj.getType() == ClientTransactionItem.TYPE_SALESTAX) {
+			// else if (obj.getType() == ClientTransactionItem.TYPE_SERVICE) {
+			// combo = (CustomCombo<E>) serviceItemCombo;
+			// }
+			else if (obj.getType() == ClientTransactionItem.TYPE_SALESTAX) {
 				combo = (CustomCombo<E>) vatItemCombo;
 			}
 

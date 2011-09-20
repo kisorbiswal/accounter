@@ -82,7 +82,8 @@ public class EmployeeExpenseView extends CashPurchaseView {
 					.getDate());
 
 		// Setting Total
-		transaction.setTotal(vendorTransactionTable.getTotal());
+		transaction.setTotal(vendorAccountTransactionTable.getTotal()
+				+ vendorItemTransactionTable.getTotal());
 
 		// Setting Memo
 		transaction.setMemo(getMemoTextAreaItem());
@@ -268,7 +269,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button, Accounter.constants().serviceItem());
+		setMenuItems(button, Accounter.constants().productOrServiceItem());
 	}
 
 	@Override

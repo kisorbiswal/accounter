@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -24,7 +27,8 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
-import com.vimukti.accounter.web.client.ui.edittable.tables.VendorTransactionTable;
+import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
+import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -35,7 +39,9 @@ public class VendorCreditMemoView extends
 	private ArrayList<DynamicForm> listforms;
 	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
 			.constants();
-	private VendorTransactionTable vendorTransactionTable;
+	private VendorAccountTransactionTable vendorAccountTransactionTable;
+	private VendorItemTransactionTable vendorItemTransactionTable;
+	private Button accountTableButton, itemTableButton;
 	private boolean locationTrackingEnabled;
 
 	private VendorCreditMemoView() {
@@ -51,12 +57,17 @@ public class VendorCreditMemoView extends
 			ClientVendorCreditMemo ent = (ClientVendorCreditMemo) this.transaction;
 
 			if (ent != null && ent.getVendor() == vendor.getID()) {
-				this.vendorTransactionTable.removeAllRecords();
-				this.vendorTransactionTable.setRecords(ent
-						.getTransactionItems());
+				this.vendorAccountTransactionTable.removeAllRecords();
+				this.vendorAccountTransactionTable
+						.setRecords(getAccountTransactionItems(ent
+								.getTransactionItems()));
+				this.vendorItemTransactionTable
+						.setRecords(getItemTransactionItems(ent
+								.getTransactionItems()));
 			} else if (ent != null && ent.getVendor() != vendor.getID()) {
-				this.vendorTransactionTable.removeAllRecords();
-				this.vendorTransactionTable.updateTotals();
+				this.vendorAccountTransactionTable.removeAllRecords();
+				this.vendorAccountTransactionTable.updateTotals();
+				this.vendorItemTransactionTable.updateTotals();
 			}
 		}
 		if (vendor.getPhoneNo() != null)
@@ -68,7 +79,8 @@ public class VendorCreditMemoView extends
 		if (code == 0) {
 			code = Accounter.getCompany().getDefaultTaxCode();
 		}
-		vendorTransactionTable.setTaxCode(code);
+		vendorAccountTransactionTable.setTaxCode(code);
+		vendorItemTransactionTable.setTaxCode(code);
 
 	}
 
@@ -194,8 +206,8 @@ public class VendorCreditMemoView extends
 		vatTotalNonEditableText = createVATTotalNonEditableItem();
 
 		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
-		menuButton = createAddNewButton();
-		vendorTransactionTable = new VendorTransactionTable() {
+		// menuButton = createAddNewButton();
+		vendorAccountTransactionTable = new VendorAccountTransactionTable() {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -211,15 +223,60 @@ public class VendorCreditMemoView extends
 			protected ClientVendor getSelectedVendor() {
 				return VendorCreditMemoView.this.getVendor();
 			}
-			
+
 			@Override
 			public boolean isShowPriceWithVat() {
 				return VendorCreditMemoView.this.isShowPriceWithVat();
 			}
 		};
-		vendorTransactionTable.setDisabled(isInViewMode());
-		vendorTransactionTable.getElement().getStyle()
+		vendorAccountTransactionTable.setDisabled(isInViewMode());
+		vendorAccountTransactionTable.getElement().getStyle()
 				.setMarginTop(10, Unit.PX);
+
+		accountTableButton = new Button(Global.get().Account());
+		accountTableButton.setEnabled(!isInViewMode());
+		accountTableButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				addAccount();
+			}
+		});
+
+		vendorItemTransactionTable = new VendorItemTransactionTable() {
+
+			@Override
+			protected void updateNonEditableItems() {
+				VendorCreditMemoView.this.updateNonEditableItems();
+			}
+
+			@Override
+			public boolean isShowPriceWithVat() {
+				return VendorCreditMemoView.this.isShowPriceWithVat();
+			}
+
+			@Override
+			protected ClientTransaction getTransactionObject() {
+				return VendorCreditMemoView.this.getTransactionObject();
+			}
+
+			@Override
+			protected ClientVendor getSelectedVendor() {
+				return VendorCreditMemoView.this.getVendor();
+			}
+		};
+		vendorItemTransactionTable.setDisabled(isInViewMode());
+
+		itemTableButton = new Button(Accounter.constants()
+				.productOrServiceItem());
+		itemTableButton.setEnabled(!isInViewMode());
+		itemTableButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				addItem();
+			}
+		});
 
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
@@ -227,8 +284,8 @@ public class VendorCreditMemoView extends
 		vendorForm = UIUtils.form(Global.get().vendor());
 		vendorForm.setWidth("50%");
 		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect);
-		vendorForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "190px");
+		vendorForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "190px");
 
 		leftVLay.add(vendorForm);
 
@@ -318,9 +375,12 @@ public class VendorCreditMemoView extends
 		mainVLay.add(topHLay1);
 		// mainVLay.add(lab2);
 
-		mainVLay.add(vendorTransactionTable);
-		mainVLay.add(createAddNewButton());
-		menuButton.getElement().getStyle().setMargin(5, Unit.PX);
+		mainVLay.add(vendorAccountTransactionTable);
+		mainVLay.add(accountTableButton);
+		mainVLay.add(vendorItemTransactionTable);
+		mainVLay.add(itemTableButton);
+		// mainVLay.add(createAddNewButton());
+		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(bottomPanel);
 
 		if (UIUtils.isMSIEBrowser())
@@ -383,7 +443,8 @@ public class VendorCreditMemoView extends
 			transaction.setPhone(phoneSelect.getValue().toString());
 
 		// Setting Total
-		transaction.setTotal(vendorTransactionTable.getTotal());
+		transaction.setTotal(vendorAccountTransactionTable.getTotal()
+				+ vendorItemTransactionTable.getTotal());
 
 		// Setting Memo
 		transaction.setMemo(getMemoTextAreaItem());
@@ -409,32 +470,36 @@ public class VendorCreditMemoView extends
 		// 4. isBlank transaction?
 		// 5. is vendor transaction grid valid?
 		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateTransactionDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
 		}
 		result.add(vendorForm.validate());
-		if (vendorTransactionTable.getAllRows().isEmpty()) {
-			result.addError(vendorTransactionTable, accounterConstants
-					.blankTransaction());
-		} else
-			result.add(vendorTransactionTable.validateGrid());
+		if (getAllTransactionItems().isEmpty()) {
+			result.addError(vendorAccountTransactionTable,
+					accounterConstants.blankTransaction());
+		} else {
+			result.add(vendorAccountTransactionTable.validateGrid());
+			result.add(vendorItemTransactionTable.validateGrid());
+		}
 		return result;
 	}
 
 	@Override
 	public void updateNonEditableItems() {
+		double total = vendorAccountTransactionTable.getTotal()
+				+ vendorItemTransactionTable.getTotal();
+		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
+				+ vendorItemTransactionTable.getGrandTotal();
 
-		transactionTotalNonEditableText.setAmount(vendorTransactionTable
-				.getTotal());
-		netAmount.setAmount(vendorTransactionTable.getGrandTotal());
+		transactionTotalNonEditableText.setAmount(total);
+		netAmount.setAmount(grandTotal);
 		if (isRegistedForVAT()) {
-			vatTotalNonEditableText.setAmount(vendorTransactionTable.getTotal()
-					- vendorTransactionTable.getGrandTotal());
+			vatTotalNonEditableText.setAmount(total - grandTotal);
 		}
 	}
 
@@ -519,7 +584,10 @@ public class VendorCreditMemoView extends
 		transactionDateItem.setDisabled(isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
 		transactionNumber.setDisabled(isInViewMode());
-		vendorTransactionTable.setDisabled(isInViewMode());
+		vendorAccountTransactionTable.setDisabled(isInViewMode());
+		vendorItemTransactionTable.setDisabled(isInViewMode());
+		accountTableButton.setEnabled(!isInViewMode());
+		itemTableButton.setEnabled(!isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 
@@ -560,7 +628,10 @@ public class VendorCreditMemoView extends
 	@Override
 	protected void addAllRecordToGrid(
 			List<ClientTransactionItem> transactionItems) {
-		vendorTransactionTable.addRecords(transactionItems);
+		vendorAccountTransactionTable
+				.addRecords(getAccountTransactionItems(transactionItems));
+		vendorItemTransactionTable
+				.addRecords(getItemTransactionItems(transactionItems));
 	}
 
 	@Override
@@ -569,12 +640,15 @@ public class VendorCreditMemoView extends
 
 	@Override
 	protected void addNewData(ClientTransactionItem transactionItem) {
-		vendorTransactionTable.add(transactionItem);
+		vendorAccountTransactionTable.add(transactionItem);
 	}
 
 	@Override
 	public List<ClientTransactionItem> getAllTransactionItems() {
-		return vendorTransactionTable.getAllRows();
+		List<ClientTransactionItem> list = new ArrayList<ClientTransactionItem>();
+		list.addAll(vendorAccountTransactionTable.getRecords());
+		list.addAll(vendorItemTransactionTable.getRecords());
+		return list;
 	}
 
 	@Override
@@ -589,11 +663,21 @@ public class VendorCreditMemoView extends
 		transactionDateItem.setTabIndex(4);
 		transactionNumber.setTabIndex(5);
 		memoTextAreaItem.setTabIndex(6);
-		menuButton.setTabIndex(7);
+		// menuButton.setTabIndex(7);
 		saveAndCloseButton.setTabIndex(8);
 		saveAndNewButton.setTabIndex(9);
 		cancelButton.setTabIndex(10);
 
+	}
+
+	@Override
+	protected void addAccountTransactionItem(ClientTransactionItem item) {
+		vendorAccountTransactionTable.add(item);
+	}
+
+	@Override
+	protected void addItemTransactionItem(ClientTransactionItem item) {
+		vendorItemTransactionTable.add(item);
 	}
 
 }

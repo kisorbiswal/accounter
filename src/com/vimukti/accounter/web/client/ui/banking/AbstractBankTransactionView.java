@@ -122,8 +122,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	public void showMenu(Widget button) {
 		setMenuItems(button,
 				Accounter.messages().accounts(Global.get().Account()),
-				Accounter.constants().service(), Accounter.constants()
-						.productItem());
+				Accounter.constants().productOrServiceItem());
 		// FinanceApplication.constants().comment());
 
 	}
@@ -351,7 +350,8 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 								: svatCodeid) : 0);
 			}
 
-		} else if (menuItem.equals(Accounter.constants().productItem())) {
+		} else if (menuItem
+				.equals(Accounter.constants().productOrServiceItem())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 			if (getCompany().getPreferences().isChargeSalesTax()) {
 				List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
@@ -367,33 +367,70 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 								.getTAXCode() : svatCodeid) : 0);
 			}
 
-		} else if (menuItem.equals(Accounter.constants().serviceItem())
-				|| menuItem.equals(Accounter.constants().service())) {
-			transactionItem.setType(ClientTransactionItem.TYPE_SERVICE);
-			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
-			long zvatCodeid = 0;
-			if (getCompany().getPreferences().isChargeSalesTax()) {
-				for (ClientTAXCode taxCode : taxCodes) {
-					if (taxCode.getName().equals("S")) {
-						zvatCodeid = taxCode.getID();
-					}
-				}
-				transactionItem
-						.setTaxCode(selectedVendor != null ? (selectedVendor
-								.getTAXCode() != 0 ? selectedVendor
-								.getTAXCode() : zvatCodeid) : 0);
-			} else {
-				for (ClientTAXCode taxCode : taxCodes) {
-					if (taxCode.getName().equals("Z")) {
-						zvatCodeid = taxCode.getID();
-					}
-				}
-				if (zvatCodeid != 0)
-					transactionItem.setTaxCode(zvatCodeid);
-			}
 		}
 		addNewData(transactionItem);
 	}
 
 	protected abstract void addNewData(ClientTransactionItem transactionItem);
+
+	@Override
+	protected void addAccount() {
+		ClientTransactionItem transactionItem = new ClientTransactionItem();
+
+		transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
+		if (!getCompany().getPreferences().isRegisteredForVAT()) {
+			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
+			long zvatCodeid = 0;
+			for (ClientTAXCode taxCode : taxCodes) {
+				if (taxCode.getName().equals("Z")) {
+					zvatCodeid = taxCode.getID();
+				}
+			}
+			if (zvatCodeid != 0)
+				transactionItem.setTaxCode(zvatCodeid);
+			// transactionItem.setVatCode(vendor != null ? (vendor
+			// .getVATCode() != null ? vendor.getVATCode() : "") : "");
+		}
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
+			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
+			long svatCodeid = 0;
+			for (ClientTAXCode taxCode : taxCodes) {
+				if (taxCode.getName().equals("S")) {
+					svatCodeid = taxCode.getID();
+				}
+			}
+			// if (zvatCodeid != null)
+			// transactionItem.setVatCode(zvatCodeid);
+			transactionItem.setTaxCode(selectedVendor != null ? (selectedVendor
+					.getTAXCode() > 0 ? selectedVendor.getTAXCode()
+					: svatCodeid) : 0);
+		}
+
+		addAccountTransactionItem(transactionItem);
+	}
+
+	@Override
+	protected void addItem() {
+		ClientTransactionItem transactionItem = new ClientTransactionItem();
+
+		transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
+		if (getCompany().getPreferences().isChargeSalesTax()) {
+			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
+			long svatCodeid = 0;
+			for (ClientTAXCode taxCode : taxCodes) {
+				if (taxCode.getName().equals("S")) {
+					svatCodeid = taxCode.getID();
+				}
+			}
+			transactionItem.setTaxCode(selectedVendor != null ? (selectedVendor
+					.getTAXCode() != 0 ? selectedVendor.getTAXCode()
+					: svatCodeid) : 0);
+		}
+
+		addItemTransactionItem(transactionItem);
+	}
+
+	protected abstract void addAccountTransactionItem(ClientTransactionItem item);
+
+	protected abstract void addItemTransactionItem(ClientTransactionItem item);
 }

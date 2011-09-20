@@ -817,4 +817,16 @@ public class CustomerRefundView extends
 	public List<ClientTransactionItem> getAllTransactionItems() {
 		return Collections.emptyList();
 	}
+
+	@Override
+	protected void addAccountTransactionItem(ClientTransactionItem item) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void addItemTransactionItem(ClientTransactionItem item) {
+		// TODO Auto-generated method stub
+
+	}
 }

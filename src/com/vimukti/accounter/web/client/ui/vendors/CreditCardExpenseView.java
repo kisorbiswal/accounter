@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -42,7 +45,8 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
-import com.vimukti.accounter.web.client.ui.edittable.tables.VendorTransactionTable;
+import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
+import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -90,7 +94,9 @@ public class CreditCardExpenseView extends
 
 	private boolean locationTrackingEnabled;
 
-	private VendorTransactionTable vendorTransactionTable;
+	private VendorAccountTransactionTable vendorAccountTransactionTable;
+	private VendorItemTransactionTable vendorItemTransactionTable;
+	private Button accountTableButton, itemTableButton;
 
 	public CreditCardExpenseView() {
 
@@ -436,7 +442,7 @@ public class CreditCardExpenseView extends
 				.amountIncludesVat());
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
-		vendorTransactionTable = new VendorTransactionTable() {
+		vendorAccountTransactionTable = new VendorAccountTransactionTable() {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -458,7 +464,52 @@ public class CreditCardExpenseView extends
 				return CreditCardExpenseView.this.isShowPriceWithVat();
 			}
 		};
-		vendorTransactionTable.setDisabled(isInViewMode());
+		vendorAccountTransactionTable.setDisabled(isInViewMode());
+
+		accountTableButton = new Button(Global.get().Account());
+		accountTableButton.setEnabled(!isInViewMode());
+		accountTableButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				addAccount();
+			}
+		});
+
+		vendorItemTransactionTable = new VendorItemTransactionTable() {
+
+			@Override
+			protected void updateNonEditableItems() {
+				CreditCardExpenseView.this.updateNonEditableItems();
+			}
+
+			@Override
+			public boolean isShowPriceWithVat() {
+				return CreditCardExpenseView.this.isShowPriceWithVat();
+			}
+
+			@Override
+			protected ClientTransaction getTransactionObject() {
+				return CreditCardExpenseView.this.getTransactionObject();
+			}
+
+			@Override
+			protected ClientVendor getSelectedVendor() {
+				return CreditCardExpenseView.this.getSelectedVendor();
+			}
+		};
+		vendorItemTransactionTable.setDisabled(isInViewMode());
+
+		itemTableButton = new Button(Accounter.constants()
+				.productOrServiceItem());
+		itemTableButton.setEnabled(!isInViewMode());
+		itemTableButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				addItem();
+			}
+		});
 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
@@ -560,9 +611,12 @@ public class CreditCardExpenseView extends
 		// vLay1.add(lab2);
 		// vLay1.add(addButton);
 		// multi currency combo
-		vLay1.add(vendorTransactionTable);
-		vLay1.add(createAddNewButton());
-		menuButton.getElement().getStyle().setMargin(5, Unit.PX);
+		vLay1.add(vendorAccountTransactionTable);
+		vLay1.add(accountTableButton);
+		vLay1.add(vendorItemTransactionTable);
+		vLay1.add(itemTableButton);
+		// vLay1.add(createAddNewButton());
+		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		vLay1.setWidth("100%");
 		vLay1.add(bottompanel);
 
@@ -662,9 +716,14 @@ public class CreditCardExpenseView extends
 			payMethSelect.setComboItem(transaction.getPaymentMethod());
 			payMethSelect.setDisabled(isInViewMode());
 			cheqNoText.setDisabled(isInViewMode());
-			vendorTransactionTable.removeAllRecords();
-			vendorTransactionTable
-					.setAllRows(transaction.getTransactionItems());
+			vendorAccountTransactionTable.removeAllRecords();
+			vendorAccountTransactionTable
+					.setAllTransactionItems(getAccountTransactionItems(transaction
+							.getTransactionItems()));
+			vendorItemTransactionTable.removeAllRecords();
+			vendorItemTransactionTable
+					.setAllTransactionItems(getItemTransactionItems(transaction
+							.getTransactionItems()));
 
 		}
 		if (locationTrackingEnabled)
@@ -836,10 +895,11 @@ public class CreditCardExpenseView extends
 		transaction.setDeliveryDate(UIUtils.toDate(delivDate.getValue()));
 
 		// Setting transactions
-		transaction.setTransactionItems(vendorTransactionTable.getAllRows());
+		transaction.setTransactionItems(getAllTransactionItems());
 
 		// setting total
-		transaction.setTotal(vendorTransactionTable.getTotal());
+		transaction.setTotal(vendorAccountTransactionTable.getTotal()
+				+ vendorItemTransactionTable.getTotal());
 		// setting memo
 		transaction.setMemo(getMemoTextAreaItem());
 		// setting ref
@@ -921,7 +981,10 @@ public class CreditCardExpenseView extends
 		phoneSelect.setDisabled(isInViewMode());
 		payFrmSelect.setDisabled(isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
-		vendorTransactionTable.setDisabled(isInViewMode());
+		vendorAccountTransactionTable.setDisabled(isInViewMode());
+		vendorItemTransactionTable.setDisabled(isInViewMode());
+		accountTableButton.setEnabled(!isInViewMode());
+		itemTableButton.setEnabled(!isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 		super.onEdit();
@@ -931,7 +994,7 @@ public class CreditCardExpenseView extends
 	public void showMenu(Widget button) {
 		setMenuItems(button,
 				Accounter.messages().accounts(Global.get().Account()),
-				Accounter.constants().serviceItem());
+				Accounter.constants().productOrServiceItem());
 	}
 
 	public void saveAndUpdateView() {
@@ -981,16 +1044,17 @@ public class CreditCardExpenseView extends
 
 	@Override
 	public void updateNonEditableItems() {
+		double total = vendorAccountTransactionTable.getTotal()
+				+ vendorItemTransactionTable.getTotal();
+		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
+				+ vendorItemTransactionTable.getGrandTotal();
 
 		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			transactionTotalNonEditableText.setAmount(vendorTransactionTable
-					.getTotal());
-			netAmount.setAmount(vendorTransactionTable.getGrandTotal());
-			vatTotalNonEditableText.setAmount(vendorTransactionTable.getTotal()
-					- vendorTransactionTable.getGrandTotal());
+			transactionTotalNonEditableText.setAmount(total);
+			netAmount.setAmount(grandTotal);
+			vatTotalNonEditableText.setAmount(total - grandTotal);
 		} else {
-			transactionTotalNonEditableText.setAmount(vendorTransactionTable
-					.getTotal());
+			transactionTotalNonEditableText.setAmount(total);
 		}
 
 	}
@@ -1031,7 +1095,7 @@ public class CreditCardExpenseView extends
 
 	@Override
 	protected void addNewData(ClientTransactionItem transactionItem) {
-		vendorTransactionTable.add(transactionItem);
+		vendorAccountTransactionTable.add(transactionItem);
 	}
 
 	@Override
@@ -1043,5 +1107,23 @@ public class CreditCardExpenseView extends
 	public void setFocus() {
 		this.Ccard.setFocus();
 
+	}
+
+	@Override
+	protected void addAccountTransactionItem(ClientTransactionItem item) {
+		vendorAccountTransactionTable.add(item);
+	}
+
+	@Override
+	protected void addItemTransactionItem(ClientTransactionItem item) {
+		vendorItemTransactionTable.add(item);
+	}
+
+	@Override
+	public List<ClientTransactionItem> getAllTransactionItems() {
+		List<ClientTransactionItem> list = new ArrayList<ClientTransactionItem>();
+		list.addAll(vendorAccountTransactionTable.getRecords());
+		list.addAll(vendorItemTransactionTable.getRecords());
+		return list;
 	}
 }

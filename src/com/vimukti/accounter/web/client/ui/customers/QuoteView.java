@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -41,7 +44,7 @@ import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
-import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerTransactionTable;
+import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -58,7 +61,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	private ArrayList<DynamicForm> listforms;
 	private boolean locationTrackingEnabled;
 
-	private CustomerTransactionTable customerTransactionTable;
+	private CustomerItemTransactionTable customerTransactionTable;
+	private Button itemTableButton;
 
 	protected ClientPriceLevel priceLevel;
 	protected ClientTAXCode taxCode;
@@ -159,8 +163,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	public void showMenu(Widget button) {
 		setMenuItems(button,
 		// Accounter.messages().accounts(Global.get().Account()),
-				Accounter.constants().serviceItem(), Accounter.constants()
-						.productItem());
+				Accounter.constants().productOrServiceItem());
 		// FinanceApplication.constants().comment(),
 		// FinanceApplication.constants().VATItem());
 
@@ -383,7 +386,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
 
-		customerTransactionTable = new CustomerTransactionTable() {
+		customerTransactionTable = new CustomerItemTransactionTable() {
 
 			@Override
 			public void updateNonEditableItems() {
@@ -401,6 +404,17 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			}
 		};
 		customerTransactionTable.setDisabled(isInViewMode());
+
+		itemTableButton = new Button(Accounter.constants()
+				.productOrServiceItem());
+		itemTableButton.setEnabled(!isInViewMode());
+		itemTableButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				addItem();
+			}
+		});
 
 		final TextItem disabletextbox = new TextItem();
 		disabletextbox.setVisible(false);
@@ -483,8 +497,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		gridPanel.add(customerTransactionTable);
 		mainVLay.add(gridPanel);
-		mainVLay.add(createAddNewButton());
-		menuButton.getElement().getStyle().setMargin(5, Unit.PX);
+		mainVLay.add(itemTableButton);
+		// mainVLay.add(createAddNewButton());
+		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(mainpanel);
 		gridPanel.setWidth("100%");
 
@@ -862,6 +877,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		memoTextAreaItem.setDisabled(isInViewMode());
 		priceLevelSelect.setDisabled(isInViewMode());
 		customerTransactionTable.setDisabled(isInViewMode());
+		itemTableButton.setEnabled(!isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 		super.onEdit();
@@ -942,10 +958,21 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		quoteExpiryDate.setTabIndex(8);
 		deliveryDate.setTabIndex(9);
 		memoTextAreaItem.setTabIndex(10);
-		menuButton.setTabIndex(11);
+		// menuButton.setTabIndex(11);
 		saveAndCloseButton.setTabIndex(12);
 		saveAndNewButton.setTabIndex(13);
 		cancelButton.setTabIndex(14);
 
+	}
+
+	@Override
+	protected void addAccountTransactionItem(ClientTransactionItem item) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void addItemTransactionItem(ClientTransactionItem item) {
+		customerTransactionTable.add(item);
 	}
 }

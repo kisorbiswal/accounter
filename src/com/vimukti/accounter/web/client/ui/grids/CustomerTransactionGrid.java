@@ -45,7 +45,7 @@ public class CustomerTransactionGrid extends
 		AbstractTransactionGrid<ClientTransactionItem> {
 
 	private SalesAccountsCombo accountsCombo;
-	ServiceCombo serviceItemCombo;
+	// ServiceCombo serviceItemCombo;
 	ProductCombo productItemCombo;
 	TAXCodeCombo taxCodeCombo;
 	VATItemCombo vatItemCombo;
@@ -339,17 +339,17 @@ public class CustomerTransactionGrid extends
 			if (item.isISellThisItem())
 				customerItems.add(item);
 		}
-		List<ClientItem> serviceitems = new ArrayList<ClientItem>();
-		List<ClientItem> productitems = new ArrayList<ClientItem>();
-		for (ClientItem item : customerItems) {
-			if (item.getType() == ClientItem.TYPE_SERVICE)
-				serviceitems.add(item);
-			else
-				productitems.add(item);
-		}
-		serviceItemCombo.initCombo(serviceitems);
+		// List<ClientItem> serviceitems = new ArrayList<ClientItem>();
+		// List<ClientItem> productitems = new ArrayList<ClientItem>();
+		// for (ClientItem item : customerItems) {
+		// if (item.getType() == ClientItem.TYPE_SERVICE)
+		// serviceitems.add(item);
+		// else
+		// productitems.add(item);
+		// }
+		// serviceItemCombo.initCombo(serviceitems);
 
-		productItemCombo.initCombo(productitems);
+		productItemCombo.initCombo(customerItems);
 		// itemCombo.initCombo(customerItems);
 	}
 
@@ -358,41 +358,42 @@ public class CustomerTransactionGrid extends
 		// setSize("100%", "250px");
 
 		// Passing 1 for Customer, 2 For Vendor For Item View- Raj Vimal
-		serviceItemCombo = new ServiceCombo(Accounter.constants().item(), 1,
-				isAddNewRequired);
-		serviceItemCombo.setGrid(this);
-		serviceItemCombo.setRequired(true);
-		serviceItemCombo
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientItem>() {
-
-					@Override
-					public void selectedComboBoxItem(ClientItem selectItem) {
-						if (selectItem != null) {
-							selectedObject.setItem(selectItem.getID());
-							selectedObject.setUnitPrice(selectItem
-									.getSalesPrice());
-							selectedObject.setTaxable(selectItem.isTaxable());
-							if (getCompany().getPreferences()
-									.isRegisteredForVAT()) {
-								selectedObject.setTaxCode(selectItem
-										.getTaxCode() != 0 ? selectItem
-										.getTaxCode() : 0);
-							}
-							// it should be here only for vat
-							// calculations(it
-							// needs line total for this,linetotal
-							// calculated in
-							// editcomplete()`
-
-							// database always has the currency values in base
-							// currency.
-							editComplete(selectedObject,
-									selectItem.getSalesPrice(), 4);
-							applyPriceLevel(selectedObject);
-
-						}
-					}
-				});
+		// serviceItemCombo = new ServiceCombo(Accounter.constants().item(), 1,
+		// isAddNewRequired);
+		// serviceItemCombo.setGrid(this);
+		// serviceItemCombo.setRequired(true);
+		// serviceItemCombo
+		// .addSelectionChangeHandler(new
+		// IAccounterComboSelectionChangeHandler<ClientItem>() {
+		//
+		// @Override
+		// public void selectedComboBoxItem(ClientItem selectItem) {
+		// if (selectItem != null) {
+		// selectedObject.setItem(selectItem.getID());
+		// selectedObject.setUnitPrice(selectItem
+		// .getSalesPrice());
+		// selectedObject.setTaxable(selectItem.isTaxable());
+		// if (getCompany().getPreferences()
+		// .isRegisteredForVAT()) {
+		// selectedObject.setTaxCode(selectItem
+		// .getTaxCode() != 0 ? selectItem
+		// .getTaxCode() : 0);
+		// }
+		// // it should be here only for vat
+		// // calculations(it
+		// // needs line total for this,linetotal
+		// // calculated in
+		// // editcomplete()`
+		//
+		// // database always has the currency values in base
+		// // currency.
+		// editComplete(selectedObject,
+		// selectItem.getSalesPrice(), 4);
+		// applyPriceLevel(selectedObject);
+		//
+		// }
+		// }
+		// });
 		if (getCompany().getPreferences().isChargeSalesTax()) {
 			us_taxCombo = new SelectCombo(Accounter.constants().tax());
 			us_taxCombo.addItem(Accounter.constants().taxable());
@@ -565,13 +566,16 @@ public class CustomerTransactionGrid extends
 									core.getAccount()));
 						else
 							accountsCombo.setValue("");
-					} else if (core.getType() == ClientTransactionItem.TYPE_SERVICE) {
-						if (core.getItem() != 0)
-							serviceItemCombo.setComboItem(getCompany().getItem(
-									core.getItem()));
-						else
-							serviceItemCombo.setValue("");
-					} else if (core.getType() == ClientTransactionItem.TYPE_ITEM) {
+					}
+					// else if (core.getType() ==
+					// ClientTransactionItem.TYPE_SERVICE) {
+					// if (core.getItem() != 0)
+					// serviceItemCombo.setComboItem(getCompany().getItem(
+					// core.getItem()));
+					// else
+					// serviceItemCombo.setValue("");
+					// }
+					else if (core.getType() == ClientTransactionItem.TYPE_ITEM) {
 						if (core.getItem() != 0)
 							productItemCombo.setComboItem(getCompany().getItem(
 									core.getItem()));
@@ -1126,8 +1130,7 @@ public class CustomerTransactionGrid extends
 	@Override
 	public void editComplete(ClientTransactionItem item, Object value, int col) {
 		try {
-			boolean isItem = (item.getType() == ClientTransactionItem.TYPE_ITEM || item
-					.getType() == ClientTransactionItem.TYPE_SERVICE) ? true
+			boolean isItem = (item.getType() == ClientTransactionItem.TYPE_ITEM) ? true
 					: false;
 			switch (col) {
 			case 1:
@@ -1390,14 +1393,6 @@ public class CustomerTransactionGrid extends
 			default:
 				return false;
 			}
-		case ClientTransactionItem.TYPE_SERVICE:
-
-			switch (col) {
-			case 6:
-				return false;
-			default:
-				return true;
-			}
 		}
 		return true;
 	}
@@ -1413,9 +1408,8 @@ public class CustomerTransactionGrid extends
 
 			} else if (obj.getType() == ClientTransactionItem.TYPE_ITEM) {
 				combo = (CustomCombo<E>) productItemCombo;
-			} else if (obj.getType() == ClientTransactionItem.TYPE_SERVICE) {
-				combo = (CustomCombo<E>) serviceItemCombo;
-			} else if (obj.getType() == ClientTransactionItem.TYPE_SALESTAX) {
+			}
+			else if (obj.getType() == ClientTransactionItem.TYPE_SALESTAX) {
 				if (getCompany().getPreferences().isChargeSalesTax()) {
 					// return (CustomCombo<E>) salesTaxCombo;
 				} else

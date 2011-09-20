@@ -827,4 +827,16 @@ public class NewCustomerPaymentView extends
 		cancelButton.setTabIndex(15);
 	}
 
+	@Override
+	protected void addAccountTransactionItem(ClientTransactionItem item) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void addItemTransactionItem(ClientTransactionItem item) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -247,17 +247,6 @@ public class SalesOrderGrid extends CustomerTransactionGrid {
 			default:
 				return false;
 			}
-		case ClientTransactionItem.TYPE_SERVICE:
-			switch (col) {
-			// case 3:
-			// return false;
-			// case 4:
-			// return false;
-			case 8:
-				return false;
-			default:
-				return true;
-			}
 		}
 
 		return true;

@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.client.ui.edittable.tables;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DescriptionEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.ItemNameColumn;
@@ -15,19 +13,13 @@ import com.vimukti.accounter.web.client.ui.edittable.TransactionUnitPriceColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionVatCodeColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionVatColumn;
 
-public abstract class SalesOrderTable extends CustomerItemTransactionTable {
+public abstract class CustomerItemTransactionTable extends
+		CustomerTransactionTable {
 
 	@Override
 	protected void initColumns() {
 
 		this.addColumn(new ItemNameColumn() {
-
-			@Override
-			protected void setValue(ClientTransactionItem row,
-					ClientItem newValue) {
-				super.setValue(row, newValue);
-				applyPriceLevel(row);
-			}
 
 			@Override
 			public ListFilter<ClientItem> getItemsFilter() {
@@ -40,6 +32,12 @@ public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 				};
 			}
 
+			@Override
+			protected void setValue(ClientTransactionItem row,
+					ClientItem newValue) {
+				super.setValue(row, newValue);
+				applyPriceLevel(row);
+			}
 		});
 
 		this.addColumn(new DescriptionEditColumn());
@@ -52,39 +50,16 @@ public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 
 		this.addColumn(new TransactionTotalColumn());
 
+		// if (getCompany().getPreferences().isChargeSalesTax()) {
+
 		if (getCompany().getPreferences().isRegisteredForVAT()) {
+
 			this.addColumn(new TransactionVatCodeColumn());
+
 			this.addColumn(new TransactionVatColumn());
-		} else if (getCompany().getPreferences().isChargeSalesTax()) {
-			this.addColumn(new TransactionVatColumn() {
-				protected String getColumnName() {
-					return Accounter.constants().tax();
-				};
-			});
 		}
 
-		this.addColumn(new AmountColumn<ClientTransactionItem>() {
-
-			@Override
-			protected double getAmount(ClientTransactionItem row) {
-				return row.getInvoiced();
-			}
-
-			@Override
-			protected void setAmount(ClientTransactionItem row, double value) {
-				row.setInvoiced(value);
-			}
-
-			@Override
-			protected boolean isEnable() {
-				return false;
-			}
-
-			@Override
-			protected String getColumnName() {
-				return Accounter.constants().invoiced();
-			}
-		});
+		// }
 
 		this.addColumn(new DeleteColumn<ClientTransactionItem>());
 	}

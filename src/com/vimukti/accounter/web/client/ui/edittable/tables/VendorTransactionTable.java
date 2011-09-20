@@ -1,17 +1,12 @@
 package com.vimukti.accounter.web.client.ui.edittable.tables;
 
-import java.util.Arrays;
 import java.util.List;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
-import com.vimukti.accounter.web.client.core.IAccountable;
-import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
@@ -22,17 +17,7 @@ import com.vimukti.accounter.web.client.ui.combo.ServiceCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.VATItemCombo;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
-import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
-import com.vimukti.accounter.web.client.ui.edittable.DescriptionEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
-import com.vimukti.accounter.web.client.ui.edittable.ImageEditColumn;
-import com.vimukti.accounter.web.client.ui.edittable.TransactionDiscountColumn;
-import com.vimukti.accounter.web.client.ui.edittable.TransactionItemNameColumn;
-import com.vimukti.accounter.web.client.ui.edittable.TransactionQuantityColumn;
-import com.vimukti.accounter.web.client.ui.edittable.TransactionTotalColumn;
-import com.vimukti.accounter.web.client.ui.edittable.TransactionUnitPriceColumn;
-import com.vimukti.accounter.web.client.ui.edittable.TransactionVatCodeColumn;
-import com.vimukti.accounter.web.client.ui.edittable.TransactionVatColumn;
 
 public abstract class VendorTransactionTable extends
 		EditTable<ClientTransactionItem> {
@@ -44,123 +29,17 @@ public abstract class VendorTransactionTable extends
 	AccounterConstants accounterConstants = Accounter.constants();
 	private Double totallinetotal = 0.0;
 	private Double totalVat = 0.0;
-	private Double grandTotal;
+	private Double grandTotal = 0.0;
 	private double taxableTotal;
 	private int accountingType;
 	protected boolean isPurchseOrderTransaction;
 	protected int maxDecimalPoint;
 
 	public VendorTransactionTable() {
-		initTable();
+		initColumns();
 	}
 
-	private void initTable() {
-		this.addColumn(new ImageEditColumn<ClientTransactionItem>() {
-
-			@Override
-			public ImageResource getResource(ClientTransactionItem row) {
-				return VendorTransactionTable.this.getImage(row);
-			}
-
-			@Override
-			public int getWidth() {
-				return 20;
-			}
-
-		});
-
-		TransactionItemNameColumn transactionItemNameColumn = new TransactionItemNameColumn() {
-
-			@Override
-			public ListFilter<ClientAccount> getAccountsFilter() {
-				return new ListFilter<ClientAccount>() {
-
-					@Override
-					public boolean filter(ClientAccount account) {
-
-						if (account.getType() != ClientAccount.TYPE_CASH
-								&& account.getType() != ClientAccount.TYPE_BANK
-								&& account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
-								&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
-								&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
-								&& account.getType() != ClientAccount.TYPE_INCOME
-								&& account.getType() != ClientAccount.TYPE_OTHER_INCOME
-								&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_ASSET
-								&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
-								&& account.getType() != ClientAccount.TYPE_OTHER_ASSET
-								&& account.getType() != ClientAccount.TYPE_EQUITY
-								&& account.getType() != ClientAccount.TYPE_LONG_TERM_LIABILITY) {
-							return true;
-						} else {
-							return false;
-						}
-					}
-				};
-
-			}
-
-			@Override
-			protected void setValue(ClientTransactionItem row,
-					IAccountable newValue) {
-				super.setValue(row, newValue);
-				// Unit Price is different. So that overriden the code here
-				if (newValue != null) {
-					if (newValue instanceof ClientItem) {
-						ClientItem selectItem = (ClientItem) newValue;
-						row.setUnitPrice(selectItem.getPurchasePrice());
-						row.setTaxable(selectItem.isTaxable());
-						double lt = row.getQuantity().getValue()
-								* row.getUnitPrice();
-						double disc = row.getDiscount();
-						row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
-								* disc / 100))
-								: lt);
-					}
-				}
-				update(row);
-			}
-
-			@Override
-			public ListFilter<ClientItem> getItemsFilter() {
-				return new ListFilter<ClientItem>() {
-
-					@Override
-					public boolean filter(ClientItem e) {
-						return e.isIBuyThisItem();
-					}
-				};
-			}
-
-			@Override
-			public List<Integer> getCanAddedAccountTypes() {
-				return Arrays.asList(ClientAccount.TYPE_COST_OF_GOODS_SOLD,
-						ClientAccount.TYPE_OTHER_EXPENSE,
-						ClientAccount.TYPE_FIXED_ASSET,
-						ClientAccount.TYPE_EXPENSE);
-			}
-		};
-		transactionItemNameColumn.setItemForCustomer(false);
-		this.addColumn(transactionItemNameColumn);
-
-		this.addColumn(new DescriptionEditColumn());
-
-		this.addColumn(new TransactionQuantityColumn());
-
-		this.addColumn(new TransactionUnitPriceColumn());
-
-		this.addColumn(new TransactionDiscountColumn());
-
-		this.addColumn(new TransactionTotalColumn());
-
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
-
-			this.addColumn(new TransactionVatCodeColumn());
-
-			this.addColumn(new TransactionVatColumn());
-		}
-
-		this.addColumn(new DeleteColumn<ClientTransactionItem>());
-	}
+	protected abstract void initColumns();
 
 	@Override
 	public void update(ClientTransactionItem row) {
@@ -168,7 +47,7 @@ public abstract class VendorTransactionTable extends
 		updateTotals();
 	}
 
-	private ClientCompany getCompany() {
+	protected ClientCompany getCompany() {
 		return Accounter.getCompany();
 	}
 
@@ -176,8 +55,6 @@ public abstract class VendorTransactionTable extends
 		switch (row.getType()) {
 		case ClientTransactionItem.TYPE_ITEM:
 			return Accounter.getFinanceImages().itemsIcon();
-		case ClientTransactionItem.TYPE_SERVICE:
-			return Accounter.getFinanceImages().salesTaxIcon();
 		case ClientTransactionItem.TYPE_ACCOUNT:
 			return Accounter.getFinanceImages().AccountsIcon();
 		case ClientTransactionItem.TYPE_COMMENT:
@@ -302,39 +179,38 @@ public abstract class VendorTransactionTable extends
 		int validationcount = 1;
 		for (ClientTransactionItem item : this.getRecords()) {
 			int row = this.getRecords().indexOf(item);
-			if (item.getType() != ClientTransactionItem.TYPE_COMMENT) {
-				switch (validationcount++) {
-				case 1:
-					if (item.getAccountable() == null) {
-						// result.addError(row + "," + 1, Accounter.messages()
-						// .pleaseSelectCustomer(
-						// UIUtils.getTransactionTypeName(item
-						// .getType())));
-						result.addError(
-								row + "," + 1,
-								Accounter.messages().pleaseSelectCustomer(
-										Utility.getItemType(item.getType())));
-					}
-					// ,
-					// UIUtils.getTransactionTypeName(item.getType()));
-				case 2:
-					if (getCompany().getPreferences().isRegisteredForVAT()) {
-						if (item.getTaxCode() == 0) {
-							result.addError(
-									row + "," + 6,
-									Accounter.messages().pleaseEnter(
-											Accounter.constants().vatCode()));
-						}
-						// .vatCode());
-						validationcount = 1;
-					} else
-						validationcount = 1;
-					break;
-				default:
-					break;
-				}
-
+			if (item.isEmpty()) {
+				continue;
 			}
+			switch (validationcount++) {
+			case 1:
+				if (item.getAccountable() == null) {
+					// result.addError(row + "," + 1, Accounter.messages()
+					// .pleaseSelectCustomer(
+					// UIUtils.getTransactionTypeName(item
+					// .getType())));
+					result.addError(
+							row + "," + 1,
+							Accounter.messages().pleaseSelectCustomer(
+									Utility.getItemType(item.getType())));
+				}
+				// ,
+				// UIUtils.getTransactionTypeName(item.getType()));
+			case 2:
+				if (getCompany().getPreferences().isRegisteredForVAT()) {
+					if (item.getTaxCode() == 0) {
+						result.addError(row + "," + 6, Accounter.messages()
+								.pleaseEnter(Accounter.constants().vatCode()));
+					}
+					// .vatCode());
+					validationcount = 1;
+				} else
+					validationcount = 1;
+				break;
+			default:
+				break;
+			}
+
 		}
 		if (DecimalUtil.isLessThan(totallinetotal, 0.0)) {
 			result.addError(this, Accounter.constants()

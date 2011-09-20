@@ -276,8 +276,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	public void showMenu(Widget button) {
 		setMenuItems(button,
 				Accounter.messages().accounts(Global.get().Account()),
-				Accounter.constants().serviceItem(), Accounter.constants()
-						.productItem());
+				Accounter.constants().productOrServiceItem());
 		// FinanceApplication.constants().salesTax());
 		// FinanceApplication.constants().comment(),
 		// FinanceApplication.constants().VATItem());
@@ -826,7 +825,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 							: ztaxCodeid) : ztaxCodeid);
 			// if (zvatCodeid != null)
 			// transactionItem.setVatCode(zvatCodeid);
-		} else if (item.equals(Accounter.constants().productItem())) {
+		} else if (item.equals(Accounter.constants().productOrServiceItem())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 			if (getCompany().getPreferences().isChargeSalesTax()) {
 				List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
@@ -841,29 +840,6 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 								.getTAXCode() != 0 ? getCustomer().getTAXCode()
 								: staxCodeid) : staxCodeid);
 			}
-		} else if (item.equals(Accounter.constants().serviceItem())) {
-			transactionItem.setType(ClientTransactionItem.TYPE_SERVICE);
-			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
-			long ztaxCodeid = 0;
-			if (getCompany().getPreferences().isChargeSalesTax()) {
-				for (ClientTAXCode taxCode : taxCodes) {
-					if (taxCode.getName().equals("S")) {
-						ztaxCodeid = taxCode.getID();
-					}
-				}
-			} else {
-				for (ClientTAXCode taxCode : taxCodes) {
-					if (taxCode.getName().equals("Z")) {
-						ztaxCodeid = taxCode.getID();
-					}
-				}
-			}
-			transactionItem
-					.setTaxCode(getCustomer() != null ? (getCustomer()
-							.getTAXCode() > 0 ? getCustomer().getTAXCode()
-							: ztaxCodeid) : ztaxCodeid);
-			// if (zvatCodeid != null)
-			// transactionItem.setVatCode(zvatCodeid);
 		}
 		addNewData(transactionItem);
 
@@ -957,5 +933,60 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	public void setUseAccountNumbers(boolean useAccountNumbers) {
 		this.useAccountNumbers = useAccountNumbers;
 	}
+
+	@Override
+	protected void addAccount() {
+		ClientTransactionItem transactionItem = new ClientTransactionItem();
+
+		transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
+		List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
+		long ztaxCodeid = 0;
+		if (getCompany().getPreferences().isChargeSalesTax()) {
+			for (ClientTAXCode taxCode : taxCodes) {
+				if (taxCode.getName().equals("S")) {
+					ztaxCodeid = taxCode.getID();
+					break;
+				}
+			}
+		} else {
+			for (ClientTAXCode taxCode : taxCodes) {
+				if (taxCode.getName().equals("Z")) {
+					ztaxCodeid = taxCode.getID();
+				}
+			}
+		}
+		transactionItem.setTaxCode(getCustomer() != null ? (getCustomer()
+				.getTAXCode() > 0 ? getCustomer().getTAXCode() : ztaxCodeid)
+				: ztaxCodeid);
+		// if (zvatCodeid != null)
+		// transactionItem.setVatCode(zvatCodeid);
+
+		addAccountTransactionItem(transactionItem);
+	}
+
+	@Override
+	protected void addItem() {
+		ClientTransactionItem transactionItem = new ClientTransactionItem();
+
+		transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
+		if (getCompany().getPreferences().isChargeSalesTax()) {
+			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
+			long staxCodeid = 0;
+			for (ClientTAXCode taxCode : taxCodes) {
+				if (taxCode.getName().equals("S")) {
+					staxCodeid = taxCode.getID();
+				}
+			}
+			transactionItem.setTaxCode(getCustomer() != null ? (getCustomer()
+					.getTAXCode() != 0 ? getCustomer().getTAXCode()
+					: staxCodeid) : staxCodeid);
+		}
+
+		addItemTransactionItem(transactionItem);
+	}
+
+	protected abstract void addAccountTransactionItem(ClientTransactionItem item);
+
+	protected abstract void addItemTransactionItem(ClientTransactionItem item);
 
 }

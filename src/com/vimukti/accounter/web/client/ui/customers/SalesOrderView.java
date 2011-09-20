@@ -3,12 +3,12 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -87,6 +87,7 @@ public class SalesOrderView extends
 	private boolean locationTrackingEnabled;
 
 	private SalesOrderTable customerTransactionTable;
+	private Button itemTableButton;
 	protected ClientTAXCode taxCode;
 	private List<ClientPaymentTerms> paymentTermsList;
 	protected ClientPaymentTerms paymentTerm;
@@ -387,6 +388,16 @@ public class SalesOrderView extends
 		customerTransactionTable.setDisabled(isInViewMode());
 		customerTransactionTable.setWidth("99.5%");
 		// customerTransactionTable.setHeight("250px");
+		itemTableButton = new Button(Accounter.constants()
+				.productOrServiceItem());
+		itemTableButton.setEnabled(!isInViewMode());
+		itemTableButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				addItem();
+			}
+		});
 
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
 		prodAndServiceForm2.setWidth("100%");
@@ -455,8 +466,9 @@ public class SalesOrderView extends
 		// mainVLay.add(lab2);
 
 		mainVLay.add(customerTransactionTable);
-		mainVLay.add(createAddNewButton());
-		menuButton.getElement().getStyle().setMargin(5, Unit.PX);
+		mainVLay.add(itemTableButton);
+		// mainVLay.add(createAddNewButton());
+		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(vpanel);
 
 		if (UIUtils.isMSIEBrowser()) {
@@ -702,13 +714,13 @@ public class SalesOrderView extends
 						.getSalesTaxAmount());
 				this.transactionTotalNonEditableText.setAmount(transaction
 						.getTotal());
-			
+
 			}
 			// customerTransactionGrid.setRecords(transaction
 			// .getTransactionItems());
 		}
 		superinitTransactionViewData();
-		//vatTotalNonEditableText.setAmount(customerTransactionTable.getTotal());
+		// vatTotalNonEditableText.setAmount(customerTransactionTable.getTotal());
 		initTransactionNumber();
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
@@ -1258,6 +1270,7 @@ public class SalesOrderView extends
 		taxCodeSelect.setDisabled(isInViewMode());
 		customerOrderText.setDisabled(isInViewMode());
 		customerTransactionTable.setDisabled(false);
+		itemTableButton.setEnabled(!isInViewMode());
 		quoteLabel.setDisabled(isInViewMode());
 
 		quoteLabelListener();
@@ -1351,9 +1364,20 @@ public class SalesOrderView extends
 		shippingMethodsCombo.setTabIndex(11);
 		dueDateItem.setTabIndex(12);
 		memoTextAreaItem.setTabIndex(13);
-		menuButton.setTabIndex(14);
+		// menuButton.setTabIndex(14);
 		saveAndCloseButton.setTabIndex(15);
 		saveAndNewButton.setTabIndex(16);
 		cancelButton.setTabIndex(17);
+	}
+
+	@Override
+	protected void addAccountTransactionItem(ClientTransactionItem item) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void addItemTransactionItem(ClientTransactionItem item) {
+		customerTransactionTable.add(item);
 	}
 }

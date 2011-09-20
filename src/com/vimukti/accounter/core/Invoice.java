@@ -487,8 +487,7 @@ public class Invoice extends Transaction implements Lifecycle {
 						double amount = 0d;
 
 						if (!isCreated)
-							if (transactionItem.type == TransactionItem.TYPE_ITEM
-									|| transactionItem.type == TransactionItem.TYPE_SERVICE) {
+							if (transactionItem.type == TransactionItem.TYPE_ITEM) {
 								if (DecimalUtil
 										.isLessThan(
 												transactionItem.lineTotal,
@@ -506,8 +505,7 @@ public class Invoice extends Transaction implements Lifecycle {
 								referringTransactionItem.usedamt -= transactionItem.lineTotal;
 
 						else {
-							if (transactionItem.type == TransactionItem.TYPE_ITEM
-									|| transactionItem.type == TransactionItem.TYPE_SERVICE) {
+							if (transactionItem.type == TransactionItem.TYPE_ITEM) {
 								if (DecimalUtil
 										.isLessThan(
 												transactionItem.lineTotal,
@@ -533,7 +531,7 @@ public class Invoice extends Transaction implements Lifecycle {
 
 						if (flag
 								&& ((transactionItem.type == TransactionItem.TYPE_ACCOUNT
-										|| transactionItem.type == TransactionItem.TYPE_SALESTAX || ((transactionItem.type == TransactionItem.TYPE_ITEM || transactionItem.type == TransactionItem.TYPE_SERVICE) && transactionItem
+										|| transactionItem.type == TransactionItem.TYPE_SALESTAX || ((transactionItem.type == TransactionItem.TYPE_ITEM) && transactionItem
 										.getQuantity().compareTo(
 												referringTransactionItem
 														.getQuantity()) < 0)))) {
@@ -691,8 +689,7 @@ public class Invoice extends Transaction implements Lifecycle {
 						double amount = 0d;
 
 						if (!isAddition)
-							if (transactionItem.type == TransactionItem.TYPE_ITEM
-									|| transactionItem.type == TransactionItem.TYPE_SERVICE) {
+							if (transactionItem.type == TransactionItem.TYPE_ITEM) {
 								if (DecimalUtil
 										.isLessThan(
 												transactionItem.lineTotal,
@@ -710,8 +707,7 @@ public class Invoice extends Transaction implements Lifecycle {
 								referringTransactionItem.usedamt -= transactionItem.lineTotal;
 
 						else {
-							if (transactionItem.type == TransactionItem.TYPE_ITEM
-									|| transactionItem.type == TransactionItem.TYPE_SERVICE) {
+							if (transactionItem.type == TransactionItem.TYPE_ITEM) {
 								if (DecimalUtil
 										.isLessThan(
 												transactionItem.lineTotal,
@@ -737,7 +733,7 @@ public class Invoice extends Transaction implements Lifecycle {
 
 						if (flag
 								&& ((transactionItem.type == TransactionItem.TYPE_ACCOUNT
-										|| transactionItem.type == TransactionItem.TYPE_SALESTAX || ((transactionItem.type == TransactionItem.TYPE_ITEM || transactionItem.type == TransactionItem.TYPE_SERVICE) && transactionItem
+										|| transactionItem.type == TransactionItem.TYPE_SALESTAX || ((transactionItem.type == TransactionItem.TYPE_ITEM) && transactionItem
 										.getQuantity().compareTo(
 												referringTransactionItem
 														.getQuantity()) < 0)))) {

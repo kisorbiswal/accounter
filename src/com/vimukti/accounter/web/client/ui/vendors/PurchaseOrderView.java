@@ -5,10 +5,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -49,7 +50,8 @@ import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
-import com.vimukti.accounter.web.client.ui.edittable.tables.VendorTransactionTable;
+import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
+import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -91,7 +93,9 @@ public class PurchaseOrderView extends
 	private DateField despatchDateItem;
 	AccounterConstants accounterConstants = Accounter.constants();
 	private boolean locationTrackingEnabled;
-	private VendorTransactionTable vendorTransactionTable;
+	private VendorAccountTransactionTable vendorAccountTransactionTable;
+	private VendorItemTransactionTable vendorItemTransactionTable;
+	private Button accountTableButton, itemTableButton;
 
 	public PurchaseOrderView() {
 		super(ClientTransaction.TYPE_PURCHASE_ORDER);
@@ -377,7 +381,7 @@ public class PurchaseOrderView extends
 		// formItems.add(deliveryDateItem);
 
 		// Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
-		vendorTransactionTable = new VendorTransactionTable() {
+		vendorAccountTransactionTable = new VendorAccountTransactionTable() {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -399,8 +403,52 @@ public class PurchaseOrderView extends
 				return PurchaseOrderView.this.isShowPriceWithVat();
 			}
 		};
-		vendorTransactionTable.setDisabled(isInViewMode());
-		vendorTransactionTable.setHeight("250px");
+		vendorAccountTransactionTable.setDisabled(isInViewMode());
+
+		accountTableButton = new Button(Global.get().Account());
+		accountTableButton.setEnabled(!isInViewMode());
+		accountTableButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				addAccount();
+			}
+		});
+
+		vendorItemTransactionTable = new VendorItemTransactionTable() {
+
+			@Override
+			protected void updateNonEditableItems() {
+				PurchaseOrderView.this.updateNonEditableItems();
+			}
+
+			@Override
+			public boolean isShowPriceWithVat() {
+				return PurchaseOrderView.this.isShowPriceWithVat();
+			}
+
+			@Override
+			protected ClientTransaction getTransactionObject() {
+				return PurchaseOrderView.this.getTransactionObject();
+			}
+
+			@Override
+			protected ClientVendor getSelectedVendor() {
+				return PurchaseOrderView.this.getVendor();
+			}
+		};
+		vendorItemTransactionTable.setDisabled(isInViewMode());
+
+		itemTableButton = new Button(Global.get().Account());
+		itemTableButton.setEnabled(!isInViewMode());
+		itemTableButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				addItem();
+			}
+		});
+
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
 
@@ -475,9 +523,12 @@ public class PurchaseOrderView extends
 		mainVLay.add(topHLay);
 		// mainVLay.add(lab2);
 
-		mainVLay.add(vendorTransactionTable);
-		mainVLay.add(createAddNewButton());
-		menuButton.getElement().getStyle().setMargin(5, Unit.PX);
+		mainVLay.add(vendorAccountTransactionTable);
+		mainVLay.add(accountTableButton);
+		mainVLay.add(vendorItemTransactionTable);
+		mainVLay.add(itemTableButton);
+		// mainVLay.add(createAddNewButton());
+		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(bottomLayout);
 
 		if (UIUtils.isMSIEBrowser()) {
@@ -635,8 +686,12 @@ public class PurchaseOrderView extends
 
 			ClientCompany company = getCompany();
 
-			vendorTransactionTable
-					.setRecords(transaction.getTransactionItems());
+			vendorAccountTransactionTable
+					.setRecords(getAccountTransactionItems(transaction
+							.getTransactionItems()));
+			vendorItemTransactionTable
+					.setRecords(getItemTransactionItems(transaction
+							.getTransactionItems()));
 
 			// String status;
 			// if (purchaseOrderToBeEdited.getStatus() ==
@@ -844,13 +899,16 @@ public class PurchaseOrderView extends
 
 	@Override
 	public void updateNonEditableItems() {
-		transactionTotalNonEditableText.setAmount(vendorTransactionTable
-				.getTotal());
-		netAmount.setAmount(vendorTransactionTable.getGrandTotal());
+		double total = vendorAccountTransactionTable.getTotal()
+				+ vendorItemTransactionTable.getTotal();
+		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
+				+ vendorItemTransactionTable.getGrandTotal();
+
+		transactionTotalNonEditableText.setAmount(total);
+		netAmount.setAmount(grandTotal);
 		// vatTotalNonEditableText.setValue(vendorTransactionGrid.getVatTotal());
 		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			vatTotalNonEditableText.setAmount(vendorTransactionTable.getTotal()
-					- vendorTransactionTable.getGrandTotal());
+			vatTotalNonEditableText.setAmount(total - grandTotal);
 		}
 
 	}
@@ -916,8 +974,11 @@ public class PurchaseOrderView extends
 
 		transaction.setMemo(getMemoTextAreaItem());
 		if (transaction.getNetAmount() != 0)
-			transaction.setNetAmount(vendorTransactionTable.getGrandTotal());
-		transaction.setTotal(vendorTransactionTable.getTotal());
+			transaction.setNetAmount(vendorAccountTransactionTable
+					.getGrandTotal()
+					+ vendorItemTransactionTable.getGrandTotal());
+		transaction.setTotal(vendorAccountTransactionTable.getTotal()
+				+ vendorItemTransactionTable.getTotal());
 		// transaction.setReference(getRefText());
 	}
 
@@ -1082,11 +1143,13 @@ public class PurchaseOrderView extends
 
 		result.add(vendorForm.validate());
 
-		if (vendorTransactionTable.getAllRows().isEmpty()) {
-			result.addError(vendorTransactionTable,
+		if (getAllTransactionItems().isEmpty()) {
+			result.addError(vendorAccountTransactionTable,
 					accounterConstants.blankTransaction());
-		} else
-			result.add(vendorTransactionTable.validateGrid());
+		} else {
+			result.add(vendorAccountTransactionTable.validateGrid());
+			result.add(vendorItemTransactionTable.validateGrid());
+		}
 
 		// if (getCompany().getAccountingType() !=
 		// ClientCompany.ACCOUNTING_TYPE_UK
@@ -1152,7 +1215,10 @@ public class PurchaseOrderView extends
 		dueDateItem.setDisabled(isInViewMode());
 		despatchDateItem.setDisabled(isInViewMode());
 
-		vendorTransactionTable.setDisabled(isInViewMode());
+		vendorAccountTransactionTable.setDisabled(isInViewMode());
+		vendorItemTransactionTable.setDisabled(isInViewMode());
+		accountTableButton.setEnabled(!isInViewMode());
+		itemTableButton.setEnabled(!isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
@@ -1184,7 +1250,8 @@ public class PurchaseOrderView extends
 		this.taxCode = taxCode;
 		if (taxCode != null) {
 			taxCodeSelect.setComboItem(taxCode);
-			vendorTransactionTable.setTaxCode(taxCode.getID());
+			vendorAccountTransactionTable.setTaxCode(taxCode.getID());
+			vendorItemTransactionTable.setTaxCode(taxCode.getID());
 		} else
 			taxCodeSelect.setValue("");
 		// updateNonEditableItems();
@@ -1193,23 +1260,30 @@ public class PurchaseOrderView extends
 	@Override
 	protected void addAllRecordToGrid(
 			List<ClientTransactionItem> transactionItems) {
-		vendorTransactionTable.addRecords(transactionItems);
+		vendorAccountTransactionTable
+				.addRecords(getAccountTransactionItems(transactionItems));
+		vendorItemTransactionTable
+				.addRecords(getItemTransactionItems(transactionItems));
 	}
 
 	@Override
 	protected void removeAllRecordsFromGrid() {
-		vendorTransactionTable.removeAllRecords();
+		vendorAccountTransactionTable.removeAllRecords();
+		vendorItemTransactionTable.removeAllRecords();
 	}
 
 	@Override
 	protected void addNewData(ClientTransactionItem transactionItem) {
-		vendorTransactionTable.add(transactionItem);
+		vendorAccountTransactionTable.add(transactionItem);
 
 	}
 
 	@Override
 	public List<ClientTransactionItem> getAllTransactionItems() {
-		return vendorTransactionTable.getAllRows();
+		List<ClientTransactionItem> list = new ArrayList<ClientTransactionItem>();
+		list.addAll(vendorAccountTransactionTable.getRecords());
+		list.addAll(vendorItemTransactionTable.getRecords());
+		return list;
 	}
 
 	@Override
@@ -1230,10 +1304,20 @@ public class PurchaseOrderView extends
 		despatchDateItem.setTabIndex(11);
 		deliveryDateItem.setTabIndex(12);
 		memoTextAreaItem.setTabIndex(13);
-		menuButton.setTabIndex(14);
+		// menuButton.setTabIndex(14);
 		saveAndCloseButton.setTabIndex(15);
 		saveAndNewButton.setTabIndex(16);
 		cancelButton.setTabIndex(17);
+	}
+
+	@Override
+	protected void addAccountTransactionItem(ClientTransactionItem item) {
+		vendorAccountTransactionTable.add(item);
+	}
+
+	@Override
+	protected void addItemTransactionItem(ClientTransactionItem item) {
+		vendorItemTransactionTable.add(item);
 	}
 
 }

@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -44,8 +47,10 @@ import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
-import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerTransactionTable;
-import com.vimukti.accounter.web.client.ui.edittable.tables.VendorTransactionTable;
+import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerAccountTransactionTable;
+import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerItemTransactionTable;
+import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
+import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -111,8 +116,11 @@ public class WriteChequeView extends
 
 	private boolean locationTrackingEnabled;
 
-	private CustomerTransactionTable transactionCustomerTable;
-	private VendorTransactionTable transactionVendorTable;
+	private CustomerAccountTransactionTable transactionCustomerAccountTable;
+	private CustomerItemTransactionTable transactionCustomerItemTable;
+	private VendorAccountTransactionTable transactionVendorAccountTable;
+	private VendorItemTransactionTable transactionVendorItemTable;
+	private Button accountTableButton, itemTableButton;
 
 	private WriteChequeView() {
 		super(ClientTransaction.TYPE_WRITE_CHECK);
@@ -143,14 +151,14 @@ public class WriteChequeView extends
 	// }
 	// bankAccSelect.initCombo(payFromAccounts);
 	// }
-	public void updateTotals() {
-		// if (transaction == null) {
-		transactionVendorTable.setVisible(true);
-		transactionVendorTable.setDisabled(isInViewMode());
-		changeGrid(transactionVendorTable);
-		transactionVendorTable.updateTotals();
-		// }
-	}
+	// public void updateTotals() {
+	// // if (transaction == null) {
+	// transactionVendorTable.setVisible(true);
+	// transactionVendorTable.setDisabled(isInViewMode());
+	// changeGrid(transactionVendorTable);
+	// transactionVendorTable.updateTotals();
+	// // }
+	// }
 
 	protected void updateAddressAndGrid() {
 		// Set<Address> add = null;
@@ -159,20 +167,33 @@ public class WriteChequeView extends
 			selectedCustomer = (ClientCustomer) payee;
 			addressList = selectedCustomer.getAddress();
 			// if (transaction == null) {
-			transactionCustomerTable.setVisible(true);
-			changeGrid(transactionCustomerTable);
-			transactionCustomerTable.updateTotals();
+			transactionCustomerAccountTable.setVisible(true);
+			transactionCustomerItemTable.setVisible(true);
+			changeGrid(transactionCustomerAccountTable,
+					transactionCustomerItemTable);
+			transactionCustomerAccountTable.updateTotals();
+			transactionCustomerItemTable.updateTotals();
 			// }
 		} else if (payee instanceof ClientVendor) {
 
 			selectedVendor = (ClientVendor) payee;
 			addressList = selectedVendor.getAddress();
-			updateTotals();
+			transactionVendorAccountTable.setVisible(true);
+			transactionVendorItemTable.setVisible(true);
+			changeGrid(transactionVendorAccountTable,
+					transactionVendorItemTable);
+			transactionVendorAccountTable.updateTotals();
+			transactionVendorItemTable.updateTotals();
 
 		} else if (payee instanceof ClientTAXAgency) {
 			selectedTaxAgency = (ClientTAXAgency) payee;
 			addressList = selectedTaxAgency.getAddress();
-			updateTotals();
+			transactionVendorAccountTable.setVisible(true);
+			transactionVendorItemTable.setVisible(true);
+			changeGrid(transactionVendorAccountTable,
+					transactionVendorItemTable);
+			transactionVendorAccountTable.updateTotals();
+			transactionVendorItemTable.updateTotals();
 
 			/*
 			 * The selected TaxAgency required in the taxagency grid to allow
@@ -208,7 +229,7 @@ public class WriteChequeView extends
 
 	}
 
-	public void changeGrid(EditTable<?> gridView) {
+	public void changeGrid(EditTable<?> gridView, EditTable<?> gridView2) {
 		setMenuRequired(true);
 		// mainVLay.remove(vendorGrid);
 		// mainVLay.add(vendorGrid);
@@ -220,13 +241,20 @@ public class WriteChequeView extends
 		// // mainVLay.remove(taxAgencyGrid);
 		// // mainVLay.add(taxAgencyGrid);
 		// }Ou
-		if (transactionVendorTable != null)
-			mainVLay.remove(transactionVendorTable);
+		if (transactionVendorAccountTable != null)
+			mainVLay.remove(transactionVendorAccountTable);
+		if (transactionVendorItemTable != null)
+			mainVLay.remove(transactionVendorItemTable);
 		// if (taxAgencyGrid != null)
 		// mainVLay.remove(taxAgencyGrid);
-		if (transactionCustomerTable != null)
-			mainVLay.remove(transactionCustomerTable);
+		if (transactionCustomerAccountTable != null)
+			mainVLay.remove(transactionCustomerAccountTable);
+		if (transactionCustomerItemTable != null)
+			mainVLay.remove(transactionCustomerItemTable);
 		mainVLay.add(gridView);
+		mainVLay.add(accountTableButton);
+		mainVLay.add(gridView2);
+		mainVLay.add(itemTableButton);
 		mainVLay.add(vPanel);
 		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			// It should be like thid only,becoz vatPanel is getting add befor
@@ -321,14 +349,18 @@ public class WriteChequeView extends
 					customer = getCompany().getCustomer(
 							transaction.getCustomer());
 					payee = customer;
-					transactionCustomerTable.setRecords(transaction
-							.getTransactionItems());
+					transactionCustomerAccountTable.setRecords(getAccountTransactionItems(transaction
+							.getTransactionItems()));
+					transactionCustomerItemTable.setRecords(getItemTransactionItems(transaction
+							.getTransactionItems()));
 					paytoSelect.setComboItem(customer);
 				} else if (transaction.getPayToType() == ClientPayee.TYPE_VENDOR) {
 					ClientVendor vendor2 = getCompany().getVendor(
 							transaction.getVendor());
 					payee = vendor2;
-					transactionVendorTable.setRecords(transaction
+					transactionVendorAccountTable.setRecords(transaction
+							.getTransactionItems());
+					transactionVendorItemTable.setRecords(transaction
 							.getTransactionItems());
 					paytoSelect.setComboItem(vendor2);
 				} else if (transaction.getPayToType() == ClientPayee.TYPE_TAX_AGENCY) {
@@ -478,22 +510,29 @@ public class WriteChequeView extends
 
 		result.add(DynamicForm.validate(payForm, bankAccForm));
 
+		// FIXME Need to validate grids.
 		if (payee != null) {
 			switch (payee.getType()) {
 			case ClientPayee.TYPE_CUSTOMER:
-				if (transactionCustomerTable.getAllRows().isEmpty()) {
-					result.addError(transactionCustomerTable,
+				if (transactionCustomerAccountTable.getAllRows().isEmpty()
+						&& transactionCustomerItemTable.getAllRows().isEmpty()) {
+					result.addError(transactionCustomerAccountTable,
 							accounterConstants.blankTransaction());
-				} else
-					result.add(transactionCustomerTable.validateGrid());
+				} else {
+					result.add(transactionCustomerAccountTable.validateGrid());
+					result.add(transactionCustomerItemTable.validateGrid());
+				}
 				break;
 			case ClientPayee.TYPE_VENDOR:
 			case ClientPayee.TYPE_TAX_AGENCY:
-				if (transactionVendorTable.getAllRows().isEmpty()) {
-					result.addError(transactionVendorTable, accounterConstants
-							.blankTransaction());
-				} else
-					result.add(transactionVendorTable.validateGrid());
+				if (transactionVendorAccountTable.getAllRows().isEmpty()
+						&& transactionVendorItemTable.getAllRows().isEmpty()) {
+					result.addError(transactionVendorAccountTable,
+							accounterConstants.blankTransaction());
+				} else {
+					result.add(transactionVendorAccountTable.validateGrid());
+					result.add(transactionVendorItemTable.validateGrid());
+				}
 				break;
 			// case ClientPayee.TYPE_TAX_AGENCY:
 			// return AccounterValidator
@@ -502,8 +541,8 @@ public class WriteChequeView extends
 		}
 
 		if (!validateAmount()) {
-			result.addError(memoTextAreaItem, accounterConstants
-					.transactiontotalcannotbe0orlessthan0());
+			result.addError(memoTextAreaItem,
+					accounterConstants.transactiontotalcannotbe0orlessthan0());
 		}
 
 		return result;
@@ -515,11 +554,13 @@ public class WriteChequeView extends
 
 			switch (payee.getType()) {
 			case ClientPayee.TYPE_CUSTOMER:
-				total = transactionCustomerTable.getTotal();
+				total += transactionCustomerAccountTable.getTotal();
+				total += transactionCustomerItemTable.getTotal();
 				break;
 			case ClientPayee.TYPE_VENDOR:
 			case ClientPayee.TYPE_TAX_AGENCY:
-				total = transactionVendorTable.getTotal();
+				total += transactionVendorAccountTable.getTotal();
+				total += transactionVendorItemTable.getTotal();
 				// break;
 				// case ClientPayee.TYPE_TAX_AGENCY:
 				// total = transactionVendorGrid.getTotal();
@@ -570,32 +611,40 @@ public class WriteChequeView extends
 		transaction.setAddress(billingAddress);
 
 		// Setting Transactions
-		if (payee != null)
+		// FIXME Need to assign transaction Items from to tables.
+		if (payee != null) {
+			List<ClientTransactionItem> list = new ArrayList<ClientTransactionItem>();
 			switch (payee.getType()) {
 			case ClientPayee.TYPE_CUSTOMER:
 				transaction.setPayToType(ClientWriteCheck.TYPE_CUSTOMER);
 				transaction.setCustomer(selectedCustomer.getID());
-				transaction.setTransactionItems(transactionCustomerTable
-						.getAllRows());
-				transaction.setTotal(transactionCustomerTable.getTotal());
+				list.addAll(transactionCustomerAccountTable.getAllRows());
+				list.addAll(transactionCustomerItemTable.getAllRows());
+				transaction.setTransactionItems(list);
+				transaction.setTotal(transactionCustomerAccountTable.getTotal()
+						+ transactionCustomerItemTable.getTotal());
 
 				transaction.setPayToType(ClientWriteCheck.TYPE_CUSTOMER);
 				break;
 			case ClientPayee.TYPE_VENDOR:
 				transaction.setPayToType(ClientWriteCheck.TYPE_VENDOR);
 				transaction.setVendor(selectedVendor.getID());
-				transaction.setTransactionItems(transactionVendorTable
-						.getAllRows());
-				transaction.setTotal(transactionVendorTable.getTotal());
+				list.addAll(transactionVendorAccountTable.getAllRows());
+				list.addAll(transactionVendorItemTable.getAllRows());
+				transaction.setTransactionItems(list);
+				transaction.setTotal(transactionVendorAccountTable.getTotal()
+						+ transactionVendorItemTable.getTotal());
 				transaction.setPayToType(ClientWriteCheck.TYPE_VENDOR);
 				break;
 
 			case ClientPayee.TYPE_TAX_AGENCY:
 				transaction.setPayToType(ClientWriteCheck.TYPE_TAX_AGENCY);
 				transaction.setTaxAgency(selectedTaxAgency.getID());
-				transaction.setTransactionItems(transactionVendorTable
-						.getAllRows());
-				transaction.setTotal(transactionVendorTable.getTotal());
+				list.addAll(transactionVendorAccountTable.getAllRows());
+				list.addAll(transactionVendorItemTable.getAllRows());
+				transaction.setTransactionItems(list);
+				transaction.setTotal(transactionVendorAccountTable.getTotal()
+						+ transactionVendorItemTable.getTotal());
 				// for (ClientTransactionItem rec : transactionVendorGrid
 				// .getallTransactions(transaction)) {
 				// rec.setType(ClientTransactionItem.TYPE_SALESTAX);
@@ -607,7 +656,7 @@ public class WriteChequeView extends
 
 				break;
 			}
-
+		}
 		transaction.setTotal(amtText.getAmount());
 		transaction.setAmount(amtText.getAmount());
 		transaction.setInWords(amtText.getValue().toString());
@@ -738,20 +787,18 @@ public class WriteChequeView extends
 						vendorTDSTaxCode.setSelected("");
 						if (payee != null) {
 							if (payee instanceof ClientCustomer) {
-								if (transaction == null)
-									transactionCustomerTable.removeAllRecords();
+								transactionCustomerAccountTable
+										.removeAllRecords();
+								transactionCustomerItemTable.removeAllRecords();
 							} else if (payee instanceof ClientVendor
 									|| payee instanceof ClientTAXAgency) {
 
-								vendorTDSTaxCode
-										.setSelected(vendorTDSTaxCode
-												.getDisplayName(getCompany()
-														.getTAXItem(
-																payee
-																		.getTaxItemCode())));
+								vendorTDSTaxCode.setSelected(vendorTDSTaxCode.getDisplayName(getCompany()
+										.getTAXItem(payee.getTaxItemCode())));
 
-								if (transaction == null)
-									transactionVendorTable.removeAllRecords();
+								transactionVendorAccountTable
+										.removeAllRecords();
+								transactionVendorItemTable.removeAllRecords();
 								// } else if (payee instanceof ClientTAXAgency)
 								// {
 								// taxAgencyGrid.removeAllRecords();
@@ -922,6 +969,107 @@ public class WriteChequeView extends
 		//
 		// }
 		// if{
+		transactionCustomerAccountTable = new CustomerAccountTransactionTable() {
+
+			@Override
+			public void updateNonEditableItems() {
+				WriteChequeView.this.updateNonEditableItems();
+			}
+
+			@Override
+			public boolean isShowPriceWithVat() {
+				return WriteChequeView.this.isShowPriceWithVat();
+			}
+
+			@Override
+			protected ClientCustomer getCustomer() {
+				return WriteChequeView.this.selectedCustomer;
+			}
+		};
+		transactionCustomerItemTable = new CustomerItemTransactionTable() {
+
+			@Override
+			public void updateNonEditableItems() {
+				WriteChequeView.this.updateNonEditableItems();
+			}
+
+			@Override
+			public boolean isShowPriceWithVat() {
+				return WriteChequeView.this.isShowPriceWithVat();
+			}
+
+			@Override
+			protected ClientCustomer getCustomer() {
+				return WriteChequeView.this.selectedCustomer;
+			}
+		};
+
+		transactionVendorAccountTable = new VendorAccountTransactionTable() {
+
+			@Override
+			protected void updateNonEditableItems() {
+				WriteChequeView.this.updateNonEditableItems();
+			}
+
+			@Override
+			protected ClientTransaction getTransactionObject() {
+				return WriteChequeView.this.getTransactionObject();
+			}
+
+			@Override
+			protected ClientVendor getSelectedVendor() {
+				return WriteChequeView.this.selectedVendor;
+			}
+
+			@Override
+			public boolean isShowPriceWithVat() {
+				return WriteChequeView.this.isShowPriceWithVat();
+			}
+		};
+
+		transactionVendorItemTable = new VendorItemTransactionTable() {
+
+			@Override
+			protected void updateNonEditableItems() {
+				WriteChequeView.this.updateNonEditableItems();
+			}
+
+			@Override
+			protected ClientTransaction getTransactionObject() {
+				return WriteChequeView.this.getTransactionObject();
+			}
+
+			@Override
+			protected ClientVendor getSelectedVendor() {
+				return WriteChequeView.this.selectedVendor;
+			}
+
+			@Override
+			public boolean isShowPriceWithVat() {
+				return WriteChequeView.this.isShowPriceWithVat();
+			}
+		};
+		accountTableButton = new Button(Global.get().Account());
+		accountTableButton.setEnabled(!isInViewMode());
+		accountTableButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				addAccount();
+			}
+		});
+
+		itemTableButton = new Button(Accounter.constants()
+				.productOrServiceItem());
+		itemTableButton.setEnabled(!isInViewMode());
+		itemTableButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				addItem();
+			}
+		});
+
 		if (isInViewMode()) {
 			transactionItems = transaction.getTransactionItems();
 			transaction = (ClientWriteCheck) transaction;
@@ -938,128 +1086,65 @@ public class WriteChequeView extends
 			switch (transaction.getPayToType()) {
 			case ClientWriteCheck.TYPE_CUSTOMER:
 
-				transactionCustomerTable = new CustomerTransactionTable() {
-
-					@Override
-					public void updateNonEditableItems() {
-						WriteChequeView.this.updateNonEditableItems();
-					}
-
-					@Override
-					public boolean isShowPriceWithVat() {
-						return WriteChequeView.this.isShowPriceWithVat();
-					}
-
-					@Override
-					protected ClientCustomer getCustomer() {
-						return WriteChequeView.this.selectedCustomer;
-					}
-				};
-				transactionCustomerTable.setVisible(true);
-				transactionCustomerTable.setDisabled(isInViewMode());
-				transactionCustomerTable.setWidth("100%");
+				transactionCustomerAccountTable.setVisible(true);
+				transactionCustomerAccountTable.setDisabled(isInViewMode());
+				transactionCustomerAccountTable.setWidth("100%");
+				transactionCustomerItemTable.setVisible(true);
+				transactionCustomerItemTable.setDisabled(isInViewMode());
 				mainVLay.add(topHLay);
 				setMenuRequired(true);
-				mainVLay.add(transactionCustomerTable);
+				mainVLay.add(transactionCustomerAccountTable);
+				mainVLay.add(accountTableButton);
+				mainVLay.add(transactionCustomerItemTable);
+				mainVLay.add(itemTableButton);
 				break;
 			case ClientWriteCheck.TYPE_VENDOR:
 			case ClientWriteCheck.TYPE_TAX_AGENCY:
-				transactionVendorTable = new VendorTransactionTable() {
 
-					@Override
-					protected void updateNonEditableItems() {
-						WriteChequeView.this.updateNonEditableItems();
-					}
-
-					@Override
-					protected ClientTransaction getTransactionObject() {
-						return WriteChequeView.this.getTransactionObject();
-					}
-
-					@Override
-					protected ClientVendor getSelectedVendor() {
-						return WriteChequeView.this.selectedVendor;
-					}
-
-					@Override
-					public boolean isShowPriceWithVat() {
-						return WriteChequeView.this.isShowPriceWithVat();
-					}
-				};
-				transactionVendorTable.setWidth("100%");
+				transactionVendorAccountTable.setWidth("100%");
 				mainVLay.add(topHLay);
 				setMenuRequired(true);
-				mainVLay.add(transactionVendorTable);
+				mainVLay.add(transactionVendorAccountTable);
+				mainVLay.add(accountTableButton);
+				mainVLay.add(transactionVendorItemTable);
+				mainVLay.add(itemTableButton);
 				break;
 
 			}
 			// }
 
 		} else {
-			transactionCustomerTable = new CustomerTransactionTable() {
-
-				@Override
-				public void updateNonEditableItems() {
-					WriteChequeView.this.updateNonEditableItems();
-				}
-
-				@Override
-				public boolean isShowPriceWithVat() {
-					return WriteChequeView.this.isShowPriceWithVat();
-				}
-
-				@Override
-				protected ClientCustomer getCustomer() {
-					return WriteChequeView.this.selectedCustomer;
-				}
-			};
-			transactionCustomerTable.setWidth("100%");
-			transactionVendorTable = new VendorTransactionTable() {
-
-				@Override
-				protected void updateNonEditableItems() {
-					WriteChequeView.this.updateNonEditableItems();
-				}
-
-				@Override
-				protected ClientTransaction getTransactionObject() {
-					return WriteChequeView.this.getTransactionObject();
-				}
-
-				@Override
-				protected ClientVendor getSelectedVendor() {
-					return WriteChequeView.this.selectedVendor;
-				}
-
-				@Override
-				public boolean isShowPriceWithVat() {
-					return WriteChequeView.this.isShowPriceWithVat();
-				}
-			};
-			transactionVendorTable.setWidth("100%");
+			transactionCustomerAccountTable.setWidth("100%");
+			transactionVendorAccountTable.setWidth("100%");
 			// setGridType(VENDOR_TRANSACTION_GRID);
 			// transactionVendorGrid = getGrid();
 			// transactionVendorGrid.setTransactionView(this);
 			// transactionVendorGrid.setCanEdit(true);
 			// transactionVendorGrid.setEditEventType(ListGrid.EDIT_EVENT_DBCLICK);
 			// transactionVendorGrid.init();
-			transactionCustomerTable.setVisible(true);
-			transactionCustomerTable.setDisabled(isInViewMode());
+			transactionCustomerAccountTable.setVisible(true);
+			transactionCustomerAccountTable.setDisabled(isInViewMode());
+			transactionCustomerItemTable.setVisible(true);
+			transactionCustomerItemTable.setDisabled(isInViewMode());
 
-			transactionVendorTable.setVisible(false);
+			transactionVendorAccountTable.setVisible(false);
+			transactionVendorItemTable.setVisible(false);
 			// taxAgencyGrid.setVisible(false);
 			mainVLay.add(lab1);
 			// HorizontalPanel panel = new HorizontalPanel();
 			mainVLay.add(topHLay);
 			setMenuRequired(true);
 
-			mainVLay.add(transactionCustomerTable);
+			mainVLay.add(transactionCustomerAccountTable);
+			mainVLay.add(accountTableButton);
+			mainVLay.add(transactionCustomerItemTable);
+			mainVLay.add(itemTableButton);
 		}
 
 		vPanel = new VerticalPanel();
 		vPanel.setWidth("100%");
-		vPanel.add(createAddNewButton());
-		menuButton.getElement().getStyle().setMargin(5, Unit.PX);
+		// vPanel.add(createAddNewButton());
+		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 
 		HorizontalPanel bottomPanel = new HorizontalPanel();
 		bottomPanel.setWidth("100%");
@@ -1158,21 +1243,25 @@ public class WriteChequeView extends
 		if (payee != null) {
 
 			if (payee instanceof ClientCustomer) {
-				this.amtText.setAmount(transactionCustomerTable.getTotal());
-				amtText.setValue(String.valueOf(transactionCustomerTable
-						.getTotal()));
-				totalTxt.setValue(String.valueOf(transactionCustomerTable
-						.getTotal()));
-				netAmount.setAmount(transactionCustomerTable.getGrandTotal());
+				double total = transactionCustomerAccountTable.getTotal()
+						+ transactionCustomerItemTable.getTotal();
+				this.amtText.setAmount(total);
+				amtText.setValue(String.valueOf(total));
+				totalTxt.setValue(String.valueOf(total));
+				netAmount.setAmount(transactionCustomerAccountTable
+						.getGrandTotal()
+						+ transactionCustomerItemTable.getGrandTotal());
 
 			} else if (payee instanceof ClientVendor
 					|| payee instanceof ClientTAXAgency) {
-				this.amtText.setAmount(transactionVendorTable.getTotal());
-				amtText.setValue(String.valueOf(transactionVendorTable
-						.getTotal()));
-				totalTxt.setValue(String.valueOf(transactionVendorTable
-						.getTotal()));
-				netAmount.setAmount(transactionVendorTable.getGrandTotal());
+				double total = transactionVendorAccountTable.getTotal()
+						+ transactionVendorItemTable.getTotal();
+				this.amtText.setAmount(total);
+				amtText.setValue(String.valueOf(total));
+				totalTxt.setValue(String.valueOf(total));
+				netAmount.setAmount(transactionVendorAccountTable
+						.getGrandTotal()
+						+ transactionVendorItemTable.getGrandTotal());
 			}
 
 			// else if (payee instanceof ClientTaxAgency) {
@@ -1210,68 +1299,69 @@ public class WriteChequeView extends
 
 	@Override
 	public void showMenu(Widget button) {
-		if (payee != null) {
-			switch (payee.getType()) {
-			case ClientWriteCheck.TYPE_CUSTOMER:
-			case ClientWriteCheck.TYPE_VENDOR:
-			case ClientWriteCheck.TYPE_TAX_AGENCY:
-				setMenuItems(button, Accounter.messages().accounts(
-						Global.get().Account()), Accounter.constants()
-						.productItem()
-				// FinanceApplication.constants().comment(),
-				// FinanceApplication.constants()
-				// .salesTax()
-				);
-				// break;
-				// case ClientWriteCheck.TYPE_VENDOR:
-				// if (FinanceApplication.getCompany().getAccountingType() ==
-				// ClientCompany.ACCOUNTING_TYPE_US)
-				// setMenuItems(FinanceApplication.constants()
-				// .nominalCodeItem(), FinanceApplication
-				// .constants().product()
-				// // FinanceApplication.constants().comment()
-				// );
-				// else
-				// setMenuItems(FinanceApplication.constants()
-				// .nominalCodeItem(), FinanceApplication
-				// .constants().product(),
-				// FinanceApplication.constants().VATItem(),
-				// FinanceApplication.constants().comment());
-				// break;
-				// case ClientWriteCheck.TYPE_TAX_AGENCY:
-				// if (FinanceApplication.getCompany().getAccountingType() ==
-				// ClientCompany.ACCOUNTING_TYPE_US)
-				// setMenuItems(FinanceApplication.constants()
-				// .nominalCodeItem(), FinanceApplication
-				// .constants().product()
-				// // FinanceApplication.constants().comment()
-				// );
-				// else
-				// setMenuItems(FinanceApplication.constants()
-				// .nominalCodeItem(), FinanceApplication
-				// .constants().product(),
-				// FinanceApplication.constants().VATItem(),
-				// FinanceApplication.constants().comment());
-			}
-		} else
-			setMenuItems(button, Accounter.messages().accounts(
-					Global.get().Account()), Accounter.constants()
-					.productItem()
-			// FinanceApplication.constants().comment(),
-			// FinanceApplication.constants().salesTax()
-			);
+		// if (payee != null) {
+		// switch (payee.getType()) {
+		// case ClientWriteCheck.TYPE_CUSTOMER:
+		// case ClientWriteCheck.TYPE_VENDOR:
+		// case ClientWriteCheck.TYPE_TAX_AGENCY:
+		// setMenuItems(button, Accounter.messages().accounts(
+		// Global.get().Account()), Accounter.constants()
+		// .productItem()
+		// FinanceApplication.constants().comment(),
+		// FinanceApplication.constants()
+		// .salesTax()
+		// );
+		// break;
+		// case ClientWriteCheck.TYPE_VENDOR:
+		// if (FinanceApplication.getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_US)
+		// setMenuItems(FinanceApplication.constants()
+		// .nominalCodeItem(), FinanceApplication
+		// .constants().product()
+		// // FinanceApplication.constants().comment()
+		// );
+		// else
+		// setMenuItems(FinanceApplication.constants()
+		// .nominalCodeItem(), FinanceApplication
+		// .constants().product(),
+		// FinanceApplication.constants().VATItem(),
+		// FinanceApplication.constants().comment());
+		// break;
+		// case ClientWriteCheck.TYPE_TAX_AGENCY:
+		// if (FinanceApplication.getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_US)
+		// setMenuItems(FinanceApplication.constants()
+		// .nominalCodeItem(), FinanceApplication
+		// .constants().product()
+		// // FinanceApplication.constants().comment()
+		// );
+		// else
+		// setMenuItems(FinanceApplication.constants()
+		// .nominalCodeItem(), FinanceApplication
+		// .constants().product(),
+		// FinanceApplication.constants().VATItem(),
+		// FinanceApplication.constants().comment());
+		// }
+		// } else
+		setMenuItems(button, Global.get().Account(), Accounter.constants()
+				.productOrServiceItem());
+		// FinanceApplication.constants().comment(),
+		// FinanceApplication.constants().salesTax()
+		// );
 
 	}
 
 	@Override
 	protected void onAddNew(String item) {
+		// FIXME Need to add new transaction item to appropriate grid.
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
 		if (payee != null) {
 			if (payee.getType() == ClientWriteCheck.TYPE_CUSTOMER) {
 				if (item.equals(Accounter.messages().accounts(
 						Global.get().Account()))) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-				} else if (item.equals(Accounter.constants().productItem())) {
+				} else if (item.equals(Accounter.constants()
+						.productOrServiceItem())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 
 				} else if (item.equals(Accounter.constants().comment())) {
@@ -1280,31 +1370,33 @@ public class WriteChequeView extends
 					transactionItem
 							.setType(ClientTransactionItem.TYPE_SALESTAX);
 				}
-				transactionCustomerTable.add(transactionItem);
+				// transactionCustomerTable.add(transactionItem);
 			} else if (payee.getType() == ClientWriteCheck.TYPE_VENDOR
 					|| payee.getType() == ClientWriteCheck.TYPE_TAX_AGENCY) {
 				if (item.equals(Accounter.messages().accounts(
 						Global.get().Account()))) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-				} else if (item.equals(Accounter.constants().productItem())) {
+				} else if (item.equals(Accounter.constants()
+						.productOrServiceItem())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 				} else if (item.equals(Accounter.constants().comment())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_COMMENT);
 				}
-				transactionVendorTable.add(transactionItem);
+				// transactionVendorTable.add(transactionItem);
 			}
 		} else {
 			if (item.equals(Accounter.messages().accounts(
 					Global.get().Account()))) {
 				transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-			} else if (item.equals(Accounter.constants().productItem())) {
+			} else if (item
+					.equals(Accounter.constants().productOrServiceItem())) {
 				transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 			} else if (item.equals(Accounter.constants().comment())) {
 				transactionItem.setType(ClientTransactionItem.TYPE_COMMENT);
 			} else if (item.equals(Accounter.constants().salesTax())) {
 				transactionItem.setType(ClientTransactionItem.TYPE_SALESTAX);
 			}
-			transactionCustomerTable.add(transactionItem);
+			// transactionCustomerTable.add(transactionItem);
 		}
 	}
 
@@ -1367,12 +1459,16 @@ public class WriteChequeView extends
 		amtText.setDisabled(isInViewMode());
 		toprintCheck.setDisabled(isInViewMode());
 		bankAccSelect.setDisabled(isInViewMode());
-		if (transactionCustomerTable != null
-				&& transactionCustomerTable.isVisible())
-			transactionCustomerTable.setDisabled(isInViewMode());
-		else if (transactionVendorTable != null
-				&& transactionVendorTable.isVisible())
-			transactionVendorTable.setDisabled(isInViewMode());
+		if (transactionCustomerAccountTable != null)
+			transactionCustomerAccountTable.setDisabled(isInViewMode());
+		if (transactionCustomerItemTable != null)
+			transactionCustomerItemTable.setDisabled(isInViewMode());
+		if (transactionVendorAccountTable != null)
+			transactionVendorAccountTable.setDisabled(isInViewMode());
+		if (transactionVendorItemTable != null)
+			transactionVendorItemTable.setDisabled(isInViewMode());
+		accountTableButton.setEnabled(!isInViewMode());
+		itemTableButton.setEnabled(!isInViewMode());
 		memoTextAreaItem.setDisabled(false);
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
@@ -1394,26 +1490,27 @@ public class WriteChequeView extends
 	public void PayToSelected(ClientPayee selectItem) {
 		ClientWriteCheck check = (ClientWriteCheck) this.transaction;
 
-		if (selectItem instanceof ClientCustomer) {
-			transactionCustomerTable.removeAllRecords();
-			if (check.getCustomer() == selectItem.getID()) {
-				transactionCustomerTable
-						.setRecords(check.getTransactionItems());
-			}
-
-		} else if (selectItem instanceof ClientVendor) {
-			transactionVendorTable.removeAllRecords();
-			if (check.getVendor() == selectItem.getID()) {
-				transactionVendorTable.setRecords(check.getTransactionItems());
-			}
-
-		} else if (selectItem instanceof ClientTAXAgency) {
-			transactionVendorTable.removeAllRecords();
-			if (check.getTaxAgency() == selectItem.getID()) {
-				transactionVendorTable.setRecords(check.getTransactionItems());
-			}
-
-		}
+		// FIXME Need to set transaction items.
+		// if (selectItem instanceof ClientCustomer) {
+		// transactionCustomerTable.removeAllRecords();
+		// if (check.getCustomer() == selectItem.getID()) {
+		// transactionCustomerTable
+		// .setRecords(check.getTransactionItems());
+		// }
+		//
+		// } else if (selectItem instanceof ClientVendor) {
+		// transactionVendorTable.removeAllRecords();
+		// if (check.getVendor() == selectItem.getID()) {
+		// transactionVendorTable.setRecords(check.getTransactionItems());
+		// }
+		//
+		// } else if (selectItem instanceof ClientTAXAgency) {
+		// transactionVendorTable.removeAllRecords();
+		// if (check.getTaxAgency() == selectItem.getID()) {
+		// transactionVendorTable.setRecords(check.getTransactionItems());
+		// }
+		//
+		// }
 
 	}
 
@@ -1446,21 +1543,27 @@ public class WriteChequeView extends
 
 	@Override
 	public List<ClientTransactionItem> getAllTransactionItems() {
+		List<ClientTransactionItem> list = new ArrayList<ClientTransactionItem>();
 		if (ClientWriteCheck.TYPE_CUSTOMER == transaction.getPayToType()) {
-			return transactionCustomerTable.getAllRows();
+			list.addAll(transactionCustomerAccountTable.getAllRows());
+			list.addAll(transactionCustomerItemTable.getAllRows());
+			return list;
 		} else {
-			return transactionVendorTable.getAllRows();
+			list.addAll(transactionVendorAccountTable.getAllRows());
+			list.addAll(transactionVendorItemTable.getAllRows());
+			return list;
 		}
 
 	}
 
 	@Override
 	protected void addNewData(ClientTransactionItem transactionItem) {
-		if (ClientWriteCheck.TYPE_CUSTOMER == transaction.getPayToType()) {
-			transactionCustomerTable.add(transactionItem);
-		} else {
-			transactionVendorTable.add(transactionItem);
-		}
+		// FIXME
+		// if (ClientWriteCheck.TYPE_CUSTOMER == transaction.getPayToType()) {
+		// transactionCustomerTable.add(transactionItem);
+		// } else {
+		// transactionVendorTable.add(transactionItem);
+		// }
 	}
 
 	@Override
@@ -1478,10 +1581,36 @@ public class WriteChequeView extends
 		balText.setTabIndex(7);
 		memoTextAreaItem.setTabIndex(8);
 		vatInclusiveCheck.setTabIndex(9);
-		menuButton.setTabIndex(10);
+		// menuButton.setTabIndex(10);
 		saveAndCloseButton.setTabIndex(11);
 		saveAndNewButton.setTabIndex(12);
 		cancelButton.setTabIndex(13);
 
+	}
+
+	@Override
+	protected void addAccountTransactionItem(ClientTransactionItem item) {
+		if (payee != null) {
+			if (payee.getType() == ClientWriteCheck.TYPE_CUSTOMER) {
+				transactionCustomerAccountTable.add(item);
+			} else {
+				transactionVendorAccountTable.add(item);
+			}
+		} else {
+			transactionCustomerAccountTable.add(item);
+		}
+	}
+
+	@Override
+	protected void addItemTransactionItem(ClientTransactionItem item) {
+		if (payee != null) {
+			if (payee.getType() == ClientWriteCheck.TYPE_CUSTOMER) {
+				transactionCustomerItemTable.add(item);
+			} else {
+				transactionVendorItemTable.add(item);
+			}
+		} else {
+			transactionCustomerItemTable.add(item);
+		}
 	}
 }

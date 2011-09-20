@@ -103,7 +103,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected TextAreaItem memoTextAreaItem;
 	protected TextItem phoneSelect;
 	// protected TextItem refText;
-	protected AddNewButton menuButton;
+	// protected AddNewButton menuButton;
 	private PopupPanel popupPanel;
 	private CustomMenuBar popupMenuBar;
 
@@ -542,11 +542,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	}
 
-	public AddNewButton createAddNewButton() {
-		// TODO make this button to Image button
-		menuButton = new AddNewButton(this);
-		return menuButton;
-	}
+	// public AddNewButton createAddNewButton() {
+	// // TODO make this button to Image button
+	// menuButton = new AddNewButton(this);
+	// return menuButton;
+	// }
 
 	private Button createMakeRecurringButton() {
 		Button recurringButton = new Button();
@@ -811,7 +811,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			if (itm.equalsIgnoreCase(Accounter.messages().accounts(
 					Global.get().Account()))) {
 				image = Accounter.getFinanceMenuImages().Accounts();
-			} else if (itm.equals(Accounter.constants().productItem())) {
+			} else if (itm.equals(Accounter.constants().productOrServiceItem())) {
 				if (sellProducts) {
 					image = Accounter.getFinanceMenuImages().items();
 				} else {
@@ -864,15 +864,23 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	}
 
+	protected void addAccount() {
+
+	}
+
+	protected void addItem() {
+
+	}
+
 	@Override
 	public void showMenu(Event event) {
-		int menuTop = menuButton.getAbsoluteTop()
-				- (popupMenuBar.numberOfItems * 43);
+		// int menuTop = menuButton.getAbsoluteTop()
+		// - (popupMenuBar.numberOfItems * 43);
+		//
+		// int left = menuButton.getAbsoluteLeft() - 5;
 
-		int left = menuButton.getAbsoluteLeft() - 5;
-
-		popupPanel.setPopupPosition(left, menuTop + 1);
-		popupPanel.show();
+		// popupPanel.setPopupPosition(left, menuTop + 1);
+		// popupPanel.show();
 	}
 
 	public boolean isMenuRequired() {
@@ -902,8 +910,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	public void onEdit() {
 		if (vatinclusiveCheck != null)
 			vatinclusiveCheck.setDisabled(isInViewMode());
-		if (menuButton != null)
-			menuButton.setEnabled(!isInViewMode());
+		// if (menuButton != null)
+		// menuButton.setEnabled(!isInViewMode());
 		setMode(EditMode.EDIT);
 
 		if (getPreferences().isClassTrackingEnabled()
@@ -920,9 +928,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	@Override
 	protected void onAttach() {
 		super.onAttach();
-		if (menuButton != null) {
-			menuButton.setEnabled(!isInViewMode());
-		}
+		// if (menuButton != null) {
+		// menuButton.setEnabled(!isInViewMode());
+		// }
 	}
 
 	@Override
@@ -1076,7 +1084,13 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 			if (transactionNumber != null)
 				transaction.setNumber(transactionNumber.getValue().toString());
-			transactionItems = getAllTransactionItems();
+			transactionItems.clear();
+			List<ClientTransactionItem> list = getAllTransactionItems();
+			for (ClientTransactionItem item : list) {
+				if (!item.isEmpty()) {
+					transactionItems.add(item);
+				}
+			}
 			transaction.setTransactionItems(transactionItems);
 			if (location != null)
 				transaction.setLocation(location.getID());
@@ -1414,5 +1428,27 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	public void setClientAccounterClass(
 			ClientAccounterClass clientAccounterClass) {
 		this.clientAccounterClass = clientAccounterClass;
+	}
+
+	public List<ClientTransactionItem> getAccountTransactionItems(
+			List<ClientTransactionItem> transactionItems) {
+		List<ClientTransactionItem> list = new ArrayList<ClientTransactionItem>();
+		for (ClientTransactionItem item : transactionItems) {
+			if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT) {
+				list.add(item);
+			}
+		}
+		return list;
+	}
+
+	public List<ClientTransactionItem> getItemTransactionItems(
+			List<ClientTransactionItem> transactionItems) {
+		List<ClientTransactionItem> list = new ArrayList<ClientTransactionItem>();
+		for (ClientTransactionItem item : transactionItems) {
+			if (item.getType() == ClientTransactionItem.TYPE_ITEM) {
+				list.add(item);
+			}
+		}
+		return list;
 	}
 }

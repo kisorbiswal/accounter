@@ -25,8 +25,6 @@ public class IndicatorColumn extends
 			return images.Accounts();
 		case ClientTransactionItem.TYPE_ITEM:
 			return images.itemsIcon();
-		case ClientTransactionItem.TYPE_SERVICE:
-			return images.salesTaxIcon();
 		default:
 			return null;
 		}
