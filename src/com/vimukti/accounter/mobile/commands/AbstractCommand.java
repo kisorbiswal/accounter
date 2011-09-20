@@ -444,6 +444,32 @@ public abstract class AbstractCommand extends Command {
 		return null;
 	}
 
+	protected Result numberOptionalRequirement(Context context,
+			ResultList list, Object selection, String name, String displayName) {
+		Requirement req = get(name);
+		String number = (String) req.getValue();
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals(name)) {
+			String input = context.getSelection(TEXT);
+			if (input == null) {
+				input = context.getString();
+			}
+			number = input;
+			req.setValue(number);
+		}
+
+		if (selection == number) {
+			context.setAttribute(attribute, name);
+			return text(context, displayName, number);
+		}
+
+		Record numberRecord = new Record(number);
+		numberRecord.add("Name", name);
+		numberRecord.add("Value", number);
+		list.add(numberRecord);
+		return null;
+	}
+
 	protected Result orderNoRequirement(Context context, ResultList list,
 			Object selection) {
 
