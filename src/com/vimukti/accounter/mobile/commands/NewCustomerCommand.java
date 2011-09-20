@@ -1,11 +1,20 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.CreditRating;
+import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerGroup;
+import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.PriceLevel;
 import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.core.TAXCode;
@@ -177,7 +186,73 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @return
 	 */
 	private Result createCustomerObject(Context context) {
-		// TODO Auto-generated method stub
+		Customer customer = new Customer();
+		String name = get(CUSTOMER_NAME).getValue();
+		String number = get(NUMBER).getValue();
+		Set<Contact> contacts = get(CUSTOMER_CONTACT).getValue();
+		boolean isActive = (Boolean) get(IS_ACTIVE).getDefaultValue();
+		FinanceDate balancedate = get(BALANCE_ASOF_DATE).getValue();
+		Timestamp customerSincedate = get(CUSTOMER_SINCEDATE).getValue();
+		double balance = get(BALANCE).getValue();
+		Set<Address> adress = get(ADDRESS).getValue();
+		String phoneNum = get(PHONE).getValue();
+		String faxNum = get(FAX).getValue();
+		String emailId = get(EMAIL).getValue();
+		String webaddress = get(WEBADRESS).getValue();
+		SalesPerson salesPerson = get(SALESPERSON).getValue();
+		CreditRating creditRating = get(CREDIT_RATING).getValue();
+		PriceLevel priceLevel = get(PRICE_LEVEL).getValue();
+		String bankName = get(BANK_NAME).getValue();
+		String bankAccountNum = get(BANK_ACCOUNT_NUM).getValue();
+		String bankBranch = get(BANK_BRANCH).getValue();
+		String paymentMethod = get(PAYMENT_METHOD).getValue();
+		PaymentTerms paymentTerms = get(PAYMENT_TERMS).getValue();
+		CustomerGroup customerGroup = get(PAYMENT_TERMS).getValue();
+		String vatRegistredNum = get(VATREGISTER_NUM).getValue();
+		TAXCode taxCode = get(CUSTOMER_VATCODE).getValue();
+		String panNum = get(PAN_NUM).getValue();
+		String cstNum = get(CST_NUM).getValue();
+		String serviceTaxNum = (String) get(SERVICE_TAX_NUM).getValue();
+		String tinNum = get(TIN_NUM).getValue();
+
+		customer.setName(name);
+		customer.setNumber(number);
+		customer.setContacts(contacts);
+		customer.setBalance(balance);
+		customer.setBalanceAsOf(balancedate);
+		customer.setCreatedDate(customerSincedate);
+		customer.setAddress(adress);
+		customer.setPhoneNo(phoneNum);
+		customer.setFaxNo(faxNum);
+		customer.setWebPageAddress(webaddress);
+		customer.setBankAccountNo(bankAccountNum);
+		customer.setBankBranch(bankBranch);
+		customer.setBankName(bankName);
+		customer.setEmail(emailId);
+		customer.setSalesPerson(salesPerson);
+		customer.setPriceLevel(priceLevel);
+		customer.setCreditRating(creditRating);
+		customer.setCustomerGroup(customerGroup);
+		customer.setActive(isActive);
+		customer.setPaymentMethod(paymentMethod);
+		customer.setPaymentTerm(paymentTerms);
+		customer.setTAXCode(taxCode);
+		customer.setVATRegistrationNumber(vatRegistredNum);
+		customer.setPANno(panNum);
+		customer.setCSTno(cstNum);
+		customer.setServiceTaxRegistrationNo(serviceTaxNum);
+		customer.setTINNumber(tinNum);
+
+		Session session = context.getSession();
+		Transaction transaction = session.beginTransaction();
+		session.saveOrUpdate(customer);
+		transaction.commit();
+
+		markDone();
+
+		Result result = new Result();
+		result.add(" Customer was created successfully.");
+
 		return null;
 	}
 
