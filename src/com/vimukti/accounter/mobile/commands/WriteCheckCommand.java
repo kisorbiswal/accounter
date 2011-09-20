@@ -47,8 +47,8 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 				list.add(new Requirement("vatCode", true, true));
 			}
 		});
-		list.add(new Requirement("bankAccount", false, true));
-		list.add(new Requirement("amount", false, true));
+		list.add(new Requirement("bankAccounts", false, true));
+		list.add(new Requirement("amount", true, true));
 		list.add(new Requirement("date", true, true));
 		list.add(new Requirement("number", true, false));
 		list.add(new Requirement("billTo", true, true));
@@ -60,12 +60,7 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 		String process = (String) context.getAttribute(PROCESS_ATTR);
 		Result result = null;
 		if (process != null) {
-			if (process.equals(ADDRESS_PROCESS)) {
-				result = addressProcess(context);
-				if (result != null) {
-					return result;
-				}
-			} else if (process.equals(TRANSACTION_ITEM_PROCESS)) {
+			if (process.equals(TRANSACTION_ITEM_PROCESS)) {
 				result = transactionItemProcess(context);
 				if (result != null) {
 					return result;
@@ -122,14 +117,6 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 
 	}
 
-	private Result bankAccountRequirement(Context context) {
-		return null;
-	}
-
-	private Result accountsRequirement(Context context) {
-		return null;
-	}
-
 	private Result createOptionalResult(Context context) {
 		context.setAttribute(INPUT_ATTR, "optional");
 
@@ -137,6 +124,8 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 		if (selection != null) {
 			ActionNames actionName = (ActionNames) selection;
 			switch (actionName) {
+			case ADD_MORE_ACCOUNTS:
+				return accounts(context);
 			case ADD_MORE_ITEMS:
 				return items(context);
 			case FINISH:
@@ -147,7 +136,19 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 			}
 		}
 		Requirement accountReq = get("accounts");
-		List<TransactionItem> transItems = accountReq.getValue();
+		List<TransactionItem> itemsList = accountReq.getValue();
+
+		selection = context.getSelection("transactionItems");
+		if (selection != null) {
+			Result result = transactionItem(context,
+					(TransactionItem) selection);
+			if (result != null) {
+				return result;
+			}
+		}
+
+		Requirement itemReq = get("items");
+		List<TransactionItem> accountsList = itemReq.getValue();
 
 		selection = context.getSelection("transactionItems");
 		if (selection != null) {
@@ -164,7 +165,7 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 		Requirement payeeReq = get("payee");
 		Payee payee = (Payee) payeeReq.getValue();
 		Record payeeRecord = new Record(payee);
-		payeeRecord.add("Name", getPayeeType(payee.getType()));
+		payeeRecord.add("Name", "Payee");
 		payeeRecord.add("Value", payee.getName());
 
 		list.add(payeeRecord);
@@ -198,13 +199,22 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 		result.add(list);
 
 		result.add("Accounts:-");
-		ResultList items = new ResultList("transactionItems");
-		for (TransactionItem account : transItems) {
+		ResultList accounts = new ResultList("transactionItems");
+		for (TransactionItem account : accountsList) {
 			Record accountRec = new Record(account);
-			accountRec.add("Name", account.getItem().getName());
+			accountRec.add("Name", account.getAccount().getName());
 			accountRec.add("Total", account.getLineTotal());
 			accountRec.add("Type",
 					Utility.getAccountTypeString(account.getType()));
+		}
+		result.add(accounts);
+		result.add("Items:-");
+		ResultList items = new ResultList("transactionItems");
+		for (TransactionItem item : itemsList) {
+			Record itemRec = new Record(item);
+			itemRec.add("Name", item.getItem().getName());
+			itemRec.add("Total", item.getLineTotal());
+			itemRec.add("VatCode", item.getVATfraction());
 		}
 		result.add(items);
 
@@ -243,11 +253,7 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 		list.add(amountRecord);
 		return null;
 	}
-
-	private Object getPayeeType(int type) {
-		return null;
-	}
-
+	
 	private Result writeCheckNoRequirement(Context context, ResultList list,
 			Object selection) {
 		Requirement req = get("number");
