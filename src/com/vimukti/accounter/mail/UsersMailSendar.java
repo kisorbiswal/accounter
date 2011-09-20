@@ -715,7 +715,7 @@ public class UsersMailSendar {
 
 	private static String replaceServerUrl(String content) {
 		return content.replaceAll("%SERVERURL%",
-				ServerConfiguration.getServerURL());
+				ServerConfiguration.getMainServerDomain());
 	}
 
 	private static String getUserName(String name) {
