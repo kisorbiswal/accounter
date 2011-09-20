@@ -86,7 +86,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 		TransactionItem transactionItem = (TransactionItem) context
 				.getAttribute(OLD_TRANSACTION_ACCOUNT_ITEM_ATTR);
-		Result result = transactionItem(context, transactionItem);
+		Result result = transactionAccountItem(context, transactionItem);
 		if (result == null) {
 			ActionNames actionName = context.getSelection(ACTIONS);
 			if (actionName == ActionNames.DELETE_ITEM) {
