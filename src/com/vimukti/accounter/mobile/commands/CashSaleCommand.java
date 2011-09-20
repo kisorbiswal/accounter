@@ -176,7 +176,8 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = memoRequirement(context, list, selection);
+		result = stringOptionalRequirement(context, list, selection, "memo",
+				"Add a memo");
 		if (result != null) {
 			return result;
 		}

@@ -58,6 +58,7 @@ public class NewSalesPersonCommand extends AbstractTransactionCommand {
 		list.add(new Requirement(DO_HIRE, true, true));
 		list.add(new Requirement(DO_LASTREVIEW, true, true));
 		list.add(new Requirement(DO_RELEASE, true, true));
+		list.add(new Requirement("memo", true, true));
 
 	}
 
@@ -214,6 +215,12 @@ public class NewSalesPersonCommand extends AbstractTransactionCommand {
 
 		result = dateOptionalRequirement(context, list, DO_RELEASE,
 				"Select your Release Date", selection);
+		if (result != null) {
+			return result;
+		}
+
+		result = stringOptionalRequirement(context, list, selection, "memo",
+				"Add a memo");
 		if (result != null) {
 			return result;
 		}

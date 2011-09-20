@@ -189,7 +189,8 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 		isIncreaseVatRecord.add("Value", increaseVatString);
 		list.add(isIncreaseVatRecord);
 
-		Result result = memoRequirement(context, list, selection);
+		Result result = stringOptionalRequirement(context, list, selection,
+				"memo", "Add a memo");
 		if (result != null) {
 			return result;
 		}
