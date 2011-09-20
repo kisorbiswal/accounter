@@ -365,7 +365,8 @@ public class NewSalesPersonCommand extends AbstractTransactionCommand {
 			expenseAccountsList.add(createAccountRecord((Account) last));
 		}
 
-		List<Account> expenseAccount = getAccounts(context.getSession());
+		List<Account> expenseAccount = getAccounts(context
+				.getHibernateSession());
 		for (int i = 0; i < VALUES_TO_SHOW || i < expenseAccount.size(); i++) {
 			Account expAccount = expenseAccount.get(i);
 			if (expAccount != last) {
