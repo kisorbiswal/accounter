@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Expense;
+import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
@@ -44,7 +45,8 @@ public class ExpensesListCommand extends AbstractTransactionCommand {
 
 		Object selection = context.getSelection(VIEW_TYPE);
 
-		Result result = viewTypeRequirement(context, selection);
+		ResultList list = new ResultList("viewlist");
+		Result result = viewTypeRequirement(context, list, selection);
 		if (result != null) {
 			return result;
 		}
@@ -55,7 +57,7 @@ public class ExpensesListCommand extends AbstractTransactionCommand {
 
 	private Result expensesList(Context context, String viewType) {
 		Result result = context.makeResult();
-		result.add("");
+		result.add("Expenses List");
 		ResultList expensesList = new ResultList("accountsList");
 		int num = 0;
 		List<Expense> expenses = getExpenses(context.getHibernateSession(),
@@ -88,42 +90,56 @@ public class ExpensesListCommand extends AbstractTransactionCommand {
 		return null;
 	}
 
-	private Result viewTypeRequirement(Context context, Object selection) {
+	private Result viewTypeRequirement(Context context, ResultList list,
+			Object selection) {
 
-		Object payamentObj = context.getSelection(VIEW_TYPE);
-		Requirement viewsRequirement = get(VIEW_TYPE);
-		List<String> views = viewsRequirement.getValue();
-		Result result = null;
-		ResultList list = new ResultList(VIEW_TYPE);
-		if (selection == views) {
+		Object viewType = context.getSelection(VIEW_TYPE);
+		Requirement viewReq = get(VIEW_TYPE);
+		String view = viewReq.getValue();
 
-			List<String> viewTypes = getViewTypes();
-			result = context.makeResult();
-			result.add("Select View Type");
+		if (selection == view) {
+			return viewTypes(context, view);
 
-			int num = 0;
-			for (String view : viewTypes) {
-				list.add(createViewTypeRecord(view));
-				num++;
-				if (num == 0) {
-					break;
-				}
-			}
-
-			result.add(list);
-		} else {
-			if (views != null) {
-				views.add(new String("All"));
-				viewsRequirement.setValue(views);
-			}
-
-			Record viewRecord = new Record(views);
-			viewRecord.add("Name", "");
-			viewRecord.add("Value", views.toString());
-			list.add(viewRecord);
+		}
+		if (viewType != null) {
+			view = (String) viewType;
+			viewReq.setValue(view);
 		}
 
+		Record viewtermRecord = new Record(view);
+		viewtermRecord.add("Name", "viewType");
+		viewtermRecord.add("Value", view);
+		list.add(viewtermRecord);
 		return null;
+	}
+
+	private Result viewTypes(Context context, String view) {
+		ResultList list = new ResultList("viewslist");
+		Result result = null;
+		List<String> viewTypes = getViewTypes();
+		result = context.makeResult();
+		result.add("Select View Type");
+
+		int num = 0;
+		if (view != null) {
+			list.add(createViewTypeRecord(view));
+			num++;
+		}
+		for (String v : viewTypes) {
+			if (v != view) {
+				list.add(createViewTypeRecord(v));
+				num++;
+			}
+			if (num == 0) {
+				break;
+			}
+
+		}
+
+		result.add(list);
+
+		return result;
+
 	}
 
 	private Record createViewTypeRecord(String view) {
