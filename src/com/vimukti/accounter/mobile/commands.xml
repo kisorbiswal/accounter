@@ -12,7 +12,216 @@
 			<name>Add Account</name>
 		</alias>
 	</command>
-
+	<command class="APAgingDetailReportCommand" name="A/P Aging Detail">
+		<alias>
+			<name>A/P Aging Detail Report</name>
+			<name>APAD</name>
+			<name>APAD report</name>
+		</alias>
+	</command>
+	<command class="APAgingSummaryReportCommand" name="A/P Aging Summary">
+		<alias>
+			<name>A/P Aging Summary Report</name>
+			<name>APAS</name>
+			<name>APAS report</name>
+		</alias>
+	</command>
+	<command class="ARAgingDetailReportCommand" name="A/R Aging Summary">
+		<alias>
+			<name>A/R Aging Detail Report</name>
+			<name>ARAD</name>
+			<name>ARAD report</name>
+		</alias>
+	</command>
+	<command class="ARAgingSummaryReportCommand" name="A/R Aging Detail">
+		<alias>
+			<name>A/R Aging Summary Report</name>
+			<name>ARAS</name>
+			<name>ARAS report</name>
+		</alias>
+	</command>
+	<command class="BalanceSheetReportCommand" name="Balance Sheet">
+		<alias>
+			<name>Balance Sheet Report</name>
+			<name>BS</name>
+			<name>BS report</name>
+		</alias>
+	</command>
+	<command class="CashFlowReportCommand" name="Cash Flow Report">
+		<alias>
+			<name>Cash Flow Report</name>
+			<name>CF</name>
+			<name>CF report</name>
+		</alias>
+	</command>
+	<command class="CustomerStatementReportCommand" name="Customer Statement">
+		<alias>
+			<name>Customer Statement Report</name>
+			<name>CS</name>
+			<name>CS report</name>
+		</alias>
+	</command>
+	<command class="CustomerTransactionHistoryReportCommand" name="Customer Transaction History">
+		<alias>
+			<name>Customer Transaction History Report</name>
+			<name>CTH</name>
+			<name>CTH report</name>
+		</alias>
+	</command>
+	<command class="ECSalesListReportCommand" name="EC Sales List">
+		<alias>
+			<name>EC Sales List Report</name>
+			<name>ECS</name>
+			<name>ECSL</name>
+			<name>ECS report</name>
+		</alias>
+	</command>
+	<command class="ExpenseReportCommand" name="Expense Report">
+		<alias>
+			<name>Expense Report</name>
+			<name>E</name>
+			<name>E report</name>
+		</alias>
+	</command>
+	<command class="PriorVATReturnReportCommand" name="Prior VAT Return">
+		<alias>
+			<name>Prior VAT Return Report</name>
+			<name>PVR</name>
+			<name>P VAT report</name>
+			<name>PVR report</name>
+		</alias>
+	</command>
+	<command class="ProfitLossReportCommand" name="Profit and Loss">
+		<alias>
+			<name>Profit &amp; Loss Report</name>
+			<name>PL</name>
+			<name>PL report</name>
+			<name>Profit and loss report</name>
+		</alias>
+	</command>
+	<command class="PurchaseByItemDetailReportCommand" name="Purchase By Item Detail">
+		<alias>
+			<name>Purchase By Item Detail Report</name>
+			<name>PID</name>
+			<name>PID report</name>
+		</alias>
+	</command>
+	<command class="PurchaseByItemSummaryReportCommand" name="Purchase By Item Summary">
+		<alias>
+			<name>Purchase by Item Summary Report</name>
+			<name>PIS</name>
+			<name>PIS report</name>
+		</alias>
+	</command>
+	<command class="PurchaseBySupplierDetailReportCommand" name="Purchase By Supplier Detail">
+		<alias>
+			<name>Purchase by Supplier Detail Report</name>
+			<name>PSD</name>
+			<name>PSD report</name>
+		</alias>
+	</command>
+	<command class="PurchaseBySupplierSummaryReportCommand" name="Purchase By Supplier Summary">
+		<alias>
+			<name>Purchase by Supplier Summary Report</name>
+			<name>PSS</name>
+			<name>PSS report</name>
+		</alias>
+	</command>
+	<command class="PurchaseOrderReportCommand" name="Purchase Order Report">
+		<alias>
+			<name>Purchase Order Report</name>
+			<name>PO</name>
+			<name>PO report</name>
+		</alias>
+	</command>
+	<command class="SalesByCustomerDetailReportCommand" name="Sales By Customer Detail">
+		<alias>
+			<name>Sales by Customer Detail Report</name>
+			<name>SCD</name>
+			<name>SCD report</name>
+		</alias>
+	</command>
+	<command class="SalesByCustomerSummaryReportCommand" name="Sales By Customer Summary">
+		<alias>
+			<name>Sales by Customer Summary Report</name>
+			<name>SCS</name>
+			<name>SCS report</name>
+		</alias>
+	</command>
+	<command class="SalesByItemDetailReportCommand" name="Sales By Item Detail">
+		<alias>
+			<name>Sales by Item Detail Report</name>
+			<name>SID</name>
+			<name>SID report</name>
+		</alias>
+	</command>
+	<command class="SalesByItemSummaryReportCommand" name="Sales By Item Summary">
+		<alias>
+			<name>Sales By Item Summary</name>
+			<name>SIS</name>
+			<name>SIS report</name>
+		</alias>
+	</command>
+	<command class="SalesOrderReportCommand" name="Sales Order Report">
+		<alias>
+			<name>Sales Order Report</name>
+			<name>SO</name>
+			<name>SO report</name>
+		</alias>
+	</command>
+	<command class="SupplierTransactionHistoryReportCommand" name="Supplier Transaction History">
+		<alias>
+			<name>Supplier Transaction History Report</name>
+			<name>STH</name>
+			<name>STH report</name>
+		</alias>
+	</command>
+	<command class="TransacctionDetailByAccountReportCommand" name="Transaction Detail By Account">
+		<alias>
+			<name>Transaction Detail By Account Report</name>
+			<name>TDA</name>
+			<name>TDA report</name>
+		</alias>
+	</command>
+	<command class="TrialBalanceReportCommand" name="Trial Balance">
+		<alias>
+			<name>Trial Balance Report</name>
+			<name>TB</name>
+			<name>TB report</name>
+		</alias>
+	</command>
+	<command class="UncategorisedVATAmountsReportCommand" name="Uncategorised VAT Amounts">
+		<alias>
+			<name>Uncategorized VAT Amounts Report</name>
+			<name>Uncategorised VAT Amounts Report</name>
+			<name>U VAT report</name>
+			<name>UVA report</name>
+			<name>UVA</name>
+		</alias>
+	</command>
+	<command class="VAT100ReportCommand" name="VAT 100">
+		<alias>
+			<name>VAT 100 Report</name>
+			<name>V100</name>
+			<name>V100 report</name>
+		</alias>
+	</command>
+	<command class="VATDetailReportCommand" name="VAT Detail">
+		<alias>
+			<name>VAT Detail Report</name>
+			<name>VAT D</name>
+			<name>VD report</name>
+			<name>VD</name>
+		</alias>
+	</command>
+	<command class="VATItemSummaryReportCommand" name="VAT Item Summary">
+		<alias>
+			<name>VAT Item Summary Report</name>
+			<name>VIS report</name>
+			<name>VAT IS report</name>
+			<name>VISR</name>
+		</alias>
+	</command>
 	<command class="NewVATItemCommand" name="New VAT Item">
 		<alias>
 			<name>Create VAT Item</name>
@@ -22,5 +231,4 @@
 			<name>Create TAX Item</name>
 		</alias>
 	</command>
-
 </commands>
