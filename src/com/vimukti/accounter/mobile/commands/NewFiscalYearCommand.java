@@ -70,7 +70,7 @@ public class NewFiscalYearCommand extends AbstractTransactionCommand {
 
 		Date startDate = (Date) get(START_DATE).getValue();
 		Date endDate = (Date) get(END_DATE).getValue();
-		Integer status = (Integer) get(STATUS).getDefaultValue();
+		Integer status = (Integer) get(STATUS).getValue();
 
 		fiscalYear.setStartDate(new FinanceDate(startDate));
 		fiscalYear.setEndDate(new FinanceDate(endDate));
@@ -151,7 +151,7 @@ public class NewFiscalYearCommand extends AbstractTransactionCommand {
 			Object selection) {
 
 		Requirement statusReq = get(STATUS);
-		Integer status = (Integer) statusReq.getDefaultValue();
+		Integer status = (Integer) statusReq.getValue();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals(STATUS)) {
 			Integer st = context.getSelection(NUMBER);
@@ -159,7 +159,7 @@ public class NewFiscalYearCommand extends AbstractTransactionCommand {
 				st = context.getInteger();
 			}
 			status = st;
-			statusReq.setDefaultValue(status);
+			statusReq.setValue(status);
 		}
 		if (selection == status) {
 			context.setAttribute(INPUT_ATTR, STATUS);
