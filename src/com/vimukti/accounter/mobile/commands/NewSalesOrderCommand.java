@@ -3,10 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.Date;
 import java.util.List;
 
-import com.vimukti.accounter.core.Address;
-import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Customer;
-import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.ShippingTerms;
 import com.vimukti.accounter.mobile.ActionNames;
@@ -421,100 +418,100 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 		return null;
 	}
 
-	/**
-	 * bill requirement
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result billToRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get("billTo");
-		Address billTo = (Address) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("billTo")) {
-			Address input = context.getSelection("address");
-			if (input == null) {
-				input = context.getAddress();
-			}
-			billTo = input;
-			req.setDefaultValue(billTo);
-		}
-
-		if (selection == billTo) {
-			context.setAttribute(INPUT_ATTR, "billTo");
-			return address(context, "Bill to Address", billTo);
-		}
-
-		Record billToRecord = new Record(billTo);
-		billToRecord.add("Name", "Bill To");
-		billToRecord.add("Value", billTo.toString());
-		list.add(billToRecord);
-		return null;
-	}
-
-	/**
-	 * payment terms requirement
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result paymentTermRequirement(Context context, ResultList list,
-			Object selection) {
-		Object payamentObj = context.getSelection(PAYMENT_TERMS);
-		Requirement paymentReq = get("paymentTerms");
-		PaymentTerms paymentTerm = (PaymentTerms) paymentReq.getValue();
-
-		if (selection == paymentTerm) {
-			return paymentTerms(context, paymentTerm);
-
-		}
-		if (payamentObj != null) {
-			paymentTerm = (PaymentTerms) payamentObj;
-			paymentReq.setDefaultValue(paymentTerm);
-		}
-
-		Record paymentTermRecord = new Record(paymentTerm);
-		paymentTermRecord.add("Name", "Payment Terms");
-		paymentTermRecord.add("Value", paymentTerm.getName());
-		list.add(paymentTermRecord);
-		return null;
-	}
-
-	/**
-	 * Contact requirement checking
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @param customer2
-	 * @return
-	 */
-	private Result contactRequirement(Context context, ResultList list,
-			Object selection, Customer customer2) {
-		Object contactObj = context.getSelection(CONTACTS);
-		Requirement contactReq = get("contact");
-		Contact contact = (Contact) contactReq.getValue();
-		if (selection == contact) {
-			return contactList(context, customer2, contact);
-
-		}
-		if (contactObj != null) {
-			contact = (Contact) contactObj;
-			contactReq.setDefaultValue(contact);
-		}
-
-		Record contactRecord = new Record(contact);
-		contactRecord.add("Name", "Customer Contact");
-		contactRecord.add("Value", contact.getName());
-		list.add(contactRecord);
-		return null;
-	}
+	// /**
+	// * bill requirement
+	// *
+	// * @param context
+	// * @param list
+	// * @param selection
+	// * @return
+	// */
+	// private Result billToRequirement(Context context, ResultList list,
+	// Object selection) {
+	// Requirement req = get("billTo");
+	// Address billTo = (Address) req.getValue();
+	//
+	// String attribute = (String) context.getAttribute(INPUT_ATTR);
+	// if (attribute.equals("billTo")) {
+	// Address input = context.getSelection("address");
+	// if (input == null) {
+	// input = context.getAddress();
+	// }
+	// billTo = input;
+	// req.setDefaultValue(billTo);
+	// }
+	//
+	// if (selection == billTo) {
+	// context.setAttribute(INPUT_ATTR, "billTo");
+	// return address(context, "Bill to Address", billTo);
+	// }
+	//
+	// Record billToRecord = new Record(billTo);
+	// billToRecord.add("Name", "Bill To");
+	// billToRecord.add("Value", billTo.toString());
+	// list.add(billToRecord);
+	// return null;
+	// }
+	//
+	// /**
+	// * payment terms requirement
+	// *
+	// * @param context
+	// * @param list
+	// * @param selection
+	// * @return
+	// */
+	// private Result paymentTermRequirement(Context context, ResultList list,
+	// Object selection) {
+	// Object payamentObj = context.getSelection(PAYMENT_TERMS);
+	// Requirement paymentReq = get("paymentTerms");
+	// PaymentTerms paymentTerm = (PaymentTerms) paymentReq.getValue();
+	//
+	// if (selection == paymentTerm) {
+	// return paymentTerms(context, paymentTerm);
+	//
+	// }
+	// if (payamentObj != null) {
+	// paymentTerm = (PaymentTerms) payamentObj;
+	// paymentReq.setDefaultValue(paymentTerm);
+	// }
+	//
+	// Record paymentTermRecord = new Record(paymentTerm);
+	// paymentTermRecord.add("Name", "Payment Terms");
+	// paymentTermRecord.add("Value", paymentTerm.getName());
+	// list.add(paymentTermRecord);
+	// return null;
+	// }
+	//
+	// /**
+	// * Contact requirement checking
+	// *
+	// * @param context
+	// * @param list
+	// * @param selection
+	// * @param customer2
+	// * @return
+	// */
+	// private Result contactRequirement(Context context, ResultList list,
+	// Object selection, Customer customer2) {
+	// Object contactObj = context.getSelection(CONTACTS);
+	// Requirement contactReq = get("contact");
+	// Contact contact = (Contact) contactReq.getValue();
+	// if (selection == contact) {
+	// return contactList(context, customer2, contact);
+	//
+	// }
+	// if (contactObj != null) {
+	// contact = (Contact) contactObj;
+	// contactReq.setDefaultValue(contact);
+	// }
+	//
+	// Record contactRecord = new Record(contact);
+	// contactRecord.add("Name", "Customer Contact");
+	// contactRecord.add("Value", contact.getName());
+	// list.add(contactRecord);
+	// return null;
+	// }
 
 	/**
 	 * 
