@@ -1,11 +1,19 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Customer;
+import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.core.Invoice;
+import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.TAXCode;
+import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
@@ -14,6 +22,8 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class NewInvoiceCommand extends AbstractTransactionCommand {
 
@@ -107,7 +117,80 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 	}
 
 	private void completeProcess(Context context) {
-		// TODO
+		Company company = getCompany();
+		Invoice invoice = new Invoice();
+
+		Date date = get("date").getValue();
+		invoice.setDate(new FinanceDate(date));
+
+		invoice.setType(Transaction.TYPE_INVOICE);
+
+		String number = get("number").getValue();
+		invoice.setNumber(number);
+
+		List<TransactionItem> items = get("items").getValue();
+		invoice.setTransactionItems(items);
+
+		// TODO Location
+		// TODO Class
+		// TODO transactionDate
+		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+			TAXCode taxCode = get("tax").getValue();
+			for (TransactionItem item : items) {
+				item.setTaxCode(taxCode);
+			}
+			// TODO if (getCompany().getPreferences().isChargeSalesTax()) {
+			// if (taxCode != null) {
+			// for (TransactionItem record : items) {
+			// record.setTaxItemGroup(taxCode.getTAXItemGrpForSales());
+			// }
+			// }
+			// transaction.setSalesTaxAmount(this.salesTax);
+			// }
+		}
+
+		Customer customer = get("customer").getValue();
+		invoice.setCustomer(customer);
+
+		Address shipTp = get("shipTo").getValue();
+		Set<Address> address = new HashSet<Address>();
+		address.add(shipTp);
+		customer.setAddress(address);
+		invoice.setShippingAdress(shipTp);
+
+		Date dueDate = get("due").getValue();
+		invoice.setDueDate(new FinanceDate(dueDate));
+
+		Contact contact = get("contact").getValue();
+		invoice.setContact(contact);
+
+		Address billTo = get("billTo").getValue();
+		invoice.setBillingAddress(billTo);
+
+		PaymentTerms paymentTerm = get("paymentTerms").getValue();
+		invoice.setPaymentTerm(paymentTerm);
+
+		String orderNo = get("orderNo").getValue();
+		invoice.setOrderNum(orderNo);
+
+		// TODO RIGISTERD FOR VAT
+
+		invoice.setTotal(getTransactionTotal());
+
+		// TODO Payments
+
+		String memo = get("memo").getValue();
+		invoice.setMemo(memo);
+
+		// TODO Discount Date
+		// TODO Estimates
+		// TODO sales Order
+		create(invoice, context);
+	}
+
+	private double getTransactionTotal() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	private Result createOptionalResult(Context context) {
