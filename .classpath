@@ -59,5 +59,9 @@
 	<classpathentry kind="lib" path="libs/jetty-util-8.0.0.v20110901.jar" sourcepath="C:/Users/vimutki35/Desktop/Jetty/jetty-8.0.0.v20110901.zip"/>
 	<classpathentry kind="lib" path="libs/jetty-webapp-8.0.0.v20110901.jar"/>
 	<classpathentry kind="lib" path="libs/jetty-jsp-2.1-7.5.0.v20110901.jar"/>
+	<classpathentry kind="lib" path="libs/smack.jar"/>
+	<classpathentry kind="lib" path="libs/smackx-debug.jar"/>
+	<classpathentry kind="lib" path="libs/smackx-jingle.jar"/>
+	<classpathentry kind="lib" path="libs/smackx.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
