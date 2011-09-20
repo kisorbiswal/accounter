@@ -332,12 +332,12 @@ public abstract class AbstractCommand extends Command {
 	}
 
 	protected void create(IAccounterServerCore obj, Context context) {
-		User user = context.getUser();
-		Session session = context.getSession();
-		try {
-			new FinanceTool().createServerObject(obj, user, session);
-		} catch (AccounterException e) {
-			e.printStackTrace();
-		}
+//		User user = context.getUser();
+//		Session session = context.getSession();
+//		try {
+//			new FinanceTool().createServerObject(obj, user, session);
+//		} catch (AccounterException e) {
+//			e.printStackTrace();
+//		}
 	}
 }
