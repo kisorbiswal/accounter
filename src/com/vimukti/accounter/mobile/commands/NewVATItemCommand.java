@@ -121,38 +121,37 @@ public class NewVATItemCommand extends AbstractCommand {
 	}
 
 	private Result taxRateRequirement(Context context) {
+
 		Requirement taxRateReq = get(TAX_RATE);
-		if (!taxRateReq.isDone()) {
-			Double taxRate = context.getDouble();
-			if (taxRate != null) {
-				taxRateReq.setValue(taxRate);
-			} else {
-				return number(context, "Please Enter the " + getString()
-						+ " Rate.", null);
-			}
-		}
 		String input = (String) context.getAttribute(INPUT_ATTR);
 		if (input.equals(TAX_RATE)) {
+			input = context.getString();
 			taxRateReq.setValue(input);
+			context.setAttribute(INPUT_ATTR, "default");
 		}
+		if (!taxRateReq.isDone()) {
+			context.setAttribute(INPUT_ATTR, TAX_RATE);
+			return text(context, "Please Enter the " + getString() + " Rate.",
+					null);
+		}
+
 		return null;
 	}
 
 	private Result nameRequirement(Context context) {
 		Requirement nameReq = get(NAME);
-		if (!nameReq.isDone()) {
-			String string = context.getString();
-			if (string != null) {
-				nameReq.setValue(string);
-			} else {
-				return text(context, "Please Enter the " + getString()
-						+ " Item Name.", null);
-			}
-		}
-		String input = (String) context.getAttribute(INPUT_ATTR);
+		String input = (String) context.getAttribute("input");
 		if (input.equals(NAME)) {
+			input = context.getString();
 			nameReq.setValue(input);
+			context.setAttribute(INPUT_ATTR, "default");
 		}
+		if (!nameReq.isDone()) {
+			context.setAttribute(INPUT_ATTR, NAME);
+			return text(context, "Please Enter the " + getString()
+					+ " Agency Name.", null);
+		}
+
 		return null;
 	}
 
@@ -213,7 +212,7 @@ public class NewVATItemCommand extends AbstractCommand {
 
 		Record taxAgencyRecord = new Record(taxAgency);
 		taxAgencyRecord.add("Name", getString() + " Agency");
-		taxAgencyRecord.add("Value", taxAgency);
+		taxAgencyRecord.add("Value", taxAgency.getName());
 		list.add(taxAgencyRecord);
 
 		if (isUkCompany()) {
@@ -226,7 +225,7 @@ public class NewVATItemCommand extends AbstractCommand {
 			}
 			Record vatReturnBoxRecord = new Record(vatReturnBox);
 			vatReturnBoxRecord.add("Name", "VAT Return Box");
-			vatReturnBoxRecord.add("Value", vatReturnBox);
+			vatReturnBoxRecord.add("Value", vatReturnBox.getName());
 			list.add(vatReturnBoxRecord);
 
 			Requirement isPercentageReq = get(IS_PERCENTAGE);

@@ -235,12 +235,12 @@ public class NewVATAgencyCommand extends AbstractCommand {
 
 		Record paymentTermRecord = new Record(paymentTerm);
 		paymentTermRecord.add(INPUT_ATTR, "Payment Term");
-		paymentTermRecord.add("Value", paymentTerm);
+		paymentTermRecord.add("Value", paymentTerm.getName());
 		list.add(paymentTermRecord);
 
 		Record salesAccountRecord = new Record(salesAccount);
 		salesAccountRecord.add(INPUT_ATTR, "Sales Liability Account");
-		salesAccountRecord.add("Value", salesAccount);
+		salesAccountRecord.add("Value", salesAccount.getName());
 		list.add(salesAccountRecord);
 
 		if (getCompanyType() != 0) {
@@ -260,7 +260,7 @@ public class NewVATAgencyCommand extends AbstractCommand {
 
 			Record purchaseAccountRecord = new Record(purchaseAccount);
 			purchaseAccountRecord.add(INPUT_ATTR, "Purchase Liability Account");
-			purchaseAccountRecord.add("Value", purchaseAccount);
+			purchaseAccountRecord.add("Value", purchaseAccount.getName());
 			list.add(purchaseAccountRecord);
 		}
 
@@ -690,21 +690,19 @@ public class NewVATAgencyCommand extends AbstractCommand {
 
 	private Result nameRequirement(Context context) {
 		Requirement nameReq = get(NAME);
-		if (!nameReq.isDone()) {
-			String string = context.getString();
-			if (string != null) {
-				nameReq.setValue(string);
-			} else {
-				return text(context, "Please Enter the " + getString()
-						+ " Agency Name.", null);
-			}
-		}
 		String input = (String) context.getAttribute("input");
 		if (input.equals(NAME)) {
+			input = context.getString();
 			nameReq.setValue(input);
+			context.setAttribute(INPUT_ATTR, "default");
 		}
-		return null;
+		if (!nameReq.isDone()) {
+			context.setAttribute(INPUT_ATTR, NAME);
+			return text(context, "Please Enter the " + getString()
+					+ " Agency Name.", null);
+		}
 
+		return null;
 	}
 
 	private int getCompanyType() {
