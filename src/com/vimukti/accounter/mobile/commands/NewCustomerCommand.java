@@ -3,7 +3,6 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.Date;
 import java.util.List;
 
-import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.CreditRating;
 import com.vimukti.accounter.core.CustomerGroup;
@@ -18,7 +17,6 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.server.FinanceTool;
 
 public class NewCustomerCommand extends AbstractTransactionCommand {
 
@@ -949,12 +947,12 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		ResultList list = new ResultList(CUSTOMER_GROUP);
 		int num = 0;
 		if (oldCustomerGroup != null) {
-			list.add(createTAXCodeRecord(oldCustomerGroup));
+			list.add(createCustomerGroupRecord(oldCustomerGroup));
 			num++;
 		}
 		for (CustomerGroup customerGroup : customerGroups) {
 			if (customerGroup != oldCustomerGroup) {
-				list.add(createTAXCodeRecord(customerGroup));
+				list.add(createCustomerGroupRecord(customerGroup));
 				num++;
 			}
 			if (num == CUSTOMERGROUP_TO_SHOW) {
@@ -968,6 +966,12 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		result.add(commandList);
 
 		return result;
+	}
+
+	private Record createCustomerGroupRecord(CustomerGroup oldCustomerGroup) {
+		Record record = new Record(oldCustomerGroup);
+		record.add("Name", oldCustomerGroup.getName());
+		return record;
 	}
 
 	/**
@@ -1314,16 +1318,6 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 
 	/**
 	 * 
-	 * @param oldCustomerGroup
-	 * @return
-	 */
-	private Record createTAXCodeRecord(CustomerGroup oldCustomerGroup) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
 	 * @return
 	 */
 	private List<CreditRating> getCreditRatingsList() {
@@ -1338,18 +1332,5 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	private List<PriceLevel> getPriceLevelsList() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	private boolean getcompanyType() {
-		Company company = new FinanceTool().getCompany();
-		int accountingType = company.getAccountingType();
-		if (accountingType == ACCOUNTING_TYPE_UK) {
-			return true;
-		} else if (accountingType == ACCOUNTING_TYPE_US) {
-			return true;
-		} else if (accountingType == ACCOUNTING_TYPE_INDIA) {
-			return true;
-		}
-		return false;
 	}
 }
