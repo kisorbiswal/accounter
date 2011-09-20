@@ -66,6 +66,11 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
+		result = paymentMethod(context, null);
+		if (result != null) {
+			return result;
+		}
+
 		result = itemsRequirement(context);
 		if (result == null) {
 			return result;
@@ -171,11 +176,6 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = paymentMethodRequirement(context, (String) selection);
-		if (result != null) {
-			return result;
-		}
-
 		result = memoRequirement(context, list, selection);
 		if (result != null) {
 			return result;
@@ -204,36 +204,6 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 		result.add(actions);
 
 		return result;
-	}
-
-	private Result memoRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get("memo");
-		String memo = (String) req.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("memo")) {
-			String order = context.getSelection(TEXT);
-			if (order == null) {
-				order = context.getString();
-			}
-			memo = order;
-			req.setValue(memo);
-		}
-
-		if (selection == memo) {
-			context.setAttribute(attribute, "memo");
-			return text(context, "Enter CashSale memo", memo);
-		}
-
-		if (selection == memo) {
-			return text(context, "orderNo", memo);
-		}
-
-		Record memoRecord = new Record(memo);
-		memoRecord.add("Name", "Order No");
-		memoRecord.add("Value", memo);
-		list.add(memoRecord);
-		return null;
 	}
 
 	private Result cashSaleNoRequirement(Context context, ResultList list,
