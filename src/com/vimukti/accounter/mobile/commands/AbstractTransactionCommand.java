@@ -101,12 +101,12 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 							.getQuantity().getValue());
 				} else if (selection.equals("unitPrice")) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, "unitPrice");
-					return amount(context, "Enter Unitprice",
-							transactionItem.getUnitPrice());
+					return amount(context, "Enter Unitprice", transactionItem
+							.getUnitPrice());
 				} else if (selection.equals("discount")) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, "discount");
-					return amount(context, "Enter Discount",
-							transactionItem.getDiscount());
+					return amount(context, "Enter Discount", transactionItem
+							.getDiscount());
 				} else if (selection == transactionItem.getTaxCode().getName()) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, "taxCode");
 					return taxCode(context, transactionItem.getTaxCode());

@@ -41,6 +41,9 @@ public abstract class AbstractCommand extends Command {
 	protected static final String CONTACTS = "contact";
 	protected static final String TAXCODE = null;
 	private static final int TAXCODE_TO_SHOW = 0;
+	protected static final int INCOMEACCOUNTS_TO_SHOW = 5;
+	protected static final int VENDORS_TO_SHOW = 5;
+	protected static final int ITEMGROUPS_TO_SHOW = 5;
 
 	protected Result text(Context context, String message, String oldText) {
 		Result result = context.makeResult();
@@ -121,8 +124,8 @@ public abstract class AbstractCommand extends Command {
 			if (selection != null) {
 				if (selection == oldAddress.getAddress1()) {
 					context.setAttribute(ADDRESS_LINE_ATTR, "address1");
-					return text(context, "Enter Address1",
-							oldAddress.getAddress1());
+					return text(context, "Enter Address1", oldAddress
+							.getAddress1());
 				} else if (selection == oldAddress.getCity()) {
 					context.setAttribute(ADDRESS_LINE_ATTR, "city");
 					return text(context, "Enter City", oldAddress.getCity());
@@ -130,13 +133,15 @@ public abstract class AbstractCommand extends Command {
 					context.setAttribute(ADDRESS_LINE_ATTR, "street");
 					return text(context, "Enter Street", oldAddress.getStreet());
 				} else if (selection == oldAddress.getStateOrProvinence()) {
-					context.setAttribute(ADDRESS_LINE_ATTR, "stateOrProvinence");
-					return text(context, "Enter State/Provinence",
-							oldAddress.getStateOrProvinence());
+					context
+							.setAttribute(ADDRESS_LINE_ATTR,
+									"stateOrProvinence");
+					return text(context, "Enter State/Provinence", oldAddress
+							.getStateOrProvinence());
 				} else if (selection == oldAddress.getCountryOrRegion()) {
 					context.setAttribute(ADDRESS_LINE_ATTR, "countryOrRegion");
-					return text(context, "Enter Country/Region",
-							oldAddress.getCountryOrRegion());
+					return text(context, "Enter Country/Region", oldAddress
+							.getCountryOrRegion());
 				}
 			} else {
 				selection = context.getSelection(ACTIONS);
@@ -268,8 +273,8 @@ public abstract class AbstractCommand extends Command {
 					oldContact.setPrimary(!oldContact.isPrimary());
 				} else if (selection == oldContact.getName()) {
 					context.setAttribute(CONTACT_LINE_ATTR, "contactName");
-					return text(context, "Enter conatactName",
-							oldContact.getName());
+					return text(context, "Enter conatactName", oldContact
+							.getName());
 				} else if (selection == oldContact.getTitle()) {
 					context.setAttribute(CONTACT_LINE_ATTR, "title");
 					return text(context, "Enter Title", oldContact.getTitle());
