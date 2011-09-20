@@ -27,12 +27,12 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	private static final int CUSTOMERS_TO_SHOW = 5;
 	private static final int PAYMENTTERMS_TO_SHOW = 0;
 	private static final int CONTACTS_TO_SHOW = 5;
-	protected static final String CONTACTS = "contacts";
 	protected static final String PAYMENT_TERMS = "paymentTerms";
 	protected static final Object TRANSACTION_ITEM_PROCESS = null;
 	protected static final String OLD_TRANSACTION_ITEM_ATTR = null;
 	private static final String ITEM_DETAILS = null;
 	private static final String ITEM_PROPERTY_ATTR = null;
+	private static final int PAYMENTMETHODS_TO_SHOW = 5;
 
 	protected Result itemsRequirement(Context context) {
 		Requirement itemsReq = get("items");
@@ -362,4 +362,52 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return result;
 	}
 
+	protected Result paymentMethodRequirement(Context context,
+			String oldpaymentmethod) {
+		List<String> paymentmethods = getpaymentmethod();
+		Result result = context.makeResult();
+		result.add("Select PaymentMethod");
+
+		ResultList list = new ResultList("paymentmethod");
+		int num = 0;
+		if (oldpaymentmethod != null) {
+			list.add(createPayMentMethodRecord(oldpaymentmethod));
+			num++;
+		}
+		for (String paymentmethod : paymentmethods) {
+			if (paymentmethod != oldpaymentmethod) {
+				list.add(createPayMentMethodRecord(paymentmethod));
+				num++;
+			}
+			if (num == PAYMENTMETHODS_TO_SHOW) {
+				break;
+			}
+		}
+		result.add(list);
+
+		CommandList commandList = new CommandList();
+		commandList.add("Create Paymentmethods");
+		result.add(commandList);
+		return result;
+	}
+
+	private List<String> getpaymentmethod() {
+		List<String> list = new ArrayList<String>();
+		list.add("Cash");
+		list.add("Check");
+		list.add("Credit Card");
+		list.add("Direct Debit");
+		list.add("Master Card");
+		list.add("Standing Order");
+		list.add("Online Banking");
+		list.add("Switch/Maestro");
+		return list;
+	}
+
+	protected Record createPayMentMethodRecord(String paymentMethod) {
+		Record record = new Record(paymentMethod);
+		record.add("Name", "Payment Method");
+		record.add("value", paymentMethod);
+		return record;
+	}
 }
