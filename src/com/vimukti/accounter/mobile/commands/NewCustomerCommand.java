@@ -186,6 +186,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @return
 	 */
 	private void createCustomerObject(Context context) {
+
 		Customer customer = new Customer();
 		String name = get(CUSTOMER_NAME).getValue();
 		String number = get(NUMBER).getValue();
@@ -298,12 +299,6 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				return contact;
 			}
 		}
-
-		// boolean isActive = (Boolean) get("isactive").getDefaultValue();
-		// Record isActiveRecord = new Record(isActive);
-		// isActiveRecord.add("Name", "Is Active");
-		// isActiveRecord.add("Value", isActive);
-		// list.add(isActiveRecord);
 
 		Requirement isActiveReq = get(IS_ACTIVE);
 		Boolean isActive = (Boolean) isActiveReq.getValue();
@@ -426,6 +421,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				return result;
 			}
 		}
+
 		result = context.makeResult();
 		result.add("Customer is ready to create with following values.");
 		result.add(list);
