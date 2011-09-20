@@ -41,6 +41,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	private static final int PAYMENTMETHODS_TO_SHOW = 5;
 	private static final String PAYMENT_MENTHOD = "Payment method";
 	private static final int PAYEES_TO_SHOW = 5;
+	protected static final int EXPENSES_TO_SHOW = 5;
 
 	protected Result itemsRequirement(Context context) {
 		Requirement itemsReq = get("items");
