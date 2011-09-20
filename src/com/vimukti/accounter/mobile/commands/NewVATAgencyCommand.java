@@ -1,14 +1,19 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.PaymentTerms;
+import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.VATReturn;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
@@ -19,7 +24,9 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class NewVATAgencyCommand extends AbstractCommand {
@@ -58,7 +65,7 @@ public class NewVATAgencyCommand extends AbstractCommand {
 		list.add(new Requirement(NAME, false, true));
 		list.add(new Requirement(PAYMENT_TERM, false, true));
 		list.add(new Requirement(SALES_ACCOUNT, false, true));
-		if (getCompanyType() == 0) {
+		if (getCompanyType() != 0) {
 			list.add(new Requirement(VAT_RETURN, false, true));
 			list.add(new Requirement(PURCHASE_ACCOUNT, false, true));
 		}
@@ -99,7 +106,7 @@ public class NewVATAgencyCommand extends AbstractCommand {
 			return result;
 		}
 
-		if (getCompanyType() == 0) {
+		if (getCompanyType() != 0) {
 			result = purchaseAccountRequirement(context);
 			if (result != null) {
 				return result;
@@ -124,6 +131,56 @@ public class NewVATAgencyCommand extends AbstractCommand {
 		if (result != null) {
 			return result;
 		}
+
+		return createVatAgency(context);
+	}
+
+	private Result createVatAgency(Context context) {
+		TAXAgency taxAgency = new TAXAgency();
+		String name = get(NAME).getValue();
+		PaymentTerms paymentTerm = get(PAYMENT_TERM).getValue();
+		Account salesAccount = get(SALES_ACCOUNT).getValue();
+		Address address = (Address) get(ADDRESS).getDefaultValue();
+		String phone = (String) get(PHONE).getDefaultValue();
+		String fax = (String) get(FAX).getDefaultValue();
+		String email = (String) get(EMAIL).getDefaultValue();
+		String website = (String) get(WEBSITE).getDefaultValue();
+		Set<Contact> contacts = (Set<Contact>) get(CONTACTS).getDefaultValue();
+
+		HashSet<Address> addresses = new HashSet<Address>();
+		if (address != null) {
+			addresses.add(address);
+		}
+
+		taxAgency.setName(name);
+		taxAgency.setPaymentTerm(paymentTerm);
+		taxAgency.setSalesLiabilityAccount(salesAccount);
+		taxAgency.setAddress(addresses);
+		taxAgency.setPhoneNo(phone);
+		taxAgency.setFaxNo(fax);
+		taxAgency.setEmail(email);
+		taxAgency.setWebPageAddress(website);
+		taxAgency.setContacts(contacts);
+		if (getCompanyType() != 0) {
+			Account purchaseAccount = get(PURCHASE_ACCOUNT).getValue();
+			String vatReturn = get(VAT_RETURN).getValue();
+			taxAgency.setPurchaseLiabilityAccount(purchaseAccount);
+			if (vatReturn == "") {
+				taxAgency.setVATReturn(ClientTAXAgency.RETURN_TYPE_NONE);
+			} else if (vatReturn == "UK VAT") {
+				taxAgency.setVATReturn(ClientTAXAgency.RETURN_TYPE_UK_VAT);
+			} else {
+				taxAgency.setVATReturn(ClientTAXAgency.RETURN_TYPE_IRELAND_VAT);
+			}
+		}
+		Session session = context.getSession();
+		Transaction transaction = session.beginTransaction();
+		session.saveOrUpdate(taxAgency);
+		transaction.commit();
+
+		markDone();
+		Result result = new Result();
+		result.add(getString() + " Agency was created Successfully.");
 
 		return result;
 	}
@@ -186,7 +243,7 @@ public class NewVATAgencyCommand extends AbstractCommand {
 		salesAccountRecord.add("Value", salesAccount);
 		list.add(salesAccountRecord);
 
-		if (getCompanyType() == 0) {
+		if (getCompanyType() != 0) {
 			Requirement purchseAccountReq = get(PURCHASE_ACCOUNT);
 			Account purchaseAccount = (Account) purchseAccountReq.getValue();
 			if (purchaseAccount == selection) {
@@ -565,8 +622,12 @@ public class NewVATAgencyCommand extends AbstractCommand {
 	}
 
 	private List<String> getVatReturns(Session session) {
-		// TODO Auto-generated method stub
-		return null;
+
+		ArrayList<String> vatReturnList = new ArrayList<String>();
+		vatReturnList.add(Accounter.constants().ukVAT());
+		vatReturnList.add(Accounter.constants().vat3Ireland());
+
+		return vatReturnList;
 	}
 
 	private Result paymentTermsRequirement(Context context) {
