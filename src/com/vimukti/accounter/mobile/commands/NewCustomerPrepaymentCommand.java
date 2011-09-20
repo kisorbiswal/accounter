@@ -157,8 +157,8 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 		list.add(isTobePrintedRecord);
 
 		if (!isTobePrinted) {
-			result = amountOptionalRequirement(context, list, selection, CHEQUE_NUM,
-					"Enter check Number");
+			result = amountOptionalRequirement(context, list, selection,
+					CHEQUE_NUM, "Enter check Number");
 			if (result != null) {
 				return result;
 			}
@@ -168,8 +168,12 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-
-		return null;
+		ResultList actions = new ResultList(ACTIONS);
+		Record finish = new Record(ActionNames.FINISH);
+		finish.add("", "Finish to create Invoice.");
+		actions.add(finish);
+		result.add(actions);
+		return result;
 	}
 
 	/**
