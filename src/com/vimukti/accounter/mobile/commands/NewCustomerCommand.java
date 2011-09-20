@@ -68,7 +68,8 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new Requirement(CUSTOMER_NAME, false, true));
-		list.add(new Requirement(NUMBER, false, true));
+		if (getCompany().getPreferences().getUseCustomerId())
+			list.add(new Requirement(NUMBER, false, true));
 		list.add(new ObjectListRequirement(CUSTOMER_CONTACT, true, true) {
 			@Override
 			public void addRequirements(List<Requirement> list) {
@@ -94,16 +95,25 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		list.add(new Requirement(BANK_NAME, true, true));
 		list.add(new Requirement(BANK_ACCOUNT_NUM, true, true));
 		list.add(new Requirement(BANK_BRANCH, true, true));
-		list.add(new Requirement(PAYMENT_METHOD, true, true));
-		list.add(new Requirement(PAYMENT_TERMS, true, true));
-		list.add(new Requirement(CUSTOMER_GROUP, true, true));
-		list.add(new Requirement(VATREGISTER_NUM, true, true));
-		list.add(new Requirement(CUSTOMER_VATCODE, true, true));
-		list.add(new Requirement(PAN_NUM, true, true));
-		list.add(new Requirement(CST_NUM, true, true));
-		list.add(new Requirement(SERVICE_TAX_NUM, true, true));
-		list.add(new Requirement(TIN_NUM, true, true));
 
+		int accountingType = getCompany().getAccountingType();
+
+		if (accountingType == ACCOUNTING_TYPE_UK
+				|| accountingType == ACCOUNTING_TYPE_US) {
+			list.add(new Requirement(PAYMENT_METHOD, true, true));
+			list.add(new Requirement(PAYMENT_TERMS, true, true));
+			list.add(new Requirement(CUSTOMER_GROUP, true, true));
+		}
+		if (accountingType == ACCOUNTING_TYPE_UK) {
+			list.add(new Requirement(VATREGISTER_NUM, true, true));
+			list.add(new Requirement(CUSTOMER_VATCODE, true, true));
+		}
+		if (accountingType == ACCOUNTING_TYPE_INDIA) {
+			list.add(new Requirement(PAN_NUM, true, true));
+			list.add(new Requirement(CST_NUM, true, true));
+			list.add(new Requirement(SERVICE_TAX_NUM, true, true));
+			list.add(new Requirement(TIN_NUM, true, true));
+		}
 	}
 
 	@Override
@@ -122,12 +132,12 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result == null) {
 			// TODO
 		}
-
-		result = customerNumberRequirement(context);
-		if (result == null) {
-			// TODO
+		if (getCompany().getPreferences().getUseCustomerId()) {
+			result = customerNumberRequirement(context);
+			if (result == null) {
+				// TODO
+			}
 		}
-
 		result = optionalRequirements(context);
 		if (result == null) {
 			// TODO
