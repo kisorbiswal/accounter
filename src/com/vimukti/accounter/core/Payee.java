@@ -49,7 +49,7 @@ public abstract class Payee extends CreatableObject implements
 	String webPageAddress;
 	boolean isActive = Boolean.TRUE;
 	String memo;
-	String paymentMethod;
+	private String paymentMethod;
 	boolean isOpeningBalanceEditable = Boolean.TRUE;
 	private String phoneNo;
 	private String faxNo;
@@ -469,6 +469,14 @@ public abstract class Payee extends CreatableObject implements
 
 	public void setCurrency(String currency) {
 		this.currency = currency;
+	}
+
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
 	}
 
 }
