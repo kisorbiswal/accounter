@@ -3,10 +3,14 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.TAXCode;
+import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Command;
 import com.vimukti.accounter.mobile.CommandList;
@@ -14,6 +18,8 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public abstract class AbstractCommand extends Command {
 	protected static final String INPUT_ATTR = "input";
@@ -51,6 +57,11 @@ public abstract class AbstractCommand extends Command {
 
 	protected Result amount(Context context, String message, Double oldAmount) {
 		return number(context, message, oldAmount.toString());
+	}
+
+	protected Company getCompany() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	protected Result number(Context context, String message, String oldNumber) {
@@ -320,8 +331,13 @@ public abstract class AbstractCommand extends Command {
 		return result;
 	}
 
-	protected void create(IAccounterServerCore obj) {
-		// TODO Auto-generated method stub
-
+	protected void create(IAccounterServerCore obj, Context context) {
+		User user = context.getUser();
+		Session session = context.getSession();
+		try {
+			new FinanceTool().createServerObject(obj, user, session);
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
 	}
 }
