@@ -231,12 +231,27 @@
 			<name>Create TAX Item</name>
 		</alias>
 	</command>
+
 	<command class="NewServiceItemCommand" name="New Service Item">
 		<alias>
 			<name>Create Item</name>
 			<name>Add Item</name>
 			<name>Add Service Item</name>
 			<name>Create Service Item</name>
+		</alias>
+	</command>
+	<command class="NewFiscalYearCommand" name="New Fiscal Year">
+		<alias>
+			<name>Create Fiscal Year</name>
+			<name>Add Fiscal Year</name>
+		</alias>
+	</command>
+	<command class="UserActivityLogCommand" name="UserACtivityLog">
+		<alias>
+			<name>UserActivityLog</name>
+			<name>Activity</name>
+			<name>Log</name>
+			<name>UserLog</name>
 		</alias>
 	</command>
 </commands>
