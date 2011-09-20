@@ -759,4 +759,68 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		record.add("Balance", payee.getBalance());
 		return record;
 	}
+
+	private Result accountsRequirement(Context context) {
+		Requirement itemsReq = get("accounts");
+		List<TransactionItem> transactionItems = context
+				.getSelections("accounts");
+		if (!itemsReq.isDone()) {
+			if (transactionItems.size() > 0) {
+				itemsReq.setValue(transactionItems);
+			} else {
+				return accountItems(context);
+			}
+		}
+		if (transactionItems != null && transactionItems.size() > 0) {
+			List<TransactionItem> items = itemsReq.getValue();
+			items.addAll(transactionItems);
+		}
+		return null;
+	}
+
+	private Result accountItems(Context context) {
+		Result result = context.makeResult();
+		List<Item> items = getItems(context.getSession());
+		ResultList list = new ResultList("accounts");
+		Object last = context.getLast(RequirementType.ACCOUNT);
+		int num = 0;
+		if (last != null) {
+			list.add(creatAccountItemRecord((Item) last));
+			num++;
+		}
+		Requirement itemsReq = get("items");
+		List<TransactionItem> transItems = itemsReq.getValue();
+		List<Item> availableItems = new ArrayList<Item>();
+		for (TransactionItem transactionItem : transItems) {
+			availableItems.add(transactionItem.getItem());
+		}
+		for (Item item : items) {
+			if (item != last || !availableItems.contains(item)) {
+				list.add(creatAccountItemRecord(item));
+				num++;
+			}
+			if (num == ACCOUNTS_TO_SHOW) {
+				break;
+			}
+		}
+		list.setMultiSelection(true);
+		if (list.size() > 0) {
+			result.add("Slect an Account(s).");
+		} else {
+			result.add("You don't have Account.");
+		}
+
+		result.add(list);
+		CommandList commands = new CommandList();
+		commands.add("Create New Account");
+		return result;
+	}
+
+	private Record creatAccountItemRecord(Item last) {
+		Record record = new Record(last);
+		record.add("Account Name", last.getName());
+		record.add("Account Type", getAccountTypeString(last.getType()));
+		return record;
+	}
+
 }
