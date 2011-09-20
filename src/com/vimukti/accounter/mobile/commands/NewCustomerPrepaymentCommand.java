@@ -117,7 +117,30 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 		accountRec.add("Account Type", getAccountTypeString(account.getType()));
 		list.add(accountRec);
 
-		Result result = memoRequirement(context, list, selection);
+		Requirement amountReq = get(AMOUNT);
+		Double amount = (Double) amountReq.getValue();
+		if (amount == selection) {
+			context.setAttribute(INPUT_ATTR, AMOUNT);
+			return number(context, "Please Enter the Amount", "" + amount);
+		}
+
+		Requirement paymentMethodReq = get(PAYMENT_MENTHOD);
+		String paymentMethod = paymentMethodReq.getValue();
+		if (paymentMethod == selection) {
+			context.setAttribute(INPUT_ATTR, PAYMENT_MENTHOD);
+			return text(context, "Please Enter PaymentMethod", ""
+					+ paymentMethod);
+		}
+		Result result = orderNoRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+		result = dateRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+
+		result = memoRequirement(context, list, selection);
 		if (result != null) {
 			return result;
 		}
