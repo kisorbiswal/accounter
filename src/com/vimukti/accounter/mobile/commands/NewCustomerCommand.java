@@ -151,7 +151,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		}
 		createCustomerObject(context);
 		markDone();
-		return null;
+		return result;
 	}
 
 	/*
@@ -213,7 +213,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		TAXCode taxCode = get(CUSTOMER_VATCODE).getValue();
 		String panNum = get(PAN_NUM).getValue();
 		String cstNum = get(CST_NUM).getValue();
-		String serviceTaxNum = (String) get(SERVICE_TAX_NUM).getValue();
+		String serviceTaxNum = get(SERVICE_TAX_NUM).getValue();
 		String tinNum = get(TIN_NUM).getValue();
 
 		customer.setName(name);
