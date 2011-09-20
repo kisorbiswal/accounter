@@ -100,12 +100,12 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 							.getQuantity().getValue());
 				} else if (selection.equals("unitPrice")) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, "unitPrice");
-					return amount(context, "Enter Unitprice", transactionItem
-							.getUnitPrice());
+					return amount(context, "Enter Unitprice",
+							transactionItem.getUnitPrice());
 				} else if (selection.equals("discount")) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, "discount");
-					return amount(context, "Enter Discount", transactionItem
-							.getDiscount());
+					return amount(context, "Enter Discount",
+							transactionItem.getDiscount());
 				} else if (selection == transactionItem.getTaxCode().getName()) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, "taxCode");
 					return taxCode(context, transactionItem.getTaxCode());
@@ -476,7 +476,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		}
 
 		Record paymentTermRecord = new Record(paymentmethod);
-		paymentTermRecord.add("Name", "Payment Method");
+		paymentTermRecord.add("Name", "ayment Method");
 		paymentTermRecord.add("Value", paymentmethod);
 		list.add(paymentTermRecord);
 		return null;
@@ -686,4 +686,29 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return result;
 	}
 
+	protected Result memoRequirement(Context context, ResultList list,
+			Object selection) {
+		Requirement req = get("memo");
+		String memo = (String) req.getValue();
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals("memo")) {
+			String input = context.getSelection(TEXT);
+			if (input == null) {
+				input = context.getString();
+			}
+			memo = input;
+			req.setValue(memo);
+		}
+
+		if (selection == memo) {
+			context.setAttribute(attribute, "memo");
+			return text(context, "Enter memo", memo);
+		}
+
+		Record memoRecord = new Record(memo);
+		memoRecord.add("Name", "Memo");
+		memoRecord.add("Value", memo);
+		list.add(memoRecord);
+		return null;
+	}
 }
