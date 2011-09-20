@@ -32,7 +32,7 @@ public class NewProductItemCommand extends AbstractItemCreateCommand {
 			weightReq.setValue(weight);
 		}
 		if (selection == weight) {
-			context.setAttribute(INPUT_ATTR, "price");
+			context.setAttribute(INPUT_ATTR, "weight");
 			return text(context, "Enter Weight", weight);
 		}
 
