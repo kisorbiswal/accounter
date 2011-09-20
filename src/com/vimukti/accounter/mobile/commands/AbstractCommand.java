@@ -62,6 +62,42 @@ public abstract class AbstractCommand extends Command {
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param context
+	 * @param list
+	 * @param selection
+	 * @return
+	 */
+	protected Result amountOptionalRequirement(Context context,
+			ResultList list, Object selection, String name, String displayString) {
+		Requirement req = get(name);
+		Double balance = (Double) req.getValue();
+
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals(name)) {
+			Double order = context.getSelection(name);
+			if (order == null) {
+				order = context.getDouble();
+			}
+			balance = order;
+			req.setValue(balance);
+		}
+
+		if (selection == balance) {
+			context.setAttribute(INPUT_ATTR, name);
+			return amount(context, displayString, balance);
+		}
+
+		Record balanceRecord = new Record(balance);
+		balanceRecord.add("Name", name);
+		balanceRecord.add("Value", balance);
+		list.add(balanceRecord);
+		Result result = new Result();
+		result.add(list);
+		return result;
+	}
+
 	protected Result amount(Context context, String message, Double oldAmount) {
 		return number(context, message, oldAmount.toString());
 	}
