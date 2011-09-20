@@ -63,7 +63,7 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		}
 		result = createOptionalResult(context);
 		if (result != null) {
-			return null;
+			return result;
 		}
 
 		return createNewAccount(context);
