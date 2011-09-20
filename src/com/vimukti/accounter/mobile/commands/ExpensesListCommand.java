@@ -92,16 +92,16 @@ public class ExpensesListCommand extends AbstractTransactionCommand {
 	private Result viewTypeRequirement(Context context, Object selection) {
 
 		Object payamentObj = context.getSelection(VIEW_TYPE);
-		Requirement paymentReq = get(VIEW_TYPE);
-		List<String> views = paymentReq.getValue();
+		Requirement viewsRequirement = get(VIEW_TYPE);
+		List<String> views = viewsRequirement.getValue();
 		Result result = null;
-
+		ResultList list = new ResultList(VIEW_TYPE);
 		if (selection == views) {
 
 			List<String> viewTypes = getViewTypes();
 			result = context.makeResult();
 			result.add("Select View Type");
-			ResultList list = new ResultList(VIEW_TYPE);
+
 			int num = 0;
 			for (String view : viewTypes) {
 				list.add(createViewTypeRecord(view));
@@ -113,10 +113,18 @@ public class ExpensesListCommand extends AbstractTransactionCommand {
 
 			result.add(list);
 		} else {
+			if (views != null) {
+				views.add(new String("All"));
+				viewsRequirement.setValue(views);
+			}
 
+			Record viewRecord = new Record(views);
+			viewRecord.add("Name", "");
+			viewRecord.add("Value", views.toString());
+			list.add(viewRecord);
 		}
 
-		return result;
+		return null;
 	}
 
 	private Record createViewTypeRecord(String view) {
