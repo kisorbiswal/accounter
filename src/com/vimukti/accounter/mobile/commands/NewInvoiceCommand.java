@@ -175,10 +175,6 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		String orderNo = get("orderNo").getValue();
 		invoice.setOrderNum(orderNo);
 
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			// TODO RIGISTERD FOR VAT
-		}
-
 		invoice.setTotal(getTransactionTotal(items, company));
 
 		// TODO Payments
@@ -391,7 +387,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 	private Result memoRequirement(Context context, ResultList list,
 			Object selection) {
 		Requirement req = get("memo");
-		String memo = (String) req.getDefaultValue();
+		String memo = (String) req.getValue();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals("memo")) {
 			String input = context.getSelection(TEXT);
@@ -399,7 +395,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 				input = context.getString();
 			}
 			memo = input;
-			req.setDefaultValue(memo);
+			req.setValue(memo);
 		}
 
 		if (selection == memo) {
@@ -418,7 +414,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 			Object selection) {
 
 		Requirement req = get("orderNo");
-		String orderNo = (String) req.getDefaultValue();
+		String orderNo = (String) req.getValue();
 
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals("orderNo")) {
@@ -427,7 +423,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 				order = context.getString();
 			}
 			orderNo = order;
-			req.setDefaultValue(orderNo);
+			req.setValue(orderNo);
 		}
 
 		if (selection == orderNo) {
@@ -445,7 +441,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 	private Result dueDateRequirement(Context context, ResultList list,
 			Object selection) {
 		Requirement req = get("due");
-		Date dueDate = (Date) req.getDefaultValue();
+		Date dueDate = (Date) req.getValue();
 
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals("dueDate")) {
@@ -454,7 +450,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 				date = context.getDate();
 			}
 			dueDate = date;
-			req.setDefaultValue(dueDate);
+			req.setValue(dueDate);
 		}
 		if (selection == dueDate) {
 			context.setAttribute(INPUT_ATTR, "dueDate");
@@ -480,7 +476,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 				order = context.getString();
 			}
 			invoiceNo = order;
-			req.setDefaultValue(invoiceNo);
+			req.setValue(invoiceNo);
 		}
 
 		if (selection == invoiceNo) {
@@ -499,7 +495,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 			Object selection) {
 
 		Requirement dateReq = get("date");
-		Date transDate = (Date) dateReq.getDefaultValue();
+		Date transDate = (Date) dateReq.getValue();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals("invoiceDate")) {
 			Date date = context.getSelection(DATE);
@@ -507,7 +503,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 				date = context.getDate();
 			}
 			transDate = date;
-			dateReq.setDefaultValue(transDate);
+			dateReq.setValue(transDate);
 		}
 		if (selection == transDate) {
 			context.setAttribute(INPUT_ATTR, "invoiceDate");
