@@ -18,20 +18,20 @@ public class Requirement {
 	}
 
 	public <T> T getValue() {
-		return (T) value;
+		return (T) (value == null ? defaultValue : value);
 	}
 
 	public void setValue(Object value) {
 		this.value = value;
 	}
 
-	public Object getDefaultValue() {
-		return defaultValue;
-	}
-
-	public void setDefaultValue(Object defaultValue) {
-		this.defaultValue = defaultValue;
-	}
+//	public Object getDefaultValue() {
+//		return defaultValue;
+//	}
+//
+//	public void setDefaultValue(Object defaultValue) {
+//		this.defaultValue = defaultValue;
+//	}
 
 	public String getName() {
 		return name;
