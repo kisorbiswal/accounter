@@ -170,6 +170,18 @@ public class Customer extends Payee implements IAccounterServerCore,
 		return priceLevel;
 	}
 
+	public void setSalesPerson(SalesPerson salesPerson) {
+		this.salesPerson = salesPerson;
+	}
+
+	public void setCreditRating(CreditRating creditRating) {
+		this.creditRating = creditRating;
+	}
+
+	public void setPriceLevel(PriceLevel priceLevel) {
+		this.priceLevel = priceLevel;
+	}
+
 	/**
 	 * @return the creditRating
 	 */
@@ -189,6 +201,10 @@ public class Customer extends Payee implements IAccounterServerCore,
 	 */
 	public PaymentTerms getPaymentTerm() {
 		return paymentTerm;
+	}
+
+	public void setPaymentTerm(PaymentTerms paymentTerm) {
+		this.paymentTerm = paymentTerm;
 	}
 
 	/**
@@ -536,10 +552,15 @@ public class Customer extends Payee implements IAccounterServerCore,
 																.equals(cust.priceLevel))
 																: true && (this.creditRating != null && cust.creditRating != null) ? (this.creditRating
 																		.equals(cust.creditRating))
-																		: true && (this.paymentMethod != null && cust.paymentMethod != null) ? (this.paymentMethod
-																				.equals(cust.paymentMethod))
+																		: true && (this
+																				.getPaymentMethod() != null && cust
+																				.getPaymentMethod() != null) ? (this
+																				.getPaymentMethod()
+																				.equals(cust
+																						.getPaymentMethod()))
 																				: true && (this.paymentTerm != null && cust.paymentTerm != null) ? (this.paymentTerm
-																						.equals(cust.paymentMethod))
+																						.equals(cust
+																								.getPaymentMethod()))
 																						: true && (this.customerGroup != null && cust.customerGroup != null) ? (this.customerGroup
 																								.equals(cust.customerGroup))
 																								: true && (this.taxGroup != null && cust.taxGroup != null) ? (this.taxGroup
