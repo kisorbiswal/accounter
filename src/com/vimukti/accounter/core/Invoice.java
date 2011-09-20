@@ -67,7 +67,6 @@ public class Invoice extends Transaction implements Lifecycle {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
 
 	// static Logger log = Logger.getLogger(Invoice.class);
 
@@ -245,6 +244,10 @@ public class Invoice extends Transaction implements Lifecycle {
 		return contact;
 	}
 
+	public void setContact(Contact contact) {
+		this.contact = contact;
+	}
+
 	/**
 	 * @return the billingAddress
 	 */
@@ -252,11 +255,19 @@ public class Invoice extends Transaction implements Lifecycle {
 		return billingAddress;
 	}
 
+	public void setBillingAddress(Address billingAddress) {
+		this.billingAddress = billingAddress;
+	}
+
 	/**
 	 * @return the shippingAdress
 	 */
 	public Address getShippingAdress() {
 		return shippingAdress;
+	}
+
+	public void setShippingAdress(Address shippingAdress) {
+		this.shippingAdress = shippingAdress;
 	}
 
 	/**
@@ -278,6 +289,10 @@ public class Invoice extends Transaction implements Lifecycle {
 	 */
 	public PaymentTerms getPaymentTerm() {
 		return paymentTerm;
+	}
+
+	public void setPaymentTerm(PaymentTerms paymentTerm) {
+		this.paymentTerm = paymentTerm;
 	}
 
 	/**
