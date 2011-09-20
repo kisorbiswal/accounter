@@ -383,11 +383,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return record;
 	}
 
-	protected Company getCompany() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	private List<Item> getItems(Session session) {
 		// TODO Auto-generated method stub
 		return null;
