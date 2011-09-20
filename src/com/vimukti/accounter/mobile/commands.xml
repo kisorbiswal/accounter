@@ -231,4 +231,12 @@
 			<name>Create TAX Item</name>
 		</alias>
 	</command>
+	<command class="NewServiceItemCommand" name="New Service Item">
+		<alias>
+			<name>Create Item</name>
+			<name>Add Item</name>
+			<name>Add Service Item</name>
+			<name>Create Service Item</name>
+		</alias>
+	</command>
 </commands>
