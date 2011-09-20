@@ -4,13 +4,12 @@ import java.util.List;
 
 import org.hibernate.Session;
 
-import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.web.client.core.reports.BaseReport;
+import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 
-public class ARAgingSummaryReportCommand extends AbstractReportCommand {
+public class ARAgingSummaryReportCommand extends
+		AbstractReportCommand<DummyDebitor> {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
@@ -19,7 +18,7 @@ public class ARAgingSummaryReportCommand extends AbstractReportCommand {
 	}
 
 	@Override
-	protected Record createReportRecord(BaseReport record) {
+	protected Record createReportRecord(DummyDebitor record) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -31,13 +30,8 @@ public class ARAgingSummaryReportCommand extends AbstractReportCommand {
 	}
 
 	@Override
-	protected List<BaseReport> getRecords(Session session) {
+	protected List<DummyDebitor> getRecords(Session session) {
 		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected Result createReqReportRecord(Result reportResult, Context context) {
 		return null;
 	}
 

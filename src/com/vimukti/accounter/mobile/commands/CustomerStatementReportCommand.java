@@ -8,32 +8,15 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.web.client.core.reports.BaseReport;
+import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 
-public class CustomerStatementReportCommand extends AbstractReportCommand {
+public class CustomerStatementReportCommand extends
+		AbstractReportCommand<PayeeStatementsList> {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		add3ReportRequirements(list);
 		list.add(new Requirement("customerName", true, true));
-	}
-
-	@Override
-	protected Record createReportRecord(BaseReport record) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected List<BaseReport> getRecords(Session session) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -47,4 +30,23 @@ public class CustomerStatementReportCommand extends AbstractReportCommand {
 
 		return super.createReqReportRecord(reportResult, context);
 	}
+
+	@Override
+	protected Record createReportRecord(PayeeStatementsList record) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected List<PayeeStatementsList> getRecords(Session session) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -9,32 +9,15 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.client.core.reports.BaseReport;
+import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 
-public class SalesOrderReportCommand extends AbstractReportCommand {
+public class SalesOrderReportCommand extends
+		AbstractReportCommand<OpenAndClosedOrders> {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		add3ReportRequirements(list);
 		list.add(new Requirement("status", true, true));
-	}
-
-	@Override
-	protected Record createReportRecord(BaseReport record) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected List<BaseReport> getRecords(Session session) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -48,5 +31,23 @@ public class SalesOrderReportCommand extends AbstractReportCommand {
 		if (status == selectionstatus)
 			return statusRequirement(context, resultList, selectionstatus);
 		return super.createReqReportRecord(reportResult, context);
+	}
+
+	@Override
+	protected Record createReportRecord(OpenAndClosedOrders record) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected List<OpenAndClosedOrders> getRecords(Session session) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

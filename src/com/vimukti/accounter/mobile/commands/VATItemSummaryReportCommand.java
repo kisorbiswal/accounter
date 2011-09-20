@@ -6,9 +6,10 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.web.client.core.reports.BaseReport;
+import com.vimukti.accounter.web.client.core.reports.VATItemSummary;
 
-public class VATItemSummaryReportCommand extends AbstractReportCommand {
+public class VATItemSummaryReportCommand extends
+		AbstractReportCommand<VATItemSummary> {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
@@ -16,7 +17,7 @@ public class VATItemSummaryReportCommand extends AbstractReportCommand {
 	}
 
 	@Override
-	protected Record createReportRecord(BaseReport record) {
+	protected Record createReportRecord(VATItemSummary record) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -28,10 +29,9 @@ public class VATItemSummaryReportCommand extends AbstractReportCommand {
 	}
 
 	@Override
-	protected List<BaseReport> getRecords(Session session) {
+	protected List<VATItemSummary> getRecords(Session session) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 }

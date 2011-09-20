@@ -10,32 +10,15 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.client.core.reports.BaseReport;
+import com.vimukti.accounter.web.client.core.reports.TrialBalance;
 
-public class BalanceSheetReportCommand extends AbstractReportCommand {
+public class BalanceSheetReportCommand extends
+		AbstractReportCommand<TrialBalance> {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new Requirement("dateRange", true, true));
 		list.add(new Requirement("date", true, true));
-	}
-
-	@Override
-	protected Record createReportRecord(BaseReport record) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected List<BaseReport> getRecords(Session session) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -58,6 +41,24 @@ public class BalanceSheetReportCommand extends AbstractReportCommand {
 			return toDateRequirement(context, resultList, selectiontoDate);
 
 		return reportResult;
+	}
+
+	@Override
+	protected Record createReportRecord(TrialBalance record) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected List<TrialBalance> getRecords(Session session) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

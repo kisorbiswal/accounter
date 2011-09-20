@@ -8,9 +8,9 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.web.client.core.reports.BaseReport;
+import com.vimukti.accounter.web.client.core.reports.VATSummary;
 
-public class VAT100ReportCommand extends AbstractReportCommand {
+public class VAT100ReportCommand extends AbstractReportCommand<VATSummary> {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
@@ -19,7 +19,7 @@ public class VAT100ReportCommand extends AbstractReportCommand {
 	}
 
 	@Override
-	protected Record createReportRecord(BaseReport record) {
+	protected Record createReportRecord(VATSummary record) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -31,7 +31,7 @@ public class VAT100ReportCommand extends AbstractReportCommand {
 	}
 
 	@Override
-	protected List<BaseReport> getRecords(Session session) {
+	protected List<VATSummary> getRecords(Session session) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -48,4 +48,5 @@ public class VAT100ReportCommand extends AbstractReportCommand {
 
 		return super.createReqReportRecord(reportResult, context);
 	}
+
 }

@@ -13,9 +13,8 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.client.core.reports.BaseReport;
 
-public abstract class AbstractReportCommand extends AbstractCommand {
+public abstract class AbstractReportCommand<T> extends AbstractCommand {
 	protected static final int REPORTS_TO_SHOW = 5;
 	protected static final int VATAGENCIES_TO_SHOW = 5;
 	private static final int CUSTOMERS_TO_SHOW = 5;
@@ -40,17 +39,18 @@ public abstract class AbstractReportCommand extends AbstractCommand {
 		return reportResult;
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void getReportResult(Result plReportResult, Context context) {
 
 		ResultList recordsList = new ResultList("values");
 		Object last = context.getLast(RequirementType.BASEREPORT);
 		int num = 0;
 		if (last != null) {
-			recordsList.add(createReportRecord((BaseReport) last));
+			recordsList.add(createReportRecord((T) last));
 			num++;
 		}
-		List<BaseReport> records = getRecords(context.getSession());
-		for (BaseReport record : records) {
+		List<T> records = (List<T>) getRecords(context.getSession());
+		for (T record : records) {
 			if (record != last) {
 				recordsList.add(createReportRecord(record));
 				num++;
@@ -69,9 +69,9 @@ public abstract class AbstractReportCommand extends AbstractCommand {
 		plReportResult.add(recordsList);
 	}
 
-	protected abstract Record createReportRecord(BaseReport record);
+	protected abstract Record createReportRecord(T record);
 
-	protected abstract List<BaseReport> getRecords(Session session);
+	protected abstract List<T> getRecords(Session session);
 
 	protected Result dateRangeRequirement(Context context, ResultList list,
 			Object selection) {

@@ -6,18 +6,19 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.web.client.core.reports.BaseReport;
+import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
 
 public class PurchaseBySupplierSummaryReportCommand extends
-		AbstractReportCommand {
+		AbstractReportCommand<SalesByCustomerDetail> {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		add3ReportRequirements(list);
+
 	}
 
 	@Override
-	protected Record createReportRecord(BaseReport record) {
+	protected Record createReportRecord(SalesByCustomerDetail record) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -29,7 +30,7 @@ public class PurchaseBySupplierSummaryReportCommand extends
 	}
 
 	@Override
-	protected List<BaseReport> getRecords(Session session) {
+	protected List<SalesByCustomerDetail> getRecords(Session session) {
 		// TODO Auto-generated method stub
 		return null;
 	}

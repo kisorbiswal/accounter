@@ -6,9 +6,10 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.web.client.core.reports.BaseReport;
+import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 
-public class PurchaseOrderReportCommand extends AbstractReportCommand {
+public class PurchaseOrderReportCommand extends
+		AbstractReportCommand<OpenAndClosedOrders> {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
@@ -17,7 +18,7 @@ public class PurchaseOrderReportCommand extends AbstractReportCommand {
 	}
 
 	@Override
-	protected Record createReportRecord(BaseReport record) {
+	protected Record createReportRecord(OpenAndClosedOrders record) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -29,7 +30,7 @@ public class PurchaseOrderReportCommand extends AbstractReportCommand {
 	}
 
 	@Override
-	protected List<BaseReport> getRecords(Session session) {
+	protected List<OpenAndClosedOrders> getRecords(Session session) {
 		// TODO Auto-generated method stub
 		return null;
 	}
