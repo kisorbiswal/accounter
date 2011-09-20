@@ -198,7 +198,36 @@ public class CashPurchaseCommand extends AbstractTransactionCommand {
 
 	private Result chequeNoRequirement(Context context, ResultList list,
 			Object selection) {
-		// TODO Auto-generated method stub
+		Requirement requirement = get("paymentMethod");
+		if (requirement != null) {
+			String paymentMethod = requirement.getValue();
+			if (paymentMethod.equals("Check")) {
+
+				Requirement req = get("chequeNo");
+				String invoiceNo = (String) req.getValue();
+
+				String attribute = (String) context.getAttribute(INPUT_ATTR);
+				if (attribute.equals("chequeNo")) {
+					String order = context.getSelection(NUMBER);
+					if (order == null) {
+						order = context.getString();
+					}
+					invoiceNo = order;
+					req.setValue(invoiceNo);
+				}
+
+				if (selection == invoiceNo) {
+					context.setAttribute(INPUT_ATTR, "chequeNo");
+					return number(context, "Enter Cheque number", invoiceNo);
+				}
+
+				Record invoiceNoRec = new Record(invoiceNo);
+				invoiceNoRec.add("Name", "Cheque Number");
+				invoiceNoRec.add("Value", invoiceNo);
+				list.add(invoiceNoRec);
+			}
+		}
+
 		return null;
 	}
 
