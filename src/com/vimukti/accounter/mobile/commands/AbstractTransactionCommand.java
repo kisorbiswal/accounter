@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Contact;
@@ -14,6 +15,7 @@ import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TransactionItem;
+import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
@@ -22,6 +24,8 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.AccounterClientConstants;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 
 public abstract class AbstractTransactionCommand extends AbstractCommand {
 	private static final int ITEMS_TO_SHOW = 5;
@@ -35,6 +39,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	private static final String ITEM_DETAILS = null;
 	private static final String ITEM_PROPERTY_ATTR = null;
 	private static final int PAYMENTMETHODS_TO_SHOW = 5;
+	private static final int VENDORS_TO_SHOW = 5;
 
 	protected Result itemsRequirement(Context context) {
 		Requirement itemsReq = get("items");
@@ -504,4 +509,191 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		record.add("value", paymentMethod);
 		return record;
 	}
+
+	protected Result depositeOrTransferTo(Context context) {
+		Requirement transferedReq = get("depositOrTransferTo");
+		Account account = context.getSelection("depositOrTransferTo");
+		if (!transferedReq.isDone()) {
+			if (account != null) {
+				transferedReq.setValue(account);
+			} else {
+				return accounts(context);
+			}
+		}
+		if (account != null) {
+			transferedReq.setValue(account);
+
+		}
+		return null;
+	}
+
+	protected Result accounts(Context context) {
+		Result result = context.makeResult();
+		ResultList list = new ResultList("depositOrTransferTo");
+
+		Object last = context.getLast(RequirementType.ACCOUNT);
+		int num = 0;
+		if (last != null) {
+			list.add(createAccountRecord((Account) last));
+			num++;
+		}
+
+		List<Account> transferAccountList = getAccounts(context.getSession());
+		for (Account account : transferAccountList) {
+			if (account != last) {
+				list.add(createAccountRecord(account));
+				num++;
+			}
+			if (num == ACCOUNTS_TO_SHOW) {
+				break;
+			}
+		}
+
+		if (list.size() > 0) {
+			result.add("Slect an Account.");
+		}
+		result.add(list);
+		CommandList commands = new CommandList();
+		commands.add("Create New Account");
+		return result;
+	}
+
+	private List<Account> getAccounts(Session session) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	protected Record createAccountRecord(Account last) {
+		Record record = new Record(last);
+		record.add("Account Number", last.getNumber());
+		record.add("Account Name", last.getName());
+		record.add("Account Type", getAccountTypeString(last.getType()));
+		return record;
+	}
+
+	protected String getAccountTypeString(int accountType) {
+
+		String accountTypeName = null;
+		switch (accountType) {
+		case ClientAccount.TYPE_INCOME:
+			accountTypeName = AccounterClientConstants.TYPE_INCOME;
+			break;
+		case ClientAccount.TYPE_OTHER_INCOME:
+			accountTypeName = AccounterClientConstants.TYPE_OTHER_INCOME;
+			break;
+		case ClientAccount.TYPE_EXPENSE:
+			accountTypeName = AccounterClientConstants.TYPE_EXPENSE;
+			break;
+		case ClientAccount.TYPE_OTHER_EXPENSE:
+			accountTypeName = AccounterClientConstants.TYPE_OTHER_EXPENSE;
+			break;
+		case ClientAccount.TYPE_COST_OF_GOODS_SOLD:
+			accountTypeName = AccounterClientConstants.TYPE_COST_OF_GOODS_SOLD;
+			break;
+		case ClientAccount.TYPE_CASH:
+			accountTypeName = AccounterClientConstants.TYPE_CASH;
+			break;
+		case ClientAccount.TYPE_BANK:
+			accountTypeName = AccounterClientConstants.TYPE_BANK;
+			break;
+		case ClientAccount.TYPE_OTHER_CURRENT_ASSET:
+			accountTypeName = AccounterClientConstants.TYPE_OTHER_CURRENT_ASSET;
+			break;
+		case ClientAccount.TYPE_INVENTORY_ASSET:
+			accountTypeName = AccounterClientConstants.TYPE_INVENTORY_ASSET;
+			break;
+		case ClientAccount.TYPE_OTHER_ASSET:
+			accountTypeName = AccounterClientConstants.TYPE_OTHER_ASSET;
+			break;
+		case ClientAccount.TYPE_FIXED_ASSET:
+			accountTypeName = AccounterClientConstants.TYPE_FIXED_ASSET;
+			break;
+		case ClientAccount.TYPE_CREDIT_CARD:
+			accountTypeName = AccounterClientConstants.TYPE_CREDIT_CARD;
+			break;
+		case ClientAccount.TYPE_PAYPAL:
+			accountTypeName = AccounterClientConstants.TYPE_PAYPAL;
+			break;
+		case ClientAccount.TYPE_PAYROLL_LIABILITY:
+			accountTypeName = AccounterClientConstants.TYPE_PAYROLL_LIABILITY;
+			break;
+		case ClientAccount.TYPE_OTHER_CURRENT_LIABILITY:
+			accountTypeName = AccounterClientConstants.TYPE_OTHER_CURRENT_LIABILITY;
+			break;
+		case ClientAccount.TYPE_LONG_TERM_LIABILITY:
+			accountTypeName = AccounterClientConstants.TYPE_LONG_TERM_LIABILITY;
+			break;
+		case ClientAccount.TYPE_EQUITY:
+			accountTypeName = AccounterClientConstants.TYPE_EQUITY;
+			break;
+		case ClientAccount.TYPE_ACCOUNT_RECEIVABLE:
+			accountTypeName = AccounterClientConstants.TYPE_ACCOUNT_RECEIVABLE;
+			break;
+		case ClientAccount.TYPE_ACCOUNT_PAYABLE:
+			accountTypeName = AccounterClientConstants.TYPE_ACCOUNT_PAYABLE;
+			break;
+
+		}
+		return accountTypeName;
+	}
+
+	protected Result createSupplierRequirement(Context context) {
+		Requirement supplierReq = get("supplier");
+		Vendor vendor = context.getSelection("suppliers");
+		if (vendor != null) {
+			supplierReq.setValue(vendor);
+		}
+		if (!supplierReq.isDone()) {
+			return vendors(context);
+		}
+		return null;
+	}
+
+	private Result vendors(Context context) {
+		Result result = context.makeResult();
+		ResultList supplierList = new ResultList("suppliers");
+
+		Object last = context.getLast(RequirementType.VENDOR);
+		int num = 0;
+		if (last != null) {
+			supplierList.add(createVendorRecord((Vendor) last));
+			num++;
+		}
+		List<Vendor> vendors = getVendors(context.getSession());
+		for (Vendor vendor : vendors) {
+			if (vendor != last) {
+				supplierList.add(createVendorRecord(vendor));
+				num++;
+			}
+			if (num == VENDORS_TO_SHOW) {
+				break;
+			}
+		}
+		int size = supplierList.size();
+		StringBuilder message = new StringBuilder();
+		if (size > 0) {
+			message.append("Select a Supplier");
+		}
+		CommandList commandList = new CommandList();
+		commandList.add("Create");
+
+		result.add(message.toString());
+		result.add(supplierList);
+		result.add(commandList);
+		result.add("Type for Supplier");
+		return result;
+	}
+
+	private Record createVendorRecord(Vendor last) {
+		Record record = new Record(last);
+		record.add("Name", last.getName());
+		record.add("Balance", last.getBalance());
+		return record;
+	}
+
+	private List<Vendor> getVendors(Session session) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
