@@ -598,7 +598,7 @@ public class NewServiceItemCommand extends AbstractCommand {
 		return null;
 	}
 
-	private Result vendors(Context context) {
+	protected Result vendors(Context context) {
 		Result result = context.makeResult();
 		ResultList vendorsList = new ResultList("vendors");
 
