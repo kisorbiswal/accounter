@@ -9,6 +9,7 @@ import org.hibernate.Session;
 
 import com.google.gwt.dev.util.collect.HashMap;
 import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.User;
 
 public class Context {
 
@@ -154,6 +155,11 @@ public class Context {
 	}
 
 	public Address getAddress() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public User getUser() {
 		// TODO Auto-generated method stub
 		return null;
 	}
