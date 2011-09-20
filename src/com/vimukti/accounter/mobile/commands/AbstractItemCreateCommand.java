@@ -47,12 +47,6 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 	}
 
 	@Override
-	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Result run(Context context) {
 		Result result = null;
 
@@ -83,6 +77,11 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		}
 
 		return createNewItem(context);
+	}
+
+	private Result createNewItem(Context context) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/**
@@ -666,10 +665,4 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		record.add("Name", last.getName());
 		return record;
 	}
-
-	private Result createNewItem(Context context) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

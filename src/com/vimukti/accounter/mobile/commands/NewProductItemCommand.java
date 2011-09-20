@@ -11,7 +11,6 @@ import com.vimukti.accounter.mobile.ResultList;
 public class NewProductItemCommand extends AbstractItemCreateCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		// TODO Auto-generated method stub
 		super.addRequirements(list);
 		list.add(new Requirement("weight", true, true));
 	}
@@ -42,5 +41,11 @@ public class NewProductItemCommand extends AbstractItemCreateCommand {
 		list.add(weightRecord);
 
 		return super.weightRequirement(context, list, selection);
+	}
+
+	@Override
+	public String getId() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
