@@ -6,7 +6,6 @@ import java.util.List;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Expense;
-import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
