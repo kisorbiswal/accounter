@@ -34,18 +34,16 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
+
 		list.add(new Requirement(CUSTOMER_NAME, false, true));
 		list.add(new Requirement(CUSTOMERPREPAYMENT_NUM, true, true));
 		list.add(new Requirement(DATE, true, true));
-		list.add(new Requirement(ADDRES, true, true));
 		list.add(new Requirement(DEPOSITSANDTRANSFERS, false, true));
 		list.add(new Requirement(AMOUNT, false, true));
 		list.add(new Requirement(PAYMENT_MENTHOD, false, true));
 		list.add(new Requirement(TOBEPRINTED, true, true));
 		list.add(new Requirement(CHEQUE_NUM, true, true));
 		list.add(new Requirement(MEMO, true, true));
-		list.add(new Requirement(BANK_BALANCE, true, true));
-		list.add(new Requirement(CUSTOMER_BALANCE, true, true));
 	}
 
 	@Override
@@ -135,10 +133,27 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = dateRequirement(context, list, selection);
+		result = dateOptionalRequirement(context, list, "date", selection);
 		if (result != null) {
 			return result;
 		}
+		Requirement tobePrintedReq = get(TOBEPRINTED);
+		Boolean isTobePrinted = tobePrintedReq.getValue();
+		if (selection == isTobePrinted) {
+			context.setAttribute(INPUT_ATTR, TOBEPRINTED);
+			isTobePrinted = !isTobePrinted;
+			tobePrintedReq.setValue(isTobePrinted);
+		}
+		String tobePrintedString = "";
+		if (isTobePrinted) {
+			tobePrintedString = "This To be Printed is Active";
+		} else {
+			tobePrintedString = "This To be Printed is Active";
+		}
+		Record isTobePrintedRecord = new Record(TOBEPRINTED);
+		isTobePrintedRecord.add("Name", "");
+		isTobePrintedRecord.add("Value", tobePrintedString);
+		list.add(isTobePrintedRecord);
 
 		result = memoRequirement(context, list, selection);
 		if (result != null) {
