@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,9 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 
@@ -96,13 +100,17 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 	 * 
 	 * @param context
 	 * @return
+	 * @throws ParseException
+	 * @throws DAOException
 	 */
 
-	private Result transactionItems(Context context) {
+	private Result transactionItems(Context context) throws DAOException,
+			ParseException {
 		// Requirement itemsReq = get("transactionItems");
 		Customer customer = context.getSelection(RECEIVED_FROM);
-		List<TransactionItem> transactionItems = getRecevingTransactionItem(customer
-				.getID());
+		long date = context.getSelection(DATE);
+		List<ReceivePaymentTransactionList> transactionItems = new FinanceTool()
+				.getTransactionReceivePayments(customer.getID(), date);
 
 		// if (!itemsReq.isDone()) {
 		// if (transactionItems.size() > 0) {
