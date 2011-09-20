@@ -461,8 +461,29 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return result;
 	}
 
-	protected Result paymentMethodRequirement(Context context,
-			String oldpaymentmethod) {
+	protected Result paymentMethodRequirement(Context context, ResultList list,
+			String selection) {
+		Object payamentMethodObj = context.getSelection("paymentmethod");
+		Requirement paymentMethodReq = get("paymentmethod");
+		String paymentmethod = (String) paymentMethodReq.getValue();
+
+		if (selection == paymentmethod) {
+			return paymentMethod(context, selection);
+
+		}
+		if (payamentMethodObj != null) {
+			paymentmethod = (String) payamentMethodObj;
+			paymentMethodReq.setValue(paymentmethod);
+		}
+
+		Record paymentTermRecord = new Record(paymentmethod);
+		paymentTermRecord.add("Name", "Payment Method");
+		paymentTermRecord.add("Value", paymentmethod);
+		list.add(paymentTermRecord);
+		return null;
+	}
+
+	protected Result paymentMethod(Context context, String oldpaymentmethod) {
 		List<String> paymentmethods = getpaymentmethod();
 		Result result = context.makeResult();
 		result.add("Select PaymentMethod");
