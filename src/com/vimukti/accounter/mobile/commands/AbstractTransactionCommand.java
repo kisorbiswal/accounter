@@ -8,6 +8,7 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.BankAccount;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Customer;
@@ -41,6 +42,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	private static final int PAYMENTMETHODS_TO_SHOW = 5;
 	private static final String PAYMENT_MENTHOD = "Payment method";
 	private static final int PAYEES_TO_SHOW = 5;
+	private static final int BANK_ACCOUNTS_TO_SHOW = 5;
 	protected static final int EXPENSES_TO_SHOW = 5;
 
 	protected Result itemsRequirement(Context context) {
@@ -757,7 +759,73 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return record;
 	}
 
-	private Result accountsRequirement(Context context) {
+	protected Result bankAccountRequirement(Context context) {
+		Requirement bankAccountReq = get("bankAccounts");
+		List<BankAccount> bankAccounts = context.getSelections("bankAccounts");
+		if (!bankAccountReq.isDone()) {
+			if (bankAccounts.size() > 0) {
+				bankAccountReq.setValue(bankAccounts);
+			} else {
+				return bankAccounts(context);
+			}
+		}
+		if (bankAccounts != null && bankAccounts.size() > 0) {
+			List<BankAccount> items = bankAccountReq.getValue();
+			items.addAll(bankAccounts);
+		}
+		return null;
+	}
+
+	private Result bankAccounts(Context context) {
+		Result result = context.makeResult();
+		ResultList bankAccountList = new ResultList("bankAccounts");
+
+		Object last = context.getLast(RequirementType.BANK_ACCOUNT);
+		int num = 0;
+		if (last != null) {
+			bankAccountList.add(creatBankAccountRecord((BankAccount) last));
+			num++;
+		}
+		List<BankAccount> bankAccounts = getBankAccounts(context
+				.getHibernateSession());
+		for (BankAccount bankAccount : bankAccounts) {
+			if (bankAccount != last) {
+				bankAccountList.add(creatBankAccountRecord(bankAccount));
+				num++;
+			}
+			if (num == BANK_ACCOUNTS_TO_SHOW) {
+				break;
+			}
+		}
+		int size = bankAccountList.size();
+		StringBuilder message = new StringBuilder();
+		if (size > 0) {
+			message.append("Select a Bank Account");
+		}
+		CommandList commandList = new CommandList();
+		commandList.add("Create");
+
+		result.add(message.toString());
+		result.add(bankAccountList);
+		result.add(commandList);
+		result.add("Type for Bank Account");
+		return result;
+	}
+
+	protected Record creatBankAccountRecord(BankAccount last) {
+		Record record = new Record(last);
+		record.add("Bank Account Number", last.getNumber());
+		record.add("Bank Account Name", last.getName());
+		record.add("Bank Account Type", ClientAccount.TYPE_OTHER_CURRENT_ASSET);
+		return record;
+	}
+
+	private List<BankAccount> getBankAccounts(Session hibernateSession) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	protected Result accountsRequirement(Context context) {
 		Requirement itemsReq = get("accounts");
 		List<TransactionItem> transactionItems = context
 				.getSelections("accounts");
@@ -785,7 +853,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			list.add(creatAccountItemRecord((Item) last));
 			num++;
 		}
-		Requirement itemsReq = get("items");
+		Requirement itemsReq = get("accounts");
 		List<TransactionItem> transItems = itemsReq.getValue();
 		List<Item> availableItems = new ArrayList<Item>();
 		for (TransactionItem transactionItem : transItems) {
