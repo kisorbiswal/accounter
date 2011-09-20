@@ -1,267 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
 <commands>
 	<command clazz="NewInvoiceCommand" name="New Invoice">
-		<alias>
-			<name>Create Invoice</name>
-			<name>Add Invoice</name>
-		</alias>
+		<alias>Create Invoice</alias>
+		<alias>Add Invoice</alias>
+		<alias>Create New Invoice</alias>
 	</command>
 
 	<command clazz="NewAccountCommand" name="New Account">
-		<alias>
-			<name>Create Account</name>
-			<name>Add Account</name>
-		</alias>
+		<alias>Create Account</alias>
+		<alias>Add Account</alias>
 	</command>
 	<command clazz="APAgingDetailReportCommand" name="A/P Aging Detail">
-		<alias>
-			<name>A/P Aging Detail Report</name>
-			<name>APAD</name>
-			<name>APAD report</name>
-		</alias>
+		<alias>A/P Aging Detail Report</alias>
+		<alias>APAD</alias>
+		<alias>APAD report</alias>
 	</command>
 	<command clazz="APAgingSummaryReportCommand" name="A/P Aging Summary">
 		<alias>
-			<name>A/P Aging Summary Report</name>
-			<name>APAS</name>
-			<name>APAS report</name>
+			<alias>A/P Aging Summary Report</alias>
+			<alias>APAS</alias>
+			<alias>APAS report</alias>
 		</alias>
 	</command>
 	<command clazz="ARAgingDetailReportCommand" name="A/R Aging Summary">
-		<alias>
-			<name>A/R Aging Detail Report</name>
-			<name>ARAD</name>
-			<name>ARAD report</name>
-		</alias>
+		<alias>A/R Aging Detail Report</alias>
+		<alias>ARAD</alias>
+		<alias>ARAD report</alias>
 	</command>
 	<command clazz="ARAgingSummaryReportCommand" name="A/R Aging Detail">
-		<alias>
-			<name>A/R Aging Summary Report</name>
-			<name>ARAS</name>
-			<name>ARAS report</name>
-		</alias>
+		<alias>A/R Aging Summary Report</alias>
+		<alias>ARAS</alias>
+		<alias>ARAS report</alias>
 	</command>
 	<command clazz="BalanceSheetReportCommand" name="Balance Sheet">
-		<alias>
-			<name>Balance Sheet Report</name>
-			<name>BS</name>
-			<name>BS report</name>
-		</alias>
+		<alias>Balance Sheet Report</alias>
+		<alias>BS</alias>
+		<alias>BS report</alias>
 	</command>
 	<command clazz="CashFlowReportCommand" name="Cash Flow Report">
-		<alias>
-			<name>Cash Flow Report</name>
-			<name>CF</name>
-			<name>CF report</name>
-		</alias>
+		<alias>Cash Flow Report</alias>
+		<alias>CF</alias>
+		<alias>CF report</alias>
 	</command>
 	<command clazz="CustomerStatementReportCommand" name="Customer Statement">
-		<alias>
-			<name>Customer Statement Report</name>
-			<name>CS</name>
-			<name>CS report</name>
-		</alias>
+		<alias>Customer Statement Report</alias>
+		<alias>CS</alias>
+		<alias>CS report</alias>
 	</command>
 	<command clazz="CustomerTransactionHistoryReportCommand" name="Customer Transaction History">
-		<alias>
-			<name>Customer Transaction History Report</name>
-			<name>CTH</name>
-			<name>CTH report</name>
-		</alias>
+		<alias>Customer Transaction History Report</alias>
+		<alias>CTH</alias>
+		<alias>CTH report</alias>
 	</command>
 	<command clazz="ECSalesListReportCommand" name="EC Sales List">
-		<alias>
-			<name>EC Sales List Report</name>
-			<name>ECS</name>
-			<name>ECSL</name>
-			<name>ECS report</name>
-		</alias>
+		<alias>EC Sales List Report</alias>
+		<alias>ECS</alias>
+		<alias>ECSL</alias>
+		<alias>ECS report</alias>
 	</command>
 	<command clazz="ExpenseReportCommand" name="Expense Report">
-		<alias>
-			<name>Expense Report</name>
-			<name>E</name>
-			<name>E report</name>
-		</alias>
+		<alias>Expense Report</alias>
+		<alias>E</alias>
+		<alias>E report</alias>
 	</command>
 	<command clazz="PriorVATReturnReportCommand" name="Prior VAT Return">
-		<alias>
-			<name>Prior VAT Return Report</name>
-			<name>PVR</name>
-			<name>P VAT report</name>
-			<name>PVR report</name>
-		</alias>
+		<alias>Prior VAT Return Report</alias>
+		<alias>PVR</alias>
+		<alias>P VAT report</alias>
+		<alias>PVR report</alias>
 	</command>
 	<command clazz="ProfitLossReportCommand" name="Profit and Loss">
-		<alias>
-			<name>Profit &amp; Loss Report</name>
-			<name>PL</name>
-			<name>PL report</name>
-			<name>Profit and loss report</name>
-		</alias>
+		<alias>Profit &amp; Loss Report</alias>
+		<alias>PL</alias>
+		<alias>PL report</alias>
+		<alias>Profit and loss report</alias>
 	</command>
 	<command clazz="PurchaseByItemDetailReportCommand" name="Purchase By Item Detail">
-		<alias>
-			<name>Purchase By Item Detail Report</name>
-			<name>PID</name>
-			<name>PID report</name>
-		</alias>
+		<alias>Purchase By Item Detail Report</alias>
+		<alias>PID</alias>
+		<alias>PID report</alias>
 	</command>
 	<command clazz="PurchaseByItemSummaryReportCommand" name="Purchase By Item Summary">
-		<alias>
-			<name>Purchase by Item Summary Report</name>
-			<name>PIS</name>
-			<name>PIS report</name>
-		</alias>
+		<alias>Purchase by Item Summary Report</alias>
+		<alias>PIS</alias>
+		<alias>PIS report</alias>
 	</command>
 	<command clazz="PurchaseBySupplierDetailReportCommand" name="Purchase By Supplier Detail">
-		<alias>
-			<name>Purchase by Supplier Detail Report</name>
-			<name>PSD</name>
-			<name>PSD report</name>
-		</alias>
+		<alias>Purchase by Supplier Detail Report</alias>
+		<alias>PSD</alias>
+		<alias>PSD report</alias>
 	</command>
 	<command clazz="PurchaseBySupplierSummaryReportCommand" name="Purchase By Supplier Summary">
-		<alias>
-			<name>Purchase by Supplier Summary Report</name>
-			<name>PSS</name>
-			<name>PSS report</name>
-		</alias>
+		<alias>Purchase by Supplier Summary Report</alias>
+		<alias>PSS</alias>
+		<alias>PSS report</alias>
 	</command>
 	<command clazz="PurchaseOrderReportCommand" name="Purchase Order Report">
-		<alias>
-			<name>Purchase Order Report</name>
-			<name>PO</name>
-			<name>PO report</name>
-		</alias>
+		<alias>Purchase Order Report</alias>
+		<alias>PO</alias>
+		<alias>PO report</alias>
 	</command>
 	<command clazz="SalesByCustomerDetailReportCommand" name="Sales By Customer Detail">
-		<alias>
-			<name>Sales by Customer Detail Report</name>
-			<name>SCD</name>
-			<name>SCD report</name>
-		</alias>
+		<alias>Sales by Customer Detail Report</alias>
+		<alias>SCD</alias>
+		<alias>SCD report</alias>
 	</command>
 	<command clazz="SalesByCustomerSummaryReportCommand" name="Sales By Customer Summary">
-		<alias>
-			<name>Sales by Customer Summary Report</name>
-			<name>SCS</name>
-			<name>SCS report</name>
-		</alias>
+		<alias>Sales by Customer Summary Report</alias>
+		<alias>SCS</alias>
+		<alias>SCS report</alias>
 	</command>
 	<command clazz="SalesByItemDetailReportCommand" name="Sales By Item Detail">
-		<alias>
-			<name>Sales by Item Detail Report</name>
-			<name>SID</name>
-			<name>SID report</name>
-		</alias>
+		<alias>Sales by Item Detail Report</alias>
+		<alias>SID</alias>
+		<alias>SID report</alias>
 	</command>
 	<command clazz="SalesByItemSummaryReportCommand" name="Sales By Item Summary">
-		<alias>
-			<name>Sales By Item Summary</name>
-			<name>SIS</name>
-			<name>SIS report</name>
-		</alias>
+		<alias>Sales By Item Summary</alias>
+		<alias>SIS</alias>
+		<alias>SIS report</alias>
 	</command>
 	<command clazz="SalesOrderReportCommand" name="Sales Order Report">
-		<alias>
-			<name>Sales Order Report</name>
-			<name>SO</name>
-			<name>SO report</name>
-		</alias>
+		<alias>Sales Order Report</alias>
+		<alias>SO</alias>
+		<alias>SO report</alias>
 	</command>
 	<command clazz="SupplierTransactionHistoryReportCommand" name="Supplier Transaction History">
-		<alias>
-			<name>Supplier Transaction History Report</name>
-			<name>STH</name>
-			<name>STH report</name>
-		</alias>
+		<alias>Supplier Transaction History Report</alias>
+		<alias>STH</alias>
+		<alias>STH report</alias>
 	</command>
 	<command clazz="TransacctionDetailByAccountReportCommand" name="Transaction Detail By Account">
-		<alias>
-			<name>Transaction Detail By Account Report</name>
-			<name>TDA</name>
-			<name>TDA report</name>
-		</alias>
+		<alias>Transaction Detail By Account Report</alias>
+		<alias>TDA</alias>
+		<alias>TDA report</alias>
 	</command>
 	<command clazz="TrialBalanceReportCommand" name="Trial Balance">
-		<alias>
-			<name>Trial Balance Report</name>
-			<name>TB</name>
-			<name>TB report</name>
-		</alias>
+		<alias>Trial Balance Report</alias>
+		<alias>TB</alias>
+		<alias>TB report</alias>
 	</command>
 	<command clazz="UncategorisedVATAmountsReportCommand" name="Uncategorised VAT Amounts">
-		<alias>
-			<name>Uncategorized VAT Amounts Report</name>
-			<name>Uncategorised VAT Amounts Report</name>
-			<name>U VAT report</name>
-			<name>UVA report</name>
-			<name>UVA</name>
-		</alias>
+		<alias>Uncategorized VAT Amounts Report</alias>
+		<alias>Uncategorised VAT Amounts Report</alias>
+		<alias>U VAT report</alias>
+		<alias>UVA report</alias>
+		<alias>UVA</alias>
 	</command>
 	<command clazz="VAT100ReportCommand" name="VAT 100">
-		<alias>
-			<name>VAT 100 Report</name>
-			<name>V100</name>
-			<name>V100 report</name>
-		</alias>
+		<alias>VAT 100 Report</alias>
+		<alias>V100</alias>
+		<alias>V100 report</alias>
 	</command>
 	<command clazz="VATDetailReportCommand" name="VAT Detail">
-		<alias>
-			<name>VAT Detail Report</name>
-			<name>VAT D</name>
-			<name>VD report</name>
-			<name>VD</name>
-		</alias>
+		<alias>VAT Detail Report</alias>
+		<alias>VAT D</alias>
+		<alias>VD report</alias>
+		<alias>VD</alias>
 	</command>
 	<command clazz="VATItemSummaryReportCommand" name="VAT Item Summary">
-		<alias>
-			<name>VAT Item Summary Report</name>
-			<name>VIS report</name>
-			<name>VAT IS report</name>
-			<name>VISR</name>
-		</alias>
+		<alias>VAT Item Summary Report</alias>
+		<alias>VIS report</alias>
+		<alias>VAT IS report</alias>
+		<alias>VISR</alias>
 	</command>
 	<command clazz="NewVATItemCommand" name="New VAT Item">
-		<alias>
-			<name>Create VAT Item</name>
-			<name>Add VAT Item</name>
-			<name>Add vat Item</name>
-			<name>Add TAX Item</name>
-			<name>Create TAX Item</name>
-		</alias>
+		<alias>Create VAT Item</alias>
+		<alias>Add VAT Item</alias>
+		<alias>Add vat Item</alias>
+		<alias>Add TAX Item</alias>
+		<alias>Create TAX Item</alias>
 	</command>
 
 	<command clazz="NewServiceItemCommand" name="New Service Item">
-		<alias>
-			<name>Create Item</name>
-			<name>Add Item</name>
-			<name>Add Service Item</name>
-			<name>Create Service Item</name>
-		</alias>
+		<alias>Create Item</alias>
+		<alias>Add Item</alias>
+		<alias>Add Service Item</alias>
+		<alias>Create Service Item</alias>
 	</command>
 	<command clazz="NewFiscalYearCommand" name="New Fiscal Year">
-		<alias>
-			<name>Create Fiscal Year</name>
-			<name>Add Fiscal Year</name>
-		</alias>
+		<alias>Create Fiscal Year</alias>
+		<alias>Add Fiscal Year</alias>
 	</command>
 	<command clazz="UserActivityLogCommand" name="UserACtivityLog">
-		<alias>
-			<name>UserActivityLog</name>
-			<name>Activity</name>
-			<name>Log</name>
-			<name>UserLog</name>
-		</alias>
+		<alias>UserActivityLog</alias>
+		<alias>Activity</alias>
+		<alias>Log</alias>
+		<alias>UserLog</alias>
 	</command>
 	<command clazz="ExpensesListCommand" name="ExpensesList">
-		<alias>
-			<name>Expenses Claims</name>
-			<name>Expenses</name>
-			<name>Expenses list</name>
-
-		</alias>
-
+		<alias>Expenses Claims</alias>
+		<alias>Expenses</alias>
+		<alias>Expenses list</alias>
 	</command>
 </commands>
