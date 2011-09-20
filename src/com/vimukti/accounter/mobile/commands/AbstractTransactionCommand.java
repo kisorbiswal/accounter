@@ -649,7 +649,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return null;
 	}
 
-	private Result vendors(Context context) {
+	protected Result vendors(Context context) {
 		Result result = context.makeResult();
 		ResultList supplierList = new ResultList("suppliers");
 
