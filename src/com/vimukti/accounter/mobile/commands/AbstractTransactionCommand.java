@@ -40,6 +40,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	private static final String ITEM_PROPERTY_ATTR = null;
 	private static final int PAYMENTMETHODS_TO_SHOW = 5;
 	private static final String PAYMENT_MENTHOD = "Payment method";
+	private static final int PAYEES_TO_SHOW = 5;
 
 	protected Result itemsRequirement(Context context) {
 		Requirement itemsReq = get("items");
@@ -699,4 +700,62 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return result;
 	}
 
+	protected Result payeeRequirement(Context context) {
+		Requirement payeeReq = get("payee");
+		Payee payee = context.getSelection("payees");
+		if (payee != null) {
+			payeeReq.setValue(payee);
+		}
+		if (!payeeReq.isDone()) {
+			return payee(context);
+		}
+		return null;
+	}
+
+	private Result payee(Context context) {
+		Result result = context.makeResult();
+		ResultList payeeList = new ResultList("payees");
+
+		Object last = context.getLast(RequirementType.PAYEE);
+		int num = 0;
+		if (last != null) {
+			payeeList.add(createPayeeRecord((Payee) last));
+			num++;
+		}
+		List<Payee> payees = getPayees(context.getSession());
+		for (Payee payee : payees) {
+			if (payee != last) {
+				payeeList.add(createPayeeRecord(payee));
+				num++;
+			}
+			if (num == PAYEES_TO_SHOW) {
+				break;
+			}
+		}
+		int size = payeeList.size();
+		StringBuilder message = new StringBuilder();
+		if (size > 0) {
+			message.append("Select a Payee");
+		}
+		CommandList commandList = new CommandList();
+		commandList.add("Create");
+
+		result.add(message.toString());
+		result.add(payeeList);
+		result.add(commandList);
+		result.add("Type of Payee");
+		return result;
+	}
+
+	private List<Payee> getPayees(Session session) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	protected Record createPayeeRecord(Payee payee) {
+		Record record = new Record(payee);
+		record.add("Name", payee.getName());
+		record.add("Balance", payee.getBalance());
+		return record;
+	}
 }
