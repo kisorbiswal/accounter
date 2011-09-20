@@ -343,7 +343,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = dueDateRequirement(context, list, selection);
+		result = dateOptionalRequirement(context, list, "due", selection);
 		if (result != null) {
 			return result;
 		}
@@ -382,32 +382,6 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		result.add(actions);
 
 		return result;
-	}
-
-	private Result dueDateRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get("due");
-		Date dueDate = (Date) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("dueDate")) {
-			Date date = context.getSelection(DATE);
-			if (date == null) {
-				date = context.getDate();
-			}
-			dueDate = date;
-			req.setValue(dueDate);
-		}
-		if (selection == dueDate) {
-			context.setAttribute(INPUT_ATTR, "dueDate");
-			return date(context, "Due", dueDate);
-		}
-
-		Record dueDateRecord = new Record(dueDate);
-		dueDateRecord.add("Name", "Due Date");
-		dueDateRecord.add("Value", dueDate.toString());
-		list.add(dueDateRecord);
-		return null;
 	}
 
 	private Result invoiceNoRequirement(Context context, ResultList list,
