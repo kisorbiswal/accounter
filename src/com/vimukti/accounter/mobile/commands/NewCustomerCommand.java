@@ -239,7 +239,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		isActiveRecord.add("Value", activeString);
 		list.add(isActiveRecord);
 
-		int company = new FinanceTool().getCompany().getAccountingType();
+		int company = getCompany().getAccountingType();
 
 		Result result = customerSinceDateRequirement(context, list, selection);
 		if (result != null) {
