@@ -16,8 +16,6 @@ import com.vimukti.accounter.mobile.ResultList;
 
 public class CashPurchaseCommand extends AbstractTransactionCommand {
 
-	private static final int CONTACTS_TO_SHOW = 5;
-
 	@Override
 	public String getId() {
 		// TODO Auto-generated method stub
@@ -200,7 +198,7 @@ public class CashPurchaseCommand extends AbstractTransactionCommand {
 			Object selection) {
 		Requirement requirement = get("paymentMethod");
 		if (requirement != null) {
-			String paymentMethod = requirement.getValue();
+			String paymentMethod = (String) requirement.getValue();
 			if (paymentMethod.equals("Check")) {
 
 				Requirement req = get("chequeNo");
