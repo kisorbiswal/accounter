@@ -22,8 +22,6 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.client.core.ClientTransactionItem;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class NewInvoiceCommand extends AbstractTransactionCommand {
 
@@ -133,7 +131,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 
 		// TODO Location
 		// TODO Class
-		// TODO transactionDate
+
 		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 			TAXCode taxCode = get("tax").getValue();
 			for (TransactionItem item : items) {
@@ -173,9 +171,11 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		String orderNo = get("orderNo").getValue();
 		invoice.setOrderNum(orderNo);
 
-		// TODO RIGISTERD FOR VAT
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
+			// TODO RIGISTERD FOR VAT
+		}
 
-		invoice.setTotal(getTransactionTotal());
+		invoice.setTotal(getTransactionTotal(items));
 
 		// TODO Payments
 
@@ -188,9 +188,56 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		create(invoice, context);
 	}
 
-	private double getTransactionTotal() {
-		// TODO Auto-generated method stub
-		return 0;
+	private double getTransactionTotal(List<TransactionItem> items) {
+
+		int totaldiscount = 0;
+		double totallinetotal = 0.0;
+		double taxableTotal = 0.0;
+		double totalVat = 0.0;
+		double grandTotal = 0.0;
+		double totalValue = 0.0;
+		int accountType = getCompany().getAccountingType();
+		for (TransactionItem citem : items) {
+			totaldiscount += citem.getDiscount();
+
+			Double lineTotalAmt = citem.getLineTotal();
+			totallinetotal += lineTotalAmt;
+
+			if (citem != null && citem.isTaxable()) {
+				// ClientTAXItem taxItem = getCompany().getTAXItem(
+				// citem.getTaxCode());
+				// if (taxItem != null) {
+				// totalVat += taxItem.getTaxRate() / 100 * lineTotalAmt;
+				// }
+				taxableTotal += lineTotalAmt;
+			}
+
+			//citem.setVATfraction(getVATAmount(citem.getTaxCode(), citem));
+			totalVat += citem.getVATfraction();
+			// totalVat += citem.getVATfraction();
+		}
+
+		if (getCompany().getPreferences().isChargeSalesTax()) {
+			grandTotal = totalVat + totallinetotal;
+		} else {
+			grandTotal = totallinetotal;
+			totalValue = grandTotal;
+		}
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
+			// if (transactionView.vatinclusiveCheck != null
+			// && (Boolean) transactionView.vatinclusiveCheck.getValue()) {
+			// grandTotal = totallinetotal - totalVat;
+			// setTotalValue(totallinetotal);
+			//
+			// } else {
+			grandTotal = totallinetotal;
+			totalValue = grandTotal + totalVat;
+			// }
+		} else {
+			grandTotal = totallinetotal;
+			totalValue = grandTotal;
+		}
+		return totallinetotal;
 	}
 
 	private Result createOptionalResult(Context context) {
