@@ -13,6 +13,9 @@ import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.TAXCode;
+import com.vimukti.accounter.core.TAXGroup;
+import com.vimukti.accounter.core.TAXItem;
+import com.vimukti.accounter.core.TAXItemGroup;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.mobile.ActionNames;
@@ -22,6 +25,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class NewInvoiceCommand extends AbstractTransactionCommand {
 
@@ -175,7 +179,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 			// TODO RIGISTERD FOR VAT
 		}
 
-		invoice.setTotal(getTransactionTotal(items));
+		invoice.setTotal(getTransactionTotal(items, company));
 
 		// TODO Payments
 
@@ -188,7 +192,8 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		create(invoice, context);
 	}
 
-	private double getTransactionTotal(List<TransactionItem> items) {
+	private double getTransactionTotal(List<TransactionItem> items,
+			Company company) {
 
 		int totaldiscount = 0;
 		double totallinetotal = 0.0;
@@ -212,7 +217,8 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 				taxableTotal += lineTotalAmt;
 			}
 
-			//citem.setVATfraction(getVATAmount(citem.getTaxCode(), citem));
+			citem.setVATfraction(getVATAmount(citem.getTaxCode(), citem,
+					company));
 			totalVat += citem.getVATfraction();
 			// totalVat += citem.getVATfraction();
 		}
@@ -238,6 +244,38 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 			totalValue = grandTotal;
 		}
 		return totallinetotal;
+	}
+
+	public double getVATAmount(TAXCode taxCode, TransactionItem record,
+			Company company) {
+
+		double vatRate = 0.0;
+		if (taxCode != null) {
+			// Checking the selected object is VATItem or VATGroup.
+			// If it is VATItem,the we should get 'VATRate',otherwise 'GroupRate
+			try {
+
+				TAXItemGroup item = taxCode.getTAXItemGrpForSales();
+				if (item == null) {
+					vatRate = 0.0;
+				} else if (item instanceof TAXItem) {
+					// The selected one is VATItem,so get 'VATRate' from
+					// 'VATItem'
+					vatRate = ((TAXItem) item).getTaxRate();
+				} else {
+					// The selected one is VATGroup,so get 'GroupRate' from
+					// 'VATGroup'
+					vatRate = ((TAXGroup) item).getGroupRate();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		Double vat = 0.0;
+		vat = record.getLineTotal() * vatRate / 100;
+		vat = UIUtils.getRoundValue(vat);
+		return vat.doubleValue();
 	}
 
 	private Result createOptionalResult(Context context) {
