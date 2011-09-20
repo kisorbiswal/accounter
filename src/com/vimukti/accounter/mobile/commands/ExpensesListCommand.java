@@ -6,7 +6,7 @@ import java.util.List;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Expense;
-import com.vimukti.accounter.mobile.ActionNames;
+import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
@@ -45,7 +45,7 @@ public class ExpensesListCommand extends AbstractTransactionCommand {
 
 		Object selection = context.getSelection(VIEW_TYPE);
 
-		Result result = isViewTypeRequirement(context, selection);
+		Result result = viewTypeRequirement(context, selection);
 		if (result != null) {
 			return result;
 		}
@@ -89,22 +89,33 @@ public class ExpensesListCommand extends AbstractTransactionCommand {
 		return null;
 	}
 
-	private Result isViewTypeRequirement(Context context, Object selection) {
-		List<String> viewTypes = getViewTypes();
-		Result result = context.makeResult();
-		result.add("Select View Type");
+	private Result viewTypeRequirement(Context context, Object selection) {
 
-		ResultList list = new ResultList(VIEW_TYPE);
-		int num = 0;
-		for (String view : viewTypes) {
-			list.add(createViewTypeRecord(view));
-			num++;
-			if (num == 0) {
-				break;
+		Object payamentObj = context.getSelection(VIEW_TYPE);
+		Requirement paymentReq = get(VIEW_TYPE);
+		List<String> views = paymentReq.getValue();
+		Result result = null;
+
+		if (selection == views) {
+
+			List<String> viewTypes = getViewTypes();
+			result = context.makeResult();
+			result.add("Select View Type");
+			ResultList list = new ResultList(VIEW_TYPE);
+			int num = 0;
+			for (String view : viewTypes) {
+				list.add(createViewTypeRecord(view));
+				num++;
+				if (num == 0) {
+					break;
+				}
 			}
+
+			result.add(list);
+		} else {
+
 		}
 
-		result.add(list);
 		return result;
 	}
 
