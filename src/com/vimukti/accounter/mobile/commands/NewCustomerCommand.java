@@ -5,9 +5,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.CreditRating;
@@ -106,16 +103,16 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		list.add(new Requirement(BANK_BRANCH, true, true));
 
 		int accountingType = getCompany().getAccountingType();
-
-		if (accountingType == ACCOUNTING_TYPE_UK
-				|| accountingType == ACCOUNTING_TYPE_US) {
+		if (accountingType != ACCOUNTING_TYPE_INDIA) {
 			list.add(new Requirement(PAYMENT_METHOD, true, true));
 			list.add(new Requirement(PAYMENT_TERMS, true, true));
 			list.add(new Requirement(CUSTOMER_GROUP, true, true));
 		}
 		if (accountingType == ACCOUNTING_TYPE_UK) {
-			list.add(new Requirement(VATREGISTER_NUM, true, true));
-			list.add(new Requirement(CUSTOMER_VATCODE, true, true));
+			if (getCompany().getPreferences().isRegisteredForVAT()) {
+				list.add(new Requirement(VATREGISTER_NUM, true, true));
+				list.add(new Requirement(CUSTOMER_VATCODE, true, true));
+			}
 		}
 		if (accountingType == ACCOUNTING_TYPE_INDIA) {
 			list.add(new Requirement(PAN_NUM, true, true));
@@ -127,6 +124,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 
 	@Override
 	public Result run(Context context) {
+
 		String process = (String) context.getAttribute(PROCESS_ATTR);
 		Result result = null;
 		if (process != null) {
@@ -151,7 +149,9 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result == null) {
 			// TODO
 		}
-		return createCustomerObject(context);
+		createCustomerObject(context);
+		markDone();
+		return null;
 	}
 
 	/*
@@ -185,12 +185,12 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @param context
 	 * @return
 	 */
-	private Result createCustomerObject(Context context) {
+	private void createCustomerObject(Context context) {
 		Customer customer = new Customer();
 		String name = get(CUSTOMER_NAME).getValue();
 		String number = get(NUMBER).getValue();
 		Set<Contact> contacts = get(CUSTOMER_CONTACT).getValue();
-		boolean isActive = (Boolean) get(IS_ACTIVE).getDefaultValue();
+		boolean isActive = (Boolean) get(IS_ACTIVE).getValue();
 		FinanceDate balancedate = get(BALANCE_ASOF_DATE).getValue();
 		Timestamp customerSincedate = get(CUSTOMER_SINCEDATE).getValue();
 		double balance = get(BALANCE).getValue();
@@ -216,7 +216,8 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		String tinNum = get(TIN_NUM).getValue();
 
 		customer.setName(name);
-		customer.setNumber(number);
+		if (getCompany().getPreferences().getUseCustomerId())
+			customer.setNumber(number);
 		customer.setContacts(contacts);
 		customer.setBalance(balance);
 		customer.setBalanceAsOf(balancedate);
@@ -232,28 +233,28 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		customer.setSalesPerson(salesPerson);
 		customer.setPriceLevel(priceLevel);
 		customer.setCreditRating(creditRating);
-		customer.setCustomerGroup(customerGroup);
 		customer.setActive(isActive);
-		customer.setPaymentMethod(paymentMethod);
-		customer.setPaymentTerm(paymentTerms);
-		customer.setTAXCode(taxCode);
-		customer.setVATRegistrationNumber(vatRegistredNum);
-		customer.setPANno(panNum);
-		customer.setCSTno(cstNum);
-		customer.setServiceTaxRegistrationNo(serviceTaxNum);
-		customer.setTINNumber(tinNum);
 
-		Session session = context.getSession();
-		Transaction transaction = session.beginTransaction();
-		session.saveOrUpdate(customer);
-		transaction.commit();
+		if (getCompany().getAccountingType() != ACCOUNTING_TYPE_INDIA) {
+			customer.setPaymentMethod(paymentMethod);
+			customer.setPaymentTerm(paymentTerms);
+			customer.setCustomerGroup(customerGroup);
+		}
+		if (getCompany().getAccountingType() == ACCOUNTING_TYPE_UK) {
+			if (getCompany().getPreferences().isRegisteredForVAT()) {
+				customer.setTAXCode(taxCode);
+				customer.setVATRegistrationNumber(vatRegistredNum);
+			}
+		}
+		if (getCompany().getAccountingType() == ACCOUNTING_TYPE_INDIA) {
+			customer.setPANno(panNum);
+			customer.setCSTno(cstNum);
+			customer.setServiceTaxRegistrationNo(serviceTaxNum);
+			customer.setTINNumber(tinNum);
+		}
 
-		markDone();
+		create(customer, context);
 
-		Result result = new Result();
-		result.add(" Customer was created successfully.");
-
-		return result;
 	}
 
 	/**
@@ -305,11 +306,11 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		// list.add(isActiveRecord);
 
 		Requirement isActiveReq = get(IS_ACTIVE);
-		Boolean isActive = (Boolean) isActiveReq.getDefaultValue();
+		Boolean isActive = (Boolean) isActiveReq.getValue();
 		if (selection == isActive) {
 			context.setAttribute(INPUT_ATTR, IS_ACTIVE);
 			isActive = !isActive;
-			isActiveReq.setDefaultValue(isActive);
+			isActiveReq.setValue(isActive);
 		}
 		String activeString = "";
 		if (isActive) {
@@ -472,7 +473,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				order = context.getString();
 			}
 			tinNumber = order;
-			req.setDefaultValue(tinNumber);
+			req.setValue(tinNumber);
 		}
 
 		if (selection == tinNumber) {
@@ -513,7 +514,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				order = context.getString();
 			}
 			serviceTaxNumber = order;
-			req.setDefaultValue(serviceTaxNumber);
+			req.setValue(serviceTaxNumber);
 		}
 
 		if (selection == serviceTaxNumber) {
@@ -554,7 +555,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				order = context.getString();
 			}
 			cstNum = order;
-			req.setDefaultValue(cstNum);
+			req.setValue(cstNum);
 		}
 
 		if (selection == cstNum) {
@@ -594,7 +595,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				order = context.getString();
 			}
 			panNumber = order;
-			req.setDefaultValue(panNumber);
+			req.setValue(panNumber);
 		}
 
 		if (selection == panNumber) {
@@ -633,7 +634,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				order = context.getString();
 			}
 			vatRegisterationNum = order;
-			req.setDefaultValue(vatRegisterationNum);
+			req.setValue(vatRegisterationNum);
 		}
 
 		if (selection == vatRegisterationNum) {
@@ -672,7 +673,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				order = context.getString();
 			}
 			bankBranch = order;
-			req.setDefaultValue(bankBranch);
+			req.setValue(bankBranch);
 		}
 
 		if (selection == bankBranch) {
@@ -710,7 +711,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				order = context.getString();
 			}
 			bankAccountNumber = order;
-			req.setDefaultValue(bankAccountNumber);
+			req.setValue(bankAccountNumber);
 		}
 
 		if (selection == bankAccountNumber) {
@@ -749,7 +750,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				order = context.getString();
 			}
 			bankName = order;
-			req.setDefaultValue(bankName);
+			req.setValue(bankName);
 		}
 
 		if (selection == bankName) {
@@ -787,7 +788,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				order = context.getString();
 			}
 			phone = order;
-			req.setDefaultValue(phone);
+			req.setValue(phone);
 		}
 
 		if (selection == phone) {
@@ -824,7 +825,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				order = context.getString();
 			}
 			phone = order;
-			req.setDefaultValue(phone);
+			req.setValue(phone);
 		}
 
 		if (selection == phone) {
@@ -860,7 +861,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				order = context.getString();
 			}
 			phone = order;
-			req.setDefaultValue(phone);
+			req.setValue(phone);
 		}
 
 		if (selection == phone) {
@@ -896,7 +897,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				order = context.getString();
 			}
 			phone = order;
-			req.setDefaultValue(phone);
+			req.setValue(phone);
 		}
 
 		if (selection == phone) {
@@ -932,7 +933,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				order = context.getDouble();
 			}
 			balance = order;
-			req.setDefaultValue(balance);
+			req.setValue(balance);
 		}
 
 		if (selection == balance) {
@@ -969,7 +970,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 
 		if (customerVatCodeObj != null) {
 			vatCode = (TAXCode) customerVatCodeObj;
-			customerVatCodeReq.setDefaultValue(vatCode);
+			customerVatCodeReq.setValue(vatCode);
 		}
 
 		Record customerVatCodeRecord = new Record(vatCode);
@@ -1004,7 +1005,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 
 		if (customerGroupObj != null) {
 			customerGroup = (CustomerGroup) customerGroupObj;
-			customerGroupReq.setDefaultValue(customerGroup);
+			customerGroupReq.setValue(customerGroup);
 		}
 
 		Record customerGroupRecord = new Record(customerGroup);
@@ -1079,7 +1080,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 
 		if (crediRatingObj != null) {
 			creditRating = (CreditRating) crediRatingObj;
-			creditRatingReq.setDefaultValue(creditRating);
+			creditRatingReq.setValue(creditRating);
 		}
 
 		Record priceLevelRecord = new Record(creditRating);
@@ -1158,7 +1159,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 
 		if (priceLevelObj != null) {
 			priceLevel = (PriceLevel) priceLevelObj;
-			priceLevelReq.setDefaultValue(priceLevel);
+			priceLevelReq.setValue(priceLevel);
 		}
 
 		Record priceLevelRecord = new Record(priceLevel);
@@ -1236,7 +1237,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		}
 		if (salesPersonObj != null) {
 			salesPerson = (SalesPerson) salesPersonObj;
-			salesPersonReq.setDefaultValue(salesPerson);
+			salesPersonReq.setValue(salesPerson);
 		}
 
 		Record salesPersonRecord = new Record(salesPerson);
@@ -1260,7 +1261,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	private Result balanceAsOfDateRequirement(Context context, ResultList list,
 			Object selection) {
 		Requirement dateReq = get(BALANCE_ASOF_DATE);
-		Date balanceAsofdate = (Date) dateReq.getDefaultValue();
+		Date balanceAsofdate = (Date) dateReq.getValue();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals(BALANCE_ASOF_DATE)) {
 			Date date = context.getSelection(BALANCE_ASOF_DATE);
@@ -1268,7 +1269,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				date = context.getDate();
 			}
 			balanceAsofdate = date;
-			dateReq.setDefaultValue(balanceAsofdate);
+			dateReq.setValue(balanceAsofdate);
 		}
 		if (selection == balanceAsofdate) {
 			context.setAttribute(INPUT_ATTR, BALANCE_ASOF_DATE);
@@ -1295,7 +1296,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	private Result customerSinceDateRequirement(Context context,
 			ResultList list, Object selection) {
 		Requirement dateReq = get(CUSTOMER_SINCEDATE);
-		Date customerSincedate = (Date) dateReq.getDefaultValue();
+		Date customerSincedate = (Date) dateReq.getValue();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals(CUSTOMER_GROUP)) {
 			Date date = context.getSelection(CUSTOMER_SINCEDATE);
@@ -1303,7 +1304,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				date = context.getDate();
 			}
 			customerSincedate = date;
-			dateReq.setDefaultValue(customerSincedate);
+			dateReq.setValue(customerSincedate);
 		}
 		if (selection == customerSincedate) {
 			context.setAttribute("input", CUSTOMER_SINCEDATE);
