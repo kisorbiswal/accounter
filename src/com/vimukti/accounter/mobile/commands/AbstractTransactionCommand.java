@@ -781,7 +781,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	private Result accountItems(Context context) {
 		Result result = context.makeResult();
-		List<Item> items = getItems(context.getSession());
+		List<Item> items = getItems(context.getHibernateSession());
 		ResultList list = new ResultList("accounts");
 		Object last = context.getLast(RequirementType.ACCOUNT);
 		int num = 0;
