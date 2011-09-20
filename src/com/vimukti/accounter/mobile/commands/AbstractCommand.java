@@ -418,12 +418,12 @@ public abstract class AbstractCommand extends Command {
 		return record;
 	}
 
-	protected Result memoRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get(MEMO);
+	protected Result stringOptionalRequirement(Context context,
+			ResultList list, Object selection, String name, String displayName) {
+		Requirement req = get(name);
 		String memo = (String) req.getValue();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(MEMO)) {
+		if (attribute.equals(name)) {
 			String input = context.getSelection(TEXT);
 			if (input == null) {
 				input = context.getString();
@@ -433,12 +433,12 @@ public abstract class AbstractCommand extends Command {
 		}
 
 		if (selection == memo) {
-			context.setAttribute(attribute, MEMO);
-			return text(context, "Enter memo", memo);
+			context.setAttribute(attribute, name);
+			return text(context, displayName, memo);
 		}
 
 		Record memoRecord = new Record(memo);
-		memoRecord.add("Name", "Memo");
+		memoRecord.add("Name", name);
 		memoRecord.add("Value", memo);
 		list.add(memoRecord);
 		return null;
