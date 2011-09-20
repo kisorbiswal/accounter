@@ -133,7 +133,8 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = dateOptionalRequirement(context, list, "date", selection);
+		result = dateOptionalRequirement(context, list, "date", "Date",
+				selection);
 		if (result != null) {
 			return result;
 		}
