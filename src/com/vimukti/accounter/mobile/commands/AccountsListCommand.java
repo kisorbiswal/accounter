@@ -88,8 +88,7 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 		ResultList accountsList = new ResultList("accountsList");
 		result.add("Accounts List");
 		int num = 0;
-		List<Account> accounts = getAccounts(context.getHibernateSession(),
-				isActive);
+		List<Account> accounts = getAccounts(isActive);
 		for (Account account : accounts) {
 			accountsList.add(createAccountRecord(account));
 			num++;
@@ -110,7 +109,5 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 		record.add("Balance", account.getCurrentBalance());
 		return record;
 	}
-
-	
 
 }
