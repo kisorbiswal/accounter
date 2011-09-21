@@ -154,6 +154,14 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		return vendor;
 	}
 
+	public void setPhone(String phoneNo) {
+		this.phone = phoneNo;
+	}
+
+	public void setContact(Contact contact) {
+		this.contact = contact;
+	}
+
 	/**
 	 * @return the contact
 	 */
@@ -182,6 +190,10 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		return paymentTerm;
 	}
 
+	public void setPaymentTerm(PaymentTerms paymentTerm) {
+		this.paymentTerm = paymentTerm;
+	}
+
 	/**
 	 * @return the dueDate
 	 */
@@ -208,11 +220,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		this.isOnSaveProccessed = true;
 		super.onSave(session);
 		this.balanceDue = this.total;
-		
-		
-			
-		
-		
+
 		/**
 		 * To check if any Purchase Order is involved in this Purchase Invoice.
 		 * If this Purchase Invoice uses any Purchase Order then we should
