@@ -15,7 +15,7 @@ import com.vimukti.accounter.mobile.ResultList;
 
 public class NewTaxGroupCommand extends AbstractVATCommand {
 
-	private static final String TAX_ITEMS_LIST = "TaxItemsList";
+	private static final String TAX_ITEMS_LIST = "taxItemsList";
 
 	@Override
 	public String getId() {
