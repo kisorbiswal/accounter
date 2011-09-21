@@ -1252,7 +1252,9 @@ input[type="text"],textarea {
 	-moz-border-radius:5px 5px 5px 5px;
     padding:0 5px 5px 27px !important;
     padding:0 5px 0 27px\0 !important;
-    margin:5px;
+}
+.addNewButton{
+	margin:5px;
 }
 .accounter-button-seperater,.image-button,#mainFooter{
 	 height: 25px;
