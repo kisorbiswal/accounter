@@ -10556,7 +10556,7 @@ public class FinanceTool {
 		return (Company) session.get(Company.class, 1l);
 	}
 
-	private ArrayList<Account> getAccountsListBySorted() {
+	public ArrayList<Account> getAccountsListBySorted() {
 		Session session = HibernateUtil.getCurrentSession();
 		ArrayList<Account> list1 = new ArrayList<Account>();
 		List<Account> list2 = new ArrayList<Account>();
