@@ -647,9 +647,9 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return result;
 	}
 
-	protected Result depositeOrTransferTo(Context context) {
-		Requirement transferedReq = get("depositOrTransferTo");
-		Account account = context.getSelection("depositOrTransferTo");
+	protected Result depositeOrTransferTo(Context context, String name) {
+		Requirement transferedReq = get(name);
+		Account account = context.getSelection(name);
 		if (!transferedReq.isDone()) {
 			if (account != null) {
 				transferedReq.setValue(account);
