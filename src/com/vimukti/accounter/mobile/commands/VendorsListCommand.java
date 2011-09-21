@@ -6,6 +6,7 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.ActionNames;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -76,12 +77,22 @@ public class VendorsListCommand extends AbstractTransactionCommand {
 				break;
 			}
 		}
+		int size = vendorsResult.size();
+		StringBuilder message = new StringBuilder();
+		if (size > 0) {
+			message.append("Select a Vendor");
+		}
+		CommandList commandList = new CommandList();
+		commandList.add("Create");
+
+		result.add(message.toString());
 		result.add(vendorsResult);
+		result.add(commandList);
+		result.add("Type for Vendor");
+
 		return result;
 
 	}
-
-	
 
 	private Result isActiveRequirement(Context context, Object selection) {
 		Requirement isActiveReq = get(ACTIVE);
