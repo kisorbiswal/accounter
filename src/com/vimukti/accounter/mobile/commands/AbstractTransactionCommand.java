@@ -693,7 +693,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	private List<Account> getAccounts() {
 		FinanceTool financeTool = new FinanceTool();
-		return financeTool.getAccountsListBySorted();
+		return null;
 	}
 
 	protected Record createAccountRecord(Account last) {
