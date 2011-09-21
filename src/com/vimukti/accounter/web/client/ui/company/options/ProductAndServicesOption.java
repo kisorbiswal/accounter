@@ -82,10 +82,14 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 	@Override
 	public void onSave() {
 
-		if (servicesOnly.getValue())
+		if (servicesOnly.getValue()) {
 			companyPreferences.setSellServices(true);
-		if (productsOnly.getValue())
+			companyPreferences.setSellProducts(false);
+		}
+		if (productsOnly.getValue()) {
 			companyPreferences.setSellProducts(true);
+			companyPreferences.setSellServices(false);
+		}
 		if (both.getValue()) {
 			companyPreferences.setSellServices(true);
 			companyPreferences.setSellProducts(true);
