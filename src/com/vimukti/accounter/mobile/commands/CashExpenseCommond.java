@@ -45,8 +45,8 @@ public class CashExpenseCommond extends AbstractTransactionCommand {
 			public void addRequirements(List<Requirement> list) {
 				list.add(new Requirement("name", false, true));
 				list.add(new Requirement("desc", true, true));
-				list.add(new Requirement("quantity", false, true));
-				list.add(new Requirement("price", false, true));
+				list.add(new Requirement("amount", false, true));
+				list.add(new Requirement("disc", true, true));
 			}
 		});
 		list.add(new Requirement("date", true, true));
@@ -54,6 +54,7 @@ public class CashExpenseCommond extends AbstractTransactionCommand {
 		list.add(new Requirement("memo", true, true));
 		list.add(new Requirement("depositOrTransferTo", false, true));
 		list.add(new Requirement("paymentmethod", false, true));
+		list.add(new Requirement("chequeNo", true, true));
 	}
 
 	@Override
@@ -96,6 +97,7 @@ public class CashExpenseCommond extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
+
 		result = createOptionalResult(context);
 		if (result != null) {
 			return result;
@@ -124,7 +126,6 @@ public class CashExpenseCommond extends AbstractTransactionCommand {
 		List<TransactionItem> accounts = get("accounts").getValue();
 		accounts.addAll(items);
 		cashPurchase.setTransactionItems(accounts);
-		cashPurchase.setTotal(getTransactionTotal(accounts, getCompany()));
 		create(cashPurchase, context);
 	}
 
@@ -212,6 +213,10 @@ public class CashExpenseCommond extends AbstractTransactionCommand {
 			return result;
 		}
 
+		result = chequeNoRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
 		result = stringOptionalRequirement(context, list, selection, MEMO,
 				"Enter Memo");
 		if (result != null) {
