@@ -268,8 +268,8 @@ public abstract class AbstractCommand extends Command {
 	}
 
 	private List<TAXCode> getTaxCodes() {
-		// TODO Auto-generated method stub
-		return null;
+		return getCompany().getTaxCodes();
+
 	}
 
 	protected Result taxCode(Context context, TAXCode oldTaxCode) {
@@ -564,15 +564,25 @@ public abstract class AbstractCommand extends Command {
 	}
 
 	private List<Vendor> getVendors() {
-		// TODO Auto-generated method stub
-		return null;
+		return getCompany().getVendors();
 	}
-
 
 	protected List<Vendor> getVendors(boolean isActive) {
+		ArrayList<Vendor> vendors = getCompany().getVendors();
+		ArrayList<Vendor> result = new ArrayList<Vendor>();
+
+		for (Vendor vendor : vendors) {
+			if (isActive) {
+				if (vendor.isActive()) {
+					result.add(vendor);
+				}
+			} else {
+				result.add(vendor);
+			}
+		}
+
 		return null;
 	}
-
 
 	protected Result paymentMethodRequirement(Context context, ResultList list,
 			String selection) {
@@ -651,7 +661,6 @@ public abstract class AbstractCommand extends Command {
 		list.add("Switch/Maestro");
 		return list;
 	}
-
 
 	protected void create(IAccounterServerCore obj, Context context) {
 		// User user = context.getUser();
