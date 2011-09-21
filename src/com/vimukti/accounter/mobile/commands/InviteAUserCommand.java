@@ -29,6 +29,7 @@ public class InviteAUserCommand extends AbstractTransactionCommand {
 
 	@Override
 	public String getId() {
+
 		return null;
 	}
 
