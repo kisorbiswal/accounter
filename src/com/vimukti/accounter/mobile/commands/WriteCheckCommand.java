@@ -65,6 +65,11 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 				if (result != null) {
 					return result;
 				}
+			} else if (process.equals(TRANSACTION_ACCOUNT_ITEM_PROCESS)) {
+				result = transactionAccountProcess(context);
+				if (result != null) {
+					return result;
+				}
 			}
 		}
 		result = payeeRequirement(context);
@@ -253,7 +258,7 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 		list.add(amountRecord);
 		return null;
 	}
-	
+
 	private Result writeCheckNoRequirement(Context context, ResultList list,
 			Object selection) {
 		Requirement req = get("number");

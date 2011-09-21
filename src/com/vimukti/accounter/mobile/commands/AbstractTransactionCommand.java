@@ -683,7 +683,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		}
 
 		if (list.size() > 0) {
-			result.add("Slect an Account.");
+			result.add("Select an Account.");
 		}
 		result.add(list);
 		CommandList commands = new CommandList();
@@ -919,7 +919,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	}
 
 	private List<BankAccount> getBankAccounts() {
-
+		// TODO
 		return null;
 	}
 
