@@ -154,6 +154,14 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 		this.number = number;
 	}
 
+	public void setDueDate(FinanceDate dueDate) {
+		this.dueDate = dueDate;
+	}
+
+	public void setDiscountDate(FinanceDate discountDate) {
+		this.discountDate = discountDate;
+	}
+
 	/**
 	 * @return the dueDate
 	 */
@@ -637,7 +645,7 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 
 	@Override
 	public void setVersion(int version) {
-	this.version=version;
-		
+		this.version = version;
+
 	}
 }
