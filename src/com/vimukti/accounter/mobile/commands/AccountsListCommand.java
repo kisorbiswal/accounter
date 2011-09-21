@@ -6,6 +6,7 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.mobile.ActionNames;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
@@ -96,7 +97,19 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 				break;
 			}
 		}
+		int size = accountsList.size();
+		StringBuilder message = new StringBuilder();
+		if (size > 0) {
+			message.append("Select a Account");
+		}
+		CommandList commandList = new CommandList();
+		commandList.add("Create");
+
+		result.add(message.toString());
 		result.add(accountsList);
+		result.add(commandList);
+		result.add("Type for Account");
+
 		return result;
 
 	}
