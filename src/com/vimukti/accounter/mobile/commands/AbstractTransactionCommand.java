@@ -42,8 +42,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final int ACCOUNTS_TO_SHOW = 5;
 	protected static final Object TRANSACTION_ITEM_PROCESS = null;
 	protected static final String OLD_TRANSACTION_ITEM_ATTR = null;
-	private static final String ITEM_DETAILS = null;
-	private static final String ITEM_PROPERTY_ATTR = null;
+	protected static final String ITEM_DETAILS = null;
+	protected static final String ITEM_PROPERTY_ATTR = null;
 	private static final int PAYMENTMETHODS_TO_SHOW = 5;
 	protected static final String PAYMENT_MENTHOD = "Payment method";
 	private static final int PAYEES_TO_SHOW = 5;
