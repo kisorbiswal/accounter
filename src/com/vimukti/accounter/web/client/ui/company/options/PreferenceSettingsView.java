@@ -221,7 +221,6 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 						Widget widget = pageView.getWidget(index);
 						widget.getElement().getParentElement()
 								.removeClassName("contentSelected");
-						System.out.println(widget);
 					}
 					optionLink.getElement().getParentElement()
 							.addClassName("contentSelected");
@@ -255,10 +254,10 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 				}
 				for (PreferencePage page : preferencePages) {
 					page.onSave();
-					
-				}
 
-							Accounter.updateCompany(PreferenceSettingsView.this, Accounter.getCompany());
+				}
+				Accounter.updateCompany(PreferenceSettingsView.this,
+						Accounter.getCompany());
 				Accounter.reset();
 			}
 		});
