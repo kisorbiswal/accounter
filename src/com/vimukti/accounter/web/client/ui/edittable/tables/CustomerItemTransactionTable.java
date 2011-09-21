@@ -59,6 +59,7 @@ public abstract class CustomerItemTransactionTable extends
 			protected void setValue(ClientTransactionItem row,
 					ClientItem newValue) {
 				super.setValue(row, newValue);
+				update(row);
 				// applyPriceLevel(row);
 			}
 		});
