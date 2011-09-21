@@ -113,7 +113,19 @@
 			<command>EnterBillCommand</command>
 		</output>
 	</pattern>
+	<pattern>
+		<input>Invoice Branding</input>
+		<output>
+			<command>NewBrandingThemeCommand</command>
+		</output>
+	</pattern>
 
+	<pattern>
+		<input>Users</input>
+		<output>
+			<command>InviteAUserCommand</command>
+		</output>
+	</pattern>
 
 </patterns>
 
