@@ -49,8 +49,7 @@ public class SupportServlet extends HttpServlet {
 	}
 
 	private boolean mail(String name, String email, String comment) {
-		if (name == null || name.isEmpty() || email == null || email.isEmpty()
-				|| comment == null || comment.isEmpty()) {
+		if (comment == null || comment.isEmpty()) {
 			return false;
 		}
 
