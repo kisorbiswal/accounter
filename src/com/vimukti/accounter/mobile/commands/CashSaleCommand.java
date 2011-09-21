@@ -4,7 +4,14 @@ import java.util.Date;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.CashSales;
+import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Customer;
+import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.core.TAXCode;
+import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
@@ -17,7 +24,6 @@ import com.vimukti.accounter.mobile.ResultList;
 public class CashSaleCommand extends AbstractTransactionCommand {
 
 	private static final String INPUT_ATTR = "input";
-	private static final String ITEM_PROPERTY_ATTR = null;
 
 	@Override
 	public String getId() {
@@ -39,6 +45,16 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 				list.add(new Requirement("vatCode", true, true));
 			}
 		});
+		list.add(new ObjectListRequirement("accounts", false, true) {
+
+			@Override
+			public void addRequirements(List<Requirement> list) {
+				list.add(new Requirement("name", false, true));
+				list.add(new Requirement("desc", true, true));
+				list.add(new Requirement("quantity", false, true));
+				list.add(new Requirement("price", false, true));
+			}
+		});
 		list.add(new Requirement("paymentMethod", false, true));
 		list.add(new Requirement("date", true, true));
 		list.add(new Requirement("number", true, false));
@@ -47,6 +63,10 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 		list.add(new Requirement("phone", true, true));
 		list.add(new Requirement("memo", true, true));
 		list.add(new Requirement("depositOrTransferTo", false, true));
+		Company company = getCompany();
+		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+			list.add(new Requirement("tax", false, true));
+		}
 	}
 
 	@Override
@@ -54,8 +74,18 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 		String process = (String) context.getAttribute(PROCESS_ATTR);
 		Result result = null;
 		if (process != null) {
-			if (process.equals(TRANSACTION_ITEM_PROCESS)) {
+			if (process.equals(ADDRESS_PROCESS)) {
+				result = addressProcess(context);
+				if (result != null) {
+					return result;
+				}
+			} else if (process.equals(TRANSACTION_ITEM_PROCESS)) {
 				result = transactionItemProcess(context);
+				if (result != null) {
+					return result;
+				}
+			} else if (process.equals(TRANSACTION_ACCOUNT_ITEM_PROCESS)) {
+				result = transactionAccountProcess(context);
 				if (result != null) {
 					return result;
 				}
@@ -66,8 +96,8 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = paymentMethod(context, null);
-		if (result != null) {
+		result = accountsRequirement(context);
+		if (result == null) {
 			return result;
 		}
 
@@ -76,9 +106,29 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
+		result = paymentMethod(context, null);
+		if (result != null) {
+			return result;
+		}
+
 		result = depositeOrTransferTo(context, "depositOrTransferTo");
 		if (result != null) {
 			return result;
+		}
+		Company company = getCompany();
+		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+			Requirement taxReq = get("tax");
+			TAXCode taxcode = context.getSelection(TAXCODE);
+			if (!taxReq.isDone()) {
+				if (taxcode != null) {
+					taxReq.setValue(taxcode);
+				} else {
+					return taxCode(context, null);
+				}
+			}
+			if (taxcode != null) {
+				taxReq.setValue(taxcode);
+			}
 		}
 
 		result = createOptionalResult(context);
@@ -91,7 +141,59 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 	}
 
 	private void completeProcess(Context context) {
-		// TODO Auto-generated method stub
+
+		Company company = getCompany();
+		CashSales cashSale = new CashSales();
+		Date date = get(DATE).getValue();
+		cashSale.setDate(new FinanceDate(date));
+
+		cashSale.setType(Transaction.TYPE_CASH_SALES);
+
+		String number = get("number").getValue();
+		cashSale.setNumber(number);
+
+		List<TransactionItem> items = get("items").getValue();
+		cashSale.setTransactionItems(items);
+
+		// TODO Location
+		// TODO Class
+
+		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+			TAXCode taxCode = get("tax").getValue();
+			for (TransactionItem item : items) {
+				item.setTaxCode(taxCode);
+			}
+			// TODO if (getCompany().getPreferences().isChargeSalesTax()) {
+			// if (taxCode != null) {
+			// for (TransactionItem record : items) {
+			// record.setTaxItemGroup(taxCode.getTAXItemGrpForSales());
+			// }
+			// }
+			// transaction.setSalesTaxAmount(this.salesTax);
+			// }
+		}
+
+		Customer customer = get("customer").getValue();
+		cashSale.setCustomer(customer);
+
+		Contact contact = get("contact").getValue();
+		cashSale.setContact(contact);
+
+		Address billTo = get("billTo").getValue();
+		cashSale.setBillingAddress(billTo);
+
+		// TODO Payments
+
+		String phone = get("phone").getValue();
+
+		String memo = get(MEMO).getValue();
+		cashSale.setMemo(memo);
+
+		// TODO Discount Date
+		// TODO Estimates
+		// TODO sales Order
+		create(cashSale, context);
+
 	}
 
 	private Result createOptionalResult(Context context) {
@@ -110,6 +212,7 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 				break;
 			}
 		}
+
 		Requirement itemsReq = get("items");
 		List<TransactionItem> transItems = itemsReq.getValue();
 
@@ -121,18 +224,33 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 				return result;
 			}
 		}
+		Requirement accountReq = get("accounts");
+		List<TransactionItem> accountItem = accountReq.getValue();
+
+		selection = context.getSelection("accountItems");
+		if (selection != null) {
+			Result result = transactionAccountItem(context,
+					(TransactionItem) selection);
+			if (result != null) {
+				return result;
+			}
+		}
 		selection = context.getSelection("values");
 		ResultList list = new ResultList("values");
 
 		Requirement transferTo = get("depositOrTransferTo");
 		Account account = transferTo.getValue();
+		Record numberRec = new Record(account);
+		numberRec.add("Number", "Account No");
+		numberRec.add("value", account.getNumber());
+		Record nameRec = new Record(account);
+		nameRec.add("Account name", "Account Name");
+		nameRec.add("value", account.getName());
 		Record accountRec = new Record(account);
-		accountRec.add("Number", "Account No");
-		accountRec.add("value", account.getNumber());
-		accountRec.add("Account name", "Account Name");
-		accountRec.add("value", account.getNumber());
 		accountRec.add("Account type", "Account Type");
 		accountRec.add("Account Type", getAccountTypeString(account.getType()));
+		list.add(numberRec);
+		list.add(nameRec);
 		list.add(accountRec);
 
 		Requirement custmerReq = get("customer");
@@ -165,11 +283,6 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-
-		// result = billToRequirement(context, list, selection);
-		// if (result != null) {
-		// return result;
-		// }
 
 		result = phoneRequirement(context, list, (String) selection);
 		if (result != null) {
