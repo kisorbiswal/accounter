@@ -19,7 +19,6 @@ public abstract class AbstractView<T> extends VerticalPanel {
 
 	protected T data;
 
-	protected ClientCompanyPreferences preferences = Global.get().preferences();
 	protected AccounterMessages messages = Global.get().messages();
 	protected AccounterConstants constants = Global.get().constants();
 
@@ -115,10 +114,7 @@ public abstract class AbstractView<T> extends VerticalPanel {
 	}
 
 	public ClientCompanyPreferences getPreferences() {
-		if (preferences != null)
-			return preferences;
-		else
-			return Accounter.getCompany().getPreferences();
+		return Accounter.getCompany().getPreferences();
 	}
 
 	@Override
