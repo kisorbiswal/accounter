@@ -20,6 +20,7 @@ import com.vimukti.accounter.core.TAXGroup;
 import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.TAXItemGroup;
 import com.vimukti.accounter.core.TransactionItem;
+import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
@@ -44,7 +45,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	private static final String ITEM_DETAILS = null;
 	private static final String ITEM_PROPERTY_ATTR = null;
 	private static final int PAYMENTMETHODS_TO_SHOW = 5;
-	private static final String PAYMENT_MENTHOD = "Payment method";
+	protected static final String PAYMENT_MENTHOD = "Payment method";
 	private static final int PAYEES_TO_SHOW = 5;
 	private static final int BANK_ACCOUNTS_TO_SHOW = 5;
 	protected static final int EXPENSES_TO_SHOW = 5;
@@ -53,6 +54,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	private static final String ACCOUNT_ITEM_PROPERTY_ATTR = null;
 	private static final String ACCOUNT_ITEM_DETAILS = null;
 	protected static final String VENDOR = "vendor";
+	protected static final String PAY_FROM = "payFrom";
 
 	protected Result itemsRequirement(Context context) {
 		Requirement itemsReq = get("items");
@@ -1108,5 +1110,16 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return vat.doubleValue();
 	}
 
+	protected Result vendorRequirement(Context context) {
+		Requirement vendReq = get("vendor");
+		Vendor vendor = context.getSelection("vendors");
+		if (vendor != null) {
+			vendReq.setValue(vendor);
+		}
+		if (!vendReq.isDone()) {
+			return vendors(context);
+		}
+		return null;
+	}
 
 }
