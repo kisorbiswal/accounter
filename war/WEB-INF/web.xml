@@ -46,6 +46,10 @@
 		<servlet-name>accounter</servlet-name>
 		<url-pattern>/company/accounter</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>accounter</servlet-name>
+		<url-pattern>/accounter</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>webLogin</servlet-name>
