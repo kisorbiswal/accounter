@@ -22,7 +22,7 @@ public class SupportServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		String string = (String) request.getAttribute("ajax");
+		String string = (String) request.getParameter("ajax");
 		if (string == null || !Boolean.valueOf(string)) {
 			if (sendMailToSupport(request)) {
 				request.setAttribute("message",
