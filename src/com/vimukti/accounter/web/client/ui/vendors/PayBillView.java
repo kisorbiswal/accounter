@@ -294,7 +294,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				PayBillView.this.adjustAmountAndEndingBalance();
 			}
 		};
-		grid.setHeight("200px");
 		grid.setDisabled(isInViewMode());
 	}
 
