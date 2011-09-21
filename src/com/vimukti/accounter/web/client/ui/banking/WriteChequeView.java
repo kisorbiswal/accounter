@@ -8,7 +8,6 @@ import java.util.Set;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -19,6 +18,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -122,7 +122,7 @@ public class WriteChequeView extends
 	private CustomerItemTransactionTable transactionCustomerItemTable;
 	private VendorAccountTransactionTable transactionVendorAccountTable;
 	private VendorItemTransactionTable transactionVendorItemTable;
-	private Button accountTableButton, itemTableButton;
+	private AddNewButton accountTableButton, itemTableButton;
 	private DisclosurePanel customerAccountsDisclosurePanel,
 			customerItemsDisclosurePanel, vendorAccountsDisclosurePanel,
 			vendorItemsDisclosurePanel;
@@ -172,10 +172,10 @@ public class WriteChequeView extends
 			selectedCustomer = (ClientCustomer) payee;
 			addressList = selectedCustomer.getAddress();
 			// if (transaction == null) {
-			transactionCustomerAccountTable.setVisible(true);
-			transactionCustomerItemTable.setVisible(true);
-			changeGrid(transactionCustomerAccountTable,
-					transactionCustomerItemTable);
+			customerAccountsDisclosurePanel.setVisible(true);
+			customerItemsDisclosurePanel.setVisible(true);
+			changeGrid(customerAccountsDisclosurePanel,
+					customerItemsDisclosurePanel);
 			transactionCustomerAccountTable.updateTotals();
 			transactionCustomerItemTable.updateTotals();
 			// }
@@ -183,20 +183,20 @@ public class WriteChequeView extends
 
 			selectedVendor = (ClientVendor) payee;
 			addressList = selectedVendor.getAddress();
-			transactionVendorAccountTable.setVisible(true);
-			transactionVendorItemTable.setVisible(true);
-			changeGrid(transactionVendorAccountTable,
-					transactionVendorItemTable);
+			vendorAccountsDisclosurePanel.setVisible(true);
+			vendorItemsDisclosurePanel.setVisible(true);
+			changeGrid(vendorAccountsDisclosurePanel,
+					vendorItemsDisclosurePanel);
 			transactionVendorAccountTable.updateTotals();
 			transactionVendorItemTable.updateTotals();
 
 		} else if (payee instanceof ClientTAXAgency) {
 			selectedTaxAgency = (ClientTAXAgency) payee;
 			addressList = selectedTaxAgency.getAddress();
-			transactionVendorAccountTable.setVisible(true);
-			transactionVendorItemTable.setVisible(true);
-			changeGrid(transactionVendorAccountTable,
-					transactionVendorItemTable);
+			vendorAccountsDisclosurePanel.setVisible(true);
+			vendorItemsDisclosurePanel.setVisible(true);
+			changeGrid(vendorAccountsDisclosurePanel,
+					vendorItemsDisclosurePanel);
 			transactionVendorAccountTable.updateTotals();
 			transactionVendorItemTable.updateTotals();
 
@@ -234,7 +234,7 @@ public class WriteChequeView extends
 
 	}
 
-	public void changeGrid(EditTable<?> gridView, EditTable<?> gridView2) {
+	public void changeGrid(DisclosurePanel gridView, DisclosurePanel gridView2) {
 		setMenuRequired(true);
 		// mainVLay.remove(vendorGrid);
 		// mainVLay.add(vendorGrid);
@@ -257,9 +257,9 @@ public class WriteChequeView extends
 		if (transactionCustomerItemTable != null)
 			mainVLay.remove(customerItemsDisclosurePanel);
 		mainVLay.add(gridView);
-		mainVLay.add(accountTableButton);
+		// mainVLay.add(accountTableButton);
 		mainVLay.add(gridView2);
-		mainVLay.add(itemTableButton);
+		// mainVLay.add(itemTableButton);
 		mainVLay.add(vPanel);
 		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			// It should be like thid only,becoz vatPanel is getting add befor
@@ -548,8 +548,8 @@ public class WriteChequeView extends
 		}
 
 		if (!validateAmount()) {
-			result.addError(memoTextAreaItem, accounterConstants
-					.transactiontotalcannotbe0orlessthan0());
+			result.addError(memoTextAreaItem,
+					accounterConstants.transactiontotalcannotbe0orlessthan0());
 		}
 
 		return result;
@@ -800,12 +800,8 @@ public class WriteChequeView extends
 							} else if (payee instanceof ClientVendor
 									|| payee instanceof ClientTAXAgency) {
 
-								vendorTDSTaxCode
-										.setSelected(vendorTDSTaxCode
-												.getDisplayName(getCompany()
-														.getTAXItem(
-																payee
-																		.getTaxItemCode())));
+								vendorTDSTaxCode.setSelected(vendorTDSTaxCode.getDisplayName(getCompany()
+										.getTAXItem(payee.getTaxItemCode())));
 
 								transactionVendorAccountTable
 										.removeAllRecords();
@@ -980,7 +976,8 @@ public class WriteChequeView extends
 		//
 		// }
 		// if{
-		transactionCustomerAccountTable = new CustomerAccountTransactionTable() {
+		transactionCustomerAccountTable = new CustomerAccountTransactionTable(
+				false) {
 
 			@Override
 			public void updateNonEditableItems() {
@@ -997,7 +994,7 @@ public class WriteChequeView extends
 				return WriteChequeView.this.selectedCustomer;
 			}
 		};
-		transactionCustomerItemTable = new CustomerItemTransactionTable() {
+		transactionCustomerItemTable = new CustomerItemTransactionTable(false) {
 
 			@Override
 			public void updateNonEditableItems() {
@@ -1015,7 +1012,7 @@ public class WriteChequeView extends
 			}
 		};
 
-		transactionVendorAccountTable = new VendorAccountTransactionTable() {
+		transactionVendorAccountTable = new VendorAccountTransactionTable(false) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -1038,7 +1035,7 @@ public class WriteChequeView extends
 			}
 		};
 
-		transactionVendorItemTable = new VendorItemTransactionTable() {
+		transactionVendorItemTable = new VendorItemTransactionTable(false) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -1060,7 +1057,7 @@ public class WriteChequeView extends
 				return WriteChequeView.this.isShowPriceWithVat();
 			}
 		};
-		accountTableButton = new Button(Global.get().Account());
+		accountTableButton = new AddNewButton();
 		accountTableButton.setEnabled(!isInViewMode());
 		accountTableButton.addClickHandler(new ClickHandler() {
 
@@ -1088,8 +1085,7 @@ public class WriteChequeView extends
 		vendorAccountsDisclosurePanel.setOpen(true);
 		vendorAccountsDisclosurePanel.setWidth("100%");
 
-		itemTableButton = new Button(Accounter.constants()
-				.productOrServiceItem());
+		itemTableButton = new AddNewButton();
 		itemTableButton.setEnabled(!isInViewMode());
 		itemTableButton.addClickHandler(new ClickHandler() {
 
@@ -1102,7 +1098,7 @@ public class WriteChequeView extends
 		FlowPanel customerItemsFlowPanel = new FlowPanel();
 		customerItemsDisclosurePanel = new DisclosurePanel(
 				"Itemize by Product/Service");
-		customerItemsFlowPanel.add(transactionCustomerAccountTable);
+		customerItemsFlowPanel.add(transactionCustomerItemTable);
 		customerItemsFlowPanel.add(itemTableButton);
 		customerItemsDisclosurePanel.setContent(customerItemsFlowPanel);
 		customerItemsDisclosurePanel.setWidth("100%");
@@ -1110,7 +1106,7 @@ public class WriteChequeView extends
 		FlowPanel vendorItemsFlowPanel = new FlowPanel();
 		vendorItemsDisclosurePanel = new DisclosurePanel(
 				"Itemize by Product/Service");
-		vendorItemsFlowPanel.add(transactionCustomerAccountTable);
+		vendorItemsFlowPanel.add(transactionVendorItemTable);
 		vendorItemsFlowPanel.add(itemTableButton);
 		vendorItemsDisclosurePanel.setContent(vendorItemsFlowPanel);
 		vendorItemsDisclosurePanel.setWidth("100%");
@@ -1131,10 +1127,10 @@ public class WriteChequeView extends
 			switch (transaction.getPayToType()) {
 			case ClientWriteCheck.TYPE_CUSTOMER:
 
-				transactionCustomerAccountTable.setVisible(true);
+//				transactionCustomerAccountTable.setVisible(true);
 				transactionCustomerAccountTable.setDisabled(isInViewMode());
 				transactionCustomerAccountTable.setWidth("100%");
-				transactionCustomerItemTable.setVisible(true);
+//				transactionCustomerItemTable.setVisible(true);
 				transactionCustomerItemTable.setDisabled(isInViewMode());
 				mainVLay.add(topHLay);
 				setMenuRequired(true);
@@ -1163,13 +1159,13 @@ public class WriteChequeView extends
 			// transactionVendorGrid.setCanEdit(true);
 			// transactionVendorGrid.setEditEventType(ListGrid.EDIT_EVENT_DBCLICK);
 			// transactionVendorGrid.init();
-			transactionCustomerAccountTable.setVisible(true);
+//			transactionCustomerAccountTable.setVisible(true);
 			transactionCustomerAccountTable.setDisabled(isInViewMode());
-			transactionCustomerItemTable.setVisible(true);
+//			transactionCustomerItemTable.setVisible(true);
 			transactionCustomerItemTable.setDisabled(isInViewMode());
 
-			transactionVendorAccountTable.setVisible(false);
-			transactionVendorItemTable.setVisible(false);
+//			vendorAccountsDisclosurePanel.setVisible(false);
+//			vendorItemsDisclosurePanel.setVisible(false);
 			// taxAgencyGrid.setVisible(false);
 			mainVLay.add(lab1);
 			// HorizontalPanel panel = new HorizontalPanel();
