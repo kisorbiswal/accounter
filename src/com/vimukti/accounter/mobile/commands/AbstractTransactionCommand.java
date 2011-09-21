@@ -350,7 +350,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	protected Result items(Context context) {
 		Result result = context.makeResult();
-		List<Item> items = getItems(context.getHibernateSession());
+		List<Item> items = getItems();
 		ResultList list = new ResultList("items");
 		Object last = context.getLast(RequirementType.ITEM);
 		int num = 0;
@@ -408,7 +408,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			customersList.add(createCustomerRecord((Customer) last));
 			num++;
 		}
-		List<Customer> customers = getCustomers(context.getHibernateSession());
+		List<Customer> customers = getCustomers();
 		for (Customer customer : customers) {
 			if (customer != last) {
 				customersList.add(createCustomerRecord(customer));
@@ -552,12 +552,12 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return record;
 	}
 
-	protected List<Item> getItems(Session session) {
+	protected List<Item> getItems() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	private List<Customer> getCustomers(Session session) {
+	private List<Customer> getCustomers() {
 		FinanceTool financeTool = new FinanceTool();
 		return null;
 	}
@@ -569,7 +569,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	protected Result paymentFrom(Context context, Account oldAccount) {
 		List<Account> accounts = new ArrayList<Account>();
-		List<Account> allAccounts = getAccounts(context.getHibernateSession());
+		List<Account> allAccounts = getAccounts();
 
 		for (Account a : allAccounts) {
 			if (Arrays.asList(Account.TYPE_BANK,
@@ -691,8 +691,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			num++;
 		}
 
-		List<Account> transferAccountList = getAccounts(context
-				.getHibernateSession());
+		List<Account> transferAccountList = getAccounts();
 		for (Account account : transferAccountList) {
 			if (account != last) {
 				list.add(createAccountRecord(account));
@@ -712,7 +711,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return result;
 	}
 
-	private List<Account> getAccounts(Session session) {
+	private List<Account> getAccounts() {
 
 		return null;
 	}
@@ -906,8 +905,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			bankAccountList.add(creatBankAccountRecord((BankAccount) last));
 			num++;
 		}
-		List<BankAccount> bankAccounts = getBankAccounts(context
-				.getHibernateSession());
+		List<BankAccount> bankAccounts = getBankAccounts();
 		for (BankAccount bankAccount : bankAccounts) {
 			if (bankAccount != last) {
 				bankAccountList.add(creatBankAccountRecord(bankAccount));
@@ -940,7 +938,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return record;
 	}
 
-	private List<BankAccount> getBankAccounts(Session hibernateSession) {
+	private List<BankAccount> getBankAccounts() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -965,7 +963,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	private Result accountItems(Context context) {
 		Result result = context.makeResult();
-		List<Item> items = getItems(context.getHibernateSession());
+		List<Item> items = getItems();
 		ResultList list = new ResultList("accounts");
 		Object last = context.getLast(RequirementType.ACCOUNT);
 		int num = 0;
