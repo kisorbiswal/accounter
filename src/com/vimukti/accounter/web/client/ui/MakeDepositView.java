@@ -369,7 +369,6 @@ public class MakeDepositView extends
 				MakeDepositView.this.updateNonEditableItems();
 			}
 		};
-		gridView.setHeight("250px");
 		gridView.setDisabled(isInViewMode());
 		gridView.getElement().getStyle().setMarginTop(10, Unit.PX);
 	}
