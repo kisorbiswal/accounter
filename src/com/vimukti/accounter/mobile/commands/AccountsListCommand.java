@@ -111,10 +111,6 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 		return record;
 	}
 
-	private List<Account> getAccounts(Session session, Boolean isActive) {
-		// TODO
-		return null;
-
-	}
+	
 
 }
