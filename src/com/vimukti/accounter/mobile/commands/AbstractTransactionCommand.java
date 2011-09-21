@@ -558,7 +558,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	}
 
 	private List<Customer> getCustomers(Session session) {
-		// TODO Auto-generated method stub
+		FinanceTool financeTool = new FinanceTool();
 		return null;
 	}
 
@@ -842,7 +842,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			payeeList.add(createPayeeRecord((Payee) last));
 			num++;
 		}
-		List<Payee> payees = getPayees(context.getHibernateSession());
+		List<Payee> payees = getPayees();
 		for (Payee payee : payees) {
 			if (payee != last) {
 				payeeList.add(createPayeeRecord(payee));
@@ -867,7 +867,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return result;
 	}
 
-	private List<Payee> getPayees(Session session) {
+	private List<Payee> getPayees() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -1106,7 +1106,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return null;
 	}
 
-	protected List<Account> getAccounts(Session session, Boolean isActive) {
+	protected List<Account> getAccounts(Boolean isActive) {
 		FinanceTool financeTool = new FinanceTool();
 		List<Account> accounts = new ArrayList<Account>();
 		List<Account> allaccounts = financeTool.getAccountsListBySorted();
