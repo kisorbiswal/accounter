@@ -1,6 +1,7 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,14 +22,40 @@ public class SupportServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		if (sendMailToSupport(request)) {
-			request.setAttribute("message", "We've received your information");
+		String string = (String) request.getAttribute("ajax");
+		if (string == null || !Boolean.valueOf(string)) {
+			if (sendMailToSupport(request)) {
+				request.setAttribute("message",
+						"We've received your information");
+			} else {
+				request.setAttribute("errormessage",
+						"please enter valid details");
+			}
+			RequestDispatcher dispatcher = getServletContext()
+					.getRequestDispatcher(view);
+			dispatcher.forward(request, response);
 		} else {
-			request.setAttribute("errormessage", "please enter valid details");
+			String name = request.getParameter("name");
+			String email = request.getParameter("email");
+			String comment = request.getParameter("comment");
+			PrintWriter out = response.getWriter();
+			if (mail(name, email, comment)) {
+				out.write("success");
+			} else {
+				out.write("fail");
+			}
 		}
-		RequestDispatcher dispatcher = getServletContext()
-				.getRequestDispatcher(view);
-		dispatcher.forward(request, response);
+	}
+
+	private boolean mail(String name, String email, String comment) {
+		if (name == null || name.isEmpty() || email == null || email.isEmpty()
+				|| comment == null || comment.isEmpty()) {
+			return false;
+		}
+
+		UsersMailSendar.sendMailToSupport(name, email, "A Feedback Message",
+				comment);
+		return true;
 	}
 
 	private boolean sendMailToSupport(HttpServletRequest request) {
