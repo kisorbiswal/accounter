@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -74,7 +75,8 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getValue(ClientTransactionPayBill row) {
-					return DateUtills.getDateAsString(row.getDueDate());
+					return DateUtills.getDateAsString(new ClientFinanceDate(row
+							.getDueDate()).getDateAsObject());
 				}
 
 				@Override
@@ -698,9 +700,9 @@ public abstract class TransactionPayBillTable extends
 		// discountAccount = getCompany().getAccountByName(
 		// companyConstants.discounts());
 		// }
-		cashDiscountDialog = new CashDiscountDialog(canEdit,
-				selectedObject.getCashDiscount(), getCompany().getAccount(
-						selectedObject.getDiscountAccount()));
+		cashDiscountDialog = new CashDiscountDialog(canEdit, selectedObject
+				.getCashDiscount(), getCompany().getAccount(
+				selectedObject.getDiscountAccount()));
 		// } else {
 		// cashDiscountDialog.setCanEdit(canEdit);
 		// cashDiscountDialog.setCashDiscountValue(selectedObject

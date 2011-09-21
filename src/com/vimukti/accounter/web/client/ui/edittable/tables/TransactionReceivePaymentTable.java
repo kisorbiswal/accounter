@@ -12,6 +12,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -65,21 +66,22 @@ public abstract class TransactionReceivePaymentTable extends
 	}
 
 	private void initColumns() {
-		this.addColumn(new CheckboxEditColumn<ClientTransactionReceivePayment>() {
+		this
+				.addColumn(new CheckboxEditColumn<ClientTransactionReceivePayment>() {
 
-			@Override
-			protected void onHeaderValueChanged(boolean value) {
-				onHeaderCheckBoxClick(value);
-				selectAllRows();
-			}
+					@Override
+					protected void onHeaderValueChanged(boolean value) {
+						onHeaderCheckBoxClick(value);
+						selectAllRows();
+					}
 
-			@Override
-			protected void onChangeValue(boolean value,
-					ClientTransactionReceivePayment row) {
-				onSelectionChanged(row, value);
-			}
+					@Override
+					protected void onChangeValue(boolean value,
+							ClientTransactionReceivePayment row) {
+						onSelectionChanged(row, value);
+					}
 
-		});
+				});
 		if (canEdit) {
 			TextEditColumn<ClientTransactionReceivePayment> dateCoulmn = new TextEditColumn<ClientTransactionReceivePayment>() {
 
@@ -90,7 +92,8 @@ public abstract class TransactionReceivePaymentTable extends
 
 				@Override
 				protected String getValue(ClientTransactionReceivePayment row) {
-					return DateUtills.getDateAsString(row.getDueDate());
+					return DateUtills.getDateAsString(new ClientFinanceDate(row
+							.getDueDate()).getDateAsObject());
 				}
 
 				@Override
@@ -410,9 +413,8 @@ public abstract class TransactionReceivePaymentTable extends
 
 	public void openCashDiscountDialog(
 			final ClientTransactionReceivePayment selectedObject) {
-		cashDiscountDialog = new CashDiscountDialog(canEdit,
-				selectedObject.getCashDiscount(),
-				getCashDiscountAccount(selectedObject));
+		cashDiscountDialog = new CashDiscountDialog(canEdit, selectedObject
+				.getCashDiscount(), getCashDiscountAccount(selectedObject));
 		// } else {
 		// cashDiscountDialog.setCanEdit(canEdit);
 		// cashDiscountDialog.setCashDiscountValue(selectedObject
