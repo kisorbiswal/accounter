@@ -8,7 +8,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -16,6 +15,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -54,7 +54,7 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	private SalesPersonCombo salesPersonCombo;
 	private ShippingTermsCombo shippingTermsCombo;
-	private PriceLevelCombo priceLevelSelect;
+	// private PriceLevelCombo priceLevelSelect;
 	private TAXCodeCombo taxCodeSelect;
 	private PaymentTermsCombo payTermsSelect;
 	protected DateField quoteExpiryDate;
@@ -62,7 +62,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	private boolean locationTrackingEnabled;
 
 	private CustomerItemTransactionTable customerTransactionTable;
-	private Button itemTableButton;
+	private AddNewButton itemTableButton;
 
 	protected ClientPriceLevel priceLevel;
 	protected ClientTAXCode taxCode;
@@ -130,8 +130,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				&& !taxCodeSelect.getName().equalsIgnoreCase(
 						Accounter.constants().none()))
 			taxCodeSelect.setComboItem(this.taxCode);
-		if (this.priceLevel != null && priceLevelSelect != null)
-			priceLevelSelect.setComboItem(this.priceLevel);
+		// if (this.priceLevel != null && priceLevelSelect != null)
+		// priceLevelSelect.setComboItem(this.priceLevel);
 
 		if (customer.getPhoneNo() != null)
 			phoneSelect.setValue(customer.getPhoneNo());
@@ -377,7 +377,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		salesTaxTextNonEditable = createSalesTaxNonEditableLabel();
 
-		priceLevelSelect = createPriceLevelSelectItem();
+		// priceLevelSelect = createPriceLevelSelectItem();
 		// refText = createRefereceText();
 		// refText.setWidth(100);
 		netAmountLabel = createNetAmountLabel();
@@ -405,8 +405,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		};
 		customerTransactionTable.setDisabled(isInViewMode());
 
-		itemTableButton = new Button(Accounter.constants()
-				.productOrServiceItem());
+		itemTableButton = new AddNewButton();
 		itemTableButton.setEnabled(!isInViewMode());
 		itemTableButton.addClickHandler(new ClickHandler() {
 
@@ -689,7 +688,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		ArrayList<ClientPriceLevel> priceLevels = getCompany().getPriceLevels();
 
-		priceLevelSelect.initCombo(priceLevels);
+		// priceLevelSelect.initCombo(priceLevels);
 
 		ArrayList<ClientTAXCode> taxCodes = getCompany().getTaxCodes();
 
@@ -709,16 +708,16 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	protected void priceLevelSelected(ClientPriceLevel priceLevel) {
 
 		this.priceLevel = priceLevel;
-		if (priceLevel != null && priceLevelSelect != null) {
-
-			priceLevelSelect.setComboItem(getCompany().getPriceLevel(
-					priceLevel.getID()));
-
-		}
-		if (transaction == null && customerTransactionTable != null) {
-			customerTransactionTable.priceLevelSelected(this.priceLevel);
-			customerTransactionTable.updatePriceLevel();
-		}
+		// if (priceLevel != null && priceLevelSelect != null) {
+		//
+		// priceLevelSelect.setComboItem(getCompany().getPriceLevel(
+		// priceLevel.getID()));
+		//
+		// }
+		// if (transaction == null && customerTransactionTable != null) {
+		// customerTransactionTable.priceLevelSelected(this.priceLevel);
+		// customerTransactionTable.updatePriceLevel();
+		// }
 		updateNonEditableItems();
 
 	}
@@ -875,7 +874,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		quoteExpiryDate.setDisabled(isInViewMode());
 		taxCodeSelect.setDisabled(isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
-		priceLevelSelect.setDisabled(isInViewMode());
+		// priceLevelSelect.setDisabled(isInViewMode());
 		customerTransactionTable.setDisabled(isInViewMode());
 		itemTableButton.setEnabled(!isInViewMode());
 		if (locationTrackingEnabled)
@@ -887,7 +886,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		custForm.getCellFormatter().setWidth(0, 1, "200px");
 		custForm.setWidth("75%");
-		priceLevelSelect.setWidth("150px");
+		// priceLevelSelect.setWidth("150px");
 		// refText.setWidth("200px");
 
 	}

@@ -110,8 +110,11 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	protected void initTransactionViewData() {
 		initVendors();
 		initTransactionTotalNonEditableItem();
-		removeAllRecordsFromGrid();
-		addAllRecordToGrid(transaction.getTransactionItems());
+		if (transaction.getTransactionItems() != null
+				&& !transaction.getTransactionItems().isEmpty()) {
+			removeAllRecordsFromGrid();
+			addAllRecordToGrid(transaction.getTransactionItems());
+		}
 
 	}
 

@@ -9,7 +9,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -19,6 +18,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientContact;
@@ -90,7 +90,7 @@ public class CreditCardChargeView extends
 	private boolean locationTrackingEnabled;
 	private VendorAccountTransactionTable vendorAccountTransactionTable;
 	private VendorItemTransactionTable vendorItemTransactionTable;
-	private Button accountTableButton, itemTableButton;
+	private AddNewButton accountTableButton, itemTableButton;
 
 	public CreditCardChargeView() {
 
@@ -530,7 +530,7 @@ public class CreditCardChargeView extends
 
 		vendorAccountTransactionTable.setDisabled(isInViewMode());
 
-		accountTableButton = new Button(Global.get().Account());
+		accountTableButton = new AddNewButton();
 		accountTableButton.setEnabled(!isInViewMode());
 		accountTableButton.addClickHandler(new ClickHandler() {
 
@@ -574,8 +574,7 @@ public class CreditCardChargeView extends
 
 		vendorItemTransactionTable.setDisabled(isInViewMode());
 
-		itemTableButton = new Button(Accounter.constants()
-				.productOrServiceItem());
+		itemTableButton = new AddNewButton();
 		itemTableButton.setEnabled(!isInViewMode());
 		itemTableButton.addClickHandler(new ClickHandler() {
 

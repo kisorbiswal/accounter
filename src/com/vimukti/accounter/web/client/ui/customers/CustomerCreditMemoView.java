@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -15,6 +14,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -51,7 +51,7 @@ public class CustomerCreditMemoView extends
 		AbstractCustomerTransactionView<ClientCustomerCreditMemo> implements
 		IPrintableView {
 	private ShippingTermsCombo shippingTermsCombo;
-	private PriceLevelCombo priceLevelSelect;
+	// private PriceLevelCombo priceLevelSelect;
 	private TAXCodeCombo taxCodeSelect;
 	private SalesPersonCombo salesPersonCombo;
 	private Double salesTax = 0.0D;
@@ -65,7 +65,7 @@ public class CustomerCreditMemoView extends
 	protected ClientSalesPerson salesPerson;
 	private AmountLabel transactionTotalNonEditableText, netAmountLabel,
 			vatTotalNonEditableText, salesTaxTextNonEditable;
-	private Button accountTableButton, itemTableButton;
+	private AddNewButton accountTableButton, itemTableButton;
 
 	public CustomerCreditMemoView() {
 
@@ -143,8 +143,8 @@ public class CustomerCreditMemoView extends
 		custForm = UIUtils.form(Global.get().customer());
 		custForm.setFields(customerCombo, contactCombo, billToTextArea);
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
-		custForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Global.get().constants().width(), "190px");
+		custForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Global.get().constants().width(), "190px");
 		custForm.setWidth("100%");
 		custForm.setStyleName("align-form");
 
@@ -173,7 +173,7 @@ public class CustomerCreditMemoView extends
 
 		taxCodeSelect = createTaxCodeSelectItem();
 
-		priceLevelSelect = createPriceLevelSelectItem();
+		// priceLevelSelect = createPriceLevelSelectItem();
 
 		// refText = createRefereceText();
 
@@ -210,7 +210,7 @@ public class CustomerCreditMemoView extends
 		};
 		customerAccountTransactionTable.setDisabled(isInViewMode());
 
-		accountTableButton = new Button(Global.get().Account());
+		accountTableButton = new AddNewButton();
 		accountTableButton.setEnabled(!isInViewMode());
 		accountTableButton.addClickHandler(new ClickHandler() {
 
@@ -248,8 +248,7 @@ public class CustomerCreditMemoView extends
 		};
 		customerItemTransactionTable.setDisabled(isInViewMode());
 
-		itemTableButton = new Button(Accounter.constants()
-				.productOrServiceItem());
+		itemTableButton = new AddNewButton();
 		itemTableButton.setEnabled(!isInViewMode());
 		itemTableButton.addClickHandler(new ClickHandler() {
 
@@ -363,17 +362,17 @@ public class CustomerCreditMemoView extends
 	protected void priceLevelSelected(ClientPriceLevel priceLevel) {
 
 		this.priceLevel = priceLevel;
-		if (priceLevel != null && priceLevelSelect != null) {
-
-			priceLevelSelect.setComboItem(getCompany().getPriceLevel(
-					priceLevel.getID()));
-
-		}
-
-		if (transaction == null && customerAccountTransactionTable != null) {
-			customerAccountTransactionTable.priceLevelSelected(priceLevel);
-			customerAccountTransactionTable.updatePriceLevel();
-		}
+		// if (priceLevel != null && priceLevelSelect != null) {
+		//
+		// priceLevelSelect.setComboItem(getCompany().getPriceLevel(
+		// priceLevel.getID()));
+		//
+		// }
+		//
+		// if (transaction == null && customerAccountTransactionTable != null) {
+		// customerAccountTransactionTable.priceLevelSelected(priceLevel);
+		// customerAccountTransactionTable.updatePriceLevel();
+		// }
 		updateNonEditableItems();
 
 	}
@@ -511,7 +510,7 @@ public class CustomerCreditMemoView extends
 
 		ArrayList<ClientPriceLevel> priceLevels = getCompany().getPriceLevels();
 
-		priceLevelSelect.initCombo(priceLevels);
+		// priceLevelSelect.initCombo(priceLevels);
 
 		ArrayList<ClientTAXCode> taxCodes = getCompany().getTaxCodes();
 
@@ -592,7 +591,8 @@ public class CustomerCreditMemoView extends
 					+ customerItemTransactionTable.getTotal();
 
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(), taxableLineTotal,
+					transactionDateItem.getEnteredDate(),
+					taxableLineTotal,
 					getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
@@ -683,8 +683,8 @@ public class CustomerCreditMemoView extends
 						Accounter.constants().none()))
 			taxCodeSelect.setComboItem(this.taxCode);
 
-		if (this.priceLevel != null && priceLevelSelect != null)
-			priceLevelSelect.setComboItem(this.priceLevel);
+		// if (this.priceLevel != null && priceLevelSelect != null)
+		// priceLevelSelect.setComboItem(this.priceLevel);
 
 		this.setCustomer(customer);
 		if (customer != null) {
@@ -776,7 +776,7 @@ public class CustomerCreditMemoView extends
 		customerCombo.setDisabled(isInViewMode());
 		if (getPreferences().isSalesPersonEnabled())
 			salesPersonCombo.setDisabled(isInViewMode());
-		priceLevelSelect.setDisabled(isInViewMode());
+		// priceLevelSelect.setDisabled(isInViewMode());
 		taxCodeSelect.setDisabled(isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
 		customerAccountTransactionTable.setDisabled(isInViewMode());
@@ -808,8 +808,8 @@ public class CustomerCreditMemoView extends
 			// if there is only one branding theme
 			ClientBrandingTheme brandingTheme = themesList.get(0);
 			UIUtils.downloadAttachment(transaction.getID(),
-					ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO, brandingTheme
-							.getID());
+					ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO,
+					brandingTheme.getID());
 
 		}
 
@@ -819,7 +819,7 @@ public class CustomerCreditMemoView extends
 		custForm.getCellFormatter().setWidth(0, 1, "200px");
 		custForm.setWidth("75%");
 		// refText.setWidth("200px");
-		priceLevelSelect.setWidth("150px");
+		// priceLevelSelect.setWidth("150px");
 	}
 
 	@Override

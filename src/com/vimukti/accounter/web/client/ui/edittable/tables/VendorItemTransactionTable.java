@@ -15,6 +15,28 @@ import com.vimukti.accounter.web.client.ui.edittable.TransactionVatCodeColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionVatColumn;
 
 public abstract class VendorItemTransactionTable extends VendorTransactionTable {
+
+	public VendorItemTransactionTable() {
+		super();
+		addEmptyRecords();
+	}
+
+	public VendorItemTransactionTable(boolean needDiscount) {
+		super(needDiscount);
+		addEmptyRecords();
+	}
+
+	/**
+	 * This method will add 4 empty records to the table.
+	 */
+	private void addEmptyRecords() {
+		for (int i = 0; i < 3; i++) {
+			ClientTransactionItem item = new ClientTransactionItem();
+			item.setType(ClientTransactionItem.TYPE_ITEM);
+			add(item);
+		}
+	}
+
 	@Override
 	protected void initColumns() {
 
@@ -59,7 +81,9 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 
 		this.addColumn(new TransactionUnitPriceColumn());
 
-		this.addColumn(new TransactionDiscountColumn());
+		if (needDiscount) {
+			this.addColumn(new TransactionDiscountColumn());
+		}
 
 		this.addColumn(new TransactionTotalColumn());
 

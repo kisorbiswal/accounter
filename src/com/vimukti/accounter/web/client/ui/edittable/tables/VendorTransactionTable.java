@@ -12,30 +12,32 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.combo.ProductCombo;
-import com.vimukti.accounter.web.client.ui.combo.ServiceCombo;
-import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
-import com.vimukti.accounter.web.client.ui.combo.VATItemCombo;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 
 public abstract class VendorTransactionTable extends
 		EditTable<ClientTransactionItem> {
 
-	ServiceCombo serviceItemCombo;
-	ProductCombo productItemCombo;
-	TAXCodeCombo taxCodeCombo;
-	VATItemCombo vatItemCombo;
+	// ServiceCombo serviceItemCombo;
+	// ProductCombo productItemCombo;
+	// TAXCodeCombo taxCodeCombo;
+	// VATItemCombo vatItemCombo;
 	AccounterConstants accounterConstants = Accounter.constants();
 	private Double totallinetotal = 0.0;
 	private Double totalVat = 0.0;
 	private Double grandTotal = 0.0;
 	private double taxableTotal;
 	private int accountingType;
-	protected boolean isPurchseOrderTransaction;
-	protected int maxDecimalPoint;
+	// protected boolean isPurchseOrderTransaction;
+	// protected int maxDecimalPoint;
+	protected boolean needDiscount = true;
 
 	public VendorTransactionTable() {
+		initColumns();
+	}
+
+	public VendorTransactionTable(boolean needDiscount) {
+		this.needDiscount = needDiscount;
 		initColumns();
 	}
 

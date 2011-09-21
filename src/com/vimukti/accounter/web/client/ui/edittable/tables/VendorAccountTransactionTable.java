@@ -11,7 +11,6 @@ import com.vimukti.accounter.web.client.ui.edittable.AccountNameColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DescriptionEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionDiscountColumn;
-import com.vimukti.accounter.web.client.ui.edittable.TransactionQuantityColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionTotalColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionUnitPriceColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionVatCodeColumn;
@@ -19,6 +18,27 @@ import com.vimukti.accounter.web.client.ui.edittable.TransactionVatColumn;
 
 public abstract class VendorAccountTransactionTable extends
 		VendorTransactionTable {
+
+	public VendorAccountTransactionTable() {
+		super();
+		addEmptyRecords();
+	}
+
+	public VendorAccountTransactionTable(boolean needDiscount) {
+		super(needDiscount);
+		addEmptyRecords();
+	}
+
+	/**
+	 * This method will add 4 empty records to the table.
+	 */
+	private void addEmptyRecords() {
+		for (int i = 0; i < 3; i++) {
+			ClientTransactionItem item = new ClientTransactionItem();
+			item.setType(ClientTransactionItem.TYPE_ACCOUNT);
+			add(item);
+		}
+	}
 
 	@Override
 	protected void initColumns() {
@@ -81,7 +101,9 @@ public abstract class VendorAccountTransactionTable extends
 			}
 		});
 
-		this.addColumn(new TransactionDiscountColumn());
+		if (needDiscount) {
+			this.addColumn(new TransactionDiscountColumn());
+		}
 
 		this.addColumn(new TransactionTotalColumn());
 

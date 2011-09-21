@@ -604,32 +604,33 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	}
 
-	protected PriceLevelCombo createPriceLevelSelectItem() {
-
-		PriceLevelCombo priceLevelCombo = new PriceLevelCombo(Accounter
-				.constants().priceLevel());
-		priceLevelCombo.setHelpInformation(true);
-		priceLevelCombo.setWidth(100);
-
-		priceLevelCombo
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPriceLevel>() {
-
-					public void selectedComboBoxItem(ClientPriceLevel selectItem) {
-
-						priceLevelSelected(selectItem);
-
-					}
-
-				});
-
-		priceLevelCombo.setDisabled(isInViewMode());
-		// priceLevelCombo.setShowDisabled(false);
-
-		// formItems.add(priceLevelCombo);
-
-		return priceLevelCombo;
-
-	}
+	// protected PriceLevelCombo createPriceLevelSelectItem() {
+	//
+	// PriceLevelCombo priceLevelCombo = new PriceLevelCombo(Accounter
+	// .constants().priceLevel());
+	// priceLevelCombo.setHelpInformation(true);
+	// priceLevelCombo.setWidth(100);
+	//
+	// priceLevelCombo
+	// .addSelectionChangeHandler(new
+	// IAccounterComboSelectionChangeHandler<ClientPriceLevel>() {
+	//
+	// public void selectedComboBoxItem(ClientPriceLevel selectItem) {
+	//
+	// priceLevelSelected(selectItem);
+	//
+	// }
+	//
+	// });
+	//
+	// priceLevelCombo.setDisabled(isInViewMode());
+	// // priceLevelCombo.setShowDisabled(false);
+	//
+	// // formItems.add(priceLevelCombo);
+	//
+	// return priceLevelCombo;
+	//
+	// }
 
 	public void closeTab() {
 		// MainFinanceWindow.removeFromTab(this);

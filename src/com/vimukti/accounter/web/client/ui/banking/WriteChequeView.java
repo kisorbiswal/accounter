@@ -620,45 +620,25 @@ public class WriteChequeView extends
 		// Setting Transactions
 		// FIXME Need to assign transaction Items from to tables.
 		if (payee != null) {
-			List<ClientTransactionItem> list = new ArrayList<ClientTransactionItem>();
 			switch (payee.getType()) {
 			case ClientPayee.TYPE_CUSTOMER:
-				transaction.setPayToType(ClientWriteCheck.TYPE_CUSTOMER);
 				transaction.setCustomer(selectedCustomer.getID());
-				list.addAll(transactionCustomerAccountTable.getAllRows());
-				list.addAll(transactionCustomerItemTable.getAllRows());
-				transaction.setTransactionItems(list);
 				transaction.setTotal(transactionCustomerAccountTable.getTotal()
 						+ transactionCustomerItemTable.getTotal());
 
 				transaction.setPayToType(ClientWriteCheck.TYPE_CUSTOMER);
 				break;
 			case ClientPayee.TYPE_VENDOR:
-				transaction.setPayToType(ClientWriteCheck.TYPE_VENDOR);
 				transaction.setVendor(selectedVendor.getID());
-				list.addAll(transactionVendorAccountTable.getAllRows());
-				list.addAll(transactionVendorItemTable.getAllRows());
-				transaction.setTransactionItems(list);
 				transaction.setTotal(transactionVendorAccountTable.getTotal()
 						+ transactionVendorItemTable.getTotal());
 				transaction.setPayToType(ClientWriteCheck.TYPE_VENDOR);
 				break;
 
 			case ClientPayee.TYPE_TAX_AGENCY:
-				transaction.setPayToType(ClientWriteCheck.TYPE_TAX_AGENCY);
 				transaction.setTaxAgency(selectedTaxAgency.getID());
-				list.addAll(transactionVendorAccountTable.getAllRows());
-				list.addAll(transactionVendorItemTable.getAllRows());
-				transaction.setTransactionItems(list);
 				transaction.setTotal(transactionVendorAccountTable.getTotal()
 						+ transactionVendorItemTable.getTotal());
-				// for (ClientTransactionItem rec : transactionVendorGrid
-				// .getallTransactions(transaction)) {
-				// rec.setType(ClientTransactionItem.TYPE_SALESTAX);
-				// }
-				// transaction.setTransactionItems(transactionVendorGrid
-				// .getallTransactions(transaction));
-				// transaction.setTotal(transactionVendorGrid.getTotal());
 				transaction.setPayToType(ClientWriteCheck.TYPE_TAX_AGENCY);
 
 				break;

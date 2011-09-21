@@ -26,7 +26,7 @@ public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 			protected void setValue(ClientTransactionItem row,
 					ClientItem newValue) {
 				super.setValue(row, newValue);
-				applyPriceLevel(row);
+				// applyPriceLevel(row);
 			}
 
 			@Override

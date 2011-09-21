@@ -16,6 +16,30 @@ import com.vimukti.accounter.web.client.ui.edittable.TransactionVatColumn;
 public abstract class CustomerItemTransactionTable extends
 		CustomerTransactionTable {
 
+	/**
+	 * Creates the instance
+	 */
+	public CustomerItemTransactionTable() {
+		super();
+		addEmptyRecords();
+	}
+
+	public CustomerItemTransactionTable(boolean needDiscount) {
+		super(needDiscount);
+		addEmptyRecords();
+	}
+
+	/**
+	 * This method will add 4 empty records to the table.
+	 */
+	private void addEmptyRecords() {
+		for (int i = 0; i < 3; i++) {
+			ClientTransactionItem item = new ClientTransactionItem();
+			item.setType(ClientTransactionItem.TYPE_ITEM);
+			add(item);
+		}
+	}
+
 	@Override
 	protected void initColumns() {
 
@@ -36,7 +60,7 @@ public abstract class CustomerItemTransactionTable extends
 			protected void setValue(ClientTransactionItem row,
 					ClientItem newValue) {
 				super.setValue(row, newValue);
-				applyPriceLevel(row);
+				// applyPriceLevel(row);
 			}
 		});
 
@@ -46,7 +70,9 @@ public abstract class CustomerItemTransactionTable extends
 
 		this.addColumn(new TransactionUnitPriceColumn());
 
-		this.addColumn(new TransactionDiscountColumn());
+		if (needDiscount) {
+			this.addColumn(new TransactionDiscountColumn());
+		}
 
 		this.addColumn(new TransactionTotalColumn());
 

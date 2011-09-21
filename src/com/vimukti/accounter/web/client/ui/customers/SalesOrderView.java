@@ -8,7 +8,6 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -16,6 +15,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -61,7 +61,7 @@ import com.vimukti.accounter.web.client.ui.grids.SalesOrderGrid;
 public class SalesOrderView extends
 		AbstractCustomerTransactionView<ClientSalesOrder> {
 	private ShippingTermsCombo shippingTermsCombo;
-	private PriceLevelCombo priceLevelSelect;
+	// private PriceLevelCombo priceLevelSelect;
 	private SalesPersonCombo salesPersonCombo;
 	private TAXCodeCombo taxCodeSelect;
 	private PaymentTermsCombo payTermsSelect;
@@ -87,7 +87,7 @@ public class SalesOrderView extends
 	private boolean locationTrackingEnabled;
 
 	private SalesOrderTable customerTransactionTable;
-	private Button itemTableButton;
+	private AddNewButton itemTableButton;
 	protected ClientTAXCode taxCode;
 	private List<ClientPaymentTerms> paymentTermsList;
 	protected ClientPaymentTerms paymentTerm;
@@ -348,7 +348,7 @@ public class SalesOrderView extends
 
 		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
 
-		priceLevelSelect = createPriceLevelSelectItem();
+		// priceLevelSelect = createPriceLevelSelectItem();
 		taxCodeSelect = createTaxCodeSelectItem();
 
 		paymentsNonEditableText = new AmountLabel(customerConstants.payments());
@@ -388,8 +388,7 @@ public class SalesOrderView extends
 		customerTransactionTable.setDisabled(isInViewMode());
 		customerTransactionTable.setWidth("99.5%");
 		// customerTransactionTable.setHeight("250px");
-		itemTableButton = new Button(Accounter.constants()
-				.productOrServiceItem());
+		itemTableButton = new AddNewButton();
 		itemTableButton.setEnabled(!isInViewMode());
 		itemTableButton.addClickHandler(new ClickHandler() {
 
@@ -586,7 +585,7 @@ public class SalesOrderView extends
 			ArrayList<ClientPriceLevel> priceLevels = getCompany()
 					.getPriceLevels();
 
-			priceLevelSelect.initCombo(priceLevels);
+			// priceLevelSelect.initCombo(priceLevels);
 
 			ArrayList<ClientTAXCode> taxCodes = getCompany().getTaxCodes();
 
@@ -735,7 +734,7 @@ public class SalesOrderView extends
 
 		ArrayList<ClientPriceLevel> priceLevels = getCompany().getPriceLevels();
 
-		priceLevelSelect.initCombo(priceLevels);
+		// priceLevelSelect.initCombo(priceLevels);
 
 		ArrayList<ClientSalesPerson> salesPersons = getCompany()
 				.getActiveSalesPersons();

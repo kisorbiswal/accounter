@@ -51,7 +51,6 @@ import com.vimukti.accounter.web.client.ui.combo.CurrencyCombo;
 import com.vimukti.accounter.web.client.ui.combo.CustomerGroupCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
-import com.vimukti.accounter.web.client.ui.combo.PriceLevelCombo;
 import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingMethodsCombo;
@@ -93,7 +92,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	CheckboxItem statusCheck, selectCheckBox;
 
-	PriceLevelCombo priceLevelSelect;
+	// PriceLevelCombo priceLevelSelect;
 	CreditRatingCombo creditRatingSelect;
 
 	TextItem bankAccountSelect;
@@ -224,14 +223,14 @@ public class CustomerView extends BaseView<ClientCustomer> {
 					.getCreditRating()));
 	}
 
-	private void initPriceLevelList() {
-
-		priceLevelSelect.initCombo(getCompany().getPriceLevels());
-		// Setting Preferred Shipping Method
-		if (data != null && data.getPriceLevel() != 0)
-			priceLevelSelect.setComboItem(company.getPriceLevel(data
-					.getPriceLevel()));
-	}
+	// private void initPriceLevelList() {
+	//
+	// priceLevelSelect.initCombo(getCompany().getPriceLevels());
+	// // Setting Preferred Shipping Method
+	// if (data != null && data.getPriceLevel() != 0)
+	// priceLevelSelect.setComboItem(company.getPriceLevel(data
+	// .getPriceLevel()));
+	// }
 
 	private void initVatCodeList() {
 		List<ClientTAXCode> taxcodes = company.getActiveTaxCodes();
@@ -375,8 +374,9 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		if (company.getPreferences().isChargeSalesTax()) {
 			// FIXME:: its not required
 			if (!custTaxCode.validate())
-				result.addError(custTaxCode, Accounter.messages().pleaseEnter(
-						custTaxCode.getTitle()));
+				result.addError(custTaxCode,
+						Accounter.messages()
+								.pleaseEnter(custTaxCode.getTitle()));
 		}
 		ClientFinanceDate asOfDate = balanceDate.getEnteredDate();
 
@@ -811,32 +811,32 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	protected void adjustFormWidths(int titlewidth, int listBoxWidth) {
 
-		addrsForm.getCellFormatter().getElement(0, 0).setAttribute("width",
-				titlewidth + "");
+		addrsForm.getCellFormatter().getElement(0, 0)
+				.setAttribute("width", titlewidth + "");
 
-		addrsForm.getCellFormatter().getElement(0, 1).setAttribute(
-				Accounter.constants().width(), "185px");
+		addrsForm.getCellFormatter().getElement(0, 1)
+				.setAttribute(Accounter.constants().width(), "185px");
 
-		fonFaxForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "240px");
+		fonFaxForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "240px");
 		// fonFaxForm.getCellFormatter().getElement(0, 1).setAttribute(
 		// FinanceApplication.constants().width(), "185px");
 
-		customerForm.getCellFormatter().getElement(0, 0).getStyle().setWidth(
-				150, Unit.PX);
-		emailForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "240px");
+		customerForm.getCellFormatter().getElement(0, 0).getStyle()
+				.setWidth(150, Unit.PX);
+		emailForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "240px");
 		// emailForm.getCellFormatter().getElement(0, 1).setAttribute(
 		// FinanceApplication.constants().width(), "");
-		accInfoForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "150px");
+		accInfoForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "150px");
 
 	}
 
 	private HorizontalPanel getDetailsTab() {
 
-		salesPersonSelect = new SalesPersonCombo(customerConstants
-				.salesPerson());
+		salesPersonSelect = new SalesPersonCombo(
+				customerConstants.salesPerson());
 		salesPersonSelect.setHelpInformation(true);
 		salesPersonSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientSalesPerson>() {
@@ -857,20 +857,22 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		creditLimitText.setHelpInformation(true);
 		creditLimitText.setWidth(100);
 
-		priceLevelSelect = new PriceLevelCombo(customerConstants.priceLevel());
-		priceLevelSelect.setHelpInformation(true);
-		priceLevelSelect
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPriceLevel>() {
+		// priceLevelSelect = new
+		// PriceLevelCombo(customerConstants.priceLevel());
+		// priceLevelSelect.setHelpInformation(true);
+		// priceLevelSelect
+		// .addSelectionChangeHandler(new
+		// IAccounterComboSelectionChangeHandler<ClientPriceLevel>() {
+		//
+		// public void selectedComboBoxItem(ClientPriceLevel selectItem) {
+		// selectPriceLevelFromDetailsTab = selectItem;
+		//
+		// }
+		//
+		// });
 
-					public void selectedComboBoxItem(ClientPriceLevel selectItem) {
-						selectPriceLevelFromDetailsTab = selectItem;
-
-					}
-
-				});
-
-		creditRatingSelect = new CreditRatingCombo(customerConstants
-				.creditRating());
+		creditRatingSelect = new CreditRatingCombo(
+				customerConstants.creditRating());
 		creditRatingSelect.setHelpInformation(true);
 		creditRatingSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCreditRating>() {
@@ -902,8 +904,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		panNumberText.setHelpInformation(true);
 		cstNumberText = new TextItem(customerConstants.cstNumber());
 		cstNumberText.setHelpInformation(true);
-		serviceTaxRegistrationNo = new TextItem(customerConstants
-				.serviceTaxRegistrationNumber());
+		serviceTaxRegistrationNo = new TextItem(
+				customerConstants.serviceTaxRegistrationNumber());
 		serviceTaxRegistrationNo.setHelpInformation(true);
 		tinNumberText = new TextItem(customerConstants.tinNumber());
 		tinNumberText.setHelpInformation(true);
@@ -911,17 +913,16 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		DynamicForm financeDitailsForm = UIUtils.form(customerConstants
 				.financialDetails());
 
-		financeDitailsForm.setFields(salesPersonSelect, priceLevelSelect,
-				creditRatingSelect, bankNameSelect, bankAccountSelect,
-				bankBranchSelect);
+		financeDitailsForm.setFields(salesPersonSelect, creditRatingSelect,
+				bankNameSelect, bankAccountSelect, bankBranchSelect);
 		if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
 			financeDitailsForm.setFields(panNumberText, cstNumberText,
 					serviceTaxRegistrationNo, tinNumberText);
 		}
 		financeDitailsForm.setWidth("100%");
 
-		shipMethSelect = new ShippingMethodsCombo(customerConstants
-				.preferredShippingMethod());
+		shipMethSelect = new ShippingMethodsCombo(
+				customerConstants.preferredShippingMethod());
 		shipMethSelect.setHelpInformation(true);
 		shipMethSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingMethod>() {
@@ -1026,7 +1027,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		salesPersonSelect.setDisabled(isInViewMode());
 		creditLimitText.setDisabled(isInViewMode());
-		priceLevelSelect.setDisabled(isInViewMode());
+		// priceLevelSelect.setDisabled(isInViewMode());
 		creditRatingSelect.setDisabled(isInViewMode());
 		currencyCombo.setDisabled(isInViewMode());
 		bankAccountSelect.setDisabled(isInViewMode());
@@ -1103,7 +1104,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		initPaymentTermsList();
 		initShippingMethodList();
 		initCreditRatingList();
-		initPriceLevelList();
+		// initPriceLevelList();
 		if (data != null && data.getPhoneNo() != null)
 			data.setPhoneNo(data.getPhoneNo());
 		if (data != null && data.getFaxNo() != null)
@@ -1310,7 +1311,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		gridView.setDisabled(isInViewMode());
 		salesPersonSelect.setDisabled(isInViewMode());
 		creditLimitText.setDisabled(isInViewMode());
-		priceLevelSelect.setDisabled(isInViewMode());
+		// priceLevelSelect.setDisabled(isInViewMode());
 		creditRatingSelect.setDisabled(isInViewMode());
 		currencyCombo.setDisabled(isInViewMode());
 		bankAccountSelect.setDisabled(isInViewMode());

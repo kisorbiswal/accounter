@@ -9,7 +9,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -18,6 +17,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -62,7 +62,7 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 public class CashSalesView extends
 		AbstractCustomerTransactionView<ClientCashSales> {
 	private ShippingTermsCombo shippingTermsCombo;
-	private PriceLevelCombo priceLevelSelect;
+	// private PriceLevelCombo priceLevelSelect;
 	private TAXCodeCombo taxCodeSelect;
 	private SalesPersonCombo salesPersonCombo;
 	private Double salesTax = 0.0D;
@@ -78,7 +78,7 @@ public class CashSalesView extends
 	private AmountLabel transactionTotalNonEditableText, netAmountLabel,
 			vatTotalNonEditableText, salesTaxTextNonEditable;
 	private Double transactionTotal = 0.0D;
-	private Button accountTableButton, itemTableButton;
+	private AddNewButton accountTableButton, itemTableButton;
 
 	public CashSalesView() {
 		super(ClientTransaction.TYPE_CASH_SALES);
@@ -155,8 +155,8 @@ public class CashSalesView extends
 		shipToAddress = new ShipToForm(null);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
-		shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "40px");
+		shipToAddress.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -209,8 +209,8 @@ public class CashSalesView extends
 		}
 
 		termsForm.setStyleName("align-form");
-		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "203px");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -223,7 +223,7 @@ public class CashSalesView extends
 
 		taxCodeSelect = createTaxCodeSelectItem();
 
-		priceLevelSelect = createPriceLevelSelectItem();
+		// priceLevelSelect = createPriceLevelSelectItem();
 
 		// refText = createRefereceText();
 		// refText.setWidth(160);
@@ -261,7 +261,7 @@ public class CashSalesView extends
 
 		customerAccountTransactionTable.setDisabled(isInViewMode());
 
-		accountTableButton = new Button(Global.get().Account());
+		accountTableButton = new AddNewButton();
 		accountTableButton.setEnabled(!isInViewMode());
 		accountTableButton.addClickHandler(new ClickHandler() {
 
@@ -298,8 +298,7 @@ public class CashSalesView extends
 			}
 		};
 
-		itemTableButton = new Button(Accounter.constants()
-				.productOrServiceItem());
+		itemTableButton = new AddNewButton();
 		itemTableButton.setEnabled(!isInViewMode());
 		itemTableButton.addClickHandler(new ClickHandler() {
 
@@ -472,8 +471,8 @@ public class CashSalesView extends
 						Accounter.constants().none()))
 			taxCodeSelect.setComboItem(this.taxCode);
 
-		if (this.priceLevel != null && priceLevelSelect != null)
-			priceLevelSelect.setComboItem(this.priceLevel);
+		// if (this.priceLevel != null && priceLevelSelect != null)
+		// priceLevelSelect.setComboItem(this.priceLevel);
 
 		if (customer.getPhoneNo() != null)
 			phoneSelect.setValue(customer.getPhoneNo());
@@ -530,16 +529,16 @@ public class CashSalesView extends
 	protected void priceLevelSelected(ClientPriceLevel priceLevel) {
 
 		this.priceLevel = priceLevel;
-		if (priceLevel != null && priceLevelSelect != null) {
-
-			priceLevelSelect.setComboItem(getCompany().getPriceLevel(
-					priceLevel.getID()));
-
-		}
-		if (transaction == null && customerAccountTransactionTable != null) {
-			customerAccountTransactionTable.priceLevelSelected(priceLevel);
-			customerAccountTransactionTable.updatePriceLevel();
-		}
+		// if (priceLevel != null && priceLevelSelect != null) {
+		//
+		// priceLevelSelect.setComboItem(getCompany().getPriceLevel(
+		// priceLevel.getID()));
+		//
+		// }
+		// if (transaction == null && customerAccountTransactionTable != null) {
+		// customerAccountTransactionTable.priceLevelSelected(priceLevel);
+		// customerAccountTransactionTable.updatePriceLevel();
+		// }
 		updateNonEditableItems();
 
 	}
@@ -623,7 +622,8 @@ public class CashSalesView extends
 					+ customerItemTransactionTable.getTotal();
 
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(), taxableLineTotal,
+					transactionDateItem.getEnteredDate(),
+					taxableLineTotal,
 					getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
@@ -769,7 +769,7 @@ public class CashSalesView extends
 
 		ArrayList<ClientPriceLevel> priceLevels = getCompany().getPriceLevels();
 
-		priceLevelSelect.initCombo(priceLevels);
+		// priceLevelSelect.initCombo(priceLevels);
 
 		ArrayList<ClientTAXCode> taxCodes = getCompany().getTaxCodes();
 
@@ -942,7 +942,7 @@ public class CashSalesView extends
 
 		deliveryDate.setDisabled(isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
-		priceLevelSelect.setDisabled(isInViewMode());
+		// priceLevelSelect.setDisabled(isInViewMode());
 		customerAccountTransactionTable.setDisabled(isInViewMode());
 		customerItemTransactionTable.setDisabled(isInViewMode());
 		accountTableButton.setEnabled(!isInViewMode());
@@ -966,7 +966,7 @@ public class CashSalesView extends
 	private void resetFormView() {
 		custForm.getCellFormatter().setWidth(0, 1, "200px");
 		custForm.setWidth("75%");
-		priceLevelSelect.setWidth("150px");
+		// priceLevelSelect.setWidth("150px");
 		// refText.setWidth("200px");
 		memoTextAreaItem.setWidth("200px");
 	}

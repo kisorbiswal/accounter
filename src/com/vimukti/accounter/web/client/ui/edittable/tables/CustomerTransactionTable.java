@@ -6,7 +6,6 @@ import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientItem;
-import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
@@ -35,9 +34,16 @@ public abstract class CustomerTransactionTable extends
 	private ClientCompany company;
 	private Object taxCode;
 	private long ztaxCodeid;
-	private ClientPriceLevel priceLevel;
+	// private ClientPriceLevel priceLevel;
+	protected boolean needDiscount = true;
 
 	public CustomerTransactionTable() {
+		initColumns();
+		company = Accounter.getCompany();
+	}
+
+	public CustomerTransactionTable(boolean needDiscount) {
+		this.needDiscount = needDiscount;
 		initColumns();
 		company = Accounter.getCompany();
 	}
@@ -64,19 +70,19 @@ public abstract class CustomerTransactionTable extends
 		return Accounter.getFinanceImages().errorImage();
 	}
 
-	protected void applyPriceLevel(ClientTransactionItem item) {
-		priceLevelSelected(priceLevel);
-		selectedRecord = item;
-		if (priceLevel != null) {
-			setUnitPriceForSelectedItem(getCompany().getItem(item.getItem()));
-		} else {
-			update(item);
-		}
-	}
+	// protected void applyPriceLevel(ClientTransactionItem item) {
+	// priceLevelSelected(priceLevel);
+	// selectedRecord = item;
+	// if (priceLevel != null) {
+	// setUnitPriceForSelectedItem(getCompany().getItem(item.getItem()));
+	// } else {
+	// update(item);
+	// }
+	// }
 
-	public void setPricingLevel(ClientPriceLevel priceLevel) {
-		this.priceLevel = priceLevel;
-	}
+	// public void setPricingLevel(ClientPriceLevel priceLevel) {
+	// this.priceLevel = priceLevel;
+	// }
 
 	public void refreshVatValue(ClientTransactionItem obj) {
 		ClientTransactionItem record = (ClientTransactionItem) obj;
@@ -247,24 +253,24 @@ public abstract class CustomerTransactionTable extends
 
 	protected abstract ClientCustomer getCustomer();
 
-	public void priceLevelSelected(ClientPriceLevel priceLevel) {
-		this.priceLevel = priceLevel;
-	}
+	// public void priceLevelSelected(ClientPriceLevel priceLevel) {
+	// this.priceLevel = priceLevel;
+	// }
 
 	private ClientTransactionItem selectedRecord;
 
-	public void updatePriceLevel() {
-		for (ClientTransactionItem item : getAllRows()) {
-			if (item.getType() == ClientTransactionItem.TYPE_ITEM) {
-				selectedRecord = item;
-				if (priceLevel != null)
-					setUnitPriceForSelectedItem(company.getItem(item.getItem()));
-
-			}
-		}
-
-		updateTotals();
-	}
+	// public void updatePriceLevel() {
+	// for (ClientTransactionItem item : getAllRows()) {
+	// if (item.getType() == ClientTransactionItem.TYPE_ITEM) {
+	// selectedRecord = item;
+	// if (priceLevel != null)
+	// setUnitPriceForSelectedItem(company.getItem(item.getItem()));
+	//
+	// }
+	// }
+	//
+	// updateTotals();
+	// }
 
 	protected void setUnitPriceForSelectedItem(ClientItem selectedItem) {
 
@@ -272,9 +278,10 @@ public abstract class CustomerTransactionTable extends
 
 		if (record == null)
 			return;
-		Double calculatedUnitPrice = Utility
-				.getCalculatedItemUnitPriceForPriceLevel(selectedItem,
-						priceLevel, false);
+		Double calculatedUnitPrice = selectedItem.getSalesPrice();
+		// Utility
+		// .getCalculatedItemUnitPriceForPriceLevel(selectedItem,
+		// priceLevel, false);
 
 		if (calculatedUnitPrice == null)
 			return;

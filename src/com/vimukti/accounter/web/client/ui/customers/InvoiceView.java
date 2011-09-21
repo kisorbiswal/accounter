@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -81,7 +82,7 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		implements IPrintableView {
 	private ShippingTermsCombo shippingTermsCombo;
-	private PriceLevelCombo priceLevelSelect;
+	// private PriceLevelCombo priceLevelSelect;
 	private TAXCodeCombo taxCodeSelect;
 	private SalesPersonCombo salesPersonCombo;
 	private PaymentTermsCombo payTermsSelect;
@@ -123,7 +124,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	private ClientPriceLevel priceLevel;
 	private List<ClientPaymentTerms> paymentTermsList;
 	private Double transactionTotal;
-	private Button itemTableButton;
+	private AddNewButton itemTableButton;
 
 	private void initBalanceDue() {
 
@@ -471,7 +472,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		// vPanel.setWidth("100%");
 		// forms.add(prodAndServiceForm1);
 
-		priceLevelSelect = createPriceLevelSelectItem();
+		// priceLevelSelect = createPriceLevelSelectItem();
 		taxCodeSelect = createTaxCodeSelectItem();
 
 		vatinclusiveCheck = getVATInclusiveCheckBox();
@@ -513,8 +514,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		};
 		customerTransactionTable.setDisabled(isInViewMode());
 
-		itemTableButton = new Button(Accounter.constants()
-				.productOrServiceItem());
+		itemTableButton = new AddNewButton();
 		itemTableButton.setEnabled(!isInViewMode());
 		itemTableButton.addClickHandler(new ClickHandler() {
 
@@ -555,7 +555,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			DynamicForm priceLevelForm = new DynamicForm();
 			// priceLevelForm.setCellSpacing(4);
 			priceLevelForm.setWidth("70%");
-			priceLevelForm.setFields(priceLevelSelect);
+			// priceLevelForm.setFields(priceLevelSelect);
 			amountsForm.setFields(netAmountLabel, vatTotalNonEditableText,
 					transactionTotalNonEditableText, paymentsNonEditableText,
 					balanceDueNonEditableText);
@@ -756,16 +756,16 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	protected void priceLevelSelected(ClientPriceLevel priceLevel) {
 
 		this.priceLevel = priceLevel;
-		if (priceLevel != null && priceLevelSelect != null) {
-
-			priceLevelSelect.setComboItem(getCompany().getPriceLevel(
-					priceLevel.getID()));
-
-		}
-		if (this.transaction == null || customerTransactionTable != null) {
-			customerTransactionTable.setPricingLevel(priceLevel);
-			customerTransactionTable.updatePriceLevel();
-		}
+		// if (priceLevel != null && priceLevelSelect != null) {
+		//
+		// priceLevelSelect.setComboItem(getCompany().getPriceLevel(
+		// priceLevel.getID()));
+		//
+		// }
+		// if (this.transaction == null || customerTransactionTable != null) {
+		// customerTransactionTable.setPricingLevel(priceLevel);
+		// customerTransactionTable.updatePriceLevel();
+		// }
 		updateNonEditableItems();
 
 	}
@@ -1207,7 +1207,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		ArrayList<ClientPriceLevel> priceLevels = getCompany().getPriceLevels();
 
-		priceLevelSelect.initCombo(priceLevels);
+		// priceLevelSelect.initCombo(priceLevels);
 
 		ArrayList<ClientTAXCode> taxCodes = getCompany().getTaxCodes();
 
@@ -1708,7 +1708,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		dueDateItem.setDisabled(isInViewMode());
 		deliveryDate.setDisabled(isInViewMode());
 
-		priceLevelSelect.setDisabled(isInViewMode());
+		// priceLevelSelect.setDisabled(isInViewMode());
 		taxCodeSelect.setDisabled(isInViewMode());
 
 		orderNumText.setDisabled(isInViewMode());
@@ -1752,7 +1752,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		shipToAddress.getCellFormatter().setWidth(0, 1, "100");
 		shipToAddress.getCellFormatter().setWidth(0, 2, "200");
 
-		priceLevelSelect.setWidth("150px");
+		// priceLevelSelect.setWidth("150px");
 		// refText.setWidth("200px");
 	}
 
