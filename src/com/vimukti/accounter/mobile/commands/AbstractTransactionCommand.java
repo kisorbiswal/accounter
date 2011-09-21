@@ -1,6 +1,7 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -55,6 +56,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	private static final String ACCOUNT_ITEM_DETAILS = null;
 	protected static final String VENDOR = "vendor";
 	protected static final String PAY_FROM = "payFrom";
+	protected static final String ACTIVE = "isActive";
 
 	protected Result itemsRequirement(Context context) {
 		Requirement itemsReq = get("items");
@@ -443,6 +445,28 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return result;
 	}
 
+	protected Result payFromRequirement(Context context, ResultList list,
+			Object selection) {
+		Object accountObj = context.getSelection(PAY_FROM);
+		Requirement payFromReq = get(PAY_FROM);
+		Account account = (Account) payFromReq.getValue();
+
+		if (selection == account) {
+			return paymentFrom(context, account);
+
+		}
+		if (accountObj != null) {
+			account = (Account) accountObj;
+			payFromReq.setValue(account);
+		}
+
+		Record paymentTermRecord = new Record(account);
+		paymentTermRecord.add("Name", PAY_FROM);
+		paymentTermRecord.add("Value", account.getName());
+		list.add(paymentTermRecord);
+		return null;
+	}
+
 	protected Result paymentTermRequirement(Context context, ResultList list,
 			Object selection) {
 		Object payamentObj = context.getSelection(PAYMENT_TERMS);
@@ -553,6 +577,44 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	private List<PaymentTerms> getPaymentTerms() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	protected Result paymentFrom(Context context, Account oldAccount) {
+		List<Account> accounts = new ArrayList<Account>();
+		List<Account> allAccounts = getAccounts(context.getHibernateSession());
+
+		for (Account a : allAccounts) {
+			if (Arrays.asList(Account.TYPE_BANK,
+					Account.TYPE_OTHER_CURRENT_ASSET).contains(a.getType()))
+				accounts.add(a);
+
+		}
+
+		Result result = context.makeResult();
+		result.add("Select Account");
+
+		ResultList list = new ResultList(PAY_FROM);
+		int num = 0;
+		if (oldAccount != null) {
+			list.add(createAccountRecord(oldAccount));
+			num++;
+		}
+		for (Account acc : accounts) {
+			if (acc != oldAccount) {
+				list.add(createAccountRecord(acc));
+				num++;
+			}
+			if (num == ACCOUNTS_TO_SHOW) {
+				break;
+			}
+		}
+		result.add(list);
+
+		CommandList commandList = new CommandList();
+		commandList.add("Create Account");
+		result.add(commandList);
+		return result;
+
 	}
 
 	protected Result paymentTerms(Context context, PaymentTerms oldPaymentTerms) {
@@ -729,7 +791,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	}
 
 	private List<Account> getAccounts(Session session) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
