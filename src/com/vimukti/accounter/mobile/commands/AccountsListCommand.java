@@ -19,8 +19,6 @@ import com.vimukti.accounter.mobile.ResultList;
  */
 public class AccountsListCommand extends AbstractTransactionCommand {
 
-	private static final String ACTIVE = "isActive";
-
 	@Override
 	public String getId() {
 		// TODO Auto-generated method stub
@@ -39,7 +37,7 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 		Result result = null;
 
 		result = createAccountsList(context);
-		return null;
+		return result;
 	}
 
 	private Result createAccountsList(Context context) {
