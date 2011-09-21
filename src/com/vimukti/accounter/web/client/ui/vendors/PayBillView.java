@@ -170,7 +170,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		transaction.setTotal(amtText.getAmount());
 
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA
-				&& preferences.isTDSEnabled()) {
+				&& getPreferences().isTDSEnabled()) {
 
 			ClientTAXItem taxItem = getCompany().getTAXItem(
 					vendor.getTaxItemCode());
@@ -225,7 +225,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				}
 			tpbRecord.setTransactionCreditsAndPayments(trpList);
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA
-					&& preferences.isTDSEnabled()) {
+					&& getPreferences().isTDSEnabled()) {
 
 				ClientTAXItem taxItem = getCompany().getTAXItem(
 						vendor.getTaxItemCode());
@@ -616,7 +616,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		textForm.setNumCols(2);
 		textForm.setWidth("70%");
 		textForm.setStyleName("unused-payments");
-		if (preferences.isTDSEnabled()) {
+		if (getPreferences().isTDSEnabled()) {
 			textForm.setFields(unUsedCreditsText);
 		} else {
 			textForm.setFields(unUsedCreditsText);
