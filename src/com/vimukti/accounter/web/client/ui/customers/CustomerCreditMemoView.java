@@ -135,7 +135,7 @@ public class CustomerCreditMemoView extends
 		billToTextArea = new TextAreaItem();
 		billToTextArea.setHelpInformation(true);
 		billToTextArea.setWidth(100);
-		billToTextArea.setTitle(Accounter.constants().creditTo());
+		billToTextArea.setTitle(Accounter.constants().billTo());
 		billToTextArea.setDisabled(true);
 
 		custForm = UIUtils.form(Global.get().customer());

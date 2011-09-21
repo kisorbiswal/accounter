@@ -14,12 +14,14 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
@@ -114,7 +116,7 @@ public class CreditCardChargeView extends
 	// }
 
 	protected void addPhonesContactsAndAddress() {
-		// Set<Address> allAddress = selectedVendor.getAddress();
+		Set<ClientAddress> allAddress = getSelectedVendor().getAddress();
 		addressList = selectedVendor.getAddress();
 		initBillToCombo();
 		// billToCombo.setDisabled(isEdit);
@@ -149,6 +151,29 @@ public class CreditCardChargeView extends
 
 		contactCombo.setDisabled(isInViewMode());
 		phoneSelect.setDisabled(isInViewMode());
+		for (ClientAddress toBeShown : allAddress) {
+			if (toBeShown.getType() == Address.TYPE_BILL_TO) {
+				String toToSet = new String();
+				if (toBeShown.getStreet() != null) {
+					toToSet = toBeShown.getStreet().toString() + ",\n";
+				}
+
+				if (toBeShown.getCity() != null) {
+					toToSet += toBeShown.getCity().toString() + ",\n";
+				}
+
+				if (toBeShown.getStateOrProvinence() != null) {
+					toToSet += toBeShown.getStateOrProvinence() + ",\n";
+				}
+				if (toBeShown.getZipOrPostalCode() != null) {
+					toToSet += toBeShown.getZipOrPostalCode() + ",\n";
+				}
+				if (toBeShown.getCountryOrRegion() != null) {
+					toToSet += toBeShown.getCountryOrRegion();
+				}
+				billToAreaItem.setValue(toToSet);
+			}
+		}
 		return;
 		// if (primaryContact == null) {
 		// contactNameSelect.setSelected("");
@@ -158,31 +183,6 @@ public class CreditCardChargeView extends
 
 		// contactNameSelect.setSelected(primaryContact.getName());
 		// phoneSelect.setValue(primaryContact.getBusinessPhone());
-
-		// for (Address toBeShown : allAddress) {
-		// if (toBeShown.getType() == Address.TYPE_BILL_TO) {
-		// billToAddress.put("1", toBeShown);
-		// String toToSet = new String();
-		// if (toBeShown.getStreet() != null) {
-		// toToSet = toBeShown.getStreet().toString() + ",\n";
-		// }
-		//
-		// if (toBeShown.getCity() != null) {
-		// toToSet += toBeShown.getCity().toString() + ",\n";
-		// }
-		//
-		// if (toBeShown.getStateOrProvinence() != null) {
-		// toToSet += toBeShown.getStateOrProvinence() + ",\n";
-		// }
-		// if (toBeShown.getZipOrPostalCode() != null) {
-		// toToSet += toBeShown.getZipOrPostalCode() + ",\n";
-		// }
-		// if (toBeShown.getCountryOrRegion() != null) {
-		// toToSet += toBeShown.getCountryOrRegion();
-		// }
-		// addrArea.setValue(toToSet);
-		// }
-		// }
 
 	}
 
