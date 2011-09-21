@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
@@ -37,7 +38,7 @@ public class DateUtills {
 	}
 
 	public static String getDateAsString(long date) {
-		return getDateAsString(new Date(date));
+		return getDateAsString(new ClientFinanceDate(date).getDateAsObject());
 	}
 
 	public Date parseDate(String date) {
