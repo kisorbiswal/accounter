@@ -16,6 +16,9 @@ import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.TAXCode;
+import com.vimukti.accounter.core.TAXGroup;
+import com.vimukti.accounter.core.TAXItem;
+import com.vimukti.accounter.core.TAXItemGroup;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
@@ -27,6 +30,7 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final int ITEMS_TO_SHOW = 5;
@@ -48,6 +52,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final String OLD_TRANSACTION_ACCOUNT_ITEM_ATTR = null;
 	private static final String ACCOUNT_ITEM_PROPERTY_ATTR = null;
 	private static final String ACCOUNT_ITEM_DETAILS = null;
+	protected static final String VENDOR = "vendor";
 
 	protected Result itemsRequirement(Context context) {
 		Requirement itemsReq = get("items");
@@ -1016,5 +1021,92 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		record.add("Account Type", getAccountTypeString(last.getType()));
 		return record;
 	}
+
+	protected double getTransactionTotal(List<TransactionItem> items,
+			Company company) {
+
+		int totaldiscount = 0;
+		double totallinetotal = 0.0;
+		double taxableTotal = 0.0;
+		double totalVat = 0.0;
+		double grandTotal = 0.0;
+		double totalValue = 0.0;
+		int accountType = getCompany().getAccountingType();
+		for (TransactionItem citem : items) {
+			totaldiscount += citem.getDiscount();
+
+			Double lineTotalAmt = citem.getLineTotal();
+			totallinetotal += lineTotalAmt;
+
+			if (citem != null && citem.isTaxable()) {
+				// ClientTAXItem taxItem = getCompany().getTAXItem(
+				// citem.getTaxCode());
+				// if (taxItem != null) {
+				// totalVat += taxItem.getTaxRate() / 100 * lineTotalAmt;
+				// }
+				taxableTotal += lineTotalAmt;
+			}
+
+			citem.setVATfraction(getVATAmount(citem.getTaxCode(), citem,
+					company));
+			totalVat += citem.getVATfraction();
+			// totalVat += citem.getVATfraction();
+		}
+
+		if (getCompany().getPreferences().isChargeSalesTax()) {
+			grandTotal = totalVat + totallinetotal;
+		} else {
+			grandTotal = totallinetotal;
+			totalValue = grandTotal;
+		}
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
+			// if (transactionView.vatinclusiveCheck != null
+			// && (Boolean) transactionView.vatinclusiveCheck.getValue()) {
+			// grandTotal = totallinetotal - totalVat;
+			// setTotalValue(totallinetotal);
+			//
+			// } else {
+			grandTotal = totallinetotal;
+			totalValue = grandTotal + totalVat;
+			// }
+		} else {
+			grandTotal = totallinetotal;
+			totalValue = grandTotal;
+		}
+		return totallinetotal;
+	}
+
+	public double getVATAmount(TAXCode taxCode, TransactionItem record,
+			Company company) {
+
+		double vatRate = 0.0;
+		if (taxCode != null) {
+			// Checking the selected object is VATItem or VATGroup.
+			// If it is VATItem,the we should get 'VATRate',otherwise 'GroupRate
+			try {
+
+				TAXItemGroup item = taxCode.getTAXItemGrpForSales();
+				if (item == null) {
+					vatRate = 0.0;
+				} else if (item instanceof TAXItem) {
+					// The selected one is VATItem,so get 'VATRate' from
+					// 'VATItem'
+					vatRate = ((TAXItem) item).getTaxRate();
+				} else {
+					// The selected one is VATGroup,so get 'GroupRate' from
+					// 'VATGroup'
+					vatRate = ((TAXGroup) item).getGroupRate();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		Double vat = 0.0;
+		vat = record.getLineTotal() * vatRate / 100;
+		vat = UIUtils.getRoundValue(vat);
+		return vat.doubleValue();
+	}
+
 
 }
