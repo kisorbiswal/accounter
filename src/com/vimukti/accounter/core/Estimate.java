@@ -106,6 +106,26 @@ public class Estimate extends Transaction {
 		return customer;
 	}
 
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public void setPaymentTerm(PaymentTerms paymentTerm) {
+		this.paymentTerm = paymentTerm;
+	}
+
+	public void setExpirationDate(FinanceDate expirationDate) {
+		this.expirationDate = expirationDate;
+	}
+
+	public void setDeliveryDate(FinanceDate deliveryDate) {
+		this.deliveryDate = deliveryDate;
+	}
+
 	/**
 	 * @param customer
 	 *            the customer to set
