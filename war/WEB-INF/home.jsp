@@ -8,31 +8,66 @@
 
 <link rel="shortcut icon" href="../images/favicon.ico" />
 <link type="text/css" href="../css/ss.css" rel="stylesheet">
+<link type="text/css" href="../css/contactable.css" rel="stylesheet">
 <script src="/jscripts/jquery-1.6.2.js" type="text/javascript"></script>
 <script type="text/javascript" src="/jscripts/stepcarousel.js"></script>
+<script type="text/javascript" src="/jscripts/jquery.contactable.packed.js"></script>
+<script type="text/javascript" src="/jscripts/jquery.validate.pack.js"></script>
 <script type="text/javascript">
 jQuery.noConflict();
 jQuery(document).ready(function() {
+	
 	jQuery('#blog-bg').click(function(event){
 		event.preventDefault();
 		jQuery('.menu-bar').find('a').removeClass("header-hover");
 		jQuery(this).addClass("header-hover");
 		window.open("http://blog.accounterlive.com/","_blank");
 	});
+	
 });
 			stepcarousel.setup({
-				galleryid: 'mygallery', //id of carousel DIV
-				beltclass: 'belt', //class of inner "belt" DIV containing all the panel DIVs
-				panelclass: 'panel', //class of panel DIVs each holding content
+				galleryid: 'mygallery', // id of carousel DIV
+				beltclass: 'belt', // class of inner "belt" DIV containing all
+									// the panel DIVs
+				panelclass: 'panel', // class of panel DIVs each holding
+										// content
 				autostep: {enable:true, moveby:1, pause:3000},
 				panelbehavior: {speed:1000, wraparound:true, wrapbehavior:'slide', persist:true},
 				defaultbuttons: {enable: true, moveby: 1, leftnav: ['/images/Left-arrow_24x25.png', 127, 279], rightnav: ['/images/Right-arrow_24x25.png', -169, 279]},
-				statusvars: ['statusA', 'statusB', 'statusC'], //register 3 variables that contain current panel (start), current panel (last), and total panels
-				contenttype: ['inline'] //content setting ['inline'] or ['ajax', 'path_to_external_file']
+				statusvars: ['statusA', 'statusB', 'statusC'], // register 3
+																// variables
+																// that contain
+																// current panel
+																// (start),
+																// current panel
+																// (last), and
+																// total panels
+				contenttype: ['inline'] // content setting ['inline'] or
+										// ['ajax', 'path_to_external_file']
 				})
-</script>	
+				jQuery(function(){
+					jQuery('#contact').contactable({
+	 		recipient: 'test@test.com',
+	 		subject: 'A Feeback Message'
+	 	});
+	});
+</script>
+			
+			<style type="text/css">
+			#content {
+			background-color:#FDFDFD;
+			border-left:2px solid #333333;
+			border-right:2px solid #333333;
+			margin:0 auto 0;
+			padding:10px;
+			position:relative;
+			width:930px;
+			height:100%;
+			}	
+		</style>
 </head>
 	<body>
+	<div id="contact"> </div>
 		<div class ="body-container">
 			<div class ="main_body-container">
 			<div class ="header" id="top">
@@ -154,7 +189,7 @@ jQuery(document).ready(function() {
 			feedback_widget_options.color = "#222";
 			feedback_widget_options.style = "idea";
 		
-			var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
+		
 		</script>
 		</div>
 	</body>
