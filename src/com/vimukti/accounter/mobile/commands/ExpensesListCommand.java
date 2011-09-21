@@ -7,6 +7,7 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Expense;
 import com.vimukti.accounter.core.PaymentTerms;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
@@ -69,7 +70,19 @@ public class ExpensesListCommand extends AbstractTransactionCommand {
 				break;
 			}
 		}
+		int size = expensesList.size();
+		StringBuilder message = new StringBuilder();
+		if (size > 0) {
+			message.append("Select a Expense");
+		}
+		CommandList commandList = new CommandList();
+		commandList.add("Create");
+
+		result.add(message.toString());
 		result.add(expensesList);
+		result.add(commandList);
+		result.add("Type for Expense");
+
 		return result;
 	}
 
