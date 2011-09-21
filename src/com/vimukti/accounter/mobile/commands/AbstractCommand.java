@@ -425,7 +425,7 @@ public abstract class AbstractCommand extends Command {
 			supplierList.add(createVendorRecord((Vendor) last));
 			num++;
 		}
-		List<Vendor> vendors = getVendors(context.getHibernateSession());
+		List<Vendor> vendors = getVendors();
 		for (Vendor vendor : vendors) {
 			if (vendor != last) {
 				supplierList.add(createVendorRecord(vendor));
@@ -563,10 +563,16 @@ public abstract class AbstractCommand extends Command {
 		return null;
 	}
 
-	private List<Vendor> getVendors(Session session) {
+	private List<Vendor> getVendors() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+	protected List<Vendor> getVendors(boolean isActive) {
+		return null;
+	}
+
 
 	protected Result paymentMethodRequirement(Context context, ResultList list,
 			String selection) {
@@ -645,6 +651,7 @@ public abstract class AbstractCommand extends Command {
 		list.add("Switch/Maestro");
 		return list;
 	}
+
 
 	protected void create(IAccounterServerCore obj, Context context) {
 		// User user = context.getUser();
