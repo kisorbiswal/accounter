@@ -295,16 +295,4 @@ public class EnterBillCommand extends AbstractTransactionCommand {
 
 	}
 
-	private Result vendorRequirement(Context context) {
-		Requirement vendReq = get("vendor");
-		Vendor vendor = context.getSelection("vendors");
-		if (vendor != null) {
-			vendReq.setValue(vendor);
-		}
-		if (!vendReq.isDone()) {
-			return vendors(context);
-		}
-		return null;
-	}
-
 }
