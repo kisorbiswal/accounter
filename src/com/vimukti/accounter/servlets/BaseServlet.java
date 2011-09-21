@@ -277,7 +277,9 @@ public class BaseServlet extends HttpServlet {
 	}
 
 	protected IS2SService getS2sSyncProxy(String domainName) {
-		String url = "http://" + domainName + "/company/stosservice";
+		String url = "http://" + domainName + ":"
+				+ ServerConfiguration.getMainServerPort()
+				+ "/company/stosservice";
 		return (IS2SService) SyncProxy.newProxyInstance(IS2SService.class, url,
 				"");
 	}
