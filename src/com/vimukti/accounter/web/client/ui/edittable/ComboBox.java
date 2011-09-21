@@ -155,10 +155,8 @@ public class ComboBox<T, C> extends FlowPanel implements RowSelectHandler<C> {
 		int popupWdth = popupPanel.getOffsetWidth();
 		int popupHeight = popupPanel.getOffsetHeight();
 
-		popupPanel.setWidth(textBox.getOffsetWidth() + "px");
-		// popupPanel.setHeight(Math.min(dropDown.getOffsetHeight(), 200) +
-		// "px");
-		popupPanel.setHeight("100px");
+		 popupPanel.getElement().setAttribute("style","min-width:100px");
+		 popupPanel.setHeight("100px");
 
 		if ((x + popupWdth) > clientwidth) {
 			x = x - (popupPanel.getOffsetWidth() - this.getOffsetWidth());
