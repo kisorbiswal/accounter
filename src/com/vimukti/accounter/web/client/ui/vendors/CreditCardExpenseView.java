@@ -888,9 +888,6 @@ public class CreditCardExpenseView extends
 		// setting delivery date
 		transaction.setDeliveryDate(UIUtils.toDate(delivDate.getValue()));
 
-		// Setting transactions
-		transaction.setTransactionItems(getAllTransactionItems());
-
 		// setting total
 		transaction.setTotal(vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal());
