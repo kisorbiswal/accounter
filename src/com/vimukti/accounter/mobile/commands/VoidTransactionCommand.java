@@ -37,6 +37,10 @@ public class VoidTransactionCommand extends Command {
 	@Override
 	public Result run(Context context) {
 		Requirement transactionReq = get("transaction");
+		Transaction seleTransaction = context.getSelection("Transaction");
+		if (seleTransaction != null) {
+			transactionReq.setValue(seleTransaction);
+		}
 		if (!transactionReq.isDone()) {
 			return getTransactionResult(context);
 		} else {
