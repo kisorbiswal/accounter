@@ -1087,7 +1087,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected List<Account> getAccounts(Boolean isActive) {
 		FinanceTool financeTool = new FinanceTool();
 		List<Account> accounts = new ArrayList<Account>();
-		List<Account> allaccounts = financeTool.getAccountsListBySorted();
+		List<Account> allaccounts = null;// financeTool.getAccountsListBySorted();
 		for (Account acc : allaccounts) {
 			if (isActive) {
 				if (acc.getIsActive()) {
