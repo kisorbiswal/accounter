@@ -265,4 +265,10 @@ public class ReceiveVATCommand extends AbstractVATCommand {
 		return record;
 	}
 
+	@Override
+	protected List<Account> getAccounts(Session session) {
+		// TODO Auto-generated method stub
+		return super.getAccounts(session);
+	}
+
 }
