@@ -65,6 +65,7 @@ public abstract class TransactionPayBillTable extends
 			@Override
 			protected void onChangeValue(boolean value,
 					ClientTransactionPayBill row) {
+				row.setPayment(row.getAmountDue());
 				onSelectionChanged(row, value);
 			}
 
@@ -402,7 +403,7 @@ public abstract class TransactionPayBillTable extends
 	 * the footer values
 	 */
 	public void updateValue(ClientTransactionPayBill obj) {
-		obj.setPayment(obj.getAmountDue());
+		// obj.setPayment(obj.getAmountDue());
 		updateAmountDue(obj);
 		updateTotalPayment(obj);
 		update(obj);
@@ -700,9 +701,9 @@ public abstract class TransactionPayBillTable extends
 		// discountAccount = getCompany().getAccountByName(
 		// companyConstants.discounts());
 		// }
-		cashDiscountDialog = new CashDiscountDialog(canEdit, selectedObject
-				.getCashDiscount(), getCompany().getAccount(
-				selectedObject.getDiscountAccount()));
+		cashDiscountDialog = new CashDiscountDialog(canEdit,
+				selectedObject.getCashDiscount(), getCompany().getAccount(
+						selectedObject.getDiscountAccount()));
 		// } else {
 		// cashDiscountDialog.setCanEdit(canEdit);
 		// cashDiscountDialog.setCashDiscountValue(selectedObject
