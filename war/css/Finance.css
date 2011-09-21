@@ -1687,3 +1687,9 @@ input[type="text"]{
 .new_vat_item tr td:FIRST-CHILD {
 	width:250px;
 }
+.gwt-PopupPanel table tr{
+	white-space: nowrap;
+}
+.gwt-PopupPanel .popupContent div{
+	overflow-x:hidden !important;
+}
