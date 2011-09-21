@@ -2,11 +2,16 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Customer;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Item;
+import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.TransactionItem;
+import com.vimukti.accounter.core.TransactionReceivePayment;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.ObjectListRequirement;
@@ -16,7 +21,6 @@ import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.services.DAOException;
-import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -111,7 +115,38 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
+		completeProcess(context);
+		markDone();
 		return null;
+	}
+
+	private void completeProcess(Context context) {
+		ReceivePayment payment = new ReceivePayment();
+
+		Customer customer = get(RECEIVED_FROM).getValue();
+		payment.setCustomer(customer);
+
+		double amount = get(AMOUNT_RECEIVED).getValue();
+		payment.setAmount(amount);
+
+		String paymentMethod = get(PAYMENT_MENTHOD).getValue();
+		payment.setPaymentMethod(paymentMethod);
+
+		Date date = get(DATE).getValue();
+		payment.setDate(new FinanceDate(date));
+
+		String receivePaymentNum = get(NUMBER).getValue();
+		payment.setNumber(receivePaymentNum);
+
+		Account account = get(DEPOSITSANDTRANSFERS).getValue();
+		payment.setDepositIn(account);
+		List<TransactionReceivePayment> list = get("items").getValue();
+		payment.setTransactionReceivePayment(list);
+
+		String memo = get(MEMO).getValue();
+		payment.setMemo(memo);
+
+		create(payment, context);
 	}
 
 	/**
@@ -129,16 +164,35 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 		long date = context.getSelection(DATE);
 		List<ReceivePaymentTransactionList> transactionItems = new FinanceTool()
 				.getTransactionReceivePayments(customer.getID(), date);
-		Result item = item(context, transactionItems);
+		List<TransactionReceivePayment> records = new ArrayList<TransactionReceivePayment>();
+		for (ReceivePaymentTransactionList receivePaymentTransaction : transactionItems) {
+			TransactionReceivePayment record = new TransactionReceivePayment();
+			record.setDueDate(new FinanceDate(receivePaymentTransaction
+					.getDueDate()));
+			record.setNumber(receivePaymentTransaction.getNumber());
+			record.setInvoiceAmount(receivePaymentTransaction
+					.getInvoiceAmount());
+			// record.setInvoice(receivePaymentTransaction.getTransactionId());
+			// record.setAmountDue(receivePaymentTransaction.getAmountDue());
+			record.setDiscountDate(new FinanceDate(receivePaymentTransaction
+					.getDiscountDate()));
+			record.setCashDiscount(receivePaymentTransaction.getCashDiscount());
+			record.setWriteOff(receivePaymentTransaction.getWriteOff());
+			record.setAppliedCredits(receivePaymentTransaction
+					.getAppliedCredits());
+			record.setPayment(receivePaymentTransaction.getPayment());
+			records.add(record);
+		}
+		Result item = item(context, records);
 		return item;
 
 	}
 
 	protected Result item(Context context,
-			List<ReceivePaymentTransactionList> transactionItems) {
+			List<TransactionReceivePayment> records) {
 
 		Result result = context.makeResult();
-		List<ReceivePaymentTransactionList> items = transactionItems;
+		List<TransactionReceivePayment> items = records;
 
 		ResultList list = new ResultList("items");
 		Object last = context.getLast(RequirementType.ITEM);
@@ -153,7 +207,7 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 		for (TransactionItem transactionItem : transItems) {
 			availableItems.add(transactionItem.getItem());
 		}
-		for (ReceivePaymentTransactionList item : items) {
+		for (TransactionReceivePayment item : items) {
 			if (item != last || !availableItems.contains(item)) {
 				list.add(creatItemRecord(item));
 				num++;
@@ -172,7 +226,7 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
-	private Record creatItemRecord(ReceivePaymentTransactionList item) {
+	private Record creatItemRecord(TransactionReceivePayment item) {
 		Record record = new Record(item);
 		record.add("Name", "transactionItem");
 		record.add("value", item.getPayment());
@@ -201,12 +255,12 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 		}
 
 		Requirement itemsReq = get("items");
-		List<ReceivePaymentTransactionList> transItems = itemsReq.getValue();
+		List<TransactionReceivePayment> transItems = itemsReq.getValue();
 
 		selection = context.getSelection("transactionItems");
 		if (selection != null) {
 			Result result = receivePayment(context,
-					(ReceivePaymentTransactionList) selection);
+					(TransactionReceivePayment) selection);
 			if (result != null) {
 				return result;
 			}
@@ -214,13 +268,34 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 		selection = context.getSelection("values");
 		ResultList list = new ResultList("values");
 
-		Result result = context.makeResult();
+		Result result = amountOptionalRequirement(context, list, selection,
+				AMOUNT_RECEIVED, "Enter the Amount received");
+		if (result != null) {
+			return result;
+		}
+
+		result = dateOptionalRequirement(context, list, DATE, "Enter date",
+				selection);
+		if (result != null) {
+			return result;
+		}
+		result = stringOptionalRequirement(context, list, selection, NUMBER,
+				"Enter customer Receive payment Number");
+		if (result != null) {
+			return result;
+		}
+		result = stringOptionalRequirement(context, list, selection, MEMO,
+				"Enter memo");
+		if (result != null) {
+			return result;
+		}
+		result = context.makeResult();
 		result.add("Receive Payment is ready to create with following values.");
 		result.add(list);
 
 		result.add("Items:-");
 		ResultList items = new ResultList("transactionItems");
-		for (ReceivePaymentTransactionList item : transItems) {
+		for (TransactionReceivePayment item : transItems) {
 			Record itemRec = new Record(item);
 			itemRec.add(NUMBER, item.getNumber());
 			itemRec.add("Total", item.getPayment());
@@ -238,7 +313,7 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 	}
 
 	protected Result receivePaymentItemProcess(Context context) {
-		ReceivePaymentTransactionList receivePaymentTransactionList = (ReceivePaymentTransactionList) context
+		TransactionReceivePayment receivePaymentTransactionList = (TransactionReceivePayment) context
 				.getAttribute("items");
 		Result result = receivePayment(context, receivePaymentTransactionList);
 		if (result == null) {
@@ -254,87 +329,49 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 	}
 
 	protected Result receivePayment(Context context,
-			ReceivePaymentTransactionList receivePaymentTransactionList) {
+			TransactionReceivePayment transactionReceivePayment) {
 		context.setAttribute(PROCESS_ATTR, "items");
 		context.setAttribute(OLD_TRANSACTION_ITEM_ATTR,
-				receivePaymentTransactionList);
+				transactionReceivePayment);
 
 		String lineAttr = (String) context.getAttribute(ITEM_PROPERTY_ATTR);
 		if (lineAttr != null) {
 			context.removeAttribute(ITEM_PROPERTY_ATTR);
-			if (lineAttr.equals(DUE_DATE)) {
-				receivePaymentTransactionList.setDueDate(new ClientFinanceDate(
-						context.getDate()));
-			} else if (lineAttr.equals(INVOICE)) {
-				receivePaymentTransactionList.setNumber(context.getString());
-			} else if (lineAttr.equals(INVOICE_AMOUNT)) {
-				receivePaymentTransactionList.setInvoiceAmount(context
-						.getDouble());
-			} else if (lineAttr.equals(AMOUNT_DUE)) {
-				receivePaymentTransactionList.setAmountDue(context.getDouble());
-			} else if (lineAttr.equals(DISCOUNT_DATE)) {
-				receivePaymentTransactionList
-						.setDiscountDate(new ClientFinanceDate(context
-								.getDate()));
+			if (lineAttr.equals(INVOICE_AMOUNT)) {
+				transactionReceivePayment.setInvoiceAmount(context.getDouble());
 			} else if (lineAttr.equals(CASH_DISCOUNT)) {
-				receivePaymentTransactionList.setCashDiscount(context
-						.getDouble());
+				transactionReceivePayment.setCashDiscount(context.getDouble());
 			} else if (lineAttr.equals(WRITE_OFF)) {
-				receivePaymentTransactionList.setWriteOff(context.getDouble());
+				transactionReceivePayment.setWriteOff(context.getDouble());
 			} else if (lineAttr.equals(APPLIED_CREDITS)) {
-				receivePaymentTransactionList.setAppliedCredits(context
-						.getDouble());
+				transactionReceivePayment
+						.setAppliedCredits(context.getDouble());
 			} else if (lineAttr.equals(PAYMENT)) {
-				receivePaymentTransactionList.setPayment(context.getDouble());
+				transactionReceivePayment.setPayment(context.getDouble());
 			}
 		} else {
 			Object selection = context.getSelection(ITEM_DETAILS);
 			if (selection != null) {
-				if (selection == receivePaymentTransactionList.getDueDate()) {
-					context.setAttribute(ITEM_PROPERTY_ATTR, DUE_DATE);
-					return date(context, "Enter due Date",
-							receivePaymentTransactionList.getDueDate()
-									.getDateAsObject());
-				} else if (selection.equals(receivePaymentTransactionList
-						.getNumber())) {
-					context.setAttribute(ITEM_PROPERTY_ATTR, NUMBER);
-					return number(context, "Enter Invoice Number",
-							receivePaymentTransactionList.getNumber());
-				} else if (selection.equals(INVOICE_AMOUNT)) {
+				if (selection.equals(INVOICE_AMOUNT)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, INVOICE_AMOUNT);
 					return amount(context, "Enter invoice amount",
-							receivePaymentTransactionList.getInvoiceAmount());
-				} else if (selection == receivePaymentTransactionList
-						.getAmountDue()) {
-					context.setAttribute(ITEM_PROPERTY_ATTR, AMOUNT_DUE);
-					return amount(context, "Enter amount due",
-							receivePaymentTransactionList.getAmountDue());
-				} else if (selection.equals(receivePaymentTransactionList
-						.getDiscountDate())) {
-					context.setAttribute(ITEM_PROPERTY_ATTR, DISCOUNT_DATE);
-					return date(context, "Enter discount Date",
-							receivePaymentTransactionList.getDiscountDate()
-									.getDateAsObject());
-				} else if (selection == receivePaymentTransactionList
-						.getCashDiscount()) {
+							transactionReceivePayment.getInvoiceAmount());
+				} else if (selection.equals(CASH_DISCOUNT)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, CASH_DISCOUNT);
 					return amount(context, "Enter cash discount Date",
-							receivePaymentTransactionList.getCashDiscount());
-				} else if (selection == receivePaymentTransactionList
-						.getWriteOff()) {
+							transactionReceivePayment.getCashDiscount());
+				} else if (selection.equals(WRITE_OFF)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, WRITE_OFF);
 					return amount(context, "Enter write off",
-							receivePaymentTransactionList.getWriteOff());
-				} else if (selection == receivePaymentTransactionList
-						.getAppliedCredits()) {
+							transactionReceivePayment.getWriteOff());
+				} else if (selection.equals(APPLIED_CREDITS)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, APPLIED_CREDITS);
 					return amount(context, "Enter applied credit",
-							receivePaymentTransactionList.getAppliedCredits());
-				} else if (selection == (receivePaymentTransactionList
-						.getPayment())) {
+							transactionReceivePayment.getAppliedCredits());
+				} else if (selection.equals(PAYMENT)) {
 					context.setAttribute(ITEM_PROPERTY_ATTR, PAYMENT);
 					return amount(context, "Enter payment",
-							receivePaymentTransactionList.getPayment());
+							transactionReceivePayment.getPayment());
 				}
 			} else {
 				selection = context.getSelection(ACTIONS);
@@ -350,60 +387,57 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 		}
 
 		ResultList list = new ResultList(ITEM_DETAILS);
-		Record record = new Record(DUE_DATE);
-		record.add("", DUE_DATE);
-		record.add("", receivePaymentTransactionList.getDueDate());
-		list.add(record);
+		// Record record = new Record(DUE_DATE);
+		// record.add("", DUE_DATE);
+		// record.add("", receivePaymentTransactionList.getDueDate());
+		// list.add(record);
 
-		record = new Record(INVOICE);
-		record.add("", INVOICE);
-		record.add("", receivePaymentTransactionList.getNumber());
-		list.add(record);
+		// Record record = new Record(INVOICE);
+		// record.add("", INVOICE);
+		// record.add("", receivePaymentTransactionList.getNumber());
+		// list.add(record);
 
-		record = new Record(INVOICE_AMOUNT);
+		Record record = new Record(INVOICE_AMOUNT);
 		record.add("", INVOICE_AMOUNT);
-		record.add("", receivePaymentTransactionList.getInvoiceAmount());
+		record.add("", transactionReceivePayment.getInvoiceAmount());
 		list.add(record);
 
-		record = new Record(AMOUNT_DUE);
-		record.add("", AMOUNT_DUE);
-		record.add("", receivePaymentTransactionList.getAmountDue());
-		list.add(record);
+		// record = new Record(AMOUNT_DUE);
+		// record.add("", AMOUNT_DUE);
+		// record.add("", receivePaymentTransactionList.getAmountDue());
+		// list.add(record);
 
-		record = new Record(DISCOUNT_DATE);
-		record.add("", DISCOUNT_DATE);
-		record.add("", receivePaymentTransactionList.getDiscountDate());
-		list.add(record);
+		// record = new Record(DISCOUNT_DATE);
+		// record.add("", DISCOUNT_DATE);
+		// record.add("", receivePaymentTransactionList.getDiscountDate());
+		// list.add(record);
 
 		record = new Record(CASH_DISCOUNT);
 		record.add("", CASH_DISCOUNT);
-		record.add("", receivePaymentTransactionList.getCashDiscount());
+		record.add("", transactionReceivePayment.getCashDiscount());
 		list.add(record);
 
 		record = new Record(WRITE_OFF);
 		record.add("", WRITE_OFF);
-		record.add("", receivePaymentTransactionList.getWriteOff());
+		record.add("", transactionReceivePayment.getWriteOff());
 		list.add(record);
 
 		record = new Record(APPLIED_CREDITS);
 		record.add("", APPLIED_CREDITS);
-		record.add("", receivePaymentTransactionList.getAppliedCredits());
+		record.add("", transactionReceivePayment.getAppliedCredits());
 		list.add(record);
 
 		record = new Record(PAYMENT);
 		record.add("", PAYMENT);
-		record.add("", receivePaymentTransactionList.getPayment());
+		record.add("", transactionReceivePayment.getPayment());
 		list.add(record);
 
 		Result result = context.makeResult();
 		result.add("Item details");
-		result.add("Item Name :" + receivePaymentTransactionList.getNumber());
+		result.add("Item Name :" + transactionReceivePayment.getNumber());
 		result.add(list);
 
 		ResultList actions = new ResultList(ACTIONS);
-		record = new Record(ActionNames.DELETE_ITEM);
-		record.add("", "Delete");
-		actions.add(record);
 		record = new Record(ActionNames.FINISH);
 		record.add("", "Finish");
 		actions.add(record);
