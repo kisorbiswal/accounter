@@ -281,6 +281,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 			itemRec.add("Name", item.getItem().getName());
 			itemRec.add("Total", item.getLineTotal());
 			itemRec.add("VatCode", item.getVATfraction());
+			items.add(itemRec);
 		}
 		result.add(items);
 

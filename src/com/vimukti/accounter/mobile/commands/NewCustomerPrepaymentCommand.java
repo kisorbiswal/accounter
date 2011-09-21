@@ -55,7 +55,7 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = depositeOrTransferTo(context);
+		result = depositeOrTransferTo(context, "depositOrTransferTo");
 		if (result != null) {
 			return result;
 		}
