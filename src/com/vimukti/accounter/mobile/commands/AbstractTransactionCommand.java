@@ -33,6 +33,7 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final int ITEMS_TO_SHOW = 5;
@@ -1105,4 +1106,21 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return null;
 	}
 
+	protected List<Account> getAccounts(Session session, Boolean isActive) {
+		FinanceTool financeTool = new FinanceTool();
+		List<Account> accounts = new ArrayList<Account>();
+		List<Account> allaccounts = financeTool.getAccountsListBySorted();
+		for (Account acc : allaccounts) {
+			if (isActive) {
+				if (acc.getIsActive()) {
+					accounts.add(acc);
+				}
+			} else {
+				accounts.add(acc);
+			}
+		}
+
+		return accounts;
+
+	}
 }
