@@ -1053,6 +1053,7 @@
 		<property name="unitPrice" column="UNIT_PRICE"></property>
 		<property name="discount" column="DISCOUNT"></property>
 		<property name="lineTotal" column="LINE_TOTAL"></property>
+		<property name="updateAmount" column="UPDATE_AMOUNT"></property>
 		<property name="isTaxable" column="IS_TAXABLE"></property>
 		<many-to-one name="taxGroup" class="TAXGroup" lazy="false"
 			column="TAXGROUP_ID">

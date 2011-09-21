@@ -92,7 +92,6 @@ public class WriteChequeView extends
 
 	protected TaxAgencyTransactionGrid taxAgencyGrid;
 
-	private CheckboxItem vatInclusiveCheck;
 	private DateField date;
 	AccounterConstants accounterConstants = Accounter.constants();
 	// private boolean isVendor;
@@ -357,10 +356,12 @@ public class WriteChequeView extends
 					paytoSelect.setComboItem(taxAgency);
 				}
 				paytoSelect.setDisabled(isInViewMode());
-				transactionVendorAccountTable.setRecords(transaction
-						.getTransactionItems());
-				transactionVendorItemTable.setRecords(transaction
-						.getTransactionItems());
+				transactionVendorAccountTable
+						.setRecords(getAccountTransactionItems(transaction
+								.getTransactionItems()));
+				transactionVendorItemTable
+						.setRecords(getItemTransactionItems(transaction
+								.getTransactionItems()));
 				return;
 			}
 
@@ -605,8 +606,8 @@ public class WriteChequeView extends
 
 		// setting Memo
 		transaction.setMemo(getMemoTextAreaItem());
-		if (vatInclusiveCheck != null) {
-			transaction.setAmountsIncludeVAT((Boolean) vatInclusiveCheck
+		if (vatinclusiveCheck != null) {
+			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 					.getValue());
 		}
 
@@ -832,16 +833,16 @@ public class WriteChequeView extends
 
 		vatPanel = new HorizontalPanel();
 		vatPanel.setWidth("100%");
-		vatInclusiveCheck = getVATInclusiveCheckBox();
+		vatinclusiveCheck = getVATInclusiveCheckBox();
 		totalTxt = createTransactionTotalNonEditableLabel();
 
 		netAmount = new AmountLabel(Accounter.constants().netAmount());
 		DynamicForm totalForm = new DynamicForm();
-		totalForm.setFields(totalTxt, netAmount);
+		totalForm.setFields(netAmount, totalTxt);
 		totalForm.addStyleName("invoice-total");
 		DynamicForm vatCheckForm = new DynamicForm();
 		if (ClientCompanyPreferences.get().isRegisteredForVAT())
-			vatCheckForm.setFields(vatInclusiveCheck);
+			vatCheckForm.setFields(vatinclusiveCheck);
 		vatCheckForm.addStyleName("invoice-total");
 
 		vatPanel.add(vatCheckForm);
@@ -906,6 +907,7 @@ public class WriteChequeView extends
 				return WriteChequeView.this.isShowPriceWithVat();
 			}
 		};
+		transactionVendorAccountTable.setDisabled(isInViewMode());
 
 		transactionVendorItemTable = new VendorItemTransactionTable(false) {
 
@@ -919,6 +921,8 @@ public class WriteChequeView extends
 				return WriteChequeView.this.isShowPriceWithVat();
 			}
 		};
+		transactionVendorItemTable.setDisabled(isInViewMode());
+		
 		accountTableButton = new AddNewButton();
 		accountTableButton.setEnabled(!isInViewMode());
 		accountTableButton.addClickHandler(new ClickHandler() {
@@ -1075,45 +1079,18 @@ public class WriteChequeView extends
 
 	@Override
 	public void updateNonEditableItems() {
-		if (payee != null) {
 
-			if (transactionVendorAccountTable == null
-					|| transactionVendorItemTable == null) {
-				return;
-			}
-			double total = transactionVendorAccountTable.getGrandTotal()
-					+ transactionVendorItemTable.getGrandTotal();
-			this.amtText.setAmount(total);
-			amtText.setValue(String.valueOf(total));
-			totalTxt.setValue(String.valueOf(total));
-			netAmount.setAmount(transactionVendorAccountTable.getLineTotal()
-					+ transactionVendorItemTable.getLineTotal());
-
-			// else if (payee instanceof ClientTaxAgency) {
-			// this.amtText.setAmount(taxAgencyGrid.getTotal());
-			// text.setValue(Utility.getNumberInWords(taxAgencyGrid.getTotal()
-			// .toString()));
-			// }
-
+		if (transactionVendorAccountTable == null
+				|| transactionVendorItemTable == null) {
+			return;
 		}
-		// } else {
-		// // if the grid values changed without selecting any payee,then
-		// // this'll execute
-		//
-		// if (transactionVendorGrid != null) {
-		// this.amtText.setAmount(transactionVendorGrid.getTotal());
-		// text.setValue(Utility.getNumberInWords(transactionVendorGrid
-		// .getTotal().toString()));
-		// } else if (transactionCustomerGrid != null) {
-		// this.amtText.setAmount(transactionCustomerGrid.getTotal());
-		// text.setValue(Utility.getNumberInWords(transactionCustomerGrid
-		// .getTotal().toString()));
-		// } else if (taxAgencyGrid != null) {
-		// this.amtText.setAmount(taxAgencyGrid.getTotal());
-		// text.setValue(Utility.getNumberInWords(taxAgencyGrid.getTotal()
-		// .toString()));
-		// }
-		// }
+		double total = transactionVendorAccountTable.getGrandTotal()
+				+ transactionVendorItemTable.getGrandTotal();
+		this.amtText.setAmount(total);
+		amtText.setValue(String.valueOf(total));
+		totalTxt.setValue(String.valueOf(total));
+		netAmount.setAmount(transactionVendorAccountTable.getLineTotal()
+				+ transactionVendorItemTable.getLineTotal());
 
 	}
 
@@ -1383,7 +1360,12 @@ public class WriteChequeView extends
 
 	@Override
 	protected void refreshTransactionGrid() {
-
+		if (transactionVendorAccountTable != null) {
+			transactionVendorAccountTable.updateTotals();
+		}
+		if (transactionVendorItemTable != null) {
+			transactionVendorItemTable.updateTotals();
+		}
 	}
 
 	private void settabIndexes() {
@@ -1395,7 +1377,7 @@ public class WriteChequeView extends
 		bankAccSelect.setTabIndex(6);
 		balText.setTabIndex(7);
 		memoTextAreaItem.setTabIndex(8);
-		vatInclusiveCheck.setTabIndex(9);
+		vatinclusiveCheck.setTabIndex(9);
 		// menuButton.setTabIndex(10);
 		saveAndCloseButton.setTabIndex(11);
 		saveAndNewButton.setTabIndex(12);

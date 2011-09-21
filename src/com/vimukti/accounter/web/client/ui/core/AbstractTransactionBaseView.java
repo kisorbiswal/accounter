@@ -275,6 +275,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	public void setAmountIncludeChkValue(boolean isAmountIncludedVAT) {
 		if (vatinclusiveCheck != null) {
 			vatinclusiveCheck.setValue(isAmountIncludedVAT);
+			isVATInclusive = isAmountIncludedVAT;
 		}
 	}
 

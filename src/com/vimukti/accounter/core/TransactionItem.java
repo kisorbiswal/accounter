@@ -175,6 +175,12 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	 */
 	boolean isVoidBefore;
 
+	/**
+	 * This amount is used for storing the amount that by which amount the
+	 * effecting account is updated.
+	 */
+	private double updateAmount;
+
 	TAXCode taxCode;
 	// TAXItem vatItem;
 	private boolean isOnSaveProccessed;
@@ -381,14 +387,14 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 			this.transaction.clonedTransactionDate = this.transaction.oldTransaction.transactionDate;
 
-			double amount = (isPositiveTransaction() ? -1d : 1d)
-					* (this.transaction.isAmountsIncludeVAT() ? this.lineTotal
-							- this.VATfraction : this.lineTotal);
+			// double amount = (isPositiveTransaction() ? -1d : 1d)
+			// * (this.transaction.isAmountsIncludeVAT() ? this.lineTotal
+			// - this.VATfraction : this.lineTotal);
 			if (this.type == TYPE_ACCOUNT || this.type == TYPE_ITEM) {
 				Account effectingAccount = this.getEffectingAccount();
 				if (effectingAccount != null) {
 					effectingAccount.updateCurrentBalance(this.transaction,
-							amount);
+							this.updateAmount);
 
 					session.saveOrUpdate(effectingAccount);
 					effectingAccount.onUpdate(session);
@@ -502,6 +508,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 						* (this.transaction.isAmountsIncludeVAT() ? this.lineTotal
 								- this.VATfraction
 								: this.lineTotal);
+				this.setUpdateAmount(amount);
 				if (this.type == TYPE_ACCOUNT || this.type == TYPE_ITEM) {
 					Account effectingAccount = getEffectingAccount();
 					if (effectingAccount != null) {
@@ -556,13 +563,14 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	 */
 	public void doReverseEffect(Session session) {
 
-		double amount = (isPositiveTransaction() ? -1d : 1d)
-				* (this.transaction.isAmountsIncludeVAT() ? this.lineTotal
-						- this.VATfraction : this.lineTotal);
+		// double amount = (isPositiveTransaction() ? -1d : 1d)
+		// * (this.transaction.isAmountsIncludeVAT() ? this.lineTotal
+		// - this.VATfraction : this.lineTotal);
 		if (this.type == TYPE_ACCOUNT || this.type == TYPE_ITEM) {
 			Account effectingAccount = this.getEffectingAccount();
 			if (effectingAccount != null) {
-				effectingAccount.updateCurrentBalance(this.transaction, amount);
+				effectingAccount.updateCurrentBalance(this.transaction,
+						this.getUpdateAmount());
 				effectingAccount.onUpdate(session);
 				session.saveOrUpdate(effectingAccount);
 
@@ -787,6 +795,14 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 	public void setAccounterClass(AccounterClass accounterClass) {
 		this.accounterClass = accounterClass;
+	}
+
+	public double getUpdateAmount() {
+		return updateAmount;
+	}
+
+	public void setUpdateAmount(double updateAmount) {
+		this.updateAmount = updateAmount;
 	}
 
 }
