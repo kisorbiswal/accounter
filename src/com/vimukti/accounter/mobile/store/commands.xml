@@ -198,4 +198,9 @@
 		<alias>Bill Enter</alias>
 		<alias>Bill</alias>
 	</command>
+	<command clazz="PayBillCommand" name="payBill">
+		<alias>pay bill</alias>
+		<alias>BillPay</alias>
+		<alias>payments</alias>
+	</command>
 </commands>
