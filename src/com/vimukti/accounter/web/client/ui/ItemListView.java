@@ -34,7 +34,6 @@ public class ItemListView extends BaseListView<ClientItem> {
 	public static boolean isPurchaseType = false;
 	public static boolean isSalesType = false;
 
-
 	public ItemListView() {
 		super();
 	}
@@ -81,16 +80,16 @@ public class ItemListView extends BaseListView<ClientItem> {
 			return null;
 		else {
 			NewItemAction action = ActionFactory.getNewItemAction(true);
-			if (this.catageory.equals(Global.get().customer())) {
-				action.setType(3);
-				return action;
-			} else if (this.catageory.equals(Accounter.constants().vendor())
-					|| this.catageory.equals(Accounter.constants().vendor())) {
-				action.setType(3);
-				return action;
-			}
-
-			action.setType(3);
+			// if (this.catageory.equals(Global.get().customer())) {
+			// action.setType(3);
+			// return action;
+			// } else if (this.catageory.equals(Accounter.constants().vendor())
+			// || this.catageory.equals(Accounter.constants().vendor())) {
+			// action.setType(3);
+			// return action;
+			// }
+			//
+			// action.setType(3);
 			return action;
 		}
 	}
