@@ -601,6 +601,8 @@ public interface AccounterMessages extends Messages {
 
 	public String vendorName(String vendorNameString);
 
+	public String vendorNumber(String vendorNumber);
+
 	public String vendorOrderNo(String vendorString);
 
 	public String vendorPayment(String vendorPaymentString);
@@ -852,4 +854,5 @@ public interface AccounterMessages extends Messages {
 	public String MISC1099TransactionDetailByVendor(String vendor);
 
 	public String phoneNumber(String catagory);
+
 }
