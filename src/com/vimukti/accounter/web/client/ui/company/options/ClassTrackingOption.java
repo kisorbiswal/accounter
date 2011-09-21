@@ -67,16 +67,16 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 	}
 
 	public void initData() {
-		if (companyPreferences.isClassTrackingEnabled()) {
+		if (getCompanyPreferences().isClassTrackingEnabled()) {
 			classTrackingCheckBox.setValue(true);
 			hiddenPanel.setVisible(true);
-			if (companyPreferences.isClassOnePerTransaction()) {
+			if (getCompanyPreferences().isClassOnePerTransaction()) {
 				onePerTransactionRadio.setValue(true);
 			} else {
 				onePerDetailLineRadio.setValue(true);
 			}
 
-			if (companyPreferences.isWarnOnEmptyClass()) {
+			if (getCompanyPreferences().isWarnOnEmptyClass()) {
 				classWarningCheckBox.setValue(true);
 			}
 		} else {
@@ -116,11 +116,12 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 
 	@Override
 	public void onSave() {
-		companyPreferences.setClassTrackingEnabled(classTrackingCheckBox
-				.getValue());
-		companyPreferences.setClassOnePerTransaction(onePerTransactionRadio
-				.getValue());
-		companyPreferences.setWarnOnEmptyClass(classWarningCheckBox.getValue());
+		getCompanyPreferences().setClassTrackingEnabled(
+				classTrackingCheckBox.getValue());
+		getCompanyPreferences().setClassOnePerTransaction(
+				onePerTransactionRadio.getValue());
+		getCompanyPreferences().setWarnOnEmptyClass(
+				classWarningCheckBox.getValue());
 	}
 
 	@Override

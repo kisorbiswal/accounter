@@ -30,7 +30,7 @@ public class ComapnyWebsiteOption extends AbstractPreferenceOption {
 	}
 
 	public void initData() {
-		companyWebsiteTextBox.setText(company.getWebSite());
+		companyWebsiteTextBox.setText(getCompany().getWebSite());
 	}
 
 	public void createControls() {
@@ -44,7 +44,7 @@ public class ComapnyWebsiteOption extends AbstractPreferenceOption {
 
 	@Override
 	public void onSave() {
-		company.setWebSite(companyWebsiteTextBox.getValue());
+		getCompany().setWebSite(companyWebsiteTextBox.getValue());
 
 	}
 

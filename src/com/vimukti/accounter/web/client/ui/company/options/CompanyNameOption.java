@@ -68,13 +68,13 @@ public class CompanyNameOption extends AbstractPreferenceOption {
 	}
 
 	public void initData() {
-		companyNameTextBox.setText(company.getDisplayName());
+		companyNameTextBox.setText(getCompany().getDisplayName());
 		// comapnyLegalNameTextBox.setText(company.getDisplayName());
 	}
 
 	@Override
 	public void onSave() {
-		company.setName(companyNameTextBox.getValue());
+		getCompany().setName(companyNameTextBox.getValue());
 		// company.setTradingName(comapnyLegalNameTextBox.getValue());
 	}
 

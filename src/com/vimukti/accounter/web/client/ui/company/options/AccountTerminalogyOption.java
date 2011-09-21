@@ -33,7 +33,7 @@ public class AccountTerminalogyOption extends AbstractPreferenceOption {
 	}
 
 	public void initData() {
-		int referAccounts = companyPreferences.getReferAccounts();
+		int referAccounts = getCompanyPreferences().getReferAccounts();
 		switch (referAccounts) {
 		case ClientAccount.ACCOUNT:
 			acountRadioButton.setValue(true);
@@ -62,9 +62,9 @@ public class AccountTerminalogyOption extends AbstractPreferenceOption {
 	@Override
 	public void onSave() {
 		if (acountRadioButton.getValue()) {
-			companyPreferences.setReferAccounts(ClientAccount.ACCOUNT);
+			getCompanyPreferences().setReferAccounts(ClientAccount.ACCOUNT);
 		} else if (leagandRadioButton.getValue()) {
-			companyPreferences.setReferAccounts(ClientAccount.LEGAND);
+			getCompanyPreferences().setReferAccounts(ClientAccount.LEGAND);
 		}
 
 	}

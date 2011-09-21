@@ -119,14 +119,14 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 	}
 
 	public void initData() {
-		ClientAddress tradingAddress = company.getTradingAddress();
+		ClientAddress tradingAddress = getCompany().getTradingAddress();
 		if (tradingAddress != null) {
 			tAddress1TextBox.setValue(tradingAddress.getAddress1());
 			tAddress2TextBox.setValue(tradingAddress.getStreet());
 			tCityTextBox.setValue(tradingAddress.getCity());
 			tPostalCodeTextBox.setValue(tradingAddress.getZipOrPostalCode());
 		}
-		ClientAddress registeredAddress = company.getRegisteredAddress();
+		ClientAddress registeredAddress = getCompany().getRegisteredAddress();
 		if (registeredAddress == null) {
 			registeredAddress = tradingAddress;
 		}
@@ -170,17 +170,17 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 			tCountryCombo.addItem(countriesList.get(i));
 			rCountryCombo.addItem(countriesList.get(i));
 		}
-		if (company.getTradingAddress() != null
-				&& company.getTradingAddress().getCountryOrRegion() != null) {
-			tCountryCombo.setSelectedIndex(countriesList.indexOf(company
+		if (getCompany().getTradingAddress() != null
+				&& getCompany().getTradingAddress().getCountryOrRegion() != null) {
+			tCountryCombo.setSelectedIndex(countriesList.indexOf(getCompany()
 					.getTradingAddress().getCountryOrRegion()));
 		}
-		ClientAddress addr = company.getRegisteredAddress();
+		ClientAddress addr = getCompany().getRegisteredAddress();
 		if (addr == null) {
-			addr = company.getTradingAddress();
+			addr = getCompany().getTradingAddress();
 		}
 		if (addr != null && addr.getCountryOrRegion() != null) {
-			rCountryCombo.setSelectedIndex(countriesList.indexOf(company
+			rCountryCombo.setSelectedIndex(countriesList.indexOf(getCompany()
 					.getTradingAddress().getCountryOrRegion()));
 		}
 		tCountryCombo.addChangeHandler(new ChangeHandler() {
@@ -223,7 +223,7 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 		for (String state : states) {
 			rStateCombo.addItem(state);
 		}
-		ClientAddress address = company.getRegisteredAddress();
+		ClientAddress address = getCompany().getRegisteredAddress();
 		if (address != null && address.getStateOrProvinence() != null) {
 			if (states.contains(address.getStateOrProvinence())) {
 				rStateCombo.setSelectedIndex(states.indexOf(address
@@ -243,7 +243,8 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 		for (String state : states) {
 			tStateCombo.addItem(state);
 		}
-		ClientAddress tradingAddress = companyPreferences.getTradingAddress();
+		ClientAddress tradingAddress = getCompanyPreferences()
+				.getTradingAddress();
 		if (tradingAddress != null
 				&& tradingAddress.getStateOrProvinence() != null) {
 			if (states.contains(tradingAddress.getStateOrProvinence())) {
@@ -264,7 +265,8 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 
 	@Override
 	public void onSave() {
-		ClientAddress tAddress = company.getPreferences().getTradingAddress();
+		ClientAddress tAddress = getCompany().getPreferences()
+				.getTradingAddress();
 		if (tAddress == null) {
 			tAddress = new ClientAddress();
 		}
@@ -280,7 +282,7 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 			tAddress.setCountryOrRegion(tCountryCombo.getItemText(tCountryCombo
 					.getSelectedIndex()));
 		}
-		ClientAddress rAddress = company.getRegisteredAddress();
+		ClientAddress rAddress = getCompany().getRegisteredAddress();
 		if (rAddress == null) {
 			rAddress = new ClientAddress();
 		}
@@ -298,7 +300,7 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 			rAddress.setCountryOrRegion(rCountryCombo.getItemText(rCountryCombo
 					.getSelectedIndex()));
 		}
-		company.setRegisteredAddress(rAddress);
+		getCompany().setRegisteredAddress(rAddress);
 
 	}
 

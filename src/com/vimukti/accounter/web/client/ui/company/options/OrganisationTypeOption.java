@@ -177,7 +177,7 @@ public class OrganisationTypeOption extends AbstractPreferenceOption {
 	}
 
 	public void initData() {
-		switch (companyPreferences.getOrganizationType()) {
+		switch (getCompanyPreferences().getOrganizationType()) {
 		case OrganizationTypeConstants.SOLE_PROPRIETORSHIP:
 			propriterShip.setValue(true);
 			break;
@@ -214,25 +214,25 @@ public class OrganisationTypeOption extends AbstractPreferenceOption {
 	@Override
 	public void onSave() {
 		if (propriterShip.getValue()) {
-			companyPreferences
+			getCompanyPreferences()
 					.setOrganizationType(OrganizationTypeConstants.SOLE_PROPRIETORSHIP);
 		} else if (partnership.getValue()) {
-			companyPreferences
+			getCompanyPreferences()
 					.setOrganizationType(OrganizationTypeConstants.CORPORATION);
 		} else if (sCorporation.getValue()) {
-			companyPreferences
+			getCompanyPreferences()
 					.setOrganizationType(OrganizationTypeConstants.S_CORPORATION);
 		} else if (lLC.getValue()) {
-			companyPreferences
+			getCompanyPreferences()
 					.setOrganizationType(OrganizationTypeConstants.LLC);
 		} else if (partnership.getValue()) {
-			companyPreferences
+			getCompanyPreferences()
 					.setOrganizationType(OrganizationTypeConstants.PARTNERSHIP);
 		} else if (nonProfit.getValue()) {
-			companyPreferences
+			getCompanyPreferences()
 					.setOrganizationType(OrganizationTypeConstants.NON_PROFIT);
 		} else {
-			companyPreferences
+			getCompanyPreferences()
 					.setOrganizationType(OrganizationTypeConstants.OTHER);
 		}
 	}

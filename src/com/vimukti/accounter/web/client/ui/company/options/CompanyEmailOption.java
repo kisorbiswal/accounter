@@ -39,7 +39,7 @@ public class CompanyEmailOption extends AbstractPreferenceOption {
 	}
 
 	public void initData() {
-		companyEmailTextBox.setText(companyPreferences.getCompanyEmail());
+		companyEmailTextBox.setText(getCompanyPreferences().getCompanyEmail());
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class CompanyEmailOption extends AbstractPreferenceOption {
 
 	@Override
 	public void onSave() {
-		companyPreferences.setCompanyEmail(companyEmailTextBox.getValue());
+		getCompanyPreferences().setCompanyEmail(companyEmailTextBox.getValue());
 		// company.setCompanyEmailForCustomers(customerEmailTextBox.getValue());
 	}
 

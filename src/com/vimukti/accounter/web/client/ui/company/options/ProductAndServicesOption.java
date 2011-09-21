@@ -83,16 +83,16 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 	public void onSave() {
 
 		if (servicesOnly.getValue()) {
-			companyPreferences.setSellServices(true);
-			companyPreferences.setSellProducts(false);
+			getCompanyPreferences().setSellServices(true);
+			getCompanyPreferences().setSellProducts(false);
 		}
 		if (productsOnly.getValue()) {
-			companyPreferences.setSellProducts(true);
-			companyPreferences.setSellServices(false);
+			getCompanyPreferences().setSellProducts(true);
+			getCompanyPreferences().setSellServices(false);
 		}
 		if (both.getValue()) {
-			companyPreferences.setSellServices(true);
-			companyPreferences.setSellProducts(true);
+			getCompanyPreferences().setSellServices(true);
+			getCompanyPreferences().setSellProducts(true);
 		}
 	}
 
@@ -104,10 +104,10 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 	@Override
 	public void initData() {
 
-		boolean sellServices = companyPreferences.isSellServices();
+		boolean sellServices = getCompanyPreferences().isSellServices();
 		if (sellServices)
 			servicesOnly.setValue(true);
-		boolean sellProducts = companyPreferences.isSellProducts();
+		boolean sellProducts = getCompanyPreferences().isSellProducts();
 		if (sellProducts)
 			productsOnly.setValue(true);
 		if (sellServices && sellProducts)

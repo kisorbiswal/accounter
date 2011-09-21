@@ -31,7 +31,7 @@ public class ManageBillsOption extends AbstractPreferenceOption {
 	}
 
 	public void initData() {
-		if (companyPreferences.isKeepTrackofBills()) {
+		if (getCompanyPreferences().isKeepTrackofBills()) {
 			managingBillYesRadioButton.setValue(true);
 			managingBillNoRadioButton.setValue(false);
 		} else {
@@ -64,9 +64,9 @@ public class ManageBillsOption extends AbstractPreferenceOption {
 	@Override
 	public void onSave() {
 		if (managingBillYesRadioButton.getValue()) {
-			companyPreferences.setKeepTrackofBills(true);
+			getCompanyPreferences().setKeepTrackofBills(true);
 		} else {
-			companyPreferences.setKeepTrackofBills(false);
+			getCompanyPreferences().setKeepTrackofBills(false);
 		}
 
 	}

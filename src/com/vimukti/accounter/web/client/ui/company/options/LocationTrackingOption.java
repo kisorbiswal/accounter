@@ -75,7 +75,7 @@ public class LocationTrackingOption extends AbstractPreferenceOption {
 	}
 
 	public void initData() {
-		long locationType = companyPreferences.getLocationTrackingId();
+		long locationType = getCompanyPreferences().getLocationTrackingId();
 		locationTrackingCheckBoxLabel.setText(Accounter.messages()
 				.locationTracking(Global.get().Location()));
 		radioButtonsHeaderLabel.setText(Accounter.messages().useTerminologyFor(
@@ -103,7 +103,7 @@ public class LocationTrackingOption extends AbstractPreferenceOption {
 			territoryRadioButton.setValue(true);
 			break;
 		}
-		boolean isLocationEnabled = companyPreferences
+		boolean isLocationEnabled = getCompanyPreferences()
 				.isLocationTrackingEnabled();
 		if (isLocationEnabled) {
 			locationTrackingCheckBoxItm.setValue(true);
@@ -118,25 +118,31 @@ public class LocationTrackingOption extends AbstractPreferenceOption {
 
 	@Override
 	public void onSave() {
-		companyPreferences
-				.setLocationTrackingEnabled(locationTrackingCheckBoxItm
-						.getValue());
+		getCompanyPreferences().setLocationTrackingEnabled(
+				locationTrackingCheckBoxItm.getValue());
 		if (buisinessRadioButton.getValue()) {
-			companyPreferences.setLocationTrackingId(ClientLocation.BUSINESS);
+			getCompanyPreferences().setLocationTrackingId(
+					ClientLocation.BUSINESS);
 		} else if (departmentRadioButton.getValue()) {
-			companyPreferences.setLocationTrackingId(ClientLocation.DEPARTMENT);
+			getCompanyPreferences().setLocationTrackingId(
+					ClientLocation.DEPARTMENT);
 		} else if (divisionRadioButton.getValue()) {
-			companyPreferences.setLocationTrackingId(ClientLocation.DIVISION);
+			getCompanyPreferences().setLocationTrackingId(
+					ClientLocation.DIVISION);
 		} else if (locationRadioButton.getValue()) {
-			companyPreferences.setLocationTrackingId(ClientLocation.LOCATION);
+			getCompanyPreferences().setLocationTrackingId(
+					ClientLocation.LOCATION);
 		} else if (propertyRadioButton.getValue()) {
-			companyPreferences.setLocationTrackingId(ClientLocation.PROPERTY);
+			getCompanyPreferences().setLocationTrackingId(
+					ClientLocation.PROPERTY);
 		} else if (storeRadioButton.getValue()) {
-			companyPreferences.setLocationTrackingId(ClientLocation.STORE);
+			getCompanyPreferences().setLocationTrackingId(ClientLocation.STORE);
 		} else if (territoryRadioButton.getValue()) {
-			companyPreferences.setLocationTrackingId(ClientLocation.TERRITORY);
+			getCompanyPreferences().setLocationTrackingId(
+					ClientLocation.TERRITORY);
 		} else {
-			companyPreferences.setLocationTrackingId(ClientLocation.LOCATION);
+			getCompanyPreferences().setLocationTrackingId(
+					ClientLocation.LOCATION);
 		}
 	}
 

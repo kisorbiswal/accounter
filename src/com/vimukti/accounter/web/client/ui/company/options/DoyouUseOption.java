@@ -48,9 +48,9 @@ public class DoyouUseOption extends AbstractPreferenceOption {
 
 	@Override
 	public void onSave() {
-		companyPreferences.setUseCustomerId(useCustomerNo.getValue());
-		companyPreferences.setUseVendorId(useVendorNo.getValue());
-		companyPreferences.setUseAccountNumbers(useAccountNo.getValue());
+		getCompanyPreferences().setUseCustomerId(useCustomerNo.getValue());
+		getCompanyPreferences().setUseVendorId(useVendorNo.getValue());
+		getCompanyPreferences().setUseAccountNumbers(useAccountNo.getValue());
 	}
 
 	@Override
@@ -60,9 +60,9 @@ public class DoyouUseOption extends AbstractPreferenceOption {
 
 	@Override
 	public void initData() {
-		useCustomerNo.setValue(companyPreferences.getUseCustomerId());
-		useVendorNo.setValue(companyPreferences.getUseVendorId());
-		useAccountNo.setValue(companyPreferences.getUseAccountNumbers());
+		useCustomerNo.setValue(getCompanyPreferences().getUseCustomerId());
+		useVendorNo.setValue(getCompanyPreferences().getUseVendorId());
+		useAccountNo.setValue(getCompanyPreferences().getUseAccountNumbers());
 
 	}
 

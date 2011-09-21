@@ -4,7 +4,6 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
 import com.google.gwt.user.client.ui.Composite;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
@@ -16,9 +15,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
  * 
  */
 public abstract class AbstractPreferenceOption extends Composite {
-
-	protected static ClientCompanyPreferences companyPreferences = Accounter.getCompany().getPreferences();
-	protected static ClientCompany company = Accounter.getCompany();
 
 	@Override
 	public void onLoad() {
@@ -38,5 +34,13 @@ public abstract class AbstractPreferenceOption extends Composite {
 	public abstract void createControls();
 
 	public abstract void initData();
+
+	protected ClientCompany getCompany() {
+		return Accounter.getCompany();
+	}
+
+	protected ClientCompanyPreferences getCompanyPreferences() {
+		return getCompany().getPreferences();
+	}
 
 }

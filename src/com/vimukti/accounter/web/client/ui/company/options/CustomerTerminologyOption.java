@@ -83,19 +83,19 @@ public class CustomerTerminologyOption extends AbstractPreferenceOption {
 	public void onSave() {
 
 		if (tenantsLabelRadioButton.getValue()) {
-			companyPreferences.setReferCustomers(ClientCustomer.TENANT);
+			getCompanyPreferences().setReferCustomers(ClientCustomer.TENANT);
 		} else if (custimersRadioBuitton.getValue()) {
-			companyPreferences.setReferCustomers(ClientCustomer.CUSTOMER);
+			getCompanyPreferences().setReferCustomers(ClientCustomer.CUSTOMER);
 		} else if (guestardioButton.getValue()) {
-			companyPreferences.setReferCustomers(ClientCustomer.GUEST);
+			getCompanyPreferences().setReferCustomers(ClientCustomer.GUEST);
 		} else if (membersRadioButton.getValue()) {
-			companyPreferences.setReferCustomers(ClientCustomer.MEMBER);
+			getCompanyPreferences().setReferCustomers(ClientCustomer.MEMBER);
 		} else if (PatientRadioButton.getValue()) {
-			companyPreferences.setReferCustomers(ClientCustomer.PATITEINT);
+			getCompanyPreferences().setReferCustomers(ClientCustomer.PATITEINT);
 		} else if (clientsRadioButton.getValue()) {
-			companyPreferences.setReferCustomers(ClientCustomer.CLIENT);
+			getCompanyPreferences().setReferCustomers(ClientCustomer.CLIENT);
 		} else {
-			companyPreferences.setReferCustomers(ClientCustomer.DONAR);
+			getCompanyPreferences().setReferCustomers(ClientCustomer.DONAR);
 		}
 
 	}
@@ -108,7 +108,7 @@ public class CustomerTerminologyOption extends AbstractPreferenceOption {
 	@Override
 	public void initData() {
 
-		int referCustomers = companyPreferences.getReferCustomers();
+		int referCustomers = getCompanyPreferences().getReferCustomers();
 		terminologyforCustomerLabel.setText(messages.useTerminologyFor(Global
 				.get().Customer()));
 		switch (referCustomers) {

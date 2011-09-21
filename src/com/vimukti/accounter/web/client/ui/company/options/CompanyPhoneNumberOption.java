@@ -44,7 +44,7 @@ public class CompanyPhoneNumberOption extends AbstractPreferenceOption {
 	}
 
 	public void initData() {
-		companyPhoneNumberTextBox.setText(company.getPhone());
+		companyPhoneNumberTextBox.setText(getCompany().getPhone());
 	}
 
 	public void createControls() {
@@ -59,7 +59,7 @@ public class CompanyPhoneNumberOption extends AbstractPreferenceOption {
 
 	@Override
 	public void onSave() {
-		company.setPhone(companyPhoneNumberTextBox.getValue());
+		getCompany().setPhone(companyPhoneNumberTextBox.getValue());
 	}
 
 	@Override

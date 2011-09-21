@@ -56,7 +56,7 @@ public class CompanyFiscalYearOption extends AbstractPreferenceOption {
 
 	public void initData() {
 		if (monthNam.size() > 0)
-			monthNameComboBox.setSelectedIndex(companyPreferences
+			monthNameComboBox.setSelectedIndex(getCompanyPreferences()
 					.getFiscalYearFirstMonth());
 	}
 
@@ -67,8 +67,8 @@ public class CompanyFiscalYearOption extends AbstractPreferenceOption {
 
 	@Override
 	public void onSave() {
-		companyPreferences.setFiscalYearFirstMonth((monthNameComboBox
-				.getSelectedIndex()));
+		getCompanyPreferences().setFiscalYearFirstMonth(
+				(monthNameComboBox.getSelectedIndex()));
 	}
 
 	@Override
