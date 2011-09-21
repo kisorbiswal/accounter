@@ -86,6 +86,7 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 	private Result accountsList(Context context, Boolean isActive) {
 		Result result = context.makeResult();
 		ResultList accountsList = new ResultList("accountsList");
+		result.add("Accounts List");
 		int num = 0;
 		List<Account> accounts = getAccounts(context.getHibernateSession(),
 				isActive);
