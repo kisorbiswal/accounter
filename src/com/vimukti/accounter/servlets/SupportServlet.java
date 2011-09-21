@@ -39,6 +39,7 @@ public class SupportServlet extends HttpServlet {
 			String email = request.getParameter("email");
 			String comment = request.getParameter("comment");
 			PrintWriter out = response.getWriter();
+			response.setContentType("text/text");
 			if (mail(name, email, comment)) {
 				out.write("success");
 			} else {
