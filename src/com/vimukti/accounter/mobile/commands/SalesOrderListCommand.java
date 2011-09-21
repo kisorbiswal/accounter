@@ -80,18 +80,18 @@ public class SalesOrderListCommand extends AbstractTransactionCommand {
 	private Result salesOrderList(Context context, String viewType) {
 		Result result = context.makeResult();
 		result.add("Sales Order List");
-		ResultList expensesList = new ResultList("salesOrderList");
+		ResultList salesList = new ResultList("salesOrderList");
 		int num = 0;
 		List<SalesOrder> orders = getSalesOrder(context.getHibernateSession(),
 				viewType);
 		for (SalesOrder order : orders) {
-			expensesList.add(createNewSalesOrderRecord(order));
+			salesList.add(createNewSalesOrderRecord(order));
 			num++;
 			if (num == EXPENSES_TO_SHOW) {
 				break;
 			}
 		}
-		result.add(expensesList);
+		result.add(salesList);
 		return result;
 	}
 
