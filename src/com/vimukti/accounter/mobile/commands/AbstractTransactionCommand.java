@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-import org.hibernate.Session;
-
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.BankAccount;
@@ -553,18 +551,16 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	}
 
 	protected List<Item> getItems() {
-		// TODO Auto-generated method stub
-		return null;
+		return getCompany().getItems();
+
 	}
 
 	private List<Customer> getCustomers() {
-		FinanceTool financeTool = new FinanceTool();
-		return null;
+		return getCompany().getCustomers();
 	}
 
 	private List<PaymentTerms> getPaymentTerms() {
-		// TODO Auto-generated method stub
-		return null;
+		return getCompany().getPaymentTerms();
 	}
 
 	protected Result paymentFrom(Context context, Account oldAccount) {
@@ -712,8 +708,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	}
 
 	private List<Account> getAccounts() {
-
-		return null;
+		FinanceTool financeTool = new FinanceTool();
+		return financeTool.getAccountsListBySorted();
 	}
 
 	protected Record createAccountRecord(Account last) {
@@ -867,8 +863,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	}
 
 	private List<Payee> getPayees() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return getCompany().getPayees();
 	}
 
 	protected Record createPayeeRecord(Payee payee) {
@@ -939,7 +935,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	}
 
 	private List<BankAccount> getBankAccounts() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
