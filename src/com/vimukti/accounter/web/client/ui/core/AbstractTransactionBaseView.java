@@ -346,9 +346,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected DateField createTransactionDateItem() {
 
 		final DateField dateItem = new DateField(Accounter.constants().date());
-		dateItem.setToolTip(Accounter
-				.messages()
-				.selectDateWhenTransactioCreated(this.getAction().getViewName()));
+		dateItem
+				.setToolTip(Accounter.messages()
+						.selectDateWhenTransactioCreated(
+								this.getAction().getViewName()));
 		dateItem.setHelpInformation(true);
 		// if (this instanceof VendorBillView)
 		// dateItem.setShowTitle(true);
@@ -657,7 +658,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	public String getMemoTextAreaItem() {
 		return memoTextAreaItem != null
 				&& memoTextAreaItem.getValue().toString() != null ? memoTextAreaItem
-				.getValue().toString() : "";
+				.getValue().toString()
+				: "";
 	}
 
 	public void setMemoTextAreaItem(String memo) {
@@ -948,9 +950,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		if (transaction != null)
 			if (this.transaction.getTotal() <= 0) {
 				if (transaction instanceof ClientPayBill) {
-					result.addError(
-							this,
-							Accounter.messages().valueCannotBe0orlessthan0(
+					result.addError(this, Accounter.messages()
+							.valueCannotBe0orlessthan0(
 									Accounter.constants().amount()));
 				} else {
 					if (!(this instanceof CustomerRefundView)
@@ -969,11 +970,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		if (transactionItems != null) {
 			for (ClientTransactionItem transactionItem : transactionItems) {
 				if (transactionItem.getLineTotal() <= 0) {
-					result.addError(
-							"TransactionItem" + transactionItem.getAccount()
-									+ transactionItem.getAccount(), Accounter
-									.constants()
-									.transactionitemtotalcannotbe0orlessthan0());
+					result.addError("TransactionItem"
+							+ transactionItem.getAccount()
+							+ transactionItem.getAccount(), Accounter
+							.constants()
+							.transactionitemtotalcannotbe0orlessthan0());
 				}
 
 				if (getCompany().getPreferences().isRegisteredForVAT()) {
@@ -985,11 +986,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 								&& getTransactionDate().before(
 										new ClientFinanceDate(2011 - 1900,
 												01 - 1, 04))) {
-							result.addError(
-									"transactionDate"
-											+ transactionItem.getAccount()
-											+ transactionItem.getAccount(),
-									Accounter.constants().vat4thJanError());
+							result.addError("transactionDate"
+									+ transactionItem.getAccount()
+									+ transactionItem.getAccount(), Accounter
+									.constants().vat4thJanError());
 						}
 					}
 				}
@@ -1086,19 +1086,21 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				transaction.setNumber(transactionNumber.getValue().toString());
 			transactionItems.clear();
 			List<ClientTransactionItem> list = getAllTransactionItems();
-			for (ClientTransactionItem item : list) {
-				if (!item.isEmpty()) {
-					transactionItems.add(item);
+			if (list != null) {
+				for (ClientTransactionItem item : list) {
+					if (!item.isEmpty()) {
+						transactionItems.add(item);
+					}
 				}
-			}
-			transaction.setTransactionItems(transactionItems);
-			if (location != null)
-				transaction.setLocation(location.getID());
+				transaction.setTransactionItems(transactionItems);
+				if (location != null)
+					transaction.setLocation(location.getID());
 
-			if (getPreferences().isClassTrackingEnabled()
-					&& getPreferences().isClassOnePerTransaction()
-					&& clientAccounterClass != null) {
-				transaction.setAccounterClass(clientAccounterClass);
+				if (getPreferences().isClassTrackingEnabled()
+						&& getPreferences().isClassOnePerTransaction()
+						&& clientAccounterClass != null) {
+					transaction.setAccounterClass(clientAccounterClass);
+				}
 			}
 		}
 	}
