@@ -348,6 +348,12 @@ p {
 		  <input type="submit" tabindex="6" value="Create" name="create" class="allviews-common-button" style="width:60px" id="submitButton" />
 	     </div>
 	</form>
+	<div class="form-bottom-options">
+	<a href="javascript:history.back()" id="forget-link1" tabindex="4"> Companies List </a>
+	</div>
+	<div class="form-bottom-options">
+	<a href="/main/logout" id="forget-link1" tabindex="4"> Logout </a>
+	</div>
 	</div>
 </c:if>
 </div>
