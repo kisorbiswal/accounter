@@ -1,18 +1,30 @@
 package com.vimukti.accounter.mobile.commands;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.core.UserPermissions;
+import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class InviteAUserCommand extends AbstractTransactionCommand {
 
-	private static final String FIRST_NAME = "FirstName";
-	private static final String LAST_NAME = "LastName";
+	private static final String FIRST_NAME = "First Name";
+	private static final String LAST_NAME = "Last Name";
 	private static final String EMAIL = "E-mail";
+	private static final String READ_ONLY = "Read Only";
+	private static final String INVOICE_ONLY = "Invoice Only";
+	private static final String BASIC_EMPLOYEE = "Basic Employee";
+	private static final String FINANCIAL_ADVISOR = "Financial Advisor";
+	private static final String FINANCE_ADMIN = "Finance Admin";
+	private static final String ADMIN = "Admin";
 
 	@Override
 	public String getId() {
@@ -25,6 +37,13 @@ public class InviteAUserCommand extends AbstractTransactionCommand {
 		list.add(new Requirement(FIRST_NAME, false, true));
 		list.add(new Requirement(LAST_NAME, false, true));
 		list.add(new Requirement(EMAIL, false, true));
+
+		list.add(new Requirement(READ_ONLY, true, true));
+		list.add(new Requirement(INVOICE_ONLY, true, true));
+		list.add(new Requirement(BASIC_EMPLOYEE, true, true));
+		list.add(new Requirement(FINANCIAL_ADVISOR, true, true));
+		list.add(new Requirement(FINANCE_ADMIN, true, true));
+		list.add(new Requirement(ADMIN, true, true));
 
 	}
 
@@ -47,7 +66,149 @@ public class InviteAUserCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
+		result = getOptionalRequirement(context);
+		if (result != null) {
+			return result;
+		}
+
+		return createUser(context);
+
+	}
+
+	private Result createUser(Context context) {
+
+		String firstName = get(FIRST_NAME).getValue();
+		String lastName = get(LAST_NAME).getValue();
+		String email = get(EMAIL).getValue();
+
+		boolean readOnly = get(READ_ONLY).getValue();
+		boolean invoiceOnly = get(INVOICE_ONLY).getValue();
+		boolean basicEmployee = get(BASIC_EMPLOYEE).getValue();
+		boolean financialAdvisor = get(FINANCIAL_ADVISOR).getValue();
+		boolean financeAdmin = get(FINANCE_ADMIN).getValue();
+		boolean admin = get(ADMIN).getValue();
+
+		User user = new User();
+
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
+		user.setEmail(email);
+
+		if (readOnly) {
+
+			RolePermissions readOnlyPer = getReadOnlyPermission();
+			user.setPermissions(getUserPermission(readOnlyPer));
+
+		} else if (invoiceOnly) {
+
+			// if ReadOnly is selected, get corresponding RolePermissions
+			RolePermissions invoiceOnlyPer = getInvoiceOnlyPermission();
+			user.setPermissions(getUserPermission(invoiceOnlyPer));
+
+		} else if (basicEmployee) {
+
+			// if BasicEmployee is selected, get corresponding RolePermissions
+			RolePermissions basicEmployeePer = getBasicEmployeePermission();
+			user.setPermissions(getUserPermission(basicEmployeePer));
+
+		} else if (financialAdvisor) {
+
+			// if FinancialAdvisor is selected, get corresponding
+			// RolePermissions
+			RolePermissions basicEmployeePerPer = getFinancialAdviserPermission();
+			user.setPermissions(getUserPermission(basicEmployeePerPer));
+
+		} else if (financeAdmin) {
+
+			// if FinanceAdmin is selected, get corresponding RolePermissions
+			RolePermissions financeAdminPer = getFinanceAdminPermission();
+			user.setPermissions(getUserPermission(financeAdminPer));
+
+		} else if (admin) {
+
+			// if Admin is selected, get corresponding RolePermissions
+			RolePermissions adminPer = getAdminPermission();
+			user.setPermissions(getUserPermission(adminPer));
+
+		}
+
+		Session session = context.getHibernateSession();
+		Transaction transaction = session.beginTransaction();
+		session.saveOrUpdate(user);
+		transaction.commit();
+
+		markDone();
+
+		Result result = new Result();
+		result.add("User invited successfully");
+
+		return result;
+	}
+
+	private UserPermissions getUserPermission(RolePermissions rolePermission) {
+		UserPermissions userPermissions = new UserPermissions();
+
+		userPermissions.setTypeOfBankReconcilation(rolePermission
+				.getTypeOfBankReconcilation());
+		userPermissions.setTypeOfInvoices(rolePermission.getTypeOfInvoices());
+		userPermissions.setTypeOfExpences(rolePermission.getTypeOfExpences());
+		userPermissions.setTypeOfSystemSettings(rolePermission
+				.getTypeOfSystemSettings());
+		userPermissions.setTypeOfViewReports(rolePermission
+				.getTypeOfViewReports());
+		userPermissions.setTypeOfLockDates(rolePermission.getTypeOfLockDates());
+		// TODO
+		// userPermissions.setTypeOfPublishReports(readOnlyPer.getTypeOfPublishReports());
+
+		return userPermissions;
+	}
+
+	private Result getOptionalRequirement(Context context) {
+		context.setAttribute(INPUT_ATTR, "optional");
+		Object selection = context.getSelection(ACTIONS);
+
+		if (selection != null) {
+			ActionNames actionName = (ActionNames) selection;
+			switch (actionName) {
+			case FINISH:
+				return null;
+			default:
+				break;
+			}
+		}
+		selection = context.getSelection("values");
+		ResultList list = new ResultList("values");
+
+		Requirement readOnlyReq = get(READ_ONLY);
+		Boolean readOnly = readOnlyReq.getValue();
+
+		Requirement invoiceOnlyReq = get(INVOICE_ONLY);
+		Boolean invoiceOnly = invoiceOnlyReq.getValue();
+
+		Requirement basicEmployeeReq = get(BASIC_EMPLOYEE);
+		Boolean basicEmployee = basicEmployeeReq.getValue();
+
+		Requirement financialAdvisorReq = get(FINANCIAL_ADVISOR);
+		Boolean financialAdvisor = financialAdvisorReq.getValue();
+
+		Requirement financeAdminReq = get(FINANCE_ADMIN);
+		Boolean financeAdmin = financeAdminReq.getValue();
+
+		Requirement adminReq = get(ADMIN);
+		Boolean admin = adminReq.getValue();
+
+		if (selection != readOnly || selection != invoiceOnly
+				|| selection != basicEmployee || selection != financialAdvisor
+				|| selection != financeAdmin || selection != admin) {
+			return text(context, "Please select any user permission", null);
+		} else {
+
+			// TODO if any user permission is selected is selected
+
+		}
+
 		return null;
+
 	}
 
 	private Result getFirstNameRequirement(Context context) {
@@ -101,8 +262,7 @@ public class InviteAUserCommand extends AbstractTransactionCommand {
 		return null;
 	}
 
-	public List<RolePermissions> getDefaultRolesAndPermissions() {
-		List<RolePermissions> list = new ArrayList<RolePermissions>();
+	public RolePermissions getReadOnlyPermission() {
 
 		RolePermissions readOnly = new RolePermissions();
 		readOnly.setRoleName(RolePermissions.READ_ONLY);
@@ -114,8 +274,11 @@ public class InviteAUserCommand extends AbstractTransactionCommand {
 		readOnly.setTypeOfPublishReports(RolePermissions.TYPE_NO);
 		readOnly.setTypeOfLockDates(RolePermissions.TYPE_NO);
 		readOnly.setCanDoUserManagement(false);
-		list.add(readOnly);
 
+		return readOnly;
+	}
+
+	public RolePermissions getInvoiceOnlyPermission() {
 		RolePermissions invoiceOnly = new RolePermissions();
 		invoiceOnly.setRoleName(RolePermissions.INVOICE_ONLY);
 		invoiceOnly.setTypeOfBankReconcilation(RolePermissions.TYPE_NO);
@@ -126,8 +289,10 @@ public class InviteAUserCommand extends AbstractTransactionCommand {
 		invoiceOnly.setTypeOfPublishReports(RolePermissions.TYPE_NO);
 		invoiceOnly.setTypeOfLockDates(RolePermissions.TYPE_NO);
 		invoiceOnly.setCanDoUserManagement(false);
-		list.add(invoiceOnly);
+		return invoiceOnly;
+	}
 
+	public RolePermissions getBasicEmployeePermission() {
 		RolePermissions basicEmployee = new RolePermissions();
 		basicEmployee.setRoleName(RolePermissions.BASIC_EMPLOYEE);
 		basicEmployee.setTypeOfBankReconcilation(RolePermissions.TYPE_YES);
@@ -138,8 +303,10 @@ public class InviteAUserCommand extends AbstractTransactionCommand {
 		basicEmployee.setTypeOfPublishReports(RolePermissions.TYPE_NO);
 		basicEmployee.setTypeOfLockDates(RolePermissions.TYPE_NO);
 		basicEmployee.setCanDoUserManagement(false);
-		list.add(basicEmployee);
+		return basicEmployee;
+	}
 
+	public RolePermissions getFinancialAdviserPermission() {
 		RolePermissions financialAdviser = new RolePermissions();
 		financialAdviser.setRoleName(RolePermissions.FINANCIAL_ADVISER);
 		financialAdviser.setTypeOfBankReconcilation(RolePermissions.TYPE_YES);
@@ -150,8 +317,10 @@ public class InviteAUserCommand extends AbstractTransactionCommand {
 		financialAdviser.setTypeOfPublishReports(RolePermissions.TYPE_YES);
 		financialAdviser.setTypeOfLockDates(RolePermissions.TYPE_YES);
 		financialAdviser.setCanDoUserManagement(false);
-		list.add(financialAdviser);
+		return financialAdviser;
+	}
 
+	public RolePermissions getFinanceAdminPermission() {
 		RolePermissions financeAdmin = new RolePermissions();
 		financeAdmin.setRoleName(RolePermissions.FINANCE_ADMIN);
 		financeAdmin.setTypeOfBankReconcilation(RolePermissions.TYPE_YES);
@@ -162,8 +331,11 @@ public class InviteAUserCommand extends AbstractTransactionCommand {
 		financeAdmin.setTypeOfPublishReports(RolePermissions.TYPE_YES);
 		financeAdmin.setTypeOfLockDates(RolePermissions.TYPE_YES);
 		financeAdmin.setCanDoUserManagement(false);
-		list.add(financeAdmin);
 
+		return financeAdmin;
+	}
+
+	public RolePermissions getAdminPermission() {
 		RolePermissions admin = new RolePermissions();
 		admin.setRoleName(RolePermissions.ADMIN);
 		admin.setTypeOfBankReconcilation(RolePermissions.TYPE_YES);
@@ -174,9 +346,8 @@ public class InviteAUserCommand extends AbstractTransactionCommand {
 		admin.setTypeOfPublishReports(RolePermissions.TYPE_YES);
 		admin.setTypeOfLockDates(RolePermissions.TYPE_YES);
 		admin.setCanDoUserManagement(true);
-		list.add(admin);
 
-		return list;
+		return admin;
 	}
 
 }
