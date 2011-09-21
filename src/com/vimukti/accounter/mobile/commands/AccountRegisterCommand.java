@@ -17,6 +17,11 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.server.FinanceTool;
 
+/**
+ * 
+ * @author Lingarao.R
+ * 
+ */
 public class AccountRegisterCommand extends AbstractTransactionCommand {
 
 	@Override
