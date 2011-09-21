@@ -277,9 +277,7 @@ public class BaseServlet extends HttpServlet {
 	}
 
 	protected IS2SService getS2sSyncProxy(String domainName) {
-		String url = "http://" + domainName + ":"
-				+ ServerConfiguration.getMainServerPort()
-				+ "/company/stosservice";
+		String url = "http://" + domainName + "/company/stosservice";
 		return (IS2SService) SyncProxy.newProxyInstance(IS2SService.class, url,
 				"");
 	}
@@ -314,8 +312,8 @@ public class BaseServlet extends HttpServlet {
 	protected String buildMainServerURL(String url) {
 		StringBuilder mainServerURL = new StringBuilder("http://");
 		mainServerURL.append(ServerConfiguration.getMainServerDomain());
-		mainServerURL.append(':');
-		mainServerURL.append(ServerConfiguration.getMainServerPort());
+		// mainServerURL.append(':');
+		// mainServerURL.append(ServerConfiguration.getMainServerPort());
 		mainServerURL.append(url);
 		return mainServerURL.toString();
 	}
@@ -331,8 +329,8 @@ public class BaseServlet extends HttpServlet {
 
 		StringBuilder mainServerURL = new StringBuilder("http://");
 		mainServerURL.append(companyServerAddress);
-//		mainServerURL.append(':');
-//		mainServerURL.append(ServerConfiguration.getMainServerPort());
+		// mainServerURL.append(':');
+		// mainServerURL.append(ServerConfiguration.getMainServerPort());
 		mainServerURL.append(url);
 		return mainServerURL.toString();
 	}
