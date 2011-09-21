@@ -7,9 +7,9 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.FinanceDate;
-import com.vimukti.accounter.core.PayVAT;
+import com.vimukti.accounter.core.ReceiveVAT;
 import com.vimukti.accounter.core.TAXAgency;
-import com.vimukti.accounter.core.TransactionPayVAT;
+import com.vimukti.accounter.core.TransactionReceiveVAT;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -18,12 +18,12 @@ import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 
-public class PayVATCommand extends AbstractVATCommand {
+public class ReceiveVATCommand extends AbstractVATCommand {
 
 	private static final String VAT_RETURN_END_DATE = "vatReturnEndDate";
-	private static final String BILLS_TO_PAY = "billToPay";
-	private static final String BILLS_TO_PAY_LIST = "billsToPayList";
-	private static final String PAY_FROM = "payFrom";
+	private static final String BILLS_TO_RECEIVE = "billToReceive";
+	private static final String BILLS_TO_RECEIVE_LIST = "billToReceiveList";
+	private static final String DEPOSIT_TO = "depositTo";
 
 	@Override
 	public String getId() {
@@ -33,19 +33,19 @@ public class PayVATCommand extends AbstractVATCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(PAY_FROM, false, true));
+		list.add(new Requirement(DEPOSIT_TO, false, true));
 		list.add(new Requirement(PAYMENT_METHOD, false, true));
 		list.add(new Requirement(VAT_RETURN_END_DATE, true, true));
 		list.add(new Requirement(DATE, true, true));
 		list.add(new Requirement(ORDER_NO, true, true));
-		list.add(new Requirement(BILLS_TO_PAY, true, true));
+		list.add(new Requirement(BILLS_TO_RECEIVE, true, true));
 	}
 
 	@Override
 	public Result run(Context context) {
 		Result result = null;
 
-		result = accountRequirement(context, PAY_FROM);
+		result = accountRequirement(context, DEPOSIT_TO);
 		if (result != null) {
 			return result;
 		}
@@ -55,7 +55,7 @@ public class PayVATCommand extends AbstractVATCommand {
 			return result;
 		}
 
-		result = billsToPayRequirement(context);
+		result = billsToReceiveRequirement(context);
 		if (result != null) {
 			return result;
 		}
@@ -69,27 +69,28 @@ public class PayVATCommand extends AbstractVATCommand {
 	}
 
 	private Result createPayVat(Context context) {
-		PayVAT payVAT = new PayVAT();
+		ReceiveVAT receiveVAT = new ReceiveVAT();
 
-		Account payFrom = get(PAY_FROM).getValue();
+		Account depositTo = get(DEPOSIT_TO).getValue();
 		String paymentMethod = get(PAYMENT_METHOD).getValue();
-		List<TransactionPayVAT> billsToPay = get(BILLS_TO_PAY).getValue();
+		List<TransactionReceiveVAT> billsToReceive = get(BILLS_TO_RECEIVE)
+				.getValue();
 		FinanceDate vatReturnDate = get(VAT_RETURN_END_DATE).getValue();
 		FinanceDate transactionDate = get(DATE).getValue();
 		String orderNo = get(ORDER_NO).getValue();
 
-		payVAT.setPayFrom(payFrom);
-		payVAT.setPaymentMethod(paymentMethod);
-		payVAT.setTransactionPayVAT(billsToPay);
-		payVAT.setReturnsDueOnOrBefore(vatReturnDate);
-		payVAT.setDate(transactionDate);
-		payVAT.setNumber(orderNo);
+		receiveVAT.setDepositIn(depositTo);
+		receiveVAT.setPaymentMethod(paymentMethod);
+		receiveVAT.setTransactionReceiveVAT(billsToReceive);
+		receiveVAT.setReturnsDueOnOrBefore(vatReturnDate);
+		receiveVAT.setDate(transactionDate);
+		receiveVAT.setNumber(orderNo);
 
-		create(payVAT, context);
+		create(receiveVAT, context);
 
 		markDone();
 		Result result = new Result();
-		result.add("Pay Vat created successfully.");
+		result.add("Receive Vat created successfully.");
 
 		return result;
 	}
@@ -102,7 +103,7 @@ public class PayVATCommand extends AbstractVATCommand {
 			ActionNames actionName = (ActionNames) selection;
 			switch (actionName) {
 			case ADD_MORE_BILLS:
-				return getBillsToPayResult(context);
+				return getBillsToReceiveResult(context);
 			case FINISH:
 				context.removeAttribute(INPUT_ATTR);
 				return null;
@@ -113,10 +114,10 @@ public class PayVATCommand extends AbstractVATCommand {
 
 		selection = context.getSelection("values");
 
-		Requirement payFromReq = get(PAY_FROM);
-		Account payFrom = (Account) payFromReq.getValue();
-		if (payFrom == selection) {
-			context.setAttribute(INPUT_ATTR, PAY_FROM);
+		Requirement depositToReq = get(DEPOSIT_TO);
+		Account depositTo = (Account) depositToReq.getValue();
+		if (depositTo == selection) {
+			context.setAttribute(INPUT_ATTR, DEPOSIT_TO);
 			return getAccountResult(context);
 		}
 
@@ -127,12 +128,13 @@ public class PayVATCommand extends AbstractVATCommand {
 			return paymentMethod(context, paymentMethod);
 		}
 
-		Requirement billsToPayReq = get(BILLS_TO_PAY);
-		List<TransactionPayVAT> transPayVats = billsToPayReq.getValue();
+		Requirement billsToReceiveReq = get(BILLS_TO_RECEIVE);
+		List<TransactionReceiveVAT> transReceiveVats = billsToReceiveReq
+				.getValue();
 
-		selection = context.getSelection("transactionPayVats");
+		selection = context.getSelection("transactionReceiveVats");
 		if (selection != null) {
-			Result result = getBillsToPayResult(context);
+			Result result = getBillsToReceiveResult(context);
 			if (result != null) {
 				return result;
 			}
@@ -140,9 +142,9 @@ public class PayVATCommand extends AbstractVATCommand {
 
 		ResultList list = new ResultList("values");
 
-		Record payFromRecord = new Record(payFrom);
-		payFromRecord.add("Name", "Pay From");
-		payFromRecord.add("Value", payFrom.getName());
+		Record payFromRecord = new Record(depositTo);
+		payFromRecord.add("Name", "Deposit To");
+		payFromRecord.add("Value", depositTo.getName());
 		list.add(payFromRecord);
 
 		Record paymentMethodRecord = new Record(paymentMethod);
@@ -167,12 +169,12 @@ public class PayVATCommand extends AbstractVATCommand {
 		}
 
 		result = context.makeResult();
-		result.add("Pay Vat is ready to create with following values.");
+		result.add("Receive Vat is ready to create with following values.");
 		result.add(list);
-		result.add("Bill To Pay:-");
-		ResultList payVats = new ResultList("transactionPayVats");
-		for (TransactionPayVAT payVat : transPayVats) {
-			Record itemRec = createTransactionPayVatRecord(payVat);
+		result.add("Bill To Receive:-");
+		ResultList payVats = new ResultList("transactionReceiveVats");
+		for (TransactionReceiveVAT payVat : transReceiveVats) {
+			Record itemRec = createTransactionReceiveVatRecord(payVat);
 			payVats.add(itemRec);
 		}
 		result.add(payVats);
@@ -182,52 +184,54 @@ public class PayVATCommand extends AbstractVATCommand {
 		moreItems.add("", "Add more bills");
 		actions.add(moreItems);
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to Pay vat.");
+		finish.add("", "Finish to Receive vat.");
 		actions.add(finish);
 		result.add(actions);
 
 		return result;
 	}
 
-	private Result billsToPayRequirement(Context context) {
-		Requirement billsToPayReq = get(BILLS_TO_PAY);
-		List<TransactionPayVAT> transactionPayVatBills = context
-				.getSelections(BILLS_TO_PAY);
-		if (!billsToPayReq.isDone()) {
-			if (transactionPayVatBills.size() > 0) {
-				billsToPayReq.setValue(transactionPayVatBills);
+	private Result billsToReceiveRequirement(Context context) {
+		Requirement billsToReceiveReq = get(BILLS_TO_RECEIVE);
+		List<TransactionReceiveVAT> transactionReceiveVatBills = context
+				.getSelections(BILLS_TO_RECEIVE_LIST);
+		if (!billsToReceiveReq.isDone()) {
+			if (transactionReceiveVatBills.size() > 0) {
+				billsToReceiveReq.setValue(transactionReceiveVatBills);
 			} else {
-				return getBillsToPayResult(context);
+				return getBillsToReceiveResult(context);
 			}
 		}
-		if (transactionPayVatBills != null && transactionPayVatBills.size() > 0) {
-			List<TransactionPayVAT> items = billsToPayReq.getValue();
-			items.addAll(transactionPayVatBills);
+		if (transactionReceiveVatBills != null
+				&& transactionReceiveVatBills.size() > 0) {
+			List<TransactionReceiveVAT> receiveVats = billsToReceiveReq
+					.getValue();
+			receiveVats.addAll(transactionReceiveVatBills);
 		}
 		return null;
 	}
 
-	private Result getBillsToPayResult(Context context) {
+	private Result getBillsToReceiveResult(Context context) {
 		Result result = context.makeResult();
-		List<TransactionPayVAT> transactionPayVats = getTransactionPayVatBills(context
+		List<TransactionReceiveVAT> transactionPayVats = getTransactionReceiveVatBills(context
 				.getHibernateSession());
-		ResultList list = new ResultList(BILLS_TO_PAY_LIST);
+		ResultList list = new ResultList(BILLS_TO_RECEIVE_LIST);
 		Object last = context.getLast(RequirementType.TRANSACTION_PAY_VAT);
 		int num = 0;
 		if (last != null) {
-			list.add(createTransactionPayVatRecord((TransactionPayVAT) last));
+			list.add(createTransactionReceiveVatRecord((TransactionReceiveVAT) last));
 			num++;
 		}
-		Requirement payBillsReq = get(BILLS_TO_PAY_LIST);
-		List<TransactionPayVAT> transPayVats = payBillsReq.getValue();
-		List<TransactionPayVAT> availablePayVats = new ArrayList<TransactionPayVAT>();
-		for (TransactionPayVAT transactionItem : transPayVats) {
+		Requirement payBillsReq = get(BILLS_TO_RECEIVE_LIST);
+		List<TransactionReceiveVAT> transPayVats = payBillsReq.getValue();
+		List<TransactionReceiveVAT> availablePayVats = new ArrayList<TransactionReceiveVAT>();
+		for (TransactionReceiveVAT transactionItem : transPayVats) {
 			availablePayVats.add(transactionItem);
 		}
-		for (TransactionPayVAT transactionPayVat : transactionPayVats) {
+		for (TransactionReceiveVAT transactionPayVat : transactionPayVats) {
 			if (transactionPayVat != last
 					|| !availablePayVats.contains(transactionPayVat)) {
-				list.add(createTransactionPayVatRecord(transactionPayVat));
+				list.add(createTransactionReceiveVatRecord(transactionPayVat));
 				num++;
 			}
 			if (num == VALUES_TO_SHOW) {
@@ -245,25 +249,20 @@ public class PayVATCommand extends AbstractVATCommand {
 		return result;
 	}
 
-	private List<TransactionPayVAT> getTransactionPayVatBills(
+	private List<TransactionReceiveVAT> getTransactionReceiveVatBills(
 			Session hibernateSession) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	private Record createTransactionPayVatRecord(TransactionPayVAT payVatBill) {
-		Record record = new Record(payVatBill);
-		TAXAgency taxAgency = payVatBill.getTaxAgency();
+	private Record createTransactionReceiveVatRecord(
+			TransactionReceiveVAT receiveVat) {
+		Record record = new Record(receiveVat);
+		TAXAgency taxAgency = receiveVat.getTaxAgency();
 		record.add("Vat Agency", taxAgency != null ? taxAgency.getName() : "");
-		record.add("Tax Due", payVatBill.getTaxDue());
-		record.add("Amount to pay", payVatBill.getAmountToPay());
+		record.add("Tax Due", receiveVat.getTaxDue());
+		record.add("Amount to Receive", receiveVat.getAmountToReceive());
 		return record;
-	}
-
-	@Override
-	protected List<Account> getAccounts(Session session) {
-		// TODO Auto-generated method stub
-		return super.getAccounts(session);
 	}
 
 }
