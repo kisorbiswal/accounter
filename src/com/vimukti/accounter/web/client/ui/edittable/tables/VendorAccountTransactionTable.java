@@ -20,8 +20,7 @@ public abstract class VendorAccountTransactionTable extends
 		VendorTransactionTable {
 
 	public VendorAccountTransactionTable() {
-		super();
-		addEmptyRecords();
+		this(true);
 	}
 
 	public VendorAccountTransactionTable(boolean needDiscount) {

@@ -252,11 +252,6 @@ public class CashSalesView extends
 			public boolean isShowPriceWithVat() {
 				return CashSalesView.this.isShowPriceWithVat();
 			}
-
-			@Override
-			protected ClientCustomer getCustomer() {
-				return customer;
-			}
 		};
 
 		customerAccountTransactionTable.setDisabled(isInViewMode());
@@ -290,11 +285,6 @@ public class CashSalesView extends
 			@Override
 			public boolean isShowPriceWithVat() {
 				return CashSalesView.this.isShowPriceWithVat();
-			}
-
-			@Override
-			protected ClientCustomer getCustomer() {
-				return customer;
 			}
 		};
 
@@ -493,13 +483,10 @@ public class CashSalesView extends
 		if (customer != null) {
 			customerCombo.setComboItem(customer);
 		}
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			// super.setCustomerTaxCodetoAccount();
-			for (ClientTransactionItem item : customerAccountTransactionTable
-					.getAllRows()) {
-				if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT)
-					customerAccountTransactionTable.setCustomerTaxCode(item);
-			}
+		long taxCode=customer.getTAXCode();
+		if(taxCode!=0){
+			customerAccountTransactionTable.setTaxCode(taxCode, false);
+			customerItemTransactionTable.setTaxCode(taxCode, false);
 		}
 
 	}
@@ -978,8 +965,8 @@ public class CashSalesView extends
 
 			taxCodeSelect
 					.setComboItem(getCompany().getTAXCode(taxCode.getID()));
-			customerAccountTransactionTable.setTaxCode(taxCode.getID());
-			customerItemTransactionTable.setTaxCode(taxCode.getID());
+			customerAccountTransactionTable.setTaxCode(taxCode.getID(), true);
+			customerItemTransactionTable.setTaxCode(taxCode.getID(), true);
 		} else
 			taxCodeSelect.setValue("");
 		// updateNonEditableItems();

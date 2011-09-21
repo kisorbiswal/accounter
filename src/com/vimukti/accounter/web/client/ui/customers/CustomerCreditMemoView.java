@@ -32,7 +32,6 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.combo.PriceLevelCombo;
 import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
@@ -202,11 +201,6 @@ public class CustomerCreditMemoView extends
 			public boolean isShowPriceWithVat() {
 				return CustomerCreditMemoView.this.isShowPriceWithVat();
 			}
-
-			@Override
-			protected ClientCustomer getCustomer() {
-				return customer;
-			}
 		};
 		customerAccountTransactionTable.setDisabled(isInViewMode());
 
@@ -239,11 +233,6 @@ public class CustomerCreditMemoView extends
 			@Override
 			public boolean isShowPriceWithVat() {
 				return CustomerCreditMemoView.this.isShowPriceWithVat();
-			}
-
-			@Override
-			protected ClientCustomer getCustomer() {
-				return customer;
 			}
 		};
 		customerItemTransactionTable.setDisabled(isInViewMode());
@@ -690,13 +679,12 @@ public class CustomerCreditMemoView extends
 		if (customer != null) {
 			customerCombo.setComboItem(customer);
 		}
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			for (ClientTransactionItem item : customerAccountTransactionTable
-					.getRecords()) {
-				if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT)
-					customerAccountTransactionTable.setCustomerTaxCode(item);
-			}
+		long taxCode=customer.getTAXCode();
+		if(taxCode!=0){
+			customerAccountTransactionTable.setTaxCode(taxCode, false);
+			customerItemTransactionTable.setTaxCode(taxCode, false);
 		}
+		
 		this.addressListOfCustomer = customer.getAddress();
 		billingAddress = getAddress(ClientAddress.TYPE_BILL_TO);
 		if (billingAddress != null) {
@@ -829,8 +817,8 @@ public class CustomerCreditMemoView extends
 
 			taxCodeSelect
 					.setComboItem(getCompany().getTAXCode(taxCode.getID()));
-			customerAccountTransactionTable.setTaxCode(taxCode.getID());
-			customerItemTransactionTable.setTaxCode(taxCode.getID());
+			customerAccountTransactionTable.setTaxCode(taxCode.getID(), true);
+			customerItemTransactionTable.setTaxCode(taxCode.getID(), true);
 		} else
 			taxCodeSelect.setValue("");
 		// updateNonEditableItems();

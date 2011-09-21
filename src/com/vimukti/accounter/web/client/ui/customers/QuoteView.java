@@ -149,12 +149,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		if (customer != null) {
 			customerCombo.setComboItem(customer);
 		}
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			for (ClientTransactionItem item : customerTransactionTable
-					.getAllRows()) {
-				if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT)
-					customerTransactionTable.setCustomerTaxCode(item);
-			}
+		long taxCode=customer.getTAXCode();
+		if(taxCode!=0){
+			customerTransactionTable.setTaxCode(taxCode, false);
 		}
 
 	}
@@ -396,11 +393,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			@Override
 			public boolean isShowPriceWithVat() {
 				return QuoteView.this.isShowPriceWithVat();
-			}
-
-			@Override
-			protected ClientCustomer getCustomer() {
-				return customer;
 			}
 		};
 		customerTransactionTable.setDisabled(isInViewMode());
@@ -908,7 +900,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 			taxCodeSelect
 					.setComboItem(getCompany().getTAXCode(taxCode.getID()));
-			customerTransactionTable.setTaxCode(taxCode.getID());
+			customerTransactionTable.setTaxCode(taxCode.getID(), true);
 		} else
 			taxCodeSelect.setValue("");
 		updateNonEditableItems();

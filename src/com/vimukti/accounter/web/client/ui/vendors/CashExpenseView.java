@@ -338,15 +338,6 @@ public class CashExpenseView extends
 				CashExpenseView.this.updateNonEditableItems();
 			}
 
-			@Override
-			protected ClientTransaction getTransactionObject() {
-				return CashExpenseView.this.getTransactionObject();
-			}
-
-			@Override
-			protected ClientVendor getSelectedVendor() {
-				return CashExpenseView.this.getVendor();
-			}
 
 			@Override
 			public boolean isShowPriceWithVat() {
@@ -372,15 +363,6 @@ public class CashExpenseView extends
 				CashExpenseView.this.updateNonEditableItems();
 			}
 
-			@Override
-			protected ClientTransaction getTransactionObject() {
-				return CashExpenseView.this.getTransactionObject();
-			}
-
-			@Override
-			protected ClientVendor getSelectedVendor() {
-				return CashExpenseView.this.getVendor();
-			}
 
 			@Override
 			public boolean isShowPriceWithVat() {
@@ -612,8 +594,8 @@ public class CashExpenseView extends
 		if (code == 0) {
 			code = Accounter.getCompany().getDefaultTaxCode();
 		}
-		vendorAccountTransactionTable.setTaxCode(code);
-		vendorItemTransactionTable.setTaxCode(code);
+		vendorAccountTransactionTable.setTaxCode(code,false);
+		vendorItemTransactionTable.setTaxCode(code,false);
 
 	}
 
@@ -761,9 +743,9 @@ public class CashExpenseView extends
 	protected void addAllRecordToGrid(
 			List<ClientTransactionItem> transactionItems) {
 		vendorAccountTransactionTable
-				.addRecords(getAccountTransactionItems(transactionItems));
+				.setRecords(getAccountTransactionItems(transactionItems));
 		vendorItemTransactionTable
-				.addRecords(getItemTransactionItems(transactionItems));
+				.setRecords(getItemTransactionItems(transactionItems));
 	}
 
 	@Override

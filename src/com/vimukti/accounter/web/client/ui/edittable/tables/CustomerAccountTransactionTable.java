@@ -20,8 +20,7 @@ public abstract class CustomerAccountTransactionTable extends
 		CustomerTransactionTable {
 
 	public CustomerAccountTransactionTable() {
-		super();
-		addEmptyRecords();
+		this(true);
 	}
 
 	public CustomerAccountTransactionTable(boolean needDiscount) {

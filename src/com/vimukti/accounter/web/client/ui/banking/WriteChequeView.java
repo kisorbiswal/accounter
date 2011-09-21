@@ -967,11 +967,6 @@ public class WriteChequeView extends
 			public boolean isShowPriceWithVat() {
 				return WriteChequeView.this.isShowPriceWithVat();
 			}
-
-			@Override
-			protected ClientCustomer getCustomer() {
-				return WriteChequeView.this.selectedCustomer;
-			}
 		};
 		transactionCustomerItemTable = new CustomerItemTransactionTable(false) {
 
@@ -984,11 +979,6 @@ public class WriteChequeView extends
 			public boolean isShowPriceWithVat() {
 				return WriteChequeView.this.isShowPriceWithVat();
 			}
-
-			@Override
-			protected ClientCustomer getCustomer() {
-				return WriteChequeView.this.selectedCustomer;
-			}
 		};
 
 		transactionVendorAccountTable = new VendorAccountTransactionTable(false) {
@@ -996,16 +986,6 @@ public class WriteChequeView extends
 			@Override
 			protected void updateNonEditableItems() {
 				WriteChequeView.this.updateNonEditableItems();
-			}
-
-			@Override
-			protected ClientTransaction getTransactionObject() {
-				return WriteChequeView.this.getTransactionObject();
-			}
-
-			@Override
-			protected ClientVendor getSelectedVendor() {
-				return WriteChequeView.this.selectedVendor;
 			}
 
 			@Override
@@ -1019,16 +999,6 @@ public class WriteChequeView extends
 			@Override
 			protected void updateNonEditableItems() {
 				WriteChequeView.this.updateNonEditableItems();
-			}
-
-			@Override
-			protected ClientTransaction getTransactionObject() {
-				return WriteChequeView.this.getTransactionObject();
-			}
-
-			@Override
-			protected ClientVendor getSelectedVendor() {
-				return WriteChequeView.this.selectedVendor;
 			}
 
 			@Override
@@ -1106,10 +1076,10 @@ public class WriteChequeView extends
 			switch (transaction.getPayToType()) {
 			case ClientWriteCheck.TYPE_CUSTOMER:
 
-//				transactionCustomerAccountTable.setVisible(true);
+				// transactionCustomerAccountTable.setVisible(true);
 				transactionCustomerAccountTable.setDisabled(isInViewMode());
 				transactionCustomerAccountTable.setWidth("100%");
-//				transactionCustomerItemTable.setVisible(true);
+				// transactionCustomerItemTable.setVisible(true);
 				transactionCustomerItemTable.setDisabled(isInViewMode());
 				mainVLay.add(topHLay);
 				setMenuRequired(true);
@@ -1138,13 +1108,13 @@ public class WriteChequeView extends
 			// transactionVendorGrid.setCanEdit(true);
 			// transactionVendorGrid.setEditEventType(ListGrid.EDIT_EVENT_DBCLICK);
 			// transactionVendorGrid.init();
-//			transactionCustomerAccountTable.setVisible(true);
+			// transactionCustomerAccountTable.setVisible(true);
 			transactionCustomerAccountTable.setDisabled(isInViewMode());
-//			transactionCustomerItemTable.setVisible(true);
+			// transactionCustomerItemTable.setVisible(true);
 			transactionCustomerItemTable.setDisabled(isInViewMode());
 
-//			vendorAccountsDisclosurePanel.setVisible(false);
-//			vendorItemsDisclosurePanel.setVisible(false);
+			// vendorAccountsDisclosurePanel.setVisible(false);
+			// vendorItemsDisclosurePanel.setVisible(false);
 			// taxAgencyGrid.setVisible(false);
 			mainVLay.add(lab1);
 			// HorizontalPanel panel = new HorizontalPanel();

@@ -506,11 +506,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			public void updateNonEditableItems() {
 				InvoiceView.this.updateNonEditableItems();
 			}
-
-			@Override
-			protected ClientCustomer getCustomer() {
-				return customer;
-			}
 		};
 		customerTransactionTable.setDisabled(isInViewMode());
 
@@ -1622,7 +1617,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		orderNum = salesOrder.getNumber();
 		orderNumText.setValue(orderNum);
 		customerTransactionTable.setAllRows(itemsList);
-		customerTransactionTable.refreshVatValue();
+		customerTransactionTable.updateTotals();
 	}
 
 	public List<DynamicForm> getForms() {
@@ -1767,7 +1762,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (taxCode != null) {
 
 			taxCodeSelect.setComboItem(taxCode);
-			customerTransactionTable.setTaxCode(taxCode.getID());
+			customerTransactionTable.setTaxCode(taxCode.getID(), true);
 		} else
 			taxCodeSelect.setValue("");
 		// updateNonEditableItems();

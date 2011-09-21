@@ -20,8 +20,7 @@ public abstract class CustomerItemTransactionTable extends
 	 * Creates the instance
 	 */
 	public CustomerItemTransactionTable() {
-		super();
-		addEmptyRecords();
+		this(true);
 	}
 
 	public CustomerItemTransactionTable(boolean needDiscount) {

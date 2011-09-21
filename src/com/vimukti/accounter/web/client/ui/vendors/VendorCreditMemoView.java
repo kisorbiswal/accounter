@@ -81,8 +81,8 @@ public class VendorCreditMemoView extends
 		if (code == 0) {
 			code = Accounter.getCompany().getDefaultTaxCode();
 		}
-		vendorAccountTransactionTable.setTaxCode(code);
-		vendorItemTransactionTable.setTaxCode(code);
+		vendorAccountTransactionTable.setTaxCode(code, false);
+		vendorItemTransactionTable.setTaxCode(code, false);
 
 	}
 
@@ -217,16 +217,6 @@ public class VendorCreditMemoView extends
 			}
 
 			@Override
-			protected ClientTransaction getTransactionObject() {
-				return VendorCreditMemoView.this.getTransactionObject();
-			}
-
-			@Override
-			protected ClientVendor getSelectedVendor() {
-				return VendorCreditMemoView.this.getVendor();
-			}
-
-			@Override
 			public boolean isShowPriceWithVat() {
 				return VendorCreditMemoView.this.isShowPriceWithVat();
 			}
@@ -264,16 +254,6 @@ public class VendorCreditMemoView extends
 			@Override
 			public boolean isShowPriceWithVat() {
 				return VendorCreditMemoView.this.isShowPriceWithVat();
-			}
-
-			@Override
-			protected ClientTransaction getTransactionObject() {
-				return VendorCreditMemoView.this.getTransactionObject();
-			}
-
-			@Override
-			protected ClientVendor getSelectedVendor() {
-				return VendorCreditMemoView.this.getVendor();
 			}
 		};
 
@@ -650,9 +630,9 @@ public class VendorCreditMemoView extends
 	protected void addAllRecordToGrid(
 			List<ClientTransactionItem> transactionItems) {
 		vendorAccountTransactionTable
-				.addRecords(getAccountTransactionItems(transactionItems));
+				.setRecords(getAccountTransactionItems(transactionItems));
 		vendorItemTransactionTable
-				.addRecords(getItemTransactionItems(transactionItems));
+				.setRecords(getItemTransactionItems(transactionItems));
 	}
 
 	@Override

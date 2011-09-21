@@ -17,8 +17,7 @@ import com.vimukti.accounter.web.client.ui.edittable.TransactionVatColumn;
 public abstract class VendorItemTransactionTable extends VendorTransactionTable {
 
 	public VendorItemTransactionTable() {
-		super();
-		addEmptyRecords();
+		this(true);
 	}
 
 	public VendorItemTransactionTable(boolean needDiscount) {

@@ -39,7 +39,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
-import com.vimukti.accounter.web.client.ui.combo.PriceLevelCombo;
 import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
@@ -378,11 +377,6 @@ public class SalesOrderView extends
 			@Override
 			public boolean isShowPriceWithVat() {
 				return SalesOrderView.this.isShowPriceWithVat();
-			}
-
-			@Override
-			protected ClientCustomer getCustomer() {
-				return customer;
 			}
 		};
 		customerTransactionTable.setDisabled(isInViewMode());
@@ -1171,7 +1165,7 @@ public class SalesOrderView extends
 		}
 		selectedEstimateId = selectedEstimate.getID();
 		orderNum = selectedEstimate.getNumber();
-		customerTransactionTable.setAllTransactionItems(itemsList);
+		customerTransactionTable.setRecords(itemsList);
 		customerTransactionTable.updateTotals();
 		// if (selectedEstimate == null)
 		// return;
@@ -1303,7 +1297,7 @@ public class SalesOrderView extends
 
 			taxCodeSelect
 					.setComboItem(getCompany().getTAXCode(taxCode.getID()));
-			customerTransactionTable.setTaxCode(taxCode.getID());
+			customerTransactionTable.setTaxCode(taxCode.getID(), true);
 		} else
 			taxCodeSelect.setValue("");
 		// updateNonEditableItems();
@@ -1325,7 +1319,7 @@ public class SalesOrderView extends
 	protected void initTransactionsItems() {
 		if (transaction.getTransactionItems() != null
 				&& !transaction.getTransactionItems().isEmpty())
-			customerTransactionTable.setAllTransactionItems(transaction
+			customerTransactionTable.setRecords(transaction
 					.getTransactionItems());
 	}
 

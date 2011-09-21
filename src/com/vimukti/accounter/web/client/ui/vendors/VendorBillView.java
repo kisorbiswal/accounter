@@ -247,8 +247,8 @@ public class VendorBillView extends
 		if (code == 0) {
 			code = Accounter.getCompany().getDefaultTaxCode();
 		}
-		vendorAccountTransactionTable.setTaxCode(code);
-		vendorItemTransactionTable.setTaxCode(code);
+		vendorAccountTransactionTable.setTaxCode(code, false);
+		vendorItemTransactionTable.setTaxCode(code, false);
 		if (vendor.getPhoneNo() != null) {
 			phoneSelect.setValue(vendor.getPhoneNo());
 		} else {
@@ -497,16 +497,6 @@ public class VendorBillView extends
 			}
 
 			@Override
-			protected ClientTransaction getTransactionObject() {
-				return VendorBillView.this.getTransactionObject();
-			}
-
-			@Override
-			protected ClientVendor getSelectedVendor() {
-				return VendorBillView.this.getVendor();
-			}
-
-			@Override
 			public boolean isShowPriceWithVat() {
 				return VendorBillView.this.isShowPriceWithVat();
 			}
@@ -544,16 +534,6 @@ public class VendorBillView extends
 			@Override
 			public boolean isShowPriceWithVat() {
 				return VendorBillView.this.isShowPriceWithVat();
-			}
-
-			@Override
-			protected ClientTransaction getTransactionObject() {
-				return VendorBillView.this.getTransactionObject();
-			}
-
-			@Override
-			protected ClientVendor getSelectedVendor() {
-				return VendorBillView.this.getVendor();
 			}
 		};
 
@@ -1205,8 +1185,8 @@ public class VendorBillView extends
 		this.taxCode = taxCode;
 		if (taxCode != null) {
 			taxCodeSelect.setComboItem(taxCode);
-			vendorAccountTransactionTable.setTaxCode(taxCode.getID());
-			vendorItemTransactionTable.setTaxCode(taxCode.getID());
+			vendorAccountTransactionTable.setTaxCode(taxCode.getID(), true);
+			vendorItemTransactionTable.setTaxCode(taxCode.getID(), true);
 		} else
 			taxCodeSelect.setValue("");
 	}
@@ -1215,9 +1195,9 @@ public class VendorBillView extends
 	protected void addAllRecordToGrid(
 			List<ClientTransactionItem> transactionItems) {
 		vendorAccountTransactionTable
-				.addRecords(getAccountTransactionItems(transactionItems));
+				.setRecords(getAccountTransactionItems(transactionItems));
 		vendorItemTransactionTable
-				.addRecords(getItemTransactionItems(transactionItems));
+				.setRecords(getItemTransactionItems(transactionItems));
 	}
 
 	@Override

@@ -225,16 +225,6 @@ public class CashPurchaseView extends
 			}
 
 			@Override
-			protected ClientTransaction getTransactionObject() {
-				return CashPurchaseView.this.getTransactionObject();
-			}
-
-			@Override
-			protected ClientVendor getSelectedVendor() {
-				return CashPurchaseView.this.getVendor();
-			}
-
-			@Override
 			public boolean isShowPriceWithVat() {
 				return CashPurchaseView.this.isShowPriceWithVat();
 			}
@@ -266,16 +256,6 @@ public class CashPurchaseView extends
 			@Override
 			protected void updateNonEditableItems() {
 				CashPurchaseView.this.updateNonEditableItems();
-			}
-
-			@Override
-			protected ClientTransaction getTransactionObject() {
-				return CashPurchaseView.this.getTransactionObject();
-			}
-
-			@Override
-			protected ClientVendor getSelectedVendor() {
-				return CashPurchaseView.this.getVendor();
 			}
 
 			@Override
@@ -543,8 +523,8 @@ public class CashPurchaseView extends
 		if (code == 0) {
 			code = Accounter.getCompany().getDefaultTaxCode();
 		}
-		vendorAccountTransactionTable.setTaxCode(code);
-		vendorItemTransactionTable.setTaxCode(code);
+		vendorAccountTransactionTable.setTaxCode(code, false);
+		vendorItemTransactionTable.setTaxCode(code, false);
 
 	}
 
@@ -847,9 +827,9 @@ public class CashPurchaseView extends
 	protected void addAllRecordToGrid(
 			List<ClientTransactionItem> transactionItems) {
 		vendorAccountTransactionTable
-				.addRecords(getAccountTransactionItems(transactionItems));
+				.setRecords(getAccountTransactionItems(transactionItems));
 		vendorItemTransactionTable
-				.addRecords(getItemTransactionItems(transactionItems));
+				.setRecords(getItemTransactionItems(transactionItems));
 	}
 
 	@Override

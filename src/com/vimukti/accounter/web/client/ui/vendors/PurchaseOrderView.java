@@ -392,16 +392,6 @@ public class PurchaseOrderView extends
 			}
 
 			@Override
-			protected ClientTransaction getTransactionObject() {
-				return PurchaseOrderView.this.getTransactionObject();
-			}
-
-			@Override
-			protected ClientVendor getSelectedVendor() {
-				return PurchaseOrderView.this.getVendor();
-			}
-
-			@Override
 			public boolean isShowPriceWithVat() {
 				return PurchaseOrderView.this.isShowPriceWithVat();
 			}
@@ -438,15 +428,6 @@ public class PurchaseOrderView extends
 				return PurchaseOrderView.this.isShowPriceWithVat();
 			}
 
-			@Override
-			protected ClientTransaction getTransactionObject() {
-				return PurchaseOrderView.this.getTransactionObject();
-			}
-
-			@Override
-			protected ClientVendor getSelectedVendor() {
-				return PurchaseOrderView.this.getVendor();
-			}
 		};
 
 		vendorItemTransactionTable.setDisabled(isInViewMode());
@@ -1270,8 +1251,8 @@ public class PurchaseOrderView extends
 		this.taxCode = taxCode;
 		if (taxCode != null) {
 			taxCodeSelect.setComboItem(taxCode);
-			vendorAccountTransactionTable.setTaxCode(taxCode.getID());
-			vendorItemTransactionTable.setTaxCode(taxCode.getID());
+			vendorAccountTransactionTable.setTaxCode(taxCode.getID(), true);
+			vendorItemTransactionTable.setTaxCode(taxCode.getID(), true);
 		} else
 			taxCodeSelect.setValue("");
 		// updateNonEditableItems();
@@ -1281,9 +1262,9 @@ public class PurchaseOrderView extends
 	protected void addAllRecordToGrid(
 			List<ClientTransactionItem> transactionItems) {
 		vendorAccountTransactionTable
-				.addRecords(getAccountTransactionItems(transactionItems));
+				.setRecords(getAccountTransactionItems(transactionItems));
 		vendorItemTransactionTable
-				.addRecords(getItemTransactionItems(transactionItems));
+				.setRecords(getItemTransactionItems(transactionItems));
 	}
 
 	@Override

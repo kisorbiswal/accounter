@@ -177,16 +177,6 @@ public class ItemReceiptView extends
 			}
 
 			@Override
-			protected ClientTransaction getTransactionObject() {
-				return ItemReceiptView.this.getTransactionObject();
-			}
-
-			@Override
-			protected ClientVendor getSelectedVendor() {
-				return ItemReceiptView.this.getVendor();
-			}
-
-			@Override
 			public boolean isShowPriceWithVat() {
 				return ItemReceiptView.this.isShowPriceWithVat();
 			}
@@ -221,16 +211,6 @@ public class ItemReceiptView extends
 			@Override
 			public boolean isShowPriceWithVat() {
 				return ItemReceiptView.this.isShowPriceWithVat();
-			}
-
-			@Override
-			protected ClientTransaction getTransactionObject() {
-				return ItemReceiptView.this.getTransactionObject();
-			}
-
-			@Override
-			protected ClientVendor getSelectedVendor() {
-				return ItemReceiptView.this.getVendor();
 			}
 		};
 
@@ -774,9 +754,9 @@ public class ItemReceiptView extends
 	protected void addAllRecordToGrid(
 			List<ClientTransactionItem> transactionItems) {
 		vendorAccountTransactionTable
-				.addRecords(getAccountTransactionItems(transactionItems));
+				.setRecords(getAccountTransactionItems(transactionItems));
 		vendorItemTransactionTable
-				.addRecords(getItemTransactionItems(transactionItems));
+				.setRecords(getItemTransactionItems(transactionItems));
 	}
 
 	@Override

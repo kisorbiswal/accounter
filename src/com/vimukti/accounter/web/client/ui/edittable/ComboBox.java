@@ -145,7 +145,7 @@ public class ComboBox<T, C> extends FlowPanel implements RowSelectHandler<C> {
 		scrollPanel.clear();
 		scrollPanel.add(dropDown);
 		dropDown.addRowSelectHandler(this);
-
+		dropDown.selectRow(value);
 		int x = textBox.getAbsoluteLeft();
 		int y = textBox.getAbsoluteTop() + textBox.getOffsetHeight();
 
@@ -177,7 +177,6 @@ public class ComboBox<T, C> extends FlowPanel implements RowSelectHandler<C> {
 	public void setValue(C value) {
 		if (value != null) {
 			textBox.setText(dropDown.getDisplayValue(value));
-			dropDown.selectRow(value);
 		}
 		this.value = value;
 	}
