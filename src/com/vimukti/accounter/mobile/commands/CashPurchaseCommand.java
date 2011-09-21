@@ -36,6 +36,16 @@ public class CashPurchaseCommand extends AbstractTransactionCommand {
 				list.add(new Requirement("vatCode", true, true));
 			}
 		});
+		list.add(new ObjectListRequirement("accounts", false, true) {
+
+			@Override
+			public void addRequirements(List<Requirement> list) {
+				list.add(new Requirement("name", false, true));
+				list.add(new Requirement("desc", true, true));
+				list.add(new Requirement("quantity", false, true));
+				list.add(new Requirement("price", false, true));
+			}
+		});
 		list.add(new Requirement("paymentMethod", false, true));
 		list.add(new Requirement("date", true, true));
 		list.add(new Requirement("number", true, false));
@@ -59,6 +69,10 @@ public class CashPurchaseCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
+		result = accountsRequirement(context);
+		if (result == null) {
+			return result;
+		}
 
 		result = paymentMethodRequirement(context);
 		if (result != null) {
@@ -70,7 +84,14 @@ public class CashPurchaseCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		result = createOptionalResult(context);
+		completeProcess(context);
+		markDone();
 		return null;
+	}
+
+	private void completeProcess(Context context) {
+		// TODO Auto-generated method stub
+
 	}
 
 	private Result createOptionalResult(Context context) {
@@ -102,6 +123,18 @@ public class CashPurchaseCommand extends AbstractTransactionCommand {
 		}
 		selection = context.getSelection("values");
 		ResultList list = new ResultList("values");
+
+		Requirement accountReq = get("accounts");
+		List<TransactionItem> accountItem = accountReq.getValue();
+
+		selection = context.getSelection("accountItems");
+		if (selection != null) {
+			Result result = transactionItem(context,
+					(TransactionItem) selection);
+			if (result != null) {
+				return result;
+			}
+		}
 
 		Requirement transferTo = get("depositOrTransferTo");
 		Account account = transferTo.getValue();
