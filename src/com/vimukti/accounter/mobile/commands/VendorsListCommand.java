@@ -93,9 +93,9 @@ public class VendorsListCommand extends AbstractTransactionCommand {
 		}
 		String activeString = "";
 		if (isActive) {
-			activeString = "This account is Active";
+			activeString = "This vendors is Active";
 		} else {
-			activeString = "This account is InActive";
+			activeString = "This vendor is InActive";
 		}
 		return null;
 	}
