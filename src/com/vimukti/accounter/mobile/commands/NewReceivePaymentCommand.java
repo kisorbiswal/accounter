@@ -77,7 +77,13 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = transactionItems(context);
+		try {
+			result = transactionItems(context);
+		} catch (DAOException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		if (result != null) {
 			return result;
 		}
@@ -126,11 +132,6 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 
 		return null;
 
-	}
-
-	private List<TransactionItem> getRecevingTransactionItem(long customerId) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	protected Result item(Context context) {
