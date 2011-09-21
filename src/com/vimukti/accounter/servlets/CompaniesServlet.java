@@ -161,7 +161,7 @@ public class CompaniesServlet extends BaseServlet {
 					req,
 					resp,
 					buildCompanyServerURL(company.getServer().getAddress(),
-							ACCOUNTER_OLD_URL));
+							ACCOUNTER_URL));
 		}
 	}
 
