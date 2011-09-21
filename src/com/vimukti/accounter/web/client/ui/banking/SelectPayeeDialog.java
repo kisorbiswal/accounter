@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.banking;
 import java.util.LinkedHashMap;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -41,8 +42,8 @@ public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 
 		LinkedHashMap<String, String> valueMap = new LinkedHashMap<String, String>();
 
-		typeRadio.setValueMap(Accounter.constants().customer(), Accounter
-				.constants().vendor());
+		typeRadio.setValueMap(Accounter.constants().customer(), Global.get()
+				.Vendor());
 		typeRadio.setDefaultValue(Accounter.constants().customer());
 
 		DynamicForm typeForm = new DynamicForm();
