@@ -123,7 +123,7 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 	 * The bill number is the EnterBill or TransactionMakeDeposit or
 	 * JournalEntry 's transaction number.
 	 */
-	String billNumber;
+	private String billNumber;
 
 	/**
 	 * The reference of JournalEntry from where the TransactionPayBill is
@@ -688,6 +688,10 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 
 	public void setTdsAmount(double tdsAmount) {
 		this.tdsAmount = tdsAmount;
+	}
+
+	public void setBillNumber(String billNumber) {
+		this.billNumber = billNumber;
 	}
 
 }
