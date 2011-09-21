@@ -221,10 +221,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 				.getAttribute(ACCOUNT_ITEM_PROPERTY_ATTR);
 		if (lineAttr != null) {
 			context.removeAttribute(ACCOUNT_ITEM_PROPERTY_ATTR);
-			if (lineAttr.equals("quantity")) {
-				transactionItem.getQuantity().setValue(context.getDouble());
-			} else if (lineAttr.equals("unitPrice")) {
-				transactionItem.setUnitPrice(context.getDouble());
+			if (lineAttr.equals("amount")) {
+				transactionItem.setLineTotal(context.getDouble());
 			} else if (lineAttr.equals("discount")) {
 				transactionItem.setDiscount(context.getDouble());
 			} else if (lineAttr.equals("taxCode")) {
@@ -235,14 +233,9 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			Object selection = context.getSelection(ACCOUNT_ITEM_DETAILS);
 			if (selection != null) {
 				if (selection == transactionItem.getQuantity()) {
-					context.setAttribute(ACCOUNT_ITEM_PROPERTY_ATTR, "quantity");
-					return amount(context, "Enter Quantity", transactionItem
-							.getQuantity().getValue());
-				} else if (selection.equals("unitPrice")) {
-					context.setAttribute(ACCOUNT_ITEM_PROPERTY_ATTR,
-							"unitPrice");
-					return amount(context, "Enter Unitprice",
-							transactionItem.getUnitPrice());
+					context.setAttribute(ACCOUNT_ITEM_PROPERTY_ATTR, "amount");
+					return amount(context, "Enter Amount",
+							transactionItem.getLineTotal());
 				} else if (selection.equals("discount")) {
 					context.setAttribute(ACCOUNT_ITEM_PROPERTY_ATTR, "discount");
 					return amount(context, "Enter Discount",
@@ -268,13 +261,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 		ResultList list = new ResultList(ACCOUNT_ITEM_DETAILS);
 		Record record = new Record(transactionItem.getQuantity());
-		record.add("", "Quantity");
-		record.add("", transactionItem.getQuantity());
-		list.add(record);
-
-		record = new Record("unitPrice");
-		record.add("", "Unit Price");
-		record.add("", transactionItem.getUnitPrice());
+		record.add("", "Amount");
+		record.add("", transactionItem.getLineTotal());
 		list.add(record);
 
 		record = new Record("discount");
@@ -1120,7 +1108,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	protected Result chequeNoRequirement(Context context, ResultList list,
 			Object selection) {
-		Requirement requirement = get("paymentMethod");
+		Requirement requirement = get("paymentmethod");
 		if (requirement != null) {
 			String paymentMethod = (String) requirement.getValue();
 			if (paymentMethod.equals("Check")) {
