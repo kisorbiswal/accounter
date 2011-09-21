@@ -25,15 +25,15 @@ public class ItemListView extends BaseListView<ClientItem> {
 	private ClientItem toBeDeletedItem;
 	private ArrayList<ClientItem> listOfItems = new ArrayList<ClientItem>();
 
-	private int actionType;
 	private String catageory;
 
-	public boolean isSalesType = true;
 	/*
 	 * To Identify from which view the request is generated.i.e SalesItemview or
 	 * PurchaseItemview
 	 */
 	public static boolean isPurchaseType = false;
+	public static boolean isSalesType = false;
+
 
 	public ItemListView() {
 		super();

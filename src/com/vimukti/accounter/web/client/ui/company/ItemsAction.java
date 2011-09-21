@@ -33,6 +33,20 @@ public class ItemsAction extends Action {
 			public void onSuccess() {
 				ItemListView view = new ItemListView();
 				view.setCatageoryType(getCatagory());
+				if (getCatagory().equals(Global.get().vendor())) {
+					ItemListView.isPurchaseType = true;
+					ItemListView.isSalesType = false;
+				} else if (getCatagory().equals(Global.get().Customer())) {
+					ItemListView.isPurchaseType = false;
+					ItemListView.isSalesType = true;
+				} else if (getCatagory()
+						.equals(
+								Accounter.messages().bothCustomerAndVendor(
+										Global.get().Customer(),
+										Global.get().Vendor()))) {
+					ItemListView.isPurchaseType = true;
+					ItemListView.isSalesType = true;
+				}
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, ItemsAction.this);
 

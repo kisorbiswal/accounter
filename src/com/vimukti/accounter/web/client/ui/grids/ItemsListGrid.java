@@ -62,7 +62,7 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 			return Utility.getItemTypeText(obj) != null ? Utility
 					.getItemTypeText(obj) : "";
 		case 4:
-			if (!ItemListView.isPurchaseType) {
+			if (!ItemListView.isSalesType) {
 				return amountAsString(obj.getSalesPrice()) != null ? amountAsString(obj
 						.getSalesPrice())
 						: "";
