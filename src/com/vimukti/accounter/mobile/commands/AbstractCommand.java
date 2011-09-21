@@ -136,11 +136,11 @@ public abstract class AbstractCommand extends Command {
 		}
 		if (selection == dueDate) {
 			context.setAttribute(INPUT_ATTR, name);
-			return date(context, "Enter the " + name, dueDate);
+			return date(context, displayString, dueDate);
 		}
 
 		Record dueDateRecord = new Record(dueDate);
-		dueDateRecord.add("Name", displayString);
+		dueDateRecord.add("Name", name);
 		dueDateRecord.add("Value", dueDate.toString());
 		list.add(dueDateRecord);
 		return null;
