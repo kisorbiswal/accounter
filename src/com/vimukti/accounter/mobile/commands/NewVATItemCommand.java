@@ -96,6 +96,7 @@ public class NewVATItemCommand extends AbstractVATCommand {
 			ActionNames actionName = (ActionNames) selection;
 			switch (actionName) {
 			case FINISH:
+				context.removeAttribute(INPUT_ATTR);
 				return null;
 			default:
 				break;

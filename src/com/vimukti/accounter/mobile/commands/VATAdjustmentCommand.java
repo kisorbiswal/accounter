@@ -19,6 +19,7 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 	private static final String AMOUNT = null;
 	private static final String IS_INCREASE_VATLINE = null;
 	private static final String MEMO = null;
+	private static final String ADJUSTMENT_ACCOUNT = null;
 
 	@Override
 	public String getId() {
@@ -32,7 +33,7 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 		if (isUkCompany()) {
 			list.add(new Requirement(TAX_ITEM, false, true));
 		}
-		list.add(new Requirement(ACCOUNT, false, true));
+		list.add(new Requirement(ADJUSTMENT_ACCOUNT, false, true));
 		list.add(new Requirement(AMOUNT, false, true));
 		list.add(new Requirement(IS_INCREASE_VATLINE, true, true));
 		list.add(new Requirement(DATE, true, true));
@@ -54,7 +55,7 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 			return result;
 		}
 
-		result = accountRequirement(context);
+		result = accountRequirement(context, ADJUSTMENT_ACCOUNT);
 		if (result != null) {
 			return result;
 		}
@@ -75,7 +76,7 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 	private Result createTaxAdjustment(Context context) {
 		TAXAdjustment taxAdjustment = new TAXAdjustment();
 		TAXAgency taxAgency = get(TAX_AGENCY).getValue();
-		Account account = get(ACCOUNT).getValue();
+		Account account = get(ADJUSTMENT_ACCOUNT).getValue();
 		double amount = get(AMOUNT).getValue();
 		boolean isIncreaseVatLine = get(IS_INCREASE_VATLINE).getValue();
 		FinanceDate date = get(DATE).getValue();
@@ -125,10 +126,10 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 			return getTaxAgencyResult(context);
 		}
 
-		Requirement accountReq = get(ACCOUNT);
+		Requirement accountReq = get(ADJUSTMENT_ACCOUNT);
 		Account account = (Account) accountReq.getValue();
 		if (account == selection) {
-			context.setAttribute(INPUT_ATTR, ACCOUNT);
+			context.setAttribute(INPUT_ATTR, ADJUSTMENT_ACCOUNT);
 			return getAccountResult(context);
 		}
 

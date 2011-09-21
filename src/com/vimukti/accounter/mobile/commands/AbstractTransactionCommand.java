@@ -45,7 +45,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final String OLD_TRANSACTION_ITEM_ATTR = null;
 	protected static final String ITEM_DETAILS = null;
 	protected static final String ITEM_PROPERTY_ATTR = null;
-	private static final int PAYMENTMETHODS_TO_SHOW = 5;
 	protected static final String PAYMENT_MENTHOD = "Payment method";
 	private static final int PAYEES_TO_SHOW = 5;
 	private static final int BANK_ACCOUNTS_TO_SHOW = 5;
@@ -398,18 +397,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return null;
 	}
 
-	protected Result paymentMethodRequirement(Context context) {
-		Requirement paymentMethodReq = get(PAYMENT_MENTHOD);
-		String paymentMethod = context.getSelection(PAYMENT_MENTHOD);
-		if (paymentMethod != null) {
-			paymentMethodReq.setValue(paymentMethod);
-		}
-		if (!paymentMethodReq.isDone()) {
-			return paymentMethod(context, null);
-		}
-		return null;
-	}
-
 	protected Result customers(Context context) {
 		Result result = context.makeResult();
 		ResultList customersList = new ResultList("customers");
@@ -673,72 +660,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		result.add(commandList);
 
 		return result;
-	}
-
-	protected Result paymentMethodRequirement(Context context, ResultList list,
-			String selection) {
-		Object payamentMethodObj = context.getSelection("paymentmethod");
-		Requirement paymentMethodReq = get("paymentmethod");
-		String paymentmethod = (String) paymentMethodReq.getValue();
-
-		if (selection == paymentmethod) {
-			return paymentMethod(context, selection);
-
-		}
-		if (payamentMethodObj != null) {
-			paymentmethod = (String) payamentMethodObj;
-			paymentMethodReq.setValue(paymentmethod);
-		}
-
-		Record paymentTermRecord = new Record(paymentmethod);
-		paymentTermRecord.add("Name", "ayment Method");
-		paymentTermRecord.add("Value", paymentmethod);
-		list.add(paymentTermRecord);
-		return null;
-	}
-
-	protected Result paymentMethod(Context context, String oldpaymentmethod) {
-		List<String> paymentmethods = getpaymentmethod();
-		Result result = context.makeResult();
-		result.add("Select PaymentMethod");
-
-		ResultList list = new ResultList("paymentmethod");
-		int num = 0;
-		if (oldpaymentmethod != null) {
-			list.add(createPayMentMethodRecord(oldpaymentmethod));
-			num++;
-		}
-		for (String paymentmethod : paymentmethods) {
-			if (paymentmethod != oldpaymentmethod) {
-				list.add(createPayMentMethodRecord(paymentmethod));
-				num++;
-			}
-			if (num == PAYMENTMETHODS_TO_SHOW) {
-				break;
-			}
-		}
-		result.add(list);
-		return result;
-	}
-
-	private List<String> getpaymentmethod() {
-		List<String> list = new ArrayList<String>();
-		list.add("Cash");
-		list.add("Check");
-		list.add("Credit Card");
-		list.add("Direct Debit");
-		list.add("Master Card");
-		list.add("Standing Order");
-		list.add("Online Banking");
-		list.add("Switch/Maestro");
-		return list;
-	}
-
-	protected Record createPayMentMethodRecord(String paymentMethod) {
-		Record record = new Record(paymentMethod);
-		record.add("Name", "Payment Method");
-		record.add("value", paymentMethod);
-		return record;
 	}
 
 	protected Result depositeOrTransferTo(Context context) {

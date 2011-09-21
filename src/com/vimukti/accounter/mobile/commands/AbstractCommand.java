@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -44,6 +45,8 @@ public abstract class AbstractCommand extends Command {
 	protected static final int INCOMEACCOUNTS_TO_SHOW = 5;
 	protected static final int VENDORS_TO_SHOW = 5;
 	protected static final int ITEMGROUPS_TO_SHOW = 5;
+	protected static final String PAYMENT_METHOD = "Payment method";
+	private static final int PAYMENTMETHODS_TO_SHOW = 5;
 
 	protected static final String MEMO = "memo";
 
@@ -563,6 +566,84 @@ public abstract class AbstractCommand extends Command {
 	private List<Vendor> getVendors(Session session) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	protected Result paymentMethodRequirement(Context context, ResultList list,
+			String selection) {
+		Object payamentMethodObj = context.getSelection("paymentmethod");
+		Requirement paymentMethodReq = get("paymentmethod");
+		String paymentmethod = (String) paymentMethodReq.getValue();
+
+		if (selection == paymentmethod) {
+			return paymentMethod(context, selection);
+
+		}
+		if (payamentMethodObj != null) {
+			paymentmethod = (String) payamentMethodObj;
+			paymentMethodReq.setValue(paymentmethod);
+		}
+
+		Record paymentTermRecord = new Record(paymentmethod);
+		paymentTermRecord.add("Name", "ayment Method");
+		paymentTermRecord.add("Value", paymentmethod);
+		list.add(paymentTermRecord);
+		return null;
+	}
+
+	protected Result paymentMethodRequirement(Context context) {
+		Requirement paymentMethodReq = get(PAYMENT_METHOD);
+		String paymentMethod = context.getSelection(PAYMENT_METHOD);
+		if (paymentMethod != null) {
+			paymentMethodReq.setValue(paymentMethod);
+		}
+		if (!paymentMethodReq.isDone()) {
+			return paymentMethod(context, null);
+		}
+		return null;
+	}
+
+	protected Result paymentMethod(Context context, String oldpaymentmethod) {
+		List<String> paymentmethods = getpaymentmethod();
+		Result result = context.makeResult();
+		result.add("Select PaymentMethod");
+
+		ResultList list = new ResultList("paymentmethod");
+		int num = 0;
+		if (oldpaymentmethod != null) {
+			list.add(createPayMentMethodRecord(oldpaymentmethod));
+			num++;
+		}
+		for (String paymentmethod : paymentmethods) {
+			if (paymentmethod != oldpaymentmethod) {
+				list.add(createPayMentMethodRecord(paymentmethod));
+				num++;
+			}
+			if (num == PAYMENTMETHODS_TO_SHOW) {
+				break;
+			}
+		}
+		result.add(list);
+		return result;
+	}
+
+	protected Record createPayMentMethodRecord(String paymentMethod) {
+		Record record = new Record(paymentMethod);
+		record.add("Name", "Payment Method");
+		record.add("value", paymentMethod);
+		return record;
+	}
+
+	private List<String> getpaymentmethod() {
+		List<String> list = new ArrayList<String>();
+		list.add("Cash");
+		list.add("Check");
+		list.add("Credit Card");
+		list.add("Direct Debit");
+		list.add("Master Card");
+		list.add("Standing Order");
+		list.add("Online Banking");
+		list.add("Switch/Maestro");
+		return list;
 	}
 
 	protected void create(IAccounterServerCore obj, Context context) {
