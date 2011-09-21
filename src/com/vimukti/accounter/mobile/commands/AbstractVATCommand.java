@@ -26,6 +26,7 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 	protected static final int VALUES_TO_SHOW = 5;
 	protected static final String TAX_ITEM = "taxItem";
 	private static final String TAX_ITEMS = "taxItems";
+	// protected static final String ACCOUNT = "account";
 	private static final String ACCOUNTS = "accounts";
 	protected static final String AMOUNT = "amount";
 	protected static final String NAME = "name";
