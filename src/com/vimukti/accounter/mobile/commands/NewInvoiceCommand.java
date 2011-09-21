@@ -13,9 +13,6 @@ import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.TAXCode;
-import com.vimukti.accounter.core.TAXGroup;
-import com.vimukti.accounter.core.TAXItem;
-import com.vimukti.accounter.core.TAXItemGroup;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.mobile.ActionNames;
@@ -25,7 +22,6 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class NewInvoiceCommand extends AbstractTransactionCommand {
 
