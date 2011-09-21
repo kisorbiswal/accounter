@@ -23,7 +23,7 @@ public abstract class AbstractFinaneReport<R> extends
 
 	protected int sectionDepth = 0;
 	private String[] columns;
-
+	protected int row = -1;
 	protected List<R> records;
 
 	protected ISectionHandler<R> handler;
@@ -92,7 +92,7 @@ public abstract class AbstractFinaneReport<R> extends
 		this.grid.setReportView(this);
 	}
 
-	@SuppressWarnings({ "unchecked" })
+	@SuppressWarnings( { "unchecked" })
 	public AbstractFinaneReport(long startDate, long endDate, int generationType) {
 		this();
 
@@ -176,6 +176,7 @@ public abstract class AbstractFinaneReport<R> extends
 	public void initRecords(List<R> records) {
 		initGrid();
 		removeAllRows();
+		row = -1;
 		this.records = records;
 
 		for (R record : records) {

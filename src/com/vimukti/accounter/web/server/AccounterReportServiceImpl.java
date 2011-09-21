@@ -1149,8 +1149,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 						financeDates));
 
 			if (trialbalanceList.size() == 1) {
-				if (trialbalanceList.get(0).getAccountName()
-						.equals("Net Income")
+				if (trialbalanceList.get(0).getAccountName().equals(
+						"Net Income")
 						&& DecimalUtil.isEquals(trialbalanceList.get(0)
 								.getAmount(), 0)) {
 					trialbalanceList.clear();
@@ -1224,7 +1224,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 			salesByLocationDetailList = getFinanceTool()
-					.getSalesByLocationDetail(isLocation,financeDates[0], financeDates[1]);
+					.getSalesByLocationDetail(isLocation, financeDates[0],
+							financeDates[1]);
 			SalesByLocationDetails obj = new SalesByLocationDetails();
 			if (salesByLocationDetailList != null)
 				salesByLocationDetailList
@@ -1249,8 +1250,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 			salesByLocationDetailList = getFinanceTool()
-					.getSalesByLocationDetailForLocation(isLocation,locationName,
-							financeDates[0], financeDates[1]);
+					.getSalesByLocationDetailForLocation(isLocation,
+							locationName, financeDates[0], financeDates[1]);
 			SalesByLocationDetails obj = new SalesByLocationDetails();
 			if (salesByLocationDetailList != null)
 				salesByLocationDetailList
@@ -1595,8 +1596,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 			TAXAgency vatAgency = (TAXAgency) loadObjectById(
 					AccounterCoreType.TAXAGENCY
-							.getServerClassFullyQualifiedName(),
-					taxAgncy);
+							.getServerClassFullyQualifiedName(), taxAgncy);
 			vatSummaryList = getFinanceTool().getPriorReturnVATSummary(
 					vatAgency, new FinanceDate(endDate));
 
@@ -1628,8 +1628,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 			TAXAgency vatAgency = (TAXAgency) loadObjectById(
 					AccounterCoreType.TAXAGENCY
-							.getServerClassFullyQualifiedName(),
-					taxAgency);
+							.getServerClassFullyQualifiedName(), taxAgency);
 			vatSummaryList = getFinanceTool().getVAT100Report(vatAgency,
 					financeDates[0], financeDates[1]);
 
@@ -1642,8 +1641,15 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			 * //* Removing Box 3 and Box 5 from list, as the calculations for
 			 * box 3 and box 5 are done in gui
 			 *///
-			vatSummaryList.remove(2);
-			vatSummaryList.remove(3);
+			// vatSummaryList.remove(2);
+			// vatSummaryList.remove(3);
+			double box1 = vatSummaryList.get(0).getValue();
+			double box2 = vatSummaryList.get(1).getValue();
+			vatSummaryList.get(2).setValue(box1 + box2);
+
+			double box3 = vatSummaryList.get(2).getValue();
+			double box4 = vatSummaryList.get(3).getValue();
+			vatSummaryList.get(4).setValue(box3 - box4);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1881,7 +1887,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 			DummyDebitor obj = new DummyDebitor();
 			if (debitors != null)
-				debitors.add((DummyDebitor) setStartEndDates(obj, financeDates));
+				debitors
+						.add((DummyDebitor) setStartEndDates(obj, financeDates));
 
 		} catch (DAOException e) {
 

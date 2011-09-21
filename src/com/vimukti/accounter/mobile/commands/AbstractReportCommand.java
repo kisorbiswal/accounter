@@ -41,16 +41,32 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 
 	@Override
 	public Result run(Context context) {
-		Result reportResult = context.makeResult();
+		Result reportResult = clickOnRecord(context);
+		if (reportResult != null) {
+			return reportResult;
+		}
 		reportResult = createReqReportRecord(reportResult, context);
+		if (reportResult != null) {
+			return reportResult;
+		}
 		getReportResult(reportResult, context);
 		return reportResult;
 	}
 
+	private Result clickOnRecord(Context context) {
+		T selection = context.getSelection("records");
+		if (selection != null) {
+			// return createOpenRecord(selection, context);
+		}
+		return null;
+	}
+
+	// protected abstract Result createOpenRecord(T selection, Context context);
+
 	@SuppressWarnings("unchecked")
 	protected void getReportResult(Result plReportResult, Context context) {
 
-		ResultList recordsList = new ResultList("values");
+		ResultList recordsList = new ResultList("records");
 		Object last = context.getLast(RequirementType.BASEREPORT);
 		int num = 0;
 		if (last != null) {
@@ -107,7 +123,7 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 		String range = (String) dateRangeReq.getValue();
 		String attribute = (String) context.getAttribute("input");
 		if (attribute.equals("dateRange")) {
-			String dateRange = context.getSelection("dateRanges");
+			String dateRange = context.getSelection(TEXT);
 			if (dateRange == null) {
 				dateRange = context.getString();
 			}
@@ -115,7 +131,7 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 			dateRangeReq.setValue(range);
 		}
 		if (selection == range) {
-			context.setAttribute("input", "fromDate");
+			context.setAttribute("input", "dateRange");
 			return text(context, "Enter date range", range);
 		}
 
@@ -354,29 +370,24 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 		ResultList resultList = new ResultList("values");
 
 		// Checking whether date range is there or not and returning result
-		Requirement reportReq = get("dateRange");
-		String dateRange = (String) reportReq.getValue();
-		String selectionDateRange = context.getSelection("values");
+		String selection = context.getSelection("values");
 
-		if (dateRange == selectionDateRange)
-			return dateRangeRequirement(context, resultList, selectionDateRange);
-
+		Result result = dateRangeRequirement(context, resultList, selection);
+		if (result != null) {
+			return result;
+		}
 		// Checking whether from date is there or not and returning result
-		Requirement fromDateReq = get("fromDate");
-		Date fromDate = (Date) fromDateReq.getValue();
-		Date selectionfromDate = context.getSelection("values");
-
-		if (fromDate == selectionfromDate)
-			return fromDateRequirement(context, resultList, selectionfromDate);
-
+		result = fromDateRequirement(context, resultList, selection);
+		if (result != null) {
+			return result;
+		}
 		// Checking whether to date is there or not and returning result
-		Requirement toDateReq = get("toDate");
-		Date toDate = (Date) toDateReq.getValue();
-		Date selectiontoDate = context.getSelection("values");
-		if (toDate == selectiontoDate)
-			return toDateRequirement(context, resultList, selectiontoDate);
-
-		return reportResult;
+		result = toDateRequirement(context, resultList, selection);
+		if (result != null) {
+			return result;
+		}
+		reportResult.add(resultList);
+		return null;
 	}
 
 	protected Result customerRequirement(Context context) {

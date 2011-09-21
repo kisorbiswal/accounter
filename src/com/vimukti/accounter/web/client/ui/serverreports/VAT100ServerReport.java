@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.ui.reports.Section;
 
 public class VAT100ServerReport extends AbstractFinaneReport<VATSummary> {
 	private String sectionName = "";
-	private int row = -1;
 	protected Double box3amount = 0.0D;
 	protected Double box4amount = 0.0D;
 
@@ -76,38 +75,39 @@ public class VAT100ServerReport extends AbstractFinaneReport<VATSummary> {
 
 	@Override
 	public void processRecord(VATSummary record) {
-		if (this.handler == null)
-			iniHandler();
+		// if (this.handler == null)
+		// iniHandler();
 		if (this.row == -1) {
-			this.sectionName = "";
-			addSection("", getConstants().box5NetVATToPayOrReclaimIfNegative(),
-					new int[] {});
-
-			this.sectionName = getConstants().vatDue();
-			addSection(this.sectionName, getConstants().box3TotalVATDue(),
-					new int[] { 1 });
+			// this.sectionName = "";
+			// addSection("",
+			// getConstants().box5NetVATToPayOrReclaimIfNegative(),
+			// new int[] {});
 			row = 0;
-		} else if (this.row < 4) {
-			row = row + 1;
-			if (row == 3) {
-				box4amount = record.getValue();
-				// end vat Due section
-				endSection();
-				return;
-			}
-			if (row == 4) {
-				// end net VAT pay section
-				endSection();
-			}
-			return;
-		} else {
-			return;
+			this.sectionName = getConstants().vatDue();
+			addSection(this.sectionName, "", new int[] {});
+
+			// } else if (this.row < 4) {
+			// row = row + 1;
+			// if (row == 3) {
+			// box4amount = record.getValue();
+			// // end vat Due section
+			// endSection();
+			// return;
+			// }
+			// if (row == 4) {
+			// // end net VAT pay section
+			// endSection();
+			// }
+			// return;
+			// } else {
+			// return;
 		}
 		// Go on recursive calling if we reached this place
-		processRecord(record);
+		// processRecord(record);
 
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void iniHandler() {
 
 		this.handler = new ISectionHandler() {
