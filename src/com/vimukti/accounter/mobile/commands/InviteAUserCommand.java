@@ -9,6 +9,7 @@ import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.UserPermissions;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
@@ -179,6 +180,31 @@ public class InviteAUserCommand extends AbstractTransactionCommand {
 		selection = context.getSelection("values");
 		ResultList list = new ResultList("values");
 
+		Result result = readOnlyRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+		result = invoiceOnlyRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+		result = basicEmployeeRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+		result = financialAdvisorRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+		result = financeAdminRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+		result = adminRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+
 		Requirement readOnlyReq = get(READ_ONLY);
 		Boolean readOnly = readOnlyReq.getValue();
 
@@ -203,11 +229,137 @@ public class InviteAUserCommand extends AbstractTransactionCommand {
 			return text(context, "Please select any user permission", null);
 		} else {
 
-			// TODO if any user permission is selected is selected
+			// TODO if any user permission is selected
 
 		}
 
 		return null;
+
+	}
+
+	protected Result readOnlyRequirement(Context context, ResultList list,
+			Object selection) {
+		Requirement req = get(READ_ONLY);
+		Boolean readOnly = req.getValue();
+
+		if (selection == readOnly) {
+			context.setAttribute(INPUT_ATTR, READ_ONLY);
+			readOnly = !readOnly;
+			req.setValue(readOnly);
+		}
+
+		Record balanceRecord = new Record(readOnly);
+		balanceRecord.add("Name", READ_ONLY);
+		balanceRecord.add("Value", readOnly);
+		list.add(balanceRecord);
+		Result result = new Result();
+		result.add(list);
+		return result;
+
+	}
+
+	protected Result invoiceOnlyRequirement(Context context, ResultList list,
+			Object selection) {
+		Requirement req = get(INVOICE_ONLY);
+		Boolean invoiceOnly = req.getValue();
+
+		if (selection == invoiceOnly) {
+			context.setAttribute(INPUT_ATTR, INVOICE_ONLY);
+			invoiceOnly = !invoiceOnly;
+			req.setValue(invoiceOnly);
+		}
+
+		Record balanceRecord = new Record(invoiceOnly);
+		balanceRecord.add("Name", INVOICE_ONLY);
+		balanceRecord.add("Value", invoiceOnly);
+		list.add(balanceRecord);
+		Result result = new Result();
+		result.add(list);
+		return result;
+
+	}
+
+	protected Result basicEmployeeRequirement(Context context, ResultList list,
+			Object selection) {
+		Requirement req = get(BASIC_EMPLOYEE);
+		Boolean basicEmployee = req.getValue();
+
+		if (selection == basicEmployee) {
+			context.setAttribute(INPUT_ATTR, BASIC_EMPLOYEE);
+			basicEmployee = !basicEmployee;
+			req.setValue(basicEmployee);
+		}
+
+		Record balanceRecord = new Record(basicEmployee);
+		balanceRecord.add("Name", BASIC_EMPLOYEE);
+		balanceRecord.add("Value", basicEmployee);
+		list.add(balanceRecord);
+		Result result = new Result();
+		result.add(list);
+		return result;
+
+	}
+
+	protected Result financialAdvisorRequirement(Context context,
+			ResultList list, Object selection) {
+		Requirement req = get(FINANCIAL_ADVISOR);
+		Boolean financialAdvisor = req.getValue();
+
+		if (selection == financialAdvisor) {
+			context.setAttribute(INPUT_ATTR, FINANCIAL_ADVISOR);
+			financialAdvisor = !financialAdvisor;
+			req.setValue(financialAdvisor);
+		}
+
+		Record balanceRecord = new Record(financialAdvisor);
+		balanceRecord.add("Name", FINANCIAL_ADVISOR);
+		balanceRecord.add("Value", financialAdvisor);
+		list.add(balanceRecord);
+		Result result = new Result();
+		result.add(list);
+		return result;
+
+	}
+
+	protected Result financeAdminRequirement(Context context, ResultList list,
+			Object selection) {
+		Requirement req = get(FINANCE_ADMIN);
+		Boolean financialAdvisor = req.getValue();
+
+		if (selection == financialAdvisor) {
+			context.setAttribute(INPUT_ATTR, FINANCE_ADMIN);
+			financialAdvisor = !financialAdvisor;
+			req.setValue(financialAdvisor);
+		}
+
+		Record balanceRecord = new Record(financialAdvisor);
+		balanceRecord.add("Name", FINANCE_ADMIN);
+		balanceRecord.add("Value", financialAdvisor);
+		list.add(balanceRecord);
+		Result result = new Result();
+		result.add(list);
+		return result;
+
+	}
+
+	protected Result adminRequirement(Context context, ResultList list,
+			Object selection) {
+		Requirement req = get(ADMIN);
+		Boolean financialAdvisor = req.getValue();
+
+		if (selection == financialAdvisor) {
+			context.setAttribute(INPUT_ATTR, ADMIN);
+			financialAdvisor = !financialAdvisor;
+			req.setValue(financialAdvisor);
+		}
+
+		Record balanceRecord = new Record(financialAdvisor);
+		balanceRecord.add("Name", ADMIN);
+		balanceRecord.add("Value", financialAdvisor);
+		list.add(balanceRecord);
+		Result result = new Result();
+		result.add(list);
+		return result;
 
 	}
 
