@@ -29,20 +29,25 @@ public class OpenCompanyServlet extends BaseServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	protected static final Log logger = LogFactory.getLog(LoginServlet.class);
+	private static final String REDIRECT_PAGE = "/WEB-INF/Redirect.jsp";
 
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		String referer = request.getHeader("Referer");
-		String url = request.getRequestURL().toString();
-		if (url.equals(referer)) {
+		String url = request.getRequestURI().toString();
+		if (url.equals(ACCOUNTER_OLD_URL)) {
+			dispatch(request, response, REDIRECT_PAGE);
 			return;
 		}
 		String emailID = (String) request.getSession().getAttribute(EMAIL_ID);
-		RequestDispatcher dispatcher;
+		
 		if (emailID != null) {
 			String serverCompanyID = getCookie(request, COMPANY_COOKIE);
+			if(serverCompanyID==null || serverCompanyID.equals("")){
+				response.sendRedirect(COMPANIES_URL);
+				return;
+			}
 			initComet(request.getSession(), Long.parseLong(serverCompanyID),
 					emailID);
 
@@ -60,7 +65,7 @@ public class OpenCompanyServlet extends BaseServlet {
 			// there is no session, so do external redirect to login page
 			// response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
 			// response.setHeader("Location", "/Accounter.jsp");
-			dispatcher = getServletContext().getRequestDispatcher(
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(
 					"/WEB-INF/Accounter.jsp");
 			dispatcher.forward(request, response);
 		} else {
@@ -70,13 +75,6 @@ public class OpenCompanyServlet extends BaseServlet {
 		}
 	}
 
-	@Override
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-
-		// No request is supposed to come here
-
-	}
 
 	/**
 	 * Initialising comet stuff

@@ -58,6 +58,7 @@ public class BaseServlet extends HttpServlet {
 
 	protected static final String LOGIN_URL = "/main/login";
 	protected static final String LOGOUT_URL = "/main/logout";
+	protected static final String ACCOUNTER_OLD_URL = "/accounter";
 	protected static final String ACCOUNTER_URL = "/company/accounter";
 	protected static final String MAINTANANCE_URL = "/main/maintanance";
 
@@ -330,8 +331,8 @@ public class BaseServlet extends HttpServlet {
 
 		StringBuilder mainServerURL = new StringBuilder("http://");
 		mainServerURL.append(companyServerAddress);
-		mainServerURL.append(':');
-		mainServerURL.append(ServerConfiguration.getMainServerPort());
+//		mainServerURL.append(':');
+//		mainServerURL.append(ServerConfiguration.getMainServerPort());
 		mainServerURL.append(url);
 		return mainServerURL.toString();
 	}
