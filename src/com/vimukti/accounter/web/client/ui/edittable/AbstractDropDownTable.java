@@ -3,8 +3,10 @@ package com.vimukti.accounter.web.client.ui.edittable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionChangeEvent;
@@ -54,6 +56,10 @@ public abstract class AbstractDropDownTable<T> extends CellTable<T> {
 			@Override
 			public void onSelectionChange(SelectionChangeEvent event) {
 				T selectedObject = singleSelectionModel.getSelectedObject();
+				int index = data.indexOf(selectedObject);
+				TableRowElement element = getRowElement(index);
+				int offsetHeight = element.getOffsetTop();
+				ensureVisibleImpl(getParent().getElement(), offsetHeight);
 				if (!clickFired) {
 					sendSelectedObject(selectedObject);
 				} else {
@@ -188,4 +194,8 @@ public abstract class AbstractDropDownTable<T> extends CellTable<T> {
 		clickFired = false;
 		singleSelectionModel.setSelected(result, true);
 	}
+
+	private native void ensureVisibleImpl(Element scroll, int offset) /*-{
+		scroll.scrollTop = offset - scroll.offsetHeight / 2;
+	}-*/;
 }
