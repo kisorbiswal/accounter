@@ -56,15 +56,18 @@ public abstract class AbstractDropDownTable<T> extends CellTable<T> {
 			@Override
 			public void onSelectionChange(SelectionChangeEvent event) {
 				T selectedObject = singleSelectionModel.getSelectedObject();
-				int index = data.indexOf(selectedObject);
-				TableRowElement element = getRowElement(index);
-				int offsetHeight = element.getOffsetTop();
-				ensureVisibleImpl(getParent().getElement(), offsetHeight);
 				if (!clickFired) {
 					sendSelectedObject(selectedObject);
 				} else {
 					clickFired = false;
 				}
+				int index = data.indexOf(selectedObject);
+				if (index < 0) {
+					return;
+				}
+				TableRowElement element = getRowElement(index);
+				int offsetHeight = element.getOffsetTop();
+				ensureVisibleImpl(getParent().getElement(), offsetHeight);
 			}
 
 		});
@@ -111,7 +114,9 @@ public abstract class AbstractDropDownTable<T> extends CellTable<T> {
 			super.onBrowserEvent2(event);
 			isClicked = true;
 			T selectedObject = singleSelectionModel.getSelectedObject();
-			sendSelectedObject(selectedObject);
+			if (!clickFired) {
+				sendSelectedObject(selectedObject);
+			}
 			clickFired = true;
 			return;
 		}
@@ -190,7 +195,11 @@ public abstract class AbstractDropDownTable<T> extends CellTable<T> {
 	protected abstract void addNewItem();
 
 	protected void selectRow(T result) {
-		isClicked = true;
+		selectRow(result, true);
+	}
+
+	protected void selectRow(T result, boolean needToUpdate) {
+		isClicked = needToUpdate;
 		clickFired = false;
 		singleSelectionModel.setSelected(result, true);
 	}
