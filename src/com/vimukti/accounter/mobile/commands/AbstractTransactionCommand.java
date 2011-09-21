@@ -29,7 +29,7 @@ import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 
 public abstract class AbstractTransactionCommand extends AbstractCommand {
-	private static final int ITEMS_TO_SHOW = 5;
+	protected static final int ITEMS_TO_SHOW = 5;
 	private static final int CUSTOMERS_TO_SHOW = 5;
 	private static final int PAYMENTTERMS_TO_SHOW = 0;
 	private static final int CONTACTS_TO_SHOW = 5;
@@ -506,7 +506,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return null;
 	}
 
-	private Record creatItemRecord(Item item) {
+	protected Record creatItemRecord(Item item) {
 		Record record = new Record(item);
 		record.add("Name", item.getName());
 		record.add("Tax Code", item.getTaxCode().getName());
@@ -533,7 +533,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return record;
 	}
 
-	private List<Item> getItems(Session session) {
+	protected List<Item> getItems(Session session) {
 		// TODO Auto-generated method stub
 		return null;
 	}
