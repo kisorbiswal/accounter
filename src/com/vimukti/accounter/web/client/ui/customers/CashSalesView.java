@@ -285,7 +285,7 @@ public class CashSalesView extends
 				return CashSalesView.this.isShowPriceWithVat();
 			}
 		};
-
+		customerItemTransactionTable.setDisabled(isInViewMode());
 		itemTableButton = new AddNewButton();
 		itemTableButton.setEnabled(!isInViewMode());
 		itemTableButton.addClickHandler(new ClickHandler() {
