@@ -900,16 +900,16 @@ public class PurchaseOrderView extends
 				|| vendorItemTransactionTable == null) {
 			return;
 		}
-		double total = vendorAccountTransactionTable.getTotal()
-				+ vendorItemTransactionTable.getTotal();
+		double lineTotal = vendorAccountTransactionTable.getLineTotal()
+				+ vendorItemTransactionTable.getLineTotal();
 		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal();
 
-		transactionTotalNonEditableText.setAmount(total);
-		netAmount.setAmount(grandTotal);
+		transactionTotalNonEditableText.setAmount(grandTotal);
+		netAmount.setAmount(lineTotal);
 		// vatTotalNonEditableText.setValue(vendorTransactionGrid.getVatTotal());
 		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			vatTotalNonEditableText.setAmount(total - grandTotal);
+			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
 		}
 
 	}
@@ -975,11 +975,11 @@ public class PurchaseOrderView extends
 
 		transaction.setMemo(getMemoTextAreaItem());
 		if (transaction.getNetAmount() != 0)
-			transaction.setNetAmount(vendorAccountTransactionTable
-					.getGrandTotal()
-					+ vendorItemTransactionTable.getGrandTotal());
-		transaction.setTotal(vendorAccountTransactionTable.getTotal()
-				+ vendorItemTransactionTable.getTotal());
+			transaction
+					.setNetAmount(vendorAccountTransactionTable.getLineTotal()
+							+ vendorItemTransactionTable.getLineTotal());
+		transaction.setTotal(vendorAccountTransactionTable.getGrandTotal()
+				+ vendorItemTransactionTable.getGrandTotal());
 		// transaction.setReference(getRefText());
 	}
 

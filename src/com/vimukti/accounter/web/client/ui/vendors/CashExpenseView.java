@@ -103,8 +103,8 @@ public class CashExpenseView extends
 					.getDate());
 
 		// Setting Total
-		transaction.setTotal(vendorAccountTransactionTable.getTotal()
-				+ vendorItemTransactionTable.getTotal());
+		transaction.setTotal(vendorAccountTransactionTable.getGrandTotal()
+				+ vendorItemTransactionTable.getGrandTotal());
 
 		// Setting Memo
 		transaction.setMemo(getMemoTextAreaItem());
@@ -338,7 +338,6 @@ public class CashExpenseView extends
 				CashExpenseView.this.updateNonEditableItems();
 			}
 
-
 			@Override
 			public boolean isShowPriceWithVat() {
 				return CashExpenseView.this.isShowPriceWithVat();
@@ -362,7 +361,6 @@ public class CashExpenseView extends
 			protected void updateNonEditableItems() {
 				CashExpenseView.this.updateNonEditableItems();
 			}
-
 
 			@Override
 			public boolean isShowPriceWithVat() {
@@ -594,8 +592,8 @@ public class CashExpenseView extends
 		if (code == 0) {
 			code = Accounter.getCompany().getDefaultTaxCode();
 		}
-		vendorAccountTransactionTable.setTaxCode(code,false);
-		vendorItemTransactionTable.setTaxCode(code,false);
+		vendorAccountTransactionTable.setTaxCode(code, false);
+		vendorItemTransactionTable.setTaxCode(code, false);
 
 	}
 
@@ -639,16 +637,16 @@ public class CashExpenseView extends
 				|| vendorItemTransactionTable == null) {
 			return;
 		}
-		double total = vendorAccountTransactionTable.getTotal()
-				+ vendorItemTransactionTable.getTotal();
+		double lineTotal = vendorAccountTransactionTable.getLineTotal()
+				+ vendorItemTransactionTable.getLineTotal();
 		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal();
 
-		netAmount.setAmount(grandTotal);
+		netAmount.setAmount(lineTotal);
 		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			vatTotalNonEditableText.setAmount(total - grandTotal);
+			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
 		}
-		transactionTotalNonEditableText.setAmount(total);
+		transactionTotalNonEditableText.setAmount(grandTotal);
 	}
 
 	public static CashPurchaseView getInstance() {

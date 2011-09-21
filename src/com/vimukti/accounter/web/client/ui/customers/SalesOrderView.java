@@ -794,7 +794,7 @@ public class SalesOrderView extends
 
 		super.saveAndUpdateView();
 		transactionTotalNonEditableText.setAmount(customerTransactionTable
-				.getTotal());
+				.getGrandTotal());
 
 		saveOrUpdate(transaction);
 	}
@@ -1002,37 +1002,20 @@ public class SalesOrderView extends
 			return;
 
 		if (getCompany().getPreferences().isChargeSalesTax()) {
-			Double taxableLineTotal = customerTransactionTable
-					.getTaxableLineTotal();
 
-			if (taxableLineTotal == null)
-				return;
+			setSalesTax(customerTransactionTable.getTotalTax());
 
-			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(),
-					taxableLineTotal,
-					getCompany().getTAXItemGroup(
-							taxCode.getTAXItemGrpForSales())) : 0;
-
-			setSalesTax(salesTax);
-
-			setTransactionTotal(customerTransactionTable.getTotal()
-					+ this.salesTax);
+			setTransactionTotal(customerTransactionTable.getGrandTotal());
 		}
 
 		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			if (customerTransactionTable.getGrandTotal() != 0
-					&& customerTransactionTable.getTotalValue() != 0) {
-				netAmountLabel.setAmount(customerTransactionTable
-						.getGrandTotal());
-				vatTotalNonEditableText.setAmount(customerTransactionTable
-						.getTotalValue()
-						- customerTransactionTable.getGrandTotal());
-				setTransactionTotal(customerTransactionTable.getTotalValue());
-			}
+			netAmountLabel.setAmount(customerTransactionTable.getLineTotal());
+			vatTotalNonEditableText.setAmount(customerTransactionTable
+					.getTotalTax());
+			setTransactionTotal(customerTransactionTable.getGrandTotal());
 		}
 		transactionTotalNonEditableText.setAmount(customerTransactionTable
-				.getTotal());
+				.getGrandTotal());
 		// Double payments = this.paymentsNonEditableText.getAmount();
 		// setBalanceDue((this.transactionTotal - payments));
 	}

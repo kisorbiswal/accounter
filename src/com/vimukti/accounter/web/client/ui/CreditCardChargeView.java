@@ -795,8 +795,8 @@ public class CreditCardChargeView extends
 		transaction.setTransactionItems(getAllTransactionItems());
 
 		// setting total
-		transaction.setTotal(vendorAccountTransactionTable.getTotal()
-				+ vendorItemTransactionTable.getTotal());
+		transaction.setTotal(vendorAccountTransactionTable.getGrandTotal()
+				+ vendorItemTransactionTable.getGrandTotal());
 		// setting memo
 		transaction.setMemo(getMemoTextAreaItem());
 		// setting ref
@@ -814,17 +814,17 @@ public class CreditCardChargeView extends
 				|| vendorItemTransactionTable == null) {
 			return;
 		}
-		double total = vendorAccountTransactionTable.getTotal()
-				+ vendorItemTransactionTable.getTotal();
+		double lineTotal = vendorAccountTransactionTable.getLineTotal()
+				+ vendorItemTransactionTable.getLineTotal();
 		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal();
 
 		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			transactionTotalNonEditableText.setAmount(total);
-			netAmount.setAmount(grandTotal);
-			vatTotalNonEditableText.setAmount(total - grandTotal);
+			transactionTotalNonEditableText.setAmount(grandTotal);
+			netAmount.setAmount(lineTotal);
+			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
 		} else {
-			transactionTotalNonEditableText.setAmount(total);
+			transactionTotalNonEditableText.setAmount(grandTotal);
 		}
 	}
 

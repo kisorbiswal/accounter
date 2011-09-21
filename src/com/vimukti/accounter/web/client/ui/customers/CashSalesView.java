@@ -30,7 +30,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
@@ -38,7 +37,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
-import com.vimukti.accounter.web.client.ui.combo.PriceLevelCombo;
 import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
@@ -483,8 +481,8 @@ public class CashSalesView extends
 		if (customer != null) {
 			customerCombo.setComboItem(customer);
 		}
-		long taxCode=customer.getTAXCode();
-		if(taxCode!=0){
+		long taxCode = customer.getTAXCode();
+		if (taxCode != 0) {
 			customerAccountTransactionTable.setTaxCode(taxCode, false);
 			customerItemTransactionTable.setTaxCode(taxCode, false);
 		}
@@ -602,30 +600,23 @@ public class CashSalesView extends
 			return;
 		if (getCompany().getAccountingType() == 0) {
 
-			Double taxableLineTotal = customerAccountTransactionTable
-					.getTaxableLineTotal()
-					+ customerItemTransactionTable.getTaxableLineTotal();
-			double total = customerAccountTransactionTable.getTotal()
-					+ customerItemTransactionTable.getTotal();
+			double totalTax = customerAccountTransactionTable.getTotalTax()
+					+ customerItemTransactionTable.getTotalTax();
+			double total = customerAccountTransactionTable.getGrandTotal()
+					+ customerItemTransactionTable.getGrandTotal();
 
-			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(),
-					taxableLineTotal,
-					getCompany().getTAXItemGroup(
-							taxCode.getTAXItemGrpForSales())) : 0;
+			setSalesTax(totalTax);
 
-			setSalesTax(salesTax);
-
-			setTransactionTotal(total + this.salesTax);
+			setTransactionTotal(total);
 
 		} else {
+			double lineTotal = customerAccountTransactionTable.getLineTotal()
+					+ customerItemTransactionTable.getLineTotal();
 			double grandTotal = customerAccountTransactionTable.getGrandTotal()
 					+ customerItemTransactionTable.getGrandTotal();
-			double total = customerAccountTransactionTable.getTotalValue()
-					+ customerItemTransactionTable.getTotalValue();
-			netAmountLabel.setAmount(grandTotal);
-			vatTotalNonEditableText.setAmount(total - grandTotal);
-			setTransactionTotal(total);
+			netAmountLabel.setAmount(lineTotal);
+			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
+			setTransactionTotal(grandTotal);
 		}
 
 	}

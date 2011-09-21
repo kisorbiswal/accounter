@@ -779,8 +779,8 @@ public class VendorBillView extends
 			transaction.setDeliveryDate(deliveryDateItem.getEnteredDate());
 
 		// Setting Total
-		transaction.setTotal(vendorAccountTransactionTable.getTotal()
-				+ vendorItemTransactionTable.getTotal());
+		transaction.setTotal(vendorAccountTransactionTable.getGrandTotal()
+				+ vendorItemTransactionTable.getGrandTotal());
 
 		// Setting Memo
 		transaction.setMemo(getMemoTextAreaItem());
@@ -813,15 +813,15 @@ public class VendorBillView extends
 				|| vendorItemTransactionTable == null) {
 			return;
 		}
-		double total = vendorAccountTransactionTable.getTotal()
-				+ vendorItemTransactionTable.getTotal();
+		double lineTotal = vendorAccountTransactionTable.getLineTotal()
+				+ vendorItemTransactionTable.getLineTotal();
 		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal();
 
-		transactionTotalNonEditableText.setAmount(total);
-		netAmount.setAmount(grandTotal);
+		transactionTotalNonEditableText.setAmount(grandTotal);
+		netAmount.setAmount(lineTotal);
 		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			vatTotalNonEditableText.setAmount(total - grandTotal);
+			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
 		}
 	}
 

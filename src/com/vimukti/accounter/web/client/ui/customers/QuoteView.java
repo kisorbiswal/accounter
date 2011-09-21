@@ -37,7 +37,6 @@ import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
-import com.vimukti.accounter.web.client.ui.combo.PriceLevelCombo;
 import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
@@ -149,8 +148,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		if (customer != null) {
 			customerCombo.setComboItem(customer);
 		}
-		long taxCode=customer.getTAXCode();
-		if(taxCode!=0){
+		long taxCode = customer.getTAXCode();
+		if (taxCode != 0) {
 			customerTransactionTable.setTaxCode(taxCode, false);
 		}
 
@@ -721,33 +720,20 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		if (getCompany().getPreferences().isChargeSalesTax()
 				&& (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA || getCompany()
 						.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)) {
-			Double taxableLineTotal = customerTransactionTable
-					.getTaxableLineTotal();
 
-			if (taxableLineTotal == null)
-				return;
+			setSalesTax(customerTransactionTable.getTotalTax());
 
-			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(),
-					taxableLineTotal,
-					getCompany().getTAXItemGroup(
-							taxCode.getTAXItemGrpForSales())) : 0;
-
-			setSalesTax(salesTax);
-
-			setTransactionTotal(customerTransactionTable.getTotal()
-					+ this.salesTax);
-			netAmountLabel.setAmount(customerTransactionTable.getGrandTotal());
+			setTransactionTotal(customerTransactionTable.getGrandTotal());
+			netAmountLabel.setAmount(customerTransactionTable.getLineTotal());
 
 		}
 
 		if (getCompany().getPreferences().isRegisteredForVAT()
 				&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			netAmountLabel.setAmount(customerTransactionTable.getGrandTotal());
-			vatTotalNonEditableText
-					.setAmount(customerTransactionTable.getTotalValue()
-							- customerTransactionTable.getGrandTotal());
-			setTransactionTotal(customerTransactionTable.getTotalValue());
+			netAmountLabel.setAmount(customerTransactionTable.getLineTotal());
+			vatTotalNonEditableText.setAmount(customerTransactionTable
+					.getTotalTax());
+			setTransactionTotal(customerTransactionTable.getGrandTotal());
 		}
 
 	}

@@ -615,8 +615,8 @@ public class CashPurchaseView extends
 					.getDate());
 
 		// Setting Total
-		transaction.setTotal(vendorAccountTransactionTable.getTotal()
-				+ vendorItemTransactionTable.getTotal());
+		transaction.setTotal(vendorAccountTransactionTable.getGrandTotal()
+				+ vendorItemTransactionTable.getGrandTotal());
 
 		// Setting Memo
 		transaction.setMemo(getMemoTextAreaItem());
@@ -643,16 +643,16 @@ public class CashPurchaseView extends
 				|| vendorItemTransactionTable == null) {
 			return;
 		}
-		double total = vendorAccountTransactionTable.getTotal()
-				+ vendorItemTransactionTable.getTotal();
+		double lineTotal = vendorAccountTransactionTable.getLineTotal()
+				+ vendorItemTransactionTable.getLineTotal();
 		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal();
 
-		netAmount.setAmount(grandTotal);
+		netAmount.setAmount(lineTotal);
 		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			vatTotalNonEditableText.setAmount(total - grandTotal);
+			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
 		}
-		transactionTotalNonEditableText.setAmount(total);
+		transactionTotalNonEditableText.setAmount(grandTotal);
 	}
 
 	@Override

@@ -440,8 +440,8 @@ public class VendorCreditMemoView extends
 			transaction.setPhone(phoneSelect.getValue().toString());
 
 		// Setting Total
-		transaction.setTotal(vendorAccountTransactionTable.getTotal()
-				+ vendorItemTransactionTable.getTotal());
+		transaction.setTotal(vendorAccountTransactionTable.getGrandTotal()
+				+ vendorItemTransactionTable.getGrandTotal());
 
 		// Setting Memo
 		transaction.setMemo(getMemoTextAreaItem());
@@ -492,15 +492,15 @@ public class VendorCreditMemoView extends
 				|| vendorItemTransactionTable == null) {
 			return;
 		}
-		double total = vendorAccountTransactionTable.getTotal()
-				+ vendorItemTransactionTable.getTotal();
+		double lineTotal = vendorAccountTransactionTable.getLineTotal()
+				+ vendorItemTransactionTable.getLineTotal();
 		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal();
 
-		transactionTotalNonEditableText.setAmount(total);
-		netAmount.setAmount(grandTotal);
+		transactionTotalNonEditableText.setAmount(grandTotal);
+		netAmount.setAmount(lineTotal);
 		if (isRegistedForVAT()) {
-			vatTotalNonEditableText.setAmount(total - grandTotal);
+			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
 		}
 	}
 

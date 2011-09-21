@@ -27,7 +27,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -573,21 +572,14 @@ public class CustomerCreditMemoView extends
 				|| customerItemTransactionTable == null)
 			return;
 		if (getCompany().getAccountingType() == 0) {
-			Double taxableLineTotal = customerAccountTransactionTable
-					.getTaxableLineTotal()
-					+ customerItemTransactionTable.getTaxableLineTotal();
-			double total = customerAccountTransactionTable.getTotal()
-					+ customerItemTransactionTable.getTotal();
+			double totalTax = customerAccountTransactionTable.getTotalTax()
+					+ customerItemTransactionTable.getTotalTax();
+			double total = customerAccountTransactionTable.getGrandTotal()
+					+ customerItemTransactionTable.getGrandTotal();
 
-			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(),
-					taxableLineTotal,
-					getCompany().getTAXItemGroup(
-							taxCode.getTAXItemGrpForSales())) : 0;
+			setSalesTax(totalTax);
 
-			setSalesTax(salesTax);
-
-			setTransactionTotal(total + this.salesTax);
+			setTransactionTotal(total);
 
 			// salesTax = Utility.getCalculatedSalesTax(transactionDateItem
 			// .getEnteredDate(), taxableLineTotal, taxItemGroup);
@@ -601,13 +593,13 @@ public class CustomerCreditMemoView extends
 			// .setAmount(customerTransactionGrid.getTotal()
 			// + this.salesTax);
 		} else {
+			double lineTotal = customerAccountTransactionTable.getLineTotal()
+					+ customerItemTransactionTable.getLineTotal();
 			double grandTotal = customerAccountTransactionTable.getGrandTotal()
 					+ customerItemTransactionTable.getGrandTotal();
-			double total = customerAccountTransactionTable.getTotalValue()
-					+ customerItemTransactionTable.getTotalValue();
-			netAmountLabel.setAmount(grandTotal);
-			vatTotalNonEditableText.setAmount(total - grandTotal);
-			setTransactionTotal(total);
+			netAmountLabel.setAmount(lineTotal);
+			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
+			setTransactionTotal(grandTotal);
 		}
 
 		// this.paymentsNonEditableText.setValue(transactionGrid.);
@@ -679,12 +671,12 @@ public class CustomerCreditMemoView extends
 		if (customer != null) {
 			customerCombo.setComboItem(customer);
 		}
-		long taxCode=customer.getTAXCode();
-		if(taxCode!=0){
+		long taxCode = customer.getTAXCode();
+		if (taxCode != 0) {
 			customerAccountTransactionTable.setTaxCode(taxCode, false);
 			customerItemTransactionTable.setTaxCode(taxCode, false);
 		}
-		
+
 		this.addressListOfCustomer = customer.getAddress();
 		billingAddress = getAddress(ClientAddress.TYPE_BILL_TO);
 		if (billingAddress != null) {

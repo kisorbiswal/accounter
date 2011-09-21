@@ -17,13 +17,11 @@ public abstract class AbstractTransactionTable extends
 
 	AccounterConstants constants = Accounter.constants();
 
-	Double totallinetotal = 0.0d;
-	double taxableTotal;
-	double totalVat;
+	double lineTotal;
+	double taxableLineTotal;
+	double totalTax;
 	double grandTotal;
-	double totalValue;
-
-	int totaldiscount;
+	double totaldiscount;
 
 	protected boolean needDiscount = true;
 
@@ -41,9 +39,9 @@ public abstract class AbstractTransactionTable extends
 
 		List<ClientTransactionItem> allrecords = getAllRows();
 		totaldiscount = 0;
-		totallinetotal = 0.0;
-		taxableTotal = 0.0;
-		totalVat = 0.0;
+		lineTotal = 0.0;
+		taxableLineTotal = 0.0;
+		totalTax = 0.0;
 
 		for (ClientTransactionItem record : allrecords) {
 
@@ -54,7 +52,7 @@ public abstract class AbstractTransactionTable extends
 			totaldiscount += record.getDiscount();
 
 			Double lineTotalAmt = record.getLineTotal();
-			totallinetotal += lineTotalAmt;
+			lineTotal += lineTotalAmt;
 
 			if (record != null && record.isTaxable()) {
 				// ClientTAXItem taxItem = getCompany().getTAXItem(
@@ -62,30 +60,30 @@ public abstract class AbstractTransactionTable extends
 				// if (taxItem != null) {
 				// totalVat += taxItem.getTaxRate() / 100 * lineTotalAmt;
 				// }
-				taxableTotal += lineTotalAmt;
+				taxableLineTotal += lineTotalAmt;
 			}
 
 			record.setVATfraction(getVATAmount(record.getTaxCode(), record));
-			totalVat += record.getVATfraction();
+			totalTax += record.getVATfraction();
 			super.update(record);
 			// totalVat += citem.getVATfraction();
 		}
 
-		if (getCompany().getPreferences().isChargeSalesTax()) {
-			grandTotal = totalVat + totallinetotal;
-		} else {
-			grandTotal = totallinetotal;
-			totalValue = grandTotal;
-		}
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		// if (getCompany().getPreferences().isChargeSalesTax()) {
+		grandTotal = totalTax + lineTotal;
+		// } else {
+		// grandTotal = totallinetotal;
+		// totalValue = grandTotal;
+		// }
+		// if (getCompany().getPreferences().isRegisteredForVAT()) {
 
-			grandTotal = totallinetotal;
-			totalValue = grandTotal + totalVat;
-			// }
-		} else {
-			grandTotal = totallinetotal;
-			totalValue = grandTotal;
-		}
+		// grandTotal = totallinetotal;
+		// totalValue = grandTotal + totalTax;
+		// }
+		// } else {
+		// grandTotal = totallinetotal;
+		// totalValue = grandTotal;
+		// }
 
 		updateNonEditableItems();
 	}
@@ -117,21 +115,29 @@ public abstract class AbstractTransactionTable extends
 
 	protected abstract void updateNonEditableItems();
 
-	public Double getTaxableLineTotal() {
-		return taxableTotal;
+	public double getTaxableLineTotal() {
+		return taxableLineTotal;
 	}
 
-	public Double getGrandTotal() {
+	public double getGrandTotal() {
 		return grandTotal;
 	}
 
-	public double getTotalValue() {
-		return totalValue;
+	public double getLineTotal() {
+		return lineTotal;
 	}
 
-	public Double getTotal() {
-		return totallinetotal != null ? totallinetotal.doubleValue() : 0.0d;
+	public double getTotalTax() {
+		return totalTax;
 	}
+
+	// public double getTotalValue() {
+	// return totalValue;
+	// }
+	//
+	// public Double getTotal() {
+	// return lineTotal != null ? lineTotal.doubleValue() : 0.0d;
+	// }
 
 	public void removeAllRecords() {
 		clear();
@@ -173,7 +179,7 @@ public abstract class AbstractTransactionTable extends
 
 			}
 		}
-		if (DecimalUtil.isLessThan(totallinetotal, 0.0)) {
+		if (DecimalUtil.isLessThan(lineTotal, 0.0)) {
 			result.addError(this, Accounter.constants()
 					.invalidTransactionAmount());
 		}
@@ -214,7 +220,7 @@ public abstract class AbstractTransactionTable extends
 				// already
 				// This works only once
 				item.setTaxCode(taxCode);
-				//update(item);
+				// update(item);
 			}
 		}
 		updateTotals();

@@ -51,7 +51,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.BrandingThemeCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
-import com.vimukti.accounter.web.client.ui.combo.PriceLevelCombo;
 import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
@@ -779,33 +778,20 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (customerTransactionTable == null)
 			return;
 		if (getCompany().getPreferences().isChargeSalesTax()) {
-			Double taxableLineTotal = customerTransactionTable
-					.getTaxableLineTotal();
 
-			if (taxableLineTotal == null)
-				return;
-
-			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(),
-					taxableLineTotal,
-					Accounter.getCompany().getTAXItemGroup(
-							taxCode.getTAXItemGrpForSales())) : 0;
-
-			setSalesTax(salesTax);
-			setTransactionTotal(customerTransactionTable.getTotal()
-					+ this.salesTax);
+			setSalesTax(customerTransactionTable.getTotalTax());
+			setTransactionTotal(customerTransactionTable.getGrandTotal());
 
 		}
 
 		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			netAmountLabel.setAmount(customerTransactionTable.getGrandTotal());
-			vatTotalNonEditableText
-					.setAmount(customerTransactionTable.getTotalValue()
-							- customerTransactionTable.getGrandTotal());
-			setTransactionTotal(customerTransactionTable.getTotalValue());
+			netAmountLabel.setAmount(customerTransactionTable.getLineTotal());
+			vatTotalNonEditableText.setAmount(customerTransactionTable
+					.getTotalTax());
+			setTransactionTotal(customerTransactionTable.getGrandTotal());
 		} else {
-			netAmountLabel.setAmount(customerTransactionTable.getGrandTotal());
-			setTransactionTotal(customerTransactionTable.getTotalValue());
+			netAmountLabel.setAmount(customerTransactionTable.getLineTotal());
+			setTransactionTotal(customerTransactionTable.getGrandTotal());
 		}
 
 		Double payments = this.paymentsNonEditableText.getAmount();
