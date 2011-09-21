@@ -6,6 +6,7 @@ import java.util.List;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.mobile.ActionNames;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
@@ -57,7 +58,11 @@ public class AccountRegisterCommand extends AbstractTransactionCommand {
 				break;
 			}
 		}
-		selection = context.getSelection("values");
+		selection = context.getSelection("accountRegisterList");
+		if (selection != null) {
+			CommandList commandList = new CommandList();
+			commandList.add("void");
+		}
 		Result result = accountRegister(context);
 
 		ResultList actions = new ResultList(ACTIONS);
@@ -76,10 +81,14 @@ public class AccountRegisterCommand extends AbstractTransactionCommand {
 	private Result accountRegister(Context context) {
 
 		Result result = context.makeResult();
-		ResultList accountsList = new ResultList("accountsList");
-		result.add("Accounts List");
+		ResultList accountsList = new ResultList("accountRegisterList");
+		result.add("AccountRegister List");
 
 		Account account = (Account) context.getLast(RequirementType.ACCOUNT);
+		if (account == null) {
+			CommandList commandList = new CommandList();
+			commandList.add("AccountRegister List");
+		}
 		ArrayList<AccountRegister> accountRegisters = null;
 		try {
 			accountRegisters = new FinanceTool().getAccountRegister(
