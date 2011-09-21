@@ -111,7 +111,7 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = depositeOrTransferTo(context);
+		result = depositeOrTransferTo(context, "depositOrTransferTo");
 		if (result != null) {
 			return result;
 		}
