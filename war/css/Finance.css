@@ -1525,7 +1525,7 @@ body, table td, select,.gwt-Button,textarea,input,label{
 	font-size:12px !important;
 	font-family: Arial Unicode MS,Arial,sans-serif;
 }
-.gwt-PasswordTextBox{
+.gwt-PasswordTextBox,.gwt-DisclosurePanel .content{
 	padding:0px !important;
 }
 .edit_user_profile input[type="text"]{
