@@ -126,6 +126,12 @@
 			<command>InviteAUserCommand</command>
 		</output>
 	</pattern>
+	<pattern>
+		<input>PayBill</input>
+		<output>
+			<command>PayBillCommand</command>
+		</output>
+	</pattern>
 
 </patterns>
 
