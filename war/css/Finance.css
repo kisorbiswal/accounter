@@ -1626,6 +1626,7 @@ a#fdbk_tab{
 	border:0 none;
 	padding:0px !important;
 	border-radius:0px !important; 
+	color:#000;
 }
 .editTable .editheader td{
     padding: 5px;
