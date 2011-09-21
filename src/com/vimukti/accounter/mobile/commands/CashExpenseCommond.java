@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.CashPurchase;
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
@@ -46,7 +47,8 @@ public class CashExpenseCommond extends AbstractTransactionCommand {
 				list.add(new Requirement("name", false, true));
 				list.add(new Requirement("desc", true, true));
 				list.add(new Requirement("amount", false, true));
-				list.add(new Requirement("disc", true, true));
+				list.add(new Requirement("discount", true, true));
+				list.add(new Requirement("vatCode", true, true));
 			}
 		});
 		list.add(new Requirement("date", true, true));
@@ -126,6 +128,9 @@ public class CashExpenseCommond extends AbstractTransactionCommand {
 		List<TransactionItem> accounts = get("accounts").getValue();
 		accounts.addAll(items);
 		cashPurchase.setTransactionItems(accounts);
+		if (getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
+			cashPurchase.setTotal(getTransactionTotal(accounts, getCompany()));
+		}
 		create(cashPurchase, context);
 	}
 
