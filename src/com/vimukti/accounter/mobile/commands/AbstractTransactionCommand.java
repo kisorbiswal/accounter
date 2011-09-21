@@ -419,25 +419,21 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return result;
 	}
 
-	protected Result payFromRequirement(Context context, ResultList list,
-			Object selection) {
-		Object accountObj = context.getSelection(PAY_FROM);
+	protected Result payFromRequirement(Context context) {
+
 		Requirement payFromReq = get(PAY_FROM);
-		Account account = (Account) payFromReq.getValue();
+		Account account = (Account) context.getSelection(PAY_FROM);
 
-		if (selection == account) {
-			return paymentFrom(context, account);
+		if (account != null) {
 
-		}
-		if (accountObj != null) {
-			account = (Account) accountObj;
 			payFromReq.setValue(account);
 		}
 
-		Record paymentTermRecord = new Record(account);
-		paymentTermRecord.add("Name", PAY_FROM);
-		paymentTermRecord.add("Value", account.getName());
-		list.add(paymentTermRecord);
+		if (!payFromReq.isDone()) {
+			return paymentFrom(context, account);
+
+		}
+
 		return null;
 	}
 
