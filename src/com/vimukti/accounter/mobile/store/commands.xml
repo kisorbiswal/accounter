@@ -193,4 +193,9 @@
 		<alias>Expenses</alias>
 		<alias>Expenses list</alias>
 	</command>
+	<command clazz="EnterBillCommand" name="EnterBill">
+		<alias>Enter Bill</alias>
+		<alias>Bill Enter</alias>
+		<alias>Bill</alias>
+	</command>
 </commands>
