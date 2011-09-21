@@ -4876,5 +4876,7 @@ public interface AccounterConstants extends Constants {
 	
 	public String productOrServiceItem();
 
+	public String sellPrice();
+
 
 }

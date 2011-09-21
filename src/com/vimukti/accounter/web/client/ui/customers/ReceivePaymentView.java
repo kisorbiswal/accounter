@@ -341,7 +341,6 @@ public class ReceivePaymentView extends
 		};
 		gridView.setCustomer(this.getCustomer());
 		gridView.setDisabled(isInViewMode());
-		gridView.setHeight("200px");
 	}
 
 	protected ReceivePaymentTransactionList getRecievePayment(String attribute) {
