@@ -79,11 +79,6 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		return createNewItem(context);
 	}
 
-	private Result createNewItem(Context context) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	/**
 	 * for checking of optionals
 	 * 
@@ -665,5 +660,10 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		Record record = new Record(last);
 		record.add("Name", last.getName());
 		return record;
+	}
+
+	private Result createNewItem(Context context) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
