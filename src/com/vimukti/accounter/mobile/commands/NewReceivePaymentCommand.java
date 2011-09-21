@@ -172,6 +172,7 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 			record.setNumber(receivePaymentTransaction.getNumber());
 			record.setInvoiceAmount(receivePaymentTransaction
 					.getInvoiceAmount());
+			// TODO
 			// record.setInvoice(receivePaymentTransaction.getTransactionId());
 			// record.setAmountDue(receivePaymentTransaction.getAmountDue());
 			record.setDiscountDate(new FinanceDate(receivePaymentTransaction
