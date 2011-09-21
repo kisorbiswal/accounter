@@ -400,7 +400,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			// statusBox, subAccSelect, hierText, cashFlowCatSelect,
 			// opBalText, asofDate, catSelect);
 
-			if (getPreferences().getUseAccountNumbers() == true) {
+			if (getPreferences().getUseAccountNumbers()) {
 				accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
 						statusBox, opBalText, asofDate);
 			} else {
@@ -416,7 +416,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			// accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
 			// statusBox, cashFlowCatSelect, opBalText, asofDate,
 			// catSelect);
-			if (getPreferences().getUseAccountNumbers() == true) {
+			if (getPreferences().getUseAccountNumbers()) {
 				accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
 						statusBox, opBalText, asofDate);
 			} else {
