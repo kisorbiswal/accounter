@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.Session;
-
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Contact;
+import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Vendor;
@@ -560,6 +559,21 @@ public abstract class AbstractCommand extends Command {
 		transDateRecord.add("Name", "Date");
 		transDateRecord.add("Value", transDate.toString());
 		list.add(transDateRecord);
+		return null;
+	}
+
+	protected List<Customer> getCustomers(Boolean isActive) {
+		ArrayList<Customer> customers = getCompany().getCustomers();
+		ArrayList<Customer> result = new ArrayList<Customer>();
+		for (Customer customer : customers) {
+			if (isActive) {
+				if (customer.isActive()) {
+					result.add(customer);
+				}
+			} else {
+				result.add(customer);
+			}
+		}
 		return null;
 	}
 
