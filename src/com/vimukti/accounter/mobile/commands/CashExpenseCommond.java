@@ -58,8 +58,23 @@ public class CashExpenseCommond extends AbstractTransactionCommand {
 
 	@Override
 	public Result run(Context context) {
+		String process = (String) context.getAttribute(PROCESS_ATTR);
+		Result result = null;
+		if (process != null) {
+			if (process.equals(TRANSACTION_ITEM_PROCESS)) {
+				result = transactionItemProcess(context);
+				if (result != null) {
+					return result;
+				}
+			} else if (process.equals(TRANSACTION_ACCOUNT_ITEM_PROCESS)) {
+				result = transactionAccountProcess(context);
+				if (result != null) {
+					return result;
+				}
+			}
+		}
 
-		Result result = createSupplierRequirement(context);
+		result = createSupplierRequirement(context);
 		if (result != null) {
 			return result;
 		}
