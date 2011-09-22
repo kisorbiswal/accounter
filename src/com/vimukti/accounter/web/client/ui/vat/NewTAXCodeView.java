@@ -412,10 +412,6 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 
 	@Override
 	protected String getViewTitle() {
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			return Accounter.constants().vatCode();
-		} else {
-			return Accounter.constants().taxCode();
-		}
+		return Accounter.constants().taxCode();
 	}
 }

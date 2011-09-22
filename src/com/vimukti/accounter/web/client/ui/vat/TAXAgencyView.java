@@ -172,9 +172,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		if (taxAgenciesByName != null
 				&& taxAgenciesByName.getID() != this.getData().getID()) {
-			result
-					.addError(taxAgencyText, Accounter.constants()
-							.alreadyExist());
+			result.addError(taxAgencyText, Accounter.constants().alreadyExist());
 		}
 
 		List<DynamicForm> forms = this.getForms();
@@ -191,16 +189,13 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		// Setting TaxAgency
 		data.setName(taxAgencyText.getValue().toString());
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			if (vatReturnCombo.getSelectedValue() == "") {
-				data.setVATReturn(ClientTAXAgency.RETURN_TYPE_NONE);
-			} else if (vatReturnCombo.getSelectedValue() == "UK VAT") {
-				data.setVATReturn(ClientTAXAgency.RETURN_TYPE_UK_VAT);
-			} else {
-				data.setVATReturn(ClientTAXAgency.RETURN_TYPE_IRELAND_VAT);
-			}
-		} else
-			data.setVATReturn(0);
+		if (vatReturnCombo.getSelectedValue() == "") {
+			data.setVATReturn(ClientTAXAgency.RETURN_TYPE_NONE);
+		} else if (vatReturnCombo.getSelectedValue().equals("UK VAT")) {
+			data.setVATReturn(ClientTAXAgency.RETURN_TYPE_UK_VAT);
+		} else {
+			data.setVATReturn(ClientTAXAgency.RETURN_TYPE_IRELAND_VAT);
+		}
 		// Setting File As
 		data.setFileAs(fileAsText.getValue().toString());
 
@@ -231,10 +226,11 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		data.setSalesLiabilityAccount(selectedSalesAccount.getID());
 
 		// Setting Purchase Liability account
-		if (getCompany().getPreferences().isRegisteredForVAT())
+		if (getPreferences().isTrackPaidTax()) {
 			data.setPurchaseLiabilityAccount(selectedPurchaseAccount.getID());
-		else
+		} else {
 			data.setPurchaseLiabilityAccount(0);
+		}
 
 		// Setting Contacts
 
@@ -267,16 +263,9 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	private VerticalPanel getTopLayout() {
 		Label lab;
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			lab = new Label(Accounter.constants().vatAgency());
-			taxAgencyText = new TextItem(Accounter.constants().vatAgency());
-			taxAgencyText.setHelpInformation(true);
-
-		} else {
-			lab = new Label(Accounter.constants().taxAgency());
-			taxAgencyText = new TextItem(Accounter.constants().taxAgency());
-			taxAgencyText.setHelpInformation(true);
-		}
+		lab = new Label(Accounter.constants().taxAgency());
+		taxAgencyText = new TextItem(Accounter.constants().taxAgency());
+		taxAgencyText.setHelpInformation(true);
 		lab.removeStyleName("gwt-Label");
 		lab.addStyleName(Accounter.constants().labelTitle());
 		lab.setHeight("35px");
@@ -302,10 +291,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		taxAgencyForm = UIUtils.form(companyConstants.taxAgency());
 		taxAgencyForm.setWidth("100%");
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			taxAgencyForm.getCellFormatter().setWidth(0, 0, "167px");
-		} else
-			taxAgencyForm.getCellFormatter().setWidth(0, 0, "166px");
+		taxAgencyForm.getCellFormatter().setWidth(0, 0, "166px");
 		taxAgencyForm.setFields(taxAgencyText);
 
 		accInfoForm = new DynamicForm();
@@ -316,8 +302,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		statusCheck.setValue(true);
 		statusCheck.setDisabled(isInViewMode());
 
-		paymentTermsCombo = new PaymentTermsCombo(companyConstants
-				.paymentTerm());
+		paymentTermsCombo = new PaymentTermsCombo(
+				companyConstants.paymentTerm());
 		paymentTermsCombo.setHelpInformation(true);
 		paymentTermsCombo.setDisabled(isInViewMode());
 		paymentTermsCombo
@@ -387,13 +373,14 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		Label contacts = new Label(companyConstants.contacts());
 		initListGrid();
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (getPreferences().isTrackPaidTax()) {
 			accInfoForm.setFields(statusCheck, paymentTermsCombo,
 					vatReturnCombo, liabilitySalesAccountCombo,
 					liabilityPurchaseAccountCombo);
-		} else
+		} else {
 			accInfoForm.setFields(statusCheck, paymentTermsCombo,
-					liabilitySalesAccountCombo);
+					vatReturnCombo, liabilitySalesAccountCombo);
+		}
 
 		accInfoForm.setWidth("94%");
 		accInfoForm.setStyleName("align-form");
@@ -804,11 +791,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	@Override
 	protected String getViewTitle() {
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			return Accounter.constants().vatAgency();
-		} else {
-			return Accounter.constants().taxAgency();
-		}
+		return Accounter.constants().taxAgency();
 	}
 
 }

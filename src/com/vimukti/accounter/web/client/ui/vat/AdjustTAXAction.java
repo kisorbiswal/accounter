@@ -67,10 +67,7 @@ public class AdjustTAXAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		if (Accounter.getCompany().getPreferences().isRegisteredForVAT())
-			return "vatAdjustment";
-		else
-			return "taxAdjustment";
+		return "taxAdjustment";
 	}
 
 	@Override

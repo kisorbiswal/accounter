@@ -71,10 +71,7 @@ public class NewVatItemAction extends Action<ClientTAXItem> {
 
 	@Override
 	public String getHistoryToken() {
-		if (Accounter.getCompany().getPreferences().isRegisteredForVAT())
-			return "newVatItem";
-		else
-			return "newTaxItem";
+		return "newTaxItem";
 	}
 
 	@Override

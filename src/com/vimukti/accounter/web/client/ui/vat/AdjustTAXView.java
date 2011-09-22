@@ -103,12 +103,12 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		entryNo.setHelpInformation(true);
 		entryNo.setWidth(100);
 
-		taxAgencyCombo = new TAXAgencyCombo(Accounter.constants().vatAgency());
+		taxAgencyCombo = new TAXAgencyCombo(Accounter.constants().taxAgency());
 		taxAgencyCombo.setHelpInformation(true);
 		// taxAgencyCombo.setWidth(100);
 		taxAgencyCombo.setComboItem(taxAgency);
 
-		vatItemCombo = new VATItemCombo(Accounter.constants().vatItem(),
+		vatItemCombo = new VATItemCombo(Accounter.constants().taxItem(),
 				taxAgency);
 		vatItemCombo.setHelpInformation(true);
 		vatItemCombo.initCombo(vatItemCombo.getVATItmesByVATAgncy(taxAgency));
@@ -119,10 +119,10 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		}
 
 		vatLine = new LabelItem();
-		vatLine.setValue(Accounter.constants().vatLine());
+		vatLine.setValue(Accounter.constants().taxLine());
 
 		vatAccount = new LabelItem();
-		vatAccount.setValue(Accounter.messages().vatAccount(
+		vatAccount.setValue(Accounter.messages().taxAccount(
 				Global.get().Account()));
 
 		vatLinetxt = new LabelItem();
@@ -181,8 +181,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		vatform.getCellFormatter().setWidth(0, 1, "182");
 
 		taxAgencyCombo.setRequired(true);
-		vatItemCombo.setRequired(getCompany().getPreferences()
-				.isRegisteredForVAT());
+		vatItemCombo.setRequired(getPreferences().isTrackTax());
 
 		adjustAccountCombo = new OtherAccountsCombo(Accounter.messages()
 				.adjustmentAccount(Global.get().Account()));
@@ -196,28 +195,14 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		amount.setWidth(100);
 		typeRadio = new RadioGroupItem("");
 		// typeRadio.setRequired(true);
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			typeRadio.setValueMap(Accounter.constants().increaseVATLine(),
-					Accounter.constants().decreaseVATLine());
-			typeRadio.setDefaultValue(Accounter.constants().increaseVATLine());
-		} else {
-			typeRadio.setValueMap(Accounter.constants().increaseTAXLine(),
-					Accounter.constants().decreaseTAXLine());
-			typeRadio.setDefaultValue(Accounter.constants().increaseTAXLine());
-
-		}
+		typeRadio.setValueMap(Accounter.constants().increaseTAXLine(),
+				Accounter.constants().decreaseTAXLine());
+		typeRadio.setDefaultValue(Accounter.constants().increaseTAXLine());
 
 		memo = new TextAreaItem(Accounter.constants().memo());
 		memo.setMemo(false, this);
 		memo.setHelpInformation(true);
 		memo.setWidth(100);
-		if (getCompany().getPreferences().isChargeSalesTax()) {
-			taxAgencyCombo.setTitle(Accounter.constants().taxAgency());
-			vatItemCombo.setTitle(Accounter.constants().taxItem());
-			vatLine.setValue(Accounter.constants().taxLine());
-			vatAccount.setValue(Accounter.messages().taxAccount(
-					Global.get().Account()));
-		}
 		DynamicForm dateForm = new DynamicForm();
 		dateForm.setNumCols(4);
 		dateForm.setStyleName("datenumber-panel");
@@ -230,11 +215,11 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 				HasHorizontalAlignment.ALIGN_RIGHT);
 
 		DynamicForm topform = new DynamicForm();
-		if (getCompany().getPreferences().isChargeSalesTax()) {
-			topform.setFields(taxAgencyCombo);
-		} else {
-			topform.setFields(taxAgencyCombo, vatItemCombo);
-		}
+		// if (getCompany().getPreferences().isChargeSalesTax()) {
+		// topform.setFields(taxAgencyCombo);
+		// } else {
+		topform.setFields(taxAgencyCombo, vatItemCombo);
+		// }
 
 		topform.setWidth("50%");
 		topform.getCellFormatter().setWidth(0, 0, "190");
@@ -250,9 +235,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		mainPanel.add(infoLabel);
 		mainPanel.add(datepanel);
 		mainPanel.add(topform);
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			mainPanel.add(vatform);
-		}
+		mainPanel.add(vatform);
 		mainPanel.add(memoForm);
 		mainPanel.setSpacing(10);
 
@@ -262,7 +245,6 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		settabIndexes();
 
 	}
-
 
 	private void initEntryNumber() {
 
@@ -470,6 +452,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		}
 		super.initData();
 	}
+
 	private void settabIndexes() {
 		taxAgencyCombo.setTabIndex(1);
 		vatItemCombo.setTabIndex(2);
@@ -481,7 +464,6 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		saveAndCloseButton.setTabIndex(8);
 		saveAndNewButton.setTabIndex(9);
 		cancelButton.setTabIndex(10);
-		
-		
+
 	}
 }

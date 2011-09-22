@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.client.ui.vat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
@@ -444,13 +442,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 
 	@Override
 	protected String getViewTitle() {
-		String flag;
-		if (getCompany().getPreferences().isRegisteredForVAT())
-			flag = Accounter.constants().newVATItem();
-		else
-			flag = Accounter.constants().newTaxItem();
-
-		return flag;
+		return Accounter.constants().newTaxItem();
 	}
 
 	@Override
