@@ -71,6 +71,7 @@
 			<generator class="native" />
 		</id>
 		<property name="locationName" column="LOCATION_NAME"></property>
+		<property name="version" column="VERSION"></property>
 	</class>
 	<class name="CommodityCode" table="COMMODITY_CODE">
 		<id name="id" column="ID">

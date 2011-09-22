@@ -136,8 +136,8 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 		bodyLayout.add(listGridView);
 		if (Accounter.getUser().canDoInvoiceTransactions())
 			bodyLayout.add(buttonsLayout);
-		buttonsLayout.getElement().getParentElement().setAttribute("width",
-				"25%");
+		buttonsLayout.getElement().getParentElement()
+				.setAttribute("width", "25%");
 		setBodyLayout(bodyLayout);
 		cancelBtn.setTitle(this.constants.close());
 		dialogHandler = new InputDialogHandler() {
@@ -382,6 +382,9 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 			}
 
 			public void onResultSuccess(Long result) {
+				if (core.getID() != 0) {
+					core.setVersion(core.getVersion() + 1);
+				}
 				core.setID(result);
 				Accounter.getCompany().processUpdateOrCreateObject(core);
 				saveSuccess(core);

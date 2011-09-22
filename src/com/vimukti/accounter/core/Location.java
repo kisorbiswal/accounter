@@ -14,6 +14,7 @@ public class Location implements IAccounterServerCore, INamedObject {
 	long id;
 	private String title;
 	private String companyName;
+	private int version;
 
 	// private Address address;
 	private String email;
@@ -84,11 +85,12 @@ public class Location implements IAccounterServerCore, INamedObject {
 
 	@Override
 	public int getVersion() {
-		return 0;
+		return version;
 	}
 
 	@Override
 	public void setVersion(int version) {
+		this.version = version;
 	}
 
 	@Override
