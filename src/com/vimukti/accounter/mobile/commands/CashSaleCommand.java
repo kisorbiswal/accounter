@@ -51,8 +51,9 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 			public void addRequirements(List<Requirement> list) {
 				list.add(new Requirement("name", false, true));
 				list.add(new Requirement("desc", true, true));
-				list.add(new Requirement("quantity", false, true));
-				list.add(new Requirement("price", false, true));
+				list.add(new Requirement("amount", false, true));
+				list.add(new Requirement("discount", true, true));
+				list.add(new Requirement("vatCode", true, true));
 			}
 		});
 		list.add(new Requirement("paymentMethod", false, true));
@@ -152,8 +153,11 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 		String number = get("number").getValue();
 		cashSale.setNumber(number);
 
+		// FIXME
 		List<TransactionItem> items = get("items").getValue();
-		cashSale.setTransactionItems(items);
+		List<TransactionItem> accounts = get("accounts").getValue();
+		accounts.addAll(items);
+		cashSale.setTransactionItems(accounts);
 
 		// TODO Location
 		// TODO Class
@@ -163,14 +167,6 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 			for (TransactionItem item : items) {
 				item.setTaxCode(taxCode);
 			}
-			// TODO if (getCompany().getPreferences().isChargeSalesTax()) {
-			// if (taxCode != null) {
-			// for (TransactionItem record : items) {
-			// record.setTaxItemGroup(taxCode.getTAXItemGrpForSales());
-			// }
-			// }
-			// transaction.setSalesTaxAmount(this.salesTax);
-			// }
 		}
 
 		Customer customer = get("customer").getValue();
@@ -189,9 +185,10 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 		String memo = get(MEMO).getValue();
 		cashSale.setMemo(memo);
 
-		// TODO Discount Date
-		// TODO Estimates
-		// TODO sales Order
+		String paymentMethod = get("paymentMethod").getValue();
+		cashSale.setPaymentMethod(paymentMethod);
+		Account account = get("depositOrTransferTo").getValue();
+		cashSale.setDepositIn(account);
 		create(cashSale, context);
 
 	}
