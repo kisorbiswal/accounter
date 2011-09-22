@@ -633,7 +633,9 @@ public class SalesOrderView extends
 			// this.taxCode =
 			// getTaxItemGroupForTransactionItems(this.transactionItems);
 
-			customerSelected(this.getCustomer());
+			customerCombo.setComboItem(this.getCustomer());
+
+			// customerSelected(this.getCustomer());
 			int status = transaction.getStatus();
 			switch (status) {
 			case ClientTransaction.STATUS_OPEN:
@@ -650,7 +652,9 @@ public class SalesOrderView extends
 
 			if (transaction.getPhone() != null)
 				phoneNo = transaction.getPhone();
-			if (getCustomer().getPhoneNo().isEmpty())
+			String customerPhone = getCustomer().getPhoneNo();
+
+			if (customerPhone != null && customerPhone.isEmpty())
 				phoneSelect.setValue(phoneNo);
 
 			contactSelected(this.contact);
@@ -1224,6 +1228,29 @@ public class SalesOrderView extends
 			customerCombo.setDisabled(isInViewMode());
 		} else {
 			customerCombo.setDisabled(true);
+			if (this.transaction.getBillingAddress() == null) {
+				this.addressListOfCustomer = customer.getAddress();
+				billingAddress = getAddress(ClientAddress.TYPE_BILL_TO);
+				if (billingAddress != null) {
+					billToTextArea.setValue(billingAddress.getAddress1() + "\n"
+							+ billingAddress.getStreet() + "\n"
+							+ billingAddress.getCity() + "\n"
+							+ billingAddress.getStateOrProvinence() + "\n"
+							+ billingAddress.getZipOrPostalCode() + "\n"
+							+ billingAddress.getCountryOrRegion());
+
+				} else
+					billToTextArea.setValue("");
+			}
+
+			if (this.transaction.getPhone() == null
+					|| this.transaction.getPhone().isEmpty()) {
+				initPhones(customer);
+			}
+
+			if (this.transaction.getContact() == null) {
+				initContacts(customer);
+			}
 		}
 		taxCodeSelect.setDisabled(isInViewMode());
 		customerOrderText.setDisabled(isInViewMode());
