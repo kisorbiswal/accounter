@@ -785,7 +785,8 @@ public class CreditCardExpenseView extends
 			i++;
 		}
 
-		// contactCombo.initCombo(idNamesForContacts);
+		contactCombo.initCombo(new ArrayList<ClientContact>(allContacts));
+		contactCombo.setComboItem(primaryContact);
 
 		// phoneSelect.initCombo(phones);
 
