@@ -177,18 +177,13 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		}
 		if (trackCheckbox.getValue()) {
 			preferences.setTaxTrack(true);
+			preferences.setTaxPerDetailLine(oneperdetaillineRadioButton
+					.getValue());
+
+			if (enableTaxCheckbox.getValue()) {
+				preferences.setTaxTrack(true);
+			}
 		}
-
-		preferences.setTaxPerDetailLine(oneperdetaillineRadioButton.getValue());
-
-		if (enableTaxCheckbox.getValue()) {
-			preferences.setTaxTrack(true);
-		}
-		if (Accounter.getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_US)
-			preferences.setRegisteredForVAT(vatYes.getValue());
-
-		if (Accounter.getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK)
-			preferences.setChargeSalesTax(salesTaxYes.getValue());
 
 	}
 
