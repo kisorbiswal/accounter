@@ -1567,9 +1567,13 @@ body, table td, select,.gwt-Button,textarea,input,label{
    border:1px solid #2D8B93;
    padding:15px;
 }
+.editTable input[type="text"]:FOCUS{
+	height:20px !important;
+}
 input[type="text"]:FOCUS, textarea:FOCUS{
 	border: 1px solid #3299A4;
     box-shadow: 0 0 5px #3299A4;
+    
 }
 a#fdbk_tab{
 	top:50% !important;
