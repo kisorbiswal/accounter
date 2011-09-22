@@ -742,6 +742,10 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		// else customerTransactionGrid.validateGrid()
 		// }
 
+		if (customerCombo.getSelectedValue() == null) {
+			customerCombo.setValue("");
+		}
+
 		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
 			result.addError(transactionDateItem,
 					customerConstants.invalidateTransactionDate());
