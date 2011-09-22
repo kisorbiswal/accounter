@@ -41,7 +41,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
  * 
  */
 public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
-		KeyPressHandler,  FocusHandler, MouseWheelHandler {
+		KeyPressHandler, FocusHandler, MouseWheelHandler {
 
 	private PopupCalendar popup;
 	private Date selectedDate;
@@ -88,8 +88,8 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 	 */
 	public DatePicker() {
 		super();
-		
-		setText( DateUtills.getDateAsString(System.currentTimeMillis()));
+
+		setText(DateUtills.getDateAsString(System.currentTimeMillis()));
 		this.addStyleName("empty_date_field");
 
 		// sinkEvents(Event.ONCLICK);
@@ -99,8 +99,8 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 		addKeyPressHandler(this);
 		addFocusHandler(this);
 		addMouseWheelHandler(this);
-		
-		//addBlurHandler(this);
+
+		// addBlurHandler(this);
 	}
 
 	/**
@@ -187,7 +187,7 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 		switch (DOM.eventGetType(event)) {
 		case Event.ONBLUR:
 			parseDate();
-			 popup.hidePopupCalendar();
+			popup.hidePopupCalendar();
 			break;
 		case Event.ONCLICK:
 			this.setText("");
@@ -373,7 +373,7 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 		}
 		int x = this.getAbsoluteLeft();
 		int y = this.getAbsoluteTop() + 22;
-//		this.setWidth(this.getOffsetWidth() + "px");
+		// this.setWidth(this.getOffsetWidth() + "px");
 		popup.setPopupPosition(x + 1, y);
 		popup.show();
 		int clientwidth = Window.getClientWidth();
@@ -503,26 +503,25 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 	@Override
 	public void onFocus(FocusEvent arg0) {
 
-	showPopup();
+		showPopup();
 
 	}
 
 	@Override
 	public void onMouseWheel(MouseWheelEvent event) {
-		if (event.isNorth()) {
-
-			processDecrementDate(this.getCursorPos());
-		} else if (event.isSouth()) {
-			processIncrementDate(this.getCursorPos());
+		if (this.isEnabled()) {
+			if (event.isNorth()) {
+				processDecrementDate(this.getCursorPos());
+			} else if (event.isSouth()) {
+				processIncrementDate(this.getCursorPos());
+			}
 		}
 
 	}
-	
+
 	@Override
 	public void setTabIndex(int index) {
 		super.setTabIndex(index);
 	}
-
-
 
 }
