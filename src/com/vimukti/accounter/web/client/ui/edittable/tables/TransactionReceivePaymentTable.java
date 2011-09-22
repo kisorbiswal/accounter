@@ -249,7 +249,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			public int getWidth() {
-				return 80;
+				return 83;
 			}
 
 			@Override
