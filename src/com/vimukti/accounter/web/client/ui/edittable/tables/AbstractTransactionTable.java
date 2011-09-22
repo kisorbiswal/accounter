@@ -152,6 +152,7 @@ public abstract class AbstractTransactionTable extends
 
 	public void setRecords(List<ClientTransactionItem> transactionItems) {
 		setAllRows(transactionItems);
+		updateTotals();
 	}
 
 	public abstract boolean isShowPriceWithVat();
