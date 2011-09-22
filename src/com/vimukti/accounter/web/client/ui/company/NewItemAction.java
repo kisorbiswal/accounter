@@ -58,13 +58,14 @@ public class NewItemAction extends Action<ClientItem> {
 							forCustomer);
 					dialog.setDependent(isDependent);
 					dialog.setCallback(getCallback());
+					dialog.setItemname(itemName);
 					dialog.show();
 				} else {
 					ItemView view = new ItemView(type, forCustomer);
 					view.setItemName(itemName);
 					MainFinanceWindow.getViewManager().showView(view, data,
 							isDependent, NewItemAction.this);
-					
+
 				}
 
 			}
@@ -100,9 +101,9 @@ public class NewItemAction extends Action<ClientItem> {
 	public String getHelpToken() {
 		return "customer-item";
 	}
-	
-	public void setItemText(String text){
+
+	public void setItemText(String text) {
 		this.itemName = text;
-		
+
 	}
 }
