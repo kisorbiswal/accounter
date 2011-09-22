@@ -89,7 +89,7 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 		companyConstants = Accounter.constants();
 		return new String[] { companyConstants.voucherNo(),
 				companyConstants.dateCreated(), companyConstants.memo(),
-				companyConstants.amount(), companyConstants.isVoided()
+				companyConstants.amount(), companyConstants.Voided()
 
 		};
 	}

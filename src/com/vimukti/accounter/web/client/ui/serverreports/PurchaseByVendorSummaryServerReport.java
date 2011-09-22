@@ -47,7 +47,7 @@ public class PurchaseByVendorSummaryServerReport extends
 
 	@Override
 	public String getTitle() {
-		return messages.purchaseByVendorSummary(Global.get().vendor());
+		return messages.purchaseByVendorSummary(Global.get().Vendor());
 
 	}
 

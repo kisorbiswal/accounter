@@ -938,12 +938,12 @@ public class ActionFactory {
 
 	public static PurchaseByVendorSummaryAction getPurchaseByVendorSummaryAction() {
 		return new PurchaseByVendorSummaryAction(Global.get().messages()
-				.purchaseByVendorSummary(Global.get().vendor()));
+				.purchaseByVendorSummary(Global.get().Vendor()));
 	}
 
 	public static PurchaseByVendorDetailsAction getPurchaseByVendorDetailAction() {
 		return new PurchaseByVendorDetailsAction(Global.get().messages()
-				.purchaseByVendorDetail(Global.get().vendor()));
+				.purchaseByVendorDetail(Global.get().Vendor()));
 	}
 
 	public static PurchaseByItemSummaryAction getPurchaseByItemSummaryAction() {

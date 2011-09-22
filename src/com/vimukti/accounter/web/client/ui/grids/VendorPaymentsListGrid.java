@@ -133,7 +133,7 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 				vendorConstants.paymentNo(), vendorConstants.status(),
 				vendorConstants.issueDate(), vendorConstants.name(),
 				vendorConstants.type(), vendorConstants.paymentMethod(),
-				vendorConstants.amountPaid(), vendorConstants.isVoid()
+				vendorConstants.amountPaid(), vendorConstants.Voided()
 		// , ""
 		};
 	}

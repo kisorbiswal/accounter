@@ -81,7 +81,7 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 				vendorConstants.no(),
 				Global.get().messages().vendorName(Global.get().Vendor()),
 				vendorConstants.originalAmount(), vendorConstants.balance(),
-				vendorConstants.isVoid()
+				vendorConstants.Voided()
 		// , ""
 		};
 	}

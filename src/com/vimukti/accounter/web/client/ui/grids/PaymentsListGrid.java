@@ -98,7 +98,7 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 				bankingContants.paymentNo(), bankingContants.status(),
 				bankingContants.issueDate(), bankingContants.name(),
 				bankingContants.type(), bankingContants.paymentMethod(),
-				bankingContants.amountPaid(), bankingContants.isVoid()
+				bankingContants.amountPaid(), bankingContants.Voided()
 		// , ""
 		};
 	}
