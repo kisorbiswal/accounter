@@ -23,7 +23,6 @@ import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientPaySalesTaxEntries;
-import com.vimukti.accounter.web.client.core.ClientPayTDS;
 import com.vimukti.accounter.web.client.core.ClientPayVATEntries;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
@@ -163,7 +162,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	// which are not paid and display as the Transaction ReceivePayments in
 	// ReceivePayment
 	public ArrayList<ReceivePaymentTransactionList> getTransactionReceivePayments(
-			long customerId, long paymentDate);
+			long customerId, long paymentDate) throws AccounterException;
 
 	// To get a particular Journal Entry
 	public ClientJournalEntry getJournalEntry(long journalEntryId);
@@ -334,9 +333,10 @@ public interface IAccounterHomeViewService extends RemoteService {
 			throws Exception, IOException, AccounterException;
 
 	public ArrayList<ClientBudget> getBudgetList();
-	
-	//for TDS
-	
-	public ArrayList<ClientTDSInfo> getPayBillsByTDS() throws AccounterException;
+
+	// for TDS
+
+	public ArrayList<ClientTDSInfo> getPayBillsByTDS()
+			throws AccounterException;
 
 }
