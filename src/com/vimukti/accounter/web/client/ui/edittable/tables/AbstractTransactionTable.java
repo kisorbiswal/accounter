@@ -30,7 +30,7 @@ public abstract class AbstractTransactionTable extends
 	public AbstractTransactionTable(boolean needDiscount, boolean isSales) {
 		this.needDiscount = needDiscount;
 		this.isSales = isSales;
-		initColumns();
+//		initColumns();
 	}
 
 	protected abstract void initColumns();
@@ -242,6 +242,12 @@ public abstract class AbstractTransactionTable extends
 	public void resetRecords() {
 		clear();
 		addEmptyRecords();
+	}
+
+	@Override
+	protected void onAttach() {
+		initColumns();
+		super.onAttach();
 	}
 
 }
