@@ -1,6 +1,7 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -113,9 +114,12 @@ public class DeleteCompanyServlet extends BaseServlet {
 					if (deleteAllUsers
 							|| serverCompany.getClients().size() == 1) {
 						// Deleting ServerCompany
-						client.getCompanies().remove(serverCompany);
+						Set<Client> clients = serverCompany.getClients();
+						for (Client clnt : clients) {
+							clnt.getCompanies().remove(serverCompany);
+							session.saveOrUpdate(clnt);
+						}
 						session.delete(serverCompany);
-						session.saveOrUpdate(client);
 
 						// Deleting Company
 						IS2SService s2sSyncProxy = getS2sSyncProxy(serverCompany
