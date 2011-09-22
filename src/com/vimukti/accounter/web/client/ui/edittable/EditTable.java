@@ -129,6 +129,12 @@ public class EditTable<R> extends SimplePanel {
 
 	}
 
+	public void addRows(List<R> rows) {
+		for (R row : rows) {
+			add(row);
+		}
+	}
+
 	public List<R> getSelectedRecords(int colInd) {
 		List<R> selected = new ArrayList<R>();
 		for (int x = 0; x < rows.size(); x++) {
