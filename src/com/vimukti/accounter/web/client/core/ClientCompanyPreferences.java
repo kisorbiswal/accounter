@@ -78,7 +78,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	private static final long REPORT_VAT_ON_ACURAL_BASIS = 0x20000000L;
 
-	private static final long TRACK_VAT = 0x40000000L;
+	private static final long TRACK_PAID_TAX = 0x40000000L;
 
 	private static final long IS_ACCURAL_BASIS = 0x80000000L;
 
@@ -86,7 +86,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	private static final long WANT_STATEMENTS = 0x200000000L;
 	private static final long TDS_TAX_ENABLE = 0x400000000L;
-	private static final long REGISTERED_FOR_VAT = 0x800000000L;
+	private static final long TRACK_TAX = 0x800000000L;
 
 	private static final long LOCATION_TRACKING = 0x1000000000L;
 
@@ -95,6 +95,8 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	private static final long CLASS_ONE_PER_TRANSACTION = 0x4000000000L;
 
 	private static final long CLASS_WARRNING = 0x8000000000L;
+
+	private static final long TRANSACTION_PER_DETAIL_LINE = 0x20000000000L;
 
 	public static int VAT_REPORTING_PERIOD_MONTHLY = 1;
 	public static int VAT_REPORTING_PERIOD_BIMONTHLY = 2;
@@ -199,8 +201,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	 */
 	public ClientCompanyPreferences() {
 		this.preferencesFlag |= (USE_ACCOUNT_NO | IS_ACCURAL_BASIS
-				| SELL_SERVICES | SELL_SERVICES | ENTER_VAT_INFORMATION_NOW
-				| REPORT_VAT_ON_ACURAL_BASIS | TRACK_VAT);
+				| SELL_SERVICES | SELL_SERVICES | ENTER_VAT_INFORMATION_NOW | REPORT_VAT_ON_ACURAL_BASIS);
 	}
 
 	public long getTrackFinanceDate() {
@@ -990,11 +991,11 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	}
 
 	public boolean isRegisteredForVAT() {
-		return get(REGISTERED_FOR_VAT);
+		return get(TRACK_TAX);
 	}
 
 	public void setRegisteredForVAT(boolean value) {
-		set(REGISTERED_FOR_VAT, value);
+		set(TRACK_TAX, value);
 	}
 
 	/**
@@ -1131,4 +1132,29 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	public void setTimezone(String timezone) {
 		this.timezone = timezone;
 	}
+
+	public boolean isTrackTax() {
+		return get(TRACK_TAX);
+	}
+
+	public void setTaxTrack(boolean value) {
+		set(TRACK_TAX, value);
+	}
+
+	public boolean isTaxPerDetailLine() {
+		return get(TRANSACTION_PER_DETAIL_LINE);
+	}
+
+	public void setTaxPerDetailLine(boolean value) {
+		set(TRANSACTION_PER_DETAIL_LINE, value);
+	}
+
+	public boolean isTrackPaidTax() {
+		return get(TRACK_PAID_TAX);
+	}
+
+	public void setTrackPaidTax(boolean value) {
+		set(TRACK_PAID_TAX, value);
+	}
+
 }
