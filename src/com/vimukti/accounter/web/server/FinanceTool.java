@@ -1341,6 +1341,17 @@ public class FinanceTool {
 							queryResult.add(billsList);
 					}
 				}
+				BillsList tmpBillsList;
+				for (int i = 0; i < queryResult.size(); i++) {
+					for (int j = 0; j < queryResult.size() - 1 - i; j++)
+						if (queryResult.get(j + 1).getDate().getDate() > queryResult
+								.get(j).getDate().getDate()) {
+							tmpBillsList = queryResult.get(j);
+							queryResult.set(j, queryResult.get(j + 1));
+							queryResult.set(j + 1, tmpBillsList);
+						}
+				}
+
 				return new ArrayList<BillsList>(queryResult);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
