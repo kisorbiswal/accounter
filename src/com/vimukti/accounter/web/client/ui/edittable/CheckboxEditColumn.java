@@ -30,9 +30,11 @@ public abstract class CheckboxEditColumn<T> extends EditColumn<T> {
 					IsWidget widget = flexTable.getWidget(x, 0);
 					if (widget instanceof CheckBox) {
 						CheckBox checkedWidget = (CheckBox) widget;
-						checkedWidget.setValue(value);
+						if (checkedWidget.getValue() != value) {
+							checkedWidget.setValue(value);
+							onChangeValue(value, allRows.get(x - 1));
+						}
 					}
-					onChangeValue(value, allRows.get(x - 1));
 				}
 			}
 		});
