@@ -326,7 +326,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendorNameText.setWidth(100);
 		vendorNameText.setDisabled(isInViewMode());
 
-		vendorNoText = new TextItem("Vendor Number");
+		vendorNoText = new TextItem(
+				messages.vendorNumber(Global.get().Vendor()));
 		vendorNoText.setHelpInformation(true);
 		vendorNoText.setRequired(true);
 		vendorNoText.setWidth(100);
