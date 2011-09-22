@@ -358,7 +358,8 @@ public interface IAccounterGETServiceAsync {
 	// AsyncCallback<ClientPaySalesTax> callback);
 
 	public <T extends IAccounterCore> void getObjectById(
-			AccounterCoreType type, long id, AsyncCallback<T> callback);
+			AccounterCoreType type, long id, long companyId,
+			AsyncCallback<T> callback);
 
 	public <T extends IAccounterCore> void getObjectByName(
 			AccounterCoreType type, String name, AsyncCallback<T> callback);
@@ -366,7 +367,7 @@ public interface IAccounterGETServiceAsync {
 	public <T extends IAccounterCore> void getObjects(AccounterCoreType type,
 			AsyncCallback<ArrayList<T>> callback);
 
-	void getCompany(AsyncCallback<ClientCompany> callback);
+	void getCompany(long companyId, AsyncCallback<ClientCompany> callback);
 
 	void getKeyFinancialIndicators(
 			AsyncCallback<KeyFinancialIndicators> callback);
@@ -384,7 +385,7 @@ public interface IAccounterGETServiceAsync {
 	 * @param checkLoginCallback
 	 */
 	public void getUser(String string, String string2, boolean b, int i,
-			AsyncCallback<ClientUser> checkLoginCallback);
+			long companyId, AsyncCallback<ClientUser> checkLoginCallback);
 
 	// public void getCountries(AsyncCallback<List<String>> callback);
 	//

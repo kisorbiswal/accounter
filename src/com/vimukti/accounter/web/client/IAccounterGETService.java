@@ -270,7 +270,7 @@ public interface IAccounterGETService extends RemoteService {
 	// public ClientPaySalesTax getPaySalesTax(Long id);
 
 	public <T extends IAccounterCore> T getObjectById(AccounterCoreType type,
-			long id) throws AccounterException;
+			long id, long companyId) throws AccounterException;
 
 	public <T extends IAccounterCore> T getObjectByName(AccounterCoreType type,
 			String name) throws AccounterException;
@@ -280,7 +280,7 @@ public interface IAccounterGETService extends RemoteService {
 
 	// public List<String> getTimezones();
 
-	public ClientCompany getCompany() throws AccounterException;
+	public ClientCompany getCompany(long companyId) throws AccounterException;
 
 	KeyFinancialIndicators getKeyFinancialIndicators();
 
@@ -289,7 +289,7 @@ public interface IAccounterGETService extends RemoteService {
 	public ArrayList<HelpLink> getHelpLinks(int type) throws AccounterException;
 
 	public ClientUser getUser(String userName, String password,
-			boolean isremeber, int offset);
+			boolean isremeber, int offset, long companyId);
 
 	// public List<String> getCountries();
 	//

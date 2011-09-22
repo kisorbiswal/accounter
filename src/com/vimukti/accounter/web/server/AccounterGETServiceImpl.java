@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.server;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.servlets.BaseServlet;
@@ -48,12 +49,12 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public <T extends IAccounterCore> T getObjectById(AccounterCoreType type,
-			long id) throws AccounterException {
+			long id, long companyId) throws AccounterException {
 
 		FinanceTool tool = getFinanceTool();
-
+		Company company = tool.getCompany(companyId);
 		try {
-			return tool.getObjectById(type, id);
+			return tool.getObjectById(type, id, company.getAccountingType());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -249,14 +250,8 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 	 */
 	@Override
 	public ClientUser getUser(String userName, String password,
-			boolean isremeber, int offset) {
-		try {
-			long id = getCompany().getID();
-			return login(id, userName, password, isremeber, offset);
-		} catch (AccounterException e) {
-			e.printStackTrace();
-		}
-		return null;
+			boolean isremeber, int offset, long companyId) {
+		return login(companyId, userName, password, isremeber, offset);
 	}
 
 	public List<String> getCountries() {
