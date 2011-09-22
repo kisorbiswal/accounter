@@ -109,22 +109,14 @@ public class ItemView extends BaseView<ClientItem> {
 			List<ClientTAXCode> result = getCompany().getActiveTaxCodes();
 			if (result != null) {
 				taxCode.initCombo(getCompany().getActiveTaxCodes());
+				ClientTAXCode code=null;
 				if (isInViewMode()) {
-					taxCode.setComboItem(getCompany().getTAXCode(
-							data.getTaxCode()));
+					code = getCompany().getTAXCode(data.getTaxCode());
 				} else if (!getCompany().getPreferences().isChargeSalesTax()) {
-					// vatCode.setDisabled(true);
-					List<ClientTAXCode> taxCodes = Accounter.getCompany()
-							.getActiveTaxCodes();
-					for (ClientTAXCode vatCod : taxCodes) {
-						if (vatCod.getName().equals("Z")) {
-							taxCode.setComboItem(vatCod);
-							selectTaxCode = vatCod;
-							break;
-						}
-					}
-
+					code = getCompany().getTAXCode(
+							getPreferences().getDefaultTaxCode());
 				}
+				taxCode.setComboItem(code);
 			}
 		}
 
