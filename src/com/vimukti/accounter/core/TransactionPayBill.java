@@ -22,14 +22,13 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  * @author Chandan
  * 
  */
-public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
+public class TransactionPayBill extends CreatableObject implements
+		IAccounterServerCore, Lifecycle {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4955126209995058112L;
-	long id;
-	int version;
 
 	/**
 	 * This due FinanceDate is given while creating the Enterbill or
@@ -213,10 +212,6 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 		return payment;
 	}
 
-	public int getVersion() {
-		return version;
-	}
-
 	/**
 	 * @param enterBill
 	 *            the enterBill to set
@@ -345,7 +340,7 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 						+ amount);
 				// TODO
 
-				if (Company.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
+				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
 
 					this.enterBill.setBalanceDue(this.enterBill.getBalanceDue()
 							- amount);
@@ -386,7 +381,7 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 		}
 
 		// Update TDS Account if Company is INDIA
-		if (Company.getCompany().getPreferences().isTDSEnabled()) {
+		if (getCompany().getPreferences().isTDSEnabled()) {
 			TAXItem taxItem = this.payBill.getVendor().getTAXItem();
 			if (taxItem != null) {
 				TAXAgency taxAgency = taxItem.getTaxAgency();
@@ -529,12 +524,6 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 		this.dueDate = dueDate;
 	}
 
-	@Override
-	public long getID() {
-
-		return this.id;
-	}
-
 	public boolean equals(TransactionPayBill obj) {
 		if (this.vendor.id == obj.vendor.id
 				&& (this.enterBill != null && obj.enterBill != null) ? (this.enterBill
@@ -674,12 +663,6 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 			throws AccounterException {
 
 		return true;
-	}
-
-	@Override
-	public void setVersion(int version) {
-		this.version = version;
-
 	}
 
 	public double getTdsAmount() {
