@@ -63,6 +63,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 	protected void updateCompany() {
 
 		rpcGetService.getObjectById(AccounterCoreType.COMPANY, company.getID(),
+				Accounter.getCompany().getID(),
 				new AccounterAsyncCallback<ClientCompany>() {
 
 					public void onException(AccounterException caught) {
@@ -417,7 +418,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 
@@ -425,7 +426,6 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 	public void fitToSize(int height, int width) {
 
 	}
-
 
 	@Override
 	public List<DynamicForm> getForms() {

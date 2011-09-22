@@ -152,7 +152,7 @@ public class Accounter implements EntryPoint {
 			}
 
 		};
-		getService.getCompany(getCompanyCallback);
+		getService.getCompany(getCompany().getID(), getCompanyCallback);
 
 	}
 
@@ -175,16 +175,14 @@ public class Accounter implements EntryPoint {
 	private static void initGUI() {
 		mainWindow = new MainFinanceWindow();
 		RootPanel.get("mainWindow").add(mainWindow);
-		}
+	}
 
-	public static void reset()
-	{
+	public static void reset() {
 		mainWindow.removeFromParent();
 		initGUI();
 	}
-	
-	public static MainFinanceWindow getMainFinanceWindow()
-	{
+
+	public static MainFinanceWindow getMainFinanceWindow() {
 		return mainWindow;
 	}
 

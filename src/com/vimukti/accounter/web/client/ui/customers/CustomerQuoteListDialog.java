@@ -98,8 +98,6 @@ public class CustomerQuoteListDialog extends BaseDialog {
 			}
 
 		});
-		
-		
 
 		// getGridData();
 		setQuoteList(estimatesAndSalesOrder);
@@ -159,8 +157,7 @@ public class CustomerQuoteListDialog extends BaseDialog {
 		// add(mainLayout);
 		setBodyLayout(mainLayout);
 	}
-	
-	
+
 	protected void setRecord(List<EstimatesAndSalesOrdersList> records) {
 
 		for (EstimatesAndSalesOrdersList rec : records) {
@@ -207,7 +204,8 @@ public class CustomerQuoteListDialog extends BaseDialog {
 
 		};
 		rpcGetService.getObjectById(AccounterCoreType.SALESORDER,
-				record.getTransactionId(), callback);
+				record.getTransactionId(), Accounter.getCompany().getID(),
+				callback);
 	}
 
 	private void getEstimate(EstimatesAndSalesOrdersList record) {
@@ -231,16 +229,17 @@ public class CustomerQuoteListDialog extends BaseDialog {
 
 		};
 		rpcGetService.getObjectById(AccounterCoreType.ESTIMATE,
-				record.getTransactionId(), callback);
+				record.getTransactionId(), Accounter.getCompany().getID(),
+				callback);
 
 	}
 
 	public void setQuoteList(List<EstimatesAndSalesOrdersList> result) {
 		if (result == null)
 			return;
-		//this.estimatesAndSalesOrder = result;
+		// this.estimatesAndSalesOrder = result;
 		grid.removeAllRecords();
-		
+
 		for (EstimatesAndSalesOrdersList rec : estimatesAndSalesOrder) {
 			grid.addData(rec);
 		}

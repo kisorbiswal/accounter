@@ -113,8 +113,9 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 
 			}
 		};
-		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER, obj
-				.getTransactionId(), callbackforsalesOrder);
+		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER,
+				obj.getTransactionId(), Accounter.getCompany().getID(),
+				callbackforsalesOrder);
 
 	}
 
@@ -245,7 +246,8 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 			};
 			rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER,
 					((PurchaseOrdersList) grid.getSelection())
-							.getTransactionId(), callbackforpurchaseOrder);
+							.getTransactionId(),
+					Accounter.getCompany().getID(), callbackforpurchaseOrder);
 		}
 		super.onLoad();
 	}

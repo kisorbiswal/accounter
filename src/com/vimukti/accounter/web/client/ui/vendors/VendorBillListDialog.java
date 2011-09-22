@@ -199,7 +199,8 @@ public class VendorBillListDialog extends BaseDialog {
 
 		};
 		rpcGetService.getObjectById(AccounterCoreType.ITEMRECEIPT,
-				record.getTransactionId(), callback);
+				record.getTransactionId(), Accounter.getCompany().getID(),
+				callback);
 
 	}
 
@@ -221,7 +222,8 @@ public class VendorBillListDialog extends BaseDialog {
 
 		};
 		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER,
-				record.getTransactionId(), callback);
+				record.getTransactionId(), Accounter.getCompany().getID(),
+				callback);
 
 	}
 
@@ -263,7 +265,6 @@ public class VendorBillListDialog extends BaseDialog {
 	public void setFocus() {
 		// cancelBtn.setFocus(true);
 	}
-
 
 	@Override
 	protected boolean onOK() {

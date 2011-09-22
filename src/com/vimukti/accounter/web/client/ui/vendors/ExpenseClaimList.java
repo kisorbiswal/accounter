@@ -128,6 +128,7 @@ public class ExpenseClaimList extends BaseView {
 		for (BillsList record : records) {
 			Accounter.createGETService().getObjectById(
 					AccounterCoreType.CASHPURCHASE, record.getTransactionId(),
+					Accounter.getCompany().getID(),
 
 					new AccounterAsyncCallback<ClientCashPurchase>() {
 
@@ -237,6 +238,6 @@ public class ExpenseClaimList extends BaseView {
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

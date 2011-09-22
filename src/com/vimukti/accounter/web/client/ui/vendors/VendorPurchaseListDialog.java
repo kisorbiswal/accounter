@@ -65,19 +65,17 @@ public class VendorPurchaseListDialog extends BaseDialog {
 		grid.setColumnTypes(ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT);
-		grid
-				.addRecordDoubleClickHandler(new RecordDoubleClickHandler<PurchaseOrdersList>() {
+		grid.addRecordDoubleClickHandler(new RecordDoubleClickHandler<PurchaseOrdersList>() {
 
-					@Override
-					public void OnCellDoubleClick(PurchaseOrdersList record,
-							int column) {
+			@Override
+			public void OnCellDoubleClick(PurchaseOrdersList record, int column) {
 
-						if (record != null)
-							getPurchaseOrder(record);
+				if (record != null)
+					getPurchaseOrder(record);
 
-					}
+			}
 
-				});
+		});
 
 		// getGridData();
 		setPurchaseOrderList(purchaseOrderList);
@@ -173,8 +171,9 @@ public class VendorPurchaseListDialog extends BaseDialog {
 
 			}
 		};
-		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER, record
-				.getTransactionId(), callback);
+		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER,
+				record.getTransactionId(), Accounter.getCompany().getID(),
+				callback);
 
 	}
 

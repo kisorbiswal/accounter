@@ -229,10 +229,12 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 		};
 		if (payee.getType() == ClientPayee.TYPE_VENDOR) {
 			Accounter.createGETService().getObjectById(
-					AccounterCoreType.VENDOR, payee.id, callback);
+					AccounterCoreType.VENDOR, payee.id,
+					Accounter.getCompany().getID(), callback);
 		} else if (payee.getType() == ClientPayee.TYPE_TAX_AGENCY) {
 			Accounter.createGETService().getObjectById(
-					AccounterCoreType.TAXAGENCY, payee.id, callback);
+					AccounterCoreType.TAXAGENCY, payee.id,
+					Accounter.getCompany().getID(), callback);
 		}
 	}
 
@@ -284,11 +286,12 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 		};
 		if (recordToBeDeleted.getType() == ClientPayee.TYPE_VENDOR)
 			Accounter.createGETService().getObjectById(
-					AccounterCoreType.VENDOR, recordToBeDeleted.id, callback);
+					AccounterCoreType.VENDOR, recordToBeDeleted.id,
+					Accounter.getCompany().getID(), callback);
 		else if (recordToBeDeleted.getType() == ClientPayee.TYPE_TAX_AGENCY) {
-			Accounter.createGETService()
-					.getObjectById(AccounterCoreType.TAXAGENCY,
-							recordToBeDeleted.id, callback);
+			Accounter.createGETService().getObjectById(
+					AccounterCoreType.TAXAGENCY, recordToBeDeleted.id,
+					Accounter.getCompany().getID(), callback);
 		}
 
 		// rpcDoSerivce = FinanceApplication.createCRUDService();

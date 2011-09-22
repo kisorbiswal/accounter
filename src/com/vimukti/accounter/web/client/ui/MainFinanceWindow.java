@@ -98,7 +98,6 @@ public class MainFinanceWindow extends VerticalPanel {
 	public HelpItem getHelpItem() {
 		return item;
 
-		
 	}
 
 	private MenuBar getMenuBar() {
@@ -839,7 +838,7 @@ public class MainFinanceWindow extends VerticalPanel {
 
 				Accounter.createGETService().getObjectById(
 						historyToken.getType(), historyToken.getValue(),
-						callback);
+						Accounter.getCompany().getID(), callback);
 
 			} else {
 				action.run(null, false);

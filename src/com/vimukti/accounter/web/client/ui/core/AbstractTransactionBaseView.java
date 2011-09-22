@@ -565,6 +565,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 					Accounter.createGETService().getObjectById(
 							AccounterCoreType.RECURRING_TRANSACTION,
 							transaction.getRecurringTransaction(),
+							Accounter.getCompany().getID(),
 							new AsyncCallback<ClientRecurringTransaction>() {
 
 								@Override
@@ -1446,21 +1447,19 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	public boolean isTaxPerDetailLine() {
-		if (transaction != null
-				&& transaction.usesDifferentTaxCodes()) {
+		if (transaction != null && transaction.usesDifferentTaxCodes()) {
 			return true;
 		} else {
 			return getPreferences().isTaxPerDetailLine();
 		}
 	}
-	
+
 	public boolean isTrackPaidTax() {
-		if (transaction != null
-				&& transaction.haveTax()) {
+		if (transaction != null && transaction.haveTax()) {
 			return true;
 		} else {
 			return getPreferences().isTrackPaidTax();
 		}
 	}
-	
+
 }

@@ -74,16 +74,18 @@ public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 			Accounter.createGETService().getObjectById(
 					AccounterCoreType.JOURNALENTRY,
 					asset.getPostedJournalEntry(),
+					Accounter.getCompany().getID(),
 					new AccounterAsyncCallback<ClientJournalEntry>() {
 
 						@Override
 						public void onException(AccounterException caught) {
-							Accounter
-									.showError(Accounter.constants().failedGetJournalEntries());
+							Accounter.showError(Accounter.constants()
+									.failedGetJournalEntries());
 						}
 
 						@Override
-						public void onResultSuccess(ClientJournalEntry journalEntry) {
+						public void onResultSuccess(
+								ClientJournalEntry journalEntry) {
 							if (journalEntry != null) {
 								ActionFactory.getNewJournalEntryAction().run(
 										journalEntry, true);
@@ -111,7 +113,6 @@ public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 	protected void executeDelete(ClientFixedAssetHistory object) {
 		// NOTHING TO DO
 	}
-
 
 	public AccounterCoreType getType() {
 		return AccounterCoreType.FIXEDASSETHISTORY;

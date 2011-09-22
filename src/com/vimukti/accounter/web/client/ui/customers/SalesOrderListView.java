@@ -113,7 +113,8 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 			}
 		};
 		rpcGetService.getObjectById(AccounterCoreType.SALESORDER,
-				obj.getTransactionId(), callbackforsalesOrder);
+				obj.getTransactionId(), Accounter.getCompany().getID(),
+				callbackforsalesOrder);
 
 	}
 
@@ -249,7 +250,7 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 			};
 			rpcGetService.getObjectById(AccounterCoreType.SALESORDER,
 					((SalesOrdersList) grid.getSelection()).getTransactionId(),
-					callbackforsalesOrder);
+					Accounter.getCompany().getID(), callbackforsalesOrder);
 		}
 		super.onLoad();
 	}

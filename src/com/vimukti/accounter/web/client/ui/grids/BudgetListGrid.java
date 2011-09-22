@@ -146,7 +146,7 @@ public class BudgetListGrid extends BaseListGrid<ClientBudgetItem> {
 
 		};
 		Accounter.createGETService().getObjectById(AccounterCoreType.CUSTOMER,
-				recordToBeDeleted.id, callback);
+				recordToBeDeleted.id, Accounter.getCompany().getID(), callback);
 
 	}
 
