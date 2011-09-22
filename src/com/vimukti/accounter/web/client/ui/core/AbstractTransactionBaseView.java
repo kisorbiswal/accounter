@@ -1453,4 +1453,14 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			return getPreferences().isTaxPerDetailLine();
 		}
 	}
+	
+	public boolean isTrackPaidTax() {
+		if (transaction != null
+				&& transaction.haveTax()) {
+			return true;
+		} else {
+			return getPreferences().isTrackPaidTax();
+		}
+	}
+	
 }
