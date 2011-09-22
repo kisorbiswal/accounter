@@ -75,7 +75,8 @@ public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 		String radio = typeRadio.getValue().toString();
 		// FIXME--an action is required here
 		// okClick();
-		if (radio.equals(Accounter.constants().vendor())) {
+		if (radio.equals(Global.get()
+				.Vendor())) {
 			// new VendorPaymentsAction("Not Issued").run();
 			NewVendorAction action = ActionFactory.getNewVendorAction();
 			action.setCallback(new ActionCallback<ClientVendor>() {
