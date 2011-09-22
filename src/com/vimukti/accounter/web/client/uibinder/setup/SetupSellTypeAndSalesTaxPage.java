@@ -7,12 +7,10 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
@@ -39,25 +37,25 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 	Label bothText;
 	@UiField
 	VerticalPanel sell;
-	@UiField
-	VerticalPanel salesTax;
-	@UiField
-	RadioButton salesTaxNo;
-	@UiField
-	RadioButton salesTaxYes;
-	@UiField
-	HTML salesTaxHead;
+	// @UiField
+	// VerticalPanel salesTax;
+	// @UiField
+	// RadioButton salesTaxNo;
+	// @UiField
+	// RadioButton salesTaxYes;
+	// @UiField
+	// HTML salesTaxHead;
 	@UiField
 	Label headerLabel;
 
-	@UiField
-	VerticalPanel vat;
-	@UiField
-	RadioButton vatNo;
-	@UiField
-	RadioButton vatYes;
-	@UiField
-	HTML vatHeader;
+	// @UiField
+	// VerticalPanel vat;
+	// @UiField
+	// RadioButton vatNo;
+	// @UiField
+	// RadioButton vatYes;
+	// @UiField
+	// HTML vatHeader;
 	@UiField
 	RadioButton onepeTransactionRadioButton;
 	@UiField
@@ -76,6 +74,8 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 	CheckBox trackCheckbox;
 	@UiField
 	Label trackLabel;
+	@UiField
+	VerticalPanel hidePanel;
 
 	interface SetupSellTypeAndSalesTaxPageUiBinder extends
 			UiBinder<Widget, SetupSellTypeAndSalesTaxPage> {
@@ -106,13 +106,13 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		both.setText(accounterConstants.bothservicesandProduct_labelonly());
 		bothText.setText(accounterConstants.bothServicesandProducts());
 
-		salesTaxHead.setHTML(accounterConstants.doyouchargesalestax());
-		salesTaxNo.setText(accounterConstants.no());
-		salesTaxYes.setText(accounterConstants.yes());
-
-		vatHeader.setHTML(Accounter.constants().doyouchargeVat());
-		vatNo.setText(accounterConstants.no());
-		vatYes.setText(accounterConstants.yes());
+		// salesTaxHead.setHTML(accounterConstants.doyouchargesalestax());
+		// salesTaxNo.setText(accounterConstants.no());
+		// salesTaxYes.setText(accounterConstants.yes());
+		//
+		// vatHeader.setHTML(Accounter.constants().doyouchargeVat());
+		// vatNo.setText(accounterConstants.no());
+		// vatYes.setText(accounterConstants.yes());
 
 		trackCheckbox.setText(accounterConstants.chargeOrTrackTax());
 		trackLabel.setText(accounterConstants.descChrageTrackTax());
@@ -127,22 +127,26 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 				.oneperdetailline());
 		oneperdetaillineLabel.setText(accounterConstants
 				.oneperDetailDescription());
+
 		oneperTransactionLabel.setStyleName("organisation_comment");
 		enableTaxCheckbox.setText(accounterConstants.enableTracking());
 		enableTaxLabel.setText(accounterConstants.enableTrackingDescription());
 		enableTaxLabel.setStyleName("organisation_comment");
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			salesTax.setVisible(false);
-		}
-
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			vat.setVisible(false);
-		}
+		// if (Accounter.getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_UK) {
+		// salesTax.setVisible(false);
+		// }
+		//
+		// if (Accounter.getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_US) {
+		// vat.setVisible(false);
+		// }
 	}
 
 	@Override
 	public void onLoad() {
+
 		boolean sellServices = preferences.isSellServices();
 		if (sellServices)
 			servicesOnly.setValue(true);
@@ -152,16 +156,22 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		if (sellServices && sellProducts)
 			both.setValue(true);
 
-		if (preferences.isRegisteredForVAT()) {
-			vatYes.setValue(true);
-		} else {
-			vatNo.setValue(true);
+		boolean isTaxTrackEnable = preferences.isTrackTax();
+
+		if (isTaxTrackEnable) {
+			trackCheckbox.setValue(true);
+			hidePanel.setVisible(isTaxTrackEnable);
 		}
-		if (preferences.isChargeSalesTax()) {
-			salesTaxYes.setValue(true);
-		} else {
-			salesTaxNo.setValue(true);
-		}
+		// if (preferences.isRegisteredForVAT()) {
+		// vatYes.setValue(true);
+		// } else {
+		// vatNo.setValue(true);
+		// }
+		// if (preferences.isChargeSalesTax()) {
+		// salesTaxYes.setValue(true);
+		// } else {
+		// salesTaxNo.setValue(true);
+		// }
 
 	}
 
@@ -194,20 +204,19 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 
 	@Override
 	protected boolean validate() {
-		if ((!(servicesOnly.getValue() || productsOnly.getValue() || both
-				.getValue()))
-				&& (!(salesTaxYes.getValue() || salesTaxNo.getValue()))) {
-			Accounter.showError(accounterMessages
-					.pleaseEnter(accounterConstants.details()));
-			return false;
-		} else if (!(servicesOnly.getValue() || productsOnly.getValue() || both
+		/*
+		 * if ((!(servicesOnly.getValue() || productsOnly.getValue() || both
+		 * .getValue())) && (!(salesTaxYes.getValue() ||
+		 * salesTaxNo.getValue()))) { Accounter.showError(accounterMessages
+		 * .pleaseEnter(accounterConstants.details())); return false; } else
+		 */if (!(servicesOnly.getValue() || productsOnly.getValue() || both
 				.getValue())) {
 			Accounter.showMessage(accounterConstants.whatDoYouSell());
 			return false;
-		} else if (!(salesTaxYes.getValue() || salesTaxNo.getValue())) {
-			Accounter.showMessage(salesTaxHead.getText());
-			return false;
-		} else {
+		} /*
+		 * else if (!(salesTaxYes.getValue() || salesTaxNo.getValue())) {
+		 * Accounter.showMessage(salesTaxHead.getText()); return false; }
+		 */else {
 			return true;
 		}
 	}
