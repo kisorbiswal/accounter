@@ -536,7 +536,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		// .banking(), getBankingSubMenu());
 		// }
 		if (Accounter.getCompany().getPreferences().isTrackTax()
-				&& getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_US) {
+				&& Accounter.getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_US) {
 			reportMenuBar.addItem(Accounter.constants().vat(),
 					getVATReportMenu());
 		}
