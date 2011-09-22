@@ -17,6 +17,10 @@ import com.vimukti.accounter.web.client.ui.edittable.TransactionVatColumn;
 
 public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 
+	public SalesOrderTable(boolean enableTax, boolean showTaxCode) {
+		super(enableTax, showTaxCode);
+	}
+
 	@Override
 	protected void initColumns() {
 
@@ -52,15 +56,10 @@ public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 
 		this.addColumn(new TransactionTotalColumn());
 
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (getCompany().getPreferences().isTrackTax()
+				&& getCompany().getPreferences().isTaxPerDetailLine()) {
 			this.addColumn(new TransactionVatCodeColumn());
 			this.addColumn(new TransactionVatColumn());
-		} else if (getCompany().getPreferences().isChargeSalesTax()) {
-			this.addColumn(new TransactionVatColumn() {
-				protected String getColumnName() {
-					return Accounter.constants().tax();
-				};
-			});
 		}
 
 		this.addColumn(new AmountColumn<ClientTransactionItem>() {
