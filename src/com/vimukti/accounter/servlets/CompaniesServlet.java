@@ -156,12 +156,15 @@ public class CompaniesServlet extends BaseServlet {
 				dispatch(req, resp, MIGRATION_VIEW);
 				return;
 			}
+			String url = ACCOUNTER_OLD_URL;
+			if (ServerConfiguration.isDebugMode) {
+				url = ACCOUNTER_URL;
+			}
 
 			redirectExternal(
 					req,
 					resp,
-					buildCompanyServerURL(company.getServer().getAddress(),
-							ACCOUNTER_URL));
+					buildCompanyServerURL(company.getServer().getAddress(), url));
 		}
 	}
 
