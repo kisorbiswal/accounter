@@ -196,6 +196,8 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	private String timezone;
 
+	private long defaultTaxCode;
+
 	/**
 	 * Creates new Instance
 	 */
@@ -1156,5 +1158,12 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	public void setTrackPaidTax(boolean value) {
 		set(TRACK_PAID_TAX, value);
 	}
+	
+	public long getDefaultTaxCode(){
+		return defaultTaxCode;
+	}
 
+	public void setDefaultTaxCode(long taxCode){
+		defaultTaxCode=taxCode;
+	}
 }
