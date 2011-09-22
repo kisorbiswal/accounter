@@ -55,6 +55,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final String VENDOR = "vendor";
 	protected static final String PAY_FROM = "payFrom";
 	protected static final String ACTIVE = "isActive";
+	protected static final String US_CHECK = "Check";
+	protected static final String UK_CHECK = "Cheque";
 
 	protected Result itemsRequirement(Context context) {
 		Requirement itemsReq = get("items");
@@ -1107,13 +1109,13 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		Requirement requirement = get("paymentmethod");
 		if (requirement != null) {
 			String paymentMethod = (String) requirement.getValue();
-			if (paymentMethod.equals("Check")) {
+			if (paymentMethod.equals(US_CHECK)) {
 
 				Requirement req = get("chequeNo");
 				String invoiceNo = (String) req.getValue();
 
 				String attribute = (String) context.getAttribute(INPUT_ATTR);
-				if (attribute.equals("chequeNo")) {
+				if (attribute.equals(UK_CHECK)) {
 					String order = context.getSelection(NUMBER);
 					if (order == null) {
 						order = context.getString();
