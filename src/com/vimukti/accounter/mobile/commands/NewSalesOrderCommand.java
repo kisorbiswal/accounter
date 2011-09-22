@@ -1,11 +1,23 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Customer;
+import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.core.Invoice;
+import com.vimukti.accounter.core.PaymentTerms;
+import com.vimukti.accounter.core.SalesOrder;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.ShippingTerms;
+import com.vimukti.accounter.core.TAXCode;
+import com.vimukti.accounter.core.Transaction;
+import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
@@ -125,8 +137,36 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 	 * @param context
 	 */
 	private void completeProcess(Context context) {
-		// TODO Auto-generated method stub
+		
+		SalesOrder newSalesOrder = new SalesOrder();
 
+		Customer customer = get(CUSTOMER).getValue();
+		newSalesOrder.setCustomer(customer);
+
+		newSalesOrder.setPhone((String) get(PHONE).getValue());
+		
+		newSalesOrder.setStatus((Integer) get(STATUS).getValue());
+
+		newSalesOrder.setNumber((String) get(ORDER_NO).getValue());
+		
+		newSalesOrder.setCustomerOrderNumber((String) get(CUSTOMER_ORDERNO).getValue());
+		
+		PaymentTerms newPaymentTerms = get(PAYMENT_TERMS).getValue();
+		newSalesOrder.setPaymentTerm(newPaymentTerms);
+		
+		ShippingTerms newShippingTerms = get(SHIPPING_TERMS).getValue();
+		newSalesOrder.setShippingTerm(newShippingTerms);
+		
+		ShippingMethod newShippingMethod = get(SHIPPING_METHODS).getValue();
+		newSalesOrder.setShippingMethod(newShippingMethod);
+		
+		Date date = get(DUE_DATE).getValue();
+		newSalesOrder.setDate(new FinanceDate(date));
+		
+		List<TransactionItem> items = get(ITEMS).getValue();
+		newSalesOrder.setTransactionItems(items);
+		
+		create(newSalesOrder, context);
 	}
 
 	/**
