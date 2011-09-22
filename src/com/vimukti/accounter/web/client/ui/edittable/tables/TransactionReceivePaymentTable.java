@@ -66,22 +66,15 @@ public abstract class TransactionReceivePaymentTable extends
 	}
 
 	private void initColumns() {
-		this
-				.addColumn(new CheckboxEditColumn<ClientTransactionReceivePayment>() {
+		this.addColumn(new CheckboxEditColumn<ClientTransactionReceivePayment>() {
 
-					@Override
-					protected void onHeaderValueChanged(boolean value) {
-						onHeaderCheckBoxClick(value);
-						selectAllRows();
-					}
+			@Override
+			protected void onChangeValue(boolean value,
+					ClientTransactionReceivePayment row) {
+				onSelectionChanged(row, value);
+			}
 
-					@Override
-					protected void onChangeValue(boolean value,
-							ClientTransactionReceivePayment row) {
-						onSelectionChanged(row, value);
-					}
-
-				});
+		});
 		if (canEdit) {
 			TextEditColumn<ClientTransactionReceivePayment> dateCoulmn = new TextEditColumn<ClientTransactionReceivePayment>() {
 
@@ -413,8 +406,9 @@ public abstract class TransactionReceivePaymentTable extends
 
 	public void openCashDiscountDialog(
 			final ClientTransactionReceivePayment selectedObject) {
-		cashDiscountDialog = new CashDiscountDialog(canEdit, selectedObject
-				.getCashDiscount(), getCashDiscountAccount(selectedObject));
+		cashDiscountDialog = new CashDiscountDialog(canEdit,
+				selectedObject.getCashDiscount(),
+				getCashDiscountAccount(selectedObject));
 		// } else {
 		// cashDiscountDialog.setCanEdit(canEdit);
 		// cashDiscountDialog.setCashDiscountValue(selectedObject
@@ -731,9 +725,6 @@ public abstract class TransactionReceivePaymentTable extends
 	}
 
 	public void updateValue(ClientTransactionReceivePayment obj) {
-		// setAccountDefaultValues(obj);
-		obj.setPayment(obj.getAmountDue());
-		// updatePayment(obj);
 		updateTotalPayment(obj.getPayment());
 		obj.setDummyDue(obj.getAmountDue() - obj.getPayment());
 		update(obj);
@@ -742,25 +733,13 @@ public abstract class TransactionReceivePaymentTable extends
 	public abstract void updateTotalPayment(Double payment);
 
 	private void onHeaderCheckBoxClick(boolean isChecked) {
+		resetValues();
 		if (isChecked) {
-			selectAllRows();
-		} else {
-			resetValues();
+			List<ClientTransactionReceivePayment> allRows = getAllRows();
+			for (ClientTransactionReceivePayment row : allRows) {
+				onSelectionChanged(row, true);
+			}
 		}
-	}
-
-	protected abstract void adjustAmountAndEndingBalance();
-
-	private void selectAllRows() {
-		// for (ClientTransactionPayBill obj : this.getAllRows()) {
-		// // if (!isSelected(obj)) {
-		// ((CheckBox) this.body.getWidget(indexOf(obj), 0)).setValue(true);
-		// selectedValues.add(indexOf(obj));
-		// this.rowFormatter.addStyleName(indexOf(obj), "selected");
-		// // updateValue(obj);
-		// // }
-		// }
-		adjustAmountAndEndingBalance();
 	}
 
 	private void resetValues() {
@@ -832,11 +811,7 @@ public abstract class TransactionReceivePaymentTable extends
 		obj.setWriteOff(0.0d);
 		obj.setAppliedCredits(0.0d);
 		obj.setDummyDue(obj.getAmountDue());
-		update(obj);
-		updateUnuseAmt();
 	}
-
-	protected abstract void updateUnuseAmt();
 
 	protected abstract void deleteTotalPayment(double d);
 
@@ -874,19 +849,17 @@ public abstract class TransactionReceivePaymentTable extends
 			boolean isChecked) {
 
 		int row = indexOf(obj);
-		if (isChecked && !selectedValues.contains(row)) {
+		if (isChecked) {
 			selectedValues.add(row);
 			updatePayment(obj);
-			update(obj);
 		} else {
-			if (!isChecked) {
-				selectedValues.remove((Integer) row);
-				resetValue(obj);
-			}
+			selectedValues.remove((Integer) row);
+			resetValue(obj);
 		}
+		update(obj);
 		super.checkColumn(row, 0, isChecked);
-
 		updateAmountReceived();
+		recalculateGridAmounts();
 	}
 
 	private void updateAmountReceived() {
