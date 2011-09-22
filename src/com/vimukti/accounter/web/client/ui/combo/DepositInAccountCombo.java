@@ -20,61 +20,30 @@ public class DepositInAccountCombo extends AccountCombo {
 	public List<ClientAccount> getAccounts() {
 		ArrayList<ClientAccount> deposiInAccounts = new ArrayList<ClientAccount>();
 		for (ClientAccount account : getCompany().getActiveAccounts()) {
-			if (getCompany().getPreferences().isRegisteredForVAT()) {
-				if (Arrays.asList(
-						ClientAccount.TYPE_BANK,
-						// ClientAccount.TYPE_CASH,
-						ClientAccount.TYPE_CREDIT_CARD,
-						ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-						ClientAccount.TYPE_FIXED_ASSET).contains(
-						account.getType())) {
-
-					deposiInAccounts.add(account);
-
-				}
-			} else {
-				if (Arrays
-						.asList(ClientAccount.TYPE_CREDIT_CARD,
-								ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-								ClientAccount.TYPE_BANK,
-								ClientAccount.TYPE_FIXED_ASSET).contains(
-								account.getType())) {
-
-					deposiInAccounts.add(account);
-
-				}
+			if (filter(account)) {
+				deposiInAccounts.add(account);
 			}
 		}
 
 		return deposiInAccounts;
 	}
 
+	private boolean filter(ClientAccount acc) {
+		return Arrays.asList(
+				ClientAccount.TYPE_BANK,
+				// ClientAccount.TYPE_CASH,
+				ClientAccount.TYPE_CREDIT_CARD,
+				ClientAccount.TYPE_OTHER_CURRENT_ASSET,
+				ClientAccount.TYPE_FIXED_ASSET).contains(acc.getType());
+
+	}
+
 	public void setAccounts() {
 		ArrayList<ClientAccount> deposiInAccounts = new ArrayList<ClientAccount>();
 		for (ClientAccount account : getCompany().getActiveAccounts()) {
-			if (getCompany().getPreferences().isRegisteredForVAT()) {
-				if (Arrays.asList(
-						ClientAccount.TYPE_BANK,
-						// ClientAccount.TYPE_CASH,
-						ClientAccount.TYPE_CREDIT_CARD,
-						ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-						ClientAccount.TYPE_FIXED_ASSET).contains(
-						account.getType())) {
-
-					deposiInAccounts.add(account);
-				}
-			} else {
-				if (Arrays
-						.asList(ClientAccount.TYPE_CREDIT_CARD,
-								ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-								ClientAccount.TYPE_BANK,
-								ClientAccount.TYPE_FIXED_ASSET).contains(
-								account.getType())) {
-
-					deposiInAccounts.add(account);
-				}
+			if (filter(account)) {
+				deposiInAccounts.add(account);
 			}
-
 		}
 
 		this.initCombo(deposiInAccounts);

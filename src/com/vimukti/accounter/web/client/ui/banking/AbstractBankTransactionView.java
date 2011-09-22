@@ -321,34 +321,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 		if (menuItem.equals(Accounter.messages().accounts(
 				Global.get().Account()))) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-			if (!getCompany().getPreferences().isRegisteredForVAT()) {
-				List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
-				long zvatCodeid = 0;
-				for (ClientTAXCode taxCode : taxCodes) {
-					if (taxCode.getName().equals("Z")) {
-						zvatCodeid = taxCode.getID();
-					}
-				}
-				if (zvatCodeid != 0)
-					transactionItem.setTaxCode(zvatCodeid);
-				// transactionItem.setVatCode(vendor != null ? (vendor
-				// .getVATCode() != null ? vendor.getVATCode() : "") : "");
-			}
-			if (getCompany().getPreferences().isRegisteredForVAT()) {
-				List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
-				long svatCodeid = 0;
-				for (ClientTAXCode taxCode : taxCodes) {
-					if (taxCode.getName().equals("S")) {
-						svatCodeid = taxCode.getID();
-					}
-				}
-				// if (zvatCodeid != null)
-				// transactionItem.setVatCode(zvatCodeid);
-				transactionItem
-						.setTaxCode(selectedVendor != null ? (selectedVendor
-								.getTAXCode() > 0 ? selectedVendor.getTAXCode()
-								: svatCodeid) : 0);
-			}
+			transactionItem.setTaxCode(getPreferences().getDefaultTaxCode());
 
 		} else if (menuItem
 				.equals(Accounter.constants().productOrServiceItem())) {
@@ -378,33 +351,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
 
 		transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-		if (!getCompany().getPreferences().isRegisteredForVAT()) {
-			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
-			long zvatCodeid = 0;
-			for (ClientTAXCode taxCode : taxCodes) {
-				if (taxCode.getName().equals("Z")) {
-					zvatCodeid = taxCode.getID();
-				}
-			}
-			if (zvatCodeid != 0)
-				transactionItem.setTaxCode(zvatCodeid);
-			// transactionItem.setVatCode(vendor != null ? (vendor
-			// .getVATCode() != null ? vendor.getVATCode() : "") : "");
-		}
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
-			long svatCodeid = 0;
-			for (ClientTAXCode taxCode : taxCodes) {
-				if (taxCode.getName().equals("S")) {
-					svatCodeid = taxCode.getID();
-				}
-			}
-			// if (zvatCodeid != null)
-			// transactionItem.setVatCode(zvatCodeid);
-			transactionItem.setTaxCode(selectedVendor != null ? (selectedVendor
-					.getTAXCode() > 0 ? selectedVendor.getTAXCode()
-					: svatCodeid) : 0);
-		}
+		transactionItem.setTaxCode(getPreferences().getDefaultTaxCode());
 
 		addAccountTransactionItem(transactionItem);
 	}

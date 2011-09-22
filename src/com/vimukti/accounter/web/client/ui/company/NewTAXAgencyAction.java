@@ -68,10 +68,7 @@ public class NewTAXAgencyAction extends Action<ClientTAXAgency> {
 
 	@Override
 	public String getHistoryToken() {
-		if (Accounter.getCompany().getPreferences().isRegisteredForVAT())
-			return "newVatAgency";
-		else
-			return "newTaxAgency";
+		return "newTaxAgency";
 	}
 
 	@Override

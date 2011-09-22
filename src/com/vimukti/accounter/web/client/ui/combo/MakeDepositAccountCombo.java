@@ -95,17 +95,10 @@ public class MakeDepositAccountCombo extends AccountCombo {
 				addItemThenfireEvent(result);
 			}
 		});
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			action.setAccountTypes(Arrays.asList(ClientAccount.TYPE_BANK,
-					ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-					ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
-					ClientAccount.TYPE_EQUITY));
-		} else {
-			action.setAccountTypes(Arrays.asList(
-					ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-					ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
-					ClientAccount.TYPE_BANK, ClientAccount.TYPE_EQUITY));
-		}
+		action.setAccountTypes(Arrays.asList(
+				ClientAccount.TYPE_OTHER_CURRENT_ASSET,
+				ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
+				ClientAccount.TYPE_BANK, ClientAccount.TYPE_EQUITY));
 
 		action.run(null, true);
 
@@ -113,24 +106,16 @@ public class MakeDepositAccountCombo extends AccountCombo {
 
 	@Override
 	public void addItemThenfireEvent(ClientAccount obj) {
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			if (Arrays.asList(ClientAccount.TYPE_BANK,
-					ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-					ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
-					ClientAccount.TYPE_EQUITY).contains(obj.getType())) {
-				super.addItemThenfireEvent(obj);
-			}
-
-		} else {
-			if (Arrays.asList(ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-					ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
-					ClientAccount.TYPE_BANK, ClientAccount.TYPE_EQUITY)
-					.contains(obj.getType())) {
-				super.addItemThenfireEvent(obj);
-			}
-
+		if (filter(obj)) {
+			super.addItemThenfireEvent(obj);
 		}
+	}
 
+	private boolean filter(ClientAccount account) {
+		return Arrays.asList(ClientAccount.TYPE_OTHER_CURRENT_ASSET,
+				ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
+				ClientAccount.TYPE_BANK, ClientAccount.TYPE_EQUITY).contains(
+				account.getType());
 	}
 
 }

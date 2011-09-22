@@ -104,7 +104,8 @@ public class ItemView extends BaseView<ClientItem> {
 	}
 
 	private void initTaxCodes() {
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (getPreferences().isTrackTax()
+				&& getPreferences().isTaxPerDetailLine()) {
 			List<ClientTAXCode> result = getCompany().getActiveTaxCodes();
 			if (result != null) {
 				taxCode.initCombo(getCompany().getActiveTaxCodes());
@@ -219,10 +220,11 @@ public class ItemView extends BaseView<ClientItem> {
 
 		salesDescArea.setDisabled(isInViewMode());
 
-		salesDescArea.setToolTip(Accounter.messages().writeCommentsForThis(
-				this.getAction().getViewName()).replace(
-				Accounter.constants().comments(),
-				Accounter.constants().salesDescription()));
+		salesDescArea.setToolTip(Accounter
+				.messages()
+				.writeCommentsForThis(this.getAction().getViewName())
+				.replace(Accounter.constants().comments(),
+						Accounter.constants().salesDescription()));
 		salesPriceText = new AmountField(Accounter.constants().salesPrice(),
 				this);
 		salesPriceText.setHelpInformation(true);
@@ -305,12 +307,11 @@ public class ItemView extends BaseView<ClientItem> {
 		// vatCode.setDisabled(true);
 		// }
 
-		taxCode
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
-					public void selectedComboBoxItem(ClientTAXCode selectItem) {
-						selectTaxCode = selectItem;
-					}
-				});
+		taxCode.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
+			public void selectedComboBoxItem(ClientTAXCode selectItem) {
+				selectTaxCode = selectItem;
+			}
+		});
 		taxCode.setDefaultValue(Accounter.constants().ztozeroperc());
 		activeCheck = new CheckboxItem(Accounter.constants().active());
 		activeCheck.setValue(true);
@@ -419,7 +420,8 @@ public class ItemView extends BaseView<ClientItem> {
 			disableSalesFormItems(isGeneratedFromCustomer);
 		}
 
-		if (getCompany().getPreferences().isRegisteredForVAT())
+		if (getPreferences().isTrackTax()
+				&& getPreferences().isTaxPerDetailLine())
 			salesInfoForm.setFields(isellCheck, salesDescArea, salesPriceText,
 					accountCombo, comCheck, stdCostText);
 		else
@@ -548,7 +550,8 @@ public class ItemView extends BaseView<ClientItem> {
 			if (data.getVendorItemNumber() != null) {
 				vendItemNumText.setValue(data.getVendorItemNumber());
 			}
-			if (getCompany().getPreferences().isRegisteredForVAT()) {
+			if (getPreferences().isTrackTax()
+					&& getPreferences().isTaxPerDetailLine()) {
 				selectTaxCode = company.getTAXCode(data.getTaxCode());
 			}
 
@@ -745,7 +748,8 @@ public class ItemView extends BaseView<ClientItem> {
 		initAccountList();
 		initVendorsList();
 		initItemGroups();
-		if (getCompany().getPreferences().isRegisteredForVAT())
+		if (getPreferences().isTrackTax()
+				&& getPreferences().isTaxPerDetailLine())
 			initTaxCodes();
 		super.initData();
 
@@ -894,7 +898,8 @@ public class ItemView extends BaseView<ClientItem> {
 		if (isellCheck.isChecked()) {
 			result.add(salesInfoForm.validate());
 		}
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (getPreferences().isTrackTax()
+				&& getPreferences().isTaxPerDetailLine()) {
 			result.add(itemInfoForm.validate());
 		}
 		if (ibuyCheck.isChecked()) {
@@ -903,16 +908,16 @@ public class ItemView extends BaseView<ClientItem> {
 
 		if (isellCheck.isChecked()) {
 			if (AccounterValidator.isNegativeAmount(salesPriceText.getAmount())) {
-				result.addError(salesPriceText, accounterConstants
-						.enterValidAmount());
+				result.addError(salesPriceText,
+						accounterConstants.enterValidAmount());
 			}
 		}
 
 		if (ibuyCheck.isChecked()) {
 			if (AccounterValidator.isNegativeAmount(purchasePriceTxt
 					.getAmount())) {
-				result.addError(purchasePriceTxt, accounterConstants
-						.enterValidAmount());
+				result.addError(purchasePriceTxt,
+						accounterConstants.enterValidAmount());
 			}
 		}
 

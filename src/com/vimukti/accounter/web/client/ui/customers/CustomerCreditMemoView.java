@@ -62,7 +62,7 @@ public class CustomerCreditMemoView extends
 	protected ClientTAXCode taxCode;
 	protected ClientSalesPerson salesPerson;
 	private AmountLabel transactionTotalNonEditableText, netAmountLabel,
-			vatTotalNonEditableText, salesTaxTextNonEditable;
+			taxTotalNonEditableText;
 	private AddNewButton accountTableButton, itemTableButton;
 
 	public CustomerCreditMemoView() {
@@ -182,9 +182,7 @@ public class CustomerCreditMemoView extends
 		prodAndServiceForm1.setWidth("100%");
 		prodAndServiceForm1.setFields(memoTextAreaItem);
 
-		salesTaxTextNonEditable = createSalesTaxNonEditableLabel();
-
-		vatTotalNonEditableText = createVATTotalNonEditableLabel();
+		taxTotalNonEditableText = createVATTotalNonEditableLabel();
 		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
 		netAmountLabel = createNetAmountLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
@@ -260,25 +258,24 @@ public class CustomerCreditMemoView extends
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
 		prodAndServiceForm2.setWidth("100%");
 		prodAndServiceForm2.setNumCols(4);
-		if (getCompany().getAccountingType() == 1) {
-
-			prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
-					disabletextbox, vatTotalNonEditableText, disabletextbox,
-					transactionTotalNonEditableText);
-			prodAndServiceForm2.addStyleName("invoice-total");
-		} else {
-
-			if (getPreferences().isChargeSalesTax()) {
-				prodAndServiceForm2.setFields(taxCodeSelect,
-						salesTaxTextNonEditable, disabletextbox,
-						transactionTotalNonEditableText);
+		if (getPreferences().isTrackTax()) {
+			if (getPreferences().isTaxPerDetailLine()) {
+				prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
+						disabletextbox, taxTotalNonEditableText,
+						disabletextbox, transactionTotalNonEditableText);
+				prodAndServiceForm2.addStyleName("invoice-total");
 			} else {
-				prodAndServiceForm2.setFields(disabletextbox,
-						transactionTotalNonEditableText);
 
+				prodAndServiceForm2.setFields(taxCodeSelect,
+						taxTotalNonEditableText, disabletextbox,
+						transactionTotalNonEditableText);
 			}
-			prodAndServiceForm2.addStyleName("tax-form");
+		} else {
+			prodAndServiceForm2.setFields(disabletextbox,
+					transactionTotalNonEditableText);
+
 		}
+		prodAndServiceForm2.addStyleName("tax-form");
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
@@ -452,7 +449,7 @@ public class CustomerCreditMemoView extends
 
 			if (getCompany().getPreferences().isRegisteredForVAT()) {
 				netAmountLabel.setAmount(transaction.getNetAmount());
-				vatTotalNonEditableText.setAmount(transaction.getTotal()
+				taxTotalNonEditableText.setAmount(transaction.getTotal()
 						- transaction.getNetAmount());
 			} else {
 				this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
@@ -460,7 +457,7 @@ public class CustomerCreditMemoView extends
 					this.taxCodeSelect
 							.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
 				}
-				salesTaxTextNonEditable.setAmount(transaction.getSalesTax());
+				taxTotalNonEditableText.setAmount(transaction.getSalesTax());
 			}
 			transactionTotalNonEditableText.setAmount(transaction.getTotal());
 			memoTextAreaItem.setDisabled(true);
@@ -538,7 +535,7 @@ public class CustomerCreditMemoView extends
 			Double salesTaxAmout = ((ClientCustomerCreditMemo) transaction)
 					.getSalesTax();
 			if (salesTaxAmout != null) {
-				salesTaxTextNonEditable.setAmount(salesTaxAmout);
+				taxTotalNonEditableText.setAmount(salesTaxAmout);
 			}
 
 		}
@@ -598,7 +595,7 @@ public class CustomerCreditMemoView extends
 			double grandTotal = customerAccountTransactionTable.getGrandTotal()
 					+ customerItemTransactionTable.getGrandTotal();
 			netAmountLabel.setAmount(lineTotal);
-			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
+			taxTotalNonEditableText.setAmount(grandTotal - lineTotal);
 			setTransactionTotal(grandTotal);
 		}
 
@@ -626,8 +623,8 @@ public class CustomerCreditMemoView extends
 			salesTax = 0.0D;
 		this.salesTax = salesTax;
 
-		if (salesTaxTextNonEditable != null)
-			salesTaxTextNonEditable.setAmount(salesTax);
+		if (taxTotalNonEditableText != null)
+			taxTotalNonEditableText.setAmount(salesTax);
 
 	}
 

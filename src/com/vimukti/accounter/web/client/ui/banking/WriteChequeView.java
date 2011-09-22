@@ -841,7 +841,7 @@ public class WriteChequeView extends
 		totalForm.setFields(netAmount, totalTxt);
 		totalForm.addStyleName("invoice-total");
 		DynamicForm vatCheckForm = new DynamicForm();
-		if (ClientCompanyPreferences.get().isRegisteredForVAT())
+		if (getPreferences().isTrackPaidTax())
 			vatCheckForm.setFields(vatinclusiveCheck);
 		vatCheckForm.addStyleName("invoice-total");
 

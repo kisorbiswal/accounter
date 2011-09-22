@@ -74,7 +74,7 @@ public class CashSalesView extends
 	private ClientTAXCode taxCode;
 	private ClientSalesPerson salesPerson;
 	private AmountLabel transactionTotalNonEditableText, netAmountLabel,
-			vatTotalNonEditableText, salesTaxTextNonEditable;
+			taxTotalNonEditableText;
 	private Double transactionTotal = 0.0D;
 	private AddNewButton accountTableButton, itemTableButton;
 
@@ -233,9 +233,8 @@ public class CashSalesView extends
 		prodAndServiceForm1.getCellFormatter().addStyleName(0, 0,
 				"memoFormAlign");
 
-		vatTotalNonEditableText = createVATTotalNonEditableLabel();
+		taxTotalNonEditableText = createVATTotalNonEditableLabel();
 
-		salesTaxTextNonEditable = createSalesTaxNonEditableLabel();
 		netAmountLabel = createNetAmountLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
@@ -310,30 +309,23 @@ public class CashSalesView extends
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
 		prodAndServiceForm2.setWidth("100%");
 		prodAndServiceForm2.setNumCols(4);
-		if (getCompany().getAccountingType() == 1) {
+		if (getPreferences().isTrackTax()) {
 
-			// prodAndServiceForm2.setFields(priceLevelSelect, netAmountLabel,
-			// disabletextbox, vatTotalNonEditableText, disabletextbox,
-			// transactionTotalNonEditableText);
-			prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
-					disabletextbox, vatTotalNonEditableText, disabletextbox,
-					transactionTotalNonEditableText);
-			prodAndServiceForm2.addStyleName("invoice-total");
-		} else {
-			// prodAndServiceForm2.setFields(taxCodeSelect,
-			// salesTaxTextNonEditable, priceLevelSelect,
-			// transactionTotalNonEditableText);
-
-			if (getPreferences().isChargeSalesTax()) {
-				prodAndServiceForm2.setFields(taxCodeSelect,
-						salesTaxTextNonEditable, disabletextbox,
-						transactionTotalNonEditableText);
+			if (getPreferences().isTaxPerDetailLine()) {
+				prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
+						disabletextbox, taxTotalNonEditableText,
+						disabletextbox, transactionTotalNonEditableText);
+				prodAndServiceForm2.addStyleName("invoice-total");
 			} else {
-				prodAndServiceForm2.setFields(disabletextbox,
+				prodAndServiceForm2.setFields(taxCodeSelect,
+						taxTotalNonEditableText, disabletextbox,
 						transactionTotalNonEditableText);
 			}
-			prodAndServiceForm2.addStyleName("tax-form");
+		} else {
+			prodAndServiceForm2.setFields(disabletextbox,
+					transactionTotalNonEditableText);
 		}
+		prodAndServiceForm2.addStyleName("tax-form");
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
@@ -615,7 +607,7 @@ public class CashSalesView extends
 			double grandTotal = customerAccountTransactionTable.getGrandTotal()
 					+ customerItemTransactionTable.getGrandTotal();
 			netAmountLabel.setAmount(lineTotal);
-			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
+			taxTotalNonEditableText.setAmount(grandTotal - lineTotal);
 			setTransactionTotal(grandTotal);
 		}
 
@@ -703,18 +695,20 @@ public class CashSalesView extends
 			}
 			memoTextAreaItem.setValue(transaction.getMemo());
 			// refText.setValue(cashSale.getReference());
-			if (getCompany().getPreferences().isRegisteredForVAT()) {
-				netAmountLabel.setAmount(transaction.getNetAmount());
-				vatTotalNonEditableText.setAmount(transaction.getTotal()
-						- transaction.getNetAmount());
-			} else {
-				this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
-				if (taxCode != null) {
-					this.taxCodeSelect
-							.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
+			if (getPreferences().isTrackTax()) {
+				if (getPreferences().isTaxPerDetailLine()) {
+					netAmountLabel.setAmount(transaction.getNetAmount());
+					taxTotalNonEditableText.setAmount(transaction.getTotal()
+							- transaction.getNetAmount());
+				} else {
+					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
+					if (taxCode != null) {
+						this.taxCodeSelect
+								.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
+					}
+					this.taxTotalNonEditableText.setValue(String
+							.valueOf(transaction.getSalesTax()));
 				}
-				this.salesTaxTextNonEditable.setValue(String
-						.valueOf(transaction.getSalesTax()));
 			}
 			memoTextAreaItem.setDisabled(true);
 			transactionTotalNonEditableText.setAmount(transaction.getTotal());
@@ -816,8 +810,8 @@ public class CashSalesView extends
 			salesTax = 0.0D;
 		this.salesTax = salesTax;
 
-		if (salesTaxTextNonEditable != null)
-			salesTaxTextNonEditable.setAmount(salesTax);
+		if (taxTotalNonEditableText != null)
+			taxTotalNonEditableText.setAmount(salesTax);
 
 	}
 

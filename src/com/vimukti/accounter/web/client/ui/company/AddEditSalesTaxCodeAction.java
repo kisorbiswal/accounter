@@ -60,15 +60,12 @@ public class AddEditSalesTaxCodeAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		if (Accounter.getCompany().getPreferences().isRegisteredForVAT())
-			return "newVatCode";
-		else
-			return "newTaxCode";
+		return "newTaxCode";
 	}
 
 	@Override
 	public String getHelpToken() {
-		return "sales_tax-code";
+		return "tax-code";
 	}
 
 }

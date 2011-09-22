@@ -287,7 +287,7 @@ public class CreditCardChargeView extends
 					.getDeliveryDate()));
 			delivDate.setDisabled(isInViewMode());
 			phoneSelect.setValue(transaction.getPhone());
-			if (getCompany().getPreferences().isRegisteredForVAT()) {
+			if (getCompany().getPreferences().isTrackTax()) {
 				netAmount.setAmount(transaction.getNetAmount());
 				vatTotalNonEditableText.setAmount(transaction.getTotal()
 						- transaction.getNetAmount());
@@ -616,7 +616,7 @@ public class CreditCardChargeView extends
 		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");
 
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (getCompany().getPreferences().isTrackTax()) {
 			totalForm.setFields(netAmount, vatTotalNonEditableText,
 					transactionTotalNonEditableText);
 			VerticalPanel vPanel = new VerticalPanel();
@@ -727,7 +727,7 @@ public class CreditCardChargeView extends
 
 		updateTransaction();
 
-		if (getCompany().getPreferences().isRegisteredForVAT())
+		if (getCompany().getPreferences().isTrackTax())
 			transaction.setNetAmount(netAmount.getAmount());
 		// creditCardCharge.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 		// .getValue());
@@ -825,7 +825,7 @@ public class CreditCardChargeView extends
 		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal();
 
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (getCompany().getPreferences().isTrackTax()) {
 			transactionTotalNonEditableText.setAmount(grandTotal);
 			netAmount.setAmount(lineTotal);
 			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
