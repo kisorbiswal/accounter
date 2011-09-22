@@ -895,7 +895,8 @@ public class WriteChequeView extends
 		// }
 		// if{
 
-		transactionVendorAccountTable = new VendorAccountTransactionTable(false) {
+		transactionVendorAccountTable = new VendorAccountTransactionTable(
+				false, isTrackTax(), isTaxPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -909,7 +910,8 @@ public class WriteChequeView extends
 		};
 		transactionVendorAccountTable.setDisabled(isInViewMode());
 
-		transactionVendorItemTable = new VendorItemTransactionTable(false) {
+		transactionVendorItemTable = new VendorItemTransactionTable(false,
+				isTrackTax(), isTaxPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {
