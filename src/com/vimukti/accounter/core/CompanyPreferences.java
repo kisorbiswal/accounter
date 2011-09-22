@@ -96,6 +96,10 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	private static final long CLASS_WARRNING = 0x8000000000L;
 
+	private static final long TRACK_TAX = 0x800000000L;
+
+	private static final long TRANSACTION_PER_DETAIL_LINE = 0x20000000000L;
+
 	public static int VAT_REPORTING_PERIOD_MONTHLY = 1;
 	public static int VAT_REPORTING_PERIOD_BIMONTHLY = 2;
 	public static int VAT_REPORTING_PERIOD_QUARTERLY = 3;
@@ -219,6 +223,22 @@ public class CompanyPreferences implements IAccounterServerCore {
 		this.preferencesFlag |= (USE_ACCOUNT_NO | IS_ACCURAL_BASIS
 				| SELL_SERVICES | SELL_SERVICES | ENTER_VAT_INFORMATION_NOW
 				| REPORT_VAT_ON_ACURAL_BASIS | TRACK_VAT);
+	}
+
+	public boolean isTrackTax() {
+		return get(TRACK_TAX);
+	}
+
+	public void setTaxTrack(boolean value) {
+		set(TRACK_TAX, value);
+	}
+
+	public boolean isTaxPerDetailLine() {
+		return get(TRANSACTION_PER_DETAIL_LINE);
+	}
+
+	public void setTaxPerDetailLine(boolean value) {
+		set(TRANSACTION_PER_DETAIL_LINE, value);
 	}
 
 	public boolean isPurchaseOrderEnabled() {
