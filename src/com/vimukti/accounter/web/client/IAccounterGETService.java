@@ -270,7 +270,7 @@ public interface IAccounterGETService extends RemoteService {
 	// public ClientPaySalesTax getPaySalesTax(Long id);
 
 	public <T extends IAccounterCore> T getObjectById(AccounterCoreType type,
-			long id, long companyId) throws AccounterException;
+			long id) throws AccounterException;
 
 	public <T extends IAccounterCore> T getObjectByName(AccounterCoreType type,
 			String name) throws AccounterException;
@@ -289,7 +289,7 @@ public interface IAccounterGETService extends RemoteService {
 	public ArrayList<HelpLink> getHelpLinks(int type) throws AccounterException;
 
 	public ClientUser getUser(String userName, String password,
-			boolean isremeber, int offset, long companyId);
+			boolean isremeber, int offset);
 
 	// public List<String> getCountries();
 	//

@@ -4909,10 +4909,11 @@ public class FinanceTool {
 	}
 
 	public ArrayList<ClientFinanceDate> getAllDepreciationFromDates(
-			Company company) throws DAOException {
+			long companyId) throws DAOException {
 
 		List<ClientFinanceDate> fromDates = new ArrayList<ClientFinanceDate>();
 		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
 		FinanceDate depreciationStartDate = company.getPreferences()
 				.getDepreciationStartDate();
 		Calendar depStartDateCal = new GregorianCalendar();

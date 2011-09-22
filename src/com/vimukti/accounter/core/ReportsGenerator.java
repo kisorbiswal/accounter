@@ -636,7 +636,8 @@ public class ReportsGenerator {
 			try {
 				if (status == null || status.isEmpty()) {
 					apAgingDetailServerReport.onResultSuccess(finaTool
-							.getAgedCreditors(startDate, endDate, company));
+							.getAgedCreditors(startDate, endDate,
+									company.getID()));
 				} else {
 					apAgingDetailServerReport.onResultSuccess(reportsSerivce
 							.getAgedCreditors(status,
@@ -885,8 +886,9 @@ public class ReportsGenerator {
 			updateReport(vatDetailServerReportView, finaTool);
 			vatDetailServerReportView.resetVariables();
 			try {
-				vatDetailServerReportView.onResultSuccess(finaTool
-						.getVATDetailReport(startDate, endDate, company));
+				vatDetailServerReportView
+						.onResultSuccess(finaTool.getVATDetailReport(startDate,
+								endDate, company.getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1148,7 +1150,7 @@ public class ReportsGenerator {
 			try {
 				statementReport.onResultSuccess(finaTool
 						.getPayeeStatementsList(Long.parseLong(status),
-								startDate, endDate, company));
+								startDate, endDate, company.getID()));
 
 			} catch (Exception e) {
 				e.printStackTrace();

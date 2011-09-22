@@ -1235,7 +1235,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	public FixedAssetSellOrDisposeReviewJournal getReviewJournal(
 			TempFixedAsset fixedAsset) throws AccounterException {
 		try {
-			return getFinanceTool().getReviewJournal(fixedAsset);
+			return getFinanceTool()
+					.getReviewJournal(fixedAsset, getCompanyId());
 		} catch (DAOException e) {
 
 			e.printStackTrace();
@@ -1262,7 +1263,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			throws AccounterException {
 		try {
 			FinanceTool tool = getFinanceTool();
-			return tool != null ? tool.getAllDepreciationFromDates() : null;
+			return tool != null ? tool
+					.getAllDepreciationFromDates(getCompanyId()) : null;
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
@@ -1286,7 +1288,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			throws AccounterException {
 		try {
 			FinanceTool tool = getFinanceTool();
-			return tool != null ? tool.getFinancialYearStartDates() : null;
+			return tool != null ? tool
+					.getFinancialYearStartDates(getCompanyId()) : null;
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
@@ -1319,7 +1322,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			FinanceTool tool = getFinanceTool();
 			return tool.getCalculatedDepreciatedAmount(depreciationMethod,
 					depreciationRate, purchasePrice, depreciationfromDate,
-					depreciationtoDate);
+					depreciationtoDate, getCompanyId());
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
@@ -1331,7 +1334,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			nextTransactionNumber = getFinanceTool().getNextNominalCode(
-					accountType);
+					accountType, getCompanyId());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1550,7 +1553,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			resultList = getFinanceTool().getGraphPointsforAccount(chartType,
-					accountNo);
+					accountNo, getCompanyId());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1684,7 +1687,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
 			tool.sendPdfInMail(objectID, type, brandingThemeId, mimeType,
-					subject, content, senderEmail, recipientEmail, ccEmail);
+					subject, content, senderEmail, recipientEmail, ccEmail,
+					getCompanyId());
 		}
 
 	}

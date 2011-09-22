@@ -170,7 +170,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			agedDebtorsList = getFinanceTool().getAgedCreditors(
-					financeDates[0], financeDates[1]);
+					financeDates[0], financeDates[1], getCompanyId());
 			List<AgedDebtors> debtors = new ArrayList<AgedDebtors>();
 			for (AgedDebtors debtor : agedDebtorsList) {
 				debtors = updateDebtorListByName(debtors, debtor);
@@ -211,7 +211,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			agedDebtorsList = getFinanceTool().getAgedDebtors(financeDates[0],
-					financeDates[1]);
+					financeDates[1], getCompanyId());
 			List<AgedDebtors> debtors = new ArrayList<AgedDebtors>();
 			for (AgedDebtors debtor : agedDebtorsList) {
 				debtors = updateDebtorListByName(debtors, debtor);
@@ -999,7 +999,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			agedDebtorsList = getFinanceTool().getAgedDebtors(financeDates[0],
-					financeDates[1]);
+					financeDates[1], getCompanyId());
 			for (AgedDebtors agdDebitor : agedDebtorsList) {
 				if (Name.equals(agdDebitor.getName()))
 					agedDebtorsListForCustomer.add(agdDebitor);
@@ -1031,7 +1031,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			agedDebtorsList = getFinanceTool().getAgedCreditors(
-					financeDates[0], financeDates[1]);
+					financeDates[0], financeDates[1], getCompanyId());
 			for (AgedDebtors agdDebitor : agedDebtorsList) {
 				if (Name.equals(agdDebitor.getName()))
 					agedCreditorsListForCustomer.add(agdDebitor);
@@ -1547,7 +1547,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 			vatDetailReport = getFinanceTool().getVATDetailReport(
-					financeDates[0], financeDates[1]);
+					financeDates[0], financeDates[1], getCompanyId());
 
 			VATDetail obj = new VATDetail();
 			if (vatDetailReport != null)
@@ -1576,7 +1576,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 					taxAgency);
 			;
 			vatDetailReport = getFinanceTool()
-					.getPriorVATReturnVATDetailReport(vatAgncy, tranendDate);
+					.getPriorVATReturnVATDetailReport(vatAgncy, tranendDate,
+							getCompanyId());
 
 			VATDetail obj = new VATDetail();
 			if (vatDetailReport != null)
@@ -1882,7 +1883,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		// Date threeMonthPreviousDate = calender.getTime();
 		try {
 			List<AgedDebtors> agedDebtors = getFinanceTool().getAgedDebtors(
-					financeDates[0], financeDates[1]);
+					financeDates[0], financeDates[1], getCompanyId());
 
 			debitors = getDebtorsWidSameName(agedDebtors, financeDates[0],
 					financeDates[1]);
@@ -2023,7 +2024,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		// Date threeMonthPreviousDate = calender.getTime();
 		try {
 			List<AgedDebtors> agedCreditors = getFinanceTool()
-					.getAgedCreditors(financeDates[0], financeDates[1]);
+					.getAgedCreditors(financeDates[0], financeDates[1],
+							getCompanyId());
 
 			Creditors = getDebtorsWidSameName(agedCreditors, financeDates[0],
 					financeDates[1]);
@@ -2192,7 +2194,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			resultList = getFinanceTool().getPayeeStatementsList(id,
-					financeDates[0], financeDates[1]);
+					financeDates[0], financeDates[1], getCompanyId());
 
 			PayeeStatementsList obj = new PayeeStatementsList();
 			if (resultList != null)

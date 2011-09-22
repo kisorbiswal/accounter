@@ -201,8 +201,8 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 		return HibernateUtil.getCurrentSession();
 	}
 
-	public ClientUser login(long companyId, String string, String password,
-			Boolean rememberMe, int offSet) {
+	public ClientUser login(String string, String password, Boolean rememberMe,
+			int offSet) {
 
 		User user = null;
 		if (string != null && password != null) {
@@ -228,7 +228,7 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 			CometSession cometSession = CometServlet
 					.getCometSession(getHttpSession());
 			CometManager.initStream(getThreadLocalRequest().getSession()
-					.getId(), companyId, user.getEmail(), cometSession);
+					.getId(), getCompanyId(), user.getEmail(), cometSession);
 
 			if (rememberMe) {
 				setCookies(string, password);
@@ -266,4 +266,10 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 		return (IS2SService) SyncProxy.newProxyInstance(IS2SService.class, url,
 				"");
 	}
+
+	protected long getCompanyId() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

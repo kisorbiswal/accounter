@@ -49,10 +49,10 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public <T extends IAccounterCore> T getObjectById(AccounterCoreType type,
-			long id, long companyId) throws AccounterException {
+			long id) throws AccounterException {
 
 		FinanceTool tool = getFinanceTool();
-		Company company = tool.getCompany(companyId);
+		Company company = tool.getCompany(getCompanyId());
 		try {
 			return tool.getObjectById(type, id, company.getAccountingType());
 		} catch (Exception e) {
@@ -250,8 +250,8 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 	 */
 	@Override
 	public ClientUser getUser(String userName, String password,
-			boolean isremeber, int offset, long companyId) {
-		return login(companyId, userName, password, isremeber, offset);
+			boolean isremeber, int offset) {
+		return login(userName, password, isremeber, offset);
 	}
 
 	public List<String> getCountries() {
