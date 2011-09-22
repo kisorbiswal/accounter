@@ -1,6 +1,5 @@
 package com.vimukti.accounter.core;
 
-
 public abstract class TemplateBuilder {
 	protected String headerHtml;
 	protected String footerHtml;
@@ -10,15 +9,16 @@ public abstract class TemplateBuilder {
 	protected String style1;
 	private static String CmpName;
 
-	public TemplateBuilder(String footerImageUrl, String stylefile) {
+	public TemplateBuilder(String footerImageUrl, String stylefile,
+			Company company) {
 		this.imgUrl = footerImageUrl;
 		this.style1 = stylefile;
-		this.company = Company.getCompany();
+		this.company = company;
 		init();
 	}
 
-	public TemplateBuilder() {
-		this.company = Company.getCompany();
+	public TemplateBuilder(Company company) {
+		this.company = company;
 		if (this.company.getTradingName() != null
 				&& !this.company.getTradingName().equals("")) {
 			CmpName = company.getTradingName();
