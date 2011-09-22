@@ -38,7 +38,6 @@ import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.DepositInAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
-import com.vimukti.accounter.web.client.ui.combo.PriceLevelCombo;
 import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingMethodsCombo;
@@ -914,8 +913,8 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 			contactCombo.setDisabled(isInViewMode());
 		if (shipToCombo != null)
 			shipToCombo.setDisabled(isInViewMode());
-		if (billToCombo != null)
-			billToCombo.setDisabled(isInViewMode());
+		// if (billToCombo != null)
+		// billToCombo.setDisabled(isInViewMode());
 		super.onEdit();
 	}
 

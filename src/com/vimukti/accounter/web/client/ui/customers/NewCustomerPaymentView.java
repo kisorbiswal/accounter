@@ -231,10 +231,15 @@ public class NewCustomerPaymentView extends
 					.getDepositIn());
 			if (depositInAccount != null)
 				depositInCombo.setComboItem(depositInAccount);
-			printCheck.setDisabled(true);
 
-			checkNo.setDisabled(true);
 			paymentMethodCombo.setValue(transaction.getPaymentMethod());
+			if (transaction.getPaymentMethod().equals(Global.get().check())) {
+				printCheck.setDisabled(isInViewMode());
+				checkNo.setDisabled(isInViewMode());
+			} else {
+				printCheck.setDisabled(true);
+				checkNo.setDisabled(true);
+			}
 
 			if (transaction.getCheckNumber() != null) {
 				if (transaction.getCheckNumber().equals(
@@ -461,7 +466,7 @@ public class NewCustomerPaymentView extends
 		checkNo = createCheckNumberItem();
 		checkNo.setValue(Accounter.constants().toBePrinted());
 		checkNo.setWidth(100);
-		checkNo.setDisabled(true);
+		// checkNo.setDisabled(true);
 		checkNo.addChangeHandler(new ChangeHandler() {
 
 			@Override

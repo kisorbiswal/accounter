@@ -268,8 +268,8 @@ public class CustomerRefundView extends
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				isChecked = (Boolean) event.getValue();
 				if (isChecked) {
-					if (printCheck.getValue().toString()
-							.equalsIgnoreCase("true")) {
+					if (printCheck.getValue().toString().equalsIgnoreCase(
+							"true")) {
 						checkNoText.setValue(Accounter.constants()
 								.toBePrinted());
 						checkNoText.setDisabled(true);
@@ -291,7 +291,8 @@ public class CustomerRefundView extends
 
 		checkNoText = new TextItem(
 				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? customerConstants
-						.chequeNo() : customerConstants.checkNo());
+						.chequeNo()
+						: customerConstants.checkNo());
 		checkNoText.setValue(Accounter.constants().toBePrinted());
 		checkNoText.setHelpInformation(true);
 		checkNoText.setWidth(100);
@@ -567,9 +568,13 @@ public class CustomerRefundView extends
 
 			amtText.setAmount(transaction.getTotal());
 			paymentMethodSelected(transaction.getPaymentMethod());
-			printCheck.setDisabled(true);
-
-			checkNoText.setDisabled(true);
+			if (transaction.getPaymentMethod().equals(Global.get().check())) {
+				printCheck.setDisabled(isInViewMode());
+				checkNoText.setDisabled(isInViewMode());
+			} else {
+				printCheck.setDisabled(true);
+				checkNoText.setDisabled(true);
+			}
 			paymentMethodCombo.setValue(transaction.getPaymentMethod());
 
 			if (transaction.getCheckNumber() != null) {
@@ -746,6 +751,7 @@ public class CustomerRefundView extends
 		memoTextAreaItem.setDisabled(isInViewMode());
 		paymentMethodCombo.setDisabled(isInViewMode());
 		paymentMethodSelected(transaction.getPaymentMethod());
+
 		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
 			checkNoText.setValue(Accounter.constants().toBePrinted());
 		}

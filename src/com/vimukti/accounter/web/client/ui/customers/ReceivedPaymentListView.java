@@ -117,7 +117,8 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 		for (ReceivePaymentsList recievePayment : listOfRecievePayments) {
 			if (text.equals(OPEN)) {
 				if ((recievePayment.getStatus() == STATUS_UNAPPLIED || recievePayment
-						.getStatus() == STATUS_PARTIALLY_APPLIED))
+						.getStatus() == STATUS_PARTIALLY_APPLIED)
+						&& (!recievePayment.isVoided()))
 					grid.addData(recievePayment);
 
 				continue;
@@ -148,13 +149,10 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 
 	}
 
-
 	@Override
 	public void fitToSize(int height, int width) {
 		super.fitToSize(height, width);
 	}
-
-
 
 	@Override
 	public void onEdit() {

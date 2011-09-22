@@ -128,12 +128,14 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 		for (CustomerRefundsList customerRefund : listOfCustomerRefund) {
 			if (text.equals(NOT_ISSUED)) {
 				if ((customerRefund.getStatus() == STATUS_NOT_ISSUED || customerRefund
-						.getStatus() == STATUS_PARTIALLY_PAID))
+						.getStatus() == STATUS_PARTIALLY_PAID)
+						&& (!customerRefund.isVoided()))
 					grid.addData(customerRefund);
 				continue;
 			}
 			if (text.equals(ISSUED)) {
-				if (customerRefund.getStatus() == STATUS_ISSUED)
+				if (customerRefund.getStatus() == STATUS_ISSUED
+						&& (!customerRefund.isVoided()))
 					grid.addData(customerRefund);
 				continue;
 			}
@@ -156,7 +158,6 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
 		}
 	}
-
 
 	@Override
 	public void fitToSize(int height, int width) {
