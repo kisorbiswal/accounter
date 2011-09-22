@@ -396,16 +396,18 @@ public class SalesOrderView extends
 
 		TextItem dummyItem = new TextItem("");
 		dummyItem.setVisible(false);
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			prodAndServiceForm2.setFields(dummyItem, netAmountLabel, dummyItem,
-					vatTotalNonEditableText, dummyItem,
-					transactionTotalNonEditableText);
-			prodAndServiceForm2.setStyleName("invoice-total");
-		} else if (getCompany().getPreferences().isChargeSalesTax()) {
-			prodAndServiceForm2.setFields(taxCodeSelect,
-					salesTaxTextNonEditable, dummyItem,
-					transactionTotalNonEditableText);
-			prodAndServiceForm2.setStyleName("tax-form");
+		if (isTrackTax()) {
+			if (isTaxPerDetailLine()) {
+				prodAndServiceForm2.setFields(dummyItem, netAmountLabel,
+						dummyItem, vatTotalNonEditableText, dummyItem,
+						transactionTotalNonEditableText);
+				prodAndServiceForm2.setStyleName("invoice-total");
+			} else {
+				prodAndServiceForm2.setFields(taxCodeSelect,
+						salesTaxTextNonEditable, dummyItem,
+						transactionTotalNonEditableText);
+				prodAndServiceForm2.setStyleName("tax-form");
+			}
 		} else {
 			prodAndServiceForm2.setFields(dummyItem,
 					transactionTotalNonEditableText);
@@ -678,23 +680,22 @@ public class SalesOrderView extends
 			memoTextAreaItem.setDisabled(isInViewMode());
 			// refText.setValue(salesOrderToBeEdited.getReference());
 
-			if (getCompany().getPreferences().isChargeSalesTax()) {
-				netAmountLabel.setAmount(transaction.getNetAmount());
-				vatTotalNonEditableText.setAmount(transaction.getTotal()
-						- transaction.getNetAmount());
-			}
-
-			if (getCompany().getPreferences().isRegisteredForVAT()) {
-				this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
-				if (taxCode != null) {
-					this.taxCodeSelect
-							.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
+			if (isTrackTax()) {
+				if (isTrackTax()) {
+					netAmountLabel.setAmount(transaction.getNetAmount());
+					vatTotalNonEditableText.setAmount(transaction.getTotal()
+							- transaction.getNetAmount());
+				} else {
+					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
+					if (taxCode != null) {
+						this.taxCodeSelect
+								.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
+					}
+					this.salesTaxTextNonEditable.setAmount(transaction
+							.getSalesTaxAmount());
+					this.transactionTotalNonEditableText.setAmount(transaction
+							.getTotal());
 				}
-				this.salesTaxTextNonEditable.setAmount(transaction
-						.getSalesTaxAmount());
-				this.transactionTotalNonEditableText.setAmount(transaction
-						.getTotal());
-
 			}
 			// customerTransactionGrid.setRecords(transaction
 			// .getTransactionItems());
@@ -824,21 +825,21 @@ public class SalesOrderView extends
 		if (dueDateItem.getEnteredDate() != null)
 			transaction.setDueDate(dueDateItem.getEnteredDate().getDate());
 
-		if (getCompany().getPreferences().isChargeSalesTax()) {
-			if (taxCode != null) {
-				for (ClientTransactionItem record : customerTransactionTable
-						.getRecords()) {
-					record.setTaxItemGroup(taxCode.getID());
+		if (isTrackTax()) {
+			if (isTaxPerDetailLine()) {
+				transaction.setNetAmount(netAmountLabel.getAmount());
+				// transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
+				// .getValue());
+			} else {
+				if (taxCode != null) {
+					for (ClientTransactionItem record : customerTransactionTable
+							.getRecords()) {
+						record.setTaxItemGroup(taxCode.getID());
 
+					}
 				}
+				transaction.setSalesTaxAmount(this.salesTax);
 			}
-			transaction.setSalesTaxAmount(this.salesTax);
-		}
-
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			transaction.setNetAmount(netAmountLabel.getAmount());
-			// transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-			// .getValue());
 		}
 
 		transaction.setTotal(transactionTotalNonEditableText.getAmount());
@@ -988,19 +989,13 @@ public class SalesOrderView extends
 		if (customerTransactionTable == null)
 			return;
 
-		if (getCompany().getPreferences().isChargeSalesTax()) {
-
-			setSalesTax(customerTransactionTable.getTotalTax());
-
-			setTransactionTotal(customerTransactionTable.getGrandTotal());
-		}
-
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (isTrackTax()) {
 			netAmountLabel.setAmount(customerTransactionTable.getLineTotal());
+			setSalesTax(customerTransactionTable.getTotalTax());
 			vatTotalNonEditableText.setAmount(customerTransactionTable
 					.getTotalTax());
-			setTransactionTotal(customerTransactionTable.getGrandTotal());
 		}
+		setTransactionTotal(customerTransactionTable.getGrandTotal());
 		transactionTotalNonEditableText.setAmount(customerTransactionTable
 				.getGrandTotal());
 		// Double payments = this.paymentsNonEditableText.getAmount();

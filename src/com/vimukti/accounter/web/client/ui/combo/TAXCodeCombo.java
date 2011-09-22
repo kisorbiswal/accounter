@@ -32,11 +32,7 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		if (getCompany().getPreferences().isChargeSalesTax()) {
-			return comboMessages.addNewItem();
-		} else {
-			return comboMessages.newVATCode();
-		}
+		return comboMessages.addNewItem();
 	}
 
 	@Override
@@ -76,7 +72,8 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 
 	@Override
 	public void onAddNew() {
-		if (getCompany().getPreferences().isRegisteredForVAT() && getCompany().getAccountingType()==ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getPreferences().isRegisteredForVAT()
+				&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			NewTAXCodeAction action = ActionFactory.getNewTAXCodeAction();
 			action.setCallback(new ActionCallback<ClientTAXCode>() {
 
@@ -89,7 +86,7 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 			});
 
 			action.run(null, true);
-		} else  {
+		} else {
 			TaxDialog dialog = new TaxDialog();
 			dialog.setCallback(new ActionCallback<ClientTAXCode>() {
 

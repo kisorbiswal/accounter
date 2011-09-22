@@ -254,7 +254,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 		shippingMethodSelected(company.getShippingMethod(customer
 				.getShippingMethod()));
-		if (getCompany().getPreferences().isChargeSalesTax()) {
+		if (isTrackTax()) {
 			taxCodeSelected(company.getTAXCode(customer.getTAXCode()));
 		}
 
@@ -754,7 +754,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		if (custForm != null) {
 			result.add(custForm.validate());
 		}
-		if (getCompany().getPreferences().isChargeSalesTax()) {
+		if (isTrackTax()) {
 			for (ClientTransactionItem transactionItem : transactionItems) {
 				if (transactionItem.getTaxCode() == 0) {
 					result.addError("taxCode", Accounter.constants()
@@ -803,43 +803,17 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
 		if (item.equals(Accounter.messages().accounts(Global.get().Account()))) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
-			long ztaxCodeid = 0;
-			if (getCompany().getPreferences().isChargeSalesTax()) {
-				for (ClientTAXCode taxCode : taxCodes) {
-					if (taxCode.getName().equals("S")) {
-						ztaxCodeid = taxCode.getID();
-						break;
-					}
-				}
-			} else {
-				for (ClientTAXCode taxCode : taxCodes) {
-					if (taxCode.getName().equals("Z")) {
-						ztaxCodeid = taxCode.getID();
-					}
-				}
-			}
+			long ztaxCodeid = getPreferences().getDefaultTaxCode();
 			transactionItem
 					.setTaxCode(getCustomer() != null ? (getCustomer()
 							.getTAXCode() > 0 ? getCustomer().getTAXCode()
 							: ztaxCodeid) : ztaxCodeid);
-			// if (zvatCodeid != null)
-			// transactionItem.setVatCode(zvatCodeid);
 		} else if (item.equals(Accounter.constants().productOrServiceItem())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
-			if (getCompany().getPreferences().isChargeSalesTax()) {
-				List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
-				long staxCodeid = 0;
-				for (ClientTAXCode taxCode : taxCodes) {
-					if (taxCode.getName().equals("S")) {
-						staxCodeid = taxCode.getID();
-					}
-				}
-				transactionItem
-						.setTaxCode(getCustomer() != null ? (getCustomer()
-								.getTAXCode() != 0 ? getCustomer().getTAXCode()
-								: staxCodeid) : staxCodeid);
-			}
+			long staxCodeid = getPreferences().getDefaultTaxCode();
+			transactionItem.setTaxCode(getCustomer() != null ? (getCustomer()
+					.getTAXCode() != 0 ? getCustomer().getTAXCode()
+					: staxCodeid) : staxCodeid);
 		}
 		addNewData(transactionItem);
 
@@ -939,25 +913,10 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
 
 		transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-		List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
-		long ztaxCodeid = 0;
-		if (getCompany().getPreferences().isChargeSalesTax()) {
-			for (ClientTAXCode taxCode : taxCodes) {
-				if (taxCode.getName().equals("S")) {
-					ztaxCodeid = taxCode.getID();
-					break;
-				}
-			}
-		} else {
-			for (ClientTAXCode taxCode : taxCodes) {
-				if (taxCode.getName().equals("Z")) {
-					ztaxCodeid = taxCode.getID();
-				}
-			}
-		}
+		long defaultTax = getPreferences().getDefaultTaxCode();
 		transactionItem.setTaxCode(getCustomer() != null ? (getCustomer()
-				.getTAXCode() > 0 ? getCustomer().getTAXCode() : ztaxCodeid)
-				: ztaxCodeid);
+				.getTAXCode() > 0 ? getCustomer().getTAXCode() : defaultTax)
+				: defaultTax);
 		// if (zvatCodeid != null)
 		// transactionItem.setVatCode(zvatCodeid);
 
@@ -969,18 +928,10 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
 
 		transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
-		if (getCompany().getPreferences().isChargeSalesTax()) {
-			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
-			long staxCodeid = 0;
-			for (ClientTAXCode taxCode : taxCodes) {
-				if (taxCode.getName().equals("S")) {
-					staxCodeid = taxCode.getID();
-				}
-			}
-			transactionItem.setTaxCode(getCustomer() != null ? (getCustomer()
-					.getTAXCode() != 0 ? getCustomer().getTAXCode()
-					: staxCodeid) : staxCodeid);
-		}
+		long defaultTaxCode = getPreferences().getDefaultTaxCode();
+		transactionItem.setTaxCode(getCustomer() != null ? (getCustomer()
+				.getTAXCode() != 0 ? getCustomer().getTAXCode()
+				: defaultTaxCode) : defaultTaxCode);
 
 		addItemTransactionItem(transactionItem);
 	}

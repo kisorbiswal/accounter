@@ -9,7 +9,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
-import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -326,18 +325,12 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 		} else if (menuItem
 				.equals(Accounter.constants().productOrServiceItem())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
-			if (getCompany().getPreferences().isChargeSalesTax()) {
-				List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
-				long svatCodeid = 0;
-				for (ClientTAXCode taxCode : taxCodes) {
-					if (taxCode.getName().equals("S")) {
-						svatCodeid = taxCode.getID();
-					}
-				}
+			if (getPreferences().isTrackTax()) {
 				transactionItem
 						.setTaxCode(selectedVendor != null ? (selectedVendor
 								.getTAXCode() != 0 ? selectedVendor
-								.getTAXCode() : svatCodeid) : 0);
+								.getTAXCode() : getPreferences()
+								.getDefaultTaxCode()) : 0);
 			}
 
 		}
@@ -361,17 +354,10 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
 
 		transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
-		if (getCompany().getPreferences().isChargeSalesTax()) {
-			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
-			long svatCodeid = 0;
-			for (ClientTAXCode taxCode : taxCodes) {
-				if (taxCode.getName().equals("S")) {
-					svatCodeid = taxCode.getID();
-				}
-			}
+		if (getPreferences().isTrackTax()) {
 			transactionItem.setTaxCode(selectedVendor != null ? (selectedVendor
 					.getTAXCode() != 0 ? selectedVendor.getTAXCode()
-					: svatCodeid) : 0);
+					: getPreferences().getDefaultTaxCode()) : 0);
 		}
 
 		addItemTransactionItem(transactionItem);

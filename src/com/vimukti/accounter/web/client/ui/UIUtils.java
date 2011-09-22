@@ -1178,11 +1178,7 @@ public class UIUtils {
 		case ClientTransactionItem.TYPE_ITEM:
 			return Accounter.constants().item();
 		case ClientTransactionItem.TYPE_SALESTAX:
-			if (getCompany().getPreferences().isChargeSalesTax()) {
-				return Accounter.constants().taxGroup();
-			} else {
-				return Accounter.constants().vatItem();
-			}
+			return Accounter.constants().taxGroup();
 		default:
 			break;
 		}

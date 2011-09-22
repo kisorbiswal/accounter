@@ -84,10 +84,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 	private void createControls() {
 		listforms = new ArrayList<DynamicForm>();
 		Label infoLabel;
-		if (getCompany().getPreferences().isChargeSalesTax())
-			infoLabel = new Label(Accounter.constants().taxAdjustment());
-		else
-			infoLabel = new Label(Accounter.constants().vatAdjustment());
+		infoLabel = new Label(Accounter.constants().taxAdjustment());
 		infoLabel.removeStyleName("gwt-Label");
 
 		infoLabel.setStyleName(Accounter.constants().labelTitle());
@@ -391,11 +388,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		data.setTransactionDate(adjustDate.getDate().getDate());
 
 		// vatAdjustment.setVatAgency(clientVATAgency.getID());s
-		if (getCompany().getPreferences().isChargeSalesTax()) {
-			data.setTaxItem(0);
-		} else {
-			data.setTaxItem(vatItemCombo.getSelectedValue().getID());
-		}
+		data.setTaxItem(vatItemCombo.getSelectedValue().getID());
 		data.setTaxAgency(clientTAXAgency.getID());
 
 		data.setAdjustmentAccount(adjustAccountCombo.getSelectedValue().getID());

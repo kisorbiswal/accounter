@@ -419,23 +419,20 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		prodAndServiceForm2.setWidth("100%");
 		prodAndServiceForm2.setNumCols(4);
 		prodAndServiceForm2.setCellSpacing(5);
-
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			// prodAndServiceForm2.setFields(priceLevelSelect, netAmountLabel,
-			// disabletextbox, vatTotalNonEditableText, disabletextbox,
-			// transactionTotalNonEditableText);
-			prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
-					disabletextbox, vatTotalNonEditableText, disabletextbox,
-					transactionTotalNonEditableText);
-			prodAndServiceForm2.addStyleName("invoice-total");
-		} else if (getCompany().getPreferences().isChargeSalesTax()) {
-			// prodAndServiceForm2.setFields(taxCodeSelect,
-			// salesTaxTextNonEditable, priceLevelSelect,
-			// transactionTotalNonEditableText);
-			prodAndServiceForm2.setFields(taxCodeSelect,
-					salesTaxTextNonEditable, disabletextbox,
-					transactionTotalNonEditableText);
-			prodAndServiceForm2.addStyleName("tax-form");
+		if (isTrackTax()) {
+			if (isTaxPerDetailLine()) {
+				prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
+						disabletextbox, vatTotalNonEditableText,
+						disabletextbox, transactionTotalNonEditableText);
+				prodAndServiceForm2.addStyleName("invoice-total");
+			} else {
+				prodAndServiceForm2.setFields(taxCodeSelect,
+						salesTaxTextNonEditable, disabletextbox,
+						transactionTotalNonEditableText);
+				prodAndServiceForm2.addStyleName("tax-form");
+			}
+		} else {
+			prodAndServiceForm2.setFields(transactionTotalNonEditableText);
 		}
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
@@ -717,25 +714,13 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	public void updateNonEditableItems() {
 		if (customerTransactionTable == null)
 			return;
-		if (getCompany().getPreferences().isChargeSalesTax()
-				&& (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA || getCompany()
-						.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)) {
-
-			setSalesTax(customerTransactionTable.getTotalTax());
-
-			setTransactionTotal(customerTransactionTable.getGrandTotal());
-			netAmountLabel.setAmount(customerTransactionTable.getLineTotal());
-
-		}
-
-		if (getCompany().getPreferences().isRegisteredForVAT()
-				&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (isTrackTax()) {
 			netAmountLabel.setAmount(customerTransactionTable.getLineTotal());
 			vatTotalNonEditableText.setAmount(customerTransactionTable
 					.getTotalTax());
-			setTransactionTotal(customerTransactionTable.getGrandTotal());
+			setSalesTax(customerTransactionTable.getTotalTax());
 		}
-
+		setTransactionTotal(customerTransactionTable.getGrandTotal());
 	}
 
 	public void setTransactionTotal(Double transactionTotal) {

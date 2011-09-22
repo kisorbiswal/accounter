@@ -713,18 +713,10 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
 
 		transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
-		if (getCompany().getPreferences().isChargeSalesTax()) {
-			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
-			long staxCodeid = 0;
-			for (ClientTAXCode taxCode : taxCodes) {
-				if (taxCode.getName().equals("S")) {
-					staxCodeid = taxCode.getID();
-				}
-			}
-			transactionItem.setTaxCode(getVendor() != null ? (getVendor()
-					.getTAXCode() > 0 ? getVendor().getTAXCode() : staxCodeid)
-					: staxCodeid);
-		}
+		long defaultTaxCode = getPreferences().getDefaultTaxCode();
+		transactionItem.setTaxCode(getVendor() != null ? (getVendor()
+				.getTAXCode() > 0 ? getVendor().getTAXCode() : defaultTaxCode)
+				: defaultTaxCode);
 		addItemTransactionItem(transactionItem);
 	}
 
