@@ -697,7 +697,7 @@ public class SalesOrderView extends
 								.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
 					}
 					this.salesTaxTextNonEditable.setAmount(transaction
-							.getSalesTaxAmount());
+							.getTaxTotal());
 					this.transactionTotalNonEditableText.setAmount(transaction
 							.getTotal());
 				}
@@ -746,7 +746,7 @@ public class SalesOrderView extends
 	protected void initSalesTaxNonEditableItem() {
 		if (isInViewMode()) {
 			Double salesTaxAmout = ((ClientSalesOrder) transaction)
-					.getSalesTaxAmount();
+					.getTaxTotal();
 			setSalesTax(salesTaxAmout);
 
 		}
@@ -843,7 +843,7 @@ public class SalesOrderView extends
 
 					}
 				}
-				transaction.setSalesTaxAmount(this.salesTax);
+				transaction.setTaxTotal(this.salesTax);
 			}
 		}
 

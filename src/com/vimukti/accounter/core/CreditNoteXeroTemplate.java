@@ -127,14 +127,8 @@ public class CreditNoteXeroTemplate implements PrintTemplete {
 				// for checking to show column headings
 				if (brandingTheme.isShowColumnHeadings()) {
 					// for checking to show tax columns
-					if (company.getPreferences().isRegisteredForVAT()
-							&& brandingTheme.isShowVatColumn()) {
-						t.setVariable("VATRate", "Vat Code");
-						t.setVariable("VATAmount", "Vat ");
-						t.addBlock("vatBlock");
-					} else if (company.getPreferences().isChargeSalesTax()
+					if (company.getPreferences().isTrackTax()
 							&& brandingTheme.isShowTaxColumn()) {
-
 						t.setVariable("VATRate", "Tax Code");
 						t.setVariable("VATAmount", "Tax ");
 						t.addBlock("vatBlock");
@@ -168,13 +162,7 @@ public class CreditNoteXeroTemplate implements PrintTemplete {
 						t.setVariable("unitPrice", unitPrice);
 						t.setVariable("itemTotalPrice", totalPrice);
 
-						if (company.getPreferences().isRegisteredForVAT()
-								&& brandingTheme.isShowVatColumn()) {
-
-							t.setVariable("itemVatRate", vatRate);
-							t.setVariable("itemVatAmount", vatAmount);
-							t.addBlock("vatValueBlock");
-						} else if (company.getPreferences().isChargeSalesTax()
+						if (company.getPreferences().isTrackTax()
 								&& brandingTheme.isShowTaxColumn()) {
 							t.setVariable("itemVatRate", vatRate);
 							t.setVariable("itemVatAmount", vatAmount);
@@ -195,25 +183,17 @@ public class CreditNoteXeroTemplate implements PrintTemplete {
 					t.setVariable("memoText", memoVal);
 					t.addBlock("memoblock");
 				}
-
-				if (company.getPreferences().isRegisteredForVAT()) {
+				if (company.getPreferences().isTrackTax()) {
 					t.setVariable("NetAmount", "Net Amount");
 					t.setVariable("subTotal", subTotal);
 					t.addBlock("subtotal");
-				}
 
-				if (company.getPreferences().isRegisteredForVAT()
-						&& brandingTheme.isShowVatColumn()) {
-					t.setVariable("vatlabel", "Vat ");
-					t.setVariable("vatTotalValue", vatTotal);
-					t.addBlock("VatTotal");
-
-				} else if (company.getPreferences().isChargeSalesTax()
-						&& brandingTheme.isShowTaxColumn()) {
-					t.setVariable("vatlabel", "Tax ");
-					t.setVariable("vatTotalValue",
-							largeAmountConversation(memo.getSalesTax()));
-					t.addBlock("VatTotal");
+					if (brandingTheme.isShowTaxColumn()) {
+						t.setVariable("vatlabel", "Tax ");
+						t.setVariable("vatTotalValue",
+								largeAmountConversation(memo.getTaxTotal()));
+						t.addBlock("VatTotal");
+					}
 				}
 				t.setVariable("total", total);
 				t.addBlock("itemDetails");
@@ -268,18 +248,6 @@ public class CreditNoteXeroTemplate implements PrintTemplete {
 		} else {
 			if (add != null && !add.equals(""))
 				return add + "<br/>";
-		}
-		return "";
-	}
-
-	private String getVendorString(String forUk, String forUs) {
-		// return company.getAccountingType() == company.ACCOUNTING_TYPE_US ?
-		// forUs
-		// : forUk;
-		if (company.getPreferences().isRegisteredForVAT()) {
-			return forUk;
-		} else if (company.getPreferences().isChargeSalesTax()) {
-			return forUs;
 		}
 		return "";
 	}

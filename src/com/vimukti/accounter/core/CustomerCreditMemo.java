@@ -117,7 +117,7 @@ public class CustomerCreditMemo extends Transaction implements
 	/**
 	 * The total Sales Tax collected on the whole Transaction.
 	 */
-	double salesTax = 0D;
+	double taxTotal = 0D;
 
 	/**
 	 * The total of the discounts applied on Each {@link TransactionItem}
@@ -197,8 +197,8 @@ public class CustomerCreditMemo extends Transaction implements
 	/**
 	 * @return the salesTax
 	 */
-	public double getSalesTax() {
-		return salesTax;
+	public double getTaxTotal() {
+		return taxTotal;
 	}
 
 	/**
@@ -323,8 +323,8 @@ public class CustomerCreditMemo extends Transaction implements
 		this.total = total;
 	}
 
-	public void setSalesTax(double salesTax) {
-		this.salesTax = salesTax;
+	public void setTaxTotal(double salesTax) {
+		this.taxTotal = salesTax;
 	}
 
 	public void setNumber(String number) {

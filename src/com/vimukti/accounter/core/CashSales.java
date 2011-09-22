@@ -115,7 +115,7 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 	 */
 	PriceLevel priceLevel;
 
-	double salesTax = 0D;
+	double taxTotal = 0D;
 
 	double discountTotal = 0D;
 
@@ -292,8 +292,8 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 	/**
 	 * @return the salesTax
 	 */
-	public double getSalesTax() {
-		return salesTax;
+	public double getTaxTotal() {
+		return taxTotal;
 	}
 
 	/**
@@ -479,8 +479,8 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 		this.isVoid = isVoid;
 	}
 
-	public void setSalesTax(double salesTax) {
-		this.salesTax = salesTax;
+	public void setTaxTotal(double salesTax) {
+		this.taxTotal = salesTax;
 	}
 
 	public void setAllLineTotal(double allLineTotal) {

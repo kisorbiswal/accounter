@@ -166,7 +166,7 @@ public class Invoice extends Transaction implements Lifecycle {
 	 */
 	PriceLevel priceLevel;
 
-	double salesTaxAmount;
+	double taxTotal;
 
 	double payments = 0D;
 
@@ -823,12 +823,12 @@ public class Invoice extends Transaction implements Lifecycle {
 		this.isVoid = isVoid;
 	}
 
-	public double getSalesTaxAmount() {
-		return salesTaxAmount;
+	public double getTaxTotal() {
+		return taxTotal;
 	}
 
-	public void setSalesTaxAmount(double salesTaxAmount) {
-		this.salesTaxAmount = salesTaxAmount;
+	public void setTaxTotal(double salesTaxAmount) {
+		this.taxTotal = salesTaxAmount;
 
 	}
 

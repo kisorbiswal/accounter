@@ -518,9 +518,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 						effectingAccount.onUpdate(session);
 					}
 
-					if ((Company.getCompany().getPreferences()
-							.isRegisteredForVAT() || Company.getCompany()
-							.getPreferences().isChargeSalesTax())
+					if ((Company.getCompany().getPreferences().isTrackTax())
 							&& this.isTaxable)
 						Company.setTAXRateCalculation(this, session);
 
