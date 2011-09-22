@@ -91,6 +91,7 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 		oneperdetaillineRadioButton.setText(constants.oneperdetailline());
 		oneperdetaillineLabel.setText(constants.oneperDetailDescription());
 		oneperTransactionLabel.setStyleName("organisation_comment");
+		oneperdetaillineLabel.setStyleName("organisation_comment");
 		enableTaxCheckbox.setText(constants.enableTracking());
 		enableTaxLabel.setText(constants.enableTrackingDescription());
 		enableTaxLabel.setStyleName("organisation_comment");
