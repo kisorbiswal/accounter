@@ -247,8 +247,11 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			quote.setAmountsIncludeVAT((Boolean) vatinclusiveCheck.getValue());
-		} else
+		} else{
+			if (salesTax == null)
+				salesTax = 0.0D;
 			quote.setSalesTax(this.salesTax);
+		}
 
 		quote.setTotal(transactionTotalNonEditableText.getAmount());
 		transaction = quote;
