@@ -4882,5 +4882,19 @@ public interface AccounterConstants extends Constants {
 
 	public String sellPrice();
 
+	public String chargeOrTrackTax();
+
+	public String descChrageTrackTax();
+
+	public String taxtItemTransaction();
+
+	public String oneperDescription();
+
+	public String oneperDetailDescription();
+
+	public String enableTracking();
+
+	public String enableTrackingDescription();
+
 
 }

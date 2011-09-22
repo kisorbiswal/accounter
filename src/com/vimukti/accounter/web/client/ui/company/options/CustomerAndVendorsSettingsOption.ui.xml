@@ -24,6 +24,21 @@
 				<g:RadioButton name="new name" ui:field="vatNoRadioButton" />
 			</g:HorizontalPanel>
 		</g:VerticalPanel>
+		<g:VerticalPanel spacing="5">
+			<g:CheckBox ui:field="trackCheckbox" />
+			<g:Label ui:field="trackLabel" />
+			<g:Label ui:field="taxItemTransactionLabel" />
+			<g:VerticalPanel spacing="5">
+				<g:RadioButton name="new name" ui:field="onepeTransactionRadioButton" />
+				<g:Label ui:field="oneperTransactionLabel" />
+				<g:RadioButton name="new name" ui:field="oneperdetaillineRadioButton" />
+				<g:Label ui:field="oneperdetaillineLabel" />
+			</g:VerticalPanel>
+			<g:VerticalPanel ui:field="checkBoxPanel" spacing="5">
+				<g:CheckBox ui:field="enableTaxCheckbox" />
+				<g:Label ui:field="enableTaxLabel" />
+			</g:VerticalPanel>
+		</g:VerticalPanel>
 
 		<!-- <g:VerticalPanel styleName="companyInfoPanel"> <g:Label ui:field="createEstimatesLabelItem" 
 			styleName="header" /> <g:HorizontalPanel> <g:RadioButton name="createEstimatesRadioButton" 

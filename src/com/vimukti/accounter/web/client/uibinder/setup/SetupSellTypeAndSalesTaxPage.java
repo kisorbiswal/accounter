@@ -6,6 +6,7 @@ package com.vimukti.accounter.web.client.uibinder.setup;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
@@ -57,6 +58,24 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 	RadioButton vatYes;
 	@UiField
 	HTML vatHeader;
+	@UiField
+	RadioButton onepeTransactionRadioButton;
+	@UiField
+	Label oneperTransactionLabel;
+	@UiField
+	RadioButton oneperdetaillineRadioButton;
+	@UiField
+	Label oneperdetaillineLabel;
+	@UiField
+	CheckBox enableTaxCheckbox;
+	@UiField
+	Label enableTaxLabel;
+	@UiField
+	Label taxItemTransactionLabel;
+	@UiField
+	CheckBox trackCheckbox;
+	@UiField
+	Label trackLabel;
 
 	interface SetupSellTypeAndSalesTaxPageUiBinder extends
 			UiBinder<Widget, SetupSellTypeAndSalesTaxPage> {
@@ -94,6 +113,24 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		vatHeader.setHTML(Accounter.constants().doyouchargeVat());
 		vatNo.setText(accounterConstants.no());
 		vatYes.setText(accounterConstants.yes());
+
+		trackCheckbox.setText(accounterConstants.chargeOrTrackTax());
+		trackLabel.setText(accounterConstants.descChrageTrackTax());
+		trackLabel.setStyleName("organisation_comment");
+		taxItemTransactionLabel.setText(accounterConstants
+				.taxtItemTransaction());
+		onepeTransactionRadioButton.setText(accounterConstants
+				.onepertransaction());
+		oneperTransactionLabel.setText(accounterConstants.oneperDescription());
+		oneperTransactionLabel.setStyleName("organisation_comment");
+		oneperdetaillineRadioButton.setText(accounterConstants
+				.oneperdetailline());
+		oneperdetaillineLabel.setText(accounterConstants
+				.oneperDetailDescription());
+		oneperTransactionLabel.setStyleName("organisation_comment");
+		enableTaxCheckbox.setText(accounterConstants.enableTracking());
+		enableTaxLabel.setText(accounterConstants.enableTrackingDescription());
+		enableTaxLabel.setStyleName("organisation_comment");
 
 		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			salesTax.setVisible(false);
@@ -138,7 +175,15 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 			preferences.setSellServices(true);
 			preferences.setSellProducts(true);
 		}
+		if (trackCheckbox.getValue()) {
+			preferences.setTaxTrack(true);
+		}
 
+		preferences.setTaxPerDetailLine(oneperdetaillineRadioButton.getValue());
+
+		if (enableTaxCheckbox.getValue()) {
+			preferences.setTaxTrack(true);
+		}
 		if (Accounter.getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_US)
 			preferences.setRegisteredForVAT(vatYes.getValue());
 

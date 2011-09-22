@@ -4,8 +4,11 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -32,6 +35,24 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 	@UiField
 	RadioButton chargeTaxNoRadioButton;
 
+	@UiField
+	RadioButton onepeTransactionRadioButton;
+	@UiField
+	Label oneperTransactionLabel;
+	@UiField
+	RadioButton oneperdetaillineRadioButton;
+	@UiField
+	Label oneperdetaillineLabel;
+	@UiField
+	CheckBox enableTaxCheckbox;
+	@UiField
+	Label enableTaxLabel;
+	@UiField
+	Label taxItemTransactionLabel;
+	@UiField
+	CheckBox trackCheckbox;
+	@UiField
+	Label trackLabel;
 	// @UiField
 	// Label createEstimatesLabelItem;
 	// @UiField
@@ -54,6 +75,8 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 	RadioButton vatYesRadioButton;
 	@UiField
 	Label vatLabel;
+	@UiField
+	VerticalPanel checkBoxPanel;
 
 	interface CustomerAndVendorsSettingsOptionUiBinder extends
 			UiBinder<Widget, CustomerAndVendorsSettingsOption> {
@@ -92,6 +115,22 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 			vatNoRadioButton.setValue(true);
 		}
 
+		if (getCompanyPreferences().isTrackTax()) {
+			enableTaxCheckbox.setVisible(true);
+		}
+		if (getCompanyPreferences().isTaxPerDetailLine()) {
+			oneperdetaillineRadioButton.setValue(true);
+		} else {
+			onepeTransactionRadioButton.setValue(true);
+		}
+
+		boolean isTaxTrackEnable = getCompanyPreferences().isTrackTax();
+		if (isTaxTrackEnable) {
+			trackCheckbox.setValue(true);
+			checkBoxPanel.setVisible(isTaxTrackEnable);
+		} else {
+			checkBoxPanel.setVisible(isTaxTrackEnable);
+		}
 		// if (companyPreferences.isDoyouwantEstimates()) {
 		// createEstimatesYesRadioButton.setValue(true);
 		// createEstimatesNoRadioButton.setValue(false);
@@ -110,6 +149,7 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 	}
 
 	public void createControls() {
+
 		chargeTaxLabelItem.setText(constants.doyouchargesalestax());
 		salesTaxDescriptionLabel.setText(constants.salesTaxDescrition());
 		chargeTaxYesRadioButton.setText(constants.yes());
@@ -121,6 +161,20 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 		vatNoRadioButton.setText(constants.no());
 		vatYesRadioButton.setText(constants.yes());
 		VatdescritionLabel.setStyleName("organisation_comment");
+
+		trackCheckbox.setText(constants.chargeOrTrackTax());
+		trackLabel.setText(constants.descChrageTrackTax());
+		trackLabel.setStyleName("organisation_comment");
+		taxItemTransactionLabel.setText(constants.taxtItemTransaction());
+		onepeTransactionRadioButton.setText(constants.onepertransaction());
+		oneperTransactionLabel.setText(constants.oneperDescription());
+		oneperTransactionLabel.setStyleName("organisation_comment");
+		oneperdetaillineRadioButton.setText(constants.oneperdetailline());
+		oneperdetaillineLabel.setText(constants.oneperDetailDescription());
+		oneperTransactionLabel.setStyleName("organisation_comment");
+		enableTaxCheckbox.setText(constants.enableTracking());
+		enableTaxLabel.setText(constants.enableTrackingDescription());
+		enableTaxLabel.setStyleName("organisation_comment");
 
 		// createEstimatesLabelItem.setText(constants
 		// .wanttoCreateEstimatesInAccounter());
@@ -139,6 +193,14 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			VatPanel.setVisible(false);
 		}
+		trackCheckbox.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				checkBoxPanel.setVisible(enableTaxCheckbox.getValue());
+			}
+		});
+
 	}
 
 	@Override
@@ -154,6 +216,10 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 
 		getCompanyPreferences().setRegisteredForVAT(
 				vatYesRadioButton.getValue());
+		getCompanyPreferences().setTaxTrack(trackCheckbox.getValue());
+		getCompanyPreferences().setTaxPerDetailLine(
+				oneperdetaillineRadioButton.getValue());
+		getCompanyPreferences().setTrackPaidTax(enableTaxCheckbox.getValue());
 
 		// if (createEstimatesYesRadioButton.getValue()) {
 		// companyPreferences.setDoyouwantEstimates(true);
