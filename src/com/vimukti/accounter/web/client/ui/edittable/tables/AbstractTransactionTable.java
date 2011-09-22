@@ -110,6 +110,10 @@ public abstract class AbstractTransactionTable extends
 		super.setAllRows(rows);
 	}
 
+	public void addRows(List<ClientTransactionItem> rows) {
+		super.addRows(rows);
+	}
+
 	protected ClientCompany getCompany() {
 		return Accounter.getCompany();
 	}
