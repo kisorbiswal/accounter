@@ -150,13 +150,7 @@ public class AccounterServerConstants implements IsSerializable, Serializable {
 	// Constants for Credits and Payments
 
 	public static final String CUSTOMER_CREDIT_MEMO = "Customer Credit";
-	public static final String VENDOR_PAYMENT = Company.getCompany()
-			.getAccountingType() == Company.ACCOUNTING_TYPE_UK ? "Supplier Payment"
-			: "Vendor Payment";
 	public static final String CUSTOMER_PAYMENT = "Customer Payment";
-	public static final String VENDOR_CREDIT_MEMO = Company.getCompany()
-			.getAccountingType() == Company.ACCOUNTING_TYPE_UK ? "Supplier Credit"
-			: "Vendor Credit";
 
 	// constants for Transaction Names
 
@@ -166,21 +160,15 @@ public class AccounterServerConstants implements IsSerializable, Serializable {
 	public static final String TYPE_CUSTOMER_CREDIT_MEMO = "Customer Credit";
 	public static final String TYPE_CUSTOMER_REFUNDS = "Customer Refund";
 	public static final String TYPE_CUSTOMER_PRE_PAYMENT = "Customer prepayment";
-	public static final String TYPE_ENTER_BILL = Company.getCompany()
-			.getAccountingType() == Company.ACCOUNTING_TYPE_UK ? "Supplier Bill"
-			: "Vendor Bill";
+	public static final String TYPE_ENTER_BILL = "Vendor Bill";
 	public static final String TYPE_ESTIMATE = "Quote";
 	public static final String TYPE_INVOICE = "Invoice";
 	public static final String TYPE_ISSUE_PAYMENT = "Issue Payment";
 	public static final String TYPE_MAKE_DEPOSIT = "Make Deposit";
-	public static final String TYPE_PAY_BILL = Company.getCompany()
-			.getAccountingType() == Company.ACCOUNTING_TYPE_UK ? "Supplier Payment"
-			: "Vendor Payment";
+	public static final String TYPE_PAY_BILL = "Vendor Payment";
 	public static final String TYPE_RECEIVE_PAYMENT = "Customer Payment";
 	public static final String TYPE_TRANSFER_FUND = "Transfer Fund";
-	public static final String TYPE_VENDOR_CREDIT_MEMO = Company.getCompany()
-			.getAccountingType() == Company.ACCOUNTING_TYPE_UK ? "Supplier Credit"
-			: "Vendor Credit";
+	public static final String TYPE_VENDOR_CREDIT_MEMO = "Vendor Credit";
 	public static final String TYPE_WRITE_CHECK = "Check";
 	public static final String TYPE_JOURNAL_ENTRY = "Journal Entry";
 	public static final String TYPE_PAY_SALES_TAX = "Pay Sales Tax";
@@ -203,9 +191,7 @@ public class AccounterServerConstants implements IsSerializable, Serializable {
 	public static final String TABLE_CASH_PURCHASE = "CASH_PURCHASE";
 	public static final String TABLE_CREDIT_CARD_CHARGES = "CREDIT_CARD_CHARGES";
 	public static final String TABLE_CUSTOMER_CREDIT_MEMO = "CUSTOMER_CREDIT_MEMO";
-	public static final String TABLE_VENDOR_CREDIT_MEMO = Company.getCompany()
-			.getAccountingType() == Company.ACCOUNTING_TYPE_UK ? "SUPPLIER_CREDIT"
-			: "VENDOR_CREDIT";
+	public static final String TABLE_VENDOR_CREDIT_MEMO = "VENDOR_CREDIT";
 	public static final String TABLE_WRITE_CHECKS = "WRITE_CHECKS";
 	public static final String TABLE_TRANSACTION_MAKE_DEPOSIT = "TRANSACTION_MAKE_DEPOSIT";
 	public static final String TABLE_CUSTOMER_REFUND = "CUSTOMER_REFUND";

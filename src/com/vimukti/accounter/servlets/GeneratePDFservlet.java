@@ -152,7 +152,7 @@ public class GeneratePDFservlet extends BaseServlet {
 
 			String companyID = getCookie(request, COMPANY_COOKIE);
 
-			session = HibernateUtil.openSession(Server.COMPANY + companyID);
+			session = HibernateUtil.openSession();
 
 			FinanceTool financetool = new FinanceTool();
 			TemplateBuilder.setCmpName(companyName);

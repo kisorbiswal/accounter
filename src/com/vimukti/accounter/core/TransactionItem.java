@@ -518,22 +518,25 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 						effectingAccount.onUpdate(session);
 					}
 
-					if ((Company.getCompany().getPreferences()
-							.isRegisteredForVAT() || Company.getCompany()
+					if ((getCompany().getPreferences().isRegisteredForVAT() || getCompany()
 							.getPreferences().isChargeSalesTax())
 							&& this.isTaxable)
 						Company.setTAXRateCalculation(this, session);
 
 				} else if (this.type == TYPE_SALESTAX) {
-					if (Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+					if (getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 						// Company.setTaxRateCalculation(this, session, amount);
-					} else if (Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
+					} else if (getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
 						Company.setTAXRateCalculation(this, session);
 					}
 				}
 			}
 		}
 		// ChangeTracker.put(this);
+	}
+
+	private Company getCompany() {
+		return transaction.getCompany();
 	}
 
 	@Override
@@ -580,9 +583,9 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 				Company.setTAXRateCalculation(this, session);
 
 		} else if (this.type == TYPE_SALESTAX) {
-			if (Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+			if (getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 				// Company.setTaxRateCalculation(this, session, amount);
-			} else if (Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
+			} else if (getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
 				Company.setTAXRateCalculation(this, session);
 			}
 		}

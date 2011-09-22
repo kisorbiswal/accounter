@@ -75,7 +75,7 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 
 			if (isValidSession(request)) {
 				String companyDB = getCompanyDBName(request);
-				Session session = HibernateUtil.openSession(companyDB);
+				Session session = HibernateUtil.openSession();
 				setAccounterThreadLocal(request);
 				try {
 					super.service(request, response);
@@ -160,7 +160,7 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 		if (companyID == null) {
 			// TODO Throw Exception
 		}
-		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+		Session session = HibernateUtil.openSession();
 		try {
 			ServerCompany company = (ServerCompany) session.get(
 					ServerCompany.class, Long.parseLong(companyID));

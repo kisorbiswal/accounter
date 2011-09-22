@@ -34,14 +34,14 @@ public class TemplateResetServlet extends HttpServlet {
 		if (userName.equals("admin@accounterlive.com")
 				&& password.equals("***REMOVED***")) {
 
-			Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+			Session session = HibernateUtil.openSession();
 
 			List<Company> companies = session
 					.getNamedQuery("get.all.companies").list();
 			session.close();
 
 			for (Company company : companies) {
-				Session s = HibernateUtil.openSession(company.getCompanyID());
+				Session s = HibernateUtil.openSession();
 				User user = (User) s.getNamedQuery("get.admin.users").list()
 						.get(0);
 				logger.info("*************** Updating "

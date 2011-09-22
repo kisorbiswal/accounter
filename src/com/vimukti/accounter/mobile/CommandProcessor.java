@@ -164,7 +164,7 @@ public class CommandProcessor {
 
 	private Context getContext(MobileSession mSession) {
 		long companyId = mSession.getCompanyId();
-		Session session = HibernateUtil.openSession(Server.COMPANY + companyId);
+		Session session = HibernateUtil.openSession();
 		mSession.sethibernateSession(session);
 		Context context = new Context(mSession);
 		return context;

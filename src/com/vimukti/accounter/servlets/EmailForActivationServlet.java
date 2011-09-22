@@ -53,12 +53,12 @@ public class EmailForActivationServlet extends BaseServlet {
 	private Activation getActivationByEmailId(String email) {
 		Session session = HibernateUtil.getCurrentSession();
 		if (session == null) {
-			session = HibernateUtil.openSession(LOCAL_DATABASE);
+			session = HibernateUtil.openSession();
 		}
 		try {
 			if (session != null) {
 				if (!session.isOpen())
-					session = HibernateUtil.openSession(LOCAL_DATABASE);
+					session = HibernateUtil.openSession();
 				Query query = session
 						.getNamedQuery("get.activation.by.emailid");
 				query.setParameter("emailId", email);

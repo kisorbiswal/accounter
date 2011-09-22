@@ -42,7 +42,7 @@ public class ReportsApiServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		Long companyId = (Long) req.getAttribute("companyId");
-		Session session = HibernateUtil.openSession(Server.COMPANY + companyId);
+		Session session = HibernateUtil.openSession();
 		try {
 			String methodName = getNameFromReq(req, 1);
 			SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);

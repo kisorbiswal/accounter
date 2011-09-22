@@ -36,7 +36,7 @@ public class RegistrationServlet extends BaseServlet {
 			resp.sendRedirect("/main/login?dest=/apiregistration");
 			return;
 		}
-		Session hibernateSession = HibernateUtil.openSession(LOCAL_DATABASE);
+		Session hibernateSession = HibernateUtil.openSession();
 		try {
 			Client client = getClient(emailId);
 			if (client == null) {
@@ -94,7 +94,7 @@ public class RegistrationServlet extends BaseServlet {
 			req.setAttribute("error", "Session has expired");
 			req.getRequestDispatcher("/site/error.jsp").forward(req, resp);
 		}
-		Session hibernateSession = HibernateUtil.openSession(LOCAL_DATABASE);
+		Session hibernateSession = HibernateUtil.openSession();
 		Transaction transaction = hibernateSession.beginTransaction();
 		try {
 			Client client = getClient(emailId);

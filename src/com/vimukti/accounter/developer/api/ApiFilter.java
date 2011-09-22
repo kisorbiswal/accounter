@@ -55,7 +55,7 @@ public class ApiFilter implements Filter {
 			e1.printStackTrace();
 		}
 		ServerCompany company = null;
-		Session session = HibernateUtil.openSession(BaseServlet.LOCAL_DATABASE);
+		Session session = HibernateUtil.openSession();
 		try {
 			Developer developer = getDeveloperByApiKey(apiKey);
 			if (developer == null) {

@@ -36,7 +36,7 @@ public class UploadAttachmentServlet extends HttpServlet {
 			String companyID = getCookie(request, BaseServlet.COMPANY_COOKIE);
 			if (companyID == null)
 				return;
-			session = HibernateUtil.openSession(Server.COMPANY + companyID);
+			session = HibernateUtil.openSession();
 			StringBuilder builder = new StringBuilder();
 			/*
 			 * Mutipart request which upload file in given temp directory refer

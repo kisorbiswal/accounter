@@ -13,6 +13,8 @@ public class BudgetItem implements IAccounterServerCore {
 
 	private int version;
 
+	private Company company;
+
 	private Account account;
 
 	String accountName = "";
@@ -265,6 +267,14 @@ public class BudgetItem implements IAccounterServerCore {
 			throws AccounterException {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 
 }

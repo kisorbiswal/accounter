@@ -22,7 +22,7 @@ public class TAXGroup extends TAXItemGroup {
 	 * 
 	 */
 	private static final long serialVersionUID = 2055386258774310462L;
-
+	private Company company;
 	/**
 	 * VAT group consists of a list of VAT Items. {@link TAXItem}
 	 */
@@ -167,6 +167,14 @@ public class TAXGroup extends TAXItemGroup {
 		ChangeTracker.put(accounterCore);
 
 		return super.onDelete(arg0);
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 
 }

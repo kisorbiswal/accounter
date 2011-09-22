@@ -21,7 +21,7 @@ public class ServerAllocatorImpl implements IServerAllocator {
 	public Server allocateServer(int companyType, String companyName,
 			String sourceAddress) {
 
-		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+		Session session = HibernateUtil.openSession();
 		Transaction transaction = session.beginTransaction();
 		try {
 			List list = session.getNamedQuery("get.Prioritize.Servers").list();

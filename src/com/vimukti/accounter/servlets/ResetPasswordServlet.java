@@ -48,7 +48,7 @@ public class ResetPasswordServlet extends BaseServlet {
 			return;
 		}
 		// get activation record from table
-		Session hibernateSession = HibernateUtil.openSession(LOCAL_DATABASE);
+		Session hibernateSession = HibernateUtil.openSession();
 		Activation activation = null;
 		// get token from session
 		String token = (String) httpsession.getAttribute(ACTIVATION_TOKEN);
@@ -114,8 +114,10 @@ public class ResetPasswordServlet extends BaseServlet {
 					.setLong("id", activation.getID()).executeUpdate();
 
 			// Send to login page with emailId
-			String activationType = (String) httpsession.getAttribute(ACTIVATION_TYPE);
-			if(activationType != null && activationType.equals("resetpassword")){
+			String activationType = (String) httpsession
+					.getAttribute(ACTIVATION_TYPE);
+			if (activationType != null
+					&& activationType.equals("resetpassword")) {
 				httpsession.removeAttribute(ACTIVATION_TYPE);
 			}
 			httpsession.setAttribute(EMAIL_ID, activation.getEmailId());

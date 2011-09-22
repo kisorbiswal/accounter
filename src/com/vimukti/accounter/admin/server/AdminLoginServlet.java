@@ -53,7 +53,7 @@ public class AdminLoginServlet extends BaseServlet {
 	}
 
 	private AdminUser getAdminUser(HttpServletRequest request) {
-		Session session = HibernateUtil.openSession(LOCAL_DATABASE);
+		Session session = HibernateUtil.openSession();
 		try {
 			AdminUser adminUser = null;
 			String userEmail = (String) request.getSession().getAttribute(

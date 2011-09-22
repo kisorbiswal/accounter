@@ -16,6 +16,7 @@ public abstract class CreatableObject implements Lifecycle {
 	protected Timestamp createdDate;
 	protected Timestamp lastModifiedDate;
 	protected int version;
+	private Company company;
 
 	public void setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
@@ -88,5 +89,13 @@ public abstract class CreatableObject implements Lifecycle {
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 }

@@ -100,4 +100,9 @@ public class OperationContext {
 	public void setArg1(String arg1) {
 		this.arg1 = arg1;
 	}
+
+	public long getCompanyId() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

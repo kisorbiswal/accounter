@@ -24,7 +24,6 @@ public class Customer extends Payee implements IAccounterServerCore,
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
 	/**
 	 * The till date up to which the Specified Opening balance of the Customer
 	 * is for.
@@ -427,7 +426,7 @@ public class Customer extends Payee implements IAccounterServerCore,
 
 	@Override
 	public Account getAccount() {
-		return Company.getCompany().getAccountsReceivableAccount();
+		return getCompany().getAccountsReceivableAccount();
 	}
 
 	/**
@@ -649,4 +648,5 @@ public class Customer extends Payee implements IAccounterServerCore,
 		// }
 		return true;
 	}
+
 }

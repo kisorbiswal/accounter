@@ -56,7 +56,7 @@ public class LogoutServlet extends BaseServlet {
 	 * @param cid
 	 */
 	private void updateActivity(String userid, String cid) {
-		Session session = HibernateUtil.openSession(Server.COMPANY + cid);
+		Session session = HibernateUtil.openSession();
 		Transaction transaction = session.beginTransaction();
 		try {
 			User user = (User) session.getNamedQuery("user.by.emailid")
@@ -89,7 +89,7 @@ public class LogoutServlet extends BaseServlet {
 			return;
 		}
 		// Deleting RememberMEKEy from Database
-		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+		Session session = HibernateUtil.openSession();
 		Transaction transaction = session.beginTransaction();
 		try {
 			session.getNamedQuery("delete.remembermeKeys")

@@ -36,7 +36,8 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  *         In our Accounting Software we have two types of Methods for
  *         Depreciation. 1) Staright line 2) Declaining Balance
  */
-public class Depreciation implements IAccounterServerCore, Lifecycle {
+public class Depreciation extends CreatableObject implements
+		IAccounterServerCore, Lifecycle {
 
 	/**
 	 * 
@@ -50,8 +51,6 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 
 	public static final int DEPRECIATION_FOR_ALL_FIXEDASSET = 1;
 	public static final int DEPRECIATION_FOR_SINGLE_FIXEDASSET = 2;
-
-	long id;
 
 	/**
 	 * To know whether this Depreciation is for Approving or for Rollback.
@@ -90,17 +89,11 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 	transient FinanceDate rollBackDepreciationDate;
 
 	transient private boolean isOnSaveProccessed;
-	private int version;
 
 	// FixedAssetLinkedAccountMap linkedAccounts;
 
 	public Depreciation() {
 		this.depreciationFor = DEPRECIATION_FOR_ALL_FIXEDASSET;
-	}
-
-	@Override
-	public long getID() {
-		return this.id;
 	}
 
 	public int getStatus() {
@@ -300,7 +293,7 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 				//
 				// }
 				FinanceDate lstDepreciationDate = null;
-				FinanceDate depreciationStartDate = Company.getCompany()
+				FinanceDate depreciationStartDate = getCompany()
 						.getPreferences().getDepreciationStartDate();
 				Calendar startCal = Calendar.getInstance();
 				startCal.setTime(depreciationStartDate.getAsDateObject());
@@ -540,7 +533,7 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 	public static void runDepreciationFromPurchaseDateToLastDepreciationDate(
 			FixedAsset fixedAsset) {
 
-		FinanceDate startDate = Company.getCompany().getPreferences()
+		FinanceDate startDate = fixedAsset.getCompany().getPreferences()
 				.getDepreciationStartDate();
 		Session session = HibernateUtil.getCurrentSession() == null ? Utility
 				.getCurrentSession() : HibernateUtil.getCurrentSession();
@@ -550,7 +543,8 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 				.getAsDateObject()));
 
 		Calendar toCal = new GregorianCalendar();
-		toCal.setTime(Depreciation.getDepreciationLastDate().getAsDateObject());
+		toCal.setTime(getDepreciationLastDate(fixedAsset.getCompany())
+				.getAsDateObject());
 		if (fromCal.getTime().compareTo(toCal.getTime()) != 0) {
 			Depreciation depreciation = new Depreciation();
 			depreciation.setStatus(APPROVE);
@@ -625,9 +619,11 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 	/**
 	 * This method is to get the last Depreciation Date till which the
 	 * Depreciation run.
+	 * 
+	 * @param company
 	 */
 
-	public static FinanceDate getDepreciationLastDate() {
+	public static FinanceDate getDepreciationLastDate(Company company) {
 		Session session = HibernateUtil.getCurrentSession() == null ? Utility
 				.getCurrentSession() : HibernateUtil.getCurrentSession();
 		Query query = session
@@ -639,7 +635,7 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 			Depreciation dep = list.get(0);
 			return dep.getDepreciateTo();
 		}
-		return Company.getCompany().getPreferences().getDepreciationStartDate();
+		return company.getPreferences().getDepreciationStartDate();
 	}
 
 	@Override
@@ -647,16 +643,5 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
-	}
-
-	@Override
-	public int getVersion() {
-		return version;
-	}
-
-	@Override
-	public void setVersion(int version) {
-		
-		this.version=version;
 	}
 }

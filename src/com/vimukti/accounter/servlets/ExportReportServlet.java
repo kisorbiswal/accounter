@@ -88,7 +88,7 @@ public class ExportReportServlet extends BaseServlet {
 				return null;
 
 			String companyID = getCookie(request, COMPANY_COOKIE);
-			session = HibernateUtil.openSession(Server.COMPANY + companyID);
+			session = HibernateUtil.openSession();
 
 			FinanceTool financetool = new FinanceTool();
 			Company company = financetool.getCompany();

@@ -43,7 +43,7 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 	@Override
 	public boolean isAdmin(long companyID, String emailID) {
 		String schemaName = Server.COMPANY + companyID;
-		Session session = HibernateUtil.openSession(schemaName);
+		Session session = HibernateUtil.openSession();
 		User user = (User) session.getNamedQuery("adminUserForEmailId")
 				.setParameter("emailid", emailID).uniqueResult();
 		if (user != null) {
@@ -55,7 +55,7 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 	@Override
 	public void deleteUserFromCompany(long companyID, String email) {
 		String schema = Server.COMPANY + companyID;
-		Session session = HibernateUtil.openSession(schema);
+		Session session = HibernateUtil.openSession();
 		Transaction transaction = session.beginTransaction();
 		try {
 			Company company = (Company) session.get(Company.class, 1l);
@@ -77,7 +77,7 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 
 		String schemaName = Server.COMPANY + serverCompnayId;
 
-		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+		Session session = HibernateUtil.openSession();
 		Transaction serverTransaction = session.beginTransaction();
 		try {
 			Query query = session.createSQLQuery("CREATE SCHEMA " + schemaName);
@@ -88,7 +88,7 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 			serverTransaction.rollback();
 			throw new AccounterException(e);
 		}
-		Session companySession = HibernateUtil.openSession(schemaName, true);
+		Session companySession = HibernateUtil.openSession();
 		Transaction transaction = companySession.beginTransaction();
 		try {
 			// Creating User
@@ -135,7 +135,7 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 	}
 
 	private void dropSchema(String schemaName) throws AccounterException {
-		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+		Session session = HibernateUtil.openSession();
 		Transaction serverTransaction = session.beginTransaction();
 		try {
 			Query query = session.createSQLQuery("DROP SCHEMA " + schemaName);
@@ -152,7 +152,7 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 	public void deleteClientFromCompany(long serverCompanyId,
 			String deletableEmail) throws AccounterException {
 
-		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+		Session session = HibernateUtil.openSession();
 		Transaction transaction = session.beginTransaction();
 
 		Client deletingClient = getClient(deletableEmail);
@@ -188,7 +188,7 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 	public boolean inviteUser(long companyId, ClientUserInfo userInfo,
 			String senderEmailId) throws AccounterException {
 
-		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+		Session session = HibernateUtil.openSession();
 
 		Transaction transaction = session.beginTransaction();
 
@@ -252,7 +252,7 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 
 	@Override
 	public void deleteCompany(long serverCompanyID) throws AccounterException {
-		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+		Session session = HibernateUtil.openSession();
 		Transaction transaction = session.beginTransaction();
 		try {
 			Query dropSchema = session.createSQLQuery("DROP SCHEMA "
@@ -270,7 +270,7 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 	@Override
 	public void updateServerCompany(long serverCompanyID, String fullName)
 			throws AccounterException {
-		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+		Session session = HibernateUtil.openSession();
 		Transaction transaction = session.beginTransaction();
 		try {
 			ServerCompany company = (ServerCompany) session.get(

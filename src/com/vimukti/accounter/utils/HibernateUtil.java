@@ -1,9 +1,5 @@
 package com.vimukti.accounter.utils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -27,64 +23,25 @@ public class HibernateUtil {
 	// public static void shutdown() {
 	// getSessionFactory().close();
 	// }
-	public static Session openSession(String dbName) {
-		return openSession(dbName, false);
-	}
-
-	public static Session openSession(String dbName, boolean createDB) {
-		// LOG.info("Openned Session");
-		ConnectionProvider.setDBName(dbName);
-		boolean executeSql = false;
-		if (createDB && sessionFactory != null) {
-			executeSql = true;
-		}
-
-		Session session = getSessionFactory(dbName, createDB).openSession();
-		if (createDB && executeSql) {
-			ScriptRunner runner = new ScriptRunner(session.connection(), true,
-					true);
-			runner.setLogWriter(null);
-			try {
-				runner.runScript(new BufferedReader(new FileReader(new File(
-						"config/tables.sql"))));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+	public static Session openSession() {
+		ConnectionProvider.setDBName("Accounter");
+		Session session = getSessionFactory().openSession();
 		threadLocalSession.set(session);
 		return session;
 	}
 
-	private static SessionFactory getSessionFactory(String dbName,
-			boolean createDB) {
-		if (createDB) {
-			if (sessionFactory != null) {
-				return sessionFactory;
-				// sessionFactory.close();
-			}
-			sessionFactory = buildSessionFactory(true);
-			return sessionFactory;
-		} else {
-			if (sessionFactory == null) {
-				try {
-					sessionFactory = buildSessionFactory(false);
-				} catch (Throwable e) {
-					e.printStackTrace();
-					throw new ExceptionInInitializerError(e);
-				}
-			}
+	private static SessionFactory getSessionFactory() {
+		if (sessionFactory != null) {
 			return sessionFactory;
 		}
+		sessionFactory = buildSessionFactory();
+		return sessionFactory;
 	}
 
-	private static SessionFactory buildSessionFactory(boolean createDB) {
+	private static SessionFactory buildSessionFactory() {
 		Configuration config = new Configuration();
 		config.configure();
-		if (createDB) {
-			config.setProperty("hibernate.hbm2ddl.auto", "update");
-		} else {
-			config.setProperty("hibernate.hbm2ddl.auto", "none");
-		}
+		config.setProperty("hibernate.hbm2ddl.auto", "none");
 		config.setProperty("hibernate.connection.provider_class",
 				getConnectionProvider());
 		return config.buildSessionFactory();

@@ -52,7 +52,7 @@ public class CompaniesServlet extends BaseServlet {
 			return;
 		}
 
-		Session session = HibernateUtil.openSession(LOCAL_DATABASE);
+		Session session = HibernateUtil.openSession();
 		try {
 			Client client = getClient(emailID);
 			if (client == null) {
@@ -147,7 +147,7 @@ public class CompaniesServlet extends BaseServlet {
 		addCompanyCookies(resp, companyID);
 		addMacAppCookie(req, resp);
 
-		Session session = HibernateUtil.openSession(LOCAL_DATABASE);
+		Session session = HibernateUtil.openSession();
 		ServerCompany company = (ServerCompany) session.get(
 				ServerCompany.class, companyID);
 		if (company != null) {

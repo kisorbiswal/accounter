@@ -121,7 +121,7 @@ public class RestApiServlet extends HttpServlet {
 	protected void service(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		// TODO get the companyID and set it to the request attributes
-		Session session = HibernateUtil.openSession(getCompanyName(req));
+		Session session = HibernateUtil.openSession();
 		try {
 			super.service(req, resp);
 		} finally {
@@ -129,11 +129,6 @@ public class RestApiServlet extends HttpServlet {
 				session.close();
 			}
 		}
-	}
-
-	private String getCompanyName(HttpServletRequest req) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	private ApiSerializationFactory getApiSerializationFactory() {
@@ -144,7 +139,7 @@ public class RestApiServlet extends HttpServlet {
 	public void updateDeveloper(HttpServletRequest req, boolean isSuccess) {
 		Developer developer = null;
 		long id = ((Long) req.getAttribute("id")).longValue();
-		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+		Session session = HibernateUtil.openSession();
 		Transaction transaction = session.beginTransaction();
 		try {
 			developer = (Developer) session.get(Developer.class, id);

@@ -8,6 +8,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="type" column="A_TYPE"></property>
 		<property name="baseType" column="BASE_TYPE"></property>
 		<property name="subBaseType" column="SUB_BASE_TYPE"></property>
@@ -70,6 +73,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="locationName" column="LOCATION_NAME"></property>
 		<property name="version" column="VERSION"></property>
 	</class>
@@ -83,6 +89,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<many-to-one name="transaction" class="Transaction" lazy="false"
 			column="TRANSACTION_ID">
 		</many-to-one>
@@ -105,6 +114,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="startDate" column="START_DATE"
 			type="com.vimukti.accounter.core.LongUseType" unique="true"></property>
 		<property name="endDate" column="END_DATE"
@@ -125,6 +137,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="name" unique="true" not-null="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 	</class>
@@ -395,6 +410,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="name" unique="true" not-null="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
@@ -410,6 +428,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="name" unique="true" not-null="true" column="NAME"></property>
 		<property name="symbol" column="SYMBOL"></property>
 		<property name="formalName" column="FORMAL_NAME"></property>
@@ -419,6 +440,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="name" unique="true" not-null="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
@@ -442,6 +466,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<!-- <many-to-one name="VATCode" class="TaxCode" column="VAT_CODE_ID"> -->
 		<!-- </many-to-one> -->
 		<property name="type" column="TYPE"></property>
@@ -495,6 +522,9 @@
 		<id name="id" column="ID">
 			<generator class="native"></generator>
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="name" unique="true" not-null="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<property name="description" column="DESCRIPTION"></property>
@@ -534,6 +564,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="name" unique="true" not-null="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
@@ -554,6 +587,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="title" column="TITLE"></property>
 		<property name="firstName" column="FIRST_NAME"></property>
 		<property name="middleName1" column="MIDDLE_NAME1"></property>
@@ -605,6 +641,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="name" unique="true" not-null="true" column="NAME"></property>
 		<property name="payeeSince" column="PAYEE_SINCE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
@@ -795,6 +834,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="name" unique="true" not-null="true" column="NAME"></property>
 		<property name="description" column="DESCRIPTION"></property>
 		<property name="due" column="DUE"></property>
@@ -819,6 +861,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="name" unique="true" not-null="true" column="NAME"></property>
 		<property name="percentage" column="PERCENTAGE"></property>
 		<property name="isPriceLevelDecreaseByThisPercentage" column="IS_P_DECREASE_BY_THIS_PERCENT"></property>
@@ -836,6 +881,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="name" unique="true" not-null="true" column="NAME"></property>
 		<property name="description" column="DESCRIPTION"></property>
 		<property name="version" column="VERSION"></property>
@@ -852,6 +900,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="name" unique="true" not-null="true" column="NAME"></property>
 		<property name="description" column="DESCRIPTION"></property>
 		<property name="version" column="VERSION"></property>
@@ -902,6 +953,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="isVATGroupEntry" column="VAT_GROUP_ENTRY"></property>
 		<property name="vatAmount" column="VAT_AMOUNT"></property>
 		<property name="lineTotal" column="LINE_TOTAL"></property>
@@ -945,6 +999,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="type" column="TYPE"></property>
 		<property name="name" unique="true" not-null="true" column="NAME"></property>
 		<property name="abbreviation" column="ABBREVIATION"></property>
@@ -966,6 +1023,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<!--<property name="version" column="VERSION"></property> -->
 		<property name="firstName" column="FIRST_NAME"></property>
 		<property name="lastName" column="LAST_NAME"></property>
@@ -990,6 +1050,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="name" unique="true" not-null="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
@@ -1005,6 +1068,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="name" unique="true" not-null="true" column="NAME"></property>
 		<property name="assetNumber" column="ASSET_NUMBER"></property>
 		<many-to-one name="assetAccount" class="Account" lazy="false"
@@ -1088,6 +1154,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="status" column="STATUS"></property>
 		<property name="depreciateFrom" column="DEPRECIATE_FROM"
 			type="com.vimukti.accounter.core.LongUseType"></property>
@@ -1105,6 +1174,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="actionDate" column="ACTION_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="actionType" column="ACTION_TYPE"></property>
@@ -1118,6 +1190,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="note" column="NOTE"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			lazy="false" not-null="true"></many-to-one>
@@ -1131,6 +1206,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="name" unique="true" not-null="true" column="NAME"></property>
 		<property name="vatBox" column="VAT_BOX"></property>
 		<property name="totalBox" column="TOTAL_BOX"></property>
@@ -1140,6 +1218,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="name" not-null="true" column="NAME"></property>
 		<property name="boxNumber" column="BOX_NUMBER"></property>
 		<property name="amount" column="AMOUNT"></property>
@@ -1178,6 +1259,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="themeName" column="THEME_NAME" unique="true"
 			not-null="true">
 		</property>
@@ -1259,6 +1343,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="name" column="NAME" unique="true" not-null="true" />
 
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
@@ -1352,6 +1439,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="section" column="SECTION" />
 		<property name="name" column="NAME" />
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
@@ -1368,7 +1458,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="name" column="NAME" />
 		<property name="desctiption" column="DESCRIPTION" />
 
@@ -1383,7 +1475,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="type" column="TYPE" />
 		<property name="factor" column="FACTOR" />
 		<many-to-one name="measurement" column="MEASUREMENT"
@@ -1395,7 +1489,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="adjustmentPriceValue" type="double">
 			<column name="ADJUSTMENT_PRICE_VALUE" />
 		</property>
@@ -1426,7 +1522,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<many-to-one name="item" class="Item" fetch="join">
 			<column name="ITEM" />
 		</many-to-one>
@@ -1445,7 +1543,9 @@
 
 	<class name="StockTransfer" table="STOCK_TRANSFER">
 		<id name="id" column="ID" />
-
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<many-to-one name="createdBy" class="User" column="CREATED_BY"
 			not-null="true" />
 		<many-to-one name="lastModifier" class="User" column="LAST_MODIFIER"
@@ -1475,6 +1575,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="account" column="ACCOUNT"></property>
 		<property name="januaryAmount" column="JANUARY_AMOUNT"></property>
 		<property name="febrauaryAmount" column="FEBRUARY_AMOUNT"></property>
@@ -1498,6 +1601,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="budgetName" column="BUDGET_NAME"></property>
 		<list name="budgetItems" lazy="false" cascade="save-update,delete">
 			<key column="BUDGET_ID"></key>
@@ -1510,6 +1616,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<property name="objectID" column="OBJECT_ID"></property>
 		<property name="time" column="TIME_STAMP"></property>
 		<property name="userName" column="USER_NAME"></property>
@@ -1527,6 +1636,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
 		<many-to-one name="account" class="com.vimukti.accounter.core.BankAccount"
 			lazy="false" cascade="save-update" column="ACCOUNT">
 		</many-to-one>

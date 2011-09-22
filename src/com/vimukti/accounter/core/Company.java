@@ -3619,17 +3619,17 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		return this.id;
 	}
 
-	public static Company getCompany() {
-		Company company = HibernateUtil.getCurrentSession() != null ? (Company) HibernateUtil
-				.getCurrentSession().get(Company.class, 1L) : (Company) Utility
-				.getCurrentSession().get(Company.class, 1L);
-
-		if (company == null)
-			return null;
-
-		company.toCompany(company);
-		return company;
-	}
+//	public static Company getCompany() {
+//		Company company = HibernateUtil.getCurrentSession() != null ? (Company) HibernateUtil
+//				.getCurrentSession().get(Company.class, 1L) : (Company) Utility
+//				.getCurrentSession().get(Company.class, 1L);
+//
+//		if (company == null)
+//			return null;
+//
+//		company.toCompany(company);
+//		return company;
+//	}
 
 	/**
 	 * @return the fixedAssets

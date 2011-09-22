@@ -25,7 +25,6 @@
 	<classpathentry kind="lib" path="libs/spring-test.jar"/>
 	<classpathentry kind="lib" path="libs/spring.jar"/>
 	<classpathentry kind="lib" path="libs/gwt-visualization.jar"/>
-	<classpathentry kind="lib" path="libs/openid4java.jar"/>
 	<classpathentry kind="lib" path="libs/ss_css2.jar"/>
 	<classpathentry kind="lib" path="libs/mail.jar"/>
 	<classpathentry kind="lib" path="libs/bcprov-jdk15-133.jar"/>
@@ -63,5 +62,6 @@
 	<classpathentry kind="lib" path="libs/smackx-debug.jar"/>
 	<classpathentry kind="lib" path="libs/smackx-jingle.jar"/>
 	<classpathentry kind="lib" path="libs/smackx.jar"/>
+	<classpathentry kind="lib" path="libs/openid4java-0.9.6.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

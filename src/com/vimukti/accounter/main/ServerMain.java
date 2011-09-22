@@ -29,8 +29,7 @@ public class ServerMain extends Main {
 		ServerConfiguration.init(configFile);
 		initLogger();
 
-		Session session = HibernateUtil
-				.openSession(Server.LOCAL_DATABASE, true);
+		Session session = HibernateUtil.openSession();
 
 		ServerMaintanance maintanance = (ServerMaintanance) session.get(
 				ServerMaintanance.class, 1L);

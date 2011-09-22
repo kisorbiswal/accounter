@@ -719,11 +719,11 @@ public class FinanceTool {
 						"Update Company , as the Source Object could not be Found....");
 			}
 
-			Company cmp = Company.getCompany();
+			Company cmp = getCompany(serverCompanyID);
 			cmp.updatePreferences((ClientCompany) data);
 
 			String userID = context.getUserEmail();
-			User user1 = getCompany().getUserByUserEmail(userID);
+			User user1 = cmp.getUserByUserEmail(userID);
 
 			Activity activity = new Activity(user1,
 					ActivityType.UPDATE_PREFERENCE, cmp);
@@ -759,7 +759,7 @@ public class FinanceTool {
 
 		changeFiscalYearsStartDate(modifiedStartDate);
 
-		Company company = Company.getCompany();
+		Company company = getCompany(context.getCompanyId());
 
 		CompanyPreferences serverCompanyPreferences = company.getPreferences();
 
@@ -787,7 +787,7 @@ public class FinanceTool {
 					"Cann't Update Deprecation Strart Date with Null or Empty");
 		}
 		FinanceDate newStartDate = new FinanceDate(Long.parseLong(arg1));
-		Company company1 = Company.getCompany();
+		Company company1 = getCompany();
 
 		CompanyPreferences serverCompanyPreferences1 = company1
 				.getPreferences();
@@ -3193,12 +3193,13 @@ public class FinanceTool {
 		return null;
 	}
 
-	public Long getNextNominalCode(int accountType) throws DAOException {
+	public Long getNextNominalCode(int accountType, long companyId)
+			throws DAOException {
 
 		try {
 			int accountSubBaseType = Utility.getAccountSubBaseType(accountType);
 			Session session = HibernateUtil.getCurrentSession();
-			Company company = Company.getCompany();
+			Company company = getCompany(companyId);
 			Integer range[] = company.getNominalCodeRange(accountSubBaseType);
 
 			Query query = session.getNamedQuery(
@@ -4239,7 +4240,8 @@ public class FinanceTool {
 
 	public double getCalculatedDepreciatedAmount(int depreciationMethod,
 			double depreciationRate, double purchasePrice,
-			long depreciationFrom, long depreciationTo) throws DAOException {
+			long depreciationFrom, long depreciationTo, long companyId)
+			throws DAOException {
 
 		/**
 		 * Just Preparing the Dummy fixed asset object with the following fixed
@@ -4282,7 +4284,7 @@ public class FinanceTool {
 		 * Fixed Asset at the end of Each Financial year by the depreciation
 		 * amount calculated for this fiscal year.
 		 */
-		FinanceDate startDate = Company.getCompany().getPreferences()
+		FinanceDate startDate = getCompany(companyId).getPreferences()
 				.getDepreciationStartDate();
 		Calendar startDateCal = new GregorianCalendar();
 		startDateCal.setTime(startDate.getAsDateObject());
@@ -4502,12 +4504,14 @@ public class FinanceTool {
 	 * This method will give us the total effect of Selling or Disposing a Fixed
 	 * Asset, before Sell or Dispose this Fixed Asset.
 	 * 
+	 * @param companyId
+	 * 
 	 * @return
 	 * @throws Exception
 	 */
 
 	public FixedAssetSellOrDisposeReviewJournal getReviewJournal(
-			TempFixedAsset fixedAsset) throws DAOException {
+			TempFixedAsset fixedAsset, long companyId) throws DAOException {
 
 		/**
 		 * In this method we should prepare two maps named disposalSummary and
@@ -4522,18 +4526,19 @@ public class FinanceTool {
 		/**
 		 * Preparing the keys and values for disposalSummary Map.
 		 */
+		Company company = getCompany(companyId);
 		String purchasedDate = "Purchase "
 				+ format.format(fixedAsset.getPurchaseDate());
 		String currentAccumulatedDepreciation = "Current accumulated depreciation";
 		String depreciationTobePosted = "Depreciation to be posted (";
 		String rollBackDepreciation = "rollback deprecaition till ";
-		FinanceDate date = Depreciation.getDepreciationLastDate();
+		FinanceDate date = Depreciation.getDepreciationLastDate(company);
 		FinanceDate depreciationTillDate = null;
 		double depreciationToBePostedAmount = 0.0;
 		double rollBackDepreciatinAmount = 0.0;
 
 		FinanceDate lastDepreciationDate = Depreciation
-				.getDepreciationLastDate();
+				.getDepreciationLastDate(company);
 		if (lastDepreciationDate == null) {
 			lastDepreciationDate = Company.getCompany().getPreferences()
 					.getDepreciationStartDate();
@@ -9371,64 +9376,64 @@ public class FinanceTool {
 		return new ArrayList<ReverseChargeList>(reverseCharges);
 	}
 
-	public void createTaxes(int... vatReturnType) throws DAOException {
-
-		Session session = HibernateUtil.getCurrentSession();
-
-		org.hibernate.Transaction t = session.beginTransaction();
-		try {
-			for (int i : vatReturnType) {
-				if (i == VATReturn.VAT_RETURN_IRELAND) {
-
-					Account vatLiabilityAccount = new Account(
-							Account.TYPE_OTHER_CURRENT_LIABILITY,
-							String.valueOf(getNextNominalCode(Account.TYPE_OTHER_CURRENT_LIABILITY)),
-							AccounterServerConstants.VAT_LIABILITY_ACCOUNT_IR,
-							true, null, Account.CASH_FLOW_CATEGORY_OPERATING,
-							0.0, false, "VAT Liability Account (IR)", 0.0,
-							null, true, true, Company.getCompany()
-									.getOpeningBalancesAccount(), null, true,
-							Company.getCompany().getPreferences()
-									.getStartOfFiscalYear());
-
-					session.save(vatLiabilityAccount);
-
-					TAXAgency collectorGeneral = createVATAgency(session,
-							vatLiabilityAccount);
-
-					createVATItemsOfIreland(session, collectorGeneral);
-					createVATGroupsOfIreland(session);
-					createVATCodesOfIreland(session);
-
-				} else if (i == VATReturn.VAT_RETURN_UK_VAT) {
-
-					Account openingBalenceAcount = (Account) session
-							.getNamedQuery("unique.name.Account")
-							.setString(0,
-									AccounterServerConstants.OPENING_BALANCE)
-							.list().get(0);
-					Account salesTaxVAT = new Account(
-							Account.TYPE_OTHER_CURRENT_LIABILITY, "2120",
-							AccounterServerConstants.SALES_TAX_VAT_UNFILED,
-							true, null, Account.CASH_FLOW_CATEGORY_OPERATING,
-							0.0, false, "", 0.0, null, true, false,
-							openingBalenceAcount, "113", true, Company
-									.getCompany().getPreferences()
-									.getStartOfFiscalYear());
-
-					session.save(salesTaxVAT);
-
-				}
-			}
-
-			t.commit();
-
-		} catch (HibernateException he) {
-			t.rollback();
-			throw he;
-		}
-
-	}
+	// public void createTaxes(int... vatReturnType) throws DAOException {
+	//
+	// Session session = HibernateUtil.getCurrentSession();
+	//
+	// org.hibernate.Transaction t = session.beginTransaction();
+	// try {
+	// for (int i : vatReturnType) {
+	// if (i == VATReturn.VAT_RETURN_IRELAND) {
+	//
+	// Account vatLiabilityAccount = new Account(
+	// Account.TYPE_OTHER_CURRENT_LIABILITY,
+	// String.valueOf(getNextNominalCode(Account.TYPE_OTHER_CURRENT_LIABILITY)),
+	// AccounterServerConstants.VAT_LIABILITY_ACCOUNT_IR,
+	// true, null, Account.CASH_FLOW_CATEGORY_OPERATING,
+	// 0.0, false, "VAT Liability Account (IR)", 0.0,
+	// null, true, true, Company.getCompany()
+	// .getOpeningBalancesAccount(), null, true,
+	// Company.getCompany().getPreferences()
+	// .getStartOfFiscalYear());
+	//
+	// session.save(vatLiabilityAccount);
+	//
+	// TAXAgency collectorGeneral = createVATAgency(session,
+	// vatLiabilityAccount);
+	//
+	// createVATItemsOfIreland(session, collectorGeneral);
+	// createVATGroupsOfIreland(session);
+	// createVATCodesOfIreland(session);
+	//
+	// } else if (i == VATReturn.VAT_RETURN_UK_VAT) {
+	//
+	// Account openingBalenceAcount = (Account) session
+	// .getNamedQuery("unique.name.Account")
+	// .setString(0,
+	// AccounterServerConstants.OPENING_BALANCE)
+	// .list().get(0);
+	// Account salesTaxVAT = new Account(
+	// Account.TYPE_OTHER_CURRENT_LIABILITY, "2120",
+	// AccounterServerConstants.SALES_TAX_VAT_UNFILED,
+	// true, null, Account.CASH_FLOW_CATEGORY_OPERATING,
+	// 0.0, false, "", 0.0, null, true, false,
+	// openingBalenceAcount, "113", true, Company
+	// .getCompany().getPreferences()
+	// .getStartOfFiscalYear());
+	//
+	// session.save(salesTaxVAT);
+	//
+	// }
+	// }
+	//
+	// t.commit();
+	//
+	// } catch (HibernateException he) {
+	// t.rollback();
+	// throw he;
+	// }
+	//
+	// }
 
 	private TAXAgency createVATAgency(Session session,
 			Account vatLiabilityAccount) {
@@ -10554,9 +10559,9 @@ public class FinanceTool {
 	 * 
 	 * @return
 	 */
-	public Company getCompany() {
+	public Company getCompany(long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
-		return (Company) session.get(Company.class, 1l);
+		return (Company) session.get(Company.class, companyId);
 	}
 
 	public ArrayList<Account> getAccountsListBySorted() {
@@ -11704,7 +11709,7 @@ public class FinanceTool {
 	public boolean changeMyPassword(String emailId, String oldPassword,
 			String newPassword) throws DAOException {
 
-		Session session = HibernateUtil.openSession(BaseServlet.LOCAL_DATABASE);
+		Session session = HibernateUtil.openSession();
 		org.hibernate.Transaction tx = session.beginTransaction();
 
 		try {
@@ -11899,7 +11904,7 @@ public class FinanceTool {
 	 */
 	public void performRecurringAction(String companyName,
 			FinanceDate clientDateAtServer) {
-		Session session = HibernateUtil.openSession(companyName);
+		Session session = HibernateUtil.openSession();
 		// TODO need to write query
 		Query namedQuery = session.getNamedQuery("list.currentRecTransactions");
 		namedQuery.setLong(0, clientDateAtServer.getDate());

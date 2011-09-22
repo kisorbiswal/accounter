@@ -41,18 +41,17 @@ public class OpenCompanyServlet extends BaseServlet {
 			return;
 		}
 		String emailID = (String) request.getSession().getAttribute(EMAIL_ID);
-		
+
 		if (emailID != null) {
 			String serverCompanyID = getCookie(request, COMPANY_COOKIE);
-			if(serverCompanyID==null || serverCompanyID.equals("")){
+			if (serverCompanyID == null || serverCompanyID.equals("")) {
 				response.sendRedirect(COMPANIES_URL);
 				return;
 			}
 			initComet(request.getSession(), Long.parseLong(serverCompanyID),
 					emailID);
 
-			Session session = HibernateUtil.openSession("company"
-					+ serverCompanyID);
+			Session session = HibernateUtil.openSession();
 			Transaction transaction = session.beginTransaction();
 
 			User user = (User) session.getNamedQuery("user.by.emailid")
@@ -65,8 +64,8 @@ public class OpenCompanyServlet extends BaseServlet {
 			// there is no session, so do external redirect to login page
 			// response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
 			// response.setHeader("Location", "/Accounter.jsp");
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(
-					"/WEB-INF/Accounter.jsp");
+			RequestDispatcher dispatcher = getServletContext()
+					.getRequestDispatcher("/WEB-INF/Accounter.jsp");
 			dispatcher.forward(request, response);
 		} else {
 			response.sendRedirect(LOGIN_URL);
@@ -74,7 +73,6 @@ public class OpenCompanyServlet extends BaseServlet {
 
 		}
 	}
-
 
 	/**
 	 * Initialising comet stuff

@@ -79,7 +79,7 @@ public class CreateCompanyServlet extends BaseServlet {
 		}
 		ServerCompany serverCompany = null;
 		Client client = null;
-		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+		Session session = HibernateUtil.openSession();
 		Transaction transaction = session.beginTransaction();
 		try {
 			serverCompany = getServerCompany(companyName);
@@ -191,7 +191,7 @@ public class CreateCompanyServlet extends BaseServlet {
 	 * @param clientId
 	 */
 	private void rollback(long serverId, long clientId) {
-		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+		Session session = HibernateUtil.openSession();
 		Transaction transaction = session.beginTransaction();
 		try {
 			Object object = session.get(ServerCompany.class, serverId);

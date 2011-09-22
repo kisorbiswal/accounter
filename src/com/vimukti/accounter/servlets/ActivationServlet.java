@@ -67,7 +67,7 @@ public class ActivationServlet extends BaseServlet {
 		}
 
 		// get activation record
-		Session hibernateSession = HibernateUtil.openSession(LOCAL_DATABASE);
+		Session hibernateSession = HibernateUtil.openSession();
 		try {
 			Activation activation = getActivation(token);
 			// If it is null
@@ -91,7 +91,7 @@ public class ActivationServlet extends BaseServlet {
 					return;
 				}
 
-				Session hbSession = HibernateUtil.openSession(LOCAL_DATABASE);
+				Session hbSession = HibernateUtil.openSession();
 				Transaction transaction = hbSession.beginTransaction();
 				try {
 					Client client = (Client) hbSession

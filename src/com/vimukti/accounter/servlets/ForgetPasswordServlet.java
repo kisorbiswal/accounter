@@ -48,8 +48,7 @@ public class ForgetPasswordServlet extends BaseServlet {
 		}
 		emailID = emailID.toLowerCase();
 
-		Session serverSession = HibernateUtil
-				.openSession(Server.LOCAL_DATABASE);
+		Session serverSession = HibernateUtil.openSession();
 		Transaction transaction = serverSession.beginTransaction();
 		try {
 			Client client = getClient(emailID);

@@ -63,7 +63,7 @@ public class SignupServlet extends BaseServlet {
 		String passwordWithHash = HexUtil.bytesToHex(Security.makeHash(emailId
 				+ password));
 
-		Session hibernateSession = HibernateUtil.openSession(LOCAL_DATABASE);
+		Session hibernateSession = HibernateUtil.openSession();
 		Transaction transaction = hibernateSession.beginTransaction();
 		try {
 			// Have to check UserExistence

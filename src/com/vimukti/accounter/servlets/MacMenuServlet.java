@@ -39,8 +39,7 @@ public class MacMenuServlet extends BaseServlet {
 			String companyID = getCookie(req, COMPANY_COOKIE);
 
 			Company company = getCompany(req);
-			Session hibernateSession = HibernateUtil.openSession(Server.COMPANY
-					+ companyID);
+			Session hibernateSession = HibernateUtil.openSession();
 			try {
 				CompanyPreferenceThreadLocal.set(new FinanceTool()
 						.getClientCompanyPreferences());

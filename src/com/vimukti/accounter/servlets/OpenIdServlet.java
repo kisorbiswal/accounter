@@ -216,7 +216,7 @@ public class OpenIdServlet extends BaseServlet {
 
 	private void loginForUser(String email, HttpServletRequest request,
 			HttpServletResponse response) {
-		Session session = HibernateUtil.openSession(LOCAL_DATABASE);
+		Session session = HibernateUtil.openSession();
 		Transaction transaction = session.beginTransaction();
 		try {
 			Client client = (Client) session

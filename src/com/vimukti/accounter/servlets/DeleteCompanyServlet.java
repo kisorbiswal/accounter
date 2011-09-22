@@ -64,7 +64,7 @@ public class DeleteCompanyServlet extends BaseServlet {
 			public void run() {
 				httpSession.setAttribute(COMPANY_DELETION_STATUS,
 						COMPANY_DELETING);
-				Session session = HibernateUtil.openSession(LOCAL_DATABASE);
+				Session session = HibernateUtil.openSession();
 				Transaction transaction = session.beginTransaction();
 				try {
 

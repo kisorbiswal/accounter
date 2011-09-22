@@ -113,6 +113,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	public static final int GROUPTYPE_CASH = 1;
 
+	private Company company;
 	/**
 	 * To decide about the type of the {@link Account}
 	 */
@@ -598,9 +599,10 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	 * @param isConsiderAsCashAccount
 	 *            the isConsiderAsCashAccount to set
 	 */
-	 public void setConsiderAsCashAccount(boolean isConsiderAsCashAccount) {
-	 this.isConsiderAsCashAccount = isConsiderAsCashAccount;
-	 }
+	public void setConsiderAsCashAccount(boolean isConsiderAsCashAccount) {
+		this.isConsiderAsCashAccount = isConsiderAsCashAccount;
+	}
+
 	/**
 	 * @return the comment
 	 */
@@ -1300,6 +1302,14 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 		if (accountName != null && !this.getName().equals(accountName))
 			Entry.updateEntryMemo(session, accountName, this.getName());
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 
 }

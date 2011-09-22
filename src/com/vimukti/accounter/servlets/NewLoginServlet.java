@@ -35,7 +35,7 @@ public class NewLoginServlet extends BaseServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		Session session = HibernateUtil.openSession(LOCAL_DATABASE);
+		Session session = HibernateUtil.openSession();
 		Transaction transaction = session.beginTransaction();
 		try {
 			Client client = doLogin(request, response);
@@ -173,7 +173,7 @@ public class NewLoginServlet extends BaseServlet {
 				return;
 			}
 
-			Session session = HibernateUtil.openSession(LOCAL_DATABASE);
+			Session session = HibernateUtil.openSession();
 			Query query = session.getNamedQuery("get.remembermeKey");
 			query.setParameter("key", userCookie);
 			RememberMeKey rememberMeKey = (RememberMeKey) query.uniqueResult();
@@ -199,7 +199,7 @@ public class NewLoginServlet extends BaseServlet {
 		} else {
 
 			// Get the Client using the mail id
-			Session session = HibernateUtil.openSession(LOCAL_DATABASE);
+			Session session = HibernateUtil.openSession();
 			try {
 				Query query = session.getNamedQuery("getClient.by.mailId");
 				query.setParameter(EMAIL_ID, emailID);

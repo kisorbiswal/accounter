@@ -2,6 +2,7 @@ package com.vimukti.accounter.core;
 
 public class StockTransferItem {
 
+	private Company company;
 	private long id;
 	private Item item;
 	private Quantity quantity;
@@ -40,6 +41,14 @@ public class StockTransferItem {
 	 */
 	public long getId() {
 		return id;
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 
 }

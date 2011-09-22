@@ -44,7 +44,7 @@ public class FixedAsset extends CreatableObject implements
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final int STATUS_PENDING = 1;
 	public static final int STATUS_REGISTERED = 2;
 	public static final int STATUS_SOLD_OR_DISPOSED = 3;
@@ -744,7 +744,7 @@ public class FixedAsset extends CreatableObject implements
 		 * Date till the Last Depreciation Date.
 		 */
 		FinanceDate lastDepreciationDate = Depreciation
-				.getDepreciationLastDate();
+				.getDepreciationLastDate(getCompany());
 		if (lastDepreciationDate != null && this.status == STATUS_REGISTERED
 				&& this.purchaseDate.before(lastDepreciationDate)) {
 
@@ -805,7 +805,7 @@ public class FixedAsset extends CreatableObject implements
 		 * Date till the Last Depreciation Date.
 		 */
 		FinanceDate lastDepreciationDate = Depreciation
-				.getDepreciationLastDate();
+				.getDepreciationLastDate(getCompany());
 		if (lastDepreciationDate != null
 				&& (this.oldStatus == STATUS_PENDING || this.oldStatus == STATUS_REGISTERED)
 				&& this.status == STATUS_REGISTERED
@@ -872,7 +872,7 @@ public class FixedAsset extends CreatableObject implements
 				int year = soldOrDisposedDateCal.get(Calendar.YEAR);
 
 				Calendar startDateCal = new GregorianCalendar();
-				startDateCal.setTime(Company.getCompany().getPreferences()
+				startDateCal.setTime(getCompany().getPreferences()
 						.getDepreciationStartDate().getAsDateObject());
 
 				int month = startDateCal.get(Calendar.MONTH);
@@ -1021,7 +1021,7 @@ public class FixedAsset extends CreatableObject implements
 		fromCal.set(fromCal.get(Calendar.YEAR), fromCal.get(Calendar.MONTH),
 				maxDay);
 
-		FinanceDate startDate = Company.getCompany().getPreferences()
+		FinanceDate startDate = getCompany().getPreferences()
 				.getDepreciationStartDate();
 		Calendar startDateCal = new GregorianCalendar();
 		startDateCal.setTime(startDate.getAsDateObject());
@@ -1166,7 +1166,7 @@ public class FixedAsset extends CreatableObject implements
 		 * Fixed Asset at the end of Each Financial year by the depreciation
 		 * amount calculated for this fiscal year.
 		 */
-		FinanceDate startDate = Company.getCompany().getPreferences()
+		FinanceDate startDate = getCompany().getPreferences()
 				.getDepreciationStartDate();
 		Calendar startDateCal = new GregorianCalendar();
 		startDateCal.setTime(startDate.getAsDateObject());
@@ -1322,13 +1322,12 @@ public class FixedAsset extends CreatableObject implements
 		String currentAccumulatedDepreciation = "Current accumulated depreciation";
 		String depreciationTobePosted = "Depreciation to be posted (";
 		String rollBackDepreciation = "rollback deprecaition till ";
-		FinanceDate date = Depreciation.getDepreciationLastDate();
+		FinanceDate date = Depreciation.getDepreciationLastDate(getCompany());
 		FinanceDate depreciationTillDate = null;
 		double depreciationToBePostedAmount = 0.0;
 		double rollBackDepreciatinAmount = 0.0;
 
-		FinanceDate lastDepreciationDate = Depreciation
-				.getDepreciationLastDate();
+		FinanceDate lastDepreciationDate = date;
 		// Below code is not required
 		// if (fixedAsset.getPurchaseDate().compareTo(lastDepreciationDate) > 0)
 		// {
@@ -1346,7 +1345,7 @@ public class FixedAsset extends CreatableObject implements
 			soldOrDisposedDateCal.setTime(fixedAsset.getSoldOrDisposedDate()
 					.getDateAsObject());
 
-			FinanceDate startDate = Company.getCompany().getPreferences()
+			FinanceDate startDate = getCompany().getPreferences()
 					.getDepreciationStartDate();
 			Calendar startDateCal = new GregorianCalendar();
 			startDateCal.setTime(startDate.getAsDateObject());
@@ -1635,7 +1634,7 @@ public class FixedAsset extends CreatableObject implements
 		 * Fixed Asset at the end of Each Financial year by the depreciation
 		 * amount calculated for this fiscal year.
 		 */
-		FinanceDate startDate = Company.getCompany().getPreferences()
+		FinanceDate startDate = getCompany().getPreferences()
 				.getDepreciationStartDate();
 		Calendar startDateCal = new GregorianCalendar();
 		startDateCal.setTime(startDate.getAsDateObject());

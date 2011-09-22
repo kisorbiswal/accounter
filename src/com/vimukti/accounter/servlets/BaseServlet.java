@@ -81,7 +81,7 @@ public class BaseServlet extends HttpServlet {
 
 	protected Company getCompany(HttpServletRequest req) {
 		String companyID = getCookie(req, COMPANY_COOKIE);
-		Session session = HibernateUtil.openSession(Server.COMPANY + companyID);
+		Session session = HibernateUtil.openSession();
 		try {
 			Company comapny = (Company) session.get(Company.class, 1L);
 			if (comapny != null) {
@@ -113,7 +113,7 @@ public class BaseServlet extends HttpServlet {
 		if (companyName == null) {
 			return false;
 		}
-		Session openSession = HibernateUtil.openSession(LOCAL_DATABASE);
+		Session openSession = HibernateUtil.openSession();
 		try {
 			Company uniqueResult = (Company) openSession
 					.getNamedQuery("getCompanyName.is.unique")
@@ -288,7 +288,7 @@ public class BaseServlet extends HttpServlet {
 	 * @param serverId
 	 */
 	protected void updateServers(Server accounterServer, boolean isAddCompany) {
-		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+		Session session = HibernateUtil.openSession();
 		Transaction transaction = session.beginTransaction();
 		try {
 			Server server = (Server) session.get(Server.class,
