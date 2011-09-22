@@ -365,7 +365,8 @@ public class SalesOrderView extends
 
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
-		customerTransactionTable = new SalesOrderTable() {
+		customerTransactionTable = new SalesOrderTable(isTrackTax(),
+				isTaxPerDetailLine()) {
 
 			@Override
 			public void updateNonEditableItems() {

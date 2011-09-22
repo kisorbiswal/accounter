@@ -238,7 +238,8 @@ public class CashSalesView extends
 		netAmountLabel = createNetAmountLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
-		customerAccountTransactionTable = new CustomerAccountTransactionTable() {
+		customerAccountTransactionTable = new CustomerAccountTransactionTable(
+				isTrackTax(), isTaxPerDetailLine()) {
 
 			@Override
 			public void updateNonEditableItems() {
@@ -272,7 +273,8 @@ public class CashSalesView extends
 		accountsDisclosurePanel.setOpen(true);
 		accountsDisclosurePanel.setWidth("100%");
 
-		customerItemTransactionTable = new CustomerItemTransactionTable() {
+		customerItemTransactionTable = new CustomerItemTransactionTable(
+				isTrackTax(), isTaxPerDetailLine()) {
 
 			@Override
 			public void updateNonEditableItems() {

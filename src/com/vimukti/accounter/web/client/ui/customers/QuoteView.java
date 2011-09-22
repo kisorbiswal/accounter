@@ -382,7 +382,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
 
-		customerTransactionTable = new CustomerItemTransactionTable() {
+		customerTransactionTable = new CustomerItemTransactionTable(
+				isTrackTax(), isTaxPerDetailLine()) {
 
 			@Override
 			public void updateNonEditableItems() {
