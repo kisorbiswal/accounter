@@ -285,12 +285,7 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 		if (recordToBeDeleted.getType() == ClientPayee.TYPE_VENDOR)
 			Accounter.createGETService().getObjectById(
 					AccounterCoreType.VENDOR, recordToBeDeleted.id, callback);
-		else if (getCompany().getPreferences().isChargeSalesTax()
-				&& recordToBeDeleted.getType() == ClientPayee.TYPE_TAX_AGENCY) {
-			Accounter.createGETService()
-					.getObjectById(AccounterCoreType.TAXAGENCY,
-							recordToBeDeleted.id, callback);
-		} else if (getCompany().getPreferences().isRegisteredForVAT()
+		else if (getPreferences().isTrackTax()
 				&& recordToBeDeleted.getType() == ClientPayee.TYPE_TAX_AGENCY) {
 			Accounter.createGETService()
 					.getObjectById(AccounterCoreType.TAXAGENCY,
@@ -333,8 +328,8 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 	protected int sort(PayeeList obj1, PayeeList obj2, int index) {
 		switch (index) {
 		case 1:
-			return obj1.getPayeeName().toLowerCase().compareTo(
-					obj2.getPayeeName().toLowerCase());
+			return obj1.getPayeeName().toLowerCase()
+					.compareTo(obj2.getPayeeName().toLowerCase());
 			//
 			// case 3:
 			//
