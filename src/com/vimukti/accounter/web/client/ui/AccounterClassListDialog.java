@@ -46,12 +46,14 @@ public class AccounterClassListDialog extends GroupDialog<ClientAccounterClass> 
 				if (listGridView.getRowCount() == 0) {
 
 				}
+				enableEditRemoveButtons(false);
 			}
 
 			@Override
 			public void onSecondButtonClick() {
 				showAddEditAccounterClassDialog((ClientAccounterClass) listGridView
 						.getSelection());
+				
 			}
 
 			@Override
@@ -79,6 +81,8 @@ public class AccounterClassListDialog extends GroupDialog<ClientAccounterClass> 
 					@Override
 					public void execute(ClientAccounterClass accounterclass) {
 						saveOrUpdate(accounterclass);
+						enableEditRemoveButtons(false);
+						
 					}
 				});
 		createClassDialog.show();
