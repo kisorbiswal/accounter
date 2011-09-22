@@ -197,7 +197,12 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				checkBoxPanel.setVisible(enableTaxCheckbox.getValue());
+				if (trackCheckbox.getValue()) {
+					checkBoxPanel.setVisible(true);
+				} else {
+					checkBoxPanel.setVisible(false);
+				}
+
 			}
 		});
 
