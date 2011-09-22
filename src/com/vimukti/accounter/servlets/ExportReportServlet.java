@@ -153,7 +153,7 @@ public class ExportReportServlet extends BaseServlet {
 		String gridTemplate = generator.generate(financeTool,
 				ReportsGenerator.GENERATIONTYPECSV);
 
-		CSVReportTemplate template = new CSVReportTemplate(reportType,
+		CSVReportTemplate template = new CSVReportTemplate(company, reportType,
 				new String[] { gridTemplate, null, style, dateRangeHtml });
 		/*  */
 

@@ -423,7 +423,7 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 			if (this.getDiscountAccount() != null
 					&& DecimalUtil.isGreaterThan(this.getCashDiscount(), 0.0)) {
 
-				Account account = Company.getCompany()
+				Account account = getDiscountAccount().getCompany()
 						.getAccountsReceivableAccount();
 				account.updateCurrentBalance(this.getReceivePayment(),
 						-this.getCashDiscount());
@@ -442,7 +442,7 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 			if (this.getWriteOffAccount() != null
 					&& DecimalUtil.isGreaterThan(this.getWriteOff(), 0.0)) {
 
-				Account account = Company.getCompany()
+				Account account = getWriteOffAccount().getCompany()
 						.getAccountsReceivableAccount();
 				account.updateCurrentBalance(this.getReceivePayment(),
 						-this.getWriteOff());

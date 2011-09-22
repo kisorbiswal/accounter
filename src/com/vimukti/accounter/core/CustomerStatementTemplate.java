@@ -13,6 +13,7 @@ public class CustomerStatementTemplate extends TemplateBuilder implements
 	private Set<Address> addressListOfCustomer;
 
 	public CustomerStatementTemplate(Customer cust, String... params) {
+		super(cust.getCompany());
 		imgUrl = params[2];
 		style1 = params[3];
 		this.reportsHtml = params[0];

@@ -7,6 +7,7 @@ public class CreditNoteTemplete extends TemplateBuilder implements ITemplate {
 
 	public CreditNoteTemplete(CustomerCreditMemo memo, String footerImageUrl,
 			String stylefile) {
+		super(memo.getCompany());
 		this.memo = memo;
 		this.maxDecimalPoints = getMaxDecimals(memo);
 		imgUrl = footerImageUrl;

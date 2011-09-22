@@ -184,7 +184,7 @@ public class TransactionPayVAT implements IAccounterServerCore, Lifecycle {
 
 			// The Accounts payable is also to be decreased as the amount to pay
 			// to VATAgency is decreased.
-			Account account = Company.getCompany()
+			Account account = vatReturn.getCompany()
 					.getVATFiledLiabilityAccount();
 			if (account != null) {
 				account.updateCurrentBalance(this.payVAT, -(this.amountToPay));
@@ -216,7 +216,7 @@ public class TransactionPayVAT implements IAccounterServerCore, Lifecycle {
 
 			// The Accounts payable is also to be decreased as the amount to pay
 			// to VATAgency is decreased.
-			Company.getCompany().getVATFiledLiabilityAccount()
+			vatReturn.getCompany().getVATFiledLiabilityAccount()
 					.updateCurrentBalance(this.payVAT, this.amountToPay);
 		}
 		return false;

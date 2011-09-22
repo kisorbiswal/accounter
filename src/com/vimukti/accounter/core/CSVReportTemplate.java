@@ -7,7 +7,8 @@ public class CSVReportTemplate extends TemplateBuilder implements ITemplate {
 	private String reportDate;
 	private String dateRangeHtml = "";
 
-	public CSVReportTemplate(String... params) {
+	public CSVReportTemplate(Company company, String... params) {
+		super(company);
 		imgUrl = params[2];
 		style1 = params[3];
 		this.reportsHtml = params[0];
@@ -18,8 +19,8 @@ public class CSVReportTemplate extends TemplateBuilder implements ITemplate {
 		init();
 	}
 
-	public CSVReportTemplate(int reportType, String[] params) {
-
+	public CSVReportTemplate(Company company, int reportType, String[] params) {
+		super(company);
 		imgUrl = params[1];
 		style1 = params[2];
 		this.reportsHtml = params[0];

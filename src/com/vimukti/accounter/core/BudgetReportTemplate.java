@@ -8,7 +8,8 @@ public class BudgetReportTemplate extends TemplateBuilder implements ITemplate {
 	private String reportDate;
 	private String dateRangeHtml = "";
 
-	public BudgetReportTemplate(String... params) {
+	public BudgetReportTemplate(Company company, String... params) {
+		super(company);
 		imgUrl = params[2];
 		style1 = params[3];
 		this.reportsHtml = params[0];
@@ -19,8 +20,8 @@ public class BudgetReportTemplate extends TemplateBuilder implements ITemplate {
 		init();
 	}
 
-	public BudgetReportTemplate(int reportType, String[] params) {
-
+	public BudgetReportTemplate(Company company, int reportType, String[] params) {
+		super(company);
 		imgUrl = params[1];
 		style1 = params[2];
 		this.reportsHtml = params[0];
