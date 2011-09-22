@@ -823,8 +823,12 @@ public class CustomerCreditMemoView extends
 
 	@Override
 	public boolean canPrint() {
-
-		return true;
+		EditMode mode = getMode();
+		if (mode == EditMode.CREATE || mode == EditMode.EDIT) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	@Override
