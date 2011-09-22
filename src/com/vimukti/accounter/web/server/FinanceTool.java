@@ -4248,7 +4248,7 @@ public class FinanceTool {
 
 	public double getCalculatedDepreciatedAmount(int depreciationMethod,
 			double depreciationRate, double purchasePrice,
-			long depreciationFrom, long depreciationTo, Company company)
+			long depreciationFrom, long depreciationTo, long companyId)
 			throws DAOException {
 
 		/**
@@ -4292,6 +4292,7 @@ public class FinanceTool {
 		 * Fixed Asset at the end of Each Financial year by the depreciation
 		 * amount calculated for this fiscal year.
 		 */
+		Company company = getCompany(companyId);
 		FinanceDate startDate = company.getPreferences()
 				.getDepreciationStartDate();
 		Calendar startDateCal = new GregorianCalendar();
@@ -4607,7 +4608,7 @@ public class FinanceTool {
 						fixedAsset.getDepreciationRate(),
 						fixedAsset.getPurchasePrice(), depFrom.getDate(),
 						new FinanceDate(soldYearStartDateCal.getTime())
-								.getDate(), company);
+								.getDate(), companyId);
 				depreciationToBePostedAmount = Double.parseDouble(decimalFormat
 						.format(depreciationToBePostedAmount));
 
@@ -4659,7 +4660,7 @@ public class FinanceTool {
 							fixedAsset.getDepreciationMethod(),
 							fixedAsset.getDepreciationRate(),
 							fixedAsset.getPurchasePrice(), depFrom.getDate(),
-							depreciationTillDate.getDate(), company);
+							depreciationTillDate.getDate(), companyId);
 					depreciationToBePostedAmount = Double
 							.parseDouble(decimalFormat
 									.format(depreciationToBePostedAmount));
@@ -5297,7 +5298,7 @@ public class FinanceTool {
 	}
 
 	public ArrayList<AgedDebtors> getAgedDebtors(final FinanceDate startDate,
-			final FinanceDate endDate, Company company) throws DAOException {
+			final FinanceDate endDate, long companyId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getAgedDebtors")
@@ -5306,7 +5307,7 @@ public class FinanceTool {
 		List l = query.list();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		return prepareAgedDebotOrsorCreditors(new ArrayList<AgedDebtors>(l),
-				startDate, endDate, company);
+				startDate, endDate, companyId);
 	}
 
 	public ArrayList<AgedDebtors> getAgedDebtors(FinanceDate startDate,
@@ -5321,7 +5322,7 @@ public class FinanceTool {
 	}
 
 	public ArrayList<AgedDebtors> getAgedCreditors(final FinanceDate startDate,
-			FinanceDate endDate, Company company) throws DAOException {
+			FinanceDate endDate, long companyId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getAgedCreditors")
@@ -5330,12 +5331,12 @@ public class FinanceTool {
 		List l = query.list();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		return prepareAgedDebotOrsorCreditors(new ArrayList<AgedDebtors>(l),
-				startDate, endDate, company);
+				startDate, endDate, companyId);
 
 	}
 
 	private ArrayList<AgedDebtors> prepareAgedDebotOrsorCreditors(List list,
-			final FinanceDate startDate, FinanceDate endDate, Company company) {
+			final FinanceDate startDate, FinanceDate endDate, long companyId) {
 		Object[] object = null;
 		Iterator iterator = list.iterator();
 		List<AgedDebtors> queryResult = new ArrayList<AgedDebtors>();
@@ -5365,7 +5366,7 @@ public class FinanceTool {
 			agedDebtors
 					.setMemo(object[13] != null ? (String) object[13] : null);
 			long ageing = getAgeing(agedDebtors.getDate(),
-					agedDebtors.getDueDate(), endDate, company);
+					agedDebtors.getDueDate(), endDate, companyId);
 			int category = getCategory(ageing);
 			agedDebtors.setAgeing(ageing);
 			agedDebtors.setCategory(category);
@@ -5385,15 +5386,14 @@ public class FinanceTool {
 	}
 
 	public long getAgeing(ClientFinanceDate transactionDate,
-			ClientFinanceDate dueDate, final FinanceDate endDate,
-			Company company) {
+			ClientFinanceDate dueDate, final FinanceDate endDate, long companyId) {
 
 		long ageing = 0;
 
 		try {
 
 			ClientFinanceDate ageingForDueorTranactionDate;
-
+			Company company = getCompany(companyId);
 			if (company.getPreferences()
 					.getAgeingFromTransactionDateORDueDate() == CompanyPreferencesView.TYPE_AGEING_FROM_DUEDATE)
 				ageingForDueorTranactionDate = dueDate;
@@ -7458,7 +7458,7 @@ public class FinanceTool {
 	}
 
 	public ArrayList<VATDetail> getPriorVATReturnVATDetailReport(
-			TAXAgency vatAgency, FinanceDate endDate, Company company)
+			TAXAgency vatAgency, FinanceDate endDate, long companyId)
 			throws DAOException, ParseException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -7484,7 +7484,7 @@ public class FinanceTool {
 
 		VATDetailReport vatDetailReport = new VATDetailReport(
 				vatAgency.getVATReturn());
-
+		Company company = getCompany(companyId);
 		prepareVATDetailReport(vatDetailReport, vatAgency, startDate, endDate,
 				company);
 
@@ -8196,11 +8196,11 @@ public class FinanceTool {
 	}
 
 	public ArrayList<VATDetail> getVATDetailReport(FinanceDate startDate,
-			FinanceDate endDate, Company company) throws DAOException,
+			FinanceDate endDate, long companyId) throws DAOException,
 			ParseException {
 
 		VATDetailReport vatDetailReport = new VATDetailReport();
-
+		Company company = getCompany(companyId);
 		prepareVATDetailReport(vatDetailReport, null, startDate, endDate,
 				company);
 
@@ -11089,7 +11089,7 @@ public class FinanceTool {
 	// }
 
 	public ArrayList<PayeeStatementsList> getPayeeStatementsList(long id,
-			FinanceDate fromDate, FinanceDate toDate, Company company)
+			FinanceDate fromDate, FinanceDate toDate, long companyId)
 			throws DAOException {
 
 		try {
@@ -11151,10 +11151,9 @@ public class FinanceTool {
 							: (String) object[15]);
 					statementsList.setTransactionId(object[16] == null ? null
 							: ((Long) object[16]).longValue());
-
 					long ageing = getAgeing(
 							statementsList.getTransactionDate(),
-							statementsList.getDueDate(), toDate, company);
+							statementsList.getDueDate(), toDate, companyId);
 					statementsList.setAgeing(ageing);
 					statementsList.setCategory(getCategory(ageing));
 
@@ -11170,13 +11169,13 @@ public class FinanceTool {
 	}
 
 	public ArrayList<Double> getGraphPointsforAccount(int chartType,
-			long accountNo, Company company) throws DAOException {
+			long accountNo, long companyId) throws DAOException {
 
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
 			Query query = null;
-
+			Company company = getCompany(companyId);
 			FinanceDate currentDate = new FinanceDate();
 
 			if (chartType == GraphChart.BANK_ACCOUNT_CHART_TYPE) {
@@ -11658,12 +11657,13 @@ public class FinanceTool {
 		}
 	}
 
-	public void createAdminUser(ClientUser user, Company company) {
+	public void createAdminUser(ClientUser user, long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
 		User admin = new User(user);
 		admin.setActive(true);
 		session.save(admin);
+		Company company = getCompany(companyId);
 		company.getUsersList().add(admin);
 		session.saveOrUpdate(this);
 		transaction.commit();
@@ -12667,14 +12667,14 @@ public class FinanceTool {
 	 */
 	public void sendPdfInMail(long objectID, int type, long brandingThemeId,
 			String mimeType, String subject, String content,
-			String senderEmail, String toEmail, String ccEmail, Company company)
+			String senderEmail, String toEmail, String ccEmail, long companyId)
 			throws Exception, IOException {
 		BrandingTheme brandingTheme = (BrandingTheme) getServerObjectForid(
 				AccounterCoreType.BRANDINGTHEME, brandingThemeId);
 
 		String fileName = "";
 		String output = "";
-
+		Company company = getCompany(companyId);
 		String companyName = company.getFullName();
 
 		// for printing individual pdf documents
