@@ -936,21 +936,15 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	public ArrayList<ReceivePaymentTransactionList> getTransactionReceivePayments(
-			long customerId, long paymentDate) {
+			long customerId, long paymentDate) throws AccounterException {
 		List<ReceivePaymentTransactionList> receivePaymentTransactionList = null;
 
-		try {
+		receivePaymentTransactionList = getFinanceTool()
+				.getTransactionReceivePayments(customerId, paymentDate);
 
-			receivePaymentTransactionList = getFinanceTool()
-					.getTransactionReceivePayments(customerId, paymentDate);
-
-			// receivePaymentTransactionList =
-			// (List<ReceivePaymentTransactionList>) manager
-			// .merge(receivePaymentTransactionList);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		// receivePaymentTransactionList =
+		// (List<ReceivePaymentTransactionList>) manager
+		// .merge(receivePaymentTransactionList);
 
 		return new ArrayList<ReceivePaymentTransactionList>(
 				receivePaymentTransactionList);
@@ -1696,7 +1690,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<ClientTDSInfo> getPayBillsByTDS() throws AccounterException {
+	public ArrayList<ClientTDSInfo> getPayBillsByTDS()
+			throws AccounterException {
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
 

@@ -2506,11 +2506,9 @@ public class FinanceTool {
 		}
 	}
 
-	public ArrayList<ReceivePaymentTransactionList> getTransactionReceivePayments(
-			long customerId, long paymentDate1) throws DAOException,
-			ParseException {
+	public List<ReceivePaymentTransactionList> getTransactionReceivePayments(
+			long customerId, long paymentDate1) throws AccounterException {
 		try {
-
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			FinanceDate paymentDate = null;
 			paymentDate = new FinanceDate(paymentDate1);
@@ -2586,12 +2584,17 @@ public class FinanceTool {
 							.setPayment((Double) object[7]);
 					queryResult.add(receivePaymentTransactionList);
 				}
-			} else
-				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
-						null));
-			return new ArrayList<ReceivePaymentTransactionList>(queryResult);
-		} catch (DAOException e) {
-			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
+			} else {
+				throw new AccounterException(
+						AccounterException.ERROR_ILLEGAL_ARGUMENT);
+			}
+			return queryResult;
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (e instanceof AccounterException) {
+				throw (AccounterException) e;
+			}
+			throw new AccounterException(AccounterException.ERROR_INTERNAL, e);
 		}
 
 	}
