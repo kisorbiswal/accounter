@@ -848,6 +848,10 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 
+		if (vendorCombo.getSelectedValue() == null) {
+			vendorCombo.setValue("");
+		}
+
 		// Validations
 		// 1. is valid transaction date?
 		// 2. is in prevent posting before date?

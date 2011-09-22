@@ -516,6 +516,10 @@ public class NewVendorPaymentView extends
 	public ValidationResult validate() {
 
 		ValidationResult result = super.validate();
+
+		if (vendorCombo.getSelectedValue() == null) {
+			vendorCombo.setValue("");
+		}
 		// Validations
 		// 1. is valid transaction date?
 		// 2. is in prevent posting before date?
