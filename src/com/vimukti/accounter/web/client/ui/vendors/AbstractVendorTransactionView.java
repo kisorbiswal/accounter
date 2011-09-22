@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
@@ -718,6 +719,15 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 				.getTAXCode() > 0 ? getVendor().getTAXCode() : defaultTaxCode)
 				: defaultTaxCode);
 		addItemTransactionItem(transactionItem);
+	}
+
+	@Override
+	public ValidationResult validate() {
+		ValidationResult result = super.validate();
+		if (vendorCombo.getSelectedValue() == null) {
+			vendorCombo.setValue("");
+		}
+		return result;
 	}
 
 	protected abstract void addAccountTransactionItem(ClientTransactionItem item);
