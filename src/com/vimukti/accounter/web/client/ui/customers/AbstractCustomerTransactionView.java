@@ -706,7 +706,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	}
 
 	protected AmountLabel createVATTotalNonEditableLabel() {
-		AmountLabel amountLabel = new AmountLabel(Accounter.constants().vat());
+		AmountLabel amountLabel = new AmountLabel(Accounter.constants().tax());
 
 		return amountLabel;
 	}
