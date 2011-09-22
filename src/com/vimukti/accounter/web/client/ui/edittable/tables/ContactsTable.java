@@ -46,12 +46,6 @@ public class ContactsTable extends EditTable<ClientContact> {
 			}
 
 			@Override
-			protected void onHeaderValueChanged(boolean value) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
 			public IsWidget getHeader() {
 				Label columnHeader = new Label(Accounter.constants().primary());
 				return columnHeader;
