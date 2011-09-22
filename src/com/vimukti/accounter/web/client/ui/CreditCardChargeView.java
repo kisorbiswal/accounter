@@ -14,7 +14,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
@@ -152,7 +151,7 @@ public class CreditCardChargeView extends
 		contactCombo.setDisabled(isInViewMode());
 		phoneSelect.setDisabled(isInViewMode());
 		for (ClientAddress toBeShown : allAddress) {
-			if (toBeShown.getType() == Address.TYPE_BILL_TO) {
+			if (toBeShown.getType() == ClientAddress.TYPE_BILL_TO) {
 				String toToSet = new String();
 				if (toBeShown.getStreet() != null) {
 					toToSet = toBeShown.getStreet().toString() + ",\n";
