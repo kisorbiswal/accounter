@@ -1144,13 +1144,13 @@ public class VendorView extends BaseView<ClientVendor> {
 		if (company.getAccountingType() == 1)
 			addSuplierTaxCode();
 		addShippingMethodList();
-		addPaymentMethodList();
 		addPaymentTermsList();
 		if (data != null && data.getPhoneNo() != null)
 			data.setPhoneNo(data.getPhoneNo());
 		if (data != null && data.getFaxNo() != null)
 			data.setFaxNo(data.getFaxNo());
 		initMainValues();
+		addPaymentMethodList();
 	}
 
 	private void initMainValues() {

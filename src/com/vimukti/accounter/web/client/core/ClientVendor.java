@@ -167,7 +167,7 @@ public class ClientVendor extends ClientPayee {
 	 * @return the shippingMethod
 	 */
 	public long getShippingMethod() {
-		return 0;
+		return shippingMethod;
 	}
 
 	/**
