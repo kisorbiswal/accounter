@@ -238,7 +238,7 @@ public class CustomerQuoteListDialog extends BaseDialog {
 	public void setQuoteList(List<EstimatesAndSalesOrdersList> result) {
 		if (result == null)
 			return;
-		this.estimatesAndSalesOrder = result;
+		//this.estimatesAndSalesOrder = result;
 		grid.removeAllRecords();
 		
 		for (EstimatesAndSalesOrdersList rec : estimatesAndSalesOrder) {

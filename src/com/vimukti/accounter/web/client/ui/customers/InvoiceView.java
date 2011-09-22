@@ -505,9 +505,15 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			public void updateNonEditableItems() {
 				InvoiceView.this.updateNonEditableItems();
 			}
+
+			@Override
+			protected void addEmptyRecords() {
+				// TODO Auto-generated method stub
+				
+			}
 		};
 		customerTransactionTable.setDisabled(isInViewMode());
-
+		// customerTransactionTable.clear();
 		itemTableButton = new AddNewButton();
 		itemTableButton.setEnabled(!isInViewMode());
 		itemTableButton.addClickHandler(new ClickHandler() {
@@ -910,6 +916,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		if (dialog == null) {
 			dialog = new CustomerQuoteListDialog(this, filteredList);
+			customerTransactionTable.clear();
 		}
 
 		dialog.setQuoteList(filteredList);
@@ -992,7 +999,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		selectedEstimateId = selectedEstimate.getID();
 		orderNum = selectedEstimate.getNumber();
 		orderNumText.setValue(orderNum);
-		customerTransactionTable.setAllRows(itemsList);
+		customerTransactionTable.addRows(itemsList);
 		customerTransactionTable.updateTotals();
 		// if (selectedEstimate == null)
 		// return;
@@ -1560,7 +1567,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 				if (record.getReferringTransactionItem() == salesRecord.getID())
 					customerTransactionTable.delete(record);
-
 		}
 		// if (dialog.preCustomer == null || dialog.preCustomer !=
 		// this.customer) {
@@ -1602,7 +1608,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		selectedSalesOrder = salesOrder.getID();
 		orderNum = salesOrder.getNumber();
 		orderNumText.setValue(orderNum);
-		customerTransactionTable.setAllRows(itemsList);
+		customerTransactionTable.addRows(itemsList);
 		customerTransactionTable.updateTotals();
 	}
 
