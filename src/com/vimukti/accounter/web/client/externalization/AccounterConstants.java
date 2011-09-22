@@ -3463,6 +3463,10 @@ public interface AccounterConstants extends Constants {
 	public String totalOtherIncome();
 
 	public String totalOutStandingBalance();
+	
+	public String totalPaymentNotZeroForSelectedRecords();
+	
+	public String totalPaymentNotExceedDueForSelectedRecords();
 
 	public String totalPrice();
 
