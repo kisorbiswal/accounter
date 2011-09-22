@@ -35,6 +35,7 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 
 	private void initialise() {
 		getGrid().setType(AccounterCoreType.SHIPPING_TERM);
+		getGrid().setCellsWidth(new Integer[] { 125, 175 });
 		getGrid().addRecordClickHandler(
 				new GridRecordClickHandler<ClientShippingTerms>() {
 

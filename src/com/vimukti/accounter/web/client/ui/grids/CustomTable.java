@@ -13,9 +13,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FocusWidget;
-import com.google.gwt.user.client.ui.HTMLTable.Cell;
-import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
-import com.google.gwt.user.client.ui.HTMLTable.RowFormatter;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -24,6 +21,9 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.HTMLTable.Cell;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwt.user.client.ui.HTMLTable.RowFormatter;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -48,7 +48,7 @@ public abstract class CustomTable extends VerticalPanel {
 	protected int currentCol = 0;
 
 	protected boolean isDecending;
-
+	public static int BODY_WIDTH = 0;
 	public RowFormatter rowFormatter;
 	public CellFormatter cellFormatter;
 
@@ -192,8 +192,8 @@ public abstract class CustomTable extends VerticalPanel {
 
 		Element par = this.header.getElement().getParentElement().cast();
 		par.addClassName("gridHeaderParent");
-		this.header.getElement().getParentElement().getStyle()
-				.setHeight(10, Unit.PX);
+		this.header.getElement().getParentElement().getStyle().setHeight(10,
+				Unit.PX);
 
 		panel = new ScrollPanel();
 		panel.getElement().removeAttribute("style");
@@ -530,7 +530,11 @@ public abstract class CustomTable extends VerticalPanel {
 						Element cell = table.getCellFormatter().getElement(row,
 								i);
 						parentWidth = parentWidth - cellWidth;
-						cell.setAttribute("width", "" + cellWidth);
+						if (table.equals(body) && BODY_WIDTH == 1)
+							cell.setAttribute("width", ""
+									+ (cellWidth - (20 / nofCols)));
+						else
+							cell.setAttribute("width", "" + cellWidth);
 					} catch (IndexOutOfBoundsException e) {
 						e.printStackTrace();
 					}
@@ -557,11 +561,11 @@ public abstract class CustomTable extends VerticalPanel {
 
 			if (isMultiSelectionEnable) {
 				if (UIUtils.isMSIEBrowser())
-					table.getCellFormatter().getElement(row, 0)
-							.setAttribute("width", "" + 25);
+					table.getCellFormatter().getElement(row, 0).setAttribute(
+							"width", "" + 25);
 				else
-					table.getCellFormatter().getElement(row, 0)
-							.setAttribute("width", "" + 15);
+					table.getCellFormatter().getElement(row, 0).setAttribute(
+							"width", "" + 15);
 			}
 
 		} catch (Exception e) {
@@ -580,18 +584,23 @@ public abstract class CustomTable extends VerticalPanel {
 	@Override
 	protected void onLoad() {
 		width = header.getOffsetWidth() - 90;
-
+		if (BODY_WIDTH == 1)
+			bodyCellWidth();
 		adjustCellsWidth(0, header);
-		// body.setWidth(header.getOffsetWidth() + "px");
-		// for (int row = 0; row < this.body.getRowCount(); row++) {
-		// adjustCellsWidth(row, body);
-		// }
-		this.body.getParent().getElement().getParentElement()
-				.addClassName("list-grid-body");
-
 		if (isShowFooter) {
 			adjustCellsWidth(0, footer);
 		}
+	}
+
+	private void bodyCellWidth() {
+		bodyCellCount = 1;
+		body.setWidth((header.getOffsetWidth()) + "px");
+		for (int row = 0; row < this.body.getRowCount(); row++) {
+			adjustCellsWidth(row, body);
+		}
+		this.body.getParent().getElement().getParentElement().addClassName(
+				"list-grid-body");
+		BODY_WIDTH = 0;
 	}
 
 	public void eventFired(final RowCell cell) {

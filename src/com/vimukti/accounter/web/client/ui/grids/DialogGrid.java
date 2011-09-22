@@ -96,6 +96,7 @@ public class DialogGrid<T extends IAccounterCore> extends ListGrid<T> {
 			this.cellsWidth.add(wth);
 		}
 	}
+	
 
 	@Override
 	protected int getCellWidth(int index) {

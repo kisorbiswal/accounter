@@ -38,6 +38,7 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 
 	public void initialise() {
 		getGrid().setType(AccounterCoreType.PRICE_LEVEL);
+		getGrid().setCellsWidth(new Integer[] { 125, 175 });
 		getGrid().addRecordClickHandler(
 				new GridRecordClickHandler<ClientPriceLevel>() {
 
@@ -115,7 +116,8 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 						.getValue().toString() : "");
 		priceLevel
 				.setPercentage(dialog.percentText.getPercentage() != null ? dialog.percentText
-						.getPercentage() : 0.0);
+						.getPercentage()
+						: 0.0);
 		String val = dialog.getIncrOrDecrPercentValue();
 		if (val != null) {
 			priceLevel.setPriceLevelDecreaseByThisPercentage(val
@@ -133,7 +135,8 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 						.getValue().toString() : "");
 		priceLevel
 				.setPercentage(dialog.percentText.getPercentage() != null ? dialog.percentText
-						.getPercentage() : 0.0);
+						.getPercentage()
+						: 0.0);
 		String val = dialog.getIncrOrDecrPercentValue();
 		if (val != null) {
 			priceLevel.setPriceLevelDecreaseByThisPercentage(val
@@ -208,7 +211,7 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

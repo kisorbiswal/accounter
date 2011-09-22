@@ -67,6 +67,7 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 		listGridView.setView(this);
 		listGridView.addColumns(setColumns());
 		listGridView.setColumnTypes(getColunmTypes());
+		DialogGrid.BODY_WIDTH=1;
 		listGridView.isEnable = false;
 		listGridView.init();
 		listGridView.setWidth("100%");

@@ -37,6 +37,7 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 
 	private void initialise() {
 		getGrid().setType(AccounterCoreType.SHIPPING_METHOD);
+		getGrid().setCellsWidth(new Integer[] { 140, 190 });
 		getGrid().addRecordClickHandler(
 				new GridRecordClickHandler<ClientShippingMethod>() {
 

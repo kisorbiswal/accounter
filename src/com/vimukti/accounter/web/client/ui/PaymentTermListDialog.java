@@ -36,9 +36,8 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 	private void createControls() {
 		listGridView.setType(AccounterCoreType.PAYMENT_TERM);
-		setSize("400px", "250px");
-
-		listGridView.setSize("400px", "300px");
+		listGridView.setCellsWidth(new Integer[] { 120, 140, 130, 135 });
+		listGridView.setSize("515px", "500px");
 		listGridView
 				.addRecordClickHandler(new GridRecordClickHandler<ClientPaymentTerms>() {
 

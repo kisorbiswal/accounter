@@ -54,6 +54,17 @@ public class ECSalesListServerReport extends AbstractFinaneReport<ECSalesList> {
 	}
 
 	@Override
+	public int getColumnWidth(int index) {
+		switch (index) {
+		case 1:
+			return 300;
+		default:
+			break;
+		}
+		return super.getColumnWidth(index);
+	}
+
+	@Override
 	public String getTitle() {
 		return getConstants().ecSalesList();
 	}
@@ -140,8 +151,8 @@ public class ECSalesListServerReport extends AbstractFinaneReport<ECSalesList> {
 	public int sort(ECSalesList obj1, ECSalesList obj2, int col) {
 		switch (col) {
 		case 0:
-			return obj1.getName().toLowerCase()
-					.compareTo(obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase().compareTo(
+					obj2.getName().toLowerCase());
 		case 1:
 			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
 		}
@@ -153,5 +164,5 @@ public class ECSalesListServerReport extends AbstractFinaneReport<ECSalesList> {
 		this.sectionDepth = 0;
 		this.sectionName = "";
 	}
-	
+
 }
