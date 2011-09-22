@@ -977,24 +977,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 									.transactionitemtotalcannotbe0orlessthan0());
 				}
 
-				if (getCompany().getPreferences().isRegisteredForVAT()) {
-					if (transactionItem.getTaxCode() != 0) {
-						ClientTAXCode code = getCompany().getTAXCode(
-								transactionItem.getTaxCode());
-
-						if (code.getName().equalsIgnoreCase("New S")
-								&& getTransactionDate().before(
-										new ClientFinanceDate(2011 - 1900,
-												01 - 1, 04))) {
-							result.addError(
-									"transactionDate"
-											+ transactionItem.getAccount()
-											+ transactionItem.getAccount(),
-									Accounter.constants().vat4thJanError());
-						}
-					}
-				}
-
 				if (getPreferences().isClassTrackingEnabled()
 						&& !getPreferences().isClassOnePerTransaction()
 						&& getPreferences().isWarnOnEmptyClass()
@@ -1453,5 +1435,22 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			}
 		}
 		return list;
+	}
+
+	public boolean isTrackTax() {
+		if (transaction != null && transaction.haveTax()) {
+			return true;
+		} else {
+			return getPreferences().isTrackTax();
+		}
+	}
+
+	public boolean isTaxPerDetailLine() {
+		if (transaction != null
+				&& transaction.usesDifferentTaxCodes()) {
+			return true;
+		} else {
+			return getPreferences().isTaxPerDetailLine();
+		}
 	}
 }

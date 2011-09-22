@@ -60,7 +60,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	public static final int STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED = 1;
 	public static final int STATUS_PAID_OR_APPLIED_OR_ISSUED = 2;
 	public static final int STATUS_DELETED = 3;
-	
+
 	public static final int STATUS_DRAFT = 201;
 	public static final int STATUS_APPROVE = 202;
 
@@ -108,7 +108,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	 * draft.
 	 */
 	private int saveStatus = 0;
-	
+
 	boolean isVoid;
 	boolean isDeleted;
 	boolean isEdited;
@@ -870,119 +870,6 @@ public abstract class ClientTransaction implements IAccounterCore {
 		this.reconciliation = reconciliation;
 	}
 
-	/*
-	 * protected ClientTransaction(ClientTransaction original){
-	 * amountsIncludeVAT = original.amountsIncludeVAT; canEdit =
-	 * original.canEdit; canVoidOrEdit = original.canVoidOrEdit;
-	 * if(original.creditsAndPayments!=null){ creditsAndPayments = new
-	 * ClientCreditsAndPayments(original.creditsAndPayments); } currencyCode =
-	 * original.currencyCode; currencyFactor = original.currencyFactor;
-	 * 
-	 * if(original.entry!=null){ entry = new ArrayList<ClientEntry>(); for
-	 * (ClientEntry e : original.entry) { entry.add(new ClientEntry(e)); } }
-	 * 
-	 * // id = original.id; isDeleted = original.isDeleted; isDeposited =
-	 * original.isDeposited; isEdited = original.isEdited; isVoid =
-	 * original.isVoid; memo = original.memo; netAmount = original.netAmount;
-	 * number = original.number; paymentMethod = original.paymentMethod;
-	 * previousTotal = original.previousTotal; recurringTransaction =
-	 * original.recurringTransaction; reference = original.reference; status =
-	 * original.status; subTotal = original.subTotal; total = original.total;
-	 * totalNonTaxableAmount = original.totalNonTaxableAmount;
-	 * totalTaxableAmount = original.totalTaxableAmount; transactionDate =
-	 * original.transactionDate; // transactionIssuePayment //
-	 * if(original.transactionIssuePayment!=null){ // transactionIssuePayment =
-	 * new ArrayList<ClientTransactionIssuePayment>(); // for
-	 * (ClientTransactionIssuePayment e : original.transactionIssuePayment) { //
-	 * transactionIssuePayment.add(new ClientTransactionIssuePayment(e)); // }
-	 * // }
-	 * 
-	 * // transactionItems // if(original.transactionItems!=null){ //
-	 * transactionItems = new ArrayList<ClientTransactionItem>(); // for
-	 * (ClientTransactionItem e : original.transactionItems) { //
-	 * transactionItems.add(new ClientTransactionItem(e)); // } // }
-	 * 
-	 * // transactionMakeDeposit if(original.transactionMakeDeposit!=null){
-	 * transactionMakeDeposit = new ArrayList<ClientTransactionMakeDeposit>();
-	 * for (ClientTransactionMakeDeposit e: original.transactionMakeDeposit) {
-	 * transactionMakeDeposit.add(new ClientTransactionMakeDeposit(e)); } }
-	 * 
-	 * transactionMakeDepositEntries = original.transactionMakeDepositEntries;
-	 * // transactionPayBill if(original.transactionPayBill!=null){
-	 * transactionPayBill = new ArrayList<ClientTransactionPayBill>(); for
-	 * (ClientTransactionPayBill e : original.transactionPayBill) {
-	 * transactionPayBill.add(new ClientTransactionPayBill(e)); } }
-	 * 
-	 * // transactionPaySalesTax if(original.transactionPaySalesTax!=null){
-	 * transactionPaySalesTax = new ArrayList<ClientTransactionPaySalesTax>();
-	 * for (ClientTransactionPaySalesTax e : original.transactionPaySalesTax) {
-	 * transactionPaySalesTax.add(new ClientTransactionPaySalesTax(e)); } } //
-	 * transactionReceivePayment if(original.transactionReceivePayment!=null){
-	 * transactionReceivePayment = new
-	 * ArrayList<ClientTransactionReceivePayment>(); for
-	 * (ClientTransactionReceivePayment e : original.transactionReceivePayment)
-	 * { transactionReceivePayment.add(new ClientTransactionReceivePayment(e));
-	 * } }
-	 * 
-	 * type = original.type; version = original.version; }
-	 */
-	/*
-	 * protected ClientTransaction(ClientTransaction original){
-	 * amountsIncludeVAT = original.amountsIncludeVAT; canEdit =
-	 * original.canEdit; canVoidOrEdit = original.canVoidOrEdit;
-	 * if(original.creditsAndPayments!=null){ creditsAndPayments = new
-	 * ClientCreditsAndPayments(original.creditsAndPayments); } currencyCode =
-	 * original.currencyCode; currencyFactor = original.currencyFactor;
-	 * 
-	 * if(original.entry!=null){ entry = new ArrayList<ClientEntry>(); for
-	 * (ClientEntry e : original.entry) { entry.add(new ClientEntry(e)); } }
-	 * 
-	 * // id = original.id; isDeleted = original.isDeleted; isDeposited =
-	 * original.isDeposited; isEdited = original.isEdited; isVoid =
-	 * original.isVoid; memo = original.memo; netAmount = original.netAmount;
-	 * number = original.number; paymentMethod = original.paymentMethod;
-	 * previousTotal = original.previousTotal; recurringTransaction =
-	 * original.recurringTransaction; reference = original.reference; status =
-	 * original.status; subTotal = original.subTotal; total = original.total;
-	 * totalNonTaxableAmount = original.totalNonTaxableAmount;
-	 * totalTaxableAmount = original.totalTaxableAmount; transactionDate =
-	 * original.transactionDate; // transactionIssuePayment //
-	 * if(original.transactionIssuePayment!=null){ // transactionIssuePayment =
-	 * new ArrayList<ClientTransactionIssuePayment>(); // for
-	 * (ClientTransactionIssuePayment e : original.transactionIssuePayment) { //
-	 * transactionIssuePayment.add(new ClientTransactionIssuePayment(e)); // }
-	 * // }
-	 * 
-	 * // transactionItems // if(original.transactionItems!=null){ //
-	 * transactionItems = new ArrayList<ClientTransactionItem>(); // for
-	 * (ClientTransactionItem e : original.transactionItems) { //
-	 * transactionItems.add(new ClientTransactionItem(e)); // } // }
-	 * 
-	 * // transactionMakeDeposit if(original.transactionMakeDeposit!=null){
-	 * transactionMakeDeposit = new ArrayList<ClientTransactionMakeDeposit>();
-	 * for (ClientTransactionMakeDeposit e: original.transactionMakeDeposit) {
-	 * transactionMakeDeposit.add(new ClientTransactionMakeDeposit(e)); } }
-	 * 
-	 * transactionMakeDepositEntries = original.transactionMakeDepositEntries;
-	 * // transactionPayBill if(original.transactionPayBill!=null){
-	 * transactionPayBill = new ArrayList<ClientTransactionPayBill>(); for
-	 * (ClientTransactionPayBill e : original.transactionPayBill) {
-	 * transactionPayBill.add(new ClientTransactionPayBill(e)); } }
-	 * 
-	 * // transactionPaySalesTax if(original.transactionPaySalesTax!=null){
-	 * transactionPaySalesTax = new ArrayList<ClientTransactionPaySalesTax>();
-	 * for (ClientTransactionPaySalesTax e : original.transactionPaySalesTax) {
-	 * transactionPaySalesTax.add(new ClientTransactionPaySalesTax(e)); } } //
-	 * transactionReceivePayment if(original.transactionReceivePayment!=null){
-	 * transactionReceivePayment = new
-	 * ArrayList<ClientTransactionReceivePayment>(); for
-	 * (ClientTransactionReceivePayment e : original.transactionReceivePayment)
-	 * { transactionReceivePayment.add(new ClientTransactionReceivePayment(e));
-	 * } }
-	 * 
-	 * type = original.type; version = original.version; }
-	 */
-
 	public ClientAccounterClass getAccounterClass() {
 		return accounterClass;
 	}
@@ -1004,5 +891,42 @@ public abstract class ClientTransaction implements IAccounterCore {
 	 */
 	public void setLastActivity(ClientActivity lastActivity) {
 		this.lastActivity = lastActivity;
+	}
+
+	/**
+	 * This method tells if we are using different tax codes for each item or
+	 * not. We need to depend on it while editing irrespective of the preference
+	 * 
+	 * @return
+	 */
+	public boolean usesDifferentTaxCodes() {
+		if (transactionItems == null) {
+			return false;
+		}
+		long taxCode = -1;
+		for (ClientTransactionItem item : this.transactionItems) {
+			long code = item.getTaxCode();
+			if (taxCode == -1) {
+				taxCode = code;
+				continue;
+			}
+			if (code != taxCode) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean haveTax(){
+		if (transactionItems == null) {
+			return false;
+		}
+		for (ClientTransactionItem item : this.transactionItems) {
+			long code = item.getTaxCode();
+			if (code != 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
