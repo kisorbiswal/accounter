@@ -644,7 +644,7 @@ public class CustomerCreditMemoView extends
 						.setAllRows(getItemTransactionItems(ent
 								.getTransactionItems()));
 			} else if (ent != null && ent.getCustomer() != customer.getID()) {
-				this.customerAccountTransactionTable.resetRecords();
+				// this.customerAccountTransactionTable.resetRecords();
 				this.customerAccountTransactionTable.updateTotals();
 				this.customerItemTransactionTable.updateTotals();
 			} else if (ent == null)

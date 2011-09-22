@@ -150,6 +150,7 @@ public class CreditCardChargeView extends
 
 		contactCombo.setDisabled(isInViewMode());
 		phoneSelect.setDisabled(isInViewMode());
+		billToAreaItem.setValue(null);
 		for (ClientAddress toBeShown : allAddress) {
 			if (toBeShown.getType() == ClientAddress.TYPE_BILL_TO) {
 				String toToSet = new String();
