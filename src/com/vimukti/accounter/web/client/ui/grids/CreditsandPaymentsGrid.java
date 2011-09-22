@@ -318,7 +318,16 @@ public class CreditsandPaymentsGrid extends
 
 	@Override
 	protected int getCellWidth(int index) {
-		return -1;
+		switch (index) {
+		case 0:
+			return 75;
+		case 2:
+		case 3:
+		case 4:
+			return 100;
+		default:
+			return -1;
+		}
 	}
 
 	@Override
@@ -333,13 +342,13 @@ public class CreditsandPaymentsGrid extends
 			return creditsAndPayments.getMemo();
 		case 2:
 			return amountAsString(getAmountInForeignCurrency(creditsAndPayments
-							.getCreditAmount()));
+					.getCreditAmount()));
 		case 3:
 			return amountAsString(getAmountInForeignCurrency(creditsAndPayments
-							.getBalance()));
+					.getBalance()));
 		case 4:
 			return amountAsString(getAmountInForeignCurrency(creditsAndPayments
-							.getAmtTouse()));
+					.getAmtTouse()));
 		default:
 			break;
 		}
@@ -351,8 +360,7 @@ public class CreditsandPaymentsGrid extends
 		ValidationResult result = new ValidationResult();
 		if (this.getRecords().size() > 0
 				&& this.getSelectedRecords().size() == 0) {
-			result.addError(this, Accounter.constants()
-					.selectTransaction());
+			result.addError(this, Accounter.constants().selectTransaction());
 		}
 		return result;
 	}
