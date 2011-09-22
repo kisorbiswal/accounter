@@ -54,8 +54,6 @@ import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
-import com.vimukti.accounter.web.client.ui.grids.SalesOrderGrid;
 
 public class SalesOrderView extends
 		AbstractCustomerTransactionView<ClientSalesOrder> {
@@ -527,17 +525,6 @@ public class SalesOrderView extends
 		shipToAddress.getCellFormatter().setWidth(0, 2, "200");
 		statusSelect.setWidth("150px");
 		// refText.setWidth("200px");
-	}
-
-	public AbstractTransactionGrid<ClientTransactionItem> getGrid() {
-
-		// if (getCompany().getAccountingType() ==
-		// ClientCompany.ACCOUNTING_TYPE_US)
-		// return new SalesOrderUSGrid();
-		// else
-		// return new SalesOrderUKGrid();
-		return new SalesOrderGrid();
-
 	}
 
 	private void initDueDate() {
