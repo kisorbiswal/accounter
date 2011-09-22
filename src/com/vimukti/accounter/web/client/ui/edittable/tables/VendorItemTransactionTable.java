@@ -28,7 +28,7 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 	/**
 	 * This method will add 4 empty records to the table.
 	 */
-	private void addEmptyRecords() {
+	protected void addEmptyRecords() {
 		for (int i = 0; i < 4; i++) {
 			ClientTransactionItem item = new ClientTransactionItem();
 			item.setType(ClientTransactionItem.TYPE_ITEM);

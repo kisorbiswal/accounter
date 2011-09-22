@@ -35,6 +35,8 @@ public abstract class AbstractTransactionTable extends
 
 	protected abstract void initColumns();
 
+	protected abstract void addEmptyRecords();
+
 	public void updateTotals() {
 
 		List<ClientTransactionItem> allrecords = getAllRows();
@@ -100,6 +102,7 @@ public abstract class AbstractTransactionTable extends
 
 	@Override
 	public void setAllRows(List<ClientTransactionItem> rows) {
+		clear();
 		for (ClientTransactionItem item : rows) {
 			item.setID(0);
 			item.taxRateCalculationEntriesList.clear();
@@ -228,6 +231,11 @@ public abstract class AbstractTransactionTable extends
 			}
 		}
 		updateTotals();
+	}
+
+	public void resetRecords() {
+		clear();
+		addEmptyRecords();
 	}
 
 }

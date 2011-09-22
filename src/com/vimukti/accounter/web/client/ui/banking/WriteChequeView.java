@@ -723,8 +723,8 @@ public class WriteChequeView extends
 									.getDisplayName(getCompany().getTAXItem(
 											payee.getTaxItemCode())));
 
-							transactionVendorAccountTable.removeAllRecords();
-							transactionVendorItemTable.removeAllRecords();
+							transactionVendorAccountTable.resetRecords();
+							transactionVendorItemTable.resetRecords();
 							// } else if (payee instanceof ClientTAXAgency)
 							// {
 							// taxAgencyGrid.removeAllRecords();
@@ -922,7 +922,7 @@ public class WriteChequeView extends
 			}
 		};
 		transactionVendorItemTable.setDisabled(isInViewMode());
-		
+
 		accountTableButton = new AddNewButton();
 		accountTableButton.setEnabled(!isInViewMode());
 		accountTableButton.addClickHandler(new ClickHandler() {

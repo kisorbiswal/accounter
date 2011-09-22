@@ -634,10 +634,9 @@ public class CustomerCreditMemoView extends
 	@Override
 	protected void customerSelected(ClientCustomer customer) {
 		if (this.getCustomer() != null && this.getCustomer() != customer) {
-			ClientCustomerCreditMemo ent = (ClientCustomerCreditMemo) this.transaction;
+			ClientCustomerCreditMemo ent = this.transaction;
 
 			if (ent != null && ent.getCustomer() == customer.getID()) {
-				this.customerAccountTransactionTable.removeAllRecords();
 				this.customerAccountTransactionTable
 						.setAllRows(getAccountTransactionItems(ent
 								.getTransactionItems()));
@@ -645,11 +644,11 @@ public class CustomerCreditMemoView extends
 						.setAllRows(getItemTransactionItems(ent
 								.getTransactionItems()));
 			} else if (ent != null && ent.getCustomer() != customer.getID()) {
-				this.customerAccountTransactionTable.removeAllRecords();
+				this.customerAccountTransactionTable.resetRecords();
 				this.customerAccountTransactionTable.updateTotals();
 				this.customerItemTransactionTable.updateTotals();
 			} else if (ent == null)
-				this.customerAccountTransactionTable.removeAllRecords();
+				this.customerAccountTransactionTable.resetRecords();
 		}
 		super.customerSelected(customer);
 		shippingTermSelected(shippingTerm);

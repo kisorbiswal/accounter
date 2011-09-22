@@ -59,7 +59,6 @@ public class VendorCreditMemoView extends
 			ClientVendorCreditMemo ent = (ClientVendorCreditMemo) this.transaction;
 
 			if (ent != null && ent.getVendor() == vendor.getID()) {
-				this.vendorAccountTransactionTable.removeAllRecords();
 				this.vendorAccountTransactionTable
 						.setRecords(getAccountTransactionItems(ent
 								.getTransactionItems()));
@@ -67,7 +66,7 @@ public class VendorCreditMemoView extends
 						.setRecords(getItemTransactionItems(ent
 								.getTransactionItems()));
 			} else if (ent != null && ent.getVendor() != vendor.getID()) {
-				this.vendorAccountTransactionTable.removeAllRecords();
+				this.vendorAccountTransactionTable.resetRecords();
 				this.vendorAccountTransactionTable.updateTotals();
 				this.vendorItemTransactionTable.updateTotals();
 			}

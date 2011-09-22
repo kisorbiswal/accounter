@@ -323,7 +323,7 @@ public class ItemReceiptView extends
 		super.vendorSelected(vendor);
 
 		if (transaction == null)
-			vendorAccountTransactionTable.removeAllRecords();
+			vendorAccountTransactionTable.resetRecords();
 		selectedPurchaseOrders = new ArrayList<ClientPurchaseOrder>();
 
 		vendorCombo.setComboItem(vendor);

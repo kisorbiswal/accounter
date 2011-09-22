@@ -236,7 +236,7 @@ public class VendorBillView extends
 
 		super.vendorSelected(vendor);
 		if (transaction == null)
-			vendorAccountTransactionTable.removeAllRecords();
+			vendorAccountTransactionTable.resetRecords();
 
 		selectedOrdersAndItemReceipts = new ArrayList<ClientTransaction>();
 		if (!(isInViewMode() && vendor.getID() == transaction.getVendor()))
@@ -261,7 +261,6 @@ public class VendorBillView extends
 			ClientEnterBill ent = (ClientEnterBill) this.transaction;
 
 			if (ent != null && ent.getVendor() == vendor.getID()) {
-				this.vendorAccountTransactionTable.removeAllRecords();
 				this.vendorAccountTransactionTable
 						.setRecords(getAccountTransactionItems(ent
 								.getTransactionItems()));
@@ -271,7 +270,7 @@ public class VendorBillView extends
 				selectedPurchaseOrder = ent.getPurchaseOrder();
 				selectedItemReceipt = ent.getItemReceipt();
 			} else if (ent != null && ent.getVendor() != vendor.getID()) {
-				this.vendorAccountTransactionTable.removeAllRecords();
+				this.vendorAccountTransactionTable.resetRecords();
 				this.vendorAccountTransactionTable.updateTotals();
 				this.vendorItemTransactionTable.updateTotals();
 

@@ -869,7 +869,7 @@ public class SalesOrderView extends
 			if (this.getCustomer() != null
 					&& !this.getCustomer().equals(customer)
 					&& transaction == null)
-				customerTransactionTable.removeAllRecords();
+				customerTransactionTable.resetRecords();
 			selectedSalesOrders = new ArrayList<ClientEstimate>();
 			this.setCustomer(customer);
 			super.customerSelected(customer);

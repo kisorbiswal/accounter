@@ -710,11 +710,9 @@ public class CreditCardExpenseView extends
 			payMethSelect.setComboItem(transaction.getPaymentMethod());
 			payMethSelect.setDisabled(isInViewMode());
 			cheqNoText.setDisabled(isInViewMode());
-			vendorAccountTransactionTable.removeAllRecords();
 			vendorAccountTransactionTable
 					.setRecords(getAccountTransactionItems(transaction
 							.getTransactionItems()));
-			vendorItemTransactionTable.removeAllRecords();
 			vendorItemTransactionTable
 					.setRecords(getItemTransactionItems(transaction
 							.getTransactionItems()));
