@@ -792,18 +792,20 @@ public abstract class TransactionPayBillTable extends
 					.pleaseSelectAnyOneOfTheTransactions());
 		}
 
-		// // validates receive payment amount excesses due amount or not
-		// for (ClientTransactionPayBill transactionPayBill : this
-		// .getSelectedRecords()) {
-		//
-		// double totalValue = getTotalValue(transactionPayBill);
-		// if (!AccounterValidator.isValidReceive_Payment(transactionPayBill
-		// .getAmountDue(), totalValue, Accounter.constants()
-		// .receivePaymentExcessDue())) {
-		// result.addError(transactionPayBill.getBillNumber(), Accounter
-		// .constants().receivePaymentExcessDue());
-		// }
-		// }
+		// validates receive payment amount excesses due amount or not
+		for (ClientTransactionPayBill transactionPayBill : this
+				.getSelectedRecords()) {
+
+			double totalValue = getTotalValue(transactionPayBill);
+			if (DecimalUtil.isEquals(totalValue, 0)) {
+				result.addError(this, Accounter.constants()
+						.totalPaymentNotZeroForSelectedRecords());
+			} else if (DecimalUtil.isGreaterThan(totalValue,
+					transactionPayBill.getAmountDue())) {
+				result.addError(this, Accounter.constants()
+						.totalPaymentNotExceedDueForSelectedRecords());
+			}
+		}
 
 		return result;
 	}
