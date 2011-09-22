@@ -57,12 +57,6 @@ public abstract class TransactionPayBillTable extends
 		this.addColumn(new CheckboxEditColumn<ClientTransactionPayBill>() {
 
 			@Override
-			protected void onHeaderValueChanged(boolean value) {
-				onHeaderCheckBoxClick(value);
-				// selectAllRows(value);
-			}
-
-			@Override
 			protected void onChangeValue(boolean value,
 					ClientTransactionPayBill row) {
 				row.setPayment(row.getAmountDue());
@@ -996,14 +990,6 @@ public abstract class TransactionPayBillTable extends
 	}
 
 	protected abstract void deleteTotalPayment(ClientTransactionPayBill obj);
-
-	private void onHeaderCheckBoxClick(boolean isChecked) {
-		if (isChecked) {
-			adjustAmountAndEndingBalance();
-		} else {
-			resetValues();
-		}
-	}
 
 	public void updateAmountDue(ClientTransactionPayBill item) {
 		double totalValue = item.getCashDiscount() + item.getAppliedCredits()
