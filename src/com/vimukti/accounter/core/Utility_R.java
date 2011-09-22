@@ -1415,9 +1415,8 @@ public class Utility_R {
 		return null;
 	}
 
-	public static ClientFinanceDate getCurrentFiscalYearEndDate() {
-		List<FiscalYear> clientFiscalYears = Company.getCompany()
-				.getFiscalYears();
+	public static ClientFinanceDate getCurrentFiscalYearEndDate(Company company) {
+		List<FiscalYear> clientFiscalYears = company.getFiscalYears();
 
 		for (int i = clientFiscalYears.size() - 1; i >= 0; i--) {
 			if (clientFiscalYears.get(i).status == ClientFiscalYear.STATUS_OPEN

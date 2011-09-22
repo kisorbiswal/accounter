@@ -191,7 +191,7 @@ public class ReportsGenerator {
 
 				@Override
 				public ClientFinanceDate getCurrentFiscalYearEndDate() {
-					return Utility_R.getCurrentFiscalYearEndDate();
+					return Utility_R.getCurrentFiscalYearEndDate(company);
 				}
 
 				@Override
@@ -636,7 +636,7 @@ public class ReportsGenerator {
 			try {
 				if (status == null || status.isEmpty()) {
 					apAgingDetailServerReport.onResultSuccess(finaTool
-							.getAgedCreditors(startDate, endDate));
+							.getAgedCreditors(startDate, endDate, company));
 				} else {
 					apAgingDetailServerReport.onResultSuccess(reportsSerivce
 							.getAgedCreditors(status,
@@ -886,7 +886,7 @@ public class ReportsGenerator {
 			vatDetailServerReportView.resetVariables();
 			try {
 				vatDetailServerReportView.onResultSuccess(finaTool
-						.getVATDetailReport(startDate, endDate));
+						.getVATDetailReport(startDate, endDate, company));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1148,7 +1148,7 @@ public class ReportsGenerator {
 			try {
 				statementReport.onResultSuccess(finaTool
 						.getPayeeStatementsList(Long.parseLong(status),
-								startDate, endDate));
+								startDate, endDate, company));
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -1226,7 +1226,7 @@ public class ReportsGenerator {
 
 			@Override
 			public ClientFinanceDate getCurrentFiscalYearEndDate() {
-				return Utility_R.getCurrentFiscalYearEndDate();
+				return Utility_R.getCurrentFiscalYearEndDate(company);
 			}
 
 			@Override
@@ -1262,7 +1262,7 @@ public class ReportsGenerator {
 
 			@Override
 			public ClientFinanceDate getCurrentFiscalYearEndDate() {
-				return Utility_R.getCurrentFiscalYearEndDate();
+				return Utility_R.getCurrentFiscalYearEndDate(company);
 			}
 
 			@Override
@@ -1299,7 +1299,7 @@ public class ReportsGenerator {
 
 			@Override
 			public ClientFinanceDate getCurrentFiscalYearEndDate() {
-				return Utility_R.getCurrentFiscalYearEndDate();
+				return Utility_R.getCurrentFiscalYearEndDate(company);
 			}
 
 			@Override
@@ -1340,7 +1340,7 @@ public class ReportsGenerator {
 		abstractFinaneReport.setCurrentFiscalYearStartDate(Utility_R
 				.getCurrentFiscalYearStartDate());
 		abstractFinaneReport.setCurrentFiscalYearEndDate(Utility_R
-				.getCurrentFiscalYearEndDate());
+				.getCurrentFiscalYearEndDate(company));
 	}
 
 	public static String getReportHtml() {

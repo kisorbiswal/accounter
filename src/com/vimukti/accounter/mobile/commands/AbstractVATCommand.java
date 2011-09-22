@@ -249,18 +249,19 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 	}
 
 	protected boolean isUkCompany() {
-		Company company = new FinanceTool().getCompany();
-		int accountingType = company.getAccountingType();
-		if (accountingType == 1) {
-			return true;
-		}
+		// Company company = new FinanceTool().getCompany();
+		// int accountingType = company.getAccountingType();
+		// if (accountingType == 1) {
+		// return true;
+		// }
 		return false;
 	}
 
 	protected int getCompanyType() {
-		Company company = new FinanceTool().getCompany();
-		int accountingType = company.getAccountingType();
-		return accountingType;
+		// Company company = new FinanceTool().getCompany();
+		// int accountingType = company.getAccountingType();
+		// return accountingType;
+		return 0;
 	}
 
 }
