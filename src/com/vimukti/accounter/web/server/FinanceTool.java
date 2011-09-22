@@ -11072,12 +11072,7 @@ public class FinanceTool {
 	}
 
 	public ArrayList<PayeeStatementsList> getPayeeStatementsList(long id,
-			long transactionDate, FinanceDate fromDate, FinanceDate toDate,
-			int noOfDays, boolean isEnabledOfZeroBalBox,
-			boolean isEnabledOfLessthanZeroBalBox,
-			double lessThanZeroBalanceValue,
-			boolean isEnabledOfNoAccountActivity,
-			boolean isEnabledOfInactiveCustomer) throws DAOException {
+			FinanceDate fromDate, FinanceDate toDate) throws DAOException {
 
 		try {
 			Session session = HibernateUtil.getCurrentSession();
@@ -11085,11 +11080,7 @@ public class FinanceTool {
 					.getNamedQuery("getCreatableStatementForCustomer")
 					.setParameter("startDate", fromDate.getDate())
 					.setParameter("endDate", toDate.getDate())
-					.setParameter("customerId", id)
-					.setParameter("dueDays", noOfDays)
-					.setParameter("dontShowZero", isEnabledOfZeroBalBox)
-					.setParameter("lessBalance", lessThanZeroBalanceValue)
-					.setParameter("isActivePayee", isEnabledOfInactiveCustomer);
+					.setParameter("customerId", id);
 
 			List list = query.list();
 			if (list != null) {

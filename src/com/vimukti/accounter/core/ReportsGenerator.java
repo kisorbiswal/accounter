@@ -1143,8 +1143,7 @@ public class ReportsGenerator {
 			try {
 				statementReport.onResultSuccess(finaTool
 						.getPayeeStatementsList(Long.parseLong(status),
-								new ClientFinanceDate().getDate(), startDate,
-								endDate, 0, false, false, 0.00, false, false));
+								startDate, endDate));
 
 			} catch (Exception e) {
 				e.printStackTrace();

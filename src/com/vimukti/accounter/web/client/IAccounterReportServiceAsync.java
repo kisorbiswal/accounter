@@ -179,8 +179,9 @@ public interface IAccounterReportServiceAsync {
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<SalesByLocationDetails>> callBack);
 
-	public void getSalesByLocationDetailsForLocation(boolean isLocation, String locationName,
-			ClientFinanceDate startDate, ClientFinanceDate endDate,
+	public void getSalesByLocationDetailsForLocation(boolean isLocation,
+			String locationName, ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<SalesByLocationDetails>> callBack);
 
 	public void getSalesByLocationSummaryReport(boolean isLocation,
@@ -302,13 +303,8 @@ public interface IAccounterReportServiceAsync {
 			final ClientFinanceDate startDate, final ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<CheckDetailReport>> callBackResult);
 
-	public void getStatements(long id, long transactionDate,
-			ClientFinanceDate fromDate, ClientFinanceDate toDate, int noOfDays,
-			boolean isEnabledOfZeroBalBox,
-			boolean isEnabledOfLessThanZeroBalBox,
-			double lessThanZeroBalanceValue,
-			boolean isEnabledOfNoAccountActivity,
-			boolean isEnabledOfInactiveCustomer,
+	public void getStatements(long id, ClientFinanceDate fromDate,
+			ClientFinanceDate toDate,
 			AsyncCallback<ArrayList<PayeeStatementsList>> callBack);
 
 	void getCustomerStatement(long customer, long fromDate, long toDate,

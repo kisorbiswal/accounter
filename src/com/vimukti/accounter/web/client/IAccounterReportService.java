@@ -244,13 +244,8 @@ public interface IAccounterReportService extends RemoteService {
 	ArrayList<CheckDetailReport> getCheckDetailReport(long paymentmethod,
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	ArrayList<PayeeStatementsList> getStatements(long id, long transactionDate,
-			ClientFinanceDate fromDate, ClientFinanceDate toDate, int noOfDays,
-			boolean isEnabledOfZeroBalBox,
-			boolean isEnabledOfLessThanZeroBalBox,
-			double lessThanZeroBalanceValue,
-			boolean isEnabledOfNoAccountActivity,
-			boolean isEnabledOfInactiveCustomer);
+	ArrayList<PayeeStatementsList> getStatements(long id,
+			ClientFinanceDate fromDate, ClientFinanceDate toDate);
 
 	ArrayList<PayeeStatementsList> getCustomerStatement(long customer,
 			long fromDate, long toDate) throws AccounterException;

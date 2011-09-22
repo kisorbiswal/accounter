@@ -27,9 +27,10 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 	public void makeReportRequest(long customer, ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
 		// resetReport(endDate, endDate);
-		Accounter.createReportService().getStatements(customer,
-				new ClientFinanceDate().getDate(), startDate, endDate, 0,
-				false, false, 0.00, false, false, this);
+		grid.clear();
+		grid.addLoadingImagePanel();
+		Accounter.createReportService().getStatements(customer, startDate,
+				endDate, this);
 		customerId = customer;
 	}
 

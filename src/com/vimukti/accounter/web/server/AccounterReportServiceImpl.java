@@ -1149,8 +1149,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 						financeDates));
 
 			if (trialbalanceList.size() == 1) {
-				if (trialbalanceList.get(0).getAccountName().equals(
-						"Net Income")
+				if (trialbalanceList.get(0).getAccountName()
+						.equals("Net Income")
 						&& DecimalUtil.isEquals(trialbalanceList.get(0)
 								.getAmount(), 0)) {
 					trialbalanceList.clear();
@@ -1596,7 +1596,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 			TAXAgency vatAgency = (TAXAgency) loadObjectById(
 					AccounterCoreType.TAXAGENCY
-							.getServerClassFullyQualifiedName(), taxAgncy);
+							.getServerClassFullyQualifiedName(),
+					taxAgncy);
 			vatSummaryList = getFinanceTool().getPriorReturnVATSummary(
 					vatAgency, new FinanceDate(endDate));
 
@@ -1628,7 +1629,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 			TAXAgency vatAgency = (TAXAgency) loadObjectById(
 					AccounterCoreType.TAXAGENCY
-							.getServerClassFullyQualifiedName(), taxAgency);
+							.getServerClassFullyQualifiedName(),
+					taxAgency);
 			vatSummaryList = getFinanceTool().getVAT100Report(vatAgency,
 					financeDates[0], financeDates[1]);
 
@@ -1641,8 +1643,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			 * //* Removing Box 3 and Box 5 from list, as the calculations for
 			 * box 3 and box 5 are done in gui
 			 *///
-			// vatSummaryList.remove(2);
-			// vatSummaryList.remove(3);
+				// vatSummaryList.remove(2);
+				// vatSummaryList.remove(3);
 			double box1 = vatSummaryList.get(0).getValue();
 			double box2 = vatSummaryList.get(1).getValue();
 			vatSummaryList.get(2).setValue(box1 + box2);
@@ -1887,8 +1889,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 			DummyDebitor obj = new DummyDebitor();
 			if (debitors != null)
-				debitors
-						.add((DummyDebitor) setStartEndDates(obj, financeDates));
+				debitors.add((DummyDebitor) setStartEndDates(obj, financeDates));
 
 		} catch (DAOException e) {
 
@@ -2184,23 +2185,14 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<PayeeStatementsList> getStatements(long id,
-			long transactionDate, ClientFinanceDate fromDate,
-			ClientFinanceDate toDate, int noOfDays,
-			boolean isEnabledOfZeroBalBox,
-			boolean isEnabledOfLessthanZeroBalBox,
-			double lessThanZeroBalanceValue,
-			boolean isEnabledOfNoAccountActivity,
-			boolean isEnabledOfInactiveCustomer) {
+			ClientFinanceDate fromDate, ClientFinanceDate toDate) {
 
 		ArrayList<PayeeStatementsList> resultList = new ArrayList<PayeeStatementsList>();
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 		try {
 
 			resultList = getFinanceTool().getPayeeStatementsList(id,
-					transactionDate, financeDates[0], financeDates[1],
-					noOfDays, isEnabledOfZeroBalBox,
-					isEnabledOfLessthanZeroBalBox, lessThanZeroBalanceValue,
-					isEnabledOfNoAccountActivity, isEnabledOfInactiveCustomer);
+					financeDates[0], financeDates[1]);
 
 			PayeeStatementsList obj = new PayeeStatementsList();
 			if (resultList != null)
