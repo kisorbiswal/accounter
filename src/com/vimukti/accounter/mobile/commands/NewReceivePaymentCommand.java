@@ -22,6 +22,7 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class NewReceivePaymentCommand extends AbstractTransactionCommand {
@@ -95,9 +96,7 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 		}
 		try {
 			result = transactionItems(context);
-		} catch (DAOException e) {
-			e.printStackTrace();
-		} catch (ParseException e) {
+		} catch (AccounterException e) {
 			e.printStackTrace();
 		}
 		if (result != null) {
@@ -157,8 +156,7 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 	 * @throws DAOException
 	 */
 
-	private Result transactionItems(Context context) throws DAOException,
-			ParseException {
+	private Result transactionItems(Context context) throws AccounterException {
 		// Requirement itemsReq = get("transactionItems");
 		Customer customer = context.getSelection(RECEIVED_FROM);
 		long date = context.getSelection(DATE);
