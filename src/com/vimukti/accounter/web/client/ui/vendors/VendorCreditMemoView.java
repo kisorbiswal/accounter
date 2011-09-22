@@ -180,15 +180,7 @@ public class VendorCreditMemoView extends
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 
-		DynamicForm phoneForm = UIUtils.form(Accounter.constants()
-				.phoneNumber());
-		phoneForm.setFields(phoneSelect);
-
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
-			classListCombo = createAccounterClassListCombo();
-			phoneForm.setFields(classListCombo);
-		}
+		
 		if (this.isInViewMode()) {
 			// FiXME--The form need to be disabled
 			// phoneForm.setDisabled(true);
@@ -202,7 +194,7 @@ public class VendorCreditMemoView extends
 
 		vatTotalNonEditableText = createVATTotalNonEditableItem();
 
-		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
+	//	Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 		// menuButton = createAddNewButton();
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
 				isTrackTax(), isTaxPerDetailLine()) {
@@ -280,6 +272,13 @@ public class VendorCreditMemoView extends
 		vendorForm = UIUtils.form(Global.get().vendor());
 		vendorForm.setWidth("50%");
 		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect);
+		
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
+			classListCombo = createAccounterClassListCombo();
+			vendorForm.setFields(classListCombo);
+		}
+		
 		vendorForm.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.constants().width(), "190px");
 
@@ -371,7 +370,6 @@ public class VendorCreditMemoView extends
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);
-		listforms.add(phoneForm);
 		listforms.add(vendorForm);
 
 		listforms.add(memoForm);
