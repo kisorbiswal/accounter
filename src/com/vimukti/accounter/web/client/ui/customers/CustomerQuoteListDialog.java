@@ -76,7 +76,7 @@ public class CustomerQuoteListDialog extends BaseDialog {
 		}
 		mainLayout.add(infoLabel);
 
-		grid = new DialogGrid(true);
+		grid = new DialogGrid(false);
 		grid.addColumns(customerConstants.date(), customerConstants.no(),
 				customerConstants.type(),
 				Accounter.messages().customerName(Global.get().Customer()),
@@ -98,8 +98,6 @@ public class CustomerQuoteListDialog extends BaseDialog {
 			}
 
 		});
-		
-		
 
 		// getGridData();
 		setQuoteList(estimatesAndSalesOrder);
@@ -129,7 +127,7 @@ public class CustomerQuoteListDialog extends BaseDialog {
 
 				List<EstimatesAndSalesOrdersList> record = (List<EstimatesAndSalesOrdersList>) grid
 						.getSelectedRecords();
-				setRecord(null);
+				setRecord(record);
 
 			}
 
@@ -159,8 +157,7 @@ public class CustomerQuoteListDialog extends BaseDialog {
 		// add(mainLayout);
 		setBodyLayout(mainLayout);
 	}
-	
-	
+
 	protected void setRecord(List<EstimatesAndSalesOrdersList> records) {
 
 		for (EstimatesAndSalesOrdersList rec : records) {
@@ -238,9 +235,9 @@ public class CustomerQuoteListDialog extends BaseDialog {
 	public void setQuoteList(List<EstimatesAndSalesOrdersList> result) {
 		if (result == null)
 			return;
-		//this.estimatesAndSalesOrder = result;
+		this.estimatesAndSalesOrder = result;
 		grid.removeAllRecords();
-		
+
 		for (EstimatesAndSalesOrdersList rec : estimatesAndSalesOrder) {
 			grid.addData(rec);
 		}

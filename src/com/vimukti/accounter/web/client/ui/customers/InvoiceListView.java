@@ -247,7 +247,9 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 		}
 		if (dateRange.equals(Accounter.constants().thisWeek())) {
 			startDate = getWeekStartDate();
-			endDate = new ClientFinanceDate();
+			endDate.setDay(startDate.getDay() + 6);
+			endDate.setMonth(startDate.getMonth());
+			endDate.setYear(startDate.getYear());
 		}
 		if (dateRange.equals(Accounter.constants().thisMonth())) {
 			startDate = new ClientFinanceDate(date.getYear(), date.getMonth(),
@@ -314,9 +316,13 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 
 	public ClientFinanceDate getWeekStartDate() {
 		ClientFinanceDate date = new ClientFinanceDate();
-		int day = date.getDay();
+		int day = date.getDay() % 6;
 		ClientFinanceDate newDate = new ClientFinanceDate();
-		newDate.setDay(date.getDay() - day);
+		if (day != 1) {
+			newDate.setDay(date.getDay() - day);
+		} else {
+			newDate.setDay(date.getDay());
+		}
 		return newDate;
 	}
 

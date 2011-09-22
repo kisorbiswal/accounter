@@ -494,8 +494,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		salesTaxTextNonEditable = createSalesTaxNonEditableLabel();
 
-		customerTransactionTable = new CustomerItemTransactionTable(
-				isTrackTax(), isTaxPerDetailLine()) {
+		customerTransactionTable = new CustomerItemTransactionTable() {
 
 			@Override
 			public boolean isShowPriceWithVat() {
@@ -514,7 +513,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			}
 		};
 		customerTransactionTable.setDisabled(isInViewMode());
-		// customerTransactionTable.clear();
 		itemTableButton = new AddNewButton();
 		itemTableButton.setEnabled(!isInViewMode());
 		itemTableButton.addClickHandler(new ClickHandler() {
@@ -551,34 +549,47 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				});
 		amountsForm = new DynamicForm();
 		amountsForm.setWidth("100%");
-		if (isTrackTax()) {
-			if (isTaxPerDetailLine()) {
-				DynamicForm priceLevelForm = new DynamicForm();
-				// priceLevelForm.setCellSpacing(4);
-				priceLevelForm.setWidth("70%");
-				// priceLevelForm.setFields(priceLevelSelect);
-				amountsForm.setFields(netAmountLabel, vatTotalNonEditableText,
-						transactionTotalNonEditableText,
-						paymentsNonEditableText, balanceDueNonEditableText);
-				amountsForm.setStyleName("invoice-total");
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 
-			} else {
-				amountsForm.setNumCols(4);
-				amountsForm.addStyleName("tax-form");
+			DynamicForm priceLevelForm = new DynamicForm();
+			// priceLevelForm.setCellSpacing(4);
+			priceLevelForm.setWidth("70%");
+			// priceLevelForm.setFields(priceLevelSelect);
+			amountsForm.setFields(netAmountLabel, vatTotalNonEditableText,
+					transactionTotalNonEditableText, paymentsNonEditableText,
+					balanceDueNonEditableText);
+			amountsForm.setStyleName("invoice-total");
+			// forms.add(priceLevelForm);
+			// prodAndServiceHLay.add(priceLevelForm);
+			// prodAndServiceHLay.setCellHorizontalAlignment(priceLevelForm,
+			// ALIGN_RIGHT);
+			// prodAndServiceHLay.add(amountsForm);
+			// prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
+			// ALIGN_RIGHT);
+			// listforms.add(priceLevelForm);
 
+		} else {
+
+			// prodAndServiceForm2.setFields(salesTaxTextNonEditable,
+			// transactionTotalNonEditableText, paymentsNonEditableText,
+			// balanceDueNonEditableText, taxCodeSelect, priceLevelSelect);
+			amountsForm.setNumCols(4);
+			amountsForm.addStyleName("tax-form");
+
+			if (getCompany().getPreferences().isChargeSalesTax()) {
 				amountsForm.setFields(taxCodeSelect, salesTaxTextNonEditable,
 						disabletextbox, transactionTotalNonEditableText,
 						disabletextbox, paymentsNonEditableText,
 						disabletextbox, balanceDueNonEditableText);
-
-				prodAndServiceHLay.add(amountsForm);
-				prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
-						ALIGN_RIGHT);
+			} else {
+				amountsForm.setFields(transactionTotalNonEditableText,
+						disabletextbox, paymentsNonEditableText,
+						disabletextbox, balanceDueNonEditableText);
 			}
-		} else {
-			amountsForm.setFields(transactionTotalNonEditableText,
-					disabletextbox, paymentsNonEditableText, disabletextbox,
-					balanceDueNonEditableText);
+
+			prodAndServiceHLay.add(amountsForm);
+			prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
+					ALIGN_RIGHT);
 		}
 
 		VerticalPanel panel = new VerticalPanel();
@@ -589,7 +600,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(amountsForm);
-		if (isTaxPerDetailLine()) {
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
 			prodAndServiceHLay.setCellWidth(amountsForm, "30%");
 		} else
 			prodAndServiceHLay.setCellWidth(amountsForm, "50%");
@@ -771,14 +782,22 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		if (customerTransactionTable == null)
 			return;
-		if (isTrackTax()) {
-			vatTotalNonEditableText.setAmount(customerTransactionTable
-					.getTotalTax());
+		if (getCompany().getPreferences().isChargeSalesTax()) {
+
 			setSalesTax(customerTransactionTable.getTotalTax());
-			netAmountLabel.setAmount(customerTransactionTable.getLineTotal());
+			setTransactionTotal(customerTransactionTable.getGrandTotal());
 
 		}
-		setTransactionTotal(customerTransactionTable.getGrandTotal());
+
+		if (getCompany().getPreferences().isRegisteredForVAT()) {
+			netAmountLabel.setAmount(customerTransactionTable.getLineTotal());
+			vatTotalNonEditableText.setAmount(customerTransactionTable
+					.getTotalTax());
+			setTransactionTotal(customerTransactionTable.getGrandTotal());
+		} else {
+			netAmountLabel.setAmount(customerTransactionTable.getLineTotal());
+			setTransactionTotal(customerTransactionTable.getGrandTotal());
+		}
 
 		Double payments = this.paymentsNonEditableText.getAmount();
 		if (transaction != null) {
@@ -896,7 +915,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		if (dialog == null) {
 			dialog = new CustomerQuoteListDialog(this, filteredList);
-			customerTransactionTable.clear();
+
 		}
 
 		dialog.setQuoteList(filteredList);
@@ -979,7 +998,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		selectedEstimateId = selectedEstimate.getID();
 		orderNum = selectedEstimate.getNumber();
 		orderNumText.setValue(orderNum);
-		customerTransactionTable.addRows(itemsList);
+		customerTransactionTable.setAllRows(itemsList);
 		customerTransactionTable.updateTotals();
 		// if (selectedEstimate == null)
 		// return;
@@ -1111,21 +1130,21 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			this.dueDateItem
 					.setValue(transaction.getDueDate() != 0 ? new ClientFinanceDate(
 							transaction.getDueDate()) : getTransactionDate());
-			if (isTrackTax()) {
-				if (isTaxPerDetailLine()) {
-					netAmountLabel.setAmount(transaction.getNetAmount());
-					vatTotalNonEditableText.setAmount(transaction.getTotal()
-							- transaction.getNetAmount());
-					// vatinclusiveCheck.setValue(invoiceToBeEdited.isAmountsIncludeVAT());
-				} else {
-					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
-					if (taxCode != null) {
-						this.taxCodeSelect
-								.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
-					}
-					this.salesTaxTextNonEditable.setValue(String
-							.valueOf(transaction.getSalesTaxAmount()));
+
+			if (getCompany().getPreferences().isRegisteredForVAT()) {
+				netAmountLabel.setAmount(transaction.getNetAmount());
+				vatTotalNonEditableText.setAmount(transaction.getTotal()
+						- transaction.getNetAmount());
+				// vatinclusiveCheck.setValue(invoiceToBeEdited.isAmountsIncludeVAT());
+			}
+			if (getCompany().getPreferences().isChargeSalesTax()) {
+				this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
+				if (taxCode != null) {
+					this.taxCodeSelect
+							.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
 				}
+				this.salesTaxTextNonEditable.setValue(String
+						.valueOf(transaction.getSalesTaxAmount()));
 			}
 			if (locationTrackingEnabled)
 				locationSelected(company.getLocation(transaction.getLocation()));
@@ -1363,20 +1382,20 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			transaction.setOrderNum(orderNum);
 		// if (taxItemGroup != null)
 		// transaction.setTaxItemGroup(taxItemGroup);
-		if (isTrackTax()) {
-			if (isTaxPerDetailLine()) {
-				transaction.setNetAmount(netAmountLabel.getAmount());
-				transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-						.getValue());
-			} else {
-				if (taxCode != null) {
-					for (ClientTransactionItem record : customerTransactionTable
-							.getAllRows()) {
-						record.setTaxItemGroup(taxCode.getID());
-					}
+
+		if (Accounter.getCompany().getPreferences().isChargeSalesTax()) {
+			if (taxCode != null) {
+				for (ClientTransactionItem record : customerTransactionTable
+						.getAllRows()) {
+					record.setTaxItemGroup(taxCode.getID());
 				}
-				transaction.setSalesTaxAmount(this.salesTax);
 			}
+			transaction.setSalesTaxAmount(this.salesTax);
+		}
+		if (Accounter.getCompany().getPreferences().isRegisteredForVAT()) {
+			transaction.setNetAmount(netAmountLabel.getAmount());
+			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
+					.getValue());
 		}
 		transaction.setTotal(transactionTotalNonEditableText.getAmount());
 		// transaction.setBalanceDue(getBalanceDue());
@@ -1588,7 +1607,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		selectedSalesOrder = salesOrder.getID();
 		orderNum = salesOrder.getNumber();
 		orderNumText.setValue(orderNum);
-		customerTransactionTable.addRows(itemsList);
+		customerTransactionTable.setAllRows(itemsList);
 		customerTransactionTable.updateTotals();
 	}
 
