@@ -1057,7 +1057,7 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	public String getCompanyEmail() {
-		return this.companyEmail;
+		return this.preferences.getCompanyEmail();
 	}
 
 	public void setName(String stringValue) {
@@ -1093,7 +1093,7 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	public void setWebSite(String stringValue) {
-		 this.preferences.setWebSite(stringValue);
+		this.preferences.setWebSite(stringValue);
 	}
 
 	public void setIndustry(int typeBasic) {
