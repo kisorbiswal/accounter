@@ -12,6 +12,21 @@ public interface ICountryPreferences {
 	boolean allowFlexibleFiscalYear();
 	
 	String getDefaultFiscalYearStartingMonth();
+	/*
+	boolean isVatAvailable();
 	
+	boolean isSalesTaxAvailable();
+	
+	String getVATName();
+	
+	
+	boolean isServiceTaxAvailable();
+	
+	boolean isTDSAvailable();
+	
+	boolean isServiceTaxAndSalesTaxSame();
+	
+	boolean isServiceTaxDeductable();
+	*/
 	
 }
