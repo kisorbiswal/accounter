@@ -494,7 +494,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		salesTaxTextNonEditable = createSalesTaxNonEditableLabel();
 
-		customerTransactionTable = new CustomerItemTransactionTable() {
+		customerTransactionTable = new CustomerItemTransactionTable(
+				isTrackTax(), isTaxPerDetailLine()) {
 
 			@Override
 			public boolean isShowPriceWithVat() {
