@@ -195,6 +195,7 @@ public abstract class AbstractDropDownTable<T> extends CellTable<T> {
 	protected abstract void addNewItem();
 
 	protected void selectRow(T result) {
+		dataProvider.getList().add(result);
 		selectRow(result, true);
 	}
 
