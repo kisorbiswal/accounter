@@ -227,7 +227,7 @@
 			<many-to-one name="priceLevel" class="PriceLevel" lazy="false"
 				column="PRICE_LEVEL_ID">
 			</many-to-one>
-			<property name="salesTax" column="SALES_TAX"></property>
+			<property name="taxTotal" column="SALES_TAX"></property>
 			<property name="discountTotal" column="DISCOUNT_TOTAL"></property>
 		</joined-subclass>
 		<joined-subclass name="CreditCardCharge" table="CREDIT_CARD_CHARGES">
@@ -291,7 +291,7 @@
 			<many-to-one name="priceLevel" class="PriceLevel" lazy="false"
 				column="PRICE_LEVEL_ID">
 			</many-to-one>
-			<property name="salesTax" column="SALES_TAX"></property>
+			<property name="taxTotal" column="SALES_TAX"></property>
 			<property name="discountTotal" column="DISCOUNT_TOTAL"></property>
 			<property name="balanceDue" column="BALANCE_DUE"></property>
 		</joined-subclass>
@@ -435,7 +435,7 @@
 			<many-to-one name="priceLevel" class="PriceLevel" lazy="false"
 				column="PRICE_LEVEL_ID">
 			</many-to-one>
-			<property name="salesTax" column="SALES_TAX"></property>
+			<property name="taxTotal" column="SALES_TAX"></property>
 			<property name="isTurnedToInvoiceOrSalesOrder" column="IS_TURNED_TO_INVOICE"></property>
 		</joined-subclass>
 		<joined-subclass name="Invoice" table="INVOICE">
@@ -493,7 +493,7 @@
 			<many-to-one name="priceLevel" class="PriceLevel" lazy="false"
 				column="PRICE_LEVEL_ID">
 			</many-to-one>
-			<property name="salesTaxAmount" column="SALES_TAX_AMOUNT"></property>
+			<property name="taxTotal" column="SALES_TAX_AMOUNT"></property>
 			<property name="payments" column="PAYMENTS"></property>
 			<property name="balanceDue" column="BALANCE_DUE"></property>
 			<property name="isPaid" column="IS_PAID"></property>
@@ -780,7 +780,7 @@
 			<many-to-one name="priceLevel" class="PriceLevel" lazy="false"
 				column="PRICE_LEVEL_ID">
 			</many-to-one>
-			<property name="salesTaxAmount" column="SALES_TAX_AMOUNT"></property>
+			<property name="taxTotal" column="SALES_TAX_AMOUNT"></property>
 			<many-to-one name="salesTaxItem" class="Item" lazy="false"
 				column="ITEM_ID">
 			</many-to-one>
