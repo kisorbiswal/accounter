@@ -33,6 +33,7 @@ public abstract class AbstractCommand extends Command {
 	protected static final String PROCESS_ATTR = "process";
 	protected static final String ADDRESS_MESSAGE_ATTR = "addressMessage";
 	protected static final String OLD_ADDRESS_ATTR = "oldAddress";
+	protected static final String ACCOUNTS_PROCESS = "accountsProcess";
 	protected static final String ADDRESS_LINE_ATTR = null;
 	protected static final String CONTACT_ATTR = "contact";
 	protected static final String OLD_CONTACT_ATTR = "oldContact";

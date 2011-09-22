@@ -4,7 +4,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.tools.ant.taskdefs.FixCRLF.AddAsisRemove;
+
+import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.AccountTransaction;
 import com.vimukti.accounter.core.Contact;
+import com.vimukti.accounter.core.Customer;
+import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.core.PaymentTerms;
+import com.vimukti.accounter.core.PurchaseOrder;
+import com.vimukti.accounter.core.SalesOrder;
+import com.vimukti.accounter.core.ShippingMethod;
+import com.vimukti.accounter.core.ShippingTerms;
+import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
@@ -33,8 +45,20 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 
 		list.add(new Requirement("vendor", false, true));
 		list.add(new Requirement("status", false, true));
-		list.add(new ObjectListRequirement("items", false, true) {
+		list.add(new ObjectListRequirement("accounts", false, true) {
 
+			@Override
+			public void addRequirements(List<Requirement> list) {
+				list.add(new Requirement("name", false, true));
+				list.add(new Requirement("desc", true, true));
+				list.add(new Requirement("amount", true, true));
+				list.add(new Requirement("discount", true, true));
+				list.add(new Requirement("total", true, true));
+			}
+		});
+		
+		
+		list.add(new ObjectListRequirement("items", false, true) {
 			@Override
 			public void addRequirements(List<Requirement> list) {
 				list.add(new Requirement("name", false, true));
@@ -45,7 +69,8 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 				list.add(new Requirement("total", true, true));
 			}
 		});
-
+		
+		
 		list.add(new Requirement("contact", true, false));
 		list.add(new Requirement("phone", true, true));
 		list.add(new Requirement("billto", true, false));
@@ -70,7 +95,13 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 				if (result != null) {
 					return result;
 				}
-			} else if (process.equals(TRANSACTION_ITEM_PROCESS)) {
+			}if (process.equals(ACCOUNTS_PROCESS)) {
+				result = transactionAccountProcess(context);
+				if (result != null) {
+					return result;
+				}
+			}  
+			else if (process.equals(TRANSACTION_ITEM_PROCESS)) {
 				result = transactionItemProcess(context);
 				if (result != null) {
 					return result;
@@ -115,8 +146,39 @@ public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 	 * @param context
 	 */
 	private void completeProcess(Context context) {
-		// TODO Auto-generated method stub
+		
+		PurchaseOrder newPurchaseOrder = new PurchaseOrder();
 
+		Vendor vendor = get("vendor").getValue();
+		newPurchaseOrder.setVendor(vendor);
+
+		newPurchaseOrder.setPhone((String) get("phone").getValue());
+		
+		newPurchaseOrder.setStatus((Integer) get(STATUS).getValue());
+
+		newPurchaseOrder.setNumber((String) get(ORDER_NO).getValue());
+		
+				
+		PaymentTerms newPaymentTerms = get(PAYMENT_TERMS).getValue();
+		newPurchaseOrder.setPaymentTerm(newPaymentTerms);
+		
+	
+		Date dueDate = get("duedate").getValue();
+		newPurchaseOrder.setDate(new FinanceDate(dueDate));
+		
+		Date receivedDate = get("receiveddate").getValue();
+		newPurchaseOrder.setDate(new FinanceDate(receivedDate));
+		
+		Date dispatchDate = get("dispatchdate").getValue();
+		newPurchaseOrder.setDate(new FinanceDate(dispatchDate));
+		
+		List<TransactionItem> items = get("items").getValue();
+		newPurchaseOrder.setTransactionItems(items);
+		
+		Set<AccountTransaction> accountTransactionEntriesList = get("accounts").getValue();
+		newPurchaseOrder.setAccountTransactionEntriesList(accountTransactionEntriesList);
+		
+		create(newPurchaseOrder, context);
 	}
 
 	/**
