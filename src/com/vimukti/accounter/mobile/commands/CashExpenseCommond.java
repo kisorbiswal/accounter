@@ -124,9 +124,11 @@ public class CashExpenseCommond extends AbstractTransactionCommand {
 		cashPurchase.setNumber(number);
 		String memoText = get("memo").getValue();
 		cashPurchase.setMemo(memoText);
+		// FIXME how to show accounts and items........
 		List<TransactionItem> items = get("items").getValue();
 		List<TransactionItem> accounts = get("accounts").getValue();
 		accounts.addAll(items);
+		// ....................
 		cashPurchase.setTransactionItems(accounts);
 		if (getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
 			cashPurchase.setTotal(getTransactionTotal(accounts, getCompany()));
