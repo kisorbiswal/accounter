@@ -32,7 +32,7 @@ public class TransactionVatCodeColumn extends
 
 	@Override
 	protected String getColumnName() {
-		return Accounter.constants().vatCode();
+		return Accounter.constants().taxCode();
 	}
 
 	@Override
