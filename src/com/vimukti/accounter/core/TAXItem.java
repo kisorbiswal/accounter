@@ -200,8 +200,8 @@ public class TAXItem extends TAXItemGroup {
 			this.isSalesType = false;
 		}
 
-		if (Company.getCompany() != null
-				&& Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+		if (getCompany() != null
+				&& getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 			this.isSalesType = true;
 			TAXCode taxCode = new TAXCode((TAXItemGroup) this);
 			session.saveOrUpdate(taxCode);
@@ -235,8 +235,8 @@ public class TAXItem extends TAXItemGroup {
 			this.isSalesType = false;
 		}
 
-		if (Company.getCompany() != null
-				&& Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+		if (getCompany() != null
+				&& getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 
 			Query query = session.getNamedQuery("getTaxACode.inTaxitem.by.id")
 					.setParameter("id", this.id);

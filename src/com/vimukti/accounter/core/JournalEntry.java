@@ -93,7 +93,7 @@ public class JournalEntry extends Transaction {
 		entry1.setVoucherNumber(voucherNumber);
 		entry1.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 		entry1.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_CUSTOMER);
-		entry1.setAccount(Company.getCompany().getOpeningBalancesAccount());
+		entry1.setAccount(getCompany().getOpeningBalancesAccount());
 		entry1.setMemo(customer.getName());
 		entry1.setDebit(0D);
 		entry1.setCredit(customer.getOpeningBalance());
@@ -135,7 +135,7 @@ public class JournalEntry extends Transaction {
 		entry1.setVoucherNumber(voucherNumber);
 		entry1.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 		entry1.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_VENDOR);
-		entry1.setAccount(Company.getCompany().getOpeningBalancesAccount());
+		entry1.setAccount(getCompany().getOpeningBalancesAccount());
 		entry1.setMemo(vendor.getName());
 		entry1.setDebit(vendor.getOpeningBalance());
 		entry1.setCredit(0D);
@@ -173,7 +173,7 @@ public class JournalEntry extends Transaction {
 		entry1.setVoucherNumber(voucherNumber);
 		entry1.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 		entry1.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
-		entry1.setAccount(Company.getCompany().getOpeningBalancesAccount());
+		entry1.setAccount(getCompany().getOpeningBalancesAccount());
 		entry1.setMemo(account.getName());
 		entry1.setJournalEntry(this);
 
@@ -264,8 +264,7 @@ public class JournalEntry extends Transaction {
 		retainedEarningsEntry.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 		retainedEarningsEntry
 				.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
-		retainedEarningsEntry
-				.setAccount(Company.getCompany().retainedEarningsAccount);
+		retainedEarningsEntry.setAccount(getCompany().retainedEarningsAccount);
 		retainedEarningsEntry.setMemo("Net income");
 		retainedEarningsEntry.setJournalEntry(this);
 		if (DecimalUtil.isGreaterThan(netIncome, 0.0)) {
@@ -342,8 +341,7 @@ public class JournalEntry extends Transaction {
 		otherCashIncomeEntry.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 		otherCashIncomeEntry
 				.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
-		otherCashIncomeEntry
-				.setAccount(Company.getCompany().otherCashIncomeAccount);
+		otherCashIncomeEntry.setAccount(getCompany().otherCashIncomeAccount);
 		otherCashIncomeEntry.setMemo("Balance moved to Retained Earnings");
 		otherCashIncomeEntry.setJournalEntry(this);
 
@@ -560,7 +558,7 @@ public class JournalEntry extends Transaction {
 		Account liabilityAccount;
 		boolean isSalesType;
 
-		if (Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+		if (getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 			liabilityAccount = adjustment.getTaxAgency()
 					.getSalesLiabilityAccount();
 			isSalesType = true;
@@ -824,7 +822,7 @@ public class JournalEntry extends Transaction {
 			e.setDebit(-1 * amount);
 		}
 
-		e.setAccount(Company.getCompany().getVATFiledLiabilityAccount());
+		e.setAccount(getCompany().getVATFiledLiabilityAccount());
 		entries.add(e);
 		this.setDebitTotal(debitTotal);
 		this.setCreditTotal(creditTotal);

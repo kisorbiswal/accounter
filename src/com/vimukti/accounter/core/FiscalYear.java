@@ -274,7 +274,7 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 		} else if ((this.getPreviousStartDate() != null && !this.getStartDate()
 				.equals(this.getPreviousStartDate()))
 				|| this.getPreviousStartDate() == null) {
-			Company company = Company.getCompany();
+			Company company = getCompany();
 			if (company != null) {
 				company.getPreferences().setStartDate(this.startDate);
 				company.getPreferences().setPreventPostingBeforeDate(

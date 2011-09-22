@@ -91,7 +91,7 @@ public class ExportReportServlet extends BaseServlet {
 			session = HibernateUtil.openSession();
 
 			FinanceTool financetool = new FinanceTool();
-			Company company = financetool.getCompany();
+			Company company = financetool.getCompany(Long.valueOf(companyID));
 			int companyType = company.getAccountingType();
 
 			TemplateBuilder.setCmpName(companyName);
@@ -129,22 +129,25 @@ public class ExportReportServlet extends BaseServlet {
 		if (box != null) {
 			boxNo = Integer.parseInt(box);
 		}
+		String companyID = getCookie(request, COMPANY_COOKIE);
 
+		FinanceTool financetool = new FinanceTool();
+		Company company = financetool.getCompany(Long.valueOf(companyID));
 		ReportsGenerator generator = null;
 
 		if (vendorId != 0) {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
 					navigatedName, ReportsGenerator.GENERATIONTYPECSV,
-					vendorId, boxNo, companyType);
+					vendorId, boxNo, companyType, company);
 
 		} else if (status != null) {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
 					navigatedName, ReportsGenerator.GENERATIONTYPECSV, status,
-					companyType);
+					companyType, company);
 		} else {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
 					navigatedName, ReportsGenerator.GENERATIONTYPECSV,
-					companyType);
+					companyType, company);
 		}
 
 		String gridTemplate = generator.generate(financeTool,

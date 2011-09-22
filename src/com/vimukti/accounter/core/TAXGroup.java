@@ -123,8 +123,8 @@ public class TAXGroup extends TAXItemGroup {
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 
-		if (Company.getCompany() != null
-				&& Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+		if (getCompany() != null
+				&& getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 			TAXCode taxCode = new TAXCode((TAXItemGroup) this);
 			session.saveOrUpdate(taxCode);
 		}
@@ -135,8 +135,8 @@ public class TAXGroup extends TAXItemGroup {
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 
-		if (Company.getCompany() != null
-				&& Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+		if (getCompany() != null
+				&& getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 
 			Query query = session.getNamedQuery("getTaxCode.by.id")
 					.setParameter("id", this.id);

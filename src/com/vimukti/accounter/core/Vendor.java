@@ -391,7 +391,7 @@ public class Vendor extends Payee {
 
 	@Override
 	public Account getAccount() {
-		return Company.getCompany().getAccountsPayableAccount();
+		return getCompany().getAccountsPayableAccount();
 
 	}
 

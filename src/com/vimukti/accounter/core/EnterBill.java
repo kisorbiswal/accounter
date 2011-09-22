@@ -290,7 +290,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 			this.itemReceipt.balanceDue = 0;
 			this.itemReceipt.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 
-			Account pendingItemReceipt = Company.getCompany()
+			Account pendingItemReceipt = getCompany()
 					.getPendingItemReceiptsAccount();
 			pendingItemReceipt.updateCurrentBalance(this.itemReceipt,
 					-this.itemReceipt.total);
