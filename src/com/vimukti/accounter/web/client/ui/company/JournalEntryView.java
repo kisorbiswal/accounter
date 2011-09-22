@@ -446,43 +446,7 @@ public class JournalEntryView extends
 
 			List<ClientEntry> entries = transaction.getEntry();
 
-			ClientEntry rec[] = new ClientEntry[entries.size()];
-			int i = 0;
-			ClientEntry temp = null;
-			for (ClientEntry entry : entries) {
-
-				rec[i] = transaction.getEntry().get(i);
-				ClientCompany company = getCompany();
-				rec[i].setVoucherNumber(entry.getVoucherNumber());
-
-				// --The date need to be set for every record
-				rec[i].setEntryDate(transaction.getDate().getDate());
-
-				if (entry.getType() == ClientEntry.TYPE_FINANCIAL_ACCOUNT) {
-					rec[i].setType(ClientEntry.TYPE_FINANCIAL_ACCOUNT);
-					if (entry.getAccount() != 0)
-						rec[i].setAccount(entry.getAccount());
-				} else if (entry.getType() == ClientTransactionMakeDeposit.TYPE_VENDOR) {
-					rec[i].setType(ClientEntry.TYPE_VENDOR);
-					if (entry.getVendor() != 0)
-						rec[i].setVendor(entry.getVendor());
-				} else {
-					rec[i].setType(ClientEntry.TYPE_CUSTOMER);
-					if (entry.getCustomer() != 0)
-						rec[i].setCustomer(entry.getCustomer());
-
-				}
-
-				rec[i].setMemo(entry.getMemo());
-				rec[i].setDebit(entry.getDebit());
-				rec[i].setCredit(entry.getCredit());
-
-				// if (temp != null)
-				// grid.selectRecord(grid.getSelectedRecordIndex(temp)));
-
-				i++;
-			}
-			grid.setAllRows(Arrays.asList(rec));
+			grid.setAllRows(entries);
 			if (transaction.getMemo() != null)
 				memoText.setValue(transaction.getMemo());
 			updateTransaction();
