@@ -153,25 +153,7 @@ public class CreditCardChargeView extends
 		billToAreaItem.setValue(null);
 		for (ClientAddress toBeShown : allAddress) {
 			if (toBeShown.getType() == ClientAddress.TYPE_BILL_TO) {
-				String toToSet = new String();
-				if (toBeShown.getStreet() != null) {
-					toToSet = toBeShown.getStreet().toString() + ",\n";
-				}
-
-				if (toBeShown.getCity() != null) {
-					toToSet += toBeShown.getCity().toString() + ",\n";
-				}
-
-				if (toBeShown.getStateOrProvinence() != null) {
-					toToSet += toBeShown.getStateOrProvinence() + ",\n";
-				}
-				if (toBeShown.getZipOrPostalCode() != null) {
-					toToSet += toBeShown.getZipOrPostalCode() + ",\n";
-				}
-				if (toBeShown.getCountryOrRegion() != null) {
-					toToSet += toBeShown.getCountryOrRegion();
-				}
-				billToAreaItem.setValue(toToSet);
+				billToAreaItem.setValue(getValidAddress(toBeShown));
 			}
 		}
 		return;
@@ -184,6 +166,35 @@ public class CreditCardChargeView extends
 		// contactNameSelect.setSelected(primaryContact.getName());
 		// phoneSelect.setValue(primaryContact.getBusinessPhone());
 
+	}
+
+	private String getValidAddress(ClientAddress address) {
+		String toToSet = new String();
+		if (address.getAddress1() != null && !address.getAddress1().isEmpty()) {
+			toToSet = address.getAddress1().toString() + "\n";
+		}
+
+		if (address.getStreet() != null && !address.getStreet().isEmpty()) {
+			toToSet += address.getStreet().toString() + "\n";
+		}
+
+		if (address.getCity() != null && !address.getCity().isEmpty()) {
+			toToSet += address.getCity().toString() + "\n";
+		}
+
+		if (address.getStateOrProvinence() != null
+				&& !address.getStateOrProvinence().isEmpty()) {
+			toToSet += address.getStateOrProvinence() + "\n";
+		}
+		if (address.getZipOrPostalCode() != null
+				&& !address.getZipOrPostalCode().isEmpty()) {
+			toToSet += address.getZipOrPostalCode() + "\n";
+		}
+		if (address.getCountryOrRegion() != null
+				&& !address.getCountryOrRegion().isEmpty()) {
+			toToSet += address.getCountryOrRegion();
+		}
+		return toToSet;
 	}
 
 	private void addVendorsList() {
