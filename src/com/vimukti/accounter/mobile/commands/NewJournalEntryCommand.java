@@ -3,7 +3,6 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.List;
 
 import com.vimukti.accounter.core.Entry;
-import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.ObjectListRequirement;

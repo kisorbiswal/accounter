@@ -2,8 +2,6 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
 
-import org.hibernate.Session;
-
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;

@@ -25,8 +25,8 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
-import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHandler;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
+import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHandler;
 
 public class CustomerQuoteListDialog extends BaseDialog {
 	public DialogGrid grid;

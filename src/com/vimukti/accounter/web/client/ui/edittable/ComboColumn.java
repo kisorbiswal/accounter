@@ -1,10 +1,6 @@
 package com.vimukti.accounter.web.client.ui.edittable;
 
 import com.google.gwt.user.client.ui.IsWidget;
-import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.combo.QuickAddListenerImpl;
-import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.core.QuickAddDialog;
 
 public abstract class ComboColumn<T, C> extends EditColumn<T> {
 

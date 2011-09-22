@@ -391,7 +391,7 @@ public class CreditCardExpenseView extends
 
 		payMethSelect = new SelectCombo(Accounter.constants().paymentMethod());
 		payMethSelect.setRequired(true);
-		payMethSelect.setWidth(90);
+		payMethSelect.setWidth(100);
 		List<String> paymentMthds = new ArrayList<String>();
 		paymentMthds.add(Accounter.constants().creditCard());
 		payMethSelect.initCombo(paymentMthds);
@@ -402,7 +402,7 @@ public class CreditCardExpenseView extends
 		// .check()));
 
 		payFrmSelect = createPayFromselectItem();
-		payFrmSelect.setWidth(90);
+		payFrmSelect.setWidth(100);
 		payFrmSelect.setPopupWidth("510px");
 		payFrmSelect.setTitle(Accounter.constants().payFrom());
 		payFromAccount = 0;
