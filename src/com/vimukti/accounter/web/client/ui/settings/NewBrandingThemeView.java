@@ -308,8 +308,10 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 		// for setting the selected templetes
 
-		brandingTheme.setInvoiceTempleteName(invVal);
-		brandingTheme.setCreditNoteTempleteName(creditVal);
+		brandingTheme
+				.setInvoiceTempleteName(invoiceCombo.getValue().toString());
+		brandingTheme.setCreditNoteTempleteName(creditMemoCombo.getValue()
+				.toString());
 
 		if (logoNameBox.getValue().toString().isEmpty()) {
 			brandingTheme.setFileName(null);
