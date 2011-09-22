@@ -140,7 +140,7 @@ public class ReceivePaymentView extends
 
 		this.customerBalance = selectedCustomer.getBalance();
 
-		adjustAmountAndEndingBalance();
+		recalculateGridAmounts();
 	}
 
 	private void getTransactionReceivePayments(
@@ -308,13 +308,6 @@ public class ReceivePaymentView extends
 		gridView = new TransactionReceivePaymentTable(!isInViewMode()) {
 
 			@Override
-			protected void updateUnuseAmt() {
-				ReceivePaymentView.this.unUsedPayments = (ReceivePaymentView.this.amountRecieved - ReceivePaymentView.this.transactionTotal);
-				ReceivePaymentView.this
-						.setUnusedPayments(ReceivePaymentView.this.unUsedPayments);
-			}
-
-			@Override
 			public void updateTotalPayment(Double payment) {
 				transactionTotal = getGridTotal();
 			}
@@ -322,11 +315,6 @@ public class ReceivePaymentView extends
 			@Override
 			protected void deleteTotalPayment(double payment) {
 				ReceivePaymentView.this.transactionTotal -= payment;
-			}
-
-			@Override
-			protected void adjustAmountAndEndingBalance() {
-				ReceivePaymentView.this.adjustAmountAndEndingBalance();
 			}
 
 			@Override
@@ -401,10 +389,6 @@ public class ReceivePaymentView extends
 		}
 
 		return paymentsList;
-	}
-
-	protected void adjustAmountAndEndingBalance() {
-		recalculateGridAmounts();
 	}
 
 	@Override
@@ -1034,8 +1018,8 @@ public class ReceivePaymentView extends
 	public void recalculateGridAmounts() {
 		this.transactionTotal = getGridTotal();
 
-		this.unUsedPayments = (amountRecieved - transactionTotal);
-		setUnusedPayments(unUsedPayments);
+		// this.unUsedPayments = (amountRecieved - transactionTotal);
+		setUnusedPayments(transactionTotal);
 	}
 
 	@Override
