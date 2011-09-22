@@ -244,12 +244,12 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			popup.setPopupPosition(x + 1, y);
 		}
 
-		if ((y + popupHeight) > clientHeight) {
-			y = y
-					- (popup.getOffsetHeight() - getMainWidget()
-							.getOffsetHeight());
-			popup.setPopupPosition(x, y - 42);
-		}
+		// if ((y + popupHeight) > clientHeight) {
+		// y = y
+		// - (popup.getOffsetHeight() - getMainWidget()
+		// .getOffsetHeight());
+		// popup.setPopupPosition(x, y - 42);
+		// }
 		panel.setHeight(Math.min(dropDown.getOffsetHeight(), 200) + "px");
 	}
 
