@@ -42,7 +42,7 @@ public class MacMenuServlet extends BaseServlet {
 			Session hibernateSession = HibernateUtil.openSession();
 			try {
 				CompanyPreferenceThreadLocal.set(new FinanceTool()
-						.getClientCompanyPreferences());
+						.getClientCompanyPreferences(company));
 			} catch (Exception e) {
 			} finally {
 				if (hibernateSession.isOpen()) {

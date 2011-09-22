@@ -161,7 +161,7 @@ public class GeneratePDFservlet extends BaseServlet {
 			int companyType = company.getAccountingType();
 
 			CompanyPreferenceThreadLocal.set(financetool
-					.getClientCompanyPreferences());
+					.getClientCompanyPreferences(company));
 
 			String objectId = request.getParameter("objectId");
 
