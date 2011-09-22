@@ -22,6 +22,7 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 
 	public InvoiceTemplete(Invoice invoice, BrandingTheme brandingTheme,
 			String footerImageUrl, String stylefile) {
+		super(invoice.getCompany());
 		this.invoice = invoice;
 		this.maxDecimalPoints = getMaxDecimals(invoice);
 		this.brandingTheme = brandingTheme;

@@ -32,7 +32,6 @@ import com.vimukti.accounter.core.Misc1099PDFTemplate;
 import com.vimukti.accounter.core.PrintTemplete;
 import com.vimukti.accounter.core.ReportTemplate;
 import com.vimukti.accounter.core.ReportsGenerator;
-import com.vimukti.accounter.core.Server;
 import com.vimukti.accounter.core.TemplateBuilder;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.Vendor;
@@ -158,7 +157,6 @@ public class GeneratePDFservlet extends BaseServlet {
 			TemplateBuilder.setCmpName(companyName);
 
 			Company company = financetool.getCompany(Long.valueOf(companyID));
-			int companyType = company.getAccountingType();
 
 			CompanyPreferenceThreadLocal.set(financetool
 					.getClientCompanyPreferences(company));
@@ -291,8 +289,8 @@ public class GeneratePDFservlet extends BaseServlet {
 			else {
 				transactionType = 0;
 				converter = new Converter();
-				template = getReportTemplate(request, financetool, footerImg,
-						style, companyType);
+				template = getReportTemplate(company, request, financetool,
+						footerImg, style);
 				fileName = template.getFileName();
 			}
 
@@ -302,9 +300,9 @@ public class GeneratePDFservlet extends BaseServlet {
 
 	}
 
-	private ITemplate getReportTemplate(HttpServletRequest request,
-			FinanceTool financeTool, String footerImg, String style,
-			int companyType) throws IOException {
+	private ITemplate getReportTemplate(Company company,
+			HttpServletRequest request, FinanceTool financeTool,
+			String footerImg, String style) throws IOException {
 
 		long startDate = Long.parseLong(request.getParameter("startDate"));
 		int reportType = Integer.parseInt(request.getParameter("reportType"));
@@ -313,26 +311,22 @@ public class GeneratePDFservlet extends BaseServlet {
 		String navigatedName = request.getParameter("navigatedName");
 		String status = request.getParameter("status");
 		ReportsGenerator generator;
-		String companyID = getCookie(request, COMPANY_COOKIE);
 
-		FinanceTool financetool = new FinanceTool();
-
-		Company company = financetool.getCompany(Long.valueOf(companyID));
 		if (status == null) {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
 					navigatedName, ReportsGenerator.GENERATIONTYPEPDF,
-					companyType, company);
+					company.getAccountingType(), company);
 		} else {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
 					navigatedName, ReportsGenerator.GENERATIONTYPEPDF, status,
-					companyType, company);
+					company.getAccountingType(), company);
 		}
 
 		String gridTemplate = generator.generate(financeTool,
 				ReportsGenerator.GENERATIONTYPEPDF);
 
-		ReportTemplate template = new ReportTemplate(reportType, new String[] {
-				gridTemplate, footerImg, style, dateRangeHtml });
+		ReportTemplate template = new ReportTemplate(company, reportType,
+				new String[] { gridTemplate, footerImg, style, dateRangeHtml });
 		return template;
 	}
 

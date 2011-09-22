@@ -83,7 +83,8 @@ public class BaseServlet extends HttpServlet {
 		String companyID = getCookie(req, COMPANY_COOKIE);
 		Session session = HibernateUtil.openSession();
 		try {
-			Company comapny = (Company) session.get(Company.class, 1L);
+			Company comapny = (Company) session.get(Company.class,
+					Long.valueOf(companyID));
 			if (comapny != null) {
 				return comapny;
 			}

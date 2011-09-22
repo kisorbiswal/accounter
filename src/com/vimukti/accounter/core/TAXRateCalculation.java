@@ -77,7 +77,7 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 			this.lineTotal = (!transactionItem.transaction.isBecameVoid()) ? transactionItem
 					.getLineTotal() : -transactionItem.getLineTotal();
 
-		if (Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+		if (transactonItem.getTransaction().getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 			vatValue = Math.abs(this.getCeilValueofTAX());
 
 		} else
@@ -372,7 +372,7 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	@Override
 	public void setVersion(int version) {
 		this.version = version;
-		
+
 	}
 
 }

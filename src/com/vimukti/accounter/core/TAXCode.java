@@ -235,8 +235,7 @@ public class TAXCode implements IAccounterServerCore, Lifecycle {
 	private void setIsECsalesEntry() {
 
 		if (this.getTAXItemGrpForSales() instanceof TAXGroup
-				&& Company.getCompany() != null
-				&& Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
+				&& TAXItemGrpForSales.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
 
 			String vatRetunrnName = ((TAXGroup) this.getTAXItemGrpForSales())
 					.getTAXItems().get(0).getVatReturnBox().getName();
@@ -277,6 +276,6 @@ public class TAXCode implements IAccounterServerCore, Lifecycle {
 	@Override
 	public void setVersion(int version) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

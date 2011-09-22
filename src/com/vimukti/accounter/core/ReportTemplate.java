@@ -8,7 +8,8 @@ public class ReportTemplate extends TemplateBuilder implements ITemplate {
 	private String reportDate;
 	private String dateRangeHtml = "";
 
-	public ReportTemplate(String... params) {
+	public ReportTemplate(Company company, String... params) {
+		super(company);
 		imgUrl = params[2];
 		style1 = params[3];
 		this.reportsHtml = params[0];
@@ -19,8 +20,8 @@ public class ReportTemplate extends TemplateBuilder implements ITemplate {
 		init();
 	}
 
-	public ReportTemplate(int reportType, String[] params) {
-
+	public ReportTemplate(Company company, int reportType, String[] params) {
+		super(company);
 		imgUrl = params[1];
 		style1 = params[2];
 		this.reportsHtml = params[0];
