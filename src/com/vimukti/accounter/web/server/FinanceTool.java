@@ -292,7 +292,8 @@ public class FinanceTool {
 		try {
 			IAccounterCore data = createContext.getData();
 			String userID = createContext.getUserEmail();
-			User user = getCompany().getUserByUserEmail(userID);
+			Company company = getCompany(createContext.getCompanyId());
+			User user = company.getUserByUserEmail(userID);
 
 			if (data == null) {
 				throw new AccounterException(
@@ -320,7 +321,7 @@ public class FinanceTool {
 			}
 
 			ObjectConvertUtil.setCompany((IAccounterServerCore) serverObject,
-					getCompany());
+					company);
 
 			// if (serverObject instanceof CreatableObject) {
 			// // get the user from user id
@@ -337,7 +338,7 @@ public class FinanceTool {
 			// }
 			canEdit(serverObject, data);
 
-			isTransactionNumberExist((IAccounterCore) data);
+			isTransactionNumberExist((IAccounterCore) data, company);
 			session.save(activity);
 			session.save(serverObject);
 			transaction.commit();
@@ -382,7 +383,7 @@ public class FinanceTool {
 				}
 			} else {
 
-				Company company = getCompany();
+				Company company = getCompany(context.getCompanyId());
 				company.addUser(user);
 			}
 			String userID = context.getUserEmail();
@@ -435,7 +436,9 @@ public class FinanceTool {
 			User user = (User) session.get(User.class, clientUser.getID());
 
 			String userID = updateContext.getUserEmail();
-			User user1 = getCompany().getUserByUserEmail(userID);
+
+			Company company = getCompany(updateContext.getCompanyId());
+			User user1 = company.getUserByUserEmail(userID);
 			new ServerConvertUtil().toServerObject(user,
 					(IAccounterCore) clientUser, session);
 			canEdit(user, data);
@@ -474,7 +477,8 @@ public class FinanceTool {
 		org.hibernate.Transaction hibernateTransaction = session
 				.beginTransaction();
 		String userID = updateContext.getUserEmail();
-		User user = getCompany().getUserByUserEmail(userID);
+		Company company = getCompany(updateContext.getCompanyId());
+		User user = company.getUserByUserEmail(userID);
 		try {
 			IAccounterCore data = updateContext.getData();
 
@@ -501,7 +505,7 @@ public class FinanceTool {
 
 			canEdit(clonedObject, (IAccounterCore) data);
 
-			isTransactionNumberExist((IAccounterCore) data);
+			isTransactionNumberExist((IAccounterCore) data, company);
 
 			new ServerConvertUtil().toServerObject(serverObject,
 					(IAccounterCore) data, session);
@@ -536,8 +540,9 @@ public class FinanceTool {
 
 			if ((IAccounterServerCore) serverObject instanceof CreatableObject) {
 				// get the user from user id
-				((CreatableObject) serverObject).setLastModifier(getCompany()
-						.getUserByUserEmail(updateContext.getUserEmail()));
+				((CreatableObject) serverObject).setLastModifier(getCompany(
+						updateContext.getCompanyId()).getUserByUserEmail(
+						updateContext.getUserEmail()));
 
 				((CreatableObject) serverObject)
 						.setLastModifiedDate(new Timestamp(System
@@ -600,7 +605,8 @@ public class FinanceTool {
 		// objects
 		// .get(0);
 		String userID = context.getUserEmail();
-		User user1 = getCompany().getUserByUserEmail(userID);
+		Company company = getCompany(context.getCompanyId());
+		User user1 = company.getUserByUserEmail(userID);
 		if (serverObject == null) {
 			throw new AccounterException(
 					AccounterException.ERROR_ILLEGAL_ARGUMENT);
@@ -618,7 +624,8 @@ public class FinanceTool {
 		} else if (serverObject instanceof Reconciliation) {
 			session.delete(serverObject);
 		} else {
-			if (canDelete(serverClass.getSimpleName(), Long.parseLong(arg1))) {
+			if (canDelete(serverClass.getSimpleName(), Long.parseLong(arg1),
+					company.getAccountingType())) {
 				session.delete(serverObject);
 			} else {
 				throw new AccounterException(
@@ -644,18 +651,18 @@ public class FinanceTool {
 
 	}
 
-	private boolean canDelete(String serverClass, long id) {
-		String queryName = getCanDeleteQueryName(serverClass);
+	private boolean canDelete(String serverClass, long id, int companyType) {
+		String queryName = getCanDeleteQueryName(serverClass, companyType);
 		Query query = HibernateUtil.getCurrentSession()
 				.getNamedQuery(queryName).setParameter("inputId", id);
 		return executeQuery(query);
 	}
 
-	private String getCanDeleteQueryName(String serverClass) {
+	private String getCanDeleteQueryName(String serverClass, int companyType) {
 		StringBuffer query = new StringBuffer("canDelete");
 		query.append(serverClass);
 		if (serverClass.equals("TAXItem") || serverClass.equals("TAXGroup")) {
-			if (getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+			if (companyType == Company.ACCOUNTING_TYPE_US) {
 				query.append("ForUS");
 			}
 		}
@@ -677,7 +684,7 @@ public class FinanceTool {
 						"Update Company Preferences, as the Source Object could not be Found....");
 			}
 
-			Company company = getCompany();
+			Company company = getCompany(context.getCompanyId());
 			// String IdentiName =
 			// this.getSpace().getIDentity().getDisplayName();
 
@@ -691,7 +698,8 @@ public class FinanceTool {
 			company.setPreferences(serverCompanyPreferences);
 
 			String userID = context.getUserEmail();
-			User user1 = getCompany().getUserByUserEmail(userID);
+			User user1 = getCompany(context.getCompanyId()).getUserByUserEmail(
+					userID);
 
 			Activity activity = new Activity(user1, ActivityType.EDIT,
 					serverCompanyPreferences);
@@ -770,7 +778,8 @@ public class FinanceTool {
 		serverCompanyPreferences.setStartOfFiscalYear(modifiedStartDate);
 		// CompanyPreferences serverObject = serverCompanyPreferences;
 		String userID = context.getUserEmail();
-		User user1 = getCompany().getUserByUserEmail(userID);
+		User user1 = getCompany(context.getCompanyId()).getUserByUserEmail(
+				userID);
 
 		Activity activity = new Activity(user1, ActivityType.EDIT, company);
 		HibernateUtil.getCurrentSession().save(activity);
@@ -787,24 +796,23 @@ public class FinanceTool {
 					"Cann't Update Deprecation Strart Date with Null or Empty");
 		}
 		FinanceDate newStartDate = new FinanceDate(Long.parseLong(arg1));
-		Company company1 = getCompany();
+		Company company = getCompany(context.getCompanyId());
 
-		CompanyPreferences serverCompanyPreferences1 = company1
-				.getPreferences();
+		CompanyPreferences serverCompanyPreferences1 = company.getPreferences();
 
-		changeDepreciationStartDateTo(newStartDate);
+		changeDepreciationStartDateTo(newStartDate, company);
 
-		company1.setPreferences(serverCompanyPreferences1);
+		company.setPreferences(serverCompanyPreferences1);
 		serverCompanyPreferences1.setDepreciationStartDate(newStartDate);
 		// CompanyPreferences serverObject = serverCompanyPreferences1;
 
 		String userID = context.getUserEmail();
-		User user1 = getCompany().getUserByUserEmail(userID);
+		User user1 = company.getUserByUserEmail(userID);
 
-		Activity activity = new Activity(user1, ActivityType.EDIT, company1);
+		Activity activity = new Activity(user1, ActivityType.EDIT, company);
 		HibernateUtil.getCurrentSession().save(activity);
 
-		HibernateUtil.getCurrentSession().saveOrUpdate(company1);
+		HibernateUtil.getCurrentSession().saveOrUpdate(company);
 		ChangeTracker.put(serverCompanyPreferences1);
 	}
 
@@ -911,7 +919,7 @@ public class FinanceTool {
 	}
 
 	public <T extends IAccounterCore> T getObjectById(AccounterCoreType type,
-			long id) throws DAOException, AccounterException {
+			long id, int companyType) throws DAOException, AccounterException {
 
 		Object serverObject = getServerObjectForid(type, id);
 
@@ -921,7 +929,7 @@ public class FinanceTool {
 			T t = (T) new ClientConvertUtil().toClientObject(serverObject,
 					Util.getClientEqualentClass(serverClass));
 			if (t instanceof ClientTransaction
-					&& getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
+					&& companyType == Company.ACCOUNTING_TYPE_UK) {
 				Session session = HibernateUtil.getCurrentSession();
 				Query query2 = session
 						.getNamedQuery("getTAXRateCalculation.by.check.idandvatReturn");
@@ -4240,7 +4248,7 @@ public class FinanceTool {
 
 	public double getCalculatedDepreciatedAmount(int depreciationMethod,
 			double depreciationRate, double purchasePrice,
-			long depreciationFrom, long depreciationTo, long companyId)
+			long depreciationFrom, long depreciationTo, Company company)
 			throws DAOException {
 
 		/**
@@ -4284,7 +4292,7 @@ public class FinanceTool {
 		 * Fixed Asset at the end of Each Financial year by the depreciation
 		 * amount calculated for this fiscal year.
 		 */
-		FinanceDate startDate = getCompany(companyId).getPreferences()
+		FinanceDate startDate = company.getPreferences()
 				.getDepreciationStartDate();
 		Calendar startDateCal = new GregorianCalendar();
 		startDateCal.setTime(startDate.getAsDateObject());
@@ -4540,7 +4548,7 @@ public class FinanceTool {
 		FinanceDate lastDepreciationDate = Depreciation
 				.getDepreciationLastDate(company);
 		if (lastDepreciationDate == null) {
-			lastDepreciationDate = Company.getCompany().getPreferences()
+			lastDepreciationDate = company.getPreferences()
 					.getDepreciationStartDate();
 		}
 
@@ -4559,8 +4567,7 @@ public class FinanceTool {
 			Calendar soldOrDisposedDateCal = new GregorianCalendar();
 			soldOrDisposedDateCal.setTime(fixedAsset.getSoldOrDisposedDate()
 					.getDateAsObject());
-
-			FinanceDate startDate = Company.getCompany().getPreferences()
+			FinanceDate startDate = company.getPreferences()
 					.getDepreciationStartDate();
 			Calendar startDateCal = new GregorianCalendar();
 			startDateCal.setTime(startDate.getAsDateObject());
@@ -4600,7 +4607,7 @@ public class FinanceTool {
 						fixedAsset.getDepreciationRate(),
 						fixedAsset.getPurchasePrice(), depFrom.getDate(),
 						new FinanceDate(soldYearStartDateCal.getTime())
-								.getDate());
+								.getDate(), company);
 				depreciationToBePostedAmount = Double.parseDouble(decimalFormat
 						.format(depreciationToBePostedAmount));
 
@@ -4652,7 +4659,7 @@ public class FinanceTool {
 							fixedAsset.getDepreciationMethod(),
 							fixedAsset.getDepreciationRate(),
 							fixedAsset.getPurchasePrice(), depFrom.getDate(),
-							depreciationTillDate.getDate());
+							depreciationTillDate.getDate(), company);
 					depreciationToBePostedAmount = Double
 							.parseDouble(decimalFormat
 									.format(depreciationToBePostedAmount));
@@ -4780,11 +4787,10 @@ public class FinanceTool {
 
 	}
 
-	private void changeDepreciationStartDateTo(FinanceDate newStartDate)
-			throws AccounterException {
+	private void changeDepreciationStartDateTo(FinanceDate newStartDate,
+			Company company) throws AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
-		Company company = Company.getCompany();
 
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -4875,12 +4881,12 @@ public class FinanceTool {
 	// space.sendCommand(cmd, this);
 	// }
 
-	public ArrayList<ClientFinanceDate> getFinancialYearStartDates()
-			throws DAOException {
+	public ArrayList<ClientFinanceDate> getFinancialYearStartDates(
+			long companyId) throws DAOException {
 
 		List<ClientFinanceDate> startDates = new ArrayList<ClientFinanceDate>();
 		Session session = HibernateUtil.getCurrentSession();
-		Company company = Company.getCompany();
+		Company company = getCompany(companyId);
 		FinanceDate depreciationStartDate = company.getPreferences()
 				.getDepreciationStartDate();
 		Calendar depStartDateCal = new GregorianCalendar();
@@ -4901,12 +4907,11 @@ public class FinanceTool {
 		return new ArrayList<ClientFinanceDate>(startDates);
 	}
 
-	public ArrayList<ClientFinanceDate> getAllDepreciationFromDates()
-			throws DAOException {
+	public ArrayList<ClientFinanceDate> getAllDepreciationFromDates(
+			Company company) throws DAOException {
 
 		List<ClientFinanceDate> fromDates = new ArrayList<ClientFinanceDate>();
 		Session session = HibernateUtil.getCurrentSession();
-		Company company = Company.getCompany();
 		FinanceDate depreciationStartDate = company.getPreferences()
 				.getDepreciationStartDate();
 		Calendar depStartDateCal = new GregorianCalendar();
@@ -5292,7 +5297,7 @@ public class FinanceTool {
 	}
 
 	public ArrayList<AgedDebtors> getAgedDebtors(final FinanceDate startDate,
-			final FinanceDate endDate) throws DAOException {
+			final FinanceDate endDate, Company company) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getAgedDebtors")
@@ -5301,7 +5306,7 @@ public class FinanceTool {
 		List l = query.list();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		return prepareAgedDebotOrsorCreditors(new ArrayList<AgedDebtors>(l),
-				startDate, endDate);
+				startDate, endDate, company);
 	}
 
 	public ArrayList<AgedDebtors> getAgedDebtors(FinanceDate startDate,
@@ -5316,7 +5321,7 @@ public class FinanceTool {
 	}
 
 	public ArrayList<AgedDebtors> getAgedCreditors(final FinanceDate startDate,
-			final FinanceDate endDate) throws DAOException {
+			FinanceDate endDate, Company company) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getAgedCreditors")
@@ -5325,12 +5330,12 @@ public class FinanceTool {
 		List l = query.list();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		return prepareAgedDebotOrsorCreditors(new ArrayList<AgedDebtors>(l),
-				startDate, endDate);
+				startDate, endDate, company);
 
 	}
 
 	private ArrayList<AgedDebtors> prepareAgedDebotOrsorCreditors(List list,
-			final FinanceDate startDate, final FinanceDate endDate) {
+			final FinanceDate startDate, FinanceDate endDate, Company company) {
 		Object[] object = null;
 		Iterator iterator = list.iterator();
 		List<AgedDebtors> queryResult = new ArrayList<AgedDebtors>();
@@ -5360,7 +5365,7 @@ public class FinanceTool {
 			agedDebtors
 					.setMemo(object[13] != null ? (String) object[13] : null);
 			long ageing = getAgeing(agedDebtors.getDate(),
-					agedDebtors.getDueDate(), endDate);
+					agedDebtors.getDueDate(), endDate, company);
 			int category = getCategory(ageing);
 			agedDebtors.setAgeing(ageing);
 			agedDebtors.setCategory(category);
@@ -5380,7 +5385,8 @@ public class FinanceTool {
 	}
 
 	public long getAgeing(ClientFinanceDate transactionDate,
-			ClientFinanceDate dueDate, final FinanceDate endDate) {
+			ClientFinanceDate dueDate, final FinanceDate endDate,
+			Company company) {
 
 		long ageing = 0;
 
@@ -5388,7 +5394,7 @@ public class FinanceTool {
 
 			ClientFinanceDate ageingForDueorTranactionDate;
 
-			if (this.getCompany().getPreferences()
+			if (company.getPreferences()
 					.getAgeingFromTransactionDateORDueDate() == CompanyPreferencesView.TYPE_AGEING_FROM_DUEDATE)
 				ageingForDueorTranactionDate = dueDate;
 			else
@@ -7452,8 +7458,8 @@ public class FinanceTool {
 	}
 
 	public ArrayList<VATDetail> getPriorVATReturnVATDetailReport(
-			TAXAgency vatAgency, FinanceDate endDate) throws DAOException,
-			ParseException {
+			TAXAgency vatAgency, FinanceDate endDate, Company company)
+			throws DAOException, ParseException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -7479,13 +7485,15 @@ public class FinanceTool {
 		VATDetailReport vatDetailReport = new VATDetailReport(
 				vatAgency.getVATReturn());
 
-		prepareVATDetailReport(vatDetailReport, vatAgency, startDate, endDate);
+		prepareVATDetailReport(vatDetailReport, vatAgency, startDate, endDate,
+				company);
 
 		return getListOfVATDetails(vatDetailReport);
 	}
 
 	private void prepareVATDetailReport(VATDetailReport vatDetailReport,
-			TAXAgency taxAgency, FinanceDate startDate, FinanceDate endDate) {
+			TAXAgency taxAgency, FinanceDate startDate, FinanceDate endDate,
+			Company company) {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = null;
@@ -7792,15 +7800,14 @@ public class FinanceTool {
 			}
 
 			List<VATReturn> vatReturns = query.list();
-
 			for (VATReturn v : vatReturns) {
 
 				List<Entry> entries = v.getJournalEntry().getEntry();
 				for (Entry e : entries) {
 					if ((!e.getAccount()
 							.getName()
-							.equals(Company.getCompany()
-									.getAccountsPayableAccount().getName()))) {
+							.equals(company.getAccountsPayableAccount()
+									.getName()))) {
 						// && ((e.getDebit() == 0 && e.getCredit() == 0))) {
 
 						if (e.getTaxItem() != null) {
@@ -8189,11 +8196,13 @@ public class FinanceTool {
 	}
 
 	public ArrayList<VATDetail> getVATDetailReport(FinanceDate startDate,
-			FinanceDate endDate) throws DAOException, ParseException {
+			FinanceDate endDate, Company company) throws DAOException,
+			ParseException {
 
 		VATDetailReport vatDetailReport = new VATDetailReport();
 
-		prepareVATDetailReport(vatDetailReport, null, startDate, endDate);
+		prepareVATDetailReport(vatDetailReport, null, startDate, endDate,
+				company);
 
 		return getListOfVATDetails(vatDetailReport);
 	}
@@ -10080,12 +10089,12 @@ public class FinanceTool {
 	//
 	// }
 
-	public ClientCompany getClientCompany(String logInUserEmail)
+	public ClientCompany getClientCompany(String logInUserEmail, long companyId)
 			throws AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		Company company = getCompany();
+		Company company = getCompany(companyId);
 		User logInUser = company.getUserByUserEmail(logInUserEmail);
 		if (logInUser == null) {
 			throw new AccounterException(
@@ -10097,7 +10106,7 @@ public class FinanceTool {
 
 		Hibernate.initialize(company);
 
-		company.setAccounts(getAccountsListBySorted());
+		company.setAccounts(getAccountsListBySorted(companyId));
 
 		company.setFiscalYears(new ArrayList<FiscalYear>(session.getNamedQuery(
 				"list.FiscalYear").list()));
@@ -10502,8 +10511,8 @@ public class FinanceTool {
 		return "0";
 	}
 
-	private boolean isTransactionNumberExist(IAccounterCore object)
-			throws AccounterException {
+	private boolean isTransactionNumberExist(IAccounterCore object,
+			Company company) throws AccounterException {
 		FlushMode flushMode = HibernateUtil.getCurrentSession().getFlushMode();
 		HibernateUtil.getCurrentSession().setFlushMode(FlushMode.COMMIT);
 
@@ -10539,7 +10548,7 @@ public class FinanceTool {
 				if (list != null
 						&& list.size() > 0
 						&& list.get(0) != null
-						&& !(this.getCompany().getPreferences()
+						&& !(company.getPreferences()
 								.getAllowDuplicateDocumentNumbers())) {
 					throw new AccounterException(
 							AccounterException.ERROR_NUMBER_CONFLICT,
@@ -10564,7 +10573,7 @@ public class FinanceTool {
 		return (Company) session.get(Company.class, companyId);
 	}
 
-	public ArrayList<Account> getAccountsListBySorted() {
+	public ArrayList<Account> getAccountsListBySorted(long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		ArrayList<Account> list1 = new ArrayList<Account>();
 		List<Account> list2 = new ArrayList<Account>();
@@ -10608,7 +10617,7 @@ public class FinanceTool {
 			}
 		}
 		list1.addAll(list);
-		if (getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
+		if (getCompany(companyId).getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
 			if (indexof1180 - 1 > 0) {
 				list1.remove(undepositedFounds);
 				list1.add(indexof1180 - 1, undepositedFounds);
@@ -11061,26 +11070,27 @@ public class FinanceTool {
 		return new ArrayList<DepositDetail>(depositDetails);
 	}
 
-	public void deleteTaxCodeOfTaxItemGroupIfUSversion(Session session,
-			AccounterCoreType clazz, long id) {
-
-		if (this.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US
-				&& (clazz.getServerClassSimpleName().equals("TAXItem") || clazz
-						.getServerClassSimpleName().equals("TAXGroup"))) {
-
-			Query query = session.getNamedQuery("getTransactionItem.by.id")
-					.setParameter("id", id);
-			List list = query.list();
-
-			if (list.size() == 0)
-				session.getNamedQuery("deleteTAXCode").setParameter(0, id)
-						.executeUpdate();
-		}
-		return;
-	}
+	// public void deleteTaxCodeOfTaxItemGroupIfUSversion(Session session,
+	// AccounterCoreType clazz, long id) {
+	//
+	// if (this.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US
+	// && (clazz.getServerClassSimpleName().equals("TAXItem") || clazz
+	// .getServerClassSimpleName().equals("TAXGroup"))) {
+	//
+	// Query query = session.getNamedQuery("getTransactionItem.by.id")
+	// .setParameter("id", id);
+	// List list = query.list();
+	//
+	// if (list.size() == 0)
+	// session.getNamedQuery("deleteTAXCode").setParameter(0, id)
+	// .executeUpdate();
+	// }
+	// return;
+	// }
 
 	public ArrayList<PayeeStatementsList> getPayeeStatementsList(long id,
-			FinanceDate fromDate, FinanceDate toDate) throws DAOException {
+			FinanceDate fromDate, FinanceDate toDate, Company company)
+			throws DAOException {
 
 		try {
 			Session session = HibernateUtil.getCurrentSession();
@@ -11144,7 +11154,7 @@ public class FinanceTool {
 
 					long ageing = getAgeing(
 							statementsList.getTransactionDate(),
-							statementsList.getDueDate(), toDate);
+							statementsList.getDueDate(), toDate, company);
 					statementsList.setAgeing(ageing);
 					statementsList.setCategory(getCategory(ageing));
 
@@ -11160,7 +11170,7 @@ public class FinanceTool {
 	}
 
 	public ArrayList<Double> getGraphPointsforAccount(int chartType,
-			long accountNo) throws DAOException {
+			long accountNo, Company company) throws DAOException {
 
 		try {
 
@@ -11320,10 +11330,8 @@ public class FinanceTool {
 
 				query = session
 						.getNamedQuery("getGraphPointsForDebtors")
-						.setParameter(
-								"debtorAccountID",
-								getCompany().getAccountsReceivableAccount()
-										.getID())
+						.setParameter("debtorAccountID",
+								company.getAccountsReceivableAccount().getID())
 						.setParameter(
 								"previousFourthMonthStartDateCal",
 								new FinanceDate(previousFourthMonthStartDateCal
@@ -11405,10 +11413,8 @@ public class FinanceTool {
 
 				query = session
 						.getNamedQuery("getGraphPointsForCreditors")
-						.setParameter(
-								"creditorsAccountID",
-								getCompany().getAccountsPayableAccount()
-										.getID())
+						.setParameter("creditorsAccountID",
+								company.getAccountsPayableAccount().getID())
 						.setParameter("currentDate",
 								new FinanceDate(dateCal[0].getTime()).getDate())
 						.setParameter("oneDayAfterToCurrentDate",
@@ -11652,13 +11658,13 @@ public class FinanceTool {
 		}
 	}
 
-	public void createAdminUser(ClientUser user) {
+	public void createAdminUser(ClientUser user, Company company) {
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
 		User admin = new User(user);
 		admin.setActive(true);
 		session.save(admin);
-		this.getCompany().getUsersList().add(admin);
+		company.getUsersList().add(admin);
 		session.saveOrUpdate(this);
 		transaction.commit();
 	}
@@ -11862,10 +11868,10 @@ public class FinanceTool {
 		return new ArrayList<PayeeStatementsList>(result);
 	}
 
-	public ClientCompanyPreferences getClientCompanyPreferences()
+	public ClientCompanyPreferences getClientCompanyPreferences(Company company)
 			throws AccounterException {
 		ClientCompanyPreferences clientCompanyPreferences = new ClientConvertUtil()
-				.toClientObject(getCompany().getPreferences(),
+				.toClientObject(company.getPreferences(),
 						ClientCompanyPreferences.class);
 		return clientCompanyPreferences;
 	}
@@ -12661,7 +12667,7 @@ public class FinanceTool {
 	 */
 	public void sendPdfInMail(long objectID, int type, long brandingThemeId,
 			String mimeType, String subject, String content,
-			String senderEmail, String toEmail, String ccEmail)
+			String senderEmail, String toEmail, String ccEmail, Company company)
 			throws Exception, IOException {
 		BrandingTheme brandingTheme = (BrandingTheme) getServerObjectForid(
 				AccounterCoreType.BRANDINGTHEME, brandingThemeId);
@@ -12669,7 +12675,6 @@ public class FinanceTool {
 		String fileName = "";
 		String output = "";
 
-		Company company = getCompany();
 		String companyName = company.getFullName();
 
 		// for printing individual pdf documents
@@ -12681,8 +12686,7 @@ public class FinanceTool {
 			// brandingTheme, footerImg, style);
 
 			InvoicePDFTemplete invoiceHtmlTemplete = new InvoicePDFTemplete(
-					invoice, brandingTheme, company, getCompany()
-							.getCompanyID());
+					invoice, brandingTheme, company, company.getCompanyID());
 
 			fileName = invoiceHtmlTemplete.getFileName();
 
@@ -12694,7 +12698,7 @@ public class FinanceTool {
 					AccounterCoreType.CUSTOMERCREDITMEMO, objectID);
 
 			CreditNotePDFTemplete creditNotePDFTemplete = new CreditNotePDFTemplete(
-					memo, brandingTheme, company, getCompany().getCompanyID());
+					memo, brandingTheme, company, company.getCompanyID());
 
 			fileName = creditNotePDFTemplete.getFileName();
 

@@ -91,14 +91,14 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ClientCompany getCompany() throws AccounterException {
+	public ClientCompany getCompany(long companyId) throws AccounterException {
 
-		FinanceTool tool = (FinanceTool) getFinanceTool();
+		FinanceTool tool = getFinanceTool();
 		String cid = getCookie(BaseServlet.COMPANY_COOKIE);
 		if (cid == null) {
 			// Throw Exception
 		}
-		return tool.getClientCompany(getUserEmail());
+		return tool.getClientCompany(getUserEmail(), companyId);
 	}
 
 	@Override
