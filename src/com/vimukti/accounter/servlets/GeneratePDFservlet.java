@@ -157,7 +157,7 @@ public class GeneratePDFservlet extends BaseServlet {
 			FinanceTool financetool = new FinanceTool();
 			TemplateBuilder.setCmpName(companyName);
 
-			Company company = financetool.getCompany();
+			Company company = financetool.getCompany(Long.valueOf(companyID));
 			int companyType = company.getAccountingType();
 
 			CompanyPreferenceThreadLocal.set(financetool
@@ -313,14 +313,19 @@ public class GeneratePDFservlet extends BaseServlet {
 		String navigatedName = request.getParameter("navigatedName");
 		String status = request.getParameter("status");
 		ReportsGenerator generator;
+		String companyID = getCookie(request, COMPANY_COOKIE);
+
+		FinanceTool financetool = new FinanceTool();
+
+		Company company = financetool.getCompany(Long.valueOf(companyID));
 		if (status == null) {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
 					navigatedName, ReportsGenerator.GENERATIONTYPEPDF,
-					companyType);
+					companyType, company);
 		} else {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
 					navigatedName, ReportsGenerator.GENERATIONTYPEPDF, status,
-					companyType);
+					companyType, company);
 		}
 
 		String gridTemplate = generator.generate(financeTool,
