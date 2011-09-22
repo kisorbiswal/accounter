@@ -459,8 +459,10 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 				setSelectedItem(obj, index + 1);
 			else
 				setSelectedItem(obj, index);
-		} else
+		} else {
 			addItem(obj);
+			setValue("");
+		}
 
 	}
 
