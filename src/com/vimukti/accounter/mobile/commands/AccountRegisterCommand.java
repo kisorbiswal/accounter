@@ -32,7 +32,7 @@ public class AccountRegisterCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-
+		list.add(new Requirement("bank Account", false, true));
 	}
 
 	@Override
