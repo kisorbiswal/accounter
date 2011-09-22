@@ -309,9 +309,9 @@ public class CashSalesView extends
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
 		prodAndServiceForm2.setWidth("100%");
 		prodAndServiceForm2.setNumCols(4);
-		if (getPreferences().isTrackTax()) {
+		if (isTrackTax()) {
 
-			if (getPreferences().isTaxPerDetailLine()) {
+			if (isTaxPerDetailLine()) {
 				prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
 						disabletextbox, taxTotalNonEditableText,
 						disabletextbox, transactionTotalNonEditableText);
@@ -695,8 +695,8 @@ public class CashSalesView extends
 			}
 			memoTextAreaItem.setValue(transaction.getMemo());
 			// refText.setValue(cashSale.getReference());
-			if (getPreferences().isTrackTax()) {
-				if (getPreferences().isTaxPerDetailLine()) {
+			if (isTrackTax()) {
+				if (isTaxPerDetailLine()) {
 					netAmountLabel.setAmount(transaction.getNetAmount());
 					taxTotalNonEditableText.setAmount(transaction.getTotal()
 							- transaction.getNetAmount());

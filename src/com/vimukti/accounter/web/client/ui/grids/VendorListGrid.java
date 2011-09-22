@@ -285,8 +285,7 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 		if (recordToBeDeleted.getType() == ClientPayee.TYPE_VENDOR)
 			Accounter.createGETService().getObjectById(
 					AccounterCoreType.VENDOR, recordToBeDeleted.id, callback);
-		else if (getPreferences().isTrackTax()
-				&& recordToBeDeleted.getType() == ClientPayee.TYPE_TAX_AGENCY) {
+		else if (recordToBeDeleted.getType() == ClientPayee.TYPE_TAX_AGENCY) {
 			Accounter.createGETService()
 					.getObjectById(AccounterCoreType.TAXAGENCY,
 							recordToBeDeleted.id, callback);

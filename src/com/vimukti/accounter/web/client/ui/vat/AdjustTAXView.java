@@ -181,7 +181,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		vatform.getCellFormatter().setWidth(0, 1, "182");
 
 		taxAgencyCombo.setRequired(true);
-		vatItemCombo.setRequired(getPreferences().isTrackTax());
+		vatItemCombo.setRequired(true);
 
 		adjustAccountCombo = new OtherAccountsCombo(Accounter.messages()
 				.adjustmentAccount(Global.get().Account()));

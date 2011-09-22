@@ -518,7 +518,7 @@ public class ItemReceiptView extends
 					clientItem.setType(item.getType());
 					clientItem.setItem(item.getItem());
 					clientItem.setAccount(item.getAccount());
-					if (getPreferences().isTrackTax()) {
+					if (isTrackTax()) {
 						clientItem.setVatItem(item.getVatItem());
 						clientItem.setTaxCode(item.getTaxCode());
 						clientItem.setTaxable(item.isTaxable());

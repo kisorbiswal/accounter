@@ -921,7 +921,7 @@ public class PurchaseOrderView extends
 
 		saveOrUpdate((ClientPurchaseOrder) transaction);
 
-		if (getPreferences().isTrackTax()) {
+		if (isTrackTax()) {
 			netAmount.setAmount(transaction.getNetAmount());
 			vatTotalNonEditableText.setAmount(transaction.getTotal()
 					- transaction.getNetAmount());

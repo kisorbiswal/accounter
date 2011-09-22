@@ -545,12 +545,7 @@ public class ActionFactory {
 	}
 
 	public static NewTAXAgencyAction getNewTAXAgencyAction() {
-		String flag;
-		if (Accounter.getCompany().getPreferences().isRegisteredForVAT())
-			flag = actionsConstants.newVATAgency();
-
-		else
-			flag = actionsConstants.newTAXAgency();
+		String flag = actionsConstants.newTAXAgency();
 
 		return new NewTAXAgencyAction(flag);
 	}
@@ -574,12 +569,7 @@ public class ActionFactory {
 	// }
 
 	public static AdjustTAXAction getAdjustTaxAction() {
-		String flag;
-		if (Accounter.getCompany().getPreferences().isRegisteredForVAT())
-			flag = actionsConstants.vatAdjustment();
-
-		else
-			flag = actionsConstants.taxAdjustment();
+		String flag = actionsConstants.taxAdjustment();
 		return new AdjustTAXAction(flag);
 	}
 
@@ -1064,12 +1054,7 @@ public class ActionFactory {
 	// vat action factory
 
 	public static NewVatItemAction getNewVatItemAction() {
-		String flag = "";
-		if (Accounter.getCompany().getPreferences().isRegisteredForVAT()) {
-			flag = actionsConstants.newVATItem();
-		} else {
-			flag = actionsConstants.newTaxItem();
-		}
+		String flag = actionsConstants.newTaxItem();
 		return new NewVatItemAction(flag);
 	}
 
