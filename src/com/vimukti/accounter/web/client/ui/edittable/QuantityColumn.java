@@ -17,6 +17,9 @@ public abstract class QuantityColumn<T> extends TextEditColumn<T> {
 	@Override
 	protected void setValue(T row, String value) {
 		try {
+			if (value.isEmpty()) {
+				value = "1";
+			}
 			ClientQuantity quantity = getQuantity(row);
 			quantity.setValue(Double.parseDouble(value));
 			setQuantity(row, quantity);
