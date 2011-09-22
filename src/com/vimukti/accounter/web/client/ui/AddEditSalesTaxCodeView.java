@@ -63,7 +63,6 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 	protected void updateCompany() {
 
 		rpcGetService.getObjectById(AccounterCoreType.COMPANY, company.getID(),
-				Accounter.getCompany().getID(),
 				new AccounterAsyncCallback<ClientCompany>() {
 
 					public void onException(AccounterException caught) {

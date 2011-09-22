@@ -74,7 +74,7 @@ public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 			Accounter.createGETService().getObjectById(
 					AccounterCoreType.JOURNALENTRY,
 					asset.getPostedJournalEntry(),
-					Accounter.getCompany().getID(),
+
 					new AccounterAsyncCallback<ClientJournalEntry>() {
 
 						@Override

@@ -838,7 +838,7 @@ public class MainFinanceWindow extends VerticalPanel {
 
 				Accounter.createGETService().getObjectById(
 						historyToken.getType(), historyToken.getValue(),
-						Accounter.getCompany().getID(), callback);
+						callback);
 
 			} else {
 				action.run(null, false);

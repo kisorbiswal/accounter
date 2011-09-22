@@ -172,8 +172,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 			}
 		};
 		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER,
-				record.getTransactionId(), Accounter.getCompany().getID(),
-				callback);
+				record.getTransactionId(), callback);
 
 	}
 

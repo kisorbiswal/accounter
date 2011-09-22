@@ -565,7 +565,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 					Accounter.createGETService().getObjectById(
 							AccounterCoreType.RECURRING_TRANSACTION,
 							transaction.getRecurringTransaction(),
-							Accounter.getCompany().getID(),
 							new AsyncCallback<ClientRecurringTransaction>() {
 
 								@Override

@@ -156,8 +156,6 @@ public class AwaitingAuthorisationView extends BaseView {
 		for (BillsList record : records) {
 			Accounter.createGETService().getObjectById(
 					AccounterCoreType.CASHPURCHASE, record.getTransactionId(),
-					Accounter.getCompany().getID(),
-
 					new AccounterAsyncCallback<ClientCashPurchase>() {
 
 						@Override

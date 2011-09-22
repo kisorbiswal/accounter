@@ -204,8 +204,7 @@ public class CustomerQuoteListDialog extends BaseDialog {
 
 		};
 		rpcGetService.getObjectById(AccounterCoreType.SALESORDER,
-				record.getTransactionId(), Accounter.getCompany().getID(),
-				callback);
+				record.getTransactionId(), callback);
 	}
 
 	private void getEstimate(EstimatesAndSalesOrdersList record) {
@@ -229,8 +228,7 @@ public class CustomerQuoteListDialog extends BaseDialog {
 
 		};
 		rpcGetService.getObjectById(AccounterCoreType.ESTIMATE,
-				record.getTransactionId(), Accounter.getCompany().getID(),
-				callback);
+				record.getTransactionId(), callback);
 
 	}
 

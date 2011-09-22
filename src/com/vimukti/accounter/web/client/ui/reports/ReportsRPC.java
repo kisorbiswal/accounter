@@ -50,7 +50,7 @@ public class ReportsRPC {
 
 		};
 		Accounter.createGETService().getObjectById(c.getObjectType(), id,
-				Accounter.getCompany().getID(), callback);
+				callback);
 	}
 
 	public static void getTaxAgency(long id) {

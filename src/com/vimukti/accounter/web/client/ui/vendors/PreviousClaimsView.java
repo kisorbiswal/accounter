@@ -93,7 +93,6 @@ public class PreviousClaimsView extends BaseView {
 				Accounter.createGETService().getObjectById(
 						AccounterCoreType.CASHPURCHASE,
 						record.getTransactionId(),
-						Accounter.getCompany().getID(),
 
 						new AccounterAsyncCallback<ClientCashPurchase>() {
 
