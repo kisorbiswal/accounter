@@ -708,7 +708,9 @@ public class PurchaseOrderView extends
 			this.transactionItems = transaction.getTransactionItems();
 
 			initTransactionNumber();
-			vendorSelected(company.getVendor(transaction.getVendor()));
+			this.setVendor(company.getVendor(transaction.getVendor()));
+			vendorCombo.setComboItem(vendor);
+			// vendorSelected(company.getVendor(transaction.getVendor()));
 			contactSelected(transaction.getContact());
 			phoneSelect.setValue(transaction.getPhone());
 			phoneSelect.setDisabled(isInViewMode());
@@ -1202,6 +1204,29 @@ public class PurchaseOrderView extends
 			vendorCombo.setDisabled(isInViewMode());
 		} else {
 			vendorCombo.setDisabled(true);
+			if (this.transaction.getVendorAddress() == null) {
+				this.addressListOfVendor = vendor.getAddress();
+				billingAddress = getAddress(ClientAddress.TYPE_BILL_TO);
+				if (billingAddress != null) {
+					billtoAreaItem.setValue(billingAddress.getAddress1() + "\n"
+							+ billingAddress.getStreet() + "\n"
+							+ billingAddress.getCity() + "\n"
+							+ billingAddress.getStateOrProvinence() + "\n"
+							+ billingAddress.getZipOrPostalCode() + "\n"
+							+ billingAddress.getCountryOrRegion());
+
+				} else
+					billtoAreaItem.setValue("");
+			}
+
+			if (this.transaction.getPhone() == null
+					|| this.transaction.getPhone().isEmpty()) {
+				initPhones(vendor);
+			}
+
+			if (this.transaction.getContact() == null) {
+				initContacts(vendor);
+			}
 		}
 
 		// billToCombo.setDisabled(isEdit);
