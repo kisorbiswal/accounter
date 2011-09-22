@@ -4813,10 +4813,6 @@
 		<query-param name="startDate" type="Long" />
 		<query-param name="endDate" type="Long" />
 		<query-param name="customerId" type="String" />
-		<query-param name="dueDays" type="int" />
-		<query-param name="dontShowZero" type="Boolean" />
-		<query-param name="lessBalance" type="Double" />
-		<query-param name="isActivePayee" type="Boolean" />
 
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_NUMBER" type="string" />
@@ -4847,10 +4843,18 @@
 		END AS DUE_DATE,
 		T.TOTAL AS TOTAL,
 		CASE
+		WHEN T.T_TYPE = 4 THEN
+		-1*CCM.BALANCE_DUE
+		WHEN T.T_TYPE = 5 THEN
+		CR.BALANCE_DUE
 		WHEN T.T_TYPE = 8 THEN
 		I.BALANCE_DUE
-		WHEN T.T_TYPE = 4 THEN
-		CCM.BALANCE_DUE
+		WHEN T.T_TYPE = 12 THEN
+		-1*T.TOTAL
+		WHEN T.T_TYPE = 16 THEN
+		E.TOTAL
+		WHEN T.T_TYPE = 29 THEN
+		-1*CPP.BALANCE_DUE
 		END AS BALANCE,
 		<!-- SUM(T.TOTAL) AS TOTAL, SUM(I.BALANCE_DUE) AS BALANCE, -->
 		P.NAME AS CUSTOMER_NAME,
@@ -4869,7 +4873,20 @@
 		FROM TRANSACTION T
 		LEFT OUTER JOIN INVOICE I ON I.ID = T.ID
 		LEFT OUTER JOIN CUSTOMER_CREDIT_MEMO CCM ON CCM.ID = T.ID
-		LEFT OUTER JOIN PAYEE P ON P.ID = I.CUSTOMER_ID OR P.ID = CCM.CUSTOMER_ID
+		LEFT OUTER JOIN CUSTOMER_REFUND CR ON CR.ID = T.ID
+		LEFT OUTER JOIN RECEIVE_PAYMENT RP ON RP.ID = T.ID
+		LEFT OUTER JOIN JOURNAL_ENTRY JE ON JE.ID = T.ID
+		LEFT OUTER JOIN CUSTOMER_PREPAYMENT CPP ON CPP.ID = T.ID
+		
+		LEFT OUTER JOIN ENTRY E ON E.TRANSACTION_ID = T.ID
+		
+		LEFT OUTER JOIN PAYEE P ON P.ID = I.CUSTOMER_ID
+								 OR P.ID = CCM.CUSTOMER_ID
+								 OR P.ID = CR.CUSTOMER_ID
+								 OR P.ID = RP.CUSTOMER_ID
+								 OR P.ID = E.CUSTOMER_ID
+								 OR P.ID = CPP.CUSTOMER_ID
+								 
 		LEFT OUTER JOIN PAYEE_ADDRESS PA ON PA.PAYEE_ID = P.ID
 		LEFT OUTER JOIN CUSTOMER C ON C.ID = P.ID
 		LEFT OUTER JOIN SALES_PERSON SP ON SP.ID = C.SALES_PERSON_ID
@@ -4877,25 +4894,13 @@
 		LEFT OUTER JOIN PAYMENTTERMS PT ON PT.ID = C.PAYMENT_TERM_ID
 
 		WHERE (T.T_DATE between :startDate and :endDate) AND P.ID =:customerId AND
-		T.T_TYPE IN (4, 8) AND
+		T.T_TYPE IN (4, 5, 8, 12, 16, 29) AND T.IS_VOID = FALSE AND
 		CASE WHEN (SELECT COUNT(PA2.TYPE) FROM PAYEE_ADDRESS PA2 WHERE
 		PA2.PAYEE_ID = P.ID) != 0
 		THEN PA.TYPE = 2
 		ELSE
 		TRUE
-		END AND
-		CASE WHEN :dueDays &gt; 0
-		THEN DATEDIFF(CURDATE(),CONVERT(I.DUE_DATE,DATE)) &gt; 0
-		ELSE TRUE END AND
-		CASE WHEN :dontShowZero
-		THEN BALANCE &gt; 0
-		ELSE TRUE END AND
-		CASE WHEN :lessBalance &gt; 0
-		THEN BALANCE &gt; :lessBalance
-		ELSE TRUE END AND
-		CASE WHEN :isActivePayee
-		THEN P.IS_ACTIVE = TRUE
-		ELSE TRUE END
+		END
 
 		<!-- GROUP BY (T.T_DATE &lt; :startDate) -->
 
