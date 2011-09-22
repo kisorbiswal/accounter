@@ -30,6 +30,7 @@ public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 			protected void setValue(ClientTransactionItem row,
 					ClientItem newValue) {
 				super.setValue(row, newValue);
+				update(row);
 				// applyPriceLevel(row);
 			}
 
