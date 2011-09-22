@@ -16,7 +16,6 @@ import com.vimukti.accounter.web.client.ui.edittable.TransactionTotalColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionUnitPriceColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionVatCodeColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionVatColumn;
-import com.vimukti.accounter.web.client.ui.grids.columns.CheckBoxColumn;
 
 public abstract class CustomerAccountTransactionTable extends
 		CustomerTransactionTable {

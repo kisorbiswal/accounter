@@ -7,7 +7,7 @@ public interface AccounterComboMessges extends Messages {
 
 	public String newVendor();
 
-	public String newAccount();
+	public String newAccount(String account);
 
 	public String newBankName();
 

@@ -90,7 +90,7 @@ public class AccountDropDownTable extends AbstractDropDownTable<ClientAccount> {
 	@Override
 	protected ClientAccount getAddNewRow() {
 		ClientAccount account = new ClientAccount();
-		account.setName(Accounter.messages().addanewAccount(
+		account.setName(Accounter.comboMessages().newAccount(
 				Global.get().Account()));
 		return account;
 	}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
@@ -19,7 +20,7 @@ public class VATAgencyAccountCombo extends AccountCombo {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.newAccount();
+		return comboMessages.newAccount(Global.get().Account());
 	}
 
 	@Override
