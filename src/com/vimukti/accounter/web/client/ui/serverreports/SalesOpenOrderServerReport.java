@@ -65,7 +65,7 @@ public class SalesOpenOrderServerReport extends
 	public String[] getColunms() {
 		// if (isSales)
 		return new String[] { getConstants().orderDate(),
-				Accounter.constants().customer(),
+				getConstants().customer(),
 				// FinanceApplication.constants().description(),
 				// FinanceApplication.constants().quantity(),
 				getConstants().amount() };
