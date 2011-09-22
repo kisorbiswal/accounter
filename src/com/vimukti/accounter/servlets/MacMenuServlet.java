@@ -94,10 +94,8 @@ public class MacMenuServlet extends BaseServlet {
 
 		addCompanyMenuItem();
 
-		if (isUKType()) {
-			if (preferences.isChargeSalesTax()) {
-				addVatMenuItem();
-			}
+		if (preferences.isTrackTax()) {
+			addVatMenuItem();
 		}
 		addCustomerMenuItem();
 
@@ -308,7 +306,7 @@ public class MacMenuServlet extends BaseServlet {
 		}
 		menu(reportsValue, iGlobal.constants().purchases(), purchasesValue);
 
-		if (preferences.isChargeSalesTax()) {
+		if (preferences.isTrackTax()) {
 			StringBuilder vatValue = new StringBuilder();
 			subMenu(vatValue, iGlobal.constants().priorVATReturns(),
 					"company/accounter#priorVatReturns");
@@ -572,47 +570,34 @@ public class MacMenuServlet extends BaseServlet {
 			separator(mainMenuValue);
 		}
 
-		if (isUSType()) {
-			if (preferences.isChargeSalesTax()) {
-				StringBuilder salesTaxValues = new StringBuilder();
-				if (canDoInvoiceTransactions()) {
-					subMenu(salesTaxValues, iGlobal.constants()
-							.manageSalesTaxGroups(),
-							"company/accounter#manageSalesTaxGroups");
-				} else {
-					subMenu(salesTaxValues, iGlobal.constants()
-							.salesTaxGroups(),
-							"company/accounter#salesTaxGroups");
-				}
-				if (canDoInvoiceTransactions()) {
-					subMenu(salesTaxValues, iGlobal.constants()
-							.manageSalesItems(),
-							"company/accounter#manageSalesTaxItems");
-				} else {
-					subMenu(salesTaxValues,
-							iGlobal.constants().salesTaxItems(),
-							"company/accounter#salesTaxItems");
-				}
-
-				if (canDoBanking()) {
-					subMenu(salesTaxValues, iGlobal.constants().paySalesTax(),
-							"company/accounter#customerGroupList");
-				}
-
-				if (canDoInvoiceTransactions()) {
-					if (isUKType()) {
-						subMenu(salesTaxValues, iGlobal.constants()
-								.newVATAgency(),
-								"company/accounter#newVatAgency");
-					} else {
-						subMenu(salesTaxValues, iGlobal.constants()
-								.newTAXAgency(),
-								"company/accounter#newTaxAgency");
-					}
-				}
-				menu(mainMenuValue, iGlobal.constants().itemTax(),
-						salesTaxValues);
+		if (preferences.isTrackTax()) {
+			StringBuilder salesTaxValues = new StringBuilder();
+			if (canDoInvoiceTransactions()) {
+				subMenu(salesTaxValues, iGlobal.constants()
+						.manageSalesTaxGroups(),
+						"company/accounter#manageSalesTaxGroups");
+			} else {
+				subMenu(salesTaxValues, iGlobal.constants().salesTaxGroups(),
+						"company/accounter#salesTaxGroups");
 			}
+			if (canDoInvoiceTransactions()) {
+				subMenu(salesTaxValues, iGlobal.constants().manageSalesItems(),
+						"company/accounter#manageSalesTaxItems");
+			} else {
+				subMenu(salesTaxValues, iGlobal.constants().salesTaxItems(),
+						"company/accounter#salesTaxItems");
+			}
+
+			if (canDoBanking()) {
+				subMenu(salesTaxValues, iGlobal.constants().paySalesTax(),
+						"company/accounter#customerGroupList");
+			}
+
+			if (canDoInvoiceTransactions()) {
+				subMenu(salesTaxValues, iGlobal.constants().newTAXAgency(),
+						"company/accounter#newTaxAgency");
+			}
+			menu(mainMenuValue, iGlobal.constants().itemTax(), salesTaxValues);
 		}
 
 		if (canChangeSettings()) {

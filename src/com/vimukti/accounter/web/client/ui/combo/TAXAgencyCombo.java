@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 public class TAXAgencyCombo extends CustomCombo<ClientTAXAgency> {
 
 	public TAXAgencyCombo(String title) {
-		this(title,true);
+		this(title, true);
 	}
 
 	public TAXAgencyCombo(String title, boolean isAddNewRequire) {
@@ -19,10 +19,7 @@ public class TAXAgencyCombo extends CustomCombo<ClientTAXAgency> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		if (getCompany().getAccountingType() == 0)
-			return Accounter.comboMessages().newTAXAgency();
-		else
-			return Accounter.comboMessages().newVATAgency();
+		return Accounter.comboMessages().newTAXAgency();
 
 	}
 
@@ -33,8 +30,8 @@ public class TAXAgencyCombo extends CustomCombo<ClientTAXAgency> {
 
 			@Override
 			public void actionResult(ClientTAXAgency result) {
-				if(result.getName()!=null)
-				addItemThenfireEvent(result);
+				if (result.getName() != null)
+					addItemThenfireEvent(result);
 
 			}
 		});

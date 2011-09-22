@@ -1131,21 +1131,22 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			this.dueDateItem
 					.setValue(transaction.getDueDate() != 0 ? new ClientFinanceDate(
 							transaction.getDueDate()) : getTransactionDate());
+			if (isTrackTax()) {
+				if (isTaxPerDetailLine()) {
+					netAmountLabel.setAmount(transaction.getNetAmount());
+					vatTotalNonEditableText.setAmount(transaction.getTotal()
+							- transaction.getNetAmount());
+					// vatinclusiveCheck.setValue(invoiceToBeEdited.isAmountsIncludeVAT());
+				} else {
+					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
+					if (taxCode != null) {
+						this.taxCodeSelect
+								.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
+					}
+					this.salesTaxTextNonEditable.setValue(String
+							.valueOf(transaction.getTaxTotal()));
 
-			if (getCompany().getPreferences().isRegisteredForVAT()) {
-				netAmountLabel.setAmount(transaction.getNetAmount());
-				vatTotalNonEditableText.setAmount(transaction.getTotal()
-						- transaction.getNetAmount());
-				// vatinclusiveCheck.setValue(invoiceToBeEdited.isAmountsIncludeVAT());
-			}
-			if (getCompany().getPreferences().isChargeSalesTax()) {
-				this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
-				if (taxCode != null) {
-					this.taxCodeSelect
-							.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
 				}
-				this.salesTaxTextNonEditable.setValue(String
-						.valueOf(transaction.getSalesTaxAmount()));
 			}
 			if (locationTrackingEnabled)
 				locationSelected(company.getLocation(transaction.getLocation()));
@@ -1229,8 +1230,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	protected void initSalesTaxNonEditableItem() {
 
 		if (transaction != null) {
-			Double salesTaxAmout = ((ClientInvoice) transaction)
-					.getSalesTaxAmount();
+			Double salesTaxAmout = ((ClientInvoice) transaction).getTaxTotal();
 			setSalesTax(salesTaxAmout);
 
 		}
@@ -1352,7 +1352,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			transaction
 					.setDeliverydate(deliveryDate.getEnteredDate().getDate());
 		if (Accounter.getCompany().getAccountingType() == 0)
-			transaction.setSalesTaxAmount(salesTaxTextNonEditable.getAmount());
+			transaction.setTaxTotal(salesTaxTextNonEditable.getAmount());
 		if (contactCombo.getSelectedValue() != null) {
 			contact = contactCombo.getSelectedValue();
 			transaction.setContact(contact);
@@ -1390,8 +1390,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 						.getAllRows()) {
 					record.setTaxItemGroup(taxCode.getID());
 				}
+
 			}
-			transaction.setSalesTaxAmount(this.salesTax);
+			transaction.setTaxTotal(this.salesTax);
 		}
 		if (Accounter.getCompany().getPreferences().isRegisteredForVAT()) {
 			transaction.setNetAmount(netAmountLabel.getAmount());

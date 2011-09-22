@@ -693,8 +693,7 @@ public class WriteChequeView extends
 
 		bankAccForm = new DynamicForm();
 
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA
-				&& getCompany().getPreferences().isTDSEnabled()) {
+		if (getCompany().getPreferences().isTDSEnabled()) {
 			bankAccForm.setFields(bankAccSelect, balText, vendorTDSTaxCode);
 		} else {
 			bankAccForm.setFields(bankAccSelect, balText);

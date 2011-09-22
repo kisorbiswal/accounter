@@ -63,7 +63,7 @@ public class ClientSalesOrder extends ClientTransaction {
 		this.paymentTerm = estimate.paymentTerm;
 		this.salesPerson = estimate.salesPerson;
 		this.priceLevel = estimate.priceLevel;
-		this.salesTaxAmount = estimate.getSalesTax();
+		this.salesTaxAmount = estimate.getTaxTotal();
 		this.total = estimate.getTotal();
 		// this.deliverydate = estimate.getDeliveryDate();
 

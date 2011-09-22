@@ -109,7 +109,7 @@ public class ItemView extends BaseView<ClientItem> {
 			List<ClientTAXCode> result = getCompany().getActiveTaxCodes();
 			if (result != null) {
 				taxCode.initCombo(getCompany().getActiveTaxCodes());
-				ClientTAXCode code=null;
+				ClientTAXCode code = null;
 				if (isInViewMode()) {
 					code = getCompany().getTAXCode(data.getTaxCode());
 				} else if (!getCompany().getPreferences().isChargeSalesTax()) {
@@ -428,7 +428,8 @@ public class ItemView extends BaseView<ClientItem> {
 		salesInfoForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
 		itemInfoForm = UIUtils.form(Accounter.constants().itemInformation());
 		itemInfoForm.setWidth("97%");
-		if (getCompany().getAccountingType() == 1)
+		if (getPreferences().isTrackTax()
+				&& getPreferences().isTaxPerDetailLine())
 			itemInfoForm.setFields(itemGroupCombo, taxCode, activeCheck);
 		else
 			itemInfoForm.setFields(itemGroupCombo, activeCheck);
@@ -653,7 +654,7 @@ public class ItemView extends BaseView<ClientItem> {
 
 			data.setVendorItemNumber(vendItemNumText.getValue().toString());
 		}
-		if (getCompany().getAccountingType() == 0)
+		if (!getPreferences().isTrackTax())
 			data.setTaxable(getBooleanValue(itemTaxCheck));
 		else
 			data.setTaxable(true);

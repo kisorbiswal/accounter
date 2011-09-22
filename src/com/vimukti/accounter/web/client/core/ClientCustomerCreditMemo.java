@@ -20,7 +20,7 @@ public class ClientCustomerCreditMemo extends ClientTransaction {
 
 	long priceLevel;
 
-	double salesTax = 0D;
+	double taxTotal = 0D;
 
 	double discountTotal = 0D;
 
@@ -152,18 +152,18 @@ public class ClientCustomerCreditMemo extends ClientTransaction {
 	}
 
 	/**
-	 * @return the salesTax
+	 * @return the taxTotal
 	 */
-	public double getSalesTax() {
-		return salesTax;
+	public double getTaxTotal() {
+		return taxTotal;
 	}
 
 	/**
 	 * @param salesTax
 	 *            the salesTax to set
 	 */
-	public void setSalesTax(double salesTax) {
-		this.salesTax = salesTax;
+	public void setTaxTotal(double taxTotal) {
+		this.taxTotal = taxTotal;
 	}
 
 	/**

@@ -245,12 +245,11 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		quote.setPaymentTerm(Utility.getID(paymentTerm));
 		quote.setNetAmount(netAmountLabel.getAmount());
 
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (isTrackTax()) {
 			quote.setAmountsIncludeVAT((Boolean) vatinclusiveCheck.getValue());
-		} else{
 			if (salesTax == null)
 				salesTax = 0.0D;
-			quote.setSalesTax(this.salesTax);
+			quote.setTaxTotal(this.salesTax);
 		}
 
 		quote.setTotal(transactionTotalNonEditableText.getAmount());
@@ -450,7 +449,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(prodAndServiceForm2);
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (isTaxPerDetailLine()) {
 			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "30%");
 		} else
 			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
@@ -549,7 +548,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	@Override
 	protected void initSalesTaxNonEditableItem() {
 		if (transaction != null) {
-			Double salesTaxAmout = ((ClientEstimate) transaction).getSalesTax();
+			Double salesTaxAmout = ((ClientEstimate) transaction).getTaxTotal();
 			if (salesTaxAmout != null) {
 				salesTaxTextNonEditable.setAmount(salesTaxAmout);
 			}
@@ -631,7 +630,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 			memoTextAreaItem.setValue(transaction.getMemo());
 			// refText.setValue(estimate.getReference());
-			if (getCompany().getPreferences().isRegisteredForVAT()) {
+			if (isTrackTax()) {
 				netAmountLabel.setAmount(transaction.getNetAmount());
 				vatTotalNonEditableText.setValue(String.valueOf(transaction
 						.getTotal() - transaction.getNetAmount()));

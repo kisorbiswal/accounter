@@ -13,7 +13,6 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
@@ -169,15 +168,13 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		transaction.setTotal(amtText.getAmount());
 
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA
-				&& getPreferences().isTDSEnabled()) {
+		if (getPreferences().isTDSEnabled()) {
 
 			ClientTAXItem taxItem = getCompany().getTAXItem(
 					vendor.getTaxItemCode());
 			if (taxItem != null) {
 				transaction.setTaxAgency(getCompany().getTaxAgency(
-
-				taxItem.getTaxAgency()));
+						taxItem.getTaxAgency()));
 			}
 
 		}
@@ -224,17 +221,14 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 					temp.setTransactionPayBill(tpbRecord);
 				}
 			tpbRecord.setTransactionCreditsAndPayments(trpList);
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA
-					&& getPreferences().isTDSEnabled()) {
+			if (getPreferences().isTDSEnabled()) {
 
 				ClientTAXItem taxItem = getCompany().getTAXItem(
 						vendor.getTaxItemCode());
 
 				if (taxItem != null) {
 					double tds = taxItem.getTaxRate() / 100
-
-					* tpbRecord.getPayment();
-
+							* tpbRecord.getPayment();
 					tpbRecord.setTdsAmount(tds);
 				}
 
@@ -307,8 +301,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		double payment = 0.0;
 		for (ClientTransactionPayBill rec : grid.getSelectedRecords()) {
 			// paybillView.transactionTotal += rec.getPayment();
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA
-					&& getCompany().getPreferences().isTDSEnabled()) {
+			if (getCompany().getPreferences().isTDSEnabled()) {
 				ClientTAXItem taxItem = getCompany().getTAXItem(
 						vendor.getTaxItemCode());
 				if (taxItem != null)

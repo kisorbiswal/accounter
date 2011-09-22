@@ -406,12 +406,12 @@ public class CustomerCreditMemoView extends
 			transaction.setPriceLevel(priceLevel.getID());
 		transaction.setMemo(getMemoTextAreaItem());
 		// transaction.setReference(getRefText());
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (isTrackTax()) {
 			transaction.setNetAmount(netAmountLabel.getAmount());
 			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 					.getValue());
-		} else
-			transaction.setSalesTax(this.salesTax);
+			transaction.setTaxTotal(this.salesTax);
+		}
 
 		transaction.setTotal(transactionTotalNonEditableText.getAmount());
 	}
@@ -449,18 +449,19 @@ public class CustomerCreditMemoView extends
 			} else
 				billToTextArea.setValue("");
 
-			if (getCompany().getPreferences().isRegisteredForVAT()) {
-				netAmountLabel.setAmount(transaction.getNetAmount());
-				taxTotalNonEditableText.setAmount(transaction.getTotal()
-						- transaction.getNetAmount());
-			} else {
-				this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
-				if (taxCode != null) {
-					this.taxCodeSelect
-							.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
+			if (isTrackTax()) {
+				if (isTaxPerDetailLine()) {
+					netAmountLabel.setAmount(transaction.getNetAmount());
+				} else {
+					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
+					if (taxCode != null) {
+						this.taxCodeSelect
+								.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
+					}
 				}
-				taxTotalNonEditableText.setAmount(transaction.getSalesTax());
+				taxTotalNonEditableText.setAmount(transaction.getTaxTotal());
 			}
+
 			transactionTotalNonEditableText.setAmount(transaction.getTotal());
 			memoTextAreaItem.setDisabled(true);
 
@@ -535,7 +536,7 @@ public class CustomerCreditMemoView extends
 	protected void initSalesTaxNonEditableItem() {
 		if (transaction != null) {
 			Double salesTaxAmout = ((ClientCustomerCreditMemo) transaction)
-					.getSalesTax();
+					.getTaxTotal();
 			if (salesTaxAmout != null) {
 				taxTotalNonEditableText.setAmount(salesTaxAmout);
 			}

@@ -419,7 +419,7 @@ public class SalesOrderView extends
 		prodAndServiceHLay.setWidth("100%");
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(prodAndServiceForm2);
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (isTaxPerDetailLine()) {
 			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "30%");
 		} else
 			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");

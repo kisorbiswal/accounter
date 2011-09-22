@@ -573,14 +573,11 @@ public class CashSalesView extends
 			transaction.setPriceLevel(priceLevel.getID());
 		transaction.setMemo(getMemoTextAreaItem());
 		// transaction.setReference(getRefText());
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (isTrackTax()) {
 			transaction.setNetAmount(netAmountLabel.getAmount());
 			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 					.getValue());
-		} else {
-			if (salesTax != null)
-				transaction.setSalesTax(salesTax);
-
+			transaction.setTaxTotal(salesTax);
 		}
 
 		transaction.setTotal(transactionTotalNonEditableText.getAmount());
@@ -709,7 +706,7 @@ public class CashSalesView extends
 								.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
 					}
 					this.taxTotalNonEditableText.setValue(String
-							.valueOf(transaction.getSalesTax()));
+							.valueOf(transaction.getTaxTotla()));
 				}
 			}
 			memoTextAreaItem.setDisabled(true);
@@ -800,7 +797,7 @@ public class CashSalesView extends
 
 		if (transaction != null) {
 			Double salesTaxAmout = ((ClientCashSales) transaction)
-					.getSalesTax();
+					.getTaxTotla();
 			setSalesTax(salesTaxAmout);
 
 		}

@@ -169,8 +169,13 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		vatNameForm.getCellFormatter().setWidth(0, 0, "225px");
 		vatNameForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
 		vatNameForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
-		vatNameForm.setFields(vatCodeTxt, description, taxableGroupRadio,
-				isActive, vatItemComboForSales, vatItemComboForPurchases);
+		if (getPreferences().isTrackPaidTax()) {
+			vatNameForm.setFields(vatCodeTxt, description, taxableGroupRadio,
+					isActive, vatItemComboForSales, vatItemComboForPurchases);
+		} else {
+			vatNameForm.setFields(vatCodeTxt, description, taxableGroupRadio,
+					isActive, vatItemComboForSales);
+		}
 
 		if (getData() != null) {
 			vatCodeTxt.setValue(data.getName() != null ? data.getName() : "");

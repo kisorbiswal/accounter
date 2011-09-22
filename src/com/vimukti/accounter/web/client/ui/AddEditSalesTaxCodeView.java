@@ -417,7 +417,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 
@@ -425,7 +425,6 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 	public void fitToSize(int height, int width) {
 
 	}
-
 
 	@Override
 	public List<DynamicForm> getForms() {
@@ -449,12 +448,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 	@Override
 	protected String getViewTitle() {
-		String constant;
-		if (getCompany().getAccountingType() == 1)
-			constant = Accounter.constants().newVATCode();
-		else
-			constant = Accounter.constants().newTaxCode();
-		return constant;
+		return Accounter.constants().newTaxCode();
 	}
 
 	private void updateData() {

@@ -278,7 +278,6 @@ public class ItemReceiptView extends
 
 		HorizontalPanel bottomLayout = new HorizontalPanel();
 		bottomLayout.setWidth("100%");
-		int accountType = getCompany().getAccountingType();
 		if (getPreferences().isTrackPaidTax()) {
 			bottomLayout.add(memoForm);
 			bottomLayout.add(vatCheckform);

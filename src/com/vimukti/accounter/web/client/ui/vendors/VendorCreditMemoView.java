@@ -329,7 +329,6 @@ public class VendorCreditMemoView extends
 		VerticalPanel bottomPanel = new VerticalPanel();
 		bottomPanel.setWidth("100%");
 
-		int accountType = getCompany().getAccountingType();
 		if (getPreferences().isTrackPaidTax()) {
 			VerticalPanel vPanel = new VerticalPanel();
 			vPanel.setWidth("100%");
