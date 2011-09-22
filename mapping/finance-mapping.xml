@@ -263,6 +263,9 @@
 
 			<property name="locationTrackingId" column="LOCATION_TRACKING_ID"></property>
 
+			<many-to-one name="defaultTaxCode" class="com.vimukti.accounter.core.TAXCode"
+				lazy="false" cascade="save-update" column="DEFAULT_TAX_CODE">
+			</many-to-one>
 		</component>
 
 		<property name="bankAccountNo" column="BANK_ACCOUNT_NO"></property>
