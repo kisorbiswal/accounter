@@ -59,7 +59,7 @@ public abstract class TransactionPayBillTable extends
 			@Override
 			protected void onHeaderValueChanged(boolean value) {
 				onHeaderCheckBoxClick(value);
-				selectAllRows(value);
+				// selectAllRows(value);
 			}
 
 			@Override
@@ -381,6 +381,7 @@ public abstract class TransactionPayBillTable extends
 	protected void selectAllRows(boolean value) {
 		List<ClientTransactionPayBill> allRows = getAllRows();
 		for (ClientTransactionPayBill row : allRows) {
+			row.setPayment(row.getAmountDue());
 			onSelectionChanged(row, value);
 		}
 	}
