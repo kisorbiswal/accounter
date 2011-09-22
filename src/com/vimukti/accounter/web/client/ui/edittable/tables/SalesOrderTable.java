@@ -84,6 +84,11 @@ public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 			protected String getColumnName() {
 				return Accounter.constants().invoiced();
 			}
+
+			@Override
+			public int getWidth() {
+				return 190;
+			}
 		});
 
 		this.addColumn(new DeleteColumn<ClientTransactionItem>());
