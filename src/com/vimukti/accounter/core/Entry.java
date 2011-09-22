@@ -820,11 +820,11 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 
 		} else if (this.customer != null) {
 
-			account = Company.getCompany().otherCashIncomeAccount;
+			account = customer.getCompany().otherCashIncomeAccount;
 
 		} else if (this.vendor != null) {
 
-			account = Company.getCompany().otherCashExpenseAccount;
+			account = vendor.getCompany().otherCashExpenseAccount;
 			amount = -amount;
 
 		} else if (this.taxItem != null) {
