@@ -277,15 +277,13 @@ public class ItemReceiptView extends
 		HorizontalPanel bottomLayout = new HorizontalPanel();
 		bottomLayout.setWidth("100%");
 		int accountType = getCompany().getAccountingType();
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (getPreferences().isTrackPaidTax()) {
 			bottomLayout.add(memoForm);
 			bottomLayout.add(vatCheckform);
 			bottomLayout.setCellHorizontalAlignment(vatCheckform, ALIGN_RIGHT);
 			bottomLayout.add(totalForm);
 			bottomLayout.setCellHorizontalAlignment(totalForm, ALIGN_RIGHT);
-		}
-
-		if (getCompany().getPreferences().isChargeSalesTax()) {
+		} else {
 			memoForm.setStyleName("align-form");
 			bottomLayout.add(memoForm);
 			// bottomLayout.add(amountForm);
@@ -423,7 +421,7 @@ public class ItemReceiptView extends
 			vendorSelected(this.getVendor());
 			paymentTermsSelected(this.paymentTerm);
 
-			if (getCompany().getPreferences().isRegisteredForVAT()) {
+			if (getPreferences().isTrackPaidTax()) {
 				netAmount.setAmount(transaction.getNetAmount());
 				vatTotalNonEditableText.setAmount(transaction.getTotal()
 						- transaction.getNetAmount());
@@ -454,7 +452,7 @@ public class ItemReceiptView extends
 
 		transactionTotalNonEditableText.setAmount(grandTotal);
 		netAmount.setAmount(lineTotal);
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (getPreferences().isTrackPaidTax()) {
 			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
 		}
 	}
@@ -502,8 +500,9 @@ public class ItemReceiptView extends
 
 		transaction.setPurchaseOrder(selectedPurchaseOrder);
 
-		if (getCompany().getPreferences().isRegisteredForVAT())
+		if (getPreferences().isTrackPaidTax()) {
 			transaction.setNetAmount(netAmount.getAmount());
+		}
 		// itemReceipt.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 	}
 
@@ -519,7 +518,7 @@ public class ItemReceiptView extends
 					clientItem.setType(item.getType());
 					clientItem.setItem(item.getItem());
 					clientItem.setAccount(item.getAccount());
-					if (getCompany().getPreferences().isRegisteredForVAT()) {
+					if (getPreferences().isTrackTax()) {
 						clientItem.setVatItem(item.getVatItem());
 						clientItem.setTaxCode(item.getTaxCode());
 						clientItem.setTaxable(item.isTaxable());

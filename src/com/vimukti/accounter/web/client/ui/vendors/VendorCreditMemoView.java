@@ -97,7 +97,7 @@ public class VendorCreditMemoView extends
 			contactSelected(transaction.getContact());
 			phoneSelect.setValue(transaction.getPhone());
 			transactionNumber.setValue(transaction.getNumber());
-			if (isRegistedForVAT()) {
+			if (getPreferences().isTrackPaidTax()) {
 				netAmount.setAmount(transaction.getNetAmount());
 				vatTotalNonEditableText.setAmount(transaction.getTotal()
 						- transaction.getNetAmount());
@@ -123,10 +123,6 @@ public class VendorCreditMemoView extends
 		setMemoTextAreaItem("");
 		// setRefText("");
 
-	}
-
-	private boolean isRegistedForVAT() {
-		return Accounter.getCompany().getPreferences().isRegisteredForVAT();
 	}
 
 	@Override
@@ -332,7 +328,7 @@ public class VendorCreditMemoView extends
 		bottomPanel.setWidth("100%");
 
 		int accountType = getCompany().getAccountingType();
-		if (isRegistedForVAT()) {
+		if (getPreferences().isTrackPaidTax()) {
 			VerticalPanel vPanel = new VerticalPanel();
 			vPanel.setWidth("100%");
 			vPanel.setHorizontalAlignment(ALIGN_RIGHT);
@@ -344,21 +340,7 @@ public class VendorCreditMemoView extends
 
 			bottomPanel.add(vPanel);
 			bottomPanel.add(bottomLayout1);
-			//
-			// VerticalPanel vPanel = new VerticalPanel();
-			//
-			// vPanel.add(menuButton);
-			// vPanel.add(memoForm);
-			// vPanel.setWidth("100%");
-			//
-			// bottomLayout1.add(vPanel);
-			// bottomLayout1.add(vatCheckform);
-			// bottomLayout1.setCellHorizontalAlignment(vatCheckform,
-			// HasHorizontalAlignment.ALIGN_RIGHT);
-			// bottomLayout1.add(totalForm);
-			// bottomLayout1.setCellHorizontalAlignment(totalForm,
-			// HasHorizontalAlignment.ALIGN_RIGHT);
-		} else if (getCompany().getPreferences().isChargeSalesTax()) {
+		} else {
 			memoForm.setStyleName("align-form");
 			VerticalPanel vPanel = new VerticalPanel();
 			vPanel.setWidth("100%");
@@ -498,7 +480,7 @@ public class VendorCreditMemoView extends
 
 		transactionTotalNonEditableText.setAmount(grandTotal);
 		netAmount.setAmount(lineTotal);
-		if (isRegistedForVAT()) {
+		if (getPreferences().isTrackPaidTax()) {
 			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
 		}
 	}

@@ -179,7 +179,7 @@ public class PurchaseOrderView extends
 		prodAndServiceHLay.setCellVerticalAlignment(amountsForm,
 				HasVerticalAlignment.ALIGN_BOTTOM);
 
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (getPreferences().isTrackPaidTax()) {
 
 			DynamicForm priceLevelForm = new DynamicForm();
 			// priceLevelForm.setCellSpacing(4);
@@ -908,7 +908,7 @@ public class PurchaseOrderView extends
 		transactionTotalNonEditableText.setAmount(grandTotal);
 		netAmount.setAmount(lineTotal);
 		// vatTotalNonEditableText.setValue(vendorTransactionGrid.getVatTotal());
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (getPreferences().isTrackPaidTax()) {
 			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
 		}
 
@@ -921,8 +921,7 @@ public class PurchaseOrderView extends
 
 		saveOrUpdate((ClientPurchaseOrder) transaction);
 
-		if (getCompany().getPreferences().isChargeSalesTax()
-				|| getCompany().getPreferences().isRegisteredForVAT()) {
+		if (getPreferences().isTrackTax()) {
 			netAmount.setAmount(transaction.getNetAmount());
 			vatTotalNonEditableText.setAmount(transaction.getTotal()
 					- transaction.getNetAmount());

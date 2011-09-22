@@ -324,7 +324,7 @@ public class CashPurchaseView extends
 		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");
 
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (getPreferences().isTrackPaidTax()) {
 			VerticalPanel vpanel = new VerticalPanel();
 			vpanel.setWidth("100%");
 			vpanel.setHorizontalAlignment(ALIGN_RIGHT);
@@ -467,7 +467,7 @@ public class CashPurchaseView extends
 			// transactionDateItem.setEnteredDate(cashPurchaseToBeEdited.get)
 			initMemoAndReference();
 			checkNo.setDisabled(true);
-			if (getCompany().getPreferences().isRegisteredForVAT()) {
+			if (getPreferences().isTrackPaidTax()) {
 				netAmount.setAmount(transaction.getNetAmount());
 				vatTotalNonEditableText.setAmount(transaction.getTotal()
 						- transaction.getNetAmount());
@@ -560,7 +560,7 @@ public class CashPurchaseView extends
 	@Override
 	public void saveAndUpdateView() {
 		updateTransaction();
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (getPreferences().isTrackPaidTax()) {
 			transaction.setNetAmount(netAmount.getAmount());
 			// if (vatinclusiveCheck != null)
 			// cashPurchase.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
@@ -648,7 +648,7 @@ public class CashPurchaseView extends
 				+ vendorItemTransactionTable.getGrandTotal();
 
 		netAmount.setAmount(lineTotal);
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (getCompany().getPreferences().isTrackPaidTax()) {
 			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
 		}
 		transactionTotalNonEditableText.setAmount(grandTotal);

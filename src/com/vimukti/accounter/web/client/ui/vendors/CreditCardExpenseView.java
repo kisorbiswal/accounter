@@ -543,7 +543,7 @@ public class CreditCardExpenseView extends
 		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");
 
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (getPreferences().isTrackPaidTax()) {
 			totalForm.setFields(netAmount, vatTotalNonEditableText,
 					transactionTotalNonEditableText);
 			VerticalPanel vPanel = new VerticalPanel();
@@ -558,16 +558,6 @@ public class CreditCardExpenseView extends
 			bottompanel.add(vPanel);
 			bottompanel.add(botPanel);
 
-			// totalForm.setFields(netAmount, vatTotalNonEditableText,
-			// transactionTotalNonEditableText);
-			// // botPanel.add(memoForm);
-			// botPanel.add(vPanel);
-			// botPanel.add(vatCheckform);
-			// botPanel.setCellHorizontalAlignment(vatCheckform,
-			// HasHorizontalAlignment.ALIGN_RIGHT);
-			// botPanel.add(totalForm);
-			// botPanel.setCellHorizontalAlignment(totalForm,
-			// HasHorizontalAlignment.ALIGN_RIGHT);
 		} else {
 			totForm.setFields(transactionTotalNonEditableText);
 
@@ -690,7 +680,7 @@ public class CreditCardExpenseView extends
 					.getDeliveryDate()));
 			delivDate.setDisabled(isInViewMode());
 			phoneSelect.setValue(transaction.getPhone());
-			if (getCompany().getPreferences().isRegisteredForVAT()) {
+			if (getPreferences().isTrackPaidTax()) {
 				netAmount.setAmount(transaction.getNetAmount());
 				vatTotalNonEditableText.setAmount(transaction.getTotal()
 						- transaction.getNetAmount());
@@ -990,7 +980,7 @@ public class CreditCardExpenseView extends
 
 		updateTransaction();
 
-		if (getCompany().getPreferences().isRegisteredForVAT())
+		if (getPreferences().isTrackPaidTax())
 			transaction.setNetAmount(netAmount.getAmount());
 		// creditCardCharge.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 		// .getValue());
@@ -1042,7 +1032,7 @@ public class CreditCardExpenseView extends
 		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal();
 
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (getPreferences().isTrackPaidTax()) {
 			transactionTotalNonEditableText.setAmount(grandTotal);
 			netAmount.setAmount(lineTotal);
 			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
