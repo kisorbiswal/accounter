@@ -204,7 +204,8 @@ public class VendorCreditMemoView extends
 
 		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 		// menuButton = createAddNewButton();
-		vendorAccountTransactionTable = new VendorAccountTransactionTable() {
+		vendorAccountTransactionTable = new VendorAccountTransactionTable(
+				isTrackTax(), isTaxPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -239,7 +240,8 @@ public class VendorCreditMemoView extends
 		accountsDisclosurePanel.setContent(accountFlowPanel);
 		accountsDisclosurePanel.setOpen(true);
 		accountsDisclosurePanel.setWidth("100%");
-		vendorItemTransactionTable = new VendorItemTransactionTable() {
+		vendorItemTransactionTable = new VendorItemTransactionTable(
+				isTrackTax(), isTaxPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {

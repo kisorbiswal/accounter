@@ -488,7 +488,8 @@ public class VendorBillView extends
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
 
-		vendorAccountTransactionTable = new VendorAccountTransactionTable() {
+		vendorAccountTransactionTable = new VendorAccountTransactionTable(
+				isTrackTax(), isTaxPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -523,7 +524,8 @@ public class VendorBillView extends
 		accountsDisclosurePanel.setOpen(true);
 		accountsDisclosurePanel.setWidth("100%");
 
-		vendorItemTransactionTable = new VendorItemTransactionTable() {
+		vendorItemTransactionTable = new VendorItemTransactionTable(
+				isTrackTax(), isTaxPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {
