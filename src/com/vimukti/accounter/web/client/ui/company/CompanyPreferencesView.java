@@ -190,8 +190,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			setAddressToTextItem(textareaItem2, company.getRegisteredAddress());
 			registrationNumberText.setValue(company.getRegistrationNumber());
 
-			doupaySalesChecBox.setValue(getCompany().getPreferences()
-					.isChargeSalesTax());
+			// doupaySalesChecBox.setValue(getCompany().getPreferences()
+			// .isChargeSalesTax());
 
 			if (doupaySalesChecBox.getValue() == Boolean.FALSE) {
 				vatRegNumber.setDisabled(true);
@@ -509,19 +509,19 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// taxesForm.setPadding(10);
 
 		doupaySalesChecBox = new CheckboxItem();
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			doupaySalesChecBox.setTitle(Accounter.constants()
-					.areYouRegisteredForVAT());
-			vatRegNumber = new TextItem(Accounter.constants()
-					.vatRegistrationNumber());
-		}
-
-		if (getCompany().getPreferences().isChargeSalesTax()) {
-			doupaySalesChecBox.setTitle(Accounter.constants()
-					.doYoupaySalesTaxes());
-			vatRegNumber = new TextItem(Accounter.constants().taxRegNo());
-
-		}
+		// if (getCompany().getPreferences().isRegisteredForVAT()) {
+		// doupaySalesChecBox.setTitle(Accounter.constants()
+		// .areYouRegisteredForVAT());
+		// vatRegNumber = new TextItem(Accounter.constants()
+		// .vatRegistrationNumber());
+		// }
+		//
+		// if (getCompany().getPreferences().isChargeSalesTax()) {
+		// doupaySalesChecBox.setTitle(Accounter.constants()
+		// .doYoupaySalesTaxes());
+		// vatRegNumber = new TextItem(Accounter.constants().taxRegNo());
+		//
+		// }
 
 		vatRegNumber.setHelpInformation(true);
 		vatRegNumber.setWidth(100);
@@ -530,7 +530,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 				vatRegNumber.getTitle().toLowerCase(),
 				Accounter.constants().company()));
 
-		if (getCompany().getPreferences().isChargeSalesTax()) {
+		if (getCompany().getPreferences().isTrackTax()) {
 			doupaySalesChecBox.addChangeHandler(new ChangeHandler() {
 
 				private FocusWidget taxgroupBtn;

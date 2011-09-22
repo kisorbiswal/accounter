@@ -151,10 +151,6 @@ public class CustomerAndvendorSettingsPanel extends AbstractCompanyInfoPanel {
 
 	@Override
 	public void onLoad() {
-		if (companyPreferences.isChargeSalesTax())
-			chargeTaxGroupItem.setValue(constants.yes());
-		else
-			chargeTaxGroupItem.setValue(constants.no());
 
 		if (companyPreferences.isKeepTrackOfTime())
 			trackTimeGroupItem.setValue(constants.yes());

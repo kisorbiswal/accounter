@@ -162,17 +162,6 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 			trackCheckbox.setValue(true);
 			hidePanel.setVisible(isTaxTrackEnable);
 		}
-		// if (preferences.isRegisteredForVAT()) {
-		// vatYes.setValue(true);
-		// } else {
-		// vatNo.setValue(true);
-		// }
-		// if (preferences.isChargeSalesTax()) {
-		// salesTaxYes.setValue(true);
-		// } else {
-		// salesTaxNo.setValue(true);
-		// }
-
 	}
 
 	public void onSave() {

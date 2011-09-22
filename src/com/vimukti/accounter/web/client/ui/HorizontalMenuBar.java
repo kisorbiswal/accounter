@@ -40,13 +40,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 				getCompanyMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
-		if (Accounter.getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_INDIA) {
-			if (Accounter.getCompany().getPreferences().isRegisteredForVAT()) {
-				menuitem = menuBar.addItem(Accounter.constants().vat(),
-						getVATMenu());
-				ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
-			}
-		} else {
+		if (Accounter.getCompany().getPreferences().isTrackTax()) {
 			menuitem = menuBar.addItem(Accounter.constants().tax(),
 					getVATMenu());
 			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
@@ -541,10 +535,11 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		// reportMenuBar.addItem(Accounter.constants()
 		// .banking(), getBankingSubMenu());
 		// }
-			if (Accounter.getCompany().getPreferences().isRegisteredForVAT()) {
-				reportMenuBar.addItem(Accounter.constants().vat(),
-						getVATReportMenu());
-			}
+		if (Accounter.getCompany().getPreferences().isTrackTax()
+				&& getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_US) {
+			reportMenuBar.addItem(Accounter.constants().vat(),
+					getVATReportMenu());
+		}
 		// reportMenuBar.addItem(Accounter.constants()
 		// .salesAndPurchaseOrders(), getSalesAndPurchaseMenu());
 		return reportMenuBar;
@@ -704,11 +699,11 @@ public class HorizontalMenuBar extends HorizontalPanel {
 					.getGlReportAction());
 		companyAndFinancialMenuBar.addItem(ActionFactory
 				.getExpenseReportAction());
-		if (Accounter.getCompany().getPreferences().isChargeSalesTax()) {
+		if (Accounter.getCompany().getPreferences().isTrackTax()) {
 			companyAndFinancialMenuBar.addItem(ActionFactory
 					.getSalesTaxLiabilityAction());
 		}
-		if (Accounter.getCompany().getPreferences().isChargeSalesTax()) {
+		if (Accounter.getCompany().getPreferences().isTrackTax()) {
 			companyAndFinancialMenuBar.addItem(ActionFactory
 					.getTransactionDetailByTaxItemAction());
 		}
@@ -1042,7 +1037,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		// companyMenuBar.addItem(ActionFactory.getBudgetActions());
 		// companyMenuBar.addSeparator();
 
-		if (getPreferences().isChargeSalesTax()) {
+		if (getPreferences().isTrackTax()) {
 			companyMenuBar.addItem(Accounter.constants().itemTax(),
 					getSalesTaxSubmenu());
 		}

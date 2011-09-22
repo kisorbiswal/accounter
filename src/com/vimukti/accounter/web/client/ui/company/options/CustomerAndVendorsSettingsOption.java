@@ -103,17 +103,6 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 	}
 
 	public void initData() {
-		if (getCompanyPreferences().isChargeSalesTax()) {
-			chargeTaxYesRadioButton.setValue(true);
-		} else {
-			chargeTaxNoRadioButton.setValue(true);
-		}
-
-		if (getCompanyPreferences().isRegisteredForVAT()) {
-			vatYesRadioButton.setValue(true);
-		} else {
-			vatNoRadioButton.setValue(true);
-		}
 
 		if (getCompanyPreferences().isTrackTax()) {
 			enableTaxCheckbox.setVisible(true);

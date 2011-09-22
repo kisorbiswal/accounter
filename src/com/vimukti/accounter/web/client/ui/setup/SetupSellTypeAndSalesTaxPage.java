@@ -26,23 +26,23 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 	public VerticalPanel getPageBody() {
 
 		VerticalPanel mainVerticalPanel = new VerticalPanel();
-		serviceOnlyRadioButton = new RadioButton(SELL_TYPES, accounterConstants
-				.services_labelonly());
+		serviceOnlyRadioButton = new RadioButton(SELL_TYPES,
+				accounterConstants.services_labelonly());
 		servicesOnlyLabel = new CustomLabel(accounterConstants.servicesOnly());
 		productsOnlyLabel = new CustomLabel(accounterConstants.productsOnly());
 		emptyLabel = new CustomLabel("");
-		bothServicesandProductsLabel = new CustomLabel(accounterConstants
-				.bothServicesandProducts());
-		doyouchargesalestaxLabel = new CustomLabel(accounterConstants
-				.doyouchargesalestax());
+		bothServicesandProductsLabel = new CustomLabel(
+				accounterConstants.bothServicesandProducts());
+		doyouchargesalestaxLabel = new CustomLabel(
+				accounterConstants.doyouchargesalestax());
 
 		mainVerticalPanel.add(serviceOnlyRadioButton);
 
 		mainVerticalPanel.add(servicesOnlyLabel);
 		mainVerticalPanel.add(emptyLabel);
 
-		productOnlyRadioButton = new RadioButton(SELL_TYPES, accounterConstants
-				.products_labelonly());
+		productOnlyRadioButton = new RadioButton(SELL_TYPES,
+				accounterConstants.products_labelonly());
 
 		mainVerticalPanel.add(productOnlyRadioButton);
 		mainVerticalPanel.add(productsOnlyLabel);
@@ -79,12 +79,6 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 			productOnlyRadioButton.setValue(true);
 		if (sellServices && sellProducts)
 			bothserviceandprductRadioButton.setValue(true);
-
-		if (preferences.isChargeSalesTax()) {
-			yesRadioButton.setValue(true);
-		} else {
-			noRadioButton.setValue(true);
-		}
 
 	}
 

@@ -98,7 +98,6 @@ public class MainFinanceWindow extends VerticalPanel {
 	public HelpItem getHelpItem() {
 		return item;
 
-		
 	}
 
 	private MenuBar getMenuBar() {
@@ -283,7 +282,8 @@ public class MainFinanceWindow extends VerticalPanel {
 		// reportMenuBar.addItem(FinanceApplication.constants()
 		// .banking(), getBankingSubMenu());
 		// }
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (getCompany().getPreferences().isTrackTax()
+				&& getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_US) {
 			reportMenuBar.addItem(Accounter.constants().vat(),
 					getVATReportMenu());
 		}
@@ -417,11 +417,11 @@ public class MainFinanceWindow extends VerticalPanel {
 		}
 		companyAndFinancialMenuBar.addItem(ActionFactory
 				.getExpenseReportAction());
-		if (getCompany().getPreferences().isChargeSalesTax()) {
+		if (getCompany().getPreferences().isTrackTax()) {
 			companyAndFinancialMenuBar.addItem(ActionFactory
 					.getSalesTaxLiabilityAction());
 		}
-		if (getCompany().getPreferences().isChargeSalesTax()) {
+		if (getCompany().getPreferences().isTrackTax()) {
 			companyAndFinancialMenuBar.addItem(ActionFactory
 					.getTransactionDetailByTaxItemAction());
 		}
@@ -602,7 +602,7 @@ public class MainFinanceWindow extends VerticalPanel {
 			companyMenuBar.addItem(ActionFactory.getPreferencesAction());
 			companyMenuBar.addSeparator();
 		}
-		if (getCompany().getPreferences().isChargeSalesTax()) {
+		if (getCompany().getPreferences().isTrackTax()) {
 			companyMenuBar.addItem(Accounter.constants().itemTax(),
 					getSalesTaxSubmenu());
 		}

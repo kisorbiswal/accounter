@@ -100,8 +100,8 @@ public class CompanyInfoDialog extends BaseDialog<ClientAddress> {
 			setAddressToTextItem(textareaItem2, company.getRegisteredAddress());
 			registrationNumberText.setValue(company.getRegistrationNumber());
 
-			doupaySalesChecBox.setValue(getCompany().getPreferences()
-					.isChargeSalesTax());
+			// doupaySalesChecBox.setValue(getCompany().getPreferences()
+			// .isChargeSalesTax());
 
 			if (doupaySalesChecBox.getValue() == Boolean.FALSE) {
 				vatRegNumber.setDisabled(true);
