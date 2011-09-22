@@ -23,7 +23,6 @@ public abstract class CheckboxEditColumn<T> extends EditColumn<T> {
 			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				boolean value = event.getValue();
-				onHeaderValueChanged(value);
 				List<T> allRows = getTable().getAllRows();
 				for (int x = 1; x <= allRows.size(); x++) {
 					FlexTable flexTable = (FlexTable) getTable().getWidget();
@@ -41,8 +40,6 @@ public abstract class CheckboxEditColumn<T> extends EditColumn<T> {
 		box.setEnabled(isEnable());
 		return box;
 	}
-
-	protected abstract void onHeaderValueChanged(boolean value);
 
 	@Override
 	public void render(IsWidget widget, RenderContext<T> context) {
