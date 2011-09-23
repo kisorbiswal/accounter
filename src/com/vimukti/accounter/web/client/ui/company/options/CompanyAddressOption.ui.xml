@@ -50,7 +50,7 @@
 							<g:Label ui:field="tCountryLabel" />
 						</g:customCell>
 						<g:customCell>
-							<g:ListBox ui:field="tCountryCombo" />
+							<g:ListBox width="185px" ui:field="tCountryCombo" />
 						</g:customCell>
 					</g:row>
 					<g:row>
@@ -58,7 +58,7 @@
 							<g:Label ui:field="tStateLabel" />
 						</g:customCell>
 						<g:customCell>
-							<g:ListBox ui:field="tStateCombo" />
+							<g:ListBox width="185px" ui:field="tStateCombo" />
 						</g:customCell>
 					</g:row>
 				</g:Grid>
@@ -108,7 +108,7 @@
 							<g:Label ui:field="rCountryComboLabel" />
 						</g:customCell>
 						<g:customCell>
-							<g:ListBox ui:field="rCountryCombo" />
+							<g:ListBox width="185px" ui:field="rCountryCombo" />
 						</g:customCell>
 					</g:row>
 					<g:row>
@@ -116,7 +116,7 @@
 							<g:Label ui:field="rStateComboLabel" />
 						</g:customCell>
 						<g:customCell>
-							<g:ListBox ui:field="rStateCombo" />
+							<g:ListBox width="185px" ui:field="rStateCombo" />
 						</g:customCell>
 					</g:row>
 				</g:Grid>
