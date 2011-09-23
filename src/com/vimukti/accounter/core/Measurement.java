@@ -11,8 +11,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
  * @author Srikanth.J
  * 
  */
-public class Measurement implements IAccounterCore {
-
+public class Measurement extends CreatableObject implements IAccounterCore {
 
 	/**
 	 * 
@@ -23,12 +22,8 @@ public class Measurement implements IAccounterCore {
 
 	private String desctiption;
 
-	private long id;
-
 	private String name;
 	private Set<Unit> units;
-
-	private int version;
 
 	public Measurement() {
 		units = new HashSet<Unit>();
@@ -100,10 +95,6 @@ public class Measurement implements IAccounterCore {
 				"Specified unit type not found in measure.");
 	}
 
-	public long getId() {
-		return id;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -125,10 +116,6 @@ public class Measurement implements IAccounterCore {
 
 	public void setDesctiption(String desctiption) {
 		this.desctiption = desctiption;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	public void setName(String name) {
@@ -176,13 +163,4 @@ public class Measurement implements IAccounterCore {
 		return measurementClone;
 	}
 
-	@Override
-	public int getVersion() {
-		return version;
-	}
-
-	@Override
-	public void setVersion(int version) {
-		this.version=version;
-	}
 }
