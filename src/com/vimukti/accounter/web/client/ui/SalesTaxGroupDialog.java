@@ -65,9 +65,10 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 
 	// Filling Available tax Codes in selectTaxCodesGrid
 	private void fillSelectedTaxItems(ClientTAXGroup taxGroup) {
-		for (ClientTAXItem codeInternal : getTaxItemsForTaxGroup(taxGroup)) {
-			selectTaxItemsGrid.addData(codeInternal);
-		}
+		if (getTaxItemsForTaxGroup(taxGroup) != null)
+			for (ClientTAXItem codeInternal : getTaxItemsForTaxGroup(taxGroup)) {
+				selectTaxItemsGrid.addData(codeInternal);
+			}
 	}
 
 	// getting all Tax Codes from Company Object & converting these to temporary
@@ -104,7 +105,8 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 			ClientTAXGroup taxGroup) {
 
 		List<ClientTAXItem> items = taxGroup.getTaxItems();
-		tempAvailTaxItemList = new ArrayList<ClientTAXItem>(items);
+		if (items != null)
+			tempAvailTaxItemList = new ArrayList<ClientTAXItem>(items);
 		// tempAvailTaxCodeList = (ArrayList) Arrays.asList(codes.toArray());
 
 		return tempAvailTaxItemList;
