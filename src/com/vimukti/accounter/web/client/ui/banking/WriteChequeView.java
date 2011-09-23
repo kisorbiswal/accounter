@@ -53,7 +53,6 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
-import com.vimukti.accounter.web.client.ui.grids.TaxAgencyTransactionGrid;
 
 public class WriteChequeView extends
 		AbstractBankTransactionView<ClientWriteCheck> {
@@ -88,8 +87,6 @@ public class WriteChequeView extends
 	private LinkedHashMap<String, ClientAddress> billToAddress;
 
 	protected ClientTAXAgency selectedTaxAgency;
-
-	protected TaxAgencyTransactionGrid taxAgencyGrid;
 
 	private DateField date;
 	AccounterConstants accounterConstants = Accounter.constants();
@@ -1168,10 +1165,11 @@ public class WriteChequeView extends
 
 				} else if (item.equals(Accounter.constants().comment())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_COMMENT);
-				} else if (item.equals("Sales Tax")) {
-					transactionItem
-							.setType(ClientTransactionItem.TYPE_SALESTAX);
 				}
+				// else if (item.equals("Sales Tax")) {
+				// transactionItem
+				// .setType(ClientTransactionItem.TYPE_SALESTAX);
+				// }
 				// transactionCustomerTable.add(transactionItem);
 			} else if (payee.getType() == ClientWriteCheck.TYPE_VENDOR
 					|| payee.getType() == ClientWriteCheck.TYPE_TAX_AGENCY) {
@@ -1195,9 +1193,10 @@ public class WriteChequeView extends
 				transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 			} else if (item.equals(Accounter.constants().comment())) {
 				transactionItem.setType(ClientTransactionItem.TYPE_COMMENT);
-			} else if (item.equals(Accounter.constants().salesTax())) {
-				transactionItem.setType(ClientTransactionItem.TYPE_SALESTAX);
 			}
+			// else if (item.equals(Accounter.constants().salesTax())) {
+			// transactionItem.setType(ClientTransactionItem.TYPE_SALESTAX);
+			// }
 			// transactionCustomerTable.add(transactionItem);
 		}
 	}
