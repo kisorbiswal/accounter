@@ -953,10 +953,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
-		</many-to-one>
-		<property name="isVATGroupEntry" column="VAT_GROUP_ENTRY"></property>
 		<property name="vatAmount" column="VAT_AMOUNT"></property>
 		<property name="lineTotal" column="LINE_TOTAL"></property>
 		<property name="taxDue" column="TAX_DUE"></property>
