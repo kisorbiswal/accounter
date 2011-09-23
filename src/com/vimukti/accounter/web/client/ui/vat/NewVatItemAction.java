@@ -19,7 +19,7 @@ public class NewVatItemAction extends Action<ClientTAXItem> {
 		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			flag = Accounter.constants().company();
 		else
-			flag = Accounter.constants().vat();
+			flag = Accounter.constants().tax();
 		this.catagory = flag;
 	}
 

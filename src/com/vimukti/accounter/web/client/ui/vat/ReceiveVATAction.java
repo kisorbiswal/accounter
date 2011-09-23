@@ -17,7 +17,7 @@ public class ReceiveVATAction extends Action {
 
 	public ReceiveVATAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().vat();
+		this.catagory = Accounter.constants().tax();
 	}
 
 	@Override
