@@ -201,7 +201,7 @@ public class MacMenuServlet extends BaseServlet {
 				"company/accounter#vatItems");
 		subMenu(vatListValue, iGlobal.constants().vatCodes(),
 				"company/accounter#vatCodes");
-		menu(mainValue, iGlobal.constants().vatList(), vatListValue);
+		menu(mainValue, iGlobal.constants().taxList(), vatListValue);
 
 		mainMenu(builder, iGlobal.constants().vat(), mainValue);
 	}
