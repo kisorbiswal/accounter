@@ -354,6 +354,9 @@ public class Vendor extends Payee {
 		super.onSave(session);
 		this.isOnSaveProccessed = true;
 		setType(Payee.TYPE_VENDOR);
+		if (this.vendorNumber != null && this.vendorNumber.trim().isEmpty()) {
+			this.vendorNumber = null;
+		}
 		return onUpdate(session);
 	}
 

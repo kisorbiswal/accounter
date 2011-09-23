@@ -385,6 +385,9 @@ public class Customer extends Payee implements IAccounterServerCore,
 				String.valueOf(this.getOpeningBalance()),
 				String.valueOf(this.isOpeningBalanceEditable()));
 
+		if (this.number != null && this.number.trim().isEmpty()) {
+			this.number = null;
+		}
 		return onUpdate(session);
 	}
 
