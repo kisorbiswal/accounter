@@ -439,7 +439,7 @@ public class ActionFactory {
 
 	public static PaySalesTaxAction getPaySalesTaxAction() {
 		String constant = null;
-		constant = actionsConstants.paySalesTax();
+		constant = actionsConstants.payTax();
 		return new PaySalesTaxAction(constant);
 	}
 
@@ -615,11 +615,7 @@ public class ActionFactory {
 	}
 
 	public static AddEditSalesTaxCodeAction getAddEditSalesTaxCodeAction() {
-		String constant = null;
-		if (Accounter.getCompany().getAccountingType() == 1)
-			constant = actionsConstants.newVATCode();
-		else
-			constant = actionsConstants.newTaxCode();
+		String constant = actionsConstants.newTaxCode();
 		return new AddEditSalesTaxCodeAction(constant);
 	}
 

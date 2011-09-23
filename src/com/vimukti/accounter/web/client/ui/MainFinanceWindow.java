@@ -216,7 +216,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		// .banking(), getBankingSubMenu());
 		// }
 		if (getCompany().getPreferences().isTrackTax()
-				&& getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_US) {
+				&& getCompany().getCountryPreferences().isVatAvailable()) {
 			reportMenuBar.addItem(Accounter.constants().vat(),
 					getVATReportMenu());
 		}

@@ -34,7 +34,6 @@ import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
-import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -55,7 +54,6 @@ import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingMethodsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
-import com.vimukti.accounter.web.client.ui.combo.TaxGroupCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -106,7 +104,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	ShippingMethodsCombo shipMethSelect;
 	PaymentTermsCombo payTermsSelect;
 	CustomerGroupCombo custGroupSelect;
-	TaxGroupCombo taxGroupSelect;
 	SalesPersonCombo salesPersonSelect;
 
 	ContactsTable gridView;
@@ -130,7 +127,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	protected ClientShippingMethod selectShippingMethodFromDetailsTab;
 	protected ClientPaymentTerms selectPayTermFromDetailsTab;
 	protected ClientCustomerGroup selectCustomerGroupFromDetailsTab;
-	protected ClientTAXItemGroup selectTaxGroupFromDetailsTab;
 	private ClientSalesPerson selectSalesPersonFromDetailsTab;
 	private ClientTAXCode selectVatCodeFromDetailsTab;
 
@@ -443,16 +439,22 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		data.setBankName(bankNameSelect.getValue().toString());
 		// Setting Branch name
 		data.setBankBranch(bankBranchSelect.getValue().toString());
-		if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
+		if (getPreferences().isTrackTax()) {
 			// setting Pan Number
-			data.setPanNumber(panNumberText.getValue().toString());
-			// setting for CST Number
-			data.setCstNumber(cstNumberText.getValue().toString());
-			// setting for TIN Number
-			data.setTinNumber(tinNumberText.getValue().toString());
-			// setting for Service tax Num
-			data.setServiceTaxRegistrationNumber(serviceTaxRegistrationNo
-					.getValue().toString());
+			// data.setPanNumber(panNumberText.getValue().toString());
+			if (getCountryPreferences().isSalesTaxAvailable()) {
+				// setting for CST Number
+				data.setCstNumber(cstNumberText.getValue().toString());
+			}
+			if (getCountryPreferences().isTDSAvailable()) {
+				// setting for TIN Number
+				data.setTinNumber(tinNumberText.getValue().toString());
+			}
+			if (getCountryPreferences().isServiceTaxAvailable()) {
+				// setting for Service tax Num
+				data.setServiceTaxRegistrationNumber(serviceTaxRegistrationNo
+						.getValue().toString());
+			}
 		}
 		// Setting customer Since
 		if (customerSinceDate != null
@@ -901,9 +903,19 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		financeDitailsForm.setFields(salesPersonSelect, creditRatingSelect,
 				bankNameSelect, bankAccountSelect, bankBranchSelect);
-		if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
-			financeDitailsForm.setFields(panNumberText, cstNumberText,
-					serviceTaxRegistrationNo, tinNumberText);
+
+		if (getPreferences().isTrackTax()) {
+
+			if (getCountryPreferences().isSalesTaxAvailable()) {
+				financeDitailsForm.setFields(cstNumberText);
+			}
+			if (getCountryPreferences().isServiceTaxAvailable()) {
+				financeDitailsForm.setFields(serviceTaxRegistrationNo);
+			}
+			if (getCountryPreferences().isTDSAvailable()) {
+				financeDitailsForm.setFields(tinNumberText);
+			}
+
 		}
 		financeDitailsForm.setWidth("100%");
 
@@ -960,18 +972,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 					}
 
 				});
-		taxGroupSelect = new TaxGroupCombo(customerConstants.taxGroup());
-		taxGroupSelect.setHelpInformation(true);
-		taxGroupSelect.setRequired(true);
-		taxGroupSelect
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXItemGroup>() {
-
-					public void selectedComboBoxItem(
-							ClientTAXItemGroup selectItem) {
-						selectTaxGroupFromDetailsTab = selectItem;
-					}
-
-				});
 
 		vatregno = new TextItem(Accounter.constants().vatRegistrationNumber());
 		vatregno.setHelpInformation(true);
@@ -1017,7 +1017,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		payMethSelect.setDisabled(isInViewMode());
 		payTermsSelect.setDisabled(isInViewMode());
 		custGroupSelect.setDisabled(isInViewMode());
-		taxGroupSelect.setDisabled(isInViewMode());
 		vatregno.setDisabled(isInViewMode());
 		custTaxCode.setDisabled(isInViewMode());
 
@@ -1085,11 +1084,9 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			data.setPhoneNo(data.getPhoneNo());
 		if (data != null && data.getFaxNo() != null)
 			data.setFaxNo(data.getFaxNo());
-		if (company.getAccountingType() == 1)
+		if (getPreferences().isTrackTax()) {
 			initVatCodeList();
-		else
-			// initTaxItemGroupList();
-			initVatCodeList();
+		}
 		super.initData();
 
 	}
@@ -1148,7 +1145,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				.getServiceTaxRegistrationNumber());
 		tinNumberText.setValue(data.getTinNumber());
 
-		if (company.getAccountingType() != 0) {
+		if (getPreferences().isTrackTax()
+				&& getCountryPreferences().isVatAvailable()) {
 			// setting vatRegistrationNumber
 			vatregno.setValue(data.getVATRegistrationNumber());
 		}
@@ -1185,12 +1183,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// Setting Customer Group
 		selectCustomerGroupFromDetailsTab = getCompany().getCustomerGroup(
 				data.getCustomerGroup());
-		// Setting Tax Group
-		if (company.getAccountingType() == 0)
-			selectTaxGroupFromDetailsTab = getCompany().getTAXItemGroup(
-					data.getTaxItemGroups());
-		else {
-			// settting vatcode
+		if (getPreferences().isTrackTax()) {
 			selectVatCodeFromDetailsTab = getCompany().getTAXCode(
 					data.getTAXCode());
 		}
@@ -1301,7 +1294,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		payMethSelect.setDisabled(isInViewMode());
 		payTermsSelect.setDisabled(isInViewMode());
 		custGroupSelect.setDisabled(isInViewMode());
-		taxGroupSelect.setDisabled(isInViewMode());
 		vatregno.setDisabled(isInViewMode());
 		custTaxCode.setDisabled(isInViewMode());
 		super.onEdit();

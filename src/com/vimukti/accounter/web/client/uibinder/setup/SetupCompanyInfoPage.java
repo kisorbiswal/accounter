@@ -19,9 +19,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
@@ -125,14 +123,17 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	protected void createControls() {
 		headerLabel.setText(accounterConstants.enterYourCompanyInfo());
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			taxIDLabel.setText(accounterConstants.taxId());
-		} else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			taxIDLabel.setText(accounterConstants.vatNo());
-		} else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
-			taxIDLabel.setText(Accounter.messages().panNumber(
-					Global.get().Account()));
-		}
+		// if (Accounter.getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_US) {
+		taxIDLabel.setText(accounterConstants.taxId());
+		// } else if (Accounter.getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_UK) {
+		// taxIDLabel.setText(accounterConstants.vatNo());
+		// } else if (Accounter.getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_INDIA) {
+		// taxIDLabel.setText(Accounter.messages().panNumber(
+		// Global.get().Account()));
+		// }
 
 		displayNameLabel.setText(accounterConstants.companyName());
 		legalNameLabel.setText(accounterConstants.legalName());

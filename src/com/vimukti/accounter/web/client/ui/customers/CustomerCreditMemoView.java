@@ -290,10 +290,7 @@ public class CustomerCreditMemoView extends
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(prodAndServiceForm2);
-		if (getCompany().getAccountingType() == 1) {
-			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "30%");
-		} else
-			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
+		prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
 
 		VerticalPanel mainPanel = new VerticalPanel();
 		mainPanel.setWidth("100%");

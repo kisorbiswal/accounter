@@ -179,20 +179,28 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		form1.getCellFormatter().setWidth(0, 0, "250px");
 		form1.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
 
-		if (accounttype == ClientCompany.ACCOUNTING_TYPE_US
-				|| accountType == ClientCompany.ACCOUNTING_TYPE_INDIA)
+		if (getPreferences().isTrackTax()) {
+			form1.setFields(vatItemNameText, descriptionText, vatRateTextPerT,
+					vatAgencyCombo);
+			if (getCountryPreferences().isVatAvailable()) {
+				form1.setFields(vatReturnBoxCombo);
+			}
+			form1.setFields(statusCheck);
 			// if (data != null && data.isPercentage()) {
-			form1.setFields(vatItemNameText, descriptionText, vatRateTextPerT,
-					vatAgencyCombo, statusCheck);
-		// } else {
-		// form1.setFields(vatItemNameText, descriptionText,
-		// isPercentatateAmtCheck, vatRateText, vatAgencyCombo,
-		// statusCheck);
-		// }
-		// else if (data != null && data.isPercentage()) {
-		else
-			form1.setFields(vatItemNameText, descriptionText, vatRateTextPerT,
-					vatAgencyCombo, vatReturnBoxCombo, statusCheck);
+			// form1.setFields(vatItemNameText, descriptionText,
+			// vatRateTextPerT,
+			// vatAgencyCombo, statusCheck);
+			// } else {
+			// form1.setFields(vatItemNameText, descriptionText,
+			// isPercentatateAmtCheck, vatRateText, vatAgencyCombo,
+			// statusCheck);
+			// }
+			// else if (data != null && data.isPercentage()) {
+			// else
+			// form1.setFields(vatItemNameText, descriptionText,
+			// vatRateTextPerT,
+			// vatAgencyCombo, vatReturnBoxCombo, statusCheck);
+		}
 		// } else {
 		// form1.setFields(vatItemNameText, descriptionText,
 		// isPercentatateAmtCheck, vatRateText, vatAgencyCombo,

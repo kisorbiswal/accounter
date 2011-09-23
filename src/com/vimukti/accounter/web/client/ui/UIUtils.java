@@ -670,22 +670,11 @@ public class UIUtils {
 		switch (comboType) {
 		case AccountCombo.DEPOSIT_IN_ACCOUNT:
 			for (int type : accountTypes) {
-				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-					if (type == ClientAccount.TYPE_BANK
-							||
-							// || type == ClientAccount.TYPE_CASH
-							type == ClientAccount.TYPE_OTHER_CURRENT_ASSET
-							|| type == ClientAccount.TYPE_CREDIT_CARD
-							|| type == ClientAccount.TYPE_FIXED_ASSET)
-						options.add(type);
-				}
-
-				else {
-					if (type == ClientAccount.TYPE_OTHER_CURRENT_ASSET
-							|| type == ClientAccount.TYPE_BANK
-							|| type == ClientAccount.TYPE_CREDIT_CARD
-							|| type == ClientAccount.TYPE_FIXED_ASSET)
-						options.add(type);
+				if (type == ClientAccount.TYPE_OTHER_CURRENT_ASSET
+						|| type == ClientAccount.TYPE_BANK
+						|| type == ClientAccount.TYPE_CREDIT_CARD
+						|| type == ClientAccount.TYPE_FIXED_ASSET) {
+					options.add(type);
 				}
 			}
 			break;
@@ -1869,10 +1858,12 @@ public class UIUtils {
 		}
 		if (paymentMethod.equals(Accounter.constants().cheque())
 				|| paymentMethod.equals(Accounter.constants().check())) {
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-				return Accounter.constants().cheque();
-			else if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-				return Accounter.constants().check();
+			// if (getCompany().getAccountingType() ==
+			// ClientCompany.ACCOUNTING_TYPE_UK)
+			return Accounter.constants().cheque();
+			// else if (getCompany().getAccountingType() ==
+			// ClientCompany.ACCOUNTING_TYPE_US)
+			// return Accounter.constants().check();
 		}
 
 		return paymentMethod;

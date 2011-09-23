@@ -2508,7 +2508,7 @@ public interface AccounterConstants extends Constants {
 
 	public String payrollLiability();
 
-	public String paySalesTax();
+	public String payTax();
 
 	public String paytermsAlreadyExists();
 

@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.combo;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
@@ -82,20 +81,21 @@ public class TaxItemCombo extends CustomCombo<ClientTAXItem> {
 
 	@Override
 	public void onAddNew() {
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
-			NewVatItemAction action = ActionFactory.getNewVatItemAction();
-			action.setCallback(new ActionCallback<ClientTAXItem>() {
+		// if (getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_INDIA) {
+		NewVatItemAction action = ActionFactory.getNewVatItemAction();
+		action.setCallback(new ActionCallback<ClientTAXItem>() {
 
-				@Override
-				public void actionResult(ClientTAXItem result) {
+			@Override
+			public void actionResult(ClientTAXItem result) {
 
-					addItemThenfireEvent(result);
+				addItemThenfireEvent(result);
 
-				}
-			});
+			}
+		});
 
-			action.run(null, true);
+		action.run(null, true);
 
-		}
+		// }
 	}
 }

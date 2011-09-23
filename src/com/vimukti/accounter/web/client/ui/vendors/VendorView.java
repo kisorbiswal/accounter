@@ -1012,17 +1012,28 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		// Setting Vendor Group
 		data.setVendorGroup(Utility.getID(selectVendorGroupFromDetailsTab));
-		if (getCompany().getAccountingType() == 0)
+		if (getPreferences().isTrackTax()) {
 			if (taxIDText.getValue() != null) {
 				data.setFederalTaxId(taxIDText.getValue().toString());
 			}
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
-			if (panNumberText.getValue() != null) {
-				data.setPanNumber(panNumberText.getValue().toString());
+			if (vendorTaxCode != null)
+				data.setTAXCode(Utility.getID(selectTaxCodeFromDetailsTab));
+			// if (panNumberText.getValue() != null) {
+			// data.setPanNumber(panNumberText.getValue().toString());
+			// }
+			if (getCountryPreferences().isServiceTaxAvailable()) {
+				if (serviceTaxRegisterationNumber.getValue() != null) {
+					data.setServiceTaxRegistrationNumber(serviceTaxRegisterationNumber
+							.getValue().toString());
+				}
 			}
-			if (serviceTaxRegisterationNumber.getValue() != null) {
-				data.setServiceTaxRegistrationNumber(serviceTaxRegisterationNumber
-						.getValue().toString());
+			if (getCountryPreferences().isVatAvailable()) {
+				if (vatRegistrationNumber != null) {
+					String vatReg = vatRegistrationNumber.getValue() != null ? vatRegistrationNumber
+							.getValue().toString() : "";
+					data.setVATRegistrationNumber(vatReg.length() != 0 ? vatReg
+							: null);
+				}
 			}
 		}
 		// Setting Account Number
@@ -1039,20 +1050,6 @@ public class VendorView extends BaseView<ClientVendor> {
 		// data.setAccountsPayable(getCompany().getAccountsPayableAccount());
 
 		// Setting opening balance accounts
-
-		if (getPreferences().isTrackTax()
-				&& getCountryPreferences().isVatAvailable()) {
-			if (vatRegistrationNumber != null) {
-
-				String vatReg = vatRegistrationNumber.getValue() != null ? vatRegistrationNumber
-						.getValue().toString() : "";
-				data.setVATRegistrationNumber(vatReg.length() != 0 ? vatReg
-						: null);
-
-			}
-			if (vendorTaxCode != null)
-				data.setTAXCode(Utility.getID(selectTaxCodeFromDetailsTab));
-		}
 
 		data.setTaxId(taxID.getValue());
 		data.setTrackPaymentsFor1099(track1099MISC.isChecked());
@@ -1136,8 +1133,9 @@ public class VendorView extends BaseView<ClientVendor> {
 		getFiscalYear();
 		addAccountsToList();
 		addVendorGroupList();
-		if (company.getAccountingType() == 1)
+		if (getPreferences().isTrackTax()) {
 			addSuplierTaxCode();
+		}
 		addShippingMethodList();
 		addPaymentTermsList();
 		if (data != null && data.getPhoneNo() != null)

@@ -237,17 +237,15 @@ public class CompanyInfoDialog extends BaseDialog<ClientAddress> {
 		// taxesForm.setPadding(10);
 
 		doupaySalesChecBox = new CheckboxItem();
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			doupaySalesChecBox.setTitle(Accounter.constants()
-					.doYoupaySalesTaxes());
-		} else {
-			doupaySalesChecBox.setTitle(Accounter.constants()
-					.areYouRegisteredForVAT());
-		}
-		vatRegNumber = new TextItem(
-				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-						.constants().vatRegistrationNumber() : Accounter
-						.constants().taxRegNo());
+		// if (getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_US) {
+		// doupaySalesChecBox.setTitle(Accounter.constants()
+		// .doYoupaySalesTaxes());
+		// } else {
+		// doupaySalesChecBox.setTitle(Accounter.constants()
+		// .areYouRegisteredForVAT());
+		// }
+		vatRegNumber = new TextItem(Accounter.constants().taxRegNo());
 		vatRegNumber.setHelpInformation(true);
 		vatRegNumber.setWidth(100);
 		vatRegNumber.setDisabled(false);

@@ -456,7 +456,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		}
 		// vatmenu.addItem(ActionFactory.getCreateTaxesAction());
 		if (Accounter.getUser().canDoBanking()) {
-			vatmenu.addItem(ActionFactory.getpayVATAction());
+			vatmenu.addItem(ActionFactory.getPaySalesTaxAction());
 			vatmenu.addItem(ActionFactory.getreceiveVATAction());
 		}
 		vatmenu.addSeparator();
@@ -536,7 +536,8 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		// .banking(), getBankingSubMenu());
 		// }
 		if (Accounter.getCompany().getPreferences().isTrackTax()
-				&& Accounter.getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_US) {
+				&& Accounter.getCompany().getCountryPreferences()
+						.isVatAvailable()) {
 			reportMenuBar.addItem(Accounter.constants().vat(),
 					getVATReportMenu());
 		}

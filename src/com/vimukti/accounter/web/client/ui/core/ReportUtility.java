@@ -79,7 +79,7 @@ public class ReportUtility {
 			transactionName = constants.journalEntry();
 			break;
 		case ClientTransaction.TYPE_PAY_SALES_TAX:
-			transactionName = constants.paySalesTax();
+			transactionName = constants.payTax();
 			break;
 		case ClientTransaction.TYPE_RECEIVE_VAT:
 			transactionName = constants.receiveVAT();

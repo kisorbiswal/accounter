@@ -293,7 +293,7 @@ public abstract class TransactionPayBillTable extends
 				}
 			});
 
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
+			if (Accounter.getCompany().getCountryPreferences().isTDSAvailable()) {
 				addTdsColumn();
 			}
 
@@ -756,7 +756,7 @@ public abstract class TransactionPayBillTable extends
 
 	private void addTdsColumn() {
 
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA
+		if (getCompany().getCountryPreferences().isTDSAvailable()
 				&& getCompany().getPreferences().isTDSEnabled()) {
 			this.addColumn(new AmountColumn<ClientTransactionPayBill>() {
 

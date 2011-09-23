@@ -346,10 +346,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected DateField createTransactionDateItem() {
 
 		final DateField dateItem = new DateField(Accounter.constants().date());
-		dateItem
-				.setToolTip(Accounter.messages()
-						.selectDateWhenTransactioCreated(
-								this.getAction().getViewName()));
+		dateItem.setToolTip(Accounter
+				.messages()
+				.selectDateWhenTransactioCreated(this.getAction().getViewName()));
 		dateItem.setHelpInformation(true);
 		// if (this instanceof VendorBillView)
 		// dateItem.setShowTitle(true);
@@ -658,8 +657,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	public String getMemoTextAreaItem() {
 		return memoTextAreaItem != null
 				&& memoTextAreaItem.getValue().toString() != null ? memoTextAreaItem
-				.getValue().toString()
-				: "";
+				.getValue().toString() : "";
 	}
 
 	public void setMemoTextAreaItem(String memo) {
@@ -667,12 +665,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	public SelectCombo createPaymentMethodSelectItem() {
-		String paymentType = null;
 		payVatMethodList = new ArrayList<String>();
-		paymentType = UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
-				.constants().check());
+		// paymentType = UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
+		// .constants().check());
 		String payVatMethodArray[] = new String[] {
-				Accounter.constants().cash(), paymentType,
+				Accounter.constants().cash(), constants.cheque(),
 				Accounter.constants().creditCard(),
 				Accounter.constants().directDebit(),
 				Accounter.constants().masterCard(),
@@ -950,8 +947,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		if (transaction != null)
 			if (this.transaction.getTotal() <= 0) {
 				if (transaction instanceof ClientPayBill) {
-					result.addError(this, Accounter.messages()
-							.valueCannotBe0orlessthan0(
+					result.addError(
+							this,
+							Accounter.messages().valueCannotBe0orlessthan0(
 									Accounter.constants().amount()));
 				} else {
 					if (!(this instanceof CustomerRefundView)
@@ -970,11 +968,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		if (transactionItems != null) {
 			for (ClientTransactionItem transactionItem : transactionItems) {
 				if (transactionItem.getLineTotal() <= 0) {
-					result.addError("TransactionItem"
-							+ transactionItem.getAccount()
-							+ transactionItem.getAccount(), Accounter
-							.constants()
-							.transactionitemtotalcannotbe0orlessthan0());
+					result.addError(
+							"TransactionItem" + transactionItem.getAccount()
+									+ transactionItem.getAccount(), Accounter
+									.constants()
+									.transactionitemtotalcannotbe0orlessthan0());
 				}
 
 				if (getPreferences().isClassTrackingEnabled()
@@ -1305,9 +1303,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		this.payFromAccount = account;
 	}
 
-	protected TextItem createCheckNumberItem(String title) {
+	protected TextItem createCheckNumberItem() {
 
-		final TextItem checkNo = new TextItem(title);
+		final TextItem checkNo = new TextItem(Accounter.constants().chequeNo());
 		checkNo.setHelpInformation(true);
 		checkNo.setDisabled(isInViewMode());
 		// checkNo.setShowDisabled(false);

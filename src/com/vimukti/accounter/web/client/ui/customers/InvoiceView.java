@@ -1360,8 +1360,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (deliveryDate.getEnteredDate() != null)
 			transaction
 					.setDeliverydate(deliveryDate.getEnteredDate().getDate());
-		if (Accounter.getCompany().getAccountingType() == 0)
+		if (getCountryPreferences().isSalesTaxAvailable()) {
 			transaction.setTaxTotal(salesTaxTextNonEditable.getAmount());
+		}
 		if (contactCombo.getSelectedValue() != null) {
 			contact = contactCombo.getSelectedValue();
 			transaction.setContact(contact);

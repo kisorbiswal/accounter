@@ -258,8 +258,7 @@ public class NewVendorPaymentView extends
 
 			}
 		});
-		checkNo = createCheckNumberItem(getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-				.constants().chequeNo() : Accounter.constants().checkNo());
+		checkNo = createCheckNumberItem();
 		checkNo.setValue(Accounter.constants().toBePrinted());
 		checkNo.setWidth(100);
 		checkNo.setDisabled(true);
@@ -425,14 +424,9 @@ public class NewVendorPaymentView extends
 
 		if (paymentMethod != null) {
 			this.paymentMethod = paymentMethod;
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
-					.equalsIgnoreCase(Accounter.constants().cheque())
-					: paymentMethod.equalsIgnoreCase(Accounter.constants()
-							.check())) {
-
+			if (paymentMethod.equalsIgnoreCase(Accounter.constants().cheque())) {
 				printCheck.setDisabled(false);
 				checkNo.setDisabled(false);
-
 			} else {
 				printCheck.setDisabled(true);
 				checkNo.setDisabled(true);

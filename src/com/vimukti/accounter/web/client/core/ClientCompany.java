@@ -1689,10 +1689,11 @@ public class ClientCompany implements IAccounterCore {
 				// Utility.updateClientList(taxGroup, taxGroups);
 				UIUtils.updateClientListAndTaxItemGroup(taxGroup, taxItems,
 						taxGroups, taxItemGroups);
-				if (getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK) {
-					ClientTAXCode code = getTAXCodeForTAXItemGroup(taxGroup);
-					Utility.updateClientList(code, taxCodes);
-				}
+				// if (getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK)
+				// {
+				// ClientTAXCode code = getTAXCodeForTAXItemGroup(taxGroup);
+				// Utility.updateClientList(code, taxCodes);
+				// }
 
 				break;
 
@@ -1930,16 +1931,16 @@ public class ClientCompany implements IAccounterCore {
 		case TAX_GROUP:
 
 			deleteTaxGroup(id);
-			if (getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK) {
-				deleteTaxCode(id);
-				// for (ClientTAXCode taxCode : getActiveTaxCodes()) {
-				// if (taxCode.id == id) {
-				// Utility.isDelete = true;
-				// Utility.updateClientList(taxCode, taxCodes);
-				// Utility.isDelete = false;
-				// }
-				// }
-			}
+			// if (getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK) {
+			// deleteTaxCode(id);
+			// // for (ClientTAXCode taxCode : getActiveTaxCodes()) {
+			// // if (taxCode.id == id) {
+			// // Utility.isDelete = true;
+			// // Utility.updateClientList(taxCode, taxCodes);
+			// // Utility.isDelete = false;
+			// // }
+			// // }
+			// }
 
 			break;
 
@@ -1996,16 +1997,16 @@ public class ClientCompany implements IAccounterCore {
 			deleteLocation(id);
 		case TAXITEM:
 			deleteTaxItem(id);
-			if (getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK) {
-				deleteTaxCode(id);
-				// for (ClientTAXCode taxCode : getActiveTaxCodes()) {
-				// if (taxCode.id == id) {
-				// Utility.isDelete = true;
-				// Utility.updateClientList(taxCode, taxCodes);
-				// Utility.isDelete = false;
-				// }
-				// }
-			}
+			// if (getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK) {
+			// deleteTaxCode(id);
+			// for (ClientTAXCode taxCode : getActiveTaxCodes()) {
+			// if (taxCode.id == id) {
+			// Utility.isDelete = true;
+			// Utility.updateClientList(taxCode, taxCodes);
+			// Utility.isDelete = false;
+			// }
+			// }
+			// }
 
 			break;
 		// case VATGROUP:
@@ -2169,41 +2170,45 @@ public class ClientCompany implements IAccounterCore {
 	// return Utility.getObjectByName(this.vatItems, name);
 	// }
 
-	public void setUkServiceItemDefaultIncomeAccount(
-			String ukServiceItemDefaultIncomeAccount) {
-		this.ukServiceItemDefaultIncomeAccount = ukServiceItemDefaultIncomeAccount;
-	}
+	// public void setUkServiceItemDefaultIncomeAccount(
+	// String ukServiceItemDefaultIncomeAccount) {
+	// this.ukServiceItemDefaultIncomeAccount =
+	// ukServiceItemDefaultIncomeAccount;
+	// }
+	//
+	// public String getUkServiceItemDefaultIncomeAccount() {
+	// return ukServiceItemDefaultIncomeAccount;
+	// }
+	//
+	// public void setUkServiceItemDefaultExpenseAccount(
+	// String ukServiceItemDefaultExpenseAccount) {
+	// this.ukServiceItemDefaultExpenseAccount =
+	// ukServiceItemDefaultExpenseAccount;
+	// }
+	//
+	// public String getUkServiceItemDefaultExpenseAccount() {
+	// return ukServiceItemDefaultExpenseAccount;
+	// }
 
-	public String getUkServiceItemDefaultIncomeAccount() {
-		return ukServiceItemDefaultIncomeAccount;
-	}
+	// public void setUkNonInventoryItemDefaultIncomeAccount(
+	// String ukNonInventoryItemDefaultIncomeAccount) {
+	// this.ukNonInventoryItemDefaultIncomeAccount =
+	// ukNonInventoryItemDefaultIncomeAccount;
+	// }
 
-	public void setUkServiceItemDefaultExpenseAccount(
-			String ukServiceItemDefaultExpenseAccount) {
-		this.ukServiceItemDefaultExpenseAccount = ukServiceItemDefaultExpenseAccount;
-	}
+	// public String getUkNonInventoryItemDefaultIncomeAccount() {
+	// return ukNonInventoryItemDefaultIncomeAccount;
+	// }
+	//
+	// public void setUkNonInventoryItemDefaultExpenseAccount(
+	// String ukNonInventoryItemDefaultExpenseAccount) {
+	// this.ukNonInventoryItemDefaultExpenseAccount =
+	// ukNonInventoryItemDefaultExpenseAccount;
+	// }
 
-	public String getUkServiceItemDefaultExpenseAccount() {
-		return ukServiceItemDefaultExpenseAccount;
-	}
-
-	public void setUkNonInventoryItemDefaultIncomeAccount(
-			String ukNonInventoryItemDefaultIncomeAccount) {
-		this.ukNonInventoryItemDefaultIncomeAccount = ukNonInventoryItemDefaultIncomeAccount;
-	}
-
-	public String getUkNonInventoryItemDefaultIncomeAccount() {
-		return ukNonInventoryItemDefaultIncomeAccount;
-	}
-
-	public void setUkNonInventoryItemDefaultExpenseAccount(
-			String ukNonInventoryItemDefaultExpenseAccount) {
-		this.ukNonInventoryItemDefaultExpenseAccount = ukNonInventoryItemDefaultExpenseAccount;
-	}
-
-	public String getUkNonInventoryItemDefaultExpenseAccount() {
-		return ukNonInventoryItemDefaultExpenseAccount;
-	}
+	// public String getUkNonInventoryItemDefaultExpenseAccount() {
+	// return ukNonInventoryItemDefaultExpenseAccount;
+	// }
 
 	public boolean isUKAccounting() {
 

@@ -107,13 +107,13 @@ public class NewCustomerPaymentView extends
 		// 4. isNegativeAmount?
 
 		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
-			result.addError(transactionDateItem, accounterConstants
-					.invalidateTransactionDate());
+			result.addError(transactionDateItem,
+					accounterConstants.invalidateTransactionDate());
 		}
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result.addError(transactionDateItem, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDateItem,
+					accounterConstants.invalidateDate());
 		}
 
 		result.add(payForm.validate());
@@ -166,8 +166,8 @@ public class NewCustomerPaymentView extends
 
 		if (checkNo.getValue() != null && !checkNo.getValue().equals("")) {
 			String value;
-			if (checkNo.getValue().toString().equalsIgnoreCase(
-					Accounter.constants().toBePrinted())) {
+			if (checkNo.getValue().toString()
+					.equalsIgnoreCase(Accounter.constants().toBePrinted())) {
 				value = String.valueOf(Accounter.constants().toBePrinted());
 			} else {
 				value = String.valueOf(checkNo.getValue());
@@ -441,8 +441,8 @@ public class NewCustomerPaymentView extends
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				isChecked = (Boolean) event.getValue();
 				if (isChecked) {
-					if (printCheck.getValue().toString().equalsIgnoreCase(
-							"true")) {
+					if (printCheck.getValue().toString()
+							.equalsIgnoreCase("true")) {
 						checkNo.setValue(Accounter.constants().toBePrinted());
 						checkNo.setDisabled(true);
 					} else {
@@ -450,9 +450,8 @@ public class NewCustomerPaymentView extends
 							checkNo.setValue(Accounter.constants()
 									.toBePrinted());
 						else if (isInViewMode()) {
-							checkNo
-									.setValue(((ClientCustomerPrePayment) transaction)
-											.getCheckNumber());
+							checkNo.setValue(((ClientCustomerPrePayment) transaction)
+									.getCheckNumber());
 						}
 					}
 				} else
@@ -463,7 +462,7 @@ public class NewCustomerPaymentView extends
 			}
 		});
 
-		checkNo = createCheckNumberItem();
+		checkNo = createCheckNumberItm();
 		checkNo.setValue(Accounter.constants().toBePrinted());
 		checkNo.setWidth(100);
 		// checkNo.setDisabled(true);
@@ -487,8 +486,7 @@ public class NewCustomerPaymentView extends
 		// memo and Reference
 		endBalText
 				.setAmount(depositInCombo.getSelectedValue() != null ? depositInCombo
-						.getSelectedValue().getCurrentBalance()
-						: 0.00);
+						.getSelectedValue().getCurrentBalance() : 0.00);
 
 		payForm.setCellSpacing(5);
 		payForm.setWidth("100%");
@@ -561,11 +559,10 @@ public class NewCustomerPaymentView extends
 
 	}
 
-	private TextItem createCheckNumberItem() {
-		TextItem checkNoTextItem = new TextItem(UIUtils
-				.getpaymentMethodCheckBy_CompanyType(Accounter.constants()
-						.check())
-				+ " " + "No");
+	private TextItem createCheckNumberItm() {
+		TextItem checkNoTextItem = new TextItem(
+				UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
+						.constants().check()) + " " + "No");
 		checkNoTextItem.setHelpInformation(true);
 		return checkNoTextItem;
 	}
@@ -629,14 +626,9 @@ public class NewCustomerPaymentView extends
 
 		if (paymentMethod != null) {
 			this.paymentMethod = paymentMethod;
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
-					.equalsIgnoreCase(Accounter.constants().cheque())
-					: paymentMethod.equalsIgnoreCase(Accounter.constants()
-							.check())) {
-
+			if (paymentMethod.equalsIgnoreCase(Accounter.constants().cheque())) {
 				printCheck.setDisabled(false);
 				checkNo.setDisabled(false);
-
 			} else {
 				printCheck.setDisabled(true);
 				checkNo.setDisabled(true);

@@ -334,10 +334,7 @@ public class CashSalesView extends
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(prodAndServiceForm2);
-		if (getCompany().getAccountingType() == 1) {
-			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "30%");
-		} else
-			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
+		prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
 
 		VerticalPanel vPanel = new VerticalPanel();
 		vPanel.setHorizontalAlignment(ALIGN_RIGHT);

@@ -589,7 +589,7 @@ public class MacMenuServlet extends BaseServlet {
 			}
 
 			if (canDoBanking()) {
-				subMenu(salesTaxValues, iGlobal.constants().paySalesTax(),
+				subMenu(salesTaxValues, iGlobal.constants().payTax(),
 						"company/accounter#customerGroupList");
 			}
 

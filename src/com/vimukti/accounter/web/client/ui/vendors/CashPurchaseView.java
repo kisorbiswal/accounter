@@ -19,7 +19,6 @@ import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -156,8 +155,7 @@ public class CashPurchaseView extends
 		payFromCombo = createPayFromCombo(Accounter.constants().payFrom());
 		// payFromCombo.setWidth(100);
 		payFromCombo.setPopupWidth("500px");
-		checkNo = createCheckNumberItem(getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-				.constants().chequeNo() : Accounter.constants().checkNo());
+		checkNo = createCheckNumberItem(Accounter.constants().chequeNo());
 		checkNo.setDisabled(true);
 		checkNo.setWidth(100);
 		deliveryDateItem = createTransactionDeliveryDateItem();
@@ -411,10 +409,8 @@ public class CashPurchaseView extends
 		this.payFromAccount = account;
 		payFromCombo.setComboItem(payFromAccount);
 		if (account != null
-				&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
-				.equalsIgnoreCase(Accounter.constants().cheque())
-				: paymentMethod.equalsIgnoreCase(Accounter.constants().check())
-						&& isInViewMode()) {
+				&& paymentMethod.equalsIgnoreCase(Accounter.constants()
+						.cheque()) && isInViewMode()) {
 			ClientCashPurchase cashPurchase = (ClientCashPurchase) transaction;
 			checkNo.setValue(cashPurchase.getCheckNumber());
 			// setCheckNumber();
@@ -544,9 +540,7 @@ public class CashPurchaseView extends
 
 	private void setDisableStateForCheckNo(String paymentMethod) {
 
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
-				.equalsIgnoreCase(Accounter.constants().cheque())
-				: paymentMethod.equalsIgnoreCase(Accounter.constants().check())) {
+		if (paymentMethod.equalsIgnoreCase(Accounter.constants().cheque())) {
 			checkNo.setDisabled(false);
 		} else {
 			checkNo.setValue("");
@@ -554,10 +548,7 @@ public class CashPurchaseView extends
 
 		}
 		if (isInViewMode()) {
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
-					.equalsIgnoreCase(Accounter.constants().cheque())
-					: paymentMethod.equalsIgnoreCase(Accounter.constants()
-							.check())) {
+			if (paymentMethod.equalsIgnoreCase(Accounter.constants().cheque())) {
 				checkNo.setDisabled(false);
 			} else {
 				checkNo.setDisabled(true);
