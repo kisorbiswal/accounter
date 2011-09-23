@@ -195,7 +195,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 				}
 			};
-			//this.addColumn(amountDueColumn);
+			this.addColumn(amountDueColumn);
 		}
 
 		TextEditColumn<ClientTransactionReceivePayment> discountDateColumn = new TextEditColumn<ClientTransactionReceivePayment>() {
