@@ -126,7 +126,7 @@ public class CustomerQuoteListDialog extends BaseDialog {
 			public void onClick(ClickEvent event) {
 
 				List<EstimatesAndSalesOrdersList> record = (List<EstimatesAndSalesOrdersList>) grid
-						.getSelectedRecords();
+						.getRecords();
 				setRecord(record);
 
 			}
@@ -154,20 +154,20 @@ public class CustomerQuoteListDialog extends BaseDialog {
 		// mainLayout.add(buttonLayout);
 		mainLayout.setSize("100%", "100%");
 
-		// add(mainLayout);
 		setBodyLayout(mainLayout);
 	}
 
 	protected void setRecord(List<EstimatesAndSalesOrdersList> records) {
 
-		for (EstimatesAndSalesOrdersList rec : records) {
-			if (rec.getType() == ClientTransaction.TYPE_ESTIMATE) {
-				getEstimate(rec);
-			} else {
-				getSalesOrder(rec);
-			}
+		if (records != null)
+			for (EstimatesAndSalesOrdersList rec : records) {
+				if (rec.getType() == ClientTransaction.TYPE_ESTIMATE) {
+					getEstimate(rec);
+				} else {
+					getSalesOrder(rec);
+				}
 
-		}
+			}
 
 	}
 
@@ -273,8 +273,9 @@ public class CustomerQuoteListDialog extends BaseDialog {
 
 	@Override
 	protected boolean onOK() {
-		List<EstimatesAndSalesOrdersList> record = grid.getSelectedRecords();
-		setRecord(record);
+		EstimatesAndSalesOrdersList record = (EstimatesAndSalesOrdersList) grid
+				.getSelection();
+		setRecord1(record);
 		return true;
 	}
 
