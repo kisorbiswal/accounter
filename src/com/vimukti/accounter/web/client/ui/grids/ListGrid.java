@@ -914,7 +914,7 @@ public abstract class ListGrid<T> extends CustomTable {
 	 * @param index
 	 * @param isDecending
 	 */
-	private void sort(final int index, final boolean isDecending) {
+	public void sort(final int index, final boolean isDecending) {
 
 		Collections.sort(this.objects, new Comparator<T>() {
 
