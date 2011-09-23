@@ -27,9 +27,9 @@ import com.vimukti.accounter.web.client.core.Lists.PayBillTransactionList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -50,7 +50,6 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
-	AmountField amtText;
 	AmountField endBalText;
 	DateField date;
 	DateField dueDate;
@@ -59,7 +58,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	private TransactionPayBillTable grid;
 	protected AmountField cashDiscountTextItem;
 	protected AmountField creditTextItem;
-	public AmountLabel unUsedCreditsText;
+	public AmountLabel unUsedCreditsText, amountLabel;
 
 	TaxItemCombo taxItemCombo;
 	protected SelectCombo vendorPaymentMethodCombo;
@@ -97,7 +96,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	 * the non-editable fields
 	 */
 	public void resetTotlas() {
-		amtText.setAmount(0.0);
+		amountLabel.setAmount(0.0);
 		endBalText
 				.setAmount(payFromCombo.getSelectedValue() != null ? payFromCombo
 						.getSelectedValue().getTotalBalance() : 0.0);
@@ -115,7 +114,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			toBeSetAmount += rec.getPayment();
 		}
 		if (this.transaction != null) {
-			amtText.setAmount(toBeSetAmount);
+			amountLabel.setAmount(toBeSetAmount);
 
 			if (payFromAccount != null) {
 				double toBeSetEndingBalance = 0.0;
@@ -123,13 +122,13 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 					toBeSetEndingBalance = payFromAccount.getTotalBalance()
 
 							+ DataUtils.getBalance(
-									amtText.getAmount().toString())
+									amountLabel.getAmount().toString())
 									.doubleValue();
 				else
 					toBeSetEndingBalance = payFromAccount.getTotalBalance()
 
 							- DataUtils.getBalance(
-									amtText.getAmount().toString())
+									amountLabel.getAmount().toString())
 									.doubleValue();
 				endBalText.setAmount(toBeSetEndingBalance);
 			}
@@ -166,7 +165,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			transaction.setVendor(getVendor());
 		// Setting Amount
 
-		transaction.setTotal(amtText.getAmount());
+		transaction.setTotal(amountLabel.getAmount());
 
 		if (getPreferences().isTDSEnabled()) {
 
@@ -557,11 +556,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		payForm.setGroupTitle(Accounter.constants().payment());
 		payForm.setFields(vendorCombo, payFromCombo, paymentMethodCombo,
 				dueDate);
-		amtText = new AmountField(Accounter.constants().amount(), this);
-		amtText.setHelpInformation(true);
-		amtText.setWidth(100);
-		amtText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
-		amtText.setDisabled(true);
 
 		endBalText = new AmountField(Accounter.constants().endingBalance(),
 				this);
@@ -578,15 +572,15 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		balForm.setIsGroup(true);
 		balForm.setGroupTitle(Accounter.constants().balances());
 		if (getCompany().getPreferences().isTDSEnabled()) {
-			balForm.setFields(amtText, endBalText, taxItemCombo);
+			balForm.setFields(endBalText, taxItemCombo);
 		} else {
-			balForm.setFields(amtText, endBalText);
+			balForm.setFields(endBalText);
 		}
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
-			classListCombo = createAccounterClassListCombo();
-			balForm.setFields(classListCombo);
-		}
+		// if (getPreferences().isClassTrackingEnabled()
+		// && getPreferences().isClassOnePerTransaction()) {
+		// classListCombo = createAccounterClassListCombo();
+		// balForm.setFields(classListCombo);
+		// }
 
 		Label lab1 = new Label(Accounter.constants().billsDue());
 
@@ -599,19 +593,23 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		memoForm.setWidth("100%");
 		memoForm.setFields(memoTextAreaItem);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
-
+		DynamicForm totalForm = new DynamicForm();
+		totalForm.setWidth("100%");
+		totalForm.setStyleName("invoice-total");
 		unUsedCreditsText = new AmountLabel(Accounter.constants()
 				.unusedCredits());
 		unUsedCreditsText.setDisabled(true);
+		amountLabel = new AmountLabel(Accounter.constants().totalAmount());
+		amountLabel.setDisabled(true);
 
 		DynamicForm textForm = new DynamicForm();
 		textForm.setNumCols(2);
 		textForm.setWidth("70%");
 		textForm.setStyleName("unused-payments");
 		if (getPreferences().isTDSEnabled()) {
-			textForm.setFields(unUsedCreditsText);
+			textForm.setFields(unUsedCreditsText, amountLabel);
 		} else {
-			textForm.setFields(unUsedCreditsText);
+			textForm.setFields(unUsedCreditsText, amountLabel);
 		}
 
 		HorizontalPanel bottompanel = new HorizontalPanel();
@@ -788,7 +786,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			this.setVendor(getCompany().getVendor(transaction.getVendor()));
 			vendorSelected(getCompany().getVendor(transaction.getVendor()));
 
-			amtText.setAmount(transaction.getNetAmount());
+			amountLabel.setAmount(transaction.getNetAmount());
 			endBalText.setAmount(transaction.getEndingBalance());
 			initListGridData(this.transaction.getTransactionPayBill());
 			initTransactionTotalNonEditableItem();
@@ -1136,7 +1134,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	}
 
 	protected Double getTransactionTotal() {
-		return this.amtText.getAmount();
+		return this.amountLabel.getAmount();
 	}
 
 	@Override
@@ -1255,7 +1253,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		dueDate.setTabIndex(4);
 		date.setTabIndex(5);
 		transactionNumber.setTabIndex(6);
-		amtText.setTabIndex(7);
 		endBalText.setTabIndex(8);
 		memoTextAreaItem.setTabIndex(9);
 		saveAndCloseButton.setTabIndex(10);
