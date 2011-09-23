@@ -23,7 +23,7 @@ public class VatItemsListView extends BaseListView<ClientTAXItem> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		return vatMessages.addNewVATItem();
+		return vatMessages.addaNewTaxItem();
 	}
 
 	@Override

@@ -58,25 +58,16 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 	}
 
 	private void createControls() {
-		Label infoLabel = null;
 		Label infolabel1 = null;
 
-		if (accounttype == ClientCompany.ACCOUNTING_TYPE_UK) {
-			infoLabel = new Label(Accounter.constants().vatItem());
-			infoLabel.setStyleName(Accounter.constants().labelTitle());
-			// infoLabel.setHeight("35px");
-		}
+		infolabel1 = new Label(Accounter.constants().taxItem());
 
-		else {
-			infolabel1 = new Label(Accounter.constants().taxItem());
-
-			infolabel1.setStyleName(Accounter.constants().labelTitle());
-			// infolabel1.setHeight("50px");
-		}
+		infolabel1.setStyleName(Accounter.constants().labelTitle());
+		// infolabel1.setHeight("50px");
 
 		listforms = new ArrayList<DynamicForm>();
 
-		vatItemNameText = new TextItem(Accounter.constants().vatItemName());
+		vatItemNameText = new TextItem(Accounter.constants().taxItemName());
 		vatItemNameText.setHelpInformation(true);
 		vatItemNameText.setWidth(80);
 		vatItemNameText.setRequired(true);
@@ -87,20 +78,20 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		descriptionText.setWidth(80);
 		descriptionText.setDisabled(isInViewMode());
 
-		vatRateText = new AmountField(Accounter.constants().vatAmount(), this);
+		vatRateText = new AmountField(Accounter.constants().taxAmount(), this);
 		vatRateText.setHelpInformation(true);
 		vatRateText.setWidth(80);
 		vatRateText.setRequired(true);
 		vatRateText.setDisabled(isInViewMode());
 
 		vatRateTextPerT = new PercentageField(this, Accounter.constants()
-				.vatRateInPerc());
+				.taxRateP());
 		vatRateTextPerT.setHelpInformation(true);
 		vatRateTextPerT.setWidth(80);
 		vatRateTextPerT.setRequired(true);
 		vatRateTextPerT.setDisabled(isInViewMode());
 
-		vatAgencyCombo = new TAXAgencyCombo(Accounter.constants().vatAgency());
+		vatAgencyCombo = new TAXAgencyCombo(Accounter.constants().taxAgency());
 		vatAgencyCombo.setHelpInformation(true);
 		vatAgencyCombo.setDisabled(isInViewMode());
 		vatAgencyCombo
@@ -142,17 +133,6 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		form1.setWidth("80%");
 		form1.addStyleName("new_vat_item");
 		form1.setIsGroup(true);
-
-		if (accounttype == ClientCompany.ACCOUNTING_TYPE_US
-				|| accountType == ClientCompany.ACCOUNTING_TYPE_INDIA) {
-
-			vatItemNameText.setTitle(Accounter.constants().taxItemName());
-			vatRateText.setTitle(Accounter.constants().taxAmount());
-
-			vatRateTextPerT.setTitle(Accounter.constants().taxRateP());
-			vatAgencyCombo.setTitle(Accounter.constants().taxAgency());
-
-		}
 
 		// isPercentatateAmtCheck = new CheckboxItem(Accounter.constants()
 		// .isConsiderAsPercentange());
@@ -222,10 +202,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		VerticalPanel mainPanel = new VerticalPanel();
 		mainPanel.setSpacing(25);
 		mainPanel.setWidth("100%");
-		if (accounttype == 1)
-			mainPanel.add(infoLabel);
-		else
-			mainPanel.add(infolabel1);
+		mainPanel.add(infolabel1);
 		mainPanel.add(form1);
 
 		if (UIUtils.isMSIEBrowser()) {
@@ -270,7 +247,8 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		// form validation
 
 		String name = vatItemNameText.getValue().toString() != null ? vatItemNameText
-				.getValue().toString() : "";
+				.getValue().toString()
+				: "";
 
 		ClientTAXItem taxItemByName = getCompany().getTaxItemByName(name);
 
@@ -349,10 +327,14 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 
 	private void updateObject() {
 
-		data.setName(vatItemNameText.getValue().toString() != null ? vatItemNameText
-				.getValue().toString() : "");
-		data.setDescription(descriptionText.getValue().toString() != null ? descriptionText
-				.getValue().toString() : "");
+		data
+				.setName(vatItemNameText.getValue().toString() != null ? vatItemNameText
+						.getValue().toString()
+						: "");
+		data
+				.setDescription(descriptionText.getValue().toString() != null ? descriptionText
+						.getValue().toString()
+						: "");
 		data.setVatReturnBox(selectedBox != null ? selectedBox.getID()
 				: data != null ? data.getVatReturnBox() : null);
 		data.setTaxAgency(selectedVATAgency != null ? selectedVATAgency.getID()

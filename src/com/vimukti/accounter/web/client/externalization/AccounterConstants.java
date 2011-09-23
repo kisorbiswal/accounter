@@ -4904,4 +4904,8 @@ public interface AccounterConstants extends Constants {
 
 	public String addBill();
 
+	public String taxItemForPurchases();
+
+	public String taxItemForSales();
+
 }

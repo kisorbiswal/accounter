@@ -104,7 +104,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		listforms = new ArrayList<DynamicForm>();
 
 		AccounterConstants vatMessages = Accounter.constants();
-		vatCodeTxt = new TextItem(vatMessages.vatCode());
+		vatCodeTxt = new TextItem(vatMessages.taxCode());
 		vatCodeTxt.setHelpInformation(true);
 		vatCodeTxt.setRequired(true);
 		vatCodeTxt.setWidth(100);
@@ -132,7 +132,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		taxableGroupRadio.setDisabled(isInViewMode());
 
 		vatItemComboForPurchases = new VATItemCombo(Accounter.constants()
-				.vatItemForPurchases());
+				.taxItemForPurchases());
 		vatItemComboForPurchases.setHelpInformation(true);
 		vatItemComboForPurchases.initCombo(vatItemComboForPurchases
 				.getPurchaseWithPrcntVATItems());
@@ -150,7 +150,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 				});
 
 		vatItemComboForSales = new VATItemCombo(Accounter.constants()
-				.vatItemForSales());
+				.taxItemForSales());
 		vatItemComboForSales.setHelpInformation(true);
 		vatItemComboForSales.initCombo(vatItemComboForSales
 				.getSalesWithPrcntVATItems());
