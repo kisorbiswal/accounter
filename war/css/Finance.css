@@ -144,6 +144,9 @@ noindex:-o-prefocus,.gridBody tr td {
 }
 .gridBody tr td { 
 	border-right:1px solid #1A1A1A;
+display: table-cell;
+white-space: pre-wrap;
+word-wrap: break-word;
 }
 .grid-resizeable-proxy-column {
 	cursor: e-resize;
@@ -570,7 +573,7 @@ select[multiple],.selectedview_textareadata,#loading .loadingIndicator,.main-cla
 .margin-b {
 	margin-bottom: 10px;
 }
-.table-fixed,.listgridfooter,.biz-decor-panel {
+.table-fixed,.listgridfooter,.biz-decor-panel,.listgrid .gridBody {
 	table-layout: fixed !important;
 }
 .dateList {
