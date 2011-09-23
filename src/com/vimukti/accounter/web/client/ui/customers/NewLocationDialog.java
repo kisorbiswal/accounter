@@ -1,6 +1,8 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -55,7 +57,8 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 	private void createControls() {
 		form = new DynamicForm();
 		form.setWidth("100%");
-		locationName = new TextItem("Add Location");
+
+		locationName = new TextItem("Add " + Global.get().Location());
 		locationName.setHelpInformation(true);
 		locationName.setRequired(true);
 		VerticalPanel layout = new VerticalPanel();
