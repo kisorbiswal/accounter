@@ -498,56 +498,56 @@ public class UKCompanyInitializer extends CompanyInitializer {
 	public void createUKDefaultVATCodesAndVATAgency() {
 		Session session = HibernateUtil.getCurrentSession();
 		try {
-			VATReturnBox vt1 = new VATReturnBox();
+			VATReturnBox vt1 = new VATReturnBox(company);
 			vt1.setName(AccounterServerConstants.UK_EC_PURCHASES_GOODS);
 			vt1.setVatBox(AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS);
 			vt1.setTotalBox(AccounterServerConstants.UK_BOX9_TOTAL_NET_ACQUISITIONS);
 			vt1.setVatReturnType(TAXAgency.RETURN_TYPE_UK_VAT);
 			session.save(vt1);
 
-			VATReturnBox vt3 = new VATReturnBox();
+			VATReturnBox vt3 = new VATReturnBox(company);
 			vt3.setName(AccounterServerConstants.UK_EC_SALES_GOODS);
 			vt3.setVatBox(AccounterServerConstants.BOX_NONE);
 			vt3.setTotalBox(AccounterServerConstants.UK_BOX8_TOTAL_NET_SUPPLIES);
 			vt3.setVatReturnType(TAXAgency.RETURN_TYPE_UK_VAT);
 			session.save(vt3);
 
-			VATReturnBox vt4 = new VATReturnBox();
+			VATReturnBox vt4 = new VATReturnBox(company);
 			vt4.setName(AccounterServerConstants.UK_EC_SALES_SERVICES);
 			vt4.setVatBox(AccounterServerConstants.BOX_NONE);
 			vt4.setTotalBox(AccounterServerConstants.UK_BOX6_TOTAL_NET_SALES);
 			vt4.setVatReturnType(TAXAgency.RETURN_TYPE_UK_VAT);
 			session.save(vt4);
 
-			VATReturnBox vt5 = new VATReturnBox();
+			VATReturnBox vt5 = new VATReturnBox(company);
 			vt5.setName(AccounterServerConstants.UK_DOMESTIC_PURCHASES);
 			vt5.setVatBox(AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES);
 			vt5.setTotalBox(AccounterServerConstants.UK_BOX7_TOTAL_NET_PURCHASES);
 			vt5.setVatReturnType(TAXAgency.RETURN_TYPE_UK_VAT);
 			session.save(vt5);
 
-			VATReturnBox vt6 = new VATReturnBox();
+			VATReturnBox vt6 = new VATReturnBox(company);
 			vt6.setName(AccounterServerConstants.UK_DOMESTIC_SALES);
 			vt6.setVatBox(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES);
 			vt6.setTotalBox(AccounterServerConstants.UK_BOX6_TOTAL_NET_SALES);
 			vt6.setVatReturnType(TAXAgency.RETURN_TYPE_UK_VAT);
 			session.save(vt6);
 
-			VATReturnBox vt7 = new VATReturnBox();
+			VATReturnBox vt7 = new VATReturnBox(company);
 			vt7.setName(AccounterServerConstants.UK_NOT_REGISTERED_PURCHASES);
 			vt7.setVatBox(AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES);
 			vt7.setTotalBox(AccounterServerConstants.UK_BOX7_TOTAL_NET_PURCHASES);
 			vt7.setVatReturnType(TAXAgency.RETURN_TYPE_UK_VAT);
 			session.save(vt7);
 
-			VATReturnBox vt8 = new VATReturnBox();
+			VATReturnBox vt8 = new VATReturnBox(company);
 			vt8.setName(AccounterServerConstants.UK_NOT_REGISTERED_SALES);
 			vt8.setVatBox(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES);
 			vt8.setTotalBox(AccounterServerConstants.UK_BOX6_TOTAL_NET_SALES);
 			vt8.setVatReturnType(TAXAgency.RETURN_TYPE_UK_VAT);
 			session.save(vt8);
 
-			VATReturnBox vt11 = new VATReturnBox();
+			VATReturnBox vt11 = new VATReturnBox(company);
 			vt11.setName(AccounterServerConstants.UK_REVERSE_CHARGE);
 			vt11.setVatBox(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES);
 			vt11.setTotalBox(AccounterServerConstants.BOX_NONE);
@@ -556,56 +556,56 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 			// /// For Ireland VAT Return type boxes
 
-			VATReturnBox vt20 = new VATReturnBox();
+			VATReturnBox vt20 = new VATReturnBox(company);
 			vt20.setName(AccounterServerConstants.IRELAND_DOMESTIC_SALES);
 			vt20.setVatBox(AccounterServerConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
 			vt20.setTotalBox(AccounterServerConstants.IRELAND_BOX8_TOTAL_NET_SALES);
 			vt20.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt20);
 
-			VATReturnBox vt21 = new VATReturnBox();
+			VATReturnBox vt21 = new VATReturnBox(company);
 			vt21.setName(AccounterServerConstants.IRELAND_DOMESTIC_PURCHASES);
 			vt21.setVatBox(AccounterServerConstants.IRELAND_BOX4_VAT_ON_PURCHASES);
 			vt21.setTotalBox(AccounterServerConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
 			vt21.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt21);
 
-			VATReturnBox vt22 = new VATReturnBox();
+			VATReturnBox vt22 = new VATReturnBox(company);
 			vt22.setName(AccounterServerConstants.IRELAND_EC_SALES_GOODS);
 			vt22.setVatBox(AccounterServerConstants.BOX_NONE);
 			vt22.setTotalBox(AccounterServerConstants.IRELAND_BOX6_E1_GOODS_TO_EU);
 			vt22.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt22);
 
-			VATReturnBox vt23 = new VATReturnBox();
+			VATReturnBox vt23 = new VATReturnBox(company);
 			vt23.setName(AccounterServerConstants.IRELAND_EC_PURCHASES_GOODS);
 			vt23.setVatBox(AccounterServerConstants.IRELAND_BOX2_VAT_DUE_ON_INTRA_EC_ACQUISITIONS);
 			vt23.setTotalBox(AccounterServerConstants.IRELAND_BOX7_E2_GOODS_FROM_EU);
 			vt23.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt23);
 
-			VATReturnBox vt24 = new VATReturnBox();
+			VATReturnBox vt24 = new VATReturnBox(company);
 			vt24.setName(AccounterServerConstants.IRELAND_EXEMPT_SALES);
 			vt24.setVatBox(AccounterServerConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
 			vt24.setTotalBox(AccounterServerConstants.IRELAND_BOX8_TOTAL_NET_SALES);
 			vt24.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt24);
 
-			VATReturnBox vt25 = new VATReturnBox();
+			VATReturnBox vt25 = new VATReturnBox(company);
 			vt25.setName(AccounterServerConstants.IRELAND_EXEMPT_PURCHASES);
 			vt25.setVatBox(AccounterServerConstants.IRELAND_BOX7_E2_GOODS_FROM_EU);
 			vt25.setTotalBox(AccounterServerConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
 			vt25.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt25);
 
-			VATReturnBox vt26 = new VATReturnBox();
+			VATReturnBox vt26 = new VATReturnBox(company);
 			vt26.setName(AccounterServerConstants.IRELAND_NOT_REGISTERED_SALES);
 			vt26.setVatBox(AccounterServerConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
 			vt26.setTotalBox(AccounterServerConstants.IRELAND_BOX8_TOTAL_NET_SALES);
 			vt26.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt26);
 
-			VATReturnBox vt27 = new VATReturnBox();
+			VATReturnBox vt27 = new VATReturnBox(company);
 			vt27.setName(AccounterServerConstants.IRELAND_NOT_REGISTERED_PURCHASES);
 			vt27.setVatBox(AccounterServerConstants.IRELAND_BOX4_VAT_ON_PURCHASES);
 			vt27.setTotalBox(AccounterServerConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
@@ -630,12 +630,12 @@ public class UKCompanyInitializer extends CompanyInitializer {
 					.setString(0,
 							AccounterServerConstants.SALES_TAX_VAT_UNFILED)
 					.list().get(0));
-
+			defaultVATAgency.setCompany(company);
 			defaultVATAgency.setDefault(true);
 
 			session.save(defaultVATAgency);
 
-			TAXItem vatItem1 = new TAXItem();
+			TAXItem vatItem1 = new TAXItem(company);
 			vatItem1.setName("EC Purchases Goods Standard");
 			vatItem1.setActive(true);
 			vatItem1.setDescription("EC Purchases of Goods Standard");
@@ -648,7 +648,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem1.setPercentage(true);
 			session.save(vatItem1);
 
-			TAXItem vatItem2 = new TAXItem();
+			TAXItem vatItem2 = new TAXItem(company);
 			vatItem2.setName("EC Purchases Goods Zero-Rated");
 			vatItem2.setActive(true);
 			vatItem2.setDescription("EC Purchases of Goods Zero-Rated");
@@ -660,7 +660,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem2.setDefault(true);
 			session.save(vatItem2);
 
-			TAXItem vatItem3 = new TAXItem();
+			TAXItem vatItem3 = new TAXItem(company);
 			vatItem3.setName("EC Sales Goods Standard");
 			vatItem3.setActive(true);
 			vatItem3.setDescription("EC Sales of Goods Standard");
@@ -672,7 +672,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem3.setDefault(true);
 			session.save(vatItem3);
 
-			TAXItem vatItem4 = new TAXItem();
+			TAXItem vatItem4 = new TAXItem(company);
 			vatItem4.setName("EC Sales Services Standard");
 			vatItem4.setActive(true);
 			vatItem4.setDescription("EC Sales of Services Standard");
@@ -684,7 +684,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem4.setPercentage(true);
 			session.save(vatItem4);
 
-			TAXItem vatItem5 = new TAXItem();
+			TAXItem vatItem5 = new TAXItem(company);
 			vatItem5.setName("Exempt Purchases");
 			vatItem5.setActive(true);
 			vatItem5.setDescription("Exempt Purchases");
@@ -696,7 +696,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem5.setPercentage(true);
 			session.save(vatItem5);
 
-			TAXItem vatItem6 = new TAXItem();
+			TAXItem vatItem6 = new TAXItem(company);
 			vatItem6.setName("Exempt Sales");
 			vatItem6.setActive(true);
 			vatItem6.setDescription("Exempt Sales");
@@ -708,7 +708,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem6.setPercentage(true);
 			session.save(vatItem6);
 
-			TAXItem vatItem7 = new TAXItem();
+			TAXItem vatItem7 = new TAXItem(company);
 			vatItem7.setName("Not Registered Purchases");
 			vatItem7.setActive(true);
 			vatItem7.setSalesType(false);
@@ -721,7 +721,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem7.setDefault(true);
 			session.save(vatItem7);
 
-			TAXItem vatItem8 = new TAXItem();
+			TAXItem vatItem8 = new TAXItem(company);
 			vatItem8.setName("Not Registered Sales");
 			vatItem8.setActive(true);
 			vatItem8.setDescription("Not Registered Sales");
@@ -734,7 +734,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem8.setDefault(true);
 			session.save(vatItem8);
 
-			TAXItem vatItem9 = new TAXItem();
+			TAXItem vatItem9 = new TAXItem(company);
 			vatItem9.setName("Reduced Purchases");
 			vatItem9.setActive(true);
 			vatItem9.setSalesType(false);
@@ -746,7 +746,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem9.setPercentage(true);
 			session.save(vatItem9);
 
-			TAXItem vatItem10 = new TAXItem();
+			TAXItem vatItem10 = new TAXItem(company);
 			vatItem10.setName("Reduced Sales");
 			vatItem10.setActive(true);
 			vatItem10.setDescription("Reduced Sales");
@@ -758,7 +758,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem10.setPercentage(true);
 			session.save(vatItem10);
 
-			TAXItem vatItem11 = new TAXItem();
+			TAXItem vatItem11 = new TAXItem(company);
 			vatItem11.setName("Reverse Charge Purchases Standard");
 			vatItem11.setActive(true);
 			vatItem11.setDescription("Reverse Charge Purchases Standard");
@@ -770,7 +770,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem11.setDefault(true);
 			session.save(vatItem11);
 
-			TAXItem vatItem12 = new TAXItem();
+			TAXItem vatItem12 = new TAXItem(company);
 			vatItem12.setName("Standard Purchases");
 			vatItem12.setActive(true);
 			vatItem12.setDescription("Standard Purchases");
@@ -782,7 +782,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem12.setPercentage(true);
 			session.save(vatItem12);
 
-			TAXItem vatItem13 = new TAXItem();
+			TAXItem vatItem13 = new TAXItem(company);
 			vatItem13.setName("Standard Sales");
 			vatItem13.setActive(true);
 			vatItem13.setDescription("Standard Sales");
@@ -794,7 +794,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem13.setPercentage(true);
 			session.save(vatItem13);
 
-			TAXItem vatItem14 = new TAXItem();
+			TAXItem vatItem14 = new TAXItem(company);
 			vatItem14.setName("Zero-Rated Purchases");
 			vatItem14.setActive(true);
 			vatItem14.setSalesType(false);
@@ -806,7 +806,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem14.setPercentage(true);
 			session.save(vatItem14);
 
-			TAXItem vatItem15 = new TAXItem();
+			TAXItem vatItem15 = new TAXItem(company);
 			vatItem15.setName("Zero-Rated Sales");
 			vatItem15.setActive(true);
 			vatItem15.setDescription("Zero-Rated Sales");
@@ -818,7 +818,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem15.setPercentage(true);
 			session.save(vatItem15);
 
-			TAXItem vatItem16 = new TAXItem();
+			TAXItem vatItem16 = new TAXItem(company);
 			vatItem16.setName("New Standard Purchases");
 			vatItem16.setActive(true);
 			vatItem16.setDescription("New Standard Purchases");
@@ -830,7 +830,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem16.setPercentage(true);
 			session.save(vatItem16);
 
-			TAXItem vatItem17 = new TAXItem();
+			TAXItem vatItem17 = new TAXItem(company);
 			vatItem17.setName("New Standard Sales");
 			vatItem17.setActive(true);
 			vatItem17.setDescription("New Standard Sales");
@@ -842,10 +842,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem17.setPercentage(true);
 			session.save(vatItem17);
 
-			// VATGroup vatGroup1 = new VATGroup();
-			// =======
-			TAXGroup vatGroup1 = new TAXGroup();
-			// >>>>>>> .merge-right.r20318
+			TAXGroup vatGroup1 = new TAXGroup(company);
 			vatGroup1.setName("EC Purchases Goods 0% Group");
 			vatGroup1.setDescription("EC Purchases of Goods Zero-Rated Group");
 			vatGroup1.setActive(true);
@@ -858,7 +855,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatGroup1.setDefault(true);
 			session.save(vatGroup1);
 
-			TAXGroup vatGroup2 = new TAXGroup();
+			TAXGroup vatGroup2 = new TAXGroup(company);
 			vatGroup2.setName("EC Purchases Goods 17.5% Group");
 			vatGroup2.setDescription("EC Purchases of Goods Group");
 			vatGroup2.setActive(true);
@@ -871,7 +868,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatGroup2.setDefault(true);
 			session.save(vatGroup2);
 
-			TAXGroup vatGroup3 = new TAXGroup();
+			TAXGroup vatGroup3 = new TAXGroup(company);
 			vatGroup3.setName("EC Sales Goods 0% Group");
 			vatGroup3.setDescription("EC Sales of Goods Group");
 			vatGroup3.setActive(true);
@@ -886,7 +883,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 					.isPercentage()) ? true : false);
 			session.save(vatGroup3);
 
-			TAXGroup vatGroup4 = new TAXGroup();
+			TAXGroup vatGroup4 = new TAXGroup(company);
 			vatGroup4.setName("Reverse Charge Purchases 17.5% Group");
 			vatGroup4.setDescription("Reverse Charge Purchases Group");
 			vatGroup4.setActive(true);

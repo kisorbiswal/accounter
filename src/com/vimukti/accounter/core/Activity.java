@@ -32,16 +32,18 @@ public class Activity extends CreatableObject implements IAccounterCore {
 	public Activity() {
 	}
 
-	public Activity(User user, ActivityType type) {
+	public Activity(Company company, User user, ActivityType type) {
 		this.user = user;
 		this.type = type;
 		this.userName = user.getFullName();
 		this.time = new Timestamp(System.currentTimeMillis());
 		setActivityType(type.getValue());
+		setCompany(company);
 	}
 
-	public Activity(User user, ActivityType type, IAccounterServerCore obj) {
-		this(user, type);
+	public Activity(Company company, User user, ActivityType type,
+			IAccounterServerCore obj) {
+		this(company, user, type);
 		setObject(obj);
 	}
 

@@ -272,7 +272,8 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public long createNote(long transactionId, String noteDetails)
 			throws AccounterException {
-		return getFinanceTool().createNote(transactionId, noteDetails);
+		return getFinanceTool().createNote(getCompanyId(), transactionId,
+				noteDetails);
 	}
 
 }

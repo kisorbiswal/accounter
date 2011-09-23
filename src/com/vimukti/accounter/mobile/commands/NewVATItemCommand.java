@@ -283,7 +283,7 @@ public class NewVATItemCommand extends AbstractVATCommand {
 	}
 
 	private Result createVATItem(Context context) {
-		TAXItem taxItem = new TAXItem();
+		TAXItem taxItem = null;// new TAXItem();
 
 		String name = (String) get(NAME).getValue();
 		String description = (String) get(DESCRIPTION).getValue();

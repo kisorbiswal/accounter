@@ -49,14 +49,12 @@ public class TAXItemGroup extends CreatableObject implements
 
 	private boolean isOnSaveProccessed;
 
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.vimukti.accounter.core.IAccounterServerCore#getID()
-	 */
-	@Override
-	public long getID() {
-		return this.id;
+	public TAXItemGroup() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public TAXItemGroup(Company company) {
+		setCompany(company);
 	}
 
 	/**

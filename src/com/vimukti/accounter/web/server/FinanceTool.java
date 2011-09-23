@@ -314,7 +314,7 @@ public class FinanceTool {
 			if (serverObject instanceof CreatableObject) {
 				((CreatableObject) serverObject).setCompany(company);
 			}
-			Activity activity = new Activity(user, ActivityType.ADD,
+			Activity activity = new Activity(company, user, ActivityType.ADD,
 					serverObject);
 
 			if (serverObject instanceof Transaction) {
@@ -371,7 +371,7 @@ public class FinanceTool {
 			User user = new User((ClientUser) data);
 			String email = user.getEmail();
 			User userByUserEmail = getUserByUserEmail(email);
-
+			Company company = getCompany(context.getCompanyId());
 			if (userByUserEmail != null) {
 				if (userByUserEmail.isDeleted()) {
 					userByUserEmail.setDeleted(false);
@@ -384,13 +384,12 @@ public class FinanceTool {
 				}
 			} else {
 
-				Company company = getCompany(context.getCompanyId());
 				company.addUser(user);
 			}
 			String userID = context.getUserEmail();
 			User inviteduser = (User) session.getNamedQuery("user.by.emailid")
 					.setParameter("emailID", userID).uniqueResult();
-			Activity inviteuserActivity = new Activity(inviteduser,
+			Activity inviteuserActivity = new Activity(company, inviteduser,
 					ActivityType.ADD, user);
 
 			session.save(inviteuserActivity);
@@ -444,7 +443,7 @@ public class FinanceTool {
 					(IAccounterCore) clientUser, session);
 			canEdit(user, data);
 
-			Activity userUpdateActivity = new Activity(user1,
+			Activity userUpdateActivity = new Activity(company, user1,
 					ActivityType.EDIT, user);
 
 			session.flush();
@@ -513,7 +512,7 @@ public class FinanceTool {
 
 			serverObject.setVersion(++version);
 
-			Activity activity = new Activity(user, ActivityType.EDIT,
+			Activity activity = new Activity(company, user, ActivityType.EDIT,
 					serverObject);
 
 			if (serverObject instanceof Transaction) {
@@ -633,7 +632,7 @@ public class FinanceTool {
 						AccounterException.ERROR_OBJECT_IN_USE);
 			}
 		}
-		Activity activity = new Activity(user1, ActivityType.DELETE,
+		Activity activity = new Activity(company, user1, ActivityType.DELETE,
 				serverObject);
 		session.save(activity);
 		try {
@@ -702,7 +701,7 @@ public class FinanceTool {
 			User user1 = getCompany(context.getCompanyId()).getUserByUserEmail(
 					userID);
 
-			Activity activity = new Activity(user1, ActivityType.EDIT,
+			Activity activity = new Activity(company, user1, ActivityType.EDIT,
 					serverCompanyPreferences);
 			session.save(activity);
 			session.update(company);
@@ -734,7 +733,7 @@ public class FinanceTool {
 			String userID = context.getUserEmail();
 			User user1 = cmp.getUserByUserEmail(userID);
 
-			Activity activity = new Activity(user1,
+			Activity activity = new Activity(cmp, user1,
 					ActivityType.UPDATE_PREFERENCE, cmp);
 			session.save(activity);
 			session.update(cmp);
@@ -782,7 +781,7 @@ public class FinanceTool {
 		User user1 = getCompany(context.getCompanyId()).getUserByUserEmail(
 				userID);
 
-		Activity activity = new Activity(user1, ActivityType.EDIT, company);
+		Activity activity = new Activity(company, user1, ActivityType.EDIT);
 		HibernateUtil.getCurrentSession().save(activity);
 		HibernateUtil.getCurrentSession().update(company);
 		ChangeTracker.put(serverCompanyPreferences);
@@ -810,7 +809,8 @@ public class FinanceTool {
 		String userID = context.getUserEmail();
 		User user1 = company.getUserByUserEmail(userID);
 
-		Activity activity = new Activity(user1, ActivityType.EDIT, company);
+		Activity activity = new Activity(company, user1, ActivityType.EDIT,
+				company);
 		HibernateUtil.getCurrentSession().save(activity);
 
 		HibernateUtil.getCurrentSession().saveOrUpdate(company);
@@ -9514,10 +9514,11 @@ public class FinanceTool {
 
 	}
 
-	public void createVATItemsOfIreland(Session session,
+	public void createVATItemsOfIreland(Company company, Session session,
 			TAXAgency collectorGeneral) throws DAOException {
 
 		createVATItem(
+				company,
 				session,
 				true,
 				"EC Purchases For Resale (PFR) @ 21%",
@@ -9531,6 +9532,7 @@ public class FinanceTool {
 						AccounterServerConstants.IRELAND_EC_PURCHASES_GOODS));
 
 		createVATItem(
+				company,
 				session,
 				true,
 				"EC Purchases For Resale (PFR) @ 0%",
@@ -9544,6 +9546,7 @@ public class FinanceTool {
 						AccounterServerConstants.IRELAND_EC_PURCHASES_GOODS));
 
 		createVATItem(
+				company,
 				session,
 				true,
 				"EC Purchases Not For Resale (PNFR) @ 21%",
@@ -9557,6 +9560,7 @@ public class FinanceTool {
 						AccounterServerConstants.IRELAND_EC_PURCHASES_GOODS));
 
 		createVATItem(
+				company,
 				session,
 				true,
 				"EC Purchases Not For Resale (PNFR) @ 0%",
@@ -9570,6 +9574,7 @@ public class FinanceTool {
 						AccounterServerConstants.IRELAND_EC_PURCHASES_GOODS));
 
 		createVATItem(
+				company,
 				session,
 				true,
 				"EC Sales Of Goods Standard",
@@ -9583,6 +9588,7 @@ public class FinanceTool {
 						AccounterServerConstants.IRELAND_EC_SALES_GOODS));
 
 		createVATItem(
+				company,
 				session,
 				true,
 				"Exempt Purchases",
@@ -9596,6 +9602,7 @@ public class FinanceTool {
 						AccounterServerConstants.IRELAND_EXEMPT_PURCHASES));
 
 		createVATItem(
+				company,
 				session,
 				true,
 				"Exempt Sales",
@@ -9609,6 +9616,7 @@ public class FinanceTool {
 						AccounterServerConstants.IRELAND_EXEMPT_SALES));
 
 		createVATItem(
+				company,
 				session,
 				true,
 				"Not Registered Purchases",
@@ -9622,6 +9630,7 @@ public class FinanceTool {
 						AccounterServerConstants.IRELAND_EXEMPT_PURCHASES));
 
 		createVATItem(
+				company,
 				session,
 				true,
 				"Not Registered Sales",
@@ -9635,6 +9644,7 @@ public class FinanceTool {
 						AccounterServerConstants.IRELAND_NOT_REGISTERED_SALES));
 
 		createVATItem(
+				company,
 				session,
 				true,
 				"Purchases For Resale (PFR) @ 13.5%",
@@ -9648,6 +9658,7 @@ public class FinanceTool {
 						AccounterServerConstants.IRELAND_DOMESTIC_PURCHASES));
 
 		createVATItem(
+				company,
 				session,
 				true,
 				"Sales @ 13.5%",
@@ -9661,6 +9672,7 @@ public class FinanceTool {
 						AccounterServerConstants.IRELAND_DOMESTIC_SALES));
 
 		createVATItem(
+				company,
 				session,
 				true,
 				"Purchases For Resale (PFR) @ 21%",
@@ -9674,6 +9686,7 @@ public class FinanceTool {
 						AccounterServerConstants.IRELAND_DOMESTIC_PURCHASES));
 
 		createVATItem(
+				company,
 				session,
 				true,
 				"Purchases Not For Resale (PNFR) @ 21%",
@@ -9687,6 +9700,7 @@ public class FinanceTool {
 						AccounterServerConstants.IRELAND_DOMESTIC_PURCHASES));
 
 		createVATItem(
+				company,
 				session,
 				true,
 				"Sales @ 21%",
@@ -9700,6 +9714,7 @@ public class FinanceTool {
 						AccounterServerConstants.IRELAND_DOMESTIC_SALES));
 
 		createVATItem(
+				company,
 				session,
 				true,
 				"Purchases For Resale (PFR) @ 0%",
@@ -9713,6 +9728,7 @@ public class FinanceTool {
 						AccounterServerConstants.IRELAND_DOMESTIC_PURCHASES));
 
 		createVATItem(
+				company,
 				session,
 				true,
 				"Purchases Not For Resale (PNFR) @ 0%",
@@ -9726,6 +9742,7 @@ public class FinanceTool {
 						AccounterServerConstants.IRELAND_DOMESTIC_PURCHASES));
 
 		createVATItem(
+				company,
 				session,
 				true,
 				"Sales @ 0%",
@@ -9740,12 +9757,12 @@ public class FinanceTool {
 
 	}
 
-	private void createVATItem(Session session, boolean isActive,
-			String description, String name, boolean isPercentage,
-			boolean isSalesType, TAXAgency vatAgency, double rate,
-			VATReturnBox vatReturnBox) {
+	private void createVATItem(Company company, Session session,
+			boolean isActive, String description, String name,
+			boolean isPercentage, boolean isSalesType, TAXAgency vatAgency,
+			double rate, VATReturnBox vatReturnBox) {
 
-		TAXItem vi = new TAXItem();
+		TAXItem vi = new TAXItem(company);
 		vi.setActive(isActive);
 		vi.setDescription(description);
 		vi.setName(name);
@@ -9758,30 +9775,31 @@ public class FinanceTool {
 
 	}
 
-	private void createVATGroupsOfIreland(Session session) throws DAOException {
+	private void createVATGroupsOfIreland(Session session, Company company)
+			throws DAOException {
 
-		createVATGroup(session, "EC PFR Standard Group",
+		createVATGroup(company, session, "EC PFR Standard Group",
 				"EC Purchases For Resale (PFR) Standard Group", true, false,
 				"Standard PFR", "EC PFR Standard");
 
-		createVATGroup(session, "EC PFR Zero-Rated Group",
+		createVATGroup(company, session, "EC PFR Zero-Rated Group",
 				"EC Purchases For Resale (PFR) Zero-Rated Group", true, false,
 				"Zero-Rated PFR", "EC PFR Zero-Rated");
 
-		createVATGroup(session, "EC PNFR Standard Group",
+		createVATGroup(company, session, "EC PNFR Standard Group",
 				"EC Purchases Not For Resale (PNFR) Standard Group", true,
 				false, "Standard PNFR", "EC PNFR Standard");
 
-		createVATGroup(session, "EC PNFR Zero-Rated Group",
+		createVATGroup(company, session, "EC PNFR Zero-Rated Group",
 				"EC Purchases Not For Resale (PNFR) Zero-Rated Group", true,
 				false, "Zero-Rated PNFR", "EC PNFR Zero-Rated");
 	}
 
-	private void createVATGroup(Session session, String groupName,
-			String description, boolean isActive, boolean isSalesType,
-			String... vatItems) throws DAOException {
+	private void createVATGroup(Company company, Session session,
+			String groupName, String description, boolean isActive,
+			boolean isSalesType, String... vatItems) throws DAOException {
 
-		TAXGroup vg = new TAXGroup();
+		TAXGroup vg = new TAXGroup(company);
 		vg.setActive(isActive);
 		vg.setDefault(true);
 		vg.setDescription(description);
@@ -12207,7 +12225,7 @@ public class FinanceTool {
 	}
 
 	public void recordActivity(User user, ActivityType type) {
-		Activity activity = new Activity(user, type);
+		Activity activity = new Activity(null, user, type);
 
 	}
 
@@ -13001,16 +13019,18 @@ public class FinanceTool {
 
 	/**
 	 * @param transactionId
+	 * @param transactionId2
 	 * @param noteDescription
 	 * @throws AccounterException
 	 */
-	public long createNote(long transactionId, String noteDescription)
-			throws AccounterException {
+	public long createNote(long companyId, long transactionId,
+			String noteDescription) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
 		try {
-			Activity noteActivity = new Activity(AccounterThreadLocal.get(),
-					ActivityType.NOTE);
+			Company company = getCompany(companyId);
+			Activity noteActivity = new Activity(company,
+					AccounterThreadLocal.get(), ActivityType.NOTE);
 			noteActivity.setObjectID(transactionId);
 			noteActivity.setDescription(noteDescription);
 			session.save(noteActivity);

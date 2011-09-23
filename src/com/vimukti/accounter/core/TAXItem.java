@@ -50,6 +50,13 @@ public class TAXItem extends TAXItemGroup {
 	 */
 	VATReturnBox vatReturnBox;
 
+	public TAXItem() {
+	}
+
+	public TAXItem(Company company) {
+		super(company);
+	}
+
 	/**
 	 * @return the vatReturnBox
 	 */

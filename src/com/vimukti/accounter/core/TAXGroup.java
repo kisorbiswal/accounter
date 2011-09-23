@@ -30,19 +30,12 @@ public class TAXGroup extends TAXItemGroup {
 
 	double groupRate;
 
-	/**
-	 * @return the id
-	 */
-	public long getID() {
-		return id;
+	public TAXGroup() {
+		// TODO Auto-generated constructor stub
 	}
 
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setID(long id) {
-		this.id = id;
+	public TAXGroup(Company company) {
+		super(company);
 	}
 
 	/**

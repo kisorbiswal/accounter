@@ -58,7 +58,7 @@ public class AccountTransaction extends CreatableObject implements
 
 	public AccountTransaction(Account account, Transaction transaction,
 			double amount, boolean closingFYEntry, boolean cashBasisEntry) {
-
+		setCompany(account.getCompany());
 		this.account = account;
 		this.transaction = transaction;
 		this.amount = amount;

@@ -33,6 +33,13 @@ public class VATReturnBox extends CreatableObject implements
 	 * 
 	 * //rajesh.b@skyessmail.com
 	 */
+	public VATReturnBox() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public VATReturnBox(Company company) {
+		setCompany(company);
+	}
 
 	/**
 	 * @return the vatReturnType

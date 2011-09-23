@@ -4,6 +4,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 public abstract class AnchorEditColumn<T> extends EditColumn<T> {
 
@@ -14,13 +15,15 @@ public abstract class AnchorEditColumn<T> extends EditColumn<T> {
 
 	@Override
 	public void render(IsWidget widget, RenderContext<T> context) {
-		Anchor anchor = (Anchor) widget;
+		SimplePanel panel = (SimplePanel) widget;
+		Anchor anchor = (Anchor) panel.getWidget();
 		String value = getValue(context.getRow());
 		anchor.setText(value);
 	}
 
 	@Override
 	public IsWidget getWidget(final RenderContext<T> context) {
+		final SimplePanel panel = new SimplePanel();
 		Anchor anchor = new Anchor();
 		configure(anchor);
 		anchor.addClickHandler(new ClickHandler() {
@@ -29,10 +32,13 @@ public abstract class AnchorEditColumn<T> extends EditColumn<T> {
 			public void onClick(ClickEvent event) {
 				if (isEnable() && !context.isDesable()) {
 					AnchorEditColumn.this.onClick(context.getRow());
+				} else {
+					panel.setStyleName("editTable_disable_anchor");
 				}
 			}
 		});
-		return anchor;
+		panel.add(anchor);
+		return panel;
 	}
 
 	protected boolean isEnable() {

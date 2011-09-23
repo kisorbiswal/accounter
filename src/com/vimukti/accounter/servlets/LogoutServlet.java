@@ -61,7 +61,8 @@ public class LogoutServlet extends BaseServlet {
 		try {
 			User user = (User) session.getNamedQuery("user.by.emailid")
 					.setParameter("emailID", userid).uniqueResult();
-			Activity activity = new Activity(user, ActivityType.LOGOUT);
+			Activity activity = new Activity(user.getCompany(), user,
+					ActivityType.LOGOUT);
 			session.save(activity);
 			transaction.commit();
 		} catch (Exception e) {

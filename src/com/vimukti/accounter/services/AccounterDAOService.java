@@ -1902,8 +1902,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 							new Object[] { taxGroupName, companyId });
 
 			if (list.size() > 0) {
-				TAXGroup taxGroup = new TAXGroup();
-				taxGroup = (TAXGroup) list.get(0);
+				TAXGroup taxGroup = (TAXGroup) list.get(0);
 				return taxGroup;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
@@ -1924,8 +1923,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { taxGroupID, companyId });
 
 			if (list.size() > 0) {
-				TAXGroup taxGroup = new TAXGroup();
-				taxGroup = (TAXGroup) list.get(0);
+				TAXGroup taxGroup = (TAXGroup) list.get(0);
 				return taxGroup;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,

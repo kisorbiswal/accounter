@@ -52,7 +52,7 @@ public class NewTaxGroupCommand extends AbstractVATCommand {
 	}
 
 	private Result createTaxGroup(Context context) {
-		TAXGroup taxGroup = new TAXGroup();
+		TAXGroup taxGroup = null;// new TAXGroup(company);
 		String name = get(NAME).getValue();
 		List<TAXItem> taxItems = get(TAX_ITEMS_LIST).getValue();
 		taxGroup.setName(name);

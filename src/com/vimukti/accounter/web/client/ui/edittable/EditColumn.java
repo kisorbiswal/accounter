@@ -4,6 +4,7 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 
 public abstract class EditColumn<R> {
+	
 	private EditTable<R> table;
 
 	public boolean onChange(R row) {

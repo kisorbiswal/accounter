@@ -75,7 +75,7 @@ public class JournalEntry extends Transaction {
 
 		FinanceLogger.log("JournalEntry {0} For Customer {1}",
 				String.valueOf(number), customer.getName());
-
+		setCompany(customer.getCompany());
 		this.type = Transaction.TYPE_JOURNAL_ENTRY;
 		this.journalEntryType = journalEntryType;
 		this.number = number;
@@ -264,7 +264,8 @@ public class JournalEntry extends Transaction {
 		retainedEarningsEntry.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 		retainedEarningsEntry
 				.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
-		retainedEarningsEntry.setAccount(getCompany().retainedEarningsAccount);
+		retainedEarningsEntry
+				.setAccount(getCompany().retainedEarningsAccount);
 		retainedEarningsEntry.setMemo("Net income");
 		retainedEarningsEntry.setJournalEntry(this);
 		if (DecimalUtil.isGreaterThan(netIncome, 0.0)) {
@@ -341,7 +342,8 @@ public class JournalEntry extends Transaction {
 		otherCashIncomeEntry.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 		otherCashIncomeEntry
 				.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
-		otherCashIncomeEntry.setAccount(getCompany().otherCashIncomeAccount);
+		otherCashIncomeEntry
+				.setAccount(getCompany().otherCashIncomeAccount);
 		otherCashIncomeEntry.setMemo("Balance moved to Retained Earnings");
 		otherCashIncomeEntry.setJournalEntry(this);
 
@@ -977,8 +979,8 @@ public class JournalEntry extends Transaction {
 						String.valueOf(creditTotal));
 
 		// Creating Activity
-		Activity activity = new Activity(AccounterThreadLocal.get(),
-				ActivityType.ADD, this);
+		Activity activity = new Activity(getCompany(),
+				AccounterThreadLocal.get(), ActivityType.ADD, this);
 		session.save(activity);
 		this.setLastActivity(activity);
 
