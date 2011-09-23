@@ -122,6 +122,7 @@ public class JournalEntry extends Transaction {
 	}
 
 	public JournalEntry(Vendor vendor, String number, int journalEntryType) {
+		setCompany(vendor.getCompany());
 		this.type = Transaction.TYPE_JOURNAL_ENTRY;
 		this.journalEntryType = journalEntryType;
 		this.number = number;
@@ -159,7 +160,7 @@ public class JournalEntry extends Transaction {
 	}
 
 	public JournalEntry(Account account, String number, int journalEntryType) {
-
+		setCompany(account.getCompany());
 		this.type = Transaction.TYPE_JOURNAL_ENTRY;
 		this.journalEntryType = journalEntryType;
 		this.number = number;
@@ -264,8 +265,7 @@ public class JournalEntry extends Transaction {
 		retainedEarningsEntry.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 		retainedEarningsEntry
 				.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
-		retainedEarningsEntry
-				.setAccount(getCompany().retainedEarningsAccount);
+		retainedEarningsEntry.setAccount(getCompany().retainedEarningsAccount);
 		retainedEarningsEntry.setMemo("Net income");
 		retainedEarningsEntry.setJournalEntry(this);
 		if (DecimalUtil.isGreaterThan(netIncome, 0.0)) {
@@ -342,8 +342,7 @@ public class JournalEntry extends Transaction {
 		otherCashIncomeEntry.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 		otherCashIncomeEntry
 				.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
-		otherCashIncomeEntry
-				.setAccount(getCompany().otherCashIncomeAccount);
+		otherCashIncomeEntry.setAccount(getCompany().otherCashIncomeAccount);
 		otherCashIncomeEntry.setMemo("Balance moved to Retained Earnings");
 		otherCashIncomeEntry.setJournalEntry(this);
 
