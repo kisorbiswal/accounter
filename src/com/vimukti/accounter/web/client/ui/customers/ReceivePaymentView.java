@@ -1018,8 +1018,8 @@ public class ReceivePaymentView extends
 	public void recalculateGridAmounts() {
 		this.transactionTotal = getGridTotal();
 
-		// this.unUsedPayments = (amountRecieved - transactionTotal);
-		setUnusedPayments(transactionTotal);
+		this.unUsedPayments = (amountRecieved - transactionTotal);
+		setUnusedPayments(unUsedPayments);
 	}
 
 	@Override
