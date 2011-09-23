@@ -49,7 +49,8 @@
 	
 	<query name="user.by.emailid">
 		<query-param name="emailID" type="String" />
-		from com.vimukti.accounter.core.User u where u.email=:emailID
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.User u where u.email=:emailID and u.company=:company
 	</query>
 	
 	 <!-- full user count -->

@@ -15,8 +15,8 @@
 		<property name="baseType" column="BASE_TYPE"></property>
 		<property name="subBaseType" column="SUB_BASE_TYPE"></property>
 		<property name="groupType" column="GROUP_TYPE"></property>
-		<property name="number" unique="true" column="A_NUMBER"></property>
-		<property name="name" unique="true" not-null="true" column="NAME"></property>
+		<property name="number" column="A_NUMBER"></property>
+		<property name="name" not-null="true" column="NAME"></property>
 		<property name="isActive" column="IS_ACTIVE"></property>
 		<many-to-one name="parent" column="PARENT_ID" class="Account"
 			lazy="false" cascade="save-update">
@@ -118,9 +118,9 @@
 			not-null="true" lazy="false">
 		</many-to-one>
 		<property name="startDate" column="START_DATE"
-			type="com.vimukti.accounter.core.LongUseType" unique="true"></property>
+			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="endDate" column="END_DATE"
-			type="com.vimukti.accounter.core.LongUseType" unique="true"></property>
+			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="status" column="STATUS"></property>
 		<property name="isCurrentFiscalYear" column="IS_CURRENT_FISCAL_YEAR"></property>
 		<property name="version" column="VERSION"></property>
@@ -140,7 +140,7 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
 		</many-to-one>
-		<property name="name" unique="true" not-null="true" column="NAME"></property>
+		<property name="name" not-null="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 	</class>
 
@@ -203,8 +203,7 @@
 
 		<component name="preferences" class="CompanyPreferences"
 			lazy="false">
-			<property name="fullName" unique="true" not-null="true"
-				column="FULL_NAME"></property>
+			<property name="fullName" not-null="true" column="FULL_NAME"></property>
 			<property name="timezone" column="TIMEZONE"></property>
 			<property name="companyEmail" column="COMPANY_EMAIL"></property>
 			<property name="taxId" column="TAX_ID"></property>
@@ -413,7 +412,7 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
 		</many-to-one>
-		<property name="name" unique="true" not-null="true" column="NAME"></property>
+		<property name="name" not-null="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			lazy="false" not-null="true"></many-to-one>
@@ -431,7 +430,7 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
 		</many-to-one>
-		<property name="name" unique="true" not-null="true" column="NAME"></property>
+		<property name="name" not-null="true" column="NAME"></property>
 		<property name="symbol" column="SYMBOL"></property>
 		<property name="formalName" column="FORMAL_NAME"></property>
 		<property name="version" column="VERSION"></property>
@@ -443,7 +442,7 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
 		</many-to-one>
-		<property name="name" unique="true" not-null="true" column="NAME"></property>
+		<property name="name" not-null="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			lazy="false" not-null="true"></many-to-one>
@@ -472,7 +471,7 @@
 		<!-- <many-to-one name="VATCode" class="TaxCode" column="VAT_CODE_ID"> -->
 		<!-- </many-to-one> -->
 		<property name="type" column="TYPE"></property>
-		<property name="name" unique="true" not-null="true" column="NAME"></property>
+		<property name="name" not-null="true" column="NAME"></property>
 		<property name="UPCorSKU" column="UPC_OR_SKU"></property>
 		<property name="weight" column="WEIGHT"></property>
 		<many-to-one name="itemGroup" class="ItemGroup" column="ITEMGROUP_ID"
@@ -525,7 +524,7 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
 		</many-to-one>
-		<property name="name" unique="true" not-null="true" column="NAME"></property>
+		<property name="name" not-null="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<property name="description" column="DESCRIPTION"></property>
 		<property name="isActive" column="IS_ACTIVE"></property>
@@ -567,7 +566,7 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
 		</many-to-one>
-		<property name="name" unique="true" not-null="true" column="NAME"></property>
+		<property name="name" not-null="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			lazy="false" not-null="true"></many-to-one>
@@ -644,7 +643,7 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
 		</many-to-one>
-		<property name="name" unique="true" not-null="true" column="NAME"></property>
+		<property name="name" not-null="true" column="NAME"></property>
 		<property name="payeeSince" column="PAYEE_SINCE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="fileAs" column="FILE_AS"></property>
@@ -736,7 +735,7 @@
 			<key column="ID" />
 			<property name="balanceAsOf" column="BALANCE_AS_OF"
 				type="com.vimukti.accounter.core.LongUseType"></property>
-			<property name="number" unique="true" column="NUMBER"></property>
+			<property name="number" column="NUMBER"></property>
 			<many-to-one name="salesPerson" class="SalesPerson"
 				column="SALES_PERSON_ID" cascade="save-update,delete" lazy="false">
 			</many-to-one>
@@ -837,7 +836,7 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
 		</many-to-one>
-		<property name="name" unique="true" not-null="true" column="NAME"></property>
+		<property name="name" not-null="true" column="NAME"></property>
 		<property name="description" column="DESCRIPTION"></property>
 		<property name="due" column="DUE"></property>
 		<property name="dueDays" column="DUE_DAYS"></property>
@@ -864,7 +863,7 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
 		</many-to-one>
-		<property name="name" unique="true" not-null="true" column="NAME"></property>
+		<property name="name" not-null="true" column="NAME"></property>
 		<property name="percentage" column="PERCENTAGE"></property>
 		<property name="isPriceLevelDecreaseByThisPercentage" column="IS_P_DECREASE_BY_THIS_PERCENT"></property>
 		<property name="version" column="VERSION"></property>
@@ -884,7 +883,7 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
 		</many-to-one>
-		<property name="name" unique="true" not-null="true" column="NAME"></property>
+		<property name="name" not-null="true" column="NAME"></property>
 		<property name="description" column="DESCRIPTION"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
@@ -903,7 +902,7 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
 		</many-to-one>
-		<property name="name" unique="true" not-null="true" column="NAME"></property>
+		<property name="name" not-null="true" column="NAME"></property>
 		<property name="description" column="DESCRIPTION"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
@@ -1000,7 +999,7 @@
 			not-null="true" lazy="false">
 		</many-to-one>
 		<property name="type" column="TYPE"></property>
-		<property name="name" unique="true" not-null="true" column="NAME"></property>
+		<property name="name" not-null="true" column="NAME"></property>
 		<property name="abbreviation" column="ABBREVIATION"></property>
 		<property name="version" column="VERSION"></property>
 	</class>
@@ -1050,7 +1049,7 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
 		</many-to-one>
-		<property name="name" unique="true" not-null="true" column="NAME"></property>
+		<property name="name" not-null="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			lazy="false" not-null="true"></many-to-one>
@@ -1068,7 +1067,7 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
 		</many-to-one>
-		<property name="name" unique="true" not-null="true" column="NAME"></property>
+		<property name="name" not-null="true" column="NAME"></property>
 		<property name="assetNumber" column="ASSET_NUMBER"></property>
 		<many-to-one name="assetAccount" class="Account" lazy="false"
 			column="ASSET_ACCOUNT_ID">
@@ -1206,7 +1205,7 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
 		</many-to-one>
-		<property name="name" unique="true" not-null="true" column="NAME"></property>
+		<property name="name" not-null="true" column="NAME"></property>
 		<property name="vatBox" column="VAT_BOX"></property>
 		<property name="totalBox" column="TOTAL_BOX"></property>
 		<property name="vatReturnType" column="VAT_RETURN_TYPE"></property>
@@ -1231,7 +1230,7 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="name" not-null="true" unique="true" column="NAME"></property>
+		<property name="name" not-null="true" column="NAME"></property>
 		<property name="description" column="DESCRIPTION"></property>
 		<property name="isTaxable" column="ISTAXABLE"></property>
 		<property name="isActive" column="ISACTIVE"></property>
@@ -1259,8 +1258,7 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
 		</many-to-one>
-		<property name="themeName" column="THEME_NAME" unique="true"
-			not-null="true">
+		<property name="themeName" column="THEME_NAME" not-null="true">
 		</property>
 		<property name="pageSizeType" column="PAGE_SIZE_TYPE">
 		</property>
@@ -1343,7 +1341,7 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
 		</many-to-one>
-		<property name="name" column="NAME" unique="true" not-null="true" />
+		<property name="name" column="NAME" not-null="true" />
 
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			lazy="false" not-null="true"></many-to-one>
