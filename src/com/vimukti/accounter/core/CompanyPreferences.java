@@ -97,6 +97,7 @@ public class CompanyPreferences implements IAccounterServerCore {
 	private static final long CLASS_WARRNING = 0x8000000000L;
 
 	private static final long TRANSACTION_PER_DETAIL_LINE = 0x20000000000L;
+	private static final long DO_PRODUCT_SHIPMENTS = 0x40000000000L;
 
 	public static int VAT_REPORTING_PERIOD_MONTHLY = 1;
 	public static int VAT_REPORTING_PERIOD_BIMONTHLY = 2;
@@ -258,6 +259,22 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	public boolean isHaveEpmloyees() {
 		return get(HAVE_EMPLOYEES);
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isDoProductShipMents() {
+		return get(DO_PRODUCT_SHIPMENTS);
+	}
+
+	/**
+	 * 
+	 * @param doProductShipMents
+	 */
+	public void setDoProductShipMents(boolean doProductShipMents) {
+		set(DO_PRODUCT_SHIPMENTS, doProductShipMents);
 	}
 
 	public void setHaveEpmloyees(boolean value) {
