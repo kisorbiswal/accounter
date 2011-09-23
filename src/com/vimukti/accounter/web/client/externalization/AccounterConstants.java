@@ -4896,6 +4896,8 @@ public interface AccounterConstants extends Constants {
 
 	public String enableTrackingDescription();
 
+	public String taxList();
+
 	public String selectTransactionToReconcile();
 
 }
