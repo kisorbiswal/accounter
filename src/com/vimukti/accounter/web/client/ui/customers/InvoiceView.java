@@ -1392,20 +1392,19 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		// if (taxItemGroup != null)
 		// transaction.setTaxItemGroup(taxItemGroup);
 		if (isTrackTax()) {
-			if (isTaxPerDetailLine()) {
-				transaction.setNetAmount(netAmountLabel.getAmount());
-				transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-						.getValue());
-			} else {
-				if (taxCode != null) {
-					for (ClientTransactionItem record : customerTransactionTable
-							.getAllRows()) {
-						record.setTaxItemGroup(taxCode.getID());
-					}
+			// if (isTaxPerDetailLine()) {
+			transaction.setNetAmount(netAmountLabel.getAmount());
+			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
+					.getValue());
+			// } else {
+			// if (taxCode != null) {
+			// for (ClientTransactionItem record : customerTransactionTable
+			// .getAllRows()) {
+			// record.setTaxItemGroup(taxCode.getID());
+			// }
 
-				}
-				transaction.setTaxTotal(this.salesTax);
-			}
+			transaction.setTaxTotal(this.salesTax);
+			// }
 
 		}
 		transaction.setTotal(transactionTotalNonEditableText.getAmount());
