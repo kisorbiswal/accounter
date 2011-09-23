@@ -686,7 +686,7 @@ public class SalesOrderView extends
 			// refText.setValue(salesOrderToBeEdited.getReference());
 
 			if (isTrackTax()) {
-				if (isTrackTax()) {
+				if (isTaxPerDetailLine()) {
 					netAmountLabel.setAmount(transaction.getNetAmount());
 					vatTotalNonEditableText.setAmount(transaction.getTotal()
 							- transaction.getNetAmount());
