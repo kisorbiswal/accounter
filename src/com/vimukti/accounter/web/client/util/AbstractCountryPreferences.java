@@ -22,11 +22,7 @@ public abstract class AbstractCountryPreferences implements ICountryPreferences 
 		return false;
 	}
 
-	@Override
-	public boolean isServiceTaxIdAndCompanyTaxIdSame() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
@@ -72,6 +68,12 @@ public abstract class AbstractCountryPreferences implements ICountryPreferences 
 
 	@Override
 	public boolean isServiceTaxAvailable() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	@Override
+	public boolean isServiceTaxIdAndCompanyTaxIdSame() {
 		// TODO Auto-generated method stub
 		return false;
 	}

@@ -5,6 +5,11 @@ import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
 
 public class Vietnam extends AbstractCountryPreferences {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public String[] getStates() {
 		String[] states = new String[] { "B?c Trung B?",
@@ -21,7 +26,6 @@ public class Vietnam extends AbstractCountryPreferences {
 
 	@Override
 	public boolean allowFlexibleFiscalYear() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
@@ -30,5 +34,26 @@ public class Vietnam extends AbstractCountryPreferences {
 
 		return Accounter.constants().january();
 	}
+
+	@Override
+	public boolean isVatAvailable() {
+		return true;
+	}
+
+	@Override
+	public boolean isVatIdAndCompanyTaxIdSame() {
+		return false;
+	}
+
+	@Override
+	public boolean isSalesTaxAvailable() {
+		return super.isSalesTaxAvailable();
+	}
+
+	@Override
+	public boolean isSalesTaxIdAndCompanyTaxIdSame() {
+		return false;
+	}
+
 
 }
