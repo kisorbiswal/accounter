@@ -1114,8 +1114,10 @@ public class HorizontalMenuBar extends HorizontalPanel {
 				.getShippingMethodListAction());
 		manageSupportListMenuBar.addItem(ActionFactory
 				.getShippingTermListAction());
-		manageSupportListMenuBar.addItem(ActionFactory
-				.getPriceLevelListAction());
+		/*
+		 * manageSupportListMenuBar.addItem(ActionFactory
+		 * .getPriceLevelListAction());
+		 */
 		manageSupportListMenuBar
 				.addItem(ActionFactory.getItemGroupListAction());
 		manageSupportListMenuBar.addItem(ActionFactory
