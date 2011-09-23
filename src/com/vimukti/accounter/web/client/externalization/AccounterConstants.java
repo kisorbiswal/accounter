@@ -4902,4 +4902,6 @@ public interface AccounterConstants extends Constants {
 
 	public String dueDays();
 
+	public String addBill();
+
 }

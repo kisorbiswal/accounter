@@ -71,7 +71,7 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 		FlexTable fTable = new FlexTable();
 
 		Button addPayableInvoiceBtn = new Button(Accounter.constants()
-				.addPayableInvoice());
+				.addBill());
 		addPayableInvoiceBtn.addStyleName("addButtonPortlet");
 		addPayableInvoiceBtn.addClickHandler(new ClickHandler() {
 
