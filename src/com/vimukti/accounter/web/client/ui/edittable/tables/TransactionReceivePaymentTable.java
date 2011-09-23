@@ -90,7 +90,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 				@Override
 				public int getWidth() {
-					return 80;
+					return 100;
 				}
 
 				@Override
@@ -126,7 +126,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			public int getWidth() {
-				return 85;
+				return 100;
 			}
 
 			@Override
@@ -145,7 +145,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			public int getWidth() {
-				return 85;
+				return 100;
 			}
 
 			@Override
@@ -176,7 +176,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 				@Override
 				public int getWidth() {
-					return 80;
+					return 100;
 				}
 
 				@Override
@@ -195,7 +195,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 				}
 			};
-			this.addColumn(amountDueColumn);
+			//this.addColumn(amountDueColumn);
 		}
 
 		TextEditColumn<ClientTransactionReceivePayment> discountDateColumn = new TextEditColumn<ClientTransactionReceivePayment>() {
@@ -217,7 +217,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			public int getWidth() {
-				return 80;
+				return 100;
 			}
 
 			@Override
@@ -225,7 +225,7 @@ public abstract class TransactionReceivePaymentTable extends
 				return Accounter.constants().discountDate();
 			}
 		};
-		this.addColumn(discountDateColumn);
+		//this.addColumn(discountDateColumn);
 
 		AnchorEditColumn<ClientTransactionReceivePayment> cashDiscountColumn = new AnchorEditColumn<ClientTransactionReceivePayment>() {
 
@@ -241,7 +241,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			public int getWidth() {
-				return 83;
+				return 93;
 			}
 
 			@Override
@@ -265,7 +265,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			public int getWidth() {
-				return 80;
+				return 100;
 			}
 
 			@Override
@@ -289,7 +289,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			public int getWidth() {
-				return 85;
+				return 100;
 			}
 
 			@Override
