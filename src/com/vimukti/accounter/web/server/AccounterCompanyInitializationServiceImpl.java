@@ -150,7 +150,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 		Session session = HibernateUtil.getCurrentSession();
 		Transaction transaction = session.beginTransaction();
 		try {
-			Company company = (Company) session.load(Company.class, 1l);
+			Company company = (Company) session.load(Company.class, getCompanyId());
 
 			// Updating CompanyPreferences
 			CompanyPreferences serverCompanyPreferences = company
@@ -162,8 +162,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 			// Updating ServerCompany
 			IS2SService s2sSyncProxy = getS2sSyncProxy(ServerConfiguration
 					.getMainServerDomain());
-			String serverCompanyId = getCookie(BaseServlet.COMPANY_COOKIE);
-			s2sSyncProxy.updateServerCompany(Long.parseLong(serverCompanyId),
+			s2sSyncProxy.updateServerCompany(company.getID(),
 					preferences.getFullName());
 
 			// Initializing Accounts
