@@ -697,7 +697,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	protected AmountField createVATTotalNonEditableItem() {
 
-		AmountField amountItem = new AmountField(Accounter.constants().vat(),
+		AmountField amountItem = new AmountField(Accounter.constants().tax(),
 				this);
 		amountItem.setDisabled(true);
 

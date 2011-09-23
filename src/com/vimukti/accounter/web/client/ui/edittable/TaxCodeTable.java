@@ -76,7 +76,7 @@ public class TaxCodeTable extends AbstractDropDownTable<ClientTAXCode> {
 	@Override
 	protected ClientTAXCode getAddNewRow() {
 		ClientTAXCode code = new ClientTAXCode();
-		code.setName(Accounter.constants().addNewVATCode());
+		code.setName(Accounter.constants().addaNewTaxCode());
 		return code;
 	}
 

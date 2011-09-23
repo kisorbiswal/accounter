@@ -28,7 +28,7 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		return Accounter.constants().addNewVATCode();
+		return Accounter.constants().addaNewTaxCode();
 	}
 
 	@Override
@@ -47,7 +47,6 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode> {
 
 	}
 
-	
 	@Override
 	protected void filterList(boolean isActive) {
 		grid.removeAllRecords();
