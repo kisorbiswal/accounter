@@ -112,7 +112,8 @@ public class ItemView extends BaseView<ClientItem> {
 				ClientTAXCode code = null;
 				if (isInViewMode()) {
 					code = getCompany().getTAXCode(data.getTaxCode());
-				} else if (!getCompany().getPreferences().isChargeSalesTax()) {
+				}
+				if (code == null) {
 					code = getCompany().getTAXCode(
 							getPreferences().getDefaultTaxCode());
 				}

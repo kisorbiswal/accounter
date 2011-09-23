@@ -15,8 +15,6 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.impl.FocusImpl;
@@ -27,7 +25,6 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.company.HelpItem;
 import com.vimukti.accounter.web.client.ui.company.PreferencesAction;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -98,70 +95,6 @@ public class MainFinanceWindow extends VerticalPanel {
 	public HelpItem getHelpItem() {
 		return item;
 
-	}
-
-	private MenuBar getMenuBar() {
-		MenuBar menuBar = new MenuBar();
-		// MenuItem dashBoardMenuitem = menuBar.addItem("DashBoard",
-		// getDashBoardCommand());
-		// ThemesUtil.insertEmptyChildToMenuBar(menuBar);
-		// dashBoardMenuitem.getElement().setTitle(
-		// "Click here to download this plugin");
-
-		MenuItem menuitem = menuBar.addItem(Accounter.constants().company(),
-				getCompanyMenu());
-		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
-
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			menuitem = menuBar.addItem(Accounter.constants().vat(),
-					getVATMenu());
-			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
-		}
-
-		menuitem = menuBar.addItem(Global.get().customer(), getCustomerMenu());
-		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
-
-		menuitem = menuBar.addItem(Global.get().Vendor(), getVendorMenu());
-		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
-
-		if (Accounter.getUser().canDoBanking()) {
-			menuitem = menuBar.addItem(Accounter.constants().banking(),
-					getBankingMenu());
-			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
-		}
-
-		menuitem = menuBar.addItem(Accounter.constants().sales(),
-				getSalesSubMenu());
-		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
-
-		menuitem = menuBar.addItem(Accounter.constants().purchases(),
-				getPurchaseSubMenu());
-		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
-
-		// menuBar.addItem(FinanceApplication.constants()
-		// .fixedAssets(), getFixedAssetsMenu());
-		if (Accounter.getUser().canViewReports()) {
-			menuitem = menuBar.addItem(Accounter.constants().reports(),
-					getReportMenu());
-			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
-		}
-		// menuBar.addItem(FinanceApplication.constants().help(),
-		// getHelpMenu());
-		if (Accounter.getUser().canChangeSettings()) {
-			menuitem = menuBar.addItem(Accounter.constants().settings(),
-					getSettingsMenu());
-			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
-		}
-		//
-		// if (!GWT.isScript()) {
-		// menuitem = menuBar.addItem(FinanceApplication.constants()
-		// .test(), getTestMenu());
-		// ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
-		// }
-
-		menuBar.setAutoOpen(true);
-		menuBar.setAnimationEnabled(true);
-		return menuBar;
 	}
 
 	private CustomMenuBar getSettingsMenu() {
