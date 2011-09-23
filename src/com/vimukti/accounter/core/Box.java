@@ -16,7 +16,7 @@ public class Box implements IAccounterServerCore {
 	 */
 	private static final long serialVersionUID = 3730671126732195673L;
 	long id;
-
+	private Company company;
 	int boxNumber;
 
 	String name;
@@ -110,6 +110,14 @@ public class Box implements IAccounterServerCore {
 
 	@Override
 	public void setVersion(int version) {
-	this.version=version;
+		this.version = version;
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 }
