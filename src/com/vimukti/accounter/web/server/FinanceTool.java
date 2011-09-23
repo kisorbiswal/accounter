@@ -13014,7 +13014,7 @@ public class FinanceTool {
 			noteActivity.setDescription(noteDescription);
 			session.save(noteActivity);
 			transaction.commit();
-			return noteActivity.getId();
+			return noteActivity.getID();
 		} catch (Exception e) {
 			e.printStackTrace();
 			transaction.rollback();
