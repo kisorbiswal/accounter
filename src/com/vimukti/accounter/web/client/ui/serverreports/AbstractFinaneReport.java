@@ -121,17 +121,21 @@ public abstract class AbstractFinaneReport<R> extends
 	 */
 	@Override
 	public void onResultSuccess(ArrayList<R> result) {
+
 		try {
 			if (result != null && result.size() > 0) {
 				// removeAllRows();
-				initRecords(result);
+
 				setFromAndToDate(result);
+				initRecords(result);
+				setHeaderTitle();
 
 			} else {
 				initGrid();
 				removeAllRows();
 				if (result != null && result.size() == 1)
 					setFromAndToDate(result);
+				setHeaderTitle();
 				endStatus();
 			}
 			showRecords();
@@ -161,7 +165,7 @@ public abstract class AbstractFinaneReport<R> extends
 			R obj = result.get(result.size() - 1);
 			startDate = getStartDate(obj);
 			endDate = getEndDate(obj);
-			setHeaderTitle();
+			// setHeaderTitle();
 			if (startDate != null || endDate != null) {
 				result.remove(result.size() - 1);
 			}
