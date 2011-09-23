@@ -2831,7 +2831,7 @@ public class ClientCompany implements IAccounterCore {
 		
 	}
 
-	private String getCountry() {
+	public String getCountry() {
 		return this.registeredAddress.getCountryOrRegion();
 	}
 }
