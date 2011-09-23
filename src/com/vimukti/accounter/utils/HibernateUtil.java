@@ -41,7 +41,7 @@ public class HibernateUtil {
 	private static SessionFactory buildSessionFactory() {
 		Configuration config = new Configuration();
 		config.configure();
-		config.setProperty("hibernate.hbm2ddl.auto", "none");
+		config.setProperty("hibernate.hbm2ddl.auto", "update");
 		config.setProperty("hibernate.connection.provider_class",
 				getConnectionProvider());
 		return config.buildSessionFactory();
