@@ -27,12 +27,12 @@ public abstract class AbstractTransactionTable extends
 
 	private final boolean isSales;
 
-	private boolean isLoadColumns;
+	private boolean columnsCreated;
 
 	public AbstractTransactionTable(boolean needDiscount, boolean isSales) {
 		this.needDiscount = needDiscount;
 		this.isSales = isSales;
-		// initColumns();
+//		 initColumns();
 	}
 
 	protected abstract void initColumns();
@@ -104,15 +104,17 @@ public abstract class AbstractTransactionTable extends
 
 	@Override
 	public void setAllRows(List<ClientTransactionItem> rows) {
-		clear();
+		createColumns();
 		for (ClientTransactionItem item : rows) {
 			item.setID(0);
 			item.taxRateCalculationEntriesList.clear();
 		}
 		super.setAllRows(rows);
+
 	}
 
 	public void addRows(List<ClientTransactionItem> rows) {
+		createColumns();
 		super.addRows(rows);
 	}
 
@@ -248,11 +250,15 @@ public abstract class AbstractTransactionTable extends
 
 	@Override
 	protected void onAttach() {
-		if (!isLoadColumns) {
+		createColumns();
+		super.onAttach();
+	}
+
+	private void createColumns() {
+		if (!columnsCreated) {
 			initColumns();
 		}
-		isLoadColumns = true;
-		super.onAttach();
+		columnsCreated = true;
 	}
 
 }
