@@ -23,10 +23,10 @@ import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.IGenericCallback;
 import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionPayBillTable;
+import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionReceivePaymentTable;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.CreditsandPaymentsGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
-import com.vimukti.accounter.web.client.ui.grids.TransactionReceivePaymentGrid;
 
 /**
  * 
@@ -444,7 +444,7 @@ public class CustomerCreditsAndPaymentsDialiog extends
 						indx);
 				crdPayment.setBalance(crdPayment.getActualAmt());
 				crdPayment
-						.setAmtTouse(((TransactionReceivePaymentGrid.TempCredit) (rcvPaymnt
+						.setAmtTouse(((TransactionReceivePaymentTable.TempCredit) (rcvPaymnt
 								.getTempCredits().get(indx))).getAmountToUse());
 				// }
 				// for (IsSerializable obj : grid.getSelectedRecords()) {
