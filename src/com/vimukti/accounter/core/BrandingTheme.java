@@ -69,7 +69,6 @@ public class BrandingTheme extends CreatableObject implements
 	private boolean isShowUnitPrice_And_Quantity;
 	// boolean isShowPaymentAdviceCut_Away;
 	private boolean isShowTaxColumn;
-	private boolean isShowVatColumn;
 	private boolean isShowRegisteredAddress;
 	private boolean isShowLogo;
 	private boolean isLogoAdded;
@@ -479,7 +478,6 @@ public class BrandingTheme extends CreatableObject implements
 		this.isShowUnitPrice_And_Quantity = true;
 		// this.isShowPaymentAdviceCut_Away = true;
 		this.isShowTaxColumn = true;
-		this.isShowVatColumn = true;
 		this.isShowRegisteredAddress = true;
 		this.isShowLogo = true;
 		this.payPalEmailID = payPalEmailID;
@@ -496,8 +494,8 @@ public class BrandingTheme extends CreatableObject implements
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery("getBrandingTheme")
-				.setString("themeName", this.themeName).setLong("id", this.id);
+		Query query = session.getNamedQuery("getBrandingTheme").setString(
+				"themeName", this.themeName).setLong("id", this.id);
 		List list = query.list();
 
 		if (list != null || list.size() > 0 || list.get(0) != null) {
@@ -620,14 +618,6 @@ public class BrandingTheme extends CreatableObject implements
 	@Override
 	public void setName(String name) {
 		this.themeName = name;
-	}
-
-	public boolean isShowVatColumn() {
-		return isShowVatColumn;
-	}
-
-	public void setShowVatColumn(boolean isShowVatColumn) {
-		this.isShowVatColumn = isShowVatColumn;
 	}
 
 }

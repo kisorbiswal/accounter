@@ -187,11 +187,11 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 				t.setVariable("subTotal", subTotal);
 				t.addBlock("subtotal");
 
-				if (brandingTheme.isShowVatColumn()) {
-					t.setVariable("vatlabel", "Tax ");
-					t.setVariable("vatTotalValue", vatTotal);
-					t.addBlock("VatTotal");
-				}
+//				if (brandingTheme.isShowVatColumn()) {
+//					t.setVariable("vatlabel", "Tax ");
+//					t.setVariable("vatTotalValue", vatTotal);
+//					t.addBlock("VatTotal");
+//				}
 
 			}
 			t.setVariable("total", total);
