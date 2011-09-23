@@ -28,7 +28,7 @@ public class TransactionDiscountColumn extends
 
 	@Override
 	public int getWidth() {
-		return 40;
+		return 41;
 	}
 
 	@Override
