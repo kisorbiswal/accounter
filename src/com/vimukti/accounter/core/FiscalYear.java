@@ -191,6 +191,7 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 
 			Query query = session
 					.getNamedQuery("getNetIncome")
+					.setParameter("companyId", getCompany().getID())
 					.setParameter("startDate", this.previousStartDate.getDate())
 					.setParameter("endDate", this.endDate.getDate());
 

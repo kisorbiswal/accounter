@@ -1044,6 +1044,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			String oldFlow = this.flow;
 
 			Query query = session.getNamedQuery("getCountOfParentAccount")
+					.setParameter("companyId", this.getCompany().getID())
 					.setParameter("parentId", this.parent.getID());
 			List l = query.list();
 			// List l = session.createQuery(

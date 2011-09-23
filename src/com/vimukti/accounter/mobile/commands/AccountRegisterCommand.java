@@ -97,7 +97,8 @@ public class AccountRegisterCommand extends AbstractTransactionCommand {
 		ArrayList<AccountRegister> accountRegisters = null;
 		try {
 			accountRegisters = new FinanceTool().getAccountRegister(
-					new FinanceDate(0), new FinanceDate(0), account.getID());
+					new FinanceDate(0), new FinanceDate(0), account.getID(),
+					account.getCompany().getID());
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}

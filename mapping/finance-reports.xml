@@ -4,9 +4,9 @@
 
 
 	<sql-query name="getSalesOrders">
-
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
+		<query-param name="companyId" type="long" />
 
 		SELECT T.ID,
 		T.T_TYPE,
@@ -25,14 +25,14 @@
 		ON P.ID = SO.CUSTOMER_ID
 		WHERE T.T_TYPE = 21 AND
 		T.T_DATE BETWEEN :startDate AND :endDate AND
-		T.STATUS != 3 ORDER BY
+		T.STATUS != 3 AND T.COMPANY_ID=:companyId ORDER BY
 		P.NAME, T.T_DATE
 
 	</sql-query>
 
 
 	<sql-query name="getOpenSalesOrders">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 
@@ -54,12 +54,12 @@
 		WHERE T.T_TYPE = 21 AND
 		T.STATUS IN (1, 101) AND T.T_DATE BETWEEN
 		:startDate AND :endDate AND
-		T.STATUS != 3 ORDER BY P.NAME, T.T_DATE
+		T.STATUS != 3 T.COMPANY_ID:=companyId ORDER BY P.NAME, T.T_DATE
 
 	</sql-query>
 
 	<sql-query name="getExpenseReportByType">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<query-param name="type" type="int" />
@@ -113,7 +113,7 @@
 		USERS U
 		ON U.ID=CP.EMPLOYEE
 
-		WHERE
+		WHERE T.COMPANY_ID=:companyId
 		CASE
 		WHEN :type IN (26, 27, 28) THEN
 		T.T_TYPE =:type
@@ -130,7 +130,7 @@
 	</sql-query>
 
 	<sql-query name="getClosedSalesOrders">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		SELECT T.ID ,
@@ -151,13 +151,13 @@
 		WHERE T.T_TYPE = 21 AND
 		T.STATUS=2 and T.T_DATE BETWEEN :startDate AND
 		:endDate AND T.STATUS !=
-		3 ORDER BY P.NAME, T.T_DATE
+		3 AND T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
 
 	</sql-query>
 
 
 	<sql-query name="getCompletedSalesOrders">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 
@@ -179,13 +179,13 @@
 		WHERE T.T_TYPE = 21 AND
 		T.STATUS IN (102) AND T.T_DATE BETWEEN :startDate
 		AND :endDate AND
-		T.STATUS != 3 ORDER BY P.NAME, T.T_DATE
+		T.STATUS != 3 AND T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
 
 	</sql-query>
 
 
 	<sql-query name="getCanceledSalesOrders">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 
@@ -207,13 +207,13 @@
 		WHERE T.T_TYPE = 21 AND
 		T.STATUS IN (103) AND T.T_DATE BETWEEN :startDate
 		AND :endDate AND
-		T.STATUS != 3 ORDER BY P.NAME, T.T_DATE
+		T.STATUS != 3 AND T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
 
 	</sql-query>
 
 
 	<sql-query name="getPurchaseOrders">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 
@@ -235,7 +235,7 @@
 		ON P.ID = PO.VENDOR_ID
 		WHERE T.T_TYPE = 22
 		AND T.T_DATE BETWEEN :startDate AND :endDate AND
-		T.STATUS != 3 ORDER BY
+		T.STATUS != 3 AND T.COMPANY_ID=:companyId ORDER BY
 		P.NAME, T.T_DATE
 
 
@@ -243,7 +243,7 @@
 
 
 	<sql-query name="getOpenPurchaseOrders">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 
@@ -266,13 +266,13 @@
 		WHERE T.T_TYPE = 22
 		AND T.STATUS IN (1, 101) AND T.T_DATE BETWEEN
 		:startDate AND :endDate
-		AND T.STATUS != 3 ORDER BY P.NAME, T.T_DATE
+		AND T.STATUS != 3 AND T.COMPANY_D=:companyId ORDER BY P.NAME, T.T_DATE
 
 
 	</sql-query>
 
 	<sql-query name="getClosedPurchaseOrders">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		SELECT T.ID ,
@@ -294,14 +294,14 @@
 		WHERE T.T_TYPE = 22
 		AND T.STATUS IN (2) and T.T_DATE BETWEEN :startDate AND
 		:endDate AND
-		T.STATUS != 3 ORDER BY P.NAME, T.T_DATE
+		T.STATUS != 3 AND T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
 
 	</sql-query>
 
 
 
 	<sql-query name="getCompletedPurchaseOrders">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		SELECT T.ID ,
@@ -322,13 +322,13 @@
 		ON P.ID = PO.VENDOR_ID
 		WHERE T.T_TYPE = 22
 		AND T.STATUS IN (102) and T.T_DATE BETWEEN :startDate
-		AND :endDate AND
+		AND :endDate AND T.COMPANY_ID=:companyId AND
 		T.STATUS != 3 ORDER BY P.NAME, T.T_DATE
 
 	</sql-query>
 
 	<sql-query name="getCanceledPurchaseOrders">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		SELECT T.ID ,
@@ -350,52 +350,53 @@
 		WHERE T.T_TYPE = 22
 		AND T.STATUS IN (103) and T.T_DATE BETWEEN :startDate
 		AND :endDate AND
-		T.STATUS != 3 ORDER BY P.NAME, T.T_DATE
+		T.STATUS != 3 AND T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
 
 	</sql-query>
 
 
 
 	<sql-query name="getMinimumAndMaximumTransactionDate">
+		<query-param name="companyId" type="long" />
 		<return-scalar column="MINIMUM_DATE" type="long" />
 		<return-scalar column="MAXIMUM_DATE" type="long" />
 		SELECT MIN(T.T_DATE) AS MINIMUM_DATE, MAX(T.T_DATE) AS MAXIMUM_DATE
-		FROM TRANSACTION T
+		FROM TRANSACTION T WHERE T.COMPANY_ID=:companyId
 	</sql-query>
 
 
 	<!-- QUERIES FOR REPORTS -->
 	<sql-query name="accountbalances">
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="ACCOUNT_NAME" type="string" />
 		<return-scalar column="ACCOUNT_TOTAL_BALANCE" type="double" />
 		<return-scalar column="ACCOUNT_TYPE" type="int" />
 		SELECT A.NAME AS ACCOUNT_NAME, A.TOTAL_BALANCE AS
-		ACCOUNT_TOTAL_BALANCE, A.A_TYPE AS ACCOUNT_TYPE FROM ACCOUNT A ORDER
+		ACCOUNT_TOTAL_BALANCE, A.A_TYPE AS ACCOUNT_TYPE FROM ACCOUNT A WHERE A.COMPANY_ID=:companyId ORDER
 		BY A.NAME
 	</sql-query>
 
 
 	<!--Query for Sales By Customer Detail Report -->
 	<sql-query name="getSalesByCustomerDetail">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		SELECT NAME , TYPE, DATE, NUMBER, MEMO, DUE_DATE, PAYMENT_TERMS,
 		ITEM_NAME, QUANTITY, UNIT_PRICE, AMOUNT,
 		SHIPMENT_OR_DELIVERY_DATE,VOID, REFERENCE, TRANSACTION_ID FROM
-		SALES_PURCHASES_VIEW WHERE CUSTOMER_ID IS NOT NULL AND DATE BETWEEN
+		SALES_PURCHASES_VIEW WHERE CUSTOMER_ID IS NOT NULL AND COMPANY_ID:=companyId AND DATE BETWEEN
 		:startDate AND :endDate ORDER BY NAME
 	</sql-query>
 	<sql-query name="getSalesByCustomerDetailForParticularCustomer">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="customerName" type="String" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		SELECT NAME, TYPE, DATE, NUMBER, MEMO, DUE_DATE, PAYMENT_TERMS,
 		ITEM_NAME, QUANTITY, UNIT_PRICE, AMOUNT,
 		SHIPMENT_OR_DELIVERY_DATE,VOID, REFERENCE, TRANSACTION_ID FROM
-		SALES_PURCHASES_VIEW WHERE CUSTOMER_ID IS NOT NULL AND
+		SALES_PURCHASES_VIEW WHERE CUSTOMER_ID IS NOT NULL AND COMPANY_ID:=companyId AND 
 		NAME=:customerName AND DATE BETWEEN
 		:startDate AND :endDate ORDER BY
 		NAME
@@ -403,19 +404,19 @@
 
 	<!--Query for Sales By Customer Summary Report -->
 	<sql-query name="getSalesByCustomerSummary">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		SELECT NAME , GROUP_NAME , SUM(AMOUNT) FROM
 		SALES_PURCHASES_VIEW WHERE
-		CUSTOMER_ID IS NOT NULL AND DATE BETWEEN
+		CUSTOMER_ID IS NOT NULL AND COMPANY_ID:=companyId AND DATE BETWEEN
 		:startDate AND :endDate GROUP
 		BY NAME ORDER BY NAME
 	</sql-query>
 
 	<!--Query for Sales By Item Detail Report -->
 	<sql-query name="getSalesByItemDetail">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		SELECT ITEM_TYPE, ITEM_NAME, TYPE, DATE, NUMBER, NAME ,
@@ -424,13 +425,13 @@
 		SHIPMENT_OR_DELIVERY_DATE, ITEM_GROUP,
 		SALES_DESCRIPTION,VOID,PAYMENT_TERMS, MEMO, REFERENCE, TRANSACTION_ID,
 		UNIT
-		FROM SALES_PURCHASES_VIEW WHERE CUSTOMER_ID IS NOT NULL AND
+		FROM SALES_PURCHASES_VIEW WHERE CUSTOMER_ID IS NOT NULL AND COMPANY_ID:=companyId AND
 		ITEM_TYPE
 		IS NOT NULL AND DATE BETWEEN :startDate AND :endDate ORDER BY
 		ITEM_TYPE,ITEM_NAME
 	</sql-query>
 	<sql-query name="getSalesByItemDetailForParticularItem">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="itemName" type="String" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
@@ -439,7 +440,7 @@
 		UNIT_PRICE, DISCOUNT, AMOUNT, SO_OR_QUOTE_NO, DUE_DATE,
 		SHIPMENT_OR_DELIVERY_DATE, ITEM_GROUP,
 		SALES_DESCRIPTION,VOID,PAYMENT_TERMS, MEMO, REFERENCE, TRANSACTION_ID
-		FROM SALES_PURCHASES_VIEW WHERE CUSTOMER_ID IS NOT NULL AND ITEM_TYPE
+		FROM SALES_PURCHASES_VIEW WHERE CUSTOMER_ID IS NOT NULL AND COMPANY_ID:=companyId AND ITEM_TYPE
 		IS NOT NULL AND ITEM_NAME=:itemName AND DATE
 		BETWEEN :startDate AND
 		:endDate ORDER BY ITEM_TYPE,ITEM_NAME
@@ -447,13 +448,13 @@
 
 	<!--Query for Sales By Item Summary Report -->
 	<sql-query name="getSalesByItemSummary">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		SELECT ITEM_TYPE,ITEM_NAME, ITEM_GROUP, SUM(QUANTITY) ,
 		SUM(AMOUNT)
 		FROM SALES_PURCHASES_VIEW WHERE CUSTOMER_ID IS
-		NOT NULL AND ITEM_TYPE
+		NOT NULL AND COMPANY_ID:=companyId AND ITEM_TYPE
 		IS NOT NULL AND DATE
 		BETWEEN :startDate AND :endDate GROUP BY ITEM_NAME
 		HAVING ITEM_TYPE IS
@@ -462,19 +463,19 @@
 
 	<!--Query for Purchases By Vendor Detail Report -->
 	<sql-query name="getPurchasesByVendorDetail">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		SELECT NAME, TYPE, DATE, NUMBER, PAYMENT_TERMS, DUE_DATE,
 		ITEM_NAME,
 		PURCHASE_DESCRIPTION, QUANTITY, UNIT_PRICE, AMOUNT,
 		SHIPMENT_OR_DELIVERY_DATE ,VOID, REFERENCE, TRANSACTION_ID FROM
-		SALES_PURCHASES_VIEW WHERE VENDOR_ID IS NOT NULL AND
+		SALES_PURCHASES_VIEW WHERE VENDOR_ID IS NOT NULL AND COMPANY_ID:=companyId AND COMPANY_ID=:companyId AND
 		DATE BETWEEN
 		:startDate AND :endDate ORDER BY NAME
 	</sql-query>
 	<sql-query name="getPurchasesByVendorDetailForParticularVendor">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="vendorName" type="String" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
@@ -482,38 +483,38 @@
 		ITEM_NAME,
 		PURCHASE_DESCRIPTION, QUANTITY, UNIT_PRICE, AMOUNT,
 		SHIPMENT_OR_DELIVERY_DATE ,VOID, REFERENCE, TRANSACTION_ID FROM
-		SALES_PURCHASES_VIEW WHERE VENDOR_ID IS NOT NULL AND
+		SALES_PURCHASES_VIEW WHERE VENDOR_ID IS NOT NULL AND COMPANY_ID:=companyId AND
 		NAME=:vendorName
 		AND DATE BETWEEN :startDate AND :endDate ORDER BY NAME
 	</sql-query>
 
 	<!--Query for Purchases By Vendor Summary Report -->
 	<sql-query name="getPurchasesByVendorSummary">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		SELECT NAME , GROUP_NAME, SUM(AMOUNT) FROM
 		SALES_PURCHASES_VIEW WHERE
-		VENDOR_ID IS NOT NULL AND DATE BETWEEN
+		VENDOR_ID IS NOT NULL AND COMPANY_ID:=companyId AND DATE BETWEEN
 		:startDate AND :endDate GROUP BY
 		NAME ORDER BY NAME
 	</sql-query>
 
 	<!--Query for Purchases By Item Detail Report -->
 	<sql-query name="getPurchasesByItemDetail">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		SELECT ITEM_TYPE, ITEM_NAME, TYPE, NUMBER, DATE, PAYMENT_TERMS,
 		DUE_DATE, QUANTITY, UNIT_PRICE, AMOUNT, SHIPMENT_OR_DELIVERY_DATE ,
 		VOID, REFERENCE, TRANSACTION_ID, UNIT FROM
 		SALES_PURCHASES_VIEW WHERE
-		VENDOR_ID IS NOT NULL AND ITEM_TYPE IS NOT
+		VENDOR_ID IS NOT NULL AND COMPANY_ID:=companyId AND ITEM_TYPE IS NOT
 		NULL AND DATE BETWEEN
 		:startDate AND :endDate ORDER BY ITEM_TYPE,ITEM_NAME
 	</sql-query>
 	<sql-query name="getPurchasesByItemDetailForParticularItem">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="itemName" type="String" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
@@ -521,7 +522,7 @@
 		DUE_DATE, QUANTITY, UNIT_PRICE, AMOUNT, SHIPMENT_OR_DELIVERY_DATE ,
 		VOID, REFERENCE, TRANSACTION_ID FROM
 		SALES_PURCHASES_VIEW WHERE
-		VENDOR_ID IS NOT NULL AND ITEM_TYPE IS NOT
+		VENDOR_ID IS NOT NULL AND COMPANY_ID:=companyId AND ITEM_TYPE IS NOT
 		NULL AND ITEM_NAME=:itemName
 		AND DATE
 		BETWEEN :startDate AND :endDate ORDER BY ITEM_TYPE,ITEM_NAME
@@ -529,13 +530,13 @@
 
 	<!--Query for Purchases By Item Summary Report -->
 	<sql-query name="getPurchasesByItemSummary">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		SELECT ITEM_TYPE,ITEM_NAME, ITEM_GROUP, SUM(QUANTITY) ,
 		SUM(AMOUNT)
 		FROM SALES_PURCHASES_VIEW WHERE VENDOR_ID IS NOT
-		NULL AND ITEM_TYPE IS
+		NULL AND COMPANY_ID:=companyId AND ITEM_TYPE IS
 		NOT NULL AND DATE
 		BETWEEN :startDate AND :endDate GROUP BY ITEM_NAME
 		HAVING ITEM_TYPE IS
@@ -544,7 +545,7 @@
 
 	<!--Query for Customer Transaction History Report -->
 	<sql-query name="getCustomerTransactionHistory">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<query-param name="start" type="long" />
@@ -574,7 +575,7 @@
 		TRANSACTION_HISTORY_VIEW TV
 
 		WHERE
-		TV.CUSTOMER_ID IS NOT NULL AND
+		TV.CUSTOMER_ID IS NOT NULL AND TV.COMPANY_ID:=companyId AND
 		TV.DATE
 		BETWEEN :startDate AND :endDate AND TV.VOID = false
 
@@ -586,7 +587,7 @@
 
 	<!--Query for Vendor Transaction History Report -->
 	<sql-query name="getVendorTransactionHistory">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<query-param name="start" type="long" />
@@ -618,7 +619,7 @@
 
 		WHERE
 		TV.VENDOR_ID IS
-		NOT NULL AND
+		NOT NULL AND TV.COMPANY_ID:=companyId AND 
 		TV.DATE BETWEEN :startDate AND :endDate AND TV.VOID =
 		false
 
@@ -631,7 +632,7 @@
 
 	<!--Query for TrialBalance Report -->
 	<sql-query name="getTrialBalance">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<return-scalar column="ID" type="long" />
@@ -686,13 +687,13 @@
 		AT.ACCOUNT_ID)
 		END) AS AMOUNT,
 		A.FLOW AS FLOW
-		FROM ACCOUNT A
+		FROM ACCOUNT A WHERE A.COMPANY_ID=:companyId
 		order by
 		A.A_TYPE, A.A_NUMBER
 	</sql-query>
 	<!-- Query for Balance Sheet, Profit & Loss and Cash Flow Statement Reports -->
 	<sql-query name="getBalanceSheet">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		SELECT
@@ -732,7 +733,7 @@
 		FROM ACCOUNT A
 		WHERE A.A_TYPE
 		NOT IN (14,15,16,17,18)
-		and A.BASE_TYPE !=0
+		and A.BASE_TYPE !=0 AND A.COMPANY_ID=:companyId
 		ORDER BY
 		A.BASE_TYPE,
 		A.SUB_BASE_TYPE,
@@ -746,7 +747,7 @@
 	<!--This query should be used for the Profit And Loss Report and For the 
 		Cash Flow Statement(while clicking Net Income entry). -->
 	<sql-query name="getProfitAndLoss">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<query-param name="startDate1" type="long" />
@@ -827,7 +828,7 @@
 		WHERE A.A_TYPE
 		IN (14,15,16,17,18)
 		and A.BASE_TYPE !=0
-
+		AND A.COMPANY_ID=:companyId
 		ORDER BY A.BASE_TYPE,
 		A.SUB_BASE_TYPE,
 		A.GROUP_TYPE,
@@ -840,7 +841,7 @@
 	<!--This query should be used for the Balance Sheet Report(while clicking 
 		Net Income entry). -->
 	<sql-query name="getProfitAndLoss_Closing_postings_Included">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		SELECT
@@ -866,7 +867,7 @@
 		TRANSACTION T
 		ON AT.TRANSACTION_ID=T.ID
 		WHERE AT.ACCOUNT_ID =A.ID
-		AND
+		AND AND AT.COMPANY_ID=:companyId
 		AT.IS_CASH_BASIS_ENTRY='FALSE'
 		AND T.T_DATE BETWEEN
 		:startDate AND
@@ -891,7 +892,7 @@
 
 
 	<sql-query name="getCashFlowStatement">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<query-param name="start" type="long" />
@@ -945,7 +946,7 @@
 		A.GROUP_TYPE AS GROUP_TYPE
 		FROM ACCOUNT A
 		WHERE A.A_TYPE IN
-		(3,4,6,7,8,9,10,11,12,13)
+		(3,4,6,7,8,9,10,11,12,13) AND A.COMPANY_ID=:companyId
 		ORDER BY
 		A.CASHFLOW_CATEGORY DESC,
 		A.A_TYPE,
@@ -958,7 +959,7 @@
 		Closing Postings -->
 	<!-- This query is usefull to display the net Income in Cash Flow Statement -->
 	<sql-query name="getNetIncome">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		select (case when (select sum(at1.amount) from ACCOUNT_TRANSACTION at1
@@ -992,7 +993,7 @@
 		at1.account_id = a.id AND at1.IS_CLOSING_FISCALYEAR_ENTRY
 		='FALSE' AND
 		at1.IS_CASH_BASIS_ENTRY='FALSE' left join TRANSACTION t on
-		at1.transaction_id = t.id where a.a_type in(15,16,18) and
+		at1.transaction_id = t.id where a.a_type in(15,16,18) and a.company_id=:companyId and
 		t.t_date
 		between :startDate and :endDate AND t.STATUS != 3 ) end)
 		as amount
@@ -1003,7 +1004,7 @@
 		Postings -->
 	<!-- This query is usefull to display the net Income in Balance Sheet Report -->
 	<sql-query name="getNetIncome_Closing_postings_Included">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		SELECT
@@ -1041,7 +1042,7 @@
 		AT1.IS_CASH_BASIS_ENTRY='FALSE' LEFT JOIN
 		TRANSACTION t ON
 		AT1.transaction_id = t.id WHERE a.a_type IN(15,16,18)
-		AND
+		AND a.company_id=:companyId AND
 		t.t_date
 		BETWEEN :startDate AND :endDate AND t.STATUS != 3 ) end)
 		AS amount
@@ -1050,7 +1051,7 @@
 
 	<!--Query for Aged Debtors Report -->
 	<sql-query name="getAgedDebtors">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<return-scalar column="CUSTOMER" type="string" />
@@ -1171,14 +1172,14 @@
 		BETWEEN :startDate AND :endDate AND T.T_TYPE IN
 		(4,5,8,10,16,29)
 		AND
-		T.STATUS != 3
+		T.STATUS != 3 AND T.COMPANY_ID=:companyId
 		GROUP BY T.ID ,P.NAME
 		ORDER BY P.NAME, T.T_TYPE, T.T_DATE
 	</sql-query>
 
 	<!--Query for Aged Creditors Report -->
 	<sql-query name="getAgedCreditors">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<return-scalar column="VENDOR" type="string" />
@@ -1268,7 +1269,7 @@
 		ON PT.ID = EB.PAYMENT_TERM_ID
 		WHERE
 		T.T_DATE BETWEEN :startDate AND :endDate AND T.T_TYPE IN (6, 10,
-		14, 11)
+		14, 11) AND T.COMPANY_ID=:companyId 
 		AND T.STATUS != 3
 		GROUP BY T.ID,P.NAME ORDER BY P.NAME,
 		T.T_TYPE, T_DATE
@@ -1276,7 +1277,7 @@
 
 	<!--Query for Amounts Due to Vendor Report -->
 	<sql-query name="getAmountsDueToVendor">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<return-scalar column="NAME" type="string" />
@@ -1329,13 +1330,13 @@
 		WHERE
 		P.TYPE IN (2,4) AND P.PAYEE_SINCE
 		BETWEEN :startDate AND :endDate
-		AND
+		AND P.COMPANY_ID=:companyId AND 
 		T.STATUS != 3
 	</sql-query>
 
 	<!--Query for Most Profitable Customers Report -->
 	<sql-query name="getMostProfitableCustomers">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<return-scalar column="CUSTOMER_NAME" type="string" />
@@ -1436,7 +1437,7 @@
 		C.CUSTOMER_GROUP_ID
 		WHERE T.T_DATE BETWEEN :startDate AND
 		:endDate
-		AND
+		AND T.COMPANY_ID=:companyId AND 
 		T.STATUS != 3
 		GROUP BY P.NAME
 		ORDER BY P.NAME
@@ -1445,7 +1446,7 @@
 	</sql-query>
 
 	<sql-query name="getProfitabilityByCustomerDetail_InvoicedLines">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="customerId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
@@ -1554,7 +1555,7 @@
 		WHERE P.ID=:customerId AND T.T_DATE
 		BETWEEN
 		:startDate AND :endDate
-		AND T.STATUS != 3
+		AND T.STATUS != 3 AND T.COMPANY_ID=:companyId
 		ORDER BY P.NAME, ITEM_NAME
 
 	</sql-query>
@@ -1562,7 +1563,7 @@
 
 	<!--Query for Transaction Detail By TaxItem Report -->
 	<sql-query name="getTransactionDetailByTaxItem">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 
@@ -1644,7 +1645,7 @@
 
 		where
 		t.t_date BETWEEN :startDate AND :endDate
-		AND t.STATUS != 3
+		AND t.STATUS != 3 AND t.COMPANY_ID=:companyId
 		order by
 		tig.name,p1.name
 
@@ -1686,7 +1687,7 @@
 
 	<!--Query for Transaction Detail By TaxItem Report for a Particular TaxCode. -->
 	<sql-query name="getTransactionDetailByTaxItemForParticularTaxItem">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<query-param name="taxItemName" type="String" />
@@ -1771,7 +1772,7 @@
 
 
 		where
-		tig.name=:taxItemName AND t.t_date BETWEEN :startDate AND :endDate
+		tig.name=:taxItemName AND t.COMPANY_ID=:companyId AND t.t_date BETWEEN :startDate AND :endDate
 		AND
 		t.STATUS != 3 order by tig.name,p1.name
 
@@ -1815,11 +1816,9 @@
 
 	<sql-query name="getAccountRegister">
 		<query-param name="accountId" type="long" />
-
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
-
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_NUMBER" type="string" />
@@ -1983,7 +1982,7 @@
 		LEFT OUTER JOIN
 		BANK_ACCOUNT BA ON BA.ID = A.ID
 		WHERE
-		A.ID=:accountId AND
+		A.ID=:accountId AND AND A.COMPANY_ID=:companyId AND 
 		T.T_DATE
 		BETWEEN :startDate AND :endDate
 		AND T.STATUS != 3
@@ -2065,7 +2064,7 @@
 	</sql-query>
 
 	<sql-query name="getPurchaseReportItems">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 
@@ -2102,7 +2101,7 @@
 		left outer join
 		ITEM IT
 		on IT.ID = TI.ITEM_ID
-		where T.T_TYPE IN (2,6,14)
+		where T.T_TYPE IN (2,6,14) AND T.COMPANY_ID=:companyId 
 		AND TI.ITEM_ID is not null AND T.T_DATE BETWEEN
 		:startDate AND :endDate
 		AND T.STATUS != 3
@@ -2110,7 +2109,7 @@
 	</sql-query>
 
 	<sql-query name="getSalesReportItems">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 
@@ -2152,12 +2151,12 @@
 		IN (1,4,8) AND TI.ITEM_ID is not null AND T.T_DATE BETWEEN
 		:startDate
 		AND :endDate
-		AND T.STATUS != 3
+		AND T.STATUS != 3 AND T.COMPANY_ID=:companyId
 		GROUP BY IT.NAME order by IT.TYPE
 	</sql-query>
 
 	<sql-query name="getTransactionHistoryCustomers">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 
@@ -2209,7 +2208,7 @@
 		left outer join
 		PAYEE P
 		ON P.ID = C.ID
-		where T.T_TYPE IN
+		where T.COMPANY_ID=:companyId AND T.T_TYPE IN
 		(1,4,5,8,10,12,15) AND C.ID IS NOT NULL AND T.T_DATE
 		BETWEEN :startDate
 		AND :endDate
@@ -2217,7 +2216,7 @@
 		order by P.NAME
 	</sql-query>
 	<sql-query name="getTransactionHistoryVendors">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 
@@ -2269,7 +2268,7 @@
 		left outer join
 		PAYEE P
 		ON P.ID = V.ID
-		where T.T_TYPE IN
+		where T.COMPANY_ID=:companyId AND T.T_TYPE IN
 		(2,3,6,10,11,14,15) AND V.ID IS NOT NULL AND T.T_DATE
 		BETWEEN
 		:startDate AND :endDate
@@ -2280,7 +2279,7 @@
 
 
 	<sql-query name="getTransactionDetailByAccount">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 
@@ -2387,14 +2386,14 @@
 		or p.id = cr.customer_id
 		left outer join
 		USERS u on u.id = cp.employee
-		where t.t_type not in (9) AND t.t_date BETWEEN :startDate AND :endDate
+		where t.COMPANY_ID=:companyId AND t.t_type not in (9) AND t.t_date BETWEEN :startDate AND :endDate
 		AND at.amount != 0 AND t.STATUS != 3
 		order by a.name,t.t_date
 
 	</sql-query>
 
 	<sql-query name="getTransactionDetailByAccount_ForParticularAccount">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="accountName" type="String" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
@@ -2501,7 +2500,7 @@
 		or p.id = cr.customer_id
 		left outer join
 		USERS u on u.id = cp.employee
-		where a.name=:accountName and t.t_type not in (9) AND t.t_date BETWEEN
+		where t.COMPANY_ID=:companyId AND a.name=:accountName and t.t_type not in (9) AND t.t_date BETWEEN
 		:startDate AND :endDate
 		AND at.amount != 0 AND t.STATUS != 3
 		order by
@@ -2511,14 +2510,15 @@
 
 	<sql-query name="getCountOfParentAccount">
 		<query-param name="parentId" type="long" />
-
+		<query-param name="companyId" type="long" />
 		SELECT COUNT(*) FROM ACCOUNT A
-		WHERE A.PARENT_ID =:parentId
+		WHERE A.PARENT_ID =:parentId AND A.COMPANY_ID=:companyId
 
 	</sql-query>
 	<sql-query name="getProfitAndLossByLocation">
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
+		<query-param name="companyId" type="long" />
 		SELECT
 		A.ID AS ACCOUNT_ID,
 		A.NAME AS ACCOUNT_NAME,
@@ -2583,7 +2583,7 @@
 		A.A_TYPE
 		AND A.A_TYPE IN (14,15,16,17,18)
 		AND
-		A.BASE_TYPE !=0
+		A.BASE_TYPE !=0 AND A.COMPANY_ID=:companyId
 		GROUP BY
 		A.ID,L.ID ORDER BY A.BASE_TYPE,
 		A.SUB_BASE_TYPE,
@@ -2950,7 +2950,7 @@
 		:startDate AND :endDate order by a.name </sql-query> -->
 
 	<sql-query name="getSalesTaxLiabilityReport">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<query-param name="start" type="long" />
@@ -3025,7 +3025,7 @@
 		LEFT OUTER JOIN WRITE_CHECKS
 		WC ON WC.ID = T.ID
 
-		where T.T_DATE BETWEEN :startDate AND :endDate AND
+		where T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :startDate AND :endDate AND
 		T.STATUS != 3
 		GROUP BY T_ITEM.ID, TRC.RATE ORDER BY
 		TAXAGENCY_NAME,TIG.NAME
@@ -3036,19 +3036,19 @@
 	<!-- Queries required for UK Version -->
 
 	<sql-query name="get_BOX1_VATdueOnSalesAndOtherOutputs">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		SELECT SUM(CASE WHEN T.T_TYPE=12 AND
 		T.SHOW_PRICES_WITH_VAT_OR_VAT_INCLUSIVE= 'false' THEN 0.0 ELSE
 		T.TOTAL_VAT END) AS VAT_TOTAL
-		FROM TRANSACTION T WHERE T.T_TYPE IN
+		FROM TRANSACTION T WHERE T.COMPANY_ID=:companyId AND T.T_TYPE IN
 		('1','4','8','12) AND T.STATUS != 3
 
 	</sql-query>
 
 	<sql-query name="get_BOX2_VATdueOnAcquisitionsFormOtherECMemberStates">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 
@@ -3056,7 +3056,7 @@
 		FROM TRANSACTION T WHERE T.T_TYPE
 		IN ('2','3','6','14') AND
 		T.EU_VAT_EXEMPT_PAYEE='TRUE' AND T.STATUS !=
-		3
+		3 AND T.COMPANY_ID=:companyId
 
 	</sql-query>
 
@@ -3072,7 +3072,7 @@
 	</sql-query>
 
 	<sql-query name="get_BOX6_TotalOfSalesAndOtherOutputsExcludingVAT">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 
@@ -3081,24 +3081,24 @@
 		T.NET_AMOUNT END)
 		AS NET_AMOUNT FROM TRANSACTION T WHERE T.T_TYPE IN
 		('1','4','8','12')
-		AND T.STATUS != 3
+		AND T.STATUS != 3 AND T.COMPANY_ID=:companyId
 
 	</sql-query>
 
 	<sql-query name="get_BOX7_TotalOfPurchasesAndOtherInputsExcludingVAT">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 
 		SELECT SUM(T.NET_AMOUNT) AS NET_AMOUNT
 		FROM TRANSACTION T WHERE
-		T.T_TYPE IN ('2','3','6','14') AND T.STATUS != 3
+		T.T_TYPE IN ('2','3','6','14') AND T.STATUS != 3 AND T.COMPANY_ID=:companyId
 
 	</sql-query>
 
 	<sql-query
 		name="get_BOX8_TotalSuppliesOfGoodsExcludingVAT_toOtherECMemberStates">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 
@@ -3106,12 +3106,12 @@
 		AS NET_AMOUNT FROM TRANSACTION T WHERE
 		T.T_TYPE IN ('1','4','8') AND
 		T.EU_VAT_EXEMPT_PAYEE='TRUE' AND T.STATUS
-		!= 3
+		!= 3 AND T.COMPANY_ID=:companyId
 	</sql-query>
 
 	<sql-query
 		name="get_BOX9_TotalAcquisitionOfGoodsExcludingVAT_fromOtherECMemberStates">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 
@@ -3119,13 +3119,13 @@
 		FROM TRANSACTION T WHERE
 		T.T_TYPE IN ('2','3','6','14') AND
 		T.EU_VAT_EXEMPT_PAYEE='TRUE' AND
-		T.STATUS != 3
+		T.STATUS != 3 AND T.COMPANY_ID=:companyId
 
 	</sql-query>
 
 
 	<sql-query name="getDepositDetail">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 
@@ -3258,6 +3258,7 @@
 
 
 		WHERE
+		T.COMPANY_ID=:companyId
 		T.T_DATE BETWEEN :startDate AND :endDate AND
 		T.T_TYPE IN
 		(1,10,12,16,29) AND
@@ -3290,7 +3291,7 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<query-param name="paymentmethod" type="string" />
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="ID" type="string" />
 		<return-scalar column="TYPE" type="int" />
 		<return-scalar column="NUMBER" type="string" />
@@ -3367,12 +3368,13 @@
 		TI.ACCOUNT_ID))
 		OR ((T.T_TYPE != 11 OR PB.PAYBILL_TYPE != 1) AND A.ID =
 		AT.ACCOUNT_ID)
-		WHERE T.T_DATE BETWEEN :startDate AND :endDate AND
+		WHERE T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :startDate AND :endDate AND
 		T.PAYMENT_METHOD
 		LIKE :paymentmethod AND P.NAME IS NOT NULL GROUP BY
 		T.ID, A.ID
 	</sql-query>
 	<sql-query name="getSalesByLocationDetail">
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 
@@ -3394,11 +3396,12 @@
 		LEFT OUTER JOIN ITEM I ON I.ID = TI.ITEM_ID
 		LEFT OUTER JOIN LOCATION L ON L.ID = T.LOCATION_ID
 		WHERE T.T_DATE
-		BETWEEN :startDate AND :endDate AND T.T_TYPE IN (8,1)
+		BETWEEN :startDate AND :endDate AND T.T_TYPE IN (8,1) AND T.COMPANY_ID=:companyId
 		ORDER BY
 		L.LOCATION_NAME
 	</sql-query>
 	<sql-query name="getSalesByLocationSummary">
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		SELECT
@@ -3414,11 +3417,12 @@
 		LEFT OUTER JOIN ITEM I ON
 		I.ID = TI.ITEM_ID
 		LEFT OUTER JOIN LOCATION L ON L.ID = T.LOCATION_ID
-		WHERE T.T_DATE BETWEEN :startDate AND :endDate AND T.T_TYPE IN (8,1)
+		WHERE T.T_DATE BETWEEN :startDate AND :endDate AND T.T_TYPE IN (8,1) AND T.COMPANY_ID=:companyId
 		GROUP BY L.LOCATION_NAME
 		ORDER BY L.LOCATION_NAME
 	</sql-query>
 	<sql-query name="getSalesByLocationDetailForLocation">
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<query-param name="locationName" type="String" />
@@ -3440,7 +3444,7 @@
 		A ON A.ID = TI.ACCOUNT_ID
 		LEFT OUTER JOIN ITEM I ON I.ID = TI.ITEM_ID
 		LEFT OUTER JOIN LOCATION L ON L.ID = T.LOCATION_ID
-		WHERE T.T_DATE
+		WHERE T.COMPANY_ID=:companyId AND T.T_DATE
 		BETWEEN :startDate AND :endDate AND T.T_TYPE IN (8,1) AND
 		CASE WHEN
 		:locationName IS NULL
@@ -3454,7 +3458,7 @@
 	<sql-query name="getSalesByClassDetail">
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
-
+		<query-param name="companyId" type="long" />
 		SELECT
 		T.T_DATE AS TRANSACTIONDATE,
 		T.T_TYPE AS TRANSACTIONTYPE,
@@ -3472,12 +3476,13 @@
 		A ON A.ID = TI.ACCOUNT_ID
 		LEFT OUTER JOIN ITEM I ON I.ID = TI.ITEM_ID
 		LEFT OUTER JOIN ACCOUNTER_CLASS AC ON AC.ID = T.TRANSACTION_ACCOUNTER_CLASS
-		WHERE T.T_DATE
+		WHERE T.COMPANY_ID=:companyId AND T.T_DATE
 		BETWEEN :startDate AND :endDate AND T.T_TYPE IN (8,1)
 		ORDER BY
 		AC.CLASS_NAME
 	</sql-query>
 	<sql-query name="getSalesByClassSummary">
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		SELECT
@@ -3493,7 +3498,7 @@
 		LEFT OUTER JOIN ITEM I ON
 		I.ID = TI.ITEM_ID
 		LEFT OUTER JOIN ACCOUNTER_CLASS AC ON AC.ID = T.TRANSACTION_ACCOUNTER_CLASS
-		WHERE T.T_DATE BETWEEN :startDate AND :endDate AND T.T_TYPE IN (8,1)
+		WHERE T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :startDate AND :endDate AND T.T_TYPE IN (8,1)
 		GROUP BY AC.CLASS_NAME
 		ORDER BY AC.CLASS_NAME
 	</sql-query>
@@ -3501,7 +3506,7 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<query-param name="className" type="String" />
-
+		<query-param name="companyId" type="long" />
 		SELECT
 		T.T_DATE AS TRANSACTIONDATE,
 		T.T_TYPE AS TRANSACTIONTYPE,
@@ -3519,7 +3524,7 @@
 		A ON A.ID = TI.ACCOUNT_ID
 		LEFT OUTER JOIN ITEM I ON I.ID = TI.ITEM_ID
 		LEFT OUTER JOIN ACCOUNTER_CLASS AC ON AC.ID = T.TRANSACTION_ACCOUNTER_CLASS
-		WHERE T.T_DATE
+		WHERE T.COMPANY_ID=:companyId AND T.T_DATE
 		BETWEEN :startDate AND :endDate AND T.T_TYPE IN (8,1) AND
 		CASE WHEN
 		:className IS NULL
@@ -3531,6 +3536,7 @@
 		ORDER BY AC.CLASS_NAME
 	</sql-query>
 	<sql-query name="getProfitAndLossByClass">
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		SELECT
@@ -3589,7 +3595,7 @@
 		ACCOUNTER_CLASS AC
 		ON
 		AC.ID=T.TRANSACTION_ACCOUNTER_CLASS
-		WHERE
+		WHERE T.COMPANY_ID=:companyId AND 
 		T.T_DATE BETWEEN :startDate AND :endDate
 		AND
 		AC.ID IS NOT NULL

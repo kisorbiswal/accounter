@@ -291,12 +291,13 @@ public class ReportsGenerator {
 					transactionDetailByTaxItemServerReport
 							.onResultSuccess(finaTool
 									.getTransactionDetailByTaxItem(startDate,
-											endDate));
+											endDate, getCompany().getID()));
 				} else {
 					transactionDetailByTaxItemServerReport
 							.onResultSuccess(finaTool
 									.getTransactionDetailByTaxItem(status,
-											startDate, endDate));
+											startDate, endDate, getCompany()
+													.getID()));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -419,7 +420,8 @@ public class ReportsGenerator {
 			customerTransactionHistoryServerReport.resetVariables();
 			try {
 				customerTransactionHistoryServerReport.onResultSuccess(finaTool
-						.getCustomerTransactionHistory(startDate, endDate));
+						.getCustomerTransactionHistory(startDate, endDate,
+								getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -441,7 +443,7 @@ public class ReportsGenerator {
 				customerTransactionHistoryServerReport1
 						.onResultSuccess(finaTool
 								.getCustomerTransactionHistory(startDate,
-										endDate));
+										endDate, getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -461,7 +463,8 @@ public class ReportsGenerator {
 			salesByCustomerSummaryServerReport.resetVariables();
 			try {
 				salesByCustomerSummaryServerReport.onResultSuccess(finaTool
-						.getSalesByCustomerSummary(startDate, endDate));
+						.getSalesByCustomerSummary(startDate, endDate,
+								getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -481,14 +484,13 @@ public class ReportsGenerator {
 			salesByCustomerDetailServerReport.resetVariables();
 			try {
 				if (status == null || status.isEmpty()) {
-					salesByCustomerDetailServerReport
-							.onResultSuccess(finaTool
-									.getSalesByCustomerDetailReport(startDate,
-											endDate));
+					salesByCustomerDetailServerReport.onResultSuccess(finaTool
+							.getSalesByCustomerDetailReport(startDate, endDate,
+									getCompany().getID()));
 				} else {
 					salesByCustomerDetailServerReport.onResultSuccess(finaTool
 							.getSalesByCustomerDetailReport(status, startDate,
-									endDate));
+									endDate, getCompany().getID()));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -509,7 +511,8 @@ public class ReportsGenerator {
 			salesByItemSummaryServerReport.resetVariables();
 			try {
 				salesByItemSummaryServerReport.onResultSuccess(finaTool
-						.getSalesByItemSummary(startDate, endDate));
+						.getSalesByItemSummary(startDate, endDate, getCompany()
+								.getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -530,10 +533,12 @@ public class ReportsGenerator {
 			try {
 				if (status == null || status.isEmpty()) {
 					salesByItemDetailServerReport.onResultSuccess(finaTool
-							.getSalesByItemDetail(startDate, endDate));
+							.getSalesByItemDetail(startDate, endDate,
+									getCompany().getID()));
 				} else {
 					salesByItemDetailServerReport.onResultSuccess(finaTool
-							.getSalesByItemDetail(status, startDate, endDate));
+							.getSalesByItemDetail(status, startDate, endDate,
+									getCompany().getID()));
 				}
 
 			} catch (Exception e) {
@@ -594,7 +599,8 @@ public class ReportsGenerator {
 			salesClosedOrderServerReport.resetVariables();
 			try {
 				salesClosedOrderServerReport.onResultSuccess(finaTool
-						.getClosedSalesOrders(startDate, endDate));
+						.getClosedSalesOrders(startDate, endDate, getCompany()
+								.getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -666,7 +672,8 @@ public class ReportsGenerator {
 			vendorTransactionHistoryServerReport.resetVariables();
 			try {
 				vendorTransactionHistoryServerReport.onResultSuccess(finaTool
-						.getVendorTransactionHistory(startDate, endDate));
+						.getVendorTransactionHistory(startDate, endDate,
+								getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -686,7 +693,8 @@ public class ReportsGenerator {
 			purchaseByVendorSummaryServerReport.resetVariables();
 			try {
 				purchaseByVendorSummaryServerReport.onResultSuccess(finaTool
-						.getPurchasesByVendorSummary(startDate, endDate));
+						.getPurchasesByVendorSummary(startDate, endDate,
+								getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -708,11 +716,12 @@ public class ReportsGenerator {
 				if (status == null || status.isEmpty()) {
 
 					purchaseByVendorDetailServerReport.onResultSuccess(finaTool
-							.getPurchasesByVendorDetail(startDate, endDate));
+							.getPurchasesByVendorDetail(startDate, endDate,
+									getCompany().getID()));
 				} else {
 					purchaseByVendorDetailServerReport.onResultSuccess(finaTool
 							.getPurchasesByVendorDetail(status, startDate,
-									endDate));
+									endDate, getCompany().getID()));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -734,7 +743,8 @@ public class ReportsGenerator {
 			try {
 
 				purchaseByItemSummaryServerReport.onResultSuccess(finaTool
-						.getPurchasesByItemSummary(startDate, endDate));
+						.getPurchasesByItemSummary(startDate, endDate,
+								getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -755,11 +765,12 @@ public class ReportsGenerator {
 			try {
 				if (status == null || status.isEmpty()) {
 					purchaseByItemDetailServerReport.onResultSuccess(finaTool
-							.getPurchasesByItemDetail(startDate, endDate));
+							.getPurchasesByItemDetail(startDate, endDate,
+									getCompany().getID()));
 				} else {
 					purchaseByItemDetailServerReport.onResultSuccess(finaTool
 							.getPurchasesByItemDetail(status, startDate,
-									endDate));
+									endDate, getCompany().getID()));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -823,7 +834,8 @@ public class ReportsGenerator {
 			purchaseClosedOrderServerReport.resetVariables();
 			try {
 				purchaseClosedOrderServerReport.onResultSuccess(finaTool
-						.getClosedPurchaseOrders(startDate, endDate));
+						.getClosedPurchaseOrders(startDate, endDate,
+								getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1028,7 +1040,8 @@ public class ReportsGenerator {
 			salesTaxLiabilityServerReport.resetVariables();
 			try {
 				salesTaxLiabilityServerReport.onResultSuccess(finaTool
-						.getSalesTaxLiabilityReport(startDate, endDate));
+						.getSalesTaxLiabilityReport(startDate, endDate,
+								getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1089,7 +1102,8 @@ public class ReportsGenerator {
 			mostProfitableCustomerServerReport.resetVariables();
 			try {
 				mostProfitableCustomerServerReport.onResultSuccess(finaTool
-						.getMostProfitableCustomers(startDate, endDate));
+						.getMostProfitableCustomers(startDate, endDate,
+								getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1130,7 +1144,8 @@ public class ReportsGenerator {
 			amountsDueToVendorServerReport.resetVariables();
 			try {
 				amountsDueToVendorServerReport.onResultSuccess(finaTool
-						.getAmountsDueToVendor(startDate, endDate));
+						.getAmountsDueToVendor(startDate, endDate, getCompany()
+								.getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

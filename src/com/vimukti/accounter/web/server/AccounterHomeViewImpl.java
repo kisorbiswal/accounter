@@ -799,7 +799,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			ClientFinanceDate[] dates = getFinanceTool()
-					.getMinimumAndMaximumTransactionDate();
+					.getMinimumAndMaximumTransactionDate(getCompanyId());
 			transactionDates.add(dates[0]);
 			transactionDates.add(dates[1]);
 		} catch (Exception e) {
