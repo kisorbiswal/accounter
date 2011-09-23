@@ -534,6 +534,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				});
 		amountsForm = new DynamicForm();
 		amountsForm.setWidth("100%");
+		prodAndServiceHLay.add(prodAndServiceForm1);
+		prodAndServiceHLay.add(prodAndServiceForm2);
 		if (isTrackTax()) {
 			if (isTaxPerDetailLine()) {
 				DynamicForm priceLevelForm = new DynamicForm();
@@ -544,6 +546,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 						transactionTotalNonEditableText,
 						paymentsNonEditableText, balanceDueNonEditableText);
 				amountsForm.setStyleName("invoice-total");
+				prodAndServiceHLay.add(amountsForm);
+				prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
+						ALIGN_RIGHT);
 				// forms.add(priceLevelForm);
 				// prodAndServiceHLay.add(priceLevelForm);
 				// prodAndServiceHLay.setCellHorizontalAlignment(priceLevelForm,
@@ -617,9 +622,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		VerticalPanel panel = new VerticalPanel();
 		panel.setHorizontalAlignment(ALIGN_RIGHT);
 		panel.setWidth("100%");
-
-		prodAndServiceHLay.add(prodAndServiceForm1);
-		prodAndServiceHLay.add(prodAndServiceForm2);
 
 		// if (getCompany().getPreferences().isRegisteredForVAT()) {
 		// prodAndServiceHLay.setCellWidth(amountsForm, "30%");
