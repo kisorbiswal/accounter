@@ -1489,9 +1489,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
-		</many-to-one>
 		<property name="adjustmentPriceValue" type="double">
 			<column name="ADJUSTMENT_PRICE_VALUE" />
 		</property>

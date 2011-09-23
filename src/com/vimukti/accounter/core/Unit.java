@@ -1,14 +1,11 @@
 package com.vimukti.accounter.core;
 
-
-public class Unit implements IAccounterServerCore, Cloneable {
-	private long id;
+public class Unit extends CreatableObject implements IAccounterServerCore,
+		Cloneable {
 
 	private Measurement measurement;
 	private String type;
 	private double factor;
-
-	private int version;
 
 	public Unit() {
 	}
@@ -42,18 +39,9 @@ public class Unit implements IAccounterServerCore, Cloneable {
 		this.factor = factor;
 	}
 
-	public long getId() {
-		return id;
-	}
-
 	public Unit clone() {
 		Unit unitClone = (Unit) this.clone();
 		return unitClone;
-	}
-
-	@Override
-	public long getID() {
-		return id;
 	}
 
 	@Override
@@ -62,14 +50,4 @@ public class Unit implements IAccounterServerCore, Cloneable {
 		return true;
 	}
 
-	@Override
-	public int getVersion() {
-		return version;
-	}
-
-	@Override
-	public void setVersion(int version) {
-		this.version=version;
-		
-	}
 }

@@ -12,6 +12,7 @@ public class Currency implements IAccounterServerCore, INamedObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	int version;
 
 	public long getId() {
