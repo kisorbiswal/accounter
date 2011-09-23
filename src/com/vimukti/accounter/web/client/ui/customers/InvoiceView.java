@@ -491,11 +491,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				InvoiceView.this.updateNonEditableItems();
 			}
 
-			@Override
-			protected void addEmptyRecords() {
-				// TODO Auto-generated method stub
-
-			}
 		};
 		customerTransactionTable.setDisabled(isInViewMode());
 		itemTableButton = new AddNewButton();
@@ -905,7 +900,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			ClientInvoice inv = (ClientInvoice) this.transaction;
 
 			if (inv.getCustomer() == customer.getID()) {
-				this.customerTransactionTable.clear();
+				// this.customerTransactionTable.clear();
 				this.customerTransactionTable.setAllRows(inv
 						.getTransactionItems());
 				selectedSalesOrder = inv.getSalesOrder();
