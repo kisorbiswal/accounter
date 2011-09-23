@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui;
 
 import java.util.List;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -81,8 +82,8 @@ public class LocationGroupListDialog extends GroupDialog<ClientLocation> {
 
 	public void showAddEditGroupDialog(ClientLocation rec) {
 		clientLocation = rec;
-		locationGroupDg = new NewLocationDialog(this, Accounter.constants()
-				.locationGroup(), "", clientLocation);
+		locationGroupDg = new NewLocationDialog(this, Accounter.messages()
+				.locationTracking(Global.get().Location()), "", clientLocation);
 		locationGroupDg.show();
 	}
 
