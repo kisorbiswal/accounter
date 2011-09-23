@@ -139,19 +139,7 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 			@Override
 			public void onClick(ClickEvent event) {
 				// for checking the From and To email address
-
-				if (from.trim().length() == 0) {
-					Accounter.showError(Accounter.constants().invalidEmail());
-				}
-				if (UIUtils.isValidEmail(from)
-						&& UIUtils.isValidMultipleEmailIds(toAddress.getValue()
-								.toString())) {
-					updateControls();
-				} else {
-					Accounter.showError(Accounter.constants().invalidEmail());
-
-				}
-
+				onSave(false);
 			}
 
 		});
@@ -248,8 +236,28 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 
 	@Override
 	public ValidationResult validate() {
+		ValidationResult result = super.validate();
+		if (from.trim().length() == 0
+				&& toAddress.getValue().trim().length() == 0) {
+			result.addError(fromAddcombo, Accounter.messages().pleaseEnter(
+					Accounter.constants().to() + " & "
+							+ Accounter.constants().from()));
+		} else if (UIUtils.isValidEmail(from)
+				&& UIUtils.isValidMultipleEmailIds(toAddress.getValue()
+						.toString())) {
+			updateControls();
+		} else {
+			if (from.trim().length() == 0) {
+				result.addError(fromAddcombo, Accounter.messages().pleaseEnter(
+						Accounter.constants().from()));
+			} else if (toAddress.getValue().trim().length() == 0) {
+				result.addError(toAddress, Accounter.messages().pleaseEnter(
+						Accounter.constants().to()));
+			} else
+				result.addError(from, Accounter.constants().invalidEmail());
 
-		return super.validate();
+		}
+		return result;
 	}
 
 	@Override
