@@ -546,7 +546,7 @@ public class JournalEntry extends Transaction {
 
 	public JournalEntry(TAXAdjustment adjustment, String number,
 			int journalEntryType) {
-
+		setCompany(adjustment.getCompany());
 		this.type = Transaction.TYPE_JOURNAL_ENTRY;
 		this.journalEntryType = journalEntryType;
 		this.number = number;
