@@ -22,6 +22,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
@@ -37,6 +38,7 @@ import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.MakeDepositAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
+import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -59,7 +61,7 @@ public class MakeDepositView extends
 
 	AmountField cashBackAmountText;
 	AmountLabel totText;
-
+	TAXCodeCombo taxCodeSelect;
 	TextItem cashBackMemoText, totAmtText;
 	DynamicForm memoForm, totForm;
 	DynamicForm form1, form2;
@@ -1233,6 +1235,12 @@ public class MakeDepositView extends
 
 	@Override
 	protected void addItemTransactionItem(ClientTransactionItem item) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void taxCodeSelected(ClientTAXCode taxCode) {
 		// TODO Auto-generated method stub
 
 	}
