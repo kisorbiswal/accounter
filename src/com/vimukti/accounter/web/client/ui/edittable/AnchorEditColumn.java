@@ -19,11 +19,16 @@ public abstract class AnchorEditColumn<T> extends EditColumn<T> {
 		Anchor anchor = (Anchor) panel.getWidget();
 		String value = getValue(context.getRow());
 		anchor.setText(value);
+		if (isEnable() && !context.isDesable()) {
+			panel.setStyleName("editTable_enable_anchor");
+		} else {
+			panel.setStyleName("editTable_disable_anchor");
+		}
 	}
 
 	@Override
 	public IsWidget getWidget(final RenderContext<T> context) {
-		final SimplePanel panel = new SimplePanel();
+		SimplePanel panel = new SimplePanel();
 		Anchor anchor = new Anchor();
 		configure(anchor);
 		anchor.addClickHandler(new ClickHandler() {
@@ -32,8 +37,6 @@ public abstract class AnchorEditColumn<T> extends EditColumn<T> {
 			public void onClick(ClickEvent event) {
 				if (isEnable() && !context.isDesable()) {
 					AnchorEditColumn.this.onClick(context.getRow());
-				} else {
-					panel.setStyleName("editTable_disable_anchor");
 				}
 			}
 		});
