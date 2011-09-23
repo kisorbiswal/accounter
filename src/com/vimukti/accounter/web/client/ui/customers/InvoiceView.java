@@ -635,7 +635,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		leftVLay.setHorizontalAlignment(ALIGN_LEFT);
 		leftVLay.setWidth("100%");
 		leftVLay.add(custForm);
-		leftVLay.add(shipToAddress);
+		if (getCompany().getPreferences().isDoProductShipMents())
+			leftVLay.add(shipToAddress);
 
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setHorizontalAlignment(ALIGN_RIGHT);
