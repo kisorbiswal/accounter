@@ -68,6 +68,8 @@ public abstract class AbstractGlobal implements IGlobal {
 			return constants().Account().trim();
 		case ClientAccount.LEGAND:
 			return constants().Ledger().trim();
+		case ClientAccount.CATEGORY:
+			return constants().Category().trim();
 		default:
 			return constants().Account().trim();
 		}
@@ -81,6 +83,8 @@ public abstract class AbstractGlobal implements IGlobal {
 			return constants().account().trim();
 		case ClientAccount.LEGAND:
 			return constants().ledger().trim();
+		case ClientAccount.CATEGORY:
+			return constants().category().trim();
 		default:
 			return constants().account().trim();
 		}

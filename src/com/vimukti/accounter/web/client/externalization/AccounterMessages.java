@@ -855,4 +855,6 @@ public interface AccounterMessages extends Messages {
 
 	public String phoneNumber(String catagory);
 
+	public String addNew(String account);
+
 }

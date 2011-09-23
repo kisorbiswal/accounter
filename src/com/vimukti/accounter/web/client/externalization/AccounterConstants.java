@@ -4908,4 +4908,6 @@ public interface AccounterConstants extends Constants {
 
 	public String taxItemForSales();
 
+	public String Category();
+
 }

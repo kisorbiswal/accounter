@@ -81,7 +81,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return bankingConstants.addNewCategory();
+			return Accounter.messages().addNew(Global.get().Account());
 		else
 			return "";
 	}
