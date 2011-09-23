@@ -196,7 +196,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	protected AmountLabel createVATTotalNonEditableItem() {
 
-		AmountLabel amountItem = new AmountLabel(Accounter.constants().vat());
+		AmountLabel amountItem = new AmountLabel(Accounter.constants().tax());
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -264,6 +264,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 				.tax(), true);
 		taxCodeCombo.setHelpInformation(true);
 		taxCodeCombo.setRequired(true);
+		taxCodeCombo.addStyleName("tax_combo");
 
 		taxCodeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
