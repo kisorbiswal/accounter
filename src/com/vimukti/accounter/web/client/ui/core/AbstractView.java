@@ -6,6 +6,7 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 public abstract class AbstractView<T> extends VerticalPanel {
 
@@ -115,6 +116,10 @@ public abstract class AbstractView<T> extends VerticalPanel {
 
 	public ClientCompanyPreferences getPreferences() {
 		return Accounter.getCompany().getPreferences();
+	}
+
+	public ICountryPreferences getCountryPreferences() {
+		return Accounter.getCompany().getCountryPreferences();
 	}
 
 	@Override

@@ -2822,13 +2822,14 @@ public class ClientCompany implements IAccounterCore {
 		}
 		return 0;
 	}
-	
-	public ICountryPreferences getCountryPreferences(){
-		if(countryPreferences==null){
-			countryPreferences=CountryPreferenceFactory.get(this.getCountry());
+
+	public ICountryPreferences getCountryPreferences() {
+		if (countryPreferences == null) {
+			countryPreferences = CountryPreferenceFactory
+					.get(this.getCountry());
 		}
 		return countryPreferences;
-		
+
 	}
 
 	public String getCountry() {

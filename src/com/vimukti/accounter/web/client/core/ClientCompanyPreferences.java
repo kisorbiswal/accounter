@@ -836,13 +836,13 @@ public class ClientCompanyPreferences implements IAccounterCore {
 		set(TRACK_EMPLOYEE_EXPENSES, value);
 	}
 
-	public boolean isChargeSalesTax() {
-		return get(CHARGE_SALES_TAX);
-	}
-
-	public void setChargeSalesTax(boolean value) {
-		set(CHARGE_SALES_TAX, value);
-	}
+	// public boolean isChargeSalesTax() {
+	// return get(CHARGE_SALES_TAX);
+	// }
+	//
+	// public void setChargeSalesTax(boolean value) {
+	// set(CHARGE_SALES_TAX, value);
+	// }
 
 	public boolean isKeepTrackofBills() {
 		return get(KEEP_TRACK_OF_BILLS);
@@ -993,13 +993,13 @@ public class ClientCompanyPreferences implements IAccounterCore {
 		set(CLASS_WARRNING, value);
 	}
 
-	public boolean isRegisteredForVAT() {
-		return get(TRACK_TAX);
-	}
-
-	public void setRegisteredForVAT(boolean value) {
-		set(TRACK_TAX, value);
-	}
+	// public boolean isRegisteredForVAT() {
+	// return get(TRACK_TAX);
+	// }
+	//
+	// public void setRegisteredForVAT(boolean value) {
+	// set(TRACK_TAX, value);
+	// }
 
 	/**
 	 * @return the fullName

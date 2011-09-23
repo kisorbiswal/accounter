@@ -976,8 +976,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		vatregno = new TextItem(Accounter.constants().vatRegistrationNumber());
 		vatregno.setHelpInformation(true);
 		vatregno.setWidth(100);
-		custTaxCode = new TAXCodeCombo(Accounter.messages().customerVATCode(
-				Global.get().Customer()), true);
+		custTaxCode = new TAXCodeCombo(constants.taxCode(), true);
 		custTaxCode.setHelpInformation(true);
 		custTaxCode
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
@@ -992,20 +991,12 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		termsForm.setFields(payMethSelect, payTermsSelect, custGroupSelect);
 
-		int accounttype = getCompany().getAccountingType();
-
-		if (accounttype == 1) {
-
-			if (getPreferences().isRegisteredForVAT()) {
-				termsForm.setFields(vatregno, custTaxCode);
+		if (getPreferences().isTrackTax()) {
+			if (getCountryPreferences().isVatAvailable()) {
+				termsForm.setFields(vatregno);
 			}
-		} else if (accounttype == 0) {
-			custTaxCode.setTitle(customerConstants.taxGroup());
+			termsForm.setFields(custTaxCode);
 			// custTaxCode.setRequired(true);
-			termsForm.setFields(payMethSelect, payTermsSelect, custGroupSelect);
-			if (getPreferences().isChargeSalesTax())
-				termsForm.setFields(custTaxCode);
-			
 		}
 		if (getPreferences().isDoProductShipMents()) {
 			termsForm.setFields(shipMethSelect);
