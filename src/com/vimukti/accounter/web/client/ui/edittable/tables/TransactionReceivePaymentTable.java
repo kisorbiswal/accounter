@@ -65,16 +65,24 @@ public abstract class TransactionReceivePaymentTable extends
 	}
 
 	protected void initColumns() {
-		this.addColumn(new CheckboxEditColumn<ClientTransactionReceivePayment>() {
+		this
+				.addColumn(new CheckboxEditColumn<ClientTransactionReceivePayment>() {
 
-			@Override
-			protected void onChangeValue(boolean value,
-					ClientTransactionReceivePayment row) {
-				onSelectionChanged(row, value);
-				updateAmountReceived();
-			}
+					@Override
+					protected void onChangeValue(boolean value,
+							ClientTransactionReceivePayment row) {
+						onSelectionChanged(row, value);
+						updateAmountReceived();
+					}
 
-		});
+					@Override
+					protected Boolean getValue(
+							ClientTransactionReceivePayment row) {
+						// TODO Auto-generated method stub
+						return null;
+					}
+
+				});
 		if (canEdit) {
 			TextEditColumn<ClientTransactionReceivePayment> dateCoulmn = new TextEditColumn<ClientTransactionReceivePayment>() {
 
@@ -226,7 +234,7 @@ public abstract class TransactionReceivePaymentTable extends
 				return Accounter.constants().discountDate();
 			}
 		};
-		//this.addColumn(discountDateColumn);
+		// this.addColumn(discountDateColumn);
 
 		AnchorEditColumn<ClientTransactionReceivePayment> cashDiscountColumn = new AnchorEditColumn<ClientTransactionReceivePayment>() {
 
@@ -406,9 +414,8 @@ public abstract class TransactionReceivePaymentTable extends
 
 	public void openCashDiscountDialog(
 			final ClientTransactionReceivePayment selectedObject) {
-		cashDiscountDialog = new CashDiscountDialog(canEdit,
-				selectedObject.getCashDiscount(),
-				getCashDiscountAccount(selectedObject));
+		cashDiscountDialog = new CashDiscountDialog(canEdit, selectedObject
+				.getCashDiscount(), getCashDiscountAccount(selectedObject));
 		// } else {
 		// cashDiscountDialog.setCanEdit(canEdit);
 		// cashDiscountDialog.setCashDiscountValue(selectedObject

@@ -62,6 +62,12 @@ public abstract class TransactionPayBillTable extends
 				onSelectionChanged(row, value);
 			}
 
+			@Override
+			protected Boolean getValue(ClientTransactionPayBill row) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
 		});
 
 		if (canEdit) {
@@ -695,9 +701,9 @@ public abstract class TransactionPayBillTable extends
 		// discountAccount = getCompany().getAccountByName(
 		// companyConstants.discounts());
 		// }
-		cashDiscountDialog = new CashDiscountDialog(canEdit,
-				selectedObject.getCashDiscount(), getCompany().getAccount(
-						selectedObject.getDiscountAccount()));
+		cashDiscountDialog = new CashDiscountDialog(canEdit, selectedObject
+				.getCashDiscount(), getCompany().getAccount(
+				selectedObject.getDiscountAccount()));
 		// } else {
 		// cashDiscountDialog.setCanEdit(canEdit);
 		// cashDiscountDialog.setCashDiscountValue(selectedObject
@@ -799,8 +805,8 @@ public abstract class TransactionPayBillTable extends
 			if (DecimalUtil.isEquals(totalValue, 0)) {
 				result.addError(this, Accounter.constants()
 						.totalPaymentNotZeroForSelectedRecords());
-			} else if (DecimalUtil.isGreaterThan(totalValue,
-					transactionPayBill.getAmountDue())) {
+			} else if (DecimalUtil.isGreaterThan(totalValue, transactionPayBill
+					.getAmountDue())) {
 				result.addError(this, Accounter.constants()
 						.totalPaymentNotExceedDueForSelectedRecords());
 			}
