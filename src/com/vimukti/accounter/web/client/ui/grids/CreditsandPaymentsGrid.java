@@ -64,7 +64,7 @@ public class CreditsandPaymentsGrid extends
 	 */
 	private void selectAllValues() {
 		for (ClientCreditsAndPayments cpRecord : this.getRecords()) {
-			if (!isSelected(cpRecord)) {
+			if (isSelected(cpRecord)) {
 				((CheckBox) this.body.getWidget(indexOf(cpRecord), 0))
 						.setValue(true);
 				updateValue(cpRecord);
@@ -79,7 +79,7 @@ public class CreditsandPaymentsGrid extends
 
 	public void resetAllValues() {
 		for (ClientCreditsAndPayments creditsAndPayments : getRecords()) {
-			if (isSelected(creditsAndPayments)) {
+			if (!isSelected(creditsAndPayments)) {
 				resetValidValue(creditsAndPayments);
 			}
 		}
