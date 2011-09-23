@@ -1704,3 +1704,9 @@ input[type="text"]{
 .tax_combo{
 	width: 95px;
 }
+.gwt-DisclosurePanel-closed{
+	border-bottom:3px solid #3299a4;
+}
+.gwt-DisclosurePanel-closed table td:last-child{
+	color:#3299a4;
+}
