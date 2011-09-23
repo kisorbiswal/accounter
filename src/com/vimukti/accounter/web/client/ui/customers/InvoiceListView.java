@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.grids.InvoiceListGrid;
@@ -258,7 +259,12 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 		if (dateRange.equals(Accounter.constants().thisMonth())) {
 			startDate = new ClientFinanceDate(date.getYear(), date.getMonth(),
 					1);
-			endDate = new ClientFinanceDate();
+			Calendar endCal = Calendar.getInstance();
+			endCal.setTime(new ClientFinanceDate().getDateAsObject());
+			endCal.set(Calendar.DAY_OF_MONTH,
+					endCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+			endDate = new ClientFinanceDate(endCal.getTime());
+
 		}
 		if (dateRange.equals(Accounter.constants().lastWeek())) {
 			endDate = getWeekStartDate();
