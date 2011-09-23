@@ -36,7 +36,7 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 	private void createControls() {
 		listGridView.setType(AccounterCoreType.PAYMENT_TERM);
-		listGridView.setCellsWidth(new Integer[] { 120, 140, 130, 135 });
+		listGridView.setCellsWidth(new Integer[] { 120, 140, 130 /* , 135 */});
 		listGridView.setSize("515px", "500px");
 		listGridView
 				.addRecordClickHandler(new GridRecordClickHandler<ClientPaymentTerms>() {
@@ -92,12 +92,12 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 		if (rec != null) {
 			dialog.payTermText.setValue(rec.getName());
 			dialog.descText.setValue(rec.getDescription());
-			if (rec.getDue() != 0) {
-				dialog.dueSelect.setValue(dialog.dueValues[rec.getDue() - 1]);
-			}
+			// if (rec.getDue() != 0) {
+			// dialog.dueSelect.setValue(dialog.dueValues[rec.getDue() - 1]);
+			// }
 			dialog.dayText.setValue(String.valueOf(rec.getDueDays()));
-			dialog.discText.setValue(String.valueOf(rec.getDiscountPercent()));
-			dialog.discDayText.setValue(String.valueOf(rec.getIfPaidWithIn()));
+			// dialog.discText.setValue(String.valueOf(rec.getDiscountPercent()));
+			// dialog.discDayText.setValue(String.valueOf(rec.getIfPaidWithIn()));
 		}
 
 		dialog.setCallback(new ActionCallback<ClientPaymentTerms>() {
@@ -117,26 +117,24 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 			clientPaymentTerms
 					.setName(dialog.payTermText.getValue() != null ? dialog.payTermText
-							.getValue().toString()
-							: "");
+							.getValue().toString() : "");
 			clientPaymentTerms
 					.setDescription(dialog.descText.getValue() != null ? dialog.descText
-							.getValue().toString()
-							: "");
-			clientPaymentTerms.setIfPaidWithIn(UIUtils.toInt(dialog.discDayText
-					.getValue() != null ? dialog.discDayText.getValue() : "0"));
-			clientPaymentTerms.setDiscountPercent(UIUtils
-					.toDbl(dialog.discText.getValue().toString().replaceAll(
-							"%", "") != null ? dialog.discText.getValue()
-							.toString().replaceAll("%", "") : "0"));
+							.getValue().toString() : "");
+			// clientPaymentTerms.setIfPaidWithIn(UIUtils.toInt(dialog.discDayText
+			// .getValue() != null ? dialog.discDayText.getValue() : "0"));
+			// clientPaymentTerms.setDiscountPercent(UIUtils
+			// .toDbl(dialog.discText.getValue().toString()
+			// .replaceAll("%", "") != null ? dialog.discText
+			// .getValue().toString().replaceAll("%", "") : "0"));
 
-			for (int i = 0; i < dialog.dueValues.length; i++) {
-				if (dialog.dueSelect.getValue() != null) {
-					if (dialog.dueSelect.getValue().toString().equals(
-							dialog.dueValues[i]))
-						clientPaymentTerms.setDue(i + 1);
-				}
-			}
+			// for (int i = 0; i < dialog.dueValues.length; i++) {
+			// if (dialog.dueSelect.getValue() != null) {
+			// if (dialog.dueSelect.getValue().toString()
+			// .equals(dialog.dueValues[i]))
+			// clientPaymentTerms.setDue(i + 1);
+			// }
+			// }
 			clientPaymentTerms.setDueDays(UIUtils.toInt(dialog.dayText
 					.getValue() != null ? dialog.dayText.getValue() : "0"));
 		} else {
@@ -144,29 +142,27 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 			clientPaymentTerms
 					.setName(dialog.payTermText.getValue() != null ? dialog.payTermText
-							.getValue().toString()
-							: "");
+							.getValue().toString() : "");
 			clientPaymentTerms
 					.setDescription(dialog.descText.getValue() != null ? dialog.descText
-							.getValue().toString()
-							: "");
-			clientPaymentTerms
-					.setIfPaidWithIn(UIUtils.toInt(dialog.discDayText
-							.getNumber() != null ? dialog.discDayText
-							.getNumber() : "0"));
-			clientPaymentTerms.setDiscountPercent(UIUtils
-					.toDbl(dialog.discText.getPercentage().toString()
-							.replaceAll("%", "") != null ? dialog.discText
-							.getPercentage().toString().replaceAll("%", "")
-							: "0"));
-
-			for (int i = 0; i < dialog.dueValues.length; i++) {
-				if (dialog.dueSelect.getValue() != null) {
-					if (dialog.dueSelect.getValue().toString().equals(
-							dialog.dueValues[i]))
-						clientPaymentTerms.setDue(i + 1);
-				}
-			}
+							.getValue().toString() : "");
+			// clientPaymentTerms
+			// .setIfPaidWithIn(UIUtils.toInt(dialog.discDayText
+			// .getNumber() != null ? dialog.discDayText
+			// .getNumber() : "0"));
+			// clientPaymentTerms.setDiscountPercent(UIUtils
+			// .toDbl(dialog.discText.getPercentage().toString()
+			// .replaceAll("%", "") != null ? dialog.discText
+			// .getPercentage().toString().replaceAll("%", "")
+			// : "0"));
+			//
+			// for (int i = 0; i < dialog.dueValues.length; i++) {
+			// if (dialog.dueSelect.getValue() != null) {
+			// if (dialog.dueSelect.getValue().toString()
+			// .equals(dialog.dueValues[i]))
+			// clientPaymentTerms.setDue(i + 1);
+			// }
+			// }
 			clientPaymentTerms.setDueDays(UIUtils.toInt(dialog.dayText
 					.getNumber() != null ? dialog.dayText.getNumber() : "0"));
 		}
@@ -204,11 +200,11 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 			case 1:
 				return paymentTerms.getDescription();
 			case 2:
-				return paymentTerms.getIfPaidWithIn();
-			case 3:
-				return DataUtils.getNumberAsPercentString(paymentTerms
-						.getDiscountPercent()
-						+ "");
+				return paymentTerms.getDueDays();
+				// case 3:
+				// return DataUtils.getNumberAsPercentString(paymentTerms
+				// .getDiscountPercent()
+				// + "");
 			}
 		}
 		return null;
@@ -218,8 +214,8 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 	public String[] setColumns() {
 		return new String[] { Accounter.constants().name(),
 				Accounter.constants().description(),
-				Accounter.constants().paidWithin(),
-				Accounter.constants().cashDiscount() };
+				Accounter.constants().dueDays(),
+		/* Accounter.constants().cashDiscount() */};
 	}
 
 	@Override
@@ -233,8 +229,7 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 		ValidationResult result = new ValidationResult();
 		if (paymentTerm != null) {
 			if (validateName(dialog.payTermText.getValue() != null ? dialog.payTermText
-					.getValue().toString()
-					: "")) {
+					.getValue().toString() : "")) {
 				result.addError(this, Accounter.constants().alreadyExist());
 			}
 		} else {
