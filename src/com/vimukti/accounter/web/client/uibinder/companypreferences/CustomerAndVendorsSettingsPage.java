@@ -98,11 +98,11 @@ public class CustomerAndVendorsSettingsPage extends AbstractCompanyInfoPanel {
 
 	@Override
 	public void onSave() {
-		if (chargeTaxYesRadioButton.getValue()) {
-			companyPreferences.setChargeSalesTax(true);
-		} else {
-			companyPreferences.setChargeSalesTax(false);
-		}
+		// if (chargeTaxYesRadioButton.getValue()) {
+		// companyPreferences.setChargeSalesTax(true);
+		// } else {
+		// companyPreferences.setChargeSalesTax(false);
+		// }
 		if (managingBillYesRadioButton.getValue()) {
 			companyPreferences.setKeepTrackofBills(true);
 		} else {

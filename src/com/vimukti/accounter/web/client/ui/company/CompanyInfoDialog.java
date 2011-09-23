@@ -373,8 +373,8 @@ public class CompanyInfoDialog extends BaseDialog<ClientAddress> {
 		if (companyPreferences == null) {
 			companyPreferences = new ClientCompanyPreferences();
 		}
-		companyPreferences
-				.setChargeSalesTax(getBooleanValue(doupaySalesChecBox));
+		// companyPreferences
+		// .setChargeSalesTax(getBooleanValue(doupaySalesChecBox));
 		companyPreferences.setVATregistrationNumber(vatRegNumber.getValue()
 				.toString());
 

@@ -593,12 +593,23 @@ public class VendorBillView extends
 		// netAmount.setWidth((netAmount.getMainWidget().getOffsetWidth() +
 		// "102")
 		// + "px");
-		if (isTrackTax()) {
+		HorizontalPanel taxPanel = new HorizontalPanel();
+		taxPanel.setWidth("100%");
+		if (isTrackPaidTax()) {
+			if (!isTaxPerDetailLine()) {
+				DynamicForm form = new DynamicForm();
+				form.setFields(taxCodeSelect);
+				taxPanel.add(form);
+				taxPanel.setCellHorizontalAlignment(form,
+						HasHorizontalAlignment.ALIGN_LEFT);
+			}
 			totalForm.setFields(netAmount, vatTotalNonEditableText,
 					transactionTotalNonEditableText);
+
 		} else {
 			totalForm.setFields(transactionTotalNonEditableText);
 		}
+		taxPanel.add(totalForm);
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.add(tdsForm);
@@ -640,7 +651,7 @@ public class VendorBillView extends
 
 		// vpanel.add(hpanel);
 		bottomLayout.add(memoForm);
-		bottomLayout.add(totalForm);
+		bottomLayout.add(taxPanel);
 		bottomLayout.setCellWidth(totalForm, "30%");
 		bottompanel.add(vpanel);
 		bottompanel.add(verticalPanel);
@@ -809,7 +820,11 @@ public class VendorBillView extends
 
 		if (isTrackTax()) {
 			transaction.setNetAmount(netAmount.getAmount());
+			if (vatinclusiveCheck != null)
+				transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
+						.getValue());
 		}
+
 		// enterBill.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 		// .getValue());
 	}

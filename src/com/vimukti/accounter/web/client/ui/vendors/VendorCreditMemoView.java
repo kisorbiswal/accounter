@@ -180,7 +180,6 @@ public class VendorCreditMemoView extends
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 
-		
 		if (this.isInViewMode()) {
 			// FiXME--The form need to be disabled
 			// phoneForm.setDisabled(true);
@@ -194,7 +193,7 @@ public class VendorCreditMemoView extends
 
 		vatTotalNonEditableText = createVATTotalNonEditableItem();
 
-	//	Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
+		// Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 		// menuButton = createAddNewButton();
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
 				isTrackTax(), isTaxPerDetailLine()) {
@@ -272,13 +271,13 @@ public class VendorCreditMemoView extends
 		vendorForm = UIUtils.form(Global.get().vendor());
 		vendorForm.setWidth("50%");
 		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect);
-		
+
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
 			vendorForm.setFields(classListCombo);
 		}
-		
+
 		vendorForm.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.constants().width(), "190px");
 
@@ -309,8 +308,9 @@ public class VendorCreditMemoView extends
 		// netAmount.setWidth((netAmount.getMainWidget().getOffsetWidth() + 100)
 		// + "px");
 
-		totalForm.setFields(netAmount, vatTotalNonEditableText,
-				transactionTotalNonEditableText);
+		taxCodeSelect = createTaxCodeSelectItem();
+
+		totalForm.addStyleName("tax-form");
 		HorizontalPanel bottomLayout = new HorizontalPanel();
 		bottomLayout.setWidth("100%");
 		leftVLay.add(vendorForm);
@@ -328,13 +328,22 @@ public class VendorCreditMemoView extends
 		VerticalPanel bottomPanel = new VerticalPanel();
 		bottomPanel.setWidth("100%");
 
-		if (getPreferences().isTrackPaidTax()) {
+		if (isTrackPaidTax()) {
+
+			totalForm.setFields(netAmount, vatTotalNonEditableText,
+					transactionTotalNonEditableText);
+
 			VerticalPanel vPanel = new VerticalPanel();
 			vPanel.setWidth("100%");
 			vPanel.setHorizontalAlignment(ALIGN_RIGHT);
 			vPanel.add(totalForm);
 
 			bottomLayout1.add(memoForm);
+			if (!isTaxPerDetailLine()) {
+				DynamicForm taxForm = new DynamicForm();
+				taxForm.setItems(taxCodeSelect);
+				bottomLayout1.add(taxForm);
+			}
 			bottomLayout1.add(totalForm);
 			bottomLayout1.setCellWidth(totalForm, "30%");
 
@@ -602,8 +611,13 @@ public class VendorCreditMemoView extends
 
 	@Override
 	protected void taxCodeSelected(ClientTAXCode taxCode) {
-		// TODO Auto-generated method stub
-
+		this.taxCode = taxCode;
+		if (taxCode != null) {
+			taxCodeSelect.setComboItem(taxCode);
+			vendorAccountTransactionTable.setTaxCode(taxCode.getID(), true);
+			vendorItemTransactionTable.setTaxCode(taxCode.getID(), true);
+		} else
+			taxCodeSelect.setValue("");
 	}
 
 	@Override

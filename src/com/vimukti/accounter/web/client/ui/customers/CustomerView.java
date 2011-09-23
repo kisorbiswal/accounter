@@ -553,18 +553,11 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		// Setting customer Group
 		data.setCustomerGroup(Utility.getID(selectCustomerGroupFromDetailsTab));
-		if (getCompany().getPreferences().isChargeSalesTax()) {
+		if (getPreferences().isTrackTax()) {
 			// Setting Tax Group
-			data.setTAXCode(Utility.getID(selectVatCodeFromDetailsTab));
-		}
-
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			// setting Vat Code
 			data.setTAXCode(Utility.getID(selectVatCodeFromDetailsTab));
 			if (vatregno.getValue() != null)
 				data.setVATRegistrationNumber(vatregno.getValue().toString());
-
-			// Setting Company to the customer
 		}
 
 	}

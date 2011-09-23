@@ -837,8 +837,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		clientCompany.setBankAccountNo(getStringValue(bankAccountText));
 		clientCompany.setSortCode(getStringValue(sortCodeText));
 
-		companyPreferences
-				.setChargeSalesTax(getBooleanValue(doupaySalesChecBox));
+		// companyPreferences
+		// .setChargeSalesTax(getBooleanValue(doupaySalesChecBox));
 		companyPreferences.setVATregistrationNumber(vatRegNumber.getValue()
 				.toString());
 

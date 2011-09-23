@@ -437,13 +437,19 @@ public class CashExpenseView extends
 		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");
 
-		if (getPreferences().isTrackPaidTax()) {
+		if (isTrackPaidTax()) {
 			VerticalPanel vpanel = new VerticalPanel();
 			vpanel.setWidth("100%");
 			vpanel.setHorizontalAlignment(ALIGN_RIGHT);
 			vpanel.add(totalForm);
 
 			bottomLayout.add(memoForm);
+			if (!isTaxPerDetailLine()) {
+				taxCodeSelect = createTaxCodeSelectItem();
+				DynamicForm form = new DynamicForm();
+				form.setFields(taxCodeSelect);
+				bottomLayout.add(form);
+			}
 			bottomLayout.add(totalForm);
 			bottomLayout.setCellWidth(totalForm, "30%");
 
@@ -751,8 +757,14 @@ public class CashExpenseView extends
 
 	@Override
 	protected void taxCodeSelected(ClientTAXCode taxCode) {
-		// TODO Auto-generated method stub
-
+		this.taxCode = taxCode;
+		if (taxCode != null) {
+			taxCodeSelect.setComboItem(taxCode);
+			vendorAccountTransactionTable.setTaxCode(taxCode.getID(), true);
+			vendorItemTransactionTable.setTaxCode(taxCode.getID(), true);
+		} else {
+			taxCodeSelect.setValue("");
+		}
 	}
 
 	@Override

@@ -94,11 +94,11 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 			preferences.setSellProducts(true);
 		}
 
-		if (yesRadioButton.getValue()) {
-			preferences.setChargeSalesTax(true);
-		} else {
-			preferences.setChargeSalesTax(false);
-		}
+		// if (yesRadioButton.getValue()) {
+		// preferences.setChargeSalesTax(true);
+		// } else {
+		// preferences.setChargeSalesTax(false);
+		// }
 
 	}
 

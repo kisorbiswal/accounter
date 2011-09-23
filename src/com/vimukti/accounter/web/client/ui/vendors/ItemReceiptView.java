@@ -278,9 +278,15 @@ public class ItemReceiptView extends
 
 		HorizontalPanel bottomLayout = new HorizontalPanel();
 		bottomLayout.setWidth("100%");
-		if (getPreferences().isTrackPaidTax()) {
+		if (isTrackPaidTax()) {
 			bottomLayout.add(memoForm);
 			bottomLayout.add(vatCheckform);
+			if (!isTaxPerDetailLine()) {
+				taxCodeSelect = createTaxCodeSelectItem();
+				DynamicForm form = new DynamicForm();
+				form.setFields(taxCodeSelect);
+				bottomLayout.add(form);
+			}
 			bottomLayout.setCellHorizontalAlignment(vatCheckform, ALIGN_RIGHT);
 			bottomLayout.add(totalForm);
 			bottomLayout.setCellHorizontalAlignment(totalForm, ALIGN_RIGHT);
@@ -746,8 +752,14 @@ public class ItemReceiptView extends
 
 	@Override
 	protected void taxCodeSelected(ClientTAXCode taxCode) {
-		// TODO Auto-generated method stub
-
+		this.taxCode = taxCode;
+		if (taxCode != null) {
+			taxCodeSelect.setComboItem(taxCode);
+			vendorAccountTransactionTable.setTaxCode(taxCode.getID(), true);
+			vendorItemTransactionTable.setTaxCode(taxCode.getID(), true);
+		} else {
+			taxCodeSelect.setValue("");
+		}
 	}
 
 	@Override

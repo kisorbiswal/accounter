@@ -174,19 +174,24 @@ public class PurchaseOrderView extends
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
-		prodAndServiceHLay.add(amountsForm);
-		prodAndServiceHLay.setCellHorizontalAlignment(amountsForm, ALIGN_RIGHT);
-		prodAndServiceHLay.setCellVerticalAlignment(amountsForm,
-				HasVerticalAlignment.ALIGN_BOTTOM);
 
-		if (getPreferences().isTrackPaidTax()) {
+		if (isTrackPaidTax()) {
 
 			DynamicForm priceLevelForm = new DynamicForm();
 			// priceLevelForm.setCellSpacing(4);
 			// priceLevelForm.setWidth("70%");
 			// priceLevelForm.setFields(priceLevelSelect);
+
+			if (!isTaxPerDetailLine()) {
+				taxCodeSelect = createTaxCodeSelectItem();
+				DynamicForm form = new DynamicForm();
+				form.setFields(taxCodeSelect);
+				prodAndServiceHLay.add(form);
+
+			}
 			amountsForm.setFields(netAmount, vatTotalNonEditableText,
 					transactionTotalNonEditableText);
+
 			amountsForm.setStyleName("invoice-total");
 			// forms.add(priceLevelForm);
 			// prodAndServiceHLay.add(priceLevelForm);
@@ -198,7 +203,7 @@ public class PurchaseOrderView extends
 			// listforms.add(priceLevelForm);abstracttrans
 
 		} else {
-			taxCodeSelect = createTaxCodeSelectItem();
+
 			salesTaxTextNonEditable = createSalesTaxNonEditableLabel();
 			transactionTotalNonEditableText = createTransactionTotalNonEditableLabelforPurchase();
 			paymentsNonEditableText = new AmountLabel(
@@ -215,6 +220,7 @@ public class PurchaseOrderView extends
 			// prodAndServiceForm2.setFields(salesTaxTextNonEditable,
 			// transactionTotalNonEditableText, ,
 			// balanceDueNonEditableText, taxCodeSelect, priceLevelSelect);
+
 			amountsForm.setNumCols(4);
 			amountsForm.addStyleName("tax-form");
 			amountsForm.setFields(/* taxCodeSelect, salesTaxTextNonEditable, */
@@ -228,6 +234,10 @@ public class PurchaseOrderView extends
 			// prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
 			// ALIGN_RIGHT);
 		}
+		prodAndServiceHLay.add(amountsForm);
+		prodAndServiceHLay.setCellHorizontalAlignment(amountsForm, ALIGN_RIGHT);
+		prodAndServiceHLay.setCellVerticalAlignment(amountsForm,
+				HasVerticalAlignment.ALIGN_BOTTOM);
 
 		vendorCombo = new VendorCombo(Global.get().Vendor(), true);
 		vendorCombo.setRequired(true);
