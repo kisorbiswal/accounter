@@ -98,4 +98,6 @@ public interface AccounterComboMessges extends Messages {
 	public String newVendorGroup(String vendor);
 
 	public String newCustomerGroup(String customer);
+
+	public String newVATItemOrGroup();
 }

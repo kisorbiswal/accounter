@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
-import com.vimukti.accounter.web.client.core.ClientTAXItem;
+import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -140,9 +140,10 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		vatItemComboForPurchases.setDisabled(isInViewMode());
 		// vatItemComboForPurchases.setWidth(100);
 		vatItemComboForPurchases
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXItem>() {
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXItemGroup>() {
 					@Override
-					public void selectedComboBoxItem(ClientTAXItem selectItem) {
+					public void selectedComboBoxItem(
+							ClientTAXItemGroup selectItem) {
 						if (selectItem != null)
 							selectedVATPurchaseAcc = selectItem.getID();
 					}
@@ -156,10 +157,11 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		vatItemComboForSales.setRequired(true);
 		vatItemComboForSales.setDisabled(isInViewMode());
 		vatItemComboForSales
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXItem>() {
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXItemGroup>() {
 
 					@Override
-					public void selectedComboBoxItem(ClientTAXItem selectItem) {
+					public void selectedComboBoxItem(
+							ClientTAXItemGroup selectItem) {
 						if (selectItem != null)
 							selectedVATSAlesAcc = selectItem.getID();
 					}

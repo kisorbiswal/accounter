@@ -294,6 +294,10 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		if (difference.getAmount() != 0.0D) {
 			result.addError(difference, constants.differenceValidate());
 		}
+		if (clearedTransactions.isEmpty()) {
+			result.addError(clearedTransactions,
+					constants.selectTransactionToReconcile());
+		}
 		return result;
 	}
 

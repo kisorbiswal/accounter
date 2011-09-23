@@ -3463,9 +3463,9 @@ public interface AccounterConstants extends Constants {
 	public String totalOtherIncome();
 
 	public String totalOutStandingBalance();
-	
+
 	public String totalPaymentNotZeroForSelectedRecords();
-	
+
 	public String totalPaymentNotExceedDueForSelectedRecords();
 
 	public String totalPrice();
@@ -4843,8 +4843,8 @@ public interface AccounterConstants extends Constants {
 	public String showVatColumn();
 
 	public String pleaseSelectTaxCode();
-	public String tdsAmount();
 
+	public String tdsAmount();
 
 	public String tdsVendorsList();
 
@@ -4877,7 +4877,7 @@ public interface AccounterConstants extends Constants {
 	public String classTrackingDescription();
 
 	public String thereIsNoTrasationsToFile();
-	
+
 	public String productOrServiceItem();
 
 	public String sellPrice();
@@ -4896,5 +4896,6 @@ public interface AccounterConstants extends Constants {
 
 	public String enableTrackingDescription();
 
+	public String selectTransactionToReconcile();
 
 }
