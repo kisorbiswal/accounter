@@ -214,7 +214,7 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 	public String[] setColumns() {
 		return new String[] { Accounter.constants().name(),
 				Accounter.constants().description(),
-				Accounter.constants().dueDays(),
+				Accounter.constants().dueDate(),
 		/* Accounter.constants().cashDiscount() */};
 	}
 

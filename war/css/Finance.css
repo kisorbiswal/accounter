@@ -105,7 +105,7 @@ a,.falseHyperlink,.update-link span,.actionOver,#mainFooter a:hover,.hr-reports 
 	border: 1px solid #AAAAAA;
 }
 .gwt-SuggestBox,.gwt-TextBox,.gwt-PasswordTextBox,.gridTextBoxCell input[type="text"],.downarrow-button,
-.listgrid .custom-combo,.custom-combo{
+.listgrid .custom-combo,.custom-combo,.editTable_disable_anchor{
 	height: 22px !important;
 }
 .gridBody1 tr td div,.selectedview,.childNode tr td,.parentNode tr td,.gridBody tr td div,.gridHeader tr td div{
@@ -229,9 +229,8 @@ noindex:-o-prefocus,.table-checkbox-cell span input[type="checkbox"] {
 	background-color: inherit !important;
 }
 .dropdown-disabled input[disabled],.dropdown-disabled input[disabled='disabled']
-,.gwt-TextBox input[disabled],.gwt-TextBox input[disabled='disabled']{
+,.gwt-TextBox input[disabled],.gwt-TextBox input[disabled='disabled'],.editTable input[disabled],.editTable_disable_anchor{
 	background: none repeat scroll 0 0 #E6E0DA !important;
-	color: #b1a7ad;
 }
 textarea[disabled] {
 	background: none repeat scroll 0 0 #E6E0DA !important;
@@ -279,7 +278,7 @@ textarea[disabled] {
 .vender-form textarea,.previous-container,.next-container,.action-panel,
 .welcome-panel,.finance-portlet .portlet .decor10,.fullSizePanel,.biz-decor-panel,
 .view_help_panel iframe,.progress_panel_show table,.editTable .gwt-TextBox,.abstract_base_view,
-.gridEvenRow,.gridOddRow,.helpPanel,.view_panel,.HEADER_GRID,.financeWindow,.noScroll,.listgridfooter,
+.gridEvenRow,.gridOddRow,.helpPanel,.view_panel,.HEADER_GRID,.financeWindow,.noScroll,.listgridfooter,.editTable_disable_anchor,
 .gridHeader,.toolbox,.companyInfoPanel,.MENU_BAR_BG,.error-panel,.commentPanel,#mainFooter,.portlet-body,.empty_menu_bar,.address {
 	width: 100%;
 }
@@ -1712,4 +1711,7 @@ input[type="text"]{
 }
 .gwt-DisclosurePanel-closed table td:last-child{
 	color:#3299a4;
+}
+.editTable .selected,.editTable{
+background:#fff !important;
 }

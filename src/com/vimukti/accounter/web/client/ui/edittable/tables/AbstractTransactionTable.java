@@ -27,7 +27,6 @@ public abstract class AbstractTransactionTable extends
 
 	private final boolean isSales;
 
-
 	public AbstractTransactionTable(boolean needDiscount, boolean isSales) {
 		this.needDiscount = needDiscount;
 		this.isSales = isSales;
@@ -176,18 +175,16 @@ public abstract class AbstractTransactionTable extends
 				continue;
 			}
 			if (item.getAccountable() == null) {
-				result.addError(
-						"GridItem-" + item.getType(),
-						Accounter.messages().pleaseSelectCustomer(
+				result.addError("GridItem-" + item.getType(), Accounter
+						.messages().pleaseSelectCustomer(
 								Utility.getItemType(item.getType())));
 			}
 			if (getCompany().getPreferences().isTrackTax()
 					&& getCompany().getPreferences().isTaxPerDetailLine()) {
 				if (item.getTaxCode() == 0) {
-					result.addError(
-							"GridItemUK-" + item.getAccount(),
+					result.addError("GridItemUK-" + item.getAccount(),
 							Accounter.messages().pleaseEnter(
-									Accounter.constants().vatCode()));
+									Accounter.constants().taxCode()));
 				}
 
 			}
@@ -244,5 +241,4 @@ public abstract class AbstractTransactionTable extends
 		addEmptyRecords();
 	}
 
-	
 }
