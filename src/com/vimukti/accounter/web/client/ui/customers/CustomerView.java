@@ -371,13 +371,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// grid valid?
 
 		result.add(customerForm.validate());
-		if (company.getPreferences().isChargeSalesTax()) {
-			// FIXME:: its not required
-			if (!custTaxCode.validate())
-				result.addError(custTaxCode,
-						Accounter.messages()
-								.pleaseEnter(custTaxCode.getTitle()));
-		}
 		ClientFinanceDate asOfDate = balanceDate.getEnteredDate();
 
 		if (AccounterValidator.isPriorToCompanyPreventPostingDate(asOfDate)) {
@@ -997,15 +990,14 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		DynamicForm termsForm = UIUtils.form(customerConstants.terms());
 
+		termsForm.setFields(payMethSelect, payTermsSelect, custGroupSelect);
+
 		int accounttype = getCompany().getAccountingType();
 
 		if (accounttype == 1) {
-			termsForm.setFields(payMethSelect, payTermsSelect, custGroupSelect);
+
 			if (getPreferences().isRegisteredForVAT()) {
 				termsForm.setFields(vatregno, custTaxCode);
-			}
-			if (getPreferences().isDoProductShipMents()) {
-				termsForm.setFields(shipMethSelect);
 			}
 		} else if (accounttype == 0) {
 			custTaxCode.setTitle(customerConstants.taxGroup());
@@ -1013,11 +1005,11 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			termsForm.setFields(payMethSelect, payTermsSelect, custGroupSelect);
 			if (getPreferences().isChargeSalesTax())
 				termsForm.setFields(custTaxCode);
-			if (getPreferences().isDoProductShipMents()) {
-				termsForm.setFields(shipMethSelect);
-			}
+			
 		}
-
+		if (getPreferences().isDoProductShipMents()) {
+			termsForm.setFields(shipMethSelect);
+		}
 		salesPersonSelect.setDisabled(isInViewMode());
 		creditLimitText.setDisabled(isInViewMode());
 		// priceLevelSelect.setDisabled(isInViewMode());

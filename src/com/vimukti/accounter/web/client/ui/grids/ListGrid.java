@@ -213,8 +213,7 @@ public abstract class ListGrid<T> extends CustomTable {
 	}
 
 	public boolean isContinueToexecuteEvent(int row, int col) {
-		if ((this instanceof TransactionPayBillGrid)
-				|| (this instanceof TransactionReceivePaymentGrid)) {
+		if (this instanceof TransactionReceivePaymentGrid) {
 
 		} else {
 			rowFormatter.removeStyleName(currentRow, "selected");
