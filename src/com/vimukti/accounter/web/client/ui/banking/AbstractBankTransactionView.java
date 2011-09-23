@@ -119,9 +119,9 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button,
-				Accounter.messages().accounts(Global.get().Account()),
-				Accounter.constants().productOrServiceItem());
+		setMenuItems(button, Accounter.messages().accounts(
+				Global.get().Account()), Accounter.constants()
+				.productOrServiceItem());
 		// FinanceApplication.constants().comment());
 
 	}
@@ -144,7 +144,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	protected AmountField createVATTotalNonEditableItem() {
 
-		AmountField amountItem = new AmountField(Accounter.constants().vat(),
+		AmountField amountItem = new AmountField(Accounter.constants().tax(),
 				this);
 		amountItem.setDisabled(true);
 
@@ -154,7 +154,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	protected AmountLabel createVATTotalNonEditableLabel() {
 
-		AmountLabel amountItem = new AmountLabel(Accounter.constants().vat());
+		AmountLabel amountItem = new AmountLabel(Accounter.constants().tax());
 		amountItem.setDisabled(true);
 
 		return amountItem;
