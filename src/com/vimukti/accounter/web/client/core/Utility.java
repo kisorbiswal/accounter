@@ -316,76 +316,98 @@ public class Utility implements IsSerializable, Serializable {
 	// }-*/;
 
 	public static ClientFinanceDate getPaymentTermsDate(
-			ClientFinanceDate transactionDate, ClientPaymentTerms paymentTerm) {
-		ClientFinanceDate dueDate = new ClientFinanceDate();
-		dueDate = transactionDate;
+			ClientPaymentTerms paymentTerm) {
+		ClientFinanceDate dueDate = new ClientFinanceDate(new Date());
 
 		int dueDays = paymentTerm.getDueDays();
 		int day = dueDate.getDay();
 		int month = dueDate.getMonth();
 		int year = dueDate.getYear();
 
+		int month_days;
 		if (dueDays == 0) {
 			return new ClientFinanceDate(new Date());
 		} else {
 
 			if (month == 1 || month == 3 || month == 5 || month == 7
 					|| month == 8 || month == 10 || month == 12) {
+				month_days = 31;
 				day += dueDays;
-				if (day > 31) {
+				if (day > month_days) {
 					do {
 
-						day = day - 31;
+						day = day - month_days;
 						month += 1;
+						month_days = getNumberOfDays(month, year);
 						if (month > 12) {
 							year += 1;
 							month = 1;
 						}
-					} while (day > 31);
+					} while (day > month_days);
 
 				}
 			} else if (month == 4 || month == 6 || month == 9 || month == 11) {
+				month_days = 30;
 				day += dueDays;
-				if (day > 30) {
+				if (day > month_days) {
 					do {
-						day = day - 30;
+						day = day - month_days;
 						month += 1;
+						month_days = getNumberOfDays(month, year);
 						if (month > 12) {
 							year += 1;
 							month = 1;
 						}
-					} while (day > 30);
+					} while (day > month_days);
 
 				}
 			} else if (month == 2) {
 				int no_of_days;
 				if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0)) {
-					no_of_days = 29;
+					month_days = 29;
 
 				} else {
-					no_of_days = 28;
+					month_days = 28;
 				}
-				day += no_of_days;
-				if (day > no_of_days) {
+				day += dueDays;
+				if (day > month_days) {
 					do {
 
-						day = day - no_of_days;
+						day = day - month_days;
 						month += 1;
+						month_days = getNumberOfDays(month, year);
 						if (month > 12) {
 							year += 1;
 							month = 1;
 						}
-					} while (day > no_of_days);
+					} while (day > month_days);
 
 				}
 			}
 			System.err.println("mon" + month + "day" + day + "year" + year);
 
 			dueDate = new ClientFinanceDate();
-			dueDate.setDay(day);
+			dueDate.setDay(day - 1);
 			dueDate.setMonth(month);
 			dueDate.setYear(year);
 			return dueDate;
+		}
+
+	}
+
+	private static int getNumberOfDays(int month, int year) {
+
+		if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8
+				|| month == 10 || month == 12) {
+			return 31;
+		} else if (month == 4 || month == 6 || month == 9 || month == 11) {
+			return 30;
+		} else if (month == 2
+				&& (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))) {
+			return 29;
+
+		} else {
+			return 28;
 		}
 
 	}
