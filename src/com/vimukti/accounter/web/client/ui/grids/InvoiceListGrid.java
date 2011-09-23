@@ -231,8 +231,8 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 
 	@Override
 	protected int sort(InvoicesList obj1, InvoicesList obj2, int index) {
+		index = index - 1;
 		switch (index) {
-
 		case 0:
 			String type1 = Utility.getTransactionName((obj1.getType()));
 			String type2 = Utility.getTransactionName((obj2.getType()));
