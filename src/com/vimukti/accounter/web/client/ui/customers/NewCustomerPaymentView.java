@@ -233,7 +233,7 @@ public class NewCustomerPaymentView extends
 				depositInCombo.setComboItem(depositInAccount);
 
 			paymentMethodCombo.setValue(transaction.getPaymentMethod());
-			if (transaction.getPaymentMethod().equals(Global.get().check())) {
+			if (transaction.getPaymentMethod().equals(constants.check())) {
 				printCheck.setDisabled(isInViewMode());
 				checkNo.setDisabled(isInViewMode());
 			} else {

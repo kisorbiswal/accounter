@@ -2,6 +2,12 @@ package com.vimukti.accounter.web.client.util;
 
 public abstract class AbstractCountryPreferences implements ICountryPreferences {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	@Override
 	public OrganizationType[] getOrganizationTypes() {
 		// TODO Auto-generated method stub
@@ -76,11 +82,6 @@ public abstract class AbstractCountryPreferences implements ICountryPreferences 
 		return false;
 	}
 
-	@Override
-	public boolean isServiceTaxAndSalesTaxSame() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	@Override
 	public boolean isServiceTaxDeductable() {

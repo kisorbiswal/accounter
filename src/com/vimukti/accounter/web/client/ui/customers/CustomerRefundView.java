@@ -567,7 +567,7 @@ public class CustomerRefundView extends
 
 			amtText.setAmount(transaction.getTotal());
 			paymentMethodSelected(transaction.getPaymentMethod());
-			if (transaction.getPaymentMethod().equals(Global.get().check())) {
+			if (transaction.getPaymentMethod().equals(constants.check())) {
 				printCheck.setDisabled(isInViewMode());
 				checkNoText.setDisabled(isInViewMode());
 			} else {

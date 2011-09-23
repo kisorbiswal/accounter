@@ -26,6 +26,4 @@ public interface IGlobal {
 
 	public String Location();
 
-	public String check();
-
 }

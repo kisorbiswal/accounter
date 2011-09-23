@@ -4,7 +4,7 @@ import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
-public class AwaitingAuthorisationAction extends Action {
+public class AwaitingAuthorisationAction extends Action<Object> {
 
 	AwaitingAuthorisationView view;
 

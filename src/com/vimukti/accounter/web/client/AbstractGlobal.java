@@ -4,11 +4,9 @@
 package com.vimukti.accounter.web.client;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.ClientVendor;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @author Prasanna Kumar G
@@ -139,20 +137,4 @@ public abstract class AbstractGlobal implements IGlobal {
 		}
 	}
 
-	@Override
-	public String check() {
-		int companyType = Accounter.getCompany().getAccountingType();
-		switch (companyType) {
-		case ClientCompany.ACCOUNTING_TYPE_US:
-			return constants().check();
-		case ClientCompany.ACCOUNTING_TYPE_UK:
-			return constants().cheque();
-		case ClientCompany.ACCOUNTING_TYPE_INDIA:
-			return constants().cheque();
-		case ClientCompany.ACCOUNTING_TYPE_OTHER:
-			return constants().cheque();
-		default:
-			return constants().cheque();
-		}
-	}
 }

@@ -271,7 +271,7 @@ public class AccounterValidator {
 
 	// this is to save or close the current view from viewManager.
 
-	public static void saveOrClose(final AbstractBaseView view,
+	public static void saveOrClose(final AbstractBaseView<?> view,
 			final ViewManager viewManager) {
 		Accounter.showWarning(AccounterWarningType.saveOrClose,
 				AccounterType.WARNINGWITHCANCEL, new ErrorDialogHandler() {
@@ -468,7 +468,7 @@ public class AccounterValidator {
 
 	}
 
-	public static boolean isValidIncomeAccount(final AbstractBaseView view,
+	public static boolean isValidIncomeAccount(final AbstractBaseView<?> view,
 			ClientAccount income_account) {
 		if (income_account.getType() != ClientAccount.TYPE_INCOME) {
 			return false;
@@ -726,7 +726,6 @@ public class AccounterValidator {
 			public boolean onYesClick() {
 
 				Double amount = amountToDistribute;
-				double updatedValue = 0.0D;
 				// FIXME--need to check the code
 				for (ClientTransactionReceivePayment trprecord : view.gridView
 						.getRecords()) {
@@ -738,11 +737,11 @@ public class AccounterValidator {
 						if (!DecimalUtil.isGreaterThan(
 								trprecord.getAmountDue(), amount)) {
 							trprecord.setPayment(trprecord.getAmountDue());
-							updatedValue += trprecord.getAmountDue();
+//							updatedValue += trprecord.getAmountDue();
 							amount -= trprecord.getAmountDue();
 						} else {
 							trprecord.setPayment(amount);
-							updatedValue += amount;
+//							updatedValue += amount;
 							amount = 0D;
 						}
 						view.gridView.update(trprecord);
@@ -1115,7 +1114,7 @@ public class AccounterValidator {
 
 	}
 
-	public static boolean validateFormItem(FormItem item, boolean isDialog)
+	public static boolean validateFormItem(FormItem<?> item, boolean isDialog)
 			throws InvalidTransactionEntryException {
 		if (!item.validate()) {
 

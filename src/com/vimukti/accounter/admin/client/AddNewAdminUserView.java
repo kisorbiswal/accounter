@@ -4,7 +4,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 
-public class AddNewAdminUserView extends AbstractBaseView {
+public class AddNewAdminUserView extends AbstractBaseView<Object> {
 
 	@Override
 	protected String getViewTitle() {

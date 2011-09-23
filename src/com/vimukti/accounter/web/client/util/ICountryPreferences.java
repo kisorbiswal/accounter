@@ -36,8 +36,6 @@ public interface ICountryPreferences extends IsSerializable, Serializable,
 
 	boolean isTDSAvailable();
 
-	boolean isServiceTaxAndSalesTaxSame();
-
 	boolean isServiceTaxDeductable();
 
 }
