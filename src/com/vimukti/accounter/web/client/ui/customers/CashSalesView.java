@@ -589,26 +589,35 @@ public class CashSalesView extends
 		if (customerAccountTransactionTable == null
 				|| customerItemTransactionTable == null)
 			return;
-		if (getCompany().getAccountingType() == 0) {
 
-			double totalTax = customerAccountTransactionTable.getTotalTax()
-					+ customerItemTransactionTable.getTotalTax();
-			double total = customerAccountTransactionTable.getGrandTotal()
-					+ customerItemTransactionTable.getGrandTotal();
-
-			setSalesTax(totalTax);
-
-			setTransactionTotal(total);
-
-		} else {
-			double lineTotal = customerAccountTransactionTable.getLineTotal()
-					+ customerItemTransactionTable.getLineTotal();
-			double grandTotal = customerAccountTransactionTable.getGrandTotal()
-					+ customerItemTransactionTable.getGrandTotal();
+		double lineTotal = customerAccountTransactionTable.getLineTotal()
+				+ customerItemTransactionTable.getLineTotal();
+		double totalTax = customerAccountTransactionTable.getTotalTax()
+				+ customerItemTransactionTable.getTotalTax();
+		double total = customerAccountTransactionTable.getGrandTotal()
+				+ customerItemTransactionTable.getGrandTotal();
+		if (getCompany().getPreferences().isTrackTax()) {
 			netAmountLabel.setAmount(lineTotal);
-			taxTotalNonEditableText.setAmount(grandTotal - lineTotal);
-			setTransactionTotal(grandTotal);
+			setSalesTax(totalTax);
 		}
+
+		setTransactionTotal(total);
+
+		// } else {
+		// double lineTotal = customerAccountTransactionTable.getLineTotal()
+		// + customerItemTransactionTable.getLineTotal();
+		// double grandTotal = customerAccountTransactionTable.getGrandTotal()
+		// + customerItemTransactionTable.getGrandTotal();
+		// double totalTax = customerAccountTransactionTable.getTotalTax()
+		// + customerItemTransactionTable.getTotalTax();
+		// netAmountLabel.setAmount(lineTotal);
+		// taxTotalNonEditableText.setAmount(grandTotal - lineTotal);
+		// if (getCompany().getPreferences().isTrackTax()) {
+		// netAmountLabel.setAmount(lineTotal);
+		// setSalesTax(totalTax);
+		// }
+		// setTransactionTotal(grandTotal);
+		// }
 
 	}
 
