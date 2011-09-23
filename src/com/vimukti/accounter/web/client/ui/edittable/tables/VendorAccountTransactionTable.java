@@ -123,7 +123,7 @@ public abstract class VendorAccountTransactionTable extends
 					@Override
 					public void onChangeValue(boolean value,
 							ClientTransactionItem row) {
-						super.onChange(row);
+						row.setTaxable(value);
 						update(row);
 					}
 				});
