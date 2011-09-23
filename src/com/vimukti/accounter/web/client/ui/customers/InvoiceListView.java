@@ -292,8 +292,17 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 			endDate = getCompany().getCurrentFiscalYearEndDate();
 		}
 		if (dateRange.equals(Accounter.constants().lastFinancialYear())) {
-			startDate = new ClientFinanceDate(date.getYear() - 1, 0, 1);
-			endDate = new ClientFinanceDate(date.getYear() - 1, 11, 31);
+
+			startDate = Accounter.getCompany().getCurrentFiscalYearStartDate();
+			startDate.setYear(startDate.getYear() - 1);
+			Calendar endCal = Calendar.getInstance();
+			endCal.setTime(Accounter.getCompany().getCurrentFiscalYearEndDate()
+					.getDateAsObject());
+			endCal.set(Calendar.DAY_OF_MONTH,
+					endCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+			endDate = new ClientFinanceDate(endCal.getTime());
+			endDate.setYear(endDate.getYear() - 1);
+
 		}
 		if (dateRange.equals(Accounter.constants().thisFinancialQuarter())) {
 			startDate = new ClientFinanceDate();
