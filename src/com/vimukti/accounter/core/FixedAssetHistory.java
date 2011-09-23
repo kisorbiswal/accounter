@@ -8,14 +8,13 @@ import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class FixedAssetHistory implements IAccounterServerCore, Lifecycle {
+public class FixedAssetHistory extends CreatableObject implements
+		IAccounterServerCore, Lifecycle {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	long id;
 
 	public static final String ACTION_TYPE_NONE = "NONE";
 	public static final String ACTION_TYPE_STATUS = "Status";
@@ -36,14 +35,8 @@ public class FixedAssetHistory implements IAccounterServerCore, Lifecycle {
 	String user;
 	JournalEntry postedJournalEntry;
 
-	private int version;
-
 	public FixedAssetHistory() {
 
-	}
-
-	public long getID() {
-		return this.id;
 	}
 
 	public String getDetails() {
@@ -114,16 +107,6 @@ public class FixedAssetHistory implements IAccounterServerCore, Lifecycle {
 	public boolean onUpdate(Session arg0) throws CallbackException {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	@Override
-	public int getVersion() {
-		return version;
-	}
-
-	@Override
-	public void setVersion(int version) {
-		this.version=version;
 	}
 
 }

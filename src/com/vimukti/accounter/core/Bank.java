@@ -8,24 +8,17 @@ import org.hibernate.Session;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class Bank implements IAccounterServerCore, INamedObject {
+public class Bank extends CreatableObject implements IAccounterServerCore,
+		INamedObject {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 8192082953624184711L;
 
-	long id;
-
 	String name;
 
-	int version;
-
 	public Bank() {
-	}
-
-	public int getVersion() {
-		return version;
 	}
 
 	/**
@@ -64,11 +57,6 @@ public class Bank implements IAccounterServerCore, INamedObject {
 	}
 
 	@Override
-	public long getID() {
-		return id;
-	}
-
-	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
@@ -88,11 +76,6 @@ public class Bank implements IAccounterServerCore, INamedObject {
 
 		return true;
 
-	}
-
-	@Override
-	public void setVersion(int version) {
-		this.version = version;
 	}
 
 	@Override

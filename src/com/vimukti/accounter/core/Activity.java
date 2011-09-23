@@ -5,9 +5,7 @@ import java.sql.Timestamp;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 
-public class Activity implements IAccounterCore {
-
-	private long id;
+public class Activity extends CreatableObject implements IAccounterCore {
 
 	private User user;
 
@@ -114,10 +112,6 @@ public class Activity implements IAccounterCore {
 		this.amount = amount;
 	}
 
-	public long getId() {
-		return id;
-	}
-
 	@Override
 	public int getVersion() {
 		return 0;
@@ -136,11 +130,6 @@ public class Activity implements IAccounterCore {
 	@Override
 	public void setID(long id) {
 
-	}
-
-	@Override
-	public long getID() {
-		return 0;
 	}
 
 	@Override

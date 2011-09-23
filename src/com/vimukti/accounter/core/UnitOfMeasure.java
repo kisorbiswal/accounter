@@ -2,13 +2,13 @@ package com.vimukti.accounter.core;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class UnitOfMeasure implements IAccounterServerCore, INamedObject {
+public class UnitOfMeasure extends CreatableObject implements
+		IAccounterServerCore, INamedObject {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -952703729336678057L;
-	int version;
 	/**
 	 * Type of the UnitOfMeasure
 	 */
@@ -19,17 +19,12 @@ public class UnitOfMeasure implements IAccounterServerCore, INamedObject {
 	 */
 	String name;
 	String abbreviation;
-	private long id;
 
 	/**
 	 * @return the version
 	 */
 	public UnitOfMeasure() {
 
-	}
-
-	public int getVersion() {
-		return version;
 	}
 
 	/**
@@ -51,12 +46,6 @@ public class UnitOfMeasure implements IAccounterServerCore, INamedObject {
 	 */
 	public String getAbbreviation() {
 		return abbreviation;
-	}
-
-	@Override
-	public long getID() {
-
-		return this.id;
 	}
 
 	@Override

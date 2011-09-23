@@ -16,7 +16,8 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * 
  */
 
-public class VATReturnBox implements IAccounterServerCore, Lifecycle {
+public class VATReturnBox extends CreatableObject implements
+		IAccounterServerCore, Lifecycle {
 
 	/**
 	 * 
@@ -94,13 +95,6 @@ public class VATReturnBox implements IAccounterServerCore, Lifecycle {
 	}
 
 	transient private boolean isOnSaveProccessed;
-	private long id;
-	private int version;
-
-	@Override
-	public long getID() {
-		return this.id;
-	}
 
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
@@ -133,15 +127,4 @@ public class VATReturnBox implements IAccounterServerCore, Lifecycle {
 
 		return true;
 	}
-
-	@Override
-	public int getVersion() {
-		return version;
-	}
-
-	@Override
-	public void setVersion(int version) {
-		this.version=version;
-	}
-
 }
