@@ -250,44 +250,39 @@ public class CompanyInfoDialog extends BaseDialog<ClientAddress> {
 		vatRegNumber.setWidth(100);
 		vatRegNumber.setDisabled(false);
 
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			doupaySalesChecBox.addChangeHandler(new ChangeHandler() {
+		// if (getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_US) {
+		doupaySalesChecBox.addChangeHandler(new ChangeHandler() {
 
-				private FocusWidget taxgroupBtn;
+			private FocusWidget taxgroupBtn;
 
-				public void onChange(ChangeEvent event) {
-					if ((Boolean) ((CheckboxItem) event.getSource()).getValue())
-						taxgroupBtn.setEnabled(false);
-					else
-						taxgroupBtn.setEnabled(true);
-				}
-			});
-			doupaySalesChecBox
-					.addChangeHandler(new ValueChangeHandler<Boolean>() {
-						@Override
-						public void onValueChange(
-								ValueChangeEvent<Boolean> event) {
-							vatRegNumber.setDisabled(!event.getValue());
-							vatRegNumber.setValue(Accounter.getCompany()
-									.getPreferences()
-									.getVATregistrationNumber());
-						}
-					});
-		} else {
+			public void onChange(ChangeEvent event) {
+				if ((Boolean) ((CheckboxItem) event.getSource()).getValue())
+					taxgroupBtn.setEnabled(false);
+				else
+					taxgroupBtn.setEnabled(true);
+			}
+		});
+		doupaySalesChecBox.addChangeHandler(new ValueChangeHandler<Boolean>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				vatRegNumber.setDisabled(!event.getValue());
+				vatRegNumber.setValue(Accounter.getCompany().getPreferences()
+						.getVATregistrationNumber());
+			}
+		});
+		// } else {
 
-			doupaySalesChecBox
-					.addChangeHandler(new ValueChangeHandler<Boolean>() {
+		doupaySalesChecBox.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
-						@Override
-						public void onValueChange(
-								ValueChangeEvent<Boolean> event) {
-							vatRegNumber.setDisabled(!event.getValue());
-							vatRegNumber.setValue(Accounter.getCompany()
-									.getPreferences()
-									.getVATregistrationNumber());
-						}
-					});
-		}
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				vatRegNumber.setDisabled(!event.getValue());
+				vatRegNumber.setValue(Accounter.getCompany().getPreferences()
+						.getVATregistrationNumber());
+			}
+		});
+		// }
 		vatRegNumber.setValue(getCompany().getPreferences()
 				.getVATregistrationNumber());
 		taxgroupBtn = new Button(Accounter.constants().taxgroups());

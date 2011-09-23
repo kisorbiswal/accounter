@@ -702,9 +702,9 @@ public abstract class TransactionPayBillTable extends
 		// discountAccount = getCompany().getAccountByName(
 		// companyConstants.discounts());
 		// }
-		cashDiscountDialog = new CashDiscountDialog(canEdit, selectedObject
-				.getCashDiscount(), getCompany().getAccount(
-				selectedObject.getDiscountAccount()));
+		cashDiscountDialog = new CashDiscountDialog(canEdit,
+				selectedObject.getCashDiscount(), getCompany().getAccount(
+						selectedObject.getDiscountAccount()));
 		// } else {
 		// cashDiscountDialog.setCanEdit(canEdit);
 		// cashDiscountDialog.setCashDiscountValue(selectedObject
@@ -806,8 +806,8 @@ public abstract class TransactionPayBillTable extends
 			if (DecimalUtil.isEquals(totalValue, 0)) {
 				result.addError(this, Accounter.constants()
 						.totalPaymentNotZeroForSelectedRecords());
-			} else if (DecimalUtil.isGreaterThan(totalValue, transactionPayBill
-					.getAmountDue())) {
+			} else if (DecimalUtil.isGreaterThan(totalValue,
+					transactionPayBill.getAmountDue())) {
 				result.addError(this, Accounter.constants()
 						.totalPaymentNotExceedDueForSelectedRecords());
 			}
@@ -1004,9 +1004,8 @@ public abstract class TransactionPayBillTable extends
 				+ item.getPayment();
 
 		if (!DecimalUtil.isGreaterThan(totalValue, item.getAmountDue())) {
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA
+			if (getCompany().getCountryPreferences().isTDSAvailable()
 					&& getCompany().getPreferences().isTDSEnabled()) {
-
 				ClientTAXItem taxItem = Accounter.getCompany().getTAXItem(
 						vendor.getTaxItemCode());
 				if (taxItem != null)

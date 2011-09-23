@@ -1481,37 +1481,38 @@ public class UIUtils {
 		Iterator<ClientAccount> iterator = accountsList.iterator();
 		while (iterator.hasNext()) {
 			account = iterator.next();
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
-					&& toBeAddedAccount.getNumber().equals("1175")) {
-				if (account.getNumber().equals("1180")) {
-					accountsList.add(accountsList.indexOf(account) - 1,
-							toBeAddedAccount);
+			// if (getCompany().getAccountingType() ==
+			// ClientCompany.ACCOUNTING_TYPE_UK
+			// && toBeAddedAccount.getNumber().equals("1175")) {
+			// if (account.getNumber().equals("1180")) {
+			// accountsList.add(accountsList.indexOf(account) - 1,
+			// toBeAddedAccount);
+			// isAccountAdded = true;
+			// }
+			// } else {
+			nextNumber = account.getNumber();
+			if (toBeAddedAccount.getType() == account.getType()) {
+				type = true;
+				if (firstNumber.compareTo(toBeAddedNumber) < 0
+						&& nextNumber.compareTo(toBeAddedNumber) > 0) {
+					index = accountsList.indexOf(account);
+					accountsList.add(index, toBeAddedAccount);
 					isAccountAdded = true;
+					break;
+				}
+
+				else {
+					firstNumber = nextNumber;
 				}
 			} else {
-				nextNumber = account.getNumber();
-				if (toBeAddedAccount.getType() == account.getType()) {
-					type = true;
-					if (firstNumber.compareTo(toBeAddedNumber) < 0
-							&& nextNumber.compareTo(toBeAddedNumber) > 0) {
-						index = accountsList.indexOf(account);
-						accountsList.add(index, toBeAddedAccount);
-						isAccountAdded = true;
-						break;
-					}
-
-					else {
-						firstNumber = nextNumber;
-					}
-				} else {
-					if (type) {
-						index = accountsList.indexOf(account);
-						accountsList.add(index--, toBeAddedAccount);
-						isAccountAdded = true;
-						break;
-					}
+				if (type) {
+					index = accountsList.indexOf(account);
+					accountsList.add(index--, toBeAddedAccount);
+					isAccountAdded = true;
+					break;
 				}
 			}
+			// }
 		}
 		if (!type) {
 			int sort[] = { 14, 15, 18, 16, 3, 4, 8, 9, 6, 12, 7, 13 };

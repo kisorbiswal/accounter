@@ -568,15 +568,14 @@ public class CustomerCreditMemoView extends
 		if (customerAccountTransactionTable == null
 				|| customerItemTransactionTable == null)
 			return;
-		if (getCompany().getAccountingType() == 0) {
+		double total = customerAccountTransactionTable.getGrandTotal()
+				+ customerItemTransactionTable.getGrandTotal();
+		setTransactionTotal(total);
+		if (isTrackTax()) {
 			double totalTax = customerAccountTransactionTable.getTotalTax()
 					+ customerItemTransactionTable.getTotalTax();
-			double total = customerAccountTransactionTable.getGrandTotal()
-					+ customerItemTransactionTable.getGrandTotal();
 
 			setSalesTax(totalTax);
-
-			setTransactionTotal(total);
 
 			// salesTax = Utility.getCalculatedSalesTax(transactionDateItem
 			// .getEnteredDate(), taxableLineTotal, taxItemGroup);
@@ -589,14 +588,11 @@ public class CustomerCreditMemoView extends
 			// this.transactionTotalNonEditableText
 			// .setAmount(customerTransactionGrid.getTotal()
 			// + this.salesTax);
-		} else {
 			double lineTotal = customerAccountTransactionTable.getLineTotal()
 					+ customerItemTransactionTable.getLineTotal();
-			double grandTotal = customerAccountTransactionTable.getGrandTotal()
-					+ customerItemTransactionTable.getGrandTotal();
 			netAmountLabel.setAmount(lineTotal);
-			taxTotalNonEditableText.setAmount(grandTotal - lineTotal);
-			setTransactionTotal(grandTotal);
+			taxTotalNonEditableText.setAmount(total - lineTotal);
+
 		}
 
 		// this.paymentsNonEditableText.setValue(transactionGrid.);

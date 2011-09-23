@@ -1711,10 +1711,11 @@ public class ClientCompany implements IAccounterCore {
 				// Utility.updateClientList(taxItem, taxItems);
 				UIUtils.updateClientListAndTaxItemGroup(taxItem, taxItems,
 						taxGroups, taxItemGroups);
-				if (getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK) {
-					ClientTAXCode code = getTAXCodeForTAXItemGroup(taxItem);
-					Utility.updateClientList(code, taxCodes);
-				}
+				// if (getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK)
+				// {
+				// ClientTAXCode code = getTAXCodeForTAXItemGroup(taxItem);
+				// Utility.updateClientList(code, taxCodes);
+				// }
 
 				break;
 

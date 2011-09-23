@@ -1022,43 +1022,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		return list;
 	}
 
-	private LinkedHashMap<String, String> getAccountTypesMap() {
-
-		accountTypesMap = new LinkedHashMap<String, String>();
-		if (accountTypes != null && accountTypes.size() != 0) {
-			for (int type : accountTypes) {
-				accountTypesMap.put(String.valueOf(type),
-						Utility.getAccountTypeString(type));
-			}
-			defaultId = String.valueOf(accountTypes.get(0));
-
-		} else {
-			for (int type : UIUtils.accountTypes) {
-				if (getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK) {
-					accountTypesMap.put(String.valueOf(type),
-							Utility.getAccountTypeString(type));
-				} else if (type != ClientAccount.TYPE_BANK
-						&& type != ClientAccount.TYPE_CASH
-						&& type != ClientAccount.TYPE_OTHER_INCOME
-						&& type != ClientAccount.TYPE_INVENTORY_ASSET
-						&& type != ClientAccount.TYPE_CREDIT_CARD
-						&& type != ClientAccount.TYPE_PAYROLL_LIABILITY) {
-					accountTypesMap.put(String.valueOf(type),
-							Utility.getAccountTypeString(type));
-				}
-			}
-			if (accountType != ClientAccount.TYPE_BANK
-					&& accountType != ClientAccount.TYPE_CREDIT_CARD) {
-				defaultId = String.valueOf(UIUtils.accountTypes[0]);
-				accountType = UIUtils.accountTypes[0];
-			}
-
-		}
-
-		return accountTypesMap;
-
-	}
-
 	protected String getValidAmountString(String amount) {
 		if (amount.lastIndexOf("" + UIUtils.getCurrencySymbol() + "") == 0)
 			amount = amount.substring(1, amount.length());

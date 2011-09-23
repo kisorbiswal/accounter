@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.vat;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -15,12 +14,7 @@ public class NewVatItemAction extends Action<ClientTAXItem> {
 
 	public NewVatItemAction(String text) {
 		super(text);
-		String flag;
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			flag = Accounter.constants().company();
-		else
-			flag = Accounter.constants().tax();
-		this.catagory = flag;
+		this.catagory = Accounter.constants().tax();
 	}
 
 	@Override

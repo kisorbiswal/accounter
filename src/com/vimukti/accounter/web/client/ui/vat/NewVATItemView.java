@@ -7,7 +7,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientVATReturnBox;
@@ -50,7 +49,6 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 	private String vatName;
 
 	private ArrayList<DynamicForm> listforms;
-	final int accounttype = getCompany().getAccountingType();
 	final DynamicForm form1 = UIUtils.form(Accounter.constants().type());
 
 	public NewVATItemView() {
@@ -255,8 +253,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		// form validation
 
 		String name = vatItemNameText.getValue().toString() != null ? vatItemNameText
-				.getValue().toString()
-				: "";
+				.getValue().toString() : "";
 
 		ClientTAXItem taxItemByName = getCompany().getTaxItemByName(name);
 
@@ -335,14 +332,10 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 
 	private void updateObject() {
 
-		data
-				.setName(vatItemNameText.getValue().toString() != null ? vatItemNameText
-						.getValue().toString()
-						: "");
-		data
-				.setDescription(descriptionText.getValue().toString() != null ? descriptionText
-						.getValue().toString()
-						: "");
+		data.setName(vatItemNameText.getValue().toString() != null ? vatItemNameText
+				.getValue().toString() : "");
+		data.setDescription(descriptionText.getValue().toString() != null ? descriptionText
+				.getValue().toString() : "");
 		data.setVatReturnBox(selectedBox != null ? selectedBox.getID()
 				: data != null ? data.getVatReturnBox() : null);
 		data.setTaxAgency(selectedVATAgency != null ? selectedVATAgency.getID()

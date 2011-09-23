@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
@@ -51,19 +50,7 @@ public class DepositInAccountCombo extends AccountCombo {
 
 	private void setDefaultDepositInAccount() {
 		/* Default deposit in account is set to Bank Current Account */
-		List<ClientAccount> accounts = getCompany().getAccounts();
-		for (ClientAccount account : accounts) {
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
-					&& account.getNumber().equals("1100")) {
-				this.addItemThenfireEvent(account);
-				break;
-			} else if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
-					&& account.getNumber().equals("1175")) {
-				this.addItemThenfireEvent(account);
-				break;
-			}
-		}
-
+		// TODO SET DEFAULT ACCOUNT
 	}
 
 	@Override

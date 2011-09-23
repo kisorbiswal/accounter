@@ -7,7 +7,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -68,8 +67,6 @@ public abstract class AbstractFinaneReport<R> extends
 	public IFinanceReport<R> reportView;
 	protected String navigateObjectName;
 
-	private int companyType = 0;
-
 	public AbstractFinaneReport() {
 
 		this.preferences = Global.get().preferences();
@@ -92,7 +89,7 @@ public abstract class AbstractFinaneReport<R> extends
 		this.grid.setReportView(this);
 	}
 
-	@SuppressWarnings( { "unchecked" })
+	@SuppressWarnings({ "unchecked" })
 	public AbstractFinaneReport(long startDate, long endDate, int generationType) {
 		this();
 
@@ -492,22 +489,13 @@ public abstract class AbstractFinaneReport<R> extends
 		if (date == null) {
 			return "";
 		}
-		if (this.companyType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			DateTimeFormat dateFormatter = DateTimeFormat
-					.getFormat("MM/dd/yyyy");
-			String format = dateFormatter.format(date.getDateAsObject());
-			return format;
-		} else if (this.companyType == ClientCompany.ACCOUNTING_TYPE_US) {
-			DateTimeFormat dateFormatter = DateTimeFormat
-					.getFormat("dd/MM/yyyy");
-			String format = dateFormatter.format(date.getDateAsObject());
-			return format;
-		} else {
-			DateTimeFormat dateFormatter = DateTimeFormat
-					.getFormat("dd/MM/yyyy");
-			String format = dateFormatter.format(date.getDateAsObject());
-			return format;
+		String dateFormat = Global.get().preferences().getDateFormat();
+		if (dateFormat == null) {
+			dateFormat = "dd/MM/yyyy";
 		}
+		DateTimeFormat dateFormatter = DateTimeFormat.getFormat(dateFormat);
+		String format = dateFormatter.format(date.getDateAsObject());
+		return format;
 
 	}
 
@@ -645,15 +633,6 @@ public abstract class AbstractFinaneReport<R> extends
 	// }
 	// return transactionName;
 	// }
-
-	public int getCompanyType() {
-		return companyType;
-	}
-
-	@Override
-	public void setCompanyType(int companyType) {
-		this.companyType = companyType;
-	}
 
 	@Override
 	public ClientFinanceDate getCurrentFiscalYearStartDate() {

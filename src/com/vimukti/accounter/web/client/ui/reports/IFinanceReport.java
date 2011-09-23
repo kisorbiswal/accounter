@@ -73,8 +73,6 @@ public interface IFinanceReport<R> {
 
 	public ClientFinanceDate getCurrentFiscalYearEndDate();
 
-	public void setCompanyType(int type);
-
 	public void setStartAndEndDates(ClientFinanceDate startDate2,
 			ClientFinanceDate endDate2);
 
