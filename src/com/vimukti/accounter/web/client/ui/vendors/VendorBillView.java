@@ -137,11 +137,26 @@ public class VendorBillView extends
 			phoneSelect.setValue(transaction.getPhone());
 			phoneSelect.setDisabled(true);
 			transactionNumber.setValue(transaction.getNumber());
-			if (isTrackTax()) {
-				netAmount.setAmount(transaction.getNetAmount());
-				vatTotalNonEditableText.setAmount(transaction.getTotal()
-						- transaction.getNetAmount());
+			// if (isTrackTax()) {
+			// netAmount.setAmount(transaction.getNetAmount());
+			// vatTotalNonEditableText.setAmount(transaction.getTotal()
+			// - transaction.getNetAmount());
+			// }
+
+			if (getPreferences().isTrackPaidTax()) {
+				if (getPreferences().isTaxPerDetailLine()) {
+					netAmount.setAmount(transaction.getNetAmount());
+					vatTotalNonEditableText.setAmount(transaction.getTotal()
+							- transaction.getNetAmount());
+				} else {
+					this.taxCode = getTaxCodeForTransactionItems(transaction
+							.getTransactionItems());
+					if (taxCode != null) {
+						this.taxCodeSelect.setComboItem(taxCode);
+					}
+				}
 			}
+
 			transactionTotalNonEditableText.setAmount(transaction.getTotal());
 
 			balanceDueNonEditableText.setAmount(transaction.getBalanceDue());
