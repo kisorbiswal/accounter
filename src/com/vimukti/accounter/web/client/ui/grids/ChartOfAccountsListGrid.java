@@ -100,7 +100,7 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 		if (col == getColumns().length - 1)
 			showWarnDialog(obj);
 		if (col == 5) {
-			ActionFactory.getAccountRegisterAction().run(obj, true);
+			ActionFactory.getAccountRegisterAction().run(obj, false);
 		}
 	}
 
