@@ -34,11 +34,10 @@ public abstract class TransactionJournalEntryTable extends
 	private double debitTotal;
 
 	public TransactionJournalEntryTable() {
-		initColumns();
 
 	}
 
-	private void initColumns() {
+	protected void initColumns() {
 		TextEditColumn<ClientEntry> voucherNumber = new TextEditColumn<ClientEntry>() {
 
 			@Override
@@ -346,4 +345,5 @@ public abstract class TransactionJournalEntryTable extends
 		super.setAllRows(rows);
 		refreshTotals();
 	}
+	
 }

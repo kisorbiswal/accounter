@@ -50,10 +50,9 @@ public abstract class TransactionPayBillTable extends
 
 	public TransactionPayBillTable(boolean canEdit) {
 		this.canEdit = canEdit;
-		initColumn();
 	}
 
-	private void initColumn() {
+	protected void initColumns() {
 		this.addColumn(new CheckboxEditColumn<ClientTransactionPayBill>() {
 
 			@Override

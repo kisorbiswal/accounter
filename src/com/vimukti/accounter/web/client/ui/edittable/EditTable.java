@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.RowFormatter;
 
-public class EditTable<R> extends SimplePanel {
+public abstract class EditTable<R> extends SimplePanel {
 
 	private FlexTable table;
 	private List<EditColumn<R>> columns = new ArrayList<EditColumn<R>>();
@@ -18,6 +18,7 @@ public class EditTable<R> extends SimplePanel {
 	private RowFormatter rowFormatter;
 	private List<R> rows = new ArrayList<R>();
 	private boolean isDesable;
+	private boolean columnsCreated;
 
 	public EditTable() {
 		this.addStyleName("editTable");
@@ -73,6 +74,7 @@ public class EditTable<R> extends SimplePanel {
 	 * @param row
 	 */
 	public void add(R row) {
+		createColumns();
 		rows.add(row);
 		int index = rows.size() - 1;
 		index += 1;// for header
@@ -183,4 +185,20 @@ public class EditTable<R> extends SimplePanel {
 	protected void onDelete(R obj) {
 
 	}
+	
+	@Override
+	protected void onAttach() {
+		createColumns();
+		super.onAttach();
+	}
+
+	protected void createColumns() {
+		if (!columnsCreated) {
+			initColumns();
+		}
+		columnsCreated = true;
+	}
+
+	protected abstract void initColumns();
+
 }

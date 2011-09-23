@@ -61,11 +61,10 @@ public abstract class TransactionReceivePaymentTable extends
 
 	public TransactionReceivePaymentTable(boolean canEdit) {
 		this.canEdit = canEdit;
-		initColumns();
 		this.company = Accounter.getCompany();
 	}
 
-	private void initColumns() {
+	protected void initColumns() {
 		this.addColumn(new CheckboxEditColumn<ClientTransactionReceivePayment>() {
 
 			@Override

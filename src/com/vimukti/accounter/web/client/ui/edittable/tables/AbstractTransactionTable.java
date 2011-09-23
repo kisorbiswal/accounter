@@ -27,15 +27,11 @@ public abstract class AbstractTransactionTable extends
 
 	private final boolean isSales;
 
-	private boolean columnsCreated;
 
 	public AbstractTransactionTable(boolean needDiscount, boolean isSales) {
 		this.needDiscount = needDiscount;
 		this.isSales = isSales;
-//		 initColumns();
 	}
-
-	protected abstract void initColumns();
 
 	protected abstract void addEmptyRecords();
 
@@ -248,17 +244,5 @@ public abstract class AbstractTransactionTable extends
 		addEmptyRecords();
 	}
 
-	@Override
-	protected void onAttach() {
-		createColumns();
-		super.onAttach();
-	}
-
-	private void createColumns() {
-		if (!columnsCreated) {
-			initColumns();
-		}
-		columnsCreated = true;
-	}
-
+	
 }
