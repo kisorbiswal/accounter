@@ -345,7 +345,6 @@ public abstract class TransactionReceivePaymentTable extends
 		};
 		this.addColumn(paymentColumn);
 	}
-	
 
 	public ValidationResult validateGrid() {
 		ValidationResult result = new ValidationResult();
@@ -685,7 +684,6 @@ public abstract class TransactionReceivePaymentTable extends
 		payment.setPayment(paymentValue);
 		updateAmountDue(payment);
 		updateValue(payment);
-		updateAmountReceived();
 	}
 
 	public void openWriteOffDialog(
@@ -858,7 +856,6 @@ public abstract class TransactionReceivePaymentTable extends
 		}
 		update(obj);
 		super.checkColumn(row, 0, isChecked);
-		updateAmountReceived();
 		recalculateGridAmounts();
 	}
 
