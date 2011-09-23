@@ -1669,7 +1669,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 			uncategories = getFinanceTool().getUncategorisedAmountsReport(
-					financeDates[0], financeDates[1]);
+					financeDates[0], financeDates[1], getCompanyId());
 
 			UncategorisedAmountsReport obj = new UncategorisedAmountsReport();
 			if (uncategories != null)
@@ -1790,8 +1790,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 
 		try {
-			salesList = getFinanceTool().getReverseChargeListDetailReport(
-					payeeName, financeDates[0], financeDates[1]);
+			salesList = getFinanceTool()
+					.getReverseChargeListDetailReport(payeeName,
+							financeDates[0], financeDates[1], getCompanyId());
 
 			ReverseChargeListDetail obj = new ReverseChargeListDetail();
 			if (salesList != null)
@@ -2218,7 +2219,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			long fromDate, long toDate) throws AccounterException {
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
-			return tool.getCustomerStatement(customer, fromDate, toDate);
+			return tool.getCustomerStatement(customer, fromDate, toDate,
+					getCompanyId());
 		}
 		return null;
 	}

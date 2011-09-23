@@ -609,7 +609,8 @@ public class Customer extends Payee implements IAccounterServerCore,
 
 		Query query = session.getNamedQuery("getCustomers")
 				.setString("name", this.name).setString("number", this.number)
-				.setLong("id", this.id);
+				.setLong("id", this.id)
+				.setParameter("companyId", customer.getCompany().getID());
 
 		List list = query.list();
 		Iterator it = list.iterator();

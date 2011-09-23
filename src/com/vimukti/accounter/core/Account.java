@@ -1251,7 +1251,8 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 		Query query = session.getNamedQuery("getAccounts")
 				.setString("name", this.name).setString("number", this.number)
-				.setLong("id", this.id);
+				.setLong("id", this.id)
+				.setParameter("companyId", account.getCompany().getID());
 
 		List list = query.list();
 		Iterator it = list.iterator();

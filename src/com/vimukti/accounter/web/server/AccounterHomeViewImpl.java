@@ -140,7 +140,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		List<Estimate> serverEstimates = null;
 		try {
 
-			serverEstimates = getFinanceTool().getLatestQuotes();
+			serverEstimates = getFinanceTool().getLatestQuotes(getCompanyId());
 			for (Estimate estimate : serverEstimates) {
 				clientEstimates.add(new ClientConvertUtil().toClientObject(
 						estimate, ClientEstimate.class));
@@ -167,7 +167,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			invoice = getFinanceTool().getOverDueInvoices();
+			invoice = getFinanceTool().getOverDueInvoices(getCompanyId());
 
 			// invoice = (List<OverDueInvoicesList>) manager.merge(invoice);
 
@@ -185,7 +185,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			billList = getFinanceTool().getBillsList(isExpensesList);
+			billList = getFinanceTool().getBillsList(isExpensesList,
+					getCompanyId());
 
 			// billList = (List<BillsList>) manager.merge(billList);
 
@@ -203,7 +204,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			paymentsList = getFinanceTool().getPaymentsList();
+			paymentsList = getFinanceTool().getPaymentsList(getCompanyId());
 
 			// paymentsList = (List<PaymentsList>) manager.merge(paymentsList);
 
@@ -222,7 +223,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			paybillTrList = getFinanceTool().getTransactionPayBills();
+			paybillTrList = getFinanceTool().getTransactionPayBills(
+					getCompanyId());
 
 			// paybillTrList = (List<PayBillTransactionList>)
 			// manager.merge(paybillTrList);
@@ -326,7 +328,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		ArrayList<PaymentsList> vendorPaymentsList = new ArrayList<PaymentsList>();
 		try {
 
-			vendorPaymentsList = getFinanceTool().getVendorPaymentsList();
+			vendorPaymentsList = getFinanceTool().getVendorPaymentsList(
+					getCompanyId());
 
 			// vendorPaymentsList = (List<PaymentsList>) manager
 			// .merge(vendorPaymentsList);
@@ -404,7 +407,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			bills = getFinanceTool().getLatestBills();
+			bills = getFinanceTool().getLatestBills(getCompanyId());
 
 			// bills = (List<BillsList>) manager.merge(bills);
 
@@ -420,7 +423,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		List<CashPurchase> serverCashPurchases = null;
 		try {
 
-			serverCashPurchases = getFinanceTool().getLatestCashPurchases();
+			serverCashPurchases = getFinanceTool().getLatestCashPurchases(
+					getCompanyId());
 			for (CashPurchase cashPurchase : serverCashPurchases) {
 				clientCashPurchase.add(new ClientConvertUtil().toClientObject(
 						cashPurchase, ClientCashPurchase.class));
@@ -453,7 +457,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		List<CashSales> serverCashSales = null;
 		try {
 
-			serverCashSales = getFinanceTool().getLatestCashSales();
+			serverCashSales = getFinanceTool().getLatestCashSales(
+					getCompanyId());
 			for (CashSales cashSales : serverCashSales) {
 				clientCashSales.add(new ClientConvertUtil().toClientObject(
 						cashSales, ClientCashSales.class));
@@ -472,7 +477,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		List<WriteCheck> serverWriteChecks = null;
 		try {
 
-			serverWriteChecks = getFinanceTool().getLatestChecks();
+			serverWriteChecks = getFinanceTool()
+					.getLatestChecks(getCompanyId());
 			for (WriteCheck writeCheck : serverWriteChecks) {
 				clientWriteChecks.add(new ClientConvertUtil().toClientObject(
 						writeCheck, ClientWriteCheck.class));
@@ -491,7 +497,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		List<CustomerRefund> serverCustomerRefunds = null;
 		try {
 
-			serverCustomerRefunds = getFinanceTool().getLatestCustomerRefunds();
+			serverCustomerRefunds = getFinanceTool().getLatestCustomerRefunds(
+					getCompanyId());
 			for (CustomerRefund customerRefund : serverCustomerRefunds) {
 				clientCustomerRefunds.add(new ClientConvertUtil()
 						.toClientObject(customerRefund,
@@ -512,7 +519,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		List<Customer> serverCustomers = null;
 		try {
 
-			serverCustomers = getFinanceTool().getLatestCustomers();
+			serverCustomers = getFinanceTool().getLatestCustomers(
+					getCompanyId());
 			for (Customer customer : serverCustomers) {
 				clientCustomers.add(new ClientConvertUtil().toClientObject(
 						customer, ClientCustomer.class));
@@ -531,7 +539,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		List<MakeDeposit> serverMakeDeposits = null;
 		try {
 
-			serverMakeDeposits = getFinanceTool().getLatestDeposits();
+			serverMakeDeposits = getFinanceTool().getLatestDeposits(
+					getCompanyId());
 			for (MakeDeposit makeDeposit : serverMakeDeposits) {
 				clientMakeDeposits.add(new ClientConvertUtil().toClientObject(
 						makeDeposit, ClientMakeDeposit.class));
@@ -550,7 +559,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		List<TransferFund> serverTransferFunds = null;
 		try {
 
-			serverTransferFunds = getFinanceTool().getLatestFundsTransfer();
+			serverTransferFunds = getFinanceTool().getLatestFundsTransfer(
+					getCompanyId());
 			for (TransferFund transferFund : serverTransferFunds) {
 				clientTransferFunds.add(new ClientConvertUtil().toClientObject(
 						transferFund, ClientTransferFund.class));
@@ -570,7 +580,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		List<Item> serverItems = null;
 		try {
 
-			serverItems = getFinanceTool().getLatestItems();
+			serverItems = getFinanceTool().getLatestItems(getCompanyId());
 			for (Item item : serverItems) {
 				clientItems.add(new ClientConvertUtil().toClientObject(item,
 						ClientItem.class));
@@ -589,7 +599,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			payments = getFinanceTool().getLatestPayments();
+			payments = getFinanceTool().getLatestPayments(getCompanyId());
 
 			// payments = (List<PaymentsList>) manager.merge(payments);
 
@@ -605,7 +615,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		List<Vendor> serverVendors = null;
 		try {
 
-			serverVendors = getFinanceTool().getLatestVendors();
+			serverVendors = getFinanceTool().getLatestVendors(getCompanyId());
 			for (Vendor vendor : serverVendors) {
 				clientVendors.add(new ClientConvertUtil().toClientObject(
 						vendor, ClientVendor.class));
@@ -747,7 +757,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			invoicesList = getFinanceTool().getInvoiceList();
+			invoicesList = getFinanceTool().getInvoiceList(getCompanyId());
 
 			// invoicesList = (List<InvoicesList>) manager.merge(invoicesList);
 
@@ -766,7 +776,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			filteredList = new ArrayList<InvoicesList>();
-			invoicesList = getFinanceTool().getInvoiceList();
+			invoicesList = getFinanceTool().getInvoiceList(getCompanyId());
 			for (InvoicesList list : invoicesList) {
 				if (!list.getDate().before(new ClientFinanceDate(fromDate))
 						&& !list.getDate().after(new ClientFinanceDate(toDate)))
@@ -855,7 +865,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			nextCheckNumber = getFinanceTool().getNextIssuePaymentCheckNumber(
-					accountId);
+					accountId, getCompanyId());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -940,7 +950,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		List<ReceivePaymentTransactionList> receivePaymentTransactionList = null;
 
 		receivePaymentTransactionList = getFinanceTool()
-				.getTransactionReceivePayments(customerId, paymentDate);
+				.getTransactionReceivePayments(customerId, paymentDate,
+						getCompanyId());
 
 		// receivePaymentTransactionList =
 		// (List<ReceivePaymentTransactionList>) manager
@@ -995,7 +1006,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			return getFinanceTool().getReceivePaymentsList();
+			return getFinanceTool().getReceivePaymentsList(getCompanyId());
 
 			// receivePaymentList = (List<ReceivePaymentsList>) manager
 			// .merge(receivePaymentList);
@@ -1031,7 +1042,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			paymentsList = getFinanceTool().getLatestVendorPayments();
+			paymentsList = getFinanceTool().getLatestVendorPayments(
+					getCompanyId());
 
 			// paymentsList = (List<PaymentsList>) manager.merge(paymentsList);
 
@@ -1048,7 +1060,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			serverReceivePaymentList = getFinanceTool()
-					.getLatestReceivePayments();
+					.getLatestReceivePayments(getCompanyId());
 			for (ReceivePayment receivePayment : serverReceivePaymentList) {
 				clientReceivePaymentList.add(new ClientConvertUtil()
 						.toClientObject(receivePayment,
@@ -1112,7 +1124,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		FinanceTool tool = getFinanceTool();
 
 		try {
-			return tool != null ? tool.getPurchaseOrdersList() : null;
+			return tool != null ? tool.getPurchaseOrdersList(getCompanyId())
+					: null;
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
@@ -1134,7 +1147,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		FinanceTool tool = getFinanceTool();
 
 		try {
-			return tool != null ? tool.getSalesOrdersList() : null;
+			return tool != null ? tool.getSalesOrdersList(getCompanyId())
+					: null;
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
@@ -1159,8 +1173,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		FinanceTool tool = getFinanceTool();
 
 		try {
-			return tool != null ? tool
-					.getNotReceivedPurchaseOrdersList(vendorID) : null;
+			return tool != null ? tool.getNotReceivedPurchaseOrdersList(
+					vendorID, getCompanyId()) : null;
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
@@ -1172,8 +1186,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			long vendorId) throws AccounterException {
 		try {
 			FinanceTool tool = getFinanceTool();
-			return tool != null ? tool
-					.getPurchasesAndItemReceiptsList(vendorId) : null;
+			return tool != null ? tool.getPurchasesAndItemReceiptsList(
+					vendorId, getCompanyId()) : null;
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
@@ -1186,8 +1200,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 			FinanceTool tool = getFinanceTool();
-			return tool != null ? tool
-					.getEstimatesAndSalesOrdersList(customerId) : null;
+			return tool != null ? tool.getEstimatesAndSalesOrdersList(
+					customerId, getCompanyId()) : null;
 		} catch (DAOException e) {
 
 			e.printStackTrace();
@@ -1480,7 +1494,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 			FinanceTool tool = getFinanceTool();
-			return tool != null ? tool.getPayeeList(transactionCategory) : null;
+			return tool != null ? tool.getPayeeList(transactionCategory,
+					getCompanyId()) : null;
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -257,8 +257,12 @@ public class TAXCode implements IAccounterServerCore, Lifecycle {
 		TAXCode taxCode = (TAXCode) clientObject;
 		// Query query = session.createQuery("from VATCode V where V.name=?")
 		// .setParameter(0, vatCode.name);
-		Query query = session.getNamedQuery("getTAXCodeWithSameName")
-				.setParameter("name", this.name).setParameter("id", this.id);
+		Query query = session
+				.getNamedQuery("getTAXCodeWithSameName")
+				.setParameter("name", this.name)
+				.setParameter("id", this.id)
+				.setParameter("companyId",
+						taxCode.getTAXItemGrpForSales().getCompany().getID());
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			throw new AccounterException(AccounterException.ERROR_NAME_CONFLICT);

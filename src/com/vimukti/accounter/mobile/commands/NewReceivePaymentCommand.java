@@ -157,34 +157,38 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 	 */
 
 	private Result transactionItems(Context context) throws AccounterException {
-		// Requirement itemsReq = get("transactionItems");
-		Customer customer = context.getSelection(RECEIVED_FROM);
-		long date = context.getSelection(DATE);
-		List<ReceivePaymentTransactionList> transactionItems = new FinanceTool()
-				.getTransactionReceivePayments(customer.getID(), date);
-		List<TransactionReceivePayment> records = new ArrayList<TransactionReceivePayment>();
-		for (ReceivePaymentTransactionList receivePaymentTransaction : transactionItems) {
-			TransactionReceivePayment record = new TransactionReceivePayment();
-			record.setDueDate(new FinanceDate(receivePaymentTransaction
-					.getDueDate()));
-			record.setNumber(receivePaymentTransaction.getNumber());
-			record.setInvoiceAmount(receivePaymentTransaction
-					.getInvoiceAmount());
-			// TODO
-			// record.setInvoice(receivePaymentTransaction.getTransactionId());
-			// record.setAmountDue(receivePaymentTransaction.getAmountDue());
-			record.setDiscountDate(new FinanceDate(receivePaymentTransaction
-					.getDiscountDate()));
-			record.setCashDiscount(receivePaymentTransaction.getCashDiscount());
-			record.setWriteOff(receivePaymentTransaction.getWriteOff());
-			record.setAppliedCredits(receivePaymentTransaction
-					.getAppliedCredits());
-			record.setPayment(receivePaymentTransaction.getPayment());
-			records.add(record);
-		}
-		Result item = item(context, records);
-		return item;
-
+		// // Requirement itemsReq = get("transactionItems");
+		// Customer customer = context.getSelection(RECEIVED_FROM);
+		// long date = context.getSelection(DATE);
+		// // List<ReceivePaymentTransactionList> transactionItems = new
+		// FinanceTool()
+		// // .getTransactionReceivePayments(customer.getID(), date);
+		// List<TransactionReceivePayment> records = new
+		// ArrayList<TransactionReceivePayment>();
+		// for (ReceivePaymentTransactionList receivePaymentTransaction :
+		// transactionItems) {
+		// TransactionReceivePayment record = new TransactionReceivePayment();
+		// record.setDueDate(new FinanceDate(receivePaymentTransaction
+		// .getDueDate()));
+		// record.setNumber(receivePaymentTransaction.getNumber());
+		// record.setInvoiceAmount(receivePaymentTransaction
+		// .getInvoiceAmount());
+		// // TODO
+		// // record.setInvoice(receivePaymentTransaction.getTransactionId());
+		// // record.setAmountDue(receivePaymentTransaction.getAmountDue());
+		// record.setDiscountDate(new FinanceDate(receivePaymentTransaction
+		// .getDiscountDate()));
+		// record.setCashDiscount(receivePaymentTransaction.getCashDiscount());
+		// record.setWriteOff(receivePaymentTransaction.getWriteOff());
+		// record.setAppliedCredits(receivePaymentTransaction
+		// .getAppliedCredits());
+		// record.setPayment(receivePaymentTransaction.getPayment());
+		// records.add(record);
+		// }
+		// Result item = item(context, records);
+		// return item;
+		//
+		return null;
 	}
 
 	protected Result item(Context context,

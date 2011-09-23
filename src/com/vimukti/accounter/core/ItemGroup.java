@@ -125,7 +125,8 @@ public class ItemGroup extends CreatableObject implements IAccounterServerCore,
 		// .setParameter(0, itemGroup.name);
 		Query query = session.getNamedQuery("getItemGroupWithSameName")
 				.setParameter("name", itemGroup.name)
-				.setParameter("id", itemGroup.id);
+				.setParameter("id", itemGroup.id)
+				.setParameter("companyId", itemGroup.getCompany().getID());
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			throw new AccounterException(AccounterException.ERROR_NAME_CONFLICT);

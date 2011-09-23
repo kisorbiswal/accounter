@@ -119,7 +119,7 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 			// Comment this Line If You want CompantSetUp
 			// company.initialize(null);
 
-			FinanceTool.createView();
+			FinanceTool.createView(company.getID());
 
 			transaction.commit();
 			UsersMailSendar.sendMailToDefaultUser(user, company.getFullName());

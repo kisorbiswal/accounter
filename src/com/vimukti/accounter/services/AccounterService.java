@@ -128,14 +128,15 @@ public class AccounterService extends HibernateDaoSupport implements
 
 	@Override
 	public <T extends IAccounterServerCore> Boolean canDelete(Class clazz,
-			long id) throws DAOException {
+			long companyId, long id) throws DAOException {
 
 		Session session = Utility.getCurrentSession();
 		// long inputId = getLongIdForGivenid(clazz, id);
 		String queryName = new StringBuilder().append("canDelete")
 				.append(clazz.getSimpleName()).toString();
-		Query query = session.getNamedQuery(queryName).setParameter("inputId",
-				id);
+		Query query = session.getNamedQuery(queryName)
+				.setParameter("inputId", id)
+				.setParameter("companyId", companyId);
 		return executeQuery(query);
 	}
 
@@ -177,7 +178,7 @@ public class AccounterService extends HibernateDaoSupport implements
 		Object companyName = request.getSession().getAttribute(
 				BaseServlet.COMPANY_ID);
 		return (String) companyName;
-	}	
+	}
 
 	// //////////////////////////////////////////////////////////////////////////////////////////////////////
 

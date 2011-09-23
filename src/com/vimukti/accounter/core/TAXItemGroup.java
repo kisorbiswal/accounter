@@ -144,7 +144,8 @@ public class TAXItemGroup extends CreatableObject implements
 		// session.createQuery("from VATItemGroup V where V.name =: name")
 		// .setParameter("name", vatItemGroup.name);
 		Query query = session.getNamedQuery("getTAXItemGroupWithSameName")
-				.setParameter("name", this.name).setParameter("id", this.id);
+				.setParameter("name", this.name).setParameter("id", this.id)
+				.setParameter("companyId", taxItemGroup.getCompany().getID());
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			throw new AccounterException(AccounterException.ERROR_NAME_CONFLICT);

@@ -625,7 +625,7 @@ public class FinanceTool {
 			session.delete(serverObject);
 		} else {
 			if (canDelete(serverClass.getSimpleName(), Long.parseLong(arg1),
-					company.getAccountingType())) {
+					company.getAccountingType(), company.getID())) {
 				session.delete(serverObject);
 			} else {
 				throw new AccounterException(
@@ -651,10 +651,12 @@ public class FinanceTool {
 
 	}
 
-	private boolean canDelete(String serverClass, long id, int companyType) {
+	private boolean canDelete(String serverClass, long id, int companyType,
+			long companyId) {
 		String queryName = getCanDeleteQueryName(serverClass, companyType);
 		Query query = HibernateUtil.getCurrentSession()
-				.getNamedQuery(queryName).setParameter("inputId", id);
+				.getNamedQuery(queryName).setParameter("inputId", id)
+				.setParameter("companyId", companyId);
 		return executeQuery(query);
 	}
 
@@ -765,7 +767,7 @@ public class FinanceTool {
 		}
 		FinanceDate modifiedStartDate = new FinanceDate(Long.parseLong(arg1));
 
-		changeFiscalYearsStartDate(modifiedStartDate);
+		changeFiscalYearsStartDate(modifiedStartDate, context.getCompanyId());
 
 		Company company = getCompany(context.getCompanyId());
 
@@ -1309,12 +1311,14 @@ public class FinanceTool {
 		return null;
 	}
 
-	public ArrayList<BillsList> getBillsList(boolean isExpensesList)
-			throws DAOException {
+	public ArrayList<BillsList> getBillsList(boolean isExpensesList,
+			long companyId) throws DAOException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 			// FIXME:: change the sql query to hql query
-			Query query = session.getNamedQuery("getBillsList");
+			Query query = session.getNamedQuery("getBillsList").setParameter(
+					"companyId", companyId);
+			;
 			List list = query.list();
 			if (list != null) {
 				Object[] object = null;
@@ -2016,11 +2020,14 @@ public class FinanceTool {
 		}
 	}
 
-	public ArrayList<InvoicesList> getInvoiceList() throws DAOException {
+	public ArrayList<InvoicesList> getInvoiceList(long companyId)
+			throws DAOException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 			// FIXME :: query optimization
-			Query query = session.getNamedQuery("getInvoicesList");
+			Query query = session.getNamedQuery("getInvoicesList")
+					.setParameter("companyId", companyId);
+			;
 			List list = query.list();
 
 			if (list != null) {
@@ -2099,14 +2106,16 @@ public class FinanceTool {
 		}
 	}
 
-	public ArrayList<Estimate> getLatestQuotes() throws DAOException {
+	public ArrayList<Estimate> getLatestQuotes(long companyId)
+			throws DAOException {
 		// SELECT E1.* FROM ESTIMATE E1 WHERE 10>(SELECT COUNT(*) FROM
 		// TRANSACTION E2 WHERE E1.ID<E2.ID)
 
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 			// FIXME::: query optimization
-			Query query = session.getNamedQuery("getLatestQuotes");
+			Query query = session.getNamedQuery("getLatestQuotes")
+					.setParameter("companyId", companyId);
 			List list2 = query.list();
 			Object object[] = null;
 
@@ -2137,14 +2146,15 @@ public class FinanceTool {
 
 	}
 
-	public Long getNextIssuePaymentCheckNumber(long account)
+	public Long getNextIssuePaymentCheckNumber(long account, long companyId)
 			throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery(
-					"getNextIssuePaymentCheckNumber").setParameter("accountID",
-					account);
+			Query query = session
+					.getNamedQuery("getNextIssuePaymentCheckNumber")
+					.setParameter("accountID", account)
+					.setParameter("companyId", companyId);
 			List list = query.list();
 
 			if (list != null) {
@@ -2226,7 +2236,7 @@ public class FinanceTool {
 		return NumberUtils.getNextVoucherNumber();
 	}
 
-	public ArrayList<OverDueInvoicesList> getOverDueInvoices()
+	public ArrayList<OverDueInvoicesList> getOverDueInvoices(long companyId)
 			throws DAOException {
 		// try {
 		// Session session = getSessionFactory().openSession();
@@ -2251,7 +2261,8 @@ public class FinanceTool {
 
 		try {
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery("getLatestOverDueInvoices");
+			Query query = session.getNamedQuery("getLatestOverDueInvoices")
+					.setParameter("companyId", companyId);
 			// FIXME ::: check the sql query and change it to hql query if
 			// required
 			List list = query.list();
@@ -2290,11 +2301,14 @@ public class FinanceTool {
 
 	}
 
-	public ArrayList<PaymentsList> getPaymentsList() throws DAOException {
+	public ArrayList<PaymentsList> getPaymentsList(long companyId)
+			throws DAOException {
 		List<PaymentsList> queryResult = new ArrayList<PaymentsList>();
 		try {
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery("getPaymentsList");
+			Query query = session.getNamedQuery("getPaymentsList")
+					.setParameter("companyId", companyId);
+			;
 			// FIXME ::: check the sql query and change it to hql query if
 			// required
 			List list = query.list();
@@ -2380,12 +2394,13 @@ public class FinanceTool {
 
 	}
 
-	public ArrayList<PayBillTransactionList> getTransactionPayBills()
-			throws DAOException {
+	public ArrayList<PayBillTransactionList> getTransactionPayBills(
+			long companyId) throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery("getPayBillTransactionsList");
+			Query query = session.getNamedQuery("getPayBillTransactionsList")
+					.setParameter("companyId", companyId);
 			// FIXME ::: check the sql query and change it to hql query if
 			// required
 			List list = query.list();
@@ -2444,7 +2459,7 @@ public class FinanceTool {
 	}
 
 	public ArrayList<PayBillTransactionList> getTransactionPayBills(
-			final long vendorId) throws DAOException {
+			final long vendorId, long companyId) throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
@@ -2474,7 +2489,8 @@ public class FinanceTool {
 
 			query = session
 					.getNamedQuery("getPayBillTransactionsListForVendor")
-					.setParameter("vendorId", vendorId);
+					.setParameter("vendorId", vendorId)
+					.setParameter("companyId", companyId);
 			// FIXME ::: check the sql query and change it to hql query if
 			// required
 			List list = query.list();
@@ -2516,15 +2532,18 @@ public class FinanceTool {
 	}
 
 	public List<ReceivePaymentTransactionList> getTransactionReceivePayments(
-			long customerId, long paymentDate1) throws AccounterException {
+			long customerId, long paymentDate1, long companyId)
+			throws AccounterException {
 		try {
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			FinanceDate paymentDate = null;
 			paymentDate = new FinanceDate(paymentDate1);
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery(
-					"getReceivePaymentTransactionsListForCustomer")
-					.setParameter("customerId", customerId);
+			Query query = session
+					.getNamedQuery(
+							"getReceivePaymentTransactionsListForCustomer")
+					.setParameter("customerId", customerId)
+					.setParameter("companyId", companyId);
 			List list = query.list();
 
 			// Query query = session.getNamedQuery(
@@ -2625,11 +2644,14 @@ public class FinanceTool {
 
 	}
 
-	public ArrayList<PaymentsList> getVendorPaymentsList() throws DAOException {
+	public ArrayList<PaymentsList> getVendorPaymentsList(long companyId)
+			throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery("getVendorPaymentsList");
+			Query query = session.getNamedQuery("getVendorPaymentsList")
+					.setParameter("companyId", companyId);
+			;
 			// FIXME ::: check the sql query and change it to hql query if
 			// required
 			List list = query.list();
@@ -2766,11 +2788,13 @@ public class FinanceTool {
 		return (Boolean) list.iterator().next();
 	}
 
-	public ArrayList<BillsList> getLatestBills() throws DAOException {
+	public ArrayList<BillsList> getLatestBills(long companyId)
+			throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery("getLatestBills");
+			Query query = session.getNamedQuery("getLatestBills").setParameter(
+					"companyId", companyId);
 			// FIXME ::: check the sql query and change it to hql query if
 			// required
 			List list = query.list();
@@ -2805,11 +2829,13 @@ public class FinanceTool {
 		}
 	}
 
-	public ArrayList<CashPurchase> getLatestCashPurchases() throws DAOException {
+	public ArrayList<CashPurchase> getLatestCashPurchases(long companyId)
+			throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery("getLatestCashPurchases");
+			Query query = session.getNamedQuery("getLatestCashPurchases")
+					.setParameter("companyId", companyId);
 			// FIXME ::: check the sql query and change it to hql query if
 			// required
 			List list2 = query.list();
@@ -2841,11 +2867,13 @@ public class FinanceTool {
 		}
 	}
 
-	public ArrayList<CashSales> getLatestCashSales() throws DAOException {
+	public ArrayList<CashSales> getLatestCashSales(long companyId)
+			throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery("getLatestCashSales");
+			Query query = session.getNamedQuery("getLatestCashSales")
+					.setParameter("companyId", companyId);
 			List list2 = query.list();
 
 			Object object[] = null;
@@ -2877,11 +2905,13 @@ public class FinanceTool {
 		}
 	}
 
-	public ArrayList<WriteCheck> getLatestChecks() throws DAOException {
+	public ArrayList<WriteCheck> getLatestChecks(long companyId)
+			throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery("getLatestChecks");
+			Query query = session.getNamedQuery("getLatestChecks")
+					.setParameter("companyId", companyId);
 			// FIXME ::: check the sql query and change it to hql query if
 			// required try to fix all sql queries
 			List list2 = query.list();
@@ -2919,12 +2949,13 @@ public class FinanceTool {
 		}
 	}
 
-	public ArrayList<CustomerRefund> getLatestCustomerRefunds()
+	public ArrayList<CustomerRefund> getLatestCustomerRefunds(long companyId)
 			throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery("getLatestCustomerRefunds");
+			Query query = session.getNamedQuery("getLatestCustomerRefunds")
+					.setParameter("companyId", companyId);
 			List list2 = query.list();
 
 			Object object[] = null;
@@ -2956,11 +2987,13 @@ public class FinanceTool {
 		}
 	}
 
-	public ArrayList<Customer> getLatestCustomers() throws DAOException {
+	public ArrayList<Customer> getLatestCustomers(long companyId)
+			throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery("getLatestCustomers");
+			Query query = session.getNamedQuery("getLatestCustomers")
+					.setParameter("companyId", companyId);
 			List list2 = query.list();
 
 			Object[] object = null;
@@ -2986,11 +3019,13 @@ public class FinanceTool {
 		}
 	}
 
-	public ArrayList<MakeDeposit> getLatestDeposits() throws DAOException {
+	public ArrayList<MakeDeposit> getLatestDeposits(long companyId)
+			throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery("getLatestDeposits");
+			Query query = session.getNamedQuery("getLatestDeposits")
+					.setParameter("companyId", companyId);
 			List list2 = query.list();
 
 			Object[] object = null;
@@ -3027,11 +3062,13 @@ public class FinanceTool {
 		}
 	}
 
-	public ArrayList<TransferFund> getLatestFundsTransfer() throws DAOException {
+	public ArrayList<TransferFund> getLatestFundsTransfer(long companyId)
+			throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery("getLatestTransferFunds");
+			Query query = session.getNamedQuery("getLatestTransferFunds")
+					.setParameter("companyId", companyId);
 			List list2 = query.list();
 
 			Object object[] = null;
@@ -3065,11 +3102,12 @@ public class FinanceTool {
 		}
 	}
 
-	public ArrayList<Item> getLatestItems() throws DAOException {
+	public ArrayList<Item> getLatestItems(long companyId) throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery("getLatestItems");
+			Query query = session.getNamedQuery("getLatestItems").setParameter(
+					"companyId", companyId);
 			List list2 = query.list();
 
 			Object object[] = null;
@@ -3095,11 +3133,13 @@ public class FinanceTool {
 		}
 	}
 
-	public ArrayList<PaymentsList> getLatestPayments() throws DAOException {
+	public ArrayList<PaymentsList> getLatestPayments(long companyId)
+			throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery("getLatestPayments");
+			Query query = session.getNamedQuery("getLatestPayments")
+					.setParameter("companyId", companyId);
 			List list = query.list();
 
 			if (list != null) {
@@ -3136,11 +3176,13 @@ public class FinanceTool {
 		}
 	}
 
-	public ArrayList<Vendor> getLatestVendors() throws DAOException {
+	public ArrayList<Vendor> getLatestVendors(long companyId)
+			throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery("getLatestVendors");
+			Query query = session.getNamedQuery("getLatestVendors")
+					.setParameter("companyId", companyId);
 			List list2 = query.list();
 
 			Object object[] = null;
@@ -3211,9 +3253,10 @@ public class FinanceTool {
 			Company company = getCompany(companyId);
 			Integer range[] = company.getNominalCodeRange(accountSubBaseType);
 
-			Query query = session.getNamedQuery(
-					"getNextNominalCodeForGivenAccountType").setParameter(
-					"subBaseType", accountSubBaseType);
+			Query query = session
+					.getNamedQuery("getNextNominalCodeForGivenAccountType")
+					.setParameter("subBaseType", accountSubBaseType)
+					.setParameter("companyId", companyId);
 			List list = query.list();
 			Long nextNominalCode = (list.size() > 0) ? ((Long) list.get(0)) + 1
 					: range[0];
@@ -3274,12 +3317,14 @@ public class FinanceTool {
 		}
 	}
 
-	public ArrayList<ReceivePaymentsList> getReceivePaymentsList()
+	public ArrayList<ReceivePaymentsList> getReceivePaymentsList(long companyId)
 			throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery("getReceivePaymentsList");
+			Query query = session.getNamedQuery("getReceivePaymentsList")
+					.setParameter("companyId", companyId);
+			;
 			List list = query.list();
 
 			if (list != null) {
@@ -3426,11 +3471,13 @@ public class FinanceTool {
 	// }
 	// }
 
-	public ArrayList<InvoicesList> getLatestInvoices() throws DAOException {
+	public ArrayList<InvoicesList> getLatestInvoices(long companyId)
+			throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery("getLatestInvoices");
+			Query query = session.getNamedQuery("getLatestInvoices")
+					.setParameter("companyId", companyId);
 			List list = query.list();
 
 			if (list != null) {
@@ -3492,11 +3539,12 @@ public class FinanceTool {
 					null));
 	}
 
-	public ArrayList<ReceivePayment> getLatestReceivePayments()
+	public ArrayList<ReceivePayment> getLatestReceivePayments(long companyId)
 			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery("getLatestReceivePayments");
+		Query query = session.getNamedQuery("getLatestReceivePayments")
+				.setParameter("companyId", companyId);
 		List list2 = query.list();
 
 		Object object[] = null;
@@ -3522,10 +3570,12 @@ public class FinanceTool {
 					null));
 	}
 
-	public ArrayList<Item> getLatestSalesItems() throws DAOException {
+	public ArrayList<Item> getLatestSalesItems(long companyId)
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery("getLatestSalesItems");
+		Query query = session.getNamedQuery("getLatestSalesItems")
+				.setParameter("companyId", companyId);
 		List list2 = query.list();
 
 		Object object[] = null;
@@ -3549,12 +3599,13 @@ public class FinanceTool {
 					null));
 	}
 
-	public ArrayList<PaymentsList> getLatestVendorPayments()
+	public ArrayList<PaymentsList> getLatestVendorPayments(long companyId)
 			throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery("getLatestVendorPayments");
+			Query query = session.getNamedQuery("getLatestVendorPayments")
+					.setParameter("companyId", companyId);
 			List list = query.list();
 
 			if (list != null) {
@@ -3839,12 +3890,13 @@ public class FinanceTool {
 	}
 
 	public ArrayList<EstimatesAndSalesOrdersList> getEstimatesAndSalesOrdersList(
-			long customerId) throws DAOException {
+			long customerId, long companyId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
 		Query query = session.getNamedQuery("getEstimatesAndSalesOrdersList")
-				.setParameter("customerId", customerId);
+				.setParameter("customerId", customerId)
+				.setParameter("companyId", companyId);
 
 		List list = query.list();
 		List<EstimatesAndSalesOrdersList> esl = new ArrayList<EstimatesAndSalesOrdersList>();
@@ -3870,12 +3922,14 @@ public class FinanceTool {
 	}
 
 	public ArrayList<PurchaseOrdersAndItemReceiptsList> getPurchasesAndItemReceiptsList(
-			long vendorId) throws DAOException {
+			long vendorId, long companyId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
 		Query query = session.getNamedQuery("getPurchasesAndItemReceipts")
-				.setParameter("vendorId", vendorId);
+				.setParameter("vendorId", vendorId)
+				.setParameter("companyId", companyId);
+		;
 
 		List list = query.list();
 		List<PurchaseOrdersAndItemReceiptsList> pil = new ArrayList<PurchaseOrdersAndItemReceiptsList>();
@@ -3901,11 +3955,14 @@ public class FinanceTool {
 		return new ArrayList<PurchaseOrdersAndItemReceiptsList>(pil);
 	}
 
-	public ArrayList<SalesOrdersList> getSalesOrdersList() throws DAOException {
+	public ArrayList<SalesOrdersList> getSalesOrdersList(long companyId)
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		Query query = session.getNamedQuery("getSalesOrdersList");
+		Query query = session.getNamedQuery("getSalesOrdersList").setParameter(
+				"companyId", companyId);
+		;
 
 		List list = query.list();
 		List<SalesOrdersList> esl = new ArrayList<SalesOrdersList>();
@@ -3932,12 +3989,14 @@ public class FinanceTool {
 		return new ArrayList<SalesOrdersList>(esl);
 	}
 
-	public ArrayList<PurchaseOrdersList> getPurchaseOrdersList()
+	public ArrayList<PurchaseOrdersList> getPurchaseOrdersList(long companyId)
 			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		Query query = session.getNamedQuery("getPurchaseOrdersList");
+		Query query = session.getNamedQuery("getPurchaseOrdersList")
+				.setParameter("companyId", companyId);
+		;
 		// FIXME ::: check the sql query and change it to hql query if required
 		List list = query.list();
 		List<PurchaseOrdersList> pil = new ArrayList<PurchaseOrdersList>();
@@ -3965,12 +4024,14 @@ public class FinanceTool {
 	}
 
 	public ArrayList<PurchaseOrdersList> getNotReceivedPurchaseOrdersList(
-			long vendorID) throws DAOException {
+			long vendorID, long companyId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
 		Query query = session.getNamedQuery("getNotReceivedPurchaseOrdersList")
-				.setParameter("vendorId", vendorID);
+				.setParameter("vendorId", vendorID)
+				.setParameter("companyId", companyId);
+		;
 		// FIXME ::: check the sql query and change it to hql query if required
 
 		List list = query.list();
@@ -4950,7 +5011,8 @@ public class FinanceTool {
 	//
 	// }
 
-	private void changeFiscalYearsStartDate(FinanceDate modifiedStartDate) {
+	private void changeFiscalYearsStartDate(FinanceDate modifiedStartDate,
+			long companyId) {
 
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
@@ -4963,7 +5025,8 @@ public class FinanceTool {
 		// "from com.vimukti.accounter.core.FiscalYear f order by f.startDate")
 		// .list();
 
-		Query query = session.getNamedQuery("getMinStartDateAndMaxEndDate");
+		Query query = session.getNamedQuery("getMinStartDateAndMaxEndDate")
+				.setParameter("companyId", companyId);
 		List list = query.list();
 		Object[] object = (Object[]) list.get(0);
 
@@ -7867,7 +7930,8 @@ public class FinanceTool {
 				// Adding Filed vat entries to it's Respective boxes, except
 				// Box3 and Box5
 				Query query1 = session.getNamedQuery("getFiledBoxValues")
-						.setParameter("id", v.getID());
+						.setParameter("id", v.getID())
+						.setParameter("companyId", company.getID());
 
 				List list = query1.list();
 				Object[] object = null;
@@ -8673,7 +8737,8 @@ public class FinanceTool {
 	}
 
 	public ArrayList<UncategorisedAmountsReport> getUncategorisedAmountsReport(
-			FinanceDate fromDate, FinanceDate toDate) throws ParseException {
+			FinanceDate fromDate, FinanceDate toDate, long companyId)
+			throws ParseException {
 		List<UncategorisedAmountsReport> uncategorisedAmounts = new ArrayList<UncategorisedAmountsReport>();
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -8682,7 +8747,8 @@ public class FinanceTool {
 
 		Query query = session.getNamedQuery("getEGSandRCentriesFromSales")
 				.setParameter("startDate", fromDate.getDate())
-				.setParameter("endDate", toDate.getDate());
+				.setParameter("endDate", toDate.getDate())
+				.setParameter("companyId", companyId);
 
 		List list2 = query.list();
 		Object[] object = null;
@@ -9212,8 +9278,8 @@ public class FinanceTool {
 	}
 
 	public ArrayList<ReverseChargeListDetail> getReverseChargeListDetailReport(
-			String payeeName, FinanceDate fromDate, FinanceDate toDate)
-			throws DAOException, ParseException {
+			String payeeName, FinanceDate fromDate, FinanceDate toDate,
+			long companyId) throws DAOException, ParseException {
 		// /////
 		// ////////
 		// /////////
@@ -9225,7 +9291,8 @@ public class FinanceTool {
 		Query query = session
 				.getNamedQuery("getReverseChargeListDetailReportEntries")
 				.setParameter("startDate", fromDate.getDate())
-				.setParameter("endDate", toDate.getDate());
+				.setParameter("endDate", toDate.getDate())
+				.setParameter("companyId", companyId);
 
 		Map<String, List<ReverseChargeListDetail>> maps = new LinkedHashMap<String, List<ReverseChargeListDetail>>();
 
@@ -9504,6 +9571,7 @@ public class FinanceTool {
 		vc.setDefault(true);
 		vc.setDescription(description);
 		vc.setName(codeName);
+		
 		vc.setTaxable(isTaxable);
 		if (vatItems.length > 0)
 			vc.setTAXItemGrpForPurchases((TAXItemGroup) getServerObjectByName(
@@ -10654,23 +10722,24 @@ public class FinanceTool {
 		return list1;
 	}
 
-	public static void createView() {
+	public static void createView(long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
-		session.getNamedQuery("createSalesPurchasesView").executeUpdate();
-		session.getNamedQuery("createTransactionHistoryView").executeUpdate();
-
+		session.getNamedQuery("createSalesPurchasesView")
+				.setParameter("companyId", companyId).executeUpdate();
+		session.getNamedQuery("createTransactionHistoryView")
+				.setParameter("companyId", companyId).executeUpdate();
 	}
 
-	public static void createViewsForclient() {
+	public static void createViewsForclient(long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		session.getNamedQuery("createSalesPurchasesViewForclient")
-				.executeUpdate();
+				.setParameter("companyId", companyId).executeUpdate();
 		session.getNamedQuery("createTransactionHistoryViewForclient")
-				.executeUpdate();
+				.setParameter("companyId", companyId).executeUpdate();
 	}
 
-	public ArrayList<PayeeList> getPayeeList(int transactionCategory)
-			throws DAOException {
+	public ArrayList<PayeeList> getPayeeList(int transactionCategory,
+			long companyId) throws DAOException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 
@@ -10768,6 +10837,7 @@ public class FinanceTool {
 
 				query = session
 						.getNamedQuery("getCustomersList")
+						.setParameter("companyId", companyId)
 						.setParameter(
 								"currentMonthStartDateCal",
 								new FinanceDate(currentMonthStartDateCal
@@ -10821,6 +10891,7 @@ public class FinanceTool {
 
 				query = session
 						.getNamedQuery("getVendorsList")
+						.setParameter("companyId", companyId)
 						.setParameter(
 								"currentMonthStartDateCal",
 								new FinanceDate(currentMonthStartDateCal
@@ -11118,7 +11189,8 @@ public class FinanceTool {
 					.getNamedQuery("getCreatableStatementForCustomer")
 					.setParameter("startDate", fromDate.getDate())
 					.setParameter("endDate", toDate.getDate())
-					.setParameter("customerId", id);
+					.setParameter("customerId", id)
+					.setParameter("companyId", companyId);
 
 			List list = query.list();
 			if (list != null) {
@@ -11226,6 +11298,7 @@ public class FinanceTool {
 
 				query = session
 						.getNamedQuery("getPointsForBankAccount")
+						.setParameter("companyId", company.getID())
 						.setParameter("accountNo", accountNo)
 						.setParameter("previousThreeDaysBackDateCal",
 								new FinanceDate(dateCal[0].getTime()).getDate())
@@ -11349,6 +11422,7 @@ public class FinanceTool {
 
 				query = session
 						.getNamedQuery("getGraphPointsForDebtors")
+						.setParameter("companyId", company.getID())
 						.setParameter("debtorAccountID",
 								company.getAccountsReceivableAccount().getID())
 						.setParameter(
@@ -11432,6 +11506,7 @@ public class FinanceTool {
 
 				query = session
 						.getNamedQuery("getGraphPointsForCreditors")
+						.setParameter("companyId", company.getID())
 						.setParameter("creditorsAccountID",
 								company.getAccountsPayableAccount().getID())
 						.setParameter("currentDate",
@@ -11542,7 +11617,8 @@ public class FinanceTool {
 			}
 
 			if (chartType == GraphChart.EXPENSE_CHART_TYPE)
-				query = session.getNamedQuery("getExpenseTotalAmounts");
+				query = session.getNamedQuery("getExpenseTotalAmounts")
+						.setParameter("companyId", company.getID());
 
 			List list = query.list();
 			if (list != null) {
@@ -11566,6 +11642,7 @@ public class FinanceTool {
 						if (chartType == GraphChart.ACCOUNTS_RECEIVABLE_CHART_TYPE) {
 							Object res = session
 									.getNamedQuery("getInvoicesDue")
+									.setParameter("companyId", company.getID())
 									.setParameter("presentDate", 0)
 									.uniqueResult();
 							double amount = res == null ? 0 : (Double) res;
@@ -11573,6 +11650,7 @@ public class FinanceTool {
 
 							res = session
 									.getNamedQuery("getInvoicesDue")
+									.setParameter("companyId", company.getID())
 									.setParameter("presentDate",
 											(new FinanceDate()).getDate())
 									.uniqueResult();
@@ -11631,12 +11709,14 @@ public class FinanceTool {
 								: (Double) object[31]);
 
 						Object res = session.getNamedQuery("getBillsDue")
+								.setParameter("companyId", company.getID())
 								.setParameter("presentDate", 0).uniqueResult();
 						double amount = res == null ? 0 : (Double) res;
 						gPoints.add(amount);
 
 						res = session
 								.getNamedQuery("getBillsDue")
+								.setParameter("companyId", company.getID())
 								.setParameter("presentDate",
 										(new FinanceDate()).getDate())
 								.uniqueResult();
@@ -11853,13 +11933,14 @@ public class FinanceTool {
 	}
 
 	public ArrayList<PayeeStatementsList> getCustomerStatement(long customer,
-			long fromDate, long toDate) {
+			long fromDate, long toDate, long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 
 		List<PayeeStatementsList> result = new ArrayList<PayeeStatementsList>();
 
 		Query query = session.getNamedQuery("getCustomerPreviousBalance");
 		query.setParameter("customerId", customer);
+		query.setParameter("companyId", companyId);
 		query.setParameter("fromDate", fromDate);
 		Object uniqueResult = query.uniqueResult();
 		PayeeStatementsList ob = new PayeeStatementsList();
@@ -11869,6 +11950,7 @@ public class FinanceTool {
 
 		Query query1 = session.getNamedQuery("getCustomerStatement");
 		query1.setParameter("customerId", customer);
+		query1.setParameter("companyId", companyId);
 		query1.setParameter("fromDate", fromDate);
 		query1.setParameter("toDate", toDate);
 

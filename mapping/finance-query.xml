@@ -10,6 +10,7 @@
 	<sql-query name="getDepreciatingFixedAssets">
 		<query-param name="fromDate" type="long" />
 		<query-param name="fromTo" type="long" />
+		<query-param name="companyId" type="long" />
 		<return-scalar column="TRANSACTION_ID" type="string" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_NUMBER" type="string" />
@@ -41,11 +42,13 @@
 		T.STATUS !=2
 		AND T.T_TYPE IN (7, 21)
 		AND P.ID=:customerId
+		AND T.COMPANY_ID=:companyId
 		ORDER BY
 		T.T_DATE
 	</sql-query>
 	<sql-query name="getEstimatesAndSalesOrdersList">
 		<query-param name="customerId" type="long" />
+		<query-param name="companyId" type="long" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_NUMBER" type="string" />
@@ -87,9 +90,11 @@
 		21)
 		AND
 		P.ID=:customerId
+		AND T.COMPANY_ID=:companyId
 		ORDER BY T.T_DATE
 	</sql-query>
 	<sql-query name="getSalesOrdersList">
+		<query-param name="companyId" type="long" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_NUMBER" type="string" />
@@ -122,10 +127,13 @@
 		ON
 		P.ID=S.CUSTOMER_ID
 		WHERE T.T_TYPE = 21
-		ORDER BY T.T_DATE
+		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE
 	</sql-query>
 	<sql-query name="getPurchasesAndItemReceipts">
 		<query-param name="vendorId" type="String" />
+		<query-param name="companyId" type="long" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_NUMBER" type="string" />
@@ -165,10 +173,12 @@
 		AND T.T_TYPE IN (22, 23)
 		AND
 		P.ID=:vendorId
+		AND T.COMPANY_ID=:companyId
 		ORDER BY
 		T.T_DATE
 	</sql-query>
 	<sql-query name="getPurchaseOrdersList">
+		<query-param name="companyId" type="long" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_NUMBER" type="string" />
@@ -199,10 +209,12 @@
 		JOIN
 		PAYEE P
 		ON P.ID=PO.VENDOR_ID
-		WHERE T.T_TYPE = 22 ORDER BY T.T_DATE
+		WHERE T.T_TYPE = 22 AND
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 	</sql-query>
 	<sql-query name="getNotReceivedPurchaseOrdersList">
 		<query-param name="vendorId" type="String" />
+		<query-param name="companyId" type="long" />
 		<return-scalar column="TRANSACTION_ID" type="string" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_NUMBER" type="string" />
@@ -231,9 +243,11 @@
 		AND T.T_TYPE =
 		22
 		AND P.ID=:vendorId
+		AND T.COMPANY_ID=:companyId
 		ORDER BY T.T_DATE
 	</sql-query>
 	<sql-query name="getBillsList">
+		<query-param name="companyId" type="long" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="DUE_DATE" type="long" />
@@ -288,10 +302,12 @@
 		TRANSACTION_STATUS,
 		T.T_DATE AS TRANSACTION_DATE,
 		CASE
-		WHEN T.T_TYPE = 28 THEN
+		WHEN
+		T.T_TYPE = 28 THEN
 		CP.EXPENSE_STATUS
 		ELSE 0 END AS EXPENSE_STATUS
-		FROM TRANSACTION T
+		FROM
+		TRANSACTION T
 		LEFT
 		OUTER JOIN
 		CASH_PURCHASE
@@ -325,7 +341,8 @@
 		OUTER JOIN
 		VENDOR V
 		on V.ID
-		= EB.VENDOR_ID
+		=
+		EB.VENDOR_ID
 		OR V.ID =
 		VCM.VENDOR_ID
 		OR V.ID =
@@ -351,14 +368,16 @@
 
 		WHERE
 		T.T_TYPE in (2,3,6,14,15,23,26,27,28)
-
-		ORDER BY
+		AND T.COMPANY_ID=:companyId
+		ORDER
+		BY
 		VENDOR_NAME,T.T_DATE
 
 	</sql-query>
 	<!-- To generate the Invoices List which includes Cash Sales, Customer Credit 
 		Memos, Invoices and Write Checks -->
 	<sql-query name="getInvoicesList">
+		<query-param name="companyId" type="long" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
@@ -433,9 +452,11 @@
 		ON
 		P.ID = C.ID
 		WHERE T.T_TYPE IN(1,4,8,15) AND P.NAME IS NOT
-		NULL
+		NULL AND
+		T.COMPANY_ID=:companyId
 	</sql-query>
 	<sql-query name="getReceivePaymentsList">
+		<query-param name="companyId" type="long" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
@@ -477,11 +498,12 @@
 		ON
 		P.ID = C.ID
 
-		WHERE T.T_TYPE IN(12,29)
+		WHERE T.T_TYPE IN(12,29) AND T.COMPANY_ID=:companyId
 	</sql-query>
 	<!-- To generate the Payments List which Includes Cash Purchases, Credit 
 		Card Charges, Customer Refunds,PayBills and Write Checks -->
 	<sql-query name="getPaymentsList">
+		<query-param name="companyId" type="long" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="PAYMENT_DATE" type="long" />
@@ -626,12 +648,13 @@
 		OR
 		P.ID = TG.ID
 		WHERE T.T_TYPE in
-		(2,3,5,11,15,17,30,31)
+		(2,3,5,11,15,17,30,31) AND T.COMPANY_ID=:companyId
 
 	</sql-query>
 	<!-- To generate the Vendor Payments List which Includes PayBills and Write 
 		Checks created for Vendors -->
 	<sql-query name="getVendorPaymentsList">
+		<query-param name="companyId" type="long" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="PAYMENT_DATE" type="long" />
@@ -701,13 +724,15 @@
 		ON P.ID = V.ID
 		OR P.ID =
 		TA.ID
-		WHERE T.T_TYPE in(11,15,17,25) AND NAME IS NOT NULL
+		WHERE T.T_TYPE in(11,15,17,25) AND NAME IS NOT NULL AND
+		T.COMPANY_ID=:companyId
 	</sql-query>
 
 	<!-- Queries for retrieving the Make deposit Transctions list -->
 
 	<!-- Start from Here -->
 	<sql-query name="getTransactionMakeDeposit_CashSales">
+		<query-param name="companyId" type="long" />
 		<return-scalar column="transaction_id" type="long" />
 		<return-scalar column="transaction_type" type="int" />
 		<return-scalar column="transaction_date" type="long" />
@@ -831,9 +856,10 @@
 		PAYEE P
 		ON P.ID = C.ID
 		WHERE
-		T.IS_DEPOSITED = 'FALSE'
+		T.IS_DEPOSITED = 'FALSE' AND T.COMPANY_ID=:companyId
 	</sql-query>
 	<sql-query name="getTransactionMakeDeposit_Invoices">
+		<query-param name="companyId" type="long" />
 		<return-scalar column="transaction_id" type="long" />
 		<return-scalar column="transaction_type" type="int" />
 		<return-scalar column="transaction_date" type="long" />
@@ -855,9 +881,10 @@
 		TA.ID = TC.TAXAGENCY_ID LEFT JOIN PAYEE P ON P.ID = C.ID OR P.ID =
 		TA.ID LEFT JOIN ACCOUNT A ON A.ID = IT.INCOME_ACCOUNT_ID OR A.ID =
 		TA.ACCOUNT_ID WHERE A.NAME = 'Un Deposited Funds' AND T.IS_DEPOSITED =
-		'FALSE' GROUP BY I.ID
+		'FALSE' AND T.COMPANY_ID=:companyId GROUP BY I.ID
 	</sql-query>
 	<sql-query name="getTransactionMakeDeposit_CustomerRefunds">
+		<query-param name="companyId" type="long" />
 		<return-scalar column="transaction_id" type="long" />
 		<return-scalar column="transaction_type" type="int" />
 		<return-scalar column="transaction_date" type="long" />
@@ -876,9 +903,11 @@
 		CR.ID LEFT JOIN CUSTOMER C ON C.ID = CR.CUSTOMER_ID LEFT JOIN PAYEE P
 		on P.ID = C.ID WHERE CR.PAYFROM_ACCOUNT_ID = (SELECT A.ID FROM ACCOUNT
 		A WHERE A.NAME = 'Un Deposited Funds') AND T.IS_DEPOSITED = 'FALSE'
+		AND T.COMPANY_ID=:companyId
 		GROUP BY CR.ID
 	</sql-query>
 	<sql-query name="getTransactionMakeDeposit_CustomerCreditMemos">
+		<query-param name="companyId" type="long" />
 		<return-scalar column="transaction_id" type="long" />
 		<return-scalar column="transaction_type" type="int" />
 		<return-scalar column="transaction_date" type="long" />
@@ -900,9 +929,11 @@
 		TAXAGENCY TA ON TA.ID = TC.TAXAGENCY_ID LEFT JOIN PAYEE P ON P.ID =
 		C.ID OR P.ID = TA.ID LEFT JOIN ACCOUNT A ON A.ID =
 		IT.INCOME_ACCOUNT_ID OR A.ID = TA.ACCOUNT_ID WHERE A.NAME = 'Un
-		Deposited Funds' AND T.IS_DEPOSITED = 'FALSE' GROUP BY CCM.ID
+		Deposited Funds' AND T.IS_DEPOSITED = 'FALSE' AND
+		T.COMPANY_ID=:companyId GROUP BY CCM.ID
 	</sql-query>
 	<sql-query name="getTransactionMakeDeposit_ReceivePayments">
+		<query-param name="companyId" type="long" />
 		<return-scalar column="transaction_id" type="long" />
 		<return-scalar column="transaction_type" type="int" />
 		<return-scalar column="transaction_date" type="long" />
@@ -920,9 +951,11 @@
 		RECEIVE_PAYMENT RP LEFT JOIN TRANSACTION T ON T.ID = RP.ID LEFT JOIN
 		CUSTOMER C ON RP.CUSTOMER_ID = C.ID LEFT JOIN PAYEE P ON P.ID = C.ID
 		WHERE RP.ACCOUNT_ID = (SELECT A.ID FROM ACCOUNT A WHERE A.NAME = 'Un
-		Deposited Funds') AND T.IS_DEPOSITED = 'FALSE'
+		Deposited Funds') AND T.IS_DEPOSITED = 'FALSE' AND
+		T.COMPANY_ID=:companyId
 	</sql-query>
 	<sql-query name="getTransactionMakeDeposit_EnterBills">
+		<query-param name="companyId" type="long" />
 		<return-scalar column="transaction_id" type="long" />
 		<return-scalar column="transaction_type" type="int" />
 		<return-scalar column="transaction_date" type="long" />
@@ -942,9 +975,10 @@
 		JOIN VENDOR V ON EB.VENDOR_ID = V.ID LEFT JOIN ITEM IT ON TI.ITEM_ID =
 		IT.ID LEFT JOIN PAYEE P ON P.ID = V.ID WHERE IT.EXPENSE_ACCOUNT_ID =
 		(SELECT A.ID FROM ACCOUNT A WHERE A.NAME = 'Un Deposited Funds') AND
-		T.IS_DEPOSITED = 'FALSE' GROUP BY EB.ID
+		T.IS_DEPOSITED = 'FALSE' AND T.COMPANY_ID=:companyId GROUP BY EB.ID
 	</sql-query>
 	<sql-query name="getTransactionMakeDeposit_VendorCreditMemos">
+		<query-param name="companyId" type="long" />
 		<return-scalar column="transaction_id" type="long" />
 		<return-scalar column="transaction_type" type="int" />
 		<return-scalar column="transaction_date" type="long" />
@@ -964,9 +998,11 @@
 		T.ID LEFT JOIN VENDOR V ON VCM.VENDOR_ID = V.ID LEFT JOIN PAYEE P ON
 		P.ID = V.ID LEFT JOIN ITEM IT ON TI.ITEM_ID = IT.ID WHERE
 		IT.EXPENSE_ACCOUNT_ID = (SELECT A.ID FROM ACCOUNT A WHERE A.NAME = 'Un
-		Deposited Funds') AND T.IS_DEPOSITED = 'FALSE' GROUP BY VCM.ID
+		Deposited Funds') AND T.IS_DEPOSITED = 'FALSE' AND
+		T.COMPANY_ID=:companyId GROUP BY VCM.ID
 	</sql-query>
 	<sql-query name="getTransactionMakeDeposit_VendorPayments">
+		<query-param name="companyId" type="long" />
 		<return-scalar column="transaction_id" type="long" />
 		<return-scalar column="transaction_type" type="int" />
 		<return-scalar column="transaction_date" type="long" />
@@ -984,9 +1020,11 @@
 		PAY_BILL PB LEFT JOIN TRANSACTION T ON T.ID = PB.ID LEFT JOIN VENDOR V
 		ON PB.VENDOR_ID = V.ID LEFT JOIN PAYEE P ON P.ID = V.ID WHERE
 		PB.PAYFROM_ID = (SELECT A.ID FROM ACCOUNT A WHERE A.NAME = 'Un
-		Deposited Funds') AND T.IS_DEPOSITED = 'FALSE'
+		Deposited Funds') AND T.IS_DEPOSITED = 'FALSE' AND
+		T.COMPANY_ID=:companyId
 	</sql-query>
 	<sql-query name="getTransactionMakeDeposit_CashPurchases">
+		<query-param name="companyId" type="long" />
 		<return-scalar column="transaction_id" type="long" />
 		<return-scalar column="transaction_type" type="int" />
 		<return-scalar column="transaction_date" type="long" />
@@ -1013,9 +1051,10 @@
 		TRANSACTION T ON T.ID = CP.ID LEFT JOIN VENDOR V ON CP.VENDOR_ID =
 		V.ID LEFT JOIN PAYEE P ON P.ID = V.ID WHERE CP.PAYFROM_ACCOUNT_ID IN
 		(SELECT A.ID FROM ACCOUNT A WHERE A.A_TYPE = 6) AND T.IS_DEPOSITED =
-		'FALSE'
+		'FALSE' AND T.COMPANY_ID=:companyId
 	</sql-query>
 	<sql-query name="getTransactionMakeDeposit_CreditCardCharges">
+		<query-param name="companyId" type="long" />
 		<return-scalar column="transaction_id" type="long" />
 		<return-scalar column="transaction_type" type="int" />
 		<return-scalar column="transaction_date" type="long" />
@@ -1042,9 +1081,10 @@
 		TRANSACTION T ON T.ID = CCC.ID LEFT JOIN VENDOR V ON CCC.VENDOR_ID =
 		V.ID LEFT JOIN PAYEE P ON P.ID = V.ID WHERE CCC.PAYFROM_ACCOUNT_ID IN
 		(SELECT A.ID FROM ACCOUNT A WHERE A.A_TYPE = 6) AND T.IS_DEPOSITED =
-		'FALSE'
+		'FALSE' AND T.COMPANY_ID=:companyId
 	</sql-query>
 	<sql-query name="getTransactionMakeDeposit_TransferFunds">
+		<query-param name="companyId" type="long" />
 		<return-scalar column="transaction_id" type="long" />
 		<return-scalar column="transaction_type" type="int" />
 		<return-scalar column="transaction_date" type="long" />
@@ -1088,9 +1128,11 @@
 		OR A.ID = TF.TRANSFER_TO
 		WHERE
 		A.NAME = 'Un Deposited Funds'
-		AND T.IS_DEPOSITED = 'FALSE'
+		AND T.IS_DEPOSITED = 'FALSE' AND
+		T.COMPANY_ID=:companyId
 	</sql-query>
 	<sql-query name="getTransactionMakeDeposit_WriteChecks">
+		<query-param name="companyId" type="long" />
 		<return-scalar column="transaction_id" type="long" />
 		<return-scalar column="transaction_type" type="int" />
 		<return-scalar column="transaction_date" type="long" />
@@ -1222,13 +1264,15 @@
 		ON P.ID = C.ID
 		OR P.ID = V.ID
 		OR P.ID = TA.ID
-		WHERE T.IS_DEPOSITED = 'FALSE'
+		WHERE T.IS_DEPOSITED = 'FALSE' AND
+		T.COMPANY_ID=:companyId
 	</sql-query>
 
 	<!-- Ends Here -->
 	<!-- To retrieve the Enter Bills and MakeDeposits Vendor Entry Transasctions 
 		of all Vendors which are not paid OR partially paid, while creating Pay Bill -->
 	<sql-query name="getPayBillTransactionsList">
+		<query-param name="companyId" type="long" />
 		<return-scalar column="ID" type="string" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="DUE_DATE" type="long" />
@@ -1305,13 +1349,14 @@
 		= 2
 		WHERE T.T_TYPE in (6,10) and
 		(EB.BALANCE_DUE>0.0 OR TMD.BALANCE_DUE
-		>0.0)
+		>0.0) AND T.COMPANY_ID=:companyId
 	</sql-query>
 	<!-- To retrieve the Enter Bills and MakeDeposits Vendor Entry Transasctions 
 		of corresponding Vendors which are not paid OR partially paid, while creating 
 		Pay Bill -->
 	<sql-query name="getPayBillTransactionsListForVendor">
 		<query-param name="vendorId" type="long" />
+		<query-param name="companyId" type="long" />
 		<return-scalar column="ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="DUE_DATE" type="long" />
@@ -1365,12 +1410,14 @@
 		WHERE T.T_TYPE in (6,10) and
 		(EB.BALANCE_DUE>0.0 OR TMD.BALANCE_DUE
 		>0.0) and (EB.VENDOR_ID
-		=:vendorId OR TMD.VENDOR_ID =:vendorId)
+		=:vendorId OR TMD.VENDOR_ID =:vendorId) AND
+		T.COMPANY_ID=:companyId
 	</sql-query>
 	<!-- To retrieve the Invoices and Customer Refunds of corresponding customers 
 		which are not paid OR partially paid, while creating Receive Payment -->
 	<sql-query name="getReceivePaymentTransactionsListForCustomer">
 		<query-param name="customerId" type="long" />
+		<query-param name="companyId" type="long" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="DUE_DATE" type="long" />
@@ -1437,12 +1484,14 @@
 		AND (I.CUSTOMER_ID
 		=:customerId OR
 		CR.CUSTOMER_ID =:customerId)
-		AND T.IS_VOID=false
+		AND T.IS_VOID=false AND
+		T.COMPANY_ID=:companyId
 	</sql-query>
 
 
 	<!-- To generate the Invoices of Latest 10 -->
 	<sql-query name="getLatestOverDueInvoices">
+		<query-param name="companyId" type="long" />
 		<return-scalar column="transaction_id" type="string" />
 		<return-scalar column="due_date" type="long" />
 		<return-scalar column="name" type="string" />
@@ -1471,13 +1520,13 @@
 		PAYEE P
 		ON P.ID = C.ID
 		WHERE I.BALANCE_DUE > 0.0 and
-		I.DUE_DATE &lt;= CURRENT_DATE
-		ORDER BY T.ID DESC LIMIT 0, 10
+		I.DUE_DATE &lt;= CURRENT_DATE AND T.COMPANY_ID=:companyId
+		ORDER BY T.ID
+		DESC LIMIT 0, 10
 	</sql-query>
 
 	<sql-query name="getLatestInvoices">
-
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="TRANSACTION_ID" type="string" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="DATE" type="long" />
@@ -1557,7 +1606,7 @@
 		LEFT OUTER JOIN
 		PAYEE P
 		on P.ID = C.ID
-		where T.T_TYPE in(1,4,8,15)
+		where T.T_TYPE in(1,4,8,15) AND T.COMPANY_ID=:companyId
 		ORDER BY T.ID DESC LIMIT 0,
 		10
 	</sql-query>
@@ -1565,8 +1614,7 @@
 	<!-- To generate the Vendor Payments of Latest 10 -->
 
 	<sql-query name="getLatestVendorPayments">
-
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="TRANSACTION_ID" type="string" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="PAYMENT_DATE" type="long" />
@@ -1616,14 +1664,15 @@
 		PAYEE P
 		on P.ID = V.ID
 		OR P.ID = TA.ID
-		WHERE T.T_TYPE in(11,15) ORDER BY T.ID DESC LIMIT 0,10
+		WHERE T.T_TYPE in(11,15) AND T.COMPANY_ID=:companyId
+		ORDER BY T.ID DESC LIMIT 0,10
 
 	</sql-query>
 
 	<!-- To generate the Bills of Latest 10 -->
 
 	<sql-query name="getLatestBills">
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="TRANSACTION_ID" type="string" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="DUE_DATE" type="long" />
@@ -1679,14 +1728,14 @@
 		OR V.ID =
 		CP.VENDOR_ID OR WC.VENDOR_ID
 		LEFT OUTER JOIN PAYEE P ON P.ID = V.ID
-		WHERE T.T_TYPE in (2,4,6,14,15) ORDER BY T.ID DESC LIMIT 0,10
+		WHERE T.T_TYPE in (2,4,6,14,15) AND T.COMPANY_ID=:companyId ORDER BY
+		T.ID DESC LIMIT 0,10
 	</sql-query>
 
 	<!-- To generate the Payments of Latest 10 -->
 
 	<sql-query name="getLatestPayments">
-
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="TRANSACTION_ID" type="string" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="PAYMENT_DATE" type="long" />
@@ -1746,13 +1795,13 @@
 		PAYEE P
 		on P.ID = C.ID OR P.ID = V.ID
 		WHERE
-		T.T_TYPE in (2,3,5,11,15) ORDER BY T.ID DESC LIMIT 0,10
+		T.T_TYPE in (2,3,5,11,15) AND T.COMPANY_ID=:companyId ORDER BY T.ID
+		DESC LIMIT 0,10
 	</sql-query>
 
 	<!-- To generate the Cash Purchases of Latest 10 -->
 	<sql-query name="getLatestReceivePayments">
-
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="RP_ID" type="long" />
 		<return-scalar column="RP_DATE" type="long" />
 		<return-scalar column="RP_CUSTOMER_ID" type="long" />
@@ -1767,15 +1816,15 @@
 		RP.AMOUNT AS RP_AMOUNT , T.ID AS RP_ID
 		FROM
 		RECEIVE_PAYMENT RP
-		JOIN TRANSACTION T ON RP.ID = T.ID ORDER BY
+		JOIN TRANSACTION T ON RP.ID = T.ID AND
+		T.COMPANY_ID=:companyId ORDER BY
 		RP.ID
 		DESC
 	</sql-query>
 
 	<!-- To generate the Cash Purchases of Latest 10 -->
 	<sql-query name="getLatestCashPurchases">
-
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="CP_ID" type="long" />
 		<return-scalar column="CP_DATE" type="long" />
 		<return-scalar column="CP_VENDOR_ID" type="long" />
@@ -1789,14 +1838,14 @@
 		T.TOTAL AS CP_TOTAL,T.ID AS CP_ID
 		FROM
 		CASH_PURCHASE CP
-		JOIN TRANSACTION T ON CP.ID = T.ID ORDER BY CP.ID
+		JOIN TRANSACTION T ON CP.ID = T.ID AND T.COMPANY_ID=:companyId ORDER
+		BY CP.ID
 		DESC LIMIT 0,10
 	</sql-query>
 
 	<!-- To generate the Cash Sales of Latest 10 -->
 	<sql-query name="getLatestCashSales">
-
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="CS_ID" type="long" />
 		<return-scalar column="CS_DATE" type="long" />
 		<return-scalar column="CS_CUSTOMER_ID" type="long" />
@@ -1809,7 +1858,8 @@
 		CS.SALES_PERSON_ID AS SALESPERSON_ID,
 		T.TOTAL AS TOTAL,T.ID AS
 		CS_ID
-		FROM CASH_SALES CS JOIN TRANSACTION T ON CS.ID = T.ID
+		FROM CASH_SALES CS JOIN TRANSACTION T ON CS.ID = T.ID AND
+		T.COMPANY_ID=:companyId
 		ORDER BY T.ID
 		DESC
 		LIMIT 0,10
@@ -1817,8 +1867,7 @@
 
 	<!-- To generate the Checks of Latest 10 -->
 	<sql-query name="getLatestChecks">
-
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="WC_ID" type="long" />
 		<return-scalar column="WC_DATE" type="long" />
 		<return-scalar column="PAY_TO" type="string" />
@@ -1844,15 +1893,15 @@
 		JOIN
 		TRANSACTION T
 		ON
-		WC.ID = T.ID
+		WC.ID = T.ID AND
+		T.COMPANY_ID=:companyId
 		ORDER
 		BY T.ID DESC LIMIT 0,10
 	</sql-query>
 
 	<!-- To generate the Customer Refunds of Latest 10 -->
 	<sql-query name="getLatestCustomerRefunds">
-
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="CR_ID" type="long" />
 		<return-scalar column="CR_DATE" type="long" />
 		<return-scalar column="CR_CUSTOMER_ID" type="long" />
@@ -1872,13 +1921,13 @@
 		TRANSACTION T
 		ON
 		CR.ID = T.ID
+		AND T.COMPANY_ID=:companyId
 		ORDER BY T.ID DESC LIMIT 0, 10
 	</sql-query>
 
 	<!-- To generate the Customers of Latest 10 -->
 	<sql-query name="getLatestCustomers">
-
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="CUSTOMER_ID" type="long" />
 		<return-scalar column="CUSTOMER_NAME" type="string" />
 		<return-scalar column="DATE" type="long" />
@@ -1890,14 +1939,14 @@
 		,P.ID AS CUSTOMER_ID
 		FROM CUSTOMER C LEFT JOIN
 		PAYEE P ON
-		P.ID = C.ID
+		P.ID = C.ID AND
+		P.COMPANY_ID=:companyId
 		ORDER BY C.ID DESC LIMIT 0, 10
 	</sql-query>
 
 	<!-- To generate the Deposits of Latest 10 -->
 	<sql-query name="getLatestDeposits">
-
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="MD_ID" type="long" />
 		<return-scalar column="DEPOSIT_IN_ID" type="long" />
 		<return-scalar column="MEMO" type="string" />
@@ -1920,14 +1969,14 @@
 		T.ID AS MD_ID
 		FROM MAKE_DEPOSIT
 		MD JOIN TRANSACTION T ON MD.ID =
-		T.ID ORDER BY T.ID
+		T.ID AND T.COMPANY_ID=:companyId ORDER
+		BY T.ID
 		DESC LIMIT 0, 10
 	</sql-query>
 
 	<!-- To generate the TransferFunds of Latest 10 -->
 	<sql-query name="getLatestTransferFunds">
-
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="TF_ID" type="long" />
 		<return-scalar column="TF_DATE" type="long" />
 		<return-scalar column="TRANSFER_FROM" type="long" />
@@ -1946,13 +1995,13 @@
 		FROM TRANSFER_FUND TF JOIN TRANSACTION T
 		ON TF.ID =
 		T.ID
+		AND T.COMPANY_ID=:companyId
 		ORDER BY T.ID DESC LIMIT 0, 10
 	</sql-query>
 
 	<!-- To generate the Items of Latest 10 -->
 	<sql-query name="getLatestItems">
-
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="ITEM_ID" type="long" />
 		<return-scalar column="ITEM_NAME" type="string" />
 		<return-scalar column="ITEM_TYPE" type="int" />
@@ -1963,15 +2012,15 @@
 		I.NAME AS ITEM_NAME,
 		I.TYPE AS ITEM_TYPE,
 		I.SALES_PRICE AS SALES_PRICE, I.ID AS I_ID
-		FROM ITEM I
+		FROM ITEM I WHERE
+		I.COMPANY_ID=:companyId
 		ORDER BY I.ID
 		DESC LIMIT 0, 10
 	</sql-query>
 
 	<!-- To generate the Sales Items of Latest 10 -->
 	<sql-query name="getLatestSalesItems">
-
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="ITEM_ID" type="long" />
 		<return-scalar column="ITEM_NAME" type="string" />
 		<return-scalar column="ITEM_TYPE" type="int" />
@@ -1984,13 +2033,13 @@
 		I.SALES_PRICE AS SALES_PRICE, I.ID AS ITEM_ID
 		FROM ITEM I
 		WHERE
-		I.IS_SELL_ITEM = TRUE ORDER BY I.ID DESC LIMIT 0, 10
+		I.IS_SELL_ITEM = TRUE AND I.COMPANY_ID=:companyId ORDER BY I.ID DESC
+		LIMIT 0, 10
 	</sql-query>
 
 	<!-- To generate the Purchase Items of Latest 10 -->
 	<sql-query name="getLatestPurchaseItems">
-
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="ITEM_ID" type="long" />
 		<return-scalar column="ITEM_NAME" type="string" />
 		<return-scalar column="ITEM_TYPE" type="int" />
@@ -2003,13 +2052,13 @@
 		I.SALES_PRICE AS SALES_PRICE, I.ID AS ITEM_ID
 		FROM ITEM I
 		WHERE
-		I.IS_BUY_ITEM = TRUE ORDER BY I.ID DESC LIMIT 0, 10
+		I.IS_BUY_ITEM = TRUE AND I.COMPANY_ID=:companyId ORDER BY I.ID DESC
+		LIMIT 0, 10
 	</sql-query>
 
 	<!-- To generate the Vendors of Latest 10 -->
 	<sql-query name="getLatestVendors">
-
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="VENDOR_ID" type="long" />
 		<return-scalar column="VENDOR_NAME" type="string" />
 		<return-scalar column="PAYEE_DATE" type="long" />
@@ -2020,13 +2069,12 @@
 		P.P_DATE AS
 		PAYEE_DATE,P.ID AS PAYEE_ID FROM VENDOR V LEFT JOIN
 		PAYEE P ON P.ID =
-		V.ID ORDER BY V.ID DESC LIMIT 0, 10
+		V.ID AND P.COMPANY_ID=:companyId ORDER BY V.ID DESC LIMIT 0, 10
 	</sql-query>
 
 	<!-- To generate the Quotes of Latest 10 -->
 	<sql-query name="getLatestQuotes">
-
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="QUOTE_ID" type="long" />
 		<return-scalar column="QUOTE_DATE" type="long" />
 		<return-scalar column="CUSTOMER_ID" type="long" />
@@ -2039,25 +2087,27 @@
 		CUSTOMER_ID,
 		E1.SALES_PERSON_ID AS SALES_PERSON_ID,
 		T.TOTAL AS
-		QUOTE_TOTAL FROM ESTIMATE E1 JOIN TRANSACTION T ON E1.ID = T.ID
+		QUOTE_TOTAL FROM ESTIMATE E1 JOIN TRANSACTION T ON E1.ID = T.ID AND
+		T.COMPANY_ID=:companyId
 		JOIN
 		CUSTOMER C ON C.ID = E1.CUSTOMER_ID
-		ORDER BY T.ID DESC LIMIT 0,10
+		ORDER BY
+		T.ID DESC LIMIT 0,10
 	</sql-query>
 
 	<!-- To generate the Checks of Latest 10 -->
 	<sql-query name="getChecks">
 		<query-param name="accountId" type="long" />
-
+		<query-param name="companyId" type="long" />
 		SELECT * FROM WRITE_CHECKS WC JOIN TRANSACTION T ON T.ID = WC.ID AND
-		WC.ACCOUNT_ID =:accountId AND T.STATUS = 0
+		WC.ACCOUNT_ID =:accountId AND T.STATUS = 0 AND T.COMPANY_ID=:companyId
 	</sql-query>
 
 	<sql-query name="getPaySalesTaxEntriesList">
 
 		<query-param name="month" type="int" />
 		<query-param name="year" type="int" />
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="transaction_id" type="string" />
 		<return-scalar column="transaction_date" type="long" />
 		<return-scalar column="taxcode_name" type="string" />
@@ -2084,7 +2134,7 @@
 		T
 		ON
 		PT.TRANSACTION_ID = T.ID
-		WHERE MONTH(T.T_DATE) &lt;=:month AND
+		WHERE MONTH(T.T_DATE) &lt;=:month AND T.COMPANY_ID=:companyId AND
 		YEAR(T.T_DATE) =:year AND PT.BALANCE
 		!= 0.0 AND TA.ACCOUNT_ID !=
 		(SELECT ID FROM ACCOUNT WHERE NAME = 'Un
@@ -2096,43 +2146,49 @@
 	<sql-query name="getNextTransactionNumber">
 
 		<query-param name="type" type="int" />
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="transaction_number" type="string" />
 
 		SELECT T.NUMBER AS transaction_number FROM TRANSACTION T WHERE T.ID =
-		(SELECT MAX(T1.ID) FROM TRANSACTION T1 WHERE T1.T_TYPE =:type)
+		(SELECT MAX(T1.ID) AND T.COMPANY_ID=:companyId FROM TRANSACTION T1
+		WHERE T1.T_TYPE =:type)
 	</sql-query>
 
 
 	<sql-query name="getNextIssuePaymentCheckNumber">
 
 		<query-param name="accountID" type="long" />
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="transaction_number" type="string" />
 
-		SELECT T.NUMBER AS transaction_number FROM TRANSACTION T WHERE T.ID =
-		(SELECT MAX(T1.ID) FROM TRANSACTION T1 LEFT OUTER JOIN ISSUEPAYMENT IP
-		ON IP.ID=T1.ID LEFT OUTER JOIN ACCOUNT A1 ON IP.ACCOUNT_ID=A1.ID WHERE
-		T1.T_TYPE =9 AND A1.ID=:accountID)
+		SELECT T.NUMBER AS transaction_number FROM TRANSACTION T WHERE
+		T.COMPANY_ID=:companyId AND T.ID =
+		(SELECT MAX(T1.ID) FROM TRANSACTION
+		T1 LEFT OUTER JOIN ISSUEPAYMENT IP
+		ON IP.ID=T1.ID LEFT OUTER JOIN
+		ACCOUNT A1 ON IP.ACCOUNT_ID=A1.ID WHERE
+		T1.T_TYPE =9 AND
+		A1.ID=:accountID)
 	</sql-query>
 
 	<sql-query name="getNextFixedAssetNumber">
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="fixedasset_number" type="string" />
 
 		SELECT FA.ASSET_NUMBER AS fixedasset_number FROM FIXED_ASSET FA WHERE
-		FA.ID =
-		(SELECT MAX(FA1.ID) FROM FIXED_ASSET FA1)
+		FA.COMPANY_ID=:companyId AND FA.ID =
+		(SELECT MAX(FA1.ID) FROM
+		FIXED_ASSET FA1)
 	</sql-query>
 
 	<sql-query name="getNextNominalCodeForGivenAccountType">
-
 		<query-param name="subBaseType" type="int" />
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="account_number" type="long" />
-
-		SELECT A.A_NUMBER AS account_number FROM ACCOUNT A WHERE A.ID =
-		(SELECT MAX(A1.ID) FROM ACCOUNT A1 WHERE A1.SUB_BASE_TYPE
+		SELECT A.A_NUMBER AS account_number FROM ACCOUNT A WHERE
+		A.COMPANY_ID=:companyId AND A.ID =
+		(SELECT MAX(A1.ID) FROM ACCOUNT A1
+		WHERE A1.SUB_BASE_TYPE
 		=:subBaseType)
 	</sql-query>
 
@@ -2144,7 +2200,7 @@
 
 	<sql-query name="canDeleteCustomer">
 		<query-param name="inputId" type="long" />
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="CUSTOMER_ID" type="long" />
 		<return-scalar column="CUSTOMER_CREDIT_MEMO_ID" type="long" />
 		<return-scalar column="CUSTOMER_REFUND_ID" type="long" />
@@ -2202,12 +2258,13 @@
 		TRANSACTION_MAKE_DEPOSIT TMD
 		ON
 		C.ID=TMD.CUSTOMER_ID
-		WHERE C.ID=:inputId LIMIT 1
+		WHERE C.ID=:inputId AND C.COMPANY_ID=:companyId
+		LIMIT 1
 	</sql-query>
 
 	<sql-query name="canDeleteVendor">
 		<query-param name="inputId" type="long" />
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="ITEM_ID" type="long" />
 		<return-scalar column="CASH_PURCHASE_ID" type="long" />
 		<return-scalar column="CREDIT_CARD_CHARGE_ID" type="long" />
@@ -2268,7 +2325,7 @@
 		TRANSACTION_MAKE_DEPOSIT TMD
 		ON V.ID =
 		TMD.VENDOR_ID
-		WHERE V.ID=:inputId LIMIT 1
+		WHERE V.ID=:inputId AND V.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
 
 	<!-- <sql-query name="canDeleteTaxAgency"> <query-param name="inputId" type="long" 
@@ -2288,7 +2345,7 @@
 
 	<sql-query name="canDeleteAccount">
 		<query-param name="inputId" type="long" />
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="ACCOUNT_ID" type="long" />
 		<return-scalar column="ACCOUNT_TRANSACTION_ID" type="long" />
 		<!-- <return-scalar column="BUDGET_ID" type="long" /> -->
@@ -2517,12 +2574,12 @@
 		ON A.ID =
 		TE.ACCOUNT_ID
 		WHERE A.ID =
-		:inputId LIMIT 1
+		:inputId AND A.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
 
 	<sql-query name="canDeleteItem">
 		<query-param name="inputId" type="long" />
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="SALES_ORDER_ID" type="long" />
 		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
 		<return-scalar column="TRANSACTION_EXPENSE_ID" type="long" />
@@ -2543,7 +2600,7 @@
 		TRANSACTION_EXPENSE TE
 		ON I.ID = TE.ITEM_ID
 		WHERE I.ID =
-		:inputId LIMIT 1
+		:inputId AND I.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
 
 	<!-- <sql-query name="canDeleteTAXItem"> <query-param name="inputId" type="long" 
@@ -2578,7 +2635,7 @@
 
 	<sql-query name="canDeleteCustomerGroup">
 		<query-param name="inputId" type="long" />
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="CUSTOMER_ID" type="long" />
 
 		SELECT C.ID AS CUSTOMER_ID
@@ -2586,13 +2643,14 @@
 		LEFT OUTER JOIN
 		CUSTOMER C
 		ON CG.ID=C.CUSTOMER_GROUP_ID
-		WHERE CG.ID = :inputId
+		WHERE CG.ID = :inputId AND
+		CG.COMPANY_ID=:companyId
 		LIMIT 1
 	</sql-query>
 
 	<sql-query name="canDeleteVendorGroup">
 		<query-param name="inputId" type="long" />
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="VENDOR_ID" type="long" />
 
 		SELECT V.ID AS VENDOR_ID
@@ -2601,13 +2659,14 @@
 		VENDOR V
 		ON
 		VG.ID=V.VENDOR_GROUP_ID
-		WHERE VG.ID = :inputId
+		WHERE VG.ID = :inputId AND
+		VG.COMPANY_ID=:companyId
 		LIMIT 1
 	</sql-query>
 
 	<sql-query name="canDeletePaymentTerms">
 		<query-param name="inputId" type="long" />
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="CUSTOMER_ID" type="long" />
 		<return-scalar column="VENDOR_ID" type="long" />
 		<return-scalar column="TAX_AGENCY_ID" type="long" />
@@ -2644,12 +2703,13 @@
 		INVOICE INV
 		ON
 		PT.ID=INV.PAYMENT_TERMS_ID
-		WHERE PT.ID = :inputId LIMIT 1
+		WHERE PT.ID = :inputId AND
+		PT.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
 
 	<sql-query name="canDeleteShippingTerms">
 		<query-param name="inputId" type="long" />
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="COMPANY_ID" type="long" />
 
 		SELECT C.ID AS COMPANY_ID
@@ -2657,14 +2717,15 @@
 		LEFT OUTER JOIN
 		COMPANY C
 		ON ST.ID = C.CP_DEFAULT_SHIPPING_TERM
-		WHERE ST.ID = :inputId
+		WHERE ST.ID = :inputId AND
+		ST.COMPANY_ID=:companyId
 		LIMIT 1
 
 	</sql-query>
 
 	<sql-query name="canDeleteShippingMethod">
 		<query-param name="inputId" type="long" />
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="CUSTOMER_ID" type="long" />
 		<return-scalar column="VENDOR_ID" type="long" />
 		<return-scalar column="CASHSALES_ID" type="long" />
@@ -2691,13 +2752,14 @@
 		INVOICE I
 		ON SM.ID =
 		I.SHIPPING_METHOD_ID
-		WHERE SM.ID = :inputId LIMIT 1
+		WHERE SM.ID = :inputId AND
+		SM.COMPANY_ID=:companyId LIMIT 1
 
 	</sql-query>
 
 	<sql-query name="canDeletePriceLevel">
 		<query-param name="inputId" type="long" />
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="CUSTOMER_ID" type="long" />
 		<return-scalar column="CASHSALES_ID" type="long" />
 		<return-scalar column="CUSTOMER_CREDIT_MEMO_ID" type="long" />
@@ -2728,12 +2790,13 @@
 		INVOICE I
 		ON
 		P.ID=I.PRICE_LEVEL_ID
-		WHERE P.ID = :inputId LIMIT 1
+		WHERE P.ID = :inputId AND
+		P.COMPANY_ID=:companyIdLIMIT 1
 	</sql-query>
 
 	<sql-query name="canDeleteItemGroup">
 		<query-param name="inputId" type="long" />
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="ITEM_ID" type="long" />
 
 		SELECT
@@ -2745,23 +2808,26 @@
 		ITEM I
 		ON IG.ID =
 		I.ITEMGROUP_ID
-		WHERE IG.ID = :inputId
+		WHERE IG.ID = :inputId AND IG.COMPANY_ID=:companyId
 		LIMIT 1
 	</sql-query>
 	<sql-query name="canDeleteLocation">
 		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
 		<return-scalar column="TRANS_ID" type="long" />
 		SELECT
 		T.ID AS TRANS_ID
 		FROM LOCATION L
 		LEFT OUTER JOIN
 		TRANSACTION T
-		ON L.ID = T.LOCATION_ID
-		WHERE L.ID = :inputId
+		ON
+		L.ID = T.LOCATION_ID
+		WHERE L.ID = :inputId AND L.COMPANY_ID=:companyId
 		LIMIT 1
 	</sql-query>
 	<sql-query name="canDeleteAccounterClass">
 		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
 		SELECT TRANS.ID AS TRANSACTION_ID,
@@ -2774,15 +2840,15 @@
 		TRANSACTION_ITEM TRANS_ITEM
 		ON
 		TRANS_ITEM.TRANS_ITEM_ACCOUNTER_CLASS=:inputId
-		WHERE AC.ID=:inputId
+		WHERE AC.ID=:inputId AND
+		AC.COMPANY_ID=:companyId
 		LIMIT 1
 	</sql-query>
 
 
 	<sql-query name="canDeleteSalesPerson">
-
 		<query-param name="inputId" type="long" />
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="CUSTOMER_ID" type="long" />
 		<return-scalar column="CASHSALES_ID" type="long" />
 		<return-scalar column="CUSTOMER_CREDIT_MEMO_ID" type="long" />
@@ -2824,12 +2890,12 @@
 		WRITE_CHECKS WC
 		ON SP.ID = WC.SALES_PERSON_ID
 		WHERE SP.ID
-		= :inputId LIMIT 1
+		= :inputId AND SP.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
 
 	<sql-query name="canDeleteCreditRating">
 		<query-param name="inputId" type="long" />
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="CUSTOMER_ID" type="long" />
 
 		SELECT
@@ -2840,12 +2906,13 @@
 		LEFT OUTER JOIN
 		CUSTOMER C
 		ON CR.ID= C.CREDIT_RATING_ID
-		WHERE CR.ID = :inputId LIMIT 1
+		WHERE CR.ID = :inputId AND
+		CR.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
 
 	<sql-query name="canDeletePaySalesTax">
 		<query-param name="inputId" type="long" />
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="TRANSACTION_ISSUE_PAYMENT_ID"
 			type="long" />
 
@@ -2858,12 +2925,13 @@
 		OUTER JOIN
 		TRANSACTION_ISSUE_PAYMENT TIP
 		ON P.ID = TIP.PAY_SALES_TAX_ID
-		WHERE TIP.ID = :inputId LIMIT 1
+
+		WHERE TIP.ID = :inputId AND P.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
 
 	<sql-query name="canDeleteTAXAgency">
 		<query-param name="inputId" type="long" />
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="TAX_ITEM_ID" type="long" />
 		<return-scalar column="VAT_RETURN_ID" type="long" />
 		<return-scalar column="PAY_VAT_ENTRIES_ID" type="long" />
@@ -2887,14 +2955,15 @@
 		LEFT OUTER JOIN
 		PAY_VAT_ENTRIES PVE
 		ON PVE.TAXAGENCY_ID = T.ID
-
+		LEFT
+		OUTER JOIN PAYEE P ON P.ID = T.ID
 		WHERE
-		T.ID = :inputId LIMIT 1
+		T.ID = :inputId AND P.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
 
 	<sql-query name="canDeleteTAXItem">
 		<query-param name="inputId" type="long" />
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
 		<return-scalar column="TAX_ADJUSTMENT_ID" type="long" />
 		<return-scalar column="TAX_RATE_CALCULATION_ID" type="long" />
@@ -2936,12 +3005,12 @@
 		TC.TAXITEMGROUP_PURCHASES = T.ID
 		OR TC.TAXITEMGROUP_SALES = T.ID
 		WHERE
-		T.ID = :inputId LIMIT 1
+		T.ID = :inputId AND T.COMPANY_ID=:comapnyId LIMIT 1
 	</sql-query>
 
 	<sql-query name="canDeleteTAXItemForUS">
 		<query-param name="inputId" type="long" />
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
 		<return-scalar column="TAX_ADJUSTMENT_ID" type="long" />
 		<return-scalar column="TAX_RATE_CALCULATION_ID" type="long" />
@@ -2980,12 +3049,12 @@
 		TC.TAXITEMGROUP_PURCHASES = T.ID
 		OR TC.TAXITEMGROUP_SALES = T.ID
 		WHERE
-		T.ID = :inputId LIMIT 1
+		T.ID = :inputId AND T.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
 
 	<sql-query name="canDeleteTAXCode">
 		<query-param name="inputId" type="long" />
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="ITEM_ID" type="long" />
 		<return-scalar column="PAYEE_ID" type="long" />
 		<return-scalar column="ENTRY_ID" type="long" />
@@ -3020,12 +3089,13 @@
 		LEFT OUTER JOIN
 		PAY_VAT_ENTRIES PV
 		ON PV.TAXCODE_ID = T.ID
-		WHERE T.ID = :inputId LIMIT 1
+		WHERE T.ID = :inputId AND
+		T.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
 
 	<sql-query name="canDeleteTAXGroup">
 		<query-param name="inputId" type="long" />
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="TAX_CODE_ID" type="long" />
 
 		SELECT
@@ -3037,12 +3107,12 @@
 		TAX_CODE TC
 		ON TC.TAXITEMGROUP_PURCHASES = T.ID
 		OR TC.TAXITEMGROUP_SALES = T.ID
-		WHERE T.ID = :inputId LIMIT 1
+		WHERE T.ID = :inputId AND T.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
 
 	<sql-query name="canDeleteTAXGroupForUS">
 		<query-param name="inputId" type="long" />
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
 
 		SELECT
@@ -3058,13 +3128,13 @@
 		LEFT OUTER JOIN
 		TRANSACTION_ITEM TI ON TI.TAX_CODE = TC.ID
 		WHERE
-		T.ID = :inputId LIMIT 1
+		T.ID = :inputId AND T.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
 
 
 	<sql-query name="canDeleteFiscalYear">
 		<query-param name="inputId" type="long" />
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="ID" type="long" />
 
 		SELECT
@@ -3073,25 +3143,26 @@
 		FROM FISCAL_YEAR F
 
 		WHERE F.ID IS NULL AND F.ID =
-		:inputId LIMIT 1
+		:inputId AND F.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
 
 	<sql-query name="canDeleteUser">
 		<query-param name="inputId" type="long" />
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="ID" type="long" />
 
 		SELECT U.ID AS ID
 
 		FROM USERS U
 
-		WHERE U.ID IS NULL AND U.ID =:inputId LIMIT 1
+		WHERE U.ID IS NULL AND U.ID =:inputId AND
+		U.COMPANY_ID=:companyId LIMIT 1
 
 	</sql-query>
 
 	<sql-query name="canDeleteFixedAsset">
 		<query-param name="inputId" type="long" />
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="DEPRECIATION_ID" type="long" />
 
 		SELECT
@@ -3102,15 +3173,17 @@
 		LEFT OUTER JOIN
 		DEPRECIATION D
 		ON D.FIXED_ASSET_ID = F.ID
-		WHERE F.ID = :inputId LIMIT 1
+		WHERE F.ID = :inputId AND
+		F.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
 
 	<sql-query name="createSalesPurchasesView">
-
+		<query-param name="companyId" type="long" />
 		CREATE OR REPLACE
 		VIEW SALES_PURCHASES_VIEW AS
 		select
-		T.ID as TRANSACTION_ID,
+		T.ID as
+		TRANSACTION_ID,
 		C.ID as CUSTOMER_ID,
 		V.ID as
 		VENDOR_ID,
@@ -3119,11 +3192,13 @@
 		when T.T_TYPE = 1 or T.T_TYPE = 4 or
 		T.T_TYPE = 8
 		then CG.NAME
-		when T.T_TYPE
+		when
+		T.T_TYPE
 		= 2 or T.T_TYPE = 6 or T.T_TYPE
 		= 14 then
 		VG.NAME
-		end as GROUP_NAME,
+		end as
+		GROUP_NAME,
 		IT.TYPE as ITEM_TYPE,
 		IG.NAME as
 		ITEM_GROUP,
@@ -3134,7 +3209,8 @@
 		T.MEMO as MEMO,
 		case
 		when
-		T.T_TYPE=8 then I.DUE_DATE
+		T.T_TYPE=8 then
+		I.DUE_DATE
 		when T.T_TYPE=6 then EB.DUE_DATE
 		else null
 		end as DUE_DATE,
@@ -3149,10 +3225,12 @@
 		end as
 		ITEM_NAME,
 		case
-		when T.T_TYPE = 4 OR T.T_TYPE = 14 then -1*TI.QTY_VALUE
+		when
+		T.T_TYPE = 4 OR T.T_TYPE = 14 then -1*TI.QTY_VALUE
 		else
 		TI.QTY_VALUE
-		end as QUANTITY,
+		end
+		as QUANTITY,
 		TI.QTY_UNIT as UNIT,
 
 		TI.UNIT_PRICE as
@@ -3262,31 +3340,40 @@
 		on
 		A.ID = TI.ACCOUNT_ID
 		where TI.ITEM_ID is not null or TI.ACCOUNT_ID is
-		not null order by T.ID
+		not null AND TI.COMPANY_ID=:companyId order by T.ID
 
 
 	</sql-query>
 	<sql-query name="createTransactionHistoryView">
+		<query-param name="companyId" type="long" />
 		CREATE OR REPLACE VIEW
 		TRANSACTION_HISTORY_VIEW AS
 		select
-		T.ID as TRANSACTION_ID,
+		T.ID as
+		TRANSACTION_ID,
 		C.ID as
 		CUSTOMER_ID,
 		V.ID as VENDOR_ID,
 		case
-		when T.T_TYPE = 1 or T.T_TYPE = 4 or
+		when T.T_TYPE
+		= 1 or T.T_TYPE = 4 or
 		T.T_TYPE = 5 or T.T_TYPE = 8 or
-		T.T_TYPE = 12 or (T.T_TYPE = 10 AND
+		T.T_TYPE = 12 or
+		(T.T_TYPE = 10 AND
 		TMD.CUSTOMER_ID IS NOT NULL) or
-		(T.T_TYPE = 15 AND WC.CUSTOMER_ID IS
+		(T.T_TYPE = 15 AND
+		WC.CUSTOMER_ID IS
 		NOT NULL) or
-		(T.T_TYPE = 16 AND E.TYPE = 3) or T.T_TYPE = 29
+		(T.T_TYPE = 16 AND E.TYPE = 3) or
+		T.T_TYPE = 29
 		then
 		P.NAME
-		when T.T_TYPE = 2 or T.T_TYPE = 6 or T.T_TYPE = 11 or T.T_TYPE = 14 or
-		T.T_TYPE = 3 or (T.T_TYPE = 10 AND TMD.VENDOR_ID IS NOT NULL) or
-		(T.T_TYPE = 15 AND WC.VENDOR_ID IS NOT NULL) or (T.T_TYPE = 16 AND
+		when T.T_TYPE = 2 or T.T_TYPE = 6 or T.T_TYPE =
+		11 or T.T_TYPE = 14 or
+		T.T_TYPE = 3 or (T.T_TYPE = 10 AND TMD.VENDOR_ID
+		IS NOT NULL) or
+		(T.T_TYPE = 15 AND WC.VENDOR_ID IS NOT NULL) or
+		(T.T_TYPE = 16 AND
 		E.TYPE = 2) OR
 		T.T_TYPE = 27
 		then
@@ -3300,9 +3387,11 @@
 		T.NUMBER,
 
 		case
-		when T.T_TYPE = 1 or T.T_TYPE = 3 or
+		when T.T_TYPE = 1 or
+		T.T_TYPE = 3 or
 		T.T_TYPE = 8 or T.T_TYPE = 2 or
-		T.T_TYPE = 6 or T.T_TYPE = 27
+		T.T_TYPE = 6 or T.T_TYPE
+		= 27
 		then
 		T.TOTAL
 		when T.T_TYPE = 4 or T.T_TYPE = 14 or T.T_TYPE = 29
@@ -3588,17 +3677,18 @@
 		join
 		PAYEE P
 		on
-		P.ID = C.ID OR P.ID = V.ID
+		P.ID = C.ID OR P.ID = V.ID AND P.COMPANY_ID=:companyId
 		order by T.ID
 
 	</sql-query>
 
 	<sql-query name="createSalesPurchasesViewForclient">
-
+		<query-param name="companyId" type="long" />
 		CREATE VIEW IF NOT EXISTS
 		SALES_PURCHASES_VIEW AS
 		select
-		T.ID as TRANSACTION_ID,
+		T.ID as
+		TRANSACTION_ID,
 		C.ID as
 		CUSTOMER_ID,
 		V.ID as
@@ -3609,12 +3699,14 @@
 		T.T_TYPE = 4 or
 		T.T_TYPE = 8
 		then CG.NAME
-		when T.T_TYPE
+		when
+		T.T_TYPE
 		= 2 or T.T_TYPE =
 		6 or T.T_TYPE
 		= 14 then
 		VG.NAME
-		end as GROUP_NAME,
+		end as
+		GROUP_NAME,
 		IT.TYPE as ITEM_TYPE,
 		IG.NAME as
 		ITEM_GROUP,
@@ -3625,7 +3717,8 @@
 		T.MEMO as MEMO,
 		case
 		when
-		T.T_TYPE=8 then I.DUE_DATE
+		T.T_TYPE=8 then
+		I.DUE_DATE
 		when T.T_TYPE=6 then
 		EB.DUE_DATE
 		else null
@@ -3642,11 +3735,13 @@
 		end as
 		ITEM_NAME,
 		case
-		when T.T_TYPE = 4 OR T.T_TYPE = 14 then
+		when
+		T.T_TYPE = 4 OR T.T_TYPE = 14 then
 		-1*TI.QTY_VALUE
 		else
 		TI.QTY_VALUE
-		end as QUANTITY,
+		end
+		as QUANTITY,
 		TI.QTY_UNIT as UNIT,
 
 		TI.UNIT_PRICE as UNIT_PRICE,
@@ -3671,12 +3766,14 @@
 		when T.T_TYPE = 1 then
 		CS.DELIVERY_DATE
 		When
-		T.T_TYPE = 8 then
+		T.T_TYPE
+		= 8 then
 		I.DELIVERY_DATE
 		when T.T_TYPE = 2
 		then
 		CP.DELIVERY_DATE
-		When T.T_TYPE =
+		When
+		T.T_TYPE =
 		6 then EB.DELIVERY_DATE
 		else null
 		end as
@@ -3755,31 +3852,40 @@
 		on
 		A.ID = TI.ACCOUNT_ID
 		where TI.ITEM_ID is not null or TI.ACCOUNT_ID is
-		not null order by T.ID
+		not null AND TI.COMPANY_ID=:companyId order by T.ID
 
 	</sql-query>
 	<sql-query name="createTransactionHistoryViewForclient">
+		<query-param name="companyId" type="long" />
 		CREATE VIEW IF NOT EXISTS
 		TRANSACTION_HISTORY_VIEW AS
 
 		select
-		T.ID as TRANSACTION_ID,
+		T.ID as
+		TRANSACTION_ID,
 		C.ID as
 		CUSTOMER_ID,
 		V.ID as VENDOR_ID,
 		case
-		when T.T_TYPE = 1 or T.T_TYPE = 4 or
+		when T.T_TYPE
+		= 1 or T.T_TYPE = 4 or
 		T.T_TYPE = 5 or T.T_TYPE = 8 or
-		T.T_TYPE = 12 or (T.T_TYPE = 10 AND
+		T.T_TYPE = 12 or
+		(T.T_TYPE = 10 AND
 		TMD.CUSTOMER_ID IS NOT NULL) or
-		(T.T_TYPE = 15 AND WC.CUSTOMER_ID IS
+		(T.T_TYPE = 15 AND
+		WC.CUSTOMER_ID IS
 		NOT NULL) or
-		(T.T_TYPE = 16 AND E.TYPE = 3) or T.T_TYPE = 29
+		(T.T_TYPE = 16 AND E.TYPE = 3) or
+		T.T_TYPE = 29
 		then
 		P.NAME
-		when T.T_TYPE = 2 or T.T_TYPE = 6 or T.T_TYPE = 11 or T.T_TYPE = 14 or
-		T.T_TYPE = 3 or (T.T_TYPE = 10 AND TMD.VENDOR_ID IS NOT NULL) or
-		(T.T_TYPE = 15 AND WC.VENDOR_ID IS NOT NULL) or (T.T_TYPE = 16 AND
+		when T.T_TYPE = 2 or T.T_TYPE = 6 or T.T_TYPE =
+		11 or T.T_TYPE = 14 or
+		T.T_TYPE = 3 or (T.T_TYPE = 10 AND TMD.VENDOR_ID
+		IS NOT NULL) or
+		(T.T_TYPE = 15 AND WC.VENDOR_ID IS NOT NULL) or
+		(T.T_TYPE = 16 AND
 		E.TYPE = 2) OR
 		T.T_TYPE = 27
 		then
@@ -3793,9 +3899,11 @@
 		T.NUMBER,
 
 		case
-		when T.T_TYPE = 1 or T.T_TYPE = 3 or
+		when T.T_TYPE = 1 or
+		T.T_TYPE = 3 or
 		T.T_TYPE = 8 or T.T_TYPE = 2 or
-		T.T_TYPE = 6 or T.T_TYPE = 27
+		T.T_TYPE = 6 or T.T_TYPE
+		= 27
 		then
 		T.TOTAL
 		when T.T_TYPE = 4 or T.T_TYPE = 14 or T.T_TYPE = 29
@@ -4076,13 +4184,14 @@
 		join
 		PAYEE P
 		on
-		P.ID = C.ID OR P.ID = V.ID
+		P.ID = C.ID OR P.ID = V.ID AND P.COMPANY_ID=:companyId
 		order by T.ID
 
 	</sql-query>
 
 
 	<sql-query name="getCustomersList">
+		<query-param name="companyId" type="long" />
 		<return-scalar column="IS_ACTIVE" type="boolean" />
 		<return-scalar column="CUSTOMER_NAME" type="string" />
 		<return-scalar column="ACCOUNTER_TYPE" type="int" />
@@ -4106,24 +4215,33 @@
 		(CASE
 		WHEN
 		(SELECT
-		COUNT(T1.TOTAL) FROM TRANSACTION T1 WHERE T.ID=T1.ID AND T1.T_DATE
-		BETWEEN :currentMonthStartDateCal AND :currentMonthEndDateCal AND T1.IS_VOID
-		= FALSE AND T1.STATUS!=3) = 0
+		COUNT(T1.TOTAL) FROM
+		TRANSACTION T1 WHERE T.ID=T1.ID AND T1.T_DATE
+		BETWEEN
+		:currentMonthStartDateCal AND :currentMonthEndDateCal AND T1.IS_VOID
+		=
+		FALSE AND T1.STATUS!=3) = 0
 		THEN 0
 		ELSE
 		(SELECT CASE
-		WHEN T.T_TYPE = 8 THEN (SELECT I1.BALANCE_DUE FROM INVOICE I1 WHERE I1.ID
+		WHEN T.T_TYPE = 8
+		THEN (SELECT I1.BALANCE_DUE FROM INVOICE I1 WHERE I1.ID
 		= T.ID)
-		WHEN T.T_TYPE = 4 OR T.T_TYPE=29 THEN (SELECT -1*CAP.BALANCE FROM
+		WHEN
+		T.T_TYPE = 4 OR T.T_TYPE=29 THEN (SELECT -1*CAP.BALANCE FROM
 		CREDITS_AND_PAYMENTS CAP
 		WHERE CAP.TRANSACTION_ID=T.ID)
-		WHEN T.T_TYPE = 5 THEN (SELECT CR1.BALANCE_DUE FROM CUSTOMER_REFUND CR1
-		WHERE CR1.ID = T.ID)
+		WHEN T.T_TYPE =
+		5 THEN (SELECT CR1.BALANCE_DUE FROM CUSTOMER_REFUND CR1
+		WHERE CR1.ID =
+		T.ID)
 		END
 		FROM TRANSACTION T1 WHERE T.ID=T1.ID
 		AND T1.T_DATE
-		BETWEEN :currentMonthStartDateCal AND
-		:currentMonthEndDateCal AND T1.IS_VOID = FALSE AND T1.STATUS!=3)
+		BETWEEN
+		:currentMonthStartDateCal AND
+		:currentMonthEndDateCal AND T1.IS_VOID =
+		FALSE AND T1.STATUS!=3)
 		END) AS CURRENT_MONTH_TOTAL,
 
 		(CASE
@@ -4131,70 +4249,96 @@
 		(SELECT
 		COUNT(T2.TOTAL) FROM TRANSACTION T2 WHERE T.ID=T2.ID AND T2.T_DATE
 		BETWEEN :previousFirstMonthStartDateCal AND
-		:previousFirstMonthEndDateCal AND T2.IS_VOID = FALSE AND T2.STATUS!=3) = 0
+		:previousFirstMonthEndDateCal AND T2.IS_VOID = FALSE AND T2.STATUS!=3)
+		= 0
 		THEN 0
 		ELSE
 		(SELECT CASE
-		WHEN T.T_TYPE = 8 THEN (SELECT I1.BALANCE_DUE FROM INVOICE I1 WHERE I1.ID
+		WHEN T.T_TYPE = 8 THEN (SELECT I1.BALANCE_DUE
+		FROM INVOICE I1 WHERE I1.ID
 		= T.ID)
-		WHEN T.T_TYPE = 4 OR T.T_TYPE=29 THEN (SELECT -1*CAP.BALANCE FROM
+		WHEN T.T_TYPE = 4 OR T.T_TYPE=29
+		THEN (SELECT -1*CAP.BALANCE FROM
 		CREDITS_AND_PAYMENTS CAP
-		WHERE CAP.TRANSACTION_ID=T.ID)
-		WHEN T.T_TYPE = 5 THEN (SELECT CR1.BALANCE_DUE FROM CUSTOMER_REFUND CR1
+		WHERE
+		CAP.TRANSACTION_ID=T.ID)
+		WHEN T.T_TYPE = 5 THEN (SELECT CR1.BALANCE_DUE
+		FROM CUSTOMER_REFUND CR1
 		WHERE CR1.ID = T.ID)
 		END FROM
-		TRANSACTION T2 WHERE T.ID=T2.ID AND T2.T_DATE
+		TRANSACTION T2
+		WHERE T.ID=T2.ID AND T2.T_DATE
 		BETWEEN
-		:previousFirstMonthStartDateCal AND
-		:previousFirstMonthEndDateCal AND T2.IS_VOID = FALSE AND T2.STATUS!=3)
+		:previousFirstMonthStartDateCal
+		AND
+		:previousFirstMonthEndDateCal AND T2.IS_VOID = FALSE AND
+		T2.STATUS!=3)
 		END) AS PREVIOUS_FIRST_MONTH_TOTAL,
 
 		(CASE
 		WHEN
-		(SELECT COUNT(T3.TOTAL) FROM
+		(SELECT
+		COUNT(T3.TOTAL) FROM
 		TRANSACTION T3 WHERE T.ID=T3.ID AND T3.T_DATE
 		BETWEEN
 		:previousSecondMonthStartDateCal AND
-		:previousSecondMonthEndDateCal AND T3.IS_VOID = FALSE AND T3.STATUS!=3) =
+		:previousSecondMonthEndDateCal AND T3.IS_VOID = FALSE AND
+		T3.STATUS!=3) =
 		0
 		THEN 0
 		ELSE
 		(SELECT CASE
-		WHEN T.T_TYPE = 8 THEN (SELECT I1.BALANCE_DUE FROM INVOICE I1 WHERE I1.ID
+		WHEN T.T_TYPE = 8 THEN (SELECT
+		I1.BALANCE_DUE FROM INVOICE I1 WHERE I1.ID
 		= T.ID)
-		WHEN T.T_TYPE = 4 OR T.T_TYPE=29 THEN (SELECT -1*CAP.BALANCE FROM
+		WHEN T.T_TYPE = 4 OR
+		T.T_TYPE=29 THEN (SELECT -1*CAP.BALANCE FROM
 		CREDITS_AND_PAYMENTS CAP
 		WHERE CAP.TRANSACTION_ID=T.ID)
-		WHEN T.T_TYPE = 5 THEN (SELECT CR1.BALANCE_DUE FROM CUSTOMER_REFUND CR1
+		WHEN T.T_TYPE = 5 THEN (SELECT
+		CR1.BALANCE_DUE FROM CUSTOMER_REFUND CR1
 		WHERE CR1.ID = T.ID)
-		END FROM TRANSACTION T3 WHERE T.ID=T3.ID
+		END FROM
+		TRANSACTION T3 WHERE T.ID=T3.ID
 		AND T3.T_DATE
-		BETWEEN :previousSecondMonthStartDateCal AND
-		:previousSecondMonthEndDateCal AND T3.IS_VOID = FALSE AND T3.STATUS!=3)
-		END) AS PREVIOUS_SECOND_MONTH_TOTAL,
+		BETWEEN
+		:previousSecondMonthStartDateCal AND
+		:previousSecondMonthEndDateCal AND
+		T3.IS_VOID = FALSE AND T3.STATUS!=3)
+		END) AS
+		PREVIOUS_SECOND_MONTH_TOTAL,
 
 		(CASE
 		WHEN
-		(SELECT COUNT(T4.TOTAL) FROM TRANSACTION T4 WHERE T.ID=T4.ID
+		(SELECT COUNT(T4.TOTAL) FROM
+		TRANSACTION T4 WHERE T.ID=T4.ID
 		AND T4.T_DATE
-		BETWEEN :previousThirdMonthStartDateCal AND
-		:previousThirdMonthEndDateCal AND T4.IS_VOID = FALSE AND T4.STATUS!=3) = 0
+		BETWEEN
+		:previousThirdMonthStartDateCal AND
+		:previousThirdMonthEndDateCal AND
+		T4.IS_VOID = FALSE AND T4.STATUS!=3) = 0
 		THEN 0
 		ELSE
 		(SELECT CASE
-		WHEN T.T_TYPE = 8 THEN (SELECT I1.BALANCE_DUE FROM INVOICE I1 WHERE I1.ID
-		= T.ID)
+		WHEN
+		T.T_TYPE = 8 THEN (SELECT I1.BALANCE_DUE FROM INVOICE I1 WHERE I1.ID
+		=
+		T.ID)
 		WHEN T.T_TYPE = 4 OR T.T_TYPE=29 THEN (SELECT -1*CAP.BALANCE FROM
 		CREDITS_AND_PAYMENTS CAP
 		WHERE CAP.TRANSACTION_ID=T.ID)
-		WHEN T.T_TYPE = 5 THEN (SELECT CR1.BALANCE_DUE FROM CUSTOMER_REFUND CR1
-		WHERE CR1.ID = T.ID)
+		WHEN T.T_TYPE =
+		5 THEN (SELECT CR1.BALANCE_DUE FROM CUSTOMER_REFUND CR1
+		WHERE CR1.ID =
+		T.ID)
 		END FROM
 		TRANSACTION T4 WHERE T.ID=T4.ID AND T4.T_DATE
 		BETWEEN
 		:previousThirdMonthStartDateCal AND
-		:previousThirdMonthEndDateCal AND T4.IS_VOID = FALSE AND T4.STATUS!=3)
-		END) AS PREVIOUS_THIRD_MONTH_TOTAL,
+		:previousThirdMonthEndDateCal AND
+		T4.IS_VOID = FALSE AND T4.STATUS!=3)
+		END) AS
+		PREVIOUS_THIRD_MONTH_TOTAL,
 
 		(CASE
 		WHEN
@@ -4202,46 +4346,62 @@
 		TRANSACTION T5 WHERE T.ID=T5.ID AND T5.T_DATE
 		BETWEEN
 		:previousFourthMonthStartDateCal AND
-		:previousFourthMonthEndDateCal AND T5.IS_VOID = FALSE AND T5.STATUS!=3) =
+		:previousFourthMonthEndDateCal AND
+		T5.IS_VOID = FALSE AND T5.STATUS!=3) =
 		0
 		THEN 0
 		ELSE
 		(SELECT CASE
-		WHEN T.T_TYPE = 8 THEN (SELECT I1.BALANCE_DUE FROM INVOICE I1 WHERE I1.ID
-		= T.ID)
+		WHEN
+		T.T_TYPE = 8 THEN (SELECT I1.BALANCE_DUE FROM INVOICE I1 WHERE I1.ID
+		=
+		T.ID)
 		WHEN T.T_TYPE = 4 OR T.T_TYPE=29 THEN (SELECT -1*CAP.BALANCE FROM
 		CREDITS_AND_PAYMENTS CAP
 		WHERE CAP.TRANSACTION_ID=T.ID)
-		WHEN T.T_TYPE = 5 THEN (SELECT CR1.BALANCE_DUE FROM CUSTOMER_REFUND CR1
-		WHERE CR1.ID = T.ID)
+		WHEN T.T_TYPE =
+		5 THEN (SELECT CR1.BALANCE_DUE FROM CUSTOMER_REFUND CR1
+		WHERE CR1.ID =
+		T.ID)
 		END FROM TRANSACTION T5 WHERE T.ID=T5.ID
 		AND T5.T_DATE
-		BETWEEN :previousFourthMonthStartDateCal AND
-		:previousFourthMonthEndDateCal AND T5.IS_VOID = FALSE AND T5.STATUS!=3)
+		BETWEEN
+		:previousFourthMonthStartDateCal AND
+		:previousFourthMonthEndDateCal AND
+		T5.IS_VOID = FALSE AND T5.STATUS!=3)
 		END
-		) AS PREVIOUS_FOURTH_MONTH_TOTAL,
+		) AS
+		PREVIOUS_FOURTH_MONTH_TOTAL,
 
 		(CASE
 		WHEN
-		(SELECT COUNT(T6.TOTAL) FROM TRANSACTION T6 WHERE T.ID=T6.ID
+		(SELECT COUNT(T6.TOTAL) FROM
+		TRANSACTION T6 WHERE T.ID=T6.ID
 		AND T6.T_DATE
-		BETWEEN :previousFifthMonthStartDateCal AND
-		:previousFifthMonthEndDateCal AND T6.IS_VOID = FALSE AND T6.STATUS!=3) = 0
+		BETWEEN
+		:previousFifthMonthStartDateCal AND
+		:previousFifthMonthEndDateCal AND
+		T6.IS_VOID = FALSE AND T6.STATUS!=3) = 0
 		THEN 0
 		ELSE
 		(SELECT CASE
-		WHEN T.T_TYPE = 8 THEN (SELECT I1.BALANCE_DUE FROM INVOICE I1 WHERE I1.ID
-		= T.ID)
+		WHEN
+		T.T_TYPE = 8 THEN (SELECT I1.BALANCE_DUE FROM INVOICE I1 WHERE I1.ID
+		=
+		T.ID)
 		WHEN T.T_TYPE = 4 OR T.T_TYPE=29 THEN (SELECT -1*CAP.BALANCE FROM
 		CREDITS_AND_PAYMENTS CAP
 		WHERE CAP.TRANSACTION_ID=T.ID)
-		WHEN T.T_TYPE = 5 THEN (SELECT CR1.BALANCE_DUE FROM CUSTOMER_REFUND CR1
-		WHERE CR1.ID = T.ID)
+		WHEN T.T_TYPE =
+		5 THEN (SELECT CR1.BALANCE_DUE FROM CUSTOMER_REFUND CR1
+		WHERE CR1.ID =
+		T.ID)
 		END FROM
 		TRANSACTION T6 WHERE T.ID=T6.ID AND T6.T_DATE
 		BETWEEN
 		:previousFifthMonthStartDateCal AND
-		:previousFifthMonthEndDateCal AND T6.IS_VOID = FALSE AND T6.STATUS!=3)
+		:previousFifthMonthEndDateCal AND
+		T6.IS_VOID = FALSE AND T6.STATUS!=3)
 		END
 		)
 		AS PREVIOUS_FIFTH_MONTH_TOTAL,
@@ -4249,22 +4409,29 @@
 		(CASE
 		WHEN
 		(SELECT COUNT(T7.TOTAL) FROM
-		TRANSACTION T7 WHERE T.ID=T7.ID AND T7.IS_VOID = FALSE AND T7.STATUS!=3) = 0
+		TRANSACTION T7 WHERE T.ID=T7.ID
+		AND T7.IS_VOID = FALSE AND T7.STATUS!=3) = 0
 		THEN 0
 		ELSE
 		(SELECT CASE
-		WHEN T.T_TYPE = 8 THEN (SELECT I1.BALANCE_DUE FROM INVOICE I1 WHERE I1.ID
+		WHEN T.T_TYPE = 8 THEN (SELECT I1.BALANCE_DUE FROM INVOICE I1 WHERE
+		I1.ID
 		= T.ID)
-		WHEN T.T_TYPE = 4 OR T.T_TYPE=29 THEN (SELECT -1*CAP.BALANCE FROM
+		WHEN T.T_TYPE = 4 OR T.T_TYPE=29 THEN (SELECT
+		-1*CAP.BALANCE FROM
 		CREDITS_AND_PAYMENTS CAP
-		WHERE CAP.TRANSACTION_ID=T.ID)
-		WHEN T.T_TYPE = 5 THEN (SELECT CR1.BALANCE_DUE FROM CUSTOMER_REFUND CR1
+		WHERE
+		CAP.TRANSACTION_ID=T.ID)
+		WHEN T.T_TYPE = 5 THEN (SELECT CR1.BALANCE_DUE
+		FROM CUSTOMER_REFUND CR1
 		WHERE CR1.ID = T.ID)
 		END
-		FROM TRANSACTION T7 WHERE T.ID=T7.ID AND T7.IS_VOID = FALSE AND
+		FROM TRANSACTION T7
+		WHERE T.ID=T7.ID AND T7.IS_VOID = FALSE AND
 		T7.STATUS!=3)
 		END
-		) AS YEAR_TO_DATE,
+		) AS
+		YEAR_TO_DATE,
 
 		P.BALANCE AS
 		BALANCE
@@ -4277,31 +4444,37 @@
 
 		LEFT OUTER JOIN
 		CUSTOMER_CREDIT_MEMO CCM
-		ON CCM.CUSTOMER_ID = P.ID
+		ON
+		CCM.CUSTOMER_ID = P.ID
 
 		LEFT OUTER JOIN
 		CUSTOMER_PREPAYMENT CP
-		ON CP.CUSTOMER_ID = P.ID
+		ON
+		CP.CUSTOMER_ID = P.ID
 
 		LEFT OUTER JOIN
 		CUSTOMER_REFUND CR
-		ON CR.CUSTOMER_ID = P.ID
+		ON
+		CR.CUSTOMER_ID = P.ID
 
 		LEFT OUTER JOIN
 		TRANSACTION T
 		ON T.ID = I.ID
-		OR T.ID = CCM.ID
+		OR T.ID
+		= CCM.ID
 		OR T.ID = CP.ID
 		OR T.ID = CR.ID
 
 		WHERE
-		P.TYPE = 1
+		P.TYPE = 1 AND
+		P.COMPANY_ID=:companyId
 		GROUP BY T.ID, P.NAME
 		ORDER BY P.NAME
 
 	</sql-query>
 
 	<sql-query name="getVendorsList">
+		<query-param name="companyId" type="long" />
 		<return-scalar column="IS_ACTIVE" type="boolean" />
 		<return-scalar column="VENDOR_NAME" type="string" />
 		<return-scalar column="ACCOUNTER_TYPE" type="int" />
@@ -4333,13 +4506,17 @@
 		THEN 0
 		ELSE
 		(SELECT CASE
-		WHEN T.T_TYPE = 14 OR T.T_TYPE =11 THEN
-		(SELECT -1*CP1.BALANCE FROM CREDITS_AND_PAYMENTS CP1 WHERE CP1.TRANSACTION_ID
+		WHEN T.T_TYPE = 14 OR
+		T.T_TYPE =11 THEN
+		(SELECT -1*CP1.BALANCE FROM CREDITS_AND_PAYMENTS CP1
+		WHERE CP1.TRANSACTION_ID
 		= T.ID)
 		WHEN T.T_TYPE = 6 THEN
-		(SELECT EB1.BALANCE_DUE FROM ENTER_BILL EB1 WHERE EB1.ID = T.ID)
+		(SELECT
+		EB1.BALANCE_DUE FROM ENTER_BILL EB1 WHERE EB1.ID = T.ID)
 		END
-		FROM TRANSACTION T1 WHERE T.ID=T1.ID
+		FROM
+		TRANSACTION T1 WHERE T.ID=T1.ID
 		AND T1.T_DATE
 		BETWEEN
 		:currentMonthStartDateCal AND
@@ -4359,12 +4536,15 @@
 		ELSE
 		(SELECT CASE
 		WHEN T.T_TYPE = 14 OR T.T_TYPE =11 THEN
-		(SELECT -1*CP1.BALANCE FROM CREDITS_AND_PAYMENTS CP1 WHERE CP1.TRANSACTION_ID
+		(SELECT -1*CP1.BALANCE FROM CREDITS_AND_PAYMENTS CP1 WHERE
+		CP1.TRANSACTION_ID
 		= T.ID)
 		WHEN T.T_TYPE = 6 THEN
-		(SELECT EB1.BALANCE_DUE FROM ENTER_BILL EB1 WHERE EB1.ID = T.ID)
+		(SELECT EB1.BALANCE_DUE
+		FROM ENTER_BILL EB1 WHERE EB1.ID = T.ID)
 		END FROM
-		TRANSACTION T2 WHERE T.ID=T2.ID AND T2.T_DATE
+		TRANSACTION T2 WHERE
+		T.ID=T2.ID AND T2.T_DATE
 		BETWEEN
 		:previousFirstMonthStartDateCal AND
 		:previousFirstMonthEndDateCal AND
@@ -4375,22 +4555,28 @@
 
 		(CASE
 		WHEN
-		(SELECT COUNT(T3.TOTAL) FROM
+		(SELECT COUNT(T3.TOTAL)
+		FROM
 		TRANSACTION T3 WHERE T.ID=T3.ID
 		AND T3.T_DATE
 		BETWEEN
 		:previousSecondMonthStartDateCal AND
-		:previousSecondMonthEndDateCal AND T3.IS_VOID = FALSE AND
+		:previousSecondMonthEndDateCal AND
+		T3.IS_VOID = FALSE AND
 		T3.STATUS!=3) =
 		0
 		THEN 0
 		ELSE
 		(SELECT CASE
-		WHEN T.T_TYPE = 14 OR T.T_TYPE =11 THEN
-		(SELECT -1*CP1.BALANCE FROM CREDITS_AND_PAYMENTS CP1 WHERE CP1.TRANSACTION_ID
+		WHEN
+		T.T_TYPE = 14 OR T.T_TYPE =11 THEN
+		(SELECT -1*CP1.BALANCE FROM
+		CREDITS_AND_PAYMENTS CP1 WHERE CP1.TRANSACTION_ID
 		= T.ID)
-		WHEN T.T_TYPE = 6 THEN
-		(SELECT EB1.BALANCE_DUE FROM ENTER_BILL EB1 WHERE EB1.ID = T.ID)
+		WHEN T.T_TYPE
+		= 6 THEN
+		(SELECT EB1.BALANCE_DUE FROM ENTER_BILL EB1 WHERE EB1.ID =
+		T.ID)
 		END FROM TRANSACTION T3 WHERE T.ID=T3.ID
 		AND T3.T_DATE
 		BETWEEN
@@ -4413,11 +4599,15 @@
 		THEN 0
 		ELSE
 		(SELECT CASE
-		WHEN T.T_TYPE = 14 OR T.T_TYPE =11 THEN
-		(SELECT -1*CP1.BALANCE FROM CREDITS_AND_PAYMENTS CP1 WHERE CP1.TRANSACTION_ID
+		WHEN
+		T.T_TYPE = 14 OR T.T_TYPE =11 THEN
+		(SELECT -1*CP1.BALANCE FROM
+		CREDITS_AND_PAYMENTS CP1 WHERE CP1.TRANSACTION_ID
 		= T.ID)
-		WHEN T.T_TYPE = 6 THEN
-		(SELECT EB1.BALANCE_DUE FROM ENTER_BILL EB1 WHERE EB1.ID = T.ID)
+		WHEN T.T_TYPE
+		= 6 THEN
+		(SELECT EB1.BALANCE_DUE FROM ENTER_BILL EB1 WHERE EB1.ID =
+		T.ID)
 		END FROM
 		TRANSACTION T4 WHERE T.ID=T4.ID AND T4.T_DATE
 		BETWEEN
@@ -4441,12 +4631,16 @@
 		THEN 0
 		ELSE
 		(SELECT CASE
-		WHEN T.T_TYPE = 14 OR T.T_TYPE =11 THEN
-		(SELECT -1*CP1.BALANCE FROM CREDITS_AND_PAYMENTS CP1 WHERE CP1.TRANSACTION_ID
+		WHEN T.T_TYPE = 14 OR T.T_TYPE
+		=11 THEN
+		(SELECT -1*CP1.BALANCE FROM CREDITS_AND_PAYMENTS CP1 WHERE
+		CP1.TRANSACTION_ID
 		= T.ID)
 		WHEN T.T_TYPE = 6 THEN
-		(SELECT EB1.BALANCE_DUE FROM ENTER_BILL EB1 WHERE EB1.ID = T.ID)
-		END FROM TRANSACTION T5 WHERE T.ID=T5.ID
+		(SELECT EB1.BALANCE_DUE
+		FROM ENTER_BILL EB1 WHERE EB1.ID = T.ID)
+		END FROM TRANSACTION T5 WHERE
+		T.ID=T5.ID
 		AND T5.T_DATE
 		BETWEEN
 		:previousFourthMonthStartDateCal AND
@@ -4458,7 +4652,8 @@
 
 		(CASE
 		WHEN
-		(SELECT COUNT(T6.TOTAL) FROM
+		(SELECT COUNT(T6.TOTAL)
+		FROM
 		TRANSACTION T6 WHERE T.ID=T6.ID
 		AND T6.T_DATE
 		BETWEEN
@@ -4468,11 +4663,15 @@
 		THEN 0
 		ELSE
 		(SELECT CASE
-		WHEN T.T_TYPE = 14 OR T.T_TYPE =11 THEN
-		(SELECT -1*CP1.BALANCE FROM CREDITS_AND_PAYMENTS CP1 WHERE CP1.TRANSACTION_ID
+		WHEN
+		T.T_TYPE = 14 OR T.T_TYPE =11 THEN
+		(SELECT -1*CP1.BALANCE FROM
+		CREDITS_AND_PAYMENTS CP1 WHERE CP1.TRANSACTION_ID
 		= T.ID)
-		WHEN T.T_TYPE = 6 THEN
-		(SELECT EB1.BALANCE_DUE FROM ENTER_BILL EB1 WHERE EB1.ID = T.ID)
+		WHEN T.T_TYPE
+		= 6 THEN
+		(SELECT EB1.BALANCE_DUE FROM ENTER_BILL EB1 WHERE EB1.ID =
+		T.ID)
 		END FROM
 		TRANSACTION T6 WHERE T.ID=T6.ID AND T6.T_DATE
 		BETWEEN
@@ -4492,12 +4691,16 @@
 		ELSE
 		(SELECT CASE
 		WHEN T.T_TYPE = 14 OR T.T_TYPE =11 THEN
-		(SELECT -1*CP1.BALANCE FROM CREDITS_AND_PAYMENTS CP1 WHERE CP1.TRANSACTION_ID
+		(SELECT -1*CP1.BALANCE FROM
+		CREDITS_AND_PAYMENTS CP1 WHERE CP1.TRANSACTION_ID
 		= T.ID)
-		WHEN T.T_TYPE = 6 THEN
-		(SELECT EB1.BALANCE_DUE FROM ENTER_BILL EB1 WHERE EB1.ID = T.ID)
+		WHEN T.T_TYPE
+		= 6 THEN
+		(SELECT EB1.BALANCE_DUE FROM ENTER_BILL EB1 WHERE EB1.ID =
+		T.ID)
 		END
-		FROM TRANSACTION T7 WHERE T.ID=T7.ID AND T7.IS_VOID = FALSE AND
+		FROM TRANSACTION T7 WHERE T.ID=T7.ID AND T7.IS_VOID = FALSE
+		AND
 		T7.STATUS!=3)
 		END
 		) AS YEAR_TO_DATE,
@@ -4522,14 +4725,15 @@
 
 		WHERE
 
-		P.TYPE IN (2, 4)
+		P.TYPE IN
+		(2, 4) AND P.COMPANY_ID=:companyId
 		GROUP BY T.ID, P.NAME
 		ORDER BY P.NAME
 	</sql-query>
 
 
 	<sql-query name="getEGSandRCentriesFromSales">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 
@@ -4598,18 +4802,21 @@
 
 		WHERE
 		P.NAME IS NOT NULL
+		AND P.COMPANY_ID=:companyId
 		AND TC.ID IN (2, 6)
-		AND T.T_DATE BETWEEN :startDate AND :endDate
+		AND T.T_DATE BETWEEN
+		:startDate AND :endDate
 
 		GROUP
-		BY VRC.TRANSACTION_ITEM_ID, VRC.TAX_ITEM_ID
+		BY VRC.TRANSACTION_ITEM_ID,
+		VRC.TAX_ITEM_ID
 
 	</sql-query>
 
 
 	<!-- To get reverse charge list detail report -->
 	<sql-query name="getReverseChargeListDetailReportEntries">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 
@@ -4669,6 +4876,7 @@
 		LEFT OUTER JOIN PAYEE P ON P.ID = C.ID
 
 		WHERE
+		T.COMPANY_ID=:companyId AND
 		T.T_DATE
 		BETWEEN :startDate AND :endDate
 
@@ -4681,7 +4889,7 @@
 
 	<!-- To get the customers who have same name or number -->
 	<sql-query name="getCustomers">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="name" type="String" />
 		<query-param name="number" type="String" />
 		<query-param name="id" type="Long" />
@@ -4697,16 +4905,18 @@
 		LEFT OUTER JOIN
 		PAYEE P ON P.ID = C.ID
 
-		WHERE (CASE WHEN :number = "" OR :number IS NULL
+		WHERE P.COMPANY_ID=:companyId AND (CASE WHEN
+		:number = "" OR :number IS NULL
 		THEN FALSE
 		ELSE C.NUMBER =:number
-		END OR P.NAME =:name) AND P.ID !=:id
+		END OR
+		P.NAME =:name) AND P.ID !=:id
 
 	</sql-query>
 
 	<!-- To get the accounts who have same name or number -->
 	<sql-query name="getAccounts">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="name" type="String" />
 		<query-param name="number" type="String" />
 		<query-param name="id" type="Long" />
@@ -4720,6 +4930,7 @@
 		FROM ACCOUNT A
 
 		WHERE
+		A.COMPANY_ID=:companyId AND
 		(A.A_NUMBER =:number OR A.NAME =:name) AND A.ID !=:id
 
 
@@ -4727,7 +4938,7 @@
 
 	<!-- To get least startdate and highest enddate -->
 	<sql-query name="getMinStartDateAndMaxEndDate">
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="START_DATE" type="long" />
 		<return-scalar column="END_DATE" type="long" />
 
@@ -4735,13 +4946,13 @@
 		MAX(END_DATE) AS END_DATE
 
 		FROM
-		FISCAL_YEAR F
+		FISCAL_YEAR F WHERE F.COMPANY_ID=:companyId
 
 	</sql-query>
 
 	<!-- To get Box values of Filed Vat -->
 	<sql-query name="getFiledBoxValues">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="id" type="Long" />
 
 		<return-scalar column="BOX_NAME" type="string" />
@@ -4766,50 +4977,41 @@
 		ON V.JOURNAL_ENTRY
 		= E.TRANSACTION_ID
 
-		WHERE B.BOX_ID = :id
+		WHERE B.BOX_ID = :id AND B.COMPANY_ID=:companyId
 		GROUP BY B.ID
 	</sql-query>
 
 	<sql-query name="getTaxItemGroupWithSameName">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="name" type="String" />
 		<query-param name="id" type="Long" />
 
-		SELECT * FROM TAX_ITEM_GROUPS V WHERE V.NAME =:name AND V.ID !=:id
-
-
-	</sql-query>
-
-
-	<sql-query name="getTAXItemGroupWithSameName">
-
-		<query-param name="name" type="String" />
-		<query-param name="id" type="Long" />
-
-		SELECT * FROM TAX_ITEM_GROUPS T WHERE T.NAME =:name AND T.ID !=:id
+		SELECT * FROM TAX_ITEM_GROUPS V WHERE V.NAME =:name AND V.ID !=:id AND
+		V.COMPANY_ID=:companyId
 
 
 	</sql-query>
 
 	<sql-query name="getTAXCodeWithSameName">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="name" type="String" />
 		<query-param name="id" type="Long" />
 
-		SELECT * FROM TAX_CODE T WHERE T.NAME =:name AND T.ID !=:id
+		SELECT * FROM TAX_CODE T LEFT OUTER JOIN T.TAXITEMGROUP_SALES TG WHERE T.NAME =:name AND T.ID !=:id AND TG.COMPANY_ID=:companyId
 
 	</sql-query>
 
 	<sql-query name="getItemGroupWithSameName">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="name" type="String" />
 
-		SELECT * FROM ITEMGROUP I WHERE I.NAME =:name AND I.ID !=:id
+		SELECT * FROM ITEMGROUP I WHERE I.NAME =:name AND I.ID !=:id ANG
+		I.COMPANY_ID=:companyId
 
 	</sql-query>
 
 	<sql-query name="getCreatableStatementForCustomer">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="Long" />
 		<query-param name="endDate" type="Long" />
 		<query-param name="customerId" type="String" />
@@ -4847,11 +5049,13 @@
 		-1*CCM.BALANCE_DUE
 		WHEN T.T_TYPE = 5 THEN
 		CR.BALANCE_DUE
-		WHEN T.T_TYPE = 8 THEN
+		WHEN T.T_TYPE =
+		8 THEN
 		I.BALANCE_DUE
 		WHEN T.T_TYPE = 12 THEN
 		-1*T.TOTAL
-		WHEN T.T_TYPE = 16 THEN
+		WHEN T.T_TYPE = 16
+		THEN
 		E.TOTAL
 		WHEN T.T_TYPE = 29 THEN
 		-1*CPP.BALANCE_DUE
@@ -4872,30 +5076,41 @@
 
 		FROM TRANSACTION T
 		LEFT OUTER JOIN INVOICE I ON I.ID = T.ID
-		LEFT OUTER JOIN CUSTOMER_CREDIT_MEMO CCM ON CCM.ID = T.ID
-		LEFT OUTER JOIN CUSTOMER_REFUND CR ON CR.ID = T.ID
-		LEFT OUTER JOIN RECEIVE_PAYMENT RP ON RP.ID = T.ID
+		LEFT OUTER JOIN
+		CUSTOMER_CREDIT_MEMO CCM ON CCM.ID = T.ID
+		LEFT OUTER JOIN
+		CUSTOMER_REFUND CR ON CR.ID = T.ID
+		LEFT OUTER JOIN RECEIVE_PAYMENT RP
+		ON RP.ID = T.ID
 		LEFT OUTER JOIN JOURNAL_ENTRY JE ON JE.ID = T.ID
-		LEFT OUTER JOIN CUSTOMER_PREPAYMENT CPP ON CPP.ID = T.ID
-		
-		LEFT OUTER JOIN ENTRY E ON E.TRANSACTION_ID = T.ID
-		
-		LEFT OUTER JOIN PAYEE P ON P.ID = I.CUSTOMER_ID
-								 OR P.ID = CCM.CUSTOMER_ID
-								 OR P.ID = CR.CUSTOMER_ID
-								 OR P.ID = RP.CUSTOMER_ID
-								 OR P.ID = E.CUSTOMER_ID
-								 OR P.ID = CPP.CUSTOMER_ID
-								 
-		LEFT OUTER JOIN PAYEE_ADDRESS PA ON PA.PAYEE_ID = P.ID
-		LEFT OUTER JOIN CUSTOMER C ON C.ID = P.ID
-		LEFT OUTER JOIN SALES_PERSON SP ON SP.ID = C.SALES_PERSON_ID
-		LEFT OUTER JOIN SHIPPINGMETHOD SM ON SM.ID = C.SHIPPING_METHOD_ID
-		LEFT OUTER JOIN PAYMENTTERMS PT ON PT.ID = C.PAYMENT_TERM_ID
+		LEFT
+		OUTER JOIN CUSTOMER_PREPAYMENT CPP ON CPP.ID = T.ID
 
-		WHERE (T.T_DATE between :startDate and :endDate) AND P.ID =:customerId AND
-		T.T_TYPE IN (4, 5, 8, 12, 16, 29) AND T.IS_VOID = FALSE AND
-		CASE WHEN (SELECT COUNT(PA2.TYPE) FROM PAYEE_ADDRESS PA2 WHERE
+		LEFT OUTER JOIN ENTRY E ON E.TRANSACTION_ID = T.ID
+
+		LEFT OUTER JOIN PAYEE P ON P.ID = I.CUSTOMER_ID
+		OR P.ID = CCM.CUSTOMER_ID
+		OR P.ID = CR.CUSTOMER_ID
+		OR P.ID = RP.CUSTOMER_ID
+		OR P.ID = E.CUSTOMER_ID
+		OR P.ID = CPP.CUSTOMER_ID
+
+		LEFT OUTER JOIN PAYEE_ADDRESS PA ON PA.PAYEE_ID = P.ID
+		LEFT OUTER JOIN
+		CUSTOMER C ON C.ID = P.ID
+		LEFT OUTER JOIN SALES_PERSON SP ON SP.ID =
+		C.SALES_PERSON_ID
+		LEFT OUTER JOIN SHIPPINGMETHOD SM ON SM.ID =
+		C.SHIPPING_METHOD_ID
+		LEFT OUTER JOIN PAYMENTTERMS PT ON PT.ID =
+		C.PAYMENT_TERM_ID
+
+		WHERE T.COMPANY_ID=:companyId AND (T.T_DATE between
+		:startDate and :endDate) AND P.ID =:customerId AND
+		T.T_TYPE IN (4, 5,
+		8, 12, 16, 29) AND T.IS_VOID = FALSE AND
+		CASE WHEN (SELECT
+		COUNT(PA2.TYPE) FROM PAYEE_ADDRESS PA2 WHERE
 		PA2.PAYEE_ID = P.ID) != 0
 		THEN PA.TYPE = 2
 		ELSE
@@ -4909,7 +5124,7 @@
 	</sql-query>
 
 	<sql-query name="getCreatableStatementForVendor">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="Long" />
 		<query-param name="endDate" type="Long" />
 		<query-param name="vendorId" type="String" />
@@ -4936,7 +5151,8 @@
 		T.NUMBER AS TRANSACTION_NUMBER,
 		T.T_DATE AS TRANSACTION_DATE,
 		E.DUE_DATE AS DUE_DATE,
-		SUM(T.TOTAL) AS TOTAL,
+		SUM(T.TOTAL) AS
+		TOTAL,
 		SUM(E.BALANCE_DUE) AS BALANCE,
 		P.NAME AS CUSTOMER_NAME,
 		PA.ADDRESS1 AS ADDRESS1,
@@ -4946,40 +5162,48 @@
 		PA.COUNTRY AS COUNTRY,
 		PA.ZIP AS ZIP
 
-		FROM TRANSACTION T
+		FROM TRANSACTION
+		T
 		LEFT OUTER JOIN ENTER_BILL E ON E.ID = T.ID
-		LEFT OUTER JOIN PAYEE P ON P.ID = E.VENDOR_ID
-		LEFT OUTER JOIN PAYEE_ADDRESS PA ON PA.PAYEE_ID = P.ID
+		LEFT OUTER JOIN PAYEE P ON
+		P.ID = E.VENDOR_ID
+		LEFT OUTER JOIN PAYEE_ADDRESS PA ON PA.PAYEE_ID =
+		P.ID
 
-		WHERE T.T_DATE between :startDate and :endDate AND P.ID =:vendorId AND
+		WHERE T.COMPANY_ID=:companyId AND T.T_DATE between :startDate and
+		:endDate AND P.ID =:vendorId AND
 		T.T_TYPE IN (6) AND
-		CASE WHEN (SELECT COUNT(PA2.TYPE) FROM PAYEE_ADDRESS PA2 WHERE
+		CASE WHEN (SELECT
+		COUNT(PA2.TYPE) FROM PAYEE_ADDRESS PA2 WHERE
 		PA2.PAYEE_ID = P.ID) != 0
 		THEN PA.TYPE = 2
 		ELSE
 		TRUE
 		END AND
 		CASE WHEN :dueDays &gt; 0
-		THEN DATEDIFF(CURDATE(),CONVERT(E.DUE_DATE,DATE)) &gt; 0
+		THEN
+		DATEDIFF(CURDATE(),CONVERT(E.DUE_DATE,DATE)) &gt; 0
 		ELSE TRUE END AND
 		CASE WHEN :dontShowZero
 		THEN BALANCE &gt; 0
 		ELSE TRUE END AND
-		CASE WHEN :lessBalance &gt; 0
+		CASE WHEN
+		:lessBalance &gt; 0
 		THEN BALANCE &gt; :lessBalance
 		ELSE TRUE END AND
 		CASE WHEN :isActivePayee
 		THEN P.IS_ACTIVE = TRUE
 		ELSE TRUE END
 
-		GROUP BY (T.T_DATE &lt; :fromDate)
+		GROUP BY
+		(T.T_DATE &lt; :fromDate)
 
 	</sql-query>
 
 	<sql-query name="getGraphPointsForDebtors">
 
 		<query-param name="debtorAccountID" type="long" />
-
+		<query-param name="companyId" type="long" />
 		<query-param name="nextMonthStartDateCal" type="long" />
 		<query-param name="nextMonthEndDateCal" type="long" />
 		<query-param name="previousFourthMonthStartDateCal" type="long" />
@@ -5010,76 +5234,107 @@
 		CASE
 		WHEN AT.ACCOUNT_ID = :debtorAccountID THEN
 		'Debtors'
-		END AS ACCOUNT_TYPE,
+		END AS
+		ACCOUNT_TYPE,
 
 		A.NAME AS ACCOUNT_NAME,
 
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :debtorAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		WHEN AT.ACCOUNT_ID =
+		:debtorAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION
+		AT1 LEFT JOIN TRANSACTION T1
 		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :debtorAccountID AND T1.T_DATE BETWEEN
+		WHERE
+		AT1.ACCOUNT_ID = :debtorAccountID AND T1.T_DATE BETWEEN
 		:previousFourthMonthStartDateCal AND :previousFourthMonthEndDateCal
 		AND T1.IS_VOID = FALSE GROUP BY AT1.ACCOUNT_ID)
 
-		END AS PREVOIUS_FOURTH_MONTH_AMOUNT,
+		END AS
+		PREVOIUS_FOURTH_MONTH_AMOUNT,
 
 
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :debtorAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		WHEN AT.ACCOUNT_ID = :debtorAccountID
+		THEN
+		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN
+		TRANSACTION T1
 		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :debtorAccountID AND T1.T_DATE BETWEEN
-		:previousThirdMonthStartDateCal AND :previousThirdMonthEndDateCal AND
-		T1.IS_VOID = FALSE GROUP BY AT1.ACCOUNT_ID)
+		WHERE AT1.ACCOUNT_ID =
+		:debtorAccountID AND T1.T_DATE BETWEEN
+		:previousThirdMonthStartDateCal
+		AND :previousThirdMonthEndDateCal AND
+		T1.IS_VOID = FALSE GROUP BY
+		AT1.ACCOUNT_ID)
 
 		END AS PREVOIUS_THIRD_MONTH_AMOUNT,
 
 
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :debtorAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :debtorAccountID AND T1.T_DATE BETWEEN
-		:previousSecondMonthStartDateCal AND :previousSecondMonthEndDateCal
-		AND T1.IS_VOID = FALSE GROUP BY AT1.ACCOUNT_ID)
+		WHEN
+		AT.ACCOUNT_ID = :debtorAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :debtorAccountID AND
+		T1.T_DATE BETWEEN
+		:previousSecondMonthStartDateCal AND
+		:previousSecondMonthEndDateCal
+		AND T1.IS_VOID = FALSE GROUP BY
+		AT1.ACCOUNT_ID)
 
 		END AS PREVOIUS_SECOND_MONTH_AMOUNT,
 
 
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :debtorAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :debtorAccountID AND T1.T_DATE BETWEEN
-		:previousFirstMonthStartDateCal AND :previousFirstMonthEndDateCal AND
-		T1.IS_VOID = FALSE GROUP BY AT1.ACCOUNT_ID)
+		WHEN
+		AT.ACCOUNT_ID = :debtorAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :debtorAccountID AND
+		T1.T_DATE BETWEEN
+		:previousFirstMonthStartDateCal AND
+		:previousFirstMonthEndDateCal AND
+		T1.IS_VOID = FALSE GROUP BY
+		AT1.ACCOUNT_ID)
 
 		END AS PREVOIUS_FIRST_MONTH_AMOUNT,
 
 
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :debtorAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :debtorAccountID AND T1.T_DATE BETWEEN
-		:currentMonthStartDateCal AND :currentMonthEndDateCal AND T1.IS_VOID =
+		WHEN
+		AT.ACCOUNT_ID = :debtorAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :debtorAccountID AND
+		T1.T_DATE BETWEEN
+		:currentMonthStartDateCal AND :currentMonthEndDateCal
+		AND T1.IS_VOID =
 		FALSE GROUP BY AT1.ACCOUNT_ID)
 
-		END AS PRESENT_MONTH_AMOUNT,
+		END AS
+		PRESENT_MONTH_AMOUNT,
 
 
 		CASE
 		WHEN AT.ACCOUNT_ID = :debtorAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN
+		TRANSACTION T1
 		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :debtorAccountID AND T1.T_DATE BETWEEN
-		:nextMonthStartDateCal AND :nextMonthEndDateCal AND T1.IS_VOID = FALSE
+		WHERE AT1.ACCOUNT_ID =
+		:debtorAccountID AND T1.T_DATE BETWEEN
+		:nextMonthStartDateCal AND
+		:nextMonthEndDateCal AND T1.IS_VOID = FALSE
 		GROUP BY AT1.ACCOUNT_ID)
 
 		END AS NEXT_MONTH_AMOUNT
@@ -5092,8 +5347,9 @@
 		ON A.ID = AT.ACCOUNT_ID
 
 		WHERE
-		AT.ACCOUNT_ID IN (:debtorAccountID)
-
+		AT.ACCOUNT_ID IN
+		(:debtorAccountID)
+		AND AT.COMPANY_ID=:companyId
 
 		GROUP BY
 		AT.ACCOUNT_ID
@@ -5101,7 +5357,7 @@
 	</sql-query>
 
 	<sql-query name="getInvoicesDue">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="presentDate" type="long" />
 
 		SELECT SUM(I.BALANCE_DUE)
@@ -5110,7 +5366,7 @@
 		LEFT OUTER JOIN TRANSACTION T
 		ON T.ID = I.ID
 
-		WHERE T.IS_VOID = FALSE AND
+		WHERE T.COMPANY_ID=:companyId AND T.IS_VOID = FALSE AND
 		CASE WHEN :presentDate = 0
 		THEN TRUE
 		ELSE :presentDate &gt; I.DUE_DATE
@@ -5119,16 +5375,17 @@
 	</sql-query>
 
 	<sql-query name="getBillsDue">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="presentDate" type="long" />
 
 		SELECT SUM(E.BALANCE_DUE)
 
 		FROM ENTER_BILL E
-		LEFT OUTER JOIN TRANSACTION T
+		LEFT OUTER JOIN TRANSACTION
+		T
 		ON T.ID = E.ID
 
-		WHERE T.IS_VOID = FALSE AND
+		WHERE T.COMPANY_ID=:companyId AND T.IS_VOID = FALSE AND
 		CASE WHEN :presentDate = 0
 		THEN TRUE
 		ELSE :presentDate &gt; E.DUE_DATE
@@ -5137,7 +5394,7 @@
 	</sql-query>
 
 	<sql-query name="getPointsForBankAccount">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="accountNo" type="long" />
 		<query-param name="previousThreeDaysBackDateCal" type="long" />
 		<query-param name="previousTwoDaysBackDateCal" type="long" />
@@ -5164,11 +5421,14 @@
 
 		CASE
 		WHEN A.A_TYPE = 2 THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		(SELECT
+		SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
 		ON T1.ID = AT1.TRANSACTION_ID
-		LEFT JOIN ACCOUNT A1 ON A1.ID = AT1.ACCOUNT_ID WHERE A1.A_TYPE = 2 AND
+		LEFT JOIN ACCOUNT A1 ON A1.ID =
+		AT1.ACCOUNT_ID WHERE A1.A_TYPE = 2 AND
 		A1.ID = A.ID
-		AND T1.T_DATE = :previousThreeDaysBackDateCal AND T1.IS_VOID = FALSE
+		AND T1.T_DATE =
+		:previousThreeDaysBackDateCal AND T1.IS_VOID = FALSE
 		GROUP BY A1.ID)
 		END AS PREVOIUS_THREE_DAYS_BACK_AMOUNT,
 
@@ -5176,46 +5436,60 @@
 
 		CASE
 		WHEN A.A_TYPE = 2 THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN
+		TRANSACTION T1
 		ON T1.ID = AT1.TRANSACTION_ID
-		LEFT JOIN ACCOUNT A1 ON A1.ID = AT1.ACCOUNT_ID WHERE A1.A_TYPE = 2 AND
+		LEFT JOIN ACCOUNT A1 ON
+		A1.ID = AT1.ACCOUNT_ID WHERE A1.A_TYPE = 2 AND
 		A1.ID = A.ID
-		AND T1.T_DATE = :previousTwoDaysBackDateCal AND T1.IS_VOID = FALSE GROUP
+		AND
+		T1.T_DATE = :previousTwoDaysBackDateCal AND T1.IS_VOID = FALSE GROUP
 		BY A1.ID)
 		END AS PREVOIUS_TWO_DAYS_BACK_AMOUNT,
 
 
 
 		CASE
-		WHEN A.A_TYPE = 2 THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		WHEN A.A_TYPE = 2
+		THEN
+		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN
+		TRANSACTION T1
 		ON T1.ID = AT1.TRANSACTION_ID
-		LEFT JOIN ACCOUNT A1 ON A1.ID = AT1.ACCOUNT_ID WHERE A1.A_TYPE = 2 AND
+		LEFT JOIN ACCOUNT A1 ON
+		A1.ID = AT1.ACCOUNT_ID WHERE A1.A_TYPE = 2 AND
 		A1.ID = A.ID
-		AND T1.T_DATE = :previousOneDayBackDateCal AND T1.IS_VOID = FALSE GROUP
-		BY A1.ID)
+		AND
+		T1.T_DATE = :previousOneDayBackDateCal AND T1.IS_VOID = FALSE GROUP
+		BY
+		A1.ID)
 		END AS PREVOIUS_ONE_DAY_BACK_AMOUNT,
 
 
 
 		CASE
 		WHEN A.A_TYPE = 2 THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN
+		TRANSACTION T1
 		ON T1.ID = AT1.TRANSACTION_ID
-		LEFT JOIN ACCOUNT A1 ON A1.ID = AT1.ACCOUNT_ID WHERE A1.A_TYPE = 2 AND
+		LEFT JOIN ACCOUNT A1 ON
+		A1.ID = AT1.ACCOUNT_ID WHERE A1.A_TYPE = 2 AND
 		A1.ID = A.ID
-		AND T1.T_DATE = :currentDateCal AND T1.IS_VOID = FALSE GROUP BY A1.ID)
-		END AS CURRENT_DAY_AMOUNT
+		AND
+		T1.T_DATE = :currentDateCal AND T1.IS_VOID = FALSE GROUP BY A1.ID)
+		END
+		AS CURRENT_DAY_AMOUNT
 
 
 		FROM
 		ACCOUNT_TRANSACTION AT
 
 		LEFT OUTER JOIN
-		ACCOUNT A
+		ACCOUNT
+		A
 		ON A.ID = AT.ACCOUNT_ID
 		WHERE
-		A.A_NUMBER =:accountNo
+		A.A_NUMBER =:accountNo AND
+		AT.COMPANY_ID=:companyId
 
 		GROUP BY
 		AT.ACCOUNT_ID
@@ -5224,7 +5498,7 @@
 
 
 	<sql-query name="getExpenseTotalAmounts">
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="TYPE" type="long" />
 		<return-scalar column="EXPENSE_TYPE" type="string" />
 		<return-scalar column="CASH_EXPENSE_TOTAL" type="double" />
@@ -5238,7 +5512,8 @@
 		CASE
 		WHEN T.T_TYPE = 26 THEN
 		'Cash Expense'
-		WHEN T.T_TYPE = 27 THEN
+		WHEN
+		T.T_TYPE = 27 THEN
 		'Credit Card Expense'
 		WHEN T.T_TYPE = 28 THEN
 		'Employee Expense'
@@ -5246,19 +5521,24 @@
 		'All Expenses'
 		END AS EXPENSE_TYPE,
 
-		(SELECT SUM(T1.TOTAL) FROM TRANSACTION T1 WHERE T1.T_TYPE = 26 AND T1.IS_VOID
+		(SELECT
+		SUM(T1.TOTAL) FROM TRANSACTION T1 WHERE T1.T_TYPE = 26 AND T1.IS_VOID
 		= FALSE)
 		AS CASH_EXPENSE_TOTAL,
 
-		(SELECT SUM(T1.TOTAL) FROM TRANSACTION T1 WHERE T1.T_TYPE =27 AND T1.IS_VOID
+		(SELECT SUM(T1.TOTAL) FROM TRANSACTION
+		T1 WHERE T1.T_TYPE =27 AND T1.IS_VOID
 		= FALSE)
-		AS CREDIT_CARD_EXPENSE_TOTAL,
+		AS
+		CREDIT_CARD_EXPENSE_TOTAL,
 
-		(SELECT SUM(T1.TOTAL) FROM TRANSACTION T1 WHERE T1.T_TYPE =28 AND T1.IS_VOID
+		(SELECT SUM(T1.TOTAL) FROM TRANSACTION T1
+		WHERE T1.T_TYPE =28 AND T1.IS_VOID
 		= FALSE)
 		AS EMPLOYEE_EXPENSE_TOTAL,
 
-		(SELECT SUM(T1.TOTAL) FROM TRANSACTION T1 WHERE T1.T_TYPE IN (26, 27, 28) AND
+		(SELECT SUM(T1.TOTAL) FROM TRANSACTION T1 WHERE T1.T_TYPE IN (26, 27,
+		28) AND
 		T1.IS_VOID = FALSE)
 		AS ALL_EXPENSES_TOTAL
 
@@ -5267,7 +5547,7 @@
 		TRANSACTION T
 
 		WHERE
-		T.T_TYPE IN (26, 27, 28)
+		T.T_TYPE IN (26, 27, 28) AND T.COMPANY_ID=:companyId
 
 		GROUP BY
 		T.T_TYPE
@@ -5278,7 +5558,7 @@
 
 
 	<sql-query name="getGraphPointsForCreditors">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="creditorsAccountID" type="long" />
 		<query-param name="currentDate" type="long" />
 		<query-param name="oneDayAfterToCurrentDate" type="long" />
@@ -5383,249 +5663,399 @@
 		CASE
 		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
 		'Creditors'
-		END AS ACCOUNT_TYPE,
+		END
+		AS ACCOUNT_TYPE,
 
 		A.NAME AS ACCOUNT_NAME,
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE = :currentDate)
+		WHEN AT.ACCOUNT_ID =
+		:creditorsAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND
+		T1.T_DATE = :currentDate)
 		END AS CURRENT_DATE1,
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
+		WHEN AT.ACCOUNT_ID =
+		:creditorsAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND
+		T1.T_DATE =
 		:oneDayAfterToCurrentDate)
-		END AS ONE_DAY_AFTER_TO_CURRENT_DATE,
+		END AS
+		ONE_DAY_AFTER_TO_CURRENT_DATE,
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
+		WHEN AT.ACCOUNT_ID =
+		:creditorsAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND
+		T1.T_DATE =
 		:twoDaysAfterToCurrentDate)
-		END AS TWO_DAYS_AFTER_TO_CURRENT_DATE ,
+		END AS
+		TWO_DAYS_AFTER_TO_CURRENT_DATE ,
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
+		WHEN AT.ACCOUNT_ID =
+		:creditorsAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND
+		T1.T_DATE =
 		:threeDaysAfterToCurrentDate)
-		END AS THREE_DAYS_AFTER_TO_CURRENT_DATE ,
+		END AS
+		THREE_DAYS_AFTER_TO_CURRENT_DATE ,
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
+		WHEN AT.ACCOUNT_ID =
+		:creditorsAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND
+		T1.T_DATE =
 		:fourDaysAfterToCurrentDate)
-		END AS FOUR_DAYS_AFTER_TO_CURRENT_DATE ,
+		END AS
+		FOUR_DAYS_AFTER_TO_CURRENT_DATE ,
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
+		WHEN AT.ACCOUNT_ID =
+		:creditorsAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND
+		T1.T_DATE =
 		:fiveDaysAfterToCurrentDate)
-		END AS FIVE_DAYS_AFTER_TO_CURRENT_DATE ,
+		END AS
+		FIVE_DAYS_AFTER_TO_CURRENT_DATE ,
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
+		WHEN AT.ACCOUNT_ID =
+		:creditorsAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND
+		T1.T_DATE =
 		:sixDaysAfterToCurrentDate)
-		END AS SIX_DAYS_AFTER_TO_CURRENT_DATE ,
+		END AS
+		SIX_DAYS_AFTER_TO_CURRENT_DATE ,
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
+		WHEN AT.ACCOUNT_ID =
+		:creditorsAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND
+		T1.T_DATE =
 		:sevenDaysAfterToCurrentDate)
-		END AS SEVEN_DAYS_AFTER_TO_CURRENT_DATE ,
+		END AS
+		SEVEN_DAYS_AFTER_TO_CURRENT_DATE ,
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
+		WHEN AT.ACCOUNT_ID =
+		:creditorsAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND
+		T1.T_DATE =
 		:eightDaysAfterToCurrentDate)
-		END AS EIGHT_DAYS_AFTER_TO_CURRENT_DATE ,
+		END AS
+		EIGHT_DAYS_AFTER_TO_CURRENT_DATE ,
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
+		WHEN AT.ACCOUNT_ID =
+		:creditorsAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND
+		T1.T_DATE =
 		:nineDaysAfterToCurrentDate)
-		END AS NINE_DAYS_AFTER_TO_CURRENT_DATE ,
+		END AS
+		NINE_DAYS_AFTER_TO_CURRENT_DATE ,
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
+		WHEN AT.ACCOUNT_ID =
+		:creditorsAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND
+		T1.T_DATE =
 		:tenDaysAfterToCurrentDate)
-		END AS TEN_DAYS_AFTER_TO_CURRENT_DATE ,
+		END AS
+		TEN_DAYS_AFTER_TO_CURRENT_DATE ,
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
+		WHEN AT.ACCOUNT_ID =
+		:creditorsAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND
+		T1.T_DATE =
 		:elevenDaysAfterToCurrentDate)
-		END AS ELEVEN_DAYS_AFTER_TO_CURRENT_DATE ,
+		END AS
+		ELEVEN_DAYS_AFTER_TO_CURRENT_DATE ,
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
+		WHEN AT.ACCOUNT_ID =
+		:creditorsAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND
+		T1.T_DATE =
 		:twelveDaysAfterToCurrentDate)
-		END AS TWELVE_DAYS_AFTER_TO_CURRENT_DATE ,
+		END AS
+		TWELVE_DAYS_AFTER_TO_CURRENT_DATE ,
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
+		WHEN AT.ACCOUNT_ID =
+		:creditorsAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND
+		T1.T_DATE =
 		:thirteenDaysAfterToCurrentDate)
-		END AS THIRTEEN_DAYS_AFTER_TO_CURRENT_DATE ,
+		END AS
+		THIRTEEN_DAYS_AFTER_TO_CURRENT_DATE ,
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
+		WHEN AT.ACCOUNT_ID =
+		:creditorsAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND
+		T1.T_DATE =
 		:fourteenDaysAfterToCurrentDate)
-		END AS FOURTEEN_DAYS_AFTER_TO_CURRENT_DATE ,
+		END AS
+		FOURTEEN_DAYS_AFTER_TO_CURRENT_DATE ,
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
+		WHEN AT.ACCOUNT_ID =
+		:creditorsAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND
+		T1.T_DATE =
 		:fifteenDaysAfterToCurrentDate)
-		END AS FIFTEEN_DAYS_AFTER_TO_CURRENT_DATE ,
+		END AS
+		FIFTEEN_DAYS_AFTER_TO_CURRENT_DATE ,
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
+		WHEN AT.ACCOUNT_ID =
+		:creditorsAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND
+		T1.T_DATE =
 		:sixteenDaysAfterToCurrentDate)
-		END AS SIXTEEN_DAYS_AFTER_TO_CURRENT_DATE ,
+		END AS
+		SIXTEEN_DAYS_AFTER_TO_CURRENT_DATE ,
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
+		WHEN AT.ACCOUNT_ID =
+		:creditorsAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND
+		T1.T_DATE =
 		:seventeenDaysAfterToCurrentDate)
-		END AS SEVENTEEN_DAYS_AFTER_TO_CURRENT_DATE ,
+		END AS
+		SEVENTEEN_DAYS_AFTER_TO_CURRENT_DATE ,
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
+		WHEN AT.ACCOUNT_ID =
+		:creditorsAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND
+		T1.T_DATE =
 		:eighteenDaysAfterToCurrentDate)
-		END AS EIGHTEEN_DAYS_AFTER_TO_CURRENT_DATE ,
+		END AS
+		EIGHTEEN_DAYS_AFTER_TO_CURRENT_DATE ,
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
+		WHEN AT.ACCOUNT_ID =
+		:creditorsAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND
+		T1.T_DATE =
 		:nineteenDaysAfterToCurrentDate)
-		END AS NINETEEN_DAYS_AFTER_TO_CURRENT_DATE ,
+		END AS
+		NINETEEN_DAYS_AFTER_TO_CURRENT_DATE ,
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
+		WHEN AT.ACCOUNT_ID =
+		:creditorsAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND
+		T1.T_DATE =
 		:twentyDaysAfterToCurrentDate)
-		END AS TWENTY_DAYS_AFTER_TO_CURRENT_DATE ,
+		END AS
+		TWENTY_DAYS_AFTER_TO_CURRENT_DATE ,
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
+		WHEN AT.ACCOUNT_ID =
+		:creditorsAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND
+		T1.T_DATE =
 		:twentyOneDaysAfterToCurrentDate)
-		END AS TWENTY_ONE_DAYS_AFTER_TO_CURRENT_DATE ,
+		END AS
+		TWENTY_ONE_DAYS_AFTER_TO_CURRENT_DATE ,
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
+		WHEN AT.ACCOUNT_ID =
+		:creditorsAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND
+		T1.T_DATE =
 		:twentyTwoDaysAfterToCurrentDate)
-		END AS TWENTY_TWO_DAYS_AFTER_TO_CURRENT_DATE ,
+		END AS
+		TWENTY_TWO_DAYS_AFTER_TO_CURRENT_DATE ,
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
+		WHEN AT.ACCOUNT_ID =
+		:creditorsAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND
+		T1.T_DATE =
 		:twentyThreeDaysAfterToCurrentDate)
-		END AS TWENTY_THREE_DAYS_AFTER_TO_CURRENT_DATE ,
+		END AS
+		TWENTY_THREE_DAYS_AFTER_TO_CURRENT_DATE ,
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
+		WHEN AT.ACCOUNT_ID =
+		:creditorsAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND
+		T1.T_DATE =
 		:twentyFourDaysAfterToCurrentDate)
-		END AS TWENTY_FOUR_DAYS_AFTER_TO_CURRENT_DATE ,
+		END AS
+		TWENTY_FOUR_DAYS_AFTER_TO_CURRENT_DATE ,
 
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
+		WHEN AT.ACCOUNT_ID =
+		:creditorsAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND
+		T1.T_DATE =
 		:twentyFiveDaysAfterToCurrentDate)
-		END AS TWENTY_FIVE_DAYS_AFTER_TO_CURRENT_DATE ,
+		END AS
+		TWENTY_FIVE_DAYS_AFTER_TO_CURRENT_DATE ,
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
+		WHEN AT.ACCOUNT_ID =
+		:creditorsAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND
+		T1.T_DATE =
 		:twentySixDaysAfterToCurrentDate)
-		END AS TWENTY_SIX_DAYS_AFTER_TO_CURRENT_DATE ,
+		END AS
+		TWENTY_SIX_DAYS_AFTER_TO_CURRENT_DATE ,
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
+		WHEN AT.ACCOUNT_ID =
+		:creditorsAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND
+		T1.T_DATE =
 		:twentySevenDaysAfterToCurrentDate)
-		END AS TWENTY_SEVEN_DAYS_AFTER_TO_CURRENT_DATE ,
+		END AS
+		TWENTY_SEVEN_DAYS_AFTER_TO_CURRENT_DATE ,
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
+		WHEN AT.ACCOUNT_ID =
+		:creditorsAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND
+		T1.T_DATE =
 		:twentyEightDaysAfterToCurrentDate)
-		END AS TWENTY_EIGHT_DAYS_AFTER_TO_CURRENT_DATE ,
+		END AS
+		TWENTY_EIGHT_DAYS_AFTER_TO_CURRENT_DATE ,
 
 		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
+		WHEN AT.ACCOUNT_ID =
+		:creditorsAccountID THEN
+		(SELECT SUM(AT1.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
+		ON T1.ID =
+		AT1.TRANSACTION_ID
+		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND
+		T1.T_DATE =
 		:twentyNineDaysAfterToCurrentDate)
-		END AS TWENTY_NINE_DAYS_AFTER_TO_CURRENT_DATE
+		END AS
+		TWENTY_NINE_DAYS_AFTER_TO_CURRENT_DATE
 
 
 
@@ -5635,11 +6065,13 @@
 		FROM
 		ACCOUNT_TRANSACTION AT
 
-		LEFT OUTER JOIN
+		LEFT
+		OUTER JOIN
 		ACCOUNT A
 		ON A.ID = AT.ACCOUNT_ID
 		WHERE
-		AT.ACCOUNT_ID IN (:creditorsAccountID)
+		AT.ACCOUNT_ID IN
+		(:creditorsAccountID) AND AT.COMPANY_ID=:companyId
 
 		GROUP BY
 		AT.ACCOUNT_ID
@@ -5648,7 +6080,7 @@
 	</sql-query>
 
 	<sql-query name="getBrandingTheme">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="themeName" type="string" />
 		<query-param name="id" type="long" />
 
@@ -5661,12 +6093,13 @@
 		BRANDING_THEME B
 
 		WHERE
-		B.THEME_NAME =:themeName AND
-		B.ID !=:id
+		B.THEME_NAME
+		=:themeName AND
+		B.ID !=:id AND B.COMPANY_ID=:companyId
 	</sql-query>
 
 	<sql-query name="canDeleteBrandingTheme">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="inputId" type="long" />
 
 		<return-scalar column="BRANDING_THEME_ID" type="long" />
@@ -5678,7 +6111,8 @@
 		BRANDING_THEME BT
 
 		WHERE
-		BT.ID =:inputId LIMIT 1,2
+		BT.ID
+		=:inputId AND BT.COMPANY_ID=:companyId LIMIT 1,2
 
 		<!-- <return-scalar column="INVOICE_ID" type="long" /> <return-scalar column="CUSTOMER_CREDIT_MEMO_ID" 
 			type="long" /> SELECT BT.ID AS BRANDING_THEME_ID, I.ID AS INVOICE_ID, CCM.ID 
@@ -5689,7 +6123,7 @@
 	</sql-query>
 
 	<sql-query name="getActivityLog">
-
+		<query-param name="companyId" type="long" />
 		<return-scalar column="TIME_STAMP" type="long" />
 		<return-scalar column="USER_NAME" type="string" />
 		<return-scalar column="ACTIVITY_TYPE" type="int" />
@@ -5698,12 +6132,12 @@
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="AMOUNT" type="double" />
 
-		SELECT * FROM ACTIVITY
+		SELECT * FROM ACTIVITY A WHERE A.COMPANY_ID=:companyId
 
 	</sql-query>
 
 	<sql-query name="getCustomerStatement">
-
+		<query-param name="companyId" type="long" />
 		<query-param name="customerId" type="long" />
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
@@ -5716,33 +6150,42 @@
 
 		SELECT T.ID AS TRANSACTION_ID,
 		T.T_DATE AS TRANSACTION_DATE,
-		T.T_TYPE AS TRANSACTION_TYPE,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
 		T.NUMBER AS TRANSACTION_NUMBER,
-		T.TOTAL AS TRANSACTION_TOTAL
+		T.TOTAL AS
+		TRANSACTION_TOTAL
 
 		FROM TRANSACTION T
 
-		LEFT OUTER JOIN INVOICE I ON I.ID = T.ID
+		LEFT OUTER JOIN INVOICE I ON I.ID =
+		T.ID
 		LEFT OUTER JOIN CASH_SALES CS ON CS.ID = T.ID
-		LEFT OUTER JOIN CUSTOMER_REFUND CR ON CR.ID = T.ID
-		LEFT OUTER JOIN RECEIVE_PAYMENT RP ON RP.ID = T.ID
+		LEFT OUTER JOIN
+		CUSTOMER_REFUND CR ON CR.ID = T.ID
+		LEFT OUTER JOIN RECEIVE_PAYMENT RP
+		ON RP.ID = T.ID
 		LEFT OUTER JOIN CUSTOMER_PREPAYMENT CP ON CP.ID = T.ID
 
 		LEFT OUTER JOIN CUSTOMER C ON C.ID = I.CUSTOMER_ID
-		OR C.ID = CS.CUSTOMER_ID
+		OR C.ID =
+		CS.CUSTOMER_ID
 		OR C.ID = CP.CUSTOMER_ID
 		OR C.ID = CR.CUSTOMER_ID
-		OR C.ID = RP.CUSTOMER_ID
+		OR C.ID
+		= RP.CUSTOMER_ID
 
 
 		WHERE T.T_TYPE IN (1,5,8,12,29)
 		AND C.ID =:customerId
 		AND T.T_DATE BETWEEN :fromDate AND :toDate
-		AND T.IS_VOID = false
+		AND T.IS_VOID = false AND
+		T.COMPANY_ID=:companyId
 
 	</sql-query>
 
 	<sql-query name="getCustomerPreviousBalance">
+		<query-param name="companyId" type="long" />
 		<query-param name="customerId" type="long" />
 		<query-param name="fromDate" type="long" />
 
@@ -5750,59 +6193,83 @@
 
 		SELECT CASE WHEN (SELECT SUM(T.TOTAL) FROM TRANSACTION T
 
-		LEFT OUTER JOIN INVOICE I ON I.ID = T.ID
-		LEFT OUTER JOIN CASH_SALES CS ON CS.ID = T.ID
+		LEFT OUTER
+		JOIN INVOICE I ON I.ID = T.ID
+		LEFT OUTER JOIN CASH_SALES CS ON CS.ID =
+		T.ID
 		LEFT OUTER JOIN CUSTOMER_REFUND CR ON CR.ID = T.ID
-		LEFT OUTER JOIN JOURNAL_ENTRY JE ON JE.ID = T.ID
+		LEFT OUTER JOIN
+		JOURNAL_ENTRY JE ON JE.ID = T.ID
 
 
-		LEFT OUTER JOIN CUSTOMER C ON C.ID = I.CUSTOMER_ID
+		LEFT OUTER JOIN CUSTOMER C ON C.ID =
+		I.CUSTOMER_ID
 		OR C.ID = CS.CUSTOMER_ID
 		OR C.ID = CR.CUSTOMER_ID
-		OR C.ID = (SELECT CUSTOMER_ID FROM ENTRY E WHERE E.TRANSACTION_ID = T.ID
-		AND E.CUSTOMER_ID IS NOT NULL)
+		OR C.ID =
+		(SELECT CUSTOMER_ID FROM ENTRY E WHERE E.TRANSACTION_ID = T.ID
+		AND
+		E.CUSTOMER_ID IS NOT NULL)
 
-		WHERE C.ID =:customerId AND CASE WHEN T.T_TYPE != 16 THEN T.T_DATE
+		WHERE C.ID =:customerId AND CASE WHEN
+		T.T_TYPE != 16 THEN T.T_DATE
 		&lt;:fromDate ELSE TRUE END
-		GROUP BY C.ID) IS NOT NULL
+		GROUP BY C.ID)
+		IS NOT NULL
 		THEN (SELECT SUM(T.TOTAL) FROM TRANSACTION T
-		LEFT OUTER JOIN INVOICE I ON I.ID = T.ID
+		LEFT OUTER JOIN
+		INVOICE I ON I.ID = T.ID
 		LEFT OUTER JOIN CASH_SALES CS ON CS.ID = T.ID
 		LEFT OUTER JOIN CUSTOMER_REFUND CR ON CR.ID = T.ID
-		LEFT OUTER JOIN JOURNAL_ENTRY JE ON JE.ID = T.ID
+		LEFT OUTER JOIN
+		JOURNAL_ENTRY JE ON JE.ID = T.ID
 
-		LEFT OUTER JOIN CUSTOMER C ON C.ID = I.CUSTOMER_ID
+		LEFT OUTER JOIN CUSTOMER C ON C.ID =
+		I.CUSTOMER_ID
 		OR C.ID = CS.CUSTOMER_ID
 		OR C.ID = CR.CUSTOMER_ID
-		OR C.ID = (SELECT CUSTOMER_ID FROM ENTRY E WHERE E.TRANSACTION_ID = T.ID
-		AND E.CUSTOMER_ID IS NOT NULL)
-		WHERE C.ID =:customerId AND CASE WHEN T.T_TYPE != 16 THEN T.T_DATE
+		OR C.ID =
+		(SELECT CUSTOMER_ID FROM ENTRY E WHERE E.TRANSACTION_ID = T.ID
+		AND
+		E.CUSTOMER_ID IS NOT NULL)
+		WHERE C.ID =:customerId AND CASE WHEN
+		T.T_TYPE != 16 THEN T.T_DATE
 		&lt;:fromDate ELSE TRUE END
 		GROUP BY C.ID)
 		ELSE 0
 		END - CASE WHEN (SELECT T.TOTAL FROM TRANSACTION T
-		LEFT OUTER JOIN CASH_SALES CS ON CS.ID = T.ID
-		LEFT OUTER JOIN CUSTOMER_PREPAYMENT CP ON CP.ID = T.ID
+		LEFT OUTER
+		JOIN CASH_SALES CS ON CS.ID = T.ID
+		LEFT OUTER JOIN CUSTOMER_PREPAYMENT
+		CP ON CP.ID = T.ID
 		LEFT OUTER JOIN RECEIVE_PAYMENT RP ON RP.ID = T.ID
 
 		LEFT OUTER JOIN CUSTOMER C ON C.ID = CS.CUSTOMER_ID
-		OR C.ID = CP.CUSTOMER_ID
+		OR C.ID =
+		CP.CUSTOMER_ID
 		OR C.ID = RP.CUSTOMER_ID
 
-		WHERE C.ID =:customerId AND T.T_DATE &lt;:fromDate
+		WHERE C.ID =:customerId AND
+		T.T_DATE &lt;:fromDate
 
 		GROUP BY C.ID) IS NOT NULL
-		THEN (SELECT T.TOTAL FROM TRANSACTION T
+		THEN (SELECT T.TOTAL
+		FROM TRANSACTION T
 
 		LEFT OUTER JOIN CASH_SALES CS ON CS.ID = T.ID
-		LEFT OUTER JOIN CUSTOMER_PREPAYMENT CP ON CP.ID = T.ID
-		LEFT OUTER JOIN RECEIVE_PAYMENT RP ON RP.ID = T.ID
+		LEFT
+		OUTER JOIN CUSTOMER_PREPAYMENT CP ON CP.ID = T.ID
+		LEFT OUTER JOIN
+		RECEIVE_PAYMENT RP ON RP.ID = T.ID
 
-		LEFT OUTER JOIN CUSTOMER C ON C.ID = CS.CUSTOMER_ID
+		LEFT OUTER JOIN CUSTOMER C ON C.ID =
+		CS.CUSTOMER_ID
 		OR C.ID = CP.CUSTOMER_ID
 		OR C.ID = RP.CUSTOMER_ID
 
-		WHERE C.ID =:customerId AND T.T_DATE &lt;:fromDate
+		WHERE
+		T.COMPANY_ID=:companyId AND C.ID =:customerId AND T.T_DATE
+		&lt;:fromDate
 		GROUP BY C.ID)
 		ELSE 0
 		END AS TOTAL
