@@ -320,12 +320,16 @@ public class SalesOrderView extends
 
 		if (getPreferences().isSalesPersonEnabled()) {
 			termsForm.setFields(transactionNumber, customerOrderText,
-					salesPersonCombo, payTermsSelect, shippingTermsCombo,
-					shippingMethodsCombo, dueDateItem);
+					salesPersonCombo, payTermsSelect, dueDateItem);
+			if (getPreferences().isDoProductShipMents()) {
+				termsForm.setFields(shippingTermsCombo, shippingMethodsCombo);
+			}
 		} else {
 			termsForm.setFields(transactionNumber, customerOrderText,
-					payTermsSelect, shippingTermsCombo, shippingMethodsCombo,
-					dueDateItem);
+					payTermsSelect, dueDateItem);
+			if (getPreferences().isDoProductShipMents()) {
+				termsForm.setFields(shippingTermsCombo, shippingMethodsCombo);
+			}
 		}
 		termsForm.getCellFormatter().setWidth(0, 0, "230px");
 
