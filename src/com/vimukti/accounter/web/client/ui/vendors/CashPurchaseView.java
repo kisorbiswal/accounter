@@ -333,6 +333,7 @@ public class CashPurchaseView extends
 			bottomLayout.add(memoForm);
 			if (!isTaxPerDetailLine()) {
 				taxCodeSelect = createTaxCodeSelectItem();
+				// taxCodeSelect.setVisible(isInViewMode());
 				DynamicForm form = new DynamicForm();
 				form.setFields(taxCodeSelect);
 				bottomLayout.add(form);
@@ -472,10 +473,36 @@ public class CashPurchaseView extends
 			initMemoAndReference();
 			checkNo.setDisabled(true);
 			if (getPreferences().isTrackPaidTax()) {
-				netAmount.setAmount(transaction.getNetAmount());
-				vatTotalNonEditableText.setAmount(transaction.getTotal()
-						- transaction.getNetAmount());
+				if (getPreferences().isTaxPerDetailLine()) {
+					netAmount.setAmount(transaction.getNetAmount());
+					vatTotalNonEditableText.setAmount(transaction.getTotal()
+							- transaction.getNetAmount());
+				} else {
+					this.taxCode = getTaxCodeForTransactionItems(transaction
+							.getTransactionItems());
+					if (taxCode != null) {
+						this.taxCodeSelect.setComboItem(taxCode);
+					}
+				}
 			}
+
+			// if (isTrackTax()) {
+			// if (isTaxPerDetailLine()) {
+			// netAmountLabel.setAmount(transaction.getNetAmount());
+			// taxTotalNonEditableText.setAmount(transaction.getTotal()
+			// - transaction.getNetAmount());
+			// } else {
+			// this.taxCode =
+			// getTaxCodeForTransactionItems(this.transactionItems);
+			// if (taxCode != null) {
+			// this.taxCodeSelect
+			// .setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
+			// }
+			// this.taxTotalNonEditableText.setValue(String
+			// .valueOf(transaction.getTaxTotla()));
+			// }
+			// }
+			//
 			transactionTotalNonEditableText.setAmount(transaction.getTotal());
 
 			if (vatinclusiveCheck != null) {
@@ -615,7 +642,6 @@ public class CashPurchaseView extends
 		// Setting Total
 		transaction.setTotal(vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal());
-
 		// Setting Memo
 		transaction.setMemo(getMemoTextAreaItem());
 		// Setting Reference
@@ -781,7 +807,9 @@ public class CashPurchaseView extends
 		memoTextAreaItem.setDisabled(isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
+		taxCodeSelect.setDisabled(isInViewMode());
 		super.onEdit();
+
 	}
 
 	protected void initViewType() {
