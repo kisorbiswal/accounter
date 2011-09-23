@@ -71,6 +71,7 @@ public abstract class TransactionReceivePaymentTable extends
 			protected void onChangeValue(boolean value,
 					ClientTransactionReceivePayment row) {
 				onSelectionChanged(row, value);
+				updateAmountReceived();
 			}
 
 		});
