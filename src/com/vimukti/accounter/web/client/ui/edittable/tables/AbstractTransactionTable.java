@@ -27,10 +27,12 @@ public abstract class AbstractTransactionTable extends
 
 	private final boolean isSales;
 
+	private boolean isLoadColumns;
+
 	public AbstractTransactionTable(boolean needDiscount, boolean isSales) {
 		this.needDiscount = needDiscount;
 		this.isSales = isSales;
-//		initColumns();
+		// initColumns();
 	}
 
 	protected abstract void initColumns();
@@ -246,7 +248,10 @@ public abstract class AbstractTransactionTable extends
 
 	@Override
 	protected void onAttach() {
-		initColumns();
+		if (!isLoadColumns) {
+			initColumns();
+		}
+		isLoadColumns = true;
 		super.onAttach();
 	}
 
