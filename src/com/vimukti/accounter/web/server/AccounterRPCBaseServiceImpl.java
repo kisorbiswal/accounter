@@ -74,7 +74,6 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 		try {
 
 			if (isValidSession(request)) {
-				String companyDB = getCompanyDBName(request);
 				Session session = HibernateUtil.openSession();
 				setAccounterThreadLocal(request);
 				try {
@@ -173,13 +172,13 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 		return null;
 	}
 
-	protected String getCompanyDBName(HttpServletRequest req) {
-		String cid = getCookie(req, BaseServlet.COMPANY_COOKIE);
-		if (cid == null) {
-			// TODO Throw Exception
-		}
-		return Server.COMPANY + cid;
-	}
+	// private String getCompanyDBName(HttpServletRequest req) {
+	// String cid = getCookie(req, BaseServlet.COMPANY_COOKIE);
+	// if (cid == null) {
+	// // TODO Throw Exception
+	// }
+	// return Server.COMPANY + cid;
+	// }
 
 	protected String getCookie(String cookieName) {
 		return getCookie(getThreadLocalRequest(), cookieName);
@@ -268,8 +267,8 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 	}
 
 	protected long getCompanyId() {
-		// TODO Auto-generated method stub
-		return 0;
+		String serverCompanyID = getCookie(BaseServlet.COMPANY_COOKIE);
+		return Long.valueOf(serverCompanyID);
 	}
 
 }

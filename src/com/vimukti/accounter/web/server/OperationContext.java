@@ -22,6 +22,8 @@ public class OperationContext {
 
 	private long newStartDate;
 
+	private long companyId;
+
 	/**
 	 * Creates new Instance
 	 */
@@ -101,8 +103,11 @@ public class OperationContext {
 		this.arg1 = arg1;
 	}
 
+	public void setCompanyId(long companyId) {
+		this.companyId = companyId;
+	}
+
 	public long getCompanyId() {
-		// TODO Auto-generated method stub
-		return 0;
+		return companyId;
 	}
 }

@@ -152,7 +152,7 @@ public class Accounter implements EntryPoint {
 			}
 
 		};
-		getService.getCompany(getCompany().getID(), getCompanyCallback);
+		getService.getCompany(getCompanyCallback);
 
 	}
 

@@ -366,7 +366,7 @@ public interface IAccounterGETServiceAsync {
 	public <T extends IAccounterCore> void getObjects(AccounterCoreType type,
 			AsyncCallback<ArrayList<T>> callback);
 
-	void getCompany(long companyId, AsyncCallback<ClientCompany> callback);
+	void getCompany(AsyncCallback<ClientCompany> callback);
 
 	void getKeyFinancialIndicators(
 			AsyncCallback<KeyFinancialIndicators> callback);

@@ -9,7 +9,7 @@
 			<generator class="native" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			lazy="false">
 		</many-to-one>
 		<property name="type" column="A_TYPE"></property>
 		<property name="baseType" column="BASE_TYPE"></property>
@@ -1021,7 +1021,7 @@
 			<generator class="native" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			lazy="false">
 		</many-to-one>
 		<!--<property name="version" column="VERSION"></property> -->
 		<property name="firstName" column="FIRST_NAME"></property>

@@ -29,7 +29,7 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	 */
 	private static final long serialVersionUID = 9008613714032328895L;
 	long id;
-	boolean isVATGroupEntry;
+	private boolean isVATGroupEntry;
 	double vatAmount;
 	double lineTotal;
 	TransactionItem transactionItem;

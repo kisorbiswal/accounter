@@ -133,7 +133,6 @@ import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.services.IS2SService;
-import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.Converter;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -312,7 +311,9 @@ public class FinanceTool {
 
 			serverObject = new ServerConvertUtil().toServerObject(serverObject,
 					(IAccounterCore) data, session);
-
+			if (serverObject instanceof CreatableObject) {
+				((CreatableObject) serverObject).setCompany(company);
+			}
 			Activity activity = new Activity(user, ActivityType.ADD,
 					serverObject);
 
@@ -715,7 +716,7 @@ public class FinanceTool {
 		}
 	}
 
-	public Long updateCompany(OperationContext context, long serverCompanyID)
+	public Long updateCompany(OperationContext context)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
@@ -727,7 +728,7 @@ public class FinanceTool {
 						"Update Company , as the Source Object could not be Found....");
 			}
 
-			Company cmp = getCompany(serverCompanyID);
+			Company cmp = getCompany(context.getCompanyId());
 			cmp.updatePreferences((ClientCompany) data);
 
 			String userID = context.getUserEmail();
@@ -741,7 +742,7 @@ public class FinanceTool {
 			// Updating ServerCompany
 			IS2SService s2sSyncProxy = getS2sSyncProxy(ServerConfiguration
 					.getMainServerDomain());
-			s2sSyncProxy.updateServerCompany(serverCompanyID, cmp
+			s2sSyncProxy.updateServerCompany(context.getCompanyId(), cmp
 					.getPreferences().getFullName());
 
 			transaction.commit();
@@ -10107,7 +10108,7 @@ public class FinanceTool {
 
 		Hibernate.initialize(company);
 
-		company.setAccounts(getAccountsListBySorted(companyId));
+		company.setAccounts(getAccountsListBySorted(company.getAccountingType()));
 
 		company.setFiscalYears(new ArrayList<FiscalYear>(session.getNamedQuery(
 				"list.FiscalYear").list()));
@@ -10574,7 +10575,7 @@ public class FinanceTool {
 		return (Company) session.get(Company.class, companyId);
 	}
 
-	public ArrayList<Account> getAccountsListBySorted(long companyId) {
+	public ArrayList<Account> getAccountsListBySorted(int companyType) {
 		Session session = HibernateUtil.getCurrentSession();
 		ArrayList<Account> list1 = new ArrayList<Account>();
 		List<Account> list2 = new ArrayList<Account>();
@@ -10618,7 +10619,7 @@ public class FinanceTool {
 			}
 		}
 		list1.addAll(list);
-		if (getCompany(companyId).getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
+		if (companyType == Company.ACCOUNTING_TYPE_UK) {
 			if (indexof1180 - 1 > 0) {
 				list1.remove(undepositedFounds);
 				list1.add(indexof1180 - 1, undepositedFounds);

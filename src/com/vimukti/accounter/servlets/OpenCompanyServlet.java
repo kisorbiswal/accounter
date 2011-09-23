@@ -57,7 +57,7 @@ public class OpenCompanyServlet extends BaseServlet {
 			User user = (User) session.getNamedQuery("user.by.emailid")
 					.setParameter("emailID", emailID).uniqueResult();
 			Activity activity = new Activity(user, ActivityType.LOGIN);
-
+			activity.setCompany(user.getCompany());
 			session.save(activity);
 			transaction.commit();
 			session.close();

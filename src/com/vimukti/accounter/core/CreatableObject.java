@@ -50,6 +50,10 @@ public abstract class CreatableObject implements Lifecycle {
 		return this.lastModifiedDate;
 	}
 
+	public void setId(long id) {
+		this.id = id;
+	}
+
 	public long getID() {
 		return id;
 	}

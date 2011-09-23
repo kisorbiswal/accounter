@@ -1,5 +1,7 @@
 package com.vimukti.accounter.services;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,13 +38,13 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 	public void createComapny(long companyID, String companyName,
 			int companyType, ClientUser user) throws AccounterException {
 		Company company = new Company(companyType);
+		company.setId(companyID);
 		company.setFullName(companyName);
 		init(company, companyID, user);
 	}
 
 	@Override
 	public boolean isAdmin(long companyID, String emailID) {
-		String schemaName = Server.COMPANY + companyID;
 		Session session = HibernateUtil.openSession();
 		User user = (User) session.getNamedQuery("adminUserForEmailId")
 				.setParameter("emailid", emailID).uniqueResult();
@@ -54,7 +56,6 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 
 	@Override
 	public void deleteUserFromCompany(long companyID, String email) {
-		String schema = Server.COMPANY + companyID;
 		Session session = HibernateUtil.openSession();
 		Transaction transaction = session.beginTransaction();
 		try {
@@ -75,19 +76,19 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 	private void init(Company company, long serverCompnayId,
 			ClientUser clientUser) throws AccounterException {
 
-		String schemaName = Server.COMPANY + serverCompnayId;
-
-		Session session = HibernateUtil.openSession();
-		Transaction serverTransaction = session.beginTransaction();
-		try {
-			Query query = session.createSQLQuery("CREATE SCHEMA " + schemaName);
-			query.executeUpdate();
-			serverTransaction.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-			serverTransaction.rollback();
-			throw new AccounterException(e);
-		}
+		// String schemaName = Server.COMPANY + serverCompnayId;
+		//
+		// Session session = HibernateUtil.openSession();
+		// Transaction serverTransaction = session.beginTransaction();
+		// try {
+		// Query query = session.createSQLQuery("CREATE SCHEMA " + schemaName);
+		// query.executeUpdate();
+		// serverTransaction.commit();
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// serverTransaction.rollback();
+		// throw new AccounterException(e);
+		// }
 		Session companySession = HibernateUtil.openSession();
 		Transaction transaction = companySession.beginTransaction();
 		try {
@@ -97,7 +98,8 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 			companySession.save(user);
 
 			AccounterThreadLocal.set(user);
-
+			company.setCreatedBy(user);
+			company.setCreatedDate(new Timestamp(new Date().getTime()));
 			company.getUsers().add(user);
 			company.setCompanyEmail(user.getEmail());
 
@@ -124,7 +126,6 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			dropSchema(schemaName);
 			transaction.rollback();
 			throw new AccounterException(e);
 		} finally {
@@ -134,19 +135,19 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 		}
 	}
 
-	private void dropSchema(String schemaName) throws AccounterException {
-		Session session = HibernateUtil.openSession();
-		Transaction serverTransaction = session.beginTransaction();
-		try {
-			Query query = session.createSQLQuery("DROP SCHEMA " + schemaName);
-			query.executeUpdate();
-			serverTransaction.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-			serverTransaction.rollback();
-			throw new AccounterException(e);
-		}
-	}
+	// private void dropSchema(String schemaName) throws AccounterException {
+	// Session session = HibernateUtil.openSession();
+	// Transaction serverTransaction = session.beginTransaction();
+	// try {
+	// Query query = session.createSQLQuery("DROP SCHEMA " + schemaName);
+	// query.executeUpdate();
+	// serverTransaction.commit();
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// serverTransaction.rollback();
+	// throw new AccounterException(e);
+	// }
+	// }
 
 	@Override
 	public void deleteClientFromCompany(long serverCompanyId,

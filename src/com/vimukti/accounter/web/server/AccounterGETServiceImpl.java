@@ -6,7 +6,6 @@ import java.util.List;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.services.DAOException;
-import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.web.client.IAccounterGETService;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
@@ -92,14 +91,9 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ClientCompany getCompany(long companyId) throws AccounterException {
-
+	public ClientCompany getCompany() throws AccounterException {
 		FinanceTool tool = getFinanceTool();
-		String cid = getCookie(BaseServlet.COMPANY_COOKIE);
-		if (cid == null) {
-			// Throw Exception
-		}
-		return tool.getClientCompany(getUserEmail(), companyId);
+		return tool.getClientCompany(getUserEmail(), getCompanyId());
 	}
 
 	@Override
