@@ -29,6 +29,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.customers.CustomerCreditsAndPaymentsDialiog;
+import com.vimukti.accounter.web.client.ui.customers.NewApplyCreditsDialog;
 import com.vimukti.accounter.web.client.ui.customers.ReceivePaymentView;
 import com.vimukti.accounter.web.client.ui.customers.WriteOffDialog;
 
@@ -45,7 +46,7 @@ public class TransactionReceivePaymentGrid extends
 	private CashDiscountDialog cashDiscountDialog;
 	private WriteOffDialog writeOffDialog;
 
-	public CustomerCreditsAndPaymentsDialiog creditsAndPaymentsDialiog;
+	public NewApplyCreditsDialog creditsAndPaymentsDialiog;
 	public List<ClientCreditsAndPayments> updatedCustomerCreditsAndPayments = new ArrayList<ClientCreditsAndPayments>();
 	public Map<ClientTransactionReceivePayment, List<ClientCreditsAndPayments>> value;
 
@@ -447,7 +448,7 @@ public class TransactionReceivePaymentGrid extends
 					rec.setActualAmt(rec.getBalance());
 					rec.setRemaoningBalance(rec.getBalance());
 				}
-				creditsAndPaymentsDialiog = new CustomerCreditsAndPaymentsDialiog(
+				creditsAndPaymentsDialiog = new NewApplyCreditsDialog(
 						this.customer, updatedCustomerCreditsAndPayments,
 						canEdit, selectedObject);
 			} else {
@@ -514,7 +515,7 @@ public class TransactionReceivePaymentGrid extends
 					.noCreditsforthiscustomer(Global.get().customer()));
 		}
 		if (!canEdit) {
-			creditsAndPaymentsDialiog = new CustomerCreditsAndPaymentsDialiog(
+			creditsAndPaymentsDialiog = new NewApplyCreditsDialog(
 					this.customer,
 					getSelectedCreditsAndPayments(selectedObject), canEdit,
 					selectedObject);

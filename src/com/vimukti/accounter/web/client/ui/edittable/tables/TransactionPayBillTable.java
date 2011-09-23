@@ -23,6 +23,7 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.customers.CustomerCreditsAndPaymentsDialiog;
+import com.vimukti.accounter.web.client.ui.customers.NewApplyCreditsDialog;
 import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
 import com.vimukti.accounter.web.client.ui.edittable.AnchorEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.CheckboxEditColumn;
@@ -37,7 +38,7 @@ public abstract class TransactionPayBillTable extends
 	private List<Integer> selectedValues = new ArrayList<Integer>();
 	private boolean gotCreditsAndPayments;
 	private CashDiscountDialog cashDiscountDialog;
-	private CustomerCreditsAndPaymentsDialiog creditsAndPaymentsDialiog;
+	private NewApplyCreditsDialog creditsAndPaymentsDialiog;
 	private List<ClientCreditsAndPayments> updatedCustomerCreditsAndPayments;
 
 	/* This stack tracks the recently applied credits */
@@ -417,9 +418,8 @@ public abstract class TransactionPayBillTable extends
 			rec.setActualAmt(rec.getBalance());
 			rec.setRemaoningBalance(rec.getBalance());
 		}
-		setCreditsAndPaymentsDialiog(new CustomerCreditsAndPaymentsDialiog(
-				this.vendor, updatedCustomerCreditsAndPayments, canEdit,
-				selectedObject));
+		setCreditsAndPaymentsDialiog(new NewApplyCreditsDialog(this.vendor,
+				updatedCustomerCreditsAndPayments, canEdit, selectedObject));
 
 	}
 
@@ -623,23 +623,24 @@ public abstract class TransactionPayBillTable extends
 								appliedCredits.put(recordIndx, creditRec);
 							}
 
-							try {
-
-								getCreditsAndPaymentsDialiog().okClicked = true;
-
-								// creditsAndPaymentsDialiog.validateTransaction();
-
-							} catch (Exception e) {
-
-								// if (e instanceof Payment)
-								// Accounter
-								// .showError(((PaymentExcessException) e)
-								// .getMessage());
-								// else
-								Accounter.showError(e.getMessage());
-								return false;
-
-							}
+							// try {
+							//
+							// getCreditsAndPaymentsDialiog().okClicked = true;
+							//
+							// //
+							// creditsAndPaymentsDialiog.validateTransaction();
+							//
+							// } catch (Exception e) {
+							//
+							// // if (e instanceof Payment)
+							// // Accounter
+							// // .showError(((PaymentExcessException) e)
+							// // .getMessage());
+							// // else
+							// Accounter.showError(e.getMessage());
+							// return false;
+							//
+							// }
 
 							selectedObject.setTempCredits(appliedCredits);
 							selectedObject.setCreditsApplied(true);
@@ -664,7 +665,7 @@ public abstract class TransactionPayBillTable extends
 
 							updateFootervalues(selectedObject, canEdit);
 							setUnUsedCreditsTextAmount(getCreditsAndPaymentsDialiog().totalBalances);
-							return true;
+							return false;
 						}
 					});
 			getCreditsAndPaymentsDialiog().show();
@@ -1027,12 +1028,12 @@ public abstract class TransactionPayBillTable extends
 		return totalValue;
 	}
 
-	public CustomerCreditsAndPaymentsDialiog getCreditsAndPaymentsDialiog() {
+	public NewApplyCreditsDialog getCreditsAndPaymentsDialiog() {
 		return creditsAndPaymentsDialiog;
 	}
 
 	public void setCreditsAndPaymentsDialiog(
-			CustomerCreditsAndPaymentsDialiog creditsAndPaymentsDialiog) {
+			NewApplyCreditsDialog creditsAndPaymentsDialiog) {
 		this.creditsAndPaymentsDialiog = creditsAndPaymentsDialiog;
 	}
 

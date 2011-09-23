@@ -26,6 +26,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.customers.CustomerCreditsAndPaymentsDialiog;
+import com.vimukti.accounter.web.client.ui.customers.NewApplyCreditsDialog;
 import com.vimukti.accounter.web.client.ui.customers.WriteOffDialog;
 import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
 import com.vimukti.accounter.web.client.ui.edittable.AnchorEditColumn;
@@ -48,7 +49,8 @@ public abstract class TransactionReceivePaymentTable extends
 	private CashDiscountDialog cashDiscountDialog;
 	private WriteOffDialog writeOffDialog;
 
-	public CustomerCreditsAndPaymentsDialiog creditsAndPaymentsDialiog;
+	// public CustomerCreditsAndPaymentsDialiog creditsAndPaymentsDialiog;
+	public NewApplyCreditsDialog newAppliedCreditsDialiog;
 	public List<ClientCreditsAndPayments> updatedCustomerCreditsAndPayments = new ArrayList<ClientCreditsAndPayments>();
 	public Map<ClientTransactionReceivePayment, List<ClientCreditsAndPayments>> value;
 
@@ -65,24 +67,22 @@ public abstract class TransactionReceivePaymentTable extends
 	}
 
 	protected void initColumns() {
-		this
-				.addColumn(new CheckboxEditColumn<ClientTransactionReceivePayment>() {
+		this.addColumn(new CheckboxEditColumn<ClientTransactionReceivePayment>() {
 
-					@Override
-					protected void onChangeValue(boolean value,
-							ClientTransactionReceivePayment row) {
-						onSelectionChanged(row, value);
-						updateAmountReceived();
-					}
+			@Override
+			protected void onChangeValue(boolean value,
+					ClientTransactionReceivePayment row) {
+				onSelectionChanged(row, value);
+				updateAmountReceived();
+			}
 
-					@Override
-					protected Boolean getValue(
-							ClientTransactionReceivePayment row) {
-						// TODO Auto-generated method stub
-						return null;
-					}
+			@Override
+			protected Boolean getValue(ClientTransactionReceivePayment row) {
+				// TODO Auto-generated method stub
+				return null;
+			}
 
-				});
+		});
 		if (canEdit) {
 			TextEditColumn<ClientTransactionReceivePayment> dateCoulmn = new TextEditColumn<ClientTransactionReceivePayment>() {
 
@@ -376,7 +376,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 	private double getTotalValue(ClientTransactionReceivePayment payment) {
 		double totalValue = payment.getCashDiscount() + payment.getWriteOff()
-				+ payment.getAppliedCredits() + payment.getPayment();
+				+ payment.getAppliedCredits();
 		return totalValue;
 	}
 
@@ -414,8 +414,9 @@ public abstract class TransactionReceivePaymentTable extends
 
 	public void openCashDiscountDialog(
 			final ClientTransactionReceivePayment selectedObject) {
-		cashDiscountDialog = new CashDiscountDialog(canEdit, selectedObject
-				.getCashDiscount(), getCashDiscountAccount(selectedObject));
+		cashDiscountDialog = new CashDiscountDialog(canEdit,
+				selectedObject.getCashDiscount(),
+				getCashDiscountAccount(selectedObject));
 		// } else {
 		// cashDiscountDialog.setCanEdit(canEdit);
 		// cashDiscountDialog.setCashDiscountValue(selectedObject
@@ -472,14 +473,21 @@ public abstract class TransactionReceivePaymentTable extends
 	public void openCreditsDialog(
 			final ClientTransactionReceivePayment selectedObject) {
 		if (gotCreditsAndPayments) {
-			if (creditsAndPaymentsDialiog == null) {
+			if (/*
+				 * creditsAndPaymentsDialiog == null ||
+				 */newAppliedCreditsDialiog == null) {
 				for (ClientCreditsAndPayments rec : updatedCustomerCreditsAndPayments) {
 					rec.setActualAmt(rec.getBalance());
 					rec.setRemaoningBalance(rec.getBalance());
 				}
-				creditsAndPaymentsDialiog = new CustomerCreditsAndPaymentsDialiog(
+				// creditsAndPaymentsDialiog = new
+				// CustomerCreditsAndPaymentsDialiog(
+				// this.customer, updatedCustomerCreditsAndPayments,
+				// canEdit, selectedObject);
+				newAppliedCreditsDialiog = new NewApplyCreditsDialog(
 						this.customer, updatedCustomerCreditsAndPayments,
 						canEdit, selectedObject);
+
 			} else {
 				if (selectedObject.isCreditsApplied()) {
 					Map<Integer, Object> appliedCredits = selectedObject
@@ -532,96 +540,183 @@ public abstract class TransactionReceivePaymentTable extends
 						}
 					}
 				}
-				creditsAndPaymentsDialiog
+				// creditsAndPaymentsDialiog
+				// .setUpdatedCreditsAndPayments(updatedCustomerCreditsAndPayments);
+				// creditsAndPaymentsDialiog.setCanEdit(canEdit);
+				// creditsAndPaymentsDialiog.setRecord(selectedObject);
+				// creditsAndPaymentsDialiog.setCustomer(customer);
+				// creditsAndPaymentsDialiog.updateFields();
+
+				newAppliedCreditsDialiog
 						.setUpdatedCreditsAndPayments(updatedCustomerCreditsAndPayments);
-				creditsAndPaymentsDialiog.setCanEdit(canEdit);
-				creditsAndPaymentsDialiog.setRecord(selectedObject);
-				creditsAndPaymentsDialiog.setCustomer(customer);
-				creditsAndPaymentsDialiog.updateFields();
+				newAppliedCreditsDialiog.setCanEdit(canEdit);
+				newAppliedCreditsDialiog.setRecord(selectedObject);
+				newAppliedCreditsDialiog.setCustomer(customer);
+				newAppliedCreditsDialiog.updateFields();
 			}
 		} else if (!gotCreditsAndPayments && canEdit) {
 			Accounter.showInformation(Accounter.messages()
 					.noCreditsforthiscustomer(Global.get().customer()));
 		}
 		if (!canEdit) {
-			creditsAndPaymentsDialiog = new CustomerCreditsAndPaymentsDialiog(
-					this.customer,
+			// creditsAndPaymentsDialiog = new
+			// CustomerCreditsAndPaymentsDialiog(
+			// this.customer,
+			// getSelectedCreditsAndPayments(selectedObject), canEdit,
+			// selectedObject);
+
+			newAppliedCreditsDialiog = new NewApplyCreditsDialog(this.customer,
 					getSelectedCreditsAndPayments(selectedObject), canEdit,
 					selectedObject);
 		}
 
-		if (creditsAndPaymentsDialiog == null)
+		if (/*
+			 * creditsAndPaymentsDialiog == null &&
+			 */newAppliedCreditsDialiog == null)
 			return;
-		creditsAndPaymentsDialiog
-				.addInputDialogHandler(new InputDialogHandler() {
 
-					@Override
-					public void onCancel() {
-						creditsAndPaymentsDialiog.cancelClicked = true;
-						// selectedObject
-						// .setAppliedCredits(creditsAndPaymentsDialiog
-						// .getTotalCreditAmount());
-						// updateData(selectedObject);
-					}
+		newAppliedCreditsDialiog
+				.addInputDialogHandler(new InputDialogHandler() {
 
 					@Override
 					public boolean onOK() {
 
-						List<ClientCreditsAndPayments> appliedCreditsForThisRec = creditsAndPaymentsDialiog.grid
-								.getSelectedRecords();
-						Map<Integer, Object> appliedCredits = new HashMap<Integer, Object>();
-						TempCredit creditRec = null;
+						// List<ClientCreditsAndPayments>
+						// appliedCreditsForThisRec =
+						// newAppliedCreditsDialiog.getAppliedCredits()
+						// Map<Integer, Object> appliedCredits = new
+						// HashMap<Integer, Object>();
+						// TempCredit creditRec = null;
+						//
+						// for (ClientCreditsAndPayments rec :
+						// appliedCreditsForThisRec) {
+						// try {
+						// checkBalance(rec.getAmtTouse());
+						// } catch (Exception e) {
+						// Accounter.showError(e.getMessage());
+						// return false;
+						// }
+						// Integer recordIndx = newAppliedCreditsDialiog.grid
+						// .indexOf(rec);
+						// creditRec = new TempCredit();
+						// for (ClientTransactionReceivePayment rcvp :
+						// getSelectedRecords()) {
+						// if (rcvp.isCreditsApplied()) {
+						// for (Integer idx : rcvp.getTempCredits()
+						// .keySet()) {
+						// if (recordIndx == idx)
+						// ((TempCredit) rcvp.getTempCredits()
+						// .get(idx))
+						// .setRemainingBalance(rec
+						// .getBalance());
+						// }
+						// }
+						// }
+						// creditRec.setRemainingBalance(rec.getBalance());
+						// creditRec.setAmountToUse(rec.getAmtTouse());
+						// appliedCredits.put(recordIndx, creditRec);
+						// }
+						// selectedObject.setTempCredits(appliedCredits);
+						// selectedObject.setCreditsApplied(true);
+						//
+						// creditsStack.push(appliedCredits);
 
-						for (ClientCreditsAndPayments rec : appliedCreditsForThisRec) {
-							try {
-								checkBalance(rec.getAmtTouse());
-							} catch (Exception e) {
-								Accounter.showError(e.getMessage());
-								return false;
-							}
-							Integer recordIndx = creditsAndPaymentsDialiog.grid
-									.indexOf(rec);
-							creditRec = new TempCredit();
-							for (ClientTransactionReceivePayment rcvp : getSelectedRecords()) {
-								if (rcvp.isCreditsApplied()) {
-									for (Integer idx : rcvp.getTempCredits()
-											.keySet()) {
-										if (recordIndx == idx)
-											((TempCredit) rcvp.getTempCredits()
-													.get(idx))
-													.setRemainingBalance(rec
-															.getBalance());
-									}
-								}
-							}
-							creditRec.setRemainingBalance(rec.getBalance());
-							creditRec.setAmountToUse(rec.getAmtTouse());
-							appliedCredits.put(recordIndx, creditRec);
-						}
-						selectedObject.setTempCredits(appliedCredits);
-						selectedObject.setCreditsApplied(true);
-
-						creditsStack.push(appliedCredits);
-
-						try {
-
-							creditsAndPaymentsDialiog.okClicked = true;
-
-							// creditsAndPaymentsDialiog.validateTransaction();
-
-						} catch (Exception e) {
-							Accounter.showError(e.getMessage());
-							return false;
-						}
+						// try {
+						//
+						// newAppliedCreditsDialiog.okClicked = true;
+						//
+						// // creditsAndPaymentsDialiog.validateTransaction();
+						//
+						// } catch (Exception e) {
+						// Accounter.showError(e.getMessage());
+						// return false;
+						// }
 						selectedObject
-								.setAppliedCredits(creditsAndPaymentsDialiog
+								.setAppliedCredits(newAppliedCreditsDialiog
 										.getTotalCreditAmount());
 						updatePayment(selectedObject);
 						update(selectedObject);
-						return true;
+						return false;
+					}
+
+					@Override
+					public void onCancel() {
+						newAppliedCreditsDialiog.cancelClicked = true;
+
 					}
 				});
-		creditsAndPaymentsDialiog.show();
+
+		// creditsAndPaymentsDialiog
+		// .addInputDialogHandler(new InputDialogHandler() {
+		//
+		// @Override
+		// public void onCancel() {
+		// creditsAndPaymentsDialiog.cancelClicked = true;
+		// // selectedObject
+		// // .setAppliedCredits(creditsAndPaymentsDialiog
+		// // .getTotalCreditAmount());
+		// // updateData(selectedObject);
+		// }
+		//
+		// @Override
+		// public boolean onOK() {
+		//
+		// List<ClientCreditsAndPayments> appliedCreditsForThisRec =
+		// creditsAndPaymentsDialiog.grid
+		// .getSelectedRecords();
+		// Map<Integer, Object> appliedCredits = new HashMap<Integer, Object>();
+		// TempCredit creditRec = null;
+		//
+		// for (ClientCreditsAndPayments rec : appliedCreditsForThisRec) {
+		// try {
+		// checkBalance(rec.getAmtTouse());
+		// } catch (Exception e) {
+		// Accounter.showError(e.getMessage());
+		// return false;
+		// }
+		// Integer recordIndx = creditsAndPaymentsDialiog.grid
+		// .indexOf(rec);
+		// creditRec = new TempCredit();
+		// for (ClientTransactionReceivePayment rcvp : getSelectedRecords()) {
+		// if (rcvp.isCreditsApplied()) {
+		// for (Integer idx : rcvp.getTempCredits()
+		// .keySet()) {
+		// if (recordIndx == idx)
+		// ((TempCredit) rcvp.getTempCredits()
+		// .get(idx))
+		// .setRemainingBalance(rec
+		// .getBalance());
+		// }
+		// }
+		// }
+		// creditRec.setRemainingBalance(rec.getBalance());
+		// creditRec.setAmountToUse(rec.getAmtTouse());
+		// appliedCredits.put(recordIndx, creditRec);
+		// }
+		// selectedObject.setTempCredits(appliedCredits);
+		// selectedObject.setCreditsApplied(true);
+		//
+		// creditsStack.push(appliedCredits);
+		//
+		// try {
+		//
+		// creditsAndPaymentsDialiog.okClicked = true;
+		//
+		// // creditsAndPaymentsDialiog.validateTransaction();
+		//
+		// } catch (Exception e) {
+		// Accounter.showError(e.getMessage());
+		// return false;
+		// }
+		// selectedObject
+		// .setAppliedCredits(creditsAndPaymentsDialiog
+		// .getTotalCreditAmount());
+		// updatePayment(selectedObject);
+		// update(selectedObject);
+		// return true;
+		// }
+		// });
+		newAppliedCreditsDialiog.show();
 
 	}
 
@@ -757,12 +852,14 @@ public abstract class TransactionReceivePaymentTable extends
 		for (ClientTransactionReceivePayment obj : this.getRecords()) {
 			resetValue(obj);
 			recalculateGridAmounts();
-			if (creditsAndPaymentsDialiog != null
-					&& creditsAndPaymentsDialiog.grid.getRecords().size() == 0)
+			// if (creditsAndPaymentsDialiog != null
+			// && creditsAndPaymentsDialiog.grid.getRecords().size() == 0)
+			if (newAppliedCreditsDialiog != null
+					&& newAppliedCreditsDialiog.grid.getRecords().size() == 0)
 				creditsStack.clear();
 			selectedValues.remove((Integer) indexOf(obj));
 		}
-		creditsAndPaymentsDialiog = null;
+		newAppliedCreditsDialiog = null;
 		cashDiscountDialog = null;
 		writeOffDialog = null;
 	}
@@ -806,8 +903,8 @@ public abstract class TransactionReceivePaymentTable extends
 
 			obj.setCreditsApplied(false);
 		}
-		if (creditsAndPaymentsDialiog != null
-				&& creditsAndPaymentsDialiog.grid.getRecords().size() == 0)
+		if (newAppliedCreditsDialiog != null
+				&& newAppliedCreditsDialiog.grid.getRecords().size() == 0)
 			creditsStack.clear();
 
 		// setAccountDefaultValues(obj);
