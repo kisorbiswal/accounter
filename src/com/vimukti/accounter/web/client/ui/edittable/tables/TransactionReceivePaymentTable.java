@@ -340,11 +340,12 @@ public abstract class TransactionReceivePaymentTable extends
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-
+				updateAmountReceived();
 			}
 		};
 		this.addColumn(paymentColumn);
 	}
+	
 
 	public ValidationResult validateGrid() {
 		ValidationResult result = new ValidationResult();
