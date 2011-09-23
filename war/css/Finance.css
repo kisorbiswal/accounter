@@ -1701,3 +1701,6 @@ input[type="text"]{
 .gwt-PopupPanel .popupContent div{
 	overflow-x:hidden !important;
 }
+.tax_combo{
+	width: 95px;
+}

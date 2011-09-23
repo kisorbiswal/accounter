@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
@@ -273,9 +274,9 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button,
-				Accounter.messages().accounts(Global.get().Account()),
-				Accounter.constants().productOrServiceItem());
+		setMenuItems(button, Accounter.messages().accounts(
+				Global.get().Account()), Accounter.constants()
+				.productOrServiceItem());
 		// FinanceApplication.constants().salesTax());
 		// FinanceApplication.constants().comment(),
 		// FinanceApplication.constants().VATItem());
@@ -583,6 +584,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 				.tax(), true);
 		taxCodeCombo.setHelpInformation(true);
 		taxCodeCombo.setRequired(true);
+		taxCodeCombo.addStyleName("tax_combo");
 
 		taxCodeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
@@ -670,8 +672,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	protected AmountLabel createSalesTaxNonEditableLabel() {
 
-		AmountLabel amountLabel = new AmountLabel(Accounter.constants()
-				.salesTax());
+		AmountLabel amountLabel = new AmountLabel(Accounter.constants().tax());
 
 		return amountLabel;
 
@@ -747,13 +748,13 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		}
 
 		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
-			result.addError(transactionDateItem,
-					customerConstants.invalidateTransactionDate());
+			result.addError(transactionDateItem, customerConstants
+					.invalidateTransactionDate());
 		}
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result.addError(transactionDateItem,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDateItem, accounterConstants
+					.invalidateDate());
 		}
 		if (custForm != null) {
 			result.add(custForm.validate());
