@@ -12,7 +12,7 @@
 <script src="/jscripts/jquery-1.6.2.js" type="text/javascript"></script>
 <script type="text/javascript" src="/jscripts/stepcarousel.js"></script>
 <script type="text/javascript" src="/jscripts/jquery.contactable.packed.js"></script>
-<script type="text/javascript" src="/jscripts/jquery.validate.pack.js"></script>
+<script type="text/javascript" src="/jscripts/jquery.validate.js"></script>
 <script type="text/javascript">
 jQuery.noConflict();
 jQuery(document).ready(function() {
