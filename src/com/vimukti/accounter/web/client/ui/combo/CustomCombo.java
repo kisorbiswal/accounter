@@ -82,15 +82,8 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 			}
 
 			public void onResultSuccess(T result) {
-				boolean usTaxCode = Accounter.getCompany().getPreferences()
-						.isChargeSalesTax()
-						&& result instanceof ClientTAXItemGroup;
-				if (usTaxCode)
-					result = (T) Accounter.getCompany().getTAXCode(
-							((ClientTAXItemGroup) result).getID());
 				if (result != null) {
-					if (!usTaxCode)
-						setComboItem(result);
+					setComboItem(result);
 					if (handler != null) {
 						handler.selectedComboBoxItem(result);
 					}
