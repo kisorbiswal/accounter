@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.core;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -313,6 +314,81 @@ public class Utility implements IsSerializable, Serializable {
 	//
 	//
 	// }-*/;
+
+	public static ClientFinanceDate getPaymentTermsDate(
+			ClientFinanceDate transactionDate, ClientPaymentTerms paymentTerm) {
+		ClientFinanceDate dueDate = new ClientFinanceDate();
+		dueDate = transactionDate;
+
+		int dueDays = paymentTerm.getDueDays();
+		int day = dueDate.getDay();
+		int month = dueDate.getMonth();
+		int year = dueDate.getYear();
+
+		if (dueDays == 0) {
+			return new ClientFinanceDate(new Date());
+		} else {
+
+			if (month == 1 || month == 3 || month == 5 || month == 7
+					|| month == 8 || month == 10 || month == 12) {
+				day += dueDays;
+				if (day > 31) {
+					do {
+
+						day = day - 31;
+						month += 1;
+						if (month > 12) {
+							year += 1;
+							month = 1;
+						}
+					} while (day > 31);
+
+				}
+			} else if (month == 4 || month == 6 || month == 9 || month == 11) {
+				day += dueDays;
+				if (day > 30) {
+					do {
+						day = day - 30;
+						month += 1;
+						if (month > 12) {
+							year += 1;
+							month = 1;
+						}
+					} while (day > 30);
+
+				}
+			} else if (month == 2) {
+				int no_of_days;
+				if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0)) {
+					no_of_days = 29;
+
+				} else {
+					no_of_days = 28;
+				}
+				day += no_of_days;
+				if (day > no_of_days) {
+					do {
+
+						day = day - no_of_days;
+						month += 1;
+						if (month > 12) {
+							year += 1;
+							month = 1;
+						}
+					} while (day > no_of_days);
+
+				}
+			}
+			System.err.println("mon" + month + "day" + day + "year" + year);
+
+			dueDate = new ClientFinanceDate();
+			dueDate.setDay(day);
+			dueDate.setMonth(month);
+			dueDate.setYear(year);
+			return dueDate;
+		}
+
+	}
 
 	public static ClientFinanceDate getCalculatedDueDate(
 			ClientFinanceDate transactionDate, ClientPaymentTerms paymentTerm) {
