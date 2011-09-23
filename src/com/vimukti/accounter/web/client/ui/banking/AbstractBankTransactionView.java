@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -17,6 +18,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
+import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
@@ -44,6 +46,8 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	protected DateItem deliveryDate;
 
 	private AbstractBankTransactionView<?> bankingTransactionViewInstance;
+
+	protected abstract void taxCodeSelected(ClientTAXCode taxCode);
 
 	// protected TextItem refText;
 	protected AmountField amtText;
@@ -270,6 +274,32 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 			}
 		}
 		return null;
+	}
+
+	protected TAXCodeCombo createTaxCodeSelectItem() {
+
+		TAXCodeCombo taxCodeCombo = new TAXCodeCombo(Accounter.constants()
+				.tax(), true);
+		taxCodeCombo.setHelpInformation(true);
+		taxCodeCombo.setRequired(true);
+
+		taxCodeCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
+
+					public void selectedComboBoxItem(ClientTAXCode selectItem) {
+
+						taxCodeSelected(selectItem);
+
+					}
+
+				});
+
+		taxCodeCombo.setDisabled(isInViewMode());
+
+		// formItems.add(taxCodeCombo);
+
+		return taxCodeCombo;
+
 	}
 
 	protected AmountField createTransactionTotalNonEditableItem() {
