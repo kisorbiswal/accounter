@@ -21,9 +21,11 @@ import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -40,6 +42,7 @@ import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -98,6 +101,10 @@ public class CreditCardExpenseView extends
 	private VendorAccountTransactionTable vendorAccountTransactionTable;
 	private VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
+
+	private TAXCodeCombo taxCodeSelect;
+
+	private ClientTAXCode taxCode;
 
 	public CreditCardExpenseView() {
 
@@ -406,9 +413,13 @@ public class CreditCardExpenseView extends
 		payFrmSelect.setTitle(Accounter.constants().payFrom());
 		payFromAccount = 0;
 		payFrmSelect.setColSpan(0);
-		// formItems.add(payFrmSelect);
+		// formItems.add(payFrmSelect)
+		cheqNoText = new TextItem(
+				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
+						.constants().chequeNo() : Accounter.constants()
+						.checkNo());
 
-		cheqNoText = new TextItem(Accounter.constants().chequeNo());
+
 		cheqNoText.setHelpInformation(true);
 		cheqNoText.setDisabled(isInViewMode());
 		cheqNoText.setWidth(100);
@@ -550,6 +561,13 @@ public class CreditCardExpenseView extends
 			vPanel.add(totalForm);
 
 			botPanel.add(memoForm);
+			if (!isTaxPerDetailLine()) {
+				taxCodeSelect = createTaxCodeSelectItem();
+				// taxCodeSelect.setVisible(isInViewMode());
+				DynamicForm form = new DynamicForm();
+				form.setFields(taxCodeSelect);
+				botPanel.add(form);
+			}
 			botPanel.add(totalForm);
 			botPanel.setCellWidth(totalForm, "30%");
 
@@ -680,9 +698,17 @@ public class CreditCardExpenseView extends
 			delivDate.setDisabled(isInViewMode());
 			phoneSelect.setValue(transaction.getPhone());
 			if (getPreferences().isTrackPaidTax()) {
-				netAmount.setAmount(transaction.getNetAmount());
-				vatTotalNonEditableText.setAmount(transaction.getTotal()
-						- transaction.getNetAmount());
+				if (getPreferences().isTaxPerDetailLine()) {
+					netAmount.setAmount(transaction.getNetAmount());
+					vatTotalNonEditableText.setAmount(transaction.getTotal()
+							- transaction.getNetAmount());
+				} else {
+					this.taxCode = getTaxCodeForTransactionItems(transaction
+							.getTransactionItems());
+					if (taxCode != null) {
+						this.taxCodeSelect.setComboItem(taxCode);
+					}
+				}
 			}
 			transactionTotalNonEditableText.setAmount(transaction.getTotal());
 
@@ -705,7 +731,6 @@ public class CreditCardExpenseView extends
 			vendorItemTransactionTable
 					.setRecords(getItemTransactionItems(transaction
 							.getTransactionItems()));
-
 		}
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
@@ -966,6 +991,7 @@ public class CreditCardExpenseView extends
 		itemTableButton.setEnabled(!isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
+		taxCodeSelect.setDisabled(isInViewMode());
 		super.onEdit();
 	}
 
@@ -1108,5 +1134,19 @@ public class CreditCardExpenseView extends
 		list.addAll(vendorAccountTransactionTable.getRecords());
 		list.addAll(vendorItemTransactionTable.getRecords());
 		return list;
+	}
+
+	@Override
+	protected void taxCodeSelected(ClientTAXCode taxCode) {
+
+		this.taxCode = taxCode;
+		if (taxCode != null) {
+			taxCodeSelect.setComboItem(taxCode);
+			vendorAccountTransactionTable.setTaxCode(taxCode.getID(), true);
+			vendorItemTransactionTable.setTaxCode(taxCode.getID(), true);
+		} else {
+			taxCodeSelect.setValue("");
+		}
+
 	}
 }
