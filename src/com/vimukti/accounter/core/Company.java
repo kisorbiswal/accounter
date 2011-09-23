@@ -3609,12 +3609,6 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		this.nonInventoryItemDefaultExpenseAccount = nonInventoryItemDefaultExpenseAccount;
 	}
 
-	@Override
-	public long getID() {
-
-		return this.id;
-	}
-
 	// public static Company getCompany() {
 	// Company company = HibernateUtil.getCurrentSession() != null ? (Company)
 	// HibernateUtil
