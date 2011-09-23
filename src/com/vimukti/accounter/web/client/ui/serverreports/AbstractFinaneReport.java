@@ -319,7 +319,7 @@ public abstract class AbstractFinaneReport<R> extends
 	}
 
 	public String getDefaultDateRange() {
-		return "All";
+		return constants.financialYearToDate();
 	}
 
 	public int getColumnWidth(int index) {

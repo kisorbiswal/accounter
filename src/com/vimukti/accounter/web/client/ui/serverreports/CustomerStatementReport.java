@@ -78,7 +78,7 @@ public class CustomerStatementReport extends
 
 	@Override
 	public String getDefaultDateRange() {
-		return Accounter.constants().all();
+		return Accounter.constants().financialYearToDate();
 	}
 
 }

@@ -44,7 +44,7 @@ public class ExpenseServerReport extends AbstractFinaneReport<ExpenseList> {
 
 	@Override
 	public String getDefaultDateRange() {
-		return getConstants().all();
+		return getConstants().financialYearToDate();
 	}
 
 	@Override

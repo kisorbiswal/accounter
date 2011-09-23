@@ -99,7 +99,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 			dateRangeList.add(statusArray[i]);
 		}
 		dateRangeCombo.initCombo(dateRangeList);
-		dateRangeCombo.setComboItem(Accounter.constants().all());
+		dateRangeCombo.setComboItem(Accounter.constants().financialYearToDate());
 		dateRangeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 

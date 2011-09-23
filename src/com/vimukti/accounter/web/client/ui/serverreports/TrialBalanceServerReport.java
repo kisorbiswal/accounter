@@ -19,7 +19,7 @@ public class TrialBalanceServerReport extends
 
 	@Override
 	public String getDefaultDateRange() {
-		return constants.all();
+		return constants.financialYearToDate();
 	}
 
 	@Override

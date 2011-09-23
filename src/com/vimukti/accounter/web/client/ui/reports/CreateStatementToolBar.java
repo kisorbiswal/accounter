@@ -80,7 +80,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 			dateRangeItemList.add(dateRangeArray[i]);
 		}
 		dateRangeItemCombo.initCombo(dateRangeItemList);
-		dateRangeItemCombo.setComboItem(Accounter.constants().all());
+		dateRangeItemCombo.setComboItem(Accounter.constants().financialYearToDate());
 		dateRangeItemCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 

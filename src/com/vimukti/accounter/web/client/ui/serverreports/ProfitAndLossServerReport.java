@@ -83,7 +83,7 @@ public class ProfitAndLossServerReport extends
 
 	@Override
 	public String getDefaultDateRange() {
-		return getConstants().all();
+		return getConstants().financialYearToDate();
 	}
 
 	@Override

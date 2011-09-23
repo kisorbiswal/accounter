@@ -70,7 +70,7 @@ public class VAT100ServerReport extends AbstractFinaneReport<VATSummary> {
 
 	@Override
 	public String getDefaultDateRange() {
-		return getConstants().all();
+		return getConstants().financialYearToDate();
 	}
 
 	@Override

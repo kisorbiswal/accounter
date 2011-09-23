@@ -65,7 +65,7 @@ public class TransactionDetailByAccountServerReport extends
 
 	@Override
 	public String getDefaultDateRange() {
-		return constants.all();
+		return constants.financialYearToDate();
 	}
 
 	@Override
