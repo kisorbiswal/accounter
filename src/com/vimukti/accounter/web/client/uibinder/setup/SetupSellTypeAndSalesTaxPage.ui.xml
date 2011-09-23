@@ -18,6 +18,7 @@
 				<g:RadioButton name="sell_type" ui:field="both" />
 				<g:Label ui:field="bothText" styleName="organisation_comment" />
 			</g:VerticalPanel>
+			</g:VerticalPanel>
 			<!-- <g:VerticalPanel ui:field="vat" styleName="sales_tax"> <g:HTML wordWrap="true" 
 				ui:field="vatHeader" styleName="setup_header_label" /> <g:RadioButton name="vat" 
 				ui:field="vatYes" styleName="employee_yesno" /> <g:RadioButton name="vat" 
@@ -26,27 +27,20 @@
 				styleName="setup_header_label" /> <g:RadioButton name="sales_tax" ui:field="salesTaxYes" 
 				styleName="employee_yesno" /> <g:RadioButton name="sales_tax" ui:field="salesTaxNo" 
 				styleName="employee_yesno" /> </g:VerticalPanel> -->
-			<g:VerticalPanel spacing="8" styleName="companyInfoPanel">
-				<g:VerticalPanel spacing="5">
-					<g:HorizontalPanel>
-						<g:CheckBox ui:field="trackCheckbox" styleName="header" />
-						<g:Label ui:field="trackCheckBoxLabel" />
-					</g:HorizontalPanel>
-					<g:Label ui:field="trackCheckBoxDescLabel" />
-					<g:VerticalPanel ui:field="hidePanel">
-						<g:Label ui:field="trackLabel" />
-						<g:Label ui:field="taxItemTransactionLabel" />
-						<g:VerticalPanel spacing="5">
-							<g:RadioButton name="new name" ui:field="onepeTransactionRadioButton" />
-							<g:Label ui:field="oneperTransactionLabel" />
-							<g:RadioButton name="new name" ui:field="oneperdetaillineRadioButton" />
-							<g:Label ui:field="oneperdetaillineLabel" />
-							<g:CheckBox ui:field="enableTaxCheckbox" />
-							<g:Label ui:field="enableTaxLabel" styleName="header" />
-						</g:VerticalPanel>
-					</g:VerticalPanel>
+			<g:VerticalPanel spacing="5" styleName="companyInfoPanel">
+				<g:HorizontalPanel>
+					<g:CheckBox ui:field="trackCheckbox" styleName="header"/>
+				</g:HorizontalPanel>
+				<g:Label ui:field="trackLabel" styleName="organisation_comment"/>
+				<g:VerticalPanel spacing="5" ui:field="hidePanel">
+					<g:Label ui:field="taxItemTransactionLabel"/>
+					<g:RadioButton name="new name" ui:field="onepeTransactionRadioButton"/>
+					<g:Label ui:field="oneperTransactionLabel" styleName="organisation_comment"/>
+					<g:RadioButton name="new name" ui:field="oneperdetaillineRadioButton"/>
+					<g:Label ui:field="oneperdetaillineLabel" styleName="organisation_comment"/>
+					<g:CheckBox ui:field="enableTaxCheckbox"/>
+					<g:Label ui:field="enableTaxLabel" styleName="organisation_comment"/>
 				</g:VerticalPanel>
 			</g:VerticalPanel>
-		</g:VerticalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 
