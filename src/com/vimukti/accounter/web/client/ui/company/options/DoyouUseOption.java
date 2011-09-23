@@ -30,9 +30,8 @@ public class DoyouUseOption extends AbstractPreferenceOption {
 		initData();
 	}
 
-
 	public void createControls() {
-		doYouLabelItem.setText(constants.doYouUse());
+		doYouLabelItem.setText("Numbers");
 		useCustomerNo.setText(messages.useCustomerId(Global.get().customer()));
 		useVendorNo.setText(messages.useVendorId(Global.get().vendor()));
 		useAccountNo.setText(messages.useAccountNos(Global.get().account()));
@@ -40,7 +39,7 @@ public class DoyouUseOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		return "Do you use";
+		return "Numbers";
 	}
 
 	@Override
@@ -52,7 +51,7 @@ public class DoyouUseOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		return "Do you use";
+		return "Numbers";
 	}
 
 	@Override

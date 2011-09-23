@@ -109,12 +109,12 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 				constants.vendorAndPurchases());
 		CustomerAndVendorsSettingsOption customerAndVendorsSettingsPage = new CustomerAndVendorsSettingsOption();
 		ManageBillsOption manageBillsOption = new ManageBillsOption();
-		DoyouUseOption doyouUseOption = new DoyouUseOption();
+
 		DoyouUseShipingsOption shipingsOption = new DoyouUseShipingsOption();
 		customerAndVendorPage.addPreferenceOption(manageBillsOption);
 		customerAndVendorPage
 				.addPreferenceOption(customerAndVendorsSettingsPage);
-		customerAndVendorPage.addPreferenceOption(doyouUseOption);
+
 		customerAndVendorPage.addPreferenceOption(shipingsOption);
 		return customerAndVendorPage;
 	}
@@ -145,6 +145,8 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		// AccountNumbersOption numbersOption = new AccountNumbersOption();
 		CompanyEinOption einOption = new CompanyEinOption();
 		CompanyFiscalYearOption fiscalYearOption = new CompanyFiscalYearOption();
+		DoyouUseOption doyouUseOption = new DoyouUseOption();
+
 		// ClosingBooksOption booksOption = new ClosingBooksOption();
 		// QuickFillAutosuggestOption autosuggestOption = new
 		// QuickFillAutosuggestOption();
@@ -162,6 +164,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		// companyPage.addPreferenceOption(numbersOption);
 		companyInfoPage.addPreferenceOption(einOption);
 		companyInfoPage.addPreferenceOption(fiscalYearOption);
+		companyInfoPage.addPreferenceOption(doyouUseOption);
 		// companyPage.addPreferenceOption(booksOption);
 		// companyPage.addPreferenceOption(autosuggestOption);
 		// companyPage.addPreferenceOption(alertsOption);

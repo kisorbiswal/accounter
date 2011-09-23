@@ -10,8 +10,6 @@ import com.google.gwt.user.client.ui.Widget;
 public class DoyouUseShipingsOption extends AbstractPreferenceOption {
 
 	@UiField
-	Label doYouLabelItem;
-	@UiField
 	CheckBox useShipMethods;
 	@UiField
 	Label shippingmedescritionLabel;
@@ -31,7 +29,7 @@ public class DoyouUseShipingsOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		return "Do you use Shippings";
+		return "Do you do shipping";
 	}
 
 	@Override
@@ -42,16 +40,16 @@ public class DoyouUseShipingsOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		return "Do you use Shippings";
+		return "Do you do shipping";
 	}
 
 	@Override
 	public void createControls() {
-		doYouLabelItem.setText("Do you do shipping");
 		shippingmedescritionLabel
 				.setText("This option can be used to enable  Shipping Terms ,Shipping Method and Shiping Adress realated to customer and vendor(supplier) transactions");
 		shippingmedescritionLabel.setStyleName("organisation_comment");
-		useShipMethods.setText("Use Shiping");
+		useShipMethods.setText("Do you do shipping");
+		useShipMethods.setStyleName("bold");
 	}
 
 	@Override
