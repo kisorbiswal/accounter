@@ -1061,7 +1061,7 @@ public class ActionFactory {
 	}
 
 	public static VatItemListAction getVatItemListAction() {
-		return new VatItemListAction(actionsConstants.vatItemList());
+		return new VatItemListAction(actionsConstants.taxItemsList());
 	}
 
 	// public static VatGroupAction getVatGroupAction() {
@@ -1069,11 +1069,11 @@ public class ActionFactory {
 	// }
 
 	public static Action getTAXCodeListAction() {
-		return new ManageTAXCodesListAction(actionsConstants.vatCodeList());
+		return new ManageTAXCodesListAction(actionsConstants.taxCodesList());
 	}
 
 	public static NewTAXCodeAction getNewTAXCodeAction() {
-		return new NewTAXCodeAction(actionsConstants.newVATCode());
+		return new NewTAXCodeAction(actionsConstants.newTaxCode());
 	}
 
 	// public static Action getManageVATCodeAction() {
