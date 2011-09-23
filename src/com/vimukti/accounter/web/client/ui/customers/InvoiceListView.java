@@ -32,6 +32,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 	private List<InvoicesList> listOfInvoices;
 
 	private List<String> dateRangeList;
+	private static final int DUE_DATE = 5;
 
 	public static String OPEN = Accounter.constants().open();
 	public static String OVER_DUE = Accounter.constants().overDue();
@@ -108,6 +109,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 	protected void initGrid() {
 		grid = new InvoiceListGrid();
 		grid.init();
+
 	}
 
 	String[] dateRangeArray = { Accounter.constants().all(),
@@ -232,6 +234,8 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 					grid.addData(invoice);
 			}
 		}
+
+		grid.sort(DUE_DATE, false);
 		if (grid.getRecords().isEmpty()) {
 			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
 		}
