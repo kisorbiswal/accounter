@@ -87,6 +87,7 @@ public class VendorBillView extends
 	protected VendorAccountTransactionTable vendorAccountTransactionTable;
 	protected VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
+	private DynamicForm totalForm = new DynamicForm();
 
 	private VendorBillView() {
 		super(ClientTransaction.TYPE_ENTER_BILL);
@@ -430,6 +431,15 @@ public class VendorBillView extends
 		phoneSelect.setDisabled(false);
 		// formItems.add(phoneSelect);
 
+		dueDateItem = new DateField(Accounter.constants().dueDate());
+		dueDateItem.setToolTip(Accounter.messages().selectDateUntilDue(
+				this.getAction().getViewName()));
+		dueDateItem.setHelpInformation(true);
+		dueDateItem.setEnteredDate(getTransactionDate());
+		dueDateItem.setColSpan(1);
+		dueDateItem.setTitle(Accounter.constants().dueDate());
+		dueDateItem.setDisabled(isInViewMode());
+
 		paymentTermsCombo = new PaymentTermsCombo(Accounter.constants()
 				.paymentTerms());
 		paymentTermsCombo.setHelpInformation(true);
@@ -446,15 +456,6 @@ public class VendorBillView extends
 					}
 
 				});
-
-		dueDateItem = new DateField(Accounter.constants().dueDate());
-		dueDateItem.setToolTip(Accounter.messages().selectDateUntilDue(
-				this.getAction().getViewName()));
-		dueDateItem.setHelpInformation(true);
-		dueDateItem.setEnteredDate(getTransactionDate());
-		dueDateItem.setColSpan(1);
-		dueDateItem.setTitle(Accounter.constants().dueDate());
-		dueDateItem.setDisabled(isInViewMode());
 
 		deliveryDateItem = createTransactionDeliveryDateItem();
 		// deliveryDateItem.setWidth(100);
@@ -586,7 +587,7 @@ public class VendorBillView extends
 
 		DynamicForm vatCheckform = new DynamicForm();
 		// vatCheckform.setFields(vatinclusiveCheck);
-		DynamicForm totalForm = new DynamicForm();
+
 		totalForm.setWidth("100%");
 		totalForm.setStyleName("invoice-total");
 		// netAmount.setWidth((netAmount.getMainWidget().getOffsetWidth() +
@@ -727,14 +728,16 @@ public class VendorBillView extends
 		selectedPaymentTerm = selectItem;
 
 		// paymentTermsCombo.setComboItem(selectedPaymentTerm);
-		if (isInViewMode()) {
-			// setDueDate(((ClientEnterBill) transactionObject).getDueDate());
-			setDueDate(Utility.getCalculatedDueDate(getTransactionDate(),
-					selectedPaymentTerm).getDate());
-		} else {
-			setDueDate(Utility.getCalculatedDueDate(getTransactionDate(),
-					selectedPaymentTerm).getDate());
-		}
+		// if (isInViewMode()) {
+		// // setDueDate(((ClientEnterBill) transactionObject).getDueDate());
+		// setDueDate(Utility.getCalculatedDueDate(getTransactionDate(),
+		// selectedPaymentTerm).getDate());
+		// } else {
+		// setDueDate(Utility.getCalculatedDueDate(getTransactionDate(),
+		// selectedPaymentTerm).getDate());
+		// }
+
+		setDueDate(Utility.getPaymentTermsDate(selectedPaymentTerm).getDate());
 	}
 
 	@Override
@@ -1103,6 +1106,8 @@ public class VendorBillView extends
 	}
 
 	public void onEdit() {
+
+		balanceDueNonEditableText.setVisible(false);
 		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
 
 			@Override
