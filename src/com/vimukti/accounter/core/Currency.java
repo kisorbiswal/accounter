@@ -6,26 +6,13 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * 
  * @author vimukti16 Not used Yet
  */
-public class Currency implements IAccounterServerCore, INamedObject {
+public class Currency extends CreatableObject implements IAccounterServerCore,
+		INamedObject {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	int version;
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public void setVersion(int version) {
-		this.version = version;
-	}
 
 	public void setName(String name) {
 		this.name = name;
@@ -39,7 +26,6 @@ public class Currency implements IAccounterServerCore, INamedObject {
 		this.formalName = formalName;
 	}
 
-	long id;
 	/**
 	 * Name of the Currency
 	 */
@@ -66,13 +52,6 @@ public class Currency implements IAccounterServerCore, INamedObject {
 	 */
 
 	/**
-	 * @return the version
-	 */
-	public int getVersion() {
-		return version;
-	}
-
-	/**
 	 * @return the name
 	 */
 	public String getName() {
@@ -91,11 +70,6 @@ public class Currency implements IAccounterServerCore, INamedObject {
 	 */
 	public String getFormalName() {
 		return formalName;
-	}
-
-	@Override
-	public long getID() {
-		return this.id;
 	}
 
 	@Override
