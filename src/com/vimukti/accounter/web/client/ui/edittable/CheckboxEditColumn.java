@@ -37,7 +37,7 @@ public abstract class CheckboxEditColumn<T> extends EditColumn<T> {
 				}
 			}
 		});
-		box.setEnabled(isEnable());
+		box.setEnabled(isEnable() && !getTable().isDesable());
 		return box;
 	}
 

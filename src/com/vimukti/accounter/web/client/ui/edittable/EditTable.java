@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.RowFormatter;
+import com.google.gwt.user.client.ui.Widget;
 
 public abstract class EditTable<R> extends SimplePanel {
 
@@ -33,17 +34,18 @@ public abstract class EditTable<R> extends SimplePanel {
 	public void addColumn(EditColumn<R> column) {
 		columns.add(column);
 		int index = columns.size() - 1;
+		column.setTable(this);
 		table.setWidget(0, index, column.getHeader());
 		// Set width
 		int width = column.getWidth();
 		if (width != -1) {
 			cellFormatter.setWidth(0, index, width + "px");
 		}
-		column.setTable(this);
 	}
 
 	public void setDisabled(boolean isDesable) {
 		this.setDesable(isDesable);
+		updateHeaderState(isDesable);
 		for (R r : rows) {
 			update(r);
 		}
@@ -185,7 +187,7 @@ public abstract class EditTable<R> extends SimplePanel {
 	protected void onDelete(R obj) {
 
 	}
-	
+
 	@Override
 	protected void onAttach() {
 		createColumns();
@@ -200,5 +202,14 @@ public abstract class EditTable<R> extends SimplePanel {
 	}
 
 	protected abstract void initColumns();
+
+	private void updateHeaderState(boolean isDisable) {
+		for (int x = 0; x < columns.size(); x++) {
+			Widget widget = table.getWidget(0, x);
+			if (widget instanceof CheckBox) {
+				((CheckBox) widget).setEnabled(!isDisable);
+			}
+		}
+	}
 
 }
