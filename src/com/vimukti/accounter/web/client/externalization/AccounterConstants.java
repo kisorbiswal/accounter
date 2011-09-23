@@ -4900,4 +4900,6 @@ public interface AccounterConstants extends Constants {
 
 	public String selectTransactionToReconcile();
 
+	public String dueDays();
+
 }
