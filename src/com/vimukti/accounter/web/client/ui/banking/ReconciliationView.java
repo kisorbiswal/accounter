@@ -325,6 +325,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 
 	@Override
 	public void saveAndUpdateView() {
+		this.data.setOpeningBalance(openingBalance.getAmount());
 		this.data.setReconcilationDate(new ClientFinanceDate());
 		data.setTransactions(this.clearedTransactions);
 		saveOrUpdate(data);
