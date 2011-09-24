@@ -972,13 +972,17 @@
 	</query>
 
 	<query name="getWriteCheck.by.payToType">
+		<query-param name="company" type="Company" />
+		<query-param name="type" type="int" />
 		from com.vimukti.accounter.core.WriteCheck wc where
-		wc.payToType=?
+		wc.company=:company and wc.payToType=:type
 	</query>
 
 	<query name="getFixedAsset.by.checkStatusand.purchaseDate">
-		from com.vimukti.accounter.core.FixedAsset f where
-		f.status = 2 and f.purchaseDate &lt;= ?
+		<query-param name="company" type="Company" />
+		<query-param name="date" type="long" />
+		from com.vimukti.accounter.core.FixedAsset f where f.company=:company
+		and f.status = 2 and f.purchaseDate &lt;=:date
 	</query>
 
 	<query name="getDepreciation.by.check.idandStatus.depreciationFor">
@@ -986,10 +990,13 @@
 		<query-param name="depreciationFor" type="int" />
 		<query-param name="status" type="int" />
 		from com.vimukti.accounter.core.Depreciation d where
+		d.company=:company and
 		d.id=((select
-		max(d1.id) from com.vimukti.accounter.core.Depreciation
+		max(d1.id) from
+		com.vimukti.accounter.core.Depreciation
 		d1 where
-		d1.depreciationFor =:depreciationFor and d1.status=:status))
+		d1.depreciationFor
+		=:depreciationFor and d1.status=:status))
 	</query>
 
 	<query
@@ -999,9 +1006,11 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.TAXRateCalculation v
 		where v.taxItem is
-		not null and v.transactionDate between :startDate
+		not null and v.taxItem.company=:company and v.transactionDate between
+		:startDate
 		and :endDate and
-		v.transactionItem.taxCode.isECSalesEntry = true group
+		v.transactionItem.taxCode.isECSalesEntry =
+		true group
 		by v.id,
 		v.transactionItem order by v.transactionItem
 	</query>
