@@ -1899,12 +1899,12 @@ public class FinanceTool {
 		}
 	}
 
-	public ArrayList<CustomerRefundsList> getCustomerRefundsList()
+	public ArrayList<CustomerRefundsList> getCustomerRefundsList(long companyId)
 			throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-
+			Company company = getCompany(companyId);
 			List<CustomerRefundsList> customerRefundsList = new ArrayList<CustomerRefundsList>();
 			Query query = session.getNamedQuery("getCustomerRefund");
 			List list = query.list();
@@ -1934,7 +1934,8 @@ public class FinanceTool {
 				}
 			}
 			query = session.getNamedQuery("getWriteCheck.by.payToType")
-					.setParameter(0, WriteCheck.TYPE_CUSTOMER);
+					.setParameter("type", WriteCheck.TYPE_CUSTOMER)
+					.setEntity("company", company);
 			list = query.list();
 
 			if (list != null) {
@@ -4176,13 +4177,16 @@ public class FinanceTool {
 	}
 
 	public DepreciableFixedAssetsList getDepreciableFixedAssets(
-			long depreciationFrom, long depreciationTo) throws DAOException {
+			long depreciationFrom, long depreciationTo, long companyId)
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
 		DecimalFormat decimalFormat = new DecimalFormat("##.##");
-		Query query = session.getNamedQuery(
-				"getFixedAsset.by.checkStatusand.purchaseDate").setParameter(0,
-				(new FinanceDate(depreciationTo)));
+		Query query = session
+				.getNamedQuery("getFixedAsset.by.checkStatusand.purchaseDate")
+				.setParameter("date", (new FinanceDate(depreciationTo)))
+				.setEntity("company", company);
 		List<FixedAsset> fixedAssets = query.list();
 
 		List<Long> fixedAssetIDs = new ArrayList<Long>();
@@ -13064,5 +13068,4 @@ public class FinanceTool {
 		}
 		return history;
 	}
-
 }

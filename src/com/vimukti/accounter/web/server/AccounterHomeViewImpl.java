@@ -686,7 +686,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		List<CustomerRefundsList> customerRefundsList = null;
 		try {
 
-			customerRefundsList = getFinanceTool().getCustomerRefundsList();
+			customerRefundsList = getFinanceTool().getCustomerRefundsList(
+					getCompanyId());
 			// customerRefundsList = (List<CustomerRefundsList>) manager
 			// .merge(customerRefundsList);
 		} catch (Exception e) {
@@ -1270,7 +1271,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		try {
 			FinanceTool tool = getFinanceTool();
 			return tool != null ? tool.getDepreciableFixedAssets(
-					depreciationFrom, depreciationTo) : null;
+					depreciationFrom, depreciationTo, getCompanyId()) : null;
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
