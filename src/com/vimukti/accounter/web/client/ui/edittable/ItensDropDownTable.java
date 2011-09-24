@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -53,8 +54,17 @@ public class ItensDropDownTable extends AbstractDropDownTable<ClientItem> {
 
 	@Override
 	protected ClientItem getAddNewRow() {
+		ClientCompany company = Accounter.getCompany();
 		ClientItem clientItem = new ClientItem();
-		clientItem.setName(Accounter.comboMessages().newItem());
+		boolean sellServices = company.getPreferences().isSellServices();
+		boolean sellProducts = company.getPreferences().isSellProducts();
+		if (sellServices && sellProducts) {
+			clientItem.setName(Accounter.comboMessages().newItem());
+		} else if (sellServices) {
+			clientItem.setName(Accounter.comboMessages().newServiceItem());
+		} else if (sellProducts) {
+			clientItem.setName(Accounter.comboMessages().newProductItem());
+		}
 		return clientItem;
 	}
 
