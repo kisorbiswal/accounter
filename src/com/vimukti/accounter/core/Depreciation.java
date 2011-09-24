@@ -598,9 +598,9 @@ public class Depreciation extends CreatableObject implements
 		Query query = session
 				.getNamedQuery(
 						"getDepreciation.from.depreciateFrom.byFixedassetId")
-				.setParameter(0, rollBackDepreciationTo)
-				.setParameter(1, Depreciation.APPROVE)
-				.setParameter(2, fixedAssetID);
+				.setLong("date", rollBackDepreciationTo.getDate())
+				.setInteger("status", Depreciation.APPROVE)
+				.setLong("id", fixedAssetID);
 		List<Depreciation> list = query.list();
 		for (Depreciation dep : list) {
 			dep.setStatus(Depreciation.ROLLBACK);

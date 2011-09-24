@@ -1299,7 +1299,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	protected void updateEntryMemo(Session session) {
 
 		Query query = session.getNamedQuery("get.name.fromAccount.byId")
-				.setParameter(0, this.getID());
+				.setLong("id", this.getID()).setEntity("company", getCompany());
 		String accountName = (String) query.uniqueResult();
 
 		if (accountName != null && !this.getName().equals(accountName))

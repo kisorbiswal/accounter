@@ -1146,10 +1146,6 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 			}
 		}
 		return null;
-		// Session session = HibernateUtil.getCurrentSession();
-		// User user = (User) session.getNamedQuery("getuser.by.email")
-		// .setParameter(0, email).uniqueResult();
-		// return user;
 	}
 
 	/**
