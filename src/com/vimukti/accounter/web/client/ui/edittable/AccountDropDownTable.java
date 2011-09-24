@@ -97,19 +97,7 @@ public class AccountDropDownTable extends AbstractDropDownTable<ClientAccount> {
 
 	@Override
 	public void addNewItem() {
-		NewAccountAction action = ActionFactory.getNewAccountAction();
-		action.setCallback(new ActionCallback<ClientAccount>() {
-
-			@Override
-			public void actionResult(ClientAccount result) {
-				if (result.getIsActive()) {
-					selectRow(result);
-				}
-
-			}
-		});
-		action.setAccountTypes(canAddAccountTypes);
-		action.run(null, true);
+		addNewItem("");
 	}
 
 	@Override
@@ -124,6 +112,19 @@ public class AccountDropDownTable extends AbstractDropDownTable<ClientAccount> {
 
 	@Override
 	protected void addNewItem(String text) {
-		addNewItem();
+		NewAccountAction action = ActionFactory.getNewAccountAction();
+		action.setCallback(new ActionCallback<ClientAccount>() {
+
+			@Override
+			public void actionResult(ClientAccount result) {
+				if (result.getIsActive()) {
+					selectRow(result);
+				}
+
+			}
+		});
+		action.setAccountTypes(canAddAccountTypes);
+		action.setAccountName(text);
+		action.run(null, true);
 	}
 }

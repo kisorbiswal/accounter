@@ -32,7 +32,7 @@ public abstract class CheckboxEditColumn<T> extends EditColumn<T> {
 						if (checkedWidget.getValue() != value) {
 							checkedWidget.setValue(value);
 							onChangeValue(value, allRows.get(x - 1));
-							
+
 						}
 					}
 				}
@@ -46,10 +46,7 @@ public abstract class CheckboxEditColumn<T> extends EditColumn<T> {
 	public void render(IsWidget widget, RenderContext<T> context) {
 		CheckBox box = (CheckBox) widget;
 		box.setEnabled(isEnable() && !context.isDesable());
-		box.setValue(getValue(context.getRow()));
 	}
-
-	protected abstract Boolean getValue(T row);
 
 	protected boolean isEnable() {
 		return true;

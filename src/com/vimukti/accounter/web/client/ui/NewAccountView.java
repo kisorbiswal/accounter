@@ -235,6 +235,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		accNameText = new TextItem(Accounter.messages().accountName(
 				Global.get().Account()));
+		accNameText.setValue(accountName);
 		accNameText.setToolTip(Accounter.messages()
 				.giveTheNameAccordingToYourID(this.getAction().getViewName()));
 		accNameText.setHelpInformation(true);
@@ -1706,5 +1707,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		saveAndNewButton.setTabIndex(14);
 		cancelButton.setTabIndex(15);
 
+	}
+
+	public void setAccountName(String accountName) {
+		this.accountName = accountName;
 	}
 }

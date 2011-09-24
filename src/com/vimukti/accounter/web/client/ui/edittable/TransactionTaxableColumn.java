@@ -28,9 +28,4 @@ public class TransactionTaxableColumn extends
 	public IsWidget getHeader() {
 		return new Label(Accounter.constants().taxable());
 	}
-
-	@Override
-	protected Boolean getValue(ClientTransactionItem row) {
-		return row.isTaxable();
-	}
 }

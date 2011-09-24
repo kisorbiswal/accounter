@@ -286,6 +286,11 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			protected void adjustAmountAndEndingBalance() {
 				PayBillView.this.adjustAmountAndEndingBalance();
 			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return PayBillView.this.isInViewMode();
+			}
 		};
 		grid.setDisabled(isInViewMode());
 	}

@@ -327,6 +327,11 @@ public class ReceivePaymentView extends
 				ReceivePaymentView.this.setAmountRecieved(totalInoiceAmt);
 				ReceivePaymentView.this.recalculateGridAmounts();
 			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return ReceivePaymentView.this.isInViewMode();
+			}
 		};
 		gridView.setCustomer(this.getCustomer());
 		gridView.setDisabled(isInViewMode());

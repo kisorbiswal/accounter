@@ -51,12 +51,6 @@ public class ContactsTable extends EditTable<ClientContact> {
 				Label columnHeader = new Label(Accounter.constants().primary());
 				return columnHeader;
 			}
-
-			@Override
-			protected Boolean getValue(ClientContact row) {
-				// TODO Auto-generated method stub
-				return null;
-			}
 		});
 
 		this.addColumn(new TextEditColumn<ClientContact>() {

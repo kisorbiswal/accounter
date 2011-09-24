@@ -16,6 +16,7 @@ public class NewAccountAction extends Action<ClientAccount> {
 	private List<Integer> accountTypes;
 	// private AbstractBaseView<?> baseView;
 	protected NewAccountView view;
+	private String accountName;
 
 	public NewAccountAction(String text) {
 		super(text);
@@ -40,6 +41,7 @@ public class NewAccountAction extends Action<ClientAccount> {
 			public void onSuccess() {
 				view = new NewAccountView();
 				view.setAccountTypes(getAccountTypes());
+				view.setAccountName(accountName);
 
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, NewAccountAction.this);
@@ -79,5 +81,9 @@ public class NewAccountAction extends Action<ClientAccount> {
 	@Override
 	public String getHelpToken() {
 		return "new-account";
+	}
+
+	public void setAccountName(String text) {
+		this.accountName = text;
 	}
 }

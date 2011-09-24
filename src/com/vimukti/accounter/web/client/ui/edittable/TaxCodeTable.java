@@ -105,19 +105,9 @@ public class TaxCodeTable extends AbstractDropDownTable<ClientTAXCode> {
 
 	@Override
 	public void addNewItem() {
+		addNewItem("");
 
-		if (Accounter.getCompany().getPreferences().isTrackTax()) {
-			NewTAXCodeAction action = ActionFactory.getNewTAXCodeAction();
-			action.setCallback(new ActionCallback<ClientTAXCode>() {
-
-				@Override
-				public void actionResult(ClientTAXCode result) {
-					selectRow(result);
-				}
-			});
-
-			action.run(null, true);
-		} /*
+		/*
 		 * else { TaxDialog dialog = new TaxDialog(); dialog.setCallback(new
 		 * ActionCallback<ClientTAXCode>() {
 		 * 
@@ -141,7 +131,18 @@ public class TaxCodeTable extends AbstractDropDownTable<ClientTAXCode> {
 
 	@Override
 	protected void addNewItem(String text) {
-		addNewItem();
+		if (Accounter.getCompany().getPreferences().isTrackTax()) {
+			NewTAXCodeAction action = ActionFactory.getNewTAXCodeAction();
+			action.setCallback(new ActionCallback<ClientTAXCode>() {
+
+				@Override
+				public void actionResult(ClientTAXCode result) {
+					selectRow(result);
+				}
+			});
+			action.setTaxCodeName(text);
+			action.run(null, true);
+		}
 	}
 
 	private String getDisplayName(ClientTAXCode code) {

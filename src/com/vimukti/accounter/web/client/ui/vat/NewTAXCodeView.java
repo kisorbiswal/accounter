@@ -47,6 +47,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 	private String vatCode;
 
 	private ArrayList<DynamicForm> listforms;
+	private String taxCodeName;
 
 	public NewTAXCodeView() {
 		super();
@@ -105,6 +106,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 
 		AccounterConstants vatMessages = Accounter.constants();
 		vatCodeTxt = new TextItem(vatMessages.taxCode());
+		vatCodeTxt.setValue(taxCodeName);
 		vatCodeTxt.setHelpInformation(true);
 		vatCodeTxt.setRequired(true);
 		vatCodeTxt.setWidth(100);
@@ -420,5 +422,9 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 	@Override
 	protected String getViewTitle() {
 		return Accounter.constants().taxCode();
+	}
+
+	public void setTaxCodeName(String taxCodeName) {
+		this.taxCodeName = taxCodeName;
 	}
 }

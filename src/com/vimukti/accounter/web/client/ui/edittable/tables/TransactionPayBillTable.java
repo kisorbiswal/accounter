@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -28,6 +30,7 @@ import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
 import com.vimukti.accounter.web.client.ui.edittable.AnchorEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.CheckboxEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
+import com.vimukti.accounter.web.client.ui.edittable.RenderContext;
 import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
 import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
@@ -64,11 +67,13 @@ public abstract class TransactionPayBillTable extends
 			}
 
 			@Override
-			protected Boolean getValue(ClientTransactionPayBill row) {
-				// TODO Auto-generated method stub
-				return null;
+			public void render(IsWidget widget,
+					RenderContext<ClientTransactionPayBill> context) {
+				super.render(widget, context);
+				if (isInViewMode()) {
+					((CheckBox) widget).setValue(true);
+				}
 			}
-
 		});
 
 		if (canEdit) {
@@ -1073,4 +1078,6 @@ public abstract class TransactionPayBillTable extends
 	public List<ClientTransactionPayBill> getRecords() {
 		return getAllRows();
 	}
+
+	protected abstract boolean isInViewMode();
 }

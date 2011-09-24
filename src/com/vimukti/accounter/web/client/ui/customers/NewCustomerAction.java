@@ -92,4 +92,8 @@ public class NewCustomerAction extends Action<ClientCustomer> {
 	public String getHelpToken() {
 		return "add-customer";
 	}
+
+	public void setCustomerName(String text) {
+		this.quickAddText = text;
+	}
 }

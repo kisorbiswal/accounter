@@ -57,17 +57,7 @@ public class VendorDropDownTable extends AbstractDropDownTable<ClientVendor> {
 
 	@Override
 	protected void addNewItem() {
-		NewVendorAction action = ActionFactory.getNewVendorAction();
-		action.setCallback(new ActionCallback<ClientVendor>() {
-
-			@Override
-			public void actionResult(ClientVendor result) {
-				if (result.getName() != null)
-					selectRow(result);
-			}
-		});
-
-		action.run(null, true);
+		addNewItem("");
 	}
 
 	@Override
@@ -82,6 +72,16 @@ public class VendorDropDownTable extends AbstractDropDownTable<ClientVendor> {
 
 	@Override
 	protected void addNewItem(String text) {
-		addNewItem();
+		NewVendorAction action = ActionFactory.getNewVendorAction();
+		action.setCallback(new ActionCallback<ClientVendor>() {
+
+			@Override
+			public void actionResult(ClientVendor result) {
+				if (result.getName() != null)
+					selectRow(result);
+			}
+		});
+		action.setVendorName(text);
+		action.run(null, true);
 	}
 }
