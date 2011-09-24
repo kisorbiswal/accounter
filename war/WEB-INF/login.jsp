@@ -8,10 +8,8 @@
 <link rel="shortcut icon" href="../images/favicon.ico" />
 <% String version = application.getInitParameter("version"); %>
 <link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet">
-<link type="text/css" href="../css/contactable.css" rel="stylesheet">
 <script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
 <script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
-<script type="text/javascript" src="/jscripts/jquery.contactable.packed.js"></script>
 <link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet">
 <script  type="text/javascript" >
 	$(document).ready(function() {
@@ -28,12 +26,7 @@
 			}
 		});
 	});
-	jQuery(function(){
-		jQuery('#contact').contactable({
-	recipient: 'test@test.com',
-	subject: 'A Feeback Message'
-});
-});
+	 
 });	
 </script>
 
@@ -45,6 +38,7 @@
    <% } %>
 </head>
 	<body>
+	<%@ include file="./feedback.jsp" %>
 	<div id="contact"> </div>
      <div id="commanContainer">
 		   <img src="../images/Accounter_logo_title.png" class="accounterLogo" />
