@@ -20,6 +20,7 @@ public class AccounterClassListDialog extends GroupDialog<ClientAccounterClass> 
 
 	public AccounterClassListDialog(String title, String descript) {
 		super(title, descript);
+		setWidth("400px");
 		initialise();
 		center();
 	}
@@ -53,7 +54,7 @@ public class AccounterClassListDialog extends GroupDialog<ClientAccounterClass> 
 			public void onSecondButtonClick() {
 				showAddEditAccounterClassDialog((ClientAccounterClass) listGridView
 						.getSelection());
-				
+
 			}
 
 			@Override
@@ -82,7 +83,7 @@ public class AccounterClassListDialog extends GroupDialog<ClientAccounterClass> 
 					public void execute(ClientAccounterClass accounterclass) {
 						saveOrUpdate(accounterclass);
 						enableEditRemoveButtons(false);
-						
+
 					}
 				});
 		createClassDialog.show();
