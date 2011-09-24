@@ -110,7 +110,12 @@ form#contactForm p {
 	margin: 100px auto;	
 	display:none;
 }
-
+.underline{
+	border-top:1px solid #000 !important;
+}
+.depth2{
+	padding-left:2% !important;
+}
 
 .holder {
 	margin:0 auto;
@@ -515,7 +520,10 @@ select[multiple],.selectedview_textareadata,#loading .loadingIndicator,.main-cla
 .gwt-DialogBox .dialogBottomLeft,.gwt-DialogBox .dialogMiddleRight,.gwt-DialogBox .dialogMiddleLeft,.gwt-Button{
 	background:none repeat scroll 0 0 #1A5158 !important;
 }
-.bold,.name-label,.label-company,.bold,.text-bold,.unreadmessage td,.tax-form tr td,
+.bold{
+	font-weight:bold !important;
+}
+.name-label,.label-company,.bold,.text-bold,.unreadmessage td,.tax-form tr td,
 .financialDataTitle:FIRST-CHILD,.selected-page,.plain-panel-title,
 .datePickerPreviousButton,.datePickerNextButton,td.datePickerMonth,
 .label-banking,.financialDataTitle,.lable-title,.listgridfooter td,.boldcell,
