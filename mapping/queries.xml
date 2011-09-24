@@ -1065,35 +1065,43 @@
 	</query>
 
 	<query name="getEstimate.by.check.id.status">
-		from com.vimukti.accounter.core.Estimate e where
-		e.customer.id = ? and e.status = 0
+		<query-param name="company" type="Company" />
+		<query-param name="id" type="long" />
+		from com.vimukti.accounter.core.Estimate e
+		where e.company=:company and
+		e.customer.id =: id and e.status = 0
 	</query>
 
 	<query name="getFiscalYear.by.check.status.startDate">
+		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.FiscalYear fy where
+		fy.company=:company and 
 		fy.status = 1 order by fy.startDate
 	</query>
 
-	<query name="getFixedAsset.by.status">
-		<query-param name="status" type="int" />
-		from com.vimukti.accounter.core.FixedAsset f where
-		f.status = :status
-	</query>
-
 	<query name="getTransaction.by.check.type.number.id">
-		from com.vimukti.accounter.core.Transaction t where
-		t.type =? and
-		t.number =? and t.id !=?
+		<query-param name="company" type="Company" />
+		<query-param name="type" type="int" />
+		<query-param name="number" type="String" />
+		<query-param name="id" type="long" />
+		from com.vimukti.accounter.core.Transaction t
+		where t.company =: company
+		t.type =: type and
+		t.number =: number and t.id !=: id
 	</query>
 	<query name="get.PayBills.by.tds">
-		from com.vimukti.accounter.core.PayBill b where
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.PayBill b
+		where b.company=:company and
 		b.taxAgency !=null
 	</query>
 
 	<query name="get.transactionsPayBills.by.tds">
+		<query-param name="company" type="Company" />
+		<query-param name="payBill" type="com.vimukti.accounter.core.PayBill" />
 		from com.vimukti.accounter.core.TransactionPayBill b
-		where
-		b.payBill =?
+		where b.company=:company and
+		b.payBill =:payBill
 	</query>
 
 	<query name="getJournalEntry">
