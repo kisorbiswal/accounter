@@ -875,8 +875,8 @@ public class WriteChequeView extends
 				vatPanel.add(form);
 				if (isTrackPaidTax()) {
 					vatCheckForm.setFields(vatinclusiveCheck);
+				vatCheckForm.addStyleName("boldtext");
 				}
-				vatCheckForm.addStyleName("invoice-total");
 				vatPanel.add(vatCheckForm);
 				vatPanel.setCellHorizontalAlignment(vatCheckForm, ALIGN_RIGHT);
 				// } else {
@@ -884,7 +884,7 @@ public class WriteChequeView extends
 			}
 		}
 		totalForm.setFields(totalTxt);
-		totalForm.addStyleName("invoice-total");
+		totalForm.addStyleName("boldtext");
 		amountPanel.add(totalForm);
 		amountPanel.setCellHorizontalAlignment(totalForm, ALIGN_RIGHT);
 		amountPanel.setHorizontalAlignment(ALIGN_RIGHT);
