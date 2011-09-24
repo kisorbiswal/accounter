@@ -523,6 +523,9 @@ public class WriteChequeView extends
 			result.addError(memoTextAreaItem,
 					accounterConstants.transactiontotalcannotbe0orlessthan0());
 		}
+		if (taxCodeSelect.getSelectedValue() == null) {
+			result.addError(taxCodeSelect, accounterConstants.enterTaxCode());
+		}
 
 		return result;
 	}
