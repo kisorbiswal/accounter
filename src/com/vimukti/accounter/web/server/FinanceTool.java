@@ -125,8 +125,8 @@ import com.vimukti.accounter.services.IS2SService;
 import com.vimukti.accounter.utils.Converter;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.utils.Security;
 import com.vimukti.accounter.utils.MiniTemplator.TemplateSyntaxException;
+import com.vimukti.accounter.utils.Security;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -165,7 +165,6 @@ import com.vimukti.accounter.web.client.core.Lists.DepreciableFixedAssetsEntry;
 import com.vimukti.accounter.web.client.core.Lists.DepreciableFixedAssetsList;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetLinkedAccountMap;
-import com.vimukti.accounter.web.client.core.Lists.FixedAssetList;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetSellOrDisposeReviewJournal;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
@@ -4053,35 +4052,6 @@ public class FinanceTool {
 		return new ArrayList<PurchaseOrdersList>(pil);
 	}
 
-	public ArrayList<FixedAssetList> getFixedAssets(int status)
-			throws DAOException {
-
-		List<FixedAssetList> fal = new ArrayList<FixedAssetList>();
-
-		Session session = HibernateUtil.getCurrentSession();
-
-		Query query = session.getNamedQuery("getFixedAsset.by.status")
-				.setParameter("status", status);
-
-		List<FixedAsset> list = query.list();
-		for (FixedAsset fixedAsset : list) {
-
-			FixedAssetList fixedAssetList = new FixedAssetList();
-			fixedAssetList.setID(fixedAsset.getID());
-			fixedAssetList
-					.setAssetAccount(fixedAsset.getAssetAccount().getID());
-			fixedAssetList.setAssetNumber(fixedAsset.getAssetNumber());
-			fixedAssetList.setBookValue(fixedAsset.getBookValue());
-			fixedAssetList.setName(fixedAsset.getName());
-			fixedAssetList.setPurchaseDate(new ClientFinanceDate(fixedAsset
-					.getPurchaseDate().getDate()));
-			fixedAssetList.setPurchasePrice(fixedAsset.getPurchasePrice());
-			fal.add(fixedAssetList);
-		}
-
-		return new ArrayList<FixedAssetList>(fal);
-	}
-
 	public ArrayList<SellingOrDisposingFixedAssetList> getSellingOrDisposingFixedAssets()
 			throws DAOException {
 
@@ -4894,9 +4864,9 @@ public class FinanceTool {
 				.getDepreciationStartDate();
 		Calendar depStartDateCal = new GregorianCalendar();
 		depStartDateCal.setTime(depreciationStartDate.getAsDateObject());
-
-		Query query = session
-				.getNamedQuery("getFiscalYear.by.check.status.startDate");
+		Query query = session.getNamedQuery(
+				"getFiscalYear.by.check.status.startDate").setEntity("company",
+				company);
 		List<FiscalYear> list = query.list();
 		for (FiscalYear fs : list) {
 			FinanceDate date = fs.getStartDate();
