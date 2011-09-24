@@ -991,6 +991,7 @@
 		name="getTAXRateCalculation.by.check.taxItemandDates.orderBy.transactionItem">
 		<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.TAXRateCalculation v
 		where v.taxItem is
 		not null and v.transactionDate between :startDate
@@ -1003,8 +1004,10 @@
 	<query name="getTAXRateCalculation.by.check.taxItemandDates">
 		<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.TAXRateCalculation v where v.taxItem
-		is not null and v.transactionDate between :startDate and :endDate and
+		is not null and v.taxItem.company=:company and v.transactionDate
+		between :startDate and :endDate and
 		v.transactionItem.taxCode.isECSalesEntry = true group by v.id,
 		v.transactionItem
 	</query>
@@ -1013,8 +1016,11 @@
 		<query-param name="employeeName" type="String" />
 		<query-param name="type" type="int" />
 		<query-param name="expenseStatus" type="int" />
+		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.CashPurchase cp where
-		cp.employee.fullName=:employeeName and cp.expenseStatus=:expenseStatus
+		cp.company=:company and
+		cp.employee.fullName=:employeeName and
+		cp.expenseStatus=:expenseStatus
 		and
 		cp.type=:type and cp.isVoid=false
 	</query>
@@ -1022,8 +1028,11 @@
 	<query name="getCashPurchase.by.expenseStatusandtype">
 		<query-param name="type" type="int" />
 		<query-param name="expenseStatus" type="int" />
+		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.CashPurchase cp where
-		cp.expenseStatus=:expenseStatus and cp.type=:type and cp.isVoid=false
+		cp.company=:company and
+		cp.expenseStatus=:expenseStatus and
+		cp.type=:type and cp.isVoid=false
 	</query>
 
 
