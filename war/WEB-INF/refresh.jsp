@@ -7,6 +7,7 @@
 		<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet">
   </head>
     <body>
+    <%@ include file="./feedback.jsp" %>
 	    <div id="commanContainer">
 		 <img src="../images/Accounter_logo_title.png" class="accounterLogo" />
 		  <c:if test="${successmessage!=null}">

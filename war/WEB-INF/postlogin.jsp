@@ -155,6 +155,7 @@ margin-left:200px;
 
   </head>
 <!--add loading indicator while the app is being loaded-->
+<%@ include file="./feedback.jsp" %>
 	<div id="loadingWrapper">
 		<div id="loading">
 		    <div class="loadingIndicator">

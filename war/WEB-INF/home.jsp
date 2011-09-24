@@ -8,11 +8,8 @@
 
 <link rel="shortcut icon" href="../images/favicon.ico" />
 <link type="text/css" href="../css/ss.css" rel="stylesheet">
-<link type="text/css" href="../css/contactable.css" rel="stylesheet">
 <script src="/jscripts/jquery-1.6.2.js" type="text/javascript"></script>
 <script type="text/javascript" src="/jscripts/stepcarousel.js"></script>
-<script type="text/javascript" src="/jscripts/jquery.contactable.packed.js"></script>
-<script type="text/javascript" src="/jscripts/jquery.validate.js"></script>
 <script type="text/javascript">
 jQuery.noConflict();
 jQuery(document).ready(function() {
@@ -45,29 +42,10 @@ jQuery(document).ready(function() {
 				contenttype: ['inline'] // content setting ['inline'] or
 										// ['ajax', 'path_to_external_file']
 				})
-				jQuery(function(){
-					jQuery('#contact').contactable({
-	 		recipient: 'test@test.com',
-	 		subject: 'A Feeback Message'
-	 	});
-	});
 </script>
-			
-			<style type="text/css">
-			#content {
-			background-color:#FDFDFD;
-			border-left:2px solid #333333;
-			border-right:2px solid #333333;
-			margin:0 auto 0;
-			padding:10px;
-			position:relative;
-			width:930px;
-			height:100%;
-			}	
-		</style>
 </head>
 	<body>
-	<div id="contact"> </div>
+	<%@ include file="./feedback.jsp" %>
 		<div class ="body-container">
 			<div class ="main_body-container">
 			<div class ="header" id="top">
@@ -179,17 +157,6 @@ jQuery(document).ready(function() {
 		<script type="text/javascript" charset="utf-8">
 			var is_ssl = ("https:" == document.location.protocol);
 			var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
-		</script>
-		<script type="text/javascript" charset="utf-8">
-			var feedback_widget_options = {};
-			
-			feedback_widget_options.display = "overlay";  
-  			feedback_widget_options.company = "vimukti";
-			feedback_widget_options.placement = "left";
-			feedback_widget_options.color = "#222";
-			feedback_widget_options.style = "idea";
-		
-		
 		</script>
 		</div>
 	</body>

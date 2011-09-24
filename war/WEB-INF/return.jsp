@@ -9,6 +9,7 @@
 	<link rel="stylesheet" type="text/css" href="consumer-servlet.css" />
 </head>
 <body>
+<%@ include file="./feedback.jsp" %>
 	<div>
 		<div>Login Success! - <a href="logout.jsp">Logout</a></div>
 		<div>

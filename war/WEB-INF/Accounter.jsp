@@ -24,11 +24,26 @@
     var tabsEnabled=["Hr","Finance","Operations","Marketing","Sales","Users","Workflows","Purchases"];
     var helpurl="${helpUrl}";
     </script>
+    <script src="/jscripts/jquery-1.6.2.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/jscripts/jquery.contactable.packed.js"></script>
+    <script type="text/javascript" src="/jscripts/jquery.validate.js"></script>
     <!--                                                               -->
     <!-- Consider inlining CSS to reduce the number of requested files -->
     <!--                                                               -->
 	<link type="text/css" rel="stylesheet" href="../css/Finance.css?version=<%= version%>">
 	<link type="text/css" rel="stylesheet" href="../css/calendar.css?version=<%= version%>">
+	<link type="text/css" href="../css/contactable.css" rel="stylesheet">
+	<script type="text/javascript">
+	jQuery.noConflict();
+	jQuery(document).ready(function() {
+					jQuery(function(){
+						jQuery('#contact').contactable({
+		 		recipient: 'test@test.com',
+		 		subject: 'A Feeback Message'
+		 	});
+		});
+	});
+	</script>
 	<%
    String app = request.getHeader( "Nativeapp" );
    boolean isNative = ( app != null && !app.equals(""));
@@ -168,6 +183,7 @@
   <!-- to create a completely dynamic UI.        -->
   <!--                                           -->
   <body>
+  <div id="contact"> </div>
 <div id="hiddenDiv" class="hiddenPic">
 		<img src="/images/loader.gif" 
   			alt="Loading" title="Loading">
@@ -239,16 +255,6 @@
 			var is_ssl = ("https:" == document.location.protocol);
 			var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
 		</script>
-		<script type="text/javascript" charset="utf-8">
-			var feedback_widget_options = {};
-			
-			feedback_widget_options.display = "overlay";  
-  			feedback_widget_options.company = "vimukti";
-			feedback_widget_options.placement = "left";
-			feedback_widget_options.color = "#222";
-			feedback_widget_options.style = "idea";
 		
-			var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
-		</script>
  </body>
 </html>

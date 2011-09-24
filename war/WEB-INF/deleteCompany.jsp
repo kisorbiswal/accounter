@@ -8,6 +8,7 @@
       <link type="text/css" rel="stylesheet" href="../css/ss.css?version=<%= version%>">
   </head>
   <body>
+  <%@ include file="./feedback.jsp" %>
   <div id="commanContainer">
 	<div>
 		<img src="../images/Accounter_logo_title.png" class="accounterLogo" />

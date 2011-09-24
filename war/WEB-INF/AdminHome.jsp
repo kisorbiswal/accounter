@@ -14,7 +14,7 @@
   </head>
 
   <body>
-	   
+  <%@ include file="./feedback.jsp" %>
 	      <div width="25%"><img src="/images/Accounter_logo_title.png" /></div>
 	<script type="text/javascript" language="javascript" src="/com.vimukti.accounter.admin.Admin/com.vimukti.accounter.admin.Admin.nocache.js"></script>
 	<span>accounter admin<span><a href='/adminlogout'>Logout</a>

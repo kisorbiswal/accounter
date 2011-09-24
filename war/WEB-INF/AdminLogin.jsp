@@ -33,6 +33,7 @@
    
 </head>
 	<body>
+	<%@ include file="./feedback.jsp" %>
      <div id="commanContainer">
 		   <img src="../images/Accounter_logo_title.png" class="accounterLogo" />
 		   <c:if test="${not empty errorMsg}">
