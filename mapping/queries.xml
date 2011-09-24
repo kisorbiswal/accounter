@@ -544,6 +544,7 @@
 
 	<query name="getCashPurchase.form.status">
 		<query-param name="status" type="int" />
+		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.CashPurchase cc where
 		cc.company=:company and cc.status
 		=:status
@@ -551,41 +552,62 @@
 
 	<query name="getCreditCardCharge.form.status">
 		<query-param name="status" type="int" />
+		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.CreditCardCharge cc where
-		cc.status=:status
+		cc.company=:company cc.status=:status
 	</query>
 
 	<query name="getPayBill.form.status">
 		<query-param name="status" type="int" />
-		from com.vimukti.accounter.core.PayBill pb where pb.status =:status
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.PayBill pb where pb.company=:copany
+		pb.status =:status
 	</query>
 
 	<query name="getFlowList.form.Account.byId">
 		<query-param name="parentId" type="long" />
 		<query-param name="flow" type="string" />
-		from com.vimukti.accounter.core.Account a where a.parent.id=:parentId
-		and
-		a.flow !=:flow order by a.id
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.Account a where a.company=:company and
+		a.parent.id=:parentId and a.flow !=:flow order by a.id
 	</query>
 
 	<query name="getListofNames.from.customerGroup">
+		<query-param name="company" type="Company" />
+		<query-param name="name" type="String" />
 		from com.vimukti.accounter.core.CustomerGroup C where
-		C.name=?
+		c.company=:company and C.name=:name
 	</query>
 
 	<query name="getNameofBank.from.Bank">
-		from com.vimukti.accounter.core.Bank B where B.name=?
+		<query-param name="company" type="Company" />
+		<query-param name="name" type="String" />
+		from com.vimukti.accounter.core.Bank B where
+		B.name=:name and
+		B.company=:company
 	</query>
 
 	<query name="getMaxDepreciation.from.Depreciation.byStatus">
+		<query-param name="company" type="Company" />
+		<query-param name="depreciationFor" type="int" />
+		<query-param name="status" type="int" />
 		from com.vimukti.accounter.core.Depreciation d where
-		d.id=((select max(d1.id) from com.vimukti.accounter.core.Depreciation
-		d1 where d1.depreciationFor = ? and d1.status=?))
+		d.company=:company and
+		d.id=((select
+		max(d1.id) from
+		com.vimukti.accounter.core.Depreciation
+		d1 where
+		d1.depreciationFor =
+		:depreciationFor and d1.status=:status))
 	</query>
 
 	<query name="getDepreciation.from.DepreciationFom.andStatus">
+		<query-param name="company" type="Company" />
+		<query-param name="depreciationFrom" type="int" />
+		<query-param name="status" type="int" />
 		from com.vimukti.accounter.core.Depreciation d where
-		d.depreciateFrom >= ? and d.status=?
+		d.depreciateFrom
+		>=:depreciationFrom and d.status=:status
 	</query>
 
 	<query name="getTransaction.by.Transactiondates">
@@ -783,11 +805,8 @@
 		between :fromDate and :toDate
 	</query>
 
-	<!--
-		<query name="getTaxAgency.by.liabilityAccountId"> from
-		com.vimukti.accounter.core.TAXAgency ta where ta.liabilityAccount.id =
-		? </query>
-	-->
+	<!-- <query name="getTaxAgency.by.liabilityAccountId"> from com.vimukti.accounter.core.TAXAgency 
+		ta where ta.liabilityAccount.id = ? </query> -->
 
 	<query name="getAccount.by.name.and.type">
 		from com.vimukti.accounter.core.Account a where
@@ -823,12 +842,9 @@
 	</query>
 
 
-	<!--
-		<query name="getCashsales.by.CompanyId"> <query-param name="id"
-		type="long" /> <query-param name="companyID" type="long" /> from
-		com.vimukti.accounter.core.CashSales cs where cs.id =:id and
-		cs.company.id =:companyID </query>
-	-->
+	<!-- <query name="getCashsales.by.CompanyId"> <query-param name="id" type="long" 
+		/> <query-param name="companyID" type="long" /> from com.vimukti.accounter.core.CashSales 
+		cs where cs.id =:id and cs.company.id =:companyID </query> -->
 
 	<query name="getTAXAdjustments.by.taxAgencyIdand.Date">
 		<query-param name="vatAgency" type="int" />
@@ -1246,10 +1262,8 @@
 		from com.vimukti.accounter.core.TAXItemGroup entity
 	</query>
 
-	<!--
-		<query name="get.entityObject.from.Box1099"> from
-		com.vimukti.accounter.core.Box1099 entity </query>
-	-->
+	<!-- <query name="get.entityObject.from.Box1099"> from com.vimukti.accounter.core.Box1099 
+		entity </query> -->
 
 	<query name="get.entityObject.from.TAXCode">
 		from com.vimukti.accounter.core.TAXCode entity
@@ -1259,10 +1273,8 @@
 		from com.vimukti.accounter.core.TAXItem entity
 	</query>
 
-	<!--
-		<query name="get.entityObject.from.ItemTax"> from
-		com.vimukti.accounter.core.ItemTax entity </query>
-	-->
+	<!-- <query name="get.entityObject.from.ItemTax"> from com.vimukti.accounter.core.ItemTax 
+		entity </query> -->
 
 	<query name="get.entityObject.from.CustomerGroup">
 		from com.vimukti.accounter.core.CustomerGroup
@@ -1315,23 +1327,17 @@
 		from com.vimukti.accounter.core.Transaction entity
 	</query>
 
-	<!--
-		<query name="get.entityObject.from.Address"> from
-		com.vimukti.accounter.core.Address entity </query>
-	-->
+	<!-- <query name="get.entityObject.from.Address"> from com.vimukti.accounter.core.Address 
+		entity </query> -->
 
 	<query name="get.entityObject.from.Bank">
 		from com.vimukti.accounter.core.Bank entity
 	</query>
 
-	<!--
-		<query name="get.entityObject.from.CompanyPreferences"> from
-		com.vimukti.accounter.core.CompanyPreferences entity </query>
-	-->
-	<!--
-		<query name="get.entityObject.from.Contact"> from
-		com.vimukti.accounter.core.Contact entity </query>
-	-->
+	<!-- <query name="get.entityObject.from.CompanyPreferences"> from com.vimukti.accounter.core.CompanyPreferences 
+		entity </query> -->
+	<!-- <query name="get.entityObject.from.Contact"> from com.vimukti.accounter.core.Contact 
+		entity </query> -->
 
 	<query name="get.entityObject.from.CreditsAndPayments">
 		from com.vimukti.accounter.core.CreditsAndPayments
@@ -1342,29 +1348,23 @@
 		from com.vimukti.accounter.core.Currency entity
 	</query>
 
-	<!--
-		<query name="get.entityObject.from.Email"> from
-		com.vimukti.accounter.core.Email entity </query>
-	-->
+	<!-- <query name="get.entityObject.from.Email"> from com.vimukti.accounter.core.Email 
+		entity </query> -->
 
 	<query name="get.entityObject.from.Entry">
 		from com.vimukti.accounter.core.Entry entity
 	</query>
 
-	<!--
-		<query name="get.entityObject.from.Fax"> from
-		com.vimukti.accounter.core.Fax entity </query>
-	-->
+	<!-- <query name="get.entityObject.from.Fax"> from com.vimukti.accounter.core.Fax 
+		entity </query> -->
 
 	<query name="get.entityObject.from.PaySalesTaxEntries">
 		from com.vimukti.accounter.core.PaySalesTaxEntries
 		entity
 	</query>
 
-	<!--
-		<query name="get.entityObject.from.Phone"> from
-		com.vimukti.accounter.core.Phone entity </query>
-	-->
+	<!-- <query name="get.entityObject.from.Phone"> from com.vimukti.accounter.core.Phone 
+		entity </query> -->
 
 	<query name="get.entityObject.from.TaxRates">
 		from com.vimukti.accounter.core.TaxRates entity
@@ -1591,10 +1591,8 @@
 		entity
 	</query>
 
-	<!--
-		<query name="get.entityObject.from.EmployeeDetail"> from
-		com.vimukti.accounter.core.EmployeeDetail entity </query>
-	-->
+	<!-- <query name="get.entityObject.from.EmployeeDetail"> from com.vimukti.accounter.core.EmployeeDetail 
+		entity </query> -->
 
 	<query name="get.entityObject.from.StockTransfer">
 		from com.vimukti.accounter.core.StockTransfer
