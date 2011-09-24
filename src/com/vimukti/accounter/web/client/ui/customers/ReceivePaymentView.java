@@ -542,7 +542,7 @@ public class ReceivePaymentView extends
 		DynamicForm textForm = new DynamicForm();
 		textForm.setWidth("70%");
 		textForm.setFields(unUsedCreditsText, unUsedPaymentsText);
-		textForm.addStyleName("unused-payments");
+		textForm.addStyleName("textbold");
 
 		DynamicForm memoForm = new DynamicForm();
 		memoForm.setWidth("100%");

@@ -539,7 +539,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				amountsForm.setFields(netAmountLabel, vatTotalNonEditableText,
 						transactionTotalNonEditableText,
 						paymentsNonEditableText, balanceDueNonEditableText);
-				amountsForm.setStyleName("invoice-total");
+				amountsForm.setStyleName("boldtext");
 				prodAndServiceHLay.add(amountsForm);
 				prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
 						ALIGN_RIGHT);
@@ -558,7 +558,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				// transactionTotalNonEditableText, paymentsNonEditableText,
 				// balanceDueNonEditableText, taxCodeSelect, priceLevelSelect);
 				amountsForm.setNumCols(4);
-				amountsForm.addStyleName("tax-form");
+				amountsForm.addStyleName("boldtext");
 
 				amountsForm.setFields(taxCodeSelect, salesTaxTextNonEditable,
 						disabletextbox, transactionTotalNonEditableText,

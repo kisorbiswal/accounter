@@ -265,7 +265,7 @@ public class CustomerCreditMemoView extends
 				prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
 						disabletextbox, taxTotalNonEditableText,
 						disabletextbox, transactionTotalNonEditableText);
-				prodAndServiceForm2.addStyleName("invoice-total");
+				prodAndServiceForm2.addStyleName("boldtext");
 			} else {
 
 				prodAndServiceForm2.setFields(taxCodeSelect,
@@ -277,7 +277,7 @@ public class CustomerCreditMemoView extends
 					transactionTotalNonEditableText);
 
 		}
-		prodAndServiceForm2.addStyleName("tax-form");
+		prodAndServiceForm2.addStyleName("boldtext");
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
