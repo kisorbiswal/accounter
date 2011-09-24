@@ -81,7 +81,7 @@
 		</many-to-one>
 
 		<many-to-one name="lastActivity" class="Activity" column="LAST_ACTIVITY"
-			not-null="true" unique="true"></many-to-one>
+			not-null="true"></many-to-one>
 
 		<joined-subclass name="PaySalesTax" table="PAY_SALES_TAX">
 			<key column="ID" />
