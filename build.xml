@@ -1,16 +1,11 @@
-<project name="accounter" basedir="." default="setupandclean">
+<project name="accounter" basedir="." default="setup">
 	<taskdef resource="net/sf/antcontrib/antcontrib.properties" classpath="libs/ant-contrib.jar" />
 	<property name="src.dir" value="./src" />
 	<property environment="env" />
-	<property name="acc.dir" value="../finance" />
 	<property name="build.dir" value="build" />
-	<property name="libs.dir" value="${build.dir}/lib" />
 	<property name="classes.dir" value="${build.dir}/classes" />
-	<property name="setup.dir" value="setup" />
 	<property name="output.dir" value="output" />
 	<property name="tmp.dir" value="${build.dir}/tmp" />
-	<property name="linuxtar-lib.dir" value="${setup.dir}/tar/libs" />
-	<property name="win-lib.dir" value="${setup.dir}/windows/libs" />
 	<property name="gwt.sdk" location="${env.GWT_SDK}" />
 	<property name="version-number" value="1.0.2" />
 
@@ -23,18 +18,14 @@
 	<!-- gwt  libraries-->
 	<path id="gwtlibraries">
 		<pathelement location="${gwt.sdk}/gwt-user.jar" />
-		<pathelement location="${gwt.sdk}/validation-api-1.0.0.GA.jar"/>
-		<pathelement location="${gwt.sdk}/validation-api-1.0.0.GA-sources.jar"/>
-		<pathelement location="$./libs/gwt-comet-1.2.3.jar"/>
+		<pathelement location="${gwt.sdk}/validation-api-1.0.0.GA.jar" />
+		<pathelement location="${gwt.sdk}/validation-api-1.0.0.GA-sources.jar" />
+		<pathelement location="$./libs/gwt-comet-1.2.3.jar" />
 		<fileset dir="${gwt.sdk}" includes="gwt-dev*.jar" />
-		<fileset dir="${acc.dir}">
-			<include name="**/*.jar" />
-		</fileset>
 		<fileset dir="./libs">
 			<include name="*.jar" />
 		</fileset>
 		<pathelement location="${src.dir}" />
-		<pathelement location="${acc.dir}/src" />
 	</path>
 	<fileset file="war" id="war">
 		<exclude name=".svn" />
@@ -53,13 +44,11 @@
 		<mkdir dir="${classes.dir}" />
 		<mkdir dir="${libs.dir}" />
 		<copy todir="${classes.dir}">
-			<fileset dir="${acc.dir}/war/WEB-INF/classes">
+			<fileset dir="./war/WEB-INF/classes">
 				<include name="**/**" />
 			</fileset>
 		</copy>
-		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="gwtlibraries" debug="true" />
-		<javac srcdir="${acc.dir}/src" destdir="${classes.dir}" classpathref="gwtlibraries" debug="true" />
-
+		<!--<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="gwtlibraries" debug="true" />-->
 	</target>
 	<target name="gwtcompile" description="GWT COMPILATION">
 		<mkdir dir="./war" />
@@ -77,19 +66,12 @@
 	</target>
 
 
-	<target name="setup" depends="compile">
-		<mkdir dir="${classes.dir}" />
+	<target name="setup" depends="">
+		<!--<mkdir dir="${classes.dir}" />
 
 		<mkdir dir="${classes.dir}/war" />
 		<copy todir="${classes.dir}/war">
 			<fileset dir="./war">
-				<exclude name="collaberadmin/**" />
-				<exclude name="com.vimukti.collaber.*/**" />
-				<exclude name="dialogs/**" />
-				<exclude name="workspace/**" />
-				<exclude name="*.xml" />
-				<exclude name="poll.html" />
-				<exclude name="Collaber*" />
 			</fileset>
 		</copy>
 		<mkdir dir="${classes.dir}/mapping" />
@@ -101,82 +83,27 @@
 			<fileset dir="src/">
 				<include name="**/*.properties" />
 			</fileset>
-			<fileset dir="${acc.dir}/src">
+		</copy>-->
+		<jar destfile="build/${ant.project.name}-${version-number}.jar" index="true">
+			<fileset dir="./war/WEB-INF/classes">
+				<include name="**/**" />
+			</fileset>
+			<fileset file="./war">
+				<include name="war/**">
+				</include>
+				<exclude name="**/WEB-INF/deploy/**" />
+				<exclude name="**/WEB-INF/classes/**" />
+				<exclude name="**/WEB-INF/lib/**" />
+			</fileset>
+			<fileset file="./mapping">
+			</fileset>
+			<fileset dir="src/">
 				<include name="**/*.properties" />
 			</fileset>
-		</copy>
-		<copy todir="${libs.dir}">
-			<fileset dir="./">
-				<include name="*.jar" />
-			</fileset>
-		</copy>
-		<jar destfile="${libs.dir}/${ant.project.name}-${version-number}.jar" basedir="${classes.dir}" index="true">
 			<manifest>
 				<attribute name="Main-Class" value="${main-class}" />
 			</manifest>
 		</jar>
-		<delete dir="${classes.dir}">
-		</delete>
 	</target>
-	<!--tar Setup-->
-	<target name="linux-setup-tar" depends="setup">
-		<copy todir="${setup.dir}/tar">
-			<fileset dir="./">
-				<include name="config/**" />
-				<include name="libs/**" />
-			</fileset>
-		</copy>
-		<copy todir="${linuxtar-lib.dir}">
-			<fileset dir="${libs.dir}">
-			</fileset>
-		</copy>
-		<mkdir dir="${tmp.dir}" />
-		<copy todir="${tmp.dir}">
-			<fileset dir="${setup.dir}/tar">
-				<exclude name=".svn/*" />
-			</fileset>
-		</copy>
-		<chmod file="${tmp.dir}/collaberserver" perm="+x" />
-		<chmod file="${tmp.dir}/collaberserverd" perm="+x" />
-		<tar destfile="${output.dir}/accounter-1.0.tar" basedir="${tmp.dir}" />
-		<gzip destfile="${output.dir}/accounter-1.0.tar.gz" src="${output.dir}/accounter-1.0.tar" />
-		<delete dir="${tmp.dir}" />
-		<delete file="${output.dir}/accounter-1.0.tar" />
-	</target>
-
-	<!--Windows Setup-->
-	<!-- <target name="win-setup" depends="setup">
-		<copy todir="${setup.dir}/windows">
-			<fileset dir="./">
-				<include name="libs/**" />
-			</fileset>
-		</copy>
-		<copy todir="${win-lib.dir}">
-			<fileset dir="${libs.dir}">
-				<include name="*.jar" />
-			</fileset>
-		</copy>
-		
-		<copy todir="${output.dir}">
-			<fileset dir="${setup.dir}/windows">
-				<include name="AccounterSetup.exe" />
-			</fileset>
-		</copy>
-		<delete>
-			<fileset dir="${setup.dir}/windows">
-				<include name="Accounter.exe" />
-			</fileset>
-		</delete>
-
-		<move todir="${output.dir}">
-			<fileset dir="${setup.dir}/windows">
-				<include name="Accounter.exe" />
-			</fileset>
-		</move>
-	</target> -->
-
-	<target name="clean-setup" depends="clean,setup" />
-	<target name="setupandclean" depends="clean-setup,linux-setup-tar" />
-
 
 </project>
