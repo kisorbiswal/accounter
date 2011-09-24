@@ -1720,7 +1720,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 			itemsList = getFinanceTool().getVATItemDetailReport(vatItemName,
-					financeDates[0], financeDates[1]);
+					financeDates[0], financeDates[1],getCompanyId());
 
 			VATItemDetail obj = new VATItemDetail();
 			if (itemsList != null)
@@ -2240,7 +2240,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		ArrayList<MISC1099TransactionDetail> result = new ArrayList<MISC1099TransactionDetail>();
 		try {
 			result = getFinanceTool().getPaybillsByVendorAndBoxNumber(
-					financeDates[0], financeDates[1], vendorId, boxNo);
+					financeDates[0], financeDates[1], vendorId, boxNo,getCompanyId());
 			MISC1099TransactionDetail obj = new MISC1099TransactionDetail();
 			if (result != null)
 				result.add((MISC1099TransactionDetail) setStartEndDates(obj,

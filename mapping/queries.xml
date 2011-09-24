@@ -783,8 +783,11 @@
 		between :fromDate and :toDate
 	</query>
 
-	<!-- <query name="getTaxAgency.by.liabilityAccountId"> from com.vimukti.accounter.core.TAXAgency 
-		ta where ta.liabilityAccount.id = ? </query> -->
+	<!--
+		<query name="getTaxAgency.by.liabilityAccountId"> from
+		com.vimukti.accounter.core.TAXAgency ta where ta.liabilityAccount.id =
+		? </query>
+	-->
 
 	<query name="getAccount.by.name.and.type">
 		from com.vimukti.accounter.core.Account a where
@@ -820,9 +823,12 @@
 	</query>
 
 
-	<!-- <query name="getCashsales.by.CompanyId"> <query-param name="id" type="long" 
-		/> <query-param name="companyID" type="long" /> from com.vimukti.accounter.core.CashSales 
-		cs where cs.id =:id and cs.company.id =:companyID </query> -->
+	<!--
+		<query name="getCashsales.by.CompanyId"> <query-param name="id"
+		type="long" /> <query-param name="companyID" type="long" /> from
+		com.vimukti.accounter.core.CashSales cs where cs.id =:id and
+		cs.company.id =:companyID </query>
+	-->
 
 	<query name="getTAXAdjustments.by.taxAgencyIdand.Date">
 		<query-param name="vatAgency" type="int" />
@@ -1240,8 +1246,10 @@
 		from com.vimukti.accounter.core.TAXItemGroup entity
 	</query>
 
-	<!-- <query name="get.entityObject.from.Box1099"> from com.vimukti.accounter.core.Box1099 
-		entity </query> -->
+	<!--
+		<query name="get.entityObject.from.Box1099"> from
+		com.vimukti.accounter.core.Box1099 entity </query>
+	-->
 
 	<query name="get.entityObject.from.TAXCode">
 		from com.vimukti.accounter.core.TAXCode entity
@@ -1251,8 +1259,10 @@
 		from com.vimukti.accounter.core.TAXItem entity
 	</query>
 
-	<!-- <query name="get.entityObject.from.ItemTax"> from com.vimukti.accounter.core.ItemTax 
-		entity </query> -->
+	<!--
+		<query name="get.entityObject.from.ItemTax"> from
+		com.vimukti.accounter.core.ItemTax entity </query>
+	-->
 
 	<query name="get.entityObject.from.CustomerGroup">
 		from com.vimukti.accounter.core.CustomerGroup
@@ -1305,17 +1315,23 @@
 		from com.vimukti.accounter.core.Transaction entity
 	</query>
 
-	<!-- <query name="get.entityObject.from.Address"> from com.vimukti.accounter.core.Address 
-		entity </query> -->
+	<!--
+		<query name="get.entityObject.from.Address"> from
+		com.vimukti.accounter.core.Address entity </query>
+	-->
 
 	<query name="get.entityObject.from.Bank">
 		from com.vimukti.accounter.core.Bank entity
 	</query>
 
-	<!-- <query name="get.entityObject.from.CompanyPreferences"> from com.vimukti.accounter.core.CompanyPreferences 
-		entity </query> -->
-	<!-- <query name="get.entityObject.from.Contact"> from com.vimukti.accounter.core.Contact 
-		entity </query> -->
+	<!--
+		<query name="get.entityObject.from.CompanyPreferences"> from
+		com.vimukti.accounter.core.CompanyPreferences entity </query>
+	-->
+	<!--
+		<query name="get.entityObject.from.Contact"> from
+		com.vimukti.accounter.core.Contact entity </query>
+	-->
 
 	<query name="get.entityObject.from.CreditsAndPayments">
 		from com.vimukti.accounter.core.CreditsAndPayments
@@ -1326,23 +1342,29 @@
 		from com.vimukti.accounter.core.Currency entity
 	</query>
 
-	<!-- <query name="get.entityObject.from.Email"> from com.vimukti.accounter.core.Email 
-		entity </query> -->
+	<!--
+		<query name="get.entityObject.from.Email"> from
+		com.vimukti.accounter.core.Email entity </query>
+	-->
 
 	<query name="get.entityObject.from.Entry">
 		from com.vimukti.accounter.core.Entry entity
 	</query>
 
-	<!-- <query name="get.entityObject.from.Fax"> from com.vimukti.accounter.core.Fax 
-		entity </query> -->
+	<!--
+		<query name="get.entityObject.from.Fax"> from
+		com.vimukti.accounter.core.Fax entity </query>
+	-->
 
 	<query name="get.entityObject.from.PaySalesTaxEntries">
 		from com.vimukti.accounter.core.PaySalesTaxEntries
 		entity
 	</query>
 
-	<!-- <query name="get.entityObject.from.Phone"> from com.vimukti.accounter.core.Phone 
-		entity </query> -->
+	<!--
+		<query name="get.entityObject.from.Phone"> from
+		com.vimukti.accounter.core.Phone entity </query>
+	-->
 
 	<query name="get.entityObject.from.TaxRates">
 		from com.vimukti.accounter.core.TaxRates entity
@@ -1569,8 +1591,10 @@
 		entity
 	</query>
 
-	<!-- <query name="get.entityObject.from.EmployeeDetail"> from com.vimukti.accounter.core.EmployeeDetail 
-		entity </query> -->
+	<!--
+		<query name="get.entityObject.from.EmployeeDetail"> from
+		com.vimukti.accounter.core.EmployeeDetail entity </query>
+	-->
 
 	<query name="get.entityObject.from.StockTransfer">
 		from com.vimukti.accounter.core.StockTransfer
@@ -1622,30 +1646,36 @@
 		<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="taxItemName" type="String" />
+		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.TAXAdjustment v where
 		v.taxItem.name=:taxItemName and v.transactionDate between :startDate
 		and :endDate order by v.taxItem.name, v.journalEntry.transactionDate
+		and v,company=:company
 	</query>
 
 	<query name="getTAXCode.for.TAXItemGroup">
 		<query-param name="id" type="long" />
+		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.TAXCode t where
-		t.TAXItemGrpForSales.id=:id
+		t.TAXItemGrpForSales.id=:id and t.company=:company
 	</query>
 
 	<query name="get.selected.vendors.enterbills.list">
+		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.EnterBill e where
-		e.vendor.isTrackPaymentsFor1099=true
+		e.vendor.isTrackPaymentsFor1099=true and e.company=:company
 	</query>
 
 	<query name="get.notselected.vendors.enterbills.list">
+		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.EnterBill e where
-		e.vendor.isTrackPaymentsFor1099=false
+		e.vendor.isTrackPaymentsFor1099=false and e.company:=company
 	</query>
 
 	<query name="get.1099.vendors">
+		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.Vendor v where
-		v.isTrackPaymentsFor1099=true
+		v.isTrackPaymentsFor1099=true and e.company=:company
 	</query>
 
 	<query name="get.1099.selected.accounts">
@@ -1655,44 +1685,50 @@
 
 	<query name="get.selected.vendors.enterbills.list.by.id">
 		<query-param name="vendorId" type="long" />
+		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.EnterBill e where
-		e.vendor.id=:vendorId
+		e.vendor.id=:vendorId and e.company=:company
 	</query>
 
 	<query name="get.transactions.by.account">
 		<query-param name="id" type="long" />
 		<query-param name="stratDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.AccountTransaction at where
 		at.account.id=:id and at.transaction.reconciliation is null and
 		at.transaction.transactionDate between :startDate and :endDate group
-		by at.transaction
+		by at.transaction and at.company=:company
 	</query>
 
 	<query name="get.Activities.by.date">
 		<query-param name="fromDate" type="timestamp" />
 		<query-param name="endDate" type="timestamp" />
+		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.Activity at where
 		at.time between
-		:fromDate and :endDate
+		:fromDate and :endDate and at.company=:company
 	</query>
 
 	<query name="get.reconciliations.by.accountId">
 		<query-param name="accountID" type="long" />
+		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.Reconciliation re where
-		re.account.id=:accountID
+		re.account.id=:accountID and re.company=:company
 	</query>
 
 	<query name="get.OpeningBalance.Of.Account.from.Reconciliations">
 		<query-param name="accountID" type="long" />
+		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.Reconciliation re where
-		re.account.id=:accountID order by re.id desc
+		re.account.id=:accountID order by re.id desc and re.company:=company
 	</query>
 
 	<query name="get.all.activities.of.transaction">
 		<query-param name="transactionId" type="long" />
+		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.Activity act where
-		act.objectID=:transactionId
+		act.objectID=:transactionId and act.company=:company
 	</query>
 
 </hibernate-mapping>
