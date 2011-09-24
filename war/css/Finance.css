@@ -515,7 +515,7 @@ select[multiple],.selectedview_textareadata,#loading .loadingIndicator,.main-cla
 .gwt-DialogBox .dialogBottomLeft,.gwt-DialogBox .dialogMiddleRight,.gwt-DialogBox .dialogMiddleLeft,.gwt-Button{
 	background:none repeat scroll 0 0 #1A5158 !important;
 }
-.name-label,.label-company,.bold,.text-bold,.unreadmessage td,.tax-form tr td,
+.bold,.name-label,.label-company,.bold,.text-bold,.unreadmessage td,.tax-form tr td,
 .financialDataTitle:FIRST-CHILD,.selected-page,.plain-panel-title,
 .datePickerPreviousButton,.datePickerNextButton,td.datePickerMonth,
 .label-banking,.financialDataTitle,.lable-title,.listgridfooter td,.boldcell,
