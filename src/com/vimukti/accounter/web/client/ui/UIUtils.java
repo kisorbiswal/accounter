@@ -1166,8 +1166,8 @@ public class UIUtils {
 			return Accounter.messages().account(Global.get().account());
 		case ClientTransactionItem.TYPE_ITEM:
 			return Accounter.constants().item();
-		case ClientTransactionItem.TYPE_SALESTAX:
-			return Accounter.constants().taxGroup();
+			// case ClientTransactionItem.TYPE_SALESTAX:
+			// return Accounter.constants().taxGroup();
 		default:
 			break;
 		}

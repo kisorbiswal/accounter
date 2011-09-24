@@ -837,13 +837,13 @@ public class SalesOrderView extends
 				// transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 				// .getValue());
 			} else {
-				if (taxCode != null) {
-					for (ClientTransactionItem record : customerTransactionTable
-							.getRecords()) {
-						record.setTaxItemGroup(taxCode.getID());
-
-					}
-				}
+				// if (taxCode != null) {
+				// for (ClientTransactionItem record : customerTransactionTable
+				// .getRecords()) {
+				// record.setTaxItemGroup(taxCode.getID());
+				//
+				// }
+				// }
 				transaction.setTaxTotal(this.salesTax);
 			}
 		}

@@ -3,16 +3,14 @@ package com.vimukti.accounter.web.client.ui.grids;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
-import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
@@ -139,9 +137,9 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 	}
 
 	protected void onClick(AccountRegister obj, int row, int col) {
-		// if (col == 8 && !obj.isVoided()) {
-		// showWarningDialog(obj);
-		// }
+		if (col == 8 && !obj.isVoided()) {
+			showWarningDialog(obj);
+		}
 
 	}
 
@@ -226,30 +224,8 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 	}
 
 	protected void voidTransaction(final AccountRegister obj) {
-		AccounterAsyncCallback<Boolean> callback = new AccounterAsyncCallback<Boolean>() {
-
-			@Override
-			public void onException(AccounterException caught) {
-
-			}
-
-			@Override
-			public void onResultSuccess(Boolean result) {
-				if (result) {
-					obj.setVoided(true);
-					updateData(obj);
-
-				}
-
-			}
-		};
-
-		AccounterCoreType coretype = UIUtils
-				.getAccounterCoreType(obj.getType());
-		if (coretype != null) {
-			rpcDoSerivce.voidTransaction(coretype, obj.getTransactionId(),
-					callback);
-		}
+		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()),
+				obj.getTransactionId());
 	}
 
 	public AccounterCoreType getType() {

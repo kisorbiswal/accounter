@@ -73,13 +73,14 @@ public abstract class TransactionReceivePaymentTable extends
 			protected void onChangeValue(boolean value,
 					ClientTransactionReceivePayment row) {
 				onSelectionChanged(row, value);
-				updateAmountReceived();
 			}
 
 			@Override
 			protected Boolean getValue(ClientTransactionReceivePayment row) {
-				// TODO Auto-generated method stub
-				return null;
+				if (!canEdit) {
+					return true;
+				}
+				return false;
 			}
 
 		});
@@ -337,9 +338,8 @@ public abstract class TransactionReceivePaymentTable extends
 					double totalValue = item.getCashDiscount()
 							+ item.getWriteOff() + item.getAppliedCredits()
 							+ item.getPayment();
-					if (AccounterValidator.isValidReceive_Payment(item
-							.getAmountDue(), totalValue, Accounter.constants()
-							.receivePaymentExcessDue())) {
+					if (AccounterValidator.validatePayment(item.getAmountDue(),
+							totalValue)) {
 						recalculateGridAmounts();
 						updateTotalPayment(0.0);
 					} else {
@@ -349,7 +349,6 @@ public abstract class TransactionReceivePaymentTable extends
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				updateAmountReceived();
 			}
 		};
 		this.addColumn(paymentColumn);
@@ -445,6 +444,7 @@ public abstract class TransactionReceivePaymentTable extends
 							selectedObject.setCashDiscount(0.0D);
 							updatePayment(selectedObject);
 						}
+						recalculateGridAmounts();
 
 						update(selectedObject);
 					} else
@@ -635,6 +635,7 @@ public abstract class TransactionReceivePaymentTable extends
 								.setAppliedCredits(newAppliedCreditsDialiog
 										.getTotalCreditAmount());
 						updatePayment(selectedObject);
+						recalculateGridAmounts();
 						update(selectedObject);
 						return false;
 					}
@@ -783,10 +784,11 @@ public abstract class TransactionReceivePaymentTable extends
 	}
 
 	private void updatePayment(ClientTransactionReceivePayment payment) {
+		payment.setPayment(0);
 		double paymentValue = payment.getAmountDue() - getTotalValue(payment);
 		payment.setPayment(paymentValue);
 		updateAmountDue(payment);
-		updateValue(payment);
+		updateTotalPayment(payment.getPayment());
 	}
 
 	public void openWriteOffDialog(
@@ -815,6 +817,7 @@ public abstract class TransactionReceivePaymentTable extends
 							selectedObject.setWriteOff(0.0D);
 							updatePayment(selectedObject);
 						}
+						recalculateGridAmounts();
 						update(selectedObject);
 					}
 
@@ -964,13 +967,14 @@ public abstract class TransactionReceivePaymentTable extends
 		recalculateGridAmounts();
 	}
 
-	private void updateAmountReceived() {
-		double toBeSetAmount = 0.0;
-		for (ClientTransactionReceivePayment receivePayment : getSelectedRecords()) {
-			toBeSetAmount += receivePayment.getPayment();
-		}
-		setAmountRecieved(toBeSetAmount);
-	}
+	// private void updateAmountReceived() {
+	// double toBeSetAmount = 0.0;
+	// for (ClientTransactionReceivePayment receivePayment :
+	// getSelectedRecords()) {
+	// toBeSetAmount += receivePayment.getPayment();
+	// }
+	// setAmountRecieved(toBeSetAmount);
+	// }
 
 	protected abstract void setAmountRecieved(double toBeSetAmount);
 

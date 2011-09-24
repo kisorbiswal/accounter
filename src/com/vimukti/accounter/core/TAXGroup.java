@@ -150,6 +150,17 @@ public class TAXGroup extends TAXItemGroup {
 			}
 			this.isSalesType = true;
 		}
+
+		session.createSQLQuery(
+				"UPDATE TAX_CODE TC SET TC.SALES_TAX_RATE = " + this.groupRate
+						+ " WHERE TC.TAXITEMGROUP_SALES = " + this.id)
+				.executeUpdate();
+		session.createSQLQuery(
+				"UPDATE TAX_CODE TC SET TC.PURCHASE_TAX_RATE = "
+						+ this.groupRate
+						+ " WHERE TC.TAXITEMGROUP_PURCHASES = " + this.id)
+				.executeUpdate();
+
 		super.onSave(session);
 		// ChangeTracker.put(this);
 		return false;

@@ -27,7 +27,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	private static final long serialVersionUID = 8031314980652784129L;
 	public static final int TYPE_ITEM = 1;
 	public static final int TYPE_COMMENT = 2;
-	public static final int TYPE_SALESTAX = 3;
+	// public static final int TYPE_SALESTAX = 3;
 	public static final int TYPE_ACCOUNT = 4;
 	// public static final int TYPE_SERVICE = 6;
 
@@ -36,9 +36,9 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	/**
 	 * @return the vatItem
 	 */
-	public TAXItem getTaxItem() {
-		return taxItem;
-	}
+	// public TAXItem getTaxItem() {
+	// return taxItem;
+	// }
 
 	private long id;
 	/**
@@ -64,8 +64,8 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	/**
 	 * This is the reference to the TaxCode which is a type of TransactionItem.
 	 */
-	@ReffereredObject
-	TAXItem taxItem;
+	// @ReffereredObject
+	// TAXItem taxItem;
 
 	/**
 	 * This is the reference to the Account which is a type of TransactionItem.
@@ -112,8 +112,8 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	 * This reference is maintained to apply the tax for all the
 	 * transactionItems equally.
 	 */
-	@ReffereredObject
-	TAXGroup taxGroup;
+	// @ReffereredObject
+	// TAXGroup taxGroup;
 
 	/**
 	 * This reference to Transaction is maintained to indicate the source of
@@ -361,9 +361,6 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			case TransactionItem.TYPE_ITEM:
 				buffer.append(" Item:" + String.valueOf(item));
 
-			case TransactionItem.TYPE_SALESTAX:
-				buffer.append(" SalesTax :" + String.valueOf(taxItem));
-
 			default:
 				buffer.append("Service :" + String.valueOf(item));
 				break;
@@ -522,13 +519,16 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 							&& this.isTaxable)
 						Company.setTAXRateCalculation(this, session);
 
-				} else if (this.type == TYPE_SALESTAX) {
-					if (Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-						// Company.setTaxRateCalculation(this, session, amount);
-					} else if (Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
-						Company.setTAXRateCalculation(this, session);
-					}
 				}
+				// else if (this.type == TYPE_SALESTAX) {
+				// if (Company.getCompany().getAccountingType() ==
+				// Company.ACCOUNTING_TYPE_US) {
+				// // Company.setTaxRateCalculation(this, session, amount);
+				// } else if (Company.getCompany().getAccountingType() ==
+				// Company.ACCOUNTING_TYPE_UK) {
+				// Company.setTAXRateCalculation(this, session);
+				// }
+				// }
 			}
 		}
 		// ChangeTracker.put(this);
@@ -577,13 +577,16 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			if (this.isTaxable)
 				Company.setTAXRateCalculation(this, session);
 
-		} else if (this.type == TYPE_SALESTAX) {
-			if (Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-				// Company.setTaxRateCalculation(this, session, amount);
-			} else if (Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
-				Company.setTAXRateCalculation(this, session);
-			}
 		}
+		// else if (this.type == TYPE_SALESTAX) {
+		// if (Company.getCompany().getAccountingType() ==
+		// Company.ACCOUNTING_TYPE_US) {
+		// // Company.setTaxRateCalculation(this, session, amount);
+		// } else if (Company.getCompany().getAccountingType() ==
+		// Company.ACCOUNTING_TYPE_UK) {
+		// Company.setTAXRateCalculation(this, session);
+		// }
+		// }
 
 	}
 
@@ -707,9 +710,9 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		this.account = account;
 	}
 
-	public void setTaxItem(TAXItem taxItem) {
-		this.taxItem = taxItem;
-	}
+	// public void setTaxItem(TAXItem taxItem) {
+	// this.taxItem = taxItem;
+	// }
 
 	public boolean isTaxable() {
 		return isTaxable;
@@ -749,14 +752,10 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	public boolean equals(TransactionItem obj) {
 
 		if ((item != null && obj.item != null) ? (item.equals(obj.item))
-				: true && (taxItem != null && obj.taxItem != null) ? (taxItem
-						.equals(obj.taxItem))
-						: true && (account != null && obj.account != null) ? (account
-								.equals(obj.account))
-								: true && (transaction != null && obj.transaction != null) ? (transaction
-										.equals(obj.transaction))
-										: true && (taxGroup != null && obj.taxGroup != null) ? (taxGroup
-												.equals(obj.taxGroup)) : true) {
+				: true && (account != null && obj.account != null) ? (account
+						.equals(obj.account))
+						: true && (transaction != null && obj.transaction != null) ? (transaction
+								.equals(obj.transaction)) : true) {
 
 			return true;
 		}

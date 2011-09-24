@@ -767,8 +767,7 @@ public abstract class Transaction extends CreatableObject implements
 				// this.subTotal += ti.lineTotal;
 				if (ti.isTaxable) {
 					this.totalTaxableAmount += ti.lineTotal;
-				} else if (ti.type != TransactionItem.TYPE_SALESTAX
-						&& !ti.isTaxable) {
+				} else {
 					this.totalNonTaxableAmount += ti.lineTotal;
 				}
 			}

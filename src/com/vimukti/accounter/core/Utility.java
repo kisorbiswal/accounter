@@ -1361,7 +1361,7 @@ public class Utility {
 
 	public static double getVATItemRate(TAXCode vatCode, boolean isSales) {
 		TAXItemGroup vatItemGroup = isSales ? vatCode.getTAXItemGrpForSales()
-				: vatCode.getVATItemGrpForPurchases();
+				: vatCode.getTAXItemGrpForPurchases();
 		if (vatItemGroup != null) {
 			if (vatItemGroup instanceof TAXItem) {
 				return ((TAXItem) vatItemGroup).getTaxRate();

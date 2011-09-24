@@ -1232,9 +1232,13 @@ public class AccounterValidator {
 
 	}
 
-	public static boolean validatePayment() {
-		Accounter.showError("");
-		return false;
+	public static boolean validatePayment(double amountDue, double totalValue) {
+		if (DecimalUtil.isGreaterThan(totalValue, amountDue)) {
+			Accounter
+					.showError(Accounter.constants().receivePaymentExcessDue());
+			return false;
+		}
+		return true;
 
 	}
 

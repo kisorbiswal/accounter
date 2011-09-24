@@ -46,6 +46,9 @@ public class TAXCode implements IAccounterServerCore, Lifecycle {
 	boolean isDefault;
 	transient private boolean isOnSaveProccessed;
 
+	private double salesTaxRate;
+	private double purchaseTaxRate;
+
 	public TAXCode() {
 
 	}
@@ -138,7 +141,7 @@ public class TAXCode implements IAccounterServerCore, Lifecycle {
 	/**
 	 * @return the vATItemGrpForPurchases
 	 */
-	public TAXItemGroup getVATItemGrpForPurchases() {
+	public TAXItemGroup getTAXItemGrpForPurchases() {
 		return TAXItemGrpForPurchases;
 	}
 
@@ -221,13 +224,36 @@ public class TAXCode implements IAccounterServerCore, Lifecycle {
 			return true;
 		this.isOnSaveProccessed = true;
 
+		updateTaxRates();
 		setIsECsalesEntry();
 		return false;
+	}
+
+	private void updateTaxRates() {
+		if (this.getTAXItemGrpForSales() != null) {
+			if (this.getTAXItemGrpForSales() instanceof TAXItem) {
+				this.salesTaxRate = ((TAXItem) this.getTAXItemGrpForSales())
+						.getTaxRate();
+			} else {
+				this.salesTaxRate = ((TAXGroup) this.getTAXItemGrpForSales())
+						.getGroupRate();
+			}
+		}
+		if (this.getTAXItemGrpForPurchases() != null) {
+			if (this.getTAXItemGrpForPurchases() instanceof TAXItem) {
+				this.purchaseTaxRate = ((TAXItem) this
+						.getTAXItemGrpForPurchases()).getTaxRate();
+			} else {
+				this.purchaseTaxRate = ((TAXGroup) this
+						.getTAXItemGrpForPurchases()).getGroupRate();
+			}
+		}
 	}
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		setIsECsalesEntry();
+		updateTaxRates();
 		ChangeTracker.put(this);
 		return false;
 	}
@@ -277,6 +303,22 @@ public class TAXCode implements IAccounterServerCore, Lifecycle {
 	@Override
 	public void setVersion(int version) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	public double getSalesTaxRate() {
+		return salesTaxRate;
+	}
+
+	public void setSalesTaxRate(double salesTaxRate) {
+		this.salesTaxRate = salesTaxRate;
+	}
+
+	public double getPurchaseTaxRate() {
+		return purchaseTaxRate;
+	}
+
+	public void setPurchaseTaxRate(double purchaseTaxRate) {
+		this.purchaseTaxRate = purchaseTaxRate;
 	}
 }

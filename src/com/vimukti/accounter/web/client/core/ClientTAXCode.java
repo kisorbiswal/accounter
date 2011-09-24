@@ -21,6 +21,9 @@ public class ClientTAXCode implements IAccounterCore {
 
 	private int version;
 
+	private double salesTaxRate;
+	private double purchaseTaxRate;
+
 	/**
 	 * @param name
 	 *            the name to set
@@ -148,11 +151,27 @@ public class ClientTAXCode implements IAccounterCore {
 
 	@Override
 	public int getVersion() {
-	return version;
+		return version;
 	}
 
 	@Override
 	public void setVersion(int version) {
-	this.version=version;
+		this.version = version;
+	}
+
+	public double getSalesTaxRate() {
+		return salesTaxRate;
+	}
+
+	public void setSalesTaxRate(double salesTaxRate) {
+		this.salesTaxRate = salesTaxRate;
+	}
+
+	public double getPurchaseTaxRate() {
+		return purchaseTaxRate;
+	}
+
+	public void setPurchaseTaxRate(double purchaseTaxRate) {
+		this.purchaseTaxRate = purchaseTaxRate;
 	}
 }

@@ -1,6 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
-public class ClientTAXItem extends ClientTAXItemGroup implements IAccountable {
+public class ClientTAXItem extends ClientTAXItemGroup {
 
 	
 	public static final int TAX_TYPE_TDS = 1;
@@ -135,11 +135,6 @@ public class ClientTAXItem extends ClientTAXItemGroup implements IAccountable {
 	public ClientTAXItem clone() {
 		ClientTAXItem taxItem = (ClientTAXItem) this.clone();
 		return taxItem;
-	}
-
-	@Override
-	public int getType() {
-		return ClientTransactionItem.TYPE_SALESTAX;
 	}
 
 	@Override
