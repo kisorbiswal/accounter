@@ -347,7 +347,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			checks = getFinanceTool().getChecks();
+			checks = getFinanceTool().getChecks(getCompanyId());
 
 			// checks = (List<IssuePaymentTransactionsList>)
 			// manager.merge(checks);
@@ -366,7 +366,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			checks = getFinanceTool().getChecks(accountId);
+			checks = getFinanceTool().getChecks(accountId, getCompanyId());
 
 			// checks = (List<IssuePaymentTransactionsList>)
 			// manager.merge(checks);
@@ -634,7 +634,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			nextTransactionNumber = getFinanceTool().getNextTransactionNumber(
-					transactionType);
+					transactionType, getCompanyId());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -878,7 +878,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		String nextVoucherNumber = "";
 		try {
 
-			nextVoucherNumber = getFinanceTool().getNextVoucherNumber();
+			nextVoucherNumber = getFinanceTool().getNextVoucherNumber(
+					getCompanyId());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1370,7 +1371,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		String nextFixedAssestNumber = "";
 		try {
 
-			nextFixedAssestNumber = getFinanceTool().getNextFixedAssetNumber();
+			nextFixedAssestNumber = getFinanceTool().getNextFixedAssetNumber(
+					getCompanyId());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1509,7 +1511,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		String nextCustomerNumber = "";
 		try {
 
-			nextCustomerNumber = getFinanceTool().getNextCustomerNumber();
+			nextCustomerNumber = getFinanceTool().getNextCustomerNumber(
+					getCompanyId());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1524,7 +1527,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		String nextCustomerNumber = "";
 		try {
 
-			nextCustomerNumber = getFinanceTool().getNextVendorNumber();
+			nextCustomerNumber = getFinanceTool().getNextVendorNumber(
+					getCompanyId());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1606,7 +1610,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<ClientUserInfo> getAllUsers() throws AccounterException {
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
-			return tool.getAllUsers();
+			return tool.getAllUsers(getCompanyId());
 		}
 		return null;
 	}

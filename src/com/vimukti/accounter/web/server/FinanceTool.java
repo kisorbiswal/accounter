@@ -1363,7 +1363,7 @@ public class FinanceTool {
 		}
 	}
 
-	public ArrayList<IssuePaymentTransactionsList> getChecks()
+	public ArrayList<IssuePaymentTransactionsList> getChecks(long companyId)
 			throws DAOException {
 
 		// Session session = getSessionFactory().openSession();
@@ -1377,6 +1377,7 @@ public class FinanceTool {
 		// }
 
 		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
 		List<IssuePaymentTransactionsList> issuePaymentTransactionsList = new ArrayList<IssuePaymentTransactionsList>();
 		Query query = session.getNamedQuery("getWriteCheck.by.status")
 				.setParameter(0,
@@ -1503,9 +1504,11 @@ public class FinanceTool {
 			}
 		}
 
-		query = session.getNamedQuery("getCashPurchase.form.status")
+		query = session
+				.getNamedQuery("getCashPurchase.form.status")
 				.setParameter("status",
-						Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
+						Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+				.setEntity("company", company);
 		list = query.list();
 
 		if (list != null) {
@@ -1537,8 +1540,8 @@ public class FinanceTool {
 					null));
 	}
 
-	public ArrayList<IssuePaymentTransactionsList> getChecks(long account)
-			throws DAOException {
+	public ArrayList<IssuePaymentTransactionsList> getChecks(long accountId,
+			long companyId) throws DAOException {
 		try {
 			// Session session = getSessionFactory().openSession();
 			// Query query = session.createSQLQuery(new StringBuilder().append(
@@ -1552,10 +1555,11 @@ public class FinanceTool {
 			// }
 
 			Session session = HibernateUtil.getCurrentSession();
+			Company company = getCompany(companyId);
 			List<IssuePaymentTransactionsList> issuePaymentTransactionsList = new ArrayList<IssuePaymentTransactionsList>();
 			Query query = session
 					.getNamedQuery("getWriteCheck.by.bankacountIdandstatus")
-					.setParameter(0, account)
+					.setParameter(0, accountId)
 					.setParameter(
 							1,
 							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
@@ -1588,7 +1592,7 @@ public class FinanceTool {
 			query = session
 					.getNamedQuery(
 							"getCustomerRefund.by.payFromand.isvoid.status")
-					.setParameter(0, account)
+					.setParameter(0, accountId)
 					.setParameter(
 							1,
 							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
@@ -1618,7 +1622,7 @@ public class FinanceTool {
 
 			query = session
 					.getNamedQuery("getPaySalesTax.by.payFromand.isvoid.status")
-					.setParameter(0, account)
+					.setParameter(0, accountId)
 					.setParameter(
 							1,
 							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
@@ -1646,10 +1650,11 @@ public class FinanceTool {
 
 			query = session
 					.getNamedQuery("getPayBill.form.accountId.and.status")
-					.setParameter("accountId", account)
-					.setParameter(
+					.setLong("accountId", accountId)
+					.setInteger(
 							"status",
-							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
+							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+					.setEntity("company", company);
 			list = query.list();
 			if (list != null) {
 				Iterator i = list.iterator();
@@ -1675,10 +1680,11 @@ public class FinanceTool {
 			}
 			query = session
 					.getNamedQuery("getPayVAT.form.accountId.and.status")
-					.setParameter("accountId", account)
+					.setParameter("accountId", accountId)
 					.setParameter(
 							"status",
-							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
+							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+					.setEntity("company", company);
 			list = query.list();
 			if (list != null) {
 				Iterator i = list.iterator();
@@ -1702,10 +1708,11 @@ public class FinanceTool {
 			}
 			query = session
 					.getNamedQuery("getReceiveVAT.form.accountId.and.status")
-					.setParameter("accountId", account)
+					.setParameter("accountId", accountId)
 					.setParameter(
 							"status",
-							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
+							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+					.setEntity("company", company);
 			list = query.list();
 			if (list != null) {
 				Iterator i = list.iterator();
@@ -1731,10 +1738,11 @@ public class FinanceTool {
 			query = session
 					.getNamedQuery(
 							"getCreditCardCharge.form.accountId.and.status")
-					.setParameter("accountId", account)
+					.setParameter("accountId", accountId)
 					.setParameter(
 							"status",
-							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
+							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+					.setEntity("company", company);
 			list = query.list();
 			if (list != null) {
 				Iterator i = list.iterator();
@@ -1761,10 +1769,11 @@ public class FinanceTool {
 
 			query = session
 					.getNamedQuery("getCashPurchase.form.accountId.and.status")
-					.setParameter("accountId", account)
+					.setParameter("accountId", accountId)
 					.setParameter(
 							"status",
-							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
+							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+					.setEntity("company", company);
 			list = query.list();
 			if (list != null) {
 				Iterator i = list.iterator();
@@ -1794,10 +1803,11 @@ public class FinanceTool {
 			query = session
 					.getNamedQuery(
 							"getCustomerPrePayment.form.accountId.and.status")
-					.setParameter("accountId", account)
+					.setParameter("accountId", accountId)
 					.setParameter(
 							"status",
-							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
+							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+					.setEntity("company", company);
 			list = query.list();
 
 			if (list != null) {
@@ -2188,7 +2198,7 @@ public class FinanceTool {
 	// }
 	// }
 
-	public String getNextFixedAssetNumber() throws DAOException {
+	public String getNextFixedAssetNumber(long companyId) throws DAOException {
 		// try {
 		//
 		// Session session = HibernateUtil.getCurrentSession();
@@ -2203,11 +2213,11 @@ public class FinanceTool {
 		// } catch (DAOException e) {
 		// throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
 		// }
-		return NumberUtils.getNextFixedAssetNumber();
+		return NumberUtils.getNextFixedAssetNumber(getCompany(companyId));
 
 	}
 
-	public String getNextVoucherNumber() throws DAOException {
+	public String getNextVoucherNumber(long companyId) throws DAOException {
 		// try {
 		//
 		// Session session = HibernateUtil.getCurrentSession();
@@ -2233,7 +2243,7 @@ public class FinanceTool {
 		// } catch (DAOException e) {
 		// throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
 		// }
-		return NumberUtils.getNextVoucherNumber();
+		return NumberUtils.getNextVoucherNumber(getCompany(companyId));
 	}
 
 	public ArrayList<OverDueInvoicesList> getOverDueInvoices(long companyId)
@@ -10318,7 +10328,7 @@ public class FinanceTool {
 		return false;
 	}
 
-	public String getNextTransactionNumber(int transactionType) {
+	public String getNextTransactionNumber(int transactionType, long companyId) {
 
 		// Query query = HibernateUtil
 		// .getCurrentSession()
@@ -10336,7 +10346,8 @@ public class FinanceTool {
 		// (Long) list.get(0));
 		//
 		// return getStringwithIncreamentedDigit(prevNumber);
-		return NumberUtils.getNextTransactionNumber(transactionType);
+		return NumberUtils.getNextTransactionNumber(transactionType,
+				getCompany(companyId));
 	}
 
 	public ArrayList<HrEmployee> getHREmployees() {
@@ -10874,13 +10885,13 @@ public class FinanceTool {
 		return new ArrayList<ExpenseList>(queryResult);
 	}
 
-	public String getNextCustomerNumber() {
-		return NumberUtils.getNextAutoCustomerNumber();
+	public String getNextCustomerNumber(long companyId) {
+		return NumberUtils.getNextAutoCustomerNumber(getCompany(companyId));
 		// return NumberUtils.getNextCustomerNumber();
 	}
 
-	public String getNextVendorNumber() throws DAOException {
-		return NumberUtils.getNextAutoVendorNumber();
+	public String getNextVendorNumber(long companyId) throws DAOException {
+		return NumberUtils.getNextAutoVendorNumber(getCompany(companyId));
 		// return NumberUtils.getNextVendorNumber();
 	}
 
@@ -11656,9 +11667,12 @@ public class FinanceTool {
 		return true;
 	}
 
-	public ArrayList<ClientUserInfo> getAllUsers() throws AccounterException {
+	public ArrayList<ClientUserInfo> getAllUsers(long companyId)
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
-		List<User> financeUsers = session.getNamedQuery("list.User").list();
+		Company company = getCompany(companyId);
+		List<User> financeUsers = session.getNamedQuery("list.User")
+				.setEntity("company", company).list();
 		List<ClientUserInfo> clientUsers = new ArrayList<ClientUserInfo>();
 		for (User user : financeUsers) {
 			if (!user.isDeleted()) {
@@ -11875,7 +11889,8 @@ public class FinanceTool {
 		// reset IDs
 		clone.setID(0);
 		clone.setRecurringTransaction(0);
-		clone.setNumber(NumberUtils.getNextTransactionNumber(clone.getType()));
+		clone.setNumber(NumberUtils.getNextTransactionNumber(clone.getType(),
+				transaction.getCompany()));
 
 		List<ClientTransactionItem> transactionItems2 = clone
 				.getTransactionItems();
@@ -12106,16 +12121,18 @@ public class FinanceTool {
 				+ fromClientAccount.getOpeningBalance();
 
 		session.getNamedQuery("update.merge.Account.oldBalance.tonew")
-				.setParameter("from", toClientAccount.getID())
-				.setParameter("balance", mergeBalance)
+				.setLong("from", toClientAccount.getID())
+				.setDouble("balance", mergeBalance)
 				.setEntity("company", company).executeUpdate();
 
 		session.getNamedQuery("delete.account.old")
-				.setParameter("from", fromClientAccount.getID())
-				.executeUpdate();
+				.setLong("from", fromClientAccount.getID())
+				.setEntity("company", company).executeUpdate();
+
 		session.getNamedQuery("delete.account.entry.old")
-				.setParameter("from", fromClientAccount.getID())
-				.executeUpdate();
+				.setLong("from", fromClientAccount.getID())
+				.setEntity("company", company).executeUpdate();
+
 		ServerConvertUtil convertUtil = new ServerConvertUtil();
 		Account account = new Account();
 		account = convertUtil.toServerObject(account, fromClientAccount,
