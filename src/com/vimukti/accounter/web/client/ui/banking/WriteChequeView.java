@@ -42,6 +42,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.PayeeCombo;
+import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.TaxItemCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -66,6 +67,8 @@ public class WriteChequeView extends
 
 	private HorizontalPanel labelLayout;
 	public AmountLabel netAmount, totalTxt;
+
+	AmountLabel vatTotalNonEditableText;
 	private TextAreaItem addrArea;
 	private DynamicForm payForm;
 
@@ -105,8 +108,8 @@ public class WriteChequeView extends
 
 	private ArrayList<DynamicForm> listforms;
 
-	private HorizontalPanel vatPanel;
-
+	private VerticalPanel vatPanel;
+	private VerticalPanel amountPanel;
 	private VerticalPanel vPanel;
 
 	private boolean locationTrackingEnabled;
@@ -116,6 +119,12 @@ public class WriteChequeView extends
 	private AddNewButton accountTableButton, itemTableButton;
 	private DisclosurePanel vendorAccountsDisclosurePanel,
 			vendorItemsDisclosurePanel;
+
+	private TAXCodeCombo taxCodeSelect;
+
+	private ClientTAXCode taxCode;
+
+	private double salesTax = 0.0D;
 
 	private WriteChequeView() {
 		super(ClientTransaction.TYPE_WRITE_CHECK);
@@ -827,25 +836,49 @@ public class WriteChequeView extends
 		topHLay.add(accPanel);
 		// topHLay.add(amtForm);
 
-		vatPanel = new HorizontalPanel();
+		vatPanel = new VerticalPanel();
+		amountPanel = new VerticalPanel();
 		vatPanel.setWidth("100%");
+		amountPanel.setWidth("100%");
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		totalTxt = createTransactionTotalNonEditableLabel();
+		vatTotalNonEditableText = new AmountLabel("Tax");
 
 		netAmount = new AmountLabel(Accounter.constants().netAmount());
-		DynamicForm totalForm = new DynamicForm();
-		totalForm.setFields(netAmount, totalTxt);
-		totalForm.addStyleName("invoice-total");
-		DynamicForm vatCheckForm = new DynamicForm();
-		if (getPreferences().isTrackPaidTax())
-			vatCheckForm.setFields(vatinclusiveCheck);
-		vatCheckForm.addStyleName("invoice-total");
+		// DynamicForm totalForm = new DynamicForm();
+		// totalForm.setFields(netAmount, totalTaxtxt, totalTxt);
+		// totalForm.addStyleName("invoice-total");
+		// DynamicForm vatCheckForm = new DynamicForm();
 
-		vatPanel.add(vatCheckForm);
-		vatPanel.setCellHorizontalAlignment(vatCheckForm, ALIGN_RIGHT);
-		vatPanel.add(totalForm);
-		vatPanel.setCellHorizontalAlignment(totalForm, ALIGN_RIGHT);
-		vatPanel.setHorizontalAlignment(ALIGN_RIGHT);
+		HorizontalPanel bottomPanel = new HorizontalPanel();
+		bottomPanel.setWidth("100%");
+		bottomPanel.add(memoForm);
+		DynamicForm totalForm = new DynamicForm();
+		totalForm.setFields(netAmount);
+		if (isTrackTax()) {
+			totalForm.setFields(vatTotalNonEditableText);
+			if (!isTaxPerDetailLine()) {
+				DynamicForm vatCheckForm = new DynamicForm();
+				taxCodeSelect = createTaxCodeSelectItem();
+				// taxCodeSelect.setVisible(isInViewMode());
+				DynamicForm form = new DynamicForm();
+				form.setFields(taxCodeSelect);
+				vatPanel.setCellHorizontalAlignment(vatCheckForm, ALIGN_CENTER);
+				vatPanel.add(form);
+				if (getPreferences().isTrackPaidTax())
+					vatCheckForm.setFields(vatinclusiveCheck);
+				vatCheckForm.addStyleName("invoice-total");
+				vatPanel.add(vatCheckForm);
+				vatPanel.setCellHorizontalAlignment(vatCheckForm, ALIGN_RIGHT);
+				// } else {
+
+			}
+		}
+		totalForm.setFields(totalTxt);
+		totalForm.addStyleName("invoice-total");
+		amountPanel.add(totalForm);
+		amountPanel.setCellHorizontalAlignment(totalForm, ALIGN_RIGHT);
+		amountPanel.setHorizontalAlignment(ALIGN_RIGHT);
 		mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 
@@ -983,11 +1016,22 @@ public class WriteChequeView extends
 		// vPanel.add(createAddNewButton());
 		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 
-		HorizontalPanel bottomPanel = new HorizontalPanel();
-		bottomPanel.setWidth("100%");
-		bottomPanel.add(memoForm);
-		// if (getCompany().getPreferences().isRegisteredForVAT()) {
+		// HorizontalPanel bottomPanel = new HorizontalPanel();
+		// bottomPanel.setWidth("100%");
+		// bottomPanel.add(memoForm);
+		// if (isTrackTax()) {
+		// if (!isTaxPerDetailLine()) {
+		// taxCodeSelect = createTaxCodeSelectItem();
+		// // taxCodeSelect.setVisible(isInViewMode());
+		// DynamicForm form = new DynamicForm();
+		// form.setFields(taxCodeSelect);
+		// bottomPanel.add(form);
+		// }
+		// }
+		// // if (getCompany().getPreferences().isRegisteredForVAT()) {
 		bottomPanel.add(vatPanel);
+		bottomPanel.add(amountPanel);
+
 		// }
 
 		vPanel.add(bottomPanel);
@@ -1087,8 +1131,12 @@ public class WriteChequeView extends
 		this.amtText.setAmount(total);
 		amtText.setValue(String.valueOf(total));
 		totalTxt.setValue(String.valueOf(total));
-		netAmount.setAmount(transactionVendorAccountTable.getLineTotal()
-				+ transactionVendorItemTable.getLineTotal());
+		double grandTotal = transactionVendorAccountTable.getLineTotal()
+				+ transactionVendorItemTable.getLineTotal();
+		if (getPreferences().isTrackPaidTax()) {
+			vatTotalNonEditableText.setAmount(total - grandTotal);
+		}
+		netAmount.setAmount(grandTotal);
 
 	}
 
@@ -1270,6 +1318,7 @@ public class WriteChequeView extends
 		memoTextAreaItem.setDisabled(false);
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
+		taxCodeSelect.setDisabled(isInViewMode());
 
 		super.onEdit();
 
@@ -1321,6 +1370,26 @@ public class WriteChequeView extends
 		if (transaction == null) {
 			setData(new ClientWriteCheck());
 		} else {
+
+			// if (getPreferences().isTrackPaidTax()) {
+			// netAmount.setAmount(transaction.getNetAmount());
+			// vatTotalNonEditableText.setAmount(transaction.getTotal()
+			// - transaction.getNetAmount());
+			// }
+			if (isTrackTax()) {
+				if (isTaxPerDetailLine()) {
+					netAmount.setAmount(transaction.getNetAmount());
+					vatTotalNonEditableText.setAmount(transaction.getTotal()
+							- transaction.getNetAmount());
+				} else {
+					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
+					if (taxCode != null) {
+						this.taxCodeSelect
+								.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
+					}
+				}
+			}
+
 			if (vatinclusiveCheck != null) {
 				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
 
@@ -1397,7 +1466,14 @@ public class WriteChequeView extends
 
 	@Override
 	protected void taxCodeSelected(ClientTAXCode taxCode) {
-		// TODO Auto-generated method stub
+		this.taxCode = taxCode;
+		if (taxCode != null) {
+			taxCodeSelect.setComboItem(taxCode);
+			transactionVendorAccountTable.setTaxCode(taxCode.getID(), true);
+			transactionVendorItemTable.setTaxCode(taxCode.getID(), true);
+		} else {
+			taxCodeSelect.setValue("");
+		}
 
 	}
 }
