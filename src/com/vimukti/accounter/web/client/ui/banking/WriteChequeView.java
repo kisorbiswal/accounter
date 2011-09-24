@@ -523,8 +523,13 @@ public class WriteChequeView extends
 			result.addError(memoTextAreaItem,
 					accounterConstants.transactiontotalcannotbe0orlessthan0());
 		}
-		if (taxCodeSelect.getSelectedValue() == null) {
-			result.addError(taxCodeSelect, accounterConstants.enterTaxCode());
+		if (isTrackTax()) {
+			if (!isTaxPerDetailLine()) {
+				if (taxCodeSelect.getSelectedValue() == null) {
+					result.addError(taxCodeSelect, accounterConstants.enterTaxCode());
+				}
+
+			}
 		}
 
 		return result;
@@ -1322,7 +1327,12 @@ public class WriteChequeView extends
 		memoTextAreaItem.setDisabled(false);
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
-		taxCodeSelect.setDisabled(isInViewMode());
+		if (isTrackTax()) {
+			if (!isTaxPerDetailLine()) {
+				taxCodeSelect.setDisabled(isInViewMode());
+			}
+		}
+
 
 		super.onEdit();
 
