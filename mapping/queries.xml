@@ -560,7 +560,7 @@
 	<query name="getPayBill.form.status">
 		<query-param name="status" type="int" />
 		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.PayBill pb where pb.company=:copany
+		from com.vimukti.accounter.core.PayBill pb where pb.company=:company and
 		pb.status =:status
 	</query>
 
@@ -715,7 +715,7 @@
 		vr.company=:company and vr.taxItem
 		is not null and
 		vr.taxAgency.id=:vatAgency and vr.transactionDate
-		&lt;= :toDate and
+		&lt;=:toDate and
 		vr.vatReturn is null
 	</query>
 
@@ -898,7 +898,7 @@
 		from com.vimukti.accounter.core.TAXRateCalculation vr where vr.taxItem
 		is not null and vr.taxItem.company=:company and
 		vr.taxItem.taxAgency.id=:vatAgency and
-		vr.transactionDate &lt;= :toDate
+		vr.transactionDate &lt;=:toDate
 		and vr.vatReturn is null
 	</query>
 
@@ -1290,7 +1290,7 @@
 		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.VATReturn v where v.VATperiodEndDate
-		&lt;= :endDate and v.company=:company
+		&lt;=:endDate and v.company=:company
 	</query>
 
 	<query name="getTAXRateCalculation.by.datesand.vatReturn">
@@ -1373,21 +1373,17 @@
 		from com.vimukti.accounter.core.FiscalYear f and f.company=:company
 	</query>
 
-	<!-- <query name="getentiy"> from ? entiy </query> -->
-
 	<query name="deleteTAXCode">
 		<query-param name="id" type="long" />
-		<!-- <query-param name="company" type="Company" /> -->
+		<query-param name="company" type="Company" />
 		delete from com.vimukti.accounter.core.TAXCode t
 		where t.id=id and
 		t.company=:company
 	</query>
 
 	<query name="get.developer.by.client">
-		<query-param name="company" type="Company" />
 		<query-param name="client" type="com.vimukti.accounter.core.Client" />
-		from com.vimukti.accounter.core.Developer d where d.client =:client
-		and e.company=:company
+		from com.vimukti.accounter.core.Developer d where d.client =:client		
 	</query>
 
 	<query name="get.developer.by.id">
@@ -1407,15 +1403,6 @@
 		from com.vimukti.accounter.core.ServerCompany sc left join sc.clients
 		c where sc.id=:id and c=:client
 	</query>
-
-
-	<sql-query name="create.schema">
-		CREATE SCHEMA ?
-	</sql-query>
-
-	<sql-query name="drop.schema">
-		DROP SCHEMA ?
-	</sql-query>
 
 	<query name="get.All.Units">
 		from com.vimukti.accounter.core.Unit
@@ -1460,7 +1447,7 @@
 	<query name="get.1099.vendors">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.Vendor v where
-		v.isTrackPaymentsFor1099=true and e.company=:company
+		v.isTrackPaymentsFor1099=true and v.company=:company
 	</query>
 
 	<query name="get.1099.selected.accounts">
