@@ -17,10 +17,10 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.RowFormatter;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.SingleSelectionModel;
 
@@ -73,7 +73,7 @@ public class DropDownTable<T> extends CellTable<T> {
 			this.addColumn(columns[i]);
 		selectionModel = new SingleSelectionModel<T>();
 		this.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
-		this.setSize("100%", "");
+		// this.setSize("100%", "");
 
 	}
 
