@@ -40,17 +40,15 @@ body {
 	font-size:1.1em;
 	height:100%;
 	width:100%;	
-	background-color:#dfdfdf;
 }
 
 #contactable {
 	background-image:url(../images/contact.png);
 	color:#FFFFFF;
-	background-color:#333333;
 	cursor:pointer;
-	height:102px;
-	left:0;
-	margin-left:-5px; 
+	height:93px;
+	right:0;
+	margin-right:-5px; 
 	overflow:hidden;
 	position:fixed;
 	*position:absolute;
@@ -66,8 +64,8 @@ body {
 	border:2px solid #FFFFFF;
 	color:#FFFFFF;
 	height:450px;
-	left:0;
-	margin-left:-400px;
+	right:0;
+	margin-right:-400px;
 	margin-top:-160px;
 	overflow:hidden;
 	padding-left:30px;
@@ -121,7 +119,7 @@ form#contactForm p {
 	background-color:#666666;
 	display:none;
 	height:100%;
-	left:0;
+	right:0;
 	margin:0;
 	padding:0;
 	position:absolute;
@@ -129,9 +127,11 @@ form#contactForm p {
 	width:100%;
 	z-index:0;
 }
-
+.yourfeedback label:last-child{
+  	display:none !important;
+}
 #contactform .error { background-color: #EDBE9C; }
-
+.yourfeedback .error { background-color: #EDBE9C; }
 #contactform #loading {
 	background: url(../images/ajax-loader.gif) no-repeat;
 	width:55px;
@@ -153,5 +153,15 @@ form#contactForm p {
 .holder {
 	margin:0 auto;
 	padding-top:20px;	
-}	
+}
+#content {
+			background-color:#FDFDFD;
+			border-left:2px solid #333333;
+			border-right:2px solid #333333;
+			margin:0 auto 0;
+			padding:10px;
+			position:relative;
+			width:930px;
+			height:100%;
+			}	
 	
