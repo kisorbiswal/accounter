@@ -967,6 +967,13 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 		if (transactionItems != null) {
 			for (ClientTransactionItem transactionItem : transactionItems) {
+
+				if (transactionItem.getTaxCode() == 0) {
+					result.addError(
+							"GridItem-" + transactionItem.getAccount(),
+							Accounter.messages().pleaseEnter(
+									Accounter.constants().taxCode()));
+				}
 				if (transactionItem.getLineTotal() <= 0) {
 					result.addError(
 							"TransactionItem" + transactionItem.getAccount()
