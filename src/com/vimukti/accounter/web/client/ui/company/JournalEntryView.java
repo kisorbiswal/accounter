@@ -387,7 +387,7 @@ public class JournalEntryView extends
 
 		totalForm = new DynamicForm();
 		totalForm.setWidth("75%");
-		totalForm.addStyleName("unused-payments");
+		totalForm.addStyleName("textbold");
 		totalForm.setFields(deditTotalText, creditTotalText);
 
 		HorizontalPanel bottomPanel = new HorizontalPanel();
