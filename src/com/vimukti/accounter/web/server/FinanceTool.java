@@ -1969,13 +1969,15 @@ public class FinanceTool {
 		}
 	}
 
-	public ArrayList<Entry> getEntries(long journalEntryId) throws DAOException {
+	public ArrayList<Entry> getEntries(long journalEntryId, long companyId)
+			throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-
-			Query query = session.getNamedQuery("getEntry.by.id").setParameter(
-					0, journalEntryId);
+			Company company = getCompany(companyId);
+			Query query = session.getNamedQuery("getEntry.by.id")
+					.setLong("id", journalEntryId)
+					.setEntity("company", company);
 			List<Entry> list = query.list();
 
 			if (list != null) {
@@ -1988,11 +1990,13 @@ public class FinanceTool {
 		}
 	}
 
-	public ArrayList<Estimate> getEstimates() throws DAOException {
+	public ArrayList<Estimate> getEstimates(long companyId) throws DAOException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 
-			Query query = session.getNamedQuery("getEstimate");
+			Company company = getCompany(companyId);
+			Query query = session.getNamedQuery("getEstimate").setEntity(
+					"company", company);
 			List<Estimate> list = query.list();
 
 			if (list != null) {
@@ -2005,13 +2009,15 @@ public class FinanceTool {
 		}
 	}
 
-	public ArrayList<Estimate> getEstimates(long customer) throws DAOException {
+	public ArrayList<Estimate> getEstimates(long customer, long companyId)
+			throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-
-			Query query = session.getNamedQuery(
-					"getEstimate.by.check.id.status").setParameter(0, customer);
+			Company company = getCompany(companyId);
+			Query query = session
+					.getNamedQuery("getEstimate.by.check.id.status")
+					.setParameter("id", customer).setEntity("company", company);
 			List<Estimate> list = query.list();
 
 			if (list != null) {
@@ -2637,13 +2643,14 @@ public class FinanceTool {
 
 	}
 
-	public ArrayList<CreditsAndPayments> getVendorCreditsAndPayments(long vendor)
-			throws DAOException {
+	public ArrayList<CreditsAndPayments> getVendorCreditsAndPayments(
+			long vendor, long companyId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery(
-				"getcreditandPayments.by.Payieeid.and.balance").setParameter(0,
-				vendor);
+		Company company = getCompany(companyId);
+		Query query = session
+				.getNamedQuery("getcreditandPayments.by.Payieeid.and.balance")
+				.setParameter("id", vendor).setEntity("company", company);
 		List<CreditsAndPayments> list = query.list();
 
 		// if (list != null) {
@@ -2714,39 +2721,16 @@ public class FinanceTool {
 		}
 	}
 
-	public boolean isSalesTaxPayableAccount(long accountId) throws DAOException {
+	public boolean isSalesTaxPayableAccountByName(String accountName,
+			long companyId) throws DAOException {
 
 		try {
-
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery("getAccount.by.id.and.type")
-					.setParameter(0, accountId)
-					.setParameter(1, Account.TYPE_OTHER_CURRENT_LIABILITY);
-			List list = query.list();
-
-			if (list != null) {
-				if (list.size() > 0) {
-					return true;
-				} else
-					return false;
-			} else
-				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
-						null));
-		} catch (DAOException e) {
-			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
-		}
-
-	}
-
-	public boolean isSalesTaxPayableAccountByName(String accountName)
-			throws DAOException {
-
-		try {
-
-			Session session = HibernateUtil.getCurrentSession();
+			Company company = getCompany(companyId);
 			Query query = session.getNamedQuery("getAccount.by.name.and.type")
-					.setParameter(0, accountName)
-					.setParameter(1, Account.TYPE_OTHER_CURRENT_LIABILITY);
+					.setParameter("name", accountName)
+					.setParameter("type", Account.TYPE_OTHER_CURRENT_LIABILITY)
+					.setEntity("company", company);
 			List list = query.list();
 
 			if (list != null) {
@@ -4126,11 +4110,14 @@ public class FinanceTool {
 	}
 
 	public void runDepreciation(long depreciationFrom, long depreciationTo,
-			FixedAssetLinkedAccountMap linkedAccounts) throws DAOException {
+			FixedAssetLinkedAccountMap linkedAccounts, long companyId)
+			throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery(
-				"getFixedAsset.by.statusAnd.purchaseDate").setParameter(0,
-				(new FinanceDate(depreciationTo)));
+		Company company = getCompany(companyId);
+		Query query = session
+				.getNamedQuery("getFixedAsset.by.statusAnd.purchaseDate")
+				.setParameter("date", (new FinanceDate(depreciationTo)))
+				.setEntity("company", company);
 		List<FixedAsset> fixedAssets = query.list();
 		org.hibernate.Transaction tx = session.beginTransaction();
 		for (FixedAsset fixedAsset : fixedAssets) {
@@ -4144,7 +4131,8 @@ public class FinanceTool {
 
 		if (linkedAccounts != null && linkedAccounts.keySet().size() > 0) {
 			query = session.getNamedQuery("getAccount.by.idInAccountList")
-					.setParameterList("accountsList", linkedAccounts.keySet());
+					.setParameterList("accountsList", linkedAccounts.keySet())
+					.setEntity("company", company);
 			List<Account> assetAccounts = query.list();
 			for (Account assetAccount : assetAccounts) {
 				Long changedLinkedAccountID = linkedAccounts.get(assetAccount
@@ -4155,8 +4143,8 @@ public class FinanceTool {
 							.getLinkedAccumulatedDepreciationAccount().getID() == (changedLinkedAccountID))) {
 						Account changedLinkedAccount = (Account) session
 								.getNamedQuery("getAccount.by.id")
-								.setParameter(0, changedLinkedAccountID)
-								.uniqueResult();
+								.setParameter("id", changedLinkedAccountID)
+								.setEntity("company", company).uniqueResult();
 						assetAccount
 								.setLinkedAccumulatedDepreciationAccount(changedLinkedAccount);
 						session.saveOrUpdate(assetAccount);
@@ -4263,8 +4251,9 @@ public class FinanceTool {
 			Company company) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getDepreciation.by.ToandStatus")
-				.setParameter(0, (rollBackDepreciationTo))
-				.setParameter(1, Depreciation.APPROVE);
+				.setParameter("deprediationTo", (rollBackDepreciationTo))
+				.setParameter("status", Depreciation.APPROVE)
+				.setEntity("company", company);
 		List<Depreciation> list = query.list();
 		for (Depreciation dep : list) {
 			// if (dep.getFixedAsset().getStatus() ==
@@ -4811,7 +4800,8 @@ public class FinanceTool {
 		FinanceDate startDate = company.getPreferences()
 				.getDepreciationStartDate();
 		FinanceDate depreciationFirstDate = null;
-		Query query = session.getNamedQuery("getDepreciation");
+		Query query = session.getNamedQuery("getDepreciation").setEntity(
+				"company", company);
 		List<Depreciation> list = query.list();
 		if (list != null && list.size() > 0 && list.get(0) != null) {
 			Depreciation dep = list.get(0);
@@ -7078,9 +7068,9 @@ public class FinanceTool {
 			FinanceDate endDate, long companyId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
-
+		Company company = getCompany(companyId);
 		List<FiscalYear> fiscalYears = (List<FiscalYear>) session
-				.getNamedQuery("getFisacalyear");
+				.getNamedQuery("getFisacalyear").setEntity("company", company);
 		FinanceDate actualStartDate = new FinanceDate();
 		for (FiscalYear fs : fiscalYears) {
 			if (fs.getIsCurrentFiscalYear() == Boolean.TRUE) {
@@ -7114,8 +7104,8 @@ public class FinanceTool {
 	}
 
 	public VATReturn getVATReturnDetails(TAXAgency vatAgency,
-			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
-			AccounterException {
+			FinanceDate fromDate, FinanceDate toDate, long companyId)
+			throws DAOException, AccounterException {
 
 		if (hasFileVAT(vatAgency, fromDate, toDate)) {
 			throw new AccounterException(
@@ -7127,7 +7117,7 @@ public class FinanceTool {
 		List<Box> boxes = createBoxes(vatAgency);
 
 		assignAmounts(vatAgency, boxes, fromDate, toDate);
-		adjustAmounts(vatAgency, boxes, fromDate, toDate);
+		adjustAmounts(vatAgency, boxes, fromDate, toDate, companyId);
 
 		// for (Box b : boxes) {
 		// if (b.getName().equals(
@@ -7147,13 +7137,14 @@ public class FinanceTool {
 
 	//
 	private void adjustAmounts(TAXAgency vatAgency, List<Box> boxes,
-			FinanceDate fromDate, FinanceDate toDate) {
+			FinanceDate fromDate, FinanceDate toDate, long companyId) {
 
 		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
 		Query query = session
 				.getNamedQuery("getTAXAdjustments.by.taxAgencyIdand.Date")
 				.setParameter("fromDate", fromDate)
-				.setParameter("toDate", toDate)
+				.setEntity("company", company).setParameter("toDate", toDate)
 				.setParameter("vatAgency", vatAgency.getID());
 
 		List<TAXAdjustment> vas = query.list();
@@ -7477,13 +7468,15 @@ public class FinanceTool {
 							"getTaxCalc.by.TaxAgencyId.and.withOtherDetails")
 					.setParameter("taxAgency", taxAgency.getID())
 					.setParameter("fromDate", startDate)
-					.setParameter("toDate", endDate);
+					.setParameter("toDate", endDate)
+					.setEntity("company", company);
 		} else {
 			query = session
 					.getNamedQuery(
 							"getTaxrateCalc.by.TaxAgencyandItem.and.Dates")
 					.setParameter("fromDate", startDate)
-					.setParameter("toDate", endDate);
+					.setParameter("toDate", endDate)
+					.setEntity("company", company);
 		}
 
 		List<TAXRateCalculation> vats = query.list();
@@ -7651,16 +7644,16 @@ public class FinanceTool {
 				query = session.getNamedQuery(
 
 				"getTaxadjustment.by.allDetails.withOrder")
-
-				.setParameter("fromDate", startDate)
+						.setEntity("company", company)
+						.setParameter("fromDate", startDate)
 						.setParameter("toDate", endDate)
 						.setParameter("taxAgency", taxAgency.getID());
 			} else {
 				query = session.getNamedQuery(
 
 				"getTaxadjustment.by.betweenDates")
-
-				.setParameter("fromDate", startDate)
+						.setEntity("company", company)
+						.setParameter("fromDate", startDate)
 						.setParameter("toDate", endDate);
 			}
 
@@ -7758,16 +7751,15 @@ public class FinanceTool {
 				query = session.getNamedQuery(
 
 				"getVat.by.taxAgency.and.VatPeriod")
-
-				.setParameter("fromDate", startDate)
+						.setEntity("company", company)
+						.setParameter("fromDate", startDate)
 						.setParameter("toDate", endDate)
 						.setParameter("taxAgency", taxAgency.getID());
 			} else {
 				query = session.getNamedQuery(
 
-				"getVat.by.BetweenendDates")
-
-				.setParameter("fromDate", startDate)
+				"getVat.by.BetweenendDates").setEntity("company", company)
+						.setParameter("fromDate", startDate)
 						.setParameter("toDate", endDate);
 			}
 
@@ -8786,71 +8778,6 @@ public class FinanceTool {
 		}
 
 		return new ArrayList<UncategorisedAmountsReport>(uncategorisedAmounts);
-	}
-
-	public ArrayList<VATItemDetail> getVATItemDetailReport(
-			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
-			ParseException {
-
-		List<VATItemDetail> vatItemDetails = new ArrayList<VATItemDetail>();
-
-		Session session = HibernateUtil.getCurrentSession();
-
-		// Entries from the VATRate calculation
-
-		Query query = session
-				.getNamedQuery("getTAXAdjustment.by.taxAgencyidanddates")
-				.setParameter("startDate", fromDate)
-				.setParameter("endDate", toDate);
-
-		List<TAXRateCalculation> taxRateCalculations = query.list();
-		for (TAXRateCalculation v : taxRateCalculations) {
-
-			VATItemDetail vi = new VATItemDetail();
-			vi.setAmount(v.getTransactionItem().getLineTotal());
-			vi.setDate(new ClientFinanceDate(v.getTransactionDate().getDate()));
-			vi.setName(v.getTransactionItem().getTransaction()
-					.getInvolvedPayee().getName());
-			vi.setTransactionId(v.getTransactionItem().getTransaction().getID());
-			vi.setMemo(v.getTransactionItem().getTransaction().getMemo());
-			vi.setTransactionNumber(v.getTransactionItem().getTransaction()
-					.getNumber());
-			vi.setTransactionType(v.getTransactionItem().getTransaction()
-					.getType());
-			vi.setSalesPrice(vi.getAmount());
-
-			vatItemDetails.add(vi);
-
-		}
-
-		// Entries from the VATAdjustment
-		query = session
-				.getNamedQuery(
-						"getTAXAdjustment.by.dates.orderby.taxItemNameand.TransactionDate")
-				.setParameter("startDate", fromDate)
-				.setParameter("endDate", toDate);
-
-		List<TAXAdjustment> vatAdjustments = query.list();
-		for (TAXAdjustment v : vatAdjustments) {
-
-			VATItemDetail vi = new VATItemDetail();
-
-			if (v.getIncreaseVATLine()) {
-				vi.setAmount(v.getJournalEntry().getTotal());
-			} else {
-				vi.setAmount(-1 * v.getJournalEntry().getTotal());
-			}
-			vi.setDate(new ClientFinanceDate(v.getJournalEntry().getDate()
-					.getDate()));
-			vi.setMemo("VAT Adjustment");
-			vi.setName(v.getTaxItem().getTaxAgency().getName());
-			vi.setTransactionId(v.getJournalEntry().getID());
-			vi.setTransactionNumber(v.getJournalEntry().getNumber());
-			vi.setTransactionType(v.getJournalEntry().getType());
-			vatItemDetails.add(vi);
-		}
-
-		return new ArrayList<VATItemDetail>(vatItemDetails);
 	}
 
 	public ArrayList<VATItemDetail> getVATItemDetailReport(String taxItemName,

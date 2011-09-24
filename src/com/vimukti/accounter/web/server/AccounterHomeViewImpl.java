@@ -305,7 +305,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			serverCreditsAndPayments = getFinanceTool()
-					.getVendorCreditsAndPayments(vendorId);
+					.getVendorCreditsAndPayments(vendorId, getCompanyId());
 			for (CreditsAndPayments creditsAndPayments : serverCreditsAndPayments) {
 				clientCreditsAndPaymentsList.add(new ClientConvertUtil()
 						.toClientObject(creditsAndPayments,
@@ -699,7 +699,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		List<Entry> serverEntries = null;
 		try {
 
-			serverEntries = getFinanceTool().getEntries(journalEntryId);
+			serverEntries = getFinanceTool().getEntries(journalEntryId,
+					getCompanyId());
 			for (Entry entry : serverEntries) {
 				clientEntries.add(new ClientConvertUtil().toClientObject(entry,
 						ClientEntry.class));
@@ -719,7 +720,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			serverEstimates = getFinanceTool().getEstimates();
+			serverEstimates = getFinanceTool().getEstimates(getCompanyId());
 			for (Estimate estimate : serverEstimates) {
 				clientEstimate.add(new ClientConvertUtil().toClientObject(
 						estimate, ClientEstimate.class));
@@ -981,7 +982,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			isSalesTaxPayable = getFinanceTool()
-					.isSalesTaxPayableAccountByName(accountName);
+					.isSalesTaxPayableAccountByName(accountName, getCompanyId());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1236,10 +1237,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			TAXAgency serverVatAgency = new ServerConvertUtil().toServerObject(
 					new TAXAgency(), taxAgency, getSession());
 
-			return new ClientConvertUtil().toClientObject(tool
-					.getVATReturnDetails(serverVatAgency, new FinanceDate(
-							fromDate), new FinanceDate(toDate)),
-					ClientVATReturn.class);
+			return new ClientConvertUtil()
+					.toClientObject(tool.getVATReturnDetails(serverVatAgency,
+							new FinanceDate(fromDate), new FinanceDate(toDate),
+							getCompanyId()), ClientVATReturn.class);
 
 		} catch (Exception e) {
 			throw new AccounterException(e);
@@ -1398,7 +1399,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			FixedAssetLinkedAccountMap linkedAccounts) {
 		try {
 			getFinanceTool().runDepreciation(depreciationFrom, depreciationTo,
-					linkedAccounts);
+					linkedAccounts, getCompanyId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
