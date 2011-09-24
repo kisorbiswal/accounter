@@ -1187,7 +1187,7 @@ public class VendorBillView extends
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 		vendorTDSTaxCode.setDisabled(isInViewMode());
-
+		taxCodeSelect.setDisabled(isInViewMode());
 		super.onEdit();
 	}
 
