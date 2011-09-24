@@ -10256,96 +10256,6 @@ public class FinanceTool {
 
 		Hibernate.initialize(company);
 
-		company.setAccounts(getAccountsListBySorted(company.getAccountingType()));
-
-		company.setFiscalYears(new ArrayList<FiscalYear>(session.getNamedQuery(
-				"list.FiscalYear").list()));
-
-		company.setPayees(new ArrayList<Payee>(session.getNamedQuery(
-				"list.Payee").list()));
-
-		company.setItems(new ArrayList<Item>(session.getNamedQuery("list.Item")
-				.list()));
-
-		company.setCustomerGroups(new ArrayList<CustomerGroup>(session
-				.getNamedQuery("list.CustomerGroup").list()));
-
-		company.setVendorGroups(new ArrayList<VendorGroup>(session
-				.getNamedQuery("list.VendorGroup").list()));
-
-		company.setShippingTerms(new ArrayList<ShippingTerms>(session
-				.getNamedQuery("list.ShippingTerms").list()));
-
-		company.setShippingMethods(new ArrayList<ShippingMethod>(session
-				.getNamedQuery("list.ShippingMethod").list()));
-
-		company.setPriceLevels(new ArrayList<PriceLevel>(session.getNamedQuery(
-				"list.PriceLevel").list()));
-
-		company.setItemGroups(new ArrayList<ItemGroup>(session.getNamedQuery(
-				"list.ItemGroup").list()));
-
-		company.setTaxGroups(new ArrayList<TAXGroup>(session.getNamedQuery(
-				"list.TAXGroup").list()));
-
-		company.setPaymentTerms(new ArrayList<PaymentTerms>(session
-				.getNamedQuery("list.PaymentTerms").list()));
-
-		company.setCreditRatings(new ArrayList<CreditRating>(session
-				.getNamedQuery("list.CreditRating").list()));
-
-		company.setSalesPersons(new ArrayList<SalesPerson>(session
-				.getNamedQuery("list.SalesPerson").list()));
-
-		company.setTaxCodes(new ArrayList<TAXCode>(session.getNamedQuery(
-				"list.TAXCode").list()));
-
-		company.setTaxItems(new ArrayList<TAXItem>(session.getNamedQuery(
-				"list.TAXItem").list()));
-
-		company.setTaxItemGroups(new ArrayList<TAXItemGroup>(session
-				.getNamedQuery("list.TAXItemGroups").list()));
-
-		company.setBanks(new ArrayList<Bank>(session.getNamedQuery("list.Bank")
-				.list()));
-
-		company.setTaxrates(new ArrayList<TaxRates>(session.getNamedQuery(
-				"list.TaxRates").list()));
-
-		company.setFixedAssets(new ArrayList<FixedAsset>(session.getNamedQuery(
-				"list.FixedAsset").list()));
-		// company
-		// .setSellingDisposingFixedAssets(new
-		// HashSet<SellingOrDisposingFixedAsset>(
-		// session.getNamedQuery(
-		// "list.SellingOrDisposingFixedAsset").list()));
-
-		company.setVatReturns(new ArrayList<VATReturn>(session.getNamedQuery(
-				"list.VATReturn").list()));
-		company.setCurrencies(new HashSet<Currency>(session.getNamedQuery(
-				"list.currency").list()));
-
-		company.setTaxAdjustments(new ArrayList<TAXAdjustment>(session
-				.getNamedQuery("list.TAXAdjustment").list()));
-
-		// company.setVatCodes(new ArrayList<TAXCode>(session.getNamedQuery(
-		// "list.VATCode").list()));
-
-		// company.setVatItemGroups(new ArrayList<TAXItemGroup>(session
-		// .getNamedQuery("list.VATItemGroup").list()));
-
-		company.setTaxAgencies(new ArrayList<TAXAgency>(session.getNamedQuery(
-				"list.TAXAgency").list()));
-
-		company.setVatBoxes(new HashSet<Box>(session.getNamedQuery("list.Box")
-				.list()));
-		company.setVatReturnBoxes(new HashSet<VATReturnBox>(session
-				.getNamedQuery("list.VATReturnBox").list()));
-
-		company.setBrandingTheme(new ArrayList<BrandingTheme>(session
-				.getNamedQuery("list.BrandingTheme").list()));
-		company.setLocations(new ArrayList<Location>(session.getNamedQuery(
-				"list.locations").list()));
 		company = company.toCompany(company);
 		ClientConvertUtil clientConvertUtil = new ClientConvertUtil();
 		ClientCompany clientCompany = clientConvertUtil.toClientObject(company,
@@ -10356,7 +10266,7 @@ public class FinanceTool {
 		clientCompany.setTransactionStartDate(dates[0]);
 		clientCompany.setTransactionEndDate(dates[1]);
 
-		clientCompany.setUsersList(getAllEmployees());
+		clientCompany.setUsersList(getAllEmployees(company));
 
 		// User logInUSer = (User) session.getNamedQuery("getuser.by.email")
 		// .setParameter("email", logInUserEmail).uniqueResult();
@@ -11979,13 +11889,14 @@ public class FinanceTool {
 	}
 
 	/**
+	 * @param company
 	 * @return
 	 * @throws AccounterException
 	 */
-	public ArrayList<ClientUserInfo> getAllEmployees()
+	public ArrayList<ClientUserInfo> getAllEmployees(Company company)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
-		List<User> financeUsers = session.getNamedQuery("list.User").list();
+		Set<User> financeUsers = company.getUsers();
 		ArrayList<ClientUserInfo> employees = new ArrayList<ClientUserInfo>();
 		for (User user : financeUsers) {
 			if (!user.isDeleted()) {
