@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
@@ -1416,8 +1417,8 @@ public class Utility_R {
 	}
 
 	public static ClientFinanceDate getCurrentFiscalYearEndDate(Company company) {
-		List<FiscalYear> clientFiscalYears = company.getFiscalYears();
-
+		List<FiscalYear> clientFiscalYears = new ArrayList<FiscalYear>(
+				company.getFiscalYears());
 		for (int i = clientFiscalYears.size() - 1; i >= 0; i--) {
 			if (clientFiscalYears.get(i).status == ClientFiscalYear.STATUS_OPEN
 					&& clientFiscalYears.get(i).getIsCurrentFiscalYear()) {
