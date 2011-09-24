@@ -1742,8 +1742,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 
 		try {
-			salesList = getFinanceTool().getECSalesListReport(financeDates[0],
-					financeDates[1]);
+			FinanceTool tool = getFinanceTool();
+			salesList = tool.getECSalesListReport(financeDates[0],
+					financeDates[1], tool.getCompany(getCompanyId()));
 
 			ECSalesList obj = new ECSalesList();
 			if (salesList != null)
@@ -1768,8 +1769,10 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 
 		try {
-			salesList = getFinanceTool().getECSalesListDetailReport(payeeName,
-					financeDates[0], financeDates[1]);
+			FinanceTool tool = getFinanceTool();
+			salesList = tool.getECSalesListDetailReport(payeeName,
+					financeDates[0], financeDates[1],
+					tool.getCompany(getCompanyId()));
 
 			ECSalesListDetail obj = new ECSalesListDetail();
 			if (salesList != null)

@@ -968,9 +968,9 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	public boolean isSalesTaxPayableAccount(long accountId) {
 		boolean isSalesTaxPayable = false;
 		try {
-
-			isSalesTaxPayable = getFinanceTool().isSalesTaxPayableAccount(
-					accountId);
+			FinanceTool tool = getFinanceTool();
+			isSalesTaxPayable = tool.isSalesTaxPayableAccount(accountId,
+					getCompanyId());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1592,7 +1592,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		List<BillsList> resultList = null;
 		try {
 			resultList = getFinanceTool().getEmployeeExpensesByStatus(userName,
-					status);
+					status, getCompanyId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
