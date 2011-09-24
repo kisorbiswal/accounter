@@ -626,6 +626,7 @@ public class MakeDepositView extends
 		} else {
 			date.setValue(transaction.getDate());
 			memoText.setValue(transaction.getMemo());
+			transNumber.setValue(transaction.getNumber());
 			this.transactionItems = transaction.getTransactionItems();
 			cashBackAmountText.setValue(String.valueOf(transaction
 					.getCashBackAmount()));
@@ -1117,12 +1118,14 @@ public class MakeDepositView extends
 		setMode(EditMode.EDIT);
 		date.setDisabled(isInViewMode());
 		depositInSelect.setDisabled(isInViewMode());
+		transNumber.setDisabled(isInViewMode());
 		addButton.setEnabled(!isInViewMode());
 		gridView.setDisabled(isInViewMode());
 		cashBackMemoText.setDisabled(isInViewMode());
 		cashBackAmountText.setDisabled(isInViewMode());
 		cashBackAccountSelect.setDisabled(isInViewMode());
 		memoText.setDisabled(isInViewMode());
+
 		// For deleting the transctionItems after we edit
 		for (ClientTransactionMakeDeposit ctmd : transaction
 				.getTransactionMakeDeposit())
@@ -1174,6 +1177,9 @@ public class MakeDepositView extends
 		// Setting Memo
 		if (memoText.getValue() != null)
 			transaction.setMemo(UIUtils.toStr(memoText.getValue()));
+
+		if (transNumber.getValue() != null)
+			transaction.setNumber(transNumber.getValue());
 
 		// setting transaction make deposits list
 		List<ClientTransactionMakeDeposit> listOfTrannsactionMakeDeposits = getAllSelectedRecords(transaction);
