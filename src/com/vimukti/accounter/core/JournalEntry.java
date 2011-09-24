@@ -979,11 +979,11 @@ public class JournalEntry extends Transaction {
 						String.valueOf(creditTotal));
 
 		// Creating Activity
-		/*
-		 * Activity activity = new Activity(AccounterThreadLocal.get(),
-		 * ActivityType.ADD, this); session.save(activity);
-		 * this.setLastActivity(activity);
-		 */
+
+		Activity activity = new Activity(AccounterThreadLocal.get(),
+				ActivityType.ADD, this);
+		session.save(activity);
+		this.setLastActivity(activity);
 
 		return false;
 	}
