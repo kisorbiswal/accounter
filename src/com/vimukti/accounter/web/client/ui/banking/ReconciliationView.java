@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -218,8 +219,21 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		} else {
 			clearedTransactions.remove(value);
 		}
+		double total = value.getTotal();
+		if (UIUtils.isMoneyOut(value, data.getAccount().getID())) {
+			if (value.isMakeDeposit()) {
+				total = 0.0;
+				List<ClientTransactionMakeDeposit> transactionMakeDeposit = value
+						.getTransactionMakeDeposit();
+				for (ClientTransactionMakeDeposit deposit : transactionMakeDeposit) {
+					if (deposit.getAccount() == data.getAccount().getID()) {
+						total += deposit.getAmount();
+					}
+				}
+			}
+		}
 		double transactionAmount = UIUtils.isMoneyOut(value, data.getAccount()
-				.getID()) ? value.getTotal() : value.getTotal() * -1;
+				.getID()) ? total : total * -1;
 		if (!isClear) {
 			transactionAmount *= -1;
 		}
