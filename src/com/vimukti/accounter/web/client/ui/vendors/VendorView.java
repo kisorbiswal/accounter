@@ -760,7 +760,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		vatform.setGroupTitle(Accounter.constants().vatDetails());
 		if (getPreferences().isTrackTax()) {
 			if (getCountryPreferences().isVatAvailable()) {
-				vatform.setFields(vatRegistrationNumber, vendorTaxCode);
+				vatform.setFields(vatRegistrationNumber);
 			}
 			vatform.setFields(vendorTaxCode);
 			if (getCountryPreferences().isTDSAvailable()) {
