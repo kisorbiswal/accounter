@@ -86,6 +86,7 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 					setComboItem(result);
 					if (handler != null) {
 						handler.selectedComboBoxItem(result);
+						updateComboItem(result);
 					}
 				} else {
 					onFailure(null);
