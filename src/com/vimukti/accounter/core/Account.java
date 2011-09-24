@@ -904,7 +904,8 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			if (this.flow == null) {
 				if (this.parent == null) {
 					List l = session
-							.getNamedQuery("getFlow.by.Id.from.Account").list();
+							.getNamedQuery("getFlow.by.Id.from.Account")
+							.setEntity("company", company).list();
 					if (l != null && l.size() > 0) {
 						int count = Integer.parseInt((String) l.get(0));
 						count++;
@@ -916,8 +917,8 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 				} else {
 					List l = session
 							.getNamedQuery("getCount.from.Account.and.parent")
-							.setParameter("parentId", this.parent.getID())
-							.list();
+							.setLong("parentId", this.parent.getID())
+							.setEntity("company", getCompany()).list();
 					if (l != null) {
 						long count = (Long) l.get(0);
 						count++;
@@ -1115,8 +1116,8 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			// Query query = session.getNamedQuery("getNextTransactionNumber");
 			// query.setLong("type", Transaction.TYPE_JOURNAL_ENTRY);
 			// List list = query.list();
-			String nextVoucherNumber = NumberUtils
-					.getNextTransactionNumber(Transaction.TYPE_JOURNAL_ENTRY);
+			String nextVoucherNumber = NumberUtils.getNextTransactionNumber(
+					Transaction.TYPE_JOURNAL_ENTRY, getCompany());
 			JournalEntry journalEntry = new JournalEntry(this,
 					nextVoucherNumber, JournalEntry.TYPE_NORMAL_JOURNAL_ENTRY);
 			session.save(journalEntry);
@@ -1303,7 +1304,8 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		String accountName = (String) query.uniqueResult();
 
 		if (accountName != null && !this.getName().equals(accountName))
-			Entry.updateEntryMemo(session, accountName, this.getName());
+			Entry.updateEntryMemo(getCompany(), session, accountName,
+					this.getName());
 	}
 
 	public Company getCompany() {

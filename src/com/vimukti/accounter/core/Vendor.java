@@ -373,8 +373,8 @@ public class Vendor extends Payee {
 			// if (list != null && list.size() > 0) {
 			// nextVoucherNumber = ((Long) list.get(0)).longValue() + 1;
 			// }
-			String nextVoucherNumber = NumberUtils
-					.getNextTransactionNumber(Transaction.TYPE_JOURNAL_ENTRY);
+			String nextVoucherNumber = NumberUtils.getNextTransactionNumber(
+					Transaction.TYPE_JOURNAL_ENTRY, getCompany());
 			JournalEntry journalEntry = new JournalEntry(this,
 					nextVoucherNumber, JournalEntry.TYPE_NORMAL_JOURNAL_ENTRY);
 			session.save(journalEntry);

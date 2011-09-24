@@ -835,7 +835,7 @@ public class FixedAsset extends CreatableObject implements
 			// nextVoucherNumber = ((Long) list.get(0)).longValue() + 1;
 			// }
 			String nextVoucherNumber = NumberUtils
-					.getNextTransactionNumber(Transaction.TYPE_JOURNAL_ENTRY);
+					.getNextTransactionNumber(Transaction.TYPE_JOURNAL_ENTRY, getCompany());
 			/**
 			 * Preparing the journal entry for this Sell or Dispose.
 			 */
@@ -1046,7 +1046,7 @@ public class FixedAsset extends CreatableObject implements
 			// nextVoucherNumber = ((Long) list.get(0)).longValue() + 1;
 			// }
 			String nextVoucherNumber = NumberUtils
-					.getNextTransactionNumber(Transaction.TYPE_JOURNAL_ENTRY);
+					.getNextTransactionNumber(Transaction.TYPE_JOURNAL_ENTRY, getCompany());
 
 			double amount = depreciationMethod == Depreciation.METHOD_STRAIGHT_LINE ? this.purchasePrice
 					: this.openingBalanceForFiscalYear;
@@ -1563,9 +1563,9 @@ public class FixedAsset extends CreatableObject implements
 
 		Query query = session
 				.getNamedQuery("getDepreciation.byFixedAsset.andWithDetails")
-				.setParameter(0, rollBackDepreciationTo)
-				.setParameter(1, Depreciation.APPROVE)
-				.setParameter(2, fixedAssetID);
+				.setLong("date", rollBackDepreciationTo.getDate())
+				.setInteger("status", Depreciation.APPROVE)
+				.setLong("id", fixedAssetID).setEntity("company", getCompany());
 
 		List<Depreciation> list = query.list();
 		double rollBackDepAmt = 0.0;

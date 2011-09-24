@@ -11,18 +11,22 @@ import com.vimukti.accounter.utils.HibernateUtil;
 
 public class NumberUtils {
 
-	public static String getNextTransactionNumber(int transactionType) {
+	public static String getNextTransactionNumber(int transactionType,
+			Company company) {
 
-		String prevNumber = getPreviousTransactionNumber(transactionType);
+		String prevNumber = getPreviousTransactionNumber(transactionType,
+				company);
 
 		return getStringwithIncreamentedDigit(prevNumber);
 	}
 
-	public static String getPreviousTransactionNumber(int transactionType) {
+	public static String getPreviousTransactionNumber(int transactionType,
+			Company company) {
 
 		Query query = HibernateUtil.getCurrentSession()
 				.getNamedQuery("getTransactionNumber.by.type")
-				.setParameter("transactionType", transactionType);
+				.setParameter("transactionType", transactionType)
+				.setEntity("company", company);
 
 		List list = query.list();
 		if ((list.size() == 0)) {
@@ -46,7 +50,7 @@ public class NumberUtils {
 		return "0";
 	}
 
-	public static String getNextVoucherNumber() {
+	public static String getNextVoucherNumber(Company company) {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("get.Entry");
@@ -54,10 +58,11 @@ public class NumberUtils {
 
 		if (list1.size() <= 0) {
 
-			return getNextTransactionNumber(Transaction.TYPE_JOURNAL_ENTRY);
+			return getNextTransactionNumber(Transaction.TYPE_JOURNAL_ENTRY,
+					company);
 		}
-
-		query = session.getNamedQuery("getEntry.byId.andMax");
+		query = session.getNamedQuery("getEntry.byId.andMax").setEntity(
+				"company", company);
 		List list = query.list();
 
 		if (list != null) {
@@ -67,15 +72,16 @@ public class NumberUtils {
 
 	}
 
-	public static String getNextFixedAssetNumber() {
-		String prevNumber = getPreviousFixedAssetNumber();
+	public static String getNextFixedAssetNumber(Company company) {
+		String prevNumber = getPreviousFixedAssetNumber(company);
 		return getStringwithIncreamentedDigit(prevNumber);
 
 	}
 
-	private static String getPreviousFixedAssetNumber() {
+	private static String getPreviousFixedAssetNumber(Company company) {
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery("getassestNumber.from.FixedAsset");
+		Query query = session.getNamedQuery("getassestNumber.from.FixedAsset")
+				.setEntity("company", company);
 		List<?> list = query.list();
 		if (list.size() == 0) {
 			return "0";
@@ -90,44 +96,11 @@ public class NumberUtils {
 		return null;
 	}
 
-	public static String getNextCustomerNumber() {
+	public static String getNextAutoCustomerNumber(Company company) {
 
-		String prevNumber = getPreviousCustomerNumber();
-
-		return getStringwithIncreamentedDigitForCustomer(prevNumber);
-	}
-
-	public static String getNextVendorNumber() {
-		String prevNumber = getPreviousVendorNumber();
-
-		return getStringwithIncreamentedDigitForCustomer(prevNumber);
-
-	}
-
-	private static String getPreviousVendorNumber() {
-		Query query = HibernateUtil.getCurrentSession().getNamedQuery(
-				"getVendorNumber.byId.andOrder");
-
-		List list = query.list();
-		if ((list.size() == 0)) {
-			return "0";
-		}
-
-		for (int i = list.size() - 1; i >= 0; i--) {
-			String num = (String) list.get(i);
-			if (num.replaceAll("[\\D]", "").length() > 0) {
-				return num;
-			} else
-				return num + "0";
-		}
-
-		return "0";
-	}
-
-	public static String getNextAutoCustomerNumber() {
-
-		Query query = HibernateUtil.getCurrentSession().getNamedQuery(
-				"getCustomerNumber.orderBy.customerNumber");
+		Query query = HibernateUtil.getCurrentSession()
+				.getNamedQuery("getCustomerNumber.orderBy.customerNumber")
+				.setEntity("company", company);
 
 		List list = query.list();
 		String arr[] = (String[]) list.toArray(new String[list.size()]);
@@ -152,10 +125,11 @@ public class NumberUtils {
 
 	}
 
-	public static String getNextAutoVendorNumber() {
+	public static String getNextAutoVendorNumber(Company company) {
 
-		Query query = HibernateUtil.getCurrentSession().getNamedQuery(
-				"getVendorNumber.byId.andOrder");
+		Query query = HibernateUtil.getCurrentSession()
+				.getNamedQuery("getVendorNumber.byId.andOrder")
+				.setEntity("company", company);
 
 		List list = query.list();
 		String arr[] = (String[]) list.toArray(new String[list.size()]);
@@ -178,27 +152,6 @@ public class NumberUtils {
 
 		return number.toString();
 
-	}
-
-	public static String getPreviousCustomerNumber() {
-
-		Query query = HibernateUtil.getCurrentSession().getNamedQuery(
-				"getCustomerNumber.byId.andOrder");
-
-		List list = query.list();
-		if ((list.size() == 0)) {
-			return "0";
-		}
-
-		for (int i = list.size() - 1; i >= 0; i--) {
-			String num = (String) list.get(i);
-			if (num.replaceAll("[\\D]", "").length() > 0) {
-				return num;
-			} else
-				return num + "0";
-		}
-
-		return "0";
 	}
 
 	public static String getStringwithIncreamentedDigit(String prevNumber) {

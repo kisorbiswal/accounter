@@ -204,7 +204,8 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 						.getNamedQuery(
 								"getFisaclId.andSum.fromAccountTransaction")
 						.setParameter("startDate", this.previousStartDate)
-						.setParameter("endDate", this.endDate);
+						.setParameter("endDate", this.endDate)
+						.setEntity("company", getCompany());
 
 				List list1 = q.list();
 				Object[] object = null;
@@ -233,7 +234,7 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 				// nextTransactionNumber = ((Long) l.get(0)).longValue() + 1;
 				// }
 				String nextTransactionNumber = NumberUtils
-						.getNextTransactionNumber(Transaction.TYPE_JOURNAL_ENTRY);
+						.getNextTransactionNumber(Transaction.TYPE_JOURNAL_ENTRY, getCompany());
 				// One Journal Entry for this closing Fiscal Year.
 				// Journal Entries for Income and Expenses Accounts for the
 				// above amount adjustments
@@ -412,7 +413,8 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 		Session session = HibernateUtil.getCurrentSession();
 		List transactionDates = session
 				.getNamedQuery("get.TransactionDate.from.TransactionbyDate")
-				.setParameter("date", this.getStartDate()).list();
+				.setParameter("date", this.getStartDate())
+				.setEntity("company", presentFiscalYear.getCompany()).list();
 		Iterator it = transactionDates.iterator();
 		while (it.hasNext()) {
 			FinanceDate date = (FinanceDate) it.next();

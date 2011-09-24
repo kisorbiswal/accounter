@@ -89,7 +89,7 @@ public class JournalEntry extends Transaction {
 		List<Entry> entries = new ArrayList<Entry>();
 		Entry entry1 = new Entry();
 
-		String voucherNumber = NumberUtils.getNextVoucherNumber();
+		String voucherNumber = NumberUtils.getNextVoucherNumber(getCompany());
 		entry1.setVoucherNumber(voucherNumber);
 		entry1.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 		entry1.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_CUSTOMER);
@@ -131,7 +131,7 @@ public class JournalEntry extends Transaction {
 		this.balanceDue = vendor.getOpeningBalance();
 
 		List<Entry> entries = new ArrayList<Entry>();
-		String voucherNumber = NumberUtils.getNextVoucherNumber();
+		String voucherNumber = NumberUtils.getNextVoucherNumber(getCompany());
 		Entry entry1 = new Entry();
 		entry1.setVoucherNumber(voucherNumber);
 		entry1.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
@@ -169,7 +169,7 @@ public class JournalEntry extends Transaction {
 		this.memo = AccounterServerConstants.MEMO_OPENING_BALANCE;
 
 		List<Entry> entries = new ArrayList<Entry>();
-		String voucherNumber = NumberUtils.getNextVoucherNumber();
+		String voucherNumber = NumberUtils.getNextVoucherNumber(getCompany());
 		Entry entry1 = new Entry();
 		entry1.setVoucherNumber(voucherNumber);
 		entry1.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
@@ -223,7 +223,7 @@ public class JournalEntry extends Transaction {
 		this.memo = "Closing Fiscal Year";
 
 		List<Entry> entries = new ArrayList<Entry>();
-		String voucherNumber = NumberUtils.getNextVoucherNumber();
+		String voucherNumber = NumberUtils.getNextVoucherNumber(getCompany());
 		Entry entry = null;
 		for (AccountTransactionByAccount accountTransactionByTaxCode : accountTransactionList) {
 			Account account = accountTransactionByTaxCode.getAccount();
@@ -297,7 +297,7 @@ public class JournalEntry extends Transaction {
 		this.memo = "Closing Fiscal Year";
 
 		List<Entry> entries = new ArrayList<Entry>();
-		String voucherNumber = NumberUtils.getNextVoucherNumber();
+		String voucherNumber = NumberUtils.getNextVoucherNumber(getCompany());
 
 		Entry entry = null;
 
@@ -375,7 +375,7 @@ public class JournalEntry extends Transaction {
 		List<Entry> entries = new ArrayList<Entry>();
 		Entry entry1 = new Entry();
 
-		String voucherNumber = NumberUtils.getNextVoucherNumber();
+		String voucherNumber = NumberUtils.getNextVoucherNumber(getCompany());
 		entry1.setVoucherNumber(voucherNumber);
 		entry1.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 		entry1.setAccount(fixedAsset.getAssetAccount()
@@ -451,7 +451,7 @@ public class JournalEntry extends Transaction {
 		List<Entry> entries = new ArrayList<Entry>();
 		Entry entry1 = new Entry();
 
-		String voucherNumber = NumberUtils.getNextVoucherNumber();
+		String voucherNumber = NumberUtils.getNextVoucherNumber(getCompany());
 		entry1.setVoucherNumber(voucherNumber);
 		entry1.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 		entry1.setAccount(fixedAsset.getAssetAccount());
@@ -575,7 +575,7 @@ public class JournalEntry extends Transaction {
 		Account adjustmentAccount = adjustment.getAdjustmentAccount();
 
 		List<Entry> entries = new ArrayList<Entry>();
-		String voucherNumber = NumberUtils.getNextVoucherNumber();
+		String voucherNumber = NumberUtils.getNextVoucherNumber(getCompany());
 
 		Entry entry1 = new Entry();
 		entry1.setVoucherNumber(voucherNumber);
@@ -696,14 +696,14 @@ public class JournalEntry extends Transaction {
 		this.type = Transaction.TYPE_JOURNAL_ENTRY;
 		this.journalEntryType = TYPE_NORMAL_JOURNAL_ENTRY;
 		this.number = NumberUtils
-				.getNextTransactionNumber(Transaction.TYPE_JOURNAL_ENTRY);
+				.getNextTransactionNumber(Transaction.TYPE_JOURNAL_ENTRY, getCompany());
 		this.transactionDate = return1.transactionDate;
 		this.transaction = return1;
 
 		double creditTotal = 0;
 		double debitTotal = 0;
 		List<Entry> entries = new ArrayList<Entry>();
-		String voucherNumber = NumberUtils.getNextVoucherNumber();
+		String voucherNumber = NumberUtils.getNextVoucherNumber(getCompany());
 		for (Box b : return1.boxes) {
 			// if (b.getTaxRateCalculations() != null
 			// && b.getTaxRateCalculations().size() > 0) {

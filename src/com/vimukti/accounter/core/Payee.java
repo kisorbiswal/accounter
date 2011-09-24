@@ -370,19 +370,6 @@ public abstract class Payee extends CreatableObject implements
 
 	public abstract Account getAccount();
 
-	// /*
-	// * Is to update Memo in Entry if and only if payee Name was altered
-	// */
-	// protected void updateEntryMemo(Session session) {
-	//
-	// Query query = session.getNamedQuery("getPayeename.from.PayeebyId")
-	// .setParameter("id", this.getID());
-	// String payeeName = (String) query.uniqueResult();
-	//
-	// if (payeeName != null && !this.getName().equals(payeeName))
-	// Entry.updateEntryMemo(session, payeeName, this.getName());
-	// }
-
 	public void setPhoneNo(String phoneNo) {
 		this.phoneNo = phoneNo;
 	}

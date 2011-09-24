@@ -985,11 +985,11 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 	 * Is to update Memo in Entry if and only if payee Name or account Name was
 	 * altered
 	 */
-	public static void updateEntryMemo(Session session, String oldName,
-			String newName) {
+	public static void updateEntryMemo(Company company, Session session,
+			String oldName, String newName) {
 		session.getNamedQuery("update.Entry.oldNameTo.newName")
 				.setString("newName", newName).setString("oldName", oldName)
-				.executeUpdate();
+				.setEntity("company", company).executeUpdate();
 	}
 
 	@Override
