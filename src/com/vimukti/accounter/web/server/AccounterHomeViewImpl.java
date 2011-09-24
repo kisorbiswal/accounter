@@ -1315,7 +1315,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	public void rollBackDepreciation(long rollBackDepreciationTo)
 			throws AccounterException {
 		FinanceTool tool = getFinanceTool();
-		tool.rollBackDepreciation(rollBackDepreciationTo);
+		tool.rollBackDepreciation(rollBackDepreciationTo, getCompanyId());
 
 	}
 
