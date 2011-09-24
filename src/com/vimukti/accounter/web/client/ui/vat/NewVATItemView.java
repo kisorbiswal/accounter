@@ -404,7 +404,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		setMode(EditMode.EDIT);
 		vatItemNameText.setDisabled(isInViewMode());
 		descriptionText.setDisabled(isInViewMode());
-		vatRateText.setDisabled(isInViewMode());
+		vatRateTextPerT.setDisabled(isInViewMode());
 		vatReturnBoxCombo.setDisabled(isInViewMode());
 		vatAgencyCombo.setDisabled(isInViewMode());
 		statusCheck.setDisabled(isInViewMode());
