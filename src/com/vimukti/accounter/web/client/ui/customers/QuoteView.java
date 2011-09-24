@@ -104,15 +104,15 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			ClientEstimate ent = (ClientEstimate) this.transaction;
 
 			if (ent != null && ent.getCustomer() == (customer.getID())) {
-				this.customerTransactionTable.clear();
+				this.customerTransactionTable.resetRecords();
 				this.customerTransactionTable.setAllRows(ent
 						.getTransactionItems());
 			} else if (ent != null
 					&& !(ent.getCustomer() == (customer.getID()))) {
-				this.customerTransactionTable.clear();
+				this.customerTransactionTable.resetRecords();
 				this.customerTransactionTable.updateTotals();
 			} else if (ent == null)
-				this.customerTransactionTable.clear();
+				this.customerTransactionTable.resetRecords();
 		}
 		super.customerSelected(customer);
 		shippingTermSelected(shippingTerm);
