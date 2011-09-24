@@ -64,7 +64,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	private AddNewButton itemTableButton;
 
 	protected ClientPriceLevel priceLevel;
-	protected ClientTAXCode taxCode;
 	protected DateField deliveryDate;
 	private List<ClientPaymentTerms> paymentTermsList;
 	protected ClientSalesPerson salesPerson;
@@ -104,15 +103,13 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			ClientEstimate ent = (ClientEstimate) this.transaction;
 
 			if (ent != null && ent.getCustomer() == (customer.getID())) {
-				this.customerTransactionTable.resetRecords();
 				this.customerTransactionTable.setAllRows(ent
 						.getTransactionItems());
 			} else if (ent != null
 					&& !(ent.getCustomer() == (customer.getID()))) {
-				this.customerTransactionTable.resetRecords();
 				this.customerTransactionTable.updateTotals();
-			} else if (ent == null)
-				this.customerTransactionTable.resetRecords();
+			}
+			this.customerTransactionTable.resetRecords();
 		}
 		super.customerSelected(customer);
 		shippingTermSelected(shippingTerm);
@@ -123,12 +120,12 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		if (this.salesPerson != null && salesPersonCombo != null)
 			salesPersonCombo.setComboItem(this.salesPerson);
 
-		if (this.taxCode != null
-				&& taxCodeSelect != null
-				&& taxCodeSelect.getValue() != ""
-				&& !taxCodeSelect.getName().equalsIgnoreCase(
-						Accounter.constants().none()))
-			taxCodeSelect.setComboItem(this.taxCode);
+		// if (this.taxCode != null
+		// && taxCodeSelect != null
+		// && taxCodeSelect.getValue() != ""
+		// && !taxCodeSelect.getName().equalsIgnoreCase(
+		// Accounter.constants().none()))
+		// taxCodeSelect.setComboItem(this.taxCode);
 		// if (this.priceLevel != null && priceLevelSelect != null)
 		// priceLevelSelect.setComboItem(this.priceLevel);
 
@@ -513,11 +510,11 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	@Override
 	protected void updateTransaction() {
 		super.updateTransaction();
-		if (taxCode != null && transactionItems != null) {
-			for (ClientTransactionItem item : transactionItems) {
-				item.setTaxCode(taxCode.getID());
-			}
-		}
+		// if (taxCode != null && transactionItems != null) {
+		// for (ClientTransactionItem item : transactionItems) {
+		// item.setTaxCode(taxCode.getID());
+		// }
+		// }
 		transaction.setTotal(transactionTotalNonEditableText.getAmount());
 	}
 
@@ -621,9 +618,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			if (transaction.getID() != 0) {
 				setMode(EditMode.VIEW);
 			}
-			this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
-			// taxCodeSelected(this.taxCode);
-			if (taxCode != null) {
+
+			if (!isTaxPerDetailLine() && taxCodeSelect != null) {
 				this.taxCodeSelect
 						.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
 			}
@@ -869,9 +865,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	@Override
 	protected void taxCodeSelected(ClientTAXCode taxCode) {
-		this.taxCode = taxCode;
 		if (taxCode != null) {
-
 			taxCodeSelect
 					.setComboItem(getCompany().getTAXCode(taxCode.getID()));
 			customerTransactionTable.setTaxCode(taxCode.getID(), true);
