@@ -600,7 +600,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			customerForm.setFields(custNameText, custNoText);
 		} else {
 			customerForm.setFields(custNameText);
-
 		}
 		customerForm.setWidth("100%");
 		customerForm.getCellFormatter().setWidth(0, 0, "205");
@@ -705,7 +704,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		HorizontalPanel hPanel = new HorizontalPanel();
 		hPanel.add(addButton);
 		hPanel.getElement().getStyle().setMarginTop(8, Unit.PX);
-		hPanel.getElement().getStyle().setFloat(Float.RIGHT);
+		hPanel.getElement().getStyle().setFloat(Float.LEFT);
 		panel.add(hPanel);
 		memoArea = new TextAreaItem();
 		memoArea.setWidth("400px");
