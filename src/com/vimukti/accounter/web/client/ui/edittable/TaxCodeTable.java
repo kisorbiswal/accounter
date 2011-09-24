@@ -1,9 +1,12 @@
 package com.vimukti.accounter.web.client.ui.edittable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
+import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -11,8 +14,28 @@ import com.vimukti.accounter.web.client.ui.vat.NewTAXCodeAction;
 
 public class TaxCodeTable extends AbstractDropDownTable<ClientTAXCode> {
 
+	private ListFilter<ClientTAXCode> filter;
+	private boolean isSales;
+
 	public TaxCodeTable() {
 		super(Accounter.getCompany().getTaxCodes());
+	}
+
+	public TaxCodeTable(ListFilter<ClientTAXCode> filter, boolean isSales) {
+		super(getTaxCodes(filter));
+		this.isSales = isSales;
+		this.filter = filter;
+	}
+
+	private static List<ClientTAXCode> getTaxCodes(
+			ListFilter<ClientTAXCode> filter) {
+		if (filter != null) {
+			ArrayList<ClientTAXCode> filteredList = Utility.filteredList(
+					filter, Accounter.getCompany().getTaxCodes());
+			return filteredList;
+		} else {
+			return Accounter.getCompany().getTaxCodes();
+		}
 	}
 
 	@Override
@@ -56,7 +79,7 @@ public class TaxCodeTable extends AbstractDropDownTable<ClientTAXCode> {
 				// return displayName;
 				// } else
 				// return "";
-				return object.getDisplayName();
+				return getDisplayName(object);
 			}
 		};
 		this.addColumn(column);
@@ -65,12 +88,12 @@ public class TaxCodeTable extends AbstractDropDownTable<ClientTAXCode> {
 
 	@Override
 	protected boolean filter(ClientTAXCode t, String string) {
-		return t.getDisplayName().toLowerCase().startsWith(string);
+		return getDisplayName(t).toLowerCase().startsWith(string);
 	}
 
 	@Override
 	protected String getDisplayValue(ClientTAXCode value) {
-		return value.getDisplayName();
+		return getDisplayName(value);
 	}
 
 	@Override
@@ -108,7 +131,7 @@ public class TaxCodeTable extends AbstractDropDownTable<ClientTAXCode> {
 
 	@Override
 	public List<ClientTAXCode> getTotalRowsData() {
-		return Accounter.getCompany().getTaxCodes();
+		return getTaxCodes(filter);
 	}
 
 	@Override
@@ -119,5 +142,24 @@ public class TaxCodeTable extends AbstractDropDownTable<ClientTAXCode> {
 	@Override
 	protected void addNewItem(String text) {
 		addNewItem();
+	}
+
+	private String getDisplayName(ClientTAXCode code) {
+		String name = code.getName();
+		if (name == null) {
+			return null;
+		}
+		StringBuffer result = new StringBuffer(name);
+		if (name.equals(Accounter.constants().addaNewTaxCode())) {
+			return result.toString();
+		}
+		result.append(" - ");
+		if (isSales) {
+			result.append(code.getSalesTaxRate());
+		} else {
+			result.append(code.getPurchaseTaxRate());
+		}
+		result.append("%");
+		return result.toString();
 	}
 }

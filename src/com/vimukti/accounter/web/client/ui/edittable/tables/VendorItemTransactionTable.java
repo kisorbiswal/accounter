@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.edittable.tables;
 
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -95,7 +96,27 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 
 		if (enableTax) {
 			if (showTaxCode) {
-				this.addColumn(new TransactionVatCodeColumn());
+				this.addColumn(new TransactionVatCodeColumn() {
+
+					@Override
+					protected ListFilter<ClientTAXCode> getTaxCodeFilter() {
+						return new ListFilter<ClientTAXCode>() {
+
+							@Override
+							public boolean filter(ClientTAXCode e) {
+								if (e.getTAXItemGrpForPurchases() != 0) {
+									return true;
+								}
+								return false;
+							}
+						};
+					}
+
+					@Override
+					protected boolean isSales() {
+						return false;
+					}
+				});
 
 				this.addColumn(new TransactionVatColumn());
 			} else {
