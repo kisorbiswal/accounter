@@ -531,7 +531,7 @@ select[multiple],.selectedview_textareadata,#loading .loadingIndicator,.main-cla
 .selectedview_labelstyle,.selectedview_tiny_labelstyle,.selectedview_large_labelstyle,.selectedview_medium_labelstyle,
 .companyInfoPanel .header,.progress_header,.gwt-DecoratedTabBar .tabMiddleCenter,
 .plain00,.panel-title,.gwt-DialogBox .Caption,.headerlabel,.selectedview_textarea_label,.bottom_total_view td,
-.select_industry,.organized_radio,.employee_yesno,.billing_question,.boldtext {
+.select_industry,.organized_radio,.employee_yesno,.billing_question,.boldtext tr td div {
 	font-weight: bold;
 }
 .tax-form td{
