@@ -450,6 +450,7 @@ public class InvoiceBrandingView<T> extends
 		uploadPanel.setCellHorizontalAlignment(uploadPictureHtml,
 				HasAlignment.ALIGN_CENTER);
 		verticalPanel.add(uploadPanel);
+		verticalPanel.setWidth("100%");
 		verticalPanel.add(panel);
 		panel.getElement().getParentElement().setAttribute("align", "center");
 		uploadPanel.setHorizontalAlignment(HasAlignment.ALIGN_CENTER);
