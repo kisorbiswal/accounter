@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.customers;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -28,7 +27,7 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 
 	public NewLocationDialog(String title) {
 		super(title, "");
-		setWidth("400px");
+		// setWidth("400px");
 		createControls();
 		center();
 	}
@@ -38,7 +37,7 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 		super(title, "");
 		this.clientLocation = clientLocation2;
 		this.locationGroupListDialog = locationGroupListDialog;
-		setWidth("400px");
+		// setWidth("400px");
 		createControls();
 		center();
 	}
