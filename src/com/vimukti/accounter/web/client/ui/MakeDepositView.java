@@ -371,6 +371,7 @@ public class MakeDepositView extends
 				MakeDepositView.this.updateNonEditableItems();
 			}
 		};
+		// gridView.setHeight("250px");
 		gridView.setDisabled(isInViewMode());
 		gridView.getElement().getStyle().setMarginTop(10, Unit.PX);
 	}
@@ -824,7 +825,7 @@ public class MakeDepositView extends
 
 		form2 = new DynamicForm();
 		form2.setFields(totText);
-		form2.addStyleName("unused-payments");
+		form2.addStyleName("textbold");
 		form2.setWidth("50%");
 		form2.getElement().getStyle().setMarginTop(10, Unit.PX);
 
