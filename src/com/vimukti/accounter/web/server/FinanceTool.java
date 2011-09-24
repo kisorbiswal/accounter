@@ -10473,13 +10473,13 @@ public class FinanceTool {
 				if (clientObject.getNumber() == null
 						|| clientObject.getNumber().equals(""))
 					return true;
-
 				Query query = HibernateUtil
 						.getCurrentSession()
 						.getNamedQuery("getTransaction.by.check.type.number.id")
-						.setParameter(0, clientObject.getType())
-						.setParameter(1, clientObject.getNumber())
-						.setParameter(2, clientObject.getID());
+						.setParameter("company", company)
+						.setParameter("type", clientObject.getType())
+						.setParameter("number", clientObject.getNumber())
+						.setParameter("id", clientObject.getID());
 
 				List list = query.list();
 
@@ -12943,7 +12943,7 @@ public class FinanceTool {
 
 	}
 
-	public ArrayList<ClientTDSInfo> getPayBillsByTDS()
+	public ArrayList<ClientTDSInfo> getPayBillsByTDS(long companyId)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -12954,8 +12954,9 @@ public class FinanceTool {
 		ClientConvertUtil clientConvertUtil = new ClientConvertUtil();
 		ClientVendor clientVendor = null;
 		ClientFinanceDate clientFinanceDate = null;
-
-		Query query = session.getNamedQuery("get.PayBills.by.tds");
+		Company company = getCompany(companyId);
+		Query query = session.getNamedQuery("get.PayBills.by.tds")
+				.setParameter("company", company);
 		paybills = (List<PayBill>) query.list();
 		ClientTDSInfo clientTDSInfo = null;
 		ClientPayBill clientPayBill = null;
@@ -12981,11 +12982,6 @@ public class FinanceTool {
 				tdsInfos.add(clientTDSInfo);
 
 			}
-
-			// Query query1 = session.getNamedQuery(
-			// "get.transactionsPayBills.by.tds").setParameter(0, p);
-			// transactionPaybills = (List<PayBill>) query1.list();
-
 		}
 
 		return tdsInfos;
