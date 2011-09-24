@@ -193,6 +193,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	 */
 	protected void countryChanged() {
 		int selectedCountry = country.getSelectedIndex();
+		setCountry(country.getItemText(country.getSelectedIndex()));
 		if (selectedCountry < 0) {
 			return;
 		}

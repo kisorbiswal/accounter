@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
+import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 
 public class CompanyTradingDetailsPage extends AbstractCompanyInfoPanel {
 
@@ -50,7 +51,7 @@ public class CompanyTradingDetailsPage extends AbstractCompanyInfoPanel {
 	@UiField
 	ListBox stateCombo;
 
-	private List<String> countriesList, states;
+	private List<String> countriesList, statesList;
 
 	interface CompanyTradingDetailsPageUiBinder extends
 			UiBinder<Widget, CompanyTradingDetailsPage> {
@@ -99,7 +100,7 @@ public class CompanyTradingDetailsPage extends AbstractCompanyInfoPanel {
 			address1Text.setValue(company.getTradingAddress().getAddress1());
 			address2Text.setValue(company.getTradingAddress().getStreet());
 			cityText.setValue(company.getTradingAddress().getCity());
-			stateCombo.setSelectedIndex(states.indexOf(company
+			stateCombo.setSelectedIndex(statesList.indexOf(company
 					.getTradingAddress().getStateOrProvinence()));
 			postalcodeText.setValue(company.getTradingAddress()
 					.getZipOrPostalCode());
@@ -116,7 +117,7 @@ public class CompanyTradingDetailsPage extends AbstractCompanyInfoPanel {
 		company.getTradingAddress().setCity(cityText.getValue());
 		if (stateCombo.getSelectedIndex() > 0)
 			company.getTradingAddress().setStateOrProvinence(
-					states.get(stateCombo.getSelectedIndex()));
+					statesList.get(stateCombo.getSelectedIndex()));
 		company.getTradingAddress().setZipOrPostalCode(
 				postalcodeText.getValue());
 		if (countryCombo.getSelectedIndex() > 0)
@@ -130,17 +131,18 @@ public class CompanyTradingDetailsPage extends AbstractCompanyInfoPanel {
 		if (selectedCountry < 0) {
 			return;
 		}
-		List<String> states = CoreUtils.getStatesAsListForCountry(countryCombo
-				.getItemText(selectedCountry));
+		String[] states = CountryPreferenceFactory.get(
+				countryCombo.getItemText(selectedCountry)).getStates();
 		setStates(states);
 
 	}
 
-	private void setStates(List<String> states2) {
-		this.states = states2;
+	private void setStates(String[] states) {
+		statesList = new ArrayList<String>();
 		stateCombo.clear();
-		for (int i = 0; i < states.size(); i++) {
-			stateCombo.addItem(states.get(i));
+		for (int i = 0; i < states.length; i++) {
+			statesList.add(states[i]);
+			stateCombo.addItem(states[i]);
 		}
 
 	}
