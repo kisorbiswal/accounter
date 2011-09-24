@@ -936,11 +936,16 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	public ArrayList<ReceivePaymentTransactionList> getTransactionReceivePayments(
-			long customerId, long paymentDate) throws AccounterException {
+			long customerId, long paymentDate) {
 		List<ReceivePaymentTransactionList> receivePaymentTransactionList = null;
 
-		receivePaymentTransactionList = getFinanceTool()
-				.getTransactionReceivePayments(customerId, paymentDate);
+		try {
+			receivePaymentTransactionList = getFinanceTool()
+					.getTransactionReceivePayments(customerId, paymentDate);
+		} catch (AccounterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		// receivePaymentTransactionList =
 		// (List<ReceivePaymentTransactionList>) manager
