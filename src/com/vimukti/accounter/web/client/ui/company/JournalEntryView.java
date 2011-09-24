@@ -586,35 +586,6 @@ public class JournalEntryView extends
 
 	}
 
-	public void onEdit() {
-		// AccounterAsyncCallback<Boolean> editCallBack = new
-		// AccounterAsyncCallback<Boolean>() {
-		//
-		// @Override
-		// public void onException(AccounterException caught) {
-		// if (caught.getMessage() != null)
-		// Accounter.showError(caught.getMessage());
-		// else
-		// Accounter.showError(Accounter.constants()
-		// .cannotEditVoidedTransaction());
-		// }
-		//
-		// @Override
-		// public void onResultSuccess(Boolean result) {
-		// // if (result)
-		// // enableFormItems();
-		// Accounter.showError("Journal Entry can't be edited.");
-		// }
-		//
-		// };
-		//
-		// AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
-		// .getType());
-		// this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
-		Accounter.showError("Journal Entry can't be edited.");
-
-	}
-
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
 		jourNoText.setDisabled(isInViewMode());
@@ -650,5 +621,10 @@ public class JournalEntryView extends
 	@Override
 	protected void refreshTransactionGrid() {
 
+	}
+
+	@Override
+	public boolean canEdit() {
+		return false;
 	}
 }
