@@ -604,7 +604,7 @@ public class VendorBillView extends
 		// vatCheckform.setFields(vatinclusiveCheck);
 
 		totalForm.setWidth("100%");
-		totalForm.setStyleName("invoice-total");
+		totalForm.setStyleName("boldtext");
 		// netAmount.setWidth((netAmount.getMainWidget().getOffsetWidth() +
 		// "102")
 		// + "px");
