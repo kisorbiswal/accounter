@@ -1,9 +1,9 @@
 /** Add css rules here for your application. */
 	/** Example rules used by the template application (remove for your app) */
 	/*
- *	@author A.Praveena
- *  
- */
+	 * @author A.Praveena
+	 * 
+	 */
 #contactable {
 	background-image:url(../images/contact.png);
 	color:#FFFFFF;
@@ -262,7 +262,7 @@ a,.falseHyperlink,.update-link span,.actionOver,#mainFooter a:hover,.hr-reports 
 .report-toolbar,.datePickerDayIsValue{
 	background: none repeat scroll 0 0 #CCCCCC !important;
 }
-.gridBody,.gridHeader,.blue-day-grid,.dropdownFlex,.gridHeader,.editTable table,.invoice-total,.borders,.biz-decor-panel{
+.gridBody,.gridHeader,.blue-day-grid,.dropdownFlex,.gridHeader,.editTable table,.invoice-total,.borders,.biz-decor-panel,.boldtext{
 	border-collapse: collapse;
 }
 .gridBody tr td div,.gridHeader tr td div {
@@ -408,7 +408,7 @@ textarea[disabled] {
 .welcome-panel,.finance-portlet .portlet .decor10,.fullSizePanel,.biz-decor-panel,
 .view_help_panel iframe,.progress_panel_show table,.editTable .gwt-TextBox,.abstract_base_view,
 .gridEvenRow,.gridOddRow,.helpPanel,.view_panel,.HEADER_GRID,.financeWindow,.noScroll,.listgridfooter,.editTable_disable_anchor,
-.gridHeader,.toolbox,.companyInfoPanel,.MENU_BAR_BG,.error-panel,.commentPanel,#mainFooter,.portlet-body,.empty_menu_bar,.address {
+.gridHeader,.toolbox,.companyInfoPanel,.MENU_BAR_BG,.error-panel,.commentPanel,#mainFooter,.portlet-body,.empty_menu_bar,.address,.boldtext {
 	width: 100%;
 }
 .biz-decor-panel,.page-layout,.MenuBarParent table,.dropdownFlex {
@@ -531,7 +531,7 @@ select[multiple],.selectedview_textareadata,#loading .loadingIndicator,.main-cla
 .selectedview_labelstyle,.selectedview_tiny_labelstyle,.selectedview_large_labelstyle,.selectedview_medium_labelstyle,
 .companyInfoPanel .header,.progress_header,.gwt-DecoratedTabBar .tabMiddleCenter,
 .plain00,.panel-title,.gwt-DialogBox .Caption,.headerlabel,.selectedview_textarea_label,.bottom_total_view td,
-.select_industry,.organized_radio,.employee_yesno,.billing_question {
+.select_industry,.organized_radio,.employee_yesno,.billing_question,.boldtext {
 	font-weight: bold;
 }
 .tax-form td{
@@ -897,10 +897,10 @@ td.td01,.no-title .biz-decor-panel td.td01,.viewTitle,.blue-month-line,.blue-wee
 .invoice-total {
 	margin: 10px 0;
 }
-.invoice-total tr td div {
+.invoice-total tr td div,.boldtext tr td div {
 	margin: 0 4px !important;
 }
-.invoice-total tr:nth-child(3){
+.invoice-total tr:nth-child(3),.boldtext tr:nth-child(3){
     border-bottom:1px solid #aaa;
     border-top:1px solid #aaa;
 }
@@ -1622,7 +1622,7 @@ input[type="text"],textarea {
 .currency_listbox{
 	margin:10px;
 }
-.expense_question_link{
+.expense_question_link,.boldtext{
 	margin:10px 0px;
 }
 .setup_accounts{
