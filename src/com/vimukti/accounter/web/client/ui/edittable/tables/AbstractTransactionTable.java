@@ -182,8 +182,7 @@ public abstract class AbstractTransactionTable extends
 						Accounter.messages().pleaseSelectCustomer(
 								Utility.getItemType(item.getType())));
 			}
-			if (getCompany().getPreferences().isTrackTax()
-					&& getCompany().getPreferences().isTaxPerDetailLine()) {
+			if (getCompany().getPreferences().isTrackTax()) {
 				if (item.getTaxCode() == 0) {
 					result.addError(
 							"GridItemUK-" + item.getAccount(),
