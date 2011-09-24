@@ -43,9 +43,9 @@
 	<!-- Cleaning -->
 	<target name="clean">
 		<delete dir="${build.dir}" />
-		<delete defaultExcludes="false">
+		<!--<delete defaultExcludes="false">
 			<fileset dir="./war/accounter" />
-		</delete>
+		</delete>-->
 	</target>
 
 	<!--Compiling-->
@@ -77,7 +77,7 @@
 	</target>
 
 
-	<target name="setup" depends="compile,gwtcompile">
+	<target name="setup" depends="compile">
 		<mkdir dir="${classes.dir}" />
 
 		<mkdir dir="${classes.dir}/war" />
