@@ -2895,14 +2895,12 @@
 	<sql-query name="canDeleteTAXItem">
 		<query-param name="inputId" type="long" />
 
-		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
 		<return-scalar column="TAX_ADJUSTMENT_ID" type="long" />
 		<return-scalar column="TAX_RATE_CALCULATION_ID" type="long" />
 		<return-scalar column="TAX_GROUP_ID" type="long" />
 		<return-scalar column="TAX_CODE_ID" type="long" />
 
 		SELECT
-		TI.ID AS TRANSACTION_ITEM_ID,
 		TA.ID AS TAX_ADJUSTMENT_ID,
 		VRC.ID
 		AS TAX_RATE_CALCULATION_ID,
@@ -2911,10 +2909,6 @@
 
 		FROM TAX_ITEM T
 
-		LEFT OUTER JOIN
-		TRANSACTION_ITEM TI
-		ON TI.TAXITEM_ID =
-		T.ID
 		LEFT OUTER JOIN
 		TAX_ADJUSTMENT TA
 		ON TA.TAX_ITEM = T.ID
@@ -2942,13 +2936,11 @@
 	<sql-query name="canDeleteTAXItemForUS">
 		<query-param name="inputId" type="long" />
 
-		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
 		<return-scalar column="TAX_ADJUSTMENT_ID" type="long" />
 		<return-scalar column="TAX_RATE_CALCULATION_ID" type="long" />
 		<return-scalar column="TAX_GROUP_ID" type="long" />
 
 		SELECT
-		TI.ID AS TRANSACTION_ITEM_ID,
 		TA.ID AS TAX_ADJUSTMENT_ID,
 		VRC.ID
 		AS TAX_RATE_CALCULATION_ID,
@@ -2956,10 +2948,6 @@
 
 		FROM TAX_ITEM T
 
-		LEFT
-		OUTER JOIN
-		TRANSACTION_ITEM TI
-		ON TI.TAXITEM_ID = T.ID
 		LEFT OUTER JOIN
 		TAX_ADJUSTMENT TA
 		ON TA.TAX_ITEM = T.ID

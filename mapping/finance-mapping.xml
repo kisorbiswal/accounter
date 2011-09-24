@@ -1157,6 +1157,8 @@
 			<generator class="native" />
 		</id>
 		<property name="name" not-null="true" unique="true" column="NAME"></property>
+		<property name="salesTaxRate" column="SALES_TAX_RATE"></property>
+		<property name="purchaseTaxRate" column="PURCHASE_TAX_RATE"></property>
 		<property name="description" column="DESCRIPTION"></property>
 		<property name="isTaxable" column="ISTAXABLE"></property>
 		<property name="isActive" column="ISACTIVE"></property>

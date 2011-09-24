@@ -1033,9 +1033,6 @@
 		<property name="type" column="TYPE"></property>
 		<many-to-one name="item" class="Item" lazy="false" column="ITEM_ID">
 		</many-to-one>
-		<many-to-one name="taxItem" class="TAXItem" lazy="false"
-			column="TAXITEM_ID">
-		</many-to-one>
 		<many-to-one name="account" class="Account" lazy="false"
 			column="ACCOUNT_ID">
 		</many-to-one>
@@ -1055,9 +1052,6 @@
 		<property name="lineTotal" column="LINE_TOTAL"></property>
 		<property name="updateAmount" column="UPDATE_AMOUNT"></property>
 		<property name="isTaxable" column="IS_TAXABLE"></property>
-		<many-to-one name="taxGroup" class="TAXGroup" lazy="false"
-			column="TAXGROUP_ID">
-		</many-to-one>
 		<many-to-one name="transaction" class="Transaction" lazy="false"
 			column="TRANSACTION_ID">
 		</many-to-one>
