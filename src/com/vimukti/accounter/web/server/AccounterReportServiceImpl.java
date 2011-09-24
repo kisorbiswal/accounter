@@ -1639,7 +1639,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 							.getServerClassFullyQualifiedName(),
 					taxAgency);
 			vatSummaryList = getFinanceTool().getVAT100Report(vatAgency,
-					financeDates[0], financeDates[1]);
+					financeDates[0], financeDates[1], getCompanyId());
 
 			VATSummary obj = new VATSummary();
 			if (vatSummaryList != null)

@@ -2406,9 +2406,10 @@ public class FinanceTool {
 			List list = query.list();
 
 			List<PayBillTransactionList> queryResult = new ArrayList<PayBillTransactionList>();
-
-			query = session
-					.getNamedQuery("getEntry.by.debitand.balanceDue.orderbyid");
+			Company company = getCompany(companyId);
+			query = session.getNamedQuery(
+					"getEntry.by.debitand.balanceDue.orderbyid").setParameter(
+					"company", company);
 			List<JournalEntry> openingBalanceEntries = query.list();
 
 			for (JournalEntry je : openingBalanceEntries) {
@@ -2463,9 +2464,12 @@ public class FinanceTool {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery(
-					"getEntry.by.vendorId.creditand.balanceDue.orderbyid")
-					.setParameter(0, vendorId);
+			Company company = getCompany(companyId);
+			Query query = session
+					.getNamedQuery(
+							"getEntry.by.vendorId.creditand.balanceDue.orderbyid")
+					.setParameter("id", vendorId)
+					.setParameter("company", company);
 
 			List<JournalEntry> openingBalanceEntries = query.list();
 
@@ -2552,10 +2556,12 @@ public class FinanceTool {
 			// List list = query.list();
 
 			List<ReceivePaymentTransactionList> queryResult = new ArrayList<ReceivePaymentTransactionList>();
-
-			query = session.getNamedQuery(
-					"getEntry.by.customerId.debitand.balanceDue.orderbyid")
-					.setParameter(0, customerId);
+			Company company = getCompany(companyId);
+			query = session
+					.getNamedQuery(
+							"getEntry.by.customerId.debitand.balanceDue.orderbyid")
+					.setParameter("id", customerId)
+					.setParameter("company", company);
 
 			List<JournalEntry> openingBalanceEntries = query.list();
 
@@ -2777,12 +2783,15 @@ public class FinanceTool {
 
 	}
 
-	public boolean canVoidOrEdit(long invoiceOrVendorBillId)
+	public boolean canVoidOrEdit(long invoiceOrVendorBillId, long companyId)
 			throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery(
-				"get.canVoidOrEditTransaction.from.transactionID")
-				.setParameter(0, invoiceOrVendorBillId);
+		Company company = getCompany(companyId);
+		Query query = session
+				.getNamedQuery(
+						"get.canVoidOrEditTransaction.from.transactionID")
+				.setParameter("id", invoiceOrVendorBillId)
+				.setParameter("company", company);
 		List list = query.list();
 
 		return (Boolean) list.iterator().next();
@@ -4478,81 +4487,16 @@ public class FinanceTool {
 		return rollBackDepAmt;
 	}
 
-	//
-	//
-	// public double getCalculatedRollBackDepreciationAmount(String
-	// fixedAssetID,
-	// Long rollBackDepreciationTo) throws DAOException {
-	//
-	// Session session = HibernateUtil.getCurrentSession() == null ? Utility
-	// .getCurrentSession() : HibernateUtil.getCurrentSession();
-	//
-	// Query query = session
-	// .createQuery(
-	// "select d from com.vimukti.accounter.core.Depreciation d inner join d.fixedAsset where d.depreciateFrom >= ? and d.status=? and d.fixedAsset.id=? group by d.fixedAsset.id"
-	// )
-	// .setParameter(0, rollBackDepreciationTo).setParameter(1,
-	// Depreciation.APPROVE).setParameter(2, fixedAssetID);
-	//
-	// List<Depreciation> list = query.list();
-	// double rollBackDepAmt = 0.0;
-	// for (Depreciation dep : list) {
-	// // for (FixedAsset fixedAsset : dep.getFixedAssets()) {
-	// if (dep.getFixedAsset() != null)
-	// for (Transaction trans : dep.getFixedAsset().getTransactions()) {
-	// if (!trans.isVoid()) {
-	// rollBackDepAmt += ((JournalEntry) trans)
-	// .getDebitTotal();
-	// }
-	// }
-	// // }
-	// }
-	// return rollBackDepAmt;
-	// }
-
-	public double getCalculatedRollBackDepreciationAmount(long fixedAssetID,
-			long rollBackDepreciationTo) throws DAOException {
-
-		Session session = HibernateUtil.getCurrentSession() == null ? Utility
-				.getCurrentSession() : HibernateUtil.getCurrentSession();
-
-		Query query = session.getNamedQuery("getFixedAsset.from.id")
-				.setParameter(0, fixedAssetID);
-		// "select d from com.vimukti.accounter.core.Depreciation d inner join d.fixedAsset where d.depreciateFrom >= ? and d.status=? and d.fixedAsset.id=?").setParameter(0,
-		// rollBackDepreciationTo).setParameter(1,Depreciation.APPROVE).setParameter(2,
-		// fixedAssetID);
-
-		// "select d from com.vimukti.accounter.core.Depreciation d inner join d.fixedAsset where d.depreciateFrom >= ? and d.status=? and d.fixedAsset.id=? group by d.fixedAsset.id")
-		// .setParameter(0, rollBackDepreciationTo).setParameter(1,
-		//
-
-		List<FixedAsset> list = query.list();
-		double rollBackDepAmt = 0.0;
-		for (FixedAsset f : list) {
-			// for (FixedAsset fixedAsset : dep.getFixedAssets()) {
-			for (Transaction t : f.getTransactions()) {
-
-				if (!t.isVoid()
-						&& t.getDate().after(
-								new FinanceDate(rollBackDepreciationTo))) {
-					rollBackDepAmt += t.getTotal();
-				}
-
-			}
-
-		}
-		return rollBackDepAmt;
-	}
-
 	private double getCalculatedRollBackDepreciationAmount2(long fixedAssetID,
-			FinanceDate rollBackDepreciationTo) throws DAOException {
+			FinanceDate rollBackDepreciationTo, Company company)
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession() == null ? Utility
 				.getCurrentSession() : HibernateUtil.getCurrentSession();
 
 		Query query = session.getNamedQuery("getFixedAsset.from.id")
-
-		.setParameter(0, fixedAssetID);
+				.setParameter("id", fixedAssetID)
+				.setParameter("company", company);
 
 		List<FixedAsset> list = query.list();
 		double rollBackDepAmt = 0.0;
@@ -4682,7 +4626,7 @@ public class FinanceTool {
 						.getTime());
 				rollBackDepreciatinAmount = getCalculatedRollBackDepreciationAmount2(
 						fixedAsset.getFixedAssetID(), new FinanceDate(
-								soldYearStartDateCal.getTime()));
+								soldYearStartDateCal.getTime()), company);
 				rollBackDepreciatinAmount = Double.parseDouble(decimalFormat
 						.format(rollBackDepreciatinAmount));
 
@@ -4732,7 +4676,8 @@ public class FinanceTool {
 					// date.
 					rollBackDepreciation += format.format(depreciationTillDate);
 					rollBackDepreciatinAmount = getCalculatedRollBackDepreciationAmount2(
-							fixedAsset.getFixedAssetID(), depreciationTillDate);
+							fixedAsset.getFixedAssetID(), depreciationTillDate,
+							company);
 					rollBackDepreciatinAmount = Double
 							.parseDouble(decimalFormat
 									.format(rollBackDepreciatinAmount));
@@ -4988,7 +4933,8 @@ public class FinanceTool {
 		// "select distinct(t.transactionDate) from com.vimukti.accounter.core.Transaction t where t.isVoid='false'"
 		// );
 		Query query = session.getNamedQuery("getdistnct.from.traction.by.date")
-				.setParameter(0, Depreciation.APPROVE);
+				.setParameter("status", Depreciation.APPROVE)
+				.setParameter("company", company);
 		List list = query.list();
 		for (Object dep : list) {
 			fromDates.add(new ClientFinanceDate((Long) dep));
@@ -6181,6 +6127,7 @@ public class FinanceTool {
 			long companyId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
 		Query query = session.getNamedQuery("getMostProfitableCustomers")
 				.setParameter("companyId", companyId)
 				.setParameter("startDate", startDate.getDate())
@@ -6221,7 +6168,8 @@ public class FinanceTool {
 			queryResult.add(mostProfitableCustomers);
 		}
 
-		query = session.getNamedQuery("getEntry.from.journalEntryType");
+		query = session.getNamedQuery("getEntry.from.journalEntryType")
+				.setParameter("company", company);
 
 		List<JournalEntry> nonInvoicedLines = (List<JournalEntry>) query.list();
 
@@ -6246,95 +6194,6 @@ public class FinanceTool {
 		}
 
 		return new ArrayList<MostProfitableCustomers>(queryResult);
-	}
-
-	public ArrayList<MostProfitableCustomers> getProfitabilityByCustomerDetail(
-			final long customer, FinanceDate startDate, FinanceDate endDate,
-			long companyId) throws DAOException {
-
-		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery("getEntry.orderedby.id")
-				.setParameter(0, customer);
-		List<JournalEntry> nonInvoicedLines = (List<JournalEntry>) query.list();
-
-		List<MostProfitableCustomers> profitabilityByCustomerDetailList = new ArrayList<MostProfitableCustomers>();
-		int count = 0;
-		if (nonInvoicedLines != null) {
-			for (JournalEntry je : nonInvoicedLines) {
-				count++;
-				for (Entry entry : je.getEntry()) {
-
-					if (entry.getType() == Entry.TYPE_FINANCIAL_ACCOUNT) {
-						MostProfitableCustomers listItem = new MostProfitableCustomers();
-						if (count == 1) {
-							listItem.setTransactionType("Opening Balance");
-						} else {
-							listItem.setTransactionType("Journal Entry");
-						}
-						listItem.setCustomer(entry.getMemo());
-						listItem.setItemDescriptioin(entry.getMemo());
-						listItem.setItemName(entry.getAccount().getName());
-						listItem.setTransactionDate(new ClientFinanceDate(je
-								.getDate().getDate()));
-						listItem.setTransactionNumber(je.getNumber());
-						listItem.setBilledCost(!DecimalUtil.isEquals(
-								entry.getDebit(), 0.0) ? -1 * entry.getDebit()
-								: entry.getCredit());
-						listItem.setMargin(!DecimalUtil.isEquals(
-								entry.getDebit(), 0.0) ? -1 * entry.getDebit()
-								: entry.getCredit());
-						listItem.setMarginPercentage(!DecimalUtil.isEquals(
-								entry.getDebit(), 0.0) ? -100 : 100);
-						profitabilityByCustomerDetailList.add(listItem);
-					}
-				}
-			}
-		}
-
-		query = session
-				.getNamedQuery("getProfitabilityByCustomerDetail_InvoicedLines")
-				.setParameter("companyId", companyId)
-				.setParameter("customerId", customer)
-				.setParameter("startDate", startDate.getDate())
-				.setParameter("endDate", endDate.getDate());
-
-		List l = query.list();
-
-		Object[] object = null;
-		Iterator iterator = l.iterator();
-		while ((iterator).hasNext()) {
-
-			MostProfitableCustomers mostProfitableCustomers = new MostProfitableCustomers();
-			object = (Object[]) iterator.next();
-
-			mostProfitableCustomers.setCustomer((String) object[0]);
-			mostProfitableCustomers.setTransactionType((String) object[1]);
-			mostProfitableCustomers
-					.setTransactionDate(object[2] != null ? new ClientFinanceDate(
-							(Long) object[2]) : null);
-			mostProfitableCustomers
-					.setTransactionNumber(object[3] != null ? ((String) object[3])
-							: "0");
-			mostProfitableCustomers.setItemName((String) object[4]);
-			ClientQuantity quantity = new ClientQuantity();
-			quantity.setValue(object[5] != null ? ((Double) object[5]) : 0.0);
-			mostProfitableCustomers.setQuantity(quantity);
-			mostProfitableCustomers.setInvoicedAmount(object[6] == null ? 0
-					: ((Double) object[6]).doubleValue());
-			mostProfitableCustomers.setStandardCost(object[7] == null ? 0
-					: ((Double) object[7]).doubleValue());
-			mostProfitableCustomers.setMargin(object[8] == null ? 0
-					: ((Double) object[8]).doubleValue());
-			mostProfitableCustomers.setMarginPercentage(object[9] == null ? 0
-					: ((Double) object[9]).doubleValue());
-			mostProfitableCustomers.setCustomerGroup((String) object[10]);
-			mostProfitableCustomers.setStatus(object[11] == null ? 0
-					: (Integer) object[11]);
-			mostProfitableCustomers.setReference((String) object[12]);
-			profitabilityByCustomerDetailList.add(mostProfitableCustomers);
-		}
-		return new ArrayList<MostProfitableCustomers>(
-				profitabilityByCustomerDetailList);
 	}
 
 	public ArrayList<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
@@ -6941,10 +6800,10 @@ public class FinanceTool {
 			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
-
+		Company company = getCompany(companyId);
 		FinanceDate startDate1 = ((FinanceDate) ((session
-				.getNamedQuery("getFiscalYear.by.check.isCurrentFiscalYearistrue"))
-				.list().get(0)));
+				.getNamedQuery("getFiscalYear.by.check.isCurrentFiscalYearistrue")
+				.setParameter("company", company)).list().get(0)));
 
 		/*
 		 * Here endDate1 is used to store the previous month of endDate value
@@ -8317,15 +8176,15 @@ public class FinanceTool {
 	}
 
 	public ArrayList<VATSummary> getVAT100Report(TAXAgency taxAgency,
-			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
-			ParseException {
+			FinanceDate fromDate, FinanceDate toDate, long companyId)
+			throws DAOException, ParseException {
 		Session session = HibernateUtil.getCurrentSession();
 
 		List<VATSummary> vatSummaries = createRows(taxAgency);
-
-		Query query = session.getNamedQuery(
-				"getVATReturn.checkingby.taxagencyidand.dates").setParameter(0,
-				taxAgency.getID());
+		Company company = getCompany(companyId);
+		Query query = session
+				.getNamedQuery("getVATReturn.checkingby.taxagencyidand.dates")
+				.setLong("id", taxAgency.getID()).setEntity("company", company);
 
 		Object object[] = null;
 		List list = query.list();
@@ -10268,8 +10127,6 @@ public class FinanceTool {
 
 		clientCompany.setUsersList(getAllEmployees(company));
 
-		// User logInUSer = (User) session.getNamedQuery("getuser.by.email")
-		// .setParameter("email", logInUserEmail).uniqueResult();
 		clientCompany.setLoggedInUser(logInUser.getClientUser());
 
 		List list = session.getNamedQuery("get.All.Units").list();
@@ -10546,29 +10403,6 @@ public class FinanceTool {
 		}
 		return prevNumber;
 
-	}
-
-	public String getPreviousTransactionNumber(int transactionType,
-			long maxCount) {
-
-		Query query = HibernateUtil.getCurrentSession()
-				.getNamedQuery("getTransactionNumber.from.typeandId")
-				.setParameter(0, transactionType).setParameter(0, maxCount);
-
-		List list = query.list();
-
-		String num = (list != null) && (list.size() > 0) ? ((String) list
-				.get(0)) : "";
-		if (num.replaceAll("[\\D]", "").length() > 0) {
-			return num;
-		} else {
-			if (maxCount != 0) {
-				maxCount = maxCount - 1;
-				return getPreviousTransactionNumber(transactionType, maxCount);
-			}
-		}
-
-		return "0";
 	}
 
 	private boolean isTransactionNumberExist(IAccounterCore object,
@@ -12085,80 +11919,82 @@ public class FinanceTool {
 	}
 
 	public void mergeCustomer(ClientCustomer fromClientCustomer,
-			ClientCustomer toClientCustomer) throws DAOException {
+			ClientCustomer toClientCustomer, long companyId)
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction tx = session.beginTransaction();
 		double mergeBalance = fromClientCustomer.getBalance()
 				+ toClientCustomer.getBalance();
-
+		Company company = getCompany(companyId);
 		// Updating
 		try {
 			session.getNamedQuery(
 					"update.merge.Payee.mergeoldbalance.tonewbalance")
-					.setParameter("id", toClientCustomer.getID())
-					.setParameter("balance", mergeBalance).executeUpdate();
+					.setLong("id", toClientCustomer.getID())
+					.setDouble("balance", mergeBalance)
+					.setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("update.merge.invoice.old.tonew")
-					.setParameter("fromID", fromClientCustomer.getID())
-					.setParameter("toID", toClientCustomer.getID())
-					.executeUpdate();
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("update.merge.cashsale.old.tonew")
-					.setParameter("fromID", fromClientCustomer.getID())
-					.setParameter("toID", toClientCustomer.getID())
-					.executeUpdate();
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("update.merge.customercreditmemo.old.tonew")
-					.setParameter("fromID", fromClientCustomer.getID())
-					.setParameter("toID", toClientCustomer.getID())
-					.executeUpdate();
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("update.merge.salesOrder.old.tonew")
-					.setParameter("fromID", fromClientCustomer.getID())
-					.setParameter("toID", toClientCustomer.getID())
-					.executeUpdate();
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("update.merge.Entry.old.tonew")
-					.setParameter("fromID", fromClientCustomer.getID())
-					.setParameter("toID", toClientCustomer.getID())
-					.setParameter("memo", toClientCustomer.getName())
-					.executeUpdate();
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setString("memo", toClientCustomer.getName())
+					.setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("update.merge.CustomerPrePayment.old.tonew")
-					.setParameter("fromID", fromClientCustomer.getID())
-					.setParameter("toID", toClientCustomer.getID())
-					.executeUpdate();
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("update.merge.CustomerRefund.old.tonew")
-					.setParameter("fromID", fromClientCustomer.getID())
-					.setParameter("toID", toClientCustomer.getID())
-					.executeUpdate();
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("update.merge.ReceivePayment.old.tonew")
-					.setParameter("fromID", fromClientCustomer.getID())
-					.setParameter("toID", toClientCustomer.getID())
-					.executeUpdate();
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("update.merge.Estimate.old.tonew")
-					.setParameter("fromID", fromClientCustomer.getID())
-					.setParameter("toID", toClientCustomer.getID())
-					.executeUpdate();
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery(
 					"update.merge.transactionMakeDeposit.old.tonew")
-					.setParameter("fromID", fromClientCustomer.getID())
-					.setParameter("toID", toClientCustomer.getID())
-					.executeUpdate();
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("update.merge.writeCheck.old.tonew")
-					.setParameter("fromID", fromClientCustomer.getID())
-					.setParameter("toID", toClientCustomer.getID())
-					.executeUpdate();
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("delete.entry.old")
-					.setParameter("from", fromClientCustomer.getID())
-					.executeUpdate();
+					.setLong("from", fromClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
 			ServerConvertUtil convertUtil = new ServerConvertUtil();
 			Customer customer = new Customer();
@@ -12175,56 +12011,81 @@ public class FinanceTool {
 	}
 
 	public void mergeVendor(ClientVendor fromClientVendor,
-			ClientVendor toClientVendor) throws AccounterException {
+			ClientVendor toClientVendor, long companyId)
+			throws AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
 		org.hibernate.Transaction tx = session.beginTransaction();
 		double mergeBalance = fromClientVendor.getBalance()
 				+ toClientVendor.getBalance();
 
 		session.getNamedQuery(
 				"update.mergeVendor.Payee.mergeoldbalance.tonewbalance")
-				.setParameter("id", toClientVendor.getID())
-				.setParameter("status", fromClientVendor.isActive())
-				.setParameter("balance", mergeBalance).executeUpdate();
+				.setLong("id", toClientVendor.getID())
+				.setBoolean("status", fromClientVendor.isActive())
+				.setDouble("balance", mergeBalance)
+				.setEntity("company", company).executeUpdate();
 
 		session.getNamedQuery("update.mergeVendor.PurchaseOrder.old.tonew")
-				.setParameter("fromID", fromClientVendor.getID())
-				.setParameter("toID", toClientVendor.getID()).executeUpdate();
+				.setLong("fromID", fromClientVendor.getID())
+				.setLong("toID", toClientVendor.getID())
+				.setEntity("company", company).executeUpdate();
+
 		session.getNamedQuery("update.mergeVendor.CashPurchase.old.tonew")
-				.setParameter("fromID", fromClientVendor.getID())
-				.setParameter("toID", toClientVendor.getID()).executeUpdate();
+				.setLong("fromID", fromClientVendor.getID())
+				.setLong("toID", toClientVendor.getID())
+				.setEntity("company", company).executeUpdate();
+
 		session.getNamedQuery("update.mergeVendor.CreditCardCharge.old.tonew")
-				.setParameter("fromID", fromClientVendor.getID())
-				.setParameter("toID", toClientVendor.getID()).executeUpdate();
+				.setLong("fromID", fromClientVendor.getID())
+				.setLong("toID", toClientVendor.getID())
+				.setEntity("company", company).executeUpdate();
+
 		session.getNamedQuery("update.mergeVendor.EnterBill.old.tonew")
-				.setParameter("fromID", fromClientVendor.getID())
-				.setParameter("toID", toClientVendor.getID()).executeUpdate();
+				.setLong("fromID", fromClientVendor.getID())
+				.setLong("toID", toClientVendor.getID())
+				.setEntity("company", company).executeUpdate();
+
 		session.getNamedQuery("update.mergeVendor.ItemReceipt.old.tonew")
-				.setParameter("fromID", fromClientVendor.getID())
-				.setParameter("toID", toClientVendor.getID()).executeUpdate();
+				.setLong("fromID", fromClientVendor.getID())
+				.setLong("toID", toClientVendor.getID())
+				.setEntity("company", company).executeUpdate();
+
 		session.getNamedQuery("update.mergeVendor.PayBill.old.tonew")
-				.setParameter("fromID", fromClientVendor.getID())
-				.setParameter("toID", toClientVendor.getID()).executeUpdate();
+				.setLong("fromID", fromClientVendor.getID())
+				.setLong("toID", toClientVendor.getID())
+				.setEntity("company", company).executeUpdate();
+
 		session.getNamedQuery(
 				"update.mergeVendor.transactionMakeDeposit.old.tonew")
-				.setParameter("fromID", fromClientVendor.getID())
-				.setParameter("toID", toClientVendor.getID()).executeUpdate();
+				.setLong("fromID", fromClientVendor.getID())
+				.setLong("toID", toClientVendor.getID())
+				.setEntity("company", company).executeUpdate();
+
 		session.getNamedQuery("update.mergeVendor.vendorCreditMemo.old.tonew")
-				.setParameter("fromID", fromClientVendor.getID())
-				.setParameter("toID", toClientVendor.getID()).executeUpdate();
+				.setLong("fromID", fromClientVendor.getID())
+				.setLong("toID", toClientVendor.getID())
+				.setEntity("company", company).executeUpdate();
+
 		session.getNamedQuery("update.mergeVendor.writeCheck.old.tonew")
-				.setParameter("fromID", fromClientVendor.getID())
-				.setParameter("toID", toClientVendor.getID()).executeUpdate();
+				.setLong("fromID", fromClientVendor.getID())
+				.setLong("toID", toClientVendor.getID())
+				.setEntity("company", company).executeUpdate();
+
 		session.getNamedQuery("update.mergeVendor.Entry.old.tonew")
-				.setParameter("fromID", fromClientVendor.getID())
-				.setParameter("toID", toClientVendor.getID()).executeUpdate();
+				.setLong("fromID", fromClientVendor.getID())
+				.setLong("toID", toClientVendor.getID())
+				.setEntity("company", company).executeUpdate();
+
 		session.getNamedQuery("update.mergeVendor.Item.old.tonew")
-				.setParameter("fromID", fromClientVendor.getID())
-				.setParameter("toID", toClientVendor.getID()).executeUpdate();
+				.setLong("fromID", fromClientVendor.getID())
+				.setLong("toID", toClientVendor.getID())
+				.setEntity("company", company).executeUpdate();
 
 		session.getNamedQuery("delete.vendorentry.old")
-				.setParameter("from", fromClientVendor.getID()).executeUpdate();
+				.setLong("from", fromClientVendor.getID())
+				.setEntity("company", company).executeUpdate();
 
 		ServerConvertUtil convertUtil = new ServerConvertUtil();
 		Vendor vendor = new Vendor();
@@ -12236,16 +12097,18 @@ public class FinanceTool {
 	}
 
 	public void mergeAcoount(ClientAccount fromClientAccount,
-			ClientAccount toClientAccount) throws AccounterException {
+			ClientAccount toClientAccount, long companyId)
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction tx = session.beginTransaction();
-
+		Company company = getCompany(companyId);
 		double mergeBalance = toClientAccount.getOpeningBalance()
 				+ fromClientAccount.getOpeningBalance();
 
 		session.getNamedQuery("update.merge.Account.oldBalance.tonew")
 				.setParameter("from", toClientAccount.getID())
-				.setParameter("balance", mergeBalance).executeUpdate();
+				.setParameter("balance", mergeBalance)
+				.setEntity("company", company).executeUpdate();
 
 		session.getNamedQuery("delete.account.old")
 				.setParameter("from", fromClientAccount.getID())
@@ -12263,16 +12126,16 @@ public class FinanceTool {
 
 	}
 
-	public void mergeItem(ClientItem fromClientItem, ClientItem toClientItem)
-			throws AccounterException {
+	public void mergeItem(ClientItem fromClientItem, ClientItem toClientItem,
+			long companyId) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction tx = session.beginTransaction();
-
+		Company company = getCompany(companyId);
 		session.getNamedQuery("update.mergeItem.oldcost.tonewcost")
-				.setParameter("from", toClientItem.getID())
-				.setParameter("status", fromClientItem.isActive())
-				.setParameter("price", fromClientItem.getSalesPrice())
-				.executeUpdate();
+				.setLong("from", toClientItem.getID())
+				.setBoolean("status", fromClientItem.isActive())
+				.setDouble("price", fromClientItem.getSalesPrice())
+				.setEntity("company", company).executeUpdate();
 
 		ServerConvertUtil convertUtil = new ServerConvertUtil();
 		Item item = new Item();
@@ -12545,10 +12408,10 @@ public class FinanceTool {
 			boolean isLocation, FinanceDate startDate, FinanceDate endDate,
 			long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
-
+		Company company = getCompany(companyId);
 		FinanceDate startDate1 = ((FinanceDate) ((session
-				.getNamedQuery("getFiscalYear.by.check.isCurrentFiscalYearistrue"))
-				.list().get(0)));
+				.getNamedQuery("getFiscalYear.by.check.isCurrentFiscalYearistrue")
+				.setParameter("company", company)).list().get(0)));
 
 		/*
 		 * Here endDate1 is used to store the previous month of endDate value
@@ -12612,10 +12475,10 @@ public class FinanceTool {
 			boolean isLocation, String locationName, FinanceDate startDate,
 			FinanceDate endDate, long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
-
+		Company company = getCompany(companyId);
 		FinanceDate startDate1 = ((FinanceDate) ((session
-				.getNamedQuery("getFiscalYear.by.check.isCurrentFiscalYearistrue"))
-				.list().get(0)));
+				.getNamedQuery("getFiscalYear.by.check.isCurrentFiscalYearistrue")
+				.setParameter("company", company)).list().get(0)));
 
 		/*
 		 * Here endDate1 is used to store the previous month of endDate value
@@ -12682,10 +12545,10 @@ public class FinanceTool {
 			boolean isLocation, FinanceDate startDate, FinanceDate endDate,
 			long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
-
+		Company company = getCompany(companyId);
 		FinanceDate startDate1 = ((FinanceDate) ((session
-				.getNamedQuery("getFiscalYear.by.check.isCurrentFiscalYearistrue"))
-				.list().get(0)));
+				.getNamedQuery("getFiscalYear.by.check.isCurrentFiscalYearistrue")
+				.setParameter("company", company)).list().get(0)));
 
 		/*
 		 * Here endDate1 is used to store the previous month of endDate value
@@ -12822,10 +12685,10 @@ public class FinanceTool {
 			boolean isLocation, FinanceDate startDate, FinanceDate endDate,
 			long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
-
+		Company company = getCompany(companyId);
 		FinanceDate startDate1 = ((FinanceDate) ((session
-				.getNamedQuery("getFiscalYear.by.check.isCurrentFiscalYearistrue"))
-				.list().get(0)));
+				.getNamedQuery("getFiscalYear.by.check.isCurrentFiscalYearistrue")
+				.setParameter("company", company)).list().get(0)));
 
 		/*
 		 * Here endDate1 is used to store the previous month of endDate value

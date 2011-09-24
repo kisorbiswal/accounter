@@ -649,7 +649,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			isCanVoidOrEdit = getFinanceTool().canVoidOrEdit(
-					invoiceOrVendorBillId);
+					invoiceOrVendorBillId, getCompanyId());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1629,7 +1629,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		if (tool != null) {
 
 			try {
-				tool.mergeCustomer(fromClientCustomer, toClientCustomer);
+				tool.mergeCustomer(fromClientCustomer, toClientCustomer,
+						getCompanyId());
 			} catch (DAOException e) {
 
 				e.printStackTrace();
@@ -1644,7 +1645,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
 
-			tool.mergeVendor(fromClientVendor, toClientVendor);
+			tool.mergeVendor(fromClientVendor, toClientVendor, getCompanyId());
 		}
 
 	}
@@ -1655,7 +1656,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
 
-			tool.mergeItem(froClientItem, toClientItem);
+			tool.mergeItem(froClientItem, toClientItem, getCompanyId());
 		}
 
 	}
@@ -1666,7 +1667,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
 
-			tool.mergeAcoount(fromClientAccount, toClientAccount);
+			tool.mergeAcoount(fromClientAccount, toClientAccount,
+					getCompanyId());
 		}
 
 	}
