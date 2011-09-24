@@ -91,7 +91,7 @@
 				<exclude name="**/WEB-INF/lib/**" />
 			</fileset>
 			<fileset file="./mapping">
-				<include name="**">
+				<include name="mapping/**">
 				</include>
 			</fileset>
 			<fileset dir="src/">
