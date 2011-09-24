@@ -328,8 +328,9 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 
 		Account pendingItemReceipt = (Account) session
 				.getNamedQuery("getNameofAccount.by.Name")
-				.setParameter(0, AccounterServerConstants.PENDING_ITEM_RECEIPTS)
-				.uniqueResult();
+				.setString("name",
+						AccounterServerConstants.PENDING_ITEM_RECEIPTS)
+				.setEntity("company", getCompany()).uniqueResult();
 		if (pendingItemReceipt != null) {
 			pendingItemReceipt.updateCurrentBalance(this, this.total);
 			session.update(pendingItemReceipt);

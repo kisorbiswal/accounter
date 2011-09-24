@@ -22,7 +22,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  */
 
 public class VendorGroup extends CreatableObject implements
-		IAccounterServerCore ,INamedObject{
+		IAccounterServerCore, INamedObject {
 
 	/**
 	 * 
@@ -120,7 +120,8 @@ public class VendorGroup extends CreatableObject implements
 		Session session = HibernateUtil.getCurrentSession();
 		VendorGroup vendorGroup = (VendorGroup) clientObject;
 		Query query = session.getNamedQuery("getVendorGroup.by.name")
-				.setParameter(0, vendorGroup.name);
+				.setString("name", vendorGroup.name)
+				.setEntity("company", getCompany());
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			VendorGroup newVendorGroup = (VendorGroup) list.get(0);

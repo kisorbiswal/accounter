@@ -112,7 +112,8 @@ public class ShippingMethod extends CreatableObject implements
 		Session session = HibernateUtil.getCurrentSession();
 		ShippingMethod shippingMethod = (ShippingMethod) clientObject;
 		Query query = session.getNamedQuery("getShippingmethod.by.Name")
-				.setParameter(0, shippingMethod.name);
+				.setString("name", shippingMethod.name)
+				.setEntity("company", getCompany());
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			ShippingMethod newShippingMethod = (ShippingMethod) list.get(0);

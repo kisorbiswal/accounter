@@ -219,7 +219,8 @@ public class TAXAgency extends Payee {
 		Session session = HibernateUtil.getCurrentSession();
 		TAXAgency taxAgency = (TAXAgency) clientObject;
 		Query query = session.getNamedQuery("getTaxAgency.by.Name")
-				.setParameter(0, taxAgency.name);
+				.setString("name", taxAgency.name)
+				.setEntity("company", getCompany());
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			TAXAgency newTaxAgency = (TAXAgency) list.get(0);

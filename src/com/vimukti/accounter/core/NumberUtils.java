@@ -53,7 +53,8 @@ public class NumberUtils {
 	public static String getNextVoucherNumber(Company company) {
 
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery("get.Entry");
+		Query query = session.getNamedQuery("get.Entry").setEntity("company",
+				company);
 		List list1 = query.list();
 
 		if (list1.size() <= 0) {
@@ -209,19 +210,4 @@ public class NumberUtils {
 
 	}
 
-	public static long getNextAccountNumber(int accountSubBaseType) {
-		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery("getAccount.by.subBaseType")
-				.setParameter(0, accountSubBaseType);
-		List list = query.list();
-		if (list.isEmpty()) {
-			Company company = (Company) session.get(Company.class, 1l);
-			return company.getNominalCodeRange(accountSubBaseType)[0];
-		}
-
-		String lastAccountNo = (String) list.get(list.size() - 1);
-
-		long nextAccountNo = Long.parseLong(lastAccountNo) + 1;
-		return nextAccountNo;
-	}
 }

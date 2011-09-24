@@ -834,8 +834,8 @@ public class FixedAsset extends CreatableObject implements
 			// if (list != null && list.size() > 0) {
 			// nextVoucherNumber = ((Long) list.get(0)).longValue() + 1;
 			// }
-			String nextVoucherNumber = NumberUtils
-					.getNextTransactionNumber(Transaction.TYPE_JOURNAL_ENTRY, getCompany());
+			String nextVoucherNumber = NumberUtils.getNextTransactionNumber(
+					Transaction.TYPE_JOURNAL_ENTRY, getCompany());
 			/**
 			 * Preparing the journal entry for this Sell or Dispose.
 			 */
@@ -1045,8 +1045,8 @@ public class FixedAsset extends CreatableObject implements
 			// if (list != null && list.size() > 0) {
 			// nextVoucherNumber = ((Long) list.get(0)).longValue() + 1;
 			// }
-			String nextVoucherNumber = NumberUtils
-					.getNextTransactionNumber(Transaction.TYPE_JOURNAL_ENTRY, getCompany());
+			String nextVoucherNumber = NumberUtils.getNextTransactionNumber(
+					Transaction.TYPE_JOURNAL_ENTRY, getCompany());
 
 			double amount = depreciationMethod == Depreciation.METHOD_STRAIGHT_LINE ? this.purchasePrice
 					: this.openingBalanceForFiscalYear;
@@ -1241,36 +1241,6 @@ public class FixedAsset extends CreatableObject implements
 		}
 
 		return amountToBeDepreciatedforThisFixedAsset;
-	}
-
-	/**
-	 * The advantage of providing this method is to pre calculate the
-	 * rollbacking depreciation amount while any fixed asset getting roll
-	 * backed.
-	 * 
-	 * @param rollBackDepreciationTo
-	 * @return
-	 * @throws Exception
-	 */
-
-	public static double getCalculatedRollBackDepreciationAmount(
-			Date rollBackDepreciationTo) throws Exception {
-		Session session = HibernateUtil.getCurrentSession() == null ? Utility
-				.getCurrentSession() : HibernateUtil.getCurrentSession();
-		Query query = session
-				.getNamedQuery("getDepreciation.byDepreciationForm.andStatus")
-				.setParameter(0, rollBackDepreciationTo)
-				.setParameter(1, Depreciation.APPROVE);
-		List<Depreciation> list = query.list();
-		double rollBackDepAmt = 0.0;
-		for (Depreciation dep : list) {
-			// for (FixedAsset fixedAsset : dep.getFixedAssets()) {
-			for (Transaction trans : dep.getFixedAsset().getTransactions()) {
-				rollBackDepAmt += ((JournalEntry) trans).getDebitTotal();
-			}
-			// }
-		}
-		return rollBackDepAmt;
 	}
 
 	/**

@@ -104,7 +104,8 @@ public class ShippingTerms extends CreatableObject implements
 		Session session = HibernateUtil.getCurrentSession();
 		ShippingTerms shippingTerms = (ShippingTerms) clientObject;
 		Query query = session.getNamedQuery("getShippingTerms.by.Name")
-				.setParameter(0, shippingTerms.name);
+				.setString("name", shippingTerms.name)
+				.setEntity("company", getCompany());
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			ShippingTerms newShippingTerms = (ShippingTerms) list.get(0);

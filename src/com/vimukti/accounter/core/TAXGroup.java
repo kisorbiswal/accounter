@@ -132,7 +132,8 @@ public class TAXGroup extends TAXItemGroup {
 				&& getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 
 			Query query = session.getNamedQuery("getTaxCode.by.id")
-					.setParameter("id", this.id);
+					.setParameter("id", this.id)
+					.setEntity("company", getCompany());
 			TAXCode taxCode = (TAXCode) query.uniqueResult();
 			if (taxCode != null) {
 

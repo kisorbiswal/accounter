@@ -14,7 +14,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class PaymentTerms extends CreatableObject implements
-		IAccounterServerCore ,INamedObject{
+		IAccounterServerCore, INamedObject {
 
 	/**
 	 * 
@@ -26,7 +26,6 @@ public class PaymentTerms extends CreatableObject implements
 	public static final int DUE_CURRENT_HALF_YEAR = 3;
 	public static final int DUE_CURRENT_YEAR = 4;
 	public static final int DUE_CURRENT_SIXTY = 5;
-
 
 	/**
 	 * Payment Term Name
@@ -61,7 +60,7 @@ public class PaymentTerms extends CreatableObject implements
 		this.dueDays = dueDays;
 		this.isDefault = isDefault;
 	}
-	
+
 	/**
 	 * @return the name
 	 */
@@ -143,7 +142,8 @@ public class PaymentTerms extends CreatableObject implements
 		Session session = HibernateUtil.getCurrentSession();
 		PaymentTerms paymentTerms = (PaymentTerms) clientObject;
 		Query query = session.getNamedQuery("getPaymentTerms.by.Name")
-				.setParameter(0, paymentTerms.name);
+				.setString("name", paymentTerms.name)
+				.setEntity("company", getCompany());
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			PaymentTerms newPaymentTerms = (PaymentTerms) list.get(0);
@@ -159,6 +159,6 @@ public class PaymentTerms extends CreatableObject implements
 
 	@Override
 	public void setName(String name) {
-this.name=name;		
+		this.name = name;
 	}
 }

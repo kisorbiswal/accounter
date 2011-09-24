@@ -179,7 +179,8 @@ public class VATReturn extends Transaction {
 
 			Query query = session.getNamedQuery("getTaxAdjustment.by.dates")
 					.setParameter("fromDate", this.VATperiodStartDate)
-					.setParameter("toDate", this.VATperiodEndDate);
+					.setParameter("toDate", this.VATperiodEndDate)
+					.setEntity("company", getCompany());
 
 			List<TAXAdjustment> vadj = query.list();
 			if (vadj != null) {
@@ -192,7 +193,8 @@ public class VATReturn extends Transaction {
 			query = session
 					.getNamedQuery("getTaxrateCalc.by.taxitem.and.details")
 					.setParameter("toDate", this.VATperiodEndDate)
-					.setParameter("vatAgency", taxAgency.getID());
+					.setParameter("vatAgency", taxAgency.getID())
+					.setEntity("company", getCompany());
 
 			this.setJournalEntry(new JournalEntry(this));
 
@@ -240,7 +242,8 @@ public class VATReturn extends Transaction {
 			Query query = session
 					.getNamedQuery("getTaxrateCalc.by.vatitem.and.details")
 					.setParameter("toDate", this.VATperiodEndDate)
-					.setParameter("vatAgency", taxAgency.getID());
+					.setParameter("vatAgency", taxAgency.getID())
+					.setEntity("company", getCompany());
 
 			List<TAXRateCalculation> vrc = query.list();
 			for (TAXRateCalculation v : vrc) {
