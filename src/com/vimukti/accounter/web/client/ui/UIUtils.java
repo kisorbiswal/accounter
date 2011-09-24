@@ -27,9 +27,12 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.core.ClientCustomerPrePayment;
+import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
 import com.vimukti.accounter.web.client.core.ClientEmail;
 import com.vimukti.accounter.web.client.core.ClientFax;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientPhone;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
@@ -2065,14 +2068,23 @@ public class UIUtils {
 		return true;
 	}
 
-	public static boolean isMoneyOut(ClientTransaction transaction) {
-		return transaction.isPayBill() || transaction.isPayVAT()
-				|| transaction.isWriteCheck();
+	public static boolean isMoneyOut(ClientTransaction transaction,
+			long accountId) {
+		return transaction.isPayBill()
+				|| transaction.isPayVAT()
+				|| transaction.isWriteCheck()
+				|| (transaction instanceof ClientCustomerRefund)
+				|| (transaction.isMakeDeposit() && ((ClientMakeDeposit) transaction)
+						.getDepositIn() != accountId);
 	}
 
-	public static boolean isMoneyIn(ClientTransaction transaction) {
-		return transaction.isReceivePayment() || transaction.isReceiveVAT()
-				|| transaction.isMakeDeposit();
+	public static boolean isMoneyIn(ClientTransaction transaction,
+			long accountId) {
+		return transaction.isReceivePayment()
+				|| transaction.isReceiveVAT()
+				|| transaction instanceof ClientCustomerPrePayment
+				|| (transaction.isMakeDeposit() && ((ClientMakeDeposit) transaction)
+						.getDepositIn() == accountId);
 	}
 
 	public static void generateBudgetReportPDF(int reportType, int BUDGET_TYPE) {

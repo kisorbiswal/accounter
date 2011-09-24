@@ -24,8 +24,6 @@ import com.vimukti.accounter.utils.HibernateUtil;
 
 public class DeleteCompanyServlet extends BaseServlet {
 
-	private static final String IS_DELETE_ALL_USERS = "deleteAllUsers";
-
 	private String deleteCompanyView = "/WEB-INF/deleteCompany.jsp";
 
 	@Override

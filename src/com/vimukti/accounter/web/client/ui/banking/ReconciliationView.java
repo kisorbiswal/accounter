@@ -59,7 +59,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		bankaccountLabel.setValue(data.getAccount().getName());
 
 		closebalanceLable = new AmountLabel(constants.ClosingBalance());
-		// closebalanceLable.setTitle(constants.ClosingBalance());
+		closebalanceLable.setTitle(constants.ClosingBalance());
 		closebalanceLable.setAmount(data.getClosingBalance());
 
 		startdateLable = new LabelItem();
@@ -114,17 +114,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 
 							@Override
 							public void execute(ClientReconciliation value) {
-								setData(value);
-								closingBalance.setAmount(value
-										.getClosingBalance());
-								startdateLable.setValue(value.getStartDate()
-										.toString());
-								enddateLable.setValue(value.getEndDate()
-										.toString());
-								bankaccountLabel.setValue(value.getAccount()
-										.getName());
-								initData();
-								setOpeningBalance();
+								updateData(value);
 							}
 						});
 				dialog.show();
@@ -168,7 +158,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		amountsPanel.setCellHorizontalAlignment(amountsForm,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 
-		this.grid = new ReconciliationTransactionsGrid(
+		this.grid = new ReconciliationTransactionsGrid(this,
 				new SelectionChangedHandler<ClientTransaction>() {
 
 					@Override
@@ -180,6 +170,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 					}
 				});
 		grid.setWidth("100%");
+		grid.setHeight("200px");
 
 		this.mainPanel = new VerticalPanel();
 		mainPanel.setWidth("100%");
@@ -189,11 +180,24 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 			mainPanel.add(btnPanel);
 		}
 		mainPanel.add(grid);
-		mainPanel.setCellHeight(grid, "200px");
+		// mainPanel.setCellHeight(grid, "200px");
 		grid.getElement().getParentElement()
 				.addClassName("recounciliation_grid");
 		mainPanel.add(amountsPanel);
 		this.add(mainPanel);
+	}
+
+	private void updateData(ClientReconciliation reconciliation) {
+		bankaccountLabel.setValue(reconciliation.getAccount().getName());
+		closebalanceLable.setAmount(reconciliation.getClosingBalance());
+		startdateLable.setValue(reconciliation.getStartDate().toString());
+		enddateLable.setValue(reconciliation.getEndDate().toString());
+		closingBalance.setAmount(reconciliation.getClosingBalance());
+		startdateLable.setValue(reconciliation.getStartDate().toString());
+		enddateLable.setValue(reconciliation.getEndDate().toString());
+		bankaccountLabel.setValue(reconciliation.getAccount().getName());
+		setData(reconciliation);
+		initData();
 	}
 
 	/**
@@ -212,8 +216,8 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		} else {
 			clearedTransactions.remove(value);
 		}
-		double transactionAmount = UIUtils.isMoneyOut(value) ? value.getTotal()
-				: value.getTotal() * -1;
+		double transactionAmount = UIUtils.isMoneyOut(value, data.getAccount()
+				.getID()) ? value.getTotal() : value.getTotal() * -1;
 		if (!isClear) {
 			transactionAmount *= -1;
 		}
@@ -245,9 +249,10 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 					public void onResultSuccess(List<ClientTransaction> result) {
 						List<ClientTransaction> list = new ArrayList<ClientTransaction>();
 						for (ClientTransaction clientTransaction : result) {
-
-							if (UIUtils.isMoneyOut(clientTransaction)
-									|| UIUtils.isMoneyIn(clientTransaction)) {
+							if (UIUtils.isMoneyOut(clientTransaction, data
+									.getAccount().getID())
+									|| UIUtils.isMoneyIn(clientTransaction,
+											data.getAccount().getID())) {
 								list.add(clientTransaction);
 							}
 						}
@@ -275,7 +280,8 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 					openingBalance.setAmount(result);
 				}
 				difference.setAmount(closingBalance.getAmount()
-						- openingBalance.getAmount());
+						- openingBalance.getAmount()
+						- clearedAmount.getAmount());
 			}
 		});
 	}

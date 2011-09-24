@@ -7,8 +7,11 @@ import java.util.List;
 
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.view.client.ListDataProvider;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -26,17 +29,23 @@ public class ReconciliationTransactionsGrid extends
 	private AccounterConstants constants = Accounter.constants();
 	private ListDataProvider<ClientTransaction> dataProvider = new ListDataProvider<ClientTransaction>();
 	private SelectionChangedHandler<ClientTransaction> clearedTransactionCallback;
+	private ReconciliationView view;
 
 	/**
 	 * Creates new Instance
 	 * 
+	 * @param view
+	 * 
 	 * @param valueCallBack
 	 */
 	public ReconciliationTransactionsGrid(
+			ReconciliationView view,
 			SelectionChangedHandler<ClientTransaction> clearedTransactionCallback) {
 		this.clearedTransactionCallback = clearedTransactionCallback;
+		this.view = view;
 		initColumns();
 		this.dataProvider.addDataDisplay(this);
+
 	}
 
 	private void initColumns() {
@@ -69,8 +78,20 @@ public class ReconciliationTransactionsGrid extends
 
 			@Override
 			public String getValue(ClientTransaction object) {
-
-				if (UIUtils.isMoneyOut(object)) {
+				setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+				if (UIUtils.isMoneyOut(object, getBankAccount().getID())) {
+					if (object.isMakeDeposit()) {
+						double total = 0.0;
+						List<ClientTransactionMakeDeposit> transactionMakeDeposit = object
+								.getTransactionMakeDeposit();
+						for (ClientTransactionMakeDeposit deposit : transactionMakeDeposit) {
+							if (deposit.getAccount() == getBankAccount()
+									.getID()) {
+								total += deposit.getAmount();
+							}
+						}
+						return String.valueOf(total);
+					}
 					return String.valueOf(object.getTotal());
 				}
 				return "";
@@ -81,7 +102,8 @@ public class ReconciliationTransactionsGrid extends
 
 			@Override
 			public String getValue(ClientTransaction object) {
-				if (UIUtils.isMoneyIn(object)) {
+				setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+				if (UIUtils.isMoneyIn(object, getBankAccount().getID())) {
 					return String.valueOf(object.getTotal());
 				}
 				return "";
@@ -107,8 +129,17 @@ public class ReconciliationTransactionsGrid extends
 		this.addColumn(transaction, constants.transactionType());
 		this.addColumn(debit, constants.debit());
 		this.addColumn(credit, constants.credit());
-		this.addColumn(clearCheckbox, constants.clear());
+		if (!view.isInViewMode()) {
+			this.addColumn(clearCheckbox, constants.clear());
+		}
 
+	}
+
+	/**
+	 * @return
+	 */
+	protected ClientAccount getBankAccount() {
+		return view.getData().getAccount();
 	}
 
 	public void setData(List<ClientTransaction> data) {

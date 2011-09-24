@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.edittable.tables;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -27,7 +26,6 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
-import com.vimukti.accounter.web.client.ui.customers.CustomerCreditsAndPaymentsDialiog;
 import com.vimukti.accounter.web.client.ui.customers.NewApplyCreditsDialog;
 import com.vimukti.accounter.web.client.ui.customers.WriteOffDialog;
 import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
