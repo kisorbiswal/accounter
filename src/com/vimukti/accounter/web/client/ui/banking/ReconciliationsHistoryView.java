@@ -63,6 +63,8 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 		grid.getElement().getParentElement()
 				.addClassName("recounciliation_grid");
 		this.add(mainPanel);
+		saveAndCloseButton.setVisible(false);
+		saveAndNewButton.setVisible(false);
 	}
 
 	/**
