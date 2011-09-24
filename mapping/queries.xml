@@ -363,155 +363,189 @@
 		<query-param name="company" type="Company" />
 		update com.vimukti.accounter.core.Account set openingBalance=:balance
 		where
-		id=:from
+		id=:from and company=:company
 	</query>
 
 	<query name="delete.account.old">
 		<query-param name="from" type="long" />
+		<query-param name="company" type="Company" />
 		delete from com.vimukti.accounter.core.AccountTransaction where
-		account.id=:from
+		account.id=:from and company=:company
 	</query>
 
 	<query name="delete.account.entry.old">
 		<query-param name="from" type="long" />
+		<query-param name="company" type="Company" />
 		delete from com.vimukti.accounter.core.Entry where account.id=:from
+		and account.company=:comany
 	</query>
 	<query name="update.Entry.oldNameTo.newName">
 		<query-param name="newName" type="string" />
 		<query-param name="oldName" type="string" />
+		<query-param name="company" type="Company" />
 		update com.vimukti.accounter.core.Entry set memo=:newName where
-		memo=:oldName
+		memo=:oldName and account.company=:company
 	</query>
 
 	<query name="get.TransactionDate.from.TransactionbyDate">
 		<query-param name="date" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="company" type="Company" />
 		select t.transactionDate from com.vimukti.accounter.core.Transaction t
 		where t.transactionDate
-		&lt;:date
+		&lt;:date and t.company=:company
 	</query>
 
 
 	<query name="getFisaclId.andSum.fromAccountTransaction">
 		<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="company" type="Company" />
 		select at.account.id as accountId, sum(at.amount) as amount from
-		com.vimukti.accounter.core.AccountTransaction at where at.account.type
+		com.vimukti.accounter.core.AccountTransaction at where
+		at.company=:company and at.account.type
 		in (14,15,16,17,18) and
 		at.transaction.transactionDate between
 		:startDate and :endDate group
-		by at.account.id
+		by
+		at.account.id
 	</query>
 
 	<query name="getDepreciation.byFixedAsset.andWithDetails">
+		<query-param name="company" type="Company" />
+		<query-param name="date" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="status" type="int" />
+		<query-param name="id" type="long" />
 		select d from com.vimukti.accounter.core.Depreciation
 		d inner join
-		d.fixedAsset where d.depreciateFrom >= ? and d.status=?
-		and
-		d.fixedAsset.id=? group by d.fixedAsset.id
+		d.fixedAsset where d.company=:company and d.depreciateFrom
+		>= :date and
+		d.status=:status and d.fixedAsset.id=:id group by d.fixedAsset.id
 	</query>
 
 
 	<query name="getEntry.byId.andMax">
+		<query-param name="company" type="Company" />
 		select e.voucherNumber from
 		com.vimukti.accounter.core.Entry e where
-		e.id = (select max(e1.id) from
-		com.vimukti.accounter.core.Entry e1 )
+		e.id = (select max(e1.id) from com.vimukti.accounter.core.Entry e1
+		where e1.account.company=:company )
 	</query>
 
-	<query name="getCustomerNumber.byId.andOrder">
-		select c.number from
-		com.vimukti.accounter.core.Customer c order by c.id
-	</query>
 	<query name="getCustomerNumber.orderBy.customerNumber">
+		<query-param name="company" type="Company" />
 		select c.number from
-		com.vimukti.accounter.core.Customer c order by c.number
+		com.vimukti.accounter.core.Customer c where
+		c.company=:company order by c.number
 	</query>
 	<query name="getVendorNumber.byId.andOrder">
+		<query-param name="company" type="Company" />
 		select v.vendorNumber from
-		com.vimukti.accounter.core.Vendor v order by v.id
+		com.vimukti.accounter.core.Vendor v where
+		v.company=:company order by v.id
 	</query>
 
 	<query name="getassestNumber.from.FixedAsset">
+		<query-param name="company" type="Company" />
 		select f.assetNumber from
-		com.vimukti.accounter.core.FixedAsset f
+		com.vimukti.accounter.core.FixedAsset f where
+		f.company=:company
 	</query>
 
 	<query name="getTransactionNumber.by.type">
 		<query-param name="transactionType" type="int" />
+		<query-param name="company" type="Company" />
 		select t.number from com.vimukti.accounter.core.Transaction t where
-		t.type =:transactionType
+		t.type =:transactionType and t.company=:company
 	</query>
-
-	<query name="getPayeename.from.PayeebyId">
-		<query-param name="id" type="long" />
-		select p.name from com.vimukti.accounter.core.Payee p where p.id=:id
-	</query>
-
 
 	<query name="getFlow.by.Id.from.Account">
+		<query-param name="company" type="Company" />
 		select a.flow from com.vimukti.accounter.core.Account
-		a where a.id= (select max(a1.id) from
-		com.vimukti.accounter.core.Account a1 where a1.parent is null)
+		a where a.id=
+		(select max(a1.id) from
+		com.vimukti.accounter.core.Account a1 where
+		a1.company=:company and a1.parent is null)
 	</query>
 
 	<query name="getCount.from.Account.and.parent">
 		<query-param name="parentId" type="long" />
+		<query-param name="company" type="Company" />
 		select count(*) from com.vimukti.accounter.core.Account a where
-		a.parent.id=:parentId
+		a.parent.id=:parentId and a.company=:company
 	</query>
 
 
 	<query name="getAllUsers">
-		from com.vimukti.accounter.core.User user
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.User user where user.company=:company
 	</query>
 
 	<query name="getPayBill.form.accountId.and.status">
 		<query-param name="accountId" type="long" />
 		<query-param name="status" type="int" />
-		from com.vimukti.accounter.core.PayBill pst where pst.payFrom.id
-		=:accountId and pst.isVoid=false and pst.status =:status
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.PayBill pst where pst.company=:company
+		and pst.payFrom.id =:accountId and pst.isVoid=false and pst.status
+		=:status
 	</query>
 
 	<query name="getPayVAT.form.accountId.and.status">
 		<query-param name="accountId" type="long" />
 		<query-param name="status" type="int" />
-		from com.vimukti.accounter.core.PayVAT pv where pv.payFrom.id
-		=:accountId and pv.isVoid=false and pv.status =:status
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.PayVAT pv where pv.company=:company
+		and pv.payFrom.id =:accountId and pv.isVoid=false and pv.status
+		=:status
 	</query>
 
 	<query name="getReceiveVAT.form.accountId.and.status">
 		<query-param name="accountId" type="long" />
 		<query-param name="status" type="int" />
-		from com.vimukti.accounter.core.ReceiveVAT rv where rv.depositIn.id
-		=:accountId and rv.isVoid=false and rv.status =:status
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.ReceiveVAT rv where
+		rv.company=:company and rv.depositIn.id
+		=:accountId and rv.isVoid=false
+		and rv.status =:status
 	</query>
 
 	<query name="getCreditCardCharge.form.accountId.and.status">
 		<query-param name="accountId" type="long" />
 		<query-param name="status" type="int" />
+		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.CreditCardCharge pst where
-		pst.payFrom.id =:accountId and pst.isVoid=false and pst.status
+		pst.company=:company and
+		pst.payFrom.id =:accountId and
+		pst.isVoid=false
+		and pst.status
 		=:status
 	</query>
 
 	<query name="getCashPurchase.form.accountId.and.status">
 		<query-param name="accountId" type="long" />
 		<query-param name="status" type="int" />
-		from com.vimukti.accounter.core.CashPurchase pst where pst.payFrom.id
-		=:accountId and pst.isVoid=false and pst.status =:status
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.CashPurchase pst where
+		pst.company=:company and pst.payFrom.id
+		=:accountId and
+		pst.isVoid=false and pst.status =:status
 	</query>
 
 	<query name="getCustomerPrePayment.form.accountId.and.status">
 		<query-param name="accountId" type="long" />
 		<query-param name="status" type="int" />
+		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.CustomerPrePayment cpp where
-		cpp.depositIn.id =:accountId and cpp.isVoid=false and cpp.status
+		cpp.company=:company and
+		cpp.depositIn.id =:accountId and
+		cpp.isVoid=false
+		and cpp.status
 		=:status
 	</query>
 
 	<query name="getCashPurchase.form.status">
 		<query-param name="status" type="int" />
-		from com.vimukti.accounter.core.CashPurchase cc where cc.status
+		from com.vimukti.accounter.core.CashPurchase cc where
+		cc.company=:company and cc.status
 		=:status
 	</query>
 
