@@ -1229,8 +1229,11 @@
 	<!-- <query name="getentiy"> from ? entiy </query> -->
 
 	<query name="deleteTAXCode">
+		<query-param name="id" type="long" />
+		<!-- <query-param name="company" type="Company" /> -->
 		delete from com.vimukti.accounter.core.TAXCode t
-		where t.id=?
+		where t.id=id and
+		company=:company
 	</query>
 
 	<query name="get.entityObject.from.Account">
@@ -1599,9 +1602,12 @@
 		entity
 	</query>
 
+>>>>>>> .r8277
 	<query name="get.developer.by.client">
+		<query-param name="company" type="Company" />
 		<query-param name="client" type="com.vimukti.accounter.core.Client" />
 		from com.vimukti.accounter.core.Developer d where d.client =:client
+		and e.company=:company
 	</query>
 
 	<query name="get.developer.by.id">
@@ -1617,6 +1623,7 @@
 	<query name="get.ServerCompany.by.companyId.and.client">
 		<query-param name="id" type="Long" />
 		<query-param name="client" type="com.vimukti.accounter.core.Client" />
+		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.ServerCompany sc left join sc.clients
 		c where sc.id=:id and c=:client
 	</query>

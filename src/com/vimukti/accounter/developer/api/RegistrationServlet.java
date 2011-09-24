@@ -11,6 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Developer;
 import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -43,8 +44,8 @@ public class RegistrationServlet extends BaseServlet {
 				resp.sendRedirect("/main/login?dest=/apiregistration");
 				return;
 			}
-
-			Developer developer = getDeveloper(client);
+			Company company = getCompany(req);
+			Developer developer = getDeveloper(client, company);
 			if (developer != null) {
 				sendApiInfoPage(developer, req, resp);
 				return;
@@ -75,10 +76,12 @@ public class RegistrationServlet extends BaseServlet {
 		req.getRequestDispatcher("/api/apiinfo.jsp").forward(req, resp);
 	}
 
-	private Developer getDeveloper(Client client) {
+	private Developer getDeveloper(Client client, Company company) {
 		Session session = HibernateUtil.getCurrentSession();
+
 		return (Developer) session.getNamedQuery("get.developer.by.client")
-				.setParameter("client", client).uniqueResult();
+				.setParameter("client", client).setEntity("company", company)
+				.uniqueResult();
 	}
 
 	@Override
@@ -106,7 +109,8 @@ public class RegistrationServlet extends BaseServlet {
 				req.setAttribute("error", "User Not Activated");
 				req.getRequestDispatcher("/site/error.jsp").forward(req, resp);
 			}
-			Developer developer = getDeveloper(client);
+			Company company = getCompany(req);
+			Developer developer = getDeveloper(client, company);
 			if (developer != null) {
 				sendApiInfoPage(developer, req, resp);
 				return;

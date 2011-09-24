@@ -23,7 +23,6 @@ import com.sun.org.apache.xml.internal.security.utils.Base64;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Developer;
 import com.vimukti.accounter.core.ServerCompany;
-import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class ApiFilter implements Filter {
@@ -97,7 +96,7 @@ public class ApiFilter implements Filter {
 		Session session = HibernateUtil.getCurrentSession();
 		Object result = session
 				.getNamedQuery("get.ServerCompany.by.companyId.and.client")
-				.setParameter("id", id).setParameter("client", client)
+				.setLong("id", id).setParameter("client", client)
 				.uniqueResult();
 		return (ServerCompany) ((Object[]) result)[0];
 	}
