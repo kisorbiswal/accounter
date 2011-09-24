@@ -1216,8 +1216,6 @@
 			</property> -->
 		<property name="isShowTaxColumn" column="IS_SHOW_TAX_COLUMN">
 		</property>
-		<property name="isShowVatColumn" column="IS_SHOW_VAT_COLUMN">
-		</property>
 		<property name="isShowRegisteredAddress" column="IS_SHOW_REGISTERED_ADDRESS">
 		</property>
 		<property name="isShowLogo" column="IS_SHOW_LOGO">
