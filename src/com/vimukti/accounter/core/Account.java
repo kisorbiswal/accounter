@@ -1079,7 +1079,8 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 				Query query1 = session
 						.getNamedQuery("getFlowList.form.Account.byId")
 						.setParameter("parentId", this.oldParent.getID())
-						.setParameter("flow", oldFlow);
+						.setParameter("flow", oldFlow)
+						.setEntity("company", company);
 				List<Account> l2 = query1.list();
 
 				// List<Account> l2 = session

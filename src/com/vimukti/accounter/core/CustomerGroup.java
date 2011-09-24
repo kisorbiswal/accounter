@@ -14,7 +14,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class CustomerGroup extends CreatableObject implements
-		IAccounterServerCore ,INamedObject{
+		IAccounterServerCore, INamedObject {
 
 	/**
 	 * 
@@ -91,7 +91,8 @@ public class CustomerGroup extends CreatableObject implements
 		CustomerGroup customerGroup = (CustomerGroup) clientObject;
 		Query query = session
 				.getNamedQuery("getListofNames.from.customerGroup")
-				.setParameter(0, customerGroup.name);
+				.setEntity("company", getCompany())
+				.setString("name", customerGroup.name);
 		List list = query.list();
 		if (list.size() > 0 && list != null) {
 			CustomerGroup newCustomerGroup = (CustomerGroup) list.get(0);
@@ -105,5 +106,4 @@ public class CustomerGroup extends CreatableObject implements
 		return true;
 
 	}
-
 }

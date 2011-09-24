@@ -562,6 +562,7 @@ public class Depreciation extends CreatableObject implements
 	/**
 	 * 
 	 * @param rollBackDepreciationTo
+	 * @param company
 	 * @throws Exception
 	 * 
 	 *             The following method will roll back all the Approved
@@ -569,14 +570,15 @@ public class Depreciation extends CreatableObject implements
 	 * 
 	 */
 
-	public static void rollBackDepreciation(FinanceDate rollBackDepreciationTo)
-			throws Exception {
+	public static void rollBackDepreciation(FinanceDate rollBackDepreciationTo,
+			Company company) throws Exception {
 		Session session = HibernateUtil.getCurrentSession() == null ? Utility
 				.getCurrentSession() : HibernateUtil.getCurrentSession();
 		Query query = session
 				.getNamedQuery("getDepreciation.from.DepreciationFom.andStatus")
-				.setParameter(0, rollBackDepreciationTo)
-				.setParameter(1, Depreciation.APPROVE);
+				.setParameter("depreciationFrom", rollBackDepreciationTo)
+				.setInteger("status", Depreciation.APPROVE)
+				.setEntity("company", company);
 		List<Depreciation> list = query.list();
 		for (Depreciation dep : list) {
 			dep.setStatus(Depreciation.ROLLBACK);
@@ -628,8 +630,10 @@ public class Depreciation extends CreatableObject implements
 				.getCurrentSession() : HibernateUtil.getCurrentSession();
 		Query query = session
 				.getNamedQuery("getMaxDepreciation.from.Depreciation.byStatus")
-				.setParameter(0, Depreciation.DEPRECIATION_FOR_ALL_FIXEDASSET)
-				.setParameter(1, Depreciation.APPROVE);
+				.setInteger("depreciationFor",
+						Depreciation.DEPRECIATION_FOR_ALL_FIXEDASSET)
+				.setInteger("status", Depreciation.APPROVE)
+				.setEntity("company", company);
 		List<Depreciation> list = query.list();
 		if (list != null && list.size() > 0 && list.get(0) != null) {
 			Depreciation dep = list.get(0);

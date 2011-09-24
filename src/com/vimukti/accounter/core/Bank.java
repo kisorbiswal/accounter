@@ -62,7 +62,8 @@ public class Bank extends CreatableObject implements IAccounterServerCore,
 		Session session = HibernateUtil.getCurrentSession();
 		Bank bank = (Bank) clientObject;
 		Query query = session.getNamedQuery("getNameofBank.from.Bank")
-				.setParameter(0, bank.name);
+				.setString("name", bank.name)
+				.setEntity("company", getCompany());
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			Bank newBank = (Bank) list.get(0);
