@@ -740,7 +740,6 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		List<ClientEstimate> clientEstimate = new ArrayList<ClientEstimate>();
 		List<Estimate> serverEstimates = null;
 		try {
-
 			serverEstimates = getFinanceTool().getEstimates(customerId);
 			for (Estimate estimate : serverEstimates) {
 				clientEstimate.add(new ClientConvertUtil().toClientObject(
@@ -1726,8 +1725,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			throws AccounterException {
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
-
-			return tool.getPayBillsByTDS();
+			return tool.getPayBillsByTDS(getCompanyId());
 		}
 		return null;
 	}
