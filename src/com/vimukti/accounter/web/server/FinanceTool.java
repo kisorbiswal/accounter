@@ -4243,13 +4243,17 @@ public class FinanceTool {
 
 	}
 
-	public ClientFinanceDate getDepreciationLastDate() throws DAOException {
+	public ClientFinanceDate getDepreciationLastDate(long companyId)
+			throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
 		Query query = session
 				.getNamedQuery(
 						"getDepreciation.by.check.idandStatus.depreciationFor")
-				.setParameter(0, Depreciation.DEPRECIATION_FOR_ALL_FIXEDASSET)
-				.setParameter(1, Depreciation.APPROVE);
+				.setParameter("depreciationFor",
+						Depreciation.DEPRECIATION_FOR_ALL_FIXEDASSET)
+				.setParameter("status", Depreciation.APPROVE)
+				.setEntity("company", company);
 		List<Depreciation> list = query.list();
 		if (list != null && list.size() > 0 && list.get(0) != null) {
 			Depreciation dep = list.get(0);

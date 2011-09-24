@@ -1295,7 +1295,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			throws AccounterException {
 		try {
 			FinanceTool tool = getFinanceTool();
-			return tool != null ? tool.getDepreciationLastDate() : null;
+			return tool != null ? tool.getDepreciationLastDate(getCompanyId())
+					: null;
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
