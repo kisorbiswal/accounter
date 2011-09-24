@@ -371,7 +371,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		salesPersonCombo = createSalesPersonComboItem();
 
 		payTermsSelect = createPaymentTermsSelectItem();
-
 		shippingTermsCombo = createShippingTermsCombo();
 
 		shippingMethodsCombo = createShippingMethodCombo();
@@ -1054,10 +1053,12 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	@Override
 	protected void initTransactionViewData() {
+		ClientCompany company = Accounter.getCompany();
+		initPaymentTerms();
 		if (transaction == null) {
 			setData(new ClientInvoice());
 		} else {
-			ClientCompany company = Accounter.getCompany();
+
 			this.setCustomer(company.getCustomer(transaction.getCustomer()));
 			this.contact = transaction.getContact();
 			// customerSelected(company.getCustomer(invoiceToBeEdited.getCustomer()));
@@ -1173,7 +1174,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		}
 		superinitTransactionViewData();
 
-		initPaymentTerms();
 		ArrayList<ClientShippingTerms> shippingTerms = getCompany()
 				.getShippingTerms();
 
