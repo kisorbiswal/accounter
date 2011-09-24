@@ -269,13 +269,18 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 			paymentMethodCombo.setComboItem(customer.getPaymentMethod());
 		// if (transactionObject == null)
 		initAddressAndContacts();
+		long taxCodeID = customer.getTAXCode();
+		ClientTAXCode taxCode = getCompany().getTAXCode(taxCodeID);
+		if (taxCode != null) {
+			taxCodeSelected(taxCode);
+		}
 	}
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button, Accounter.messages().accounts(
-				Global.get().Account()), Accounter.constants()
-				.productOrServiceItem());
+		setMenuItems(button,
+				Accounter.messages().accounts(Global.get().Account()),
+				Accounter.constants().productOrServiceItem());
 		// FinanceApplication.constants().salesTax());
 		// FinanceApplication.constants().comment(),
 		// FinanceApplication.constants().VATItem());
@@ -747,13 +752,13 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		}
 
 		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
-			result.addError(transactionDateItem, customerConstants
-					.invalidateTransactionDate());
+			result.addError(transactionDateItem,
+					customerConstants.invalidateTransactionDate());
 		}
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result.addError(transactionDateItem, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDateItem,
+					accounterConstants.invalidateDate());
 		}
 		if (custForm != null) {
 			result.add(custForm.validate());

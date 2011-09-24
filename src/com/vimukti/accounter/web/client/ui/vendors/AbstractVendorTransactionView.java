@@ -172,6 +172,10 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 		paymentMethodSelected(vendor.getPaymentMethod());
 		addressListOfVendor = vendor.getAddress();
 		initBillToCombo();
+		if (taxCodeSelect != null) {
+			long taxCodeID = vendor.getTAXCode();
+			taxCodeSelect.setSelectedObj(taxCodeID);
+		}
 
 	}
 

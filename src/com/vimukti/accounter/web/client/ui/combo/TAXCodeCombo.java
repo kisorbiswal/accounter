@@ -134,4 +134,14 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 		}
 		return taxCodeList;
 	}
+
+	public void setSelectedObj(long taxCodeID) {
+		for (ClientTAXCode taxCode : getComboItems()) {
+			if (taxCode.getID() == taxCodeID) {
+				this.selectedObject = taxCode;
+				this.setSelectedItem(comboItems.indexOf(taxCode));
+				break;
+			}
+		}
+	}
 }
