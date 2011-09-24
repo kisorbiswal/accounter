@@ -832,7 +832,7 @@ public class MakeDepositView extends
 		topHLay.add(depoForm);
 
 		HorizontalPanel panel = new HorizontalPanel();
-		panel.setHorizontalAlignment(ALIGN_RIGHT);
+		panel.setHorizontalAlignment(ALIGN_LEFT);
 		panel.add(addButton);
 		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
@@ -846,9 +846,10 @@ public class MakeDepositView extends
 		botHLay.setCellHorizontalAlignment(form2, ALIGN_RIGHT);
 
 		VerticalPanel vPanel = new VerticalPanel();
-		vPanel.setHorizontalAlignment(ALIGN_RIGHT);
+		vPanel.setHorizontalAlignment(ALIGN_LEFT);
 		vPanel.setWidth("100%");
 		vPanel.add(panel);
+		vPanel.setHorizontalAlignment(ALIGN_RIGHT);
 		vPanel.add(botHLay);
 
 		if (isInViewMode()) {
