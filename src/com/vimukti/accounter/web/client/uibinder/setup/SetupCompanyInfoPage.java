@@ -102,7 +102,6 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 			.getPreferences();
 	private ClientAddress address;
 	private List<String> countries, statesList, timezones;
-	private String[] states;
 
 	interface SetupCompanyInfoPageUiBinder extends
 			UiBinder<Widget, SetupCompanyInfoPage> {
@@ -210,7 +209,6 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 	private void setStates(String[] states) {
 		statesList = new ArrayList<String>();
-		this.states = states;
 		stateListBox.clear();
 		for (int i = 0; i < states.length; i++) {
 			statesList.add(states[i]);
@@ -274,8 +272,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 					.getSelectedIndex()));
 		}
 		if (country.getSelectedIndex() != -1)
-			address.setCountryOrRegion(countries
-					.get(country.getSelectedIndex()));
+			address.setCountryOrRegion(countries.get(country.getSelectedIndex()));
 		preferences.setTradingAddress(address);
 
 		if (timezoneslistbox.getSelectedIndex() != -1)
