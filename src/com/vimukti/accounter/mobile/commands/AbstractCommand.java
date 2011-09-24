@@ -2,7 +2,9 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Company;
@@ -266,14 +268,14 @@ public abstract class AbstractCommand extends Command {
 		return record;
 	}
 
-	private List<TAXCode> getTaxCodes() {
+	private Set<TAXCode> getTaxCodes() {
 		return getCompany().getTaxCodes();
 
 	}
 
 	protected Result taxCode(Context context, TAXCode oldTaxCode) {
 		Result result = context.makeResult();
-		List<TAXCode> codes = getTaxCodes();
+		Set<TAXCode> codes = getTaxCodes();
 		ResultList list = new ResultList(TAXCODE);
 		int num = 0;
 		if (oldTaxCode != null) {
@@ -424,7 +426,7 @@ public abstract class AbstractCommand extends Command {
 			supplierList.add(createVendorRecord((Vendor) last));
 			num++;
 		}
-		List<Vendor> vendors = getVendors();
+		Set<Vendor> vendors = getVendors();
 		for (Vendor vendor : vendors) {
 			if (vendor != last) {
 				supplierList.add(createVendorRecord(vendor));
@@ -563,7 +565,7 @@ public abstract class AbstractCommand extends Command {
 	}
 
 	protected List<Customer> getCustomers(Boolean isActive) {
-		ArrayList<Customer> customers = getCompany().getCustomers();
+		Set<Customer> customers = getCompany().getCustomers();
 		ArrayList<Customer> result = new ArrayList<Customer>();
 		for (Customer customer : customers) {
 			if (isActive) {
@@ -577,13 +579,13 @@ public abstract class AbstractCommand extends Command {
 		return null;
 	}
 
-	private List<Vendor> getVendors() {
+	private Set<Vendor> getVendors() {
 		return getCompany().getVendors();
 	}
 
 	protected List<Vendor> getVendors(boolean isActive) {
-		ArrayList<Vendor> vendors = getCompany().getVendors();
-		ArrayList<Vendor> result = new ArrayList<Vendor>();
+		Set<Vendor> vendors = getCompany().getVendors();
+		Set<Vendor> result = new HashSet<Vendor>();
 
 		for (Vendor vendor : vendors) {
 			if (isActive) {

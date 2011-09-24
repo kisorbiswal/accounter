@@ -336,7 +336,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	protected Result items(Context context) {
 		Result result = context.makeResult();
-		List<Item> items = getItems();
+		Set<Item> items = getItems();
 		ResultList list = new ResultList("items");
 		Object last = context.getLast(RequirementType.ITEM);
 		int num = 0;
@@ -394,7 +394,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			customersList.add(createCustomerRecord((Customer) last));
 			num++;
 		}
-		List<Customer> customers = getCustomers();
+		Set<Customer> customers = getCustomers();
 		for (Customer customer : customers) {
 			if (customer != last) {
 				customersList.add(createCustomerRecord(customer));
@@ -534,16 +534,16 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return record;
 	}
 
-	protected List<Item> getItems() {
+	protected Set<Item> getItems() {
 		return getCompany().getItems();
 
 	}
 
-	private List<Customer> getCustomers() {
+	private Set<Customer> getCustomers() {
 		return getCompany().getCustomers();
 	}
 
-	private List<PaymentTerms> getPaymentTerms() {
+	private Set<PaymentTerms> getPaymentTerms() {
 		return getCompany().getPaymentTerms();
 	}
 
@@ -586,7 +586,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	}
 
 	protected Result paymentTerms(Context context, PaymentTerms oldPaymentTerms) {
-		List<PaymentTerms> paymentTerms = getPaymentTerms();
+		Set<PaymentTerms> paymentTerms = getPaymentTerms();
 		Result result = context.makeResult();
 		result.add("Select PaymentTerms");
 
@@ -821,7 +821,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			payeeList.add(createPayeeRecord((Payee) last));
 			num++;
 		}
-		List<Payee> payees = getPayees();
+		Set<Payee> payees = getPayees();
 		for (Payee payee : payees) {
 			if (payee != last) {
 				payeeList.add(createPayeeRecord(payee));
@@ -846,7 +846,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return result;
 	}
 
-	private List<Payee> getPayees() {
+	private Set<Payee> getPayees() {
 
 		return getCompany().getPayees();
 	}
@@ -943,7 +943,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	private Result accountItems(Context context) {
 		Result result = context.makeResult();
-		List<Item> items = getItems();
+		Set<Item> items = getItems();
 		ResultList list = new ResultList("accounts");
 		Object last = context.getLast(RequirementType.ACCOUNT);
 		int num = 0;
