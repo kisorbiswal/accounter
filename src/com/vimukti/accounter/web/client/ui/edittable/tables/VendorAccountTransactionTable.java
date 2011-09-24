@@ -119,14 +119,7 @@ public abstract class VendorAccountTransactionTable extends
 
 				this.addColumn(new TransactionVatColumn());
 			} else {
-				this.addColumn(new TransactionTaxableColumn() {
-					@Override
-					public void onChangeValue(boolean value,
-							ClientTransactionItem row) {
-						row.setTaxable(value);
-						update(row);
-					}
-				});
+				this.addColumn(new TransactionTaxableColumn());
 			}
 		}
 
