@@ -1096,14 +1096,6 @@
 		b.taxAgency !=null
 	</query>
 
-	<query name="get.transactionsPayBills.by.tds">
-		<query-param name="company" type="Company" />
-		<query-param name="payBill" type="com.vimukti.accounter.core.PayBill" />
-		from com.vimukti.accounter.core.TransactionPayBill b
-		where b.company=:company and
-		b.payBill =:payBill
-	</query>
-
 	<query name="getJournalEntry">
 		from com.vimukti.accounter.core.JournalEntry j
 	</query>
