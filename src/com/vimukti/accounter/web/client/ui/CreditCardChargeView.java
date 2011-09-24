@@ -610,14 +610,14 @@ public class CreditCardChargeView extends
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setNumCols(2);
 		totalForm.setWidth("100%");
-		totalForm.setStyleName("invoice-total");
+		totalForm.setStyleName("boldtext");
 		// totText = new AmountField(FinanceApplication.constants()
 		// .total());
 		// totText.setWidth(100);
 
 		totForm = new DynamicForm();
 		totForm.setWidth("100%");
-		totForm.addStyleName("unused-payments");
+		totForm.addStyleName("boldtext");
 		totForm.getElement().getStyle().setMarginTop(10, Unit.PX);
 
 		botPanel = new HorizontalPanel();
