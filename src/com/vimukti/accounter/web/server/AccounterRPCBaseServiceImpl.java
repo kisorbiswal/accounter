@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import net.zschech.gwt.comet.server.CometServlet;
 import net.zschech.gwt.comet.server.CometSession;
 
+import org.apache.catalina.HttpRequest;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -116,7 +117,7 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 	 */
 	private void setAccounterThreadLocal(HttpServletRequest request) {
 		Session session = HibernateUtil.getCurrentSession();
-		Company company = (Company) session.load(Company.class, 1l);
+		Company company = (Company) session.load(Company.class, getCompanyId(request));
 		String userEmail = (String) request.getSession().getAttribute(EMAIL_ID);
 		User user = company.getUserByUserEmail(userEmail);
 		AccounterThreadLocal.set(user);
@@ -266,6 +267,10 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 				"");
 	}
 
+	protected long getCompanyId(HttpServletRequest request) {
+		String serverCompanyID = getCookie(request,BaseServlet.COMPANY_COOKIE);
+		return Long.valueOf(serverCompanyID);
+	}
 	protected long getCompanyId() {
 		String serverCompanyID = getCookie(BaseServlet.COMPANY_COOKIE);
 		return Long.valueOf(serverCompanyID);
