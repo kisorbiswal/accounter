@@ -453,7 +453,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		hPanel.setHorizontalAlignment(ALIGN_RIGHT);
 		hPanel.add(addButton);
 		hPanel.getElement().getStyle().setMarginTop(8, Unit.PX);
-		hPanel.getElement().getStyle().setFloat(Float.RIGHT);
+		hPanel.getElement().getStyle().setFloat(Float.LEFT);
 		panel.add(hPanel);
 		addButton.setEnabled(!isInViewMode());
 
