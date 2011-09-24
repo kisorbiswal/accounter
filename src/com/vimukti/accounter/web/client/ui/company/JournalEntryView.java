@@ -334,11 +334,11 @@ public class JournalEntryView extends
 
 		gridPanel.add(grid);
 		gridPanel.setWidth("100%");
-
+		
 		HorizontalPanel hPanel = new HorizontalPanel();
 		hPanel.add(addButton);
 		hPanel.getElement().getStyle().setMarginTop(8, Unit.PX);
-		hPanel.getElement().getStyle().setFloat(Float.RIGHT);
+		hPanel.getElement().getStyle().setFloat(Float.LEFT);
 
 		gridPanel.add(hPanel);
 
