@@ -23,6 +23,7 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
+import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 
 /**
  * @author Administrator
@@ -189,13 +190,14 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	/**
 	 * 
 	 */
+	@SuppressWarnings("unchecked")
 	protected void countryChanged() {
 		int selectedCountry = country.getSelectedIndex();
 		if (selectedCountry < 0) {
 			return;
 		}
-		List<String> states = CoreUtils.getStatesAsListForCountry(country
-				.getItemText(selectedCountry));
+		List<String> states = (List<String>) CountryPreferenceFactory
+				.get(country.getItemText(selectedCountry));
 		setStates(states);
 	}
 
@@ -269,7 +271,8 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 					.getSelectedIndex()));
 		}
 		if (country.getSelectedIndex() != -1)
-			address.setCountryOrRegion(countries.get(country.getSelectedIndex()));
+			address.setCountryOrRegion(countries
+					.get(country.getSelectedIndex()));
 		preferences.setTradingAddress(address);
 
 		if (timezoneslistbox.getSelectedIndex() != -1)
