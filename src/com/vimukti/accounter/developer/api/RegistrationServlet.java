@@ -44,8 +44,7 @@ public class RegistrationServlet extends BaseServlet {
 				resp.sendRedirect("/main/login?dest=/apiregistration");
 				return;
 			}
-			Company company = getCompany(req);
-			Developer developer = getDeveloper(client, company);
+			Developer developer = getDeveloper(client);
 			if (developer != null) {
 				sendApiInfoPage(developer, req, resp);
 				return;
@@ -76,12 +75,11 @@ public class RegistrationServlet extends BaseServlet {
 		req.getRequestDispatcher("/api/apiinfo.jsp").forward(req, resp);
 	}
 
-	private Developer getDeveloper(Client client, Company company) {
+	private Developer getDeveloper(Client client) {
 		Session session = HibernateUtil.getCurrentSession();
 
 		return (Developer) session.getNamedQuery("get.developer.by.client")
-				.setParameter("client", client).setEntity("company", company)
-				.uniqueResult();
+				.setParameter("client", client).uniqueResult();
 	}
 
 	@Override
@@ -109,8 +107,7 @@ public class RegistrationServlet extends BaseServlet {
 				req.setAttribute("error", "User Not Activated");
 				req.getRequestDispatcher("/site/error.jsp").forward(req, resp);
 			}
-			Company company = getCompany(req);
-			Developer developer = getDeveloper(client, company);
+			Developer developer = getDeveloper(client);
 			if (developer != null) {
 				sendApiInfoPage(developer, req, resp);
 				return;
