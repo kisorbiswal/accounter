@@ -913,62 +913,95 @@
 		d1)
 	</query>
 
-	<query name="getTransactionItem.by.id">
-		<query-param name="id" type="String" />
-		from com.vimukti.accounter.core.TransactionItem ti
-		where ti.taxCode.id
-		=:id
-	</query>
+	<!--
+		- <query name="getTransactionItem.by.id"> <query-param name="company"
+		type="Company" /> <query-param name="id" type="String" /> from
+		com.vimukti.accounter.core.TransactionItem ti where ti.taxCode.id=:id
+		and ti.company=:company </query>
+	-->
 
 	<query name="getTransactionDate.by.dates">
 		<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.Transaction t where t.type in
-		(4,5,8,10) and t.transactionDate between :startDate and :endDate
+		(4,5,8,10) and t.transactionDate between :startDate and :endDate and
+		t.company=:company
 	</query>
 
 	<query name="getDepreciation.by.depreciateFrom">
+		<query-param name="depreciateFrom" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="status" type="int" />
+		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.Depreciation d where
-		d.depreciateFrom >= ? and d.status=?
+		d.depreciateFrom
+		>= depreciateFrom and d.status=status and d.comapny =:company
 	</query>
 
 	<query name="getWriteCheck.by.status">
+		<query-param name="company" type="Company" />
+		<query-param name="status" type="int" />
 		from com.vimukti.accounter.core.WriteCheck wc where
-		wc.status = ?
+		wc.status = status
+		and wc.company=:company
 	</query>
 
 	<query name="getWriteCheck.by.bankacountIdandstatus">
+		<query-param name="status" type="int" />
+		<query-param name="id" type="long" />
+		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.WriteCheck wc where
-		wc.bankAccount.id = ? and wc.isVoid=false and wc.status = ?
+		wc.bankAccount.id
+		=id and wc.isVoid=false and wc.status =status and wc.company=:company
 	</query>
 
 	<query name="getCustomerRefund.by.isvoidandstatus">
+		<query-param name="status" type="int" />
+		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.CustomerRefund cr
-		where cr.isVoid=false and cr.status=?
+		where cr.isVoid=false
+		and cr.status=status and cr.company=:comapny
 	</query>
 
 	<query name="getPaySalesTax.by.status">
+		<query-param name="status" type="int" />
+		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.PaySalesTax pst where
-		pst.status = ?
+		pst.status =
+		status and pst.comapny=:company
 	</query>
 
 	<query name="getCustomerRefund.by.payFromand.isvoid.status">
+		<query-param name="id" type="long" />
+		<query-param name="status" type="int" />
+		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.CustomerRefund cr
-		where cr.payFrom.id = ? and cr.isVoid=false and cr.status=?
+		where cr.payFrom.id =
+		id and cr.isVoid=false and cr.status=status and cr.company=:company
 	</query>
 
 	<query name="getPaySalesTax.by.payFromand.isvoid.status">
+		<query-param name="id" type="long" />
+		<query-param name="status" type="int" />
+		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.PaySalesTax pst where
-		pst.payFrom.id = ? and pst.isVoid=false and pst.status = ?
+		pst.payFrom.id =
+		id and pst.isVoid=false and pst.status = status and
+		pst.company=:company
 	</query>
 
 	<query name="getCreditsAndPayments.by.check.payeeidandbalanceid">
+		<query-param name="id" type="long" />
+		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.CreditsAndPayments cp
-		where cp.payee.id = ? and cp.balance > 0.0
+		where cp.payee.id
+		= id and cp.balance > 0.0 and cp.company=:company
 	</query>
 
 	<query name="getCustomerRefund">
-		from com.vimukti.accounter.core.CustomerRefund cr
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.CustomerRefund cr and
+		cr.company=:comapny
 	</query>
 
 	<query name="getWriteCheck.by.payToType">
@@ -1097,7 +1130,8 @@
 	</query>
 
 	<query name="getJournalEntry">
-		from com.vimukti.accounter.core.JournalEntry j
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.JournalEntry j and j.company=:company
 	</query>
 
 	<query name="getJournalEntry.by.id">

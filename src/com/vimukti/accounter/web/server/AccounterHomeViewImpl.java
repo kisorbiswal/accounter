@@ -666,7 +666,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			serverCreditsAndPayments = getFinanceTool()
-					.getCustomerCreditsAndPayments(customerId);
+					.getCustomerCreditsAndPayments(customerId, getCompanyId());
 			for (CreditsAndPayments creditsAndPayments : serverCreditsAndPayments) {
 				clientCreditsAndPayments.add(new ClientConvertUtil()
 						.toClientObject(creditsAndPayments,
@@ -815,7 +815,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		List<JournalEntry> serverJournalEntries = null;
 		try {
 
-			serverJournalEntries = getFinanceTool().getJournalEntries();
+			serverJournalEntries = getFinanceTool().getJournalEntries(
+					getCompanyId());
 			for (JournalEntry journalEntry : serverJournalEntries) {
 				clientJournalEntries
 						.add(new ClientConvertUtil().toClientObject(
