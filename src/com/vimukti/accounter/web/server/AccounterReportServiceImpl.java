@@ -1154,8 +1154,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 						financeDates));
 
 			if (trialbalanceList.size() == 1) {
-				if (trialbalanceList.get(0).getAccountName()
-						.equals("Net Income")
+				if (trialbalanceList.get(0).getAccountName().equals(
+						"Net Income")
 						&& DecimalUtil.isEquals(trialbalanceList.get(0)
 								.getAmount(), 0)) {
 					trialbalanceList.clear();
@@ -1603,10 +1603,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 			TAXAgency vatAgency = (TAXAgency) loadObjectById(
 					AccounterCoreType.TAXAGENCY
-							.getServerClassFullyQualifiedName(),
-					taxAgncy);
+							.getServerClassFullyQualifiedName(), taxAgncy);
 			vatSummaryList = getFinanceTool().getPriorReturnVATSummary(
-					vatAgency, new FinanceDate(endDate));
+					vatAgency, new FinanceDate(endDate), getCompanyId());
 
 			VATSummary obj = new VATSummary();
 			if (vatSummaryList != null)
@@ -1636,8 +1635,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 			TAXAgency vatAgency = (TAXAgency) loadObjectById(
 					AccounterCoreType.TAXAGENCY
-							.getServerClassFullyQualifiedName(),
-					taxAgency);
+							.getServerClassFullyQualifiedName(), taxAgency);
 			vatSummaryList = getFinanceTool().getVAT100Report(vatAgency,
 					financeDates[0], financeDates[1], getCompanyId());
 
@@ -1650,8 +1648,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			 * //* Removing Box 3 and Box 5 from list, as the calculations for
 			 * box 3 and box 5 are done in gui
 			 *///
-				// vatSummaryList.remove(2);
-				// vatSummaryList.remove(3);
+			// vatSummaryList.remove(2);
+			// vatSummaryList.remove(3);
 			double box1 = vatSummaryList.get(0).getValue();
 			double box2 = vatSummaryList.get(1).getValue();
 			vatSummaryList.get(2).setValue(box1 + box2);
@@ -1697,7 +1695,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 			vatItems = getFinanceTool().getVATItemSummaryReport(
-					financeDates[0], financeDates[1]);
+					financeDates[0], financeDates[1], getCompanyId());
 
 			VATItemSummary obj = new VATItemSummary();
 			if (vatItems != null)
@@ -1720,7 +1718,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 			itemsList = getFinanceTool().getVATItemDetailReport(vatItemName,
-					financeDates[0], financeDates[1],getCompanyId());
+					financeDates[0], financeDates[1], getCompanyId());
 
 			VATItemDetail obj = new VATItemDetail();
 			if (itemsList != null)
@@ -1823,7 +1821,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 			salesList = getFinanceTool().getReverseChargeListReport(
-					financeDates[0], financeDates[1]);
+					financeDates[0], financeDates[1], getCompanyId());
 
 			ReverseChargeList obj = new ReverseChargeList();
 			if (salesList != null)
@@ -1897,7 +1895,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 			DummyDebitor obj = new DummyDebitor();
 			if (debitors != null)
-				debitors.add((DummyDebitor) setStartEndDates(obj, financeDates));
+				debitors
+						.add((DummyDebitor) setStartEndDates(obj, financeDates));
 
 		} catch (DAOException e) {
 
@@ -2240,7 +2239,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		ArrayList<MISC1099TransactionDetail> result = new ArrayList<MISC1099TransactionDetail>();
 		try {
 			result = getFinanceTool().getPaybillsByVendorAndBoxNumber(
-					financeDates[0], financeDates[1], vendorId, boxNo,getCompanyId());
+					financeDates[0], financeDates[1], vendorId, boxNo,
+					getCompanyId());
 			MISC1099TransactionDetail obj = new MISC1099TransactionDetail();
 			if (result != null)
 				result.add((MISC1099TransactionDetail) setStartEndDates(obj,

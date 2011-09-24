@@ -170,7 +170,7 @@ public interface IAccounterReportDAOService {
 			Date toDate) throws DAOException;
 
 	public ArrayList<VATItemDetail> getVATItemDetailReport(String fromDate,
-			String toDate) throws DAOException;
+			String toDate,long companyId) throws DAOException;
 
 	public void createTaxes(int... vatReturnType) throws DAOException;
 

@@ -962,7 +962,8 @@ public class ReportsGenerator {
 			vatItemSummaryServerReport.resetVariables();
 			try {
 				vatItemSummaryServerReport.onResultSuccess(finaTool
-						.getVATItemSummaryReport(startDate, endDate));
+						.getVATItemSummaryReport(startDate, endDate,
+								getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1062,7 +1063,8 @@ public class ReportsGenerator {
 			reverseChargeListServerReport.resetVariables();
 			try {
 				reverseChargeListServerReport.onResultSuccess(finaTool
-						.getReverseChargeListReport(startDate, endDate));
+						.getReverseChargeListReport(startDate, endDate,
+								getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

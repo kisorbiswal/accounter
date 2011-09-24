@@ -342,7 +342,7 @@ public class AccounterReportDAOService extends HibernateDaoSupport implements
 
 	@Override
 	public ArrayList<VATItemDetail> getVATItemDetailReport(String fromDate,
-			String toDate) throws DAOException {
+			String toDate,long companyId) throws DAOException {
 
 		return null;
 	}

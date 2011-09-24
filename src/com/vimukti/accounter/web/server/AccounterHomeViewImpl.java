@@ -242,7 +242,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		List<ClientPaySalesTaxEntries> clientPaySlesTaxEntries = new ArrayList<ClientPaySalesTaxEntries>();
 		try {
 			List<PaySalesTaxEntries> paySalesTaxEntriesList = getFinanceTool()
-					.getTransactionPaySalesTaxEntriesList(transactionDate);
+					.getTransactionPaySalesTaxEntriesList(transactionDate,
+							getCompanyId());
 			for (PaySalesTaxEntries salesTaxEntry : paySalesTaxEntriesList) {
 				ClientPaySalesTaxEntries paySalesTxEntry = new ClientPaySalesTaxEntries();
 				paySalesTxEntry.setID(salesTaxEntry.getID());
@@ -836,7 +837,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			serverJournalEntry = getFinanceTool().getJournalEntry(
-					journalEntryId);
+					journalEntryId, getCompanyId());
 			clientJournalEntry = new ClientConvertUtil().toClientObject(
 					serverJournalEntry, ClientJournalEntry.class);
 			// journalEntry = (ClientJournalEntry) manager.merge(journalEntry);
@@ -894,7 +895,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		List<Item> serverItems = null;
 		try {
 
-			serverItems = getFinanceTool().getPurchaseItems();
+			serverItems = getFinanceTool().getPurchaseItems(getCompanyId());
 			for (Item item : serverItems) {
 				clientItems.add(new ClientConvertUtil().toClientObject(item,
 						ClientItem.class));
@@ -914,7 +915,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			serverItems = getFinanceTool().getSalesItems();
+			serverItems = getFinanceTool().getSalesItems(getCompanyId());
 			for (Item item : serverItems) {
 				clientItems.add(new ClientConvertUtil().toClientObject(item,
 						ClientItem.class));
@@ -933,7 +934,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		List<Account> serverAccounts = null;
 		try {
 
-			serverAccounts = getFinanceTool().getTaxAgencyAccounts();
+			serverAccounts = getFinanceTool().getTaxAgencyAccounts(
+					getCompanyId());
 			for (Account account : serverAccounts) {
 				clientAccount.add(new ClientConvertUtil().toClientObject(
 						account, ClientAccount.class));
@@ -1085,7 +1087,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			serverTransactionMakeDeposit = getFinanceTool()
-					.getTransactionMakeDeposit(transactionMakeDepositId);
+					.getTransactionMakeDeposit(transactionMakeDepositId,
+							getCompanyId());
 			clientTransactionMakeDeposit = new ClientConvertUtil()
 					.toClientObject(serverTransactionMakeDeposit,
 							ClientTransactionMakeDeposit.class);
@@ -1106,7 +1109,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			makeDepositTransactionsList = getFinanceTool()
-					.getTransactionMakeDeposits();
+					.getTransactionMakeDeposits(getCompanyId());
 
 			// makeDepositTransactionsList = (List<MakeDepositTransactionsList>)
 			// manager
@@ -1414,7 +1417,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		FinanceTool tool = getFinanceTool();
 		if (tool == null)
 			return clientEntries;
-		List<PayVATEntries> entries = tool.getPayVATEntries();
+		List<PayVATEntries> entries = tool.getPayVATEntries(getCompanyId());
 		for (PayVATEntries entry : entries) {
 			ClientPayVATEntries clientEntry = new ClientPayVATEntries();
 			// VATReturn vatReturn =(VATReturn) entry.getTransaction();
@@ -1441,7 +1444,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		FinanceTool tool = (FinanceTool) getFinanceTool();
 		if (tool == null)
 			return clientLogs;
-		List<FinanceLogger> logs = tool.getLog(id, isNext);
+		List<FinanceLogger> logs = tool.getLog(id, isNext, getCompanyId());
 
 		if (logs == null) {
 			return clientLogs;
@@ -1547,7 +1550,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		FinanceTool tool = getFinanceTool();
 		if (tool == null)
 			return clientEntries;
-		List<ReceiveVATEntries> entries = tool.getReceiveVATEntries();
+		List<ReceiveVATEntries> entries = tool
+				.getReceiveVATEntries(getCompanyId());
 		for (ReceiveVATEntries entry : entries) {
 			ClientReceiveVATEntries clientEntry = new ClientReceiveVATEntries();
 			// VATReturn vatReturn =(VATReturn) entry.getTransaction();
