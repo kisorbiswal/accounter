@@ -12,49 +12,106 @@
 
 	<!-- Named HQL for Finance Tool -->
 
-	<query name="list.TAXItem">from com.vimukti.accounter.core.TAXItem </query>
+	<query name="list.TAXItem">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.TAXItem t where t.company::company
+	</query>
 
-	<query name="list.Account">from com.vimukti.accounter.core.Account a order by
-		a.number</query>
-	<query name="list.CommodityCode">from com.vimukti.accounter.core.CommodityCode
+	<query name="list.Account">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.Account a where a.company=:company
+		order by a.number
 	</query>
-	<query name="list.AccountTransaction">from
-		com.vimukti.accounter.core.AccountTransaction
+
+	<query name="list.CommodityCode">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.CommodityCode c where
+		c.company=:company
 	</query>
-	<query name="list.FiscalYear">from com.vimukti.accounter.core.FiscalYear fy
-		order by
-		fy.startDate</query>
-	<query name="list.Bank">from com.vimukti.accounter.core.Bank b order by
-		b.name</query>
-	<query name="list.Company">from com.vimukti.accounter.core.Company c order by
-		c.preferences.fullName</query>
-	<query name="list.CreditRating">from com.vimukti.accounter.core.CreditRating cr order
-		by cr.name
+
+	<query name="list.AccountTransaction">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.AccountTransaction a where
+		a.company:company
 	</query>
-	<query name="list.Currency">from com.vimukti.accounter.core.Currency c order by
-		c.name</query>
+
+	<query name="list.FiscalYear">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.FiscalYear fy where
+		fy.company=:company order by fy.startDate
+	</query>
+
+	<query name="list.Bank">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.Bank b where b.company=:company order
+		by b.name
+	</query>
+
+	<!-- <query name="list.Company">from com.vimukti.accounter.core.Company 
+		c order by -->
+	<!-- c.preferences.fullName</query> -->
+
+	<query name="list.CreditRating">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.CreditRating cr where
+		cr.company=:company order by cr.name
+	</query>
+
+	<query name="list.Currency">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.Currency c where c.company:company
+		order by c.name
+	</query>
+
 	<query name="list.CustomerGroup">from com.vimukti.accounter.core.CustomerGroup cg
+		where cg.company=:company
 		order by cg.name
 	</query>
-	<query name="list.Item">from com.vimukti.accounter.core.Item i order by
-		i.name</query>
-	<query name="list.ItemGroup">from com.vimukti.accounter.core.ItemGroup ig order by
-		ig.name</query>
-	<query name="list.Payee">from com.vimukti.accounter.core.Payee p order by
-		p.name
+
+	<query name="list.Item">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.Item i where i.company=:company order
+		by i.name
 	</query>
-	<query name="list.PaymentTerms">from com.vimukti.accounter.core.PaymentTerms pt order
-		by pt.name
+
+	<query name="list.ItemGroup">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.ItemGroup ig where ig.company:=company
+		order by ig.name
 	</query>
-	<query name="list.PriceLevel">from com.vimukti.accounter.core.PriceLevel pl order
-		by pl.name
+
+	<query name="list.Payee">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.Payee p where p.company=:company order
+		by p.name
 	</query>
-	<query name="list.ShippingMethod">from com.vimukti.accounter.core.ShippingMethod sm
-		order by sm.name
+
+	<query name="list.PaymentTerms">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.PaymentTerms pt where
+		pt.company=:company order by pt.name
 	</query>
-	<query name="list.TrackClass">from com.vimukti.accounter.core.AccounterClass accounterClass
-		order by accounterClass.className
+
+	<query name="list.PriceLevel">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.PriceLevel pl where
+		pl.company=:company order by pl.name
 	</query>
+
+	<query name="list.ShippingMethod">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.ShippingMethod sm where
+		sm.company=:company order by sm.name
+	</query>
+
+	<query name="list.TrackClass">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.AccounterClass
+		accounterClass where
+		accounterClass.company=:company order by
+		accounterClass.className
+	</query>
+
 	<query name="list.ShippingTerms">from com.vimukti.accounter.core.ShippingTerms st
 		order by st.name
 	</query>
@@ -133,22 +190,23 @@
 		order by vig.name</query>
 
 	<query name="list.Box">from com.vimukti.accounter.core.Box</query>
-	
+
 	<query name="list.VATReturnBox">from com.vimukti.accounter.core.VATReturnBox vrb
 		order by vrb.name
 	</query>
-	
+
 	<query name="list.BrandingTheme">from com.vimukti.accounter.core.BrandingTheme bt
 		order by bt.id</query>
 
 	<query name="list.Activity">from com.vimukti.accounter.core.Activity at
-		order by at.id</query>
-		
+		order by
+		at.id</query>
+
 	<query name="list.locations">from com.vimukti.accounter.core.Location bt
 		order by
 		bt.id
 	</query>
-	 <query name="list.Budget">from com.vimukti.accounter.core.Budget </query> 
+	<query name="list.Budget">from com.vimukti.accounter.core.Budget </query>
 	<query name="unique.name.Account">from com.vimukti.accounter.core.Account a where
 		a.name=?</query>
 	<query name="unique.name.Item">from com.vimukti.accounter.core.Item a where

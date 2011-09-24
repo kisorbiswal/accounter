@@ -14,11 +14,7 @@
 		<query-param name="email" type="string" />
 		from com.vimukti.accounter.core.User user where user.email=:email
 	</query>
-	<!-- <sql-query name="getDataSize"> SELECT SUM(CI.IDENTITYDATASIZE)+SUM(WS.DATA_SIZE) 
-		AS TOTAL_DATA_SIZE FROM COLLABERIDENTITY CI LEFT OUTER JOIN IDENTITY_SPACES 
-		IDS ON CI.ID=IDS.IDENTITY_ID LEFT OUTER JOIN WORKSPACE WS ON WS.SPACE_ID=IDS.SPACE_ID 
-		</sql-query> -->
-
+	
 	<query name="get.all.companies">
 		from com.vimukti.accounter.core.Company
 	</query>

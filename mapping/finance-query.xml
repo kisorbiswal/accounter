@@ -3340,7 +3340,7 @@
 		on
 		A.ID = TI.ACCOUNT_ID
 		where TI.ITEM_ID is not null or TI.ACCOUNT_ID is
-		not null AND TI.COMPANY_ID=:companyId order by T.ID
+		not null AND T.COMPANY_ID=:companyId order by T.ID
 
 
 	</sql-query>
@@ -3852,7 +3852,7 @@
 		on
 		A.ID = TI.ACCOUNT_ID
 		where TI.ITEM_ID is not null or TI.ACCOUNT_ID is
-		not null AND TI.COMPANY_ID=:companyId order by T.ID
+		not null AND T.COMPANY_ID=:companyId order by T.ID
 
 	</sql-query>
 	<sql-query name="createTransactionHistoryViewForclient">

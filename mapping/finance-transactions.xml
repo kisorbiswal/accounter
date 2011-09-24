@@ -8,6 +8,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			lazy="false">
+		</many-to-one>
 		<property name="version" column="VERSION"></property>
 		<!-- <property name="netAmount" column="NET_AMOUNT"></property> -->
 		<!-- <property name="totalVAT" column="TOTAL_VAT"></property> -->
@@ -47,8 +50,8 @@
 			not-null="true" />
 		<property name="currencyCode" column="CURRENCY_CODE"></property>
 		<property name="currencyFactor" column="CURRENCY_FACTOR"></property>
-		<set name="accountTransactionEntriesList" inverse="true" cascade="all-delete-orphan"
-			lazy="false">
+		<set name="accountTransactionEntriesList" inverse="true"
+			cascade="all-delete-orphan" lazy="false">
 			<key column="TRANSACTION_ID"></key>
 			<one-to-many class="AccountTransaction" />
 		</set>
