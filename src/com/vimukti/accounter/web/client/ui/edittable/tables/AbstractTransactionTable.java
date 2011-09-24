@@ -60,14 +60,16 @@ public abstract class AbstractTransactionTable extends
 				// totalVat += taxItem.getTaxRate() / 100 * lineTotalAmt;
 				// }
 				taxableLineTotal += lineTotalAmt;
+
+				double taxAmount = getVATAmount(record.getTaxCode(), record);
+				if (isShowPriceWithVat()) {
+					lineTotal -= taxAmount;
+				}
+				record.setVATfraction(taxAmount);
+				totalTax += record.getVATfraction();
+
 			}
 
-			double taxAmount = getVATAmount(record.getTaxCode(), record);
-			if (isShowPriceWithVat()) {
-				lineTotal -= taxAmount;
-			}
-			record.setVATfraction(taxAmount);
-			totalTax += record.getVATfraction();
 			super.update(record);
 			// totalVat += citem.getVATfraction();
 		}
