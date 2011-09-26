@@ -864,7 +864,9 @@ public class FinanceTool {
 				log.info("Sending Changes From ChangeTracker:" + changes.length);
 				Session session = null;
 				session = HibernateUtil.getCurrentSession();
-				List<User> users = session.getNamedQuery("getAllUsers").list();
+				Company company = getCompany(ServerCompanyID);
+				List<User> users = session.getNamedQuery("getAllUsers")
+						.setEntity("company", company).list();
 				for (User user : users) {
 					try {
 						CometStream stream = CometManager.getStream(
