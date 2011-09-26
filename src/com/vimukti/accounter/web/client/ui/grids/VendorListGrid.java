@@ -170,19 +170,19 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 		} else if (index == 0) {
 			return 40;
 		} else if (index == 2) {
-			return 80;
+			return 100;
 		} else if (index == 3) {
-			return 80;
+			return 70;
 		} else if (index == 4) {
-			return 80;
+			return 70;
 		} else if (index == 5) {
-			return 80;
+			return 70;
 		} else if (index == 6) {
-			return 80;
+			return 70;
 		} else if (index == 7) {
-			return 80;
+			return 70;
 		} else if (index == 8) {
-			return 80;
+			return 75;
 		} else if (index == 9) {
 			return 70;
 		}

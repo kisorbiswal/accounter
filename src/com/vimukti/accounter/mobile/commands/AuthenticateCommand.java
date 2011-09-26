@@ -36,10 +36,10 @@ public class AuthenticateCommand extends AbstractCommand {
 
 	private void askForEmail(Context context, String error) {
 		// First get the emailID from the user
-		String email = getEmailFromUser(context.getIOSession().getFrom());
-		if (email != null) {
-			// We can show this default emailid
-		}
+		//String email = getEmailFromUser(context.getIOSession().getFrom());
+		// if (email != null) {
+		// // We can show this default emailid
+		// }
 	}
 
 	private boolean isValidEmail(String email) {

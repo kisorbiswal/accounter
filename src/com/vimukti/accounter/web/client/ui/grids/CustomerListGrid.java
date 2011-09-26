@@ -290,7 +290,7 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 			return 70;
 		}
 		if (index == 8) {
-			return 70;
+			return 75;
 		}
 		if (index == 9) {
 			return 70;
