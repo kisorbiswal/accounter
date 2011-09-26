@@ -85,7 +85,7 @@ public class PriorVATReturnsReport extends AbstractReportView<VATSummary> {
 		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
 				.getDate())), Integer.parseInt(String
 				.valueOf(((PriorVATReturnToolBar) toolbar).getSelectedEndDate()
-						.getDate())), 147, "", "");
+						.getDate())), 136, "", "", vatAgency);
 	}
 
 }
