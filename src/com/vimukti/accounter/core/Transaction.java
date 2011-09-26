@@ -1121,9 +1121,10 @@ public abstract class Transaction extends CreatableObject implements
 		}
 
 		Session session = HibernateUtil.getCurrentSession();
+		Transaction transaction = (Transaction) clientObject;
 		Query query2 = session.getNamedQuery(
 				"getTaxrate.by.TransactioId.and.Vatreturn").setEntity(
-				"company", getCompany());
+				"company", transaction.getCompany());
 		query2.setParameter("id", this.getID());
 		List list = query2.list();
 		if (list != null && list.size() > 0)

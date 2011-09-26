@@ -460,7 +460,7 @@ public class Vendor extends Payee {
 		Vendor vendor = (Vendor) clientObject;
 		Query query = session.getNamedQuery("getVendor.by.name")
 				.setString("name", vendor.name)
-				.setEntity("company", getCompany());
+				.setEntity("company", vendor.getCompany());
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			Vendor newVendor = (Vendor) list.get(0);
