@@ -134,8 +134,8 @@ public class SalesOpenOrderServerReport extends
 			addSection("", "Total", new int[] { col });
 		} else if (sectionDepth == 1) {
 			// First time
-			// this.sectionName = record.getVendorOrCustomerName();
-			addSection("", "Total", new int[] { col });
+			this.sectionName = record.getVendorOrCustomerName();
+			addSection(sectionName, "Total", new int[] { col });
 		} else if (sectionDepth == 2) {
 			// No need to do anything, just allow adding this record
 			if (sectionName != null
