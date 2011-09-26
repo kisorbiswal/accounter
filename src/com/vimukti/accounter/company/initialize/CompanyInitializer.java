@@ -104,6 +104,7 @@ public abstract class CompanyInitializer {
 		}
 		Account account = new Account(type, nextAccoutNo, name,
 				cashFlowCategory);
+		account.setCompany(company);
 		session.saveOrUpdate(account);
 		accountNoMap.put(subBaseType, nextAccoutNo + 1);
 		return account;
