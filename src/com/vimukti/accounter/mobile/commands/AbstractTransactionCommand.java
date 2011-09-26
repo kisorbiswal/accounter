@@ -6,8 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import org.hibernate.Session;
-
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.Address;
@@ -62,6 +60,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final String ACTIVE = "isActive";
 	protected static final String US_CHECK = "Check";
 	protected static final String UK_CHECK = "Cheque";
+
+	
 
 	protected Result itemsRequirement(Context context) {
 		Requirement itemsReq = get("items");
