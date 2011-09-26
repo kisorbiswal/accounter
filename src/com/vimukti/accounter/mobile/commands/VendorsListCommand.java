@@ -67,7 +67,7 @@ public class VendorsListCommand extends AbstractTransactionCommand {
 		ResultList vendorsResult = new ResultList("vendors");
 		result.add("Vendors List");
 		int num = 0;
-		List<Vendor> vendors = getVendors(isActive);
+		List<Vendor> vendors = getVendors(isActive,context.getCompany());
 		for (Vendor vendor : vendors) {
 			vendorsResult.add(createPayeeRecord(vendor));
 			num++;
