@@ -47,7 +47,6 @@ import com.vimukti.accounter.web.client.ui.company.CustomerGroupListAction;
 import com.vimukti.accounter.web.client.ui.company.CustomersAction;
 import com.vimukti.accounter.web.client.ui.company.DepreciationAction;
 import com.vimukti.accounter.web.client.ui.company.EditProfileAction;
-import com.vimukti.accounter.web.client.ui.company.FinanceLogAction;
 import com.vimukti.accounter.web.client.ui.company.FormLayoutsListAction;
 import com.vimukti.accounter.web.client.ui.company.IntegrateWithBusinessContactManagerAction;
 import com.vimukti.accounter.web.client.ui.company.ItemGroupListAction;
@@ -548,10 +547,6 @@ public class ActionFactory {
 		String flag = actionsConstants.newTAXAgency();
 
 		return new NewTAXAgencyAction(flag);
-	}
-
-	public static FinanceLogAction getFinanceLogAction() {
-		return new FinanceLogAction(actionsConstants.showLog());
 	}
 
 	public static ManageSalesTaxItemsAction getManageSalesTaxItemsAction() {
