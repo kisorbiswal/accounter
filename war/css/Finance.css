@@ -358,7 +358,7 @@ noindex:-o-prefocus,.table-checkbox-cell span input[type="checkbox"] {
 	background-color: inherit !important;
 }
 .dropdown-disabled input[disabled],.dropdown-disabled input[disabled='disabled']
-,.gwt-TextBox input[disabled],.gwt-TextBox input[disabled='disabled'],.editTable input[disabled],.editTable_disable_anchor{
+,.gwt-TextBox input[disabled],.gwt-TextBox input[disabled='disabled']{
 	background: none repeat scroll 0 0 #E6E0DA !important;
 }
 textarea[disabled] {
@@ -1844,6 +1844,6 @@ input[type="text"]{
 .gwt-DisclosurePanel-closed table td:last-child{
 	color:#3299a4;
 }
-.editTable .selected,.editTable{
+.editTable .selected,.editTable,.editTable input[disabled],.editTable_disable_anchor{
 background:#fff !important;
 }
