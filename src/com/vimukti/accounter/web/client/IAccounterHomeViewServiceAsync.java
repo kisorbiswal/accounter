@@ -20,7 +20,6 @@ import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEntry;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientFinanceLogger;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
@@ -313,12 +312,6 @@ public interface IAccounterHomeViewServiceAsync {
 
 	public void getPayVATEntries(
 			AsyncCallback<ArrayList<ClientPayVATEntries>> callBack);
-
-	public void getLog(long id, boolean isNext,
-			AsyncCallback<ArrayList<ClientFinanceLogger>> callBack);
-
-	public void getLog(String date, long id, boolean isNext,
-			AsyncCallback<ArrayList<ClientFinanceLogger>> callBack);
 
 	public void getPayeeList(int transactionCategory,
 			AsyncCallback<ArrayList<PayeeList>> callBack);
