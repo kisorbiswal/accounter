@@ -5,8 +5,6 @@
  */
 package com.vimukti.accounter.web.client.ui;
 
-import java.util.ArrayList;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
@@ -16,7 +14,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientFinanceLogger;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -89,7 +86,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 					getLogsForDate(UIUtils.dateToString(dateItm
 							.getEnteredDate()));
 				} else {
-					fillGridWithPreviousRecords();
+					// fillGridWithPreviousRecords();
 				}
 			}
 		});
@@ -120,7 +117,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 					getLogsForDate(UIUtils.dateToString(dateItm
 							.getEnteredDate()));
 				} else {
-					fillGridWithNextRecords();
+					// fillGridWithNextRecords();
 				}
 			}
 		});
@@ -176,133 +173,28 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 	}
 
 	protected void getLogsForDate(String dateToString) {
-		long id = isDateChanged ? -1 : (isNext ? lastRecordID : firstRecordID);
-		rpcUtilService.getLog(dateToString, id, isNext,
-				new AccounterAsyncCallback<ArrayList<ClientFinanceLogger>>() {
-
-					@Override
-					public void onResultSuccess(
-							ArrayList<ClientFinanceLogger> result) {
-						if (result != null && result.size() != 0) {
-							grid.setRecords(result);
-							firstRecordID = result.get(0).getID();
-							lastRecordID = result.get(result.size() - 1)
-									.getID();
-							isDateChanged = false;
-						} else
-							onFailure(null);
-					}
-
-					@Override
-					public void onException(AccounterException caught) {
-						grid.clear();
-						grid.addEmptyMessage(Accounter.constants()
-								.noRecordsToShow());
-					}
-				});
+		// long id = isDateChanged ? -1 : (isNext ? lastRecordID :
+		// firstRecordID);
+		// rpcUtilService.getLog();
 	}
 
 	@Override
 	public void initData() {
-		fillGrid();
+		// fillGrid();
 		super.initData();
 	}
 
-	private void fillGrid() {
-		rpcUtilService.getLog(-1, true,
-				new AccounterAsyncCallback<ArrayList<ClientFinanceLogger>>() {
+	// private void fillGrid() {
+	// rpcUtilService.getLog();
+	// }
 
-					@Override
-					public void onResultSuccess(
-							ArrayList<ClientFinanceLogger> result) {
-						if (result != null && result.size() != 0) {
-							if (result.size() < 20) {
-								prvsHyprLink.setEnabled(false);
-								nextHyprLnk.setEnabled(false);
-							} else {
-								prvsHyprLink.setEnabled(true);
-								nextHyprLnk.setEnabled(true);
-							}
-							grid.setRecords(result);
-							lastRecordID = result.get(result.size() - 1)
-									.getID();
-							firstRecordID = result.get(0).getID();
-						} else
-							onFailure(null);
-					}
+	// public void fillGridWithNextRecords() {
+	// rpcUtilService.getLog();
+	// }
 
-					@Override
-					public void onException(AccounterException caught) {
-						prvsHyprLink.setEnabled(false);
-						nextHyprLnk.setEnabled(false);
-						firstRecordID = -1;
-						lastRecordID = -1;
-						grid.clear();
-						grid.addEmptyMessage(Accounter.constants()
-								.noRecordsToShow());
-					}
-				});
-	}
-
-	public void fillGridWithNextRecords() {
-
-		rpcUtilService.getLog(lastRecordID, true,
-				new AccounterAsyncCallback<ArrayList<ClientFinanceLogger>>() {
-
-					@Override
-					public void onResultSuccess(
-							ArrayList<ClientFinanceLogger> result) {
-						if (result != null && result.size() != 0) {
-							if (result.size() < 20)
-								nextHyprLnk.setEnabled(false);
-							grid.setRecords(result);
-							firstRecordID = result.get(0).getID();
-							lastRecordID = result.get(result.size() - 1)
-									.getID();
-						} else
-							onFailure(null);
-					}
-
-					@Override
-					public void onException(AccounterException caught) {
-						firstRecordID = lastRecordID;
-						nextHyprLnk.setEnabled(false);
-						grid.clear();
-						grid.addEmptyMessage(Accounter.constants()
-								.noRecordsToShow());
-					}
-				});
-	}
-
-	public void fillGridWithPreviousRecords() {
-		rpcUtilService.getLog(firstRecordID, false,
-				new AccounterAsyncCallback<ArrayList<ClientFinanceLogger>>() {
-
-					@Override
-					public void onResultSuccess(
-							ArrayList<ClientFinanceLogger> result) {
-						if (result != null && result.size() != 0) {
-							if (result.size() < 20)
-								prvsHyprLink.setEnabled(false);
-							grid.setRecords(result);
-							firstRecordID = result.get(0).getID();
-							lastRecordID = result.get(result.size() - 1)
-									.getID();
-						} else {
-							onFailure(null);
-						}
-					}
-
-					@Override
-					public void onException(AccounterException caught) {
-						prvsHyprLink.setEnabled(false);
-						lastRecordID = firstRecordID;
-						grid.clear();
-						grid.addEmptyMessage(Accounter.constants()
-								.noRecordsToShow());
-					}
-				});
-	}
+	// public void fillGridWithPreviousRecords() {
+	// rpcUtilService.getLog();
+	// }
 
 	@Override
 	public void deleteFailed(AccounterException caught) {

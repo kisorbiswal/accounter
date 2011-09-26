@@ -647,11 +647,6 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 			if (itemReceipt.transactionItems != null
 					&& itemReceipt.transactionItems.size() > 0) {
 
-				FinanceLogger.log(
-						"update the Status of the Purchase Order with Number {0} "
-								+ "  (if any) Invloved in this ItemReceipt",
-						String.valueOf(this.purchaseOrder.number));
-
 				for (TransactionItem transactionItem : itemReceipt.transactionItems) {
 
 					if (transactionItem.referringTransactionItem != null) {

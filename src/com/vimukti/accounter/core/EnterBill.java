@@ -739,11 +739,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 			if (enterBill.transactionItems != null
 					&& enterBill.transactionItems.size() > 0) {
 
-				FinanceLogger.log(
-						"update the Status of the Purchase Order with Number {0} "
-								+ "  (if any) Invloved in this EnterBill ",
-						String.valueOf(enterBill.purchaseOrder.number));
-
 				// for (TransactionItem transactionItem :
 				// enterBill.transactionItems) {
 				//

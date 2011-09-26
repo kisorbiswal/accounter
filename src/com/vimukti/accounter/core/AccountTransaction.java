@@ -68,19 +68,11 @@ public class AccountTransaction extends CreatableObject implements
 		tempTransactionDate = transaction.clonedTransactionDate != null ? transaction.clonedTransactionDate
 				: transaction.transactionDate;
 
-		FinanceLogger.log(
-				"AccountTransaction Entry has been created for effect "
-						+ " of {0} on Account {1} with amount : {2} ",
-				Utility.getTransactionName(transaction.getType()),
-				account.getName(), String.valueOf(amount));
 		// CompanyPreferences preferences =
 		// Company.getCompany().getPreferences();
 		// if (this.transaction.transactionDate.getYear() == preferences
 		// .getStartOfFiscalYear().getYear()) {
 
-		FinanceLogger.log(
-				"{0} Monthly wise amounts has been update with amount: {1} ",
-				account.getName(), String.valueOf(amount));
 		int key = (tempTransactionDate.getYear() + 1900) * 100
 				+ tempTransactionDate.getMonth();
 		if (this.account.monthViceAmounts.containsKey(key)) {

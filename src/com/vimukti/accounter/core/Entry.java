@@ -291,7 +291,6 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 		// boolean isDebitforLog = true;
 		//
 		this.updateAccountBalances(session, false);
-		this.logEntry();
 
 		// if (this.account != null) {
 		//
@@ -786,7 +785,6 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 
 		} else if (!this.journalEntry.isEdited) {
 			amount = -amount;
-			FinanceLogger.log("Entry is going to void...");
 		}
 
 		if (this.journalEntry.journalEntryType == JournalEntry.TYPE_NORMAL_JOURNAL_ENTRY) {
@@ -940,35 +938,6 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 					this.taxItem.id);
 			taxItem.getTaxAgency().updateBalance(session, this.journalEntry,
 					amount);
-
-		}
-
-	}
-
-	private void logEntry() {
-
-		String amountValue = !DecimalUtil.isEquals(this.debit, 0.0) ? " Debited Amount "
-				+ this.debit
-				: " Credited Amount " + this.credit;
-
-		if (this.account != null) {
-
-			FinanceLogger.log("Effected Entry : {0} with {1} ",
-					this.account.getName(), amountValue);
-
-		} else if (this.customer != null) {
-
-			FinanceLogger.log("Effected Entry : {0} with {1} ",
-					this.customer.getName(), amountValue);
-
-		} else if (this.vendor != null) {
-			FinanceLogger.log("Effected Entry : {0} with {1} ",
-					this.vendor.getName(), amountValue);
-
-		} else if (this.taxItem != null) {
-
-			FinanceLogger.log("Effected Entry : {0} with {1} ",
-					this.taxItem.getName(), amountValue);
 
 		}
 

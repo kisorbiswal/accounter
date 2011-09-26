@@ -469,10 +469,6 @@ public class Invoice extends Transaction implements Lifecycle {
 			if (invoice.transactionItems != null
 					&& invoice.transactionItems.size() > 0) {
 
-				FinanceLogger
-						.log("update the Status of the Estimate with Number {0}  (if any) Involved in this Invoice ",
-								String.valueOf(this.estimate.number));
-
 				for (TransactionItem transactionItem : invoice.transactionItems) {
 					/**
 					 * This is to know whether this transaction item is of new
@@ -669,11 +665,6 @@ public class Invoice extends Transaction implements Lifecycle {
 			boolean flag = true;
 			if (invoice.transactionItems != null
 					&& invoice.transactionItems.size() > 0) {
-
-				FinanceLogger.log(
-						"update the Status of the Sales Order with Number {0} "
-								+ "  (if any) Invloved in this Invoice",
-						String.valueOf(invoice.salesOrder.number));
 
 				for (TransactionItem transactionItem : invoice.transactionItems) {
 					/**

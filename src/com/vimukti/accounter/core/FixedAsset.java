@@ -643,8 +643,6 @@ public class FixedAsset extends CreatableObject implements
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-
-		FinanceLogger.log("FixedAsset {0} has been deleted", this.getName());
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
 		accounterCore.setID(id);

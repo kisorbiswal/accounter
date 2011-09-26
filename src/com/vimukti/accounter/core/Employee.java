@@ -430,9 +430,6 @@ public class Employee extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
-		FinanceLogger.log("Employee with Name {0} has been deleted",
-				this.getEmployeeName());
-
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
 		accounterCore.setID(this.id);

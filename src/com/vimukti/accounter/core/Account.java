@@ -771,7 +771,6 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	// }
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
-		FinanceLogger.log("Account {0} has been deleted", this.getName());
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
 		accounterCore.setID(id);
@@ -792,9 +791,6 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			return true;
 		super.onSave(session);
 		this.isOnSaveProccessed = true;
-		FinanceLogger.log("{0} OnSave method execution...........",
-				this.getName());
-
 		try {
 			if (this.type == Account.TYPE_INCOME
 					|| this.type == Account.TYPE_OTHER_INCOME
@@ -811,10 +807,6 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			if (this.type == Account.TYPE_INVENTORY_ASSET) {
 				this.isOpeningBalanceEditable = false;
 			}
-
-			FinanceLogger.log("Account  {0}: {1} for the type: {2}", this.name,
-					(isIncrease ? " IsIncrease becomes true" : ""),
-					String.valueOf(this.type));
 
 			switch (type) {
 
@@ -927,9 +919,6 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 				}
 			}
 
-			FinanceLogger.log("Account {0}: Flow with {1} has been added",
-					this.getName(), this.flow);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -946,9 +935,6 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 		this.totalBalance += amount;
 
-		FinanceLogger.log("{0} To {1}", tempStr,
-				String.valueOf(this.totalBalance));
-
 		if (this.parent != null) {
 			this.parent.updateTotalBalance(amount);
 		}
@@ -964,9 +950,6 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 				+ " has been updated from " + this.currentBalance;
 
 		this.currentBalance += amount;
-
-		FinanceLogger.log("{0} To {1}", tempStr,
-				String.valueOf(this.currentBalance));
 
 		if (!DecimalUtil.isEquals(this.currentBalance, 0.0)
 				&& isOpeningBalanceEditable) {
@@ -986,8 +969,6 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 				&& ((JournalEntry) transaction).journalEntryType == JournalEntry.TYPE_NORMAL_JOURNAL_ENTRY
 				&& transaction.memo != null
 				&& transaction.memo.equals("Closing Fiscal Year")) {
-			FinanceLogger
-					.log("Create AccountTransaction when  Fiscal Year closed ");
 			closingFYEntry = true;
 			cashBasisEntry = false;
 
@@ -1058,14 +1039,6 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			}
 
 			if (this.oldParent != null && this.oldParent != this.parent) {
-
-				FinanceLogger.log("{0} parent changed from {1} to {2} ",
-						this.getName(), this.oldParent.getName(),
-						this.parent.getName());
-
-				FinanceLogger.log("{0} flow changed from {1} to {2}",
-						this.getName(), oldFlow, this.flow);
-
 				this.oldParent.updateTotalBalance(-1 * this.totalBalance);
 				session.update(this.oldParent);
 
@@ -1109,10 +1082,6 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 		if (!DecimalUtil.isEquals(this.openingBalance, 0.0)
 				&& isOpeningBalanceEditable) {
-
-			FinanceLogger
-					.log("Create Journal Entry if Opening Balance is not 0 to this account");
-
 			this.isOpeningBalanceEditable = Boolean.FALSE;
 			// Query query = session.getNamedQuery("getNextTransactionNumber");
 			// query.setLong("type", Transaction.TYPE_JOURNAL_ENTRY);

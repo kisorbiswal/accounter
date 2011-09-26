@@ -372,9 +372,6 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
-		FinanceLogger.log("Item with Name {0} and {1} has been deleted", this
-				.getName(), (this.isISellThisItem ? "Sales Price"
-				: "Purchase Price"));
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
 		accounterCore.setID(this.id);
@@ -396,20 +393,12 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 			return true;
 		super.onSave(arg0);
 		this.isOnSaveProccessed = true;
-
-		FinanceLogger.log("Item with Name {0} and {1} has been created ", this
-				.getName(), (this.isISellThisItem ? "Sales Price"
-				: "Purchase Price"));
 		return false;
 	}
 
 	@Override
 	public boolean onUpdate(Session arg0) throws CallbackException {
 		super.onUpdate(arg0);
-		FinanceLogger.log("Item with Name {0} and {1} has been updated", this
-				.getName(), (this.isISellThisItem ? "Sales Price"
-				: "Purchase Price"));
-
 		ChangeTracker.put(this);
 		return false;
 	}

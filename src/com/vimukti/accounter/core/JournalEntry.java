@@ -959,12 +959,6 @@ public class JournalEntry extends Transaction {
 
 		}
 
-		FinanceLogger
-				.log("Journal Entry No: {0} Created with Total Debit: {1} and Total Credit: {2} ",
-						String.valueOf(this.getNumber()),
-						String.valueOf(this.debitTotal),
-						String.valueOf(creditTotal));
-
 		// Creating Activity
 		Activity activity = new Activity(getCompany(),
 				AccounterThreadLocal.get(), ActivityType.ADD, this);

@@ -345,11 +345,6 @@ public class Customer extends Payee implements IAccounterServerCore,
 
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
-
-		FinanceLogger.log(
-				"Customer with Name {0} and Balance {1} has been deleted",
-				this.getName(), String.valueOf(this.getBalance()));
-
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
 		accounterCore.setID(this.id);
@@ -378,12 +373,6 @@ public class Customer extends Payee implements IAccounterServerCore,
 		// SessionUtils.updateReferenceCount(null, this, session, true);
 
 		// Logging the Customer info.
-
-		FinanceLogger.log(
-				"Opening Balance= {0}    Is Opening Balance Editable: {1}",
-				String.valueOf(this.getOpeningBalance()),
-				String.valueOf(this.isOpeningBalanceEditable()));
-
 		return onUpdate(session);
 	}
 
@@ -396,10 +385,6 @@ public class Customer extends Payee implements IAccounterServerCore,
 		super.onUpdate(session);
 		if (!DecimalUtil.isEquals(this.openingBalance, 0.0)
 				&& isOpeningBalanceEditable) {
-
-			FinanceLogger
-					.log("Create Journal Entry if Opening Balance is not 0 to this Customer");
-
 			this.isOpeningBalanceEditable = Boolean.FALSE;
 			// Query query = session.getNamedQuery("getNextTransactionNumber");
 			// query.setLong("type", Transaction.TYPE_JOURNAL_ENTRY);
