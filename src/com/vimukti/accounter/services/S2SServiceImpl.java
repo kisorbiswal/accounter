@@ -12,7 +12,6 @@ import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
-import com.vimukti.accounter.core.Server;
 import com.vimukti.accounter.core.ServerCompany;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mail.UsersMailSendar;
@@ -45,7 +44,9 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 	public boolean isAdmin(long companyID, String emailID) {
 		Session session = HibernateUtil.openSession();
 		User user = (User) session.getNamedQuery("adminUserForEmailId")
-				.setParameter("emailid", emailID).uniqueResult();
+				.setParameter("emailid", emailID)
+				.setParameter("company", session.get(Company.class, companyID))
+				.uniqueResult();
 		if (user != null) {
 			return true;
 		}
@@ -252,9 +253,9 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 		Session session = HibernateUtil.openSession();
 		Transaction transaction = session.beginTransaction();
 		try {
-			Query dropSchema = session.createSQLQuery("DROP SCHEMA "
-					+ Server.COMPANY + serverCompanyID);
-			dropSchema.executeUpdate();
+			Company object = (Company) session.get(Company.class,
+					serverCompanyID);
+			session.delete(object);
 			transaction.commit();
 		} catch (Exception e) {
 			transaction.rollback();
