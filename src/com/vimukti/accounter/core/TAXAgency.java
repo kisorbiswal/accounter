@@ -214,7 +214,7 @@ public class TAXAgency extends Payee {
 		TAXAgency taxAgency = (TAXAgency) clientObject;
 		Query query = session.getNamedQuery("getTaxAgency.by.Name")
 				.setString("name", taxAgency.name)
-				.setEntity("company", getCompany());
+				.setEntity("company", taxAgency.getCompany());
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			TAXAgency newTaxAgency = (TAXAgency) list.get(0);

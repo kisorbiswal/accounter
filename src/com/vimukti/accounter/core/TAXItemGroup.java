@@ -143,7 +143,7 @@ public class TAXItemGroup extends CreatableObject implements
 		// Query query =
 		// session.createQuery("from VATItemGroup V where V.name =: name")
 		// .setParameter("name", vatItemGroup.name);
-		Query query = session.getNamedQuery("getTAXItemGroupWithSameName")
+		Query query = session.getNamedQuery("getTaxItemGroupWithSameName")
 				.setParameter("name", this.name).setParameter("id", this.id)
 				.setParameter("companyId", taxItemGroup.getCompany().getID());
 		List list = query.list();

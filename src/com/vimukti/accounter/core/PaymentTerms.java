@@ -143,7 +143,7 @@ public class PaymentTerms extends CreatableObject implements
 		PaymentTerms paymentTerms = (PaymentTerms) clientObject;
 		Query query = session.getNamedQuery("getPaymentTerms.by.Name")
 				.setString("name", paymentTerms.name)
-				.setEntity("company", getCompany());
+				.setEntity("company", paymentTerms.getCompany());
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			PaymentTerms newPaymentTerms = (PaymentTerms) list.get(0);
