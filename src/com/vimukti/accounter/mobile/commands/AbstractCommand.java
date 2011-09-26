@@ -105,11 +105,6 @@ public abstract class AbstractCommand extends Command {
 		return number(context, message, oldAmount.toString());
 	}
 
-	protected Company getCompany() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	protected Result number(Context context, String message, String oldNumber) {
 		Result result = context.makeResult();
 		result.add(message);
@@ -267,14 +262,14 @@ public abstract class AbstractCommand extends Command {
 		return record;
 	}
 
-	private List<TAXCode> getTaxCodes() {
-		return getCompany().getTaxCodes();
+	private List<TAXCode> getTaxCodes(Company company) {
+		return company.getTaxCodes();
 
 	}
 
 	protected Result taxCode(Context context, TAXCode oldTaxCode) {
 		Result result = context.makeResult();
-		List<TAXCode> codes = getTaxCodes();
+		List<TAXCode> codes = getTaxCodes(context.getCompany());
 		ResultList list = new ResultList(TAXCODE);
 		int num = 0;
 		if (oldTaxCode != null) {
@@ -425,7 +420,7 @@ public abstract class AbstractCommand extends Command {
 			supplierList.add(createVendorRecord((Vendor) last));
 			num++;
 		}
-		List<Vendor> vendors = getVendors();
+		List<Vendor> vendors = getVendors(true, context.getCompany());
 		for (Vendor vendor : vendors) {
 			if (vendor != last) {
 				supplierList.add(createVendorRecord(vendor));
@@ -563,27 +558,8 @@ public abstract class AbstractCommand extends Command {
 		return null;
 	}
 
-	protected List<Customer> getCustomers(Boolean isActive) {
-		ArrayList<Customer> customers = getCompany().getCustomers();
-		ArrayList<Customer> result = new ArrayList<Customer>();
-		for (Customer customer : customers) {
-			if (isActive) {
-				if (customer.isActive()) {
-					result.add(customer);
-				}
-			} else {
-				result.add(customer);
-			}
-		}
-		return null;
-	}
-
-	private List<Vendor> getVendors() {
-		return getCompany().getVendors();
-	}
-
-	protected List<Vendor> getVendors(boolean isActive) {
-		ArrayList<Vendor> vendors = getCompany().getVendors();
+	protected List<Vendor> getVendors(boolean isActive, Company company) {
+		ArrayList<Vendor> vendors = company.getVendors();
 		ArrayList<Vendor> result = new ArrayList<Vendor>();
 
 		for (Vendor vendor : vendors) {
