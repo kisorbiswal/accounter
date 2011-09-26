@@ -15,6 +15,7 @@ import com.vimukti.accounter.core.BankAccount;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Customer;
+import com.vimukti.accounter.core.Expense;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
@@ -545,9 +546,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	}
 
-	protected List<Activity> getActivityList( Date fromDate,
-			Date endDate) {
-			return null;
+	protected List<Activity> getActivityList(Date fromDate, Date endDate) {
+		return null;
 	}
 
 	protected List<Customer> getCustomers(Company company, Boolean isActive) {
@@ -1152,4 +1152,10 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		}
 		return null;
 	}
+
+	protected List<Expense> getExpenses(String viewType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
