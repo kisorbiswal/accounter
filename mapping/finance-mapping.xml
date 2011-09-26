@@ -331,14 +331,7 @@
 		<property name="ukNonInventoryItemDefaultIncomeAccount"
 			column="UK_NON_INVENTORY_ITEM_DEFAULT_INCOME_ACCOUNT"></property>
 		<property name="ukNonInventoryItemDefaultExpenseAccount"
-			column="UK_NON_INVENTORY_ITEM_DEFAULT_EXPENSE_ACCOUNT"></property>
-		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false" not-null="true"></many-to-one>
-		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false" not-null="true"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE" not-null="true" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
-			not-null="true" />
+			column="UK_NON_INVENTORY_ITEM_DEFAULT_EXPENSE_ACCOUNT"></property>	
 
 		<property name="registrationNumber" column="REGISTRATION_NUMBER"></property>
 

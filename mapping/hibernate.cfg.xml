@@ -55,7 +55,7 @@
 		</property>
 		<!-- Show and print nice SQL on stdout -->
 		<property name="show_sql">
-			true
+			false
 		</property>
 		<property name="format_sql">
 			true
