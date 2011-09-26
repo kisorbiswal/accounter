@@ -55,8 +55,8 @@ public class TransactionDetailByAccountServerReport extends
 
 	int getType(TransactionDetailByAccount record) {
 		if (record.getTransactionType() == 11) {
-			return (record.getMemo() != null && record.getMemo()
-					.equalsIgnoreCase("supplier prepayment")) ? ClientTransaction.TYPE_VENDOR_PAYMENT
+			return (record.getMemo() != null && record.getMemo().equals(
+					getMessages().vendorPrePayment(Global.get().Vendor()))) ? ClientTransaction.TYPE_VENDOR_PAYMENT
 					: ClientTransaction.TYPE_PAY_BILL;
 		}
 
@@ -77,9 +77,8 @@ public class TransactionDetailByAccountServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "", constants.name(), constants.date(),
-				" ", constants.number(), constants.amount(),
-				constants.balance() };
+		return new String[] { "", constants.name(), constants.date(), " ",
+				constants.number(), constants.amount(), constants.balance() };
 	}
 
 	@Override
@@ -199,9 +198,8 @@ public class TransactionDetailByAccountServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "", constants.name(), constants.date(),
-				" ", constants.number(), constants.amount(),
-				constants.balance() };
+		return new String[] { "", constants.name(), constants.date(), " ",
+				constants.number(), constants.amount(), constants.balance() };
 	}
 
 }
