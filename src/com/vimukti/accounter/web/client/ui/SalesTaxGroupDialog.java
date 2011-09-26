@@ -120,7 +120,7 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 	}
 
 	public void setAvalableTCGridCellWidths() {
-		availTaxItemsGrid.setCellsWidth(new Integer[] { 109, 100 });
+		availTaxItemsGrid.setCellsWidth(new Integer[] { 80, 50 });
 	}
 
 	private void setSelectedTaxItemsGridFields() {
@@ -131,7 +131,7 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 	}
 
 	public void setSelectedTCGridCellWidths() {
-		selectTaxItemsGrid.setCellsWidth(new Integer[] { 109, 100 });
+		selectTaxItemsGrid.setCellsWidth(new Integer[] { 80, 50 });
 	}
 
 	public Object getAvailTaxItemsGridColumnValue(
@@ -169,7 +169,7 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 
 	private void createControls(final ClientTAXGroup taxGroup) {
 
-		setWidth("570px");
+		setWidth("1000px");
 		// setPageTop(10);
 		VerticalPanel bodyLayout = new VerticalPanel();
 
