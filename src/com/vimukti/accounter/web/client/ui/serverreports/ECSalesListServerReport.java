@@ -55,12 +55,10 @@ public class ECSalesListServerReport extends AbstractFinaneReport<ECSalesList> {
 
 	@Override
 	public int getColumnWidth(int index) {
-		switch (index) {
-		case 1:
-			return 400;
-		default:
+		if (index == 1)
+			return 175;
+		else
 			return -1;
-		}
 	}
 
 	@Override
