@@ -117,7 +117,7 @@ public class CashPurchaseCommand extends AbstractTransactionCommand {
 	}
 
 	private void completeProcess(Context context) {
-		Company company = getCompany();
+		Company company = context.getCompany();
 		CashPurchase cashPurchase = new CashPurchase();
 		Date date = get(DATE).getValue();
 		cashPurchase.setDate(new FinanceDate(date));
