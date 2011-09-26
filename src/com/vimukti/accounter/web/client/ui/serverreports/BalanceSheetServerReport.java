@@ -17,13 +17,13 @@ public class BalanceSheetServerReport extends
 	private List<String> sectiontypes = new ArrayList<String>();
 	private String curentParent;
 	private double currentAssetsTotal;
-	private double currentLiabilityTotal;
-	private double netCurrentAssetsTotal;
 	private double fixedAssetsTotal;
+	private double otherAssetsTotal;
+	private double assetsTotal;
+	private double currentLiabilityTotal;
 	private double longTermLiabilityTotal;
-	private double otherNominalAccounts;
-	private double netAssetsTotal;
-	private double dividendAmount;
+	private double equitiesTotal;
+	private double liabilityAndEquityTotal;
 
 	public BalanceSheetServerReport(long startDate, long endDate,
 			int generationType) {
@@ -112,9 +112,9 @@ public class BalanceSheetServerReport extends
 
 		if (this.handler == null)
 			iniHandler();
-		if (sectionDepth == 0) {
-			addTypeSection(" ");
-		}
+		// if (sectionDepth == 0) {
+		// addTypeSection(" ");
+		// }
 		addAssetTypes(record);
 		// if (record.getBaseType() == ClientAccount.BASETYPE_ASSET) {
 		// addAssetTypes(record);
@@ -154,7 +154,7 @@ public class BalanceSheetServerReport extends
 	}
 
 	public void closeAllSection() {
-		for (int i = types.size() - 1; i > 0; i--) {
+		for (int i = types.size() - 1; i >= 0; i--) {
 			closeSection(i);
 		}
 	}
@@ -175,102 +175,64 @@ public class BalanceSheetServerReport extends
 		// addTypeSection("Asset");
 		// }
 
-		if (!sectiontypes.contains("Net Assets")) {
-			addTypeSection(getConstants().netAssets(), "", getConstants()
-					.netAssets());
-		}
-
-		if (!sectiontypes.contains("Net Current Assets")) {
-			addTypeSection(getConstants().netCurrentAssets(), "",
-					getConstants().netCurrentAssets());
-		}
-		if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_CURRENT_ASSET) {
-			if (!sectiontypes.contains("Current Assets")) {
-				addTypeSection(getConstants().currentAssets());
+		if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_CURRENT_ASSET
+				|| record.getSubBaseType() == ClientAccount.SUBBASETYPE_FIXED_ASSET
+				|| record.getSubBaseType() == ClientAccount.SUBBASETYPE_OTHER_ASSET) {
+			if (!sectiontypes.contains(getConstants().assets())) {
+				addTypeSection(getConstants().assets(), "", getConstants()
+						.assetsTotal());
 			}
-			// if (record.getGroupType() == ClientAccount.GROUPTYPE_CASH)
-			// if (!sectiontypes.contains(FinanceApplication
-			// .constants().cash())) {
-			// closeOtherSections();
-			// addTypeSection(FinanceApplication.constants()
-			// .cash());
-			// }
-		}
 
-		if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_CURRENT_LIABILITY) {
-			if (!sectiontypes.contains("Current Liabilities")) {
-
-				closePrevSection(getConstants().currentAssets());
-				// closeSection(types.indexOf(FinanceApplication
-				// .constants().currentAssets()));
-				addTypeSection(getConstants().currentLiabilities());
-			}
-		}
-
-		// if (!sectiontypes.contains(FinanceApplication.constants()
-		// .netCurrentAssets())) {
-		// addTypeSection(FinanceApplication.constants()
-		// .netCurrentAssets(), "", FinanceApplication
-		// .constants().netCurrentAssets());
-		// }
-
-		if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_FIXED_ASSET) {
-			if (!sectiontypes.contains("Fixed Assets")) {
-				// closeAllSection();
-				closePrevSection(getConstants().currentLiabilities());
-				closePrevSection(getConstants().netCurrentAssets());
-				// closePrevSection(FinanceApplication.constants()
-				// .currentAssets());
-				// closePrevSection()
-				// if (!sectiontypes.contains(FinanceApplication
-				// .constants().netAssets())) {
-				// addTypeSection(FinanceApplication.constants()
-				// .netAssets(), "", FinanceApplication
-				// .constants().netAssets());
-				// }
-				// for (int i : new int[] { types.size() - 1, types.size() - 2
-				// }) {
-				// closeSection(i);
-				// }
-				addTypeSection(getConstants().fixedAssets());
-			}
-		}
-
-		if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_LONG_TERM_LIABILITY) {
-			if (!sectiontypes.contains("Long Term  Liabilities")) {
-				if (sectiontypes.contains("Fixed Assets"))
-					closePrevSection(getConstants().fixedAssets());
-				else {
-					closePrevSection(getConstants().currentLiabilities());
-					closePrevSection(getConstants().netCurrentAssets());
+			if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_CURRENT_ASSET) {
+				if (!sectiontypes.contains(getConstants().currentAssets())) {
+					addTypeSection(getConstants().currentAssets());
 				}
-				addTypeSection(getConstants().longTermLiabilities());
 			}
-		}
-
-		if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_OTHER_ASSET) {
-			if (!sectiontypes.contains("Other Nominal Finance Categories")) {
-				if (sectiontypes.contains("Long Term  Liabilities")) {
-					closePrevSection(getConstants().longTermLiabilities());
-				} else if (sectiontypes.contains("Fixed Assets")) {
-					closePrevSection(getConstants().fixedAssets());
-				} else {
-					closePrevSection(getConstants().currentLiabilities());
-					closePrevSection(getConstants().netCurrentAssets());
+			if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_FIXED_ASSET) {
+				if (!sectiontypes.contains(getConstants().fixedAssets())) {
+					closeSection(types.indexOf(getConstants().currentAssets()));
+					addTypeSection(getConstants().fixedAssets());
 				}
-
-				addTypeSection(getConstants().otherNominalFinanceCategories());
+			}
+			if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_OTHER_ASSET) {
+				if (!sectiontypes.contains(getConstants().otherAssets())) {
+					closeSection(types.indexOf(getConstants().currentAssets()));
+					closeSection(types.indexOf(getConstants().fixedAssets()));
+					addTypeSection(getConstants().otherAssets());
+				}
 			}
 		}
 
-		if (record.getBaseType() == ClientAccount.BASETYPE_EQUITY) {
-			if (record.getAccountNumber() != null
-					&& record.getAccountNumber().equals("3150"))
-				dividendAmount = record.getAmount();
-			if (!sectiontypes.contains("Capital And Reserves")) {
+		if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_CURRENT_LIABILITY
+				|| record.getSubBaseType() == ClientAccount.SUBBASETYPE_LONG_TERM_LIABILITY
+				|| record.getSubBaseType() == ClientAccount.SUBBASETYPE_EQUITY) {
+			if (!sectiontypes.contains(getConstants().liabilitiesandEquity())) {
 				closeAllSection();
-				addTypeSection(getConstants().capitalAndReserves(),
-						getConstants().shareHolderFunds());
+				addTypeSection(getConstants().liabilitiesandEquity(), "",
+						getConstants().liabilitiesandEquityTotal());
+			}
+
+			if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_CURRENT_LIABILITY) {
+				if (!sectiontypes.contains(getConstants().currentLiabilities())) {
+					addTypeSection(getConstants().currentLiabilities());
+				}
+			}
+			if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_LONG_TERM_LIABILITY) {
+				if (!sectiontypes
+						.contains(getConstants().longTermLiabilities())) {
+					closeSection(types.indexOf(getConstants()
+							.currentLiabilities()));
+					addTypeSection(getConstants().longTermLiabilities());
+				}
+			}
+			if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_EQUITY) {
+				if (!sectiontypes.contains(getConstants().equity())) {
+					closeSection(types.indexOf(getConstants()
+							.currentLiabilities()));
+					closeSection(types.indexOf(getConstants()
+							.longTermLiabilities()));
+					addTypeSection(getConstants().equity());
+				}
 			}
 		}
 
@@ -368,9 +330,11 @@ public class BalanceSheetServerReport extends
 	}
 
 	public void closeSection(int index) {
-		types.remove(index);
-		curentParent = "";
-		endSection();
+		if (index >= 0) {
+			types.remove(index);
+			curentParent = "";
+			endSection();
+		}
 	}
 
 	/**
@@ -433,7 +397,7 @@ public class BalanceSheetServerReport extends
 		initValues();
 		ISectionHandler<TrialBalance> sectionHandler = new ISectionHandler<TrialBalance>() {
 
-			private double shareHoldersFund;
+			// private double shareHoldersFund;
 
 			@Override
 			public void OnSectionAdd(Section<TrialBalance> section) {
@@ -450,49 +414,42 @@ public class BalanceSheetServerReport extends
 				// prevent null pointer exception with title value
 				if (section.title == null)
 					section.title = "";
-				if (section.title.equals("Current Assets")) {
+				if (section.title.equals(getConstants().currentAssets())) {
 					currentAssetsTotal = Double.valueOf(section.data[3]
 							.toString());
 				}
-				if (section.title.equals("Current Liabilities")) {
-					currentLiabilityTotal = Double.valueOf(section.data[3]
-							.toString());
-				}
-
-				if (section.title.equals("Fixed Assets")) {
+				if (section.title.equals(getConstants().fixedAssets())) {
 					fixedAssetsTotal = Double.valueOf(section.data[3]
 							.toString());
 				}
-				if (section.title.equals("Long Term  Liabilities")) {
+				if (section.title.equals(getConstants().otherAssets())) {
+					otherAssetsTotal = Double.valueOf(section.data[3]
+							.toString());
+				}
+				if (section.footer.equals(getConstants().assetsTotal())) {
+					assetsTotal = currentAssetsTotal + fixedAssetsTotal
+							+ otherAssetsTotal;
+					section.data[3] = assetsTotal;
+				}
+
+				if (section.title.equals(getConstants().currentLiabilities())) {
+					currentLiabilityTotal = Double.valueOf(section.data[3]
+							.toString());
+				}
+				if (section.title.equals(getConstants().longTermLiabilities())) {
 					longTermLiabilityTotal = Double.valueOf(section.data[3]
 							.toString());
 				}
-				if (section.title.equals("Other Nominal Finance Categories")) {
-					otherNominalAccounts = Double.valueOf(section.data[3]
-							.toString());
+				if (section.title.equals(getConstants().equity())) {
+					equitiesTotal = Double.valueOf(section.data[3].toString());
 				}
-				// prevent null pointer exceptions with footer value
-				if (section.footer == null)
-					section.footer = "";
+				if (section.footer.equals(getConstants()
+						.liabilitiesandEquityTotal())) {
+					liabilityAndEquityTotal = currentLiabilityTotal
+							+ longTermLiabilityTotal + equitiesTotal;
+					section.data[3] = liabilityAndEquityTotal;
+				}
 
-				if (section.footer.equals("Net Assets")) {
-					grid.addRow(null, 0,
-							new Object[] { " ", " ", " ", " ", " " }, false,
-							false, false);
-					netAssetsTotal = netCurrentAssetsTotal + fixedAssetsTotal
-							- longTermLiabilityTotal + otherNominalAccounts;
-					section.data[3] = netAssetsTotal;
-				}
-				if (section.footer.equals("Shareholder Funds")) {
-					shareHoldersFund = Double.valueOf(section.data[3]
-							.toString()) - 2 * dividendAmount;
-					section.data[3] = shareHoldersFund;
-				}
-				if (section.footer.equals("Net Current Assets")) {
-					netCurrentAssetsTotal = currentAssetsTotal
-							- currentLiabilityTotal;
-					section.data[3] = netCurrentAssetsTotal;
-				}
 			}
 
 		};
@@ -502,12 +459,13 @@ public class BalanceSheetServerReport extends
 
 	protected void initValues() {
 		currentAssetsTotal = 0.0D;
-		currentLiabilityTotal = 0.0D;
-		netCurrentAssetsTotal = 0.0D;
 		fixedAssetsTotal = 0.0D;
+		otherAssetsTotal = 0.0D;
+		assetsTotal = 0.0D;
+		currentLiabilityTotal = 0.0D;
 		longTermLiabilityTotal = 0.0D;
-		otherNominalAccounts = 0.0D;
-		netAssetsTotal = 0.0D;
+		equitiesTotal = 0.0D;
+		liabilityAndEquityTotal = 0.0D;
 
 	}
 
@@ -540,7 +498,7 @@ public class BalanceSheetServerReport extends
 
 		switch (index) {
 		case 0:
-			return 110;
+			return 75;
 		case 2:
 			return 130;
 		case 3:

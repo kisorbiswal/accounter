@@ -211,11 +211,11 @@ public abstract class AbstractFinaneReport<R> extends
 	public void endAllSections() {
 		try {
 			for (int i = this.sections.size() - 1; i >= 0; i--) {
-				if (i == 1) {
-					sections.get(0).isaddFooter = false;
-					endSection();
-				} else
-					endSection();
+				// if (i == 1) {
+				// sections.get(0).isaddFooter = false;
+				// endSection();
+				// } else
+				endSection();
 			}
 		} catch (Exception e) {
 		}

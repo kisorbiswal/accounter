@@ -105,10 +105,10 @@ public class ProfitAndLossUKServerReport extends ProfitAndLossServerReport {
 					section.data[5] = grosProft2;
 				}
 				if (section.footer.equals("Net Profit")) {
-					netIncome = grosProft - totalexpese;
-					section.data[3] = netIncome;
-					netIncome2 = grosProft2 - totalexpese2;
-					section.data[5] = netIncome2;
+					netProfit = grosProft - totalexpese;
+					section.data[3] = netProfit;
+					netProfit2 = grosProft2 - totalexpese2;
+					section.data[5] = netProfit2;
 				}
 			}
 		};

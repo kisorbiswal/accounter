@@ -103,7 +103,7 @@ public class ProfitAndLossByLocationServerReport extends
 		if (this.handler == null)
 			initHandler();
 		if (sectionDepth == 0) {
-			addTypeSection("", getConstants().netOrdinaryIncome());
+			addTypeSection("", getConstants().netProfit());
 		}
 		addOrdinaryIncomeOrExpenseTypes(record);
 
@@ -188,7 +188,7 @@ public class ProfitAndLossByLocationServerReport extends
 				if (section.title.equals(getConstants().expense())) {
 					totalexpese = (Double) section.data[noColumns - 1];
 				}
-				if (section.footer.equals(getConstants().netOrdinaryIncome())) {
+				if (section.footer.equals(getConstants().netProfit())) {
 					netIncome = grosProft - totalexpese;
 					section.data[noColumns - 1] = netIncome;
 				}

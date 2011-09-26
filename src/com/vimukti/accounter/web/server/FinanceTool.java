@@ -6784,9 +6784,10 @@ public class FinanceTool {
 		List<TrialBalance> queryResult = new ArrayList<TrialBalance>();
 
 		TrialBalance netIncomeTB = new TrialBalance();
-		netIncomeTB.setAccountName("P&L Brought Forward/YTD");
+		netIncomeTB.setAccountName("Net Profit");
 		netIncomeTB.setBaseType(Account.BASETYPE_EQUITY);
-		netIncomeTB.setAccountNumber("3100");
+		netIncomeTB.setSubBaseType(Account.SUBBASETYPE_EQUITY);
+		// netIncomeTB.setAccountNumber("3100");
 		netIncomeTB.setAmount(netIncome);
 
 		while ((iterator).hasNext()) {
@@ -6818,7 +6819,9 @@ public class FinanceTool {
 			t.setSubBaseType(object[9] == null ? 0 : (Integer) object[9]);
 			t.setGroupType(object[10] == null ? 0 : (Integer) object[10]);
 
-			queryResult.add(t);
+			if (t.getAmount() != 0) {
+				queryResult.add(t);
+			}
 
 			// }
 
@@ -6826,10 +6829,11 @@ public class FinanceTool {
 		// List<TrialBalance> sortedList = sortTheList(queryResult);
 		// sortedList.add(netIncomeTB);
 
-		List<TrialBalance> sortedList = getBalanceSheetSorted(queryResult);
-		sortedList.add(netIncomeTB);
+		// List<TrialBalance> sortedList = getBalanceSheetSorted(queryResult);
+		// sortedList.add(netIncomeTB);
+		queryResult.add(netIncomeTB);
 
-		return new ArrayList<TrialBalance>(sortedList);
+		return new ArrayList<TrialBalance>(queryResult);
 
 	}
 

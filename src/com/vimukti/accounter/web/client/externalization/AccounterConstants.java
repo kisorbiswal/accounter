@@ -290,7 +290,7 @@ public interface AccounterConstants extends Constants {
 
 	public String asOf();
 
-	public String asset();
+	public String assets();
 
 	public String assetNumber();
 
@@ -299,6 +299,8 @@ public interface AccounterConstants extends Constants {
 	public String assetOptions();
 
 	public String assetSold();
+	
+	public String assetsTotal();
 
 	public String assetType();
 
@@ -2119,8 +2121,6 @@ public interface AccounterConstants extends Constants {
 	public String netherlands();
 
 	public String netIncome();
-
-	public String netOrdinaryIncome();
 
 	public String netOtherIncome();
 
@@ -4909,5 +4909,9 @@ public interface AccounterConstants extends Constants {
 	public String taxItemForSales();
 
 	public String Category();
+
+	public String otherIncomeTotal();
+
+	public String liabilitiesandEquityTotal();
 
 }
