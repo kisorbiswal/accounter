@@ -11224,9 +11224,7 @@ public class FinanceTool {
 						.setParameter("previousTwoDaysBackDateCal",
 								new FinanceDate(dateCal[1].getTime()).getDate())
 						.setParameter("previousOneDayBackDateCal",
-								new FinanceDate(dateCal[2].getTime()).getDate())
-						.setParameter("currentDateCal",
-								new FinanceDate(dateCal[3].getTime()).getDate());
+								new FinanceDate(dateCal[2].getTime()).getDate());
 
 			}
 
