@@ -234,7 +234,7 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 	private void setIsECsalesEntry() {
 
 		if (this.getTAXItemGrpForSales() instanceof TAXGroup
-				&& TAXItemGrpForSales.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
+				&& getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
 
 			String vatRetunrnName = ((TAXGroup) this.getTAXItemGrpForSales())
 					.getTAXItems().get(0).getVatReturnBox().getName();
@@ -256,12 +256,9 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 		TAXCode taxCode = (TAXCode) clientObject;
 		// Query query = session.createQuery("from VATCode V where V.name=?")
 		// .setParameter(0, vatCode.name);
-		Query query = session
-				.getNamedQuery("getTAXCodeWithSameName")
-				.setParameter("name", this.name)
-				.setParameter("id", this.id)
-				.setParameter("companyId",
-						taxCode.getTAXItemGrpForSales().getCompany().getID());
+		Query query = session.getNamedQuery("getTAXCodeWithSameName")
+				.setParameter("name", this.name).setParameter("id", this.id)
+				.setParameter("companyId", getCompany().getID());
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			throw new AccounterException(AccounterException.ERROR_NAME_CONFLICT);
