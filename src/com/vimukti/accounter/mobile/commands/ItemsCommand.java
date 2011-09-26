@@ -3,24 +3,16 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Session;
-
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Item;
+import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 
 public class ItemsCommand extends AbstractTransactionCommand {
-
-	private static final String VIEW_TYPE = "viewType";
-
-	@Override
-	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(VIEW_TYPE, false, true));
-	}
 
 	@Override
 	public String getId() {
@@ -29,45 +21,61 @@ public class ItemsCommand extends AbstractTransactionCommand {
 	}
 
 	@Override
+	protected void addRequirements(List<Requirement> list) {
+		list.add(new Requirement(ACTIVE, false, true));
+	}
+
+	@Override
 	public Result run(Context context) {
 		Result result = null;
 
-		result = createOptionalResult(context);
+		result = createitemsListReq(context);
 		if (result != null) {
 			return result;
 		}
 		return null;
 	}
 
-	private Result createOptionalResult(Context context) {
+	private Result createitemsListReq(Context context) {
 		context.setAttribute(INPUT_ATTR, "optional");
 
-		Object selection = context.getSelection(VIEW_TYPE);
+		Object selection = context.getSelection(ACTIONS);
+		if (selection != null) {
+			ActionNames actionName = (ActionNames) selection;
+			switch (actionName) {
+			case FINISH:
+				return null;
+			default:
+				break;
+			}
+		}
+		selection = context.getSelection("values");
+		ResultList list = new ResultList("values");
 
-		ResultList list = new ResultList("viewlist");
-		Result result = viewTypeRequirement(context, list, selection);
+		Result result = isActiveRequirement(context, selection);
+
+		Boolean isActive = (Boolean) get(ACTIVE).getValue();
+		result = itemsList(context, isActive);
 		if (result != null) {
 			return result;
 		}
-		String viewType = get(VIEW_TYPE).getValue();
-		result = itemsList(context, viewType);
 		return result;
 	}
 
-	private Result itemsList(Context context, String viewType) {
+	private Result itemsList(Context context, Boolean isActive) {
 		Result result = context.makeResult();
+		ResultList itemResult = new ResultList("items");
 		result.add("Items List");
-		ResultList itemsList = new ResultList("itemsList");
 		int num = 0;
-		List<Item> items = getItems(context.getHibernateSession(), viewType);
+		List<Item> items = getItems(context.getCompany(), isActive);
 		for (Item item : items) {
-			itemsList.add(createItemRecord(item));
+			itemResult.add(creatItemRecord(item));
 			num++;
 			if (num == ITEMS_TO_SHOW) {
 				break;
 			}
 		}
-		int size = itemsList.size();
+		int size = itemResult.size();
 		StringBuilder message = new StringBuilder();
 		if (size > 0) {
 			message.append("Select a Item");
@@ -76,89 +84,46 @@ public class ItemsCommand extends AbstractTransactionCommand {
 		commandList.add("Create");
 
 		result.add(message.toString());
-		result.add(itemsList);
+		result.add(itemResult);
 		result.add(commandList);
-		result.add("Type for Item");
-
-		return result;
-	}
-
-	private Record createItemRecord(Item item) {
-		Record record = new Record(item);
-		record.add("Name", item.getName());
-		record.add("Tax Code", item.getTaxCode().getName());
-		return record;
-	}
-
-	private List<Item> getItems(Session hibernateSession, String viewType) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private Result viewTypeRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Object viewType = context.getSelection(VIEW_TYPE);
-		Requirement viewReq = get(VIEW_TYPE);
-		String view = viewReq.getValue();
-
-		if (selection == view) {
-			return viewTypes(context, view);
-
-		}
-		if (viewType != null) {
-			view = (String) viewType;
-			viewReq.setValue(view);
-		}
-
-		Record viewtermRecord = new Record(view);
-		viewtermRecord.add("Name", "viewType");
-		viewtermRecord.add("Value", view);
-		list.add(viewtermRecord);
-		return null;
-	}
-
-	private Result viewTypes(Context context, String view) {
-		ResultList list = new ResultList("viewslist");
-		Result result = null;
-		List<String> viewTypes = getViewTypes();
-		result = context.makeResult();
-		result.add("Select View Type");
-
-		int num = 0;
-		if (view != null) {
-			list.add(createViewTypeRecord(view));
-			num++;
-		}
-		for (String v : viewTypes) {
-			if (v != view) {
-				list.add(createViewTypeRecord(v));
-				num++;
-			}
-			if (num == 0) {
-				break;
-			}
-
-		}
-
-		result.add(list);
+		result.add("Enter for Item");
 
 		return result;
 
 	}
 
-	private Record createViewTypeRecord(String view) {
-		Record record = new Record(view);
-		record.add("Name", "ViewType");
-		record.add("Value", view);
-		return record;
+	private List<Item> getItems(Company company, Boolean isActive) {
+		ArrayList<Item> items = company.getItems();
+		ArrayList<Item> result = new ArrayList<Item>();
+
+		for (Item item : items) {
+			if (isActive) {
+				if (item.isActive()) {
+					result.add(item);
+				}
+			} else {
+				result.add(item);
+			}
+		}
+
+		return result;
 	}
 
-	private List<String> getViewTypes() {
-		List<String> list = new ArrayList<String>();
-		list.add("Active");
-		list.add("In-Active");
-		return list;
+	private Result isActiveRequirement(Context context, Object selection) {
+		Requirement isActiveReq = get(ACTIVE);
+		Boolean isActive = (Boolean) isActiveReq.getValue();
+		if (selection == isActive) {
+			context.setAttribute(INPUT_ATTR, ACTIVE);
+			isActive = !isActive;
+			isActiveReq.setValue(isActive);
+		}
+		String activeString = "";
+		if (isActive) {
+			activeString = "This item is Active";
+		} else {
+			activeString = "This item is InActive";
+		}
+		return null;
 	}
 
 }
