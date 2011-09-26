@@ -857,4 +857,6 @@ public interface AccounterMessages extends Messages {
 
 	public String addNew(String account);
 
+	public String fiscalYearAlreadyExists();
+
 }
