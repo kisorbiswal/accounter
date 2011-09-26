@@ -23,7 +23,7 @@ public class DateUtills {
 			dateFormatter = DateTimeFormat.getFormat("dd/MMM/yyyy");
 		else if (Accounter.getCompany().getPreferences().getDateFormat()
 				.equals("dd/MM/yyyy"))
-			dateFormatter = DateTimeFormat.getFormat("dd/MM/yyyy");
+			dateFormatter = DateTimeFormat.getFormat("dd-MMM-yyyy");
 
 		else if (Accounter.getCompany().getPreferences().getDateFormat()
 				.equals("MM/dd/yyyy"))
@@ -32,6 +32,35 @@ public class DateUtills {
 		else if (Accounter.getCompany().getPreferences().getDateFormat()
 				.equals("MMM/dd/yyyy"))
 			dateFormatter = DateTimeFormat.getFormat("MMM/dd/yyyy");
+
+		else if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("MMM/dd/yyyy"))
+			dateFormatter = DateTimeFormat.getFormat("MMM/dd/yyyy");
+		else if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("dd-MM-yyyy"))
+			dateFormatter = DateTimeFormat.getFormat("dd-MM-yyyy");
+		else if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("MM-dd-yyyy"))
+			dateFormatter = DateTimeFormat.getFormat("MM-dd-yyyy");
+		else if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("MMMM-dd-yyyy"))
+			dateFormatter = DateTimeFormat.getFormat("MMMM-dd-yyyy");
+		else if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("ddMMyyyy"))
+			dateFormatter = DateTimeFormat.getFormat("ddMMyyyy");
+		else if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("MMddyyyy"))
+			dateFormatter = DateTimeFormat.getFormat("MMddyyyy");
+		else if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("MMMddyyyy"))
+			dateFormatter = DateTimeFormat.getFormat("MMMddyyyy");
+		else if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("MMMMddyyyy"))
+			dateFormatter = DateTimeFormat.getFormat("MMMMddyyyy");
+
+		else if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("ddMMMMyyyy"))
+			dateFormatter = DateTimeFormat.getFormat("ddMMMMyyyy");
 
 		return dateFormatter.format(date);
 
