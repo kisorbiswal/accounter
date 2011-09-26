@@ -680,7 +680,7 @@
 		<query-param name="company" type="Company" />
 		<query-param name="id" type="long" />
 		from com.vimukti.accounter.core.TAXCode t where
-		t.TAXItemGrpForSales.company=:company and
+		t.company=:company and
 		t.id =:id
 	</query>
 
@@ -688,7 +688,7 @@
 		<query-param name="id" type="long" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.TAXCode t where
-		t.TAXItemGrpForSales.company=:company and
+		t.company=:company and
 		t.id =:id
 	</query>
 
@@ -1381,7 +1381,7 @@
 		<query-param name="company" type="Company" />
 		delete from com.vimukti.accounter.core.TAXCode t
 		where t.id=id and
-		t.TAXItemGrpForSales.company=:company
+		t.company=:company
 	</query>
 
 	<query name="get.developer.by.client">
@@ -1434,7 +1434,7 @@
 		<query-param name="id" type="long" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.TAXCode t where
-		t.TAXItemGrpForSales.id=:id and t.TAXItemGrpForSales.company=:company
+		t.TAXItemGrpForSales.id=:id and t.company=:company
 	</query>
 
 	<query name="get.selected.vendors.enterbills.list">
