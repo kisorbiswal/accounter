@@ -2,8 +2,6 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
 
-import org.zefer.html.doc.u;
-
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
