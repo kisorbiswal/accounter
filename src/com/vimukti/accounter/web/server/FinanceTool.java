@@ -312,13 +312,6 @@ public class FinanceTool {
 			serverObject = new ServerConvertUtil().toServerObject(serverObject,
 					(IAccounterCore) data, session);
 
-			Activity activity = new Activity(user, ActivityType.ADD,
-					serverObject);
-
-			if (serverObject instanceof Transaction) {
-				((Transaction) serverObject).setLastActivity(activity);
-			}
-
 			ObjectConvertUtil.setCompany((IAccounterServerCore) serverObject,
 					getCompany());
 
@@ -338,9 +331,20 @@ public class FinanceTool {
 			canEdit(serverObject, data);
 
 			isTransactionNumberExist((IAccounterCore) data);
-			session.save(activity);
 			session.save(serverObject);
 			transaction.commit();
+
+			org.hibernate.Transaction newTransaction = session
+					.beginTransaction();
+			Activity activity = new Activity(user, ActivityType.ADD,
+					serverObject);
+			session.save(activity);
+			if (serverObject instanceof Transaction) {
+				((Transaction) serverObject).setLastActivity(activity);
+			}
+			session.saveOrUpdate(serverObject);
+
+			newTransaction.commit();
 			ChangeTracker.put(serverObject);
 
 			return serverObject.getID();
@@ -440,12 +444,11 @@ public class FinanceTool {
 					(IAccounterCore) clientUser, session);
 			canEdit(user, data);
 
+			session.flush();
+			session.saveOrUpdate(user);
 			Activity userUpdateActivity = new Activity(user1,
 					ActivityType.EDIT, user);
-
-			session.flush();
 			session.save(userUpdateActivity);
-			session.saveOrUpdate(user);
 			hibernateTransaction.commit();
 			ChangeTracker.put(clientUser.toUserInfo());
 			return user.getID();
@@ -508,13 +511,10 @@ public class FinanceTool {
 
 			serverObject.setVersion(++version);
 
-			Activity activity = new Activity(user, ActivityType.EDIT,
-					serverObject);
-
 			if (serverObject instanceof Transaction) {
 				Transaction transaction = (Transaction) serverObject;
 				transaction.onEdit((Transaction) clonedObject);
-				transaction.setLastActivity(activity);
+
 			}
 			if (serverObject instanceof Lifecycle) {
 				Lifecycle lifecycle = (Lifecycle) serverObject;
@@ -544,11 +544,22 @@ public class FinanceTool {
 								.currentTimeMillis()));
 			}
 
-			session.saveOrUpdate(activity);
 			session.saveOrUpdate(serverObject);
+			hibernateTransaction.commit();
+
+			org.hibernate.Transaction newTransaction = session
+					.beginTransaction();
+
+			Activity activity = new Activity(user, ActivityType.EDIT,
+					serverObject);
+			session.saveOrUpdate(activity);
+			if (serverObject instanceof Transaction) {
+				((Transaction) serverObject).setLastActivity(activity);
+			}
+			session.saveOrUpdate(serverObject);
+			newTransaction.commit();
 			ChangeTracker.put(serverObject);
 			session.flush();
-			hibernateTransaction.commit();
 			return serverObject.getID();
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
