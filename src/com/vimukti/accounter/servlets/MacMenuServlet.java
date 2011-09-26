@@ -170,26 +170,26 @@ public class MacMenuServlet extends BaseServlet {
 
 		if (canDoInvoiceTransactions()) {
 			StringBuilder newValue = new StringBuilder();
-			subMenu(newValue, iGlobal.constants().newVATItem(), "V",
-					"company/accounter#newVatItem");
-			subMenu(newValue, iGlobal.constants().newVATCode(),
+			subMenu(newValue, iGlobal.constants().newTaxItem(), "V",
+					"company/accounter#newTaxItem");
+			subMenu(newValue, iGlobal.constants().newTaxCode(),
 					"company/accounter#newVatCode");
-			subMenu(newValue, iGlobal.constants().newVATAgency(),
-					"company/accounter#newVatAgency");
+			subMenu(newValue, iGlobal.constants().newTAXAgency(),
+					"company/accounter#newTaxAgency");
 			menu(mainValue, iGlobal.constants().new1(), newValue);
 			separator(mainValue);
 		}
 
 		if (canDoInvoiceTransactions()) {
-			menu(mainValue, iGlobal.constants().vatAdjustment(),
-					"company/accounter#vatAdjustment");
+			menu(mainValue, iGlobal.constants().taxAdjustment(),
+					"company/accounter#taxAdjustment");
 			menu(mainValue, iGlobal.constants().fileVAT(),
 					"company/accounter#fileVAT");
 		}
 
 		if (canDoBanking()) {
-			menu(mainValue, iGlobal.constants().payVAT(),
-					"company/accounter#payVat");
+			menu(mainValue, iGlobal.constants().payTax(),
+					"company/accounter#paySalesTax");
 			menu(mainValue, iGlobal.constants().receiveVAT(),
 					"company/accounter#receiveVat");
 		}
@@ -197,13 +197,13 @@ public class MacMenuServlet extends BaseServlet {
 		separator(mainValue);
 
 		StringBuilder vatListValue = new StringBuilder();
-		subMenu(vatListValue, iGlobal.constants().vatItems(), "V",
+		subMenu(vatListValue, iGlobal.constants().taxItemsList(), "V",
 				"company/accounter#vatItems");
-		subMenu(vatListValue, iGlobal.constants().vatCodes(),
+		subMenu(vatListValue, iGlobal.constants().taxCodesList(),
 				"company/accounter#vatCodes");
-		menu(mainValue, iGlobal.constants().taxList(), vatListValue);
+		menu(mainValue, iGlobal.constants().vatList(), vatListValue);
 
-		mainMenu(builder, iGlobal.constants().vat(), mainValue);
+		mainMenu(builder, iGlobal.constants().tax(), mainValue);
 	}
 
 	private void addSettingsMenuItem() {
