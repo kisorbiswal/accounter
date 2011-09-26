@@ -678,12 +678,14 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				ClientContact clientContact = new ClientContact();
 				gridView.setDisabled(false);
 				gridView.add(clientContact);
+				gridView.checkColumn(0, 0, true);
 			}
 		});
 		addButton.setEnabled(!isInViewMode());
 
 		gridView = new ContactsTable();
 		gridView.setDisabled(isInViewMode());
+
 		// gridView.setCanEdit(!isInViewMode());
 		// gridView.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
 		// gridView.isEnable = false;
