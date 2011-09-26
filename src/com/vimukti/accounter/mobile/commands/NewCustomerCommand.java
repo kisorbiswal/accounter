@@ -138,7 +138,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result == null) {
 			// TODO
 		}
-		if (getCompany().getPreferences().getUseCustomerId()) {
+		if (context.getCompany().getPreferences().getUseCustomerId()) {
 			result = customerNumberRequirement(context);
 			if (result == null) {
 				// TODO
@@ -216,7 +216,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		String tinNum = get(TIN_NUM).getValue();
 
 		customer.setName(name);
-		if (getCompany().getPreferences().getUseCustomerId())
+		if (context.getCompany().getPreferences().getUseCustomerId())
 			customer.setNumber(number);
 		customer.setContacts(contacts);
 		customer.setBalance(balance);
@@ -234,14 +234,14 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		customer.setPriceLevel(priceLevel);
 		customer.setCreditRating(creditRating);
 		customer.setActive(isActive);
-		int accountingType = getCompany().getAccountingType();
+		int accountingType = context.getCompany().getAccountingType();
 		if (accountingType != ACCOUNTING_TYPE_INDIA) {
 			customer.setPaymentMethod(paymentMethod);
 			customer.setPaymentTerm(paymentTerms);
 			customer.setCustomerGroup(customerGroup);
 		}
 		if (accountingType == ACCOUNTING_TYPE_UK) {
-			if (getCompany().getPreferences().isRegisteredForVAT()) {
+			if (context.getCompany().getPreferences().isRegisteredForVAT()) {
 				customer.setTAXCode(taxCode);
 				customer.setVATRegistrationNumber(vatRegistredNum);
 			}
@@ -317,7 +317,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		isActiveRecord.add("Value", activeString);
 		list.add(isActiveRecord);
 
-		int company = getCompany().getAccountingType();
+		int company = context.getCompany().getAccountingType();
 
 		Result result = dateOptionalRequirement(context, list,
 				CUSTOMER_SINCEDATE, CUSTOMER_SINCEDATE, selection);

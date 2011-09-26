@@ -70,7 +70,7 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		Company company = getCompany();
+		Company company = context.getCompany();
 		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 			Requirement taxReq = get("tax");
 			TAXCode taxcode = context.getSelection(TAXCODE);
@@ -100,7 +100,7 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 	 */
 	private void completeProcess(Context context) {
 
-		Company company = getCompany();
+		Company company = context.getCompany();
 		Estimate estimate = new Estimate();
 
 		Customer customer = get("customer Name").getValue();
