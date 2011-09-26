@@ -508,7 +508,7 @@ public class WriteChequeView extends
 		// return result;
 
 		result.add(DynamicForm.validate(payForm));
-		result.add(DynamicForm.validate( bankAccForm));
+		result.add(DynamicForm.validate(bankAccForm));
 
 		// FIXME Need to validate grids.
 		if (transactionVendorAccountTable.getAllRows().isEmpty()
@@ -526,8 +526,10 @@ public class WriteChequeView extends
 		}
 		if (isTrackTax()) {
 			if (!isTaxPerDetailLine()) {
-				if (taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect, accounterConstants.enterTaxCode());
+				if (taxCodeSelect != null
+						&& taxCodeSelect.getSelectedValue() == null) {
+					result.addError(taxCodeSelect,
+							accounterConstants.enterTaxCode());
 				}
 
 			}
@@ -876,7 +878,7 @@ public class WriteChequeView extends
 				vatPanel.add(form);
 				if (isTrackPaidTax()) {
 					vatCheckForm.setFields(vatinclusiveCheck);
-				vatCheckForm.addStyleName("boldtext");
+					vatCheckForm.addStyleName("boldtext");
 				}
 				vatPanel.add(vatCheckForm);
 				vatPanel.setCellHorizontalAlignment(vatCheckForm, ALIGN_RIGHT);
@@ -1333,7 +1335,6 @@ public class WriteChequeView extends
 				taxCodeSelect.setDisabled(isInViewMode());
 			}
 		}
-
 
 		super.onEdit();
 
