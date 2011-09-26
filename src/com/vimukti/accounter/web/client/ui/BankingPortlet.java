@@ -187,8 +187,9 @@ public class BankingPortlet extends DashBoardPortlet {
 						VisualizationUtils.loadVisualizationApi(runnable,
 								LineChart.PACKAGE);
 						if (result.get(result.size() - 1) != null) {
-							amountLabel.setText(result.get(result.size() - 1)
-									.toString());
+							amountLabel
+									.setText(DataUtils.getAmountAsString(result
+											.get(result.size() - 1)));
 						}
 						// GraphChart chart = new GraphChart(
 						// GraphChart.BANK_ACCOUNT_CHART_TYPE, UIUtils
