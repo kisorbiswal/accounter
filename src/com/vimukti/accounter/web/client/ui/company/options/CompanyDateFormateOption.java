@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
-import java.util.ArrayList;
-import java.util.List;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
