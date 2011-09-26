@@ -129,7 +129,7 @@ public class BankingPortlet extends DashBoardPortlet {
 								true);
 					}
 				});
-				Label amountLabel = new Label(
+				final Label amountLabel = new Label(
 						DataUtils.getAmountAsString(account.getTotalBalance()));
 				// amountLabel.setStyleName("tool-box");
 				amountLabel.addStyleName("label-banking");
@@ -186,6 +186,10 @@ public class BankingPortlet extends DashBoardPortlet {
 						};
 						VisualizationUtils.loadVisualizationApi(runnable,
 								LineChart.PACKAGE);
+						if (result.get(result.size() - 1) != null) {
+							amountLabel.setText(result.get(result.size() - 1)
+									.toString());
+						}
 						// GraphChart chart = new GraphChart(
 						// GraphChart.BANK_ACCOUNT_CHART_TYPE, UIUtils
 						// .getMaxValue(result), 400, 150, result);
