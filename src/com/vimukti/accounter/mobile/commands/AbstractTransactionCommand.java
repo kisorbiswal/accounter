@@ -2,10 +2,14 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.Session;
+
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.BankAccount;
 import com.vimukti.accounter.core.Company;
@@ -177,7 +181,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		record.add("", transactionItem.getDiscount());
 		list.add(record);
 
-		Company company = getCompany();
+		Company company = context.getCompany();
 		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 			record = new Record(transactionItem.getTaxCode().getName());
 			record.add("", "VatCode");
@@ -272,7 +276,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		record.add("", transactionItem.getDiscount());
 		list.add(record);
 
-		Company company = getCompany();
+		Company company = context.getCompany();
 		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 			record = new Record(transactionItem.getTaxCode().getName());
 			record.add("", "VatCode");
@@ -338,7 +342,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	protected Result items(Context context) {
 		Result result = context.makeResult();
-		List<Item> items = getItems();
+		List<Item> items = getItems(context.getCompany());
 		ResultList list = new ResultList("items");
 		Object last = context.getLast(RequirementType.ITEM);
 		int num = 0;
@@ -396,7 +400,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			customersList.add(createCustomerRecord((Customer) last));
 			num++;
 		}
-		List<Customer> customers = getCustomers();
+		List<Customer> customers = context.getCompany().getCustomers();
 		for (Customer customer : customers) {
 			if (customer != last) {
 				customersList.add(createCustomerRecord(customer));
@@ -536,17 +540,33 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return record;
 	}
 
-	protected List<Item> getItems() {
-		return getCompany().getItems();
+	protected List<Item> getItems(Company company) {
+		return company.getItems();
 
 	}
 
-	private List<Customer> getCustomers() {
-		return getCompany().getCustomers();
+	protected List<Activity> getActivityList( Date fromDate,
+			Date endDate) {
+			return null;
 	}
 
-	private List<PaymentTerms> getPaymentTerms() {
-		return getCompany().getPaymentTerms();
+	protected List<Customer> getCustomers(Company company, Boolean isActive) {
+		ArrayList<Customer> customers = company.getCustomers();
+		ArrayList<Customer> result = new ArrayList<Customer>();
+		for (Customer customer : customers) {
+			if (isActive) {
+				if (customer.isActive()) {
+					result.add(customer);
+				}
+			} else {
+				result.add(customer);
+			}
+		}
+		return result;
+	}
+
+	private List<PaymentTerms> getPaymentTerms(Company company) {
+		return company.getPaymentTerms();
 	}
 
 	protected Result paymentFrom(Context context, Account oldAccount) {
@@ -588,7 +608,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	}
 
 	protected Result paymentTerms(Context context, PaymentTerms oldPaymentTerms) {
-		List<PaymentTerms> paymentTerms = getPaymentTerms();
+		List<PaymentTerms> paymentTerms = getPaymentTerms(context.getCompany());
 		Result result = context.makeResult();
 		result.add("Select PaymentTerms");
 
@@ -823,7 +843,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			payeeList.add(createPayeeRecord((Payee) last));
 			num++;
 		}
-		List<Payee> payees = getPayees();
+		List<Payee> payees = context.getCompany().getPayees();
 		for (Payee payee : payees) {
 			if (payee != last) {
 				payeeList.add(createPayeeRecord(payee));
@@ -846,11 +866,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		result.add(commandList);
 		result.add("Type of Payee");
 		return result;
-	}
-
-	private List<Payee> getPayees() {
-
-		return getCompany().getPayees();
 	}
 
 	protected Record createPayeeRecord(Payee payee) {
@@ -945,7 +960,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	private Result accountItems(Context context) {
 		Result result = context.makeResult();
-		List<Item> items = getItems();
+		List<Item> items = getItems(context.getCompany());
 		ResultList list = new ResultList("accounts");
 		Object last = context.getLast(RequirementType.ACCOUNT);
 		int num = 0;
@@ -997,7 +1012,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		double totalVat = 0.0;
 		double grandTotal = 0.0;
 		double totalValue = 0.0;
-		int accountType = getCompany().getAccountingType();
+		int accountType = company.getAccountingType();
 		for (TransactionItem citem : items) {
 			totaldiscount += citem.getDiscount();
 
@@ -1019,13 +1034,13 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			// totalVat += citem.getVATfraction();
 		}
 
-		if (getCompany().getPreferences().isChargeSalesTax()) {
+		if (company.getPreferences().isChargeSalesTax()) {
 			grandTotal = totalVat + totallinetotal;
 		} else {
 			grandTotal = totallinetotal;
 			totalValue = grandTotal;
 		}
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (company.getPreferences().isRegisteredForVAT()) {
 			// if (transactionView.vatinclusiveCheck != null
 			// && (Boolean) transactionView.vatinclusiveCheck.getValue()) {
 			// grandTotal = totallinetotal - totalVat;
