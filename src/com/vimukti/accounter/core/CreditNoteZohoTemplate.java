@@ -149,7 +149,14 @@ public class CreditNoteZohoTemplate implements PrintTemplete {
 						String vatAmount = getDecimalsUsingMaxDecimals(
 								item.getVATfraction(), null, 2);
 
-						t.setVariable("name", item.getItem().getName());
+						String name = "";
+						if (item.type == TransactionItem.TYPE_ITEM)
+							name = item.getItem().getName();
+						if (item.type == TransactionItem.TYPE_ACCOUNT)
+							name = item.getAccount().getName();
+
+						t.setVariable("name", name);
+
 						t.setVariable("discount",
 								largeAmountConversation(item.getDiscount()));
 

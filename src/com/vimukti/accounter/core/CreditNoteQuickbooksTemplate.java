@@ -149,7 +149,14 @@ public class CreditNoteQuickbooksTemplate implements PrintTemplete {
 					String vatAmount = getDecimalsUsingMaxDecimals(
 							item.getVATfraction(), null, 2);
 
-					t.setVariable("name", item.getItem().getName());
+					String name = "";
+					if (item.type == TransactionItem.TYPE_ITEM)
+						name = item.getItem().getName();
+					if (item.type == TransactionItem.TYPE_ACCOUNT)
+						name = item.getAccount().getName();
+
+					t.setVariable("name", name);
+
 					t.setVariable("discount",
 							largeAmountConversation(item.getDiscount()));
 
@@ -184,11 +191,11 @@ public class CreditNoteQuickbooksTemplate implements PrintTemplete {
 				t.setVariable("subTotal", subTotal);
 				t.addBlock("subtotal");
 
-//				if (brandingTheme.isShowVatColumn()) {
-//					t.setVariable("vatlabel", "Tax ");
-//					t.setVariable("vatTotalValue", vatTotal);
-//					t.addBlock("VatTotal");
-//				}
+				// if (brandingTheme.isShowVatColumn()) {
+				// t.setVariable("vatlabel", "Tax ");
+				// t.setVariable("vatTotalValue", vatTotal);
+				// t.addBlock("VatTotal");
+				// }
 
 			}
 
