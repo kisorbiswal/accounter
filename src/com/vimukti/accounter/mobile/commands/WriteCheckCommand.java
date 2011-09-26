@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.Date;
 import java.util.List;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.FinanceDate;
@@ -155,6 +156,8 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 
 		writeCheck.setTotal(getTransactionTotal(items, company));
 
+		Account bankAccount = get(BANK_ACCOUNTS).getValue();
+		writeCheck.setBankAccount(bankAccount);
 		Double amount = get(AMOUNT).getValue();
 		writeCheck.setAmount(amount);
 
