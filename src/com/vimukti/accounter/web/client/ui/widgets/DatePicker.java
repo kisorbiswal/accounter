@@ -66,16 +66,42 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 				.equals("dd/MMM/yyyy"))
 			dateFormatter = DateTimeFormat.getFormat("dd/MMM/yyyy");
 		else if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("dd/MMMM/yyyy"))
+			dateFormatter = DateTimeFormat.getFormat("dd/MMMM/yyyy");
+		else if (Accounter.getCompany().getPreferences().getDateFormat()
 				.equals("dd/MM/yyyy"))
 			dateFormatter = DateTimeFormat.getFormat("dd/MM/yyyy");
-
 		else if (Accounter.getCompany().getPreferences().getDateFormat()
 				.equals("MM/dd/yyyy"))
 			dateFormatter = DateTimeFormat.getFormat("MM/dd/yyyy");
-
 		else if (Accounter.getCompany().getPreferences().getDateFormat()
 				.equals("MMM/dd/yyyy"))
 			dateFormatter = DateTimeFormat.getFormat("MMM/dd/yyyy");
+		else if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("dd-MM-yyyy"))
+			dateFormatter = DateTimeFormat.getFormat("dd-MM-yyyy");
+		else if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("MM-dd-yyyy"))
+			dateFormatter = DateTimeFormat.getFormat("MM-dd-yyyy");
+		else if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("MMMM-dd-yyyy"))
+			dateFormatter = DateTimeFormat.getFormat("MMMM-dd-yyyy");
+		else if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("ddMMyyyy"))
+			dateFormatter = DateTimeFormat.getFormat("ddMMyyyy");
+		else if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("MMddyyyy"))
+			dateFormatter = DateTimeFormat.getFormat("MMddyyyy");
+		else if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("MMMddyyyy"))
+			dateFormatter = DateTimeFormat.getFormat("MMMddyyyy");
+		else if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("MMMMddyyyy"))
+			dateFormatter = DateTimeFormat.getFormat("MMMMddyyyy");
+
+		else if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("ddMMMMyyyy"))
+			dateFormatter = DateTimeFormat.getFormat("ddMMMMyyyy");
 
 		popup = new PopupCalendar(this);
 
@@ -355,7 +381,25 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 		this.removeStyleName("empty_date_field");
 		if (this.selectedDate != null) {
 
+			// if (Accounter.getCompany().getPreferences().getDateFormat()
+			// .equals("DD-MM-yyyy")) {
+			//
+			// StringBuilder sb = new StringBuilder();
+			// sb.append(this.selectedDate.getDate());
+			// sb.append("-");
+			// sb.append(this.selectedDate.getMonth());
+			// sb.append("-");
+			// sb.append(this.selectedDate.getYear());
+			// } else {
+			// StringBuilder sb = new StringBuilder();
+			// sb.append(this.selectedDate.getDate());
+			// sb.append("-");
+			// sb.append(this.selectedDate.getMonth());
+			// sb.append("-");
+			// sb.append(this.selectedDate.getYear());
+			// this.setText(sb.toString());
 			this.setText(dateFormatter.format(this.selectedDate));
+
 			if (handler != null)
 				handler.onDateValueChange(new ClientFinanceDate(
 						this.selectedDate));
