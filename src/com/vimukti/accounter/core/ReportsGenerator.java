@@ -944,8 +944,8 @@ public class ReportsGenerator {
 			updateReport(ecSalesListServerReport, finaTool);
 			ecSalesListServerReport.resetVariables();
 			try {
-				ecSalesListServerReport.onResultSuccess(finaTool
-						.getECSalesListReport(startDate, endDate));
+				ecSalesListServerReport.onResultSuccess(reportsSerivce
+						.getECSalesListReport(startDate.toClientFinanceDate(), endDate.toClientFinanceDate()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
