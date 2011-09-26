@@ -643,6 +643,7 @@ public class FixedAsset extends CreatableObject implements
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
+
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
 		accounterCore.setID(id);

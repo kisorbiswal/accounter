@@ -385,6 +385,7 @@ public class Customer extends Payee implements IAccounterServerCore,
 		super.onUpdate(session);
 		if (!DecimalUtil.isEquals(this.openingBalance, 0.0)
 				&& isOpeningBalanceEditable) {
+
 			this.isOpeningBalanceEditable = Boolean.FALSE;
 			// Query query = session.getNamedQuery("getNextTransactionNumber");
 			// query.setLong("type", Transaction.TYPE_JOURNAL_ENTRY);

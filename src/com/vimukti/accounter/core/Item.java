@@ -393,12 +393,14 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 			return true;
 		super.onSave(arg0);
 		this.isOnSaveProccessed = true;
+
 		return false;
 	}
 
 	@Override
 	public boolean onUpdate(Session arg0) throws CallbackException {
 		super.onUpdate(arg0);
+
 		ChangeTracker.put(this);
 		return false;
 	}

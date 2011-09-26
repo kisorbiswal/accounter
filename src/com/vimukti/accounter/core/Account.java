@@ -791,6 +791,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			return true;
 		super.onSave(session);
 		this.isOnSaveProccessed = true;
+
 		try {
 			if (this.type == Account.TYPE_INCOME
 					|| this.type == Account.TYPE_OTHER_INCOME
@@ -1039,6 +1040,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			}
 
 			if (this.oldParent != null && this.oldParent != this.parent) {
+
 				this.oldParent.updateTotalBalance(-1 * this.totalBalance);
 				session.update(this.oldParent);
 
@@ -1082,6 +1084,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 		if (!DecimalUtil.isEquals(this.openingBalance, 0.0)
 				&& isOpeningBalanceEditable) {
+
 			this.isOpeningBalanceEditable = Boolean.FALSE;
 			// Query query = session.getNamedQuery("getNextTransactionNumber");
 			// query.setLong("type", Transaction.TYPE_JOURNAL_ENTRY);
