@@ -14,8 +14,8 @@ import com.vimukti.accounter.mobile.ResultList;
 
 public class FileVATCommand extends AbstractVATCommand {
 
-	private static final String FROM_DATE = null;
-	private static final String TO_DATE = null;
+	private static final String FROM_DATE = "fromDate";
+	private static final String TO_DATE = "toDate";
 
 	@Override
 	public String getId() {
