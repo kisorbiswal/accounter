@@ -113,6 +113,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 				saveOrUpdate(clientFiscalYear);
 			}
 		});
+
 		editFiscalYear = new Button();
 		editFiscalYear.setWidth("140px");
 		editFiscalYear.setEnabled(false);
@@ -234,8 +235,14 @@ public class ManageFiscalYearDialog extends BaseDialog {
 		// * FinanceApplication .getThemeImages().button_right_gray_image(),
 		// * "ibutton-right-image"); }
 		// */
+		enableEditRemoveButtons(false);
 		return buttonVlayout;
 
+	}
+
+	private void enableEditRemoveButtons(boolean b) {
+		deleteFiscalYear.setEnabled(b);
+		editFiscalYear.setEnabled(b);
 	}
 
 	private void showCloseFiscalYearPopupPanel() {
@@ -271,6 +278,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 			// if (listOfperiods.getRecordByIndex(listOfperiods.getRowCount() -
 			// 1) == listOfperiods
 			// .getSelection()) {
+			enableEditRemoveButtons(false);
 			Accounter.deleteObject(this, listOfperiods.getSelection());
 			// }
 		} else {
@@ -290,6 +298,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 			// .getSelection()) {
 			new CreateFiscalYearDialog(Accounter.constants().editFiscalYear(),
 					"", listOfperiods);
+			enableEditRemoveButtons(false);
 			// }
 
 			// else {
@@ -325,6 +334,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 		closeFiscalYearButton.setEnabled(false);
 		openFiscalYearButoon.setEnabled(false);
 		editFiscalYear.setEnabled(false);
+		deleteFiscalYear.setEnabled(false);
 		for (int i = 0; i <= listOfperiods.getRowCount() - 1; i++) {
 			if (listOfperiods.getRecordByIndex(i).getStatus() == ClientFiscalYear.STATUS_OPEN) {
 
@@ -342,6 +352,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 
 				}
 				editFiscalYear.setEnabled(true);
+				deleteFiscalYear.setEnabled(true);
 				break;
 
 			}
@@ -351,6 +362,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 				openFiscalYearButoon.setEnabled(true);
 				closeFiscalYearButton.setEnabled(false);
 				editFiscalYear.setEnabled(true);
+				deleteFiscalYear.setEnabled(true);
 			}
 
 		}
@@ -392,6 +404,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 	@Override
 	public void saveSuccess(IAccounterCore object) {
 		// ClientFiscalYear fiscalY = (ClientFiscalYear) object;
+		enableEditRemoveButtons(false);
 		initDataToFiscalYearList();
 	}
 
