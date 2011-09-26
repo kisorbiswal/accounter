@@ -244,6 +244,9 @@ public class CountryPreferenceFactory {
 		if (countryCode.equals("Algeria")) {
 			return new Algeria();
 		}
+		if (countryCode.equals("Afghanistan")) {
+			return new Afghanistan();
+		}
 		if (countryCode.equals("Angola")) {
 			return new Angola();
 		}
