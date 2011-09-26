@@ -214,8 +214,10 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 			amtDueText = new AmountField(customerConstants.amountDue(), this);
 			amtDueText.setColSpan(1);
 			if (transactionPaybill != null)
-				amtDueText.setValue(amountAsString(transactionPaybill
-						.getAmountDue()));
+				amtDueText
+						.setValue(amountAsString(transactionPaybill
+								.getAmountDue()
+								- transactionPaybill.getCashDiscount()));
 			else if (record != null)
 				amtDueText.setValue(amountAsString(record.getAmountDue()
 						- (record.getCashDiscount() + record.getWriteOff())));
