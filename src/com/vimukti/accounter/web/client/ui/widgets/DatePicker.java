@@ -62,46 +62,10 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 		// dateFormatter=DateTimeFormat.getFormat(DateUtil.getUserPreferredDateFormat());
 		// }
 
-		if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("dd/MMM/yyyy"))
-			dateFormatter = DateTimeFormat.getFormat("dd/MMM/yyyy");
-		else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("dd/MMMM/yyyy"))
-			dateFormatter = DateTimeFormat.getFormat("dd/MMMM/yyyy");
-		else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("dd/MM/yyyy"))
-			dateFormatter = DateTimeFormat.getFormat("dd/MM/yyyy");
-		else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("MM/dd/yyyy"))
-			dateFormatter = DateTimeFormat.getFormat("MM/dd/yyyy");
-		else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("MMM/dd/yyyy"))
-			dateFormatter = DateTimeFormat.getFormat("MMM/dd/yyyy");
-		else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("dd-MM-yyyy"))
-			dateFormatter = DateTimeFormat.getFormat("dd-MM-yyyy");
-		else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("MM-dd-yyyy"))
-			dateFormatter = DateTimeFormat.getFormat("MM-dd-yyyy");
-		else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("MMMM-dd-yyyy"))
-			dateFormatter = DateTimeFormat.getFormat("MMMM-dd-yyyy");
-		else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("ddMMyyyy"))
-			dateFormatter = DateTimeFormat.getFormat("ddMMyyyy");
-		else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("MMddyyyy"))
-			dateFormatter = DateTimeFormat.getFormat("MMddyyyy");
-		else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("MMMddyyyy"))
-			dateFormatter = DateTimeFormat.getFormat("MMMddyyyy");
-		else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("MMMMddyyyy"))
-			dateFormatter = DateTimeFormat.getFormat("MMMMddyyyy");
-
-		else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("ddMMMMyyyy"))
-			dateFormatter = DateTimeFormat.getFormat("ddMMMMyyyy");
+		/**
+		 * Set the date format according to the company preferencess
+		 */
+		setDateFormatter();
 
 		popup = new PopupCalendar(this);
 
@@ -127,6 +91,11 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 		addMouseWheelHandler(this);
 
 		// addBlurHandler(this);
+	}
+
+	private void setDateFormatter() {
+			dateFormatter = DateTimeFormat.getFormat(Accounter.getCompany()
+				.getPreferences().getDateFormat());
 	}
 
 	/**
