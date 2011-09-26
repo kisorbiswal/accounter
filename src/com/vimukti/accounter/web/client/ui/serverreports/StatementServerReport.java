@@ -145,7 +145,7 @@ public class StatementServerReport extends
 	}
 
 	private boolean addOneTothirty(PayeeStatementsList record) {
-		if (!sectiontypes.contains("0-30 Days")) {
+		if (!sectiontypes.contains("0-30 days")) {
 			addTypeSection(getConstants().days30(), "");
 			return false;
 		}
@@ -153,7 +153,7 @@ public class StatementServerReport extends
 	}
 
 	private boolean addThirtyToSixty(PayeeStatementsList record) {
-		if (!sectiontypes.contains("0-60 Days")) {
+		if (!sectiontypes.contains("0-60 days")) {
 			addTypeSection(getConstants().daysFromzeroto60(), "");
 			return false;
 		}
@@ -162,7 +162,7 @@ public class StatementServerReport extends
 	}
 
 	private boolean addSixtyTo90(PayeeStatementsList record) {
-		if (!sectiontypes.contains("0-90 Days")) {
+		if (!sectiontypes.contains("0-90 days")) {
 			addTypeSection(getConstants().daysFromzeroto90(), "");
 			return false;
 		}
