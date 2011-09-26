@@ -102,7 +102,7 @@ public class EnterBillCommand extends AbstractTransactionCommand {
 
 	private void completeProcess(Context context) {
 
-		Company company = getCompany();
+		Company company = context.getCompany();
 		EnterBill enterBill = new EnterBill();
 		Vendor vendor = (Vendor) get(VENDOR).getValue();
 		enterBill.setVendor(vendor);
