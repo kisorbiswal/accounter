@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.company.options;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -29,7 +28,6 @@ public class CompanyDateFormateOption extends AbstractPreferenceOption {
 	Label exampleDateFomateLabel;
 	@UiField
 	Label dateFormateDescriptionlabel;
-	List<String> dateFormateList = new ArrayList<String>();
 	String[] dateFormates;
 
 	interface CompanyDateFormateOptionUiBinder extends
@@ -74,7 +72,6 @@ public class CompanyDateFormateOption extends AbstractPreferenceOption {
 
 		for (int i = 0; i < dateFormates.length; i++) {
 			dateFormateComboBox.addItem(dateFormates[i]);
-			dateFormateList.add(dateFormates[i]);
 		}
 		dateFormateComboBox.addChangeHandler(new ChangeHandler() {
 
