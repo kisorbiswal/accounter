@@ -572,6 +572,7 @@ public class MacMenuServlet extends BaseServlet {
 
 		if (preferences.isTrackTax()) {
 			StringBuilder salesTaxValues = new StringBuilder();
+			
 			if (canDoInvoiceTransactions()) {
 				subMenu(salesTaxValues, iGlobal.constants()
 						.manageSalesTaxGroups(),
@@ -580,6 +581,7 @@ public class MacMenuServlet extends BaseServlet {
 				subMenu(salesTaxValues, iGlobal.constants().salesTaxGroups(),
 						"company/accounter#salesTaxGroups");
 			}
+			
 			if (canDoInvoiceTransactions()) {
 				subMenu(salesTaxValues, iGlobal.constants().manageSalesItems(),
 						"company/accounter#manageSalesTaxItems");
@@ -587,10 +589,16 @@ public class MacMenuServlet extends BaseServlet {
 				subMenu(salesTaxValues, iGlobal.constants().salesTaxItems(),
 						"company/accounter#salesTaxItems");
 			}
+			
+			if (canDoInvoiceTransactions()) {
+				subMenu(salesTaxValues, iGlobal.constants().taxAdjustment(),
+						"company/accounter#taxAdjustment");
+			}
 
 			if (canDoBanking()) {
+
 				subMenu(salesTaxValues, iGlobal.constants().payTax(),
-						"company/accounter#customerGroupList");
+						"company/accounter#paySalesTax");
 			}
 
 			if (canDoInvoiceTransactions()) {
