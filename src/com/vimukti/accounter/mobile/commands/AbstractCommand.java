@@ -52,6 +52,11 @@ public abstract class AbstractCommand extends Command {
 
 	protected static final String ORDER_NO = "orderNo";
 
+	protected Company getCompany() {
+		return null;
+
+	}
+
 	protected Result text(Context context, String message, String oldText) {
 		Result result = context.makeResult();
 		result.add(message);
