@@ -427,6 +427,7 @@ public class VendorView extends BaseView<ClientVendor> {
 				ClientContact clientContact = new ClientContact();
 				gridView.setDisabled(false);
 				gridView.add(clientContact);
+				gridView.checkColumn(0, 0, true);
 			}
 		});
 
