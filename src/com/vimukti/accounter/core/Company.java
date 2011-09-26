@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class Company extends CreatableObject implements IAccounterServerCore {
+public class Company implements IAccounterServerCore {
 
 	/**
 	 * 
@@ -35,6 +35,8 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 	public static final String OTHER = "Other";
 
+	private long id;
+	private int version;
 	int accountingType = 0;
 
 	String companyID;
@@ -919,10 +921,6 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		cmp.industry = this.getIndustry();
 		cmp.users = this.getUsers();
 		cmp.vatReturnBoxes = this.getVatReturnBoxes();
-		cmp.createdBy = this.getCreatedBy();
-		cmp.lastModifier = this.getLastModifier();
-		cmp.createdDate = this.getCreatedDate();
-		cmp.lastModifiedDate = this.getLastModifiedDate();
 		cmp.preferences = this.getPreferences();
 		cmp.id = this.getID();
 
@@ -1479,5 +1477,24 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 	public void setVendors(Set<Vendor> vendors) {
 		this.vendors = vendors;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
+	@Override
+	public long getID() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 }
