@@ -94,7 +94,7 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 	}
 
 	private void setDateFormatter() {
-			dateFormatter = DateTimeFormat.getFormat(Accounter.getCompany()
+		dateFormatter = DateTimeFormat.getFormat(Accounter.getCompany()
 				.getPreferences().getDateFormat());
 	}
 

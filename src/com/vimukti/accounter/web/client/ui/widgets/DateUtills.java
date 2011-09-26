@@ -19,7 +19,6 @@ public class DateUtills {
 	public static String getCurrentDateAsString(String dateFormat) {
 
 		DateTimeFormat dateFormatter = DateTimeFormat.getFormat(dateFormat);
-
 		return dateFormatter.format(new Date(System.currentTimeMillis()));
 
 	}
