@@ -402,16 +402,6 @@
 		</servlet-class> </servlet> <servlet-mapping> <servlet-name>lockordeleteuser</servlet-name> 
 		<url-pattern>/lockOrDeleteUser</url-pattern> </servlet-mapping> -->
 	<servlet>
-		<servlet-name>templatereset</servlet-name>
-		<servlet-class>com.vimukti.accounter.servlets.TemplateResetServlet
-		</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>templatereset</servlet-name>
-		<url-pattern>/templatereset</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
 		<servlet-name>deletecompany</servlet-name>
 		<servlet-class>com.vimukti.accounter.servlets.DeleteCompanyServlet
 		</servlet-class>
