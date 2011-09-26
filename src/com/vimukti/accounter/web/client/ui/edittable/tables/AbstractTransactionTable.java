@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.edittable.tables;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -111,8 +112,22 @@ public abstract class AbstractTransactionTable extends
 	}
 
 	public void addRows(List<ClientTransactionItem> rows) {
+		for (ClientTransactionItem item : getRecords()) {
+			if (item.isEmpty()) {
+				delete(item);
+			}
+		}
 		createColumns();
 		super.addRows(rows);
+		List<ClientTransactionItem> itemList = new ArrayList<ClientTransactionItem>();
+		if (getAllRows().size() < 4) {
+			for (int ii = 0; ii < (4 - getAllRows().size()); ii++) {
+				ClientTransactionItem item = new ClientTransactionItem();
+				itemList.add(item);
+			}
+			createColumns();
+			super.addRows(itemList);
+		}
 	}
 
 	protected ClientCompany getCompany() {
