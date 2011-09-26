@@ -21,11 +21,11 @@ public class ProfitLossReportCommand extends
 	@Override
 	protected Record createReportRecord(TrialBalance record) {
 		Record trialRecord = new Record(record);
-		if (getCompany().getPreferences().getUseAccountNumbers() == true) {
-			trialRecord.add("Category Number", record.getAccountNumber());
-		} else {
-			trialRecord.add("Category Number", "");
-		}
+		// if (getCompany().getPreferences().getUseAccountNumbers() == true) {
+		// trialRecord.add("Category Number", record.getAccountNumber());
+		// } else {
+		// trialRecord.add("Category Number", "");
+		// }
 		trialRecord.add("", record.getAccountName());
 		trialRecord
 				.add(getStartDate() + "_" + getEndDate(), record.getAmount());

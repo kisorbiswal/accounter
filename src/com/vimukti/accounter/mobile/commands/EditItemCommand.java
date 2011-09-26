@@ -10,7 +10,6 @@ public class EditItemCommand extends AbstractTransactionCommand{
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		// TODO Auto-generated method stub
 		
 	}
 
