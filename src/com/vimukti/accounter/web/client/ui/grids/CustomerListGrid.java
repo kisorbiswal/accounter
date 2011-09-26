@@ -158,6 +158,8 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 
 	@Override
 	protected void onClick(PayeeList obj, int row, int col) {
+		if (!Accounter.getUser().canDoInvoiceTransactions())
+			return;
 		List<PayeeList> customers = getRecords();
 		PayeeList customer = customers.get(row);
 

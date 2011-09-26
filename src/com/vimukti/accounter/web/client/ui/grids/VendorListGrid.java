@@ -191,6 +191,8 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 
 	@Override
 	protected void onClick(PayeeList payee, int row, int col) {
+		if (!Accounter.getUser().canDoInvoiceTransactions())
+			return;
 		List<PayeeList> suppliers = getRecords();
 		PayeeList supplier = suppliers.get(row);
 		switch (col) {

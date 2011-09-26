@@ -82,7 +82,8 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 	protected void onClick(ClientSalesPerson obj, int row, int col) {
 		// List<ClientCustomer> customers = getRecords();
 		// ClientCustomer customer = customers.get(row);
-
+		if (!Accounter.getUser().canDoInvoiceTransactions())
+			return;
 		switch (col) {
 		case 8:
 			showWarnDialog(obj);
