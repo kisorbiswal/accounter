@@ -1145,13 +1145,6 @@
 		j.company=:company
 	</query>
 
-	<query name="getFinanceLogger.orderby.id.desc">
-		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.FinanceLogger where
-		company=:comapny
-		order by id desc
-	</query>
-
 	<query name="getTAXRateCalculation.by.check.idandvatReturn">
 		<query-param name="id" type="long" />
 		<query-param name="company" type="Company" />
