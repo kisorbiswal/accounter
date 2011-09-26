@@ -89,7 +89,6 @@ public abstract class AbstractFinaneReport<R> extends
 		this.grid.setReportView(this);
 	}
 
-	@SuppressWarnings({ "unchecked" })
 	public AbstractFinaneReport(long startDate, long endDate, int generationType) {
 		this();
 
@@ -680,6 +679,13 @@ public abstract class AbstractFinaneReport<R> extends
 					.create(AccounterConstants.class);
 		}
 		return constants;
+	}
+
+	public AccounterMessages getMessages() {
+		if (messages == null) {
+			messages = (AccounterMessages) GWT.create(AccounterMessages.class);
+		}
+		return messages;
 	}
 
 }

@@ -1,9 +1,7 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
-import com.google.gwt.core.client.GWT;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 import com.vimukti.accounter.web.client.ui.reports.ISectionHandler;
 import com.vimukti.accounter.web.client.ui.reports.Section;
@@ -203,11 +201,4 @@ public class VAT100ServerReport extends AbstractFinaneReport<VATSummary> {
 			return -1;
 	}
 
-	public AccounterConstants getConstants() {
-		if (constants == null) {
-			constants = (AccounterConstants) GWT
-					.create(AccounterConstants.class);
-		}
-		return constants;
-	}
 }

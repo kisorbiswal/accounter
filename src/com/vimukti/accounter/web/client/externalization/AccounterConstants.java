@@ -299,7 +299,7 @@ public interface AccounterConstants extends Constants {
 	public String assetOptions();
 
 	public String assetSold();
-	
+
 	public String assetsTotal();
 
 	public String assetType();
@@ -4909,6 +4909,8 @@ public interface AccounterConstants extends Constants {
 	public String taxItemForSales();
 
 	public String Category();
+
+	public String notSpecified();
 
 	public String otherIncomeTotal();
 

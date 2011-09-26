@@ -178,8 +178,8 @@ public class VendorTransactionHistoryServerReport extends
 
 	int getType(TransactionHistory record) {
 		if (record.getType() == 11) {
-			return (record.getMemo() != null && record.getMemo()
-					.equalsIgnoreCase("supplier prepayment")) ? ClientTransaction.TYPE_VENDOR_PAYMENT
+			return (record.getMemo() != null && record.getMemo().equals(
+					getMessages().vendorPrePayment(Global.get().Vendor()))) ? ClientTransaction.TYPE_VENDOR_PAYMENT
 					: ClientTransaction.TYPE_PAY_BILL;
 		}
 

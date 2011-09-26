@@ -46,7 +46,7 @@ public class ProfitAndLossByLocationServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		String[] headers = new String[noColumns];
-		headers[0] = "Category Number  ";
+		headers[0] = getConstants().categoryNumber();
 		if (isLocation) {
 			for (int i = 0; i < locations.size(); i++) {
 				headers[i + 1] = locations.get(i).getLocationName();
@@ -56,7 +56,7 @@ public class ProfitAndLossByLocationServerReport extends
 				headers[i + 1] = classes.get(i).getClassName();
 			}
 		}
-		headers[noColumns - 1] = "Total";
+		headers[noColumns - 1] = getConstants().total();
 		return headers;
 	}
 
@@ -72,7 +72,7 @@ public class ProfitAndLossByLocationServerReport extends
 	@Override
 	public String[] getColunms() {
 		String[] headers = new String[noColumns];
-		headers[0] = "Category Number ";
+		headers[0] = getConstants().categoryNumber();
 		if (isLocation) {
 			for (int i = 0; i < locations.size(); i++) {
 				headers[i + 1] = locations.get(i).getLocationName();
@@ -82,7 +82,7 @@ public class ProfitAndLossByLocationServerReport extends
 				headers[i + 1] = classes.get(i).getClassName();
 			}
 		}
-		headers[noColumns - 1] = "Total";
+		headers[noColumns - 1] = getConstants().total();
 		return headers;
 	}
 
@@ -348,10 +348,9 @@ public class ProfitAndLossByLocationServerReport extends
 			for (int i = 1; i < noColumns; i++) {
 				nocolumn[i - 1] = i;
 			}
-			addSection(
-					record.getAccountNumber() + "-" + record.getAccountName(),
-					record.getAccountName() + "  " + getConstants().total(),
-					nocolumn);
+			addSection(record.getAccountNumber() + "-"
+					+ record.getAccountName(), record.getAccountName() + "  "
+					+ getConstants().total(), nocolumn);
 			return true;
 		}
 		return false;

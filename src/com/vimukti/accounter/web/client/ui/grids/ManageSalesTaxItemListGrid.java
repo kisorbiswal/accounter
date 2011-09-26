@@ -74,7 +74,7 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 		case 2:
 			return 150;
 		case 3:
-			return 100;
+			return 165;
 		case 4:
 			return 25;
 		}

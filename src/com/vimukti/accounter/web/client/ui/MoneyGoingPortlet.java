@@ -97,8 +97,11 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 		fTable.setWidget(1, 1, overDueAmtLabel);
 		fTable.addStyleName("fTablePortlet");
 
-		if (Accounter.getUser().canDoInvoiceTransactions()) {
+		if (Accounter.getUser().canDoInvoiceTransactions()
+				&& getCompany().getPreferences().isKeepTrackofBills()) {
 			hPanel.add(addPayableInvoiceBtn);
+		} else {
+			hPanel.addStyleName("fTable-noButton");
 		}
 		hPanel.add(fTable);
 

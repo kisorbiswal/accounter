@@ -106,8 +106,8 @@ public class SalesByLocationDetailsServerReport extends
 	}
 
 	private String getRecordSectionName(SalesByLocationDetails record) {
-		return record.getLocationName() == null ? "Not Specified" : record
-				.getLocationName();
+		return record.getLocationName() == null ? getConstants().notSpecified()
+				: record.getLocationName();
 
 	}
 

@@ -250,8 +250,8 @@ public class BalanceSheetServerReport extends
 
 	public void addLiablityTypes(TrialBalance record) {
 
-		if (!sectiontypes.contains("Liabilities")) {
-			if (!sectiontypes.contains("Liabilities and Equity")) {
+		if (!sectiontypes.contains(getConstants().liabilities())) {
+			if (!sectiontypes.contains(getConstants().liabilitiesandEquity())) {
 				closeOtherSections();
 				closeAllSection();
 				addTypeSection(getConstants().liabilitiesandEquity());
@@ -259,13 +259,13 @@ public class BalanceSheetServerReport extends
 			addTypeSection(getConstants().liabilities());
 		}
 		if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_CURRENT_LIABILITY) {
-			if (!sectiontypes.contains("Current Liabilities")) {
+			if (!sectiontypes.contains(getConstants().currentLiabilities())) {
 				addTypeSection(getConstants().currentLiabilities());
 			}
 		}
 
 		if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_LONG_TERM_LIABILITY) {
-			if (!sectiontypes.contains("Long Term  Liabilities")) {
+			if (!sectiontypes.contains(getConstants().longTermLiabilities())) {
 				closeOtherSections();
 				closeSection(types.indexOf(getConstants().currentLiabilities()));
 				addTypeSection(getConstants().longTermLiabilities());
@@ -402,7 +402,7 @@ public class BalanceSheetServerReport extends
 			@Override
 			public void OnSectionAdd(Section<TrialBalance> section) {
 
-				if (section.title.equals("Capital And Reserves")) {
+				if (section.title.equals(getConstants().capitalAndReserves())) {
 					grid.addRow(null, 0,
 							new Object[] { " ", " ", " ", " ", " " }, false,
 							false, false);

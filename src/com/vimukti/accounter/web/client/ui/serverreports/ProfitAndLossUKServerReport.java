@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.ISectionHandler;
 import com.vimukti.accounter.web.client.ui.reports.Section;
 
@@ -19,7 +18,7 @@ public class ProfitAndLossUKServerReport extends ProfitAndLossServerReport {
 			initHandler();
 
 		if (sectionDepth == 0) {
-			addTypeSection("", Accounter.constants().netProfit());
+			addTypeSection("", getConstants().netProfit());
 		}
 		addOrdinaryIncomeOrExpenseTypes(record);
 		// if (record.getBaseType() ==
@@ -50,11 +49,11 @@ public class ProfitAndLossUKServerReport extends ProfitAndLossServerReport {
 
 			@Override
 			public void OnSectionAdd(Section<TrialBalance> section) {
-				if (section.title == "GrossProfit") {
+				if (section.title == getConstants().grossProfit()) {
 					section.data[0] = "";
 				}
 
-				if (section.title.equals("Indirect Costs")) {
+				if (section.title.equals(getConstants().indirectCosts())) {
 					grid.addRow(null, 0,
 							new Object[] { " ", " ", " ", " ", " " }, false,
 							false, false);
@@ -65,29 +64,30 @@ public class ProfitAndLossUKServerReport extends ProfitAndLossServerReport {
 				if (section.title == null)
 					section.title = "";
 
-				if (section.title.equals("Revenue/Income")) {
+				if (section.title.equals(getConstants().revenueIncome())) {
 					totalincome = Double.valueOf(section.data[3].toString());
 					totalincome2 = Double.valueOf(section.data[5].toString());
 				}
-				if (section.title.equals("Direct Products And Material Costs")) {
+				if (section.title.equals(getConstants()
+						.directProductsMaterialCosts())) {
 					totalCGOS = Double.valueOf(section.data[3].toString());
 					totalCGOS2 = Double.valueOf(section.data[5].toString());
 				}
-				if (section.title.equals("Other Direct Costs")) {
+				if (section.title.equals(getConstants().otherDirectCosts())) {
 					otherExpense = Double.valueOf(section.data[3].toString());
 					otherExpense2 = Double.valueOf(section.data[5].toString());
 				}
-				if (section.title.equals("Indirect Costs")) {
+				if (section.title.equals(getConstants().indirectCosts())) {
 					totalexpese = (Double) section.data[3];
 					totalexpese2 = (Double) section.data[5];
 				}
 
-				if (section.title.equals("Other Income")) {
+				if (section.title.equals(getConstants().otherIncome())) {
 					otherIncome = Double.valueOf(section.data[3].toString());
 					otherIncome2 = Double.valueOf(section.data[5].toString());
 				}
 
-				if (section.title.equals("Other Income or Expense")) {
+				if (section.title.equals(getConstants().otherIncomeOrExpense())) {
 					otherNetIncome = otherIncome - otherExpense;
 					section.data[3] = otherNetIncome;
 					otherNetIncome2 = otherIncome2 - otherExpense2;
@@ -95,7 +95,7 @@ public class ProfitAndLossUKServerReport extends ProfitAndLossServerReport {
 				}
 				if (section.footer == null)
 					section.footer = "";
-				if (section.footer.equals("GrossProfit")) {
+				if (section.footer.equals(getConstants().grossProfit())) {
 					grid.addRow(null, 0,
 							new Object[] { " ", " ", " ", " ", " " }, false,
 							false, false);
@@ -104,7 +104,7 @@ public class ProfitAndLossUKServerReport extends ProfitAndLossServerReport {
 					grosProft2 = totalincome2 - totalCGOS2 - otherExpense2;
 					section.data[5] = grosProft2;
 				}
-				if (section.footer.equals("Net Profit")) {
+				if (section.footer.equals(getConstants().netProfit())) {
 					netProfit = grosProft - totalexpese;
 					section.data[3] = netProfit;
 					netProfit2 = grosProft2 - totalexpese2;
@@ -125,25 +125,26 @@ public class ProfitAndLossUKServerReport extends ProfitAndLossServerReport {
 		// }
 		if (record.getAccountType() == ClientAccount.TYPE_INCOME
 				|| record.getAccountType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD) {
-			if (!sectiontypes.contains("GrossProfit")) {
-				addTypeSection(Accounter.constants().grossProfit(), "",
-						Accounter.constants().grossProfit());
+			if (!sectiontypes.contains(getConstants().grossProfit())) {
+				addTypeSection(getConstants().grossProfit(), "", getConstants()
+						.grossProfit());
 
 			}
 			if (record.getAccountType() == ClientAccount.TYPE_INCOME)
-				if (!sectiontypes.contains("Revenue/Income")) {
+				if (!sectiontypes.contains(getConstants().revenueIncome())) {
 
-					addTypeSection(Accounter.constants().revenueIncome(),
-							Accounter.constants().revenueIncomeTotal());
+					addTypeSection(getConstants().revenueIncome(),
+							getConstants().revenueIncomeTotal());
 				}
 			if (record.getAccountType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD)
-				if (!sectiontypes
-						.contains("Direct Products And Material Costs")) {
+				if (!sectiontypes.contains(getConstants()
+						.directProductsMaterialCosts())) {
 					closeOtherSections();
-					closeSection(types.indexOf("Revenue/Income"));
-					addTypeSection(Accounter.constants()
-							.directProductsMaterialCosts(), Accounter
-							.constants().directProductsAndMaterialCostsTotal());
+					closeSection(types.indexOf(getConstants().revenueIncome()));
+					addTypeSection(
+							getConstants().directProductsMaterialCosts(),
+							getConstants()
+									.directProductsAndMaterialCostsTotal());
 
 				}
 
@@ -151,21 +152,21 @@ public class ProfitAndLossUKServerReport extends ProfitAndLossServerReport {
 
 		if (record.getAccountType() == ClientAccount.TYPE_OTHER_EXPENSE) {
 
-			if (!sectiontypes.contains("Other Direct Costs")) {
+			if (!sectiontypes.contains(getConstants().otherDirectCosts())) {
 				closeOtherSections();
-				closeSection(types
-						.indexOf("Direct Products And Material Costs"));
-				addTypeSection(Accounter.constants().otherDirectCosts(),
-						Accounter.constants().otherDirectCostsTotal());
+				closeSection(types.indexOf(getConstants()
+						.directProductsMaterialCosts()));
+				addTypeSection(getConstants().otherDirectCosts(),
+						getConstants().otherDirectCostsTotal());
 			}
 		}
 
 		if (record.getAccountType() == ClientAccount.TYPE_EXPENSE) {
 
-			if (!sectiontypes.contains("Indirect Costs")) {
+			if (!sectiontypes.contains(getConstants().indirectCosts())) {
 				closeAllSection();
-				addTypeSection(Accounter.constants().indirectCosts(), Accounter
-						.constants().indirectCostsTotal());
+				addTypeSection(getConstants().indirectCosts(), getConstants()
+						.indirectCostsTotal());
 			}
 		}
 

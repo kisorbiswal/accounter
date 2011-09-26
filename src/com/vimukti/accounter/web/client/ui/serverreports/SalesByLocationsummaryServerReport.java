@@ -84,8 +84,8 @@ public class SalesByLocationsummaryServerReport extends
 	}
 
 	private String getRecordSectionName(SalesByLocationSummary record) {
-		return record.getLocationName() == null ? "Not Specified" : record
-				.getLocationName();
+		return record.getLocationName() == null ? getConstants().notSpecified()
+				: record.getLocationName();
 	}
 
 	@Override

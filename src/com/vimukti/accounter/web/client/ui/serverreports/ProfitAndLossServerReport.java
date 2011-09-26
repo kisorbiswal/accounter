@@ -385,10 +385,9 @@ public class ProfitAndLossServerReport extends
 			types.add(record.getAccountName());
 			curentParent = record.getAccountName();
 			// System.out.println("Add:" + curentParent);
-			addSection(
-					record.getAccountNumber() + "-" + record.getAccountName(),
-					record.getAccountName() + "  " + getConstants().total(),
-					new int[] { 3, 5 });
+			addSection(record.getAccountNumber() + "-"
+					+ record.getAccountName(), record.getAccountName() + "  "
+					+ getConstants().total(), new int[] { 3, 5 });
 			return true;
 		}
 		return false;
