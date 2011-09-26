@@ -27,6 +27,8 @@ public class AccounterSessionListner implements HttpSessionListener
 		String userID = (String) httpSession.getAttribute("userID");
 		if (userID != null) {
 			// session time out
+			CometManager.destroyStream(httpSession.getId(),
+					Long.parseLong(companyId), userID);
 		}
 	}
 
