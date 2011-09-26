@@ -60,8 +60,7 @@ public class ExpensesListCommand extends AbstractTransactionCommand {
 		result.add("Expenses List");
 		ResultList expensesList = new ResultList("accountsList");
 		int num = 0;
-		List<Expense> expenses = getExpenses(context.getHibernateSession(),
-				viewType);
+		List<Expense> expenses = getExpenses(viewType);
 		for (Expense exp : expenses) {
 			expensesList.add(createExpenseRecord(exp));
 			num++;
@@ -95,11 +94,6 @@ public class ExpensesListCommand extends AbstractTransactionCommand {
 		record.add("IsVoid", exp.isVoid());
 
 		return record;
-	}
-
-	private List<Expense> getExpenses(Session hibernateSession, String viewType) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	private Result viewTypeRequirement(Context context, ResultList list,
