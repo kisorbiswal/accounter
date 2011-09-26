@@ -134,6 +134,12 @@
 			<command>PayBillCommand</command>
 		</output>
 	</pattern>
+	<pattern>
+		<input>BillsList</input>
+		<output>
+			<command>BillsListCommand</command>
+		</output>
+	</pattern>
 
 </patterns>
 
