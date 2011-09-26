@@ -18,50 +18,8 @@ public class DateUtills {
 
 	public static String getDateAsString(Date date) {
 		DateTimeFormat dateFormatter = null;
-		if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("dd/MMM/yyyy"))
-			dateFormatter = DateTimeFormat.getFormat("dd/MMM/yyyy");
-		else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("dd/MM/yyyy"))
-			dateFormatter = DateTimeFormat.getFormat("dd-MMM-yyyy");
-
-		else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("MM/dd/yyyy"))
-			dateFormatter = DateTimeFormat.getFormat("MM/dd/yyyy");
-
-		else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("MMM/dd/yyyy"))
-			dateFormatter = DateTimeFormat.getFormat("MMM/dd/yyyy");
-
-		else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("MMM/dd/yyyy"))
-			dateFormatter = DateTimeFormat.getFormat("MMM/dd/yyyy");
-		else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("dd-MM-yyyy"))
-			dateFormatter = DateTimeFormat.getFormat("dd-MM-yyyy");
-		else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("MM-dd-yyyy"))
-			dateFormatter = DateTimeFormat.getFormat("MM-dd-yyyy");
-		else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("MMMM-dd-yyyy"))
-			dateFormatter = DateTimeFormat.getFormat("MMMM-dd-yyyy");
-		else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("ddMMyyyy"))
-			dateFormatter = DateTimeFormat.getFormat("ddMMyyyy");
-		else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("MMddyyyy"))
-			dateFormatter = DateTimeFormat.getFormat("MMddyyyy");
-		else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("MMMddyyyy"))
-			dateFormatter = DateTimeFormat.getFormat("MMMddyyyy");
-		else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("MMMMddyyyy"))
-			dateFormatter = DateTimeFormat.getFormat("MMMMddyyyy");
-
-		else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("ddMMMMyyyy"))
-			dateFormatter = DateTimeFormat.getFormat("ddMMMMyyyy");
-
+		dateFormatter = DateTimeFormat.getFormat(Accounter.getCompany()
+				.getPreferences().getDateFormat());
 		return dateFormatter.format(date);
 
 	}
