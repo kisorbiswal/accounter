@@ -419,7 +419,6 @@ public class CreditCardExpenseView extends
 						.constants().chequeNo() : Accounter.constants()
 						.checkNo());
 
-
 		cheqNoText.setHelpInformation(true);
 		cheqNoText.setDisabled(isInViewMode());
 		cheqNoText.setWidth(100);
@@ -536,7 +535,7 @@ public class CreditCardExpenseView extends
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setNumCols(2);
 		totalForm.setWidth("100%");
-		totalForm.setStyleName("invoice-total");
+		totalForm.setStyleName("boldtext");
 		// totText = new AmountField(FinanceApplication.constants()
 		// .total());
 		// totText.setWidth(100);

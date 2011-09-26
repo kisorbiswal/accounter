@@ -600,7 +600,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setWidth("100%");
-		totalForm.setStyleName("invoice-total");
+		totalForm.setStyleName("boldtext");
 		unUsedCreditsText = new AmountLabel(Accounter.constants()
 				.unusedCredits());
 		unUsedCreditsText.setDisabled(true);

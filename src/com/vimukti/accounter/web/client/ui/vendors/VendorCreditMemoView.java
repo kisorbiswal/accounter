@@ -310,7 +310,7 @@ public class VendorCreditMemoView extends
 
 		taxCodeSelect = createTaxCodeSelectItem();
 
-		totalForm.addStyleName("tax-form");
+		totalForm.addStyleName("boldtext");
 		HorizontalPanel bottomLayout = new HorizontalPanel();
 		bottomLayout.setWidth("100%");
 		leftVLay.add(vendorForm);

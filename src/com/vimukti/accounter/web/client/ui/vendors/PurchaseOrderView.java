@@ -192,7 +192,7 @@ public class PurchaseOrderView extends
 			amountsForm.setFields(netAmount, vatTotalNonEditableText,
 					transactionTotalNonEditableText);
 
-			amountsForm.setStyleName("invoice-total");
+			amountsForm.setStyleName("boldtext");
 			// forms.add(priceLevelForm);
 			// prodAndServiceHLay.add(priceLevelForm);
 			// prodAndServiceHLay.setCellHorizontalAlignment(priceLevelForm,
@@ -222,7 +222,7 @@ public class PurchaseOrderView extends
 			// balanceDueNonEditableText, taxCodeSelect, priceLevelSelect);
 
 			amountsForm.setNumCols(4);
-			amountsForm.addStyleName("tax-form");
+			amountsForm.addStyleName("boldtext");
 			amountsForm.setFields(/* taxCodeSelect, salesTaxTextNonEditable, */
 			disabletextbox, transactionTotalNonEditableText, disabletextbox
 			/*
