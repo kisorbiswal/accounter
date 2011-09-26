@@ -138,6 +138,7 @@ public class ReceiveVATView extends
 		billsDue = new DateField(companyConstants.returnsDueOnOrBefore());
 		billsDue.setHelpInformation(true);
 		billsDue.setTitle(companyConstants.returnsDueOnOrBefore());
+		billsDue.setEnteredDate(new ClientFinanceDate());
 		billsDue.setDisabled(isInViewMode());
 		billsDue.addDateValueChangeHandler(new DateValueChangeHandler() {
 
@@ -713,7 +714,7 @@ public class ReceiveVATView extends
 
 	private void settabIndexes() {
 		depositInAccCombo.setTabIndex(1);
-		paymentMethodCombo.setTabIndex(2); 
+		paymentMethodCombo.setTabIndex(2);
 		billsDue.setTabIndex(3);
 		transactionDateItem.setTabIndex(4);
 		transNumber.setTabIndex(5);
@@ -722,8 +723,7 @@ public class ReceiveVATView extends
 		saveAndCloseButton.setTabIndex(8);
 		saveAndNewButton.setTabIndex(9);
 		cancelButton.setTabIndex(10);
-		
-	}
 
+	}
 
 }
