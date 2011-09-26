@@ -80,6 +80,11 @@ public class ResetPasswordServlet extends BaseServlet {
 			String password = req.getParameter("newPassword");
 			String confirm = req.getParameter("confirmPassword");
 
+			if (password.isEmpty() || confirm.isEmpty()) {
+				dispatchMessage("Password enter a valid passowrd", req, resp,
+						view);
+				return;
+			}
 			// compare if not equal send error message
 			// otherwise
 			if (!password.equals(confirm)) {
@@ -114,8 +119,10 @@ public class ResetPasswordServlet extends BaseServlet {
 					.setLong("id", activation.getID()).executeUpdate();
 
 			// Send to login page with emailId
-			String activationType = (String) httpsession.getAttribute(ACTIVATION_TYPE);
-			if(activationType != null && activationType.equals("resetpassword")){
+			String activationType = (String) httpsession
+					.getAttribute(ACTIVATION_TYPE);
+			if (activationType != null
+					&& activationType.equals("resetpassword")) {
 				httpsession.removeAttribute(ACTIVATION_TYPE);
 			}
 			httpsession.setAttribute(EMAIL_ID, activation.getEmailId());
