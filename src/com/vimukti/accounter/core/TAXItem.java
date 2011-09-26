@@ -165,9 +165,6 @@ public class TAXItem extends TAXItemGroup {
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
 
-		FinanceLogger.log("VATItem with name:" + this.getName()
-				+ " has been deleted");
-
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
 		accounterCore.setID(this.id);

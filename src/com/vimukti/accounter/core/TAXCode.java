@@ -196,8 +196,6 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
-		FinanceLogger.log("VAT Code with name: {0} has been deleted",
-				this.getName());
 
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);

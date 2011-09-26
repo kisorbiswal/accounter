@@ -196,10 +196,6 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 			this.taxAgency.updateBalance(session, this.vatReturn,
 					this.amountToReceive);
 
-			FinanceLogger.log("VATReturn with Number:" + this.vatReturn.number
-					+ " balance has been updated with amount: "
-					+ this.amountToReceive);
-
 			// At the same time we need to update the vatReturn reference in it.
 			this.vatReturn.updateBalance(this.amountToReceive);
 
@@ -223,15 +219,10 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 	public boolean onUpdate(Session session) throws CallbackException {
 
 		if (isBecameVoid()) {
-			FinanceLogger.log("TransactionReceiveVat is going to void");
 
 			// We need to update the corresponding VATAgency's balance with this
 			// amount to pay.
 			this.taxAgency.updateBalance(session, this.vatReturn, -1
-					* this.amountToReceive);
-
-			FinanceLogger.log("Vatreturn with Number:" + this.vatReturn.number
-					+ " balance has been updated with amount: " + -1
 					* this.amountToReceive);
 
 			// At the same time we need to update the vatReturn reference in it.

@@ -328,9 +328,6 @@ public class Vendor extends Payee {
 
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
-		FinanceLogger.log(
-				"Vendor with Name {0} and Balance {1} has been deleted",
-				this.getName(), String.valueOf(this.getBalance()));
 
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
@@ -362,8 +359,6 @@ public class Vendor extends Payee {
 		super.onUpdate(session);
 		if (!DecimalUtil.isEquals(this.openingBalance, 0.0)
 				&& isOpeningBalanceEditable) {
-			FinanceLogger
-					.log("Create Journal Entry if Opening Balance is not 0 to This Supplier");
 
 			this.isOpeningBalanceEditable = Boolean.FALSE;
 			// Query query = session.getNamedQuery("getNextTransactionNumber");

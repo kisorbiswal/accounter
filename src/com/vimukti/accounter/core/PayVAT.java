@@ -197,9 +197,6 @@ public class PayVAT extends Transaction implements IAccounterServerCore,
 		super.onUpdate(session);
 		if (isBecameVoid()) {
 
-			FinanceLogger.log("PayVat with Number :" + this.number
-					+ "is going to void");
-
 			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 			if (this.transactionPayVAT != null) {
 				for (TransactionPayVAT ti : this.transactionPayVAT) {

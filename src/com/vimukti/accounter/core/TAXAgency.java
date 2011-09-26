@@ -161,16 +161,10 @@ public class TAXAgency extends Payee {
 			account.onUpdate(session);
 		}
 
-		FinanceLogger.log(
-				"VATAgency account has been updated with amount: {0}",
-				String.valueOf(amount));
-
 	}
 
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
-		FinanceLogger.log("VAT Agency with name: {0} has been deleted ",
-				this.getName());
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
 		accounterCore.setID(this.id);

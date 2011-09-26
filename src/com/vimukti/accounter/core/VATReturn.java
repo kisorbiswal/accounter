@@ -162,9 +162,6 @@ public class VATReturn extends Transaction {
 			this.balance = this.total;
 			this.type = Transaction.TYPE_VAT_RETURN;
 
-			FinanceLogger.log("VatReturn with number: {0} going to save",
-					String.valueOf(this.getNumber()));
-
 			this.taxAgency.updateBalance(session, this, this.total);
 
 			// this.taxAgency.salesLiabilityAccount.updateCurrentBalance(this,
@@ -222,10 +219,6 @@ public class VATReturn extends Transaction {
 	public boolean onUpdate(Session session) throws CallbackException {
 		super.onUpdate(session);
 		if (isBecameVoid()) {
-
-			FinanceLogger
-					.log("VatReturn with number: {0} going to RollBack All effects ",
-							String.valueOf(this.getNumber()));
 
 			this.taxAgency.updateBalance(session, this, -1 * this.total);
 

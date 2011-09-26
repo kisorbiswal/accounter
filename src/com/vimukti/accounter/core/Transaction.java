@@ -717,10 +717,6 @@ public abstract class Transaction extends CreatableObject implements
 
 		setTransactionType();
 
-		FinanceLogger.log("Transaction with No: {0} Type: {1}  going to save",
-				String.valueOf(this.getNumber()),
-				Utility.getTransactionName(this.type));
-		// if (id == 0l) {
 		/**
 		 * These lines are commented as this condition is already checked in all
 		 * the subclasses of this class
@@ -772,12 +768,6 @@ public abstract class Transaction extends CreatableObject implements
 					this.totalNonTaxableAmount += ti.lineTotal;
 				}
 			}
-
-			FinanceLogger.log(
-					"Updation of Taxable Amount and Non-Taxable Amounts, are "
-							+ "respectively {0} and {1} ",
-					String.valueOf(this.totalTaxableAmount),
-					String.valueOf(this.totalNonTaxableAmount));
 		}
 	}
 
@@ -994,12 +984,6 @@ public abstract class Transaction extends CreatableObject implements
 		if ((this.isVoid && !clonedObject.isVoid)
 				|| (this.isDeleted() && !clonedObject.isDeleted() && !this.isVoid)) {
 
-			FinanceLogger
-					.log("Transaction with No: {0} Type: {1}  going to void,"
-							+ "so All effects of this transaction going to rollback",
-							String.valueOf(clonedObject.getNumber()),
-							Utility.getTransactionName(type));
-
 			Session session = HibernateUtil.getCurrentSession();
 
 			double amount = (isDebitTransaction() ? -1d : 1d) * this.total;
@@ -1071,8 +1055,6 @@ public abstract class Transaction extends CreatableObject implements
 
 	protected void voidCreditsAndPayments(Transaction transaction) {
 		if (this.creditsAndPayments != null) {
-			FinanceLogger
-					.log("If transactions has any credits and being used by other transactions(ReceivePayment,Paybill) as AppliedCredits,then Rollback credits efftect & delete");
 
 			for (TransactionCreditsAndPayments tcp : transaction.creditsAndPayments
 					.getTransactionCreditsAndPayments()) {
@@ -1244,13 +1226,10 @@ public abstract class Transaction extends CreatableObject implements
 	public boolean addAccountTransaction(AccountTransaction accountTransaction) {
 		AccountTransaction similar = getSimilarAccountTransaction(accountTransaction);
 		if (similar == null) {
-			FinanceLogger.log("Accounter Transaction Added :"
-					+ accountTransaction.getAmount());
 			accountTransactionEntriesList.add(accountTransaction);
 			return true;
 		} else {
-			FinanceLogger.log("Accounter Transaction deleted :"
-					+ similar.getID());
+
 			accountTransactionEntriesList.remove(similar);
 			Session session = HibernateUtil.getCurrentSession();
 			session.delete(similar);

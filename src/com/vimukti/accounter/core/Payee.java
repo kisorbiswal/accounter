@@ -326,8 +326,6 @@ public abstract class Payee extends CreatableObject implements
 			this.balance += amount;
 		}
 
-		FinanceLogger.log("{0} to {1} ", tempStr, String.valueOf(this.balance));
-
 		/**
 		 * Getting the Account related to this Payee.
 		 */

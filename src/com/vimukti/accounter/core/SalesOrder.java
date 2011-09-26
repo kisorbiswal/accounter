@@ -393,10 +393,6 @@ public class SalesOrder extends Transaction {
 			if (salesorder.transactionItems != null
 					&& salesorder.transactionItems.size() > 0) {
 
-				FinanceLogger
-						.log("update the Status of the Estimate with Number {0}  (if any) Involved in this Invoice ",
-								String.valueOf(this.estimate.number));
-
 				for (TransactionItem transactionItem : salesorder.transactionItems) {
 					/**
 					 * This is to know whether this transaction item is of new

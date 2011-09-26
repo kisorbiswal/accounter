@@ -20,7 +20,8 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * @author Srikanth.J
  * 
  */
-public class Warehouse extends CreatableObject implements IAccounterServerCore , INamedObject{
+public class Warehouse extends CreatableObject implements IAccounterServerCore,
+		INamedObject {
 
 	/**
 	 * 
@@ -85,8 +86,6 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore ,
 		super.onSave(s);
 		isOnSaveProccessed = true;
 
-		FinanceLogger.log("warehouse has been created: {0}", name);
-
 		return false;
 	}
 
@@ -98,8 +97,6 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore ,
 
 	@Override
 	public boolean onDelete(Session s) throws CallbackException {
-
-		FinanceLogger.log("Warehouse deleted: {0}", name);
 
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);

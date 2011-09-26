@@ -152,7 +152,6 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 			// if (list != null && list.size() > 0) {
 			// nextVoucherNumber = ((Long) list.get(0)).longValue() + 1;
 			// }
-			FinanceLogger.log("Create Journal Entry on VatAdjustment");
 
 			JournalEntry vatAdjustmentJournalEntry = new JournalEntry(this,
 					number, JournalEntry.TYPE_NORMAL_JOURNAL_ENTRY);

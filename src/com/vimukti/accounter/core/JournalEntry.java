@@ -73,8 +73,6 @@ public class JournalEntry extends Transaction {
 
 	public JournalEntry(Customer customer, String number, int journalEntryType) {
 
-		FinanceLogger.log("JournalEntry {0} For Customer {1}",
-				String.valueOf(number), customer.getName());
 		setCompany(customer.getCompany());
 		this.type = Transaction.TYPE_JOURNAL_ENTRY;
 		this.journalEntryType = journalEntryType;
@@ -82,9 +80,6 @@ public class JournalEntry extends Transaction {
 		this.transactionDate = customer.balanceAsOf;
 		this.memo = "Opening Balance";
 		this.balanceDue = customer.getOpeningBalance();
-
-		FinanceLogger.log("Journal Entry Date : {0} Balance Due : {1} ",
-				String.valueOf(transactionDate), String.valueOf(balanceDue));
 
 		List<Entry> entries = new ArrayList<Entry>();
 		Entry entry1 = new Entry();
@@ -98,10 +93,6 @@ public class JournalEntry extends Transaction {
 		entry1.setDebit(0D);
 		entry1.setCredit(customer.getOpeningBalance());
 		entry1.setJournalEntry(this);
-
-		FinanceLogger.log("Credited Account : {0}  Credited Amount {1} ",
-				String.valueOf(entry1.getAccount()),
-				String.valueOf(entry1.getCredit()));
 
 		Entry entry2 = new Entry();
 		entry2.setVoucherNumber(voucherNumber);
@@ -695,8 +686,8 @@ public class JournalEntry extends Transaction {
 
 		this.type = Transaction.TYPE_JOURNAL_ENTRY;
 		this.journalEntryType = TYPE_NORMAL_JOURNAL_ENTRY;
-		this.number = NumberUtils
-				.getNextTransactionNumber(Transaction.TYPE_JOURNAL_ENTRY, getCompany());
+		this.number = NumberUtils.getNextTransactionNumber(
+				Transaction.TYPE_JOURNAL_ENTRY, getCompany());
 		this.transactionDate = return1.transactionDate;
 		this.transaction = return1;
 
@@ -712,9 +703,6 @@ public class JournalEntry extends Transaction {
 					&& (b.getBoxNumber() == 1 || b.getBoxNumber() == 2)) {
 
 				Entry e = new Entry();
-
-				FinanceLogger.log("Entry created for {0} with amount : {1} ",
-						b.getName(), String.valueOf(b.amount));
 
 				e.setVoucherNumber(voucherNumber);
 				if (DecimalUtil.isGreaterThan(b.getAmount(), 0)) {

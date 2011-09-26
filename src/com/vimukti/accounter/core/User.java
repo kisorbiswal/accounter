@@ -229,8 +229,6 @@ public class User extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
-		FinanceLogger
-				.log("User with Name {0} has been deleted", this.getName());
 
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
