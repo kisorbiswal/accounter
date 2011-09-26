@@ -151,7 +151,7 @@ public class BaseServlet extends HttpServlet {
 						.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$");
 
 			case NAME:
-				return value.matches("^[a-zA-Z]+$");
+				return value.matches("^[a-zA-Z ]+$");
 
 			case PHONE_NO:
 				return value.matches("^[0-9][0-9-]+$");
