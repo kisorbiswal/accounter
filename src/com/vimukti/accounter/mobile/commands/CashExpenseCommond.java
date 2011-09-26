@@ -130,8 +130,8 @@ public class CashExpenseCommond extends AbstractTransactionCommand {
 		accounts.addAll(items);
 		// ....................
 		cashPurchase.setTransactionItems(accounts);
-		if (getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
-			cashPurchase.setTotal(getTransactionTotal(accounts, getCompany()));
+		if (context.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
+			cashPurchase.setTotal(getTransactionTotal(accounts, context.getCompany()));
 		}
 		create(cashPurchase, context);
 	}
