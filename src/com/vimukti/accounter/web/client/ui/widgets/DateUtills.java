@@ -16,6 +16,14 @@ public class DateUtills {
 
 	public boolean isMonth = false;
 
+	public static String getCurrentDateAsString(String dateFormat) {
+
+		DateTimeFormat dateFormatter = DateTimeFormat.getFormat(dateFormat);
+
+		return dateFormatter.format(new Date(System.currentTimeMillis()));
+
+	}
+
 	public static String getDateAsString(Date date) {
 		DateTimeFormat dateFormatter = null;
 		dateFormatter = DateTimeFormat.getFormat(Accounter.getCompany()
