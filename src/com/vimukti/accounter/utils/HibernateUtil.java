@@ -24,7 +24,7 @@ public class HibernateUtil {
 	// getSessionFactory().close();
 	// }
 	public static Session openSession() {
-		ConnectionProvider.setDBName("accounter");
+		ConnectionProvider.setDBName("finance");
 		Session session = getSessionFactory().openSession();
 		threadLocalSession.set(session);
 		return session;
