@@ -116,7 +116,7 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		Company company = getCompany();
+		Company company = context.getCompany();
 		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 			Requirement taxReq = get("tax");
 			TAXCode taxcode = context.getSelection(TAXCODE);
@@ -143,7 +143,7 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 
 	private void completeProcess(Context context) {
 
-		Company company = getCompany();
+		Company company = context.getCompany();
 		CashSales cashSale = new CashSales();
 		Date date = get(DATE).getValue();
 		cashSale.setDate(new FinanceDate(date));
