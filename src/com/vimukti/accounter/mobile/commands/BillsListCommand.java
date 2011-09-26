@@ -11,9 +11,14 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 
-public class ExpensesListCommand extends AbstractTransactionCommand {
+/**
+ * 
+ * @author Sai Prasad N
+ * 
+ */
+public class BillsListCommand extends AbstractTransactionCommand {
 
-	private static final String VIEW_TYPE = "viewType";
+	private static final String BILLS_VIEW_BY = "BillsViewBy";
 
 	@Override
 	public String getId() {
@@ -23,7 +28,7 @@ public class ExpensesListCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(VIEW_TYPE, true, true));
+		list.add(new Requirement(BILLS_VIEW_BY, true, true));
 
 	}
 
@@ -41,64 +46,64 @@ public class ExpensesListCommand extends AbstractTransactionCommand {
 	private Result createOptionalResult(Context context) {
 		context.setAttribute(INPUT_ATTR, "optional");
 
-		Object selection = context.getSelection(VIEW_TYPE);
+		Object selection = context.getSelection(BILLS_VIEW_BY);
 
 		ResultList list = new ResultList("viewlist");
 		Result result = viewTypeRequirement(context, list, selection);
 		if (result != null) {
 			return result;
 		}
-		String viewType = get(VIEW_TYPE).getValue();
-		result = expensesList(context, viewType);
+		String viewType = get(BILLS_VIEW_BY).getValue();
+		result = billsList(context, viewType);
 		return result;
 	}
 
-	private Result expensesList(Context context, String viewType) {
+	private Result billsList(Context context, String viewType) {
 		Result result = context.makeResult();
-		result.add("Expenses List");
-		ResultList expensesList = new ResultList("accountsList");
+		result.add("Bills List");
+		ResultList billsListData = new ResultList("billsList");
 		int num = 0;
-		List<BillsList> expenses = getExpenses(viewType);
-		for (BillsList b : expenses) {
-			expensesList.add(createExpenseRecord(b));
+		List<BillsList> bills = getBills(viewType);
+		for (BillsList bill : bills) {
+			billsListData.add(createBillRecord(bill));
 			num++;
-			if (num == EXPENSES_TO_SHOW) {
+			if (num == BILLS_TO_SHOW) {
 				break;
 			}
 		}
-		int size = expensesList.size();
+		int size = billsListData.size();
 		StringBuilder message = new StringBuilder();
 		if (size > 0) {
-			message.append("Select a Expense");
+			message.append("Select a Bill");
 		}
 		CommandList commandList = new CommandList();
 		commandList.add("Create");
 
 		result.add(message.toString());
-		result.add(expensesList);
+		result.add(billsListData);
 		result.add(commandList);
-		result.add("Type for Expense");
+		result.add("Type for Bill");
 
 		return result;
 	}
 
-	private Record createExpenseRecord(BillsList exp) {
-		Record record = new Record(exp);
-		record.add("Type", exp.getType());
-		record.add("No", exp.getNumber());
-		record.add("Vendor", exp.getVendorName());
-		record.add("OriginalAmount", exp.getOriginalAmount());
-		record.add("Balance", exp.getBalance());
-		record.add("IsVoid", exp.isVoided());
+	private Record createBillRecord(BillsList bill) {
 
-		return record;
+		Record rec = new Record(bill);
+		rec.add("Type", bill.getType());
+		rec.add("No", bill.getNumber());
+		rec.add("VendorName", bill.getVendorName());
+		rec.add("OrginalAmount", bill.getOriginalAmount());
+		rec.add("Balance", bill.getBalance());
+
+		return rec;
 	}
 
 	private Result viewTypeRequirement(Context context, ResultList list,
 			Object selection) {
 
-		Object viewType = context.getSelection(VIEW_TYPE);
-		Requirement viewReq = get(VIEW_TYPE);
+		Object viewType = context.getSelection(BILLS_VIEW_BY);
+		Requirement viewReq = get(BILLS_VIEW_BY);
 		String view = viewReq.getValue();
 
 		if (selection == view) {
@@ -143,7 +148,16 @@ public class ExpensesListCommand extends AbstractTransactionCommand {
 		result.add(list);
 
 		return result;
+	}
 
+	private List<String> getViewTypes() {
+		List<String> list = new ArrayList<String>();
+		list.add("All");
+		list.add("Open");
+		list.add("Voided");
+		list.add("OverDue");
+
+		return list;
 	}
 
 	private Record createViewTypeRecord(String view) {
@@ -151,15 +165,6 @@ public class ExpensesListCommand extends AbstractTransactionCommand {
 		record.add("Name", "ViewType");
 		record.add("Value", view);
 		return record;
-	}
-
-	private List<String> getViewTypes() {
-		List<String> list = new ArrayList<String>();
-		list.add("All");
-		list.add("Cash");
-		list.add("Credit Card");
-		list.add("Voided");
-		return list;
 	}
 
 }

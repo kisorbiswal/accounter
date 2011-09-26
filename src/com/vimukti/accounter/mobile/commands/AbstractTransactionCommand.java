@@ -14,6 +14,7 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Expense;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
@@ -31,9 +32,16 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.Lists.BillsList;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public abstract class AbstractTransactionCommand extends AbstractCommand {
@@ -51,6 +59,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	private static final int PAYEES_TO_SHOW = 5;
 	private static final int BANK_ACCOUNTS_TO_SHOW = 5;
 	protected static final int EXPENSES_TO_SHOW = 5;
+	protected static final int BILLS_TO_SHOW = 5;
+
 	protected static final String TRANSACTION_ACCOUNT_ITEM_PROCESS = null;
 	protected static final String OLD_TRANSACTION_ACCOUNT_ITEM_ATTR = null;
 	private static final String ACCOUNT_ITEM_PROPERTY_ATTR = null;
@@ -60,8 +70,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final String ACTIVE = "isActive";
 	protected static final String US_CHECK = "Check";
 	protected static final String UK_CHECK = "Cheque";
-
-	
 
 	protected Result itemsRequirement(Context context) {
 		Requirement itemsReq = get("items");
@@ -1104,7 +1112,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected List<Account> getAccounts(Boolean isActive) {
 		FinanceTool financeTool = new FinanceTool();
 		List<Account> accounts = new ArrayList<Account>();
-		List<Account> allaccounts = null;// financeTool.getAccountsListBySorted();
+		List<Account> allaccounts = financeTool.getAccountsListBySorted();
 		for (Account acc : allaccounts) {
 			if (isActive) {
 				if (acc.getIsActive()) {
@@ -1153,9 +1161,83 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return null;
 	}
 
-	protected List<Expense> getExpenses(String viewType) {
-		// TODO Auto-generated method stub
-		return null;
+	protected List<BillsList> getExpenses(String viewType) {
+
+		ArrayList<BillsList> billsList = null;
+		try {
+			billsList = new FinanceTool().getBillsList(true);
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+
+		return filterList(viewType, billsList);
+	}
+
+	protected List<BillsList> getBills(String viewType) {
+		ArrayList<BillsList> billsList = null;
+
+		try {
+			billsList = new FinanceTool().getBillsList(false);
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+
+		return filterList(viewType, billsList);
+	}
+
+	private List<BillsList> filterList(String text,
+			List<BillsList> initialRecords) {
+
+		if (text.equalsIgnoreCase(Accounter.getFinanceConstants().open())) {
+			ArrayList<BillsList> openRecs = new ArrayList<BillsList>();
+			List<BillsList> allRecs = initialRecords;
+			for (BillsList rec : allRecs) {
+				if ((rec.getType() == ClientTransaction.TYPE_CREDIT_CARD_EXPENSE
+						|| rec.getType() == ClientTransaction.TYPE_CASH_EXPENSE || rec
+						.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
+						|| ((rec.getType() == ClientTransaction.TYPE_ENTER_BILL || rec
+								.getType() == ClientTransaction.TYPE_VENDOR_CREDIT_MEMO) && DecimalUtil
+								.isGreaterThan(rec.getBalance(), 0))) {
+					if (!rec.isDeleted() && !rec.isVoided())
+						openRecs.add(rec);
+
+				}
+			}
+			return openRecs;
+
+		} else if (text.equalsIgnoreCase(Accounter.getFinanceConstants()
+				.voided())) {
+			ArrayList<BillsList> voidedRecs = new ArrayList<BillsList>();
+			List<BillsList> allRecs = initialRecords;
+			for (BillsList rec : allRecs) {
+				if (rec.isVoided() && !rec.isDeleted()) {
+					voidedRecs.add(rec);
+
+				}
+			}
+			return voidedRecs;
+
+		} else if (text.equalsIgnoreCase(Accounter.getFinanceConstants()
+				.overDue())) {
+			ArrayList<BillsList> overDueRecs = new ArrayList<BillsList>();
+			List<BillsList> allRecs = initialRecords;
+			for (BillsList rec : allRecs) {
+				if (rec.getType() == ClientTransaction.TYPE_ENTER_BILL
+						&& new ClientFinanceDate().after(rec.getDueDate())
+						&& DecimalUtil.isGreaterThan(rec.getBalance(), 0)) {
+					overDueRecs.add(rec);
+				}
+			}
+
+		}
+
+		if (text.equalsIgnoreCase(Accounter.getFinanceConstants().all())) {
+			ArrayList<BillsList> list = new ArrayList<BillsList>();
+			list.addAll(initialRecords);
+			return list;
+		}
+		return initialRecords;
+
 	}
 
 }

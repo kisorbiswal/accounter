@@ -7,7 +7,6 @@ import java.util.List;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Contact;
-import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Vendor;
@@ -92,6 +91,7 @@ public abstract class AbstractCommand extends Command {
 			req.setValue(balance);
 		}
 
+		
 		if (selection == balance) {
 			context.setAttribute(INPUT_ATTR, name);
 			return amount(context, displayString, balance);
