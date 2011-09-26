@@ -1142,7 +1142,7 @@ public abstract class Transaction extends CreatableObject implements
 		Query query2 = session.getNamedQuery(
 				"getTaxrate.by.TransactioId.and.Vatreturn").setEntity(
 				"company", getCompany());
-		query2.setParameter(0, this.getID());
+		query2.setParameter("id", this.getID());
 		List list = query2.list();
 		if (list != null && list.size() > 0)
 			throw new AccounterException(

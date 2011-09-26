@@ -24,7 +24,8 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * @author Chandan
  * 
  */
-public class TAXCode implements IAccounterServerCore, Lifecycle {
+public class TAXCode extends CreatableObject implements IAccounterServerCore,
+		Lifecycle {
 
 	/**
 	 * 
