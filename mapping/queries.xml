@@ -1406,8 +1406,9 @@
 	</query>
 
 	<query name="adminUserForEmailId">
+		<query-param name="company" type="Company" />
 		<query-param name="emailid" type="string" />
-		from com.vimukti.accounter.core.User user where user.email=:emailid
+		from com.vimukti.accounter.core.User user where user.email=:emailid and company=:company
 		and user.isAdmin =true
 	</query>
 
