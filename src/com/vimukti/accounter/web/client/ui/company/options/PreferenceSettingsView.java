@@ -143,6 +143,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		// CustomerTerminologyOption();
 		OrganisationTypeOption formOption = new OrganisationTypeOption();
 		// AccountNumbersOption numbersOption = new AccountNumbersOption();
+		CompanyDateFormateOption formateOption = new CompanyDateFormateOption();
 		CompanyEinOption einOption = new CompanyEinOption();
 		CompanyFiscalYearOption fiscalYearOption = new CompanyFiscalYearOption();
 		DoyouUseOption doyouUseOption = new DoyouUseOption();
@@ -162,6 +163,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 			companyInfoPage.addPreferenceOption(formOption);
 		}
 		// companyPage.addPreferenceOption(numbersOption);
+		companyInfoPage.addPreferenceOption(formateOption);
 		companyInfoPage.addPreferenceOption(einOption);
 		companyInfoPage.addPreferenceOption(fiscalYearOption);
 		companyInfoPage.addPreferenceOption(doyouUseOption);
@@ -182,11 +184,13 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		CompanyEmailOption email = new CompanyEmailOption();
 		ComapnyWebsiteOption website = new ComapnyWebsiteOption();
 		CompanyPhoneNumberOption phone = new CompanyPhoneNumberOption();
+
 		companyContactInfoPage.addPreferenceOption(name);
 		companyContactInfoPage.addPreferenceOption(address);
 		companyContactInfoPage.addPreferenceOption(email);
 		companyContactInfoPage.addPreferenceOption(website);
 		companyContactInfoPage.addPreferenceOption(phone);
+
 		return companyContactInfoPage;
 	}
 
