@@ -40,7 +40,7 @@ public class CompanyDateFormateOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		return "Date Format";
+		return "Date Formate";
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class CompanyDateFormateOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		return "Date Format";
+		return "Date Formate";
 	}
 
 	@Override
@@ -104,7 +104,7 @@ public class CompanyDateFormateOption extends AbstractPreferenceOption {
 	}
 
 	/**
-	 * get example Label similarly to combo adte formate
+	 * get example Label similarly to combo date formate
 	 * 
 	 * @param index
 	 *            of combo Box
