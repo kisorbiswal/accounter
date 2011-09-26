@@ -1407,13 +1407,6 @@
 			lazy="false" column="TAXITEMGROUP_SALES">
 		</many-to-one>
 	</class>
-	<class name="FinanceLogger" table="FINANCE_LOG">
-		<id name="id" column="ID">
-			<generator class="native" />
-		</id>
-		<property name="logMessge" column="LOG_MESSAGE" type="text"></property>
-		<property name="description" column="DESCRIPTION"></property>
-	</class>
 
 	<class name="BrandingTheme" table="BRANDING_THEME">
 		<id name="id" column="ID">
