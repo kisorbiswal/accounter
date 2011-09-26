@@ -198,7 +198,7 @@ public class VAT100ServerReport extends AbstractFinaneReport<VATSummary> {
 	@Override
 	public int getColumnWidth(int index) {
 		if (index == 1)
-			return 175;
+			return 300;
 		else
 			return -1;
 	}

@@ -111,21 +111,25 @@ public class ExpenseServerReport extends AbstractFinaneReport<ExpenseList> {
 
 	@Override
 	public int getColumnWidth(int index) {
-		if (index == 2)
-			return 100;
-		else if (index == 3)
-			return 100;
-		else if (index == 1)
-			return 100;
-		else
-			return 100;
+
+		switch (index) {
+		case 1:
+			return 200;
+		case 2:
+			return 200;
+		case 3:
+			return 200;
+		default:
+			return -1;
+		}
+
 	}
 
 	public int sort(ExpenseList obj1, ExpenseList obj2, int col) {
 		switch (col) {
 		case 0:
-			return UIUtils.compareInt(obj1.getTransactionType(),
-					obj2.getTransactionType());
+			return UIUtils.compareInt(obj1.getTransactionType(), obj2
+					.getTransactionType());
 		case 1:
 			return obj1.getTransactionDate().compareTo(
 					obj2.getTransactionDate());
@@ -134,8 +138,8 @@ public class ExpenseServerReport extends AbstractFinaneReport<ExpenseList> {
 		case 3:
 			if (!currentsectionName.toLowerCase().equals(
 					obj1.getName().toLowerCase())) {
-				return obj1.getName().toLowerCase()
-						.compareTo(obj2.getName().toLowerCase());
+				return obj1.getName().toLowerCase().compareTo(
+						obj2.getName().toLowerCase());
 			} else {
 				return UIUtils.compareDouble(obj1.getTotal(), obj2.getTotal());
 			}
@@ -249,5 +253,5 @@ public class ExpenseServerReport extends AbstractFinaneReport<ExpenseList> {
 	public void makeReportRequest(long start, long end) {
 
 	}
-	
+
 }

@@ -51,12 +51,9 @@ public class SalesTaxLiabilityServerReport extends
 	@Override
 	public String[] getColunms() {
 		return new String[] { getConstants().taxCode(),
-				getConstants().taxRate(),
-				getConstants().taxCollected(),
-				getConstants().totalSales(),
-				getConstants().nonTaxable(),
-				getConstants().nonTaxableOther(),
-				getConstants().taxable() };
+				getConstants().taxRate(), getConstants().taxCollected(),
+				getConstants().totalSales(), getConstants().nonTaxable(),
+				getConstants().nonTaxableOther(), getConstants().taxable() };
 
 	}
 
@@ -80,15 +77,15 @@ public class SalesTaxLiabilityServerReport extends
 	@Override
 	public void processRecord(SalesTaxLiability record) {
 		if (sectionDepth == 0) {
-			addSection("", getConstants().total(), new int[] { 2, 3, 4,
-					5, 6 });
+			addSection("", getConstants().total(), new int[] { 2, 3, 4, 5, 6 });
 		} else if (sectionDepth == 1) {
 			// First time
 			this.sectionName = record.getTaxAgencyName();
 			addSection(sectionName, "", new int[0]);
 		} else if (sectionDepth == 2) {
 			// Inside fist section
-			addSection(getConstants().beginingBalance(), getConstants().total(), new int[] { 2, 3, 4, 5, 6 });
+			addSection(getConstants().beginingBalance(),
+					getConstants().total(), new int[] { 2, 3, 4, 5, 6 });
 		} else if (sectionDepth == 3) {
 			// No need to do anything, just allow adding this record
 			if (!sectionName.equals(record.getTaxAgencyName())) {
@@ -120,12 +117,32 @@ public class SalesTaxLiabilityServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] { getConstants().taxCode(),
-				getConstants().taxRate(),
-				getConstants().taxCollected(),
-				getConstants().totalSales(),
-				getConstants().nonTaxable(),
-				getConstants().nonTaxableOther(),
-				getConstants().taxable() };
+				getConstants().taxRate(), getConstants().taxCollected(),
+				getConstants().totalSales(), getConstants().nonTaxable(),
+				getConstants().nonTaxableOther(), getConstants().taxable() };
 	}
-	
+
+	@Override
+	public int getColumnWidth(int index) {
+
+		switch (index) {
+		case 1:
+			return 100;
+		case 2:
+			return 120;
+		case 3:
+			return 120;
+		case 4:
+			return 120;
+		case 5:
+			return 120;
+		case 6:
+			return 120;
+
+		default:
+			return -1;
+		}
+
+	}
+
 }

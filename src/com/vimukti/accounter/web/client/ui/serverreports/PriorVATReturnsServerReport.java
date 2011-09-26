@@ -210,7 +210,7 @@ public class PriorVATReturnsServerReport extends
 	@Override
 	public int getColumnWidth(int index) {
 		if (index == 1) {
-			return 200;
+			return 300;
 		}
 		return -1;
 	}

@@ -83,11 +83,18 @@ public class CustomerStatementServerReport extends
 
 	@Override
 	public int getColumnWidth(int index) {
-		// FIXME::: can't we set required width instead of fixed width
-		if (index >= 0 && index <= 6)
-			return 70;
-		else
+		switch (index) {
+		case 0:
+			return 150;
+		case 2:
+			return 200;
+		case 3:
+			return 200;
+		case 4:
+			return 200;
+		default:
 			return -1;
+		}
 	}
 
 	@Override

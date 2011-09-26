@@ -160,8 +160,6 @@ public class TransactionDetailByAccountServerReport extends
 	@Override
 	public int getColumnWidth(int index) {
 		switch (index) {
-		case 0:
-			return 225;
 		case 1:
 			return 130;
 		case 2:
@@ -170,9 +168,12 @@ public class TransactionDetailByAccountServerReport extends
 			return 130;
 		case 4:
 			return 50;
-
-		default:
+		case 5:
 			return 115;
+		case 6:
+			return 115;
+		default:
+			return -1;
 		}
 	}
 

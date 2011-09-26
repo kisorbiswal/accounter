@@ -66,7 +66,7 @@ public class PurchaseByVendorDetailServerReport extends
 		// if (index == 0)
 		// return 180;
 		if (index == 1)
-			return 70;
+			return 100;
 		else if (index == 4)
 			return 160;
 		else if (index == 0)
@@ -74,7 +74,7 @@ public class PurchaseByVendorDetailServerReport extends
 		else if (index == 3)
 			return 100;
 		else
-			return 200;
+			return -1;
 	}
 
 	@Override

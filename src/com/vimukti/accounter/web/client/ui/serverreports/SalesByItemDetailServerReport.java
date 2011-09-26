@@ -69,16 +69,27 @@ public class SalesByItemDetailServerReport extends
 
 	@Override
 	public int getColumnWidth(int index) {
-		if (index == 2)
-			return 85;
-		else if (index == 3)
-			return 50;
-		else if (index == 1 || index == 4)
-			return 85;
-		else if (index == 0)
-			return 200;
-		else
-			return -1;
+		switch(index){
+	case 1:
+		return 100;
+	case 2:
+		return 100;
+	case 3:
+		return 70;
+	case 4:
+		return 90;
+	case 5:
+		return 120;
+	case 6:
+		return 120;
+	case 7:
+		return 120;
+	
+	default:
+		return -1;
+	}
+	
+		 
 	}
 
 	@Override

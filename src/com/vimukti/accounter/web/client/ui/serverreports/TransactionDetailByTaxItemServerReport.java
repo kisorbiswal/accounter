@@ -122,7 +122,30 @@ public class TransactionDetailByTaxItemServerReport extends
 	public ClientFinanceDate getStartDate(TransactionDetailByTaxItem obj) {
 		return obj.getStartDate();
 	}
+@Override
+public int getColumnWidth(int index) {
 
+	switch (index) {
+	case 1:
+		return 100;
+	case 2:
+		return 100;
+	case 3:
+		return 40;
+	case 4:
+		return 120;
+	case 5:
+		return 120;
+	case 6:
+		return 80;
+	case 7:
+		return 100;
+	
+	default:
+		return -1;
+	}
+
+}
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] { "", getConstants().taxRate(),

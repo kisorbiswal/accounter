@@ -67,7 +67,9 @@ public class SalesByCustomerDetailServerReport extends
 		// if (index == 0)
 		// return 180;
 		if (index == 1)
-			return 70;
+			return 120;
+		else if (index == 0)
+			return 250;
 		else if (index == 4)
 			return 160;
 		else if (index == 0)

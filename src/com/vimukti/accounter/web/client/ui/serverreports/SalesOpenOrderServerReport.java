@@ -201,32 +201,19 @@ public class SalesOpenOrderServerReport extends
 
 	@Override
 	public int getColumnWidth(int index) {
-		// if (isSales) {
 		if (index == 0)
-			return 200;
-		// if (index == 1)
-		// return 200;
-		// else if(index == 2)
-		// return 200;
+			return 250;
 		else if (index == 2)
-			return 200;
-		// else if (index == 3)
-		// return 150;
-		// }
-		// else {
-		// if (index == 1)
-		// return 300;
-		// else if (index == 2)
-		// return 200;
-		// }
+			return 250;
+
 		else
 			return -1;
 	}
 
 	public int sort(OpenAndClosedOrders obj1, OpenAndClosedOrders obj2, int col) {
 
-		int ret = obj1.getVendorOrCustomerName().toLowerCase()
-				.compareTo(obj2.getVendorOrCustomerName().toLowerCase());
+		int ret = obj1.getVendorOrCustomerName().toLowerCase().compareTo(
+				obj2.getVendorOrCustomerName().toLowerCase());
 		if (ret != 0) {
 			return ret;
 		}
@@ -237,8 +224,8 @@ public class SalesOpenOrderServerReport extends
 					obj2.getTransactionDate());
 
 		case 1:
-			return obj1.getVendorOrCustomerName().toLowerCase()
-					.compareTo(obj2.getVendorOrCustomerName().toLowerCase());
+			return obj1.getVendorOrCustomerName().toLowerCase().compareTo(
+					obj2.getVendorOrCustomerName().toLowerCase());
 
 			// case 2:
 			// // if (isSales)

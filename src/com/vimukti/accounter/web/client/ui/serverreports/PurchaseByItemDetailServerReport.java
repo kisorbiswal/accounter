@@ -13,7 +13,7 @@ public class PurchaseByItemDetailServerReport extends
 
 	public PurchaseByItemDetailServerReport(
 			IFinanceReport<SalesByCustomerDetail> reportView) {
-			this.reportView = reportView;
+		this.reportView = reportView;
 	}
 
 	public PurchaseByItemDetailServerReport(long startDate, long endDate,
@@ -53,13 +53,10 @@ public class PurchaseByItemDetailServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getConstants().item(),
-				getConstants().date(), getConstants().type(),
-				getConstants().noDot(),
-				getConstants().quantity(),
-				getConstants().unitPrice(),
-				getConstants().discount(),
-				getConstants().amount() };
+		return new String[] { getConstants().item(), getConstants().date(),
+				getConstants().type(), getConstants().noDot(),
+				getConstants().quantity(), getConstants().unitPrice(),
+				getConstants().discount(), getConstants().amount() };
 	}
 
 	@Override
@@ -69,16 +66,27 @@ public class PurchaseByItemDetailServerReport extends
 
 	@Override
 	public int getColumnWidth(int index) {
-		if (index == 2)
+
+		switch (index) {
+		case 1:
 			return 85;
-		else if (index == 3)
-			return 50;
-		else if (index == 1 || index == 4)
-			return 85;
-		else if (index == 0)
-			return 200;
-		else
+		case 2:
+			return 100;
+		case 3:
+			return 70;
+		case 4:
+			return 100;
+		case 5:
+			return 120;
+		case 6:
+			return 120;
+		case 7:
+			return 120;
+
+		default:
 			return -1;
+		}
+
 	}
 
 	@Override
@@ -106,8 +114,7 @@ public class PurchaseByItemDetailServerReport extends
 		} else if (sectionDepth == 1) {
 			this.sectionName = record.getItemName();
 			addSection(new String[] { sectionName }, new String[] { "", "", "",
-					"", "", "", getConstants().total() },
-					new int[] { 7 });
+					"", "", "", getConstants().total() }, new int[] { 7 });
 		} else if (sectionDepth == 2) {
 			// No need to do anything, just allow adding this record
 			if (!sectionName.equals(record.getItemName())) {
@@ -186,8 +193,8 @@ public class PurchaseByItemDetailServerReport extends
 	public int sort(SalesByCustomerDetail obj1, SalesByCustomerDetail obj2,
 			int col) {
 
-		int ret = obj1.getItemName().toLowerCase()
-				.compareTo(obj2.getItemName().toLowerCase());
+		int ret = obj1.getItemName().toLowerCase().compareTo(
+				obj2.getItemName().toLowerCase());
 		if (ret != 0) {
 			return ret;
 		}
@@ -203,14 +210,14 @@ public class PurchaseByItemDetailServerReport extends
 					Integer.parseInt(obj2.getNumber()));
 
 		case 0:
-			return obj1.getItemName().toLowerCase()
-					.compareTo(obj2.getItemName().toLowerCase());
+			return obj1.getItemName().toLowerCase().compareTo(
+					obj2.getItemName().toLowerCase());
 
 		case 4:
 			return UIUtils.compareTo(obj1.getQuantity(), obj2.getQuantity());
 		case 5:
-			return UIUtils.compareDouble(obj1.getUnitPrice(),
-					obj2.getUnitPrice());
+			return UIUtils.compareDouble(obj1.getUnitPrice(), obj2
+					.getUnitPrice());
 
 		case 6:
 			return UIUtils
@@ -232,13 +239,10 @@ public class PurchaseByItemDetailServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getConstants().item(),
-				getConstants().date(), getConstants().type(),
-				getConstants().noDot(),
-				getConstants().quantity(),
-				getConstants().unitPrice(),
-				getConstants().discount(),
-				getConstants().amount() };
+		return new String[] { getConstants().item(), getConstants().date(),
+				getConstants().type(), getConstants().noDot(),
+				getConstants().quantity(), getConstants().unitPrice(),
+				getConstants().discount(), getConstants().amount() };
 	}
-	
+
 }

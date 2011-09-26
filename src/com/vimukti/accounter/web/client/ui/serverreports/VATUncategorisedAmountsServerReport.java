@@ -75,9 +75,9 @@ public class VATUncategorisedAmountsServerReport extends
 		else if (index == 3)
 			return 175;
 		else if (index == 4 || index == 5)
-			return 120;
+			return 170;
 		else
-			return 200;
+			return -1;
 	}
 
 	@Override

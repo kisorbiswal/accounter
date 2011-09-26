@@ -77,14 +77,12 @@ public class VendorTransactionHistoryServerReport extends
 			return 145;
 		// else if (index == 4)
 		// return 250;
-		// else if (index == 4)
-		// return 200;
-		else if (index == 0)
-			return 150;
+		else if (index == 4)
+			return 200;
 		else if (index == 5)
 			return 145;
 		else
-			return 175;
+			return -1;
 	}
 
 	@Override
@@ -117,7 +115,8 @@ public class VendorTransactionHistoryServerReport extends
 			// return record.getPaidAmount();
 		case 5:
 			return DecimalUtil.isEquals(record.getInvoicedAmount(), 0.0) ? record
-					.getPaidAmount() : record.getInvoicedAmount();
+					.getPaidAmount()
+					: record.getInvoicedAmount();
 			// return record.getDiscount();
 			// case 6:
 			// return record.getInvoicedAmount() - record.getPaidAmount()
@@ -188,8 +187,8 @@ public class VendorTransactionHistoryServerReport extends
 	}
 
 	public int sort(TransactionHistory obj1, TransactionHistory obj2, int col) {
-		int ret = obj1.getName().toLowerCase()
-				.compareTo(obj2.getName().toLowerCase());
+		int ret = obj1.getName().toLowerCase().compareTo(
+				obj2.getName().toLowerCase());
 		if (ret != 0) {
 			return ret;
 		}
@@ -207,15 +206,15 @@ public class VendorTransactionHistoryServerReport extends
 			// return obj1.getReference().toLowerCase().compareTo(
 			// obj2.getReference().toLowerCase());
 		case 4:
-			return obj1.getAccount().toLowerCase()
-					.compareTo(obj2.getAccount().toLowerCase());
+			return obj1.getAccount().toLowerCase().compareTo(
+					obj2.getAccount().toLowerCase());
 		case 5:
 			if (DecimalUtil.isEquals(obj1.getInvoicedAmount(), 0.0))
-				return UIUtils.compareDouble(obj1.getPaidAmount(),
-						obj2.getPaidAmount());
+				return UIUtils.compareDouble(obj1.getPaidAmount(), obj2
+						.getPaidAmount());
 			else
-				return UIUtils.compareDouble(obj1.getInvoicedAmount(),
-						obj2.getInvoicedAmount());
+				return UIUtils.compareDouble(obj1.getInvoicedAmount(), obj2
+						.getInvoicedAmount());
 		}
 		return 0;
 	}
