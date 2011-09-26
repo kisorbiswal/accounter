@@ -19,7 +19,6 @@ import com.vimukti.accounter.core.EnterBill;
 import com.vimukti.accounter.core.Entry;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.FinanceDate;
-import com.vimukti.accounter.core.FinanceLogger;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.core.MakeDeposit;
@@ -48,7 +47,6 @@ import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEntry;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientFinanceLogger;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
@@ -1434,64 +1432,6 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			clientEntries.add(clientEntry);
 		}
 		return clientEntries;
-
-	}
-
-	@Override
-	public ArrayList<ClientFinanceLogger> getLog(long id, boolean isNext)
-			throws AccounterException {
-
-		ArrayList<ClientFinanceLogger> clientLogs = new ArrayList<ClientFinanceLogger>();
-
-		FinanceTool tool = (FinanceTool) getFinanceTool();
-		if (tool == null)
-			return clientLogs;
-		List<FinanceLogger> logs = tool.getLog(id, isNext, getCompanyId());
-
-		if (logs == null) {
-			return clientLogs;
-		}
-
-		for (FinanceLogger log : logs) {
-			ClientFinanceLogger clientLog = new ClientFinanceLogger();
-
-			clientLog.setDescription(log.getDescription());
-			clientLog.setLogMessge(log.getLogMessge());
-			// clientLog.setCreatedBy(log.getCreatedBy());
-			// clientLog.setCreatedDate(log.getCreatedDate().getDate());
-			clientLog.setID(log.getID());
-
-			clientLogs.add(clientLog);
-		}
-
-		return clientLogs;
-
-	}
-
-	@Override
-	public ArrayList<ClientFinanceLogger> getLog(String date, long id,
-			boolean isNext) throws AccounterException {
-
-		ArrayList<ClientFinanceLogger> clientLogs = new ArrayList<ClientFinanceLogger>();
-
-		FinanceTool tool = (FinanceTool) getFinanceTool();
-		if (tool == null)
-			return clientLogs;
-		List<FinanceLogger> logs = tool.getLog(date, id, isNext);
-
-		for (FinanceLogger log : logs) {
-			ClientFinanceLogger clientLog = new ClientFinanceLogger();
-
-			clientLog.setID(log.getID());
-			clientLog.setDescription(log.getDescription());
-			clientLog.setLogMessge(log.getLogMessge());
-			// clientLog.setCreatedDate(log.getCreatedDate().getDate());
-			// clientLog.setCreatedBy(log.getCreatedBy());
-
-			clientLogs.add(clientLog);
-		}
-
-		return clientLogs;
 
 	}
 

@@ -38,7 +38,6 @@ import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import com.gdevelop.gwt.syncrpc.SyncProxy;
@@ -70,7 +69,6 @@ import com.vimukti.accounter.core.EnterBill;
 import com.vimukti.accounter.core.Entry;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.FinanceDate;
-import com.vimukti.accounter.core.FinanceLogger;
 import com.vimukti.accounter.core.FiscalYear;
 import com.vimukti.accounter.core.FixedAsset;
 import com.vimukti.accounter.core.FixedAssetHistory;
@@ -811,8 +809,8 @@ public class FinanceTool {
 			IAccounterCore clientObject) throws AccounterException {
 
 		IAccounterServerCore serverObject = new ServerConvertUtil()
-				.toServerObject(null, clientObject, HibernateUtil
-						.getCurrentSession());
+				.toServerObject(null, clientObject,
+						HibernateUtil.getCurrentSession());
 
 		return serverObject.canEdit(clonedObject);
 
@@ -863,9 +861,7 @@ public class FinanceTool {
 		try {
 			IAccounterCore[] changes = ChangeTracker.getChanges();
 			if (changes != null && changes.length > 0) {
-				log
-						.info("Sending Changes From ChangeTracker:"
-								+ changes.length);
+				log.info("Sending Changes From ChangeTracker:" + changes.length);
 				Session session = null;
 				session = HibernateUtil.getCurrentSession();
 				List<User> users = session.getNamedQuery("getAllUsers").list();
@@ -920,8 +916,8 @@ public class FinanceTool {
 		Class<?> serverClass = getClientEquivalentServerClass(type);
 
 		if (serverObject != null) {
-			T t = (T) new ClientConvertUtil().toClientObject(serverObject, Util
-					.getClientEqualentClass(serverClass));
+			T t = (T) new ClientConvertUtil().toClientObject(serverObject,
+					Util.getClientEqualentClass(serverClass));
 			if (t instanceof ClientTransaction
 					&& companyType == Company.ACCOUNTING_TYPE_UK) {
 				Session session = HibernateUtil.getCurrentSession();
@@ -980,8 +976,9 @@ public class FinanceTool {
 
 			if (objects != null && objects.size() > 0 && objects.get(0) != null) {
 
-				return (T) new ClientConvertUtil().toClientObject(objects
-						.get(0), Util.getClientEqualentClass(serverClass));
+				return (T) new ClientConvertUtil().toClientObject(
+						objects.get(0),
+						Util.getClientEqualentClass(serverClass));
 
 			}
 
@@ -1039,8 +1036,8 @@ public class FinanceTool {
 				for (Object o : objects) {
 
 					clientObjects.add((T) new ClientConvertUtil()
-							.toClientObject(o, Util
-									.getClientEqualentClass(serverClass)));
+							.toClientObject(o,
+									Util.getClientEqualentClass(serverClass)));
 				}
 
 			}
@@ -1170,8 +1167,8 @@ public class FinanceTool {
 				FinanceDate existingLeastStartDate = modifiedStartDate;
 				FinanceDate existingHighestEndDate = modifiedStartDate;
 				Boolean exist = Boolean.FALSE;
-				list = session.getNamedQuery("getFiscalYearf").setEntity(
-						"company", company).list();
+				list = session.getNamedQuery("getFiscalYearf")
+						.setEntity("company", company).list();
 				if (list.size() > 0) {
 					Iterator i = list.iterator();
 					if (i.hasNext()) {
@@ -1210,12 +1207,12 @@ public class FinanceTool {
 							for (int k = 0; k < diff; k++) {
 
 								cal.set(modifiedYear + k, 0, 1);
-								FinanceDate startDate = (new FinanceDate(cal
-										.getTime()));
+								FinanceDate startDate = (new FinanceDate(
+										cal.getTime()));
 
 								cal.set(modifiedYear + k, 11, 31);
-								FinanceDate endDate = (new FinanceDate(cal
-										.getTime()));
+								FinanceDate endDate = (new FinanceDate(
+										cal.getTime()));
 
 								FiscalYear fs = new FiscalYear();
 								fs.setStartDate(startDate);
@@ -1230,12 +1227,12 @@ public class FinanceTool {
 							int diff = modifiedYear - existingLeastYear;
 							for (int k = 1; k <= diff; k++) {
 								cal.set(existingLeastYear + k, 0, 1);
-								FinanceDate startDate = (new FinanceDate(cal
-										.getTime()));
+								FinanceDate startDate = (new FinanceDate(
+										cal.getTime()));
 
 								cal.set(existingLeastYear + k, 0, 1);
-								FinanceDate endDate = (new FinanceDate(cal
-										.getTime()));
+								FinanceDate endDate = (new FinanceDate(
+										cal.getTime()));
 								FiscalYear fs = new FiscalYear();
 								fs.setStartDate(startDate);
 								fs.setEndDate(endDate);
@@ -1374,7 +1371,8 @@ public class FinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		List<IssuePaymentTransactionsList> issuePaymentTransactionsList = new ArrayList<IssuePaymentTransactionsList>();
-		Query query = session.getNamedQuery("getWriteCheck.by.status")
+		Query query = session
+				.getNamedQuery("getWriteCheck.by.status")
 				.setInteger("status",
 						Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 				.setEntity("company", company);
@@ -1400,7 +1398,8 @@ public class FinanceTool {
 				issuePaymentTransactionsList.add(issuePaymentTransaction);
 			}
 		}
-		query = session.getNamedQuery("getCustomerRefund.by.isvoidandstatus")
+		query = session
+				.getNamedQuery("getCustomerRefund.by.isvoidandstatus")
 				.setInteger("status",
 						Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 				.setEntity("company", company);
@@ -1426,9 +1425,10 @@ public class FinanceTool {
 			}
 		}
 
-		query = session.getNamedQuery("getPaySalesTax.by.status").setInteger(
-				"status",
-				Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+		query = session
+				.getNamedQuery("getPaySalesTax.by.status")
+				.setInteger("status",
+						Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 				.setEntity("company", company);
 		list = query.list();
 
@@ -1452,9 +1452,10 @@ public class FinanceTool {
 
 			}
 		}
-		query = session.getNamedQuery("getPayBill.form.status").setParameter(
-				"status",
-				Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+		query = session
+				.getNamedQuery("getPayBill.form.status")
+				.setParameter("status",
+						Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 				.setEntity("company", company);
 		list = query.list();
 
@@ -1479,7 +1480,8 @@ public class FinanceTool {
 			}
 		}
 
-		query = session.getNamedQuery("getCreditCardCharge.form.status")
+		query = session
+				.getNamedQuery("getCreditCardCharge.form.status")
 				.setParameter("status",
 						Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 				.setEntity("company", company);
@@ -1506,7 +1508,8 @@ public class FinanceTool {
 			}
 		}
 
-		query = session.getNamedQuery("getCashPurchase.form.status")
+		query = session
+				.getNamedQuery("getCashPurchase.form.status")
 				.setParameter("status",
 						Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 				.setEntity("company", company);
@@ -1559,10 +1562,12 @@ public class FinanceTool {
 			Company company = getCompany(companyId);
 			List<IssuePaymentTransactionsList> issuePaymentTransactionsList = new ArrayList<IssuePaymentTransactionsList>();
 
-			Query query = session.getNamedQuery(
-					"getWriteCheck.by.bankacountIdandstatus").setLong("id",
-					accountId).setInteger("status",
-					Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+			Query query = session
+					.getNamedQuery("getWriteCheck.by.bankacountIdandstatus")
+					.setLong("id", accountId)
+					.setInteger(
+							"status",
+							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 					.setEntity("company", company);
 			List list = query.list();
 			if (list != null) {
@@ -1622,10 +1627,12 @@ public class FinanceTool {
 				}
 			}
 
-			query = session.getNamedQuery(
-					"getPaySalesTax.by.payFromand.isvoid.status").setParameter(
-					"id", accountId).setParameter("status",
-					Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+			query = session
+					.getNamedQuery("getPaySalesTax.by.payFromand.isvoid.status")
+					.setParameter("id", accountId)
+					.setParameter(
+							"status",
+							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 					.setEntity("company", company);
 			list = query.list();
 			if (list != null) {
@@ -1649,10 +1656,12 @@ public class FinanceTool {
 				}
 			}
 
-			query = session.getNamedQuery(
-					"getPayBill.form.accountId.and.status").setLong(
-					"accountId", accountId).setInteger("status",
-					Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+			query = session
+					.getNamedQuery("getPayBill.form.accountId.and.status")
+					.setLong("accountId", accountId)
+					.setInteger(
+							"status",
+							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 					.setEntity("company", company);
 			list = query.list();
 			if (list != null) {
@@ -1705,10 +1714,12 @@ public class FinanceTool {
 
 				}
 			}
-			query = session.getNamedQuery(
-					"getReceiveVAT.form.accountId.and.status").setParameter(
-					"accountId", accountId).setParameter("status",
-					Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+			query = session
+					.getNamedQuery("getReceiveVAT.form.accountId.and.status")
+					.setParameter("accountId", accountId)
+					.setParameter(
+							"status",
+							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 					.setEntity("company", company);
 			list = query.list();
 			if (list != null) {
@@ -1764,10 +1775,12 @@ public class FinanceTool {
 				}
 			}
 
-			query = session.getNamedQuery(
-					"getCashPurchase.form.accountId.and.status").setParameter(
-					"accountId", accountId).setParameter("status",
-					Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+			query = session
+					.getNamedQuery("getCashPurchase.form.accountId.and.status")
+					.setParameter("accountId", accountId)
+					.setParameter(
+							"status",
+							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 					.setEntity("company", company);
 			list = query.list();
 			if (list != null) {
@@ -1860,13 +1873,12 @@ public class FinanceTool {
 
 		Query query = session
 				.createSQLQuery(new StringBuilder()
-						.append(
-								"SELECT CCC.ID, CCC.VERSION, CCC.CREATED_DATE, CCC.MODIFIED_ON, CCC.VENDOR_ID, CCC.CONTACT_ID, "
-										+ "CCC.VENDOR_ADDRESS_ID, CCC.PAYMENT_METHOD_ID, CCC.PAYFROM_ACCOUNT_ID, CCC.CHECK_NUMBER, "
-										+ "CCC.DELIVERY_DATE, CCC.MEMO, CCC.REFERENCE, CCC.TOTAL FROM CREDIT_CARD_CHARGES CCC JOIN "
-										+ "TRANSACTION T ON T.ID = CCC.ID AND MONTH(T.T_DATE) = ")
-						.append(month).append(" AND YEAR(T.T_DATE) = ").append(
-								month).toString());
+						.append("SELECT CCC.ID, CCC.VERSION, CCC.CREATED_DATE, CCC.MODIFIED_ON, CCC.VENDOR_ID, CCC.CONTACT_ID, "
+								+ "CCC.VENDOR_ADDRESS_ID, CCC.PAYMENT_METHOD_ID, CCC.PAYFROM_ACCOUNT_ID, CCC.CHECK_NUMBER, "
+								+ "CCC.DELIVERY_DATE, CCC.MEMO, CCC.REFERENCE, CCC.TOTAL FROM CREDIT_CARD_CHARGES CCC JOIN "
+								+ "TRANSACTION T ON T.ID = CCC.ID AND MONTH(T.T_DATE) = ")
+						.append(month).append(" AND YEAR(T.T_DATE) = ")
+						.append(month).toString());
 		Iterator iterator = query.list().iterator();
 		List<CreditCardCharge> list = new ArrayList<CreditCardCharge>();
 		while (iterator.hasNext()) {
@@ -1881,8 +1893,9 @@ public class FinanceTool {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 			Company company = getCompany(companyId);
-			Query query = session.getNamedQuery(
-					"getCreditsAndPayments.by.check.payeeidandbalanceid")
+			Query query = session
+					.getNamedQuery(
+							"getCreditsAndPayments.by.check.payeeidandbalanceid")
 					.setParameter("id", customer).setEntity("company", company);
 			List list = query.list();
 
@@ -1924,8 +1937,7 @@ public class FinanceTool {
 							.getPayTo().getName() : null);
 					customerRefund
 							.setPaymentMethod((cr.getPaymentMethod() != null) ? cr
-									.getPaymentMethod()
-									: null);
+									.getPaymentMethod() : null);
 					customerRefund.setAmountPaid(cr.getTotal());
 					customerRefund.setVoided(cr.isVoid());
 
@@ -1933,8 +1945,8 @@ public class FinanceTool {
 				}
 			}
 			query = session.getNamedQuery("getWriteCheck.by.payToType")
-					.setParameter("type", WriteCheck.TYPE_CUSTOMER).setEntity(
-							"company", company);
+					.setParameter("type", WriteCheck.TYPE_CUSTOMER)
+					.setEntity("company", company);
 			list = query.list();
 
 			if (list != null) {
@@ -1980,8 +1992,9 @@ public class FinanceTool {
 
 			Session session = HibernateUtil.getCurrentSession();
 			Company company = getCompany(companyId);
-			Query query = session.getNamedQuery("getEntry.by.id").setLong("id",
-					journalEntryId).setEntity("company", company);
+			Query query = session.getNamedQuery("getEntry.by.id")
+					.setLong("id", journalEntryId)
+					.setEntity("company", company);
 			List<Entry> list = query.list();
 
 			if (list != null) {
@@ -2019,9 +2032,9 @@ public class FinanceTool {
 
 			Session session = HibernateUtil.getCurrentSession();
 			Company company = getCompany(companyId);
-			Query query = session.getNamedQuery(
-					"getEstimate.by.check.id.status").setParameter("id",
-					customer).setEntity("company", company);
+			Query query = session
+					.getNamedQuery("getEstimate.by.check.id.status")
+					.setParameter("id", customer).setEntity("company", company);
 			List<Estimate> list = query.list();
 
 			if (list != null) {
@@ -2109,8 +2122,8 @@ public class FinanceTool {
 			Session session = HibernateUtil.getCurrentSession();
 			Company company = getCompany(companyId);
 			Query query = session.getNamedQuery("getJournalEntry.by.id")
-					.setParameter("id", journalEntryId).setEntity("company",
-							company);
+					.setParameter("id", journalEntryId)
+					.setEntity("company", company);
 			List<JournalEntry> list = query.list();
 
 			if (list.size() > 0) {
@@ -2147,10 +2160,8 @@ public class FinanceTool {
 				estimate.setDate(new FinanceDate((Long) (object[1])));
 				estimate.setCustomer(object[2] != null ? (Customer) session
 						.get(Customer.class, ((Long) object[2])) : null);
-				estimate
-						.setSalesPerson(object[3] != null ? (SalesPerson) session
-								.get(SalesPerson.class, ((Long) object[3]))
-								: null);
+				estimate.setSalesPerson(object[3] != null ? (SalesPerson) session
+						.get(SalesPerson.class, ((Long) object[3])) : null);
 				estimate.setTotal((Double) object[4]);
 				list.add(estimate);
 			}
@@ -2170,9 +2181,10 @@ public class FinanceTool {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery(
-					"getNextIssuePaymentCheckNumber").setParameter("accountID",
-					account).setParameter("companyId", companyId);
+			Query query = session
+					.getNamedQuery("getNextIssuePaymentCheckNumber")
+					.setParameter("accountID", account)
+					.setParameter("companyId", companyId);
 			List list = query.list();
 
 			if (list != null) {
@@ -2485,10 +2497,11 @@ public class FinanceTool {
 
 			Session session = HibernateUtil.getCurrentSession();
 			Company company = getCompany(companyId);
-			Query query = session.getNamedQuery(
-					"getEntry.by.vendorId.creditand.balanceDue.orderbyid")
-					.setParameter("id", vendorId).setParameter("company",
-							company);
+			Query query = session
+					.getNamedQuery(
+							"getEntry.by.vendorId.creditand.balanceDue.orderbyid")
+					.setParameter("id", vendorId)
+					.setParameter("company", company);
 
 			List<JournalEntry> openingBalanceEntries = query.list();
 
@@ -2512,8 +2525,8 @@ public class FinanceTool {
 
 			query = session
 					.getNamedQuery("getPayBillTransactionsListForVendor")
-					.setParameter("vendorId", vendorId).setParameter(
-							"companyId", companyId);
+					.setParameter("vendorId", vendorId)
+					.setParameter("companyId", companyId);
 			// FIXME ::: check the sql query and change it to hql query if
 			// required
 			List list = query.list();
@@ -2562,10 +2575,11 @@ public class FinanceTool {
 			FinanceDate paymentDate = null;
 			paymentDate = new FinanceDate(paymentDate1);
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery(
-					"getReceivePaymentTransactionsListForCustomer")
-					.setParameter("customerId", customerId).setParameter(
-							"companyId", companyId);
+			Query query = session
+					.getNamedQuery(
+							"getReceivePaymentTransactionsListForCustomer")
+					.setParameter("customerId", customerId)
+					.setParameter("companyId", companyId);
 			List list = query.list();
 
 			// Query query = session.getNamedQuery(
@@ -2575,10 +2589,11 @@ public class FinanceTool {
 
 			List<ReceivePaymentTransactionList> queryResult = new ArrayList<ReceivePaymentTransactionList>();
 			Company company = getCompany(companyId);
-			query = session.getNamedQuery(
-					"getEntry.by.customerId.debitand.balanceDue.orderbyid")
-					.setParameter("id", customerId).setParameter("company",
-							company);
+			query = session
+					.getNamedQuery(
+							"getEntry.by.customerId.debitand.balanceDue.orderbyid")
+					.setParameter("id", customerId)
+					.setParameter("company", company);
 
 			List<JournalEntry> openingBalanceEntries = query.list();
 
@@ -2655,9 +2670,9 @@ public class FinanceTool {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
-		Query query = session.getNamedQuery(
-				"getcreditandPayments.by.Payieeid.and.balance").setParameter(
-				"id", vendor).setEntity("company", company);
+		Query query = session
+				.getNamedQuery("getcreditandPayments.by.Payieeid.and.balance")
+				.setParameter("id", vendor).setEntity("company", company);
 		List<CreditsAndPayments> list = query.list();
 
 		// if (list != null) {
@@ -2736,9 +2751,9 @@ public class FinanceTool {
 			Session session = HibernateUtil.getCurrentSession();
 			Company company = getCompany(companyId);
 			Query query = session.getNamedQuery("getAccount.by.id.and.type")
-					.setParameter("id", accountId).setParameter("type",
-							Account.TYPE_OTHER_CURRENT_LIABILITY).setEntity(
-							"company", company);
+					.setParameter("id", accountId)
+					.setParameter("type", Account.TYPE_OTHER_CURRENT_LIABILITY)
+					.setEntity("company", company);
 			List list = query.list();
 
 			if (list != null) {
@@ -2763,9 +2778,9 @@ public class FinanceTool {
 			Company company = getCompany(companyId);
 			Query query = session.getNamedQuery("getAccount.by.name.and.type")
 
-			.setParameter("name", accountName).setParameter("type",
-					Account.TYPE_OTHER_CURRENT_LIABILITY).setEntity("company",
-					company);
+			.setParameter("name", accountName)
+					.setParameter("type", Account.TYPE_OTHER_CURRENT_LIABILITY)
+					.setEntity("company", company);
 			List list = query.list();
 
 			if (list != null) {
@@ -2810,10 +2825,11 @@ public class FinanceTool {
 			throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
-		Query query = session.getNamedQuery(
-				"get.canVoidOrEditTransaction.from.transactionID")
-				.setParameter("id", invoiceOrVendorBillId).setParameter(
-						"company", company);
+		Query query = session
+				.getNamedQuery(
+						"get.canVoidOrEditTransaction.from.transactionID")
+				.setParameter("id", invoiceOrVendorBillId)
+				.setParameter("company", company);
 		List list = query.list();
 
 		return (Boolean) list.iterator().next();
@@ -2919,10 +2935,8 @@ public class FinanceTool {
 				cashSale.setDate((new FinanceDate((Long) object[1])));
 				cashSale.setCustomer(object[2] != null ? (Customer) session
 						.get(Customer.class, ((Long) object[2])) : null);
-				cashSale
-						.setSalesPerson(object[3] != null ? (SalesPerson) session
-								.get(Vendor.class, ((Long) object[3]))
-								: null);
+				cashSale.setSalesPerson(object[3] != null ? (SalesPerson) session
+						.get(Vendor.class, ((Long) object[3])) : null);
 				cashSale.setTotal((Double) object[4]);
 				// cashSale.setID((object[5] == null ? null : ((String)
 				// object[5])));
@@ -3286,10 +3300,10 @@ public class FinanceTool {
 			Company company = getCompany(companyId);
 			Integer range[] = company.getNominalCodeRange(accountSubBaseType);
 
-			Query query = session.getNamedQuery(
-					"getNextNominalCodeForGivenAccountType").setParameter(
-					"subBaseType", accountSubBaseType).setParameter(
-					"companyId", companyId);
+			Query query = session
+					.getNamedQuery("getNextNominalCodeForGivenAccountType")
+					.setParameter("subBaseType", accountSubBaseType)
+					.setParameter("companyId", companyId);
 			List list = query.list();
 			Long nextNominalCode = (list.size() > 0) ? ((Long) list.get(0)) + 1
 					: range[0];
@@ -3316,11 +3330,11 @@ public class FinanceTool {
 
 			Session session = HibernateUtil.getCurrentSession();
 			Company company = getCompany(companyId);
-			Query query = session.getNamedQuery("getAccount").setParameter(
-					"type1", Account.TYPE_INCOME).setParameter("type2",
-					Account.TYPE_EXPENSE).setParameter("type3",
-					Account.TYPE_COST_OF_GOODS_SOLD).setEntity("company",
-					company);
+			Query query = session.getNamedQuery("getAccount")
+					.setParameter("type1", Account.TYPE_INCOME)
+					.setParameter("type2", Account.TYPE_EXPENSE)
+					.setParameter("type3", Account.TYPE_COST_OF_GOODS_SOLD)
+					.setEntity("company", company);
 			List<Account> list = query.list();
 
 			if (list != null) {
@@ -3339,9 +3353,10 @@ public class FinanceTool {
 
 			Session session = HibernateUtil.getCurrentSession();
 			Company company = getCompany(companyId);
-			Query query = session.getNamedQuery(
-					"getTransactionMakeDeposit.by.id").setParameter("id",
-					transactionMakeDepositId).setEntity("company", company);
+			Query query = session
+					.getNamedQuery("getTransactionMakeDeposit.by.id")
+					.setParameter("id", transactionMakeDepositId)
+					.setEntity("company", company);
 			List list = query.list();
 
 			if (list != null) {
@@ -3731,9 +3746,9 @@ public class FinanceTool {
 					}
 					paySalesTaxList = new PaySalesTaxEntries();
 				}
-				if (canAddTaxRateCalculationToPaySalesTax(taxRateCalculation
-						.getTaxAgency(), financeDate, taxRateCalculation
-						.getTransactionDate())) {
+				if (canAddTaxRateCalculationToPaySalesTax(
+						taxRateCalculation.getTaxAgency(), financeDate,
+						taxRateCalculation.getTransactionDate())) {
 					paySalesTaxList.setBalance(paySalesTaxList.getBalance()
 							+ taxRateCalculation.getTaxDue());
 					paySalesTaxList.setAmount(paySalesTaxList.getAmount()
@@ -3937,8 +3952,8 @@ public class FinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 
 		Query query = session.getNamedQuery("getEstimatesAndSalesOrdersList")
-				.setParameter("customerId", customerId).setParameter(
-						"companyId", companyId);
+				.setParameter("customerId", customerId)
+				.setParameter("companyId", companyId);
 
 		List list = query.list();
 		List<EstimatesAndSalesOrdersList> esl = new ArrayList<EstimatesAndSalesOrdersList>();
@@ -3969,8 +3984,8 @@ public class FinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 
 		Query query = session.getNamedQuery("getPurchasesAndItemReceipts")
-				.setParameter("vendorId", vendorId).setParameter("companyId",
-						companyId);
+				.setParameter("vendorId", vendorId)
+				.setParameter("companyId", companyId);
 		;
 
 		List list = query.list();
@@ -4071,8 +4086,8 @@ public class FinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 
 		Query query = session.getNamedQuery("getNotReceivedPurchaseOrdersList")
-				.setParameter("vendorId", vendorID).setParameter("companyId",
-						companyId);
+				.setParameter("vendorId", vendorID)
+				.setParameter("companyId", companyId);
 		;
 		// FIXME ::: check the sql query and change it to hql query if required
 
@@ -4131,9 +4146,9 @@ public class FinanceTool {
 			throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
-		Query query = session.getNamedQuery(
-				"getFixedAsset.by.statusAnd.purchaseDate").setParameter("date",
-				(new FinanceDate(depreciationTo)))
+		Query query = session
+				.getNamedQuery("getFixedAsset.by.statusAnd.purchaseDate")
+				.setParameter("date", (new FinanceDate(depreciationTo)))
 				.setEntity("company", company);
 		List<FixedAsset> fixedAssets = query.list();
 		org.hibernate.Transaction tx = session.beginTransaction();
@@ -4181,10 +4196,10 @@ public class FinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		DecimalFormat decimalFormat = new DecimalFormat("##.##");
-		Query query = session.getNamedQuery(
-				"getFixedAsset.by.checkStatusand.purchaseDate").setParameter(
-				"date", (new FinanceDate(depreciationTo))).setEntity("company",
-				company);
+		Query query = session
+				.getNamedQuery("getFixedAsset.by.checkStatusand.purchaseDate")
+				.setParameter("date", (new FinanceDate(depreciationTo)))
+				.setEntity("company", company);
 		List<FixedAsset> fixedAssets = query.list();
 
 		List<Long> fixedAssetIDs = new ArrayList<Long>();
@@ -4194,18 +4209,13 @@ public class FinanceTool {
 		Map<Long, List<DepreciableFixedAssetsEntry>> accountViceFixedAssets = new HashMap<Long, List<DepreciableFixedAssetsEntry>>();
 		for (FixedAsset fixedAsset : fixedAssets) {
 			double amountToBeDepreciatedforThisFixedAsset = Double
-					.parseDouble(decimalFormat
-							.format(fixedAsset
-									.getCalculatedDepreciatedAmount(
-											fixedAsset
-													.getPurchaseDate()
-													.compareTo(
-															new FinanceDate(
-																	depreciationFrom)) <= 0 ? (new FinanceDate(
-													depreciationFrom))
-													: fixedAsset
-															.getPurchaseDate(),
-											(new FinanceDate(depreciationTo)))));
+					.parseDouble(decimalFormat.format(fixedAsset
+							.getCalculatedDepreciatedAmount(
+									fixedAsset.getPurchaseDate().compareTo(
+											new FinanceDate(depreciationFrom)) <= 0 ? (new FinanceDate(
+											depreciationFrom)) : fixedAsset
+											.getPurchaseDate(),
+									(new FinanceDate(depreciationTo)))));
 			// if
 			// (accountViceFixedAssets.containsKey(fixedAsset.getAssetAccount()//
 
@@ -4254,12 +4264,13 @@ public class FinanceTool {
 			throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
-		Query query = session.getNamedQuery(
-				"getDepreciation.by.check.idandStatus.depreciationFor")
+		Query query = session
+				.getNamedQuery(
+						"getDepreciation.by.check.idandStatus.depreciationFor")
 				.setParameter("depreciationFor",
 						Depreciation.DEPRECIATION_FOR_ALL_FIXEDASSET)
-				.setParameter("status", Depreciation.APPROVE).setEntity(
-						"company", company);
+				.setParameter("status", Depreciation.APPROVE)
+				.setEntity("company", company);
 		List<Depreciation> list = query.list();
 		if (list != null && list.size() > 0 && list.get(0) != null) {
 			Depreciation dep = list.get(0);
@@ -4280,8 +4291,8 @@ public class FinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getDepreciation.by.ToandStatus")
 				.setParameter("deprediationTo", (rollBackDepreciationTo))
-				.setParameter("status", Depreciation.APPROVE).setEntity(
-						"company", company);
+				.setParameter("status", Depreciation.APPROVE)
+				.setEntity("company", company);
 		List<Depreciation> list = query.list();
 		for (Depreciation dep : list) {
 			// if (dep.getFixedAsset().getStatus() ==
@@ -4407,8 +4418,8 @@ public class FinanceTool {
 			 * Depreciation should calculate on the Book value in that year.
 			 */
 			double amount = fixedAsset.getDepreciationMethod() == Depreciation.METHOD_STRAIGHT_LINE ? fixedAsset
-					.getPurchasePrice()
-					: fixedAsset.getOpeningBalanceForFiscalYear();
+					.getPurchasePrice() : fixedAsset
+					.getOpeningBalanceForFiscalYear();
 
 			/**
 			 * To calculate the depreciation amount for this month based on the
@@ -4431,8 +4442,7 @@ public class FinanceTool {
 			 * this calculated depreciation amount for this month.
 			 */
 			fixedAsset.setAccumulatedDepreciationAmount(fixedAsset
-					.getAccumulatedDepreciationAmount()
-					+ depreciationAmount);
+					.getAccumulatedDepreciationAmount() + depreciationAmount);
 
 			/**
 			 * Adjusting the from date so that it will hold the next month last
@@ -4444,8 +4454,8 @@ public class FinanceTool {
 			fromCal.clear();
 			fromCal.set(Calendar.YEAR, year);
 			fromCal.set(Calendar.MONTH, month);
-			fromCal.set(Calendar.DATE, fromCal
-					.getActualMaximum(Calendar.DAY_OF_MONTH));
+			fromCal.set(Calendar.DATE,
+					fromCal.getActualMaximum(Calendar.DAY_OF_MONTH));
 
 			/**
 			 * Adjusting the opening balance of this Fixed Asset each year after
@@ -4498,8 +4508,8 @@ public class FinanceTool {
 				.getNamedQuery("getDepreciation.by.depreciateFrom")
 				.setParameter("depreciateFrom",
 						(new FinanceDate(rollBackDepreciationTo)))
-				.setParameter("status", Depreciation.APPROVE).setEntity(
-						"company", company);
+				.setParameter("status", Depreciation.APPROVE)
+				.setEntity("company", company);
 		List<Depreciation> list = query.list();
 		double rollBackDepAmt = 0.0;
 		for (Depreciation dep : list) {
@@ -4521,8 +4531,8 @@ public class FinanceTool {
 				.getCurrentSession() : HibernateUtil.getCurrentSession();
 
 		Query query = session.getNamedQuery("getFixedAsset.from.id")
-				.setParameter("id", fixedAssetID).setParameter("company",
-						company);
+				.setParameter("id", fixedAssetID)
+				.setParameter("company", company);
 
 		List<FixedAsset> list = query.list();
 		double rollBackDepAmt = 0.0;
@@ -4592,8 +4602,8 @@ public class FinanceTool {
 		Calendar lastDepreciationDateCal = new GregorianCalendar();
 		lastDepreciationDateCal.setTime(lastDepreciationDate.getAsDateObject());
 		lastDepreciationDateCal.set(Calendar.DAY_OF_MONTH, 01);
-		lastDepreciationDateCal.set(Calendar.MONTH, lastDepreciationDateCal
-				.get(Calendar.MONTH) + 1);
+		lastDepreciationDateCal.set(Calendar.MONTH,
+				lastDepreciationDateCal.get(Calendar.MONTH) + 1);
 
 		if (fixedAsset.isNoDepreciation()) {
 
@@ -4606,11 +4616,11 @@ public class FinanceTool {
 			startDateCal.setTime(startDate.getAsDateObject());
 
 			Calendar soldYearStartDateCal = new GregorianCalendar(
-					soldOrDisposedDateCal.get(Calendar.YEAR), startDateCal
-							.get(Calendar.MONTH), startDateCal
-							.get(Calendar.DAY_OF_MONTH));
-			soldYearStartDateCal.set(Calendar.MONTH, soldYearStartDateCal
-					.get(Calendar.MONTH) - 1);
+					soldOrDisposedDateCal.get(Calendar.YEAR),
+					startDateCal.get(Calendar.MONTH),
+					startDateCal.get(Calendar.DAY_OF_MONTH));
+			soldYearStartDateCal.set(Calendar.MONTH,
+					soldYearStartDateCal.get(Calendar.MONTH) - 1);
 			soldYearStartDateCal.set(Calendar.DAY_OF_MONTH,
 					soldYearStartDateCal
 							.getActualMaximum(Calendar.DAY_OF_MONTH));
@@ -4636,9 +4646,9 @@ public class FinanceTool {
 				depreciationTobePosted += ")";
 
 				depreciationToBePostedAmount = getCalculatedDepreciatedAmount(
-						fixedAsset.getDepreciationMethod(), fixedAsset
-								.getDepreciationRate(), fixedAsset
-								.getPurchasePrice(), depFrom.getDate(),
+						fixedAsset.getDepreciationMethod(),
+						fixedAsset.getDepreciationRate(),
+						fixedAsset.getPurchasePrice(), depFrom.getDate(),
 						new FinanceDate(soldYearStartDateCal.getTime())
 								.getDate(), companyId);
 				depreciationToBePostedAmount = Double.parseDouble(decimalFormat
@@ -4659,8 +4669,8 @@ public class FinanceTool {
 			}
 			// }
 
-			depreciationTillDate = new FinanceDate(soldYearStartDateCal
-					.getTime());
+			depreciationTillDate = new FinanceDate(
+					soldYearStartDateCal.getTime());
 
 		} else {
 			// this is for depriciation upto given month
@@ -4689,9 +4699,9 @@ public class FinanceTool {
 							.format(depreciationTillDate);
 					depreciationTobePosted += ")";
 					depreciationToBePostedAmount = getCalculatedDepreciatedAmount(
-							fixedAsset.getDepreciationMethod(), fixedAsset
-									.getDepreciationRate(), fixedAsset
-									.getPurchasePrice(), depFrom.getDate(),
+							fixedAsset.getDepreciationMethod(),
+							fixedAsset.getDepreciationRate(),
+							fixedAsset.getPurchasePrice(), depFrom.getDate(),
 							depreciationTillDate.getDate(), companyId);
 					depreciationToBePostedAmount = Double
 							.parseDouble(decimalFormat
@@ -4722,13 +4732,14 @@ public class FinanceTool {
 		 */
 		Map<String, Double> disposalSummary = new LinkedHashMap<String, Double>();
 		disposalSummary.put(purchasedDate, fixedAsset.getPurchasePrice());
-		if (!DecimalUtil.isEquals(fixedAsset.getPurchasePrice(), fixedAsset
-				.getBookValue())) {
+		if (!DecimalUtil.isEquals(fixedAsset.getPurchasePrice(),
+				fixedAsset.getBookValue())) {
 			// disposalSummary.put(currentAccumulatedDepreciation, fixedAsset
 			// .getAccumulatedDepreciationAmount());
 
-			disposalSummary.put(currentAccumulatedDepreciation, (fixedAsset
-					.getPurchasePrice() - fixedAsset.getBookValue()));
+			disposalSummary
+					.put(currentAccumulatedDepreciation, (fixedAsset
+							.getPurchasePrice() - fixedAsset.getBookValue()));
 		}
 		if (!DecimalUtil.isEquals(depreciationToBePostedAmount, 0.0)) {
 			disposalSummary.put(depreciationTobePosted,
@@ -4755,8 +4766,7 @@ public class FinanceTool {
 		double salesPrice = fixedAsset.getSalesPrice();
 		double purchasePrice = fixedAsset.getPurchasePrice();
 		double lessAccumulatedDepreciationAmount = fixedAsset
-				.getPurchasePrice()
-				- fixedAsset.getBookValue();
+				.getPurchasePrice() - fixedAsset.getBookValue();
 
 		/**
 		 * calculating whether there will be any capital gain or not for this
@@ -4764,14 +4774,14 @@ public class FinanceTool {
 		 */
 
 		double totalCapitalGain = Double
-				.parseDouble(decimalFormat
-						.format(DecimalUtil.isGreaterThan(salesPrice,
-								purchasePrice) ? (salesPrice - purchasePrice)
-								: 0.0));
+				.parseDouble(decimalFormat.format(DecimalUtil.isGreaterThan(
+						salesPrice, purchasePrice) ? (salesPrice - purchasePrice)
+						: 0.0));
 
 		double calculatedLessAccDep = (fixedAsset.getPurchasePrice() - fixedAsset
 				.getBookValue())
-				+ depreciationToBePostedAmount - rollBackDepreciatinAmount;
+				+ depreciationToBePostedAmount
+				- rollBackDepreciatinAmount;
 		// long factor = (long) Math.pow(10, 2);
 		calculatedLessAccDep = calculatedLessAccDep * 100;
 		long tmp = Math.round(calculatedLessAccDep);
@@ -4846,8 +4856,8 @@ public class FinanceTool {
 		}
 
 		query = session.getNamedQuery("getFixedAsset.by.purchaseDate")
-				.setParameter("purchaseDate", (newStartDate)).setEntity(
-						"company", company);
+				.setParameter("purchaseDate", (newStartDate))
+				.setEntity("company", company);
 		List<FixedAsset> assetsList = query.list();
 		for (FixedAsset fixedAsset : assetsList) {
 
@@ -4935,8 +4945,8 @@ public class FinanceTool {
 			FinanceDate date = fs.getStartDate();
 			Calendar cal = new GregorianCalendar();
 			cal.setTime(date.getAsDateObject());
-			cal.set(Calendar.DAY_OF_MONTH, depStartDateCal
-					.get(Calendar.DAY_OF_MONTH));
+			cal.set(Calendar.DAY_OF_MONTH,
+					depStartDateCal.get(Calendar.DAY_OF_MONTH));
 			cal.set(Calendar.MONTH, depStartDateCal.get(Calendar.MONTH));
 			startDates.add(new ClientFinanceDate(cal.getTime()));
 		}
@@ -4961,8 +4971,8 @@ public class FinanceTool {
 		// "select distinct(t.transactionDate) from com.vimukti.accounter.core.Transaction t where t.isVoid='false'"
 		// );
 		Query query = session.getNamedQuery("getdistnct.from.traction.by.date")
-				.setParameter("status", Depreciation.APPROVE).setParameter(
-						"company", company);
+				.setParameter("status", Depreciation.APPROVE)
+				.setParameter("company", company);
 		List list = query.list();
 		for (Object dep : list) {
 			fromDates.add(new ClientFinanceDate((Long) dep));
@@ -5058,8 +5068,8 @@ public class FinanceTool {
 
 				cal.clear();
 				cal.setTime(tempCal.getTime());
-				cal.set(Calendar.DAY_OF_MONTH, tempCal
-						.get(Calendar.DAY_OF_MONTH) - 1);
+				cal.set(Calendar.DAY_OF_MONTH,
+						tempCal.get(Calendar.DAY_OF_MONTH) - 1);
 
 				FinanceDate endDate = new FinanceDate(cal.getTime());
 
@@ -5091,8 +5101,8 @@ public class FinanceTool {
 				Calendar cal = Calendar.getInstance();
 
 				cal.setTime(tempCal.getTime());
-				cal.set(Calendar.DAY_OF_MONTH, tempCal
-						.get(Calendar.DAY_OF_MONTH) + 1);
+				cal.set(Calendar.DAY_OF_MONTH,
+						tempCal.get(Calendar.DAY_OF_MONTH) + 1);
 
 				FinanceDate startDate = new FinanceDate(cal.getTime());
 
@@ -5174,9 +5184,10 @@ public class FinanceTool {
 			final FinanceDate endDate, long companyId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery("getTrialBalance").setParameter(
-				"companyId", companyId).setParameter("startDate",
-				startDate.getDate()).setParameter("endDate", endDate.getDate());
+		Query query = session.getNamedQuery("getTrialBalance")
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 		List l = query.list();
 
 		Object[] object = null;
@@ -5199,8 +5210,8 @@ public class FinanceTool {
 					.intValue());
 
 			Account parentAccount = (object[5] == null) ? null
-					: (Account) session.get(Account.class, ((Long) object[5])
-							.longValue());
+					: (Account) session.get(Account.class,
+							((Long) object[5]).longValue());
 			if (parentAccount != null) {
 				t.setParentAccount(parentAccount.getID());
 			}
@@ -5241,14 +5252,13 @@ public class FinanceTool {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getSalesByCustomerDetail")
-				.setParameter("companyId", companyId).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate());
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 		List l = query.list();
 
 		return (l != null && l.size() > 0) ? createSalesByCustomerDetailReport(new ArrayList<SalesByCustomerDetail>(
-				l))
-				: null;
+				l)) : null;
 
 	}
 
@@ -5344,9 +5354,10 @@ public class FinanceTool {
 			final FinanceDate endDate, long companyId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery("getAgedDebtors").setParameter(
-				"companyId", companyId).setParameter("startDate",
-				startDate.getDate()).setParameter("endDate", endDate.getDate());
+		Query query = session.getNamedQuery("getAgedDebtors")
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 		List l = query.list();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		return prepareAgedDebotOrsorCreditors(new ArrayList<AgedDebtors>(l),
@@ -5360,8 +5371,8 @@ public class FinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		Query query = session.getNamedQuery("getTransactionDate.by.dates")
-				.setParameter("startDate", startDate).setParameter("endDate",
-						endDate).setEntity("company", company);
+				.setParameter("startDate", startDate)
+				.setParameter("endDate", endDate).setEntity("company", company);
 		return null;
 	}
 
@@ -5369,9 +5380,10 @@ public class FinanceTool {
 			FinanceDate endDate, long companyId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery("getAgedCreditors").setParameter(
-				"companyId", companyId).setParameter("startDate",
-				startDate.getDate()).setParameter("endDate", endDate.getDate());
+		Query query = session.getNamedQuery("getAgedCreditors")
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 		List l = query.list();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		return prepareAgedDebotOrsorCreditors(new ArrayList<AgedDebtors>(l),
@@ -5409,8 +5421,8 @@ public class FinanceTool {
 			agedDebtors.setTransactionId((Long) object[12]);
 			agedDebtors
 					.setMemo(object[13] != null ? (String) object[13] : null);
-			long ageing = getAgeing(agedDebtors.getDate(), agedDebtors
-					.getDueDate(), endDate, companyId);
+			long ageing = getAgeing(agedDebtors.getDate(),
+					agedDebtors.getDueDate(), endDate, companyId);
 			int category = getCategory(ageing);
 			agedDebtors.setAgeing(ageing);
 			agedDebtors.setCategory(category);
@@ -5490,9 +5502,9 @@ public class FinanceTool {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getSalesByCustomerSummary")
-				.setParameter("companyId", companyId).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate());
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 		List l = query.list();
 
 		Object[] object = null;
@@ -5520,9 +5532,9 @@ public class FinanceTool {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getSalesByItemDetail")
-				.setParameter("companyId", companyId).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate());
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 		List l = query.list();
 
 		return createSalesByItemDetail(new ArrayList<SalesByCustomerDetail>(l));
@@ -5605,9 +5617,9 @@ public class FinanceTool {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getSalesByItemSummary")
-				.setParameter("companyId", companyId).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate());
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -5663,10 +5675,10 @@ public class FinanceTool {
 		long end = date[1] != null ? date[1].getDate() : endDate.getDate();
 
 		Query query = session.getNamedQuery("getCustomerTransactionHistory")
-				.setParameter("companyId", companyId).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate()).setParameter("start", start)
-				.setParameter("end", end);
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("start", start).setParameter("end", end);
 
 		List l = query.list();
 
@@ -5712,8 +5724,7 @@ public class FinanceTool {
 
 			transactionHistory
 					.setBeginningBalance((object[13] != null ? ((Double) object[13])
-							.doubleValue()
-							: 0.0));
+							.doubleValue() : 0.0));
 			transactionHistory
 					.setIsVoid(object[14] != null ? (Boolean) object[14]
 							: false);
@@ -5722,8 +5733,8 @@ public class FinanceTool {
 			transactionHistory.setMemo((String) object[16]);
 
 			Transaction t = (Transaction) getServerObjectForid(
-					AccounterCoreType.TRANSACTION, transactionHistory
-							.getTransactionId());
+					AccounterCoreType.TRANSACTION,
+					transactionHistory.getTransactionId());
 			Account account = (t).getEffectingAccount() == null ? t.getPayee() == null ? null
 					: t.getPayee().getAccount()
 					: t.getEffectingAccount();
@@ -5778,8 +5789,8 @@ public class FinanceTool {
 		Query query = session.getNamedQuery("getPurchasesByVendorDetail")
 				.setParameter("companyId", companyId)
 
-				.setParameter("startDate", startDate.getDate()).setParameter(
-						"endDate", endDate.getDate());
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -5840,9 +5851,9 @@ public class FinanceTool {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getPurchasesByVendorSummary")
-				.setParameter("companyId", companyId).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate());
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -5870,9 +5881,9 @@ public class FinanceTool {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getPurchasesByItemDetail")
-				.setParameter("companyId", companyId).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate());
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -5929,9 +5940,9 @@ public class FinanceTool {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getPurchasesByItemSummary")
-				.setParameter("companyId", companyId).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate());
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -5981,9 +5992,10 @@ public class FinanceTool {
 				.get(Calendar.DAY_OF_MONTH);
 
 		Query query = session.getNamedQuery("getVendorTransactionHistory")
-				.setParameter("companyId", companyId).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate()).setParameter("start", start)
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("start", start)
 				.setParameter("end", new ClientFinanceDate(end).getDate());
 
 		List l = query.list();
@@ -6049,14 +6061,13 @@ public class FinanceTool {
 					.longValue());
 			transactionHistory
 					.setBeginningBalance((object[15] != null ? (((Double) object[15])
-							.doubleValue())
-							: 0.0));
+							.doubleValue()) : 0.0));
 			transactionHistory
 					.setStatus((object[16] != null) ? (Integer) object[16] : 0);
 
 			Transaction t = (Transaction) getServerObjectForid(
-					AccounterCoreType.TRANSACTION, transactionHistory
-							.getTransactionId());
+					AccounterCoreType.TRANSACTION,
+					transactionHistory.getTransactionId());
 
 			if (transactionHistory.getType() == Transaction.TYPE_CREDIT_CARD_EXPENSE)
 				transactionHistory.setName(t.getInvolvedPayee().getName());
@@ -6112,9 +6123,9 @@ public class FinanceTool {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getAmountsDueToVendor")
-				.setParameter("companyId", companyId).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate());
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -6157,9 +6168,9 @@ public class FinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		Query query = session.getNamedQuery("getMostProfitableCustomers")
-				.setParameter("companyId", companyId).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate());
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -6230,9 +6241,9 @@ public class FinanceTool {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getTransactionDetailByTaxItem")
-				.setParameter("companyId", companyId).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate());
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -6249,12 +6260,13 @@ public class FinanceTool {
 			final FinanceDate endDate, long companyId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery(
-				"getTransactionDetailByTaxItemForParticularTaxItem")
-				.setParameter("companyId", companyId).setParameter(
-						"taxItemName", taxItemName).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate());
+		Query query = session
+				.getNamedQuery(
+						"getTransactionDetailByTaxItemForParticularTaxItem")
+				.setParameter("companyId", companyId)
+				.setParameter("taxItemName", taxItemName)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -6323,10 +6335,11 @@ public class FinanceTool {
 			final long accountId, long companyId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery("getAccountRegister").setParameter(
-				"companyId", companyId).setParameter("accountId", accountId)
-				.setParameter("startDate", startDate.getDate()).setParameter(
-						"endDate", endDate.getDate());
+		Query query = session.getNamedQuery("getAccountRegister")
+				.setParameter("companyId", companyId)
+				.setParameter("accountId", accountId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -6389,9 +6402,9 @@ public class FinanceTool {
 
 			Query query = session
 					.getNamedQuery("getTransactionDetailByAccount")
-					.setParameter("companyId", companyId).setParameter(
-							"startDate", startDate.getDate()).setParameter(
-							"endDate", endDate.getDate());
+					.setParameter("companyId", companyId)
+					.setParameter("startDate", startDate.getDate())
+					.setParameter("endDate", endDate.getDate());
 
 			List list = query.list();
 
@@ -6475,10 +6488,10 @@ public class FinanceTool {
 		end = (end * 100) + cal.get(Calendar.DAY_OF_MONTH);
 
 		Query query = session.getNamedQuery("getSalesTaxLiabilityReport")
-				.setParameter("companyId", companyId).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate()).setParameter("start", start)
-				.setParameter("end", end);
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("start", start).setParameter("end", end);
 
 		List l = query.list();
 
@@ -6517,9 +6530,9 @@ public class FinanceTool {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getPurchaseReportItems")
-				.setParameter("companyId", companyId).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate());
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -6546,8 +6559,8 @@ public class FinanceTool {
 		Query query = session.getNamedQuery("getSalesReportItems")
 				.setParameter("companyId", companyId)
 
-				.setParameter("startDate", startDate.getDate()).setParameter(
-						"endDate", endDate.getDate());
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -6574,8 +6587,8 @@ public class FinanceTool {
 		Query query = session.getNamedQuery("getTransactionHistoryCustomers")
 				.setParameter("companyId", companyId)
 
-				.setParameter("startDate", startDate.getDate()).setParameter(
-						"endDate", endDate.getDate());
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -6600,8 +6613,8 @@ public class FinanceTool {
 		Query query = session.getNamedQuery("getTransactionHistoryVendors")
 				.setParameter("companyId", companyId)
 
-				.setParameter("startDate", startDate.getDate()).setParameter(
-						"endDate", endDate.getDate());
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -6646,11 +6659,12 @@ public class FinanceTool {
 			long companyId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery(
-				"getPurchasesByItemDetailForParticularItem").setParameter(
-				"companyId", companyId).setParameter("itemName", itemName)
-				.setParameter("startDate", startDate.getDate()).setParameter(
-						"endDate", endDate.getDate());
+		Query query = session
+				.getNamedQuery("getPurchasesByItemDetailForParticularItem")
+				.setParameter("companyId", companyId)
+				.setParameter("itemName", itemName)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 		return createPurchasesByItemDetail(new ArrayList<SalesByCustomerDetail>(
@@ -6664,11 +6678,12 @@ public class FinanceTool {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		List l = ((Query) session.getNamedQuery(
-				"getPurchasesByVendorDetailForParticularVendor").setParameter(
-				"companyId", companyId).setParameter("vendorName", vendorName)
-				.setParameter("startDate", startDate.getDate()).setParameter(
-						"endDate", endDate.getDate())).list();
+		List l = ((Query) session
+				.getNamedQuery("getPurchasesByVendorDetailForParticularVendor")
+				.setParameter("companyId", companyId)
+				.setParameter("vendorName", vendorName)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())).list();
 
 		return createPurchasesByVendorDetail(new ArrayList<SalesByCustomerDetail>(
 				l));
@@ -6681,12 +6696,14 @@ public class FinanceTool {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		List l = ((Query) session.getNamedQuery(
-				"getSalesByCustomerDetailForParticularCustomer").setParameter(
-				"companyId", companyId).setParameter("customerName",
-				customerName).setParameter("startDate",
+		List l = ((Query) session
+				.getNamedQuery("getSalesByCustomerDetailForParticularCustomer")
+				.setParameter("companyId", companyId)
+				.setParameter("customerName", customerName)
+				.setParameter("startDate",
 
-		startDate.getDate()).setParameter("endDate", endDate.getDate())).list();
+				startDate.getDate()).setParameter("endDate", endDate.getDate()))
+				.list();
 
 		return createSalesByCustomerDetailReport(new ArrayList<SalesByCustomerDetail>(
 				l));
@@ -6699,11 +6716,12 @@ public class FinanceTool {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		List l = ((Query) session.getNamedQuery(
-				"getSalesByItemDetailForParticularItem").setParameter(
-				"companyId", companyId).setParameter(
+		List l = ((Query) session
+				.getNamedQuery("getSalesByItemDetailForParticularItem")
+				.setParameter("companyId", companyId).setParameter(
 
-		"itemName", itemName).setParameter("startDate", startDate.getDate())
+				"itemName", itemName)
+				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate())).list();
 
 		return createSalesByItemDetail(new ArrayList<SalesByCustomerDetail>(l));
@@ -6718,13 +6736,14 @@ public class FinanceTool {
 
 			Session session = HibernateUtil.getCurrentSession();
 
-			Query query = session.getNamedQuery(
-					"getTransactionDetailByAccount_ForParticularAccount")
-					.setParameter("companyId", companyId).setParameter(
-							"accountName", accountName).setParameter(
+			Query query = session
+					.getNamedQuery(
+							"getTransactionDetailByAccount_ForParticularAccount")
+					.setParameter("companyId", companyId)
+					.setParameter("accountName", accountName).setParameter(
 
-					"startDate", startDate.getDate()).setParameter("endDate",
-							endDate.getDate());
+					"startDate", startDate.getDate())
+					.setParameter("endDate", endDate.getDate());
 
 			List<TransactionDetailByAccount> transactionDetailByAccountList = new ArrayList<TransactionDetailByAccount>();
 			List list = query.list();
@@ -6754,8 +6773,8 @@ public class FinanceTool {
 		List l = ((Query) session.getNamedQuery("getBalanceSheet")
 				.setParameter("companyId", companyId)
 
-				.setParameter("startDate", startDate.getDate()).setParameter(
-						"endDate", endDate.getDate())).list();
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())).list();
 
 		double netIncome = 0.0;
 		netIncome = getNetIncome(startDate, endDate,
@@ -6841,10 +6860,10 @@ public class FinanceTool {
 		List l = ((Query) session.getNamedQuery("getProfitAndLoss")
 				.setParameter("companyId", companyId)
 
-				.setParameter("startDate", startDate.getDate()).setParameter(
-						"endDate", endDate.getDate()).setParameter(
-						"startDate1", startDate1.getDate()).setParameter(
-						"endDate1", endDate1.getDate())).list();
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("startDate1", startDate1.getDate())
+				.setParameter("endDate1", endDate1.getDate())).list();
 
 		Object[] object = null;
 		Iterator iterator = l.iterator();
@@ -6953,10 +6972,10 @@ public class FinanceTool {
 		long end = date[1] != null ? date[0].getDate() : endDate.getDate();
 
 		List l = ((Query) session.getNamedQuery("getCashFlowStatement")
-				.setParameter("companyId", companyId).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate()).setParameter("start", start)
-				.setParameter("end", end)).list();
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("start", start).setParameter("end", end)).list();
 
 		double netIncome = 0.0;
 		netIncome = getNetIncome(startDate, endDate, "getNetIncome", companyId);
@@ -7023,8 +7042,9 @@ public class FinanceTool {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		Query q = session.getNamedQuery(query).setParameter("companyId",
-				companyId).setParameter("startDate", startDate.getDate())
+		Query q = session.getNamedQuery(query)
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate());
 
 		List l1 = q.list();
@@ -7064,8 +7084,8 @@ public class FinanceTool {
 
 			if (t.getAccountFlow().startsWith(str + ".")) {
 
-				if (!t.getAccountFlow().substring(str.length() + 1).contains(
-						".")) {
+				if (!t.getAccountFlow().substring(str.length() + 1)
+						.contains(".")) {
 
 					if (!sortedList.contains(t)) {
 						// if (t.getAmount() != 0.0) {
@@ -7108,11 +7128,11 @@ public class FinanceTool {
 			// + (cal.get(Calendar.MONTH) + 1) + "-"
 			// + cal.get(Calendar.DAY_OF_MONTH);
 			startDate = new FinanceDate(cal.getTime());
-			Query query = session.getNamedQuery(
-					"get_BOX1_VATdueOnSalesAndOtherOutputs").setParameter(
-					"companyId", companyId).setParameter(
+			Query query = session
+					.getNamedQuery("get_BOX1_VATdueOnSalesAndOtherOutputs")
+					.setParameter("companyId", companyId).setParameter(
 
-			"startDate", startDate).setParameter("endDate", endDate);
+					"startDate", startDate).setParameter("endDate", endDate);
 
 			List l = query.list();
 
@@ -7166,11 +7186,11 @@ public class FinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 
 		Company company = getCompany(companyId);
-		Query query = session.getNamedQuery(
-				"getTAXAdjustments.by.taxAgencyIdand.Date").setParameter(
-				"fromDate", fromDate).setEntity("company", company)
-				.setParameter("toDate", toDate).setParameter("vatAgency",
-						vatAgency.getID());
+		Query query = session
+				.getNamedQuery("getTAXAdjustments.by.taxAgencyIdand.Date")
+				.setParameter("fromDate", fromDate)
+				.setEntity("company", company).setParameter("toDate", toDate)
+				.setParameter("vatAgency", vatAgency.getID());
 
 		List<TAXAdjustment> vas = query.list();
 
@@ -7179,10 +7199,8 @@ public class FinanceTool {
 				VATReturnBox vb = v.getTaxItem().getVatReturnBox();
 				for (Box b : boxes) {
 					if (vb.getVatBox().equals(b.getName())
-							|| (b
-									.getName()
-									.equals(
-											AccounterServerConstants.UK_BOX10_UNCATEGORISED) && vb
+							|| (b.getName()
+									.equals(AccounterServerConstants.UK_BOX10_UNCATEGORISED) && vb
 									.getVatBox().equals("NONE"))) {
 						// if (v.getIncreaseVATLine())
 						// b.setAmount(b.getAmount() + v.getTotal());
@@ -7195,16 +7213,12 @@ public class FinanceTool {
 						// {
 
 						if (v.getTaxItem().isSalesType()) {
-							if ((!v
-									.getTaxItem()
+							if ((!v.getTaxItem()
 									.getName()
-									.equals(
-											AccounterServerConstants.VAT_ITEM_EC_SALES_GOODS_STANDARD))
-									&& (!v
-											.getTaxItem()
+									.equals(AccounterServerConstants.VAT_ITEM_EC_SALES_GOODS_STANDARD))
+									&& (!v.getTaxItem()
 											.getName()
-											.equals(
-													AccounterServerConstants.VAT_ITEM_EC_SALES_SERVICES_STANDARD))) {
+											.equals(AccounterServerConstants.VAT_ITEM_EC_SALES_SERVICES_STANDARD))) {
 								if (v.getIncreaseVATLine())
 									b.setAmount(b.getAmount() + v.getTotal());
 								else
@@ -7226,14 +7240,10 @@ public class FinanceTool {
 							else
 								amount = -1 * v.getTotal();
 
-							if (vb
-									.getVatBox()
-									.equals(
-											AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)
-									|| vb
-											.getVatBox()
-											.equals(
-													AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES))
+							if (vb.getVatBox()
+									.equals(AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)
+									|| vb.getVatBox()
+											.equals(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES))
 								amount = -1 * amount;
 
 							b.setAmount(b.getAmount() + amount);
@@ -7256,9 +7266,10 @@ public class FinanceTool {
 			FinanceDate fromDate, FinanceDate toDate) {
 
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery(
-				"getTAXRateCalculations.by.taxAgencyIdand.Date").setParameter(
-				"toDate", toDate).setParameter("vatAgency", vatAgency.getID());
+		Query query = session
+				.getNamedQuery("getTAXRateCalculations.by.taxAgencyIdand.Date")
+				.setParameter("toDate", toDate)
+				.setParameter("vatAgency", vatAgency.getID());
 		List<TAXRateCalculation> vrc = query.list();
 
 		/*
@@ -7268,8 +7279,8 @@ public class FinanceTool {
 
 		for (int i = 0; i < vrc.size(); i++) {
 
-			if (vrc.get(i).getTaxItem().getTaxAgency().getName().equals(
-					vatAgency.getName())) {
+			if (vrc.get(i).getTaxItem().getTaxAgency().getName()
+					.equals(vatAgency.getName())) {
 				TAXRateCalculation taxRateCalculation = vrc.get(i);
 
 				VATReturnBox vb = taxRateCalculation.getTaxItem()
@@ -7292,26 +7303,17 @@ public class FinanceTool {
 								+ taxRateCalculation.getLineTotal());
 
 					} else if ((box).getName().equals(vb.getVatBox())) {
-						if (vb
-								.getVatBox()
-								.equals(
-										AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)
-								|| (vb
-										.getVatBox()
-										.equals(
-												AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES) && !taxRateCalculation
+						if (vb.getVatBox()
+								.equals(AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)
+								|| (vb.getVatBox()
+										.equals(AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES) && !taxRateCalculation
 										.isVATGroupEntry())
-								|| (vb
-										.getVatBox()
-										.equals(
-												AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES) && vb
+								|| (vb.getVatBox()
+										.equals(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES) && vb
 										.getTotalBox()
-										.equals(
-												AccounterServerConstants.BOX_NONE)))
-							box
-									.setAmount(box.getAmount()
-											+ (-1 * (taxRateCalculation
-													.getVatAmount())));
+										.equals(AccounterServerConstants.BOX_NONE)))
+							box.setAmount(box.getAmount()
+									+ (-1 * (taxRateCalculation.getVatAmount())));
 
 						else
 							box.setAmount(box.getAmount()
@@ -7337,15 +7339,13 @@ public class FinanceTool {
 			b1.setName(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES);
 
 			Box b2 = new Box();
-			b2
-					.setName(AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS);
+			b2.setName(AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS);
 
 			Box b3 = new Box();
 			b3.setName(AccounterServerConstants.UK_BOX3_TOTAL_OUTPUT);
 
 			Box b4 = new Box();
-			b4
-					.setName(AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES);
+			b4.setName(AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES);
 
 			Box b5 = new Box();
 			b5.setName(AccounterServerConstants.UK_BOX5_NET_VAT);
@@ -7400,12 +7400,10 @@ public class FinanceTool {
 		} else if (vatAgency.getVATReturn() == VATReturn.VAT_RETURN_IRELAND) {
 
 			Box b1 = new Box();
-			b1
-					.setName(AccounterServerConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
+			b1.setName(AccounterServerConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
 
 			Box b2 = new Box();
-			b2
-					.setName(AccounterServerConstants.IRELAND_BOX2_VAT_DUE_ON_INTRA_EC_ACQUISITIONS);
+			b2.setName(AccounterServerConstants.IRELAND_BOX2_VAT_DUE_ON_INTRA_EC_ACQUISITIONS);
 
 			Box b3 = new Box();
 			b3.setName(AccounterServerConstants.IRELAND_BOX3_VAT_ON_SALES);
@@ -7426,8 +7424,7 @@ public class FinanceTool {
 			b8.setName(AccounterServerConstants.IRELAND_BOX8_TOTAL_NET_SALES);
 
 			Box b9 = new Box();
-			b9
-					.setName(AccounterServerConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
+			b9.setName(AccounterServerConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
 
 			Box b10 = new Box();
 			b10.setName(AccounterServerConstants.IRELAND_BOX10_UNCATEGORISED);
@@ -7477,8 +7474,8 @@ public class FinanceTool {
 		FinanceDate startDate;
 		{
 			Query q1 = session.getNamedQuery("getVATReturn.by.enddate")
-					.setParameter("endDate", endDate).setEntity("company",
-							company);
+					.setParameter("endDate", endDate)
+					.setEntity("company", company);
 
 			VATReturn vatReturn = (VATReturn) q1.uniqueResult();
 			if (vatReturn == null) {
@@ -7494,8 +7491,8 @@ public class FinanceTool {
 
 		}
 
-		VATDetailReport vatDetailReport = new VATDetailReport(vatAgency
-				.getVATReturn());
+		VATDetailReport vatDetailReport = new VATDetailReport(
+				vatAgency.getVATReturn());
 		prepareVATDetailReport(vatDetailReport, vatAgency, startDate, endDate,
 				company);
 
@@ -7512,17 +7509,21 @@ public class FinanceTool {
 		// /getting entries from VATRAteCalculation
 		if (taxAgency != null) {
 
-			query = session.getNamedQuery(
-					"getTaxCalc.by.TaxAgencyId.and.withOtherDetails")
-					.setParameter("taxAgency", taxAgency.getID()).setParameter(
-							"fromDate", startDate).setParameter("toDate",
-							endDate).setEntity("company", company);
+			query = session
+					.getNamedQuery(
+							"getTaxCalc.by.TaxAgencyId.and.withOtherDetails")
+					.setParameter("taxAgency", taxAgency.getID())
+					.setParameter("fromDate", startDate)
+					.setParameter("toDate", endDate)
+					.setEntity("company", company);
 		} else {
 
-			query = session.getNamedQuery(
-					"getTaxrateCalc.by.TaxAgencyandItem.and.Dates")
-					.setParameter("fromDate", startDate).setParameter("toDate",
-							endDate).setEntity("company", company);
+			query = session
+					.getNamedQuery(
+							"getTaxrateCalc.by.TaxAgencyandItem.and.Dates")
+					.setParameter("fromDate", startDate)
+					.setParameter("toDate", endDate)
+					.setEntity("company", company);
 		}
 
 		List<TAXRateCalculation> vats = query.list();
@@ -7578,9 +7579,7 @@ public class FinanceTool {
 			vd.setTransactionType(v.getTransactionItem().getTransaction()
 					.getType());
 			vd.setVatRate(v.getTaxItem().getTaxRate());
-			vd
-					.setTransactionId(v.getTransactionItem().getTransaction()
-							.getID());
+			vd.setTransactionId(v.getTransactionItem().getTransaction().getID());
 			vd.setPercentage(v.getTaxItem().isPercentage());
 			vatDetailReport.getEntries().get(vd.getBoxName()).add(vd);
 
@@ -7691,15 +7690,17 @@ public class FinanceTool {
 			if (taxAgency != null) {
 				query = session.getNamedQuery(
 
-				"getTaxadjustment.by.allDetails.withOrder").setEntity(
-						"company", company).setParameter("fromDate", startDate)
-						.setParameter("toDate", endDate).setParameter(
-								"taxAgency", taxAgency.getID());
+				"getTaxadjustment.by.allDetails.withOrder")
+						.setEntity("company", company)
+						.setParameter("fromDate", startDate)
+						.setParameter("toDate", endDate)
+						.setParameter("taxAgency", taxAgency.getID());
 			} else {
 				query = session.getNamedQuery(
 
-				"getTaxadjustment.by.betweenDates").setEntity("company",
-						company).setParameter("fromDate", startDate)
+				"getTaxadjustment.by.betweenDates")
+						.setEntity("company", company)
+						.setParameter("fromDate", startDate)
 						.setParameter("toDate", endDate);
 			}
 
@@ -7773,8 +7774,8 @@ public class FinanceTool {
 				}
 
 				if (v.getTaxItem().getName().equals("EC Sales Goods Standard")
-						|| v.getTaxItem().getName().equals(
-								"EC Sales Services Standard"))
+						|| v.getTaxItem().getName()
+								.equals("EC Sales Services Standard"))
 					vd1.setTotal(-1 * vd1.getTotal());
 
 				vd1.setPayeeName(e.getAccount().getName());
@@ -7798,15 +7799,16 @@ public class FinanceTool {
 
 				"getVat.by.taxAgency.and.VatPeriod")
 
-				.setEntity("company", company).setParameter("fromDate",
-						startDate).setParameter("toDate", endDate)
+				.setEntity("company", company)
+						.setParameter("fromDate", startDate)
+						.setParameter("toDate", endDate)
 						.setParameter("taxAgency", taxAgency.getID());
 			} else {
 				query = session.getNamedQuery(
 
 				"getVat.by.BetweenendDates").setEntity("company", company)
-						.setParameter("fromDate", startDate).setParameter(
-								"toDate", endDate);
+						.setParameter("fromDate", startDate)
+						.setParameter("toDate", endDate);
 			}
 
 			List<VATReturn> vatReturns = query.list();
@@ -7814,8 +7816,10 @@ public class FinanceTool {
 
 				List<Entry> entries = v.getJournalEntry().getEntry();
 				for (Entry e : entries) {
-					if ((!e.getAccount().getName().equals(
-							company.getAccountsPayableAccount().getName()))) {
+					if ((!e.getAccount()
+							.getName()
+							.equals(company.getAccountsPayableAccount()
+									.getName()))) {
 						// && ((e.getDebit() == 0 && e.getCredit() == 0))) {
 
 						if (e.getTaxItem() != null) {
@@ -7849,8 +7853,7 @@ public class FinanceTool {
 						} else {
 							VATDetail vd = new VATDetail();
 
-							vd
-									.setBoxName(VATDetailReport.IRELAND_BOX10_UNCATEGORISED);
+							vd.setBoxName(VATDetailReport.IRELAND_BOX10_UNCATEGORISED);
 
 							if (!DecimalUtil.isEquals(e.getDebit(), 0)) {
 								vd.setTotal(-1 * e.getDebit());
@@ -7874,8 +7877,8 @@ public class FinanceTool {
 				// Adding Filed vat entries to it's Respective boxes, except
 				// Box3 and Box5
 				Query query1 = session.getNamedQuery("getFiledBoxValues")
-						.setParameter("id", v.getID()).setParameter(
-								"companyId", company.getID());
+						.setParameter("id", v.getID())
+						.setParameter("companyId", company.getID());
 
 				List list = query1.list();
 				Object[] object = null;
@@ -7921,32 +7924,41 @@ public class FinanceTool {
 
 	private String setVATBoxName(TAXRateCalculation v) {
 		String boxName = null;
-		if (v.getTaxItem().getVatReturnBox().getVatBox().equals(
-				AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES)) {
+		if (v.getTaxItem().getVatReturnBox().getVatBox()
+				.equals(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES)) {
 			boxName = VATSummary.UK_BOX1_VAT_DUE_ON_SALES;
-		} else if (v.getTaxItem().getVatReturnBox().getVatBox().equals(
-				AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)) {
+		} else if (v
+				.getTaxItem()
+				.getVatReturnBox()
+				.getVatBox()
+				.equals(AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)) {
 			boxName = VATSummary.UK_BOX2_VAT_DUE_ON_ACQUISITIONS;
-		} else if (v.getTaxItem().getVatReturnBox().getVatBox().equals(
-				AccounterServerConstants.UK_BOX3_TOTAL_OUTPUT)) {
+		} else if (v.getTaxItem().getVatReturnBox().getVatBox()
+				.equals(AccounterServerConstants.UK_BOX3_TOTAL_OUTPUT)) {
 			boxName = VATSummary.UK_BOX3_TOTAL_OUTPUT;
-		} else if (v.getTaxItem().getVatReturnBox().getVatBox().equals(
-				AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES)) {
+		} else if (v
+				.getTaxItem()
+				.getVatReturnBox()
+				.getVatBox()
+				.equals(AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES)) {
 			boxName = VATSummary.UK_BOX4_VAT_RECLAMED_ON_PURCHASES;
-		} else if (v.getTaxItem().getVatReturnBox().getVatBox().equals(
-				AccounterServerConstants.UK_BOX5_NET_VAT)) {
+		} else if (v.getTaxItem().getVatReturnBox().getVatBox()
+				.equals(AccounterServerConstants.UK_BOX5_NET_VAT)) {
 			boxName = VATSummary.UK_BOX5_NET_VAT;
-		} else if (v.getTaxItem().getVatReturnBox().getVatBox().equals(
-				AccounterServerConstants.UK_BOX6_TOTAL_NET_SALES)) {
+		} else if (v.getTaxItem().getVatReturnBox().getVatBox()
+				.equals(AccounterServerConstants.UK_BOX6_TOTAL_NET_SALES)) {
 			boxName = VATSummary.UK_BOX6_TOTAL_NET_SALES;
-		} else if (v.getTaxItem().getVatReturnBox().getVatBox().equals(
-				AccounterServerConstants.UK_BOX7_TOTAL_NET_PURCHASES)) {
+		} else if (v.getTaxItem().getVatReturnBox().getVatBox()
+				.equals(AccounterServerConstants.UK_BOX7_TOTAL_NET_PURCHASES)) {
 			boxName = VATSummary.UK_BOX7_TOTAL_NET_PURCHASES;
-		} else if (v.getTaxItem().getVatReturnBox().getVatBox().equals(
-				AccounterServerConstants.UK_BOX8_TOTAL_NET_SUPPLIES)) {
+		} else if (v.getTaxItem().getVatReturnBox().getVatBox()
+				.equals(AccounterServerConstants.UK_BOX8_TOTAL_NET_SUPPLIES)) {
 			boxName = VATSummary.UK_BOX8_TOTAL_NET_SUPPLIES;
-		} else if (v.getTaxItem().getVatReturnBox().getVatBox().equals(
-				AccounterServerConstants.UK_BOX9_TOTAL_NET_ACQUISITIONS)) {
+		} else if (v
+				.getTaxItem()
+				.getVatReturnBox()
+				.getVatBox()
+				.equals(AccounterServerConstants.UK_BOX9_TOTAL_NET_ACQUISITIONS)) {
 			boxName = VATSummary.UK_BOX9_TOTAL_NET_ACQUISITIONS;
 		} else {
 			boxName = VATSummary.UK_BOX10_UNCATEGORISED;
@@ -7957,32 +7969,41 @@ public class FinanceTool {
 
 	private String setTotalBoxName(TAXRateCalculation v) {
 		String boxName = null;
-		if (v.getTaxItem().getVatReturnBox().getTotalBox().equals(
-				AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES)) {
+		if (v.getTaxItem().getVatReturnBox().getTotalBox()
+				.equals(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES)) {
 			boxName = VATSummary.UK_BOX1_VAT_DUE_ON_SALES;
-		} else if (v.getTaxItem().getVatReturnBox().getTotalBox().equals(
-				AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)) {
+		} else if (v
+				.getTaxItem()
+				.getVatReturnBox()
+				.getTotalBox()
+				.equals(AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)) {
 			boxName = VATSummary.UK_BOX2_VAT_DUE_ON_ACQUISITIONS;
-		} else if (v.getTaxItem().getVatReturnBox().getTotalBox().equals(
-				AccounterServerConstants.UK_BOX3_TOTAL_OUTPUT)) {
+		} else if (v.getTaxItem().getVatReturnBox().getTotalBox()
+				.equals(AccounterServerConstants.UK_BOX3_TOTAL_OUTPUT)) {
 			boxName = VATSummary.UK_BOX3_TOTAL_OUTPUT;
-		} else if (v.getTaxItem().getVatReturnBox().getTotalBox().equals(
-				AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES)) {
+		} else if (v
+				.getTaxItem()
+				.getVatReturnBox()
+				.getTotalBox()
+				.equals(AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES)) {
 			boxName = VATSummary.UK_BOX4_VAT_RECLAMED_ON_PURCHASES;
-		} else if (v.getTaxItem().getVatReturnBox().getTotalBox().equals(
-				AccounterServerConstants.UK_BOX5_NET_VAT)) {
+		} else if (v.getTaxItem().getVatReturnBox().getTotalBox()
+				.equals(AccounterServerConstants.UK_BOX5_NET_VAT)) {
 			boxName = VATSummary.UK_BOX5_NET_VAT;
-		} else if (v.getTaxItem().getVatReturnBox().getTotalBox().equals(
-				AccounterServerConstants.UK_BOX6_TOTAL_NET_SALES)) {
+		} else if (v.getTaxItem().getVatReturnBox().getTotalBox()
+				.equals(AccounterServerConstants.UK_BOX6_TOTAL_NET_SALES)) {
 			boxName = VATSummary.UK_BOX6_TOTAL_NET_SALES;
-		} else if (v.getTaxItem().getVatReturnBox().getTotalBox().equals(
-				AccounterServerConstants.UK_BOX7_TOTAL_NET_PURCHASES)) {
+		} else if (v.getTaxItem().getVatReturnBox().getTotalBox()
+				.equals(AccounterServerConstants.UK_BOX7_TOTAL_NET_PURCHASES)) {
 			boxName = VATSummary.UK_BOX7_TOTAL_NET_PURCHASES;
-		} else if (v.getTaxItem().getVatReturnBox().getTotalBox().equals(
-				AccounterServerConstants.UK_BOX8_TOTAL_NET_SUPPLIES)) {
+		} else if (v.getTaxItem().getVatReturnBox().getTotalBox()
+				.equals(AccounterServerConstants.UK_BOX8_TOTAL_NET_SUPPLIES)) {
 			boxName = VATSummary.UK_BOX8_TOTAL_NET_SUPPLIES;
-		} else if (v.getTaxItem().getVatReturnBox().getTotalBox().equals(
-				AccounterServerConstants.UK_BOX9_TOTAL_NET_ACQUISITIONS)) {
+		} else if (v
+				.getTaxItem()
+				.getVatReturnBox()
+				.getTotalBox()
+				.equals(AccounterServerConstants.UK_BOX9_TOTAL_NET_ACQUISITIONS)) {
 			boxName = VATSummary.UK_BOX9_TOTAL_NET_ACQUISITIONS;
 		} else {
 			boxName = VATSummary.UK_BOX10_UNCATEGORISED;
@@ -8082,18 +8103,15 @@ public class FinanceTool {
 			vatDetails.addAll(map
 					.get(VATSummary.UK_BOX9_TOTAL_NET_ACQUISITIONS));
 
-		if (map
-				.containsKey(VATDetailReport.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES)
+		if (map.containsKey(VATDetailReport.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES)
 				&& map.get(VATDetailReport.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES)
 						.size() > 0)
 			vatDetails.addAll(map
 					.get(VATDetailReport.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES));
 
-		if (map
-				.containsKey(VATDetailReport.IRELAND_BOX2_VAT_DUE_ON_INTRA_EC_ACQUISITIONS)
-				&& map
-						.get(
-								VATDetailReport.IRELAND_BOX2_VAT_DUE_ON_INTRA_EC_ACQUISITIONS)
+		if (map.containsKey(VATDetailReport.IRELAND_BOX2_VAT_DUE_ON_INTRA_EC_ACQUISITIONS)
+				&& map.get(
+						VATDetailReport.IRELAND_BOX2_VAT_DUE_ON_INTRA_EC_ACQUISITIONS)
 						.size() > 0)
 			vatDetails
 					.addAll(map
@@ -8148,9 +8166,9 @@ public class FinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		Query query = session.getNamedQuery(
-				"getVATReturn.by.taxagencyandenddate").setParameter(
-				"taxAgency", taxAgency.getID())
+		Query query = session
+				.getNamedQuery("getVATReturn.by.taxagencyandenddate")
+				.setParameter("taxAgency", taxAgency.getID())
 				.setParameter("endDate", endDate).setEntity("company", company);
 
 		VATReturn vatReturn = (VATReturn) query.uniqueResult();
@@ -8211,9 +8229,9 @@ public class FinanceTool {
 
 		List<VATSummary> vatSummaries = createRows(taxAgency);
 		Company company = getCompany(companyId);
-		Query query = session.getNamedQuery(
-				"getVATReturn.checkingby.taxagencyidand.dates").setLong("id",
-				taxAgency.getID()).setEntity("company", company);
+		Query query = session
+				.getNamedQuery("getVATReturn.checkingby.taxagencyidand.dates")
+				.setLong("id", taxAgency.getID()).setEntity("company", company);
 
 		Object object[] = null;
 		List list = query.list();
@@ -8253,18 +8271,21 @@ public class FinanceTool {
 
 		if (leastStartDate != null && highestEndDate != null) {
 
-			query = session.getNamedQuery(
-					"getTAXRateCalculation.by.datesand.vatReturn")
-					.setParameter("startDate", fromDate).setParameter(
-							"endDate", toDate).setEntity("company", company);
+			query = session
+					.getNamedQuery(
+							"getTAXRateCalculation.by.datesand.vatReturn")
+					.setParameter("startDate", fromDate)
+					.setParameter("endDate", toDate)
+					.setEntity("company", company);
 			// .setParameter("startDate1",
 			// leastStartDate).setParameter("endDate1",
 			// highestEndDate);
 			// v.transactionDate not between :startDate1 and :endDate1")
 		} else {
 			query = session.getNamedQuery("getTAXRateCalculation.by.dates")
-					.setParameter("startDate", fromDate).setParameter(
-							"endDate", toDate).setEntity("company", company);
+					.setParameter("startDate", fromDate)
+					.setParameter("endDate", toDate)
+					.setEntity("company", company);
 		}
 
 		List<TAXRateCalculation> vats = query.list();
@@ -8292,31 +8313,25 @@ public class FinanceTool {
 
 			for (VATSummary vs : vatSummaries) {
 
-				if (v.getTaxItem().getVatReturnBox().getVatBox().equals(
-						vs.getVatReturnEntryName())) {
+				if (v.getTaxItem().getVatReturnBox().getVatBox()
+						.equals(vs.getVatReturnEntryName())) {
 
-					if (v
-							.getTaxItem()
+					if (v.getTaxItem()
 							.getVatReturnBox()
 							.getVatBox()
-							.equals(
-									AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)
-							|| (v
-									.getTaxItem()
+							.equals(AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)
+							|| (v.getTaxItem()
 									.getVatReturnBox()
 									.getVatBox()
-									.equals(
-											AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES) && !v
+									.equals(AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES) && !v
 									.isVATGroupEntry())
-							|| (v
-									.getTaxItem()
+							|| (v.getTaxItem()
 									.getVatReturnBox()
 									.getVatBox()
-									.equals(
-											AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES) && v
+									.equals(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES) && v
 									.getTaxItem().getVatReturnBox()
-									.getTotalBox().equals(
-											AccounterServerConstants.BOX_NONE)))
+									.getTotalBox()
+									.equals(AccounterServerConstants.BOX_NONE)))
 						vs.setValue(vs.getValue() + (-1 * (v.getVatAmount())));
 					else
 						vs.setValue(vs.getValue() + v.getVatAmount());
@@ -8331,8 +8346,8 @@ public class FinanceTool {
 					// }
 				}
 
-				if (v.getTaxItem().getVatReturnBox().getTotalBox().equals(
-						vs.getVatReturnEntryName())) {
+				if (v.getTaxItem().getVatReturnBox().getTotalBox()
+						.equals(vs.getVatReturnEntryName())) {
 
 					vs.setValue(vs.getValue() + v.getLineTotal());
 
@@ -8342,8 +8357,9 @@ public class FinanceTool {
 
 		query = session
 				.getNamedQuery("getTAXAdjustment.by.taxAgencyidanddates")
-				.setParameter("fromDate", fromDate).setParameter("toDate",
-						toDate).setParameter("taxAgency", taxAgency.getID())
+				.setParameter("fromDate", fromDate)
+				.setParameter("toDate", toDate)
+				.setParameter("taxAgency", taxAgency.getID())
 				.setEntity("company", company);
 
 		List<TAXAdjustment> vas = query.list();
@@ -8361,8 +8377,8 @@ public class FinanceTool {
 					// box2Amount = 0.0;
 					// }
 
-					if (v.getTaxItem().getVatReturnBox().getVatBox().equals(
-							vs.getVatReturnEntryName())) {
+					if (v.getTaxItem().getVatReturnBox().getVatBox()
+							.equals(vs.getVatReturnEntryName())) {
 						if (v.getIncreaseVATLine())
 							vs.setValue(vs.getValue() + v.getTotal());
 						else
@@ -8547,8 +8563,8 @@ public class FinanceTool {
 		List l = ((Query) session.getNamedQuery("getOpenSalesOrders")
 				.setParameter("companyId", companyId)
 
-				.setParameter("startDate", startDate.getDate()).setParameter(
-						"endDate", endDate.getDate())).list();
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())).list();
 
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
@@ -8561,8 +8577,8 @@ public class FinanceTool {
 		List l = ((Query) session.getNamedQuery("getClosedSalesOrders")
 				.setParameter("companyId", companyId)
 
-				.setParameter("startDate", startDate.getDate()).setParameter(
-						"endDate", endDate.getDate())).list();
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())).list();
 
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
@@ -8574,9 +8590,9 @@ public class FinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 
 		List l = ((Query) session.getNamedQuery("getCompletedSalesOrders")
-				.setParameter("companyId", companyId).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate())).list();
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())).list();
 
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
@@ -8588,9 +8604,9 @@ public class FinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 
 		List l = ((Query) session.getNamedQuery("getCanceledSalesOrders")
-				.setParameter("companyId", companyId).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate())).list();
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())).list();
 
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
@@ -8603,8 +8619,8 @@ public class FinanceTool {
 		List l = ((Query) session.getNamedQuery("getOpenPurchaseOrders")
 				.setParameter("companyId", companyId)
 
-				.setParameter("startDate", startDate.getDate()).setParameter(
-						"endDate", endDate.getDate())).list();
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())).list();
 
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
@@ -8617,8 +8633,8 @@ public class FinanceTool {
 		List l = ((Query) session.getNamedQuery("getClosedPurchaseOrders")
 				.setParameter("companyId", companyId)
 
-				.setParameter("startDate", startDate.getDate()).setParameter(
-						"endDate", endDate.getDate())).list();
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())).list();
 
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
@@ -8629,9 +8645,9 @@ public class FinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 
 		List l = ((Query) session.getNamedQuery("getCompletedPurchaseOrders")
-				.setParameter("companyId", companyId).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate())).list();
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())).list();
 
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
@@ -8641,18 +8657,19 @@ public class FinanceTool {
 			throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
 		List l = ((Query) session.getNamedQuery("getPurchaseOrders")
-				.setParameter("companyId", companyId).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate())).list();
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())).list();
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
 
 	public ArrayList<OpenAndClosedOrders> getSalesOrders(FinanceDate startDate,
 			FinanceDate endDate, long companyId) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
-		List l = ((Query) session.getNamedQuery("getSalesOrders").setParameter(
-				"startDate", startDate.getDate()).setParameter("companyId",
-				companyId).setParameter("endDate", endDate.getDate())).list();
+		List l = ((Query) session.getNamedQuery("getSalesOrders")
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("companyId", companyId)
+				.setParameter("endDate", endDate.getDate())).list();
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
 
@@ -8664,8 +8681,8 @@ public class FinanceTool {
 		List l = ((Query) session.getNamedQuery("getCanceledPurchaseOrders")
 				.setParameter("companyId", companyId)
 
-				.setParameter("startDate", startDate.getDate()).setParameter(
-						"endDate", endDate.getDate())).list();
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())).list();
 
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
@@ -8703,9 +8720,9 @@ public class FinanceTool {
 		// Entries from Sales where Vat Codes EGS and RC are used
 
 		Query query = session.getNamedQuery("getEGSandRCentriesFromSales")
-				.setParameter("startDate", fromDate.getDate()).setParameter(
-						"endDate", toDate.getDate()).setEntity("company",
-						getCompany(companyId));
+				.setParameter("startDate", fromDate.getDate())
+				.setParameter("endDate", toDate.getDate())
+				.setEntity("company", getCompany(companyId));
 
 		List list2 = query.list();
 		Object[] object = null;
@@ -8724,9 +8741,10 @@ public class FinanceTool {
 			uncategorisedAmounts.add(u);
 		}
 
-		query = session.getNamedQuery(
-				"getTAXAdjustment.checkingby.transactionDate").setParameter(
-				"endDate", toDate).setEntity("company", getCompany(companyId));
+		query = session
+				.getNamedQuery("getTAXAdjustment.checkingby.transactionDate")
+				.setParameter("endDate", toDate)
+				.setEntity("company", getCompany(companyId));
 
 		List<TAXAdjustment> vatAdjustments = query.list();
 
@@ -8829,10 +8847,10 @@ public class FinanceTool {
 		Company company = getCompany(companyId);
 		// Entries from the VATRate calculation
 
-		Query query = session.getNamedQuery(
-				"getTAXAdjustment.by.taxAgencyidanddates").setParameter(
-				"startDate", fromDate).setParameter("endDate", toDate)
-				.setEntity("company", company);
+		Query query = session
+				.getNamedQuery("getTAXAdjustment.by.taxAgencyidanddates")
+				.setParameter("startDate", fromDate)
+				.setParameter("endDate", toDate).setEntity("company", company);
 
 		List<TAXRateCalculation> taxRateCalculations = query.list();
 		for (TAXRateCalculation v : taxRateCalculations) {
@@ -8842,9 +8860,7 @@ public class FinanceTool {
 			vi.setDate(new ClientFinanceDate(v.getTransactionDate().getDate()));
 			vi.setName(v.getTransactionItem().getTransaction()
 					.getInvolvedPayee().getName());
-			vi
-					.setTransactionId(v.getTransactionItem().getTransaction()
-							.getID());
+			vi.setTransactionId(v.getTransactionItem().getTransaction().getID());
 			vi.setMemo(v.getTransactionItem().getTransaction().getMemo());
 			vi.setTransactionNumber(v.getTransactionItem().getTransaction()
 					.getNumber());
@@ -8860,8 +8876,8 @@ public class FinanceTool {
 		query = session
 				.getNamedQuery(
 						"getTAXAdjustment.by.dates.orderby.taxItemNameand.TransactionDate")
-				.setParameter("startDate", fromDate).setParameter("endDate",
-						toDate).setEntity("company", company);
+				.setParameter("startDate", fromDate)
+				.setParameter("endDate", toDate).setEntity("company", company);
 
 		List<TAXAdjustment> vatAdjustments = query.list();
 		for (TAXAdjustment v : vatAdjustments) {
@@ -8899,10 +8915,12 @@ public class FinanceTool {
 
 		// Entries from the VATRate calculation
 
-		Query query = session.getNamedQuery(
-				"getTAXRateCalculation.by.dates.groupedByIdtransactionItem")
-				.setParameter("startDate", fromDate).setParameter("endDate",
-						toDate).setParameter("taxItemName", taxItemName)
+		Query query = session
+				.getNamedQuery(
+						"getTAXRateCalculation.by.dates.groupedByIdtransactionItem")
+				.setParameter("startDate", fromDate)
+				.setParameter("endDate", toDate)
+				.setParameter("taxItemName", taxItemName)
 				.setEntity("company", company);
 
 		List<TAXRateCalculation> taxRateCalculations = query.list();
@@ -8966,11 +8984,12 @@ public class FinanceTool {
 		}
 
 		// Entries from the VATAdjustment
-		query = session.getNamedQuery(
-				"getTAXAdjustment.by.dates.and.taxItemName").setParameter(
-				"startDate", fromDate).setParameter("endDate", toDate)
-				.setParameter("taxItemName", taxItemName).setEntity("company",
-						company);
+		query = session
+				.getNamedQuery("getTAXAdjustment.by.dates.and.taxItemName")
+				.setParameter("startDate", fromDate)
+				.setParameter("endDate", toDate)
+				.setParameter("taxItemName", taxItemName)
+				.setEntity("company", company);
 
 		List<TAXAdjustment> vatAdjustments = query.list();
 		for (TAXAdjustment v : vatAdjustments) {
@@ -9006,10 +9025,11 @@ public class FinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		// Getting entries from VATRateCalculation
-		Query query = session.getNamedQuery(
-				"getTAXRateCalculation.by.dates.orderbytaxItem.name")
-				.setParameter("startDate", fromDate).setParameter("endDate",
-						toDate).setEntity("comapny", company);
+		Query query = session
+				.getNamedQuery(
+						"getTAXRateCalculation.by.dates.orderbytaxItem.name")
+				.setParameter("startDate", fromDate)
+				.setParameter("endDate", toDate).setEntity("comapny", company);
 
 		List<TAXRateCalculation> taxRateCalculations = query.list();
 
@@ -9067,8 +9087,8 @@ public class FinanceTool {
 		Query query = session
 				.getNamedQuery(
 						"getTAXRateCalculation.by.check.taxItemandDates.orderBy.transactionItem")
-				.setParameter("startDate", fromDate).setParameter("endDate",
-						toDate).setEntity("company", company);
+				.setParameter("startDate", fromDate)
+				.setParameter("endDate", toDate).setEntity("company", company);
 
 		List<TAXRateCalculation> taxRateCalculations = query.list();
 
@@ -9175,10 +9195,10 @@ public class FinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 
 		// Getting entries from VATRateCalculation
-		Query query = session.getNamedQuery(
-				"getTAXRateCalculation.by.check.taxItemandDates").setParameter(
-				"startDate", fromDate).setParameter("endDate", toDate)
-				.setEntity("company", company);
+		Query query = session
+				.getNamedQuery("getTAXRateCalculation.by.check.taxItemandDates")
+				.setParameter("startDate", fromDate)
+				.setParameter("endDate", toDate).setEntity("company", company);
 
 		List<TAXRateCalculation> taxRateCalculations = query.list();
 
@@ -9247,10 +9267,11 @@ public class FinanceTool {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		Query query = session.getNamedQuery(
-				"getReverseChargeListDetailReportEntries").setParameter(
-				"startDate", fromDate.getDate()).setParameter("endDate",
-				toDate.getDate()).setParameter("companyId", companyId);
+		Query query = session
+				.getNamedQuery("getReverseChargeListDetailReportEntries")
+				.setParameter("startDate", fromDate.getDate())
+				.setParameter("endDate", toDate.getDate())
+				.setParameter("companyId", companyId);
 
 		Map<String, List<ReverseChargeListDetail>> maps = new LinkedHashMap<String, List<ReverseChargeListDetail>>();
 
@@ -9340,10 +9361,11 @@ public class FinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		// Getting entries from VATRateCalculation
-		Query query = session.getNamedQuery(
-				"getTAXRateCalculation.by.datesand.orderby.transactionItem")
-				.setParameter("startDate", fromDate).setParameter("endDate",
-						toDate).setEntity("company", company);
+		Query query = session
+				.getNamedQuery(
+						"getTAXRateCalculation.by.datesand.orderby.transactionItem")
+				.setParameter("startDate", fromDate)
+				.setParameter("endDate", toDate).setEntity("company", company);
 
 		List<TAXRateCalculation> taxRateCalculations = query.list();
 
@@ -9364,17 +9386,25 @@ public class FinanceTool {
 						|| (transactionItemId != v.getTransactionItem().getID())) {
 
 					if (maps.containsKey(s)) {
-						maps.put(s, maps.get(s) + v.getVatAmount()
-								+ v.getLineTotal());
+						maps.put(
+								s,
+								maps.get(s) + v.getVatAmount()
+										+ v.getLineTotal());
 						if (v.getTransactionItem().isVoid()) {
-							maps.put(s, maps.get(s)
-									- (v.getVatAmount() + v.getLineTotal()));
+							maps.put(
+									s,
+									maps.get(s)
+											- (v.getVatAmount() + v
+													.getLineTotal()));
 						}
 					} else {
 						maps.put(s, v.getVatAmount() + v.getLineTotal());
 						if (v.getTransactionItem().isVoid()) {
-							maps.put(s, maps.get(s)
-									- (v.getVatAmount() + v.getLineTotal()));
+							maps.put(
+									s,
+									maps.get(s)
+											- (v.getVatAmount() + v
+													.getLineTotal()));
 						}
 					}
 
@@ -9534,113 +9564,240 @@ public class FinanceTool {
 	public void createVATItemsOfIreland(Company company, Session session,
 			TAXAgency collectorGeneral) throws DAOException {
 
-		createVATItem(company, session, true,
-				"EC Purchases For Resale (PFR) @ 21%", "EC PFR Standard", true,
-				false, collectorGeneral, -21,
+		createVATItem(
+				company,
+				session,
+				true,
+				"EC Purchases For Resale (PFR) @ 21%",
+				"EC PFR Standard",
+				true,
+				false,
+				collectorGeneral,
+				-21,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
 						AccounterServerConstants.IRELAND_EC_PURCHASES_GOODS));
 
-		createVATItem(company, session, true,
-				"EC Purchases For Resale (PFR) @ 0%", "EC PFR Zero-Rated",
-				true, false, collectorGeneral, 0,
+		createVATItem(
+				company,
+				session,
+				true,
+				"EC Purchases For Resale (PFR) @ 0%",
+				"EC PFR Zero-Rated",
+				true,
+				false,
+				collectorGeneral,
+				0,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
 						AccounterServerConstants.IRELAND_EC_PURCHASES_GOODS));
 
-		createVATItem(company, session, true,
-				"EC Purchases Not For Resale (PNFR) @ 21%", "EC PNFR Standard",
-				true, false, collectorGeneral, -21,
+		createVATItem(
+				company,
+				session,
+				true,
+				"EC Purchases Not For Resale (PNFR) @ 21%",
+				"EC PNFR Standard",
+				true,
+				false,
+				collectorGeneral,
+				-21,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
 						AccounterServerConstants.IRELAND_EC_PURCHASES_GOODS));
 
-		createVATItem(company, session, true,
+		createVATItem(
+				company,
+				session,
+				true,
 				"EC Purchases Not For Resale (PNFR) @ 0%",
-				"EC PNFR Zero-Rated", true, false, collectorGeneral, 0,
+				"EC PNFR Zero-Rated",
+				true,
+				false,
+				collectorGeneral,
+				0,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
 						AccounterServerConstants.IRELAND_EC_PURCHASES_GOODS));
 
-		createVATItem(company, session, true, "EC Sales Of Goods Standard",
-				"EC Sales Goods Std", true, true, collectorGeneral, 0,
+		createVATItem(
+				company,
+				session,
+				true,
+				"EC Sales Of Goods Standard",
+				"EC Sales Goods Std",
+				true,
+				true,
+				collectorGeneral,
+				0,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
 						AccounterServerConstants.IRELAND_EC_SALES_GOODS));
 
-		createVATItem(company, session, true, "Exempt Purchases",
-				"EC Purchases (IR)", true, false, collectorGeneral, 0,
+		createVATItem(
+				company,
+				session,
+				true,
+				"Exempt Purchases",
+				"EC Purchases (IR)",
+				true,
+				false,
+				collectorGeneral,
+				0,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
 						AccounterServerConstants.IRELAND_EXEMPT_PURCHASES));
 
-		createVATItem(company, session, true, "Exempt Sales",
-				"Exempt Sales (IR)", true, true, collectorGeneral, 0,
+		createVATItem(
+				company,
+				session,
+				true,
+				"Exempt Sales",
+				"Exempt Sales (IR)",
+				true,
+				true,
+				collectorGeneral,
+				0,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
 						AccounterServerConstants.IRELAND_EXEMPT_SALES));
 
-		createVATItem(company, session, true, "Not Registered Purchases",
-				"Not Registered Purchases (IR)", true, false, collectorGeneral,
-				0, (VATReturnBox) getServerObjectByName(
+		createVATItem(
+				company,
+				session,
+				true,
+				"Not Registered Purchases",
+				"Not Registered Purchases (IR)",
+				true,
+				false,
+				collectorGeneral,
+				0,
+				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
 						AccounterServerConstants.IRELAND_EXEMPT_PURCHASES));
 
-		createVATItem(company, session, true, "Not Registered Sales",
-				"Not Registered Sales (IR)", true, true, collectorGeneral, 0,
+		createVATItem(
+				company,
+				session,
+				true,
+				"Not Registered Sales",
+				"Not Registered Sales (IR)",
+				true,
+				true,
+				collectorGeneral,
+				0,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
 						AccounterServerConstants.IRELAND_NOT_REGISTERED_SALES));
 
-		createVATItem(company, session, true,
-				"Purchases For Resale (PFR) @ 13.5%", "Reduced PFR", true,
-				false, collectorGeneral, 13.5,
+		createVATItem(
+				company,
+				session,
+				true,
+				"Purchases For Resale (PFR) @ 13.5%",
+				"Reduced PFR",
+				true,
+				false,
+				collectorGeneral,
+				13.5,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
 						AccounterServerConstants.IRELAND_DOMESTIC_PURCHASES));
 
-		createVATItem(company, session, true, "Sales @ 13.5%",
-				"Reduced Sales (IR)", true, true, collectorGeneral, 13.5,
+		createVATItem(
+				company,
+				session,
+				true,
+				"Sales @ 13.5%",
+				"Reduced Sales (IR)",
+				true,
+				true,
+				collectorGeneral,
+				13.5,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
 						AccounterServerConstants.IRELAND_DOMESTIC_SALES));
 
-		createVATItem(company, session, true,
-				"Purchases For Resale (PFR) @ 21%", "Standard PFR", true,
-				false, collectorGeneral, 21,
+		createVATItem(
+				company,
+				session,
+				true,
+				"Purchases For Resale (PFR) @ 21%",
+				"Standard PFR",
+				true,
+				false,
+				collectorGeneral,
+				21,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
 						AccounterServerConstants.IRELAND_DOMESTIC_PURCHASES));
 
-		createVATItem(company, session, true,
-				"Purchases Not For Resale (PNFR) @ 21%", "Standard PNFR", true,
-				false, collectorGeneral, 21,
+		createVATItem(
+				company,
+				session,
+				true,
+				"Purchases Not For Resale (PNFR) @ 21%",
+				"Standard PNFR",
+				true,
+				false,
+				collectorGeneral,
+				21,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
 						AccounterServerConstants.IRELAND_DOMESTIC_PURCHASES));
 
-		createVATItem(company, session, true, "Sales @ 21%",
-				"Standard Sales (IR)", true, true, collectorGeneral, 21,
+		createVATItem(
+				company,
+				session,
+				true,
+				"Sales @ 21%",
+				"Standard Sales (IR)",
+				true,
+				true,
+				collectorGeneral,
+				21,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
 						AccounterServerConstants.IRELAND_DOMESTIC_SALES));
 
-		createVATItem(company, session, true,
-				"Purchases For Resale (PFR) @ 0%", "Zero-Rated PFR", true,
-				false, collectorGeneral, 0,
+		createVATItem(
+				company,
+				session,
+				true,
+				"Purchases For Resale (PFR) @ 0%",
+				"Zero-Rated PFR",
+				true,
+				false,
+				collectorGeneral,
+				0,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
 						AccounterServerConstants.IRELAND_DOMESTIC_PURCHASES));
 
-		createVATItem(company, session, true,
-				"Purchases Not For Resale (PNFR) @ 0%", "Zero-Rated PNFR",
-				true, false, collectorGeneral, 0,
+		createVATItem(
+				company,
+				session,
+				true,
+				"Purchases Not For Resale (PNFR) @ 0%",
+				"Zero-Rated PNFR",
+				true,
+				false,
+				collectorGeneral,
+				0,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
 						AccounterServerConstants.IRELAND_DOMESTIC_PURCHASES));
 
-		createVATItem(company, session, true, "Sales @ 0%",
-				"Zero-Rated Sales (IR)", true, true, collectorGeneral, 0,
+		createVATItem(
+				company,
+				session,
+				true,
+				"Sales @ 0%",
+				"Zero-Rated Sales (IR)",
+				true,
+				true,
+				collectorGeneral,
+				0,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
 						AccounterServerConstants.IRELAND_DOMESTIC_SALES));
@@ -9775,8 +9932,8 @@ public class FinanceTool {
 					directCostsEntries.put(key, directCostsEntries.get(key)
 							+ (Double) monthViceAmounts.get(key));
 				} else {
-					directCostsEntries.put(key, (Double) monthViceAmounts
-							.get(key));
+					directCostsEntries.put(key,
+							(Double) monthViceAmounts.get(key));
 				}
 
 				// double salesEntryAmount = 0.0;
@@ -9860,8 +10017,8 @@ public class FinanceTool {
 					indirectCostsEntries.put(key, indirectCostsEntries.get(key)
 							+ (Double) monthViceAmounts.get(key));
 				} else {
-					indirectCostsEntries.put(key, (Double) monthViceAmounts
-							.get(key));
+					indirectCostsEntries.put(key,
+							(Double) monthViceAmounts.get(key));
 				}
 				// to calculate the net profit.
 
@@ -10030,7 +10187,8 @@ public class FinanceTool {
 
 		clientCompany.setLoggedInUser(logInUser.getClientUser());
 
-		List list = session.getNamedQuery("get.All.Units").list();
+		List list = session.getNamedQuery("get.All.Units")
+				.setEntity("company", company).list();
 
 		ArrayList<ClientUnit> units = new ArrayList<ClientUnit>();
 		Iterator iterator = list.iterator();
@@ -10057,150 +10215,6 @@ public class FinanceTool {
 			throw new AccounterException(AccounterException.ERROR_INTERNAL);
 		}
 
-	}
-
-	public List<FinanceLogger> getLog(long id, boolean isNext, long companyId) {
-		if (id == 1)
-			return null;
-		Session session = HibernateUtil.getCurrentSession();
-		List<FinanceLogger> logList = null;
-		Company company = getCompany(companyId);
-		if (id == -1) {
-
-			Query query = session.getNamedQuery(
-					"getFinanceLogger.orderby.id.desc").setEntity("company",
-					company);
-			query = query.setMaxResults(20);
-
-			logList = query.list();
-		} else {
-			long i = 0;
-
-			if (!isNext) {
-				i = id;
-				id += 20;
-
-			} else {
-				if (id <= 20)
-					i = -1;
-				else
-					i = id - 20;
-
-			}
-
-			i++;
-			Query query = session.getNamedQuery(
-					"getFinanceLogger.by.checkidwith.lowerrangeandupperrange")
-					.setParameter("lowerRange", i).setParameter("upperRange",
-							id).setEntity("company", company);
-			query = query.setMaxResults(20);
-
-			logList = query.list();
-		}
-		// int index = 0;
-		//
-		// for (FinanceLogger log : logList) {
-		// if (log.getID() == id) {
-		// index = logList.indexOf(log);
-		// break;
-		// }
-		// }
-		//
-		// List<FinanceLogger> log = new ArrayList<FinanceLogger>();
-		//
-		// if (isNext) {
-		// for (int i = index + 1; i < index + 20; i++) {
-		// if (i <= logList.size())
-		// break;
-		// log.add(logList.get(i));
-		//
-		// }
-		// } else {
-		// for (int i = index - 20; i < index; i++) {
-		//
-		// log.add(logList.get(i));
-		//
-		// }
-		// }
-
-		return logList;
-
-	}
-
-	public List<FinanceLogger> getLog(String date, long id, boolean isNext) {
-		if (id == 1)
-			return null;
-		FinanceDate date1 = null;
-		try {
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-			date1 = new FinanceDate(format.parse(date));
-		} catch (ParseException e1) {
-			e1.printStackTrace();
-		}
-
-		Session session = HibernateUtil.getCurrentSession();
-		List<FinanceLogger> logList = null;
-
-		if (id == -1) {
-
-			try {
-
-				Criteria criteria = session.createCriteria(FinanceLogger.class);
-				criteria.add(Restrictions.le("createdDate", date1)).addOrder(
-						Order.desc("id"));
-				criteria.setMaxResults(20);
-				logList = criteria.list();
-
-				// Query query = session
-				// .createSQLQuery(
-				// "from com.vimukti.accounter.core.FinanceLogger f where f.createdDate = "
-				// +date1+" order by f.id desc");
-				//
-				// logList = query.list();
-			} catch (HibernateException e) {
-				e.printStackTrace();
-			}
-
-		} else {
-			long i = 0;
-
-			if (!isNext) {
-				i = id;
-				id += 20;
-
-			} else {
-				if (id <= 20)
-					i = -1;
-				else
-					i = id - 20;
-
-			}
-
-			i++;
-
-			try {
-				Criteria criteria2 = session
-						.createCriteria(FinanceLogger.class);
-				criteria2.add(
-						Restrictions.between("id", new Long(i), new Long(id)))
-						.add(Restrictions.le("createdDate", date1)).addOrder(
-								Order.desc("id"));
-				criteria2.setMaxResults(20);
-				logList = criteria2.list();
-
-				// Query query = session
-				// .createQuery(
-				// "from com.vimukti.accounter.core.FinanceLogger f where f.id > :lowerRange and f.id <= :upperRange and f.createdDate = ? order by f.id desc"
-				// )
-				// .setParameter("lowerRange", i).setParameter(
-				// "upperRange", id).setParameter(0, new Long());
-
-				// logList = query.list();
-			} catch (HibernateException e) {
-				e.printStackTrace();
-			}
-		}
-		return logList;
 	}
 
 	public boolean hasFileVAT(TAXAgency vatAgency, FinanceDate startDate,
@@ -10299,8 +10313,8 @@ public class FinanceTool {
 		}
 		if (incredNumber.length() > 0) {
 			incredNumber = new StringBuffer(incredNumber).reverse().toString();
-			prevNumber = prevNumber.replace(incredNumber, ""
-					+ (Long.parseLong(incredNumber) + 1));
+			prevNumber = prevNumber.replace(incredNumber,
+					"" + (Long.parseLong(incredNumber) + 1));
 		}
 		return prevNumber;
 
@@ -10330,12 +10344,13 @@ public class FinanceTool {
 				if (clientObject.getNumber() == null
 						|| clientObject.getNumber().equals(""))
 					return true;
-				Query query = HibernateUtil.getCurrentSession().getNamedQuery(
-						"getTransaction.by.check.type.number.id").setParameter(
-						"company", company).setParameter("type",
-						clientObject.getType()).setParameter("number",
-						clientObject.getNumber()).setParameter("id",
-						clientObject.getID());
+				Query query = HibernateUtil
+						.getCurrentSession()
+						.getNamedQuery("getTransaction.by.check.type.number.id")
+						.setParameter("company", company)
+						.setParameter("type", clientObject.getType())
+						.setParameter("number", clientObject.getNumber())
+						.setParameter("id", clientObject.getID());
 
 				List list = query.list();
 
@@ -10430,10 +10445,10 @@ public class FinanceTool {
 
 	public static void createView(long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
-		session.getNamedQuery("createSalesPurchasesView").setParameter(
-				"companyId", companyId).executeUpdate();
-		session.getNamedQuery("createTransactionHistoryView").setParameter(
-				"companyId", companyId).executeUpdate();
+		session.getNamedQuery("createSalesPurchasesView")
+				.setParameter("companyId", companyId).executeUpdate();
+		session.getNamedQuery("createTransactionHistoryView")
+				.setParameter("companyId", companyId).executeUpdate();
 	}
 
 	public static void createViewsForclient(long companyId) {
@@ -10541,84 +10556,108 @@ public class FinanceTool {
 
 			if (transactionCategory == Transaction.CATEGORY_CUSTOMER) {
 
-				query = session.getNamedQuery("getCustomersList").setParameter(
-						"companyId", companyId).setParameter(
-						"currentMonthStartDateCal",
-						new FinanceDate(currentMonthStartDateCal.getTime())
-								.getDate()).setParameter(
-						"currentMonthEndDateCal",
-						new FinanceDate(currentMonthEndDateCal.getTime())
-								.getDate()).setParameter(
-						"previousFirstMonthStartDateCal",
-						new FinanceDate(previousFirstMonthStartDateCal
-								.getTime()).getDate()).setParameter(
-						"previousFirstMonthEndDateCal",
-						new FinanceDate(previousFirstMonthEndDateCal.getTime())
-								.getDate()).setParameter(
-						"previousSecondMonthStartDateCal",
-						new FinanceDate(previousSecondMonthStartDateCal
-								.getTime()).getDate())
+				query = session
+						.getNamedQuery("getCustomersList")
+						.setParameter("companyId", companyId)
+						.setParameter(
+								"currentMonthStartDateCal",
+								new FinanceDate(currentMonthStartDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"currentMonthEndDateCal",
+								new FinanceDate(currentMonthEndDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousFirstMonthStartDateCal",
+								new FinanceDate(previousFirstMonthStartDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousFirstMonthEndDateCal",
+								new FinanceDate(previousFirstMonthEndDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousSecondMonthStartDateCal",
+								new FinanceDate(previousSecondMonthStartDateCal
+										.getTime()).getDate())
 						.setParameter(
 								"previousSecondMonthEndDateCal",
 								new FinanceDate(previousSecondMonthEndDateCal
-										.getTime()).getDate()).setParameter(
+										.getTime()).getDate())
+						.setParameter(
 								"previousThirdMonthStartDateCal",
 								new FinanceDate(previousThirdMonthStartDateCal
-										.getTime()).getDate()).setParameter(
+										.getTime()).getDate())
+						.setParameter(
 								"previousThirdMonthEndDateCal",
 								new FinanceDate(previousThirdMonthEndDateCal
-										.getTime()).getDate()).setParameter(
+										.getTime()).getDate())
+						.setParameter(
 								"previousFourthMonthStartDateCal",
 								new FinanceDate(previousFourthMonthStartDateCal
-										.getTime()).getDate()).setParameter(
+										.getTime()).getDate())
+						.setParameter(
 								"previousFourthMonthEndDateCal",
 								new FinanceDate(previousFourthMonthEndDateCal
-										.getTime()).getDate()).setParameter(
+										.getTime()).getDate())
+						.setParameter(
 								"previousFifthMonthStartDateCal",
 								new FinanceDate(previousFifthMonthStartDateCal
-										.getTime()).getDate()).setParameter(
+										.getTime()).getDate())
+						.setParameter(
 								"previousFifthMonthEndDateCal",
 								new FinanceDate(previousFifthMonthEndDateCal
 										.getTime()).getDate());
 
 			} else if (transactionCategory == Transaction.CATEGORY_VENDOR) {
 
-				query = session.getNamedQuery("getVendorsList").setParameter(
-						"companyId", companyId).setParameter(
-						"currentMonthStartDateCal",
-						new FinanceDate(currentMonthStartDateCal.getTime())
-								.getDate()).setParameter(
-						"currentMonthEndDateCal",
-						new FinanceDate(currentMonthEndDateCal.getTime())
-								.getDate()).setParameter(
-						"previousFirstMonthStartDateCal",
-						new FinanceDate(previousFirstMonthStartDateCal
-								.getTime()).getDate()).setParameter(
-						"previousFirstMonthEndDateCal",
-						new FinanceDate(previousFirstMonthEndDateCal.getTime())
-								.getDate()).setParameter(
-						"previousSecondMonthStartDateCal",
-						new FinanceDate(previousSecondMonthStartDateCal
-								.getTime()).getDate())
+				query = session
+						.getNamedQuery("getVendorsList")
+						.setParameter("companyId", companyId)
+						.setParameter(
+								"currentMonthStartDateCal",
+								new FinanceDate(currentMonthStartDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"currentMonthEndDateCal",
+								new FinanceDate(currentMonthEndDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousFirstMonthStartDateCal",
+								new FinanceDate(previousFirstMonthStartDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousFirstMonthEndDateCal",
+								new FinanceDate(previousFirstMonthEndDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousSecondMonthStartDateCal",
+								new FinanceDate(previousSecondMonthStartDateCal
+										.getTime()).getDate())
 						.setParameter(
 								"previousSecondMonthEndDateCal",
 								new FinanceDate(previousSecondMonthEndDateCal
-										.getTime()).getDate()).setParameter(
+										.getTime()).getDate())
+						.setParameter(
 								"previousThirdMonthStartDateCal",
 								new FinanceDate(previousThirdMonthStartDateCal
-										.getTime()).getDate()).setParameter(
+										.getTime()).getDate())
+						.setParameter(
 								"previousThirdMonthEndDateCal",
 								new FinanceDate(previousThirdMonthEndDateCal
-										.getTime()).getDate()).setParameter(
+										.getTime()).getDate())
+						.setParameter(
 								"previousFourthMonthStartDateCal",
 								new FinanceDate(previousFourthMonthStartDateCal
-										.getTime()).getDate()).setParameter(
+										.getTime()).getDate())
+						.setParameter(
 								"previousFourthMonthEndDateCal",
 								new FinanceDate(previousFourthMonthEndDateCal
-										.getTime()).getDate()).setParameter(
+										.getTime()).getDate())
+						.setParameter(
 								"previousFifthMonthStartDateCal",
 								new FinanceDate(previousFifthMonthStartDateCal
-										.getTime()).getDate()).setParameter(
+										.getTime()).getDate())
+						.setParameter(
 								"previousFifthMonthEndDateCal",
 								new FinanceDate(previousFifthMonthEndDateCal
 										.getTime()).getDate());
@@ -10645,20 +10684,16 @@ public class FinanceTool {
 								+ (Double) object[5]);
 
 						payeeList.setPreviousSecondMonth(payeeList
-								.getPreviousSecondMonth()
-								+ (Double) object[6]);
+								.getPreviousSecondMonth() + (Double) object[6]);
 
 						payeeList.setPreviousThirdMonth(payeeList
-								.getPreviousThirdMonth()
-								+ (Double) object[7]);
+								.getPreviousThirdMonth() + (Double) object[7]);
 
 						payeeList.setPreviousFourthMonth(payeeList
-								.getPreviousFourthMonth()
-								+ (Double) object[8]);
+								.getPreviousFourthMonth() + (Double) object[8]);
 
 						payeeList.setPreviousFifthMonth(payeeList
-								.getPreviousFifthMonth()
-								+ (Double) object[9]);
+								.getPreviousFifthMonth() + (Double) object[9]);
 
 						payeeList.setYearToDate(payeeList.getYearToDate()
 								+ (Double) object[10]);
@@ -10722,9 +10757,10 @@ public class FinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 
 		Query query = session.getNamedQuery("getExpenseReportByType")
-				.setParameter("companyId", companyId).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate()).setParameter("type", type);
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("type", type);
 		list = query.list();
 
 		Object[] object = null;
@@ -10739,10 +10775,8 @@ public class FinanceTool {
 					: null);
 			expense.setTransactionType(object[1] != null ? (Integer) object[1]
 					: null);
-			expense
-					.setTransactionDate(object[2] != null ? new ClientFinanceDate(
-							((Long) object[2]))
-							: null);
+			expense.setTransactionDate(object[2] != null ? new ClientFinanceDate(
+					((Long) object[2])) : null);
 			expense.setTransactionNumber(object[3] != null ? (String) object[3]
 					: null);
 			expense.setMemo(object[4] != null ? (String) object[4] : null);
@@ -10771,10 +10805,10 @@ public class FinanceTool {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getCheckDetailReport")
-				.setParameter("companyId", companyId).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate()).setParameter("paymentmethod",
-						paymentmethod);
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("paymentmethod", paymentmethod);
 		List list = query.list();
 		Object[] object = null;
 		Iterator iterator = list.iterator();
@@ -10806,10 +10840,10 @@ public class FinanceTool {
 			FinanceDate endDate, long companyId) {
 
 		Session session = HibernateUtil.getCurrentSession();
-		List list = session.getNamedQuery("getDepositDetail").setParameter(
-				"companyId", companyId).setParameter("startDate",
-				startDate.getDate()).setParameter("endDate", endDate.getDate())
-				.list();
+		List list = session.getNamedQuery("getDepositDetail")
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate()).list();
 		Map<Long, List<DepositDetail>> map = new LinkedHashMap<Long, List<DepositDetail>>();
 		List<DepositDetail> depositDetails = new ArrayList<DepositDetail>();
 		Iterator it = list.iterator();
@@ -10876,10 +10910,11 @@ public class FinanceTool {
 
 		try {
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery(
-					"getCreatableStatementForCustomer").setParameter(
-					"startDate", fromDate.getDate()).setParameter("endDate",
-					toDate.getDate()).setParameter("customerId", id)
+			Query query = session
+					.getNamedQuery("getCreatableStatementForCustomer")
+					.setParameter("startDate", fromDate.getDate())
+					.setParameter("endDate", toDate.getDate())
+					.setParameter("customerId", id)
 					.setParameter("companyId", companyId);
 
 			List list = query.list();
@@ -10934,8 +10969,8 @@ public class FinanceTool {
 					statementsList.setTransactionId(object[16] == null ? null
 							: ((Long) object[16]).longValue());
 					long ageing = getAgeing(
-							statementsList.getTransactionDate(), statementsList
-									.getDueDate(), toDate, companyId);
+							statementsList.getTransactionDate(),
+							statementsList.getDueDate(), toDate, companyId);
 					statementsList.setAgeing(ageing);
 					statementsList.setCategory(getCategory(ageing));
 
@@ -10977,11 +11012,11 @@ public class FinanceTool {
 							dateCal[i].get(Calendar.DATE) - 1);
 
 					if (dateCal[i].get(Calendar.DATE) <= 0) {
-						dateCal[i].set(Calendar.MONTH, dateCal[i]
-								.get(Calendar.MONTH) - 1);
-						dateCal[i].set(Calendar.DATE, dateCal[i]
-								.getActualMaximum(Calendar.DATE)
-								- dateCal[i].get(Calendar.DATE));
+						dateCal[i].set(Calendar.MONTH,
+								dateCal[i].get(Calendar.MONTH) - 1);
+						dateCal[i].set(Calendar.DATE,
+								dateCal[i].getActualMaximum(Calendar.DATE)
+										- dateCal[i].get(Calendar.DATE));
 					}
 
 				}
@@ -11005,14 +11040,14 @@ public class FinanceTool {
 
 				Calendar nextMonthStartDateCal = new GregorianCalendar();
 				nextMonthStartDateCal.setTime(currentDate.getAsDateObject());
-				nextMonthStartDateCal.set(Calendar.MONTH, nextMonthStartDateCal
-						.get(Calendar.MONTH) + 1);
+				nextMonthStartDateCal.set(Calendar.MONTH,
+						nextMonthStartDateCal.get(Calendar.MONTH) + 1);
 				nextMonthStartDateCal.set(Calendar.DATE, 1);
 
 				Calendar nextMonthEndDateCal = new GregorianCalendar();
 				nextMonthEndDateCal.setTime(currentDate.getAsDateObject());
-				nextMonthEndDateCal.set(Calendar.MONTH, nextMonthEndDateCal
-						.get(Calendar.MONTH) + 1);
+				nextMonthEndDateCal.set(Calendar.MONTH,
+						nextMonthEndDateCal.get(Calendar.MONTH) + 1);
 				nextMonthEndDateCal.set(Calendar.DATE, nextMonthEndDateCal
 						.getActualMaximum(Calendar.DAY_OF_MONTH));
 
@@ -11158,7 +11193,8 @@ public class FinanceTool {
 						.setParameter(
 								"nextMonthStartDateCal",
 								new FinanceDate(nextMonthStartDateCal.getTime())
-										.getDate()).setParameter(
+										.getDate())
+						.setParameter(
 								"nextMonthEndDateCal",
 								new FinanceDate(nextMonthEndDateCal.getTime())
 										.getDate());
@@ -11183,11 +11219,13 @@ public class FinanceTool {
 					if (dateCal[i].get(Calendar.DATE) > dateCal[i]
 							.getActualMaximum(Calendar.DATE)) {
 
-						dateCal[i].set(Calendar.DATE, dateCal[i]
-								.get(Calendar.DATE)
-								- dateCal[i].getActualMaximum(Calendar.DATE));
-						dateCal[i].set(Calendar.MONTH, dateCal[i]
-								.get(Calendar.MONTH) + 1);
+						dateCal[i]
+								.set(Calendar.DATE,
+										dateCal[i].get(Calendar.DATE)
+												- dateCal[i]
+														.getActualMaximum(Calendar.DATE));
+						dateCal[i].set(Calendar.MONTH,
+								dateCal[i].get(Calendar.MONTH) + 1);
 					}
 				}
 
@@ -11219,61 +11257,80 @@ public class FinanceTool {
 						.setParameter(
 								"tenDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[10].getTime())
-										.getDate()).setParameter(
+										.getDate())
+						.setParameter(
 								"elevenDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[11].getTime())
-										.getDate()).setParameter(
+										.getDate())
+						.setParameter(
 								"twelveDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[12].getTime())
-										.getDate()).setParameter(
+										.getDate())
+						.setParameter(
 								"thirteenDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[13].getTime())
-										.getDate()).setParameter(
+										.getDate())
+						.setParameter(
 								"fourteenDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[14].getTime())
-										.getDate()).setParameter(
+										.getDate())
+						.setParameter(
 								"fifteenDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[15].getTime())
-										.getDate()).setParameter(
+										.getDate())
+						.setParameter(
 								"sixteenDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[16].getTime())
-										.getDate()).setParameter(
+										.getDate())
+						.setParameter(
 								"seventeenDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[17].getTime())
-										.getDate()).setParameter(
+										.getDate())
+						.setParameter(
 								"eighteenDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[18].getTime())
-										.getDate()).setParameter(
+										.getDate())
+						.setParameter(
 								"nineteenDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[19].getTime())
-										.getDate()).setParameter(
+										.getDate())
+						.setParameter(
 								"twentyDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[20].getTime())
-										.getDate()).setParameter(
+										.getDate())
+						.setParameter(
 								"twentyOneDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[21].getTime())
-										.getDate()).setParameter(
+										.getDate())
+						.setParameter(
 								"twentyTwoDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[22].getTime())
-										.getDate()).setParameter(
+										.getDate())
+						.setParameter(
 								"twentyThreeDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[23].getTime())
-										.getDate()).setParameter(
+										.getDate())
+						.setParameter(
 								"twentyFourDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[24].getTime())
-										.getDate()).setParameter(
+										.getDate())
+						.setParameter(
 								"twentyFiveDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[25].getTime())
-										.getDate()).setParameter(
+										.getDate())
+						.setParameter(
 								"twentySixDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[26].getTime())
-										.getDate()).setParameter(
+										.getDate())
+						.setParameter(
 								"twentySevenDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[27].getTime())
-										.getDate()).setParameter(
+										.getDate())
+						.setParameter(
 								"twentyEightDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[28].getTime())
-										.getDate()).setParameter(
+										.getDate())
+						.setParameter(
 								"twentyNineDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[29].getTime())
 										.getDate());
@@ -11316,7 +11373,8 @@ public class FinanceTool {
 							double amount = res == null ? 0 : (Double) res;
 							gPoints.add(amount);
 
-							res = session.getNamedQuery("getInvoicesDue")
+							res = session
+									.getNamedQuery("getInvoicesDue")
 									.setParameter("companyId", company.getID())
 									.setParameter("presentDate",
 											(new FinanceDate()).getDate())
@@ -11381,7 +11439,8 @@ public class FinanceTool {
 						double amount = res == null ? 0 : (Double) res;
 						gPoints.add(amount);
 
-						res = session.getNamedQuery("getBillsDue")
+						res = session
+								.getNamedQuery("getBillsDue")
 								.setParameter("companyId", company.getID())
 								.setParameter("presentDate",
 										(new FinanceDate()).getDate())
@@ -11444,18 +11503,19 @@ public class FinanceTool {
 		Company company = getCompany(companyId);
 		Query query = null;
 		if (employeeName != null)
-			query = session.getNamedQuery(
-					"getCashPurchase.by.employeeNmae.expenseStatusandtype")
-					.setParameter("employeeName", employeeName).setParameter(
-							"expenseStatus", status).setParameter("type",
-							Transaction.TYPE_EMPLOYEE_EXPENSE).setEntity(
-							"company", company);
+			query = session
+					.getNamedQuery(
+							"getCashPurchase.by.employeeNmae.expenseStatusandtype")
+					.setParameter("employeeName", employeeName)
+					.setParameter("expenseStatus", status)
+					.setParameter("type", Transaction.TYPE_EMPLOYEE_EXPENSE)
+					.setEntity("company", company);
 		else
-			query = session.getNamedQuery(
-					"getCashPurchase.by.expenseStatusandtype").setParameter(
-					"expenseStatus", status).setParameter("type",
-					Transaction.TYPE_EMPLOYEE_EXPENSE).setEntity("company",
-					company);
+			query = session
+					.getNamedQuery("getCashPurchase.by.expenseStatusandtype")
+					.setParameter("expenseStatus", status)
+					.setParameter("type", Transaction.TYPE_EMPLOYEE_EXPENSE)
+					.setEntity("company", company);
 
 		List<CashPurchase> cashpurchase = query.list();
 		for (CashPurchase cp : cashpurchase) {
@@ -11496,8 +11556,8 @@ public class FinanceTool {
 			Query query = session
 					.createSQLQuery(
 							"SELECT EMAIL_ID  FROM CLIENT C WHERE C.EMAIL_ID=:emailId AND C.PASSWORD=:password")
-					.setParameter("emailId", emailId).setParameter("password",
-							oldPassword);
+					.setParameter("emailId", emailId)
+					.setParameter("password", oldPassword);
 			String emailID = (String) query.uniqueResult();
 
 			if (emailID == null)
@@ -11519,8 +11579,8 @@ public class FinanceTool {
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
-		List<User> financeUsers = session.getNamedQuery("list.User").setEntity(
-				"company", company).list();
+		List<User> financeUsers = session.getNamedQuery("list.User")
+				.setEntity("company", company).list();
 		List<ClientUserInfo> clientUsers = new ArrayList<ClientUserInfo>();
 		for (User user : financeUsers) {
 			if (!user.isDeleted()) {
@@ -11728,8 +11788,8 @@ public class FinanceTool {
 		// Instead of cloning directly on transaction, we'll perform cloning on
 		// client transacton.
 		ClientTransaction clientTransaction = (ClientTransaction) new ClientConvertUtil()
-				.toClientObject(transaction, Util
-						.getClientEqualentClass(transaction.getClass()));
+				.toClientObject(transaction,
+						Util.getClientEqualentClass(transaction.getClass()));
 
 		ClientTransaction clone = new CloneUtil<IAccounterCore>(
 				IAccounterCore.class).clone(null, clientTransaction, true);
@@ -11748,15 +11808,11 @@ public class FinanceTool {
 
 		// reset credits and payments
 		clone.setCreditsAndPayments(null);
-		clone
-				.setTransactionMakeDeposit(new ArrayList<ClientTransactionMakeDeposit>());
+		clone.setTransactionMakeDeposit(new ArrayList<ClientTransactionMakeDeposit>());
 		clone.setTransactionPayBill(new ArrayList<ClientTransactionPayBill>());
-		clone
-				.setTransactionReceivePayment(new ArrayList<ClientTransactionReceivePayment>());
-		clone
-				.setTransactionIssuePayment(new ArrayList<ClientTransactionIssuePayment>());
-		clone
-				.setTransactionPaySalesTax(new ArrayList<ClientTransactionPaySalesTax>());
+		clone.setTransactionReceivePayment(new ArrayList<ClientTransactionReceivePayment>());
+		clone.setTransactionIssuePayment(new ArrayList<ClientTransactionIssuePayment>());
+		clone.setTransactionPaySalesTax(new ArrayList<ClientTransactionPaySalesTax>());
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -11797,70 +11853,71 @@ public class FinanceTool {
 		// Updating
 		try {
 			session.getNamedQuery(
-					"update.merge.Payee.mergeoldbalance.tonewbalance").setLong(
-					"id", toClientCustomer.getID()).setDouble("balance",
-					mergeBalance).setEntity("company", company).executeUpdate();
+					"update.merge.Payee.mergeoldbalance.tonewbalance")
+					.setLong("id", toClientCustomer.getID())
+					.setDouble("balance", mergeBalance)
+					.setEntity("company", company).executeUpdate();
 
-			session.getNamedQuery("update.merge.invoice.old.tonew").setLong(
-					"fromID", fromClientCustomer.getID()).setLong("toID",
-					toClientCustomer.getID()).setEntity("company", company)
-					.executeUpdate();
+			session.getNamedQuery("update.merge.invoice.old.tonew")
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
-			session.getNamedQuery("update.merge.cashsale.old.tonew").setLong(
-					"fromID", fromClientCustomer.getID()).setLong("toID",
-					toClientCustomer.getID()).setEntity("company", company)
-					.executeUpdate();
+			session.getNamedQuery("update.merge.cashsale.old.tonew")
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("update.merge.customercreditmemo.old.tonew")
-					.setLong("fromID", fromClientCustomer.getID()).setLong(
-							"toID", toClientCustomer.getID()).setEntity(
-							"company", company).executeUpdate();
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
-			session.getNamedQuery("update.merge.salesOrder.old.tonew").setLong(
-					"fromID", fromClientCustomer.getID()).setLong("toID",
-					toClientCustomer.getID()).setEntity("company", company)
-					.executeUpdate();
+			session.getNamedQuery("update.merge.salesOrder.old.tonew")
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
-			session.getNamedQuery("update.merge.Entry.old.tonew").setLong(
-					"fromID", fromClientCustomer.getID()).setLong("toID",
-					toClientCustomer.getID()).setString("memo",
-					toClientCustomer.getName()).setEntity("company", company)
-					.executeUpdate();
+			session.getNamedQuery("update.merge.Entry.old.tonew")
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setString("memo", toClientCustomer.getName())
+					.setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("update.merge.CustomerPrePayment.old.tonew")
-					.setLong("fromID", fromClientCustomer.getID()).setLong(
-							"toID", toClientCustomer.getID()).setEntity(
-							"company", company).executeUpdate();
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("update.merge.CustomerRefund.old.tonew")
-					.setLong("fromID", fromClientCustomer.getID()).setLong(
-							"toID", toClientCustomer.getID()).setEntity(
-							"company", company).executeUpdate();
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("update.merge.ReceivePayment.old.tonew")
-					.setLong("fromID", fromClientCustomer.getID()).setLong(
-							"toID", toClientCustomer.getID()).setEntity(
-							"company", company).executeUpdate();
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
-			session.getNamedQuery("update.merge.Estimate.old.tonew").setLong(
-					"fromID", fromClientCustomer.getID()).setLong("toID",
-					toClientCustomer.getID()).setEntity("company", company)
-					.executeUpdate();
+			session.getNamedQuery("update.merge.Estimate.old.tonew")
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery(
-					"update.merge.transactionMakeDeposit.old.tonew").setLong(
-					"fromID", fromClientCustomer.getID()).setLong("toID",
-					toClientCustomer.getID()).setEntity("company", company)
-					.executeUpdate();
+					"update.merge.transactionMakeDeposit.old.tonew")
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
-			session.getNamedQuery("update.merge.writeCheck.old.tonew").setLong(
-					"fromID", fromClientCustomer.getID()).setLong("toID",
-					toClientCustomer.getID()).setEntity("company", company)
-					.executeUpdate();
+			session.getNamedQuery("update.merge.writeCheck.old.tonew")
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
-			session.getNamedQuery("delete.entry.old").setLong("from",
-					fromClientCustomer.getID()).setEntity("company", company)
-					.executeUpdate();
+			session.getNamedQuery("delete.entry.old")
+					.setLong("from", fromClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
 			ServerConvertUtil convertUtil = new ServerConvertUtil();
 			Customer customer = new Customer();
@@ -11888,70 +11945,70 @@ public class FinanceTool {
 
 		session.getNamedQuery(
 				"update.mergeVendor.Payee.mergeoldbalance.tonewbalance")
-				.setLong("id", toClientVendor.getID()).setBoolean("status",
-						fromClientVendor.isActive()).setDouble("balance",
-						mergeBalance).setEntity("company", company)
-				.executeUpdate();
+				.setLong("id", toClientVendor.getID())
+				.setBoolean("status", fromClientVendor.isActive())
+				.setDouble("balance", mergeBalance)
+				.setEntity("company", company).executeUpdate();
 
 		session.getNamedQuery("update.mergeVendor.PurchaseOrder.old.tonew")
-				.setLong("fromID", fromClientVendor.getID()).setLong("toID",
-						toClientVendor.getID()).setEntity("company", company)
-				.executeUpdate();
+				.setLong("fromID", fromClientVendor.getID())
+				.setLong("toID", toClientVendor.getID())
+				.setEntity("company", company).executeUpdate();
 
 		session.getNamedQuery("update.mergeVendor.CashPurchase.old.tonew")
-				.setLong("fromID", fromClientVendor.getID()).setLong("toID",
-						toClientVendor.getID()).setEntity("company", company)
-				.executeUpdate();
+				.setLong("fromID", fromClientVendor.getID())
+				.setLong("toID", toClientVendor.getID())
+				.setEntity("company", company).executeUpdate();
 
 		session.getNamedQuery("update.mergeVendor.CreditCardCharge.old.tonew")
-				.setLong("fromID", fromClientVendor.getID()).setLong("toID",
-						toClientVendor.getID()).setEntity("company", company)
-				.executeUpdate();
+				.setLong("fromID", fromClientVendor.getID())
+				.setLong("toID", toClientVendor.getID())
+				.setEntity("company", company).executeUpdate();
 
 		session.getNamedQuery("update.mergeVendor.EnterBill.old.tonew")
-				.setLong("fromID", fromClientVendor.getID()).setLong("toID",
-						toClientVendor.getID()).setEntity("company", company)
-				.executeUpdate();
+				.setLong("fromID", fromClientVendor.getID())
+				.setLong("toID", toClientVendor.getID())
+				.setEntity("company", company).executeUpdate();
 
 		session.getNamedQuery("update.mergeVendor.ItemReceipt.old.tonew")
-				.setLong("fromID", fromClientVendor.getID()).setLong("toID",
-						toClientVendor.getID()).setEntity("company", company)
-				.executeUpdate();
+				.setLong("fromID", fromClientVendor.getID())
+				.setLong("toID", toClientVendor.getID())
+				.setEntity("company", company).executeUpdate();
 
-		session.getNamedQuery("update.mergeVendor.PayBill.old.tonew").setLong(
-				"fromID", fromClientVendor.getID()).setLong("toID",
-				toClientVendor.getID()).setEntity("company", company)
-				.executeUpdate();
+		session.getNamedQuery("update.mergeVendor.PayBill.old.tonew")
+				.setLong("fromID", fromClientVendor.getID())
+				.setLong("toID", toClientVendor.getID())
+				.setEntity("company", company).executeUpdate();
 
 		session.getNamedQuery(
-				"update.mergeVendor.transactionMakeDeposit.old.tonew").setLong(
-				"fromID", fromClientVendor.getID()).setLong("toID",
-				toClientVendor.getID()).setEntity("company", company)
-				.executeUpdate();
+				"update.mergeVendor.transactionMakeDeposit.old.tonew")
+				.setLong("fromID", fromClientVendor.getID())
+				.setLong("toID", toClientVendor.getID())
+				.setEntity("company", company).executeUpdate();
 
 		session.getNamedQuery("update.mergeVendor.vendorCreditMemo.old.tonew")
-				.setLong("fromID", fromClientVendor.getID()).setLong("toID",
-						toClientVendor.getID()).setEntity("company", company)
-				.executeUpdate();
+				.setLong("fromID", fromClientVendor.getID())
+				.setLong("toID", toClientVendor.getID())
+				.setEntity("company", company).executeUpdate();
 
 		session.getNamedQuery("update.mergeVendor.writeCheck.old.tonew")
-				.setLong("fromID", fromClientVendor.getID()).setLong("toID",
-						toClientVendor.getID()).setEntity("company", company)
-				.executeUpdate();
+				.setLong("fromID", fromClientVendor.getID())
+				.setLong("toID", toClientVendor.getID())
+				.setEntity("company", company).executeUpdate();
 
-		session.getNamedQuery("update.mergeVendor.Entry.old.tonew").setLong(
-				"fromID", fromClientVendor.getID()).setLong("toID",
-				toClientVendor.getID()).setEntity("company", company)
-				.executeUpdate();
+		session.getNamedQuery("update.mergeVendor.Entry.old.tonew")
+				.setLong("fromID", fromClientVendor.getID())
+				.setLong("toID", toClientVendor.getID())
+				.setEntity("company", company).executeUpdate();
 
-		session.getNamedQuery("update.mergeVendor.Item.old.tonew").setLong(
-				"fromID", fromClientVendor.getID()).setLong("toID",
-				toClientVendor.getID()).setEntity("company", company)
-				.executeUpdate();
+		session.getNamedQuery("update.mergeVendor.Item.old.tonew")
+				.setLong("fromID", fromClientVendor.getID())
+				.setLong("toID", toClientVendor.getID())
+				.setEntity("company", company).executeUpdate();
 
-		session.getNamedQuery("delete.vendorentry.old").setLong("from",
-				fromClientVendor.getID()).setEntity("company", company)
-				.executeUpdate();
+		session.getNamedQuery("delete.vendorentry.old")
+				.setLong("from", fromClientVendor.getID())
+				.setEntity("company", company).executeUpdate();
 
 		ServerConvertUtil convertUtil = new ServerConvertUtil();
 		Vendor vendor = new Vendor();
@@ -11971,17 +12028,18 @@ public class FinanceTool {
 		double mergeBalance = toClientAccount.getOpeningBalance()
 				+ fromClientAccount.getOpeningBalance();
 
-		session.getNamedQuery("update.merge.Account.oldBalance.tonew").setLong(
-				"from", toClientAccount.getID()).setDouble("balance",
-				mergeBalance).setEntity("company", company).executeUpdate();
+		session.getNamedQuery("update.merge.Account.oldBalance.tonew")
+				.setLong("from", toClientAccount.getID())
+				.setDouble("balance", mergeBalance)
+				.setEntity("company", company).executeUpdate();
 
-		session.getNamedQuery("delete.account.old").setLong("from",
-				fromClientAccount.getID()).setEntity("company", company)
-				.executeUpdate();
+		session.getNamedQuery("delete.account.old")
+				.setLong("from", fromClientAccount.getID())
+				.setEntity("company", company).executeUpdate();
 
-		session.getNamedQuery("delete.account.entry.old").setLong("from",
-				fromClientAccount.getID()).setEntity("company", company)
-				.executeUpdate();
+		session.getNamedQuery("delete.account.entry.old")
+				.setLong("from", fromClientAccount.getID())
+				.setEntity("company", company).executeUpdate();
 
 		ServerConvertUtil convertUtil = new ServerConvertUtil();
 		Account account = new Account();
@@ -11998,11 +12056,11 @@ public class FinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction tx = session.beginTransaction();
 		Company company = getCompany(companyId);
-		session.getNamedQuery("update.mergeItem.oldcost.tonewcost").setLong(
-				"from", toClientItem.getID()).setBoolean("status",
-				fromClientItem.isActive()).setDouble("price",
-				fromClientItem.getSalesPrice()).setEntity("company", company)
-				.executeUpdate();
+		session.getNamedQuery("update.mergeItem.oldcost.tonewcost")
+				.setLong("from", toClientItem.getID())
+				.setBoolean("status", fromClientItem.isActive())
+				.setDouble("price", fromClientItem.getSalesPrice())
+				.setEntity("company", company).executeUpdate();
 
 		ServerConvertUtil convertUtil = new ServerConvertUtil();
 		Item item = new Item();
@@ -12123,9 +12181,9 @@ public class FinanceTool {
 		Company company = getCompany(companyId);
 		org.hibernate.Transaction begintransaction = session.beginTransaction();
 
-		Query query = session.getNamedQuery(
-				"get.selected.vendors.enterbills.list.by.id").setLong(
-				"vendorId", vendorId).setEntity("company", company);
+		Query query = session
+				.getNamedQuery("get.selected.vendors.enterbills.list.by.id")
+				.setLong("vendorId", vendorId).setEntity("company", company);
 		;
 		list = (ArrayList<EnterBill>) query.list();
 
@@ -12336,8 +12394,7 @@ public class FinanceTool {
 								: null);
 				salDetails
 						.setTransactionid(object[7] != null ? ((BigInteger) object[7])
-								.longValue()
-								: 0);
+								.longValue() : 0);
 				salesByLocationDetailList.add(salDetails);
 			}
 		}
@@ -12369,18 +12426,18 @@ public class FinanceTool {
 		List l;
 
 		if (isLocation) {
-			l = ((Query) session.getNamedQuery(
-					"getSalesByLocationDetailForLocation").setParameter(
-					"companyId", companyId).setParameter("startDate",
-					startDate.getDate()).setParameter("endDate",
-					endDate.getDate()).setParameter("locationName",
-					locationName)).list();
+			l = ((Query) session
+					.getNamedQuery("getSalesByLocationDetailForLocation")
+					.setParameter("companyId", companyId)
+					.setParameter("startDate", startDate.getDate())
+					.setParameter("endDate", endDate.getDate())
+					.setParameter("locationName", locationName)).list();
 		} else {
 			l = ((Query) session.getNamedQuery("getSalesByClassDetailForClass")
-					.setParameter("companyId", companyId).setParameter(
-							"startDate", startDate.getDate()).setParameter(
-							"endDate", endDate.getDate()).setParameter(
-							"className", locationName)).list();
+					.setParameter("companyId", companyId)
+					.setParameter("startDate", startDate.getDate())
+					.setParameter("endDate", endDate.getDate())
+					.setParameter("className", locationName)).list();
 		}
 
 		Iterator iterator = l.iterator();
@@ -12407,8 +12464,7 @@ public class FinanceTool {
 								: null);
 				salDetails
 						.setTransactionid(object[7] != null ? ((BigInteger) object[7])
-								.longValue()
-								: 0);
+								.longValue() : 0);
 				salesByLocationDetailList.add(salDetails);
 			}
 		}
@@ -12467,8 +12523,7 @@ public class FinanceTool {
 								: null);
 				salDetails
 						.setTransactionId(object[3] != null ? ((BigInteger) object[3])
-								.longValue()
-								: 0);
+								.longValue() : 0);
 				salesByLocationDetailList.add(salDetails);
 			}
 		}
@@ -12662,8 +12717,9 @@ public class FinanceTool {
 			count = ((BigInteger) session
 					.createSQLQuery(
 							"SELECT COUNT(*) FROM ACTIVITY A WHERE A.TIME_STAMP BETWEEN :fromDate AND :endDate")
-					.setParameter("fromDate", startTime).setParameter(
-							"endDate", endTime).uniqueResult()).intValue();
+					.setParameter("fromDate", startTime)
+					.setParameter("endDate", endTime).uniqueResult())
+					.intValue();
 		}
 		List<Activity> activites = query.list();
 		PaginationList<ClientActivity> clientActivities = new PaginationList<ClientActivity>();
@@ -12714,10 +12770,10 @@ public class FinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		List list = session.getNamedQuery("get.transactions.by.account")
-				.setLong("id", id).setParameter("startDate",
-						new FinanceDate(startDate)).setParameter("endDate",
-						new FinanceDate(endDate)).setParameter("company",
-						company).list();
+				.setLong("id", id)
+				.setParameter("startDate", new FinanceDate(startDate))
+				.setParameter("endDate", new FinanceDate(endDate))
+				.setParameter("company", company).list();
 		List<ClientTransaction> transactions = new ArrayList<ClientTransaction>();
 
 		Iterator iterator = list.iterator();
@@ -12780,8 +12836,8 @@ public class FinanceTool {
 			try {
 				clientVendor = clientConvertUtil.toClientObject(p.getVendor(),
 						ClientVendor.class);
-				clientFinanceDate = clientConvertUtil.toClientObject(p
-						.getDate(), ClientFinanceDate.class);
+				clientFinanceDate = clientConvertUtil.toClientObject(
+						p.getDate(), ClientFinanceDate.class);
 			} catch (Exception e) {
 
 			}
@@ -12810,9 +12866,11 @@ public class FinanceTool {
 			long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
-		List list = session.getNamedQuery(
-				"get.OpeningBalance.Of.Account.from.Reconciliations").setLong(
-				"accountID", accountID).setEntity("company", company).list();
+		List list = session
+				.getNamedQuery(
+						"get.OpeningBalance.Of.Account.from.Reconciliations")
+				.setLong("accountID", accountID).setEntity("company", company)
+				.list();
 		if (list.isEmpty()) {
 			return 0.0;
 		}
@@ -12839,8 +12897,8 @@ public class FinanceTool {
 		org.hibernate.Transaction transaction = session.beginTransaction();
 		try {
 			Company company = getCompany(companyId);
-			Activity noteActivity = new Activity(company, AccounterThreadLocal
-					.get(), ActivityType.NOTE);
+			Activity noteActivity = new Activity(company,
+					AccounterThreadLocal.get(), ActivityType.NOTE);
 			noteActivity.setObjectID(transactionId);
 			noteActivity.setDescription(noteDescription);
 			session.save(noteActivity);
