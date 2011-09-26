@@ -507,7 +507,8 @@ public class WriteChequeView extends
 		// if (result.getErrors().size() > 0)
 		// return result;
 
-		result.add(DynamicForm.validate(payForm, bankAccForm));
+		result.add(DynamicForm.validate(payForm));
+		result.add(DynamicForm.validate( bankAccForm));
 
 		// FIXME Need to validate grids.
 		if (transactionVendorAccountTable.getAllRows().isEmpty()
