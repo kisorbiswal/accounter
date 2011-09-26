@@ -1152,14 +1152,6 @@
 		order by id desc
 	</query>
 
-	<query name="getFinanceLogger.by.checkidwith.lowerrangeandupperrange">
-		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.FinanceLogger f where
-		f.id
-		&gt;:lowerRange and f.id &lt;=:upperRange
-		order by f.id desc
-	</query>
-
 	<query name="getTAXRateCalculation.by.check.idandvatReturn">
 		<query-param name="id" type="long" />
 		<query-param name="company" type="Company" />
@@ -1416,7 +1408,8 @@
 	</query>
 
 	<query name="get.All.Units">
-		from com.vimukti.accounter.core.Unit
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.Unit where company=:company
 	</query>
 
 	<query name="adminUserForEmailId">
@@ -1460,11 +1453,6 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.Vendor v where
 		v.isTrackPaymentsFor1099=true and v.company=:company
-	</query>
-
-	<query name="get.1099.selected.accounts">
-		from com.vimukti.accounter.core.Account a where
-		a.boxNumber!=0
 	</query>
 
 	<query name="get.selected.vendors.enterbills.list.by.id">
