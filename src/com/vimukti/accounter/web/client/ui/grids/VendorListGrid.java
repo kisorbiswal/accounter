@@ -205,34 +205,36 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 
 	@Override
 	public void onDoubleClick(PayeeList payee) {
-		AccounterAsyncCallback<ClientPayee> callback = new AccounterAsyncCallback<ClientPayee>() {
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
+			AccounterAsyncCallback<ClientPayee> callback = new AccounterAsyncCallback<ClientPayee>() {
 
-			public void onException(AccounterException caught) {
-			}
-
-			public void onResultSuccess(ClientPayee result) {
-				if (result != null) {
-					if (result instanceof ClientVendor) {
-						ActionFactory.getNewVendorAction().run(
-								(ClientVendor) result, false);
-						// } else if (result instanceof ClientTaxAgency) {
-						// UIUtils.runAction(result, ActionFactory
-						// .getNewTaxAgencyAction());
-					} else if (result instanceof ClientTAXAgency) {
-						ActionFactory.getNewTAXAgencyAction().run(
-								(ClientTAXAgency) result, false);
-					}
-
+				public void onException(AccounterException caught) {
 				}
-			}
 
-		};
-		if (payee.getType() == ClientPayee.TYPE_VENDOR) {
-			Accounter.createGETService().getObjectById(
-					AccounterCoreType.VENDOR, payee.id, callback);
-		} else if (payee.getType() == ClientPayee.TYPE_TAX_AGENCY) {
-			Accounter.createGETService().getObjectById(
-					AccounterCoreType.TAXAGENCY, payee.id, callback);
+				public void onResultSuccess(ClientPayee result) {
+					if (result != null) {
+						if (result instanceof ClientVendor) {
+							ActionFactory.getNewVendorAction().run(
+									(ClientVendor) result, false);
+							// } else if (result instanceof ClientTaxAgency) {
+							// UIUtils.runAction(result, ActionFactory
+							// .getNewTaxAgencyAction());
+						} else if (result instanceof ClientTAXAgency) {
+							ActionFactory.getNewTAXAgencyAction().run(
+									(ClientTAXAgency) result, false);
+						}
+
+					}
+				}
+
+			};
+			if (payee.getType() == ClientPayee.TYPE_VENDOR) {
+				Accounter.createGETService().getObjectById(
+						AccounterCoreType.VENDOR, payee.id, callback);
+			} else if (payee.getType() == ClientPayee.TYPE_TAX_AGENCY) {
+				Accounter.createGETService().getObjectById(
+						AccounterCoreType.TAXAGENCY, payee.id, callback);
+			}
 		}
 	}
 
