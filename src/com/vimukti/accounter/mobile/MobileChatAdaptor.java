@@ -26,15 +26,33 @@ public class MobileChatAdaptor implements MobileAdaptor {
 	 */
 	public UserMessage preProcess(MobileSession session, String message) {
 		UserMessage userMessage = new UserMessage();
-		Command command = session.getCurrentCommand();
+
+		if (message == null || message.isEmpty()) {
+
+		}
+
+		Command command = null;
+		Result lastResult = session.getLastResult();
+		if (lastResult instanceof PatternResult) {
+			PatternResult patternResult = (PatternResult) lastResult;
+			command = getCommand(patternResult.getCommands(), message);
+			userMessage.setInputs(message.split(" "));
+		}
 		if (command == null) {
+			command = session.getCurrentCommand();
+			userMessage.setInputs(message.split(" "));
+		}
+		if (command == null) {
+			// for (String subStr : StringUtils.getSubStrings(message)) {
 			command = CommandsFactory.INSTANCE.searchCommand(message);
+			// if (command != null) {
+			// break;
+			// }
+			// }
 		}
 		if (command != null) {
 			userMessage.setType(Type.COMMAND);
 			userMessage.setCommand(command);
-			String name = command.getName();
-			userMessage.setInputs(message.replace(name, "").split(" "));
 			return userMessage;
 		}
 
@@ -59,6 +77,20 @@ public class MobileChatAdaptor implements MobileAdaptor {
 
 		userMessage.setInputs(new String[] { message });
 		return userMessage;
+	}
+
+	private Command getCommand(CommandList commands, String input) {
+		// Getting the First Character of the Input
+		if (input == null || input.isEmpty() || input.length() > 1) {
+			return null;
+		}
+		char ch = input.charAt(0);
+		// Finding the Command for Input
+		String commandString = commands.get(ch - 97);
+		if (commandString == null) {
+			return null;
+		}
+		return CommandsFactory.INSTANCE.getCommand(commandString);
 	}
 
 	/**
@@ -87,8 +119,11 @@ public class MobileChatAdaptor implements MobileAdaptor {
 			if (part instanceof CommandList) {
 				CommandList commandList = (CommandList) part;
 				for (int x = 0; x < commandList.size(); x++, commandIndex++) {
+					reply.append('(');
 					reply.append((char) commandIndex);
+					reply.append(") ");
 					reply.append(commandList.get(x));
+					reply.append('\n');
 				}
 			} else {
 				reply.append((String) part);

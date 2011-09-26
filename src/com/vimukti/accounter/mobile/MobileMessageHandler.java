@@ -28,6 +28,7 @@ public class MobileMessageHandler {
 			MobileSession session = sessions.get(userId);
 			if (session == null) {
 				session = new MobileSession(getUserById(userId));
+				sessions.put(userId, session);
 			}
 			MobileAdaptor adoptor = getAdaptor(adaptorType);
 			if (session.isExpired()) {

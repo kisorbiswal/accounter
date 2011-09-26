@@ -12,7 +12,6 @@ public abstract class Command {
 	List<Requirement> requirements = new ArrayList<Requirement>();
 	private boolean isDone;
 	private String successMessage;
-	private String name;
 
 	protected abstract void addRequirements(List<Requirement> list);
 
@@ -73,25 +72,11 @@ public abstract class Command {
 	}
 
 	/**
-	 * 
-	 */
-	public String getName() {
-		return this.name;
-	}
-
-	/**
 	 * @return
 	 */
 	public Object getResultObject() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	/**
-	 * @param commandString
-	 */
-	public void setName(String commandString) {
-		this.name = commandString;
 	}
 
 }

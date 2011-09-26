@@ -17,4 +17,9 @@ public class StringUtils {
 		return false;
 	}
 
+	public static String[] getSubStrings(String input) {
+		// TODO
+		return new String[0];
+	}
+
 }

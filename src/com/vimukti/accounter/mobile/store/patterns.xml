@@ -31,6 +31,8 @@
 	<pattern>
 		<input>Fiscal Year</input>
 		<input>Financial Year</input>
+		<input>FiscalYear</input>
+		<input>FinancialYear</input>
 		<output>
 			<command>Create New Fiscal Year</command>
 			<command> Close Fiscal Year</command>

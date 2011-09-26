@@ -19,6 +19,8 @@ public class MobileSession {
 
 	public static final long SESSION_TIME_OUT_PERIOD = 2 * 60 * 1000;
 
+	private static final String LAST_RESULT = "lastResult";
+
 	private User user;
 	private Map<Object, Object> attributes = new HashMap<Object, Object>();
 	private Command currentCommand;
@@ -140,6 +142,20 @@ public class MobileSession {
 
 	public Session getHibernateSession() {
 		return this.hibernateSession;
+	}
+
+	/**
+	 * @return
+	 */
+	public Result getLastResult() {
+		return (Result) getAttribute(LAST_RESULT);
+	}
+
+	/**
+	 * @param result
+	 */
+	public void setLastResult(Result result) {
+		setAttribute(LAST_RESULT, result);
 	}
 
 }

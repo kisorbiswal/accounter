@@ -16,11 +16,9 @@
 		<alias>APAD report</alias>
 	</command>
 	<command clazz="APAgingSummaryReportCommand" name="A/P Aging Summary">
-		<alias>
-			<alias>A/P Aging Summary Report</alias>
-			<alias>APAS</alias>
-			<alias>APAS report</alias>
-		</alias>
+		<alias>A/P Aging Summary Report</alias>
+		<alias>APAS</alias>
+		<alias>APAS report</alias>
 	</command>
 	<command clazz="ARAgingDetailReportCommand" name="A/R Aging Summary">
 		<alias>A/R Aging Detail Report</alias>
