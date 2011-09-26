@@ -68,7 +68,7 @@ public class CustomerListCommand extends AbstractTransactionCommand {
 		ResultList customerResult = new ResultList("vendors");
 		result.add("customers List");
 		int num = 0;
-		List<Customer> customers = getCustomers(isActive);
+		List<Customer> customers = getCustomers(context.getCompany(),isActive);
 		for (Customer customer : customers) {
 			customerResult.add(createPayeeRecord(customer));
 			num++;
