@@ -5,6 +5,11 @@ import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
 
 public class UnitedKingdom extends AbstractCountryPreferences {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public String[] getStates() {
 		String[] states = new String[] { "Buckinghamshire", "Hampshire",
@@ -88,6 +93,33 @@ public class UnitedKingdom extends AbstractCountryPreferences {
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
 		return Accounter.constants().april();
+	}
+
+
+
+	@Override
+	public String getDefaultDateFormat() {
+		return super.getDefaultDateFormat();
+	}
+
+	@Override
+	public boolean isVatAvailable() {
+		return true;
+	}
+
+	@Override
+	public boolean isVatIdAndCompanyTaxIdSame() {
+		return false;
+	}
+
+	@Override
+	public boolean isSalesTaxAvailable() {
+		return false;
+	}
+
+	@Override
+	public boolean isTDSAvailable() {
+		return false;
 	}
 
 }

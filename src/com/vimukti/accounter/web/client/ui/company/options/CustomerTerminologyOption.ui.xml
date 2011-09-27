@@ -9,11 +9,11 @@
 	</ui:style>
 	<g:VerticalPanel styleName="companyInfoPanel">
 		<g:VerticalPanel spacing="6" height="145">
-			<g:HorizontalPanel spacing="6" >
+			<g:HorizontalPanel spacing="6">
 				<g:Label ui:field="terminologyforCustomerLabel" styleName="header" />
 			</g:HorizontalPanel>
 			<g:HorizontalPanel spacing="6">
-				<g:Label ui:field="customerDescriptionLabel"/>
+				<g:Label ui:field="customerDescriptionLabel" />
 			</g:HorizontalPanel>
 			<g:VerticalPanel horizontalAlignment="ALIGN_CENTER"
 				spacing="6" height="116" width="430">

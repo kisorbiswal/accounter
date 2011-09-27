@@ -10,6 +10,8 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 
 	public static final int LEGAND = 1;
 
+	public static final int CATEGORY = 2;
+
 	/**
 	 * 
 	 */

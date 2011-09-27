@@ -290,7 +290,7 @@ public interface AccounterConstants extends Constants {
 
 	public String asOf();
 
-	public String asset();
+	public String assets();
 
 	public String assetNumber();
 
@@ -299,6 +299,8 @@ public interface AccounterConstants extends Constants {
 	public String assetOptions();
 
 	public String assetSold();
+
+	public String assetsTotal();
 
 	public String assetType();
 
@@ -2120,8 +2122,6 @@ public interface AccounterConstants extends Constants {
 
 	public String netIncome();
 
-	public String netOrdinaryIncome();
-
 	public String netOtherIncome();
 
 	public String netPrice();
@@ -2508,7 +2508,7 @@ public interface AccounterConstants extends Constants {
 
 	public String payrollLiability();
 
-	public String paySalesTax();
+	public String payTax();
 
 	public String paytermsAlreadyExists();
 
@@ -3463,9 +3463,9 @@ public interface AccounterConstants extends Constants {
 	public String totalOtherIncome();
 
 	public String totalOutStandingBalance();
-	
+
 	public String totalPaymentNotZeroForSelectedRecords();
-	
+
 	public String totalPaymentNotExceedDueForSelectedRecords();
 
 	public String totalPrice();
@@ -4843,8 +4843,8 @@ public interface AccounterConstants extends Constants {
 	public String showVatColumn();
 
 	public String pleaseSelectTaxCode();
-	public String tdsAmount();
 
+	public String tdsAmount();
 
 	public String tdsVendorsList();
 
@@ -4877,10 +4877,43 @@ public interface AccounterConstants extends Constants {
 	public String classTrackingDescription();
 
 	public String thereIsNoTrasationsToFile();
-	
+
 	public String productOrServiceItem();
 
 	public String sellPrice();
 
+	public String chargeOrTrackTax();
+
+	public String descChrageTrackTax();
+
+	public String taxtItemTransaction();
+
+	public String oneperDescription();
+
+	public String oneperDetailDescription();
+
+	public String enableTracking();
+
+	public String enableTrackingDescription();
+
+	public String taxList();
+
+	public String selectTransactionToReconcile();
+
+	public String dueDays();
+
+	public String addBill();
+
+	public String taxItemForPurchases();
+
+	public String taxItemForSales();
+
+	public String Category();
+
+	public String notSpecified();
+
+	public String otherIncomeTotal();
+
+	public String liabilitiesandEquityTotal();
 
 }

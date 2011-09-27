@@ -21,24 +21,12 @@ public class MakeDepositAccountCombo extends AccountCombo {
 	public List<ClientAccount> getAccounts() {
 		deposiInAccounts = new ArrayList<ClientAccount>();
 		for (ClientAccount account : getCompany().getActiveAccounts()) {
-			if (getCompany().getPreferences().isRegisteredForVAT()) {
-				if (Arrays.asList(ClientAccount.TYPE_BANK,
-						ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-						ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
-						ClientAccount.TYPE_EQUITY).contains(account.getType())) {
+			if (Arrays.asList(ClientAccount.TYPE_OTHER_CURRENT_ASSET,
+					ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
+					ClientAccount.TYPE_BANK, ClientAccount.TYPE_EQUITY)
+					.contains(account.getType())) {
 
-					deposiInAccounts.add(account);
-
-				}
-			} else {
-				if (Arrays.asList(ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-						ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
-						ClientAccount.TYPE_BANK, ClientAccount.TYPE_EQUITY)
-						.contains(account.getType())) {
-
-					deposiInAccounts.add(account);
-
-				}
+				deposiInAccounts.add(account);
 			}
 
 		}
@@ -49,24 +37,13 @@ public class MakeDepositAccountCombo extends AccountCombo {
 	public void setAccounts() {
 		deposiInAccounts = new ArrayList<ClientAccount>();
 		for (ClientAccount account : getCompany().getActiveAccounts()) {
-			if (getCompany().getPreferences().isRegisteredForVAT()) {
-				if (Arrays.asList(ClientAccount.TYPE_BANK,
-						ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-						ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
-						ClientAccount.TYPE_EQUITY).contains(account.getType())) {
+			if (Arrays.asList(ClientAccount.TYPE_OTHER_CURRENT_ASSET,
+					ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
+					ClientAccount.TYPE_BANK, ClientAccount.TYPE_EQUITY)
+					.contains(account.getType())) {
 
-					deposiInAccounts.add(account);
+				deposiInAccounts.add(account);
 
-				}
-			} else {
-				if (Arrays.asList(ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-						ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
-						ClientAccount.TYPE_BANK, ClientAccount.TYPE_EQUITY)
-						.contains(account.getType())) {
-
-					deposiInAccounts.add(account);
-
-				}
 			}
 		}
 

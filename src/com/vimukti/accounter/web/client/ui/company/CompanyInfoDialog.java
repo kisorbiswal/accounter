@@ -100,8 +100,8 @@ public class CompanyInfoDialog extends BaseDialog<ClientAddress> {
 			setAddressToTextItem(textareaItem2, company.getRegisteredAddress());
 			registrationNumberText.setValue(company.getRegistrationNumber());
 
-			doupaySalesChecBox.setValue(getCompany().getPreferences()
-					.isChargeSalesTax());
+			// doupaySalesChecBox.setValue(getCompany().getPreferences()
+			// .isChargeSalesTax());
 
 			if (doupaySalesChecBox.getValue() == Boolean.FALSE) {
 				vatRegNumber.setDisabled(true);
@@ -237,59 +237,52 @@ public class CompanyInfoDialog extends BaseDialog<ClientAddress> {
 		// taxesForm.setPadding(10);
 
 		doupaySalesChecBox = new CheckboxItem();
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			doupaySalesChecBox.setTitle(Accounter.constants()
-					.doYoupaySalesTaxes());
-		} else {
-			doupaySalesChecBox.setTitle(Accounter.constants()
-					.areYouRegisteredForVAT());
-		}
-		vatRegNumber = new TextItem(
-				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-						.constants().vatRegistrationNumber() : Accounter
-						.constants().taxRegNo());
+		// if (getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_US) {
+		// doupaySalesChecBox.setTitle(Accounter.constants()
+		// .doYoupaySalesTaxes());
+		// } else {
+		// doupaySalesChecBox.setTitle(Accounter.constants()
+		// .areYouRegisteredForVAT());
+		// }
+		vatRegNumber = new TextItem(Accounter.constants().taxRegNo());
 		vatRegNumber.setHelpInformation(true);
 		vatRegNumber.setWidth(100);
 		vatRegNumber.setDisabled(false);
 
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			doupaySalesChecBox.addChangeHandler(new ChangeHandler() {
+		// if (getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_US) {
+		doupaySalesChecBox.addChangeHandler(new ChangeHandler() {
 
-				private FocusWidget taxgroupBtn;
+			private FocusWidget taxgroupBtn;
 
-				public void onChange(ChangeEvent event) {
-					if ((Boolean) ((CheckboxItem) event.getSource()).getValue())
-						taxgroupBtn.setEnabled(false);
-					else
-						taxgroupBtn.setEnabled(true);
-				}
-			});
-			doupaySalesChecBox
-					.addChangeHandler(new ValueChangeHandler<Boolean>() {
-						@Override
-						public void onValueChange(
-								ValueChangeEvent<Boolean> event) {
-							vatRegNumber.setDisabled(!event.getValue());
-							vatRegNumber.setValue(Accounter.getCompany()
-									.getPreferences()
-									.getVATregistrationNumber());
-						}
-					});
-		} else {
+			public void onChange(ChangeEvent event) {
+				if ((Boolean) ((CheckboxItem) event.getSource()).getValue())
+					taxgroupBtn.setEnabled(false);
+				else
+					taxgroupBtn.setEnabled(true);
+			}
+		});
+		doupaySalesChecBox.addChangeHandler(new ValueChangeHandler<Boolean>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				vatRegNumber.setDisabled(!event.getValue());
+				vatRegNumber.setValue(Accounter.getCompany().getPreferences()
+						.getVATregistrationNumber());
+			}
+		});
+		// } else {
 
-			doupaySalesChecBox
-					.addChangeHandler(new ValueChangeHandler<Boolean>() {
+		doupaySalesChecBox.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
-						@Override
-						public void onValueChange(
-								ValueChangeEvent<Boolean> event) {
-							vatRegNumber.setDisabled(!event.getValue());
-							vatRegNumber.setValue(Accounter.getCompany()
-									.getPreferences()
-									.getVATregistrationNumber());
-						}
-					});
-		}
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				vatRegNumber.setDisabled(!event.getValue());
+				vatRegNumber.setValue(Accounter.getCompany().getPreferences()
+						.getVATregistrationNumber());
+			}
+		});
+		// }
 		vatRegNumber.setValue(getCompany().getPreferences()
 				.getVATregistrationNumber());
 		taxgroupBtn = new Button(Accounter.constants().taxgroups());
@@ -373,8 +366,8 @@ public class CompanyInfoDialog extends BaseDialog<ClientAddress> {
 		if (companyPreferences == null) {
 			companyPreferences = new ClientCompanyPreferences();
 		}
-		companyPreferences
-				.setChargeSalesTax(getBooleanValue(doupaySalesChecBox));
+		// companyPreferences
+		// .setChargeSalesTax(getBooleanValue(doupaySalesChecBox));
 		companyPreferences.setVATregistrationNumber(vatRegNumber.getValue()
 				.toString());
 

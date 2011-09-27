@@ -207,7 +207,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		dropDown.getRowElement(0).getStyle().setHeight(15, Unit.PX);
 		int x = getMainWidget().getAbsoluteLeft();
 		int y = getMainWidget().getAbsoluteTop() + 27;
-		dropDown.setWidth(getMainWidget().getOffsetWidth() - 2 + "px");
+		// dropDown.setWidth(getMainWidget().getOffsetWidth() - 2 + "px");
 		// dropDown.setHeight(getMainWidget().getOffsetHeight() + "px");
 		//
 		popup.setPopupPosition(x + 1, y);
@@ -237,6 +237,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			popup.setHeight(Math.min(dropDown.getOffsetHeight(), 100) + "px");
 			panel.setWidth(dropDown.getOffsetWidth() + "px");
 		}
+		panel.getElement().setAttribute("style", "min-width:165px");
 		panel.setHeight(Math.min(dropDown.getOffsetHeight(), 200) + "px");
 
 		if ((x + popupWdth) > clientwidth) {
@@ -360,10 +361,10 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	protected void init() {
 	}
 
-	public void setWidth(String width) {
-		super.setWidth(width);
-
-	}
+	 public void setWidth(String width) {
+	 super.setWidth(width);
+	
+	 }
 
 	/**
 	 * "" Should be Called only Once For Re-Initializing use, setComboItems
@@ -459,8 +460,10 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 				setSelectedItem(obj, index + 1);
 			else
 				setSelectedItem(obj, index);
-		} else
+		} else {
 			addItem(obj);
+			setValue("");
+		}
 
 	}
 

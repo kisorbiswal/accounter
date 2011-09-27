@@ -73,7 +73,7 @@ public class DropDownTable<T> extends CellTable<T> {
 			this.addColumn(columns[i]);
 		selectionModel = new SingleSelectionModel<T>();
 		this.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
-		this.setSize("100%", "");
+		// this.setSize("100%", "");
 
 	}
 

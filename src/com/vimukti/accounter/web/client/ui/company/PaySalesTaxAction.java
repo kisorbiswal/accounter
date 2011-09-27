@@ -6,7 +6,6 @@ import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.PaySalesTaxView;
-import com.vimukti.accounter.web.client.ui.VATPaymentView;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class PaySalesTaxAction extends Action {
@@ -26,17 +25,17 @@ public class PaySalesTaxAction extends Action {
 
 			@Override
 			public void onSuccess() {
-				if (Accounter.getCompany().getAccountingType() == 1) {
-					MainFinanceWindow.getViewManager().showView(
-							new VATPaymentView(), data, false,
-							PaySalesTaxAction.this);
-				} else {
-					// UIUtils.setCanvas(new PaySalesTaxView(),
-					// getViewConfiguration());
-					MainFinanceWindow.getViewManager().showView(
-							new PaySalesTaxView(), data, false,
-							PaySalesTaxAction.this);
-				}
+				// if (Accounter.getCompany().getAccountingType() == 1) {
+				// MainFinanceWindow.getViewManager().showView(
+				// new VATPaymentView(), data, false,
+				// PaySalesTaxAction.this);
+				// } else {
+				// UIUtils.setCanvas(new PaySalesTaxView(),
+				// getViewConfiguration());
+				MainFinanceWindow.getViewManager().showView(
+						new PaySalesTaxView(), data, false,
+						PaySalesTaxAction.this);
+				// }
 
 			}
 

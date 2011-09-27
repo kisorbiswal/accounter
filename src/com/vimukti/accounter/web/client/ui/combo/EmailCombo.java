@@ -23,6 +23,9 @@ public class EmailCombo extends CustomCombo {
 		ArrayList<String> toAdd = new ArrayList<String>();
 		toAdd.add(companyEmail);
 
+		String userEmail = getCompany().getLoggedInUser().getEmail();
+		toAdd.add(userEmail);
+
 		return toAdd;
 	}
 

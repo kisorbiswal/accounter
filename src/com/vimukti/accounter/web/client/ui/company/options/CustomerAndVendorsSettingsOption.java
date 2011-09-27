@@ -4,14 +4,15 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @author vimukti2
@@ -21,39 +22,29 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 
 	private static CustomerAndVendorsSettingsOptionUiBinder uiBinder = GWT
 			.create(CustomerAndVendorsSettingsOptionUiBinder.class);
-	@UiField
-	Label salesTaxDescriptionLabel;
-	@UiField
-	Label VatdescritionLabel;
-	@UiField
-	Label chargeTaxLabelItem;
-	@UiField
-	RadioButton chargeTaxYesRadioButton;
-	@UiField
-	RadioButton chargeTaxNoRadioButton;
 
-	// @UiField
-	// Label createEstimatesLabelItem;
-	// @UiField
-	// RadioButton createEstimatesYesRadioButton;
-	// @UiField
-	// RadioButton createEstimatesNoRadioButton;
-	// @UiField
-	// Label usingStatementsLabelItem;
-	// @UiField
-	// RadioButton usingStatementsYesRadioButton;
-	// @UiField
-	// RadioButton usingStatementsNoRadioButton;
 	@UiField
-	VerticalPanel salesTaXPanel;
+	RadioButton onepeTransactionRadioButton;
 	@UiField
-	VerticalPanel VatPanel;
+	Label oneperTransactionLabel;
 	@UiField
-	RadioButton vatNoRadioButton;
+	RadioButton oneperdetaillineRadioButton;
 	@UiField
-	RadioButton vatYesRadioButton;
+	Label oneperdetaillineLabel;
 	@UiField
-	Label vatLabel;
+	CheckBox enableTaxCheckbox;
+	@UiField
+	Label enableTaxLabel;
+	@UiField
+	Label taxItemTransactionLabel;
+	@UiField
+	CheckBox trackCheckbox;
+	@UiField
+	Label trackLabel;
+	@UiField
+	Label trackCheckBoxDescLabel;
+	@UiField
+	VerticalPanel hidePanel;
 
 	interface CustomerAndVendorsSettingsOptionUiBinder extends
 			UiBinder<Widget, CustomerAndVendorsSettingsOption> {
@@ -80,65 +71,40 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 	}
 
 	public void initData() {
-		if (getCompanyPreferences().isChargeSalesTax()) {
-			chargeTaxYesRadioButton.setValue(true);
-		} else {
-			chargeTaxNoRadioButton.setValue(true);
-		}
-
-		if (getCompanyPreferences().isRegisteredForVAT()) {
-			vatYesRadioButton.setValue(true);
-		} else {
-			vatNoRadioButton.setValue(true);
-		}
-
-		// if (companyPreferences.isDoyouwantEstimates()) {
-		// createEstimatesYesRadioButton.setValue(true);
-		// createEstimatesNoRadioButton.setValue(false);
-		// } else {
-		// createEstimatesYesRadioButton.setValue(false);
-		// createEstimatesNoRadioButton.setValue(true);
-		// }
-		// if (companyPreferences.isDoyouwantstatements()) {
-		// usingStatementsYesRadioButton.setValue(true);
-		// usingStatementsNoRadioButton.setValue(false);
-		// } else {
-		// usingStatementsYesRadioButton.setValue(false);
-		// usingStatementsNoRadioButton.setValue(true);
-		// }
-
+		trackCheckbox.setValue(getCompanyPreferences().isTrackTax());
+		hidePanel.setVisible(getCompanyPreferences().isTrackTax());
+		enableTaxCheckbox.setValue(getCompanyPreferences().isTrackTax());
+		if (getCompanyPreferences().isTaxPerDetailLine())
+			oneperdetaillineRadioButton.setValue(true);
+		else
+			onepeTransactionRadioButton.setValue(true);
 	}
 
 	public void createControls() {
-		chargeTaxLabelItem.setText(constants.doyouchargesalestax());
-		salesTaxDescriptionLabel.setText(constants.salesTaxDescrition());
-		chargeTaxYesRadioButton.setText(constants.yes());
-		chargeTaxNoRadioButton.setText(constants.no());
-		salesTaxDescriptionLabel.setStyleName("organisation_comment");
+		trackCheckbox.setText(constants.chargeOrTrackTax());
+		trackCheckBoxDescLabel.setText(constants.descChrageTrackTax());
+		trackCheckBoxDescLabel.setStyleName("organisation_comment");
+		taxItemTransactionLabel.setText(constants.taxtItemTransaction());
+		onepeTransactionRadioButton.setText(constants.onepertransaction());
+		oneperTransactionLabel.setText(constants.oneperDescription());
+		oneperTransactionLabel.setStyleName("organisation_comment");
+		oneperdetaillineRadioButton.setText(constants.oneperdetailline());
+		oneperdetaillineLabel.setText(constants.oneperDetailDescription());
+		oneperTransactionLabel.setStyleName("organisation_comment");
+		oneperdetaillineLabel.setStyleName("organisation_comment");
+		enableTaxCheckbox.setText(constants.enableTracking());
+		enableTaxLabel.setText(constants.enableTrackingDescription());
+		enableTaxLabel.setStyleName("organisation_comment");
 
-		vatLabel.setText(constants.doyouchargeVat());
-		VatdescritionLabel.setText(constants.vatDescrition());
-		vatNoRadioButton.setText(constants.no());
-		vatYesRadioButton.setText(constants.yes());
-		VatdescritionLabel.setStyleName("organisation_comment");
+		trackCheckbox.addClickHandler(new ClickHandler() {
 
-		// createEstimatesLabelItem.setText(constants
-		// .wanttoCreateEstimatesInAccounter());
-		//
-		// createEstimatesYesRadioButton.setText(constants.yes());
-		// createEstimatesNoRadioButton.setText(constants.no());
-		//
-		// usingStatementsLabelItem.setText(constants.doyouWantToUseStatements());
-		//
-		// usingStatementsYesRadioButton.setText(constants.yes());
-		// usingStatementsNoRadioButton.setText(constants.no());
+			@Override
+			public void onClick(ClickEvent event) {
+				hidePanel.setVisible(trackCheckbox.getValue());
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			salesTaXPanel.setVisible(false);
-		}
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			VatPanel.setVisible(false);
-		}
+			}
+		});
+
 	}
 
 	@Override
@@ -149,23 +115,10 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 
 	@Override
 	public void onSave() {
-		getCompanyPreferences().setChargeSalesTax(
-				chargeTaxYesRadioButton.getValue());
-
-		getCompanyPreferences().setRegisteredForVAT(
-				vatYesRadioButton.getValue());
-
-		// if (createEstimatesYesRadioButton.getValue()) {
-		// companyPreferences.setDoyouwantEstimates(true);
-		// } else {
-		// companyPreferences.setDoyouwantEstimates(false);
-		// }
-		// if (usingStatementsYesRadioButton.getValue()) {
-		// companyPreferences.setDoyouwantstatements(true);
-		// } else {
-		// companyPreferences.setDoyouwantstatements(false);
-		// }
-
+		getCompanyPreferences().setTaxTrack(trackCheckbox.getValue());
+		getCompanyPreferences().setTaxPerDetailLine(
+				oneperdetaillineRadioButton.getValue());
+		getCompanyPreferences().setTrackPaidTax(enableTaxCheckbox.getValue());
 	}
 
 	@Override

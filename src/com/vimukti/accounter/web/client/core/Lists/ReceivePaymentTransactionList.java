@@ -39,6 +39,10 @@ public class ReceivePaymentTransactionList implements IsSerializable,
 
 	Double payment = 0D;
 
+	public ReceivePaymentTransactionList() {
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * @return the transactionId
 	 */

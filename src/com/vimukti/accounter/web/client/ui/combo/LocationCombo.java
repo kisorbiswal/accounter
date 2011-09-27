@@ -37,7 +37,7 @@ public class LocationCombo extends CustomCombo<ClientLocation> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return "  <<---- Add New ---->>  ";
+		return "--- Add New ---";
 	}
 
 	@Override

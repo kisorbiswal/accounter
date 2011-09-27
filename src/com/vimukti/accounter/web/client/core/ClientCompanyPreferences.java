@@ -97,6 +97,8 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	private static final long TRANSACTION_PER_DETAIL_LINE = 0x20000000000L;
 
+	private static final long DO_PRODUCT_SHIPMENTS = 0x40000000000L;
+
 	public static int VAT_REPORTING_PERIOD_MONTHLY = 1;
 	public static int VAT_REPORTING_PERIOD_BIMONTHLY = 2;
 	public static int VAT_REPORTING_PERIOD_QUARTERLY = 3;
@@ -143,7 +145,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	// calculate from
 	// Invoice date other
 	// wise from Due Date.
-	private boolean doProductShipMents;
+	// private boolean doProductShipMents;
 	int ageingFromTransactionDateORDueDate = 1;
 
 	String VATregistrationNumber;
@@ -713,7 +715,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	 * @return
 	 */
 	public boolean isDoProductShipMents() {
-		return doProductShipMents;
+		return get(DO_PRODUCT_SHIPMENTS);
 	}
 
 	/**
@@ -721,7 +723,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	 * @param doProductShipMents
 	 */
 	public void setDoProductShipMents(boolean doProductShipMents) {
-		this.doProductShipMents = doProductShipMents;
+		set(DO_PRODUCT_SHIPMENTS, doProductShipMents);
 	}
 
 	public boolean isSalesOrderEnabled() {
@@ -834,13 +836,13 @@ public class ClientCompanyPreferences implements IAccounterCore {
 		set(TRACK_EMPLOYEE_EXPENSES, value);
 	}
 
-	public boolean isChargeSalesTax() {
-		return get(CHARGE_SALES_TAX);
-	}
-
-	public void setChargeSalesTax(boolean value) {
-		set(CHARGE_SALES_TAX, value);
-	}
+	// public boolean isChargeSalesTax() {
+	// return get(CHARGE_SALES_TAX);
+	// }
+	//
+	// public void setChargeSalesTax(boolean value) {
+	// set(CHARGE_SALES_TAX, value);
+	// }
 
 	public boolean isKeepTrackofBills() {
 		return get(KEEP_TRACK_OF_BILLS);
@@ -991,13 +993,13 @@ public class ClientCompanyPreferences implements IAccounterCore {
 		set(CLASS_WARRNING, value);
 	}
 
-	public boolean isRegisteredForVAT() {
-		return get(TRACK_TAX);
-	}
-
-	public void setRegisteredForVAT(boolean value) {
-		set(TRACK_TAX, value);
-	}
+	// public boolean isRegisteredForVAT() {
+	// return get(TRACK_TAX);
+	// }
+	//
+	// public void setRegisteredForVAT(boolean value) {
+	// set(TRACK_TAX, value);
+	// }
 
 	/**
 	 * @return the fullName
@@ -1157,12 +1159,12 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	public void setTrackPaidTax(boolean value) {
 		set(TRACK_PAID_TAX, value);
 	}
-	
-	public long getDefaultTaxCode(){
+
+	public long getDefaultTaxCode() {
 		return defaultTaxCode;
 	}
 
-	public void setDefaultTaxCode(long taxCode){
-		defaultTaxCode=taxCode;
+	public void setDefaultTaxCode(long taxCode) {
+		defaultTaxCode = taxCode;
 	}
 }

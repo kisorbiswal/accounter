@@ -5,7 +5,6 @@ package com.vimukti.accounter.web.client.ui.company;
  */
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Float;
@@ -21,13 +20,11 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AddButton;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientEntry;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -337,11 +334,11 @@ public class JournalEntryView extends
 
 		gridPanel.add(grid);
 		gridPanel.setWidth("100%");
-
+		
 		HorizontalPanel hPanel = new HorizontalPanel();
 		hPanel.add(addButton);
 		hPanel.getElement().getStyle().setMarginTop(8, Unit.PX);
-		hPanel.getElement().getStyle().setFloat(Float.RIGHT);
+		hPanel.getElement().getStyle().setFloat(Float.LEFT);
 
 		gridPanel.add(hPanel);
 
@@ -390,7 +387,7 @@ public class JournalEntryView extends
 
 		totalForm = new DynamicForm();
 		totalForm.setWidth("75%");
-		totalForm.addStyleName("unused-payments");
+		totalForm.addStyleName("textbold");
 		totalForm.setFields(deditTotalText, creditTotalText);
 
 		HorizontalPanel bottomPanel = new HorizontalPanel();
@@ -589,35 +586,6 @@ public class JournalEntryView extends
 
 	}
 
-	public void onEdit() {
-		// AccounterAsyncCallback<Boolean> editCallBack = new
-		// AccounterAsyncCallback<Boolean>() {
-		//
-		// @Override
-		// public void onException(AccounterException caught) {
-		// if (caught.getMessage() != null)
-		// Accounter.showError(caught.getMessage());
-		// else
-		// Accounter.showError(Accounter.constants()
-		// .cannotEditVoidedTransaction());
-		// }
-		//
-		// @Override
-		// public void onResultSuccess(Boolean result) {
-		// // if (result)
-		// // enableFormItems();
-		// Accounter.showError("Journal Entry can't be edited.");
-		// }
-		//
-		// };
-		//
-		// AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
-		// .getType());
-		// this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
-		Accounter.showError("Journal Entry can't be edited.");
-
-	}
-
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
 		jourNoText.setDisabled(isInViewMode());
@@ -653,5 +621,10 @@ public class JournalEntryView extends
 	@Override
 	protected void refreshTransactionGrid() {
 
+	}
+
+	@Override
+	public boolean canEdit() {
+		return false;
 	}
 }

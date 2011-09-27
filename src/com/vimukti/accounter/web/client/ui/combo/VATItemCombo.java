@@ -5,15 +5,15 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
+import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.vat.NewVatItemAction;
+import com.vimukti.accounter.web.client.ui.customers.TaxDialog;
 
 /**
  * @author Murali.A
  * 
  */
-public class VATItemCombo extends CustomCombo<ClientTAXItem> {
+public class VATItemCombo extends CustomCombo<ClientTAXItemGroup> {
 
 	/**
 	 * @param title
@@ -35,8 +35,9 @@ public class VATItemCombo extends CustomCombo<ClientTAXItem> {
 	}
 
 	/* This method returns the VATItems for a VATAgency */
-	public List<ClientTAXItem> getVATItmesByVATAgncy(ClientTAXAgency taxAgency) {
-		List<ClientTAXItem> vatItmsList = new ArrayList<ClientTAXItem>();
+	public List<ClientTAXItemGroup> getVATItmesByVATAgncy(
+			ClientTAXAgency taxAgency) {
+		List<ClientTAXItemGroup> vatItmsList = new ArrayList<ClientTAXItemGroup>();
 		if (taxAgency != null) {
 			for (ClientTAXItem vatItem : getCompany().getTaxItems()) {
 				if (vatItem.getTaxAgency() == (taxAgency.getID())) {
@@ -48,9 +49,12 @@ public class VATItemCombo extends CustomCombo<ClientTAXItem> {
 	}
 
 	/* VATItmes whose 'isPercentage' is false, only allowed into the list */
-	List<ClientTAXItem> getVATItmes() {
-		List<ClientTAXItem> vatItmsList = new ArrayList<ClientTAXItem>();
-		for (ClientTAXItem vatItem : getCompany().getTaxItems()) {
+	List<ClientTAXItemGroup> getVATItmes() {
+		List<ClientTAXItemGroup> vatItmsList = new ArrayList<ClientTAXItemGroup>();
+		ArrayList<ClientTAXItemGroup> taxItemGroups = getCompany()
+				.getTaxItemGroups();
+		taxItemGroups.addAll(getCompany().getTaxItems());
+		for (ClientTAXItemGroup vatItem : taxItemGroups) {
 			if (!vatItem.isPercentage()) {
 				vatItmsList.add(vatItem);
 			}
@@ -59,9 +63,12 @@ public class VATItemCombo extends CustomCombo<ClientTAXItem> {
 	}
 
 	/* VATItmes whose 'isPercentage' is true, only allowed into the list */
-	public List<ClientTAXItem> getFilteredVATItems() {
-		List<ClientTAXItem> vatItmsList = new ArrayList<ClientTAXItem>();
-		for (ClientTAXItem vatItem : getCompany().getTaxItems()) {
+	public List<ClientTAXItemGroup> getFilteredVATItems() {
+		List<ClientTAXItemGroup> vatItmsList = new ArrayList<ClientTAXItemGroup>();
+		ArrayList<ClientTAXItemGroup> taxItemGroups = getCompany()
+				.getTaxItemGroups();
+		taxItemGroups.addAll(getCompany().getTaxItems());
+		for (ClientTAXItemGroup vatItem : getCompany().getTaxItems()) {
 			if (vatItem.isPercentage()) {
 				vatItmsList.add(vatItem);
 			}
@@ -73,9 +80,9 @@ public class VATItemCombo extends CustomCombo<ClientTAXItem> {
 	 * VATItmes whose 'isPercentage' is true,and "Sales" type VATItems only
 	 * allowed into the list
 	 */
-	public List<ClientTAXItem> getSalesWithPrcntVATItems() {
-		List<ClientTAXItem> vatItmsList = new ArrayList<ClientTAXItem>();
-		for (ClientTAXItem vatItem : getFilteredVATItems()) {
+	public List<ClientTAXItemGroup> getSalesWithPrcntVATItems() {
+		List<ClientTAXItemGroup> vatItmsList = new ArrayList<ClientTAXItemGroup>();
+		for (ClientTAXItemGroup vatItem : getFilteredVATItems()) {
 			if (vatItem.isSalesType()) {
 				vatItmsList.add(vatItem);
 			}
@@ -87,9 +94,9 @@ public class VATItemCombo extends CustomCombo<ClientTAXItem> {
 	 * VATItmes whose 'isPercentage' is true,and "Purchase" type VATItems only
 	 * allowed into the list
 	 */
-	public List<ClientTAXItem> getPurchaseWithPrcntVATItems() {
-		List<ClientTAXItem> vatItmsList = new ArrayList<ClientTAXItem>();
-		for (ClientTAXItem vatItem : getFilteredVATItems()) {
+	public List<ClientTAXItemGroup> getPurchaseWithPrcntVATItems() {
+		List<ClientTAXItemGroup> vatItmsList = new ArrayList<ClientTAXItemGroup>();
+		for (ClientTAXItemGroup vatItem : getFilteredVATItems()) {
 			if (!vatItem.isSalesType()) {
 				vatItmsList.add(vatItem);
 			}
@@ -113,7 +120,7 @@ public class VATItemCombo extends CustomCombo<ClientTAXItem> {
 	 * java.lang.Object)
 	 */
 	@Override
-	protected String getDisplayName(ClientTAXItem object) {
+	protected String getDisplayName(ClientTAXItemGroup object) {
 		if (object != null)
 			return object.getName() != null ? object.getName() : "";
 		else
@@ -130,22 +137,31 @@ public class VATItemCombo extends CustomCombo<ClientTAXItem> {
 	 */
 	@Override
 	public void onAddNew() {
-		NewVatItemAction action = ActionFactory.getNewVatItemAction();
-		action.setCallback(new ActionCallback<ClientTAXItem>() {
+		TaxDialog dialog = new TaxDialog();
+		dialog.setCallback(new ActionCallback<ClientTAXItemGroup>() {
 
 			@Override
-			public void actionResult(ClientTAXItem result) {
-				if (result.getName() != null || result.getDisplayName() != null)
-					addItemThenfireEvent(result);
-
+			public void actionResult(ClientTAXItemGroup result) {
+				addItemThenfireEvent(result);
 			}
 		});
-
-		action.run(null, true);
+		dialog.show();
+		// NewVatItemAction action = ActionFactory.getNewVatItemAction();
+		// action.setCallback(new ActionCallback<ClientTAXItem>() {
+		//
+		// @Override
+		// public void actionResult(ClientTAXItem result) {
+		// if (result.getName() != null || result.getDisplayName() != null)
+		// addItemThenfireEvent(result);
+		//
+		// }
+		// });
+		//
+		// action.run(null, true);
 	}
 
 	@Override
-	protected String getColumnData(ClientTAXItem object, int row, int col) {
+	protected String getColumnData(ClientTAXItemGroup object, int row, int col) {
 		switch (col) {
 		case 0:
 			return object.getName();

@@ -4,6 +4,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ItemView;
@@ -53,18 +54,37 @@ public class NewItemAction extends Action<ClientItem> {
 
 			@Override
 			public void onSuccess() {
-				if (type == 0) {
-					SelectItemTypeDialog dialog = new SelectItemTypeDialog(
-							forCustomer);
-					dialog.setDependent(isDependent);
-					dialog.setCallback(getCallback());
-					dialog.show();
-				} else {
+				ClientCompany company = Accounter.getCompany();
+				boolean sellServices = company.getPreferences()
+						.isSellServices();
+				boolean sellProducts = company.getPreferences()
+						.isSellProducts();
+				if (sellProducts && sellServices) {
+					if (type == 0) {
+						SelectItemTypeDialog dialog = new SelectItemTypeDialog(
+								forCustomer);
+						dialog.setDependent(isDependent);
+						dialog.setCallback(getCallback());
+						dialog.setItemname(itemName);
+						dialog.show();
+					} else {
+						ItemView view = new ItemView(type, forCustomer);
+						view.setItemName(itemName);
+						MainFinanceWindow.getViewManager().showView(view, data,
+								isDependent, NewItemAction.this);
+
+					}
+				} else if (sellServices) {
+					ItemView view = new ItemView(TYPE_SERVICE, forCustomer);
+					view.setItemName(itemName);
+					MainFinanceWindow.getViewManager().showView(view, data,
+							isDependent, NewItemAction.this);
+				} else if (sellProducts) {
 					ItemView view = new ItemView(type, forCustomer);
 					view.setItemName(itemName);
 					MainFinanceWindow.getViewManager().showView(view, data,
 							isDependent, NewItemAction.this);
-					
+
 				}
 
 			}
@@ -100,9 +120,9 @@ public class NewItemAction extends Action<ClientItem> {
 	public String getHelpToken() {
 		return "customer-item";
 	}
-	
-	public void setItemText(String text){
+
+	public void setItemText(String text) {
 		this.itemName = text;
-		
+
 	}
 }

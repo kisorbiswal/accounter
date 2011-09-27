@@ -31,7 +31,7 @@ public class ClientEstimate extends ClientTransaction {
 
 	long priceLevel;
 
-	double salesTax;
+	double taxTotal;
 
 	boolean isTurnedToInvoice = false;
 
@@ -163,8 +163,8 @@ public class ClientEstimate extends ClientTransaction {
 	 * @param salesTax
 	 *            the salesTax to set
 	 */
-	public void setSalesTax(double salesTax) {
-		this.salesTax = salesTax;
+	public void setTaxTotal(double salesTax) {
+		this.taxTotal = salesTax;
 	}
 
 	/**
@@ -178,8 +178,8 @@ public class ClientEstimate extends ClientTransaction {
 	/**
 	 * @return the salesTax
 	 */
-	public double getSalesTax() {
-		return salesTax;
+	public double getTaxTotal() {
+		return taxTotal;
 	}
 
 	/**

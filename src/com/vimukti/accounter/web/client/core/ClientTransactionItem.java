@@ -22,7 +22,7 @@ public class ClientTransactionItem implements IAccounterCore {
 
 	public static final int TYPE_ITEM = 1;
 	public static final int TYPE_COMMENT = 2;
-	public static final int TYPE_SALESTAX = 3;
+	// public static final int TYPE_SALESTAX = 3;
 	public static final int TYPE_ACCOUNT = 4;
 	// public static final int TYPE_SERVICE = 6;
 
@@ -36,9 +36,9 @@ public class ClientTransactionItem implements IAccounterCore {
 
 	String name;
 
-	ClientTAXItem taxItem;
+	// ClientTAXItem taxItem;
 
-	private String taxitem;
+	// private String taxitem;
 
 	long taxCode;
 
@@ -51,9 +51,9 @@ public class ClientTransactionItem implements IAccounterCore {
 
 	transient ClientItem tItem;
 
-	ClientTAXGroup taxGroup;
+	// ClientTAXGroup taxGroup;
 
-	long taxItemGroup;
+	// long taxItemGroup;
 
 	String description;
 
@@ -193,9 +193,9 @@ public class ClientTransactionItem implements IAccounterCore {
 	/**
 	 * @return the taxCode
 	 */
-	public ClientTAXItem getTaxItem() {
-		return taxItem;
-	}
+	// public ClientTAXItem getTaxItem() {
+	// return taxItem;
+	// }
 
 	// public String getTaxCode() {
 	// return this.taxCode;
@@ -295,9 +295,9 @@ public class ClientTransactionItem implements IAccounterCore {
 	 * @param taxCodeId
 	 *            the taxCode to set
 	 */
-	public void setTaxItem(ClientTAXItem taxItem) {
-		this.taxItem = taxItem;
-	}
+	// public void setTaxItem(ClientTAXItem taxItem) {
+	// this.taxItem = taxItem;
+	// }
 
 	// public void setTaxCode(String taxCodeId) {
 	// this.taxCode = taxCodeId;
@@ -375,21 +375,21 @@ public class ClientTransactionItem implements IAccounterCore {
 		return this.transaction;
 	}
 
-	public long getTaxItemGroup() {
-		return taxItemGroup;
-	}
+	// public long getTaxItemGroup() {
+	// return taxItemGroup;
+	// }
+	//
+	// public void setTaxItemGroup(long taxItemGroup) {
+	// this.taxItemGroup = taxItemGroup;
+	// }
 
-	public void setTaxItemGroup(long taxItemGroup) {
-		this.taxItemGroup = taxItemGroup;
-	}
-
-	public ClientTAXGroup getTaxGroup() {
-		return taxGroup;
-	}
-
-	public void setTaxGroup(ClientTAXGroup taxGroup) {
-		this.taxGroup = taxGroup;
-	}
+	// public ClientTAXGroup getTaxGroup() {
+	// return taxGroup;
+	// }
+	//
+	// public void setTaxGroup(ClientTAXGroup taxGroup) {
+	// this.taxGroup = taxGroup;
+	// }
 
 	public boolean isVoid() {
 		return isVoid;
@@ -411,9 +411,6 @@ public class ClientTransactionItem implements IAccounterCore {
 
 			case ClientTransactionItem.TYPE_ITEM:
 				buffer.append(" Item:" + String.valueOf(item));
-
-			case ClientTransactionItem.TYPE_SALESTAX:
-				buffer.append(" SalesTax:" + String.valueOf(taxItem));
 
 			default:
 				buffer.append(" Comment" + String.valueOf(description));
@@ -459,19 +456,19 @@ public class ClientTransactionItem implements IAccounterCore {
 		return "ClientTransactionItem";
 	}
 
-	public void setTaxitem(String taxitem) {
-		this.taxitem = taxitem;
-	}
-
-	public String getTaxitem() {
-		return taxitem;
-	}
+	// public void setTaxitem(String taxitem) {
+	// this.taxitem = taxitem;
+	// }
+	//
+	// public String getTaxitem() {
+	// return taxitem;
+	// }
 
 	public ClientTransactionItem clone() {
 		ClientTransactionItem clientTransactionItemClone = (ClientTransactionItem) this
 				.clone();
-		clientTransactionItemClone.taxItem = this.taxItem.clone();
-		clientTransactionItemClone.taxGroup = this.taxGroup.clone();
+		// clientTransactionItemClone.taxItem = this.taxItem.clone();
+		// clientTransactionItemClone.taxGroup = this.taxGroup.clone();
 		clientTransactionItemClone.transaction = this.transaction.clone();
 
 		return clientTransactionItemClone;
@@ -489,11 +486,6 @@ public class ClientTransactionItem implements IAccounterCore {
 				tItem = Accounter.getCompany().getItem(item);
 			}
 			return tItem;
-		case TYPE_SALESTAX:
-			if (taxItem == null) {
-				taxItem = Accounter.getCompany().getTaxItem(item);
-			}
-			return taxItem;
 		}
 		return null;
 	}
@@ -508,8 +500,6 @@ public class ClientTransactionItem implements IAccounterCore {
 			tItem = (ClientItem) value;
 			item = tItem.id;
 			break;
-		case TYPE_SALESTAX:
-			taxItem = (ClientTAXItem) value;
 		}
 		name = value.getName();
 	}

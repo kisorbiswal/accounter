@@ -448,12 +448,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 	@Override
 	protected String getViewTitle() {
-		String constant;
-		if (getCompany().getAccountingType() == 1)
-			constant = Accounter.constants().newVATCode();
-		else
-			constant = Accounter.constants().newTaxCode();
-		return constant;
+		return Accounter.constants().newTaxCode();
 	}
 
 	private void updateData() {

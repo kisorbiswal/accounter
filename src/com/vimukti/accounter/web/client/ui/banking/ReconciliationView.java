@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -59,7 +60,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		bankaccountLabel.setValue(data.getAccount().getName());
 
 		closebalanceLable = new AmountLabel(constants.ClosingBalance());
-		// closebalanceLable.setTitle(constants.ClosingBalance());
+		closebalanceLable.setTitle(constants.ClosingBalance());
 		closebalanceLable.setAmount(data.getClosingBalance());
 
 		startdateLable = new LabelItem();
@@ -114,17 +115,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 
 							@Override
 							public void execute(ClientReconciliation value) {
-								setData(value);
-								closingBalance.setAmount(value
-										.getClosingBalance());
-								startdateLable.setValue(value.getStartDate()
-										.toString());
-								enddateLable.setValue(value.getEndDate()
-										.toString());
-								bankaccountLabel.setValue(value.getAccount()
-										.getName());
-								initData();
-								setOpeningBalance();
+								updateData(value);
 							}
 						});
 				dialog.show();
@@ -168,7 +159,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		amountsPanel.setCellHorizontalAlignment(amountsForm,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 
-		this.grid = new ReconciliationTransactionsGrid(
+		this.grid = new ReconciliationTransactionsGrid(this,
 				new SelectionChangedHandler<ClientTransaction>() {
 
 					@Override
@@ -180,6 +171,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 					}
 				});
 		grid.setWidth("100%");
+		grid.setHeight("200px");
 
 		this.mainPanel = new VerticalPanel();
 		mainPanel.setWidth("100%");
@@ -189,11 +181,26 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 			mainPanel.add(btnPanel);
 		}
 		mainPanel.add(grid);
-		mainPanel.setCellHeight(grid, "200px");
+		// mainPanel.setCellHeight(grid, "200px");
 		grid.getElement().getParentElement()
 				.addClassName("recounciliation_grid");
 		mainPanel.add(amountsPanel);
 		this.add(mainPanel);
+	}
+
+	private void updateData(ClientReconciliation reconciliation) {
+		bankaccountLabel.setValue(reconciliation.getAccount().getName());
+		closebalanceLable.setAmount(reconciliation.getClosingBalance());
+		startdateLable.setValue(DateUtills.getDateAsString(reconciliation
+				.getStartDate().getDateAsObject()));
+		enddateLable.setValue(DateUtills.getDateAsString(reconciliation
+				.getEndDate().getDateAsObject()));
+		closingBalance.setAmount(reconciliation.getClosingBalance());
+		startdateLable.setValue(reconciliation.getStartDate().toString());
+		enddateLable.setValue(reconciliation.getEndDate().toString());
+		bankaccountLabel.setValue(reconciliation.getAccount().getName());
+		setData(reconciliation);
+		initData();
 	}
 
 	/**
@@ -212,8 +219,21 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		} else {
 			clearedTransactions.remove(value);
 		}
-		double transactionAmount = UIUtils.isMoneyOut(value) ? value.getTotal()
-				: value.getTotal() * -1;
+		double total = value.getTotal();
+		if (UIUtils.isMoneyOut(value, data.getAccount().getID())) {
+			if (value.isMakeDeposit()) {
+				total = 0.0;
+				List<ClientTransactionMakeDeposit> transactionMakeDeposit = value
+						.getTransactionMakeDeposit();
+				for (ClientTransactionMakeDeposit deposit : transactionMakeDeposit) {
+					if (deposit.getAccount() == data.getAccount().getID()) {
+						total += deposit.getAmount();
+					}
+				}
+			}
+		}
+		double transactionAmount = UIUtils.isMoneyOut(value, data.getAccount()
+				.getID()) ? total : total * -1;
 		if (!isClear) {
 			transactionAmount *= -1;
 		}
@@ -245,9 +265,10 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 					public void onResultSuccess(List<ClientTransaction> result) {
 						List<ClientTransaction> list = new ArrayList<ClientTransaction>();
 						for (ClientTransaction clientTransaction : result) {
-
-							if (UIUtils.isMoneyOut(clientTransaction)
-									|| UIUtils.isMoneyIn(clientTransaction)) {
+							if (UIUtils.isMoneyOut(clientTransaction, data
+									.getAccount().getID())
+									|| UIUtils.isMoneyIn(clientTransaction,
+											data.getAccount().getID())) {
 								list.add(clientTransaction);
 							}
 						}
@@ -275,7 +296,8 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 					openingBalance.setAmount(result);
 				}
 				difference.setAmount(closingBalance.getAmount()
-						- openingBalance.getAmount());
+						- openingBalance.getAmount()
+						- clearedAmount.getAmount());
 			}
 		});
 	}
@@ -294,11 +316,16 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		if (difference.getAmount() != 0.0D) {
 			result.addError(difference, constants.differenceValidate());
 		}
+		if (clearedTransactions.isEmpty()) {
+			result.addError(clearedTransactions,
+					constants.selectTransactionToReconcile());
+		}
 		return result;
 	}
 
 	@Override
 	public void saveAndUpdateView() {
+		this.data.setOpeningBalance(openingBalance.getAmount());
 		this.data.setReconcilationDate(new ClientFinanceDate());
 		data.setTransactions(this.clearedTransactions);
 		saveOrUpdate(data);

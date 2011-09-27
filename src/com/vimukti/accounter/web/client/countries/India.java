@@ -5,6 +5,11 @@ import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
 
 public class India extends AbstractCountryPreferences {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public String[] getStates() {
 		String[] states = new String[] { "Andaman and Nicobar Islands",
@@ -35,4 +40,53 @@ public class India extends AbstractCountryPreferences {
 		return Accounter.constants().april();
 	}
 
+	@Override
+	public boolean isServiceTaxIdAndCompanyTaxIdSame() {
+		return false;
+	}
+
+	@Override
+	public String getDefaultDateFormat() {
+		return super.getDefaultDateFormat();
+	}
+
+	@Override
+	public boolean isVatAvailable() {
+		return true;
+	}
+
+	@Override
+	public boolean isVatIdAndCompanyTaxIdSame() {
+		return false;
+	}
+
+	@Override
+	public boolean isSalesTaxAvailable() {
+		return true;
+	}
+
+	@Override
+	public boolean isSalesTaxIdAndCompanyTaxIdSame() {
+		return false;
+	}
+
+	@Override
+	public String getVATName() {
+		return "VAT";
+	}
+
+	@Override
+	public boolean isServiceTaxAvailable() {
+		return true;
+	}
+
+	@Override
+	public boolean isTDSAvailable() {
+		return true;
+	}
+
+	@Override
+	public boolean isServiceTaxDeductable() {
+		return true;
+	}
 }

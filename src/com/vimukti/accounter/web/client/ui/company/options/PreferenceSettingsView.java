@@ -109,11 +109,13 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 				constants.vendorAndPurchases());
 		CustomerAndVendorsSettingsOption customerAndVendorsSettingsPage = new CustomerAndVendorsSettingsOption();
 		ManageBillsOption manageBillsOption = new ManageBillsOption();
-		DoyouUseOption doyouUseOption = new DoyouUseOption();
+
+		DoyouUseShipingsOption shipingsOption = new DoyouUseShipingsOption();
 		customerAndVendorPage.addPreferenceOption(manageBillsOption);
 		customerAndVendorPage
 				.addPreferenceOption(customerAndVendorsSettingsPage);
-		customerAndVendorPage.addPreferenceOption(doyouUseOption);
+
+		customerAndVendorPage.addPreferenceOption(shipingsOption);
 		return customerAndVendorPage;
 	}
 
@@ -141,8 +143,11 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		// CustomerTerminologyOption();
 		OrganisationTypeOption formOption = new OrganisationTypeOption();
 		// AccountNumbersOption numbersOption = new AccountNumbersOption();
+		CompanyDateFormateOption formateOption = new CompanyDateFormateOption();
 		CompanyEinOption einOption = new CompanyEinOption();
 		CompanyFiscalYearOption fiscalYearOption = new CompanyFiscalYearOption();
+		DoyouUseOption doyouUseOption = new DoyouUseOption();
+
 		// ClosingBooksOption booksOption = new ClosingBooksOption();
 		// QuickFillAutosuggestOption autosuggestOption = new
 		// QuickFillAutosuggestOption();
@@ -158,8 +163,10 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 			companyInfoPage.addPreferenceOption(formOption);
 		}
 		// companyPage.addPreferenceOption(numbersOption);
+		companyInfoPage.addPreferenceOption(formateOption);
 		companyInfoPage.addPreferenceOption(einOption);
 		companyInfoPage.addPreferenceOption(fiscalYearOption);
+		companyInfoPage.addPreferenceOption(doyouUseOption);
 		// companyPage.addPreferenceOption(booksOption);
 		// companyPage.addPreferenceOption(autosuggestOption);
 		// companyPage.addPreferenceOption(alertsOption);
@@ -177,11 +184,13 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		CompanyEmailOption email = new CompanyEmailOption();
 		ComapnyWebsiteOption website = new ComapnyWebsiteOption();
 		CompanyPhoneNumberOption phone = new CompanyPhoneNumberOption();
+
 		companyContactInfoPage.addPreferenceOption(name);
 		companyContactInfoPage.addPreferenceOption(address);
 		companyContactInfoPage.addPreferenceOption(email);
 		companyContactInfoPage.addPreferenceOption(website);
 		companyContactInfoPage.addPreferenceOption(phone);
+
 		return companyContactInfoPage;
 	}
 

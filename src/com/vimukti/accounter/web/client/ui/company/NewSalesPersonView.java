@@ -180,6 +180,8 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		dateOfBirth.setToolTip(Accounter.messages().selectDateOfBirth(
 				this.getAction().getViewName()));
 		dateOfBirth.setDisabled(isInViewMode());
+		dateOfBirth.setEnteredDate(new ClientFinanceDate());
+
 		// dateOfBirth.setEndDate(new ClientFinanceDate(19910101));
 		// dateOfBirth.setStartDate(new ClientFinanceDate(18910101));
 		dateOfBirth.addDateValueChangeHandler(new DateValueChangeHandler() {
@@ -201,16 +203,20 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		dateOfHire.setToolTip(Accounter.messages().selectDateOfHire(
 				this.getAction().getViewName()));
 		dateOfHire.setDisabled(isInViewMode());
+		dateOfHire.setEnteredDate(new ClientFinanceDate());
 		// dateOfHire.setUseTextField(true);
 
 		dateOfLastReview = new DateField(Accounter.constants()
 				.dateofLastReview());
 		dateOfLastReview.setDisabled(isInViewMode());
+		dateOfLastReview.setEnteredDate(new ClientFinanceDate());
 		// dateOfLastReview.setUseTextField(true);
 
 		dateOfRelease = new DateField(Accounter.constants().dateofRelease());
 		dateOfRelease.setDisabled(isInViewMode());
 		// dateOfRelease.setUseTextField(true);
+
+		dateOfRelease.setEnteredDate(new ClientFinanceDate());
 
 		salesPersonInfoForm.setFields(statusCheck, genderSelect, dateOfBirth,
 				dateOfHire, dateOfLastReview, dateOfRelease);
@@ -605,7 +611,6 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	public void fitToSize(int height, int width) {
 		super.fitToSize(height, width);
 	}
-
 
 	@Override
 	public void onEdit() {

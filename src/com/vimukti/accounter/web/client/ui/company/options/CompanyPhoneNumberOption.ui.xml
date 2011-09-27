@@ -8,9 +8,17 @@
 		}
 	</ui:style>
 	<g:VerticalPanel spacing="8" styleName="companyInfoPanel">
-		<g:HorizontalPanel >
-			<g:Label ui:field="companyPhoneNumberLabel" styleName="header"/>
-			<g:TextBox visibleLength="40" ui:field="companyPhoneNumberTextBox"/>
-		</g:HorizontalPanel>
+		<g:VerticalPanel width="400" height="186" horizontalAlignment="ALIGN_CENTER">
+			<g:Grid width="180" height="56">
+				<g:row>
+					<g:customCell>
+						<g:Label ui:field="companyPhoneNumberLabel" styleName="header"/>
+					</g:customCell>
+					<g:customCell>
+						<g:TextBox ui:field="companyPhoneNumberTextBox"/>
+					</g:customCell>
+				</g:row>
+			</g:Grid>
+		</g:VerticalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 

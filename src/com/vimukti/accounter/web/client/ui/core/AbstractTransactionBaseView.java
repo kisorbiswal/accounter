@@ -26,7 +26,6 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -666,12 +665,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	public SelectCombo createPaymentMethodSelectItem() {
-		String paymentType = null;
 		payVatMethodList = new ArrayList<String>();
-		paymentType = UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
-				.constants().check());
+		// paymentType = UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
+		// .constants().check());
 		String payVatMethodArray[] = new String[] {
-				Accounter.constants().cash(), paymentType,
+				Accounter.constants().cash(), constants.cheque(),
 				Accounter.constants().creditCard(),
 				Accounter.constants().directDebit(),
 				Accounter.constants().masterCard(),
@@ -969,6 +967,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 		if (transactionItems != null) {
 			for (ClientTransactionItem transactionItem : transactionItems) {
+
 				if (transactionItem.getLineTotal() <= 0) {
 					result.addError(
 							"TransactionItem" + transactionItem.getAccount()
@@ -1305,9 +1304,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		this.payFromAccount = account;
 	}
 
-	protected TextItem createCheckNumberItem(String title) {
+	protected TextItem createCheckNumberItem() {
 
-		final TextItem checkNo = new TextItem(title);
+		final TextItem checkNo = new TextItem(Accounter.constants().chequeNo());
 		checkNo.setHelpInformation(true);
 		checkNo.setDisabled(isInViewMode());
 		// checkNo.setShowDisabled(false);

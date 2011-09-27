@@ -57,7 +57,7 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 			// break;
 			// case 8:
 			// return DataUtils.getAmountAsString(SalesPerson.getBalance());
-		
+
 		case 8:
 			// updateTotal(SalesPerson, true);
 			return Accounter.getFinanceMenuImages().delete();
@@ -82,7 +82,8 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 	protected void onClick(ClientSalesPerson obj, int row, int col) {
 		// List<ClientCustomer> customers = getRecords();
 		// ClientCustomer customer = customers.get(row);
-
+		if (!Accounter.getUser().canDoInvoiceTransactions())
+			return;
 		switch (col) {
 		case 8:
 			showWarnDialog(obj);
@@ -103,7 +104,9 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 
 	@Override
 	public void onDoubleClick(ClientSalesPerson obj) {
-		ActionFactory.getNewSalesperSonAction().run(obj, false);
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
+			ActionFactory.getNewSalesperSonAction().run(obj, false);
+		}
 	}
 
 	protected void executeDelete(ClientSalesPerson object) {
@@ -145,7 +148,7 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 			return 40;
 		}
 		if (index == 2 || index == 3 || index == 4 || index == 5 || index == 6
-				|| index == 7 ) {
+				|| index == 7) {
 			return 100;
 		}
 		return -1;
@@ -224,7 +227,6 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 		}
 		return faxNo;
 	}
-
 
 	public AccounterCoreType getType() {
 		return AccounterCoreType.SALES_PERSON;

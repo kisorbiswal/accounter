@@ -151,10 +151,6 @@ public class CustomerAndvendorSettingsPanel extends AbstractCompanyInfoPanel {
 
 	@Override
 	public void onLoad() {
-		if (companyPreferences.isChargeSalesTax())
-			chargeTaxGroupItem.setValue(constants.yes());
-		else
-			chargeTaxGroupItem.setValue(constants.no());
 
 		if (companyPreferences.isKeepTrackOfTime())
 			trackTimeGroupItem.setValue(constants.yes());
@@ -183,8 +179,8 @@ public class CustomerAndvendorSettingsPanel extends AbstractCompanyInfoPanel {
 
 	@Override
 	public void onSave() {
-		companyPreferences.setChargeSalesTax(chargeTaxGroupItem.getValue()
-				.equals(constants.yes()));
+		// companyPreferences.setChargeSalesTax(chargeTaxGroupItem.getValue()
+		// .equals(constants.yes()));
 
 		if (trackTimeGroupItem.getValue().equals(constants.yes()))
 			companyPreferences.setKeepTrackOfTime(true);
@@ -206,9 +202,9 @@ public class CustomerAndvendorSettingsPanel extends AbstractCompanyInfoPanel {
 		else
 			companyPreferences.setDoyouwantstatements(false);
 
-		if (trackBillsGroupItem.getValue().equals(constants.yes()))
-			companyPreferences.setChargeSalesTax(true);
-		else
-			companyPreferences.setChargeSalesTax(false);
+		// if (trackBillsGroupItem.getValue().equals(constants.yes()))
+		// companyPreferences.setChargeSalesTax(true);
+		// else
+		// companyPreferences.setChargeSalesTax(false);
 	}
 }

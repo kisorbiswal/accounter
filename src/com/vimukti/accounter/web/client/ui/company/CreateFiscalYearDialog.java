@@ -175,8 +175,22 @@ public class CreateFiscalYearDialog extends BaseDialog<ClientFiscalYear> {
 				.before(startOfFiscalYear.getDate())) {
 			result.addError(this, Accounter.messages()
 					.fiscalStartEndCompreHTML());
+		} else if (checkFiscalYearExists()) {
+			result.addError(this, Accounter.messages()
+					.fiscalYearAlreadyExists());
 		}
 		return result;
+	}
+
+	private boolean checkFiscalYearExists() {
+		for (ClientFiscalYear fiscalyear : listOfFiscalYear.getRecords()) {
+			if (startOfFiscalYear.getDate().equals(fiscalyear.getStartDate())
+					&& endOfFiscalYear.getDate()
+							.equals(fiscalyear.getEndDate())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override

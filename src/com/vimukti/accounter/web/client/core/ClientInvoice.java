@@ -33,7 +33,7 @@ public class ClientInvoice extends ClientTransaction {
 
 	long priceLevel;
 
-	double salesTaxAmount;
+	double taxTotal;
 
 	double payments = 0D;
 
@@ -76,7 +76,7 @@ public class ClientInvoice extends ClientTransaction {
 		this.paymentTerm = estimate.paymentTerm;
 		this.salesPerson = estimate.salesPerson;
 		this.priceLevel = estimate.priceLevel;
-		this.salesTaxAmount = estimate.getSalesTax();
+		this.taxTotal = estimate.getTaxTotal();
 		this.total = estimate.getTotal();
 		this.deliverydate = estimate.getDeliveryDate();
 		this.dueDate = estimate.getDate().getDate();
@@ -376,16 +376,16 @@ public class ClientInvoice extends ClientTransaction {
 	/**
 	 * @return the salesTaxAmount
 	 */
-	public double getSalesTaxAmount() {
-		return salesTaxAmount;
+	public double getTaxTotal() {
+		return taxTotal;
 	}
 
 	/**
 	 * @param salesTaxAmount
 	 *            the salesTaxAmount to set
 	 */
-	public void setSalesTaxAmount(double salesTaxAmount) {
-		this.salesTaxAmount = salesTaxAmount;
+	public void setTaxTotal(double salesTaxAmount) {
+		this.taxTotal = salesTaxAmount;
 	}
 
 	/**

@@ -39,7 +39,7 @@ public abstract class AccountCombo extends CustomCombo<ClientAccount> {
 	@Override
 	public String getDefaultAddNewCaption() {
 
-		return super.comboMessages.newAccount();
+		return super.comboMessages.newAccount(Global.get().Account());
 	}
 
 	public void init() {

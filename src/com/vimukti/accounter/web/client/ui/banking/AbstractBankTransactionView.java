@@ -18,6 +18,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
+import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
@@ -45,6 +46,8 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	protected DateItem deliveryDate;
 
 	private AbstractBankTransactionView<?> bankingTransactionViewInstance;
+
+	protected abstract void taxCodeSelected(ClientTAXCode taxCode);
 
 	// protected TextItem refText;
 	protected AmountField amtText;
@@ -120,9 +123,9 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button,
-				Accounter.messages().accounts(Global.get().Account()),
-				Accounter.constants().productOrServiceItem());
+		setMenuItems(button, Accounter.messages().accounts(
+				Global.get().Account()), Accounter.constants()
+				.productOrServiceItem());
 		// FinanceApplication.constants().comment());
 
 	}
@@ -145,7 +148,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	protected AmountField createVATTotalNonEditableItem() {
 
-		AmountField amountItem = new AmountField(Accounter.constants().vat(),
+		AmountField amountItem = new AmountField(Accounter.constants().tax(),
 				this);
 		amountItem.setDisabled(true);
 
@@ -155,7 +158,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	protected AmountLabel createVATTotalNonEditableLabel() {
 
-		AmountLabel amountItem = new AmountLabel(Accounter.constants().vat());
+		AmountLabel amountItem = new AmountLabel(Accounter.constants().tax());
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -273,6 +276,32 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 		return null;
 	}
 
+	protected TAXCodeCombo createTaxCodeSelectItem() {
+
+		TAXCodeCombo taxCodeCombo = new TAXCodeCombo(Accounter.constants()
+				.tax(), true);
+		taxCodeCombo.setHelpInformation(true);
+		taxCodeCombo.setRequired(true);
+
+		taxCodeCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
+
+					public void selectedComboBoxItem(ClientTAXCode selectItem) {
+
+						taxCodeSelected(selectItem);
+
+					}
+
+				});
+
+		taxCodeCombo.setDisabled(isInViewMode());
+
+		// formItems.add(taxCodeCombo);
+
+		return taxCodeCombo;
+
+	}
+
 	protected AmountField createTransactionTotalNonEditableItem() {
 
 		AmountField amountItem = new AmountField(Accounter.constants().total(),
@@ -326,18 +355,12 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 		} else if (menuItem
 				.equals(Accounter.constants().productOrServiceItem())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
-			if (getCompany().getPreferences().isChargeSalesTax()) {
-				List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
-				long svatCodeid = 0;
-				for (ClientTAXCode taxCode : taxCodes) {
-					if (taxCode.getName().equals("S")) {
-						svatCodeid = taxCode.getID();
-					}
-				}
+			if (getPreferences().isTrackTax()) {
 				transactionItem
 						.setTaxCode(selectedVendor != null ? (selectedVendor
 								.getTAXCode() != 0 ? selectedVendor
-								.getTAXCode() : svatCodeid) : 0);
+								.getTAXCode() : getPreferences()
+								.getDefaultTaxCode()) : 0);
 			}
 
 		}
@@ -361,17 +384,10 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
 
 		transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
-		if (getCompany().getPreferences().isChargeSalesTax()) {
-			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
-			long svatCodeid = 0;
-			for (ClientTAXCode taxCode : taxCodes) {
-				if (taxCode.getName().equals("S")) {
-					svatCodeid = taxCode.getID();
-				}
-			}
+		if (getPreferences().isTrackTax()) {
 			transactionItem.setTaxCode(selectedVendor != null ? (selectedVendor
 					.getTAXCode() != 0 ? selectedVendor.getTAXCode()
-					: svatCodeid) : 0);
+					: getPreferences().getDefaultTaxCode()) : 0);
 		}
 
 		addItemTransactionItem(transactionItem);

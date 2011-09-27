@@ -6,6 +6,11 @@ import com.vimukti.accounter.web.client.util.OrganizationType;
 
 public class UnitedStates extends AbstractCountryPreferences {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public String[] getStates() {
 		String[] states = new String[] { "Alabama", "Alaska", "Arizona",
@@ -60,4 +65,37 @@ public class UnitedStates extends AbstractCountryPreferences {
 		return Accounter.constants().october();
 	}
 
+	@Override
+	public boolean isServiceTaxIdAndCompanyTaxIdSame() {
+		return true;
+	}
+
+	@Override
+	public boolean isVatAvailable() {
+		return false;
+	}
+
+
+	@Override
+	public boolean isSalesTaxAvailable() {
+		return true;
+	}
+
+	@Override
+	public boolean isSalesTaxIdAndCompanyTaxIdSame() {
+		return true;
+	}
+
+
+	@Override
+	public boolean isServiceTaxAvailable() {
+		return false;
+	}
+
+	@Override
+	public boolean isTDSAvailable() {
+		return false;
+	}
+
+	
 }
