@@ -20,8 +20,8 @@
 <link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet">
 
 <script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
-<script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
 <script src="/jscripts/passwordStrength.js" type="text/javascript"></script>
+<script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
 <script  type="text/javascript" >
 $.validator.setDefaults({
 	submitHandler: function() {
@@ -36,8 +36,8 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 
 	$(document).ready(function() {
 		$('#newsletter').attr('checked', true);
-		$('#mid-box4').attr('autocomplete', 'off');
-		$('#mid-box4').password_strength();
+		//$('#mid-box4').attr('autocomplete', 'off');
+		//$('#mid-box4').password_strength();
 	    var is_opera = navigator.userAgent.toLowerCase().indexOf('opera') > -1;
 	    $('#select-box').keydown(function(event){
 		    if(event.which == 9){
