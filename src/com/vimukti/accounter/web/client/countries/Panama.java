@@ -7,10 +7,10 @@ public class Panama extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		String[] states = new String[] { "Bocas del Toro", "Chiriquí", "Coclé",
-				"Colón", "Darién", "Emberá", "Herrera", "Kuna de Madungandí",
-				"Kuna de Wargandí", "Kuna Yala", "Los Santos", "Ngöbe Buglé",
-				"Panamá", "Veraguas" };
+		String[] states = new String[] { "Bocas del Toro", "Chiriqui", "Cocle",
+				"Colon", "Darien", "Embera", "Herrera", "Kuna de Madungandi",
+				"Kuna de Wargandi", "Kuna Yala", "Los Santos", "Ngobe Bugle",
+				"Panama", "Veraguas" };
 		return states;
 	}
 

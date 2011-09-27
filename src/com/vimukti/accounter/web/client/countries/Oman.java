@@ -8,7 +8,7 @@ public class Oman extends AbstractCountryPreferences {
 	@Override
 	public String[] getStates() {
 		String[] states = new String[] { "ad-Dah_iliyah", "al-Batinah",
-				"aš-Šarqiyah", "az?-Z?ahirah", "Maskat", "Musandam", "Z?ufar" };
+				"as-Sarqiyah", "az?-Z?ahirah", "Maskat", "Musandam", "Z?ufar" };
 		return states;
 	}
 

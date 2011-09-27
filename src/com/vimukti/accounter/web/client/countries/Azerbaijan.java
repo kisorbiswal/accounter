@@ -8,8 +8,8 @@ public class Azerbaijan extends AbstractCountryPreferences {
 	@Override
 	public String[] getStates() {
 		String[] states = new String[] { "Abseron", "Aran", "Baki",
-				"Dagliq Sirvan", "G?nc?-Qazax", "K?lb?c?r-Laçin", "L?nk?ran",
-				"Naxçivan", "Quba-Xaçmaz", "S?ki-Zaqatala", "Yuxari Qarabag" };
+				"Dagliq Sirvan", "Ganja-Gazakh", "Kalbajar-Lachin", "Lankaran",
+				"Naxcivan", "Quba-Xacmaz", "Shaki-Zaqatala", "Yuxari Qarabag" };
 		return states;
 	}
 

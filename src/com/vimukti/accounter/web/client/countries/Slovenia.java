@@ -7,9 +7,9 @@ public class Slovenia extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		String[] states = new String[] { "Gorenjska", "Goriška",
-				"Jugovžodna Slovenija", "Koroška", "Notranjsko-kraška",
-				"Obalno-kraška", "Osrednjeslovenska", "Podravska", "Pomurska",
+		String[] states = new String[] { "Gorenjska", "Goriska",
+				"Jugovzodna Slovenija", "Koroska", "Notranjsko-kraska",
+				"Obalno-kraska", "Osrednjeslovenska", "Podravska", "Pomurska",
 				"Savinjska", "Spodnjeposavska", "Zasavska" };
 		return states;
 	}

@@ -7,11 +7,11 @@ public class Peru extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		String[] states = new String[] { "Amazonas", "Ancash", "Apurímac",
+		String[] states = new String[] { "Amazonas", "Ancash", "Apurimac",
 				"Arequipa", "Ayacucho", "Cajamarca", "Callao", "Cusco",
-				"Huancavelica", "Huánuco", "Ica", "Junín", "La Libertad",
+				"Huancavelica", "Huanuco", "Ica", "Junin", "La Libertad",
 				"Lambayeque", "Lima Provincias", "Loreto", "Madre de Dios",
-				"Moquegua", "Pasco", "Piura", "Puno", "San Martín", "Tacna",
+				"Moquegua", "Pasco", "Piura", "Puno", "San Martin", "Tacna",
 				"Tumbes", "Ucayali" };
 		return states;
 	}

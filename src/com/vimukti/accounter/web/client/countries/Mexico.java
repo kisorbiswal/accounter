@@ -10,11 +10,11 @@ public class Mexico extends AbstractCountryPreferences {
 		String[] states = new String[] { "Aguascalientes", "Baja California",
 				"Baja California Sur", "Campeche", "Chiapas", "Chihuahua",
 				"Coahuila", "Colima", "Distrito Federal", "Durango",
-				"Guanajuato", "Guerrero", "Hidalgo", "Jalisco", "México",
-				"Michoacán", "Morelos", "Nayarit", "Nuevo León", "Oaxaca",
-				"Puebla", "Querétaro", "Quintana Roo", "San Luis Potosí",
+				"Guanajuato", "Guerrero", "Hidalgo", "Jalisco", "Mexico",
+				"Michoacan", "Morelos", "Nayarit", "Nuevo Leon", "Oaxaca",
+				"Puebla", "Queretaro", "Quintana Roo", "San Luis Potosi",
 				"Sinaloa", "Sonora", "Tabasco", "Tamaulipas", "Tlaxcala",
-				"Veracruz", "Yucatán", "Zacatecas" };
+				"Veracruz", "Yucatan", "Zacatecas" };
 		return states;
 	}
 

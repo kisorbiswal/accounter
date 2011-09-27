@@ -8,7 +8,7 @@ public class Qatar extends AbstractCountryPreferences {
 	@Override
 	public String[] getStates() {
 		String[] states = new String[] { "al-Guwayriyah", "al-H_awr",
-				"al-Jumayliyah", "al-Wakrah", "ar-Rayyan", "aš-Šamal", "Doha",
+				"al-Jumayliyah", "al-Wakrah", "ar-Rayyan", "as-Samal", "Doha",
 				"Jariyan al-Batnah", "Musay'id", "Umm Salal" };
 		return states;
 	}

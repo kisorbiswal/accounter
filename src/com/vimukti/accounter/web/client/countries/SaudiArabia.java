@@ -7,8 +7,8 @@ public class SaudiArabia extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		String[] states = new String[] { "al-Bah?ah", "al-H?udud-aš-Šamaliyah",
-				"al-Jawf", "al-Madinah", "al-Qasim", "'Asir", "aš-Šarqiyah",
+		String[] states = new String[] { "al-Bah?ah", "al-H?udud-as-Samaliyah",
+				"al-Jawf", "al-Madinah", "al-Qasim", "'Asir", "as-Sarqiyah",
 				"H?a'il", "Jizan", "Makkah", "Najran", "Riad", "Tabuk" };
 		return states;
 	}

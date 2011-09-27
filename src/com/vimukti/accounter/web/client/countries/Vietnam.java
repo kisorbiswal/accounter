@@ -12,10 +12,9 @@ public class Vietnam extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		String[] states = new String[] { "B?c Trung B?",
-				"Ð?ng b?ng sông C?u Long", "Ð?ng b?ng sông H?ng",
-				"Ðông B?c B?", "Ðông Nam B?", "Duyên h?i Nam Trung B?",
-				"Tây B?c B?", "Tây Nguyên" };
+		String[] states = new String[] { "North Central Coast", "Mekong Delta",
+				"Red River Delta", "Northeastern", "Southeastern",
+				"South Central Coast", "Northwestern", "Central Highlands" };
 		return states;
 	}
 
@@ -54,6 +53,5 @@ public class Vietnam extends AbstractCountryPreferences {
 	public boolean isSalesTaxIdAndCompanyTaxIdSame() {
 		return false;
 	}
-
 
 }

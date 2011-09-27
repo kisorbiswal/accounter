@@ -9,7 +9,7 @@ public class SaintLucia extends AbstractCountryPreferences {
 	public String[] getStates() {
 		String[] states = new String[] { "Anse-la-Raye", "Canaries",
 				"Castries", "Choiseul", "Dennery", "Gros Inlet", "Laborie",
-				"Micoud", "Soufrière", "Vieux Fort" };
+				"Micoud", "Soufriere", "Vieux Fort" };
 		return states;
 	}
 

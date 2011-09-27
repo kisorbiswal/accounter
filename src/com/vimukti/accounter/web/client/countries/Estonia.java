@@ -7,8 +7,8 @@ public class Estonia extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		String[] states = new String[] { "Harju", "Hiiu", "Ida-Viru", "J‰rva",
-				"Jogeva", "L‰‰ne", "L‰‰ne-Viru", "P‰rnu", "Polva", "Rapla",
+		String[] states = new String[] { "Harju", "Hiiu", "Ida-Viru", "Jarva",
+				"Jogeva", "Laane", "Laane-Viru", "Parnu", "Polva", "Rapla",
 				"Saare", "Tartu", "Valga", "Viljandi", "Voru" };
 		return states;
 	}

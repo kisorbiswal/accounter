@@ -8,7 +8,7 @@ public class Poland extends AbstractCountryPreferences {
 	@Override
 	public String[] getStates() {
 		String[] states = new String[] { "Dolnoslaskie", "Kujawsko-Pomorskie",
-				"Lódzkie", "Lubelskie", "Lubuskie", "Malopolskie",
+				"Lodzkie", "Lubelskie", "Lubuskie", "Malopolskie",
 				"Mazowieckie", "Opolskie", "Podkarpackie", "Podlaskie",
 				"Pomorskie", "Slaskie", "Swietokrzyskie",
 				"Warminsko-Mazurskie", "Wielkopolskie", "Zachodnio-Pomorskie" };

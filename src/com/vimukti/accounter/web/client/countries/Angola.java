@@ -7,10 +7,10 @@ public class Angola extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		String[] states = new String[] { "Bengo", "Benguela", "Bié", "Cabinda",
+		String[] states = new String[] { "Bengo", "Benguela", "Bie", "Cabinda",
 				"Cuando-Cubango", "Cuanza-Norte", "Cuanza-Sul", "Cunene",
-				"Huambo", "Huíla", "Luanda", "Lunda Norte", "Lunda Sul",
-				"Malanje", "Moxico", "Namibe", "Uíge", "Zaire" };
+				"Huambo", "Huila", "Luanda", "Lunda Norte", "Lunda Sul",
+				"Malanje", "Moxico", "Namibe", "Uige", "Zaire" };
 		return states;
 	}
 

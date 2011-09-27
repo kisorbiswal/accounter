@@ -7,9 +7,9 @@ public class Nicaragua extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		String[] states = new String[] { "Atlántico Norte", "Atlántico Sur",
-				"Boaco", "Carazo", "Chinandega", "Chontales", "Estelí",
-				"Granada", "Jinotega", "León", "Madriz", "Managua", "Masaya",
+		String[] states = new String[] { "Atlantico Norte", "Atlantico Sur",
+				"Boaco", "Carazo", "Chinandega", "Chontales", "Esteli",
+				"Granada", "Jinotega", "Leon", "Madriz", "Managua", "Masaya",
 				"Matagalpa", "Nueva Segovia", "Río San Juan", "Rivas" };
 		return states;
 	}

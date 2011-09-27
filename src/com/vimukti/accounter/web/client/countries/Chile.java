@@ -7,11 +7,11 @@ public class Chile extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		String[] states = new String[] { "Aisén", "Antofagasta", "Araucanía",
-				"Atacama", "Bío Bío", "Coquimbo",
+		String[] states = new String[] { "Aisen", "Antofagasta", "Araucania",
+				"Atacama", "Bio Bio", "Coquimbo",
 				"Libertador General Bernardo O'Higgins", "Los Lagos",
-				"Magellanes", "Maule", "Metropolitana", "Tarapacá",
-				"Valparaíso" };
+				"Magellanes", "Maule", "Metropolitana", "Tarapaca",
+				"Valparaiso" };
 		return states;
 	}
 

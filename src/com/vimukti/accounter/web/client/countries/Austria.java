@@ -7,8 +7,8 @@ public class Austria extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		String[] states = new String[] { "Burgenland", "Kärnten",
-				"Niederösterreich", "Oberösterreich", "Salzburg", "Steiermark",
+		String[] states = new String[] { "Burgenland", "Karnten",
+				"Niederosterreich", "Oberosterreich", "Salzburg", "Steiermark",
 				"Tirol", "Vorarlberg", "Wien" };
 		return states;
 	}

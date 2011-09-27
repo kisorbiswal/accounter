@@ -7,11 +7,11 @@ public class Germany extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		String[] states = new String[] { "Baden-Württemberg", "Bayern",
+		String[] states = new String[] { "Baden-Wurttemberg", "Bayern",
 				"Berlin", "Brandenburg", "Bremen", "Hamburg", "Hessen",
 				"Mecklenburg-Vorpommern", "Niedersachsen",
 				"Nordrhein-Westfalen", "Rheinland-Pfalz", "Saarland",
-				"Sachsen", "Sachsen-Anhalt", "Schleswig-Holstein", "Thüringen" };
+				"Sachsen", "Sachsen-Anhalt", "Schleswig-Holstein", "Thuringen" };
 		return states;
 	}
 

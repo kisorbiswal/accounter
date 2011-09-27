@@ -9,10 +9,10 @@ public class Croatia extends AbstractCountryPreferences {
 	public String[] getStates() {
 		String[] states = new String[] { "Bjelovar-Bilogora",
 				"Dubrovnik-Neretva", "Grad Zagreb", "Istra", "Karlovac",
-				"Koprivnica-Križevci", "Krapina-Zagorje", "Lika-Senj",
-				"Medimurje", "Osijek-Baranja", "Požega-Slavonija",
-				"Primorje-Gorski Kotar", "Šibenik-Knin", "Sisak-Moslavina",
-				"Slavonski Brod-Posavina", "Split-Dalmacija", "Varaždin",
+				"Koprivnica-Krizevci", "Krapina-Zagorje", "Lika-Senj",
+				"Medimurje", "Osijek-Baranja", "Pozega-Slavonija",
+				"Primorje-Gorski Kotar", "Sibenik-Knin", "Sisak-Moslavina",
+				"Slavonski Brod-Posavina", "Split-Dalmacija", "Varazdin",
 				"Virovitica-Podravina", "Vukovar-Srijem", "Zadar", "Zagreb" };
 		return states;
 	}

@@ -8,7 +8,7 @@ public class Lebanon extends AbstractCountryPreferences {
 	@Override
 	public String[] getStates() {
 		String[] states = new String[] { "al-Biqa'a", "al-Janub",
-				"an-Nabatiyah", "aš-Šamal", "Jabal Lubnan" };
+				"an-Nabatiyah", "as-Samal", "Jabal Lubnan" };
 		return states;
 	}
 

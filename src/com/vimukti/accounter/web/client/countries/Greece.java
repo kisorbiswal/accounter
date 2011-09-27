@@ -7,7 +7,7 @@ public class Greece extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		String[] states = new String[] { "Attikí", "Kentriki Ellada",
+		String[] states = new String[] { "Attiki", "Kentriki Ellada",
 				"Nisia Aigaiou Kriti", "Voria Ellada" };
 		return states;
 	}

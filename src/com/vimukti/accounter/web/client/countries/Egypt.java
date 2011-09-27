@@ -10,10 +10,10 @@ public class Egypt extends AbstractCountryPreferences {
 		String[] states = new String[] { "ad-Daqahliyah", "al-Bah?r-al-Ah?mar",
 				"al-Buh?ayrah", "Alexandria", "al-Fayyum", "al-Garbiyah",
 				"al-Ismailiyah", "al-Minufiyah", "al-Minya", "al-Qalyubiyah",
-				"al-Wadi al-Jadid", "aš-Šarqiyah", "Assiut", "Assuan",
+				"al-Wadi al-Jadid", "as-Sarqiyah", "Assiut", "Assuan",
 				"as-Suways", "Bani Suwayf", "Bur Sa'id", "Dumyat", "Giseh",
-				"Kafr-aš-Šayh_", "Kairo", "Luxor", "Matruh", "Qina",
-				"Šamal Sina", "Sawhaj", "South Sinai" };
+				"Kafr-as-Sayh_", "Kairo", "Luxor", "Matruh", "Qina",
+				"Samal Sina", "Sawhaj", "South Sinai" };
 		return states;
 	}
 

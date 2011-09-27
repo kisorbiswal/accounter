@@ -9,10 +9,10 @@ public class Algeria extends AbstractCountryPreferences {
 	public String[] getStates() {
 		String[] states = new String[] { "Adrar", "al-Agwat", "al-Bayad",
 				"al-Buirah", "Algier", "al-Jilfah", "al-Masilah", "al-Midyah",
-				"al-Wad", "an-Na'amah", "Annabah", "aš-Šalif", "at-Tarif",
-				"'Ayn ad-Dafla", "'Ayn Timušanat", "Baššar", "Batnah",
+				"al-Wad", "an-Na'amah", "Annabah", "as-Salif", "at-Tarif",
+				"'Ayn ad-Dafla", " Ayn Timusanat", "Bassar", "Batnah",
 				"Bijayah", "Biskrah", "Blidah", "Bumardas", "Burj Bu Arririj",
-				"Galizan", "Gardayah", "H_anšalah", "Ilizi", "Jijili", "Milah",
+				"Galizan", "Gardayah", "H_ansalah", "Ilizi", "Jijili", "Milah",
 				"Mu'askar", "Mustaganam", "Qalmah", "Qusantinah", "Sa'idah",
 				"Sakikdah", "Satif", "Sidi bal'abbas", "Suq Ahras",
 				"Tamanrasat", "Tibazah", "Tibissah", "Tilimsan", "Tinduf",

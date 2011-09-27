@@ -7,11 +7,11 @@ public class Honduras extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		String[] states = new String[] { "Atlántida", "Choluteca", "Colón",
-				"Comayagua", "Copán", "Cortés", "Distrito Central",
-				"El Paraíso", "Francisco Morazán", "Gracias a Dios",
-				"Intibucá", "Islas de la Bahía", "La Paz", "Lempira",
-				"Ocotepeque", "Olancho", "Santa Bárbara", "Valle", "Yoro" };
+		String[] states = new String[] { "Atlantida", "Choluteca", "Colon",
+				"Comayagua", "Copan", "Cortes", "Distrito Central",
+				"El Paraíso", "Francisco Morazan", "Gracias a Dios",
+				"Intibuca", "Islas de la Bahia", "La Paz", "Lempira",
+				"Ocotepeque", "Olancho", "Santa Barbara", "Valle", "Yoro" };
 		return states;
 	}
 

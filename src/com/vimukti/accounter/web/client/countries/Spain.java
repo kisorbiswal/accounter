@@ -10,7 +10,7 @@ public class Spain extends AbstractCountryPreferences {
 		String[] states = new String[] { "Andalusien", "Aragonien", "Asturien",
 				"Balearen", "Baskenland", "Ceuta", "Extremadura", "Galizien",
 				"Kanaren", "Kantabrien", "Kastilien-La Mancha",
-				"Kastilien-León", "Katalonien", "La Rioja", "Madrid",
+				"Kastilien-Leon", "Katalonien", "La Rioja", "Madrid",
 				"Melilla", "Murcia", "Navarra", "Valencia" };
 		return states;
 	}

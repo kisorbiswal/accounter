@@ -8,7 +8,7 @@ public class Lithuania extends AbstractCountryPreferences {
 	@Override
 	public String[] getStates() {
 		String[] states = new String[] { "Kaunas", "Klaipeda", "Panevezys",
-				"Šiauliai", "Vilna" };
+				"Siauliai", "Vilna" };
 		return states;
 	}
 
@@ -16,8 +16,6 @@ public class Lithuania extends AbstractCountryPreferences {
 	public String getPreferredCurrency() {
 		return "LTL";
 	}
-
-	
 
 	@Override
 	public boolean allowFlexibleFiscalYear() {

@@ -11,7 +11,7 @@ public class Latvia extends AbstractCountryPreferences {
 				"Bauskas", "Cesu", "Daugavpils", "Daugavpils pilseta",
 				"Dobeles", "Gulbenes", "Jekabspils", "Jelgava", "Jelgavas",
 				"Jurmala pilseta", "Kraslavas", "Kuldigas", "Liepaja",
-				"Liepajas", "Limbažu", "Ludzas", "Madonas", "Ogres", "Preilu",
+				"Liepajas", "Limbazu", "Ludzas", "Madonas", "Ogres", "Preilu",
 				"Rezekne", "Rezeknes", "Riga", "Rigas", "Saldus", "Talsu",
 				"Tukuma", "Valkas", "Valmieras", "Ventspils",
 				"Ventspils pilseta" };

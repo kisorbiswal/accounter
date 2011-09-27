@@ -7,7 +7,7 @@ public class Afghanistan extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		return new String[] { "Badah_šan", "Badgis", "Baglan", "Balh_",
+		return new String[] { "Badah_san", "Badgis", "Baglan", "Balh_",
 				"Bamiyan", "Farah", "Faryab", "Gawr", "Gazni", "H_awst",
 				"Herat", "Hilmand", "Jawzjan", "Kabul", "Kandahar", "Kapisa",
 				"Kunarha", "Kunduz", "Lagman", "Lawgar", "Maydan-Wardak",

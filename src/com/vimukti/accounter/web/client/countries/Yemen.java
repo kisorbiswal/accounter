@@ -12,11 +12,10 @@ public class Yemen extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		String[] states = new String[] { "Abyan", "ad-Dali'", "Aden",
-				"al-Bayda", "al-H?udaydah", "al-Jawf", "al-Mahrah",
-				"al-Mahwit", "Amanah al-'Asmah", "Amran", "Ðamar", "Hadramaut",
-				"Hajjah", "Ibb", "Lahij", "Ma'rib", "Raymah", "Šabwah",
-				"Sa'dah", "San'a", "Ta'izz" };
+		String[] states = new String[] { "Abyan", "Ad-Dali'", "Aden",
+				"Al-Bayda", "Al-Hudaydah", "Al-Jawf", "Al-Mahrah", "Al-Mahwit",
+				"Amanah al-'Asmah", "Amran", "Hadramaut", "Hajjah", "Ibb",
+				"Lahij", "Ma'rib", "Raymah", "Sa'dah", "San'a", "Ta'izz" };
 		return states;
 	}
 
@@ -35,24 +34,19 @@ public class Yemen extends AbstractCountryPreferences {
 		return Accounter.constants().january();
 	}
 
-
-
 	@Override
 	public boolean isVatAvailable() {
 		return false;
 	}
-
 
 	@Override
 	public boolean isSalesTaxAvailable() {
 		return true;
 	}
 
-
 	@Override
 	public boolean isServiceTaxAvailable() {
 		return false;
 	}
 
-	
 }

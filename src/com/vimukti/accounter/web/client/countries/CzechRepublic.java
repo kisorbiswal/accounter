@@ -7,10 +7,10 @@ public class CzechRepublic extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		String[] states = new String[] { "Jihoceský", "Jihomoravský",
-				"Karlovarský", "Královéhradecký", "Liberecký",
-				"Moravskoslezský", "Olomoucký", "Pardubický", "Plzenský",
-				"Prag", "Stredoceský", "Ústecký", "Vysocina", "Zlínský" };
+		String[] states = new String[] { "Jihocesky", "Jihomoravsky",
+				"Karlovarsky", "Královéhradecky", "Liberecky",
+				"Moravskoslezsky", "Olomoucky", "Pardubicky", "Plzensky",
+				"Prag", "Stredocesky", "Ustecky", "Vysocina", "Zlinsky" };
 		return states;
 	}
 
