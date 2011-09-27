@@ -1651,4 +1651,20 @@
 		from com.vimukti.accounter.core.Activity act where act.objectID=:transactionId
 	</query>
 	
+	<query name="updateTaxCodeSalesTaxRate">
+		<query-param name="id" type="long"/>
+		<query-param name="salesTaxRate" type="double"/>
+		
+		UPDATE TAX_CODE TC SET TC.SALES_TAX_RATE =:salesTaxRate
+						WHERE TC.TAXITEMGROUP_SALES =:id
+	</query>
+	
+	<query name="updateTaxCodePurchaseTaxRate">
+		<query-param name="id" type="long"/>
+		<query-param name="purchaseTaxRate" type="double"/>
+		
+		UPDATE TAX_CODE TC SET TC.PURCHASE_TAX_RATE =:purchaseTaxRate
+						WHERE TC.TAXITEMGROUP_PURCHASES =:id
+	</query>
+	
 </hibernate-mapping>
