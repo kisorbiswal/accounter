@@ -34,7 +34,6 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -1200,11 +1199,11 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			ArrayList<BillsList> openRecs = new ArrayList<BillsList>();
 			List<BillsList> allRecs = initialRecords;
 			for (BillsList rec : allRecs) {
-				if ((rec.getType() == ClientTransaction.TYPE_CREDIT_CARD_EXPENSE
-						|| rec.getType() == ClientTransaction.TYPE_CASH_EXPENSE || rec
-						.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
-						|| ((rec.getType() == ClientTransaction.TYPE_ENTER_BILL || rec
-								.getType() == ClientTransaction.TYPE_VENDOR_CREDIT_MEMO) && DecimalUtil
+				if ((rec.getType() == com.vimukti.accounter.core.Transaction.TYPE_CREDIT_CARD_EXPENSE
+						|| rec.getType() == com.vimukti.accounter.core.Transaction.TYPE_CASH_EXPENSE || rec
+						.getType() == com.vimukti.accounter.core.Transaction.TYPE_EMPLOYEE_EXPENSE)
+						|| ((rec.getType() == com.vimukti.accounter.core.Transaction.TYPE_ENTER_BILL || rec
+								.getType() == com.vimukti.accounter.core.Transaction.TYPE_VENDOR_CREDIT_MEMO) && DecimalUtil
 								.isGreaterThan(rec.getBalance(), 0))) {
 					if (!rec.isDeleted() && !rec.isVoided())
 						openRecs.add(rec);
@@ -1230,7 +1229,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			ArrayList<BillsList> overDueRecs = new ArrayList<BillsList>();
 			List<BillsList> allRecs = initialRecords;
 			for (BillsList rec : allRecs) {
-				if (rec.getType() == ClientTransaction.TYPE_ENTER_BILL
+				if (rec.getType() == com.vimukti.accounter.core.Transaction.TYPE_ENTER_BILL
 						&& new ClientFinanceDate().after(rec.getDueDate())
 						&& DecimalUtil.isGreaterThan(rec.getBalance(), 0)) {
 					overDueRecs.add(rec);
