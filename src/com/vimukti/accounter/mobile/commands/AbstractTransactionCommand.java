@@ -13,6 +13,7 @@ import com.vimukti.accounter.core.BankAccount;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Customer;
+import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
@@ -56,6 +57,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final int BANK_ACCOUNTS_TO_SHOW = 5;
 	protected static final int EXPENSES_TO_SHOW = 5;
 	protected static final int BILLS_TO_SHOW = 5;
+	protected static final int ESTIMATES_TO_SHOW = 5;
 
 	protected static final String TRANSACTION_ACCOUNT_ITEM_PROCESS = null;
 	protected static final String OLD_TRANSACTION_ACCOUNT_ITEM_ATTR = null;
@@ -1246,4 +1248,28 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	}
 
+	protected List<Estimate> getEstimates(String viewType) {
+
+		List<Estimate> result = new ArrayList<Estimate>();
+		List<Estimate> data = null;
+		try {
+			data = new FinanceTool().getEstimates();
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+
+		for (Estimate e : data) {
+			if (viewType.equals(Estimate.STATUS_OPEN)) {
+				result.add(e);
+			} else if (viewType.equals(Estimate.STATUS_ACCECPTED)) {
+				result.add(e);
+			} else if (viewType.equals(Estimate.STATUS_REJECTED)) {
+				result.add(e);
+			} else {
+				result.add(e);
+			}
+		}
+
+		return result;
+	}
 }

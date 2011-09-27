@@ -17,6 +17,8 @@ import com.vimukti.accounter.mobile.ResultList;
  */
 public class VendorsListCommand extends AbstractTransactionCommand {
 
+	private static final String ACTIVE = "active";
+
 	@Override
 	public String getId() {
 		return null;
@@ -67,7 +69,7 @@ public class VendorsListCommand extends AbstractTransactionCommand {
 		ResultList vendorsResult = new ResultList("vendors");
 		result.add("Vendors List");
 		int num = 0;
-		List<Vendor> vendors = getVendors(isActive,context.getCompany());
+		List<Vendor> vendors = getVendors(isActive, context.getCompany());
 		for (Vendor vendor : vendors) {
 			vendorsResult.add(createPayeeRecord(vendor));
 			num++;

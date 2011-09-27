@@ -18,6 +18,8 @@ import com.vimukti.accounter.mobile.ResultList;
  */
 public class AccountsListCommand extends AbstractTransactionCommand {
 
+	private static final String ACTIVE = "active";
+
 	@Override
 	public String getId() {
 		// TODO Auto-generated method stub

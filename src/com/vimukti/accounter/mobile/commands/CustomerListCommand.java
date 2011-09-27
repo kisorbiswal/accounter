@@ -17,6 +17,8 @@ import com.vimukti.accounter.mobile.ResultList;
  */
 public class CustomerListCommand extends AbstractTransactionCommand {
 
+	private static final String ACTIVE = "active";
+
 	@Override
 	public String getId() {
 		// TODO Auto-generated method stub
@@ -68,7 +70,7 @@ public class CustomerListCommand extends AbstractTransactionCommand {
 		ResultList customerResult = new ResultList("vendors");
 		result.add("customers List");
 		int num = 0;
-		List<Customer> customers = getCustomers(context.getCompany(),isActive);
+		List<Customer> customers = getCustomers(context.getCompany(), isActive);
 		for (Customer customer : customers) {
 			customerResult.add(createPayeeRecord(customer));
 			num++;

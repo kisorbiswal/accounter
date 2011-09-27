@@ -60,10 +60,11 @@ public class BillsListCommand extends AbstractTransactionCommand {
 
 	private Result billsList(Context context, String viewType) {
 		Result result = context.makeResult();
-		result.add("Bills List");
+		result.add("Bills and Expenses List");
 		ResultList billsListData = new ResultList("billsList");
 		int num = 0;
 		List<BillsList> bills = getBills(viewType);
+		List<BillsList> expenses = getExpenses(viewType);
 		for (BillsList bill : bills) {
 			billsListData.add(createBillRecord(bill));
 			num++;
@@ -71,10 +72,18 @@ public class BillsListCommand extends AbstractTransactionCommand {
 				break;
 			}
 		}
+		num = 0;
+		for (BillsList bill : expenses) {
+			billsListData.add(createBillRecord(bill));
+			num++;
+			if (num == EXPENSES_TO_SHOW) {
+				break;
+			}
+		}
 		int size = billsListData.size();
 		StringBuilder message = new StringBuilder();
 		if (size > 0) {
-			message.append("Select a Bill");
+			message.append("Select a Bill or Expense");
 		}
 		CommandList commandList = new CommandList();
 		commandList.add("Create");
@@ -82,7 +91,7 @@ public class BillsListCommand extends AbstractTransactionCommand {
 		result.add(message.toString());
 		result.add(billsListData);
 		result.add(commandList);
-		result.add("Type for Bill");
+		result.add("Type for Bill or Expense");
 
 		return result;
 	}
