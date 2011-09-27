@@ -216,7 +216,7 @@ public class CashPurchaseView extends
 
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
-				isTrackTax(), isTaxPerDetailLine()) {
+				isTrackTax() && isTrackPaidTax(), isTaxPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {

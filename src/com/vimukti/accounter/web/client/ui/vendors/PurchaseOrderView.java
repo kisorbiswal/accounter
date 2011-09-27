@@ -395,7 +395,7 @@ public class PurchaseOrderView extends
 
 		// Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
-				isTrackTax(), isTaxPerDetailLine()) {
+				isTrackTax() && isTrackPaidTax(), isTaxPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {

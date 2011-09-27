@@ -170,7 +170,7 @@ public class ItemReceiptView extends
 		HTML lab2 = new HTML("<strong>"
 				+ Accounter.constants().itemsAndExpenses() + "</strong>");
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
-				isTrackTax(), isTaxPerDetailLine()) {
+				isTrackTax() && isTrackPaidTax(), isTaxPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {

@@ -196,7 +196,7 @@ public class VendorCreditMemoView extends
 		// Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 		// menuButton = createAddNewButton();
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
-				isTrackTax(), isTaxPerDetailLine()) {
+				isTrackTax() && isTrackPaidTax(), isTaxPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {

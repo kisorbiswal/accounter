@@ -504,7 +504,7 @@ public class VendorBillView extends
 				+ UIUtils.getCurrencySymbol() + " 0.00");
 
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
-				isTrackTax(), isTaxPerDetailLine()) {
+				isTrackTax() && isTrackPaidTax(), isTaxPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {
