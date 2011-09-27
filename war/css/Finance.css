@@ -104,7 +104,7 @@ html,body,.myacc-form1 td input[type=text],.gridBodyContainer,.gridHeader tr td 
 .cross-dialog,.refresh,.link,.loading,.Image-action td table,.blue-month-line,.blue-day-grid,.close,.gwt-Tree .gwt-TreeItem,
 .gridBody tbody,.gridHeader,.imageLink,a,.image-button,.falseHyperlink,.handCursor,.widget img,.gwt-DecoratedTabBar .tabMiddleCenter,
 .users-grid tr:hover,.logo,.general-image,.helpBar,.calendar-picker,.custom-button,.gwt-DecoratedTabBar .tabMiddleCenter,
-#contactable,form#contactForm .submit{
+#contactable,form#contactForm .submit,.gwt-Button{
 	cursor: pointer;
 }
 .no-title td.td01,.main-w,td.td11,td.td10,.users-listGrid .gridBodyContainer .onsort,.upload-logo,.listgrid,
@@ -192,7 +192,7 @@ textarea[disabled],.dropdown-disabled input[disabled],.dropdown-disabled input[d
 .gwt-TextBox input[disabled='disabled']{
 	background: none repeat scroll 0 0 #E6E0DA !important;
 }
-.gwt-MenuBar .gwt-MenuItem-selected,.gwt-MenuBar-vertical .subMenuIcon-selected,
+.gwt-MenuBar .gwt-MenuItem-selected,.gwt-MenuBar-vertical .subMenuIcon-selected,.gwt-Button,.gwt-DialogBox,
 .gwt-MenuBar-vertical .subMenuIcon-selected,.addAccountPortlet,.addButtonPortlet,.account_portlet {
 	background: none repeat scroll 0 0 #29646C;
 }
@@ -279,7 +279,7 @@ html,body,#overlay{
 .imageLink img {
 	margin-right: 3px;
 }
-.toolbox,.gridSelectBoxCell .downarrow-button,.downarrow-button{
+.toolbox,.gridSelectBoxCell .downarrow-button{
 	z-index:1;
 }
 .toolbox,.helpPanel {
@@ -421,9 +421,6 @@ div.gridBodyContainer,.action-panel .panelBody .panelContent,.action-panel,.scro
 .gwt-DecoratedTabBar .gwt-TabBarItem-selected{
 	background:none repeat scroll 0 0 #1A5158 !important;
 }
-.gwt-Button,.gwt-DialogBox{
-	background:none repeat scroll 0 0 #1A5158;
-}
 .gwt-DecoratedTabBar .tabMiddleCenter {
 	padding: 0 4px 2px;
 }
@@ -532,7 +529,7 @@ div.gridBodyContainer,.action-panel .panelBody .panelContent,.action-panel,.scro
 .margin-b {
 	margin-bottom: 10px;
 }
-.table-fixed,.listgridfooter,.biz-decor-panel,.listgrid .gridBody {
+.table-fixed,.listgridfooter,.biz-decor-panel,.listgrid .gridBody,.gridHeader,.gridBody {
 	table-layout: fixed !important;
 }
 .dateList {
@@ -623,11 +620,15 @@ tr.net-profit td {
     padding: 0 5px 5px;
     padding: 4px 5px 5px\0 !important;
 }
-.gwt-Button:hover,.image-button-hover,.gwt-Button,.addAccountPortlet,.addButtonPortlet,.account_portlet{
-	border:1px solid #002E36;
+.gwt-Button:FOCUS,.image-button:FOCUS{
+    border:1px solid #10CDD1
 }
-.header {
-	margin-left: 0;
+.cancle-Btn:FOCUS{
+	border:1px solid #352B2B !important;
+}
+.gwt-Button,.addAccountPortlet,.addButtonPortlet,.account_portlet,.gwt-Button:hover,.image-button-hover,
+.image-button:hover,.saveAndClose-Btn:hover{
+	border:1px solid #002E36;
 }
 .gridBody tr td,.companyInfoPanel .header,.label-title-list,.gwt-RadioButton label,.portletLabel,.organisation_Info {
 	font-size: 13px;
@@ -941,9 +942,9 @@ iframe,.address div {
 	background-repeat:no-repeat;
 }
 .image-button{
-	background-color: #1A5158;
+	background-color: #29646C;
     background-position: 5px center;
-    border: 1px solid #002E36;
+    border: 1px solid #1A5158;
     padding:0 5px 5px 27px;
     padding:0 5px 0 27px\0 !important;
 }
@@ -954,8 +955,7 @@ iframe,.address div {
 	 height: 25px;
 }
 .image-button:hover,.saveAndClose-Btn:hover{
-	background-color:#002E36 !important;
-	border: 1px solid #002E36;
+	background-color:#1A5158 !important;
 }
 .grouped-buttons td:FIRST-CHILD .image-button,.grouped-buttons td:last-child .image-button,.cancle-Btn,.grouped-buttons .image-button,
 .grouped-buttons td:FIRST-CHILD .image-button,.grouped-buttons .image-button,.Empty-text{
@@ -1175,9 +1175,7 @@ body,div, table td, select,.gwt-Button,textarea,input,label,.ReportGrid tr td,.g
 }
 .companyInfoPanel{
 	border-bottom: 1px solid #2D8B93;
-    border-color: #2D8B93;
     border-top: 1px solid #2D8B93;
-    padding: 8px;
 }
 .contentSelected_LastChild{
 	border-radius:0 0 8px 8px !important;
@@ -1398,4 +1396,14 @@ form#contactForm .submit {
 }
 .depth2{
 	padding-left:2% !important;
+}
+*{
+	outline: none;
+}
+button::-moz-focus-inner,
+input[type="reset"]::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner,
+input[type="file"] > input[type="button"]::-moz-focus-inner {
+    border: none;
 }
