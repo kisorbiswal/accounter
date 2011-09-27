@@ -132,7 +132,6 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.TAXGroup tg where tg.company=:company
 	</query>
-	<query name="list.TaxRates">from com.vimukti.accounter.core.TaxRates</query>
 
 	<query name="list.TAXItemGroups">
 		<query-param name="company" type="Company" />
@@ -176,16 +175,14 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.Transaction t where t.company=:company
 	</query>
-	<query name="list.Entry">
-		from com.vimukti.accounter.core.Entry
-	</query>
-	<query name="list.TransactionItem">from com.vimukti.accounter.core.TransactionItem
-	</query>
-	<query name="list.CreditsAndPayments">from
-		com.vimukti.accounter.core.CreditsAndPayments
-	</query>
-	<query name="list.TransactionCreditsAndPayments">from
-		com.vimukti.accounter.core.TransactionCreditsAndPayments</query>
+
+	<!-- <query name="list.CreditsAndPayments">from -->
+	<!-- com.vimukti.accounter.core.CreditsAndPayments -->
+	<!-- </query> -->
+
+	<!-- <query name="list.TransactionCreditsAndPayments">from -->
+	<!-- com.vimukti.accounter.core.TransactionCreditsAndPayments</query> -->
+
 	<query name="list.TransactionMakeDeposit">from
 		com.vimukti.accounter.core.TransactionMakeDeposit</query>
 	<query name="list.TransactionPayBill">
@@ -194,23 +191,31 @@
 		com.vimukti.accounter.core.TransactionPayBill tb where
 		tb.company=:company
 	</query>
-	<query name="list.TransactionReceivePayment">from
-		com.vimukti.accounter.core.TransactionReceivePayment</query>
-	<query name="list.TransactionIssuePayment">from
-		com.vimukti.accounter.core.TransactionIssuePayment</query>
-	<query name="list.TransactionPaySalesTax">from
-		com.vimukti.accounter.core.TransactionPaySalesTax</query>
-	<query name="list.PaySalesTaxEntries">from
-		com.vimukti.accounter.core.PaySalesTaxEntries
-	</query>
-	<query name="list.TransactionMakeDepositEntries">from
-		com.vimukti.accounter.core.TransactionMakeDepositEntries</query>
-	<query name="list.TransactionExpense">from
-		com.vimukti.accounter.core.TransactionExpense
-	</query>
-	<query name="list.TransactionPayExpense">from
-		com.vimukti.accounter.core.TransactionPayExpense
-	</query>
+
+	<!-- <query name="list.TransactionReceivePayment">from -->
+	<!-- com.vimukti.accounter.core.TransactionReceivePayment</query> -->
+
+	<!-- <query name="list.TransactionIssuePayment">from -->
+	<!-- com.vimukti.accounter.core.TransactionIssuePayment</query> -->
+
+	<!-- <query name="list.TransactionPaySalesTax">from -->
+	<!-- com.vimukti.accounter.core.TransactionPaySalesTax</query> -->
+
+	<!-- <query name="list.PaySalesTaxEntries">from -->
+	<!-- com.vimukti.accounter.core.PaySalesTaxEntries -->
+	<!-- </query> -->
+
+	<!-- <query name="list.TransactionMakeDepositEntries">from -->
+	<!-- com.vimukti.accounter.core.TransactionMakeDepositEntries</query> -->
+
+	<!-- <query name="list.TransactionExpense">from -->
+	<!-- com.vimukti.accounter.core.TransactionExpense -->
+	<!-- </query> -->
+
+	<!-- <query name="list.TransactionPayExpense">from -->
+	<!-- com.vimukti.accounter.core.TransactionPayExpense -->
+	<!-- </query> -->
+
 	<query name="list.Vendor">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.Vendor v where v.company=:company
