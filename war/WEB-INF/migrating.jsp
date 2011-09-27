@@ -1,5 +1,7 @@
 <html>
 <head>
+<script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
+<script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
 <script type="text/JavaScript">
 function timedRefresh(timeoutPeriod) {
 	setTimeout("location.reload(true);",timeoutPeriod);

@@ -10,6 +10,7 @@
  <link rel="shortcut icon" href="../images/favicon.ico" />
 <link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet">
 <script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
+<script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
 </head>
 <body>
 <%@ include file="./feedback.jsp" %>

@@ -12,6 +12,7 @@
 
 <link rel="stylesheet" type="text/css" href="../css/vertical-tabs-styles.css?version=<%= version%>">
 <script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
+<script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
 <script type="text/javascript" src="/jscripts/vertical-tabs-script.js"></script>
 
 <script type="text/javascript">

@@ -14,6 +14,8 @@
     <title>Bizantra - Importing Account</title>
     
     <!--CSS for loading message at application Startup-->
+    <script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
+    <script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
     <script type="text/javascript">
     	function loadImage(){
     		document.getElementById("hiddenDiv").style.display="block";

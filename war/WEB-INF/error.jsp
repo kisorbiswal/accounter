@@ -3,6 +3,8 @@
        <title>Accounter</title>
        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
        <link type="text/css" rel="stylesheet" href="../css/Finance.css?version=<%= version%>">
+       <script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
+       <script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
     </head>
     <body style="background:none repeat scroll 0 0 #D8DCE0;">
     <%@ include file="./feedback.jsp" %>

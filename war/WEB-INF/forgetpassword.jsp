@@ -4,6 +4,8 @@
 <title> Forgotten Password
 </title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
+<script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
 <title>Forget Password</title>
 <script type="text/javascript">
 function validation(formObject){

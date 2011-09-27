@@ -9,6 +9,7 @@
 <link rel="shortcut icon" href="../images/favicon.ico" />
 <link type="text/css" href="../css/ss.css" rel="stylesheet">
 <script src="/jscripts/jquery-1.6.2.js" type="text/javascript"></script>
+<script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
 <script type="text/javascript" src="/jscripts/stepcarousel.js"></script>
 <script type="text/javascript">
 jQuery.noConflict();

@@ -3,7 +3,8 @@
 <html>
   <head>
 	<script language="javascript" type="text/javascript" src='js/tiny_mce/tiny_mce_src.js'></script>
-
+	<script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
+	<script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
 
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>Collaber On Web (BETA)</title>
