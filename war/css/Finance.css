@@ -110,7 +110,7 @@ html,body,.myacc-form1 td input[type=text],.gridBodyContainer,.gridHeader tr td 
 .no-title td.td01,.main-w,td.td11,td.td10,.users-listGrid .gridBodyContainer .onsort,.upload-logo,.listgrid,
 .workspaces-listGrid .gridBodyContainer .onsort,.dropdownFlex,.blue-day-grid,.editTable,.gwt-PopupPanel,.ReportGrid,
 select[multiple],.selectedview_textareadata,#loading .loadingIndicator,.main-class-pannel,.recounciliation_grid,
-.editTable table,.editTable input[disabled],.editTable_disable_anchor{
+.editTable table,.editTable input[disabled],.editTable_disable_anchor,.dateBoxPopup{
 	background: none repeat scroll 0 0 #FFFFFF;
 }
 .ele-disable,.menuPopupTop,.menuPopupMiddleLeft,.disconnected .gridLabelCell .gwt-HTML img,.listgridfooter,#overlay,
@@ -130,7 +130,7 @@ lable,.gwt-Label,.datePickerPreviousButton,.datePickerNextButton,td.datePickerMo
 .gwt-MenuBar-vertical .subMenuIcon-selected,.gwt-MenuBar-horizontal .gwt-MenuItem,.gwt-MenuBar-horizontal,.childNode tr td,.parentNode tr td,
 .gwt-MenuBar-vertical,.loading-panel tr td,.workspace-panel .listgrid,.user-panel .listgrid,.workspace-panel .listgrid .gridBody tr td,
 .user-panel .listgrid .gridBody tr td,.helpContent,.gwt-MenuBar-vertical .gwt-MenuItemSeparator .menuSeparatorInner,.custom-button,
-.editTable .gwt-TextBox,.editTable .gwt-DateBox,.industry_list_table select{
+.editTable .gwt-TextBox,.editTable .gwt-DateBox,.industry_list_table select,.gwt-DatePicker .datePickerDays tr:FIRST-CHILD{
 	border: 0px none ;
 }
 .editheader .gwt-Label,.viewTitle,.blue-month-line,.blue-week-line,.gwt-StackPanel .gwt-StackPanelItem,.gridHeader,
@@ -138,7 +138,8 @@ lable,.gwt-Label,.datePickerPreviousButton,.datePickerNextButton,td.datePickerMo
 .gwt-DialogBox .caption,.editTable .editheader td,.view_help_panel td:FIRST-CHILD table div,.helpdialog .dialogTopCenter table div,
 .breadcrumb a,.helpdialog .dialogTopCenterInner .caption .gwt-HTML,.recounciliation_grid thead th,.gwt-TabBar .gwt-TabBarItem,
 .tabMiddle .tabMiddleCenterInner .gwt-Label,.gwt-MenuBar table tr td,.gwt-MenuBar-horizontal .gwt-MenuItem,.user_activity_log thead th,
-#contactable,#contactForm,form#contactForm .submit,#callback {
+#contactable,#contactForm,form#contactForm .submit,#callback,.dateBoxPopup .gwt-DatePicker .datePickerWeekdayLabel,.datePickerMonthSelector td,
+.dateBoxPopup .gwt-DatePicker .datePickerWeekendLabel,.datePickerMonthSelector td .html-face {
 	color: #FFFFFF;
 }
 .gwt-TextBox,.gwt-TextArea,.memoTextArea,textarea[disabled],.gwt-ListBox,.refer_listbox,.fiscal_listbox,.currency_listbox,
@@ -155,7 +156,7 @@ lable,.gwt-Label,.datePickerPreviousButton,.datePickerNextButton,td.datePickerMo
 	float: right !important;
 }
 .picture-link,.status,.blue-day-grid,.blue-month-line,.blue-week-line,.message,.headerlabel,.progress_header,#mainFooter,
-.companyName,.skip_setup td:last-child,.start_setup td:last-child {
+.companyName,.skip_setup td:last-child,.start_setup td:last-child,.dateBoxPopup .popupContent table td {
 	text-align: center;
 }
 .td11,td.sidebar,.recounciliation_grid tbody tr,.gridLabelCell img,.Caption img,.gwt-TreeItem img,
@@ -185,7 +186,7 @@ body,.menubar-devider,.gwt-SuggestBox,.gwt-TextBox,.gwt-PasswordTextBox,.gridSel
 	background: none repeat scroll 0 0 #CCCCCC !important;
 }
 .gridBody,.gridHeader,.blue-day-grid,.dropdownFlex,.gridHeader,.editTable table,.boldtext,.borders,.biz-decor-panel,
-.gwt-MenuBarPopup .gwt-MenuBar-vertical table,.gwt-DecoratedTabBar .gwt-TabBarItem,.td00,.td01,.td02{
+.gwt-MenuBarPopup .gwt-MenuBar-vertical table,.gwt-DecoratedTabBar .gwt-TabBarItem,.td00,.td01,.td02,.gwt-DatePicker .datePickerDays{
 	border-collapse: collapse;
 }
 textarea[disabled],.dropdown-disabled input[disabled],.dropdown-disabled input[disabled='disabled'],.gwt-TextBox input[disabled],
@@ -308,7 +309,7 @@ html,body,#overlay{
 .gwt-DecoratedPopupPanel,.address div{
 	overflow: visible;
 }
-.gwt-SuggestBox,.gwt-TextBox,.gwt-PasswordTextBox,.blue-day-grid tr,.popup,.message {
+.gwt-SuggestBox,.gwt-TextBox,.gwt-PasswordTextBox,.blue-day-grid tr,.popup,.message,.gwt-DatePicker .datePickerDays tr {
 	border: 1px solid #AAAAAA;
 }
 .gridBody1 tr td div,.selectedview,.childNode tr td,.parentNode tr td,.gridBody tr td div,.gridHeader tr td div,#contactable,#contactForm{
@@ -411,9 +412,11 @@ div.gridBodyContainer,.action-panel .panelBody .panelContent,.action-panel,.scro
 	height: 30px !important;
 	padding: 6px 4px 3px 6px !important;
 }
-.gwt-DialogBox .dialogMiddleCenter {
+.gwt-DialogBox .dialogMiddleCenter,.dateBoxPopup .popupContent .datePickerMonthSelector td,.dateBoxPopup .popupContent .datePickerDays td {
+    padding: 3px;	
+}
+.gwt-DialogBox .dialogMiddleCenter{
 	background: none repeat scroll 0 0 #eeeeee !important;
-	padding: 3px;
 }
 .gwt-MenuBar-vertical,.gwt-DecoratedTabBar .gwt-TabBarItem{
 	background:none repeat scroll 0 0 #39828B;
@@ -424,10 +427,10 @@ div.gridBodyContainer,.action-panel .panelBody .panelContent,.action-panel,.scro
 .gwt-DecoratedTabBar .tabMiddleCenter {
 	padding: 0 4px 2px;
 }
-.datePickerWeekdayLabel,.datePickerWeekendLabel,.financialDataTitle {
+.financialDataTitle {
 	background: none repeat scroll 0 0 #BBBBBB;
 }
-.datePickerMonthSelector{
+.datePickerMonthSelector,.dateBoxPopup .gwt-DatePicker .datePickerWeekdayLabel,.dateBoxPopup .gwt-DatePicker .datePickerWeekendLabel{
 	background:none repeat scroll 0 0 #3299A4 !important;
 }
 .gwt-PopupPanel {
@@ -505,13 +508,13 @@ div.gridBodyContainer,.action-panel .panelBody .panelContent,.action-panel,.scro
 .blue-day-grid,.blue-month-line,.blue-week-line,.blue-date-picker{
     width: 184px;
 }
-.blue-week-end,.blue-current-month-week-end {
+.blue-week-end,.blue-current-month-week-end,.gwt-DatePicker .datePickerDayIsWeekend {
 	background-color: #EEEEEE;
 }
-.blue-other-day,.blue-week-end {
+.blue-other-day,.blue-week-end,.datePickerDayIsFiller {
 	color: #AAAAAA;
 }
-.blue-current-month-other-day,.blue-current-month-week-end,.blue-other-day,.blue-week-end,.blue-current-month-selected{
+.blue-current-month-other-day,.blue-current-month-week-end,.blue-other-day,.blue-week-end,.blue-current-month-selected,.gwt-DatePicker .datePickerDay{
 	border-right: 1px solid #aaa; 
 }
 .blue-current-month-selected {
@@ -1189,8 +1192,10 @@ body,div, table td, select,.gwt-Button,textarea,input,label,.ReportGrid tr td,.g
 .editTable input[type="text"]:FOCUS{
 	height:20px !important;
 }
-input[type="text"]:FOCUS, textarea:FOCUS{
+input[type="text"]:FOCUS, textarea:FOCUS,.dateBoxPopup .gwt-DatePicker{
 	border: 1px solid #3299A4;
+}
+input[type="text"]:FOCUS, textarea:FOCUS{
     box-shadow: 0 0 5px #3299A4;
 }
 a#fdbk_tab,#overlay{
