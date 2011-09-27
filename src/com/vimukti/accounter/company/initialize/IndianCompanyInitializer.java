@@ -7,6 +7,7 @@ import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.TAXAgency;
+import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.utils.HibernateUtil;
 
@@ -122,6 +123,14 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 		tdsItem4.setDefault(true);
 		tdsItem4.setPercentage(true);
 		session.save(tdsItem4);
+
+		TAXCode none = new TAXCode();
+		none.setCompany(company);
+		none.setName("None");
+		none.setDescription("None");
+		none.setTaxable(false);
+		none.setActive(true);
+		session.save(none);
 
 		// TAXCode tdsCode1 = new TAXCode();
 		//
