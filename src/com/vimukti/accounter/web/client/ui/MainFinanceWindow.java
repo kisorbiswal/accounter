@@ -42,6 +42,7 @@ public class MainFinanceWindow extends VerticalPanel {
 	private int width;
 	private HelpItem item;
 	public Map<String, Action> actions;
+	private CometClient cometClient;
 
 	public MainFinanceWindow() {
 		initializeActionsWithTokens();
@@ -143,7 +144,7 @@ public class MainFinanceWindow extends VerticalPanel {
 	private void startCometService() {
 		AccounterCometSerializer serializer = GWT
 				.create(AccounterCometSerializer.class);
-		CometClient cometClient = new CometClient("/do/comet", serializer,
+		this.cometClient = new CometClient("/do/comet", serializer,
 				new CometListener() {
 
 					@Override
@@ -216,6 +217,9 @@ public class MainFinanceWindow extends VerticalPanel {
 
 	@Override
 	protected void onDetach() {
+		if (cometClient != null) {
+			this.cometClient.stop();
+		}
 		this.getParent().removeStyleName("noScroll");
 		super.onDetach();
 

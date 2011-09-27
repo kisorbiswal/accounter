@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -53,8 +54,16 @@ public class EmailForActivationServlet extends BaseServlet {
 			} else {
 				token = activation.getToken();
 			}
-			// Email to that user.
-			sendActivationEmail(token, client);
+			HttpSession httpSession = req.getSession();
+			String attribute = (String) httpSession
+					.getAttribute(ACTIVATION_TYPE);
+			if (attribute != null && attribute.equals("resetpassword")) {
+				// Sending ResetPassword Link to User
+				sendForgetPasswordLinkToUser(client, token);
+			} else {
+				// Email to that user.
+				sendActivationEmail(token, client);
+			}
 			transaction.commit();
 		} catch (Exception e) {
 			transaction.rollback();

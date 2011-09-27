@@ -1016,6 +1016,7 @@ public class SalesOrderView extends
 		result.add(FormItem.validate(statusSelect));
 		result.add(super.validate());
 
+		result.add(customerTransactionTable.validateGrid());
 		return result;
 	}
 

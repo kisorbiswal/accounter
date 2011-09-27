@@ -11,8 +11,6 @@ import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Server;
-import com.vimukti.accounter.mail.UsersMailSendar;
-import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class ForgetPasswordServlet extends BaseServlet {
@@ -66,7 +64,7 @@ public class ForgetPasswordServlet extends BaseServlet {
 
 			String token = createActivation(emailID);
 
-			sendLinkToUser(client, token);
+			sendForgetPasswordLinkToUser(client, token);
 
 			transaction.commit();
 		} catch (Exception e) {
@@ -80,24 +78,6 @@ public class ForgetPasswordServlet extends BaseServlet {
 		// "Reset Password link has been sent to the given emailId, Kindly check your Mail box.";
 		// req.setAttribute("successmessage", successMessage);
 		redirectExternal(req, resp, ACTIVATION_URL + "?message=109");
-	}
-
-	/**
-	 * Reset the password and send mail to user
-	 */
-	private void sendLinkToUser(Client client, String activationCode) {
-
-		Session session = HibernateUtil.getCurrentSession();
-		client.setRequirePasswordReset(true);
-
-		session.save(client);
-		StringBuffer link = new StringBuffer("https://");
-		link.append(ServerConfiguration.getMainServerDomain());
-		link.append(ACTIVATION_URL);
-
-		UsersMailSendar.sendResetPasswordLinkToUser(link.toString(),
-				activationCode, client.getEmailId());
-
 	}
 
 }

@@ -337,4 +337,22 @@ public class BaseServlet extends HttpServlet {
 		return mainServerURL.toString();
 	}
 
+	/**
+	 * Reset the password and send mail to user
+	 */
+	protected void sendForgetPasswordLinkToUser(Client client,
+			String activationCode) {
+
+		Session session = HibernateUtil.getCurrentSession();
+		client.setRequirePasswordReset(true);
+
+		session.save(client);
+		StringBuffer link = new StringBuffer("https://");
+		link.append(ServerConfiguration.getMainServerDomain());
+		link.append(ACTIVATION_URL);
+
+		UsersMailSendar.sendResetPasswordLinkToUser(link.toString(),
+				activationCode, client.getEmailId());
+	}
+
 }
