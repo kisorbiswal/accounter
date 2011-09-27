@@ -25,6 +25,9 @@
     var helpurl="${helpUrl}";
     </script>
     <script src="/jscripts/jquery-1.6.2.js" type="text/javascript"></script>
+    <script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/jscripts/jquery.contactable.packed.js"></script>
+   
     <!--                                                               -->
     <!-- Consider inlining CSS to reduce the number of requested files -->
     <!--                                                               -->
@@ -170,8 +173,7 @@
   <!-- to create a completely dynamic UI.        -->
   <!--                                           -->
   <body>
-  <%@ include file="./feedback.jsp" %>
-  <div id="contact"> </div>
+  <div id="contact" style="visibility:hidden"> </div>
 <div id="hiddenDiv" class="hiddenPic">
 		<img src="/images/loader.gif" 
   			alt="Loading" title="Loading">
@@ -226,6 +228,14 @@
         </iframe>
         
 <script type="text/javascript">
+$(document).ready(function(){
+	$(function(){
+		$('#contact').contactable({
+	recipient: 'test@test.com',
+	subject: 'A Feeback Message'
+});
+});
+})
 
 	var _gaq = _gaq || [];
 		_gaq.push(['_setAccount', 'UA-24502570-1']);
