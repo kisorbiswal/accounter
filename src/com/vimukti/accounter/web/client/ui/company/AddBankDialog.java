@@ -88,7 +88,7 @@ public class AddBankDialog extends BaseDialog {
 	@Override
 	protected boolean onOK() {
 		createBank();
-		return false;
+		return true;
 	}
 
 	@Override
