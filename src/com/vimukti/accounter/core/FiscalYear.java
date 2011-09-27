@@ -277,8 +277,8 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 			Company company = Company.getCompany();
 			if (company != null) {
 				company.getPreferences().setStartDate(this.startDate);
-				company.getPreferences().setPreventPostingBeforeDate(
-						this.startDate);
+				// company.getPreferences().setPreventPostingBeforeDate(
+				// this.startDate);
 				session.saveOrUpdate(company);
 				this.setEndDate(getEndDateForStartDate(this.startDate.getDate()));
 				checkIsCurrentFY(this);

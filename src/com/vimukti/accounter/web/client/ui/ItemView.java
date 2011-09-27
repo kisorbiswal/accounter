@@ -655,10 +655,7 @@ public class ItemView extends BaseView<ClientItem> {
 
 			data.setVendorItemNumber(vendItemNumText.getValue().toString());
 		}
-		if (!getPreferences().isTrackTax())
-			data.setTaxable(getBooleanValue(itemTaxCheck));
-		else
-			data.setTaxable(true);
+		data.setTaxable(getBooleanValue(itemTaxCheck));
 		if (type == NON_INVENTORY_PART || type == TYPE_SERVICE)
 			data.setTaxCode(selectTaxCode != null ? selectTaxCode.getID() : 0);
 	}

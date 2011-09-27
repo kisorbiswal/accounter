@@ -418,7 +418,11 @@ public class FinanceTool {
 			Session session = HibernateUtil.getCurrentSession();
 			Query namedQuery = session.getNamedQuery("user.by.emailid");
 			namedQuery.setParameter("emailID", email);
-			User user = (User) namedQuery.list().get(0);
+			List list = namedQuery.list();
+			if (list.isEmpty()) {
+				return null;
+			}
+			User user = (User) list.get(0);
 			return user;
 		} catch (Exception e) {
 			return null;

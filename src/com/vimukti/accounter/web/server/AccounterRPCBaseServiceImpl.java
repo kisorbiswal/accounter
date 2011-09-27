@@ -76,23 +76,27 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 			if (isValidSession(request)) {
 				String companyDB = getCompanyDBName(request);
 				Session session = HibernateUtil.openSession(companyDB);
-				setAccounterThreadLocal(request);
 				try {
-					super.service(request, response);
-					try {
-						String serverCompanyID = getCookie(request,
-								BaseServlet.COMPANY_COOKIE);
-						getFinanceTool().putChangesInCometStream(
-								Long.parseLong(serverCompanyID));
-					} catch (AccounterException e) {
-						log.error("Failed to get FinanceTool", e);
+					if (CheckUserExistanceAndsetAccounterThreadLocal(request)) {
+						super.service(request, response);
+						try {
+							String serverCompanyID = getCookie(request,
+									BaseServlet.COMPANY_COOKIE);
+							getFinanceTool().putChangesInCometStream(
+									Long.parseLong(serverCompanyID));
+						} catch (AccounterException e) {
+							log.error("Failed to get FinanceTool", e);
+						}
+						// TODO
+						// if (ChangeTracker.getChanges().length > 1) {
+						// FinanceTool financeTool = (FinanceTool) session.load(
+						// FinanceTool.class, 1l);
+						// financeTool.putChangesInCometStream();
+						// }
+					} else {
+						response.sendError(HttpServletResponse.SC_FORBIDDEN,
+								"Could Not Complete the Request!");
 					}
-					// TODO
-					// if (ChangeTracker.getChanges().length > 1) {
-					// FinanceTool financeTool = (FinanceTool) session.load(
-					// FinanceTool.class, 1l);
-					// financeTool.putChangesInCometStream();
-					// }
 				} finally {
 					session.close();
 				}
@@ -115,12 +119,17 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 	/**
 	 * @param request
 	 */
-	private void setAccounterThreadLocal(HttpServletRequest request) {
+	private boolean CheckUserExistanceAndsetAccounterThreadLocal(
+			HttpServletRequest request) {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = (Company) session.load(Company.class, 1l);
 		String userEmail = (String) request.getSession().getAttribute(EMAIL_ID);
 		User user = company.getUserByUserEmail(userEmail);
+		if (user == null) {
+			return false;
+		}
 		AccounterThreadLocal.set(user);
+		return true;
 	}
 
 	/**

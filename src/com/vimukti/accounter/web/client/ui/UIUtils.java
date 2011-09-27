@@ -2073,6 +2073,7 @@ public class UIUtils {
 		return transaction.isPayBill()
 				|| transaction.isPayVAT()
 				|| transaction.isWriteCheck()
+				|| transaction.isCashPurchase()
 				|| (transaction instanceof ClientCustomerRefund)
 				|| (transaction.isMakeDeposit() && ((ClientMakeDeposit) transaction)
 						.getDepositIn() != accountId);
@@ -2082,6 +2083,7 @@ public class UIUtils {
 			long accountId) {
 		return transaction.isReceivePayment()
 				|| transaction.isReceiveVAT()
+				|| transaction.isCashSale()
 				|| transaction instanceof ClientCustomerPrePayment
 				|| (transaction.isMakeDeposit() && ((ClientMakeDeposit) transaction)
 						.getDepositIn() == accountId);
