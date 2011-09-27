@@ -199,9 +199,7 @@ public class CreateFiscalYearDialog extends BaseDialog<ClientFiscalYear> {
 
 	private boolean checkStartDateExists() {
 		for (ClientFiscalYear fiscalyear : listOfFiscalYear.getRecords()) {
-			if (startOfFiscalYear.getDate().equals(fiscalyear.getStartDate())
-					&& endOfFiscalYear.getDate()
-							.equals(fiscalyear.getEndDate())) {
+			if (startOfFiscalYear.getDate().equals(fiscalyear.getStartDate())) {
 				return true;
 			}
 		}
@@ -210,7 +208,9 @@ public class CreateFiscalYearDialog extends BaseDialog<ClientFiscalYear> {
 
 	private boolean checkFiscalYearExists() {
 		for (ClientFiscalYear fiscalyear : listOfFiscalYear.getRecords()) {
-			if (startOfFiscalYear.getDate().equals(fiscalyear.getStartDate())) {
+			if (startOfFiscalYear.getDate().equals(fiscalyear.getStartDate())
+					&& endOfFiscalYear.getDate()
+							.equals(fiscalyear.getEndDate())) {
 				return true;
 			}
 		}
