@@ -636,7 +636,7 @@ public class MacMenuServlet extends BaseServlet {
 					"company/accounter#itemGroupList");
 			subMenu(manageSupportLists, iGlobal.constants().creditRatingList(),
 					"company/accounter#creditRatingList");
-			menu(mainMenuValue, iGlobal.constants().managerSupportLists(),
+			menu(mainMenuValue, iGlobal.constants().manageSupportLists(),
 					manageSupportLists);
 		}
 
