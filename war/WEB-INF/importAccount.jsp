@@ -14,8 +14,7 @@
     <title>Bizantra - Importing Account</title>
     
     <!--CSS for loading message at application Startup-->
-    <script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
-    <script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
+    <%@ include file="./feedback.jsp" %>
     <script type="text/javascript">
     	function loadImage(){
     		document.getElementById("hiddenDiv").style.display="block";
@@ -151,7 +150,6 @@ padding-right: 5px;
   <!-- to create a completely dynamic UI.        -->
   <!--                                           -->
   <body>
-  <%@ include file="./feedback.jsp" %>
 <div id="hiddenDiv" class="hiddenPic">
 <span style="color:#000000;line-height:1.5;">Apologies for the delay, Bizantra is creating your local database.<br><br></span>
 		<img src="/images/icons/loading-indicator.gif" 

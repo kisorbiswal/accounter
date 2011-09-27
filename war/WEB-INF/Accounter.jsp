@@ -12,8 +12,7 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta content="IE=100" http-equiv="X-UA-Compatible">
-    <script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
-    <script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
+    <%@ include file="./feedback.jsp" %>
     <script type="text/javascript" charset="utf-8">
   		var is_ssl = ("https:" == document.location.protocol);
   		var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
@@ -171,7 +170,6 @@
   <!-- to create a completely dynamic UI.        -->
   <!--                                           -->
   <body>
-  <%@ include file="./feedback.jsp" %>
 <div id="hiddenDiv" class="hiddenPic">
 		<img src="/images/loader.gif" 
   			alt="Loading" title="Loading">
