@@ -46,9 +46,9 @@ public abstract class AbstractCommand extends Command {
 	protected static final int ITEMGROUPS_TO_SHOW = 5;
 	protected static final String PAYMENT_METHOD = "Payment method";
 	private static final int PAYMENTMETHODS_TO_SHOW = 5;
-
+	protected static final int VALUES_TO_SHOW = 5;
+	protected static final String ACTIVE = "isActive";
 	protected static final String MEMO = "memo";
-
 	protected static final String ORDER_NO = "orderNo";
 
 	protected Company getCompany() {
@@ -91,7 +91,6 @@ public abstract class AbstractCommand extends Command {
 			req.setValue(balance);
 		}
 
-		
 		if (selection == balance) {
 			context.setAttribute(INPUT_ATTR, name);
 			return amount(context, displayString, balance);

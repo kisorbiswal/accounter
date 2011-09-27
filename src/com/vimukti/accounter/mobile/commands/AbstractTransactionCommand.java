@@ -63,7 +63,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	private static final String ACCOUNT_ITEM_DETAILS = null;
 	protected static final String VENDOR = "vendor";
 	protected static final String PAY_FROM = "payFrom";
-	protected static final String ACTIVE = "isActive";
 	protected static final String US_CHECK = "Check";
 	protected static final String UK_CHECK = "Cheque";
 
