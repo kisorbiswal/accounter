@@ -341,6 +341,8 @@ public class ViewManager extends HorizontalPanel {
 			if (data != null && callback != null) {
 				callback.actionResult(data);
 			}
+			viewTitleLabel.setText(item.action.getCatagory() + "  >  "
+					+ item.action.getText());
 			viewHolder.add(item.view);
 			this.views.add(item);
 			History.newItem(item.action.getHistoryToken(), false);
@@ -465,7 +467,7 @@ public class ViewManager extends HorizontalPanel {
 		});
 		group1.add(previousButton);
 		group1.add(nextButton);
-		
+
 		group1.add(viewTitleLabel);
 
 		group4.add(editButton);
