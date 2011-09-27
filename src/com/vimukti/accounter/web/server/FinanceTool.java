@@ -414,19 +414,8 @@ public class FinanceTool {
 	}
 
 	private User getUserByUserEmail(String email) {
-		try {
-			Session session = HibernateUtil.getCurrentSession();
-			Query namedQuery = session.getNamedQuery("user.by.emailid");
-			namedQuery.setParameter("emailID", email);
-			List list = namedQuery.list();
-			if (list.isEmpty()) {
-				return null;
-			}
-			User user = (User) list.get(0);
-			return user;
-		} catch (Exception e) {
-			return null;
-		}
+		Session session = HibernateUtil.getCurrentSession();
+		return (User) session.getNamedQuery("user.by.emailid").uniqueResult();
 	}
 
 	public long updateUser(OperationContext updateContext)
