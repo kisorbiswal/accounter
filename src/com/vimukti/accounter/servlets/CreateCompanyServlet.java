@@ -54,11 +54,6 @@ public class CreateCompanyServlet extends BaseServlet {
 			redirectExternal(request, response, LOGIN_URL);
 			return;
 		}
-		String status = (String) session.getAttribute(COMPANY_CREATION_STATUS);
-		if (status != null) {
-			request.setAttribute("message", CREATING);
-			return;
-		}
 		doCreateCompany(request, response, emailID);
 	}
 
@@ -124,8 +119,7 @@ public class CreateCompanyServlet extends BaseServlet {
 		String serverCompanyName = serverCompany.getCompanyName();
 		int serverCompanyType = serverCompany.getCompanyType();
 		ClientUser user = getUser(client);
-		final HttpSession httpSession = request.getSession(true);
-		redirectExternal(request, response, COMPANIES_URL);
+		HttpSession httpSession = request.getSession(true);
 		try {
 			createComapny(serverId, serverCompanyName, serverCompanyType, user);
 			httpSession.setAttribute(COMPANY_CREATION_STATUS, "Success");
@@ -135,6 +129,7 @@ public class CreateCompanyServlet extends BaseServlet {
 			rollback(serverId, user.getID());
 			httpSession.setAttribute(COMPANY_CREATION_STATUS, "Fail");
 		}
+		redirectExternal(request, response, COMPANIES_URL);
 		return;
 	}
 
