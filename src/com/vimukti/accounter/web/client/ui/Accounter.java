@@ -178,8 +178,11 @@ public class Accounter implements EntryPoint {
 	}
 
 	public static void reset() {
-		mainWindow.removeFromParent();
-		initGUI();
+		HorizontalMenuBar menubar = new HorizontalMenuBar();
+		if (!isMacApp()) {
+			mainWindow.remove(1);
+			mainWindow.insert(menubar, 1);
+		}
 	}
 
 	public static MainFinanceWindow getMainFinanceWindow() {
