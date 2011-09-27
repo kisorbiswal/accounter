@@ -16,11 +16,9 @@
 		<alias>APAD report</alias>
 	</command>
 	<command clazz="APAgingSummaryReportCommand" name="A/P Aging Summary">
-		<alias>
-			<alias>A/P Aging Summary Report</alias>
-			<alias>APAS</alias>
-			<alias>APAS report</alias>
-		</alias>
+		<alias>A/P Aging Summary Report</alias>
+		<alias>APAS</alias>
+		<alias>APAS report</alias>
 	</command>
 	<command clazz="ARAgingDetailReportCommand" name="A/R Aging Summary">
 		<alias>A/R Aging Detail Report</alias>
@@ -202,5 +200,46 @@
 		<alias>pay bill</alias>
 		<alias>BillPay</alias>
 		<alias>payments</alias>
+	</command>
+	<command clazz="BillsListCommand" name="BillsList">
+		<alias>Bills</alias>
+		<alias>BillsList</alias>
+		<alias>Bill</alias>
+	</command>
+	<command clazz="NewVATCodeCommand" name="New VAT Code">
+		<alias>Create VAT Code</alias>
+		<alias>Add VAT Code</alias>
+		<alias>Add vat code</alias>
+		<alias>Add TAX Code</alias>
+		<alias>Create TAX Code</alias>
+	</command>
+	<command clazz="NewVATAgencyCommand" name="New VAT Agncy">
+		<alias>Create VAT Agency</alias>
+		<alias>Add VAT Agency</alias>
+		<alias>Add vat agency</alias>
+		<alias>Add TAX Agency</alias>
+		<alias>Create TAX Agency</alias>
+	</command>
+	<command clazz="VATAdjustmentCommand" name="New VAT Adjustment">
+		<alias>Create VAT Adjustment</alias>
+		<alias>VAT Adjustment</alias>
+		<alias>vat adjustment</alias>
+	</command>
+	<command clazz="PayVATCommand" name="Pay VAT">
+		<alias>Pay Tax</alias>
+	</command>
+	<command clazz="ReceiveVATCommand" name="Receive VAT">
+		<alias>receive vat</alias>
+	</command>
+	<command clazz="NewTaxGroupCommand" name="New Tax Group">
+		<alias>Create Tax Group</alias>
+		<alias>Add Tax Group</alias>
+	</command>
+	<command clazz="PayVATCommand" name="Pay VAT">
+		<alias>Pay Tax</alias>
+		<alias>Pay Sales Tax</alias>
+	</command>
+	<command clazz="FileVATCommand" name="File VAT">
+		<alias>File Tax</alias>
 	</command>
 </commands>

@@ -16,6 +16,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import com.vimukti.accounter.mobile.AccounterMobileException;
 import com.vimukti.accounter.mobile.CommandList;
+import com.vimukti.accounter.mobile.PatternResult;
 import com.vimukti.accounter.mobile.Result;
 
 /**
@@ -87,12 +88,15 @@ public class PatternStore {
 				updateMap(fromXML);
 			} else if (obj instanceof Pattern) {
 				Pattern pattern = (Pattern) obj;
-				Result result = new Result();
+				PatternResult result = new PatternResult();
 				CommandList commands = new CommandList();
-				if (pattern.output != null) {
+				if (pattern.output != null && !pattern.output.isEmpty()) {
+					String message = pattern.output.get(0);
+					result.setTitle(message);
+					pattern.output.remove(message);
 					commands.addAll(pattern.output);
 				}
-				result.add(commands);
+				result.setCommands(commands);
 				if (pattern.inputs != null) {
 					for (String input : pattern.inputs) {
 						patterns.put(input.toLowerCase(), result);

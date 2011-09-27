@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -7,6 +8,14 @@ import org.hibernate.Session;
 import com.google.gwt.i18n.server.testing.Gender;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.Customer;
+import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.core.PaymentTerms;
+import com.vimukti.accounter.core.SalesOrder;
+import com.vimukti.accounter.core.SalesPerson;
+import com.vimukti.accounter.core.ShippingMethod;
+import com.vimukti.accounter.core.ShippingTerms;
+import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
@@ -134,8 +143,16 @@ public class NewSalesPersonCommand extends AbstractTransactionCommand {
 	}
 
 	private void completeProcess(Context context) {
-		// TODO Auto-generated method stub
+		
+		SalesPerson newSalesPerson = new SalesPerson();
 
+		newSalesPerson.setFileAs((String) get(FILE_AS).getValue());
+		
+		newSalesPerson.setPhoneNo((String) get(PHONE).getValue());
+		
+		newSalesPerson.setFaxNo((String) get(FAX).getValue());
+		
+		create(newSalesPerson, context);
 	}
 
 	private Result createOptionalResult(Context context) {

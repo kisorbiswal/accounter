@@ -3,7 +3,6 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.List;
 
 import com.vimukti.accounter.core.Entry;
-import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.ObjectListRequirement;
@@ -36,6 +35,7 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new Requirement(TRANSACTION_DATE, false, true));
+		list.add(new Requirement(NUMBER, false, true));
 		list.add(new ObjectListRequirement(VOUCHER, false, true) {
 
 			@Override
@@ -47,14 +47,19 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 				list.add(new Requirement(DEBIT, false, true));
 			}
 		});
-		
+
 		list.add(new Requirement(MEMO, true, true));
 
 	}
 
 	@Override
 	public Result run(Context context) {
+
 		Result result = null;
+		result = journelentryNumReq(context);
+		if (result != null) {
+			return result;
+		}
 		result = entryRequirement(context);
 		if (result != null) {
 			return result;
@@ -65,6 +70,31 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 		}
 
 		return null;
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @return
+	 */
+	private Result journelentryNumReq(Context context) {
+
+		Requirement requirement = get(NUMBER);
+		if (!requirement.isDone()) {
+			String journelentryNum = context.getSelection(TEXT);
+			if (journelentryNum != null) {
+				requirement.setValue(journelentryNum);
+			} else {
+				return text(context, "Please enter the  Journel Entry Number",
+						null);
+			}
+		}
+		String input = (String) context.getAttribute(INPUT_ATTR);
+		if (input.equals(NUMBER)) {
+			requirement.setValue(input);
+		}
+		return null;
+
 	}
 
 	private Result createOptionalResult(Context context) {
@@ -92,14 +122,20 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 		if (selection != null) {
 			// TODO
 		}
-		
+
 		ResultList list = new ResultList("values");
-		result=transactionDateRequirement(context, list, selection);
+
+		result = dateOptionalRequirement(context, list, DATE,
+				"Enter journelEntry Date", selection);
 		if (result != null) {
 			return result;
 		}
-		
 
+		result = stringOptionalRequirement(context, list, selection, MEMO,
+				"Enter Memo");
+		if (result != null) {
+			return result;
+		}
 		return null;
 	}
 

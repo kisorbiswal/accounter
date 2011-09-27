@@ -194,7 +194,7 @@ public class VendorCreditMemoCommand extends AbstractTransactionCommand {
 	}
 
 	private void completeProcess(Context context) {
-		Company company = getCompany();
+		Company company = context.getCompany();
 		VendorCreditMemo vendorCreditMemo = new VendorCreditMemo();
 
 		Date date = get(DATE).getValue();

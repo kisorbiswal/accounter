@@ -49,7 +49,6 @@ public class CommandsFactory {
 				return null;
 			}
 			Command command = (Command) className.newInstance();
-			command.setName(commandString);
 			return command;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -59,7 +58,7 @@ public class CommandsFactory {
 
 	public Command getCommand(String commandName) {
 		try {
-			Class<?> clazz = commands.get(commandName);
+			Class<?> clazz = commands.get(commandName.toLowerCase());
 			return (Command) clazz.newInstance();
 		} catch (Exception e) {
 			e.printStackTrace();

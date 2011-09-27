@@ -16,7 +16,6 @@ import com.vimukti.accounter.utils.HibernateUtil;
  */
 public class CommandProcessor {
 
-	private static final String LAST_RESULT = "lastResult";
 	public static CommandProcessor INSTANCE = new CommandProcessor();
 
 	public synchronized Result handleMessage(MobileSession session,
@@ -39,7 +38,6 @@ public class CommandProcessor {
 				message.setResult(reply);
 				break;
 			case HELP:
-				// TODO
 				break;
 			case NUMBER:
 				processNumber(session, message);
@@ -47,24 +45,22 @@ public class CommandProcessor {
 			case NAME:
 				processName(session, message);
 				break;
-			default:
-				break;
 			}
 			Command command = message.getCommand();
 
-			if (command != null && session.getCurrentCommand() == null
-					&& !command.isDone()) {
+			if (command != null && !command.isDone()
+					&& session.getCurrentCommand() == null) {
 				session.setCurrentCommand(command);
 			}
 
 			if (message.getResult() == null) {
 				Result result = new Result(
 						"Sorry, We are unable to find the answer for '"
-								+ message.getInputs().get(0) + "'");
+								+ message.getInputs().toString() + "'");
 				message.setResult(result);
 			}
 
-			session.setAttribute(LAST_RESULT, message.getResult());
+			session.setLastResult(message.getResult());
 			return message.getResult();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -123,43 +119,48 @@ public class CommandProcessor {
 			throws AccounterMobileException {
 		Command command = message.getCommand();
 		Context context = getContext(session);
-
-		Result lastResult = getLastResult(session);
+		// Getting Last Result
+		Result lastResult = session.getLastResult();
 		if (lastResult != null) {
 			List<Object> resultParts = lastResult.getResultParts();
 			Iterator<Object> iterator = resultParts.iterator();
 			while (iterator.hasNext()) {
 				Object next = iterator.next();
-				if (!(next instanceof ResultList)) {
-					continue;
-				}
-				ResultList resultList = (ResultList) next;
-				for (Record record : resultList) {
-					if (message.getInputs().contains(record.getCode())) {
-						if (!resultList.isMultiSelection()) {
-							context.putSelection(resultList.getName(),
-									record.getObject());
-							// FIXME GOT MULTIPLE SELECTION FROM USER EVEN
-							// THOUGH SINGLE SELECTION ENABLED
-							break;
-						} else {
-							context.putSelection(resultList.getName(),
-									record.getObject());
-						}
-					}
+				if (next instanceof ResultList) {
+					// Setting Selections
+					setSelections((ResultList) next, message.getInputs(),
+							context);
 				}
 			}
 		}
 
 		context.setInputs(message.getInputs());
-		return command.run(context);
+		Result result = command.run(context);
+		return result;
 	}
 
 	/**
-	 * @return
+	 * @param next
+	 * @param inputs
+	 * @param context
 	 */
-	private Result getLastResult(MobileSession session) {
-		return (Result) session.getAttribute(LAST_RESULT);
+	private void setSelections(ResultList next, List<String> inputs,
+			Context context) {
+		ResultList resultList = (ResultList) next;
+		for (Record record : resultList) {
+			if (inputs.contains(record.getCode())) {
+				if (!resultList.isMultiSelection()) {
+					context.putSelection(resultList.getName(),
+							record.getObject());
+					// FIXME GOT MULTIPLE SELECTION FROM USER EVEN
+					// THOUGH SINGLE SELECTION ENABLED
+					break;
+				} else {
+					context.putSelection(resultList.getName(),
+							record.getObject());
+				}
+			}
+		}
 	}
 
 	private Context getContext(MobileSession mSession) {

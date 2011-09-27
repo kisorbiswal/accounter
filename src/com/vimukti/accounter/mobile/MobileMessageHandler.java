@@ -15,6 +15,7 @@ import com.vimukti.accounter.mobile.MobileAdaptor.AdaptorType;
  */
 public class MobileMessageHandler {
 
+	private static final String AUTHENTICATE_COMMAND = "authenticate";
 	private Map<String, MobileSession> sessions = new HashMap<String, MobileSession>();
 
 	/**
@@ -26,17 +27,22 @@ public class MobileMessageHandler {
 			AdaptorType adaptorType) throws AccounterMobileException {
 		try {
 			MobileSession session = sessions.get(userId);
-			if (session == null) {
+			if (session == null||session.isExpired()) {
 				session = new MobileSession(getUserById(userId));
+				sessions.put(userId, session);
 			}
 			MobileAdaptor adoptor = getAdaptor(adaptorType);
-			if (session.isExpired()) {
-				// TODO return Session TimedOut
-				Result result = new Result(
-						"Unfortunately your session is no longer valid.");
-				return adoptor.postProcess(result);
-			}
+//			if (session.isExpired()) {
+//				// TODO return Session TimedOut
+//				Result result = new Result(
+//						"Unfortunately your session is no longer valid.");
+//				return adoptor.postProcess(result);
+//			}
 			session.refresh();
+			
+			if(!session.isAuthenticated() && !message.equals(AUTHENTICATE_COMMAND)){
+				message=AUTHENTICATE_COMMAND;
+			}
 
 			UserMessage preProcess = adoptor.preProcess(session, message);
 			Result result = getCommandProcessor().handleMessage(session,
