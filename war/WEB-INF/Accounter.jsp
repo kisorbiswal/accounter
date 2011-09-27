@@ -268,5 +268,12 @@ $(document).ready(function(){
 		</script>
 		
 
+		<script type="text/javascript" charset="utf-8">
+			
+			function MacReload(){
+					window.location = '/company/macreload';
+			}
+  		</script>
+
  </body>
 </html>
