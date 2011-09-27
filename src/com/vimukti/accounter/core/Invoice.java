@@ -166,7 +166,7 @@ public class Invoice extends Transaction implements Lifecycle {
 	 */
 	PriceLevel priceLevel;
 
-	double salesTaxAmount;
+	double taxTotal;
 
 	double payments = 0D;
 
@@ -526,8 +526,7 @@ public class Invoice extends Transaction implements Lifecycle {
 						session.update(referringTransactionItem);
 
 						if (flag
-								&& ((transactionItem.type == TransactionItem.TYPE_ACCOUNT
-										|| transactionItem.type == TransactionItem.TYPE_SALESTAX || ((transactionItem.type == TransactionItem.TYPE_ITEM) && transactionItem
+								&& ((transactionItem.type == TransactionItem.TYPE_ACCOUNT || ((transactionItem.type == TransactionItem.TYPE_ITEM) && transactionItem
 										.getQuantity().compareTo(
 												referringTransactionItem
 														.getQuantity()) < 0)))) {
@@ -723,8 +722,7 @@ public class Invoice extends Transaction implements Lifecycle {
 						session.update(referringTransactionItem);
 
 						if (flag
-								&& ((transactionItem.type == TransactionItem.TYPE_ACCOUNT
-										|| transactionItem.type == TransactionItem.TYPE_SALESTAX || ((transactionItem.type == TransactionItem.TYPE_ITEM) && transactionItem
+								&& ((transactionItem.type == TransactionItem.TYPE_ACCOUNT || ((transactionItem.type == TransactionItem.TYPE_ITEM) && transactionItem
 										.getQuantity().compareTo(
 												referringTransactionItem
 														.getQuantity()) < 0)))) {
@@ -814,12 +812,12 @@ public class Invoice extends Transaction implements Lifecycle {
 		this.isVoid = isVoid;
 	}
 
-	public double getSalesTaxAmount() {
-		return salesTaxAmount;
+	public double getTaxTotal() {
+		return taxTotal;
 	}
 
-	public void setSalesTaxAmount(double salesTaxAmount) {
-		this.salesTaxAmount = salesTaxAmount;
+	public void setTaxTotal(double salesTaxAmount) {
+		this.taxTotal = salesTaxAmount;
 
 	}
 

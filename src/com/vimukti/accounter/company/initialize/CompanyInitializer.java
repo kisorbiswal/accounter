@@ -104,7 +104,6 @@ public abstract class CompanyInitializer {
 		}
 		Account account = new Account(type, nextAccoutNo, name,
 				cashFlowCategory);
-		account.setCompany(company);
 		session.saveOrUpdate(account);
 		accountNoMap.put(subBaseType, nextAccoutNo + 1);
 		return account;
@@ -170,7 +169,7 @@ public abstract class CompanyInitializer {
 
 		FiscalYear fiscalYear = new FiscalYear(fiscalYearStartDate,
 				fiscalYearEndDate, FiscalYear.STATUS_OPEN, Boolean.TRUE);
-		fiscalYear.setCompany(company);
+
 		session.save(fiscalYear);
 
 		this.preferences.setUseAccountNumbers(true);
@@ -193,7 +192,7 @@ public abstract class CompanyInitializer {
 		this.preferences.setCheckForItemQuantityOnHand(true);
 		this.preferences.setUpdateCostAutomatically(false);
 		this.preferences.setStartDate(fiscalYearStartDate);
-		this.preferences.setPreventPostingBeforeDate(fiscalYearStartDate);
+		// this.preferences.setPreventPostingBeforeDate(fiscalYearStartDate);
 		this.preferences.setDateFormat(getDateFormat());
 		this.preferences.setSalesOrderEnabled(true);
 		this.preferences.setPurchaseOrderEnabled(true);
@@ -206,35 +205,34 @@ public abstract class CompanyInitializer {
 				AccounterServerConstants.PM_DUE_ON_RECEIPT,
 				AccounterServerConstants.DUE_ON_RECEIPT, 0, 0,
 				PaymentTerms.DUE_NONE, 0, true);
-		dueOnReceipt.setCompany(company);
+
 		session.save(dueOnReceipt);
 
 		PaymentTerms netThirty = new PaymentTerms(
 				AccounterServerConstants.PM_NET_THIRTY,
 				AccounterServerConstants.PAY_WITH_IN_THIRTY_DAYS, 0, 0,
 				PaymentTerms.DUE_CURRENT_MONTH, 30, true);
-		netThirty.setCompany(company);
+
 		session.save(netThirty);
 
 		PaymentTerms netSixty = new PaymentTerms(
 				AccounterServerConstants.PM_NET_SIXTY,
 				AccounterServerConstants.PAY_WITH_IN_SIXTY_DAYS, 0, 0,
 				PaymentTerms.DUE_CURRENT_SIXTY, 60, true);
-		netSixty.setCompany(company);
+
 		session.save(netSixty);
 
 		PaymentTerms monthlyPayrollLiability = new PaymentTerms(
 				AccounterServerConstants.PM_MONTHLY,
 				AccounterServerConstants.PM_MONTHLY_PAYROLL_LIABILITY, 0, 0,
 				PaymentTerms.DUE_CURRENT_MONTH, 13, true);
-		monthlyPayrollLiability.setCompany(company);
+
 		session.save(monthlyPayrollLiability);
 
 		VendorGroup creditCardCompanies = new VendorGroup();
 		creditCardCompanies
 				.setName(AccounterServerConstants.CREDIT_CARD_COMPANIES);
 		creditCardCompanies.setDefault(true);
-		creditCardCompanies.setCompany(company);
 		session.save(creditCardCompanies);
 
 		BrandingTheme brandingTheme = new BrandingTheme("Standard",
@@ -242,7 +240,6 @@ public abstract class CompanyInitializer {
 				"10pt", "INVOICE", "CREDIT", "STATEMENT", "(None Added)", true,
 				"(None Added)", "(None Added)", "Classic Tempalate",
 				"Classic Template");
-		brandingTheme.setCompany(company);
 		session.save(brandingTheme);
 
 		createNominalCodesRanges();

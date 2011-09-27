@@ -40,7 +40,6 @@ import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
-import com.vimukti.accounter.web.client.core.ClientTaxRates;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientUnitOfMeasure;
 import com.vimukti.accounter.web.client.core.ClientUser;
@@ -280,12 +279,6 @@ public class AccounterClientService extends HibernateDaoSupport implements
 		return null;
 	}
 
-	@Override
-	public ClientTaxRates alterTaxRates(long company, ClientTaxRates taxRates)
-			throws DAOException {
-
-		return null;
-	}
 
 	@Override
 	public ClientTransferFund alterTransferFund(long company,
@@ -574,12 +567,6 @@ public class AccounterClientService extends HibernateDaoSupport implements
 		return null;
 	}
 
-	@Override
-	public ClientTaxRates createTaxRates(long company, ClientTaxRates taxRates)
-			throws DAOException {
-
-		return null;
-	}
 
 	@Override
 	public ClientTransferFund createTransferFund(long company,

@@ -84,7 +84,7 @@ public class SalesOrder extends Transaction {
 	/**
 	 * The Sales Tax Amount, for this SalesOrder
 	 */
-	double salesTaxAmount;
+	double taxTotal;
 
 	/**
 	 * {@link Estimate} from Which this SAlesOrder was Produced
@@ -317,16 +317,16 @@ public class SalesOrder extends Transaction {
 	/**
 	 * @return the salesTaxAmount
 	 */
-	public double getSalesTaxAmount() {
-		return salesTaxAmount;
+	public double getTaxTotal() {
+		return taxTotal;
 	}
 
 	/**
 	 * @param salesTaxAmount
 	 *            the salesTaxAmount to set
 	 */
-	public void setSalesTaxAmount(double salesTaxAmount) {
-		this.salesTaxAmount = salesTaxAmount;
+	public void setTaxTotal(double salesTaxAmount) {
+		this.taxTotal = salesTaxAmount;
 	}
 
 	/**
@@ -450,8 +450,7 @@ public class SalesOrder extends Transaction {
 						session.update(referringTransactionItem);
 
 						if (flag
-								&& ((transactionItem.type == TransactionItem.TYPE_ACCOUNT
-										|| transactionItem.type == TransactionItem.TYPE_SALESTAX || ((transactionItem.type == TransactionItem.TYPE_ITEM) && transactionItem
+								&& ((transactionItem.type == TransactionItem.TYPE_ACCOUNT || ((transactionItem.type == TransactionItem.TYPE_ITEM) && transactionItem
 										.getQuantity().compareTo(
 												referringTransactionItem
 														.getQuantity()) < 0)))) {

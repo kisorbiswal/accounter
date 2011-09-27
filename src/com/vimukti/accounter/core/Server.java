@@ -2,10 +2,6 @@ package com.vimukti.accounter.core;
 
 public class Server {
 
-	public static final String LOCAL_DATABASE = "accounter";
-
-	public static final String COMPANY = "company";
-
 	private long id;
 
 	private String address;

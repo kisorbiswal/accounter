@@ -302,8 +302,10 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 		// this.subTotal = this.total - this.unUsedPayments;
 
 		if (this.depositIn != null) {
-			this.depositIn.updateCurrentBalance(this,
-					-(this.amount != 0 ? this.amount : this.total));
+			// Deposit in account should be updated by the amount received, not
+			// by transaction total.
+			this.depositIn.updateCurrentBalance(this, -this.amount);
+			// -(this.amount != 0 ? this.amount : this.total));
 			this.depositIn.onUpdate(session);
 		}
 

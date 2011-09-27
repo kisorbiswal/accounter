@@ -75,7 +75,10 @@ public class ActivationServlet extends BaseServlet {
 				// set Error "Token has expired"
 				// We check him and if invalid code we show him form to enter
 				// valid code.
-				redirectExternal(req, resp, ACTIVATION_URL);
+				req.setAttribute(
+						"successmessage",
+						"Invalid Activation code. Please click <a href='/main/emailforactivation'>here</a> to get new activation code.");
+				req.getRequestDispatcher(VIEW).forward(req, resp);
 			} else {
 				// If code is valid we create the user and set the session and
 				// external redirect him to <dest> param or /login

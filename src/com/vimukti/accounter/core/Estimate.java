@@ -79,7 +79,7 @@ public class Estimate extends Transaction {
 	/**
 	 * The total Sales Tax collected on the whole Transaction.
 	 */
-	double salesTax;
+	double taxTotal;
 
 	/**
 	 * this is to verify whether this Quote being used in any Invoice or Sales
@@ -207,8 +207,8 @@ public class Estimate extends Transaction {
 	/**
 	 * @return the salesTax
 	 */
-	public double getSalesTax() {
-		return salesTax;
+	public double getTaxTotal() {
+		return taxTotal;
 	}
 
 	public boolean isTurnedToInvoiceOrSalesOrder() {

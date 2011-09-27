@@ -204,12 +204,13 @@ public class TAXItem extends TAXItemGroup {
 			this.isSalesType = false;
 		}
 
-		if (getCompany() != null
-				&& getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-			this.isSalesType = true;
-			TAXCode taxCode = new TAXCode((TAXItemGroup) this);
-			session.saveOrUpdate(taxCode);
-		}
+		// if (Company.getCompany() != null
+		// && Company.getCompany().getAccountingType() ==
+		// Company.ACCOUNTING_TYPE_US) {
+		// this.isSalesType = true;
+		// TAXCode taxCode = new TAXCode((TAXItemGroup) this);
+		// session.saveOrUpdate(taxCode);
+		// }
 		super.onSave(session);
 		return false;
 	}
@@ -255,6 +256,14 @@ public class TAXItem extends TAXItemGroup {
 			}
 			this.isSalesType = true;
 		}
+
+		session.getNamedQuery("updateTaxCodeSalesTaxRate")
+				.setParameter("id", this.id)
+				.setParameter("salesTaxRate", this.taxRate).executeUpdate();
+		session.getNamedQuery("updateTaxCodePurchaseTaxRate")
+				.setParameter("id", this.id)
+				.setParameter("purchaseTaxRate", this.taxRate).executeUpdate();
+
 		super.onSave(session);
 		// ChangeTracker.put(this);
 		return false;

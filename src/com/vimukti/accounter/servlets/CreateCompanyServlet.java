@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.mortbay.util.UrlEncoded;
 
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Client;
@@ -33,7 +34,6 @@ public class CreateCompanyServlet extends BaseServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String view = "/WEB-INF/CreateCompany.jsp";
-	private static final String CREATING = "Creating Company Please wait...";
 
 	@Override
 	protected void doPost(HttpServletRequest request,
@@ -55,6 +55,7 @@ public class CreateCompanyServlet extends BaseServlet {
 			return;
 		}
 		doCreateCompany(request, response, emailID);
+
 	}
 
 	private void doCreateCompany(HttpServletRequest request,
@@ -119,7 +120,8 @@ public class CreateCompanyServlet extends BaseServlet {
 		String serverCompanyName = serverCompany.getCompanyName();
 		int serverCompanyType = serverCompany.getCompanyType();
 		ClientUser user = getUser(client);
-		HttpSession httpSession = request.getSession(true);
+		final HttpSession httpSession = request.getSession(true);
+		redirectExternal(request, response, COMPANIES_URL);
 		try {
 			createComapny(serverId, serverCompanyName, serverCompanyType, user);
 			httpSession.setAttribute(COMPANY_CREATION_STATUS, "Success");
@@ -129,7 +131,6 @@ public class CreateCompanyServlet extends BaseServlet {
 			rollback(serverId, user.getID());
 			httpSession.setAttribute(COMPANY_CREATION_STATUS, "Fail");
 		}
-		redirectExternal(request, response, COMPANIES_URL);
 		return;
 	}
 
@@ -208,6 +209,10 @@ public class CreateCompanyServlet extends BaseServlet {
 		return (ServerCompany) query.uniqueResult();
 	}
 
+	/**
+	 * @param serverId
+	 * @param clientId
+	 */
 	private void rollback(long serverId, long clientId) {
 		Session session = HibernateUtil.openSession();
 		Transaction transaction = session.beginTransaction();
@@ -225,6 +230,49 @@ public class CreateCompanyServlet extends BaseServlet {
 				session.close();
 			}
 		}
+	}
+
+	/**
+	 * @return
+	 */
+	private String getUrlString(ServerCompany serverCompany, String emailID,
+			Client client) {
+		StringBuffer buffer = new StringBuffer(
+				"http://localhost:8890/initialzeCompany?");
+
+		buffer.append(PARAM_SERVER_COMPANY_ID);
+		buffer.append('=');
+		buffer.append(new UrlEncoded(String.valueOf(serverCompany.getID()))
+				.encode());
+
+		buffer.append('&');
+		buffer.append(PARA_COMPANY_NAME);
+		buffer.append('=');
+		buffer.append(new UrlEncoded(serverCompany.getCompanyName()).encode());
+
+		buffer.append('&');
+		buffer.append(PARAM_COMPANY_TYPE);
+		buffer.append('=');
+		buffer.append(new UrlEncoded(String.valueOf(serverCompany
+				.getCompanyType())).encode());
+
+		buffer.append('&');
+		buffer.append(EMAIL_ID);
+		buffer.append('=');
+		buffer.append(new UrlEncoded(emailID).encode());
+
+		buffer.append('&');
+		buffer.append(PARAM_FIRST_NAME);
+		buffer.append('=');
+		buffer.append(new UrlEncoded(client.getFirstName()).encode());
+
+		buffer.append('&');
+		buffer.append(PARAM_LAST_NAME);
+		buffer.append('=');
+		buffer.append(new UrlEncoded((client.getLastName())).encode());
+
+		return buffer.toString();
+
 	}
 
 	private int getCompanyType(String companyType) {
@@ -254,11 +302,6 @@ public class CreateCompanyServlet extends BaseServlet {
 			redirectExternal(request, response, LOGIN_URL);
 		}
 
-		String status = (String) session.getAttribute(COMPANY_CREATION_STATUS);
-		if (status != null) {
-			request.setAttribute("message", CREATING);
-			return;
-		}
 		// Set standard HTTP/1.1 no-cache headers.
 		response.setHeader("Cache-Control",
 				"max-age=0,no-store, no-cache, must-revalidate");

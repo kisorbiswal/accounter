@@ -158,23 +158,13 @@ public class InvoiceQuickBookPdf implements PrintTemplete {
 			// for setting enclosed value
 			// t.setVariable("enclosed", "");
 
-			String vatLabel = getVendorString("VAT Rate", "Tax Rate");
-			t.setVariable("VATRate", vatLabel);
-
-			String vatAmountLabel = getVendorString("VAT Amount", "Tax Amount");
-			t.setVariable("VATAmount", vatAmountLabel);
+			t.setVariable("VATRate", "Tax Rate");
+			t.setVariable("VATAmount", "Tax Amount");
 
 			// for checking the show Column Headings
 			if (brandingTheme.isShowColumnHeadings()) {
-
-				if (company.getPreferences().isRegisteredForVAT()
-						&& brandingTheme.isShowVatColumn()) {
-					t.setVariable("VATRate", "Vat Code");
-					t.setVariable("VATAmount", "Vat ");
-					t.addBlock("vatBlock");
-				} else if (company.getPreferences().isChargeSalesTax()
+				if (company.getPreferences().isTrackTax()
 						&& brandingTheme.isShowTaxColumn()) {
-
 					t.setVariable("VATRate", "Tax Code");
 					t.setVariable("VATAmount", "Tax ");
 					t.addBlock("vatBlock");
@@ -209,13 +199,7 @@ public class InvoiceQuickBookPdf implements PrintTemplete {
 				t.setVariable("itemUnitPrice", unitPrice);
 				t.setVariable("itemTotalPrice", totalPrice);
 
-				if (company.getPreferences().isRegisteredForVAT()
-						&& brandingTheme.isShowVatColumn()) {
-
-					t.setVariable("itemVatRate", vatRate);
-					t.setVariable("itemVatAmount", vatAmount);
-					t.addBlock("vatValueBlock");
-				} else if (company.getPreferences().isChargeSalesTax()
+				if (company.getPreferences().isTrackTax()
 						&& brandingTheme.isShowTaxColumn()) {
 					t.setVariable("itemVatRate", vatRate);
 					t.setVariable("itemVatAmount", vatAmount);
@@ -225,25 +209,18 @@ public class InvoiceQuickBookPdf implements PrintTemplete {
 			}
 			// for displaying sub total, vat total, total
 			String subtotal = largeAmountConversation(invoice.getNetAmount());
-			if (company.getPreferences().isRegisteredForVAT()) {
+			if (company.getPreferences().isTrackTax()) {
 				t.setVariable("NetAmount", "Net Amount");
 				t.setVariable("subTotal", subtotal);
 				t.addBlock("subtotal");
-			}
 
-			if (company.getPreferences().isRegisteredForVAT()
-					&& brandingTheme.isShowVatColumn()) {
-				t.setVariable("vatlabel", "Vat ");
-				t.setVariable("vatTotal", largeAmountConversation((invoice
-						.getTotal() - invoice.getNetAmount())));
-				t.addBlock("VatTotal");
-
-			} else if (company.getPreferences().isChargeSalesTax()
-					&& brandingTheme.isShowTaxColumn()) {
-				t.setVariable("vatlabel", "Sales Tax ");
-				t.setVariable("vatTotal",
-						largeAmountConversation(invoice.getSalesTaxAmount()));
-				t.addBlock("VatTotal");
+				if (brandingTheme.isShowTaxColumn()) {
+					t.setVariable("vatlabel", "Tax ");
+					t.setVariable(
+							"vatTotal",
+							largeAmountConversation(invoice.getTaxTotal()));
+					t.addBlock("VatTotal");
+				}
 			}
 			String total = largeAmountConversation(invoice.getTotal());
 			t.setVariable("total", total);
@@ -365,18 +342,6 @@ public class InvoiceQuickBookPdf implements PrintTemplete {
 			logoAlignment = "right";
 		}
 		return logoAlignment;
-	}
-
-	private String getVendorString(String forUk, String forUs) {
-		// return company.getAccountingType() == company.ACCOUNTING_TYPE_US ?
-		// forUs
-		// : forUk;
-		if (company.getPreferences().isRegisteredForVAT()) {
-			return forUk;
-		} else if (company.getPreferences().isChargeSalesTax()) {
-			return forUs;
-		}
-		return "";
 	}
 
 	private String getDecimalsUsingMaxDecimals(double quantity, String amount,

@@ -1354,7 +1354,7 @@ public class Utility_R {
 
 	public static double getTAXItemRate(TAXCode taxCode, boolean isSales) {
 		TAXItemGroup taxItemGroup = isSales ? taxCode.getTAXItemGrpForSales()
-				: taxCode.getVATItemGrpForPurchases();
+				: taxCode.getTAXItemGrpForPurchases();
 		if (taxItemGroup != null) {
 			if (taxItemGroup instanceof TAXItem) {
 				return ((TAXItem) taxItemGroup).getTaxRate();

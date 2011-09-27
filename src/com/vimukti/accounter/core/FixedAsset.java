@@ -1243,6 +1243,36 @@ public class FixedAsset extends CreatableObject implements
 	}
 
 	/**
+	 * The advantage of providing this method is to pre calculate the
+	 * rollbacking depreciation amount while any fixed asset getting roll
+	 * backed.
+	 * 
+	 * @param rollBackDepreciationTo
+	 * @return
+	 * @throws Exception
+	 */
+
+	public static double getCalculatedRollBackDepreciationAmount(
+			Date rollBackDepreciationTo) throws Exception {
+		Session session = HibernateUtil.getCurrentSession() == null ? Utility
+				.getCurrentSession() : HibernateUtil.getCurrentSession();
+		Query query = session
+				.getNamedQuery("getDepreciation.byDepreciationForm.andStatus")
+				.setParameter(0, rollBackDepreciationTo)
+				.setParameter(1, Depreciation.APPROVE);
+		List<Depreciation> list = query.list();
+		double rollBackDepAmt = 0.0;
+		for (Depreciation dep : list) {
+			// for (FixedAsset fixedAsset : dep.getFixedAssets()) {
+			for (Transaction trans : dep.getFixedAsset().getTransactions()) {
+				rollBackDepAmt += ((JournalEntry) trans).getDebitTotal();
+			}
+			// }
+		}
+		return rollBackDepAmt;
+	}
+
+	/**
 	 * 
 	 * This method will give us the total effect of Selling or Disposing a Fixed
 	 * Asset, before Sell or Dispose this Fixed Asset.

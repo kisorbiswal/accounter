@@ -34,7 +34,6 @@ import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
-import com.vimukti.accounter.web.client.core.ClientTaxRates;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientUnitOfMeasure;
 import com.vimukti.accounter.web.client.core.ClientUser;
@@ -155,12 +154,6 @@ public interface IAccounterClientService {
 			throws DAOException;
 
 	public ClientTAXGroup alterTaxGroup(long company, ClientTAXGroup taxGroup)
-			throws DAOException;
-
-	public ClientTaxRates createTaxRates(long company, ClientTaxRates taxRates)
-			throws DAOException;
-
-	public ClientTaxRates alterTaxRates(long company, ClientTaxRates taxRates)
 			throws DAOException;
 
 	public ClientUnitOfMeasure createUnitOfMeasure(long company,

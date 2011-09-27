@@ -861,8 +861,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 					session.update(referringTransactionItem);
 
 					if (flag
-							&& ((transactionItem.type == TransactionItem.TYPE_ACCOUNT
-									|| transactionItem.type == TransactionItem.TYPE_SALESTAX || ((transactionItem.type == TransactionItem.TYPE_ITEM) && transactionItem
+							&& ((transactionItem.type == TransactionItem.TYPE_ACCOUNT || ((transactionItem.type == TransactionItem.TYPE_ITEM) && transactionItem
 									.getQuantity().compareTo(
 											referringTransactionItem
 													.getQuantity()) < 0)))) {

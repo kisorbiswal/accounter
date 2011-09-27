@@ -297,15 +297,6 @@ public class FinanceTool {
 
 			serverObject = new ServerConvertUtil().toServerObject(serverObject,
 					(IAccounterCore) data, session);
-			if (serverObject instanceof CreatableObject) {
-				((CreatableObject) serverObject).setCompany(company);
-			}
-			Activity activity = new Activity(company, user, ActivityType.ADD,
-					serverObject);
-
-			if (serverObject instanceof Transaction) {
-				((Transaction) serverObject).setLastActivity(activity);
-			}
 
 			ObjectConvertUtil.setCompany((IAccounterServerCore) serverObject,
 					company);
@@ -326,9 +317,20 @@ public class FinanceTool {
 			canEdit(serverObject, data);
 
 			isTransactionNumberExist((IAccounterCore) data, company);
-			session.save(activity);
 			session.save(serverObject);
 			transaction.commit();
+
+			org.hibernate.Transaction newTransaction = session
+					.beginTransaction();
+			Activity activity = new Activity(company, user, ActivityType.ADD,
+					serverObject);
+			session.save(activity);
+			if (serverObject instanceof Transaction) {
+				((Transaction) serverObject).setLastActivity(activity);
+			}
+			session.saveOrUpdate(serverObject);
+
+			newTransaction.commit();
 			ChangeTracker.put(serverObject);
 
 			return serverObject.getID();
@@ -397,15 +399,8 @@ public class FinanceTool {
 	}
 
 	private User getUserByUserEmail(String email) {
-		try {
-			Session session = HibernateUtil.getCurrentSession();
-			Query namedQuery = session.getNamedQuery("user.by.emailid");
-			namedQuery.setParameter("emailID", email);
-			User user = (User) namedQuery.list().get(0);
-			return user;
-		} catch (Exception e) {
-			return null;
-		}
+		Session session = HibernateUtil.getCurrentSession();
+		return (User) session.getNamedQuery("user.by.emailid").uniqueResult();
 	}
 
 	public long updateUser(OperationContext updateContext)
@@ -429,12 +424,11 @@ public class FinanceTool {
 					(IAccounterCore) clientUser, session);
 			canEdit(user, data);
 
+			session.flush();
+			session.saveOrUpdate(user);
 			Activity userUpdateActivity = new Activity(company, user1,
 					ActivityType.EDIT, user);
-
-			session.flush();
 			session.save(userUpdateActivity);
-			session.saveOrUpdate(user);
 			hibernateTransaction.commit();
 			ChangeTracker.put(clientUser.toUserInfo());
 			return user.getID();
@@ -498,13 +492,10 @@ public class FinanceTool {
 
 			serverObject.setVersion(++version);
 
-			Activity activity = new Activity(company, user, ActivityType.EDIT,
-					serverObject);
-
 			if (serverObject instanceof Transaction) {
 				Transaction transaction = (Transaction) serverObject;
 				transaction.onEdit((Transaction) clonedObject);
-				transaction.setLastActivity(activity);
+
 			}
 			if (serverObject instanceof Lifecycle) {
 				Lifecycle lifecycle = (Lifecycle) serverObject;
@@ -535,11 +526,21 @@ public class FinanceTool {
 								.currentTimeMillis()));
 			}
 
-			session.saveOrUpdate(activity);
 			session.saveOrUpdate(serverObject);
-			ChangeTracker.put(serverObject);
-			session.flush();
 			hibernateTransaction.commit();
+
+			org.hibernate.Transaction newTransaction = session
+					.beginTransaction();
+
+			Activity activity = new Activity(company, user, ActivityType.EDIT,
+					serverObject);
+			session.saveOrUpdate(activity);
+			if (serverObject instanceof Transaction) {
+				((Transaction) serverObject).setLastActivity(activity);
+			}
+			session.saveOrUpdate(serverObject);
+			newTransaction.commit();
+			ChangeTracker.put(serverObject);
 			return serverObject.getID();
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -1355,6 +1356,17 @@ public class FinanceTool {
 							queryResult.add(billsList);
 					}
 				}
+				BillsList tmpBillsList;
+				for (int i = 0; i < queryResult.size(); i++) {
+					for (int j = 0; j < queryResult.size() - 1 - i; j++)
+						if (queryResult.get(j + 1).getDate().getDate() > queryResult
+								.get(j).getDate().getDate()) {
+							tmpBillsList = queryResult.get(j);
+							queryResult.set(j, queryResult.get(j + 1));
+							queryResult.set(j + 1, tmpBillsList);
+						}
+				}
+
 				return new ArrayList<BillsList>(queryResult);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
@@ -1880,14 +1892,8 @@ public class FinanceTool {
 		month = cal.get(Calendar.MONTH);
 		year = cal.get(Calendar.YEAR);
 
-		Query query = session
-				.createSQLQuery(new StringBuilder()
-						.append("SELECT CCC.ID, CCC.VERSION, CCC.CREATED_DATE, CCC.MODIFIED_ON, CCC.VENDOR_ID, CCC.CONTACT_ID, "
-								+ "CCC.VENDOR_ADDRESS_ID, CCC.PAYMENT_METHOD_ID, CCC.PAYFROM_ACCOUNT_ID, CCC.CHECK_NUMBER, "
-								+ "CCC.DELIVERY_DATE, CCC.MEMO, CCC.REFERENCE, CCC.TOTAL FROM CREDIT_CARD_CHARGES CCC JOIN "
-								+ "TRANSACTION T ON T.ID = CCC.ID AND MONTH(T.T_DATE) = ")
-						.append(month).append(" AND YEAR(T.T_DATE) = ")
-						.append(month).toString());
+		Query query = session.getNamedQuery("getCreditCardChargesThisMonth")
+				.setInteger("month", month);
 		Iterator iterator = query.list().iterator();
 		List<CreditCardCharge> list = new ArrayList<CreditCardCharge>();
 		while (iterator.hasNext()) {
@@ -5266,8 +5272,8 @@ public class FinanceTool {
 				.setParameter("endDate", endDate.getDate());
 		List l = query.list();
 
-		return (l != null && l.size() > 0) ? createSalesByCustomerDetailReport(new ArrayList<SalesByCustomerDetail>(
-				l)) : null;
+		return createSalesByCustomerDetailReport(new ArrayList<SalesByCustomerDetail>(
+				l));
 
 	}
 
@@ -6794,9 +6800,10 @@ public class FinanceTool {
 		List<TrialBalance> queryResult = new ArrayList<TrialBalance>();
 
 		TrialBalance netIncomeTB = new TrialBalance();
-		netIncomeTB.setAccountName("P&L Brought Forward/YTD");
+		netIncomeTB.setAccountName("Net Profit");
 		netIncomeTB.setBaseType(Account.BASETYPE_EQUITY);
-		netIncomeTB.setAccountNumber("3100");
+		netIncomeTB.setSubBaseType(Account.SUBBASETYPE_EQUITY);
+		// netIncomeTB.setAccountNumber("3100");
 		netIncomeTB.setAmount(netIncome);
 
 		while ((iterator).hasNext()) {
@@ -6828,7 +6835,9 @@ public class FinanceTool {
 			t.setSubBaseType(object[9] == null ? 0 : (Integer) object[9]);
 			t.setGroupType(object[10] == null ? 0 : (Integer) object[10]);
 
-			queryResult.add(t);
+			if (t.getAmount() != 0) {
+				queryResult.add(t);
+			}
 
 			// }
 
@@ -6836,10 +6845,11 @@ public class FinanceTool {
 		// List<TrialBalance> sortedList = sortTheList(queryResult);
 		// sortedList.add(netIncomeTB);
 
-		List<TrialBalance> sortedList = getBalanceSheetSorted(queryResult);
-		sortedList.add(netIncomeTB);
+		// List<TrialBalance> sortedList = getBalanceSheetSorted(queryResult);
+		// sortedList.add(netIncomeTB);
+		queryResult.add(netIncomeTB);
 
-		return new ArrayList<TrialBalance>(sortedList);
+		return new ArrayList<TrialBalance>(queryResult);
 
 	}
 
@@ -9442,65 +9452,8 @@ public class FinanceTool {
 		return new ArrayList<ReverseChargeList>(reverseCharges);
 	}
 
-	// public void createTaxes(int... vatReturnType) throws DAOException {
-	//
-	// Session session = HibernateUtil.getCurrentSession();
-	//
-	// org.hibernate.Transaction t = session.beginTransaction();
-	// try {
-	// for (int i : vatReturnType) {
-	// if (i == VATReturn.VAT_RETURN_IRELAND) {
-	//
-	// Account vatLiabilityAccount = new Account(
-	// Account.TYPE_OTHER_CURRENT_LIABILITY,
-	// String.valueOf(getNextNominalCode(Account.TYPE_OTHER_CURRENT_LIABILITY)),
-	// AccounterServerConstants.VAT_LIABILITY_ACCOUNT_IR,
-	// true, null, Account.CASH_FLOW_CATEGORY_OPERATING,
-	// 0.0, false, "VAT Liability Account (IR)", 0.0,
-	// null, true, true, Company.getCompany()
-	// .getOpeningBalancesAccount(), null, true,
-	// Company.getCompany().getPreferences()
-	// .getStartOfFiscalYear());
-	//
-	// session.save(vatLiabilityAccount);
-	//
-	// TAXAgency collectorGeneral = createVATAgency(session,
-	// vatLiabilityAccount);
-	//
-	// createVATItemsOfIreland(session, collectorGeneral);
-	// createVATGroupsOfIreland(session);
-	// createVATCodesOfIreland(session);
-	//
-	// } else if (i == VATReturn.VAT_RETURN_UK_VAT) {
-	//
-	// Account openingBalenceAcount = (Account) session
-	// .getNamedQuery("unique.name.Account")
-	// .setString(0,
-	// AccounterServerConstants.OPENING_BALANCE)
-	// .list().get(0);
-	// Account salesTaxVAT = new Account(
-	// Account.TYPE_OTHER_CURRENT_LIABILITY, "2120",
-	// AccounterServerConstants.SALES_TAX_VAT_UNFILED,
-	// true, null, Account.CASH_FLOW_CATEGORY_OPERATING,
-	// 0.0, false, "", 0.0, null, true, false,
-	// openingBalenceAcount, "113", true, Company
-	// .getCompany().getPreferences()
-	// .getStartOfFiscalYear());
-	//
-	// session.save(salesTaxVAT);
-	//
-	// }
-	// }
-	//
-	// t.commit();
-	//
-	// } catch (HibernateException he) {
-	// t.rollback();
-	// throw he;
-	// }
-	//
-	// }
-
+	
+	
 	private TAXAgency createVATAgency(Session session,
 			Account vatLiabilityAccount) {
 		TAXAgency collectorGeneral = new TAXAgency();
@@ -9516,7 +9469,7 @@ public class FinanceTool {
 		session.save(collectorGeneral);
 		return collectorGeneral;
 	}
-
+	
 	private void createVATCodesOfIreland(Session session, Company company)
 			throws DAOException {
 		createVATcodes(session, company, "ECP", "EC Purch Not Resale (PNFR)",
@@ -9552,7 +9505,7 @@ public class FinanceTool {
 				true, true, "Zero-Rated PNFR");
 
 	}
-
+	
 	private void createVATcodes(Session session, Company company,
 			String codeName, String description, boolean isActive,
 			boolean isTaxable, String... vatItems) throws DAOException {
@@ -9562,7 +9515,6 @@ public class FinanceTool {
 		vc.setDefault(true);
 		vc.setDescription(description);
 		vc.setName(codeName);
-
 		vc.setTaxable(isTaxable);
 		if (vatItems.length > 0)
 			vc.setTAXItemGrpForPurchases((TAXItemGroup) getServerObjectByName(
@@ -10201,6 +10153,92 @@ public class FinanceTool {
 		}
 
 		Hibernate.initialize(company);
+		
+//		company.setAccounts(getAccountsListBySorted());
+//
+//		company.setFiscalYears(new ArrayList<FiscalYear>(session.getNamedQuery(
+//				"list.FiscalYear").list()));
+//
+//		company.setPayees(new ArrayList<Payee>(session.getNamedQuery(
+//				"list.Payee").list()));
+//
+//		company.setItems(new ArrayList<Item>(session.getNamedQuery("list.Item")
+//				.list()));
+//
+//		company.setCustomerGroups(new ArrayList<CustomerGroup>(session
+//				.getNamedQuery("list.CustomerGroup").list()));
+//
+//		company.setVendorGroups(new ArrayList<VendorGroup>(session
+//				.getNamedQuery("list.VendorGroup").list()));
+//
+//		company.setShippingTerms(new ArrayList<ShippingTerms>(session
+//				.getNamedQuery("list.ShippingTerms").list()));
+//
+//		company.setShippingMethods(new ArrayList<ShippingMethod>(session
+//				.getNamedQuery("list.ShippingMethod").list()));
+//
+//		company.setPriceLevels(new ArrayList<PriceLevel>(session.getNamedQuery(
+//				"list.PriceLevel").list()));
+//
+//		company.setItemGroups(new ArrayList<ItemGroup>(session.getNamedQuery(
+//				"list.ItemGroup").list()));
+//
+//		company.setTaxGroups(new ArrayList<TAXGroup>(session.getNamedQuery(
+//				"list.TAXGroup").list()));
+//
+//		company.setPaymentTerms(new ArrayList<PaymentTerms>(session
+//				.getNamedQuery("list.PaymentTerms").list()));
+//
+//		company.setCreditRatings(new ArrayList<CreditRating>(session
+//				.getNamedQuery("list.CreditRating").list()));
+//
+//		company.setSalesPersons(new ArrayList<SalesPerson>(session
+//				.getNamedQuery("list.SalesPerson").list()));
+//
+//		company.setTaxCodes(new ArrayList<TAXCode>(session.getNamedQuery(
+//				"list.TAXCode").list()));
+//
+//		company.setTaxItems(new ArrayList<TAXItem>(session.getNamedQuery(
+//				"list.TAXItem").list()));
+//
+//		company.setTaxItemGroups(new ArrayList<TAXItemGroup>(session
+//				.getNamedQuery("list.TAXItemGroups").list()));
+//
+//		company.setBanks(new ArrayList<Bank>(session.getNamedQuery("list.Bank")
+//				.list()));
+//
+//		company.setTaxrates(new ArrayList<TaxRates>(session.getNamedQuery(
+//				"list.TaxRates").list()));
+//
+//		company.setFixedAssets(new ArrayList<FixedAsset>(session.getNamedQuery(
+//				"list.FixedAsset").list()));
+//		// company
+//		// .setSellingDisposingFixedAssets(new
+//		// HashSet<SellingOrDisposingFixedAsset>(
+//		// session.getNamedQuery(
+//		// "list.SellingOrDisposingFixedAsset").list()));
+//
+//		company.setVatReturns(new ArrayList<VATReturn>(session.getNamedQuery(
+//				"list.VATReturn").list()));
+//		company.setCurrencies(new HashSet<Currency>(session.getNamedQuery(
+//				"list.currency").list()));
+//
+//		company.setTaxAdjustments(new ArrayList<TAXAdjustment>(session
+//				.getNamedQuery("list.TAXAdjustment").list()));
+//
+//		// company.setVatCodes(new ArrayList<TAXCode>(session.getNamedQuery(
+//		// "list.VATCode").list()));
+//
+//		// company.setVatItemGroups(new ArrayList<TAXItemGroup>(session
+//		// .getNamedQuery("list.VATItemGroup").list()));
+//
+//		company.setTaxAgencies(new ArrayList<TAXAgency>(session.getNamedQuery(
+//				"list.TAXAgency").list()));
+//
+//		company.setVatBoxes(new HashSet<Box>(session.getNamedQuery("list.Box")
+//				.list()));
+//		company.setVatReturnBoxes(new HashSet<VATReturnBox>(session
+//				.getNamedQuery("list.VATReturnBox").list()));
 
 		company = company.toCompany(company);
 		ClientConvertUtil clientConvertUtil = new ClientConvertUtil();
@@ -10214,6 +10252,8 @@ public class FinanceTool {
 
 		clientCompany.setUsersList(getAllEmployees(company));
 
+		// User logInUSer = (User) session.getNamedQuery("getuser.by.email")
+		// .setParameter("email", logInUserEmail).uniqueResult();
 		clientCompany.setLoggedInUser(logInUser.getClientUser());
 
 		List list = session.getNamedQuery("get.All.Units")
@@ -10245,7 +10285,7 @@ public class FinanceTool {
 		}
 
 	}
-
+	
 	public boolean hasFileVAT(TAXAgency vatAgency, FinanceDate startDate,
 			FinanceDate endDate) {
 
@@ -10348,6 +10388,30 @@ public class FinanceTool {
 		return prevNumber;
 
 	}
+	
+	public String getPreviousTransactionNumber(int transactionType,
+			long maxCount) {
+
+		Query query = HibernateUtil.getCurrentSession()
+				.getNamedQuery("getTransactionNumber.from.typeandId")
+				.setParameter(0, transactionType).setParameter(0, maxCount);
+
+		List list = query.list();
+
+		String num = (list != null) && (list.size() > 0) ? ((String) list
+				.get(0)) : "";
+		if (num.replaceAll("[\\D]", "").length() > 0) {
+			return num;
+		} else {
+			if (maxCount != 0) {
+				maxCount = maxCount - 1;
+				return getPreviousTransactionNumber(transactionType, maxCount);
+			}
+		}
+
+		return "0";
+	}
+	
 
 	private boolean isTransactionNumberExist(IAccounterCore object,
 			Company company) throws AccounterException {
@@ -10917,24 +10981,7 @@ public class FinanceTool {
 		return new ArrayList<DepositDetail>(depositDetails);
 	}
 
-	// public void deleteTaxCodeOfTaxItemGroupIfUSversion(Session session,
-	// AccounterCoreType clazz, long id) {
-	//
-	// if (this.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US
-	// && (clazz.getServerClassSimpleName().equals("TAXItem") || clazz
-	// .getServerClassSimpleName().equals("TAXGroup"))) {
-	//
-	// Query query = session.getNamedQuery("getTransactionItem.by.id")
-	// .setParameter("id", id);
-	// List list = query.list();
-	//
-	// if (list.size() == 0)
-	// session.getNamedQuery("deleteTAXCode").setParameter(0, id)
-	// .executeUpdate();
-	// }
-	// return;
-	// }
-
+	
 	public ArrayList<PayeeStatementsList> getPayeeStatementsList(long id,
 			FinanceDate fromDate, FinanceDate toDate, long companyId)
 			throws DAOException {
@@ -11016,500 +11063,18 @@ public class FinanceTool {
 		}
 	}
 
+	
 	public ArrayList<Double> getGraphPointsforAccount(int chartType,
-			long accountNo, long companyId) throws DAOException {
+			long accountNo) throws DAOException {
 
-		try {
-
-			Session session = HibernateUtil.getCurrentSession();
-			Query query = null;
-			Company company = getCompany(companyId);
-			FinanceDate currentDate = new FinanceDate();
-
-			if (chartType == GraphChart.BANK_ACCOUNT_CHART_TYPE) {
-
-				Calendar dateCal[] = new Calendar[4];
-				if (dateCal[3] == null)
-					dateCal[3] = new GregorianCalendar();
-
-				dateCal[3].setTime(currentDate.getAsDateObject());
-
-				for (int i = 2; i >= 0; i--) {
-					if (dateCal[i] == null)
-						dateCal[i] = new GregorianCalendar();
-
-					dateCal[i].setTime(dateCal[i + 1].getTime());
-					dateCal[i].set(Calendar.DATE,
-							dateCal[i].get(Calendar.DATE) - 1);
-
-					if (dateCal[i].get(Calendar.DATE) <= 0) {
-						dateCal[i].set(Calendar.MONTH,
-								dateCal[i].get(Calendar.MONTH) - 1);
-						dateCal[i].set(Calendar.DATE,
-								dateCal[i].getActualMaximum(Calendar.DATE)
-										- dateCal[i].get(Calendar.DATE));
-					}
-
-				}
-
-				query = session
-						.getNamedQuery("getPointsForBankAccount")
-						.setParameter("companyId", company.getID())
-						.setParameter("accountNo", accountNo)
-						.setParameter("previousThreeDaysBackDateCal",
-								new FinanceDate(dateCal[0].getTime()).getDate())
-						.setParameter("previousTwoDaysBackDateCal",
-								new FinanceDate(dateCal[1].getTime()).getDate())
-						.setParameter("previousOneDayBackDateCal",
-								new FinanceDate(dateCal[2].getTime()).getDate())
-						.setParameter("currentDateCal",
-								new FinanceDate(dateCal[3].getTime()).getDate());
-
-			}
-
-			if (chartType == GraphChart.ACCOUNTS_RECEIVABLE_CHART_TYPE) {
-
-				Calendar nextMonthStartDateCal = new GregorianCalendar();
-				nextMonthStartDateCal.setTime(currentDate.getAsDateObject());
-				nextMonthStartDateCal.set(Calendar.MONTH,
-						nextMonthStartDateCal.get(Calendar.MONTH) + 1);
-				nextMonthStartDateCal.set(Calendar.DATE, 1);
-
-				Calendar nextMonthEndDateCal = new GregorianCalendar();
-				nextMonthEndDateCal.setTime(currentDate.getAsDateObject());
-				nextMonthEndDateCal.set(Calendar.MONTH,
-						nextMonthEndDateCal.get(Calendar.MONTH) + 1);
-				nextMonthEndDateCal.set(Calendar.DATE, nextMonthEndDateCal
-						.getActualMaximum(Calendar.DAY_OF_MONTH));
-
-				Calendar currentMonthStartDateCal = new GregorianCalendar();
-				currentMonthStartDateCal.setTime(currentDate.getAsDateObject());
-				currentMonthStartDateCal.set(Calendar.DATE, 1);
-
-				Calendar currentMonthEndDateCal = new GregorianCalendar();
-				currentMonthEndDateCal.setTime(currentDate.getAsDateObject());
-				currentMonthEndDateCal.set(Calendar.DATE,
-						currentMonthEndDateCal
-								.getActualMaximum(Calendar.DAY_OF_MONTH));
-
-				Calendar previousFirstMonthStartDateCal = new GregorianCalendar();
-				previousFirstMonthStartDateCal.setTime(currentDate
-						.getAsDateObject());
-				previousFirstMonthStartDateCal.set(Calendar.MONTH,
-						previousFirstMonthStartDateCal.get(Calendar.MONTH) - 1);
-				previousFirstMonthStartDateCal.set(Calendar.DATE, 1);
-
-				Calendar previousFirstMonthEndDateCal = new GregorianCalendar();
-				previousFirstMonthEndDateCal.setTime(currentDate
-						.getAsDateObject());
-				previousFirstMonthEndDateCal.set(Calendar.MONTH,
-						previousFirstMonthEndDateCal.get(Calendar.MONTH) - 1);
-				previousFirstMonthEndDateCal.set(Calendar.DATE,
-						previousFirstMonthEndDateCal
-								.getActualMaximum(Calendar.DAY_OF_MONTH));
-
-				Calendar previousSecondMonthStartDateCal = new GregorianCalendar();
-				previousSecondMonthStartDateCal.setTime(currentDate
-						.getAsDateObject());
-				previousSecondMonthStartDateCal
-						.set(Calendar.MONTH, previousSecondMonthStartDateCal
-								.get(Calendar.MONTH) - 2);
-				previousSecondMonthStartDateCal.set(Calendar.DATE, 1);
-
-				Calendar previousSecondMonthEndDateCal = new GregorianCalendar();
-				previousSecondMonthEndDateCal.setTime(currentDate
-						.getAsDateObject());
-				previousSecondMonthEndDateCal.set(Calendar.MONTH,
-						previousSecondMonthEndDateCal.get(Calendar.MONTH) - 2);
-				previousSecondMonthEndDateCal.set(Calendar.DATE,
-						previousSecondMonthEndDateCal
-								.getActualMaximum(Calendar.DAY_OF_MONTH));
-
-				Calendar previousThirdMonthStartDateCal = new GregorianCalendar();
-				previousThirdMonthStartDateCal.setTime(currentDate
-						.getAsDateObject());
-				previousThirdMonthStartDateCal.set(Calendar.MONTH,
-						previousThirdMonthStartDateCal.get(Calendar.MONTH) - 3);
-				previousThirdMonthStartDateCal.set(Calendar.DATE, 1);
-
-				Calendar previousThirdMonthEndDateCal = new GregorianCalendar();
-				previousThirdMonthEndDateCal.setTime(currentDate
-						.getAsDateObject());
-				previousThirdMonthEndDateCal.set(Calendar.MONTH,
-						previousThirdMonthEndDateCal.get(Calendar.MONTH) - 3);
-				previousThirdMonthEndDateCal.set(Calendar.DATE,
-						previousThirdMonthEndDateCal
-								.getActualMaximum(Calendar.DAY_OF_MONTH));
-
-				Calendar previousFourthMonthStartDateCal = new GregorianCalendar();
-				previousFourthMonthStartDateCal.setTime(currentDate
-						.getAsDateObject());
-				previousFourthMonthStartDateCal
-						.set(Calendar.MONTH, previousFourthMonthStartDateCal
-								.get(Calendar.MONTH) - 4);
-				previousFourthMonthStartDateCal.set(Calendar.DATE, 1);
-
-				Calendar previousFourthMonthEndDateCal = new GregorianCalendar();
-				previousFourthMonthEndDateCal.setTime(currentDate
-						.getAsDateObject());
-				previousFourthMonthEndDateCal.set(Calendar.MONTH,
-						previousFourthMonthEndDateCal.get(Calendar.MONTH) - 4);
-				previousFourthMonthEndDateCal.set(Calendar.DATE,
-						previousFourthMonthEndDateCal
-								.getActualMaximum(Calendar.DAY_OF_MONTH));
-
-				// Calendar previousFifthMonthStartDateCal = new
-				// GregorianCalendar();
-				// previousFifthMonthStartDateCal.setTime(currentDate
-				// .getAsDateObject());
-				// previousFifthMonthStartDateCal.set(Calendar.MONTH,
-				// previousFifthMonthStartDateCal.get(Calendar.MONTH) - 5);
-				// previousFifthMonthStartDateCal.set(Calendar.DATE, 1);
-
-				// Calendar previousFifthMonthEndDateCal = new
-				// GregorianCalendar();
-				// previousFifthMonthEndDateCal.setTime(currentDate
-				// .getAsDateObject());
-				// previousFifthMonthEndDateCal.set(Calendar.MONTH,
-				// previousFifthMonthEndDateCal.get(Calendar.MONTH) - 5);
-				// previousFifthMonthEndDateCal.set(Calendar.DATE,
-				// previousFifthMonthEndDateCal
-				// .getActualMaximum(Calendar.DAY_OF_MONTH));
-
-				query = session
-						.getNamedQuery("getGraphPointsForDebtors")
-						.setParameter("companyId", company.getID())
-						.setParameter("debtorAccountID",
-								company.getAccountsReceivableAccount().getID())
-						.setParameter(
-								"previousFourthMonthStartDateCal",
-								new FinanceDate(previousFourthMonthStartDateCal
-										.getTime()).getDate())
-						.setParameter(
-								"previousFourthMonthEndDateCal",
-								new FinanceDate(previousFourthMonthEndDateCal
-										.getTime()).getDate())
-						.setParameter(
-								"previousThirdMonthStartDateCal",
-								new FinanceDate(previousThirdMonthStartDateCal
-										.getTime()).getDate())
-						.setParameter(
-								"previousThirdMonthEndDateCal",
-								new FinanceDate(previousThirdMonthEndDateCal
-										.getTime()).getDate())
-						.setParameter(
-								"previousSecondMonthStartDateCal",
-								new FinanceDate(previousSecondMonthStartDateCal
-										.getTime()).getDate())
-						.setParameter(
-								"previousSecondMonthEndDateCal",
-								new FinanceDate(previousSecondMonthEndDateCal
-										.getTime()).getDate())
-						.setParameter(
-								"previousFirstMonthStartDateCal",
-								new FinanceDate(previousFirstMonthStartDateCal
-										.getTime()).getDate())
-						.setParameter(
-								"previousFirstMonthEndDateCal",
-								new FinanceDate(previousFirstMonthEndDateCal
-										.getTime()).getDate())
-						.setParameter(
-								"currentMonthStartDateCal",
-								new FinanceDate(currentMonthStartDateCal
-										.getTime()).getDate())
-						.setParameter(
-								"currentMonthEndDateCal",
-								new FinanceDate(currentMonthEndDateCal
-										.getTime()).getDate())
-						.setParameter(
-								"nextMonthStartDateCal",
-								new FinanceDate(nextMonthStartDateCal.getTime())
-										.getDate())
-						.setParameter(
-								"nextMonthEndDateCal",
-								new FinanceDate(nextMonthEndDateCal.getTime())
-										.getDate());
-
-			}
-
-			if (chartType == GraphChart.ACCOUNTS_PAYABLE_CHART_TYPE) {
-
-				Calendar[] dateCal = new GregorianCalendar[30];
-				if (dateCal[0] == null)
-					dateCal[0] = new GregorianCalendar();
-				dateCal[0].setTime(currentDate.getAsDateObject());
-
-				for (int i = 1; i < 30; i++) {
-					if (dateCal[i] == null)
-						dateCal[i] = new GregorianCalendar();
-
-					dateCal[i].setTime(dateCal[i - 1].getTime());
-					dateCal[i].set(Calendar.DATE,
-							dateCal[i].get(Calendar.DATE) + 1);
-
-					if (dateCal[i].get(Calendar.DATE) > dateCal[i]
-							.getActualMaximum(Calendar.DATE)) {
-
-						dateCal[i]
-								.set(Calendar.DATE,
-										dateCal[i].get(Calendar.DATE)
-												- dateCal[i]
-														.getActualMaximum(Calendar.DATE));
-						dateCal[i].set(Calendar.MONTH,
-								dateCal[i].get(Calendar.MONTH) + 1);
-					}
-				}
-
-				query = session
-						.getNamedQuery("getGraphPointsForCreditors")
-						.setParameter("companyId", company.getID())
-						.setParameter("creditorsAccountID",
-								company.getAccountsPayableAccount().getID())
-						.setParameter("currentDate",
-								new FinanceDate(dateCal[0].getTime()).getDate())
-						.setParameter("oneDayAfterToCurrentDate",
-								new FinanceDate(dateCal[1].getTime()).getDate())
-						.setParameter("twoDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[2].getTime()).getDate())
-						.setParameter("threeDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[3].getTime()).getDate())
-						.setParameter("fourDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[4].getTime()).getDate())
-						.setParameter("fiveDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[5].getTime()).getDate())
-						.setParameter("sixDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[6].getTime()).getDate())
-						.setParameter("sevenDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[7].getTime()).getDate())
-						.setParameter("eightDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[8].getTime()).getDate())
-						.setParameter("nineDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[9].getTime()).getDate())
-						.setParameter(
-								"tenDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[10].getTime())
-										.getDate())
-						.setParameter(
-								"elevenDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[11].getTime())
-										.getDate())
-						.setParameter(
-								"twelveDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[12].getTime())
-										.getDate())
-						.setParameter(
-								"thirteenDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[13].getTime())
-										.getDate())
-						.setParameter(
-								"fourteenDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[14].getTime())
-										.getDate())
-						.setParameter(
-								"fifteenDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[15].getTime())
-										.getDate())
-						.setParameter(
-								"sixteenDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[16].getTime())
-										.getDate())
-						.setParameter(
-								"seventeenDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[17].getTime())
-										.getDate())
-						.setParameter(
-								"eighteenDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[18].getTime())
-										.getDate())
-						.setParameter(
-								"nineteenDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[19].getTime())
-										.getDate())
-						.setParameter(
-								"twentyDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[20].getTime())
-										.getDate())
-						.setParameter(
-								"twentyOneDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[21].getTime())
-										.getDate())
-						.setParameter(
-								"twentyTwoDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[22].getTime())
-										.getDate())
-						.setParameter(
-								"twentyThreeDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[23].getTime())
-										.getDate())
-						.setParameter(
-								"twentyFourDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[24].getTime())
-										.getDate())
-						.setParameter(
-								"twentyFiveDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[25].getTime())
-										.getDate())
-						.setParameter(
-								"twentySixDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[26].getTime())
-										.getDate())
-						.setParameter(
-								"twentySevenDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[27].getTime())
-										.getDate())
-						.setParameter(
-								"twentyEightDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[28].getTime())
-										.getDate())
-						.setParameter(
-								"twentyNineDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[29].getTime())
-										.getDate());
-				// .setParameter("thirtyDaysAfterToCurrentDate", new
-				// FinanceDate(dateCal[30].getTime()).getTime());
-				// .setParameter("thirtyOneDaysAfterToCurrentDate", new
-				// FinanceDate(dateCal[31].getTime()).getTime());
-
-			}
-
-			if (chartType == GraphChart.EXPENSE_CHART_TYPE)
-				query = session.getNamedQuery("getExpenseTotalAmounts")
-						.setParameter("companyId", company.getID());
-
-			List list = query.list();
-			if (list != null) {
-				Object[] object = null;
-				Iterator iterator = list.iterator();
-				List<Double> gPoints = new ArrayList<Double>();
-
-				while (iterator.hasNext()) {
-					object = (Object[]) iterator.next();
-
-					gPoints.add(object[2] == null ? 0 : (Double) object[2]);
-					gPoints.add(object[3] == null ? 0 : (Double) object[3]);
-					gPoints.add(object[4] == null ? 0 : (Double) object[4]);
-					gPoints.add(object[5] == null ? 0 : (Double) object[5]);
-
-					if (chartType == GraphChart.ACCOUNTS_RECEIVABLE_CHART_TYPE
-							|| chartType == GraphChart.ACCOUNTS_PAYABLE_CHART_TYPE) {
-
-						gPoints.add(object[6] == null ? 0 : (Double) object[6]);
-						gPoints.add(object[7] == null ? 0 : (Double) object[7]);
-						if (chartType == GraphChart.ACCOUNTS_RECEIVABLE_CHART_TYPE) {
-							Object res = session
-									.getNamedQuery("getInvoicesDue")
-									.setParameter("companyId", company.getID())
-									.setParameter("presentDate", 0)
-									.uniqueResult();
-							double amount = res == null ? 0 : (Double) res;
-							gPoints.add(amount);
-
-							res = session
-									.getNamedQuery("getInvoicesDue")
-									.setParameter("companyId", company.getID())
-									.setParameter("presentDate",
-											(new FinanceDate()).getDate())
-									.uniqueResult();
-							amount = res == null ? 0 : (Double) res;
-							gPoints.add(amount);
-						}
-					}
-
-					if (chartType == GraphChart.ACCOUNTS_PAYABLE_CHART_TYPE) {
-
-						gPoints.add(object[8] == null ? 0 : (Double) object[8]);
-						gPoints.add(object[9] == null ? 0 : (Double) object[9]);
-						gPoints.add(object[10] == null ? 0
-								: (Double) object[10]);
-						gPoints.add(object[11] == null ? 0
-								: (Double) object[11]);
-						gPoints.add(object[12] == null ? 0
-								: (Double) object[12]);
-						gPoints.add(object[13] == null ? 0
-								: (Double) object[13]);
-						gPoints.add(object[14] == null ? 0
-								: (Double) object[14]);
-						gPoints.add(object[15] == null ? 0
-								: (Double) object[15]);
-						gPoints.add(object[16] == null ? 0
-								: (Double) object[16]);
-						gPoints.add(object[17] == null ? 0
-								: (Double) object[17]);
-						gPoints.add(object[18] == null ? 0
-								: (Double) object[18]);
-						gPoints.add(object[19] == null ? 0
-								: (Double) object[19]);
-						gPoints.add(object[20] == null ? 0
-								: (Double) object[20]);
-						gPoints.add(object[21] == null ? 0
-								: (Double) object[21]);
-						gPoints.add(object[22] == null ? 0
-								: (Double) object[22]);
-						gPoints.add(object[23] == null ? 0
-								: (Double) object[23]);
-						gPoints.add(object[24] == null ? 0
-								: (Double) object[24]);
-						gPoints.add(object[25] == null ? 0
-								: (Double) object[25]);
-						gPoints.add(object[26] == null ? 0
-								: (Double) object[26]);
-						gPoints.add(object[27] == null ? 0
-								: (Double) object[27]);
-						gPoints.add(object[28] == null ? 0
-								: (Double) object[28]);
-						gPoints.add(object[29] == null ? 0
-								: (Double) object[29]);
-						gPoints.add(object[30] == null ? 0
-								: (Double) object[30]);
-						gPoints.add(object[31] == null ? 0
-								: (Double) object[31]);
-
-						Object res = session.getNamedQuery("getBillsDue")
-								.setParameter("companyId", company.getID())
-								.setParameter("presentDate", 0).uniqueResult();
-						double amount = res == null ? 0 : (Double) res;
-						gPoints.add(amount);
-
-						res = session
-								.getNamedQuery("getBillsDue")
-								.setParameter("companyId", company.getID())
-								.setParameter("presentDate",
-										(new FinanceDate()).getDate())
-								.uniqueResult();
-						amount = res == null ? 0 : (Double) res;
-						gPoints.add(amount);
-
-						// gPoints.add(object[32] == null ? null
-						// : (Double) object[32]);
-
-					}
-
-					// double maxValue, minValue;
-					// minValue = (object[2] == null) ? 0 : (Double) object[2];
-					// maxValue = minValue;
-					//
-					// for (int i = 2; i < object.length; i++) {
-					//
-					// if (object[i] != null) {
-					// if (maxValue < (Double) object[i])
-					// maxValue = (Double) object[i];
-					//
-					// if (minValue > (Double) object[i])
-					// minValue = (Double) object[i];
-					// }
-					// }
-					// gPoints.setMaxPoint(maxValue);
-					// gPoints.setMinPoint(minValue);
-					// if (accountNo != 0)
-					// gPoints.add(Double.valueOf(accountNo));
-
-				}
-				return new ArrayList<Double>(gPoints);
-			} else
-				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
-						null));
-		} catch (DAOException e) {
-			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
+		if (chartType == GraphChart.BANK_ACCOUNT_CHART_TYPE) {
+			return getBankingChartValues(accountNo);
+		} else if (chartType == GraphChart.ACCOUNTS_RECEIVABLE_CHART_TYPE) {
+			return getMoneyInChartValues();
+		} else if (chartType == GraphChart.ACCOUNTS_PAYABLE_CHART_TYPE) {
+			return getMoneyOutChartValues();
+		} else {
+			return getExpensePortletValues();
 		}
 	}
 
@@ -11584,9 +11149,7 @@ public class FinanceTool {
 			newPassword = HexUtil.bytesToHex(Security.makeHash(emailId
 					+ newPassword));
 
-			Query query = session
-					.createSQLQuery(
-							"SELECT EMAIL_ID  FROM CLIENT C WHERE C.EMAIL_ID=:emailId AND C.PASSWORD=:password")
+			Query query = session.getNamedQuery("getEmailIdFromClient")
 					.setParameter("emailId", emailId)
 					.setParameter("password", oldPassword);
 			String emailID = (String) query.uniqueResult();
@@ -11594,8 +11157,9 @@ public class FinanceTool {
 			if (emailID == null)
 				return false;
 
-			query = session.createSQLQuery("UPDATE CLIENT SET PASSWORD='"
-					+ newPassword + "' WHERE EMAIL_ID='" + emailId + "'");
+			query = session.getNamedQuery("updatePasswordForClient");
+			query.setParameter("newPassword", newPassword);
+			query.setParameter("emailId", emailId);
 			query.executeUpdate();
 			tx.commit();
 
@@ -12105,8 +11669,8 @@ public class FinanceTool {
 
 	}
 
-	public void recordActivity(User user, ActivityType type) {
-		Activity activity = new Activity(null, user, type);
+	public void recordActivity(Company company, User user, ActivityType type) {
+		Activity activity = new Activity(company, user, type);
 
 	}
 
@@ -12970,5 +12534,197 @@ public class FinanceTool {
 			history.add(clientActivity);
 		}
 		return history;
+	}
+
+	public ArrayList<Double> getBankingChartValues(long accountNo) {
+
+		Session session = HibernateUtil.getCurrentSession();
+		FinanceDate currentDate = new FinanceDate();
+
+		Calendar dateCal[] = new Calendar[4];
+		if (dateCal[3] == null)
+			dateCal[3] = new GregorianCalendar();
+
+		dateCal[3].setTime(currentDate.getAsDateObject());
+
+		for (int i = 2; i >= 0; i--) {
+			if (dateCal[i] == null)
+				dateCal[i] = new GregorianCalendar();
+
+			dateCal[i].setTime(dateCal[i + 1].getTime());
+			dateCal[i].set(Calendar.DATE, dateCal[i].get(Calendar.DATE) - 1);
+
+			if (dateCal[i].get(Calendar.DATE) <= 0) {
+				dateCal[i].set(Calendar.MONTH,
+						dateCal[i].get(Calendar.MONTH) - 1);
+				dateCal[i].set(
+						Calendar.DATE,
+						dateCal[i].getActualMaximum(Calendar.DATE)
+								- dateCal[i].get(Calendar.DATE));
+			}
+
+		}
+
+		Query query = session
+				.getNamedQuery("getPointsForBankAccount")
+				.setParameter("accountNo", accountNo)
+				.setParameter("previousThreeDaysBackDateCal",
+						new FinanceDate(dateCal[0].getTime()).getDate())
+				.setParameter("previousTwoDaysBackDateCal",
+						new FinanceDate(dateCal[1].getTime()).getDate())
+				.setParameter("previousOneDayBackDateCal",
+						new FinanceDate(dateCal[2].getTime()).getDate());
+
+		List<Double> gPoints = new ArrayList<Double>();
+		List list = query.list();
+		if (list != null) {
+			Object[] object = null;
+			Iterator iterator = list.iterator();
+
+			while (iterator.hasNext()) {
+				object = (Object[]) iterator.next();
+
+				gPoints.add(object[2] == null ? 0 : (Double) object[2]);
+				gPoints.add(object[3] == null ? 0 : (Double) object[3]);
+				gPoints.add(object[4] == null ? 0 : (Double) object[4]);
+				gPoints.add(object[5] == null ? 0 : (Double) object[5]);
+
+			}
+		}
+		return new ArrayList<Double>(gPoints);
+	}
+
+	public ArrayList<Double> getMoneyInChartValues() {
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = null;
+
+		FinanceDate currentDate = new FinanceDate();
+
+		List<Double> gPoints = new ArrayList<Double>();
+
+		for (int i = 4; i >= -1; i--) {
+			Calendar startDateCal = Calendar.getInstance();
+			startDateCal.setTime(currentDate.getAsDateObject());
+			startDateCal.set(Calendar.MONTH, startDateCal.get(Calendar.MONTH)
+					- i);
+			startDateCal.set(Calendar.DATE, 1);
+
+			Calendar endDateCal = Calendar.getInstance();
+			endDateCal.setTime(currentDate.getAsDateObject());
+			endDateCal.set(Calendar.MONTH, endDateCal.get(Calendar.MONTH) - i);
+			endDateCal.set(Calendar.DATE,
+					endDateCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+			gPoints.add(getMoneyInForDates(
+					new FinanceDate(startDateCal.getTime()).getDate(),
+					new FinanceDate(endDateCal.getTime()).getDate()));
+		}
+
+		Object res = session.getNamedQuery("getInvoicesDue")
+				.setParameter("presentDate", 0).uniqueResult();
+		double amount = res == null ? 0 : (Double) res;
+		gPoints.add(amount);
+
+		res = session.getNamedQuery("getInvoicesDue")
+				.setParameter("presentDate", (new FinanceDate()).getDate())
+				.uniqueResult();
+		amount = res == null ? 0 : (Double) res;
+		gPoints.add(amount);
+
+		return new ArrayList<Double>(gPoints);
+	}
+
+	public ArrayList<Double> getMoneyOutChartValues() {
+
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = null;
+
+		FinanceDate currentDate = new FinanceDate();
+
+		Calendar dateCal = Calendar.getInstance();
+
+		List<Double> gPoints = new ArrayList<Double>();
+		for (int i = 0; i < 30; i++) {
+
+			dateCal.setTime(currentDate.getAsDateObject());
+			dateCal.set(Calendar.DATE, dateCal.get(Calendar.DATE) + i);
+
+			gPoints.add(getMoneyOutOnDate(new FinanceDate(dateCal.getTime())
+					.getDate()));
+		}
+
+		Object res = session.getNamedQuery("getBillsDue")
+				.setParameter("presentDate", 0).uniqueResult();
+		double amount = res == null ? 0 : (Double) res;
+		gPoints.add(amount);
+
+		res = session.getNamedQuery("getBillsDue")
+				.setParameter("presentDate", (new FinanceDate()).getDate())
+				.uniqueResult();
+		amount = res == null ? 0 : (Double) res;
+		gPoints.add(amount);
+
+		return new ArrayList<Double>(gPoints);
+	}
+
+	public ArrayList<Double> getExpensePortletValues() {
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = null;
+
+		FinanceDate currentDate = new FinanceDate();
+
+		query = session.getNamedQuery("getExpenseTotalAmounts");
+
+		List<Double> gPoints = new ArrayList<Double>();
+		List list = query.list();
+		if (list != null) {
+			Object[] object = null;
+			Iterator iterator = list.iterator();
+
+			while (iterator.hasNext()) {
+				object = (Object[]) iterator.next();
+
+				gPoints.add(object[2] == null ? 0 : (Double) object[2]);
+				gPoints.add(object[3] == null ? 0 : (Double) object[3]);
+				gPoints.add(object[4] == null ? 0 : (Double) object[4]);
+				gPoints.add(object[5] == null ? 0 : (Double) object[5]);
+			}
+		}
+		return new ArrayList<Double>(gPoints);
+	}
+	
+	private double getMoneyInForDates(long startDate, long endDate) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session.getNamedQuery("getMoneyInForDates")
+				.setParameter("startDate", startDate)
+				.setParameter("endDate", endDate);
+
+		List<Double> list = query.list();
+		double amount = 0;
+		if (list != null && !list.isEmpty()) {
+			for (Double d : list) {
+				amount += (d != null ? d : 0);
+			}
+			return amount;
+		} else {
+			return 0.0D;
+		}
+	}
+
+	private double getMoneyOutOnDate(long date) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session.getNamedQuery("getMoneyOutOnDate").setParameter(
+				"date", date);
+
+		List<Double> list = query.list();
+		double amount = 0;
+		if (list != null && !list.isEmpty()) {
+			for (Double d : list) {
+				amount += (d != null ? d : 0);
+			}
+			return amount;
+		} else {
+			return 0.0D;
+		}
 	}
 }

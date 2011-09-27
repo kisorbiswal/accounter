@@ -52,6 +52,10 @@ public class ShippingTerms extends CreatableObject implements
 		return description;
 	}
 
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	/**
 	 * @return the isDefault
 	 */

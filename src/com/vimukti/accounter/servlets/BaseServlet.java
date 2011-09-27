@@ -152,7 +152,7 @@ public class BaseServlet extends HttpServlet {
 						.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$");
 
 			case NAME:
-				return value.matches("^[a-zA-Z]+$");
+				return value.matches("^[a-zA-Z ]+$");
 
 			case PHONE_NO:
 				return value.matches("^[0-9][0-9-]+$");
@@ -336,6 +336,24 @@ public class BaseServlet extends HttpServlet {
 		// mainServerURL.append(ServerConfiguration.getMainServerPort());
 		mainServerURL.append(url);
 		return mainServerURL.toString();
+	}
+
+	/**
+	 * Reset the password and send mail to user
+	 */
+	protected void sendForgetPasswordLinkToUser(Client client,
+			String activationCode) {
+
+		Session session = HibernateUtil.getCurrentSession();
+		client.setRequirePasswordReset(true);
+
+		session.save(client);
+		StringBuffer link = new StringBuffer("https://");
+		link.append(ServerConfiguration.getMainServerDomain());
+		link.append(ACTIVATION_URL);
+
+		UsersMailSendar.sendResetPasswordLinkToUser(link.toString(),
+				activationCode, client.getEmailId());
 	}
 
 }

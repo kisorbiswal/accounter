@@ -128,8 +128,7 @@ public class TAXGroup extends TAXItemGroup {
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 
-		if (getCompany() != null
-				&& getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+		if (getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 
 			Query query = session.getNamedQuery("getTaxCode.by.id")
 					.setParameter("id", this.id)
@@ -144,6 +143,15 @@ public class TAXGroup extends TAXItemGroup {
 			}
 			this.isSalesType = true;
 		}
+
+		session.getNamedQuery("updateTaxCodeSalesTaxRate")
+				.setParameter("id", this.id)
+				.setParameter("salesTaxRate", this.groupRate).executeUpdate();
+		session.getNamedQuery("updateTaxCodePurchaseTaxRate")
+				.setParameter("id", this.id)
+				.setParameter("purchaseTaxRate", this.groupRate)
+				.executeUpdate();
+
 		super.onSave(session);
 		// ChangeTracker.put(this);
 		return false;

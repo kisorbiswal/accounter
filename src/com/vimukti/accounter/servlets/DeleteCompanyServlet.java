@@ -24,8 +24,6 @@ import com.vimukti.accounter.utils.HibernateUtil;
 
 public class DeleteCompanyServlet extends BaseServlet {
 
-	private static final String IS_DELETE_ALL_USERS = "deleteAllUsers";
-
 	private String deleteCompanyView = "/WEB-INF/deleteCompany.jsp";
 
 	@Override
@@ -90,8 +88,6 @@ public class DeleteCompanyServlet extends BaseServlet {
 								"Company Doesnot Exist");
 						return;
 					}
-
-					String schemaName = Server.COMPANY + companyID;
 
 					IS2SService s2sService = getS2sSyncProxy(serverCompany
 							.getServer().getAddress());

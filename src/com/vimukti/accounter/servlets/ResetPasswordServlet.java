@@ -80,6 +80,11 @@ public class ResetPasswordServlet extends BaseServlet {
 			String password = req.getParameter("newPassword");
 			String confirm = req.getParameter("confirmPassword");
 
+			if (password.isEmpty() || confirm.isEmpty()) {
+				dispatchMessage("Password enter a valid passowrd", req, resp,
+						view);
+				return;
+			}
 			// compare if not equal send error message
 			// otherwise
 			if (!password.equals(confirm)) {

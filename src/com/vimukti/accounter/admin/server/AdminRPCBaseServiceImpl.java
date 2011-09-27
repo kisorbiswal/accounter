@@ -34,7 +34,8 @@ public class AdminRPCBaseServiceImpl extends RemoteServiceServlet {
 			throws ServletException, IOException {
 		try {
 			if (isValidSession(request)) {
-				Session session = HibernateUtil.openSession();
+				Session session = HibernateUtil
+						.openSession();
 				setAdminThreadLocal(request);
 				try {
 					super.service(request, response);

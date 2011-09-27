@@ -100,6 +100,10 @@ public class Company implements IAccounterServerCore {
 
 	private String registrationNumber;
 
+	public void setID(long id) {
+		this.id = id;
+	}
+
 	/**
 	 * This is the direct references to the Accounts Receivable Account for the
 	 * purpose of the Transactions.
@@ -705,14 +709,7 @@ public class Company implements IAccounterServerCore {
 
 			}
 
-		} else {
-
-			TAXItem vatItem = transactionItem.getTaxItem();
-			if (vatItem != null) {
-				setVatItemVRC(vatItem, transactionItem, session);
-			}
-
-		}
+		} 
 
 		return false;
 	}
@@ -759,17 +756,17 @@ public class Company implements IAccounterServerCore {
 	 */
 	private static void setVRCForVendor(TAXCode code,
 			TransactionItem transactionItem, Session session) {
-		if (code.getVATItemGrpForPurchases() != null) {
+		if (code.getTAXItemGrpForPurchases() != null) {
 
-			if (code.getVATItemGrpForPurchases() instanceof TAXItem) {
+			if (code.getTAXItemGrpForPurchases() instanceof TAXItem) {
 
-				TAXItem vatItem = (TAXItem) code.getVATItemGrpForPurchases();
+				TAXItem vatItem = (TAXItem) code.getTAXItemGrpForPurchases();
 
 				setVatItemVRC(vatItem, transactionItem, session);
 
 			} else {
 
-				TAXGroup vatGroup = (TAXGroup) code.getVATItemGrpForPurchases();
+				TAXGroup vatGroup = (TAXGroup) code.getTAXItemGrpForPurchases();
 				for (int i = 0; i < vatGroup.getTAXItems().size(); i++) {
 
 					TAXItem vatItem = vatGroup.getTAXItems().get(i);
