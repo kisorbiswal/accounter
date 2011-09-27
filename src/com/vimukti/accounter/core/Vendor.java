@@ -135,6 +135,10 @@ public class Vendor extends Payee {
 		return vendorNumber;
 	}
 
+	public void setVendorNumber(String vendorNumber) {
+		this.vendorNumber = vendorNumber;
+	}
+
 	/**
 	 * @return the balance
 	 */
@@ -173,11 +177,19 @@ public class Vendor extends Payee {
 		return expenseAccount;
 	}
 
+	public void setExpenseAccount(Account expenseAccount) {
+		this.expenseAccount = expenseAccount;
+	}
+
 	/**
 	 * @return the creditLimit
 	 */
 	public double getCreditLimit() {
 		return creditLimit;
+	}
+
+	public void setCreditLimit(double creditLimit) {
+		this.creditLimit = creditLimit;
 	}
 
 	/**
@@ -187,6 +199,10 @@ public class Vendor extends Payee {
 		return shippingMethod;
 	}
 
+	public void setShippingMethod(ShippingMethod shippingMethod) {
+		this.shippingMethod = shippingMethod;
+	}
+
 	/**
 	 * @return the paymentTerms
 	 */
@@ -194,11 +210,19 @@ public class Vendor extends Payee {
 		return paymentTerms;
 	}
 
+	public void setPaymentTerms(PaymentTerms paymentTerms) {
+		this.paymentTerms = paymentTerms;
+	}
+
 	/**
 	 * @return the vendorGroup
 	 */
 	public VendorGroup getVendorGroup() {
 		return vendorGroup;
+	}
+
+	public void setVendorGroup(VendorGroup vendorGroup) {
+		this.vendorGroup = vendorGroup;
 	}
 
 	/**
