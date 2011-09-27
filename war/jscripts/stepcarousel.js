@@ -10,6 +10,8 @@ var stepcarousel={
 	ajaxloadingmsg: '<div style="margin: 1em; font-weight: bold"><img src="ajaxloadr.gif" style="vertical-align: middle" /> Fetching Content. Please wait...</div>', //customize HTML to show while fetching Ajax content
 	defaultbuttonsfade: 0.4, //Fade degree for disabled nav buttons (0=completely transparent, 1=completely opaque)
 	configholder: {},
+	
+	pause: false,
 
 	getCSSValue:function(val){ //Returns either 0 (if val contains 'auto') or val as an integer
 		return (val=="auto")? 0 : parseInt(val)
@@ -188,8 +190,11 @@ var stepcarousel={
 		this.statusreport(galleryid)
 	},
 
-	autorotate:function(galleryid){
-		var config=stepcarousel.configholder[galleryid]
+	autorotate:function(galleryid){		
+		if(this.pause){
+			return;			
+		}
+		var config=stepcarousel.configholder[galleryid]		
 		this.stepBy(galleryid, config.autostep.moveby, true)
 	},
 
@@ -324,6 +329,8 @@ var stepcarousel={
 		jQuery(document).ready(function($){
 			config.$gallery=$('#'+config.galleryid)
 			stepcarousel.init($, config)
+			$(window).blur(function(){stepcarousel.pause=true});
+			$(window).focus(function(){stepcarousel.pause=false});
 		}) //end document.ready
 		jQuery(window).bind('unload', function(){ //clean up on page unload
 			stepcarousel.resetsettings($, config)
