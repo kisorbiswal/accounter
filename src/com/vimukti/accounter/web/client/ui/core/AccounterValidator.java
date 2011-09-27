@@ -99,18 +99,19 @@ public class AccounterValidator {
 	// }
 	// }
 
-	public static boolean validateClosedFiscalYear(ClientFinanceDate asofDate) {
-		List<ClientFiscalYear> closedFiscalYears = getClosedFiscalYears();
-		for (ClientFiscalYear fiscalYear : closedFiscalYears) {
-			if ((fiscalYear.getStartDate().getYear() + 1900) == (asofDate
-					.getYear() + 1900)) {
-				Accounter.showError(AccounterWarningType.CLOSED_FISCALYEAR);
-				return false;
-			}
-
-		}
-		return true;
-	}
+	// public static boolean validateClosedFiscalYear(ClientFinanceDate
+	// asofDate) {
+	// List<ClientFiscalYear> closedFiscalYears = getClosedFiscalYears();
+	// for (ClientFiscalYear fiscalYear : closedFiscalYears) {
+	// if ((fiscalYear.getStartDate().getYear() + 1900) == (asofDate
+	// .getYear() + 1900)) {
+	// Accounter.showError(AccounterWarningType.CLOSED_FISCALYEAR);
+	// return false;
+	// }
+	//
+	// }
+	// return true;
+	// }
 
 	private static List<ClientFiscalYear> getClosedFiscalYears() {
 		List<ClientFiscalYear> fiscalyearlist = getCompany().getFiscalYears();

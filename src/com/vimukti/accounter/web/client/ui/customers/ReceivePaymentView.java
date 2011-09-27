@@ -1062,10 +1062,11 @@ public class ReceivePaymentView extends
 		// 5. validateGrid?
 		// 6. isValidReceivePaymentAmount?
 		// 7. unUsedPaymentsAmount > 0 add warning
-		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
-			result.addError(transactionDateItem,
-					accounterConstants.invalidateTransactionDate());
-		}
+		// if (!AccounterValidator.isValidTransactionDate(this.transactionDate))
+		// {
+		// result.addError(transactionDateItem,
+		// accounterConstants.invalidateTransactionDate());
+		// }
 
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {

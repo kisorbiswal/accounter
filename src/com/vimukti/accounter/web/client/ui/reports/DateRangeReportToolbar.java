@@ -21,10 +21,10 @@ public class DateRangeReportToolbar extends ReportToolbar {
 
 	public DateItem fromItem;
 	public DateItem toItem;
-	
+
 	private SelectCombo reportBasisItemCombo;
 	private SelectCombo dateRangeItemCombo;
-	
+
 	private List<String> reportBasisItemList, dateRangeItemList;
 
 	private Button updateButton;
@@ -35,7 +35,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 	}
 
 	private void createControls() {
-		
+
 		String[] reportBasisArray = { Accounter.constants().cash(),
 				Accounter.constants().accrual() };
 
@@ -87,15 +87,15 @@ public class DateRangeReportToolbar extends ReportToolbar {
 		// // report basic is not yet implemented, so disable the feature.
 		// reportBasisItem.setDisabled(true);
 
-		dateRangeItemCombo = new SelectCombo(Accounter.constants()
-				.dateRange());
+		dateRangeItemCombo = new SelectCombo(Accounter.constants().dateRange());
 		dateRangeItemCombo.setHelpInformation(true);
 		dateRangeItemList = new ArrayList<String>();
 		for (int i = 0; i < dateRangeArray.length; i++) {
 			dateRangeItemList.add(dateRangeArray[i]);
 		}
 		dateRangeItemCombo.initCombo(dateRangeItemList);
-		dateRangeItemCombo.setComboItem(Accounter.constants().financialYearToDate());
+		dateRangeItemCombo.setComboItem(Accounter.constants()
+				.financialYearToDate());
 		// dateRangeItem.setDefaultValue(dateRangeArray[0]);
 		// dateRangeItem.addChangedHandler(new ChangeHandler() {
 		//
@@ -138,9 +138,10 @@ public class DateRangeReportToolbar extends ReportToolbar {
 
 		toItem = new DateItem();
 		toItem.setHelpInformation(true);
-		
+
 		ClientFinanceDate date = Accounter.getCompany()
-				.getLastandOpenedFiscalYearEndDate();
+				.getCurrentFiscalYearEndDate();
+		// .getLastandOpenedFiscalYearEndDate();
 
 		// if (date != null)
 		// toItem.setDate(date);
@@ -160,8 +161,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 
 			}
 		});
-		updateButton = new Button(Accounter.constants()
-				.update());
+		updateButton = new Button(Accounter.constants().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -172,8 +172,8 @@ public class DateRangeReportToolbar extends ReportToolbar {
 
 				itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL,
 						fromItem.getDate(), toItem.getDate());
-				dateRangeItemCombo.setDefaultValue(Accounter
-						.constants().custom());
+				dateRangeItemCombo.setDefaultValue(Accounter.constants()
+						.custom());
 				setSelectedDateRange(Accounter.constants().custom());
 			}
 		});
@@ -182,8 +182,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 		// toItem.setDisabled(true);
 		// updateButton.setEnabled(false);
 
-		Button printButton = new Button(Accounter
-				.constants().print());
+		Button printButton = new Button(Accounter.constants().print());
 		// printButton.setTop(2);
 		// printButton.setWidth(40);
 		printButton.addClickHandler(new ClickHandler() {

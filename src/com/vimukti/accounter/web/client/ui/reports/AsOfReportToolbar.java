@@ -30,7 +30,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 	}
 
 	private void createControls() {
-		
+
 		String[] reportBasisArray = { Accounter.constants().cash(),
 				Accounter.constants().accrual() };
 		String[] dateRangeArray = { Accounter.constants().all(),
@@ -84,8 +84,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 		// // report basic is not yet implemented, so disable the feature.
 		// reportBasisItem.setDisabled(true);
 
-		dateRangeCombo = new SelectCombo(Accounter.constants()
-				.dateRange());
+		dateRangeCombo = new SelectCombo(Accounter.constants().dateRange());
 		dateRangeCombo.setHelpInformation(true);
 		dateRangeList = new ArrayList<String>();
 		for (int i = 0; i < dateRangeArray.length; i++) {
@@ -93,7 +92,8 @@ public class AsOfReportToolbar extends ReportToolbar {
 		}
 		dateRangeCombo.initCombo(dateRangeList);
 		dateRangeCombo.setDefaultValue(dateRangeArray[0]);
-		dateRangeCombo.setComboItem(Accounter.constants().financialYearToDate());
+		dateRangeCombo
+				.setComboItem(Accounter.constants().financialYearToDate());
 		dateRangeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -143,7 +143,8 @@ public class AsOfReportToolbar extends ReportToolbar {
 		});
 
 		ClientFinanceDate date = Accounter.getCompany()
-				.getLastandOpenedFiscalYearEndDate();
+				.getCurrentFiscalYearEndDate();
+		// .getLastandOpenedFiscalYearEndDate();
 		if (date != null)
 			customDate.setValue(date);
 		else
@@ -161,8 +162,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 
 				itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL,
 						startDate, customDate.getDate());
-				dateRangeCombo.setDefaultValue(Accounter.constants()
-						.custom());
+				dateRangeCombo.setDefaultValue(Accounter.constants().custom());
 				setSelectedDateRange(Accounter.constants().custom());
 
 			}

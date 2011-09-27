@@ -63,10 +63,10 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 		if (amt == null) {
 			return UIUtils.getCurrencySymbol() + " 0.00";
 		} else {
-			if (Accounter.getCompany()
-					.isCurrentInFiscalYear(colsMap.get(index))) {
-				rowTotal += amt;
-			}
+			// if (Accounter.getCompany()
+			// .isCurrentInFiscalYear(colsMap.get(index))) {
+			// rowTotal += amt;
+			// }
 		}
 		return amountAsString(amt);
 	}

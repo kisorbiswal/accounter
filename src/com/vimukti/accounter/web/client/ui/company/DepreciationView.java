@@ -259,7 +259,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			year = fromDateCal.get(Calendar.YEAR);
 		}
 
-		openFiscalYears = AccounterValidator.getOpenFiscalYears();
+		// openFiscalYears = AccounterValidator.getOpenFiscalYears();
 
 		toDateCal.set(Calendar.YEAR, year);
 		int month = startDateCal.get(Calendar.MONTH) - 1;

@@ -240,14 +240,15 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 				toDate.setDatethanFireEvent(date);
 			}
 		} else {
-			List<ClientFiscalYear> fiscalYears = Accounter.getCompany()
-					.getFiscalYears();
-			for (ClientFiscalYear fiscalYear : fiscalYears) {
-				if (fiscalYear.getIsCurrentFiscalYear()) {
-					fromDate.setDatethanFireEvent(fiscalYear.getStartDate());
-					break;
-				}
-			}
+			// List<ClientFiscalYear> fiscalYears = Accounter.getCompany()
+			// .getFiscalYears();
+			// for (ClientFiscalYear fiscalYear : fiscalYears) {
+			// if (fiscalYear.getIsCurrentFiscalYear()) {
+			fromDate.setDatethanFireEvent(Accounter.getCompany()
+					.getCurrentFiscalYearStartDate());
+			// break;
+			// }
+			// }
 		}
 
 	}

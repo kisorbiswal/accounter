@@ -12,6 +12,7 @@ import java.util.Set;
 
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.util.ChangeType;
 import com.vimukti.accounter.web.client.util.CoreEvent;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
@@ -1253,9 +1254,9 @@ public class ClientCompany implements IAccounterCore {
 		return Utility.getObject(this.vatReturnBoxes, id);
 	}
 
-	public ClientFiscalYear getFixelYear(long id) {
-		return Utility.getObject(this.fiscalYears, id);
-	}
+	// public ClientFiscalYear getFixelYear(long id) {
+	// return Utility.getObject(this.fiscalYears, id);
+	// }
 
 	public ClientBrandingTheme getBrandingTheme(long id) {
 		return Utility.getObject(this.brandingTheme, id);
@@ -1475,15 +1476,15 @@ public class ClientCompany implements IAccounterCore {
 		}
 	}
 
-	public void deleteFixelYear(long fixelYearId) {
-
-		ClientFiscalYear clientFiscalYear = this.getFixelYear(fixelYearId);
-		if (clientFiscalYear != null) {
-			this.fiscalYears.remove(clientFiscalYear);
-			fireEvent(new CoreEvent<ClientFiscalYear>(ChangeType.DELETE,
-					clientFiscalYear));
-		}
-	}
+	// public void deleteFixelYear(long fixelYearId) {
+	//
+	// ClientFiscalYear clientFiscalYear = this.getFixelYear(fixelYearId);
+	// if (clientFiscalYear != null) {
+	// this.fiscalYears.remove(clientFiscalYear);
+	// fireEvent(new CoreEvent<ClientFiscalYear>(ChangeType.DELETE,
+	// clientFiscalYear));
+	// }
+	// }
 
 	public void deleteBrandingTheme(long themeId) {
 		ClientBrandingTheme clientBrandingTheme = this
@@ -1842,11 +1843,12 @@ public class ClientCompany implements IAccounterCore {
 				Utility.updateClientList(vaReturn, this.vatReturns);
 				break;
 
-			case FISCALYEAR:
-				ClientFiscalYear fiscalYear = (ClientFiscalYear) accounterCoreObject;
-				Utility.updateClientList(fiscalYear, this.fiscalYears);
-				sortFiscalYears();
-				break;
+			// case FISCALYEAR:
+			// ClientFiscalYear fiscalYear = (ClientFiscalYear)
+			// accounterCoreObject;
+			// Utility.updateClientList(fiscalYear, this.fiscalYears);
+			// sortFiscalYears();
+			// break;
 
 			case COMPANY_PREFERENCES:
 				this.preferences = (ClientCompanyPreferences) accounterCoreObject;
@@ -2022,9 +2024,9 @@ public class ClientCompany implements IAccounterCore {
 		case VATRETURN:
 			deleteVAtReturn(id);
 			break;
-		case FISCALYEAR:
-			deleteFixelYear(id);
-			break;
+		// case FISCALYEAR:
+		// deleteFixelYear(id);
+		// break;
 		case BRANDINGTHEME:
 			deleteBrandingTheme(id);
 			break;
@@ -2274,82 +2276,101 @@ public class ClientCompany implements IAccounterCore {
 
 	}
 
-	public ClientFinanceDate getLastandOpenedFiscalYearStartDate() {
-		List<ClientFiscalYear> clientFiscalYears = getFiscalYears();
-		if (!clientFiscalYears.isEmpty())
-			return clientFiscalYears.get((clientFiscalYears.size() - 1))
-					.getStartDate();
-		return null;
-	}
+	// public ClientFinanceDate getLastandOpenedFiscalYearStartDate() {
+	// List<ClientFiscalYear> clientFiscalYears = getFiscalYears();
+	// if (!clientFiscalYears.isEmpty())
+	// return clientFiscalYears.get((clientFiscalYears.size() - 1))
+	// .getStartDate();
+	// return null;
+	// }
 
 	public ClientFinanceDate getCurrentFiscalYearStartDate() {
-		List<ClientFiscalYear> clientFiscalYears = getFiscalYears();
-		boolean isCurrentOne = false;
-		for (int i = clientFiscalYears.size() - 1; i >= 0; i--) {
-			isCurrentOne = new ClientFinanceDate().before(clientFiscalYears
-					.get(i).getEndDate())
-					&& new ClientFinanceDate().after(clientFiscalYears.get(i)
-							.getStartDate());
-			if (isCurrentOne)
-				return clientFiscalYears.get(i).getStartDate();
-		}
-		if (!isCurrentOne) {
-			return getLastandOpenedFiscalYearStartDate();
-		}
-		return null;
+
+		ClientFinanceDate startDate = new ClientFinanceDate();
+		startDate.setMonth(preferences.getFiscalYearFirstMonth() + 1);
+		startDate.setDay(1);
+
+		// List<ClientFiscalYear> clientFiscalYears = getFiscalYears();
+		// boolean isCurrentOne = false;
+		// for (int i = clientFiscalYears.size() - 1; i >= 0; i--) {
+		// isCurrentOne = new ClientFinanceDate().before(clientFiscalYears
+		// .get(i).getEndDate())
+		// && new ClientFinanceDate().after(clientFiscalYears.get(i)
+		// .getStartDate());
+		// if (isCurrentOne)
+		// return clientFiscalYears.get(i).getStartDate();
+		// }
+		// if (!isCurrentOne) {
+		// return getLastandOpenedFiscalYearStartDate();
+		// }
+		return startDate;
 	}
 
 	public ClientFinanceDate getCurrentFiscalYearEndDate() {
-		List<ClientFiscalYear> clientFiscalYears = getFiscalYears();
-		boolean isCurrentOne = false;
-		for (int i = clientFiscalYears.size() - 1; i >= 0; i--) {
-			isCurrentOne = new ClientFinanceDate().before(clientFiscalYears
-					.get(i).getEndDate())
-					&& new ClientFinanceDate().after(clientFiscalYears.get(i)
-							.getStartDate());
-			if (isCurrentOne)
-				return clientFiscalYears.get(i).getEndDate();
-		}
-		if (!isCurrentOne) {
-			return getLastandOpenedFiscalYearEndDate();
-		}
-		return null;
+
+		ClientFinanceDate startDate = new ClientFinanceDate();
+		startDate.setMonth(preferences.getFiscalYearFirstMonth() + 1);
+		startDate.setDay(1);
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(startDate.getDateAsObject());
+		calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 1);
+		calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - 1);
+		calendar.set(Calendar.DATE,
+				calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+		ClientFinanceDate endDate = new ClientFinanceDate(calendar.getTime());
+
+		// List<ClientFiscalYear> clientFiscalYears = getFiscalYears();
+		// boolean isCurrentOne = false;
+		// for (int i = clientFiscalYears.size() - 1; i >= 0; i--) {
+		// isCurrentOne = new ClientFinanceDate().before(clientFiscalYears
+		// .get(i).getEndDate())
+		// && new ClientFinanceDate().after(clientFiscalYears.get(i)
+		// .getStartDate());
+		// if (isCurrentOne)
+		// return clientFiscalYears.get(i).getEndDate();
+		// }
+		// if (!isCurrentOne) {
+		// return getLastandOpenedFiscalYearEndDate();
+		// }
+		return endDate;
 	}
 
-	public ClientFinanceDate getLastandOpenedFiscalYearEndDate() {
-		List<ClientFiscalYear> clientFiscalYears = getFiscalYears();
+	// public ClientFinanceDate getLastandOpenedFiscalYearEndDate() {
+	// List<ClientFiscalYear> clientFiscalYears = getFiscalYears();
+	//
+	// if (!clientFiscalYears.isEmpty())
+	// return clientFiscalYears.get((clientFiscalYears.size() - 1))
+	// .getEndDate();
+	//
+	// return null;
+	// }
 
-		if (!clientFiscalYears.isEmpty())
-			return clientFiscalYears.get((clientFiscalYears.size() - 1))
-					.getEndDate();
+	// public boolean isCurrentInFiscalYear(long date) {
+	// List<ClientFiscalYear> clientFiscalYears = getFiscalYears();
+	// boolean isCurrentOne = false;
+	// for (int i = clientFiscalYears.size() - 1; i >= 0; i--) {
+	// long startDate = Math.round(clientFiscalYears.get(i).getStartDate()
+	// .getDate() / 100);
+	// long endDate = Math.round(clientFiscalYears.get(i).getEndDate()
+	// .getDate() / 100);
+	// isCurrentOne = (date >= startDate) && (date <= endDate);
+	// if (isCurrentOne)
+	// return true;
+	// }
+	// return false;
+	// }
 
-		return null;
-	}
-
-	public boolean isCurrentInFiscalYear(long date) {
-		List<ClientFiscalYear> clientFiscalYears = getFiscalYears();
-		boolean isCurrentOne = false;
-		for (int i = clientFiscalYears.size() - 1; i >= 0; i--) {
-			long startDate = Math.round(clientFiscalYears.get(i).getStartDate()
-					.getDate() / 100);
-			long endDate = Math.round(clientFiscalYears.get(i).getEndDate()
-					.getDate() / 100);
-			isCurrentOne = (date >= startDate) && (date <= endDate);
-			if (isCurrentOne)
-				return true;
-		}
-		return false;
-	}
-
-	public void sortFiscalYears() {
-		Collections.sort(getFiscalYears(), new Comparator<ClientFiscalYear>() {
-
-			@Override
-			public int compare(ClientFiscalYear o1, ClientFiscalYear o2) {
-				return o1.getStartDate().compareTo(o2.getStartDate());
-			}
-		});
-	}
+	// public void sortFiscalYears() {
+	// Collections.sort(getFiscalYears(), new Comparator<ClientFiscalYear>() {
+	//
+	// @Override
+	// public int compare(ClientFiscalYear o1, ClientFiscalYear o2) {
+	// return o1.getStartDate().compareTo(o2.getStartDate());
+	// }
+	// });
+	// }
 
 	/**
 	 * @return the transactionStartDate
@@ -2486,11 +2507,12 @@ public class ClientCompany implements IAccounterCore {
 		}
 		clientCompany.customers = customers;
 
-		ArrayList<ClientFiscalYear> fiscalYears = new ArrayList<ClientFiscalYear>();
-		for (ClientFiscalYear clientFiscalYear : this.fiscalYears) {
-			fiscalYears.add(clientFiscalYear.clone());
-		}
-		clientCompany.fiscalYears = fiscalYears;
+		// ArrayList<ClientFiscalYear> fiscalYears = new
+		// ArrayList<ClientFiscalYear>();
+		// for (ClientFiscalYear clientFiscalYear : this.fiscalYears) {
+		// fiscalYears.add(clientFiscalYear.clone());
+		// }
+		// clientCompany.fiscalYears = fiscalYears;
 
 		ArrayList<ClientFixedAsset> fixedAssets = new ArrayList<ClientFixedAsset>();
 		for (ClientFixedAsset clientfixedAsset : this.fixedAssets) {

@@ -106,10 +106,11 @@ public class NewCustomerPaymentView extends
 		// 3. payForm.validate?
 		// 4. isNegativeAmount?
 
-		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
-			result.addError(transactionDateItem,
-					accounterConstants.invalidateTransactionDate());
-		}
+		// if (!AccounterValidator.isValidTransactionDate(this.transactionDate))
+		// {
+		// result.addError(transactionDateItem,
+		// accounterConstants.invalidateTransactionDate());
+		// }
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
 			result.addError(transactionDateItem,

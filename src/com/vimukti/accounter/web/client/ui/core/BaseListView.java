@@ -210,7 +210,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		toItem.setHelpInformation(true);
 		toItem.setTitle(Accounter.constants().to());
 		toItem.setDatethanFireEvent(Accounter.getCompany()
-				.getLastandOpenedFiscalYearEndDate());
+				.getCurrentFiscalYearEndDate());
+		// .getLastandOpenedFiscalYearEndDate());
 
 		updateButton = new Button(Accounter.constants().update());
 		updateButton.addClickHandler(new ClickHandler() {

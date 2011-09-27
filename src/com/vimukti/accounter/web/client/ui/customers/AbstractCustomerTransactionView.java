@@ -751,10 +751,11 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 			customerCombo.setValue("");
 		}
 
-		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
-			result.addError(transactionDateItem,
-					customerConstants.invalidateTransactionDate());
-		}
+		// if (!AccounterValidator.isValidTransactionDate(this.transactionDate))
+		// {
+		// result.addError(transactionDateItem,
+		// customerConstants.invalidateTransactionDate());
+		// }
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
 			result.addError(transactionDateItem,

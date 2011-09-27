@@ -108,7 +108,8 @@ public class ExpenseReportToolbar extends ReportToolbar {
 		}
 		dateRangeCombo.initCombo(dateRangeList);
 		dateRangeCombo.setDefaultValue(dateRangeArray[0]);
-		dateRangeCombo.setComboItem(Accounter.constants().financialYearToDate());
+		dateRangeCombo
+				.setComboItem(Accounter.constants().financialYearToDate());
 		dateRangeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -128,7 +129,8 @@ public class ExpenseReportToolbar extends ReportToolbar {
 		toItem = new DateItem();
 		toItem.setHelpInformation(true);
 		ClientFinanceDate date = Accounter.getCompany()
-				.getLastandOpenedFiscalYearEndDate();
+				.getCurrentFiscalYearEndDate();
+		// .getLastandOpenedFiscalYearEndDate();
 
 		if (date != null)
 			toItem.setDatethanFireEvent(date);

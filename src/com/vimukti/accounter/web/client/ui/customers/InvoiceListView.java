@@ -49,14 +49,16 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 	public InvoiceListView() {
 		isDeleteDisable = true;
 		startDate = Accounter.getStartDate();
-		endDate = getCompany().getLastandOpenedFiscalYearEndDate();
+		endDate = getCompany().getCurrentFiscalYearEndDate();
+		// getLastandOpenedFiscalYearEndDate();
 	}
 
 	public InvoiceListView(String viewType) {
 		this.viewType = viewType;
 		isDeleteDisable = true;
 		startDate = Accounter.getStartDate();
-		endDate = getCompany().getLastandOpenedFiscalYearEndDate();
+		endDate = getCompany().getCurrentFiscalYearEndDate();
+		// getLastandOpenedFiscalYearEndDate();
 	}
 
 	// @Override
@@ -245,7 +247,8 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 	public void dateRangeChanged(String dateRange) {
 		ClientFinanceDate date = new ClientFinanceDate();
 		startDate = Accounter.getStartDate();
-		endDate = getCompany().getLastandOpenedFiscalYearEndDate();
+		endDate = getCompany().getCurrentFiscalYearEndDate();
+		// getLastandOpenedFiscalYearEndDate();
 		if (dateRange.equals(Accounter.constants().all())) {
 			getMinimumAndMaximumDates();
 			return;
@@ -306,12 +309,14 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 		}
 		if (dateRange.equals(Accounter.constants().thisFinancialQuarter())) {
 			startDate = new ClientFinanceDate();
-			endDate = getCompany().getLastandOpenedFiscalYearEndDate();
+			endDate = getCompany().getCurrentFiscalYearEndDate();
+			// getLastandOpenedFiscalYearEndDate();
 			getCurrentQuarter();
 		}
 		if (dateRange.equals(Accounter.constants().lastFinancialQuarter())) {
 			startDate = new ClientFinanceDate();
-			endDate = getCompany().getLastandOpenedFiscalYearEndDate();
+			endDate = getCompany().getCurrentFiscalYearEndDate();
+			// getLastandOpenedFiscalYearEndDate();
 			getCurrentQuarter();
 			startDate.setYear(startDate.getYear() - 1);
 			endDate.setYear(endDate.getYear() - 1);

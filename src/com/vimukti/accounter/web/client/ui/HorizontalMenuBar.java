@@ -1045,11 +1045,12 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		if (Accounter.getUser().canChangeSettings()) {
 			companyMenuBar.addItem(Accounter.constants().manageSupportLists(),
 					getManageSupportListSubmenu());
-		}
-		if (Accounter.getUser().canManageFiscalYears()) {
-			companyMenuBar.addItem(ActionFactory.getManageFiscalYearAction());
 			companyMenuBar.addSeparator();
 		}
+		// if (Accounter.getUser().canManageFiscalYears()) {
+		// companyMenuBar.addItem(ActionFactory.getManageFiscalYearAction());
+		// companyMenuBar.addSeparator();
+		// }
 
 		// FIXME > Need Complete merging functionality
 		// companyMenuBar.addItem(

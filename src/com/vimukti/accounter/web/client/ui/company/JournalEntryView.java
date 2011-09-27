@@ -96,10 +96,12 @@ public class JournalEntryView extends
 					.memoCannotExceedsmorethan255Characters());
 
 		}
-		if (!AccounterValidator.isValidTransactionDate(getTransactionDate())) {
-			result.addError(transactionDateItem,
-					accounterConstants.invalidateTransactionDate());
-		} else if (AccounterValidator
+		// if (!AccounterValidator.isValidTransactionDate(getTransactionDate()))
+		// {
+		// result.addError(transactionDateItem,
+		// accounterConstants.invalidateTransactionDate());
+		// } else
+		if (AccounterValidator
 				.isInPreventPostingBeforeDate(getTransactionDate())) {
 			result.addError(transactionDateItem,
 					accounterConstants.invalidateDate());
@@ -334,7 +336,7 @@ public class JournalEntryView extends
 
 		gridPanel.add(grid);
 		gridPanel.setWidth("100%");
-		
+
 		HorizontalPanel hPanel = new HorizontalPanel();
 		hPanel.add(addButton);
 		hPanel.getElement().getStyle().setMarginTop(8, Unit.PX);

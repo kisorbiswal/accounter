@@ -870,10 +870,11 @@ public class CreditCardChargeView extends
 			// 5. if(isBlankTransation(vendorTransactionGrid)) ERROR
 			// 6. vendorTransactionGrid validation
 
-			if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-				result.addError(transactionDate,
-						accounterConstants.invalidateTransactionDate());
-			}
+			// if (!AccounterValidator.isValidTransactionDate(transactionDate))
+			// {
+			// result.addError(transactionDate,
+			// accounterConstants.invalidateTransactionDate());
+			// }
 
 			if (AccounterValidator
 					.isInPreventPostingBeforeDate(transactionDate)) {

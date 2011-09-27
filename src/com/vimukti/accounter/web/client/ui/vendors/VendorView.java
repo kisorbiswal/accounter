@@ -32,7 +32,6 @@ import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEmail;
 import com.vimukti.accounter.web.client.core.ClientFax;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPhone;
@@ -135,7 +134,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	LinkedHashMap<String, String> shipMethodMap;
 	LinkedHashMap<String, String> vendorGroupMap;
 
-	private ClientFiscalYear fiscalYear;
+	// private ClientFiscalYear fiscalYear;
 
 	protected ClientAccount selectAccountFromDetailsTab;
 	protected ClientShippingMethod selectShippingMethodFromDetailsTab;
@@ -162,22 +161,22 @@ public class VendorView extends BaseView<ClientVendor> {
 		super();
 	}
 
-	private void getFiscalYear() {
-		List<ClientFiscalYear> result = getCompany().getFiscalYears();
-		if (result != null && !isInViewMode()) {
-			for (ClientFiscalYear fiscalYear : result) {
-				if (fiscalYear != null && fiscalYear.getIsCurrentFiscalYear()) {
-					if (fiscalYear != null
-							&& fiscalYear.getIsCurrentFiscalYear()) {
-						VendorView.this.fiscalYear = fiscalYear;
-						// balanceDate.setEnteredDate(VendorView.this.fiscalYear
-						// .getStartDate());
-						break;
-					}
-				}
-			}
-		}
-	}
+	// private void getFiscalYear() {
+	// List<ClientFiscalYear> result = getCompany().getFiscalYears();
+	// if (result != null && !isInViewMode()) {
+	// for (ClientFiscalYear fiscalYear : result) {
+	// if (fiscalYear != null && fiscalYear.getIsCurrentFiscalYear()) {
+	// if (fiscalYear != null
+	// && fiscalYear.getIsCurrentFiscalYear()) {
+	// VendorView.this.fiscalYear = fiscalYear;
+	// // balanceDate.setEnteredDate(VendorView.this.fiscalYear
+	// // .getStartDate());
+	// break;
+	// }
+	// }
+	// }
+	// }
+	// }
 
 	private void createControls() {
 
@@ -1131,7 +1130,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			setData(new ClientVendor());
 		}
 		company = getCompany();
-		getFiscalYear();
+		// getFiscalYear();
 		addAccountsToList();
 		addVendorGroupList();
 		if (getPreferences().isTrackTax()) {
