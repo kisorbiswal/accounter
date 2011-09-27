@@ -620,13 +620,13 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			defaultVATAgency.setVATReturn(VATReturn.VAT_RETURN_UK_VAT);
 
 			defaultVATAgency.setSalesLiabilityAccount((Account) session
-					.getNamedQuery("unique.name.Account")
+					.getNamedQuery("unique.name.Account").setEntity("company", company)
 					.setString(0,
 							AccounterServerConstants.SALES_TAX_VAT_UNFILED)
 					.list().get(0));
 
 			defaultVATAgency.setPurchaseLiabilityAccount((Account) session
-					.getNamedQuery("unique.name.Account")
+					.getNamedQuery("unique.name.Account").setEntity("company", company)
 					.setString(0,
 							AccounterServerConstants.SALES_TAX_VAT_UNFILED)
 					.list().get(0));
