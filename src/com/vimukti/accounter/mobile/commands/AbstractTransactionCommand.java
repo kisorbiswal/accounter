@@ -944,8 +944,18 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	}
 
 	private List<BankAccount> getBankAccounts() {
-		// TODO
-		return null;
+
+		List<BankAccount> bankAccounts = new ArrayList<BankAccount>();
+		FinanceTool financeTool = new FinanceTool();
+		ArrayList<Account> accountsListBySorted = financeTool
+				.getAccountsListBySorted();
+		for (Account a : accountsListBySorted) {
+			if (a.getType() == Account.TYPE_BANK) {
+				bankAccounts.add((BankAccount) a);
+			}
+		}
+
+		return bankAccounts;
 	}
 
 	protected Result accountsRequirement(Context context) {
