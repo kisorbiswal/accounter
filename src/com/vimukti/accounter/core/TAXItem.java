@@ -200,12 +200,13 @@ public class TAXItem extends TAXItemGroup {
 			this.isSalesType = false;
 		}
 
-		if (Company.getCompany() != null
-				&& Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-			this.isSalesType = true;
-			TAXCode taxCode = new TAXCode((TAXItemGroup) this);
-			session.saveOrUpdate(taxCode);
-		}
+		// if (Company.getCompany() != null
+		// && Company.getCompany().getAccountingType() ==
+		// Company.ACCOUNTING_TYPE_US) {
+		// this.isSalesType = true;
+		// TAXCode taxCode = new TAXCode((TAXItemGroup) this);
+		// session.saveOrUpdate(taxCode);
+		// }
 		super.onSave(session);
 		return false;
 	}
