@@ -14,6 +14,9 @@ public abstract class AmountColumn<T> extends TextEditColumn<T> {
 	@Override
 	public void setValue(T row, String value) {
 		try {
+			if (value.isEmpty()) {
+				value = "0";
+			}
 			setAmount(row, Double.valueOf(value));
 		} catch (NumberFormatException e) {
 		}

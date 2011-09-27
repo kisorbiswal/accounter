@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -27,10 +26,7 @@ public class ProfitAndLossAction extends Action {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			public void onCreated() {
-				if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-					report = new ProfitAndLossUKReport();
-				else
-					report = new ProfitAndLossReport();
+				report = new ProfitAndLossReport();
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent, ProfitAndLossAction.this);
 

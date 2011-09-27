@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
+import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 
 public class CompanyRegisteredDetailsPage extends AbstractCompanyInfoPanel {
 
@@ -53,7 +54,7 @@ public class CompanyRegisteredDetailsPage extends AbstractCompanyInfoPanel {
 	@UiField
 	Label registeredAddress;
 
-	private List<String> countriesList, states;
+	private List<String> countriesList, statesList;
 
 	private ClientAddress address;
 
@@ -117,7 +118,7 @@ public class CompanyRegisteredDetailsPage extends AbstractCompanyInfoPanel {
 			if (address.getStateOrProvinence() != ""
 					&& address.getStateOrProvinence() != null
 					&& address.getStateOrProvinence().length() != 0) {
-				this.stateCombo.setSelectedIndex(states.indexOf(address
+				this.stateCombo.setSelectedIndex(statesList.indexOf(address
 						.getStateOrProvinence()));
 			}
 			if (address.getCountryOrRegion() != ""
@@ -138,7 +139,7 @@ public class CompanyRegisteredDetailsPage extends AbstractCompanyInfoPanel {
 		address.setCity(cityTextBox.getValue());
 		address.setZipOrPostalCode(postalCodeTextBox.getValue());
 		if (stateCombo.getSelectedIndex() != -1) {
-			address.setStateOrProvinence(states.get(stateCombo
+			address.setStateOrProvinence(statesList.get(stateCombo
 					.getSelectedIndex()));
 		}
 		if (countryCombo.getSelectedIndex() != -1)
@@ -153,17 +154,18 @@ public class CompanyRegisteredDetailsPage extends AbstractCompanyInfoPanel {
 		if (selectedCountry < 0) {
 			return;
 		}
-		List<String> states = CoreUtils.getStatesAsListForCountry(countryCombo
-				.getItemText(selectedCountry));
+		String[] states = CountryPreferenceFactory.get(
+				countryCombo.getItemText(selectedCountry)).getStates();
 		setStates(states);
 
 	}
 
-	private void setStates(List<String> states2) {
-		this.states = states2;
+	private void setStates(String[] states) {
+		statesList = new ArrayList<String>();
 		stateCombo.clear();
-		for (int i = 0; i < states.size(); i++) {
-			stateCombo.addItem(states.get(i));
+		for (int i = 0; i < states.length; i++) {
+			statesList.add(states[i]);
+			stateCombo.addItem(states[i]);
 		}
 
 	}

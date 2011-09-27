@@ -18,7 +18,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAddress;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -88,6 +87,7 @@ public class VendorBillView extends
 	protected VendorAccountTransactionTable vendorAccountTransactionTable;
 	protected VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
+	private DynamicForm totalForm = new DynamicForm();
 
 	private VendorBillView() {
 		super(ClientTransaction.TYPE_ENTER_BILL);
@@ -137,11 +137,26 @@ public class VendorBillView extends
 			phoneSelect.setValue(transaction.getPhone());
 			phoneSelect.setDisabled(true);
 			transactionNumber.setValue(transaction.getNumber());
-			if (getCompany().getPreferences().isRegisteredForVAT()) {
-				netAmount.setAmount(transaction.getNetAmount());
-				vatTotalNonEditableText.setAmount(transaction.getTotal()
-						- transaction.getNetAmount());
+			// if (isTrackTax()) {
+			// netAmount.setAmount(transaction.getNetAmount());
+			// vatTotalNonEditableText.setAmount(transaction.getTotal()
+			// - transaction.getNetAmount());
+			// }
+
+			if (getPreferences().isTrackPaidTax()) {
+				if (getPreferences().isTaxPerDetailLine()) {
+					netAmount.setAmount(transaction.getNetAmount());
+					vatTotalNonEditableText.setAmount(transaction.getTotal()
+							- transaction.getNetAmount());
+				} else {
+					this.taxCode = getTaxCodeForTransactionItems(transaction
+							.getTransactionItems());
+					if (taxCode != null) {
+						this.taxCodeSelect.setComboItem(taxCode);
+					}
+				}
 			}
+
 			transactionTotalNonEditableText.setAmount(transaction.getTotal());
 
 			balanceDueNonEditableText.setAmount(transaction.getBalanceDue());
@@ -431,6 +446,15 @@ public class VendorBillView extends
 		phoneSelect.setDisabled(false);
 		// formItems.add(phoneSelect);
 
+		dueDateItem = new DateField(Accounter.constants().dueDate());
+		dueDateItem.setToolTip(Accounter.messages().selectDateUntilDue(
+				this.getAction().getViewName()));
+		dueDateItem.setHelpInformation(true);
+		dueDateItem.setEnteredDate(getTransactionDate());
+		dueDateItem.setColSpan(1);
+		dueDateItem.setTitle(Accounter.constants().dueDate());
+		dueDateItem.setDisabled(isInViewMode());
+
 		paymentTermsCombo = new PaymentTermsCombo(Accounter.constants()
 				.paymentTerms());
 		paymentTermsCombo.setHelpInformation(true);
@@ -447,15 +471,6 @@ public class VendorBillView extends
 					}
 
 				});
-
-		dueDateItem = new DateField(Accounter.constants().dueDate());
-		dueDateItem.setToolTip(Accounter.messages().selectDateUntilDue(
-				this.getAction().getViewName()));
-		dueDateItem.setHelpInformation(true);
-		dueDateItem.setEnteredDate(getTransactionDate());
-		dueDateItem.setColSpan(1);
-		dueDateItem.setTitle(Accounter.constants().dueDate());
-		dueDateItem.setDisabled(isInViewMode());
 
 		deliveryDateItem = createTransactionDeliveryDateItem();
 		// deliveryDateItem.setWidth(100);
@@ -488,7 +503,8 @@ public class VendorBillView extends
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
 
-		vendorAccountTransactionTable = new VendorAccountTransactionTable() {
+		vendorAccountTransactionTable = new VendorAccountTransactionTable(
+				isTrackTax() && isTrackPaidTax(), isTaxPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -523,7 +539,8 @@ public class VendorBillView extends
 		accountsDisclosurePanel.setOpen(true);
 		accountsDisclosurePanel.setWidth("100%");
 
-		vendorItemTransactionTable = new VendorItemTransactionTable() {
+		vendorItemTransactionTable = new VendorItemTransactionTable(
+				isTrackTax(), isTaxPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -585,15 +602,29 @@ public class VendorBillView extends
 
 		DynamicForm vatCheckform = new DynamicForm();
 		// vatCheckform.setFields(vatinclusiveCheck);
-		DynamicForm totalForm = new DynamicForm();
+
 		totalForm.setWidth("100%");
-		totalForm.setStyleName("invoice-total");
+		totalForm.setStyleName("boldtext");
 		// netAmount.setWidth((netAmount.getMainWidget().getOffsetWidth() +
 		// "102")
 		// + "px");
+		HorizontalPanel taxPanel = new HorizontalPanel();
+		taxPanel.setWidth("100%");
+		if (isTrackPaidTax()) {
+			if (!isTaxPerDetailLine()) {
+				DynamicForm form = new DynamicForm();
+				form.setFields(taxCodeSelect);
+				taxPanel.add(form);
+				taxPanel.setCellHorizontalAlignment(form,
+						HasHorizontalAlignment.ALIGN_LEFT);
+			}
+			totalForm.setFields(netAmount, vatTotalNonEditableText,
+					transactionTotalNonEditableText);
 
-		totalForm.setFields(netAmount, vatTotalNonEditableText,
-				transactionTotalNonEditableText);
+		} else {
+			totalForm.setFields(transactionTotalNonEditableText);
+		}
+		taxPanel.add(totalForm);
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.add(tdsForm);
@@ -624,63 +655,64 @@ public class VendorBillView extends
 		bottompanel.setWidth("100%");
 		//
 
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		// if (isTrackTax()) {
 
-			VerticalPanel verticalPanel = new VerticalPanel();
-			verticalPanel.setWidth("100%");
-			verticalPanel.setHorizontalAlignment(ALIGN_RIGHT);
-			VerticalPanel vpanel = new VerticalPanel();
-			vpanel.setHorizontalAlignment(ALIGN_RIGHT);
-			// vpanel.setWidth("100%");
+		VerticalPanel verticalPanel = new VerticalPanel();
+		verticalPanel.setWidth("100%");
+		verticalPanel.setHorizontalAlignment(ALIGN_RIGHT);
+		VerticalPanel vpanel = new VerticalPanel();
+		vpanel.setHorizontalAlignment(ALIGN_RIGHT);
+		// vpanel.setWidth("100%");
 
-			// vpanel.add(hpanel);
-			bottomLayout.add(memoForm);
-			bottomLayout.add(totalForm);
-			bottomLayout.setCellWidth(totalForm, "30%");
-			bottompanel.add(vpanel);
-			bottompanel.add(verticalPanel);
+		// vpanel.add(hpanel);
+		bottomLayout.add(memoForm);
+		bottomLayout.add(taxPanel);
+		bottomLayout.setCellWidth(totalForm, "30%");
+		bottompanel.add(vpanel);
+		bottompanel.add(verticalPanel);
 
-			bottompanel.add(bottomLayout);
+		bottompanel.add(bottomLayout);
 
-			// VerticalPanel vPanel = new VerticalPanel();
-			// vPanel.add(menuButton);
-			// vPanel.add(memoForm);
-			// vPanel.setWidth("100%");
-			//
-			// bottomLayout.add(vPanel);
-			// bottomLayout.add(vatCheckform);
-			// // bottomLayout.setHorizontalAlignment(align)
-			// bottomLayout.setCellHorizontalAlignment(vatCheckform,
-			// HasHorizontalAlignment.ALIGN_RIGHT);
-			// bottomLayout.add(totalForm);
-			// bottomLayout.setCellHorizontalAlignment(totalForm,
-			// HasHorizontalAlignment.ALIGN_RIGHT);
-		} else if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
-			// bottomLayout.add(horizontalPanel);
-			// bottomLayout.add(totalForm);
-			// bottomLayout.setCellWidth(totalForm, "30%");
-			//
-			// memoForm.setStyleName("align-form");
-			// VerticalPanel vPanel = new VerticalPanel();
-			// vPanel.add(hpanel);
-			// vPanel.setWidth("100%");
-			//
-			// vPanel.setCellHorizontalAlignment(hpanel, ALIGN_RIGHT);
-			// vPanel.add(horizontalPanel);
-			// vPanel.add(memoForm);
-			//
-			// bottompanel.add(vPanel);
-			// bottompanel.add(bottomLayout);
+		// VerticalPanel vPanel = new VerticalPanel();
+		// vPanel.add(menuButton);
+		// vPanel.add(memoForm);
+		// vPanel.setWidth("100%");
+		//
+		// bottomLayout.add(vPanel);
+		// bottomLayout.add(vatCheckform);
+		// // bottomLayout.setHorizontalAlignment(align)
+		// bottomLayout.setCellHorizontalAlignment(vatCheckform,
+		// HasHorizontalAlignment.ALIGN_RIGHT);
+		// bottomLayout.add(totalForm);
+		// bottomLayout.setCellHorizontalAlignment(totalForm,
+		// HasHorizontalAlignment.ALIGN_RIGHT);
+		// } else if (getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_INDIA) {
+		// bottomLayout.add(horizontalPanel);
+		// bottomLayout.add(totalForm);
+		// bottomLayout.setCellWidth(totalForm, "30%");
+		//
+		// memoForm.setStyleName("align-form");
+		// VerticalPanel vPanel = new VerticalPanel();
+		// vPanel.add(hpanel);
+		// vPanel.setWidth("100%");
+		//
+		// vPanel.setCellHorizontalAlignment(hpanel, ALIGN_RIGHT);
+		// vPanel.add(horizontalPanel);
+		// vPanel.add(memoForm);
+		//
+		// bottompanel.add(vPanel);
+		// bottompanel.add(bottomLayout);
 
-		} else {
-			memoForm.setStyleName("align-form");
-			VerticalPanel vPanel = new VerticalPanel();
-			vPanel.setWidth("100%");
-
-			vPanel.add(memoForm);
-
-			bottompanel.add(vPanel);
-		}
+		// } else {
+		// memoForm.setStyleName("align-form");
+		// VerticalPanel vPanel = new VerticalPanel();
+		// vPanel.setWidth("100%");
+		//
+		// vPanel.add(memoForm);
+		//
+		// bottompanel.add(vPanel);
+		// }
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.add(lab1);
@@ -722,14 +754,16 @@ public class VendorBillView extends
 		selectedPaymentTerm = selectItem;
 
 		// paymentTermsCombo.setComboItem(selectedPaymentTerm);
-		if (isInViewMode()) {
-			// setDueDate(((ClientEnterBill) transactionObject).getDueDate());
-			setDueDate(Utility.getCalculatedDueDate(getTransactionDate(),
-					selectedPaymentTerm).getDate());
-		} else {
-			setDueDate(Utility.getCalculatedDueDate(getTransactionDate(),
-					selectedPaymentTerm).getDate());
-		}
+		// if (isInViewMode()) {
+		// // setDueDate(((ClientEnterBill) transactionObject).getDueDate());
+		// setDueDate(Utility.getCalculatedDueDate(getTransactionDate(),
+		// selectedPaymentTerm).getDate());
+		// } else {
+		// setDueDate(Utility.getCalculatedDueDate(getTransactionDate(),
+		// selectedPaymentTerm).getDate());
+		// }
+
+		setDueDate(Utility.getPaymentTermsDate(selectedPaymentTerm).getDate());
 	}
 
 	@Override
@@ -799,8 +833,12 @@ public class VendorBillView extends
 		if (selectedPurchaseOrder != 0)
 			transaction.setPurchaseOrder(selectedPurchaseOrder);
 
-		if (getCompany().getPreferences().isRegisteredForVAT())
+		if (isTrackTax()) {
 			transaction.setNetAmount(netAmount.getAmount());
+			if (vatinclusiveCheck != null)
+				transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
+						.getValue());
+		}
 
 		// enterBill.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 		// .getValue());
@@ -819,7 +857,7 @@ public class VendorBillView extends
 
 		transactionTotalNonEditableText.setAmount(grandTotal);
 		netAmount.setAmount(lineTotal);
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (isTrackTax()) {
 			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
 		}
 	}
@@ -843,10 +881,10 @@ public class VendorBillView extends
 		// 4. is valid due date?
 		// 5. isBlank transaction?
 		// 6. is vendor transaction grid valid?
-		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateTransactionDate());
-		}
+		// if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
+		// result.addError(transactionDate,
+		// accounterConstants.invalidateTransactionDate());
+		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
 			result.addError(transactionDate,
@@ -1098,6 +1136,8 @@ public class VendorBillView extends
 	}
 
 	public void onEdit() {
+
+		balanceDueNonEditableText.setVisible(false);
 		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
 
 			@Override
@@ -1147,7 +1187,7 @@ public class VendorBillView extends
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 		vendorTDSTaxCode.setDisabled(isInViewMode());
-
+		taxCodeSelect.setDisabled(isInViewMode());
 		super.onEdit();
 	}
 

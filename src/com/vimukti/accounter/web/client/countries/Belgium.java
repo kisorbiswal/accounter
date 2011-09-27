@@ -7,10 +7,9 @@ public class Belgium extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		String[] states = new String[] { "Antwerpen", "Brabant Wallon",
-				"Brüssel", "Flämisch Brabant", "Hennegau", "Limburg",
-				"Lüttich", "Luxemburg", "Namur", "Ost-Flandern",
-				"West-Flandern" };
+		String[] states = new String[] { "Antwerp", "Limburg",
+				"Flemish Brabant", "East Flanders", "West Flanders", "Hainaut",
+				"Walloon Brabant", "Namur", "Liege", "Luxembourg" };
 		return states;
 	}
 

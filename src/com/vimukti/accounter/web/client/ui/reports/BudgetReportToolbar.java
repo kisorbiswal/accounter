@@ -154,7 +154,8 @@ public class BudgetReportToolbar extends ReportToolbar {
 		fromItem.setDatethanFireEvent(Accounter.getStartDate());
 		fromItem.setTitle(Accounter.constants().from());
 		ClientFinanceDate date = Accounter.getCompany()
-				.getLastandOpenedFiscalYearEndDate();
+				.getCurrentFiscalYearEndDate();
+		// .getLastandOpenedFiscalYearEndDate();
 		fromItem.setValue(date);
 
 		toItem = new DateItem();

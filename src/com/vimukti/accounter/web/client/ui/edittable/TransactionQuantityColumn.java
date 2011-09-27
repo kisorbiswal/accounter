@@ -17,13 +17,11 @@ public class TransactionQuantityColumn extends
 	protected void setQuantity(ClientTransactionItem row,
 			ClientQuantity quantity) {
 		row.setQuantity(quantity);
-		if (row.getType() != ClientTransactionItem.TYPE_SALESTAX) {
-			// TODO doubt, currencyConversion.
-			double lt = quantity.getValue() * row.getUnitPrice();
-			double disc = row.getDiscount();
-			row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
-					* disc / 100)) : lt);
-		}
+		// TODO doubt, currencyConversion.
+		double lt = quantity.getValue() * row.getUnitPrice();
+		double disc = row.getDiscount();
+		row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt * disc / 100))
+				: lt);
 		getTable().update(row);
 	}
 

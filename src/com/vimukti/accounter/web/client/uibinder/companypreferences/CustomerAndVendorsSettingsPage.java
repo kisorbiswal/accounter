@@ -48,13 +48,6 @@ public class CustomerAndVendorsSettingsPage extends AbstractCompanyInfoPanel {
 	}
 
 	private void initData() {
-		if (companyPreferences.isChargeSalesTax()) {
-			chargeTaxYesRadioButton.setValue(true);
-			chargeTaxNoRadioButton.setValue(false);
-		} else {
-			chargeTaxYesRadioButton.setValue(false);
-			chargeTaxNoRadioButton.setValue(true);
-		}
 		if (companyPreferences.isKeepTrackofBills()) {
 			managingBillYesRadioButton.setValue(true);
 			managingBillNoRadioButton.setValue(false);
@@ -105,11 +98,11 @@ public class CustomerAndVendorsSettingsPage extends AbstractCompanyInfoPanel {
 
 	@Override
 	public void onSave() {
-		if (chargeTaxYesRadioButton.getValue()) {
-			companyPreferences.setChargeSalesTax(true);
-		} else {
-			companyPreferences.setChargeSalesTax(false);
-		}
+		// if (chargeTaxYesRadioButton.getValue()) {
+		// companyPreferences.setChargeSalesTax(true);
+		// } else {
+		// companyPreferences.setChargeSalesTax(false);
+		// }
 		if (managingBillYesRadioButton.getValue()) {
 			companyPreferences.setKeepTrackofBills(true);
 		} else {

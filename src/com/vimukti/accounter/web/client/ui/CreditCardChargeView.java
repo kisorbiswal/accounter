@@ -21,10 +21,10 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -39,6 +39,7 @@ import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -92,6 +93,8 @@ public class CreditCardChargeView extends
 	private VendorAccountTransactionTable vendorAccountTransactionTable;
 	private VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
+	private TAXCodeCombo taxCodeSelect;
+	private ClientTAXCode taxCode;
 
 	public CreditCardChargeView() {
 
@@ -287,10 +290,18 @@ public class CreditCardChargeView extends
 					.getDeliveryDate()));
 			delivDate.setDisabled(isInViewMode());
 			phoneSelect.setValue(transaction.getPhone());
-			if (isTrackTax()) {
-				netAmount.setAmount(transaction.getNetAmount());
-				vatTotalNonEditableText.setAmount(transaction.getTotal()
-						- transaction.getNetAmount());
+			if (getPreferences().isTrackPaidTax()) {
+				if (getPreferences().isTaxPerDetailLine()) {
+					netAmount.setAmount(transaction.getNetAmount());
+					vatTotalNonEditableText.setAmount(transaction.getTotal()
+							- transaction.getNetAmount());
+				} else {
+					this.taxCode = getTaxCodeForTransactionItems(transaction
+							.getTransactionItems());
+					if (taxCode != null) {
+						this.taxCodeSelect.setComboItem(taxCode);
+					}
+				}
 			}
 			transactionTotalNonEditableText.setAmount(transaction.getTotal());
 
@@ -471,10 +482,7 @@ public class CreditCardChargeView extends
 		payFrmSelect.setColSpan(0);
 		// formItems.add(payFrmSelect);
 
-		cheqNoText = new TextItem(
-				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-						.constants().chequeNo() : Accounter.constants()
-						.checkNo());
+		cheqNoText = new TextItem(Accounter.constants().chequeNo());
 		cheqNoText.setHelpInformation(true);
 		cheqNoText.setDisabled(isInViewMode());
 		cheqNoText.setWidth(100);
@@ -513,7 +521,8 @@ public class CreditCardChargeView extends
 				.amountIncludesVat());
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
-		vendorAccountTransactionTable = new VendorAccountTransactionTable() {
+		vendorAccountTransactionTable = new VendorAccountTransactionTable(
+				isTrackTax() && isTrackPaidTax(), isTaxPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -547,7 +556,8 @@ public class CreditCardChargeView extends
 		accountsDisclosurePanel.setOpen(true);
 		accountsDisclosurePanel.setWidth("100%");
 
-		vendorItemTransactionTable = new VendorItemTransactionTable() {
+		vendorItemTransactionTable = new VendorItemTransactionTable(
+				isTrackTax(), isTaxPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -600,14 +610,14 @@ public class CreditCardChargeView extends
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setNumCols(2);
 		totalForm.setWidth("100%");
-		totalForm.setStyleName("invoice-total");
+		totalForm.setStyleName("boldtext");
 		// totText = new AmountField(FinanceApplication.constants()
 		// .total());
 		// totText.setWidth(100);
 
 		totForm = new DynamicForm();
 		totForm.setWidth("100%");
-		totForm.addStyleName("unused-payments");
+		totForm.addStyleName("boldtext");
 		totForm.getElement().getStyle().setMarginTop(10, Unit.PX);
 
 		botPanel = new HorizontalPanel();
@@ -623,8 +633,14 @@ public class CreditCardChargeView extends
 			vPanel.setHorizontalAlignment(ALIGN_RIGHT);
 			vPanel.setWidth("100%");
 			vPanel.add(totalForm);
-
 			botPanel.add(memoForm);
+			if (!isTaxPerDetailLine()) {
+				taxCodeSelect = createTaxCodeSelectItem();
+				// taxCodeSelect.setVisible(isInViewMode());
+				DynamicForm form = new DynamicForm();
+				form.setFields(taxCodeSelect);
+				botPanel.add(form);
+			}
 			botPanel.add(totalForm);
 			botPanel.setCellWidth(totalForm, "30%");
 
@@ -854,10 +870,11 @@ public class CreditCardChargeView extends
 			// 5. if(isBlankTransation(vendorTransactionGrid)) ERROR
 			// 6. vendorTransactionGrid validation
 
-			if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-				result.addError(transactionDate,
-						accounterConstants.invalidateTransactionDate());
-			}
+			// if (!AccounterValidator.isValidTransactionDate(transactionDate))
+			// {
+			// result.addError(transactionDate,
+			// accounterConstants.invalidateTransactionDate());
+			// }
 
 			if (AccounterValidator
 					.isInPreventPostingBeforeDate(transactionDate)) {
@@ -961,6 +978,7 @@ public class CreditCardChargeView extends
 		itemTableButton.setEnabled(!isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
+		taxCodeSelect.setDisabled(isInViewMode());
 		super.onEdit();
 
 	}
@@ -1069,5 +1087,17 @@ public class CreditCardChargeView extends
 		list.addAll(vendorAccountTransactionTable.getRecords());
 		list.addAll(vendorItemTransactionTable.getRecords());
 		return list;
+	}
+
+	@Override
+	protected void taxCodeSelected(ClientTAXCode taxCode) {
+		this.taxCode = taxCode;
+		if (taxCode != null) {
+			taxCodeSelect.setComboItem(taxCode);
+			vendorAccountTransactionTable.setTaxCode(taxCode.getID(), true);
+			vendorItemTransactionTable.setTaxCode(taxCode.getID(), true);
+		} else {
+			taxCodeSelect.setValue("");
+		}
 	}
 }

@@ -15,10 +15,11 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 public class NewTAXCodeAction extends Action<ClientTAXCode> {
 
 	private NewTAXCodeView view;
+	private String taxCodeName;
 
 	public NewTAXCodeAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().vat();
+		this.catagory = Accounter.constants().tax();
 	}
 
 	@Override
@@ -43,6 +44,7 @@ public class NewTAXCodeAction extends Action<ClientTAXCode> {
 
 			public void onCreated() {
 				view = new NewTAXCodeView();
+				view.setTaxCodeName(taxCodeName);
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, NewTAXCodeAction.this);
 
@@ -63,6 +65,10 @@ public class NewTAXCodeAction extends Action<ClientTAXCode> {
 	@Override
 	public String getHelpToken() {
 		return "new-tax-code";
+	}
+
+	public void setTaxCodeName(String text) {
+		this.taxCodeName = text;
 	}
 
 }

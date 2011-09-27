@@ -100,7 +100,7 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 			dateRangeList.add(dateRangeArray[i]);
 		}
 		dateRangeCombo.initCombo(dateRangeList);
-		dateRangeCombo.setComboItem(Accounter.constants().all());
+		dateRangeCombo.setComboItem(Accounter.constants().financialYearToDate());
 		dateRangeCombo.setName(Accounter.constants().dateRange());
 		dateRangeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {

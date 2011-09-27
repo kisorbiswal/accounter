@@ -22,7 +22,7 @@ public class TransactionVatColumn extends TransactionAmountColumn {
 
 	@Override
 	protected String getColumnName() {
-		return Accounter.constants().vat();
+		return Accounter.constants().tax();
 	}
 
 	@Override

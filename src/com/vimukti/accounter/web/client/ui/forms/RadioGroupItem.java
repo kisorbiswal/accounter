@@ -76,6 +76,7 @@ public class RadioGroupItem extends FormItem<String> {
 			this.radioButton.addClickHandler(clickHandler);
 		}
 		this.radioButtonList.add(radioButton);
+
 		radioButton = new RadioButton(Accounter.constants().radioButtonGroup(),
 				title2);
 		if (this.clickHandler != null) {

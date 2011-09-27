@@ -27,9 +27,12 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.core.ClientCustomerPrePayment;
+import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
 import com.vimukti.accounter.web.client.core.ClientEmail;
 import com.vimukti.accounter.web.client.core.ClientFax;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientPhone;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
@@ -670,22 +673,11 @@ public class UIUtils {
 		switch (comboType) {
 		case AccountCombo.DEPOSIT_IN_ACCOUNT:
 			for (int type : accountTypes) {
-				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-					if (type == ClientAccount.TYPE_BANK
-							||
-							// || type == ClientAccount.TYPE_CASH
-							type == ClientAccount.TYPE_OTHER_CURRENT_ASSET
-							|| type == ClientAccount.TYPE_CREDIT_CARD
-							|| type == ClientAccount.TYPE_FIXED_ASSET)
-						options.add(type);
-				}
-
-				else {
-					if (type == ClientAccount.TYPE_OTHER_CURRENT_ASSET
-							|| type == ClientAccount.TYPE_BANK
-							|| type == ClientAccount.TYPE_CREDIT_CARD
-							|| type == ClientAccount.TYPE_FIXED_ASSET)
-						options.add(type);
+				if (type == ClientAccount.TYPE_OTHER_CURRENT_ASSET
+						|| type == ClientAccount.TYPE_BANK
+						|| type == ClientAccount.TYPE_CREDIT_CARD
+						|| type == ClientAccount.TYPE_FIXED_ASSET) {
+					options.add(type);
 				}
 			}
 			break;
@@ -1177,12 +1169,8 @@ public class UIUtils {
 			return Accounter.messages().account(Global.get().account());
 		case ClientTransactionItem.TYPE_ITEM:
 			return Accounter.constants().item();
-		case ClientTransactionItem.TYPE_SALESTAX:
-			if (getCompany().getPreferences().isChargeSalesTax()) {
-				return Accounter.constants().taxGroup();
-			} else {
-				return Accounter.constants().vatItem();
-			}
+			// case ClientTransactionItem.TYPE_SALESTAX:
+			// return Accounter.constants().taxGroup();
 		default:
 			break;
 		}
@@ -1496,37 +1484,38 @@ public class UIUtils {
 		Iterator<ClientAccount> iterator = accountsList.iterator();
 		while (iterator.hasNext()) {
 			account = iterator.next();
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
-					&& toBeAddedAccount.getNumber().equals("1175")) {
-				if (account.getNumber().equals("1180")) {
-					accountsList.add(accountsList.indexOf(account) - 1,
-							toBeAddedAccount);
+			// if (getCompany().getAccountingType() ==
+			// ClientCompany.ACCOUNTING_TYPE_UK
+			// && toBeAddedAccount.getNumber().equals("1175")) {
+			// if (account.getNumber().equals("1180")) {
+			// accountsList.add(accountsList.indexOf(account) - 1,
+			// toBeAddedAccount);
+			// isAccountAdded = true;
+			// }
+			// } else {
+			nextNumber = account.getNumber();
+			if (toBeAddedAccount.getType() == account.getType()) {
+				type = true;
+				if (firstNumber.compareTo(toBeAddedNumber) < 0
+						&& nextNumber.compareTo(toBeAddedNumber) > 0) {
+					index = accountsList.indexOf(account);
+					accountsList.add(index, toBeAddedAccount);
 					isAccountAdded = true;
+					break;
+				}
+
+				else {
+					firstNumber = nextNumber;
 				}
 			} else {
-				nextNumber = account.getNumber();
-				if (toBeAddedAccount.getType() == account.getType()) {
-					type = true;
-					if (firstNumber.compareTo(toBeAddedNumber) < 0
-							&& nextNumber.compareTo(toBeAddedNumber) > 0) {
-						index = accountsList.indexOf(account);
-						accountsList.add(index, toBeAddedAccount);
-						isAccountAdded = true;
-						break;
-					}
-
-					else {
-						firstNumber = nextNumber;
-					}
-				} else {
-					if (type) {
-						index = accountsList.indexOf(account);
-						accountsList.add(index--, toBeAddedAccount);
-						isAccountAdded = true;
-						break;
-					}
+				if (type) {
+					index = accountsList.indexOf(account);
+					accountsList.add(index--, toBeAddedAccount);
+					isAccountAdded = true;
+					break;
 				}
 			}
+			// }
 		}
 		if (!type) {
 			int sort[] = { 14, 15, 18, 16, 3, 4, 8, 9, 6, 12, 7, 13 };
@@ -1873,10 +1862,12 @@ public class UIUtils {
 		}
 		if (paymentMethod.equals(Accounter.constants().cheque())
 				|| paymentMethod.equals(Accounter.constants().check())) {
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-				return Accounter.constants().cheque();
-			else if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-				return Accounter.constants().check();
+			// if (getCompany().getAccountingType() ==
+			// ClientCompany.ACCOUNTING_TYPE_UK)
+			return Accounter.constants().cheque();
+			// else if (getCompany().getAccountingType() ==
+			// ClientCompany.ACCOUNTING_TYPE_US)
+			// return Accounter.constants().check();
 		}
 
 		return paymentMethod;
@@ -2077,14 +2068,25 @@ public class UIUtils {
 		return true;
 	}
 
-	public static boolean isMoneyOut(ClientTransaction transaction) {
-		return transaction.isPayBill() || transaction.isPayVAT()
-				|| transaction.isWriteCheck();
+	public static boolean isMoneyOut(ClientTransaction transaction,
+			long accountId) {
+		return transaction.isPayBill()
+				|| transaction.isPayVAT()
+				|| transaction.isWriteCheck()
+				|| transaction.isCashPurchase()
+				|| (transaction instanceof ClientCustomerRefund)
+				|| (transaction.isMakeDeposit() && ((ClientMakeDeposit) transaction)
+						.getDepositIn() != accountId);
 	}
 
-	public static boolean isMoneyIn(ClientTransaction transaction) {
-		return transaction.isReceivePayment() || transaction.isReceiveVAT()
-				|| transaction.isMakeDeposit();
+	public static boolean isMoneyIn(ClientTransaction transaction,
+			long accountId) {
+		return transaction.isReceivePayment()
+				|| transaction.isReceiveVAT()
+				|| transaction.isCashSale()
+				|| transaction instanceof ClientCustomerPrePayment
+				|| (transaction.isMakeDeposit() && ((ClientMakeDeposit) transaction)
+						.getDepositIn() == accountId);
 	}
 
 	public static void generateBudgetReportPDF(int reportType, int BUDGET_TYPE) {

@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -65,7 +64,7 @@ public class SalesOpenOrderServerReport extends
 	public String[] getColunms() {
 		// if (isSales)
 		return new String[] { getConstants().orderDate(),
-				Accounter.constants().customer(),
+				getConstants().customer(),
 				// FinanceApplication.constants().description(),
 				// FinanceApplication.constants().quantity(),
 				getConstants().amount() };
@@ -131,13 +130,14 @@ public class SalesOpenOrderServerReport extends
 		col = 2;
 		// else
 		// col = 2;
+		// if (sectionDepth == 0) {
+		// addSection("", getConstants().total(), new int[] { col });
+		// } else
 		if (sectionDepth == 0) {
-			addSection("", "Total", new int[] { col });
-		} else if (sectionDepth == 1) {
 			// First time
 			this.sectionName = record.getVendorOrCustomerName();
-			addSection(sectionName, "Total", new int[] { col });
-		} else if (sectionDepth == 2) {
+			addSection(sectionName, getConstants().total(), new int[] { col });
+		} else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record
 			if (sectionName != null
 					&& !sectionName.equals(record.getVendorOrCustomerName())) {
@@ -202,24 +202,11 @@ public class SalesOpenOrderServerReport extends
 
 	@Override
 	public int getColumnWidth(int index) {
-		// if (isSales) {
 		if (index == 0)
-			return 200;
-		// if (index == 1)
-		// return 200;
-		// else if(index == 2)
-		// return 200;
+			return 250;
 		else if (index == 2)
-			return 200;
-		// else if (index == 3)
-		// return 150;
-		// }
-		// else {
-		// if (index == 1)
-		// return 300;
-		// else if (index == 2)
-		// return 200;
-		// }
+			return 250;
+
 		else
 			return -1;
 	}

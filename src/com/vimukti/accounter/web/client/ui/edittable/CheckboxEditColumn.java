@@ -32,12 +32,13 @@ public abstract class CheckboxEditColumn<T> extends EditColumn<T> {
 						if (checkedWidget.getValue() != value) {
 							checkedWidget.setValue(value);
 							onChangeValue(value, allRows.get(x - 1));
+
 						}
 					}
 				}
 			}
 		});
-		box.setEnabled(isEnable());
+		box.setEnabled(isEnable() && !getTable().isDesable());
 		return box;
 	}
 

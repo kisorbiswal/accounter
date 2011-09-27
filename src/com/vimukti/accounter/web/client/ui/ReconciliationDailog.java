@@ -163,7 +163,6 @@ public class ReconciliationDailog extends BaseDialog<ClientReconciliation>
 			if (account.getName().equalsIgnoreCase(
 					bankAccountsField.getValue().toString())) {
 				reconciliation.setAccount((ClientBankAccount) account);
-				reconciliation.setOpeningBalance(account.getCurrentBalance());
 			}
 		}
 		return reconciliation;

@@ -64,7 +64,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	private AddNewButton itemTableButton;
 
 	protected ClientPriceLevel priceLevel;
-	protected ClientTAXCode taxCode;
 	protected DateField deliveryDate;
 	private List<ClientPaymentTerms> paymentTermsList;
 	protected ClientSalesPerson salesPerson;
@@ -104,15 +103,13 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			ClientEstimate ent = (ClientEstimate) this.transaction;
 
 			if (ent != null && ent.getCustomer() == (customer.getID())) {
-				this.customerTransactionTable.clear();
 				this.customerTransactionTable.setAllRows(ent
 						.getTransactionItems());
 			} else if (ent != null
 					&& !(ent.getCustomer() == (customer.getID()))) {
-				this.customerTransactionTable.clear();
 				this.customerTransactionTable.updateTotals();
-			} else if (ent == null)
-				this.customerTransactionTable.clear();
+			}
+			this.customerTransactionTable.resetRecords();
 		}
 		super.customerSelected(customer);
 		shippingTermSelected(shippingTerm);
@@ -123,12 +120,12 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		if (this.salesPerson != null && salesPersonCombo != null)
 			salesPersonCombo.setComboItem(this.salesPerson);
 
-		if (this.taxCode != null
-				&& taxCodeSelect != null
-				&& taxCodeSelect.getValue() != ""
-				&& !taxCodeSelect.getName().equalsIgnoreCase(
-						Accounter.constants().none()))
-			taxCodeSelect.setComboItem(this.taxCode);
+		// if (this.taxCode != null
+		// && taxCodeSelect != null
+		// && taxCodeSelect.getValue() != ""
+		// && !taxCodeSelect.getName().equalsIgnoreCase(
+		// Accounter.constants().none()))
+		// taxCodeSelect.setComboItem(this.taxCode);
 		// if (this.priceLevel != null && priceLevelSelect != null)
 		// priceLevelSelect.setComboItem(this.priceLevel);
 
@@ -245,10 +242,12 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		quote.setPaymentTerm(Utility.getID(paymentTerm));
 		quote.setNetAmount(netAmountLabel.getAmount());
 
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (isTrackTax()) {
 			quote.setAmountsIncludeVAT((Boolean) vatinclusiveCheck.getValue());
-		} else
-			quote.setSalesTax(this.salesTax);
+			if (salesTax == null)
+				salesTax = 0.0D;
+			quote.setTaxTotal(this.salesTax);
+		}
 
 		quote.setTotal(transactionTotalNonEditableText.getAmount());
 		transaction = quote;
@@ -382,7 +381,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
 
-		customerTransactionTable = new CustomerItemTransactionTable() {
+		customerTransactionTable = new CustomerItemTransactionTable(
+				isTrackTax(), isTaxPerDetailLine()) {
 
 			@Override
 			public void updateNonEditableItems() {
@@ -419,23 +419,20 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		prodAndServiceForm2.setWidth("100%");
 		prodAndServiceForm2.setNumCols(4);
 		prodAndServiceForm2.setCellSpacing(5);
-
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			// prodAndServiceForm2.setFields(priceLevelSelect, netAmountLabel,
-			// disabletextbox, vatTotalNonEditableText, disabletextbox,
-			// transactionTotalNonEditableText);
-			prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
-					disabletextbox, vatTotalNonEditableText, disabletextbox,
-					transactionTotalNonEditableText);
-			prodAndServiceForm2.addStyleName("invoice-total");
-		} else if (getCompany().getPreferences().isChargeSalesTax()) {
-			// prodAndServiceForm2.setFields(taxCodeSelect,
-			// salesTaxTextNonEditable, priceLevelSelect,
-			// transactionTotalNonEditableText);
-			prodAndServiceForm2.setFields(taxCodeSelect,
-					salesTaxTextNonEditable, disabletextbox,
-					transactionTotalNonEditableText);
-			prodAndServiceForm2.addStyleName("tax-form");
+		if (isTrackTax()) {
+			if (isTaxPerDetailLine()) {
+				prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
+						disabletextbox, vatTotalNonEditableText,
+						disabletextbox, transactionTotalNonEditableText);
+				prodAndServiceForm2.addStyleName("boldtext");
+			} else {
+				prodAndServiceForm2.setFields(taxCodeSelect,
+						salesTaxTextNonEditable, disabletextbox,
+						transactionTotalNonEditableText);
+				prodAndServiceForm2.addStyleName("boldtext");
+			}
+		} else {
+			prodAndServiceForm2.setFields(transactionTotalNonEditableText);
 		}
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
@@ -449,7 +446,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(prodAndServiceForm2);
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (isTaxPerDetailLine()) {
 			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "30%");
 		} else
 			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
@@ -513,11 +510,11 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	@Override
 	protected void updateTransaction() {
 		super.updateTransaction();
-		if (taxCode != null && transactionItems != null) {
-			for (ClientTransactionItem item : transactionItems) {
-				item.setTaxCode(taxCode.getID());
-			}
-		}
+		// if (taxCode != null && transactionItems != null) {
+		// for (ClientTransactionItem item : transactionItems) {
+		// item.setTaxCode(taxCode.getID());
+		// }
+		// }
 		transaction.setTotal(transactionTotalNonEditableText.getAmount());
 	}
 
@@ -548,7 +545,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	@Override
 	protected void initSalesTaxNonEditableItem() {
 		if (transaction != null) {
-			Double salesTaxAmout = ((ClientEstimate) transaction).getSalesTax();
+			Double salesTaxAmout = ((ClientEstimate) transaction).getTaxTotal();
 			if (salesTaxAmout != null) {
 				salesTaxTextNonEditable.setAmount(salesTaxAmout);
 			}
@@ -621,16 +618,15 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			if (transaction.getID() != 0) {
 				setMode(EditMode.VIEW);
 			}
-			this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
-			// taxCodeSelected(this.taxCode);
-			if (taxCode != null) {
+
+			if (!isTaxPerDetailLine() && taxCodeSelect != null) {
 				this.taxCodeSelect
 						.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
 			}
 
 			memoTextAreaItem.setValue(transaction.getMemo());
 			// refText.setValue(estimate.getReference());
-			if (getCompany().getPreferences().isRegisteredForVAT()) {
+			if (isTrackTax()) {
 				netAmountLabel.setAmount(transaction.getNetAmount());
 				vatTotalNonEditableText.setValue(String.valueOf(transaction
 						.getTotal() - transaction.getNetAmount()));
@@ -717,25 +713,13 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	public void updateNonEditableItems() {
 		if (customerTransactionTable == null)
 			return;
-		if (getCompany().getPreferences().isChargeSalesTax()
-				&& (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA || getCompany()
-						.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)) {
-
-			setSalesTax(customerTransactionTable.getTotalTax());
-
-			setTransactionTotal(customerTransactionTable.getGrandTotal());
-			netAmountLabel.setAmount(customerTransactionTable.getLineTotal());
-
-		}
-
-		if (getCompany().getPreferences().isRegisteredForVAT()
-				&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+		if (isTrackTax()) {
 			netAmountLabel.setAmount(customerTransactionTable.getLineTotal());
 			vatTotalNonEditableText.setAmount(customerTransactionTable
 					.getTotalTax());
-			setTransactionTotal(customerTransactionTable.getGrandTotal());
+			setSalesTax(customerTransactionTable.getTotalTax());
 		}
-
+		setTransactionTotal(customerTransactionTable.getGrandTotal());
 	}
 
 	public void setTransactionTotal(Double transactionTotal) {
@@ -881,9 +865,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	@Override
 	protected void taxCodeSelected(ClientTAXCode taxCode) {
-		this.taxCode = taxCode;
 		if (taxCode != null) {
-
 			taxCodeSelect
 					.setComboItem(getCompany().getTAXCode(taxCode.getID()));
 			customerTransactionTable.setTaxCode(taxCode.getID(), true);

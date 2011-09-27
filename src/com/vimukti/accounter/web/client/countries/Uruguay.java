@@ -9,8 +9,8 @@ public class Uruguay extends AbstractCountryPreferences {
 	public String[] getStates() {
 		String[] states = new String[] { "Artigas", "Canelones", "Cerro Largo",
 				"Colonia", "Durazno", "Flores", "Florida", "Lavalleja",
-				"Maldonado", "Montevideo", "Paysandú", "Río Negro", "Rivera",
-				"Rocha", "Salto", "San José", "Soriano", "Tacuarembó",
+				"Maldonado", "Montevideo", "Paysandu", "Rio Negro", "Rivera",
+				"Rocha", "Salto", "San Jose", "Soriano", "Tacuarembo",
 				"Treinta y Tres" };
 		return states;
 	}

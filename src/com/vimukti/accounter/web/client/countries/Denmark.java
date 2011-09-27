@@ -3,12 +3,12 @@ package com.vimukti.accounter.web.client.countries;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
 
-public class Denmark extends AbstractCountryPreferences{
+public class Denmark extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
 		String[] states = new String[] { "Hovedstaden", "Midtjylland",
-				"Nordjylland", "Sjælland", "Syddanmark" };
+				"Nordjylland", "Sjxlland", "Syddanmark" };
 		return states;
 	}
 

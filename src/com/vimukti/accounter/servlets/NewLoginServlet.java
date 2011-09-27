@@ -177,8 +177,13 @@ public class NewLoginServlet extends BaseServlet {
 			Query query = session.getNamedQuery("get.remembermeKey");
 			query.setParameter("key", userCookie);
 			RememberMeKey rememberMeKey = (RememberMeKey) query.uniqueResult();
+			
+			if (rememberMeKey == null) {
+				dispatch(request, response, LOGIN_VIEW);
+				return;
+			}
 			Client client = getClient(rememberMeKey.getEmailID());
-			if (rememberMeKey == null || client == null) {
+			if (client == null) {
 				dispatch(request, response, LOGIN_VIEW);
 				return;
 			}

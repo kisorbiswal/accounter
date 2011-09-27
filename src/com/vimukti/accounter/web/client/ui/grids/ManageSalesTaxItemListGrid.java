@@ -72,9 +72,9 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 		case 0:
 			return 300;
 		case 2:
-			return 150;
+			return 105;
 		case 3:
-			return 100;
+			return 175;
 		case 4:
 			return 25;
 		}
@@ -96,7 +96,7 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 
 		ClientTAXAgency agency = null;
 		if (obj.getTaxAgency() != 0) {
-			if (getCompany().getPreferences().isChargeSalesTax()) {
+			if (getPreferences().isTrackTax()) {
 				agency = getCompany().getTaxAgency(obj.getTaxAgency());
 			}
 		}
@@ -130,10 +130,8 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 			// agency1 = getTaxAgency(obj1);
 			// agency2 = getTaxAgency(obj2);
 			// }
-			if (getCompany().getPreferences().isChargeSalesTax()) {
-				// agency1 = getTaxAgencyID(obj1);
-				// agency2 = getTaxAgencyID(obj2);
-			}
+			// agency1 = getTaxAgencyID(obj1);
+			// agency2 = getTaxAgencyID(obj2);
 			return agency1.toLowerCase().compareTo(agency2.toLowerCase());
 
 		}

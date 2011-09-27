@@ -3,6 +3,7 @@
  */
 package com.vimukti.accounter.web.client.uibinder.setup;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,12 +20,11 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
+import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 
 /**
  * @author Administrator
@@ -101,7 +101,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	private ClientCompanyPreferences preferences = Accounter.getCompany()
 			.getPreferences();
 	private ClientAddress address;
-	private List<String> countries, states, timezones;
+	private List<String> countries, statesList, timezones;
 
 	interface SetupCompanyInfoPageUiBinder extends
 			UiBinder<Widget, SetupCompanyInfoPage> {
@@ -125,14 +125,17 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	protected void createControls() {
 		headerLabel.setText(accounterConstants.enterYourCompanyInfo());
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			taxIDLabel.setText(accounterConstants.taxId());
-		} else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			taxIDLabel.setText(accounterConstants.vatNo());
-		} else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
-			taxIDLabel.setText(Accounter.messages().panNumber(
-					Global.get().Account()));
-		}
+		// if (Accounter.getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_US) {
+		taxIDLabel.setText(accounterConstants.taxId());
+		// } else if (Accounter.getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_UK) {
+		// taxIDLabel.setText(accounterConstants.vatNo());
+		// } else if (Accounter.getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_INDIA) {
+		// taxIDLabel.setText(Accounter.messages().panNumber(
+		// Global.get().Account()));
+		// }
 
 		displayNameLabel.setText(accounterConstants.companyName());
 		legalNameLabel.setText(accounterConstants.legalName());
@@ -190,12 +193,15 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	 */
 	protected void countryChanged() {
 		int selectedCountry = country.getSelectedIndex();
+		setCountry(country.getItemText(country.getSelectedIndex()));
 		if (selectedCountry < 0) {
 			return;
 		}
-		List<String> states = CoreUtils.getStatesAsListForCountry(country
-				.getItemText(selectedCountry));
-		setStates(states);
+		if (CountryPreferenceFactory.get(country.getItemText(selectedCountry)) != null) {
+			String[] states = CountryPreferenceFactory.get(
+					country.getItemText(selectedCountry)).getStates();
+			setStates(states);
+		}
 	}
 
 	private String getDefaultTzOffsetStr() {
@@ -204,11 +210,12 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		return tzFormat.format(date);
 	}
 
-	private void setStates(List<String> states) {
-		this.states = states;
+	private void setStates(String[] states) {
+		statesList = new ArrayList<String>();
 		stateListBox.clear();
-		for (int i = 0; i < states.size(); i++) {
-			stateListBox.addItem(states.get(i));
+		for (int i = 0; i < states.length; i++) {
+			statesList.add(states[i]);
+			stateListBox.addItem(states[i]);
 		}
 	}
 
@@ -230,8 +237,8 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 				if (address.getStateOrProvinence() != ""
 						&& address.getStateOrProvinence() != null
 						&& address.getStateOrProvinence().length() != 0) {
-					this.stateListBox.setSelectedIndex(states.indexOf(address
-							.getStateOrProvinence()));
+					this.stateListBox.setSelectedIndex(statesList
+							.indexOf(address.getStateOrProvinence()));
 				}
 				if (address.getCountryOrRegion() != ""
 						&& address.getCountryOrRegion() != null
@@ -264,7 +271,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		address.setCity(cityTextBox.getValue());
 		address.setZipOrPostalCode(zip.getValue());
 		if (stateListBox.getSelectedIndex() != -1) {
-			address.setStateOrProvinence(states.get(stateListBox
+			address.setStateOrProvinence(statesList.get(stateListBox
 					.getSelectedIndex()));
 		}
 		if (country.getSelectedIndex() != -1)

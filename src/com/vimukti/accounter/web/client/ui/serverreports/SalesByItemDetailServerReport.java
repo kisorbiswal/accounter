@@ -53,13 +53,10 @@ public class SalesByItemDetailServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getConstants().item(),
-				getConstants().date(), getConstants().type(),
-				getConstants().noDot(),
-				getConstants().quantity(),
-				getConstants().unitPrice(),
-				getConstants().discount(),
-				getConstants().amount() };
+		return new String[] { getConstants().item(), getConstants().date(),
+				getConstants().type(), getConstants().noDot(),
+				getConstants().quantity(), getConstants().unitPrice(),
+				getConstants().discount(), getConstants().amount() };
 	}
 
 	@Override
@@ -69,16 +66,26 @@ public class SalesByItemDetailServerReport extends
 
 	@Override
 	public int getColumnWidth(int index) {
-		if (index == 2)
-			return 85;
-		else if (index == 3)
-			return 50;
-		else if (index == 1 || index == 4)
-			return 85;
-		else if (index == 0)
-			return 200;
-		else
+		switch (index) {
+		case 1:
+			return 100;
+		case 2:
+			return 100;
+		case 3:
+			return 70;
+		case 4:
+			return 90;
+		case 5:
+			return 120;
+		case 6:
+			return 120;
+		case 7:
+			return 120;
+
+		default:
 			return -1;
+		}
+
 	}
 
 	@Override
@@ -100,15 +107,15 @@ public class SalesByItemDetailServerReport extends
 
 	@Override
 	public void processRecord(SalesByCustomerDetail record) {
+		// if (sectionDepth == 0) {
+		// addSection(new String[] { "", "" }, new String[] { "", "", "", "",
+		// "", "", getConstants().total() }, new int[] { 7 });
+		// } else
 		if (sectionDepth == 0) {
-			addSection(new String[] { "", "" }, new String[] { "", "", "", "",
-					"", "", getConstants().total() }, new int[] { 7 });
-		} else if (sectionDepth == 1) {
 			this.sectionName = record.getItemName();
 			addSection(new String[] { sectionName }, new String[] { "", "", "",
-					"", "", "", getConstants().total() },
-					new int[] { 7 });
-		} else if (sectionDepth == 2) {
+					"", "", "", getConstants().total() }, new int[] { 7 });
+		} else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record
 			if (!sectionName.equals(record.getItemName())) {
 				endSection();
@@ -230,13 +237,10 @@ public class SalesByItemDetailServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getConstants().item(),
-				getConstants().date(), getConstants().type(),
-				getConstants().noDot(),
-				getConstants().quantity(),
-				getConstants().unitPrice(),
-				getConstants().discount(),
-				getConstants().amount() };
+		return new String[] { getConstants().item(), getConstants().date(),
+				getConstants().type(), getConstants().noDot(),
+				getConstants().quantity(), getConstants().unitPrice(),
+				getConstants().discount(), getConstants().amount() };
 	}
-	
+
 }

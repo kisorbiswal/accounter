@@ -1,0 +1,16 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		
+	</ui:style>
+	<g:VerticalPanel spacing="8" styleName="companyInfoPanel">
+		<g:VerticalPanel spacing="5">
+			<!-- <g:Label ui:field="doYouLabelItem" styleName="header" /> -->
+			<g:VerticalPanel spacing="8" horizontalAlignment="ALIGN_LEFT">
+				<g:CheckBox ui:field="useShipMethods" />
+			</g:VerticalPanel>
+			<g:Label ui:field="shippingmedescritionLabel" />
+		</g:VerticalPanel>
+	</g:VerticalPanel>
+</ui:UiBinder> 

@@ -66,7 +66,7 @@ public class PurchaseByVendorDetailServerReport extends
 		// if (index == 0)
 		// return 180;
 		if (index == 1)
-			return 70;
+			return 100;
 		else if (index == 4)
 			return 160;
 		else if (index == 0)
@@ -74,7 +74,7 @@ public class PurchaseByVendorDetailServerReport extends
 		else if (index == 3)
 			return 100;
 		else
-			return 200;
+			return -1;
 	}
 
 	@Override
@@ -97,14 +97,15 @@ public class PurchaseByVendorDetailServerReport extends
 
 	@Override
 	public void processRecord(SalesByCustomerDetail record) {
+		// if (sectionDepth == 0) {
+		// addSection(new String[] { "", "" }, new String[] { "", "", "",
+		// getConstants().total() }, new int[] { 4 });
+		// } else
 		if (sectionDepth == 0) {
-			addSection(new String[] { "", "" }, new String[] { "", "", "",
-					getConstants().total() }, new int[] { 4 });
-		} else if (sectionDepth == 1) {
 			this.sectionName = record.getName();
 			addSection(new String[] { sectionName }, new String[] { "", "", "",
 					getConstants().total() }, new int[] { 4 });
-		} else if (sectionDepth == 2) {
+		} else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record
 			if (!sectionName.equals(record.getName())) {
 				endSection();

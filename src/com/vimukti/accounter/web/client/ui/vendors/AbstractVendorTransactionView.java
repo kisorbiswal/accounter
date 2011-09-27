@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
@@ -171,6 +172,10 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 		paymentMethodSelected(vendor.getPaymentMethod());
 		addressListOfVendor = vendor.getAddress();
 		initBillToCombo();
+		if (taxCodeSelect != null) {
+			long taxCodeID = vendor.getTAXCode();
+			taxCodeSelect.setSelectedObj(taxCodeID);
+		}
 
 	}
 
@@ -195,7 +200,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	protected AmountLabel createVATTotalNonEditableItem() {
 
-		AmountLabel amountItem = new AmountLabel(Accounter.constants().vat());
+		AmountLabel amountItem = new AmountLabel(Accounter.constants().tax());
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -263,6 +268,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 				.tax(), true);
 		taxCodeCombo.setHelpInformation(true);
 		taxCodeCombo.setRequired(true);
+		taxCodeCombo.addStyleName("tax_combo");
 
 		taxCodeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
@@ -713,19 +719,20 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
 
 		transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
-		if (getCompany().getPreferences().isChargeSalesTax()) {
-			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
-			long staxCodeid = 0;
-			for (ClientTAXCode taxCode : taxCodes) {
-				if (taxCode.getName().equals("S")) {
-					staxCodeid = taxCode.getID();
-				}
-			}
-			transactionItem.setTaxCode(getVendor() != null ? (getVendor()
-					.getTAXCode() > 0 ? getVendor().getTAXCode() : staxCodeid)
-					: staxCodeid);
-		}
+		long defaultTaxCode = getPreferences().getDefaultTaxCode();
+		transactionItem.setTaxCode(getVendor() != null ? (getVendor()
+				.getTAXCode() > 0 ? getVendor().getTAXCode() : defaultTaxCode)
+				: defaultTaxCode);
 		addItemTransactionItem(transactionItem);
+	}
+
+	@Override
+	public ValidationResult validate() {
+		ValidationResult result = super.validate();
+		if (vendorCombo.getSelectedValue() == null) {
+			vendorCombo.setValue("");
+		}
+		return result;
 	}
 
 	protected abstract void addAccountTransactionItem(ClientTransactionItem item);

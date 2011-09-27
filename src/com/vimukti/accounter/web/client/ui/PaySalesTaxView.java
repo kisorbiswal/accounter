@@ -284,7 +284,7 @@ public class PaySalesTaxView extends
 	protected void createControls() {
 		listforms = new ArrayList<DynamicForm>();
 
-		Label lab = new Label(Accounter.constants().paySalesTax());
+		Label lab = new Label(Accounter.constants().payTax());
 		lab.setStyleName(Accounter.constants().labelTitle());
 
 		transactionDateItem = createTransactionDateItem();
@@ -507,10 +507,11 @@ public class PaySalesTaxView extends
 		// 5. grid valid?
 		// 6. is positive amount?
 
-		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateTransactionDate());
-		}
+		// if (!AccounterValidator.isValidTransactionDate(this.transactionDate))
+		// {
+		// result.addError(transactionDate,
+		// accounterConstants.invalidateTransactionDate());
+		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
 			result.addError(transactionDate,
@@ -519,7 +520,7 @@ public class PaySalesTaxView extends
 		result.add(filterForm.validate());
 		if (grid == null || grid.getRecords().isEmpty()) {
 			result.addError(grid, accounterMessages
-					.noTransactionsTo(accounterConstants.paySalesTax()));
+					.noTransactionsTo(accounterConstants.payTax()));
 		} else {
 			result.add(grid.validateGrid());
 
@@ -656,7 +657,7 @@ public class PaySalesTaxView extends
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.title(Accounter.constants().paySalesTax());
+		return UIUtils.title(Accounter.constants().payTax());
 	}
 
 	@Override

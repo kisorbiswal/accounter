@@ -169,7 +169,8 @@ public class ItemReceiptView extends
 
 		HTML lab2 = new HTML("<strong>"
 				+ Accounter.constants().itemsAndExpenses() + "</strong>");
-		vendorAccountTransactionTable = new VendorAccountTransactionTable() {
+		vendorAccountTransactionTable = new VendorAccountTransactionTable(
+				isTrackTax() && isTrackPaidTax(), isTaxPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -201,7 +202,8 @@ public class ItemReceiptView extends
 		accountsDisclosurePanel.setContent(accountFlowPanel);
 		accountsDisclosurePanel.setOpen(true);
 		accountsDisclosurePanel.setWidth("100%");
-		vendorItemTransactionTable = new VendorItemTransactionTable() {
+		vendorItemTransactionTable = new VendorItemTransactionTable(
+				isTrackTax(), isTaxPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -276,10 +278,15 @@ public class ItemReceiptView extends
 
 		HorizontalPanel bottomLayout = new HorizontalPanel();
 		bottomLayout.setWidth("100%");
-		int accountType = getCompany().getAccountingType();
-		if (getPreferences().isTrackPaidTax()) {
+		if (isTrackPaidTax()) {
 			bottomLayout.add(memoForm);
 			bottomLayout.add(vatCheckform);
+			if (!isTaxPerDetailLine()) {
+				taxCodeSelect = createTaxCodeSelectItem();
+				DynamicForm form = new DynamicForm();
+				form.setFields(taxCodeSelect);
+				bottomLayout.add(form);
+			}
 			bottomLayout.setCellHorizontalAlignment(vatCheckform, ALIGN_RIGHT);
 			bottomLayout.add(totalForm);
 			bottomLayout.setCellHorizontalAlignment(totalForm, ALIGN_RIGHT);
@@ -651,10 +658,10 @@ public class ItemReceiptView extends
 		// 5. isBlankTransaction?
 		// 6. validateGrid?
 
-		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateTransactionDate());
-		}
+		// if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
+		// result.addError(transactionDate,
+		// accounterConstants.invalidateTransactionDate());
+		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
 			result.addError(transactionDate,
@@ -745,8 +752,14 @@ public class ItemReceiptView extends
 
 	@Override
 	protected void taxCodeSelected(ClientTAXCode taxCode) {
-		// TODO Auto-generated method stub
-
+		this.taxCode = taxCode;
+		if (taxCode != null) {
+			taxCodeSelect.setComboItem(taxCode);
+			vendorAccountTransactionTable.setTaxCode(taxCode.getID(), true);
+			vendorItemTransactionTable.setTaxCode(taxCode.getID(), true);
+		} else {
+			taxCodeSelect.setValue("");
+		}
 	}
 
 	@Override

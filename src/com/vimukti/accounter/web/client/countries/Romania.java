@@ -10,11 +10,11 @@ public class Romania extends AbstractCountryPreferences {
 		String[] states = new String[] { "Alba", "Arad", "Arges", "Bacau",
 				"Bihor", "Bistrita-Nasaud", "Botosani", "Braila", "Brasov",
 				"Bukarest", "Buzau", "Calarasi", "Caras-Severin", "Cluj",
-				"Constanta", "Covasna", "Dâmbovita", "Dolj", "Galati",
+				"Constanta", "Covasna", "Dambovita", "Dolj", "Galati",
 				"Giurgiu", "Gorj", "Harghita", "Hunedoara", "Ialomita", "Iasi",
 				"Ilfov", "Maramures", "Mehedinti", "Mures", "Neamt", "Olt",
 				"Prahova", "Salaj", "Satu Mare", "Sibiu", "Suceava",
-				"Teleorman", "Timis", "Tulcea", "Vâlcea", "Vaslui", "Vrancea" };
+				"Teleorman", "Timis", "Tulcea", "Valcea", "Vaslui", "Vrancea" };
 		return states;
 	}
 

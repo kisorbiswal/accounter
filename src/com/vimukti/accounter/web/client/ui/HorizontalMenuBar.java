@@ -40,13 +40,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 				getCompanyMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
-		if (Accounter.getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_INDIA) {
-			if (Accounter.getCompany().getPreferences().isRegisteredForVAT()) {
-				menuitem = menuBar.addItem(Accounter.constants().vat(),
-						getVATMenu());
-				ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
-			}
-		} else {
+		if (Accounter.getCompany().getPreferences().isTrackTax()) {
 			menuitem = menuBar.addItem(Accounter.constants().tax(),
 					getVATMenu());
 			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
@@ -462,7 +456,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		}
 		// vatmenu.addItem(ActionFactory.getCreateTaxesAction());
 		if (Accounter.getUser().canDoBanking()) {
-			vatmenu.addItem(ActionFactory.getpayVATAction());
+			vatmenu.addItem(ActionFactory.getPaySalesTaxAction());
 			vatmenu.addItem(ActionFactory.getreceiveVATAction());
 		}
 		vatmenu.addSeparator();
@@ -541,10 +535,12 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		// reportMenuBar.addItem(Accounter.constants()
 		// .banking(), getBankingSubMenu());
 		// }
-			if (Accounter.getCompany().getPreferences().isRegisteredForVAT()) {
-				reportMenuBar.addItem(Accounter.constants().vat(),
-						getVATReportMenu());
-			}
+		if (Accounter.getCompany().getPreferences().isTrackTax()
+				&& Accounter.getCompany().getCountryPreferences()
+						.isVatAvailable()) {
+			reportMenuBar.addItem(Accounter.constants().vat(),
+					getVATReportMenu());
+		}
 		// reportMenuBar.addItem(Accounter.constants()
 		// .salesAndPurchaseOrders(), getSalesAndPurchaseMenu());
 		return reportMenuBar;
@@ -704,11 +700,11 @@ public class HorizontalMenuBar extends HorizontalPanel {
 					.getGlReportAction());
 		companyAndFinancialMenuBar.addItem(ActionFactory
 				.getExpenseReportAction());
-		if (Accounter.getCompany().getPreferences().isChargeSalesTax()) {
+		if (Accounter.getCompany().getPreferences().isTrackTax()) {
 			companyAndFinancialMenuBar.addItem(ActionFactory
 					.getSalesTaxLiabilityAction());
 		}
-		if (Accounter.getCompany().getPreferences().isChargeSalesTax()) {
+		if (Accounter.getCompany().getPreferences().isTrackTax()) {
 			companyAndFinancialMenuBar.addItem(ActionFactory
 					.getTransactionDetailByTaxItemAction());
 		}
@@ -1042,18 +1038,19 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		// companyMenuBar.addItem(ActionFactory.getBudgetActions());
 		// companyMenuBar.addSeparator();
 
-		if (getPreferences().isChargeSalesTax()) {
+		if (getPreferences().isTrackTax()) {
 			companyMenuBar.addItem(Accounter.constants().itemTax(),
 					getSalesTaxSubmenu());
 		}
 		if (Accounter.getUser().canChangeSettings()) {
 			companyMenuBar.addItem(Accounter.constants().manageSupportLists(),
 					getManageSupportListSubmenu());
-		}
-		if (Accounter.getUser().canManageFiscalYears()) {
-			companyMenuBar.addItem(ActionFactory.getManageFiscalYearAction());
 			companyMenuBar.addSeparator();
 		}
+		// if (Accounter.getUser().canManageFiscalYears()) {
+		// companyMenuBar.addItem(ActionFactory.getManageFiscalYearAction());
+		// companyMenuBar.addSeparator();
+		// }
 
 		// FIXME > Need Complete merging functionality
 		// companyMenuBar.addItem(
@@ -1119,8 +1116,10 @@ public class HorizontalMenuBar extends HorizontalPanel {
 				.getShippingMethodListAction());
 		manageSupportListMenuBar.addItem(ActionFactory
 				.getShippingTermListAction());
-		manageSupportListMenuBar.addItem(ActionFactory
-				.getPriceLevelListAction());
+		/*
+		 * manageSupportListMenuBar.addItem(ActionFactory
+		 * .getPriceLevelListAction());
+		 */
 		manageSupportListMenuBar
 				.addItem(ActionFactory.getItemGroupListAction());
 		manageSupportListMenuBar.addItem(ActionFactory

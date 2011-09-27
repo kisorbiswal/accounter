@@ -7,9 +7,9 @@ public class Iceland extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		String[] states = new String[] { "Austurland", "Höfuðborgarsvæði",
-				"Norðurland eystra", "Norðurland vestra", "Suðurland",
-				"Suðurnes", "Vestfirðir", "Vesturland" };
+		String[] states = new String[] { "Austurland", "Hofuoborgarsvxoi",
+				"Norourland eystra", "Norourland vestra", "Suourland",
+				"Suournes", "Vestfiroir", "Vesturland" };
 		return states;
 	}
 

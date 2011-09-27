@@ -22,10 +22,10 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.combo.AdjustmentVATItemCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
-import com.vimukti.accounter.web.client.ui.combo.VATItemCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
@@ -43,7 +43,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 	private DateItem adjustDate;
 	protected TextItem entryNo;
 	private TAXAgencyCombo taxAgencyCombo;
-	private VATItemCombo vatItemCombo;
+	private AdjustmentVATItemCombo vatItemCombo;
 	private OtherAccountsCombo adjustAccountCombo;
 	private RadioGroupItem typeRadio;
 	private AmountField amount;
@@ -84,10 +84,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 	private void createControls() {
 		listforms = new ArrayList<DynamicForm>();
 		Label infoLabel;
-		if (getCompany().getPreferences().isChargeSalesTax())
-			infoLabel = new Label(Accounter.constants().taxAdjustment());
-		else
-			infoLabel = new Label(Accounter.constants().vatAdjustment());
+		infoLabel = new Label(Accounter.constants().taxAdjustment());
 		infoLabel.removeStyleName("gwt-Label");
 
 		infoLabel.setStyleName(Accounter.constants().labelTitle());
@@ -108,8 +105,8 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		// taxAgencyCombo.setWidth(100);
 		taxAgencyCombo.setComboItem(taxAgency);
 
-		vatItemCombo = new VATItemCombo(Accounter.constants().taxItem(),
-				taxAgency);
+		vatItemCombo = new AdjustmentVATItemCombo(Accounter.constants()
+				.taxItem(), taxAgency);
 		vatItemCombo.setHelpInformation(true);
 		vatItemCombo.initCombo(vatItemCombo.getVATItmesByVATAgncy(taxAgency));
 		// vatItemCombo.setWidth(100);
@@ -391,11 +388,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		data.setTransactionDate(adjustDate.getDate().getDate());
 
 		// vatAdjustment.setVatAgency(clientVATAgency.getID());s
-		if (getCompany().getPreferences().isChargeSalesTax()) {
-			data.setTaxItem(0);
-		} else {
-			data.setTaxItem(vatItemCombo.getSelectedValue().getID());
-		}
+		data.setTaxItem(vatItemCombo.getSelectedValue().getID());
 		data.setTaxAgency(clientTAXAgency.getID());
 
 		data.setAdjustmentAccount(adjustAccountCombo.getSelectedValue().getID());

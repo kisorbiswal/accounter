@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.edittable.tables;
 
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -17,6 +18,10 @@ import com.vimukti.accounter.web.client.ui.edittable.TransactionVatColumn;
 
 public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 
+	public SalesOrderTable(boolean enableTax, boolean showTaxCode) {
+		super(enableTax, showTaxCode);
+	}
+
 	@Override
 	protected void initColumns() {
 
@@ -26,6 +31,7 @@ public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 			protected void setValue(ClientTransactionItem row,
 					ClientItem newValue) {
 				super.setValue(row, newValue);
+				update(row);
 				// applyPriceLevel(row);
 			}
 
@@ -52,15 +58,30 @@ public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 
 		this.addColumn(new TransactionTotalColumn());
 
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			this.addColumn(new TransactionVatCodeColumn());
-			this.addColumn(new TransactionVatColumn());
-		} else if (getCompany().getPreferences().isChargeSalesTax()) {
-			this.addColumn(new TransactionVatColumn() {
-				protected String getColumnName() {
-					return Accounter.constants().tax();
-				};
+		if (getCompany().getPreferences().isTrackTax()
+				&& getCompany().getPreferences().isTaxPerDetailLine()) {
+			this.addColumn(new TransactionVatCodeColumn() {
+
+				@Override
+				protected ListFilter<ClientTAXCode> getTaxCodeFilter() {
+					return new ListFilter<ClientTAXCode>() {
+
+						@Override
+						public boolean filter(ClientTAXCode e) {
+							if (e.getTAXItemGrpForSales() != 0) {
+								return true;
+							}
+							return false;
+						}
+					};
+				}
+
+				@Override
+				protected boolean isSales() {
+					return true;
+				}
 			});
+			this.addColumn(new TransactionVatColumn());
 		}
 
 		this.addColumn(new AmountColumn<ClientTransactionItem>() {
@@ -83,6 +104,11 @@ public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 			@Override
 			protected String getColumnName() {
 				return Accounter.constants().invoiced();
+			}
+
+			@Override
+			public int getWidth() {
+				return 190;
 			}
 		});
 

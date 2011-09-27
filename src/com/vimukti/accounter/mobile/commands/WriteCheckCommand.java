@@ -3,10 +3,16 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.Date;
 import java.util.List;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.Customer;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.TAXCode;
+import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
+import com.vimukti.accounter.core.Vendor;
+import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.ObjectListRequirement;
@@ -18,6 +24,16 @@ import com.vimukti.accounter.web.client.core.Utility;
 
 public class WriteCheckCommand extends AbstractTransactionCommand {
 
+	private static final String PAYEE = "payee";
+	private static final String ACCOUNTS = "accounts";
+	private static final String ITEMS = "items";
+	private static final String BANK_ACCOUNTS = "bankAccounts";
+	private static final String AMOUNT = "amount";
+	private static final String DATE = "date";
+	private static final String NUMBER = "number";
+	private static final String BILL_TO = "billTo";
+	private static final String MEMO = "memo";
+
 	@Override
 	public String getId() {
 		return null;
@@ -25,8 +41,8 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement("payee", false, true));
-		list.add(new ObjectListRequirement("accounts", false, true) {
+		list.add(new Requirement(PAYEE, false, true));
+		list.add(new ObjectListRequirement(ACCOUNTS, false, true) {
 
 			@Override
 			public void addRequirements(List<Requirement> list) {
@@ -36,7 +52,7 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 				list.add(new Requirement("price", true, true));
 			}
 		});
-		list.add(new ObjectListRequirement("items", false, true) {
+		list.add(new ObjectListRequirement(ITEMS, false, true) {
 
 			@Override
 			public void addRequirements(List<Requirement> list) {
@@ -47,12 +63,12 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 				list.add(new Requirement("vatCode", true, true));
 			}
 		});
-		list.add(new Requirement("bankAccounts", false, true));
-		list.add(new Requirement("amount", true, true));
-		list.add(new Requirement("date", true, true));
-		list.add(new Requirement("number", true, false));
-		list.add(new Requirement("billTo", true, true));
-		list.add(new Requirement("memo", true, true));
+		list.add(new Requirement(BANK_ACCOUNTS, false, true));
+		list.add(new Requirement(AMOUNT, true, true));
+		list.add(new Requirement(DATE, true, true));
+		list.add(new Requirement(NUMBER, true, false));
+		list.add(new Requirement(BILL_TO, true, true));
+		list.add(new Requirement(MEMO, true, true));
 	}
 
 	@Override
@@ -92,7 +108,7 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		Company company = getCompany();
+		Company company = context.getCompany();
 		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 			Requirement taxReq = get("tax");
 			TAXCode taxcode = context.getSelection(TAXCODE);
@@ -118,7 +134,36 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 	}
 
 	private void completeProcess(Context context) {
-		// TODO Auto-generated method stub
+
+		Company company = context.getCompany();
+		WriteCheck writeCheck = new WriteCheck();
+		Payee payee = (Payee) get(PAYEE).getValue();
+		if (payee.getType() == Payee.TYPE_CUSTOMER) {
+			writeCheck.setCustomer((Customer) payee);
+		} else {
+			writeCheck.setVendor((Vendor) payee);
+		}
+		Date date = get(DATE).getValue();
+		writeCheck.setDate(new FinanceDate(date));
+
+		writeCheck.setType(Transaction.TYPE_WRITE_CHECK);
+
+		String number = get(NUMBER).getValue();
+		writeCheck.setNumber(number);
+
+		List<TransactionItem> items = get(ITEMS).getValue();
+		writeCheck.setTransactionItems(items);
+
+		writeCheck.setTotal(getTransactionTotal(items, company));
+
+		Account bankAccount = get(BANK_ACCOUNTS).getValue();
+		writeCheck.setBankAccount(bankAccount);
+		Double amount = get(AMOUNT).getValue();
+		writeCheck.setAmount(amount);
+
+		String memo = get(MEMO).getValue();
+		writeCheck.setMemo(memo);
+		create(writeCheck, context);
 
 	}
 

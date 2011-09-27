@@ -25,8 +25,8 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
-import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHandler;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
+import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHandler;
 
 public class CustomerQuoteListDialog extends BaseDialog {
 	public DialogGrid grid;
@@ -76,7 +76,7 @@ public class CustomerQuoteListDialog extends BaseDialog {
 		}
 		mainLayout.add(infoLabel);
 
-		grid = new DialogGrid(true);
+		grid = new DialogGrid(false);
 		grid.addColumns(customerConstants.date(), customerConstants.no(),
 				customerConstants.type(),
 				Accounter.messages().customerName(Global.get().Customer()),
@@ -126,8 +126,8 @@ public class CustomerQuoteListDialog extends BaseDialog {
 			public void onClick(ClickEvent event) {
 
 				List<EstimatesAndSalesOrdersList> record = (List<EstimatesAndSalesOrdersList>) grid
-						.getSelectedRecords();
-				setRecord(null);
+						.getRecords();
+				setRecord(record);
 
 			}
 
@@ -154,20 +154,20 @@ public class CustomerQuoteListDialog extends BaseDialog {
 		// mainLayout.add(buttonLayout);
 		mainLayout.setSize("100%", "100%");
 
-		// add(mainLayout);
 		setBodyLayout(mainLayout);
 	}
 
 	protected void setRecord(List<EstimatesAndSalesOrdersList> records) {
 
-		for (EstimatesAndSalesOrdersList rec : records) {
-			if (rec.getType() == ClientTransaction.TYPE_ESTIMATE) {
-				getEstimate(rec);
-			} else {
-				getSalesOrder(rec);
-			}
+		if (records != null)
+			for (EstimatesAndSalesOrdersList rec : records) {
+				if (rec.getType() == ClientTransaction.TYPE_ESTIMATE) {
+					getEstimate(rec);
+				} else {
+					getSalesOrder(rec);
+				}
 
-		}
+			}
 
 	}
 
@@ -235,7 +235,7 @@ public class CustomerQuoteListDialog extends BaseDialog {
 	public void setQuoteList(List<EstimatesAndSalesOrdersList> result) {
 		if (result == null)
 			return;
-		// this.estimatesAndSalesOrder = result;
+		this.estimatesAndSalesOrder = result;
 		grid.removeAllRecords();
 
 		for (EstimatesAndSalesOrdersList rec : estimatesAndSalesOrder) {
@@ -273,8 +273,9 @@ public class CustomerQuoteListDialog extends BaseDialog {
 
 	@Override
 	protected boolean onOK() {
-		List<EstimatesAndSalesOrdersList> record = grid.getSelectedRecords();
-		setRecord(record);
+		EstimatesAndSalesOrdersList record = (EstimatesAndSalesOrdersList) grid
+				.getSelection();
+		setRecord1(record);
 		return true;
 	}
 

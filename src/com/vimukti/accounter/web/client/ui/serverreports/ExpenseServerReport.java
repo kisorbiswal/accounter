@@ -44,7 +44,7 @@ public class ExpenseServerReport extends AbstractFinaneReport<ExpenseList> {
 
 	@Override
 	public String getDefaultDateRange() {
-		return getConstants().all();
+		return getConstants().financialYearToDate();
 	}
 
 	@Override
@@ -66,12 +66,13 @@ public class ExpenseServerReport extends AbstractFinaneReport<ExpenseList> {
 
 	@Override
 	public void processRecord(ExpenseList record) {
+		// if (sectionDepth == 0) {
+		// addSection("", getConstants().total(), new int[] { 2 });
+		// } else
 		if (sectionDepth == 0) {
-			addSection("", getConstants().total(), new int[] { 2 });
-		} else if (sectionDepth == 1) {
 			this.sectionName = record.getName();
 			addSection(sectionName, "", new int[] { 2 });
-		} else if (sectionDepth == 2) {
+		} else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record
 			if (!sectionName.equals(record.getName())) {
 				endSection();
@@ -111,14 +112,18 @@ public class ExpenseServerReport extends AbstractFinaneReport<ExpenseList> {
 
 	@Override
 	public int getColumnWidth(int index) {
-		if (index == 2)
-			return 100;
-		else if (index == 3)
-			return 100;
-		else if (index == 1)
-			return 100;
-		else
-			return 100;
+
+		switch (index) {
+		case 1:
+			return 200;
+		case 2:
+			return 200;
+		case 3:
+			return 200;
+		default:
+			return -1;
+		}
+
 	}
 
 	public int sort(ExpenseList obj1, ExpenseList obj2, int col) {
@@ -249,5 +254,5 @@ public class ExpenseServerReport extends AbstractFinaneReport<ExpenseList> {
 	public void makeReportRequest(long start, long end) {
 
 	}
-	
+
 }

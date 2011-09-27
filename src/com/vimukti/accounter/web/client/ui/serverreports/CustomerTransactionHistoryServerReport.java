@@ -60,22 +60,21 @@ public class CustomerTransactionHistoryServerReport extends
 	}
 
 	public int getColumnWidth(int index) {
-		if (index == 1)
-			return 75;
-		else if (index == 3)
-			return 45;
-		else if (index == 2)
-			return 155;
-		// else if (index == 4)
-		// return 250;
-		// else if (index == 4)
-		// return 200;
-		else if (index == 0)
-			return 175;
-		else if (index == 5)
+		switch (index) {
+		case 1:
+			return 130;
+		case 2:
+			return 200;
+		case 3:
+			return 80;
+		case 4:
+			return 150;
+		case 5:
 			return 135;
-		else
-			return 125;
+
+		default:
+			return -1;
+		}
 	}
 
 	@Override
@@ -135,16 +134,17 @@ public class CustomerTransactionHistoryServerReport extends
 
 	@Override
 	public void processRecord(TransactionHistory record) {
+		// if (sectionDepth == 0) {
+		// if (constants != null) {
+		// addSection(new String[] { "", "" }, new String[] { "", "", "",
+		// "", constants.total() }, new int[] { 5 });
+		// } else {
+		// addSection(new String[] { "", "" }, new String[] { "", "", "",
+		// "", Accounter.constants().total() }, new int[] { 5 });
+		// }
+		//
+		// } else
 		if (sectionDepth == 0) {
-			if (constants != null) {
-				addSection(new String[] { "", "" }, new String[] { "", "", "",
-						"", constants.total() }, new int[] { 5 });
-			} else {
-				addSection(new String[] { "", "" }, new String[] { "", "", "",
-						"", Accounter.constants().total() }, new int[] { 5 });
-			}
-
-		} else if (sectionDepth == 1) {
 			// First time
 			this.sectionName = record.getName();
 			if (constants != null) {
@@ -163,7 +163,7 @@ public class CustomerTransactionHistoryServerReport extends
 		// .beginingBalance(), "
 		// .endingBalance(), new int[] { 5 });
 		// }
-		else if (sectionDepth == 2) {
+		else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record
 			if (!sectionName.equals(record.getName())) {
 				endSection();

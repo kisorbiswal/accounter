@@ -78,6 +78,7 @@ public class SetupReferPage extends AbstractSetupPage {
 
 		accountListBox.addItem(accounterConstants.Account());
 		accountListBox.addItem(accounterConstants.Ledger());
+		accountListBox.addItem(accounterConstants.Category());
 
 		customerLabel.setText(accounterConstants.Customer());
 		vendorsLabel.setText(accounterConstants.Vendor());

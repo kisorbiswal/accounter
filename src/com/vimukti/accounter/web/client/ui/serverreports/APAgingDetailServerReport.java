@@ -59,7 +59,7 @@ public class APAgingDetailServerReport extends
 
 	@Override
 	public String getDefaultDateRange() {
-		return getConstants().all();
+		return getConstants().financialYearToDate();
 	}
 
 	@Override
@@ -67,11 +67,9 @@ public class APAgingDetailServerReport extends
 		if (index == 2)
 			return 160;
 		else if (index == 1)
-			return 70;
+			return 100;
 		else if (index == 3)
 			return 70;
-		else if (index == 0)
-			return 200;
 		else if (index == 4)
 			return 100;
 		else if (index == 5)

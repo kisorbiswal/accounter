@@ -58,8 +58,7 @@ public class TransactionDetailByTaxItemServerReport extends
 		return new String[] { "", getConstants().taxRate(),
 				getConstants().date(), getConstants().no(),
 				getConstants().name(), getConstants().memo(),
-				getConstants().salesTax(),
-				getConstants().taxableAmount() };
+				getConstants().salesTax(), getConstants().taxableAmount() };
 
 	}
 
@@ -90,13 +89,14 @@ public class TransactionDetailByTaxItemServerReport extends
 
 	@Override
 	public void processRecord(TransactionDetailByTaxItem record) {
+		// if (sectionDepth == 0) {
+		// addSection("", getConstants().total(), new int[] { 6, 7 });
+		// } else
 		if (sectionDepth == 0) {
-			addSection("", getConstants().total(), new int[] { 6, 7 });
-		} else if (sectionDepth == 1) {
 			this.sectionName = record.getTaxItemName();
 			addSection(record.getTaxAgencyName() + "-" + sectionName, "",
 					new int[] { 6, 7 });
-		} else if (sectionDepth == 2) {
+		} else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record
 			if (!sectionName.equals(record.getTaxItemName())) {
 				endSection();
@@ -124,12 +124,36 @@ public class TransactionDetailByTaxItemServerReport extends
 	}
 
 	@Override
+	public int getColumnWidth(int index) {
+
+		switch (index) {
+		case 1:
+			return 100;
+		case 2:
+			return 100;
+		case 3:
+			return 40;
+		case 4:
+			return 120;
+		case 5:
+			return 120;
+		case 6:
+			return 80;
+		case 7:
+			return 100;
+
+		default:
+			return -1;
+		}
+
+	}
+
+	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] { "", getConstants().taxRate(),
 				getConstants().date(), getConstants().no(),
 				getConstants().name(), getConstants().memo(),
-				getConstants().salesTax(),
-				getConstants().taxableAmount() };
+				getConstants().salesTax(), getConstants().taxableAmount() };
 	}
-	
+
 }

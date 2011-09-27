@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -23,10 +25,12 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.customers.CustomerCreditsAndPaymentsDialiog;
+import com.vimukti.accounter.web.client.ui.customers.NewApplyCreditsDialog;
 import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
 import com.vimukti.accounter.web.client.ui.edittable.AnchorEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.CheckboxEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
+import com.vimukti.accounter.web.client.ui.edittable.RenderContext;
 import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
 import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
@@ -37,7 +41,7 @@ public abstract class TransactionPayBillTable extends
 	private List<Integer> selectedValues = new ArrayList<Integer>();
 	private boolean gotCreditsAndPayments;
 	private CashDiscountDialog cashDiscountDialog;
-	private CustomerCreditsAndPaymentsDialiog creditsAndPaymentsDialiog;
+	private NewApplyCreditsDialog creditsAndPaymentsDialiog;
 	private List<ClientCreditsAndPayments> updatedCustomerCreditsAndPayments;
 
 	/* This stack tracks the recently applied credits */
@@ -50,10 +54,9 @@ public abstract class TransactionPayBillTable extends
 
 	public TransactionPayBillTable(boolean canEdit) {
 		this.canEdit = canEdit;
-		initColumn();
 	}
 
-	private void initColumn() {
+	protected void initColumns() {
 		this.addColumn(new CheckboxEditColumn<ClientTransactionPayBill>() {
 
 			@Override
@@ -63,6 +66,14 @@ public abstract class TransactionPayBillTable extends
 				onSelectionChanged(row, value);
 			}
 
+			@Override
+			public void render(IsWidget widget,
+					RenderContext<ClientTransactionPayBill> context) {
+				super.render(widget, context);
+				if (isInViewMode()) {
+					((CheckBox) widget).setValue(true);
+				}
+			}
 		});
 
 		if (canEdit) {
@@ -288,7 +299,7 @@ public abstract class TransactionPayBillTable extends
 				}
 			});
 
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
+			if (Accounter.getCompany().getCountryPreferences().isTDSAvailable()) {
 				addTdsColumn();
 			}
 
@@ -412,9 +423,8 @@ public abstract class TransactionPayBillTable extends
 			rec.setActualAmt(rec.getBalance());
 			rec.setRemaoningBalance(rec.getBalance());
 		}
-		setCreditsAndPaymentsDialiog(new CustomerCreditsAndPaymentsDialiog(
-				this.vendor, updatedCustomerCreditsAndPayments, canEdit,
-				selectedObject));
+		setCreditsAndPaymentsDialiog(new NewApplyCreditsDialog(this.vendor,
+				updatedCustomerCreditsAndPayments, canEdit, selectedObject));
 
 	}
 
@@ -618,23 +628,24 @@ public abstract class TransactionPayBillTable extends
 								appliedCredits.put(recordIndx, creditRec);
 							}
 
-							try {
-
-								getCreditsAndPaymentsDialiog().okClicked = true;
-
-								// creditsAndPaymentsDialiog.validateTransaction();
-
-							} catch (Exception e) {
-
-								// if (e instanceof Payment)
-								// Accounter
-								// .showError(((PaymentExcessException) e)
-								// .getMessage());
-								// else
-								Accounter.showError(e.getMessage());
-								return false;
-
-							}
+							// try {
+							//
+							// getCreditsAndPaymentsDialiog().okClicked = true;
+							//
+							// //
+							// creditsAndPaymentsDialiog.validateTransaction();
+							//
+							// } catch (Exception e) {
+							//
+							// // if (e instanceof Payment)
+							// // Accounter
+							// // .showError(((PaymentExcessException) e)
+							// // .getMessage());
+							// // else
+							// Accounter.showError(e.getMessage());
+							// return false;
+							//
+							// }
 
 							selectedObject.setTempCredits(appliedCredits);
 							selectedObject.setCreditsApplied(true);
@@ -659,7 +670,7 @@ public abstract class TransactionPayBillTable extends
 
 							updateFootervalues(selectedObject, canEdit);
 							setUnUsedCreditsTextAmount(getCreditsAndPaymentsDialiog().totalBalances);
-							return true;
+							return false;
 						}
 					});
 			getCreditsAndPaymentsDialiog().show();
@@ -751,7 +762,7 @@ public abstract class TransactionPayBillTable extends
 
 	private void addTdsColumn() {
 
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA
+		if (getCompany().getCountryPreferences().isTDSAvailable()
 				&& getCompany().getPreferences().isTDSEnabled()) {
 			this.addColumn(new AmountColumn<ClientTransactionPayBill>() {
 
@@ -998,9 +1009,8 @@ public abstract class TransactionPayBillTable extends
 				+ item.getPayment();
 
 		if (!DecimalUtil.isGreaterThan(totalValue, item.getAmountDue())) {
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA
+			if (getCompany().getCountryPreferences().isTDSAvailable()
 					&& getCompany().getPreferences().isTDSEnabled()) {
-
 				ClientTAXItem taxItem = Accounter.getCompany().getTAXItem(
 						vendor.getTaxItemCode());
 				if (taxItem != null)
@@ -1022,12 +1032,12 @@ public abstract class TransactionPayBillTable extends
 		return totalValue;
 	}
 
-	public CustomerCreditsAndPaymentsDialiog getCreditsAndPaymentsDialiog() {
+	public NewApplyCreditsDialog getCreditsAndPaymentsDialiog() {
 		return creditsAndPaymentsDialiog;
 	}
 
 	public void setCreditsAndPaymentsDialiog(
-			CustomerCreditsAndPaymentsDialiog creditsAndPaymentsDialiog) {
+			NewApplyCreditsDialog creditsAndPaymentsDialiog) {
 		this.creditsAndPaymentsDialiog = creditsAndPaymentsDialiog;
 	}
 
@@ -1068,4 +1078,6 @@ public abstract class TransactionPayBillTable extends
 	public List<ClientTransactionPayBill> getRecords() {
 		return getAllRows();
 	}
+
+	protected abstract boolean isInViewMode();
 }

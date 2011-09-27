@@ -78,8 +78,8 @@ public class ChangePasswordDialog extends BaseDialog {
 											.constants()
 											.passwordSuccessfullyChanged());
 								} else {
-									addError(this, Accounter.constants()
-											.yourPresentPasswordisWrong());
+									Accounter.showError(Accounter.constants()
+											.youHaveEnteredWrongPassword());
 								}
 							}
 

@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.Lists.ClientTDSInfo;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
@@ -78,7 +77,7 @@ public class TDSVendorsListGrid extends BaseListGrid<ClientTDSInfo> {
 	protected int getCellWidth(int index) {
 		if (index == 0)
 			return 20;
-		else if(index==3)
+		else if (index == 3)
 			return 20;
 		else
 			return 50;
@@ -94,14 +93,8 @@ public class TDSVendorsListGrid extends BaseListGrid<ClientTDSInfo> {
 				colArray[index] = Accounter.constants().active();
 				break;
 			case 1:
-				if (getCompany().getPreferences().isChargeSalesTax()) {
-					colArray[index] = Accounter.messages().vendorName(
-							Global.get().Vendor());
-				}
-				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
-					colArray[index] = Accounter.messages().vendorName(
-							Global.get().Vendor());
-				}
+				colArray[index] = Accounter.messages().vendorName(
+						Global.get().Vendor());
 				break;
 
 			case 2:

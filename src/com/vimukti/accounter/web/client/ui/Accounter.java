@@ -175,13 +175,21 @@ public class Accounter implements EntryPoint {
 	private static void initGUI() {
 		mainWindow = new MainFinanceWindow();
 		RootPanel.get("mainWindow").add(mainWindow);
-		}
-
-	public static void reset()
-	{
-		mainWindow.removeFromParent();
-		initGUI();
 	}
+
+	public static void reset() {
+		HorizontalMenuBar menubar = new HorizontalMenuBar();
+		if (!isMacApp()) {
+			mainWindow.remove(1);
+			mainWindow.insert(menubar, 1);
+		}else{
+			reloadMacMenu();
+		}
+	}
+
+	private native static void reloadMacMenu() /*-{
+	  $wnd.MacReload();
+	}-*/;
 	
 	public static MainFinanceWindow getMainFinanceWindow()
 	{
@@ -345,6 +353,8 @@ public class Accounter implements EntryPoint {
 	private static native void removeLoadingImage() /*-{
 		var parent = $wnd.document.getElementById('loadingWrapper');
 		var footer = $wnd.document.getElementById('mainFooter');
+//		var feedbackimg = $wnd.document.getElementById('contact');
+//		feedbackimg.style.visibility = 'visible';
 		//var header = $wnd.document.getElementById('mainHeader');
 		parent.style.visibility = 'hidden';
 		footer.style.visibility = 'visible';

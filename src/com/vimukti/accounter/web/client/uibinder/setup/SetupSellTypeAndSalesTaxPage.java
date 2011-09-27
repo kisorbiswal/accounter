@@ -4,14 +4,15 @@
 package com.vimukti.accounter.web.client.uibinder.setup;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
@@ -38,25 +39,29 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 	Label bothText;
 	@UiField
 	VerticalPanel sell;
-	@UiField
-	VerticalPanel salesTax;
-	@UiField
-	RadioButton salesTaxNo;
-	@UiField
-	RadioButton salesTaxYes;
-	@UiField
-	HTML salesTaxHead;
-	@UiField
-	Label headerLabel;
 
 	@UiField
-	VerticalPanel vat;
+	Label headerLabel;
 	@UiField
-	RadioButton vatNo;
+	RadioButton onepeTransactionRadioButton;
 	@UiField
-	RadioButton vatYes;
+	Label oneperTransactionLabel;
 	@UiField
-	HTML vatHeader;
+	RadioButton oneperdetaillineRadioButton;
+	@UiField
+	Label oneperdetaillineLabel;
+	@UiField
+	CheckBox enableTaxCheckbox;
+	@UiField
+	Label enableTaxLabel;
+	@UiField
+	Label taxItemTransactionLabel;
+	@UiField
+	CheckBox trackCheckbox;
+	@UiField
+	Label trackLabel;
+	@UiField
+	VerticalPanel hidePanel;
 
 	interface SetupSellTypeAndSalesTaxPageUiBinder extends
 			UiBinder<Widget, SetupSellTypeAndSalesTaxPage> {
@@ -87,21 +92,28 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		both.setText(accounterConstants.bothservicesandProduct_labelonly());
 		bothText.setText(accounterConstants.bothServicesandProducts());
 
-		salesTaxHead.setHTML(accounterConstants.doyouchargesalestax());
-		salesTaxNo.setText(accounterConstants.no());
-		salesTaxYes.setText(accounterConstants.yes());
+		trackCheckbox.setText(accounterConstants.chargeOrTrackTax());
+		trackLabel.setText(accounterConstants.descChrageTrackTax());
+		taxItemTransactionLabel.setText(accounterConstants
+				.taxtItemTransaction());
+		onepeTransactionRadioButton.setText(accounterConstants
+				.onepertransaction());
+		oneperTransactionLabel.setText(accounterConstants.oneperDescription());
+		oneperdetaillineRadioButton.setText(accounterConstants
+				.oneperdetailline());
+		oneperdetaillineLabel.setText(accounterConstants
+				.oneperDetailDescription());
+		enableTaxCheckbox.setText(accounterConstants.enableTracking());
+		enableTaxLabel.setText(accounterConstants.enableTrackingDescription());
+		trackCheckbox.addClickHandler(new ClickHandler() {
 
-		vatHeader.setHTML(Accounter.constants().doyouchargeVat());
-		vatNo.setText(accounterConstants.no());
-		vatYes.setText(accounterConstants.yes());
+			@Override
+			public void onClick(ClickEvent event) {
+				hidePanel.setVisible(trackCheckbox.getValue());
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			salesTax.setVisible(false);
-		}
+			}
+		});
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			vat.setVisible(false);
-		}
 	}
 
 	@Override
@@ -115,16 +127,13 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		if (sellServices && sellProducts)
 			both.setValue(true);
 
-		if (preferences.isRegisteredForVAT()) {
-			vatYes.setValue(true);
-		} else {
-			vatNo.setValue(true);
-		}
-		if (preferences.isChargeSalesTax()) {
-			salesTaxYes.setValue(true);
-		} else {
-			salesTaxNo.setValue(true);
-		}
+		trackCheckbox.setValue(preferences.isTrackTax());
+		hidePanel.setVisible(preferences.isTrackTax());
+		enableTaxCheckbox.setValue(preferences.isTrackTax());
+		if (preferences.isTaxPerDetailLine())
+			oneperdetaillineRadioButton.setValue(true);
+		else
+			onepeTransactionRadioButton.setValue(true);
 
 	}
 
@@ -139,11 +148,9 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 			preferences.setSellProducts(true);
 		}
 
-		if (Accounter.getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_US)
-			preferences.setRegisteredForVAT(vatYes.getValue());
-
-		if (Accounter.getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK)
-			preferences.setChargeSalesTax(salesTaxYes.getValue());
+		preferences.setTaxTrack(trackCheckbox.getValue());
+		preferences.setTaxPerDetailLine(oneperdetaillineRadioButton.getValue());
+		preferences.setTrackPaidTax(enableTaxCheckbox.getValue());
 
 	}
 
@@ -154,18 +161,14 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 
 	@Override
 	protected boolean validate() {
-		if ((!(servicesOnly.getValue() || productsOnly.getValue() || both
-				.getValue()))
-				&& (!(salesTaxYes.getValue() || salesTaxNo.getValue()))) {
+		/*if ((!(servicesOnly.getValue() || productsOnly.getValue() || both
+				.getValue()))) {
 			Accounter.showError(accounterMessages
 					.pleaseEnter(accounterConstants.details()));
 			return false;
-		} else if (!(servicesOnly.getValue() || productsOnly.getValue() || both
+		} else*/if (!(servicesOnly.getValue() || productsOnly.getValue() || both
 				.getValue())) {
 			Accounter.showMessage(accounterConstants.whatDoYouSell());
-			return false;
-		} else if (!(salesTaxYes.getValue() || salesTaxNo.getValue())) {
-			Accounter.showMessage(salesTaxHead.getText());
 			return false;
 		} else {
 			return true;

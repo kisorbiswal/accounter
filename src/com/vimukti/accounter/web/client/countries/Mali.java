@@ -8,7 +8,7 @@ public class Mali extends AbstractCountryPreferences {
 	@Override
 	public String[] getStates() {
 		String[] states = new String[] { "Bamako", "Gao", "Kayes", "Kidal",
-				"Koulikoro", "Mopti", "Ségou", "Sikasso", "Tombouctou" };
+				"Koulikoro", "Mopti", "Segou", "Sikasso", "Tombouctou" };
 		return states;
 	}
 

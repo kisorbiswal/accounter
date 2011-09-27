@@ -14,6 +14,8 @@
     <title>Bizantra - Importing Account</title>
     
     <!--CSS for loading message at application Startup-->
+    <script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
+    <script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
     <script type="text/javascript">
     	function loadImage(){
     		document.getElementById("hiddenDiv").style.display="block";
@@ -149,7 +151,7 @@ padding-right: 5px;
   <!-- to create a completely dynamic UI.        -->
   <!--                                           -->
   <body>
-
+  <%@ include file="./feedback.jsp" %>
 <div id="hiddenDiv" class="hiddenPic">
 <span style="color:#000000;line-height:1.5;">Apologies for the delay, Bizantra is creating your local database.<br><br></span>
 		<img src="/images/icons/loading-indicator.gif" 
@@ -191,16 +193,6 @@ padding-right: 5px;
 			var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
 			document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
 		</script>
-		<script type="text/javascript" charset="utf-8">
-			var feedback_widget_options = {};
-			
-			feedback_widget_options.display = "overlay";  
-  			feedback_widget_options.company = "vimukti";
-			feedback_widget_options.placement = "left";
-			feedback_widget_options.color = "#222";
-			feedback_widget_options.style = "idea";
-		
-			var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
-		</script>
+		 
  </body>
 </html>

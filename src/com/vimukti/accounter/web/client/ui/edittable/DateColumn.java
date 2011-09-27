@@ -2,9 +2,8 @@ package com.vimukti.accounter.web.client.ui.edittable;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.IsWidget;
-import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.widgets.DatePicker;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
@@ -16,12 +15,8 @@ public abstract class DateColumn<T> extends EditColumn<T> {
 	private final DateTimeFormat format;
 
 	public DateColumn() {
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			format = DateTimeFormat.getFormat(Accounter.constants()
-					.dateFormatWithSlashStartsWithMonth());
-		else
-			format = DateTimeFormat.getFormat(Accounter.constants()
-					.dateFormatWithSlash());
+		this(Global.get().preferences()
+				.getDateFormat());
 	}
 
 	public DateColumn(String dateFormat) {

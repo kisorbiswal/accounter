@@ -12,6 +12,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.PaginationList;
 
 /**
  * 
@@ -131,8 +132,7 @@ public class UserActivityLogCommand extends AbstractTransactionCommand {
 		Result result = context.makeResult();
 		ResultList activitiesList = new ResultList("activitylog");
 		int num = 0;
-		List<Activity> activities = getActivityList(
-				context.getHibernateSession(), fromDate, endDate);
+		List<Activity> activities = getActivityList(fromDate, endDate);
 		for (Activity activity : activities) {
 			activitiesList.add(createActivityRecord(activity));
 			num++;
@@ -144,12 +144,6 @@ public class UserActivityLogCommand extends AbstractTransactionCommand {
 		result.add(endDate.toString());
 		result.add(activitiesList);
 		return result;
-	}
-
-	private List<Activity> getActivityList(Session session, Date fromDate,
-			Date endDate) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	private Record createActivityRecord(Activity activity) {

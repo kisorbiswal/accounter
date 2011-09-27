@@ -86,7 +86,8 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 
 		toItem = new DateItem();
 		ClientFinanceDate date = Accounter.getCompany()
-				.getLastandOpenedFiscalYearEndDate();
+				.getCurrentFiscalYearEndDate();
+		// .getLastandOpenedFiscalYearEndDate();
 
 		if (date != null)
 			toItem.setDatethanFireEvent(date);

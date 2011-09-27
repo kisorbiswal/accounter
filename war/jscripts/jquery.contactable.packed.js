@@ -27,31 +27,31 @@
 											+ defaults.recipient
 											+ '" /><input type="hidden" id="subject" name="subject" value="'
 											+ defaults.subject
-											+ '" /><p><label for="name">Name <span class="red"> * </span></label><br /><input id="name" class="contact" name="name" /></p><p><label for="email">E-Mail <span class="red"> * </span></label><br /><input id="email" class="contact" name="email" /></p><p><label for="comment">Your Feedback <span class="red"> * </span></label><br /><textarea id="comment" name="comment" class="comment" rows="4" cols="30" ></textarea></p><p><input class="submit" type="submit" value="Send"/></p><p>This will be some contact information about opening hours etc</p></div></form>');
+											+ '" /><p><label for="name">Name <span class="red">  </span></label><br /><input id="name" class="contact" name="name" /></p><p><label for="email">E-Mail <span class="red">  </span></label><br /><input id="email" class="contact" name="email" /></p><p class= "yourfeedback"><label for="comment">Your Feedback <span class="red"> * </span></label><br /><textarea id="comment" name="comment" class="comment" rows="4" cols="30" ></textarea></p><p><input class="submit" type="submit" value="Send"/></p><p>If you want to suggest some improvement, send a feedback to Accounter Team.</p></div></form>');
 					$('div#contactable').toggle(function() {
 						$('#overlay').css( {
 							display : 'block'
 						});
 						$(this).animate( {
-							"marginLeft" : "-=5px"
+							"marginRight" : "-=5px"
 						}, "fast");
 						$('#contactForm').animate( {
-							"marginLeft" : "-=0px"
+							"marginRight" : "-=0px"
 						}, "fast");
 						$(this).animate( {
-							"marginLeft" : "+=387px"
+							"marginRight" : "+=387px"
 						}, "slow");
 						$('#contactForm').animate( {
-							"marginLeft" : "+=390px"
+							"marginRight" : "+=390px"
 						}, "slow")
 					}, function() {
 						$('#contactForm').animate( {
-							"marginLeft" : "-=390px"
+							"marginRight" : "-=390px"
 						}, "slow");
 						$(this).animate( {
-							"marginLeft" : "-=387px"
+							"marginRight" : "-=387px"
 						}, "slow").animate( {
-							"marginLeft" : "+=5px"
+							"marginRight" : "+=5px"
 						}, "fast");
 						$('#overlay').css( {
 							display : 'none'

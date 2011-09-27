@@ -65,9 +65,10 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 
 	// Filling Available tax Codes in selectTaxCodesGrid
 	private void fillSelectedTaxItems(ClientTAXGroup taxGroup) {
-		for (ClientTAXItem codeInternal : getTaxItemsForTaxGroup(taxGroup)) {
-			selectTaxItemsGrid.addData(codeInternal);
-		}
+		if (getTaxItemsForTaxGroup(taxGroup) != null)
+			for (ClientTAXItem codeInternal : getTaxItemsForTaxGroup(taxGroup)) {
+				selectTaxItemsGrid.addData(codeInternal);
+			}
 	}
 
 	// getting all Tax Codes from Company Object & converting these to temporary
@@ -104,7 +105,8 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 			ClientTAXGroup taxGroup) {
 
 		List<ClientTAXItem> items = taxGroup.getTaxItems();
-		tempAvailTaxItemList = new ArrayList<ClientTAXItem>(items);
+		if (items != null)
+			tempAvailTaxItemList = new ArrayList<ClientTAXItem>(items);
 		// tempAvailTaxCodeList = (ArrayList) Arrays.asList(codes.toArray());
 
 		return tempAvailTaxItemList;
@@ -118,7 +120,7 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 	}
 
 	public void setAvalableTCGridCellWidths() {
-		availTaxItemsGrid.setCellsWidth(new Integer[] { 109, 100 });
+		availTaxItemsGrid.setCellsWidth(new Integer[] { 80, 50 });
 	}
 
 	private void setSelectedTaxItemsGridFields() {
@@ -129,7 +131,7 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 	}
 
 	public void setSelectedTCGridCellWidths() {
-		selectTaxItemsGrid.setCellsWidth(new Integer[] { 109, 100 });
+		selectTaxItemsGrid.setCellsWidth(new Integer[] { 80, 50 });
 	}
 
 	public Object getAvailTaxItemsGridColumnValue(
@@ -167,7 +169,7 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 
 	private void createControls(final ClientTAXGroup taxGroup) {
 
-		setWidth("570px");
+		setWidth("1000px");
 		// setPageTop(10);
 		VerticalPanel bodyLayout = new VerticalPanel();
 

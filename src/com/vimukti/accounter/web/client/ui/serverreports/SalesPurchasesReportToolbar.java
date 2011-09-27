@@ -100,7 +100,8 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 
 		toItem = new DateItem();
 		ClientFinanceDate date = Accounter.getCompany()
-				.getLastandOpenedFiscalYearEndDate();
+				.getCurrentFiscalYearEndDate();
+		// .getLastandOpenedFiscalYearEndDate();
 
 		if (date != null)
 			toItem.setDatethanFireEvent(date);
@@ -136,8 +137,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 		// toItem.setDisabled(true);
 		// updateButton.setEnabled(false);
 
-		Button printButton = new Button(Accounter.constants()
-				.print());
+		Button printButton = new Button(Accounter.constants().print());
 		// printButton.setTop(2);
 		// printButton.setWidth(40);
 		printButton.addClickHandler(new ClickHandler() {
@@ -154,7 +154,6 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 		}
 		addItems(statusCombo, dateRangeItem, fromItem, toItem);
 		add(updateButton);
-
 
 		this.setCellVerticalAlignment(updateButton,
 				HasVerticalAlignment.ALIGN_MIDDLE);

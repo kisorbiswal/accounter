@@ -16,19 +16,17 @@ public class TransactionDiscountColumn extends
 	@Override
 	protected void setAmount(ClientTransactionItem row, double value) {
 		row.setDiscount(value);
-		if (row.getType() != ClientTransactionItem.TYPE_SALESTAX) {
-			// TODO doubt, currencyConversion.
-			double lt = row.getQuantity().getValue() * row.getUnitPrice();
-			double disc = row.getDiscount();
-			row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
-					* disc / 100)) : lt);
-		}
+		// TODO doubt, currencyConversion.
+		double lt = row.getQuantity().getValue() * row.getUnitPrice();
+		double disc = row.getDiscount();
+		row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt * disc / 100))
+				: lt);
 		getTable().update(row);
 	}
 
 	@Override
 	public int getWidth() {
-		return 40;
+		return 45;
 	}
 
 	@Override

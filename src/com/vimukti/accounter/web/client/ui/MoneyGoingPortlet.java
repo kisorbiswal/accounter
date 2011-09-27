@@ -71,7 +71,7 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 		FlexTable fTable = new FlexTable();
 
 		Button addPayableInvoiceBtn = new Button(Accounter.constants()
-				.addPayableInvoice());
+				.addBill());
 		addPayableInvoiceBtn.addStyleName("addButtonPortlet");
 		addPayableInvoiceBtn.addClickHandler(new ClickHandler() {
 
@@ -97,8 +97,11 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 		fTable.setWidget(1, 1, overDueAmtLabel);
 		fTable.addStyleName("fTablePortlet");
 
-		if (Accounter.getUser().canDoInvoiceTransactions()) {
+		if (Accounter.getUser().canDoInvoiceTransactions()
+				&& getCompany().getPreferences().isKeepTrackofBills()) {
 			hPanel.add(addPayableInvoiceBtn);
+		} else {
+			hPanel.addStyleName("fTable-noButton");
 		}
 		hPanel.add(fTable);
 

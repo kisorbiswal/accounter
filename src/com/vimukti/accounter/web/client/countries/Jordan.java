@@ -9,7 +9,7 @@ public class Jordan extends AbstractCountryPreferences {
 	public String[] getStates() {
 		String[] states = new String[] { "'Ajlun", "al-'Aqabah", "al-Balqa'",
 				"al-Karak", "al-Mafraq", "'Amman", "at-Tafilah", "az-Zarqa'",
-				"Irbid", "Jaraš", "Ma'an", "Madaba" };
+				"Irbid", "Jaras", "Ma'an", "Madaba" };
 		return states;
 	}
 

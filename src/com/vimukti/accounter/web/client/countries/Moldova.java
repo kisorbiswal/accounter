@@ -11,9 +11,9 @@ public class Moldova extends AbstractCountryPreferences {
 				"Briceni", "Cahul", "Calarasi", "Camenca", "Cantemir",
 				"Causeni", "Chisinau", "Cimislia", "Criuleni", "Donduseni",
 				"Drochia", "Dubasari municipiu", "Edinet", "Falesti",
-				"Floresti", "Gagauzia", "Glodeni", "Grigoriopol", "Hîncesti",
+				"Floresti", "Gagauzia", "Glodeni", "Grigoriopol", "Hincesti",
 				"Ialoveni", "Leova", "Nisporeni", "Ocnita", "Orhei", "Rezina",
-				"Rîbnita", "Rîscani", "Sîngerei", "Slobozia", "Soldanesti",
+				"Ribnita", "Riscani", "Singerei", "Slobozia", "Soldanesti",
 				"Soroca", "Stefan Voda", "Straseni", "Taraclia", "Telenesti",
 				"Tighina", "Tiraspol", "Ungheni" };
 		return states;

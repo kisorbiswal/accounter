@@ -40,7 +40,8 @@ public abstract class ItemNameColumn extends
 			row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
 					* disc / 100)) : lt);
 
-			if (Accounter.getCompany().getPreferences().isRegisteredForVAT()) {
+			if (getPreferences().isTrackTax()
+					&& getPreferences().isTaxPerDetailLine()) {
 				row.setTaxCode(newValue.getTaxCode() != 0 ? newValue
 						.getTaxCode() : 0);
 			}

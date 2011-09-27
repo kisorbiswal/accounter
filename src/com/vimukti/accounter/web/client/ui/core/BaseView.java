@@ -13,7 +13,6 @@ public abstract class BaseView<T extends IAccounterCore> extends
 
 	private ButtonBar buttonBar;
 
-	protected int accountType;
 	private EditMode mode;
 	// private boolean isInViewMode;
 
@@ -38,8 +37,6 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		super.init();
 		createView();
 		createButtons(getButtonBar());
-		this.accountType = getCompany().getAccountingType();
-
 	}
 
 	public static boolean checkIfNotNumber(String in) {

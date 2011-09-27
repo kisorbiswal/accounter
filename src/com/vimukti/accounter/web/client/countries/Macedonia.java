@@ -9,9 +9,9 @@ public class Macedonia extends AbstractCountryPreferences {
 	public String[] getStates() {
 		String[] states = new String[] { "Berovo", "Bitola", "Brod", "Debar",
 				"Delcevo", "Demir Hisar", "Gevgelija", "Gostivar", "Kavadarci",
-				"Kicevo", "Kocani", "Kratovo", "Kriva Palanka", "Kruševo",
-				"Kumanovo", "Negotino", "Ohrid", "Prilep", "Probištip",
-				"Radoviš", "Resen", "Skopje", "Štip", "Struga", "Strumica",
+				"Kicevo", "Kocani", "Kratovo", "Kriva Palanka", "Krusevo",
+				"Kumanovo", "Negotino", "Ohrid", "Prilep", "Probistip",
+				"Radovis", "Resen", "Skopje", "Stip", "Struga", "Strumica",
 				"Sveti Nikole", "Tetovo", "Valandovo", "Veles", "Vinica" };
 		return states;
 	}

@@ -8,9 +8,9 @@ public class Norway extends AbstractCountryPreferences {
 	@Override
 	public String[] getStates() {
 		String[] states = new String[] { "Akershus", "Aust-Agder", "Buskerud",
-				"Finnmark", "Hedmark", "Hordaland", "Møre og Romsdal",
-				"Nordland", "Nord-Trøndelag", "Oppland", "Oslo", "Østfold",
-				"Rogaland", "Sogn og Fjordane", "Sør-Trøndelag", "Telemark",
+				"Finnmark", "Hedmark", "Hordaland", "More og Romsdal",
+				"Nordland", "Nord-Trondelag", "Oppland", "Oslo", "Ostfold",
+				"Rogaland", "Sogn og Fjordane", "Sor-Trondelag", "Telemark",
 				"Troms", "Vest-Agder", "Vestfold" };
 		return states;
 	}

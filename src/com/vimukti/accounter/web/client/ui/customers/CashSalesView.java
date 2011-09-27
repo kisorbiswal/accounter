@@ -238,7 +238,8 @@ public class CashSalesView extends
 		netAmountLabel = createNetAmountLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
-		customerAccountTransactionTable = new CustomerAccountTransactionTable() {
+		customerAccountTransactionTable = new CustomerAccountTransactionTable(
+				isTrackTax(), isTaxPerDetailLine()) {
 
 			@Override
 			public void updateNonEditableItems() {
@@ -272,7 +273,8 @@ public class CashSalesView extends
 		accountsDisclosurePanel.setOpen(true);
 		accountsDisclosurePanel.setWidth("100%");
 
-		customerItemTransactionTable = new CustomerItemTransactionTable() {
+		customerItemTransactionTable = new CustomerItemTransactionTable(
+				isTrackTax(), isTaxPerDetailLine()) {
 
 			@Override
 			public void updateNonEditableItems() {
@@ -315,7 +317,7 @@ public class CashSalesView extends
 				prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
 						disabletextbox, taxTotalNonEditableText,
 						disabletextbox, transactionTotalNonEditableText);
-				prodAndServiceForm2.addStyleName("invoice-total");
+				prodAndServiceForm2.addStyleName("boldtext");
 			} else {
 				prodAndServiceForm2.setFields(taxCodeSelect,
 						taxTotalNonEditableText, disabletextbox,
@@ -325,17 +327,14 @@ public class CashSalesView extends
 			prodAndServiceForm2.setFields(disabletextbox,
 					transactionTotalNonEditableText);
 		}
-		prodAndServiceForm2.addStyleName("tax-form");
+		prodAndServiceForm2.addStyleName("boldtext");
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(prodAndServiceForm2);
-		if (getCompany().getAccountingType() == 1) {
-			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "30%");
-		} else
-			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
+		prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
 
 		VerticalPanel vPanel = new VerticalPanel();
 		vPanel.setHorizontalAlignment(ALIGN_RIGHT);
@@ -571,14 +570,11 @@ public class CashSalesView extends
 			transaction.setPriceLevel(priceLevel.getID());
 		transaction.setMemo(getMemoTextAreaItem());
 		// transaction.setReference(getRefText());
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (isTrackTax()) {
 			transaction.setNetAmount(netAmountLabel.getAmount());
 			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 					.getValue());
-		} else {
-			if (salesTax != null)
-				transaction.setSalesTax(salesTax);
-
+			transaction.setTaxTotal(salesTax);
 		}
 
 		transaction.setTotal(transactionTotalNonEditableText.getAmount());
@@ -590,26 +586,35 @@ public class CashSalesView extends
 		if (customerAccountTransactionTable == null
 				|| customerItemTransactionTable == null)
 			return;
-		if (getCompany().getAccountingType() == 0) {
 
-			double totalTax = customerAccountTransactionTable.getTotalTax()
-					+ customerItemTransactionTable.getTotalTax();
-			double total = customerAccountTransactionTable.getGrandTotal()
-					+ customerItemTransactionTable.getGrandTotal();
-
-			setSalesTax(totalTax);
-
-			setTransactionTotal(total);
-
-		} else {
-			double lineTotal = customerAccountTransactionTable.getLineTotal()
-					+ customerItemTransactionTable.getLineTotal();
-			double grandTotal = customerAccountTransactionTable.getGrandTotal()
-					+ customerItemTransactionTable.getGrandTotal();
+		double lineTotal = customerAccountTransactionTable.getLineTotal()
+				+ customerItemTransactionTable.getLineTotal();
+		double totalTax = customerAccountTransactionTable.getTotalTax()
+				+ customerItemTransactionTable.getTotalTax();
+		double total = customerAccountTransactionTable.getGrandTotal()
+				+ customerItemTransactionTable.getGrandTotal();
+		if (getCompany().getPreferences().isTrackTax()) {
 			netAmountLabel.setAmount(lineTotal);
-			taxTotalNonEditableText.setAmount(grandTotal - lineTotal);
-			setTransactionTotal(grandTotal);
+			setSalesTax(totalTax);
 		}
+
+		setTransactionTotal(total);
+
+		// } else {
+		// double lineTotal = customerAccountTransactionTable.getLineTotal()
+		// + customerItemTransactionTable.getLineTotal();
+		// double grandTotal = customerAccountTransactionTable.getGrandTotal()
+		// + customerItemTransactionTable.getGrandTotal();
+		// double totalTax = customerAccountTransactionTable.getTotalTax()
+		// + customerItemTransactionTable.getTotalTax();
+		// netAmountLabel.setAmount(lineTotal);
+		// taxTotalNonEditableText.setAmount(grandTotal - lineTotal);
+		// if (getCompany().getPreferences().isTrackTax()) {
+		// netAmountLabel.setAmount(lineTotal);
+		// setSalesTax(totalTax);
+		// }
+		// setTransactionTotal(grandTotal);
+		// }
 
 	}
 
@@ -707,7 +712,7 @@ public class CashSalesView extends
 								.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
 					}
 					this.taxTotalNonEditableText.setValue(String
-							.valueOf(transaction.getSalesTax()));
+							.valueOf(transaction.getTaxTotla()));
 				}
 			}
 			memoTextAreaItem.setDisabled(true);
@@ -798,7 +803,7 @@ public class CashSalesView extends
 
 		if (transaction != null) {
 			Double salesTaxAmout = ((ClientCashSales) transaction)
-					.getSalesTax();
+					.getTaxTotla();
 			setSalesTax(salesTaxAmout);
 
 		}

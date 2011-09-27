@@ -7,7 +7,7 @@ public class Portugal extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		String[] states = new String[] { "Açores", "Alentejo", "Algarve",
+		String[] states = new String[] { "Acores", "Alentejo", "Algarve",
 				"Centro", "Lisboa e Vale do Tejo", "Madeira", "Norte" };
 		return states;
 	}

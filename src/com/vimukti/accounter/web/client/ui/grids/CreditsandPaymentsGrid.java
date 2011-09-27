@@ -18,6 +18,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.customers.CustomerCreditsAndPaymentsDialiog;
+import com.vimukti.accounter.web.client.ui.customers.NewApplyCreditsDialog;
 
 public class CreditsandPaymentsGrid extends
 		AbstractTransactionGrid<ClientCreditsAndPayments> {
@@ -34,12 +35,21 @@ public class CreditsandPaymentsGrid extends
 
 	private ClientTransactionReceivePayment traReceivePayment;
 	public LinkedHashMap<ClientTransactionReceivePayment, List<ClientCreditsAndPayments>> creditsMap = new LinkedHashMap<ClientTransactionReceivePayment, List<ClientCreditsAndPayments>>();
+	private NewApplyCreditsDialog newdialog;
 
 	public CreditsandPaymentsGrid(boolean isMultiSelectionEnable,
 			CustomerCreditsAndPaymentsDialiog creditdialog,
 			ClientTransactionReceivePayment trareceivePayment) {
 		super(isMultiSelectionEnable);
 		this.dialog = creditdialog;
+		this.traReceivePayment = trareceivePayment;
+	}
+
+	public CreditsandPaymentsGrid(boolean isMultiSelectionEnable,
+			NewApplyCreditsDialog creditdialog,
+			ClientTransactionReceivePayment trareceivePayment) {
+		super(isMultiSelectionEnable);
+		this.newdialog = creditdialog;
 		this.traReceivePayment = trareceivePayment;
 	}
 
@@ -64,7 +74,7 @@ public class CreditsandPaymentsGrid extends
 	 */
 	private void selectAllValues() {
 		for (ClientCreditsAndPayments cpRecord : this.getRecords()) {
-			if (!isSelected(cpRecord)) {
+			if (isSelected(cpRecord)) {
 				((CheckBox) this.body.getWidget(indexOf(cpRecord), 0))
 						.setValue(true);
 				updateValue(cpRecord);
@@ -79,7 +89,7 @@ public class CreditsandPaymentsGrid extends
 
 	public void resetAllValues() {
 		for (ClientCreditsAndPayments creditsAndPayments : getRecords()) {
-			if (isSelected(creditsAndPayments)) {
+			if (!isSelected(creditsAndPayments)) {
 				resetValidValue(creditsAndPayments);
 			}
 		}
@@ -109,7 +119,7 @@ public class CreditsandPaymentsGrid extends
 		super.onSelectionChanged(core, row, isChecked);
 	}
 
-	private void updateValue(ClientCreditsAndPayments creditsAndpayments) {
+	public void updateValue(ClientCreditsAndPayments creditsAndpayments) {
 		double bal = creditsAndpayments.getBalance();
 		creditsAndpayments.setBalance(0.0d);
 		creditsAndpayments.setAmtTouse(bal);
@@ -132,14 +142,24 @@ public class CreditsandPaymentsGrid extends
 		updateAmountValues();
 	}
 
-	private void updateAmountValues() {
-		dialog.totalBalances = 0.0D;
-		dialog.totalAmountToUse = 0.0D;
-		for (ClientCreditsAndPayments creditsAndPayments : getRecords()) {
-			dialog.totalBalances += creditsAndPayments.getBalance();
-			dialog.totalAmountToUse += creditsAndPayments.getAmtTouse();
+	public void updateAmountValues() {
+		if (dialog != null) {
+			dialog.totalBalances = 0.0D;
+			dialog.totalAmountToUse = 0.0D;
+			for (ClientCreditsAndPayments creditsAndPayments : getRecords()) {
+				dialog.totalBalances += creditsAndPayments.getBalance();
+				dialog.totalAmountToUse += creditsAndPayments.getAmtTouse();
+			}
+			dialog.updateFields();
+		} else {
+			newdialog.totalBalances = 0.0D;
+			newdialog.totalAmountToUse = 0.0D;
+			for (ClientCreditsAndPayments creditsAndPayments : getRecords()) {
+				newdialog.totalBalances += creditsAndPayments.getBalance();
+				newdialog.totalAmountToUse += creditsAndPayments.getAmtTouse();
+			}
+			newdialog.updateFields();
 		}
-		dialog.updateFields();
 
 	}
 

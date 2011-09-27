@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.vat;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -15,10 +14,7 @@ public class AdjustTAXAction extends Action {
 
 	public AdjustTAXAction(String text) {
 		super(text);
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			this.catagory = Accounter.constants().company();
-		else
-			this.catagory = Accounter.constants().vat();
+		this.catagory = Accounter.constants().tax();
 	}
 
 	@Override

@@ -2,15 +2,18 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.BankAccount;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Customer;
+import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
@@ -28,9 +31,14 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.Lists.BillsList;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public abstract class AbstractTransactionCommand extends AbstractCommand {
@@ -46,15 +54,19 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final String ITEM_PROPERTY_ATTR = null;
 	protected static final String PAYMENT_MENTHOD = "Payment method";
 	private static final int PAYEES_TO_SHOW = 5;
-	private static final int BANK_ACCOUNTS_TO_SHOW = 5;
+	protected static final int BANK_ACCOUNTS_TO_SHOW = 5;
 	protected static final int EXPENSES_TO_SHOW = 5;
+	protected static final int BILLS_TO_SHOW = 5;
+	protected static final int ESTIMATES_TO_SHOW = 5;
+
 	protected static final String TRANSACTION_ACCOUNT_ITEM_PROCESS = null;
 	protected static final String OLD_TRANSACTION_ACCOUNT_ITEM_ATTR = null;
 	private static final String ACCOUNT_ITEM_PROPERTY_ATTR = null;
 	private static final String ACCOUNT_ITEM_DETAILS = null;
 	protected static final String VENDOR = "vendor";
 	protected static final String PAY_FROM = "payFrom";
-	protected static final String ACTIVE = "isActive";
+	protected static final String US_CHECK = "Check";
+	protected static final String UK_CHECK = "Cheque";
 
 	protected Result itemsRequirement(Context context) {
 		Requirement itemsReq = get("items");
@@ -175,7 +187,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		record.add("", transactionItem.getDiscount());
 		list.add(record);
 
-		Company company = getCompany();
+		Company company = context.getCompany();
 		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 			record = new Record(transactionItem.getTaxCode().getName());
 			record.add("", "VatCode");
@@ -270,7 +282,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		record.add("", transactionItem.getDiscount());
 		list.add(record);
 
-		Company company = getCompany();
+		Company company = context.getCompany();
 		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 			record = new Record(transactionItem.getTaxCode().getName());
 			record.add("", "VatCode");
@@ -336,7 +348,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	protected Result items(Context context) {
 		Result result = context.makeResult();
-		Set<Item> items = getItems();
+		List<Item> items = getItems(context.getCompany());
 		ResultList list = new ResultList("items");
 		Object last = context.getLast(RequirementType.ITEM);
 		int num = 0;
@@ -394,7 +406,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			customersList.add(createCustomerRecord((Customer) last));
 			num++;
 		}
-		Set<Customer> customers = getCustomers();
+		List<Customer> customers = context.getCompany().getCustomers();
 		for (Customer customer : customers) {
 			if (customer != last) {
 				customersList.add(createCustomerRecord(customer));
@@ -534,17 +546,32 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return record;
 	}
 
-	protected Set<Item> getItems() {
-		return getCompany().getItems();
+	protected List<Item> getItems(Company company) {
+		return company.getItems();
 
 	}
 
-	private Set<Customer> getCustomers() {
-		return getCompany().getCustomers();
+	protected List<Activity> getActivityList(Date fromDate, Date endDate) {
+		return null;
 	}
 
-	private Set<PaymentTerms> getPaymentTerms() {
-		return getCompany().getPaymentTerms();
+	protected List<Customer> getCustomers(Company company, Boolean isActive) {
+		ArrayList<Customer> customers = company.getCustomers();
+		ArrayList<Customer> result = new ArrayList<Customer>();
+		for (Customer customer : customers) {
+			if (isActive) {
+				if (customer.isActive()) {
+					result.add(customer);
+				}
+			} else {
+				result.add(customer);
+			}
+		}
+		return result;
+	}
+
+	private List<PaymentTerms> getPaymentTerms(Company company) {
+		return company.getPaymentTerms();
 	}
 
 	protected Result paymentFrom(Context context, Account oldAccount) {
@@ -586,7 +613,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	}
 
 	protected Result paymentTerms(Context context, PaymentTerms oldPaymentTerms) {
-		Set<PaymentTerms> paymentTerms = getPaymentTerms();
+		List<PaymentTerms> paymentTerms = getPaymentTerms(context.getCompany());
 		Result result = context.makeResult();
 		result.add("Select PaymentTerms");
 
@@ -693,7 +720,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	private List<Account> getAccounts() {
 		FinanceTool financeTool = new FinanceTool();
-		return null;
+		return financeTool.getAccountsListBySorted();
+
 	}
 
 	protected Record createAccountRecord(Account last) {
@@ -821,7 +849,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			payeeList.add(createPayeeRecord((Payee) last));
 			num++;
 		}
-		Set<Payee> payees = getPayees();
+		List<Payee> payees = context.getCompany().getPayees();
 		for (Payee payee : payees) {
 			if (payee != last) {
 				payeeList.add(createPayeeRecord(payee));
@@ -844,11 +872,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		result.add(commandList);
 		result.add("Type of Payee");
 		return result;
-	}
-
-	private Set<Payee> getPayees() {
-
-		return getCompany().getPayees();
 	}
 
 	protected Record createPayeeRecord(Payee payee) {
@@ -919,8 +942,18 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	}
 
 	private List<BankAccount> getBankAccounts() {
-		// TODO
-		return null;
+
+		List<BankAccount> bankAccounts = new ArrayList<BankAccount>();
+		FinanceTool financeTool = new FinanceTool();
+		ArrayList<Account> accountsListBySorted = financeTool
+				.getAccountsListBySorted();
+		for (Account a : accountsListBySorted) {
+			if (a.getType() == Account.TYPE_BANK) {
+				bankAccounts.add((BankAccount) a);
+			}
+		}
+
+		return bankAccounts;
 	}
 
 	protected Result accountsRequirement(Context context) {
@@ -943,7 +976,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	private Result accountItems(Context context) {
 		Result result = context.makeResult();
-		Set<Item> items = getItems();
+		List<Item> items = getItems(context.getCompany());
 		ResultList list = new ResultList("accounts");
 		Object last = context.getLast(RequirementType.ACCOUNT);
 		int num = 0;
@@ -995,7 +1028,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		double totalVat = 0.0;
 		double grandTotal = 0.0;
 		double totalValue = 0.0;
-		int accountType = getCompany().getAccountingType();
+		int accountType = company.getAccountingType();
 		for (TransactionItem citem : items) {
 			totaldiscount += citem.getDiscount();
 
@@ -1017,13 +1050,13 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			// totalVat += citem.getVATfraction();
 		}
 
-		if (getCompany().getPreferences().isChargeSalesTax()) {
+		if (company.getPreferences().isChargeSalesTax()) {
 			grandTotal = totalVat + totallinetotal;
 		} else {
 			grandTotal = totallinetotal;
 			totalValue = grandTotal;
 		}
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (company.getPreferences().isRegisteredForVAT()) {
 			// if (transactionView.vatinclusiveCheck != null
 			// && (Boolean) transactionView.vatinclusiveCheck.getValue()) {
 			// grandTotal = totallinetotal - totalVat;
@@ -1087,7 +1120,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected List<Account> getAccounts(Boolean isActive) {
 		FinanceTool financeTool = new FinanceTool();
 		List<Account> accounts = new ArrayList<Account>();
-		List<Account> allaccounts = null;// financeTool.getAccountsListBySorted();
+		List<Account> allaccounts = financeTool.getAccountsListBySorted();
 		for (Account acc : allaccounts) {
 			if (isActive) {
 				if (acc.getIsActive()) {
@@ -1107,13 +1140,13 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		Requirement requirement = get("paymentmethod");
 		if (requirement != null) {
 			String paymentMethod = (String) requirement.getValue();
-			if (paymentMethod.equals("Check")) {
+			if (paymentMethod.equals(US_CHECK)) {
 
 				Requirement req = get("chequeNo");
 				String invoiceNo = (String) req.getValue();
 
 				String attribute = (String) context.getAttribute(INPUT_ATTR);
-				if (attribute.equals("chequeNo")) {
+				if (attribute.equals(UK_CHECK)) {
 					String order = context.getSelection(NUMBER);
 					if (order == null) {
 						order = context.getString();
@@ -1134,5 +1167,109 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			}
 		}
 		return null;
+	}
+
+	protected List<BillsList> getExpenses(String viewType) {
+
+		ArrayList<BillsList> billsList = null;
+		try {
+			billsList = new FinanceTool().getBillsList(true);
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+
+		return filterList(viewType, billsList);
+	}
+
+	protected List<BillsList> getBills(String viewType) {
+		ArrayList<BillsList> billsList = null;
+
+		try {
+			billsList = new FinanceTool().getBillsList(false);
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+
+		return filterList(viewType, billsList);
+	}
+
+	private List<BillsList> filterList(String text,
+			List<BillsList> initialRecords) {
+
+		if (text.equalsIgnoreCase(Accounter.getFinanceConstants().open())) {
+			ArrayList<BillsList> openRecs = new ArrayList<BillsList>();
+			List<BillsList> allRecs = initialRecords;
+			for (BillsList rec : allRecs) {
+				if ((rec.getType() == com.vimukti.accounter.core.Transaction.TYPE_CREDIT_CARD_EXPENSE
+						|| rec.getType() == com.vimukti.accounter.core.Transaction.TYPE_CASH_EXPENSE || rec
+						.getType() == com.vimukti.accounter.core.Transaction.TYPE_EMPLOYEE_EXPENSE)
+						|| ((rec.getType() == com.vimukti.accounter.core.Transaction.TYPE_ENTER_BILL || rec
+								.getType() == com.vimukti.accounter.core.Transaction.TYPE_VENDOR_CREDIT_MEMO) && DecimalUtil
+								.isGreaterThan(rec.getBalance(), 0))) {
+					if (!rec.isDeleted() && !rec.isVoided())
+						openRecs.add(rec);
+
+				}
+			}
+			return openRecs;
+
+		} else if (text.equalsIgnoreCase(Accounter.getFinanceConstants()
+				.voided())) {
+			ArrayList<BillsList> voidedRecs = new ArrayList<BillsList>();
+			List<BillsList> allRecs = initialRecords;
+			for (BillsList rec : allRecs) {
+				if (rec.isVoided() && !rec.isDeleted()) {
+					voidedRecs.add(rec);
+
+				}
+			}
+			return voidedRecs;
+
+		} else if (text.equalsIgnoreCase(Accounter.getFinanceConstants()
+				.overDue())) {
+			ArrayList<BillsList> overDueRecs = new ArrayList<BillsList>();
+			List<BillsList> allRecs = initialRecords;
+			for (BillsList rec : allRecs) {
+				if (rec.getType() == com.vimukti.accounter.core.Transaction.TYPE_ENTER_BILL
+						&& new ClientFinanceDate().after(rec.getDueDate())
+						&& DecimalUtil.isGreaterThan(rec.getBalance(), 0)) {
+					overDueRecs.add(rec);
+				}
+			}
+
+		}
+
+		if (text.equalsIgnoreCase(Accounter.getFinanceConstants().all())) {
+			ArrayList<BillsList> list = new ArrayList<BillsList>();
+			list.addAll(initialRecords);
+			return list;
+		}
+		return initialRecords;
+
+	}
+
+	protected List<Estimate> getEstimates(String viewType) {
+
+		List<Estimate> result = new ArrayList<Estimate>();
+		List<Estimate> data = null;
+		try {
+			data = new FinanceTool().getEstimates();
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+
+		for (Estimate e : data) {
+			if (viewType.equals(Estimate.STATUS_OPEN)) {
+				result.add(e);
+			} else if (viewType.equals(Estimate.STATUS_ACCECPTED)) {
+				result.add(e);
+			} else if (viewType.equals(Estimate.STATUS_REJECTED)) {
+				result.add(e);
+			} else {
+				result.add(e);
+			}
+		}
+
+		return result;
 	}
 }

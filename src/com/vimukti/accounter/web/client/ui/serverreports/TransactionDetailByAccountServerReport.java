@@ -55,8 +55,8 @@ public class TransactionDetailByAccountServerReport extends
 
 	int getType(TransactionDetailByAccount record) {
 		if (record.getTransactionType() == 11) {
-			return (record.getMemo() != null && record.getMemo()
-					.equalsIgnoreCase("supplier prepayment")) ? ClientTransaction.TYPE_VENDOR_PAYMENT
+			return (record.getMemo() != null && record.getMemo().equals(
+					getMessages().vendorPrePayment(Global.get().Vendor()))) ? ClientTransaction.TYPE_VENDOR_PAYMENT
 					: ClientTransaction.TYPE_PAY_BILL;
 		}
 
@@ -65,7 +65,7 @@ public class TransactionDetailByAccountServerReport extends
 
 	@Override
 	public String getDefaultDateRange() {
-		return constants.all();
+		return constants.financialYearToDate();
 	}
 
 	@Override
@@ -77,9 +77,8 @@ public class TransactionDetailByAccountServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "", constants.name(), constants.date(),
-				" ", constants.number(), constants.amount(),
-				constants.balance() };
+		return new String[] { "", constants.name(), constants.date(), " ",
+				constants.number(), constants.amount(), constants.balance() };
 	}
 
 	@Override
@@ -108,14 +107,15 @@ public class TransactionDetailByAccountServerReport extends
 
 	@Override
 	public void processRecord(TransactionDetailByAccount record) {
+		// if (sectionDepth == 0) {
+		// addSection(new String[] { "", "" }, new String[] { "", "", "", "",
+		// constants.total() }, new int[] { 5 });
+		// } else
 		if (sectionDepth == 0) {
-			addSection(new String[] { "", "" }, new String[] { "", "", "", "",
-					constants.total() }, new int[] { 5 });
-		} else if (sectionDepth == 1) {
 			this.sectionName = record.getAccountName();
 			addSection(new String[] { sectionName }, new String[] { "" },
 					new int[] { 5 });
-		} else if (sectionDepth == 2) {
+		} else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record
 			if (!sectionName.equals(record.getAccountName())) {
 				endSection();
@@ -160,8 +160,6 @@ public class TransactionDetailByAccountServerReport extends
 	@Override
 	public int getColumnWidth(int index) {
 		switch (index) {
-		case 0:
-			return 225;
 		case 1:
 			return 130;
 		case 2:
@@ -170,9 +168,12 @@ public class TransactionDetailByAccountServerReport extends
 			return 130;
 		case 4:
 			return 50;
-
-		default:
+		case 5:
 			return 115;
+		case 6:
+			return 115;
+		default:
+			return -1;
 		}
 	}
 
@@ -198,9 +199,8 @@ public class TransactionDetailByAccountServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "", constants.name(), constants.date(),
-				" ", constants.number(), constants.amount(),
-				constants.balance() };
+		return new String[] { "", constants.name(), constants.date(), " ",
+				constants.number(), constants.amount(), constants.balance() };
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -11,6 +12,7 @@ import com.vimukti.accounter.web.client.ui.edittable.AccountNameColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DescriptionEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionDiscountColumn;
+import com.vimukti.accounter.web.client.ui.edittable.TransactionTaxableColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionTotalColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionUnitPriceColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionVatCodeColumn;
@@ -19,12 +21,19 @@ import com.vimukti.accounter.web.client.ui.edittable.TransactionVatColumn;
 public abstract class CustomerAccountTransactionTable extends
 		CustomerTransactionTable {
 
-	public CustomerAccountTransactionTable() {
-		this(true);
+	private boolean enableTax;
+	private boolean showTaxCode;
+
+	public CustomerAccountTransactionTable(boolean enableTax,
+			boolean showTaxCode) {
+		this(true, enableTax, showTaxCode);
 	}
 
-	public CustomerAccountTransactionTable(boolean needDiscount) {
+	public CustomerAccountTransactionTable(boolean needDiscount,
+			boolean enableTax, boolean showTaxCode) {
 		super(needDiscount);
+		this.enableTax = enableTax;
+		this.showTaxCode = showTaxCode;
 		addEmptyRecords();
 	}
 
@@ -102,14 +111,35 @@ public abstract class CustomerAccountTransactionTable extends
 
 		// if (getCompany().getPreferences().isChargeSalesTax()) {
 
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (enableTax) {
+			if (showTaxCode) {
+				this.addColumn(new TransactionVatCodeColumn() {
 
-			this.addColumn(new TransactionVatCodeColumn());
+					@Override
+					protected ListFilter<ClientTAXCode> getTaxCodeFilter() {
+						return new ListFilter<ClientTAXCode>() {
 
-			this.addColumn(new TransactionVatColumn());
+							@Override
+							public boolean filter(ClientTAXCode e) {
+								if (e.getTAXItemGrpForSales() != 0) {
+									return true;
+								}
+								return false;
+							}
+						};
+					}
+
+					@Override
+					protected boolean isSales() {
+						return true;
+					}
+				});
+
+				this.addColumn(new TransactionVatColumn());
+			} else {
+				this.addColumn(new TransactionTaxableColumn());
+			}
 		}
-
-		// }
 
 		this.addColumn(new DeleteColumn<ClientTransactionItem>());
 	}

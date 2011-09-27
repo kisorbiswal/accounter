@@ -178,8 +178,32 @@ public class CreateFiscalYearDialog extends BaseDialog<ClientFiscalYear> {
 		} else if (checkFiscalYearExists()) {
 			result.addError(this, Accounter.messages()
 					.fiscalYearAlreadyExists());
+		} else if (checkStartDateExists()) {
+			result.addError(this, Accounter.messages()
+					.fiscalYearStartDateAlreadyExists());
+		} else if (checkEndDateExists()) {
+			result.addError(this, Accounter.messages()
+					.fiscalYearEndDateAlreadyExists());
 		}
 		return result;
+	}
+
+	private boolean checkEndDateExists() {
+		for (ClientFiscalYear fiscalyear : listOfFiscalYear.getRecords()) {
+			if (endOfFiscalYear.getDate().equals(fiscalyear.getEndDate())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean checkStartDateExists() {
+		for (ClientFiscalYear fiscalyear : listOfFiscalYear.getRecords()) {
+			if (startOfFiscalYear.getDate().equals(fiscalyear.getStartDate())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private boolean checkFiscalYearExists() {

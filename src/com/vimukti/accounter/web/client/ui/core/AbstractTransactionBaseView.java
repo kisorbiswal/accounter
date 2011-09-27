@@ -669,7 +669,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		// paymentType = UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
 		// .constants().check());
 		String payVatMethodArray[] = new String[] {
-				Accounter.constants().cash(), constants.cheque(),
+				Accounter.constants().cash(),
 				Accounter.constants().creditCard(),
 				Accounter.constants().directDebit(),
 				Accounter.constants().masterCard(),

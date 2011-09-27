@@ -158,6 +158,8 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 
 	@Override
 	protected void onClick(PayeeList obj, int row, int col) {
+		if (!Accounter.getUser().canDoInvoiceTransactions())
+			return;
 		List<PayeeList> customers = getRecords();
 		PayeeList customer = customers.get(row);
 
@@ -189,20 +191,22 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 
 	@Override
 	public void onDoubleClick(PayeeList obj) {
-		AccounterAsyncCallback<ClientCustomer> callback = new AccounterAsyncCallback<ClientCustomer>() {
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
+			AccounterAsyncCallback<ClientCustomer> callback = new AccounterAsyncCallback<ClientCustomer>() {
 
-			public void onException(AccounterException caught) {
-			}
-
-			public void onResultSuccess(ClientCustomer result) {
-				if (result != null) {
-					ActionFactory.getNewCustomerAction().run(result, false);
+				public void onException(AccounterException caught) {
 				}
-			}
 
-		};
-		Accounter.createGETService().getObjectById(AccounterCoreType.CUSTOMER,
-				obj.id, callback);
+				public void onResultSuccess(ClientCustomer result) {
+					if (result != null) {
+						ActionFactory.getNewCustomerAction().run(result, false);
+					}
+				}
+
+			};
+			Accounter.createGETService().getObjectById(
+					AccounterCoreType.CUSTOMER, obj.id, callback);
+		}
 	}
 
 	protected void executeDelete(final PayeeList recordToBeDeleted) {
@@ -286,7 +290,7 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 			return 70;
 		}
 		if (index == 8) {
-			return 70;
+			return 75;
 		}
 		if (index == 9) {
 			return 70;

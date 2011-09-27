@@ -83,8 +83,7 @@
 			lazy="false" column="RECONCILIATION_ID">
 		</many-to-one>
 
-		<many-to-one name="lastActivity" class="Activity" column="LAST_ACTIVITY"
-			not-null="true" unique="true"></many-to-one>
+		<many-to-one name="lastActivity" class="Activity" column="LAST_ACTIVITY"></many-to-one>
 
 		<joined-subclass name="PaySalesTax" table="PAY_SALES_TAX">
 			<key column="ID" />
@@ -230,7 +229,7 @@
 			<many-to-one name="priceLevel" class="PriceLevel" lazy="false"
 				column="PRICE_LEVEL_ID">
 			</many-to-one>
-			<property name="salesTax" column="SALES_TAX"></property>
+			<property name="taxTotal" column="SALES_TAX"></property>
 			<property name="discountTotal" column="DISCOUNT_TOTAL"></property>
 		</joined-subclass>
 		<joined-subclass name="CreditCardCharge" table="CREDIT_CARD_CHARGES">
@@ -294,7 +293,7 @@
 			<many-to-one name="priceLevel" class="PriceLevel" lazy="false"
 				column="PRICE_LEVEL_ID">
 			</many-to-one>
-			<property name="salesTax" column="SALES_TAX"></property>
+			<property name="taxTotal" column="SALES_TAX"></property>
 			<property name="discountTotal" column="DISCOUNT_TOTAL"></property>
 			<property name="balanceDue" column="BALANCE_DUE"></property>
 		</joined-subclass>
@@ -438,7 +437,7 @@
 			<many-to-one name="priceLevel" class="PriceLevel" lazy="false"
 				column="PRICE_LEVEL_ID">
 			</many-to-one>
-			<property name="salesTax" column="SALES_TAX"></property>
+			<property name="taxTotal" column="SALES_TAX"></property>
 			<property name="isTurnedToInvoiceOrSalesOrder" column="IS_TURNED_TO_INVOICE"></property>
 		</joined-subclass>
 		<joined-subclass name="Invoice" table="INVOICE">
@@ -496,7 +495,7 @@
 			<many-to-one name="priceLevel" class="PriceLevel" lazy="false"
 				column="PRICE_LEVEL_ID">
 			</many-to-one>
-			<property name="salesTaxAmount" column="SALES_TAX_AMOUNT"></property>
+			<property name="taxTotal" column="SALES_TAX_AMOUNT"></property>
 			<property name="payments" column="PAYMENTS"></property>
 			<property name="balanceDue" column="BALANCE_DUE"></property>
 			<property name="isPaid" column="IS_PAID"></property>
@@ -783,7 +782,7 @@
 			<many-to-one name="priceLevel" class="PriceLevel" lazy="false"
 				column="PRICE_LEVEL_ID">
 			</many-to-one>
-			<property name="salesTaxAmount" column="SALES_TAX_AMOUNT"></property>
+			<property name="taxTotal" column="SALES_TAX_AMOUNT"></property>
 			<many-to-one name="salesTaxItem" class="Item" lazy="false"
 				column="ITEM_ID">
 			</many-to-one>
@@ -1036,9 +1035,6 @@
 		<property name="type" column="TYPE"></property>
 		<many-to-one name="item" class="Item" lazy="false" column="ITEM_ID">
 		</many-to-one>
-		<many-to-one name="taxItem" class="TAXItem" lazy="false"
-			column="TAXITEM_ID">
-		</many-to-one>
 		<many-to-one name="account" class="Account" lazy="false"
 			column="ACCOUNT_ID">
 		</many-to-one>
@@ -1058,9 +1054,6 @@
 		<property name="lineTotal" column="LINE_TOTAL"></property>
 		<property name="updateAmount" column="UPDATE_AMOUNT"></property>
 		<property name="isTaxable" column="IS_TAXABLE"></property>
-		<many-to-one name="taxGroup" class="TAXGroup" lazy="false"
-			column="TAXGROUP_ID">
-		</many-to-one>
 		<many-to-one name="transaction" class="Transaction" lazy="false"
 			column="TRANSACTION_ID">
 		</many-to-one>

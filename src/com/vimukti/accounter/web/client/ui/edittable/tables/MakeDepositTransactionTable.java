@@ -32,10 +32,10 @@ public abstract class MakeDepositTransactionTable extends
 	private Double totallinetotal = 0.0;
 
 	public MakeDepositTransactionTable() {
-		initColumns();
+		
 	}
 
-	private void initColumns() {
+	protected void initColumns() {
 		this.addColumn(new TextEditColumn<ClientTransactionMakeDeposit>() {
 
 			@Override

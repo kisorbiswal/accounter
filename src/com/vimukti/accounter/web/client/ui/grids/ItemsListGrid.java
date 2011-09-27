@@ -115,7 +115,7 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 					Accounter.constants().itemName(),
 					Accounter.constants().description(),
 					Accounter.constants().type(),
-					Accounter.constants().sellPrice(),
+					Accounter.constants().salesPrice(),
 					Accounter.constants().purchasePrice(), "" };
 		} else if (ItemListView.isPurchaseType) {
 			return new String[] { Accounter.constants().active(),
@@ -129,7 +129,7 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 					Accounter.constants().itemName(),
 					Accounter.constants().description(),
 					Accounter.constants().type(),
-					Accounter.constants().sellPrice(), "" };
+					Accounter.constants().salesPrice(), "" };
 
 		}
 	}

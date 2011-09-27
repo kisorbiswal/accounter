@@ -67,7 +67,9 @@ public class SalesByCustomerDetailServerReport extends
 		// if (index == 0)
 		// return 180;
 		if (index == 1)
-			return 70;
+			return 120;
+		else if (index == 0)
+			return 250;
 		else if (index == 4)
 			return 160;
 		else if (index == 0)
@@ -96,15 +98,16 @@ public class SalesByCustomerDetailServerReport extends
 
 	@Override
 	public void processRecord(SalesByCustomerDetail record) {
+		// if (sectionDepth == 0) {
+		// addSection(new String[] { "", "" }, new String[] { "", "", "",
+		// getConstants().total() }, new int[] { 4 });
+		// } else
 		if (sectionDepth == 0) {
-			addSection(new String[] { "", "" }, new String[] { "", "", "",
-					getConstants().total() }, new int[] { 4 });
-		} else if (sectionDepth == 1) {
 			this.sectionName = record.getName();
 			addSection(new String[] { sectionName }, new String[] { "", "", "",
 					getConstants().total() }, new int[] { 4 });
 			// addSection(sectionName, "", new int[] { 5 });
-		} else if (sectionDepth == 2) {
+		} else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record
 			if (!sectionName.equals(record.getName())) {
 				endSection();

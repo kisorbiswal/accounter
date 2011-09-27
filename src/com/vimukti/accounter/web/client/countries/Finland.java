@@ -7,10 +7,10 @@ public class Finland extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		String[] states = new String[] { "Ahvenanmaa", "Etelä-Karjala",
-				"Etelä-Pohjanmaa", "Etelä-Savo", "Itä-Uusimaa", "Kainuu",
-				"Kanta-Häme", "Keski-Pohjanmaa", "Keski-Suomi", "Kymenlaakso",
-				"Lappland", "Päijät-Häme", "Pirkanmaa", "Pohjanmaa",
+		String[] states = new String[] { "Ahvenanmaa", "Etela-Karjala",
+				"Etela-Pohjanmaa", "Etela-Savo", "Ita-Uusimaa", "Kainuu",
+				"Kanta-Hame", "Keski-Pohjanmaa", "Keski-Suomi", "Kymenlaakso",
+				"Lappland", "Paijat-Hame", "Pirkanmaa", "Pohjanmaa",
 				"Pohjois-Karjala", "Pohjois-Pohjanmaa", "Pohjois-Savo",
 				"Satakunta", "Uusimaa", "Varsinais-Suomi" };
 		return states;

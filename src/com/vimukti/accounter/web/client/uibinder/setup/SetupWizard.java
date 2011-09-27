@@ -25,8 +25,8 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.CustomLabel;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.AccounterDialog;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 
@@ -49,7 +49,7 @@ public class SetupWizard extends VerticalPanel {
 			new SetupCompanyInfoPage(),
 			new SetupIndustrySelectionPage(this),
 			new SetupOrganisationSelectionPage(),
-		//	new SetupTDSSelectionPage(),
+			// new SetupTDSSelectionPage(),
 			new SetupReferPage(),
 			// Employee Expanse Will be Added in Next Version
 			/* new SetupTrackEmployeesPage(), */new SetupSellTypeAndSalesTaxPage(),
@@ -58,7 +58,7 @@ public class SetupWizard extends VerticalPanel {
 			new SetupCurrencyPage(), new SetupTrackBillsAndTimePage(),
 			new SetupSelectFiscalYrDatePage(),
 			new SetupSelectAccountsPage(this), new SetupComplitionPage() };
-	
+
 	private AbstractSetupPage viewList1[] = new AbstractSetupPage[] {
 			new SetupStartPage(this),
 			new SetupCompanyInfoPage(),
@@ -73,7 +73,6 @@ public class SetupWizard extends VerticalPanel {
 			new SetupSelectFiscalYrDatePage(),
 			new SetupSelectAccountsPage(this), new SetupComplitionPage() };
 
-
 	private AbstractSetupPage[] skipViewList = new AbstractSetupPage[] {
 			new SetupStartPage(this), new SetupCompanyInfoPage(),
 			new SetupOrganisationSelectionPage(),
@@ -82,8 +81,8 @@ public class SetupWizard extends VerticalPanel {
 			new SetupComplitionPage() };
 
 	private Image startProgressImages[] = new Image[viewList.length - 2];
-	private Image startProgressImages1[] = new Image[viewList1.length -2];
-	
+	private Image startProgressImages1[] = new Image[viewList1.length - 2];
+
 	private String startProgressLabels[] = new String[] {
 			Accounter.constants().setCompanyInfo(),
 			Accounter.constants().selectIndustryType(),
@@ -103,7 +102,7 @@ public class SetupWizard extends VerticalPanel {
 			Accounter.constants().setCompanyInfo(),
 			Accounter.constants().selectIndustryType(),
 			Accounter.constants().companyOrganization(),
-			//Accounter.constants().tdsSelection(),
+			// Accounter.constants().tdsSelection(),
 			Accounter.constants().terminology(),
 			// Accounter.constants().trackEmployeeExpenses(),
 
@@ -174,8 +173,8 @@ public class SetupWizard extends VerticalPanel {
 
 			this.add(topPanel);
 
-			progressPanel.getElement().getParentElement()
-					.setClassName("progress_panel_hide");
+			progressPanel.getElement().getParentElement().setClassName(
+					"progress_panel_hide");
 			// adding buttons to button panel
 			// skipButton = new Button(Accounter.constants().skip());
 			backButton = new Button(Accounter.constants().back());
@@ -310,9 +309,9 @@ public class SetupWizard extends VerticalPanel {
 			}
 			previousView.onSave();
 			if (currentViewIndex > 0) {
-					getProgressImages()[currentViewIndex - 1]
-							.addStyleName("tick_show");	
-				
+				getProgressImages()[currentViewIndex - 1]
+						.addStyleName("tick_show");
+
 			}
 			if (!isLastView()) {
 				currentViewIndex++;
@@ -332,7 +331,6 @@ public class SetupWizard extends VerticalPanel {
 				&& isOrganizationView()) {
 			showView(isNext);
 		}
-	
 
 		if (viewToShow == null) {
 			return;
@@ -344,7 +342,7 @@ public class SetupWizard extends VerticalPanel {
 			backNextButtonPanel.addStyleName("back_NextPanel");
 		}
 		this.viewPanel.add(viewToShow);
-
+		viewToShow.setCountryChanges();
 		// checking button display related conditions
 		if (isFirstView()) {
 			buttonPanel.setVisible(true);
@@ -389,8 +387,8 @@ public class SetupWizard extends VerticalPanel {
 
 		progressPanel.add(progressTable);
 		progressTable.addStyleName("progress_panel_data");
-		progressPanel.getElement().getParentElement()
-				.setClassName("progress_panel_show");
+		progressPanel.getElement().getParentElement().setClassName(
+				"progress_panel_show");
 	}
 
 	private String[] getProgressLabels() {
@@ -408,12 +406,9 @@ public class SetupWizard extends VerticalPanel {
 		if (isSkip) {
 			return skipProgressImages;
 		}
-		if(Accounter.getCompany().getAccountingType()==ClientCompany.ACCOUNTING_TYPE_INDIA)
-		{
-		return startProgressImages;
-		}
-		else
-		{
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
+			return startProgressImages;
+		} else {
 			return startProgressImages1;
 		}
 	}
@@ -427,8 +422,8 @@ public class SetupWizard extends VerticalPanel {
 
 	private void removeProgressPanel() {
 		progressPanel.remove(progressTable);
-		progressPanel.getElement().getParentElement()
-				.setClassName("progress_panel_hide");
+		progressPanel.getElement().getParentElement().setClassName(
+				"progress_panel_hide");
 	}
 
 	/**
@@ -439,9 +434,7 @@ public class SetupWizard extends VerticalPanel {
 	}
 
 	private AbstractSetupPage getNextView() {
-		
-		
-		
+
 		AbstractSetupPage nextView = getViewsList()[currentViewIndex];
 		while (!nextView.canShow()) {
 			currentViewIndex++;
@@ -463,13 +456,13 @@ public class SetupWizard extends VerticalPanel {
 	private AbstractSetupPage[] getViewsList() {
 		if (isSkip) {
 			return skipViewList;
-		} 
+		}
 
-		if(Accounter.getCompany().getAccountingType()==ClientCompany.ACCOUNTING_TYPE_INDIA)
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA)
 			return viewList;
 		else
 			return viewList1;
-		
+
 	}
 
 	/**

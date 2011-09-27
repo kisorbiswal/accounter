@@ -7,9 +7,9 @@ public class Bahrain extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		String[] states = new String[] { "al-Garbiyah", "al-H?idd",
-				"al-Muh?arraq", "al-Wusta", "ar-Rifa'a", "aš-Šamaliyah",
-				"'Isa", "Jidh?afs", "Madinat H?amad", "Manama", "Sitrah" };
+		String[] states = new String[] { "Capital Governorate",
+				"Central Governorate", "Muharraq Governorate",
+				"Northern Governorate", "Southern Governorate" };
 		return states;
 	}
 

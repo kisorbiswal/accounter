@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -45,10 +46,13 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		vPanel.setWidth("100%");
 		firstNametext = new TextItem(Accounter.constants().firstName());
 		firstNametext.setRequired(true);
+		firstNametext.setDisabled(isInViewMode());
 		lastNametext = new TextItem(Accounter.constants().lastName());
 		lastNametext.setRequired(true);
+		lastNametext.setDisabled(isInViewMode());
 		emailField = new EmailField(Accounter.constants().email());
 		emailField.setRequired(true);
+		emailField.setDisabled(isInViewMode());
 		emailField.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -86,6 +90,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 																			.mailExistedAlready());
 															emailField
 																	.setText("");
+															enableFormItems();
 														}
 													}
 												}
@@ -162,6 +167,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		grid.init();
 		grid.setView(this);
 		grid.setSize("100%", "100%");
+		grid.setDisabled(isInViewMode());
 	}
 
 	@Override
@@ -173,6 +179,21 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 	@Override
 	public void onEdit() {
 		setMode(EditMode.EDIT);
+		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
+
+			@Override
+			public void onException(AccounterException caught) {
+				Accounter.showError(caught.getMessage());
+			}
+
+			@Override
+			public void onResultSuccess(Boolean result) {
+				if (result)
+					enableFormItems();
+			}
+		};
+		this.rpcDoSerivce.canEdit(AccounterCoreType.USER, data.getID(),
+				editCallBack);
 	}
 
 	@Override
@@ -183,6 +204,14 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 	@Override
 	public void printPreview() {
 		// NOTHING TO DO.
+	}
+
+	private void enableFormItems() {
+		firstNametext.setDisabled(isInViewMode());
+		lastNametext.setDisabled(isInViewMode());
+		emailField.setDisabled(isInViewMode());
+		grid.setDisabled(isInViewMode());
+
 	}
 
 	@Override

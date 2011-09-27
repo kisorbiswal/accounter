@@ -61,17 +61,7 @@ public class CustomerDropDownTable extends
 
 	@Override
 	protected void addNewItem() {
-		NewCustomerAction action = ActionFactory.getNewCustomerAction();
-		action.setCallback(new ActionCallback<ClientCustomer>() {
-
-			@Override
-			public void actionResult(ClientCustomer result) {
-				if (result.getDisplayName() != null) {
-					selectRow(result);
-				}
-			}
-		});
-		action.run(null, true);
+		addNewItem("");
 	}
 
 	@Override
@@ -86,6 +76,17 @@ public class CustomerDropDownTable extends
 
 	@Override
 	protected void addNewItem(String text) {
-		addNewItem();
+		NewCustomerAction action = ActionFactory.getNewCustomerAction();
+		action.setCallback(new ActionCallback<ClientCustomer>() {
+
+			@Override
+			public void actionResult(ClientCustomer result) {
+				if (result.getDisplayName() != null) {
+					selectRow(result);
+				}
+			}
+		});
+		action.setCustomerName(text);
+		action.run(null, true);
 	}
 }

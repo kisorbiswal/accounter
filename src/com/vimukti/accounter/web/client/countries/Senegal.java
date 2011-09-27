@@ -9,7 +9,7 @@ public class Senegal extends AbstractCountryPreferences {
 	public String[] getStates() {
 		String[] states = new String[] { "Dakar", "Diourbel", "Fatick",
 				"Kaolack", "Kolda", "Louga", "Matam", "Saint-Louis",
-				"Tambacounda", "Thiès", "Ziguinchor" };
+				"Tambacounda", "Thies", "Ziguinchor" };
 		return states;
 	}
 

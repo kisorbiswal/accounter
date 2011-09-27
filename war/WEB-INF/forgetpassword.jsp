@@ -4,6 +4,8 @@
 <title> Forgotten Password
 </title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
+<script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
 <title>Forget Password</title>
 <script type="text/javascript">
 function validation(formObject){
@@ -77,7 +79,7 @@ padding-top:20px;
 </style>
 </head>
 <body>
-
+<%@ include file="./feedback.jsp" %>
     <h1>Please Contact To Administrator</h1>
 	 <!-- <div class="bizantralogo">
 	<img src="/images/bizantra-image.png" alt="Bizantra" />
@@ -114,16 +116,6 @@ padding-top:20px;
 			var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
 			document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
 		</script>
-		<script type="text/javascript" charset="utf-8">
-			var feedback_widget_options = {};
-			
-			feedback_widget_options.display = "overlay";  
-  			feedback_widget_options.company = "vimukti";
-			feedback_widget_options.placement = "left";
-			feedback_widget_options.color = "#222";
-			feedback_widget_options.style = "idea";
-		
-			var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
-		</script>
+		 
 </body>
 </html>

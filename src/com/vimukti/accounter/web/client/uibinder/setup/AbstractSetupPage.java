@@ -11,6 +11,7 @@ public abstract class AbstractSetupPage extends Composite {
 	protected ClientCompanyPreferences preferences;
 	protected AccounterConstants accounterConstants = Accounter.constants();
 	protected AccounterMessages accounterMessages = Accounter.messages();
+	private static String country;
 
 	public AbstractSetupPage(ClientCompanyPreferences preferences) {
 		this.preferences = preferences;
@@ -29,4 +30,16 @@ public abstract class AbstractSetupPage extends Composite {
 	protected abstract boolean validate();
 
 	public abstract boolean canShow();
+
+	protected void setCountry(String country) {
+		AbstractSetupPage.country = country;
+	}
+
+	public static String getCountry() {
+		return country;
+	}
+
+	public void setCountryChanges() {
+
+	}
 }

@@ -16,8 +16,8 @@
 <script type="text/javascript" >
 
 $(document).ready(function() {
-	$('#mid-box').attr('autocomplete', 'off');
-	$('#mid-box').password_strength();
+//	$('#mid-box').attr('autocomplete', 'off');
+//	$('#mid-box').password_strength();
  $('#submitButton').click(function() {
 		$("#accounterForm").validate({
 			rules: {
@@ -77,9 +77,14 @@ $(document).ready(function() {
 </script>
 </head>
 	<body>
+	<%@ include file="./feedback.jsp" %>
 	<div id="commanContainer">
 		   <img class="accounterLogo" src="../images/Accounter_logo_title.png">
-		   	
+		   	<c:if test="${errormessage!=null}">
+			<div id="login_success" class="common-box">
+				<span>${errormessage}</span>
+			</div>
+  		  </c:if>
 		 <form id="accounterForm" method="post" action="/main/resetpassword">
 								<c:if test="${successMessage != null}">
 								<span style="color: #3299A4; line-height: 1.5;">
@@ -120,16 +125,6 @@ $(document).ready(function() {
 			var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
 			document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
 		</script>
-		<script type="text/javascript" charset="utf-8">
-			var feedback_widget_options = {};
-			
-			feedback_widget_options.display = "overlay";  
-  			feedback_widget_options.company = "vimukti";
-			feedback_widget_options.placement = "left";
-			feedback_widget_options.color = "#222";
-			feedback_widget_options.style = "idea";
 		
-			var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
-		</script>
 		</body>
 </html>

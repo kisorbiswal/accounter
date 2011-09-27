@@ -7,7 +7,7 @@ public class FrenchPolynesia extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		String[] states = new String[] { "Îles du Vent", "Îles sous le Vent",
+		String[] states = new String[] { "Iles du Vent", "Iles sous le Vent",
 				"Marquises", "Tuamotu-Gambier", "Tubuai" };
 		return states;
 	}

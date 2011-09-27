@@ -1,5 +1,7 @@
 <html>
 <head>
+<script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
+<script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
 <script type="text/JavaScript">
 function timedRefresh(timeoutPeriod) {
 	setTimeout("location.reload(true);",timeoutPeriod);
@@ -10,6 +12,7 @@ function timedRefresh(timeoutPeriod) {
 </style>
 </head>
 <body onload="timedRefresh(3000);">
+<%@ include file="./feedback.jsp" %>
 <span style="color:#000000;line-height:38.5;">Apologies for the delay, Bizantra is migrating your data to a newer version. Please do not close the application.</span>
 
 <script type="text/javascript" charset="utf-8">
@@ -17,16 +20,6 @@ function timedRefresh(timeoutPeriod) {
 			var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
 			document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
 		</script>
-		<script type="text/javascript" charset="utf-8">
-			var feedback_widget_options = {};
-			
-			feedback_widget_options.display = "overlay";  
-  			feedback_widget_options.company = "vimukti";
-			feedback_widget_options.placement = "left";
-			feedback_widget_options.color = "#222";
-			feedback_widget_options.style = "idea";
-		
-			var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
-		</script>
+		 
 </body>
 </html>

@@ -427,7 +427,7 @@ public class ARAgingDetailServerReport extends
 
 	@Override
 	public String getDefaultDateRange() {
-		return getConstants().all();
+		return getConstants().financialYearToDate();
 	}
 
 	@Override

@@ -60,7 +60,8 @@ public class BillListView extends BaseListView<BillsList> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		if (Accounter.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions()
+				&& getCompany().getPreferences().isKeepTrackofBills())
 			return Accounter.constants().addaNewBill();
 		else
 			return "";
@@ -215,7 +216,6 @@ public class BillListView extends BaseListView<BillsList> {
 		}
 
 	}
-
 
 	@Override
 	public void fitToSize(int height, int width) {

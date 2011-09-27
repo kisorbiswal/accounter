@@ -103,4 +103,8 @@ public class NewVendorAction extends Action<ClientVendor> {
 	public String getHelpToken() {
 		return "add-vendor";
 	}
+
+	public void setVendorName(String text) {
+		this.quickAddText = text;
+	}
 }

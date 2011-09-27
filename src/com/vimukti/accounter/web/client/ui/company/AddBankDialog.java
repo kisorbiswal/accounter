@@ -68,8 +68,8 @@ public class AddBankDialog extends BaseDialog {
 		}
 		// Accounter.showInformation(FinanceApplication.constants()
 		// .bankCreated());
-		removeFromParent();
 		super.saveSuccess(object);
+
 	}
 
 	@Override
@@ -88,7 +88,7 @@ public class AddBankDialog extends BaseDialog {
 	@Override
 	protected boolean onOK() {
 		createBank();
-		return false;
+		return true;
 	}
 
 	@Override

@@ -187,7 +187,8 @@ public class CustomerCreditMemoView extends
 		netAmountLabel = createNetAmountLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
-		customerAccountTransactionTable = new CustomerAccountTransactionTable() {
+		customerAccountTransactionTable = new CustomerAccountTransactionTable(
+				isTrackTax(), isTaxPerDetailLine()) {
 
 			@Override
 			public void updateNonEditableItems() {
@@ -220,7 +221,8 @@ public class CustomerCreditMemoView extends
 		accountsDisclosurePanel.setOpen(true);
 		accountsDisclosurePanel.setWidth("100%");
 
-		customerItemTransactionTable = new CustomerItemTransactionTable() {
+		customerItemTransactionTable = new CustomerItemTransactionTable(
+				isTrackTax(), isTaxPerDetailLine()) {
 
 			@Override
 			public void updateNonEditableItems() {
@@ -263,7 +265,7 @@ public class CustomerCreditMemoView extends
 				prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
 						disabletextbox, taxTotalNonEditableText,
 						disabletextbox, transactionTotalNonEditableText);
-				prodAndServiceForm2.addStyleName("invoice-total");
+				prodAndServiceForm2.addStyleName("boldtext");
 			} else {
 
 				prodAndServiceForm2.setFields(taxCodeSelect,
@@ -275,7 +277,7 @@ public class CustomerCreditMemoView extends
 					transactionTotalNonEditableText);
 
 		}
-		prodAndServiceForm2.addStyleName("tax-form");
+		prodAndServiceForm2.addStyleName("boldtext");
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
@@ -288,10 +290,7 @@ public class CustomerCreditMemoView extends
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(prodAndServiceForm2);
-		if (getCompany().getAccountingType() == 1) {
-			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "30%");
-		} else
-			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
+		prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
 
 		VerticalPanel mainPanel = new VerticalPanel();
 		mainPanel.setWidth("100%");
@@ -404,12 +403,12 @@ public class CustomerCreditMemoView extends
 			transaction.setPriceLevel(priceLevel.getID());
 		transaction.setMemo(getMemoTextAreaItem());
 		// transaction.setReference(getRefText());
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (isTrackTax()) {
 			transaction.setNetAmount(netAmountLabel.getAmount());
 			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 					.getValue());
-		} else
-			transaction.setSalesTax(this.salesTax);
+			transaction.setTaxTotal(this.salesTax);
+		}
 
 		transaction.setTotal(transactionTotalNonEditableText.getAmount());
 	}
@@ -447,18 +446,19 @@ public class CustomerCreditMemoView extends
 			} else
 				billToTextArea.setValue("");
 
-			if (getCompany().getPreferences().isRegisteredForVAT()) {
-				netAmountLabel.setAmount(transaction.getNetAmount());
-				taxTotalNonEditableText.setAmount(transaction.getTotal()
-						- transaction.getNetAmount());
-			} else {
-				this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
-				if (taxCode != null) {
-					this.taxCodeSelect
-							.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
+			if (isTrackTax()) {
+				if (isTaxPerDetailLine()) {
+					netAmountLabel.setAmount(transaction.getNetAmount());
+				} else {
+					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
+					if (taxCode != null) {
+						this.taxCodeSelect
+								.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
+					}
 				}
-				taxTotalNonEditableText.setAmount(transaction.getSalesTax());
+				taxTotalNonEditableText.setAmount(transaction.getTaxTotal());
 			}
+
 			transactionTotalNonEditableText.setAmount(transaction.getTotal());
 			memoTextAreaItem.setDisabled(true);
 
@@ -533,7 +533,7 @@ public class CustomerCreditMemoView extends
 	protected void initSalesTaxNonEditableItem() {
 		if (transaction != null) {
 			Double salesTaxAmout = ((ClientCustomerCreditMemo) transaction)
-					.getSalesTax();
+					.getTaxTotal();
 			if (salesTaxAmout != null) {
 				taxTotalNonEditableText.setAmount(salesTaxAmout);
 			}
@@ -568,15 +568,14 @@ public class CustomerCreditMemoView extends
 		if (customerAccountTransactionTable == null
 				|| customerItemTransactionTable == null)
 			return;
-		if (getCompany().getAccountingType() == 0) {
+		double total = customerAccountTransactionTable.getGrandTotal()
+				+ customerItemTransactionTable.getGrandTotal();
+		setTransactionTotal(total);
+		if (isTrackTax()) {
 			double totalTax = customerAccountTransactionTable.getTotalTax()
 					+ customerItemTransactionTable.getTotalTax();
-			double total = customerAccountTransactionTable.getGrandTotal()
-					+ customerItemTransactionTable.getGrandTotal();
 
 			setSalesTax(totalTax);
-
-			setTransactionTotal(total);
 
 			// salesTax = Utility.getCalculatedSalesTax(transactionDateItem
 			// .getEnteredDate(), taxableLineTotal, taxItemGroup);
@@ -589,14 +588,11 @@ public class CustomerCreditMemoView extends
 			// this.transactionTotalNonEditableText
 			// .setAmount(customerTransactionGrid.getTotal()
 			// + this.salesTax);
-		} else {
 			double lineTotal = customerAccountTransactionTable.getLineTotal()
 					+ customerItemTransactionTable.getLineTotal();
-			double grandTotal = customerAccountTransactionTable.getGrandTotal()
-					+ customerItemTransactionTable.getGrandTotal();
 			netAmountLabel.setAmount(lineTotal);
-			taxTotalNonEditableText.setAmount(grandTotal - lineTotal);
-			setTransactionTotal(grandTotal);
+			taxTotalNonEditableText.setAmount(total - lineTotal);
+
 		}
 
 		// this.paymentsNonEditableText.setValue(transactionGrid.);

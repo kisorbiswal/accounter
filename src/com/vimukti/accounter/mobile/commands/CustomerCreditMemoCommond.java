@@ -86,7 +86,7 @@ public class CustomerCreditMemoCommond extends AbstractTransactionCommand {
 			return result;
 		}
 
-		Company company = getCompany();
+		Company company = context.getCompany();
 		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 			Requirement taxReq = get("tax");
 			TAXCode taxcode = context.getSelection(TAXCODE);

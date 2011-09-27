@@ -145,7 +145,7 @@ public class StatementServerReport extends
 	}
 
 	private boolean addOneTothirty(PayeeStatementsList record) {
-		if (!sectiontypes.contains("0-30 Days")) {
+		if (!sectiontypes.contains(getConstants().days30())) {
 			addTypeSection(getConstants().days30(), "");
 			return false;
 		}
@@ -153,7 +153,7 @@ public class StatementServerReport extends
 	}
 
 	private boolean addThirtyToSixty(PayeeStatementsList record) {
-		if (!sectiontypes.contains("0-60 Days")) {
+		if (!sectiontypes.contains(getConstants().daysFromzeroto60())) {
 			addTypeSection(getConstants().daysFromzeroto60(), "");
 			return false;
 		}
@@ -162,7 +162,7 @@ public class StatementServerReport extends
 	}
 
 	private boolean addSixtyTo90(PayeeStatementsList record) {
-		if (!sectiontypes.contains("0-90 Days")) {
+		if (!sectiontypes.contains(getConstants().daysFromzeroto90())) {
 			addTypeSection(getConstants().daysFromzeroto90(), "");
 			return false;
 		}
@@ -171,7 +171,7 @@ public class StatementServerReport extends
 	}
 
 	private boolean addGreaterThan90(PayeeStatementsList record) {
-		if (!sectiontypes.contains("Older")) {
+		if (!sectiontypes.contains(getConstants().older())) {
 			addTypeSection(getConstants().older(), "");
 			return false;
 		}
@@ -180,7 +180,7 @@ public class StatementServerReport extends
 	}
 
 	private boolean addTotalBalance(PayeeStatementsList record) {
-		if (!sectiontypes.contains("Total Balance")) {
+		if (!sectiontypes.contains(getConstants().totalBalance())) {
 			addTypeSection(getConstants().totalBalance(), "");
 			return false;
 		}

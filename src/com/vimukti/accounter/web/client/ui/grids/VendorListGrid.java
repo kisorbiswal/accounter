@@ -170,19 +170,19 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 		} else if (index == 0) {
 			return 40;
 		} else if (index == 2) {
-			return 80;
+			return 100;
 		} else if (index == 3) {
-			return 80;
+			return 70;
 		} else if (index == 4) {
-			return 80;
+			return 70;
 		} else if (index == 5) {
-			return 80;
+			return 70;
 		} else if (index == 6) {
-			return 80;
+			return 70;
 		} else if (index == 7) {
-			return 80;
+			return 70;
 		} else if (index == 8) {
-			return 80;
+			return 75;
 		} else if (index == 9) {
 			return 70;
 		}
@@ -191,6 +191,8 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 
 	@Override
 	protected void onClick(PayeeList payee, int row, int col) {
+		if (!Accounter.getUser().canDoInvoiceTransactions())
+			return;
 		List<PayeeList> suppliers = getRecords();
 		PayeeList supplier = suppliers.get(row);
 		switch (col) {
@@ -205,34 +207,36 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 
 	@Override
 	public void onDoubleClick(PayeeList payee) {
-		AccounterAsyncCallback<ClientPayee> callback = new AccounterAsyncCallback<ClientPayee>() {
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
+			AccounterAsyncCallback<ClientPayee> callback = new AccounterAsyncCallback<ClientPayee>() {
 
-			public void onException(AccounterException caught) {
-			}
-
-			public void onResultSuccess(ClientPayee result) {
-				if (result != null) {
-					if (result instanceof ClientVendor) {
-						ActionFactory.getNewVendorAction().run(
-								(ClientVendor) result, false);
-						// } else if (result instanceof ClientTaxAgency) {
-						// UIUtils.runAction(result, ActionFactory
-						// .getNewTaxAgencyAction());
-					} else if (result instanceof ClientTAXAgency) {
-						ActionFactory.getNewTAXAgencyAction().run(
-								(ClientTAXAgency) result, false);
-					}
-
+				public void onException(AccounterException caught) {
 				}
-			}
 
-		};
-		if (payee.getType() == ClientPayee.TYPE_VENDOR) {
-			Accounter.createGETService().getObjectById(
-					AccounterCoreType.VENDOR, payee.id, callback);
-		} else if (payee.getType() == ClientPayee.TYPE_TAX_AGENCY) {
-			Accounter.createGETService().getObjectById(
-					AccounterCoreType.TAXAGENCY, payee.id, callback);
+				public void onResultSuccess(ClientPayee result) {
+					if (result != null) {
+						if (result instanceof ClientVendor) {
+							ActionFactory.getNewVendorAction().run(
+									(ClientVendor) result, false);
+							// } else if (result instanceof ClientTaxAgency) {
+							// UIUtils.runAction(result, ActionFactory
+							// .getNewTaxAgencyAction());
+						} else if (result instanceof ClientTAXAgency) {
+							ActionFactory.getNewTAXAgencyAction().run(
+									(ClientTAXAgency) result, false);
+						}
+
+					}
+				}
+
+			};
+			if (payee.getType() == ClientPayee.TYPE_VENDOR) {
+				Accounter.createGETService().getObjectById(
+						AccounterCoreType.VENDOR, payee.id, callback);
+			} else if (payee.getType() == ClientPayee.TYPE_TAX_AGENCY) {
+				Accounter.createGETService().getObjectById(
+						AccounterCoreType.TAXAGENCY, payee.id, callback);
+			}
 		}
 	}
 

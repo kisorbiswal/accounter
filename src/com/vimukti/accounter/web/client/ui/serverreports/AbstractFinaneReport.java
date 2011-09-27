@@ -7,7 +7,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -68,8 +67,6 @@ public abstract class AbstractFinaneReport<R> extends
 	public IFinanceReport<R> reportView;
 	protected String navigateObjectName;
 
-	private int companyType = 0;
-
 	public AbstractFinaneReport() {
 
 		this.preferences = Global.get().preferences();
@@ -92,7 +89,6 @@ public abstract class AbstractFinaneReport<R> extends
 		this.grid.setReportView(this);
 	}
 
-	@SuppressWarnings( { "unchecked" })
 	public AbstractFinaneReport(long startDate, long endDate, int generationType) {
 		this();
 
@@ -121,17 +117,21 @@ public abstract class AbstractFinaneReport<R> extends
 	 */
 	@Override
 	public void onResultSuccess(ArrayList<R> result) {
+
 		try {
 			if (result != null && result.size() > 0) {
 				// removeAllRows();
-				initRecords(result);
+
 				setFromAndToDate(result);
+				initRecords(result);
+				setHeaderTitle();
 
 			} else {
 				initGrid();
 				removeAllRows();
 				if (result != null && result.size() == 1)
 					setFromAndToDate(result);
+				setHeaderTitle();
 				endStatus();
 			}
 			showRecords();
@@ -161,7 +161,7 @@ public abstract class AbstractFinaneReport<R> extends
 			R obj = result.get(result.size() - 1);
 			startDate = getStartDate(obj);
 			endDate = getEndDate(obj);
-			setHeaderTitle();
+			// setHeaderTitle();
 			if (startDate != null || endDate != null) {
 				result.remove(result.size() - 1);
 			}
@@ -210,11 +210,11 @@ public abstract class AbstractFinaneReport<R> extends
 	public void endAllSections() {
 		try {
 			for (int i = this.sections.size() - 1; i >= 0; i--) {
-				if (i == 1) {
-					sections.get(0).isaddFooter = false;
-					endSection();
-				} else
-					endSection();
+				// if (i == 1) {
+				// sections.get(0).isaddFooter = false;
+				// endSection();
+				// } else
+				endSection();
 			}
 		} catch (Exception e) {
 		}
@@ -319,7 +319,7 @@ public abstract class AbstractFinaneReport<R> extends
 	}
 
 	public String getDefaultDateRange() {
-		return "All";
+		return constants.financialYearToDate();
 	}
 
 	public int getColumnWidth(int index) {
@@ -488,22 +488,13 @@ public abstract class AbstractFinaneReport<R> extends
 		if (date == null) {
 			return "";
 		}
-		if (this.companyType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			DateTimeFormat dateFormatter = DateTimeFormat
-					.getFormat("MM/dd/yyyy");
-			String format = dateFormatter.format(date.getDateAsObject());
-			return format;
-		} else if (this.companyType == ClientCompany.ACCOUNTING_TYPE_US) {
-			DateTimeFormat dateFormatter = DateTimeFormat
-					.getFormat("dd/MM/yyyy");
-			String format = dateFormatter.format(date.getDateAsObject());
-			return format;
-		} else {
-			DateTimeFormat dateFormatter = DateTimeFormat
-					.getFormat("dd/MM/yyyy");
-			String format = dateFormatter.format(date.getDateAsObject());
-			return format;
+		String dateFormat = Global.get().preferences().getDateFormat();
+		if (dateFormat == null) {
+			dateFormat = "dd/MM/yyyy";
 		}
+		DateTimeFormat dateFormatter = DateTimeFormat.getFormat(dateFormat);
+		String format = dateFormatter.format(date.getDateAsObject());
+		return format;
 
 	}
 
@@ -642,15 +633,6 @@ public abstract class AbstractFinaneReport<R> extends
 	// return transactionName;
 	// }
 
-	public int getCompanyType() {
-		return companyType;
-	}
-
-	@Override
-	public void setCompanyType(int companyType) {
-		this.companyType = companyType;
-	}
-
 	@Override
 	public ClientFinanceDate getCurrentFiscalYearStartDate() {
 		if (this.reportView != null) {
@@ -697,6 +679,13 @@ public abstract class AbstractFinaneReport<R> extends
 					.create(AccounterConstants.class);
 		}
 		return constants;
+	}
+
+	public AccounterMessages getMessages() {
+		if (messages == null) {
+			messages = (AccounterMessages) GWT.create(AccounterMessages.class);
+		}
+		return messages;
 	}
 
 }

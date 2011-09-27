@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.ui.grids.CurrenciesGrid;
+import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 
 /**
  * @author Administrator
@@ -68,11 +69,23 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 			primaryCurrencyListBox.addItem(currency.getFormalName() + "\t"
 					+ currency.getDisplayName());
 		}
-
 		currenciesGrid = new CurrenciesGrid();
 		currenciesGrid.init();
 		currenciesGrid.setRecords(currenciesList);
 		// currencyListGridPanel.add(currenciesGrid);
+	}
+
+	@Override
+	public void setCountryChanges() {
+		if (getCountry() != null) {
+			for (int i = 0; i < currenciesList.size(); i++) {
+				if (CountryPreferenceFactory.get(getCountry())
+						.getPreferredCurrency().equals(
+								currenciesList.get(i).getFormalName())) {
+					primaryCurrencyListBox.setSelectedIndex(i);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -82,7 +95,7 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 
 	@Override
 	protected void onLoad() {
-
+		setCountryChanges();
 		ClientCurrency primaryCurrency = preferences.getPrimaryCurrency();
 		String country = Accounter.getCompany().getTradingAddress()
 				.getCountryOrRegion();
@@ -95,7 +108,6 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 				// }
 			}
 		}
-
 	}
 
 	@Override

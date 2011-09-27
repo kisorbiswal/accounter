@@ -16,8 +16,6 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.company.PreferencePage;
-import com.vimukti.accounter.web.client.ui.company.options.AbstractPreferenceOption;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.CancelButton;
@@ -36,7 +34,7 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 			bankingAndOtherFinancialDetailsPanel,
 			customerAndvendorSettingsPanel, doYouUseAndHowDoYouReferPanel,
 			ageingAndSellingDetailsPanel, employeeSettingsPanel,
-			categoriesPanel, locationTrackingPanel, classTrackingPanel;
+			locationTrackingPanel, classTrackingPanel;
 	private HTML companyRegisteredeDetailsLink, companyTradingDetailsLink,
 			companyOtherDetailsLink, organisationLink,
 			bankingAndOtherFinancialDetailsLink, customerAndvendorSettingsLink,
@@ -91,22 +89,6 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 		}
 	}
 
-	private VerticalPanel createPageView(final PreferencePage page) {
-		VerticalPanel pageView = new VerticalPanel();
-		List<AbstractPreferenceOption> options = page.getOptions();
-		for (final AbstractPreferenceOption option : options) {
-			HTML optionLink = new HTML(option.getTitle());
-			pageView.add(optionLink);
-			optionLink.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					page.show(option);
-				}
-			});
-		}
-		return pageView;
-	}
 
 	@Override
 	public void initData() {
@@ -170,24 +152,6 @@ public class CompanyInfoPage extends BaseView<ClientCompanyPreferences> {
 		return categories1Panel;
 
 	}
-
-	// public VerticalPanel getBasicInfoPanel() {
-	// VerticalPanel basicInfoPanel = new VerticalPanel();
-	//
-	// HTML adminInfoLink = new HTML(messages.adminInfo());
-	// basicInfoPanel.add(adminInfoLink);
-	//
-	// adminInfoLink.addClickHandler(new ClickHandler() {
-	// @Override
-	// public void onClick(ClickEvent event) {
-	// companyInfoPanel = new AdminInfoPanel(companyPreferences,
-	// company, CompanyInfoView.this);
-	// addDetailsPanel(companyInfoPanel);
-	// }
-	// });
-	//
-	// return basicInfoPanel;
-	// }
 
 	public VerticalPanel getCompanyInfoPanel() {
 		VerticalPanel companyInfo1Panel = new VerticalPanel();

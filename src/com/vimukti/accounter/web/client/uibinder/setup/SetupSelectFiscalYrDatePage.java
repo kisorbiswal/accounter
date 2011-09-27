@@ -3,6 +3,9 @@
  */
 package com.vimukti.accounter.web.client.uibinder.setup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -12,6 +15,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 
 /**
  * @author Administrator
@@ -31,7 +35,7 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 	HTML fiscalInfo;
 	@UiField
 	Label headerLabel;
-
+	private List<String> monthsList;
 	String[] monthNames;
 
 	interface SetupSelectFiscalYrDatePageUiBinder extends
@@ -64,11 +68,23 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 				accounterConstants.august(), accounterConstants.september(),
 				accounterConstants.october(), accounterConstants.november(),
 				accounterConstants.december() };
+		monthsList = new ArrayList<String>();
 		// fiscalStartsList = null;
 		for (int i = 0; i < monthNames.length; i++) {
+			monthsList.add(monthNames[i]);
 			fiscalStartsList.addItem(monthNames[i]);
 		}
 		fiscalInfo.setHTML(accounterConstants.fiscalYearsaemasTaxyear());
+	}
+
+	@Override
+	public void setCountryChanges() {
+		if (getCountry() != null)
+			if (CountryPreferenceFactory.get(getCountry())
+					.allowFlexibleFiscalYear())
+				fiscalStartsList.setSelectedIndex(monthsList
+						.indexOf((CountryPreferenceFactory.get(getCountry())
+								.getDefaultFiscalYearStartingMonth())));
 	}
 
 	@Override

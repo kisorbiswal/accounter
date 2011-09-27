@@ -8,9 +8,9 @@ public class Kazakhstan extends AbstractCountryPreferences {
 	@Override
 	public String[] getStates() {
 		String[] states = new String[] { "Akmechet", "Almaty", "Aqmola",
-				"Aqtöbe", "Atyrau", "Batis Kazakstan", "Mankistau",
-				"Ontüstik Kazakstan", "Pavlodar", "Qaragandy", "Qostanay",
-				"Sigis Kazakstan", "Soltüstik Kazakstan", "Taraz" };
+				"Aqtobe", "Atyrau", "Batis Kazakstan", "Mankistau",
+				"Ontustik Kazakstan", "Pavlodar", "Qaragandy", "Qostanay",
+				"Sigis Kazakstan", "Soltustik Kazakstan", "Taraz" };
 		return states;
 	}
 

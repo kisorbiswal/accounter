@@ -81,9 +81,11 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		fromDate = new DateItem(Accounter.constants().from());
 		fromDate.setHelpInformation(true);
 		fromDate.setWidth(100);
+		fromDate.setEnteredDate(new ClientFinanceDate());
 		toDate = new DateItem(Accounter.constants().to());
 		toDate.setHelpInformation(true);
 		toDate.setWidth(100);
+		toDate.setEnteredDate(new ClientFinanceDate());
 		listforms = new ArrayList<DynamicForm>();
 
 		updateButton = new Button(Accounter.constants().update());
@@ -229,8 +231,8 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		}
 		if (lastVATReturn != null) {
 			if (lastVATReturn.getVATperiodEndDate() != 0) {
-				ClientFinanceDate date = new ClientFinanceDate(lastVATReturn
-						.getVATperiodEndDate());
+				ClientFinanceDate date = new ClientFinanceDate(
+						lastVATReturn.getVATperiodEndDate());
 				int day = date.getDay();
 				date.setDay(day + 1);
 				fromDate.setDatethanFireEvent(date);
@@ -238,14 +240,15 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 				toDate.setDatethanFireEvent(date);
 			}
 		} else {
-			List<ClientFiscalYear> fiscalYears = Accounter.getCompany()
-					.getFiscalYears();
-			for (ClientFiscalYear fiscalYear : fiscalYears) {
-				if (fiscalYear.getIsCurrentFiscalYear()) {
-					fromDate.setDatethanFireEvent(fiscalYear.getStartDate());
-					break;
-				}
-			}
+			// List<ClientFiscalYear> fiscalYears = Accounter.getCompany()
+			// .getFiscalYears();
+			// for (ClientFiscalYear fiscalYear : fiscalYears) {
+			// if (fiscalYear.getIsCurrentFiscalYear()) {
+			fromDate.setDatethanFireEvent(Accounter.getCompany()
+					.getCurrentFiscalYearStartDate());
+			// break;
+			// }
+			// }
 		}
 
 	}
@@ -286,8 +289,8 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		}
 		gridView.addLoadingImagePanel();
 
-		this.rpcUtilService.getTAXReturn(this.selectedVatAgency, fromDate
-				.getDate(), toDate.getDate(),
+		this.rpcUtilService.getTAXReturn(this.selectedVatAgency,
+				fromDate.getDate(), toDate.getDate(),
 				new AccounterAsyncCallback<ClientVATReturn>() {
 
 					@Override
@@ -433,8 +436,8 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 	public void printVATReturn() {
 		VAT100Report report = new VAT100Report();
 		report.setAction(ActionFactory.getVAT100ReportAction());
-		report.setStartAndEndDates(fromDate.getEnteredDate(), toDate
-				.getEnteredDate());
+		report.setStartAndEndDates(fromDate.getEnteredDate(),
+				toDate.getEnteredDate());
 		report.setVatAgency(selectedVatAgency.getID());
 		report.print();
 

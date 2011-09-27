@@ -96,10 +96,12 @@ public class JournalEntryView extends
 					.memoCannotExceedsmorethan255Characters());
 
 		}
-		if (!AccounterValidator.isValidTransactionDate(getTransactionDate())) {
-			result.addError(transactionDateItem,
-					accounterConstants.invalidateTransactionDate());
-		} else if (AccounterValidator
+		// if (!AccounterValidator.isValidTransactionDate(getTransactionDate()))
+		// {
+		// result.addError(transactionDateItem,
+		// accounterConstants.invalidateTransactionDate());
+		// } else
+		if (AccounterValidator
 				.isInPreventPostingBeforeDate(getTransactionDate())) {
 			result.addError(transactionDateItem,
 					accounterConstants.invalidateDate());

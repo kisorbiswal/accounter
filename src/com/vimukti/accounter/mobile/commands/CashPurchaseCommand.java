@@ -4,6 +4,12 @@ import java.util.Date;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.CashPurchase;
+import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.Contact;
+import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.core.TAXCode;
+import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.ActionNames;
@@ -42,8 +48,9 @@ public class CashPurchaseCommand extends AbstractTransactionCommand {
 			public void addRequirements(List<Requirement> list) {
 				list.add(new Requirement("name", false, true));
 				list.add(new Requirement("desc", true, true));
-				list.add(new Requirement("quantity", false, true));
-				list.add(new Requirement("price", false, true));
+				list.add(new Requirement("amount", false, true));
+				list.add(new Requirement("discount", true, true));
+				list.add(new Requirement("vatCode", true, true));
 			}
 		});
 		list.add(new Requirement("paymentMethod", false, true));
@@ -60,7 +67,27 @@ public class CashPurchaseCommand extends AbstractTransactionCommand {
 
 	@Override
 	public Result run(Context context) {
-		Result result = context.makeResult();
+		String process = (String) context.getAttribute(PROCESS_ATTR);
+		Result result = null;
+		if (process != null) {
+			if (process.equals(ADDRESS_PROCESS)) {
+				result = addressProcess(context);
+				if (result != null) {
+					return result;
+				}
+			} else if (process.equals(TRANSACTION_ITEM_PROCESS)) {
+				result = transactionItemProcess(context);
+				if (result != null) {
+					return result;
+				}
+			} else if (process.equals(TRANSACTION_ACCOUNT_ITEM_PROCESS)) {
+				result = transactionAccountProcess(context);
+				if (result != null) {
+					return result;
+				}
+			}
+		}
+		result = context.makeResult();
 		result = createSupplierRequirement(context);
 		if (result != null) {
 			return result;
@@ -90,7 +117,56 @@ public class CashPurchaseCommand extends AbstractTransactionCommand {
 	}
 
 	private void completeProcess(Context context) {
-		// TODO Auto-generated method stub
+		Company company = context.getCompany();
+		CashPurchase cashPurchase = new CashPurchase();
+		Date date = get(DATE).getValue();
+		cashPurchase.setDate(new FinanceDate(date));
+
+		cashPurchase.setType(Transaction.TYPE_CASH_PURCHASE);
+
+		String number = get("number").getValue();
+		cashPurchase.setNumber(number);
+
+		// FIXME
+		List<TransactionItem> items = get("items").getValue();
+		List<TransactionItem> accounts = get("accounts").getValue();
+		accounts.addAll(items);
+		cashPurchase.setTransactionItems(accounts);
+
+		// TODO Location
+		// TODO Class
+
+		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+			TAXCode taxCode = get("tax").getValue();
+			for (TransactionItem item : items) {
+				item.setTaxCode(taxCode);
+			}
+		}
+
+		Vendor vendor = get("supplier").getValue();
+		cashPurchase.setVendor(vendor);
+
+		Contact contact = get("contact").getValue();
+		cashPurchase.setContact(contact);
+
+		// TODO Payments
+
+		String phone = get("phone").getValue();
+
+		String memo = get(MEMO).getValue();
+		cashPurchase.setMemo(memo);
+
+		String paymentMethod = get("paymentMethod").getValue();
+		cashPurchase.setPaymentMethod(paymentMethod);
+		Account account = get("depositOrTransferTo").getValue();
+		cashPurchase.setPayFrom(account);
+		String chequeNo = get("chequeNo").getValue();
+		if (paymentMethod.equals(US_CHECK) || paymentMethod.equals(UK_CHECK)) {
+			cashPurchase.setCheckNumber(chequeNo);
+		}
+		Date deliveryDate = get("deliveryDate").getValue();
+		// cashPurchase.setD
+		create(cashPurchase, context);
 
 	}
 
@@ -227,41 +303,6 @@ public class CashPurchaseCommand extends AbstractTransactionCommand {
 
 		return result;
 	}
-
-	// private Result chequeNoRequirement(Context context, ResultList list,
-	// Object selection) {
-	// Requirement requirement = get("paymentMethod");
-	// if (requirement != null) {
-	// String paymentMethod = (String) requirement.getValue();
-	// if (paymentMethod.equals("Check")) {
-	//
-	// Requirement req = get("chequeNo");
-	// String invoiceNo = (String) req.getValue();
-	//
-	// String attribute = (String) context.getAttribute(INPUT_ATTR);
-	// if (attribute.equals("chequeNo")) {
-	// String order = context.getSelection(NUMBER);
-	// if (order == null) {
-	// order = context.getString();
-	// }
-	// invoiceNo = order;
-	// req.setValue(invoiceNo);
-	// }
-	//
-	// if (selection == invoiceNo) {
-	// context.setAttribute(INPUT_ATTR, "chequeNo");
-	// return number(context, "Enter Cheque number", invoiceNo);
-	// }
-	//
-	// Record invoiceNoRec = new Record(invoiceNo);
-	// invoiceNoRec.add("Name", "Cheque Number");
-	// invoiceNoRec.add("Value", invoiceNo);
-	// list.add(invoiceNoRec);
-	// }
-	// }
-	//
-	// return null;
-	// }
 
 	private Result cashPurchaseNoRequirement(Context context, ResultList list,
 			Object selection) {

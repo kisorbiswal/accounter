@@ -226,7 +226,8 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 		this.account = takenaccount;
 
 		ClientFinanceDate endDate = Accounter.getCompany()
-				.getLastandOpenedFiscalYearEndDate();
+				.getCurrentFiscalYearEndDate();
+		// .getLastandOpenedFiscalYearEndDate();
 
 		if (endDate == null)
 			endDate = new ClientFinanceDate();
@@ -291,7 +292,6 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 		grid2.setHeight(height - 140 + "px");
 
 	}
-
 
 	@Override
 	public void onEdit() {

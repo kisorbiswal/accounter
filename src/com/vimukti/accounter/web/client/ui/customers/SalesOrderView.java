@@ -320,12 +320,13 @@ public class SalesOrderView extends
 
 		if (getPreferences().isSalesPersonEnabled()) {
 			termsForm.setFields(transactionNumber, customerOrderText,
-					salesPersonCombo, payTermsSelect, shippingTermsCombo,
-					shippingMethodsCombo, dueDateItem);
+					salesPersonCombo, payTermsSelect, dueDateItem);
 		} else {
 			termsForm.setFields(transactionNumber, customerOrderText,
-					payTermsSelect, shippingTermsCombo, shippingMethodsCombo,
-					dueDateItem);
+					payTermsSelect, dueDateItem);
+		}
+		if (getPreferences().isDoProductShipMents()) {
+			termsForm.setFields(shippingTermsCombo, shippingMethodsCombo);
 		}
 		termsForm.getCellFormatter().setWidth(0, 0, "230px");
 
@@ -365,7 +366,8 @@ public class SalesOrderView extends
 
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
-		customerTransactionTable = new SalesOrderTable() {
+		customerTransactionTable = new SalesOrderTable(isTrackTax(),
+				isTaxPerDetailLine()) {
 
 			@Override
 			public void updateNonEditableItems() {
@@ -396,27 +398,29 @@ public class SalesOrderView extends
 
 		TextItem dummyItem = new TextItem("");
 		dummyItem.setVisible(false);
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			prodAndServiceForm2.setFields(dummyItem, netAmountLabel, dummyItem,
-					vatTotalNonEditableText, dummyItem,
-					transactionTotalNonEditableText);
-			prodAndServiceForm2.setStyleName("invoice-total");
-		} else if (getCompany().getPreferences().isChargeSalesTax()) {
-			prodAndServiceForm2.setFields(taxCodeSelect,
-					salesTaxTextNonEditable, dummyItem,
-					transactionTotalNonEditableText);
-			prodAndServiceForm2.setStyleName("tax-form");
+		if (isTrackTax()) {
+			if (isTaxPerDetailLine()) {
+				prodAndServiceForm2.setFields(dummyItem, netAmountLabel,
+						dummyItem, vatTotalNonEditableText, dummyItem,
+						transactionTotalNonEditableText);
+				prodAndServiceForm2.setStyleName("boldtext");
+			} else {
+				prodAndServiceForm2.setFields(taxCodeSelect,
+						salesTaxTextNonEditable, dummyItem,
+						transactionTotalNonEditableText);
+				prodAndServiceForm2.setStyleName("boldtext");
+			}
 		} else {
 			prodAndServiceForm2.setFields(dummyItem,
 					transactionTotalNonEditableText);
-			prodAndServiceForm2.setStyleName("tax-form");
+			prodAndServiceForm2.setStyleName("boldtext");
 		}
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(prodAndServiceForm2);
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (isTaxPerDetailLine()) {
 			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "30%");
 		} else
 			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
@@ -631,7 +635,9 @@ public class SalesOrderView extends
 			// this.taxCode =
 			// getTaxItemGroupForTransactionItems(this.transactionItems);
 
-			customerSelected(this.getCustomer());
+			customerCombo.setComboItem(this.getCustomer());
+
+			// customerSelected(this.getCustomer());
 			int status = transaction.getStatus();
 			switch (status) {
 			case ClientTransaction.STATUS_OPEN:
@@ -648,7 +654,9 @@ public class SalesOrderView extends
 
 			if (transaction.getPhone() != null)
 				phoneNo = transaction.getPhone();
-			if (getCustomer().getPhoneNo().isEmpty())
+			String customerPhone = getCustomer().getPhoneNo();
+
+			if (customerPhone != null && customerPhone.isEmpty())
 				phoneSelect.setValue(phoneNo);
 
 			contactSelected(this.contact);
@@ -678,23 +686,22 @@ public class SalesOrderView extends
 			memoTextAreaItem.setDisabled(isInViewMode());
 			// refText.setValue(salesOrderToBeEdited.getReference());
 
-			if (getCompany().getPreferences().isChargeSalesTax()) {
-				netAmountLabel.setAmount(transaction.getNetAmount());
-				vatTotalNonEditableText.setAmount(transaction.getTotal()
-						- transaction.getNetAmount());
-			}
-
-			if (getCompany().getPreferences().isRegisteredForVAT()) {
-				this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
-				if (taxCode != null) {
-					this.taxCodeSelect
-							.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
+			if (isTrackTax()) {
+				if (isTaxPerDetailLine()) {
+					netAmountLabel.setAmount(transaction.getNetAmount());
+					vatTotalNonEditableText.setAmount(transaction.getTotal()
+							- transaction.getNetAmount());
+				} else {
+					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
+					if (taxCode != null) {
+						this.taxCodeSelect
+								.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
+					}
+					this.salesTaxTextNonEditable.setAmount(transaction
+							.getTaxTotal());
+					this.transactionTotalNonEditableText.setAmount(transaction
+							.getTotal());
 				}
-				this.salesTaxTextNonEditable.setAmount(transaction
-						.getSalesTaxAmount());
-				this.transactionTotalNonEditableText.setAmount(transaction
-						.getTotal());
-
 			}
 			// customerTransactionGrid.setRecords(transaction
 			// .getTransactionItems());
@@ -740,7 +747,7 @@ public class SalesOrderView extends
 	protected void initSalesTaxNonEditableItem() {
 		if (isInViewMode()) {
 			Double salesTaxAmout = ((ClientSalesOrder) transaction)
-					.getSalesTaxAmount();
+					.getTaxTotal();
 			setSalesTax(salesTaxAmout);
 
 		}
@@ -824,21 +831,21 @@ public class SalesOrderView extends
 		if (dueDateItem.getEnteredDate() != null)
 			transaction.setDueDate(dueDateItem.getEnteredDate().getDate());
 
-		if (getCompany().getPreferences().isChargeSalesTax()) {
-			if (taxCode != null) {
-				for (ClientTransactionItem record : customerTransactionTable
-						.getRecords()) {
-					record.setTaxItemGroup(taxCode.getID());
-
-				}
+		if (isTrackTax()) {
+			if (isTaxPerDetailLine()) {
+				transaction.setNetAmount(netAmountLabel.getAmount());
+				// transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
+				// .getValue());
+			} else {
+				// if (taxCode != null) {
+				// for (ClientTransactionItem record : customerTransactionTable
+				// .getRecords()) {
+				// record.setTaxItemGroup(taxCode.getID());
+				//
+				// }
+				// }
+				transaction.setTaxTotal(this.salesTax);
 			}
-			transaction.setSalesTaxAmount(this.salesTax);
-		}
-
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
-			transaction.setNetAmount(netAmountLabel.getAmount());
-			// transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-			// .getValue());
 		}
 
 		transaction.setTotal(transactionTotalNonEditableText.getAmount());
@@ -988,19 +995,13 @@ public class SalesOrderView extends
 		if (customerTransactionTable == null)
 			return;
 
-		if (getCompany().getPreferences().isChargeSalesTax()) {
-
-			setSalesTax(customerTransactionTable.getTotalTax());
-
-			setTransactionTotal(customerTransactionTable.getGrandTotal());
-		}
-
-		if (getCompany().getPreferences().isRegisteredForVAT()) {
+		if (isTrackTax()) {
 			netAmountLabel.setAmount(customerTransactionTable.getLineTotal());
+			setSalesTax(customerTransactionTable.getTotalTax());
 			vatTotalNonEditableText.setAmount(customerTransactionTable
 					.getTotalTax());
-			setTransactionTotal(customerTransactionTable.getGrandTotal());
 		}
+		setTransactionTotal(customerTransactionTable.getGrandTotal());
 		transactionTotalNonEditableText.setAmount(customerTransactionTable
 				.getGrandTotal());
 		// Double payments = this.paymentsNonEditableText.getAmount();
@@ -1015,6 +1016,7 @@ public class SalesOrderView extends
 		result.add(FormItem.validate(statusSelect));
 		result.add(super.validate());
 
+		result.add(customerTransactionTable.validateGrid());
 		return result;
 	}
 
@@ -1229,6 +1231,29 @@ public class SalesOrderView extends
 			customerCombo.setDisabled(isInViewMode());
 		} else {
 			customerCombo.setDisabled(true);
+			if (this.transaction.getBillingAddress() == null) {
+				this.addressListOfCustomer = customer.getAddress();
+				billingAddress = getAddress(ClientAddress.TYPE_BILL_TO);
+				if (billingAddress != null) {
+					billToTextArea.setValue(billingAddress.getAddress1() + "\n"
+							+ billingAddress.getStreet() + "\n"
+							+ billingAddress.getCity() + "\n"
+							+ billingAddress.getStateOrProvinence() + "\n"
+							+ billingAddress.getZipOrPostalCode() + "\n"
+							+ billingAddress.getCountryOrRegion());
+
+				} else
+					billToTextArea.setValue("");
+			}
+
+			if (this.transaction.getPhone() == null
+					|| this.transaction.getPhone().isEmpty()) {
+				initPhones(customer);
+			}
+
+			if (this.transaction.getContact() == null) {
+				initContacts(customer);
+			}
 		}
 		taxCodeSelect.setDisabled(isInViewMode());
 		customerOrderText.setDisabled(isInViewMode());

@@ -1499,4 +1499,64 @@
 		act.objectID=:transactionId and act.company=:company
 	</query>
 
+	<sql-query name="updateTaxCodeSalesTaxRate">
+		<query-param name="id" type="long"/>
+		<query-param name="salesTaxRate" type="double"/>
+		
+		UPDATE TAX_CODE TC SET TC.SALES_TAX_RATE =:salesTaxRate
+						WHERE TC.TAXITEMGROUP_SALES =:id
+	</sql-query>
+	
+	<sql-query name="updateTaxCodePurchaseTaxRate">
+		<query-param name="id" type="long"/>
+		<query-param name="purchaseTaxRate" type="double"/>
+		
+		UPDATE TAX_CODE TC SET TC.PURCHASE_TAX_RATE =:purchaseTaxRate
+						WHERE TC.TAXITEMGROUP_PURCHASES =:id
+	</sql-query>
+	
+	<sql-query name="getEmailIdFromClient">
+		<query-param name="emailId" type="string"/>
+		<query-param name="password" type="string"/>
+		
+		SELECT EMAIL_ID  FROM CLIENT C WHERE C.EMAIL_ID=:emailId AND C.PASSWORD=:password
+	</sql-query>
+	
+	<sql-query name="updatePasswordForClient">
+		<query-param name="newPassword" type="string"/>
+		<query-param name="emailId" type="string"/>
+		
+		UPDATE CLIENT SET PASSWORD=:newPassword WHERE EMAIL_ID=:emailId
+	</sql-query>
+	
+	<sql-query name="getCountOfActivity">
+		SELECT COUNT(*) FROM ACTIVITY
+	</sql-query>
+	
+	<sql-query name="getCountOfActivityBetweenDates">
+		<query-param name="fromDate" type="long"/>
+		<query-param name="endDate" type="long"/>
+		SELECT COUNT(*) FROM ACTIVITY A WHERE A.TIME_STAMP BETWEEN :fromDate AND :endDate
+	</sql-query>
+	
+	<sql-query name="getCreditCardChargesThisMonth">
+		<query-param name="month" type="int"/>
+		
+		SELECT CCC.ID, CCC.VERSION, CCC.CREATED_DATE, CCC.MODIFIED_ON, CCC.VENDOR_ID, CCC.CONTACT_ID, 
+		CCC.VENDOR_ADDRESS_ID, CCC.PAYMENT_METHOD_ID, CCC.PAYFROM_ACCOUNT_ID, CCC.CHECK_NUMBER, 
+		CCC.DELIVERY_DATE, CCC.MEMO, CCC.REFERENCE, CCC.TOTAL FROM CREDIT_CARD_CHARGES CCC JOIN 
+		TRANSACTION T ON T.ID = CCC.ID AND MONTH(T.T_DATE) =:month AND YEAR(T.T_DATE) =:month
+	</sql-query>
+	
+	<sql-query name="getEmployeeNames">
+		<return-scalar column="name" type="string"/>
+		
+		SELECT empd.FULL_NAME as name FROM USERS empd
+	</sql-query>
+	
+	<sql-query name="getMonthFromAccountAmounts">
+		
+		select month from ACCOUNT_AMOUNTS group by month order by month
+	</sql-query>
+	
 </hibernate-mapping>

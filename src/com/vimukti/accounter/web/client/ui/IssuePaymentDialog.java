@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -484,10 +483,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 	private void paymentMethodSelected(String selectedpaymentMethod1) {
 		selectedpaymentMethod = selectedpaymentMethod1;
 		if (!selectedpaymentMethod.isEmpty()) {
-			checkNoText = new TextItem(
-					getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-							.constants().startingCheckNo() : Accounter
-							.constants().startingChequeNo());
+			checkNoText = new TextItem(Accounter.constants().startingChequeNo());
 			checkNoText.setHelpInformation(true);
 			checkNoText.setWidth(100);
 			// checkNoText.setRequired(true);

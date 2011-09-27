@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.visualization.client.AbstractDataTable;
-import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.DataTable;
 import com.google.gwt.visualization.client.LegendPosition;
+import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.visualizations.corechart.AxisOptions;
 import com.google.gwt.visualization.client.visualizations.corechart.ColumnChart;
 import com.google.gwt.visualization.client.visualizations.corechart.LineChart;
@@ -171,9 +171,12 @@ public class GraphChart {
 			data.addColumn(ColumnType.STRING, Accounter.constants().date());
 			data.addColumn(ColumnType.NUMBER);
 
-		} else {
+		} else if (chartType == ACCOUNTS_RECEIVABLE_CHART_TYPE) {
 			data.addColumn(ColumnType.STRING, Accounter.constants().date());
 			data.addColumn(ColumnType.NUMBER, Accounter.constants().revenue());
+		} else {
+			data.addColumn(ColumnType.STRING, Accounter.constants().date());
+			data.addColumn(ColumnType.NUMBER, Accounter.constants().balance());
 		}
 
 		if (chartType == BANK_ACCOUNT_CHART_TYPE) {
@@ -239,8 +242,8 @@ public class GraphChart {
 					labelDateVal = cal.getActualMaximum(Calendar.DAY_OF_MONTH)
 							+ labelDateVal;
 
-				x_Axis_Labels.add(3 - i, getMonthAsString(labelMonthVal-1) + " "
-						+ labelDateVal);
+				x_Axis_Labels.add(3 - i, getMonthAsString(labelMonthVal - 1)
+						+ " " + labelDateVal);
 			}
 		}
 
@@ -309,7 +312,7 @@ public class GraphChart {
 				}
 
 				// creating x-axis labels. Ex: 1-Jan, 3-Jan, 5-Jan, ...
-				x_Axis_Labels.add(i, getMonthAsString(labelMonthVal-1) + " "
+				x_Axis_Labels.add(i, getMonthAsString(labelMonthVal - 1) + " "
 						+ labelDateVal);
 
 				labelDateVal = labelDateVal + 1;

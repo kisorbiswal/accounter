@@ -7,11 +7,11 @@ public class Hungary extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		String[] states = new String[] { "Bács-Kiskun", "Baranya", "Békés",
-				"Borsod-Abaúj-Zemplén", "Budapest", "Csongrád", "Fejér",
-				"Gyor-Moson-Sopron", "Hajdú-Bihar", "Heves",
-				"Jász-Nagykun-Szolnok", "Komárom-Esztergom", "Nógrád", "Pest",
-				"Somogy", "Szabolcs-Szatmár-Bereg", "Tolna", "Vas", "Veszprém",
+		String[] states = new String[] { "Bacs-Kiskun", "Baranya", "Bekes",
+				"Borsod-Abauj-Zemplen", "Budapest", "Csongrad", "Fejer",
+				"Gyor-Moson-Sopron", "Hajdu-Bihar", "Heves",
+				"Jász-Nagykun-Szolnok", "Komarom-Esztergom", "Nograd", "Pest",
+				"Somogy", "Szabolcs-Szatmar-Bereg", "Tolna", "Vas", "Veszprem",
 				"Zala" };
 		return states;
 	}

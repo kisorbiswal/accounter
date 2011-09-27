@@ -109,10 +109,11 @@ public class ItemView extends BaseView<ClientItem> {
 			List<ClientTAXCode> result = getCompany().getActiveTaxCodes();
 			if (result != null) {
 				taxCode.initCombo(getCompany().getActiveTaxCodes());
-				ClientTAXCode code=null;
+				ClientTAXCode code = null;
 				if (isInViewMode()) {
 					code = getCompany().getTAXCode(data.getTaxCode());
-				} else if (!getCompany().getPreferences().isChargeSalesTax()) {
+				}
+				if (code == null) {
 					code = getCompany().getTAXCode(
 							getPreferences().getDefaultTaxCode());
 				}
@@ -192,17 +193,16 @@ public class ItemView extends BaseView<ClientItem> {
 		}
 		if (type == TYPE_SERVICE) {
 			lab1.setText(Accounter.constants().newService());
-			if (getCompany().getAccountingType() == 1)
-				itemForm.setFields(nameText/* , isservice */);
-			else
+			// if (getCompany().getAccountingType() == 1)
+			itemForm.setFields(nameText/* , isservice */);
 
-				itemForm.setFields(nameText, /* isservice, */skuText);
+			// itemForm.setFields(nameText, /* isservice, */skuText);
 		} else {
 			lab1.setText(Accounter.constants().newProduct());
-			if (getCompany().getAccountingType() == 1)
-				itemForm.setFields(nameText, weightText);
-			else
-				itemForm.setFields(nameText, skuText, weightText);
+			// if (getCompany().getAccountingType() == 1)
+			itemForm.setFields(nameText, weightText);
+			// else
+			// itemForm.setFields(nameText, skuText, weightText);
 		}
 		itemForm.getCellFormatter().setWidth(0, 0, "185px");
 		salesDescArea = new TextAreaItem();
@@ -428,7 +428,8 @@ public class ItemView extends BaseView<ClientItem> {
 		salesInfoForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
 		itemInfoForm = UIUtils.form(Accounter.constants().itemInformation());
 		itemInfoForm.setWidth("97%");
-		if (getCompany().getAccountingType() == 1)
+		if (getPreferences().isTrackTax()
+				&& getPreferences().isTaxPerDetailLine())
 			itemInfoForm.setFields(itemGroupCombo, taxCode, activeCheck);
 		else
 			itemInfoForm.setFields(itemGroupCombo, activeCheck);
@@ -514,9 +515,10 @@ public class ItemView extends BaseView<ClientItem> {
 			name = data.getName();
 			System.out.println(name + Accounter.constants().beforesaving());
 			stdCostText.setAmount(data.getStandardCost());
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-				skuText.setValue(data.getUPCorSKU() != null ? data
-						.getUPCorSKU() : "");
+			// if (getCompany().getAccountingType() ==
+			// ClientCompany.ACCOUNTING_TYPE_US)
+			// skuText.setValue(data.getUPCorSKU() != null ? data
+			// .getUPCorSKU() : "");
 
 			weightText.setValue(String.valueOf(data.getWeight()));
 
@@ -653,10 +655,7 @@ public class ItemView extends BaseView<ClientItem> {
 
 			data.setVendorItemNumber(vendItemNumText.getValue().toString());
 		}
-		if (getCompany().getAccountingType() == 0)
-			data.setTaxable(getBooleanValue(itemTaxCheck));
-		else
-			data.setTaxable(true);
+		data.setTaxable(getBooleanValue(itemTaxCheck));
 		if (type == NON_INVENTORY_PART || type == TYPE_SERVICE)
 			data.setTaxCode(selectTaxCode != null ? selectTaxCode.getID() : 0);
 	}
@@ -795,40 +794,39 @@ public class ItemView extends BaseView<ClientItem> {
 	private void initAccountList() {
 		List<ClientAccount> listAccount = accountCombo.getFilterdAccounts();
 		List<ClientAccount> listExpAccount = expAccCombo.getFilterdAccounts();
-		int accountType = company.getAccountingType();
 		if (listAccount != null) {
 			accountCombo.initCombo(listAccount);
 			expAccCombo.initCombo(listExpAccount);
 			if (type == TYPE_SERVICE) {
-				if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-					defaultIncomeAccount = getDefaultAccount(company
-							.getUkServiceItemDefaultIncomeAccount());
-					defaultExpAccount = getDefaultAccount(company
-							.getUkServiceItemDefaultExpenseAccount());
-				} else if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
-					defaultIncomeAccount = getDefaultAccount(Accounter
-							.constants().incomeandDistribution());
-					defaultExpAccount = getDefaultAccount(Accounter.constants()
-							.cashDiscountTaken());
-				}
+				// if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+				// defaultIncomeAccount = getDefaultAccount(company
+				// .getUkServiceItemDefaultIncomeAccount());
+				// defaultExpAccount = getDefaultAccount(company
+				// .getUkServiceItemDefaultExpenseAccount());
+				// } else if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
+				defaultIncomeAccount = getDefaultAccount(Accounter.constants()
+						.incomeandDistribution());
+				defaultExpAccount = getDefaultAccount(Accounter.constants()
+						.cashDiscountTaken());
+				// }
 				selectAccount = defaultIncomeAccount;
 				accountCombo.setComboItem(defaultIncomeAccount);
 				selectExpAccount = defaultExpAccount;
 				expAccCombo.setComboItem(defaultExpAccount);
 			}
 			if (type == NON_INVENTORY_PART) {
-				if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-					defaultIncomeAccount = getDefaultAccount(company
-							.getUkNonInventoryItemDefaultIncomeAccount());
-					defaultExpAccount = getDefaultAccount(company
-							.getUkNonInventoryItemDefaultExpenseAccount());
-				} else if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
-					defaultIncomeAccount = getDefaultAccount(Accounter
-							.constants().incomeandDistribution());
-					defaultExpAccount = getDefaultAccount(Accounter.constants()
-							.cashDiscountTaken());
+				// if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+				// defaultIncomeAccount = getDefaultAccount(company
+				// .getUkNonInventoryItemDefaultIncomeAccount());
+				// defaultExpAccount = getDefaultAccount(company
+				// .getUkNonInventoryItemDefaultExpenseAccount());
+				// } else if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
+				defaultIncomeAccount = getDefaultAccount(Accounter.constants()
+						.incomeandDistribution());
+				defaultExpAccount = getDefaultAccount(Accounter.constants()
+						.cashDiscountTaken());
 
-				}
+				// }
 				selectAccount = defaultIncomeAccount;
 				accountCombo.setComboItem(defaultIncomeAccount);
 				selectExpAccount = defaultExpAccount;

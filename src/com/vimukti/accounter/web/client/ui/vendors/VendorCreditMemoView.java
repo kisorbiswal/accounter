@@ -180,15 +180,6 @@ public class VendorCreditMemoView extends
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 
-		DynamicForm phoneForm = UIUtils.form(Accounter.constants()
-				.phoneNumber());
-		phoneForm.setFields(phoneSelect);
-
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
-			classListCombo = createAccounterClassListCombo();
-			phoneForm.setFields(classListCombo);
-		}
 		if (this.isInViewMode()) {
 			// FiXME--The form need to be disabled
 			// phoneForm.setDisabled(true);
@@ -202,9 +193,10 @@ public class VendorCreditMemoView extends
 
 		vatTotalNonEditableText = createVATTotalNonEditableItem();
 
-		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
+		// Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 		// menuButton = createAddNewButton();
-		vendorAccountTransactionTable = new VendorAccountTransactionTable() {
+		vendorAccountTransactionTable = new VendorAccountTransactionTable(
+				isTrackTax() && isTrackPaidTax(), isTaxPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -239,7 +231,8 @@ public class VendorCreditMemoView extends
 		accountsDisclosurePanel.setContent(accountFlowPanel);
 		accountsDisclosurePanel.setOpen(true);
 		accountsDisclosurePanel.setWidth("100%");
-		vendorItemTransactionTable = new VendorItemTransactionTable() {
+		vendorItemTransactionTable = new VendorItemTransactionTable(
+				isTrackTax(), isTaxPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -278,6 +271,13 @@ public class VendorCreditMemoView extends
 		vendorForm = UIUtils.form(Global.get().vendor());
 		vendorForm.setWidth("50%");
 		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect);
+
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
+			classListCombo = createAccounterClassListCombo();
+			vendorForm.setFields(classListCombo);
+		}
+
 		vendorForm.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.constants().width(), "190px");
 
@@ -304,12 +304,13 @@ public class VendorCreditMemoView extends
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setNumCols(2);
 		totalForm.setWidth("100%");
-		totalForm.setStyleName("invoice-total");
+		totalForm.setStyleName("boldtext");
 		// netAmount.setWidth((netAmount.getMainWidget().getOffsetWidth() + 100)
 		// + "px");
 
-		totalForm.setFields(netAmount, vatTotalNonEditableText,
-				transactionTotalNonEditableText);
+		taxCodeSelect = createTaxCodeSelectItem();
+
+		totalForm.addStyleName("boldtext");
 		HorizontalPanel bottomLayout = new HorizontalPanel();
 		bottomLayout.setWidth("100%");
 		leftVLay.add(vendorForm);
@@ -327,14 +328,22 @@ public class VendorCreditMemoView extends
 		VerticalPanel bottomPanel = new VerticalPanel();
 		bottomPanel.setWidth("100%");
 
-		int accountType = getCompany().getAccountingType();
-		if (getPreferences().isTrackPaidTax()) {
+		if (isTrackPaidTax()) {
+
+			totalForm.setFields(netAmount, vatTotalNonEditableText,
+					transactionTotalNonEditableText);
+
 			VerticalPanel vPanel = new VerticalPanel();
 			vPanel.setWidth("100%");
 			vPanel.setHorizontalAlignment(ALIGN_RIGHT);
 			vPanel.add(totalForm);
 
 			bottomLayout1.add(memoForm);
+			if (!isTaxPerDetailLine()) {
+				DynamicForm taxForm = new DynamicForm();
+				taxForm.setItems(taxCodeSelect);
+				bottomLayout1.add(taxForm);
+			}
 			bottomLayout1.add(totalForm);
 			bottomLayout1.setCellWidth(totalForm, "30%");
 
@@ -370,7 +379,6 @@ public class VendorCreditMemoView extends
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);
-		listforms.add(phoneForm);
 		listforms.add(vendorForm);
 
 		listforms.add(memoForm);
@@ -447,10 +455,10 @@ public class VendorCreditMemoView extends
 		// 3. vendorForm valid?
 		// 4. isBlank transaction?
 		// 5. is vendor transaction grid valid?
-		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateTransactionDate());
-		}
+		// if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
+		// result.addError(transactionDate,
+		// accounterConstants.invalidateTransactionDate());
+		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
 			result.addError(transactionDate,
@@ -603,8 +611,13 @@ public class VendorCreditMemoView extends
 
 	@Override
 	protected void taxCodeSelected(ClientTAXCode taxCode) {
-		// TODO Auto-generated method stub
-
+		this.taxCode = taxCode;
+		if (taxCode != null) {
+			taxCodeSelect.setComboItem(taxCode);
+			vendorAccountTransactionTable.setTaxCode(taxCode.getID(), true);
+			vendorItemTransactionTable.setTaxCode(taxCode.getID(), true);
+		} else
+			taxCodeSelect.setValue("");
 	}
 
 	@Override

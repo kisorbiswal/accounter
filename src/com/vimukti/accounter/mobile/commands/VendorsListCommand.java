@@ -2,8 +2,6 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
 
-import org.hibernate.Session;
-
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
@@ -18,6 +16,8 @@ import com.vimukti.accounter.mobile.ResultList;
  * 
  */
 public class VendorsListCommand extends AbstractTransactionCommand {
+
+	private static final String ACTIVE = "active";
 
 	@Override
 	public String getId() {
@@ -69,7 +69,7 @@ public class VendorsListCommand extends AbstractTransactionCommand {
 		ResultList vendorsResult = new ResultList("vendors");
 		result.add("Vendors List");
 		int num = 0;
-		List<Vendor> vendors = getVendors(isActive);
+		List<Vendor> vendors = getVendors(isActive, context.getCompany());
 		for (Vendor vendor : vendors) {
 			vendorsResult.add(createPayeeRecord(vendor));
 			num++;
@@ -92,23 +92,6 @@ public class VendorsListCommand extends AbstractTransactionCommand {
 
 		return result;
 
-	}
-
-	private Result isActiveRequirement(Context context, Object selection) {
-		Requirement isActiveReq = get(ACTIVE);
-		Boolean isActive = (Boolean) isActiveReq.getValue();
-		if (selection == isActive) {
-			context.setAttribute(INPUT_ATTR, ACTIVE);
-			isActive = !isActive;
-			isActiveReq.setValue(isActive);
-		}
-		String activeString = "";
-		if (isActive) {
-			activeString = "This vendors is Active";
-		} else {
-			activeString = "This vendor is InActive";
-		}
-		return null;
 	}
 
 }

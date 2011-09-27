@@ -26,7 +26,7 @@
 			}
 		});
 	});
-
+	 
 });	
 </script>
 
@@ -36,9 +36,10 @@
    if( isNative ){ %>
    <link type="text/css" rel="stylesheet" href="../css/nativeLogin.css?version=<%= version%>">
    <% } %>
-   
 </head>
 	<body>
+	<%@ include file="./feedback.jsp" %>
+	<div id="contact"> </div>
      <div id="commanContainer">
 		   <img src="../images/Accounter_logo_title.png" class="accounterLogo" />
 		   <c:if test="${message != null}">
@@ -101,17 +102,7 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga
 			var is_ssl = ("https:" == document.location.protocol);
 			var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
 		</script>
-		<script type="text/javascript" charset="utf-8">
-			var feedback_widget_options = {};
-			
-			feedback_widget_options.display = "overlay";  
-  			feedback_widget_options.company = "vimukti";
-			feedback_widget_options.placement = "left";
-			feedback_widget_options.color = "#222";
-			feedback_widget_options.style = "idea";
-		
-			var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
-		</script>
+		 
 
 		</body>
 </html>

@@ -19,7 +19,6 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -119,10 +118,10 @@ public class CashExpenseView extends
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
 
-		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDate,
-					constants.invalidateTransactionDate());
-		}
+		// if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
+		// result.addError(transactionDate,
+		// constants.invalidateTransactionDate());
+		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
 			result.addError(transactionDate, constants.invalidateDate());
@@ -269,13 +268,14 @@ public class CashExpenseView extends
 		payFromCombo = createPayFromCombo(Accounter.constants().payFrom());
 		// payFromCombo.setWidth(100);
 		payFromCombo.setPopupWidth("500px");
-		checkNo = createCheckNumberItem(getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-				.constants().chequeNo() : Accounter.constants().checkNo());
+		checkNo = createCheckNumberItem(Accounter.constants().chequeNo());
 		checkNo.setDisabled(true);
 		checkNo.setWidth(100);
 		deliveryDateItem = createTransactionDeliveryDateItem();
 
 		paymentMethodCombo = createPaymentMethodSelectItem();
+		// paymentMethodCombo.removeComboItem(constants.cheque());
+
 		// paymentMethodCombo.setWidth(100);
 		paymentMethodCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -300,10 +300,7 @@ public class CashExpenseView extends
 						}
 					}
 				});
-		String listString[] = new String[] {
-				Accounter.constants().cash(),
-				UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
-						.constants().check()),
+		String listString[] = new String[] { Accounter.constants().cash(),
 				Accounter.constants().creditCard(),
 				Accounter.constants().directDebit(),
 				Accounter.constants().masterCard(),
@@ -316,8 +313,7 @@ public class CashExpenseView extends
 		}
 		paymentMethodCombo.initCombo(selectedComboList);
 
-		vendorForm.setFields(vendorCombo, paymentMethodCombo, payFromCombo,
-				checkNo);
+		vendorForm.setFields(vendorCombo, paymentMethodCombo, payFromCombo);
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -333,7 +329,8 @@ public class CashExpenseView extends
 		vatTotalNonEditableText = createVATTotalNonEditableItem();
 
 		vatinclusiveCheck = getVATInclusiveCheckBox();
-		vendorAccountTransactionTable = new VendorAccountTransactionTable() {
+		vendorAccountTransactionTable = new VendorAccountTransactionTable(
+				isTrackTax() && isTrackPaidTax(), isTaxPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -366,7 +363,8 @@ public class CashExpenseView extends
 		accountsDisclosurePanel.setOpen(true);
 		accountsDisclosurePanel.setWidth("100%");
 
-		vendorItemTransactionTable = new VendorItemTransactionTable() {
+		vendorItemTransactionTable = new VendorItemTransactionTable(
+				isTrackTax(), isTaxPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -411,7 +409,7 @@ public class CashExpenseView extends
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setNumCols(2);
 		totalForm.setWidth("100%");
-		totalForm.setStyleName("invoice-total");
+		totalForm.setStyleName("boldtext");
 		totalForm.setFields(netAmount, vatTotalNonEditableText,
 				transactionTotalNonEditableText);
 
@@ -435,13 +433,19 @@ public class CashExpenseView extends
 		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");
 
-		if (getPreferences().isTrackPaidTax()) {
+		if (isTrackPaidTax()) {
 			VerticalPanel vpanel = new VerticalPanel();
 			vpanel.setWidth("100%");
 			vpanel.setHorizontalAlignment(ALIGN_RIGHT);
 			vpanel.add(totalForm);
 
 			bottomLayout.add(memoForm);
+			if (!isTaxPerDetailLine()) {
+				taxCodeSelect = createTaxCodeSelectItem();
+				DynamicForm form = new DynamicForm();
+				form.setFields(taxCodeSelect);
+				bottomLayout.add(form);
+			}
 			bottomLayout.add(totalForm);
 			bottomLayout.setCellWidth(totalForm, "30%");
 
@@ -510,10 +514,8 @@ public class CashExpenseView extends
 		this.payFromAccount = account;
 		payFromCombo.setComboItem(payFromAccount);
 		if (account != null
-				&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
-				.equalsIgnoreCase(Accounter.constants().cheque())
-				: paymentMethod.equalsIgnoreCase(Accounter.constants().check())
-						&& isInViewMode()) {
+				&& paymentMethod.equalsIgnoreCase(Accounter.constants()
+						.cheque()) && isInViewMode()) {
 			ClientCashPurchase cashPurchase = (ClientCashPurchase) transaction;
 			checkNo.setValue(cashPurchase.getCheckNumber());
 			// setCheckNumber();
@@ -749,8 +751,14 @@ public class CashExpenseView extends
 
 	@Override
 	protected void taxCodeSelected(ClientTAXCode taxCode) {
-		// TODO Auto-generated method stub
-
+		this.taxCode = taxCode;
+		if (taxCode != null) {
+			taxCodeSelect.setComboItem(taxCode);
+			vendorAccountTransactionTable.setTaxCode(taxCode.getID(), true);
+			vendorItemTransactionTable.setTaxCode(taxCode.getID(), true);
+		} else {
+			taxCodeSelect.setValue("");
+		}
 	}
 
 	@Override

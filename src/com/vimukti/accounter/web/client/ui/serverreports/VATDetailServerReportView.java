@@ -77,14 +77,16 @@ public class VATDetailServerReportView extends AbstractFinaneReport<VATDetail> {
 		case 1:
 			return 80;
 		case 2:
-			return 60;
+			return 80;
 		case 3:
-			return 135;
+			return 100;
 		case 4:
-			return 70;
+			return 130;
+		case 5:
+			return 120;
 
 		default:
-			return 95;
+			return -1;
 		}
 	}
 

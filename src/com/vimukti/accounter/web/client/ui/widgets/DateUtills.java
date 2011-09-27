@@ -16,23 +16,17 @@ public class DateUtills {
 
 	public boolean isMonth = false;
 
+	public static String getCurrentDateAsString(String dateFormat) {
+
+		DateTimeFormat dateFormatter = DateTimeFormat.getFormat(dateFormat);
+		return dateFormatter.format(new Date(System.currentTimeMillis()));
+
+	}
+
 	public static String getDateAsString(Date date) {
 		DateTimeFormat dateFormatter = null;
-		if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("dd/MMM/yyyy"))
-			dateFormatter = DateTimeFormat.getFormat("dd/MMM/yyyy");
-		else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("dd/MM/yyyy"))
-			dateFormatter = DateTimeFormat.getFormat("dd/MM/yyyy");
-
-		else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("MM/dd/yyyy"))
-			dateFormatter = DateTimeFormat.getFormat("MM/dd/yyyy");
-
-		else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("MMM/dd/yyyy"))
-			dateFormatter = DateTimeFormat.getFormat("MMM/dd/yyyy");
-
+		dateFormatter = DateTimeFormat.getFormat(Accounter.getCompany()
+				.getPreferences().getDateFormat());
 		return dateFormatter.format(date);
 
 	}

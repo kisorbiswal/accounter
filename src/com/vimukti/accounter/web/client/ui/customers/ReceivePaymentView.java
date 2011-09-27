@@ -119,7 +119,7 @@ public class ReceivePaymentView extends
 		 * resetting the crdits dialog's refernce,so that a new object will
 		 * created for opening credits dialog
 		 */
-		gridView.creditsAndPaymentsDialiog = null;
+		gridView.newAppliedCreditsDialiog = null;
 		gridView.creditsStack = null;
 		gridView.initCreditsAndPayments(getCustomer());
 
@@ -325,6 +325,12 @@ public class ReceivePaymentView extends
 			@Override
 			protected void setAmountRecieved(double totalInoiceAmt) {
 				ReceivePaymentView.this.setAmountRecieved(totalInoiceAmt);
+				ReceivePaymentView.this.recalculateGridAmounts();
+			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return ReceivePaymentView.this.isInViewMode();
 			}
 		};
 		gridView.setCustomer(this.getCustomer());
@@ -372,8 +378,8 @@ public class ReceivePaymentView extends
 			// .getAttributeAsObject(FinanceApplication
 			// .constants().creditsAndPayments(),
 			// gridView.indexOf(payment));
-			if (gridView.creditsAndPaymentsDialiog != null) {
-				List<ClientTransactionCreditsAndPayments> tranCreditsandPayments = gridView.creditsAndPaymentsDialiog != null ? gridView.creditsAndPaymentsDialiog
+			if (gridView.newAppliedCreditsDialiog != null) {
+				List<ClientTransactionCreditsAndPayments> tranCreditsandPayments = gridView.newAppliedCreditsDialiog != null ? gridView.newAppliedCreditsDialiog
 						.getTransactionCredits(payment)
 						: new ArrayList<ClientTransactionCreditsAndPayments>();
 				if (tranCreditsandPayments != null)
@@ -536,7 +542,7 @@ public class ReceivePaymentView extends
 		DynamicForm textForm = new DynamicForm();
 		textForm.setWidth("70%");
 		textForm.setFields(unUsedCreditsText, unUsedPaymentsText);
-		textForm.addStyleName("unused-payments");
+		textForm.addStyleName("textbold");
 
 		DynamicForm memoForm = new DynamicForm();
 		memoForm.setWidth("100%");
@@ -1018,8 +1024,8 @@ public class ReceivePaymentView extends
 	public void recalculateGridAmounts() {
 		this.transactionTotal = getGridTotal();
 
-		// this.unUsedPayments = (amountRecieved - transactionTotal);
-		setUnusedPayments(transactionTotal);
+		this.unUsedPayments = (amountRecieved - transactionTotal);
+		setUnusedPayments(unUsedPayments);
 	}
 
 	@Override
@@ -1056,10 +1062,11 @@ public class ReceivePaymentView extends
 		// 5. validateGrid?
 		// 6. isValidReceivePaymentAmount?
 		// 7. unUsedPaymentsAmount > 0 add warning
-		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
-			result.addError(transactionDateItem,
-					accounterConstants.invalidateTransactionDate());
-		}
+		// if (!AccounterValidator.isValidTransactionDate(this.transactionDate))
+		// {
+		// result.addError(transactionDateItem,
+		// accounterConstants.invalidateTransactionDate());
+		// }
 
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
@@ -1073,7 +1080,7 @@ public class ReceivePaymentView extends
 		if (gridView == null || gridView.getRecords().isEmpty()
 				|| gridView.getSelectedRecords().size() == 0) {
 			result.addError(gridView, Accounter.constants()
-					.youDontHaveAnyTransactionsToMakeReceivePayment());
+					.pleaseSelectAnyOneOfTheTransactions());
 		} else if (gridView.getAllRows().isEmpty()) {
 			result.addError(gridView, Accounter.constants().selectTransaction());
 		} else

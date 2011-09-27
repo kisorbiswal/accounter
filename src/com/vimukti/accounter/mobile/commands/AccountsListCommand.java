@@ -2,8 +2,6 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
 
-import org.hibernate.Session;
-
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
@@ -19,6 +17,8 @@ import com.vimukti.accounter.mobile.ResultList;
  * 
  */
 public class AccountsListCommand extends AbstractTransactionCommand {
+
+	private static final String ACTIVE = "active";
 
 	@Override
 	public String getId() {
@@ -41,6 +41,11 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param context
+	 * @return
+	 */
 	private Result createAccountsList(Context context) {
 		context.setAttribute(INPUT_ATTR, "optional");
 
@@ -67,23 +72,12 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
-	private Result isActiveRequirement(Context context, Object selection) {
-		Requirement isActiveReq = get(ACTIVE);
-		Boolean isActive = (Boolean) isActiveReq.getValue();
-		if (selection == isActive) {
-			context.setAttribute(INPUT_ATTR, ACTIVE);
-			isActive = !isActive;
-			isActiveReq.setValue(isActive);
-		}
-		String activeString = "";
-		if (isActive) {
-			activeString = "This account is Active";
-		} else {
-			activeString = "This account is InActive";
-		}
-		return null;
-	}
-
+	/**
+	 * 
+	 * @param context
+	 * @param isActive
+	 * @return
+	 */
 	private Result accountsList(Context context, Boolean isActive) {
 		Result result = context.makeResult();
 		ResultList accountsList = new ResultList("accountsList");
@@ -114,6 +108,9 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 
 	}
 
+	/**
+	 * 
+	 */
 	protected Record createAccountRecord(Account account) {
 		Record record = new Record(account);
 		record.add("Number", account.getNumber());

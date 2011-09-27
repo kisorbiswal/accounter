@@ -8,12 +8,12 @@ public class Colombia extends AbstractCountryPreferences {
 	@Override
 	public String[] getStates() {
 		String[] states = new String[] { "Amazonas", "Antioquia", "Arauca",
-				"Atlántico", "Bogotá", "Bolívar", "Boyacá", "Caldas",
-				"Caquetá", "Casanare", "Cauca", "César", "Chocó", "Córdoba",
-				"Cundinamarca", "Guainía", "Guaviare", "Huila", "La Guajira",
-				"Magdalena", "Meta", "Nariño", "Norte de Santander",
-				"Putumayo", "Quindió", "Risaralda", "San Andrés y Providencia",
-				"Santander", "Sucre", "Tolima", "Valle del Cauca", "Vaupés",
+				"Atlantico", "Bogota", "Bolivar", "Boyaca", "Caldas",
+				"Caqueta", "Casanare", "Cauca", "Cesar", "Choco", "Cordoba",
+				"Cundinamarca", "Guainia", "Guaviare", "Huila", "La Guajira",
+				"Magdalena", "Meta", "Narino", "Norte de Santander",
+				"Putumayo", "Quindio", "Risaralda", "San Andres y Providencia",
+				"Santander", "Sucre", "Tolima", "Valle del Cauca", "Vaupes",
 				"Vichada" };
 		return states;
 	}

@@ -7,9 +7,9 @@ public class Slovakia extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		String[] states = new String[] { "Banskobystrický", "Bratislavský",
-				"Košický", "Nitrianský", "Prešovský", "Trencianský",
-				"Trnavský", "Žilinský" };
+		String[] states = new String[] { "Banskobystricky", "Bratislavsky",
+				"Kosicky", "Nitriansky", "Presovsky", "Trenciansky",
+				"Trnavsky", "Zilinsky" };
 		return states;
 	}
 

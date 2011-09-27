@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
-import com.vimukti.accounter.web.client.core.ClientTAXItem;
+import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -47,6 +47,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 	private String vatCode;
 
 	private ArrayList<DynamicForm> listforms;
+	private String taxCodeName;
 
 	public NewTAXCodeView() {
 		super();
@@ -104,7 +105,8 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		listforms = new ArrayList<DynamicForm>();
 
 		AccounterConstants vatMessages = Accounter.constants();
-		vatCodeTxt = new TextItem(vatMessages.vatCode());
+		vatCodeTxt = new TextItem(vatMessages.taxCode());
+		vatCodeTxt.setValue(taxCodeName);
 		vatCodeTxt.setHelpInformation(true);
 		vatCodeTxt.setRequired(true);
 		vatCodeTxt.setWidth(100);
@@ -132,7 +134,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		taxableGroupRadio.setDisabled(isInViewMode());
 
 		vatItemComboForPurchases = new VATItemCombo(Accounter.constants()
-				.vatItemForPurchases());
+				.taxItemForPurchases());
 		vatItemComboForPurchases.setHelpInformation(true);
 		vatItemComboForPurchases.initCombo(vatItemComboForPurchases
 				.getPurchaseWithPrcntVATItems());
@@ -140,26 +142,28 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		vatItemComboForPurchases.setDisabled(isInViewMode());
 		// vatItemComboForPurchases.setWidth(100);
 		vatItemComboForPurchases
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXItem>() {
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXItemGroup>() {
 					@Override
-					public void selectedComboBoxItem(ClientTAXItem selectItem) {
+					public void selectedComboBoxItem(
+							ClientTAXItemGroup selectItem) {
 						if (selectItem != null)
 							selectedVATPurchaseAcc = selectItem.getID();
 					}
 				});
 
 		vatItemComboForSales = new VATItemCombo(Accounter.constants()
-				.vatItemForSales());
+				.taxItemForSales());
 		vatItemComboForSales.setHelpInformation(true);
 		vatItemComboForSales.initCombo(vatItemComboForSales
 				.getSalesWithPrcntVATItems());
 		vatItemComboForSales.setRequired(true);
 		vatItemComboForSales.setDisabled(isInViewMode());
 		vatItemComboForSales
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXItem>() {
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXItemGroup>() {
 
 					@Override
-					public void selectedComboBoxItem(ClientTAXItem selectItem) {
+					public void selectedComboBoxItem(
+							ClientTAXItemGroup selectItem) {
 						if (selectItem != null)
 							selectedVATSAlesAcc = selectItem.getID();
 					}
@@ -169,8 +173,13 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		vatNameForm.getCellFormatter().setWidth(0, 0, "225px");
 		vatNameForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
 		vatNameForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
-		vatNameForm.setFields(vatCodeTxt, description, taxableGroupRadio,
-				isActive, vatItemComboForSales, vatItemComboForPurchases);
+		if (getPreferences().isTrackPaidTax()) {
+			vatNameForm.setFields(vatCodeTxt, description, taxableGroupRadio,
+					isActive, vatItemComboForSales, vatItemComboForPurchases);
+		} else {
+			vatNameForm.setFields(vatCodeTxt, description, taxableGroupRadio,
+					isActive, vatItemComboForSales);
+		}
 
 		if (getData() != null) {
 			vatCodeTxt.setValue(data.getName() != null ? data.getName() : "");
@@ -413,5 +422,9 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 	@Override
 	protected String getViewTitle() {
 		return Accounter.constants().taxCode();
+	}
+
+	public void setTaxCodeName(String taxCodeName) {
+		this.taxCodeName = taxCodeName;
 	}
 }

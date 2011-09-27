@@ -8,10 +8,10 @@ public class Morocco extends AbstractCountryPreferences {
 	@Override
 	public String[] getStates() {
 		String[] states = new String[] { "Casablanca", "Chaouia-Ouardigha",
-				"Doukkala-Abda", "Fès-Boulemane", "Gharb-Chrarda-Béni Hssen",
+				"Doukkala-Abda", "Fes-Boulemane", "Gharb-Chrarda-Beni Hssen",
 				"Guelmim", "Marrakech-Tensift-Al Haouz", "Meknes-Tafilalet",
-				"Oriental", "Rabat-Salé-Zammour-Zaer", "Souss Massa-Draâ",
-				"Tadla-Azilal", "Tangier-Tétouan", "Taza-Al Hoceima-Taounate" };
+				"Oriental", "Rabat-Sale-Zammour-Zaer", "Souss Massa-Draa",
+				"Tadla-Azilal", "Tangier-Tetouan", "Taza-Al Hoceima-Taounate" };
 		return states;
 	}
 

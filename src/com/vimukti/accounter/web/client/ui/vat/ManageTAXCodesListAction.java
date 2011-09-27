@@ -23,7 +23,7 @@ public class ManageTAXCodesListAction extends Action {
 	 */
 	public ManageTAXCodesListAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().vat();
+		this.catagory = Accounter.constants().tax();
 	}
 
 	/*

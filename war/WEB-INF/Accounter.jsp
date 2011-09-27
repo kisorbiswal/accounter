@@ -12,6 +12,8 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta content="IE=100" http-equiv="X-UA-Compatible">
+    <script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
+    <script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
     <script type="text/javascript" charset="utf-8">
   		var is_ssl = ("https:" == document.location.protocol);
   		var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
@@ -26,9 +28,10 @@
     </script>
     <!--                                                               -->
     <!-- Consider inlining CSS to reduce the number of requested files -->
-    <!--                                                               -->
-	<link type="text/css" rel="stylesheet" href="../css/Finance.css?version=<%= version%>">
+       
+     
 	<link type="text/css" rel="stylesheet" href="../css/calendar.css?version=<%= version%>">
+	 
 	<%
    String app = request.getHeader( "Nativeapp" );
    boolean isNative = ( app != null && !app.equals(""));
@@ -168,6 +171,7 @@
   <!-- to create a completely dynamic UI.        -->
   <!--                                           -->
   <body>
+  <%@ include file="./feedback.jsp" %>
 <div id="hiddenDiv" class="hiddenPic">
 		<img src="/images/loader.gif" 
   			alt="Loading" title="Loading">
@@ -222,6 +226,14 @@
         </iframe>
         
 <script type="text/javascript">
+$(document).ready(function(){
+	$(function(){
+		$('#contact').contactable({
+	recipient: 'test@test.com',
+	subject: 'A Feeback Message'
+});
+});
+})
 
 	var _gaq = _gaq || [];
 		_gaq.push(['_setAccount', 'UA-24502570-1']);
@@ -235,20 +247,31 @@
 
 	</script>
 
+		
+		<script type="text/javascript" charset="utf-8">
+			if (typeof accounter != 'undefined'){
+				accounter.reloadMenu();
+			}
+		</script>
+		
+		<script type="text/javascript" charset="utf-8">
+			function SampleFunction(parameter){
+				parameter.reloadMenu();
+			}
+		</script>
+
 	<script type="text/javascript" charset="utf-8">
 			var is_ssl = ("https:" == document.location.protocol);
 			var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
 		</script>
-		<script type="text/javascript" charset="utf-8">
-			var feedback_widget_options = {};
-			
-			feedback_widget_options.display = "overlay";  
-  			feedback_widget_options.company = "vimukti";
-			feedback_widget_options.placement = "left";
-			feedback_widget_options.color = "#222";
-			feedback_widget_options.style = "idea";
 		
-			var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
-		</script>
+
+		<script type="text/javascript" charset="utf-8">
+			
+			function MacReload(){
+					window.location = '/company/macreload';
+			}
+  		</script>
+
  </body>
 </html>

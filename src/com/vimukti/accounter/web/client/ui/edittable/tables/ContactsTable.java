@@ -22,8 +22,9 @@ import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
  */
 public class ContactsTable extends EditTable<ClientContact> {
 
+	private boolean columnsCreated;
+
 	public ContactsTable() {
-		initColumns();
 
 	}
 
@@ -36,7 +37,7 @@ public class ContactsTable extends EditTable<ClientContact> {
 		}
 	};
 
-	private void initColumns() {
+	protected void initColumns() {
 
 		this.addColumn(new CheckboxEditColumn<ClientContact>() {
 

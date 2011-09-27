@@ -3,16 +3,13 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Session;
-
-import com.vimukti.accounter.core.Expense;
-import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.Lists.BillsList;
 
 public class ExpensesListCommand extends AbstractTransactionCommand {
 
@@ -38,7 +35,7 @@ public class ExpensesListCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		return null;
+		return result;
 	}
 
 	private Result createOptionalResult(Context context) {
@@ -61,10 +58,9 @@ public class ExpensesListCommand extends AbstractTransactionCommand {
 		result.add("Expenses List");
 		ResultList expensesList = new ResultList("accountsList");
 		int num = 0;
-		List<Expense> expenses = getExpenses(context.getHibernateSession(),
-				viewType);
-		for (Expense exp : expenses) {
-			expensesList.add(createExpenseRecord(exp));
+		List<BillsList> expenses = getExpenses(viewType);
+		for (BillsList b : expenses) {
+			expensesList.add(createExpenseRecord(b));
 			num++;
 			if (num == EXPENSES_TO_SHOW) {
 				break;
@@ -86,21 +82,16 @@ public class ExpensesListCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
-	private Record createExpenseRecord(Expense exp) {
+	private Record createExpenseRecord(BillsList exp) {
 		Record record = new Record(exp);
 		record.add("Type", exp.getType());
 		record.add("No", exp.getNumber());
-		record.add("Vendor", exp.getPayee().getName());
-		record.add("OriginalAmount", exp.getTotal());
-		record.add("Balance", exp.getPayee().getBalance());
-		record.add("IsVoid", exp.isVoid());
+		record.add("Vendor", exp.getVendorName());
+		record.add("OriginalAmount", exp.getOriginalAmount());
+		record.add("Balance", exp.getBalance());
+		record.add("IsVoid", exp.isVoided());
 
 		return record;
-	}
-
-	private List<Expense> getExpenses(Session hibernateSession, String viewType) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	private Result viewTypeRequirement(Context context, ResultList list,

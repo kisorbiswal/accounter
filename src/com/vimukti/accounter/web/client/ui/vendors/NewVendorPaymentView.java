@@ -258,8 +258,7 @@ public class NewVendorPaymentView extends
 
 			}
 		});
-		checkNo = createCheckNumberItem(getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-				.constants().chequeNo() : Accounter.constants().checkNo());
+		checkNo = createCheckNumberItem();
 		checkNo.setValue(Accounter.constants().toBePrinted());
 		checkNo.setWidth(100);
 		checkNo.setDisabled(true);
@@ -425,14 +424,9 @@ public class NewVendorPaymentView extends
 
 		if (paymentMethod != null) {
 			this.paymentMethod = paymentMethod;
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
-					.equalsIgnoreCase(Accounter.constants().cheque())
-					: paymentMethod.equalsIgnoreCase(Accounter.constants()
-							.check())) {
-
+			if (paymentMethod.equalsIgnoreCase(Accounter.constants().cheque())) {
 				printCheck.setDisabled(false);
 				checkNo.setDisabled(false);
-
 			} else {
 				printCheck.setDisabled(true);
 				checkNo.setDisabled(true);
@@ -516,15 +510,20 @@ public class NewVendorPaymentView extends
 	public ValidationResult validate() {
 
 		ValidationResult result = super.validate();
+
+		if (vendorCombo.getSelectedValue() == null) {
+			vendorCombo.setValue("");
+		}
 		// Validations
 		// 1. is valid transaction date?
 		// 2. is in prevent posting before date?
 		// 3. pay form valid?
 
-		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateTransactionDate());
-		}
+		// if (!AccounterValidator.isValidTransactionDate(this.transactionDate))
+		// {
+		// result.addError(transactionDate,
+		// accounterConstants.invalidateTransactionDate());
+		// }
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
 			result.addError(transactionDate,
 					accounterConstants.invalidateDate());

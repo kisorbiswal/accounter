@@ -9,7 +9,7 @@
 	</ui:style>
 	<g:VerticalPanel ui:field="mainViewPanel">
 		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
-		<g:Grid>
+		<g:Grid styleName="select_grid">
 			<g:row>
 				<g:customCell>
 					<g:Label ui:field="primaryCurrenyLabel"/>

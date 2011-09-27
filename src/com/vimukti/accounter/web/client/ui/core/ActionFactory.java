@@ -35,7 +35,6 @@ import com.vimukti.accounter.web.client.ui.banking.TransferFundsAction;
 import com.vimukti.accounter.web.client.ui.banking.WriteChecksAction;
 import com.vimukti.accounter.web.client.ui.combo.NewCurrencyAction;
 import com.vimukti.accounter.web.client.ui.company.AccounterClassListAction;
-import com.vimukti.accounter.web.client.ui.company.AddEditSalesTaxCodeAction;
 import com.vimukti.accounter.web.client.ui.company.BudgetAction;
 import com.vimukti.accounter.web.client.ui.company.ChangePasswordAction;
 import com.vimukti.accounter.web.client.ui.company.ChartOfAccountsAction;
@@ -176,12 +175,10 @@ import com.vimukti.accounter.web.client.ui.settings.WarehouseTransferListAction;
 import com.vimukti.accounter.web.client.ui.vat.AdjustTAXAction;
 import com.vimukti.accounter.web.client.ui.vat.FileVatAction;
 import com.vimukti.accounter.web.client.ui.vat.ManageTAXCodesListAction;
-import com.vimukti.accounter.web.client.ui.vat.ManageVATGroupListAction;
 import com.vimukti.accounter.web.client.ui.vat.NewTAXCodeAction;
 import com.vimukti.accounter.web.client.ui.vat.NewVatItemAction;
 import com.vimukti.accounter.web.client.ui.vat.PayVATAction;
 import com.vimukti.accounter.web.client.ui.vat.ReceiveVATAction;
-import com.vimukti.accounter.web.client.ui.vat.VatGroupAction;
 import com.vimukti.accounter.web.client.ui.vat.VatItemListAction;
 import com.vimukti.accounter.web.client.ui.vendors.AwaitingAuthorisationAction;
 import com.vimukti.accounter.web.client.ui.vendors.BillsAction;
@@ -440,7 +437,7 @@ public class ActionFactory {
 
 	public static PaySalesTaxAction getPaySalesTaxAction() {
 		String constant = null;
-		constant = actionsConstants.paySalesTax();
+		constant = actionsConstants.payTax();
 		return new PaySalesTaxAction(constant);
 	}
 
@@ -611,14 +608,6 @@ public class ActionFactory {
 				Global.get().Customer().trim()));
 	}
 
-	public static AddEditSalesTaxCodeAction getAddEditSalesTaxCodeAction() {
-		String constant = null;
-		if (Accounter.getCompany().getAccountingType() == 1)
-			constant = actionsConstants.newVATCode();
-		else
-			constant = actionsConstants.newTaxCode();
-		return new AddEditSalesTaxCodeAction(constant);
-	}
 
 	public static NewQuoteAction getNewQuoteAction() {
 		return new NewQuoteAction(actionsConstants.newQuote());
@@ -1058,19 +1047,19 @@ public class ActionFactory {
 	}
 
 	public static VatItemListAction getVatItemListAction() {
-		return new VatItemListAction(actionsConstants.vatItemList());
+		return new VatItemListAction(actionsConstants.taxItemsList());
 	}
 
-	public static VatGroupAction getVatGroupAction() {
-		return new VatGroupAction(actionsConstants.newVATGroup());
-	}
+	// public static VatGroupAction getVatGroupAction() {
+	// return new VatGroupAction(actionsConstants.newVATGroup());
+	// }
 
 	public static Action getTAXCodeListAction() {
-		return new ManageTAXCodesListAction(actionsConstants.vatCodeList());
+		return new ManageTAXCodesListAction(actionsConstants.taxCodesList());
 	}
 
 	public static NewTAXCodeAction getNewTAXCodeAction() {
-		return new NewTAXCodeAction(actionsConstants.newVATCode());
+		return new NewTAXCodeAction(actionsConstants.newTaxCode());
 	}
 
 	// public static Action getManageVATCodeAction() {
@@ -1081,9 +1070,9 @@ public class ActionFactory {
 	// return new NewTAXAgencyAction(actionsConstants.newVATAgency());
 	// }
 
-	public static ManageVATGroupListAction getManageVATGroupListAction() {
-		return new ManageVATGroupListAction(actionsConstants.vatGroupList());
-	}
+	// public static ManageVATGroupListAction getManageVATGroupListAction() {
+	// return new ManageVATGroupListAction(actionsConstants.vatGroupList());
+	// }
 
 	public static AdjustTAXAction getVatAdjustmentAction() {
 		return new AdjustTAXAction(actionsConstants.vatAdjustment());

@@ -9,11 +9,11 @@ public class France extends AbstractCountryPreferences {
 	public String[] getStates() {
 		String[] states = new String[] { "Alsace", "Aquitaine", "Auvergne",
 				"Basse-Normandie", "Bourgogne", "Bretagne", "Centre",
-				"Champagne-Ardenne", "Corse", "Franche-Comté",
-				"Haute-Normandie", "Île-de-France", "Languedoc-Roussillon",
-				"Limousin", "Lorraine", "Midi-Pyrénées", "Nord-Pas-de-Calais",
+				"Champagne-Ardenne", "Corse", "Franche-Comte",
+				"Haute-Normandie", "Ile-de-France", "Languedoc-Roussillon",
+				"Limousin", "Lorraine", "Midi-Pyrenees", "Nord-Pas-de-Calais",
 				"Pays-de-la-Loire", "Picardie", "Poitou-Charentes",
-				"Provence-Alpes-Côte-d'Azur", "Rhône-Alpes" };
+				"Provence-Alpes-Cote-d'Azur", "Rhone-Alpes" };
 		return states;
 	}
 

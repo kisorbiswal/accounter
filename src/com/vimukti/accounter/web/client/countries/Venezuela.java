@@ -7,11 +7,11 @@ public class Venezuela extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		String[] states = new String[] { "Amazonas", "Anzoátegui", "Apure",
-				"Aragua", "Barinas", "Bolívar", "Carabobo", "Cojedes",
-				"Delta Amacuro", "Distrito Capital", "Falcón", "Guárico",
-				"Lara", "Mérida", "Miranda", "Monagas", "Nueva Esparta",
-				"Portuguesa", "Sucre", "Táchira", "Trujillo", "Vargas",
+		String[] states = new String[] { "Amazonas", "Anzoategui", "Apure",
+				"Aragua", "Barinas", "Bolivar", "Carabobo", "Cojedes",
+				"Delta Amacuro", "Distrito Capital", "Falcon", "Guarico",
+				"Lara", "Merida", "Miranda", "Monagas", "Nueva Esparta",
+				"Portuguesa", "Sucre", "Tachira", "Trujillo", "Vargas",
 				"Yaracuy", "Zulia" };
 		return states;
 	}

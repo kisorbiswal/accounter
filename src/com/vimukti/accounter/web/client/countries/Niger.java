@@ -8,7 +8,7 @@ public class Niger extends AbstractCountryPreferences {
 	@Override
 	public String[] getStates() {
 		String[] states = new String[] { "Agadez", "Diffa", "Dosso", "Maradi",
-				"Niamey", "Tahoua", "Tillabéry", "Zinder" };
+				"Niamey", "Tahoua", "Tillabery", "Zinder" };
 		return states;
 	}
 

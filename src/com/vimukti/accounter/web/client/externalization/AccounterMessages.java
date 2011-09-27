@@ -859,4 +859,8 @@ public interface AccounterMessages extends Messages {
 
 	public String fiscalYearAlreadyExists();
 
+	public String fiscalYearStartDateAlreadyExists();
+
+	public String fiscalYearEndDateAlreadyExists();
+
 }

@@ -94,7 +94,7 @@ public class GeneratePDFservlet extends BaseServlet {
 			case Transaction.TYPE_INVOICE:
 				String output = outPutString.toString().replaceAll(
 						"</html><html>", "");
-				System.err.println(output);
+
 				java.io.InputStream inputStream = new ByteArrayInputStream(
 						output.getBytes());
 				InputStreamReader reader = new InputStreamReader(inputStream);
@@ -107,11 +107,10 @@ public class GeneratePDFservlet extends BaseServlet {
 				creditOutput = creditOutput.toString().replaceAll("<html>", "");
 
 				creditOutput = "<html>" + creditOutput + "</html>";
-				System.err.println(creditOutput);
+
 				java.io.InputStream inputStr = new ByteArrayInputStream(
 						creditOutput.toString().getBytes());
 				InputStreamReader creditReader = new InputStreamReader(inputStr);
-				System.err.println(creditOutput.toString());
 				converter.generatePdfDocuments(fileName, sos, creditReader);
 				break;
 			case Transaction.TYPE_MISC_FORM:

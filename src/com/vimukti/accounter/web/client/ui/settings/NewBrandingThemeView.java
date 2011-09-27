@@ -42,7 +42,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
  * @author Uday Kumar
  * 
  */
-@SuppressWarnings({ "deprecation" })
+@SuppressWarnings( { "deprecation" })
 public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 	private Label pageSizeLabel, logoLabel, termsLabel;
@@ -53,7 +53,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 			check_radio_textAreaPanel, button_textBoxPanel;
 	private HorizontalPanel mainLayoutPanel, check_radioPanel, hPanel;
 	private CheckBox taxNumItem, headingItem, unitPriceItem,// paymentItem,
-			columnItem, salesItem, addressItem, logoItem;
+			columnItem, addressItem, logoItem;
 	private TextItem topMarginBox, bottomMarginBox, addressPadBox, overdueBox,
 			creditNoteBox, statementBox, paypalTextBox, logoNameBox;
 	private TextItem nameItem;
@@ -113,10 +113,10 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 		nameItem.setValue(brandingTheme.getThemeName());
 		topMarginBox.setValue(String.valueOf(brandingTheme.getTopMargin()));
-		bottomMarginBox
-				.setValue(String.valueOf(brandingTheme.getBottomMargin()));
-		addressPadBox
-				.setValue(String.valueOf(brandingTheme.getAddressPadding()));
+		bottomMarginBox.setValue(String
+				.valueOf(brandingTheme.getBottomMargin()));
+		addressPadBox.setValue(String
+				.valueOf(brandingTheme.getAddressPadding()));
 		setPazeSize(brandingTheme.getPageSizeType());
 		fontNameBox.setComboItem(brandingTheme.getFont());
 		fontSizeBox.setComboItem(brandingTheme.getFontSize());
@@ -129,7 +129,6 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		headingItem.setValue(brandingTheme.isShowColumnHeadings());
 		unitPriceItem.setValue(brandingTheme.isShowUnitPrice_And_Quantity());
 		columnItem.setValue(brandingTheme.isShowTaxColumn());
-		salesItem.setValue(brandingTheme.isShowVatColumn());
 		addressItem.setValue(brandingTheme.isShowRegisteredAddress());
 		logoItem.setValue(brandingTheme.isShowLogo());
 		paypalTextBox.setValue(brandingTheme.getPayPalEmailID());
@@ -228,8 +227,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 			public void onBlur(BlurEvent event) {
 				if (!UIUtils.isDouble(bottomMarginBox.getValue().toString())) {
 					Accounter.showError(messages.numberForbottomMarginField());
-					addError(bottomMarginBox,
-							messages.errorForbottomMarginField());
+					addError(bottomMarginBox, messages
+							.errorForbottomMarginField());
 					bottomMarginBox.setValue("");
 				}
 			}
@@ -295,7 +294,6 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		brandingTheme.setShowColumnHeadings(headingItem.isChecked());
 		brandingTheme.setShowUnitPrice_And_Quantity(unitPriceItem.isChecked());
 		brandingTheme.setShowTaxColumn(columnItem.isChecked());
-		brandingTheme.setShowVatColumn(salesItem.isChecked());
 		brandingTheme.setShowRegisteredAddress(addressItem.isChecked());
 		brandingTheme.setShowLogo(logoItem.isChecked());
 		brandingTheme
@@ -347,8 +345,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		measureLabel = new Label(messages.measure());
 		logoLabel = new Label(messages.logoAlignment());
 		leftRadioButton = new RadioButton(messages.logoType(), messages.left());
-		rightRadioButton = new RadioButton(messages.logoType(),
-				messages.right());
+		rightRadioButton = new RadioButton(messages.logoType(), messages
+				.right());
 		leftRadioButton.setChecked(true);
 		// taxesLabel = new Label(messages.showTaxesAs());
 		// exclusiveButton = new RadioButton(messages.taxType(), messages
@@ -457,8 +455,6 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		// paymentItem.setChecked(true);
 		columnItem = new CheckBox(messages.showTaxColumn());
 		columnItem.setChecked(true);
-		salesItem = new CheckBox(messages.showVatColumn());
-		salesItem.setChecked(true);
 
 		addressItem = new CheckBox(messages.showRegisteredAddress());
 		addressItem.setChecked(true);
@@ -473,7 +469,6 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		checkBoxPanel.add(unitPriceItem);
 		// checkBoxPanel.add(paymentItem);
 		checkBoxPanel.add(columnItem);
-		checkBoxPanel.add(salesItem);
 		checkBoxPanel.add(addressItem);
 		checkBoxPanel.add(logoItem);
 		checkBoxPanel.add(paypalEmailHtml);
@@ -513,8 +508,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		statementBox.setValue(messages.statement());
 
 		a4Button = new RadioButton(messages.pageType(), messages.a4());
-		usLetterButton = new RadioButton(messages.pageType(),
-				messages.usLetter());
+		usLetterButton = new RadioButton(messages.pageType(), messages
+				.usLetter());
 		a4Button.setChecked(true);
 
 		cmButton = new RadioButton(messages.measureType(), messages.cm());

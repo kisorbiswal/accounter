@@ -42,7 +42,7 @@ public class Header extends HorizontalPanel {
 	 * Creates new Instance
 	 */
 	public Header() {
-		addStyleName("header");
+		addStyleName("page_header");
 		createControls();
 	}
 

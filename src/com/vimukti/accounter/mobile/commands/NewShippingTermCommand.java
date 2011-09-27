@@ -2,6 +2,7 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
 
+import com.vimukti.accounter.core.ShippingTerms;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -90,8 +91,13 @@ public class NewShippingTermCommand extends AbstractTransactionCommand {
 	}
 
 	private void completeProcess(Context context) {
-		// TODO Auto-generated method stub
+		
+		ShippingTerms newShippingTerm = new ShippingTerms();
 
+		newShippingTerm.setName((String) get("name").getValue());
+		newShippingTerm.setDescription((String) get("description").getValue());
+		//TODO no description added in shipping Terms??		
+		create(newShippingTerm, context);
 	}
 
 }

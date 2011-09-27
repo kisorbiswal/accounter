@@ -75,6 +75,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	private LinkedHashMap<String, String> cashFlowof;
 	private AmountField opBalText;
 	private DateField asofDate;
+	private AmountField currentBalanceText;
 	private SelectItem catSelect;
 	private DynamicForm accInfoForm;
 	private CheckboxItem cashAccountCheck;
@@ -234,6 +235,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		accNameText = new TextItem(Accounter.messages().accountName(
 				Global.get().Account()));
+		accNameText.setValue(accountName);
 		accNameText.setToolTip(Accounter.messages()
 				.giveTheNameAccordingToYourID(this.getAction().getViewName()));
 		accNameText.setHelpInformation(true);
@@ -310,6 +312,12 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		opBalText.setDisabled(isInViewMode());
 		opBalText.setWidth(100);
 		opBalText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
+		currentBalanceText = new AmountField(constants.currentBalance(), this);
+		currentBalanceText.setToolTip(constants.currentBalance());
+		currentBalanceText.setHelpInformation(true);
+		currentBalanceText.setDisabled(true);
+		currentBalanceText.setWidth(100);
+		currentBalanceText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
 		// opBalText.setShowDisabled(false);
 		// opBalText.addBlurHandler(new BlurHandler() {
 		//
@@ -402,11 +410,11 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 			if (getPreferences().getUseAccountNumbers()) {
 				accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
-						statusBox, opBalText, asofDate);
+						statusBox, opBalText, asofDate, currentBalanceText);
 			} else {
 				accNoText.setNumber(autoGenerateAccountnumber(1100, 1179));
 				accInfoForm.setFields(accTypeSelect, accNameText, statusBox,
-						opBalText, asofDate);
+						opBalText, asofDate, currentBalanceText);
 			}
 
 			leftLayout.add(accInfoForm);
@@ -418,11 +426,11 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			// catSelect);
 			if (getPreferences().getUseAccountNumbers()) {
 				accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
-						statusBox, opBalText, asofDate);
+						statusBox, opBalText, asofDate, currentBalanceText);
 			} else {
 				accNoText.setNumber(autoGenerateAccountnumber(1100, 1179));
 				accInfoForm.setFields(accTypeSelect, accNameText, statusBox,
-						opBalText, asofDate);
+						opBalText, asofDate, currentBalanceText);
 			}
 
 			leftLayout.add(accInfoForm);
@@ -1015,43 +1023,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		return list;
 	}
 
-	private LinkedHashMap<String, String> getAccountTypesMap() {
-
-		accountTypesMap = new LinkedHashMap<String, String>();
-		if (accountTypes != null && accountTypes.size() != 0) {
-			for (int type : accountTypes) {
-				accountTypesMap.put(String.valueOf(type),
-						Utility.getAccountTypeString(type));
-			}
-			defaultId = String.valueOf(accountTypes.get(0));
-
-		} else {
-			for (int type : UIUtils.accountTypes) {
-				if (getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK) {
-					accountTypesMap.put(String.valueOf(type),
-							Utility.getAccountTypeString(type));
-				} else if (type != ClientAccount.TYPE_BANK
-						&& type != ClientAccount.TYPE_CASH
-						&& type != ClientAccount.TYPE_OTHER_INCOME
-						&& type != ClientAccount.TYPE_INVENTORY_ASSET
-						&& type != ClientAccount.TYPE_CREDIT_CARD
-						&& type != ClientAccount.TYPE_PAYROLL_LIABILITY) {
-					accountTypesMap.put(String.valueOf(type),
-							Utility.getAccountTypeString(type));
-				}
-			}
-			if (accountType != ClientAccount.TYPE_BANK
-					&& accountType != ClientAccount.TYPE_CREDIT_CARD) {
-				defaultId = String.valueOf(UIUtils.accountTypes[0]);
-				accountType = UIUtils.accountTypes[0];
-			}
-
-		}
-
-		return accountTypesMap;
-
-	}
-
 	protected String getValidAmountString(String amount) {
 		if (amount.lastIndexOf("" + UIUtils.getCurrencySymbol() + "") == 0)
 			amount = amount.substring(1, amount.length());
@@ -1324,7 +1295,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			cashFlowCatSelect.setValue(cashFlow);
 		}
 
-		opBalText.setAmount(data.getTotalBalance());
+		opBalText.setAmount(data.getOpeningBalance());
+		currentBalanceText.setAmount(data.getTotalBalance());
 		// if (!data.isOpeningBalanceEditable()) {
 		// opBalText.setDisabled(true);
 		// }
@@ -1735,5 +1707,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		saveAndNewButton.setTabIndex(14);
 		cancelButton.setTabIndex(15);
 
+	}
+
+	public void setAccountName(String accountName) {
+		this.accountName = accountName;
 	}
 }

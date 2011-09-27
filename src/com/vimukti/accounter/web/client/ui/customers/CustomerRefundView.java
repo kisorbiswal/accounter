@@ -18,7 +18,6 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
@@ -118,14 +117,9 @@ public class CustomerRefundView extends
 
 		if (paymentMethod != null) {
 			this.paymentMethod = paymentMethod;
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
-					.equalsIgnoreCase(Accounter.constants().cheque())
-					: paymentMethod.equalsIgnoreCase(Accounter.constants()
-							.check())) {
-
+			if (paymentMethod.equalsIgnoreCase(Accounter.constants().cheque())) {
 				printCheck.setDisabled(false);
 				checkNoText.setDisabled(false);
-
 			} else {
 				// paymentMethodCombo.setComboItem(paymentMethod);
 				printCheck.setDisabled(true);
@@ -268,8 +262,8 @@ public class CustomerRefundView extends
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				isChecked = (Boolean) event.getValue();
 				if (isChecked) {
-					if (printCheck.getValue().toString().equalsIgnoreCase(
-							"true")) {
+					if (printCheck.getValue().toString()
+							.equalsIgnoreCase("true")) {
 						checkNoText.setValue(Accounter.constants()
 								.toBePrinted());
 						checkNoText.setDisabled(true);
@@ -289,10 +283,7 @@ public class CustomerRefundView extends
 			}
 		});
 
-		checkNoText = new TextItem(
-				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? customerConstants
-						.chequeNo()
-						: customerConstants.checkNo());
+		checkNoText = new TextItem(customerConstants.chequeNo());
 		checkNoText.setValue(Accounter.constants().toBePrinted());
 		checkNoText.setHelpInformation(true);
 		checkNoText.setWidth(100);
@@ -568,7 +559,7 @@ public class CustomerRefundView extends
 
 			amtText.setAmount(transaction.getTotal());
 			paymentMethodSelected(transaction.getPaymentMethod());
-			if (transaction.getPaymentMethod().equals(Global.get().check())) {
+			if (transaction.getPaymentMethod().equals(constants.check())) {
 				printCheck.setDisabled(isInViewMode());
 				checkNoText.setDisabled(isInViewMode());
 			} else {
@@ -650,7 +641,7 @@ public class CustomerRefundView extends
 		// if (!AccounterValidator.isPositiveAmount(this.amtText.getAmount())) {
 		// result.addError(amtText, accounterConstants.invalidNegativeAmount());
 		// }
-		if (getCompany().getPreferences().isChargeSalesTax()) {
+		if (isTrackTax()) {
 			if (taxCodeSelect != null)
 				if (!taxCodeSelect.validate()) {
 					result.addError(taxCodeSelect, Accounter.messages()

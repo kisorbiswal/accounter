@@ -9,6 +9,7 @@ import java.util.Map;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mobile.utils.StringUtils;
 
@@ -17,6 +18,7 @@ public class Context {
 	private MobileSession session;
 	private Map<String, Object> attributes = new HashMap<String, Object>();
 	private Map<String, List<Object>> selectedRecords = new HashMap<String, List<Object>>();
+	private Company company;
 
 	/**
 	 * Creates new Instance
@@ -258,5 +260,13 @@ public class Context {
 
 	public User getUser() {
 		return session.getUser();
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 }

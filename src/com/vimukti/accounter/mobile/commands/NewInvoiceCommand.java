@@ -55,7 +55,8 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		list.add(new Requirement("due", true, true));
 		list.add(new Requirement(ORDER_NO, true, true));
 		list.add(new Requirement(MEMO, true, true));
-		Company company = getCompany();
+		Company company = null;// getCompany();
+		// TODO
 		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 			list.add(new Requirement("tax", false, true));
 		}
@@ -89,7 +90,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		Company company = getCompany();
+		Company company = context.getCompany();
 		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 			Requirement taxReq = get("tax");
 			TAXCode taxcode = context.getSelection(TAXCODE);
@@ -115,7 +116,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 	}
 
 	private void completeProcess(Context context) {
-		Company company = getCompany();
+		Company company = context.getCompany();
 		Invoice invoice = new Invoice();
 
 		Date date = get(DATE).getValue();

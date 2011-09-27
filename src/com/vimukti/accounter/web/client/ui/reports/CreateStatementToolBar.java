@@ -80,7 +80,8 @@ public class CreateStatementToolBar extends ReportToolbar {
 			dateRangeItemList.add(dateRangeArray[i]);
 		}
 		dateRangeItemCombo.initCombo(dateRangeItemList);
-		dateRangeItemCombo.setComboItem(Accounter.constants().all());
+		dateRangeItemCombo.setComboItem(Accounter.constants()
+				.financialYearToDate());
 		dateRangeItemCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -99,7 +100,8 @@ public class CreateStatementToolBar extends ReportToolbar {
 		toItem = new DateItem();
 		toItem.setHelpInformation(true);
 		ClientFinanceDate date = Accounter.getCompany()
-				.getLastandOpenedFiscalYearEndDate();
+				.getCurrentFiscalYearEndDate();
+		// .getLastandOpenedFiscalYearEndDate();
 
 		if (date != null)
 			toItem.setDatethanFireEvent(date);

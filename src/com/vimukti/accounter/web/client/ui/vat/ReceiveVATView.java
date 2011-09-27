@@ -22,9 +22,9 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.DepositInAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -138,6 +138,7 @@ public class ReceiveVATView extends
 		billsDue = new DateField(companyConstants.returnsDueOnOrBefore());
 		billsDue.setHelpInformation(true);
 		billsDue.setTitle(companyConstants.returnsDueOnOrBefore());
+		billsDue.setEnteredDate(new ClientFinanceDate());
 		billsDue.setDisabled(isInViewMode());
 		billsDue.addDateValueChangeHandler(new DateValueChangeHandler() {
 
@@ -476,10 +477,11 @@ public class ReceiveVATView extends
 		// 4. is blank transaction?
 		// 5. grid valid?
 		// 6. is positive amount?
-		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateTransactionDate());
-		}
+		// if (!AccounterValidator.isValidTransactionDate(this.transactionDate))
+		// {
+		// result.addError(transactionDate,
+		// accounterConstants.invalidateTransactionDate());
+		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
 			result.addError(transactionDate,
@@ -713,7 +715,7 @@ public class ReceiveVATView extends
 
 	private void settabIndexes() {
 		depositInAccCombo.setTabIndex(1);
-		paymentMethodCombo.setTabIndex(2); 
+		paymentMethodCombo.setTabIndex(2);
 		billsDue.setTabIndex(3);
 		transactionDateItem.setTabIndex(4);
 		transNumber.setTabIndex(5);
@@ -722,8 +724,7 @@ public class ReceiveVATView extends
 		saveAndCloseButton.setTabIndex(8);
 		saveAndNewButton.setTabIndex(9);
 		cancelButton.setTabIndex(10);
-		
-	}
 
+	}
 
 }

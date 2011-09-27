@@ -2,9 +2,9 @@ package com.vimukti.accounter.web.client.ui.customers;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
+import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 import com.vimukti.accounter.web.client.ui.vat.NewVatItemAction;
 
-public class TaxDialog extends BaseDialog<ClientTAXCode> {
+public class TaxDialog extends BaseDialog<ClientTAXItemGroup> {
 	RadioGroupItem typeRadio;
 	private final String TAXGROUP = Accounter.constants().taxGroup();
 	private final String TAXITEM = Accounter.constants().taxItem();
@@ -103,7 +103,7 @@ public class TaxDialog extends BaseDialog<ClientTAXCode> {
 
 					@Override
 					public void actionResult(ClientTAXGroup result) {
-						setResult(getCompany().getTAXCode(result.getID()));
+						setResult(result);
 					}
 				});
 				dialog.show();
@@ -115,7 +115,7 @@ public class TaxDialog extends BaseDialog<ClientTAXCode> {
 
 					@Override
 					public void actionResult(ClientTAXItem result) {
-						setResult(getCompany().getTAXCode(result.getID()));
+						setResult(result);
 					}
 				});
 

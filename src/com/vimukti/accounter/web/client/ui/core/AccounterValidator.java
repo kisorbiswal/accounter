@@ -99,18 +99,19 @@ public class AccounterValidator {
 	// }
 	// }
 
-	public static boolean validateClosedFiscalYear(ClientFinanceDate asofDate) {
-		List<ClientFiscalYear> closedFiscalYears = getClosedFiscalYears();
-		for (ClientFiscalYear fiscalYear : closedFiscalYears) {
-			if ((fiscalYear.getStartDate().getYear() + 1900) == (asofDate
-					.getYear() + 1900)) {
-				Accounter.showError(AccounterWarningType.CLOSED_FISCALYEAR);
-				return false;
-			}
-
-		}
-		return true;
-	}
+	// public static boolean validateClosedFiscalYear(ClientFinanceDate
+	// asofDate) {
+	// List<ClientFiscalYear> closedFiscalYears = getClosedFiscalYears();
+	// for (ClientFiscalYear fiscalYear : closedFiscalYears) {
+	// if ((fiscalYear.getStartDate().getYear() + 1900) == (asofDate
+	// .getYear() + 1900)) {
+	// Accounter.showError(AccounterWarningType.CLOSED_FISCALYEAR);
+	// return false;
+	// }
+	//
+	// }
+	// return true;
+	// }
 
 	private static List<ClientFiscalYear> getClosedFiscalYears() {
 		List<ClientFiscalYear> fiscalyearlist = getCompany().getFiscalYears();
@@ -271,7 +272,7 @@ public class AccounterValidator {
 
 	// this is to save or close the current view from viewManager.
 
-	public static void saveOrClose(final AbstractBaseView view,
+	public static void saveOrClose(final AbstractBaseView<?> view,
 			final ViewManager viewManager) {
 		Accounter.showWarning(AccounterWarningType.saveOrClose,
 				AccounterType.WARNINGWITHCANCEL, new ErrorDialogHandler() {
@@ -322,14 +323,8 @@ public class AccounterValidator {
 
 							@Override
 							public boolean onYesClick() {
-								if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-									company
-											.setUkServiceItemDefaultIncomeAccount(selectItem
-													.getName());
-								else
-									company
-											.setServiceItemDefaultIncomeAccount(selectItem
-													.getName());
+								company.setServiceItemDefaultIncomeAccount(selectItem
+										.getName());
 								return true;
 							}
 
@@ -364,14 +359,8 @@ public class AccounterValidator {
 
 						@Override
 						public boolean onYesClick() {
-							if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-								company
-										.setUkNonInventoryItemDefaultIncomeAccount(selectItem
-												.getName());
-							else
-								company
-										.setNonInventoryItemDefaultIncomeAccount(selectItem
-												.getName());
+							company.setNonInventoryItemDefaultIncomeAccount(selectItem
+									.getName());
 							return true;
 						}
 
@@ -406,14 +395,8 @@ public class AccounterValidator {
 
 							@Override
 							public boolean onYesClick() {
-								if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-									company
-											.setUkServiceItemDefaultExpenseAccount(selectItem
-													.getName());
-								else
-									company
-											.setServiceItemDefaultExpenseAccount(selectItem
-													.getName());
+								company.setServiceItemDefaultExpenseAccount(selectItem
+										.getName());
 								return true;
 							}
 
@@ -452,14 +435,8 @@ public class AccounterValidator {
 
 									@Override
 									public boolean onYesClick() {
-										if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-											company
-													.setUkNonInventoryItemDefaultExpenseAccount(selectExpAccount
-															.getName());
-										else
-											company
-													.setNonInventoryItemDefaultExpenseAccount(selectExpAccount
-															.getName());
+										company.setNonInventoryItemDefaultExpenseAccount(selectExpAccount
+												.getName());
 										return true;
 									}
 
@@ -468,7 +445,7 @@ public class AccounterValidator {
 
 	}
 
-	public static boolean isValidIncomeAccount(final AbstractBaseView view,
+	public static boolean isValidIncomeAccount(final AbstractBaseView<?> view,
 			ClientAccount income_account) {
 		if (income_account.getType() != ClientAccount.TYPE_INCOME) {
 			return false;
@@ -726,7 +703,6 @@ public class AccounterValidator {
 			public boolean onYesClick() {
 
 				Double amount = amountToDistribute;
-				double updatedValue = 0.0D;
 				// FIXME--need to check the code
 				for (ClientTransactionReceivePayment trprecord : view.gridView
 						.getRecords()) {
@@ -738,11 +714,11 @@ public class AccounterValidator {
 						if (!DecimalUtil.isGreaterThan(
 								trprecord.getAmountDue(), amount)) {
 							trprecord.setPayment(trprecord.getAmountDue());
-							updatedValue += trprecord.getAmountDue();
+							// updatedValue += trprecord.getAmountDue();
 							amount -= trprecord.getAmountDue();
 						} else {
 							trprecord.setPayment(amount);
-							updatedValue += amount;
+							// updatedValue += amount;
 							amount = 0D;
 						}
 						view.gridView.update(trprecord);
@@ -1115,7 +1091,7 @@ public class AccounterValidator {
 
 	}
 
-	public static boolean validateFormItem(FormItem item, boolean isDialog)
+	public static boolean validateFormItem(FormItem<?> item, boolean isDialog)
 			throws InvalidTransactionEntryException {
 		if (!item.validate()) {
 
@@ -1257,9 +1233,13 @@ public class AccounterValidator {
 
 	}
 
-	public static boolean validatePayment() {
-		Accounter.showError("");
-		return false;
+	public static boolean validatePayment(double amountDue, double totalValue) {
+		if (DecimalUtil.isGreaterThan(totalValue, amountDue)) {
+			Accounter
+					.showError(Accounter.constants().receivePaymentExcessDue());
+			return false;
+		}
+		return true;
 
 	}
 
@@ -1305,8 +1285,10 @@ public class AccounterValidator {
 	public static boolean isAmountNegative(Double amount)
 			throws InvalidEntryException {
 		if (DecimalUtil.isLessThan(amount, 0.00)) {
-			throw new InvalidEntryException(accounterMessages
-					.valueCannotBe0orlessthan0(accounterConstants.amount()));
+			throw new InvalidEntryException(
+					accounterMessages
+							.valueCannotBe0orlessthan0(accounterConstants
+									.amount()));
 		}
 		return false;
 

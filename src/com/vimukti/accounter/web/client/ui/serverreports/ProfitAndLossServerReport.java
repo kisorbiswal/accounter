@@ -20,7 +20,7 @@ public class ProfitAndLossServerReport extends
 	protected Double totalCGOS = 0.0D;
 	protected Double grosProft = 0.0D;
 	protected Double totalexpese = 0.0D;
-	protected Double netIncome = 0.0D;
+	protected Double netProfit = 0.0D;
 	protected Double otherIncome = 0.0D;
 	protected Double otherExpense = 0.0D;
 	protected Double otherNetIncome = 0.0D;
@@ -29,7 +29,7 @@ public class ProfitAndLossServerReport extends
 	protected Double totalCGOS2 = 0.0D;
 	protected Double grosProft2 = 0.0D;
 	protected Double totalexpese2 = 0.0D;
-	protected Double netIncome2 = 0.0D;
+	protected Double netProfit2 = 0.0D;
 	protected Double otherIncome2 = 0.0D;
 	protected Double otherExpense2 = 0.0D;
 	protected Double otherNetIncome2 = 0.0D;
@@ -83,7 +83,7 @@ public class ProfitAndLossServerReport extends
 
 	@Override
 	public String getDefaultDateRange() {
-		return getConstants().all();
+		return getConstants().financialYearToDate();
 	}
 
 	@Override
@@ -149,7 +149,7 @@ public class ProfitAndLossServerReport extends
 			iniHandler();
 
 		if (sectionDepth == 0) {
-			addTypeSection("", getConstants().netOrdinaryIncome());
+			addTypeSection("", getConstants().netProfit());
 		}
 		addOrdinaryIncomeOrExpenseTypes(record);
 		// if (record.getBaseType() ==
@@ -178,7 +178,7 @@ public class ProfitAndLossServerReport extends
 		totalCGOS = 0.0D;
 		grosProft = 0.0D;
 		totalexpese = 0.0D;
-		netIncome = 0.0D;
+		netProfit = 0.0D;
 		otherIncome = 0.0D;
 		otherExpense = 0.0D;
 		otherNetIncome = 0.0D;
@@ -187,7 +187,7 @@ public class ProfitAndLossServerReport extends
 		totalCGOS2 = 0.0D;
 		grosProft2 = 0.0D;
 		totalexpese2 = 0.0D;
-		netIncome2 = 0.0D;
+		netProfit2 = 0.0D;
 		otherIncome2 = 0.0D;
 		otherExpense2 = 0.0D;
 		otherNetIncome2 = 0.0D;
@@ -200,47 +200,47 @@ public class ProfitAndLossServerReport extends
 
 			@Override
 			public void OnSectionAdd(Section<TrialBalance> section) {
-				if (section.title == "GrossProfit") {
+				if (section.title.equals(getConstants().grossProfit())) {
 					section.data[0] = "";
 				}
 			}
 
 			@Override
 			public void OnSectionEnd(Section<TrialBalance> section) {
-				if (section.title.equals("Income")) {
+				if (section.title.equals(getConstants().income())) {
 					totalincome = Double.valueOf(section.data[3].toString());
 					totalincome2 = Double.valueOf(section.data[5].toString());
 				}
-				if (section.title.equals("Cost of good Sold")) {
+				if (section.title.equals(getConstants().costOfGoodSold())) {
 					totalCGOS = Double.valueOf(section.data[3].toString());
 					totalCGOS2 = Double.valueOf(section.data[5].toString());
 				}
-				if (section.title.equals("Other Expense")) {
+				if (section.title.equals(getConstants().otherExpense())) {
 					otherExpense = Double.valueOf(section.data[3].toString());
 					otherExpense2 = Double.valueOf(section.data[5].toString());
 				}
-				if (section.footer.equals("GrossProfit")) {
+				if (section.footer.equals(getConstants().grossProfit())) {
 					grosProft = totalincome - totalCGOS - otherExpense;
 					section.data[3] = grosProft;
 					grosProft2 = totalincome2 - totalCGOS2 - otherExpense2;
 					section.data[5] = grosProft2;
 				}
-				if (section.title.equals("Expense")) {
+				if (section.title.equals(getConstants().expense())) {
 					totalexpese = (Double) section.data[3];
 					totalexpese2 = (Double) section.data[5];
 				}
-				if (section.footer.equals("Net Ordinary Income")) {
-					netIncome = grosProft - totalexpese;
-					section.data[3] = netIncome;
-					netIncome2 = grosProft2 - totalexpese2;
-					section.data[5] = netIncome2;
+				if (section.footer.equals(getConstants().netProfit())) {
+					netProfit = grosProft - totalexpese + otherIncome;
+					section.data[3] = netProfit;
+					netProfit2 = grosProft2 - totalexpese2 + otherIncome2;
+					section.data[5] = netProfit2;
 				}
-				if (section.title.equals("Other Income")) {
+				if (section.title.equals(getConstants().otherIncome())) {
 					otherIncome = Double.valueOf(section.data[3].toString());
 					otherIncome2 = Double.valueOf(section.data[5].toString());
 				}
 
-				if (section.title.equals("Other Income or Expense")) {
+				if (section.title.equals(getConstants().otherIncomeOrExpense())) {
 					otherNetIncome = otherIncome - otherExpense;
 					section.data[3] = otherNetIncome;
 					otherNetIncome2 = otherIncome2 - otherExpense2;
@@ -284,21 +284,21 @@ public class ProfitAndLossServerReport extends
 		// }
 		if (record.getAccountType() == ClientAccount.TYPE_INCOME
 				|| record.getAccountType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD) {
-			if (!sectiontypes.contains("GrossProfit")) {
+			if (!sectiontypes.contains(getConstants().grossProfit())) {
 				addTypeSection(getConstants().grossProfit(), "", getConstants()
 						.grossProfit());
 
 			}
 			if (record.getAccountType() == ClientAccount.TYPE_INCOME)
-				if (!sectiontypes.contains("Income")) {
+				if (!sectiontypes.contains(getConstants().income())) {
 
 					addTypeSection(getConstants().income(), getConstants()
 							.incomeTotals());
 				}
 			if (record.getAccountType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD)
-				if (!sectiontypes.contains("Cost of good Sold")) {
+				if (!sectiontypes.contains(getConstants().costOfGoodSold())) {
 					closeOtherSections();
-					closeSection(types.indexOf("Income"));
+					closeSection(types.indexOf(getConstants().income()));
 					addTypeSection(getConstants().costOfGoodSold(),
 							getConstants().cogsTotal());
 
@@ -308,7 +308,7 @@ public class ProfitAndLossServerReport extends
 
 		if (record.getAccountType() == ClientAccount.TYPE_OTHER_EXPENSE) {
 
-			if (!sectiontypes.contains("Other Expense")) {
+			if (!sectiontypes.contains(getConstants().otherExpense())) {
 				for (int i = types.size() - 2; i > 0; i--) {
 					closeSection(i);
 				}
@@ -319,17 +319,32 @@ public class ProfitAndLossServerReport extends
 
 		if (record.getAccountType() == ClientAccount.TYPE_EXPENSE) {
 
-			if (!sectiontypes.contains("Expense")) {
+			if (!sectiontypes.contains(getConstants().expense())) {
 				closeAllSection();
 				addTypeSection(getConstants().expense(), getConstants()
 						.expenseTotals());
 			}
 		}
 
+		if (record.getAccountType() == ClientAccount.TYPE_OTHER_INCOME) {
+
+			if (sectiontypes.contains(getConstants().expense())) {
+				closeSection(types.indexOf(getConstants().expense()));
+			} else {
+				closeAllSection();
+			}
+
+			if (!sectiontypes.contains(getConstants().otherIncome())) {
+				// closeSection(types.indexOf(getConstants().expense()));
+				addTypeSection(getConstants().otherIncome(), getConstants()
+						.otherIncomeTotal());
+			}
+		}
+
 	}
 
 	public void addOtherIncomeOrExpenseTypes(TrialBalance record) {
-		if (!sectiontypes.contains("Other Income or Expense")) {
+		if (!sectiontypes.contains(getConstants().otherIncomeOrExpense())) {
 			closeAllSection();
 			addTypeSection(getConstants().otherIncomeOrExpense(),
 					getConstants().netOtherIncome());
@@ -344,7 +359,7 @@ public class ProfitAndLossServerReport extends
 		// }
 
 		if (record.getAccountType() == ClientAccount.TYPE_OTHER_EXPENSE) {
-			if (!sectiontypes.contains("Other Expense")) {
+			if (!sectiontypes.contains(getConstants().otherExpense())) {
 				for (int i = types.size() - 2; i > 0; i--) {
 					closeSection(i);
 				}
@@ -370,10 +385,9 @@ public class ProfitAndLossServerReport extends
 			types.add(record.getAccountName());
 			curentParent = record.getAccountName();
 			// System.out.println("Add:" + curentParent);
-			addSection(
-					record.getAccountNumber() + "-" + record.getAccountName(),
-					record.getAccountName() + "  " + getConstants().total(),
-					new int[] { 3, 5 });
+			addSection(record.getAccountNumber() + "-"
+					+ record.getAccountName(), record.getAccountName() + "  "
+					+ getConstants().total(), new int[] { 3, 5 });
 			return true;
 		}
 		return false;
@@ -509,16 +523,16 @@ public class ProfitAndLossServerReport extends
 
 		int lastDay;
 		switch (month) {
-		case 0:
-		case 2:
-		case 4:
-		case 6:
+		case 1:
+		case 3:
+		case 5:
 		case 7:
-		case 9:
-		case 11:
+		case 8:
+		case 10:
+		case 12:
 			lastDay = 31;
 			break;
-		case 1:
+		case 2:
 			if (year % 4 == 0 && year % 100 == 0)
 				lastDay = 29;
 			else

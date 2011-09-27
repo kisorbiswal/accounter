@@ -5,8 +5,11 @@
 		<link rel="shortcut icon" href="../images/favicon.ico" />
 		<% String version = application.getInitParameter("version"); %>
 		<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet">
+		<script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
+		<script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
   </head>
     <body>
+    <%@ include file="./feedback.jsp" %>
 	    <div id="commanContainer">
 		 <img src="../images/Accounter_logo_title.png" class="accounterLogo" />
 		  <c:if test="${successmessage!=null}">
@@ -21,16 +24,6 @@
 			var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
 			document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
 		</script>
-		<script type="text/javascript" charset="utf-8">
-			var feedback_widget_options = {};
-			
-			feedback_widget_options.display = "overlay";  
-  			feedback_widget_options.company = "vimukti";
-			feedback_widget_options.placement = "left";
-			feedback_widget_options.color = "#222";
-			feedback_widget_options.style = "idea";
 		
-			var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
-		</script>
 	</body>
 </html>

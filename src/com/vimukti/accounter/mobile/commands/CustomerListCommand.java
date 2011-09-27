@@ -17,6 +17,8 @@ import com.vimukti.accounter.mobile.ResultList;
  */
 public class CustomerListCommand extends AbstractTransactionCommand {
 
+	private static final String ACTIVE = "active";
+
 	@Override
 	public String getId() {
 		// TODO Auto-generated method stub
@@ -68,7 +70,7 @@ public class CustomerListCommand extends AbstractTransactionCommand {
 		ResultList customerResult = new ResultList("vendors");
 		result.add("customers List");
 		int num = 0;
-		List<Customer> customers = getCustomers(isActive);
+		List<Customer> customers = getCustomers(context.getCompany(), isActive);
 		for (Customer customer : customers) {
 			customerResult.add(createPayeeRecord(customer));
 			num++;
@@ -91,23 +93,6 @@ public class CustomerListCommand extends AbstractTransactionCommand {
 
 		return result;
 
-	}
-
-	private Result isActiveRequirement(Context context, Object selection) {
-		Requirement isActiveReq = get(ACTIVE);
-		Boolean isActive = (Boolean) isActiveReq.getValue();
-		if (selection == isActive) {
-			context.setAttribute(INPUT_ATTR, ACTIVE);
-			isActive = !isActive;
-			isActiveReq.setValue(isActive);
-		}
-		String activeString = "";
-		if (isActive) {
-			activeString = "This vendors is Active";
-		} else {
-			activeString = "This vendor is InActive";
-		}
-		return null;
 	}
 
 }

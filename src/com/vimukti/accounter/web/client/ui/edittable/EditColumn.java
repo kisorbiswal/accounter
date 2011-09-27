@@ -2,6 +2,8 @@ package com.vimukti.accounter.web.client.ui.edittable;
 
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public abstract class EditColumn<R> {
 	
@@ -40,4 +42,7 @@ public abstract class EditColumn<R> {
 		this.table = table;
 	}
 
+	public ClientCompanyPreferences getPreferences() {
+		return Accounter.getCompany().getPreferences();
+	}
 }

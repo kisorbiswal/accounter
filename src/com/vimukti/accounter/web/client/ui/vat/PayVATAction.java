@@ -11,7 +11,7 @@ public class PayVATAction extends Action {
 
 	public PayVATAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().vat();
+		this.catagory = Accounter.constants().tax();
 	}
 
 	@Override

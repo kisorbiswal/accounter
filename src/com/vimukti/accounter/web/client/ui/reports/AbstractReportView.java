@@ -21,7 +21,6 @@ import com.vimukti.accounter.web.client.ui.core.AbstractView;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
-import com.vimukti.accounter.web.client.ui.core.ReportUtility;
 
 /**
  * Subclasses must pass the Record type.
@@ -80,17 +79,12 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	private VerticalPanel topLayout;
 
 	private int fitHeight;
-	private int companyType;
 
 	public AbstractReportView() {
-		companyType = getCompany().getAccountingType();
-		ReportUtility.companyType = companyType;
 		emptyMsg = Accounter.constants().noRecordsToShow();
 	}
 
 	public AbstractReportView(boolean showGridFooter, String emptyMsg) {
-		companyType = getCompany().getAccountingType();
-		ReportUtility.companyType = companyType;
 		this.emptyMsg = emptyMsg;
 	}
 
@@ -794,11 +788,6 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 			ClientFinanceDate endDate) {
 		this.startDate = startDate;
 		this.endDate = endDate;
-	}
-
-	@Override
-	public void setCompanyType(int type) {
-		this.serverReport.setCompanyType(getCompany().getAccountingType());
 	}
 
 	@Override

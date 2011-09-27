@@ -32,7 +32,6 @@ import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEmail;
 import com.vimukti.accounter.web.client.core.ClientFax;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPhone;
@@ -88,7 +87,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	TextItem vendorNoText;
 	TextItem vendorNameText;
 	TextItem fileAsText, accountText, bankNameText, bankBranchText, webText,
-			linksText, expenseAccountsText, federalText, panNumberText,
+			linksText, expenseAccountsText, taxIDText, panNumberText,
 			serviceTaxRegisterationNumber, taxID;
 	TextAreaItem memoArea;
 	DateField balanceDate, vendorSinceDate;
@@ -135,7 +134,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	LinkedHashMap<String, String> shipMethodMap;
 	LinkedHashMap<String, String> vendorGroupMap;
 
-	private ClientFiscalYear fiscalYear;
+	// private ClientFiscalYear fiscalYear;
 
 	protected ClientAccount selectAccountFromDetailsTab;
 	protected ClientShippingMethod selectShippingMethodFromDetailsTab;
@@ -162,22 +161,22 @@ public class VendorView extends BaseView<ClientVendor> {
 		super();
 	}
 
-	private void getFiscalYear() {
-		List<ClientFiscalYear> result = getCompany().getFiscalYears();
-		if (result != null && !isInViewMode()) {
-			for (ClientFiscalYear fiscalYear : result) {
-				if (fiscalYear != null && fiscalYear.getIsCurrentFiscalYear()) {
-					if (fiscalYear != null
-							&& fiscalYear.getIsCurrentFiscalYear()) {
-						VendorView.this.fiscalYear = fiscalYear;
-						// balanceDate.setEnteredDate(VendorView.this.fiscalYear
-						// .getStartDate());
-						break;
-					}
-				}
-			}
-		}
-	}
+	// private void getFiscalYear() {
+	// List<ClientFiscalYear> result = getCompany().getFiscalYears();
+	// if (result != null && !isInViewMode()) {
+	// for (ClientFiscalYear fiscalYear : result) {
+	// if (fiscalYear != null && fiscalYear.getIsCurrentFiscalYear()) {
+	// if (fiscalYear != null
+	// && fiscalYear.getIsCurrentFiscalYear()) {
+	// VendorView.this.fiscalYear = fiscalYear;
+	// // balanceDate.setEnteredDate(VendorView.this.fiscalYear
+	// // .getStartDate());
+	// break;
+	// }
+	// }
+	// }
+	// }
+	// }
 
 	private void createControls() {
 
@@ -405,12 +404,15 @@ public class VendorView extends BaseView<ClientVendor> {
 		});
 
 		accInfoForm.setStyleName("vender-form");
-		if (getCompany().getPreferences().isChargeSalesTax()) {
-			accInfoForm.setFields(statusCheck, vendorSinceDate, balanceText,
-					balanceDate, taxID, track1099MISC);
-		} else {
-			accInfoForm.setFields(statusCheck, vendorSinceDate, balanceText,
-					balanceDate);
+		accInfoForm.setFields(statusCheck, vendorSinceDate, balanceText,
+				balanceDate);
+		if (getPreferences().isTrackTax()) {
+			if (getCountryPreferences().isSalesTaxAvailable()) {
+				accInfoForm.setFields(taxID);
+			}
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+				accInfoForm.setFields(track1099MISC);
+			}
 		}
 
 		Label l1 = new Label(Accounter.constants().contacts());
@@ -424,6 +426,7 @@ public class VendorView extends BaseView<ClientVendor> {
 				ClientContact clientContact = new ClientContact();
 				gridView.setDisabled(false);
 				gridView.add(clientContact);
+				gridView.checkColumn(0, 0, true);
 			}
 		});
 
@@ -450,7 +453,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		hPanel.setHorizontalAlignment(ALIGN_RIGHT);
 		hPanel.add(addButton);
 		hPanel.getElement().getStyle().setMarginTop(8, Unit.PX);
-		hPanel.getElement().getStyle().setFloat(Float.RIGHT);
+		hPanel.getElement().getStyle().setFloat(Float.LEFT);
 		panel.add(hPanel);
 		addButton.setEnabled(!isInViewMode());
 
@@ -674,10 +677,10 @@ public class VendorView extends BaseView<ClientVendor> {
 			}
 		}
 
-		federalText = new TextItem(Accounter.constants().federalTaxId());
-		federalText.setHelpInformation(true);
-		federalText.setWidth(100);
-		federalText.setDisabled(isInViewMode());
+		taxIDText = new TextItem(Accounter.constants().taxId());
+		taxIDText.setHelpInformation(true);
+		taxIDText.setWidth(100);
+		taxIDText.setDisabled(isInViewMode());
 		vendorTDSTaxCode = new TaxItemCombo(messages.vendorTDSCode(Global.get()
 				.Vendor()), ClientTAXItem.TAX_TYPE_TDS);
 		vendorTDSTaxCode.setHelpInformation(true);
@@ -727,21 +730,11 @@ public class VendorView extends BaseView<ClientVendor> {
 		 * In UK n US versions we need different widths as for the view
 		 * requirement
 		 */
-		if (getCompany().getPreferences().isChargeSalesTax())
-			vendorGrpForm.setWidth("88%");
-		else
-			vendorGrpForm.setWidth("100%");
+		vendorGrpForm.setWidth("100%");
+		vendorGrpForm.setFields(vendorGroupSelect);
 
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			vendorGrpForm.setFields(vendorGroupSelect, federalText);
-		} else if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
-			vendorGrpForm.setFields(vendorGroupSelect, panNumberText,
-					serviceTaxRegisterationNumber);
-		} else {
-			vendorGrpForm.setFields(vendorGroupSelect);
-		}
 		vendorGrpForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "136px");
+				.setAttribute(Accounter.constants().width(), "44%");
 
 		vatRegistrationNumber = new TextItem(Accounter.constants()
 				.vatRegistrationNumber());
@@ -763,15 +756,19 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendorTaxCode.setDisabled(isInViewMode());
 		DynamicForm vatform = new DynamicForm();
 		vatform.setIsGroup(true);
-		vatform.setWidth("50%");
+		vatform.setWidth("100%");
 		vatform.setGroupTitle(Accounter.constants().vatDetails());
-
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA
-				&& getCompany().getPreferences().isTDSEnabled()) {
-			vatform.setFields(vatRegistrationNumber, vendorTaxCode, isTDS,
-					vendorTDSTaxCode);
-		} else {
-			vatform.setFields(vatRegistrationNumber, vendorTaxCode);
+		if (getPreferences().isTrackTax()) {
+			if (getCountryPreferences().isVatAvailable()) {
+				vatform.setFields(vatRegistrationNumber);
+			}
+			vatform.setFields(vendorTaxCode);
+			if (getCountryPreferences().isTDSAvailable()) {
+				vatform.setFields(isTDS, vendorTDSTaxCode);
+			}
+			if (getCountryPreferences().isServiceTaxAvailable()) {
+				vatform.setFields(serviceTaxRegisterationNumber);
+			}
 		}
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setSize("100%", "100%");
@@ -785,7 +782,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		rVLayout.setWidth("100%");
 		rVLayout.setSpacing(10);
 		rVLayout.add(vendorGrpForm);
-		if (isRegistedForVAT()) {
+		if (getPreferences().isTrackTax()) {
 			rVLayout.add(vatform);
 		}
 
@@ -837,10 +834,6 @@ public class VendorView extends BaseView<ClientVendor> {
 		accInfoForm.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.constants().width(), "150px");
 
-	}
-
-	private boolean isRegistedForVAT() {
-		return Accounter.getCompany().getPreferences().isRegisteredForVAT();
 	}
 
 	@Override
@@ -1019,17 +1012,28 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		// Setting Vendor Group
 		data.setVendorGroup(Utility.getID(selectVendorGroupFromDetailsTab));
-		if (getCompany().getAccountingType() == 0)
-			if (federalText.getValue() != null) {
-				data.setFederalTaxId(federalText.getValue().toString());
+		if (getPreferences().isTrackTax()) {
+			if (taxIDText.getValue() != null) {
+				data.setFederalTaxId(taxIDText.getValue().toString());
 			}
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
-			if (panNumberText.getValue() != null) {
-				data.setPanNumber(panNumberText.getValue().toString());
+			if (vendorTaxCode != null)
+				data.setTAXCode(Utility.getID(selectTaxCodeFromDetailsTab));
+			// if (panNumberText.getValue() != null) {
+			// data.setPanNumber(panNumberText.getValue().toString());
+			// }
+			if (getCountryPreferences().isServiceTaxAvailable()) {
+				if (serviceTaxRegisterationNumber.getValue() != null) {
+					data.setServiceTaxRegistrationNumber(serviceTaxRegisterationNumber
+							.getValue().toString());
+				}
 			}
-			if (serviceTaxRegisterationNumber.getValue() != null) {
-				data.setServiceTaxRegistrationNumber(serviceTaxRegisterationNumber
-						.getValue().toString());
+			if (getCountryPreferences().isVatAvailable()) {
+				if (vatRegistrationNumber != null) {
+					String vatReg = vatRegistrationNumber.getValue() != null ? vatRegistrationNumber
+							.getValue().toString() : "";
+					data.setVATRegistrationNumber(vatReg.length() != 0 ? vatReg
+							: null);
+				}
 			}
 		}
 		// Setting Account Number
@@ -1046,19 +1050,6 @@ public class VendorView extends BaseView<ClientVendor> {
 		// data.setAccountsPayable(getCompany().getAccountsPayableAccount());
 
 		// Setting opening balance accounts
-
-		if (isRegistedForVAT()) {
-			if (vatRegistrationNumber != null) {
-
-				String vatReg = vatRegistrationNumber.getValue() != null ? vatRegistrationNumber
-						.getValue().toString() : "";
-				data.setVATRegistrationNumber(vatReg.length() != 0 ? vatReg
-						: null);
-
-			}
-			if (vendorTaxCode != null)
-				data.setTAXCode(Utility.getID(selectTaxCodeFromDetailsTab));
-		}
 
 		data.setTaxId(taxID.getValue());
 		data.setTrackPaymentsFor1099(track1099MISC.isChecked());
@@ -1139,11 +1130,12 @@ public class VendorView extends BaseView<ClientVendor> {
 			setData(new ClientVendor());
 		}
 		company = getCompany();
-		getFiscalYear();
+		// getFiscalYear();
 		addAccountsToList();
 		addVendorGroupList();
-		if (company.getAccountingType() == 1)
+		if (getPreferences().isTrackTax()) {
 			addSuplierTaxCode();
+		}
 		addShippingMethodList();
 		addPaymentTermsList();
 		if (data != null && data.getPhoneNo() != null)
@@ -1263,19 +1255,19 @@ public class VendorView extends BaseView<ClientVendor> {
 		if (vendorGroup != null) {
 			selectVendorGroupFromDetailsTab = vendorGroup;
 		}
-
-		if (isRegistedForVAT()) {
-			vatRegistrationNumber.setValue(data.getVATRegistrationNumber());
-			vendorTaxCode.setSelected(vendorTaxCode.getDisplayName(data
-					.getTAXCode() != 0 ? Accounter.getCompany().getTAXCode(
-					data.getTAXCode()) : null));
-		} else {
-			// Setting Federal Id
-			federalText.setValue(data.getFederalTaxId());
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
-				panNumberText.setValue(data.getPanNumber());
-				serviceTaxRegisterationNumber.setValue(data
-						.getServiceTaxRegistrationNumber());
+		if (getPreferences().isTrackTax()) {
+			if (getCountryPreferences().isVatAvailable()) {
+				vatRegistrationNumber.setValue(data.getVATRegistrationNumber());
+				vendorTaxCode.setSelected(vendorTaxCode.getDisplayName(data
+						.getTAXCode() != 0 ? Accounter.getCompany().getTAXCode(
+						data.getTAXCode()) : null));
+			} else {
+				// Setting Federal Id
+				taxIDText.setValue(data.getFederalTaxId());
+				if (getCountryPreferences().isServiceTaxAvailable()) {
+					serviceTaxRegisterationNumber.setValue(data
+							.getServiceTaxRegistrationNumber());
+				}
 			}
 		}
 	}
@@ -1382,7 +1374,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendorTaxCode.setDisabled(isInViewMode());
 		isTDS.setDisabled(isInViewMode());
 		vendorTDSTaxCode.setDisabled(isInViewMode());
-		federalText.setDisabled(isInViewMode());
+		taxIDText.setDisabled(isInViewMode());
 		super.onEdit();
 
 	}

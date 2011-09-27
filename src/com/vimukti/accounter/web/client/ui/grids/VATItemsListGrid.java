@@ -46,11 +46,11 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 			return 15;
 		}
 		if (index == 1)
-			return 300;
+			return 240;
 		if (index == 4)
 			return 100;
 		if (index == 2)
-			return 250;
+			return 190;
 
 		return -1;
 	}
@@ -135,10 +135,8 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 			// agency1 = getTaxAgency(obj1);
 			// agency2 = getTaxAgency(obj2);
 			// }
-			if (getCompany().getPreferences().isRegisteredForVAT()) {
-				agency1 = getVATAgencyID(obj1);
-				agency2 = getVATAgencyID(obj2);
-			}
+			agency1 = getVATAgencyID(obj1);
+			agency2 = getVATAgencyID(obj2);
 			return agency1.toLowerCase().compareTo(agency2.toLowerCase());
 		case 3:
 			String desc1 = obj1.getDescription() != null ? obj1
@@ -176,8 +174,7 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 
 		ClientTAXAgency agency = null;
 		if (obj.getTaxAgency() != 0) {
-
-			if (getCompany().getPreferences().isRegisteredForVAT()) {
+			if (getPreferences().isTrackTax()) {
 				agency = getCompany().getTaxAgency(obj.getTaxAgency());
 			}
 		}

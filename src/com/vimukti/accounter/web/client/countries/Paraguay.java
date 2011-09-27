@@ -7,10 +7,10 @@ public class Paraguay extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		String[] states = new String[] { "Alto Paraguay", "Alto Paraná",
-				"Amambay", "Asunción", "Boquerón", "Caaguazú", "Caazapá",
-				"Canendiyú", "Central", "Concepción", "Cordillera", "Guairá",
-				"Itapúa", "Misiones", "Ñeembucú", "Paraguarí",
+		String[] states = new String[] { "Alto Paraguay", "Alto Parana",
+				"Amambay", "Asuncion", "Boqueron", "Caaguazu", "Caazapa",
+				"Canendiyu", "Central", "Concepcion", "Cordillera", "Guaira",
+				"Itapua", "Misiones", "Neembucu", "Paraguari",
 				"Presidente Hayes", "San Pedro" };
 		return states;
 	}

@@ -174,20 +174,25 @@ public class PurchaseOrderView extends
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
-		prodAndServiceHLay.add(amountsForm);
-		prodAndServiceHLay.setCellHorizontalAlignment(amountsForm, ALIGN_RIGHT);
-		prodAndServiceHLay.setCellVerticalAlignment(amountsForm,
-				HasVerticalAlignment.ALIGN_BOTTOM);
 
-		if (getPreferences().isTrackPaidTax()) {
+		if (isTrackPaidTax()) {
 
 			DynamicForm priceLevelForm = new DynamicForm();
 			// priceLevelForm.setCellSpacing(4);
 			// priceLevelForm.setWidth("70%");
 			// priceLevelForm.setFields(priceLevelSelect);
+
+			if (!isTaxPerDetailLine()) {
+				taxCodeSelect = createTaxCodeSelectItem();
+				DynamicForm form = new DynamicForm();
+				form.setFields(taxCodeSelect);
+				prodAndServiceHLay.add(form);
+
+			}
 			amountsForm.setFields(netAmount, vatTotalNonEditableText,
 					transactionTotalNonEditableText);
-			amountsForm.setStyleName("invoice-total");
+
+			amountsForm.setStyleName("boldtext");
 			// forms.add(priceLevelForm);
 			// prodAndServiceHLay.add(priceLevelForm);
 			// prodAndServiceHLay.setCellHorizontalAlignment(priceLevelForm,
@@ -198,7 +203,7 @@ public class PurchaseOrderView extends
 			// listforms.add(priceLevelForm);abstracttrans
 
 		} else {
-			taxCodeSelect = createTaxCodeSelectItem();
+
 			salesTaxTextNonEditable = createSalesTaxNonEditableLabel();
 			transactionTotalNonEditableText = createTransactionTotalNonEditableLabelforPurchase();
 			paymentsNonEditableText = new AmountLabel(
@@ -215,8 +220,9 @@ public class PurchaseOrderView extends
 			// prodAndServiceForm2.setFields(salesTaxTextNonEditable,
 			// transactionTotalNonEditableText, ,
 			// balanceDueNonEditableText, taxCodeSelect, priceLevelSelect);
+
 			amountsForm.setNumCols(4);
-			amountsForm.addStyleName("tax-form");
+			amountsForm.addStyleName("boldtext");
 			amountsForm.setFields(/* taxCodeSelect, salesTaxTextNonEditable, */
 			disabletextbox, transactionTotalNonEditableText, disabletextbox
 			/*
@@ -228,6 +234,10 @@ public class PurchaseOrderView extends
 			// prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
 			// ALIGN_RIGHT);
 		}
+		prodAndServiceHLay.add(amountsForm);
+		prodAndServiceHLay.setCellHorizontalAlignment(amountsForm, ALIGN_RIGHT);
+		prodAndServiceHLay.setCellVerticalAlignment(amountsForm,
+				HasVerticalAlignment.ALIGN_BOTTOM);
 
 		vendorCombo = new VendorCombo(Global.get().Vendor(), true);
 		vendorCombo.setRequired(true);
@@ -384,7 +394,8 @@ public class PurchaseOrderView extends
 		// formItems.add(deliveryDateItem);
 
 		// Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
-		vendorAccountTransactionTable = new VendorAccountTransactionTable() {
+		vendorAccountTransactionTable = new VendorAccountTransactionTable(
+				isTrackTax() && isTrackPaidTax(), isTaxPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -416,7 +427,8 @@ public class PurchaseOrderView extends
 		accountsDisclosurePanel.setContent(accountFlowPanel);
 		accountsDisclosurePanel.setOpen(true);
 		accountsDisclosurePanel.setWidth("100%");
-		vendorItemTransactionTable = new VendorItemTransactionTable() {
+		vendorItemTransactionTable = new VendorItemTransactionTable(
+				isTrackTax(), isTaxPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -708,7 +720,9 @@ public class PurchaseOrderView extends
 			this.transactionItems = transaction.getTransactionItems();
 
 			initTransactionNumber();
-			vendorSelected(company.getVendor(transaction.getVendor()));
+			this.setVendor(company.getVendor(transaction.getVendor()));
+			vendorCombo.setComboItem(vendor);
+			// vendorSelected(company.getVendor(transaction.getVendor()));
 			contactSelected(transaction.getContact());
 			phoneSelect.setValue(transaction.getPhone());
 			phoneSelect.setDisabled(isInViewMode());
@@ -1109,10 +1123,10 @@ public class PurchaseOrderView extends
 		// 5. vendon form valid?
 		// 6. is blank transaction?
 		// 7. vendor transaction grid valid?
-		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateTransactionDate());
-		}
+		// if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
+		// result.addError(transactionDate,
+		// accounterConstants.invalidateTransactionDate());
+		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
 			result.addError(transactionDate,
@@ -1202,6 +1216,29 @@ public class PurchaseOrderView extends
 			vendorCombo.setDisabled(isInViewMode());
 		} else {
 			vendorCombo.setDisabled(true);
+			if (this.transaction.getVendorAddress() == null) {
+				this.addressListOfVendor = vendor.getAddress();
+				billingAddress = getAddress(ClientAddress.TYPE_BILL_TO);
+				if (billingAddress != null) {
+					billtoAreaItem.setValue(billingAddress.getAddress1() + "\n"
+							+ billingAddress.getStreet() + "\n"
+							+ billingAddress.getCity() + "\n"
+							+ billingAddress.getStateOrProvinence() + "\n"
+							+ billingAddress.getZipOrPostalCode() + "\n"
+							+ billingAddress.getCountryOrRegion());
+
+				} else
+					billtoAreaItem.setValue("");
+			}
+
+			if (this.transaction.getPhone() == null
+					|| this.transaction.getPhone().isEmpty()) {
+				initPhones(vendor);
+			}
+
+			if (this.transaction.getContact() == null) {
+				initContacts(vendor);
+			}
 		}
 
 		// billToCombo.setDisabled(isEdit);

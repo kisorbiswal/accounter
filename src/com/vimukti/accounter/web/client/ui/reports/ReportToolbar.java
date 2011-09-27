@@ -34,7 +34,8 @@ public abstract class ReportToolbar extends HorizontalPanel {
 		form.setNumCols(8);
 
 		startDate = Accounter.getStartDate();
-		endDate = Accounter.getCompany().getLastandOpenedFiscalYearEndDate();
+		endDate = Accounter.getCompany().getCurrentFiscalYearEndDate();
+		// getLastandOpenedFiscalYearEndDate();
 		itemSelectionHandler = new ReportToolBarItemSelectionHandler() {
 
 			public void onItemSelectionChanged(int type,
@@ -93,8 +94,8 @@ public abstract class ReportToolbar extends HorizontalPanel {
 					Accounter.constants().today())
 					&& dateRange.equals(Accounter.constants().today())) {
 				startDate = new ClientFinanceDate();
-				endDate = Accounter.getCompany()
-						.getLastandOpenedFiscalYearEndDate();
+				endDate = Accounter.getCompany().getCurrentFiscalYearEndDate();
+				// .getLastandOpenedFiscalYearEndDate();
 				setSelectedDateRange(Accounter.constants().today());
 			} else if (!getSelectedDateRange().equals(
 					Accounter.constants().endThisWeek())
@@ -125,8 +126,8 @@ public abstract class ReportToolbar extends HorizontalPanel {
 							.endThisMonthToDate())) {
 				startDate = new ClientFinanceDate(date.getYear(),
 						date.getMonth(), 1);
-				endDate = Accounter.getCompany()
-						.getLastandOpenedFiscalYearEndDate();
+				endDate = Accounter.getCompany().getCurrentFiscalYearEndDate();
+				// .getLastandOpenedFiscalYearEndDate();
 				setSelectedDateRange(Accounter.constants().endThisMonthToDate());
 			} else if (!getSelectedDateRange().equals(
 					Accounter.constants().endThisFiscalQuarter())
@@ -152,8 +153,8 @@ public abstract class ReportToolbar extends HorizontalPanel {
 
 				int endMonth = startMonth + 2;
 				startDate = new ClientFinanceDate(date.getYear(), startMonth, 1);
-				endDate = Accounter.getCompany()
-						.getLastandOpenedFiscalYearEndDate();
+				endDate = Accounter.getCompany().getCurrentFiscalYearEndDate();
+				// .getLastandOpenedFiscalYearEndDate();
 				setSelectedDateRange(Accounter.constants()
 						.endThisFiscalQuarterToDate());
 			} else if (!getSelectedDateRange().equals(
@@ -175,8 +176,8 @@ public abstract class ReportToolbar extends HorizontalPanel {
 				int month = (date.getMonth()) % 3;
 				int startMonth = date.getMonth() - month;
 				startDate = new ClientFinanceDate(date.getYear(), startMonth, 1);
-				endDate = Accounter.getCompany()
-						.getLastandOpenedFiscalYearEndDate();
+				endDate = Accounter.getCompany().getCurrentFiscalYearEndDate();
+				// .getLastandOpenedFiscalYearEndDate();
 				setSelectedDateRange(Accounter.constants()
 						.endThisCalanderQuarterToDate());
 			} else if (!getSelectedDateRange().equals(
@@ -192,8 +193,8 @@ public abstract class ReportToolbar extends HorizontalPanel {
 					&& dateRange.equals(Accounter.constants()
 							.endThisFiscalYearToDate())) {
 				startDate = new ClientFinanceDate(date.getYear(), 0, 1);
-				endDate = Accounter.getCompany()
-						.getLastandOpenedFiscalYearEndDate();
+				endDate = Accounter.getCompany().getCurrentFiscalYearEndDate();
+				// .getLastandOpenedFiscalYearEndDate();
 				setSelectedDateRange(Accounter.constants()
 						.endThisFiscalYearToDate());
 			} else if (!getSelectedDateRange().equals(
@@ -209,8 +210,8 @@ public abstract class ReportToolbar extends HorizontalPanel {
 					&& dateRange.equals(Accounter.constants()
 							.endThisCalanderYearToDate())) {
 				startDate = new ClientFinanceDate(date.getYear(), 0, 1);
-				endDate = Accounter.getCompany()
-						.getLastandOpenedFiscalYearEndDate();
+				endDate = Accounter.getCompany().getCurrentFiscalYearEndDate();
+				// .getLastandOpenedFiscalYearEndDate();
 				setSelectedDateRange(Accounter.constants()
 						.endThisCalanderYearToDate());
 				changeDates(startDate, endDate);
@@ -221,8 +222,8 @@ public abstract class ReportToolbar extends HorizontalPanel {
 				// date.getMonth(), date
 				// .getDate() - 1);
 				startDate = Accounter.getStartDate();
-				endDate = Accounter.getCompany()
-						.getLastandOpenedFiscalYearEndDate();
+				endDate = Accounter.getCompany().getCurrentFiscalYearEndDate();
+				// .getLastandOpenedFiscalYearEndDate();
 				int day = endDate.getDay();
 				endDate.setDay(day - 1);
 				setSelectedDateRange((Accounter.constants().endYesterday()));
@@ -231,8 +232,8 @@ public abstract class ReportToolbar extends HorizontalPanel {
 					&& dateRange.equals(Accounter.constants()
 							.endPreviousFiscalQuarter())) {
 				startDate = new ClientFinanceDate();
-				endDate = Accounter.getCompany()
-						.getLastandOpenedFiscalYearEndDate();
+				endDate = Accounter.getCompany().getCurrentFiscalYearEndDate();
+				// .getLastandOpenedFiscalYearEndDate();
 				setSelectedDateRange(Accounter.constants()
 						.endPreviousFiscalQuarter());
 				getCurrentQuarter();
@@ -241,8 +242,8 @@ public abstract class ReportToolbar extends HorizontalPanel {
 					&& dateRange.equals(Accounter.constants()
 							.endLastCalendarQuarter())) {
 				startDate = new ClientFinanceDate();
-				endDate = Accounter.getCompany()
-						.getLastandOpenedFiscalYearEndDate();
+				endDate = Accounter.getCompany().getCurrentFiscalYearEndDate();
+				// .getLastandOpenedFiscalYearEndDate();
 				setSelectedDateRange(Accounter.constants()
 						.endLastCalendarQuarter());
 				getCurrentQuarter();
@@ -454,8 +455,8 @@ public abstract class ReportToolbar extends HorizontalPanel {
 					&& dateRange.equals(Accounter.constants()
 							.thisFinancialQuarter())) {
 				startDate = new ClientFinanceDate();
-				endDate = Accounter.getCompany()
-						.getLastandOpenedFiscalYearEndDate();
+				endDate = Accounter.getCompany().getCurrentFiscalYearEndDate();
+				// .getLastandOpenedFiscalYearEndDate();
 				setSelectedDateRange(Accounter.constants()
 						.thisFinancialQuarter());
 				getCurrentFiscalYearQuarter();
@@ -767,15 +768,12 @@ public abstract class ReportToolbar extends HorizontalPanel {
 		ClientFinanceDate date = new ClientFinanceDate();
 		int day = date.getDay() % 6;
 		ClientFinanceDate newDate = new ClientFinanceDate();
-		if(day!=1)
-		{
-		newDate.setDay(date.getDay() - day);
-		}
-		else
-		{
+		if (day != 1) {
+			newDate.setDay(date.getDay() - day);
+		} else {
 			newDate.setDay(date.getDay());
 		}
-		
+
 		return newDate;
 	}
 

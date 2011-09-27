@@ -2,14 +2,11 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Contact;
-import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Vendor;
@@ -35,6 +32,7 @@ public abstract class AbstractCommand extends Command {
 	protected static final String PROCESS_ATTR = "process";
 	protected static final String ADDRESS_MESSAGE_ATTR = "addressMessage";
 	protected static final String OLD_ADDRESS_ATTR = "oldAddress";
+	protected static final String ACCOUNTS_PROCESS = "accountsProcess";
 	protected static final String ADDRESS_LINE_ATTR = null;
 	protected static final String CONTACT_ATTR = "contact";
 	protected static final String OLD_CONTACT_ATTR = "oldContact";
@@ -48,10 +46,15 @@ public abstract class AbstractCommand extends Command {
 	protected static final int ITEMGROUPS_TO_SHOW = 5;
 	protected static final String PAYMENT_METHOD = "Payment method";
 	private static final int PAYMENTMETHODS_TO_SHOW = 5;
-
+	protected static final int VALUES_TO_SHOW = 5;
+	protected static final String ACTIVE = "isActive";
 	protected static final String MEMO = "memo";
-
 	protected static final String ORDER_NO = "orderNo";
+
+	protected Company getCompany() {
+		return null;
+
+	}
 
 	protected Result text(Context context, String message, String oldText) {
 		Result result = context.makeResult();
@@ -104,11 +107,6 @@ public abstract class AbstractCommand extends Command {
 
 	protected Result amount(Context context, String message, Double oldAmount) {
 		return number(context, message, oldAmount.toString());
-	}
-
-	protected Company getCompany() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	protected Result number(Context context, String message, String oldNumber) {
@@ -268,14 +266,14 @@ public abstract class AbstractCommand extends Command {
 		return record;
 	}
 
-	private Set<TAXCode> getTaxCodes() {
-		return getCompany().getTaxCodes();
+	private List<TAXCode> getTaxCodes(Company company) {
+		return company.getTaxCodes();
 
 	}
 
 	protected Result taxCode(Context context, TAXCode oldTaxCode) {
 		Result result = context.makeResult();
-		Set<TAXCode> codes = getTaxCodes();
+		List<TAXCode> codes = getTaxCodes(context.getCompany());
 		ResultList list = new ResultList(TAXCODE);
 		int num = 0;
 		if (oldTaxCode != null) {
@@ -426,7 +424,7 @@ public abstract class AbstractCommand extends Command {
 			supplierList.add(createVendorRecord((Vendor) last));
 			num++;
 		}
-		Set<Vendor> vendors = getVendors();
+		List<Vendor> vendors = getVendors(true, context.getCompany());
 		for (Vendor vendor : vendors) {
 			if (vendor != last) {
 				supplierList.add(createVendorRecord(vendor));
@@ -564,28 +562,9 @@ public abstract class AbstractCommand extends Command {
 		return null;
 	}
 
-	protected List<Customer> getCustomers(Boolean isActive) {
-		Set<Customer> customers = getCompany().getCustomers();
-		ArrayList<Customer> result = new ArrayList<Customer>();
-		for (Customer customer : customers) {
-			if (isActive) {
-				if (customer.isActive()) {
-					result.add(customer);
-				}
-			} else {
-				result.add(customer);
-			}
-		}
-		return null;
-	}
-
-	private Set<Vendor> getVendors() {
-		return getCompany().getVendors();
-	}
-
-	protected List<Vendor> getVendors(boolean isActive) {
-		Set<Vendor> vendors = getCompany().getVendors();
-		Set<Vendor> result = new HashSet<Vendor>();
+	protected List<Vendor> getVendors(boolean isActive, Company company) {
+		ArrayList<Vendor> vendors = company.getVendors();
+		ArrayList<Vendor> result = new ArrayList<Vendor>();
 
 		for (Vendor vendor : vendors) {
 			if (isActive) {
@@ -686,5 +665,17 @@ public abstract class AbstractCommand extends Command {
 		// } catch (AccounterException e) {
 		// e.printStackTrace();
 		// }
+	}
+
+	protected Result isActiveRequirement(Context context, Object selection) {
+		Requirement isActiveReq = get(ACTIVE);
+		Boolean isActive = (Boolean) isActiveReq.getValue();
+		if (selection == isActive) {
+			context.setAttribute(INPUT_ATTR, ACTIVE);
+			isActive = !isActive;
+			isActiveReq.setValue(isActive);
+		}
+
+		return null;
 	}
 }

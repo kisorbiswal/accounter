@@ -22,6 +22,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
@@ -37,6 +38,7 @@ import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.MakeDepositAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
+import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -59,7 +61,7 @@ public class MakeDepositView extends
 
 	AmountField cashBackAmountText;
 	AmountLabel totText;
-
+	TAXCodeCombo taxCodeSelect;
 	TextItem cashBackMemoText, totAmtText;
 	DynamicForm memoForm, totForm;
 	DynamicForm form1, form2;
@@ -369,6 +371,7 @@ public class MakeDepositView extends
 				MakeDepositView.this.updateNonEditableItems();
 			}
 		};
+		// gridView.setHeight("250px");
 		gridView.setDisabled(isInViewMode());
 		gridView.getElement().getStyle().setMarginTop(10, Unit.PX);
 	}
@@ -624,6 +627,7 @@ public class MakeDepositView extends
 		} else {
 			date.setValue(transaction.getDate());
 			memoText.setValue(transaction.getMemo());
+			transNumber.setValue(transaction.getNumber());
 			this.transactionItems = transaction.getTransactionItems();
 			cashBackAmountText.setValue(String.valueOf(transaction
 					.getCashBackAmount()));
@@ -654,6 +658,7 @@ public class MakeDepositView extends
 		Label lab = new Label(Accounter.constants().makeDeposit());
 		lab.removeStyleName("gwt-Label");
 		lab.addStyleName("lable-title");
+		lab.setStyleName(Accounter.constants().labelTitle());
 		// lab.setHeight("50px");
 		date = UIUtils.date(Accounter.constants().date(), this);
 
@@ -820,7 +825,7 @@ public class MakeDepositView extends
 
 		form2 = new DynamicForm();
 		form2.setFields(totText);
-		form2.addStyleName("unused-payments");
+		form2.addStyleName("textbold");
 		form2.setWidth("50%");
 		form2.getElement().getStyle().setMarginTop(10, Unit.PX);
 
@@ -829,7 +834,7 @@ public class MakeDepositView extends
 		topHLay.add(depoForm);
 
 		HorizontalPanel panel = new HorizontalPanel();
-		panel.setHorizontalAlignment(ALIGN_RIGHT);
+		panel.setHorizontalAlignment(ALIGN_LEFT);
 		panel.add(addButton);
 		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
@@ -843,9 +848,10 @@ public class MakeDepositView extends
 		botHLay.setCellHorizontalAlignment(form2, ALIGN_RIGHT);
 
 		VerticalPanel vPanel = new VerticalPanel();
-		vPanel.setHorizontalAlignment(ALIGN_RIGHT);
+		vPanel.setHorizontalAlignment(ALIGN_LEFT);
 		vPanel.setWidth("100%");
 		vPanel.add(panel);
+		vPanel.setHorizontalAlignment(ALIGN_RIGHT);
 		vPanel.add(botHLay);
 
 		if (isInViewMode()) {
@@ -965,10 +971,10 @@ public class MakeDepositView extends
 			result.add(gridView.validateGrid());
 		}
 
-		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDateItem,
-					accounterConstants.invalidateTransactionDate());
-		}
+		// if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
+		// result.addError(transactionDateItem,
+		// accounterConstants.invalidateTransactionDate());
+		// }
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
 			result.addError(transactionDateItem,
 					accounterConstants.invalidateDate());
@@ -1113,12 +1119,14 @@ public class MakeDepositView extends
 		setMode(EditMode.EDIT);
 		date.setDisabled(isInViewMode());
 		depositInSelect.setDisabled(isInViewMode());
+		transNumber.setDisabled(isInViewMode());
 		addButton.setEnabled(!isInViewMode());
 		gridView.setDisabled(isInViewMode());
 		cashBackMemoText.setDisabled(isInViewMode());
 		cashBackAmountText.setDisabled(isInViewMode());
 		cashBackAccountSelect.setDisabled(isInViewMode());
 		memoText.setDisabled(isInViewMode());
+
 		// For deleting the transctionItems after we edit
 		for (ClientTransactionMakeDeposit ctmd : transaction
 				.getTransactionMakeDeposit())
@@ -1170,6 +1178,9 @@ public class MakeDepositView extends
 		// Setting Memo
 		if (memoText.getValue() != null)
 			transaction.setMemo(UIUtils.toStr(memoText.getValue()));
+
+		if (transNumber.getValue() != null)
+			transaction.setNumber(transNumber.getValue());
 
 		// setting transaction make deposits list
 		List<ClientTransactionMakeDeposit> listOfTrannsactionMakeDeposits = getAllSelectedRecords(transaction);
@@ -1232,6 +1243,12 @@ public class MakeDepositView extends
 
 	@Override
 	protected void addItemTransactionItem(ClientTransactionItem item) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void taxCodeSelected(ClientTAXCode taxCode) {
 		// TODO Auto-generated method stub
 
 	}

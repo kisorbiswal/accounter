@@ -10,8 +10,8 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
@@ -231,8 +231,8 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 
 	@Override
 	protected int sort(InvoicesList obj1, InvoicesList obj2, int index) {
+		index = index - 1;
 		switch (index) {
-
 		case 0:
 			String type1 = Utility.getTransactionName((obj1.getType()));
 			String type2 = Utility.getTransactionName((obj2.getType()));

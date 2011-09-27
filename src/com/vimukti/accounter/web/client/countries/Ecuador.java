@@ -7,11 +7,11 @@ public class Ecuador extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		String[] states = new String[] { "Azuay", "Bolívar", "Cañar", "Carchi",
-				"Chimborazo", "Cotopaxi", "El Oro", "Esmeraldas", "Galápagos",
-				"Guayas", "Imbabura", "Loja", "Los Ríos", "Manabí",
+		String[] states = new String[] { "Azuay", "Bolivar", "Canar", "Carchi",
+				"Chimborazo", "Cotopaxi", "El Oro", "Esmeraldas", "Galapagos",
+				"Guayas", "Imbabura", "Loja", "Los Rios", "Manabi",
 				"Morona Santiago", "Napo", "Orellana", "Pastaza", "Pichincha",
-				"Sucumbíos", "Tungurahua", "Zamora Chinchipe" };
+				"Sucumbios", "Tungurahua", "Zamora Chinchipe" };
 
 		return states;
 	}

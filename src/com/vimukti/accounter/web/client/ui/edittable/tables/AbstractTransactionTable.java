@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.edittable.tables;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -30,10 +31,7 @@ public abstract class AbstractTransactionTable extends
 	public AbstractTransactionTable(boolean needDiscount, boolean isSales) {
 		this.needDiscount = needDiscount;
 		this.isSales = isSales;
-		initColumns();
 	}
-
-	protected abstract void initColumns();
 
 	protected abstract void addEmptyRecords();
 
@@ -63,14 +61,16 @@ public abstract class AbstractTransactionTable extends
 				// totalVat += taxItem.getTaxRate() / 100 * lineTotalAmt;
 				// }
 				taxableLineTotal += lineTotalAmt;
+
+				double taxAmount = getVATAmount(record.getTaxCode(), record);
+				if (isShowPriceWithVat()) {
+					lineTotal -= taxAmount;
+				}
+				record.setVATfraction(taxAmount);
+				totalTax += record.getVATfraction();
+
 			}
 
-			double taxAmount = getVATAmount(record.getTaxCode(), record);
-			if (isShowPriceWithVat()) {
-				lineTotal -= taxAmount;
-			}
-			record.setVATfraction(taxAmount);
-			totalTax += record.getVATfraction();
 			super.update(record);
 			// totalVat += citem.getVATfraction();
 		}
@@ -102,16 +102,32 @@ public abstract class AbstractTransactionTable extends
 
 	@Override
 	public void setAllRows(List<ClientTransactionItem> rows) {
-		clear();
+		createColumns();
 		for (ClientTransactionItem item : rows) {
 			item.setID(0);
 			item.taxRateCalculationEntriesList.clear();
 		}
 		super.setAllRows(rows);
+
 	}
 
 	public void addRows(List<ClientTransactionItem> rows) {
+		for (ClientTransactionItem item : getRecords()) {
+			if (item.isEmpty()) {
+				delete(item);
+			}
+		}
+		createColumns();
 		super.addRows(rows);
+		List<ClientTransactionItem> itemList = new ArrayList<ClientTransactionItem>();
+		if (getAllRows().size() < 4) {
+			for (int ii = 0; ii < (4 - getAllRows().size()); ii++) {
+				ClientTransactionItem item = new ClientTransactionItem();
+				itemList.add(item);
+			}
+			createColumns();
+			super.addRows(itemList);
+		}
 	}
 
 	protected ClientCompany getCompany() {
@@ -181,12 +197,13 @@ public abstract class AbstractTransactionTable extends
 						Accounter.messages().pleaseSelectCustomer(
 								Utility.getItemType(item.getType())));
 			}
-			if (getCompany().getPreferences().isRegisteredForVAT()) {
+			if (getCompany().getPreferences().isTrackTax()
+					&& getCompany().getPreferences().isTrackPaidTax()) {
 				if (item.getTaxCode() == 0) {
 					result.addError(
 							"GridItemUK-" + item.getAccount(),
-							Accounter.messages().pleaseEnter(
-									Accounter.constants().vatCode()));
+							Accounter.messages().pleaseSelectCustomer(
+									Accounter.constants().taxCode()));
 				}
 
 			}
@@ -234,8 +251,8 @@ public abstract class AbstractTransactionTable extends
 				item.setTaxCode(taxCode);
 				// update(item);
 			}
+			update(item);
 		}
-		updateTotals();
 	}
 
 	public void resetRecords() {

@@ -10,9 +10,9 @@ public class Guatemala extends AbstractCountryPreferences {
 		String[] states = new String[] { "Alta Verapaz", "Baja Verapaz",
 				"Chimaltenango", "Chiquimula", "El Progreso", "Escuintla",
 				"Guatemala", "Huehuetenango", "Izabal", "Jalapa", "Jutiapa",
-				"Petén", "Quezaltenango", "Quiché", "Retalhuleu",
-				"Sacatepéquez", "San Marcos", "Santa Rosa", "Sololá",
-				"Suchitepéquez", "Totonicapán", "Zacapa" };
+				"Peten", "Quezaltenango", "Quiche", "Retalhuleu",
+				"Sacatepequez", "San Marcos", "Santa Rosa", "Solola",
+				"Suchitepéquez", "Totonicapan", "Zacapa" };
 		return states;
 	}
 

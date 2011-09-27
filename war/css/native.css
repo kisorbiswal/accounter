@@ -9,7 +9,7 @@ body{
    width: 100% !important;
    margin:0px!important;
 }
-.header,.help-panel,.bottom-corners, .XTRA_HELP_PANEL,.MENU_BAR_BG,.dialog_help_icon{
+.page_header,.help-panel,.bottom-corners, .XTRA_HELP_PANEL,.MENU_BAR_BG,.dialog_help_icon{
    display: none !important;
 }
 .noScroll,.main-finance-window{

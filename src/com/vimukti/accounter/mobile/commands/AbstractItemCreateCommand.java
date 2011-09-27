@@ -5,7 +5,6 @@ import java.util.List;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.ItemGroup;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Vendor;
@@ -19,11 +18,6 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 
 public abstract class AbstractItemCreateCommand extends AbstractCommand {
-
-	@Override
-	protected Company getCompany() {
-		return super.getCompany();
-	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
