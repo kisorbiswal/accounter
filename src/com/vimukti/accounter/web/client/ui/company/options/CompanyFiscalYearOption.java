@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
@@ -9,6 +10,9 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.datepicker.client.DateBox;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class CompanyFiscalYearOption extends AbstractPreferenceOption {
 
@@ -20,6 +24,10 @@ public class CompanyFiscalYearOption extends AbstractPreferenceOption {
 	Label monthsCheckboxLabel;
 	@UiField
 	Label fiscalYearDescriptionLabel;
+	@UiField
+	Label dateItemLable;
+	@UiField
+	DateBox dateItem;
 	List<String> monthNam = new ArrayList<String>();
 	String[] monthNames;
 
@@ -52,12 +60,20 @@ public class CompanyFiscalYearOption extends AbstractPreferenceOption {
 			monthNameComboBox.addItem(monthNames[i]);
 			monthNam.add(monthNames[i]);
 		}
+
+		dateItemLable.setText(Accounter.constants().preventPostBefore());
+
+		dateItem.setStyleName("");
 	}
 
 	public void initData() {
 		if (monthNam.size() > 0)
 			monthNameComboBox.setSelectedIndex(getCompanyPreferences()
 					.getFiscalYearFirstMonth());
+		if (getCompanyPreferences().getPreventPostingBeforeDate() != 0) {
+			dateItem.setValue(new ClientFinanceDate(getCompanyPreferences()
+					.getPreventPostingBeforeDate()).getDateAsObject());
+		}
 	}
 
 	@Override
@@ -69,6 +85,10 @@ public class CompanyFiscalYearOption extends AbstractPreferenceOption {
 	public void onSave() {
 		getCompanyPreferences().setFiscalYearFirstMonth(
 				(monthNameComboBox.getSelectedIndex()));
+		if (dateItem.getValue() != null) {
+			getCompanyPreferences().setPreventPostingBeforeDate(
+					new ClientFinanceDate(dateItem.getValue()).getDate());
+		}
 	}
 
 	@Override
