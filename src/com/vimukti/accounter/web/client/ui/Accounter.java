@@ -182,10 +182,17 @@ public class Accounter implements EntryPoint {
 		if (!isMacApp()) {
 			mainWindow.remove(1);
 			mainWindow.insert(menubar, 1);
+		}else{
+			reloadMacMenu();
 		}
 	}
 
-	public static MainFinanceWindow getMainFinanceWindow() {
+	private native static void reloadMacMenu() /*-{
+	  $wnd.MacReload();
+	}-*/;
+	
+	public static MainFinanceWindow getMainFinanceWindow()
+	{
 		return mainWindow;
 	}
 
