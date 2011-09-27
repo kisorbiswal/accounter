@@ -16,8 +16,8 @@
 <script type="text/javascript" >
 
 $(document).ready(function() {
-	$('#mid-box').attr('autocomplete', 'off');
-	$('#mid-box').password_strength();
+//	$('#mid-box').attr('autocomplete', 'off');
+//	$('#mid-box').password_strength();
  $('#submitButton').click(function() {
 		$("#accounterForm").validate({
 			rules: {
