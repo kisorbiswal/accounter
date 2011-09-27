@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.vendors;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -274,6 +273,8 @@ public class CashExpenseView extends
 		deliveryDateItem = createTransactionDeliveryDateItem();
 
 		paymentMethodCombo = createPaymentMethodSelectItem();
+		// paymentMethodCombo.removeComboItem(constants.cheque());
+
 		// paymentMethodCombo.setWidth(100);
 		paymentMethodCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -298,10 +299,7 @@ public class CashExpenseView extends
 						}
 					}
 				});
-		String listString[] = new String[] {
-				Accounter.constants().cash(),
-				UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
-						.constants().check()),
+		String listString[] = new String[] { Accounter.constants().cash(),
 				Accounter.constants().creditCard(),
 				Accounter.constants().directDebit(),
 				Accounter.constants().masterCard(),
@@ -314,8 +312,7 @@ public class CashExpenseView extends
 		}
 		paymentMethodCombo.initCombo(selectedComboList);
 
-		vendorForm.setFields(vendorCombo, paymentMethodCombo, payFromCombo,
-				checkNo);
+		vendorForm.setFields(vendorCombo, paymentMethodCombo, payFromCombo);
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
