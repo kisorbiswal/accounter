@@ -1280,13 +1280,4 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			Entry.updateEntryMemo(getCompany(), session, accountName,
 					this.getName());
 	}
-
-	public Company getCompany() {
-		return company;
-	}
-
-	public void setCompany(Company company) {
-		this.company = company;
-	}
-
 }
