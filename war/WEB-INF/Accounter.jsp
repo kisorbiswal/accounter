@@ -12,6 +12,8 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta content="IE=100" http-equiv="X-UA-Compatible">
+    <script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
+    <script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
     <script type="text/javascript" charset="utf-8">
   		var is_ssl = ("https:" == document.location.protocol);
   		var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
@@ -24,14 +26,10 @@
     var tabsEnabled=["Hr","Finance","Operations","Marketing","Sales","Users","Workflows","Purchases"];
     var helpurl="${helpUrl}";
     </script>
-    <script src="/jscripts/jquery-1.6.2.js" type="text/javascript"></script>
-    <script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
-    <script type="text/javascript" src="/jscripts/jquery.contactable.packed.js"></script>
-   
     <!--                                                               -->
     <!-- Consider inlining CSS to reduce the number of requested files -->
-    <!--  
-    <link type="text/css" rel="stylesheet" href="../css/Finance.css?version=<%= version%>">                                                             -->
+       
+     
 	<link type="text/css" rel="stylesheet" href="../css/calendar.css?version=<%= version%>">
 	 
 	<%
@@ -173,7 +171,7 @@
   <!-- to create a completely dynamic UI.        -->
   <!--                                           -->
   <body>
-  <div id="contact" style="visibility:hidden"> </div>
+  <%@ include file="./feedback.jsp" %>
 <div id="hiddenDiv" class="hiddenPic">
 		<img src="/images/loader.gif" 
   			alt="Loading" title="Loading">
