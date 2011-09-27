@@ -158,4 +158,13 @@ public class MobileSession {
 		setAttribute(LAST_RESULT, result);
 	}
 
+	/**
+	 * Return the from field of the Message 
+	 * @return
+	 */
+	public String getFrom() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
