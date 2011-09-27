@@ -138,8 +138,7 @@ lable,.gwt-Label,.datePickerPreviousButton,.datePickerNextButton,td.datePickerMo
 .gwt-DialogBox .caption,.editTable .editheader td,.view_help_panel td:FIRST-CHILD table div,.helpdialog .dialogTopCenter table div,
 .breadcrumb a,.helpdialog .dialogTopCenterInner .caption .gwt-HTML,.recounciliation_grid thead th,.gwt-TabBar .gwt-TabBarItem,
 .tabMiddle .tabMiddleCenterInner .gwt-Label,.gwt-MenuBar table tr td,.gwt-MenuBar-horizontal .gwt-MenuItem,.user_activity_log thead th,
-#contactable,#contactForm,form#contactForm .submit,#callback,.dateBoxPopup .gwt-DatePicker .datePickerWeekdayLabel,.datePickerMonthSelector td,
-.dateBoxPopup .gwt-DatePicker .datePickerWeekendLabel,.datePickerMonthSelector td .html-face {
+#contactable,#contactForm,form#contactForm .submit,#callback {
 	color: #FFFFFF;
 }
 .gwt-TextBox,.gwt-TextArea,.memoTextArea,textarea[disabled],.gwt-ListBox,.refer_listbox,.fiscal_listbox,.currency_listbox,
