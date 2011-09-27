@@ -58,7 +58,7 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 	@Override
 	protected int getCellWidth(int index) {
 		if (index == 0)
-			return 110;
+			return 135;
 		if (index == 1)
 			return 100;
 		if (index == 2)
