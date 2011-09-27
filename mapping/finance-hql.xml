@@ -14,7 +14,7 @@
 
 	<query name="list.TAXItem">
 		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.TAXItem t where t.company::company
+		from com.vimukti.accounter.core.TAXItem t where t.company=:company
 	</query>
 
 	<query name="list.Account">
@@ -32,7 +32,7 @@
 	<query name="list.AccountTransaction">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.AccountTransaction a where
-		a.company:company
+		a.company=:company
 	</query>
 
 	<query name="list.FiscalYear">
@@ -59,7 +59,7 @@
 
 	<query name="list.Currency">
 		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.Currency c where c.company:company
+		from com.vimukti.accounter.core.Currency c where c.company=:company
 		order by c.name
 	</query>
 
@@ -76,7 +76,7 @@
 
 	<query name="list.ItemGroup">
 		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.ItemGroup ig where ig.company:=company
+		from com.vimukti.accounter.core.ItemGroup ig where ig.company=:company
 		order by ig.name
 	</query>
 
