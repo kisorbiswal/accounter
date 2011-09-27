@@ -244,6 +244,9 @@ public class MacMenuServlet extends BaseServlet {
 					.transactionDetailByTaxItem(),
 					"company/accounter#transactionDetailByTaxItem");
 		}
+		menu(reportsValue, iGlobal.constants().reportsHome(),
+				"company/accounter#reportHome");
+		separator(reportsValue);
 		menu(reportsValue, iGlobal.constants().companyAndFinance(),
 				financialValue);
 
