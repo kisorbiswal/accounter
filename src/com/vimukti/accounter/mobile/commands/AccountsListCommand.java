@@ -75,29 +75,6 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 	/**
 	 * 
 	 * @param context
-	 * @param selection
-	 * @return
-	 */
-	private Result isActiveRequirement(Context context, Object selection) {
-		Requirement isActiveReq = get(ACTIVE);
-		Boolean isActive = (Boolean) isActiveReq.getValue();
-		if (selection == isActive) {
-			context.setAttribute(INPUT_ATTR, ACTIVE);
-			isActive = !isActive;
-			isActiveReq.setValue(isActive);
-		}
-		String activeString = "";
-		if (isActive) {
-			activeString = "This account is Active";
-		} else {
-			activeString = "This account is InActive";
-		}
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param context
 	 * @param isActive
 	 * @return
 	 */

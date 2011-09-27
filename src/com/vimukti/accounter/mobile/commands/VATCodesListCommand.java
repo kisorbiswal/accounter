@@ -4,8 +4,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
-import com.vimukti.accounter.core.TAXAgency;
-import com.vimukti.accounter.core.TAXItem;
+import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -14,7 +13,7 @@ import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 
-public class VATItemsListCommand extends AbstractCommand {
+public class VATCodesListCommand extends AbstractCommand {
 
 	@Override
 	public String getId() {
@@ -31,11 +30,11 @@ public class VATItemsListCommand extends AbstractCommand {
 	public Result run(Context context) {
 		Result result = null;
 
-		result = createVatItemsList(context);
+		result = createVatCodesList(context);
 		return result;
 	}
 
-	private Result createVatItemsList(Context context) {
+	private Result createVatCodesList(Context context) {
 		Result result = null;
 		context.setAttribute(INPUT_ATTR, "optional");
 
@@ -58,7 +57,7 @@ public class VATItemsListCommand extends AbstractCommand {
 
 		Boolean isActive = (Boolean) get(ACTIVE).getValue();
 
-		result = vatItemssList(context, isActive);
+		result = vatCodesList(context, isActive);
 		if (result != null) {
 			return result;
 		}
@@ -66,19 +65,19 @@ public class VATItemsListCommand extends AbstractCommand {
 		return null;
 	}
 
-	private Result vatItemssList(Context context, Boolean isActive) {
+	private Result vatCodesList(Context context, Boolean isActive) {
 		ResultList list = new ResultList("values");
 		Object last = context.getLast(RequirementType.TAXITEM_GROUP);
 		if (last != null) {
-			list.add(createVatItemRecord((TAXItem) last));
+			list.add(createVatCodeRecord((TAXCode) last));
 		}
 
-		List<TAXItem> vatItems = getVatItems(context.getHibernateSession(),
+		List<TAXCode> vatCodes = getVatCodes(context.getHibernateSession(),
 				isActive);
-		for (int i = 0; i < VALUES_TO_SHOW || i < vatItems.size(); i++) {
-			TAXItem vatItemGroup = vatItems.get(i);
-			if (vatItemGroup != last) {
-				list.add(createVatItemRecord((TAXItem) vatItemGroup));
+		for (int i = 0; i < VALUES_TO_SHOW || i < vatCodes.size(); i++) {
+			TAXCode vatCode = vatCodes.get(i);
+			if (vatCode != last) {
+				list.add(createVatCodeRecord((TAXCode) vatCode));
 			}
 		}
 		Result result = new Result();
@@ -103,19 +102,17 @@ public class VATItemsListCommand extends AbstractCommand {
 		return result;
 	}
 
-	private List<TAXItem> getVatItems(Session hibernateSession, Boolean isActive) {
+	private List<TAXCode> getVatCodes(Session hibernateSession, Boolean isActive) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	private Record createVatItemRecord(TAXItem last) {
+	private Record createVatCodeRecord(TAXCode last) {
 		Record record = new Record(last);
 		record.add("Active", last.isActive());
-		record.add("Product", last.getName() != null ? last.getName() : "");
-		TAXAgency agency = last.getTaxAgency();
-		record.add("Vat Agency", agency != null ? agency.getName() : "");
+		record.add("Code", last.getName() != null ? last.getName() : "");
 		record.add("Description", last.getDescription());
-		record.add("Rate", last.getTaxRate());
+		record.add("Taxable", last.isTaxable());
 		return record;
 	}
 

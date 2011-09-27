@@ -94,21 +94,4 @@ public class VendorsListCommand extends AbstractTransactionCommand {
 
 	}
 
-	private Result isActiveRequirement(Context context, Object selection) {
-		Requirement isActiveReq = get(ACTIVE);
-		Boolean isActive = (Boolean) isActiveReq.getValue();
-		if (selection == isActive) {
-			context.setAttribute(INPUT_ATTR, ACTIVE);
-			isActive = !isActive;
-			isActiveReq.setValue(isActive);
-		}
-		String activeString = "";
-		if (isActive) {
-			activeString = "This vendors is Active";
-		} else {
-			activeString = "This vendor is InActive";
-		}
-		return null;
-	}
-
 }

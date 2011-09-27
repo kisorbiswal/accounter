@@ -104,21 +104,4 @@ public class BanksCommand extends AbstractCommand {
 		return company.getBanks();
 	}
 
-	private Result isActiveRequirement(Context context, Object selection) {
-		Requirement isActiveReq = get(ACTIVE);
-		Boolean isActive = (Boolean) isActiveReq.getValue();
-		if (selection == isActive) {
-			context.setAttribute(INPUT_ATTR, ACTIVE);
-			isActive = !isActive;
-			isActiveReq.setValue(isActive);
-		}
-		String activeString = "";
-		if (isActive) {
-			activeString = "This Bank Account is Active";
-		} else {
-			activeString = "This Bank Account is InActive";
-		}
-		return null;
-	}
-
 }
