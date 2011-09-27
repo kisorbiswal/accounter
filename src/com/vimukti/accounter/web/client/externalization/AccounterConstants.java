@@ -4916,4 +4916,6 @@ public interface AccounterConstants extends Constants {
 
 	public String liabilitiesandEquityTotal();
 
+	public String youHaveEnteredWrongPassword();
+
 }
