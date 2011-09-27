@@ -251,14 +251,12 @@ public class TAXItem extends TAXItemGroup {
 			this.isSalesType = true;
 		}
 
-		session.createSQLQuery(
-				"UPDATE TAX_CODE TC SET TC.SALES_TAX_RATE = " + this.taxRate
-						+ " WHERE TC.TAXITEMGROUP_SALES = " + this.id)
-				.executeUpdate();
-		session.createSQLQuery(
-				"UPDATE TAX_CODE TC SET TC.PURCHASE_TAX_RATE = " + this.taxRate
-						+ " WHERE TC.TAXITEMGROUP_PURCHASES = " + this.id)
-				.executeUpdate();
+		session.getNamedQuery("updateTaxCodeSalesTaxRate")
+				.setParameter("id", this.id)
+				.setParameter("salesTaxRate", this.taxRate).executeUpdate();
+		session.getNamedQuery("updateTaxCodePurchaseTaxRate")
+				.setParameter("id", this.id)
+				.setParameter("purchaseTaxRate", this.taxRate).executeUpdate();
 
 		super.onSave(session);
 		// ChangeTracker.put(this);
