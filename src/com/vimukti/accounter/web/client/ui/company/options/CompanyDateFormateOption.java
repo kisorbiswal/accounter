@@ -40,7 +40,7 @@ public class CompanyDateFormateOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		return "Date Formate";
+		return "Date Format";
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class CompanyDateFormateOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		return "Date Formate";
+		return "Date Format";
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class CompanyDateFormateOption extends AbstractPreferenceOption {
 
 		comboBoxLabel.setText("Date Formate");
 
-		dateFormateDescriptionlabel.setText("Date Formates");
+		dateFormateDescriptionlabel.setText("Date Formats");
 		dateFormateDescriptionlabel.setStyleName("organisation_comment");
 		dateFormates = new String[] { "ddMMyy", "MM/dd/yy", "dd/MM/yy",
 				"ddMMyyyy", "MMddyyyy", "MMM-dd-yy", "MMMddyyyy", "dd/MM/yyyy",
