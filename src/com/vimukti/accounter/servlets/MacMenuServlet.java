@@ -217,7 +217,9 @@ public class MacMenuServlet extends BaseServlet {
 
 	private void addReportsMenuItem() {
 		StringBuilder reportsValue = new StringBuilder();
-
+		menu(reportsValue, iGlobal.constants().reportsHome(),
+				"company/accounter#reportHome");
+		separator(reportsValue);
 		StringBuilder financialValue = new StringBuilder();
 		subMenu(financialValue, iGlobal.constants().profitAndLoss(),
 				"company/accounter#profitAndLoss");
@@ -244,9 +246,7 @@ public class MacMenuServlet extends BaseServlet {
 					.transactionDetailByTaxItem(),
 					"company/accounter#transactionDetailByTaxItem");
 		}
-		menu(reportsValue, iGlobal.constants().reportsHome(),
-				"company/accounter#reportHome");
-		separator(reportsValue);
+
 		menu(reportsValue, iGlobal.constants().companyAndFinance(),
 				financialValue);
 
