@@ -145,8 +145,10 @@ public class MacMenuServlet extends BaseServlet {
 	}
 
 	private boolean canDoBanking() {
-		return user.getPermissions().getTypeOfBankReconcilation() == RolePermissions.TYPE_YES
-				|| user.getPermissions().getTypeOfViewReports() == RolePermissions.TYPE_YES;
+		if (user.getPermissions().getTypeOfBankReconcilation() == RolePermissions.TYPE_YES)
+			return true;
+		else
+			return false;
 	}
 
 	private boolean isUKType() {
@@ -572,7 +574,7 @@ public class MacMenuServlet extends BaseServlet {
 
 		if (preferences.isTrackTax()) {
 			StringBuilder salesTaxValues = new StringBuilder();
-			
+
 			if (canDoInvoiceTransactions()) {
 				subMenu(salesTaxValues, iGlobal.constants()
 						.manageSalesTaxGroups(),
@@ -581,7 +583,7 @@ public class MacMenuServlet extends BaseServlet {
 				subMenu(salesTaxValues, iGlobal.constants().salesTaxGroups(),
 						"company/accounter#salesTaxGroups");
 			}
-			
+
 			if (canDoInvoiceTransactions()) {
 				subMenu(salesTaxValues, iGlobal.constants().manageSalesItems(),
 						"company/accounter#manageSalesTaxItems");
@@ -589,7 +591,7 @@ public class MacMenuServlet extends BaseServlet {
 				subMenu(salesTaxValues, iGlobal.constants().salesTaxItems(),
 						"company/accounter#salesTaxItems");
 			}
-			
+
 			if (canDoInvoiceTransactions()) {
 				subMenu(salesTaxValues, iGlobal.constants().taxAdjustment(),
 						"company/accounter#taxAdjustment");
