@@ -267,6 +267,13 @@ $(document).ready(function(){
 			var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
 		</script>
 		
+		<script type="text/javascript" charset="utf-8">
+			
+			function MacReload(){
+					window.location = '/macreload';
+			}
+  		</script>
+		
 
  </body>
 </html>
