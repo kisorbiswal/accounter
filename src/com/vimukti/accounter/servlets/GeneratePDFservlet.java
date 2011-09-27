@@ -112,7 +112,6 @@ public class GeneratePDFservlet extends BaseServlet {
 				java.io.InputStream inputStr = new ByteArrayInputStream(
 						creditOutput.toString().getBytes());
 				InputStreamReader creditReader = new InputStreamReader(inputStr);
-				System.err.println(creditOutput.toString());
 				converter.generatePdfDocuments(fileName, sos, creditReader);
 				break;
 			case Transaction.TYPE_MISC_FORM:
