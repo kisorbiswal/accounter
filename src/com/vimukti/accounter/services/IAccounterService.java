@@ -1,5 +1,6 @@
 package com.vimukti.accounter.services;
 
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.IAccounterServerCore;
 
 public interface IAccounterService {
@@ -24,7 +25,7 @@ public interface IAccounterService {
 	// /////
 
 	public <T extends IAccounterServerCore> T getObjectByName(Class<?> clazz, // /////
-			String name) throws DAOException; // /////
+			String name, Company company) throws DAOException; // /////
 
 	/**
 	 * /////// This method is to check whether an Object is deletable or not.

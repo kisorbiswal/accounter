@@ -12,8 +12,8 @@ import org.hibernate.classic.Lifecycle;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.IAccounterServerCore;
-import com.vimukti.accounter.core.Server;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -78,10 +78,11 @@ public class AccounterService extends HibernateDaoSupport implements
 
 	@Override
 	public <T extends IAccounterServerCore> T getObjectByName(Class<?> clazz,
-			String name) throws DAOException {
+			String name, Company company) throws DAOException {
 		Session session = Utility.getCurrentSession();
-		Query query = session.getNamedQuery(
-				"unique.name." + clazz.getSimpleName()).setParameter(0, name);
+		Query query = session
+				.getNamedQuery("unique.name." + clazz.getSimpleName())
+				.setParameter(0, name).setEntity("company", company);
 		List l = query.list();
 		T entity = null;
 		if (l != null && l.size() > 0 && l.get(0) != null) {
