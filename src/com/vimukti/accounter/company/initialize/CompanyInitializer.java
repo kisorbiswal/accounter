@@ -192,7 +192,7 @@ public abstract class CompanyInitializer {
 		this.preferences.setCheckForItemQuantityOnHand(true);
 		this.preferences.setUpdateCostAutomatically(false);
 		this.preferences.setStartDate(fiscalYearStartDate);
-		this.preferences.setPreventPostingBeforeDate(fiscalYearStartDate);
+		// this.preferences.setPreventPostingBeforeDate(fiscalYearStartDate);
 		this.preferences.setDateFormat(getDateFormat());
 		this.preferences.setSalesOrderEnabled(true);
 		this.preferences.setPurchaseOrderEnabled(true);
