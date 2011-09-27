@@ -234,9 +234,13 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 
 	}
 
+	@SuppressWarnings("deprecation")
 	private void processDecrementDate(int cursorPos) {
-		if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("dd/MMM/yyyy")) {
+
+		String dateFormat = Accounter.getCompany().getPreferences()
+				.getDateFormat();
+
+		if (dateFormat.equals("dd/MMM/yyyy")) {
 			if (cursorPos == 0 || cursorPos == 1) {
 				selectedDate.setDate(selectedDate.getDate() - 1);
 
@@ -246,8 +250,8 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 			} else if (cursorPos >= 7) {
 				selectedDate.setYear(selectedDate.getYear() - 1);
 			}
-		} else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("dd/MM/yyyy")) {
+		} else if ((dateFormat.equals("dd/MM/yyyy"))
+				|| (dateFormat.equals("dd-MM-yyyy"))) {
 			if (cursorPos == 0 || cursorPos == 1) {
 				selectedDate.setDate(selectedDate.getDate() - 1);
 
@@ -257,8 +261,8 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 			} else if (cursorPos >= 6) {
 				selectedDate.setYear(selectedDate.getYear() - 1);
 			}
-		} else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("MM/dd/yyyy")) {
+		} else if ((dateFormat.equals("MM/dd/yyyy"))
+				|| ((dateFormat.equals("MM-dd-yyyy")))) {
 			if (cursorPos == 0 || cursorPos == 1) {
 				selectedDate.setMonth(selectedDate.getMonth() - 1);
 
@@ -269,8 +273,7 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 			} else if (cursorPos >= 6) {
 				selectedDate.setYear(selectedDate.getYear() - 1);
 			}
-		} else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("MMM/dd/yyyy")) {
+		} else if (dateFormat.equals("MMM/dd/yyyy")) {
 			if (cursorPos <= 2) {
 				selectedDate.setMonth(selectedDate.getMonth() - 1);
 
@@ -281,6 +284,42 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 			} else if (cursorPos >= 7) {
 				selectedDate.setYear(selectedDate.getYear() - 1);
 			}
+		} else if ((dateFormat.equals("dd/MMMM/yyyy"))
+				|| (dateFormat.equals("dd-MMMM-yyyy"))) {
+			if (cursorPos <= 2) {
+				selectedDate.setDate(selectedDate.getDate() - 1);
+			} else if (cursorPos > 2 && cursorPos < 10) {
+				selectedDate.setMonth(selectedDate.getMonth() - 1);
+			} else if (cursorPos >= 10) {
+				selectedDate.setYear(selectedDate.getYear() - 1);
+			}
+		} else if ((dateFormat.equals("ddMMyyyy"))
+				|| (dateFormat.equals("MMddyyyy"))) {
+			if (cursorPos < 2) {
+				selectedDate.setDate(selectedDate.getDate() - 1);
+			} else if (cursorPos > 2 && cursorPos < 4) {
+				selectedDate.setMonth(selectedDate.getMonth() - 1);
+			} else if (cursorPos >= 4) {
+				selectedDate.setYear(selectedDate.getYear() - 1);
+			}
+		} else if (dateFormat.equals("MMddyyyy")) {
+			if (cursorPos < 2) {
+				selectedDate.setMonth(selectedDate.getMonth() - 1);
+			} else if (cursorPos > 2 && cursorPos < 4) {
+				selectedDate.setDate(selectedDate.getDate() - 1);
+			} else if (cursorPos >= 4) {
+				selectedDate.setYear(selectedDate.getYear() - 1);
+			}
+
+		} else if (dateFormat.equals("MMMMddyyyy")) {
+			if (cursorPos < 7) {
+				selectedDate.setMonth(selectedDate.getMonth() - 1);
+			} else if (cursorPos >= 7 && cursorPos < 10) {
+				selectedDate.setDate(selectedDate.getDate() - 1);
+			} else if (cursorPos >= 11) {
+				selectedDate.setYear(selectedDate.getYear() - 1);
+			}
+
 		}
 
 		synchronizeFromDate();
@@ -288,10 +327,14 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 		showPopup();
 	}
 
+	@SuppressWarnings("deprecation")
 	private void processIncrementDate(int cursorPos) {
 
-		if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("dd/MMM/yyyy")) {
+		String dateFormat = Accounter.getCompany().getPreferences()
+				.getDateFormat();
+
+		if ((dateFormat.equals("dd/MMM/yyyy"))
+				|| (dateFormat.equals("dd-MMM-yyyy"))) {
 			if (cursorPos == 0 || cursorPos == 1) {
 				selectedDate.setDate(selectedDate.getDate() + 1);
 
@@ -301,8 +344,8 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 			} else if (cursorPos >= 7) {
 				selectedDate.setYear(selectedDate.getYear() + 1);
 			}
-		} else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("dd/MM/yyyy")) {
+		} else if ((dateFormat.equals("dd/MM/yyyy"))
+				|| (dateFormat.equals("dd-MM-yyyy"))) {
 			if (cursorPos == 0 || cursorPos == 1) {
 				selectedDate.setDate(selectedDate.getDate() + 1);
 
@@ -312,8 +355,8 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 			} else if (cursorPos >= 6) {
 				selectedDate.setYear(selectedDate.getYear() + 1);
 			}
-		} else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("MM/dd/yyyy")) {
+		} else if ((dateFormat.equals("MM/dd/yyyy"))
+				|| (dateFormat.equals("MM-dd-yyyy"))) {
 			if (cursorPos == 0 || cursorPos == 1) {
 				selectedDate.setMonth(selectedDate.getMonth() + 1);
 
@@ -324,8 +367,7 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 			} else if (cursorPos >= 6) {
 				selectedDate.setYear(selectedDate.getYear() + 1);
 			}
-		} else if (Accounter.getCompany().getPreferences().getDateFormat()
-				.equals("MMM/dd/yyyy")) {
+		} else if (dateFormat.equals("MMM/dd/yyyy")) {
 			if (cursorPos <= 2) {
 				selectedDate.setMonth(selectedDate.getMonth() + 1);
 
@@ -334,6 +376,42 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 				selectedDate.setDate(selectedDate.getDate() + 1);
 
 			} else if (cursorPos >= 7) {
+				selectedDate.setYear(selectedDate.getYear() + 1);
+			}
+		} else if ((dateFormat.equals("dd/MMMM/yyyy"))
+				|| (dateFormat.equals("dd-MMMM-yyyy"))) {
+			if (cursorPos <= 2) {
+				selectedDate.setDate(selectedDate.getDate() + 1);
+			} else if (cursorPos > 2 && cursorPos < 10) {
+				selectedDate.setMonth(selectedDate.getMonth() + 1);
+			} else if (cursorPos >= 10) {
+				selectedDate.setYear(selectedDate.getYear() + 1);
+			}
+
+		} else if (dateFormat.equals("ddMMyyyy")) {
+			if (cursorPos <= 2) {
+				selectedDate.setDate(selectedDate.getDate() + 1);
+			} else if (cursorPos > 2 && cursorPos < 5) {
+				selectedDate.setMonth(selectedDate.getMonth() + 1);
+			} else if (cursorPos > 5) {
+				selectedDate.setYear(selectedDate.getYear() + 1);
+			}
+		} else if (dateFormat.equals("MMddyyyy")) {
+			if (cursorPos < 2) {
+				selectedDate.setMonth(selectedDate.getMonth() + 1);
+			} else if (cursorPos > 2 && cursorPos < 4) {
+
+				selectedDate.setDate(selectedDate.getDate() + 1);
+			} else if (cursorPos >= 4) {
+				selectedDate.setYear(selectedDate.getYear() + 1);
+			}
+
+		} else if (dateFormat.equals("MMMMddyyyy")) {
+			if (cursorPos < 7) {
+				selectedDate.setMonth(selectedDate.getMonth() + 1);
+			} else if (cursorPos >= 7 && cursorPos < 10) {
+				selectedDate.setDate(selectedDate.getDate() + 1);
+			} else if (cursorPos >= 11) {
 				selectedDate.setYear(selectedDate.getYear() + 1);
 			}
 		}
@@ -350,23 +428,6 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 		this.removeStyleName("empty_date_field");
 		if (this.selectedDate != null) {
 
-			// if (Accounter.getCompany().getPreferences().getDateFormat()
-			// .equals("DD-MM-yyyy")) {
-			//
-			// StringBuilder sb = new StringBuilder();
-			// sb.append(this.selectedDate.getDate());
-			// sb.append("-");
-			// sb.append(this.selectedDate.getMonth());
-			// sb.append("-");
-			// sb.append(this.selectedDate.getYear());
-			// } else {
-			// StringBuilder sb = new StringBuilder();
-			// sb.append(this.selectedDate.getDate());
-			// sb.append("-");
-			// sb.append(this.selectedDate.getMonth());
-			// sb.append("-");
-			// sb.append(this.selectedDate.getYear());
-			// this.setText(sb.toString());
 			this.setText(dateFormatter.format(this.selectedDate));
 
 			if (handler != null)
