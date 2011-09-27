@@ -197,9 +197,11 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		if (selectedCountry < 0) {
 			return;
 		}
-		String[] states = CountryPreferenceFactory.get(
-				country.getItemText(selectedCountry)).getStates();
-		setStates(states);
+		if (CountryPreferenceFactory.get(country.getItemText(selectedCountry)) != null) {
+			String[] states = CountryPreferenceFactory.get(
+					country.getItemText(selectedCountry)).getStates();
+			setStates(states);
+		}
 	}
 
 	private String getDefaultTzOffsetStr() {
