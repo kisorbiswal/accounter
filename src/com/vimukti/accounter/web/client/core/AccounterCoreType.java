@@ -83,8 +83,6 @@ public enum AccounterCoreType implements IsSerializable {
 
 	PHONE("ClientPhone", "Phone"),
 
-	TAXRATES("ClientTaxRates", "TaxRates"),
-
 	UNIT_OF_MEASURE("ClientUnitOfMeasure", "UnitOfMeasure"),
 
 	USER_PREFERENCES("ClientUserPreferences", "UserPreferences"),
