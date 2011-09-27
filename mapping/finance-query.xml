@@ -4960,127 +4960,37 @@
 
 	</sql-query>
 
-	<sql-query name="getGraphPointsForDebtors">
+	<sql-query name="getMoneyInForDates">
 
-		<query-param name="debtorAccountID" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
 
-		<query-param name="nextMonthStartDateCal" type="long" />
-		<query-param name="nextMonthEndDateCal" type="long" />
-		<query-param name="previousFourthMonthStartDateCal" type="long" />
-		<query-param name="previousFourthMonthEndDateCal" type="long" />
-		<query-param name="previousThirdMonthStartDateCal" type="long" />
-		<query-param name="previousThirdMonthEndDateCal" type="long" />
-		<query-param name="previousSecondMonthStartDateCal" type="long" />
-		<query-param name="previousSecondMonthEndDateCal" type="long" />
-		<query-param name="previousFirstMonthStartDateCal" type="long" />
-		<query-param name="previousFirstMonthEndDateCal" type="long" />
-		<query-param name="currentMonthStartDateCal" type="long" />
-		<query-param name="currentMonthEndDateCal" type="long" />
-
-		<return-scalar column="ACCOUNT_TYPE" type="string" />
-		<return-scalar column="ACCOUNT_NAME" type="string" />
-		<return-scalar column="PREVOIUS_FOURTH_MONTH_AMOUNT"
-			type="double" />
-		<return-scalar column="PREVOIUS_THIRD_MONTH_AMOUNT"
-			type="double" />
-		<return-scalar column="PREVOIUS_SECOND_MONTH_AMOUNT"
-			type="double" />
-		<return-scalar column="PREVOIUS_FIRST_MONTH_AMOUNT"
-			type="double" />
-		<return-scalar column="PRESENT_MONTH_AMOUNT" type="double" />
-		<return-scalar column="NEXT_MONTH_AMOUNT" type="double" />
+		<return-scalar column="AMOUNT" type="double" />
 
 		SELECT
-		CASE
-		WHEN AT.ACCOUNT_ID = :debtorAccountID THEN
-		'Debtors'
-		END AS ACCOUNT_TYPE,
 
-		A.NAME AS ACCOUNT_NAME,
+		ABS(SUM(AT.AMOUNT)) AS AMOUNT
+		
+		FROM TRANSACTION T
 
+		LEFT OUTER JOIN CASH_SALES CS ON CS.ID = T.ID
+		LEFT OUTER JOIN CUSTOMER_PREPAYMENT CPP ON CPP.ID = T.ID
+		LEFT OUTER JOIN MAKE_DEPOSIT MD ON MD.ID = T.ID
+		LEFT OUTER JOIN RECEIVE_PAYMENT RP ON RP.ID = T.ID
+		LEFT OUTER JOIN RECEIVE_VAT RV ON RV.ID = T.ID
 
-		CASE
-		WHEN AT.ACCOUNT_ID = :debtorAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :debtorAccountID AND T1.T_DATE BETWEEN
-		:previousFourthMonthStartDateCal AND :previousFourthMonthEndDateCal
-		AND T1.IS_VOID = FALSE GROUP BY AT1.ACCOUNT_ID)
+		LEFT OUTER JOIN ACCOUNT A ON A.ID = CS.DEPOSIT_IN_ACCOUNT_ID
+                          OR A.ID = CPP.DEPOSITIN_ID
+                          OR A.ID = MD.DEPOSIT_IN_ID
+                          OR A.ID = RP.ACCOUNT_ID
+                          OR A.ID = RV.DEPOSIT_IN_ACCOUNT_ID
 
-		END AS PREVOIUS_FOURTH_MONTH_AMOUNT,
+		LEFT OUTER JOIN ACCOUNT_TRANSACTION AT ON AT.ACCOUNT_ID = A.ID
 
+		WHERE AT.TRANSACTION_ID = T.ID AND T.T_TYPE IN (1,10,12,29,31)
+				AND T.T_DATE BETWEEN :startDate AND :endDate
 
-
-		CASE
-		WHEN AT.ACCOUNT_ID = :debtorAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :debtorAccountID AND T1.T_DATE BETWEEN
-		:previousThirdMonthStartDateCal AND :previousThirdMonthEndDateCal AND
-		T1.IS_VOID = FALSE GROUP BY AT1.ACCOUNT_ID)
-
-		END AS PREVOIUS_THIRD_MONTH_AMOUNT,
-
-
-
-		CASE
-		WHEN AT.ACCOUNT_ID = :debtorAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :debtorAccountID AND T1.T_DATE BETWEEN
-		:previousSecondMonthStartDateCal AND :previousSecondMonthEndDateCal
-		AND T1.IS_VOID = FALSE GROUP BY AT1.ACCOUNT_ID)
-
-		END AS PREVOIUS_SECOND_MONTH_AMOUNT,
-
-
-
-		CASE
-		WHEN AT.ACCOUNT_ID = :debtorAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :debtorAccountID AND T1.T_DATE BETWEEN
-		:previousFirstMonthStartDateCal AND :previousFirstMonthEndDateCal AND
-		T1.IS_VOID = FALSE GROUP BY AT1.ACCOUNT_ID)
-
-		END AS PREVOIUS_FIRST_MONTH_AMOUNT,
-
-
-
-		CASE
-		WHEN AT.ACCOUNT_ID = :debtorAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :debtorAccountID AND T1.T_DATE BETWEEN
-		:currentMonthStartDateCal AND :currentMonthEndDateCal AND T1.IS_VOID =
-		FALSE GROUP BY AT1.ACCOUNT_ID)
-
-		END AS PRESENT_MONTH_AMOUNT,
-
-
-		CASE
-		WHEN AT.ACCOUNT_ID = :debtorAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :debtorAccountID AND T1.T_DATE BETWEEN
-		:nextMonthStartDateCal AND :nextMonthEndDateCal AND T1.IS_VOID = FALSE
-		GROUP BY AT1.ACCOUNT_ID)
-
-		END AS NEXT_MONTH_AMOUNT
-
-		FROM
-		ACCOUNT_TRANSACTION AT
-
-		LEFT OUTER JOIN
-		ACCOUNT A
-		ON A.ID = AT.ACCOUNT_ID
-
-		WHERE
-		AT.ACCOUNT_ID IN (:debtorAccountID)
-
-
-		GROUP BY
-		AT.ACCOUNT_ID
+		GROUP BY A.ID
 
 	</sql-query>
 
@@ -5241,372 +5151,43 @@
 	</sql-query>
 
 
-	<sql-query name="getGraphPointsForCreditors">
+	<sql-query name="getMoneyOutOnDate">
 
-		<query-param name="creditorsAccountID" type="long" />
-		<query-param name="currentDate" type="long" />
-		<query-param name="oneDayAfterToCurrentDate" type="long" />
-		<query-param name="twoDaysAfterToCurrentDate" type="long" />
-		<query-param name="threeDaysAfterToCurrentDate" type="long" />
-		<query-param name="fourDaysAfterToCurrentDate" type="long" />
-		<query-param name="fiveDaysAfterToCurrentDate" type="long" />
-		<query-param name="sixDaysAfterToCurrentDate" type="long" />
-		<query-param name="sevenDaysAfterToCurrentDate" type="long" />
-		<query-param name="eightDaysAfterToCurrentDate" type="long" />
-		<query-param name="nineDaysAfterToCurrentDate" type="long" />
-		<query-param name="tenDaysAfterToCurrentDate" type="long" />
-		<query-param name="elevenDaysAfterToCurrentDate" type="long" />
-		<query-param name="twelveDaysAfterToCurrentDate" type="long" />
-		<query-param name="thirteenDaysAfterToCurrentDate" type="long" />
-		<query-param name="fourteenDaysAfterToCurrentDate" type="long" />
-		<query-param name="fifteenDaysAfterToCurrentDate" type="long" />
-		<query-param name="sixteenDaysAfterToCurrentDate" type="long" />
-		<query-param name="seventeenDaysAfterToCurrentDate" type="long" />
-		<query-param name="eighteenDaysAfterToCurrentDate" type="long" />
-		<query-param name="nineteenDaysAfterToCurrentDate" type="long" />
-		<query-param name="twentyDaysAfterToCurrentDate" type="long" />
-		<query-param name="twentyOneDaysAfterToCurrentDate" type="long" />
-		<query-param name="twentyTwoDaysAfterToCurrentDate" type="long" />
-		<query-param name="twentyThreeDaysAfterToCurrentDate"
-			type="long" />
-		<query-param name="twentyFourDaysAfterToCurrentDate" type="long" />
-		<query-param name="twentyFiveDaysAfterToCurrentDate" type="long" />
-		<query-param name="twentySixDaysAfterToCurrentDate" type="long" />
-		<query-param name="twentySevenDaysAfterToCurrentDate"
-			type="long" />
-		<query-param name="twentyEightDaysAfterToCurrentDate"
-			type="long" />
-		<query-param name="twentyNineDaysAfterToCurrentDate" type="long" />
+		<query-param name="date" type="long" />
 
-
-		<return-scalar column="ACCOUNT_TYPE" type="string" />
-		<return-scalar column="ACCOUNT_NAME" type="string" />
-		<return-scalar column="CURRENT_DATE1" type="double" />
-		<return-scalar column="ONE_DAY_AFTER_TO_CURRENT_DATE"
-			type="double" />
-		<return-scalar column="TWO_DAYS_AFTER_TO_CURRENT_DATE"
-			type="double" />
-		<return-scalar column="THREE_DAYS_AFTER_TO_CURRENT_DATE"
-			type="double" />
-		<return-scalar column="FOUR_DAYS_AFTER_TO_CURRENT_DATE"
-			type="double" />
-		<return-scalar column="FIVE_DAYS_AFTER_TO_CURRENT_DATE"
-			type="double" />
-		<return-scalar column="SIX_DAYS_AFTER_TO_CURRENT_DATE"
-			type="double" />
-		<return-scalar column="SEVEN_DAYS_AFTER_TO_CURRENT_DATE"
-			type="double" />
-		<return-scalar column="EIGHT_DAYS_AFTER_TO_CURRENT_DATE"
-			type="double" />
-		<return-scalar column="NINE_DAYS_AFTER_TO_CURRENT_DATE"
-			type="double" />
-		<return-scalar column="TEN_DAYS_AFTER_TO_CURRENT_DATE"
-			type="double" />
-		<return-scalar column="ELEVEN_DAYS_AFTER_TO_CURRENT_DATE"
-			type="double" />
-		<return-scalar column="TWELVE_DAYS_AFTER_TO_CURRENT_DATE"
-			type="double" />
-		<return-scalar column="THIRTEEN_DAYS_AFTER_TO_CURRENT_DATE"
-			type="double" />
-		<return-scalar column="FOURTEEN_DAYS_AFTER_TO_CURRENT_DATE"
-			type="double" />
-		<return-scalar column="FIFTEEN_DAYS_AFTER_TO_CURRENT_DATE"
-			type="double" />
-		<return-scalar column="SIXTEEN_DAYS_AFTER_TO_CURRENT_DATE"
-			type="double" />
-		<return-scalar column="SEVENTEEN_DAYS_AFTER_TO_CURRENT_DATE"
-			type="double" />
-		<return-scalar column="EIGHTEEN_DAYS_AFTER_TO_CURRENT_DATE"
-			type="double" />
-		<return-scalar column="NINETEEN_DAYS_AFTER_TO_CURRENT_DATE"
-			type="double" />
-		<return-scalar column="TWENTY_DAYS_AFTER_TO_CURRENT_DATE"
-			type="double" />
-		<return-scalar column="TWENTY_ONE_DAYS_AFTER_TO_CURRENT_DATE"
-			type="double" />
-		<return-scalar column="TWENTY_TWO_DAYS_AFTER_TO_CURRENT_DATE"
-			type="double" />
-		<return-scalar column="TWENTY_THREE_DAYS_AFTER_TO_CURRENT_DATE"
-			type="double" />
-		<return-scalar column="TWENTY_FOUR_DAYS_AFTER_TO_CURRENT_DATE"
-			type="double" />
-		<return-scalar column="TWENTY_FIVE_DAYS_AFTER_TO_CURRENT_DATE"
-			type="double" />
-		<return-scalar column="TWENTY_SIX_DAYS_AFTER_TO_CURRENT_DATE"
-			type="double" />
-		<return-scalar column="TWENTY_SEVEN_DAYS_AFTER_TO_CURRENT_DATE"
-			type="double" />
-		<return-scalar column="TWENTY_EIGHT_DAYS_AFTER_TO_CURRENT_DATE"
-			type="double" />
-		<return-scalar column="TWENTY_NINE_DAYS_AFTER_TO_CURRENT_DATE"
-			type="double" />
-
-
+		<return-scalar column="AMOUNT" type="double" />
 
 		SELECT
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		'Creditors'
-		END AS ACCOUNT_TYPE,
 
-		A.NAME AS ACCOUNT_NAME,
+		ABS(SUM(AT.AMOUNT)) AS AMOUNT
 
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE = :currentDate)
-		END AS CURRENT_DATE1,
+		FROM TRANSACTION T
 
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
-		:oneDayAfterToCurrentDate)
-		END AS ONE_DAY_AFTER_TO_CURRENT_DATE,
+		LEFT OUTER JOIN CASH_PURCHASE CP ON CP.ID = T.ID
+		LEFT OUTER JOIN CREDIT_CARD_CHARGES CCC ON CCC.ID = T.ID
+		LEFT OUTER JOIN CUSTOMER_REFUND CR ON CR.ID = T.ID
+		LEFT OUTER JOIN PAY_BILL PB ON PB.ID = T.ID
+		LEFT OUTER JOIN PAY_SALES_TAX PST ON PST.ID = T.ID
+   		LEFT OUTER JOIN WRITE_CHECKS WC ON WC.ID = T.ID
+    	LEFT OUTER JOIN MAKE_DEPOSIT MD ON MD.ID = T.ID
 
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
-		:twoDaysAfterToCurrentDate)
-		END AS TWO_DAYS_AFTER_TO_CURRENT_DATE ,
+    	LEFT OUTER JOIN TRANSACTION_MAKE_DEPOSIT TMD ON TMD.MAKE_DEPOSIT_ID = MD.ID
 
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
-		:threeDaysAfterToCurrentDate)
-		END AS THREE_DAYS_AFTER_TO_CURRENT_DATE ,
-
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
-		:fourDaysAfterToCurrentDate)
-		END AS FOUR_DAYS_AFTER_TO_CURRENT_DATE ,
-
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
-		:fiveDaysAfterToCurrentDate)
-		END AS FIVE_DAYS_AFTER_TO_CURRENT_DATE ,
-
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
-		:sixDaysAfterToCurrentDate)
-		END AS SIX_DAYS_AFTER_TO_CURRENT_DATE ,
-
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
-		:sevenDaysAfterToCurrentDate)
-		END AS SEVEN_DAYS_AFTER_TO_CURRENT_DATE ,
-
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
-		:eightDaysAfterToCurrentDate)
-		END AS EIGHT_DAYS_AFTER_TO_CURRENT_DATE ,
-
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
-		:nineDaysAfterToCurrentDate)
-		END AS NINE_DAYS_AFTER_TO_CURRENT_DATE ,
-
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
-		:tenDaysAfterToCurrentDate)
-		END AS TEN_DAYS_AFTER_TO_CURRENT_DATE ,
-
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
-		:elevenDaysAfterToCurrentDate)
-		END AS ELEVEN_DAYS_AFTER_TO_CURRENT_DATE ,
-
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
-		:twelveDaysAfterToCurrentDate)
-		END AS TWELVE_DAYS_AFTER_TO_CURRENT_DATE ,
-
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
-		:thirteenDaysAfterToCurrentDate)
-		END AS THIRTEEN_DAYS_AFTER_TO_CURRENT_DATE ,
-
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
-		:fourteenDaysAfterToCurrentDate)
-		END AS FOURTEEN_DAYS_AFTER_TO_CURRENT_DATE ,
-
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
-		:fifteenDaysAfterToCurrentDate)
-		END AS FIFTEEN_DAYS_AFTER_TO_CURRENT_DATE ,
-
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
-		:sixteenDaysAfterToCurrentDate)
-		END AS SIXTEEN_DAYS_AFTER_TO_CURRENT_DATE ,
-
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
-		:seventeenDaysAfterToCurrentDate)
-		END AS SEVENTEEN_DAYS_AFTER_TO_CURRENT_DATE ,
-
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
-		:eighteenDaysAfterToCurrentDate)
-		END AS EIGHTEEN_DAYS_AFTER_TO_CURRENT_DATE ,
-
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
-		:nineteenDaysAfterToCurrentDate)
-		END AS NINETEEN_DAYS_AFTER_TO_CURRENT_DATE ,
-
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
-		:twentyDaysAfterToCurrentDate)
-		END AS TWENTY_DAYS_AFTER_TO_CURRENT_DATE ,
-
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
-		:twentyOneDaysAfterToCurrentDate)
-		END AS TWENTY_ONE_DAYS_AFTER_TO_CURRENT_DATE ,
-
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
-		:twentyTwoDaysAfterToCurrentDate)
-		END AS TWENTY_TWO_DAYS_AFTER_TO_CURRENT_DATE ,
-
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
-		:twentyThreeDaysAfterToCurrentDate)
-		END AS TWENTY_THREE_DAYS_AFTER_TO_CURRENT_DATE ,
-
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
-		:twentyFourDaysAfterToCurrentDate)
-		END AS TWENTY_FOUR_DAYS_AFTER_TO_CURRENT_DATE ,
+		LEFT OUTER JOIN ACCOUNT A ON A.ID = CP.PAYFROM_ACCOUNT_ID
+                          OR A.ID = CCC.PAYFROM_ACCOUNT_ID
+                          OR A.ID = CR.PAYFROM_ACCOUNT_ID
+                          OR A.ID = PB.PAYFROM_ID
+                          OR A.ID = PST.PAYFROM_ACCOUNT_ID
+                          OR A.ID = WC.ACCOUNT_ID
+                          OR A.ID = TMD.ACCOUNT_ID
 
 
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
-		:twentyFiveDaysAfterToCurrentDate)
-		END AS TWENTY_FIVE_DAYS_AFTER_TO_CURRENT_DATE ,
+		LEFT OUTER JOIN ACCOUNT_TRANSACTION AT ON AT.ACCOUNT_ID = A.ID
 
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
-		:twentySixDaysAfterToCurrentDate)
-		END AS TWENTY_SIX_DAYS_AFTER_TO_CURRENT_DATE ,
+		WHERE AT.TRANSACTION_ID = T.ID AND T.T_TYPE IN (2,3,5,10,11,15,17)
+				AND T.T_DATE =:date
 
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
-		:twentySevenDaysAfterToCurrentDate)
-		END AS TWENTY_SEVEN_DAYS_AFTER_TO_CURRENT_DATE ,
-
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
-		:twentyEightDaysAfterToCurrentDate)
-		END AS TWENTY_EIGHT_DAYS_AFTER_TO_CURRENT_DATE ,
-
-		CASE
-		WHEN AT.ACCOUNT_ID = :creditorsAccountID THEN
-		(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1
-		ON T1.ID = AT1.TRANSACTION_ID
-		WHERE AT1.ACCOUNT_ID = :creditorsAccountID AND T1.T_DATE =
-		:twentyNineDaysAfterToCurrentDate)
-		END AS TWENTY_NINE_DAYS_AFTER_TO_CURRENT_DATE
-
-
-
-
-
-
-		FROM
-		ACCOUNT_TRANSACTION AT
-
-		LEFT OUTER JOIN
-		ACCOUNT A
-		ON A.ID = AT.ACCOUNT_ID
-		WHERE
-		AT.ACCOUNT_ID IN (:creditorsAccountID)
-
-		GROUP BY
-		AT.ACCOUNT_ID
+		GROUP BY A.ID
 
 
 	</sql-query>
