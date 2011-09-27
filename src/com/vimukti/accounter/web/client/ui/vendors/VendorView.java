@@ -734,7 +734,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendorGrpForm.setFields(vendorGroupSelect);
 
 		vendorGrpForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "136px");
+				.setAttribute(Accounter.constants().width(), "44%");
 
 		vatRegistrationNumber = new TextItem(Accounter.constants()
 				.vatRegistrationNumber());
@@ -756,7 +756,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendorTaxCode.setDisabled(isInViewMode());
 		DynamicForm vatform = new DynamicForm();
 		vatform.setIsGroup(true);
-		vatform.setWidth("50%");
+		vatform.setWidth("100%");
 		vatform.setGroupTitle(Accounter.constants().vatDetails());
 		if (getPreferences().isTrackTax()) {
 			if (getCountryPreferences().isVatAvailable()) {
