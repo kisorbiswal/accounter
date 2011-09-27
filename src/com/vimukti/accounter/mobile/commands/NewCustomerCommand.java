@@ -754,7 +754,7 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 
 		if (selection == bankName) {
 			context.setAttribute(INPUT_ATTR, BANK_NAME);
-			return text(context, "Enter webPageAdress ", bankName);
+			return text(context, "Enter Bank Name ", bankName);
 		}
 
 		Record bankNameRecord = new Record(bankName);
