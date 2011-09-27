@@ -1400,10 +1400,12 @@ public class Utility_R {
 		return valueTobesend;
 	}
 
-	public static ClientFinanceDate getCurrentFiscalYearStartDate() {
+	public static ClientFinanceDate getCurrentFiscalYearStartDate(
+			Company company) {
 		Session session = HibernateUtil.getCurrentSession();
 		List<FiscalYear> clientFiscalYears = new ArrayList<FiscalYear>(session
-				.getNamedQuery("list.FiscalYear").list());
+				.getNamedQuery("list.FiscalYear").setEntity("company", company)
+				.list());
 
 		for (int i = clientFiscalYears.size() - 1; i >= 0; i--) {
 			if (clientFiscalYears.get(i).status == FiscalYear.STATUS_OPEN
