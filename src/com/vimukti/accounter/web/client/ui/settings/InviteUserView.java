@@ -191,9 +191,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 				if (result)
 					enableFormItems();
 			}
-
 		};
-
 		this.rpcDoSerivce.canEdit(AccounterCoreType.USER, data.getID(),
 				editCallBack);
 	}
