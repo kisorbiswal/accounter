@@ -69,7 +69,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 		FinanceTool tool = getFinanceTool();
 
 		try {
-			return tool.getObjectByName(type, name);
+			return tool.getObjectByName(type, name, getCompanyId());
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
@@ -83,7 +83,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			return getFinanceTool().getObjects(type);
+			return getFinanceTool().getObjects(type, getCompanyId());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -102,7 +102,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 		KeyFinancialIndicators keyFinancialIndicators = new KeyFinancialIndicators();
 		try {
 			keyFinancialIndicators = getFinanceTool()
-					.getKeyFinancialIndicators();
+					.getKeyFinancialIndicators(getCompanyId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

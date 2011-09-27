@@ -962,7 +962,8 @@ public class FinanceTool {
 	}
 
 	public <T extends IAccounterCore> T getObjectByName(AccounterCoreType type,
-			String name) throws DAOException, AccounterException {
+			String name, long companyId) throws DAOException,
+			AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -970,9 +971,11 @@ public class FinanceTool {
 
 		if (serverClass != null) {
 
-			Query hibernateQuery = session.getNamedQuery(
-					"unique.name." + type.getServerClassSimpleName())
-					.setString(0, name);
+			Query hibernateQuery = session
+					.getNamedQuery(
+							"unique.name." + type.getServerClassSimpleName())
+					.setString(0, name)
+					.setEntity("company", getCompany(companyId));
 
 			List objects = hibernateQuery.list();
 
@@ -991,7 +994,8 @@ public class FinanceTool {
 	}
 
 	public <T extends IAccounterCore> T getServerObjectByName(
-			AccounterCoreType type, String name) throws DAOException {
+			AccounterCoreType type, String name, Company company)
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -999,9 +1003,10 @@ public class FinanceTool {
 
 		if (type != null) {
 
-			Query hibernateQuery = session.getNamedQuery(
-					"unique.name." + type.getServerClassSimpleName())
-					.setString(0, name);
+			Query hibernateQuery = session
+					.getNamedQuery(
+							"unique.name." + type.getServerClassSimpleName())
+					.setString(0, name).setEntity("company", company);
 
 			List objects = hibernateQuery.list();
 
@@ -1018,7 +1023,8 @@ public class FinanceTool {
 	}
 
 	public <T extends IAccounterCore> ArrayList<T> getObjects(
-			AccounterCoreType type) throws DAOException, AccounterException {
+			AccounterCoreType type, long companyId) throws DAOException,
+			AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -1028,8 +1034,9 @@ public class FinanceTool {
 
 		if (serverClass != null) {
 
-			Query hibernateQuery = session.getNamedQuery("list."
-					+ type.getServerClassSimpleName());
+			Query hibernateQuery = session.getNamedQuery(
+					"list." + type.getServerClassSimpleName()).setEntity(
+					"company", getCompany(companyId));
 
 			List objects = hibernateQuery.list();
 
@@ -9510,42 +9517,45 @@ public class FinanceTool {
 		return collectorGeneral;
 	}
 
-	private void createVATCodesOfIreland(Session session) throws DAOException {
-		createVATcodes(session, "ECP", "EC Purch Not Resale (PNFR)", true,
-				true, "EC PNFR Standard Group");
+	private void createVATCodesOfIreland(Session session, Company company)
+			throws DAOException {
+		createVATcodes(session, company, "ECP", "EC Purch Not Resale (PNFR)",
+				true, true, "EC PNFR Standard Group");
 
-		createVATcodes(session, "ECS", "EC Sale / Purch Resale (PFR)", true,
-				true, "EC PFR Standard Group", "EC Sales Goods Std");
+		createVATcodes(session, company, "ECS", "EC Sale / Purch Resale (PFR)",
+				true, true, "EC PFR Standard Group", "EC Sales Goods Std");
 
-		createVATcodes(session, "EIR", "Exempt", true, true,
+		createVATcodes(session, company, "EIR", "Exempt", true, true,
 				"Exempt Purchases (IR)", "Exempt Sales (IR)");
 
-		createVATcodes(session, "NIR", "Not Registered", true, true,
+		createVATcodes(session, company, "NIR", "Not Registered", true, true,
 				"Not Registered Purchases (IR)", "Not Registered Sales (IR)");
 
-		createVATcodes(session, "RIR", "Sale / Purch Resale (PFR@13.5%)", true,
-				true, "Reduced PFR", "Reduced Sales (IR)");
+		createVATcodes(session, company, "RIR",
+				"Sale / Purch Resale (PFR@13.5%)", true, true, "Reduced PFR",
+				"Reduced Sales (IR)");
 
-		createVATcodes(session, "RNR", "Purch Not Resale (PNFR@13.5%)", true,
-				true, "Reduced PNFR");
+		createVATcodes(session, company, "RNR",
+				"Purch Not Resale (PNFR@13.5%)", true, true, "Reduced PNFR");
 
-		createVATcodes(session, "SIR", "Sale / Purch Resale (PFR@21%)", true,
-				true, "Standard PFR", "Standard Sales (IR)");
+		createVATcodes(session, company, "SIR",
+				"Sale / Purch Resale (PFR@21%)", true, true, "Standard PFR",
+				"Standard Sales (IR)");
 
-		createVATcodes(session, "SNR", "Purch Not Resale (PNFR@21%)", true,
-				true, "Standard PNFR");
+		createVATcodes(session, company, "SNR", "Purch Not Resale (PNFR@21%)",
+				true, true, "Standard PNFR");
 
-		createVATcodes(session, "ZIR", "Sale / Purch Resale (PFR@0%)", true,
-				true, "Zero-Rated PFR", "Zero-Rated Sales (IR)");
+		createVATcodes(session, company, "ZIR", "Sale / Purch Resale (PFR@0%)",
+				true, true, "Zero-Rated PFR", "Zero-Rated Sales (IR)");
 
-		createVATcodes(session, "ZNR", "Purch Not Resale (PNFR@0%)", true,
-				true, "Zero-Rated PNFR");
+		createVATcodes(session, company, "ZNR", "Purch Not Resale (PNFR@0%)",
+				true, true, "Zero-Rated PNFR");
 
 	}
 
-	private void createVATcodes(Session session, String codeName,
-			String description, boolean isActive, boolean isTaxable,
-			String... vatItems) throws DAOException {
+	private void createVATcodes(Session session, Company company,
+			String codeName, String description, boolean isActive,
+			boolean isTaxable, String... vatItems) throws DAOException {
 
 		TAXCode vc = new TAXCode();
 		vc.setActive(isActive);
@@ -9556,10 +9566,10 @@ public class FinanceTool {
 		vc.setTaxable(isTaxable);
 		if (vatItems.length > 0)
 			vc.setTAXItemGrpForPurchases((TAXItemGroup) getServerObjectByName(
-					AccounterCoreType.VATRETURNBOX, vatItems[0]));
+					AccounterCoreType.VATRETURNBOX, vatItems[0], company));
 		if (vatItems.length > 1)
 			vc.setTAXItemGrpForSales((TAXItemGroup) getServerObjectByName(
-					AccounterCoreType.VATRETURNBOX, vatItems[1]));
+					AccounterCoreType.VATRETURNBOX, vatItems[1], company));
 
 	}
 
@@ -9578,7 +9588,8 @@ public class FinanceTool {
 				-21,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterServerConstants.IRELAND_EC_PURCHASES_GOODS));
+						AccounterServerConstants.IRELAND_EC_PURCHASES_GOODS,
+						company));
 
 		createVATItem(
 				company,
@@ -9592,7 +9603,8 @@ public class FinanceTool {
 				0,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterServerConstants.IRELAND_EC_PURCHASES_GOODS));
+						AccounterServerConstants.IRELAND_EC_PURCHASES_GOODS,
+						company));
 
 		createVATItem(
 				company,
@@ -9606,7 +9618,8 @@ public class FinanceTool {
 				-21,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterServerConstants.IRELAND_EC_PURCHASES_GOODS));
+						AccounterServerConstants.IRELAND_EC_PURCHASES_GOODS,
+						company));
 
 		createVATItem(
 				company,
@@ -9620,7 +9633,8 @@ public class FinanceTool {
 				0,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterServerConstants.IRELAND_EC_PURCHASES_GOODS));
+						AccounterServerConstants.IRELAND_EC_PURCHASES_GOODS,
+						company));
 
 		createVATItem(
 				company,
@@ -9634,7 +9648,8 @@ public class FinanceTool {
 				0,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterServerConstants.IRELAND_EC_SALES_GOODS));
+						AccounterServerConstants.IRELAND_EC_SALES_GOODS,
+						company));
 
 		createVATItem(
 				company,
@@ -9648,7 +9663,8 @@ public class FinanceTool {
 				0,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterServerConstants.IRELAND_EXEMPT_PURCHASES));
+						AccounterServerConstants.IRELAND_EXEMPT_PURCHASES,
+						company));
 
 		createVATItem(
 				company,
@@ -9662,7 +9678,7 @@ public class FinanceTool {
 				0,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterServerConstants.IRELAND_EXEMPT_SALES));
+						AccounterServerConstants.IRELAND_EXEMPT_SALES, company));
 
 		createVATItem(
 				company,
@@ -9676,7 +9692,8 @@ public class FinanceTool {
 				0,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterServerConstants.IRELAND_EXEMPT_PURCHASES));
+						AccounterServerConstants.IRELAND_EXEMPT_PURCHASES,
+						company));
 
 		createVATItem(
 				company,
@@ -9690,7 +9707,8 @@ public class FinanceTool {
 				0,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterServerConstants.IRELAND_NOT_REGISTERED_SALES));
+						AccounterServerConstants.IRELAND_NOT_REGISTERED_SALES,
+						company));
 
 		createVATItem(
 				company,
@@ -9704,7 +9722,8 @@ public class FinanceTool {
 				13.5,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterServerConstants.IRELAND_DOMESTIC_PURCHASES));
+						AccounterServerConstants.IRELAND_DOMESTIC_PURCHASES,
+						company));
 
 		createVATItem(
 				company,
@@ -9718,7 +9737,8 @@ public class FinanceTool {
 				13.5,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterServerConstants.IRELAND_DOMESTIC_SALES));
+						AccounterServerConstants.IRELAND_DOMESTIC_SALES,
+						company));
 
 		createVATItem(
 				company,
@@ -9732,7 +9752,8 @@ public class FinanceTool {
 				21,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterServerConstants.IRELAND_DOMESTIC_PURCHASES));
+						AccounterServerConstants.IRELAND_DOMESTIC_PURCHASES,
+						company));
 
 		createVATItem(
 				company,
@@ -9746,7 +9767,8 @@ public class FinanceTool {
 				21,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterServerConstants.IRELAND_DOMESTIC_PURCHASES));
+						AccounterServerConstants.IRELAND_DOMESTIC_PURCHASES,
+						company));
 
 		createVATItem(
 				company,
@@ -9760,7 +9782,8 @@ public class FinanceTool {
 				21,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterServerConstants.IRELAND_DOMESTIC_SALES));
+						AccounterServerConstants.IRELAND_DOMESTIC_SALES,
+						company));
 
 		createVATItem(
 				company,
@@ -9774,7 +9797,8 @@ public class FinanceTool {
 				0,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterServerConstants.IRELAND_DOMESTIC_PURCHASES));
+						AccounterServerConstants.IRELAND_DOMESTIC_PURCHASES,
+						company));
 
 		createVATItem(
 				company,
@@ -9788,7 +9812,8 @@ public class FinanceTool {
 				0,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterServerConstants.IRELAND_DOMESTIC_PURCHASES));
+						AccounterServerConstants.IRELAND_DOMESTIC_PURCHASES,
+						company));
 
 		createVATItem(
 				company,
@@ -9802,7 +9827,8 @@ public class FinanceTool {
 				0,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterServerConstants.IRELAND_DOMESTIC_SALES));
+						AccounterServerConstants.IRELAND_DOMESTIC_SALES,
+						company));
 
 	}
 
@@ -9859,7 +9885,7 @@ public class FinanceTool {
 		double groupRate = 0;
 		for (String s : vatItems) {
 			TAXItem v = (TAXItem) getServerObjectByName(
-					AccounterCoreType.TAXITEM, s);
+					AccounterCoreType.TAXITEM, s, company);
 			vats.add(v);
 			groupRate += v.getTaxRate();
 		}
@@ -9868,7 +9894,7 @@ public class FinanceTool {
 
 	}
 
-	public KeyFinancialIndicators getKeyFinancialIndicators()
+	public KeyFinancialIndicators getKeyFinancialIndicators(long companyId)
 			throws DAOException {
 
 		KeyFinancialIndicators keyFinancialIndicators = new KeyFinancialIndicators();
@@ -9876,8 +9902,9 @@ public class FinanceTool {
 		Map<String, Map<Integer, Double>> rows = new LinkedHashMap<String, Map<Integer, Double>>();
 
 		Session session = HibernateUtil.getCurrentSession();
-		List<Account> accounts = new ArrayList<Account>(session.getNamedQuery(
-				"list.Account").list());
+		List<Account> accounts = new ArrayList<Account>(session
+				.getNamedQuery("list.Account")
+				.setEntity("company", getCompany(companyId)).list());
 		// List<Account> accounts = getCompany().getAccounts();
 
 		Set<Account> sales = new HashSet<Account>();
@@ -10384,12 +10411,14 @@ public class FinanceTool {
 		return (Company) session.get(Company.class, companyId);
 	}
 
-	public ArrayList<Account> getAccountsListBySorted(int companyType) {
+	public ArrayList<Account> getAccountsListBySorted(int companyType,
+			long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		ArrayList<Account> list1 = new ArrayList<Account>();
 		List<Account> list2 = new ArrayList<Account>();
-		ArrayList<Account> list = new ArrayList<Account>(session.getNamedQuery(
-				"list.Account").list());
+		ArrayList<Account> list = new ArrayList<Account>(session
+				.getNamedQuery("list.Account")
+				.setEntity("company", getCompany(companyId)).list());
 		int sort[] = { 14, 15, 18, 16, 3, 4, 8, 9, 6, 12, 7, 13 };
 
 		int indexof1180 = 0;
@@ -11713,11 +11742,12 @@ public class FinanceTool {
 		return clientCompanyPreferences;
 	}
 
-	public ArrayList<ClientRecurringTransaction> getAllRecurringTransactions()
-			throws AccounterException {
+	public ArrayList<ClientRecurringTransaction> getAllRecurringTransactions(
+			long companyId) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
-		List<RecurringTransaction> transactions = session.getNamedQuery(
-				"list.RecurringTransaction").list();
+		List<RecurringTransaction> transactions = session
+				.getNamedQuery("list.RecurringTransaction")
+				.setEntity("company", getCompany(companyId)).list();
 
 		List<ClientRecurringTransaction> clientObjs = new ArrayList<ClientRecurringTransaction>();
 		for (RecurringTransaction recurringTransaction : transactions) {
@@ -11746,13 +11776,15 @@ public class FinanceTool {
 	 *            {@link FinanceDate#clientTimeAtServer(java.util.Date, long)}
 	 */
 	public void performRecurringAction(String companyName,
-			FinanceDate clientDateAtServer) {
+			FinanceDate clientDateAtServer, long companyId) {
 		Session session = HibernateUtil.openSession();
 		// TODO need to write query
 		Query namedQuery = session.getNamedQuery("list.currentRecTransactions");
 		namedQuery.setLong(0, clientDateAtServer.getDate());
-		List<RecurringTransaction> list = session.getNamedQuery(
-				"list.currentRecTransactions").list();
+		namedQuery.setEntity("company", getCompany(companyId));
+		List<RecurringTransaction> list = session
+				.getNamedQuery("list.currentRecTransactions")
+				.setEntity("company", getCompany(companyId)).list();
 
 		for (RecurringTransaction recurringTransaction : list) {
 			try {
@@ -12704,7 +12736,8 @@ public class FinanceTool {
 		Query query;
 		int count;
 		if (startDate.getDate() == 0 || endDate.getDate() == 0) {
-			query = session.getNamedQuery("list.Activity");
+			query = session.getNamedQuery("list.Activity").setEntity("company",
+					company);
 			query.setFirstResult(startIndex);
 			query.setMaxResults(length);
 			count = ((BigInteger) session.createSQLQuery(
@@ -12740,14 +12773,15 @@ public class FinanceTool {
 		return clientActivities;
 	}
 
-	public List<ClientBudget> getBudgetList() throws DAOException {
+	public List<ClientBudget> getBudgetList(long companyId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
 		try {
 
 			ArrayList<Budget> budgetList = new ArrayList<Budget>(session
-					.getNamedQuery("list.Budget").list());
+					.getNamedQuery("list.Budget")
+					.setEntity("company", getCompany(companyId)).list());
 
 			List<ClientBudget> clientBudgetObjs = new ArrayList<ClientBudget>();
 

@@ -2089,7 +2089,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 			ArrayList<ClientBudget> budgets = new ArrayList<ClientBudget>();
 			budgets = (ArrayList<ClientBudget>) getFinanceTool()
-					.getBudgetList();
+					.getBudgetList(getCompanyId());
 
 			// ClientBudgetList obj = new ClientBudgetList();
 

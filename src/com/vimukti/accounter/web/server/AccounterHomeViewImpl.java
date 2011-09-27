@@ -443,7 +443,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		List<ClientBudget> budgetList = null;
 		try {
 
-			budgetList = getFinanceTool().getBudgetList();
+			budgetList = getFinanceTool().getBudgetList(getCompanyId());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1568,7 +1568,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
-			return tool.getAllRecurringTransactions();
+			return tool.getAllRecurringTransactions(getCompanyId());
 		}
 		return null;
 	}
