@@ -1855,14 +1855,8 @@ public class FinanceTool {
 		month = cal.get(Calendar.MONTH);
 		year = cal.get(Calendar.YEAR);
 
-		Query query = session
-				.createSQLQuery(new StringBuilder()
-						.append("SELECT CCC.ID, CCC.VERSION, CCC.CREATED_DATE, CCC.MODIFIED_ON, CCC.VENDOR_ID, CCC.CONTACT_ID, "
-								+ "CCC.VENDOR_ADDRESS_ID, CCC.PAYMENT_METHOD_ID, CCC.PAYFROM_ACCOUNT_ID, CCC.CHECK_NUMBER, "
-								+ "CCC.DELIVERY_DATE, CCC.MEMO, CCC.REFERENCE, CCC.TOTAL FROM CREDIT_CARD_CHARGES CCC JOIN "
-								+ "TRANSACTION T ON T.ID = CCC.ID AND MONTH(T.T_DATE) = ")
-						.append(month).append(" AND YEAR(T.T_DATE) = ")
-						.append(month).toString());
+		Query query = session.getNamedQuery("getCreditCardChargesThisMonth")
+				.setInteger("month", month);
 		Iterator iterator = query.list().iterator();
 		List<CreditCardCharge> list = new ArrayList<CreditCardCharge>();
 		while (iterator.hasNext()) {
@@ -9917,10 +9911,8 @@ public class FinanceTool {
 		// }
 		//
 		// }
-		List<Integer> keysList = session
-				.createSQLQuery(
-						"select month from ACCOUNT_AMOUNTS group by month order by month")
-				.list();
+		List<Integer> keysList = session.getNamedQuery(
+				"getMonthFromAccountAmounts").list();
 		for (int key : keysList) {
 			double salesEntryAmount = 0.0;
 			if (salesEntries.containsKey(key)) {
@@ -10429,9 +10421,7 @@ public class FinanceTool {
 
 	public ArrayList<HrEmployee> getHREmployees() {
 		Session session = HibernateUtil.getCurrentSession();
-		SQLQuery query = session.createSQLQuery(
-				"SELECT empd.FULL_NAME as name FROM USERS empd").addScalar(
-				"name", Hibernate.STRING);
+		Query query = session.getNamedQuery("getEmployeeNames");
 		List list = query.list();
 
 		// Object[] object = null;
@@ -11253,9 +11243,7 @@ public class FinanceTool {
 			newPassword = HexUtil.bytesToHex(Security.makeHash(emailId
 					+ newPassword));
 
-			Query query = session
-					.createSQLQuery(
-							"SELECT EMAIL_ID  FROM CLIENT C WHERE C.EMAIL_ID=:emailId AND C.PASSWORD=:password")
+			Query query = session.getNamedQuery("getEmailIdFromClient")
 					.setParameter("emailId", emailId)
 					.setParameter("password", oldPassword);
 			String emailID = (String) query.uniqueResult();
@@ -11263,8 +11251,9 @@ public class FinanceTool {
 			if (emailID == null)
 				return false;
 
-			query = session.createSQLQuery("UPDATE CLIENT SET PASSWORD='"
-					+ newPassword + "' WHERE EMAIL_ID='" + emailId + "'");
+			query = session.getNamedQuery("updatePasswordForClient");
+			query.setParameter("newPassword", newPassword);
+			query.setParameter("emailId", emailId);
 			query.executeUpdate();
 			tx.commit();
 
@@ -12352,8 +12341,8 @@ public class FinanceTool {
 			query = session.getNamedQuery("list.Activity");
 			query.setFirstResult(startIndex);
 			query.setMaxResults(length);
-			count = ((BigInteger) session.createSQLQuery(
-					"SELECT COUNT(*) FROM ACTIVITY").uniqueResult()).intValue();
+			count = ((BigInteger) session.getNamedQuery("getCountOfActivity")
+					.uniqueResult()).intValue();
 		} else {
 			query = session.getNamedQuery("get.Activities.by.date");
 			query.setParameter("fromDate", startTime);
@@ -12361,8 +12350,7 @@ public class FinanceTool {
 			query.setFirstResult(startIndex);
 			query.setMaxResults(length);
 			count = ((BigInteger) session
-					.createSQLQuery(
-							"SELECT COUNT(*) FROM ACTIVITY A WHERE A.TIME_STAMP BETWEEN :fromDate AND :endDate")
+					.getNamedQuery("getCountOfActivityBetweenDates")
 					.setParameter("fromDate", startTime)
 					.setParameter("endDate", endTime).uniqueResult())
 					.intValue();
