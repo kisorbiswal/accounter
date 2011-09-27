@@ -39,6 +39,11 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param context
+	 * @return
+	 */
 	private Result createAccountsList(Context context) {
 		context.setAttribute(INPUT_ATTR, "optional");
 
@@ -65,6 +70,12 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param context
+	 * @param selection
+	 * @return
+	 */
 	private Result isActiveRequirement(Context context, Object selection) {
 		Requirement isActiveReq = get(ACTIVE);
 		Boolean isActive = (Boolean) isActiveReq.getValue();
@@ -82,6 +93,12 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param context
+	 * @param isActive
+	 * @return
+	 */
 	private Result accountsList(Context context, Boolean isActive) {
 		Result result = context.makeResult();
 		ResultList accountsList = new ResultList("accountsList");
@@ -112,6 +129,9 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 
 	}
 
+	/**
+	 * 
+	 */
 	protected Record createAccountRecord(Account account) {
 		Record record = new Record(account);
 		record.add("Number", account.getNumber());
