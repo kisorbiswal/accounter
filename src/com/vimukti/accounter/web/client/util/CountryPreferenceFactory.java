@@ -244,6 +244,10 @@ public class CountryPreferenceFactory {
 		if (countryCode.equals("Algeria")) {
 			return new Algeria();
 		}
+		if (countryCode.equals("Albania")) {
+			return null;
+		}
+
 		if (countryCode.equals("Afghanistan")) {
 			return new Afghanistan();
 		}
@@ -271,7 +275,7 @@ public class CountryPreferenceFactory {
 		if (countryCode.equals("Azerbaijan")) {
 			return new Azerbaijan();
 		}
-		if (countryCode.equals("BahamasThe")) {
+		if (countryCode.equals("Bahamas, The")) {
 			return new BahamasThe();
 		}
 		if (countryCode.equals("Bahrain")) {
