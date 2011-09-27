@@ -91,7 +91,6 @@ public class CreditCardExpenseView extends
 	private VerticalPanel leftVLay, botVLay;
 
 	private ArrayList<DynamicForm> listforms;
-	protected ClientContact contact;
 	protected Label titlelabel;
 	protected TextAreaItem billToAreaItem;
 	private List<ClientAccount> listOfAccounts;
