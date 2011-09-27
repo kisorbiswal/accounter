@@ -73,7 +73,7 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 	public void initData() {
 		trackCheckbox.setValue(getCompanyPreferences().isTrackTax());
 		hidePanel.setVisible(getCompanyPreferences().isTrackTax());
-		enableTaxCheckbox.setValue(getCompanyPreferences().isTrackTax());
+		enableTaxCheckbox.setValue(getCompanyPreferences().isTrackPaidTax());
 		if (getCompanyPreferences().isTaxPerDetailLine())
 			oneperdetaillineRadioButton.setValue(true);
 		else
