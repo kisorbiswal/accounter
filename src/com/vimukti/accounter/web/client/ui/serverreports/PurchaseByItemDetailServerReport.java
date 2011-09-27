@@ -108,14 +108,15 @@ public class PurchaseByItemDetailServerReport extends
 
 	@Override
 	public void processRecord(SalesByCustomerDetail record) {
+		// if (sectionDepth == 0) {
+		// addSection(new String[] { "", "" }, new String[] { "", "", "", "",
+		// "", "", getConstants().total()}, new int[] { 7 });
+		// } else
 		if (sectionDepth == 0) {
-			addSection(new String[] { "", "" }, new String[] { "", "", "", "",
-					"", "", getConstants().total()}, new int[] { 7 });
-		} else if (sectionDepth == 1) {
 			this.sectionName = record.getItemName();
 			addSection(new String[] { sectionName }, new String[] { "", "", "",
 					"", "", "", getConstants().total() }, new int[] { 7 });
-		} else if (sectionDepth == 2) {
+		} else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record
 			if (!sectionName.equals(record.getItemName())) {
 				endSection();
@@ -193,8 +194,8 @@ public class PurchaseByItemDetailServerReport extends
 	public int sort(SalesByCustomerDetail obj1, SalesByCustomerDetail obj2,
 			int col) {
 
-		int ret = obj1.getItemName().toLowerCase().compareTo(
-				obj2.getItemName().toLowerCase());
+		int ret = obj1.getItemName().toLowerCase()
+				.compareTo(obj2.getItemName().toLowerCase());
 		if (ret != 0) {
 			return ret;
 		}
@@ -210,14 +211,14 @@ public class PurchaseByItemDetailServerReport extends
 					Integer.parseInt(obj2.getNumber()));
 
 		case 0:
-			return obj1.getItemName().toLowerCase().compareTo(
-					obj2.getItemName().toLowerCase());
+			return obj1.getItemName().toLowerCase()
+					.compareTo(obj2.getItemName().toLowerCase());
 
 		case 4:
 			return UIUtils.compareTo(obj1.getQuantity(), obj2.getQuantity());
 		case 5:
-			return UIUtils.compareDouble(obj1.getUnitPrice(), obj2
-					.getUnitPrice());
+			return UIUtils.compareDouble(obj1.getUnitPrice(),
+					obj2.getUnitPrice());
 
 		case 6:
 			return UIUtils

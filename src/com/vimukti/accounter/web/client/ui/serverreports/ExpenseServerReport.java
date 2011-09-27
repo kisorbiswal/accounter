@@ -66,12 +66,13 @@ public class ExpenseServerReport extends AbstractFinaneReport<ExpenseList> {
 
 	@Override
 	public void processRecord(ExpenseList record) {
+		// if (sectionDepth == 0) {
+		// addSection("", getConstants().total(), new int[] { 2 });
+		// } else
 		if (sectionDepth == 0) {
-			addSection("", getConstants().total(), new int[] { 2 });
-		} else if (sectionDepth == 1) {
 			this.sectionName = record.getName();
 			addSection(sectionName, "", new int[] { 2 });
-		} else if (sectionDepth == 2) {
+		} else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record
 			if (!sectionName.equals(record.getName())) {
 				endSection();
@@ -128,8 +129,8 @@ public class ExpenseServerReport extends AbstractFinaneReport<ExpenseList> {
 	public int sort(ExpenseList obj1, ExpenseList obj2, int col) {
 		switch (col) {
 		case 0:
-			return UIUtils.compareInt(obj1.getTransactionType(), obj2
-					.getTransactionType());
+			return UIUtils.compareInt(obj1.getTransactionType(),
+					obj2.getTransactionType());
 		case 1:
 			return obj1.getTransactionDate().compareTo(
 					obj2.getTransactionDate());
@@ -138,8 +139,8 @@ public class ExpenseServerReport extends AbstractFinaneReport<ExpenseList> {
 		case 3:
 			if (!currentsectionName.toLowerCase().equals(
 					obj1.getName().toLowerCase())) {
-				return obj1.getName().toLowerCase().compareTo(
-						obj2.getName().toLowerCase());
+				return obj1.getName().toLowerCase()
+						.compareTo(obj2.getName().toLowerCase());
 			} else {
 				return UIUtils.compareDouble(obj1.getTotal(), obj2.getTotal());
 			}

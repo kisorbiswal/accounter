@@ -14,7 +14,7 @@ public class ECSalesListDetailServerReport extends
 
 	public ECSalesListDetailServerReport(
 			IFinanceReport<ECSalesListDetail> reportView) {
-	
+
 		this.reportView = reportView;
 	}
 
@@ -53,10 +53,9 @@ public class ECSalesListDetailServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getConstants().type(),
-				getConstants().date(), getConstants().noDot(),
-				getConstants().name(), getConstants().memo(),
-				getConstants().amount(),
+		return new String[] { getConstants().type(), getConstants().date(),
+				getConstants().noDot(), getConstants().name(),
+				getConstants().memo(), getConstants().amount(),
 				getConstants().salesPrice() };
 	}
 
@@ -80,12 +79,13 @@ public class ECSalesListDetailServerReport extends
 
 	@Override
 	public void processRecord(ECSalesListDetail record) {
+		// if (sectionDepth == 0) {
+		// addSection("", getConstants().total(), new int[] { 5 });
+		// } else
 		if (sectionDepth == 0) {
-			addSection("", getConstants().total(), new int[] { 5 });
-		} else if (sectionDepth == 1) {
 			this.sectionName = record.getName();
 			addSection(sectionName, "", new int[] { 5 });
-		} else if (sectionDepth == 2) {
+		} else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record
 			if (!sectionName.equals(record.getName())) {
 				endSection();
@@ -224,11 +224,10 @@ public class ECSalesListDetailServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getConstants().type(),
-				getConstants().date(), getConstants().noDot(),
-				getConstants().name(), getConstants().memo(),
-				getConstants().amount(),
+		return new String[] { getConstants().type(), getConstants().date(),
+				getConstants().noDot(), getConstants().name(),
+				getConstants().memo(), getConstants().amount(),
 				getConstants().salesPrice() };
 	}
-	
+
 }
