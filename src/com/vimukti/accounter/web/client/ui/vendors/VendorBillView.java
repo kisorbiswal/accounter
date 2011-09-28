@@ -751,6 +751,9 @@ public class VendorBillView extends
 	}
 
 	private void paymentTermSelected(ClientPaymentTerms selectItem) {
+		if (selectItem == null) {
+			return;
+		}
 		selectedPaymentTerm = selectItem;
 
 		// paymentTermsCombo.setComboItem(selectedPaymentTerm);

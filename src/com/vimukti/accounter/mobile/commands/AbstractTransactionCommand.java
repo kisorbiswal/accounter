@@ -575,6 +575,15 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return company.getPaymentTerms();
 	}
 
+	/**
+	 * @param context
+	 * @return
+	 */
+	protected Result accountsRequirement(Context context) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	protected Result paymentFrom(Context context, Account oldAccount) {
 		List<Account> accounts = new ArrayList<Account>();
 		List<Account> allAccounts = getAccounts(context.getCompany());

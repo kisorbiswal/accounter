@@ -375,9 +375,8 @@ public class FinanceTool {
 				company.addUser(user);
 			}
 			String userID = context.getUserEmail();
-			User inviteduser = (User) session.getNamedQuery("user.by.emailid")
-					.setParameter("emailID", userID)
-					.setParameter("company", company).uniqueResult();
+
+			User inviteduser = getUserByUserEmail(userID,company);
 			Activity inviteuserActivity = new Activity(company, inviteduser,
 					ActivityType.ADD, user);
 
@@ -404,6 +403,7 @@ public class FinanceTool {
 		return (User) session.getNamedQuery("user.by.emailid")
 				.setParameter("emailID", email)
 				.setParameter("company", company).uniqueResult();
+
 	}
 
 	public long updateUser(OperationContext updateContext)

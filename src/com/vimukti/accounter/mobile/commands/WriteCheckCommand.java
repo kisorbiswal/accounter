@@ -175,7 +175,7 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 			ActionNames actionName = (ActionNames) selection;
 			switch (actionName) {
 			case ADD_MORE_ACCOUNTS:
-				return null;// accounts(context);
+				return null;
 			case ADD_MORE_ITEMS:
 				return items(context);
 			case FINISH:

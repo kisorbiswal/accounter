@@ -52,22 +52,31 @@ public class OpenCompanyServlet extends BaseServlet {
 					emailID);
 
 			Session session = HibernateUtil.openSession();
-			Transaction transaction = session.beginTransaction();
+			try {
+				Transaction transaction = session.beginTransaction();
 
-			User user = (User) session.getNamedQuery("user.by.emailid")
-					.setParameter("company", getCompany(request))
-					.setParameter("emailID", emailID).uniqueResult();
-			Activity activity = new Activity(user.getCompany(), user,
-					ActivityType.LOGIN);
-			session.save(activity);
-			transaction.commit();
-			session.close();
-			// there is no session, so do external redirect to login page
-			// response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
-			// response.setHeader("Location", "/Accounter.jsp");
-			RequestDispatcher dispatcher = getServletContext()
-					.getRequestDispatcher("/WEB-INF/Accounter.jsp");
-			dispatcher.forward(request, response);
+				User user = (User) session.getNamedQuery("user.by.emailid")
+						.setParameter("company", getCompany(request))
+						.setParameter("emailID", emailID).uniqueResult();
+				if (user == null) {
+					response.sendRedirect(COMPANIES_URL);
+					return;
+				}
+				Activity activity = new Activity(getCompany(request), user,
+						ActivityType.LOGIN);
+
+				session.save(activity);
+				transaction.commit();
+				session.close();
+				// there is no session, so do external redirect to login page
+				// response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
+				// response.setHeader("Location", "/Accounter.jsp");
+				RequestDispatcher dispatcher = getServletContext()
+						.getRequestDispatcher("/WEB-INF/Accounter.jsp");
+				dispatcher.forward(request, response);
+			} finally {
+				session.close();
+			}
 		} else {
 			response.sendRedirect(LOGIN_URL);
 			// Session is there, so show the main page
