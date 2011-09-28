@@ -50,11 +50,12 @@ public class IssuePaymentCommond extends AbstractTransactionCommand {
 
 	@Override
 	public Result run(Context context) {
+
 		Result result = selectPaymentMethod(context);
 		if (result != null) {
 			return result;
 		}
-		result = accountsRequirement(context);
+		result = accountsRequirement(context, ACCOUNTS);
 		if (result != null) {
 			return result;
 		}

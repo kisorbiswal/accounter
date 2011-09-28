@@ -58,6 +58,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final int EXPENSES_TO_SHOW = 5;
 	protected static final int BILLS_TO_SHOW = 5;
 	protected static final int ESTIMATES_TO_SHOW = 5;
+	protected static final int INVOICES_TO_SHOW = 5;
 
 	protected static final String TRANSACTION_ACCOUNT_ITEM_PROCESS = null;
 	protected static final String OLD_TRANSACTION_ACCOUNT_ITEM_ATTR = null;
@@ -677,7 +678,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			if (account != null) {
 				transferedReq.setValue(account);
 			} else {
-				return accounts(context);
+				return accounts(context, name);
 			}
 		}
 		if (account != null) {
@@ -687,9 +688,9 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return null;
 	}
 
-	protected Result accounts(Context context) {
+	protected Result accounts(Context context, String name) {
 		Result result = context.makeResult();
-		ResultList list = new ResultList("depositOrTransferTo");
+		ResultList list = new ResultList(name);
 
 		Object last = context.getLast(RequirementType.ACCOUNT);
 		int num = 0;
@@ -958,15 +959,16 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return bankAccounts;
 	}
 
-	protected Result accountsRequirement(Context context) {
-		Requirement itemsReq = get("accounts");
+	protected Result accountsRequirement(Context context,
+			String requiremenrtLabel) {
+		Requirement itemsReq = get(requiremenrtLabel);
 		List<TransactionItem> transactionItems = context
-				.getSelections("accounts");
+				.getSelections(requiremenrtLabel);
 		if (!itemsReq.isDone()) {
 			if (transactionItems.size() > 0) {
 				itemsReq.setValue(transactionItems);
 			} else {
-				return accountItems(context);
+				return accountItems(context, requiremenrtLabel);
 			}
 		}
 		if (transactionItems != null && transactionItems.size() > 0) {
@@ -976,17 +978,17 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return null;
 	}
 
-	private Result accountItems(Context context) {
+	private Result accountItems(Context context, String label) {
 		Result result = context.makeResult();
 		Set<Item> items = getItems(context.getCompany());
-		ResultList list = new ResultList("accounts");
+		ResultList list = new ResultList(label);
 		Object last = context.getLast(RequirementType.ACCOUNT);
 		int num = 0;
 		if (last != null) {
 			list.add(creatAccountItemRecord((Item) last));
 			num++;
 		}
-		Requirement itemsReq = get("accounts");
+		Requirement itemsReq = get(label);
 		List<TransactionItem> transItems = itemsReq.getValue();
 		List<Item> availableItems = new ArrayList<Item>();
 		for (TransactionItem transactionItem : transItems) {
@@ -1263,7 +1265,9 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 		for (Estimate e : data) {
 			if (viewType.equals(Estimate.STATUS_OPEN)) {
-				result.add(e);
+				if (e.getStatus() == Estimate.STATUS_OPEN)
+					result.add(e);
+
 			} else if (viewType.equals(Estimate.STATUS_ACCECPTED)) {
 				result.add(e);
 			} else if (viewType.equals(Estimate.STATUS_REJECTED)) {
