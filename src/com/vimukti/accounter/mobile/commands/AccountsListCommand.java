@@ -83,7 +83,7 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 		ResultList accountsList = new ResultList("accountsList");
 		result.add("Accounts List");
 		int num = 0;
-		List<Account> accounts = getAccounts(isActive);
+		List<Account> accounts = getAccounts(isActive,context.getCompany());
 		for (Account account : accounts) {
 			accountsList.add(createAccountRecord(account));
 			num++;
