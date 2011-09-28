@@ -30,8 +30,9 @@ public class ProfitLossReportCommand extends
 		trialRecord
 				.add(getStartDate() + "_" + getEndDate(), record.getAmount());
 		trialRecord.add("", record.getAmount());
-		trialRecord.add(Utility_R.getCurrentFiscalYearStartDate() + "_"
-				+ getLastMonth(new FinanceDate()), record.getTotalAmount());
+		trialRecord.add(Utility_R.getCurrentFiscalYearStartDate(getCompany())
+				+ "_" + getLastMonth(new FinanceDate()), record
+				.getTotalAmount());
 		trialRecord.add("", record.getTotalAmount());
 		return trialRecord;
 	}

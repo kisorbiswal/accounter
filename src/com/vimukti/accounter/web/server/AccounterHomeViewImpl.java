@@ -1519,7 +1519,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			resultList = getFinanceTool().getGraphPointsforAccount(chartType,
-					accountNo, getCompanyId());
+					getCompanyId());
 
 		} catch (Exception e) {
 			e.printStackTrace();
