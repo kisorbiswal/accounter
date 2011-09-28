@@ -139,12 +139,6 @@ public class NewJournalEntryCommand extends AbstractTransactionCommand {
 		return null;
 	}
 
-	private Result transactionDateRequirement(Context context, ResultList list,
-			Object selection) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	private Result entryRequirement(Context context) {
 		Requirement entryReq = get("entries");
 		List<Entry> entries = context.getSelections("entries");
