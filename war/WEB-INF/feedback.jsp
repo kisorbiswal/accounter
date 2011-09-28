@@ -3,6 +3,7 @@
 <script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
 <link type="text/css" rel="stylesheet" href="/css/Finance.css?version=<%= version%>" />
 <script type="text/javascript" src="/jscripts/jquery.contactable.packed.js"></script>
+<link type="text/css" href="../css/ss.css" rel="stylesheet">
 <script  type="text/javascript" >
 	$(document).ready(function() {
 	
