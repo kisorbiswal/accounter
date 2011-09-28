@@ -47,13 +47,17 @@ public class BankAccountReconcilationHistoryCommand extends
 
 		}
 
-		return null;
+		return result;
 
 	}
 
 	private Result createreconcilationHistory(Context context) {
 		context.setAttribute(INPUT_ATTR, "optional");
-
+		Reconciliation selection2 = context
+				.getSelection("reconcilationHistorylist");
+		if (selection2 != null) {
+			// TODO Craete a command
+		}
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
 			ActionNames actionName = (ActionNames) selection;
@@ -72,10 +76,11 @@ public class BankAccountReconcilationHistoryCommand extends
 			return result;
 		}
 
-		return null;
+		return result;
 	}
 
 	private Result reconcilationList(Context context) {
+
 		Result result = context.makeResult();
 		ResultList recomcilationList = new ResultList(
 				"reconcilationHistorylist");
@@ -94,7 +99,7 @@ public class BankAccountReconcilationHistoryCommand extends
 		int size = recomcilationList.size();
 		StringBuilder message = new StringBuilder();
 		if (size > 0) {
-			message.append("Select a Account");
+			message.append("Select a Reconcilation Account");
 		}
 		result.add(message.toString());
 		result.add(recomcilationList);
@@ -104,8 +109,11 @@ public class BankAccountReconcilationHistoryCommand extends
 	}
 
 	private Record createreReconcilationRecord(Reconciliation reconciliation) {
-		// TODO Auto-generated method stub
-		return null;
+
+		Record record = new Record(reconciliation);
+		record.add("Name", "Reconcilation History");
+		record.add("Value", reconciliation.getClosingBalance());
+		return record;
 	}
 
 	public List<Reconciliation> getReconciliationsByBankAccountID(long accountID) {
