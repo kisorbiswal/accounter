@@ -1390,7 +1390,7 @@ form#contactForm .submit {
 .yourfeedback label:last-child{
   	display:none !important;
 }
-#contactform .error,.yourfeedback .error { background-color: #EDBE9C; }
+#contact #contactform .error,#contact .yourfeedback .error { background-color: #EDBE9C; }
 .underline{
 	border-top:1px solid #000 !important;
 }
