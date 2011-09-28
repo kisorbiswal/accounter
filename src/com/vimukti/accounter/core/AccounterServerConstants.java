@@ -185,7 +185,7 @@ public class AccounterServerConstants implements IsSerializable, Serializable {
 	public static final String TYPE_JOURNAL_ENTRY = "Journal Entry";
 	public static final String TYPE_PAY_SALES_TAX = "Pay Sales Tax";
 	public static final String TYPE_PAY_VAT = "Pay VAT";
-	public static final String TYPE_RECEIVE_VAT = "RECEIVE VAT";
+	public static final String TYPE_RECEIVE_VAT = "Receive VAT";
 	public static final String TYPE_SALES_ORDER = "Sales Order";
 	public static final String TYPE_PURCHASE_ORDER = "Purchase Order";
 	public static final String TYPE_ITEM_RECEIPT = "Item Receipt";
