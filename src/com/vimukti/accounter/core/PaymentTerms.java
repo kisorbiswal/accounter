@@ -49,9 +49,10 @@ public class PaymentTerms extends CreatableObject implements
 
 	}
 
-	public PaymentTerms(String name, String description, int ifPaidWithIn,
-			double discountPercent, int due, int dueDays, boolean isDefault) {
-
+	public PaymentTerms(Company company, String name, String description,
+			int ifPaidWithIn, double discountPercent, int due, int dueDays,
+			boolean isDefault) {
+		setCompany(company);
 		this.name = name;
 		this.description = description;
 		this.ifPaidWithIn = ifPaidWithIn;

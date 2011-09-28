@@ -121,7 +121,6 @@ public class CreateCompanyServlet extends BaseServlet {
 		int serverCompanyType = serverCompany.getCompanyType();
 		ClientUser user = getUser(client);
 		final HttpSession httpSession = request.getSession(true);
-		redirectExternal(request, response, COMPANIES_URL);
 		try {
 			createComapny(serverId, serverCompanyName, serverCompanyType, user);
 			httpSession.setAttribute(COMPANY_CREATION_STATUS, "Success");
@@ -131,6 +130,7 @@ public class CreateCompanyServlet extends BaseServlet {
 			rollback(serverId, user.getID());
 			httpSession.setAttribute(COMPANY_CREATION_STATUS, "Fail");
 		}
+		dispatch(request, response, COMPANIES_URL);
 		return;
 	}
 
