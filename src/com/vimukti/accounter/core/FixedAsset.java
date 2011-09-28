@@ -888,7 +888,7 @@ public class FixedAsset extends CreatableObject implements
 								.rollBackDepreciation(
 										this.getID(),
 										new FinanceDate(requiredStartDateCal
-												.getTime()));
+												.getTime()), getCompany());
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -949,7 +949,7 @@ public class FixedAsset extends CreatableObject implements
 						depreciationTillDate.getAsDateObject()) > 0) {
 					try {
 						Depreciation.rollBackDepreciation(this.getID(),
-								depreciationTillDate);
+								depreciationTillDate, getCompany());
 					} catch (Exception e) {
 
 						e.printStackTrace();
