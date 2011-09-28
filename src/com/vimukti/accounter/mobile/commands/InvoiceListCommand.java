@@ -11,6 +11,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 
 /**
  * 
@@ -146,16 +147,16 @@ public class InvoiceListCommand extends AbstractTransactionCommand {
 		result.add("Invoices  List");
 		ResultList invoicesListData = new ResultList("invoicesList");
 		int num = 0;
-		List<Invoice> invoices = getInvoices(viewType, context.getCompany());
+		List<InvoicesList> invoices = getInvoices(viewType,
+				context.getCompany());
 
-		for (Invoice inv : invoices) {
+		for (InvoicesList inv : invoices) {
 			invoicesListData.add(createInvoiceRecord(inv));
 			num++;
 			if (num == INVOICES_TO_SHOW) {
 				break;
 			}
 		}
-
 		int size = invoicesListData.size();
 		StringBuilder message = new StringBuilder();
 		if (size > 0) {
@@ -172,18 +173,18 @@ public class InvoiceListCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
-	private Record createInvoiceRecord(Invoice inv) {
+	private Record createInvoiceRecord(InvoicesList inv) {
 
 		Record record = new Record(inv);
 
 		record.add("Type", inv.getType());
 		record.add("Number", inv.getNumber());
 		record.add("Date", inv.getDate());
-		record.add("CustomerName", inv.getCustomer().getName());
+		record.add("CustomerName", inv.getCustomerName());
 		record.add("DueDate", inv.getDueDate());
 		record.add("NetPrice", inv.getNetAmount());
-		record.add("TotalPrice", inv.getTotal());
-		record.add("Balance", inv.getBalanceDue());
+		record.add("TotalPrice", inv.getTotalPrice());
+		record.add("Balance", inv.getBalance());
 		return record;
 	}
 
