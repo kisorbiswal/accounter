@@ -368,6 +368,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		result.add(customerForm.validate());
 		ClientFinanceDate asOfDate = balanceDate.getEnteredDate();
+		
+		gridView.validate(result);
 
 		if (AccounterValidator.isPriorToCompanyPreventPostingDate(asOfDate)) {
 			result.addError(balanceDate, Accounter.constants().priorasOfDate());
