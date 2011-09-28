@@ -261,9 +261,7 @@ $(document).ready(function(){
 		<script type="text/javascript" charset="utf-8">
 			function MacReload(){
 				 var myaddressbook = window.accounter;
-				 myaddressbook.resetMenu();
-  				myaddressbook.reloadMenu();
-
+				 myaddressbook.createNewMacMenu();
 			}
   		</script>
 
