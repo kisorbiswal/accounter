@@ -168,8 +168,7 @@
 	<query name="list.VendorGroup">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.VendorGroup vg where
-		vg.company=:company order
-		by vg.name
+		vg.company=:company order by vg.name
 	</query>
 	<query name="list.Transaction">
 		<query-param name="company" type="Company" />
@@ -183,12 +182,14 @@
 	<!-- <query name="list.TransactionCreditsAndPayments">from -->
 	<!-- com.vimukti.accounter.core.TransactionCreditsAndPayments</query> -->
 
-	<query name="list.TransactionMakeDeposit">from
-		com.vimukti.accounter.core.TransactionMakeDeposit</query>
+	<query name="list.TransactionMakeDeposit">
+		from
+		com.vimukti.accounter.core.TransactionMakeDeposit
+	</query>
+
 	<query name="list.TransactionPayBill">
 		<query-param name="company" type="Company" />
-		from
-		com.vimukti.accounter.core.TransactionPayBill tb where
+		from com.vimukti.accounter.core.TransactionPayBill tb where
 		tb.company=:company
 	</query>
 
@@ -227,8 +228,7 @@
 	<query name="list.SalesPerson">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.SalesPerson sp where
-		sp.company=:company order
-		by sp.firstName
+		sp.company=:company order by sp.firstName
 	</query>
 	<query name="list.TAXAgency">
 		<query-param name="company" type="Company" />
@@ -243,14 +243,12 @@
 	<query name="list.VATReturn">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.VATReturn vr where vr.company=:company
-		order by
-		vr.taxAgency.name, vr.VATperiodStartDate
+		order by vr.taxAgency.name, vr.VATperiodStartDate
 	</query>
 	<query name="list.currency">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.Currency c where c.company=:company
-		order by
-		c.name
+		order by c.name
 	</query>
 	<query name="list.TAXAdjustment">
 		<query-param name="company" type="Company" />
@@ -261,8 +259,7 @@
 	<query name="list.TAXItemGroup">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.TAXItemGroup vig where
-		vig.company=:company
-		order by vig.name
+		vig.company=:company order by vig.name
 	</query>
 
 	<query name="list.Box">
@@ -273,91 +270,97 @@
 	<query name="list.VATReturnBox">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.VATReturnBox vrb where
-		vrb.company=:company
-		order by vrb.name
+		vrb.company=:company order by vrb.name
 	</query>
 
 	<query name="list.BrandingTheme">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.BrandingTheme bt where
-		bt.company=:company
-		order by bt.id
+		bt.company=:company order by bt.id
 	</query>
 
 	<query name="list.Activity">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.Activity at where at.company=:company
-		order by
-		at.id
+		order by at.id
 	</query>
 
 	<query name="list.locations">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.Location bt where bt.company=:company
-		order by
-		bt.id
+		order by bt.id
 	</query>
 	<query name="list.Budget">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.Budget bt where bt.company=:company
 	</query>
+
 	<query name="unique.name.Account">
 		<query-param name="company" type="Company" />
+		<query-param name="name" type="String" />
 		from com.vimukti.accounter.core.Account a where
-		a.name=? and
+		a.name=:name and
 		a.company=:company
 	</query>
 	<query name="unique.name.Item">
 		<query-param name="company" type="Company" />
+		<query-param name="name" type="String" />
 		from com.vimukti.accounter.core.Item a where
-		a.name=? and
+		a.name=:name and
 		a.company=:company
 	</query>
 	<query name="unique.name.TAXCode">
 		<query-param name="company" type="Company" />
+		<query-param name="name" type="String" />
 		from com.vimukti.accounter.core.TAXCode a where
-		a.name=? and
+		a.name=:name and
 		a.company=:company
 	</query>
 	<query name="unique.name.TAXItem">
 		<query-param name="company" type="Company" />
+		<query-param name="name" type="String" />
 		from com.vimukti.accounter.core.TAXItem a where
-		a.name=? and
+		a.name=:name and
 		a.company=:company
 	</query>
 	<query name="unique.name.Vendor">
 		<query-param name="company" type="Company" />
+		<query-param name="name" type="String" />
 		from com.vimukti.accounter.core.Vendor a where
-		a.name=? and
+		a.name=:name and
 		a.company=:company
 	</query>
 	<query name="unique.name.TAXAgency">
 		<query-param name="company" type="Company" />
+		<query-param name="name" type="String" />
 		from com.vimukti.accounter.core.TAXAgency a where
-		a.name=? and
+		a.name=:name and
 		a.company=:company
 	</query>
 	<query name="unique.name.PaymentTerms">
 		<query-param name="company" type="Company" />
+		<query-param name="name" type="String" />
 		from com.vimukti.accounter.core.PaymentTerms a
 		where
-		a.name=? and
+		a.name=:name and
 		a.company=:company
 	</query>
 
 	<query name="unique.name.VATReturnBox">
 		<query-param name="company" type="Company" />
+		<query-param name="name" type="String" />
 		from com.vimukti.accounter.core.VATReturnBox v
-		where
-		v.name=? and
+		where v.name=:name and
 		v.company=:company
 	</query>
-	<query name="unique.emailId.User">
-		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.User u where
-		u.email=? and
-		u.company=:company
-	</query>
+
+	<!-- <query name="unique.emailId.User"> -->
+	<!-- <query-param name="company" type="Company" /> -->
+	<!-- <query-param name="email" type="String" /> -->
+	<!-- from com.vimukti.accounter.core.User u where -->
+	<!-- u.email=:email and -->
+	<!-- u.company=:company -->
+	<!-- </query> -->
 	<query name="gettoken.by.id">
 		from com.vimukti.accounter.core.ResetPasswordToken r
 		where r.token=?
