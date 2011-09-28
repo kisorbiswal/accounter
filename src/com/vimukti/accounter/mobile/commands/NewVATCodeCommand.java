@@ -69,7 +69,7 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 	}
 
 	private Result createTaxCode(Context context) {
-		TAXCode taxCode = new TAXCode();
+		TAXCode taxCode = new TAXCode(context.getCompany());
 
 		String name = get(NAME).getValue();
 		String description = (String) get(DESCRIPTION).getValue();
