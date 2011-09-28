@@ -58,6 +58,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final int EXPENSES_TO_SHOW = 5;
 	protected static final int BILLS_TO_SHOW = 5;
 	protected static final int ESTIMATES_TO_SHOW = 5;
+	protected static final int INVOICES_TO_SHOW = 5;
 
 	protected static final String TRANSACTION_ACCOUNT_ITEM_PROCESS = null;
 	protected static final String OLD_TRANSACTION_ACCOUNT_ITEM_ATTR = null;
@@ -1260,7 +1261,9 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 		for (Estimate e : data) {
 			if (viewType.equals(Estimate.STATUS_OPEN)) {
-				result.add(e);
+				if (e.getStatus() == Estimate.STATUS_OPEN)
+					result.add(e);
+
 			} else if (viewType.equals(Estimate.STATUS_ACCECPTED)) {
 				result.add(e);
 			} else if (viewType.equals(Estimate.STATUS_REJECTED)) {

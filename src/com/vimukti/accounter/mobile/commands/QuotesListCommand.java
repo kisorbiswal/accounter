@@ -45,9 +45,7 @@ public class QuotesListCommand extends AbstractTransactionCommand {
 
 	private Result createOptionalResult(Context context) {
 		context.setAttribute(INPUT_ATTR, "optional");
-
 		Object selection = context.getSelection(VIEW_BY);
-
 		ResultList list = new ResultList("viewlist");
 		Result result = viewTypeRequirement(context, list, selection);
 		if (result != null) {
