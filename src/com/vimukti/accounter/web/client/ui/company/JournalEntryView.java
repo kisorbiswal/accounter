@@ -336,7 +336,7 @@ public class JournalEntryView extends
 
 		gridPanel.add(grid);
 		gridPanel.setWidth("100%");
-
+		
 		HorizontalPanel hPanel = new HorizontalPanel();
 		hPanel.add(addButton);
 		hPanel.getElement().getStyle().setMarginTop(8, Unit.PX);
@@ -449,6 +449,7 @@ public class JournalEntryView extends
 			if (transaction.getMemo() != null)
 				memoText.setValue(transaction.getMemo());
 			updateTransaction();
+			initAccounterClass();
 		} else {
 			setData(new ClientJournalEntry());
 		}

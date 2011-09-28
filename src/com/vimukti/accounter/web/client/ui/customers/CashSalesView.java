@@ -731,6 +731,7 @@ public class CashSalesView extends
 					.getLocation(transaction.getLocation()));
 		superinitTransactionViewData();
 		initCashSalesView();
+		initAccounterClass();
 	}
 
 	private void superinitTransactionViewData() {

@@ -490,6 +490,7 @@ public class PaySalesTaxView extends
 				count++;
 			}
 		}
+		initAccounterClass();
 		// grid.updateFooterValues(FinanceApplication.constants().total()
 		// + DataUtils.getAmountAsString(paySalesTax.getTotal()), 2);
 

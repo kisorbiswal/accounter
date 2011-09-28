@@ -341,7 +341,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 			initPayFromAccounts();
 			return;
 		}
-
+		initAccounterClass();
 		selectedPayFromAccount = getCompany().getAccount(
 				transaction.getPayFrom());
 		payFromAccCombo.setComboItem(selectedPayFromAccount);

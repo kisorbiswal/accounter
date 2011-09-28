@@ -1411,7 +1411,7 @@ public class WriteChequeView extends
 
 			}
 			initMemoAndReference();
-
+			initAccounterClass();
 		}
 		initTransactionNumber();
 		initPayToCombo();

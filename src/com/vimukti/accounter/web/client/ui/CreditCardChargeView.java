@@ -330,6 +330,7 @@ public class CreditCardChargeView extends
 		initMemoAndReference();
 		initTransactionNumber();
 		addVendorsList();
+		initAccounterClass();
 	}
 
 	private void initpayFromAccountCombo() {

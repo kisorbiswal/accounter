@@ -653,6 +653,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 					.getLocation(transaction.getLocation()));
 		superinitTransactionViewData();
 		initAllItems();
+		initAccounterClass();
 	}
 
 	private void initCustomers() {

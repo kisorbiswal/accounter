@@ -264,6 +264,7 @@ public class NewCustomerPaymentView extends
 		initMemoAndReference();
 		initTransactionNumber();
 		initCustomers();
+		initAccounterClass();
 	}
 
 	private void initCustomers() {

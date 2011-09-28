@@ -461,13 +461,7 @@ public class CustomerCreditMemoView extends
 
 			transactionTotalNonEditableText.setAmount(transaction.getTotal());
 			memoTextAreaItem.setDisabled(true);
-
-			if (getPreferences().isClassTrackingEnabled()
-					&& getPreferences().isClassOnePerTransaction()
-					&& this.clientAccounterClass != null
-					&& classListCombo != null) {
-				classListCombo.setComboItem(this.getClientAccounterClass());
-			}
+			initAccounterClass();
 		}
 		superinitTransactionViewData();
 		if (locationTrackingEnabled)

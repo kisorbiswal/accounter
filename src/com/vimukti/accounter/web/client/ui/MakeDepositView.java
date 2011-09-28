@@ -636,7 +636,7 @@ public class MakeDepositView extends
 			totText.setValue(String.valueOf(transaction.getTotal()));
 
 			gridView.setRecords(transaction.getTransactionMakeDeposit());
-
+			initAccounterClass();
 			// gridView.setCanEdit(false);
 		}
 		// FIXME--need to implement this feature

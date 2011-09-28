@@ -779,6 +779,7 @@ public class PurchaseOrderView extends
 			default:
 				break;
 			}
+			initAccounterClass();
 		}
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
@@ -935,12 +936,12 @@ public class PurchaseOrderView extends
 
 		saveOrUpdate((ClientPurchaseOrder) transaction);
 
-		// if (isTrackTax()) {
-		// netAmount.setAmount(transaction.getNetAmount());
-		// vatTotalNonEditableText.setAmount(transaction.getTotal()
-		// - transaction.getNetAmount());
-		// transactionTotalNonEditableText.setAmount(transaction.getTotal());
-		// }
+		if (isTrackTax()) {
+			netAmount.setAmount(transaction.getNetAmount());
+			vatTotalNonEditableText.setAmount(transaction.getTotal()
+					- transaction.getNetAmount());
+			transactionTotalNonEditableText.setAmount(transaction.getTotal());
+		}
 
 	}
 

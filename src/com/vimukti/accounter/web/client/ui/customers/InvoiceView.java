@@ -1165,12 +1165,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			balanceDueNonEditableText.setAmount(transaction.getBalanceDue());
 			quoteLabel.setDisabled(true);
 			memoTextAreaItem.setDisabled(true);
-			if (getPreferences().isClassTrackingEnabled()
-					&& getPreferences().isClassOnePerTransaction()
-					&& transaction.getAccounterClass() != null) {
-				this.clientAccounterClass = transaction.getAccounterClass();
-				classSelected(this.clientAccounterClass);
-			}
+			initAccounterClass();
 		}
 		superinitTransactionViewData();
 

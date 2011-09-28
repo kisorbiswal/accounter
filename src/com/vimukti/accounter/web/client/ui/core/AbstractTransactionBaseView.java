@@ -1396,6 +1396,15 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		}
 	}
 
+	protected void initAccounterClass() {
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()
+				&& transaction.getAccounterClass() != null) {
+			this.clientAccounterClass = transaction.getAccounterClass();
+			classSelected(this.clientAccounterClass);
+		}
+	}
+
 	public ArrayList<ClientAccounterClass> getClientAccounterClasses() {
 		return clientAccounterClasses;
 	}

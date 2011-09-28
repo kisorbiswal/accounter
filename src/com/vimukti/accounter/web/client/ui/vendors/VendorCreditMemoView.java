@@ -107,6 +107,7 @@ public class VendorCreditMemoView extends
 			if (vatinclusiveCheck != null) {
 				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
 			}
+			initAccounterClass();
 		}
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
