@@ -96,7 +96,7 @@ public class CashPurchaseCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = accountsRequirement(context);
+		//result = accountsRequirement(context);
 		if (result == null) {
 			return result;
 		}

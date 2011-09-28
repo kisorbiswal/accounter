@@ -97,7 +97,7 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = accountsRequirement(context);
+		//result = accountsRequirement(context);
 		if (result == null) {
 			return result;
 		}

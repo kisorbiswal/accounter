@@ -98,7 +98,7 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = accountsRequirement(context);
+		//result = accountsRequirement(context);
 		if (result != null) {
 			return result;
 		}
@@ -175,7 +175,7 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 			ActionNames actionName = (ActionNames) selection;
 			switch (actionName) {
 			case ADD_MORE_ACCOUNTS:
-				return accounts(context);
+				return null;// accounts(context);
 			case ADD_MORE_ITEMS:
 				return items(context);
 			case FINISH:
