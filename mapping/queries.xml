@@ -1504,18 +1504,20 @@
 	<sql-query name="updateTaxCodeSalesTaxRate">
 		<query-param name="id" type="long" />
 		<query-param name="salesTaxRate" type="double" />
-
+		<query-param name="companyId" type="long" />
 		UPDATE TAX_CODE TC SET TC.SALES_TAX_RATE =:salesTaxRate
 		WHERE
+		TC.COMPANY_ID=:companyId AND
 		TC.TAXITEMGROUP_SALES =:id
 	</sql-query>
 
 	<sql-query name="updateTaxCodePurchaseTaxRate">
 		<query-param name="id" type="long" />
 		<query-param name="purchaseTaxRate" type="double" />
-
+		<query-param name="companyId" type="long" />
 		UPDATE TAX_CODE TC SET TC.PURCHASE_TAX_RATE =:purchaseTaxRate
 		WHERE
+		TC.COMPANY_ID=:companyId AND
 		TC.TAXITEMGROUP_PURCHASES =:id
 	</sql-query>
 
@@ -1547,7 +1549,7 @@
 
 	<sql-query name="getCreditCardChargesThisMonth">
 		<query-param name="month" type="int" />
-
+		<query-param name="companyId" type="long" />
 		SELECT CCC.ID, CCC.VERSION, CCC.CREATED_DATE, CCC.MODIFIED_ON,
 		CCC.VENDOR_ID, CCC.CONTACT_ID,
 		CCC.VENDOR_ADDRESS_ID,
@@ -1556,7 +1558,8 @@
 		CREDIT_CARD_CHARGES CCC JOIN
 		TRANSACTION T ON T.ID = CCC.ID AND
 		MONTH(T.T_DATE) =:month AND YEAR(T.T_DATE)
-		=:month
+		=:month WHERE
+		T.COMPANY_ID=:companyId
 	</sql-query>
 
 	<sql-query name="getEmployeeNames">
