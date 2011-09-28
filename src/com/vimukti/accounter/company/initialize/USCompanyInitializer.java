@@ -178,28 +178,28 @@ public class USCompanyInitializer extends CompanyInitializer {
 		//
 		// session.save(netFifteen);
 
-		PaymentTerms dueOnReceipt = new PaymentTerms(
+		PaymentTerms dueOnReceipt = new PaymentTerms(company,
 				AccounterServerConstants.PM_DUE_ON_RECEIPT,
 				AccounterServerConstants.DUE_ON_RECEIPT, 0, 0,
 				PaymentTerms.DUE_NONE, 0, true);
 
 		session.save(dueOnReceipt);
 
-		PaymentTerms netThirty = new PaymentTerms(
+		PaymentTerms netThirty = new PaymentTerms(company,
 				AccounterServerConstants.PM_NET_THIRTY,
 				AccounterServerConstants.PAY_WITH_IN_THIRTY_DAYS, 0, 0,
 				PaymentTerms.DUE_NONE, 30, true);
 
 		session.save(netThirty);
 
-		PaymentTerms netSixty = new PaymentTerms(
+		PaymentTerms netSixty = new PaymentTerms(company,
 				AccounterServerConstants.PM_NET_SIXTY,
 				AccounterServerConstants.PAY_WITH_IN_SIXTY_DAYS, 0, 0,
 				PaymentTerms.DUE_NONE, 60, true);
 
 		session.save(netSixty);
 
-		PaymentTerms monthly = new PaymentTerms(
+		PaymentTerms monthly = new PaymentTerms(company,
 				AccounterServerConstants.PM_MONTHLY,
 				AccounterServerConstants.SALES_TAX_PAID_MONTHLY, 0, 0,
 				PaymentTerms.DUE_CURRENT_MONTH, 30, true);
