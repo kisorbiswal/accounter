@@ -3,7 +3,9 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.List;
 
 import com.vimukti.accounter.core.ShippingMethod;
+import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
@@ -26,7 +28,14 @@ public class ShippingMethodCommond extends AbstractCommand {
 
 	@Override
 	public Result run(Context context) {
-		Result result = shppingMethodRequirment(context);
+		Result result = null;
+
+		Object selection = context.getSelection(ACTIONS);
+		selection = context.getSelection("values");
+
+		ResultList list = new ResultList("values");
+
+		result = shppingMethodRequirment(context);
 		if (result != null) {
 			return result;
 		}
@@ -40,11 +49,37 @@ public class ShippingMethodCommond extends AbstractCommand {
 	}
 
 	private Result createOptionalReq(Context context) {
-		ResultList list = new ResultList(DESCRIPTION);
-		Object selection = context.getSelection(DESCRIPTION);
-		Result stringOptionalRequirement = stringOptionalRequirement(context,
-				list, selection, "description", DESCRIPTION);
-		return stringOptionalRequirement;
+		context.setAttribute(INPUT_ATTR, "optional");
+
+		Object selection = context.getSelection(ACTIONS);
+		if (selection != null) {
+			ActionNames actionName = (ActionNames) selection;
+			switch (actionName) {
+			case FINISH:
+				return null;
+			default:
+				break;
+			}
+		}
+		selection = context.getSelection("values");
+
+		ResultList list = new ResultList("values");
+
+		Result result = stringOptionalRequirement(context, list, selection,
+				DESCRIPTION, "Enter Description");
+		if (result != null) {
+			return result;
+		}
+		result = context.makeResult();
+		result.add(" Item is ready to create with following values.");
+		ResultList actions = new ResultList("actions");
+		Record finish = new Record(ActionNames.FINISH);
+		finish.add("", "Finish to create Item.");
+		actions.add(finish);
+		result.add(actions);
+
+		return result;
+
 	}
 
 	private void completeProcess(Context context) {
@@ -52,6 +87,7 @@ public class ShippingMethodCommond extends AbstractCommand {
 		Requirement shippingRequirement = get(SHIPPING_METHOD);
 		String shippingMethodType = shippingRequirement.getValue();
 		shippingMethod.setName(shippingMethodType);
+
 		create(shippingMethod, context);
 	}
 
