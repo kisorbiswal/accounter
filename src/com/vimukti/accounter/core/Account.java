@@ -1206,6 +1206,10 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	}
 
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
