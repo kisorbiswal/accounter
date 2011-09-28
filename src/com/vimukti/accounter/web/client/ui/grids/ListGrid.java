@@ -213,13 +213,6 @@ public abstract class ListGrid<T> extends CustomTable {
 	}
 
 	public boolean isContinueToexecuteEvent(int row, int col) {
-		if (this instanceof TransactionReceivePaymentGrid) {
-
-		} else {
-			rowFormatter.removeStyleName(currentRow, "selected");
-			rowFormatter.addStyleName(row, "selected");
-		}
-
 		if (isEditEnable) {
 			/**
 			 * skip if the cell is all ready editmode
@@ -330,6 +323,7 @@ public abstract class ListGrid<T> extends CustomTable {
 				@Override
 				public void onValueChange(ValueChangeEvent<Boolean> event) {
 					onCheckBoxValueChange((CheckBox) event.getSource());
+
 				}
 			});
 			setWidget(rowCount, -1, box);
@@ -357,6 +351,11 @@ public abstract class ListGrid<T> extends CustomTable {
 	protected void onCheckBoxValueChange(CheckBox box) {
 		int row = getCellByWidget(box).getRowIndex();
 		selectedObject = objects.get(row);
+		if (box.getValue())
+			rowFormatter.addStyleName(row, "selected");
+		else
+			rowFormatter.removeStyleName(row, "selected");
+
 		onSelectionChanged(selectedObject, row, box.getValue());
 	}
 
@@ -627,10 +626,10 @@ public abstract class ListGrid<T> extends CustomTable {
 			selectbox.addChangeHandler(new ChangeHandler() {
 				@Override
 				public void onChange(ChangeEvent event) {
-					onValueChange(selectedObject, currentCol,
-							values[selectbox.getSelectedIndex()]);
-					onWidgetValueChanged(selectbox,
-							values[selectbox.getSelectedIndex()]);
+					onValueChange(selectedObject, currentCol, values[selectbox
+							.getSelectedIndex()]);
+					onWidgetValueChanged(selectbox, values[selectbox
+							.getSelectedIndex()]);
 				}
 			});
 			if (value != null)
@@ -664,8 +663,8 @@ public abstract class ListGrid<T> extends CustomTable {
 				@Override
 				public void onValueChange(ValueChangeEvent<Date> event) {
 
-					onWidgetValueChanged(datePicker,
-							UIUtils.stringToDate((Date) event.getValue()));
+					onWidgetValueChanged(datePicker, UIUtils
+							.stringToDate((Date) event.getValue()));
 
 				}
 			});
