@@ -121,11 +121,11 @@
 		<query-param name="date" type="long" />
 		<query-param name="status" type="int" />
 		<query-param name="company" type="Company" />
-		select d from com.vimukti.accounter.core.Depreciation
-		d inner join
-		d.fixedAsset where d.company=:company d.depreciateFrom >=:date and
-		d.status=:status and
-		d.fixedAsset.id=:id
+		from com.vimukti.accounter.core.Depreciation
+		d inner join d.fixedAsset
+		where d.company=:company and d.depreciateFrom >=:date and
+		d.status=:status
+		and d.fixedAsset.id=:id
 	</query>
 
 	<query name="update.merge.Payee.mergeoldbalance.tonewbalance">
