@@ -22,6 +22,7 @@ import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TAXGroup;
 import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.TAXItemGroup;
+import com.vimukti.accounter.core.TransactionIssuePayment;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.ActionNames;
@@ -60,6 +61,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final int BILLS_TO_SHOW = 5;
 	protected static final int ESTIMATES_TO_SHOW = 5;
 	protected static final int INVOICES_TO_SHOW = 5;
+	protected static final int ISSUE_PAYMENTS_TO_SHOW = 5;
 	protected static final String ACCOUNT_NUMBER = "Account Number";
 	protected static final String TRANSACTION_ACCOUNT_ITEM_PROCESS = null;
 	protected static final String OLD_TRANSACTION_ACCOUNT_ITEM_ATTR = null;
@@ -1310,6 +1312,11 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		if (input.equals(ACCOUNT_NUMBER)) {
 			numberReq.setValue(input);
 		}
+		return null;
+	}
+
+	protected List<TransactionIssuePayment> getIssuePaymentTransactionsList(
+			String paymentMethod, String accountName, Company company) {
 		return null;
 	}
 }
