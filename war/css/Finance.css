@@ -341,6 +341,9 @@ input[type="checkbox"] {
 .treeCellIcon {
 	padding-left: 4px;
 }
+.fTable-noButton{
+	padding-left:4%;
+}
 .gwt-Tree .gwt-TreeItem-selected {
 	padding-right: 2px;
 	display: table !important;
@@ -1105,8 +1108,8 @@ body,#loading .loadingIndicator,.panel-right-align .gwt-Button button,#overlay{
 .main-finance-window{
 	min-height: 100%;
 }
-.logout-help-welcome,form#contactForm p{
-	font-size:0.9em;
+.logout-help-welcome,form#contactForm p,.panel-title{
+	font-size:0.9em !important;
 }
 .main-finance-window,.gwt-MenuBar-vertical .gwt-MenuItem,.gwt-DialogBox,#mainFooter,.popup,.setup_panel,.gwt-PopupPanel{
 	font-size:0.8em;
