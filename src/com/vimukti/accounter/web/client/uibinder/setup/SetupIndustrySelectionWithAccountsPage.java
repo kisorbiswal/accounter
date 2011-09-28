@@ -93,7 +93,7 @@ public class SetupIndustrySelectionWithAccountsPage extends AbstractSetupPage {
 	@Override
 	protected void onSave() {
 		setupWizard.setSelectedAccountsList(industriesWithAccounts
-				.get(industryList.getSelectedIndex()));
+				.get(industryList.getSelectedIndex() + 1));
 	}
 
 	@Override
