@@ -315,11 +315,14 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 	protected void checkTotalAmount(boolean isBlur) {
 		double totalAmount = totAmtUseText.getAmount();
 		if (totalAmount <= amountDue) {
-			if (isBlur) {
-				resetRecords();
-			}
+			// if (isBlur) {
+			// resetRecords();
+			// }
 			for (ClientCreditsAndPayments credit : updatedCreditsAndPayments) {
-				credit.setAmtTouse(0.0D);
+				// credit.setAmtTouse(0.0D);
+				// credit.setBalance(credit.getBalance() +
+				// credit.getAmtTouse());
+				grid.resetValue(credit);
 				if (totalAmount > 0) {
 					double balance = credit.getBalance();
 					if (totalAmount <= balance) {
@@ -329,6 +332,8 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 						totalAmount -= balance;
 						credit.setAmtTouse(balance);
 					}
+					credit.setBalance(credit.getBalance()
+							- credit.getAmtTouse());
 					grid.updateData(credit);
 					grid.updateAmountValues();
 				}
@@ -344,6 +349,8 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 	private void resetRecords() {
 		for (ClientCreditsAndPayments clientCreditsAndPayments : updatedCreditsAndPayments) {
 			clientCreditsAndPayments.setAmtTouse(0.0D);
+			clientCreditsAndPayments.setBalance(clientCreditsAndPayments
+					.getBalance() + clientCreditsAndPayments.getAmtTouse());
 			grid.updateData(clientCreditsAndPayments);
 			grid.updateAmountValues();
 		}

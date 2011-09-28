@@ -1027,6 +1027,8 @@ public class ReceivePaymentView extends
 
 		this.unUsedPayments = (amountRecieved - transactionTotal);
 		setUnusedPayments(unUsedPayments);
+
+		calculateUnusedCredits();
 	}
 
 	@Override
