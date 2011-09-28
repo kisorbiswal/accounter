@@ -4918,4 +4918,8 @@ public interface AccounterConstants extends Constants {
 
 	public String youHaveEnteredWrongPassword();
 
+	public String amountToUseMustLessthanTotal();
+
+	public String noCreditsToApply();
+
 }

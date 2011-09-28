@@ -334,6 +334,8 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 				}
 			}
 		} else {
+			Accounter.showError(Accounter.constants()
+					.amountToUseMustLessthanTotal());
 			showError();
 		}
 
@@ -349,7 +351,7 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 	}
 
 	private void showError() {
-		Accounter.showError("Total Amount to use must be lessthan amount due.");
+
 		resetRecords();
 		if (record != null) {
 			record.setAppliedCredits(0.0d);
@@ -483,9 +485,12 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 	protected boolean onOK() {
 		double totalAmount = totAmtUseText.getAmount();
 		if (updatedCreditsAndPayments.isEmpty() && totalAmount > 0) {
+			Accounter.showError(Accounter.constants().noCreditsToApply());
 			showError();
 			return false;
 		} else if (totalAmount > amountDue) {
+			Accounter.showError(Accounter.constants()
+					.amountToUseMustLessthanTotal());
 			showError();
 			return false;
 		} else {
