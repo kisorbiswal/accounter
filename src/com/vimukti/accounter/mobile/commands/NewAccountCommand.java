@@ -254,6 +254,9 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		return null;
 	}
 
+
+
+
 	private Result nameRequirement(Context context) {
 		Requirement nameReq = get(ACCOUNT_NAME);
 		if (!nameReq.isDone()) {
