@@ -43,6 +43,7 @@ import org.hibernate.criterion.Restrictions;
 import com.gdevelop.gwt.syncrpc.SyncProxy;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccountTransaction;
+import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Activity;
@@ -10192,6 +10193,8 @@ public class FinanceTool {
 				.getNamedQuery("list.BrandingTheme").list()));
 		company.setLocations(new ArrayList<Location>(session.getNamedQuery(
 				"list.locations").list()));
+		company.setAccounterClasses(new ArrayList<AccounterClass>(session
+				.getNamedQuery("list.TrackClass").list()));
 		company = company.toCompany(company);
 		ClientConvertUtil clientConvertUtil = new ClientConvertUtil();
 		ClientCompany clientCompany = clientConvertUtil.toClientObject(company,

@@ -66,4 +66,15 @@ public class ClientAccounterClass implements IAccounterCore {
 	public void setVersion(int version) {
 		this.version = version;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof ClientAccounterClass)) {
+			return false;
+		}
+
+		ClientAccounterClass accounterClass = (ClientAccounterClass) obj;
+		return accounterClass.getID() == this.getID()
+				&& accounterClass.getClassName().equals(this.className);
+	}
 }
