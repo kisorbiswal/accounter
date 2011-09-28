@@ -10253,8 +10253,8 @@ public class FinanceTool {
 		// company.setVatReturnBoxes(new HashSet<VATReturnBox>(session
 		// .getNamedQuery("list.VATReturnBox").list()));
 
-		company.setAccounterClasses(new HashSet<AccounterClass>(session
-				.getNamedQuery("list.TrackClass").list()));
+		// company.setAccounterClasses(new HashSet<AccounterClass>(session
+		// .getNamedQuery("list.TrackClass").list()));
 		company = company.toCompany(company);
 		ClientConvertUtil clientConvertUtil = new ClientConvertUtil();
 		ClientCompany clientCompany = clientConvertUtil.toClientObject(company,
