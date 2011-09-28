@@ -985,10 +985,21 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			lazy="false">
+		</many-to-one>
 		<property name="className" unique="true" not-null="true"
 			column="CLASS_NAME"></property>
 		<property name="version" column="VERSION"></property>
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			lazy="false" not-null="true"></many-to-one>
+		<many-to-one name="lastModifier" column="LAST_MODIFIER"
+			class="User" lazy="false" not-null="true"></many-to-one>
+		<property name="createdDate" column="CREATED_DATE" not-null="true" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			not-null="true" />
 	</class>
+
 	<class name="Entry" table="ENTRY">
 		<id name="id" column="ID">
 			<generator class="native" />
@@ -1168,6 +1179,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			lazy="false">
+		</many-to-one>
 		<property name="version" column="VERSION"></property>
 		<property name="dueDate" column="DUE_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
@@ -1418,6 +1432,10 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			lazy="false">
+		</many-to-one>
+
 		<property name="occurencesCount" column="OCCURRENCES_COUNT"></property>
 		<property name="occurencesCompleted" column="OCCURRENCES_COMPLETED"></property>
 
@@ -1442,7 +1460,13 @@
 
 		<many-to-one name="referringTransaction" column="REF_TRANSACTION"
 			unique="true" not-null="true" />
-
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			lazy="false" not-null="true"></many-to-one>
+		<many-to-one name="lastModifier" column="LAST_MODIFIER"
+			class="User" lazy="false" not-null="true"></many-to-one>
+		<property name="createdDate" column="CREATED_DATE" not-null="true" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			not-null="true" />
 		<property name="weekDay" column="WEEK_DAY"></property>
 		<property name="dayOfMonth" column="DAY_OF_MONTH"></property>
 		<property name="weekOfMonth" column="WEEK_OF_MONTH"></property>

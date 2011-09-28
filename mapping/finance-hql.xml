@@ -23,12 +23,6 @@
 		order by a.number
 	</query>
 
-	<query name="list.CommodityCode">
-		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.CommodityCode c where
-		c.company=:company
-	</query>
-
 	<query name="list.AccountTransaction">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.AccountTransaction a where
@@ -148,7 +142,8 @@
 	</query>
 	<query name="list.User">
 		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.User u u.company=:company order by
+		from com.vimukti.accounter.core.User u where u.company=:company order
+		by
 		u.firstName,u.lastName
 	</query>
 	<query name="list.RecurringTransaction">
@@ -230,7 +225,7 @@
 	</query>
 	<query name="list.TAXAgency">
 		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.TAXAgency ta wher ta.company=:company
+		from com.vimukti.accounter.core.TAXAgency ta where ta.company=:company
 	</query>
 	<query name="list.FixedAsset">
 		<query-param name="company" type="Company" />

@@ -74,7 +74,7 @@
 		<mapping resource="mapping/finance-mapping.xml" />
 		<mapping resource="mapping/finance-transactions.xml" />
 		<mapping resource="mapping/finance-query.xml" />
-		<!-- <mapping resource="mapping/finance-hql.xml" /> -->
+		<mapping resource="mapping/finance-hql.xml" />
 		<mapping resource="mapping/finance-reports.xml" />
 		<mapping resource="mapping/finance-views.xml" />
 		<mapping resource="mapping/finance-new-mapping.xml" />
