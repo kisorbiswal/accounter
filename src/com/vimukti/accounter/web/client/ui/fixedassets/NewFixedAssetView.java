@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.ImageButton;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.DepreciationAccountCombo;
@@ -729,12 +730,13 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 						+ " "
 						+ UIUtils.getDateStringByDate(enteredDate.toString()),
 						this);
-				accmulatdDepreciationTxt.setValue(String
-						.valueOf(getDepreciationAmount()));
+				accmulatdDepreciationTxt.setValue(DataUtils
+						.getAmountAsString(getDepreciationAmount()));
 
 				if (isInViewMode())
-					accmulatdDepreciationTxt.setValue(String.valueOf(data
-							.getAccumulatedDepreciationAmount()));
+					accmulatdDepreciationTxt.setValue(DataUtils
+							.getAmountAsString(data
+									.getAccumulatedDepreciationAmount()));
 
 				acumulatedDeprcForm = new DynamicForm();
 				listforms.add(acumulatedDeprcForm);

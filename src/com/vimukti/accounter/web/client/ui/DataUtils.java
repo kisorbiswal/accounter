@@ -227,51 +227,56 @@ public class DataUtils {
 		if (amount == null)
 			amount = 0.00;
 
-		String decimalCharacter = Global.get().preferences()
-				.getDecimalCharacter();
-		StringBuffer buffer = new StringBuffer();
+		com.google.gwt.i18n.client.NumberFormat format = com.google.gwt.i18n.client.NumberFormat
+				.getFormat("#,##0.00");
+		return format.format(amount);
 
-		/*
-		 * It will format the 'amount' value to precission of 2
-		 */
-
-		double tmp1 = amount;
-		long factor = (long) Math.pow(10, 2);
-		tmp1 = tmp1 * factor;
-		long tmp = Math.round(Math.abs(tmp1));
-
-		amount = ((DecimalUtil.isLessThan(amount, 0) && tmp != 0) ? -1 : 1)
-				* ((double) tmp / factor);
-
-		buffer.append(amount);
-
-		/*
-		 * It will append '0' if the precision is 1 i.e, 200.0 will be formated
-		 * to 200.00
-		 */
-
-		String string = buffer.toString();
-		if (!string.contains(decimalCharacter))
-			buffer.append(".00");
-		else {
-			int index = string.indexOf(decimalCharacter);
-			String sub = string.substring(index);
-			if (sub.length() == 2)
-				buffer.append("0");
-		}
-		String nextStr = buffer.substring(buffer.indexOf(decimalCharacter));
-		if (buffer.charAt(0) == '-') {
-			String sign = "-";
-			String valueWithSign = sign
-					+ insertCommas(buffer.substring(1,
-							buffer.indexOf(decimalCharacter))) + nextStr;
-			return valueWithSign;
-		}
-		String value = insertCommas(buffer.substring(0,
-				buffer.indexOf(decimalCharacter)))
-				+ nextStr;
-
-		return value;
+		// String decimalCharacter = Global.get().preferences()
+		// .getDecimalCharacter();
+		// StringBuffer buffer = new StringBuffer();
+		//
+		// /*
+		// * It will format the 'amount' value to precission of 2
+		// */
+		//
+		// double tmp1 = amount;
+		// long factor = (long) Math.pow(10, 2);
+		// tmp1 = tmp1 * factor;
+		// long tmp = Math.round(Math.abs(tmp1));
+		//
+		// amount = ((DecimalUtil.isLessThan(amount, 0) && tmp != 0) ? -1 : 1)
+		// * ((double) tmp / factor);
+		//
+		// buffer.append(amount);
+		//
+		// /*
+		// * It will append '0' if the precision is 1 i.e, 200.0 will be
+		// formated
+		// * to 200.00
+		// */
+		//
+		// String string = buffer.toString();
+		// if (!string.contains(decimalCharacter))
+		// buffer.append(".00");
+		// else {
+		// int index = string.indexOf(decimalCharacter);
+		// String sub = string.substring(index);
+		// if (sub.length() == 2)
+		// buffer.append("0");
+		// }
+		// String nextStr = buffer.substring(buffer.indexOf(decimalCharacter));
+		// if (buffer.charAt(0) == '-') {
+		// String sign = "-";
+		// String valueWithSign = sign
+		// + insertCommas(buffer.substring(1,
+		// buffer.indexOf(decimalCharacter))) + nextStr;
+		// return valueWithSign;
+		// }
+		// String value = insertCommas(buffer.substring(0,
+		// buffer.indexOf(decimalCharacter)))
+		// + nextStr;
+		//
+		// return value;
 	}
 
 	private static String insertCommas(String str) {

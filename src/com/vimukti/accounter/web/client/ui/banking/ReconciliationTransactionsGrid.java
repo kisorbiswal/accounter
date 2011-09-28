@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.SelectionChangedHandler;
 import com.vimukti.accounter.web.client.ui.grids.columns.CheckBoxColumn;
@@ -90,9 +91,9 @@ public class ReconciliationTransactionsGrid extends
 								total += deposit.getAmount();
 							}
 						}
-						return String.valueOf(total);
+						return DataUtils.getAmountAsString(total);
 					}
-					return String.valueOf(object.getTotal());
+					return DataUtils.getAmountAsString(object.getTotal());
 				}
 				return "";
 			}

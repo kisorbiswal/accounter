@@ -38,6 +38,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
@@ -1141,8 +1142,8 @@ public class WriteChequeView extends
 		double total = transactionVendorAccountTable.getGrandTotal()
 				+ transactionVendorItemTable.getGrandTotal();
 		this.amtText.setAmount(total);
-		amtText.setValue(String.valueOf(total));
-		totalTxt.setValue(String.valueOf(total));
+		amtText.setValue(DataUtils.getAmountAsString(total));
+		totalTxt.setValue(DataUtils.getAmountAsString(total));
 		double grandTotal = transactionVendorAccountTable.getLineTotal()
 				+ transactionVendorItemTable.getLineTotal();
 		if (getPreferences().isTrackPaidTax()) {

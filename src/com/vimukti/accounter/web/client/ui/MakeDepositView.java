@@ -629,11 +629,11 @@ public class MakeDepositView extends
 			memoText.setValue(transaction.getMemo());
 			transNumber.setValue(transaction.getNumber());
 			this.transactionItems = transaction.getTransactionItems();
-			cashBackAmountText.setValue(String.valueOf(transaction
+			cashBackAmountText.setValue(DataUtils.getAmountAsString(transaction
 					.getCashBackAmount()));
 			cashBackMemoText.setValue(transaction.getCashBackMemo());
 			cashBackAccountSelect.setValue(transaction.getCashBackAccount());
-			totText.setValue(String.valueOf(transaction.getTotal()));
+			totText.setValue(DataUtils.getAmountAsString(transaction.getTotal()));
 
 			gridView.setRecords(transaction.getTransactionMakeDeposit());
 			initAccounterClass();

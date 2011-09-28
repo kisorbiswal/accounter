@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -711,8 +712,8 @@ public class CashSalesView extends
 						this.taxCodeSelect
 								.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
 					}
-					this.taxTotalNonEditableText.setValue(String
-							.valueOf(transaction.getTaxTotla()));
+					this.taxTotalNonEditableText.setValue(DataUtils
+							.getAmountAsString(transaction.getTaxTotla()));
 				}
 			}
 			memoTextAreaItem.setDisabled(true);
