@@ -60,7 +60,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final int BILLS_TO_SHOW = 5;
 	protected static final int ESTIMATES_TO_SHOW = 5;
 	protected static final int INVOICES_TO_SHOW = 5;
-
+	protected static final String ACCOUNT_NUMBER = "Account Number";
 	protected static final String TRANSACTION_ACCOUNT_ITEM_PROCESS = null;
 	protected static final String OLD_TRANSACTION_ACCOUNT_ITEM_ATTR = null;
 	private static final String ACCOUNT_ITEM_PROPERTY_ATTR = null;
@@ -1292,6 +1292,24 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	protected List<Invoice> getInvoices(String viewType, Company company) {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+	protected Result accountNumberRequirement(Context context) {
+		Requirement numberReq = get(ACCOUNT_NUMBER);
+		if (!numberReq.isDone()) {
+			String num = context.getString();
+			if (num != null) {
+				numberReq.setValue(num);
+			} else {
+				return text(context, "Please Enter the account number ", ""
+						+ num);
+			}
+		}
+		String input = (String) context.getAttribute(INPUT_ATTR);
+		if (input.equals(ACCOUNT_NUMBER)) {
+			numberReq.setValue(input);
+		}
 		return null;
 	}
 }
