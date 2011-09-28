@@ -21,7 +21,7 @@
 	padding:5px;
 }
 .gwt-MenuBarPopup div table:only-child,.datePickerMonthSelector,.gwt-DialogBox,.gwt-MenuItem-selected,
-.gwt-DecoratedTabBar .gwt-TabBarItem-selected{
+.gwt-DecoratedTabBar .gwt-TabBarItem-selected,.dateBoxPopup .gwt-DatePicker .datePickerWeekdayLabel,.dateBoxPopup .gwt-DatePicker .datePickerWeekendLabel{
 	background:-moz-linear-gradient(center top , #C4C0C0, #545252) repeat scroll 0 0 transparent !important;
 	background: -webkit-gradient(linear, left top, left bottom, from(#C4C0C0), to(#545252)) !important;
 }
@@ -41,7 +41,7 @@ html,body,.view_manager,.myacc-form1 td input[type=text],.gridBodyContainer,.gri
 .helpPanel,.view_panel,.HEADER_GRID,.financeWindow,.noScroll,.listgridfooter,.gridHeader,.toolbox,.companyInfoPanel,
 .error-panel,.commentPanel,.portlet-body,.empty_menu_bar,.address,.tablelayout,.tablelayout1,.tablelayoutInIE,.tablelayoutInIE1,
 .listgrid .custom-combo,.widget,.boldtext,.email_textarea textarea,.finance-portlet td:FIRST-CHILD table,.finance-portlet table,
-.editTable .gwt-TextBox,.editTable .gwt-DateBox,.fullSizePanel,.imageLink-div,.action-vp,.gridBody tbody,.grid-resizeable-proxy-column,
+.editTable .gwt-TextBox,.editTable .gwt-DateBox,.imageLink-div,.action-vp,.gridBody tbody,.grid-resizeable-proxy-column,
 .portlet-body,.no-title .main-w,.datePickerMonthSelector,.pre_scroll_table div table {
 	width: 100%;
 }
@@ -62,11 +62,11 @@ html,body,.view_manager,.myacc-form1 td input[type=text],.gridBodyContainer,.gri
 }
 .gwt-MenuBar-vertical .gwt-MenuItem,.no-title td.td01,.main-w,td.td11,td.td10,.users-listGrid .gridBodyContainer .onsort,.upload-logo,
 .workspaces-listGrid .gridBodyContainer .onsort,.dropdownFlex,.blue-day-grid,select[multiple],
-.selectedview_textareadata,#loading .loadingIndicator,.main-class-pannel,.recounciliation_grid{
+.selectedview_textareadata,#loading .loadingIndicator,.main-class-pannel,.recounciliation_grid,.dateBoxPopup{
 	background: none repeat scroll 0 0 #FFFFFF;
 }
-.gwt-MenuItemSeparator,a#fdbk_tab,.menu_arrow,.ele-disable,.menuPopupMiddleLeft,.disconnected .gridLabelCell .gwt-HTML img,.listgridfooter,.menubar-devider,
-.progress_panel_hide,.customize_Accounter_labels a,.expense_question_link a,.view_panel a,.editTable_disable,.header,#mainFooter{
+.gwt-MenuItemSeparator,#contact,.menu_arrow,.ele-disable,.menuPopupMiddleLeft,.disconnected .gridLabelCell .gwt-HTML img,.listgridfooter,.menubar-devider,
+.progress_panel_hide,.customize_Accounter_labels a,.expense_question_link a,.view_panel a,.editTable_disable,.page_header,#mainFooter{
 	display: none;
 }
 .gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleCenter,.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopCenter,
@@ -82,7 +82,7 @@ lable,.gwt-Label,.datePickerPreviousButton,.datePickerNextButton,td.datePickerMo
 .gwt-MenuBar-vertical .subMenuIcon-selected,.childNode tr td,.parentNode tr td,
 .gwt-MenuBar-vertical,.loading-panel tr td,.workspace-panel .listgrid,.user-panel .listgrid,.workspace-panel .listgrid .gridBody tr td,
 .user-panel .listgrid .gridBody tr td,.helpContent,.gwt-MenuBar-vertical .gwt-MenuItemSeparator .menuSeparatorInner,.custom-button,
-.editTable .gwt-TextBox,.editTable .gwt-DateBox,.industry_list_table select{
+.editTable .gwt-TextBox,.editTable .gwt-DateBox,.industry_list_table select,.gwt-DatePicker .datePickerDays tr:FIRST-CHILD{
 	border: 0px none ;
 }
 .editheader .gwt-Label,.viewTitle,.blue-month-line,.blue-week-line,.gwt-StackPanel .gwt-StackPanelItem,.image-button,.portletLabel,
@@ -101,7 +101,7 @@ lable,.gwt-Label,.datePickerPreviousButton,.datePickerNextButton,td.datePickerMo
 	float: right !important;
 }
 .picture-link,.status,.blue-day-grid,.blue-month-line,.blue-week-line,.message,.headerlabel,.progress_header,
-.skip_setup td:last-child,.start_setup td:last-child {
+.skip_setup td:last-child,.start_setup td:last-child,.dateBoxPopup .popupContent table td {
 	text-align: center;
 }
 .td11,td.sidebar,.recounciliation_grid tbody tr,.gridLabelCell img,.Caption img,.gwt-TreeItem img,
@@ -126,7 +126,7 @@ body,.menubar-devider,.gwt-SuggestBox,.gwt-TextBox,.gwt-PasswordTextBox,.gridSel
 	background: none repeat scroll 0 0 #CCCCCC !important;
 }
 .MENU_BAR_BG .gwt-MenuBar-horizontal table,.gridBody,.gridHeader,.blue-day-grid,.dropdownFlex,.gridHeader,.editTable table,.boldtext,.borders,.biz-decor-panel,
-.gwt-DecoratedTabBar .gwt-TabBarItem,.td00,.td01,.td02,.biz-decor-panel{
+.gwt-DecoratedTabBar .gwt-TabBarItem,.td00,.td01,.td02,.biz-decor-panel,.gwt-DatePicker .datePickerDays{
 	border-collapse: collapse;
 }
 .gwt-DialogBox .dialogTopLeftInner,.dialogMiddleRightInner ,.discussion-dialog .dialogMiddleLeft,
@@ -177,7 +177,7 @@ input[type="text"],textarea,.view_help_panel td:FIRST-CHILD table td,.helpdialog
 .grouped-buttons,.progress_panel_data td .gwt-Label,.progress_panel table tr td{
 	padding: 5px 0;
 }
-.blue-day-grid tr,.popup,.message {
+.blue-day-grid tr,.popup,.message,.gwt-DatePicker .datePickerDays tr {
 	border: 1px solid #AAAAAA;
 }
 .gridSelectBoxCell .downarrow-button,.page-layout,.gwt-DecoratedPopupPanel,.accounter-button-seperater{
@@ -351,9 +351,11 @@ div.gridBodyContainer,.action-panel .panelBody .panelContent,.action-panel,.scro
 	height: 30px !important;
 	padding: 6px 4px 3px 6px !important;
 }
+.gwt-DialogBox .dialogMiddleCenter,.dateBoxPopup .popupContent .datePickerMonthSelector td,.dateBoxPopup .popupContent .datePickerDays td {
+    padding: 3px;	
+}
 .gwt-DialogBox .dialogMiddleCenter {
 	background: none repeat scroll 0 0 #eeeeee !important;
-	padding: 3px;
 }
 .gwt-DecoratedTabBar .tabMiddleCenter {
 	padding: 0 4px 2px;
@@ -428,13 +430,13 @@ div.gridBodyContainer,.action-panel .panelBody .panelContent,.action-panel,.scro
 .blue-day-grid,.blue-month-line,.blue-week-line,.blue-date-picker{
     width: 184px;
 }
-.blue-week-end,.blue-current-month-week-end {
+.blue-week-end,.blue-current-month-week-end,.gwt-DatePicker .datePickerDayIsWeekend {
 	background-color: #EEEEEE;
 }
-.blue-other-day,.blue-week-end {
+.blue-other-day,.blue-week-end,.datePickerDayIsFiller  {
 	color: #AAAAAA;
 }
-.blue-current-month-other-day,.blue-current-month-week-end,.blue-other-day,.blue-week-end,.blue-current-month-selected{
+.blue-current-month-other-day,.blue-current-month-week-end,.blue-other-day,.blue-week-end,.blue-current-month-selected,.gwt-DatePicker .datePickerDay{
 	border-right: 1px solid #aaa; 
 }
 .blue-current-month-selected {
@@ -449,8 +451,8 @@ div.gridBodyContainer,.action-panel .panelBody .panelContent,.action-panel,.scro
 .margin-t {
 	margin-top: 25px;
 }
-.table-fixed,.listgridfooter,.biz-decor-panel,.listgrid .gridBody {
-	table-layout: fixed;
+.table-fixed,.listgridfooter,.biz-decor-panel,.listgrid .gridBody,.gridHeader,.gridBody {
+	table-layout: fixed !important;
 }
 .dateList {
 	min-width: 15px !important;
@@ -988,7 +990,7 @@ body,div, table td, select,.gwt-Button,textarea,input,label,.ReportGrid tr td,.g
 	border:1px solid #918c8c;
 	border-radius:1px !important;
 }
-.edit_user_profile input[type="text"]{
+.edit_user_profile input[type="text"],.addNewButton{
 	margin:5px;
 }
 .view_panel table table tr:last-child td .gwt-Button{
@@ -1103,7 +1105,6 @@ input[type="text"]{
 	-webkit-border-radius:5px 5px 0 0;
 	-moz-border-radius:5px 5px 0 0;
 }
-
 .gwt-MenuBarPopup .menuPopupTopLeft .menuPopupTopLeftInner{
 	border-color: transparent transparent #C4C0C0;
     border-style: solid;
@@ -1114,14 +1115,8 @@ input[type="text"]{
     top:1px;
 }
 .gwt-MenuBarPopup {
-   /* background-image: url("/images/Drop-down-button_20x22.png");
-    background-repeat: no-repeat;
-    padding-top: 22px;*/
     padding-top:20px;
     z-index: 1;
-}
-.addNewButton{
-	margin:5px;
 }
 .gwt-PopupPanel table tr{
 	white-space: nowrap;
@@ -1129,7 +1124,6 @@ input[type="text"]{
 .gwt-PopupPanel .popupContent div{
 	overflow-x:hidden !important;
 }
-
 .editTable .selected{
 	background:#fff !important;
 }
