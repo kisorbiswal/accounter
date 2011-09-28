@@ -72,8 +72,8 @@ public class Misc1099PDFTemplate {
 			marginBottom = verticalValue;
 		}
 
-		Client1099Form form = new FinanceTool().get1099InformationByVendor(memo
-				.getID());
+		Client1099Form form = new FinanceTool().get1099InformationByVendor(
+				memo.getID(), memo.getCompany().getID());
 
 		if (form.getBox(0) > 0)
 			rents = Double.toString(form.getBox(0));

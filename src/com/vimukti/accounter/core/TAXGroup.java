@@ -146,11 +146,12 @@ public class TAXGroup extends TAXItemGroup {
 
 		session.getNamedQuery("updateTaxCodeSalesTaxRate")
 				.setParameter("id", this.id)
-				.setParameter("salesTaxRate", this.groupRate).executeUpdate();
+				.setParameter("salesTaxRate", this.groupRate)
+				.setLong("companyId", company.getID()).executeUpdate();
 		session.getNamedQuery("updateTaxCodePurchaseTaxRate")
 				.setParameter("id", this.id)
 				.setParameter("purchaseTaxRate", this.groupRate)
-				.executeUpdate();
+				.setLong("companyId", company.getID()).executeUpdate();
 
 		super.onSave(session);
 		// ChangeTracker.put(this);
