@@ -123,8 +123,8 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 				accounterCoreType.getServerClassFullyQualifiedName(), id);
 		if (serverCore instanceof Transaction) {
 			IAccounterCore clientObject = (IAccounterCore) new ClientConvertUtil()
-					.toClientObject(serverCore, Util
-							.getClientEqualentClass(serverCore.getClass()));
+					.toClientObject(serverCore,
+							Util.getClientEqualentClass(serverCore.getClass()));
 			((ClientTransaction) clientObject).setVoid(true);
 			update(clientObject);
 
@@ -143,8 +143,8 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 			trans.setStatus(Transaction.STATUS_DELETED);
 			trans.setVoid(true);
 			update((IAccounterCore) new ClientConvertUtil().toClientObject(
-					serverCore, Util.getClientEqualentClass(serverCore
-							.getClass())));
+					serverCore,
+					Util.getClientEqualentClass(serverCore.getClass())));
 
 			return true;
 		}
@@ -171,8 +171,8 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 		// Creating Clien
 		try {
 			String company = getCookie(BaseServlet.COMPANY_COOKIE);
-			boolean userExists = s2sSyncProxy.inviteUser(Integer
-					.parseInt(company), invitedser, getUserEmail());
+			boolean userExists = s2sSyncProxy.inviteUser(
+					Integer.parseInt(company), invitedser, getUserEmail());
 			coreUser.setActive(userExists);
 		} catch (Exception e) {
 			if (e instanceof AccounterException) {
@@ -235,8 +235,8 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 
 			String serverCompanyId = getCookie(BaseServlet.COMPANY_COOKIE);
 
-			s2sSyncProxy.deleteClientFromCompany(Long
-					.parseLong(serverCompanyId), deletingUser.getEmail());
+			s2sSyncProxy.deleteClientFromCompany(
+					Long.parseLong(serverCompanyId), deletingUser.getEmail());
 
 		} catch (Exception e) {
 			if (e instanceof AccounterException) {
@@ -266,7 +266,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public Client1099Form get1099InformationByVendor(long vendorId) {
 		FinanceTool financeTool = new FinanceTool();
-		return financeTool.get1099InformationByVendor(vendorId);
+		return financeTool.get1099InformationByVendor(vendorId, getCompanyId());
 	}
 
 	@Override

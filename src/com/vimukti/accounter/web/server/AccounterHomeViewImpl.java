@@ -385,7 +385,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			serverCreditCardCharges = getFinanceTool()
-					.getCreditCardChargesThisMonth(date);
+					.getCreditCardChargesThisMonth(date, getCompanyId());
 			for (CreditCardCharge creditCardCharge : serverCreditCardCharges) {
 				clientCreditCardCharges.add(new ClientConvertUtil()
 						.toClientObject(creditCardCharge,
@@ -1026,7 +1026,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		List<Item> serverItems = null;
 		try {
 
-			serverItems = getFinanceTool().getLatestPurchaseItems();
+			serverItems = getFinanceTool().getLatestPurchaseItems(
+					getCompanyId());
 			for (Item item : serverItems) {
 				clientItems.add(new ClientConvertUtil().toClientObject(item,
 						ClientItem.class));
@@ -1519,7 +1520,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			resultList = getFinanceTool().getGraphPointsforAccount(chartType,
-					getCompanyId());
+					accountNo, getCompanyId());
 
 		} catch (Exception e) {
 			e.printStackTrace();

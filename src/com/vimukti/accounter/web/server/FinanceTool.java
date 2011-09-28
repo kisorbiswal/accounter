@@ -1874,7 +1874,7 @@ public class FinanceTool {
 	}
 
 	public ArrayList<CreditCardCharge> getCreditCardChargesThisMonth(
-			final long date) throws DAOException {
+			final long date, long companyId) throws DAOException {
 		// SELECT * from com.vimukti.accounter.core.CREDIT_CARD_CHARGES CCC JOIN
 		// TRANSACTION T ON T.ID =
 		// CCC.ID AND T.T_DATE = CURRENT_DATE
@@ -1893,7 +1893,7 @@ public class FinanceTool {
 		year = cal.get(Calendar.YEAR);
 
 		Query query = session.getNamedQuery("getCreditCardChargesThisMonth")
-				.setInteger("month", month);
+				.setInteger("month", month).setLong("companyId", companyId);
 		Iterator iterator = query.list().iterator();
 		List<CreditCardCharge> list = new ArrayList<CreditCardCharge>();
 		while (iterator.hasNext()) {
@@ -3583,10 +3583,12 @@ public class FinanceTool {
 		}
 	}
 
-	public ArrayList<Item> getLatestPurchaseItems() throws DAOException {
+	public ArrayList<Item> getLatestPurchaseItems(long companyId)
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery("getLatestPurchaseItems");
+		Query query = session.getNamedQuery("getLatestPurchaseItems").setLong(
+				"companyId", companyId);
 		List list2 = query.list();
 
 		Object object[] = null;
@@ -7179,7 +7181,7 @@ public class FinanceTool {
 
 		List<Box> boxes = createBoxes(vatAgency);
 
-		assignAmounts(vatAgency, boxes, fromDate, toDate);
+		assignAmounts(vatAgency, boxes, fromDate, toDate, companyId);
 		adjustAmounts(vatAgency, boxes, fromDate, toDate, companyId);
 
 		// for (Box b : boxes) {
@@ -7282,13 +7284,15 @@ public class FinanceTool {
 	}
 
 	private void assignAmounts(TAXAgency vatAgency, List<Box> boxes,
-			FinanceDate fromDate, FinanceDate toDate) {
+			FinanceDate fromDate, FinanceDate toDate, long companyId) {
 
 		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
 		Query query = session
 				.getNamedQuery("getTAXRateCalculations.by.taxAgencyIdand.Date")
 				.setParameter("toDate", toDate)
-				.setParameter("vatAgency", vatAgency.getID());
+				.setParameter("vatAgency", vatAgency.getID())
+				.setEntity("company", company);
 		List<TAXRateCalculation> vrc = query.list();
 
 		/*
@@ -8737,11 +8741,11 @@ public class FinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 
 		// Entries from Sales where Vat Codes EGS and RC are used
-
+		Company company = getCompany(companyId);
 		Query query = session.getNamedQuery("getEGSandRCentriesFromSales")
 				.setParameter("startDate", fromDate.getDate())
 				.setParameter("endDate", toDate.getDate())
-				.setEntity("company", getCompany(companyId));
+				.setEntity("company", company);
 
 		List list2 = query.list();
 		Object[] object = null;
@@ -8821,9 +8825,9 @@ public class FinanceTool {
 
 		// Entries from VATReturn;
 
-		query = session.getNamedQuery(
-				"getTAXAdjustment.checkingby.VATperiodEndDate").setParameter(
-				"endDate", toDate);
+		query = session
+				.getNamedQuery("getTAXAdjustment.checkingby.VATperiodEndDate")
+				.setParameter("endDate", toDate).setEntity("company", company);
 
 		List<VATReturn> vatReturns = query.list();
 		for (VATReturn v : vatReturns) {
@@ -11067,16 +11071,16 @@ public class FinanceTool {
 	}
 
 	public ArrayList<Double> getGraphPointsforAccount(int chartType,
-			long accountNo) throws DAOException {
+			long accountNo, long companyId) throws DAOException {
 
 		if (chartType == GraphChart.BANK_ACCOUNT_CHART_TYPE) {
-			return getBankingChartValues(accountNo);
+			return getBankingChartValues(accountNo, companyId);
 		} else if (chartType == GraphChart.ACCOUNTS_RECEIVABLE_CHART_TYPE) {
-			return getMoneyInChartValues();
+			return getMoneyInChartValues(companyId);
 		} else if (chartType == GraphChart.ACCOUNTS_PAYABLE_CHART_TYPE) {
-			return getMoneyOutChartValues();
+			return getMoneyOutChartValues(companyId);
 		} else {
-			return getExpensePortletValues();
+			return getExpensePortletValues(companyId);
 		}
 	}
 
@@ -11886,14 +11890,16 @@ public class FinanceTool {
 		return arraylist;
 	}
 
-	public Client1099Form get1099InformationByVendor(long vendorId) {
+	public Client1099Form get1099InformationByVendor(long vendorId,
+			long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
 		Client1099Form client1099Form = new Client1099Form();
-
-		Query query = session.getNamedQuery(
-				"get.selected.vendors.enterbills.list.by.id").setParameter(
-				"vendorId", vendorId);
+		Company company = getCompany(companyId);
+		Query query = session
+				.getNamedQuery("get.selected.vendors.enterbills.list.by.id")
+				.setParameter("vendorId", vendorId)
+				.setEntity("company", company);
 		ArrayList<EnterBill> list = (ArrayList<EnterBill>) query.list();
 
 		for (EnterBill enterBill : list) {
@@ -12539,7 +12545,8 @@ public class FinanceTool {
 		return history;
 	}
 
-	public ArrayList<Double> getBankingChartValues(long accountNo) {
+	public ArrayList<Double> getBankingChartValues(long accountNo,
+			long companyId) {
 
 		Session session = HibernateUtil.getCurrentSession();
 		FinanceDate currentDate = new FinanceDate();
@@ -12570,6 +12577,7 @@ public class FinanceTool {
 
 		Query query = session
 				.getNamedQuery("getPointsForBankAccount")
+				.setLong("companyId", companyId)
 				.setParameter("accountNo", accountNo)
 				.setParameter("previousThreeDaysBackDateCal",
 						new FinanceDate(dateCal[0].getTime()).getDate())
@@ -12597,7 +12605,7 @@ public class FinanceTool {
 		return new ArrayList<Double>(gPoints);
 	}
 
-	public ArrayList<Double> getMoneyInChartValues() {
+	public ArrayList<Double> getMoneyInChartValues(long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = null;
 
@@ -12620,24 +12628,25 @@ public class FinanceTool {
 
 			gPoints.add(getMoneyInForDates(
 					new FinanceDate(startDateCal.getTime()).getDate(),
-					new FinanceDate(endDateCal.getTime()).getDate()));
+					new FinanceDate(endDateCal.getTime()).getDate(), companyId));
 		}
 
 		Object res = session.getNamedQuery("getInvoicesDue")
-				.setParameter("presentDate", 0).uniqueResult();
+				.setParameter("presentDate", 0).setLong("companyId", companyId)
+				.uniqueResult();
 		double amount = res == null ? 0 : (Double) res;
 		gPoints.add(amount);
 
 		res = session.getNamedQuery("getInvoicesDue")
 				.setParameter("presentDate", (new FinanceDate()).getDate())
-				.uniqueResult();
+				.setLong("companyId", companyId).uniqueResult();
 		amount = res == null ? 0 : (Double) res;
 		gPoints.add(amount);
 
 		return new ArrayList<Double>(gPoints);
 	}
 
-	public ArrayList<Double> getMoneyOutChartValues() {
+	public ArrayList<Double> getMoneyOutChartValues(long companyId) {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = null;
@@ -12657,26 +12666,28 @@ public class FinanceTool {
 		}
 
 		Object res = session.getNamedQuery("getBillsDue")
-				.setParameter("presentDate", 0).uniqueResult();
+				.setParameter("presentDate", 0).setLong("companyId", companyId)
+				.uniqueResult();
 		double amount = res == null ? 0 : (Double) res;
 		gPoints.add(amount);
 
 		res = session.getNamedQuery("getBillsDue")
 				.setParameter("presentDate", (new FinanceDate()).getDate())
-				.uniqueResult();
+				.setLong("companyId", companyId).uniqueResult();
 		amount = res == null ? 0 : (Double) res;
 		gPoints.add(amount);
 
 		return new ArrayList<Double>(gPoints);
 	}
 
-	public ArrayList<Double> getExpensePortletValues() {
+	public ArrayList<Double> getExpensePortletValues(long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = null;
 
 		FinanceDate currentDate = new FinanceDate();
 
-		query = session.getNamedQuery("getExpenseTotalAmounts");
+		query = session.getNamedQuery("getExpenseTotalAmounts").setLong(
+				"companyId", companyId);
 
 		List<Double> gPoints = new ArrayList<Double>();
 		List list = query.list();
@@ -12696,11 +12707,13 @@ public class FinanceTool {
 		return new ArrayList<Double>(gPoints);
 	}
 
-	private double getMoneyInForDates(long startDate, long endDate) {
+	private double getMoneyInForDates(long startDate, long endDate,
+			long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getMoneyInForDates")
 				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate);
+				.setParameter("endDate", endDate)
+				.setLong("companyId", companyId);
 
 		List<Double> list = query.list();
 		double amount = 0;
