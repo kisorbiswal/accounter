@@ -376,7 +376,7 @@ public class FinanceTool {
 			}
 			String userID = context.getUserEmail();
 
-			User inviteduser = getUserByUserEmail(userID,company);
+			User inviteduser = getUserByUserEmail(userID, company);
 			Activity inviteuserActivity = new Activity(company, inviteduser,
 					ActivityType.ADD, user);
 
@@ -12664,8 +12664,8 @@ public class FinanceTool {
 			dateCal.setTime(currentDate.getAsDateObject());
 			dateCal.set(Calendar.DATE, dateCal.get(Calendar.DATE) + i);
 
-			gPoints.add(getMoneyOutOnDate(new FinanceDate(dateCal.getTime())
-					.getDate()));
+			gPoints.add(getMoneyOutOnDate(
+					new FinanceDate(dateCal.getTime()).getDate(), companyId));
 		}
 
 		Object res = session.getNamedQuery("getBillsDue")
@@ -12730,10 +12730,10 @@ public class FinanceTool {
 		}
 	}
 
-	private double getMoneyOutOnDate(long date) {
+	private double getMoneyOutOnDate(long date, long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery("getMoneyOutOnDate").setParameter(
-				"date", date);
+		Query query = session.getNamedQuery("getMoneyOutOnDate")
+				.setParameter("date", date).setLong("companyId", companyId);
 
 		List<Double> list = query.list();
 		double amount = 0;
