@@ -65,7 +65,7 @@ public class CompanyDateFormateOption extends AbstractPreferenceOption {
 		dateFormateDescriptionlabel.setStyleName("organisation_comment");
 		dateFormates = new String[] { "ddMMyy", "MM/dd/yy", "dd/MM/yy",
 				"ddMMyyyy", "MMddyyyy", "MMM-dd-yy", "MMMddyyyy", "dd/MM/yyyy",
-				"MM/dd/yyyy", "ddMMMMyyyy", "MMMMddyyyy", "dd-MM-yyyy",
+				"MM/dd/yyyy", "dd/MMMM/yyyy", "MMMMddyyyy", "dd-MM-yyyy",
 				"MM-dd-yyyy", "dd/MMM/yyyy", "MMM/dd/yyyy", };
 
 		for (int i = 0; i < dateFormates.length; i++) {
@@ -149,7 +149,7 @@ public class CompanyDateFormateOption extends AbstractPreferenceOption {
 			break;
 		case 9:
 			exampleDateFomateLabel.setText("  *Example   : "
-					+ DateUtills.getCurrentDateAsString("ddMMMMyyyy"));
+					+ DateUtills.getCurrentDateAsString("dd/MMMM/yyyy"));
 			break;
 		case 10:
 			exampleDateFomateLabel.setText("  *Example   : "
