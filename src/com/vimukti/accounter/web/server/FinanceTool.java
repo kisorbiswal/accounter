@@ -35,7 +35,6 @@ import org.hibernate.FlushMode;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 import org.hibernate.criterion.Order;
@@ -390,8 +389,7 @@ public class FinanceTool {
 				company.addUser(user);
 			}
 			String userID = context.getUserEmail();
-			User inviteduser = (User) session.getNamedQuery("user.by.emailid")
-					.setParameter("emailID", userID).uniqueResult();
+			User inviteduser = getUserByUserEmail(userID);
 			Activity inviteuserActivity = new Activity(inviteduser,
 					ActivityType.ADD, user);
 
@@ -415,7 +413,8 @@ public class FinanceTool {
 
 	private User getUserByUserEmail(String email) {
 		Session session = HibernateUtil.getCurrentSession();
-		return (User) session.getNamedQuery("user.by.emailid").uniqueResult();
+		return (User) session.getNamedQuery("user.by.emailid")
+				.setParameter("emailID", email).uniqueResult();
 	}
 
 	public long updateUser(OperationContext updateContext)
