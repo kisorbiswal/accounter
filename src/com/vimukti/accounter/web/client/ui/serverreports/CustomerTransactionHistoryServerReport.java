@@ -147,14 +147,8 @@ public class CustomerTransactionHistoryServerReport extends
 		if (sectionDepth == 0) {
 			// First time
 			this.sectionName = record.getName();
-			if (constants != null) {
-				addSection(new String[] { sectionName }, new String[] { "", "",
-						"", "", constants.total() }, new int[] { 5 });
-			} else {
-				addSection(new String[] { sectionName }, new String[] { "", "",
-						"", "", Accounter.constants().total() },
-						new int[] { 5 });
-			}
+			addSection(new String[] { sectionName }, new String[] {},
+					new int[] {});
 
 		}
 		// else if (sectionDepth == 2) {
