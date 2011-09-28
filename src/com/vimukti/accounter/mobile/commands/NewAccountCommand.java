@@ -254,24 +254,6 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		return null;
 	}
 
-	private Result accountNumberRequirement(Context context) {
-		Requirement numberReq = get(ACCOUNT_NUMBER);
-		if (!numberReq.isDone()) {
-			String num = context.getString();
-			if (num != null) {
-				numberReq.setValue(num);
-			} else {
-				return text(context, "Please Enter the account number ", ""
-						+ num);
-			}
-		}
-		String input = (String) context.getAttribute(INPUT_ATTR);
-		if (input.equals(ACCOUNT_NUMBER)) {
-			numberReq.setValue(input);
-		}
-		return null;
-	}
-
 	private Result nameRequirement(Context context) {
 		Requirement nameReq = get(ACCOUNT_NAME);
 		if (!nameReq.isDone()) {
