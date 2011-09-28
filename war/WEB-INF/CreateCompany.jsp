@@ -14,6 +14,7 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet">
 <%@ include file="./feedback.jsp" %>
+<link type="text/css" href="../css/ss.css" rel="stylesheet">
 <script type="text/javascript">
 $(document).ready(function() {
 	$('#submitButton').click(function() {

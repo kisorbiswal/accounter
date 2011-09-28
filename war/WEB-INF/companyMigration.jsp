@@ -7,6 +7,7 @@
 <link rel="shortcut icon" href="../images/favicon.ico" />
 
 <%@ include file="./feedback.jsp" %>
+<link type="text/css" href="../css/ss.css" rel="stylesheet">
 </head>
 <body>
   <div id="maintananceContainer">

@@ -8,6 +8,7 @@
 <meta content="IE=100" http-equiv="X-UA-Compatible">
 
 <%@ include file="./feedback.jsp" %>
+<link type="text/css" href="../css/ss.css" rel="stylesheet">
 <link rel="shortcut icon" href="../images/favicon.ico" />
 <link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet">
 <script  type="text/javascript" >

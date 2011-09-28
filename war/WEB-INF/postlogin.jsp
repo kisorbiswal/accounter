@@ -14,6 +14,7 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <%@ include file="./feedback.jsp" %>
+    <link type="text/css" href="../css/ss.css" rel="stylesheet">
     <script type="text/javascript">
     var tabsEnabled=["Hr","Finance","Operations","Marketing","Sales","Users","Workflows","Purchases"];
     var helpurl="${helpUrl}";

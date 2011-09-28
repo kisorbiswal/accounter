@@ -15,6 +15,7 @@
     
     <!--CSS for loading message at application Startup-->
     <%@ include file="./feedback.jsp" %>
+    <link type="text/css" href="../css/ss.css" rel="stylesheet">
     <script type="text/javascript">
     	function loadImage(){
     		document.getElementById("hiddenDiv").style.display="block";

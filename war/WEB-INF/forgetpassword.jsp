@@ -5,6 +5,7 @@
 </title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%@ include file="./feedback.jsp" %>
+<link type="text/css" href="../css/ss.css" rel="stylesheet">
 <title>Forget Password</title>
 <script type="text/javascript">
 function validation(formObject){

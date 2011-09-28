@@ -8,6 +8,7 @@
 
 <link rel="shortcut icon" href="../images/favicon.ico" />
 <%@ include file="./feedback.jsp" %>
+<link type="text/css" href="../css/ss.css" rel="stylesheet">
 <script type="text/javascript" src="/jscripts/stepcarousel.js"></script>
 <script type="text/javascript">
 jQuery.noConflict();

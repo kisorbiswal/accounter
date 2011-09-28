@@ -28,7 +28,6 @@
     <!--                                                               -->
     <!-- Consider inlining CSS to reduce the number of requested files -->
        
-     <link type="text/css" href="../css/ss.css" rel="stylesheet">
 	<link type="text/css" rel="stylesheet" href="../css/calendar.css?version=<%= version%>">
 	 
 	<%

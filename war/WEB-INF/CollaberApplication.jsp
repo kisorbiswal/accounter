@@ -3,6 +3,7 @@
 <html>
   <head>
   <%@ include file="./feedback.jsp" %>
+  <link type="text/css" href="../css/ss.css" rel="stylesheet">
 	<script language="javascript" type="text/javascript" src='js/tiny_mce/tiny_mce_src.js'></script>
 
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
