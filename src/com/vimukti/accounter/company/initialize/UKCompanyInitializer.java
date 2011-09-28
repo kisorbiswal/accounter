@@ -621,23 +621,23 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 			defaultVATAgency.setSalesLiabilityAccount((Account) session
 					.getNamedQuery("unique.name.Account")
-					.setEntity("comapny", company)
+					.setEntity("company", company)
 					.setString("name",
 							AccounterServerConstants.SALES_TAX_VAT_UNFILED)
 					.list().get(0));
 
 			defaultVATAgency.setPurchaseLiabilityAccount((Account) session
 					.getNamedQuery("unique.name.Account")
-					.setEntity("comapny", company)
+					.setEntity("company", company)
 					.setString("name",
 							AccounterServerConstants.SALES_TAX_VAT_UNFILED)
 					.list().get(0));
 
 			defaultVATAgency.setDefault(true);
-
+			defaultVATAgency.setCompany(company);
 			session.save(defaultVATAgency);
 
-			TAXItem vatItem1 = new TAXItem();
+			TAXItem vatItem1 = new TAXItem(company);
 			vatItem1.setName("EC Purchases Goods Standard");
 			vatItem1.setActive(true);
 			vatItem1.setDescription("EC Purchases of Goods Standard");
@@ -650,7 +650,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem1.setPercentage(true);
 			session.save(vatItem1);
 
-			TAXItem vatItem2 = new TAXItem();
+			TAXItem vatItem2 = new TAXItem(company);
 			vatItem2.setName("EC Purchases Goods Zero-Rated");
 			vatItem2.setActive(true);
 			vatItem2.setDescription("EC Purchases of Goods Zero-Rated");
@@ -662,7 +662,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem2.setDefault(true);
 			session.save(vatItem2);
 
-			TAXItem vatItem3 = new TAXItem();
+			TAXItem vatItem3 = new TAXItem(company);
 			vatItem3.setName("EC Sales Goods Standard");
 			vatItem3.setActive(true);
 			vatItem3.setDescription("EC Sales of Goods Standard");
@@ -674,7 +674,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem3.setDefault(true);
 			session.save(vatItem3);
 
-			TAXItem vatItem4 = new TAXItem();
+			TAXItem vatItem4 = new TAXItem(company);
 			vatItem4.setName("EC Sales Services Standard");
 			vatItem4.setActive(true);
 			vatItem4.setDescription("EC Sales of Services Standard");
@@ -686,7 +686,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem4.setPercentage(true);
 			session.save(vatItem4);
 
-			TAXItem vatItem5 = new TAXItem();
+			TAXItem vatItem5 = new TAXItem(company);
 			vatItem5.setName("Exempt Purchases");
 			vatItem5.setActive(true);
 			vatItem5.setDescription("Exempt Purchases");
@@ -698,7 +698,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem5.setPercentage(true);
 			session.save(vatItem5);
 
-			TAXItem vatItem6 = new TAXItem();
+			TAXItem vatItem6 = new TAXItem(company);
 			vatItem6.setName("Exempt Sales");
 			vatItem6.setActive(true);
 			vatItem6.setDescription("Exempt Sales");
@@ -710,7 +710,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem6.setPercentage(true);
 			session.save(vatItem6);
 
-			TAXItem vatItem7 = new TAXItem();
+			TAXItem vatItem7 = new TAXItem(company);
 			vatItem7.setName("Not Registered Purchases");
 			vatItem7.setActive(true);
 			vatItem7.setSalesType(false);
@@ -723,7 +723,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem7.setDefault(true);
 			session.save(vatItem7);
 
-			TAXItem vatItem8 = new TAXItem();
+			TAXItem vatItem8 = new TAXItem(company);
 			vatItem8.setName("Not Registered Sales");
 			vatItem8.setActive(true);
 			vatItem8.setDescription("Not Registered Sales");
@@ -736,7 +736,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem8.setDefault(true);
 			session.save(vatItem8);
 
-			TAXItem vatItem9 = new TAXItem();
+			TAXItem vatItem9 = new TAXItem(company);
 			vatItem9.setName("Reduced Purchases");
 			vatItem9.setActive(true);
 			vatItem9.setSalesType(false);
@@ -748,7 +748,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem9.setPercentage(true);
 			session.save(vatItem9);
 
-			TAXItem vatItem10 = new TAXItem();
+			TAXItem vatItem10 = new TAXItem(company);
 			vatItem10.setName("Reduced Sales");
 			vatItem10.setActive(true);
 			vatItem10.setDescription("Reduced Sales");
@@ -760,7 +760,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem10.setPercentage(true);
 			session.save(vatItem10);
 
-			TAXItem vatItem11 = new TAXItem();
+			TAXItem vatItem11 = new TAXItem(company);
 			vatItem11.setName("Reverse Charge Purchases Standard");
 			vatItem11.setActive(true);
 			vatItem11.setDescription("Reverse Charge Purchases Standard");
@@ -772,7 +772,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem11.setDefault(true);
 			session.save(vatItem11);
 
-			TAXItem vatItem12 = new TAXItem();
+			TAXItem vatItem12 = new TAXItem(company);
 			vatItem12.setName("Standard Purchases");
 			vatItem12.setActive(true);
 			vatItem12.setDescription("Standard Purchases");
@@ -784,7 +784,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem12.setPercentage(true);
 			session.save(vatItem12);
 
-			TAXItem vatItem13 = new TAXItem();
+			TAXItem vatItem13 = new TAXItem(company);
 			vatItem13.setName("Standard Sales");
 			vatItem13.setActive(true);
 			vatItem13.setDescription("Standard Sales");
@@ -796,7 +796,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem13.setPercentage(true);
 			session.save(vatItem13);
 
-			TAXItem vatItem14 = new TAXItem();
+			TAXItem vatItem14 = new TAXItem(company);
 			vatItem14.setName("Zero-Rated Purchases");
 			vatItem14.setActive(true);
 			vatItem14.setSalesType(false);
@@ -808,7 +808,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem14.setPercentage(true);
 			session.save(vatItem14);
 
-			TAXItem vatItem15 = new TAXItem();
+			TAXItem vatItem15 = new TAXItem(company);
 			vatItem15.setName("Zero-Rated Sales");
 			vatItem15.setActive(true);
 			vatItem15.setDescription("Zero-Rated Sales");
@@ -820,7 +820,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem15.setPercentage(true);
 			session.save(vatItem15);
 
-			TAXItem vatItem16 = new TAXItem();
+			TAXItem vatItem16 = new TAXItem(company);
 			vatItem16.setName("New Standard Purchases");
 			vatItem16.setActive(true);
 			vatItem16.setDescription("New Standard Purchases");
@@ -832,7 +832,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatItem16.setPercentage(true);
 			session.save(vatItem16);
 
-			TAXItem vatItem17 = new TAXItem();
+			TAXItem vatItem17 = new TAXItem(company);
 			vatItem17.setName("New Standard Sales");
 			vatItem17.setActive(true);
 			vatItem17.setDescription("New Standard Sales");
@@ -846,7 +846,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 			// VATGroup vatGroup1 = new VATGroup();
 			// =======
-			TAXGroup vatGroup1 = new TAXGroup();
+			TAXGroup vatGroup1 = new TAXGroup(company);
 			// >>>>>>> .merge-right.r20318
 			vatGroup1.setName("EC Purchases Goods 0% Group");
 			vatGroup1.setDescription("EC Purchases of Goods Zero-Rated Group");
@@ -860,7 +860,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatGroup1.setDefault(true);
 			session.save(vatGroup1);
 
-			TAXGroup vatGroup2 = new TAXGroup();
+			TAXGroup vatGroup2 = new TAXGroup(company);
 			vatGroup2.setName("EC Purchases Goods 17.5% Group");
 			vatGroup2.setDescription("EC Purchases of Goods Group");
 			vatGroup2.setActive(true);
@@ -873,7 +873,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatGroup2.setDefault(true);
 			session.save(vatGroup2);
 
-			TAXGroup vatGroup3 = new TAXGroup();
+			TAXGroup vatGroup3 = new TAXGroup(company);
 			vatGroup3.setName("EC Sales Goods 0% Group");
 			vatGroup3.setDescription("EC Sales of Goods Group");
 			vatGroup3.setActive(true);
@@ -888,7 +888,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 					.isPercentage()) ? true : false);
 			session.save(vatGroup3);
 
-			TAXGroup vatGroup4 = new TAXGroup();
+			TAXGroup vatGroup4 = new TAXGroup(company);
 			vatGroup4.setName("Reverse Charge Purchases 17.5% Group");
 			vatGroup4.setDescription("Reverse Charge Purchases Group");
 			vatGroup4.setActive(true);
@@ -901,7 +901,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatGroup4.setDefault(true);
 			session.save(vatGroup4);
 
-			TAXCode vatCode1 = new TAXCode();
+			TAXCode vatCode1 = new TAXCode(company);
 			vatCode1.setName("E");
 			vatCode1.setDescription("Exempt");
 			vatCode1.setTaxable(true);
@@ -911,7 +911,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatCode1.setDefault(true);
 			session.save(vatCode1);
 
-			TAXCode vatCode2 = new TAXCode();
+			TAXCode vatCode2 = new TAXCode(company);
 			vatCode2.setName("EGS");
 			vatCode2.setDescription("EC Goods Standard (17.5%)");
 			vatCode2.setTaxable(true);
@@ -922,7 +922,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatCode2.setECSalesEntry(true);
 			session.save(vatCode2);
 
-			TAXCode vatCode3 = new TAXCode();
+			TAXCode vatCode3 = new TAXCode(company);
 			vatCode3.setName("EGZ");
 			vatCode3.setDescription("EC Goods Zero-Rated (0%)");
 			vatCode3.setTaxable(true);
@@ -933,7 +933,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 			session.save(vatCode3);
 
-			TAXCode vatCode4 = new TAXCode();
+			TAXCode vatCode4 = new TAXCode(company);
 			vatCode4.setName("N");
 			vatCode4.setDescription("Not Registered");
 			vatCode4.setTaxable(true);
@@ -943,7 +943,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatCode4.setDefault(true);
 			session.save(vatCode4);
 
-			TAXCode vatCode5 = new TAXCode();
+			TAXCode vatCode5 = new TAXCode(company);
 			vatCode5.setName("R");
 			vatCode5.setDescription("Reduced (5%)");
 			vatCode5.setTaxable(true);
@@ -953,7 +953,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatCode5.setDefault(true);
 			session.save(vatCode5);
 
-			TAXCode vatCode6 = new TAXCode();
+			TAXCode vatCode6 = new TAXCode(company);
 			vatCode6.setName("RC");
 			vatCode6.setDescription("Reverse Charge");
 			vatCode6.setTaxable(true);
@@ -964,7 +964,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatCode6.setECSalesEntry(true);
 			session.save(vatCode6);
 
-			TAXCode vatCode7 = new TAXCode();
+			TAXCode vatCode7 = new TAXCode(company);
 			vatCode7.setName("S");
 			vatCode7.setDescription("Standard (17.5%)");
 			vatCode7.setTaxable(true);
@@ -974,7 +974,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatCode7.setDefault(true);
 			session.save(vatCode7);
 
-			TAXCode vatCode8 = new TAXCode();
+			TAXCode vatCode8 = new TAXCode(company);
 			vatCode8.setName("Z");
 			vatCode8.setDescription("Zero-Rated (0%)");
 			vatCode8.setTaxable(true);
@@ -984,7 +984,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatCode8.setDefault(true);
 			session.save(vatCode8);
 
-			TAXCode vatCode9 = new TAXCode();
+			TAXCode vatCode9 = new TAXCode(company);
 			vatCode9.setName("O");
 			vatCode9.setDescription("Outside the Scope of VAT");
 			vatCode9.setTaxable(false);
@@ -994,7 +994,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			vatCode9.setDefault(true);
 			session.save(vatCode9);
 
-			TAXCode vatCode10 = new TAXCode();
+			TAXCode vatCode10 = new TAXCode(company);
 			vatCode10.setName("New S");
 			vatCode10.setDescription("Standard (20%)");
 			vatCode10.setTaxable(true);

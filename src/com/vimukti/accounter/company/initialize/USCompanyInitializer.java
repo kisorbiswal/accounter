@@ -368,7 +368,7 @@ public class USCompanyInitializer extends CompanyInitializer {
 			// taxRate.setID(SecureUtils.createID());
 			// taxRates.add(taxRate);
 
-			TAXItem defaultTaxItem = new TAXItem();
+			TAXItem defaultTaxItem = new TAXItem(company);
 			defaultTaxItem.setActive(Boolean.TRUE);
 			defaultTaxItem.setName("None");
 			defaultTaxItem.setTaxAgency(defaultTaxAgency);

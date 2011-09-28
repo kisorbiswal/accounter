@@ -75,10 +75,10 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 		// .list().get(0));
 
 		defaultTDSAgency.setDefault(true);
-
+		defaultTDSAgency.setCompany(company);
 		session.save(defaultTDSAgency);
 
-		TAXItem tdsItem1 = new TAXItem();
+		TAXItem tdsItem1 = new TAXItem(company);
 		tdsItem1.setName("Exempt Purchases");
 		tdsItem1.setActive(true);
 		tdsItem1.setDescription("Exempt Purchases");
@@ -89,7 +89,7 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 		tdsItem1.setDefault(true);
 		tdsItem1.setPercentage(true);
 		session.save(tdsItem1);
-		TAXItem tdsItem2 = new TAXItem();
+		TAXItem tdsItem2 = new TAXItem(company);
 		tdsItem2.setName("Professional");
 		tdsItem2.setActive(true);
 		tdsItem2.setDescription("Professional");
@@ -101,7 +101,7 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 		tdsItem2.setPercentage(true);
 		session.save(tdsItem2);
 
-		TAXItem tdsItem3 = new TAXItem();
+		TAXItem tdsItem3 = new TAXItem(company);
 		tdsItem3.setName("Contractors");
 		tdsItem3.setActive(true);
 		tdsItem3.setDescription("Contractors");
@@ -113,7 +113,7 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 		tdsItem3.setPercentage(true);
 		session.save(tdsItem3);
 
-		TAXItem tdsItem4 = new TAXItem();
+		TAXItem tdsItem4 = new TAXItem(company);
 		tdsItem4.setName("Sub Contractors");
 		tdsItem4.setActive(true);
 		tdsItem4.setDescription("Sub Contractors");
@@ -125,7 +125,7 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 		tdsItem4.setPercentage(true);
 		session.save(tdsItem4);
 
-		TAXCode none = new TAXCode();
+		TAXCode none = new TAXCode(company);
 		none.setName("None");
 		none.setDescription("None");
 		none.setTaxable(false);
