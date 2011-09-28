@@ -155,7 +155,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	   </div>
 	   <div class="check_label">
 	     <label>Confirm Password</label><br>
-		 <input id="mid-box5" value="***REMOVED***"  type="password" tabindex="8" name="confirmPassword">
+		 <input id="mid-box5" type="password" tabindex="8" name="confirmPassword">
 	   </div>
 	   <div class="check_label">
 	     <label>Phone Number</label><br>
