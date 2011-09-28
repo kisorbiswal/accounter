@@ -80,11 +80,11 @@ public class UsersCommand extends AbstractTransactionCommand {
 
 	private Record createUserRecord(User user) {
 		Record record = new Record(user);
-		record.add("First Name", user.getFirstName());
-		record.add("Last Name", user.getLastName());
+		// record.add("First Name", user.getFirstName());
+		// record.add("Last Name", user.getLastName());
 		record.add("User Role", user.getUserRole());
 		record.add("Email Id", user.getEmail());
-		record.add("Status", user.isActive());
+		// record.add("Status", user.isActive());
 		return record;
 	}
 
