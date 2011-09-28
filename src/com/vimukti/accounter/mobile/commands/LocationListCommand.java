@@ -48,17 +48,17 @@ public class LocationListCommand extends AbstractTransactionCommand {
 			}
 		}
 		selection = context.getSelection("values");
-		Result result = getLocationList(context);
+		Result result = getLocationResult(context);
 
 		return result;
 	}
 
-	private Result getLocationList(Context context) {
+	private Result getLocationResult(Context context) {
 
 		ResultList locResultList = new ResultList("locationList");
 
 		Result result = context.makeResult();
-		List<Location> locationList = getLocationList();
+		List<Location> locationList = getLocationList(context);
 		int record = 0;
 		for (Location location : locationList) {
 			locResultList.add(createLocationRecord(location));
@@ -89,8 +89,8 @@ public class LocationListCommand extends AbstractTransactionCommand {
 		return record;
 	}
 
-	private List<Location> getLocationList() {
-		return new ArrayList<Location>(getCompany().getLocations());
+	private List<Location> getLocationList(Context context) {
+		return new ArrayList<Location>(context.getCompany().getLocations());
 	}
 
 }
