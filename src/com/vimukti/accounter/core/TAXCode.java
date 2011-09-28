@@ -50,6 +50,10 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 	private double salesTaxRate;
 	private double purchaseTaxRate;
 
+	public TAXCode() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public TAXCode(Company company) {
 		setCompany(company);
 	}
