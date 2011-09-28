@@ -440,6 +440,7 @@ public class ItemReceiptView extends
 			}
 			if (transaction.getMemo() != null)
 				memoTextAreaItem.setValue(transaction.getMemo());
+			initAccounterClass();
 		}
 		super.initTransactionViewData();
 		initPaymentTerms();

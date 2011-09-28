@@ -573,6 +573,7 @@ public class CashExpenseView extends
 			}
 			deliveryDateItem.setValue(new ClientFinanceDate(transaction
 					.getDeliveryDate()));
+			initAccounterClass();
 		}
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()

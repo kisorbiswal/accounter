@@ -779,6 +779,7 @@ public class PurchaseOrderView extends
 			default:
 				break;
 			}
+			initAccounterClass();
 		}
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()

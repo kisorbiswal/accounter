@@ -363,6 +363,7 @@ public class ReceiveVATView extends
 				count++;
 			}
 		}
+		initAccounterClass();
 		// grid.updateFooterValues("Total"
 		// + DataUtils.getAmountAsString(receiveVAT.getTotal()), 2);
 

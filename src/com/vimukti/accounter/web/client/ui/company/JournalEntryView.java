@@ -449,6 +449,7 @@ public class JournalEntryView extends
 			if (transaction.getMemo() != null)
 				memoText.setValue(transaction.getMemo());
 			updateTransaction();
+			initAccounterClass();
 		} else {
 			setData(new ClientJournalEntry());
 		}

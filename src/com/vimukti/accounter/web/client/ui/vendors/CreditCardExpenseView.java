@@ -736,6 +736,7 @@ public class CreditCardExpenseView extends
 		initMemoAndReference();
 		initTransactionNumber();
 		addVendorsList();
+		initAccounterClass();
 	}
 
 	private void initpayFromAccountCombo() {

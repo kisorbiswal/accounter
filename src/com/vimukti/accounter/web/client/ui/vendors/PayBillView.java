@@ -796,6 +796,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			initListGridData(this.transaction.getTransactionPayBill());
 			initTransactionTotalNonEditableItem();
 			memoTextAreaItem.setDisabled(true);
+			initAccounterClass();
 		}
 		// super.initTransactionViewData();
 		initVendors();

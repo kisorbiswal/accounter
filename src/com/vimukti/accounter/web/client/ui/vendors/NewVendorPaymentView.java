@@ -122,6 +122,7 @@ public class NewVendorPaymentView extends
 					printCheck.setValue(false);
 				}
 			}
+			initAccounterClass();
 		}
 		initMemoAndReference();
 		initTransactionNumber();

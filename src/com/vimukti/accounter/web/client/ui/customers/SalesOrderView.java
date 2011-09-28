@@ -703,6 +703,7 @@ public class SalesOrderView extends
 							.getTotal());
 				}
 			}
+			initAccounterClass();
 			// customerTransactionGrid.setRecords(transaction
 			// .getTransactionItems());
 		}

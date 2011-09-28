@@ -783,6 +783,7 @@ public class ReceivePaymentView extends
 			gridView.setTranReceivePayments(tranReceivePaymnetsList);
 		}
 		initTransactionNumber();
+		initAccounterClass();
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));

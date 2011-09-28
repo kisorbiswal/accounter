@@ -508,6 +508,7 @@ public class CashPurchaseView extends
 			if (vatinclusiveCheck != null) {
 				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
 			}
+			initAccounterClass();
 		}
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
