@@ -73,9 +73,9 @@ public class CreditRatingListCommand extends AbstractTransactionCommand {
 		CommandList commandList = new CommandList();
 		commandList.add("Create");
 
-		commandList.add("Edit");
-
-		commandList.add("Remove");
+		// TODO for edit and delete
+		// commandList.add("Edit");
+		// commandList.add("Remove");
 
 		result.add(commandList);
 
