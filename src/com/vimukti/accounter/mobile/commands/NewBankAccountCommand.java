@@ -15,6 +15,12 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 
+/**
+ * 
+ * @author vimukti2
+ * 
+ */
+
 public class NewBankAccountCommand extends AbstractTransactionCommand {
 	private static final String ACCOUNT_TYPE = "Account Type";
 	private static final String ACCOUNT_NAME = "Account Name";
