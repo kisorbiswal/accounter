@@ -1358,7 +1358,6 @@ public class ReportsGenerator {
 				startDate.toClientFinanceDate(), endDate.toClientFinanceDate());
 		abstractFinaneReport.makeReportRequest(startDate.getDate(),
 				endDate.getDate());
-		abstractFinaneReport.setCompanyType(company.accountingType);
 		abstractFinaneReport.setCurrentFiscalYearStartDate(Utility_R
 				.getCurrentFiscalYearStartDate(company));
 		abstractFinaneReport.setCurrentFiscalYearEndDate(Utility_R
