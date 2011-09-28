@@ -1824,7 +1824,7 @@
 		<return-scalar column="TRANSACTION_NUMBER" type="string" />
 		<return-scalar column="TRANSACTION_AMOUNT" type="double" />
 		<return-scalar column="PAY_TO" type="string" />
-		<return-scalar column="CHECK_NUMBER" type="long" />
+		<return-scalar column="CHECK_NUMBER" type="string" />
 		<return-scalar column="ACCOUNT" type="string" />
 		<return-scalar column="MEMO" type="string" />
 		<return-scalar column="BALANCE" type="double" />

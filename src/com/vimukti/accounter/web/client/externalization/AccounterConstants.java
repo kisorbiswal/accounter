@@ -4923,4 +4923,6 @@ public interface AccounterConstants extends Constants {
 	public String noCreditsToApply();
 	public String classicTemplate();
 
+	public String youHaveEnteredduplicateContacts();
+
 }

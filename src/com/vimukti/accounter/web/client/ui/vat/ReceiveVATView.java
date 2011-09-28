@@ -352,7 +352,8 @@ public class ReceiveVATView extends
 		transNumber.setValue(transaction.getNumber());
 		endingBalanceText.setAmount(transaction.getEndingBalance());
 		paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
-		amountText.setValue(String.valueOf(transaction.getTotal()));
+		amountText
+				.setValue(DataUtils.getAmountAsString(transaction.getTotal()));
 		List<ClientTransactionReceiveVAT> list = transaction
 				.getClientTransactionReceiveVAT();
 		int count = 0;

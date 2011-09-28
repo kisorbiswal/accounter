@@ -357,7 +357,8 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 		endingBalanceText.setAmount(transaction.getEndingBalance());
 		paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
-		amountText.setValue(String.valueOf(transaction.getTotal()));
+		amountText
+				.setValue(DataUtils.getAmountAsString(transaction.getTotal()));
 		List<ClientTransactionPayVAT> list = transaction
 				.getClientTransactionPayVAT();
 		int count = 0;

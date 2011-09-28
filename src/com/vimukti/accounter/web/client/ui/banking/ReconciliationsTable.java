@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.IDeleteCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.grids.columns.ImageActionColumn;
@@ -62,7 +63,7 @@ public class ReconciliationsTable extends CellTable<ClientReconciliation>
 
 			@Override
 			public String getValue(ClientReconciliation object) {
-				return String.valueOf(object.getOpeningBalance());
+				return DataUtils.getAmountAsString(object.getOpeningBalance());
 			}
 		};
 
@@ -70,7 +71,7 @@ public class ReconciliationsTable extends CellTable<ClientReconciliation>
 
 			@Override
 			public String getValue(ClientReconciliation object) {
-				return String.valueOf(object.getClosingBalance());
+				return DataUtils.getAmountAsString(object.getClosingBalance());
 			}
 		};
 

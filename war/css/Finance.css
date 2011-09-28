@@ -70,6 +70,9 @@ noindex:-o-prefocus,.ibutton {
 	.image-button{
 	    padding:0 5px 0 27px !important;
 	}
+	.delete-table-image{
+	    padding:0px !important;
+	}
 }/*chrome and safari end */
 /*IE8 styles*/
 @media \0screen {
@@ -337,6 +340,9 @@ input[type="checkbox"] {
 }
 .treeCellIcon {
 	padding-left: 4px;
+}
+.fTable-noButton{
+	padding-left:4%;
 }
 .gwt-Tree .gwt-TreeItem-selected {
 	padding-right: 2px;
@@ -1102,8 +1108,8 @@ body,#loading .loadingIndicator,.panel-right-align .gwt-Button button,#overlay{
 .main-finance-window{
 	min-height: 100%;
 }
-.logout-help-welcome,form#contactForm p{
-	font-size:0.9em;
+.logout-help-welcome,form#contactForm p,.panel-title{
+	font-size:0.9em !important;
 }
 .main-finance-window,.gwt-MenuBar-vertical .gwt-MenuItem,.gwt-DialogBox,#mainFooter,.popup,.setup_panel,.gwt-PopupPanel{
 	font-size:0.8em;

@@ -423,7 +423,7 @@ public class MacMenuServlet extends BaseServlet {
 				"company/accounter#creditCardCharge");
 		separator(bankingValues);
 		menu(bankingValues, iGlobal.constants().ReconciliationsList(),
-				"company//accounter#recounciliationsList");
+				"company/accounter#recounciliationsList");
 		separator(bankingValues);
 		StringBuilder bankListValues = new StringBuilder();
 		subMenu(bankListValues, iGlobal.constants().payments(),

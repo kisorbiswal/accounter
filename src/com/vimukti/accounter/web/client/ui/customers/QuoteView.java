@@ -35,6 +35,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
@@ -628,8 +629,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			// refText.setValue(estimate.getReference());
 			if (isTrackTax()) {
 				netAmountLabel.setAmount(transaction.getNetAmount());
-				vatTotalNonEditableText.setValue(String.valueOf(transaction
-						.getTotal() - transaction.getNetAmount()));
+				vatTotalNonEditableText.setValue(DataUtils
+						.getAmountAsString(transaction.getTotal()
+								- transaction.getNetAmount()));
 			}
 			memoTextAreaItem.setDisabled(true);
 			transactionTotalNonEditableText.setAmount(transaction.getTotal());

@@ -39,6 +39,7 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 	private static final int STATUS_NOT_ISSUED = 0;
 	private static final int STATUS_PARTIALLY_PAID = 1;
 	private static final int STATUS_ISSUED = 2;
+	private static final int STATUS_VOID = 4;
 
 	public PaymentListView() {
 		super();
@@ -128,15 +129,17 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 
 		for (PaymentsList payment : listOfPayments) {
 			if (text.equals(NOT_ISSUED)) {
-				if (payment.getStatus() == STATUS_NOT_ISSUED
-						|| payment.getStatus() == STATUS_PARTIALLY_PAID)
+				if ((payment.getStatus() == STATUS_NOT_ISSUED || payment
+						.getStatus() == STATUS_PARTIALLY_PAID)
+						&& (!payment.isVoided()))
 					grid.addData(payment);
 				// else
 				// grid.addEmptyMessage("No records to show");
 				continue;
 			}
 			if (text.equals(ISSUED)) {
-				if (payment.getStatus() == STATUS_ISSUED)
+				if (payment.getStatus() == STATUS_ISSUED
+						&& (!payment.isVoided()))
 					grid.addData(payment);
 
 				continue;
@@ -160,7 +163,6 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 		if (grid.getRecords().isEmpty())
 			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
 	}
-
 
 	@Override
 	public void fitToSize(int height, int width) {

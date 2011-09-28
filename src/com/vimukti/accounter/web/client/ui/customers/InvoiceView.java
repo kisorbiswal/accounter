@@ -46,6 +46,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressDialog;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.BrandingThemeCombo;
@@ -1153,8 +1154,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 						this.taxCodeSelect
 								.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
 					}
-					this.salesTaxTextNonEditable.setValue(String
-							.valueOf(transaction.getTaxTotal()));
+					this.salesTaxTextNonEditable.setValue(DataUtils
+							.getAmountAsString(transaction.getTaxTotal()));
 
 				}
 			}

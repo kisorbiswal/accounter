@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.ClientTDSInfo;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.IDeleteCallback;
 
 public class TDSVendorsTable extends CellTable<ClientTDSInfo> implements
@@ -47,7 +48,7 @@ public class TDSVendorsTable extends CellTable<ClientTDSInfo> implements
 			@Override
 			public String getValue(ClientTDSInfo object) {
 
-				return String.valueOf(object.getOrginalBalance());
+				return DataUtils.getAmountAsString(object.getOrginalBalance());
 			}
 		};
 		TextColumn<ClientTDSInfo> payment = new TextColumn<ClientTDSInfo>() {
@@ -55,7 +56,7 @@ public class TDSVendorsTable extends CellTable<ClientTDSInfo> implements
 			@Override
 			public String getValue(ClientTDSInfo object) {
 
-				return String.valueOf(object.getPayment());
+				return DataUtils.getAmountAsString(object.getPayment());
 			}
 		};
 
@@ -74,7 +75,7 @@ public class TDSVendorsTable extends CellTable<ClientTDSInfo> implements
 
 			@Override
 			public String getValue(ClientTDSInfo object) {
-				return String.valueOf(object.getTdsAmount());
+				return DataUtils.getAmountAsString(object.getTdsAmount());
 			}
 		};
 

@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.view.client.ProvidesKey;
 import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.edittable.CheckboxEditColumn;
@@ -21,8 +22,6 @@ import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
  * 
  */
 public class ContactsTable extends EditTable<ClientContact> {
-
-	private boolean columnsCreated;
 
 	public ContactsTable() {
 
@@ -184,4 +183,22 @@ public class ContactsTable extends EditTable<ClientContact> {
 		return getAllRows();
 	}
 
+	public void validate(ValidationResult result) {
+		for (int i = 0; i < getAllRows().size(); i++) {
+			for (int j = 0; j < getAllRows().size(); j++) {
+				if (i != j) {
+					if (getAllRows().get(i).getTitle().equals(
+							getAllRows().get(i).getTitle())
+							&& getAllRows().get(i).getEmail().equals(
+									getAllRows().get(i).getEmail())
+							&& getAllRows().get(i).getDisplayName().equals(
+									getAllRows().get(i).getDisplayName())
+							&& getAllRows().get(i).getBusinessPhone().equals(
+									getAllRows().get(i).getBusinessPhone()))
+						result.addError(this, Accounter.constants()
+								.youHaveEnteredduplicateContacts());
+				}
+			}
+		}
+	}
 }

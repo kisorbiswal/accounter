@@ -278,9 +278,9 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button,
-				Accounter.messages().accounts(Global.get().Account()),
-				Accounter.constants().productOrServiceItem());
+		setMenuItems(button, Accounter.messages().accounts(
+				Global.get().Account()), Accounter.constants()
+				.productOrServiceItem());
 		// FinanceApplication.constants().salesTax());
 		// FinanceApplication.constants().comment(),
 		// FinanceApplication.constants().VATItem());
@@ -360,6 +360,21 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		final ClientCustomer selectedCutomer = customerCombo.getSelectedValue();
 		if (selectedCutomer == null) {
 			return;
+		}
+		List<ClientContact> clientContacts = new ArrayList<ClientContact>();
+		clientContacts.addAll(selectedCutomer.getContacts());
+		for (int j = 0; j < clientContacts.size(); j++) {
+			if (clientContacts.get(j).getTitle().equals(contact.getTitle())
+					&& clientContacts.get(j).getEmail().equals(
+							contact.getEmail())
+					&& clientContacts.get(j).getDisplayName().equals(
+							contact.getDisplayName())
+					&& clientContacts.get(j).getBusinessPhone().equals(
+							contact.getBusinessPhone())) {
+				Accounter.showError(Accounter.constants()
+						.youHaveEnteredduplicateContacts());
+				return;
+			}
 		}
 		selectedCutomer.addContact(contact);
 		AccounterAsyncCallback<Long> asyncallBack = new AccounterAsyncCallback<Long>() {
@@ -758,8 +773,8 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		// }
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result.addError(transactionDateItem,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDateItem, accounterConstants
+					.invalidateDate());
 		}
 		if (custForm != null) {
 			result.add(custForm.validate());

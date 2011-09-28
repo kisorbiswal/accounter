@@ -132,8 +132,8 @@ public class AccountMergeDialog extends BaseDialog implements
 	private void customerSelected(ClientAccount selectItem) {
 
 		accountNumberTextItem.setValue(String.valueOf(selectItem.getNumber()));
-		balanceTextItem
-				.setValue(String.valueOf(selectItem.getOpeningBalance()));
+		balanceTextItem.setValue(DataUtils.getAmountAsString(selectItem
+				.getOpeningBalance()));
 
 		name.setValue(selectItem.getName());
 
@@ -141,8 +141,8 @@ public class AccountMergeDialog extends BaseDialog implements
 
 	private void customerSelected1(ClientAccount selectItem) {
 		accountNumberTextItem1.setValue(String.valueOf(selectItem.getNumber()));
-		balanceTextItem1.setValue(String
-				.valueOf(selectItem.getOpeningBalance()));
+		balanceTextItem1.setValue(DataUtils.getAmountAsString(selectItem
+				.getOpeningBalance()));
 
 		name1.setValue(selectItem.getName());
 
@@ -154,8 +154,8 @@ public class AccountMergeDialog extends BaseDialog implements
 
 		if ((toAccount.getID() == fromAccount.getID())
 				|| !(toAccount.getType() == fromAccount.getType())) {
-			result.addError(fromAccount, Accounter.messages().notMove(
-					Global.get().account()));
+			result.addError(fromAccount,
+					Accounter.messages().notMove(Global.get().account()));
 			return result;
 		}
 		result = form.validate();

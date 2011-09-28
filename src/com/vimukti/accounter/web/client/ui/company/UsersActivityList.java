@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 
 public class UsersActivityList extends CellTable<ClientActivity> {
 	private AsyncDataProvider<ClientActivity> listDataProvider;
@@ -133,8 +134,7 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 
 			@Override
 			public String getValue(ClientActivity object) {
-				return String.valueOf(object.getAmount() != 0.0 ? object
-						.getAmount() : "");
+				return DataUtils.getAmountAsString(object.getAmount());
 			}
 		};
 		this.addColumn(dateColumn, Accounter.constants().modifiedTime());
