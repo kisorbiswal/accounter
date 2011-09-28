@@ -158,6 +158,10 @@ public class MacMenuServlet extends BaseServlet {
 		return company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US;
 	}
 
+	private boolean isTrackTax() {
+		return preferences.isTrackTax();
+	}
+
 	private void addFooter() {
 		builder.append("</menus></xml>");
 	}

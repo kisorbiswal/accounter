@@ -12,6 +12,7 @@ import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Server;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.ServerConfiguration;
@@ -57,10 +58,13 @@ public class LogoutServlet extends BaseServlet {
 	 */
 	private void updateActivity(String userid, String cid) {
 		Session session = HibernateUtil.openSession();
+		Company company = (Company) session.get(Company.class,
+				Long.parseLong(cid));
 		Transaction transaction = session.beginTransaction();
 		try {
 			User user = (User) session.getNamedQuery("user.by.emailid")
-					.setParameter("emailID", userid).uniqueResult();
+					.setParameter("emailID", userid)
+					.setEntity("company", company).uniqueResult();
 			Activity activity = new Activity(user.getCompany(), user,
 					ActivityType.LOGOUT);
 			session.save(activity);
