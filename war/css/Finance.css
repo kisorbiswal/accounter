@@ -582,6 +582,7 @@ tr.net-profit td {
 }
 .disable-TextField {
 	background: none repeat scroll 0 0 #E6E0DA;
+	color: #6C6C6C;
 }
 .main-w-finance {
     border:1px solid #7A7A7A;
@@ -717,7 +718,7 @@ tr.net-profit td {
 }
 .memoTextArea[disabled],textarea[disabled],.dropdown-disabled input[disabled],.dropdown-disabled input[disabled='disabled']
 ,.gwt-TextBox input[disabled],.gwt-TextBox input[disabled='disabled'] {
-	color: #b1a7ad;
+	color: #6C6C6C;
 }
 .downarrow-button,.custom-combo,.biz-decor-panel .decor01,.toolbox,#mainFooter{
 	position: relative;
