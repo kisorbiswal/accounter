@@ -288,7 +288,7 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 		// .setParameter(0, vatCode.name);
 		Query query = session.getNamedQuery("getTAXCodeWithSameName")
 				.setParameter("name", this.name).setParameter("id", this.id)
-				.setParameter("companyId", getCompany().getID());
+				.setParameter("companyId", taxCode.getCompany().getID());
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			throw new AccounterException(AccounterException.ERROR_NAME_CONFLICT);

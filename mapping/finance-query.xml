@@ -5117,10 +5117,10 @@
 	<sql-query name="getTAXCodeWithSameName">
 		<query-param name="companyId" type="long" />
 		<query-param name="name" type="String" />
-		<query-param name="id" type="Long" />
+		<query-param name="id" type="long" />
 
-		SELECT * FROM TAX_CODE T LEFT OUTER JOIN T.TAXITEMGROUP_SALES TG WHERE
-		T.NAME =:name AND T.ID !=:id AND TG.COMPANY_ID=:companyId
+		SELECT * FROM TAX_CODE T WHERE
+		T.NAME =:name AND T.ID !=:id AND T.COMPANY_ID=:companyId
 
 	</sql-query>
 
