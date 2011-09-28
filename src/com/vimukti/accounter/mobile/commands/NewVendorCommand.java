@@ -26,9 +26,6 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 
 	private static final String INPUT_ATTR = "input";
 
-	private static final int SALESPERSON_TO_SHOW = 5;
-	private static final int PRICELEVEL_TO_SHOW = 5;
-	private static final int CREDITRATING_TO_SHOW = 5;
 	private static final int VENDORGROUP_TO_SHOW = 5;
 
 	protected static final String ACCOUNT = "Account";
@@ -45,10 +42,10 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 
 	private static final String VENDOR_VAT_CODE = "Vendor Vat Code";
 	private static final String VENDOR_NAME = "Vendor Name";
-	private static final String VENDOR_CONTACT = "vendorContact";
 	private static final String VENDOR_NUMBER = "Vendor Number";
 	private static final String VENDOR_SINCE = "Vendor Since";
 	private static final String ACTIVE = "Active";
+	private static final String TRACK_PAYMENTS_FOR_1099 = "Track payments for 1099";
 	private static final String BALANCE = "Balance";
 	private static final String BALANCE_AS_OF = "Balance As Of";
 	private static final String ADDRESS = "Address";
@@ -64,6 +61,7 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 	public static final int ACCOUNTING_TYPE_US = 0;
 	public static final int ACCOUNTING_TYPE_UK = 1;
 	public static final int ACCOUNTING_TYPE_INDIA = 2;
+	private int accountingType;
 
 	protected static final String PRIMARY = "Primary";
 
@@ -75,6 +73,8 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
+
+		accountingType = getCompany().getAccountingType();
 
 		list.add(new Requirement(VENDOR_NAME, false, true));
 
@@ -90,6 +90,10 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		list.add(new Requirement(FAX, true, true));
 		list.add(new Requirement(EMAIL, true, true));
 		list.add(new Requirement(WEB_PAGE_ADDRESS, true, true));
+
+		if (accountingType == ACCOUNTING_TYPE_US) {
+			list.add(new Requirement(TRACK_PAYMENTS_FOR_1099, true, true));
+		}
 
 		list.add(new ObjectListRequirement(CONTACTS, true, true) {
 			@Override
@@ -131,18 +135,18 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 			}
 		}
 		result = vendorNameRequirement(context);
-		if (result == null) {
-			// TODO
+		if (result != null) {
+			return result;
 		}
 		if (context.getCompany().getPreferences().getUseVendorId()) {
 			result = vendorNumberRequirement(context);
-			if (result == null) {
-				// TODO
+			if (result != null) {
+				return result;
 			}
 		}
 		result = optionalRequirements(context);
-		if (result == null) {
-			// TODO
+		if (result != null) {
+			return result;
 		}
 		createVendorObject(context);
 		markDone();
@@ -197,6 +201,11 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		vendor.setBankName(bankName);
 		vendor.setEmail(emailId);
 
+		if (accountingType == ACCOUNTING_TYPE_US) {
+			boolean isTrackPaymentsFor1099 = get(TRACK_PAYMENTS_FOR_1099)
+					.getValue();
+			vendor.setTrackPaymentsFor1099(isTrackPaymentsFor1099);
+		}
 		vendor.setExpenseAccount(account);
 		vendor.setCreditLimit(creditLimit);
 		vendor.setShippingMethod(shippingMethod);
@@ -266,8 +275,25 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		isActiveRecord.add("Value", activeString);
 		list.add(isActiveRecord);
 
-		int company = context.getCompany().getAccountingType();
-
+		if (accountingType == ACCOUNTING_TYPE_US) {
+			Requirement trackPaymentsReq = get(TRACK_PAYMENTS_FOR_1099);
+			Boolean trackPayments = (Boolean) trackPaymentsReq.getValue();
+			if (selection == trackPayments) {
+				context.setAttribute(INPUT_ATTR, ACTIVE);
+				trackPayments = !trackPayments;
+				trackPaymentsReq.setValue(trackPayments);
+			}
+			String paymentString = "";
+			if (trackPayments) {
+				paymentString = "This Item is Active";
+			} else {
+				paymentString = "This Item is InActive";
+			}
+			Record paymentRecord = new Record(ACTIVE);
+			paymentRecord.add("Name", "");
+			paymentRecord.add("Value", paymentString);
+			list.add(paymentRecord);
+		}
 		Result result = dateOptionalRequirement(context, list, VENDOR_SINCE,
 				VENDOR_SINCE, selection);
 
@@ -288,20 +314,24 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = phoneNumRequirement(context, list, selection);
+		result = stringOptionalRequirement(context, list, selection, PHONE,
+				"Enter Phone Number");
 		if (result != null) {
 			return result;
 		}
-		result = faxNumRequirement(context, list, selection);
+		result = stringOptionalRequirement(context, list, selection, FAX,
+				"Enter Fax Number");
 		if (result != null) {
 			return result;
 		}
-		result = emailRequirement(context, list, selection);
+		result = stringOptionalRequirement(context, list, selection, EMAIL,
+				"Enter Email Id");
 		if (result != null) {
 			return result;
 		}
 
-		result = webAdressRequirement(context, list, selection);
+		result = stringOptionalRequirement(context, list, selection,
+				WEB_PAGE_ADDRESS, "Enter Web page address");
 		if (result != null) {
 			return result;
 		}
@@ -310,15 +340,18 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = bankNameRequirement(context, list, selection);
+		result = stringOptionalRequirement(context, list, selection, BANK_NAME,
+				"Enter Bank name");
 		if (result != null) {
 			return result;
 		}
-		result = bankAccountNumRequirement(context, list, selection);
+		result = stringOptionalRequirement(context, list, selection,
+				ACCOUNT_NO, "Enter Account Number ");
 		if (result != null) {
 			return result;
 		}
-		result = bankBranchRequirement(context, list, selection);
+		result = stringOptionalRequirement(context, list, selection,
+				BANK_BRANCH, "Enter Bank branch name");
 		if (result != null) {
 			return result;
 		}
@@ -547,215 +580,6 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		result.add(list);
 		return result;
 
-	}
-
-	private Result bankBranchRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement req = get(BANK_BRANCH);
-		String bankBranchName = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(BANK_BRANCH)) {
-			String order = context.getSelection(BANK_BRANCH);
-			if (order == null) {
-				order = context.getString();
-			}
-			bankBranchName = order;
-			req.setValue(bankBranchName);
-		}
-
-		if (selection == bankBranchName) {
-			context.setAttribute(INPUT_ATTR, BANK_BRANCH);
-			return text(context, "Enter Bank Branch ", bankBranchName);
-		}
-
-		Record branchNameRecord = new Record(bankBranchName);
-		branchNameRecord.add("Name", BANK_BRANCH);
-		branchNameRecord.add("Value", bankBranchName);
-		list.add(branchNameRecord);
-		Result result = new Result();
-		result.add(list);
-		return result;
-
-	}
-
-	private Result bankAccountNumRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement req = get(ACCOUNT_NO);
-		String bankAccountNum = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(ACCOUNT_NO)) {
-			String order = context.getSelection(ACCOUNT_NO);
-			if (order == null) {
-				order = context.getString();
-			}
-			bankAccountNum = order;
-			req.setValue(bankAccountNum);
-		}
-
-		if (selection == bankAccountNum) {
-			context.setAttribute(INPUT_ATTR, ACCOUNT_NO);
-			return text(context, "Enter Account Number ", bankAccountNum);
-		}
-
-		Record accountNumRecord = new Record(bankAccountNum);
-		accountNumRecord.add("Name", ACCOUNT_NO);
-		accountNumRecord.add("Value", bankAccountNum);
-		list.add(accountNumRecord);
-		Result result = new Result();
-		result.add(list);
-		return result;
-
-	}
-
-	private Result bankNameRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement req = get(BANK_NAME);
-		String bankName = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(BANK_NAME)) {
-			String order = context.getSelection(BANK_NAME);
-			if (order == null) {
-				order = context.getString();
-			}
-			bankName = order;
-			req.setValue(bankName);
-		}
-
-		if (selection == bankName) {
-			context.setAttribute(INPUT_ATTR, BANK_NAME);
-			return text(context, "Enter Bank Name ", bankName);
-		}
-
-		Record bankNameRecord = new Record(bankName);
-		bankNameRecord.add("Name", BANK_NAME);
-		bankNameRecord.add("Value", bankName);
-		list.add(bankNameRecord);
-		Result result = new Result();
-		result.add(list);
-		return result;
-
-	}
-
-	private Result webAdressRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get(WEB_PAGE_ADDRESS);
-		String webPageAddress = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(WEB_PAGE_ADDRESS)) {
-			String order = context.getSelection(WEB_PAGE_ADDRESS);
-			if (order == null) {
-				order = context.getString();
-			}
-			webPageAddress = order;
-			req.setValue(webPageAddress);
-		}
-
-		if (selection == webPageAddress) {
-			context.setAttribute(INPUT_ATTR, WEB_PAGE_ADDRESS);
-			return text(context, "Enter Web Page Address", webPageAddress);
-		}
-
-		Record webPageRecord = new Record(webPageAddress);
-		webPageRecord.add("Name", WEB_PAGE_ADDRESS);
-		webPageRecord.add("Value", webPageAddress);
-		list.add(webPageRecord);
-		Result result = new Result();
-		result.add(list);
-		return result;
-	}
-
-	private Result emailRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get(EMAIL);
-		String email = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(EMAIL)) {
-			String order = context.getSelection(EMAIL);
-			if (order == null) {
-				order = context.getString();
-			}
-			email = order;
-			req.setValue(email);
-		}
-
-		if (selection == email) {
-			context.setAttribute(INPUT_ATTR, EMAIL);
-			return text(context, "Enter Fax Number", email);
-		}
-
-		Record emailRecord = new Record(email);
-		emailRecord.add("Name", EMAIL);
-		emailRecord.add("Value", email);
-		list.add(emailRecord);
-		Result result = new Result();
-		result.add(list);
-		return result;
-	}
-
-	private Result faxNumRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get(FAX);
-		String fax = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(FAX)) {
-			String order = context.getSelection(FAX);
-			if (order == null) {
-				order = context.getString();
-			}
-			fax = order;
-			req.setValue(fax);
-		}
-
-		if (selection == fax) {
-			context.setAttribute(INPUT_ATTR, FAX);
-			return text(context, "Enter Fax Number", fax);
-		}
-
-		Record faxRecord = new Record(fax);
-		faxRecord.add("Name", FAX);
-		faxRecord.add("Value", fax);
-		list.add(faxRecord);
-		Result result = new Result();
-		result.add(list);
-		return result;
-	}
-
-	private Result phoneNumRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get(PHONE);
-		String phone = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(PHONE)) {
-			String order = context.getSelection(PHONE);
-			if (order == null) {
-				order = context.getString();
-			}
-			phone = order;
-			req.setValue(phone);
-		}
-
-		if (selection == phone) {
-			context.setAttribute(INPUT_ATTR, PHONE);
-			return text(context, "Enter Phone Number", phone);
-		}
-
-		Record balanceRecord = new Record(phone);
-		balanceRecord.add("Name", PHONE);
-		balanceRecord.add("Value", phone);
-		list.add(balanceRecord);
-		Result result = new Result();
-		result.add(list);
-		return result;
 	}
 
 	private Result vendorNumberRequirement(Context context) {
