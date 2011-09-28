@@ -267,7 +267,7 @@ public abstract class AbstractCommand extends Command {
 	}
 
 	private List<TAXCode> getTaxCodes(Company company) {
-		return company.getTaxCodes();
+		return new ArrayList<TAXCode>(company.getTaxCodes());
 
 	}
 
@@ -563,7 +563,7 @@ public abstract class AbstractCommand extends Command {
 	}
 
 	protected List<Vendor> getVendors(boolean isActive, Company company) {
-		ArrayList<Vendor> vendors = company.getVendors();
+		ArrayList<Vendor> vendors = new ArrayList<Vendor>(company.getVendors());
 		ArrayList<Vendor> result = new ArrayList<Vendor>();
 
 		for (Vendor vendor : vendors) {
