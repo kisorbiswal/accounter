@@ -143,7 +143,7 @@ public class InvoiceListCommand extends AbstractTransactionCommand {
 	private Result invoicesList(Date fromDate, Date toDate, Context context,
 			String viewType) {
 		Result result = context.makeResult();
-		result.add("Bills and Expenses List");
+		result.add("Invoices  List");
 		ResultList invoicesListData = new ResultList("invoicesList");
 		int num = 0;
 		List<Invoice> invoices = getInvoices(viewType, context.getCompany());
@@ -173,8 +173,18 @@ public class InvoiceListCommand extends AbstractTransactionCommand {
 	}
 
 	private Record createInvoiceRecord(Invoice inv) {
-		// TODO Auto-generated method stub
-		return null;
+
+		Record record = new Record(inv);
+
+		record.add("Type", inv.getType());
+		record.add("Number", inv.getNumber());
+		record.add("Date", inv.getDate());
+		record.add("CustomerName", inv.getCustomer().getName());
+		record.add("DueDate", inv.getDueDate());
+		record.add("NetPrice", inv.getNetAmount());
+		record.add("TotalPrice", inv.getTotal());
+		record.add("Balance", inv.getBalanceDue());
+		return record;
 	}
 
 	private Result toDateRequirement(Context context, ResultList list,
