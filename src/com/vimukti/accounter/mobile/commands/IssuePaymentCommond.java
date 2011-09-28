@@ -3,6 +3,10 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.List;
 
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.IssuePayment;
+import com.vimukti.accounter.core.Transaction;
+import com.vimukti.accounter.core.TransactionIssuePayment;
+import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.ObjectListRequirement;
 import com.vimukti.accounter.mobile.Record;
@@ -50,7 +54,6 @@ public class IssuePaymentCommond extends AbstractTransactionCommand {
 
 	@Override
 	public Result run(Context context) {
-
 		Result result = selectPaymentMethod(context);
 		if (result != null) {
 			return result;
@@ -59,8 +62,72 @@ public class IssuePaymentCommond extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-
+		result = getIssuePaymentRecords(context);
+		if (result != null) {
+			return result;
+		}
+		completeProcess(context);
+		markDone();
 		return null;
+	}
+
+	private void completeProcess(Context context) {
+		IssuePayment issuePayment = new IssuePayment();
+		Requirement paymentMethodReq = get(PAYMENT_METHOD);
+		String paymentMethod = (String) paymentMethodReq.getValue();
+		issuePayment.setPaymentMethod(paymentMethod);
+		issuePayment.setType(Transaction.TYPE_ISSUE_PAYMENT);
+		Requirement accountsReq = get(ACCOUNTS);
+		List<TransactionItem> transactionList = accountsReq.getValue();
+		issuePayment.setTransactionItems(transactionList);
+		// TODO
+		Requirement checkNoReq = get(CHEQUE_NO);
+		String chequeNo = checkNoReq.getValue();
+		Requirement transactionListReq = get(PAYMENTS_TO_ISSUED);
+		List<TransactionIssuePayment> list = transactionListReq.getValue();
+		issuePayment.setTransactionIssuePayment(list);
+		create(issuePayment, context);
+	}
+
+	private Result getIssuePaymentRecords(Context context) {
+
+		Result result = context.makeResult();
+		String paymentMethod = (String) context.getSelection(PAYMENT_METHOD);
+		TransactionItem transactionItem = (TransactionItem) context
+				.getSelection(ACCOUNTS);
+		result.add("Issue Payments List");
+		ResultList issuePaymentData = new ResultList("Issue Payments List");
+		int num = 0;
+		List<TransactionIssuePayment> issuePaymentTransactionsList = getIssuePaymentTransactionsList(
+				paymentMethod, transactionItem.getAccount().getName(),
+				context.getCompany());
+		for (TransactionIssuePayment est : issuePaymentTransactionsList) {
+			issuePaymentData.add(createIssuePaymentTransactionRecord(est));
+			num++;
+			if (num == ISSUE_PAYMENTS_TO_SHOW) {
+				break;
+			}
+		}
+
+		int size = issuePaymentTransactionsList.size();
+		StringBuilder message = new StringBuilder();
+		if (size > 0) {
+			message.append("Select a Transaction");
+		}
+		result.add(message.toString());
+		result.add(issuePaymentData);
+		result.add("Type for IssuePayment");
+
+		return result;
+	}
+
+	private Record createIssuePaymentTransactionRecord(
+			TransactionIssuePayment est) {
+		Record record = new Record(est);
+		record.add("Name", est.getName());
+		record.add("Value", est.getAmount());
+		// TODO need to add more coloumns to record.
+		return record;
 	}
 
 	private Result selectPaymentMethod(Context context) {
