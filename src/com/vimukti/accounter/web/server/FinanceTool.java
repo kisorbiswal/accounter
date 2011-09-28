@@ -9515,7 +9515,7 @@ public class FinanceTool {
 			String codeName, String description, boolean isActive,
 			boolean isTaxable, String... vatItems) throws DAOException {
 
-		TAXCode vc = new TAXCode();
+		TAXCode vc = new TAXCode(company);
 		vc.setActive(isActive);
 		vc.setDefault(true);
 		vc.setDescription(description);
@@ -11358,7 +11358,8 @@ public class FinanceTool {
 		Session session = HibernateUtil.openSession();
 		try {
 			// TODO need to write query
-			Query namedQuery = session.getNamedQuery("list.currentRecTransactions");
+			Query namedQuery = session
+					.getNamedQuery("list.currentRecTransactions");
 			namedQuery.setLong("name", clientDateAtServer.getDate());
 			namedQuery.setEntity("company", getCompany(companyId));
 			List<RecurringTransaction> list = session
