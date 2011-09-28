@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.Location;
@@ -34,6 +35,7 @@ public class LocationListCommand extends AbstractTransactionCommand {
 	}
 
 	private Result optionalRequirements(Context context) {
+
 		context.setAttribute(INPUT_ATTR, "optional");
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
@@ -82,13 +84,13 @@ public class LocationListCommand extends AbstractTransactionCommand {
 
 	private Record createLocationRecord(Location location) {
 		Record record = new Record(location);
-		record.add("Location Name", location.getName());
+		record.add("Name", "Location Name");
+		record.add("value", location.getName());
 		return record;
 	}
 
 	private List<Location> getLocationList() {
-		// TODO need to get Location List
-		return null;
+		return new ArrayList<Location>(getCompany().getLocations());
 	}
 
 }
