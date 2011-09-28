@@ -9452,8 +9452,6 @@ public class FinanceTool {
 		return new ArrayList<ReverseChargeList>(reverseCharges);
 	}
 
-	
-	
 	private TAXAgency createVATAgency(Session session,
 			Account vatLiabilityAccount) {
 		TAXAgency collectorGeneral = new TAXAgency();
@@ -9469,7 +9467,7 @@ public class FinanceTool {
 		session.save(collectorGeneral);
 		return collectorGeneral;
 	}
-	
+
 	private void createVATCodesOfIreland(Session session, Company company)
 			throws DAOException {
 		createVATcodes(session, company, "ECP", "EC Purch Not Resale (PNFR)",
@@ -9505,7 +9503,7 @@ public class FinanceTool {
 				true, true, "Zero-Rated PNFR");
 
 	}
-	
+
 	private void createVATcodes(Session session, Company company,
 			String codeName, String description, boolean isActive,
 			boolean isTaxable, String... vatItems) throws DAOException {
@@ -10153,92 +10151,99 @@ public class FinanceTool {
 		}
 
 		Hibernate.initialize(company);
-		
-//		company.setAccounts(getAccountsListBySorted());
-//
-//		company.setFiscalYears(new ArrayList<FiscalYear>(session.getNamedQuery(
-//				"list.FiscalYear").list()));
-//
-//		company.setPayees(new ArrayList<Payee>(session.getNamedQuery(
-//				"list.Payee").list()));
-//
-//		company.setItems(new ArrayList<Item>(session.getNamedQuery("list.Item")
-//				.list()));
-//
-//		company.setCustomerGroups(new ArrayList<CustomerGroup>(session
-//				.getNamedQuery("list.CustomerGroup").list()));
-//
-//		company.setVendorGroups(new ArrayList<VendorGroup>(session
-//				.getNamedQuery("list.VendorGroup").list()));
-//
-//		company.setShippingTerms(new ArrayList<ShippingTerms>(session
-//				.getNamedQuery("list.ShippingTerms").list()));
-//
-//		company.setShippingMethods(new ArrayList<ShippingMethod>(session
-//				.getNamedQuery("list.ShippingMethod").list()));
-//
-//		company.setPriceLevels(new ArrayList<PriceLevel>(session.getNamedQuery(
-//				"list.PriceLevel").list()));
-//
-//		company.setItemGroups(new ArrayList<ItemGroup>(session.getNamedQuery(
-//				"list.ItemGroup").list()));
-//
-//		company.setTaxGroups(new ArrayList<TAXGroup>(session.getNamedQuery(
-//				"list.TAXGroup").list()));
-//
-//		company.setPaymentTerms(new ArrayList<PaymentTerms>(session
-//				.getNamedQuery("list.PaymentTerms").list()));
-//
-//		company.setCreditRatings(new ArrayList<CreditRating>(session
-//				.getNamedQuery("list.CreditRating").list()));
-//
-//		company.setSalesPersons(new ArrayList<SalesPerson>(session
-//				.getNamedQuery("list.SalesPerson").list()));
-//
-//		company.setTaxCodes(new ArrayList<TAXCode>(session.getNamedQuery(
-//				"list.TAXCode").list()));
-//
-//		company.setTaxItems(new ArrayList<TAXItem>(session.getNamedQuery(
-//				"list.TAXItem").list()));
-//
-//		company.setTaxItemGroups(new ArrayList<TAXItemGroup>(session
-//				.getNamedQuery("list.TAXItemGroups").list()));
-//
-//		company.setBanks(new ArrayList<Bank>(session.getNamedQuery("list.Bank")
-//				.list()));
-//
-//		company.setTaxrates(new ArrayList<TaxRates>(session.getNamedQuery(
-//				"list.TaxRates").list()));
-//
-//		company.setFixedAssets(new ArrayList<FixedAsset>(session.getNamedQuery(
-//				"list.FixedAsset").list()));
-//		// company
-//		// .setSellingDisposingFixedAssets(new
-//		// HashSet<SellingOrDisposingFixedAsset>(
-//		// session.getNamedQuery(
-//		// "list.SellingOrDisposingFixedAsset").list()));
-//
-//		company.setVatReturns(new ArrayList<VATReturn>(session.getNamedQuery(
-//				"list.VATReturn").list()));
-//		company.setCurrencies(new HashSet<Currency>(session.getNamedQuery(
-//				"list.currency").list()));
-//
-//		company.setTaxAdjustments(new ArrayList<TAXAdjustment>(session
-//				.getNamedQuery("list.TAXAdjustment").list()));
-//
-//		// company.setVatCodes(new ArrayList<TAXCode>(session.getNamedQuery(
-//		// "list.VATCode").list()));
-//
-//		// company.setVatItemGroups(new ArrayList<TAXItemGroup>(session
-//		// .getNamedQuery("list.VATItemGroup").list()));
-//
-//		company.setTaxAgencies(new ArrayList<TAXAgency>(session.getNamedQuery(
-//				"list.TAXAgency").list()));
-//
-//		company.setVatBoxes(new HashSet<Box>(session.getNamedQuery("list.Box")
-//				.list()));
-//		company.setVatReturnBoxes(new HashSet<VATReturnBox>(session
-//				.getNamedQuery("list.VATReturnBox").list()));
+
+		// company.setAccounts(getAccountsListBySorted());
+		//
+		// company.setFiscalYears(new
+		// ArrayList<FiscalYear>(session.getNamedQuery(
+		// "list.FiscalYear").list()));
+		//
+		// company.setPayees(new ArrayList<Payee>(session.getNamedQuery(
+		// "list.Payee").list()));
+		//
+		// company.setItems(new
+		// ArrayList<Item>(session.getNamedQuery("list.Item")
+		// .list()));
+		//
+		// company.setCustomerGroups(new ArrayList<CustomerGroup>(session
+		// .getNamedQuery("list.CustomerGroup").list()));
+		//
+		// company.setVendorGroups(new ArrayList<VendorGroup>(session
+		// .getNamedQuery("list.VendorGroup").list()));
+		//
+		// company.setShippingTerms(new ArrayList<ShippingTerms>(session
+		// .getNamedQuery("list.ShippingTerms").list()));
+		//
+		// company.setShippingMethods(new ArrayList<ShippingMethod>(session
+		// .getNamedQuery("list.ShippingMethod").list()));
+		//
+		// company.setPriceLevels(new
+		// ArrayList<PriceLevel>(session.getNamedQuery(
+		// "list.PriceLevel").list()));
+		//
+		// company.setItemGroups(new ArrayList<ItemGroup>(session.getNamedQuery(
+		// "list.ItemGroup").list()));
+		//
+		// company.setTaxGroups(new ArrayList<TAXGroup>(session.getNamedQuery(
+		// "list.TAXGroup").list()));
+		//
+		// company.setPaymentTerms(new ArrayList<PaymentTerms>(session
+		// .getNamedQuery("list.PaymentTerms").list()));
+		//
+		// company.setCreditRatings(new ArrayList<CreditRating>(session
+		// .getNamedQuery("list.CreditRating").list()));
+		//
+		// company.setSalesPersons(new ArrayList<SalesPerson>(session
+		// .getNamedQuery("list.SalesPerson").list()));
+		//
+		// company.setTaxCodes(new ArrayList<TAXCode>(session.getNamedQuery(
+		// "list.TAXCode").list()));
+		//
+		// company.setTaxItems(new ArrayList<TAXItem>(session.getNamedQuery(
+		// "list.TAXItem").list()));
+		//
+		// company.setTaxItemGroups(new ArrayList<TAXItemGroup>(session
+		// .getNamedQuery("list.TAXItemGroups").list()));
+		//
+		// company.setBanks(new
+		// ArrayList<Bank>(session.getNamedQuery("list.Bank")
+		// .list()));
+		//
+		// company.setTaxrates(new ArrayList<TaxRates>(session.getNamedQuery(
+		// "list.TaxRates").list()));
+		//
+		// company.setFixedAssets(new
+		// ArrayList<FixedAsset>(session.getNamedQuery(
+		// "list.FixedAsset").list()));
+		// // company
+		// // .setSellingDisposingFixedAssets(new
+		// // HashSet<SellingOrDisposingFixedAsset>(
+		// // session.getNamedQuery(
+		// // "list.SellingOrDisposingFixedAsset").list()));
+		//
+		// company.setVatReturns(new ArrayList<VATReturn>(session.getNamedQuery(
+		// "list.VATReturn").list()));
+		// company.setCurrencies(new HashSet<Currency>(session.getNamedQuery(
+		// "list.currency").list()));
+		//
+		// company.setTaxAdjustments(new ArrayList<TAXAdjustment>(session
+		// .getNamedQuery("list.TAXAdjustment").list()));
+		//
+		// // company.setVatCodes(new ArrayList<TAXCode>(session.getNamedQuery(
+		// // "list.VATCode").list()));
+		//
+		// // company.setVatItemGroups(new ArrayList<TAXItemGroup>(session
+		// // .getNamedQuery("list.VATItemGroup").list()));
+		//
+		// company.setTaxAgencies(new
+		// ArrayList<TAXAgency>(session.getNamedQuery(
+		// "list.TAXAgency").list()));
+		//
+		// company.setVatBoxes(new
+		// HashSet<Box>(session.getNamedQuery("list.Box")
+		// .list()));
+		// company.setVatReturnBoxes(new HashSet<VATReturnBox>(session
+		// .getNamedQuery("list.VATReturnBox").list()));
 
 		company = company.toCompany(company);
 		ClientConvertUtil clientConvertUtil = new ClientConvertUtil();
@@ -10285,7 +10290,7 @@ public class FinanceTool {
 		}
 
 	}
-	
+
 	public boolean hasFileVAT(TAXAgency vatAgency, FinanceDate startDate,
 			FinanceDate endDate) {
 
@@ -10388,7 +10393,7 @@ public class FinanceTool {
 		return prevNumber;
 
 	}
-	
+
 	public String getPreviousTransactionNumber(int transactionType,
 			long maxCount) {
 
@@ -10411,7 +10416,6 @@ public class FinanceTool {
 
 		return "0";
 	}
-	
 
 	private boolean isTransactionNumberExist(IAccounterCore object,
 			Company company) throws AccounterException {
@@ -10981,7 +10985,6 @@ public class FinanceTool {
 		return new ArrayList<DepositDetail>(depositDetails);
 	}
 
-	
 	public ArrayList<PayeeStatementsList> getPayeeStatementsList(long id,
 			FinanceDate fromDate, FinanceDate toDate, long companyId)
 			throws DAOException {
@@ -11063,7 +11066,6 @@ public class FinanceTool {
 		}
 	}
 
-	
 	public ArrayList<Double> getGraphPointsforAccount(int chartType,
 			long accountNo) throws DAOException {
 
@@ -11344,10 +11346,11 @@ public class FinanceTool {
 		Session session = HibernateUtil.openSession();
 		// TODO need to write query
 		Query namedQuery = session.getNamedQuery("list.currentRecTransactions");
-		namedQuery.setLong(0, clientDateAtServer.getDate());
+		namedQuery.setLong("name", clientDateAtServer.getDate());
 		namedQuery.setEntity("company", getCompany(companyId));
 		List<RecurringTransaction> list = session
 				.getNamedQuery("list.currentRecTransactions")
+				.setLong("name", clientDateAtServer.getDate())
 				.setEntity("company", getCompany(companyId)).list();
 
 		for (RecurringTransaction recurringTransaction : list) {
@@ -12692,7 +12695,7 @@ public class FinanceTool {
 		}
 		return new ArrayList<Double>(gPoints);
 	}
-	
+
 	private double getMoneyInForDates(long startDate, long endDate) {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getMoneyInForDates")
