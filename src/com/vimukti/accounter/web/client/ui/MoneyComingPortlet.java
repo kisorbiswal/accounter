@@ -174,7 +174,6 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 
 	Label getLabel(final String title) {
 		final Label label = new Label(title);
-		label.setWidth((title.length() * 6) + "px");
 		label.addMouseOverHandler(new MouseOverHandler() {
 
 			@Override
