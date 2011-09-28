@@ -290,8 +290,9 @@ public class BaseServlet extends HttpServlet {
 	 */
 	protected void updateServers(Server accounterServer, boolean isAddCompany) {
 		Session session = HibernateUtil.openSession();
-		Transaction transaction = session.beginTransaction();
+		Transaction transaction = null;
 		try {
+			transaction = session.beginTransaction();
 			Server server = (Server) session.get(Server.class,
 					accounterServer.getId());
 			int companiesCount = server.getCompaniesCount();
@@ -300,7 +301,9 @@ public class BaseServlet extends HttpServlet {
 			session.saveOrUpdate(server);
 			transaction.commit();
 		} catch (Exception e) {
-			transaction.rollback();
+			if (transaction != null) {
+				transaction.rollback();
+			}
 		} finally {
 			session.close();
 		}

@@ -77,8 +77,9 @@ public class CreateCompanyServlet extends BaseServlet {
 		ServerCompany serverCompany = null;
 		Client client = null;
 		Session session = HibernateUtil.openSession();
-		Transaction transaction = session.beginTransaction();
+		Transaction transaction = null;
 		try {
+			transaction = session.beginTransaction();
 			serverCompany = getServerCompany(companyName);
 			if (serverCompany != null) {
 				request.setAttribute("errormessage",
@@ -110,7 +111,9 @@ public class CreateCompanyServlet extends BaseServlet {
 			transaction.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
-			transaction.rollback();
+			if (transaction != null) {
+				transaction.rollback();
+			}
 		} finally {
 			if (session.isOpen()) {
 				session.close();
@@ -215,8 +218,9 @@ public class CreateCompanyServlet extends BaseServlet {
 	 */
 	private void rollback(long serverId, long clientId) {
 		Session session = HibernateUtil.openSession();
-		Transaction transaction = session.beginTransaction();
+		Transaction transaction = null;
 		try {
+			transaction = session.beginTransaction();
 			Object object = session.get(ServerCompany.class, serverId);
 			Client client = (Client) session.get(Client.class, clientId);
 			client.getCompanies().remove((ServerCompany) object);
@@ -225,6 +229,9 @@ public class CreateCompanyServlet extends BaseServlet {
 			transaction.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+			}
 		} finally {
 			if (session.isOpen()) {
 				session.close();

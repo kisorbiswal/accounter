@@ -140,8 +140,9 @@ public class RestApiServlet extends HttpServlet {
 		Developer developer = null;
 		long id = ((Long) req.getAttribute("id")).longValue();
 		Session session = HibernateUtil.openSession();
-		Transaction transaction = session.beginTransaction();
+		Transaction transaction = null;
 		try {
+			transaction = session.beginTransaction();
 			developer = (Developer) session.get(Developer.class, id);
 			if (isSuccess) {
 				developer.succeedRequests++;
@@ -152,6 +153,9 @@ public class RestApiServlet extends HttpServlet {
 			transaction.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+			}
 		} finally {
 			if (session != null) {
 				session.close();

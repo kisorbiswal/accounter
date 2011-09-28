@@ -33,8 +33,9 @@ public class EmailForActivationServlet extends BaseServlet {
 		if (session == null || !session.isOpen()) {
 			session = HibernateUtil.openSession();
 		}
-		Transaction transaction = session.beginTransaction();
+		Transaction transaction = null;
 		try {
+			transaction = session.beginTransaction();
 			// Getting activation object using the mail id
 			Activation activation = getActivationByEmailId(email);
 
@@ -66,7 +67,9 @@ public class EmailForActivationServlet extends BaseServlet {
 			}
 			transaction.commit();
 		} catch (Exception e) {
-			transaction.rollback();
+			if (transaction != null) {
+				transaction.rollback();
+			}
 		} finally {
 			if (session.isOpen()) {
 				session.close();

@@ -43,21 +43,28 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 	@Override
 	public boolean isAdmin(long companyID, String emailID) {
 		Session session = HibernateUtil.openSession();
-		User user = (User) session.getNamedQuery("adminUserForEmailId")
-				.setParameter("emailid", emailID)
-				.setParameter("company", session.get(Company.class, companyID))
-				.uniqueResult();
-		if (user != null) {
-			return true;
+		try {
+			User user = (User) session
+					.getNamedQuery("adminUserForEmailId")
+					.setParameter("emailid", emailID)
+					.setParameter("company",
+							session.get(Company.class, companyID))
+					.uniqueResult();
+			if (user != null) {
+				return true;
+			}
+			return false;
+		} finally {
+			session.close();
 		}
-		return false;
 	}
 
 	@Override
 	public void deleteUserFromCompany(long companyID, String email) {
 		Session session = HibernateUtil.openSession();
-		Transaction transaction = session.beginTransaction();
+		Transaction transaction = null;
 		try {
+			transaction = session.beginTransaction();
 			Company company = (Company) session.get(Company.class, 1l);
 			User user = company.getUserByUserEmail(email);
 			company.getUsers().remove(user);
@@ -65,7 +72,9 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 			transaction.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
-			transaction.rollback();
+			if (transaction != null) {
+				transaction.rollback();
+			}
 		} finally {
 			session.close();
 		}
@@ -89,8 +98,9 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 		// throw new AccounterException(e);
 		// }
 		Session companySession = HibernateUtil.openSession();
-		Transaction transaction = companySession.beginTransaction();
+		Transaction transaction = null;
 		try {
+			transaction = companySession.beginTransaction();
 			// Creating User
 			User user = new User(clientUser);
 			user.setActive(true);
@@ -123,7 +133,9 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			transaction.rollback();
+			if (transaction != null) {
+				transaction.rollback();
+			}
 			throw new AccounterException(e);
 		} finally {
 			if (companySession.isOpen()) {
@@ -151,12 +163,12 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 			String deletableEmail) throws AccounterException {
 
 		Session session = HibernateUtil.openSession();
-		Transaction transaction = session.beginTransaction();
-
-		Client deletingClient = getClient(deletableEmail);
-
-		ServerCompany serverCompany = null;
+		Transaction transaction = null;
 		try {
+			transaction = session.beginTransaction();
+			Client deletingClient = getClient(deletableEmail);
+
+			ServerCompany serverCompany = null;
 			serverCompany = (ServerCompany) session.load(ServerCompany.class,
 					serverCompanyId);
 			// serverCompany.getClients().remove(deletingClient);
@@ -165,7 +177,9 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 			session.saveOrUpdate(deletingClient);
 			transaction.commit();
 		} catch (Exception e) {
-			transaction.rollback();
+			if (transaction != null) {
+				transaction.rollback();
+			}
 			throw new AccounterException(AccounterException.ERROR_INTERNAL);
 		} finally {
 			if (session.isOpen()) {
@@ -188,9 +202,10 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 
 		Session session = HibernateUtil.openSession();
 
-		Transaction transaction = session.beginTransaction();
+		Transaction transaction = null;
 
 		try {
+			transaction = session.beginTransaction();
 			Client inviter = getClient(senderEmailId);
 
 			ServerCompany serverCompany = (ServerCompany) session.load(
@@ -239,7 +254,9 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 
 			return userExists;
 		} catch (Exception e) {
-			transaction.rollback();
+			if (transaction != null) {
+				transaction.rollback();
+			}
 			throw new AccounterException(AccounterException.ERROR_INTERNAL, e);
 		} finally {
 			if (session.isOpen()) {
@@ -251,14 +268,17 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 	@Override
 	public void deleteCompany(long serverCompanyID) throws AccounterException {
 		Session session = HibernateUtil.openSession();
-		Transaction transaction = session.beginTransaction();
+		Transaction transaction = null;
 		try {
+			transaction = session.beginTransaction();
 			Company object = (Company) session.get(Company.class,
 					serverCompanyID);
 			session.delete(object);
 			transaction.commit();
 		} catch (Exception e) {
-			transaction.rollback();
+			if (transaction != null) {
+				transaction.rollback();
+			}
 			throw new AccounterException(AccounterException.ERROR_INTERNAL, e);
 		} finally {
 			session.close();
@@ -269,15 +289,21 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 	public void updateServerCompany(long serverCompanyID, String fullName)
 			throws AccounterException {
 		Session session = HibernateUtil.openSession();
-		Transaction transaction = session.beginTransaction();
+		Transaction transaction = null;
 		try {
+			transaction = session.beginTransaction();
 			ServerCompany company = (ServerCompany) session.get(
 					ServerCompany.class, serverCompanyID);
 			company.setCompanyName(fullName);
 			session.saveOrUpdate(company);
 			transaction.commit();
 		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
 			throw new AccounterException(AccounterException.ERROR_INTERNAL, e);
+		} finally {
+			session.close();
 		}
 	}
 }

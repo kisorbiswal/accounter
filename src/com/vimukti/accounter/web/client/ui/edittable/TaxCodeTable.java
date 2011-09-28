@@ -5,6 +5,9 @@ import java.util.List;
 
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
+import com.vimukti.accounter.web.client.core.ClientTAXGroup;
+import com.vimukti.accounter.web.client.core.ClientTAXItem;
+import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -155,10 +158,26 @@ public class TaxCodeTable extends AbstractDropDownTable<ClientTAXCode> {
 			return result.toString();
 		}
 		result.append(" - ");
+		ClientTAXItemGroup vatGroup;
 		if (isSales) {
-			result.append(code.getSalesTaxRate());
+			vatGroup = ((ClientTAXItemGroup) Accounter.getCompany()
+					.getTAXItemGroup(code.getTAXItemGrpForSales()));
+
 		} else {
-			result.append(code.getPurchaseTaxRate());
+			vatGroup = ((ClientTAXItemGroup) Accounter.getCompany()
+					.getTAXItemGroup(code.getTAXItemGrpForPurchases()));
+		}
+
+		if (vatGroup instanceof ClientTAXItem) {
+			// The selected one is VATItem,so get 'VATRate' from
+			// 'VATItem'
+			if (vatGroup != null)
+				result.append(((ClientTAXItem) vatGroup).getTaxRate());
+		} else {
+			// The selected one is VATGroup,so get 'GroupRate' from
+			// 'VATGroup'
+			if (vatGroup != null)
+				result.append(((ClientTAXGroup) vatGroup).getGroupRate());
 		}
 		result.append("%");
 		return result.toString();

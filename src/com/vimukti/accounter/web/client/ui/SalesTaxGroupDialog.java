@@ -172,6 +172,7 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 		setWidth("1000px");
 		// setPageTop(10);
 		VerticalPanel bodyLayout = new VerticalPanel();
+		bodyLayout.setWidth("100%");
 
 		form1 = new DynamicForm();
 		// form1.setHeight("100px");
@@ -326,7 +327,6 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 		horizontalPanel.setCellHorizontalAlignment(selectTaxItemsGrid,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 		horizontalPanel.add(selectTaxItemsGrid);
-
 		bodyLayout.add(form1);
 		bodyLayout.add(horizontalPanel);
 

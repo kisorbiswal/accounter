@@ -64,8 +64,9 @@ public class SignupServlet extends BaseServlet {
 				+ password));
 
 		Session hibernateSession = HibernateUtil.openSession();
-		Transaction transaction = hibernateSession.beginTransaction();
+		Transaction transaction = null;
 		try {
+			transaction = hibernateSession.beginTransaction();
 			// Have to check UserExistence
 			if (getClient(emailId) != null) {
 				// If Exists then send to login password with username
@@ -106,7 +107,9 @@ public class SignupServlet extends BaseServlet {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			transaction.rollback();
+			if (transaction != null) {
+				transaction.rollback();
+			}
 		} finally {
 			if (hibernateSession.isOpen())
 				hibernateSession.close();

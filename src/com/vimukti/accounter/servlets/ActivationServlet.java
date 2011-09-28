@@ -95,8 +95,9 @@ public class ActivationServlet extends BaseServlet {
 				}
 
 				Session hbSession = HibernateUtil.openSession();
-				Transaction transaction = hbSession.beginTransaction();
+				Transaction transaction = null;
 				try {
+					transaction = hbSession.beginTransaction();
 					Client client = (Client) hbSession
 							.getNamedQuery("getClient.by.mailId")
 							.setParameter(EMAIL_ID, activation.getEmailId())
@@ -115,7 +116,9 @@ public class ActivationServlet extends BaseServlet {
 					transaction.commit();
 				} catch (Exception e) {
 					e.printStackTrace();
-					transaction.rollback();
+					if (transaction != null) {
+						transaction.rollback();
+					}
 				} finally {
 					if (hbSession != null)
 						hbSession.close();

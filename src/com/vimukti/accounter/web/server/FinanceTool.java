@@ -11150,9 +11150,10 @@ public class FinanceTool {
 			String newPassword) throws DAOException {
 
 		Session session = HibernateUtil.openSession();
-		org.hibernate.Transaction tx = session.beginTransaction();
+		org.hibernate.Transaction tx = null;
 
 		try {
+			tx = session.beginTransaction();
 			oldPassword = HexUtil.bytesToHex(Security.makeHash(emailId
 					+ oldPassword));
 			newPassword = HexUtil.bytesToHex(Security.makeHash(emailId
@@ -11173,8 +11174,12 @@ public class FinanceTool {
 			tx.commit();
 
 		} catch (Exception e) {
-			tx.rollback();
+			if (tx != null) {
+				tx.rollback();
+			}
 			e.printStackTrace();
+		} finally {
+			session.close();
 		}
 		return true;
 	}
@@ -11351,39 +11356,30 @@ public class FinanceTool {
 	public void performRecurringAction(String companyName,
 			FinanceDate clientDateAtServer, long companyId) {
 		Session session = HibernateUtil.openSession();
-		// TODO need to write query
-		Query namedQuery = session.getNamedQuery("list.currentRecTransactions");
-		namedQuery.setLong("name", clientDateAtServer.getDate());
-		namedQuery.setEntity("company", getCompany(companyId));
-		List<RecurringTransaction> list = session
-				.getNamedQuery("list.currentRecTransactions")
-				.setLong("name", clientDateAtServer.getDate())
-				.setEntity("company", getCompany(companyId)).list();
+		try {
+			// TODO need to write query
+			Query namedQuery = session.getNamedQuery("list.currentRecTransactions");
+			namedQuery.setLong("name", clientDateAtServer.getDate());
+			namedQuery.setEntity("company", getCompany(companyId));
+			List<RecurringTransaction> list = session
+					.getNamedQuery("list.currentRecTransactions")
+					.setLong("name", clientDateAtServer.getDate())
+					.setEntity("company", getCompany(companyId)).list();
 
-		for (RecurringTransaction recurringTransaction : list) {
-			try {
+			for (RecurringTransaction recurringTransaction : list) {
+
 				Transaction duplicateTransaction = createDuplicateTransaction(recurringTransaction);
 
-				try {
-					session.save(duplicateTransaction);
-				} catch (Exception e) {
-					e.printStackTrace();
-					// Might be database problem, continue with other one.
-					continue;
-				}
+				session.save(duplicateTransaction);
 				// TODO notify user and save this duplicate transaction
 				recurringTransaction.scheduleAgain();
 				session.saveOrUpdate(recurringTransaction);
-			} catch (HibernateException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (AccounterException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (CloneNotSupportedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			session.close();
 		}
 	}
 

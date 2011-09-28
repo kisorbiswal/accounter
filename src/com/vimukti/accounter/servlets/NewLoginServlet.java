@@ -36,8 +36,9 @@ public class NewLoginServlet extends BaseServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		Session session = HibernateUtil.openSession();
-		Transaction transaction = session.beginTransaction();
+		Transaction transaction = null;
 		try {
+			transaction = session.beginTransaction();
 			Client client = doLogin(request, response);
 			if (client != null) {
 				// if valid credentials are there we redirect to <dest> param or
@@ -81,7 +82,9 @@ public class NewLoginServlet extends BaseServlet {
 			transaction.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
-			transaction.rollback();
+			if (transaction != null) {
+				transaction.rollback();
+			}
 		} finally {
 			if (session.isOpen()) {
 				session.close();
@@ -174,30 +177,36 @@ public class NewLoginServlet extends BaseServlet {
 			}
 
 			Session session = HibernateUtil.openSession();
-			Query query = session.getNamedQuery("get.remembermeKey");
-			query.setParameter("key", userCookie);
-			RememberMeKey rememberMeKey = (RememberMeKey) query.uniqueResult();
-			
-			if (rememberMeKey == null) {
-				dispatch(request, response, LOGIN_VIEW);
-				return;
-			}
-			Client client = getClient(rememberMeKey.getEmailID());
-			if (client == null) {
-				dispatch(request, response, LOGIN_VIEW);
-				return;
-			}
-			httpSession.setAttribute(EMAIL_ID, rememberMeKey.getEmailID());
-
-			Transaction transaction = session.beginTransaction();
+			Transaction transaction = null;
 			try {
+				transaction = session.beginTransaction();
+				Query query = session.getNamedQuery("get.remembermeKey");
+				query.setParameter("key", userCookie);
+				RememberMeKey rememberMeKey = (RememberMeKey) query
+						.uniqueResult();
+
+				if (rememberMeKey == null) {
+					dispatch(request, response, LOGIN_VIEW);
+					return;
+				}
+				Client client = getClient(rememberMeKey.getEmailID());
+				if (client == null) {
+					dispatch(request, response, LOGIN_VIEW);
+					return;
+				}
+				httpSession.setAttribute(EMAIL_ID, rememberMeKey.getEmailID());
+
 				client.setLoginCount(client.getLoginCount() + 1);
 				client.setLastLoginTime(System.currentTimeMillis());
 				session.saveOrUpdate(client);
 				transaction.commit();
 			} catch (Exception e) {
 				e.printStackTrace();
-				transaction.rollback();
+				if (transaction != null) {
+					transaction.rollback();
+				}
+			} finally {
+				session.close();
 			}
 			redirectExternal(request, response, COMPANIES_URL);
 

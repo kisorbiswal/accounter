@@ -81,14 +81,12 @@ public class ExportReportServlet extends BaseServlet {
 
 	private ITemplate getTempleteObjByRequest(HttpServletRequest request)
 			throws IOException, AccounterException {
-		Session session = null;
+		String companyID = getCookie(request, COMPANY_COOKIE);
+		Session session = HibernateUtil.openSession();
 		try {
 			String companyName = getCompanyName(request);
 			if (companyName == null)
 				return null;
-
-			String companyID = getCookie(request, COMPANY_COOKIE);
-			session = HibernateUtil.openSession();
 
 			FinanceTool financetool = new FinanceTool();
 			Company company = financetool.getCompany(Long.valueOf(companyID));
@@ -105,7 +103,9 @@ public class ExportReportServlet extends BaseServlet {
 
 			return template;
 		} finally {
-			session.close();
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
 		}
 
 	}

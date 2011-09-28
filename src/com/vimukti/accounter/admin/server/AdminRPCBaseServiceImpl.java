@@ -11,7 +11,6 @@ import org.hibernate.Session;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.vimukti.accounter.admin.core.AdminUser;
-import com.vimukti.accounter.core.Server;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class AdminRPCBaseServiceImpl extends RemoteServiceServlet {
@@ -32,10 +31,9 @@ public class AdminRPCBaseServiceImpl extends RemoteServiceServlet {
 	@Override
 	public void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		Session session = HibernateUtil.openSession();
 		try {
 			if (isValidSession(request)) {
-				Session session = HibernateUtil
-						.openSession();
 				setAdminThreadLocal(request);
 				try {
 					super.service(request, response);
@@ -54,6 +52,10 @@ public class AdminRPCBaseServiceImpl extends RemoteServiceServlet {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 					"Could Not Complete the Request!");
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
 		}
 	}
 

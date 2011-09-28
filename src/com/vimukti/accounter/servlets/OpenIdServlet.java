@@ -217,8 +217,9 @@ public class OpenIdServlet extends BaseServlet {
 	private void loginForUser(String email, HttpServletRequest request,
 			HttpServletResponse response) {
 		Session session = HibernateUtil.openSession();
-		Transaction transaction = session.beginTransaction();
+		Transaction transaction = null;
 		try {
+			transaction = session.beginTransaction();
 			Client client = (Client) session
 					.getNamedQuery("getClient.by.mailId")
 					.setString("emailId", email).uniqueResult();
@@ -255,7 +256,9 @@ public class OpenIdServlet extends BaseServlet {
 			transaction.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
-			transaction.rollback();
+			if (transaction != null) {
+				transaction.rollback();
+			}
 		} finally {
 			if (session.isOpen()) {
 				session.close();

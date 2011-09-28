@@ -31,16 +31,16 @@ public class ServerMain extends Main {
 		initLogger();
 
 		Session session = HibernateUtil.openSession();
-
-		ServerMaintanance maintanance = (ServerMaintanance) session.get(
-				ServerMaintanance.class, 1L);
-		if (maintanance != null) {
-			ServerConfiguration.setUnderMaintainance(maintanance
-					.isUnderMaintanance());
+		try {
+			ServerMaintanance maintanance = (ServerMaintanance) session.get(
+					ServerMaintanance.class, 1L);
+			if (maintanance != null) {
+				ServerConfiguration.setUnderMaintainance(maintanance
+						.isUnderMaintanance());
+			}
+		} finally {
+			session.close();
 		}
-
-		session.close();
-
 		EmailManager.getInstance().start();
 
 		Global.set(new ServerGlobal());
