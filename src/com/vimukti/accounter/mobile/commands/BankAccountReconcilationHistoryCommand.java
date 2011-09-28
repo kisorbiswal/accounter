@@ -71,8 +71,8 @@ public class BankAccountReconcilationHistoryCommand extends
 			bankAccountsList.add(createBankAccoutRecord((BankAccount) last));
 			num++;
 		}
-		ArrayList<Account> bankAccounts = getBankAccounts(getCompany()
-				.getAccounts());
+		ArrayList<Account> bankAccounts = getBankAccounts(new ArrayList<Account>(
+				getCompany().getAccounts()));
 
 		for (Account bankAccount : bankAccounts) {
 			if (bankAccount != last) {
