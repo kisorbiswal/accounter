@@ -514,23 +514,23 @@ public class WriteChequeView extends
 		// FIXME Need to validate grids.
 		if (transactionVendorAccountTable.getAllRows().isEmpty()
 				&& transactionVendorItemTable.getAllRows().isEmpty()) {
-			result.addError(transactionVendorAccountTable,
-					accounterConstants.blankTransaction());
+			result.addError(transactionVendorAccountTable, accounterConstants
+					.blankTransaction());
 		} else {
 			result.add(transactionVendorAccountTable.validateGrid());
 			result.add(transactionVendorItemTable.validateGrid());
 		}
 
 		if (!validateAmount()) {
-			result.addError(memoTextAreaItem,
-					accounterConstants.transactiontotalcannotbe0orlessthan0());
+			result.addError(memoTextAreaItem, accounterConstants
+					.transactiontotalcannotbe0orlessthan0());
 		}
 		if (isTrackTax()) {
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect,
-							accounterConstants.enterTaxCode());
+					result.addError(taxCodeSelect, accounterConstants
+							.enterTaxCode());
 				}
 
 			}
@@ -1293,24 +1293,29 @@ public class WriteChequeView extends
 	}
 
 	public void onEdit() {
-		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
+		if (!(transaction.isVoid())) {
+			AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
 
-			@Override
-			public void onException(AccounterException caught) {
-				Accounter.showError(caught.getMessage());
-			}
+				@Override
+				public void onException(AccounterException caught) {
+					Accounter.showError(caught.getMessage());
+				}
 
-			@Override
-			public void onResultSuccess(Boolean result) {
-				if (result)
-					enableFormItems();
-			}
+				@Override
+				public void onResultSuccess(Boolean result) {
+					if (result)
+						enableFormItems();
+				}
 
-		};
+			};
 
-		AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
-				.getType());
-		this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
+			AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
+					.getType());
+			this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
+		} else if (transaction.isVoid() || transaction.isDeleted()) {
+			Accounter
+					.showError(Accounter.constants().failedtovoidTransaction());
+		}
 
 	}
 
