@@ -2,13 +2,10 @@ package com.vimukti.accounter.core;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class AccounterClass implements IAccounterServerCore ,INamedObject{
+public class AccounterClass extends CreatableObject implements
+		IAccounterServerCore, INamedObject {
 
 	private String className;
-
-	private long id;
-
-	private int version;
 
 	/**
 	 * 
@@ -31,27 +28,12 @@ public class AccounterClass implements IAccounterServerCore ,INamedObject{
 	}
 
 	@Override
-	public int getVersion() {
-		return version;
-	}
-
-	@Override
-	public void setVersion(int version) {
-		this.version = version;
-	}
-
-	@Override
-	public long getID() {
-		return id;
-	}
-
-	@Override
 	public String getName() {
 		return className;
 	}
 
 	@Override
 	public void setName(String name) {
-		this.className=name;
+		this.className = name;
 	}
 }

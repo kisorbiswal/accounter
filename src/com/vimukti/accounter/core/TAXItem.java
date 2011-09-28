@@ -50,7 +50,7 @@ public class TAXItem extends TAXItemGroup {
 	 */
 	VATReturnBox vatReturnBox;
 
-	public TAXItem() {
+	 public TAXItem() {
 	}
 
 	public TAXItem(Company company) {

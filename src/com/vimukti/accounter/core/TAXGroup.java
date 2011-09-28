@@ -31,7 +31,6 @@ public class TAXGroup extends TAXItemGroup {
 	double groupRate;
 
 	public TAXGroup() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public TAXGroup(Company company) {
