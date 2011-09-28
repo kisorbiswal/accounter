@@ -159,8 +159,9 @@
 	</query>
 	<query name="list.currentRecTransactions">
 		<query-param name="company" type="Company" />
+		<query-param name="name" type="long" />
 		from com.vimukti.accounter.core.RecurringTransaction rt where
-		rt.nextScheduleOn = ? and rt.company=:company order by rt.name
+		rt.nextScheduleOn =:name and rt.company=:company order by rt.name
 	</query>
 	<query name="list.VendorGroup">
 		<query-param name="company" type="Company" />
