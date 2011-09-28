@@ -1,6 +1,7 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -35,21 +36,24 @@ public class TemplateResetServlet extends HttpServlet {
 				&& password.equals("***REMOVED***")) {
 
 			Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
-
-			List<Company> companies = session
-					.getNamedQuery("get.all.companies").list();
-			session.close();
+			List<Company> companies = new ArrayList<Company>();
+			try {
+				companies = session.getNamedQuery("get.all.companies").list();
+			} finally {
+				session.close();
+			}
 
 			for (Company company : companies) {
 				Session s = HibernateUtil.openSession(company.getCompanyID());
-				User user = (User) s.getNamedQuery("get.admin.users").list()
-						.get(0);
-				logger.info("*************** Updating "
-						+ company.getCompanyID() + " with admin ID: "
-						+ user.getEmail() + " **************");
-
-				s.close();
-
+				try {
+					User user = (User) s.getNamedQuery("get.admin.users")
+							.list().get(0);
+					logger.info("*************** Updating "
+							+ company.getCompanyID() + " with admin ID: "
+							+ user.getEmail() + " **************");
+				} finally {
+					s.close();
+				}
 			}
 
 			sendResponse("Update successfull.", request, response);

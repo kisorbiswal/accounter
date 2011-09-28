@@ -95,8 +95,9 @@ public class RegistrationServlet extends BaseServlet {
 			req.getRequestDispatcher("/site/error.jsp").forward(req, resp);
 		}
 		Session hibernateSession = HibernateUtil.openSession(LOCAL_DATABASE);
-		Transaction transaction = hibernateSession.beginTransaction();
+		Transaction transaction = null;
 		try {
+			transaction = hibernateSession.beginTransaction();
 			Client client = getClient(emailId);
 			if (client == null) {
 				req.setAttribute("error", "Session has expired");
@@ -152,7 +153,9 @@ public class RegistrationServlet extends BaseServlet {
 			transaction.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
-			transaction.rollback();
+			if (transaction != null) {
+				transaction.rollback();
+			}
 		} finally {
 			if (hibernateSession != null) {
 				hibernateSession.close();

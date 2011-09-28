@@ -63,8 +63,9 @@ public class DeleteCompanyServlet extends BaseServlet {
 				httpSession.setAttribute(COMPANY_DELETION_STATUS,
 						COMPANY_DELETING);
 				Session session = HibernateUtil.openSession(LOCAL_DATABASE);
-				Transaction transaction = session.beginTransaction();
+				Transaction transaction = null;
 				try {
+					transaction = session.beginTransaction();
 
 					Client client = getClient(email);
 					ServerCompany serverCompany = null;
@@ -139,7 +140,9 @@ public class DeleteCompanyServlet extends BaseServlet {
 					updateServers(serverCompany.getServer(), false);
 				} catch (Exception e) {
 					e.printStackTrace();
-					transaction.rollback();
+					if (transaction != null) {
+						transaction.rollback();
+					}
 					httpSession.setAttribute(COMPANY_DELETION_STATUS, "Fail");
 					httpSession.setAttribute("DeletionFailureMessage",
 							"Internal Error Occured");

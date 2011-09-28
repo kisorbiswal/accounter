@@ -22,8 +22,9 @@ public class ServerAllocatorImpl implements IServerAllocator {
 			String sourceAddress) {
 
 		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
-		Transaction transaction = session.beginTransaction();
+		Transaction transaction = null;
 		try {
+			transaction = session.beginTransaction();
 			List list = session.getNamedQuery("get.Prioritize.Servers").list();
 			if (!list.isEmpty()) {
 				return (Server) list.get(0);
@@ -34,7 +35,10 @@ public class ServerAllocatorImpl implements IServerAllocator {
 			transaction.commit();
 			return server;
 		} catch (Exception e) {
-			transaction.rollback();
+			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+			}
 		} finally {
 			session.close();
 		}

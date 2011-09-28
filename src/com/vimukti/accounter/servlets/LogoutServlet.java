@@ -57,15 +57,18 @@ public class LogoutServlet extends BaseServlet {
 	 */
 	private void updateActivity(String userid, String cid) {
 		Session session = HibernateUtil.openSession(Server.COMPANY + cid);
-		Transaction transaction = session.beginTransaction();
+		Transaction transaction = null;
 		try {
+			transaction = session.beginTransaction();
 			User user = (User) session.getNamedQuery("user.by.emailid")
 					.setParameter("emailID", userid).uniqueResult();
 			Activity activity = new Activity(user, ActivityType.LOGOUT);
 			session.save(activity);
 			transaction.commit();
 		} catch (Exception e) {
-			transaction.rollback();
+			if (transaction != null) {
+				transaction.rollback();
+			}
 		} finally {
 			session.close();
 		}
@@ -90,14 +93,19 @@ public class LogoutServlet extends BaseServlet {
 		}
 		// Deleting RememberMEKEy from Database
 		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
-		Transaction transaction = session.beginTransaction();
+		Transaction transaction = null;
 		try {
+			transaction = session.beginTransaction();
 			session.getNamedQuery("delete.remembermeKeys")
 					.setParameter("key", userKey).executeUpdate();
 			transaction.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
-			transaction.rollback();
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		} finally {
+			session.close();
 		}
 
 	}

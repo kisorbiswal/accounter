@@ -48,8 +48,9 @@ public class ForgetPasswordServlet extends BaseServlet {
 
 		Session serverSession = HibernateUtil
 				.openSession(Server.LOCAL_DATABASE);
-		Transaction transaction = serverSession.beginTransaction();
+		Transaction transaction = null;
 		try {
+			transaction = serverSession.beginTransaction();
 			Client client = getClient(emailID);
 
 			if (client == null) {
@@ -69,7 +70,9 @@ public class ForgetPasswordServlet extends BaseServlet {
 			transaction.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
-			transaction.rollback();
+			if (transaction != null) {
+				transaction.rollback();
+			}
 		} finally {
 			serverSession.close();
 		}

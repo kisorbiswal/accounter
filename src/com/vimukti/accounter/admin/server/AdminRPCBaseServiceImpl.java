@@ -32,10 +32,9 @@ public class AdminRPCBaseServiceImpl extends RemoteServiceServlet {
 	@Override
 	public void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
 		try {
 			if (isValidSession(request)) {
-				Session session = HibernateUtil
-						.openSession(Server.LOCAL_DATABASE);
 				setAdminThreadLocal(request);
 				try {
 					super.service(request, response);
@@ -54,6 +53,10 @@ public class AdminRPCBaseServiceImpl extends RemoteServiceServlet {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 					"Could Not Complete the Request!");
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
 		}
 	}
 

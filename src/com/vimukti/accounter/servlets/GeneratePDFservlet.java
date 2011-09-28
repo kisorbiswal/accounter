@@ -143,16 +143,12 @@ public class GeneratePDFservlet extends BaseServlet {
 	private void getTempleteObjByRequest(HttpServletRequest request,
 			String footerImg, String style, String companyName)
 			throws Exception, IOException, AccounterException {
-		Session session = null;
+		String companyID = getCookie(request, COMPANY_COOKIE);
+		Session session = HibernateUtil.openSession(Server.COMPANY + companyID);
 		fileName = "";
 		outPutString = new StringBuilder();
 		transactionType = 0;
 		try {
-
-			String companyID = getCookie(request, COMPANY_COOKIE);
-
-			session = HibernateUtil.openSession(Server.COMPANY + companyID);
-
 			FinanceTool financetool = new FinanceTool();
 			TemplateBuilder.setCmpName(companyName);
 

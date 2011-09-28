@@ -47,8 +47,9 @@ public class MaintananceServlet extends BaseServlet {
 		ServerConfiguration.setUnderMaintainance(isUndermaintanance);
 
 		Session session = HibernateUtil.openSession(LOCAL_DATABASE);
-		Transaction transaction = session.beginTransaction();
+		Transaction transaction = null;
 		try {
+			transaction = session.beginTransaction();
 			ServerMaintanance maintanance = (ServerMaintanance) session.get(
 					ServerMaintanance.class, 1l);
 			if (maintanance == null) {
@@ -60,7 +61,11 @@ public class MaintananceServlet extends BaseServlet {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			transaction.rollback();
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		} finally {
+			session.close();
 		}
 		if (ServerConfiguration.isUnderMaintainance())
 			req.setAttribute("message", "Server will be under maintainence");

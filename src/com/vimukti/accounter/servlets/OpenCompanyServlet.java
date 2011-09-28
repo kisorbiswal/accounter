@@ -66,7 +66,6 @@ public class OpenCompanyServlet extends BaseServlet {
 
 				session.save(activity);
 				transaction.commit();
-				session.close();
 				// there is no session, so do external redirect to login page
 				// response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
 				// response.setHeader("Location", "/Accounter.jsp");

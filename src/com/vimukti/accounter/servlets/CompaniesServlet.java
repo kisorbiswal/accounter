@@ -148,23 +148,28 @@ public class CompaniesServlet extends BaseServlet {
 		addMacAppCookie(req, resp);
 
 		Session session = HibernateUtil.openSession(LOCAL_DATABASE);
-		ServerCompany company = (ServerCompany) session.get(
-				ServerCompany.class, companyID);
-		if (company != null) {
+		try {
+			ServerCompany company = (ServerCompany) session.get(
+					ServerCompany.class, companyID);
+			if (company != null) {
 
-			if (!company.isActive()) {
-				dispatch(req, resp, MIGRATION_VIEW);
-				return;
-			}
-			String url = ACCOUNTER_OLD_URL;
-			if (ServerConfiguration.isDebugMode) {
-				url = ACCOUNTER_URL;
-			}
+				if (!company.isActive()) {
+					dispatch(req, resp, MIGRATION_VIEW);
+					return;
+				}
+				String url = ACCOUNTER_OLD_URL;
+				if (ServerConfiguration.isDebugMode) {
+					url = ACCOUNTER_URL;
+				}
 
-			redirectExternal(
-					req,
-					resp,
-					buildCompanyServerURL(company.getServer().getAddress(), url));
+				redirectExternal(
+						req,
+						resp,
+						buildCompanyServerURL(company.getServer().getAddress(),
+								url));
+			}
+		} finally {
+			session.close();
 		}
 	}
 
