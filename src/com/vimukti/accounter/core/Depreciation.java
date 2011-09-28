@@ -594,7 +594,8 @@ public class Depreciation extends CreatableObject implements
 	}
 
 	public static void rollBackDepreciation(long fixedAssetID,
-			FinanceDate rollBackDepreciationTo) throws Exception {
+			FinanceDate rollBackDepreciationTo, Company company)
+			throws Exception {
 		Session session = HibernateUtil.getCurrentSession() == null ? Utility
 				.getCurrentSession() : HibernateUtil.getCurrentSession();
 		Query query = session
@@ -602,7 +603,7 @@ public class Depreciation extends CreatableObject implements
 						"getDepreciation.from.depreciateFrom.byFixedassetId")
 				.setLong("date", rollBackDepreciationTo.getDate())
 				.setInteger("status", Depreciation.APPROVE)
-				.setLong("id", fixedAssetID);
+				.setLong("id", fixedAssetID).setEntity("company", company);
 		List<Depreciation> list = query.list();
 		for (Depreciation dep : list) {
 			dep.setStatus(Depreciation.ROLLBACK);

@@ -259,9 +259,11 @@ public class TAXItem extends TAXItemGroup {
 
 		session.getNamedQuery("updateTaxCodeSalesTaxRate")
 				.setParameter("id", this.id)
+				.setParameter("companyId", getCompany().getID())
 				.setParameter("salesTaxRate", this.taxRate).executeUpdate();
 		session.getNamedQuery("updateTaxCodePurchaseTaxRate")
 				.setParameter("id", this.id)
+				.setParameter("companyId", getCompany().getID())
 				.setParameter("purchaseTaxRate", this.taxRate).executeUpdate();
 
 		super.onSave(session);

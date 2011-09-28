@@ -424,48 +424,6 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 		}
 	}
 
-	private void modifyFiscalYears(FiscalYear presentFiscalYear) {
-		Session s = HibernateUtil.getCurrentSession();
-		List<FiscalYear> beforeFYs = s
-				.getNamedQuery("getFiscalyear.byId.andDates")
-				.setParameter("id", this.getID())
-				.setParameter("startDate", this.getStartDate()).list();
-		Calendar tempCal = Calendar.getInstance();
-		tempCal.setTime(this.getStartDate().getAsDateObject());
-		for (FiscalYear fYear : beforeFYs) {
-			Calendar cal = Calendar.getInstance();
-
-			cal.setTime(tempCal.getTime());
-			cal.set(Calendar.MONTH, tempCal.get(Calendar.MONTH) - 12);
-
-			FinanceDate startDate = new FinanceDate(cal.getTime());
-			fYear.setStartDate(startDate);
-			fYear.setEndDate(getEndDateForStartDate(startDate.getDate()));
-			checkIsCurrentFY(fYear);
-			s.saveOrUpdate(fYear);
-			ChangeTracker.put(fYear);
-			tempCal.setTime(startDate.getAsDateObject());
-		}
-		List<FiscalYear> afterFYs = s
-				.getNamedQuery("getFisacalyear.by.id.and.Startdate")
-				.setParameter("id", this.id)
-				.setParameter("startDate", this.getStartDate()).list();
-		tempCal.setTime(this.getStartDate().getAsDateObject());
-		for (FiscalYear fYear : afterFYs) {
-			Calendar cal = Calendar.getInstance();
-
-			cal.setTime(tempCal.getTime());
-			cal.set(Calendar.MONTH, tempCal.get(Calendar.MONTH) + 12);
-			FinanceDate startDate = new FinanceDate(cal.getTime());
-			fYear.setStartDate(startDate);
-			fYear.setEndDate(getEndDateForStartDate(startDate.getDate()));
-			checkIsCurrentFY(fYear);
-			s.saveOrUpdate(fYear);
-			ChangeTracker.put(fYear);
-			tempCal.setTime(startDate.getAsDateObject());
-		}
-	}
-
 	private FinanceDate getEndDateForStartDate(long startDate) {
 		FinanceDate date = new FinanceDate(startDate);
 		date.setYear(date.getYear() + 1);
