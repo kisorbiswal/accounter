@@ -85,16 +85,16 @@ public class VendorPaymentsCommand extends AbstractTransactionCommand {
 	private Record createPaymentRecord(PaymentsList payment) {
 
 		Record rec = new Record(payment);
-		rec.add("Date", payment.getPaymentDate());
-		rec.add("Payment No.", payment.getPaymentNumber());
+		rec.add("Payment Date", payment.getPaymentDate());
+//		rec.add("Payment No.", payment.getPaymentNumber());
 		// TODO need to change to String
-		rec.add("Status", payment.getStatus());
-		rec.add("Issue Date", payment.getIssuedDate());
-		rec.add("Name", payment.getName());
-		rec.add("Type", payment.getType());
-		rec.add("Payment Method", payment.getPaymentMethodName());
+//		rec.add("Status", payment.getStatus());
+//		rec.add("Issue Date", payment.getIssuedDate());
+//		rec.add("Name", payment.getName());
+//		rec.add("Type", payment.getType());
+//		rec.add("Payment Method", payment.getPaymentMethodName());
 		rec.add("Amount Paid", payment.getAmountPaid());
-		rec.add("Voided", payment.isVoided());
+//		rec.add("Voided", payment.isVoided());
 
 		return rec;
 	}
