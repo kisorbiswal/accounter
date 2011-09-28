@@ -113,7 +113,6 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	public static final int GROUPTYPE_CASH = 1;
 
-	private Company company;
 	/**
 	 * To decide about the type of the {@link Account}
 	 */
@@ -898,7 +897,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 				if (this.parent == null) {
 					List l = session
 							.getNamedQuery("getFlow.by.Id.from.Account")
-							.setEntity("company", company).list();
+							.setEntity("company", getCompany()).list();
 					if (l != null && l.size() > 0) {
 						int count = Integer.parseInt((String) l.get(0));
 						count++;
@@ -1055,7 +1054,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 						.getNamedQuery("getFlowList.form.Account.byId")
 						.setParameter("parentId", this.oldParent.getID())
 						.setParameter("flow", oldFlow)
-						.setEntity("company", company);
+						.setEntity("company", getCompany());
 				List<Account> l2 = query1.list();
 
 				// List<Account> l2 = session
@@ -1280,6 +1279,5 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			Entry.updateEntryMemo(getCompany(), session, accountName,
 					this.getName());
 	}
-
 
 }
