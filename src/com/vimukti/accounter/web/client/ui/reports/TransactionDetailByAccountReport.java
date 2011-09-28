@@ -49,7 +49,9 @@ public class TransactionDetailByAccountReport extends
 					start, end, this);
 		} else if (accountdetails.getAccountName() != null) {
 			Accounter.createReportService().getTransactionDetailByAccount(
-					accountdetails.getAccountName(), start, end, this);
+					accountdetails.getAccountName(),
+					accountdetails.getStartDate(), accountdetails.getEndDate(),
+					this);
 		}
 	}
 
