@@ -1046,7 +1046,7 @@ public interface AccounterConstants extends Constants {
 
 	public String disposingRegisteredItem();
 
-	public String documentNo();
+	public String docNo();
 
 	public String dollarMargin();
 

@@ -50,7 +50,7 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 		else if (accountType == ClientAccount.TYPE_CREDIT_CARD)
 			return new String[] { Accounter.constants().date(),
 					Accounter.constants().type(),
-					Accounter.constants().documentNo(),
+					Accounter.constants().docNo(),
 					Accounter.constants().payTo(),
 					Accounter.constants().memo(),
 					Accounter.messages().account(Global.get().account()),

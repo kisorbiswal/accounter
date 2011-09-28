@@ -244,12 +244,7 @@ $(document).ready(function(){
 
 	</script>
 
-		
-		<script type="text/javascript" charset="utf-8">
-			if (typeof accounter != 'undefined'){
-				accounter.reloadMenu();
-			}
-		</script>
+
 		
 		<script type="text/javascript" charset="utf-8">
 			function SampleFunction(parameter){
@@ -264,9 +259,11 @@ $(document).ready(function(){
 		
 
 		<script type="text/javascript" charset="utf-8">
-			
 			function MacReload(){
-					window.location = '/company/macreload';
+				 var myaddressbook = window.accounter;
+				 myaddressbook.resetMenu();
+  				myaddressbook.reloadMenu();
+
 			}
   		</script>
 

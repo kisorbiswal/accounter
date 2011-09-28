@@ -133,10 +133,12 @@ public class CreditsandPaymentsGrid extends
 	 * non-editable fields as-well-as records values
 	 */
 	public void resetValue(ClientCreditsAndPayments creditPayments) {
-		creditPayments
-				.setBalance(creditPayments.isRecordChanged() ? creditPayments
-						.getRemaoningBalance() + creditPayments.getAmtTouse()
-						: creditPayments.getAmtTouse());
+		// creditPayments
+		// .setBalance(creditPayments.isRecordChanged() ? creditPayments
+		// .getRemaoningBalance() + creditPayments.getAmtTouse()
+		// : creditPayments.getAmtTouse());
+		creditPayments.setBalance(creditPayments.getBalance()
+				+ creditPayments.getAmtTouse());
 		creditPayments.setAmtTouse(0.0D);
 		updateData(creditPayments);
 		updateAmountValues();

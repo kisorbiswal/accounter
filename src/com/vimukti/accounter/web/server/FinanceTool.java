@@ -43,6 +43,7 @@ import org.hibernate.criterion.Restrictions;
 import com.gdevelop.gwt.syncrpc.SyncProxy;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccountTransaction;
+import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Activity;
@@ -10252,6 +10253,8 @@ public class FinanceTool {
 		// company.setVatReturnBoxes(new HashSet<VATReturnBox>(session
 		// .getNamedQuery("list.VATReturnBox").list()));
 
+		company.setAccounterClasses(new HashSet<AccounterClass>(session
+				.getNamedQuery("list.TrackClass").list()));
 		company = company.toCompany(company);
 		ClientConvertUtil clientConvertUtil = new ClientConvertUtil();
 		ClientCompany clientCompany = clientConvertUtil.toClientObject(company,

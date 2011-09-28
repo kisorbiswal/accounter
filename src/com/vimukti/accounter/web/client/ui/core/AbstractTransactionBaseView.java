@@ -1347,7 +1347,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	public ClassListCombo createAccounterClassListCombo() {
 		classListCombo = new ClassListCombo("Class", true);
-		classListCombo.initCombo(getCompany().getAccounterClasses());
 		classListCombo.setHelpInformation(true);
 		classListCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccounterClass>() {
@@ -1396,12 +1395,12 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		}
 	}
 
+
 	protected void initAccounterClass() {
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()
 				&& transaction.getAccounterClass() != null) {
-			this.clientAccounterClass = transaction.getAccounterClass();
-			classSelected(this.clientAccounterClass);
+			classSelected(transaction.getAccounterClass());
 		}
 	}
 
