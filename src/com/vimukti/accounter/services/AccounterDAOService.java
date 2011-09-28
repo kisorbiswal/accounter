@@ -1858,8 +1858,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { taxCodeName, companyId });
 
 			if (list.size() > 0) {
-				TAXCode taxCode = new TAXCode();
-				taxCode = (TAXCode) list.get(0);
+				TAXCode taxCode = (TAXCode) list.get(0);
 				return taxCode;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
@@ -1880,8 +1879,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { taxCodeID, companyId });
 
 			if (list.size() > 0) {
-				TAXCode taxCode = new TAXCode();
-				taxCode = (TAXCode) list.get(0);
+				TAXCode taxCode = (TAXCode) list.get(0);
 				return taxCode;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
