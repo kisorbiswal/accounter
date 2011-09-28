@@ -4921,5 +4921,6 @@ public interface AccounterConstants extends Constants {
 	public String amountToUseMustLessthanTotal();
 
 	public String noCreditsToApply();
+	public String classicTemplate();
 
 }
