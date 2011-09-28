@@ -125,7 +125,11 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 
 	public double getTotalUnuseCreditAmount() {
 		totalUnusedCreditAmount = 0.0;
-		for (ClientCreditsAndPayments crd : grid.getActualRecords()) {
+		List<ClientCreditsAndPayments> records = grid.getUpdatedRecords();
+		if (records.isEmpty()) {
+			records = grid.getActualRecords();
+		}
+		for (ClientCreditsAndPayments crd : records) {
 			totalUnusedCreditAmount += crd.getBalance();
 		}
 		return totalUnusedCreditAmount;

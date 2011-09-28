@@ -59,42 +59,6 @@ public class CreditsandPaymentsGrid extends
 		super.setCanEdit(enabled);
 	}
 
-	@Override
-	public void onHeaderCheckBoxClick(boolean isChecked) {
-		if (isChecked) {
-			selectAllValues();
-		} else
-			resetAllValues();
-		super.onHeaderCheckBoxClick(isChecked);
-	}
-
-	/*
-	 * This method invoked when headercheckbox is checked.It updates the
-	 * non-editable fileds and record's vaFlues
-	 */
-	private void selectAllValues() {
-		for (ClientCreditsAndPayments cpRecord : this.getRecords()) {
-			if (isSelected(cpRecord)) {
-				((CheckBox) this.body.getWidget(indexOf(cpRecord), 0))
-						.setValue(true);
-				updateValue(cpRecord);
-			}
-		}
-	}
-
-	/*
-	 * This method invoked when header checkbox is uncheked.And resets
-	 * allrecords values to its original values as-well-as no-editable fields
-	 */
-
-	public void resetAllValues() {
-		for (ClientCreditsAndPayments creditsAndPayments : getRecords()) {
-			if (!isSelected(creditsAndPayments)) {
-				resetValidValue(creditsAndPayments);
-			}
-		}
-	}
-
 	private void resetValidValue(ClientCreditsAndPayments creditsAndPayments) {
 		double balance = creditsAndPayments.getBalance();
 		double amountToUse = creditsAndPayments.getAmtTouse();
@@ -328,10 +292,10 @@ public class CreditsandPaymentsGrid extends
 	public List<ClientCreditsAndPayments> getUpdatedRecords() {
 		List<ClientCreditsAndPayments> updatedPayments = new ArrayList<ClientCreditsAndPayments>();
 		for (ClientCreditsAndPayments record : this.getRecords()) {
-			if (isSelected(record))
-				record.setRecordChanged(true);
-			else
-				record.setRecordChanged(false);
+			// if (isSelected(record))
+			// record.setRecordChanged(true);
+			// else
+			// record.setRecordChanged(false);
 
 			updatedPayments.add(record);
 		}
@@ -385,10 +349,6 @@ public class CreditsandPaymentsGrid extends
 			result.addError(this, Accounter.constants().selectTransaction());
 		}
 		return result;
-	}
-
-	public boolean isSelected(ClientCreditsAndPayments transactionList) {
-		return ((CheckBox) getWidget(indexOf(transactionList), 0)).getValue();
 	}
 
 	@Override
