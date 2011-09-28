@@ -87,7 +87,7 @@ html,body,.myacc-form1 td input[type=text],.gridBodyContainer,.gridHeader tr td 
 .helpPanel,.view_panel,.HEADER_GRID,.financeWindow,.noScroll,.listgridfooter,.gridHeader,.toolbox,.companyInfoPanel,.MENU_BAR_BG,
 .error-panel,.commentPanel,#mainFooter,.portlet-body,.empty_menu_bar,.address,.tablelayout,.tablelayout1,.tablelayoutInIE,.tablelayoutInIE1,
 .listgrid .custom-combo,.widget,.boldtext,.email_textarea textarea,.finance-portlet td:FIRST-CHILD table,.finance-portlet table,
-.editTable .gwt-TextBox,.editTable .gwt-DateBox,.fullSizePanel,.imageLink-div,.action-vp,.gridBody tbody,.grid-resizeable-proxy-column,
+.editTable .gwt-TextBox,.editTable .gwt-DateBox,.imageLink-div,.action-vp,.gridBody tbody,.grid-resizeable-proxy-column,
 .portlet-body,.no-title .main-w,.datePickerMonthSelector,.pre_scroll_table div table,#overlay {
 	width: 100%;
 }
