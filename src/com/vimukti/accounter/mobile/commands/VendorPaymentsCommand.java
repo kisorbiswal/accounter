@@ -10,11 +10,11 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class VendorPaymentsCommand extends AbstractTransactionCommand {
 
-	private static final String CURRENT_VIEW = "Current View";
-	protected static final int PAYMENTS_TO_SHOW = 5;
+	private static final String VIEW_BY = "ViewBy";
 
 	@Override
 	public String getId() {
@@ -24,86 +24,95 @@ public class VendorPaymentsCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
+		list.add(new Requirement(VIEW_BY, true, true));
 
-		list.add(new Requirement(CURRENT_VIEW, true, true));
 	}
 
 	@Override
 	public Result run(Context context) {
-		Result result = optionalRequirement(context);
+		Result result = null;
+
+		result = createOptionalResult(context);
 		if (result != null) {
 			return result;
 		}
 		return result;
 	}
 
-	private Result optionalRequirement(Context context) {
+	private Result createOptionalResult(Context context) {
 		context.setAttribute(INPUT_ATTR, "optional");
 
-		Object selection = context.getSelection(CURRENT_VIEW);
+		Object selection = context.getSelection(VIEW_BY);
 
 		ResultList list = new ResultList("viewlist");
 		Result result = viewTypeRequirement(context, list, selection);
 		if (result != null) {
 			return result;
 		}
-		String viewType = get(CURRENT_VIEW).getValue();
-		result = paymentsList(context, viewType);
+		String viewType = get(VIEW_BY).getValue();
+		result = payments(context, viewType);
 		return result;
 	}
 
-	private Result paymentsList(Context context, String viewType) {
+	private Result payments(Context context, String viewType) {
 		Result result = context.makeResult();
-		result.add("VendorPayments List");
-		ResultList paymentList = new ResultList("paymentsList");
+		result.add("Payments List");
+		ResultList billsListData = new ResultList("payments");
 		int num = 0;
-		List<PaymentsList> payments = getPaymentsList();
-		for (PaymentsList bill : payments) {
-			paymentList.add(createPaymentRecord(bill));
-			num++;
 
+		List<PaymentsList> payments = getPayments(getType(viewType),
+				context.getCompany());
+
+		for (PaymentsList p : payments) {
+			billsListData.add(createPaymentRecord(p));
+			num++;
 			if (num == PAYMENTS_TO_SHOW) {
 				break;
 			}
 		}
 
+		int size = billsListData.size();
+		StringBuilder message = new StringBuilder();
+		if (size > 0) {
+			message.append("Select a payment");
+		}
 		CommandList commandList = new CommandList();
-		commandList.add("Create");
+		commandList.add("Create New");
 
-		result.add(paymentList);
+		result.add(message.toString());
+		result.add(billsListData);
 		result.add(commandList);
-		result.add("Type for Payment");
+		result.add("Type for payment");
 
 		return result;
 	}
 
-	private List<PaymentsList> getPaymentsList() {
-		// TODO Auto-generated method stub
-		return null;
+	private int getType(String viewType) {
+		if (viewType.equals(Accounter.constants().issued())) {
+			return 2;
+		} else if (viewType.equals(Accounter.constants().notIssued())) {
+			return 0;
+		}
+		return 0;
 	}
 
-	private Record createPaymentRecord(PaymentsList payment) {
-
-		Record rec = new Record(payment);
-		rec.add("Payment Date", payment.getPaymentDate());
-//		rec.add("Payment No.", payment.getPaymentNumber());
-		// TODO need to change to String
-//		rec.add("Status", payment.getStatus());
-//		rec.add("Issue Date", payment.getIssuedDate());
-//		rec.add("Name", payment.getName());
-//		rec.add("Type", payment.getType());
-//		rec.add("Payment Method", payment.getPaymentMethodName());
-		rec.add("Amount Paid", payment.getAmountPaid());
-//		rec.add("Voided", payment.isVoided());
-
-		return rec;
+	private Record createPaymentRecord(PaymentsList p) {
+		Record payment = new Record(p);
+		payment.add("PaymentDate", p.getPaymentDate());
+		payment.add("PaymentNumber", p.getPaymentNumber());
+		payment.add("Status", p.getStatus());
+		payment.add("IssueDate", p.getIssuedDate());
+		payment.add("Name", p.getName());
+		payment.add("paymentMethod", p.getPaymentMethodName());
+		payment.add("AmountPaid", p.getAmountPaid());
+		payment.add("Voided", p.isVoided());
+		return payment;
 	}
 
 	private Result viewTypeRequirement(Context context, ResultList list,
 			Object selection) {
-
-		Object viewType = context.getSelection(CURRENT_VIEW);
-		Requirement viewReq = get(CURRENT_VIEW);
+		Object viewType = context.getSelection(VIEW_BY);
+		Requirement viewReq = get(VIEW_BY);
 		String view = viewReq.getValue();
 
 		if (selection == view) {
@@ -150,20 +159,21 @@ public class VendorPaymentsCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
+	private List<String> getViewTypes() {
+		List<String> list = new ArrayList<String>();
+		list.add(Accounter.constants().issued());
+		list.add(Accounter.constants().notIssued());
+		list.add(Accounter.constants().Voided());
+		list.add(Accounter.constants().all());
+
+		return list;
+	}
+
 	private Record createViewTypeRecord(String view) {
 		Record record = new Record(view);
 		record.add("Name", "ViewType");
 		record.add("Value", view);
 		return record;
-	}
-
-	private List<String> getViewTypes() {
-		List<String> list = new ArrayList<String>();
-		list.add("Not Issued");
-		list.add("Issued");
-		list.add("Voided");
-		list.add("All");
-		return list;
 	}
 
 }
