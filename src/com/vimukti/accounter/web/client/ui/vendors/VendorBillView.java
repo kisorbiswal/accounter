@@ -610,7 +610,7 @@ public class VendorBillView extends
 		// + "px");
 		HorizontalPanel taxPanel = new HorizontalPanel();
 		taxPanel.setWidth("100%");
-		if (isTrackPaidTax()) {
+		if (isTrackTax() && isTrackPaidTax()) {
 			if (!isTaxPerDetailLine()) {
 				DynamicForm form = new DynamicForm();
 				form.setFields(taxCodeSelect);

@@ -175,7 +175,7 @@ public class PurchaseOrderView extends
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
 
-		if (isTrackPaidTax()) {
+		if (isTrackTax() && isTrackPaidTax()) {
 
 			DynamicForm priceLevelForm = new DynamicForm();
 			// priceLevelForm.setCellSpacing(4);

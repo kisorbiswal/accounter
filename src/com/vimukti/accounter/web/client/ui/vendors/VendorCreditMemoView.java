@@ -328,7 +328,7 @@ public class VendorCreditMemoView extends
 		VerticalPanel bottomPanel = new VerticalPanel();
 		bottomPanel.setWidth("100%");
 
-		if (isTrackPaidTax()) {
+		if (isTrackTax() && isTrackPaidTax()) {
 
 			totalForm.setFields(netAmount, vatTotalNonEditableText,
 					transactionTotalNonEditableText);
