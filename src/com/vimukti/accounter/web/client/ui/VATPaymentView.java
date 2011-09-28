@@ -55,7 +55,9 @@ public class VATPaymentView extends
 	protected void initTransactionViewData() {
 		initTransactionNumber();
 		getPayFromAccounts();
-
+		if (transaction != null) {
+			initAccounterClass();
+		}
 	}
 
 	private void getPayFromAccounts() {
