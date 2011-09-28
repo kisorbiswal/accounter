@@ -2878,42 +2878,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	public ArrayList getTestResult() throws Exception {
-
-		HibernateTemplate template = getHibernateTemplate();
-		// List l = (List) template.execute(new HibernateCallback(){
-		// @Override
-		// public Object doInHibernate(Session session)
-		// throws HibernateException, SQLException {
-		// Criteria criteria =
-		// session.createCriteria(Transaction.class).setFirstResult(2).setMaxResults(4)
-		// .setProjection(Projections.projectionList()
-		// .add(Projections.rowCount())
-		// .add(Projections.sum("total"))
-		// .add(Projections.max("total"))
-		// .add(Projections.groupProperty("type"))
-		// ).addOrder(Order.desc("type"));
-		// List l = criteria.list();
-		//
-		// List l2 = criteria.setFirstResult(1).setMaxResults(5).list();
-		//
-		// return l;
-		// }});
-
-		final List l = (List) template.execute(new HibernateCallback() {
-			@Override
-			public Object doInHibernate(Session session)
-					throws HibernateException, SQLException {
-				Query query = session.getNamedQuery("getentiy").setParameter(0,
-						"TAXAgency");
-				return query.list();
-			}
-		});
-
-		ArrayList arrayList = new ArrayList(l);
-		return arrayList;
-	}
-
 	@Override
 	public FixedAsset getFixedAsset(long companyId, long fixedAssetID)
 			throws DAOException {

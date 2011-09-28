@@ -419,6 +419,4 @@ public interface IAccounterDAOService {
 
 	public User getUserByDomainURL(String domainURL) throws DAOException;
 
-	public ArrayList getTestResult() throws Exception;
-
 }
