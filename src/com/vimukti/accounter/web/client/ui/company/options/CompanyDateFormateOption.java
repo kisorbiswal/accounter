@@ -59,7 +59,7 @@ public class CompanyDateFormateOption extends AbstractPreferenceOption {
 	@Override
 	public void createControls() {
 
-		comboBoxLabel.setText("Date Formate");
+		comboBoxLabel.setText("Date Format");
 
 		dateFormateDescriptionlabel.setText("Date Formats");
 		dateFormateDescriptionlabel.setStyleName("organisation_comment");
