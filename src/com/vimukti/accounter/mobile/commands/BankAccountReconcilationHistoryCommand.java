@@ -1,9 +1,16 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+import org.hibernate.Session;
+
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.BankAccount;
+import com.vimukti.accounter.core.ClientConvertUtil;
+import com.vimukti.accounter.core.Reconciliation;
+import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -11,10 +18,19 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.core.ClientReconciliation;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
+/**
+ * 
+ * @author Lingarao.R
+ * 
+ */
 public class BankAccountReconcilationHistoryCommand extends
 		AbstractTransactionCommand {
 	private static final int TYPE_BANK = 2;
+	private static final int RECONCILATION_HISTORY_TO_SHOW = 5;
 
 	@Override
 	public String getId() {
@@ -34,6 +50,78 @@ public class BankAccountReconcilationHistoryCommand extends
 		if (result == null) {
 			// TODO
 		}
+		result = createreconcilationHistory(context);
+		if (result == null) {
+
+		}
+
+		return null;
+
+	}
+
+	private Result createreconcilationHistory(Context context) {
+		context.setAttribute(INPUT_ATTR, "optional");
+
+		Object selection = context.getSelection(ACTIONS);
+		if (selection != null) {
+			ActionNames actionName = (ActionNames) selection;
+			switch (actionName) {
+			case FINISH:
+				return null;
+			default:
+				break;
+			}
+		}
+		selection = context.getSelection("values");
+		ResultList list = new ResultList("values");
+
+		Result result = reconcilationList(context);
+		if (result != null) {
+			return result;
+		}
+
+		return null;
+	}
+
+	private Result reconcilationList(Context context) {
+		Result result = context.makeResult();
+		ResultList recomcilationList = new ResultList("reconcilationHistorylist");
+		result.add("reconcilationHistorylist");
+		int num = 0;
+		BankAccount bankAccount = context.getSelection("BankAccount");
+		List<Reconciliation> reconciliations = getReconciliationsByBankAccountID(bankAccount
+				.getID());
+		for (Reconciliation reconciliation : reconciliations) {
+			recomcilationList.add(createreReconcilationRecord(reconciliation));
+			num++;
+			if (num == RECONCILATION_HISTORY_TO_SHOW) {
+				break;
+			}
+		}
+		int size = recomcilationList.size();
+		StringBuilder message = new StringBuilder();
+		if (size > 0) {
+			message.append("Select a Account");
+		}
+		CommandList commandList = new CommandList();
+		commandList.add("Create");
+
+		result.add(message.toString());
+		result.add(recomcilationList);
+		result.add(commandList);
+		result.add("Type for Account");
+
+		return result;
+
+	}
+
+	private Record createreReconcilationRecord(Reconciliation reconciliation) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Reconciliation> getReconciliationsByBankAccountID(long accountID) {
+		// TODO
 		return null;
 	}
 
