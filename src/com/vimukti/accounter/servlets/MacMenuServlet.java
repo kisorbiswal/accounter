@@ -17,6 +17,7 @@ import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -151,9 +152,21 @@ public class MacMenuServlet extends BaseServlet {
 			return false;
 	}
 
-	private boolean isUKType() {
-		return company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK;
+	private boolean isTaxTracking() {
+		return preferences.isTrackTax();
 	}
+
+	private boolean isClassTracking() {
+		return preferences.isClassTrackingEnabled();
+	}
+
+	private boolean isLocationTracking() {
+		return preferences.isLocationTrackingEnabled();
+	}
+
+	// private boolean isUKType() {
+	// return company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK;
+	// }
 
 	private boolean isUSType() {
 		return company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US;
@@ -239,14 +252,22 @@ public class MacMenuServlet extends BaseServlet {
 		}
 		subMenu(financialValue, iGlobal.constants().expenseReport(),
 				"company/accounter#expenseReport");
-		if (isUSType()) {
+		if (isTaxTracking()) {
 			subMenu(financialValue, iGlobal.constants().salesTaxLiability(),
 					"company/accounter#salesTaxLiability");
 			subMenu(financialValue, iGlobal.constants()
 					.transactionDetailByTaxItem(),
 					"company/accounter#transactionDetailByTaxItem");
 		}
-
+		if (isLocationTracking()) {
+			subMenu(financialValue, iGlobal.constants().profitAndLoss() + "By"
+					+ iGlobal.messages().location(Global.get().Location()),
+					"company/accounter#ProfitAndLossByLocation");
+		}
+		if (isClassTracking()) {
+			subMenu(financialValue, iGlobal.constants().profitAndLossbyClass(),
+					"company/accounter#ProfitAndLossByLocation");
+		}
 		menu(reportsValue, iGlobal.constants().companyAndFinance(),
 				financialValue);
 
@@ -280,6 +301,24 @@ public class MacMenuServlet extends BaseServlet {
 			subMenu(salesValue, iGlobal.constants().salesOrderReport(),
 					"company/accounter#salesOrderReport");
 		}
+		if (preferences.isLocationTrackingEnabled()) {
+			subMenu(salesValue,
+					iGlobal.messages().getSalesByLocationDetails(
+							Global.get().Location()),
+					"company/accounter#Sales by Location Detail");
+			subMenu(salesValue,
+					iGlobal.messages().salesByLocationSummary(
+							Global.get().Location()),
+					"company/accounter#Sales by Location Detail");
+		}
+
+		if (preferences.isClassTrackingEnabled()) {
+			subMenu(salesValue, iGlobal.constants().salesByClassDetails(),
+					"company/accounter#SalesByLocationDetails");
+			subMenu(salesValue, iGlobal.constants().salesByClassSummary(),
+					"company/accounter#SalesByLocationSummary");
+		}
+
 		menu(reportsValue, iGlobal.constants().sales(), salesValue);
 
 		StringBuilder suppliersValue = new StringBuilder();
@@ -370,10 +409,8 @@ public class MacMenuServlet extends BaseServlet {
 				.newBankAccount(iGlobal.Account()), "b",
 				"company/accounter#newBankAccount");
 		separator(bankingValues);
-		if (isUSType()) {
-			menu(bankingValues, iGlobal.constants().writeCheck(),
-					"company/accounter#writeCheck");
-		}
+		menu(bankingValues, iGlobal.constants().writeCheck(),
+				"company/accounter#writeCheck");
 		menu(bankingValues, iGlobal.constants().depositTransferFunds(),
 				"company/accounter#depositTransferFunds");
 		menu(bankingValues, iGlobal.constants().payBills(),
