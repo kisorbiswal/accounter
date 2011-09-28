@@ -72,22 +72,22 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	protected int getCellWidth(int index) {
-		if (index == 0 || index == 1)
-			return 100;
-		// else if(index==9)
-		// return 16;
-		// else if (index == 4)
-		// return 150;
-		// else if (index == 8)
-		// return 60;
-		else if (index == 2 || index == 8)
-			return 70;
+		if (index == 0)
+			return 85;
+		else if (index == 1)
+			return 80;
+		else if (index == 2)
+			return 65;
 		else if (index == 3)
-			return 75;
+			return 65;
 		else if (index == 7)
 			return 105;
-		else if (index == 6 || index == 5)
-			return 115;
+		else if (index == 6)
+			return 100;
+		else if (index == 5)
+			return 125;
+		else if (index == 8)
+			return 40;
 		return -1;
 	}
 

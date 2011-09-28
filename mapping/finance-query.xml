@@ -510,8 +510,7 @@
 		THEN 'TaxAgency Payment'
 		WHEN T.T_TYPE = 30 OR
 		T.T_TYPE=31
-		THEN 'VAT
-		Agency Payment'
+		THEN 'VATAgency Payment'
 		END AS NAME,
 		T.PAYMENT_METHOD AS
 		PAYMENT_METHOD,
