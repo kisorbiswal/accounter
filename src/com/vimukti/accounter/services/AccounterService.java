@@ -82,7 +82,7 @@ public class AccounterService extends HibernateDaoSupport implements
 		Session session = Utility.getCurrentSession();
 		Query query = session
 				.getNamedQuery("unique.name." + clazz.getSimpleName())
-				.setParameter(0, name).setEntity("company", company);
+				.setParameter("name", name).setEntity("company", company);
 		List l = query.list();
 		T entity = null;
 		if (l != null && l.size() > 0 && l.get(0) != null) {
