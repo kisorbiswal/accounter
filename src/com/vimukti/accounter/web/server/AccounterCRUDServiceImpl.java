@@ -173,6 +173,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 					Integer.parseInt(company), invitedser, getUserEmail());
 			coreUser.setActive(userExists);
 		} catch (Exception e) {
+			e.printStackTrace();
 			if (e instanceof AccounterException) {
 				throw (AccounterException) e;
 			}

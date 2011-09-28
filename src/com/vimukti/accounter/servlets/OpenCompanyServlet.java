@@ -41,10 +41,10 @@ public class OpenCompanyServlet extends BaseServlet {
 			return;
 		}
 		String emailID = (String) request.getSession().getAttribute(EMAIL_ID);
-		
+
 		if (emailID != null) {
 			String serverCompanyID = getCookie(request, COMPANY_COOKIE);
-			if(serverCompanyID==null || serverCompanyID.equals("")){
+			if (serverCompanyID == null || serverCompanyID.equals("")) {
 				response.sendRedirect(COMPANIES_URL);
 				return;
 			}
@@ -53,28 +53,35 @@ public class OpenCompanyServlet extends BaseServlet {
 
 			Session session = HibernateUtil.openSession("company"
 					+ serverCompanyID);
-			Transaction transaction = session.beginTransaction();
+			try {
+				Transaction transaction = session.beginTransaction();
 
-			User user = (User) session.getNamedQuery("user.by.emailid")
-					.setParameter("emailID", emailID).uniqueResult();
-			Activity activity = new Activity(user, ActivityType.LOGIN);
+				User user = (User) session.getNamedQuery("user.by.emailid")
+						.setParameter("emailID", emailID).uniqueResult();
+				if (user == null) {
+					response.sendRedirect(COMPANIES_URL);
+					return;
+				}
+				Activity activity = new Activity(user, ActivityType.LOGIN);
 
-			session.save(activity);
-			transaction.commit();
-			session.close();
-			// there is no session, so do external redirect to login page
-			// response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
-			// response.setHeader("Location", "/Accounter.jsp");
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(
-					"/WEB-INF/Accounter.jsp");
-			dispatcher.forward(request, response);
+				session.save(activity);
+				transaction.commit();
+				session.close();
+				// there is no session, so do external redirect to login page
+				// response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
+				// response.setHeader("Location", "/Accounter.jsp");
+				RequestDispatcher dispatcher = getServletContext()
+						.getRequestDispatcher("/WEB-INF/Accounter.jsp");
+				dispatcher.forward(request, response);
+			} finally {
+				session.close();
+			}
 		} else {
 			response.sendRedirect(LOGIN_URL);
 			// Session is there, so show the main page
 
 		}
 	}
-
 
 	/**
 	 * Initialising comet stuff
