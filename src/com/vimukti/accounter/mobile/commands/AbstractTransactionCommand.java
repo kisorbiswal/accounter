@@ -38,6 +38,8 @@ import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
+import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
+import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -61,8 +63,13 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final int BILLS_TO_SHOW = 5;
 	protected static final int ESTIMATES_TO_SHOW = 5;
 	protected static final int INVOICES_TO_SHOW = 5;
+
+	protected static final int PAYMENTS_TO_SHOW = 5;
+
+
 	protected static final int ISSUE_PAYMENTS_TO_SHOW = 5;
 	protected static final String ACCOUNT_NUMBER = "Account Number";
+
 	protected static final String TRANSACTION_ACCOUNT_ITEM_PROCESS = null;
 	protected static final String OLD_TRANSACTION_ACCOUNT_ITEM_ATTR = null;
 	private static final String ACCOUNT_ITEM_PROPERTY_ATTR = null;
@@ -1292,10 +1299,39 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return result;
 	}
 
-	protected List<Invoice> getInvoices(String viewType, Company company) {
-		// TODO Auto-generated method stub
-		return null;
+	protected List<InvoicesList> getInvoices(String viewType, Company company) {
+
+		ArrayList<InvoicesList> invoiceList = null;
+		try {
+			invoiceList = new FinanceTool().getInvoiceList(company.getID());
+		} catch (DAOException e) {
+
+			e.printStackTrace();
+		}
+		return invoiceList;
+
 	}
+
+
+	protected List<PaymentsList> getPayments(int type, Company company) {
+
+		ArrayList<PaymentsList> paymentsList = null;
+		ArrayList<PaymentsList> result = new ArrayList<PaymentsList>();
+		try {
+			paymentsList = new FinanceTool().getPaymentsList(company.getID());
+		} catch (DAOException e) {
+
+			e.printStackTrace();
+		}
+		for (PaymentsList p : paymentsList) {
+			if (p.getType() == type) {
+				result.add(p);
+			}
+		}
+		return result;
+
+	}
+
 
 	protected Result accountNumberRequirement(Context context) {
 		Requirement numberReq = get(ACCOUNT_NUMBER);
@@ -1319,4 +1355,5 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			String paymentMethod, String accountName, Company company) {
 		return null;
 	}
+
 }
