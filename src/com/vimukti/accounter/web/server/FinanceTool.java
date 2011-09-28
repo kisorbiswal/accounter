@@ -358,8 +358,8 @@ public class FinanceTool {
 			}
 			User user = new User((ClientUser) data);
 			String email = user.getEmail();
-			User userByUserEmail = getUserByUserEmail(email);
 			Company company = getCompany(context.getCompanyId());
+			User userByUserEmail = getUserByUserEmail(email, company);
 			if (userByUserEmail != null) {
 				if (userByUserEmail.isDeleted()) {
 					userByUserEmail.setDeleted(false);
@@ -376,7 +376,8 @@ public class FinanceTool {
 			}
 			String userID = context.getUserEmail();
 			User inviteduser = (User) session.getNamedQuery("user.by.emailid")
-					.setParameter("emailID", userID).uniqueResult();
+					.setParameter("emailID", userID)
+					.setParameter("company", company).uniqueResult();
 			Activity inviteuserActivity = new Activity(company, inviteduser,
 					ActivityType.ADD, user);
 
@@ -398,9 +399,11 @@ public class FinanceTool {
 		}
 	}
 
-	private User getUserByUserEmail(String email) {
+	private User getUserByUserEmail(String email, Company company) {
 		Session session = HibernateUtil.getCurrentSession();
-		return (User) session.getNamedQuery("user.by.emailid").uniqueResult();
+		return (User) session.getNamedQuery("user.by.emailid")
+				.setParameter("emailID", email)
+				.setParameter("company", company).uniqueResult();
 	}
 
 	public long updateUser(OperationContext updateContext)
