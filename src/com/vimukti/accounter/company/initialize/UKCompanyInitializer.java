@@ -621,13 +621,15 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 			defaultVATAgency.setSalesLiabilityAccount((Account) session
 					.getNamedQuery("unique.name.Account")
-					.setString(0,
+					.setEntity("comapny", company)
+					.setString("name",
 							AccounterServerConstants.SALES_TAX_VAT_UNFILED)
 					.list().get(0));
 
 			defaultVATAgency.setPurchaseLiabilityAccount((Account) session
 					.getNamedQuery("unique.name.Account")
-					.setString(0,
+					.setEntity("comapny", company)
+					.setString("name",
 							AccounterServerConstants.SALES_TAX_VAT_UNFILED)
 					.list().get(0));
 
