@@ -63,7 +63,7 @@ public class QuotesListCommand extends AbstractTransactionCommand {
 		result.add("Qoutes List");
 		ResultList billsListData = new ResultList("QoutesList");
 		int num = 0;
-		List<Estimate> estimates = getEstimates(viewType);
+		List<Estimate> estimates = getEstimates(viewType,context.getCompany());
 		for (Estimate est : estimates) {
 			billsListData.add(createEstimateRecord(est));
 			num++;
