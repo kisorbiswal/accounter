@@ -14,6 +14,7 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Estimate;
+import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
@@ -1287,5 +1288,10 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		}
 
 		return result;
+	}
+
+	protected List<Invoice> getInvoices(String viewType, Company company) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
