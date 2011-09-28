@@ -2,9 +2,9 @@
 
 <html>
   <head>
+  <%@ include file="./feedback.jsp" %>
+  <link type="text/css" href="../css/ss.css" rel="stylesheet">
 	<script language="javascript" type="text/javascript" src='js/tiny_mce/tiny_mce_src.js'></script>
-	<script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
-	<script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
 
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>Collaber On Web (BETA)</title>
@@ -108,6 +108,5 @@ identity=${identity};
 			var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
 			document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
 		</script>
-		<%@ include file="./feedback.jsp" %>
  </body>
 </html>

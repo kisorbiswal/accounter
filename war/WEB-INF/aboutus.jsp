@@ -9,14 +9,12 @@
 	document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
 </script>
 
-<% String version = application.getInitParameter("version"); %>
+
 <link rel="shortcut icon" href="../images/favicon.ico" />
-<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet">
-<script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
-<script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
+<%@ include file="./feedback.jsp" %>
+<link type="text/css" href="../css/ss.css" rel="stylesheet">
 </head>
 <body>
-<%@ include file="./feedback.jsp" %>
 	<div class ="body-container">
 		<%@ include file="./header.jsp" %>
 			<div class="middle-part" id="cen">

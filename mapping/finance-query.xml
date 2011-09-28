@@ -3374,7 +3374,7 @@
 		IS NOT NULL) or
 		(T.T_TYPE = 15 AND WC.VENDOR_ID IS NOT NULL) or
 		(T.T_TYPE = 16 AND
-		E.TYPE = 2) OR
+		E.TYPE = 2) OR T.T_TYPE = 26 OR
 		T.T_TYPE = 27
 		then
 		P.NAME

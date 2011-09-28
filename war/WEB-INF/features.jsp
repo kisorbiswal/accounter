@@ -6,13 +6,11 @@
 </title>
 <meta content="IE=100" http-equiv="X-UA-Compatible">
 
-<% String version = application.getInitParameter("version"); %>
-<link rel="shortcut icon" href="../images/favicon.ico" />
-<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet">
 
+<link rel="shortcut icon" href="../images/favicon.ico" />
+<%@ include file="./feedback.jsp" %>
+<link type="text/css" href="../css/ss.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="../css/vertical-tabs-styles.css?version=<%= version%>">
-<script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
-<script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
 <script type="text/javascript" src="/jscripts/vertical-tabs-script.js"></script>
 
 <script type="text/javascript">
@@ -38,7 +36,6 @@
 </script>
 </head>
 	<body>
-	<%@ include file="./feedback.jsp" %>
 		<div class ="body-container">
 			<div class ="main_body-container">
 			<div class ="header" id="top">

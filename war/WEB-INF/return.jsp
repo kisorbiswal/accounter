@@ -7,11 +7,10 @@
 	<title>Hello World!</title>
 	<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
 	<link rel="stylesheet" type="text/css" href="consumer-servlet.css" />
-	<script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
-	<script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
+	<%@ include file="./feedback.jsp" %>
+	<link type="text/css" href="../css/ss.css" rel="stylesheet">
 </head>
 <body>
-<%@ include file="./feedback.jsp" %>
 	<div>
 		<div>Login Success! - <a href="logout.jsp">Logout</a></div>
 		<div>

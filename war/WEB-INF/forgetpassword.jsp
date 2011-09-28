@@ -4,8 +4,8 @@
 <title> Forgotten Password
 </title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
-<script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
+<%@ include file="./feedback.jsp" %>
+<link type="text/css" href="../css/ss.css" rel="stylesheet">
 <title>Forget Password</title>
 <script type="text/javascript">
 function validation(formObject){
@@ -79,7 +79,6 @@ padding-top:20px;
 </style>
 </head>
 <body>
-<%@ include file="./feedback.jsp" %>
     <h1>Please Contact To Administrator</h1>
 	 <!-- <div class="bizantralogo">
 	<img src="/images/bizantra-image.png" alt="Bizantra" />

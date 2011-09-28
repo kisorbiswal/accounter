@@ -7,9 +7,8 @@
 <meta content="IE=100" http-equiv="X-UA-Compatible">
 
 <link rel="shortcut icon" href="../images/favicon.ico" />
+<%@ include file="./feedback.jsp" %>
 <link type="text/css" href="../css/ss.css" rel="stylesheet">
-<script src="/jscripts/jquery-1.6.2.js" type="text/javascript"></script>
-<script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
 <script type="text/javascript" src="/jscripts/stepcarousel.js"></script>
 <script type="text/javascript">
 jQuery.noConflict();
@@ -46,7 +45,6 @@ jQuery(document).ready(function() {
 </script>
 </head>
 	<body>
-	<%@ include file="./feedback.jsp" %>
 		<div class ="body-container">
 			<div class ="main_body-container">
 			<div class ="header" id="top">

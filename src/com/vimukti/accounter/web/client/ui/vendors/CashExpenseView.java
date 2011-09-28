@@ -433,7 +433,7 @@ public class CashExpenseView extends
 		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");
 
-		if (isTrackPaidTax()) {
+		if (isTrackTax() && isTrackPaidTax()) {
 			VerticalPanel vpanel = new VerticalPanel();
 			vpanel.setWidth("100%");
 			vpanel.setHorizontalAlignment(ALIGN_RIGHT);

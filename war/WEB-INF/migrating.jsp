@@ -1,7 +1,7 @@
 <html>
 <head>
-<script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
-<script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
+<%@ include file="./feedback.jsp" %>
+<link type="text/css" href="../css/ss.css" rel="stylesheet">
 <script type="text/JavaScript">
 function timedRefresh(timeoutPeriod) {
 	setTimeout("location.reload(true);",timeoutPeriod);
@@ -12,7 +12,6 @@ function timedRefresh(timeoutPeriod) {
 </style>
 </head>
 <body onload="timedRefresh(3000);">
-<%@ include file="./feedback.jsp" %>
 <span style="color:#000000;line-height:38.5;">Apologies for the delay, Bizantra is migrating your data to a newer version. Please do not close the application.</span>
 
 <script type="text/javascript" charset="utf-8">

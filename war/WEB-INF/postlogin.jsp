@@ -13,8 +13,8 @@
 
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
-    <script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
+    <%@ include file="./feedback.jsp" %>
+    <link type="text/css" href="../css/ss.css" rel="stylesheet">
     <script type="text/javascript">
     var tabsEnabled=["Hr","Finance","Operations","Marketing","Sales","Users","Workflows","Purchases"];
     var helpurl="${helpUrl}";
@@ -157,7 +157,6 @@ margin-left:200px;
 
   </head>
 <!--add loading indicator while the app is being loaded-->
-<%@ include file="./feedback.jsp" %>
 	<div id="loadingWrapper">
 		<div id="loading">
 		    <div class="loadingIndicator">

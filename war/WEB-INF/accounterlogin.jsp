@@ -13,12 +13,12 @@
 <head>
 <meta content="IE=100" http-equiv="X-UA-Compatible">
 
-<% String version = application.getInitParameter("version"); %>
+
 <link rel="shortcut icon" href="../images/favicon.ico" />
-<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet">
+<%@ include file="./feedback.jsp" %>
+<link type="text/css" href="../css/ss.css" rel="stylesheet">
 <link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet">
 <script src="/jscripts/blockui/jquery.blockUI.js" type="text/javascript"></script>
-<script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
 <script  type="text/javascript" >
 $.validator.setDefaults({
 	submitHandler: function() {
@@ -43,7 +43,6 @@ $.validator.setDefaults({
 </script>
 </head>
 <body>
-<%@ include file="./feedback.jsp" %>
 	<div class ="body-container">
 	<%@ include file="./header.jsp" %>
 		<div class="middle-part" id="cen">

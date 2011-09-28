@@ -10,11 +10,11 @@
 
 <html>
 <head>
-<% String version = application.getInitParameter("version"); %>
+
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet">
-<script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
-<script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
+<%@ include file="./feedback.jsp" %>
+<link type="text/css" href="../css/ss.css" rel="stylesheet">
 <script type="text/javascript">
 $(document).ready(function() {
 	$('#submitButton').click(function() {
@@ -314,7 +314,6 @@ p {
 </style>
 </head>
 <body>
-<%@ include file="./feedback.jsp" %>
 <div id="commanContainer">	
 <img src="../images/Accounter_logo_title.png" class="accounterLogo" />	
 <div id="hiddenDiv" class="hiddenPic">
