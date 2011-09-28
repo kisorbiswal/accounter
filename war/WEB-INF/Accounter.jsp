@@ -18,7 +18,7 @@
   		var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
 	</script>
 		
-    <% String version = application.getInitParameter("version"); %>
+    
     <!--<script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script>-->
 
     <script type="text/javascript">
@@ -28,7 +28,7 @@
     <!--                                                               -->
     <!-- Consider inlining CSS to reduce the number of requested files -->
        
-     
+     <link type="text/css" href="../css/ss.css" rel="stylesheet">
 	<link type="text/css" rel="stylesheet" href="../css/calendar.css?version=<%= version%>">
 	 
 	<%

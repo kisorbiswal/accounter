@@ -6,7 +6,7 @@
 </title>
 <meta content="IE=100" http-equiv="X-UA-Compatible">
 
-<% String version = application.getInitParameter("version"); %>
+
 <%@ include file="./feedback.jsp" %>
 <link rel="shortcut icon" href="../images/favicon.ico" />
 <script type="text/javascript">

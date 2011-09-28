@@ -10,7 +10,7 @@
 
 <html>
 <head>
-<% String version = application.getInitParameter("version"); %>
+
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet">
 <%@ include file="./feedback.jsp" %>
