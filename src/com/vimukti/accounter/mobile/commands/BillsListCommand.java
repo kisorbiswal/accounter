@@ -10,6 +10,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * 
@@ -88,6 +89,7 @@ public class BillsListCommand extends AbstractTransactionCommand {
 		CommandList commandList = new CommandList();
 		commandList.add("Create");
 
+	
 		result.add(message.toString());
 		result.add(billsListData);
 		result.add(commandList);
@@ -161,10 +163,10 @@ public class BillsListCommand extends AbstractTransactionCommand {
 
 	private List<String> getViewTypes() {
 		List<String> list = new ArrayList<String>();
-		list.add("All");
-		list.add("Open");
-		list.add("Voided");
-		list.add("OverDue");
+		list.add(Accounter.constants().all());
+		list.add(Accounter.constants().open());
+		list.add(Accounter.constants().Voided());
+		list.add(Accounter.constants().overDue());
 
 		return list;
 	}
