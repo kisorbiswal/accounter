@@ -15,6 +15,10 @@ import com.vimukti.accounter.mobile.ResultList;
 public class LocationListCommand extends AbstractTransactionCommand {
 
 	private static final int RECORDS_TO_SHOW = 5;
+	private static final Object LOCATION_PROCESS = null;
+	private static final String OLD_LOCATION_ATTR = null;
+	private static final String LOCATION_ATTR = null;
+	private static final String LOCATION_DETAILS = null;
 
 	@Override
 	public String getId() {
@@ -30,9 +34,24 @@ public class LocationListCommand extends AbstractTransactionCommand {
 	@Override
 	public Result run(Context context) {
 
-		Result result = optionalRequirements(context);
+		String process = (String) context.getAttribute(PROCESS_ATTR);
+		Result result = null;
+		if (process.equals(LOCATION_PROCESS)) {
+			result = locationProcess(context);
+			if (result != null) {
+				return result;
+			}
+		}
+		result = optionalRequirements(context);
+
 		return result;
 	}
+
+	/**
+	 * 
+	 * @param context
+	 * @return
+	 */
 
 	private Result optionalRequirements(Context context) {
 
@@ -41,6 +60,8 @@ public class LocationListCommand extends AbstractTransactionCommand {
 		if (selection != null) {
 			ActionNames actionNames = (ActionNames) selection;
 			switch (actionNames) {
+			case ADD_MORE_LOCATIONS:
+				locationProcess(context);
 			case FINISH:
 				return null;
 			default:
@@ -48,14 +69,93 @@ public class LocationListCommand extends AbstractTransactionCommand {
 			}
 		}
 		selection = context.getSelection("locationList");
-		if (selection != null) {
 
+		if (selection != null) {
+			Result result = location(context, (Location) selection);
+			if (result != null) {
+				return result;
+			}
 		}
+
 		Result result = getLocationResult(context);
+
+		ResultList actions = new ResultList(ACTIONS);
+		Record moreItems = new Record(ActionNames.ADD_MORE_LOCATIONS);
+		moreItems.add("", "Add more Locations");
+		actions.add(moreItems);
+		Record finish = new Record(ActionNames.FINISH);
+		finish.add("", "Finish");
+		actions.add(finish);
+		result.add(actions);
 
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param context
+	 * @return
+	 */
+	private Result locationProcess(Context context) {
+		Location location = (Location) context.getAttribute(LOCATION_ATTR);
+		Result result = location(context, location);
+		if (result == null) {
+			ActionNames actionName = context.getSelection(ACTIONS);
+			if (actionName == ActionNames.DELETE_ITEM) {
+				Requirement itemsReq = get("location");
+				List<Location> locations = itemsReq.getValue();
+				locations.remove(location);
+				context.removeAttribute(OLD_LOCATION_ATTR);
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * Editing the selected location
+	 * 
+	 * @param context
+	 * @param selectionLocation
+	 * @return
+	 */
+	private Result location(Context context, Location selectionLocation) {
+		context.setAttribute(PROCESS_ATTR, LOCATION_PROCESS);
+		context.setAttribute(OLD_LOCATION_ATTR, selectionLocation);
+		String location = (String) context.getAttribute(LOCATION_ATTR);
+		if (location != null) {
+			context.removeAttribute(LOCATION_ATTR);
+			if (location.equals("location")) {
+				selectionLocation.setLocationName(context.getString());
+			}
+		} else {
+			Object selection = context.getSelection(LOCATION_DETAILS);
+			if (selection != null) {
+				if (selection == selectionLocation.getLocationName()) {
+					context.setAttribute(LOCATION_ATTR, "location");
+					return text(context, "Enter Quantity",
+							selectionLocation.getLocationName());
+				}
+			} else {
+				selection = context.getSelection(ACTIONS);
+				if (selection == ActionNames.FINISH) {
+					context.removeAttribute(PROCESS_ATTR);
+					context.removeAttribute(OLD_LOCATION_ATTR);
+					return null;
+				} else if (selection == ActionNames.DELETE_ITEM) {
+					context.removeAttribute(PROCESS_ATTR);
+					return null;
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * processing the location List
+	 * 
+	 * @param context
+	 * @return {@link Result}
+	 */
 	private Result getLocationResult(Context context) {
 		ResultList locResultList = new ResultList("locationList");
 
@@ -74,23 +174,32 @@ public class LocationListCommand extends AbstractTransactionCommand {
 
 		CommandList commandList = new CommandList();
 		commandList.add("Create");
-
-		// TODO for edit and delete
-		// commandList.add("Edit");
-		// commandList.add("Remove");
+		commandList.add("Remove");
 
 		result.add(commandList);
 
 		return result;
 	}
 
+	/**
+	 * create Location Record
+	 * 
+	 * @param location
+	 * @return {@link Record}
+	 */
 	private Record createLocationRecord(Location location) {
 		Record record = new Record(location);
 		record.add("Name", "Location Name");
-		record.add("value", location.getName());
+		record.add("value", location.getLocationName());
 		return record;
 	}
 
+	/**
+	 * getting location List
+	 * 
+	 * @param context
+	 * @return {@link LocationList}
+	 */
 	private List<Location> getLocationList(Context context) {
 		return new ArrayList<Location>(context.getCompany().getLocations());
 	}
