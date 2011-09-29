@@ -212,6 +212,10 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 		return weight;
 	}
 
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}
+
 	/**
 	 * @return the itemGroup
 	 */
@@ -238,6 +242,10 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	 */
 	public String getSalesDescription() {
 		return salesDescription;
+	}
+
+	public void setSalesDescription(String salesDescription) {
+		this.salesDescription = salesDescription;
 	}
 
 	/**
@@ -269,6 +277,10 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 		return isCommissionItem;
 	}
 
+	public void setCommissionItem(boolean isCommissionItem) {
+		this.isCommissionItem = isCommissionItem;
+	}
+
 	/**
 	 * @return the isIBuyThisItem
 	 */
@@ -281,6 +293,10 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	 */
 	public String getPurchaseDescription() {
 		return purchaseDescription;
+	}
+
+	public void setPurchaseDescription(String purchaseDescription) {
+		this.purchaseDescription = purchaseDescription;
 	}
 
 	/**
@@ -302,6 +318,10 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	 */
 	public Vendor getPreferredVendor() {
 		return preferredVendor;
+	}
+
+	public void setPreferredVendor(Vendor preferredVendor) {
+		this.preferredVendor = preferredVendor;
 	}
 
 	/**
@@ -410,9 +430,8 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Item item = (Item) clientObject;
-		Query query = session.getNamedQuery("getItem.by.Name")
-				.setString("name", item.name)
-				.setEntity("company", item.getCompany());
+		Query query = session.getNamedQuery("getItem.by.Name").setString(
+				"name", item.name).setEntity("company", item.getCompany());
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			Item newItem = (Item) list.get(0);
