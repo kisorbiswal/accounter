@@ -29,12 +29,13 @@ public class MobileMessageHandler {
 	 */
 	public String messageReceived(String userId, String message,
 			AdaptorType adaptorType) throws AccounterMobileException {
+		Session openSession = HibernateUtil.openSession();
 		try {
+
 			MobileSession session = sessions.get(userId);
-			session.sethibernateSession(HibernateUtil.openSession());
+
 			if (session == null || session.isExpired()) {
-				session = new MobileSession(getUserById(userId,
-						session.getHibernateSession()));
+				session = new MobileSession(getUserById(userId, openSession));
 				sessions.put(userId, session);
 			}
 			MobileAdaptor adoptor = getAdaptor(adaptorType);
@@ -49,13 +50,16 @@ public class MobileMessageHandler {
 			Result result = getCommandProcessor().handleMessage(session,
 					preProcess);
 			String reply = adoptor.postProcess(result);
-			session.getHibernateSession().close();
 			session.await();
 
 			return reply;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AccounterMobileException(e);
+		} finally {
+			if (openSession.isOpen()) {
+				openSession.close();
+			}
 		}
 	}
 
