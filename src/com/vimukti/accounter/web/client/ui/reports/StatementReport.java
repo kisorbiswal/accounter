@@ -47,17 +47,27 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 	@Override
 	public void print() {
 
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 150, "",
-				"", customerId);
+		if (customerId == 0) {
+			Accounter
+					.showError(Accounter.constants().pleaseSelectAnyCustomer());
+		} else {
+			UIUtils.generateReportPDF(
+					Integer.parseInt(String.valueOf(startDate.getDate())),
+					Integer.parseInt(String.valueOf(endDate.getDate())), 150,
+					"", "", customerId);
+		}
 	}
 
 	public void exportToCsv() {
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 150, "",
-				"", customerId);
+		if (customerId == 0) {
+			Accounter
+					.showError(Accounter.constants().pleaseSelectAnyCustomer());
+		} else {
+			UIUtils.exportReport(
+					Integer.parseInt(String.valueOf(startDate.getDate())),
+					Integer.parseInt(String.valueOf(endDate.getDate())), 150,
+					"", "", customerId);
+		}
 	}
 
 	//
