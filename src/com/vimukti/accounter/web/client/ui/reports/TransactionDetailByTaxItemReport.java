@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.TransactionDetailByTaxItemServerReport;
 
+@SuppressWarnings("unchecked")
 public class TransactionDetailByTaxItemReport extends
 		AbstractReportView<TransactionDetailByTaxItem> {
 
