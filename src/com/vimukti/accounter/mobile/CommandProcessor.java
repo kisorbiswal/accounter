@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
-import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.mobile.commands.NameSearchCommand;
 import com.vimukti.accounter.mobile.commands.NumberSearchCommand;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -127,7 +126,13 @@ public class CommandProcessor {
 		}
 
 		context.setInputs(message.getInputs());
-		Result result = command.run(context);
+		Result result = null;
+		try {
+			result = command.run(context);
+		} catch (Exception e) {
+			result = context.makeResult();
+			result.add("You got an Exception....@@@@@@@");
+		}
 		return result;
 	}
 
