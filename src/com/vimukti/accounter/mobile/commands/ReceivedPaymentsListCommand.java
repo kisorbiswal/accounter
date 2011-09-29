@@ -13,8 +13,6 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 
 public class ReceivedPaymentsListCommand extends AbstractTransactionCommand {
 
-	private static final String VIEW_BY = "viewBy";
-
 	@Override
 	public String getId() {
 		// TODO Auto-generated method stub
@@ -38,8 +36,8 @@ public class ReceivedPaymentsListCommand extends AbstractTransactionCommand {
 
 	private Result createOptionalResult(Context context) {
 		context.setAttribute(INPUT_ATTR, "optional");
-		Object selection = context.getSelection(VIEW_BY);
-		ResultList list = new ResultList("invoicesList");
+		Object selection = context.getSelection("viewslist");
+		ResultList list = new ResultList("receivedPayments");
 		Result result = null;
 		result = viewTypeRequirement(context, list, selection);
 		if (result != null) {
@@ -48,7 +46,7 @@ public class ReceivedPaymentsListCommand extends AbstractTransactionCommand {
 
 		String viewType = get(VIEW_BY).getValue();
 		result = receivePaymentsList(context, viewType);
-		return null;
+		return result;
 	}
 
 	@Override
@@ -64,11 +62,14 @@ public class ReceivedPaymentsListCommand extends AbstractTransactionCommand {
 
 	private Result receivePaymentsList(Context context, String viewType) {
 		Result result = context.makeResult();
-		result.add("Invoices  List");
-		ResultList receivedPaymentsListData = new ResultList("invoicesList");
+		result.add("Received Payments  List");
+		ResultList receivedPaymentsListData = new ResultList("receivedPayments");
 		int num = 0;
-		List<ReceivePaymentsList> receivedPayments = getReceivePaymentsList(
-				viewType, context.getCompany());
+		List<ReceivePaymentsList> receivedPayments = new ArrayList<ReceivePaymentsList>();
+		if (viewType != null) {
+			receivedPayments = getReceivePaymentsList(viewType,
+					context.getCompany());
+		}
 
 		for (ReceivePaymentsList receivedPayment : receivedPayments) {
 			receivedPaymentsListData
@@ -84,7 +85,7 @@ public class ReceivedPaymentsListCommand extends AbstractTransactionCommand {
 			message.append("Select a Received Payment");
 		}
 		CommandList commandList = new CommandList();
-		commandList.add("Create");
+		commandList.add("Create Receive Payment");
 
 		result.add(message.toString());
 		result.add(receivedPaymentsListData);
