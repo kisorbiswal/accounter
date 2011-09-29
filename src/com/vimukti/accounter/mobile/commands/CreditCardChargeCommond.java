@@ -1,8 +1,15 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.Date;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.Contact;
+import com.vimukti.accounter.core.CreditCardCharge;
+import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.core.TAXCode;
+import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.ActionNames;
@@ -65,7 +72,7 @@ public class CreditCardChargeCommond extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		//result = accountsRequirement(context);
+		// result = accountsRequirement(context);
 		if (result != null) {
 			return result;
 		}
@@ -83,8 +90,44 @@ public class CreditCardChargeCommond extends AbstractTransactionCommand {
 	}
 
 	private void completeProcess(Context context) {
-		// TODO Auto-generated method stub
+		CreditCardCharge creditCardCharge = new CreditCardCharge();
+		Vendor supplier = get("supplier").getValue();
+		creditCardCharge.setVendor(supplier);
+		Contact contact = get("contact").getValue();
+		// TODO Need to set Contact to ??
+		// creditCardCharge.set
+		Date dueDate = get("deliveryDate").getValue();
+		// TODO Need to set Delivery Date to ??
+		// creditCardCharge.set
+		Date date = get(DATE).getValue();
+		creditCardCharge.setDate(new FinanceDate(date));
 
+		creditCardCharge.setType(Transaction.TYPE_CREDIT_CARD_EXPENSE);
+
+		String number = get("number").getValue();
+		creditCardCharge.setNumber(number);
+
+		String phone = get("phone").getValue();
+		// TODO Need to set Phone number to ??
+		// creditCardCharge.set
+		Account account = get("depositOrTransferTo").getValue();
+		creditCardCharge.setPayFrom(account);
+
+		List<TransactionItem> items = get("items").getValue();
+		List<TransactionItem> accounts = get("accounts").getValue();
+		items.addAll(accounts);
+		creditCardCharge.setTransactionItems(items);
+		if (context.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+			TAXCode taxCode = get("tax").getValue();
+			for (TransactionItem item : items) {
+				item.setTaxCode(taxCode);
+			}
+		}
+		String memo = get(MEMO).getValue();
+		creditCardCharge.setMemo(memo);
+		creditCardCharge.setTotal(getTransactionTotal(items,
+				context.getCompany()));
+		create(creditCardCharge, context);
 	}
 
 	private Result createOptionalResult(Context context) {
