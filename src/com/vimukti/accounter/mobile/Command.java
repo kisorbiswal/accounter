@@ -6,12 +6,15 @@ import java.util.List;
 public abstract class Command {
 	MobileConstants constants;
 	MobileMessages messages;
-
-	public abstract String getId();
-
 	List<Requirement> requirements = new ArrayList<Requirement>();
 	private boolean isDone;
 	private String successMessage;
+
+	public Command() {
+		addRequirements(requirements);
+	}
+
+	public abstract String getId();
 
 	protected abstract void addRequirements(List<Requirement> list);
 
