@@ -99,15 +99,6 @@ public class LocationListCommand extends AbstractTransactionCommand {
 	private Result locationProcess(Context context) {
 		Location location = (Location) context.getAttribute(LOCATION_ATTR);
 		Result result = location(context, location);
-		if (result == null) {
-			ActionNames actionName = context.getSelection(ACTIONS);
-			if (actionName == ActionNames.DELETE_ITEM) {
-				Requirement itemsReq = get("location");
-				List<Location> locations = itemsReq.getValue();
-				locations.remove(location);
-				context.removeAttribute(OLD_LOCATION_ATTR);
-			}
-		}
 		return result;
 	}
 
@@ -147,6 +138,18 @@ public class LocationListCommand extends AbstractTransactionCommand {
 				}
 			}
 		}
+		ResultList list = new ResultList(LOCATION_DETAILS);
+		Record record = new Record(selectionLocation.getLocationName());
+		record.add("Name", "Location");
+		record.add("value", selectionLocation.getLocationName());
+		list.add(record);
+
+		Result result = context.makeResult();
+		ResultList actions = new ResultList(ACTIONS);
+		record = new Record(ActionNames.FINISH);
+		record.add("", "Finish");
+		actions.add(record);
+		result.add(actions);
 		return null;
 	}
 
