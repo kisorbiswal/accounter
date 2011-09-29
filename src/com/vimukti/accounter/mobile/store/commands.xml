@@ -267,6 +267,44 @@
 	<command clazz="FileVATCommand" name="File VAT">
 		<alias>File Tax</alias>
 	</command>
+	from
+	<command clazz="NewCashPurchaseCommand" name="New Cash Purchase">
+		<alias>Cash Purchase</alias>
+		<alias>Vendor Purchase</alias>
+		<alias>Supplier Purchase</alias>
+		<alias>Purchase</alias>
+	</command>
+	<command clazz="NewCashSaleCommand" name="New Cash Sale">
+		<alias>Cash Sale</alias>
+	</command>
+	<command clazz="NewCreditCardChargeCommond" name="New Credit Card Charge">
+		<alias>Credit Card Charge</alias>
+		<alias>Credit Card Expense</alias>
+	</command>
+	<command clazz="NewCustomerCreditMemoCommond" name="New Customer Credit Memo">
+		<alias>Customer Credit Memo</alias>
+	</command>
+	<command clazz="NewCashExpenseCommond" name="New Cash Expense">
+		<alias>Cash Expense</alias>
+	</command>
+	<command clazz="NewLocationCommond" name="New Location">
+		<alias>Location</alias>
+	</command>
+	<command clazz="NewIssuePaymentCommond" name="New Issue Payment">
+		<alias>Issue Payment</alias>
+	</command>
+	<command clazz="NewVendorCreditMemoCommand" name="New Vendor Credit Memo">
+		<alias>Vendor Credit Memo</alias>
+	</command>
+	<command clazz="NewShippingMethodCommond" name="New Shipping Method">
+		<alias>Shipping Method</alias>
+	</command>
+	<command clazz="NewShippingTermCommand" name="New Shipping Term">
+		<alias>New Shipping Term</alias>
+	</command>
+	<command clazz="NewMakeDepositCommond" name="NewMakeDepositCommond">
+		<alias>New Make Deposit</alias>
+	</command>
 	<command clazz="NewCustomerCommand" name="New Customer">
 		<alias>create Customer</alias>
 		<alias>Add Customer</alias>
