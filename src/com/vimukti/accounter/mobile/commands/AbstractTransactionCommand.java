@@ -40,6 +40,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
+import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -65,7 +66,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final int INVOICES_TO_SHOW = 5;
 
 	protected static final int PAYMENTS_TO_SHOW = 5;
-
 
 	protected static final int ISSUE_PAYMENTS_TO_SHOW = 5;
 	protected static final String ACCOUNT_NUMBER = "Account Number";
@@ -1312,6 +1312,20 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	}
 
+	protected List<ReceivePaymentsList> getReceivePaymentsList(String viewType,
+			Company company) {
+
+		ArrayList<ReceivePaymentsList> invoiceList = null;
+		try {
+			invoiceList = new FinanceTool().getReceivePaymentsList(company
+					.getID());
+		} catch (DAOException e) {
+
+			e.printStackTrace();
+		}
+		return invoiceList;
+
+	}
 
 	protected List<PaymentsList> getPayments(int type, Company company) {
 
@@ -1331,7 +1345,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return result;
 
 	}
-
 
 	protected Result accountNumberRequirement(Context context) {
 		Requirement numberReq = get(ACCOUNT_NUMBER);
