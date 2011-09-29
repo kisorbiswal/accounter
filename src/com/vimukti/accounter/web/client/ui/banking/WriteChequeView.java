@@ -1293,30 +1293,24 @@ public class WriteChequeView extends
 	}
 
 	public void onEdit() {
-		if (!(transaction.isVoid())) {
-			AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
+		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
 
-				@Override
-				public void onException(AccounterException caught) {
-					Accounter.showError(caught.getMessage());
-				}
+			@Override
+			public void onException(AccounterException caught) {
+				Accounter.showError(caught.getMessage());
+			}
 
-				@Override
-				public void onResultSuccess(Boolean result) {
-					if (result)
-						enableFormItems();
-				}
+			@Override
+			public void onResultSuccess(Boolean result) {
+				if (result)
+					enableFormItems();
+			}
 
-			};
+		};
 
-			AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
-					.getType());
-			this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
-		} else if (transaction.isVoid() || transaction.isDeleted()) {
-			Accounter
-					.showError(Accounter.constants().failedtovoidTransaction());
-		}
-
+		AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
+				.getType());
+		this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
 	}
 
 	protected void enableFormItems() {

@@ -121,10 +121,10 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 		expenseAccountForm = UIUtils.form(Accounter.messages().expenseAccount(
 				Global.get().Account()));
-		expenseAccountForm.setWidth("79%");
+		expenseAccountForm.setWidth("80%");
 		expenseSelect = new GridAccountsCombo(Accounter.messages()
 				.expenseAccount(Global.get().Account()));
-		expenseSelect.setWidth("180px");
+		expenseSelect.setWidth("185px");
 		expenseSelect.setDisabled(isInViewMode());
 		expenseSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -135,7 +135,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 				});
 
-		expenseAccountForm.getCellFormatter().setWidth(0, 0, "205px");
+		expenseAccountForm.getCellFormatter().setWidth(0, 0, "200px");
 		expenseAccountForm.setFields(expenseSelect);
 
 		memoForm = new DynamicForm();
@@ -402,24 +402,18 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 		if (dateOfBirth.getValue().getDate() != 0) {
 			long mustdate = new ClientFinanceDate().getDate() - 180000;
-			if (dateOfBirth.getValue().getDateAsObject()
-					.after(new ClientFinanceDate().getDateAsObject())) {
+			if (dateOfBirth.getValue().getDateAsObject().after(
+					new ClientFinanceDate().getDateAsObject())) {
 				result.addError(dateOfBirth, Accounter.constants()
 						.invalidDateOfBirth());
 			} else if ((new ClientFinanceDate(mustdate).before(dateOfBirth
 					.getEnteredDate()))) {
-				result.addError(dateOfBirth,
-						"Sales Person should have 18 years");
+				result.addError(dateOfBirth, Accounter.constants()
+						.dateofBirthshouldshowmorethan18years()
+						+ ". Because Sales Person should have 18 years");
 			}
 		}
 		result.add(salesPersonForm.validate());
-
-		long mustdate = new ClientFinanceDate().getDate() - 180000;
-		if (new ClientFinanceDate(mustdate)
-				.before(dateOfBirth.getEnteredDate())) {
-			addError(this, Accounter.constants()
-					.dateofBirthshouldshowmorethan18years());
-		}
 		return result;
 	}
 
@@ -528,28 +522,26 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 	protected void adjustFormWidths(int titlewidth, int listBoxWidth) {
 
-		addrsForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), titlewidth + "");
-		addrsForm.getCellFormatter().getElement(0, 1)
-				.setAttribute(Accounter.constants().width(), listBoxWidth + "");
+		addrsForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), titlewidth + "");
+		addrsForm.getCellFormatter().getElement(0, 1).setAttribute(
+				Accounter.constants().width(), listBoxWidth + "");
 
-		fonFaxForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), titlewidth + "");
-		fonFaxForm.getCellFormatter().getElement(0, 1)
-				.setAttribute(Accounter.constants().width(), listBoxWidth + "");
+		fonFaxForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), titlewidth + "");
+		fonFaxForm.getCellFormatter().getElement(0, 1).setAttribute(
+				Accounter.constants().width(), listBoxWidth + "");
 
 		salesPersonForm.getCellFormatter().getElement(0, 0).getStyle()
 				.setWidth(titlewidth + listBoxWidth, Unit.PX);
-		expenseAccountForm.getCellFormatter().getElement(0, 0)
-				.setAttribute("width", titlewidth + listBoxWidth + "");
-		memoForm.getCellFormatter()
-				.getElement(0, 0)
-				.setAttribute(Accounter.constants().width(),
-						titlewidth + listBoxWidth + "");
-		emailForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "");
-		emailForm.getCellFormatter().getElement(0, 1)
-				.setAttribute(Accounter.constants().width(), "");
+		expenseAccountForm.getCellFormatter().getElement(0, 0).setAttribute(
+				"width", titlewidth + listBoxWidth + "");
+		memoForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), titlewidth + listBoxWidth + "");
+		emailForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "");
+		emailForm.getCellFormatter().getElement(0, 1).setAttribute(
+				Accounter.constants().width(), "");
 
 	}
 

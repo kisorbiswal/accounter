@@ -201,6 +201,7 @@ public class SalesOrderView extends
 
 		shipToCombo = createShipToComboItem();
 		shipToAddress = new ShipToForm(null);
+		shipToAddress.addrArea.setDisabled(true);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
 		shipToAddress.getCellFormatter().setWidth(0, 0, "40px");

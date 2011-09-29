@@ -6,6 +6,8 @@ package com.vimukti.accounter.web.client.ui.banking;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -20,12 +22,23 @@ public class ReconciliationsListAction extends Action {
 	 * Creates new Instance
 	 */
 	public ReconciliationsListAction(String text) {
+		super(Accounter.constants().ReconciliationsList());
+		this.catagory = Accounter.constants().banking();
+	}
+
+	public ReconciliationsListAction(String text,
+			ClientReconciliation reconcilation,
+			AccounterAsyncCallback<Object> callback) {
 		super(text);
 		this.catagory = Accounter.constants().banking();
 	}
 
 	@Override
 	public void run() {
+		runAsync(data, isDependent);
+	}
+
+	private void runAsync(final Object data, final Boolean isDependent) {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			@Override
@@ -39,10 +52,14 @@ public class ReconciliationsListAction extends Action {
 			public void onFailure(Throwable arg0) {
 				Accounter
 						.showError(Accounter.constants().unableToshowtheview());
-
 			}
-		});
 
+		});
+	}
+
+	@Override
+	public void setToolTip(String toolTip) {
+		super.setToolTip(toolTip);
 	}
 
 	@Override
@@ -54,7 +71,7 @@ public class ReconciliationsListAction extends Action {
 	@Override
 	public ImageResource getSmallImage() {
 		// TODO Auto-generated method stub
-		return null;
+		return Accounter.getFinanceMenuImages().newCheck();
 	}
 
 	@Override

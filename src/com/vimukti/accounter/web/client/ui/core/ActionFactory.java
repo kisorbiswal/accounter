@@ -1317,8 +1317,8 @@ public class ActionFactory {
 	}
 
 	public static ReconciliationsListAction getReconciliationsListAction() {
-		return new ReconciliationsListAction(Accounter.constants()
-				.ReconciliationsList());
+		return new ReconciliationsListAction(
+				actionsConstants.ReconciliationsList());
 	}
 
 	public static LocationGroupListAction getLocationGroupListAction() {

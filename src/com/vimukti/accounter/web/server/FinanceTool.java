@@ -124,8 +124,8 @@ import com.vimukti.accounter.services.IS2SService;
 import com.vimukti.accounter.utils.Converter;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.utils.MiniTemplator.TemplateSyntaxException;
 import com.vimukti.accounter.utils.Security;
+import com.vimukti.accounter.utils.MiniTemplator.TemplateSyntaxException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -7762,7 +7762,7 @@ public class FinanceTool {
 					vd.setTransactionDate(new ClientFinanceDate(e
 							.getEntryDate().getDate()));
 					vd.setTransactionName(e.getJournalEntry().toString());
-					vd.setTransactionNumber(e.getVoucherNumber());
+					vd.setTransactionNumber(e.getJournalEntry().getNumber());
 					vd.setTransactionType(e.getJournalEntryType());
 					vd.setTransactionId(e.getJournalEntry().getID());
 

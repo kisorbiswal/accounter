@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;

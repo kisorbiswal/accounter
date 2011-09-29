@@ -265,11 +265,11 @@ public class MacMenuServlet extends BaseServlet {
 		if (isLocationTracking()) {
 			subMenu(financialValue, iGlobal.constants().profitAndLoss() + "By"
 					+ iGlobal.messages().location(Global.get().Location()),
-					"company/accounter#ProfitAndLossByLocation");
+					"company/accounter#profitAndLossByLocation");
 		}
 		if (isClassTracking()) {
 			subMenu(financialValue, iGlobal.constants().profitAndLossbyClass(),
-					"company/accounter#ProfitAndLossByLocation");
+					"company/accounter#profitAndLossByClass");
 		}
 		menu(reportsValue, iGlobal.constants().companyAndFinance(),
 				financialValue);
@@ -308,18 +308,18 @@ public class MacMenuServlet extends BaseServlet {
 			subMenu(salesValue,
 					iGlobal.messages().getSalesByLocationDetails(
 							Global.get().Location()),
-					"company/accounter#Sales by Location Detail");
+					"company/accounter#salesByClassDetails");
 			subMenu(salesValue,
 					iGlobal.messages().salesByLocationSummary(
 							Global.get().Location()),
-					"company/accounter#Sales by Location Detail");
+					"company/accounter#salesByClassSummary");
 		}
 
 		if (preferences.isClassTrackingEnabled()) {
 			subMenu(salesValue, iGlobal.constants().salesByClassDetails(),
-					"company/accounter#SalesByLocationDetails");
+					"company/accounter#salesByLocationDetails");
 			subMenu(salesValue, iGlobal.constants().salesByClassSummary(),
-					"company/accounter#SalesByLocationSummary");
+					"company/accounter#salesByLocationSummary");
 		}
 
 		menu(reportsValue, iGlobal.constants().sales(), salesValue);

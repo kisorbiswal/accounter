@@ -1449,7 +1449,7 @@
 		<!-- <property name="showTaxesAsType" column="SHOW_TAXES_AS_TYPE"> </property> -->
 		<property name="contactDetails" column="CONTACT_DETAILS">
 		</property>
-		<property name="Terms_And_Payment_Advice" column="TERMS_AND_PAYMENT_ADVICE">
+		<property name="Terms_And_Payment_Advice" column="TERMS_AND_PAYMENT_ADVICE" type="text">
 		</property>
 
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"

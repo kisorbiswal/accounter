@@ -572,10 +572,13 @@ tr.net-profit td {
     width: 359px !important;
 }
 .memoTextArea[disabled],textarea[disabled],.dropdown-disabled input[disabled],.dropdown-disabled input[disabled='disabled'],
-.gwt-TextBox input[disabled],.gwt-TextBox input[disabled='disabled'],.disable-TextField,.editTable input[disabled] {
+.gwt-TextBox input[disabled],.gwt-TextBox input[disabled='disabled'],.disable-TextField{
 	background: none repeat scroll 0 0 #E6E0DA !important;
 	border: 1px solid #918C8C;
     border-radius: 5px 5px 5px 5px;
+}
+.editTable input[disabled]{
+	background: none repeat scroll 0 0 #E6E0DA !important;
 }
 .downarrow-button,.custom-combo,.biz-decor-panel .decor01,.toolbox{
 	position: relative;

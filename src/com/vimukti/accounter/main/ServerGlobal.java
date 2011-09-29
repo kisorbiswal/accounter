@@ -1,6 +1,7 @@
 package com.vimukti.accounter.main;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -66,6 +67,12 @@ public class ServerGlobal extends AbstractGlobal {
 			}
 		}
 		return accounterMessages;
+	}
+
+	@Override
+	public String toCurrencyFormat(double amount) {
+		DecimalFormat format = new DecimalFormat("#,##0.00");
+		return format.format(amount);
 	}
 
 }
