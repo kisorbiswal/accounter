@@ -189,7 +189,7 @@ public class ContactsTable extends EditTable<ClientContact> {
 
 					@Override
 					public void onBlur(BlurEvent event) {
-						if (UIUtils.isValidPhone(value))
+						if (UIUtils.isValidEmail(value))
 							textBox.setValue(value);
 						else {
 							textBox.setValue("");
@@ -232,13 +232,13 @@ public class ContactsTable extends EditTable<ClientContact> {
 			for (int j = 0; j < getAllRows().size(); j++) {
 				if (i != j) {
 					if (getAllRows().get(i).getTitle().equals(
-							getAllRows().get(i).getTitle())
+							getAllRows().get(j).getTitle())
 							&& getAllRows().get(i).getEmail().equals(
-									getAllRows().get(i).getEmail())
+									getAllRows().get(j).getEmail())
 							&& getAllRows().get(i).getDisplayName().equals(
-									getAllRows().get(i).getDisplayName())
+									getAllRows().get(j).getDisplayName())
 							&& getAllRows().get(i).getBusinessPhone().equals(
-									getAllRows().get(i).getBusinessPhone()))
+									getAllRows().get(j).getBusinessPhone()))
 						result.addError(this, Accounter.constants()
 								.youHaveEnteredduplicateContacts());
 				}
