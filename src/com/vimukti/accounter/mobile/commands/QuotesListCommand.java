@@ -10,6 +10,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * 
@@ -102,11 +103,11 @@ public class QuotesListCommand extends AbstractTransactionCommand {
 	@Override
 	protected List<String> getViewTypes() {
 		List<String> list = new ArrayList<String>();
-		list.add("All");
-		list.add("Open");
-		list.add("Rejected");
-		list.add("Accepted");
-		list.add("Expired");
+		list.add(Accounter.constants().all());
+		list.add(Accounter.constants().open());
+		list.add(Accounter.constants().rejected());
+		list.add(Accounter.constants().accepted());
+		list.add(Accounter.constants().expired());
 
 		return list;
 	}
