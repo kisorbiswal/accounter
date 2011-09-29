@@ -36,7 +36,7 @@
 		<property name="hierarchy" column="HIERARCHY"></property>
 		<property name="version" column="VERSION"></property>
 		<property name="flow" column="FLOW"></property>
-		
+
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			lazy="false" not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
@@ -44,7 +44,7 @@
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
-			
+
 		<many-to-one name="linkedAccumulatedDepreciationAccount"
 			column="LINKED_ID" class="Account" lazy="false" cascade="save-update,delete">
 		</many-to-one>
@@ -335,7 +335,7 @@
 		<property name="ukNonInventoryItemDefaultIncomeAccount"
 			column="UK_NON_INVENTORY_ITEM_DEFAULT_INCOME_ACCOUNT"></property>
 		<property name="ukNonInventoryItemDefaultExpenseAccount"
-			column="UK_NON_INVENTORY_ITEM_DEFAULT_EXPENSE_ACCOUNT"></property>	
+			column="UK_NON_INVENTORY_ITEM_DEFAULT_EXPENSE_ACCOUNT"></property>
 
 		<property name="registrationNumber" column="REGISTRATION_NUMBER"></property>
 
@@ -370,165 +370,153 @@
 		</component>
 
 		<set name="accounts" inverse="true" cascade="save-update,delete"
-			lazy="false" order-by="A_NUMBER">
-			<key column="COMANY_ID" />
+			order-by="A_NUMBER">
+			<key column="COMPANY_ID" />
 			<one-to-many class="Account" />
 		</set>
 
 		<set name="fiscalYears" inverse="true" cascade="save-update,delete"
-			lazy="false" order-by="START_DATE">
-			<key column="COMANY_ID" />
+			order-by="START_DATE">
+			<key column="COMPANY_ID" />
 			<one-to-many class="FiscalYear" />
 		</set>
 
 		<set name="payees" inverse="true" cascade="save-update,delete"
-			lazy="false" order-by="NAME">
-			<key column="COMANY_ID" />
+			order-by="NAME">
+			<key column="COMPANY_ID" />
 			<one-to-many class="Payee" />
 		</set>
 
 		<set name="customerGroups" inverse="true" cascade="save-update,delete"
-			lazy="false" order-by="NAME">
-			<key column="COMANY_ID" />
+			order-by="NAME">
+			<key column="COMPANY_ID" />
 			<one-to-many class="CustomerGroup" />
 		</set>
 
 		<set name="vendorGroups" inverse="true" cascade="save-update,delete"
-			lazy="false" order-by="NAME">
-			<key column="COMANY_ID" />
+			order-by="NAME">
+			<key column="COMPANY_ID" />
 			<one-to-many class="VendorGroup" />
 		</set>
 
 		<set name="shippingTerms" inverse="true" cascade="save-update,delete"
-			lazy="false" order-by="NAME">
-			<key column="COMANY_ID" />
+			order-by="NAME">
+			<key column="COMPANY_ID" />
 			<one-to-many class="ShippingTerms" />
 		</set>
 
 		<set name="shippingMethods" inverse="true" cascade="save-update,delete"
-			lazy="false" order-by="NAME">
-			<key column="COMANY_ID" />
+			order-by="NAME">
+			<key column="COMPANY_ID" />
 			<one-to-many class="ShippingMethod" />
 		</set>
 
 		<set name="priceLevels" inverse="true" cascade="save-update,delete"
-			lazy="false" order-by="NAME">
-			<key column="COMANY_ID" />
+			order-by="NAME">
+			<key column="COMPANY_ID" />
 			<one-to-many class="PriceLevel" />
 		</set>
 
-		<set name="ItemGroups" inverse="true" cascade="save-update,delete"
-			lazy="false" order-by="NAME">
-			<key column="COMANY_ID" />
+		<set name="itemGroups" inverse="true" cascade="save-update,delete"
+			order-by="NAME">
+			<key column="COMPANY_ID" />
 			<one-to-many class="ItemGroup" />
 		</set>
 
-		<set name="taxGroups" inverse="true" cascade="save-update,delete"
-			lazy="false">
-			<key column="COMANY_ID" />
+		<set name="taxGroups" inverse="true" cascade="save-update,delete">
+			<key column="COMPANY_ID" />
 			<one-to-many class="TAXGroup" />
 		</set>
 
-		<set name="paymentTerms" inverse="true" cascade="save-update,delete"
-			lazy="false">
-			<key column="COMANY_ID" />
+		<set name="paymentTerms" inverse="true" cascade="save-update,delete">
+			<key column="COMPANY_ID" />
 			<one-to-many class="PaymentTerms" />
 		</set>
 
 		<set name="creditRatings" inverse="true" cascade="save-update,delete"
-			lazy="false" order-by="NAME">
-			<key column="COMANY_ID" />
+			order-by="NAME">
+			<key column="COMPANY_ID" />
 			<one-to-many class="CreditRating" />
 		</set>
 
 		<set name="salesPersons" inverse="true" cascade="save-update,delete"
-			lazy="false" order-by="FIRST_NAME">
-			<key column="COMANY_ID" />
+			order-by="FIRST_NAME">
+			<key column="COMPANY_ID" />
 			<one-to-many class="SalesPerson" />
 		</set>
 
-		<set name="taxCodes" inverse="true" cascade="save-update,delete"
-			lazy="false">
-			<key column="COMANY_ID" />
+		<set name="taxCodes" inverse="true" cascade="save-update,delete">
+			<key column="COMPANY_ID" />
 			<one-to-many class="TAXCode" />
 		</set>
 
-		<set name="taxItems" inverse="true" cascade="save-update,delete"
-			lazy="false">
-			<key column="COMANY_ID" />
+		<set name="taxItems" inverse="true" cascade="save-update,delete">
+			<key column="COMPANY_ID" />
 			<one-to-many class="TAXItem" />
 		</set>
 
-		<set name="taxItemGroups" inverse="true" cascade="save-update,delete"
-			lazy="false">
-			<key column="COMANY_ID" />
+		<set name="taxItemGroups" inverse="true" cascade="save-update,delete">
+			<key column="COMPANY_ID" />
 			<one-to-many class="TAXItemGroup" />
 		</set>
 
 		<set name="banks" inverse="true" cascade="save-update,delete"
-			lazy="false" order-by="NAME">
-			<key column="COMANY_ID" />
+			order-by="NAME">
+			<key column="COMPANY_ID" />
 			<one-to-many class="Bank" />
 		</set>
 
-		<set name="taxrates" inverse="true" cascade="save-update,delete"
-			lazy="false">
-			<key column="COMANY_ID" />
+		<set name="taxrates" inverse="true" cascade="save-update,delete">
+			<key column="COMPANY_ID" />
 			<one-to-many class="TaxRates" />
 		</set>
 
-		<set name="fixedAssets" inverse="true" cascade="save-update,delete"
-			lazy="false">
-			<key column="COMANY_ID" />
+		<set name="fixedAssets" inverse="true" cascade="save-update,delete">
+			<key column="COMPANY_ID" />
 			<one-to-many class="FixedAsset" />
 		</set>
 
-		<set name="vatReturns" inverse="true" cascade="save-update,delete"
-			lazy="false">
+		<set name="vatReturns" inverse="true" cascade="save-update,delete">
 			<!-- vr.taxAgency.name, vr.VATperiodStartDate -->
-			<key column="COMANY_ID" />
+			<key column="COMPANY_ID" />
 			<one-to-many class="VATReturn" />
 		</set>
 
 		<set name="currencies" inverse="true" cascade="save-update,delete"
-			lazy="false" order-by="NAME">
-			<key column="COMANY_ID" />
+			order-by="NAME">
+			<key column="COMPANY_ID" />
 			<one-to-many class="Currency" />
 		</set>
 
-		<set name="taxAdjustments" inverse="true" cascade="save-update,delete"
-			lazy="false" >
-			<key column="COMANY_ID" />
+		<set name="taxAdjustments" inverse="true" cascade="save-update,delete">
+			<key column="COMPANY_ID" />
 			<one-to-many class="TAXAdjustment" />
 		</set>
 
-		<set name="taxAgencies" inverse="true" cascade="save-update,delete"
-			lazy="false" >
-			<key column="COMANY_ID" />
+		<set name="taxAgencies" inverse="true" cascade="save-update,delete">
+			<key column="COMPANY_ID" />
 			<one-to-many class="TAXAgency" />
 		</set>
 
-		<set name="vatBoxes" inverse="true" cascade="save-update,delete"
-			lazy="false" >
-			<key column="COMANY_ID" />
+		<set name="vatBoxes" inverse="true" cascade="save-update,delete">
+			<key column="COMPANY_ID" />
 			<one-to-many class="Box" />
 		</set>
-		
-		<set name="vatReturnBoxes" inverse="true" cascade="save-update,delete"
-			lazy="false"  >
-			<key column="COMANY_ID" />
+
+		<set name="vatReturnBoxes" inverse="true" cascade="save-update,delete">
+			<key column="COMPANY_ID" />
 			<one-to-many class="VATReturnBox" />
 		</set>
-		
+
 		<set name="brandingTheme" inverse="true" cascade="save-update,delete"
-			lazy="false" order-by="ID">
-			<key column="COMANY_ID" />
+			order-by="ID">
+			<key column="COMPANY_ID" />
 			<one-to-many class="BrandingTheme" />
 		</set>
-		
+
 		<set name="locations" inverse="true" cascade="save-update,delete"
-			lazy="false" order-by="ID">
-			<key column="COMANY_ID" />
+			order-by="ID">
+			<key column="COMPANY_ID" />
 			<one-to-many class="Location" />
 		</set>
 
