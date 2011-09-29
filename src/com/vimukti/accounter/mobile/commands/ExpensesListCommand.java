@@ -58,7 +58,7 @@ public class ExpensesListCommand extends AbstractTransactionCommand {
 		result.add("Expenses List");
 		ResultList expensesList = new ResultList("accountsList");
 		int num = 0;
-		List<BillsList> expenses = getExpenses(viewType,context.getCompany());
+		List<BillsList> expenses = getExpenses(viewType, context.getCompany());
 		for (BillsList b : expenses) {
 			expensesList.add(createExpenseRecord(b));
 			num++;
@@ -94,66 +94,8 @@ public class ExpensesListCommand extends AbstractTransactionCommand {
 		return record;
 	}
 
-	private Result viewTypeRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Object viewType = context.getSelection(VIEW_TYPE);
-		Requirement viewReq = get(VIEW_TYPE);
-		String view = viewReq.getValue();
-
-		if (selection == view) {
-			return viewTypes(context, view);
-
-		}
-		if (viewType != null) {
-			view = (String) viewType;
-			viewReq.setValue(view);
-		}
-
-		Record viewtermRecord = new Record(view);
-		viewtermRecord.add("Name", "viewType");
-		viewtermRecord.add("Value", view);
-		list.add(viewtermRecord);
-		return null;
-	}
-
-	private Result viewTypes(Context context, String view) {
-		ResultList list = new ResultList("viewslist");
-		Result result = null;
-		List<String> viewTypes = getViewTypes();
-		result = context.makeResult();
-		result.add("Select View Type");
-
-		int num = 0;
-		if (view != null) {
-			list.add(createViewTypeRecord(view));
-			num++;
-		}
-		for (String v : viewTypes) {
-			if (v != view) {
-				list.add(createViewTypeRecord(v));
-				num++;
-			}
-			if (num == 0) {
-				break;
-			}
-
-		}
-
-		result.add(list);
-
-		return result;
-
-	}
-
-	private Record createViewTypeRecord(String view) {
-		Record record = new Record(view);
-		record.add("Name", "ViewType");
-		record.add("Value", view);
-		return record;
-	}
-
-	private List<String> getViewTypes() {
+	@Override
+	protected List<String> getViewTypes() {
 		List<String> list = new ArrayList<String>();
 		list.add("All");
 		list.add("Cash");

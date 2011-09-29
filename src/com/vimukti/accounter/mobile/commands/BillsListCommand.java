@@ -89,7 +89,6 @@ public class BillsListCommand extends AbstractTransactionCommand {
 		CommandList commandList = new CommandList();
 		commandList.add("Create");
 
-	
 		result.add(message.toString());
 		result.add(billsListData);
 		result.add(commandList);
@@ -110,58 +109,8 @@ public class BillsListCommand extends AbstractTransactionCommand {
 		return rec;
 	}
 
-	private Result viewTypeRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Object viewType = context.getSelection(BILLS_VIEW_BY);
-		Requirement viewReq = get(BILLS_VIEW_BY);
-		String view = viewReq.getValue();
-
-		if (selection == view) {
-			return viewTypes(context, view);
-
-		}
-		if (viewType != null) {
-			view = (String) viewType;
-			viewReq.setValue(view);
-		}
-
-		Record viewtermRecord = new Record(view);
-		viewtermRecord.add("Name", "viewType");
-		viewtermRecord.add("Value", view);
-		list.add(viewtermRecord);
-		return null;
-	}
-
-	private Result viewTypes(Context context, String view) {
-		ResultList list = new ResultList("viewslist");
-		Result result = null;
-		List<String> viewTypes = getViewTypes();
-		result = context.makeResult();
-		result.add("Select View Type");
-
-		int num = 0;
-		if (view != null) {
-			list.add(createViewTypeRecord(view));
-			num++;
-		}
-		for (String v : viewTypes) {
-			if (v != view) {
-				list.add(createViewTypeRecord(v));
-				num++;
-			}
-			if (num == 0) {
-				break;
-			}
-
-		}
-
-		result.add(list);
-
-		return result;
-	}
-
-	private List<String> getViewTypes() {
+	@Override
+	protected List<String> getViewTypes() {
 		List<String> list = new ArrayList<String>();
 		list.add(Accounter.constants().all());
 		list.add(Accounter.constants().open());
@@ -170,12 +119,4 @@ public class BillsListCommand extends AbstractTransactionCommand {
 
 		return list;
 	}
-
-	private Record createViewTypeRecord(String view) {
-		Record record = new Record(view);
-		record.add("Name", "ViewType");
-		record.add("Value", view);
-		return record;
-	}
-
 }

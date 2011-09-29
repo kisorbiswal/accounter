@@ -73,58 +73,8 @@ public class InvoiceListCommand extends AbstractTransactionCommand {
 		return null;
 	}
 
-	private Result viewTypeRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Object viewType = context.getSelection(VIEW_BY);
-		Requirement viewReq = get(VIEW_BY);
-		String view = viewReq.getValue();
-
-		if (selection == view) {
-			return viewTypes(context, view);
-
-		}
-		if (viewType != null) {
-			view = (String) viewType;
-			viewReq.setValue(view);
-		}
-
-		Record viewtermRecord = new Record(view);
-		viewtermRecord.add("Name", "viewType");
-		viewtermRecord.add("Value", view);
-		list.add(viewtermRecord);
-		return null;
-	}
-
-	private Result viewTypes(Context context, String view) {
-		ResultList list = new ResultList("viewslist");
-		Result result = null;
-		List<String> viewTypes = getViewTypes();
-		result = context.makeResult();
-		result.add("Select View Type");
-
-		int num = 0;
-		if (view != null) {
-			list.add(createViewTypeRecord(view));
-			num++;
-		}
-		for (String v : viewTypes) {
-			if (v != view) {
-				list.add(createViewTypeRecord(v));
-				num++;
-			}
-			if (num == 0) {
-				break;
-			}
-
-		}
-
-		result.add(list);
-
-		return result;
-	}
-
-	private List<String> getViewTypes() {
+	@Override
+	protected List<String> getViewTypes() {
 		List<String> list = new ArrayList<String>();
 		list.add("All");
 		list.add("Open");
@@ -132,13 +82,6 @@ public class InvoiceListCommand extends AbstractTransactionCommand {
 		list.add("OverDue");
 
 		return list;
-	}
-
-	private Record createViewTypeRecord(String view) {
-		Record record = new Record(view);
-		record.add("Name", "ViewType");
-		record.add("Value", view);
-		return record;
 	}
 
 	private Result invoicesList(Date fromDate, Date toDate, Context context,
