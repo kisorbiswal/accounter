@@ -2,6 +2,7 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
 
+import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -27,9 +28,26 @@ public class NewClassCommand extends AbstractTransactionCommand {
 		if (result == null) {
 			// TODO
 		}
-		return null;
+		createClassObject(context);
+		markDone();
+		return result;
 	}
 
+	/**
+	 * 
+	 * @param context
+	 */
+	private void createClassObject(Context context) {
+		AccounterClass accounterClass = new AccounterClass();
+		accounterClass.setclassName((String) get(CLASS_NAME).getValue());
+		create(accounterClass, context);
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @return
+	 */
 	private Result createClassNameReq(Context context) {
 
 		Requirement requirement = get(CLASS_NAME);
