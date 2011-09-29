@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
@@ -20,6 +18,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.BankAccountCombo;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
@@ -38,14 +37,14 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 
 		this.bankAccountsCombo = new BankAccountCombo(
 				constants.selectBankAccount());
-		this.bankAccountsCombo.addChangeHandler(new ChangeHandler() {
+		this.bankAccountsCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
-			@Override
-			public void onChange(ChangeEvent event) {
-				bankAccountChanged(bankAccountsCombo.getSelectedValue());
-			}
-		});
-
+					@Override
+					public void selectedComboBoxItem(ClientAccount selectItem) {
+						bankAccountChanged(bankAccountsCombo.getSelectedValue());
+					}
+				});
 		this.grid = new ReconciliationsTable();
 		grid.setWidth("100%");
 
@@ -85,7 +84,6 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 					public void onResultSuccess(
 							List<ClientReconciliation> result) {
 						grid.setData(result);
-						grid.getLoadingIndicator().removeFromParent();
 					}
 				});
 	}
