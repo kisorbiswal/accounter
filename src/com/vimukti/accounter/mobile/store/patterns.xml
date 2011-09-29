@@ -78,23 +78,23 @@
 	</pattern>
 
 	<pattern>
-		<input text="Sale" />
-		<input text="Sales" />
+		<input>Sale</input>
+		<input>Sales</input>
 		<output>
-			<text text="Sales Description" />
-			<command value="New Sales Order">Create a New Sales Order</command>
-			<command value="Sales Person">Sales Person</command>
-			<command value="Sales Order List">Sales Order List</command>
+			<text>Sales Description</text>
+			<command>New Sales Order</command>
+			<command>Sales Person</command>
+			<command>Sales Order List</command>
 		</output>
 	</pattern>
 
 	<pattern>
-		<input text="Purchase" />
-		<input text="Purchases" />
+		<input>Purchase</input>
+		<input>Purchases</input>
 		<output>
-			<text text="Purchase Description" />
-			<command value="New Purchase Order">Create a New Purchase Order</command>
-			<command value="Purchase Order List">Purchase Order List</command>
+			<text>Purchase Description</text>
+			<command>New Purchase Order</command>
+			<command>Purchase Order List</command>
 		</output>
 	</pattern>
 	<pattern>

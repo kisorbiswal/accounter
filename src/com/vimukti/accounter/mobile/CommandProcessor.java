@@ -3,9 +3,9 @@ package com.vimukti.accounter.mobile;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
-import com.vimukti.accounter.core.Server;
 import com.vimukti.accounter.mobile.commands.NameSearchCommand;
 import com.vimukti.accounter.mobile.commands.NumberSearchCommand;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -16,22 +16,14 @@ import com.vimukti.accounter.utils.HibernateUtil;
  */
 public class CommandProcessor {
 
+	Logger log = Logger.getLogger(CommandProcessor.class);
+
 	public static CommandProcessor INSTANCE = new CommandProcessor();
 
 	public synchronized Result handleMessage(MobileSession session,
 			UserMessage message) throws AccounterMobileException {
 
 		try {
-			// if (!session.isAuthenticated()) {
-			// Session hibernateSession = HibernateUtil
-			// .openSession(Server.LOCAL_DATABASE);
-			// session.sethibernateSession(hibernateSession);
-			// Command authentication = new AuthenticationCommand();
-			// Result result = authentication.run(new Context(session));
-			// return result;
-			// }
-
-			// Parsing Message
 			switch (message.getType()) {
 			case COMMAND:
 				Result reply = processCommand(session, message);
@@ -48,15 +40,14 @@ public class CommandProcessor {
 			}
 			Command command = message.getCommand();
 
-			if (command != null && !command.isDone()
-					&& session.getCurrentCommand() == null) {
+			if (command != null && !command.isDone()) {
 				session.setCurrentCommand(command);
 			}
 
 			if (message.getResult() == null) {
 				Result result = new Result(
 						"Sorry, We are unable to find the answer for '"
-								+ message.getInputs().toString() + "'");
+								+ message.getOriginalMsg() + "'");
 				message.setResult(result);
 			}
 

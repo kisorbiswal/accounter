@@ -25,7 +25,7 @@ public class MobileChatAdaptor implements MobileAdaptor {
 	 * @throws AccounterMobileException
 	 */
 	public UserMessage preProcess(MobileSession session, String message) {
-		UserMessage userMessage = new UserMessage();
+		UserMessage userMessage = new UserMessage(message);
 
 		if (message == null || message.isEmpty()) {
 
@@ -36,23 +36,28 @@ public class MobileChatAdaptor implements MobileAdaptor {
 		if (lastResult instanceof PatternResult) {
 			PatternResult patternResult = (PatternResult) lastResult;
 			command = getCommand(patternResult.getCommands(), message);
-			userMessage.setInputs(message.split(" "));
 		}
 		if (command == null) {
 			command = session.getCurrentCommand();
-			userMessage.setInputs(message.split(" "));
 		}
 		if (command == null) {
-			// for (String subStr : StringUtils.getSubStrings(message)) {
-			command = CommandsFactory.INSTANCE.searchCommand(message);
-			// if (command != null) {
-			// break;
-			// }
-			// }
+			String commandString = "";
+			for (String str : message.split(" ")) {
+				commandString += str;
+				command = CommandsFactory.INSTANCE.getCommand(commandString);
+				if (command != null) {
+					break;
+				}
+				commandString += ' ';
+			}
+			if (command != null) {
+				message = message.replaceAll(commandString.trim(), "");
+			}
 		}
 		if (command != null) {
 			userMessage.setType(Type.COMMAND);
 			userMessage.setCommand(command);
+			userMessage.setInputs(message.split(" "));
 			return userMessage;
 		}
 

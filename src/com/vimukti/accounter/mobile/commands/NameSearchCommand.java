@@ -24,6 +24,7 @@ public class NameSearchCommand extends Command {
 	@Override
 	public Result run(Context context) {
 		// TODO Auto-generated method stub
+		markDone();
 		return null;
 	}
 

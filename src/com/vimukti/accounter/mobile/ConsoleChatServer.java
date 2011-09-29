@@ -10,6 +10,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import com.vimukti.accounter.mobile.MobileAdaptor.AdaptorType;
+import com.vimukti.accounter.mobile.store.CommandsFactory;
+import com.vimukti.accounter.mobile.store.PatternStore;
 
 /**
  * @author Prasanna Kumar G
@@ -29,6 +31,7 @@ public class ConsoleChatServer extends Thread {
 	public void startChat() {
 		try {
 			ServerSocket server = new ServerSocket(8080);
+			loadCommandsAndPatterns();
 			Socket socket = null;
 			while ((socket = server.accept()) != null) {
 				new ConsoleSocketHandler(socket, messageHandler).start();
@@ -37,6 +40,15 @@ public class ConsoleChatServer extends Thread {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * @throws AccounterMobileException
+	 * 
+	 */
+	private void loadCommandsAndPatterns() throws AccounterMobileException {
+		CommandsFactory.INSTANCE.reload();
+		PatternStore.INSTANCE.reload();
 	}
 
 	@Override

@@ -159,10 +159,11 @@ public class MobileSession {
 	}
 
 	/**
-	 * Return the from field of the Message 
+	 * Return the from field of the Message
+	 * 
 	 * @return
 	 */
-	public String getFrom() {
+	public NetworkUser getFrom() {
 		// TODO Auto-generated method stub
 		return null;
 	}

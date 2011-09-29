@@ -21,6 +21,11 @@ public class UserMessage {
 	private Result result;
 	private Command command;
 	private List<String> inputs = new ArrayList<String>();
+	private String originalMsg;
+
+	public UserMessage(String message) {
+		this.originalMsg = message;
+	}
 
 	/**
 	 * Returns the Type of the Message
@@ -76,6 +81,10 @@ public class UserMessage {
 	 */
 	public void setInputs(String[] split) {
 		this.inputs = Arrays.asList(split);
+	}
+
+	public String getOriginalMsg() {
+		return this.originalMsg;
 	}
 
 }

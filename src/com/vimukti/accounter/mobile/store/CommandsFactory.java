@@ -36,29 +36,15 @@ public class CommandsFactory {
 	 * Search for the Command in the CommandFactory and Returns the Command if
 	 * Exists
 	 * 
-	 * @param command
+	 * @param commandName
 	 * @return
-	 * @throws IllegalAccessException
-	 * @throws InstantiationException
 	 */
-	public Command searchCommand(String commandString) {
-		try {
-			// TODO use RegularExpression
-			Class<?> className = commands.get(commandString.toLowerCase());
-			if (className == null) {
-				return null;
-			}
-			Command command = (Command) className.newInstance();
-			return command;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
 	public Command getCommand(String commandName) {
 		try {
-			Class<?> clazz = commands.get(commandName.toLowerCase());
+			Class<?> clazz = commands.get(commandName.toLowerCase().trim());
+			if (clazz == null) {
+				return null;
+			}
 			return (Command) clazz.newInstance();
 		} catch (Exception e) {
 			e.printStackTrace();

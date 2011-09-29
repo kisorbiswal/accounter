@@ -31,7 +31,7 @@ public class PatternStore {
 	private Map<String, Result> patterns = new HashMap<String, Result>();
 
 	public Result find(String pattern) {
-		return patterns.get(pattern.toLowerCase());
+		return patterns.get(pattern.toLowerCase().trim());
 	}
 
 	public void reload() throws AccounterMobileException {
