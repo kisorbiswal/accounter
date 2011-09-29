@@ -267,8 +267,7 @@
 	<command clazz="FileVATCommand" name="File VAT">
 		<alias>File Tax</alias>
 	</command>
-	<command clazz="NewVendorPrepaymentCommand" name "
-		VendorPrepayment ">
+	<command clazz="NewVendorPrepaymentCommand" name="VendorPrepayment">
 		<alias>Prepayment</alias>
 		<alias>VendorPrepayment</alias>
 	</command>
