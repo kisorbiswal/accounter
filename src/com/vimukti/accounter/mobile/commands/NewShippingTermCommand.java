@@ -52,7 +52,19 @@ public class NewShippingTermCommand extends AbstractTransactionCommand {
 
 	private Result shippingTermRequirement(Context context, ResultList list,
 			Object selection) {
-		// TODO Auto-generated method stub
+		Requirement requirement = get("shippingTerms");
+		String customerName = context.getSelection(TEXT);
+		if (!requirement.isDone()) {
+			if (customerName != null) {
+				requirement.setValue(customerName);
+			} else {
+				return text(context, "Please enter the  Shipping Term", null);
+			}
+		}
+		String input = (String) context.getAttribute(INPUT_ATTR);
+		if (input.equals("shippingTerms")) {
+			requirement.setValue(input);
+		}
 		return null;
 	}
 
@@ -91,12 +103,12 @@ public class NewShippingTermCommand extends AbstractTransactionCommand {
 	}
 
 	private void completeProcess(Context context) {
-		
+
 		ShippingTerms newShippingTerm = new ShippingTerms();
 
 		newShippingTerm.setName((String) get("name").getValue());
 		newShippingTerm.setDescription((String) get("description").getValue());
-		//TODO no description added in shipping Terms??		
+		// TODO no description added in shipping Terms??
 		create(newShippingTerm, context);
 	}
 
