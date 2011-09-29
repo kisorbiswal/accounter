@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -10,6 +11,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class ExpensesListCommand extends AbstractTransactionCommand {
 
@@ -97,10 +99,10 @@ public class ExpensesListCommand extends AbstractTransactionCommand {
 	@Override
 	protected List<String> getViewTypes() {
 		List<String> list = new ArrayList<String>();
-		list.add("All");
-		list.add("Cash");
-		list.add("Credit Card");
-		list.add("Voided");
+		list.add(Accounter.constants().all());
+		list.add(Accounter.constants().cash());
+		list.add(Accounter.constants().creditCard());
+		list.add(Accounter.constants().Voided());
 		return list;
 	}
 
