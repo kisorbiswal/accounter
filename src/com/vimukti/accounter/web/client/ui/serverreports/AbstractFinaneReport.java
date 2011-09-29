@@ -20,6 +20,10 @@ import com.vimukti.accounter.web.client.ui.reports.Section;
 public abstract class AbstractFinaneReport<R> extends
 		AccounterAsyncCallback<ArrayList<R>> implements IFinanceReport<R> {
 
+	enum Alignment {
+		H_ALIGN_RIGHT, H_ALIGN_CENTER, H_ALIGN_LEFT
+	}
+
 	protected int sectionDepth = 0;
 	private String[] columns;
 	protected int row = -1;
@@ -686,6 +690,13 @@ public abstract class AbstractFinaneReport<R> extends
 			messages = (AccounterMessages) GWT.create(AccounterMessages.class);
 		}
 		return messages;
+	}
+
+	/**
+	 * @param i
+	 */
+	public Alignment getHeaderHAlign(int i) {
+		return null;
 	}
 
 }

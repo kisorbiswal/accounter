@@ -1,11 +1,9 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.serverreports.AbstractFinaneReport.Alignment;
 
 public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 
@@ -18,11 +16,11 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 			boolean underline, boolean border) {
 		if (list.size() == 0) {
 			initBody();
-			this.body = this.body + getBodyHead();
+			prepareBodyHead();
 		}
 		list.add(record);
 
-		this.body = this.body + "<tr class='ReportGridRow'>";
+		this.body.append("<tr class='ReportGridRow'>");
 		for (int i = 0; i < columns.length; i++) {
 			if (maxDepth < depth)
 				this.maxDepth = depth;
@@ -51,39 +49,54 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 			}
 
 		}
-		this.body = this.body + "</tr>";
+		this.body.append("</tr>");
 	}
 
 	@Override
 	public String getBody() {
-		if (body == null) {
-			this.body = Accounter.messages().noRecordsToShow();
-			;
+		if (body == null || body.toString().isEmpty()) {
+			this.body.append(Accounter.messages().noRecordsToShow());
 		} else {
-			this.body = this.body + "</table></div></div></td></tr></table>";
+			this.body.append("</table></div></div></td></tr></table>");
 		}
-		return this.body;
+		return this.body.toString();
 	}
 
-	public String getBodyHead() {
+	public void prepareBodyHead() {
 		String[] headerTites = reportView.getColunms();
-		String columnHeader = "<tr class='gridHeaderRow'>";
+		body.append("<tr class=\"gridHeaderRow\"> ");
 		for (int i = 0; i < headerTites.length; i++) {
-			columnHeader = columnHeader
-					+ "<th style='vertical-align: middle;'class='ReportGridheaderStyle";
+			body.append("<th style=\"vertical-align: middle;padding-left:20px;\"class=\"ReportGridheaderStyle depth2");
 			if (columnTypes[i] == COLUMN_TYPE_AMOUNT
 					|| columnTypes[i] == COLUMN_TYPE_DATE
 					|| columnTypes[i] == COLUMN_TYPE_NUMBER
 					|| columnTypes[i] == COLUMN_TYPE_PERCENTAGE) {
-				columnHeader = columnHeader + " gridDecimalCell";
+				body.append(" gridDecimalCell");
 			}
-			columnHeader = columnHeader + "' align='left' width='"
-					+ reportView.getColumnWidth(i) + "'>" + headerTites[i]
-					+ "</th>";
+
+			Alignment headerAlign = reportView.getHeaderHAlign(i);
+			if (headerAlign == null) {
+				headerAlign = Alignment.H_ALIGN_LEFT;
+			}
+			switch (headerAlign) {
+			case H_ALIGN_CENTER:
+				body.append("\" align=\"centre\"");
+				break;
+			case H_ALIGN_LEFT:
+				body.append("\" align=\"left\"");
+				break;
+			case H_ALIGN_RIGHT:
+				body.append("\" align=\"right\"");
+				break;
+			default:
+				body.append("\" align=\"left\"");
+				break;
+			}
+
+			body.append(" width=\"" + reportView.getColumnWidth(i) + "\">"
+					+ headerTites[i] + "</th>");
 		}
-		columnHeader = columnHeader
-				+ "<th class='gridHeaderLastTd' width='17px'><div class='gwt-Label'></div></th></tr>";
-		return columnHeader;
+		body.append("<th class=\"gridHeaderLastTd\" width=\"17px\"><div class=\"gwt-Label\"></div></th></tr>");
 	}
 
 	@Override
@@ -95,7 +108,8 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 
 	@Override
 	public void initBody() {
-		this.body = "<table style='width: 100%; height: 307px;' class='ReportGrid' cellpadding='0' cellspacing='0'><tr><td class='gridHeaderParent' style='vertical-align: top;' align='left'></td></tr><tr><td style='vertical-align: top;' align='left'><div style='width: 100%; height: 285px;' class='gridBodyContainer'><div style='position: relative;'><table  style='width: 100%;'class='gridBody'><colgroup><col></colgroup>";
+		this.body = new StringBuffer(
+				"<table style=\"width: 100%; height: 307px;\" class=\"ReportGrid\" cellpadding=\"0\" cellspacing=\"0\"><tr><td class=\"gridHeaderParent\" style=\"vertical-align: top;\" align=\"left\"></td></tr><tr><td style=\"vertical-align: top;\" align=\"left\"><div style=\"width: 100%; height: 285px;\" class=\"gridBodyContainer\"><div style=\"position: relative;\"><table  style=\"width: 100%;\" class=\"gridBody\"><colgroup><col></colgroup>");
 	}
 
 	// @Override
@@ -115,39 +129,43 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 	@Override
 	public void addCell(boolean bold, String cellValue, int depth,
 			boolean underline, int cellWidth, int columnType) {
-		this.body = this.body + "<td style='vertical-align: middle;' class='";
-		List<String> classNames = new ArrayList<String>();
+		this.body.append("<td style=\"vertical-align: middle;\" class=\"");
 
 		if (bold) {
-			classNames.add("boldcell");
+			body.append("boldcell ");
 		}
 
 		if (underline) {
-			classNames.add("underline");
+			body.append("underline ");
 		}
 		if (!underline && cellValue != null) {
-			classNames.add("depth" + depth);
+			body.append("depth");
+			body.append(depth);
+			body.append(' ');
 		}
 
 		if (columnType == COLUMN_TYPE_AMOUNT || columnType == COLUMN_TYPE_DATE
 				|| columnType == COLUMN_TYPE_NUMBER
 				|| columnType == COLUMN_TYPE_PERCENTAGE) {
-			classNames.add("gridDecimalCell");
+			body.append("gridDecimalCell ");
 		}
 
-		for (String string : classNames) {
-			this.body = this.body + string + " ";
-		}
-
+		body.append("ReportGridcustomFont\" title=\"");
+		body.append(cellValue);
 		if (columnType == COLUMN_TYPE_AMOUNT) {
-			this.body = this.body + "ReportGridcustomFont 'title='" + cellValue
-					+ "'align='right' width='" + cellWidth + "'>" + cellValue
-					+ "</td>";
+			body.append("\" align=\"right\" ");
 		} else {
-			this.body = this.body + "ReportGridcustomFont 'title='" + cellValue
-					+ "'align='left' width='" + cellWidth + "'>" + cellValue
-					+ "</td>";
+			body.append("\" align=\"left\" ");
 		}
+
+		if (cellWidth != -1) {
+			body.append(" width=\"");
+			body.append(cellWidth);
+			body.append("px\"");
+		}
+		body.append('>');
+		body.append(cellValue);
+		body.append("</td>");
 	}
 
 	@Override
@@ -205,13 +223,13 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 	@Override
 	public String getBody(AccounterConstants accounterConstants) {
 
-		if (body == null) {
-			this.body = "<html><body><center><p>No records to show</p></center></body></html>";
-
+		if (body == null || body.toString().isEmpty()) {
+			body = new StringBuffer(
+					"<html><body><center><p>No records to show</p></center></body></html>");
 		} else {
-			this.body = this.body + "</table></div></div></td></tr></table>";
+			this.body.append("</table></div></div></td></tr></table>");
 		}
-		return this.body;
+		return this.body.toString();
 
 	}
 

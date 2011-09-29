@@ -69,20 +69,20 @@ public class VendorTransactionHistoryServerReport extends
 
 	@Override
 	public int getColumnWidth(int index) {
-		if (index == 1)
-			return 85;
-		else if (index == 3)
-			return 60;
-		else if (index == 2)
-			return 145;
-		// else if (index == 4)
-		// return 250;
-		else if (index == 4)
+		switch (index) {
+		case 0:
 			return 200;
-		else if (index == 5)
-			return 145;
-		else
+		case 1:
+			return 85;
+		case 2:
+			return 200;
+		case 3:
+			return 60;
+		case 5:
+			return 150;
+		default:
 			return -1;
+		}
 	}
 
 	@Override
