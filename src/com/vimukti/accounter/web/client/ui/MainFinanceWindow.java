@@ -28,6 +28,9 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.customers.InvoiceListView;
+import com.vimukti.accounter.web.client.ui.reports.ProfitAndLossByLocationAction;
+import com.vimukti.accounter.web.client.ui.reports.SalesByLocationDetailsAction;
+import com.vimukti.accounter.web.client.ui.reports.SalesByLocationSummaryAction;
 
 /**
  * 
@@ -559,6 +562,47 @@ public class MainFinanceWindow extends VerticalPanel {
 				ActionFactory.getUserDetailsAction());
 		actions.put(ActionFactory.getPrepare1099MISCAction().getHistoryToken(),
 				ActionFactory.getPrepare1099MISCAction());
+
+		actions.put(ActionFactory.getReconciliationsListAction()
+				.getHistoryToken(), ActionFactory
+				.getReconciliationsListAction());
+
+		actions.put(ActionFactory.getReportsHomeAction().getHistoryToken(),
+				ActionFactory.getReportsHomeAction());
+
+		ProfitAndLossByLocationAction profitAndLossByLocationActionTrue = ActionFactory
+				.getProfitAndLossByLocationAction(true);
+
+		ProfitAndLossByLocationAction profitAndLossByLocationActionFalse = ActionFactory
+				.getProfitAndLossByLocationAction(false);
+
+		actions.put(profitAndLossByLocationActionTrue.getHistoryToken(),
+				profitAndLossByLocationActionTrue);
+
+		actions.put(profitAndLossByLocationActionFalse.getHistoryToken(),
+				profitAndLossByLocationActionFalse);
+
+		SalesByLocationDetailsAction salesByLocationDetailActionTrue = ActionFactory
+				.getSalesByLocationDetailsAction(true);
+		SalesByLocationSummaryAction salesByLocationSummaryActionTrue = ActionFactory
+				.getSalesByLocationSummaryAction(true);
+
+		actions.put(salesByLocationDetailActionTrue.getHistoryToken(),
+				salesByLocationDetailActionTrue);
+
+		actions.put(salesByLocationSummaryActionTrue.getHistoryToken(),
+				salesByLocationSummaryActionTrue);
+
+		SalesByLocationDetailsAction salesByLocationDetailActionFalse = ActionFactory
+				.getSalesByLocationDetailsAction(false);
+		SalesByLocationSummaryAction salesByLocationSummaryActionFalse = ActionFactory
+				.getSalesByLocationSummaryAction(false);
+
+		actions.put(salesByLocationDetailActionFalse.getHistoryToken(),
+				salesByLocationDetailActionFalse);
+
+		actions.put(salesByLocationSummaryActionFalse.getHistoryToken(),
+				salesByLocationSummaryActionFalse);
 
 	}
 
