@@ -128,7 +128,7 @@
 		<alias>STH</alias>
 		<alias>STH report</alias>
 	</command>
-	<command clazz="TransacctionDetailByAccountReportCommand" name="Transaction Detail By Account">
+	<command clazz="TransactionDetailByAccountReportCommand" name="Transaction Detail By Account">
 		<alias>Transaction Detail By Account Report</alias>
 		<alias>TDA</alias>
 		<alias>TDA report</alias>
@@ -161,6 +161,24 @@
 		<alias>VIS report</alias>
 		<alias>VAT IS report</alias>
 		<alias>VISR</alias>
+	</command>
+	<command clazz="ECSalesListDetailReportCommand" name="EC Sales List Detail">
+		<alias>EC Sales List Detail Report</alias>
+		<alias>ECSLD report</alias>
+		<alias>EC SLD report</alias>
+		<alias>ECSLD</alias>
+	</command>
+	<command clazz="TransactionDetailbyTaxItemReportCommand" name="Transaction Detail by Tax Item">
+		<alias>Transaction Detail by Tax Item Report</alias>
+		<alias>TDTI report</alias>
+		<alias>TDTIR</alias>
+		<alias>TD by Tax Item report</alias>
+	</command>
+	<command clazz="VATItemDetailReportCommand" name="VAT Item Detail">
+		<alias>VAT Item Detail Report</alias>
+		<alias>VID report</alias>
+		<alias>VAT ID report</alias>
+		<alias>VIDR</alias>
 	</command>
 	<command clazz="NewVATItemCommand" name="New VAT Item">
 		<alias>Create VAT Item</alias>
