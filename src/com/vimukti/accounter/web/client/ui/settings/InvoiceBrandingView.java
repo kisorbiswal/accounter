@@ -302,6 +302,7 @@ public class InvoiceBrandingView<T> extends
 				.classicTemplate()
 				: theme.getInvoiceTempleteName();
 
+
 		invoiceHtml = new HTML("<p>" + messages.invoiceTemplete() + " : "
 				+ invoiceTemp + "</p>");
 

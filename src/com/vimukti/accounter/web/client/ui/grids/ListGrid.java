@@ -213,6 +213,11 @@ public abstract class ListGrid<T> extends CustomTable {
 	}
 
 	public boolean isContinueToexecuteEvent(int row, int col) {
+		if (!isMultiSelectionEnable) {
+			rowFormatter.removeStyleName(currentRow, "selected");
+			rowFormatter.addStyleName(row, "selected");
+		}
+
 		if (isEditEnable) {
 			/**
 			 * skip if the cell is all ready editmode

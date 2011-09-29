@@ -354,7 +354,8 @@ public class WriteCheck extends Transaction {
 
 		if (!this.isVoid && !writeCheck.isVoid) {
 
-			if (this.bankAccount.id != writeCheck.bankAccount.id) {
+			if (this.bankAccount.id != writeCheck.bankAccount.id
+					|| !DecimalUtil.isEquals(this.total, writeCheck.total)) {
 
 				Account account = (Account) session.get(Account.class,
 						writeCheck.bankAccount.id);
@@ -363,11 +364,11 @@ public class WriteCheck extends Transaction {
 				account.onUpdate(session);
 
 				writeCheck.total = 0.0;
+
+				this.bankAccount.updateCurrentBalance(this, this.total);
+				this.bankAccount.onUpdate(session);
 			}
 
-			this.bankAccount.updateCurrentBalance(this, this.total
-					- writeCheck.total);
-			this.bankAccount.onUpdate(session);
 		}
 		this.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
 

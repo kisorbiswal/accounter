@@ -352,6 +352,8 @@ public interface AccounterConstants extends Constants {
 
 	public String bank();
 
+	public String bankAccounts();
+
 	public String bankBranch();
 
 	public String bankCategory();
@@ -573,7 +575,7 @@ public interface AccounterConstants extends Constants {
 	public String city();
 
 	public String className();
-	
+
 	public String classNameis();
 
 	public String clear();
@@ -4927,5 +4929,6 @@ public interface AccounterConstants extends Constants {
 
 	public String youHaveEnteredduplicateContacts();
 
+	public String pleaseSelectAnyCustomer();
 
 }

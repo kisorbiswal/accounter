@@ -83,10 +83,10 @@ public class ExportReportServlet extends BaseServlet {
 			throws IOException, AccounterException {
 		String companyID = getCookie(request, COMPANY_COOKIE);
 		Session session = HibernateUtil.openSession();
+		String companyName = getCompanyName(request);
+		if (companyName == null)
+			return null;
 		try {
-			String companyName = getCompanyName(request);
-			if (companyName == null)
-				return null;
 
 			FinanceTool financetool = new FinanceTool();
 			Company company = financetool.getCompany(Long.valueOf(companyID));

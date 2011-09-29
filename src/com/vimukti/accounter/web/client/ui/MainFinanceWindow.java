@@ -24,6 +24,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.company.HelpItem;
+import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
@@ -362,8 +363,7 @@ public class MainFinanceWindow extends VerticalPanel {
 				ActionFactory.getCustomersHomeAction());
 		actions.put(ActionFactory.getNewCustomerAction().getHistoryToken(),
 				ActionFactory.getNewCustomerAction());
-		actions.put(ActionFactory.getNewItemAction(true).getHistoryToken(),
-				ActionFactory.getNewItemAction(true));
+
 		actions.put(ActionFactory.getNewQuoteAction().getHistoryToken(),
 				ActionFactory.getNewQuoteAction());
 		actions.put(ActionFactory.getNewInvoiceAction().getHistoryToken(),
@@ -603,6 +603,15 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		actions.put(salesByLocationSummaryActionFalse.getHistoryToken(),
 				salesByLocationSummaryActionFalse);
+
+		actions.put(ActionFactory.getUsersActivityListAction()
+				.getHistoryToken(), ActionFactory.getUsersActivityListAction());
+
+		NewItemAction supplierItem = ActionFactory.getNewItemAction(false);
+		actions.put(supplierItem.getHistoryToken(), supplierItem);
+
+		NewItemAction customerItem = ActionFactory.getNewItemAction(true);
+		actions.put(customerItem.getHistoryToken(), customerItem);
 
 	}
 

@@ -50,7 +50,7 @@ public class UsersActivityListAction extends Action<ClientActivity> {
 
 	@Override
 	public String getHistoryToken() {
-		return null;
+		return "userActivity";
 	}
 
 	@Override
