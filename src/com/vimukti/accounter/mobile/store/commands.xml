@@ -301,9 +301,7 @@
 	<command clazz="NewShippingTermCommand" name="New Shipping Term">
 		<alias>New Shipping Term</alias>
 	</command>
-	<command clazz="NewMakeDepositCommond" name="NewMakeDepositCommond">
-		<alias>New Make Deposit</alias>
-	</command>
+
 	<command clazz="NewCustomerCommand" name="New Customer">
 		<alias>create Customer</alias>
 		<alias>Add Customer</alias>
