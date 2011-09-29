@@ -87,7 +87,7 @@ public class ShippingMethodCommond extends AbstractCommand {
 		Requirement shippingRequirement = get(SHIPPING_METHOD);
 		String shippingMethodType = shippingRequirement.getValue();
 		shippingMethod.setName(shippingMethodType);
-
+		// TODO need to set Description is not required??
 		create(shippingMethod, context);
 	}
 
