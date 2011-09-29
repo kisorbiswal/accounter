@@ -4610,6 +4610,8 @@ public interface AccounterConstants extends Constants {
 
 	public String invoiceTemplete();
 
+	public String classicTemplete();
+
 	public String budgetStartWith();
 
 	public String budgetSubdivide();
@@ -4927,5 +4929,7 @@ public interface AccounterConstants extends Constants {
 	public String noCreditsToApply();
 
 	public String youHaveEnteredduplicateContacts();
+
+	public String pleaseSelectAnyCustomer();
 
 }
