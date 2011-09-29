@@ -604,6 +604,9 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(salesByLocationSummaryActionFalse.getHistoryToken(),
 				salesByLocationSummaryActionFalse);
 
+		actions.put(ActionFactory.getUsersActivityListAction()
+				.getHistoryToken(), ActionFactory.getUsersActivityListAction());
+
 	}
 
 	public ClientCompany getCompany() {

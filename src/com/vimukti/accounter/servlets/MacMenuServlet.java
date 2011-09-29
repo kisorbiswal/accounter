@@ -680,20 +680,11 @@ public class MacMenuServlet extends BaseServlet {
 					manageSupportLists);
 		}
 
-		if (canManageFiscalYears()) {
-			menu(mainMenuValue, iGlobal.constants().manageFiscalYear(),
-					"company/accounter#manageFiscalYear");
-			separator(mainMenuValue);
-		}
-
-		// TODO Next version
-		// StringBuilder mergeValue = new StringBuilder();
-		// subMenu(mergeValue, "Merge Customers", "accounter#mergeCustomers");
-		// subMenu(mergeValue, "Merge Vendor", "accounter#mergeVendors");
-		// subMenu(mergeValue, "Merge Account", "accounter#mergeAccount");
-		// subMenu(mergeValue, "Merge Item", "accounter#mergeItem");
-		// menu(mainMenuValue, "Merge Accounts", mergeValue);
+		// if (canManageFiscalYears()) {
+		// menu(mainMenuValue, iGlobal.constants().manageFiscalYear(),
+		// "company/accounter#manageFiscalYear");
 		// separator(mainMenuValue);
+		// }
 
 		StringBuilder companyLists = new StringBuilder();
 		if (canSeeInvoiceTransactions()) {
@@ -722,6 +713,8 @@ public class MacMenuServlet extends BaseServlet {
 		}
 		subMenu(companyLists, iGlobal.constants().salesPersons(),
 				"company/accounter#salesPersons");
+		subMenu(companyLists, iGlobal.constants().usersActivity(),
+				"company/accounter#userActivity");
 		menu(mainMenuValue, iGlobal.constants().companyLists(), companyLists);
 
 		mainMenu(builder, iGlobal.constants().company(), mainMenuValue);
