@@ -375,6 +375,16 @@
 			<one-to-many class="Account" />
 		</set>
 
+		<set name="customers" inverse="true" cascade="save-update,delete">
+			<key column="COMPANY_ID" />
+			<one-to-many class="Customer" />
+		</set>
+
+		<set name="vendors" inverse="true" cascade="save-update,delete">
+			<key column="COMPANY_ID" />
+			<one-to-many class="Vendor" />
+		</set>
+
 		<set name="fiscalYears" inverse="true" cascade="save-update,delete"
 			order-by="START_DATE">
 			<key column="COMPANY_ID" />
@@ -787,7 +797,7 @@
 			<generator class="native" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<property name="name" not-null="true" column="NAME"></property>
 		<property name="payeeSince" column="PAYEE_SINCE"
@@ -1449,7 +1459,8 @@
 		<!-- <property name="showTaxesAsType" column="SHOW_TAXES_AS_TYPE"> </property> -->
 		<property name="contactDetails" column="CONTACT_DETAILS">
 		</property>
-		<property name="Terms_And_Payment_Advice" column="TERMS_AND_PAYMENT_ADVICE" type="text">
+		<property name="Terms_And_Payment_Advice" column="TERMS_AND_PAYMENT_ADVICE"
+			type="text">
 		</property>
 
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
