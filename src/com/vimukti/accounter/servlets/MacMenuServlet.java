@@ -425,7 +425,7 @@ public class MacMenuServlet extends BaseServlet {
 		StringBuilder bankListValues = new StringBuilder();
 		subMenu(bankListValues, iGlobal.constants().payments(),
 				"company/accounter#payments");
-		subMenu(bankListValues, iGlobal.constants().account(),
+		subMenu(bankListValues, iGlobal.constants().bankAccounts(),
 				"company/accounter#bankAccounts");
 		menu(bankingValues, iGlobal.constants().bankingList(), bankListValues);
 		mainMenu(builder, iGlobal.constants().banking(), bankingValues);
