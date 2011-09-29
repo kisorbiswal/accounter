@@ -121,10 +121,10 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 		expenseAccountForm = UIUtils.form(Accounter.messages().expenseAccount(
 				Global.get().Account()));
-		expenseAccountForm.setWidth("79%");
+		expenseAccountForm.setWidth("80%");
 		expenseSelect = new GridAccountsCombo(Accounter.messages()
 				.expenseAccount(Global.get().Account()));
-		expenseSelect.setWidth("180px");
+		expenseSelect.setWidth("185px");
 		expenseSelect.setDisabled(isInViewMode());
 		expenseSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -135,7 +135,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 				});
 
-		expenseAccountForm.getCellFormatter().setWidth(0, 0, "205px");
+		expenseAccountForm.getCellFormatter().setWidth(0, 0, "200px");
 		expenseAccountForm.setFields(expenseSelect);
 
 		memoForm = new DynamicForm();
