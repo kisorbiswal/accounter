@@ -132,7 +132,7 @@ public class LocationListCommand extends AbstractTransactionCommand {
 			if (selection != null) {
 				if (selection == selectionLocation.getLocationName()) {
 					context.setAttribute(LOCATION_ATTR, "location");
-					return text(context, "Enter Quantity",
+					return text(context, "Enter Location Name",
 							selectionLocation.getLocationName());
 				}
 			} else {
