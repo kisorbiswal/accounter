@@ -164,8 +164,7 @@ public class PayBill extends Transaction {
 	List<TransactionPayBill> transactionPayBill;
 
 	String checkNumber;
-	
-	
+
 	private TAXAgency taxAgency;
 
 	//
@@ -292,6 +291,10 @@ public class PayBill extends Transaction {
 		return address;
 	}
 
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 		if (this.isOnSaveProccessed)
@@ -354,8 +357,8 @@ public class PayBill extends Transaction {
 				this.vendor.updateBalance(session, this, this.unusedAmount
 						- this.total);
 			}
-			
-			//TODO Update TDS Account if Company is IND
+
+			// TODO Update TDS Account if Company is IND
 		}
 		return false;
 	}
@@ -556,8 +559,7 @@ public class PayBill extends Transaction {
 				if (!this.payFrom.equals(payBill.payFrom)) {
 					Account payFromAccount = (Account) session.get(
 							Account.class, payBill.payFrom.id);
-					payFromAccount.updateCurrentBalance(this,
-							-payBill.total);
+					payFromAccount.updateCurrentBalance(this, -payBill.total);
 					payFromAccount.onUpdate(session);
 					this.payFrom.updateCurrentBalance(this, this.total);
 					this.payFrom.onUpdate(session);
@@ -658,6 +660,7 @@ public class PayBill extends Transaction {
 		// }
 		return true;
 	}
+
 	// private void doVendorVoidEffect(Session session, PayBill payBill) {
 	//
 	// payBill.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
@@ -701,6 +704,5 @@ public class PayBill extends Transaction {
 	public void setTaxAgency(TAXAgency taxAgency) {
 		this.taxAgency = taxAgency;
 	}
-
 
 }
