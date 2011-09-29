@@ -56,6 +56,7 @@ public class LocationListCommand extends AbstractTransactionCommand {
 	private Result optionalRequirements(Context context) {
 
 		context.setAttribute(INPUT_ATTR, "optional");
+
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
 			ActionNames actionNames = (ActionNames) selection;
@@ -63,6 +64,7 @@ public class LocationListCommand extends AbstractTransactionCommand {
 			case ADD_MORE_LOCATIONS:
 				locationProcess(context);
 			case FINISH:
+				context.removeAttribute(INPUT_ATTR);
 				return null;
 			default:
 				break;
@@ -78,6 +80,9 @@ public class LocationListCommand extends AbstractTransactionCommand {
 		}
 
 		Result result = getLocationResult(context);
+		if (result != null) {
+			return result;
+		}
 
 		ResultList actions = new ResultList(ACTIONS);
 		Record moreItems = new Record(ActionNames.ADD_MORE_LOCATIONS);
