@@ -267,7 +267,6 @@
 	<command clazz="FileVATCommand" name="File VAT">
 		<alias>File Tax</alias>
 	</command>
-	from
 	<command clazz="NewCashPurchaseCommand" name="New Cash Purchase">
 		<alias>Cash Purchase</alias>
 		<alias>Vendor Purchase</alias>
