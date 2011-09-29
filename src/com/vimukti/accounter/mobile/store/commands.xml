@@ -9,6 +9,7 @@
 	<command clazz="NewAccountCommand" name="New Account">
 		<alias>Create Account</alias>
 		<alias>Add Account</alias>
+		<alias>New Account</alias>
 	</command>
 	<command clazz="APAgingDetailReportCommand" name="A/P Aging Detail">
 		<alias>A/P Aging Detail Report</alias>
@@ -183,21 +184,20 @@
 	<command clazz="NewVATItemCommand" name="New VAT Item">
 		<alias>Create VAT Item</alias>
 		<alias>Add VAT Item</alias>
-		<alias>Add vat Item</alias>
+		<alias>New vat Item</alias>
 		<alias>Add TAX Item</alias>
 		<alias>Create TAX Item</alias>
+		<alias>New Tax Item</alias>
 	</command>
 
 	<command clazz="NewServiceItemCommand" name="New Service Item">
-		<alias>Create Item</alias>
-		<alias>Add Item</alias>
+		<alias>New Service Item</alias>
 		<alias>Add Service Item</alias>
 		<alias>Create Service Item</alias>
 	</command>
 
 	<command clazz="NewProductItemCommand" name="New Product Item">
-		<alias>Create Item</alias>
-		<alias>Add Item</alias>
+		<alias>New Product Item</alias>
 		<alias>Add Product Item</alias>
 		<alias>Create Product Item</alias>
 	</command>
@@ -252,16 +252,18 @@
 	<command clazz="NewVATCodeCommand" name="New VAT Code">
 		<alias>Create VAT Code</alias>
 		<alias>Add VAT Code</alias>
-		<alias>Add vat code</alias>
+		<alias>New vat code</alias>
 		<alias>Add TAX Code</alias>
 		<alias>Create TAX Code</alias>
+		<alias>New TAX Code</alias>
 	</command>
 	<command clazz="NewVATAgencyCommand" name="New VAT Agncy">
 		<alias>Create VAT Agency</alias>
 		<alias>Add VAT Agency</alias>
-		<alias>Add vat agency</alias>
+		<alias>New VAT agency</alias>
 		<alias>Add TAX Agency</alias>
 		<alias>Create TAX Agency</alias>
+		<alias>New TAX Agency</alias>
 	</command>
 	<command clazz="VATAdjustmentCommand" name="New VAT Adjustment">
 		<alias>Create VAT Adjustment</alias>
@@ -286,20 +288,30 @@
 		<alias>File Tax</alias>
 	</command>
 	<command clazz="NewCashPurchaseCommand" name="New Cash Purchase">
-		<alias>Cash Purchase</alias>
-		<alias>Vendor Purchase</alias>
-		<alias>Supplier Purchase</alias>
-		<alias>Purchase</alias>
+		<alias>New Cash Purchase</alias>
+		<alias>Add Cash Purchase</alias>
+		<alias>Create Cash Purchase</alias>
+		<alias>New Vendor Purchase</alias>
+		<alias>Add Vendor Purchase</alias>
+		<alias>Create Vendor Purchase</alias>
+		<alias>New Supplier Purchase</alias>
+		<alias>Add Supplier Purchase</alias>
+		<alias>Create Supplier Purchase</alias>
+
 	</command>
 	<command clazz="NewCashSaleCommand" name="New Cash Sale">
-		<alias>Cash Sale</alias>
+		<alias>New Cash Sale</alias>
+		<alias>Add Cash Sale</alias>
+		<alias>Create Cash Sale</alias>
 	</command>
 	<command clazz="NewCreditCardChargeCommond" name="New Credit Card Charge">
 		<alias>Credit Card Charge</alias>
 		<alias>Credit Card Expense</alias>
 	</command>
 	<command clazz="NewCustomerCreditMemoCommond" name="New Customer Credit Memo">
-		<alias>Customer Credit Memo</alias>
+		<alias>New Customer Credit Memo</alias>
+		<alias>Create Customer Credit Memo</alias>
+		<alias>Add Customer Credit Memo</alias>
 	</command>
 	<command clazz="NewCashExpenseCommond" name="New Cash Expense">
 		<alias>Cash Expense</alias>
@@ -311,7 +323,12 @@
 		<alias>Issue Payment</alias>
 	</command>
 	<command clazz="NewVendorCreditMemoCommand" name="New Vendor Credit Memo">
-		<alias>Vendor Credit Memo</alias>
+		<alias>New Vendor Credit Memo</alias>
+		<alias>Add Vendor Credit Memo</alias>
+		<alias>Create Vendor Credit Memo</alias>
+		<alias>New Supplier Credit Memo</alias>
+		<alias>Add Supplier Credit Memo</alias>
+		<alias>Create Supplier Credit Memo</alias>
 	</command>
 	<command clazz="NewShippingMethodCommond" name="New Shipping Method">
 		<alias>Shipping Method</alias>
@@ -323,6 +340,7 @@
 	<command clazz="NewCustomerCommand" name="New Customer">
 		<alias>create Customer</alias>
 		<alias>Add Customer</alias>
+		<alias>New Customer</alias>
 	</command>
 	<command clazz="NewCustomerPrepaymentCommand" name="New CustomerPrepayment">
 		<alias>create CustomerPrepayment</alias>
@@ -333,9 +351,14 @@
 		<alias>Add ReceivePayment</alias>
 		<alias>Create Receive Payment</alias>
 	</command>
-	<command clazz="NewQuoteCommand" name="New Quote">
+	<command clazz="NewQuoteCommand" name="New Quote Command">
 		<alias>create Quote</alias>
 		<alias>Add Quote</alias>
+		<alias>New Quote</alias>
+		<alias>Add Estimate</alias>
+		<alias>create Estimate</alias>
+		<alias>New Estimate</alias>
+
 	</command>
 	<command clazz="NewCustomerRefundCommand" name="New CustomerRefund">
 		<alias>create CustomerRefund</alias>
@@ -344,6 +367,7 @@
 	<command clazz="NewBankAccountCommand" name="New BankAccount">
 		<alias>create BankAccount</alias>
 		<alias>Add BankAccount</alias>
+		<alias>New BankAccount</alias>
 	</command>
 	<command clazz="AccountRegisterCommand" name="AccountRegister">
 		<alias>AccountRegister</alias>
@@ -376,7 +400,7 @@
 	<command clazz="NewBrandingThemeCommand" name="Branding Theme">
 		<alias>New Branding Theme</alias>
 		<alias>Create Branding Theme</alias>
-		<alias>Branding Theme</alias>
+		<alias>Add Branding Theme</alias>
 	</command>
 	<command clazz="CreditRatingListCommand" name="Credit Rating List">
 		<alias>Credit Rating List</alias>
@@ -392,9 +416,11 @@
 	</command>
 	<command clazz="NewVendorCommand" name="Supplier">
 		<alias>New Supplier </alias>
-		<alias>New Vendor </alias>
-		<alias>create Vendor </alias>
+		<alias>Add Supplier </alias>
 		<alias>Create Supplier</alias>
+		<alias>New Vendor </alias>
+		<alias>Add Vendor </alias>
+		<alias>create Vendor </alias>
 	</command>
 	<command clazz="VendorPaymentsCommand" name="Vendor Payments">
 		<alias>Vendor Payments</alias>
@@ -407,9 +433,30 @@
 		<alias>Journal entries</alias>
 		<alias>Journal entries List</alias>
 	</command>
+
+
+	<command clazz="NewJournalEntryCommand" name="New JournalEntry Command">
+		<alias>New JournalEntry Command</alias>
+		<alias>Create JournalEntry Command</alias>
+		<alias>Add JournalEntry Command</alias>
+	</command>
+
+	<command clazz="NewSalesOrderCommand" name="New SalesOrder Command">
+		<alias>New SalesOrder Command</alias>
+		<alias>Create SalesOrder Command</alias>
+		<alias>Add SalesOrder Command</alias>
+	</command>
+
+	<command clazz="NewPurchaseOrderCommand" name="New PurchaseOrder Command">
+		<alias>New PurchaseOrder Command</alias>
+		<alias>Create PurchaseOrder Command</alias>
+		<alias>Add PurchaseOrder Command</alias>
+	</command>
+
 	<command clazz="ReceivedPaymentsListCommand" name="Received Payments List">
 	</command>
 	<command clazz="VoidTransactionCommand" name="Void Transaction">
 		<alias>Void</alias>
 	</command>
+
 </commands>
