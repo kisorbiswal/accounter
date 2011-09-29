@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.web.client.core.reports.ECSalesList;
@@ -35,6 +36,12 @@ public class ECSalesListReportCommand extends
 	protected List<ECSalesList> getRecords(Session session) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	protected void addCommandOnRecordClick(ECSalesList selection,
+			CommandList commandList) {
+		commandList.add("EC Sales List Detail");
 	}
 
 }

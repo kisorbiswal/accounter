@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
 import com.vimukti.accounter.web.client.ui.core.ReportUtility;
 
@@ -29,7 +31,8 @@ public class SalesByItemDetailReportCommand extends
 		salesRecord.add("Unit price", record.getUnitPrice());
 		salesRecord.add("Discount", record.getDiscount());
 		salesRecord.add("Amount", record.getAmount());
-		return salesRecord;	}
+		return salesRecord;
+	}
 
 	@Override
 	public String getId() {
@@ -41,6 +44,12 @@ public class SalesByItemDetailReportCommand extends
 	protected List<SalesByCustomerDetail> getRecords(Session session) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	protected void addCommandOnRecordClick(SalesByCustomerDetail selection,
+			CommandList commandList) {
+		commandList.add(Utility.getTransactionName(selection.getType()));
 	}
 
 }

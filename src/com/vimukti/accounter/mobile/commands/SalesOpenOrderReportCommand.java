@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
@@ -56,5 +57,11 @@ public class SalesOpenOrderReportCommand extends
 	protected List<OpenAndClosedOrders> getRecords(Session session) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	protected void addCommandOnRecordClick(OpenAndClosedOrders selection,
+			CommandList commandList) {
+		commandList.add("Sales Order");
 	}
 }

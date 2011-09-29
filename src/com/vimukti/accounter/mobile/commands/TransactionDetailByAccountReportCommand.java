@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
+import com.vimukti.accounter.web.client.ui.core.ReportUtility;
 
-public class TransacctionDetailByAccountReportCommand extends
+public class TransactionDetailByAccountReportCommand extends
 		AbstractReportCommand<TransactionDetailByAccount> {
 
 	private double accountBalance;
@@ -47,6 +49,13 @@ public class TransacctionDetailByAccountReportCommand extends
 	protected List<TransactionDetailByAccount> getRecords(Session session) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	protected void addCommandOnRecordClick(
+			TransactionDetailByAccount selection, CommandList commandList) {
+		commandList.add(ReportUtility.getTransactionName(selection
+				.getTransactionType()));
 	}
 
 }

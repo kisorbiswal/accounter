@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
@@ -49,4 +50,11 @@ public class APAgingDetailReportCommand extends
 		record.add("Total", recordReport.getTotal());
 		return record;
 	}
+
+	@Override
+	protected void addCommandOnRecordClick(AgedDebtors selection,
+			CommandList commandList) {
+		commandList.add(ReportUtility.getTransactionName(selection.getType()));
+	}
+
 }

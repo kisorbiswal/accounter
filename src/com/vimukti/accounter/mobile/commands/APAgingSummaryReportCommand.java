@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
@@ -51,4 +52,11 @@ public class APAgingSummaryReportCommand extends
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	protected void addCommandOnRecordClick(DummyDebitor selection,
+			CommandList commandList) {
+		commandList.add("A/P Aging Detail");
+	}
+
 }

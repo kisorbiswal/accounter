@@ -6,6 +6,7 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Utility_R;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
@@ -47,6 +48,12 @@ public class ProfitLossReportCommand extends
 	protected List<TrialBalance> getRecords(Session session) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	protected void addCommandOnRecordClick(TrialBalance selection,
+			CommandList commandList) {
+		commandList.add("Transaction Detail By Account");
 	}
 
 }

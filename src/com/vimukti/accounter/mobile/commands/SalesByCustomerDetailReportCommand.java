@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -39,6 +40,12 @@ public class SalesByCustomerDetailReportCommand extends
 	protected List<SalesByCustomerDetail> getRecords(Session session) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	protected void addCommandOnRecordClick(SalesByCustomerDetail selection,
+			CommandList commandList) {
+		commandList.add(Utility.getTransactionName(selection.getType()));
 	}
 
 }

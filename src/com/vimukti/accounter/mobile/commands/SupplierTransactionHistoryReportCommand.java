@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.core.ReportUtility;
 
 public class SupplierTransactionHistoryReportCommand extends
 		AbstractReportCommand<TransactionHistory> {
@@ -43,6 +45,12 @@ public class SupplierTransactionHistoryReportCommand extends
 	protected List<TransactionHistory> getRecords(Session session) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	protected void addCommandOnRecordClick(TransactionHistory selection,
+			CommandList commandList) {
+		commandList.add(ReportUtility.getTransactionName(selection.getType()));
 	}
 
 }

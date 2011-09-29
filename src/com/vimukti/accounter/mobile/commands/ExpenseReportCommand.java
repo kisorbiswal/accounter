@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
@@ -63,6 +64,13 @@ public class ExpenseReportCommand extends AbstractReportCommand<ExpenseList> {
 	protected List<ExpenseList> getRecords(Session session) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	protected void addCommandOnRecordClick(ExpenseList selection,
+			CommandList commandList) {
+		commandList
+				.add(Utility.getTransactionName(selection.getTransactionType()));
 	}
 
 }

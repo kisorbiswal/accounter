@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.TAXAgency;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
@@ -56,12 +57,21 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 	private Result clickOnRecord(Context context) {
 		T selection = context.getSelection("records");
 		if (selection != null) {
-			// return createOpenRecord(selection, context);
+			return createOpenRecord(selection, context);
 		}
 		return null;
 	}
 
-	// protected abstract Result createOpenRecord(T selection, Context context);
+	protected Result createOpenRecord(T selection, Context context) {
+		Result result = context.makeResult();
+		CommandList commandList = new CommandList();
+		addCommandOnRecordClick(selection, commandList);
+		result.add(commandList);
+		return result;
+	}
+
+	protected abstract void addCommandOnRecordClick(T selection,
+			CommandList commandList);
 
 	@SuppressWarnings("unchecked")
 	protected void getReportResult(Result plReportResult, Context context) {
