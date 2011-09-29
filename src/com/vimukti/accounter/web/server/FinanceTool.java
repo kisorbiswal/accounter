@@ -7723,7 +7723,7 @@ public class FinanceTool {
 					vd.setTransactionDate(new ClientFinanceDate(e
 							.getEntryDate().getDate()));
 					vd.setTransactionName(e.getJournalEntry().toString());
-					vd.setTransactionNumber(e.getVoucherNumber());
+					vd.setTransactionNumber(e.getJournalEntry().getNumber());
 					vd.setTransactionType(e.getJournalEntryType());
 					vd.setTransactionId(e.getJournalEntry().getID());
 
