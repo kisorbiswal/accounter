@@ -5,8 +5,11 @@ package com.vimukti.accounter.web.client.ui.edittable.tables;
 
 import java.util.List;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.view.client.ProvidesKey;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -15,6 +18,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.edittable.CheckboxEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
+import com.vimukti.accounter.web.client.ui.edittable.RenderContext;
 import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
 
 /**
@@ -99,9 +103,11 @@ public class ContactsTable extends EditTable<ClientContact> {
 		});
 
 		this.addColumn(new TextEditColumn<ClientContact>() {
+			String value;
 
 			@Override
 			protected void setValue(ClientContact row, String value) {
+				this.value = value;
 				if (UIUtils.isValidPhone(value))
 					row.setBusinessPhone(value);
 				else {
@@ -125,12 +131,32 @@ public class ContactsTable extends EditTable<ClientContact> {
 			protected String getColumnName() {
 				return Accounter.constants().businessPhone();
 			}
+
+			@Override
+			public void render(IsWidget widget,
+					RenderContext<ClientContact> context) {
+				super.render(widget, context);
+				final TextBox textBox = (TextBox) widget;
+				textBox.addBlurHandler(new BlurHandler() {
+
+					@Override
+					public void onBlur(BlurEvent event) {
+						if (UIUtils.isValidPhone(value))
+							textBox.setValue(value);
+						else {
+							textBox.setValue("");
+						}
+					}
+				});
+			}
 		});
 
 		this.addColumn(new TextEditColumn<ClientContact>() {
+			String value;
 
 			@Override
 			protected void setValue(ClientContact row, String value) {
+				this.value = value;
 				if (UIUtils.isValidEmail(value))
 					row.setEmail(value);
 				else {
@@ -152,6 +178,24 @@ public class ContactsTable extends EditTable<ClientContact> {
 			@Override
 			protected String getColumnName() {
 				return Accounter.constants().email();
+			}
+
+			@Override
+			public void render(IsWidget widget,
+					RenderContext<ClientContact> context) {
+				super.render(widget, context);
+				final TextBox textBox = (TextBox) widget;
+				textBox.addBlurHandler(new BlurHandler() {
+
+					@Override
+					public void onBlur(BlurEvent event) {
+						if (UIUtils.isValidPhone(value))
+							textBox.setValue(value);
+						else {
+							textBox.setValue("");
+						}
+					}
+				});
 			}
 		});
 
