@@ -216,12 +216,12 @@
 		<alias>Expenses</alias>
 		<alias>Expenses list</alias>
 	</command>
-	<command clazz="EnterBillCommand" name="EnterBill">
+	<command clazz="NewEnterBillCommand" name="EnterBill">
 		<alias>Enter Bill</alias>
 		<alias>Bill Enter</alias>
 		<alias>Bill</alias>
 	</command>
-	<command clazz="PayBillCommand" name="payBill">
+	<command clazz="NewPayBillCommand" name="payBill">
 		<alias>pay bill</alias>
 		<alias>BillPay</alias>
 		<alias>payments</alias>
@@ -266,5 +266,10 @@
 	</command>
 	<command clazz="FileVATCommand" name="File VAT">
 		<alias>File Tax</alias>
+	</command>
+	<command clazz="NewVendorPrepaymentCommand" name "
+		VendorPrepayment ">
+		<alias>Prepayment</alias>
+		<alias>VendorPrepayment</alias>
 	</command>
 </commands>
