@@ -158,9 +158,9 @@ public class Context {
 				}
 			}
 			this.attributes.put("numbers", numbers);
-			this.attributes.put("integers", numbers);
-			this.attributes.put("doubles", numbers);
-			this.attributes.put("string", numbers);
+			this.attributes.put("integers", integers);
+			this.attributes.put("doubles", doubles);
+			this.attributes.put("string", strings);
 			this.attributes.put("dates", dates);
 		} catch (Exception e) {
 			throw new AccounterMobileException(
