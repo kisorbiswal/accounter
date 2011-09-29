@@ -173,6 +173,8 @@ public class CustomerCreditMemoCommond extends AbstractTransactionCommand {
 			switch (actionName) {
 			case ADD_MORE_ITEMS:
 				return items(context);
+			case ADD_MORE_ACCOUNTS:
+				return accountItems(context, "accounts");
 			case FINISH:
 				context.removeAttribute(INPUT_ATTR);
 				return null;
