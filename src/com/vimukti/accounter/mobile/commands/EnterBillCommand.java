@@ -97,7 +97,7 @@ public class EnterBillCommand extends AbstractTransactionCommand {
 		completeProcess(context);
 		markDone();
 
-		return null;
+		return result;
 	}
 
 	private void completeProcess(Context context) {

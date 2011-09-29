@@ -749,6 +749,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		record.add("Account Number", last.getNumber());
 		record.add("Account Name", last.getName());
 		record.add("Account Type", getAccountTypeString(last.getType()));
+		record.add("Balance", last.getTotalBalance());
 		return record;
 	}
 
