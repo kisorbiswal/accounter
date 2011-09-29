@@ -156,7 +156,7 @@ public class BankAccountReconcilationHistoryCommand extends
 			num++;
 		}
 		ArrayList<Account> bankAccounts = getBankAccounts(new ArrayList<Account>(
-				getCompany().getAccounts()));
+				context.getCompany().getAccounts()));
 
 		for (Account bankAccount : bankAccounts) {
 			if (bankAccount != last) {
