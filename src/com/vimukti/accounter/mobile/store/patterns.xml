@@ -141,5 +141,46 @@
 		</output>
 	</pattern>
 
+	<pattern>
+		<input>Item</input>
+		<input>Items</input>
+		<input>Product and Service Item</input>
+		<input>Product and Service Items</input>
+		<output>
+			<command>Create New Item</command>
+			<command>List of All Items</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>Service Item</input>
+		<input>Service Items</input>
+		<output>
+			<command>Items List</command>
+			<command>New Service Item</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>Product Item</input>
+		<input>Product Items</input>
+		<output>
+			<command>Items List</command>
+			<command>New Product Item</command>
+		</output>
+	</pattern>
+
+	<pattern>
+		<input>Inactive Item</input>
+		<input>Inactive Items</input>
+		<output>
+			<command>Inactive Items List</command>
+			<command>Create New Item</command>
+		</output>
+	</pattern>
+
+
+
+
 </patterns>
 
