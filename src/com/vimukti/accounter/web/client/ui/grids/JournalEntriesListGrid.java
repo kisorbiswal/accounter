@@ -87,7 +87,7 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 	@Override
 	protected String[] getColumns() {
 		companyConstants = Accounter.constants();
-		return new String[] { companyConstants.voucherNo(),
+		return new String[] { companyConstants.no(),
 				companyConstants.dateCreated(), companyConstants.memo(),
 				companyConstants.amount(), companyConstants.Voided()
 
@@ -181,8 +181,8 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 	// rpcDoSerivce.voidTransaction(type, obj.getID(), callback);
 	// }
 	protected void voidTransaction(final ClientJournalEntry obj) {
-		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()), obj
-				.getID());
+		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()),
+				obj.getID());
 	}
 
 	protected void deleteTransaction(final ClientJournalEntry obj) {
@@ -235,8 +235,8 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 			break;
 		case 2:
 			if (obj1.getMemo() != null && obj2.getMemo() != null)
-				return obj1.getMemo().toLowerCase().compareTo(
-						obj2.getMemo().toLowerCase());
+				return obj1.getMemo().toLowerCase()
+						.compareTo(obj2.getMemo().toLowerCase());
 			break;
 		case 3:
 			Double amt1 = obj1.getTotal();
@@ -248,7 +248,6 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 		}
 		return 0;
 	}
-
 
 	public AccounterCoreType getType() {
 		return AccounterCoreType.JOURNALENTRY;

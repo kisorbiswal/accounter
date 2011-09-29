@@ -38,34 +38,35 @@ public abstract class TransactionJournalEntryTable extends
 	}
 
 	protected void initColumns() {
-		TextEditColumn<ClientEntry> voucherNumber = new TextEditColumn<ClientEntry>() {
-
-			@Override
-			protected String getValue(ClientEntry row) {
-				return row.getVoucherNumber();
-			}
-
-			@Override
-			protected boolean isEnable() {
-				return false;
-			}
-
-			@Override
-			public int getWidth() {
-				return 85;
-			}
-
-			@Override
-			protected String getColumnName() {
-				return Accounter.constants().voucherNo();
-			}
-
-			@Override
-			protected void setValue(ClientEntry row, String value) {
-				row.setVoucherNumber(value);
-			}
-		};
-		this.addColumn(voucherNumber);
+		// TextEditColumn<ClientEntry> voucherNumber = new
+		// TextEditColumn<ClientEntry>() {
+		//
+		// @Override
+		// protected String getValue(ClientEntry row) {
+		// return row.getVoucherNumber();
+		// }
+		//
+		// @Override
+		// protected boolean isEnable() {
+		// return false;
+		// }
+		//
+		// @Override
+		// public int getWidth() {
+		// return 85;
+		// }
+		//
+		// @Override
+		// protected String getColumnName() {
+		// return Accounter.constants().voucherNo();
+		// }
+		//
+		// @Override
+		// protected void setValue(ClientEntry row, String value) {
+		// row.setVoucherNumber(value);
+		// }
+		// };
+		// this.addColumn(voucherNumber);
 
 		DateColumn<ClientEntry> dateColumn = new DateColumn<ClientEntry>() {
 
@@ -345,5 +346,5 @@ public abstract class TransactionJournalEntryTable extends
 		super.setAllRows(rows);
 		refreshTotals();
 	}
-	
+
 }
