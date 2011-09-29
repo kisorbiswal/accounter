@@ -372,6 +372,11 @@ public class NumberFormat {
 	public static NumberFormat getFormat(String pattern) {
 		return new NumberFormat(pattern);
 	}
+	
+	
+	public static NumberFormat getCurrencyFormat(){
+		return cachedCurrencyFormat;
+	}
 
 	/**
 	 * Remap a localized separator to an equivalent latin one.
