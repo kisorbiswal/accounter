@@ -314,4 +314,41 @@
 		<alias>Invoices</alias>
 		<alias>Invoices List</alias>
 	</command>
+	
+	<command clazz="NewInviteAUserCommand" name="Invite User">
+		<alias>New User</alias>
+		<alias>Invite User</alias>
+	</command>
+	<command clazz="NewBrandingThemeCommand" name="Branding Theme">
+		<alias>New Branding Theme</alias>
+		<alias>Create Branding Theme</alias>
+		<alias>Branding Theme</alias>
+	</command>
+	<command clazz="CreditRatingListCommand" name="Credit Rating List">
+		<alias>Credit Rating List</alias>
+	</command>
+	<command clazz="NewPaymentTermCommand" name="Payment Term">
+		<alias>New Payment Term</alias>
+		<alias>Create Payment Term</alias>
+		<alias>Payment Term</alias>
+	</command>
+	<command clazz="UsersCommand" name="Users">
+		<alias>Users</alias>
+		<alias>Users List</alias>
+	</command>
+	<command clazz="NewVendorCommand" name="Supplier">
+		<alias>New Supplier </alias>
+		<alias>Create Supplier</alias>
+	</command>
+	<command clazz="VendorPaymentsCommand" name="Vendor Payments">
+		<alias>Vendor Payments</alias>
+		<alias>Vendor Payments List</alias>
+	</command>
+	<command clazz="LocationListCommand" name="Location list">
+		<alias>Location list</alias>
+	</command>
+	<command clazz="JournalEntryListCommand" name="Journal entries">
+		<alias>Journal entries</alias>
+		<alias>Journal entries List</alias>
+	</command>
 </commands>
