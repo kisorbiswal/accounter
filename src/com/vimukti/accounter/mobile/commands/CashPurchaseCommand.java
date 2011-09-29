@@ -96,7 +96,7 @@ public class CashPurchaseCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		//result = accountsRequirement(context);
+		// result = accountsRequirement(context);
 		if (result == null) {
 			return result;
 		}
@@ -165,7 +165,8 @@ public class CashPurchaseCommand extends AbstractTransactionCommand {
 			cashPurchase.setCheckNumber(chequeNo);
 		}
 		Date deliveryDate = get("deliveryDate").getValue();
-		// cashPurchase.setD
+		// TODO cashPurchase.setD
+		cashPurchase.setTotal(getTransactionTotal(accounts, company));
 		create(cashPurchase, context);
 
 	}
@@ -179,6 +180,8 @@ public class CashPurchaseCommand extends AbstractTransactionCommand {
 			switch (actionName) {
 			case ADD_MORE_ITEMS:
 				return items(context);
+			case ADD_MORE_ACCOUNTS:
+				return accountItems(context, "accounts");
 			case FINISH:
 				context.removeAttribute(INPUT_ATTR);
 				return null;
