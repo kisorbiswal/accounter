@@ -314,7 +314,7 @@
 		<alias>Invoices</alias>
 		<alias>Invoices List</alias>
 	</command>
-	
+
 	<command clazz="NewInviteAUserCommand" name="Invite User">
 		<alias>New User</alias>
 		<alias>Invite User</alias>
@@ -338,6 +338,8 @@
 	</command>
 	<command clazz="NewVendorCommand" name="Supplier">
 		<alias>New Supplier </alias>
+		<alias>New Vendor </alias>
+		<alias>create Vendor </alias>
 		<alias>Create Supplier</alias>
 	</command>
 	<command clazz="VendorPaymentsCommand" name="Vendor Payments">
