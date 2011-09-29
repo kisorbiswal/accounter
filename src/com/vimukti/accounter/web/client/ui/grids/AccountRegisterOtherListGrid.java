@@ -6,11 +6,13 @@ import java.util.List;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.banking.AccountRegisterOthersView;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
@@ -20,6 +22,7 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 	public List<String> accountIDs = new ArrayList<String>();
 	public double balance = 0.0;
 	public double totalBalance = 0.0;
+	private AccountRegisterOthersView view;
 
 	public AccountRegisterOtherListGrid(boolean isMultiSelectionEnable) {
 		super(false, true);
@@ -227,6 +230,15 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 
 	public AccounterCoreType getType() {
 		return null;
+	}
+
+	@Override
+	public void saveSuccess(IAccounterCore core) {
+		view.initData();
+	}
+
+	public void setView(AccountRegisterOthersView accountRegisterOthersView) {
+		this.view = accountRegisterOthersView;
 	}
 
 }

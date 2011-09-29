@@ -103,6 +103,7 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 		grid = new AccountRegisterOtherListGrid(false);
 		// grid.addStyleName("listgrid-tl");
 		grid.init();
+		grid.setView(this);
 		HorizontalPanel gridLayout = new HorizontalPanel() {
 			@Override
 			protected void onAttach() {
