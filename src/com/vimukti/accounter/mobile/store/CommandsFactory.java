@@ -85,6 +85,10 @@ public class CommandsFactory {
 								+ command.className);
 				this.commands.put(command.name.toLowerCase(), forName);
 				List<String> aliases = command.aliases;
+				if (aliases == null) {
+					command.aliases = new ArrayList<String>();
+					aliases = command.aliases;
+				}
 				for (String alias : aliases) {
 					this.commands.put(alias.toLowerCase(), forName);
 				}
@@ -107,7 +111,7 @@ public class CommandsFactory {
 	class CommandTemplate {
 		String name;
 		String className;
-		List<String> aliases = new ArrayList<String>();
+		List<String> aliases;
 	}
 
 }
