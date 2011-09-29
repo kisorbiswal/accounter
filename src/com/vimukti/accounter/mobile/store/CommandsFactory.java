@@ -5,6 +5,7 @@ package com.vimukti.accounter.mobile.store;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,7 +84,8 @@ public class CommandsFactory {
 						.forName("com.vimukti.accounter.mobile.commands."
 								+ command.className);
 				this.commands.put(command.name.toLowerCase(), forName);
-				for (String alias : command.aliases) {
+				List<String> aliases = command.aliases;
+				for (String alias : aliases) {
 					this.commands.put(alias.toLowerCase(), forName);
 				}
 			}
@@ -105,7 +107,7 @@ public class CommandsFactory {
 	class CommandTemplate {
 		String name;
 		String className;
-		List<String> aliases;
+		List<String> aliases = new ArrayList<String>();
 	}
 
 }
