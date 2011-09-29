@@ -2,6 +2,7 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
 
+import com.vimukti.accounter.core.Location;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -29,7 +30,15 @@ public class NewLocationCommond extends AbstractCommand {
 		if (result != null) {
 			return result;
 		}
-		return null;
+		createLocationObject(context);
+		markDone();
+		return result;
+	}
+
+	private void createLocationObject(Context context) {
+		Location location = new Location();
+		location.setLocationName((String) get(LOCATION_NAME).getValue());
+		create(location, context);
 	}
 
 	private Result createClassNameReq(Context context) {
