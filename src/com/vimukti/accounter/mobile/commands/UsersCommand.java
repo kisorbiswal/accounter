@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mobile.ActionNames;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
@@ -70,6 +71,12 @@ public class UsersCommand extends AbstractTransactionCommand {
 		}
 
 		result.add(userList);
+		
+		CommandList commandList = new CommandList();
+		commandList.add("Create");
+
+		result.add(commandList);
+
 		return result;
 	}
 
