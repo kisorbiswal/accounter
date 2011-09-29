@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.BankAccount;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
@@ -86,7 +87,7 @@ public class BankAccountsListsCommands extends AbstractTransactionCommand {
 		record.add("No", account.getNumber());
 		record.add("Name", account.getName());
 		record.add("Type", account.getType());
-
+		record.add("Balance", ((Account) account).getCurrentBalance());
 		return record;
 	}
 
