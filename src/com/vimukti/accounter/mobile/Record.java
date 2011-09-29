@@ -35,7 +35,6 @@ public class Record extends ArrayList<Cell> {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		return code + " >" + object.toString();
 	}
 }
