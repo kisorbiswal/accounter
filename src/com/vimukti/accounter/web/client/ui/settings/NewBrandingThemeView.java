@@ -313,11 +313,13 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		brandingTheme.setLogoAlignmentType(getLogoType());
 
 		// for setting the selected templetes
+		String invoice = invoiceCombo.getValue().toString().isEmpty() ? messages
+				.classicTemplate() : invoiceCombo.getValue().toString();
+		String creditNote = creditMemoCombo.getValue().toString().isEmpty() ? messages
+				.classicTemplate() : creditMemoCombo.getValue().toString();
 
-		brandingTheme
-				.setInvoiceTempleteName(invoiceCombo.getValue().toString());
-		brandingTheme.setCreditNoteTempleteName(creditMemoCombo.getValue()
-				.toString());
+		brandingTheme.setInvoiceTempleteName(invoice);
+		brandingTheme.setCreditNoteTempleteName(creditNote);
 
 		if (logoNameBox.getValue().toString().isEmpty()) {
 			brandingTheme.setFileName(null);
