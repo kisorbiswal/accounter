@@ -120,8 +120,7 @@ public class MobileChatAdaptor implements MobileAdaptor {
 					record.setCode(recordsCount);
 					reply.append(record.toString());
 				}
-			}
-			if (part instanceof CommandList) {
+			} else if (part instanceof CommandList) {
 				CommandList commandList = (CommandList) part;
 				for (int x = 0; x < commandList.size(); x++, commandIndex++) {
 					reply.append('(');
