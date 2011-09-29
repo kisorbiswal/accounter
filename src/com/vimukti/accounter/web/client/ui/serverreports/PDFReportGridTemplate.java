@@ -206,8 +206,8 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 	public String getBody(AccounterConstants accounterConstants) {
 
 		if (body == null) {
-			this.body = accounterConstants.noRecordsToShow();
-			;
+			this.body = "<html><body><center><p>No records to show</p></center></body></html>";
+
 		} else {
 			this.body = this.body + "</table></div></div></td></tr></table>";
 		}
