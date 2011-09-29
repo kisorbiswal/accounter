@@ -87,7 +87,6 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 
 	@Override
 	public Result run(Context context) {
-
 		String process = (String) context.getAttribute(PROCESS_ATTR);
 		Result result = null;
 		if (process != null) {
