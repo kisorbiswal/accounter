@@ -4,18 +4,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.tools.ant.taskdefs.FixCRLF.AddAsisRemove;
-
-import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccountTransaction;
 import com.vimukti.accounter.core.Contact;
-import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.PurchaseOrder;
-import com.vimukti.accounter.core.SalesOrder;
-import com.vimukti.accounter.core.ShippingMethod;
-import com.vimukti.accounter.core.ShippingTerms;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.ActionNames;

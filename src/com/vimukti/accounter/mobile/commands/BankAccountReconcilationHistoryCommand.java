@@ -1,14 +1,10 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-
-import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.BankAccount;
-import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Reconciliation;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
@@ -18,9 +14,6 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.core.ClientReconciliation;
-import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * 

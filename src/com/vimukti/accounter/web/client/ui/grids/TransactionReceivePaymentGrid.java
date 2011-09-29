@@ -28,7 +28,6 @@ import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
-import com.vimukti.accounter.web.client.ui.customers.CustomerCreditsAndPaymentsDialiog;
 import com.vimukti.accounter.web.client.ui.customers.NewApplyCreditsDialog;
 import com.vimukti.accounter.web.client.ui.customers.ReceivePaymentView;
 import com.vimukti.accounter.web.client.ui.customers.WriteOffDialog;
