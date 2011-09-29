@@ -390,4 +390,9 @@
 		<alias>Journal entries</alias>
 		<alias>Journal entries List</alias>
 	</command>
+	<command clazz="ReceivedPaymentsListCommand" name="Received Payments List">
+	</command>
+	<command clazz="VoidTransactionCommand" name="Void Transaction">
+		<alias>Void</alias>
+	</command>
 </commands>
