@@ -131,7 +131,7 @@ public class IssuePaymentCommond extends AbstractTransactionCommand {
 	}
 
 	private Result selectPaymentMethod(Context context) {
-		String paymentmethod = getpaymentMethod(PAYMENT_METHOD_CHECK);
+		String paymentmethod = getpaymentMethod(PAYMENT_METHOD_CHECK, context);
 		Result result = context.makeResult();
 		result.add("Select PaymentMethod");
 		ResultList list = new ResultList(PAYMENT_MENTHOD);
@@ -141,15 +141,15 @@ public class IssuePaymentCommond extends AbstractTransactionCommand {
 		return result;
 	}
 
-	private String getpaymentMethod(String paymentMethod) {
+	private String getpaymentMethod(String paymentMethod, Context context) {
 		if (paymentMethod == null) {
 			return paymentMethod;
 		}
 		if (paymentMethod.equals(Accounter.constants().cheque())
 				|| paymentMethod.equals(Accounter.constants().check())) {
-			if (getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US)
+			if (context.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US)
 				return "Cheque";
-			else if (getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_UK)
+			else if (context.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_UK)
 				return "Check";
 		}
 		return paymentMethod;
