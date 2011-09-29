@@ -76,7 +76,8 @@ public class ConsoleChatServer extends Thread {
 				System.out.println("Console Chat Server Started.");
 				String user = (String) in.readObject();
 				while (true) {
-					String msg = (String) in.readObject();
+					Object readObject = in.readObject();
+					String msg = (String) readObject;
 					System.out.println(msg);
 					try {
 						String messageReceived = handler.messageReceived(user,
