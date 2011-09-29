@@ -1,9 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.reports.SalesByLocationSummary;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -60,10 +58,9 @@ public class SalesByLocationSummaryAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		if (!isLocation) {
-			return "SalesByLocationSummary";
+			return "salesByLocationSummary";
 		}
-		return Accounter.messages().getSalesByLocationDetails(
-				Global.get().Location());
+		return "salesByClassSummary";
 	}
 
 	@Override

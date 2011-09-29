@@ -53,13 +53,16 @@ public class ProfitAndLossByLocationAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "ProfitAndLossByLocation";
+		if (isLocation) {
+			return "profitAndLossByLocation";
+		}
+		return "profitAndLossByClass";
 	}
 
 	@Override
 	public String getHelpToken() {
-		if(isLocation) {
-		return "profit-loss-by-location";
+		if (isLocation) {
+			return "profit-loss-by-location";
 		}
 		return "profit-loss-by-class";
 	}
