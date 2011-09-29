@@ -226,7 +226,7 @@ public class Company implements IAccounterServerCore {
 
 	private Set<PriceLevel> priceLevels = new HashSet<PriceLevel>();
 
-	private Set<ItemGroup> ItemGroups = new HashSet<ItemGroup>();
+	private Set<ItemGroup> itemGroups = new HashSet<ItemGroup>();
 
 	private Set<PaySalesTax> paySalesTaxs = new HashSet<PaySalesTax>();
 
@@ -960,7 +960,7 @@ public class Company implements IAccounterServerCore {
 
 		cmp.priceLevels = this.getPriceLevels();
 
-		cmp.ItemGroups = this.getItemGroups();
+		cmp.itemGroups = this.getItemGroups();
 
 		cmp.taxGroups = this.getTaxGroups();
 
@@ -1369,11 +1369,11 @@ public class Company implements IAccounterServerCore {
 	}
 
 	public Set<ItemGroup> getItemGroups() {
-		return ItemGroups;
+		return itemGroups;
 	}
 
 	public void setItemGroups(Set<ItemGroup> itemGroups) {
-		ItemGroups = itemGroups;
+		itemGroups = itemGroups;
 	}
 
 	public Set<PaySalesTax> getPaySalesTaxs() {
