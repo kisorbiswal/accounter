@@ -518,10 +518,10 @@ public class InvoicePDFTemplete implements PrintTemplete {
 		StringBuffer original = new StringBuffer();
 		// String imagesDomain = "/do/downloadFileFromFile?";
 
-		original.append("<img src=file:///");
+		original.append("<img src='file:///");
 		original.append(ServerConfiguration.getAttachmentsDir() + "/"
 				+ companyId + "/" + brandingTheme.getFileName());
-		original.append("/>");
+		original.append("'/>");
 
 		if (original.toString().contains("null")) {
 			return "";

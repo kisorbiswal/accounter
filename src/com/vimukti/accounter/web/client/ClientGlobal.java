@@ -22,4 +22,11 @@ public class ClientGlobal extends AbstractGlobal {
 		return Accounter.messages();
 	}
 
+	@Override
+	public String toCurrencyFormat(double amount) {
+		com.google.gwt.i18n.client.NumberFormat format = com.google.gwt.i18n.client.NumberFormat
+				.getFormat("#,##0.00");
+		return format.format(amount);
+	}
+
 }

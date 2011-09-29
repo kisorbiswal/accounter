@@ -26,4 +26,6 @@ public interface IGlobal {
 
 	public String Location();
 
+	public String toCurrencyFormat(double amount);
+
 }

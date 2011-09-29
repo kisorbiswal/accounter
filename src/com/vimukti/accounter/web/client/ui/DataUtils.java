@@ -227,9 +227,7 @@ public class DataUtils {
 		if (amount == null)
 			amount = 0.00;
 
-		com.google.gwt.i18n.client.NumberFormat format = com.google.gwt.i18n.client.NumberFormat
-				.getFormat("#,##0.00");
-		return format.format(amount);
+		return Global.get().toCurrencyFormat(amount);
 
 		// String decimalCharacter = Global.get().preferences()
 		// .getDecimalCharacter();
@@ -314,7 +312,7 @@ public class DataUtils {
 	public static Double getAmountStringAsDouble(String amountAsString)
 			throws Exception {
 
-		return NumberFormat.getInstance().parse(amountAsString);
+		return NumberFormat2.getInstance().parse(amountAsString);
 
 	}
 
@@ -331,7 +329,7 @@ public class DataUtils {
 
 }
 
-class NumberFormat {
+class NumberFormat2 {
 	public static final String COMMA = ",";
 	public static final String PERIOD = Global.get().preferences()
 			.getDecimalCharacter();
@@ -382,7 +380,7 @@ class NumberFormat {
 
 	// percentage?
 
-	private NumberFormat() {
+	private NumberFormat2() {
 	}
 
 	/**
@@ -390,8 +388,8 @@ class NumberFormat {
 	 * 
 	 * @return
 	 */
-	public static NumberFormat getInstance() {
-		NumberFormat nf = new NumberFormat();
+	public static NumberFormat2 getInstance() {
+		NumberFormat2 nf = new NumberFormat2();
 		return nf;
 	}
 
@@ -400,7 +398,7 @@ class NumberFormat {
 	 * 
 	 * @return
 	 */
-	public static NumberFormat getCurrencyInstance() {
+	public static NumberFormat2 getCurrencyInstance() {
 		return getCurrencyInstance("" + UIUtils.getCurrencySymbol() + "", true);
 	}
 
@@ -411,7 +409,7 @@ class NumberFormat {
 	 * @param curSymbol
 	 * @return
 	 */
-	public static NumberFormat getCurrencyInstance(String curSymbol) {
+	public static NumberFormat2 getCurrencyInstance(String curSymbol) {
 		return getCurrencyInstance(curSymbol, true);
 	}
 
@@ -426,9 +424,9 @@ class NumberFormat {
 	 *            periods
 	 * @return
 	 */
-	public static NumberFormat getCurrencyInstance(String curSymbol,
+	public static NumberFormat2 getCurrencyInstance(String curSymbol,
 			boolean useCommas) {
-		NumberFormat nf = new NumberFormat();
+		NumberFormat2 nf = new NumberFormat2();
 		nf.isCurrency(true);
 		nf.setCurrencySymbol(curSymbol);
 		if (!useCommas) {
@@ -444,15 +442,15 @@ class NumberFormat {
 	 * 
 	 * @return
 	 */
-	public static NumberFormat getIntegerInstance() {
-		NumberFormat nf = new NumberFormat();
+	public static NumberFormat2 getIntegerInstance() {
+		NumberFormat2 nf = new NumberFormat2();
 		nf.setShowGrouping(false);
 		nf.setFixedPrecision(0);
 		return nf;
 	}
 
-	public static NumberFormat getPercentInstance() {
-		NumberFormat nf = new NumberFormat();
+	public static NumberFormat2 getPercentInstance() {
+		NumberFormat2 nf = new NumberFormat2();
 		nf.isPercentage(true);
 		nf.setFixedPrecision(2);
 		nf.setShowGrouping(false);
