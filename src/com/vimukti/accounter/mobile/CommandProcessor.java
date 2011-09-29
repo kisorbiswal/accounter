@@ -159,9 +159,7 @@ public class CommandProcessor {
 		Session session = HibernateUtil.getCurrentSession();
 		mSession.sethibernateSession(session);
 		Context context = new Context(mSession);
-		Company company = (Company) session.get(Company.class,
-				mSession.getCompanyId());
-		context.setCompany(company);
+		context.setCompany(mSession.getUser().getCompany());
 		return context;
 	}
 
