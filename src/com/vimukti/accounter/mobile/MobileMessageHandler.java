@@ -31,8 +31,10 @@ public class MobileMessageHandler {
 			AdaptorType adaptorType) throws AccounterMobileException {
 		try {
 			MobileSession session = sessions.get(userId);
+			session.sethibernateSession(HibernateUtil.openSession());
 			if (session == null || session.isExpired()) {
-				session = new MobileSession(getUserById(userId));
+				session = new MobileSession(getUserById(userId,
+						session.getHibernateSession()));
 				sessions.put(userId, session);
 			}
 			MobileAdaptor adoptor = getAdaptor(adaptorType);
@@ -47,7 +49,9 @@ public class MobileMessageHandler {
 			Result result = getCommandProcessor().handleMessage(session,
 					preProcess);
 			String reply = adoptor.postProcess(result);
+			session.getHibernateSession().close();
 			session.await();
+
 			return reply;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -71,12 +75,12 @@ public class MobileMessageHandler {
 
 	/**
 	 * @param userId
+	 * @param session
 	 * @return
 	 */
-	private User getUserById(String userId) {
-		Session openSession = HibernateUtil.openSession();
-		Company company = (Company) openSession.get(Company.class, 1l);
-		User user = (User) openSession.getNamedQuery("user.by.emailid")
+	private User getUserById(String userId, Session session) {
+		Company company = (Company) session.get(Company.class, 1l);
+		User user = (User) session.getNamedQuery("user.by.emailid")
 				.setString("emailID", userId).setEntity("company", company)
 				.uniqueResult();
 		return user;
