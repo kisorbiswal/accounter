@@ -24,7 +24,7 @@ import com.vimukti.accounter.mobile.ResultList;
  * @author Sai Prasad N
  * 
  */
-public class EnterBillCommand extends AbstractTransactionCommand {
+public class NewEnterBillCommand extends AbstractTransactionCommand {
 
 	private static final String DUE_DATE = "duedate";
 	private static final String DELIVERY_DATE = "deliveryDate";

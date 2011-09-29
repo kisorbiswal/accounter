@@ -18,7 +18,7 @@ import com.vimukti.accounter.mobile.ResultList;
  * @author Sai Prasad N
  * 
  */
-public class VendorPrepaymentCommand extends AbstractTransactionCommand {
+public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 
 	private static final String PAY_TO = "vendors";
 	private static final String AMOUNT = "amount";

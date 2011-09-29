@@ -28,7 +28,7 @@ import com.vimukti.accounter.web.server.FinanceTool;
  * @author Sai Prasad N
  * 
  */
-public class PayBillCommand extends AbstractTransactionCommand {
+public class NewPayBillCommand extends AbstractTransactionCommand {
 
 	private static final String DUE_DATE = "duedate";
 	private static final String BILL_NO = "billno";
