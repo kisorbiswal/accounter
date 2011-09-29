@@ -263,6 +263,13 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		}
 	}
 
+	private int getMeasurementType() {
+		if (cmButton.getValue())
+			return 1;
+		else
+			return 2;
+	}
+
 	private void setPazeSize(int i) {
 		if (i == 1) {
 			a4Button.setChecked(true);
@@ -296,6 +303,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		brandingTheme.setShowTaxColumn(columnItem.isChecked());
 		brandingTheme.setShowRegisteredAddress(addressItem.isChecked());
 		brandingTheme.setShowLogo(logoItem.isChecked());
+		brandingTheme.setMarginsMeasurementType(getMeasurementType());
 		brandingTheme
 				.setPayPalEmailID(String.valueOf(paypalTextBox.getValue()));
 		brandingTheme.setTerms_And_Payment_Advice(String
