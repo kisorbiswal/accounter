@@ -455,8 +455,19 @@
 
 	<command clazz="ReceivedPaymentsListCommand" name="Received Payments List">
 	</command>
+	
 	<command clazz="VoidTransactionCommand" name="Void Transaction">
 		<alias>Void</alias>
+	</command>
+
+	<command clazz="NewSalesOrderCommand" name="New Sales Order">
+		<alias>Sales</alias>
+		<alias>new sales order</alias>
+	</command>
+	
+	<command clazz="SalesPersonsListCommand" name="Sales Person List">
+		<alias>Sales Person</alias>
+		<alias>sales person list</alias>
 	</command>
 
 </commands>
