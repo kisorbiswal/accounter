@@ -1,10 +1,14 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.Date;
 import java.util.List;
 
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Customer;
+import com.vimukti.accounter.core.CustomerCreditMemo;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.TAXCode;
+import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
@@ -76,7 +80,7 @@ public class CustomerCreditMemoCommond extends AbstractTransactionCommand {
 			return result;
 		}
 
-		//result = accountsRequirement(context);
+		result = accountsRequirement(context, "accounts");
 		if (result == null) {
 			return result;
 		}
@@ -112,7 +116,51 @@ public class CustomerCreditMemoCommond extends AbstractTransactionCommand {
 	}
 
 	private void completeProcess(Context context) {
-		// TODO Auto-generated method stub
+		CustomerCreditMemo creditMemo = new CustomerCreditMemo();
+		Company company = context.getCompany();
+
+		Date date = get(DATE).getValue();
+		creditMemo.setDate(new FinanceDate(date));
+
+		creditMemo.setType(Transaction.TYPE_CUSTOMER_CREDIT_MEMO);
+
+		String number = get("number").getValue();
+		creditMemo.setNumber(number);
+
+		List<TransactionItem> items = get("items").getValue();
+		List<TransactionItem> accounts = get("accounts").getValue();
+		accounts.addAll(items);
+		creditMemo.setTransactionItems(accounts);
+
+		// TODO Location
+		// TODO Class
+
+		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+			TAXCode taxCode = get("tax").getValue();
+			for (TransactionItem item : items) {
+				item.setTaxCode(taxCode);
+			}
+			// TODO if (getCompany().getPreferences().isChargeSalesTax()) {
+			// if (taxCode != null) {
+			// for (TransactionItem record : items) {
+			// record.setTaxItemGroup(taxCode.getTAXItemGrpForSales());
+			// }
+			// }
+			// transaction.setSalesTaxAmount(this.salesTax);
+			// }
+		}
+
+		Customer customer = get("customer").getValue();
+		creditMemo.setCustomer(customer);
+
+		String memo = get("reasonForIssuue").getValue();
+		creditMemo.setMemo(memo);
+
+		creditMemo.setTotal(getTransactionTotal(accounts, company));
+		// TODO Discount Date
+		// TODO Estimates
+		// TODO sales Order
+		create(creditMemo, context);
 
 	}
 
