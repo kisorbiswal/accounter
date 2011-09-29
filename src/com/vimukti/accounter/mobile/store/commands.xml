@@ -267,6 +267,42 @@
 	<command clazz="FileVATCommand" name="File VAT">
 		<alias>File Tax</alias>
 	</command>
+	<command clazz="NewCustomerCommand" name="New Customer">
+		<alias>create Customer</alias>
+		<alias>Add Customer</alias>
+	</command>
+	<command clazz="NewCustomerPrepaymentCommand" name="New CustomerPrepayment">
+		<alias>create CustomerPrepayment</alias>
+		<alias>Add CustomerPrepayment</alias>
+	</command>
+	<command clazz="NewReceivePaymentCommand" name="New ReceivePayment">
+		<alias>create ReceivePayment</alias>
+		<alias>Add ReceivePayment</alias>
+	</command>
+	<command clazz="NewQuoteCommand" name="New Quote">
+		<alias>create Quote</alias>
+		<alias>Add Quote</alias>
+	</command>
+	<command clazz="NewCustomerRefundCommand" name="New CustomerRefund">
+		<alias>create CustomerRefund</alias>
+		<alias>Add CustomerRefund</alias>
+	</command>
+	<command clazz="NewBankAccountCommand" name="New BankAccount">
+		<alias>create BankAccount</alias>
+		<alias>Add BankAccount</alias>
+	</command>
+	<command clazz="AccountRegisterCommand" name="AccountRegister">
+		<alias>AccountRegister</alias>
+	</command>
+	<command clazz="CustomerListCommand" name="Customers">
+		<alias>Customers</alias>
+	</command>
+	<command clazz="NewClassCommand" name="Class">
+		<alias>Class</alias>
+	</command>
+	<command clazz="BankAccountReconcilationHistoryCommand" name="ReconcilationHistory">
+		<alias>ReconcilationHistory</alias>
+	</command>
 	<command clazz="NewVendorPrepaymentCommand" name="VendorPrepayment">
 		<alias>Prepayment</alias>
 		<alias>VendorPrepayment</alias>
