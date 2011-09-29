@@ -10,7 +10,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 
-public class ShippingMethodCommond extends AbstractCommand {
+public class NewShippingMethodCommond extends AbstractCommand {
 	private static final String SHIPPING_METHOD = "Shipping Mehtod";
 	private static final String DESCRIPTION = "description";
 

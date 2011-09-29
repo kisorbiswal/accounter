@@ -3,13 +3,15 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.Date;
 import java.util.List;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.Customer;
-import com.vimukti.accounter.core.CustomerCreditMemo;
+import com.vimukti.accounter.core.Contact;
+import com.vimukti.accounter.core.CreditCardCharge;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
+import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.ObjectListRequirement;
@@ -18,7 +20,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 
-public class CustomerCreditMemoCommond extends AbstractTransactionCommand {
+public class NewCreditCardChargeCommond extends AbstractTransactionCommand {
 
 	@Override
 	public String getId() {
@@ -28,8 +30,7 @@ public class CustomerCreditMemoCommond extends AbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-
-		list.add(new Requirement("customer", false, true));
+		list.add(new Requirement("supplier", false, true));
 		list.add(new ObjectListRequirement("items", false, true) {
 
 			@Override
@@ -52,60 +53,33 @@ public class CustomerCreditMemoCommond extends AbstractTransactionCommand {
 			}
 		});
 		list.add(new Requirement("date", true, true));
-		list.add(new Requirement("creditNumber", true, false));
+		list.add(new Requirement("number", true, false));
 		list.add(new Requirement("contact", true, true));
-		list.add(new Requirement("reasonForIssuue", true, true));
+		list.add(new Requirement("phone", true, true));
+		list.add(new Requirement("memo", true, true));
 		list.add(new Requirement("depositOrTransferTo", false, true));
 		list.add(new Requirement("deliveryDate", true, true));
-		Company company = getCompany();
-		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-			list.add(new Requirement("tax", false, true));
-		}
 	}
 
 	@Override
 	public Result run(Context context) {
-		String process = (String) context.getAttribute(PROCESS_ATTR);
-		Result result = null;
-		if (process != null) {
-			if (process.equals(TRANSACTION_ITEM_PROCESS)) {
-				result = transactionItemProcess(context);
-				if (result != null) {
-					return result;
-				}
-			}
-		}
-		result = customerRequirement(context);
-		if (result == null) {
+
+		Result result = createSupplierRequirement(context);
+		if (result != null) {
 			return result;
 		}
-
-		result = accountsRequirement(context, "accounts");
-		if (result == null) {
-			return result;
-		}
-
 		result = itemsRequirement(context);
-		if (result == null) {
+		if (result != null) {
 			return result;
 		}
-
-		Company company = context.getCompany();
-		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-			Requirement taxReq = get("tax");
-			TAXCode taxcode = context.getSelection(TAXCODE);
-			if (!taxReq.isDone()) {
-				if (taxcode != null) {
-					taxReq.setValue(taxcode);
-				} else {
-					return taxCode(context, null);
-				}
-			}
-			if (taxcode != null) {
-				taxReq.setValue(taxcode);
-			}
+		// result = accountsRequirement(context);
+		if (result != null) {
+			return result;
 		}
-
+		result = depositeOrTransferTo(context, "depositOrTransferTo");
+		if (result != null) {
+			return result;
+		}
 		result = createOptionalResult(context);
 		if (result != null) {
 			return result;
@@ -116,52 +90,44 @@ public class CustomerCreditMemoCommond extends AbstractTransactionCommand {
 	}
 
 	private void completeProcess(Context context) {
-		CustomerCreditMemo creditMemo = new CustomerCreditMemo();
-		Company company = context.getCompany();
-
+		CreditCardCharge creditCardCharge = new CreditCardCharge();
+		Vendor supplier = get("supplier").getValue();
+		creditCardCharge.setVendor(supplier);
+		Contact contact = get("contact").getValue();
+		// TODO Need to set Contact to ??
+		// creditCardCharge.set
+		Date dueDate = get("deliveryDate").getValue();
+		// TODO Need to set Delivery Date to ??
+		// creditCardCharge.set
 		Date date = get(DATE).getValue();
-		creditMemo.setDate(new FinanceDate(date));
+		creditCardCharge.setDate(new FinanceDate(date));
 
-		creditMemo.setType(Transaction.TYPE_CUSTOMER_CREDIT_MEMO);
+		creditCardCharge.setType(Transaction.TYPE_CREDIT_CARD_EXPENSE);
 
 		String number = get("number").getValue();
-		creditMemo.setNumber(number);
+		creditCardCharge.setNumber(number);
+
+		String phone = get("phone").getValue();
+		// TODO Need to set Phone number to ??
+		// creditCardCharge.set
+		Account account = get("depositOrTransferTo").getValue();
+		creditCardCharge.setPayFrom(account);
 
 		List<TransactionItem> items = get("items").getValue();
 		List<TransactionItem> accounts = get("accounts").getValue();
-		accounts.addAll(items);
-		creditMemo.setTransactionItems(accounts);
-
-		// TODO Location
-		// TODO Class
-
-		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+		items.addAll(accounts);
+		creditCardCharge.setTransactionItems(items);
+		if (context.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 			TAXCode taxCode = get("tax").getValue();
 			for (TransactionItem item : items) {
 				item.setTaxCode(taxCode);
 			}
-			// TODO if (getCompany().getPreferences().isChargeSalesTax()) {
-			// if (taxCode != null) {
-			// for (TransactionItem record : items) {
-			// record.setTaxItemGroup(taxCode.getTAXItemGrpForSales());
-			// }
-			// }
-			// transaction.setSalesTaxAmount(this.salesTax);
-			// }
 		}
-
-		Customer customer = get("customer").getValue();
-		creditMemo.setCustomer(customer);
-
-		String memo = get("reasonForIssuue").getValue();
-		creditMemo.setMemo(memo);
-
-		creditMemo.setTotal(getTransactionTotal(accounts, company));
-		// TODO Discount Date
-		// TODO Estimates
-		// TODO sales Order
-		create(creditMemo, context);
-
+		String memo = get(MEMO).getValue();
+		creditCardCharge.setMemo(memo);
+		creditCardCharge.setTotal(getTransactionTotal(items,
+				context.getCompany()));
+		create(creditCardCharge, context);
 	}
 
 	private Result createOptionalResult(Context context) {
@@ -174,7 +140,7 @@ public class CustomerCreditMemoCommond extends AbstractTransactionCommand {
 			case ADD_MORE_ITEMS:
 				return items(context);
 			case ADD_MORE_ACCOUNTS:
-				return accountItems(context, "accounts");
+				accountItems(context, "accounts");
 			case FINISH:
 				context.removeAttribute(INPUT_ATTR);
 				return null;
@@ -194,6 +160,7 @@ public class CustomerCreditMemoCommond extends AbstractTransactionCommand {
 				return result;
 			}
 		}
+
 		Requirement accountReq = get("accounts");
 		List<TransactionItem> accountItem = accountReq.getValue();
 
@@ -205,21 +172,38 @@ public class CustomerCreditMemoCommond extends AbstractTransactionCommand {
 				return result;
 			}
 		}
+
 		selection = context.getSelection("values");
 		ResultList list = new ResultList("values");
 
-		Requirement custmerReq = get("customer");
-		Customer customer = (Customer) custmerReq.getValue();
+		Requirement supplierReq = get("supplier");
+		Vendor supplier = (Vendor) supplierReq.getValue();
 
 		selection = context.getSelection("values");
-		if (customer == selection) {
-			return customerRequirement(context);
+		if (supplier == selection) {
+			return createSupplierRequirement(context);
 		}
 
-		Record custRecord = new Record(customer);
-		custRecord.add("Name", "Customer");
-		custRecord.add("Value", customer.getName());
-		list.add(custRecord);
+		Record supplierRecord = new Record(supplier);
+		supplierRecord.add("Name", "Customer");
+		supplierRecord.add("Value", supplier.getName());
+
+		list.add(supplierRecord);
+
+		Requirement transferTo = get("depositOrTransferTo");
+		Account account = transferTo.getValue();
+		Record numberRec = new Record(account);
+		numberRec.add("Number", "Account No");
+		numberRec.add("value", account.getNumber());
+		Record nameRec = new Record(account);
+		nameRec.add("Account name", "Account Name");
+		nameRec.add("value", account.getName());
+		Record accountRec = new Record(account);
+		accountRec.add("Account type", "Account Type");
+		accountRec.add("Account Type", getAccountTypeString(account.getType()));
+		list.add(numberRec);
+		list.add(nameRec);
+		list.add(accountRec);
 
 		Result result = dateOptionalRequirement(context, list, "date",
 				"Enter Date", selection);
@@ -227,24 +211,39 @@ public class CustomerCreditMemoCommond extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = contactRequirement(context, list, selection, customer);
+		result = dateOptionalRequirement(context, list, "deliveryDate",
+				"Enter Delivery Date", selection);
+		if (result != null) {
+			return result;
+		}
+		result = contactRequirement(context, list, selection, supplier);
 		if (result != null) {
 			return result;
 		}
 
-		result = creditNoRequirement(context, list, selection, customer);
+		result = numberRequirement(context, list, selection);
 		if (result != null) {
 			return result;
 		}
 
-		result = stringOptionalRequirement(context, list, selection,
-				"reasonForIssuue", "Enter Reson For Issue");
+		// result = billToRequirement(context, list, selection);
+		// if (result != null) {
+		// return result;
+		// }
+
+		result = phoneRequirement(context, list, (String) selection);
+		if (result != null) {
+			return result;
+		}
+
+		result = stringOptionalRequirement(context, list, selection, MEMO,
+				"Enter Memo");
 		if (result != null) {
 			return result;
 		}
 
 		result = context.makeResult();
-		result.add("CustomerCreditMemo is ready to create with following values.");
+		result.add("CreditCardCharge is ready to create with following values.");
 		result.add(list);
 		result.add("Items:-");
 		ResultList items = new ResultList("transactionItems");
@@ -261,37 +260,38 @@ public class CustomerCreditMemoCommond extends AbstractTransactionCommand {
 		moreItems.add("", "Add more items");
 		actions.add(moreItems);
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create CashSale.");
+		finish.add("", "Finish to create CreditCardCharge.");
 		actions.add(finish);
 		result.add(actions);
 
 		return result;
 	}
 
-	private Result creditNoRequirement(Context context, ResultList list,
-			Object selection, Customer customer) {
-		Requirement req = get("creditNumber");
-		String cashSaleNo = (String) req.getValue();
+	private Result numberRequirement(Context context, ResultList list,
+			Object selection) {
+
+		Requirement req = get("number");
+		String orderNo = (String) req.getValue();
 
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("creditNumber")) {
+		if (attribute.equals("number")) {
 			String order = context.getSelection(NUMBER);
 			if (order == null) {
 				order = context.getString();
 			}
-			cashSaleNo = order;
-			req.setValue(cashSaleNo);
+			orderNo = order;
+			req.setValue(orderNo);
 		}
 
-		if (selection == cashSaleNo) {
-			context.setAttribute(INPUT_ATTR, "creditNumber");
-			return number(context, "Enter CreditNo", cashSaleNo);
+		if (selection == orderNo) {
+			context.setAttribute(INPUT_ATTR, ORDER_NO);
+			return number(context, "Enter CreditCardCharge number", orderNo);
 		}
 
-		Record cashSaleNoRec = new Record(cashSaleNo);
-		cashSaleNoRec.add("Name", "Cash Sale Number");
-		cashSaleNoRec.add("Value", cashSaleNo);
-		list.add(cashSaleNoRec);
+		Record orderNoRecord = new Record(orderNo);
+		orderNoRecord.add("Name", "CreditCardCharge No");
+		orderNoRecord.add("Value", orderNo);
+		list.add(orderNoRecord);
 		return null;
 	}
 

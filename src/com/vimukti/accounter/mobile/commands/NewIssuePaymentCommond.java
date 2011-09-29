@@ -15,7 +15,7 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
-public class IssuePaymentCommond extends AbstractTransactionCommand {
+public class NewIssuePaymentCommond extends AbstractTransactionCommand {
 	private static final String PAYMENT_METHOD = "Payment Mehtod";
 	private static final String ACCOUNTS = "depositeOrTransferTo";
 	private static final String CHEQUE_NO = "Starting cheque No";
