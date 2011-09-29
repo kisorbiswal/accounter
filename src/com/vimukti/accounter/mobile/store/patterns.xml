@@ -147,7 +147,8 @@
 		<input>Product and Service Item</input>
 		<input>Product and Service Items</input>
 		<output>
-			<command>Create New Item</command>
+			<command>Create New Service Item</command>
+				<command>Create New Product Item</command>
 			<command>List of All Items</command>
 		</output>
 	</pattern>
@@ -178,9 +179,5 @@
 			<command>Create New Item</command>
 		</output>
 	</pattern>
-
-
-
-
 </patterns>
 
