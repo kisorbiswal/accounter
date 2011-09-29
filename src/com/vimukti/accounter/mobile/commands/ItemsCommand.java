@@ -94,7 +94,7 @@ public class ItemsCommand extends AbstractTransactionCommand {
 
 	}
 
-	private List<Item> getItems(Company company, Boolean isActive) {
+	protected List<Item> getItems(Company company, Boolean isActive) {
 		ArrayList<Item> items = new ArrayList<Item>(company.getItems());
 		ArrayList<Item> result = new ArrayList<Item>();
 
