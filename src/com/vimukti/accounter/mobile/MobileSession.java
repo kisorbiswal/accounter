@@ -36,6 +36,7 @@ public class MobileSession {
 	 * Creates new Instance
 	 */
 	public MobileSession(User user) {
+		setCompanyId(user.getCompany().getID());
 		this.user = user;
 	}
 
@@ -114,8 +115,7 @@ public class MobileSession {
 	 * @return
 	 */
 	public boolean isAuthenticated() {
-		// TODO
-		return false;
+		return user != null;
 	}
 
 	/**

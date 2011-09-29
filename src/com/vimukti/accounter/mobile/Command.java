@@ -20,6 +20,11 @@ public abstract class Command {
 	}
 
 	protected Requirement getRequirement(String name) {
+		for (Requirement requirement : requirements) {
+			if (requirement.getName().equals(name)) {
+				return requirement;
+			}
+		}
 		return null;
 	}
 

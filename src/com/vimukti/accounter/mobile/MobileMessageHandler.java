@@ -6,8 +6,12 @@ package com.vimukti.accounter.mobile;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.hibernate.Session;
+
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mobile.MobileAdaptor.AdaptorType;
+import com.vimukti.accounter.utils.HibernateUtil;
 
 /**
  * @author Prasanna Kumar G
@@ -34,10 +38,10 @@ public class MobileMessageHandler {
 			MobileAdaptor adoptor = getAdaptor(adaptorType);
 			session.refresh();
 
-			// if (!session.isAuthenticated()
-			// && !message.equals(AUTHENTICATE_COMMAND)) {
-			// message = AUTHENTICATE_COMMAND;
-			// }
+			if (!session.isAuthenticated()
+					&& !message.equals(AUTHENTICATE_COMMAND)) {
+				message = AUTHENTICATE_COMMAND;
+			}
 
 			UserMessage preProcess = adoptor.preProcess(session, message);
 			Result result = getCommandProcessor().handleMessage(session,
@@ -70,8 +74,11 @@ public class MobileMessageHandler {
 	 * @return
 	 */
 	private User getUserById(String userId) {
-		User user = new User();
-		user.setEmail(userId);
+		Session openSession = HibernateUtil.openSession();
+		Company company = (Company) openSession.get(Company.class, 1l);
+		User user = (User) openSession.getNamedQuery("user.by.emailid")
+				.setString("emailID", userId).setEntity("company", company)
+				.uniqueResult();
 		return user;
 	}
 
