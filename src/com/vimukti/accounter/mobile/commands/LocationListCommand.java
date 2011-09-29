@@ -47,14 +47,16 @@ public class LocationListCommand extends AbstractTransactionCommand {
 				break;
 			}
 		}
-		selection = context.getSelection("values");
+		selection = context.getSelection("locationList");
+		if (selection != null) {
+
+		}
 		Result result = getLocationResult(context);
 
 		return result;
 	}
 
 	private Result getLocationResult(Context context) {
-
 		ResultList locResultList = new ResultList("locationList");
 
 		Result result = context.makeResult();
