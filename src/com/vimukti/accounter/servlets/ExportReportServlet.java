@@ -82,11 +82,11 @@ public class ExportReportServlet extends BaseServlet {
 	private ITemplate getTempleteObjByRequest(HttpServletRequest request)
 			throws IOException, AccounterException {
 		String companyID = getCookie(request, COMPANY_COOKIE);
+		String companyName = getCompanyName(request);
+		if (companyName == null)
+			return null;
 		Session session = HibernateUtil.openSession(Server.COMPANY + companyID);
 		try {
-			String companyName = getCompanyName(request);
-			if (companyName == null)
-				return null;
 
 			FinanceTool financetool = new FinanceTool();
 			Company company = financetool.getCompany();
