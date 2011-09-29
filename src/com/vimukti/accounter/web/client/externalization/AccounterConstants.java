@@ -4610,7 +4610,7 @@ public interface AccounterConstants extends Constants {
 
 	public String invoiceTemplete();
 
-	public String classicTemplete();
+	public String classicTemplate();
 
 	public String budgetStartWith();
 
