@@ -904,7 +904,7 @@ iframe,.address div {
 }
 .setup_header_label{
 	color: #144149;
-    font-size: 23px;
+    font-size: 23px !important;
     padding-bottom: 15px;
 }
 .view_manager{
