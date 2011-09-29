@@ -444,7 +444,7 @@ public class MacMenuServlet extends BaseServlet {
 			subMenu(newValues, iGlobal.messages().newVendor(iGlobal.Vendor()),
 					"company/accounter#newVendor");
 			subMenu(newValues, iGlobal.constants().newItem() + "s",
-					"company/accounter#newItem");
+					"company/accounter#newItemSupplier");
 			items += 2;
 		}
 		if (canDoBanking()) {
@@ -526,7 +526,7 @@ public class MacMenuServlet extends BaseServlet {
 					.newCustomer(iGlobal.Customer()), "C",
 					"company/accounter#newCustomer");
 			subMenu(newValue, iGlobal.constants().newItem(),
-					"company/accounter#newItem");
+					"company/accounter#newItemCustomer");
 			if (preferences.isDoyouwantEstimates()) {
 				subMenu(newValue, iGlobal.constants().newQuote(),
 						"company/accounter#newQuote");
