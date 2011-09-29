@@ -437,7 +437,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		result.add(message.toString());
 		result.add(customersList);
 		result.add(commandList);
-		result.add("Type for Customer");
+		// result.add("Type for Customer");
 		return result;
 	}
 
