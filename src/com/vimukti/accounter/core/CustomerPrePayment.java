@@ -265,12 +265,15 @@ public class CustomerPrePayment extends Transaction {
 			} else if (!DecimalUtil.isEquals(customerPrePayment.total,
 					this.total)) {
 
-				this.customer.updateBalance(session, this,
-						this.total - customerPrePayment.total);
+				customerPrePayment.customer.updateBalance(session, this,
+						-customerPrePayment.total);
+				this.customer.updateBalance(session, this, this.total);
 				this.creditsAndPayments.updateCreditPayments(this.total);
 
 			}
-			if (!this.depositIn.equals(customerPrePayment.depositIn)) {
+			if (!this.depositIn.equals(customerPrePayment.depositIn)
+					|| !DecimalUtil.isEquals(this.total,
+							customerPrePayment.total)) {
 
 				Account depositInAccount = (Account) session.get(Account.class,
 						customerPrePayment.depositIn.id);
@@ -280,12 +283,13 @@ public class CustomerPrePayment extends Transaction {
 				this.depositIn.updateCurrentBalance(this, -this.total);
 				this.depositIn.onUpdate(session);
 
-			} else {
-				this.depositIn.updateCurrentBalance(this,
-						customerPrePayment.total - this.total);
-				this.depositIn.onUpdate(session);
-
 			}
+			// else {
+			// this.depositIn.updateCurrentBalance(this,
+			// customerPrePayment.total - this.total);
+			// this.depositIn.onUpdate(session);
+			//
+			// }
 		}
 		this.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
 
