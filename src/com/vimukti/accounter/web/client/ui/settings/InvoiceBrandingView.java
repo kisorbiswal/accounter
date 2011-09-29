@@ -299,14 +299,14 @@ public class InvoiceBrandingView<T> extends
 
 		// adding invoice templete name
 		String invoiceTemp = theme.getInvoiceTempleteName().isEmpty() ? messages
-				.classicTemplete() : theme.getInvoiceTempleteName();
+				.classicTemplate() : theme.getInvoiceTempleteName();
 
 		invoiceHtml = new HTML("<p>" + messages.invoiceTemplete() + " : "
 				+ invoiceTemp + "</p>");
 
 		// adding credit note templete note
 		String creditTemp = theme.getCreditNoteTempleteName().isEmpty() ? messages
-				.classicTemplete() : theme.getCreditNoteTempleteName();
+				.classicTemplate() : theme.getCreditNoteTempleteName();
 
 		creditNoteHtml = new HTML("<p>" + messages.creditNoteTemplete() + " : "
 				+ creditTemp + "</p>");
