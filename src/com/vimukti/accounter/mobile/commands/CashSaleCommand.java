@@ -97,7 +97,7 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		//result = accountsRequirement(context);
+		// result = accountsRequirement(context);
 		if (result == null) {
 			return result;
 		}
@@ -189,6 +189,7 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 		cashSale.setPaymentMethod(paymentMethod);
 		Account account = get("depositOrTransferTo").getValue();
 		cashSale.setDepositIn(account);
+		cashSale.setTotal(getTransactionTotal(accounts, company));
 		create(cashSale, context);
 
 	}
@@ -202,6 +203,8 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 			switch (actionName) {
 			case ADD_MORE_ITEMS:
 				return items(context);
+			case ADD_MORE_ACCOUNTS:
+				return accountItems(context, "accounts");
 			case FINISH:
 				context.removeAttribute(INPUT_ATTR);
 				return null;
