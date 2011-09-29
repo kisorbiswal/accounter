@@ -204,6 +204,8 @@ public class VendorCreditMemoCommand extends AbstractTransactionCommand {
 		vendorCreditMemo.setNumber(number);
 
 		List<TransactionItem> items = get("items").getValue();
+		List<TransactionItem> accounts = get("accounts").getValue();
+		items.addAll(accounts);
 		vendorCreditMemo.setTransactionItems(items);
 
 		// TODO Contact
@@ -225,8 +227,7 @@ public class VendorCreditMemoCommand extends AbstractTransactionCommand {
 
 		String memo = get(MEMO).getValue();
 		vendorCreditMemo.setMemo(memo);
-
+		vendorCreditMemo.setTotal(getTransactionTotal(items, company));
 		create(vendorCreditMemo, context);
 	}
-
 }
