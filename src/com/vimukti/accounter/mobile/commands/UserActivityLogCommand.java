@@ -42,7 +42,7 @@ public class UserActivityLogCommand extends AbstractTransactionCommand {
 		Result result = null;
 
 		result = creatOptionalResult(context);
-		return null;
+		return result;
 	}
 
 	private Result creatOptionalResult(Context context) {
