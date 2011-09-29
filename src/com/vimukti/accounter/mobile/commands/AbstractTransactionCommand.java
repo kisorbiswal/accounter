@@ -951,7 +951,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return record;
 	}
 
-	private List<BankAccount> getBankAccounts() {
+	protected List<BankAccount> getBankAccounts() {
 
 		List<BankAccount> bankAccounts = new ArrayList<BankAccount>();
 		FinanceTool financeTool = new FinanceTool();
