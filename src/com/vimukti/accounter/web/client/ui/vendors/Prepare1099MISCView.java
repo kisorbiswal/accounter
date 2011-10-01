@@ -634,8 +634,9 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
 
+				// int type = 0;
+				// UIUtils.makeMISCInfo(type, listDataProvider.getList());
 			}
 		});
 		cancel.addClickHandler(new ClickHandler() {
