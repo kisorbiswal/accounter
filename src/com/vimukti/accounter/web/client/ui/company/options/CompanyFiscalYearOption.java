@@ -62,7 +62,6 @@ public class CompanyFiscalYearOption extends AbstractPreferenceOption {
 
 		dateItemLable.setText(Accounter.constants().preventPostBefore());
 
-		dateItem.setStyleName("");
 	}
 
 	public void initData() {
