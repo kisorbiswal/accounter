@@ -20,23 +20,22 @@ public class InvoicePDFTemplete implements PrintTemplete {
 	// + "InvoiceTemplete.html";
 	private Company company;
 	private String companyId;
+	private String templateName;
 
 	public InvoicePDFTemplete(Invoice invoice, BrandingTheme brandingTheme,
-			Company company, String companyId) {
+			Company company, String companyId, String templateName) {
 		this.invoice = invoice;
 		this.brandingTheme = brandingTheme;
 		this.company = company;
 		this.companyId = companyId;
 		this.maxDecimalPoints = getMaxDecimals(invoice);
+		this.templateName = templateName;
 
 	}
 
 	public String getTempleteName() {
 
-		String templeteName = brandingTheme.getInvoiceTempleteName();
-
-		return "templetes" + File.separator + "ClassicInvoice" + ".html";
-
+		return "templetes" + File.separator + templateName + ".html";
 	}
 
 	@Override
@@ -70,51 +69,37 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			t.setVariable("companyDetails", contactDetails);
 
 			// setting invoice number
-			boolean hasInvNumber = false;
+			
 			String invNumber = forNullValue(invoice.getNumber());
 			if (invNumber.trim().length() > 0) {
-				hasInvNumber = true;
+			
 				t.setVariable("invoiceNumber", invNumber);
-				t.addBlock("invNumber");
-			}
-			if (hasInvNumber) {
 				t.addBlock("invNumberHead");
 			}
 
 			// setting invoice date
-			boolean hasInvDate = false;
+			
 			String invDate = invoice.getDate().toString();
 			if (invDate.trim().length() > 0) {
-				hasInvDate = true;
+			
 				t.setVariable("invoiceDate", invDate);
-				t.addBlock("invDate");
-			}
-			if (hasInvDate) {
 				t.addBlock("invDateHead");
 			}
 
 			// setting invoice order number
-			boolean hasInvorder = false;
 			String invOrderNum = forNullValue(invoice.getOrderNum());
 			if (invOrderNum.trim().length() > 0) {
-				hasInvorder = true;
+			
 				t.setVariable("invoiceOrderNumber", invOrderNum);
-				t.addBlock("invOrderNum");
-			}
-			if (hasInvorder) {
 				t.addBlock("invOrderNumHead");
 			}
 
 			// setting invoice customer number
-			boolean hascustomernum = false;
+			
 			String invCustomerNum = forNullValue(invoice.getCustomer()
 					.getNumber());
 			if (invCustomerNum.trim().length() > 0) {
-				hascustomernum = true;
 				t.setVariable("invoiceCustomerNumber", invCustomerNum);
-				t.addBlock("invCustNum");
-			}
-			if (hascustomernum) {
 				t.addBlock("invCustNumHead");
 			}
 
