@@ -44,6 +44,7 @@ import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
+import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -257,16 +258,15 @@ public class CreditCardExpenseView extends
 			}
 		};
 		Ccard.setHelpInformation(true);
-		Ccard
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
+		Ccard.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 
-					@Override
-					public void selectedComboBoxItem(ClientVendor selectItem) {
-						selectedVendor = selectItem;
-						Ccard.setComboItem(selectItem);
-						addPhonesContactsAndAddress();
-					}
-				});
+			@Override
+			public void selectedComboBoxItem(ClientVendor selectItem) {
+				selectedVendor = selectItem;
+				Ccard.setComboItem(selectItem);
+				addPhonesContactsAndAddress();
+			}
+		});
 
 		Ccard.setRequired(true);
 		String listString[] = new String[] {
@@ -416,8 +416,8 @@ public class CreditCardExpenseView extends
 		// formItems.add(payFrmSelect)
 		cheqNoText = new TextItem(
 				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-						.constants().chequeNo()
-						: Accounter.constants().checkNo());
+						.constants().chequeNo() : Accounter.constants()
+						.checkNo());
 
 		cheqNoText.setHelpInformation(true);
 		cheqNoText.setDisabled(isInViewMode());
@@ -433,8 +433,8 @@ public class CreditCardExpenseView extends
 		termsForm = UIUtils.form(Accounter.constants().terms());
 		termsForm.setWidth("100%");
 		termsForm.setFields(payMethSelect, payFrmSelect, delivDate);
-		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "203px");
 
 		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 
@@ -652,9 +652,16 @@ public class CreditCardExpenseView extends
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
 
+		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
+			result.addError(transactionDateItem,
+					accounterConstants.invalidateDate());
+		}
+
 		if (Ccard.getSelectedValue() == null)
-			result.addError(Ccard, Accounter.messages().pleaseSelectVendor(
-					Global.get().vendor()));
+			result.addError(
+					Ccard,
+					Accounter.messages().pleaseSelectVendor(
+							Global.get().vendor()));
 		result.add(vendorAccountTransactionTable.validateGrid());
 		result.add(vendorItemTransactionTable.validateGrid());
 		if (payFrmSelect.getSelectedValue() == null)
@@ -996,9 +1003,9 @@ public class CreditCardExpenseView extends
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button, Accounter.messages().accounts(
-				Global.get().Account()), Accounter.constants()
-				.productOrServiceItem());
+		setMenuItems(button,
+				Accounter.messages().accounts(Global.get().Account()),
+				Accounter.constants().productOrServiceItem());
 	}
 
 	public void saveAndUpdateView() {
@@ -1137,6 +1144,10 @@ public class CreditCardExpenseView extends
 
 	@Override
 	protected void taxCodeSelected(ClientTAXCode taxCode) {
+
+		if (taxCodeSelect == null) {
+			return;
+		}
 
 		this.taxCode = taxCode;
 		if (taxCode != null) {
