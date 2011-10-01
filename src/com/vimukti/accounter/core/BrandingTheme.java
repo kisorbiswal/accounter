@@ -494,8 +494,10 @@ public class BrandingTheme extends CreatableObject implements
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery("getBrandingTheme")
-				.setParameter("companyId", getCompany().getID())
+		Query query = session
+				.getNamedQuery("getBrandingTheme")
+				.setParameter("companyId",
+						((BrandingTheme) clientObject).getCompany().getID())
 				.setString("themeName", this.themeName).setLong("id", this.id);
 		List list = query.list();
 
