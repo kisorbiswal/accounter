@@ -709,10 +709,10 @@ class NumberFormat2 {
 		}
 
 		// convert right dash and paren negatives to left dash negative
-		if (newVal.charAt(newVal.length() - 1) == DASH) {
+		if (!newVal.equals("") && newVal.charAt(newVal.length() - 1) == DASH) {
 			newVal = newVal.substring(0, newVal.length() - 1);
 			newVal = DASH + newVal;
-		} else if (newVal.charAt(0) == LEFT_PAREN
+		} else if (!newVal.equals("") && newVal.charAt(0) == LEFT_PAREN
 				&& newVal.charAt(newVal.length() - 1) == RIGHT_PAREN) {
 			newVal = newVal.substring(1, newVal.length() - 1);
 			newVal = DASH + newVal;
