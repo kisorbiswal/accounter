@@ -140,9 +140,9 @@ lable,.gwt-Label,.datePickerPreviousButton,.datePickerNextButton,td.datePickerMo
 .editheader .gwt-Label,.viewTitle,.blue-month-line td,.blue-month-line td div,.blue-week-line,.gwt-StackPanel .gwt-StackPanelItem,.gridHeader,
 .panel-right-align .gwt-Button button,.image-button,.portletLabel,.custom-button,.gwt-Button,.portlet .panel-title,.gwt-DialogBox .caption,
 .editTable .editheader td,.view_help_panel td:FIRST-CHILD table div,.helpdialog .dialogTopCenter table div,.breadcrumb a,
-.helpdialog .dialogTopCenterInner .caption .gwt-HTML,.recounciliation_grid thead th,.gwt-TabBar .gwt-TabBarItem,
+.helpdialog .dialogTopCenterInner .caption .gwt-HTML,.recounciliation_grid thead th,.gwt-TabBar .gwt-TabBarItem,.datePickerWeekendLabel,
 .tabMiddle .tabMiddleCenterInner .gwt-Label,.gwt-MenuBar table tr td,.gwt-MenuBar-horizontal .gwt-MenuItem,.user_activity_log thead th,
-#contactable,#contactForm,form#contactForm .submit,#callback,.datePickerMonthSelector td,.datePickerMonthSelector td div,.datePickerDays tr:FIRST-CHILD td {
+#contactable,#contactForm,form#contactForm .submit,#callback,.dateBoxPopup .datePickerMonthSelector td,.datePickerMonthSelector td div,.datePickerWeekdayLabel {
 	color: #FFFFFF;
 }
 .gwt-TextBox,.gwt-TextArea,.memoTextArea,textarea[disabled],.gwt-ListBox,.refer_listbox,.fiscal_listbox,.currency_listbox,
@@ -1263,7 +1263,10 @@ a#fdbk_tab,#overlay{
 .custom-combo{
 	width:155px;
 }
-.gwt-TextBox,.dateBoxPopup,.gwt-DateBox{
+.dateBoxPopup{
+	width:182px;
+}
+.gwt-TextBox,.gwt-DateBox{
 	width:172px !important;
 }
 input[type="text"]{
