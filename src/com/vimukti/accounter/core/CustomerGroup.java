@@ -91,7 +91,7 @@ public class CustomerGroup extends CreatableObject implements
 		CustomerGroup customerGroup = (CustomerGroup) clientObject;
 		Query query = session
 				.getNamedQuery("getListofNames.from.customerGroup")
-				.setEntity("company", getCompany())
+				.setEntity("company", customerGroup.getCompany())
 				.setString("name", customerGroup.name);
 		List list = query.list();
 		if (list.size() > 0 && list != null) {
