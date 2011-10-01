@@ -144,14 +144,14 @@ public class CreditsandPaymentsGrid extends
 	@Override
 	public void selectRow(int row) {
 		if (isCanEdit) {
-			CheckBox box = (CheckBox) this.getWidget(row, 0);
-			if (box.getValue()) {
-				return;
-			} else {
-				if (currentCol == 4 && box.getValue())
-					startEditing(row);
-			}
+			/*
+			 * CheckBox box = (CheckBox) this.getWidget(row, 0); if
+			 * (box.getValue()) { return; } else {
+			 */
+			if (currentCol == 4 /* && box.getValue() */)
+				startEditing(row);
 		}
+		// }
 		super.selectRow(row);
 	}
 
@@ -159,13 +159,13 @@ public class CreditsandPaymentsGrid extends
 	protected boolean isEditable(ClientCreditsAndPayments obj, int row,
 			int index) {
 		if (isCanEdit) {
-			CheckBox box = (CheckBox) this.getWidget(row, 0);
-			if (box.getValue()) {
-				if (Arrays.asList(0, 1, 2, 3).contains(index))
-					return false;
-				return true;
-			}
-			return false;
+			// CheckBox box = (CheckBox) this.getWidget(row, 0);
+			// if (box.getValue()) {
+			if (Arrays.asList(0, 1, 2, 3).contains(index))
+				return false;
+			return true;
+			// }
+			// return false;
 		} else {
 			return false;
 		}
