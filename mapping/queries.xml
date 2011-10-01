@@ -485,8 +485,7 @@
 		<query-param name="status" type="int" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.PayBill pst where pst.company=:company
-		and pst.payFrom.id =:accountId and pst.isVoid=false and pst.status
-		=:status
+		and pst.payFrom.id =:accountId and pst.isVoid=false and pst.status=:status
 	</query>
 
 	<query name="getPayVAT.form.accountId.and.status">
@@ -494,8 +493,7 @@
 		<query-param name="status" type="int" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.PayVAT pv where pv.company=:company
-		and pv.payFrom.id =:accountId and pv.isVoid=false and pv.status
-		=:status
+		and pv.payFrom.id =:accountId and pv.isVoid=false and pv.status=:status
 	</query>
 
 	<query name="getReceiveVAT.form.accountId.and.status">
@@ -516,8 +514,7 @@
 		pst.company=:company and
 		pst.payFrom.id =:accountId and
 		pst.isVoid=false
-		and pst.status
-		=:status
+		and pst.status=:status
 	</query>
 
 	<query name="getCashPurchase.form.accountId.and.status">
@@ -525,8 +522,7 @@
 		<query-param name="status" type="int" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.CashPurchase pst where
-		pst.company=:company and pst.payFrom.id
-		=:accountId and
+		pst.company=:company and pst.payFrom.id=:accountId and
 		pst.isVoid=false and pst.status =:status
 	</query>
 
@@ -538,16 +534,14 @@
 		cpp.company=:company and
 		cpp.depositIn.id =:accountId and
 		cpp.isVoid=false
-		and cpp.status
-		=:status
+		and cpp.status=:status
 	</query>
 
 	<query name="getCashPurchase.form.status">
 		<query-param name="status" type="int" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.CashPurchase cc where
-		cc.company=:company and cc.status
-		=:status
+		cc.company=:company and cc.status=:status
 	</query>
 
 	<query name="getCreditCardCharge.form.status">
@@ -936,14 +930,14 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.Depreciation d where
 		d.depreciateFrom
-		>= depreciateFrom and d.status=status and d.company =:company
+		>= depreciateFrom and d.status=:status and d.company =:company
 	</query>
 
 	<query name="getWriteCheck.by.status">
 		<query-param name="company" type="Company" />
 		<query-param name="status" type="int" />
 		from com.vimukti.accounter.core.WriteCheck wc where
-		wc.status = status
+		wc.status =:status
 		and wc.company=:company
 	</query>
 
@@ -952,7 +946,7 @@
 		<query-param name="id" type="long" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.WriteCheck wc where
-		wc.bankAccount.id =:id and wc.isVoid=false and wc.status =status and wc.company=:company
+		wc.bankAccount.id =:id and wc.isVoid=false and wc.status=:status and wc.company=:company
 	</query>
 
 	<query name="getCustomerRefund.by.isvoidandstatus">
