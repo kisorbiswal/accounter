@@ -137,8 +137,8 @@ import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.Converter;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.utils.Security;
 import com.vimukti.accounter.utils.MiniTemplator.TemplateSyntaxException;
+import com.vimukti.accounter.utils.Security;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -12205,7 +12205,7 @@ public class FinanceTool {
 
 			InvoicePDFTemplete invoiceHtmlTemplete = new InvoicePDFTemplete(
 					invoice, brandingTheme, company, getCompany()
-							.getCompanyID());
+							.getCompanyID(), "ClassicInvoice");
 
 			fileName = invoiceHtmlTemplete.getFileName();
 
