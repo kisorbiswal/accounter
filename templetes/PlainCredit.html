@@ -31,7 +31,7 @@
 						<font style="font-family:sans-serif;" >
 						<strong> ${companyName}</strong></font><br>
 						<font style="font-family:sans-serif; color:#504040;">
-						&nbsp;${companyRegistrationAddress}</font></br>
+						&nbsp;${companyDetails}</font></br>
 					</p>
 				</div>
 			  </td>
@@ -72,22 +72,12 @@
 		<tr>
 			<td class="gridHeaderBackGround"><center>Credit To</center></td>
 		</tr>
-		<!-- $BeginBlock billAddress -->
 		<tr>
 		   <td align="left" class="plaincredit" style="width:400px;height:150px" >
 		     <div align="left">&nbsp;${customerNameNBillAddress}</div>
 		   </td>
 		</tr>
-		<!-- $EndBlock billAddress -->
 </table>
-<table class="dueamount_enclosed" border="1">
-    <tr>
-	   <td class="table-head"><p class="fontSetting"><center>Amount Due</center></p></td>
-	</tr>
-    <tr>
-	   <td><p class="fontSetting"><center>${amountDue}</center></p></td>
-	</tr>
- </table>
 <table border="1" style="margin:20px 0;clear:both" class="main_credit_vimukti credit_quick_upp" width="100%">
 <!-- $BeginBlock  itemDetails -->
   <tr><!-- $BeginBlock showLabels -->
@@ -173,6 +163,18 @@
 	</td>
   </tr><!-- $EndBlock itemDetails -->
 </table>
+<table border="1" class="due_date" style="font-family:${fontStyle};font-size:${font};">
+	<!-- $BeginBlock termsAndAdvice -->
+	 <tr>
+     <td ><strong>${termsAndPaymentAdvice}</strong></td>
+    </tr>
+    <!-- $EndBlock termsAndAdvice -->
+    <!-- $BeginBlock paypalemail -->
+	 <tr>
+     <td ><strong>${email}</strong></td>
+    </tr>
+    <!-- $EndBlock paypalemail -->
+</table>
 <table  border="0" width="100%" style="margin:20px 0;clear:both" >
     	<tr>
 			<td style="vertical-align: top;" align="left" colspan="2">
@@ -201,11 +203,11 @@
 					<td align="left" style="vertical-align: top;">
 						<table >
 						<colgroup><col></colgroup>
-						<!-- $BeginBlock regAddress -->
+						<!-- $BeginBlock regestrationAddress -->
 						<tr>
-							<td><center>${compRegNamenNumber}</center></td>
+							<td><center>${regestrationAddress}</center></td>
 						</tr>
-						<!-- $EndBlock regAddress -->
+						<!-- $EndBlock regestrationAddress -->
 						</table>
 					</td>
 					<td width="10%" style="vertical-align: bottom;" align="right">
