@@ -58,7 +58,7 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 		mainPanel.add(form);
 		mainPanel.add(label);
 		mainPanel.add(grid);
-		mainPanel.setCellHeight(grid, "200px");
+		// mainPanel.setCellHeight(grid, "200px");
 		grid.getElement().getParentElement()
 				.addClassName("recounciliation_grid");
 		this.add(mainPanel);

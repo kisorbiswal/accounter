@@ -171,7 +171,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 					}
 				});
 		grid.setWidth("100%");
-		grid.setHeight("200px");
+		// grid.setHeight("200px");
 
 		this.mainPanel = new VerticalPanel();
 		mainPanel.setWidth("100%");
