@@ -65,7 +65,6 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 					+ contactDetails;
 			t.setVariable("companyDetails", contactDetails);
 
-
 			t.setVariable("creditNoteNumber", memo.getNumber());
 			t.setVariable("creditNoteDate", memo.getDate().toString());
 
@@ -77,32 +76,37 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 				t.addBlock("customernum");
 			}
 
-		
+			// for primary curreny
+			Currency primaryCurrency = company.getPreferences()
+					.getPrimaryCurrency();
+			if (primaryCurrency != null)
+				if (primaryCurrency.getFormalName().trim().length() > 0) {
+					t.setVariable("currency", primaryCurrency.getFormalName()
+							.trim());
+					t.addBlock("currency");
+				}
 
-
-			//for getting customer contact name
-			String cname="";
-			String phone="";
-			String email="";
+			// for getting customer contact name
+			String cname = "";
+			String phone = "";
+			String email = "";
 			Customer customer = memo.getCustomer();
 			Set<Contact> contacts = customer.getContacts();
-			for(Contact contact : contacts)
-			{
-				if(contact.isPrimary())
-				{
+			for (Contact contact : contacts) {
+				if (contact.isPrimary()) {
 					cname = contact.getName();
-					
-					if(contact.getBusinessPhone().trim().length()> 0)
-					phone = contact.getBusinessPhone();
-					
-					if(contact.getEmail().trim().length()> 0)
-					email= contact.getEmail();
+
+					if (contact.getBusinessPhone().trim().length() > 0)
+						phone = contact.getBusinessPhone();
+
+					if (contact.getEmail().trim().length() > 0)
+						email = contact.getEmail();
 				}
 			}
 			// setting billing address
 			Address bill = memo.getBillingAddress();
 			if (bill != null) {
-				String customernameAddress = 	 forUnusedAddress(cname, false)
+				String customernameAddress = forUnusedAddress(cname, false)
 						+ forUnusedAddress(memo.getCustomer().getName(), false)
 						+ forUnusedAddress(bill.getAddress1(), false)
 						+ forUnusedAddress(bill.getStreet(), false)
@@ -110,17 +114,17 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 						+ forUnusedAddress(bill.getStateOrProvinence(), false)
 						+ forUnusedAddress(bill.getZipOrPostalCode(), false)
 						+ forUnusedAddress(bill.getCountryOrRegion(), false)
-						+ forUnusedAddress("Phone : "+phone, false)
-						+ forUnusedAddress("Email : "+email, false);
+						+ forUnusedAddress("Phone : " + phone, false)
+						+ forUnusedAddress("Email : " + email, false);
 
 				if (customernameAddress.trim().length() > 0) {
-					t.setVariable("customerNameNBillAddress", customernameAddress);
+					t.setVariable("customerNameNBillAddress",
+							customernameAddress);
 					t.addBlock("creditHead");
 
 				}
 			}
-			
-			
+
 			// t.setVariable("description", "Description");
 			// t.setVariable("qty", "Qty");
 			// t.setVariable("unitPrice", "Unit Price");
@@ -225,7 +229,7 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 				t.setVariable("email", paypalEmail);
 				t.addBlock("paypalemail");
 			}
-			
+
 			// for Vat String
 			String vatString = "Tax No: "
 					+ forNullValue(company.getPreferences()
@@ -260,33 +264,33 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 				}
 			}
 			// TODO for displaying regestration address and Company Registration
-						// Number
-						String regestrationAddress = "";
-						Address reg = company.getRegisteredAddress();
+			// Number
+			String regestrationAddress = "";
+			Address reg = company.getRegisteredAddress();
 
-						if (reg != null)
-							regestrationAddress = ("&nbsp;Registered Address: "
-									+ reg.getAddress1()
-									+ forUnusedAddress(reg.getStreet(), true)
-									+ forUnusedAddress(reg.getCity(), true)
-									+ forUnusedAddress(reg.getStateOrProvinence(), true)
-									+ forUnusedAddress(reg.getZipOrPostalCode(), true)
-									+ forUnusedAddress(reg.getCountryOrRegion(), true) + ".");
+			if (reg != null)
+				regestrationAddress = ("&nbsp;Registered Address: "
+						+ reg.getAddress1()
+						+ forUnusedAddress(reg.getStreet(), true)
+						+ forUnusedAddress(reg.getCity(), true)
+						+ forUnusedAddress(reg.getStateOrProvinence(), true)
+						+ forUnusedAddress(reg.getZipOrPostalCode(), true)
+						+ forUnusedAddress(reg.getCountryOrRegion(), true) + ".");
 
-						regestrationAddress = (company.getFullName() + "&nbsp;&nbsp;&nbsp;"
-								+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
-								.getRegistrationNumber().equals("")) ? "<br/>Company Registration No: "
-								+ company.getRegistrationNumber()
-								: ""));
+			regestrationAddress = (company.getFullName() + "&nbsp;&nbsp;&nbsp;"
+					+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
+					.getRegistrationNumber().equals("")) ? "<br/>Company Registration No: "
+					+ company.getRegistrationNumber()
+					: ""));
 
-						if (regestrationAddress != null
-								&& regestrationAddress.trim().length() > 0) {
-							if (brandingTheme.isShowRegisteredAddress()) {
-								// t.setVariable("tradingName", trName);
-								t.setVariable("regestrationAddress", regestrationAddress);
-								t.addBlock("regestrationAddress");
-							}
-						}
+			if (regestrationAddress != null
+					&& regestrationAddress.trim().length() > 0) {
+				if (brandingTheme.isShowRegisteredAddress()) {
+					// t.setVariable("tradingName", trName);
+					t.setVariable("regestrationAddress", regestrationAddress);
+					t.addBlock("regestrationAddress");
+				}
+			}
 
 			String outPutString = t.getFileString();
 			System.err.println(outPutString);
@@ -396,7 +400,7 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 		StringBuffer original = new StringBuffer();
 		// String imagesDomain = "/do/downloadFileFromFile?";
 
-		original.append("<img src='file:///");
+		original.append("<img style='width:130px;height:120px'  src='file:///");
 		original.append(ServerConfiguration.getAttachmentsDir() + "/"
 				+ companyId + "/" + brandingTheme.getFileName());
 		original.append("'/>");
