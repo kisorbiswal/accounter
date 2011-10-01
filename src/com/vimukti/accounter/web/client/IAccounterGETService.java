@@ -291,12 +291,6 @@ public interface IAccounterGETService extends RemoteService {
 	public ClientUser getUser(String userName, String password,
 			boolean isremeber, int offset);
 
-	// public List<String> getCountries();
-	//
-	// public List<String> getStates(String country);
-	//
-	// public List<ClientCurrency> getCurrencies();
-
 	public List<AccountsTemplate> getAccountsTemplate()
 			throws AccounterException;
 
