@@ -163,8 +163,6 @@ a:link {
 
 #cen { /*clear: both;*/
 	height: 330px !important;
-	background: url("../images/Image-display_BG.png") repeat-x scroll 0 0
-		transparent;
 	padding-top: 50px;
 }
 
@@ -2087,10 +2085,9 @@ a#fdbk_tab:hover {
 	margin: 0px -4px 0 0 !important;
 }
 
-textarea {
+.fieldset textarea {
 	resize: none;
 }
-
 .resend-code {
 	padding: 10px 0 0 35px;
 }
