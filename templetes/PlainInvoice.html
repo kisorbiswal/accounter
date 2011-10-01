@@ -11,7 +11,7 @@
   		<tr><td  class="branding_theme_logo" align=${getLogoAlignment}> ${logoImage}</td></tr>
   		<!-- $EndBlock showlogo -->
  </table>
- <table style="font-family:${fontStyle};font-size:${font};margin:20px 0" width="100%">
+ <table class="margin" style="font-family:${fontStyle};font-size:${font}" width="100%">
 	   <tr>
 	       <td align="center;">
 			   <div class="invoice_quick_header">
@@ -83,7 +83,7 @@
 		   </td>
 		</tr> 
    </table>
-   <table border="0" id="billingAddressTable" width="100%" style="margin:20px 0;font-family:${fontStyle};font-size:${font};">
+   <table border="0" id="billingAddressTable" width="100%" class="margin" style="font-family:${fontStyle};font-size:${font};">
      <!-- $BeginBlock billhead -->
      <tr>
 	   <td style="vertical-align: top;" align="left">
@@ -93,7 +93,7 @@
 			<td class="table-head"><p class="fontSetting"><center>Bill To</center></p></td>
 		  </tr>
 		  <tr>
-			<td align="left" style="vertical-align:top;height:150px">
+			<td align="left" style="vertical-align:top;height:130px">
 			   <p class="fontSetting">
 			     <div align="left">&nbsp;${billingAddress}</div>
 			   </p>
@@ -111,7 +111,7 @@
 			  <td class="gridHeaderBackGround" ><center class="fontSetting">Ship To</center></td>
 			</tr>
 			<tr>
-			  <td align="left" style="vertical-align:top;height:150px">
+			  <td align="left" style="vertical-align:top;height:130px">
 				<p class="fontSetting">${shippingAddress}</p>
 			  </td>
 			</tr> 
@@ -156,7 +156,7 @@
 		 </table>
 		 </tr>
  </table>
-<table border="1" width="100%"  class="removeHeadBorder quick_invoice_header" id="items" style="margin:20px 0;clear:both;font-family:${fontStyle};font-size:${font};clear:both">
+<table border="1" width="100%"  class="removeHeadBorder quick_invoice_header margin" id="items" style="clear:both;font-family:${fontStyle};font-size:${font};clear:both">
 <!-- $BeginBlock  itemDetails -->
 <thead>
   <tr class="table-head"><!-- $BeginBlock showLabels -->
@@ -210,7 +210,7 @@
   </tr><!-- $EndBlock invoiceRecord -->
   </tbody>
   </table>
-  <table border="1" width="50%" class="quick_total_table" style="margin:20px 0">
+  <table border="1" width="50%" class="quick_total_table margin" >
   <tr>
 	<td class="blank" colspan="4" rowspan="5" >
 	  <p class="fontSetting">${blankText}</p>
@@ -280,7 +280,7 @@
 				<!-- $BeginBlock bankAccountNum --><td><center>${BankAccountNo} </center></td><!-- $EndBlock bankAccountNum -->
 			 </tr>
 </table>
-<table id="footer" width="100%" style="font-family:${fontStyle};font-size:${font};">
+<table id="footer" width="100%" style="font-family:${fontStyle};font-size:${font};clear:both">
    <tr>
 	  <td style="vertical-align:top;text-align:left" >
 		 <table  style=" padding:3.5px" >
