@@ -4,9 +4,7 @@
 package com.vimukti.accounter.web.client.ui.banking;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -31,7 +29,6 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 	private BankAccountCombo bankAccountsCombo;
 	private ReconciliationsTable grid;
 	private ClientBankAccount selectedBankAccount;
-	private Map<String, ClientBankAccount> bankAccounts = new HashMap<String, ClientBankAccount>();
 
 	private void createControls() {
 
@@ -42,7 +39,8 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 
 					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
-						bankAccountChanged(bankAccountsCombo.getSelectedValue());
+						bankAccountChanged((ClientBankAccount) bankAccountsCombo
+								.getSelectedValue());
 					}
 				});
 		this.grid = new ReconciliationsTable();
@@ -69,8 +67,8 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 	/**
 	 * @param selectItem
 	 */
-	protected void bankAccountChanged(ClientAccount clientAccount) {
-		this.selectedBankAccount = bankAccounts.get(clientAccount.getName());
+	protected void bankAccountChanged(ClientBankAccount clientAccount) {
+		this.selectedBankAccount = clientAccount;
 		rpcGetService.getReconciliationsByBankAccountID(
 				selectedBankAccount.getID(),
 				new AccounterAsyncCallback<List<ClientReconciliation>>() {
@@ -104,11 +102,10 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 		}
 		for (ClientAccount account : bankAccounts) {
 			bankAccountsCombo.addItem(account);
-			this.bankAccounts.put(account.getName(),
-					(ClientBankAccount) account);
 		}
 		bankAccountsCombo.setSelectedItem(0);
-		bankAccountChanged(bankAccountsCombo.getSelectedValue());
+		bankAccountChanged((ClientBankAccount) bankAccountsCombo
+				.getSelectedValue());
 	}
 
 	@Override

@@ -4932,4 +4932,6 @@ public interface AccounterConstants extends Constants {
 
 	public String pleaseSelectAnyCustomer();
 
+	public String reconciliationsEmpty();
+
 }

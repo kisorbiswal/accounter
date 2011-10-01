@@ -9,6 +9,7 @@ import java.util.List;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.view.client.ListDataProvider;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -34,6 +35,11 @@ public class ReconciliationsTable extends CellTable<ClientReconciliation>
 	 */
 	public ReconciliationsTable() {
 		initColumns();
+		dataprovider.addDataDisplay(this);
+		HTML emptyMessage = new HTML(Accounter.constants()
+				.reconciliationsEmpty());
+		emptyMessage.setHeight("150px");
+		setEmptyTableWidget(emptyMessage);
 	}
 
 	/**
@@ -120,7 +126,6 @@ public class ReconciliationsTable extends CellTable<ClientReconciliation>
 		if (data == null) {
 			data = Collections.emptyList();
 		}
-		dataprovider.addDataDisplay(this);
 		this.dataprovider.setList(data);
 	}
 
