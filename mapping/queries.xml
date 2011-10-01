@@ -953,8 +953,7 @@
 		<query-param name="id" type="long" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.WriteCheck wc where
-		wc.bankAccount.id
-		=id and wc.isVoid=false and wc.status =status and wc.company=:company
+		wc.bankAccount.id =:id and wc.isVoid=false and wc.status =status and wc.company=:company
 	</query>
 
 	<query name="getCustomerRefund.by.isvoidandstatus">
