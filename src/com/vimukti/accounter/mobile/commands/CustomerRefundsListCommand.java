@@ -98,8 +98,8 @@ public class CustomerRefundsListCommand extends AbstractCommand {
 		ArrayList<CustomerRefundsList> refundsList = null;
 		ArrayList<CustomerRefundsList> result = new ArrayList<CustomerRefundsList>();
 		try {
-			refundsList = new FinanceTool().getCustomerRefundsList(company
-					.getID());
+			refundsList = new FinanceTool().getCustomerManager()
+					.getCustomerRefundsList(company.getID());
 		} catch (DAOException e) {
 
 			e.printStackTrace();

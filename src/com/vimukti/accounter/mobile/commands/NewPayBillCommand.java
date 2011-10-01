@@ -157,7 +157,7 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 		Vendor vendor = context.getSelection(VENDOR);
 		long date = context.getSelection(DATE);
 		List<PayBillTransactionList> transactionItems = new FinanceTool()
-				.getTransactionPayBills(vendor.getID());
+				.getVendorManager().getTransactionPayBills(vendor.getID());
 
 		List<TransactionPayBill> records = new ArrayList<TransactionPayBill>();
 		for (PayBillTransactionList billTransactionList : transactionItems) {

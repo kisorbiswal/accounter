@@ -739,8 +739,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	private List<Account> getAccounts(Company company) {
 		FinanceTool financeTool = new FinanceTool();
-		return financeTool.getAccountsListBySorted(company.getAccountingType(),
-				company.getID());
+		return null;// financeTool.getAccountsListBySorted(company.getAccountingType(),
+		// company.getID());
 
 	}
 
@@ -966,9 +966,9 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 		List<BankAccount> bankAccounts = new ArrayList<BankAccount>();
 		FinanceTool financeTool = new FinanceTool();
-		ArrayList<Account> accountsListBySorted = financeTool
-				.getAccountsListBySorted(company.getAccountingType(),
-						company.getID());
+		ArrayList<Account> accountsListBySorted = null;// financeTool
+		// .getAccountsListBySorted(company.getAccountingType(),
+		// company.getID());
 		for (Account a : accountsListBySorted) {
 			if (a.getType() == Account.TYPE_BANK) {
 				bankAccounts.add((BankAccount) a);
@@ -1231,8 +1231,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected List<Account> getAccounts(Boolean isActive, Company company) {
 		FinanceTool financeTool = new FinanceTool();
 		List<Account> accounts = new ArrayList<Account>();
-		List<Account> allaccounts = financeTool.getAccountsListBySorted(
-				company.getAccountingType(), company.getID());
+		List<Account> allaccounts = null;// financeTool.getCompanyManager().getAccountsListBySorted(
+		// company.getAccountingType(), company.getID());
 		for (Account acc : allaccounts) {
 			if (isActive) {
 				if (acc.getIsActive()) {
@@ -1285,7 +1285,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 		ArrayList<BillsList> billsList = null;
 		try {
-			billsList = new FinanceTool().getBillsList(true, company.getID());
+			billsList = new FinanceTool().getVendorManager().getBillsList(true,
+					company.getID());
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
@@ -1297,7 +1298,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		ArrayList<BillsList> billsList = null;
 
 		try {
-			billsList = new FinanceTool().getBillsList(false, company.getID());
+			billsList = new FinanceTool().getVendorManager().getBillsList(
+					false, company.getID());
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
@@ -1365,7 +1367,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		List<Estimate> result = new ArrayList<Estimate>();
 		List<Estimate> data = null;
 		try {
-			data = new FinanceTool().getEstimates(company.getID());
+			data = new FinanceTool().getCustomerManager().getEstimates(
+					company.getID());
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
@@ -1391,7 +1394,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 		ArrayList<InvoicesList> invoiceList = null;
 		try {
-			invoiceList = new FinanceTool().getInvoiceList(company.getID());
+			invoiceList = new FinanceTool().getInventoryManager()
+					.getInvoiceList(company.getID());
 		} catch (DAOException e) {
 
 			e.printStackTrace();
@@ -1405,8 +1409,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 		ArrayList<ReceivePaymentsList> invoiceList = null;
 		try {
-			invoiceList = new FinanceTool().getReceivePaymentsList(company
-					.getID());
+			invoiceList = new FinanceTool().getCustomerManager()
+					.getReceivePaymentsList(company.getID());
 		} catch (DAOException e) {
 
 			e.printStackTrace();
@@ -1420,7 +1424,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		ArrayList<PaymentsList> paymentsList = null;
 		ArrayList<PaymentsList> result = new ArrayList<PaymentsList>();
 		try {
-			paymentsList = new FinanceTool().getPaymentsList(company.getID());
+			paymentsList = new FinanceTool().getCustomerManager()
+					.getPaymentsList(company.getID());
 		} catch (DAOException e) {
 
 			e.printStackTrace();
