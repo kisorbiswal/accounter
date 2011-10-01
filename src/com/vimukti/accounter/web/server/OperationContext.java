@@ -27,28 +27,31 @@ public class OperationContext {
 	/**
 	 * Creates new Instance
 	 */
-	public OperationContext(IAccounterCore data, String userID) {
+	public OperationContext(long companyId, IAccounterCore data, String userID) {
 		this.userID = userID;
 		this.data = data;
+		setCompanyId(companyId);
 	}
 
 	/**
 	 * Creates new Instance
 	 */
-	public OperationContext(IAccounterCore data, String userID, String arg1,
-			String arg2) {
-		this(data, userID);
+	public OperationContext(long companyId, IAccounterCore data, String userID,
+			String arg1, String arg2) {
+		this(companyId, data, userID);
 		this.arg1 = arg1;
 		this.arg2 = arg2;
 	}
 
-	public OperationContext(AccounterCoreType type, String id) {
+	public OperationContext(long companyId, AccounterCoreType type, String id) {
 		this.coreType = type;
 		this.userID = id;
+		setCompanyId(companyId);
 	}
 
-	public OperationContext(long newStartDate) {
+	public OperationContext(long companyId, long newStartDate) {
 		this.newStartDate = newStartDate;
+		setCompanyId(companyId);
 	}
 
 	/**

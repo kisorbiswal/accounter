@@ -57,9 +57,8 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 		String clientClassSimpleName = coreObject.getObjectType()
 				.getClientClassSimpleName();
 
-		OperationContext context = new OperationContext(coreObject,
-				getUserEmail());
-		context.setCompanyId(getCompanyId());
+		OperationContext context = new OperationContext(getCompanyId(),
+				coreObject, getUserEmail());
 		context.setArg2(clientClassSimpleName);
 
 		return new FinanceTool().create(context);
@@ -72,10 +71,9 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 		String serverClassFullyQualifiedName = coreObject.getObjectType()
 				.getServerClassFullyQualifiedName();
 
-		OperationContext context = new OperationContext(coreObject,
-				getUserEmail(), String.valueOf(coreObject.getID()),
+		OperationContext context = new OperationContext(getCompanyId(),
+				coreObject, getUserEmail(), String.valueOf(coreObject.getID()),
 				serverClassFullyQualifiedName);
-		context.setCompanyId(getCompanyId());
 		return tool.update(context);
 	}
 
@@ -83,10 +81,10 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	public boolean delete(AccounterCoreType type, long id)
 			throws AccounterException {
 		FinanceTool tool = getFinanceTool();
-		OperationContext opContext = new OperationContext(type, getUserEmail());
+		OperationContext opContext = new OperationContext(getCompanyId(), type,
+				getUserEmail());
 		opContext.setArg1(String.valueOf(id));
 		opContext.setArg2(type.getClientClassSimpleName());
-		opContext.setCompanyId(getCompanyId());
 		return tool.delete(opContext);
 
 	}
@@ -96,9 +94,8 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 			throws AccounterException {
 
 		FinanceTool tool = getFinanceTool();
-		OperationContext updateComPref = new OperationContext(preferences,
-				getUserEmail());
-		updateComPref.setCompanyId(getCompanyId());
+		OperationContext updateComPref = new OperationContext(getCompanyId(),
+				preferences, getUserEmail());
 		tool.getCompanyManager().updateCompanyPreferences(updateComPref);
 		return true;
 	}
@@ -108,9 +105,8 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 			throws AccounterException {
 
 		FinanceTool tool = getFinanceTool();
-		OperationContext opContext = new OperationContext(clientCompany,
-				getUserEmail());
-		opContext.setCompanyId(getCompanyId());
+		OperationContext opContext = new OperationContext(getCompanyId(),
+				clientCompany, getUserEmail());
 		return tool.getCompanyManager().updateCompany(opContext);
 
 	}
@@ -184,8 +180,8 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 		String clientClassSimpleName = coreUser.getObjectType()
 				.getClientClassSimpleName();
 		FinanceTool financeTool = new FinanceTool();
-		OperationContext context = new OperationContext(coreUser,
-				getUserEmail(), String.valueOf(coreObject.getID()),
+		OperationContext context = new OperationContext(getCompanyId(),
+				coreUser, getUserEmail(), String.valueOf(coreObject.getID()),
 				clientClassSimpleName);
 		return financeTool.getUserManager().inviteUser(context);
 	}
@@ -216,10 +212,9 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 		String serverClassSimpleName = coreUser.getObjectType()
 				.getServerClassFullyQualifiedName();
 		FinanceTool financeTool = new FinanceTool();
-		OperationContext context = new OperationContext(coreUser,
-				getUserEmail(), String.valueOf(coreObject.getID()),
+		OperationContext context = new OperationContext(getCompanyId(),
+				coreUser, getUserEmail(), String.valueOf(coreObject.getID()),
 				serverClassSimpleName);
-		context.setCompanyId(getCompanyId());
 		return financeTool.getUserManager().updateUser(context);
 	}
 
@@ -249,10 +244,9 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 		String clientClassSimpleName = coreUser.getObjectType()
 				.getClientClassSimpleName();
 		FinanceTool financeTool = new FinanceTool();
-		OperationContext context = new OperationContext(coreUser,
-				getUserEmail(), String.valueOf(deletableUser.getID()),
-				clientClassSimpleName);
-		context.setCompanyId(getCompanyId());
+		OperationContext context = new OperationContext(getCompanyId(),
+				coreUser, getUserEmail(),
+				String.valueOf(deletableUser.getID()), clientClassSimpleName);
 		return financeTool.delete(context);
 	}
 

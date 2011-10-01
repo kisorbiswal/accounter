@@ -1351,7 +1351,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	public void changeDepreciationStartDateTo(long newStartDate)
 			throws AccounterException {
 		FinanceTool tool = getFinanceTool();
-		OperationContext opContext = new OperationContext(newStartDate);
+		OperationContext opContext = new OperationContext(getCompanyId(),
+				newStartDate);
 
 		tool.getCompanyManager().updateDeprecationStartDate(opContext);
 	}
@@ -1412,7 +1413,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public boolean changeFiscalYearsStartDateTo(long newStartDate) {
 		try {
-			OperationContext opContext = new OperationContext(newStartDate);
+			OperationContext opContext = new OperationContext(getCompanyId(),
+					newStartDate);
 			getFinanceTool().getCompanyManager().updateCompanyStartDate(
 					opContext);
 			return true;
