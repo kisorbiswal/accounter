@@ -103,8 +103,7 @@
 		max(v.VATperiodEndDate) from
 		com.vimukti.accounter.core.VATReturn v
 		where v.company=:company and
-		v.taxAgency.id
-		=:id group by v.taxAgency.id
+		v.taxAgency.id=:id group by v.taxAgency.id
 	</query>
 
 	<query name="get.name.fromAccount.byId">
@@ -961,15 +960,14 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.CustomerRefund cr
 		where cr.isVoid=false
-		and cr.status=status and cr.company=:company
+		and cr.status=:status and cr.company=:company
 	</query>
 
 	<query name="getPaySalesTax.by.status">
 		<query-param name="status" type="int" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.PaySalesTax pst where
-		pst.status =
-		status and pst.company=:company
+		pst.status =:status and pst.company=:company
 	</query>
 
 	<query name="getCustomerRefund.by.payFromand.isvoid.status">
@@ -977,8 +975,7 @@
 		<query-param name="status" type="int" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.CustomerRefund cr
-		where cr.payFrom.id =
-		id and cr.isVoid=false and cr.status=status and cr.company=:company
+		where cr.payFrom.id =:id and cr.isVoid=false and cr.status=:status and cr.company=:company
 	</query>
 
 	<query name="getPaySalesTax.by.payFromand.isvoid.status">
@@ -987,7 +984,7 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.PaySalesTax pst where
 		pst.payFrom.id =
-		id and pst.isVoid=false and pst.status = status and
+		id and pst.isVoid=false and pst.status =:status and
 		pst.company=:company
 	</query>
 
