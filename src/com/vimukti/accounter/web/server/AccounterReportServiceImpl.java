@@ -96,7 +96,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 				endDate);
 		try {
 
-			salesByCustomerDetailList = getFinanceTool()
+			salesByCustomerDetailList = getFinanceTool().getSalesManager()
 					.getSalesByCustomerSummary(financeDates[0],
 							financeDates[1], getCompanyId());
 
@@ -171,8 +171,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			agedDebtorsList = getFinanceTool().getAgedCreditors(
-					financeDates[0], financeDates[1], getCompanyId());
+			agedDebtorsList = getFinanceTool().getReportManager()
+					.getAgedCreditors(financeDates[0], financeDates[1],
+							getCompanyId());
 			List<AgedDebtors> debtors = new ArrayList<AgedDebtors>();
 			for (AgedDebtors debtor : agedDebtorsList) {
 				debtors = updateDebtorListByName(debtors, debtor);
@@ -212,8 +213,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			agedDebtorsList = getFinanceTool().getAgedDebtors(financeDates[0],
-					financeDates[1], getCompanyId());
+			agedDebtorsList = getFinanceTool().getReportManager()
+					.getAgedDebtors(financeDates[0], financeDates[1],
+							getCompanyId());
 			List<AgedDebtors> debtors = new ArrayList<AgedDebtors>();
 			for (AgedDebtors debtor : agedDebtorsList) {
 				debtors = updateDebtorListByName(debtors, debtor);
@@ -296,8 +298,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			amountsDueToVendorList = getFinanceTool().getAmountsDueToVendor(
-					financeDates[0], financeDates[1], getCompanyId());
+			amountsDueToVendorList = getFinanceTool().getVendorManager()
+					.getAmountsDueToVendor(financeDates[0], financeDates[1],
+							getCompanyId());
 
 			AmountsDueToVendor obj = new AmountsDueToVendor();
 			if (amountsDueToVendorList != null)
@@ -325,7 +328,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			transactionHistoryList = getFinanceTool()
+			transactionHistoryList = getFinanceTool().getCustomerManager()
 					.getCustomerTransactionHistory(financeDates[0],
 							financeDates[1], getCompanyId());
 
@@ -355,7 +358,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			mostProfitableCustomersList = getFinanceTool()
+			mostProfitableCustomersList = getFinanceTool().getCustomerManager()
 					.getMostProfitableCustomers(financeDates[0],
 							financeDates[1], getCompanyId());
 
@@ -386,7 +389,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			salesByCustomerDetailList = getFinanceTool()
+			salesByCustomerDetailList = getFinanceTool().getPurchageManager()
 					.getPurchasesByItemDetail(financeDates[0], financeDates[1],
 							getCompanyId());
 
@@ -416,7 +419,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			salesByCustomerDetailList = getFinanceTool()
+			salesByCustomerDetailList = getFinanceTool().getPurchageManager()
 					.getPurchasesByItemSummary(financeDates[0],
 							financeDates[1], getCompanyId());
 
@@ -446,7 +449,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			salesByCustomerDetailList = getFinanceTool()
+			salesByCustomerDetailList = getFinanceTool().getVendorManager()
 					.getPurchasesByVendorDetail(financeDates[0],
 							financeDates[1], getCompanyId());
 
@@ -476,7 +479,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			salesByCustomerDetailList = getFinanceTool()
+			salesByCustomerDetailList = getFinanceTool().getVendorManager()
 					.getPurchasesByVendorSummary(financeDates[0],
 							financeDates[1], getCompanyId());
 
@@ -527,7 +530,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			salesByCustomerDetailList = getFinanceTool()
+			salesByCustomerDetailList = getFinanceTool().getReportManager()
 					.getSalesByCustomerDetailReport(financeDates[0],
 							financeDates[1], getCompanyId());
 
@@ -557,8 +560,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			salesByCustomerDetailList = getFinanceTool().getSalesByItemDetail(
-					financeDates[0], financeDates[1], getCompanyId());
+			salesByCustomerDetailList = getFinanceTool().getSalesManager()
+					.getSalesByItemDetail(financeDates[0], financeDates[1],
+							getCompanyId());
 
 			SalesByCustomerDetail obj = new SalesByCustomerDetail();
 			if (salesByCustomerDetailList != null)
@@ -586,8 +590,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			salesByCustomerDetailList = getFinanceTool().getSalesByItemSummary(
-					financeDates[0], financeDates[1], getCompanyId());
+			salesByCustomerDetailList = getFinanceTool().getSalesManager()
+					.getSalesByItemSummary(financeDates[0], financeDates[1],
+							getCompanyId());
 
 			SalesByCustomerDetail obj = new SalesByCustomerDetail();
 			if (salesByCustomerDetailList != null)
@@ -616,8 +621,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			transactionDetailByTaxItemList = getFinanceTool()
-					.getTransactionDetailByTaxItem(financeDates[0],
-							financeDates[1], getCompanyId());
+					.getReportManager().getTransactionDetailByTaxItem(
+							financeDates[0], financeDates[1], getCompanyId());
 
 			TransactionDetailByTaxItem obj = new TransactionDetailByTaxItem();
 			if (transactionDetailByTaxItemList != null)
@@ -646,8 +651,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			trialBalanceList = getFinanceTool().getTrialBalance(
-					financeDates[0], financeDates[1], getCompanyId());
+			trialBalanceList = getFinanceTool().getReportManager()
+					.getTrialBalance(financeDates[0], financeDates[1],
+							getCompanyId());
 
 			TrialBalance obj = new TrialBalance();
 			if (trialBalanceList != null)
@@ -674,7 +680,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			transactionHistoryList = getFinanceTool()
+			transactionHistoryList = getFinanceTool().getVendorManager()
 					.getVendorTransactionHistory(financeDates[0],
 							financeDates[1], getCompanyId());
 
@@ -705,8 +711,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			serverItemsList = getFinanceTool().getPurchaseReportItems(
-					financeDates[0], financeDates[1], getCompanyId());
+			serverItemsList = getFinanceTool().getPurchageManager()
+					.getPurchaseReportItems(financeDates[0], financeDates[1],
+							getCompanyId());
 
 			ClientItem obj = new ClientItem();
 			if (clientItemList != null)
@@ -736,8 +743,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			serverItemsList = getFinanceTool().getSalesReportItems(
-					financeDates[0], financeDates[1], getCompanyId());
+			serverItemsList = getFinanceTool().getSalesManager()
+					.getSalesReportItems(financeDates[0], financeDates[1],
+							getCompanyId());
 
 			ClientItem obj = new ClientItem();
 			if (clientItemList != null)
@@ -767,7 +775,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			serverCustomerList = getFinanceTool()
+			serverCustomerList = getFinanceTool().getCustomerManager()
 					.getTransactionHistoryCustomers(financeDates[0],
 							financeDates[1], getCompanyId());
 
@@ -795,8 +803,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			serverVendorList = getFinanceTool().getTransactionHistoryVendors(
-					financeDates[0], financeDates[1], getCompanyId());
+			serverVendorList = getFinanceTool().getVendorManager()
+					.getTransactionHistoryVendors(financeDates[0],
+							financeDates[1], getCompanyId());
 			for (Vendor vendor : serverVendorList) {
 				clientVendorList.add(new ClientConvertUtil().toClientObject(
 						vendor, ClientVendor.class));
@@ -820,7 +829,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			salesTaxLiabilityList = getFinanceTool()
+			salesTaxLiabilityList = getFinanceTool().getReportManager()
 					.getSalesTaxLiabilityReport(financeDates[0],
 							financeDates[1], getCompanyId());
 
@@ -848,7 +857,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			transDetailByAccountList = getFinanceTool()
+			transDetailByAccountList = getFinanceTool().getReportManager()
 					.getTransactionDetailByAccount(financeDates[0],
 							financeDates[1], getCompanyId());
 
@@ -881,8 +890,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			salesByCustomertList = getFinanceTool().getPurchasesByItemDetail(
-					itemName, financeDates[0], financeDates[1], getCompanyId());
+			salesByCustomertList = getFinanceTool().getPurchageManager()
+					.getPurchasesByItemDetail(itemName, financeDates[0],
+							financeDates[1], getCompanyId());
 
 			SalesByCustomerDetail obj = new SalesByCustomerDetail();
 			if (salesByCustomertList != null)
@@ -911,9 +921,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			salesByCustomertList = getFinanceTool().getPurchasesByVendorDetail(
-					vendorName, financeDates[0], financeDates[1],
-					getCompanyId());
+			salesByCustomertList = getFinanceTool().getVendorManager()
+					.getPurchasesByVendorDetail(vendorName, financeDates[0],
+							financeDates[1], getCompanyId());
 
 			SalesByCustomerDetail obj = new SalesByCustomerDetail();
 			if (salesByCustomertList != null)
@@ -942,7 +952,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			salesByCustomertList = getFinanceTool()
+			salesByCustomertList = getFinanceTool().getReportManager()
 					.getSalesByCustomerDetailReport(customerName,
 							financeDates[0], financeDates[1], getCompanyId());
 
@@ -973,8 +983,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			salesByCustomertList = getFinanceTool().getSalesByItemDetail(
-					itemName, financeDates[0], financeDates[1], getCompanyId());
+			salesByCustomertList = getFinanceTool().getSalesManager()
+					.getSalesByItemDetail(itemName, financeDates[0],
+							financeDates[1], getCompanyId());
 
 			SalesByCustomerDetail obj = new SalesByCustomerDetail();
 			if (salesByCustomertList != null)
@@ -1003,8 +1014,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			agedDebtorsList = getFinanceTool().getAgedDebtors(financeDates[0],
-					financeDates[1], getCompanyId());
+			agedDebtorsList = getFinanceTool().getReportManager()
+					.getAgedDebtors(financeDates[0], financeDates[1],
+							getCompanyId());
 			for (AgedDebtors agdDebitor : agedDebtorsList) {
 				if (Name.equals(agdDebitor.getName()))
 					agedDebtorsListForCustomer.add(agdDebitor);
@@ -1035,8 +1047,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			agedDebtorsList = getFinanceTool().getAgedCreditors(
-					financeDates[0], financeDates[1], getCompanyId());
+			agedDebtorsList = getFinanceTool().getReportManager()
+					.getAgedCreditors(financeDates[0], financeDates[1],
+							getCompanyId());
 			for (AgedDebtors agdDebitor : agedDebtorsList) {
 				if (Name.equals(agdDebitor.getName()))
 					agedCreditorsListForCustomer.add(agdDebitor);
@@ -1067,7 +1080,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			transDetailByAccountList = getFinanceTool()
+			transDetailByAccountList = getFinanceTool().getReportManager()
 					.getTransactionDetailByAccount(accountName,
 							financeDates[0], financeDates[1], getCompanyId());
 
@@ -1093,7 +1106,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		ArrayList<ClientFinanceDate> transactionDates = new ArrayList<ClientFinanceDate>();
 		try {
 
-			ClientFinanceDate[] dates = getFinanceTool()
+			ClientFinanceDate[] dates = getFinanceTool().getManager()
 					.getMinimumAndMaximumTransactionDate(getCompanyId());
 			transactionDates.add(dates[0]);
 			transactionDates.add(dates[1]);
@@ -1115,8 +1128,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			transactionDetailByTaxItemList = getFinanceTool()
-					.getTransactionDetailByTaxItem(taxItemName,
-							financeDates[0], financeDates[1], getCompanyId());
+					.getReportManager().getTransactionDetailByTaxItem(
+							taxItemName, financeDates[0], financeDates[1],
+							getCompanyId());
 
 			TransactionDetailByTaxItem obj = new TransactionDetailByTaxItem();
 			if (transactionDetailByTaxItemList != null)
@@ -1145,8 +1159,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			trialbalanceList = getFinanceTool().getBalanceSheetReport(
-					financeDates[0], financeDates[1], getCompanyId());
+			trialbalanceList = getFinanceTool().getReportManager()
+					.getBalanceSheetReport(financeDates[0], financeDates[1],
+							getCompanyId());
 
 			TrialBalance obj = new TrialBalance();
 			if (trialbalanceList != null)
@@ -1154,8 +1169,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 						financeDates));
 
 			if (trialbalanceList.size() == 1) {
-				if (trialbalanceList.get(0).getAccountName().equals(
-						"Net Income")
+				if (trialbalanceList.get(0).getAccountName()
+						.equals("Net Income")
 						&& DecimalUtil.isEquals(trialbalanceList.get(0)
 								.getAmount(), 0)) {
 					trialbalanceList.clear();
@@ -1178,8 +1193,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			trialbalanceList = getFinanceTool().getCashFlowReport(
-					financeDates[0], financeDates[1], getCompanyId());
+			trialbalanceList = getFinanceTool().getReportManager()
+					.getCashFlowReport(financeDates[0], financeDates[1],
+							getCompanyId());
 
 			TrialBalance obj = new TrialBalance();
 			if (trialbalanceList != null)
@@ -1202,7 +1218,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 				endDate);
 
 		try {
-			profitAndLossByLocationList = getFinanceTool()
+			profitAndLossByLocationList = getFinanceTool().getReportManager()
 					.getProfitAndLossByLocation(isLocation, financeDates[0],
 							financeDates[1], getCompanyId());
 			ProfitAndLossByLocation obj = new ProfitAndLossByLocation();
@@ -1228,7 +1244,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 				endDate);
 
 		try {
-			salesByLocationDetailList = getFinanceTool()
+			salesByLocationDetailList = getFinanceTool().getSalesManager()
 					.getSalesByLocationDetail(isLocation, financeDates[0],
 							financeDates[1], getCompanyId());
 			SalesByLocationDetails obj = new SalesByLocationDetails();
@@ -1254,7 +1270,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 				endDate);
 
 		try {
-			salesByLocationDetailList = getFinanceTool()
+			salesByLocationDetailList = getFinanceTool().getSalesManager()
 					.getSalesByLocationDetailForLocation(isLocation,
 							locationName, financeDates[0], financeDates[1],
 							getCompanyId());
@@ -1281,7 +1297,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 				endDate);
 
 		try {
-			salesByLocationDetailList = getFinanceTool()
+			salesByLocationDetailList = getFinanceTool().getSalesManager()
 					.getSalesByLocationSummary(isLocation, financeDates[0],
 							financeDates[1], getCompanyId());
 			SalesByLocationSummary obj = new SalesByLocationSummary();
@@ -1307,8 +1323,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			trialbalanceList = getFinanceTool().getProfitAndLossReport(
-					financeDates[0], financeDates[1], getCompanyId());
+			trialbalanceList = getFinanceTool().getReportManager()
+					.getProfitAndLossReport(financeDates[0], financeDates[1],
+							getCompanyId());
 
 			TrialBalance obj = new TrialBalance();
 			if (trialbalanceList != null)
@@ -1331,8 +1348,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 				endDate);
 
 		try {
-			purchaseOrders = getFinanceTool().getOpenPurchaseOrders(
-					financeDates[0], financeDates[1], getCompanyId());
+			purchaseOrders = getFinanceTool().getPurchageManager()
+					.getOpenPurchaseOrders(financeDates[0], financeDates[1],
+							getCompanyId());
 
 			OpenAndClosedOrders obj = new OpenAndClosedOrders();
 			if (purchaseOrders != null)
@@ -1352,8 +1370,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
 		try {
-			purchaseOrders = getFinanceTool().getCompletedPurchaseOrders(
-					financeDates[0], financeDates[1], getCompanyId());
+			purchaseOrders = getFinanceTool().getPurchageManager()
+					.getCompletedPurchaseOrders(financeDates[0],
+							financeDates[1], getCompanyId());
 			OpenAndClosedOrders obj = new OpenAndClosedOrders();
 			if (purchaseOrders != null)
 				purchaseOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
@@ -1371,8 +1390,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
 		try {
-			purchaseOrders = getFinanceTool().getCanceledPurchaseOrders(
-					financeDates[0], financeDates[1], getCompanyId());
+			purchaseOrders = getFinanceTool().getPurchageManager()
+					.getCanceledPurchaseOrders(financeDates[0],
+							financeDates[1], getCompanyId());
 			OpenAndClosedOrders obj = new OpenAndClosedOrders();
 			if (purchaseOrders != null)
 				purchaseOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
@@ -1390,8 +1410,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
 		try {
-			purchaseOrders = getFinanceTool().getPurchaseOrders(
-					financeDates[0], financeDates[1], getCompanyId());
+			purchaseOrders = getFinanceTool().getPurchageManager()
+					.getPurchaseOrders(financeDates[0], financeDates[1],
+							getCompanyId());
 			OpenAndClosedOrders obj = new OpenAndClosedOrders();
 			if (purchaseOrders != null)
 				purchaseOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
@@ -1411,8 +1432,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 				endDate);
 
 		try {
-			purchaseOrders = getFinanceTool().getClosedPurchaseOrders(
-					financeDates[0], financeDates[1], getCompanyId());
+			purchaseOrders = getFinanceTool().getPurchageManager()
+					.getClosedPurchaseOrders(financeDates[0], financeDates[1],
+							getCompanyId());
 
 			OpenAndClosedOrders obj = new OpenAndClosedOrders();
 			if (purchaseOrders != null)
@@ -1434,8 +1456,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 				endDate);
 
 		try {
-			salesOrders = getFinanceTool().getOpenSalesOrders(financeDates[0],
-					financeDates[1], getCompanyId());
+			salesOrders = getFinanceTool().getSalesManager()
+					.getOpenSalesOrders(financeDates[0], financeDates[1],
+							getCompanyId());
 
 			OpenAndClosedOrders obj = new OpenAndClosedOrders();
 			if (salesOrders != null)
@@ -1455,8 +1478,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
 		try {
-			salesOrders = getFinanceTool().getCompletedSalesOrders(
-					financeDates[0], financeDates[1], getCompanyId());
+			salesOrders = getFinanceTool().getSalesManager()
+					.getCompletedSalesOrders(financeDates[0], financeDates[1],
+							getCompanyId());
 			OpenAndClosedOrders obj = new OpenAndClosedOrders();
 			if (salesOrders != null)
 				salesOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
@@ -1474,8 +1498,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
 		try {
-			salesOrders = getFinanceTool().getSalesOrders(financeDates[0],
-					financeDates[1], getCompanyId());
+			salesOrders = getFinanceTool().getSalesManager().getSalesOrders(
+					financeDates[0], financeDates[1], getCompanyId());
 			OpenAndClosedOrders obj = new OpenAndClosedOrders();
 			if (salesOrders != null)
 				salesOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
@@ -1493,8 +1517,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
 		try {
-			salesOrders = getFinanceTool().getCanceledSalesOrders(
-					financeDates[0], financeDates[1], getCompanyId());
+			salesOrders = getFinanceTool().getSalesManager()
+					.getCanceledSalesOrders(financeDates[0], financeDates[1],
+							getCompanyId());
 			OpenAndClosedOrders obj = new OpenAndClosedOrders();
 			if (salesOrders != null)
 				salesOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
@@ -1515,8 +1540,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 				endDate);
 
 		try {
-			salesOrders = getFinanceTool().getClosedSalesOrders(
-					financeDates[0], financeDates[1], getCompanyId());
+			salesOrders = getFinanceTool().getSalesManager()
+					.getClosedSalesOrders(financeDates[0], financeDates[1],
+							getCompanyId());
 
 			OpenAndClosedOrders obj = new OpenAndClosedOrders();
 			if (salesOrders != null)
@@ -1552,8 +1578,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		// financeDates[1] = endDate;
 
 		try {
-			vatDetailReport = getFinanceTool().getVATDetailReport(
-					financeDates[0], financeDates[1], getCompanyId());
+			vatDetailReport = getFinanceTool().getReportManager()
+					.getVATDetailReport(financeDates[0], financeDates[1],
+							getCompanyId());
 
 			VATDetail obj = new VATDetail();
 			if (vatDetailReport != null)
@@ -1581,7 +1608,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			TAXAgency vatAgncy = (TAXAgency) loadObjectById("TAXAgency",
 					taxAgency);
 			;
-			vatDetailReport = getFinanceTool()
+			vatDetailReport = getFinanceTool().getReportManager()
 					.getPriorVATReturnVATDetailReport(vatAgncy, tranendDate,
 							getCompanyId());
 
@@ -1603,9 +1630,11 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 			TAXAgency vatAgency = (TAXAgency) loadObjectById(
 					AccounterCoreType.TAXAGENCY
-							.getServerClassFullyQualifiedName(), taxAgncy);
-			vatSummaryList = getFinanceTool().getPriorReturnVATSummary(
-					vatAgency, new FinanceDate(endDate), getCompanyId());
+							.getServerClassFullyQualifiedName(),
+					taxAgncy);
+			vatSummaryList = getFinanceTool().getTaxManager()
+					.getPriorReturnVATSummary(vatAgency,
+							new FinanceDate(endDate), getCompanyId());
 
 			VATSummary obj = new VATSummary();
 			if (vatSummaryList != null)
@@ -1635,9 +1664,11 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 			TAXAgency vatAgency = (TAXAgency) loadObjectById(
 					AccounterCoreType.TAXAGENCY
-							.getServerClassFullyQualifiedName(), taxAgency);
-			vatSummaryList = getFinanceTool().getVAT100Report(vatAgency,
-					financeDates[0], financeDates[1], getCompanyId());
+							.getServerClassFullyQualifiedName(),
+					taxAgency);
+			vatSummaryList = getFinanceTool().getReportManager()
+					.getVAT100Report(vatAgency, financeDates[0],
+							financeDates[1], getCompanyId());
 
 			VATSummary obj = new VATSummary();
 			if (vatSummaryList != null)
@@ -1648,8 +1679,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			 * //* Removing Box 3 and Box 5 from list, as the calculations for
 			 * box 3 and box 5 are done in gui
 			 *///
-			// vatSummaryList.remove(2);
-			// vatSummaryList.remove(3);
+				// vatSummaryList.remove(2);
+				// vatSummaryList.remove(3);
 			double box1 = vatSummaryList.get(0).getValue();
 			double box2 = vatSummaryList.get(1).getValue();
 			vatSummaryList.get(2).setValue(box1 + box2);
@@ -1672,8 +1703,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 
 		try {
-			uncategories = getFinanceTool().getUncategorisedAmountsReport(
-					financeDates[0], financeDates[1], getCompanyId());
+			uncategories = getFinanceTool().getReportManager()
+					.getUncategorisedAmountsReport(financeDates[0],
+							financeDates[1], getCompanyId());
 
 			UncategorisedAmountsReport obj = new UncategorisedAmountsReport();
 			if (uncategories != null)
@@ -1694,8 +1726,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 
 		try {
-			vatItems = getFinanceTool().getVATItemSummaryReport(
-					financeDates[0], financeDates[1], getCompanyId());
+			vatItems = getFinanceTool().getReportManager()
+					.getVATItemSummaryReport(financeDates[0], financeDates[1],
+							getCompanyId());
 
 			VATItemSummary obj = new VATItemSummary();
 			if (vatItems != null)
@@ -1717,8 +1750,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 
 		try {
-			itemsList = getFinanceTool().getVATItemDetailReport(vatItemName,
-					financeDates[0], financeDates[1], getCompanyId());
+			itemsList = getFinanceTool().getReportManager()
+					.getVATItemDetailReport(vatItemName, financeDates[0],
+							financeDates[1], getCompanyId());
 
 			VATItemDetail obj = new VATItemDetail();
 			if (itemsList != null)
@@ -1743,8 +1777,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 			FinanceTool tool = getFinanceTool();
-			salesList = tool.getECSalesListReport(financeDates[0],
-					financeDates[1], tool.getCompany(getCompanyId()));
+			salesList = tool.getReportManager().getECSalesListReport(
+					financeDates[0], financeDates[1],
+					tool.getCompany(getCompanyId()));
 
 			ECSalesList obj = new ECSalesList();
 			if (salesList != null)
@@ -1770,8 +1805,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 			FinanceTool tool = getFinanceTool();
-			salesList = tool.getECSalesListDetailReport(payeeName,
-					financeDates[0], financeDates[1],
+			salesList = tool.getReportManager().getECSalesListDetailReport(
+					payeeName, financeDates[0], financeDates[1],
 					tool.getCompany(getCompanyId()));
 
 			ECSalesListDetail obj = new ECSalesListDetail();
@@ -1797,7 +1832,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 
 		try {
-			salesList = getFinanceTool()
+			salesList = getFinanceTool().getReportManager()
 					.getReverseChargeListDetailReport(payeeName,
 							financeDates[0], financeDates[1], getCompanyId());
 
@@ -1823,8 +1858,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 
 		try {
-			salesList = getFinanceTool().getReverseChargeListReport(
-					financeDates[0], financeDates[1], getCompanyId());
+			salesList = getFinanceTool().getReportManager()
+					.getReverseChargeListReport(financeDates[0],
+							financeDates[1], getCompanyId());
 
 			ReverseChargeList obj = new ReverseChargeList();
 			if (salesList != null)
@@ -1890,16 +1926,16 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		// calender.add(Calendar.MONTH, 1);
 		// Date threeMonthPreviousDate = calender.getTime();
 		try {
-			List<AgedDebtors> agedDebtors = getFinanceTool().getAgedDebtors(
-					financeDates[0], financeDates[1], getCompanyId());
+			List<AgedDebtors> agedDebtors = getFinanceTool().getReportManager()
+					.getAgedDebtors(financeDates[0], financeDates[1],
+							getCompanyId());
 
 			debitors = getDebtorsWidSameName(agedDebtors, financeDates[0],
 					financeDates[1]);
 
 			DummyDebitor obj = new DummyDebitor();
 			if (debitors != null)
-				debitors
-						.add((DummyDebitor) setStartEndDates(obj, financeDates));
+				debitors.add((DummyDebitor) setStartEndDates(obj, financeDates));
 
 		} catch (DAOException e) {
 
@@ -2033,8 +2069,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		// Date threeMonthPreviousDate = calender.getTime();
 		try {
 			List<AgedDebtors> agedCreditors = getFinanceTool()
-					.getAgedCreditors(financeDates[0], financeDates[1],
-							getCompanyId());
+					.getReportManager().getAgedCreditors(financeDates[0],
+							financeDates[1], getCompanyId());
 
 			Creditors = getDebtorsWidSameName(agedCreditors, financeDates[0],
 					financeDates[1]);
@@ -2062,8 +2098,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 				endDate);
 
 		try {
-			expenseList = getFinanceTool().getExpenseReportByType(status,
-					financeDates[0], financeDates[1], getCompanyId());
+			expenseList = getFinanceTool().getReportManager()
+					.getExpenseReportByType(status, financeDates[0],
+							financeDates[1], getCompanyId());
 
 			ExpenseList obj = new ExpenseList();
 
@@ -2088,8 +2125,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 			ArrayList<ClientBudget> budgets = new ArrayList<ClientBudget>();
-			budgets = (ArrayList<ClientBudget>) getFinanceTool()
-					.getBudgetList(getCompanyId());
+			budgets = (ArrayList<ClientBudget>) getFinanceTool().getBudgetList(
+					getCompanyId());
 
 			// ClientBudgetList obj = new ClientBudgetList();
 
@@ -2175,9 +2212,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			checkDetailReports = getFinanceTool().getCheckDetailReport(
-					paymentmethod, financeDates[0], financeDates[1],
-					getCompanyId());
+			checkDetailReports = getFinanceTool().getReportManager()
+					.getCheckDetailReport(paymentmethod, financeDates[0],
+							financeDates[1], getCompanyId());
 
 			CheckDetailReport obj = new CheckDetailReport();
 			if (checkDetailReports != null)
@@ -2203,8 +2240,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 		try {
 
-			resultList = getFinanceTool().getPayeeStatementsList(id,
-					financeDates[0], financeDates[1], getCompanyId());
+			resultList = getFinanceTool().getReportManager()
+					.getPayeeStatementsList(id, financeDates[0],
+							financeDates[1], getCompanyId());
 
 			PayeeStatementsList obj = new PayeeStatementsList();
 			if (resultList != null)
@@ -2228,8 +2266,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			long fromDate, long toDate) throws AccounterException {
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
-			return tool.getCustomerStatement(customer, fromDate, toDate,
-					getCompanyId());
+			return tool.getCustomerManager().getCustomerStatement(customer,
+					fromDate, toDate, getCompanyId());
 		}
 		return null;
 	}
@@ -2241,9 +2279,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 		ArrayList<MISC1099TransactionDetail> result = new ArrayList<MISC1099TransactionDetail>();
 		try {
-			result = getFinanceTool().getPaybillsByVendorAndBoxNumber(
-					financeDates[0], financeDates[1], vendorId, boxNo,
-					getCompanyId());
+			result = getFinanceTool().getVendorManager()
+					.getPaybillsByVendorAndBoxNumber(financeDates[0],
+							financeDates[1], vendorId, boxNo, getCompanyId());
 			MISC1099TransactionDetail obj = new MISC1099TransactionDetail();
 			if (result != null)
 				result.add((MISC1099TransactionDetail) setStartEndDates(obj,

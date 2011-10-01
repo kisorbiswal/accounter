@@ -54,7 +54,6 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public long create(IAccounterCore coreObject) throws AccounterException {
 
-		FinanceTool tool = getFinanceTool();
 		String clientClassSimpleName = coreObject.getObjectType()
 				.getClientClassSimpleName();
 
@@ -63,7 +62,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 		context.setCompanyId(getCompanyId());
 		context.setArg2(clientClassSimpleName);
 
-		return tool.create(context);
+		return new FinanceTool().create(context);
 	}
 
 	@Override
@@ -100,7 +99,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 		OperationContext updateComPref = new OperationContext(preferences,
 				getUserEmail());
 		updateComPref.setCompanyId(getCompanyId());
-		tool.updateCompanyPreferences(updateComPref);
+		tool.getCompanyManager().updateCompanyPreferences(updateComPref);
 		return true;
 	}
 
@@ -112,7 +111,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 		OperationContext opContext = new OperationContext(clientCompany,
 				getUserEmail());
 		opContext.setCompanyId(getCompanyId());
-		return tool.updateCompany(opContext);
+		return tool.getCompanyManager().updateCompany(opContext);
 
 	}
 
@@ -188,7 +187,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 		OperationContext context = new OperationContext(coreUser,
 				getUserEmail(), String.valueOf(coreObject.getID()),
 				clientClassSimpleName);
-		return financeTool.inviteUser(context);
+		return financeTool.getUserManager().inviteUser(context);
 	}
 
 	private ClientUser convertUserInfoToUser(ClientUserInfo clientUserInfo) {
@@ -221,7 +220,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 				getUserEmail(), String.valueOf(coreObject.getID()),
 				serverClassSimpleName);
 		context.setCompanyId(getCompanyId());
-		return financeTool.updateUser(context);
+		return financeTool.getUserManager().updateUser(context);
 	}
 
 	@Override
@@ -261,13 +260,15 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<Client1099Form> get1099Vendors(int selected)
 			throws AccounterException {
 		FinanceTool financeTool = new FinanceTool();
-		return financeTool.get1099Vendors(selected, getCompanyId());
+		return financeTool.getVendorManager().get1099Vendors(selected,
+				getCompanyId());
 	}
 
 	@Override
 	public Client1099Form get1099InformationByVendor(long vendorId) {
 		FinanceTool financeTool = new FinanceTool();
-		return financeTool.get1099InformationByVendor(vendorId, getCompanyId());
+		return financeTool.getVendorManager().get1099InformationByVendor(
+				vendorId, getCompanyId());
 	}
 
 	@Override

@@ -53,8 +53,8 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 		FinanceTool tool = getFinanceTool();
 		Company company = tool.getCompany(getCompanyId());
 		try {
-			return tool.getObjectById(type, id, company.getAccountingType(),
-					getCompanyId());
+			return tool.getManager().getObjectById(type, id,
+					company.getAccountingType(), getCompanyId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -69,7 +69,8 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 		FinanceTool tool = getFinanceTool();
 
 		try {
-			return tool.getObjectByName(type, name, getCompanyId());
+			return tool.getManager()
+					.getObjectByName(type, name, getCompanyId());
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
@@ -83,7 +84,8 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			return getFinanceTool().getObjects(type, getCompanyId());
+			return getFinanceTool().getManager().getObjects(type,
+					getCompanyId());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -94,14 +96,15 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public ClientCompany getCompany() throws AccounterException {
 		FinanceTool tool = getFinanceTool();
-		return tool.getClientCompany(getUserEmail(), getCompanyId());
+		return tool.getCompanyManager().getClientCompany(getUserEmail(),
+				getCompanyId());
 	}
 
 	@Override
 	public KeyFinancialIndicators getKeyFinancialIndicators() {
 		KeyFinancialIndicators keyFinancialIndicators = new KeyFinancialIndicators();
 		try {
-			keyFinancialIndicators = getFinanceTool()
+			keyFinancialIndicators = getFinanceTool().getDashboardManager()
 					.getKeyFinancialIndicators(getCompanyId());
 		} catch (Exception e) {
 			e.printStackTrace();
