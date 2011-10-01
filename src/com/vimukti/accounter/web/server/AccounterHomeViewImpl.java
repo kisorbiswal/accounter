@@ -362,7 +362,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	public ArrayList<IssuePaymentTransactionsList> getChecks(long accountId) {
 
-		List<IssuePaymentTransactionsList> checks = null;
+		List<IssuePaymentTransactionsList> checks = new ArrayList<IssuePaymentTransactionsList>();
 
 		try {
 
