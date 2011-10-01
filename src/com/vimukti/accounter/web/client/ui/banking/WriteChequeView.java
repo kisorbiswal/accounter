@@ -360,6 +360,7 @@ public class WriteChequeView extends
 				} else if (transaction.getPayToType() == ClientPayee.TYPE_TAX_AGENCY) {
 					ClientTAXAgency taxAgency = getCompany().getTaxAgency(
 							transaction.getTaxAgency());
+					payee = taxAgency;
 					paytoSelect.setComboItem(taxAgency);
 				}
 				paytoSelect.setDisabled(isInViewMode());
@@ -514,23 +515,23 @@ public class WriteChequeView extends
 		// FIXME Need to validate grids.
 		if (transactionVendorAccountTable.getAllRows().isEmpty()
 				&& transactionVendorItemTable.getAllRows().isEmpty()) {
-			result.addError(transactionVendorAccountTable, accounterConstants
-					.blankTransaction());
+			result.addError(transactionVendorAccountTable,
+					accounterConstants.blankTransaction());
 		} else {
 			result.add(transactionVendorAccountTable.validateGrid());
 			result.add(transactionVendorItemTable.validateGrid());
 		}
 
 		if (!validateAmount()) {
-			result.addError(memoTextAreaItem, accounterConstants
-					.transactiontotalcannotbe0orlessthan0());
+			result.addError(memoTextAreaItem,
+					accounterConstants.transactiontotalcannotbe0orlessthan0());
 		}
 		if (isTrackTax()) {
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect, accounterConstants
-							.enterTaxCode());
+					result.addError(taxCodeSelect,
+							accounterConstants.enterTaxCode());
 				}
 
 			}
@@ -540,13 +541,10 @@ public class WriteChequeView extends
 	}
 
 	private boolean validateAmount() {
-		if (payee != null) {
-			double total = 0.0;
-			total += transactionVendorAccountTable.getGrandTotal();
-			total += transactionVendorItemTable.getGrandTotal();
-			return AccounterValidator.isPositiveAmount(total);
-		}
-		return false;
+		double total = 0.0;
+		total += transactionVendorAccountTable.getGrandTotal();
+		total += transactionVendorItemTable.getGrandTotal();
+		return AccounterValidator.isPositiveAmount(total);
 	}
 
 	@Override
