@@ -336,7 +336,7 @@ public class JournalEntryView extends
 
 		gridPanel.add(grid);
 		gridPanel.setWidth("100%");
-		
+
 		HorizontalPanel hPanel = new HorizontalPanel();
 		hPanel.add(addButton);
 		hPanel.getElement().getStyle().setMarginTop(8, Unit.PX);
@@ -346,7 +346,7 @@ public class JournalEntryView extends
 
 		addButton.setEnabled(!isInViewMode());
 		dateForm = new DynamicForm();
-		dateForm.setNumCols(6);
+		dateForm.setNumCols(8);
 		dateForm.setStyleName("datenumber-panel");
 		locationCombo = createLocationCombo();
 		dateForm.setFields(transactionDateItem, jourNoText);
