@@ -22,7 +22,6 @@ public class TAXGroup extends TAXItemGroup {
 	 * 
 	 */
 	private static final long serialVersionUID = 2055386258774310462L;
-	private Company company;
 	/**
 	 * VAT group consists of a list of VAT Items. {@link TAXItem}
 	 */
@@ -146,11 +145,11 @@ public class TAXGroup extends TAXItemGroup {
 		session.getNamedQuery("updateTaxCodeSalesTaxRate")
 				.setParameter("id", this.id)
 				.setParameter("salesTaxRate", this.groupRate)
-				.setLong("companyId", company.getID()).executeUpdate();
+				.setLong("companyId", getCompany().getID()).executeUpdate();
 		session.getNamedQuery("updateTaxCodePurchaseTaxRate")
 				.setParameter("id", this.id)
 				.setParameter("purchaseTaxRate", this.groupRate)
-				.setLong("companyId", company.getID()).executeUpdate();
+				.setLong("companyId", getCompany().getID()).executeUpdate();
 
 		super.onSave(session);
 		// ChangeTracker.put(this);
@@ -168,13 +167,4 @@ public class TAXGroup extends TAXItemGroup {
 
 		return super.onDelete(arg0);
 	}
-
-	public Company getCompany() {
-		return company;
-	}
-
-	public void setCompany(Company company) {
-		this.company = company;
-	}
-
 }

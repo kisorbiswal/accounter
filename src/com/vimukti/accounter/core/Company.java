@@ -1258,6 +1258,16 @@ public class Company implements IAccounterServerCore {
 	}
 
 	public Set<TAXItem> getTaxItems() {
+		taxItems.clear();
+		Set<TAXItemGroup> taxGroups2 = getTaxItemGroups();
+		Iterator<TAXItemGroup> iterator = taxGroups2.iterator();
+		while (iterator.hasNext()) {
+			TAXItemGroup next = iterator.next();
+
+			if (next instanceof TAXItem) {
+				taxItems.add((TAXItem) next);
+			}
+		}
 		return taxItems;
 	}
 
@@ -1322,6 +1332,16 @@ public class Company implements IAccounterServerCore {
 	}
 
 	public Set<TAXGroup> getTaxGroups() {
+		taxGroups.clear();
+		Set<TAXItemGroup> taxGroups2 = getTaxItemGroups();
+		Iterator<TAXItemGroup> iterator = taxGroups2.iterator();
+		while (iterator.hasNext()) {
+			TAXItemGroup next = iterator.next();
+
+			if (next instanceof TAXGroup) {
+				taxGroups.add((TAXGroup) next);
+			}
+		}
 		return taxGroups;
 	}
 
