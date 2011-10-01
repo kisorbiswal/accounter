@@ -189,6 +189,13 @@ public class PurchaseOrderView extends
 				form.setFields(taxCodeSelect);
 				prodAndServiceHLay.add(form);
 
+//				this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
+//				if (taxCode != null) {
+//					this.taxCodeSelect
+//							.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
+//				}
+//				this.transactionTotalNonEditableText.setAmount(transaction
+//						.getTotal());
 			}
 			amountsForm.setFields(netAmount, vatTotalNonEditableText,
 					transactionTotalNonEditableText);
@@ -694,7 +701,7 @@ public class PurchaseOrderView extends
 			initShippingTerms();
 			initShippingMethod();
 		} else {
-
+			//taxCodeSelected(this.taxCode);
 			ClientCompany company = getCompany();
 
 			vendorAccountTransactionTable

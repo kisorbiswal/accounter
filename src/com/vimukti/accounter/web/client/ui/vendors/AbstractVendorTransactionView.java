@@ -272,11 +272,8 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 		taxCodeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
-
 					public void selectedComboBoxItem(ClientTAXCode selectItem) {
-
 						taxCodeSelected(selectItem);
-
 					}
 
 				});
