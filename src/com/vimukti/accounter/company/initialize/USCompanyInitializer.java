@@ -351,7 +351,7 @@ public class USCompanyInitializer extends CompanyInitializer {
 
 			defaultTaxAgency.setPaymentTerm((PaymentTerms) session
 					.getNamedQuery("unique.name.PaymentTerms")
-					.setEntity("comapny", company)
+					.setEntity("comapany", company)
 					.setString("name", "Net Monthly").list().get(0));
 			defaultTaxAgency.setSalesLiabilityAccount((Account) session
 					.getNamedQuery("unique.name.Account")
