@@ -25,9 +25,6 @@ import com.vimukti.accounter.core.CustomerCreditMemo;
 import com.vimukti.accounter.core.ITemplate;
 import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.InvoicePDFTemplete;
-import com.vimukti.accounter.core.InvoiceQuickBookPdf;
-import com.vimukti.accounter.core.InvoiceXeroPdf;
-import com.vimukti.accounter.core.InvoiceZohoPdf;
 import com.vimukti.accounter.core.Misc1099PDFTemplate;
 import com.vimukti.accounter.core.PrintTemplete;
 import com.vimukti.accounter.core.ReportTemplate;
@@ -356,18 +353,18 @@ public class GeneratePDFservlet extends BaseServlet {
 
 		if (invStyle.contains(CLASSIC)) {
 			printTemplete = new InvoicePDFTemplete(invoice, theme, company,
-					companyID);
+					companyID, "ClassicInvoice");
 
 		} else if (invStyle.contains(PLAIN)) {
-			printTemplete = new InvoiceQuickBookPdf(invoice, theme, company,
-					companyID);
+			printTemplete = new InvoicePDFTemplete(invoice, theme, company,
+					companyID, "PlainInvoice");
 		} else if (invStyle.contains(PROFESSIONAL)) {
-			printTemplete = new InvoiceXeroPdf(invoice, theme, company,
-					companyID);
+			printTemplete = new InvoicePDFTemplete(invoice, theme, company,
+					companyID, "ProfessionalInvoice");
 
 		} else if (invStyle.contains(MODERN)) {
-			printTemplete = new InvoiceZohoPdf(invoice, theme, company,
-					companyID);
+			printTemplete = new InvoicePDFTemplete(invoice, theme, company,
+					companyID, "ModernInvoice");
 		}
 		return printTemplete;
 	}
