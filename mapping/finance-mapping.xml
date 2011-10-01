@@ -375,7 +375,7 @@
 			<one-to-many class="Account" />
 		</set>
 
-		<set name="customers" inverse="true" cascade="save-update,delete" >
+		<set name="customers" inverse="true" cascade="save-update,delete">
 			<key column="COMPANY_ID" />
 			<one-to-many class="Customer" />
 		</set>
@@ -464,7 +464,10 @@
 			<key column="COMPANY_ID" />
 			<one-to-many class="TAXItem" />
 		</set>
-
+		<set name="items" inverse="true" cascade="save-update,delete">
+			<key column="COMPANY_ID" />
+			<one-to-many class="Item" />
+		</set>
 		<set name="taxItemGroups" inverse="true" cascade="save-update,delete">
 			<key column="COMPANY_ID" />
 			<one-to-many class="TAXItemGroup" />
