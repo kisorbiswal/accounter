@@ -12217,7 +12217,7 @@ public class FinanceTool {
 					AccounterCoreType.CUSTOMERCREDITMEMO, objectID);
 
 			CreditNotePDFTemplete creditNotePDFTemplete = new CreditNotePDFTemplete(
-					memo, brandingTheme, company, getCompany().getCompanyID());
+					memo, brandingTheme, company, getCompany().getCompanyID(),"ClassicCredit");
 
 			fileName = creditNotePDFTemplete.getFileName();
 
