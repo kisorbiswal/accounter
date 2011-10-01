@@ -69,7 +69,9 @@ public class DashboardManager extends Manager {
 				.setParameter("previousTwoDaysBackDateCal",
 						new FinanceDate(dateCal[1].getTime()).getDate())
 				.setParameter("previousOneDayBackDateCal",
-						new FinanceDate(dateCal[2].getTime()).getDate());
+						new FinanceDate(dateCal[2].getTime()).getDate())
+				.setParameter("previousOneDayBackDateCal",
+						currentDate.getDate());
 
 		List<Double> gPoints = new ArrayList<Double>();
 		List list = query.list();
