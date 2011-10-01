@@ -121,8 +121,8 @@ public class CSVReportGridTemplate<R> extends ReportGridTemplate {
 	@Override
 	public String getBody(AccounterConstants accounterConstants) {
 		if (body == null || body.toString().isEmpty()) {
-			this.body.append(accounterConstants.noRecordsToShow());
-		}
+			body = new StringBuffer(accounterConstants.noRecordsToShow());
+		} 
 		return this.body.toString();
 	}
 
