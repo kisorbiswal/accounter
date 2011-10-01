@@ -82,7 +82,8 @@ public class India extends AbstractCountryPreferences {
 
 	@Override
 	public boolean isTDSAvailable() {
-		return true;
+		// THIS IS TEMPARORY
+		return false;
 	}
 
 	@Override
