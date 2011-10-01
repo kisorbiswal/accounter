@@ -11,7 +11,7 @@
   		<tr><td class="branding_theme_logo" align=${getLogoAlignment}> ${logoImage}</td></tr>
   		<!-- $EndBlock showlogo -->
  </table>
- <table style="margin:20px 0;font-family:${fontStyle};font-size:${font};" width="100%">
+ <table class="margin" style="font-family:${fontStyle};font-size:${font};" width="100%">
 	   <tr>
 	       <td align="left" style="vertical-align:top">
 			   <div class="invoice_xero_header">
@@ -74,7 +74,7 @@
 			<td class="gridHeaderBackGround"><p class="fontSetting"><center>Bill To</center></p></td>
 		  </tr>
 		  <tr>
-			<td align="left" style="vertical-align:top;height:150px">
+			<td align="left" style="vertical-align:top;height:130px">
 			   <p class="fontSetting">
 			     <div align="left">&nbsp;${billingAddress}</div>
 			   </p>
@@ -91,7 +91,7 @@
 			  <td class="gridHeaderBackGround" ><center class="fontSetting">Ship To</center></td>
 			</tr>
 			<tr>
-			  <td align="left" style="vertical-align:top;height:150px">
+			  <td align="left" style="vertical-align:top;height:130px">
 				<p class="fontSetting">${shippingAddress}</p>
 			  </td>
 			</tr> 
@@ -257,7 +257,7 @@
 				<!-- $BeginBlock bankAccountNum --><td><center>${BankAccountNo} </center></td><!-- $EndBlock bankAccountNum -->
 			 </tr>
 </table>
-<table id="footer" width="100%" style="font-family:${fontStyle};font-size:${font};">
+<table id="footer" width="100%" style="font-family:${fontStyle};font-size:${font};clear:both">
    <tr>
 	  <td style="vertical-align:top;text-align:left" >
 		 <table  style=" padding:3.5px" >
