@@ -1467,5 +1467,15 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			return getPreferences().isTrackPaidTax();
 		}
 	}
+	
+	
+	public Double getAmountInTransactionCurrency(Double amount){
+		return amount;
+		
+	}
+	
+	public Double getAmountInBaseCurrency(Double amount){
+		return amount;
+	}
 
 }
