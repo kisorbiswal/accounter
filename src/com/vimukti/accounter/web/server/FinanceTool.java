@@ -43,7 +43,6 @@ import org.hibernate.criterion.Restrictions;
 import com.gdevelop.gwt.syncrpc.SyncProxy;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccountTransaction;
-import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Activity;
@@ -124,8 +123,8 @@ import com.vimukti.accounter.services.IS2SService;
 import com.vimukti.accounter.utils.Converter;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.utils.Security;
 import com.vimukti.accounter.utils.MiniTemplator.TemplateSyntaxException;
+import com.vimukti.accounter.utils.Security;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -2124,7 +2123,7 @@ public class FinanceTool {
 			Session session = HibernateUtil.getCurrentSession();
 			Company company = getCompany(companyId);
 			Query query = session.getNamedQuery("getJournalEntry").setEntity(
-					"comapny", company);
+					"company", company);
 			List<JournalEntry> list = query.list();
 
 			if (list != null) {
