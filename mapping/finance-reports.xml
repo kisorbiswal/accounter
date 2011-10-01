@@ -1982,7 +1982,7 @@
 		LEFT OUTER JOIN
 		BANK_ACCOUNT BA ON BA.ID = A.ID
 		WHERE
-		A.ID=:accountId AND AND A.COMPANY_ID=:companyId AND 
+		A.ID=:accountId AND A.COMPANY_ID=:companyId AND 
 		T.T_DATE
 		BETWEEN :startDate AND :endDate
 		AND T.STATUS != 3
