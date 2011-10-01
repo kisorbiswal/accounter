@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
+import com.google.gwt.user.datepicker.client.DateBox.Format;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
@@ -61,8 +63,9 @@ public class CompanyFiscalYearOption extends AbstractPreferenceOption {
 		}
 
 		dateItemLable.setText(Accounter.constants().preventPostBefore());
-
-		dateItem.setStyleName("");
+		DateTimeFormat dateFormat = DateTimeFormat
+				.getFormat(getCompanyPreferences().getDateFormat());
+		dateItem.setFormat(new DateBox.DefaultFormat(dateFormat));
 	}
 
 	public void initData() {
@@ -73,6 +76,7 @@ public class CompanyFiscalYearOption extends AbstractPreferenceOption {
 			dateItem.setValue(new ClientFinanceDate(getCompanyPreferences()
 					.getPreventPostingBeforeDate()).getDateAsObject());
 		}
+
 	}
 
 	@Override
