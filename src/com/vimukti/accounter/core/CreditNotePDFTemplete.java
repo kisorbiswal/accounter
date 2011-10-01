@@ -1,6 +1,7 @@
 package com.vimukti.accounter.core;
 
 import java.io.File;
+import java.util.Set;
 
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.MiniTemplator;
@@ -15,25 +16,24 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 	private CustomerCreditMemo memo;
 	private BrandingTheme brandingTheme;
 	private int maxDecimalPoints;
+	private String templateName;
 
 	Company company;
 	private String companyId;
 
 	public String getTempleteName() {
-
-		String templeteName = brandingTheme.getCreditNoteTempleteName();
-
-		return "templetes" + File.separator + "ClassicCredit" + ".html";
-
+		return "templetes" + File.separator + templateName + ".html";
 	}
 
 	public CreditNotePDFTemplete(CustomerCreditMemo memo,
-			BrandingTheme brandingTheme, Company company, String companyId) {
+			BrandingTheme brandingTheme, Company company, String companyId,
+			String templateName) {
 		this.memo = memo;
 		this.brandingTheme = brandingTheme;
 		this.company = company;
 		this.companyId = companyId;
 		this.maxDecimalPoints = getMaxDecimals(memo);
+		this.templateName = templateName;
 	}
 
 	public String getFileName() {
@@ -55,38 +55,16 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 				t.addBlock("showlogo");
 			}
 
-			String cmpAdd = "";
-			Address cmpTrad = company.getRegisteredAddress();
-			if (cmpTrad != null) {
-
-				cmpAdd = forUnusedAddress(cmpTrad.getAddress1(), false)
-						+ forUnusedAddress(cmpTrad.getStreet(), false)
-						+ forUnusedAddress(cmpTrad.getCity(), false)
-						+ forUnusedAddress(cmpTrad.getStateOrProvinence(),
-								false)
-						+ forUnusedAddress(cmpTrad.getZipOrPostalCode(), false)
-						+ forUnusedAddress(cmpTrad.getCountryOrRegion(), false);
-			}
-
-			if (cmpAdd.equals("")) {
-				// String contactDetails = brandingTheme.getContactDetails() !=
-				// null
-				// ? brandingTheme
-				// .getContactDetails() : this.company.getName();
-				cmpAdd = forNullValue(company.getFullName());
-			} else {
-				cmpAdd = forNullValue(company.getFullName()) + "<br/>" + cmpAdd;
-			}
-
 			// TODO For setting the Contact Details
-			String contactDetails = forNullValue(brandingTheme
-					.getContactDetails());
-			if (contactDetails.equalsIgnoreCase("(None Added)")) {
+			String contactDetails = forNullValue(
+					brandingTheme.getContactDetails()).replace("\n", "<br/>");
+			if (contactDetails.contains("(None Added)")) {
 				contactDetails = "";
 			}
+			contactDetails = forNullValue(company.getFullName()) + "<br/>"
+					+ contactDetails;
+			t.setVariable("companyDetails", contactDetails);
 
-			t.setVariable("companyName", cmpAdd);
-			t.setVariable("companyRegistrationAddress", contactDetails);
 
 			t.setVariable("creditNoteNumber", memo.getNumber());
 			t.setVariable("creditNoteDate", memo.getDate().toString());
@@ -99,26 +77,50 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 				t.addBlock("customernum");
 			}
 
-			t.addBlock("creditHead");
+		
 
-			// for displaying customer name and billing Address
-			String customernameAddress = forUnusedAddress(memo.getCustomer()
-					.getName(), false);
+
+			//for getting customer contact name
+			String cname="";
+			String phone="";
+			String email="";
+			Customer customer = memo.getCustomer();
+			Set<Contact> contacts = customer.getContacts();
+			for(Contact contact : contacts)
+			{
+				if(contact.isPrimary())
+				{
+					cname = contact.getName();
+					
+					if(contact.getBusinessPhone().trim().length()> 0)
+					phone = contact.getBusinessPhone();
+					
+					if(contact.getEmail().trim().length()> 0)
+					email= contact.getEmail();
+				}
+			}
+			// setting billing address
 			Address bill = memo.getBillingAddress();
 			if (bill != null) {
-				customernameAddress = "<div align=\"left\">&nbsp;"
+				String customernameAddress = 	 forUnusedAddress(cname, false)
 						+ forUnusedAddress(memo.getCustomer().getName(), false)
 						+ forUnusedAddress(bill.getAddress1(), false)
 						+ forUnusedAddress(bill.getStreet(), false)
 						+ forUnusedAddress(bill.getCity(), false)
 						+ forUnusedAddress(bill.getStateOrProvinence(), false)
 						+ forUnusedAddress(bill.getZipOrPostalCode(), false)
-						+ bill.getCountryOrRegion() + "</div>";
+						+ forUnusedAddress(bill.getCountryOrRegion(), false)
+						+ forUnusedAddress("Phone : "+phone, false)
+						+ forUnusedAddress("Email : "+email, false);
+
+				if (customernameAddress.trim().length() > 0) {
+					t.setVariable("customerNameNBillAddress", customernameAddress);
+					t.addBlock("creditHead");
+
+				}
 			}
-
-			t.setVariable("customerNameNBillAddress", customernameAddress);
-			t.addBlock("billAddress");
-
+			
+			
 			// t.setVariable("description", "Description");
 			// t.setVariable("qty", "Qty");
 			// t.setVariable("unitPrice", "Unit Price");
@@ -203,6 +205,27 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 			t.setVariable("total", total);
 			t.addBlock("itemDetails");
 
+			String termsNCondn = forNullValue(
+					brandingTheme.getTerms_And_Payment_Advice()).replace("\n",
+					"<br/>");
+
+			if (termsNCondn.equalsIgnoreCase("(None Added)")) {
+				termsNCondn = "";
+			}
+			if (termsNCondn.trim().length() > 0) {
+				t.setVariable("termsAndPaymentAdvice", termsNCondn);
+				t.addBlock("termsAndAdvice");
+			}
+
+			String paypalEmail = forNullValue(brandingTheme.getPayPalEmailID());
+			if (paypalEmail.equalsIgnoreCase("(None Added)")) {
+				paypalEmail = "";
+			}
+			if (paypalEmail.trim().length() > 0) {
+				t.setVariable("email", paypalEmail);
+				t.addBlock("paypalemail");
+			}
+			
 			// for Vat String
 			String vatString = "Tax No: "
 					+ forNullValue(company.getPreferences()
@@ -236,31 +259,37 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 					t.addBlock("bankAccountDetails");
 				}
 			}
-			String regAdd = "";
+			// TODO for displaying regestration address and Company Registration
+						// Number
+						String regestrationAddress = "";
+						Address reg = company.getRegisteredAddress();
 
-			Address reg = company.getRegisteredAddress();
-			if (reg.getType() == Address.TYPE_COMPANY) {
-				if (reg != null)
-					regAdd = "Register Address: "
-							+ forUnusedAddress(reg.getAddress1(), true)
-							+ forUnusedAddress(reg.getStreet(), true)
-							+ forUnusedAddress(reg.getCity(), true)
-							+ forUnusedAddress(reg.getStateOrProvinence(), true)
-							+ forUnusedAddress(reg.getZipOrPostalCode(), true)
-							+ reg.getCountryOrRegion();
-			}
+						if (reg != null)
+							regestrationAddress = ("&nbsp;Registered Address: "
+									+ reg.getAddress1()
+									+ forUnusedAddress(reg.getStreet(), true)
+									+ forUnusedAddress(reg.getCity(), true)
+									+ forUnusedAddress(reg.getStateOrProvinence(), true)
+									+ forUnusedAddress(reg.getZipOrPostalCode(), true)
+									+ forUnusedAddress(reg.getCountryOrRegion(), true) + ".");
 
-			regAdd = company.getFullName()
-					+ regAdd
-					+ ((company.getRegistrationNumber() != null && !company
-							.getRegistrationNumber().equals("")) ? "<br/>Company Registration No: "
-							+ company.getRegistrationNumber()
-							: "");
+						regestrationAddress = (company.getFullName() + "&nbsp;&nbsp;&nbsp;"
+								+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
+								.getRegistrationNumber().equals("")) ? "<br/>Company Registration No: "
+								+ company.getRegistrationNumber()
+								: ""));
 
-			t.setVariable("compRegNamenNumber", regAdd);
-			t.addBlock("regAddress");
+						if (regestrationAddress != null
+								&& regestrationAddress.trim().length() > 0) {
+							if (brandingTheme.isShowRegisteredAddress()) {
+								// t.setVariable("tradingName", trName);
+								t.setVariable("regestrationAddress", regestrationAddress);
+								t.addBlock("regestrationAddress");
+							}
+						}
 
 			String outPutString = t.getFileString();
+			System.err.println(outPutString);
 			return outPutString;
 		} catch (Exception e) {
 			System.err.println("credit memeo err......." + e.getMessage()
