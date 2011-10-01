@@ -1009,14 +1009,6 @@ public class Company implements IAccounterServerCore {
 	}
 
 	public Set<Vendor> getVendors() {
-		vendors.clear();
-		Set<Payee> payees2 = getPayees();
-		Iterator<Payee> iterator = payees2.iterator();
-		while (iterator.hasNext()) {
-			Payee next = iterator.next();
-			if (next instanceof Vendor)
-				vendors.add((Vendor) next);
-		}
 		return vendors;
 	}
 
@@ -1258,16 +1250,6 @@ public class Company implements IAccounterServerCore {
 	}
 
 	public Set<TAXItem> getTaxItems() {
-		taxItems.clear();
-		Set<TAXItemGroup> taxGroups2 = getTaxItemGroups();
-		Iterator<TAXItemGroup> iterator = taxGroups2.iterator();
-		while (iterator.hasNext()) {
-			TAXItemGroup next = iterator.next();
-
-			if (next instanceof TAXItem) {
-				taxItems.add((TAXItem) next);
-			}
-		}
 		return taxItems;
 	}
 
@@ -1276,14 +1258,6 @@ public class Company implements IAccounterServerCore {
 	}
 
 	public Set<TAXAgency> getTaxAgencies() {
-		taxAgencies.clear();
-		Set<Payee> payees2 = getPayees();
-		Iterator<Payee> iterator = payees2.iterator();
-		while (iterator.hasNext()) {
-			Payee next = iterator.next();
-			if (next instanceof TAXAgency)
-				taxAgencies.add((TAXAgency) next);
-		}
 		return taxAgencies;
 	}
 
@@ -1332,16 +1306,6 @@ public class Company implements IAccounterServerCore {
 	}
 
 	public Set<TAXGroup> getTaxGroups() {
-		taxGroups.clear();
-		Set<TAXItemGroup> taxGroups2 = getTaxItemGroups();
-		Iterator<TAXItemGroup> iterator = taxGroups2.iterator();
-		while (iterator.hasNext()) {
-			TAXItemGroup next = iterator.next();
-
-			if (next instanceof TAXGroup) {
-				taxGroups.add((TAXGroup) next);
-			}
-		}
 		return taxGroups;
 	}
 
@@ -1350,14 +1314,6 @@ public class Company implements IAccounterServerCore {
 	}
 
 	public Set<Customer> getCustomers() {
-		customers.clear();
-		Set<Payee> payees2 = getPayees();
-		Iterator<Payee> iterator = payees2.iterator();
-		while (iterator.hasNext()) {
-			Payee next = iterator.next();
-			if (next instanceof Customer)
-				customers.add((Customer) next);
-		}
 		return customers;
 	}
 
