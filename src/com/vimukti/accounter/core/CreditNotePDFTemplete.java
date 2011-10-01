@@ -73,7 +73,7 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 
 			if (customerNumber > 0) {
 				t.setVariable("customerNumber", memo.getCustomer().getNumber());
-				t.addBlock("customernum");
+			//	t.addBlock("customernum");
 			}
 
 			// for primary curreny
