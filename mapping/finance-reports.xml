@@ -266,7 +266,7 @@
 		WHERE T.T_TYPE = 22
 		AND T.STATUS IN (1, 101) AND T.T_DATE BETWEEN
 		:startDate AND :endDate
-		AND T.STATUS != 3 AND T.COMPANY_D=:companyId ORDER BY P.NAME, T.T_DATE
+		AND T.STATUS != 3 AND T.COMPANY_ID =:companyId ORDER BY P.NAME, T.T_DATE
 
 
 	</sql-query>
