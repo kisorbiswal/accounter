@@ -285,7 +285,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 
-			paybillTrList = getFinanceTool().getTransactionPayBills(vendorId);
+			paybillTrList = getFinanceTool().getTransactionPayBills(vendorId,
+					getCompanyId());
 
 			// paybillTrList = (List<PayBillTransactionList>) manager
 			// .merge(paybillTrList);
