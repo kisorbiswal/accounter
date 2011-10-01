@@ -4236,9 +4236,9 @@ public interface AccounterConstants extends Constants {
 
 	public String Member();
 
-	public String patitent();
+	public String patient();
 
-	public String Patitent();
+	public String Patient();
 
 	public String supplier();
 

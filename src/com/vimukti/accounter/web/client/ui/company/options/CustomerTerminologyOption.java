@@ -67,7 +67,7 @@ public class CustomerTerminologyOption extends AbstractPreferenceOption {
 		membersRadioButton.setName(constants.group());
 		membersRadioButton.setHTML(constants.Member());
 		PatientRadioButton.setName(constants.group());
-		PatientRadioButton.setHTML(constants.Patitent());
+		PatientRadioButton.setHTML(constants.Patient());
 		clientsRadioButton.setName(constants.group());
 		clientsRadioButton.setHTML(constants.Client());
 		DonorsRadioButton.setName(constants.group());

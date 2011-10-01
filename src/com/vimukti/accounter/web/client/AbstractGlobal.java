@@ -31,7 +31,7 @@ public abstract class AbstractGlobal implements IGlobal {
 		case ClientCustomer.MEMBER:
 			return constants().Member().trim();
 		case ClientCustomer.PATITEINT:
-			return constants().Patitent().trim();
+			return constants().Patient().trim();
 		default:
 			return constants().Customer().trim();
 		}
@@ -54,7 +54,7 @@ public abstract class AbstractGlobal implements IGlobal {
 		case ClientCustomer.MEMBER:
 			return constants().member().trim();
 		case ClientCustomer.PATITEINT:
-			return constants().patitent().trim();
+			return constants().patient().trim();
 		default:
 			return constants().customer().trim();
 		}
