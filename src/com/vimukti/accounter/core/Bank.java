@@ -63,7 +63,7 @@ public class Bank extends CreatableObject implements IAccounterServerCore,
 		Bank bank = (Bank) clientObject;
 		Query query = session.getNamedQuery("getNameofBank.from.Bank")
 				.setString("name", bank.name)
-				.setEntity("company", getCompany());
+				.setEntity("company", bank.getCompany());
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			Bank newBank = (Bank) list.get(0);
