@@ -5127,7 +5127,7 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="name" type="String" />
 
-		SELECT * FROM ITEMGROUP I WHERE I.NAME =:name AND I.ID !=:id ANG
+		SELECT * FROM ITEMGROUP I WHERE I.NAME =:name AND I.ID !=:id AND
 		I.COMPANY_ID=:companyId
 
 	</sql-query>
