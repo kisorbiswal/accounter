@@ -63,7 +63,7 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		int size = taxAgenciesList.size();
 		StringBuilder message = new StringBuilder();
 		if (size > 0) {
-			message.append("Please Select the " + getString() + " Agency");
+			message.append("Please Select the Tax Agency");
 		}
 
 		CommandList commandList = new CommandList();
@@ -72,7 +72,7 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		result.add(message.toString());
 		result.add(taxAgenciesList);
 		result.add(commandList);
-		result.add("Select the " + getString() + " Agency");
+		result.add("Select the Tax Agency");
 
 		return result;
 	}
@@ -120,7 +120,7 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		int size = taxItemsList.size();
 		StringBuilder message = new StringBuilder();
 		if (size > 0) {
-			message.append("Please Select the " + getString() + " Item.");
+			message.append("Please Select the Tax Item.");
 		}
 
 		CommandList commandList = new CommandList();
@@ -129,7 +129,7 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		result.add(message.toString());
 		result.add(taxItemsList);
 		result.add(commandList);
-		result.add("Select the " + getString() + " Item");
+		result.add("Select the Tax Item");
 
 		return result;
 	}
@@ -215,8 +215,7 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		}
 		if (!taxRateReq.isDone()) {
 			context.setAttribute(INPUT_ATTR, AMOUNT);
-			return text(context, "Please Enter the " + getString() + " Rate.",
-					null);
+			return text(context, "Please Enter the Tax Rate.", null);
 		}
 
 		return null;
@@ -236,14 +235,6 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		}
 
 		return null;
-	}
-
-	protected String getString() {
-		String s = "TAX";
-		if (isUkCompany()) {
-			s = "VAT";
-		}
-		return s;
 	}
 
 	protected boolean isUkCompany() {

@@ -137,8 +137,7 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 		Double amount = (Double) amountReq.getValue();
 		if (amount == selection) {
 			context.setAttribute(INPUT_ATTR, AMOUNT);
-			return number(context,
-					"Please Enter the " + getString() + " Rate.", "" + amount);
+			return number(context, "Please Enter the Tax Rate.", "" + amount);
 		}
 
 		ResultList list = new ResultList("values");
@@ -207,16 +206,14 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 		}
 
 		result = context.makeResult();
-		result.add(getString()
-				+ " Adjustment is ready to create with following values.");
+		result.add("Tax Adjustment is ready to create with following values.");
 		result.add(list);
 		ResultList actions = new ResultList("actions");
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create " + getString() + " Adjustment.");
+		finish.add("", "Finish to create Tax Adjustment.");
 		actions.add(finish);
 		result.add(actions);
 
 		return result;
 	}
-
 }

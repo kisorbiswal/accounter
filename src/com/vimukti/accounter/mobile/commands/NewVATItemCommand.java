@@ -108,16 +108,14 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		String name = (String) nameReq.getValue();
 		if (name == selection) {
 			context.setAttribute(INPUT_ATTR, NAME);
-			return text(context, "Please Enter the " + getString()
-					+ " Item Name.", name);
+			return text(context, "Please Enter the Tax Item Name.", name);
 		}
 
 		Requirement taxRateReq = get(AMOUNT);
 		Double taxRate = (Double) taxRateReq.getValue();
 		if (taxRate == selection) {
 			context.setAttribute(INPUT_ATTR, AMOUNT);
-			return number(context,
-					"Please Enter the " + getString() + " Rate.", "" + taxRate);
+			return number(context, "Please Enter the Tax Rate.", "" + taxRate);
 		}
 
 		Requirement taxAgencyrReq = get(TAX_AGENCY);
@@ -140,12 +138,12 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		}
 
 		Record taxRateRecord = new Record(taxRate);
-		taxRateRecord.add("Name", getString() + " Rate");
+		taxRateRecord.add("Name", "Tax Rate");
 		taxRateRecord.add("Value", taxRate);
 		list.add(taxRateRecord);
 
 		Record taxAgencyRecord = new Record(taxAgency);
-		taxAgencyRecord.add("Name", getString() + " Agency");
+		taxAgencyRecord.add("Name", "Tax Agency");
 		taxAgencyRecord.add("Value", taxAgency.getName());
 		list.add(taxAgencyRecord);
 
@@ -200,12 +198,11 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		list.add(isActiveRecord);
 
 		result = context.makeResult();
-		result.add(getString()
-				+ " Item is ready to create with following values.");
+		result.add("Tax Item is ready to create with following values.");
 		result.add(list);
 		ResultList actions = new ResultList("actions");
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create " + getString() + " Item.");
+		finish.add("", "Finish to create Tax Item.");
 		actions.add(finish);
 		result.add(actions);
 
@@ -310,7 +307,7 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		markDone();
 
 		Result result = new Result();
-		result.add(getString() + " Item was created successfully.");
+		result.add("Tax Item was created successfully.");
 
 		return result;
 	}

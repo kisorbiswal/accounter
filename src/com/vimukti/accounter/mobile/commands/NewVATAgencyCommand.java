@@ -169,7 +169,7 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 
 		markDone();
 		Result result = new Result();
-		result.add(getString() + " Agency was created Successfully.");
+		result.add("Tax Agency was created Successfully.");
 
 		return result;
 	}
@@ -197,8 +197,7 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		String name = (String) nameReq.getValue();
 		if (name == selection) {
 			context.setAttribute(INPUT_ATTR, NAME);
-			return text(context, "Please Enter the " + getString()
-					+ " Agency Name.", name);
+			return text(context, "Please Enter the Tax Agency Name.", name);
 		}
 
 		Requirement paymentTermReq = get(PAYMENT_TERM);
@@ -308,8 +307,7 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		list.add(isActiveRecord);
 
 		result = context.makeResult();
-		result.add(getString()
-				+ " Agency is ready to create with following values.");
+		result.add("Tax Agency is ready to create with following values.");
 		result.add(list);
 		ResultList contactsList = new ResultList("customerContact");
 		for (Contact contact : contacts) {
@@ -327,7 +325,7 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		moreContacts.add("", "Add more contacts");
 		actions.add(moreContacts);
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create " + getString() + " Agency.");
+		finish.add("", "Finish to create Tax Agency.");
 		actions.add(finish);
 		result.add(actions);
 
