@@ -1355,7 +1355,7 @@ input[type="text"]{
 #contactForm {
 	background-color:#333333;
 	border:2px solid #FFFFFF;
-	height:450px;
+	height:600px;
 	margin-right:-400px;
 	margin-top:-160px;
 	padding-left:30px;
@@ -1396,6 +1396,9 @@ form#contactForm .submit {
 }
 .yourfeedback label:last-child{
   	display:none !important;
+}
+.yourfeedback textarea{
+  height:323px !important;	
 }
 #contact #contactform .error,#contact .yourfeedback .error { background-color: #EDBE9C; }
 .underline{
