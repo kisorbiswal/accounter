@@ -1072,6 +1072,8 @@ public class VendorBillView extends
 				.setAllRows(getAccountTransactionItems(itemsList));
 		vendorItemTransactionTable
 				.setAllRows(getItemTransactionItems(itemsList));
+		vendorAccountTransactionTable.updateTotals();
+		vendorItemTransactionTable.updateTotals();
 	}
 
 	public void selectedItemReceipt(ClientItemReceipt itemReceipt) {
