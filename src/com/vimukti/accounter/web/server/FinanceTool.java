@@ -487,6 +487,9 @@ public class FinanceTool {
 			IAccounterServerCore clonedObject = new CloneUtil<IAccounterServerCore>(
 					IAccounterServerCore.class).clone(null, serverObject);
 
+			ObjectConvertUtil.setCompany((IAccounterServerCore) clonedObject,
+					company);
+
 			canEdit(clonedObject, (IAccounterCore) data);
 
 			isTransactionNumberExist((IAccounterCore) data, company);
