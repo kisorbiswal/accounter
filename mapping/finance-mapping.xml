@@ -375,7 +375,7 @@
 			<one-to-many class="Account" />
 		</set>
 
-		<set name="customers" inverse="true" cascade="save-update,delete">
+		<set name="customers" inverse="true" cascade="save-update,delete" >
 			<key column="COMPANY_ID" />
 			<one-to-many class="Customer" />
 		</set>
