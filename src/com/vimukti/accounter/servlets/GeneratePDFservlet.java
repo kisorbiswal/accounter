@@ -376,17 +376,17 @@ public class GeneratePDFservlet extends BaseServlet {
 
 		if (invStyle.contains(CLASSIC)) {
 			printTemplete = new CreditNotePDFTemplete(memo, theme, company,
-					companyID);
+					companyID,"ClassicCredit");
 
 		} else if (invStyle.contains(PLAIN)) {
-			printTemplete = new CreditNoteQuickbooksTemplate(memo, theme,
-					company, companyID);
+			printTemplete = new CreditNotePDFTemplete(memo, theme,
+					company, companyID,"PlainCredit");
 		} else if (invStyle.contains(PROFESSIONAL)) {
-			printTemplete = new CreditNoteXeroTemplate(memo, theme, company,
-					companyID);
+			printTemplete = new CreditNotePDFTemplete(memo, theme, company,
+					companyID,"ProfessionalCredit");
 		} else if (invStyle.contains(MODERN)) {
-			printTemplete = new CreditNoteZohoTemplate(memo, theme, company,
-					companyID);
+			printTemplete = new CreditNotePDFTemplete(memo, theme, company,
+					companyID,"ModernCredit");
 		}
 		return printTemplete;
 	}
