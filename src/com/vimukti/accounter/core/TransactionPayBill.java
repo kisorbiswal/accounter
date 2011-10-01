@@ -307,11 +307,11 @@ public class TransactionPayBill extends CreatableObject implements
 
 			// this.enterBill.getVendor().updateBalance(session, this.payBill,
 			// -this.payment);
+			if (payBill != null)
+				setCompany(payBill.getCompany());
 
 			if (this.getDiscountAccount() != null
 					&& DecimalUtil.isGreaterThan(this.getCashDiscount(), 0.0)) {
-				setCompany(payBill.getCompany());
-
 				this.payBill.getVendor().updateBalance(session, this.payBill,
 						-this.cashDiscount);
 
