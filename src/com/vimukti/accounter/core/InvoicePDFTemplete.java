@@ -3,6 +3,7 @@ package com.vimukti.accounter.core;
 import java.io.File;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.MiniTemplator;
@@ -69,19 +70,19 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			t.setVariable("companyDetails", contactDetails);
 
 			// setting invoice number
-			
+
 			String invNumber = forNullValue(invoice.getNumber());
 			if (invNumber.trim().length() > 0) {
-			
+
 				t.setVariable("invoiceNumber", invNumber);
 				t.addBlock("invNumberHead");
 			}
 
 			// setting invoice date
-			
+
 			String invDate = invoice.getDate().toString();
 			if (invDate.trim().length() > 0) {
-			
+
 				t.setVariable("invoiceDate", invDate);
 				t.addBlock("invDateHead");
 			}
@@ -89,13 +90,13 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			// setting invoice order number
 			String invOrderNum = forNullValue(invoice.getOrderNum());
 			if (invOrderNum.trim().length() > 0) {
-			
+
 				t.setVariable("invoiceOrderNumber", invOrderNum);
 				t.addBlock("invOrderNumHead");
 			}
 
 			// setting invoice customer number
-			
+
 			String invCustomerNum = forNullValue(invoice.getCustomer()
 					.getNumber());
 			if (invCustomerNum.trim().length() > 0) {
@@ -104,7 +105,6 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			}
 
 			// setting payment terms
-
 			PaymentTerms paymentterm = invoice.getPaymentTerm();
 			String payterm = paymentterm != null ? paymentterm.getName() : "";
 			if (payterm.trim().length() > 0) {
@@ -114,17 +114,47 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				t.addBlock("paymentTermsBlock");
 			}
 
+			// for primary curreny
+			Currency primaryCurrency = company.getPreferences()
+					.getPrimaryCurrency();
+			if (primaryCurrency != null)
+				if (primaryCurrency.getFormalName().trim().length() > 0) {
+					t.setVariable("currency", primaryCurrency.getFormalName()
+							.trim());
+					t.addBlock("currency");
+				}
+
+			// for getting customer contact name
+			String cname = "";
+			String phone = "";
+			String email = "";
+			Customer customer = invoice.getCustomer();
+			Set<Contact> contacts = customer.getContacts();
+			for (Contact contact : contacts) {
+				if (contact.isPrimary()) {
+					cname = contact.getName();
+
+					if (contact.getBusinessPhone().trim().length() > 0)
+						phone = contact.getBusinessPhone();
+
+					if (contact.getEmail().trim().length() > 0)
+						email = contact.getEmail();
+				}
+			}
 			// setting billing address
 			Address bill = invoice.getBillingAddress();
 			if (bill != null) {
-				String billAddress = forUnusedAddress(invoice.getCustomer()
-						.getName(), false)
+				String billAddress = forUnusedAddress(cname, false)
+						+ forUnusedAddress(invoice.getCustomer().getName(),
+								false)
 						+ forUnusedAddress(bill.getAddress1(), false)
 						+ forUnusedAddress(bill.getStreet(), false)
 						+ forUnusedAddress(bill.getCity(), false)
 						+ forUnusedAddress(bill.getStateOrProvinence(), false)
 						+ forUnusedAddress(bill.getZipOrPostalCode(), false)
-						+ bill.getCountryOrRegion();
+						+ forUnusedAddress(bill.getCountryOrRegion(), false)
+						+ forUnusedAddress("Phone : " + phone, false)
+						+ forUnusedAddress("Email : " + email, false);
 
 				if (billAddress.trim().length() > 0) {
 					t.setVariable("billingAddress", billAddress);
@@ -273,12 +303,12 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				t.addBlock("termsAndAdvice");
 			}
 
-			String email = forNullValue(brandingTheme.getPayPalEmailID());
-			if (email.equalsIgnoreCase("(None Added)")) {
-				email = "";
+			String paypalEmail = forNullValue(brandingTheme.getPayPalEmailID());
+			if (paypalEmail.equalsIgnoreCase("(None Added)")) {
+				paypalEmail = "";
 			}
-			if (email.trim().length() > 0) {
-				t.setVariable("email", email);
+			if (paypalEmail.trim().length() > 0) {
+				t.setVariable("email", paypalEmail);
 				t.addBlock("paypalemail");
 			}
 
@@ -359,6 +389,7 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			t.addBlock("theme");
 
 			outPutString = t.getFileString();
+			System.err.println(outPutString);
 			return outPutString;
 			// OutputStream outputstream = new ByteArrayOutputStream();
 			//
@@ -479,7 +510,7 @@ public class InvoicePDFTemplete implements PrintTemplete {
 		StringBuffer original = new StringBuffer();
 		// String imagesDomain = "/do/downloadFileFromFile?";
 
-		original.append("<img src='file:///");
+		original.append("<img style='width:130px;height:120px' src='file:///");
 		original.append(ServerConfiguration.getAttachmentsDir() + "/"
 				+ companyId + "/" + brandingTheme.getFileName());
 		original.append("'/>");
@@ -495,5 +526,7 @@ public class InvoicePDFTemplete implements PrintTemplete {
 	public String getFileName() {
 		return "Invoice_" + this.invoice.getNumber();
 	}
+	
+	
 
 }
