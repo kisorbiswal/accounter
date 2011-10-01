@@ -38,41 +38,33 @@
 						<!-- $BeginBlock invNumberHead -->
 						<tr>
 						   <td id ="invoiceNumber"> Invoice Number</td>
-						   <!-- $BeginBlock invNumber -->
 						   <td align="right" width="40%">
 							 ${invoiceNumber}
 						   </td>
-						   <!-- $EndBlock invNumber -->
 						</tr>
 						<!-- $EndBlock invNumberHead -->
                         <!-- $BeginBlock invDateHead -->
 						<tr>
 						  <td id = "invoiceDate">Invoice Date</td>
-						  <!-- $BeginBlock invDate -->
 						  <td align="right">
 							 ${invoiceDate}
 						  </td>
-						  <!-- $EndBlock invDate -->
 						</tr>
 						<!-- $EndBlock invDateHead -->
 						<!-- $BeginBlock invOrderNumHead -->
 						<tr>
 						  <td id = "orderNumber"> Order Number</td>
-						  <!-- $BeginBlock invOrderNum -->
 						  <td align="right">
 							${invoiceOrderNumber}
 						  </td>
-						  <!-- $EndBlock invOrderNum -->
 						</tr>
 						<!-- $EndBlock invOrderNumHead -->
                         <!-- $BeginBlock invCustNumHead -->
 						<tr>
 						  <td id = "customerNumber">Customer Number</td>
-						  <!-- $BeginBlock invCustNum -->
 						  <td align="right">
 							 ${invoiceCustomerNumber}
 						  </td>
-						  <!-- $EndBlock invCustNum -->
 						 </tr>
 						 <!-- $EndBlock invCustNumHead -->
 						  <!-- $BeginBlock paymentTermsBlock -->
@@ -123,30 +115,40 @@
 		</td>
 	 </tr>
  </table>
- <table width="100%" border="1" id="permethterms" style="font-family:${fontStyle};font-size:${font};">
-	     <colgroup><col></colgroup>
-		 <tr> <!-- $BeginBlock salespersonhead -->
-     
+<table width="100%" border="1" id="permethterms" style="font-family:${fontStyle};font-size:${font};">
+		 <tr>
+		 <table>
+		 <tr>
+		  <!-- $BeginBlock salespersonhead -->
 			<td id = "salesPerson"  class="gridHeaderBackGround">
 			   <center><p class="fontSetting">Sales Person</p></center>
 			</td>
 			<!-- $EndBlock salespersonhead -->
+			</tr>
+			<tr>
+			 <!-- $BeginBlock salesperson -->
+			<td align="center">
+			  <p class="fontSetting">${salesPersonName}</p>
+			</td>
+			<!-- $EndBlock salesperson -->
+			</tr>
+			</table>
+			<table>
+			<tr>
 			<!-- $BeginBlock shippingmethodhead -->
 	        <td id = "shippingMethod"  class="gridHeaderBackGround">
 			   <center><p class="fontSetting">Shipping Method</p></center>
 			</td>
 			<!-- $EndBlock shippingmethodhead -->
 			</tr>
-		 <tr><!-- $BeginBlock salesperson -->
-			<td align="center">
-			  <p class="fontSetting">${salesPersonName}</p>
-			</td>
-			<!-- $EndBlock salesperson -->
+			 <tr>
 			<!-- $BeginBlock shippingmethod -->
 			<td align="center">
 			   <p class="fontSetting">${shippingMethodName}</p>            
 			</td>
 			<!-- $EndBlock shippingmethod -->
+		 </tr>
+		 </table>
 		 </tr>
  </table>
 <table width="100%" border="1" class="removeHeadBorder" id="items" style="font-family:${fontStyle};font-size:${font};">
