@@ -81,13 +81,14 @@ public class Header extends HorizontalPanel {
 
 		logout = new HTML(Accounter.messages().logoutHTML());
 		logout.addStyleName("logout-html");
-		logout.setWidth(((Accounter.constants().logout().length() * 4) + 19)
-				+ "px");
+		// logout.setWidth(((Accounter.constants().logout().length() * 4) + 19)+
+		// "px");
 		helpBar = new MenuBar();
 		initializeHelpBar();
 		helpBar.setStyleName("helpBar");
 		help = new HTML(Accounter.messages().helpHTML());
-		help.setWidth(((Accounter.constants().help().length() * 2) + 19) + "px");
+		// help.setWidth(((Accounter.constants().help().length() * 2) + 19) +
+		// "px");
 		help.addStyleName("help-style");
 		help.addStyleName("helpBar");
 		help.addClickHandler(new ClickHandler() {
