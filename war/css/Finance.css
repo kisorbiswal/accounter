@@ -113,7 +113,7 @@ html,body,.myacc-form1 td input[type=text],.gridBodyContainer,.gridHeader tr td 
 .no-title td.td01,.main-w,td.td11,td.td10,.users-listGrid .gridBodyContainer .onsort,.upload-logo,.listgrid,
 .workspaces-listGrid .gridBodyContainer .onsort,.dropdownFlex,.blue-day-grid,.editTable,.gwt-PopupPanel,.ReportGrid,
 select[multiple],.selectedview_textareadata,#loading .loadingIndicator,.main-class-pannel,.recounciliation_grid,
-.editTable table,.editTable input[disabled],.editTable_disable_anchor,.dateBoxPopup{
+.editTable table,.editTable input[disabled],.editTable_disable_anchor,.dateBoxPopup,.fullSizePanel{
 	background: none repeat scroll 0 0 #FFFFFF;
 }
 .ele-disable,.menuPopupTop,.menuPopupMiddleLeft,.disconnected .gridLabelCell .gwt-HTML img,.listgridfooter,#overlay,
@@ -282,7 +282,7 @@ html,body,#overlay{
 .imageLink img {
 	margin-right: 3px;
 }
-.toolbox,.gridSelectBoxCell .downarrow-button{
+.toolbox,.gridSelectBoxCell .downarrow-button,.dateBoxPopup{
 	z-index:1;
 }
 .toolbox,.helpPanel {
@@ -938,7 +938,7 @@ iframe,.address div {
 .view_panel,.setup_panel{
 	height: 500px;
 }
-.addAccountPortlet,.addButtonPortlet,.account_portlet,.setting-class-panel{
+.addAccountPortlet,.addButtonPortlet,.account_portlet,.setting-class-panel,.prepare1099form{
 	margin-top:10px;
 }
 .general-image,.addAccountPortlet,.addButtonPortlet,.account_portlet{
@@ -1157,7 +1157,7 @@ body,#loading .loadingIndicator,.panel-right-align .gwt-Button button,#overlay{
 .customize_Accounter_labels{
 	margin-bottom:5px;
 }
-.email_textarea textarea{
+.email_textarea textarea,.recounciliation_grid{
 	height:200px;
 }
 body,div, table td, select,.gwt-Button,textarea,input,label,.ReportGrid tr td,.gwt-Label,form#contactForm .submit,form#contactForm input, textarea{
@@ -1264,7 +1264,7 @@ a#fdbk_tab,#overlay{
 .custom-combo{
 	width:155px;
 }
-.gwt-TextBox{
+.gwt-TextBox,.companyInfoPanel td input{
 	width:172px !important;
 }
 input[type="text"]{
