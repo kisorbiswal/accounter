@@ -153,7 +153,7 @@ public class GeneratePDFservlet extends BaseServlet {
 
 			Company company = financetool.getCompany(Long.valueOf(companyID));
 
-			CompanyPreferenceThreadLocal.set(financetool
+			CompanyPreferenceThreadLocal.set(financetool.getCompanyManager()
 					.getClientCompanyPreferences(company));
 
 			String objectId = request.getParameter("objectId");
@@ -170,7 +170,8 @@ public class GeneratePDFservlet extends BaseServlet {
 				transactionType = Integer
 						.parseInt(request.getParameter("type"));
 				BrandingTheme brandingTheme = (BrandingTheme) financetool
-						.getServerObjectForid(AccounterCoreType.BRANDINGTHEME,
+						.getManager().getServerObjectForid(
+								AccounterCoreType.BRANDINGTHEME,
 								Long.parseLong(brandingThemeId));
 				converter = new Converter(
 						getPageSizeType(brandingTheme.getPageSizeType()));
@@ -178,7 +179,7 @@ public class GeneratePDFservlet extends BaseServlet {
 				for (int i = 0; i < ids.length; i++) {
 
 					if (transactionType == Transaction.TYPE_INVOICE) {
-						Invoice invoice = (Invoice) financetool
+						Invoice invoice = (Invoice) financetool.getManager()
 								.getServerObjectForid(
 										AccounterCoreType.INVOICE,
 										Long.parseLong(ids[i]));
@@ -197,7 +198,7 @@ public class GeneratePDFservlet extends BaseServlet {
 					}
 					if (transactionType == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
 						CustomerCreditMemo memo = (CustomerCreditMemo) financetool
-								.getServerObjectForid(
+								.getManager().getServerObjectForid(
 										AccounterCoreType.CUSTOMERCREDITMEMO,
 										Long.parseLong(ids[i]));
 
@@ -217,7 +218,8 @@ public class GeneratePDFservlet extends BaseServlet {
 				transactionType = Integer
 						.parseInt(request.getParameter("type"));
 				BrandingTheme brandingTheme = (BrandingTheme) financetool
-						.getServerObjectForid(AccounterCoreType.BRANDINGTHEME,
+						.getManager().getServerObjectForid(
+								AccounterCoreType.BRANDINGTHEME,
 								Long.parseLong(brandingThemeId));
 
 				// for printing individual pdf documents
@@ -226,7 +228,7 @@ public class GeneratePDFservlet extends BaseServlet {
 					converter = new Converter(
 							getPageSizeType(brandingTheme.getPageSizeType()));
 
-					Invoice invoice = (Invoice) financetool
+					Invoice invoice = (Invoice) financetool.getManager()
 							.getServerObjectForid(AccounterCoreType.INVOICE,
 									Long.parseLong(objectId));
 
@@ -245,7 +247,7 @@ public class GeneratePDFservlet extends BaseServlet {
 							getPageSizeType(brandingTheme.getPageSizeType()));
 
 					CustomerCreditMemo memo = (CustomerCreditMemo) financetool
-							.getServerObjectForid(
+							.getManager().getServerObjectForid(
 									AccounterCoreType.CUSTOMERCREDITMEMO,
 									Long.parseLong(objectId));
 
@@ -270,8 +272,9 @@ public class GeneratePDFservlet extends BaseServlet {
 					int verticalValue = Integer.parseInt(request
 							.getParameter("verticalValue"));
 
-					Vendor memo = (Vendor) financetool.getServerObjectForid(
-							AccounterCoreType.VENDOR, vendorID);
+					Vendor memo = (Vendor) financetool.getManager()
+							.getServerObjectForid(AccounterCoreType.VENDOR,
+									vendorID);
 
 					Misc1099PDFTemplate miscHtmlTemplete = new Misc1099PDFTemplate(
 							memo, horizontalValue, verticalValue);

@@ -95,7 +95,7 @@ public class ExportReportServlet extends BaseServlet {
 			TemplateBuilder.setCmpName(companyName);
 
 			ClientCompanyPreferences clientCompanyPreferences = financetool
-					.getClientCompanyPreferences(company);
+					.getCompanyManager().getClientCompanyPreferences(company);
 			CompanyPreferenceThreadLocal.set(clientCompanyPreferences);
 
 			ITemplate template = null;
