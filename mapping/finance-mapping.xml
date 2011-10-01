@@ -680,9 +680,6 @@
 		<id name="id" column="ID">
 			<generator class="native"></generator>
 		</id>
-		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
-		</many-to-one>
 		<property name="name" not-null="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<property name="description" column="DESCRIPTION"></property>
@@ -699,6 +696,9 @@
 		<property name="isDefault" column="IS_DEFAULT"></property>
 		<joined-subclass name="TAXItem" table="TAX_ITEM">
 			<key column="ID" />
+			<many-to-one name="company" column="COMPANY_ID" class="Company"
+				not-null="true" lazy="false">
+			</many-to-one>
 			<many-to-one name="taxAgency" class="TAXAgency" column="TAX_AGENCY"
 				lazy="false">
 			</many-to-one>
@@ -709,6 +709,9 @@
 		</joined-subclass>
 		<joined-subclass name="TAXGroup" table="TAX_GROUP">
 			<key column="ID" />
+			<many-to-one name="company" column="COMPANY_ID" class="Company"
+				not-null="true" lazy="false">
+			</many-to-one>
 			<list name="taxItems" table="TAX_GROUP_TAX_ITEM" lazy="false"
 				cascade="save-update">
 				<key column="TAX_GROUP_ID"></key>
@@ -799,9 +802,6 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true">
-		</many-to-one>
 		<property name="name" not-null="true" column="NAME"></property>
 		<property name="payeeSince" column="PAYEE_SINCE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
@@ -892,6 +892,9 @@
 		<!-- <property name="currency" column="CURRENCY"></property> -->
 		<joined-subclass name="Customer" table="CUSTOMER">
 			<key column="ID" />
+			<many-to-one name="company" column="COMPANY_ID" class="Company"
+				not-null="true">
+			</many-to-one>
 			<property name="balanceAsOf" column="BALANCE_AS_OF"
 				type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="number" column="NUMBER"></property>
@@ -932,6 +935,9 @@
 		</joined-subclass>
 		<joined-subclass name="Vendor" table="VENDOR">
 			<key column="ID" />
+			<many-to-one name="company" column="COMPANY_ID" class="Company"
+				not-null="true">
+			</many-to-one>
 			<property name="vendorNumber" column="ACCOUNT_NUMBER"></property>
 			<property name="balanceAsOf" column="BALANCE_AS_OF"
 				type="com.vimukti.accounter.core.LongUseType"></property>
@@ -975,6 +981,9 @@
 			</joined-subclass> -->
 		<joined-subclass name="TAXAgency" table="TAXAGENCY">
 			<key column="ID" />
+			<many-to-one name="company" column="COMPANY_ID" class="Company"
+				not-null="true">
+			</many-to-one>
 			<many-to-one name="paymentTerm" class="PaymentTerms"
 				column="PAYMENT_TERM" cascade="save-update" lazy="false">
 			</many-to-one>

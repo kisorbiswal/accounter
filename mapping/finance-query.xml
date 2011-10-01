@@ -3072,6 +3072,7 @@
 	<sql-query name="canDeleteTAXItem">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
+
 		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
 		<return-scalar column="TAX_ADJUSTMENT_ID" type="long" />
 		<return-scalar column="TAX_RATE_CALCULATION_ID" type="long" />
@@ -3079,7 +3080,6 @@
 		<return-scalar column="TAX_CODE_ID" type="long" />
 
 		SELECT
-		TI.ID AS TRANSACTION_ITEM_ID,
 		TA.ID AS TAX_ADJUSTMENT_ID,
 		VRC.ID
 		AS TAX_RATE_CALCULATION_ID,
@@ -3088,11 +3088,8 @@
 
 		FROM TAX_ITEM T
 
-		LEFT OUTER JOIN
-		TRANSACTION_ITEM TI
-		ON TI.TAXITEM_ID =
-		T.ID
-		LEFT OUTER JOIN
+		LEFT OUTER
+		JOIN
 		TAX_ADJUSTMENT TA
 		ON TA.TAX_ITEM = T.ID
 		LEFT OUTER
@@ -3119,13 +3116,13 @@
 	<sql-query name="canDeleteTAXItemForUS">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
+
 		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
 		<return-scalar column="TAX_ADJUSTMENT_ID" type="long" />
 		<return-scalar column="TAX_RATE_CALCULATION_ID" type="long" />
 		<return-scalar column="TAX_GROUP_ID" type="long" />
 
 		SELECT
-		TI.ID AS TRANSACTION_ITEM_ID,
 		TA.ID AS TAX_ADJUSTMENT_ID,
 		VRC.ID
 		AS TAX_RATE_CALCULATION_ID,
@@ -3133,24 +3130,23 @@
 
 		FROM TAX_ITEM T
 
-		LEFT
-		OUTER JOIN
-		TRANSACTION_ITEM TI
-		ON TI.TAXITEM_ID = T.ID
 		LEFT OUTER JOIN
 		TAX_ADJUSTMENT TA
 		ON TA.TAX_ITEM = T.ID
 		LEFT OUTER JOIN
 
 		TAX_RATE_CALCULATION VRC
-		ON VRC.TAX_ITEM_ID=T.ID
+		ON
+		VRC.TAX_ITEM_ID=T.ID
 		LEFT OUTER JOIN
 		TAX_GROUP_TAX_ITEM TGI
-		ON TGI.TAX_ITEM_ID=T.ID
+		ON
+		TGI.TAX_ITEM_ID=T.ID
 		LEFT OUTER JOIN
 		TAX_GROUP
 		TG
-		ON TG.ID=TGI.TAX_GROUP_ID
+		ON
+		TG.ID=TGI.TAX_GROUP_ID
 		LEFT OUTER JOIN
 		TAX_CODE TC
 		ON
@@ -3290,7 +3286,8 @@
 		CREATE OR REPLACE
 		VIEW SALES_PURCHASES_VIEW AS
 		select
-		T.COMPANY_ID as COMPANY_ID,
+		T.COMPANY_ID as
+		COMPANY_ID,
 		T.ID as
 		TRANSACTION_ID,
 		C.ID as CUSTOMER_ID,
@@ -3304,7 +3301,8 @@
 		when
 		T.T_TYPE
 		= 2 or T.T_TYPE = 6 or T.T_TYPE
-		= 14 then
+		=
+		14 then
 		VG.NAME
 		end as
 		GROUP_NAME,
@@ -3321,7 +3319,8 @@
 		T.T_TYPE=8 then
 		I.DUE_DATE
 		when T.T_TYPE=6 then EB.DUE_DATE
-		else null
+		else
+		null
 		end as DUE_DATE,
 		PT.NAME as PAYMENT_TERMS,
 		case
@@ -3458,7 +3457,8 @@
 		CREATE OR REPLACE VIEW
 		TRANSACTION_HISTORY_VIEW AS
 		select
-		T.COMPANY_ID as COMPANY_ID,
+		T.COMPANY_ID as
+		COMPANY_ID,
 		T.ID as
 		TRANSACTION_ID,
 		C.ID as
@@ -3474,15 +3474,19 @@
 		(T.T_TYPE = 15 AND
 		WC.CUSTOMER_ID IS
 		NOT NULL) or
-		(T.T_TYPE = 16 AND E.TYPE = 3) or
+		(T.T_TYPE = 16 AND
+		E.TYPE = 3) or
 		T.T_TYPE = 29
 		then
 		P.NAME
-		when T.T_TYPE = 2 or T.T_TYPE = 6 or T.T_TYPE =
+		when T.T_TYPE = 2 or T.T_TYPE = 6
+		or T.T_TYPE =
 		11 or T.T_TYPE = 14 or
-		T.T_TYPE = 3 or (T.T_TYPE = 10 AND TMD.VENDOR_ID
+		T.T_TYPE = 3 or (T.T_TYPE = 10 AND
+		TMD.VENDOR_ID
 		IS NOT NULL) or
-		(T.T_TYPE = 15 AND WC.VENDOR_ID IS NOT NULL) or
+		(T.T_TYPE = 15 AND WC.VENDOR_ID IS NOT
+		NULL) or
 		(T.T_TYPE = 16 AND
 		E.TYPE = 2) OR T.T_TYPE = 26 OR
 		T.T_TYPE = 27
@@ -3506,14 +3510,16 @@
 		= 27
 		then
 		T.TOTAL
-		when T.T_TYPE = 4 or T.T_TYPE = 14 or
+		when T.T_TYPE = 4 or T.T_TYPE =
+		14 or
 		T.T_TYPE = 29
 		then
 		-1*T.TOTAL
 		when T.T_TYPE = 10
 		then
 		case
-		when TMD.TYPE = 3
+		when
+		TMD.TYPE = 3
 		then
 		-1*TMD.AMOUNT
 		when TMD.TYPE = 2
@@ -3809,7 +3815,8 @@
 		CREATE VIEW IF NOT EXISTS
 		SALES_PURCHASES_VIEW AS
 		select
-		T.COMPANY_ID as COMPANY_ID,
+		T.COMPANY_ID as
+		COMPANY_ID,
 		T.ID as
 		TRANSACTION_ID,
 		C.ID as
@@ -3845,7 +3852,8 @@
 		when T.T_TYPE=6 then
 		EB.DUE_DATE
 		else null
-		end as DUE_DATE,
+		end
+		as DUE_DATE,
 		PT.NAME as PAYMENT_TERMS,
 		case
 		when
@@ -3867,23 +3875,27 @@
 		as QUANTITY,
 		TI.QTY_UNIT as UNIT,
 
-		TI.UNIT_PRICE as UNIT_PRICE,
+		TI.UNIT_PRICE as
+		UNIT_PRICE,
 		TI.DISCOUNT as
 		DISCOUNT,
 
 		case
 		when T.T_TYPE =
-		4 OR T_TYPE = 14 then
+		4 OR T_TYPE = 14
+		then
 		-1*LINE_TOTAL
 		else
 		TI.LINE_TOTAL
 		end as AMOUNT,
 		case
-		when T.T_TYPE = 8 then
+		when T.T_TYPE = 8
+		then
 		(select T.NUMBER
 		from TRANSACTION T where T.ID =
 		I.ESTIMATE_ID)
-		end as
+		end
+		as
 		SO_OR_QUOTE_NO,
 		case
 		when T.T_TYPE = 1 then
@@ -3993,25 +4005,32 @@
 		case
 		when T.T_TYPE
 		= 1 or T.T_TYPE = 4 or
-		T.T_TYPE = 5 or T.T_TYPE = 8 or
+		T.T_TYPE = 5
+		or T.T_TYPE = 8 or
 		T.T_TYPE = 12 or
 		(T.T_TYPE = 10 AND
-		TMD.CUSTOMER_ID IS NOT NULL) or
+		TMD.CUSTOMER_ID IS
+		NOT NULL) or
 		(T.T_TYPE = 15 AND
 		WC.CUSTOMER_ID IS
 		NOT NULL) or
-		(T.T_TYPE = 16 AND E.TYPE = 3) or
+		(T.T_TYPE =
+		16 AND E.TYPE = 3) or
 		T.T_TYPE = 29
 		then
 		P.NAME
-		when T.T_TYPE = 2 or T.T_TYPE = 6 or T.T_TYPE =
+		when T.T_TYPE = 2 or
+		T.T_TYPE = 6 or T.T_TYPE =
 		11 or T.T_TYPE = 14 or
-		T.T_TYPE = 3 or (T.T_TYPE = 10 AND TMD.VENDOR_ID
+		T.T_TYPE = 3 or
+		(T.T_TYPE = 10 AND TMD.VENDOR_ID
 		IS NOT NULL) or
-		(T.T_TYPE = 15 AND WC.VENDOR_ID IS NOT NULL) or
+		(T.T_TYPE = 15 AND
+		WC.VENDOR_ID IS NOT NULL) or
 		(T.T_TYPE = 16 AND
 		E.TYPE = 2) OR
-		T.T_TYPE = 27
+		T.T_TYPE =
+		27
 		then
 		P.NAME
 		end as NAME,
@@ -4030,13 +4049,15 @@
 		= 27
 		then
 		T.TOTAL
-		when T.T_TYPE = 4 or T.T_TYPE = 14 or T.T_TYPE = 29
+		when T.T_TYPE = 4 or T.T_TYPE =
+		14 or T.T_TYPE = 29
 		then
 		-1*T.TOTAL
 		when T.T_TYPE = 10
 		then
 		case
-		when TMD.TYPE = 3
+		when
+		TMD.TYPE = 3
 		then
 		-1*TMD.AMOUNT
 		when TMD.TYPE = 2
@@ -4052,7 +4073,8 @@
 		when WC.PAY_TO_TYPE = 1
 		then
 		-1*T.TOTAL
-		when WC.PAY_TO_TYPE = 2
+		when
+		WC.PAY_TO_TYPE = 2
 		then
 		T.TOTAL
 		else
@@ -4062,7 +4084,8 @@
 		when T.T_TYPE = 16
 		then
 		case
-		when E.TYPE = 2
+		when
+		E.TYPE = 2
 		then
 		E.CREDIT
 		else
@@ -4074,11 +4097,13 @@
 
 		case
 		when
-		T.T_TYPE = 1 or T.T_TYPE = 3 or T.T_TYPE = 2 or T.T_TYPE = 27
+		T.T_TYPE = 1 or T.T_TYPE = 3
+		or T.T_TYPE = 2 or T.T_TYPE = 27
 		then
 		T.TOTAL
 		when
-		T.T_TYPE = 5 or T.T_TYPE = 15 or T.T_TYPE = 11 or
+		T.T_TYPE = 5 or
+		T.T_TYPE = 15 or T.T_TYPE = 11 or
 		T.T_TYPE = 12
 		then
 		-1*T.TOTAL
@@ -4089,22 +4114,26 @@
 		case
 		when
 		T.T_TYPE
-		= 1 or T.T_TYPE = 3 or T.T_TYPE = 5 or T.T_TYPE = 8 or
+		= 1 or T.T_TYPE = 3 or T.T_TYPE = 5
+		or T.T_TYPE = 8 or
 		T.T_TYPE = 2 or
-		T.T_TYPE = 14 or T.T_TYPE = 15 or T.T_TYPE = 27
+		T.T_TYPE = 14 or T.T_TYPE = 15 or
+		T.T_TYPE = 27
 		then
 		T.TOTAL
 		when
 		T.T_TYPE = 11
 		then
 		case
-		when PB.PAYBILL_TYPE = 1
+		when PB.PAYBILL_TYPE
+		= 1
 		then
 		case when
 		(select
 		sum(TPB.CASH_DISCOUNT)
 		from
-		TRANSACTION_PAYBILL TPB where
+		TRANSACTION_PAYBILL
+		TPB where
 		TPB.TRANSACTION_ID = T.ID and
 		TPB.DISCOUNT_ID IS NOT NULL and
 		TPB.CASH_DISCOUNT >0.0) is null
@@ -5123,7 +5152,8 @@
 		<query-param name="id" type="long" />
 
 		SELECT * FROM TAX_CODE T WHERE
-		T.NAME =:name AND T.ID !=:id AND T.COMPANY_ID=:companyId
+		T.NAME =:name AND T.ID !=:id AND
+		T.COMPANY_ID=:companyId
 
 	</sql-query>
 
