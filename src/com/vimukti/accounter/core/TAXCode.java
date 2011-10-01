@@ -31,7 +31,6 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 	 * 
 	 */
 	private static final long serialVersionUID = -1014067769682467798L;
-	long id;
 	boolean isImported;
 
 	String name;
