@@ -2,6 +2,7 @@ package com.vimukti.accounter.core;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -709,7 +710,7 @@ public class Company implements IAccounterServerCore {
 
 			}
 
-		} 
+		}
 
 		return false;
 	}
@@ -1008,6 +1009,14 @@ public class Company implements IAccounterServerCore {
 	}
 
 	public Set<Vendor> getVendors() {
+		vendors.clear();
+		Set<Payee> payees2 = getPayees();
+		Iterator<Payee> iterator = payees2.iterator();
+		while (iterator.hasNext()) {
+			Payee next = iterator.next();
+			if (next instanceof Vendor)
+				vendors.add((Vendor) next);
+		}
 		return vendors;
 	}
 
@@ -1257,6 +1266,14 @@ public class Company implements IAccounterServerCore {
 	}
 
 	public Set<TAXAgency> getTaxAgencies() {
+		taxAgencies.clear();
+		Set<Payee> payees2 = getPayees();
+		Iterator<Payee> iterator = payees2.iterator();
+		while (iterator.hasNext()) {
+			Payee next = iterator.next();
+			if (next instanceof TAXAgency)
+				taxAgencies.add((TAXAgency) next);
+		}
 		return taxAgencies;
 	}
 
@@ -1313,6 +1330,14 @@ public class Company implements IAccounterServerCore {
 	}
 
 	public Set<Customer> getCustomers() {
+		customers.clear();
+		Set<Payee> payees2 = getPayees();
+		Iterator<Payee> iterator = payees2.iterator();
+		while (iterator.hasNext()) {
+			Payee next = iterator.next();
+			if (next instanceof Customer)
+				customers.add((Customer) next);
+		}
 		return customers;
 	}
 
