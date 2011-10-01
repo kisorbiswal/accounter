@@ -647,8 +647,6 @@ public class WriteChequeView extends
 		Label lab1 = new Label(Accounter.constants().writeCheck() + "("
 				+ getTransactionStatus() + ")");
 		lab1.addStyleName(Accounter.constants().labelTitle());
-		if (isInViewMode())
-			lab1.setText(Accounter.constants().taxAgentPayment());
 
 		transactionNumber = createTransactionNumberItem();
 		locationCombo = createLocationCombo();
