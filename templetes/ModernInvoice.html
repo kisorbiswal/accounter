@@ -16,8 +16,7 @@
       <td>
 	     <div class="gwt-HTML">
 			<p>
-			  <strong>${comapany}</strong>
-			  <table><tr><td>${companyDetails}</td></tr></table> 
+			 <table><tr><td>${companyDetails}</td></tr></table> 
 			</p>
 		 </div>
 	  </td>
@@ -102,6 +101,14 @@
 						  </td>
 						 </tr>
 						 <!-- $EndBlock invCustNumHead -->
+						  <!-- $BeginBlock paymentTermsBlock -->
+						<tr>
+						  <td id = "customerNumber">Payment Terms</td>
+						  <td align="right">
+							 ${paymentTerms}
+						  </td>
+						 </tr>
+						 <!-- $EndBlock paymentTermsBlock -->
 					 </table> 
 				  </td>
 				</tr>
@@ -109,6 +116,42 @@
 		   </td>
 		</tr> 
    </table>
+    <table width="100%" border="1" id="permethterms" style="font-family:${fontStyle};font-size:${font};">
+		 <tr>
+		 <table>
+		 <tr>
+		  <!-- $BeginBlock salespersonhead -->
+			<td id = "salesPerson"  class="gridHeaderBackGround">
+			   <center><p class="fontSetting">Sales Person</p></center>
+			</td>
+			<!-- $EndBlock salespersonhead -->
+			</tr>
+			<tr>
+			 <!-- $BeginBlock salesperson -->
+			<td align="center">
+			  <p class="fontSetting">${salesPersonName}</p>
+			</td>
+			<!-- $EndBlock salesperson -->
+			</tr>
+			</table>
+			<table>
+			<tr>
+			<!-- $BeginBlock shippingmethodhead -->
+	        <td id = "shippingMethod"  class="gridHeaderBackGround">
+			   <center><p class="fontSetting">Shipping Method</p></center>
+			</td>
+			<!-- $EndBlock shippingmethodhead -->
+			</tr>
+			 <tr>
+			<!-- $BeginBlock shippingmethod -->
+			<td align="center">
+			   <p class="fontSetting">${shippingMethodName}</p>            
+			</td>
+			<!-- $EndBlock shippingmethod -->
+		 </tr>
+		 </table>
+		 </tr>
+ </table>
 <table border="1" class="removeHeadBorder quick_invoice_header" id="items" style="font-family:${fontStyle};font-size:${font};">
 <!-- $BeginBlock  itemDetails -->
 <thead>
@@ -209,7 +252,33 @@
   </tr>
  <!-- $EndBlock itemDetails -->
 </table>
-<table id="footer" width="100%" style="font-family:${fontStyle};font-size:${font};clear:both">
+<table border="1" class="due_date" style="font-family:${fontStyle};font-size:${font};">
+    <tr><!-- $BeginBlock dueDateDetails -->
+       <td id="duedate"><strong>Due Date:</strong></td>
+    </tr>
+    <tr>
+	   <td>${dueDate}</td>
+	</tr><!-- $EndBlock dueDateDetails -->
+	<!-- $BeginBlock termsAndAdvice -->
+	 <tr>
+     <td ><strong>${termsAndPaymentAdvice}</strong></td>
+    </tr>
+    <!-- $EndBlock termsAndAdvice -->
+    <!-- $BeginBlock paypalemail -->
+	 <tr>
+     <td ><strong>${email}</strong></td>
+    </tr>
+    <!-- $EndBlock paypalemail -->
+</table>
+<table width="100%" id="vat_sort_bankaccount" border="1" style="font-family:${fontStyle};font-size:${font};">
+   <colgroup><col></colgroup>
+			<tr>
+				<!-- $BeginBlock vat --><td><center>${vatNum}</center></td><!-- $EndBlock vat -->
+				<!-- $BeginBlock sortcode --><td><center>${sortCode} </center></td><!-- $EndBlock sortcode -->
+				<!-- $BeginBlock bankAccountNum --><td><center>${BankAccountNo} </center></td><!-- $EndBlock bankAccountNum -->
+			 </tr>
+</table>
+<table id="footer" width="100%" style="font-family:${fontStyle};font-size:${font};">
    <tr>
 	  <td style="vertical-align:top;text-align:left" >
 		 <table  style=" padding:3.5px" >
