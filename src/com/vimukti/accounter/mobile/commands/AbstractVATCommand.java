@@ -1,11 +1,12 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.mobile.CommandList;
@@ -16,7 +17,6 @@ import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.server.FinanceTool;
 
 public abstract class AbstractVATCommand extends AbstractCommand {
 
@@ -51,8 +51,7 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 			taxAgenciesList.add(createTaxAgencyRecord((TAXAgency) last));
 		}
 
-		List<TAXAgency> taxAgencies = getTaxAgencies(context
-				.getHibernateSession());
+		List<TAXAgency> taxAgencies = getTaxAgencies(context);
 		for (int i = 0; i < VALUES_TO_SHOW || i < taxAgencies.size(); i++) {
 			TAXAgency taxAgency = taxAgencies.get(i);
 			if (taxAgency != last) {
@@ -78,9 +77,9 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		return result;
 	}
 
-	protected List<TAXAgency> getTaxAgencies(Session session) {
-		// TODO Auto-generated method stub
-		return null;
+	protected List<TAXAgency> getTaxAgencies(Context context) {
+		Set<TAXAgency> taxAgencies = context.getCompany().getTaxAgencies();
+		return new ArrayList<TAXAgency>(taxAgencies);
 	}
 
 	protected Record createTaxAgencyRecord(TAXAgency taxAgency) {
@@ -210,8 +209,8 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		Requirement taxRateReq = get(AMOUNT);
 		String input = (String) context.getAttribute(INPUT_ATTR);
 		if (input.equals(AMOUNT)) {
-			input = context.getString();
-			taxRateReq.setValue(input);
+			double amount = context.getInteger();
+			taxRateReq.setValue(amount);
 			context.setAttribute(INPUT_ATTR, "default");
 		}
 		if (!taxRateReq.isDone()) {
@@ -226,7 +225,7 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 	protected Result nameRequirement(Context context) {
 		Requirement nameReq = get(NAME);
 		String input = (String) context.getAttribute("input");
-		if (input.equals(NAME)) {
+		if (input != null && input.equals(NAME)) {
 			input = context.getString();
 			nameReq.setValue(input);
 			context.setAttribute(INPUT_ATTR, "default");
