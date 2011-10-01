@@ -71,7 +71,7 @@ public class DoYouUseAndHowDoYouReferPage extends AbstractCompanyInfoPanel {
 
 		String customer[] = new String[] { constants.Customer(),
 				constants.Client(), constants.Tenant(), constants.Donar(),
-				constants.Guest(), constants.Member(), constants.patitent() };
+				constants.Guest(), constants.Member(), constants.patient() };
 		String supplier[] = new String[] { constants.Vendor(),
 				constants.Supplier() };
 		String account[] = new String[] { constants.Account(),

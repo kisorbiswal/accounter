@@ -218,32 +218,21 @@ public class GraphChart {
 
 			Calendar cal = Calendar.getInstance(); // GregorianCalendar();
 			cal.setTime(date.getDateAsObject());
-			int labelDateVal = cal.getTime().getDate();
-			int labelMonthVal = cal.getTime().getMonth();
+			cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) - 3);
 
-			for (int i = 3; i >= 0; i--) {
+			for (int i = 0; i <= 3; i++) {
 
 				/*
 				 * creating x-axis labels. Ex: Jan-01, Jan-03, Jan-05, ... Here
 				 * x-axis label are combination of date and month. We using date
 				 * values at each two intervals like date 1, 3, 5..
 				 */
-				labelDateVal = ((date.getDay()) - (i));
 
-				if (labelDateVal > 0)
-					labelMonthVal = date.getMonth();
+				x_Axis_Labels.add(i, getMonthAsString(cal.getTime().getMonth())
+						+ " " + cal.getTime().getDate());
 
-				if (labelDateVal < 0 && labelMonthVal == date.getMonth()) {
-					labelMonthVal = labelMonthVal - 1;
-					cal.set(Calendar.MONDAY, labelMonthVal);
-				}
-
-				if (labelMonthVal != date.getMonth())
-					labelDateVal = cal.getActualMaximum(Calendar.DAY_OF_MONTH)
-							+ labelDateVal;
-
-				x_Axis_Labels.add(3 - i, getMonthAsString(labelMonthVal - 1)
-						+ " " + labelDateVal);
+				cal.set(Calendar.DAY_OF_MONTH,
+						cal.get(Calendar.DAY_OF_MONTH) + 1);
 			}
 		}
 
@@ -262,60 +251,17 @@ public class GraphChart {
 		// Graph for Accounts Payable
 		if (chartType == ACCOUNTS_PAYABLE_CHART_TYPE) {
 
-			int labelDateVal = date.getDay();
-			int labelMonthVal = date.getMonth();
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date.getDateAsObject());
 
 			for (int i = 0; i < 30; i++) {
 
-				if ((labelMonthVal == 0 || labelMonthVal == 2
-						|| labelMonthVal == 4 || labelMonthVal == 6
-						|| labelMonthVal == 7 || labelMonthVal == 9 || labelMonthVal == 11)
-						&& labelDateVal > 31) {
-
-					labelMonthVal++;
-					if (labelDateVal == 32)
-						labelDateVal = 1;
-					else
-						labelDateVal = labelDateVal
-								- (date.getDay() + ((i - 1) * 2));
-
-				} else if ((labelMonthVal == 3 || labelMonthVal == 5
-						|| labelMonthVal == 8 || labelMonthVal == 10)
-						&& labelDateVal > 30) {
-
-					labelMonthVal++;
-					if (labelDateVal == 31)
-						labelDateVal = 1;
-					else
-						labelDateVal = labelDateVal
-								- (date.getDay() + ((i - 1) * 2));
-
-				} else if (labelMonthVal == 1 && date.getYear() % 4 == 0
-						&& labelDateVal > 29) {
-
-					labelMonthVal++;
-					if (labelDateVal == 30)
-						labelDateVal = 1;
-					else
-						labelDateVal = labelDateVal
-								- (date.getDay() + ((i - 1) * 2));
-
-				} else if (labelMonthVal == 1 && date.getYear() % 4 != 0
-						&& labelDateVal > 28) {
-
-					labelMonthVal++;
-					if (labelDateVal == 29)
-						labelDateVal = 1;
-					else
-						labelDateVal = labelDateVal
-								- (date.getDay() + ((i - 1) * 2));
-				}
-
 				// creating x-axis labels. Ex: 1-Jan, 3-Jan, 5-Jan, ...
-				x_Axis_Labels.add(i, getMonthAsString(labelMonthVal - 1) + " "
-						+ labelDateVal);
+				x_Axis_Labels.add(i, getMonthAsString(cal.getTime().getMonth())
+						+ " " + cal.getTime().getDate());
 
-				labelDateVal = labelDateVal + 1;
+				cal.set(Calendar.DAY_OF_MONTH,
+						cal.get(Calendar.DAY_OF_MONTH) + 1);
 			}
 		}
 

@@ -71,7 +71,7 @@ public class SetupReferPage extends AbstractSetupPage {
 		customerListBox.addItem(accounterConstants.Donar());
 		customerListBox.addItem(accounterConstants.Guest());
 		customerListBox.addItem(accounterConstants.Member());
-		customerListBox.addItem(accounterConstants.Patitent());
+		customerListBox.addItem(accounterConstants.Patient());
 
 		vendorListBox.addItem(accounterConstants.Vendor());
 		vendorListBox.addItem(accounterConstants.Supplier());

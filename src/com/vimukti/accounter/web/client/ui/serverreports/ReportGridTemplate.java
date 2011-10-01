@@ -19,7 +19,9 @@ public abstract class ReportGridTemplate<R> {
 	public R selectedObjecd;
 	public int maxDepth = 0;
 
-	String header, footer, body;
+	String header, footer;
+
+	StringBuffer body = null;
 
 	public AbstractFinaneReport<R> reportView;
 	public static int generationType;
@@ -95,6 +97,6 @@ public abstract class ReportGridTemplate<R> {
 
 	}
 
-	public abstract String getBodyHead();
+	public abstract void prepareBodyHead();
 
 }

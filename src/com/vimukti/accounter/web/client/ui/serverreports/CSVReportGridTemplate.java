@@ -13,7 +13,7 @@ public class CSVReportGridTemplate<R> extends ReportGridTemplate {
 	public void addRow(Object record, int depth, Object[] values, boolean bold,
 			boolean underline, boolean border) {
 		if (list.size() == 0) {
-			this.body = getBodyHead();
+			prepareBodyHead();
 		}
 		list.add(record);
 		for (int i = 0; i < columns.length; i++) {
@@ -21,34 +21,33 @@ public class CSVReportGridTemplate<R> extends ReportGridTemplate {
 				this.maxDepth = depth;
 			if (values.length > i && values[i] != null) {
 				if (reportView.getColumnstoHide().contains(i) && record != null) {
-					this.body = this.body + "";
+					this.body.append("");
 				} else if (columnTypes[i] == COLUMN_TYPE_AMOUNT) {
-					this.body = this.body
-							+ getValue(values[i]).replace(",", "");
+					this.body.append(getValue(values[i]).replace(",", ""));
 				} else if (columnTypes[i] == COLUMN_TYPE_PERCENTAGE) {
-					if (getValue(values[i]) == "") {
-						this.body = this.body + "";
+					if (getValue(values[i]).isEmpty()) {
+						this.body.append("");
 					} else {
-						this.body = this.body
-								+ getValue(values[i]).replace(",", "") + " %";
+						this.body.append(getValue(values[i]).replace(",", "")
+								+ " %");
 					}
 				} else {
-					this.body = this.body
-							+ String.valueOf(values[i]).replace(",", "");
+					this.body
+							.append(String.valueOf(values[i]).replace(",", ""));
 				}
 			} else {
-				this.body = this.body + "";
+				this.body.append("");
 			}
-			this.body = this.body + ",";
+			this.body.append(',');
 		}
-		this.body = this.body + "\n";
+		this.body.append('\n');
 	}
 
 	@Override
 	public String getBody() {
 		System.out.println("It is the body of CSV Report " + this.body);
 		System.err.println(this.body);
-		return this.body;
+		return this.body.toString();
 	}
 
 	@Override
@@ -108,30 +107,23 @@ public class CSVReportGridTemplate<R> extends ReportGridTemplate {
 
 	}
 
-	@Override
-	public String getBodyHead() {
+	public void prepareBodyHead() {
 		String[] headerTitles = reportView.getColunms();
-		String columnHeader = null;
-		for (int i = 0; i < headerTitles.length; i++) {
-			if (columnHeader == null) {
-				columnHeader = headerTitles[i].replace(",", "") + ",";
-			} else {
-				columnHeader = columnHeader + headerTitles[i].replace(",", "")
-						+ ",";
-			}
+		if (body == null) {
+			body = new StringBuffer();
 		}
-		columnHeader = columnHeader + "\n";
-		return columnHeader;
+		for (int i = 0; i < headerTitles.length; i++) {
+			body.append(headerTitles[i].replace(",", "") + ",");
+		}
+		body.append('\n');
 	}
 
 	@Override
 	public String getBody(AccounterConstants accounterConstants) {
-		if (body == null) {
-
-			this.body = accounterConstants.noRecordsToShow();
-
+		if (body == null || body.toString().isEmpty()) {
+			this.body.append(accounterConstants.noRecordsToShow());
 		}
-		return this.body;
+		return this.body.toString();
 	}
 
 }

@@ -944,6 +944,9 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	public void updateCurrentBalance(Transaction transaction, double amount) {
 
 		// if (!this.getName().equals(AccounterConstants.SALES_TAX_VAT_UNFILED))
+		if (amount == 0) {
+			return;
+		}
 		amount = (isIncrease ? 1 : -1) * amount;
 
 		String tempStr = "Current Balance of  " + this.getName()

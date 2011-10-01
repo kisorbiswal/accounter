@@ -28,7 +28,6 @@
 			<td width="60%">
 				  <div class="gwt-HTML">
 					<p>
-						<strong>${comapany}</strong>
 						<table><tr><td>${companyDetails}</td></tr></table> 
 					</p>
 			      </div>
@@ -76,6 +75,15 @@
 						  <!-- $EndBlock invCustNum -->
 						 </tr>
 						 <!-- $EndBlock invCustNumHead -->
+						  <!-- $BeginBlock paymentTermsBlock -->
+						<tr>
+						  <td id = "customerNumber">Payment Terms</td>
+						
+						  <td align="right">
+							 ${paymentTerms}
+						  </td>
+						 </tr>
+						 <!-- $EndBlock paymentTermsBlock -->
 					 </table> 
 				  </td>
 				</tr>
@@ -128,12 +136,7 @@
 			   <center><p class="fontSetting">Shipping Method</p></center>
 			</td>
 			<!-- $EndBlock shippingmethodhead -->
-			<!-- $BeginBlock paymenttermshead -->
-	        <td id = "paymentTerms"  class="gridHeaderBackGround" width="22%">
-			   <center><p class="fontSetting">Payment Terms</p></center>
-			</td>
-			<!-- $EndBlock paymenttermshead -->
-         </tr>
+			</tr>
 		 <tr><!-- $BeginBlock salesperson -->
 			<td align="center">
 			  <p class="fontSetting">${salesPersonName}</p>
@@ -144,13 +147,8 @@
 			   <p class="fontSetting">${shippingMethodName}</p>            
 			</td>
 			<!-- $EndBlock shippingmethod -->
-	        <!-- $BeginBlock paymentterms -->
-			<td align="center" width="22%">
-			   <p class="fontSetting">${paymentTerms}</p>
-			</td>
-			<!-- $EndBlock paymentterms -->
 		 </tr>
-  </table>
+ </table>
 <table width="100%" border="1" class="removeHeadBorder" id="items" style="font-family:${fontStyle};font-size:${font};">
 <!-- $BeginBlock  itemDetails -->
   <tr><!-- $BeginBlock showLabels -->

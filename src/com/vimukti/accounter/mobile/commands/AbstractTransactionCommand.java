@@ -962,7 +962,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return record;
 	}
 
-	private List<BankAccount> getBankAccounts(Company company) {
+	protected List<BankAccount> getBankAccounts(Company company) {
 
 		List<BankAccount> bankAccounts = new ArrayList<BankAccount>();
 		FinanceTool financeTool = new FinanceTool();

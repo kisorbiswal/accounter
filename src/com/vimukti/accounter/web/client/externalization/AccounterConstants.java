@@ -4236,9 +4236,9 @@ public interface AccounterConstants extends Constants {
 
 	public String Member();
 
-	public String patitent();
+	public String patient();
 
-	public String Patitent();
+	public String Patient();
 
 	public String supplier();
 
@@ -4925,6 +4925,7 @@ public interface AccounterConstants extends Constants {
 	public String amountToUseMustLessthanTotal();
 
 	public String noCreditsToApply();
+
 	public String classicTemplate();
 
 	public String youHaveEnteredduplicateContacts();

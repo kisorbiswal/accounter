@@ -46,27 +46,6 @@ public class InvoicePDFTemplete implements PrintTemplete {
 
 		// TODO for displaying the company address
 
-		String cmpAdd = "";
-		Address cmpTrad = company.getRegisteredAddress();
-		if (cmpTrad != null) {
-
-			cmpAdd = forUnusedAddress(cmpTrad.getAddress1(), false)
-					+ forUnusedAddress(cmpTrad.getStreet(), false)
-					+ forUnusedAddress(cmpTrad.getCity(), false)
-					+ forUnusedAddress(cmpTrad.getStateOrProvinence(), false)
-					+ forUnusedAddress(cmpTrad.getZipOrPostalCode(), false)
-					+ forUnusedAddress(cmpTrad.getCountryOrRegion(), false);
-		}
-
-		if (cmpAdd.equals("")) {
-			// String contactDetails = brandingTheme.getContactDetails() != null
-			// ? brandingTheme
-			// .getContactDetails() : this.company.getName();
-			cmpAdd = forNullValue(company.getFullName());
-		} else {
-			cmpAdd = forNullValue(company.getFullName()) + "<br/>" + cmpAdd;
-		}
-
 		try {
 			t = new MiniTemplator(getTempleteName());
 			String image = getImage();
@@ -80,15 +59,14 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				t.addBlock("showlogo");
 			}
 
-			// TODO for company trading name and address
-			t.setVariable("comapany", cmpAdd);
-
 			// TODO For setting the Contact Details
-			String contactDetails = forNullValue(brandingTheme
-					.getContactDetails());
-			if (contactDetails.equalsIgnoreCase("(None Added)")) {
+			String contactDetails = forNullValue(
+					brandingTheme.getContactDetails()).replace("\n", "<br/>");
+			if (contactDetails.contains("(None Added)")) {
 				contactDetails = "";
 			}
+			contactDetails = forNullValue(company.getFullName()) + "<br/>"
+					+ contactDetails;
 			t.setVariable("companyDetails", contactDetails);
 
 			// setting invoice number
@@ -140,6 +118,17 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				t.addBlock("invCustNumHead");
 			}
 
+			// setting payment terms
+
+			PaymentTerms paymentterm = invoice.getPaymentTerm();
+			String payterm = paymentterm != null ? paymentterm.getName() : "";
+			if (payterm.trim().length() > 0) {
+
+				t.setVariable("paymentTerms", payterm);
+
+				t.addBlock("paymentTermsBlock");
+			}
+
 			// setting billing address
 			Address bill = invoice.getBillingAddress();
 			if (bill != null) {
@@ -158,6 +147,7 @@ public class InvoicePDFTemplete implements PrintTemplete {
 
 				}
 			}
+
 			// setting shipping address
 			String shipAddress = "";
 			Address shpAdres = invoice.getShippingAdress();
@@ -205,20 +195,6 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			}
 			if (hasshippingmethod) {
 				t.addBlock("shippingmethodhead");
-			}
-
-			// setting payment terms
-			boolean hasPaymentTerms = false;
-			PaymentTerms paymentterm = invoice.getPaymentTerm();
-			String payterm = paymentterm != null ? paymentterm.getName() : "";
-
-			if (payterm.trim().length() > 0) {
-				hasPaymentTerms = true;
-				t.setVariable("paymentTerms", payterm);
-				t.addBlock("paymentterms");
-			}
-			if (hasPaymentTerms) {
-				t.addBlock("paymenttermshead");
 			}
 
 			// for checking the show Column Headings
@@ -300,8 +276,10 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			t.setVariable("dueDate", invoice.getDueDate().toString());
 			t.addBlock("dueDateDetails");
 
-			String termsNCondn = forNullValue(brandingTheme
-					.getTerms_And_Payment_Advice());
+			String termsNCondn = forNullValue(
+					brandingTheme.getTerms_And_Payment_Advice()).replace("\n",
+					"<br/>");
+
 			if (termsNCondn.equalsIgnoreCase("(None Added)")) {
 				termsNCondn = "";
 			}
@@ -369,24 +347,22 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			// Number
 			String regestrationAddress = "";
 			Address reg = company.getRegisteredAddress();
-			if (reg.getType() == Address.TYPE_COMPANY) {
-				if (reg != null)
-					regestrationAddress = ("&nbsp;Registered Address: "
-							+ reg.getAddress1()
-							+ forUnusedAddress(reg.getStreet(), true)
-							+ forUnusedAddress(reg.getCity(), true)
-							+ forUnusedAddress(reg.getStateOrProvinence(), true)
-							+ forUnusedAddress(reg.getZipOrPostalCode(), true)
-							+ forUnusedAddress(reg.getCountryOrRegion(), true) + ".");
-			}
 
-			regestrationAddress = (company.getFullName() + regestrationAddress + ((company
-					.getRegistrationNumber() != null && !company
+			if (reg != null)
+				regestrationAddress = ("&nbsp;Registered Address: "
+						+ reg.getAddress1()
+						+ forUnusedAddress(reg.getStreet(), true)
+						+ forUnusedAddress(reg.getCity(), true)
+						+ forUnusedAddress(reg.getStateOrProvinence(), true)
+						+ forUnusedAddress(reg.getZipOrPostalCode(), true)
+						+ forUnusedAddress(reg.getCountryOrRegion(), true) + ".");
+
+			regestrationAddress = (company.getFullName() + "&nbsp;&nbsp;&nbsp;"
+					+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
 					.getRegistrationNumber().equals("")) ? "<br/>Company Registration No: "
 					+ company.getRegistrationNumber()
 					: ""));
 
-			String trName = company.getTradingName();
 			if (regestrationAddress != null
 					&& regestrationAddress.trim().length() > 0) {
 				if (brandingTheme.isShowRegisteredAddress()) {

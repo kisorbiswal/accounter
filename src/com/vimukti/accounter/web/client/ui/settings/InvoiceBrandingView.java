@@ -304,12 +304,11 @@ public class InvoiceBrandingView<T> extends
 
 
 		invoiceHtml = new HTML("<p>" + messages.invoiceTemplete() + " : "
-				+ invoiceTemp + "</p>");
+				+ invoiceTemp + "</p>"); 
 
 		// adding credit note templete note
 		String creditTemp = theme.getCreditNoteTempleteName().isEmpty() ? messages
-				.classicTemplate()
-				: theme.getCreditNoteTempleteName();
+				.classicTemplate() : theme.getCreditNoteTempleteName();
 
 		creditNoteHtml = new HTML("<p>" + messages.creditNoteTemplete() + " : "
 				+ creditTemp + "</p>");
