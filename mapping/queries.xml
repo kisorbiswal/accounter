@@ -131,8 +131,7 @@
 		<query-param name="id" type="long" />
 		<query-param name="balance" type="double" />
 		<query-param name="company" type="Company" />
-		update com.vimukti.accounter.core.Payee set balance=:balance where
-		id=:id and company=:company
+		update com.vimukti.accounter.core.Payee set balance=:balance where id=:id and company=:company
 	</query>
 
 	<query name="update.merge.invoice.old.tonew">
@@ -614,7 +613,6 @@
 	</query>
 
 	<query name="getFisacalyear.by.Startdate">
-		<query-param name="status" type="int" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.FiscalYear f where f.company=:company
 		order by f.startDate
@@ -774,8 +772,7 @@
 	<query name="getAccount.by.id">
 		<query-param name="company" type="Company" />
 		<query-param name="id" type="long" />
-		from com.vimukti.accounter.core.Account a where a.id
-		=:id
+		from com.vimukti.accounter.core.Account a where a.id=:id
 	</query>
 
 	<query name="getTaxCalc.by.TaxAgencyId.and.withOtherDetails">
@@ -870,8 +867,7 @@
 		<query-param name="id" type="long" />
 		from com.vimukti.accounter.core.CreditsAndPayments cp
 		where
-		cp.payee.company=:company and cp.payee.id
-		=:id and cp.balance > 0.0
+		cp.payee.company=:company and cp.payee.id =:id and cp.balance > 0.0
 	</query>
 
 	<query name="getFisacalyear">
@@ -977,8 +973,7 @@
 		<query-param name="status" type="int" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.PaySalesTax pst where
-		pst.payFrom.id =
-		id and pst.isVoid=false and pst.status =:status and
+		pst.payFrom.id =:id and pst.isVoid=false and pst.status =:status and
 		pst.company=:company
 	</query>
 
@@ -1222,8 +1217,7 @@
 		<query-param name="id" type="long" />
 		<query-param name="company" type="Company" />
 		from
-		com.vimukti.accounter.core.TransactionMakeDeposit tmd where tmd.id
-		=:id and tmd.depositedTransaction.company=:company
+		com.vimukti.accounter.core.TransactionMakeDeposit tmd where tmd.id=:id and tmd.depositedTransaction.company=:company
 	</query>
 
 
@@ -1363,7 +1357,7 @@
 		<query-param name="id" type="long" />
 		<query-param name="company" type="Company" />
 		delete from com.vimukti.accounter.core.TAXCode t
-		where t.id=id and
+		where t.id=:id and
 		t.company=:company
 	</query>
 
