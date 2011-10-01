@@ -11,6 +11,8 @@
  </table>
 <table style="width:100%;margin:20px 0" cellspacing="10"  >
 <!-- $BeginBlock creditHead -->
+	
+	
 	<tr>
 	    <td style="vertical-align: top;">
 		    <p>
@@ -54,12 +56,23 @@
 				<font style="font-family:sans-serif;">
 				<strong> ${companyName}</strong></font><br>
 				<font style="font-family:sans-serif; color:#504040;">
-				&nbsp;${companyRegistrationAddress}</font></br>
+				&nbsp;${companyDetails}</font></br>
 			</p>
 			</div>
 		</td>
 	</tr>
 <!-- $EndBlock creditHead -->
+</table>
+<table  class="gridHeader credito_vimukti credit_quick_upp" border="1" style="margin:20px 0">
+		<colgroup><col></colgroup>
+		<tr>
+			<td class="gridHeaderBackGround"><center>Credit To</center></td>
+		</tr>
+		<tr>
+		   <td align="left" class="plaincredit" style="width:400px;height:150px" >
+		     <div align="left">&nbsp;${customerNameNBillAddress}</div>
+		   </td>
+		</tr>
 </table>
 <table border="1" width="100%" class="xero_credit_memo">
 <!-- $BeginBlock  itemDetails -->
@@ -147,36 +160,65 @@
 	</td>
   </tr><!-- $EndBlock itemDetails -->
 </table>
+<table border="1" class="due_date" style="font-family:${fontStyle};font-size:${font};">
+	<!-- $BeginBlock termsAndAdvice -->
+	 <tr>
+     <td ><strong>${termsAndPaymentAdvice}</strong></td>
+    </tr>
+    <!-- $EndBlock termsAndAdvice -->
+    <!-- $BeginBlock paypalemail -->
+	 <tr>
+     <td ><strong>${email}</strong></td>
+    </tr>
+    <!-- $EndBlock paypalemail -->
+</table>
 <table  border="0" width="100%" style="margin:20px 0;clear:both" >
-	<tr>
-		<td>
-		  <table>
-			<tr>
-			  <td style="vertical-align: top;" align="center">
-				<table >
-					<tr>
-						<td align="right" style="vertical-align: top;">
-							<table >
-							<colgroup><col></colgroup>
-							<!-- $BeginBlock regAddress -->
-							<tr>
-								<td><center>${compRegNamenNumber}</center></td>
-							</tr>
-							<!-- $EndBlock regAddress -->
-							</table>
-						</td>
-					</tr>
+    	<tr>
+			<td style="vertical-align: top;" align="left" colspan="2">
+				<table border="1" style="font-size:13px; width: 100%;">
+				<colgroup><col></colgroup>
+			
+				<tr>
+					<!-- $BeginBlock vatCodeDetails -->
+					<td style="padding:5px"><center> ${vatCode}</center></td>
+					<!-- $EndBlock vatCodeDetails -->
+					<!-- $BeginBlock sortCodeDetails -->
+					<td style="padding:5px"><center> ${sortCode}</center></td>
+					<!-- $EndBlock sortCodeDetails -->
+					<!-- $BeginBlock bankAccountDetails -->
+					<td style="padding:5px"><center> ${bankAccount}</center></td>
+					<!-- $EndBlock bankAccountDetails -->
+				</tr>
+				
 				</table>
-				</td>
-			 </tr>
-		   </table>
-		</td>
-		<td width="10%" style="vertical-align: bottom;">
-			<div align="right" style="margin-bottom:14px;">
-				<img src="templetes/footer-print-img-new.png" width="67.5px" height="25px">
-			</div>
-		</td>
-	</tr>
+			</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top;" align="center">
+			<table style="margin:40px 0" width="100%">
+				<tr>
+					<td align="left" style="vertical-align: top;">
+						<table >
+						<colgroup><col></colgroup>
+						<!-- $BeginBlock regestrationAddress -->
+						<tr>
+							<td><center>${regestrationAddress}</center></td>
+						</tr>
+						<!-- $EndBlock regestrationAddress -->
+						</table>
+					</td>
+					<td width="10%" style="vertical-align: bottom;" align="right">
+						<div align="right" style="margin-bottom:14px;">
+							<img src="templetes/footer-print-img-new.png" width="67.5px" height="25px">
+						</div>
+	                </td>
+				</tr>
+			</table>
+			</td>
+	     </tr>
+	   </table>
+	   </td>
+</tr>
 </table>
 </div>
 </div>
