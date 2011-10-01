@@ -749,7 +749,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		List<Estimate> serverEstimates = null;
 		try {
 			serverEstimates = getFinanceTool().getCustomerManager()
-					.getEstimates(customerId);
+					.getEstimates(customerId,getCompanyId());
 			for (Estimate estimate : serverEstimates) {
 				clientEstimate.add(new ClientConvertUtil().toClientObject(
 						estimate, ClientEstimate.class));
@@ -1542,7 +1542,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<Double> getGraphPointsforAccount(int chartType,
 			long accountNo) {
 
-		List<Double> resultList = null;
+		List<Double> resultList = new ArrayList<Double>();
 		try {
 
 			resultList = getFinanceTool().getDashboardManager()
