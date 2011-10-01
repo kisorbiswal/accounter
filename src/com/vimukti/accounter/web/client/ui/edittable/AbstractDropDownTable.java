@@ -10,8 +10,8 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionChangeEvent;
-import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
+import com.google.gwt.view.client.SingleSelectionModel;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.util.CoreEvent;
 import com.vimukti.accounter.web.client.util.CoreEventHandler;
@@ -24,6 +24,7 @@ public abstract class AbstractDropDownTable<T> extends CellTable<T> {
 	private boolean isClicked;
 
 	public AbstractDropDownTable(List<T> newData) {
+		super(1000);
 		this.data = new ArrayList<T>(newData);
 		T newRow = getAddNewRow();
 		data.add(0, newRow);
