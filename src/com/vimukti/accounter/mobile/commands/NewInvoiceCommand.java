@@ -55,11 +55,7 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 		list.add(new Requirement("due", true, true));
 		list.add(new Requirement(ORDER_NO, true, true));
 		list.add(new Requirement(MEMO, true, true));
-		Company company = null;// getCompany();
-		// TODO
-		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-			list.add(new Requirement("tax", false, true));
-		}
+		list.add(new Requirement("tax", false, true));
 	}
 
 	@Override
