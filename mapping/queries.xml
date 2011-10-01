@@ -997,7 +997,7 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.CreditsAndPayments cp
 		where cp.payee.id
-		= id and cp.balance > 0.0 and cp.payee.company=:company
+		=: id and cp.balance > 0.0 and cp.payee.company=:company
 	</query>
 
 	<query name="getCustomerRefund">
