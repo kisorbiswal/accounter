@@ -906,7 +906,7 @@ public class CreditCardExpenseView extends
 		transaction.setMemo(getMemoTextAreaItem());
 		// setting ref
 		// transaction.setReference(UIUtils.toStr(refText.getValue()));
-
+		taxCodeSelected(taxCode);
 		if (selectedVendor != null) {
 
 			// setting vendor

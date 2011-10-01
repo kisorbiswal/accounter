@@ -720,7 +720,6 @@ public class PurchaseOrderView extends
 			this.deliveryDate = transaction.getDeliveryDate();
 
 			this.transactionItems = transaction.getTransactionItems();
-
 			initTransactionNumber();
 			this.setVendor(company.getVendor(transaction.getVendor()));
 			vendorCombo.setComboItem(vendor);
@@ -750,7 +749,13 @@ public class PurchaseOrderView extends
 
 			} else
 				billtoAreaItem.setValue("");
+			if (isTrackTax()) {
 
+				if (!isTaxPerDetailLine()) {
+					this.taxCodeSelect
+							.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
+				}
+			}
 			purchaseOrderText.setValue(transaction.getPurchaseOrderNumber());
 
 			paymentTermsSelected(company.getPaymentTerms(transaction
@@ -1262,6 +1267,9 @@ public class PurchaseOrderView extends
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
+		vendorCombo.setDisabled(isInViewMode());
+		taxCodeSelect.setDisabled(isInViewMode());
+
 		super.onEdit();
 	}
 
