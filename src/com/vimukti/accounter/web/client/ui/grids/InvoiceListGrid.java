@@ -256,7 +256,10 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 		case 4:
 			ClientFinanceDate dueDate1 = obj1.getDueDate();
 			ClientFinanceDate dueDate2 = obj2.getDueDate();
-			return dueDate1.compareTo(dueDate2);
+			if (dueDate1 != null && dueDate2 != null) {
+				return dueDate1.compareTo(dueDate2);
+			}
+			break;
 
 		case 5:
 			Double netPrice1 = obj1.getNetAmount();

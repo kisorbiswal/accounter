@@ -3,10 +3,11 @@ package com.vimukti.accounter.web.client.core.Lists;
 import java.io.Serializable;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 
-public class PurchaseOrdersAndItemReceiptsList implements IsSerializable,
-		Serializable {
+public class PurchaseOrdersAndItemReceiptsList implements IAccounterCore {
 
 	/**
 	 * 
@@ -24,7 +25,7 @@ public class PurchaseOrdersAndItemReceiptsList implements IsSerializable,
 	String vendorName;
 
 	double total;
-	
+
 	private double remainingTotal;
 
 	/**
@@ -123,6 +124,54 @@ public class PurchaseOrdersAndItemReceiptsList implements IsSerializable,
 
 	public void setRemainingTotal(double remainingTotal) {
 		this.remainingTotal = remainingTotal;
+	}
+
+	@Override
+	public int getVersion() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getDisplayName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AccounterCoreType getObjectType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setID(long id) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public long getID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public String getClientClassSimpleName() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

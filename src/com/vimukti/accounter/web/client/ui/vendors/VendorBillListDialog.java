@@ -18,6 +18,7 @@ import com.vimukti.accounter.web.client.core.ClientItemReceipt;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceiptsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -238,7 +239,7 @@ public class VendorBillListDialog extends BaseDialog {
 			grid.addEmptyMessage(Accounter.constants().noRecordsToShow());
 	}
 
-	public Object getGridColumnValue(IsSerializable obj, int index) {
+	public Object getGridColumnValue(IAccounterCore obj, int index) {
 		PurchaseOrdersAndItemReceiptsList record = (PurchaseOrdersAndItemReceiptsList) obj;
 		if (record != null) {
 			switch (index) {
@@ -263,7 +264,6 @@ public class VendorBillListDialog extends BaseDialog {
 	public void setFocus() {
 		// cancelBtn.setFocus(true);
 	}
-
 
 	@Override
 	protected boolean onOK() {

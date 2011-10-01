@@ -87,6 +87,8 @@ public class CompanyFiscalYearOption extends AbstractPreferenceOption {
 		if (dateItem.getValue() != null) {
 			getCompanyPreferences().setPreventPostingBeforeDate(
 					new ClientFinanceDate(dateItem.getValue()).getDate());
+		} else {
+			getCompanyPreferences().setPreventPostingBeforeDate(0);
 		}
 	}
 

@@ -95,9 +95,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		Accounter.createHomeService().getInvoiceList(
-				startDate == null ? 0 : startDate.getDate(), endDate.getDate(),
-				this);
+		refreshDatesAndRecords();
 	}
 
 	@Override
@@ -176,15 +174,11 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 		if (UIUtils.isMSIEBrowser())
 			dateRangeSelector.setWidth("105px");
 
-		if (dateRangeSelector.getValue() != null
-				&& dateRangeSelector.getValue().equals(
-						Accounter.constants().all()))
-			getMinimumAndMaximumDates();
-
 		dateRangeSelector
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
+						dateRangeSelector.setComboItem(selectItem);
 						if (dateRangeSelector.getValue() != null
 								&& !dateRangeSelector.getValue().equals(
 										Accounter.constants().custom())) {
@@ -249,10 +243,6 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 		startDate = Accounter.getStartDate();
 		endDate = getCompany().getCurrentFiscalYearEndDate();
 		// getLastandOpenedFiscalYearEndDate();
-		if (dateRange.equals(Accounter.constants().all())) {
-			getMinimumAndMaximumDates();
-			return;
-		}
 		if (dateRange.equals(Accounter.constants().thisWeek())) {
 			startDate = getWeekStartDate();
 			endDate.setDay(startDate.getDay() + 6);
@@ -335,7 +325,6 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 		fromItem.setValue(startDate);
 		toItem.setValue(endDate);
 		initListCallback();
-
 	}
 
 	public ClientFinanceDate getWeekStartDate() {
@@ -449,12 +438,14 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 		}
 	}
 
-	private void getMinimumAndMaximumDates() {
+	private void refreshDatesAndRecords() {
 
-		if (this.rpcUtilService == null)
-			return;
-
-		else {
+		if (this.rpcUtilService == null) {
+			this.rpcUtilService = Accounter.createHomeService();
+		}
+		if (dateRangeSelector.getValue() != null
+				&& dateRangeSelector.getValue().equals(
+						Accounter.constants().all())) {
 			AccounterAsyncCallback<ArrayList<ClientFinanceDate>> callback = new AccounterAsyncCallback<ArrayList<ClientFinanceDate>>() {
 
 				@Override
@@ -474,7 +465,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 								: result.get(1);
 						startDate = startDate1;
 						endDate = endDate2;
-						initListCallback();
+						callRPCMethod();
 						fromItem.setValue(startDate);
 						toItem.setValue(endDate);
 
@@ -486,7 +477,8 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 				}
 			};
 			this.rpcUtilService.getMinimumAndMaximumTransactionDate(callback);
-
+		} else {
+			callRPCMethod();
 		}
 	}
 
@@ -671,6 +663,12 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 
 		}
 
+	}
+
+	private void callRPCMethod() {
+		Accounter.createHomeService().getInvoiceList(
+				startDate == null ? 0 : startDate.getDate(), endDate.getDate(),
+				this);
 	}
 
 }
