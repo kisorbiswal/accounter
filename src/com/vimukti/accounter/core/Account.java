@@ -598,9 +598,10 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	 * @param isConsiderAsCashAccount
 	 *            the isConsiderAsCashAccount to set
 	 */
-	 public void setConsiderAsCashAccount(boolean isConsiderAsCashAccount) {
-	 this.isConsiderAsCashAccount = isConsiderAsCashAccount;
-	 }
+	public void setConsiderAsCashAccount(boolean isConsiderAsCashAccount) {
+		this.isConsiderAsCashAccount = isConsiderAsCashAccount;
+	}
+
 	/**
 	 * @return the comment
 	 */
@@ -955,6 +956,9 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	public void updateCurrentBalance(Transaction transaction, double amount) {
 
 		// if (!this.getName().equals(AccounterConstants.SALES_TAX_VAT_UNFILED))
+		if (amount == 0) {
+			return;
+		}
 		amount = (isIncrease ? 1 : -1) * amount;
 
 		String tempStr = "Current Balance of  " + this.getName()
