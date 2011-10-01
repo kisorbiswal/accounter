@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.ui.core.ReportUtility;
 import com.vimukti.accounter.web.client.ui.reports.BudgetServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingSummaryServerReport;
@@ -55,6 +54,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.VATUncategorisedAmounts
 import com.vimukti.accounter.web.client.ui.serverreports.VendorTransactionHistoryServerReport;
 import com.vimukti.accounter.web.server.AccounterReportServiceImpl;
 import com.vimukti.accounter.web.server.FinanceTool;
+import com.vimukti.accounter.web.server.managers.SalesManager;
 
 public class ReportsGenerator {
 
@@ -202,8 +202,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -238,7 +237,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -259,7 +258,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -280,7 +279,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -289,15 +288,15 @@ public class ReportsGenerator {
 			try {
 				if (status == null || status.isEmpty()) {
 					transactionDetailByTaxItemServerReport
-							.onResultSuccess(finaTool
+							.onResultSuccess(finaTool.getReportManager()
 									.getTransactionDetailByTaxItem(startDate,
 											endDate, getCompany().getID()));
 				} else {
 					transactionDetailByTaxItemServerReport
-							.onResultSuccess(finaTool
+							.onResultSuccess(finaTool.getReportManager()
 									.getTransactionDetailByTaxItem(status,
-											startDate, endDate, getCompany()
-													.getID()));
+											startDate, endDate,
+											getCompany().getID()));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -310,7 +309,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -341,7 +340,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -363,7 +362,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -384,7 +383,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -412,7 +411,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -420,8 +419,8 @@ public class ReportsGenerator {
 			customerTransactionHistoryServerReport.resetVariables();
 			try {
 				customerTransactionHistoryServerReport.onResultSuccess(finaTool
-						.getCustomerTransactionHistory(startDate, endDate,
-								getCompany().getID()));
+						.getCustomerManager().getCustomerTransactionHistory(
+								startDate, endDate, getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -433,7 +432,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -441,7 +440,7 @@ public class ReportsGenerator {
 			customerTransactionHistoryServerReport1.resetVariables();
 			try {
 				customerTransactionHistoryServerReport1
-						.onResultSuccess(finaTool
+						.onResultSuccess(finaTool.getCustomerManager()
 								.getCustomerTransactionHistory(startDate,
 										endDate, getCompany().getID()));
 			} catch (Exception e) {
@@ -455,7 +454,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -463,8 +462,8 @@ public class ReportsGenerator {
 			salesByCustomerSummaryServerReport.resetVariables();
 			try {
 				salesByCustomerSummaryServerReport.onResultSuccess(finaTool
-						.getSalesByCustomerSummary(startDate, endDate,
-								getCompany().getID()));
+						.getSalesManager().getSalesByCustomerSummary(startDate,
+								endDate, getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -476,7 +475,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -485,12 +484,13 @@ public class ReportsGenerator {
 			try {
 				if (status == null || status.isEmpty()) {
 					salesByCustomerDetailServerReport.onResultSuccess(finaTool
-							.getSalesByCustomerDetailReport(startDate, endDate,
-									getCompany().getID()));
+							.getReportManager().getSalesByCustomerDetailReport(
+									startDate, endDate, getCompany().getID()));
 				} else {
 					salesByCustomerDetailServerReport.onResultSuccess(finaTool
-							.getSalesByCustomerDetailReport(status, startDate,
-									endDate, getCompany().getID()));
+							.getReportManager().getSalesByCustomerDetailReport(
+									status, startDate, endDate,
+									getCompany().getID()));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -503,7 +503,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -511,8 +511,8 @@ public class ReportsGenerator {
 			salesByItemSummaryServerReport.resetVariables();
 			try {
 				salesByItemSummaryServerReport.onResultSuccess(finaTool
-						.getSalesByItemSummary(startDate, endDate, getCompany()
-								.getID()));
+						.getSalesManager().getSalesByItemSummary(startDate,
+								endDate, getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -524,19 +524,20 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
 			updateReport(salesByItemDetailServerReport, finaTool);
 			salesByItemDetailServerReport.resetVariables();
 			try {
+				SalesManager salesManager = finaTool.getSalesManager();
 				if (status == null || status.isEmpty()) {
-					salesByItemDetailServerReport.onResultSuccess(finaTool
+					salesByItemDetailServerReport.onResultSuccess(salesManager
 							.getSalesByItemDetail(startDate, endDate,
 									getCompany().getID()));
 				} else {
-					salesByItemDetailServerReport.onResultSuccess(finaTool
+					salesByItemDetailServerReport.onResultSuccess(salesManager
 							.getSalesByItemDetail(status, startDate, endDate,
 									getCompany().getID()));
 				}
@@ -552,7 +553,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -591,7 +592,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -599,8 +600,8 @@ public class ReportsGenerator {
 			salesClosedOrderServerReport.resetVariables();
 			try {
 				salesClosedOrderServerReport.onResultSuccess(finaTool
-						.getClosedSalesOrders(startDate, endDate, getCompany()
-								.getID()));
+						.getSalesManager().getClosedSalesOrders(startDate,
+								endDate, getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -612,7 +613,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -633,7 +634,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -642,8 +643,8 @@ public class ReportsGenerator {
 			try {
 				if (status == null || status.isEmpty()) {
 					apAgingDetailServerReport.onResultSuccess(finaTool
-							.getAgedCreditors(startDate, endDate,
-									company.getID()));
+							.getReportManager().getAgedCreditors(startDate,
+									endDate, company.getID()));
 				} else {
 					apAgingDetailServerReport.onResultSuccess(reportsSerivce
 							.getAgedCreditors(status,
@@ -664,7 +665,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -672,8 +673,8 @@ public class ReportsGenerator {
 			vendorTransactionHistoryServerReport.resetVariables();
 			try {
 				vendorTransactionHistoryServerReport.onResultSuccess(finaTool
-						.getVendorTransactionHistory(startDate, endDate,
-								getCompany().getID()));
+						.getVendorManager().getVendorTransactionHistory(
+								startDate, endDate, getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -685,7 +686,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -693,8 +694,8 @@ public class ReportsGenerator {
 			purchaseByVendorSummaryServerReport.resetVariables();
 			try {
 				purchaseByVendorSummaryServerReport.onResultSuccess(finaTool
-						.getPurchasesByVendorSummary(startDate, endDate,
-								getCompany().getID()));
+						.getVendorManager().getPurchasesByVendorSummary(
+								startDate, endDate, getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -706,7 +707,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -716,12 +717,13 @@ public class ReportsGenerator {
 				if (status == null || status.isEmpty()) {
 
 					purchaseByVendorDetailServerReport.onResultSuccess(finaTool
-							.getPurchasesByVendorDetail(startDate, endDate,
-									getCompany().getID()));
+							.getVendorManager().getPurchasesByVendorDetail(
+									startDate, endDate, getCompany().getID()));
 				} else {
 					purchaseByVendorDetailServerReport.onResultSuccess(finaTool
-							.getPurchasesByVendorDetail(status, startDate,
-									endDate, getCompany().getID()));
+							.getVendorManager().getPurchasesByVendorDetail(
+									status, startDate, endDate,
+									getCompany().getID()));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -734,7 +736,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -743,8 +745,8 @@ public class ReportsGenerator {
 			try {
 
 				purchaseByItemSummaryServerReport.onResultSuccess(finaTool
-						.getPurchasesByItemSummary(startDate, endDate,
-								getCompany().getID()));
+						.getPurchageManager().getPurchasesByItemSummary(
+								startDate, endDate, getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -756,7 +758,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -765,12 +767,13 @@ public class ReportsGenerator {
 			try {
 				if (status == null || status.isEmpty()) {
 					purchaseByItemDetailServerReport.onResultSuccess(finaTool
-							.getPurchasesByItemDetail(startDate, endDate,
-									getCompany().getID()));
+							.getPurchageManager().getPurchasesByItemDetail(
+									startDate, endDate, getCompany().getID()));
 				} else {
 					purchaseByItemDetailServerReport.onResultSuccess(finaTool
-							.getPurchasesByItemDetail(status, startDate,
-									endDate, getCompany().getID()));
+							.getPurchageManager().getPurchasesByItemDetail(
+									status, startDate, endDate,
+									getCompany().getID()));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -783,7 +786,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -826,7 +829,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -834,8 +837,8 @@ public class ReportsGenerator {
 			purchaseClosedOrderServerReport.resetVariables();
 			try {
 				purchaseClosedOrderServerReport.onResultSuccess(finaTool
-						.getClosedPurchaseOrders(startDate, endDate,
-								getCompany().getID()));
+						.getPurchageManager().getClosedPurchaseOrders(
+								startDate, endDate, getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -847,7 +850,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -869,7 +872,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -891,15 +894,15 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
 			updateReport(vatDetailServerReportView, finaTool);
 			vatDetailServerReportView.resetVariables();
 			try {
-				vatDetailServerReportView
-						.onResultSuccess(finaTool.getVATDetailReport(startDate,
+				vatDetailServerReportView.onResultSuccess(finaTool
+						.getReportManager().getVATDetailReport(startDate,
 								endDate, company.getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -912,7 +915,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -920,8 +923,8 @@ public class ReportsGenerator {
 			vatItemDetailServerReport.resetVariables();
 			try {
 				vatItemDetailServerReport.onResultSuccess(finaTool
-						.getVATItemDetailReport(status, startDate, endDate,
-								getCompany().getID()));
+						.getReportManager().getVATItemDetailReport(status,
+								startDate, endDate, getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -933,7 +936,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -941,8 +944,8 @@ public class ReportsGenerator {
 			vatUncategorisedAmountsServerReport.resetVariables();
 			try {
 				vatUncategorisedAmountsServerReport.onResultSuccess(finaTool
-						.getUncategorisedAmountsReport(startDate, endDate,
-								getCompany().getID()));
+						.getReportManager().getUncategorisedAmountsReport(
+								startDate, endDate, getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -954,7 +957,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -962,8 +965,8 @@ public class ReportsGenerator {
 			vatItemSummaryServerReport.resetVariables();
 			try {
 				vatItemSummaryServerReport.onResultSuccess(finaTool
-						.getVATItemSummaryReport(startDate, endDate,
-								getCompany().getID()));
+						.getReportManager().getVATItemSummaryReport(startDate,
+								endDate, getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -992,7 +995,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 
 				}
@@ -1001,7 +1004,8 @@ public class ReportsGenerator {
 			ecSalesListServerReport.resetVariables();
 			try {
 				ecSalesListServerReport.onResultSuccess(finaTool
-						.getECSalesListReport(startDate, endDate, company));
+						.getReportManager().getECSalesListReport(startDate,
+								endDate, company));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1013,7 +1017,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -1021,8 +1025,8 @@ public class ReportsGenerator {
 			ecSalesListDetailServerReport.resetVariables();
 			try {
 				ecSalesListDetailServerReport.onResultSuccess(finaTool
-						.getECSalesListDetailReport(status, startDate, endDate,
-								company));
+						.getReportManager().getECSalesListDetailReport(status,
+								startDate, endDate, company));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1034,7 +1038,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -1042,8 +1046,8 @@ public class ReportsGenerator {
 			salesTaxLiabilityServerReport.resetVariables();
 			try {
 				salesTaxLiabilityServerReport.onResultSuccess(finaTool
-						.getSalesTaxLiabilityReport(startDate, endDate,
-								getCompany().getID()));
+						.getReportManager().getSalesTaxLiabilityReport(
+								startDate, endDate, getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1055,7 +1059,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -1063,8 +1067,8 @@ public class ReportsGenerator {
 			reverseChargeListServerReport.resetVariables();
 			try {
 				reverseChargeListServerReport.onResultSuccess(finaTool
-						.getReverseChargeListReport(startDate, endDate,
-								getCompany().getID()));
+						.getReportManager().getReverseChargeListReport(
+								startDate, endDate, getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1076,7 +1080,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -1084,8 +1088,8 @@ public class ReportsGenerator {
 			reverseChargeListDetailServerReport.resetVariables();
 			try {
 				reverseChargeListDetailServerReport.onResultSuccess(finaTool
-						.getReverseChargeListDetailReport(status, startDate,
-								endDate, company.getID()));
+						.getReportManager().getReverseChargeListDetailReport(
+								status, startDate, endDate, company.getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1097,7 +1101,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -1105,8 +1109,8 @@ public class ReportsGenerator {
 			mostProfitableCustomerServerReport.resetVariables();
 			try {
 				mostProfitableCustomerServerReport.onResultSuccess(finaTool
-						.getMostProfitableCustomers(startDate, endDate,
-								getCompany().getID()));
+						.getCustomerManager().getMostProfitableCustomers(
+								startDate, endDate, getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1118,7 +1122,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -1139,7 +1143,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -1147,8 +1151,8 @@ public class ReportsGenerator {
 			amountsDueToVendorServerReport.resetVariables();
 			try {
 				amountsDueToVendorServerReport.onResultSuccess(finaTool
-						.getAmountsDueToVendor(startDate, endDate, getCompany()
-								.getID()));
+						.getVendorManager().getAmountsDueToVendor(startDate,
+								endDate, getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1160,14 +1164,14 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
 			updateReport(statementReport, finaTool);
 			statementReport.resetVariables();
 			try {
-				statementReport.onResultSuccess(finaTool
+				statementReport.onResultSuccess(finaTool.getReportManager()
 						.getPayeeStatementsList(Long.parseLong(status),
 								startDate, endDate, company.getID()));
 
@@ -1189,7 +1193,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 			};
@@ -1197,9 +1201,9 @@ public class ReportsGenerator {
 			misc1099TransactionDetailServerReport.resetVariables();
 			try {
 				misc1099TransactionDetailServerReport.onResultSuccess(finaTool
-						.getPaybillsByVendorAndBoxNumber(this.startDate,
-								this.endDate, this.vendorId, this.boxNo,
-								getCompany().getID()));
+						.getVendorManager().getPaybillsByVendorAndBoxNumber(
+								this.startDate, this.endDate, this.vendorId,
+								this.boxNo, getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1212,7 +1216,7 @@ public class ReportsGenerator {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = getCompany().accountingType;
-					
+
 					return ReportsGenerator.getDateByCompanyType(date);
 				}
 
@@ -1259,8 +1263,7 @@ public class ReportsGenerator {
 			@Override
 			public String getDateByCompanyType(ClientFinanceDate date) {
 				ReportsGenerator.companyType = getCompany().accountingType;
-				
-				
+
 				return ReportsGenerator.getDateByCompanyType(date);
 			}
 		};
@@ -1295,8 +1298,7 @@ public class ReportsGenerator {
 			@Override
 			public String getDateByCompanyType(ClientFinanceDate date) {
 				ReportsGenerator.companyType = getCompany().accountingType;
-				
-				
+
 				return ReportsGenerator.getDateByCompanyType(date);
 			}
 		};
@@ -1332,8 +1334,7 @@ public class ReportsGenerator {
 			@Override
 			public String getDateByCompanyType(ClientFinanceDate date) {
 				ReportsGenerator.companyType = getCompany().accountingType;
-				
-				
+
 				return ReportsGenerator.getDateByCompanyType(date);
 			}
 		};
