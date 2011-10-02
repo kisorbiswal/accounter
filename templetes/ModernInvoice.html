@@ -3,7 +3,7 @@
 <link rel='stylesheet' type='text/css' href='templetes/FinancePrint.css' media='all'></link>
 </head>
 <!-- $BeginBlock theme -->
-<div style="margin:40px">
+<div class="hole_margin">
 <div style="font-family:segoe script;font-size:${font};margin-bottom:${bottomMargin};margin-top:${topMargin};">
 <div class="invoice_main_div">
  <table width="100%" style="font-family:${fontStyle};font-size:${font};margin-bottom:${bottomMargin};margin-top:${topMargin};">
@@ -27,7 +27,7 @@
 	  <td width="65%" style="border-bottom:3px solid" ></td>
 	  <td align="center;">
 		 <div class="invoice_zoho_header">
-			<p align="center">
+			<p class="title_font_size" align="center">
 			 <font color="black"><strong>${title}</strong></font>
 			</p>
 		  </div>
@@ -115,6 +115,12 @@
 						  </td>
 						 </tr>
 						 <!-- $EndBlock paymentTermsBlock -->
+						 <!-- $BeginBlock dueDateDetails -->
+						 <tr>
+							<td id="duedate"><strong>Due Date:</strong></td>
+							<td>${dueDate}</td>
+						</tr>
+                        <!-- $EndBlock dueDateDetails -->
 					 </table> 
 				  </td>
 				</tr>
@@ -215,7 +221,7 @@
   <table border="0" class="zoho_subtotal_table">
   <tr>
   <!-- $BeginBlock memoblock -->
-	<td class="blank memo-text" colspan="4" rowspan="5">
+	<td class="blank memo-text" colspan="4" rowspan="5" width="40%">
 	  <p class="fontSetting">${blankText}</p>
 	</td>
 	<!-- $EndBlock memoblock -->
@@ -258,13 +264,7 @@
   </tr>
  <!-- $EndBlock itemDetails -->
 </table>
-<table border="1" class="due_date" style="font-family:${fontStyle};font-size:${font};">
-    <tr><!-- $BeginBlock dueDateDetails -->
-       <td id="duedate"><strong>Due Date:</strong></td>
-    </tr>
-    <tr>
-	   <td>${dueDate}</td>
-	</tr><!-- $EndBlock dueDateDetails -->
+<table border="1" class="due_date" width="100%" style="font-family:${fontStyle};font-size:${font};">
 	<!-- $BeginBlock termsAndAdvice -->
 	 <tr>
      <td ><strong>${termsAndPaymentAdvice}</strong></td>

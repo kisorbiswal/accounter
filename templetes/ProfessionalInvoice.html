@@ -3,7 +3,7 @@
 <link rel='stylesheet' type='text/css' href='templetes/FinancePrint.css' media='all'></link>
 </head>
 <!-- $BeginBlock theme -->
-<div style="margin:40px">
+<div class="hole_margin">
 <div style="font-family:segoe script;font-size:${font};margin-bottom:${bottomMargin};margin-top:${topMargin};">
 <div class="invoice_main_div">
   <table style="font-family:${fontStyle};font-size:${font};margin-bottom:${bottomMargin};margin-top:${topMargin};">
@@ -15,7 +15,7 @@
 	   <tr>
 	       <td align="left" style="vertical-align:top">
 			   <div class="invoice_xero_header">
-			     <p align="left">
+			     <p align="left" class="title_font_size">
 				    <font color="black"><strong>${title}</strong></font>
 				 </p>
 			   </div>
@@ -59,6 +59,12 @@
 						  <td >	 ${paymentTerms} </td>
 						 </tr>
 						 <!-- $EndBlock paymentTermsBlock -->
+						 <!-- $BeginBlock dueDateDetails -->
+						  <tr>
+								<td id="duedate">Due Date:</td>
+								<td>${dueDate}</td>
+						  </tr>
+						 <!-- $EndBlock dueDateDetails -->
 					 </table> 
 		   </td>
 		   <td width="25%" align="right">
@@ -71,7 +77,7 @@
 		</tr>
 		
    </table>
-   <table border="0" id="billingAddressTable" width="100%" style="font-family:${fontStyle};font-size:${font};">
+   <table border="0" class="margin" id="billingAddressTable" width="100%" style="font-family:${fontStyle};font-size:${font};">
      <tr>
 	   <td style="vertical-align: top;" align="left">
 	    <!-- $BeginBlock billhead -->
@@ -193,9 +199,9 @@
   </tr>
    <!-- $EndBlock invoiceRecord -->
   </table>
-  <table class="xero_sub_total" >
+  <table class="xero_sub_total " >
   <tr>
-	<td class="blank memo-text" colspan="4" rowspan="5" >
+	<td class="blank memo-text" colspan="4" rowspan="5" width="40%" >
 	  <p class="fontSetting">${blankText}</p>
 	</td>
 	 <!-- $BeginBlock subtotal -->
@@ -237,13 +243,7 @@
   </tr>
   <!-- $EndBlock itemDetails -->
 </table>
-<table border="1" class="due_date" style="font-family:${fontStyle};font-size:${font};">
-    <tr><!-- $BeginBlock dueDateDetails -->
-       <td id="duedate"><strong>Due Date:</strong></td>
-    </tr>
-    <tr>
-	   <td>${dueDate}</td>
-	</tr><!-- $EndBlock dueDateDetails -->
+<table border="1" class="due_date" width="100%" style="font-family:${fontStyle};font-size:${font};">
 	<!-- $BeginBlock termsAndAdvice -->
 	 <tr>
      <td ><strong>${termsAndPaymentAdvice}</strong></td>
