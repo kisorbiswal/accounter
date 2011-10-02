@@ -143,7 +143,7 @@ public class SalesOrderView extends
 		listforms = new ArrayList<DynamicForm>();
 
 		DynamicForm dateNoForm = new DynamicForm();
-		dateNoForm.setNumCols(6);
+		dateNoForm.setNumCols(8);
 		dateNoForm.addStyleName("date-number");
 		dateNoForm.setFields(statusSelect, transactionDateItem);
 		if (locationTrackingEnabled)

@@ -147,7 +147,7 @@ public class NewVendorPaymentView extends
 		listforms = new ArrayList<DynamicForm>();
 		locationCombo = createLocationCombo();
 		DynamicForm dateNoForm = new DynamicForm();
-		dateNoForm.setNumCols(6);
+		dateNoForm.setNumCols(8);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
 		if (locationTrackingEnabled)
