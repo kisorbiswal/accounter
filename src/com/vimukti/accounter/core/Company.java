@@ -1374,7 +1374,7 @@ public class Company implements IAccounterServerCore {
 	}
 
 	public void setItemGroups(Set<ItemGroup> itemGroups) {
-		itemGroups = itemGroups;
+		this.itemGroups = itemGroups;
 	}
 
 	public Set<PaySalesTax> getPaySalesTaxs() {
