@@ -324,6 +324,7 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 		horizontalPanel.setCellHorizontalAlignment(buttonsLayout,
 				HasHorizontalAlignment.ALIGN_CENTER);
 		horizontalPanel.add(buttonsLayout);
+		horizontalPanel.setCellWidth(buttonsLayout, "75px");
 		horizontalPanel.setCellHorizontalAlignment(selectTaxItemsGrid,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 		horizontalPanel.add(selectTaxItemsGrid);
