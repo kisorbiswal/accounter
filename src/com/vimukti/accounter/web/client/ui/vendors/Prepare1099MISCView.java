@@ -548,8 +548,11 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-
-				long vendorId = 0000;
+				if (vendor == null) {
+					Accounter.showError("Please select the vendor");
+					return;
+				}
+				long vendorId = vendor.getID();
 				long objectID = 1;
 				long brandingThemeID = 1;
 				UIUtils.downloadMISCForm(objectID,
