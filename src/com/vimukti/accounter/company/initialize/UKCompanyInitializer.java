@@ -621,7 +621,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 			defaultVATAgency.setPaymentTerm((PaymentTerms) session
 					.getNamedQuery("unique.name.PaymentTerms")
-					.setEntity("comapany", company)
+					.setEntity("company", company)
 					.setString("name", "Net Monthly").list().get(0));
 			defaultVATAgency.setSalesLiabilityAccount((Account) session
 					.getNamedQuery("unique.name.Account")
