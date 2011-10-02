@@ -680,6 +680,9 @@
 		<id name="id" column="ID">
 			<generator class="native"></generator>
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true">
+		</many-to-one>
 		<property name="name" not-null="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<property name="description" column="DESCRIPTION"></property>
@@ -802,6 +805,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true">
+		</many-to-one>
 		<property name="name" not-null="true" column="NAME"></property>
 		<property name="payeeSince" column="PAYEE_SINCE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
