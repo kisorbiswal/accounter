@@ -153,12 +153,6 @@ public class NewVendorPaymentView extends
 		if (locationTrackingEnabled)
 			dateNoForm.setFields(locationCombo);
 
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
-			classListCombo = createAccounterClassListCombo();
-			dateNoForm.setFields(classListCombo);
-		}
-
 		VerticalPanel datepanel = new VerticalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
@@ -193,6 +187,11 @@ public class NewVendorPaymentView extends
 		DynamicForm balForm = new DynamicForm();
 		balForm.setWidth("100%");
 		balForm.setFields(endBalText, vendorBalText);
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
+			classListCombo = createAccounterClassListCombo();
+			balForm.setFields(classListCombo);
+		}
 		balForm.getCellFormatter().setWidth(0, 0, "205px");
 
 		// Payment

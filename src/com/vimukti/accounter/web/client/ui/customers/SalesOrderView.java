@@ -149,12 +149,6 @@ public class SalesOrderView extends
 		if (locationTrackingEnabled)
 			dateNoForm.setFields(locationCombo);
 
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
-			classListCombo = createAccounterClassListCombo();
-			dateNoForm.setFields(classListCombo);
-		}
-
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("99%");
 		datepanel.add(dateNoForm);
@@ -325,6 +319,11 @@ public class SalesOrderView extends
 		} else {
 			termsForm.setFields(transactionNumber, customerOrderText,
 					payTermsSelect, dueDateItem);
+		}
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
+			classListCombo = createAccounterClassListCombo();
+			termsForm.setFields(classListCombo);
 		}
 		if (getPreferences().isDoProductShipMents()) {
 			termsForm.setFields(shippingTermsCombo, shippingMethodsCombo);

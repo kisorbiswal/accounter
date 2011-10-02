@@ -310,12 +310,6 @@ public class CreditCardExpenseView extends
 		if (locationTrackingEnabled)
 			dateNoForm.setFields(locationCombo);
 
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
-			classListCombo = createAccounterClassListCombo();
-			dateNoForm.setFields(classListCombo);
-		}
-
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 
 		VerticalPanel regPanel = new VerticalPanel();
@@ -434,7 +428,11 @@ public class CreditCardExpenseView extends
 		termsForm.setFields(payMethSelect, payFrmSelect, delivDate);
 		termsForm.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.constants().width(), "203px");
-
+		if (getPreferences().isClassTrackingEnabled()
+				&& getPreferences().isClassOnePerTransaction()) {
+			classListCombo = createAccounterClassListCombo();
+			termsForm.setFields(classListCombo);
+		}
 		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 
 		netAmount = new AmountLabel(Accounter.constants().netAmount());
