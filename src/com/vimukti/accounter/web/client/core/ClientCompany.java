@@ -139,7 +139,7 @@ public class ClientCompany implements IAccounterCore {
 
 	private ArrayList<ClientPriceLevel> priceLevels;
 
-	private ArrayList<ClientItemGroup> ItemGroups;
+	private ArrayList<ClientItemGroup> itemGroups;
 
 	private ArrayList<ClientTAXGroup> taxGroups;
 
@@ -724,11 +724,11 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	public ArrayList<ClientItemGroup> getItemGroups() {
-		return ItemGroups;
+		return itemGroups;
 	}
 
 	public void setItemGroups(ArrayList<ClientItemGroup> itemGroups) {
-		ItemGroups = itemGroups;
+		this.itemGroups = itemGroups;
 	}
 
 	// public ArrayList<ClientTaxCode> getTaxcodes() {
@@ -1142,7 +1142,7 @@ public class ClientCompany implements IAccounterCore {
 
 	public ClientItemGroup getItemGroup(long itemGroupId) {
 
-		return Utility.getObject(this.ItemGroups, itemGroupId);
+		return Utility.getObject(this.itemGroups, itemGroupId);
 	}
 
 	public ClientCreditRating getCreditRating(long creditRatingId) {
@@ -1335,7 +1335,7 @@ public class ClientCompany implements IAccounterCore {
 	public void deleteItemGroup(long itemGroup) {
 		ClientItemGroup clientItemGroup = this.getItemGroup(itemGroup);
 		if (clientItemGroup != null) {
-			this.ItemGroups.remove(clientItemGroup);
+			this.itemGroups.remove(clientItemGroup);
 			fireEvent(new CoreEvent<ClientItemGroup>(ChangeType.DELETE,
 					clientItemGroup));
 		}
@@ -1772,7 +1772,7 @@ public class ClientCompany implements IAccounterCore {
 
 				ClientItemGroup itemGroup = (ClientItemGroup) accounterCoreObject;
 
-				Utility.updateClientList(itemGroup, ItemGroups);
+				Utility.updateClientList(itemGroup, itemGroups);
 
 				break;
 
@@ -2521,10 +2521,10 @@ public class ClientCompany implements IAccounterCore {
 		clientCompany.fixedAssets = fixedAssets;
 
 		ArrayList<ClientItemGroup> itemGroups = new ArrayList<ClientItemGroup>();
-		for (ClientItemGroup clientItemGroup : this.ItemGroups) {
+		for (ClientItemGroup clientItemGroup : this.itemGroups) {
 			itemGroups.add(clientItemGroup.clone());
 		}
-		clientCompany.ItemGroups = itemGroups;
+		clientCompany.itemGroups = itemGroups;
 
 		ArrayList<ClientItem> items = new ArrayList<ClientItem>();
 		for (ClientItem clientItem : this.items) {
