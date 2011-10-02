@@ -307,7 +307,11 @@ public class VATReturn extends Transaction {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-
+		VATReturn vatReturn = (VATReturn) clientObject;
+		List<Box> boxes2 = vatReturn.getBoxes();
+		for (Box box : boxes2) {
+			box.setCompany(vatReturn.getCompany());
+		}
 		return true;
 	}
 

@@ -203,7 +203,7 @@ public class JournalEntry extends Transaction {
 	public JournalEntry(FiscalYear fiscalYear, double netIncome,
 			List<AccountTransactionByAccount> accountTransactionList,
 			String number, int journalEntryType) {
-
+		setCompany(fiscalYear.getCompany());
 		double debitTotal = 0D;
 		double creditTotal = 0D;
 
@@ -278,6 +278,7 @@ public class JournalEntry extends Transaction {
 	public JournalEntry(FiscalYear fiscalYear,
 			List<AccountTransactionByAccount> cashBasisAccountEntries,
 			String number, int journalEntryType) {
+		setCompany(fiscalYear.getCompany());
 		double debitTotal = 0D;
 		double creditTotal = 0D;
 
@@ -353,6 +354,7 @@ public class JournalEntry extends Transaction {
 
 	public JournalEntry(FixedAsset fixedAsset, FinanceDate date, String number,
 			double amount) {
+		setCompany(fixedAsset.getCompany());
 		this.type = Transaction.TYPE_JOURNAL_ENTRY;
 		this.number = number;
 		this.transactionDate = date;
@@ -393,7 +395,7 @@ public class JournalEntry extends Transaction {
 	}
 
 	public JournalEntry(FixedAsset fixedAsset, String number) {
-
+		setCompany(fixedAsset.getCompany());
 		this.type = Transaction.TYPE_JOURNAL_ENTRY;
 		this.number = number;
 		this.transactionDate = fixedAsset.getSoldOrDisposedDate();
@@ -683,7 +685,7 @@ public class JournalEntry extends Transaction {
 	// }
 
 	public JournalEntry(VATReturn return1) {
-
+		setCompany(return1.getCompany());
 		this.type = Transaction.TYPE_JOURNAL_ENTRY;
 		this.journalEntryType = TYPE_NORMAL_JOURNAL_ENTRY;
 		this.number = NumberUtils.getNextTransactionNumber(
