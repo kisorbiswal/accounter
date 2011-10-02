@@ -113,7 +113,7 @@ public class ShippingMethod extends CreatableObject implements
 		ShippingMethod shippingMethod = (ShippingMethod) clientObject;
 		Query query = session.getNamedQuery("getShippingmethod.by.Name")
 				.setString("name", shippingMethod.name)
-				.setEntity("company", getCompany());
+				.setEntity("company", shippingMethod.getCompany());
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			ShippingMethod newShippingMethod = (ShippingMethod) list.get(0);
