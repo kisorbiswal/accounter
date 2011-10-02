@@ -619,6 +619,10 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			defaultVATAgency.setName(preferences.getVATtaxAgencyName());
 			defaultVATAgency.setVATReturn(VATReturn.VAT_RETURN_UK_VAT);
 
+			defaultVATAgency.setPaymentTerm((PaymentTerms) session
+					.getNamedQuery("unique.name.PaymentTerms")
+					.setEntity("comapany", company)
+					.setString("name", "Net Monthly").list().get(0));
 			defaultVATAgency.setSalesLiabilityAccount((Account) session
 					.getNamedQuery("unique.name.Account")
 					.setEntity("company", company)
