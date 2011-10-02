@@ -139,7 +139,7 @@ lable,.gwt-Label,.datePickerPreviousButton,.datePickerNextButton,td.datePickerMo
 }
 .editheader .gwt-Label,.viewTitle,.blue-month-line td,.blue-month-line td div,.blue-week-line,.gwt-StackPanel .gwt-StackPanelItem,.gridHeader,
 .panel-right-align .gwt-Button button,.image-button,.portletLabel,.custom-button,.gwt-Button,.portlet .panel-title,.gwt-DialogBox .caption,
-.editTable .editheader td,.view_help_panel td:FIRST-CHILD table div,.helpdialog .dialogTopCenter table div,.breadcrumb a,
+.editTable .editheader td,.view_help_panel td:FIRST-CHILD table div,.helpdialog .dialogTopCenter table div,.breadcrumb a,.headerlabel,
 .helpdialog .dialogTopCenterInner .caption .gwt-HTML,.recounciliation_grid thead th,.gwt-TabBar .gwt-TabBarItem,.datePickerWeekendLabel,
 .tabMiddle .tabMiddleCenterInner .gwt-Label,.gwt-MenuBar table tr td,.gwt-MenuBar-horizontal .gwt-MenuItem,.user_activity_log thead th,
 #contactable,#contactForm,form#contactForm .submit,#callback,.dateBoxPopup .datePickerMonthSelector td,.datePickerMonthSelector td div,.datePickerWeekdayLabel {
@@ -237,7 +237,7 @@ textarea[disabled],.dropdown-disabled input[disabled],.dropdown-disabled input[d
 	overflow-x: hidden;
 }
 #branding,.group-toolbar,.editTable .editheader,.gwt-StackPanel .gwt-StackPanelItem,.recounciliation_grid thead tr,
-.gridHeader,.user_activity_log thead tr{
+.gridHeader,.user_activity_log thead tr,.headerlabel{
 	background:#2D8B93;
 	background: -moz-linear-gradient(top, #3299A4, #2D8B93);
 	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#2D8B93));
@@ -297,7 +297,6 @@ html,body,#overlay{
 	z-index: 500000;
 }
 .headerlabel {
-	background: none repeat scroll 0 0 #999999;
 	line-height: 1.6;
 }
 .selectedview_textareadata {
@@ -762,7 +761,7 @@ tr.net-profit td {
 	 -webkit-border-radius:5px 0 0 0;
 	 -moz-border-radius:5px 0 0 0;
 }
-.calendar-picker {
+.calendar-picker,.selectedview {
 	margin-left: 3px;
 }
 iframe,.address div {
@@ -1419,4 +1418,7 @@ input[type="button"]::-moz-focus-inner,
 input[type="submit"]::-moz-focus-inner,
 input[type="file"] > input[type="button"]::-moz-focus-inner {
     border: none;
+}
+.contact-deatails-panel{
+	padding: 0 10px;
 }

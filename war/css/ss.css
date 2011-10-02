@@ -2211,5 +2211,10 @@ background-color: #bcfcb1;
 .company_list_buttons{
 	text-align: center;
 }
+#reset_hint_box{
+	margin:-37px 0 0 265px;
+    position: absolute;
+    z-index: 1;
+}
 
 /* End of the new Login and forgot password page*/
