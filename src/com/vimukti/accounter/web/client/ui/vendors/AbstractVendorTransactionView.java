@@ -265,7 +265,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	protected TAXCodeCombo createTaxCodeSelectItem() {
 
-		taxCodeCombo = new TAXCodeCombo(Accounter.constants().tax(), true);
+		taxCodeCombo = new TAXCodeCombo(Accounter.constants().tax(), false);
 		taxCodeCombo.setHelpInformation(true);
 		taxCodeCombo.setRequired(true);
 		taxCodeCombo.addStyleName("tax_combo");

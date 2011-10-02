@@ -355,6 +355,11 @@ public class USCompanyInitializer extends CompanyInitializer {
 			defaultTaxAgency.setSalesLiabilityAccount((Account) session
 					.getNamedQuery("unique.name.Account")
 					.setString(0, "Sales Tax Payable").list().get(0));
+			
+			defaultTaxAgency.setPurchaseLiabilityAccount((Account) session
+					.getNamedQuery("unique.name.Account")
+					.setString(0, "Sales Tax Payable").list().get(0));
+			
 			defaultTaxAgency.setDefault(true);
 			session.save(defaultTaxAgency);
 

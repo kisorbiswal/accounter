@@ -279,7 +279,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	protected TAXCodeCombo createTaxCodeSelectItem() {
 
 		TAXCodeCombo taxCodeCombo = new TAXCodeCombo(Accounter.constants()
-				.tax(), true);
+				.tax(), false);
 		taxCodeCombo.setHelpInformation(true);
 		taxCodeCombo.setRequired(true);
 
