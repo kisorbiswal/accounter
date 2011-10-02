@@ -2049,7 +2049,7 @@ public class FinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyID);
 		List list = session.getNamedQuery("get.reconciliations.by.accountId")
-				.setLong("accountID", accountID).setEntity("country", company)
+				.setLong("accountID", accountID).setEntity("company", company)
 				.list();
 
 		List<ClientReconciliation> reconciliationsList = new ArrayList<ClientReconciliation>();
