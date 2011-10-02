@@ -764,8 +764,10 @@ public class ReceivePaymentView extends
 			memoTextAreaItem.setDisabled(true);
 			if (transaction.getMemo() != null)
 				memoTextAreaItem.setValue(transaction.getMemo());
-			if (transaction.getPaymentMethod() != null)
+			if (transaction.getPaymentMethod() != null) {
 				paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
+				paymentMethod = transaction.getPaymentMethod();
+			}
 			// if (paymentToBeEdited.getReference() != null)
 			// refText.setValue(paymentToBeEdited.getReference());
 			setAmountRecieved(transaction.getAmount());
