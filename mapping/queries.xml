@@ -945,7 +945,7 @@
 		<query-param name="company" type="Company" />
 
 		from com.vimukti.accounter.core.WriteCheck wc where
-		wc.status = status
+		wc.status =:status
 		and wc.company=:company
 	</query>
 
