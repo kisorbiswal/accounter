@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -152,23 +151,24 @@ public class CreditsandPaymentsGrid extends
 				startEditing(row);
 		}
 		// }
-		super.selectRow(row);
+		// super.selectRow(row);
 	}
 
 	@Override
 	protected boolean isEditable(ClientCreditsAndPayments obj, int row,
 			int index) {
-		if (isCanEdit) {
-			// CheckBox box = (CheckBox) this.getWidget(row, 0);
-			// if (box.getValue()) {
-			if (Arrays.asList(0, 1, 2, 3).contains(index))
-				return false;
-			return true;
-			// }
-			// return false;
-		} else {
-			return false;
-		}
+		// if (isCanEdit) {
+		// // CheckBox box = (CheckBox) this.getWidget(row, 0);
+		// // if (box.getValue()) {
+		// if (Arrays.asList(0, 1, 2, 3).contains(index))
+		// return false;
+		// return true;
+		// // }
+		// // return false;
+		// } else {
+		// return false;
+		// }
+		return false;
 	}
 
 	@Override
