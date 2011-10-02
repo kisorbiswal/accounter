@@ -121,7 +121,7 @@ public class VendorGroup extends CreatableObject implements
 		VendorGroup vendorGroup = (VendorGroup) clientObject;
 		Query query = session.getNamedQuery("getVendorGroup.by.name")
 				.setString("name", vendorGroup.name)
-				.setEntity("company", getCompany());
+				.setEntity("company", vendorGroup.getCompany());
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			VendorGroup newVendorGroup = (VendorGroup) list.get(0);
