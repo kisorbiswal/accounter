@@ -1030,7 +1030,7 @@ public class TaxManager extends Manager {
 		Calendar dueCalendar = Calendar.getInstance();
 		dueCalendar.setTime(dueDate.getAsDateObject());
 		PaymentTerms paymentTerm = taxAgency.getPaymentTerm();
-		if (paymentTerm.getDue() == 0) {
+		if (paymentTerm != null && paymentTerm.getDue() == 0) {
 			dueCalendar.add(Calendar.DAY_OF_MONTH, paymentTerm.getDueDays());
 			if (new FinanceDate(dueCalendar.getTime())
 					.compareTo(transactionDate) >= 0) {
@@ -1043,34 +1043,37 @@ public class TaxManager extends Manager {
 
 			Calendar payTermCal = Calendar.getInstance();
 			payTermCal.setTime(new FinanceDate().getAsDateObject());
-
-			switch (paymentTerm.getDue()) {
-			case PaymentTerms.DUE_CURRENT_MONTH:
-				payTermCal.set(Calendar.MONTH,
-						payTermCal.get(Calendar.MONTH) - 1);
-				if (transCal.getTime().compareTo(payTermCal.getTime()) <= 0
-						&& transCal.getTime().compareTo(dueCalendar.getTime()) <= 0) {
-					return true;
+			if (paymentTerm != null) {
+				switch (paymentTerm.getDue()) {
+				case PaymentTerms.DUE_CURRENT_MONTH:
+					payTermCal.set(Calendar.MONTH,
+							payTermCal.get(Calendar.MONTH) - 1);
+					if (transCal.getTime().compareTo(payTermCal.getTime()) <= 0
+							&& transCal.getTime().compareTo(
+									dueCalendar.getTime()) <= 0) {
+						return true;
+					}
+					break;
+				case PaymentTerms.DUE_CURRENT_SIXTY:
+					payTermCal.set(Calendar.MONTH,
+							payTermCal.get(Calendar.MONTH) - 2);
+					if (transCal.getTime().compareTo(payTermCal.getTime()) <= 0
+							&& transCal.getTime().compareTo(
+									dueCalendar.getTime()) <= 0) {
+						return true;
+					}
+					break;
+				case PaymentTerms.DUE_CURRENT_QUARTER:
+					payTermCal.set(Calendar.MONTH,
+							payTermCal.get(Calendar.MONTH) - 3);
+					if (transCal.getTime().compareTo(payTermCal.getTime()) <= 0
+							&& transCal.getTime().compareTo(
+									dueCalendar.getTime()) <= 0) {
+						return true;
+					}
+					break;
 				}
-				break;
-			case PaymentTerms.DUE_CURRENT_SIXTY:
-				payTermCal.set(Calendar.MONTH,
-						payTermCal.get(Calendar.MONTH) - 2);
-				if (transCal.getTime().compareTo(payTermCal.getTime()) <= 0
-						&& transCal.getTime().compareTo(dueCalendar.getTime()) <= 0) {
-					return true;
-				}
-				break;
-			case PaymentTerms.DUE_CURRENT_QUARTER:
-				payTermCal.set(Calendar.MONTH,
-						payTermCal.get(Calendar.MONTH) - 3);
-				if (transCal.getTime().compareTo(payTermCal.getTime()) <= 0
-						&& transCal.getTime().compareTo(dueCalendar.getTime()) <= 0) {
-					return true;
-				}
-				break;
 			}
-
 		}
 		return false;
 	}
@@ -1082,7 +1085,7 @@ public class TaxManager extends Manager {
 		Calendar dueCalendar = Calendar.getInstance();
 		dueCalendar.setTime(financeDate.getAsDateObject());
 		PaymentTerms paymentTerm = pst.getTaxAgency().getPaymentTerm();
-		if (paymentTerm.getDue() == 0) {
+		if (paymentTerm != null && paymentTerm.getDue() == 0) {
 			dueCalendar.add(Calendar.DAY_OF_MONTH, paymentTerm.getDueDays());
 			if (new FinanceDate(dueCalendar.getTime()).compareTo(pst
 					.getTransactionDate()) >= 0) {
@@ -1093,44 +1096,49 @@ public class TaxManager extends Manager {
 			Calendar transCal = Calendar.getInstance();
 			transCal.setTime(new FinanceDate().getAsDateObject());
 			// transCal.set(Calendar.DAY_OF_MONTH, 01);
-
-			switch (paymentTerm.getDue()) {
-			case PaymentTerms.DUE_CURRENT_MONTH:
-				transCal.set(Calendar.MONTH, transCal.get(Calendar.MONTH) - 1);
-				verifyCalendarDates(transCal, dueCalendar,
-						resultPaySalesTaxEntries, pst);
-				break;
-			case PaymentTerms.DUE_CURRENT_SIXTY:
-				transCal.set(Calendar.MONTH, transCal.get(Calendar.MONTH) - 2);
-				verifyCalendarDates(transCal, dueCalendar,
-						resultPaySalesTaxEntries, pst);
-				break;
-			case PaymentTerms.DUE_CURRENT_QUARTER:
-				// verifyQuarterRange(transCal);
-				transCal.set(Calendar.MONTH, transCal.get(Calendar.MONTH) - 3);
-				verifyCalendarDates(transCal, dueCalendar,
-						resultPaySalesTaxEntries, pst);
-				break;
-			case PaymentTerms.DUE_CURRENT_HALF_YEAR:
-				// int month = transCal.get(Calendar.MONTH);
-				// month++;
-				// if (month <= 6) {
-				// transCal.set(Calendar.MONTH, 6);
-				// } else {
-				// transCal.set(Calendar.MONTH, 12);
-				// }
-				transCal.set(Calendar.MONTH, transCal.get(Calendar.MONTH) - 6);
-				verifyCalendarDates(transCal, dueCalendar,
-						resultPaySalesTaxEntries, pst);
-				break;
-			case PaymentTerms.DUE_CURRENT_YEAR:
-				// transCal.set(Calendar.MONTH, 12);
-				transCal.set(Calendar.MONTH, transCal.get(Calendar.MONTH) - 12);
-				verifyCalendarDates(transCal, dueCalendar,
-						resultPaySalesTaxEntries, pst);
-				break;
+			if (paymentTerm != null) {
+				switch (paymentTerm.getDue()) {
+				case PaymentTerms.DUE_CURRENT_MONTH:
+					transCal.set(Calendar.MONTH,
+							transCal.get(Calendar.MONTH) - 1);
+					verifyCalendarDates(transCal, dueCalendar,
+							resultPaySalesTaxEntries, pst);
+					break;
+				case PaymentTerms.DUE_CURRENT_SIXTY:
+					transCal.set(Calendar.MONTH,
+							transCal.get(Calendar.MONTH) - 2);
+					verifyCalendarDates(transCal, dueCalendar,
+							resultPaySalesTaxEntries, pst);
+					break;
+				case PaymentTerms.DUE_CURRENT_QUARTER:
+					// verifyQuarterRange(transCal);
+					transCal.set(Calendar.MONTH,
+							transCal.get(Calendar.MONTH) - 3);
+					verifyCalendarDates(transCal, dueCalendar,
+							resultPaySalesTaxEntries, pst);
+					break;
+				case PaymentTerms.DUE_CURRENT_HALF_YEAR:
+					// int month = transCal.get(Calendar.MONTH);
+					// month++;
+					// if (month <= 6) {
+					// transCal.set(Calendar.MONTH, 6);
+					// } else {
+					// transCal.set(Calendar.MONTH, 12);
+					// }
+					transCal.set(Calendar.MONTH,
+							transCal.get(Calendar.MONTH) - 6);
+					verifyCalendarDates(transCal, dueCalendar,
+							resultPaySalesTaxEntries, pst);
+					break;
+				case PaymentTerms.DUE_CURRENT_YEAR:
+					// transCal.set(Calendar.MONTH, 12);
+					transCal.set(Calendar.MONTH,
+							transCal.get(Calendar.MONTH) - 12);
+					verifyCalendarDates(transCal, dueCalendar,
+							resultPaySalesTaxEntries, pst);
+					break;
+				}
 			}
-
 		}
 
 		// return resultPaySalesTaxEntries;
