@@ -228,13 +228,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 	@Override
 	public void setStartAndEndDates(ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
-		if (startDate != null && endDate != null) {
-			fromItem.setValue(startDate);
-			toItem.setValue(endDate);
-			setStartDate(startDate);
-			setEndDate(endDate);
-		}
-
+		// TODO
 	}
 
 }
