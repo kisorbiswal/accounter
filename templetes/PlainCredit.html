@@ -2,24 +2,24 @@
 <head>
 <link rel='stylesheet' type='text/css' href='templetes/FinancePrint.css' media='all'></link>
 </head>
-<div style="margin:40px;">
+<div class="hole_margin">
  <table width="100%" style="font-family:${fontStyle};font-size:${font};margin-bottom:${bottomMargin};margin-top:${topMargin};">
   		<!-- $BeginBlock showlogo -->
   		<tr><td class="branding_theme_logo" align=${getLogoAlignment}> ${logoImage}</td></tr>
   		<!-- $EndBlock showlogo -->
  </table>
- <table width="100%" style="margin:20px 0" class="credit_quick_head">
+ <table width="100%"  class="credit_quick_head margin">
  <tr>
     <td align="center">
-		<p>
-		   <font color="black" style="font-family:sans-serif;" size="6px">
+		<p class="title_font_size">
+		   <font color="black" style="font-family:sans-serif;">
 			 <strong>Credit Note</strong>
 		   </font>
 		</p>
 	</td>
  </tr>
  </table>
-<table style="width: 100%;margin:20px 0px" cellspacing="10" >
+<table style="width: 100%;"  class="margin" cellspacing="10" >
 <!-- $BeginBlock creditHead -->
 	<tr>
 		<td style="vertical-align: top;" align="left" width="50%">
@@ -31,7 +31,7 @@
 						<font style="font-family:sans-serif;" >
 						<strong> ${companyName}</strong></font><br>
 						<font style="font-family:sans-serif; color:#504040;">
-						&nbsp;${companyRegistrationAddress}</font></br>
+						&nbsp;${companyDetails}</font></br>
 					</p>
 				</div>
 			  </td>
@@ -52,14 +52,15 @@
 						    <td >${creditNoteNumber}</td>
 							<td  width="50%">${creditNoteDate}</td>
 						</tr>
-						<!-- $BeginBlock customernum -->
 						<tr>
-							<td class="credit-head" colspan="2">Customer Number</td>
+							<td class="credit-head" width="50%">Customer Number</td>
+							<td class="credit-head" width="50%">Primary Currency</td>
+							
 						</tr>
 						<tr>
-						    <td  width="50%" colspan="2">${customerNumber}</td>
+						    <td >${customerNumber}</td>
+							<td  width="50%">${currency}</td>
 						</tr>
-						<!-- $EndBlock customernum -->
 					</table>
 				</div>
 			</div>
@@ -67,28 +68,18 @@
 	</tr>
 <!-- $EndBlock creditHead -->
 </table>
-<table  class="gridHeader credito_vimukti credit_quick_upp" border="1" style="margin:20px 0">
+<table  class="gridHeader credito_vimukti credit_quick_upp margin" border="1" >
 		<colgroup><col></colgroup>
 		<tr>
 			<td class="gridHeaderBackGround"><center>Credit To</center></td>
 		</tr>
-		<!-- $BeginBlock billAddress -->
 		<tr>
-		   <td align="left" class="plaincredit" style="width:400px;height:150px" >
+		   <td align="left" class="plaincredit" style="width:400px;height:130px" >
 		     <div align="left">&nbsp;${customerNameNBillAddress}</div>
 		   </td>
 		</tr>
-		<!-- $EndBlock billAddress -->
 </table>
-<table class="dueamount_enclosed" border="1">
-    <tr>
-	   <td class="table-head"><p class="fontSetting"><center>Amount Due</center></p></td>
-	</tr>
-    <tr>
-	   <td><p class="fontSetting"><center>${amountDue}</center></p></td>
-	</tr>
- </table>
-<table border="1" style="margin:20px 0;clear:both" class="main_credit_vimukti credit_quick_upp" width="100%">
+<table border="1" style="clear:both" class="main_credit_vimukti credit_quick_upp margin" width="100%">
 <!-- $BeginBlock  itemDetails -->
   <tr><!-- $BeginBlock showLabels -->
     <th><p class="fontSetting">Name</p></th>
@@ -173,7 +164,21 @@
 	</td>
   </tr><!-- $EndBlock itemDetails -->
 </table>
-<table  border="0" width="100%" style="margin:20px 0;clear:both" >
+<!-- $BeginBlock termsNpaypalId -->
+<table border="1" class="due_date" style="font-family:${fontStyle};font-size:${font};">
+	<!-- $BeginBlock termsAndAdvice -->
+	 <tr>
+     <td ><strong>${termsAndPaymentAdvice}</strong></td>
+    </tr>
+    <!-- $EndBlock termsAndAdvice -->
+    <!-- $BeginBlock paypalemail -->
+	 <tr>
+     <td ><strong>${email}</strong></td>
+    </tr>
+    <!-- $EndBlock paypalemail -->
+</table>
+<!-- $EndBlock termsNpaypalId -->
+<table  border="0" width="100%" class="margin" style="clear:both" >
     	<tr>
 			<td style="vertical-align: top;" align="left" colspan="2">
 				<table border="1" style="font-size:13px; width: 100%;">
@@ -201,11 +206,11 @@
 					<td align="left" style="vertical-align: top;">
 						<table >
 						<colgroup><col></colgroup>
-						<!-- $BeginBlock regAddress -->
+						<!-- $BeginBlock regestrationAddress -->
 						<tr>
-							<td><center>${compRegNamenNumber}</center></td>
+							<td><center>${regestrationAddress}</center></td>
 						</tr>
-						<!-- $EndBlock regAddress -->
+						<!-- $EndBlock regestrationAddress -->
 						</table>
 					</td>
 					<td width="10%" style="vertical-align: bottom;" align="right">

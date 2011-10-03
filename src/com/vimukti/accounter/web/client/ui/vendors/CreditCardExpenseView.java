@@ -44,6 +44,7 @@ import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
+import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -649,6 +650,11 @@ public class CreditCardExpenseView extends
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
 
+		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
+			result.addError(transactionDateItem,
+					accounterConstants.invalidateDate());
+		}
+
 		if (Ccard.getSelectedValue() == null)
 			result.addError(
 					Ccard,
@@ -905,7 +911,7 @@ public class CreditCardExpenseView extends
 		transaction.setMemo(getMemoTextAreaItem());
 		// setting ref
 		// transaction.setReference(UIUtils.toStr(refText.getValue()));
-
+		taxCodeSelected(taxCode);
 		if (selectedVendor != null) {
 
 			// setting vendor
@@ -1136,6 +1142,10 @@ public class CreditCardExpenseView extends
 
 	@Override
 	protected void taxCodeSelected(ClientTAXCode taxCode) {
+
+		if (taxCodeSelect == null) {
+			return;
+		}
 
 		this.taxCode = taxCode;
 		if (taxCode != null) {

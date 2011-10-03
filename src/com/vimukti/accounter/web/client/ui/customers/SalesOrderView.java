@@ -43,6 +43,7 @@ import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
+import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
@@ -1016,6 +1017,19 @@ public class SalesOrderView extends
 		// 1. formItem validation
 		result.add(FormItem.validate(statusSelect));
 		result.add(super.validate());
+
+		if (!AccounterValidator.isValidDueOrDelivaryDates(
+				((SalesOrderView) this).dueDateItem.getDate(),
+				getTransactionDate())) {
+			result.addError(((SalesOrderView) this).dueDateItem, Accounter
+					.constants().the()
+					+ " "
+					+ customerConstants.dueDate()
+					+ " "
+					+ " "
+					+ Accounter.constants()
+							.cannotbeearlierthantransactiondate());
+		}
 
 		result.add(customerTransactionTable.validateGrid());
 		return result;

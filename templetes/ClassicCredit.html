@@ -2,7 +2,7 @@
 <head>
 <link rel='stylesheet' type='text/css' href='templetes/FinancePrint.css' media='all'></link>
 </head>
-<div style="margin:40px;">
+<div class="hole_margin">
  <table width="100%" style="font-family:${fontStyle};font-size:${font};margin-bottom:${bottomMargin};margin-top:${topMargin};">
   		<!-- $BeginBlock showlogo -->
   		<tr><td class="branding_theme_logo" align=${getLogoAlignment}> ${logoImage}</td></tr>
@@ -11,15 +11,15 @@
  <table width="100%" class="credit_note_head">
  <tr>
     <td align="center">
-		<p>
-		   <font color="black" style="font-family:sans-serif;" size="6px">
+		<p class="title_font_size">
+		   <font color="black" style="font-family:sans-serif;">
 			 <strong>Credit Note</strong>
 		   </font>
 		</p>
 	</td>
  </tr>
  </table>
-<table style="width: 100%;margin:20px 0px" cellspacing="10" >
+<table style="width: 100%" class="margin" cellspacing="10" >
 <!-- $BeginBlock creditHead -->
 	<tr>
 		<td style="vertical-align: top;" align="left">
@@ -31,7 +31,7 @@
 						<font style="font-family:sans-serif;">
 						<strong> ${companyName}</strong></font><br>
 						<font style="font-family:sans-serif; color:#504040;">
-						&nbsp;${companyRegistrationAddress}</font></br>
+						&nbsp;${companyDetails}</font></br>
 					</p>
 				</div>
 			  </td>
@@ -57,6 +57,12 @@
 							<td align="right" width="55%">${customerNumber}</td>
 						</tr>
 						<!-- $EndBlock customernum -->
+						<!-- $BeginBlock currency -->
+						<tr>
+						  <td id = "customerNumber">Primary Currency</td>
+						  <td align="right"> ${currency} </td>
+						 </tr>
+						 <!-- $EndBlock currency -->
 					</table>
 				</div>
 			</div>
@@ -64,18 +70,17 @@
 	</tr>
 <!-- $EndBlock creditHead -->
 </table>
-<table  class="gridHeader credito_vimukti" border="1" style="width:300px;margin:20px 0">
+<table  class="gridHeader credito_vimukti margin" border="1" style="width:300px">
 		<colgroup><col></colgroup>
 		<tr>
 			<td class="gridHeaderBackGround" ><center>Credit To</center></td>
 		</tr>
-		<!-- $BeginBlock billAddress -->
+	
 		<tr>
-		   <td align="left" style="height:150px;vertical-align:top" >
+		   <td align="left" style="height:130px;vertical-align:top" >
 		     <div align="left">&nbsp;${customerNameNBillAddress}</div>
 		   </td>
 		</tr>
-		<!-- $EndBlock billAddress -->
 </table>
 <table border="1" style="margin:20px 0 0 0" class="main_credit_vimukti" width="100%">
 <!-- $BeginBlock  itemDetails -->
@@ -160,7 +165,21 @@
 	</td>
   </tr><!-- $EndBlock itemDetails -->
 </table>
-<table  border="0" style="margin:20px 0;clear:both" width="100%" >
+<!-- $BeginBlock termsNpaypalId -->
+<table border="1" class="due_date" style="font-family:${fontStyle};font-size:${font};">
+	<!-- $BeginBlock termsAndAdvice -->
+	 <tr>
+     <td ><strong>${termsAndPaymentAdvice}</strong></td>
+    </tr>
+    <!-- $EndBlock termsAndAdvice -->
+    <!-- $BeginBlock paypalemail -->
+	 <tr>
+     <td ><strong>${email}</strong></td>
+    </tr>
+    <!-- $EndBlock paypalemail -->
+</table>
+<!-- $EndBlock termsNpaypalId -->
+<table  border="0" style="clear:both" class="margin" width="100%" >
     	<tr>
 			<td style="vertical-align: top;" align="left" colspan="2">
 				<table border="1" style="font-size:13px; width: 100%;">
@@ -188,11 +207,11 @@
 					<td align="left" style="vertical-align: top;">
 						<table >
 						<colgroup><col></colgroup>
-						<!-- $BeginBlock regAddress -->
+						<!-- $BeginBlock regestrationAddress -->
 						<tr>
-							<td><center>${compRegNamenNumber}</center></td>
+							<td><center>${regestrationAddress}</center></td>
 						</tr>
-						<!-- $EndBlock regAddress -->
+						<!-- $EndBlock regestrationAddress -->
 						</table>
 					</td>
 					<td width="10%" style="vertical-align: bottom;" align="right">

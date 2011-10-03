@@ -113,7 +113,11 @@ public class NewItemAction extends Action<ClientItem> {
 
 	@Override
 	public String getHistoryToken() {
-		return "newItem";
+		if (forCustomer) {
+			return "newItemCustomer";
+		}
+		return "newItemSupplier";
+
 	}
 
 	@Override

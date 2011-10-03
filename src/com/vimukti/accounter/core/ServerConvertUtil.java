@@ -296,8 +296,10 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 						// Check Whether its Date
 
 						long longValue = srcField.getLong(src);
-						if (longValue == 0)
+						if (longValue == 0) {
+							dstField.set(dst, null);
 							continue;
+						}
 
 						if (isFinanceDate(dstfieldType)) {
 							dstField.set(dst, new FinanceDate(longValue));

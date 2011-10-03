@@ -3,7 +3,7 @@
 <link rel='stylesheet' type='text/css' href='templetes/FinancePrint.css' media='all'></link>
 </head>
 <!-- $BeginBlock theme -->
-<div style="margin:40px">
+<div class="hole_margin">
 <div style="font-family:segoe script;font-size:${font};margin-bottom:${bottomMargin};margin-top:${topMargin};">
 <div class="invoice_main_div">
  <table width="100%" style="font-family:${fontStyle};font-size:${font};margin-bottom:${bottomMargin};margin-top:${topMargin};">
@@ -11,11 +11,11 @@
   		<tr><td  class="branding_theme_logo" align=${getLogoAlignment}> ${logoImage}</td></tr>
   		<!-- $EndBlock showlogo -->
  </table>
- <table style="font-family:${fontStyle};font-size:${font};margin:20px 0" width="100%">
+ <table class="margin" style="font-family:${fontStyle};font-size:${font}" width="100%">
 	   <tr>
 	       <td align="center;">
 			   <div class="invoice_quick_header">
-			     <p align="center">
+			     <p align="center" class="title_font_size">
 				    <font color="black"><strong>${title}</strong></font>
 				 </p>
 			   </div>
@@ -28,46 +28,62 @@
 				  <td width="60%">
 				    <div class="gwt-HTML">
 						<p>
-						   <strong>${comapany}</strong>
 						   <table><tr><td>${companyDetails}</td></tr></table> 
 						</p>
 			        </div>
 				  </td>
 				  <td width="40%">
 				     <table width="100%" class="invoice_details_quicktable" border="1"  style="font-family:${fontStyle};font-size:${font};">
-					    <colgroup><col></colgroup>
+					   <colgroup><col></colgroup>
 						<!-- $BeginBlock invNumberHead -->
-						<tr class="table-head">
-						   <td id ="invoiceNumber"> Invoice Number</td>
-						  <td  width="50%">
-							 Invoice Date
+						<tr>
+						   <td class="table-head" id ="invoiceNumber"> Invoice Number</td>
+						   <td align="right" width="40%">
+							 ${invoiceNumber}
 						   </td>
 						</tr>
 						<!-- $EndBlock invNumberHead -->
                         <!-- $BeginBlock invDateHead -->
 						<tr>
-						  <td id = "invoiceDate">${invoiceNumber}</td>
-						  <td>
+						  <td class="table-head" id = "invoiceDate">Invoice Date</td>
+						  <td align="right">
 							 ${invoiceDate}
 						  </td>
 						</tr>
 						<!-- $EndBlock invDateHead -->
 						<!-- $BeginBlock invOrderNumHead -->
-						<tr class="table-head">
-						  <td id = "orderNumber"> Order Number</td>
-						  <td>
-							Customer Number
+						<tr>
+						  <td class="table-head" id = "orderNumber"> Order Number</td>
+						  <td align="right">
+							${invoiceOrderNumber}
 						  </td>
 						</tr>
 						<!-- $EndBlock invOrderNumHead -->
                         <!-- $BeginBlock invCustNumHead -->
 						<tr>
-						  <td id = "customerNumber">${invoiceOrderNumber}</td>
-						  <td>
+						  <td class="table-head" id = "customerNumber">Customer Number</td>
+						  <td align="right">
 							 ${invoiceCustomerNumber}
 						  </td>
 						 </tr>
 						 <!-- $EndBlock invCustNumHead -->
+						  <!-- $BeginBlock paymentTermsBlock -->
+						<tr>
+						  <td class="table-head" id = "customerNumber">Payment Terms</td>
+						  <td align="right"> ${paymentTerms} </td>
+						 </tr>
+						 <!-- $EndBlock paymentTermsBlock -->
+						   <!-- $BeginBlock currency -->
+						<tr>
+						  <td class="table-head" id = "customerNumber">Primary Currency</td>
+						  <td align="right"> ${currency} </td>
+						 </tr>
+						 <!-- $EndBlock currency -->
+						 <!-- $BeginBlock dueDateDetails -->
+						 <tr>
+                            <td class="table-head" id="duedate"><strong>Due Date</strong></td>
+	                        <td align="right">${dueDate}</td>
+						 </tr><!-- $EndBlock dueDateDetails -->
 					 </table> 
 				  </td>
 				</tr>
@@ -75,7 +91,7 @@
 		   </td>
 		</tr> 
    </table>
-   <table border="0" id="billingAddressTable" width="100%" style="margin:20px 0;font-family:${fontStyle};font-size:${font};">
+   <table border="0" id="billingAddressTable" width="100%" class="margin" style="font-family:${fontStyle};font-size:${font};">
      <!-- $BeginBlock billhead -->
      <tr>
 	   <td style="vertical-align: top;" align="left">
@@ -85,7 +101,7 @@
 			<td class="table-head"><p class="fontSetting"><center>Bill To</center></p></td>
 		  </tr>
 		  <tr>
-			<td align="left" style="vertical-align:top;height:150px">
+			<td align="left" style="vertical-align:top;height:130px">
 			   <p class="fontSetting">
 			     <div align="left">&nbsp;${billingAddress}</div>
 			   </p>
@@ -94,18 +110,63 @@
 		
 		 </table>
 		</td>
-	 </tr>
 	   <!-- $EndBlock billhead -->
+	   <td style="vertical-align: top;" align="right">
+		<!-- $BeginBlock shiphead -->
+		 <table  id = "shippingAddressTable" border="1" class="gridHeader" style="width:300px;font-family:${fontStyle};font-size:${font};"> 
+		    <colgroup><col></colgroup>
+			<tr>
+			  <td class="gridHeaderBackGround" ><center class="fontSetting">Ship To</center></td>
+			</tr>
+			<tr>
+			  <td align="left" style="vertical-align:top;height:130px">
+				<p class="fontSetting">${shippingAddress}</p>
+			  </td>
+			</tr> 
+		 </table>
+		 <!-- $EndBlock shiphead -->
+		</td>
+		 </tr>
  </table>
- <table class="dueamount_enclosed" border="1">
-    <tr>
-	   <td class="table-head"><p class="fontSetting"><center>Amount Due</center></p></td>
-    </tr>
-    <tr>
-	   <td><p class="fontSetting"><center>${amountDue}</center></p></td>
-	</tr>
+   <!-- $BeginBlock salesNShipping -->
+  <table width="100%" border="1" id="permethterms" style="font-family:${fontStyle};font-size:${font};">
+		 <tr>
+		 <table>
+		 <tr>
+		  <!-- $BeginBlock salespersonhead -->
+			<td id = "salesPerson"  class="gridHeaderBackGround">
+			   <center><p class="fontSetting">Sales Person</p></center>
+			</td>
+			<!-- $EndBlock salespersonhead -->
+			</tr>
+			<tr>
+			 <!-- $BeginBlock salesperson -->
+			<td align="center">
+			  <p class="fontSetting">${salesPersonName}</p>
+			</td>
+			<!-- $EndBlock salesperson -->
+			</tr>
+			</table>
+			<table>
+			<tr>
+			<!-- $BeginBlock shippingmethodhead -->
+	        <td id = "shippingMethod"  class="gridHeaderBackGround">
+			   <center><p class="fontSetting">Shipping Method</p></center>
+			</td>
+			<!-- $EndBlock shippingmethodhead -->
+			</tr>
+			 <tr>
+			<!-- $BeginBlock shippingmethod -->
+			<td align="center">
+			   <p class="fontSetting">${shippingMethodName}</p>            
+			</td>
+			<!-- $EndBlock shippingmethod -->
+		 </tr>
+		 </table>
+		 </tr>
  </table>
-<table border="1" width="100%"  class="removeHeadBorder quick_invoice_header" id="items" style="margin:20px 0;clear:both;font-family:${fontStyle};font-size:${font};clear:both">
+   <!-- $EndBlock salesNShipping -->
+<table border="1" width="100%"  class="removeHeadBorder quick_invoice_header margin" id="items" style="clear:both;font-family:${fontStyle};font-size:${font};clear:both">
 <!-- $BeginBlock  itemDetails -->
 <thead>
   <tr class="table-head"><!-- $BeginBlock showLabels -->
@@ -159,9 +220,9 @@
   </tr><!-- $EndBlock invoiceRecord -->
   </tbody>
   </table>
-  <table border="1" width="50%" class="quick_total_table" style="margin:20px 0">
+  <table border="1" width="50%" class="quick_total_table margin" style="float:right" >
   <tr>
-	<td class="blank" colspan="4" rowspan="5" >
+	<td class="blank" colspan="4" rowspan="5" width="50%">
 	  <p class="fontSetting">${blankText}</p>
 	</td>
 	 <!-- $BeginBlock subtotal -->
@@ -202,6 +263,28 @@
 	</td>
   </tr>
 <!-- $EndBlock itemDetails -->
+</table>
+<!-- $BeginBlock termsNpaypalId -->
+<table border="1" width="100%" class="due_date" style="clear:both;font-family:${fontStyle};font-size:${font};">
+	<!-- $BeginBlock termsAndAdvice -->
+	 <tr>
+     <td ><strong>${termsAndPaymentAdvice}</strong></td>
+    </tr>
+    <!-- $EndBlock termsAndAdvice -->
+    <!-- $BeginBlock paypalemail -->
+	 <tr>
+     <td ><strong>${email}</strong></td>
+    </tr>
+    <!-- $EndBlock paypalemail -->
+</table>
+<!-- $EndBlock termsNpaypalId -->
+<table width="100%" id="vat_sort_bankaccount" border="1" style="font-family:${fontStyle};font-size:${font};">
+   <colgroup><col></colgroup>
+			<tr>
+				<!-- $BeginBlock vat --><td><center>${vatNum}</center></td><!-- $EndBlock vat -->
+				<!-- $BeginBlock sortcode --><td><center>${sortCode} </center></td><!-- $EndBlock sortcode -->
+				<!-- $BeginBlock bankAccountNum --><td><center>${BankAccountNo} </center></td><!-- $EndBlock bankAccountNum -->
+			 </tr>
 </table>
 <table id="footer" width="100%" style="font-family:${fontStyle};font-size:${font};clear:both">
    <tr>

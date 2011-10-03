@@ -271,10 +271,7 @@ table tr.gridHeaderRow td {
     text-align: center;
     width: 100%;
 }
-.invoice_header p{
-    border-bottom: 1px solid;
-}
-.invoice_header p,.invoice_quick_header p{   
+.invoice_quick_header p{   
     padding-bottom: 15px;
 }
 .invoice_details_table td:first-child,.removeHeadBorder th,.removeHeadBorder th p,
@@ -293,8 +290,8 @@ table tr.gridHeaderRow td {
 #salesPerson,#shippingMethod,#paymentTerms{
    font-weight:bold;
 }
-#permethterms,#vat_sort_bankaccount,#billingAddressTable,.due_date,#footer {
-   margin-top:40px;
+#permethterms,#vat_sort_bankaccount,.due_date,#footer {
+   margin-top:20px;
 }
 #billto td,#shippingAddressTable td{
   padding:5px;
@@ -313,19 +310,23 @@ table tr.gridHeaderRow td {
   width:400px;
   height:200px;
 }
+.due_date{
+	clear:both;
+	width:100%;
+}
 .dueamount_enclosed,.quick_total_table{
    float:right;
 }
 .dueamount_enclosed td,.quick_total_table td{
    padding:3px;
 }
-.quick_total_table td,.quick_credit_total td{
+.quick_credit_total td{
     height: 40px;
     text-align: center;
     width: 200px;
 }
 .dueamount_enclosed  tr:last-child td,.zoho_subtotal_table td,.credit_zoho_total td{
-   height: 50px;
+   height: 35px;
    width: 150px;
 }
 .quick_invoice_header  tbody td,.credit_zoho_main tbody td,.xero_credit_memo tbody td,.main_credit_vimukti tbody .item-row td{
@@ -342,7 +343,7 @@ table tr.gridHeaderRow td {
    padding:3px;
 }
 .xero_invoice_table{
-   margin-top:70px;
+   margin-top:20px;
 }
 .zoho_subtotal_table,.credit_zoho_total{
     border: 1px solid;
@@ -354,7 +355,7 @@ table tr.gridHeaderRow td {
     text-align: center;
 }
 .xero_credit_memo{
-    margin:100px 00px 0;
+    margin:20px 0 0;
 }
 .xero_credit_memo td,.xero_credit_memo th,.xero_invoice_table td,.xero_invoice_table th{
     padding:10px;
@@ -363,7 +364,7 @@ table tr.gridHeaderRow td {
     text-align:center;
 }
 .xero_credit_total,.xero_sub_total {
-   margin-top:50px;
+   margin-top:20px;
    float:right;
    border:1px solid;
 }
@@ -383,8 +384,8 @@ table tr.gridHeaderRow td {
    padding:3px;
    text-align:center;
 }
-.credit_zoho_main,.credit_zoho_total{
-   margin:20px 0;
+.credit_zoho_main,.credit_zoho_total,.margin{
+   margin:10px 0;
 }
 .credito_vimukti td{
    padding:3px;
@@ -394,14 +395,14 @@ table tr.gridHeaderRow td {
    padding:5px;
 }
 .credit_note_head{
-   margin:20px 0;
+   margin:10px 0;
    border-bottom:1px solid;
 }
 .credit_note_head td{
    padding-bottom:10px;
 }
 .credit_quick_head,.dueamount_enclosed{
-   margin:20px 0px;
+   margin:10px 0px;
 }
 .quick_credit_total{
    float:right;
@@ -411,14 +412,13 @@ table tr.gridHeaderRow td {
 	width:200px;
 	height:200px;
 }
-.invoice_xero_header{
+.invoice_xero_header,.title_font_size{
 	font-size: 20px;
 }
 .credit_quick_number  .credit_note_vimukti .credit-head,.credit_quick_upp .gridHeaderBackGround,
 .credit_quick_upp th{
      text-transform: uppercase;
 }
-.branding_theme_logo{
-	width:400px;
-	height:120px;
+.hole_margin{
+	margin:20px;
 }

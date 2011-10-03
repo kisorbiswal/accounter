@@ -360,6 +360,7 @@ public class WriteChequeView extends
 				} else if (transaction.getPayToType() == ClientPayee.TYPE_TAX_AGENCY) {
 					ClientTAXAgency taxAgency = getCompany().getTaxAgency(
 							transaction.getTaxAgency());
+					payee = taxAgency;
 					paytoSelect.setComboItem(taxAgency);
 				}
 				paytoSelect.setDisabled(isInViewMode());
@@ -529,13 +530,10 @@ public class WriteChequeView extends
 	}
 
 	private boolean validateAmount() {
-		if (payee != null) {
-			double total = 0.0;
-			total += transactionVendorAccountTable.getGrandTotal();
-			total += transactionVendorItemTable.getGrandTotal();
-			return AccounterValidator.isPositiveAmount(total);
-		}
-		return false;
+		double total = 0.0;
+		total += transactionVendorAccountTable.getGrandTotal();
+		total += transactionVendorItemTable.getGrandTotal();
+		return AccounterValidator.isPositiveAmount(total);
 	}
 
 	@Override
@@ -638,8 +636,6 @@ public class WriteChequeView extends
 		Label lab1 = new Label(Accounter.constants().writeCheck() + "("
 				+ getTransactionStatus() + ")");
 		lab1.addStyleName(Accounter.constants().labelTitle());
-		if (isInViewMode())
-			lab1.setText(Accounter.constants().taxAgentPayment());
 
 		transactionNumber = createTransactionNumberItem();
 		locationCombo = createLocationCombo();

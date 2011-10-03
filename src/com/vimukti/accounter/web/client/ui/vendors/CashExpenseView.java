@@ -256,7 +256,7 @@ public class CashExpenseView extends
 
 		vendorForm = UIUtils.form(Global.get().Vendor());
 
-		vendorForm.setWidth("100%");
+		vendorForm.setWidth("50%");
 
 		vendorCombo = createVendorComboItem(messages.vendorName(Global.get()
 				.Vendor()));

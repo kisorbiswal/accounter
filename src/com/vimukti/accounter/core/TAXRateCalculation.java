@@ -77,12 +77,13 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 			this.lineTotal = (!transactionItem.transaction.isBecameVoid()) ? transactionItem
 					.getLineTotal() : -transactionItem.getLineTotal();
 
-		if (transactonItem.getTransaction().getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-			vatValue = Math.abs(this.getCeilValueofTAX());
-
-		} else
-			vatValue = transactonItem.getTaxCode() == null ? transactonItem
-					.getLineTotal() : transactonItem.getVATfraction();
+		// if (Company.getCompany().getAccountingType() ==
+		// Company.ACCOUNTING_TYPE_US) {
+		// vatValue = Math.abs(this.getCeilValueofTAX());
+		//
+		// } else
+		vatValue = transactonItem.getTaxCode() == null ? transactonItem
+				.getLineTotal() : transactonItem.getVATfraction();
 
 		if (transactonItem.getTaxCode() != null
 				&& transactonItem.transaction.getTransactionCategory() == Transaction.CATEGORY_VENDOR

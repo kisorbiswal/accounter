@@ -110,6 +110,7 @@ public class PurchaseOrderView extends
 	protected void createControls() {
 		// setTitle(UIUtils.title(FinanceApplication.constants()
 		// .purchaseOrder()));
+
 		lab1 = new HTML(Accounter.constants().purchaseOrder());
 		lab1.setStyleName(Accounter.constants().labelTitle());
 		// lab1.setHeight("35px");
@@ -188,6 +189,13 @@ public class PurchaseOrderView extends
 				form.setFields(taxCodeSelect);
 				prodAndServiceHLay.add(form);
 
+//				this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
+//				if (taxCode != null) {
+//					this.taxCodeSelect
+//							.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
+//				}
+//				this.transactionTotalNonEditableText.setAmount(transaction
+//						.getTotal());
 			}
 			amountsForm.setFields(netAmount, vatTotalNonEditableText,
 					transactionTotalNonEditableText);
@@ -206,14 +214,14 @@ public class PurchaseOrderView extends
 
 			salesTaxTextNonEditable = createSalesTaxNonEditableLabel();
 			transactionTotalNonEditableText = createTransactionTotalNonEditableLabelforPurchase();
-			paymentsNonEditableText = new AmountLabel(accounterConstants
-					.payments());
+			paymentsNonEditableText = new AmountLabel(
+					accounterConstants.payments());
 			paymentsNonEditableText.setDisabled(true);
 			paymentsNonEditableText.setDefaultValue(""
 					+ UIUtils.getCurrencySymbol() + " 0.00");
 
-			balanceDueNonEditableText = new AmountField(accounterConstants
-					.balanceDue(), this);
+			balanceDueNonEditableText = new AmountField(
+					accounterConstants.balanceDue(), this);
 			balanceDueNonEditableText.setDisabled(true);
 			balanceDueNonEditableText.setDefaultValue(""
 					+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -271,8 +279,8 @@ public class PurchaseOrderView extends
 		shipToAddress = new ShipToForm(null);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
-		shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "40px");
+		shipToAddress.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.addrArea.setDisabled(true);
 		shipToAddress.businessSelect
@@ -661,8 +669,8 @@ public class PurchaseOrderView extends
 
 	public AddressCombo createVendorAddressComboItem() {
 
-		AddressCombo addressCombo = new AddressCombo(messages
-				.vendorAddress(Global.get().Vendor()));
+		AddressCombo addressCombo = new AddressCombo(
+				messages.vendorAddress(Global.get().Vendor()));
 
 		addressCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
@@ -693,7 +701,7 @@ public class PurchaseOrderView extends
 			initShippingTerms();
 			initShippingMethod();
 		} else {
-
+			//taxCodeSelected(this.taxCode);
 			ClientCompany company = getCompany();
 
 			vendorAccountTransactionTable
@@ -719,7 +727,6 @@ public class PurchaseOrderView extends
 			this.deliveryDate = transaction.getDeliveryDate();
 
 			this.transactionItems = transaction.getTransactionItems();
-
 			initTransactionNumber();
 			this.setVendor(company.getVendor(transaction.getVendor()));
 			vendorCombo.setComboItem(vendor);
@@ -749,7 +756,13 @@ public class PurchaseOrderView extends
 
 			} else
 				billtoAreaItem.setValue("");
+			if (isTrackTax()) {
 
+				if (!isTaxPerDetailLine()) {
+					this.taxCodeSelect
+							.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
+				}
+			}
 			purchaseOrderText.setValue(transaction.getPurchaseOrderNumber());
 
 			paymentTermsSelected(company.getPaymentTerms(transaction
@@ -937,12 +950,12 @@ public class PurchaseOrderView extends
 
 		saveOrUpdate((ClientPurchaseOrder) transaction);
 
-		if (isTrackTax()) {
-			netAmount.setAmount(transaction.getNetAmount());
-			vatTotalNonEditableText.setAmount(transaction.getTotal()
-					- transaction.getNetAmount());
-			transactionTotalNonEditableText.setAmount(transaction.getTotal());
-		}
+		// if (isTrackTax()) {
+		// netAmount.setAmount(transaction.getNetAmount());
+		// vatTotalNonEditableText.setAmount(transaction.getTotal()
+		// - transaction.getNetAmount());
+		// transactionTotalNonEditableText.setAmount(transaction.getTotal());
+		// }
 
 	}
 
@@ -990,9 +1003,9 @@ public class PurchaseOrderView extends
 
 		transaction.setMemo(getMemoTextAreaItem());
 		if (transaction.getNetAmount() != 0)
-			transaction.setNetAmount(vendorAccountTransactionTable
-					.getLineTotal()
-					+ vendorItemTransactionTable.getLineTotal());
+			transaction
+					.setNetAmount(vendorAccountTransactionTable.getLineTotal()
+							+ vendorItemTransactionTable.getLineTotal());
 		transaction.setTotal(vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal());
 		// transaction.setReference(getRefText());
@@ -1131,8 +1144,8 @@ public class PurchaseOrderView extends
 		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
 		}
 
 		// TODO::: isvalid received date
@@ -1160,8 +1173,8 @@ public class PurchaseOrderView extends
 		result.add(vendorForm.validate());
 
 		if (getAllTransactionItems().isEmpty()) {
-			result.addError(vendorAccountTransactionTable, accounterConstants
-					.blankTransaction());
+			result.addError(vendorAccountTransactionTable,
+					accounterConstants.blankTransaction());
 		} else {
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());
@@ -1261,6 +1274,9 @@ public class PurchaseOrderView extends
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
+		vendorCombo.setDisabled(isInViewMode());
+		taxCodeSelect.setDisabled(isInViewMode());
+
 		super.onEdit();
 	}
 

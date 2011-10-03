@@ -91,7 +91,8 @@ html,body,.myacc-form1 td input[type=text],.gridBodyContainer,.gridHeader tr td 
 .error-panel,.commentPanel,#mainFooter,.portlet-body,.empty_menu_bar,.address,.tablelayout,.tablelayout1,.tablelayoutInIE,.tablelayoutInIE1,
 .listgrid .custom-combo,.widget,.boldtext,.email_textarea textarea,.finance-portlet td:FIRST-CHILD table,.finance-portlet table,
 .editTable .gwt-TextBox,.editTable .gwt-DateBox,.imageLink-div,.action-vp,.gridBody tbody,.grid-resizeable-proxy-column,
-.portlet-body,.no-title .main-w,.datePickerMonthSelector,.pre_scroll_table div table,#overlay {
+.portlet-body,.no-title .main-w,.datePickerMonthSelector,.pre_scroll_table div table,#overlay,.dateBoxPopup .datePickerDays,
+.dateBoxPopup .datePickerMonthSelector,.dateBoxPopup .gwt-DatePicker{
 	width: 100%;
 }
 .textbold td,.name-label,.label-company,.bold,.text-bold,.unreadmessage td,.financialDataTitle:FIRST-CHILD,
@@ -113,7 +114,7 @@ html,body,.myacc-form1 td input[type=text],.gridBodyContainer,.gridHeader tr td 
 .no-title td.td01,.main-w,td.td11,td.td10,.users-listGrid .gridBodyContainer .onsort,.upload-logo,.listgrid,
 .workspaces-listGrid .gridBodyContainer .onsort,.dropdownFlex,.blue-day-grid,.editTable,.gwt-PopupPanel,.ReportGrid,
 select[multiple],.selectedview_textareadata,#loading .loadingIndicator,.main-class-pannel,.recounciliation_grid,
-.editTable table,.editTable input[disabled],.editTable_disable_anchor,.dateBoxPopup{
+.editTable table,.editTable input[disabled],.editTable_disable_anchor,.dateBoxPopup,.fullSizePanel,.selectedview,.GALD-WOCD{
 	background: none repeat scroll 0 0 #FFFFFF;
 }
 .ele-disable,.menuPopupTop,.menuPopupMiddleLeft,.disconnected .gridLabelCell .gwt-HTML img,.listgridfooter,#overlay,
@@ -136,21 +137,21 @@ lable,.gwt-Label,.datePickerPreviousButton,.datePickerNextButton,td.datePickerMo
 .editTable .gwt-TextBox,.editTable .gwt-DateBox,.industry_list_table select,.gwt-DatePicker .datePickerDays tr:FIRST-CHILD{
 	border: 0px none ;
 }
-.editheader .gwt-Label,.viewTitle,.blue-month-line,.blue-week-line,.gwt-StackPanel .gwt-StackPanelItem,.gridHeader,
-.panel-right-align .gwt-Button button,.image-button,.portletLabel,.custom-button,.gwt-Button,.portlet .panel-title,
-.gwt-DialogBox .caption,.editTable .editheader td,.view_help_panel td:FIRST-CHILD table div,.helpdialog .dialogTopCenter table div,
-.breadcrumb a,.helpdialog .dialogTopCenterInner .caption .gwt-HTML,.recounciliation_grid thead th,.gwt-TabBar .gwt-TabBarItem,
+.editheader .gwt-Label,.viewTitle,.blue-month-line td,.blue-month-line td div,.blue-week-line,.gwt-StackPanel .gwt-StackPanelItem,.gridHeader,
+.panel-right-align .gwt-Button button,.image-button,.portletLabel,.custom-button,.gwt-Button,.portlet .panel-title,.gwt-DialogBox .caption,
+.editTable .editheader td,.view_help_panel td:FIRST-CHILD table div,.helpdialog .dialogTopCenter table div,.breadcrumb a,.headerlabel,
+.helpdialog .dialogTopCenterInner .caption .gwt-HTML,.recounciliation_grid thead th,.gwt-TabBar .gwt-TabBarItem,.datePickerWeekendLabel,
 .tabMiddle .tabMiddleCenterInner .gwt-Label,.gwt-MenuBar table tr td,.gwt-MenuBar-horizontal .gwt-MenuItem,.user_activity_log thead th,
-#contactable,#contactForm,form#contactForm .submit,#callback {
+#contactable,#contactForm,form#contactForm .submit,#callback,.dateBoxPopup .datePickerMonthSelector td,.datePickerMonthSelector td div,.datePickerWeekdayLabel {
 	color: #FFFFFF;
 }
 .gwt-TextBox,.gwt-TextArea,.memoTextArea,textarea[disabled],.gwt-ListBox,.refer_listbox,.fiscal_listbox,.currency_listbox,
-.gridTextBoxCell input[type="text"],.custom-button,.custom-combo,.highlightedFormItem{
+.gridTextBoxCell input[type="text"],.custom-button,.custom-combo,.highlightedFormItem,.gwt-DateBox{
 	border-radius: 3px 3px 3px 3px;
 }
 .gwt-SuggestBox,.gwt-TextBox,.gwt-PasswordTextBox,.gridTextBoxCell input[type="text"],.downarrow-button,
 .listgrid .custom-combo,.custom-combo,.blue-day-grid tr,.gridSelectBoxCell .downarrow-button,.gridHeader,
-.editTable .gwt-TextBox,.editTable .gwt-DateBox,.gridEvenRow,.gridOddRow,.editTable_disable_anchor{
+.editTable .gwt-TextBox,.editTable .gwt-DateBox,.gridEvenRow,.gridOddRow,.editTable_disable_anchor,.gwt-DateBox{
 	height: 22px;
 }
 .workflowFilterList,.report-toolbar .ibutton,.button-panel,.standard-options .ibutton,.Writecheck_addNew,
@@ -176,7 +177,7 @@ body,.menubar-devider,.gwt-SuggestBox,.gwt-TextBox,.gwt-PasswordTextBox,.gridSel
 }
 .gwt-TextBox,.gwt-TextArea,.memoTextArea,.gwt-ListBox,.refer_listbox,.fiscal_listbox,.currency_listbox,
 .gridTextBoxCell input[type="text"],.dropdown-disabled input[disabled],.dropdown-disabled input[disabled='disabled']
-,.gwt-TextBox input[disabled],.gwt-TextBox input[disabled='disabled'],.custom-combo,textarea[disabled] {
+,.gwt-TextBox input[disabled],.gwt-TextBox input[disabled='disabled'],.custom-combo,textarea[disabled],.gwt-DateBox {
 	border: 1px solid #B1B1B1;
 }
 .track_emp_vpanel td:FIRST-CHILD,.sales_tax td:FIRST-CHILD ,.estimate_stmt_acc td:FIRST-CHILD
@@ -236,7 +237,7 @@ textarea[disabled],.dropdown-disabled input[disabled],.dropdown-disabled input[d
 	overflow-x: hidden;
 }
 #branding,.group-toolbar,.editTable .editheader,.gwt-StackPanel .gwt-StackPanelItem,.recounciliation_grid thead tr,
-.gridHeader,.user_activity_log thead tr{
+.gridHeader,.user_activity_log thead tr,.headerlabel{
 	background:#2D8B93;
 	background: -moz-linear-gradient(top, #3299A4, #2D8B93);
 	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#2D8B93));
@@ -282,7 +283,7 @@ html,body,#overlay{
 .imageLink img {
 	margin-right: 3px;
 }
-.toolbox,.gridSelectBoxCell .downarrow-button{
+.toolbox,.gridSelectBoxCell .downarrow-button,.dateBoxPopup{
 	z-index:1;
 }
 .toolbox,.helpPanel {
@@ -295,11 +296,7 @@ html,body,#overlay{
 .gwt-DialogBox,.gwt-PopupPanel,.gwt-DecoratedPopupPanel {
 	z-index: 500000;
 }
-.selectedview,.GALD-WOCD {
-	background: #D2D2C6 !important;
-}
 .headerlabel {
-	background: none repeat scroll 0 0 #999999;
 	line-height: 1.6;
 }
 .selectedview_textareadata {
@@ -311,7 +308,7 @@ html,body,#overlay{
 .gwt-DecoratedPopupPanel,.address div{
 	overflow: visible;
 }
-.gwt-SuggestBox,.gwt-TextBox,.gwt-PasswordTextBox,.blue-day-grid tr,.popup,.message,.gwt-DatePicker .datePickerDays tr {
+.gwt-SuggestBox,.gwt-TextBox,.gwt-PasswordTextBox,.blue-day-grid tr,.popup,.message,.gwt-DatePicker .datePickerDays tr,.gwt-DateBox {
 	border: 1px solid #AAAAAA;
 }
 .gridBody1 tr td div,.selectedview,.childNode tr td,.parentNode tr td,.gridBody tr td div,.gridHeader tr td div,#contactable,#contactForm{
@@ -764,7 +761,7 @@ tr.net-profit td {
 	 -webkit-border-radius:5px 0 0 0;
 	 -moz-border-radius:5px 0 0 0;
 }
-.calendar-picker {
+.calendar-picker,.selectedview {
 	margin-left: 3px;
 }
 iframe,.address div {
@@ -938,7 +935,7 @@ iframe,.address div {
 .view_panel,.setup_panel{
 	height: 500px;
 }
-.addAccountPortlet,.addButtonPortlet,.account_portlet,.setting-class-panel{
+.addAccountPortlet,.addButtonPortlet,.account_portlet,.setting-class-panel,.prepare1099form{
 	margin-top:10px;
 }
 .general-image,.addAccountPortlet,.addButtonPortlet,.account_portlet{
@@ -1111,7 +1108,7 @@ body,#loading .loadingIndicator,.panel-right-align .gwt-Button button,#overlay{
 .logout-help-welcome,form#contactForm p,.panel-title{
 	font-size:0.9em !important;
 }
-.main-finance-window,.gwt-MenuBar-vertical .gwt-MenuItem,.gwt-DialogBox,#mainFooter,.popup,.setup_panel,.gwt-PopupPanel{
+.main-finance-window,.gwt-MenuBar-vertical .gwt-MenuItem,.gwt-DialogBox,#mainFooter,.popup,.setup_panel,.gwt-PopupPanel,.dateBoxPopup{
 	font-size:0.8em;
 }
 .billing_stmt_footer,#mainFooter{
@@ -1157,7 +1154,7 @@ body,#loading .loadingIndicator,.panel-right-align .gwt-Button button,#overlay{
 .customize_Accounter_labels{
 	margin-bottom:5px;
 }
-.email_textarea textarea{
+.email_textarea textarea,.recounciliation_grid{
 	height:200px;
 }
 body,div, table td, select,.gwt-Button,textarea,input,label,.ReportGrid tr td,.gwt-Label,form#contactForm .submit,form#contactForm input, textarea{
@@ -1211,7 +1208,8 @@ a#fdbk_tab,#overlay{
 	text-shadow: none !important;
 	border-bottom:0 none !important;
 }
-.user_activity_log,.recounciliation_grid,.editTable,.company_stackpanel_view,.gwt-StackPanelContent,.ReportGrid .gridHeader .gridHeaderRow, .listgrid,.ReportGrid{
+.user_activity_log,.recounciliation_grid,.editTable,.company_stackpanel_view,.gwt-StackPanelContent,.ReportGrid .gridHeader .gridHeaderRow, 
+.listgrid,.ReportGrid,.selectedview{
 	border:1px solid #2D8B93;
 }
 .view_help_panel td:FIRST-CHILD table,.helpdialog .dialogTopCenter table{
@@ -1264,7 +1262,10 @@ a#fdbk_tab,#overlay{
 .custom-combo{
 	width:155px;
 }
-.gwt-TextBox{
+.dateBoxPopup{
+	width:182px;
+}
+.gwt-TextBox,.gwt-DateBox{
 	width:172px !important;
 }
 input[type="text"]{
@@ -1420,4 +1421,7 @@ input[type="button"]::-moz-focus-inner,
 input[type="submit"]::-moz-focus-inner,
 input[type="file"] > input[type="button"]::-moz-focus-inner {
     border: none;
+}
+.contact-deatails-panel{
+	padding: 0 10px;
 }

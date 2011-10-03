@@ -1940,7 +1940,7 @@ public class FinanceTool {
 			// brandingTheme, footerImg, style);
 
 			InvoicePDFTemplete invoiceHtmlTemplete = new InvoicePDFTemplete(
-					invoice, brandingTheme, company, company.getCompanyID());
+					invoice, brandingTheme, company, company.getCompanyID(), "ClassicInvoice");
 
 			fileName = invoiceHtmlTemplete.getFileName();
 
@@ -1953,7 +1953,7 @@ public class FinanceTool {
 							objectID);
 
 			CreditNotePDFTemplete creditNotePDFTemplete = new CreditNotePDFTemplete(
-					memo, brandingTheme, company, company.getCompanyID());
+					memo, brandingTheme, company,company.getCompanyID(),"ClassicCredit");
 
 			fileName = creditNotePDFTemplete.getFileName();
 

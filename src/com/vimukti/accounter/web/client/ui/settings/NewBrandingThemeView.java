@@ -216,9 +216,11 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 			@Override
 			public void onBlur(BlurEvent event) {
 				if (!UIUtils.isDouble(topMarginBox.getValue().toString())) {
-					Accounter.showError(messages.numberForTopMarginField());
+					// ccounter.showError(messages.numberForTopMarginField());
 					addError(topMarginBox, messages.errorForTopMarginField());
 					topMarginBox.setValue("");
+				} else {
+					clearError(topMarginBox);
 				}
 			}
 		});
@@ -226,10 +228,12 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 			@Override
 			public void onBlur(BlurEvent event) {
 				if (!UIUtils.isDouble(bottomMarginBox.getValue().toString())) {
-					Accounter.showError(messages.numberForbottomMarginField());
+					// Accounter.showError(messages.numberForbottomMarginField());
 					addError(bottomMarginBox, messages
 							.errorForbottomMarginField());
 					bottomMarginBox.setValue("");
+				} else {
+					clearError(bottomMarginBox);
 				}
 			}
 		});
@@ -237,9 +241,11 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 			@Override
 			public void onBlur(BlurEvent event) {
 				if (!UIUtils.isDouble(addressPadBox.getValue().toString())) {
-					Accounter.showError(messages.numberForAddresspadField());
+					// Accounter.showError(messages.numberForAddresspadField());
 					addError(addressPadBox, messages.errorForaddresspadField());
 					addressPadBox.setValue("");
+				} else {
+					clearError(addressPadBox);
 				}
 			}
 		});
@@ -314,9 +320,11 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
  
 		// for setting the selected templetes
 		String invoice = invoiceCombo.getValue().toString().isEmpty() ? messages
-				.classicTemplate() : invoiceCombo.getValue().toString();
+				.classicTemplate()
+				: invoiceCombo.getValue().toString();
 		String creditNote = creditMemoCombo.getValue().toString().isEmpty() ? messages
-				.classicTemplate() : creditMemoCombo.getValue().toString();
+				.classicTemplate()
+				: creditMemoCombo.getValue().toString();
 
 		brandingTheme.setInvoiceTempleteName(invoice);
 		brandingTheme.setCreditNoteTempleteName(creditNote);

@@ -612,6 +612,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		Button cancel = new Button(Accounter.constants().cancel());
 
 		HorizontalPanel panel = new HorizontalPanel();
+		panel.addStyleName("prepare1099form");
 		panel.add(print1099);
 		panel.add(printInfo);
 		panel.add(cancel);
@@ -637,8 +638,9 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
 
+				// int type = 0;
+				// UIUtils.makeMISCInfo(type, listDataProvider.getList());
 			}
 		});
 		cancel.addClickHandler(new ClickHandler() {

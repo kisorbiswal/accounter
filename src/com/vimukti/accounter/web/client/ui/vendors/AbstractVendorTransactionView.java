@@ -98,6 +98,8 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	protected ClientVendor vendor;
 
+	private TAXCodeCombo taxCodeCombo;
+
 	protected void initTransactionTotalNonEditableItem() {
 	}
 
@@ -167,7 +169,6 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 			contactCombo.setValue(iterator.next().getName());
 			break;
 		}
-
 		// initPhones(vendor);
 		paymentMethodSelected(vendor.getPaymentMethod());
 		addressListOfVendor = vendor.getAddress();
@@ -264,19 +265,15 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	protected TAXCodeCombo createTaxCodeSelectItem() {
 
-		TAXCodeCombo taxCodeCombo = new TAXCodeCombo(Accounter.constants()
-				.tax(), true);
+		taxCodeCombo = new TAXCodeCombo(Accounter.constants().tax(), false);
 		taxCodeCombo.setHelpInformation(true);
 		taxCodeCombo.setRequired(true);
 		taxCodeCombo.addStyleName("tax_combo");
 
 		taxCodeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
-
 					public void selectedComboBoxItem(ClientTAXCode selectItem) {
-
 						taxCodeSelected(selectItem);
-
 					}
 
 				});
@@ -667,6 +664,8 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 			payFromCombo.setDisabled(isInViewMode());
 		if (billToCombo != null)
 			billToCombo.setDisabled(isInViewMode());
+		if (taxCodeCombo != null)
+			taxCodeCombo.setDisabled(isInViewMode());
 		super.onEdit();
 
 	}

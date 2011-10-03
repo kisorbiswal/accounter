@@ -259,7 +259,6 @@ public class JournalEntryView extends
 		transaction.setMemo(memoText.getValue().toString() != null ? memoText
 				.getValue().toString() : "");
 		// initMemo(transaction);
-		transaction.setDate(new ClientFinanceDate().getDate());
 		if (DecimalUtil.isEquals(grid.getTotalDebittotal(),
 				grid.getTotalCredittotal())) {
 			transaction.setDebitTotal(grid.getTotalDebittotal());

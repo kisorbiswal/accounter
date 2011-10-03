@@ -3,7 +3,7 @@
 <link rel='stylesheet' type='text/css' href='templetes/FinancePrint.css' media='all'></link>
 </head>
 <!-- $BeginBlock theme -->
-<div style="margin:40px">
+<div class="hole_margin">
 <div style="font-family:segoe script;font-size:${font};margin-bottom:${bottomMargin};margin-top:${topMargin};">
 <div class="invoice_main_div">
  <table width="100%" style="font-family:${fontStyle};font-size:${font};margin-bottom:${bottomMargin};margin-top:${topMargin};">
@@ -11,13 +11,12 @@
   		<tr><td class="branding_theme_logo" align=${getLogoAlignment}> ${logoImage}</td></tr>
   		<!-- $EndBlock showlogo -->
  </table>
-<table style="margin:20px 0">
+<table class="margin">
    <tr>
       <td>
 	     <div class="gwt-HTML">
 			<p>
-			  <strong>${comapany}</strong>
-			  <table><tr><td>${companyDetails}</td></tr></table> 
+			 <table><tr><td>${companyDetails}</td></tr></table> 
 			</p>
 		 </div>
 	  </td>
@@ -28,7 +27,7 @@
 	  <td width="65%" style="border-bottom:3px solid" ></td>
 	  <td align="center;">
 		 <div class="invoice_zoho_header">
-			<p align="center">
+			<p class="title_font_size" align="center">
 			 <font color="black"><strong>${title}</strong></font>
 			</p>
 		  </div>
@@ -42,7 +41,7 @@
 		<tr>
 		  <td style="vertical-align: top;" align="left">
 		    
-		     <table id="header-part-invoice" style="margin:20px 0;font-family:${fontStyle};font-size:${font};" width="100%">
+		     <table id="header-part-invoice" class="margin" style="font-family:${fontStyle};font-size:${font};" width="100%">
 			    <tr>
 				  <td width="60%">
 				      <table border="0" id="billingAddressTable" width="100%" style="font-family:${fontStyle};font-size:${font};">
@@ -54,7 +53,7 @@
 								<td class="table-head"><p class="fontSetting"><center>Bill To</center></p></td>
 							  </tr>
 							  <tr>
-								<td align="left" style="vertical-align:top;height:150px">
+								<td align="left" style="vertical-align:top;height:130px">
 								   <p class="fontSetting">
 									 <div align="left">&nbsp;${billingAddress}</div>
 								   </p>
@@ -67,8 +66,8 @@
 						  <!-- $EndBlock billhead -->
 					 </table>
 				  </td>
-				  <td width="40%">
-		            <table width="100%" class="invoice_zoho_table" border="1"  style="font-family:${fontStyle};font-size:${font};">
+				  <td width="40%" style="vertical-align: top;">
+		            <table width="100%" class="invoice_zoho_table margin" border="1"  style="font-family:${fontStyle};font-size:${font};">
 					    <colgroup><col></colgroup>
 						<!-- $BeginBlock invNumberHead -->
 						<tr>
@@ -102,6 +101,26 @@
 						  </td>
 						 </tr>
 						 <!-- $EndBlock invCustNumHead -->
+						    <!-- $BeginBlock currency -->
+						<tr>
+						  <td id = "customerNumber">Primary Currency</td>
+						  <td align="right"> ${currency} </td>
+						 </tr>
+						 <!-- $EndBlock currency -->
+						  <!-- $BeginBlock paymentTermsBlock -->
+						<tr>
+						  <td id = "customerNumber">Payment Terms</td>
+						  <td align="right">
+							 ${paymentTerms}
+						  </td>
+						 </tr>
+						 <!-- $EndBlock paymentTermsBlock -->
+						 <!-- $BeginBlock dueDateDetails -->
+						 <tr>
+							<td id="duedate"><strong>Due Date </strong></td>
+							<td align="right">${dueDate}</td>
+						</tr>
+                        <!-- $EndBlock dueDateDetails -->
 					 </table> 
 				  </td>
 				</tr>
@@ -109,6 +128,44 @@
 		   </td>
 		</tr> 
    </table>
+     <!-- $BeginBlock salesNShipping -->
+    <table width="100%" border="1" id="permethterms" style="font-family:${fontStyle};font-size:${font};">
+		 <tr>
+		 <table>
+		 <tr>
+		  <!-- $BeginBlock salespersonhead -->
+			<td id = "salesPerson"  class="gridHeaderBackGround">
+			   <center><p class="fontSetting">Sales Person</p></center>
+			</td>
+			<!-- $EndBlock salespersonhead -->
+			</tr>
+			<tr>
+			 <!-- $BeginBlock salesperson -->
+			<td align="center">
+			  <p class="fontSetting">${salesPersonName}</p>
+			</td>
+			<!-- $EndBlock salesperson -->
+			</tr>
+			</table>
+			<table>
+			<tr>
+			<!-- $BeginBlock shippingmethodhead -->
+	        <td id = "shippingMethod"  class="gridHeaderBackGround">
+			   <center><p class="fontSetting">Shipping Method</p></center>
+			</td>
+			<!-- $EndBlock shippingmethodhead -->
+			</tr>
+			 <tr>
+			<!-- $BeginBlock shippingmethod -->
+			<td align="center">
+			   <p class="fontSetting">${shippingMethodName}</p>            
+			</td>
+			<!-- $EndBlock shippingmethod -->
+		 </tr>
+		 </table>
+		 </tr>
+ </table>
+   <!-- $EndBlock salesNShipping -->
 <table border="1" class="removeHeadBorder quick_invoice_header" id="items" style="font-family:${fontStyle};font-size:${font};">
 <!-- $BeginBlock  itemDetails -->
 <thead>
@@ -166,7 +223,7 @@
   <table border="0" class="zoho_subtotal_table">
   <tr>
   <!-- $BeginBlock memoblock -->
-	<td class="blank memo-text" colspan="4" rowspan="5">
+	<td class="blank memo-text" colspan="4" rowspan="5" width="40%">
 	  <p class="fontSetting">${blankText}</p>
 	</td>
 	<!-- $EndBlock memoblock -->
@@ -208,6 +265,28 @@
 	</td>
   </tr>
  <!-- $EndBlock itemDetails -->
+</table>
+<!-- $BeginBlock termsNpaypalId -->
+<table border="1" class="due_date" width="100%" style="font-family:${fontStyle};font-size:${font};">
+	<!-- $BeginBlock termsAndAdvice -->
+	 <tr>
+     <td ><strong>${termsAndPaymentAdvice}</strong></td>
+    </tr>
+    <!-- $EndBlock termsAndAdvice -->
+    <!-- $BeginBlock paypalemail -->
+	 <tr>
+     <td ><strong>${email}</strong></td>
+    </tr>
+    <!-- $EndBlock paypalemail -->
+</table>
+<!-- $EndBlock termsNpaypalId -->
+<table width="100%" id="vat_sort_bankaccount" border="1" style="font-family:${fontStyle};font-size:${font};">
+   <colgroup><col></colgroup>
+			<tr>
+				<!-- $BeginBlock vat --><td><center>${vatNum}</center></td><!-- $EndBlock vat -->
+				<!-- $BeginBlock sortcode --><td><center>${sortCode} </center></td><!-- $EndBlock sortcode -->
+				<!-- $BeginBlock bankAccountNum --><td><center>${BankAccountNo} </center></td><!-- $EndBlock bankAccountNum -->
+			 </tr>
 </table>
 <table id="footer" width="100%" style="font-family:${fontStyle};font-size:${font};clear:both">
    <tr>
