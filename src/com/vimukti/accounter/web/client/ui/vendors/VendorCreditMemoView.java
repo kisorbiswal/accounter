@@ -438,7 +438,7 @@ public class VendorCreditMemoView extends
 		// Setting Reference
 		// transaction.setReference(getRefText());
 
-		transaction.setNetAmount(netAmount.getAmount());
+		transaction.setNetAmount(getAmountInBaseCurrency(netAmount.getAmount()));
 		// itemReceipt.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 		// .getValue());
 
@@ -597,7 +597,7 @@ public class VendorCreditMemoView extends
 
 	@Override
 	protected Double getTransactionTotal() {
-		return this.transactionTotalNonEditableText.getAmount();
+		return getAmountInBaseCurrency(this.transactionTotalNonEditableText.getAmount());
 	}
 
 	private void resetFormView() {

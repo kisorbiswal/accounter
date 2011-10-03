@@ -269,7 +269,8 @@ public class WriteChequeView extends
 
 	protected void updateBalance() {
 		if (selectBankAcc != null)
-			balText.setAmount(selectBankAcc.getTotalBalance());
+			balText.setAmount(getAmountInTransactionCurrency(selectBankAcc
+					.getTotalBalance()));
 	}
 
 	protected void getAddreses(Set<ClientAddress> allAddress) {
@@ -488,7 +489,8 @@ public class WriteChequeView extends
 			Double transactionTotal = ((ClientWriteCheck) transaction)
 					.getTotal();
 			if (transactionTotal != null) {
-				amtText.setAmount(transactionTotal.doubleValue());
+				amtText.setAmount(getAmountInTransactionCurrency(transactionTotal
+						.doubleValue()));
 			}
 
 		}
@@ -526,6 +528,18 @@ public class WriteChequeView extends
 			result.addError(memoTextAreaItem,
 					accounterConstants.transactiontotalcannotbe0orlessthan0());
 		}
+
+		if (isTrackTax()) {
+			if (!isTaxPerDetailLine()) {
+				if (taxCodeSelect != null
+						&& taxCodeSelect.getSelectedValue() == null) {
+					result.addError(taxCodeSelect,
+							accounterConstants.enterTaxCode());
+				}
+
+			}
+		}
+
 
 		return result;
 	}
@@ -771,7 +785,7 @@ public class WriteChequeView extends
 
 		amtText = new AmountField(Accounter.constants().amount(), this);
 		amtText.setWidth(100);
-		amtText.setAmount(0.00);
+		amtText.setAmount(getAmountInTransactionCurrency(0.00));
 		amtText.setDisabled(isInViewMode());
 
 		memoTextAreaItem = createMemoTextAreaItem();
@@ -995,7 +1009,8 @@ public class WriteChequeView extends
 			transactionItems = transaction.getTransactionItems();
 			transactionNumber.setValue(transaction.getNumber());
 
-			amtText.setAmount(transaction.getTotal());
+			amtText.setAmount(getAmountInTransactionCurrency(transaction
+					.getTotal()));
 			memoTextAreaItem.setValue(transaction.getMemo());
 			date.setValue(transaction.getDate());
 			toprintCheck.setValue(transaction.isToBePrinted());
@@ -1128,7 +1143,7 @@ public class WriteChequeView extends
 		}
 		double total = transactionVendorAccountTable.getGrandTotal()
 				+ transactionVendorItemTable.getGrandTotal();
-		this.amtText.setAmount(total);
+		this.amtText.setAmount(getAmountInTransactionCurrency(total));
 		amtText.setValue(DataUtils.getAmountAsString(total));
 		totalTxt.setValue(DataUtils.getAmountAsString(total));
 		double grandTotal = transactionVendorAccountTable.getLineTotal()

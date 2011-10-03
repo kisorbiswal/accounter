@@ -1011,7 +1011,7 @@ public class CreditCardExpenseView extends
 		updateTransaction();
 
 		if (getPreferences().isTrackPaidTax())
-			transaction.setNetAmount(netAmount.getAmount());
+			transaction.setNetAmount(getAmountInBaseCurrency(netAmount.getAmount()));
 		// creditCardCharge.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 		// .getValue());
 

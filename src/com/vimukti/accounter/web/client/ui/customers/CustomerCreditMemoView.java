@@ -404,13 +404,16 @@ public class CustomerCreditMemoView extends
 		transaction.setMemo(getMemoTextAreaItem());
 		// transaction.setReference(getRefText());
 		if (isTrackTax()) {
-			transaction.setNetAmount(netAmountLabel.getAmount());
+			transaction.setNetAmount(getAmountInBaseCurrency(netAmountLabel
+					.getAmount()));
 			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 					.getValue());
 			transaction.setTaxTotal(this.salesTax);
 		}
 
-		transaction.setTotal(transactionTotalNonEditableText.getAmount());
+		transaction
+				.setTotal(getAmountInBaseCurrency(transactionTotalNonEditableText
+						.getAmount()));
 	}
 
 	@Override
@@ -448,7 +451,9 @@ public class CustomerCreditMemoView extends
 
 			if (isTrackTax()) {
 				if (isTaxPerDetailLine()) {
-					netAmountLabel.setAmount(transaction.getNetAmount());
+					netAmountLabel
+							.setAmount(getAmountInTransactionCurrency(transaction
+									.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 					if (taxCode != null) {
@@ -456,10 +461,14 @@ public class CustomerCreditMemoView extends
 								.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
 					}
 				}
-				taxTotalNonEditableText.setAmount(transaction.getTaxTotal());
+				taxTotalNonEditableText
+						.setAmount(getAmountInTransactionCurrency(transaction
+								.getTaxTotal()));
 			}
 
-			transactionTotalNonEditableText.setAmount(transaction.getTotal());
+			transactionTotalNonEditableText
+					.setAmount(getAmountInTransactionCurrency(transaction
+							.getTotal()));
 			memoTextAreaItem.setDisabled(true);
 			initAccounterClass();
 		}
@@ -529,7 +538,8 @@ public class CustomerCreditMemoView extends
 			Double salesTaxAmout = ((ClientCustomerCreditMemo) transaction)
 					.getTaxTotal();
 			if (salesTaxAmout != null) {
-				taxTotalNonEditableText.setAmount(salesTaxAmout);
+				taxTotalNonEditableText
+						.setAmount(getAmountInTransactionCurrency(salesTaxAmout));
 			}
 
 		}
@@ -542,7 +552,8 @@ public class CustomerCreditMemoView extends
 			Double transactionTotal = ((ClientCustomerCreditMemo) transaction)
 					.getTotal();
 			if (transactionTotal != null) {
-				transactionTotalNonEditableText.setAmount(transactionTotal);
+				transactionTotalNonEditableText
+						.setAmount(getAmountInTransactionCurrency(transactionTotal));
 			}
 
 		}
@@ -584,7 +595,7 @@ public class CustomerCreditMemoView extends
 			// + this.salesTax);
 			double lineTotal = customerAccountTransactionTable.getLineTotal()
 					+ customerItemTransactionTable.getLineTotal();
-			netAmountLabel.setAmount(lineTotal);
+			netAmountLabel.setAmount(getAmountInTransactionCurrency(lineTotal));
 			taxTotalNonEditableText.setAmount(total - lineTotal);
 
 		}
@@ -599,7 +610,8 @@ public class CustomerCreditMemoView extends
 	public void setTransactionTotal(Double transactionTotal) {
 		if (transactionTotal == null)
 			transactionTotal = 0.0D;
-		transactionTotalNonEditableText.setAmount(transactionTotal);
+		transactionTotalNonEditableText
+				.setAmount(getAmountInTransactionCurrency(transactionTotal));
 	}
 
 	// @Override
@@ -614,7 +626,8 @@ public class CustomerCreditMemoView extends
 		this.salesTax = salesTax;
 
 		if (taxTotalNonEditableText != null)
-			taxTotalNonEditableText.setAmount(salesTax);
+			taxTotalNonEditableText
+					.setAmount(getAmountInTransactionCurrency(salesTax));
 
 	}
 

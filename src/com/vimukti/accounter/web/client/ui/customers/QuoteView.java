@@ -241,7 +241,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		// quote.setReference(this.refText.getValue() != null ? this.refText
 		// .getValue().toString() : "");
 		quote.setPaymentTerm(Utility.getID(paymentTerm));
-		quote.setNetAmount(netAmountLabel.getAmount());
+		quote.setNetAmount(getAmountInBaseCurrency(netAmountLabel.getAmount()));
 
 		if (isTrackTax()) {
 			quote.setAmountsIncludeVAT((Boolean) vatinclusiveCheck.getValue());
@@ -250,7 +250,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			quote.setTaxTotal(this.salesTax);
 		}
 
-		quote.setTotal(transactionTotalNonEditableText.getAmount());
+		quote.setTotal(getAmountInBaseCurrency(transactionTotalNonEditableText.getAmount()));
 		transaction = quote;
 
 		super.saveAndUpdateView();
@@ -516,7 +516,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		// item.setTaxCode(taxCode.getID());
 		// }
 		// }
-		transaction.setTotal(transactionTotalNonEditableText.getAmount());
+		transaction.setTotal(getAmountInBaseCurrency(transactionTotalNonEditableText.getAmount()));
 	}
 
 	protected void setDateValues(ClientFinanceDate date) {
@@ -548,7 +548,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		if (transaction != null) {
 			Double salesTaxAmout = ((ClientEstimate) transaction).getTaxTotal();
 			if (salesTaxAmout != null) {
-				salesTaxTextNonEditable.setAmount(salesTaxAmout);
+				salesTaxTextNonEditable
+						.setAmount(getAmountInTransactionCurrency(salesTaxAmout));
 			}
 
 		}
@@ -560,7 +561,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		if (transaction != null) {
 			Double transactionTotal = ((ClientEstimate) transaction).getTotal();
 			if (transactionTotal != null) {
-				transactionTotalNonEditableText.setAmount(transactionTotal);
+				transactionTotalNonEditableText
+						.setAmount(getAmountInTransactionCurrency(transactionTotal));
 			}
 
 		}
@@ -628,13 +630,17 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			memoTextAreaItem.setValue(transaction.getMemo());
 			// refText.setValue(estimate.getReference());
 			if (isTrackTax()) {
-				netAmountLabel.setAmount(transaction.getNetAmount());
+				netAmountLabel
+						.setAmount(getAmountInTransactionCurrency(transaction
+								.getNetAmount()));
 				vatTotalNonEditableText.setValue(DataUtils
 						.getAmountAsString(transaction.getTotal()
 								- transaction.getNetAmount()));
 			}
 			memoTextAreaItem.setDisabled(true);
-			transactionTotalNonEditableText.setAmount(transaction.getTotal());
+			transactionTotalNonEditableText
+					.setAmount(getAmountInTransactionCurrency(transaction
+							.getTotal()));
 
 			customerTransactionTable.setDisabled(isInViewMode());
 			transactionDateItem.setDisabled(isInViewMode());
@@ -717,9 +723,12 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		if (customerTransactionTable == null)
 			return;
 		if (isTrackTax()) {
-			netAmountLabel.setAmount(customerTransactionTable.getLineTotal());
-			vatTotalNonEditableText.setAmount(customerTransactionTable
-					.getTotalTax());
+			netAmountLabel
+					.setAmount(getAmountInTransactionCurrency(customerTransactionTable
+							.getLineTotal()));
+			vatTotalNonEditableText
+					.setAmount(getAmountInTransactionCurrency(customerTransactionTable
+							.getTotalTax()));
 			setSalesTax(customerTransactionTable.getTotalTax());
 		}
 		setTransactionTotal(customerTransactionTable.getGrandTotal());
@@ -728,14 +737,16 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	public void setTransactionTotal(Double transactionTotal) {
 		if (transactionTotal == null)
 			transactionTotal = 0.0D;
-		transactionTotalNonEditableText.setAmount(transactionTotal);
+		transactionTotalNonEditableText
+				.setAmount(getAmountInTransactionCurrency(transactionTotal));
 	}
 
 	public void setSalesTax(Double salesTax) {
 		if (salesTax == null)
 			salesTax = 0.0D;
 		this.salesTax = salesTax;
-		salesTaxTextNonEditable.setAmount(salesTax);
+		salesTaxTextNonEditable
+				.setAmount(getAmountInTransactionCurrency(salesTax));
 	}
 
 	@Override

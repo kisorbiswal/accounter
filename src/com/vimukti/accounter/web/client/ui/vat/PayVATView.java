@@ -355,7 +355,8 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		transactionDateItem.setEnteredDate(transaction.getDate());
 		transNumber.setValue(transaction.getNumber());
 
-		endingBalanceText.setAmount(transaction.getEndingBalance());
+		endingBalanceText.setAmount(getAmountInTransactionCurrency(transaction
+				.getEndingBalance()));
 		paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
 		amountText
 				.setValue(DataUtils.getAmountAsString(transaction.getTotal()));
@@ -568,7 +569,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		// toBeSetAmount += rec.getAmountToPay();
 		// }
 		// if (this.transaction == null) {
-		amountText.setAmount(toBeSetAmount);
+		amountText.setAmount(getAmountInTransactionCurrency(toBeSetAmount));
 		totalAmount = toBeSetAmount;
 		if (selectedPayFromAccount != null) {
 			double toBeSetEndingBalance = 0.0;
@@ -576,14 +577,14 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 				toBeSetEndingBalance = selectedPayFromAccount.getTotalBalance()
 
 						+ DataUtils.getBalance(
-								amountText.getAmount().toString())
-								.doubleValue();
+								getAmountInBaseCurrency(amountText.getAmount())
+										.toString()).doubleValue();
 			else
 				toBeSetEndingBalance = selectedPayFromAccount.getTotalBalance()
 
 						- DataUtils.getBalance(
-								amountText.getAmount().toString())
-								.doubleValue();
+								getAmountInBaseCurrency(amountText.getAmount())
+										.toString()).doubleValue();
 			endingBalanceText.setAmount(toBeSetEndingBalance);
 			// }
 		}

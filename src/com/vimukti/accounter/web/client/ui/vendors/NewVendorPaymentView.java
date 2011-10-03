@@ -412,7 +412,7 @@ public class NewVendorPaymentView extends
 			transaction.setVendorBalance(toBeSetVendorBalance);
 
 			// Setting UnusedAmount
-			transaction.setUnusedAmount(amountText.getAmount());
+			transaction.setUnusedAmount(getAmountInBaseCurrency(amountText.getAmount()));
 
 		}
 	}
@@ -475,7 +475,7 @@ public class NewVendorPaymentView extends
 
 	public void adjustBalance() {
 
-		enteredBalance = amountText.getAmount();
+		enteredBalance = getAmountInBaseCurrency(amountText.getAmount());
 
 		if (DecimalUtil.isLessThan(enteredBalance, 0)
 				|| DecimalUtil.isGreaterThan(enteredBalance, 1000000000000.00)) {
@@ -684,7 +684,7 @@ public class NewVendorPaymentView extends
 	}
 
 	protected Double getTransactionTotal() {
-		return this.amountText.getAmount();
+		return getAmountInBaseCurrency(this.amountText.getAmount());
 	}
 
 	@Override

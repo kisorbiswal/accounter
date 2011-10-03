@@ -225,7 +225,7 @@ public class MakeDepositView extends
 							.cashBackAmountErrorMsg());
 					cashBackAmount = 0.00;
 					// cashBackAmountText.setValue("$0.00");
-					cashBackAmountText.setAmount(0.00);
+					cashBackAmountText.setAmount(getAmountInTransactionCurrency(0.00));
 				} /*
 				 * else if (cashBackAmount > 1000000000000.00) { SC.say(
 				 * "Cash-back Amount should not exceed +UIUtils.getCurrencySymbol() +"
@@ -882,8 +882,8 @@ public class MakeDepositView extends
 			// cashBackAmountText.setValue(UIUtils
 			// .format(((MakeDeposit) transactionObject)
 			// .getCashBackAmount()));
-			cashBackAmountText.setAmount(((ClientMakeDeposit) transaction)
-					.getCashBackAmount());
+			cashBackAmountText.setAmount(getAmountInTransactionCurrency(((ClientMakeDeposit) transaction)
+					.getCashBackAmount()));
 			addTransactionMakeDepositsToGrid(transaction
 					.getTransactionMakeDeposit());
 
@@ -1211,7 +1211,7 @@ public class MakeDepositView extends
 		// Setting Total amount
 
 		// Setting Total
-		transaction.setTotal(totText.getAmount());
+		transaction.setTotal(getAmountInBaseCurrency(totText.getAmount()));
 
 		// Setting Transaction type
 		transaction.setType(ClientTransaction.TYPE_MAKE_DEPOSIT);

@@ -154,8 +154,8 @@ public class CashSalesView extends
 		shipToAddress = new ShipToForm(null);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
-		shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "40px");
+		shipToAddress.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.addrArea.setDisabled(true);
 		shipToAddress.businessSelect
@@ -209,8 +209,8 @@ public class CashSalesView extends
 		}
 
 		termsForm.setStyleName("align-form");
-		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "203px");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -573,13 +573,13 @@ public class CashSalesView extends
 		transaction.setMemo(getMemoTextAreaItem());
 		// transaction.setReference(getRefText());
 		if (isTrackTax()) {
-			transaction.setNetAmount(netAmountLabel.getAmount());
+			transaction.setNetAmount(getAmountInBaseCurrency(netAmountLabel.getAmount()));
 			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 					.getValue());
 			transaction.setTaxTotal(salesTax);
 		}
 
-		transaction.setTotal(transactionTotalNonEditableText.getAmount());
+		transaction.setTotal(getAmountInBaseCurrency(transactionTotalNonEditableText.getAmount()));
 	}
 
 	@Override
@@ -596,7 +596,7 @@ public class CashSalesView extends
 		double total = customerAccountTransactionTable.getGrandTotal()
 				+ customerItemTransactionTable.getGrandTotal();
 		if (getCompany().getPreferences().isTrackTax()) {
-			netAmountLabel.setAmount(lineTotal);
+			netAmountLabel.setAmount(getAmountInTransactionCurrency(lineTotal));
 			setSalesTax(totalTax);
 		}
 
@@ -625,7 +625,7 @@ public class CashSalesView extends
 			transactionTotal = 0.0D;
 		this.transactionTotal = transactionTotal;
 		if (transactionTotalNonEditableText != null)
-			transactionTotalNonEditableText.setAmount(transactionTotal);
+			transactionTotalNonEditableText.setAmount(getAmountInTransactionCurrency(transactionTotal));
 
 	}
 
@@ -704,9 +704,12 @@ public class CashSalesView extends
 			// refText.setValue(cashSale.getReference());
 			if (isTrackTax()) {
 				if (isTaxPerDetailLine()) {
-					netAmountLabel.setAmount(transaction.getNetAmount());
-					taxTotalNonEditableText.setAmount(transaction.getTotal()
-							- transaction.getNetAmount());
+					netAmountLabel
+							.setAmount(getAmountInTransactionCurrency(transaction
+									.getNetAmount()));
+					taxTotalNonEditableText
+							.setAmount(getAmountInTransactionCurrency(transaction
+									.getTotal() - transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 					if (taxCode != null) {
@@ -819,7 +822,8 @@ public class CashSalesView extends
 		this.salesTax = salesTax;
 
 		if (taxTotalNonEditableText != null)
-			taxTotalNonEditableText.setAmount(salesTax);
+			taxTotalNonEditableText
+					.setAmount(getAmountInTransactionCurrency(salesTax));
 
 	}
 
@@ -829,7 +833,7 @@ public class CashSalesView extends
 		if (transaction != null) {
 			this.transactionTotal = ((ClientCashSales) transaction).getTotal();
 			this.transactionTotalNonEditableText
-					.setAmount(this.transactionTotal);
+					.setAmount(getAmountInTransactionCurrency(this.transactionTotal));
 
 		}
 	}

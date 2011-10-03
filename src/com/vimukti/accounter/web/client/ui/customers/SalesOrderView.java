@@ -666,8 +666,9 @@ public class SalesOrderView extends
 			// billToaddressSelected(this.billingAddress);
 			// shipToAddressSelected(shippingAddress);
 
-			vatTotalNonEditableText.setAmount(transaction.getTotal()
-					- transaction.getNetAmount());
+			vatTotalNonEditableText
+					.setAmount(getAmountInTransactionCurrency(transaction
+							.getTotal() - transaction.getNetAmount()));
 			customerOrderText.setValue(transaction.getCustomerOrderNumber());
 			paymentTermsSelected(this.paymentTerm);
 			// priceLevelSelected(this.priceLevel);
@@ -689,19 +690,24 @@ public class SalesOrderView extends
 
 			if (isTrackTax()) {
 				if (isTaxPerDetailLine()) {
-					netAmountLabel.setAmount(transaction.getNetAmount());
-					vatTotalNonEditableText.setAmount(transaction.getTotal()
-							- transaction.getNetAmount());
+					netAmountLabel
+							.setAmount(getAmountInTransactionCurrency(transaction
+									.getNetAmount()));
+					vatTotalNonEditableText
+							.setAmount(getAmountInTransactionCurrency(transaction
+									.getTotal() - transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 					if (taxCode != null) {
 						this.taxCodeSelect
 								.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
 					}
-					this.salesTaxTextNonEditable.setAmount(transaction
-							.getTaxTotal());
-					this.transactionTotalNonEditableText.setAmount(transaction
-							.getTotal());
+					this.salesTaxTextNonEditable
+							.setAmount(getAmountInTransactionCurrency(transaction
+									.getTaxTotal()));
+					this.transactionTotalNonEditableText
+							.setAmount(getAmountInTransactionCurrency(transaction
+									.getTotal()));
 				}
 			}
 			initAccounterClass();
@@ -762,7 +768,8 @@ public class SalesOrderView extends
 		this.salesTax = salesTax;
 
 		if (salesTaxTextNonEditable != null)
-			salesTaxTextNonEditable.setAmount(salesTax);
+			salesTaxTextNonEditable
+					.setAmount(getAmountInTransactionCurrency(salesTax));
 
 	}
 
@@ -780,7 +787,8 @@ public class SalesOrderView extends
 	public void setTransactionTotal(Double transactionTotal) {
 		if (transactionTotal == null)
 			transactionTotal = 0.0D;
-		transactionTotalNonEditableText.setAmount(transactionTotal);
+		transactionTotalNonEditableText
+				.setAmount(getAmountInTransactionCurrency(transactionTotal));
 
 	}
 
@@ -789,8 +797,9 @@ public class SalesOrderView extends
 		updateTransaction();
 
 		super.saveAndUpdateView();
-		transactionTotalNonEditableText.setAmount(customerTransactionTable
-				.getGrandTotal());
+		transactionTotalNonEditableText
+				.setAmount(getAmountInTransactionCurrency(customerTransactionTable
+						.getGrandTotal()));
 
 		saveOrUpdate(transaction);
 	}
@@ -835,7 +844,7 @@ public class SalesOrderView extends
 
 		if (isTrackTax()) {
 			if (isTaxPerDetailLine()) {
-				transaction.setNetAmount(netAmountLabel.getAmount());
+				transaction.setNetAmount(getAmountInBaseCurrency(netAmountLabel.getAmount()));
 				// transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 				// .getValue());
 			} else {
@@ -850,7 +859,7 @@ public class SalesOrderView extends
 			}
 		}
 
-		transaction.setTotal(transactionTotalNonEditableText.getAmount());
+		transaction.setTotal(getAmountInBaseCurrency(transactionTotalNonEditableText.getAmount()));
 
 		transaction.setMemo(getMemoTextAreaItem());
 		// transaction.setReference(getRefText());
@@ -998,14 +1007,18 @@ public class SalesOrderView extends
 			return;
 
 		if (isTrackTax()) {
-			netAmountLabel.setAmount(customerTransactionTable.getLineTotal());
+			netAmountLabel
+					.setAmount(getAmountInTransactionCurrency(customerTransactionTable
+							.getLineTotal()));
 			setSalesTax(customerTransactionTable.getTotalTax());
-			vatTotalNonEditableText.setAmount(customerTransactionTable
-					.getTotalTax());
+			vatTotalNonEditableText
+					.setAmount(getAmountInTransactionCurrency(customerTransactionTable
+							.getTotalTax()));
 		}
 		setTransactionTotal(customerTransactionTable.getGrandTotal());
-		transactionTotalNonEditableText.setAmount(customerTransactionTable
-				.getGrandTotal());
+		transactionTotalNonEditableText
+				.setAmount(getAmountInTransactionCurrency(customerTransactionTable
+						.getGrandTotal()));
 		// Double payments = this.paymentsNonEditableText.getAmount();
 		// setBalanceDue((this.transactionTotal - payments));
 	}

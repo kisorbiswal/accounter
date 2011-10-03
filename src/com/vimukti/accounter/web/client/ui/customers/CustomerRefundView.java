@@ -211,9 +211,11 @@ public class CustomerRefundView extends
 			public void onChange(ChangeEvent event) {
 				try {
 
-					amtText.setAmount(DataUtils.getAmountStringAsDouble(amtText
-							.getValue().toString()));
-					Double givenAmount = amtText.getAmount();
+					amtText.setAmount(getAmountInTransactionCurrency(DataUtils
+							.getAmountStringAsDouble(amtText.getValue()
+									.toString())));
+					Double givenAmount = getAmountInBaseCurrency(amtText
+							.getAmount());
 					if (DecimalUtil.isLessThan(givenAmount, 0)) {
 						// BaseView.errordata.setHTML("<li> "
 						// + FinanceApplication.constants()
@@ -446,9 +448,9 @@ public class CustomerRefundView extends
 
 		transaction.setType(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
 
-		transaction.setTotal(amtText.getAmount());
+		transaction.setTotal(getAmountInBaseCurrency(amtText.getAmount()));
 
-		transaction.setBalanceDue(amtText.getAmount());
+		transaction.setBalanceDue(getAmountInBaseCurrency(amtText.getAmount()));
 	}
 
 	private String getCheckValue() {
@@ -491,7 +493,7 @@ public class CustomerRefundView extends
 	protected void setRefundAmount(Double amountValue) {
 		if (amountValue == null)
 			amountValue = 0.00D;
-		amtText.setAmount(amountValue);
+		amtText.setAmount(getAmountInTransactionCurrency(amountValue));
 		// this.refundAmount = amountValue;
 
 	}
@@ -504,7 +506,7 @@ public class CustomerRefundView extends
 		// if (refundAmount != null)
 		// totalBalance -= refundAmount;
 
-		endBalText.setAmount(totalBalance);
+		endBalText.setAmount(getAmountInTransactionCurrency(totalBalance));
 
 		this.endingBalance = totalBalance;
 
@@ -557,7 +559,8 @@ public class CustomerRefundView extends
 			this.setCustomer(getCompany().getCustomer(transaction.getPayTo()));
 			customerSelected(getCompany().getCustomer(transaction.getPayTo()));
 
-			amtText.setAmount(transaction.getTotal());
+			amtText.setAmount(getAmountInTransactionCurrency(transaction
+					.getTotal()));
 			paymentMethodSelected(transaction.getPaymentMethod());
 			if (transaction.getPaymentMethod().equals(constants.check())) {
 				printCheck.setDisabled(isInViewMode());
@@ -626,7 +629,7 @@ public class CustomerRefundView extends
 		// if (refundAmount != null)
 		// amount += refundAmount;
 
-		custBalText.setAmount(amount);
+		custBalText.setAmount(getAmountInTransactionCurrency(amount));
 
 		this.customerBalanceAmount = amount;
 	}

@@ -838,7 +838,7 @@ public class VendorBillView extends
 			transaction.setPurchaseOrder(selectedPurchaseOrder);
 
 		if (isTrackTax()) {
-			transaction.setNetAmount(netAmount.getAmount());
+			transaction.setNetAmount(getAmountInBaseCurrency(netAmount.getAmount()));
 			if (vatinclusiveCheck != null)
 				transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 						.getValue());

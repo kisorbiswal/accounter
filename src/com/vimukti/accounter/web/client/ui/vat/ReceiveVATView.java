@@ -350,7 +350,8 @@ public class ReceiveVATView extends
 				.getReturnsDueOnOrBefore()));
 		transactionDateItem.setEnteredDate(transaction.getDate());
 		transNumber.setValue(transaction.getNumber());
-		endingBalanceText.setAmount(transaction.getEndingBalance());
+		endingBalanceText.setAmount(getAmountInTransactionCurrency(transaction
+				.getEndingBalance()));
 		paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
 		amountText
 				.setValue(DataUtils.getAmountAsString(transaction.getTotal()));
@@ -572,7 +573,7 @@ public class ReceiveVATView extends
 		// toBeSetAmount += rec.getAmountToPay();
 		// }
 		// if (this.transaction == null) {
-		amountText.setAmount(toBeSetAmount);
+		amountText.setAmount(getAmountInTransactionCurrency(toBeSetAmount));
 		totalAmount = toBeSetAmount;
 		if (selectedDepositInAccount != null) {
 			double toBeSetEndingBalance = 0.0;
@@ -581,15 +582,16 @@ public class ReceiveVATView extends
 						.getTotalBalance()
 
 						+ DataUtils.getBalance(
-								amountText.getAmount().toString())
-								.doubleValue();
+								getAmountInBaseCurrency(amountText.getAmount())
+										.toString()).doubleValue();
+
 			else
 				toBeSetEndingBalance = selectedDepositInAccount
 						.getTotalBalance()
 
 						- DataUtils.getBalance(
-								amountText.getAmount().toString())
-								.doubleValue();
+								getAmountInBaseCurrency(amountText.getAmount())
+										.toString()).doubleValue();
 			endingBalanceText.setAmount(toBeSetEndingBalance);
 		}
 		// }

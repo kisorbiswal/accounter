@@ -750,7 +750,7 @@ public class CreditCardChargeView extends
 		updateTransaction();
 
 		if (isTrackTax())
-			transaction.setNetAmount(netAmount.getAmount());
+			transaction.setNetAmount(getAmountInBaseCurrency(netAmount.getAmount()));
 		// creditCardCharge.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 		// .getValue());
 

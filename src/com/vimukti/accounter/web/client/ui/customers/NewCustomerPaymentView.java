@@ -140,9 +140,9 @@ public class NewCustomerPaymentView extends
 		this.paymentMethod = UIUtils
 				.getpaymentMethodCheckBy_CompanyType(Accounter.constants()
 						.check());
-		amountText.setAmount(0D);
-		endBalText.setAmount(0D);
-		customerBalText.setAmount(0D);
+		amountText.setAmount(getAmountInTransactionCurrency(0D));
+		endBalText.setAmount(getAmountInTransactionCurrency(0D));
+		customerBalText.setAmount(getAmountInTransactionCurrency(0D));
 		memoTextAreaItem.setValue("");
 		// refText.setValue("");
 
@@ -224,9 +224,12 @@ public class NewCustomerPaymentView extends
 			// accountSelected(comapny.getAccount(customerPrePaymentToBeEdited
 			// .getDepositIn()));
 			amountText.setDisabled(true);
-			amountText.setAmount(transaction.getTotal());
-			customerBalText.setAmount(customer.getBalance());
-			endBalText.setAmount(transaction.getEndingBalance());
+			amountText.setAmount(getAmountInTransactionCurrency(transaction
+					.getTotal()));
+			customerBalText.setAmount(getAmountInTransactionCurrency(customer
+					.getBalance()));
+			endBalText.setAmount(getAmountInTransactionCurrency(transaction
+					.getEndingBalance()));
 			paymentMethodSelected(transaction.getPaymentMethod());
 			this.depositInAccount = comapny.getAccount(transaction
 					.getDepositIn());
@@ -281,7 +284,7 @@ public class NewCustomerPaymentView extends
 			setCheckNumber();
 		} else if (account == null)
 			checkNo.setValue("");
-		adjustBalance(amountText.getAmount());
+		adjustBalance(getAmountInTransactionCurrency(amountText.getAmount()));
 	}
 
 	private void adjustBalance(double amount) {
@@ -486,9 +489,9 @@ public class NewCustomerPaymentView extends
 				amountText, paymentMethodCombo, printCheck, checkNo,
 				memoTextAreaItem);
 		// memo and Reference
-		endBalText
-				.setAmount(depositInCombo.getSelectedValue() != null ? depositInCombo
-						.getSelectedValue().getCurrentBalance() : 0.00);
+		endBalText.setAmount(getAmountInTransactionCurrency(depositInCombo
+				.getSelectedValue() != null ? depositInCombo.getSelectedValue()
+				.getCurrentBalance() : 0.00));
 
 		payForm.setCellSpacing(5);
 		payForm.setWidth("100%");
@@ -598,7 +601,8 @@ public class NewCustomerPaymentView extends
 					if (DecimalUtil.isLessThan(amount, 0)) {
 						Accounter.showError(Accounter.constants()
 								.noNegativeAmounts());
-						amountText.setAmount(0.00D);
+						amountText
+								.setAmount(getAmountInTransactionCurrency(0.00D));
 
 					}
 
@@ -606,7 +610,7 @@ public class NewCustomerPaymentView extends
 							.setAmount(DataUtils.isValidAmount(amount + "") ? amount
 									: 0.0);
 
-					adjustBalance(amountText.getAmount());
+					adjustBalance(getAmountInTransactionCurrency(amountText.getAmount()));
 
 				} catch (Exception e) {
 					if (e instanceof InvalidEntryException) {
@@ -653,7 +657,7 @@ public class NewCustomerPaymentView extends
 		}
 		this.addressListOfCustomer = customer.getAddress();
 		initBillToCombo();
-		adjustBalance(amountText.getAmount());
+		adjustBalance(getAmountInTransactionCurrency(amountText.getAmount()));
 
 	}
 
@@ -727,9 +731,9 @@ public class NewCustomerPaymentView extends
 	@Override
 	public void updateNonEditableItems() {
 		if (endBalText != null)
-			this.endBalText.setAmount(toBeSetEndingBalance);
+			this.endBalText.setAmount(getAmountInTransactionCurrency(toBeSetEndingBalance));
 		if (customerBalText != null)
-			this.customerBalText.setAmount(toBeSetCustomerBalance);
+			this.customerBalText.setAmount(getAmountInTransactionCurrency(toBeSetCustomerBalance));
 	}
 
 	@Override
@@ -768,7 +772,7 @@ public class NewCustomerPaymentView extends
 	@Override
 	protected void depositInAccountSelected(ClientAccount depositInAccount2) {
 		super.depositInAccountSelected(depositInAccount2);
-		adjustBalance(amountText.getAmount());
+		adjustBalance(getAmountInTransactionCurrency(amountText.getAmount()));
 	}
 
 	@Override

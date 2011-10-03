@@ -509,7 +509,7 @@ public class ItemReceiptView extends
 		transaction.setPurchaseOrder(selectedPurchaseOrder);
 
 		if (getPreferences().isTrackPaidTax()) {
-			transaction.setNetAmount(netAmount.getAmount());
+			transaction.setNetAmount(getAmountInBaseCurrency(netAmount.getAmount()));
 		}
 		// itemReceipt.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 	}
@@ -743,7 +743,7 @@ public class ItemReceiptView extends
 
 	@Override
 	protected Double getTransactionTotal() {
-		return this.transactionTotalItem.getAmount();
+		return getAmountInBaseCurrency(this.transactionTotalItem.getAmount());
 	}
 
 	@Override

@@ -476,9 +476,9 @@ public class PaySalesTaxView extends
 		billsDue.setEnteredDate(new ClientFinanceDate(transaction
 				.getBillsDueOnOrBefore()));
 		transactionDateItem.setEnteredDate(transaction.getDate());
-		endingBalanceText.setAmount(transaction.getEndingBalance());
+		endingBalanceText.setAmount(getAmountInTransactionCurrency(transaction.getEndingBalance()));
 		paymentMethodCombo.setComboItem(paymentMethod);
-		amountText.setAmount(transaction.getTotal());
+		amountText.setAmount(getAmountInTransactionCurrency(transaction.getTotal()));
 		List<ClientTransactionPaySalesTax> list = transaction
 				.getTransactionPaySalesTax();
 		int count = 0;

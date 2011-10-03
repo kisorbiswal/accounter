@@ -121,15 +121,19 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				if (payFromAccount.isIncrease())
 					toBeSetEndingBalance = payFromAccount.getTotalBalance()
 
-							+ DataUtils.getBalance(
-									amountLabel.getAmount().toString())
-									.doubleValue();
+							+ DataUtils
+									.getBalance(
+											getAmountInBaseCurrency(
+													amountLabel.getAmount())
+													.toString()).doubleValue();
 				else
 					toBeSetEndingBalance = payFromAccount.getTotalBalance()
 
-							- DataUtils.getBalance(
-									amountLabel.getAmount().toString())
-									.doubleValue();
+							- DataUtils
+									.getBalance(
+											getAmountInBaseCurrency(
+													amountLabel.getAmount())
+													.toString()).doubleValue();
 				endBalText.setAmount(getAmountInTransactionCurrency(toBeSetEndingBalance));
 			}
 		}
@@ -165,7 +169,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			transaction.setVendor(getVendor());
 		// Setting Amount
 
-		transaction.setTotal(amountLabel.getAmount());
+		transaction.setTotal(getAmountInBaseCurrency(amountLabel.getAmount()));
 
 		if (getPreferences().isTDSEnabled()) {
 
@@ -179,7 +183,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		}
 
 		// Setting ending Balance
-		transaction.setEndingBalance(endBalText.getAmount());
+		transaction.setEndingBalance(getAmountInBaseCurrency(endBalText
+				.getAmount()));
 
 		transaction.setMemo(memoTextAreaItem.getValue().toString());
 
@@ -1141,7 +1146,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	}
 
 	protected Double getTransactionTotal() {
-		return this.amountLabel.getAmount();
+		return getAmountInBaseCurrency(this.amountLabel.getAmount());
 	}
 
 	@Override

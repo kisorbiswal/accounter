@@ -627,7 +627,7 @@ public class CashExpenseView extends
 	public void saveAndUpdateView() {
 		updateTransaction();
 		if (getPreferences().isTrackPaidTax()) {
-			transaction.setNetAmount(netAmount.getAmount());
+			transaction.setNetAmount(getAmountInBaseCurrency(netAmount.getAmount()));
 			// if (vatinclusiveCheck != null)
 			// cashPurchase.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 			// .getValue());
@@ -740,7 +740,7 @@ public class CashExpenseView extends
 
 	@Override
 	protected Double getTransactionTotal() {
-		return this.transactionTotalNonEditableText.getAmount();
+		return getAmountInBaseCurrency(this.transactionTotalNonEditableText.getAmount());
 	}
 
 	private void resetFormView() {

@@ -193,13 +193,14 @@ public class ReceivePaymentView extends
 			totalCredits += credit.getBalance();
 		}
 
-		this.unUsedCreditsText.setAmount(totalCredits);
+		this.unUsedCreditsText.setAmount(getAmountInTransactionCurrency(totalCredits));
 
 	}
 
 	private void setCustomerBalance(Double balance) {
 
-		customerNonEditablebalText.setAmount(balance);
+		customerNonEditablebalText
+				.setAmount(getAmountInTransactionCurrency(balance));
 
 	}
 
@@ -297,7 +298,7 @@ public class ReceivePaymentView extends
 
 	public void setAmountRecieved(Double amountRecieved) {
 		this.amountRecieved = amountRecieved;
-		this.amtText.setAmount(amountRecieved);
+		this.amtText.setAmount(getAmountInTransactionCurrency(amountRecieved));
 	}
 
 	public Double getAmountRecieved() {
@@ -710,20 +711,20 @@ public class ReceivePaymentView extends
 
 		transaction.setUnUsedPayments(this.unUsedPayments);
 		transaction.setTotal(this.transactionTotal);
-		transaction.setUnUsedCredits(this.unUsedCreditsText.getAmount());
+		transaction.setUnUsedCredits(getAmountInBaseCurrency(this.unUsedCreditsText.getAmount()));
 	}
 
 	public void setUnusedPayments(Double unusedAmounts) {
 		if (unusedAmounts == null)
 			unusedAmounts = 0.0D;
 		this.unUsedPayments = unusedAmounts;
-		this.unUsedPaymentsText.setAmount(unusedAmounts);
+		this.unUsedPaymentsText.setAmount(getAmountInTransactionCurrency(unusedAmounts));
 
 	}
 
 	private void setUnUsedCredits(Double unusedCredits) {
 
-		unUsedCreditsText.setAmount(unusedCredits);
+		unUsedCreditsText.setAmount(getAmountInTransactionCurrency(unusedCredits));
 
 	}
 
@@ -1104,7 +1105,7 @@ public class ReceivePaymentView extends
 			}
 		}
 		if (!isInViewMode()
-				&& DecimalUtil.isGreaterThan(unUsedPaymentsText.getAmount(), 0))
+				&& DecimalUtil.isGreaterThan(getAmountInBaseCurrency(unUsedPaymentsText.getAmount()), 0))
 			result.addWarning(unUsedPaymentsText,
 					AccounterWarningType.recievePayment);
 
