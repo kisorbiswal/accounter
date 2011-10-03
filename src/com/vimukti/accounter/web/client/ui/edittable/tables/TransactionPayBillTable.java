@@ -477,7 +477,7 @@ public abstract class TransactionPayBillTable extends
 
 	private void openCreditsDialog(final ClientTransactionPayBill selectedObject) {
 		if (gotCreditsAndPayments) {
-			if (getCreditsAndPaymentsDialiog() == null) {
+			if (getCreditsAndPaymentsDialiog() != null) {
 				initCreditsDialogInstance(selectedObject);
 			} else {
 				if (selectedObject.isCreditsApplied()) {
