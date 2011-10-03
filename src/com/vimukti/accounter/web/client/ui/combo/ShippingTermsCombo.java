@@ -1,6 +1,10 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
+import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ShippingTermListDialog;
 
 public class ShippingTermsCombo extends CustomCombo<ClientShippingTerms> {
@@ -32,9 +36,21 @@ public class ShippingTermsCombo extends CustomCombo<ClientShippingTerms> {
 	public void onAddNew() {
 		ShippingTermListDialog shippingTermDialog = new ShippingTermListDialog(
 				"", "");
+		// shippingTermDialog.addCallBack(createAddNewCallBack());
+		shippingTermDialog.removeFromParent();
+		shippingTermDialog
+				.addCallBack(new AccounterAsyncCallback<ClientShippingTerms>() {
+					@Override
+					public void onException(AccounterException exception) {
+						exception.printStackTrace();
+						Accounter.showError(exception.getMessage());
+					}
 
-		shippingTermDialog.addCallBack(createAddNewCallBack());
-		shippingTermDialog.hide();
+					@Override
+					public void onResultSuccess(ClientShippingTerms result) {
+						addItemThenfireEvent(result);
+					}
+				});
 		shippingTermDialog.showAddEditTermDialog(null);
 	}
 
