@@ -1,8 +1,5 @@
 package com.vimukti.accounter.web.client.core.Lists;
 
-import java.io.Serializable;
-
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
