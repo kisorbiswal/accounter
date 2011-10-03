@@ -69,10 +69,10 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 				.setEntity("company", company)
 				.setString("name", "TDS Tax Payable").list().get(0));
 
-		// defaultVATAgency.setPurchaseLiabilityAccount((Account) session
-		// .getNamedQuery("unique.name.Account")
-		// .setString(0, AccounterServerConstants.SALES_TAX_VAT_UNFILED)
-		// .list().get(0));
+		defaultTDSAgency.setPurchaseLiabilityAccount((Account) session
+				.getNamedQuery("unique.name.Account")
+				.setEntity("company", company)
+				.setString("name", "TDS Tax Payable").list().get(0));
 
 		defaultTDSAgency.setDefault(true);
 		defaultTDSAgency.setCompany(company);
