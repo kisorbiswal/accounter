@@ -12,8 +12,10 @@ import com.vimukti.accounter.web.client.ui.serverreports.GeneralLedgerServerRepo
 public class GeneralLedgerReport extends TransactionDetailByAccountReport {
 
 	public GeneralLedgerReport() {
-		this.serverReport = new GeneralLedgerServerReport(new ClientFinanceDate()
-				.getDate(), new ClientFinanceDate().getDate(), 0, this);
+		setReportType(162);
+		this.serverReport = new GeneralLedgerServerReport(
+				new ClientFinanceDate().getDate(),
+				new ClientFinanceDate().getDate(), 0, this);
 	}
 
 }
