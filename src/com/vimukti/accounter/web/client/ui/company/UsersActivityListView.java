@@ -7,8 +7,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent;
-import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.Handler;
+import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -92,6 +92,8 @@ public class UsersActivityListView extends BaseView {
 		panel.add(dateForm);
 		panel.add(updateButton);
 		panel.setCellHorizontalAlignment(updateButton, ALIGN_RIGHT);
+		panel.setWidth("100%");
+		panel.addStyleName("user_activity_dateform");
 
 		mainPanel.add(titleItem);
 		mainPanel.add(panel);
