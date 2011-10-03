@@ -146,8 +146,9 @@ public class VendorBillView extends
 			if (getPreferences().isTrackPaidTax()) {
 				if (getPreferences().isTaxPerDetailLine()) {
 					netAmount.setAmount(transaction.getNetAmount());
-					vatTotalNonEditableText.setAmount(getAmountInTransactionCurrency(transaction.getTotal()
-							- transaction.getNetAmount()));
+					vatTotalNonEditableText
+							.setAmount(getAmountInTransactionCurrency(transaction
+									.getTotal() - transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -157,9 +158,13 @@ public class VendorBillView extends
 				}
 			}
 
-			transactionTotalNonEditableText.setAmount(getAmountInTransactionCurrency(transaction.getTotal()));
+			transactionTotalNonEditableText
+					.setAmount(getAmountInTransactionCurrency(transaction
+							.getTotal()));
 
-			balanceDueNonEditableText.setAmount(getAmountInTransactionCurrency(transaction.getBalanceDue()));
+			balanceDueNonEditableText
+					.setAmount(getAmountInTransactionCurrency(transaction
+							.getBalanceDue()));
 
 			if (vatinclusiveCheck != null) {
 				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
@@ -194,7 +199,8 @@ public class VendorBillView extends
 		if (balanceDue == null)
 			balanceDue = 0.0D;
 		this.balanceDue = balanceDue;
-		balanceDueNonEditableText.setAmount(getAmountInTransactionCurrency(balanceDue));
+		balanceDueNonEditableText
+				.setAmount(getAmountInTransactionCurrency(balanceDue));
 	}
 
 	public Double getBalanceDue() {
@@ -839,10 +845,12 @@ public class VendorBillView extends
 			transaction.setPurchaseOrder(selectedPurchaseOrder);
 
 		if (isTrackTax()) {
-			transaction.setNetAmount(getAmountInBaseCurrency(netAmount.getAmount()));
+			transaction.setNetAmount(getAmountInBaseCurrency(netAmount
+					.getAmount()));
 			if (vatinclusiveCheck != null)
 				transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 						.getValue());
+
 		}
 
 		// enterBill.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
@@ -860,10 +868,13 @@ public class VendorBillView extends
 		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal();
 
-		transactionTotalNonEditableText.setAmount(getAmountInTransactionCurrency(grandTotal));
+		transactionTotalNonEditableText
+				.setAmount(getAmountInTransactionCurrency(grandTotal));
 		netAmount.setAmount(getAmountInTransactionCurrency(lineTotal));
 		if (isTrackTax()) {
-			vatTotalNonEditableText.setAmount(getAmountInTransactionCurrency(grandTotal - lineTotal));
+			vatTotalNonEditableText
+					.setAmount(getAmountInTransactionCurrency(grandTotal
+							- lineTotal));
 		}
 	}
 
