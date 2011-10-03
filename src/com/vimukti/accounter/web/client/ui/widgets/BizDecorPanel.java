@@ -125,24 +125,24 @@ public class BizDecorPanel extends FlexTable {
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
 				panelTitle.getElement().getStyle().setCursor(getTitleCursor());
-				panelTitle.getElement().getStyle().setTextDecoration(
-						getTitleDecoration());
+				panelTitle.getElement().getStyle()
+						.setTextDecoration(getTitleDecoration());
 			}
 		});
 		panelTitle.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				panelTitle.getElement().getStyle().setTextDecoration(
-						TextDecoration.NONE);
+				panelTitle.getElement().getStyle()
+						.setTextDecoration(TextDecoration.NONE);
 			}
 		});
 		panelTitle.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				panelTitle.getElement().getStyle().setTextDecoration(
-						TextDecoration.NONE);
+				panelTitle.getElement().getStyle()
+						.setTextDecoration(TextDecoration.NONE);
 				titleClicked();
 
 			}
@@ -227,6 +227,7 @@ public class BizDecorPanel extends FlexTable {
 	public void add(Widget widget) {
 		MC.add(widget);
 		widget.addStyleName("main-w-finance");
+		widget.setWidth("");
 	}
 
 	public void setActions(Widget actions) {
