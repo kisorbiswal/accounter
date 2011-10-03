@@ -107,6 +107,7 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_SALESBYCLASSDETAIL = 159;
 	public final static int REPORT_TYPE_SALESBYCLASSDETAILFORCLASS = 160;
 	public final static int REPORT_TYPE_PROFITANDLOSSBYCLASS = 161;
+	public final static int REPORT_TYPE_GENERAL_LEDGER_REPORT = 162;
 
 	private static int companyType;
 	private ClientCompanyPreferences preferences = Global.get().preferences();
@@ -303,6 +304,7 @@ public class ReportsGenerator {
 			}
 			return transactionDetailByTaxItemServerReport.getGridTemplate();
 		case REPORT_TYPE_TRANSACTIONDETAILBYACCOUNT:
+		case REPORT_TYPE_GENERAL_LEDGER_REPORT:
 			TransactionDetailByAccountServerReport transactionDetailByAccountServerReport = new TransactionDetailByAccountServerReport(
 					this.startDate.getDate(), this.endDate.getDate(),
 					generationType1) {
@@ -1470,6 +1472,8 @@ public class ReportsGenerator {
 			return "Sales By Class Detail For Class";
 		case REPORT_TYPE_PROFITANDLOSSBYCLASS:
 			return "Profit and Loss by Class";
+		case REPORT_TYPE_GENERAL_LEDGER_REPORT:
+			return "General Ledger Report";
 		default:
 			break;
 		}
