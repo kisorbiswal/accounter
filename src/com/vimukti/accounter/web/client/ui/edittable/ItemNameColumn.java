@@ -42,8 +42,9 @@ public abstract class ItemNameColumn extends
 
 			if (getPreferences().isTrackTax()
 					&& getPreferences().isTaxPerDetailLine()) {
-				row.setTaxCode(newValue.getTaxCode() != 0 ? newValue
-						.getTaxCode() : 0);
+				if (row.getTaxCode() == 0)
+					row.setTaxCode(newValue.getTaxCode() != 0 ? newValue
+							.getTaxCode() : 0);
 			}
 		}
 	}
