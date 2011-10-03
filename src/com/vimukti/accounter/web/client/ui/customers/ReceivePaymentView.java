@@ -768,6 +768,7 @@ public class ReceivePaymentView extends
 				paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
 			// if (paymentToBeEdited.getReference() != null)
 			// refText.setValue(paymentToBeEdited.getReference());
+			paymentMethod = transaction.getPaymentMethod();
 			setAmountRecieved(transaction.getAmount());
 
 			initTransactionTotalNonEditableItem();
