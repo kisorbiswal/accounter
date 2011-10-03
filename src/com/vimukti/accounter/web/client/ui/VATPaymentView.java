@@ -276,7 +276,7 @@ public class VATPaymentView extends
 				.setDate(((ClientFinanceDate) transactionDateItem.getValue())
 						.getDate());
 
-		transaction.setTotal(amount.getAmount());
+		transaction.setTotal(getAmountInBaseCurrency(amount.getAmount()));
 
 		transaction.setMemo(memo.getValue().toString());
 

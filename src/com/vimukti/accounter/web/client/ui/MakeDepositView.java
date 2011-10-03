@@ -208,7 +208,8 @@ public class MakeDepositView extends
 
 	protected void validateCashBackAmount() {
 
-		String amount = cashBackAmountText.getAmount().toString();
+		String amount = getAmountInBaseCurrency(cashBackAmountText.getAmount())
+				.toString();
 		if (amount.substring(0, 1)
 				.equals("" + UIUtils.getCurrencySymbol() + "")) {
 			amount = amount.substring(1);
@@ -240,7 +241,7 @@ public class MakeDepositView extends
 			// cashBackAmountText.setValue(UIUtils.format(cashBackAmount));
 			cashBackAmountText.setAmount(cashBackAmount);
 			// totText.setValue(UIUtils.format(diff));
-			totText.setAmount(diff);
+			totText.setAmount(getAmountInTransactionCurrency(diff));
 		} catch (Exception e) {
 			Accounter.showError(Accounter.constants().enterValidAmount());
 			// cashBackAmountText.setValue("$0.00");
@@ -335,12 +336,14 @@ public class MakeDepositView extends
 
 		// if (UIUtils.unFormat(UIUtils.toStr(cashBackAmountText.getValue())) ==
 		// 0.00)
-		if (!DecimalUtil.isEquals(cashBackAmountText.getAmount(), 0.00))
+		if (!DecimalUtil.isEquals(
+				getAmountInBaseCurrency(cashBackAmountText.getAmount()), 0.00))
 			return true;
 
 		// if (UIUtils.unFormat(UIUtils.toStr(cashBackAmountText.getValue())) >
 		// calculatedTotal) {
-		if (DecimalUtil.isGreaterThan(cashBackAmountText.getAmount(),
+		if (DecimalUtil.isGreaterThan(
+				getAmountInBaseCurrency(cashBackAmountText.getAmount()),
 				calculatedTotal)) {
 			Accounter.showError(Accounter.constants()
 					.cashBackAmountShouldnotBeGreaterthanDepositedAmount());
@@ -418,7 +421,8 @@ public class MakeDepositView extends
 		totAmtText.setValue(UIUtils.format(calculatedTotal));
 		// totText.setValue(UIUtils.format((calculatedTotal - (UIUtils
 		// .unFormat(UIUtils.toStr(cashBackAmountText.getValue()))))));
-		totText.setAmount(calculatedTotal - cashBackAmountText.getAmount());
+		totText.setAmount(getAmountInTransactionCurrency(calculatedTotal
+				- getAmountInBaseCurrency(cashBackAmountText.getAmount())));
 
 	}
 
@@ -873,7 +877,8 @@ public class MakeDepositView extends
 			// .getTotal());
 			// totText.setValue(UIUtils.format(((MakeDeposit) transactionObject)
 			// .getTotal()));
-			totText.setAmount(((ClientMakeDeposit) transaction).getTotal());
+			totText.setAmount(getAmountInTransactionCurrency(transaction
+					.getTotal()));
 			// cashBackAmountText.setValue(UIUtils
 			// .format(((MakeDeposit) transactionObject)
 			// .getCashBackAmount()));
@@ -944,7 +949,8 @@ public class MakeDepositView extends
 	public void updateNonEditableItems() {
 		if (gridView == null)
 			return;
-		totText.setAmount(gridView.getTotal() - cashBackAmountText.getAmount());
+		totText.setAmount(getAmountInTransactionCurrency(gridView.getTotal()
+				- getAmountInBaseCurrency(cashBackAmountText.getAmount())));
 	}
 
 	@Override
@@ -1199,7 +1205,9 @@ public class MakeDepositView extends
 			transaction.setCashBackMemo(cashBackMemoText.getValue().toString());
 
 		// Setting Cash back amount
-		transaction.setCashBackAmount(cashBackAmountText.getAmount());
+		transaction
+				.setCashBackAmount(getAmountInBaseCurrency(cashBackAmountText
+						.getAmount()));
 		// Setting Total amount
 
 		// Setting Total

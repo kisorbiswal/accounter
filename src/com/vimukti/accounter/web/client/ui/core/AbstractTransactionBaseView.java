@@ -75,7 +75,7 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
  * 
  */
 public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
-		extends BaseView<T> {
+		extends BaseView<T> implements ICurrencyProvider {
 	protected AccounterConstants customerConstants = Accounter.constants();
 
 	protected int transactionType;
@@ -1395,7 +1395,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		}
 	}
 
-
 	protected void initAccounterClass() {
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()
@@ -1467,14 +1466,13 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			return getPreferences().isTrackPaidTax();
 		}
 	}
-	
-	
-	public Double getAmountInTransactionCurrency(Double amount){
+
+	public Double getAmountInTransactionCurrency(Double amount) {
 		return amount;
-		
+
 	}
-	
-	public Double getAmountInBaseCurrency(Double amount){
+
+	public Double getAmountInBaseCurrency(Double amount) {
 		return amount;
 	}
 

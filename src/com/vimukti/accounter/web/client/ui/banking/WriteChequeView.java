@@ -515,17 +515,18 @@ public class WriteChequeView extends
 		// FIXME Need to validate grids.
 		if (transactionVendorAccountTable.getAllRows().isEmpty()
 				&& transactionVendorItemTable.getAllRows().isEmpty()) {
-			result.addError(transactionVendorAccountTable, accounterConstants
-					.blankTransaction());
+			result.addError(transactionVendorAccountTable,
+					accounterConstants.blankTransaction());
 		} else {
 			result.add(transactionVendorAccountTable.validateGrid());
 			result.add(transactionVendorItemTable.validateGrid());
 		}
 
 		if (!validateAmount()) {
-			result.addError(memoTextAreaItem, accounterConstants
-					.transactiontotalcannotbe0orlessthan0());
+			result.addError(memoTextAreaItem,
+					accounterConstants.transactiontotalcannotbe0orlessthan0());
 		}
+
 		return result;
 	}
 
@@ -568,7 +569,8 @@ public class WriteChequeView extends
 
 		// Setting Balance
 		if (balText.getAmount() != null)
-			transaction.setBalance(balText.getAmount());
+			transaction
+					.setBalance(getAmountInBaseCurrency(balText.getAmount()));
 		// setting paymentmethod
 		transaction.setPaymentMethod("Check");
 
@@ -595,8 +597,8 @@ public class WriteChequeView extends
 				break;
 			}
 		}
-		transaction.setTotal(amtText.getAmount());
-		transaction.setAmount(amtText.getAmount());
+		transaction.setTotal(getAmountInBaseCurrency(amtText.getAmount()));
+		transaction.setAmount(getAmountInBaseCurrency(amtText.getAmount()));
 		transaction.setInWords(amtText.getValue().toString());
 
 		// Setting Date
@@ -1132,9 +1134,11 @@ public class WriteChequeView extends
 		double grandTotal = transactionVendorAccountTable.getLineTotal()
 				+ transactionVendorItemTable.getLineTotal();
 		if (getPreferences().isTrackPaidTax()) {
-			vatTotalNonEditableText.setAmount(total - grandTotal);
+			vatTotalNonEditableText
+					.setAmount(getAmountInTransactionCurrency(total
+							- grandTotal));
 		}
-		netAmount.setAmount(grandTotal);
+		netAmount.setAmount(getAmountInTransactionCurrency(grandTotal));
 
 	}
 
@@ -1379,9 +1383,12 @@ public class WriteChequeView extends
 			// }
 			if (isTrackTax()) {
 				if (isTaxPerDetailLine()) {
-					netAmount.setAmount(transaction.getNetAmount());
-					vatTotalNonEditableText.setAmount(transaction.getTotal()
-							- transaction.getNetAmount());
+					netAmount
+							.setAmount(getAmountInTransactionCurrency(transaction
+									.getNetAmount()));
+					vatTotalNonEditableText
+							.setAmount(getAmountInTransactionCurrency(transaction
+									.getTotal() - transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 					if (taxCode != null) {
