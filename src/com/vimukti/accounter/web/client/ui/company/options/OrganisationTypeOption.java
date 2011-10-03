@@ -97,6 +97,10 @@ public class OrganisationTypeOption extends AbstractPreferenceOption {
 		corporationText.addStyleName("organisation_comment");
 		sCorporationText.addStyleName("organisation_comment");
 		nonProfitText.addStyleName("organisation_comment");
+		lLCCombo = new ListBox();
+		lLCCombo.addStyleName("organisation_combo");
+		lLCCombo.addItem(constants.llcSingleMemberForm());
+		lLCCombo.addItem(constants.llcMultiMemberForm());
 
 		viewPanel.add(organizeText);
 		viewPanel.add(propriterShip);
@@ -105,6 +109,7 @@ public class OrganisationTypeOption extends AbstractPreferenceOption {
 		viewPanel.add(morePartners);
 		viewPanel.add(lLC);
 		viewPanel.add(lLCText);
+		viewPanel.add(lLCCombo);
 		viewPanel.add(corporation);
 		viewPanel.add(corporationText);
 		viewPanel.add(sCorporation);
@@ -128,11 +133,7 @@ public class OrganisationTypeOption extends AbstractPreferenceOption {
 				lLCCombo.setEnabled(false);
 			}
 		});
-		lLCCombo = new ListBox();
-		lLCCombo.addStyleName("organisation_combo");
 
-		lLCCombo.addItem(constants.llcSingleMemberForm());
-		lLCCombo.addItem(constants.llcMultiMemberForm());
 		lLCCombo.setEnabled(false);
 		lLC.addClickHandler(new ClickHandler() {
 
