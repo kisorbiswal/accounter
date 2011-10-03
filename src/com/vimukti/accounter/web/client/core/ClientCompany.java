@@ -2844,7 +2844,7 @@ public class ClientCompany implements IAccounterCore {
 	public long getDefaultTaxCode() {
 		List<ClientTAXCode> taxCodes = getActiveTaxCodes();
 		for (ClientTAXCode taxCode : taxCodes) {
-			if (taxCode.getName().equals("S")) {
+			if (taxCode.getName().equals("O")) {
 				return taxCode.id;
 			}
 		}
