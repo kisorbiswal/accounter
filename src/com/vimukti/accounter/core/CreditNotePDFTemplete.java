@@ -209,6 +209,7 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 			t.setVariable("total", total);
 			t.addBlock("itemDetails");
 
+			boolean hasTermsNpaypalId= false;
 			String termsNCondn = forNullValue(
 					brandingTheme.getTerms_And_Payment_Advice()).replace("\n",
 					"<br/>");
@@ -217,6 +218,7 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 				termsNCondn = "";
 			}
 			if (termsNCondn.trim().length() > 0) {
+				hasTermsNpaypalId = true;
 				t.setVariable("termsAndPaymentAdvice", termsNCondn);
 				t.addBlock("termsAndAdvice");
 			}
@@ -226,8 +228,13 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 				paypalEmail = "";
 			}
 			if (paypalEmail.trim().length() > 0) {
+				hasTermsNpaypalId = true;
 				t.setVariable("email", paypalEmail);
 				t.addBlock("paypalemail");
+			}
+			if(hasTermsNpaypalId)
+			{
+				t.addBlock("termsNpaypalId");
 			}
 
 			// for Vat String
@@ -287,8 +294,8 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 					&& regestrationAddress.trim().length() > 0) {
 				if (brandingTheme.isShowRegisteredAddress()) {
 					// t.setVariable("tradingName", trName);
-					t.setVariable("regestrationAddress", regestrationAddress);
-					t.addBlock("regestrationAddress");
+		//			t.setVariable("regestrationAddress", regestrationAddress);
+		//			t.addBlock("regestrationAddress");
 				}
 			}
 
@@ -405,6 +412,27 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 				+ companyId + "/" + brandingTheme.getFileName());
 		original.append("'/>");
 		return original;
+	}
+	@Override
+	public String getFooter() {
+		String regestrationAddress = "";
+		Address reg = company.getRegisteredAddress();
+
+		if (reg != null)
+			regestrationAddress = ("&nbsp;Registered Address: "
+					+ reg.getAddress1()
+					+ forUnusedAddress(reg.getStreet(), true)
+					+ forUnusedAddress(reg.getCity(), true)
+					+ forUnusedAddress(reg.getStateOrProvinence(), true)
+					+ forUnusedAddress(reg.getZipOrPostalCode(), true)
+					+ forUnusedAddress(reg.getCountryOrRegion(), true) + ".");
+
+		regestrationAddress = (company.getFullName() + "&nbsp;&nbsp;&nbsp;"
+				+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
+				.getRegistrationNumber().equals("")) ? "<br/>Company Registration No: "
+				+ company.getRegistrationNumber()
+				: ""));
+return regestrationAddress;
 	}
 
 }
