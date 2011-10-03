@@ -109,7 +109,7 @@ public class ShippingTerms extends CreatableObject implements
 		ShippingTerms shippingTerms = (ShippingTerms) clientObject;
 		Query query = session.getNamedQuery("getShippingTerms.by.Name")
 				.setString("name", shippingTerms.name)
-				.setEntity("company", getCompany());
+				.setEntity("company", shippingTerms.getCompany());
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			ShippingTerms newShippingTerms = (ShippingTerms) list.get(0);
