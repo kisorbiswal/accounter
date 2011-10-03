@@ -312,6 +312,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 
 	@Override
 	public ValidationResult validate() {
+		clearAllErrors();
 		ValidationResult result = new ValidationResult();
 		if (difference.getAmount() != 0.0D) {
 			result.addError(difference, constants.differenceValidate());
