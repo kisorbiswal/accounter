@@ -1,5 +1,6 @@
 package com.vimukti.accounter.utils;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.io.File;
@@ -12,6 +13,7 @@ import org.zefer.pd4ml.PD4ML;
 import org.zefer.pd4ml.PD4PageMark;
 
 import com.vimukti.accounter.core.ITemplate;
+import com.vimukti.accounter.core.PrintTemplete;
 
 public class Converter {
 	private Dimension dimension;
@@ -125,6 +127,44 @@ public class Converter {
 	 * @param reader
 	 * @throws Exception
 	 */
+	public void generatePdfDocuments(PrintTemplete template,
+			OutputStream outputStream, InputStreamReader reader)
+			throws Exception {
+		File pdfTempFile = File.createTempFile(template.getFileName().replace(" ", ""),
+				".pdf");
+		java.io.FileOutputStream fos = new java.io.FileOutputStream(pdfTempFile);
+		try {
+
+			PD4ML pd4ml = new PD4ML();
+			System.err.println("PD4ML Obj created");
+			pd4ml.setPageInsets(new Insets(20, 10, 10, 10));
+			pd4ml.setHtmlWidth(950);
+			pd4ml.setPageSize(dimension);
+
+			pd4ml.enableTableBreaks(true);
+			pd4ml.enableDebugInfo();
+
+			
+			PD4PageMark footer = new PD4PageMark();
+			footer.setHtmlTemplate("<html><p align ='center'>"+template.getFooter()+"</p></html>");
+			footer.setAreaHeight(30);
+			footer.setFontSize(10);
+			footer.setColor(Color.BLACK);
+			
+			pd4ml.setPageFooter(footer);
+			
+			
+			pd4ml.render(reader, outputStream == null ? fos : outputStream);
+		} catch (Exception e) {
+			System.err.println("error occured");
+			e.printStackTrace();
+		} finally {
+			if (fos != null) {
+				fos.close();
+			}
+		}
+
+	}
 	public void generatePdfDocuments(String fileName,
 			OutputStream outputStream, InputStreamReader reader)
 			throws Exception {
