@@ -113,7 +113,7 @@
 		USERS U
 		ON U.ID=CP.EMPLOYEE
 
-		WHERE T.COMPANY_ID=:companyId
+		WHERE 
 		CASE
 		WHEN :type IN (26, 27, 28) THEN
 		T.T_TYPE =:type
@@ -124,7 +124,7 @@
 		T.T_DATE BETWEEN :startDate AND :endDate AND
 		(T.STATUS!=3 OR
 		T.IS_VOID = FALSE)
-
+	    AND T.COMPANY_ID=:companyId
 		ORDER BY T.ID
 
 	</sql-query>
