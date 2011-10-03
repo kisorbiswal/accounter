@@ -167,7 +167,7 @@ body,.menubar-devider,.gwt-SuggestBox,.gwt-TextBox,.gwt-PasswordTextBox,.gridSel
 	vertical-align: middle !important;
 }
 input[type="text"],textarea,.view_help_panel td:FIRST-CHILD table td,.helpdialog .dialogTopCenter table td,
-.no-title .main-w,.gridBody1 .gwt-HTML,.widget img{
+.no-title .main-w,.gridBody1 .gwt-HTML,.widget img,.dashboard_label{
 	padding:0 5px;
 }
 .group-toolbar{
