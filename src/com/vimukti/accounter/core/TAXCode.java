@@ -265,17 +265,22 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 
 		if (this.getTAXItemGrpForSales() instanceof TAXGroup
 				&& getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
+			List<TAXItem> taxItems = ((TAXGroup) this.getTAXItemGrpForSales())
+					.getTAXItems();
+			if (!taxItems.isEmpty() && taxItems.size() >= 2) {
+				String vatRetunrnName = ((TAXGroup) this
+						.getTAXItemGrpForSales()).getTAXItems().get(0)
+						.getVatReturnBox().getName();
+				String vatRetunrnName1 = ((TAXGroup) this
+						.getTAXItemGrpForSales()).getTAXItems().get(1)
+						.getVatReturnBox().getName();
 
-			String vatRetunrnName = ((TAXGroup) this.getTAXItemGrpForSales())
-					.getTAXItems().get(0).getVatReturnBox().getName();
-			String vatRetunrnName1 = ((TAXGroup) this.getTAXItemGrpForSales())
-					.getTAXItems().get(1).getVatReturnBox().getName();
-
-			this.isECSalesEntry = Arrays.asList(
-					AccounterServerConstants.UK_EC_SALES_GOODS,
-					AccounterServerConstants.UK_EC_SALES_SERVICES).containsAll(
-					Arrays.asList(vatRetunrnName, vatRetunrnName1));
-
+				this.isECSalesEntry = Arrays.asList(
+						AccounterServerConstants.UK_EC_SALES_GOODS,
+						AccounterServerConstants.UK_EC_SALES_SERVICES)
+						.containsAll(
+								Arrays.asList(vatRetunrnName, vatRetunrnName1));
+			}
 		}
 	}
 
