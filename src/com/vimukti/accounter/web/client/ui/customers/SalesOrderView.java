@@ -147,8 +147,6 @@ public class SalesOrderView extends
 		dateNoForm.setNumCols(8);
 		dateNoForm.addStyleName("date-number");
 		dateNoForm.setFields(statusSelect, transactionDateItem);
-		if (locationTrackingEnabled)
-			dateNoForm.setFields(locationCombo);
 
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("99%");
@@ -313,7 +311,8 @@ public class SalesOrderView extends
 		termsForm.setIsGroup(true);
 		termsForm.setGroupTitle(customerConstants.terms());
 		termsForm.setNumCols(2);
-
+		if (locationTrackingEnabled)
+			termsForm.setFields(locationCombo);
 		if (getPreferences().isSalesPersonEnabled()) {
 			termsForm.setFields(transactionNumber, customerOrderText,
 					salesPersonCombo, payTermsSelect, dueDateItem);
@@ -355,8 +354,8 @@ public class SalesOrderView extends
 		paymentsNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
 
-		balanceDueNonEditableText = new AmountLabel(
-				customerConstants.balanceDue());
+		balanceDueNonEditableText = new AmountLabel(customerConstants
+				.balanceDue());
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");

@@ -170,7 +170,8 @@ public class ReceivePaymentView extends
 
 								if (result.size() > 0) {
 									gridView.removeAllRecords();
-									gridView.initCreditsAndPayments(selectedCustomer);
+									gridView
+											.initCreditsAndPayments(selectedCustomer);
 									addTransactionRecievePayments(result);
 								} else {
 									gridView.addEmptyMessage(Accounter
@@ -223,8 +224,10 @@ public class ReceivePaymentView extends
 
 			ClientTransactionReceivePayment record = new ClientTransactionReceivePayment();
 
-			record.setDueDate(receivePaymentTransaction.getDueDate() != null ? receivePaymentTransaction
-					.getDueDate().getDate() : 0);
+			record
+					.setDueDate(receivePaymentTransaction.getDueDate() != null ? receivePaymentTransaction
+							.getDueDate().getDate()
+							: 0);
 			record.setNumber(receivePaymentTransaction.getNumber());
 
 			record.setInvoiceAmount(receivePaymentTransaction
@@ -233,8 +236,11 @@ public class ReceivePaymentView extends
 			record.setInvoice(receivePaymentTransaction.getTransactionId());
 			record.setAmountDue(receivePaymentTransaction.getAmountDue());
 			record.setDummyDue(receivePaymentTransaction.getAmountDue());
-			record.setDiscountDate(receivePaymentTransaction.getDiscountDate() != null ? receivePaymentTransaction
-					.getDiscountDate().getDate() : 0);
+			record
+					.setDiscountDate(receivePaymentTransaction
+							.getDiscountDate() != null ? receivePaymentTransaction
+							.getDiscountDate().getDate()
+							: 0);
 
 			record.setCashDiscount(receivePaymentTransaction.getCashDiscount());
 
@@ -389,7 +395,8 @@ public class ReceivePaymentView extends
 								.setTransactionReceivePayment(payment);
 					}
 
-				payment.setTransactionCreditsAndPayments(tranCreditsandPayments);
+				payment
+						.setTransactionCreditsAndPayments(tranCreditsandPayments);
 			}
 			paymentsList.add(payment);
 			payment.getTempCredits().clear();
@@ -419,8 +426,7 @@ public class ReceivePaymentView extends
 		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
-		if (locationTrackingEnabled)
-			dateNoForm.setFields(locationCombo);
+
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
@@ -453,7 +459,8 @@ public class ReceivePaymentView extends
 					return;
 				Double amount = 0.00D;
 				try {
-					amount = DataUtils.getAmountStringAsDouble(value.toString());
+					amount = DataUtils
+							.getAmountStringAsDouble(value.toString());
 					setAmount(DataUtils.isValidAmount(value.toString()) ? amount
 							: 0.00D);
 					paymentAmountChanged(amount);
@@ -514,6 +521,8 @@ public class ReceivePaymentView extends
 		depositInCombo.setPopupWidth("500px");
 
 		DynamicForm depoForm = new DynamicForm();
+		if (locationTrackingEnabled)
+			depoForm.setFields(locationCombo);
 		// depoForm.setWidth("80%");
 		depoForm.setIsGroup(true);
 		depoForm.setGroupTitle(Accounter.constants().deposit());
@@ -671,9 +680,9 @@ public class ReceivePaymentView extends
 			// .getNearestTaxRate(((Date) transactionDateItem
 			// .getValue()).getTime())));
 		} // else
-			// fraction = 0.0;
-			// if (vatFraction != null)
-			// vatFraction.setAmount(fraction);
+		// fraction = 0.0;
+		// if (vatFraction != null)
+		// vatFraction.setAmount(fraction);
 	}
 
 	@Override
@@ -1076,8 +1085,8 @@ public class ReceivePaymentView extends
 
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result.addError(transactionDateItem,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDateItem, accounterConstants
+					.invalidateDate());
 		}
 
 		result.add(FormItem.validate(customerCombo, paymentMethodCombo,
@@ -1088,7 +1097,9 @@ public class ReceivePaymentView extends
 			result.addError(gridView, Accounter.constants()
 					.pleaseSelectAnyOneOfTheTransactions());
 		} else if (gridView.getAllRows().isEmpty()) {
-			result.addError(gridView, Accounter.constants().selectTransaction());
+			result
+					.addError(gridView, Accounter.constants()
+							.selectTransaction());
 		} else
 			result.add(gridView.validateGrid());
 

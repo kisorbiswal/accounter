@@ -289,8 +289,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
-		if (locationTrackingEnabled)
-			dateNoForm.setFields(locationCombo);
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
@@ -345,7 +343,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		deliveryDate = createTransactionDeliveryDateItem();
 		deliveryDate.setEnteredDate(getTransactionDate());
 
+		if (locationTrackingEnabled)
+			phoneForm.setFields(locationCombo);
 		// formItems.add(deliveryDate);
+
 		if (getPreferences().isSalesPersonEnabled()) {
 			phoneForm.setFields(salesPersonCombo, payTermsSelect,
 					quoteExpiryDate, deliveryDate);
@@ -353,8 +354,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			phoneForm.setFields(payTermsSelect, quoteExpiryDate, deliveryDate);
 		}
 		phoneForm.setStyleName("align-form");
-		phoneForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "203px");
+		phoneForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "203px");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -755,8 +756,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		// Validations
 		// 1. isValidDueOrDeliveryDate?
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(
-				this.quoteExpiryDate.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(this.quoteExpiryDate
+				.getEnteredDate(), this.transactionDate)) {
 			result.addError(this.quoteExpiryDate, Accounter.constants().the()
 					+ " "
 					+ customerConstants.expirationDate()

@@ -12,7 +12,6 @@ public class PaymentsAction extends Action {
 
 	public PaymentsAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().banking();
 	}
 
 	@Override

@@ -103,8 +103,8 @@ public class JournalEntryView extends
 		// } else
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(getTransactionDate())) {
-			result.addError(transactionDateItem,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDateItem, accounterConstants
+					.invalidateDate());
 		}
 		result.add(dateForm.validate());
 		// if (AccounterValidator.isBlankTransaction(grid)) {
@@ -259,8 +259,8 @@ public class JournalEntryView extends
 		transaction.setMemo(memoText.getValue().toString() != null ? memoText
 				.getValue().toString() : "");
 		// initMemo(transaction);
-		if (DecimalUtil.isEquals(grid.getTotalDebittotal(),
-				grid.getTotalCredittotal())) {
+		if (DecimalUtil.isEquals(grid.getTotalDebittotal(), grid
+				.getTotalCredittotal())) {
 			transaction.setDebitTotal(grid.getTotalDebittotal());
 			transaction.setCreditTotal(grid.getTotalCredittotal());
 			transaction.setTotal(grid.getTotalDebittotal());
@@ -347,15 +347,17 @@ public class JournalEntryView extends
 		dateForm = new DynamicForm();
 		dateForm.setNumCols(8);
 		dateForm.setStyleName("datenumber-panel");
+
+		DynamicForm dynamicForm = new DynamicForm();
 		locationCombo = createLocationCombo();
 		dateForm.setFields(transactionDateItem, jourNoText);
 		if (locationTrackingEnabled)
-			dateForm.setFields(locationCombo);
+			dynamicForm.setFields(locationCombo);
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
-			dateForm.setFields(classListCombo);
+			dynamicForm.setFields(classListCombo);
 		}
 
 		HorizontalPanel datepannel = new HorizontalPanel();
@@ -415,11 +417,14 @@ public class JournalEntryView extends
 			// journalEntry.setCreditTotal(totalCredittotal);
 
 		}
+		VerticalPanel verticalPanel = new VerticalPanel();
+		verticalPanel.add(datepannel);
+		verticalPanel.add(dynamicForm);
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(lab1);
-		mainVLay.add(datepannel);
+		mainVLay.add(verticalPanel);
 		mainVLay.add(gridPanel);
 		mainVLay.add(bottomPanel);
 		// mainVLay.add(labelPane);

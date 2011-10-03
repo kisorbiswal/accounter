@@ -100,8 +100,6 @@ public class CashPurchaseView extends
 		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
-		if (locationTrackingEnabled)
-			dateNoForm.setFields(locationCombo);
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.add(dateNoForm);
 		datepanel.setCellHorizontalAlignment(dateNoForm,
@@ -188,6 +186,8 @@ public class CashPurchaseView extends
 				});
 
 		termsForm = new DynamicForm();
+		if (locationTrackingEnabled)
+			termsForm.setFields(locationCombo);
 		termsForm.setWidth("100%");
 		termsForm.setFields(paymentMethodCombo, payFromCombo, checkNo,
 				deliveryDateItem);
@@ -198,8 +198,8 @@ public class CashPurchaseView extends
 			termsForm.setFields(classListCombo);
 		}
 
-		termsForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "203px");
 
 		// formItems.add(checkNo);
 		// formItems.add(deliveryDateItem);
@@ -626,7 +626,8 @@ public class CashPurchaseView extends
 		// Setting Pay From Account
 		transaction
 				.setPayFrom(payFromCombo.getSelectedValue() != null ? payFromCombo
-						.getSelectedValue().getID() : 0);
+						.getSelectedValue().getID()
+						: 0);
 
 		// Setting Check number
 		transaction.setCheckNumber(checkNo.getValue().toString());
@@ -698,15 +699,15 @@ public class CashPurchaseView extends
 		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 
 		result.add(vendorForm.validate());
 		result.add(termsForm.validate());
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(
-				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(deliveryDateItem
+				.getEnteredDate(), this.transactionDate)) {
 			result.addError(deliveryDateItem, Accounter.constants().the()
 					+ " "
 					+ Accounter.constants().deliveryDate()
@@ -717,8 +718,8 @@ public class CashPurchaseView extends
 		}
 
 		if (getAllTransactionItems().isEmpty()) {
-			result.addError(vendorAccountTransactionTable,
-					accounterConstants.blankTransaction());
+			result.addError(vendorAccountTransactionTable, accounterConstants
+					.blankTransaction());
 		} else {
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());

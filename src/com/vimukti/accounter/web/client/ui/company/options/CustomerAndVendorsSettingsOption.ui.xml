@@ -8,33 +8,43 @@
 		}
 	</ui:style>
 	<g:VerticalPanel spacing="8" styleName="companyInfoPanel">
-		<g:VerticalPanel spacing="5" >
+		<g:VerticalPanel spacing="5">
 			<g:HorizontalPanel>
-				<g:CheckBox ui:field="trackCheckbox" styleName="header"/>
+				<g:CheckBox ui:field="trackCheckbox" styleName="header" />
 			</g:HorizontalPanel>
-			<g:Label ui:field="trackCheckBoxDescLabel"/>
+			<g:Label ui:field="trackCheckBoxDescLabel" />
 			<g:VerticalPanel ui:field="hidePanel">
 				<g:Label ui:field="trackLabel" />
 				<g:Label ui:field="taxItemTransactionLabel" />
 				<g:VerticalPanel spacing="5">
-				<g:RadioButton name="new name" ui:field="onepeTransactionRadioButton" />
-				<g:Label ui:field="oneperTransactionLabel" />
-				<g:RadioButton name="new name" ui:field="oneperdetaillineRadioButton" />
-				<g:Label ui:field="oneperdetaillineLabel" />
-				<g:CheckBox ui:field="enableTaxCheckbox" />
-				<g:Label ui:field="enableTaxLabel"  styleName="header"/>
-			</g:VerticalPanel>
+					<g:VerticalPanel spacing="5">
+						<g:RadioButton name="new name" ui:field="onepeTransactionRadioButton" />
+						<g:Label ui:field="oneperTransactionLabel" />
+						<g:RadioButton name="new name" ui:field="oneperdetaillineRadioButton" />
+						<g:Label ui:field="oneperdetaillineLabel" />
+					</g:VerticalPanel>
+					<g:CheckBox ui:field="enableTaxCheckbox" />
+					<g:Label ui:field="enableTaxLabel" styleName="header" />
+				</g:VerticalPanel>
 			</g:VerticalPanel>
 		</g:VerticalPanel>
 
-		<!-- <g:VerticalPanel styleName="companyInfoPanel"> <g:Label ui:field="createEstimatesLabelItem" 
-			styleName="header" /> <g:HorizontalPanel> <g:RadioButton name="createEstimatesRadioButton" 
-			ui:field="createEstimatesYesRadioButton" /> <g:RadioButton name="createEstimatesRadioButton" 
-			ui:field="createEstimatesNoRadioButton" checked="true" /> </g:HorizontalPanel> 
-			</g:VerticalPanel> <g:VerticalPanel styleName="companyInfoPanel"> <g:Label 
-			ui:field="usingStatementsLabelItem" styleName="header" /> <g:HorizontalPanel> 
-			<g:RadioButton name="new nameusingStatementsRadioButton" ui:field="usingStatementsYesRadioButton" 
-			/> <g:RadioButton name="new nameusingStatementsRadioButton" ui:field="usingStatementsNoRadioButton" 
-			checked="true" /> </g:HorizontalPanel> </g:VerticalPanel> -->
+		<!--
+			<g:VerticalPanel styleName="companyInfoPanel"> <g:Label
+			ui:field="createEstimatesLabelItem" styleName="header" />
+			<g:HorizontalPanel> <g:RadioButton name="createEstimatesRadioButton"
+			ui:field="createEstimatesYesRadioButton" /> <g:RadioButton
+			name="createEstimatesRadioButton"
+			ui:field="createEstimatesNoRadioButton" checked="true" />
+			</g:HorizontalPanel> </g:VerticalPanel> <g:VerticalPanel
+			styleName="companyInfoPanel"> <g:Label
+			ui:field="usingStatementsLabelItem" styleName="header" />
+			<g:HorizontalPanel> <g:RadioButton name="new
+			nameusingStatementsRadioButton"
+			ui:field="usingStatementsYesRadioButton" /> <g:RadioButton name="new
+			nameusingStatementsRadioButton"
+			ui:field="usingStatementsNoRadioButton" checked="true" />
+			</g:HorizontalPanel> </g:VerticalPanel>
+		-->
 	</g:VerticalPanel>
 </ui:UiBinder> 

@@ -743,7 +743,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		CustomMenuBar bankingListMenuBar = getSubMenu();
 		// bankingListMenuBar.addItem(ActionFactory
 		// .getChartsOfAccountsAction());
-		bankingListMenuBar.addItem(ActionFactory.getPaymentsAction());
+		bankingListMenuBar.addItem(ActionFactory.getPaymentsAction(2));
 		ChartOfAccountsAction chartOfAccountsAction = new ChartOfAccountsAction(
 				Accounter.messages().bankAccounts(Global.get().Account()),
 				ClientAccount.TYPE_BANK);
@@ -1087,7 +1087,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		companyListMenuBar.addItem(ActionFactory.getCustomersAction());
 		companyListMenuBar.addItem(ActionFactory.getVendorsAction());
 		if (Accounter.getUser().canSeeBanking())
-			companyListMenuBar.addItem(ActionFactory.getPaymentsAction());
+			companyListMenuBar.addItem(ActionFactory.getPaymentsAction(1));
 		companyListMenuBar.addItem(ActionFactory.getSalesPersonAction());
 		// companyListMenuBar.addItem(ActionFactory.getWarehouseListAction());
 		// companyListMenuBar.addItem(ActionFactory.getRecurringsListAction());

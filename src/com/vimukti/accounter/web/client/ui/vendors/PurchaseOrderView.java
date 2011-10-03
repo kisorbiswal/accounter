@@ -146,8 +146,6 @@ public class PurchaseOrderView extends
 		dateNoForm.setNumCols(6);
 		dateNoForm.addStyleName("date-number");
 		dateNoForm.setFields(statusSelect, transactionDateItem);
-		if (locationTrackingEnabled)
-			dateNoForm.setFields(locationCombo);
 
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("98%");
@@ -379,6 +377,8 @@ public class PurchaseOrderView extends
 		DynamicForm dateform = new DynamicForm();
 		dateform.setWidth("100%");
 		dateform.setNumCols(2);
+		if(locationTrackingEnabled)
+			dateform.setFields(locationCombo);
 		dateform.setItems(dueDateItem, despatchDateItem, deliveryDateItem);
 
 		if (getPreferences().isClassTrackingEnabled()

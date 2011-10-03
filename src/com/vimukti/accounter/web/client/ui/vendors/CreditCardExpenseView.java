@@ -258,15 +258,16 @@ public class CreditCardExpenseView extends
 			}
 		};
 		Ccard.setHelpInformation(true);
-		Ccard.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
+		Ccard
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 
-			@Override
-			public void selectedComboBoxItem(ClientVendor selectItem) {
-				selectedVendor = selectItem;
-				Ccard.setComboItem(selectItem);
-				addPhonesContactsAndAddress();
-			}
-		});
+					@Override
+					public void selectedComboBoxItem(ClientVendor selectItem) {
+						selectedVendor = selectItem;
+						Ccard.setComboItem(selectItem);
+						addPhonesContactsAndAddress();
+					}
+				});
 
 		Ccard.setRequired(true);
 		String listString[] = new String[] {
@@ -308,8 +309,6 @@ public class CreditCardExpenseView extends
 		dateNoForm.setNumCols(8);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
-		if (locationTrackingEnabled)
-			dateNoForm.setFields(locationCombo);
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 
@@ -410,8 +409,8 @@ public class CreditCardExpenseView extends
 		// formItems.add(payFrmSelect)
 		cheqNoText = new TextItem(
 				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-						.constants().chequeNo() : Accounter.constants()
-						.checkNo());
+						.constants().chequeNo()
+						: Accounter.constants().checkNo());
 
 		cheqNoText.setHelpInformation(true);
 		cheqNoText.setDisabled(isInViewMode());
@@ -426,9 +425,11 @@ public class CreditCardExpenseView extends
 
 		termsForm = UIUtils.form(Accounter.constants().terms());
 		termsForm.setWidth("100%");
+		if (locationTrackingEnabled)
+			termsForm.setFields(locationCombo);
 		termsForm.setFields(payMethSelect, payFrmSelect, delivDate);
-		termsForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "203px");
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
@@ -656,10 +657,8 @@ public class CreditCardExpenseView extends
 		}
 
 		if (Ccard.getSelectedValue() == null)
-			result.addError(
-					Ccard,
-					Accounter.messages().pleaseSelectVendor(
-							Global.get().vendor()));
+			result.addError(Ccard, Accounter.messages().pleaseSelectVendor(
+					Global.get().vendor()));
 		result.add(vendorAccountTransactionTable.validateGrid());
 		result.add(vendorItemTransactionTable.validateGrid());
 		if (payFrmSelect.getSelectedValue() == null)
@@ -1001,9 +1000,9 @@ public class CreditCardExpenseView extends
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button,
-				Accounter.messages().accounts(Global.get().Account()),
-				Accounter.constants().productOrServiceItem());
+		setMenuItems(button, Accounter.messages().accounts(
+				Global.get().Account()), Accounter.constants()
+				.productOrServiceItem());
 	}
 
 	public void saveAndUpdateView() {

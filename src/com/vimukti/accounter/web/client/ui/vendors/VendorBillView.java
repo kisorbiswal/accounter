@@ -166,7 +166,8 @@ public class VendorBillView extends
 			}
 			this.dueDateItem
 					.setValue(transaction.getDueDate() != 0 ? new ClientFinanceDate(
-							transaction.getDueDate()) : getTransactionDate());
+							transaction.getDueDate())
+							: getTransactionDate());
 			initMemoAndReference();
 			initAccounterClass();
 		}
@@ -374,8 +375,6 @@ public class VendorBillView extends
 		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
-		if (locationTrackingEnabled)
-			dateNoForm.setFields(locationCombo);
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
@@ -485,6 +484,8 @@ public class VendorBillView extends
 		DynamicForm dateform = new DynamicForm();
 		dateform.setWidth("100%");
 		dateform.setNumCols(2);
+		if (locationTrackingEnabled)
+			dateform.setFields(locationCombo);
 		dateform.setItems(phoneSelect, paymentTermsCombo, dueDateItem,
 				deliveryDateItem);
 		dateform.getCellFormatter().setWidth(0, 0, "200px");
@@ -519,8 +520,8 @@ public class VendorBillView extends
 		};
 
 		vendorAccountTransactionTable.setDisabled(isInViewMode());
-		vendorAccountTransactionTable.getElement().getStyle()
-				.setMarginTop(10, Unit.PX);
+		vendorAccountTransactionTable.getElement().getStyle().setMarginTop(10,
+				Unit.PX);
 
 		accountTableButton = new AddNewButton();
 		accountTableButton.setEnabled(!isInViewMode());
@@ -891,13 +892,13 @@ public class VendorBillView extends
 		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 		result.add(vendorForm.validate());
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(
-				dueDateItem.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(dueDateItem
+				.getEnteredDate(), this.transactionDate)) {
 			result.addError(dueDateItem, Accounter.constants().the()
 					+ " "
 					+ Accounter.constants().dueDate()
@@ -907,8 +908,8 @@ public class VendorBillView extends
 							.cannotbeearlierthantransactiondate());
 		}
 		if (getAllTransactionItems().isEmpty()) {
-			result.addError(vendorAccountTransactionTable,
-					accounterConstants.blankTransaction());
+			result.addError(vendorAccountTransactionTable, accounterConstants
+					.blankTransaction());
 		} else {
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());

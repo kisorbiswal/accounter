@@ -14,7 +14,7 @@ public class SalesPersonAction extends Action {
 
 	public SalesPersonAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().salesPerson();
+		this.catagory = Accounter.constants().company();
 	}
 
 	@Override

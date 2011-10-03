@@ -113,8 +113,6 @@ public class CustomerCreditMemoView extends
 		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
-		if (locationTrackingEnabled)
-			dateNoForm.setFields(locationCombo);
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
@@ -156,6 +154,8 @@ public class CustomerCreditMemoView extends
 
 		DynamicForm phoneForm = UIUtils.form(customerConstants.phoneNumber());
 		phoneForm.setWidth("100%");
+		if(locationTrackingEnabled)
+			phoneForm.setFields(locationCombo);
 		// phoneForm.setFields(phoneSelect, salesPersonCombo);
 		// phoneForm.setFields(salesPersonCombo);
 		phoneForm.setStyleName("align-form");

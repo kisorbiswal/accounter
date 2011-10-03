@@ -89,7 +89,8 @@ public class CashExpenseView extends
 		// Setting Pay From Account
 		transaction
 				.setPayFrom(payFromCombo.getSelectedValue() != null ? payFromCombo
-						.getSelectedValue().getID() : 0);
+						.getSelectedValue().getID()
+						: 0);
 
 		// Setting Check number
 		transaction.setCheckNumber(checkNo.getValue().toString());
@@ -129,8 +130,8 @@ public class CashExpenseView extends
 
 		result.add(vendorForm.validate());
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(
-				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(deliveryDateItem
+				.getEnteredDate(), this.transactionDate)) {
 			result.addError(deliveryDateItem, Accounter.constants().the()
 					+ " "
 					+ Accounter.constants().deliveryDate()
@@ -141,8 +142,8 @@ public class CashExpenseView extends
 		}
 
 		if (getAllTransactionItems().isEmpty()) {
-			result.addError(vendorAccountTransactionTable,
-					constants.blankTransaction());
+			result.addError(vendorAccountTransactionTable, constants
+					.blankTransaction());
 		} else {
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());
@@ -176,9 +177,9 @@ public class CashExpenseView extends
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button,
-				Accounter.messages().accounts(Global.get().Account()),
-				Accounter.constants().productOrServiceItem());
+		setMenuItems(button, Accounter.messages().accounts(
+				Global.get().Account()), Accounter.constants()
+				.productOrServiceItem());
 	}
 
 	@Override
@@ -231,8 +232,6 @@ public class CashExpenseView extends
 		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
-		if (locationTrackingEnabled)
-			dateNoForm.setFields(locationCombo);
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.add(dateNoForm);
 		datepanel.setCellHorizontalAlignment(dateNoForm,
@@ -417,9 +416,12 @@ public class CashExpenseView extends
 		leftVLay.setWidth("100%");
 		leftVLay.add(vendorForm);
 
-		// VerticalPanel rightVLay = new VerticalPanel();
-		// rightVLay.setWidth("100%");
-		// rightVLay.add(termsForm);
+		VerticalPanel rightVLay = new VerticalPanel();
+		rightVLay.setWidth("100%");
+		DynamicForm locationform = new DynamicForm();
+		if (locationTrackingEnabled)
+			locationform.setFields(locationCombo);
+		rightVLay.add(locationform);
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");

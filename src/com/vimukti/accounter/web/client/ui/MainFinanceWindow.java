@@ -305,8 +305,10 @@ public class MainFinanceWindow extends VerticalPanel {
 				ActionFactory.getVendorGroupListAction());
 		actions.put(ActionFactory.getPaymentTermListAction().getHistoryToken(),
 				ActionFactory.getPaymentTermListAction());
-		actions.put(ActionFactory.getShippingMethodListAction()
-				.getHistoryToken(), ActionFactory.getShippingMethodListAction());
+		actions
+				.put(ActionFactory.getShippingMethodListAction()
+						.getHistoryToken(), ActionFactory
+						.getShippingMethodListAction());
 		actions.put(
 				ActionFactory.getShippingTermListAction().getHistoryToken(),
 				ActionFactory.getShippingTermListAction());
@@ -334,8 +336,8 @@ public class MainFinanceWindow extends VerticalPanel {
 				ActionFactory.getCustomersAction());
 		actions.put(ActionFactory.getVendorsAction().getHistoryToken(),
 				ActionFactory.getVendorsAction());
-		actions.put(ActionFactory.getPaymentsAction().getHistoryToken(),
-				ActionFactory.getPaymentsAction());
+		actions.put(ActionFactory.getPaymentsAction(1).getHistoryToken(),
+				ActionFactory.getPaymentsAction(1));
 
 		actions.put(ActionFactory.getSalesPersonAction().getHistoryToken(),
 				ActionFactory.getSalesPersonAction());
@@ -375,8 +377,10 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(ActionFactory.getNewCreditsAndRefundsAction()
 				.getHistoryToken(), ActionFactory
 				.getNewCreditsAndRefundsAction());
-		actions.put(ActionFactory.getNewCustomerPaymentAction()
-				.getHistoryToken(), ActionFactory.getNewCustomerPaymentAction());
+		actions
+				.put(ActionFactory.getNewCustomerPaymentAction()
+						.getHistoryToken(), ActionFactory
+						.getNewCustomerPaymentAction());
 		actions.put(ActionFactory.getReceivePaymentAction().getHistoryToken(),
 				ActionFactory.getReceivePaymentAction());
 		actions.put(ActionFactory.getCustomerRefundAction().getHistoryToken(),
@@ -439,8 +443,8 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(
 				ActionFactory.getCreditCardChargeAction().getHistoryToken(),
 				ActionFactory.getCreditCardChargeAction());
-		actions.put(ActionFactory.getPaymentsAction().getHistoryToken(),
-				ActionFactory.getPaymentsAction());
+		actions.put(ActionFactory.getPaymentsAction(2).getHistoryToken(),
+				ActionFactory.getPaymentsAction(2));
 
 		actions.put(ActionFactory.getSalesOrderAction().getHistoryToken(),
 				ActionFactory.getSalesOrderAction());
@@ -495,8 +499,10 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(ActionFactory.getSalesByCustomerDetailAction()
 				.getHistoryToken(), ActionFactory
 				.getSalesByCustomerDetailAction());
-		actions.put(ActionFactory.getSalesByItemSummaryAction()
-				.getHistoryToken(), ActionFactory.getSalesByItemSummaryAction());
+		actions
+				.put(ActionFactory.getSalesByItemSummaryAction()
+						.getHistoryToken(), ActionFactory
+						.getSalesByItemSummaryAction());
 		actions.put(ActionFactory.getSalesByItemDetailAction()
 				.getHistoryToken(), ActionFactory.getSalesByItemDetailAction());
 		actions.put(ActionFactory.getSalesOpenOrderAction().getHistoryToken(),
@@ -546,18 +552,18 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(ActionFactory.getGeneralSettingsAction().getHistoryToken(),
 				ActionFactory.getGeneralSettingsAction());
 
-		actions.put("bankAccounts",
-				ActionFactory.getChartOfAccountsAction(ClientAccount.TYPE_BANK));
-		actions.put("cashExpenses",
-				ActionFactory.getExpensesAction(Accounter.constants().cash()));
+		actions.put("bankAccounts", ActionFactory
+				.getChartOfAccountsAction(ClientAccount.TYPE_BANK));
+		actions.put("cashExpenses", ActionFactory.getExpensesAction(Accounter
+				.constants().cash()));
 		actions.put("creditCardExpenses", ActionFactory
 				.getExpensesAction(Accounter.constants().creditCard()));
 		actions.put("employeeExpenses", ActionFactory
 				.getExpensesAction(Accounter.constants().employee()));
 		actions.put(ActionFactory.getAccountRegisterAction().getHistoryToken(),
 				ActionFactory.getAccountRegisterAction());
-		actions.put("overDueInvoices",
-				ActionFactory.getInvoicesAction(InvoiceListView.OVER_DUE));
+		actions.put("overDueInvoices", ActionFactory
+				.getInvoicesAction(InvoiceListView.OVER_DUE));
 		actions.put(ActionFactory.getUserDetailsAction().getHistoryToken(),
 				ActionFactory.getUserDetailsAction());
 		actions.put(ActionFactory.getPrepare1099MISCAction().getHistoryToken(),

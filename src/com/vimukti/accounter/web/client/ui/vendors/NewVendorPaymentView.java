@@ -90,7 +90,9 @@ public class NewVendorPaymentView extends
 		} else {
 			ClientCompany comapny = getCompany();
 
-			amountText.setAmount(getAmountInTransactionCurrency((Double) transaction.getUnusedAmount()));
+			amountText
+					.setAmount(getAmountInTransactionCurrency((Double) transaction
+							.getUnusedAmount()));
 			ClientVendor vendor = comapny.getVendor(transaction.getVendor());
 			vendorSelected(vendor);
 			billToaddressSelected(transaction.getAddress());
@@ -109,8 +111,10 @@ public class NewVendorPaymentView extends
 				paymentMethodCombo.setDisabled(true);
 			}
 
-			endBalText.setAmount(getAmountInTransactionCurrency(transaction.getEndingBalance()));
-			vendorBalText.setAmount(getAmountInTransactionCurrency(vendor.getBalance()));
+			endBalText.setAmount(getAmountInTransactionCurrency(transaction
+					.getEndingBalance()));
+			vendorBalText.setAmount(getAmountInTransactionCurrency(vendor
+					.getBalance()));
 
 			if (transaction.getCheckNumber() != null) {
 				if (transaction.getCheckNumber().equals(
@@ -150,8 +154,6 @@ public class NewVendorPaymentView extends
 		dateNoForm.setNumCols(8);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
-		if (locationTrackingEnabled)
-			dateNoForm.setFields(locationCombo);
 
 		VerticalPanel datepanel = new VerticalPanel();
 		datepanel.setWidth("100%");
@@ -185,6 +187,8 @@ public class NewVendorPaymentView extends
 		vendorBalText.setWidth(100);
 
 		DynamicForm balForm = new DynamicForm();
+		if (locationTrackingEnabled)
+			balForm.setFields(locationCombo);
 		balForm.setWidth("100%");
 		balForm.setFields(endBalText, vendorBalText);
 		if (getPreferences().isClassTrackingEnabled()
@@ -237,8 +241,8 @@ public class NewVendorPaymentView extends
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				isChecked = (Boolean) event.getValue();
 				if (isChecked) {
-					if (printCheck.getValue().toString()
-							.equalsIgnoreCase("true")) {
+					if (printCheck.getValue().toString().equalsIgnoreCase(
+							"true")) {
 						checkNo.setValue(Accounter.constants().toBePrinted());
 						checkNo.setDisabled(true);
 					} else {
@@ -282,9 +286,9 @@ public class NewVendorPaymentView extends
 		payForm.getCellFormatter().addStyleName(7, 0, "memoFormAlign");
 		// memo and Reference
 
-		endBalText
-				.setAmount(getAmountInTransactionCurrency(payFromCombo.getSelectedValue() != null ? payFromCombo
-						.getSelectedValue().getCurrentBalance() : 0.00));
+		endBalText.setAmount(getAmountInTransactionCurrency(payFromCombo
+				.getSelectedValue() != null ? payFromCombo.getSelectedValue()
+				.getCurrentBalance() : 0.00));
 
 		payForm.setCellSpacing(5);
 		payForm.setWidth("100%");
@@ -386,8 +390,8 @@ public class NewVendorPaymentView extends
 
 			if (checkNo.getValue() != null && !checkNo.getValue().equals("")) {
 				String value;
-				if (checkNo.getValue().toString()
-						.equalsIgnoreCase(Accounter.constants().toBePrinted())) {
+				if (checkNo.getValue().toString().equalsIgnoreCase(
+						Accounter.constants().toBePrinted())) {
 					value = String.valueOf(Accounter.constants().toBePrinted());
 				} else {
 					value = String.valueOf(checkNo.getValue());
@@ -412,7 +416,8 @@ public class NewVendorPaymentView extends
 			transaction.setVendorBalance(toBeSetVendorBalance);
 
 			// Setting UnusedAmount
-			transaction.setUnusedAmount(getAmountInBaseCurrency(amountText.getAmount()));
+			transaction.setUnusedAmount(getAmountInBaseCurrency(amountText
+					.getAmount()));
 
 		}
 	}
@@ -484,7 +489,8 @@ public class NewVendorPaymentView extends
 		}
 		if (getVendor() != null) {
 			toBeSetVendorBalance = getVendor().getBalance() - enteredBalance;
-			vendorBalText.setAmount(getAmountInTransactionCurrency(toBeSetVendorBalance));
+			vendorBalText
+					.setAmount(getAmountInTransactionCurrency(toBeSetVendorBalance));
 
 		}
 		if (payFromAccount != null) {
@@ -495,7 +501,8 @@ public class NewVendorPaymentView extends
 				toBeSetEndingBalance = payFromAccount.getTotalBalance()
 						- enteredBalance;
 			}
-			endBalText.setAmount(getAmountInTransactionCurrency(toBeSetEndingBalance));
+			endBalText
+					.setAmount(getAmountInTransactionCurrency(toBeSetEndingBalance));
 
 		}
 	}
@@ -525,8 +532,8 @@ public class NewVendorPaymentView extends
 		// accounterConstants.invalidateTransactionDate());
 		// }
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 
 		result.add(payForm.validate());
@@ -609,8 +616,8 @@ public class NewVendorPaymentView extends
 					}
 
 					amountText
-							.setAmount(getAmountInTransactionCurrency(DataUtils.isValidAmount(amount + "") ? amount
-									: 0.0));
+							.setAmount(getAmountInTransactionCurrency(DataUtils
+									.isValidAmount(amount + "") ? amount : 0.0));
 
 					adjustBalance();
 

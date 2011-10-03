@@ -98,7 +98,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	public void resetTotlas() {
 		amountLabel.setAmount(getAmountInTransactionCurrency(0.0));
 		endBalText
-				.setAmount(getAmountInTransactionCurrency(payFromCombo.getSelectedValue() != null ? payFromCombo
+						.setAmount(getAmountInTransactionCurrency(payFromCombo.getSelectedValue() != null ? payFromCombo
 						.getSelectedValue().getTotalBalance() : 0.0));
 	}
 
@@ -373,8 +373,10 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 				record.setAppliedCredits(curntRec.getCredits());
 
-				record.setDiscountDate(curntRec.getDiscountDate() != null ? curntRec
-						.getDiscountDate().getDate() : 0);
+				record
+						.setDiscountDate(curntRec.getDiscountDate() != null ? curntRec
+								.getDiscountDate().getDate()
+								: 0);
 
 				record.setDueDate(curntRec.getDueDate() != null ? curntRec
 						.getDueDate().getDate() : 0);
@@ -552,8 +554,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		dateForm.setNumCols(6);
 		dateForm.setStyleName("datenumber-panel");
 		dateForm.setFields(date, transactionNumber);
-		if (locationTrackingEnabled)
-			dateForm.setFields(locationCombo);
 
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
@@ -580,6 +580,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		DynamicForm balForm = new DynamicForm();
 		balForm.setWidth("100%");
 		balForm.setIsGroup(true);
+		if (locationTrackingEnabled)
+			balForm.setFields(locationCombo);
 		balForm.setGroupTitle(Accounter.constants().balances());
 		if (getCompany().getPreferences().isTDSEnabled()) {
 			balForm.setFields(endBalText, taxItemCombo);
@@ -869,8 +871,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 		ValidationResult payFormValidationResult = payForm.validate();
 		if (payFormValidationResult.haveErrors()
@@ -885,8 +887,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		}
 		if (!isInViewMode()) {
 			if (grid.getAllRows().isEmpty()) {
-				result.addError(
-						grid,
+				result.addError(grid,
 						Accounter.messages().noBillsAreAvailableFirstAddABill(
 								Global.get().Vendor()));
 			}
@@ -938,8 +939,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		if (getVendor() != null) {
 
 			for (PayBillTransactionList cont : filterList) {
-				if (getVendor().getName().toString()
-						.equalsIgnoreCase(cont.getVendorName().toString())) {
+				if (getVendor().getName().toString().equalsIgnoreCase(
+						cont.getVendorName().toString())) {
 
 					tempList.add(cont);
 				}

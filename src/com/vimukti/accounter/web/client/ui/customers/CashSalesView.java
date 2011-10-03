@@ -123,8 +123,6 @@ public class CashSalesView extends
 		dateNoForm.setStyleName("datenumber-panel");
 		locationCombo = createLocationCombo();
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
-		if (locationTrackingEnabled)
-			dateNoForm.setFields(locationCombo);
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
@@ -192,7 +190,8 @@ public class CashSalesView extends
 		termsForm.setWidth("100%");
 		termsForm.setIsGroup(true);
 		termsForm.setNumCols(2);
-
+		if (locationTrackingEnabled)
+			termsForm.setFields(locationCombo);
 		if (getPreferences().isSalesPersonEnabled()) {
 			termsForm.setFields(salesPersonCombo, paymentMethodCombo,
 					depositInCombo);

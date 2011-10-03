@@ -85,7 +85,6 @@ public class CreditCardChargeView extends
 	private VerticalPanel leftVLay, botVLay;
 
 	private ArrayList<DynamicForm> listforms;
-	protected ClientContact contact;
 	protected Label titlelabel;
 	protected TextAreaItem billToAreaItem;
 	private List<ClientAccount> listOfAccounts;
@@ -139,12 +138,10 @@ public class CreditCardChargeView extends
 			i++;
 		}
 
-		// contactCombo.initCombo(idNamesForContacts);
+		contactCombo.initCombo(new ArrayList<ClientContact>(allContacts));
 
-		// phoneSelect.initCombo(phones);
+		contactCombo.setComboItem(primaryContact);
 
-		// ClientVendor cv = FinanceApplication.getCompany().getVendor(
-		// creditCardChargeTaken.getVendor());
 		if (transaction.getContact() != null)
 			contactCombo.setSelected(transaction.getContact().getName());
 		if (transaction.getPhone() != null)
@@ -256,7 +253,8 @@ public class CreditCardChargeView extends
 			if (isInViewMode()) {
 				cheqNoText
 						.setValue(transaction.getCheckNumber() != null ? transaction
-								.getCheckNumber() : "");
+								.getCheckNumber()
+								: "");
 
 			}
 			cheqNoText.setDisabled(false);
@@ -390,8 +388,6 @@ public class CreditCardChargeView extends
 		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
-		if (locationTrackingEnabled)
-			dateNoForm.setFields(locationCombo);
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 
@@ -405,8 +401,8 @@ public class CreditCardChargeView extends
 		labeldateNoLayout.add(regPanel);
 		labeldateNoLayout.setCellHorizontalAlignment(regPanel, ALIGN_RIGHT);
 
-		vendorNameSelect = new VendorCombo(Global.get().messages()
-				.vendorName(Global.get().Vendor()));
+		vendorNameSelect = new VendorCombo(Global.get().messages().vendorName(
+				Global.get().Vendor()));
 		vendorNameSelect.setHelpInformation(true);
 		vendorNameSelect.setWidth(100);
 		vendorNameSelect.setRequired(true);
@@ -502,6 +498,9 @@ public class CreditCardChargeView extends
 
 		termsForm = UIUtils.form(Accounter.constants().terms());
 		termsForm.setWidth("100%");
+		if (locationTrackingEnabled)
+			termsForm.setFields(locationCombo);
+
 		termsForm.setFields(payMethSelect, payFrmSelect, delivDate);
 
 		if (getPreferences().isClassTrackingEnabled()
@@ -510,8 +509,8 @@ public class CreditCardChargeView extends
 			termsForm.setFields(classListCombo);
 		}
 
-		termsForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "203px");
 
 		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 
@@ -888,8 +887,8 @@ public class CreditCardChargeView extends
 
 			if (AccounterValidator
 					.isInPreventPostingBeforeDate(transactionDate)) {
-				result.addError(transactionDate,
-						accounterConstants.invalidateDate());
+				result.addError(transactionDate, accounterConstants
+						.invalidateDate());
 			}
 
 			result.add(vendorForm.validate());

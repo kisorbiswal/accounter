@@ -147,8 +147,6 @@ public class CustomerRefundView extends
 		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
-		if (locationTrackingEnabled)
-			dateNoForm.setFields(locationCombo);
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setWidth("100%");
 		labeldateNoLayout.add(dateNoForm);
@@ -264,8 +262,8 @@ public class CustomerRefundView extends
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				isChecked = (Boolean) event.getValue();
 				if (isChecked) {
-					if (printCheck.getValue().toString()
-							.equalsIgnoreCase("true")) {
+					if (printCheck.getValue().toString().equalsIgnoreCase(
+							"true")) {
 						checkNoText.setValue(Accounter.constants()
 								.toBePrinted());
 						checkNoText.setDisabled(true);
@@ -335,6 +333,8 @@ public class CustomerRefundView extends
 		custForm.getCellFormatter().setWidth(0, 0, "160px");
 
 		DynamicForm balForm = new DynamicForm();
+		if (locationTrackingEnabled)
+			balForm.setFields(locationCombo);
 		balForm.setFields(endBalText, custBalText);
 		balForm.getCellFormatter().setWidth(0, 0, "205px");
 

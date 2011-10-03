@@ -637,7 +637,8 @@ public class MakeDepositView extends
 					.getCashBackAmount()));
 			cashBackMemoText.setValue(transaction.getCashBackMemo());
 			cashBackAccountSelect.setValue(transaction.getCashBackAccount());
-			totText.setValue(DataUtils.getAmountAsString(transaction.getTotal()));
+			totText.setValue(DataUtils
+					.getAmountAsString(transaction.getTotal()));
 
 			gridView.setRecords(transaction.getTransactionMakeDeposit());
 			initAccounterClass();
@@ -684,8 +685,6 @@ public class MakeDepositView extends
 		dateForm.setNumCols(6);
 		dateForm.setStyleName("datenumber-panel");
 		dateForm.setFields(date, transNumber);
-		if (locationTrackingEnabled)
-			dateForm.setFields(locationCombo);
 
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
@@ -762,7 +761,6 @@ public class MakeDepositView extends
 			classListCombo = createAccounterClassListCombo();
 			depoForm.setFields(classListCombo);
 		}
-		depoForm.setWidth("40%");
 
 		// Label lab1 = new Label(FinanceApplication.constants()
 		// .paymentsReceived());
@@ -775,7 +773,8 @@ public class MakeDepositView extends
 			public void onClick(ClickEvent event) {
 				ClientTransactionMakeDeposit deposit = new ClientTransactionMakeDeposit();
 				deposit.setIsNewEntry(true);
-				deposit.setType(ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT);
+				deposit
+						.setType(ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT);
 				// deposit.set
 				gridView.add(deposit);
 			}
@@ -836,6 +835,11 @@ public class MakeDepositView extends
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");
 		topHLay.add(depoForm);
+
+		DynamicForm dynamicForm = new DynamicForm();
+		if (locationTrackingEnabled)
+			dynamicForm.setFields(locationCombo);
+		topHLay.add(dynamicForm);
 
 		HorizontalPanel panel = new HorizontalPanel();
 		panel.setHorizontalAlignment(ALIGN_LEFT);
@@ -982,8 +986,8 @@ public class MakeDepositView extends
 		// accounterConstants.invalidateTransactionDate());
 		// }
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDateItem,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDateItem, accounterConstants
+					.invalidateDate());
 		}
 
 		// result.add(depoForm.validate());
@@ -1200,7 +1204,8 @@ public class MakeDepositView extends
 		// Setting Cash back account
 		transaction
 				.setCashBackAccount(selectedCashBackAccount != null ? selectedCashBackAccount
-						.getID() : 0);
+						.getID()
+						: 0);
 		if (cashBackMemoText.getValue() != null)
 			transaction.setCashBackMemo(cashBackMemoText.getValue().toString());
 

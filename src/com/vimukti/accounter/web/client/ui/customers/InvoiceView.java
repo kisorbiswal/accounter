@@ -232,8 +232,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
-		if (locationTrackingEnabled)
-			dateNoForm.setFields(locationCombo);
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
@@ -394,6 +392,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			orderNumText.setDisabled(true);
 
 		DynamicForm termsForm = new DynamicForm();
+		if (locationTrackingEnabled)
+			termsForm.setFields(locationCombo);
 		termsForm.setWidth("100%");
 		termsForm.setIsGroup(true);
 		termsForm.setGroupTitle(customerConstants.terms());

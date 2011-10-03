@@ -154,8 +154,6 @@ public class VendorCreditMemoView extends
 		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
-		if (locationTrackingEnabled)
-			dateNoForm.setFields(locationCombo);
 		VerticalPanel datepanel = new VerticalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
@@ -211,8 +209,8 @@ public class VendorCreditMemoView extends
 		};
 
 		vendorAccountTransactionTable.setDisabled(isInViewMode());
-		vendorAccountTransactionTable.getElement().getStyle()
-				.setMarginTop(10, Unit.PX);
+		vendorAccountTransactionTable.getElement().getStyle().setMarginTop(10,
+				Unit.PX);
 
 		accountTableButton = new AddNewButton();
 		accountTableButton.setEnabled(!isInViewMode());
@@ -279,12 +277,16 @@ public class VendorCreditMemoView extends
 			vendorForm.setFields(classListCombo);
 		}
 
-		vendorForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "190px");
+		vendorForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "190px");
 
 		leftVLay.add(vendorForm);
 
 		VerticalPanel rightVLay = new VerticalPanel();
+		DynamicForm locationForm = new DynamicForm();
+		if (locationTrackingEnabled)
+			locationForm.setFields(locationCombo);
+		rightVLay.add(locationForm);
 		rightVLay.setWidth("100%");
 
 		HorizontalPanel topHLay = new HorizontalPanel();
@@ -462,13 +464,13 @@ public class VendorCreditMemoView extends
 		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 		result.add(vendorForm.validate());
 		if (getAllTransactionItems().isEmpty()) {
-			result.addError(vendorAccountTransactionTable,
-					accounterConstants.blankTransaction());
+			result.addError(vendorAccountTransactionTable, accounterConstants
+					.blankTransaction());
 		} else {
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());

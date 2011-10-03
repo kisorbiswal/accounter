@@ -665,8 +665,6 @@ public class WriteChequeView extends
 		numForm.setNumCols(6);
 		numForm.addStyleName("datenumber-panel");
 		numForm.setFields(date, transactionNumber);
-		if (locationTrackingEnabled)
-			numForm.setFields(locationCombo);
 
 		nHPanel = new VerticalPanel();
 		nHPanel.setCellHorizontalAlignment(numForm,
@@ -712,7 +710,8 @@ public class WriteChequeView extends
 		bankAccSelect.setDefaultPayFromAccount();
 
 		bankAccForm = new DynamicForm();
-
+		if (locationTrackingEnabled)
+			bankAccForm.setFields(locationCombo);
 		if (getCompany().getPreferences().isTDSEnabled()) {
 			bankAccForm.setFields(bankAccSelect, balText, vendorTDSTaxCode);
 		} else {
