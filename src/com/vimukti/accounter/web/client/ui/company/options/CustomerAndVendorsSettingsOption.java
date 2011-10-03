@@ -23,13 +23,9 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 	private static CustomerAndVendorsSettingsOptionUiBinder uiBinder = GWT
 			.create(CustomerAndVendorsSettingsOptionUiBinder.class);
 
-	@UiField
 	RadioButton onepeTransactionRadioButton;
-	@UiField
 	Label oneperTransactionLabel;
-	@UiField
 	RadioButton oneperdetaillineRadioButton;
-	@UiField
 	Label oneperdetaillineLabel;
 	@UiField
 	CheckBox enableTaxCheckbox;
@@ -45,6 +41,8 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 	Label trackCheckBoxDescLabel;
 	@UiField
 	VerticalPanel hidePanel;
+	@UiField
+	VerticalPanel radioButtonPanel;
 
 	interface CustomerAndVendorsSettingsOptionUiBinder extends
 			UiBinder<Widget, CustomerAndVendorsSettingsOption> {
@@ -81,14 +79,25 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 	}
 
 	public void createControls() {
+
+		onepeTransactionRadioButton = new RadioButton(constants.taxCode(),
+				constants.onepertransaction());
+		oneperdetaillineRadioButton = new RadioButton(constants.taxCode(),
+				constants.oneperdetailline());
+		oneperdetaillineLabel = new Label();
+		oneperTransactionLabel = new Label();
+
+		radioButtonPanel.add(oneperdetaillineRadioButton);
+		radioButtonPanel.add(oneperdetaillineLabel);
+
+		radioButtonPanel.add(onepeTransactionRadioButton);
+		radioButtonPanel.add(oneperTransactionLabel);
+
 		trackCheckbox.setText(constants.chargeOrTrackTax());
 		trackCheckBoxDescLabel.setText(constants.descChrageTrackTax());
 		trackCheckBoxDescLabel.setStyleName("organisation_comment");
 		taxItemTransactionLabel.setText(constants.taxtItemTransaction());
-		onepeTransactionRadioButton.setText(constants.onepertransaction());
 		oneperTransactionLabel.setText(constants.oneperDescription());
-		oneperTransactionLabel.setStyleName("organisation_comment");
-		oneperdetaillineRadioButton.setText(constants.oneperdetailline());
 		oneperdetaillineLabel.setText(constants.oneperDetailDescription());
 		oneperTransactionLabel.setStyleName("organisation_comment");
 		oneperdetaillineLabel.setStyleName("organisation_comment");

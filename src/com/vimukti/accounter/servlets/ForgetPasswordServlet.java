@@ -10,7 +10,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
-import com.vimukti.accounter.core.Server;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class ForgetPasswordServlet extends BaseServlet {

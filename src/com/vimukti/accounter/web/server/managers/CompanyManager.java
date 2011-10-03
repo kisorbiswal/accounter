@@ -14,7 +14,6 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
 import com.gdevelop.gwt.syncrpc.SyncProxy;
-import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.ClientConvertUtil;

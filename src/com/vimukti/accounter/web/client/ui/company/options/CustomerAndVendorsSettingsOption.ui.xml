@@ -17,11 +17,8 @@
 				<g:Label ui:field="trackLabel" />
 				<g:Label ui:field="taxItemTransactionLabel" />
 				<g:VerticalPanel spacing="5">
-					<g:VerticalPanel spacing="5">
-						<g:RadioButton name="new name" ui:field="onepeTransactionRadioButton" />
-						<g:Label ui:field="oneperTransactionLabel" />
-						<g:RadioButton name="new name" ui:field="oneperdetaillineRadioButton" />
-						<g:Label ui:field="oneperdetaillineLabel" />
+					<g:VerticalPanel spacing="5" ui:field="radioButtonPanel">
+						
 					</g:VerticalPanel>
 					<g:CheckBox ui:field="enableTaxCheckbox" />
 					<g:Label ui:field="enableTaxLabel" styleName="header" />

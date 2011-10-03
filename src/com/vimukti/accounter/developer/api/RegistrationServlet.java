@@ -11,7 +11,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
-import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Developer;
 import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HibernateUtil;

@@ -12,7 +12,6 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
-import com.vimukti.accounter.core.Server;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.main.ServerGlobal;

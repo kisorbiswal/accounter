@@ -21,9 +21,7 @@ import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.services.DAOException;
-import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.server.FinanceTool;
 
 public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 

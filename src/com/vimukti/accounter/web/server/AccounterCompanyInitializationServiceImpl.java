@@ -13,7 +13,6 @@ import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.services.IS2SService;
-import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.IAccounterCompanyInitializationService;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;

@@ -35,37 +35,15 @@ public class OrganisationTypeOption extends AbstractPreferenceOption {
 	VerticalPanel radioButtonsMainPanel;
 	@UiField
 	VerticalPanel viewPanel;
-	@UiField
-	Label organizeText;
-	@UiField
+
 	RadioButton propriterShip;
-	@UiField
-	Label uninCorporated;
-	@UiField
 	RadioButton partnership;
-	@UiField
-	Label morePartners;
-	@UiField
 	RadioButton lLC;
-	@UiField
-	Label lLCText;
-	@UiField
 	ListBox lLCCombo;
-	@UiField
 	RadioButton corporation;
-	@UiField
-	Label corporationText;
-	@UiField
 	RadioButton sCorporation;
-	@UiField
-	Label sCorporationText;
-	@UiField
 	RadioButton nonProfit;
-	@UiField
-	Label nonProfitText;
-	@UiField
 	RadioButton other;
-	@UiField
 	HTML organizationLink;
 
 	interface TaxFormOptionUiBinder extends
@@ -88,26 +66,29 @@ public class OrganisationTypeOption extends AbstractPreferenceOption {
 	}
 
 	public void createControls() {
+
 		radioButtonHeaderLabel.setText(constants.howIsYourCompanyOrganized());
+		propriterShip = new RadioButton(constants.organisation(), constants
+				.soleProprietorship());
+		partnership = new RadioButton(constants.organisation(), constants
+				.partnershipOrLLP());
+		lLC = new RadioButton(constants.organisation(), constants.LLC());
+		corporation = new RadioButton(constants.organisation(), constants
+				.corporation());
+		sCorporation = new RadioButton(constants.organisation(), constants
+				.sCorporation());
+		nonProfit = new RadioButton(constants.organisation(), constants
+				.nonProfit());
+		other = new RadioButton(constants.organisation(), constants.otherNone());
 
-		organizeText.setText(Accounter.messages()
+		Label organizeText = new Label(Accounter.messages()
 				.howIsYourCompanyOrganizedDesc(Global.get().account()));
-		propriterShip.setText(constants.soleProprietorship());
-		partnership.setText(constants.partnershipOrLLP());
-		lLC.setText(constants.LLC());
-		corporation.setText(constants.corporation());
-		sCorporation.setText(constants.sCorporation());
-		nonProfit.setText(constants.nonProfit());
-		other.setText(constants.otherNone());
-
-		organizeText.setText(Accounter.messages()
-				.howIsYourCompanyOrganizedDesc(Global.get().account()));
-		uninCorporated.setText(constants.soleProprietorshipDesc());
-		morePartners.setText(constants.partnershipOrLLPDesc());
-		lLCText.setText(constants.LLCDesc());
-		corporationText.setText(constants.sCorporationDesc());
-		sCorporationText.setText(constants.corporationDesc());
-		nonProfitText.setText(constants.nonProfitDesc());
+		Label uninCorporated = new Label(constants.soleProprietorshipDesc());
+		Label morePartners = new Label(constants.partnershipOrLLPDesc());
+		Label lLCText = new Label(constants.LLCDesc());
+		Label corporationText = new Label(constants.sCorporationDesc());
+		Label sCorporationText = new Label(constants.corporationDesc());
+		Label nonProfitText = new Label(constants.nonProfitDesc());
 
 		organizeText.addStyleName("organisation_comment");
 		uninCorporated.addStyleName("organisation_comment");
@@ -117,6 +98,20 @@ public class OrganisationTypeOption extends AbstractPreferenceOption {
 		sCorporationText.addStyleName("organisation_comment");
 		nonProfitText.addStyleName("organisation_comment");
 
+		viewPanel.add(organizeText);
+		viewPanel.add(propriterShip);
+		viewPanel.add(uninCorporated);
+		viewPanel.add(partnership);
+		viewPanel.add(morePartners);
+		viewPanel.add(lLC);
+		viewPanel.add(lLCText);
+		viewPanel.add(corporation);
+		viewPanel.add(corporationText);
+		viewPanel.add(sCorporation);
+		viewPanel.add(sCorporationText);
+		viewPanel.add(nonProfit);
+		viewPanel.add(nonProfitText);
+		viewPanel.add(other);
 		// HTML organizationLink;
 
 		propriterShip.addClickHandler(new ClickHandler() {
@@ -133,7 +128,7 @@ public class OrganisationTypeOption extends AbstractPreferenceOption {
 				lLCCombo.setEnabled(false);
 			}
 		});
-
+		lLCCombo = new ListBox();
 		lLCCombo.addStyleName("organisation_combo");
 
 		lLCCombo.addItem(constants.llcSingleMemberForm());
@@ -214,26 +209,26 @@ public class OrganisationTypeOption extends AbstractPreferenceOption {
 	@Override
 	public void onSave() {
 		if (propriterShip.getValue()) {
-			getCompanyPreferences()
-					.setOrganizationType(OrganizationTypeConstants.SOLE_PROPRIETORSHIP);
+			getCompanyPreferences().setOrganizationType(
+					OrganizationTypeConstants.SOLE_PROPRIETORSHIP);
 		} else if (partnership.getValue()) {
-			getCompanyPreferences()
-					.setOrganizationType(OrganizationTypeConstants.CORPORATION);
+			getCompanyPreferences().setOrganizationType(
+					OrganizationTypeConstants.CORPORATION);
 		} else if (sCorporation.getValue()) {
-			getCompanyPreferences()
-					.setOrganizationType(OrganizationTypeConstants.S_CORPORATION);
+			getCompanyPreferences().setOrganizationType(
+					OrganizationTypeConstants.S_CORPORATION);
 		} else if (lLC.getValue()) {
-			getCompanyPreferences()
-					.setOrganizationType(OrganizationTypeConstants.LLC);
+			getCompanyPreferences().setOrganizationType(
+					OrganizationTypeConstants.LLC);
 		} else if (partnership.getValue()) {
-			getCompanyPreferences()
-					.setOrganizationType(OrganizationTypeConstants.PARTNERSHIP);
+			getCompanyPreferences().setOrganizationType(
+					OrganizationTypeConstants.PARTNERSHIP);
 		} else if (nonProfit.getValue()) {
-			getCompanyPreferences()
-					.setOrganizationType(OrganizationTypeConstants.NON_PROFIT);
+			getCompanyPreferences().setOrganizationType(
+					OrganizationTypeConstants.NON_PROFIT);
 		} else {
-			getCompanyPreferences()
-					.setOrganizationType(OrganizationTypeConstants.OTHER);
+			getCompanyPreferences().setOrganizationType(
+					OrganizationTypeConstants.OTHER);
 		}
 	}
 

@@ -14,7 +14,6 @@ import javax.servlet.http.HttpSession;
 import net.zschech.gwt.comet.server.CometServlet;
 import net.zschech.gwt.comet.server.CometSession;
 
-import org.apache.catalina.HttpRequest;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -23,7 +22,6 @@ import com.gdevelop.gwt.syncrpc.SyncProxy;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.Server;
 import com.vimukti.accounter.core.ServerCompany;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.change.ChangeTracker;

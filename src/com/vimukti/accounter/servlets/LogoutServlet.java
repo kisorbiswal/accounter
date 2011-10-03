@@ -13,7 +13,6 @@ import org.hibernate.Transaction;
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.Server;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
