@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.TransactionDetailByAcco
 public class TransactionDetailByAccountReport extends
 		AbstractReportView<TransactionDetailByAccount> {
 	private String currentsectionName = "";
+	private int reportType = 115;
 
 	public TransactionDetailByAccountReport() {
 		this.serverReport = new TransactionDetailByAccountServerReport(this);
@@ -66,8 +67,8 @@ public class TransactionDetailByAccountReport extends
 				.getAccountName() : "";
 		UIUtils.generateReportPDF(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 115, "",
-				"", accountName);
+				Integer.parseInt(String.valueOf(endDate.getDate())),
+				getReportType(), "", "", accountName);
 
 	}
 
@@ -125,8 +126,16 @@ public class TransactionDetailByAccountReport extends
 	public void exportToCsv() {
 		UIUtils.exportReport(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 115, "",
-				"");
+				Integer.parseInt(String.valueOf(endDate.getDate())),
+				getReportType(), "", "");
+	}
+
+	public int getReportType() {
+		return reportType;
+	}
+
+	public void setReportType(int reportType) {
+		this.reportType = reportType;
 	}
 
 	// private void printDataForIEBrowser() {
