@@ -429,11 +429,11 @@ public class ItemReceiptView extends
 			paymentTermsSelected(this.paymentTerm);
 
 			if (getPreferences().isTrackPaidTax()) {
-				netAmount.setAmount(transaction.getNetAmount());
-				vatTotalNonEditableText.setAmount(transaction.getTotal()
-						- transaction.getNetAmount());
+				netAmount.setAmount(getAmountInTransactionCurrency(transaction.getNetAmount()));
+				vatTotalNonEditableText.setAmount(getAmountInTransactionCurrency(transaction.getTotal()
+						- transaction.getNetAmount()));
 			}
-			transactionTotalNonEditableText.setAmount(transaction.getTotal());
+			transactionTotalNonEditableText.setAmount(getAmountInTransactionCurrency(transaction.getTotal()));
 
 			if (vatinclusiveCheck != null) {
 				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
@@ -458,10 +458,10 @@ public class ItemReceiptView extends
 		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal();
 
-		transactionTotalNonEditableText.setAmount(grandTotal);
-		netAmount.setAmount(lineTotal);
+		transactionTotalNonEditableText.setAmount(getAmountInTransactionCurrency(grandTotal));
+		netAmount.setAmount(getAmountInTransactionCurrency(lineTotal));
 		if (getPreferences().isTrackPaidTax()) {
-			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
+			vatTotalNonEditableText.setAmount(getAmountInTransactionCurrency(grandTotal - lineTotal));
 		}
 	}
 

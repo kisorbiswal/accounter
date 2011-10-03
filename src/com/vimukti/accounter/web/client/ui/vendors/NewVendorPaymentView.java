@@ -74,9 +74,9 @@ public class NewVendorPaymentView extends
 		this.paymentMethod = UIUtils
 				.getpaymentMethodCheckBy_CompanyType(Accounter.constants()
 						.check());
-		amountText.setAmount(0D);
-		endBalText.setAmount(0D);
-		vendorBalText.setAmount(0D);
+		amountText.setAmount(getAmountInTransactionCurrency(0D));
+		endBalText.setAmount(getAmountInTransactionCurrency(0D));
+		vendorBalText.setAmount(getAmountInTransactionCurrency(0D));
 		memoTextAreaItem.setValue("");
 		// refText.setValue("");
 
@@ -90,7 +90,7 @@ public class NewVendorPaymentView extends
 		} else {
 			ClientCompany comapny = getCompany();
 
-			amountText.setAmount((Double) transaction.getUnusedAmount());
+			amountText.setAmount(getAmountInTransactionCurrency((Double) transaction.getUnusedAmount()));
 			ClientVendor vendor = comapny.getVendor(transaction.getVendor());
 			vendorSelected(vendor);
 			billToaddressSelected(transaction.getAddress());
@@ -109,8 +109,8 @@ public class NewVendorPaymentView extends
 				paymentMethodCombo.setDisabled(true);
 			}
 
-			endBalText.setAmount(transaction.getEndingBalance());
-			vendorBalText.setAmount(vendor.getBalance());
+			endBalText.setAmount(getAmountInTransactionCurrency(transaction.getEndingBalance()));
+			vendorBalText.setAmount(getAmountInTransactionCurrency(vendor.getBalance()));
 
 			if (transaction.getCheckNumber() != null) {
 				if (transaction.getCheckNumber().equals(
@@ -283,8 +283,8 @@ public class NewVendorPaymentView extends
 		// memo and Reference
 
 		endBalText
-				.setAmount(payFromCombo.getSelectedValue() != null ? payFromCombo
-						.getSelectedValue().getCurrentBalance() : 0.00);
+				.setAmount(getAmountInTransactionCurrency(payFromCombo.getSelectedValue() != null ? payFromCombo
+						.getSelectedValue().getCurrentBalance() : 0.00));
 
 		payForm.setCellSpacing(5);
 		payForm.setWidth("100%");
@@ -479,12 +479,12 @@ public class NewVendorPaymentView extends
 
 		if (DecimalUtil.isLessThan(enteredBalance, 0)
 				|| DecimalUtil.isGreaterThan(enteredBalance, 1000000000000.00)) {
-			amountText.setAmount(0D);
+			amountText.setAmount(getAmountInTransactionCurrency(0D));
 			enteredBalance = 0D;
 		}
 		if (getVendor() != null) {
 			toBeSetVendorBalance = getVendor().getBalance() - enteredBalance;
-			vendorBalText.setAmount(toBeSetVendorBalance);
+			vendorBalText.setAmount(getAmountInTransactionCurrency(toBeSetVendorBalance));
 
 		}
 		if (payFromAccount != null) {
@@ -495,7 +495,7 @@ public class NewVendorPaymentView extends
 				toBeSetEndingBalance = payFromAccount.getTotalBalance()
 						- enteredBalance;
 			}
-			endBalText.setAmount(toBeSetEndingBalance);
+			endBalText.setAmount(getAmountInTransactionCurrency(toBeSetEndingBalance));
 
 		}
 	}
@@ -609,8 +609,8 @@ public class NewVendorPaymentView extends
 					}
 
 					amountText
-							.setAmount(DataUtils.isValidAmount(amount + "") ? amount
-									: 0.0);
+							.setAmount(getAmountInTransactionCurrency(DataUtils.isValidAmount(amount + "") ? amount
+									: 0.0));
 
 					adjustBalance();
 
@@ -618,7 +618,7 @@ public class NewVendorPaymentView extends
 					if (e instanceof InvalidEntryException) {
 						Accounter.showError(e.getMessage());
 					}
-					amountText.setAmount(0.0);
+					amountText.setAmount(getAmountInTransactionCurrency(0.0));
 				}
 
 			}

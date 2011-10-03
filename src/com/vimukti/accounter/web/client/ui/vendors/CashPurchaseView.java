@@ -474,9 +474,9 @@ public class CashPurchaseView extends
 			checkNo.setDisabled(true);
 			if (getPreferences().isTrackPaidTax()) {
 				if (getPreferences().isTaxPerDetailLine()) {
-					netAmount.setAmount(transaction.getNetAmount());
-					vatTotalNonEditableText.setAmount(transaction.getTotal()
-							- transaction.getNetAmount());
+					netAmount.setAmount(getAmountInTransactionCurrency(transaction.getNetAmount()));
+					vatTotalNonEditableText.setAmount(getAmountInTransactionCurrency(transaction.getTotal()
+							- transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -503,7 +503,7 @@ public class CashPurchaseView extends
 			// }
 			// }
 			//
-			transactionTotalNonEditableText.setAmount(transaction.getTotal());
+			transactionTotalNonEditableText.setAmount(getAmountInTransactionCurrency(transaction.getTotal()));
 
 			if (vatinclusiveCheck != null) {
 				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
@@ -673,11 +673,11 @@ public class CashPurchaseView extends
 		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal();
 
-		netAmount.setAmount(lineTotal);
+		netAmount.setAmount(getAmountInTransactionCurrency(lineTotal));
 		if (getCompany().getPreferences().isTrackPaidTax()) {
-			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
+			vatTotalNonEditableText.setAmount(getAmountInTransactionCurrency(grandTotal - lineTotal));
 		}
-		transactionTotalNonEditableText.setAmount(grandTotal);
+		transactionTotalNonEditableText.setAmount(getAmountInTransactionCurrency(grandTotal));
 	}
 
 	@Override

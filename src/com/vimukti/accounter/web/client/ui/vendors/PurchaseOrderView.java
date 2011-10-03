@@ -934,11 +934,11 @@ public class PurchaseOrderView extends
 		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal();
 
-		transactionTotalNonEditableText.setAmount(grandTotal);
-		netAmount.setAmount(lineTotal);
+		transactionTotalNonEditableText.setAmount(getAmountInTransactionCurrency(grandTotal));
+		netAmount.setAmount(getAmountInTransactionCurrency(lineTotal));
 		// vatTotalNonEditableText.setValue(vendorTransactionGrid.getVatTotal());
 		if (getPreferences().isTrackPaidTax()) {
-			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
+			vatTotalNonEditableText.setAmount(getAmountInTransactionCurrency(grandTotal - lineTotal));
 		}
 
 	}

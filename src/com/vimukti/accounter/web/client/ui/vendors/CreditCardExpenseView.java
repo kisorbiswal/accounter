@@ -701,9 +701,9 @@ public class CreditCardExpenseView extends
 			phoneSelect.setValue(transaction.getPhone());
 			if (getPreferences().isTrackPaidTax()) {
 				if (getPreferences().isTaxPerDetailLine()) {
-					netAmount.setAmount(transaction.getNetAmount());
-					vatTotalNonEditableText.setAmount(transaction.getTotal()
-							- transaction.getNetAmount());
+					netAmount.setAmount(getAmountInTransactionCurrency(transaction.getNetAmount()));
+					vatTotalNonEditableText.setAmount(getAmountInTransactionCurrency(transaction.getTotal()
+							- transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -712,7 +712,7 @@ public class CreditCardExpenseView extends
 					}
 				}
 			}
-			transactionTotalNonEditableText.setAmount(transaction.getTotal());
+			transactionTotalNonEditableText.setAmount(getAmountInTransactionCurrency(transaction.getTotal()));
 
 			if (vatinclusiveCheck != null) {
 				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
@@ -1063,11 +1063,11 @@ public class CreditCardExpenseView extends
 				+ vendorItemTransactionTable.getGrandTotal();
 
 		if (getPreferences().isTrackPaidTax()) {
-			transactionTotalNonEditableText.setAmount(grandTotal);
-			netAmount.setAmount(lineTotal);
-			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
+			transactionTotalNonEditableText.setAmount(getAmountInTransactionCurrency(grandTotal));
+			netAmount.setAmount(getAmountInTransactionCurrency(lineTotal));
+			vatTotalNonEditableText.setAmount(getAmountInTransactionCurrency(grandTotal - lineTotal));
 		} else {
-			transactionTotalNonEditableText.setAmount(grandTotal);
+			transactionTotalNonEditableText.setAmount(getAmountInTransactionCurrency(grandTotal));
 		}
 
 	}

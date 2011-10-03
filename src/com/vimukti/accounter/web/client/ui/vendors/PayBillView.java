@@ -96,10 +96,10 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	 * the non-editable fields
 	 */
 	public void resetTotlas() {
-		amountLabel.setAmount(0.0);
+		amountLabel.setAmount(getAmountInTransactionCurrency(0.0));
 		endBalText
-				.setAmount(payFromCombo.getSelectedValue() != null ? payFromCombo
-						.getSelectedValue().getTotalBalance() : 0.0);
+				.setAmount(getAmountInTransactionCurrency(payFromCombo.getSelectedValue() != null ? payFromCombo
+						.getSelectedValue().getTotalBalance() : 0.0));
 	}
 
 	/*
@@ -114,7 +114,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			toBeSetAmount += rec.getPayment();
 		}
 		if (this.transaction != null) {
-			amountLabel.setAmount(toBeSetAmount);
+			amountLabel.setAmount(getAmountInTransactionCurrency(toBeSetAmount));
 
 			if (payFromAccount != null) {
 				double toBeSetEndingBalance = 0.0;
@@ -130,7 +130,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 							- DataUtils.getBalance(
 									amountLabel.getAmount().toString())
 									.doubleValue();
-				endBalText.setAmount(toBeSetEndingBalance);
+				endBalText.setAmount(getAmountInTransactionCurrency(toBeSetEndingBalance));
 			}
 		}
 
@@ -676,7 +676,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	}
 
 	private void setUnUsedCredits(Double unusedCredits) {
-		unUsedCreditsText.setAmount(unusedCredits);
+		unUsedCreditsText.setAmount(getAmountInTransactionCurrency(unusedCredits));
 	}
 
 	public void calculateUnusedCredits() {
@@ -687,7 +687,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			totalCredits += credit.getBalance();
 		}
 
-		this.unUsedCreditsText.setAmount(totalCredits);
+		this.unUsedCreditsText.setAmount(getAmountInTransactionCurrency(totalCredits));
 
 	}
 
@@ -791,8 +791,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			this.setVendor(getCompany().getVendor(transaction.getVendor()));
 			vendorSelected(getCompany().getVendor(transaction.getVendor()));
 
-			amountLabel.setAmount(transaction.getNetAmount());
-			endBalText.setAmount(transaction.getEndingBalance());
+			amountLabel.setAmount(getAmountInTransactionCurrency(transaction.getNetAmount()));
+			endBalText.setAmount(getAmountInTransactionCurrency(transaction.getEndingBalance()));
 			initListGridData(this.transaction.getTransactionPayBill());
 			initTransactionTotalNonEditableItem();
 			memoTextAreaItem.setDisabled(true);
