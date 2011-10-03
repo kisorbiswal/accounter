@@ -47,7 +47,7 @@ public class VendorBillListDialog extends BaseDialog {
 		setText(Accounter.constants().purchaseOrderList());
 		initRPCService();
 		createControls();
-		setWidth("600px");
+		setWidth("700px");
 		setQuoteList(list);
 		show();
 		center();
@@ -67,34 +67,35 @@ public class VendorBillListDialog extends BaseDialog {
 				.no(), Accounter.constants().type(), messages.vendorName(Global
 				.get().Vendor()), Accounter.constants().total(), Accounter
 				.constants().remainingTotal());
-		grid.setCellsWidth(60, 20, 90, -1, 60, 95);
+		grid.setCellsWidth(new Integer[] { 70, 50, 90, -1, 90, 95 });
 		grid.setView(this);
 		grid.init();
 
-		grid.addRecordDoubleClickHandler(new RecordDoubleClickHandler<PurchaseOrdersAndItemReceiptsList>() {
+		grid
+				.addRecordDoubleClickHandler(new RecordDoubleClickHandler<PurchaseOrdersAndItemReceiptsList>() {
 
-			@Override
-			public void OnCellDoubleClick(
-					PurchaseOrdersAndItemReceiptsList core, int column) {
+					@Override
+					public void OnCellDoubleClick(
+							PurchaseOrdersAndItemReceiptsList core, int column) {
 
-				setRecord(core);
-				// try {
-				// ClientEstimate record = (ClientEstimate) core;
-				//
-				// String estimateId = record.getID();
-				// selectedEstimate = getEstimate(estimateId);
-				//
-				// if (invoiceView != null && selectedEstimate != null)
-				// invoiceView.selectedQuote(selectedEstimate);
-				//
-				// removeFromParent();
-				//
-				// } catch (Exception e) {
-				// Accounter.showError("Error Loading Quote...");
-				// }
+						setRecord(core);
+						// try {
+						// ClientEstimate record = (ClientEstimate) core;
+						//
+						// String estimateId = record.getID();
+						// selectedEstimate = getEstimate(estimateId);
+						//
+						// if (invoiceView != null && selectedEstimate != null)
+						// invoiceView.selectedQuote(selectedEstimate);
+						//
+						// removeFromParent();
+						//
+						// } catch (Exception e) {
+						// Accounter.showError("Error Loading Quote...");
+						// }
 
-			}
-		});
+					}
+				});
 
 		// getGridData();
 		// setQuoteList(estimates);
@@ -198,8 +199,8 @@ public class VendorBillListDialog extends BaseDialog {
 			}
 
 		};
-		rpcGetService.getObjectById(AccounterCoreType.ITEMRECEIPT,
-				record.getTransactionId(), callback);
+		rpcGetService.getObjectById(AccounterCoreType.ITEMRECEIPT, record
+				.getTransactionId(), callback);
 
 	}
 
@@ -220,8 +221,8 @@ public class VendorBillListDialog extends BaseDialog {
 			}
 
 		};
-		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER,
-				record.getTransactionId(), callback);
+		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER, record
+				.getTransactionId(), callback);
 
 	}
 
