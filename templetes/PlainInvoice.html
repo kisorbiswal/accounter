@@ -34,58 +34,56 @@
 				  </td>
 				  <td width="40%">
 				     <table width="100%" class="invoice_details_quicktable" border="1"  style="font-family:${fontStyle};font-size:${font};">
-					    <colgroup><col></colgroup>
+					   <colgroup><col></colgroup>
 						<!-- $BeginBlock invNumberHead -->
-						<tr class="table-head">
-						   <td id ="invoiceNumber"> Invoice Number</td>
-						  <td  width="50%">
-							 Invoice Date
+						<tr>
+						   <td class="table-head" id ="invoiceNumber"> Invoice Number</td>
+						   <td align="right" width="40%">
+							 ${invoiceNumber}
 						   </td>
 						</tr>
 						<!-- $EndBlock invNumberHead -->
                         <!-- $BeginBlock invDateHead -->
 						<tr>
-						  <td id = "invoiceDate">${invoiceNumber}</td>
-						  <td>
+						  <td class="table-head" id = "invoiceDate">Invoice Date</td>
+						  <td align="right">
 							 ${invoiceDate}
 						  </td>
 						</tr>
 						<!-- $EndBlock invDateHead -->
 						<!-- $BeginBlock invOrderNumHead -->
-						<tr class="table-head">
-						  <td id = "orderNumber"> Order Number</td>
-						  <td>
-							Customer Number
+						<tr>
+						  <td class="table-head" id = "orderNumber"> Order Number</td>
+						  <td align="right">
+							${invoiceOrderNumber}
 						  </td>
 						</tr>
 						<!-- $EndBlock invOrderNumHead -->
                         <!-- $BeginBlock invCustNumHead -->
 						<tr>
-						  <td id = "customerNumber">${invoiceOrderNumber}</td>
-						  <td>
+						  <td class="table-head" id = "customerNumber">Customer Number</td>
+						  <td align="right">
 							 ${invoiceCustomerNumber}
 						  </td>
 						 </tr>
 						 <!-- $EndBlock invCustNumHead -->
-						   
-						<tr class="table-head">
-						  <td id = "customerNumber">Primary Currency</td>
-						  <td id = "customerNumber">Payment Terms</td>
-						 </tr>
-						   <!-- $BeginBlock currency -->
-						   <!-- $BeginBlock paymentTermsBlock -->
+						  <!-- $BeginBlock paymentTermsBlock -->
 						<tr>
-						  <td> ${currency} </td>
-						  <td>
-							 ${paymentTerms}
-						  </td>
+						  <td class="table-head" id = "customerNumber">Payment Terms</td>
+						  <td align="right"> ${paymentTerms} </td>
 						 </tr>
 						 <!-- $EndBlock paymentTermsBlock -->
+						   <!-- $BeginBlock currency -->
+						<tr>
+						  <td class="table-head" id = "customerNumber">Primary Currency</td>
+						  <td align="right"> ${currency} </td>
+						 </tr>
 						 <!-- $EndBlock currency -->
 						 <!-- $BeginBlock dueDateDetails -->
-						 <tr class="table-head"><td id="duedate" colspan="2"><strong>Due Date:</strong></td></tr>
-                         <tr><td colspan="2">${dueDate}</td></tr>
-						 <!-- $EndBlock dueDateDetails -->
+						 <tr>
+                            <td class="table-head" id="duedate"><strong>Due Date</strong></td>
+	                        <td align="right">${dueDate}</td>
+						 </tr><!-- $EndBlock dueDateDetails -->
 					 </table> 
 				  </td>
 				</tr>
@@ -130,6 +128,7 @@
 		</td>
 		 </tr>
  </table>
+   <!-- $BeginBlock salesNShipping -->
   <table width="100%" border="1" id="permethterms" style="font-family:${fontStyle};font-size:${font};">
 		 <tr>
 		 <table>
@@ -166,6 +165,7 @@
 		 </table>
 		 </tr>
  </table>
+   <!-- $EndBlock salesNShipping -->
 <table border="1" width="100%"  class="removeHeadBorder quick_invoice_header margin" id="items" style="clear:both;font-family:${fontStyle};font-size:${font};clear:both">
 <!-- $BeginBlock  itemDetails -->
 <thead>
@@ -264,6 +264,7 @@
   </tr>
 <!-- $EndBlock itemDetails -->
 </table>
+<!-- $BeginBlock termsNpaypalId -->
 <table border="1" width="100%" class="due_date" style="clear:both;font-family:${fontStyle};font-size:${font};">
 	<!-- $BeginBlock termsAndAdvice -->
 	 <tr>
@@ -276,6 +277,7 @@
     </tr>
     <!-- $EndBlock paypalemail -->
 </table>
+<!-- $EndBlock termsNpaypalId -->
 <table width="100%" id="vat_sort_bankaccount" border="1" style="font-family:${fontStyle};font-size:${font};">
    <colgroup><col></colgroup>
 			<tr>
