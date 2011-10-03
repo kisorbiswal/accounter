@@ -205,7 +205,7 @@ textarea[disabled],.dropdown-disabled input[disabled],.dropdown-disabled input[d
 	width: 5px !important;
 }
 .main-class-pannel,.change_password_view,.error-panel,#loading .loadingIndicator,.skip_setup,.start_setup,
-.back_next_buttons,.Empty-text,.setting-class-panel,.view_panel{
+.back_next_buttons,.Empty-text,.setting-class-panel,.view_panel,.invoice_print_dialog{
 	padding: 10px;
 }
 .setting-class-panel,.change_password_view,.editTable .editheader td,.editTable td,
@@ -589,7 +589,6 @@ tr.net-profit td {
 }
 .main-w-finance {
     border:1px solid #7A7A7A;
-    width:99.8% !important;
 }
 .falseHyperlink {
 	color: blue;
