@@ -1317,6 +1317,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				typeSelect.setComboItem(type);
 				bankAccNumText.setValue(((ClientBankAccount) data)
 						.getBankAccountNumber());
+				bankAccNumText.setDisabled(true);
 			}
 
 		} else if (accountType == ClientAccount.TYPE_CREDIT_CARD) {
