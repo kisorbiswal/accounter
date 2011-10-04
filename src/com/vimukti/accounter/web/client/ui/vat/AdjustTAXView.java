@@ -77,8 +77,6 @@ public class AdjustTAXView extends
 	@Override
 	public void init() {
 		super.init();
-		// vatAdjustment = (ClientVATAdjustment) this.data;
-		createControls();
 		setSize("100%", "100%");
 		initEntryNumber();
 	}
@@ -461,7 +459,6 @@ public class AdjustTAXView extends
 		if (data == null) {
 			setData(new ClientTAXAdjustment());
 		}
-		super.initData();
 	}
 
 	@Override
