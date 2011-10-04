@@ -12,6 +12,7 @@ public class AmountLabel extends LabelItem {
 
 		setName(name);
 		setTitle(name);
+		setWidth("180px");
 
 		// Set Default Values
 		setAmount(0.00D);
