@@ -172,7 +172,9 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		if (taxAgenciesByName != null
 				&& taxAgenciesByName.getID() != this.getData().getID()) {
-			result.addError(taxAgencyText, Accounter.constants().alreadyExist());
+			result
+					.addError(taxAgencyText, Accounter.constants()
+							.alreadyExist());
 		}
 
 		List<DynamicForm> forms = this.getForms();
@@ -181,7 +183,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 				result.add(form.validate());
 			}
 		}
-
+		gridView.validate(result);
 		return result;
 	}
 
@@ -236,7 +238,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		Set<ClientContact> allContacts = new HashSet<ClientContact>();
 
-		// FIXME--The records from contactgrid are added here
+		// FIXME--The records from contact grid are added here
+
 		for (ClientContact record : gridView.getRecords()) {
 			ClientContact contact = new ClientContact();
 			if (record.isPrimary())
@@ -247,11 +250,11 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			contact.setTitle(record.getTitle());
 			contact.setBusinessPhone(record.getBusinessPhone());
 			contact.setEmail(record.getEmail());
-			if (contact.getName().isEmpty() || contact.getTitle().isEmpty()
-					|| contact.getBusinessPhone().isEmpty()
-					|| contact.getEmail().isEmpty()) {
-				continue;
-			}
+			// if (contact.getName().isEmpty() || contact.getTitle().isEmpty()
+			// || contact.getBusinessPhone().isEmpty()
+			// || contact.getEmail().isEmpty()) {
+			// continue;
+			// }
 			allContacts.add(contact);
 		}
 		data.setContacts(allContacts);
@@ -302,8 +305,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		statusCheck.setValue(true);
 		statusCheck.setDisabled(isInViewMode());
 
-		paymentTermsCombo = new PaymentTermsCombo(
-				companyConstants.paymentTerm());
+		paymentTermsCombo = new PaymentTermsCombo(companyConstants
+				.paymentTerm());
 		paymentTermsCombo.setHelpInformation(true);
 		paymentTermsCombo.setDisabled(isInViewMode());
 		paymentTermsCombo
