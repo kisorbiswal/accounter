@@ -778,6 +778,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		addrsForm.setDisabled(isInViewMode());
 		phoneFaxForm.setDisabled(isInViewMode());
 		emailForm.setDisabled(isInViewMode());
+		gridView.setDisabled(isInViewMode());
 		super.onEdit();
 
 	}
