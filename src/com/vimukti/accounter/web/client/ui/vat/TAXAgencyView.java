@@ -172,9 +172,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		if (taxAgenciesByName != null
 				&& taxAgenciesByName.getID() != this.getData().getID()) {
-			result
-					.addError(taxAgencyText, Accounter.constants()
-							.alreadyExist());
+			result.addError(taxAgencyText, Accounter.constants().alreadyExist());
 		}
 
 		List<DynamicForm> forms = this.getForms();
@@ -305,8 +303,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		statusCheck.setValue(true);
 		statusCheck.setDisabled(isInViewMode());
 
-		paymentTermsCombo = new PaymentTermsCombo(companyConstants
-				.paymentTerm());
+		paymentTermsCombo = new PaymentTermsCombo(
+				companyConstants.paymentTerm());
 		paymentTermsCombo.setHelpInformation(true);
 		paymentTermsCombo.setDisabled(isInViewMode());
 		paymentTermsCombo
@@ -503,8 +501,19 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			}
 
 			// gridView.
-			gridView.setAllRows(Arrays.asList(records));
-			// if (temp != null)
+			// gridView.setAllRows(Arrays.asList(records));
+			int row = 0;
+			for (ClientContact clientContact : records) {
+				if (clientContact.isPrimary()) {
+					gridView.add(clientContact);
+					gridView.checkColumn(row, 0, true);
+				} else {
+					gridView.add(clientContact);
+				}
+				row++;
+			}
+
+			// // if (temp != null)
 			// gridView.selectRecord(temp);
 			// Setting Memo
 			memoArea.setValue(data.getMemo() != null ? data.getMemo() : "");
