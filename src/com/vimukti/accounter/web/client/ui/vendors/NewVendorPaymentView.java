@@ -672,6 +672,12 @@ public class NewVendorPaymentView extends
 			checkNo.setValue(Accounter.constants().toBePrinted());
 			checkNo.setDisabled(true);
 		}
+		if (paymentMethodCombo.getSelectedValue().equalsIgnoreCase(
+				accounterConstants.cheque())
+				&& printCheck.getValue().toString().equalsIgnoreCase("true")) {
+			checkNo.setValue(Accounter.constants().toBePrinted());
+			checkNo.setDisabled(false);
+		}
 		memoTextAreaItem.setDisabled(false);
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
