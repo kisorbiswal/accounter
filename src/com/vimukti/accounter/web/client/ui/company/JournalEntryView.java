@@ -102,8 +102,8 @@ public class JournalEntryView extends
 		// } else
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(getTransactionDate())) {
-			result.addError(transactionDateItem, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDateItem,
+					accounterConstants.invalidateDate());
 		}
 		result.add(dateForm.validate());
 		// if (AccounterValidator.isBlankTransaction(grid)) {
@@ -258,8 +258,8 @@ public class JournalEntryView extends
 		transaction.setMemo(memoText.getValue().toString() != null ? memoText
 				.getValue().toString() : "");
 		// initMemo(transaction);
-		if (DecimalUtil.isEquals(grid.getTotalDebittotal(), grid
-				.getTotalCredittotal())) {
+		if (DecimalUtil.isEquals(grid.getTotalDebittotal(),
+				grid.getTotalCredittotal())) {
 			transaction.setDebitTotal(grid.getTotalDebittotal());
 			transaction.setCreditTotal(grid.getTotalCredittotal());
 			transaction.setTotal(grid.getTotalDebittotal());
@@ -347,16 +347,16 @@ public class JournalEntryView extends
 		dateForm.setNumCols(8);
 		dateForm.setStyleName("datenumber-panel");
 
-		DynamicForm dynamicForm = new DynamicForm();
 		locationCombo = createLocationCombo();
-		dateForm.setFields(transactionDateItem, jourNoText);
 		if (locationTrackingEnabled)
-			dynamicForm.setFields(locationCombo);
+			dateForm.setFields(transactionDateItem, jourNoText, locationCombo);
+		else
+			dateForm.setFields(transactionDateItem, jourNoText);
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
-			dynamicForm.setFields(classListCombo);
+			dateForm.setFields(classListCombo);
 		}
 
 		HorizontalPanel datepannel = new HorizontalPanel();
@@ -418,7 +418,6 @@ public class JournalEntryView extends
 		}
 		VerticalPanel verticalPanel = new VerticalPanel();
 		verticalPanel.add(datepannel);
-		verticalPanel.add(dynamicForm);
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
