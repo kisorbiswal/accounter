@@ -997,7 +997,7 @@
 				column="SALES_ACCOUNT_ID" cascade="save-update" lazy="false">
 			</many-to-one>
 			<many-to-one name="purchaseLiabilityAccount" class="Account"
-				column="PURCHASE_ACCOUNT_ID" cascade="save-update,delete" lazy="false">
+				column="PURCHASE_ACCOUNT_ID" cascade="save-update" lazy="false">
 			</many-to-one>
 			<property name="VATReturn" column="VAT_RETURN"></property>
 			<property name="taxType" column="TAX_TYPE"></property>
