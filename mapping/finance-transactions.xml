@@ -710,6 +710,7 @@
 			<many-to-one name="depositIn" class="Account" lazy="false"
 				cascade="save-update" column="ACCOUNT_ID">
 			</many-to-one>
+			<property name="checkNumber" column="CHECK_NUMBER"></property>
 			<property name="unUsedCredits" column="UNUSED_CREDITS"></property>
 			<property name="unUsedPayments" column="UNUSED_PAYMENTS"
 				lazy="true"></property>
