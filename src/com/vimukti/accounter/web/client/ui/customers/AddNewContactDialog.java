@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -47,7 +48,7 @@ public class AddNewContactDialog extends BaseDialog<ClientContact> {
 
 		nameItem = new TextItem(Accounter.constants().name());
 		nameItem.setHelpInformation(true);
-		nameItem.setRequired(false);
+		nameItem.setRequired(true);
 		items.add(nameItem);
 
 		titleItem = new TextItem(Accounter.constants().title());
@@ -89,13 +90,16 @@ public class AddNewContactDialog extends BaseDialog<ClientContact> {
 
 	@Override
 	protected ValidationResult validate() {
+
 		ValidationResult result = new ValidationResult();
 
-		if (nameItem.getValue().isEmpty() && titleItem.getValue().isEmpty()
-				&& businessPhoneItem.getValue().isEmpty()
-				&& emailItem.getValue().isEmpty()) {
-			result.addError(nameItem,
-					"please enter value for atleast one field");
+		if (nameItem.getValue().isEmpty()) {
+			result.addError(nameItem, "Please enter the contact name");
+		}
+
+		if (!businessPhoneItem.getValue().isEmpty()) {
+			if (!UIUtils.isValidPhone(businessPhoneItem.getValue()))
+				result.addError(nameItem, constants.invalidBusinessPhoneVal());
 		}
 		return result;
 
@@ -131,6 +135,6 @@ public class AddNewContactDialog extends BaseDialog<ClientContact> {
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
