@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -465,6 +466,8 @@ public class SalesOrderView extends
 		// mainVLay.add(createAddNewButton());
 		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(vpanel);
+		mainVLay.getElement().getStyle().setPaddingTop(20, Unit.PX);
+		mainVLay.getElement().getStyle().setPaddingBottom(20, Unit.PX);
 
 		if (UIUtils.isMSIEBrowser()) {
 			resetFormView();
