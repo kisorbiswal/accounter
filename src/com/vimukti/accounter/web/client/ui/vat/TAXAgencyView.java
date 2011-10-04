@@ -498,7 +498,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 			if (data.getPurchaseLiabilityAccount() != 0) {
 				ClientAccount account = getCompany().getAccount(
-						data.getSalesLiabilityAccount());
+						data.getPurchaseLiabilityAccount());
 				liabilityPurchaseAccountCombo.setComboItem(account);
 			}
 
@@ -774,6 +774,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		paymentTermsCombo.setDisabled(isInViewMode());
 		vatReturnCombo.setDisabled(isInViewMode());
 		liabilitySalesAccountCombo.setDisabled(isInViewMode());
+		liabilityPurchaseAccountCombo.setDisabled(isInViewMode());
 		memoArea.setDisabled(isInViewMode());
 		addrsForm.setDisabled(isInViewMode());
 		phoneFaxForm.setDisabled(isInViewMode());
