@@ -131,6 +131,8 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 	 * Transaction
 	 */
 	List<TransactionReceivePayment> transactionReceivePayment;
+	
+	private String checkNumber;
 
 	//
 
@@ -558,5 +560,13 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 		// }
 
 		return super.canEdit(clientObject);
+	}
+
+	public String getCheckNumber() {
+		return checkNumber;
+	}
+
+	public void setCheckNumber(String checkNumber) {
+		this.checkNumber = checkNumber;
 	}
 }
