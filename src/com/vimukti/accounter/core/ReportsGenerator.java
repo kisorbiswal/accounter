@@ -391,9 +391,10 @@ public class ReportsGenerator {
 			arAgingDetailServerReport.resetVariables();
 			try {
 				if (status == null || status.isEmpty()) {
-					arAgingDetailServerReport.onResultSuccess(finaTool
-							.getReportManager().getAgedDebtors(startDate,
-									endDate, getCompany().getID()));
+					arAgingDetailServerReport.onResultSuccess(reportsSerivce
+							.getAgedDebtors(startDate.toClientFinanceDate(),
+									endDate.toClientFinanceDate(), getCompany()
+											.getID()));
 				} else {
 					arAgingDetailServerReport.onResultSuccess(reportsSerivce
 							.getAgedDebtors(status, startDate
@@ -647,9 +648,10 @@ public class ReportsGenerator {
 			apAgingDetailServerReport.resetVariables();
 			try {
 				if (status == null || status.isEmpty()) {
-					apAgingDetailServerReport.onResultSuccess(finaTool
-							.getReportManager().getAgedCreditors(startDate,
-									endDate, company.getID()));
+					apAgingDetailServerReport.onResultSuccess(reportsSerivce
+							.getAgedCreditors(startDate.toClientFinanceDate(),
+									endDate.toClientFinanceDate(),
+									company.getID()));
 				} else {
 					apAgingDetailServerReport.onResultSuccess(reportsSerivce
 							.getAgedCreditors(status, startDate
