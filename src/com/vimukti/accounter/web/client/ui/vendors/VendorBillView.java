@@ -655,6 +655,8 @@ public class VendorBillView extends
 		topHLay.add(rightVLay);
 		topHLay.setCellWidth(leftVLay, "50%");
 		topHLay.setCellWidth(rightVLay, "45%");
+		topHLay.getElement().getStyle().setPaddingTop(20, Unit.PX);
+		topHLay.getElement().getStyle().setPaddingBottom(20, Unit.PX);
 
 		HorizontalPanel bottomLayout = new HorizontalPanel();
 		bottomLayout.setWidth("100%");
