@@ -53,7 +53,8 @@ public class WriteOffDialog extends BaseDialog<ClientAccount> {
 	}
 
 	public Double getCashDiscountValue() {
-		writeOffAmount = discAmtText.getAmount();
+		writeOffAmount = currencyProvider.getAmountInBaseCurrency(discAmtText
+				.getAmount());
 		return writeOffAmount;
 	}
 

@@ -154,7 +154,7 @@ public class CustomerCreditMemoView extends
 
 		DynamicForm phoneForm = UIUtils.form(customerConstants.phoneNumber());
 		phoneForm.setWidth("100%");
-		if(locationTrackingEnabled)
+		if (locationTrackingEnabled)
 			phoneForm.setFields(locationCombo);
 		// phoneForm.setFields(phoneSelect, salesPersonCombo);
 		// phoneForm.setFields(salesPersonCombo);
@@ -596,7 +596,8 @@ public class CustomerCreditMemoView extends
 			double lineTotal = customerAccountTransactionTable.getLineTotal()
 					+ customerItemTransactionTable.getLineTotal();
 			netAmountLabel.setAmount(getAmountInTransactionCurrency(lineTotal));
-			taxTotalNonEditableText.setAmount(total - lineTotal);
+			taxTotalNonEditableText
+					.setAmount(getAmountInTransactionCurrency(total - lineTotal));
 
 		}
 

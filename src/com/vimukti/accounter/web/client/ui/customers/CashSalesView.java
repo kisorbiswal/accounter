@@ -572,13 +572,16 @@ public class CashSalesView extends
 		transaction.setMemo(getMemoTextAreaItem());
 		// transaction.setReference(getRefText());
 		if (isTrackTax()) {
-			transaction.setNetAmount(getAmountInBaseCurrency(netAmountLabel.getAmount()));
+			transaction.setNetAmount(getAmountInBaseCurrency(netAmountLabel
+					.getAmount()));
 			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 					.getValue());
 			transaction.setTaxTotal(salesTax);
 		}
 
-		transaction.setTotal(getAmountInBaseCurrency(transactionTotalNonEditableText.getAmount()));
+		transaction
+				.setTotal(getAmountInBaseCurrency(transactionTotalNonEditableText
+						.getAmount()));
 	}
 
 	@Override
@@ -624,7 +627,8 @@ public class CashSalesView extends
 			transactionTotal = 0.0D;
 		this.transactionTotal = transactionTotal;
 		if (transactionTotalNonEditableText != null)
-			transactionTotalNonEditableText.setAmount(getAmountInTransactionCurrency(transactionTotal));
+			transactionTotalNonEditableText
+					.setAmount(getAmountInTransactionCurrency(transactionTotal));
 
 	}
 
@@ -720,7 +724,9 @@ public class CashSalesView extends
 				}
 			}
 			memoTextAreaItem.setDisabled(true);
-			transactionTotalNonEditableText.setAmount(transaction.getTotal());
+			transactionTotalNonEditableText
+					.setAmount(getAmountInTransactionCurrency(transaction
+							.getTotal()));
 
 			this.clientAccounterClass = transaction.getAccounterClass();
 			if (getPreferences().isClassTrackingEnabled()

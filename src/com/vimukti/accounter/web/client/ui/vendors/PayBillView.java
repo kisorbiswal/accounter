@@ -97,9 +97,9 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	 */
 	public void resetTotlas() {
 		amountLabel.setAmount(getAmountInTransactionCurrency(0.0));
-		endBalText
-						.setAmount(getAmountInTransactionCurrency(payFromCombo.getSelectedValue() != null ? payFromCombo
-						.getSelectedValue().getTotalBalance() : 0.0));
+		endBalText.setAmount(getAmountInTransactionCurrency(payFromCombo
+				.getSelectedValue() != null ? payFromCombo.getSelectedValue()
+				.getTotalBalance() : 0.0));
 	}
 
 	/*
@@ -114,7 +114,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			toBeSetAmount += rec.getPayment();
 		}
 		if (this.transaction != null) {
-			amountLabel.setAmount(getAmountInTransactionCurrency(toBeSetAmount));
+			amountLabel
+					.setAmount(getAmountInTransactionCurrency(toBeSetAmount));
 
 			if (payFromAccount != null) {
 				double toBeSetEndingBalance = 0.0;
@@ -134,7 +135,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 											getAmountInBaseCurrency(
 													amountLabel.getAmount())
 													.toString()).doubleValue();
-				endBalText.setAmount(getAmountInTransactionCurrency(toBeSetEndingBalance));
+				endBalText
+						.setAmount(getAmountInTransactionCurrency(toBeSetEndingBalance));
 			}
 		}
 
@@ -244,7 +246,9 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		}
 		transaction.setTransactionPayBill(transactionPayBill);
 
-		transaction.setUnUsedCredits(this.unUsedCreditsText.getAmount());
+		transaction
+				.setUnUsedCredits(getAmountInBaseCurrency(this.unUsedCreditsText
+						.getAmount()));
 	}
 
 	private void initListGrid() {
@@ -373,10 +377,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 				record.setAppliedCredits(curntRec.getCredits());
 
-				record
-						.setDiscountDate(curntRec.getDiscountDate() != null ? curntRec
-								.getDiscountDate().getDate()
-								: 0);
+				record.setDiscountDate(curntRec.getDiscountDate() != null ? curntRec
+						.getDiscountDate().getDate() : 0);
 
 				record.setDueDate(curntRec.getDueDate() != null ? curntRec
 						.getDueDate().getDate() : 0);
@@ -683,7 +685,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	}
 
 	private void setUnUsedCredits(Double unusedCredits) {
-		unUsedCreditsText.setAmount(getAmountInTransactionCurrency(unusedCredits));
+		unUsedCreditsText
+				.setAmount(getAmountInTransactionCurrency(unusedCredits));
 	}
 
 	public void calculateUnusedCredits() {
@@ -694,7 +697,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			totalCredits += credit.getBalance();
 		}
 
-		this.unUsedCreditsText.setAmount(getAmountInTransactionCurrency(totalCredits));
+		this.unUsedCreditsText
+				.setAmount(getAmountInTransactionCurrency(totalCredits));
 
 	}
 
@@ -798,8 +802,10 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			this.setVendor(getCompany().getVendor(transaction.getVendor()));
 			vendorSelected(getCompany().getVendor(transaction.getVendor()));
 
-			amountLabel.setAmount(getAmountInTransactionCurrency(transaction.getNetAmount()));
-			endBalText.setAmount(getAmountInTransactionCurrency(transaction.getEndingBalance()));
+			amountLabel.setAmount(getAmountInTransactionCurrency(transaction
+					.getNetAmount()));
+			endBalText.setAmount(getAmountInTransactionCurrency(transaction
+					.getEndingBalance()));
 			initListGridData(this.transaction.getTransactionPayBill());
 			initTransactionTotalNonEditableItem();
 			memoTextAreaItem.setDisabled(true);
@@ -871,8 +877,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
 		}
 		ValidationResult payFormValidationResult = payForm.validate();
 		if (payFormValidationResult.haveErrors()
@@ -887,7 +893,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		}
 		if (!isInViewMode()) {
 			if (grid.getAllRows().isEmpty()) {
-				result.addError(grid,
+				result.addError(
+						grid,
 						Accounter.messages().noBillsAreAvailableFirstAddABill(
 								Global.get().Vendor()));
 			}
@@ -939,8 +946,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		if (getVendor() != null) {
 
 			for (PayBillTransactionList cont : filterList) {
-				if (getVendor().getName().toString().equalsIgnoreCase(
-						cont.getVendorName().toString())) {
+				if (getVendor().getName().toString()
+						.equalsIgnoreCase(cont.getVendorName().toString())) {
 
 					tempList.add(cont);
 				}

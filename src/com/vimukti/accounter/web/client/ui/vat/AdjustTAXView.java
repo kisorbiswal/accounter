@@ -27,9 +27,9 @@ import com.vimukti.accounter.web.client.ui.combo.AdjustmentVATItemCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
+import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
-import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
@@ -39,7 +39,8 @@ import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
-public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
+public class AdjustTAXView extends
+		AbstractTransactionBaseView<ClientTAXAdjustment> {
 
 	private DateItem adjustDate;
 	protected TextItem entryNo;
@@ -63,12 +64,12 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 	private ArrayList<DynamicForm> listforms;
 
 	public AdjustTAXView() {
-		super();
+		super(ClientTransaction.TYPE_ADJUST_VAT_RETURN);
 		// this.validationCount = 4;
 	}
 
 	public AdjustTAXView(ClientTAXAgency taxAgency) {
-		super();
+		super(ClientTransaction.TYPE_ADJUST_VAT_RETURN);
 		// this.validationCount = 4;
 		this.taxAgency = taxAgency;
 	}
@@ -82,7 +83,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		initEntryNumber();
 	}
 
-	private void createControls() {
+	protected void createControls() {
 		listforms = new ArrayList<DynamicForm>();
 		Label infoLabel;
 		infoLabel = new Label(Accounter.constants().taxAdjustment());
@@ -396,7 +397,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 
 		data.setAdjustmentAccount(adjustAccountCombo.getSelectedValue().getID());
 
-		data.setTotal(amount.getAmount());
+		data.setTotal(getAmountInBaseCurrency(amount.getAmount()));
 		if (typeRadio.getValue()
 				.equals(Accounter.constants().increaseVATLine()))
 			data.setIncreaseVATLine(true);
@@ -441,14 +442,6 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		return Accounter.constants().taxAdjustment();
 	}
 
-	@Override
-	public void initData() {
-		if (data == null) {
-			setData(new ClientTAXAdjustment());
-		}
-		super.initData();
-	}
-
 	private void settabIndexes() {
 		taxAgencyCombo.setTabIndex(1);
 		vatItemCombo.setTabIndex(2);
@@ -460,6 +453,26 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		saveAndCloseButton.setTabIndex(8);
 		saveAndNewButton.setTabIndex(9);
 		cancelButton.setTabIndex(10);
+
+	}
+
+	@Override
+	protected void initTransactionViewData() {
+		if (data == null) {
+			setData(new ClientTAXAdjustment());
+		}
+		super.initData();
+	}
+
+	@Override
+	public void updateNonEditableItems() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void refreshTransactionGrid() {
+		// TODO Auto-generated method stub
 
 	}
 }

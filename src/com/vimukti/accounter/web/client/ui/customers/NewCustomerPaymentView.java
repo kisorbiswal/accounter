@@ -284,7 +284,7 @@ public class NewCustomerPaymentView extends
 			setCheckNumber();
 		} else if (account == null)
 			checkNo.setValue("");
-		adjustBalance(getAmountInTransactionCurrency(amountText.getAmount()));
+		adjustBalance(getAmountInBaseCurrency(amountText.getAmount()));
 	}
 
 	private void adjustBalance(double amount) {
@@ -613,7 +613,7 @@ public class NewCustomerPaymentView extends
 							.setAmount(getAmountInTransactionCurrency(DataUtils
 									.isValidAmount(amount + "") ? amount : 0.0));
 
-					adjustBalance(getAmountInTransactionCurrency(amountText
+					adjustBalance(getAmountInBaseCurrency(amountText
 							.getAmount()));
 
 				} catch (Exception e) {
@@ -661,7 +661,7 @@ public class NewCustomerPaymentView extends
 		}
 		this.addressListOfCustomer = customer.getAddress();
 		initBillToCombo();
-		adjustBalance(getAmountInTransactionCurrency(amountText.getAmount()));
+		adjustBalance(getAmountInBaseCurrency(amountText.getAmount()));
 
 	}
 
@@ -784,7 +784,7 @@ public class NewCustomerPaymentView extends
 	@Override
 	protected void depositInAccountSelected(ClientAccount depositInAccount2) {
 		super.depositInAccountSelected(depositInAccount2);
-		adjustBalance(getAmountInTransactionCurrency(amountText.getAmount()));
+		adjustBalance(getAmountInBaseCurrency(amountText.getAmount()));
 	}
 
 	@Override
