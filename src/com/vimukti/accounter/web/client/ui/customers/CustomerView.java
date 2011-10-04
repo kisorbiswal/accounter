@@ -368,7 +368,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		result.add(customerForm.validate());
 		ClientFinanceDate asOfDate = balanceDate.getEnteredDate();
-		
+
 		gridView.validate(result);
 
 		if (AccounterValidator.isPriorToCompanyPreventPostingDate(asOfDate)) {
@@ -1157,7 +1157,19 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// Setting AddressForm
 		addrsForm.setAddress(data.getAddress());
 		// Setting Contacts
-		gridView.setAllRows(new ArrayList<ClientContact>(data.getContacts()));
+		// gridView.setAllRows(new
+		// ArrayList<ClientContact>(data.getContacts()));
+
+		int row = 0;
+		for (ClientContact clientContact : data.getContacts()) {
+			if (clientContact.isPrimary()) {
+				gridView.add(clientContact);
+				gridView.checkColumn(row, 0, true);
+			} else {
+				gridView.add(clientContact);
+			}
+			row++;
+		}
 
 		// Setting salesPerson
 		selectSalesPersonFromDetailsTab = getCompany().getSalesPerson(

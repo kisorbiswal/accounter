@@ -1206,7 +1206,18 @@ public class VendorView extends BaseView<ClientVendor> {
 		balanceDate.setDisabled(true);
 
 		// Setting Contacts
-		gridView.setAllRows(new ArrayList<ClientContact>(data.getContacts()));
+		// gridView.setAllRows(new
+		// ArrayList<ClientContact>(data.getContacts()));
+		int row = 0;
+		for (ClientContact clientContact : data.getContacts()) {
+			if (clientContact.isPrimary()) {
+				gridView.add(clientContact);
+				gridView.checkColumn(row, 0, true);
+			} else {
+				gridView.add(clientContact);
+			}
+			row++;
+		}
 
 		// Setting Memo
 		memoArea.setValue(data.getMemo());
