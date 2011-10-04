@@ -164,16 +164,22 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public ArrayList<AgedDebtors> getAgedCreditors(ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
+		return agedCreditorsReport(startDate, endDate, getCompanyId());
+	}
+
+	private ArrayList<AgedDebtors> agedCreditorsReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long companyId) {
 		ArrayList<AgedDebtors> agedDebtorsList = new ArrayList<AgedDebtors>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
-				endDate, getCompanyId());
+				endDate, companyId);
 
 		try {
 
 			agedDebtorsList = getFinanceTool().getReportManager()
 					.getAgedCreditors(financeDates[0], financeDates[1],
-							getCompanyId());
+							companyId);
 			List<AgedDebtors> debtors = new ArrayList<AgedDebtors>();
 			for (AgedDebtors debtor : agedDebtorsList) {
 				debtors = updateDebtorListByName(debtors, debtor);
@@ -206,16 +212,22 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public ArrayList<AgedDebtors> getAgedDebtors(ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
+		return agedDebtorsReport(startDate, endDate, getCompanyId());
+	}
+
+	private ArrayList<AgedDebtors> agedDebtorsReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long companyId) {
 		ArrayList<AgedDebtors> agedDebtorsList = new ArrayList<AgedDebtors>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
-				endDate, getCompanyId());
+				endDate, companyId);
 
 		try {
 
-			agedDebtorsList = getFinanceTool().getReportManager()
-					.getAgedDebtors(financeDates[0], financeDates[1],
-							getCompanyId());
+			agedDebtorsList = getFinanceTool()
+					.getReportManager()
+					.getAgedDebtors(financeDates[0], financeDates[1], companyId);
 			List<AgedDebtors> debtors = new ArrayList<AgedDebtors>();
 			for (AgedDebtors debtor : agedDebtorsList) {
 				debtors = updateDebtorListByName(debtors, debtor);
@@ -2529,6 +2541,16 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			boolean isLocation, ClientFinanceDate startDate,
 			ClientFinanceDate endDate, long companyId) {
 		return salesByLocationSummary(isLocation, startDate, endDate, companyId);
+	}
+
+	public ArrayList<AgedDebtors> getAgedCreditors(ClientFinanceDate startDate,
+			ClientFinanceDate endDate, long companyId) {
+		return agedCreditorsReport(startDate, endDate, companyId);
+	}
+
+	public ArrayList<AgedDebtors> getAgedDebtors(ClientFinanceDate startDate,
+			ClientFinanceDate endDate, long companyId) {
+		return agedDebtorsReport(startDate, endDate, companyId);
 	}
 
 }
