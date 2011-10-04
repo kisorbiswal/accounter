@@ -141,11 +141,13 @@ public class ContactsTable extends EditTable<ClientContact> {
 
 					@Override
 					public void onBlur(BlurEvent event) {
-						if (UIUtils.isValidPhone(value))
-							textBox.setValue(value);
-						else {
-							textBox.setValue("");
-						}
+						if (value != null)
+							if (UIUtils.isValidPhone(value)) {
+								textBox.setValue(value);
+								value = null;
+							} else {
+								textBox.setValue("");
+							}
 					}
 				});
 			}
@@ -189,11 +191,13 @@ public class ContactsTable extends EditTable<ClientContact> {
 
 					@Override
 					public void onBlur(BlurEvent event) {
-						if (UIUtils.isValidEmail(value))
-							textBox.setValue(value);
-						else {
-							textBox.setValue("");
-						}
+						if (value != null)
+							if (UIUtils.isValidEmail(value)) {
+								textBox.setValue(value);
+								value = null;
+							} else {
+								textBox.setValue("");
+							}
 					}
 				});
 			}
@@ -231,14 +235,20 @@ public class ContactsTable extends EditTable<ClientContact> {
 		for (int i = 0; i < getAllRows().size(); i++) {
 			for (int j = 0; j < getAllRows().size(); j++) {
 				if (i != j) {
-					if (getAllRows().get(i).getTitle().equals(
-							getAllRows().get(j).getTitle())
-							&& getAllRows().get(i).getEmail().equals(
-									getAllRows().get(j).getEmail())
-							&& getAllRows().get(i).getDisplayName().equals(
-									getAllRows().get(j).getDisplayName())
-							&& getAllRows().get(i).getBusinessPhone().equals(
-									getAllRows().get(j).getBusinessPhone()))
+					if (getAllRows().get(i).getTitle()
+							.equals(getAllRows().get(j).getTitle())
+							&& getAllRows().get(i).getEmail()
+									.equals(getAllRows().get(j).getEmail())
+							&& getAllRows()
+									.get(i)
+									.getDisplayName()
+									.equals(getAllRows().get(j)
+											.getDisplayName())
+							&& getAllRows()
+									.get(i)
+									.getBusinessPhone()
+									.equals(getAllRows().get(j)
+											.getBusinessPhone()))
 						result.addError(this, Accounter.constants()
 								.youHaveEnteredduplicateContacts());
 				}
