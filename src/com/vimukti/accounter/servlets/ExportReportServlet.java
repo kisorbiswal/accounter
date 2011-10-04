@@ -81,8 +81,8 @@ public class ExportReportServlet extends BaseServlet {
 	private ITemplate getTempleteObjByRequest(HttpServletRequest request)
 			throws IOException, AccounterException {
 		String companyID = getCookie(request, COMPANY_COOKIE);
-		Session session = HibernateUtil.openSession();
 		String companyName = getCompanyName(request);
+		Session session = HibernateUtil.openSession();
 		if (companyName == null)
 			return null;
 		try {
@@ -130,8 +130,7 @@ public class ExportReportServlet extends BaseServlet {
 		}
 		String companyID = getCookie(request, COMPANY_COOKIE);
 
-		FinanceTool financetool = new FinanceTool();
-		Company company = financetool.getCompany(Long.valueOf(companyID));
+		Company company = financeTool.getCompany(Long.valueOf(companyID));
 		ReportsGenerator generator = null;
 
 		if (vendorId != 0) {
