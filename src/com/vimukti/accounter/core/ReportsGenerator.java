@@ -184,6 +184,7 @@ public class ReportsGenerator {
 			}
 
 		};
+
 		switch (reportType) {
 		case REPORT_TYPE_PROFITANDLOSS:
 
@@ -210,10 +211,9 @@ public class ReportsGenerator {
 			updateReport(profitAndLossServerReport, finaTool);
 			profitAndLossServerReport.resetVariables();
 			try {
-				profitAndLossServerReport.onResultSuccess(reportsSerivce
-						.getProfitAndLossReport(
-								startDate.toClientFinanceDate(),
-								endDate.toClientFinanceDate()));
+				profitAndLossServerReport.onResultSuccess(finaTool
+						.getReportManager().getProfitAndLossReport(startDate,
+								endDate, getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -226,11 +226,11 @@ public class ReportsGenerator {
 			return generateSalesByClassorLocationTemplate(reportsSerivce, true,
 					generationType1, finaTool);
 		case REPORT_TYPE_SALESBYCLASSDETAIL:
-			return generateSalesByLocationorClassDetailReport(false,
-					generationType1, finaTool, reportsSerivce);
+			return generateSalesByLocationorClassDetailReport(reportsSerivce,
+					false, generationType1, finaTool);
 		case REPORT_TYPE_SALESBYLOCATIONDETAIL:
-			return generateSalesByLocationorClassDetailReport(true,
-					generationType1, finaTool, reportsSerivce);
+			return generateSalesByLocationorClassDetailReport(reportsSerivce,
+					true, generationType1, finaTool);
 		case REPORT_TYPE_BALANCESHEET:
 			BalanceSheetServerReport balanceSheetServerReport = new BalanceSheetServerReport(
 					this.startDate.getDate(), this.endDate.getDate(),
@@ -245,9 +245,9 @@ public class ReportsGenerator {
 			updateReport(balanceSheetServerReport, finaTool);
 			balanceSheetServerReport.resetVariables();
 			try {
-				balanceSheetServerReport.onResultSuccess(reportsSerivce
-						.getBalanceSheetReport(startDate.toClientFinanceDate(),
-								endDate.toClientFinanceDate()));
+				balanceSheetServerReport.onResultSuccess(finaTool
+						.getReportManager().getBalanceSheetReport(startDate,
+								endDate, getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -266,9 +266,9 @@ public class ReportsGenerator {
 			updateReport(trialBalanceServerReport, finaTool);
 			trialBalanceServerReport.resetVariables();
 			try {
-				trialBalanceServerReport.onResultSuccess(reportsSerivce
-						.getTrialBalance(startDate.toClientFinanceDate(),
-								endDate.toClientFinanceDate()));
+				trialBalanceServerReport.onResultSuccess(finaTool
+						.getReportManager().getTrialBalance(startDate, endDate,
+								getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -320,16 +320,15 @@ public class ReportsGenerator {
 			try {
 				if (status == null || status.isEmpty()) {
 					transactionDetailByAccountServerReport
-							.onResultSuccess(reportsSerivce
-									.getTransactionDetailByAccount(
-											startDate.toClientFinanceDate(),
-											endDate.toClientFinanceDate()));
+							.onResultSuccess(finaTool.getReportManager()
+									.getTransactionDetailByAccount(startDate,
+											endDate, getCompany().getID()));
 				} else {
 					transactionDetailByAccountServerReport
-							.onResultSuccess(reportsSerivce
+							.onResultSuccess(finaTool.getReportManager()
 									.getTransactionDetailByAccount(status,
-											startDate.toClientFinanceDate(),
-											endDate.toClientFinanceDate()));
+											startDate, endDate,
+											getCompany().getID()));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -349,10 +348,9 @@ public class ReportsGenerator {
 			updateReport(expenseServerReport, finaTool);
 			expenseServerReport.resetVariables();
 			try {
-				expenseServerReport.onResultSuccess(reportsSerivce
+				expenseServerReport.onResultSuccess(finaTool.getReportManager()
 						.getExpenseReportByType(Integer.parseInt(status),
-								startDate.toClientFinanceDate(),
-								endDate.toClientFinanceDate()));
+								startDate, endDate, getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -372,8 +370,8 @@ public class ReportsGenerator {
 			arAgingSummaryServerReport.resetVariables();
 			try {
 				arAgingSummaryServerReport.onResultSuccess(reportsSerivce
-						.getDebitors(startDate.toClientFinanceDate(),
-								endDate.toClientFinanceDate()));
+						.getDebitors(startDate.toClientFinanceDate(), endDate
+								.toClientFinanceDate(), getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -393,14 +391,15 @@ public class ReportsGenerator {
 			arAgingDetailServerReport.resetVariables();
 			try {
 				if (status == null || status.isEmpty()) {
-					arAgingDetailServerReport.onResultSuccess(reportsSerivce
-							.getAgedDebtors(startDate.toClientFinanceDate(),
-									endDate.toClientFinanceDate()));
+					arAgingDetailServerReport.onResultSuccess(finaTool
+							.getReportManager().getAgedDebtors(startDate,
+									endDate, getCompany().getID()));
 				} else {
 					arAgingDetailServerReport.onResultSuccess(reportsSerivce
-							.getAgedDebtors(status,
-									startDate.toClientFinanceDate(),
-									endDate.toClientFinanceDate()));
+							.getAgedDebtors(status, startDate
+									.toClientFinanceDate(), endDate
+									.toClientFinanceDate(), getCompany()
+									.getID()));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -564,24 +563,28 @@ public class ReportsGenerator {
 			try {
 				if (Integer.parseInt(status) == 1) {
 					salesOpenOrderServerReport.onResultSuccess(reportsSerivce
-							.getSalesOpenOrderReport(
-									startDate.toClientFinanceDate(),
-									endDate.toClientFinanceDate()));
+							.getSalesOpenOrderReport(startDate
+									.toClientFinanceDate(), endDate
+									.toClientFinanceDate(), getCompany()
+									.getID()));
 				} else if (Integer.parseInt(status) == 2) {
 					salesOpenOrderServerReport.onResultSuccess(reportsSerivce
-							.getSalesCompletedOrderReport(
-									startDate.toClientFinanceDate(),
-									endDate.toClientFinanceDate()));
+							.getSalesCompletedOrderReport(startDate
+									.toClientFinanceDate(), endDate
+									.toClientFinanceDate(), getCompany()
+									.getID()));
 				} else if (Integer.parseInt(status) == 3) {
 					salesOpenOrderServerReport.onResultSuccess(reportsSerivce
-							.getSalesCancelledOrderReport(
-									startDate.toClientFinanceDate(),
-									endDate.toClientFinanceDate()));
+							.getSalesCancelledOrderReport(startDate
+									.toClientFinanceDate(), endDate
+									.toClientFinanceDate(), getCompany()
+									.getID()));
 				} else {
 					salesOpenOrderServerReport.onResultSuccess(reportsSerivce
-							.getSalesOrderReport(
-									startDate.toClientFinanceDate(),
-									endDate.toClientFinanceDate()));
+							.getSalesOrderReport(startDate
+									.toClientFinanceDate(), endDate
+									.toClientFinanceDate(), getCompany()
+									.getID()));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -623,8 +626,8 @@ public class ReportsGenerator {
 			apAgingSummaryServerReport.resetVariables();
 			try {
 				apAgingSummaryServerReport.onResultSuccess(reportsSerivce
-						.getCreditors(startDate.toClientFinanceDate(),
-								endDate.toClientFinanceDate()));
+						.getCreditors(startDate.toClientFinanceDate(), endDate
+								.toClientFinanceDate(), getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -649,12 +652,13 @@ public class ReportsGenerator {
 									endDate, company.getID()));
 				} else {
 					apAgingDetailServerReport.onResultSuccess(reportsSerivce
-							.getAgedCreditors(status,
-									startDate.toClientFinanceDate(),
-									endDate.toClientFinanceDate()));
+							.getAgedCreditors(status, startDate
+									.toClientFinanceDate(), endDate
+									.toClientFinanceDate(), getCompany()
+									.getID()));
 				}
 				// apAgingDetailServerReport.onSuccess(finaTool.getAgedCreditors(
-				// startDate, endDate));
+				// startDate, endDate,getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -800,25 +804,29 @@ public class ReportsGenerator {
 							.onResultSuccess(reportsSerivce
 									.getPurchaseOpenOrderReport(
 											startDate.toClientFinanceDate(),
-											endDate.toClientFinanceDate()));
+											endDate.toClientFinanceDate(),
+											getCompany().getID()));
 				} else if (Integer.parseInt(status) == 2) {
 					purchaseOpenOrderServerReport
 							.onResultSuccess(reportsSerivce
 									.getPurchaseCompletedOrderReport(
 											startDate.toClientFinanceDate(),
-											endDate.toClientFinanceDate()));
+											endDate.toClientFinanceDate(),
+											getCompany().getID()));
 				} else if (Integer.parseInt(status) == 3) {
 					purchaseOpenOrderServerReport
 							.onResultSuccess(reportsSerivce
 									.getPurchaseCancelledOrderReport(
 											startDate.toClientFinanceDate(),
-											endDate.toClientFinanceDate()));
+											endDate.toClientFinanceDate(),
+											getCompany().getID()));
 				} else {
 					purchaseOpenOrderServerReport
 							.onResultSuccess(reportsSerivce
 									.getPurchaseOrderReport(
 											startDate.toClientFinanceDate(),
-											endDate.toClientFinanceDate()));
+											endDate.toClientFinanceDate(),
+											getCompany().getID()));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -861,7 +869,8 @@ public class ReportsGenerator {
 			try {
 				priorVATReturnsServerReport.onResultSuccess(reportsSerivce
 						.getPriorReturnVATSummary(Long.parseLong(status),
-								endDate.toClientFinanceDate()));
+								endDate.toClientFinanceDate(), getCompany()
+										.getID()));
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -882,9 +891,9 @@ public class ReportsGenerator {
 			vat100ServerReport.resetVariables();
 			try {
 				vat100ServerReport.onResultSuccess(reportsSerivce
-						.getVAT100Report(Long.parseLong(status),
-								startDate.toClientFinanceDate(),
-								endDate.toClientFinanceDate()));
+						.getVAT100Report(Long.parseLong(status), startDate
+								.toClientFinanceDate(), endDate
+								.toClientFinanceDate(), getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1131,9 +1140,9 @@ public class ReportsGenerator {
 			updateReport(cashFlowStatementServerReport, finaTool);
 			cashFlowStatementServerReport.resetVariables();
 			try {
-				cashFlowStatementServerReport.onResultSuccess(reportsSerivce
-						.getCashFlowReport(startDate.toClientFinanceDate(),
-								endDate.toClientFinanceDate()));
+				cashFlowStatementServerReport.onResultSuccess(finaTool
+						.getReportManager().getCashFlowReport(startDate,
+								endDate, getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1183,10 +1192,10 @@ public class ReportsGenerator {
 			return statementReport.getGridTemplate();
 		case REPORT_TYPE_PROFITANDLOSSBYCLASS:
 			return generateProfitandLossByLocationorClass(false,
-					generationType1, finaTool, reportsSerivce);
+					generationType1, finaTool);
 		case REPORT_TYPE_PROFITANDLOSSBYLOCATION:
 			return generateProfitandLossByLocationorClass(true,
-					generationType1, finaTool, reportsSerivce);
+					generationType1, finaTool);
 
 		case REPORT_TYPE_1099TRANSACTIONDETAIL:
 			MISC1099TransactionDetailServerReport misc1099TransactionDetailServerReport = new MISC1099TransactionDetailServerReport(
@@ -1226,11 +1235,11 @@ public class ReportsGenerator {
 			updateReport(budgetServerReport, finaTool);
 			budgetServerReport.resetVariables();
 			try {
-				budgetServerReport
-						.onResultSuccess(reportsSerivce.getBudgetItemsList(
-								Integer.parseInt(status),
+				budgetServerReport.onResultSuccess(reportsSerivce
+						.getBudgetItemsList(Integer.parseInt(status),
 								startDate.toClientFinanceDate(),
-								endDate.toClientFinanceDate(), generationType1));
+								endDate.toClientFinanceDate(), generationType1,
+								getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1247,8 +1256,7 @@ public class ReportsGenerator {
 	}
 
 	private ReportGridTemplate<?> generateProfitandLossByLocationorClass(
-			boolean isLocation, int generationType1, FinanceTool finaTool,
-			AccounterReportServiceImpl reportsSerivce) {
+			boolean isLocation, int generationType1, FinanceTool finaTool) {
 		ProfitAndLossServerReport profitAndLossBylocationServerReport = new ProfitAndLossServerReport(
 				startDate.getDate(), endDate.getDate(), generationType1) {
 
@@ -1272,9 +1280,9 @@ public class ReportsGenerator {
 		updateReport(profitAndLossBylocationServerReport, finaTool);
 		profitAndLossBylocationServerReport.resetVariables();
 		try {
-			profitAndLossBylocationServerReport.onResultSuccess(reportsSerivce
-					.getProfitAndLossReport(startDate.toClientFinanceDate(),
-							endDate.toClientFinanceDate()));
+			profitAndLossBylocationServerReport.onResultSuccess(finaTool
+					.getReportManager().getProfitAndLossReport(startDate,
+							endDate, getCompany().getID()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1282,8 +1290,8 @@ public class ReportsGenerator {
 	}
 
 	private ReportGridTemplate<?> generateSalesByLocationorClassDetailReport(
-			boolean isLocation, int generationType1, FinanceTool finaTool,
-			AccounterReportServiceImpl reportsSerivce) {
+			AccounterReportServiceImpl reportsSerivce, boolean isLocation,
+			int generationType1, FinanceTool finaTool) {
 		SalesByLocationDetailsServerReport salesByLocationDetailsServerReport = new SalesByLocationDetailsServerReport(
 				startDate.getDate(), endDate.getDate(), generationType1) {
 
@@ -1307,10 +1315,12 @@ public class ReportsGenerator {
 		updateReport(salesByLocationDetailsServerReport, finaTool);
 		salesByLocationDetailsServerReport.resetVariables();
 		try {
-			salesByLocationDetailsServerReport.onResultSuccess(reportsSerivce
-					.getSalesByLocationDetailsReport(isLocation,
-							startDate.toClientFinanceDate(),
-							endDate.toClientFinanceDate()));
+			salesByLocationDetailsServerReport
+					.onResultSuccess(reportsSerivce
+							.getSalesByLocationDetailsReport(isLocation,
+									startDate.toClientFinanceDate(), endDate
+											.toClientFinanceDate(),
+									getCompany().getID()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1343,10 +1353,12 @@ public class ReportsGenerator {
 		updateReport(salesByLocationsummaryServerReport, finaTool);
 		salesByLocationsummaryServerReport.resetVariables();
 		try {
-			salesByLocationsummaryServerReport.onResultSuccess(reportsSerivce
-					.getSalesByLocationSummaryReport(isLocation,
-							startDate.toClientFinanceDate(),
-							endDate.toClientFinanceDate()));
+			salesByLocationsummaryServerReport
+					.onResultSuccess(reportsSerivce
+							.getSalesByLocationSummaryReport(isLocation,
+									startDate.toClientFinanceDate(), endDate
+											.toClientFinanceDate(),
+									getCompany().getID()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
