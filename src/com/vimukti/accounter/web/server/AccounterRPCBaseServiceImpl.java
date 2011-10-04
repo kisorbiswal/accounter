@@ -120,7 +120,12 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 	private boolean CheckUserExistanceAndsetAccounterThreadLocal(
 			HttpServletRequest request) {
 		Session session = HibernateUtil.getCurrentSession();
-		Company company = (Company) session.load(Company.class, 1l);
+		String serverCompanyID = getCookie(request, BaseServlet.COMPANY_COOKIE);
+		Company company = (Company) session.get(Company.class,
+				Long.valueOf(serverCompanyID));
+		if (company == null) {
+			return false;
+		}
 		String userEmail = (String) request.getSession().getAttribute(EMAIL_ID);
 		User user = company.getUserByUserEmail(userEmail);
 		if (user == null) {
@@ -275,9 +280,10 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 	}
 
 	protected long getCompanyId(HttpServletRequest request) {
-		String serverCompanyID = getCookie(request,BaseServlet.COMPANY_COOKIE);
+		String serverCompanyID = getCookie(request, BaseServlet.COMPANY_COOKIE);
 		return Long.valueOf(serverCompanyID);
 	}
+
 	protected long getCompanyId() {
 		String serverCompanyID = getCookie(BaseServlet.COMPANY_COOKIE);
 		return Long.valueOf(serverCompanyID);
