@@ -17,7 +17,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
-import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -29,7 +28,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
-import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -227,14 +225,14 @@ public class CreditCardExpenseView extends
 			public void initCombo(List<ClientVendor> list) {
 				List<ClientVendor> ccVendors = new ArrayList<ClientVendor>();
 				for (ClientVendor vdr : list) {
-					if (vdr.getVendorGroup() != 0) {
-						ClientVendorGroup vendorGrougp = Accounter.getCompany()
-								.getVendorGroup(vdr.getVendorGroup());
-						if (vendorGrougp.getName().equals(
-								AccounterClientConstants.CREDIT_CARD_COMPANIES)) {
-							ccVendors.add(vdr);
-						}
-					}
+					// if (vdr.getVendorGroup() != 0) {
+					// ClientVendorGroup vendorGrougp = Accounter.getCompany()
+					// .getVendorGroup(vdr.getVendorGroup());
+					// if (vendorGrougp.getName().equals(
+					// AccounterClientConstants.CREDIT_CARD_COMPANIES)) {
+					ccVendors.add(vdr);
+					// }
+					// }
 				}
 				super.initCombo(ccVendors);
 			}
@@ -258,16 +256,15 @@ public class CreditCardExpenseView extends
 			}
 		};
 		Ccard.setHelpInformation(true);
-		Ccard
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
+		Ccard.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 
-					@Override
-					public void selectedComboBoxItem(ClientVendor selectItem) {
-						selectedVendor = selectItem;
-						Ccard.setComboItem(selectItem);
-						addPhonesContactsAndAddress();
-					}
-				});
+			@Override
+			public void selectedComboBoxItem(ClientVendor selectItem) {
+				selectedVendor = selectItem;
+				Ccard.setComboItem(selectItem);
+				addPhonesContactsAndAddress();
+			}
+		});
 
 		Ccard.setRequired(true);
 		String listString[] = new String[] {
@@ -409,8 +406,8 @@ public class CreditCardExpenseView extends
 		// formItems.add(payFrmSelect)
 		cheqNoText = new TextItem(
 				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-						.constants().chequeNo()
-						: Accounter.constants().checkNo());
+						.constants().chequeNo() : Accounter.constants()
+						.checkNo());
 
 		cheqNoText.setHelpInformation(true);
 		cheqNoText.setDisabled(isInViewMode());
@@ -428,8 +425,8 @@ public class CreditCardExpenseView extends
 		if (locationTrackingEnabled)
 			termsForm.setFields(locationCombo);
 		termsForm.setFields(payMethSelect, payFrmSelect, delivDate);
-		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "203px");
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
@@ -657,8 +654,10 @@ public class CreditCardExpenseView extends
 		}
 
 		if (Ccard.getSelectedValue() == null)
-			result.addError(Ccard, Accounter.messages().pleaseSelectVendor(
-					Global.get().vendor()));
+			result.addError(
+					Ccard,
+					Accounter.messages().pleaseSelectVendor(
+							Global.get().vendor()));
 		result.add(vendorAccountTransactionTable.validateGrid());
 		result.add(vendorItemTransactionTable.validateGrid());
 		if (payFrmSelect.getSelectedValue() == null)
@@ -700,9 +699,12 @@ public class CreditCardExpenseView extends
 			phoneSelect.setValue(transaction.getPhone());
 			if (getPreferences().isTrackPaidTax()) {
 				if (getPreferences().isTaxPerDetailLine()) {
-					netAmount.setAmount(getAmountInTransactionCurrency(transaction.getNetAmount()));
-					vatTotalNonEditableText.setAmount(getAmountInTransactionCurrency(transaction.getTotal()
-							- transaction.getNetAmount()));
+					netAmount
+							.setAmount(getAmountInTransactionCurrency(transaction
+									.getNetAmount()));
+					vatTotalNonEditableText
+							.setAmount(getAmountInTransactionCurrency(transaction
+									.getTotal() - transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -711,7 +713,9 @@ public class CreditCardExpenseView extends
 					}
 				}
 			}
-			transactionTotalNonEditableText.setAmount(getAmountInTransactionCurrency(transaction.getTotal()));
+			transactionTotalNonEditableText
+					.setAmount(getAmountInTransactionCurrency(transaction
+							.getTotal()));
 
 			if (vatinclusiveCheck != null) {
 				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
@@ -1000,9 +1004,9 @@ public class CreditCardExpenseView extends
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button, Accounter.messages().accounts(
-				Global.get().Account()), Accounter.constants()
-				.productOrServiceItem());
+		setMenuItems(button,
+				Accounter.messages().accounts(Global.get().Account()),
+				Accounter.constants().productOrServiceItem());
 	}
 
 	public void saveAndUpdateView() {
@@ -1010,7 +1014,8 @@ public class CreditCardExpenseView extends
 		updateTransaction();
 
 		if (getPreferences().isTrackPaidTax())
-			transaction.setNetAmount(getAmountInBaseCurrency(netAmount.getAmount()));
+			transaction.setNetAmount(getAmountInBaseCurrency(netAmount
+					.getAmount()));
 		// creditCardCharge.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 		// .getValue());
 
@@ -1062,11 +1067,15 @@ public class CreditCardExpenseView extends
 				+ vendorItemTransactionTable.getGrandTotal();
 
 		if (getPreferences().isTrackPaidTax()) {
-			transactionTotalNonEditableText.setAmount(getAmountInTransactionCurrency(grandTotal));
+			transactionTotalNonEditableText
+					.setAmount(getAmountInTransactionCurrency(grandTotal));
 			netAmount.setAmount(getAmountInTransactionCurrency(lineTotal));
-			vatTotalNonEditableText.setAmount(getAmountInTransactionCurrency(grandTotal - lineTotal));
+			vatTotalNonEditableText
+					.setAmount(getAmountInTransactionCurrency(grandTotal
+							- lineTotal));
 		} else {
-			transactionTotalNonEditableText.setAmount(getAmountInTransactionCurrency(grandTotal));
+			transactionTotalNonEditableText
+					.setAmount(getAmountInTransactionCurrency(grandTotal));
 		}
 
 	}
