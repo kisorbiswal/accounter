@@ -236,7 +236,7 @@ public class NewCustomerPaymentView extends
 			if (depositInAccount != null)
 				depositInCombo.setComboItem(depositInAccount);
 
-			paymentMethodCombo.setValue(transaction.getPaymentMethod());
+			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
 			if (transaction.getPaymentMethod().equals(constants.check())) {
 				printCheck.setDisabled(isInViewMode());
 				checkNo.setDisabled(isInViewMode());
@@ -717,6 +717,12 @@ public class NewCustomerPaymentView extends
 		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
 			checkNo.setValue(Accounter.constants().toBePrinted());
 			checkNo.setDisabled(true);
+		}
+		if (paymentMethodCombo.getSelectedValue().equalsIgnoreCase(
+				Accounter.constants().cheque())
+				&& printCheck.getValue().toString().equalsIgnoreCase("true")) {
+			checkNo.setValue(Accounter.constants().toBePrinted());
+			checkNo.setDisabled(false);
 		}
 		memoTextAreaItem.setDisabled(false);
 		if (locationTrackingEnabled)
