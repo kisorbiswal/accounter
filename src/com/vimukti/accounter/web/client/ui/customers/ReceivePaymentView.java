@@ -47,6 +47,7 @@ import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionReceivePa
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
+import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 /**
  * 
@@ -62,6 +63,7 @@ public class ReceivePaymentView extends
 
 	public AmountField amtText;
 	private DynamicForm payForm;
+	private TextItem checkNo;
 
 	private VerticalPanel mainVLay;
 
@@ -170,8 +172,7 @@ public class ReceivePaymentView extends
 
 								if (result.size() > 0) {
 									gridView.removeAllRecords();
-									gridView
-											.initCreditsAndPayments(selectedCustomer);
+									gridView.initCreditsAndPayments(selectedCustomer);
 									addTransactionRecievePayments(result);
 								} else {
 									gridView.addEmptyMessage(Accounter
@@ -194,7 +195,8 @@ public class ReceivePaymentView extends
 			totalCredits += credit.getBalance();
 		}
 
-		this.unUsedCreditsText.setAmount(getAmountInTransactionCurrency(totalCredits));
+		this.unUsedCreditsText
+				.setAmount(getAmountInTransactionCurrency(totalCredits));
 
 	}
 
@@ -224,10 +226,8 @@ public class ReceivePaymentView extends
 
 			ClientTransactionReceivePayment record = new ClientTransactionReceivePayment();
 
-			record
-					.setDueDate(receivePaymentTransaction.getDueDate() != null ? receivePaymentTransaction
-							.getDueDate().getDate()
-							: 0);
+			record.setDueDate(receivePaymentTransaction.getDueDate() != null ? receivePaymentTransaction
+					.getDueDate().getDate() : 0);
 			record.setNumber(receivePaymentTransaction.getNumber());
 
 			record.setInvoiceAmount(receivePaymentTransaction
@@ -236,11 +236,8 @@ public class ReceivePaymentView extends
 			record.setInvoice(receivePaymentTransaction.getTransactionId());
 			record.setAmountDue(receivePaymentTransaction.getAmountDue());
 			record.setDummyDue(receivePaymentTransaction.getAmountDue());
-			record
-					.setDiscountDate(receivePaymentTransaction
-							.getDiscountDate() != null ? receivePaymentTransaction
-							.getDiscountDate().getDate()
-							: 0);
+			record.setDiscountDate(receivePaymentTransaction.getDiscountDate() != null ? receivePaymentTransaction
+					.getDiscountDate().getDate() : 0);
 
 			record.setCashDiscount(receivePaymentTransaction.getCashDiscount());
 
@@ -312,7 +309,7 @@ public class ReceivePaymentView extends
 	}
 
 	private void initListGrid() {
-		gridView = new TransactionReceivePaymentTable(!isInViewMode()) {
+		gridView = new TransactionReceivePaymentTable(!isInViewMode(), this) {
 
 			@Override
 			public void updateTotalPayment(Double payment) {
@@ -395,8 +392,7 @@ public class ReceivePaymentView extends
 								.setTransactionReceivePayment(payment);
 					}
 
-				payment
-						.setTransactionCreditsAndPayments(tranCreditsandPayments);
+				payment.setTransactionCreditsAndPayments(tranCreditsandPayments);
 			}
 			paymentsList.add(payment);
 			payment.getTempCredits().clear();
@@ -459,8 +455,7 @@ public class ReceivePaymentView extends
 					return;
 				Double amount = 0.00D;
 				try {
-					amount = DataUtils
-							.getAmountStringAsDouble(value.toString());
+					amount = DataUtils.getAmountStringAsDouble(value.toString());
 					setAmount(DataUtils.isValidAmount(value.toString()) ? amount
 							: 0.00D);
 					paymentAmountChanged(amount);
@@ -502,12 +497,15 @@ public class ReceivePaymentView extends
 		// refText.setWidth(100);
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		// paymentMethodCombo.setWidth(100);
+		checkNo = createCheckNumberItem();
+		checkNo.setDisabled(true);
+
 		payForm = new DynamicForm();
 		payForm.setWidth("90%");
 		payForm.setIsGroup(true);
 		payForm.setGroupTitle(Accounter.constants().payment());
 
-		payForm.setFields(customerCombo, amtText, paymentMethodCombo);
+		payForm.setFields(customerCombo, amtText, paymentMethodCombo, checkNo);
 		payForm.setStyleName("align-form");
 		payForm.getCellFormatter().setWidth(0, 0, "180px");
 
@@ -680,9 +678,9 @@ public class ReceivePaymentView extends
 			// .getNearestTaxRate(((Date) transactionDateItem
 			// .getValue()).getTime())));
 		} // else
-		// fraction = 0.0;
-		// if (vatFraction != null)
-		// vatFraction.setAmount(fraction);
+			// fraction = 0.0;
+			// if (vatFraction != null)
+			// vatFraction.setAmount(fraction);
 	}
 
 	@Override
@@ -711,6 +709,8 @@ public class ReceivePaymentView extends
 		if (memoTextAreaItem != null)
 			transaction.setMemo(memoTextAreaItem.getValue().toString());
 
+		transaction.setCheckNumber(checkNo.getValue().toString());
+
 		transaction.setCustomerBalance(getCustomerBalance());
 
 		transaction.setAmount(this.amountRecieved);
@@ -720,20 +720,24 @@ public class ReceivePaymentView extends
 
 		transaction.setUnUsedPayments(this.unUsedPayments);
 		transaction.setTotal(this.transactionTotal);
-		transaction.setUnUsedCredits(getAmountInBaseCurrency(this.unUsedCreditsText.getAmount()));
+		transaction
+				.setUnUsedCredits(getAmountInBaseCurrency(this.unUsedCreditsText
+						.getAmount()));
 	}
 
 	public void setUnusedPayments(Double unusedAmounts) {
 		if (unusedAmounts == null)
 			unusedAmounts = 0.0D;
 		this.unUsedPayments = unusedAmounts;
-		this.unUsedPaymentsText.setAmount(getAmountInTransactionCurrency(unusedAmounts));
+		this.unUsedPaymentsText
+				.setAmount(getAmountInTransactionCurrency(unusedAmounts));
 
 	}
 
 	private void setUnUsedCredits(Double unusedCredits) {
 
-		unUsedCreditsText.setAmount(getAmountInTransactionCurrency(unusedCredits));
+		unUsedCreditsText
+				.setAmount(getAmountInTransactionCurrency(unusedCredits));
 
 	}
 
@@ -778,6 +782,7 @@ public class ReceivePaymentView extends
 				paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
 				paymentMethod = transaction.getPaymentMethod();
 			}
+			checkNo.setValue(transaction.getCheckNumber());
 			// if (paymentToBeEdited.getReference() != null)
 			// refText.setValue(paymentToBeEdited.getReference());
 			setAmountRecieved(transaction.getAmount());
@@ -1045,7 +1050,15 @@ public class ReceivePaymentView extends
 
 	@Override
 	protected void paymentMethodSelected(String paymentMethod2) {
-		super.paymentMethodSelected(paymentMethod2);
+		if (paymentMethod2 == null)
+			return;
+
+		this.paymentMethod = paymentMethod2;
+		if (paymentMethod.equalsIgnoreCase(Accounter.constants().cheque())) {
+			checkNo.setDisabled(false);
+		} else {
+			checkNo.setDisabled(true);
+		}
 	}
 
 	protected void depositInAccountSelected(ClientAccount depositInAccount2) {
@@ -1085,8 +1098,8 @@ public class ReceivePaymentView extends
 
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result.addError(transactionDateItem, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDateItem,
+					accounterConstants.invalidateDate());
 		}
 
 		result.add(FormItem.validate(customerCombo, paymentMethodCombo,
@@ -1097,9 +1110,7 @@ public class ReceivePaymentView extends
 			result.addError(gridView, Accounter.constants()
 					.pleaseSelectAnyOneOfTheTransactions());
 		} else if (gridView.getAllRows().isEmpty()) {
-			result
-					.addError(gridView, Accounter.constants()
-							.selectTransaction());
+			result.addError(gridView, Accounter.constants().selectTransaction());
 		} else
 			result.add(gridView.validateGrid());
 
@@ -1116,7 +1127,10 @@ public class ReceivePaymentView extends
 			}
 		}
 		if (!isInViewMode()
-				&& DecimalUtil.isGreaterThan(getAmountInBaseCurrency(unUsedPaymentsText.getAmount()), 0))
+				&& DecimalUtil
+						.isGreaterThan(
+								getAmountInBaseCurrency(unUsedPaymentsText
+										.getAmount()), 0))
 			result.addWarning(unUsedPaymentsText,
 					AccounterWarningType.recievePayment);
 
@@ -1227,6 +1241,11 @@ public class ReceivePaymentView extends
 		customerCombo.setDisabled(isInViewMode());
 		amtText.setDisabled(isInViewMode());
 		paymentMethodCombo.setDisabled(isInViewMode());
+		if (paymentMethod != null
+				&& paymentMethod.equalsIgnoreCase(Accounter.constants()
+						.cheque())) {
+			checkNo.setDisabled(false);
+		}
 
 		super.onEdit();
 
