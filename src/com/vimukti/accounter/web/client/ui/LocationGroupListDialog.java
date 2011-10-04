@@ -149,7 +149,7 @@ public class LocationGroupListDialog extends GroupDialog<ClientLocation> {
 			}
 		}
 
-		return null;
+		return result;
 	}
 
 	protected void createLocationSGroups() {
