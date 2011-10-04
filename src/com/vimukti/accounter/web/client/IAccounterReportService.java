@@ -138,7 +138,8 @@ public interface IAccounterReportService extends RemoteService {
 			String accountName, final ClientFinanceDate startDate,
 			final ClientFinanceDate endDate);
 
-	public ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate();
+	public ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate(
+			long companyId);
 
 	public ArrayList<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
 			String taxItemname, ClientFinanceDate startDate,
