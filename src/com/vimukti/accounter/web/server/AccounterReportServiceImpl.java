@@ -468,16 +468,23 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorDetail(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+		return purchasesByVendorDetail(startDate, endDate, getCompanyId());
+	}
+
+	private ArrayList<SalesByCustomerDetail> purchasesByVendorDetail(
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long companyId) {
+
 		ArrayList<SalesByCustomerDetail> salesByCustomerDetailList = new ArrayList<SalesByCustomerDetail>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
-				endDate, getCompanyId());
+				endDate, companyId);
 
 		try {
 
 			salesByCustomerDetailList = getFinanceTool().getVendorManager()
 					.getPurchasesByVendorDetail(financeDates[0],
-							financeDates[1], getCompanyId());
+							financeDates[1], companyId);
 
 			SalesByCustomerDetail obj = new SalesByCustomerDetail();
 			if (salesByCustomerDetailList != null)
@@ -493,6 +500,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		}
 
 		return salesByCustomerDetailList;
+
 	}
 
 	@Override
@@ -692,16 +700,23 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public ArrayList<TrialBalance> getTrialBalance(ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
+		return trialBalanceReport(startDate, endDate, getCompanyId());
+	}
+
+	private ArrayList<TrialBalance> trialBalanceReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long companyId) {
+
 		ArrayList<TrialBalance> trialBalanceList = new ArrayList<TrialBalance>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
-				endDate, getCompanyId());
+				endDate, companyId);
 
 		try {
 
 			trialBalanceList = getFinanceTool().getReportManager()
 					.getTrialBalance(financeDates[0], financeDates[1],
-							getCompanyId());
+							companyId);
 
 			TrialBalance obj = new TrialBalance();
 			if (trialBalanceList != null)
@@ -716,21 +731,29 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		}
 
 		return trialBalanceList;
+
 	}
 
 	@Override
 	public ArrayList<TransactionHistory> getVendorTransactionHistory(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+		return vendorTransactionHistory(startDate, endDate, getCompanyId());
+	}
+
+	private ArrayList<TransactionHistory> vendorTransactionHistory(
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long companyId) {
+
 		ArrayList<TransactionHistory> transactionHistoryList = new ArrayList<TransactionHistory>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
-				endDate, getCompanyId());
+				endDate, companyId);
 
 		try {
 
 			transactionHistoryList = getFinanceTool().getVendorManager()
 					.getVendorTransactionHistory(financeDates[0],
-							financeDates[1], getCompanyId());
+							financeDates[1], companyId);
 
 			TransactionHistory obj = new TransactionHistory();
 			if (transactionHistoryList != null)
@@ -746,6 +769,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		}
 
 		return transactionHistoryList;
+
 	}
 
 	@Override
@@ -1246,16 +1270,22 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public ArrayList<TrialBalance> getBalanceSheetReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+		return balanceSheetReport(startDate, endDate, getCompanyId());
+	}
+
+	private ArrayList<TrialBalance> balanceSheetReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long companyId) {
 		ArrayList<TrialBalance> trialbalanceList = new ArrayList<TrialBalance>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
-				endDate, getCompanyId());
+				endDate, companyId);
 
 		try {
 
 			trialbalanceList = getFinanceTool().getReportManager()
 					.getBalanceSheetReport(financeDates[0], financeDates[1],
-							getCompanyId());
+							companyId);
 
 			TrialBalance obj = new TrialBalance();
 			if (trialbalanceList != null)
@@ -1428,16 +1458,22 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public ArrayList<TrialBalance> getProfitAndLossReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+		return profitAndLossReport(startDate, endDate, getCompanyId());
+	}
+
+	private ArrayList<TrialBalance> profitAndLossReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long companyId) {
 		ArrayList<TrialBalance> trialbalanceList = new ArrayList<TrialBalance>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
-				endDate, getCompanyId());
+				endDate, companyId);
 
 		try {
 
 			trialbalanceList = getFinanceTool().getReportManager()
 					.getProfitAndLossReport(financeDates[0], financeDates[1],
-							getCompanyId());
+							companyId);
 
 			TrialBalance obj = new TrialBalance();
 			if (trialbalanceList != null)
@@ -2684,6 +2720,35 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			long companyId) {
 		return salesByItemSummary(startDate, endDate, companyId);
+	}
+
+	public ArrayList<TrialBalance> getProfitAndLossReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long companyId) {
+		return profitAndLossReport(startDate, endDate, companyId);
+	}
+
+	public ArrayList<TrialBalance> getBalanceSheetReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long companyId) {
+		return balanceSheetReport(startDate, endDate, companyId);
+	}
+
+	public ArrayList<TrialBalance> getTrialBalance(ClientFinanceDate startDate,
+			ClientFinanceDate endDate, long companyId) {
+		return trialBalanceReport(startDate, endDate, companyId);
+	}
+
+	public ArrayList<TransactionHistory> getVendorTransactionHistory(
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long companyId) {
+		return vendorTransactionHistory(startDate, endDate, companyId);
+	}
+
+	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorDetail(
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long companyId) {
+		return purchasesByVendorDetail(startDate, endDate, companyId);
 	}
 
 }
