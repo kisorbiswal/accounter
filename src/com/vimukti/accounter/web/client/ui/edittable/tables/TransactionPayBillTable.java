@@ -23,6 +23,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CashDiscountDialog;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.customers.NewApplyCreditsDialog;
 import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
@@ -50,8 +51,11 @@ public abstract class TransactionPayBillTable extends
 	private Stack<Map<Integer, Map<Integer, Object>>> tobeReverCredittStk = new Stack<Map<Integer, Map<Integer, Object>>>();
 	private ArrayList<Map<Integer, Object>> pendingRevertedCredit = new ArrayList<Map<Integer, Object>>();
 	public boolean isAlreadyOpened;
+	private ICurrencyProvider currencyProvider;
 
-	public TransactionPayBillTable(boolean canEdit) {
+	public TransactionPayBillTable(boolean canEdit,
+			ICurrencyProvider currencyProvider) {
+		this.currencyProvider = currencyProvider;
 		this.canEdit = canEdit;
 	}
 
@@ -138,7 +142,8 @@ public abstract class TransactionPayBillTable extends
 		this.addColumn(billNo);
 
 		if (canEdit) {
-			this.addColumn(new AmountColumn<ClientTransactionPayBill>() {
+			this.addColumn(new AmountColumn<ClientTransactionPayBill>(
+					currencyProvider) {
 
 				@Override
 				public int getWidth() {
@@ -167,7 +172,8 @@ public abstract class TransactionPayBillTable extends
 				}
 			});
 
-			this.addColumn(new AmountColumn<ClientTransactionPayBill>() {
+			this.addColumn(new AmountColumn<ClientTransactionPayBill>(
+					currencyProvider) {
 
 				@Override
 				public int getWidth() {
@@ -196,7 +202,8 @@ public abstract class TransactionPayBillTable extends
 				}
 			});
 		} else {
-			this.addColumn(new AmountColumn<ClientTransactionPayBill>() {
+			this.addColumn(new AmountColumn<ClientTransactionPayBill>(
+					currencyProvider) {
 
 				@Override
 				protected boolean isEnable() {
@@ -302,7 +309,8 @@ public abstract class TransactionPayBillTable extends
 				addTdsColumn();
 			}
 
-			this.addColumn(new AmountColumn<ClientTransactionPayBill>() {
+			this.addColumn(new AmountColumn<ClientTransactionPayBill>(
+					currencyProvider) {
 
 				@Override
 				protected String getColumnName() {
@@ -351,7 +359,8 @@ public abstract class TransactionPayBillTable extends
 					return Accounter.constants().referenceNo();
 				}
 			});
-			this.addColumn(new AmountColumn<ClientTransactionPayBill>() {
+			this.addColumn(new AmountColumn<ClientTransactionPayBill>(
+					currencyProvider) {
 
 				@Override
 				protected String getValue(ClientTransactionPayBill row) {
@@ -423,7 +432,8 @@ public abstract class TransactionPayBillTable extends
 			rec.setRemaoningBalance(rec.getBalance());
 		}
 		setCreditsAndPaymentsDialiog(new NewApplyCreditsDialog(this.vendor,
-				updatedCustomerCreditsAndPayments, canEdit, selectedObject));
+				updatedCustomerCreditsAndPayments, canEdit, selectedObject,
+				currencyProvider));
 
 	}
 
@@ -710,7 +720,7 @@ public abstract class TransactionPayBillTable extends
 		// }
 		cashDiscountDialog = new CashDiscountDialog(canEdit,
 				selectedObject.getCashDiscount(), getCompany().getAccount(
-						selectedObject.getDiscountAccount()));
+						selectedObject.getDiscountAccount()), currencyProvider);
 		// } else {
 		// cashDiscountDialog.setCanEdit(canEdit);
 		// cashDiscountDialog.setCashDiscountValue(selectedObject
@@ -765,7 +775,8 @@ public abstract class TransactionPayBillTable extends
 
 		if (getCompany().getCountryPreferences().isTDSAvailable()
 				&& getCompany().getPreferences().isTDSEnabled()) {
-			this.addColumn(new AmountColumn<ClientTransactionPayBill>() {
+			this.addColumn(new AmountColumn<ClientTransactionPayBill>(
+					currencyProvider) {
 
 				@Override
 				protected boolean isEnable() {

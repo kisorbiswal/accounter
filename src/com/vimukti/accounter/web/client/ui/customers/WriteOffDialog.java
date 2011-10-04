@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 /**
@@ -36,6 +37,7 @@ public class WriteOffDialog extends BaseDialog<ClientAccount> {
 	public DynamicForm form;
 	private boolean canEdit;
 	OtherAccountsCombo discAccSelect;
+	private ICurrencyProvider currencyProvider;
 
 	public void setCashDiscountValue(Double cashDiscountValue) {
 		if (cashDiscountValue == null)
@@ -46,7 +48,8 @@ public class WriteOffDialog extends BaseDialog<ClientAccount> {
 		// + "");
 		// buffer.append(cashDiscountValue != null ? String
 		// .valueOf(cashDiscountValue) : "0.00");
-		discAmtText.setAmount(cashDiscountValue);
+		discAmtText.setAmount(currencyProvider
+				.getAmountInTransactionCurrency(cashDiscountValue));
 	}
 
 	public Double getCashDiscountValue() {
@@ -56,9 +59,10 @@ public class WriteOffDialog extends BaseDialog<ClientAccount> {
 
 	public WriteOffDialog(List<ClientAccount> allAccounts,
 			ClientTransactionReceivePayment record, boolean canEdit,
-			ClientAccount clientAccount) {
+			ClientAccount clientAccount, ICurrencyProvider currencyProvider) {
 		super(customerConstants.writeOff(), Accounter.constants()
 				.writeOffPleaseAddDetails());
+		this.currencyProvider = currencyProvider;
 		this.record = record;
 		this.allAccounts = allAccounts;
 		this.setSelectedWriteOffAccount(clientAccount);
@@ -103,9 +107,10 @@ public class WriteOffDialog extends BaseDialog<ClientAccount> {
 		discAmtText.addFocusHandler(new FocusHandler() {
 
 			public void onFocus(FocusEvent event) {
-
-				discAmtText.setAmount(writeOffAmount != null ? writeOffAmount
-						.doubleValue() : 0.0D);
+				double amount = writeOffAmount != null ? writeOffAmount
+						.doubleValue() : 0.0D;
+				discAmtText.setAmount(currencyProvider
+						.getAmountInTransactionCurrency(amount));
 				discAmtText.focusInItem();
 
 			}

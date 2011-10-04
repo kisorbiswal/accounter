@@ -4,9 +4,14 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 
 public class TransactionDiscountColumn extends
 		AmountColumn<ClientTransactionItem> {
+
+	public TransactionDiscountColumn(ICurrencyProvider currencyProvider) {
+		super(currencyProvider);
+	}
 
 	@Override
 	protected double getAmount(ClientTransactionItem row) {

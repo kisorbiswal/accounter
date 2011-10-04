@@ -123,7 +123,7 @@ public class JournalEntryView extends
 	// }
 
 	public void initListGrid() {
-		grid = new TransactionJournalEntryTable() {
+		grid = new TransactionJournalEntryTable(this) {
 
 			@Override
 			public void updateNonEditableItems() {

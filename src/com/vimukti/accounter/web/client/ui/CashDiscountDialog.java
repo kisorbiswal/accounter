@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.core.IGenericCallback;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
@@ -35,6 +36,7 @@ public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 	private boolean canEdit;
 	OtherAccountsCombo discAccSelect;
 	public DynamicForm form;
+	private ICurrencyProvider currencyProvider;
 
 	public CashDiscountDialog(List<ClientAccount> allAccounts,
 			Double cashDiscountValue, IGenericCallback<String> callback) {
@@ -54,9 +56,10 @@ public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 	}
 
 	public CashDiscountDialog(boolean canEdit, Double discountValue,
-			ClientAccount account) {
+			ClientAccount account, ICurrencyProvider currencyProvider) {
 		super(Accounter.constants().cashDiscount(), Accounter.constants()
 				.cashDiscountPleaseAddDetails());
+		this.currencyProvider = currencyProvider;
 		this.cashDiscountValue = discountValue;
 		this.canEdit = canEdit;
 		this.selectedDiscountAccount = account;
@@ -104,7 +107,8 @@ public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 
 		discAmtText = new AmountField(Accounter.constants().discountAmount(),
 				this);
-		discAmtText.setAmount(cashDiscountValue);
+		discAmtText.setAmount(currencyProvider
+				.getAmountInTransactionCurrency(cashDiscountValue));
 
 		form = new DynamicForm();
 		form.setFields(discAccSelect, discAmtText);
@@ -136,7 +140,8 @@ public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 	}
 
 	public Double getCashDiscount() {
-		cashDiscountValue = discAmtText.getAmount();
+		cashDiscountValue = currencyProvider
+				.getAmountInBaseCurrency(discAmtText.getAmount());
 		return cashDiscountValue;
 	}
 

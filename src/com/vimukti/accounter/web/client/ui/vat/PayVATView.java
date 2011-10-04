@@ -585,7 +585,8 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 						- DataUtils.getBalance(
 								getAmountInBaseCurrency(amountText.getAmount())
 										.toString()).doubleValue();
-			endingBalanceText.setAmount(toBeSetEndingBalance);
+			endingBalanceText
+					.setAmount(getAmountInTransactionCurrency(toBeSetEndingBalance));
 			// }
 		}
 

@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.ui.CashDiscountDialog;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.customers.NewApplyCreditsDialog;
 import com.vimukti.accounter.web.client.ui.customers.WriteOffDialog;
@@ -61,8 +62,11 @@ public abstract class TransactionReceivePaymentTable extends
 	private Stack<Map<Integer, Object>> revertedCreditsStack;
 
 	List<ClientTransactionReceivePayment> tranReceivePayments = new ArrayList<ClientTransactionReceivePayment>();
+	private ICurrencyProvider currencyProvider;
 
-	public TransactionReceivePaymentTable(boolean canEdit) {
+	public TransactionReceivePaymentTable(boolean canEdit,
+			ICurrencyProvider currencyProvider) {
+		this.currencyProvider = currencyProvider;
 		this.canEdit = canEdit;
 		this.company = Accounter.getCompany();
 	}
@@ -147,7 +151,8 @@ public abstract class TransactionReceivePaymentTable extends
 		};
 		this.addColumn(invoiceNumber);
 
-		AmountColumn<ClientTransactionReceivePayment> invoiceAmountColumn = new AmountColumn<ClientTransactionReceivePayment>() {
+		AmountColumn<ClientTransactionReceivePayment> invoiceAmountColumn = new AmountColumn<ClientTransactionReceivePayment>(
+				currencyProvider) {
 
 			@Override
 			protected boolean isEnable() {
@@ -178,7 +183,8 @@ public abstract class TransactionReceivePaymentTable extends
 		this.addColumn(invoiceAmountColumn);
 
 		if (canEdit) {
-			AmountColumn<ClientTransactionReceivePayment> amountDueColumn = new AmountColumn<ClientTransactionReceivePayment>() {
+			AmountColumn<ClientTransactionReceivePayment> amountDueColumn = new AmountColumn<ClientTransactionReceivePayment>(
+					currencyProvider) {
 
 				@Override
 				protected boolean isEnable() {
@@ -310,7 +316,8 @@ public abstract class TransactionReceivePaymentTable extends
 		};
 		this.addColumn(appliedCreditsColumn);
 
-		TextEditColumn<ClientTransactionReceivePayment> paymentColumn = new AmountColumn<ClientTransactionReceivePayment>() {
+		TextEditColumn<ClientTransactionReceivePayment> paymentColumn = new AmountColumn<ClientTransactionReceivePayment>(
+				currencyProvider) {
 
 			@Override
 			protected String getColumnName() {
@@ -418,7 +425,7 @@ public abstract class TransactionReceivePaymentTable extends
 			final ClientTransactionReceivePayment selectedObject) {
 		cashDiscountDialog = new CashDiscountDialog(canEdit,
 				selectedObject.getCashDiscount(),
-				getCashDiscountAccount(selectedObject));
+				getCashDiscountAccount(selectedObject), currencyProvider);
 		// } else {
 		// cashDiscountDialog.setCanEdit(canEdit);
 		// cashDiscountDialog.setCashDiscountValue(selectedObject
@@ -489,7 +496,7 @@ public abstract class TransactionReceivePaymentTable extends
 				// canEdit, selectedObject);
 				newAppliedCreditsDialiog = new NewApplyCreditsDialog(
 						this.customer, updatedCustomerCreditsAndPayments,
-						canEdit, selectedObject);
+						canEdit, selectedObject, currencyProvider);
 
 			} else {
 				if (selectedObject.isCreditsApplied()) {
@@ -570,7 +577,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			newAppliedCreditsDialiog = new NewApplyCreditsDialog(this.customer,
 					getSelectedCreditsAndPayments(selectedObject), canEdit,
-					selectedObject);
+					selectedObject, currencyProvider);
 		}
 
 		if (/*
@@ -797,7 +804,8 @@ public abstract class TransactionReceivePaymentTable extends
 	public void openWriteOffDialog(
 			final ClientTransactionReceivePayment selectedObject) {
 		writeOffDialog = new WriteOffDialog(this.company.getActiveAccounts(),
-				selectedObject, canEdit, getWriteOffAccount(selectedObject));
+				selectedObject, canEdit, getWriteOffAccount(selectedObject),
+				currencyProvider);
 		writeOffDialog.addInputDialogHandler(new InputDialogHandler() {
 
 			@Override

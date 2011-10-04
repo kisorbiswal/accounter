@@ -3,8 +3,13 @@ package com.vimukti.accounter.web.client.ui.edittable;
 import com.google.gwt.user.client.ui.TextBox;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 
 public class TransactionTotalColumn extends AmountColumn<ClientTransactionItem> {
+
+	public TransactionTotalColumn(ICurrencyProvider currencyProvider) {
+		super(currencyProvider);
+	}
 
 	@Override
 	protected double getAmount(ClientTransactionItem row) {

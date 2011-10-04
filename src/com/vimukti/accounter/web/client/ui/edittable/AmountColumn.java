@@ -3,11 +3,22 @@ package com.vimukti.accounter.web.client.ui.edittable;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.TextBox;
 import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 
 public abstract class AmountColumn<T> extends TextEditColumn<T> {
+
+	private ICurrencyProvider currencyProvider;
+
+	public AmountColumn(ICurrencyProvider currencyProvider) {
+		super();
+		this.currencyProvider = currencyProvider;
+	}
+
 	@Override
 	protected String getValue(T row) {
-		return DataUtils.getAmountAsString(getAmount(row));
+		double amount = currencyProvider
+				.getAmountInTransactionCurrency(getAmount(row));
+		return DataUtils.getAmountAsString(amount);
 	}
 
 	protected abstract double getAmount(T row);
@@ -16,7 +27,9 @@ public abstract class AmountColumn<T> extends TextEditColumn<T> {
 	public void setValue(T row, String value) {
 		try {
 			double amount = DataUtils.getAmountStringAsDouble(value);
-			setAmount(row, amount);
+			double baseCurrencyAmount = currencyProvider
+					.getAmountInBaseCurrency(amount);
+			setAmount(row, baseCurrencyAmount);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

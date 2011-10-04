@@ -113,8 +113,8 @@ public class NewCustomerPaymentView extends
 		// }
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result.addError(transactionDateItem, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDateItem,
+					accounterConstants.invalidateDate());
 		}
 
 		result.add(payForm.validate());
@@ -167,8 +167,8 @@ public class NewCustomerPaymentView extends
 
 		if (checkNo.getValue() != null && !checkNo.getValue().equals("")) {
 			String value;
-			if (checkNo.getValue().toString().equalsIgnoreCase(
-					Accounter.constants().toBePrinted())) {
+			if (checkNo.getValue().toString()
+					.equalsIgnoreCase(Accounter.constants().toBePrinted())) {
 				value = String.valueOf(Accounter.constants().toBePrinted());
 			} else {
 				value = String.valueOf(checkNo.getValue());
@@ -310,7 +310,8 @@ public class NewCustomerPaymentView extends
 				toBeSetCustomerBalance = getCustomer().getBalance()
 						- enteredBalance;
 			}
-			customerBalText.setAmount(toBeSetCustomerBalance);
+			customerBalText
+					.setAmount(getAmountInTransactionCurrency(toBeSetCustomerBalance));
 
 		}
 		if (depositInAccount != null) {
@@ -329,7 +330,8 @@ public class NewCustomerPaymentView extends
 				toBeSetEndingBalance = toBeSetEndingBalance
 						- transaction.getTotal();
 			}
-			endBalText.setAmount(toBeSetEndingBalance);
+			endBalText
+					.setAmount(getAmountInTransactionCurrency(toBeSetEndingBalance));
 
 		}
 	}
@@ -447,8 +449,8 @@ public class NewCustomerPaymentView extends
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				isChecked = (Boolean) event.getValue();
 				if (isChecked) {
-					if (printCheck.getValue().toString().equalsIgnoreCase(
-							"true")) {
+					if (printCheck.getValue().toString()
+							.equalsIgnoreCase("true")) {
 						checkNo.setValue(Accounter.constants().toBePrinted());
 						checkNo.setDisabled(true);
 					} else {
@@ -456,9 +458,8 @@ public class NewCustomerPaymentView extends
 							checkNo.setValue(Accounter.constants()
 									.toBePrinted());
 						else if (isInViewMode()) {
-							checkNo
-									.setValue(((ClientCustomerPrePayment) transaction)
-											.getCheckNumber());
+							checkNo.setValue(((ClientCustomerPrePayment) transaction)
+									.getCheckNumber());
 						}
 					}
 				} else
@@ -491,10 +492,9 @@ public class NewCustomerPaymentView extends
 				amountText, paymentMethodCombo, printCheck, checkNo,
 				memoTextAreaItem);
 		// memo and Reference
-	
-		endBalText.setAmount(getAmountInTransactionCurrency(depositInCombo
-				.getSelectedValue() != null ? depositInCombo.getSelectedValue()
-				.getCurrentBalance() : 0.00));
+		double amount = depositInCombo.getSelectedValue() != null ? depositInCombo
+				.getSelectedValue().getCurrentBalance() : 0.00;
+		endBalText.setAmount(getAmountInTransactionCurrency(amount));
 
 		payForm.setCellSpacing(5);
 		payForm.setWidth("100%");
@@ -568,10 +568,9 @@ public class NewCustomerPaymentView extends
 	}
 
 	private TextItem createCheckNumberItm() {
-		TextItem checkNoTextItem = new TextItem(UIUtils
-				.getpaymentMethodCheckBy_CompanyType(Accounter.constants()
-						.check())
-				+ " " + "No");
+		TextItem checkNoTextItem = new TextItem(
+				UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
+						.constants().check()) + " " + "No");
 		checkNoTextItem.setHelpInformation(true);
 		return checkNoTextItem;
 	}
@@ -611,10 +610,11 @@ public class NewCustomerPaymentView extends
 					}
 
 					amountText
-							.setAmount(DataUtils.isValidAmount(amount + "") ? amount
-									: 0.0);
+							.setAmount(getAmountInTransactionCurrency(DataUtils
+									.isValidAmount(amount + "") ? amount : 0.0));
 
-					adjustBalance(getAmountInTransactionCurrency(amountText.getAmount()));
+					adjustBalance(getAmountInTransactionCurrency(amountText
+							.getAmount()));
 
 				} catch (Exception e) {
 					if (e instanceof InvalidEntryException) {
@@ -735,9 +735,11 @@ public class NewCustomerPaymentView extends
 	@Override
 	public void updateNonEditableItems() {
 		if (endBalText != null)
-			this.endBalText.setAmount(getAmountInTransactionCurrency(toBeSetEndingBalance));
+			this.endBalText
+					.setAmount(getAmountInTransactionCurrency(toBeSetEndingBalance));
 		if (customerBalText != null)
-			this.customerBalText.setAmount(getAmountInTransactionCurrency(toBeSetCustomerBalance));
+			this.customerBalText
+					.setAmount(getAmountInTransactionCurrency(toBeSetCustomerBalance));
 	}
 
 	@Override

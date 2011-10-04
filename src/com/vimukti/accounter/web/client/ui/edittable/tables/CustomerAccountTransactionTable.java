@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.edittable.AccountNameColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DescriptionEditColumn;
@@ -25,13 +26,14 @@ public abstract class CustomerAccountTransactionTable extends
 	private boolean showTaxCode;
 
 	public CustomerAccountTransactionTable(boolean enableTax,
-			boolean showTaxCode) {
-		this(true, enableTax, showTaxCode);
+			boolean showTaxCode, ICurrencyProvider currencyProvider) {
+		this(true, enableTax, showTaxCode, currencyProvider);
 	}
 
 	public CustomerAccountTransactionTable(boolean needDiscount,
-			boolean enableTax, boolean showTaxCode) {
-		super(needDiscount);
+			boolean enableTax, boolean showTaxCode,
+			ICurrencyProvider currencyProvider) {
+		super(needDiscount, currencyProvider);
 		this.enableTax = enableTax;
 		this.showTaxCode = showTaxCode;
 		addEmptyRecords();
@@ -96,7 +98,7 @@ public abstract class CustomerAccountTransactionTable extends
 
 		// this.addColumn(new TransactionQuantityColumn());
 
-		this.addColumn(new TransactionUnitPriceColumn() {
+		this.addColumn(new TransactionUnitPriceColumn(currencyProvider) {
 			@Override
 			protected String getColumnName() {
 				return Accounter.constants().amount();
@@ -104,10 +106,10 @@ public abstract class CustomerAccountTransactionTable extends
 		});
 
 		if (needDiscount) {
-			this.addColumn(new TransactionDiscountColumn());
+			this.addColumn(new TransactionDiscountColumn(currencyProvider));
 		}
 
-		this.addColumn(new TransactionTotalColumn());
+		this.addColumn(new TransactionTotalColumn(currencyProvider));
 
 		// if (getCompany().getPreferences().isChargeSalesTax()) {
 
@@ -135,7 +137,7 @@ public abstract class CustomerAccountTransactionTable extends
 					}
 				});
 
-				this.addColumn(new TransactionVatColumn());
+				this.addColumn(new TransactionVatColumn(currencyProvider));
 			} else {
 				this.addColumn(new TransactionTaxableColumn());
 			}

@@ -208,10 +208,9 @@ public class CustomerRefundView extends
 			@Override
 			public void onChange(ChangeEvent event) {
 				try {
-
-					amtText.setAmount(getAmountInTransactionCurrency(DataUtils
-							.getAmountStringAsDouble(amtText.getValue()
-									.toString())));
+					Double amount = DataUtils.getAmountStringAsDouble(amtText
+							.getValue().toString());
+					amtText.setAmount(getAmountInTransactionCurrency(amount));
 					Double givenAmount = getAmountInBaseCurrency(amtText
 							.getAmount());
 					if (DecimalUtil.isLessThan(givenAmount, 0)) {
@@ -262,8 +261,8 @@ public class CustomerRefundView extends
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				isChecked = (Boolean) event.getValue();
 				if (isChecked) {
-					if (printCheck.getValue().toString().equalsIgnoreCase(
-							"true")) {
+					if (printCheck.getValue().toString()
+							.equalsIgnoreCase("true")) {
 						checkNoText.setValue(Accounter.constants()
 								.toBePrinted());
 						checkNoText.setDisabled(true);
@@ -662,7 +661,8 @@ public class CustomerRefundView extends
 					.valueCannotBe0orlessthan0(Accounter.constants().amount()));
 		}
 		if (!AccounterValidator.isValidCustomerRefundAmount(
-				amtText.getAmount(), payFromSelect.getSelectedValue())) {
+				getAmountInBaseCurrency(amtText.getAmount()),
+				payFromSelect.getSelectedValue())) {
 			result.addWarning(amtText,
 					AccounterWarningType.INVALID_CUSTOMERREFUND_AMOUNT);
 		}

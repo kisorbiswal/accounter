@@ -12,6 +12,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.edittable.AbstractDropDownTable;
 import com.vimukti.accounter.web.client.ui.edittable.AccountDropDownTable;
 import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
@@ -32,9 +33,10 @@ public abstract class TransactionJournalEntryTable extends
 	 */
 	private double creditTotal;
 	private double debitTotal;
+	private ICurrencyProvider currencyProvider;
 
-	public TransactionJournalEntryTable() {
-
+	public TransactionJournalEntryTable(ICurrencyProvider currencyProvider) {
+		this.currencyProvider = currencyProvider;
 	}
 
 	protected void initColumns() {
@@ -208,7 +210,8 @@ public abstract class TransactionJournalEntryTable extends
 		};
 		this.addColumn(memoColumn);
 
-		AmountColumn<ClientEntry> debitColumn = new AmountColumn<ClientEntry>() {
+		AmountColumn<ClientEntry> debitColumn = new AmountColumn<ClientEntry>(
+				currencyProvider) {
 
 			@Override
 			protected double getAmount(ClientEntry row) {
@@ -235,7 +238,8 @@ public abstract class TransactionJournalEntryTable extends
 		};
 		this.addColumn(debitColumn);
 
-		AmountColumn<ClientEntry> creditColumn = new AmountColumn<ClientEntry>() {
+		AmountColumn<ClientEntry> creditColumn = new AmountColumn<ClientEntry>(
+				currencyProvider) {
 
 			@Override
 			protected double getAmount(ClientEntry row) {

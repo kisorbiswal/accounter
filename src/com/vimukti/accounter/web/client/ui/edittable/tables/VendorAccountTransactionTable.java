@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.edittable.AccountNameColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DescriptionEditColumn;
@@ -24,13 +25,15 @@ public abstract class VendorAccountTransactionTable extends
 	private boolean enableTax;
 	private boolean showTaxCode;
 
-	public VendorAccountTransactionTable(boolean enableTax, boolean showTaxCode) {
-		this(true, enableTax, showTaxCode);
+	public VendorAccountTransactionTable(boolean enableTax,
+			boolean showTaxCode, ICurrencyProvider currencyProvider) {
+		this(true, enableTax, showTaxCode, currencyProvider);
 	}
 
 	public VendorAccountTransactionTable(boolean needDiscount,
-			boolean enableTax, boolean showTaxCode) {
-		super(needDiscount);
+			boolean enableTax, boolean showTaxCode,
+			ICurrencyProvider currencyProvider) {
+		super(needDiscount, currencyProvider);
 		this.enableTax = enableTax;
 		this.showTaxCode = showTaxCode;
 		addEmptyRecords();
@@ -101,7 +104,7 @@ public abstract class VendorAccountTransactionTable extends
 
 		// this.addColumn(new TransactionQuantityColumn());
 
-		this.addColumn(new TransactionUnitPriceColumn() {
+		this.addColumn(new TransactionUnitPriceColumn(currencyProvider) {
 			@Override
 			protected String getColumnName() {
 				return Accounter.constants().amount();
@@ -109,10 +112,10 @@ public abstract class VendorAccountTransactionTable extends
 		});
 
 		if (needDiscount) {
-			this.addColumn(new TransactionDiscountColumn());
+			this.addColumn(new TransactionDiscountColumn(currencyProvider));
 		}
 
-		this.addColumn(new TransactionTotalColumn());
+		this.addColumn(new TransactionTotalColumn(currencyProvider));
 
 		if (enableTax) {
 			if (showTaxCode) {
@@ -138,7 +141,7 @@ public abstract class VendorAccountTransactionTable extends
 					}
 				});
 
-				this.addColumn(new TransactionVatColumn());
+				this.addColumn(new TransactionVatColumn(currencyProvider));
 			} else {
 				this.addColumn(new TransactionTaxableColumn());
 			}

@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.core.IGenericCallback;
 import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionPayBillTable;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -64,13 +65,16 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 
 	public double totalCreditApplied = 0.0;
 	public double totalUnusedCreditAmount = 0.0;
+	private ICurrencyProvider currencyProvider;
 
 	public NewApplyCreditsDialog(ClientCustomer customer,
 			List<ClientCreditsAndPayments> updatedCustomerCreditsAndPayments,
-			boolean canEdit, ClientTransactionReceivePayment record) {
+			boolean canEdit, ClientTransactionReceivePayment record,
+			ICurrencyProvider currencyProvider) {
 		super(Accounter.constants().applyCreditsAndPaymentsFor(),
 		// + (customer != null ? customer.getName() : ""),
 				Accounter.constants().applyCreditsandPayments());
+		this.currencyProvider = currencyProvider;
 		this.customer = customer;
 		this.canEdit = canEdit;
 		updatedCreditsAndPayments = updatedCustomerCreditsAndPayments;
@@ -84,10 +88,12 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 
 	public NewApplyCreditsDialog(ClientVendor venddor,
 			List<ClientCreditsAndPayments> updatedCustomerCreditsAndPayments,
-			boolean canEdit, ClientTransactionPayBill record) {
+			boolean canEdit, ClientTransactionPayBill record,
+			ICurrencyProvider currencyProvider) {
 		super(Accounter.constants().applyCreditsAndPaymentsFor()
 				+ (venddor != null ? venddor.getName() : ""), Accounter
 				.constants().applyCreditsandPayments());
+		this.currencyProvider = currencyProvider;
 		this.vendor = venddor;
 		this.canEdit = canEdit;
 		updatedCreditsAndPayments = updatedCustomerCreditsAndPayments;
@@ -103,8 +109,10 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 			List<ClientCreditsAndPayments> creditsAndPayments,
 			int key,
 			LinkedHashMap<String, List<ClientTransactionCreditsAndPayments>> creditsAndPaymentsMap,
-			IGenericCallback<String> callback) {
+			IGenericCallback<String> callback,
+			ICurrencyProvider currencyProvider) {
 		super(Accounter.constants().applyCreditsAndPaymentsFor(), "");
+		this.currencyProvider = currencyProvider;
 		this.key = key;
 		// this.creditsAndPaymentsMap = creditsAndPaymentsMap;
 
@@ -120,7 +128,8 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 		for (ClientCreditsAndPayments crd : grid.getSelectedRecords()) {
 			totalCreditApplied += crd.getAmtTouse();
 		}
-		return totAmtUseText.getAmount();
+		return currencyProvider.getAmountInBaseCurrency(totAmtUseText
+				.getAmount());
 	}
 
 	public double getTotalUnuseCreditAmount() {
@@ -306,18 +315,22 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 			amount = totalCreditAmount;
 		}
 		if (appliedCredits == 0) {
-			totAmtUseText.setAmount(amount);
+			totAmtUseText.setAmount(currencyProvider
+					.getAmountInTransactionCurrency(amount));
 		} else {
-			totAmtUseText.setAmount(appliedCredits);
+			totAmtUseText.setAmount(currencyProvider
+					.getAmountInTransactionCurrency(appliedCredits));
 		}
-		amtDueText.setAmount(amountDue);
+		amtDueText.setAmount(currencyProvider
+				.getAmountInTransactionCurrency(amountDue));
 		if (!updatedCreditsAndPayments.isEmpty()) {
 			checkTotalAmount(false);
 		}
 	}
 
 	protected void checkTotalAmount(boolean isBlur) {
-		double totalAmount = totAmtUseText.getAmount();
+		double totalAmount = currencyProvider
+				.getAmountInBaseCurrency(totAmtUseText.getAmount());
 		if (totalAmount <= amountDue) {
 			// if (isBlur) {
 			// resetRecords();
@@ -366,13 +379,16 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 			transactionPaybill.setAppliedCredits(0.0d);
 		}
 		if (updatedCreditsAndPayments.isEmpty()) {
-			totAmtUseText.setAmount(0.0d);
+			totAmtUseText.setAmount(currencyProvider
+					.getAmountInTransactionCurrency(0.0d));
 		} else if (getTotalUnuseCreditAmount() > amountDue) {
-			totAmtUseText.setAmount(amountDue);
+			totAmtUseText.setAmount(currencyProvider
+					.getAmountInTransactionCurrency(amountDue));
 		} else {
-			totAmtUseText.setAmount(getTotalCreditAmount());
+			totAmtUseText.setAmount(currencyProvider
+					.getAmountInTransactionCurrency(getTotalCreditAmount()));
 		}
-		double totalAmount = totAmtUseText.getAmount();
+		double totalAmount = currencyProvider.getAmountInBaseCurrency(totAmtUseText.getAmount());
 		for (ClientCreditsAndPayments credit : updatedCreditsAndPayments) {
 			grid.resetValue(credit);
 			if (totalAmount > 0) {
@@ -504,7 +520,8 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 
 	@Override
 	protected boolean onOK() {
-		double totalAmount = totAmtUseText.getAmount();
+		double totalAmount = currencyProvider
+				.getAmountInBaseCurrency(totAmtUseText.getAmount());
 		if (updatedCreditsAndPayments.isEmpty() && totalAmount > 0) {
 			Accounter.showError(Accounter.constants().noCreditsToApply());
 			showError();

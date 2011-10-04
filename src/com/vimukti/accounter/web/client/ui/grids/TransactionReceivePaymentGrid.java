@@ -382,8 +382,7 @@ public class TransactionReceivePaymentGrid extends
 	}
 
 	public void openCashDiscountDialog() {
-		cashDiscountDialog = new CashDiscountDialog(canEdit, selectedObject
-				.getCashDiscount(), getCashDiscountAccount());
+		cashDiscountDialog = new CashDiscountDialog();
 		// } else {
 		// cashDiscountDialog.setCanEdit(canEdit);
 		// cashDiscountDialog.setCashDiscountValue(selectedObject
@@ -447,9 +446,9 @@ public class TransactionReceivePaymentGrid extends
 					rec.setActualAmt(rec.getBalance());
 					rec.setRemaoningBalance(rec.getBalance());
 				}
-				creditsAndPaymentsDialiog = new NewApplyCreditsDialog(
-						this.customer, updatedCustomerCreditsAndPayments,
-						canEdit, selectedObject);
+				// creditsAndPaymentsDialiog = new NewApplyCreditsDialog(
+				// this.customer, updatedCustomerCreditsAndPayments,
+				// canEdit, selectedObject);
 			} else {
 				if (selectedObject.isCreditsApplied()) {
 					Map<Integer, Object> appliedCredits = selectedObject
@@ -514,10 +513,10 @@ public class TransactionReceivePaymentGrid extends
 					.noCreditsforthiscustomer(Global.get().customer()));
 		}
 		if (!canEdit) {
-			creditsAndPaymentsDialiog = new NewApplyCreditsDialog(
-					this.customer,
-					getSelectedCreditsAndPayments(selectedObject), canEdit,
-					selectedObject);
+			// creditsAndPaymentsDialiog = new NewApplyCreditsDialog(
+			// this.customer,
+			// getSelectedCreditsAndPayments(selectedObject), canEdit,
+			// selectedObject);
 		}
 
 		if (creditsAndPaymentsDialiog == null)
@@ -676,8 +675,7 @@ public class TransactionReceivePaymentGrid extends
 	}
 
 	public void openWriteOffDialog() {
-		writeOffDialog = new WriteOffDialog(getCompany().getActiveAccounts(),
-				selectedObject, canEdit, getWriteOffAccount());
+		writeOffDialog = new WriteOffDialog();
 		writeOffDialog.addInputDialogHandler(new InputDialogHandler() {
 
 			@Override

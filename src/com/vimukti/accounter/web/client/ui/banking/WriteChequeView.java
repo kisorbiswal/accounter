@@ -540,7 +540,6 @@ public class WriteChequeView extends
 			}
 		}
 
-
 		return result;
 	}
 
@@ -594,6 +593,13 @@ public class WriteChequeView extends
 		// Setting Transactions
 		// FIXME Need to assign transaction Items from to tables.
 		if (payee != null) {
+			// In Edit mode If payee was changed to customer to vendor or
+			// anything else
+			// previous object should become null;
+			transaction.setCustomer(0);
+			transaction.setVendor(0);
+			transaction.setTaxAgency(0);
+
 			switch (payee.getType()) {
 			case ClientPayee.TYPE_CUSTOMER:
 				transaction.setCustomer(selectedCustomer.getID());
@@ -938,7 +944,7 @@ public class WriteChequeView extends
 		// if{
 
 		transactionVendorAccountTable = new VendorAccountTransactionTable(
-				false, isTrackTax(), isTaxPerDetailLine()) {
+				false, isTrackTax(), isTaxPerDetailLine(), this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -953,7 +959,7 @@ public class WriteChequeView extends
 		transactionVendorAccountTable.setDisabled(isInViewMode());
 
 		transactionVendorItemTable = new VendorItemTransactionTable(false,
-				isTrackTax(), isTaxPerDetailLine()) {
+				isTrackTax(), isTaxPerDetailLine(), this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -1406,8 +1412,7 @@ public class WriteChequeView extends
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 					if (taxCode != null) {
-						this.taxCodeSelect
-								.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
+						taxCodeSelected(taxCode);
 					}
 				}
 			}

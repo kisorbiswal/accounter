@@ -5,6 +5,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DescriptionEditColumn;
@@ -18,8 +19,9 @@ import com.vimukti.accounter.web.client.ui.edittable.TransactionVatColumn;
 
 public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 
-	public SalesOrderTable(boolean enableTax, boolean showTaxCode) {
-		super(enableTax, showTaxCode);
+	public SalesOrderTable(boolean enableTax, boolean showTaxCode,
+			ICurrencyProvider currencyProvider) {
+		super(enableTax, showTaxCode, currencyProvider);
 	}
 
 	@Override
@@ -52,11 +54,11 @@ public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 
 		this.addColumn(new TransactionQuantityColumn());
 
-		this.addColumn(new TransactionUnitPriceColumn());
+		this.addColumn(new TransactionUnitPriceColumn(currencyProvider));
 
-		this.addColumn(new TransactionDiscountColumn());
+		this.addColumn(new TransactionDiscountColumn(currencyProvider));
 
-		this.addColumn(new TransactionTotalColumn());
+		this.addColumn(new TransactionTotalColumn(currencyProvider));
 
 		if (getCompany().getPreferences().isTrackTax()
 				&& getCompany().getPreferences().isTaxPerDetailLine()) {
@@ -81,10 +83,10 @@ public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 					return true;
 				}
 			});
-			this.addColumn(new TransactionVatColumn());
+			this.addColumn(new TransactionVatColumn(currencyProvider));
 		}
 
-		this.addColumn(new AmountColumn<ClientTransactionItem>() {
+		this.addColumn(new AmountColumn<ClientTransactionItem>(currencyProvider) {
 
 			@Override
 			protected double getAmount(ClientTransactionItem row) {

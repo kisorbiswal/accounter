@@ -592,7 +592,8 @@ public class ReceiveVATView extends
 						- DataUtils.getBalance(
 								getAmountInBaseCurrency(amountText.getAmount())
 										.toString()).doubleValue();
-			endingBalanceText.setAmount(toBeSetEndingBalance);
+			endingBalanceText
+					.setAmount(getAmountInTransactionCurrency(toBeSetEndingBalance));
 		}
 		// }
 

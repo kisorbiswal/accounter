@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 
 public abstract class AbstractTransactionTable extends
@@ -28,7 +29,11 @@ public abstract class AbstractTransactionTable extends
 
 	private final boolean isSales;
 
-	public AbstractTransactionTable(boolean needDiscount, boolean isSales) {
+	protected ICurrencyProvider currencyProvider;
+
+	public AbstractTransactionTable(boolean needDiscount, boolean isSales,
+			ICurrencyProvider currencyProvider) {
+		this.currencyProvider = currencyProvider;
 		this.needDiscount = needDiscount;
 		this.isSales = isSales;
 	}

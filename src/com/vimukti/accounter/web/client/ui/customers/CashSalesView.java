@@ -240,7 +240,7 @@ public class CashSalesView extends
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
 		customerAccountTransactionTable = new CustomerAccountTransactionTable(
-				isTrackTax(), isTaxPerDetailLine()) {
+				isTrackTax(), isTaxPerDetailLine(), this) {
 
 			@Override
 			public void updateNonEditableItems() {
@@ -275,7 +275,7 @@ public class CashSalesView extends
 		accountsDisclosurePanel.setWidth("100%");
 
 		customerItemTransactionTable = new CustomerItemTransactionTable(
-				isTrackTax(), isTaxPerDetailLine()) {
+				isTrackTax(), isTaxPerDetailLine(), this) {
 
 			@Override
 			public void updateNonEditableItems() {

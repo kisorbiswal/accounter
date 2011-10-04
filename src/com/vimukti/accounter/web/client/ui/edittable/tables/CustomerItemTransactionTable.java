@@ -4,6 +4,7 @@ import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DescriptionEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.ItemNameColumn;
@@ -24,13 +25,15 @@ public abstract class CustomerItemTransactionTable extends
 	/**
 	 * Creates the instance
 	 */
-	public CustomerItemTransactionTable(boolean enableTax, boolean showTaxCode) {
-		this(true, enableTax, showTaxCode);
+	public CustomerItemTransactionTable(boolean enableTax, boolean showTaxCode,
+			ICurrencyProvider currencyProvider) {
+		this(true, enableTax, showTaxCode, currencyProvider);
 	}
 
 	public CustomerItemTransactionTable(boolean needDiscount,
-			boolean enableTax, boolean showTaxCode) {
-		super(needDiscount);
+			boolean enableTax, boolean showTaxCode,
+			ICurrencyProvider currencyProvider) {
+		super(needDiscount, currencyProvider);
 		this.enableTax = enableTax;
 		this.showTaxCode = showTaxCode;
 		addEmptyRecords();
@@ -81,13 +84,13 @@ public abstract class CustomerItemTransactionTable extends
 
 		this.addColumn(new TransactionQuantityColumn());
 
-		this.addColumn(new TransactionUnitPriceColumn());
+		this.addColumn(new TransactionUnitPriceColumn(currencyProvider));
 
 		if (needDiscount) {
-			this.addColumn(new TransactionDiscountColumn());
+			this.addColumn(new TransactionDiscountColumn(currencyProvider));
 		}
 
-		this.addColumn(new TransactionTotalColumn());
+		this.addColumn(new TransactionTotalColumn(currencyProvider));
 
 		// if (getCompany().getPreferences().isChargeSalesTax()) {
 
@@ -115,7 +118,7 @@ public abstract class CustomerItemTransactionTable extends
 					}
 				});
 
-				this.addColumn(new TransactionVatColumn());
+				this.addColumn(new TransactionVatColumn(currencyProvider));
 			} else {
 				this.addColumn(new TransactionTaxableColumn());
 			}

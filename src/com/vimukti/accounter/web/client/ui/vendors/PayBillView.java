@@ -248,7 +248,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	}
 
 	private void initListGrid() {
-		grid = new TransactionPayBillTable(!isInViewMode()) {
+		grid = new TransactionPayBillTable(!isInViewMode(), this) {
 
 			@Override
 			protected void updateFootervalues(ClientTransactionPayBill row,

@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.edittable.AbstractDropDownTable;
 import com.vimukti.accounter.web.client.ui.edittable.AccountDropDownTable;
 import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
@@ -30,9 +31,10 @@ public abstract class MakeDepositTransactionTable extends
 
 	List<Integer> selectedValues = new ArrayList<Integer>();
 	private Double totallinetotal = 0.0;
+	private ICurrencyProvider currencyProvider;
 
-	public MakeDepositTransactionTable() {
-		
+	public MakeDepositTransactionTable(ICurrencyProvider currencyProvider) {
+		this.currencyProvider = currencyProvider;
 	}
 
 	protected void initColumns() {
@@ -190,7 +192,7 @@ public abstract class MakeDepositTransactionTable extends
 			}
 		});
 
-		this.addColumn(new AmountColumn<ClientTransactionMakeDeposit>() {
+		this.addColumn(new AmountColumn<ClientTransactionMakeDeposit>(currencyProvider) {
 
 			@Override
 			protected String getColumnName() {

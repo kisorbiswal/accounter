@@ -225,7 +225,8 @@ public class MakeDepositView extends
 							.cashBackAmountErrorMsg());
 					cashBackAmount = 0.00;
 					// cashBackAmountText.setValue("$0.00");
-					cashBackAmountText.setAmount(getAmountInTransactionCurrency(0.00));
+					cashBackAmountText
+							.setAmount(getAmountInTransactionCurrency(0.00));
 				} /*
 				 * else if (cashBackAmount > 1000000000000.00) { SC.say(
 				 * "Cash-back Amount should not exceed +UIUtils.getCurrencySymbol() +"
@@ -239,13 +240,14 @@ public class MakeDepositView extends
 			Double diff = calculatedTotal.doubleValue()
 					- cashBackAmount.doubleValue();
 			// cashBackAmountText.setValue(UIUtils.format(cashBackAmount));
-			cashBackAmountText.setAmount(cashBackAmount);
+			cashBackAmountText
+					.setAmount(getAmountInTransactionCurrency(cashBackAmount));
 			// totText.setValue(UIUtils.format(diff));
 			totText.setAmount(getAmountInTransactionCurrency(diff));
 		} catch (Exception e) {
 			Accounter.showError(Accounter.constants().enterValidAmount());
 			// cashBackAmountText.setValue("$0.00");
-			cashBackAmountText.setAmount(0.00);
+			cashBackAmountText.setAmount(getAmountInTransactionCurrency(0.00));
 
 		}
 
@@ -367,7 +369,7 @@ public class MakeDepositView extends
 	}
 
 	public void initListGrid() {
-		gridView = new MakeDepositTransactionTable() {
+		gridView = new MakeDepositTransactionTable(this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -886,8 +888,9 @@ public class MakeDepositView extends
 			// cashBackAmountText.setValue(UIUtils
 			// .format(((MakeDeposit) transactionObject)
 			// .getCashBackAmount()));
-			cashBackAmountText.setAmount(getAmountInTransactionCurrency(((ClientMakeDeposit) transaction)
-					.getCashBackAmount()));
+			cashBackAmountText
+					.setAmount(getAmountInTransactionCurrency(transaction
+							.getCashBackAmount()));
 			addTransactionMakeDepositsToGrid(transaction
 					.getTransactionMakeDeposit());
 

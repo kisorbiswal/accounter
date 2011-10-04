@@ -187,13 +187,14 @@ public class PurchaseOrderView extends
 				form.setFields(taxCodeSelect);
 				prodAndServiceHLay.add(form);
 
-//				this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
-//				if (taxCode != null) {
-//					this.taxCodeSelect
-//							.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
-//				}
-//				this.transactionTotalNonEditableText.setAmount(transaction
-//						.getTotal());
+				// this.taxCode =
+				// getTaxCodeForTransactionItems(this.transactionItems);
+				// if (taxCode != null) {
+				// this.taxCodeSelect
+				// .setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
+				// }
+				// this.transactionTotalNonEditableText.setAmount(transaction
+				// .getTotal());
 			}
 			amountsForm.setFields(netAmount, vatTotalNonEditableText,
 					transactionTotalNonEditableText);
@@ -404,7 +405,7 @@ public class PurchaseOrderView extends
 
 		// Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
-				isTrackTax() && isTrackPaidTax(), isTaxPerDetailLine()) {
+				isTrackTax() && isTrackPaidTax(), isTaxPerDetailLine(), this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -437,7 +438,7 @@ public class PurchaseOrderView extends
 		accountsDisclosurePanel.setOpen(true);
 		accountsDisclosurePanel.setWidth("100%");
 		vendorItemTransactionTable = new VendorItemTransactionTable(
-				isTrackTax(), isTaxPerDetailLine()) {
+				isTrackTax(), isTaxPerDetailLine(), this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -701,7 +702,7 @@ public class PurchaseOrderView extends
 			initShippingTerms();
 			initShippingMethod();
 		} else {
-			//taxCodeSelected(this.taxCode);
+			// taxCodeSelected(this.taxCode);
 			ClientCompany company = getCompany();
 
 			vendorAccountTransactionTable
