@@ -104,10 +104,11 @@ public class Manager {
 	}
 
 	public ClientFinanceDate[] getMinimumAndMaximumTransactionDate(
-			) throws AccounterException {
+			long companyId) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery(
-				"getMinimumAndMaximumTransactionDate");
+				"getMinimumAndMaximumTransactionDate").setParameter(
+				"companyId", companyId);
 		List list = query.list();
 		Object[] object = null;
 		Iterator iterator = list.iterator();
