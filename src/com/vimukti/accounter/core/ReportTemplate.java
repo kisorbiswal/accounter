@@ -38,7 +38,7 @@ public class ReportTemplate extends TemplateBuilder implements ITemplate {
 	public String getBody() {
 		String body = "<html><head><link rel='stylesheet' type='text/css' href='"
 				+ style1
-				+ "' media='all'></link></head><body>"
+				+ "' media='all'/></head><body>"
 				+ this.bodyHtml
 				+ "</body></html>";
 		body = body.replace("<br>", "<br/>");
