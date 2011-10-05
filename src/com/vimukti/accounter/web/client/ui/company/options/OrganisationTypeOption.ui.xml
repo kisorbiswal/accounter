@@ -14,29 +14,8 @@
 				spacing="6">
 				<g:Label ui:field="radioButtonHeaderLabel" styleName="header" />
 			</g:HorizontalPanel>
-			<g:HorizontalPanel>
-				<g:VerticalPanel ui:field="viewPanel">
-					<g:VerticalPanel ui:field="radioButtonPanel" spacing="1">
-				<g:Label ui:field="organizeText" />
-				<g:RadioButton name="new name" ui:field="propriterShip" />
-				<g:Label ui:field="uninCorporated" />
-				<g:RadioButton name="new name" ui:field="partnership" />
-				<g:Label ui:field="morePartners" />
-				<g:RadioButton name="new name" ui:field="lLC" />
-				<g:Label ui:field="lLCText" />
-				<g:RadioButton name="new name" ui:field="corporation" />
-				<g:Label ui:field="corporationText" />
-				<g:RadioButton name="new name" ui:field="sCorporation" />
-				<g:Label ui:field="sCorporationText" />
-				<g:RadioButton name="new name" ui:field="nonProfit" />
-				<g:Label ui:field="nonProfitText" />
-				<g:RadioButton name="new name" ui:field="other" />
+			<g:VerticalPanel ui:field="viewPanel" spacing="1">
 			</g:VerticalPanel>
-				</g:VerticalPanel>
-				<g:Cell horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE">
-					<g:ListBox ui:field="lLCCombo" />
-				</g:Cell>
-			</g:HorizontalPanel>
 		</g:VerticalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 

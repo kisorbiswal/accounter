@@ -14,9 +14,15 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class PaymentsAction extends Action {
 
-	public PaymentsAction(String text) {
+	public static final int BANKING = 2;
+	public static final int COMPANY = 1;
+
+	public PaymentsAction(String text, int category) {
 		super(text);
-		this.catagory = Accounter.constants().banking();
+		if (category == COMPANY)
+			catagory = Accounter.constants().company();
+		else
+			catagory = Accounter.constants().banking();
 	}
 
 	@Override

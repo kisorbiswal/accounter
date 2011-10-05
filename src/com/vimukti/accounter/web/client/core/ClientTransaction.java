@@ -24,7 +24,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	public static final int TYPE_INVOICE = 8;
 	public static final int TYPE_ISSUE_PAYMENT = 9;
 	public static final int TYPE_MAKE_DEPOSIT = 10;
-	public static final int TYPE_PAY_BILL = 25;
+	public static final int TYPE_PAY_BILL = 11;
 	public static final int TYPE_RECEIVE_PAYMENT = 12;
 	public static final int TYPE_TRANSFER_FUND = 13;
 	public static final int TYPE_VENDOR_CREDIT_MEMO = 14;
@@ -53,7 +53,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	 * a Paybill.So,to open the VendorPaymentView in edit mode we use this
 	 * transaction.This constant not exited @ server side.
 	 */
-	public static final int TYPE_VENDOR_PAYMENT = 11;
+	public static final int TYPE_VENDOR_PAYMENT = 25;
 	public static final int TYPE_RECEIVE_VAT = 31;
 
 	public static final int STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED = 0;
@@ -916,8 +916,8 @@ public abstract class ClientTransaction implements IAccounterCore {
 		}
 		return false;
 	}
-
-	public boolean haveTax() {
+	
+	public boolean haveTax(){
 		if (transactionItems == null) {
 			return false;
 		}

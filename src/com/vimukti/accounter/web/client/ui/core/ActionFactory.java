@@ -26,7 +26,6 @@ import com.vimukti.accounter.web.client.ui.banking.MakeDepositAction;
 import com.vimukti.accounter.web.client.ui.banking.MatchTrasactionsAction;
 import com.vimukti.accounter.web.client.ui.banking.NewBankAccountAction;
 import com.vimukti.accounter.web.client.ui.banking.NewReconcileAccountAction;
-import com.vimukti.accounter.web.client.ui.banking.PaymentsAction;
 import com.vimukti.accounter.web.client.ui.banking.PrintChecksAction;
 import com.vimukti.accounter.web.client.ui.banking.ReconciliationsListAction;
 import com.vimukti.accounter.web.client.ui.banking.ServicesOverviewAction;
@@ -72,6 +71,7 @@ import com.vimukti.accounter.web.client.ui.company.NewbankAction;
 import com.vimukti.accounter.web.client.ui.company.PaySalesTaxAction;
 import com.vimukti.accounter.web.client.ui.company.PayTypeListAction;
 import com.vimukti.accounter.web.client.ui.company.PaymentTermListAction;
+import com.vimukti.accounter.web.client.ui.company.PaymentsAction;
 import com.vimukti.accounter.web.client.ui.company.PreferencesAction;
 import com.vimukti.accounter.web.client.ui.company.PriceLevelListAction;
 import com.vimukti.accounter.web.client.ui.company.PurchaseItemsAction;
@@ -347,12 +347,8 @@ public class ActionFactory {
 				Global.get().Account()));
 	}
 
-	public static PaymentsAction getPaymentsAction(int i) {
-		PaymentsAction action = new PaymentsAction(actionsConstants.payments());
-		if (i == 1)
-			action.catagory = Accounter.constants().company();
-		else
-			action.catagory = Accounter.constants().banking();
+	public static PaymentsAction getPaymentsAction(int category) {
+		PaymentsAction action = new PaymentsAction(actionsConstants.payments(),category);
 		return action;
 	}
 
