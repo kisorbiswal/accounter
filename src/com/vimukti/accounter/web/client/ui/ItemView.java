@@ -871,13 +871,12 @@ public class ItemView extends BaseView<ClientItem> {
 		// valid income accont and valid expense account?
 
 		String name = nameText.getValue().toString();
-		if (isInViewMode()) {
-			ClientItem clientItem = company.getItemByName(name);
-			if (clientItem != null) {
-				result.addError(nameText, Accounter.constants()
-						.aItemGroupAlreadyExistswiththisname());
-				return result;
-			}
+
+		ClientItem clientItem = company.getItemByName(name);
+		if (clientItem != null) {
+			result.addError(nameText, Accounter.constants()
+					.aItemGroupAlreadyExistswiththisname());
+			return result;
 		}
 
 		result.add(itemForm.validate());
