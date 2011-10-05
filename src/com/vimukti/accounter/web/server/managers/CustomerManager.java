@@ -738,7 +738,7 @@ public class CustomerManager extends Manager {
 
 		Session session = HibernateUtil.getCurrentSession();
 		ClientFinanceDate date[] = this
-				.getMinimumAndMaximumTransactionDate(companyId);
+				.getMinimumAndMaximumTransactionDate();
 		long start = date[0] != null ? date[0].getDate() : startDate.getDate();
 		// Calendar cal = Calendar.getInstance();
 		// SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
