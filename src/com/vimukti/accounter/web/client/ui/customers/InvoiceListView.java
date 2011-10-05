@@ -206,7 +206,8 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 						&& invoice.getDueDate() != null
 						&& (invoice.getStatus() != ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED)
 						&& !invoice.isVoided())
-					grid.addData(invoice);
+					invoice.setPrint(false);
+				grid.addData(invoice);
 				continue;
 
 			} else if (text.equals(OVER_DUE)) {
@@ -216,19 +217,23 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 						&& (invoice.getDueDate().compareTo(
 								new ClientFinanceDate()) < 0)
 						&& !invoice.isVoided())
-					grid.addData(invoice);
+					invoice.setPrint(false);
+				grid.addData(invoice);
 				continue;
 			} else if (text.equals(VOID)) {
 				if (invoice.isVoided()
 				// && !invoice.isDeleted()
 				)
-					grid.addData(invoice);
+					invoice.setPrint(false);
+				grid.addData(invoice);
 				continue;
 			} else if (text.equals(ALL)) {
+				invoice.setPrint(false);
 				grid.addData(invoice);
 			} else if (text.equals(DRAFT)) {
 				if (invoice.getSaveStatus() == ClientTransaction.STATUS_DRAFT)
-					grid.addData(invoice);
+					invoice.setPrint(false);
+				grid.addData(invoice);
 			}
 		}
 
