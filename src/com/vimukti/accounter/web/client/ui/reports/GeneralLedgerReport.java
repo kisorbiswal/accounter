@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
-import com.vimukti.accounter.core.ReportsGenerator;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.serverreports.GeneralLedgerServerReport;
 
@@ -13,7 +12,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.GeneralLedgerServerRepo
 public class GeneralLedgerReport extends TransactionDetailByAccountReport {
 
 	public GeneralLedgerReport() {
-		setReportType(ReportsGenerator.REPORT_TYPE_GENERAL_LEDGER_REPORT);
+		setReportType(REPORT_TYPE_GENERAL_LEDGER_REPORT);
 		this.serverReport = new GeneralLedgerServerReport(
 				new ClientFinanceDate().getDate(),
 				new ClientFinanceDate().getDate(), 0, this);
