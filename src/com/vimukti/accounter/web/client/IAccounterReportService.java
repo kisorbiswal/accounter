@@ -139,7 +139,7 @@ public interface IAccounterReportService extends RemoteService {
 			final ClientFinanceDate endDate);
 
 	public ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate(
-			);
+			long companyId);
 
 	public ArrayList<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
 			String taxItemname, ClientFinanceDate startDate,
