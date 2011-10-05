@@ -89,8 +89,7 @@ public class CashExpenseView extends
 		// Setting Pay From Account
 		transaction
 				.setPayFrom(payFromCombo.getSelectedValue() != null ? payFromCombo
-						.getSelectedValue().getID()
-						: 0);
+						.getSelectedValue().getID() : 0);
 
 		// Setting Check number
 		transaction.setCheckNumber(checkNo.getValue().toString());
@@ -130,8 +129,8 @@ public class CashExpenseView extends
 
 		result.add(vendorForm.validate());
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(deliveryDateItem
-				.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(
+				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
 			result.addError(deliveryDateItem, Accounter.constants().the()
 					+ " "
 					+ Accounter.constants().deliveryDate()
@@ -142,8 +141,8 @@ public class CashExpenseView extends
 		}
 
 		if (getAllTransactionItems().isEmpty()) {
-			result.addError(vendorAccountTransactionTable, constants
-					.blankTransaction());
+			result.addError(vendorAccountTransactionTable,
+					constants.blankTransaction());
 		} else {
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());
@@ -177,9 +176,9 @@ public class CashExpenseView extends
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button, Accounter.messages().accounts(
-				Global.get().Account()), Accounter.constants()
-				.productOrServiceItem());
+		setMenuItems(button,
+				Accounter.messages().accounts(Global.get().Account()),
+				Accounter.constants().productOrServiceItem());
 	}
 
 	@Override
@@ -564,11 +563,15 @@ public class CashExpenseView extends
 			initMemoAndReference();
 			checkNo.setDisabled(true);
 			if (getPreferences().isTrackPaidTax()) {
-				netAmount.setAmount(getAmountInTransactionCurrency(transaction.getNetAmount()));
-				vatTotalNonEditableText.setAmount(getAmountInTransactionCurrency(transaction.getTotal()
-						- transaction.getNetAmount()));
+				netAmount.setAmount(getAmountInTransactionCurrency(transaction
+						.getNetAmount()));
+				vatTotalNonEditableText
+						.setAmount(getAmountInTransactionCurrency(transaction
+								.getTotal() - transaction.getNetAmount()));
 			}
-			transactionTotalNonEditableText.setAmount(getAmountInTransactionCurrency(transaction.getTotal()));
+			transactionTotalNonEditableText
+					.setAmount(getAmountInTransactionCurrency(transaction
+							.getTotal()));
 
 			if (vatinclusiveCheck != null) {
 				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
@@ -612,6 +615,7 @@ public class CashExpenseView extends
 		long code = vendor.getTAXCode();
 		if (code == 0) {
 			code = Accounter.getCompany().getDefaultTaxCode();
+			taxCodeSelect.setComboItem(getCompany().getTAXCode(code));
 		}
 		vendorAccountTransactionTable.setTaxCode(code, false);
 		vendorItemTransactionTable.setTaxCode(code, false);
@@ -629,7 +633,8 @@ public class CashExpenseView extends
 	public void saveAndUpdateView() {
 		updateTransaction();
 		if (getPreferences().isTrackPaidTax()) {
-			transaction.setNetAmount(getAmountInBaseCurrency(netAmount.getAmount()));
+			transaction.setNetAmount(getAmountInBaseCurrency(netAmount
+					.getAmount()));
 			// if (vatinclusiveCheck != null)
 			// cashPurchase.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 			// .getValue());
@@ -665,9 +670,12 @@ public class CashExpenseView extends
 
 		netAmount.setAmount(getAmountInTransactionCurrency(lineTotal));
 		if (getPreferences().isTrackPaidTax()) {
-			vatTotalNonEditableText.setAmount(getAmountInTransactionCurrency(grandTotal - lineTotal));
+			vatTotalNonEditableText
+					.setAmount(getAmountInTransactionCurrency(grandTotal
+							- lineTotal));
 		}
-		transactionTotalNonEditableText.setAmount(getAmountInTransactionCurrency(grandTotal));
+		transactionTotalNonEditableText
+				.setAmount(getAmountInTransactionCurrency(grandTotal));
 	}
 
 	public static CashPurchaseView getInstance() {
@@ -742,7 +750,8 @@ public class CashExpenseView extends
 
 	@Override
 	protected Double getTransactionTotal() {
-		return getAmountInBaseCurrency(this.transactionTotalNonEditableText.getAmount());
+		return getAmountInBaseCurrency(this.transactionTotalNonEditableText
+				.getAmount());
 	}
 
 	private void resetFormView() {
