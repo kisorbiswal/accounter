@@ -653,7 +653,7 @@ public class CompanyManager extends Manager {
 		ClientCompany clientCompany = clientConvertUtil.toClientObject(company,
 				ClientCompany.class);
 
-		ClientFinanceDate[] dates = getMinimumAndMaximumTransactionDate();
+		ClientFinanceDate[] dates = getMinimumAndMaximumTransactionDate(companyId);
 
 		clientCompany.setTransactionStartDate(dates[0]);
 		clientCompany.setTransactionEndDate(dates[1]);
