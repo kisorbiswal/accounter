@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.company.HelpItem;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
+import com.vimukti.accounter.web.client.ui.company.PaymentsAction;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
@@ -336,8 +337,9 @@ public class MainFinanceWindow extends VerticalPanel {
 				ActionFactory.getCustomersAction());
 		actions.put(ActionFactory.getVendorsAction().getHistoryToken(),
 				ActionFactory.getVendorsAction());
-		actions.put(ActionFactory.getPaymentsAction(1).getHistoryToken(),
-				ActionFactory.getPaymentsAction(1));
+		actions.put(ActionFactory.getPaymentsAction(PaymentsAction.COMPANY)
+				.getHistoryToken(), ActionFactory
+				.getPaymentsAction(PaymentsAction.COMPANY));
 
 		actions.put(ActionFactory.getSalesPersonAction().getHistoryToken(),
 				ActionFactory.getSalesPersonAction());
@@ -443,8 +445,9 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(
 				ActionFactory.getCreditCardChargeAction().getHistoryToken(),
 				ActionFactory.getCreditCardChargeAction());
-		actions.put(ActionFactory.getPaymentsAction(2).getHistoryToken(),
-				ActionFactory.getPaymentsAction(2));
+		actions.put(ActionFactory.getPaymentsAction(PaymentsAction.BANKING)
+				.getHistoryToken(), ActionFactory
+				.getPaymentsAction(PaymentsAction.BANKING));
 
 		actions.put(ActionFactory.getSalesOrderAction().getHistoryToken(),
 				ActionFactory.getSalesOrderAction());

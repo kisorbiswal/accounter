@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.company.ChartOfAccountsAction;
 import com.vimukti.accounter.web.client.ui.company.ItemsAction;
+import com.vimukti.accounter.web.client.ui.company.PaymentsAction;
 import com.vimukti.accounter.web.client.ui.company.PreferencesAction;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -743,7 +744,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		CustomMenuBar bankingListMenuBar = getSubMenu();
 		// bankingListMenuBar.addItem(ActionFactory
 		// .getChartsOfAccountsAction());
-		bankingListMenuBar.addItem(ActionFactory.getPaymentsAction(2));
+		bankingListMenuBar.addItem(ActionFactory.getPaymentsAction(PaymentsAction.BANKING));
 		ChartOfAccountsAction chartOfAccountsAction = new ChartOfAccountsAction(
 				Accounter.messages().bankAccounts(Global.get().Account()),
 				ClientAccount.TYPE_BANK);
@@ -1087,7 +1088,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		companyListMenuBar.addItem(ActionFactory.getCustomersAction());
 		companyListMenuBar.addItem(ActionFactory.getVendorsAction());
 		if (Accounter.getUser().canSeeBanking())
-			companyListMenuBar.addItem(ActionFactory.getPaymentsAction(1));
+			companyListMenuBar.addItem(ActionFactory.getPaymentsAction(PaymentsAction.COMPANY));
 		companyListMenuBar.addItem(ActionFactory.getSalesPersonAction());
 		// companyListMenuBar.addItem(ActionFactory.getWarehouseListAction());
 		// companyListMenuBar.addItem(ActionFactory.getRecurringsListAction());
