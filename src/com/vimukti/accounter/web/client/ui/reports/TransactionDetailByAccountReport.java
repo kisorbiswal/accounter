@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import com.vimukti.accounter.core.ReportsGenerator;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
@@ -11,7 +12,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.TransactionDetailByAcco
 public class TransactionDetailByAccountReport extends
 		AbstractReportView<TransactionDetailByAccount> {
 	private String currentsectionName = "";
-	private int reportType = 115;
+	private int reportType = ReportsGenerator.REPORT_TYPE_TRANSACTIONDETAILBYACCOUNT;
 
 	public TransactionDetailByAccountReport() {
 		this.serverReport = new TransactionDetailByAccountServerReport(this);
