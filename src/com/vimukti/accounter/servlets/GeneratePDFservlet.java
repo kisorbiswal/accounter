@@ -67,14 +67,10 @@ public class GeneratePDFservlet extends BaseServlet {
 		ServletOutputStream sos = null;
 		try {
 
-			File propertyFile = new File("FinanceDir");
-			if (!propertyFile.exists()) {
-				System.err
-						.println("Their is a No Folder For Style Sheet & Image");
-			}
-			String footerImg = ("FinanceDir" + File.separator + "footer-print-img.jpg");
+			String footerImg = ("war" + File.separator + "images"
+					+ File.separator + "footer-print-img.jpg");
 
-			String style = ("FinanceDir" + File.separator + "FinancePrint.css");
+			String style = ("war" + File.separator + "css" + File.separator + "FinancePrint.css");
 
 			getTempleteObjByRequest(request, footerImg, style, companyName);
 
