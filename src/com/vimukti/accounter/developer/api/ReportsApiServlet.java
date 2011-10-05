@@ -348,7 +348,7 @@ public class ReportsApiServlet extends HttpServlet {
 
 			} else if (methodName.equals("minimumandmaximumtransactiondate")) {
 				List<ClientFinanceDate> minimumAndMaximumTransactionDate = accounterReportServiceImpl
-						.getMinimumAndMaximumTransactionDate();
+						.getMinimumAndMaximumTransactionDate(companyId);
 				sendClentFinanceDateResult(req, resp,
 						minimumAndMaximumTransactionDate);
 
