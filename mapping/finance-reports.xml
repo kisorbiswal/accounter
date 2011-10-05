@@ -357,11 +357,10 @@
 
 
 	<sql-query name="getMinimumAndMaximumTransactionDate">
-		<query-param name="companyId" type="long" />
 		<return-scalar column="MINIMUM_DATE" type="long" />
 		<return-scalar column="MAXIMUM_DATE" type="long" />
 		SELECT MIN(T.T_DATE) AS MINIMUM_DATE, MAX(T.T_DATE) AS MAXIMUM_DATE
-		FROM TRANSACTION T WHERE T.COMPANY_ID=:companyId
+		FROM TRANSACTION T 
 	</sql-query>
 
 
