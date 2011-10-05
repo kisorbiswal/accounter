@@ -105,9 +105,11 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 			}
 			// setting billing address
 			Address bill = memo.getBillingAddress();
+			String customerName = forUnusedAddress(
+					memo.getCustomer().getName(), false);
 			if (bill != null) {
 				String customernameAddress = forUnusedAddress(cname, false)
-						+ forUnusedAddress(memo.getCustomer().getName(), false)
+						+ customerName
 						+ forUnusedAddress(bill.getAddress1(), false)
 						+ forUnusedAddress(bill.getStreet(), false)
 						+ forUnusedAddress(bill.getCity(), false)
@@ -123,6 +125,9 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 					t.addBlock("creditHead");
 
 				}
+			} else {
+				t.setVariable("customerNameNBillAddress", customerName);
+				t.addBlock("creditHead");
 			}
 
 			// t.setVariable("description", "Description");
