@@ -143,10 +143,11 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			}
 			// setting billing address
 			Address bill = invoice.getBillingAddress();
+			String customerName = forUnusedAddress(invoice.getCustomer()
+					.getName(), false);
 			if (bill != null) {
 				String billAddress = forUnusedAddress(cname, false)
-						+ forUnusedAddress(invoice.getCustomer().getName(),
-								false)
+						+ customerName
 						+ forUnusedAddress(bill.getAddress1(), false)
 						+ forUnusedAddress(bill.getStreet(), false)
 						+ forUnusedAddress(bill.getCity(), false)
@@ -159,8 +160,10 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				if (billAddress.trim().length() > 0) {
 					t.setVariable("billingAddress", billAddress);
 					t.addBlock("billhead");
-
 				}
+			} else {
+				t.setVariable("billingAddress", customerName);
+				t.addBlock("billhead");
 			}
 
 			// setting shipping address
