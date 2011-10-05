@@ -1439,7 +1439,7 @@ public class VendorManager extends Manager {
 		Session session = HibernateUtil.getCurrentSession();
 
 		ClientFinanceDate date[] = this
-				.getMinimumAndMaximumTransactionDate();
+				.getMinimumAndMaximumTransactionDate(companyId);
 		long start = date[0] != null ? date[0].getDate() : startDate.getDate();
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
