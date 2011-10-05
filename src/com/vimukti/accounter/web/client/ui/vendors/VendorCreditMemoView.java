@@ -79,6 +79,7 @@ public class VendorCreditMemoView extends
 		long code = vendor.getTAXCode();
 		if (code == 0) {
 			code = Accounter.getCompany().getDefaultTaxCode();
+			taxCodeSelect.setComboItem(getCompany().getTAXCode(code));
 		}
 		vendorAccountTransactionTable.setTaxCode(code, false);
 		vendorItemTransactionTable.setTaxCode(code, false);
