@@ -34,7 +34,8 @@ import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		implements ISorting<R>, IFinanceReport<R>, AsyncCallback<ArrayList<R>>,
 		IPrintableView {
-
+	public final static int REPORT_TYPE_GENERAL_LEDGER_REPORT = 162;
+	public final static int REPORT_TYPE_TRANSACTIONDETAILBYACCOUNT = 115;
 	public static final int TOOLBAR_TYPE_DATE_RANGE = 1;
 	public static final int TOOLBAR_TYPE_AS_OF = 2;
 	public static final int TOOLBAR_TYPE_PRIOR_VATRETURN = 3;
