@@ -3282,7 +3282,6 @@
 	</sql-query>
 
 	<sql-query name="createSalesPurchasesView">
-		<query-param name="companyId" type="long" />
 		CREATE OR REPLACE
 		VIEW SALES_PURCHASES_VIEW AS
 		select
@@ -3448,12 +3447,11 @@
 		on
 		A.ID = TI.ACCOUNT_ID
 		where TI.ITEM_ID is not null or TI.ACCOUNT_ID is
-		not null AND T.COMPANY_ID=:companyId order by T.ID
+		not null order by T.ID
 
 
 	</sql-query>
 	<sql-query name="createTransactionHistoryView">
-		<query-param name="companyId" type="long" />
 		CREATE OR REPLACE VIEW
 		TRANSACTION_HISTORY_VIEW AS
 		select
@@ -3805,13 +3803,11 @@
 		join
 		PAYEE P
 		on
-		P.ID = C.ID OR P.ID = V.ID AND P.COMPANY_ID=:companyId
-		order by T.ID
+		P.ID = C.ID OR P.ID = V.ID order by T.ID
 
 	</sql-query>
 
 	<sql-query name="createSalesPurchasesViewForclient">
-		<query-param name="companyId" type="long" />
 		CREATE VIEW IF NOT EXISTS
 		SALES_PURCHASES_VIEW AS
 		select
@@ -3987,11 +3983,10 @@
 		on
 		A.ID = TI.ACCOUNT_ID
 		where TI.ITEM_ID is not null or TI.ACCOUNT_ID is
-		not null AND T.COMPANY_ID=:companyId order by T.ID
+		not null order by T.ID
 
 	</sql-query>
 	<sql-query name="createTransactionHistoryViewForclient">
-		<query-param name="companyId" type="long" />
 		CREATE VIEW IF NOT EXISTS
 		TRANSACTION_HISTORY_VIEW AS
 
@@ -4337,8 +4332,7 @@
 		join
 		PAYEE P
 		on
-		P.ID = C.ID OR P.ID = V.ID AND P.COMPANY_ID=:companyId
-		order by T.ID
+		P.ID = C.ID OR P.ID = V.ID order by T.ID
 
 	</sql-query>
 
