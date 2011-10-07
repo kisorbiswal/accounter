@@ -161,8 +161,6 @@ public class CreateCompanyServlet extends BaseServlet {
 
 			companySession.save(company);
 
-			FinanceTool.createView(company.getID());
-
 			transaction.commit();
 			UsersMailSendar.sendMailToDefaultUser(user, company.getFullName());
 

@@ -17,6 +17,7 @@ import com.vimukti.accounter.mail.EmailManager;
 import com.vimukti.accounter.mobile.ConsoleChatServer;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class ServerMain extends Main {
 	private static boolean isDebug;
@@ -37,6 +38,7 @@ public class ServerMain extends Main {
 				ServerConfiguration.setUnderMaintainance(maintanance
 						.isUnderMaintanance());
 			}
+			FinanceTool.createViews();
 		} finally {
 			session.close();
 		}

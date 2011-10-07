@@ -256,7 +256,7 @@ public class FinanceTool {
 
 			ObjectConvertUtil.setCompany((IAccounterServerCore) clonedObject,
 					company);
-		
+
 			getManager().canEdit(clonedObject, (IAccounterCore) data);
 
 			isTransactionNumberExist((IAccounterCore) data, company);
@@ -1420,12 +1420,10 @@ public class FinanceTool {
 		return (Company) session.get(Company.class, companyId);
 	}
 
-	public static void createView(long companyId) {
+	public static void createViews() {
 		Session session = HibernateUtil.getCurrentSession();
-		session.getNamedQuery("createSalesPurchasesView")
-				.setParameter("companyId", companyId).executeUpdate();
-		session.getNamedQuery("createTransactionHistoryView")
-				.setParameter("companyId", companyId).executeUpdate();
+		session.getNamedQuery("createSalesPurchasesView").executeUpdate();
+		session.getNamedQuery("createTransactionHistoryView").executeUpdate();
 	}
 
 	public static void createViewsForclient(long companyId) {
@@ -1940,7 +1938,8 @@ public class FinanceTool {
 			// brandingTheme, footerImg, style);
 
 			InvoicePDFTemplete invoiceHtmlTemplete = new InvoicePDFTemplete(
-					invoice, brandingTheme, company, company.getCompanyID(), "ClassicInvoice");
+					invoice, brandingTheme, company, company.getCompanyID(),
+					"ClassicInvoice");
 
 			fileName = invoiceHtmlTemplete.getFileName();
 
@@ -1953,7 +1952,8 @@ public class FinanceTool {
 							objectID);
 
 			CreditNotePDFTemplete creditNotePDFTemplete = new CreditNotePDFTemplete(
-					memo, brandingTheme, company,company.getCompanyID(),"ClassicCredit");
+					memo, brandingTheme, company, company.getCompanyID(),
+					"ClassicCredit");
 
 			fileName = creditNotePDFTemplete.getFileName();
 
