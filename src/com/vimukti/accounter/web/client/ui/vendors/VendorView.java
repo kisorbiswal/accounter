@@ -663,8 +663,7 @@ public class VendorView extends BaseView<ClientVendor> {
 				});
 		vendorGroupSelect.setDisabled(isInViewMode());
 		NewVendorAction newVendorAction = (NewVendorAction) this.getAction();
-		if (newVendorAction.getOpenedFrom() == NewVendorAction.FROM_CREDIT_CARD_EXPENSE
-				|| newVendorAction.getOpenedFrom() == NewVendorAction.FROM_CREDIT_CARD_CHARGE_VIEW) {
+		if (newVendorAction.getOpenedFrom() == NewVendorAction.FROM_CREDIT_CARD_EXPENSE) {
 			vendorGroupList = getCompany().getVendorGroups();
 
 			for (ClientVendorGroup vendorGroup : vendorGroupList) {
@@ -1198,7 +1197,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		} else {
 			balanceText.setAmount(0.0);
 		}
-		balanceText.setDisabled(true);
+
 		// Setting Balance as of
 		balanceDate
 				.setEnteredDate(new ClientFinanceDate(data.getBalanceAsOf()));
