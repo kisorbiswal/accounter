@@ -20,7 +20,7 @@ public class VATAgencyAccountCombo extends AccountCombo {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.newAccount(Global.get().Account());
+		return comboMessages.addNew(Global.get().Account());
 	}
 
 	@Override

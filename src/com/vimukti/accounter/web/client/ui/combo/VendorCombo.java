@@ -23,7 +23,7 @@ public class VendorCombo extends CustomCombo<ClientVendor> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.newSupplier(Global.get().Vendor());
+		return comboMessages.addNew(Global.get().Vendor());
 
 	}
 

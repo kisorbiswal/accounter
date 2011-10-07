@@ -31,7 +31,7 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.newCustomer(Global.get().Customer());
+		return comboMessages.addNew(Global.get().Customer());
 	}
 
 	@Override

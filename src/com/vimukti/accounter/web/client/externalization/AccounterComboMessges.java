@@ -3,11 +3,8 @@ package com.vimukti.accounter.web.client.externalization;
 import com.google.gwt.i18n.client.Messages;
 
 public interface AccounterComboMessges extends Messages {
-	public String newCustomer(String customer);
 
-	public String newVendor();
-
-	public String newAccount(String account);
+	public String addNew(String type);
 
 	public String newBankName();
 
@@ -42,8 +39,6 @@ public interface AccounterComboMessges extends Messages {
 	public String newTaxGroup();
 
 	public String newVATItem();
-
-	public String addNew();
 
 	public String sorryFailedToAdd();
 
@@ -92,8 +87,6 @@ public interface AccounterComboMessges extends Messages {
 	public String newVATCode();
 
 	public String newTAXAgency();
-
-	public String newSupplier(String vendor);
 
 	public String newVendorGroup(String vendor);
 
