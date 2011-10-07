@@ -268,7 +268,7 @@ public class VendorBillView extends
 		if (transaction.getID() == 0)
 			getPurchaseOrdersAndItemReceipt();
 		long code = vendor.getTAXCode();
-		if (code == 0) {
+		if (code == 0 && taxCodeSelect != null) {
 			code = Accounter.getCompany().getDefaultTaxCode();
 			taxCodeSelect.setComboItem(getCompany().getTAXCode(code));
 		}
@@ -880,6 +880,7 @@ public class VendorBillView extends
 					.setAmount(getAmountInTransactionCurrency(grandTotal
 							- lineTotal));
 		}
+
 	}
 
 	@Override

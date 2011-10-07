@@ -613,7 +613,7 @@ public class CashExpenseView extends
 		this.setVendor(vendor);
 		paymentMethodSelected(vendor.getPaymentMethod());
 		long code = vendor.getTAXCode();
-		if (code == 0) {
+		if (code == 0 && taxCodeSelect != null) {
 			code = Accounter.getCompany().getDefaultTaxCode();
 			taxCodeSelect.setComboItem(getCompany().getTAXCode(code));
 		}
