@@ -22,8 +22,8 @@ public class CustomerGroupListAction extends Action {
 			public void onSuccess() {
 				CustomerGroupListDialog dialog = new CustomerGroupListDialog(
 						Accounter.messages().manageCustomerGroup(
-								Global.get().customer()), Accounter.messages()
-								.toAddCustomerGroup(Global.get().customer()));
+								Global.get().Customer()), Accounter.messages()
+								.toAddCustomerGroup(Global.get().Customer()));
 				dialog.show();
 
 			}

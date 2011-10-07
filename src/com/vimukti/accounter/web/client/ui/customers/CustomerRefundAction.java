@@ -21,14 +21,14 @@ public class CustomerRefundAction extends Action {
 
 	public CustomerRefundAction(String text) {
 		super(text);
-		this.catagory = Global.get().customer();
+		this.catagory = Global.get().Customer();
 	}
 
 	public CustomerRefundAction(String text,
 			ClientCustomerRefund customerRefund,
 			AccounterAsyncCallback<Object> callBack) {
 		super(text);
-		this.catagory = Global.get().customer();
+		this.catagory = Global.get().Customer();
 	}
 
 	@Override

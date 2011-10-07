@@ -19,7 +19,7 @@ public class CustomerRefundsAction extends Action {
 
 	public CustomerRefundsAction(String text) {
 		super(text);
-		this.catagory = Global.get().customer();
+		this.catagory = Global.get().Customer();
 	}
 
 	@Override

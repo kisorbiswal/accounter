@@ -19,7 +19,7 @@ public class ReceivedPaymentsAction extends Action {
 
 	public ReceivedPaymentsAction(String text) {
 		super(text);
-		this.catagory = Global.get().customer();
+		this.catagory = Global.get().Customer();
 	}
 
 	@Override

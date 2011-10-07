@@ -21,14 +21,14 @@ public class ReceivePaymentAction extends Action {
 
 	public ReceivePaymentAction(String text) {
 		super(Accounter.constants().newReceivePayment());
-		this.catagory = Global.get().customer();
+		this.catagory = Global.get().Customer();
 	}
 
 	public ReceivePaymentAction(String text,
 			ClientReceivePayment receivePayment,
 			AccounterAsyncCallback<Object> callback) {
 		super(text);
-		this.catagory = Global.get().customer();
+		this.catagory = Global.get().Customer();
 	}
 
 	@Override

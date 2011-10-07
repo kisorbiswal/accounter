@@ -12,7 +12,7 @@ public class CustomerPaymentsAction extends Action {
 
 	public CustomerPaymentsAction(String text) {
 		super(text);
-		this.catagory = Global.get().customer();
+		this.catagory = Global.get().Customer();
 	}
 
 	@Override

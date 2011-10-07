@@ -21,13 +21,13 @@ public class NewInvoiceAction extends Action {
 
 	public NewInvoiceAction(String text) {
 		super(text);
-		this.catagory = Global.get().customer();
+		this.catagory = Global.get().Customer();
 	}
 
 	public NewInvoiceAction(String text, ClientInvoice invoice,
 			AccounterAsyncCallback<Object> callback) {
 		super(text);
-		this.catagory = Global.get().customer();
+		this.catagory = Global.get().Customer();
 	}
 
 	@Override

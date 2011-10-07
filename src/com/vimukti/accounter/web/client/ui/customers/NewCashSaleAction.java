@@ -21,13 +21,13 @@ public class NewCashSaleAction extends Action {
 
 	public NewCashSaleAction(String text) {
 		super(text);
-		this.catagory = Global.get().customer();
+		this.catagory = Global.get().Customer();
 	}
 
 	public NewCashSaleAction(String text, ClientCashSales cashSales,
 			AccounterAsyncCallback<Object> callback) {
 		super(text);
-		this.catagory = Global.get().customer();
+		this.catagory = Global.get().Customer();
 	}
 
 	@Override

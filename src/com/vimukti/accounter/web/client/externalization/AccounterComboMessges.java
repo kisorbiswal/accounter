@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.externalization;
 import com.google.gwt.i18n.client.Messages;
 
 public interface AccounterComboMessges extends Messages {
-	public String newCustomer();
+	public String newCustomer(String customer);
 
 	public String newVendor();
 

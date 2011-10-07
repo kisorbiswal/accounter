@@ -13,7 +13,7 @@ public class NewTimeEntryAction extends Action {
 
 	public NewTimeEntryAction(String text) {
 		super(text);
-		this.catagory = Global.get().customer();
+		this.catagory = Global.get().Customer();
 	}
 
 	// @Override

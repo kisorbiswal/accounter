@@ -31,8 +31,8 @@ public class NewVendorAction extends Action<ClientVendor> {
 
 	public NewVendorAction(String text, String quickAddText) {
 		super(text);
-		this.catagory = Global.get().customer();
-		super.setToolTip(Global.get().customer());
+		this.catagory = Global.get().Vendor();
+		super.setToolTip(Global.get().Vendor());
 		this.quickAddText = quickAddText;
 
 	}

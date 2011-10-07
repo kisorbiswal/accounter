@@ -17,7 +17,7 @@ public class CustomersHomeAction extends Action {
 
 	public CustomersHomeAction(String text) {
 		super(text);
-		this.catagory = Global.get().customer();
+		this.catagory = Global.get().Customer();
 	}
 
 	// @Override
@@ -33,7 +33,7 @@ public class CustomersHomeAction extends Action {
 					CustomersHomeAction.this);
 		} catch (Exception e) {
 			Accounter.showError(Accounter.messages().failedToLoadCustomerHome(
-					Global.get().customer()));
+					Global.get().Customer()));
 		}
 
 	}

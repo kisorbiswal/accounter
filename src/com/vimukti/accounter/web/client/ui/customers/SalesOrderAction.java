@@ -22,7 +22,7 @@ public class SalesOrderAction extends Action {
 	public SalesOrderAction(String text, ClientSalesOrder salesOrder,
 			AccounterAsyncCallback<Object> callback) {
 		super(text);
-		this.catagory = Global.get().customer();
+		this.catagory = Global.get().Customer();
 	}
 
 	// @Override

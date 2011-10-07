@@ -21,13 +21,13 @@ public class NewQuoteAction extends Action {
 
 	public NewQuoteAction(String text) {
 		super(text);
-		this.catagory = Global.get().customer();
+		this.catagory = Global.get().Customer();
 	}
 
 	public NewQuoteAction(String text, ClientEstimate quote,
 			AccounterAsyncCallback<Object> callback) {
 		super(text);
-		this.catagory = Global.get().customer();
+		this.catagory = Global.get().Customer();
 	}
 
 	@Override

@@ -13,8 +13,10 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 
 	public CustomerCombo(String title) {
 		super(title);
-		super.setToolTip(Accounter.messages()
-				.selectWhichWeHaveInOurCompanyOrAddNew(Global.get().Customer()));
+		super
+				.setToolTip(Accounter.messages()
+						.selectWhichWeHaveInOurCompanyOrAddNew(
+								Global.get().Customer()));
 		initCombo(getCompany().getCustomers());
 	}
 
@@ -29,7 +31,7 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.newCustomer();
+		return comboMessages.newCustomer(Global.get().Customer());
 	}
 
 	@Override
@@ -85,7 +87,7 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 		});
 		action.run(null, true);
 	}
-	
+
 	@Override
 	protected ClientCustomer getQuickAddData(String text) {
 		ClientCustomer clientCustomer = new ClientCustomer();

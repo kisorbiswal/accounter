@@ -21,14 +21,14 @@ public class NewCreditsAndRefundsAction extends Action {
 
 	public NewCreditsAndRefundsAction(String text) {
 		super(text);
-		this.catagory = Global.get().customer();
+		this.catagory = Global.get().Customer();
 	}
 
 	public NewCreditsAndRefundsAction(String text,
 			ClientCustomerCreditMemo creditMemo,
 			AccounterAsyncCallback<Object> callback) {
 		super(text);
-		this.catagory = Global.get().customer();
+		this.catagory = Global.get().Customer();
 	}
 
 	@Override

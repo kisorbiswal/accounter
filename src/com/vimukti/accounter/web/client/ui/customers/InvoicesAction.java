@@ -20,12 +20,12 @@ public class InvoicesAction extends Action {
 
 	public InvoicesAction(String text) {
 		super(text);
-		this.catagory = Global.get().customer();
+		this.catagory = Global.get().Customer();
 	}
 
 	public InvoicesAction(String text, String viewType) {
 		super(text);
-		this.catagory = Global.get().customer();
+		this.catagory = Global.get().Customer();
 		this.viewType = viewType;
 	}
 

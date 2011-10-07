@@ -17,14 +17,14 @@ public class NewCustomerAction extends Action<ClientCustomer> {
 
 	public NewCustomerAction(String text) {
 		super(text);
-		this.catagory = Global.get().customer();
-		super.setToolTip(Global.get().customer());
+		this.catagory = Global.get().Customer();
+		super.setToolTip(Global.get().Customer());
 	}
 
 	public NewCustomerAction(String text, String quickAddText) {
 		super(text);
-		this.catagory = Global.get().customer();
-		super.setToolTip(Global.get().customer());
+		this.catagory = Global.get().Customer();
+		super.setToolTip(Global.get().Customer());
 		this.quickAddText = quickAddText;
 
 	}

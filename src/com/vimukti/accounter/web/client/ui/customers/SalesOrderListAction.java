@@ -16,13 +16,13 @@ public class SalesOrderListAction extends Action {
 
 	public SalesOrderListAction(String text) {
 		super(text);
-		this.catagory = Global.get().customer();
+		this.catagory = Global.get().Customer();
 	}
 
 	public SalesOrderListAction(String text, ClientSalesOrder salesOrder,
 			AccounterAsyncCallback<Object> callback) {
 		super(text);
-		this.catagory = Global.get().customer();
+		this.catagory = Global.get().Customer();
 	}
 
 	// @Override
