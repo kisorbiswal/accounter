@@ -2366,7 +2366,7 @@ public class ReportManager extends Manager {
 				.getNamedQuery(
 						"getTAXRateCalculation.by.dates.orderbytaxItem.name")
 				.setParameter("startDate", fromDate)
-				.setParameter("endDate", toDate).setEntity("comapny", company);
+				.setParameter("endDate", toDate).setEntity("company", company);
 
 		List<TAXRateCalculation> taxRateCalculations = query.list();
 
