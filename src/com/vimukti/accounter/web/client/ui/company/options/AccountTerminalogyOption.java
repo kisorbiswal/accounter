@@ -50,7 +50,7 @@ public class AccountTerminalogyOption extends AbstractPreferenceOption {
 		accountdescriptionLabel.setText(constants.accountDescription());
 		accountdescriptionLabel.setStyleName("organisation_comment");
 		acountRadioButton.setText(constants.account());
-		leagandRadioButton.setText(constants.legand());
+		leagandRadioButton.setText(constants.Ledger());
 
 	}
 
