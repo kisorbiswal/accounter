@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
+import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -28,6 +29,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -42,6 +44,8 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
@@ -52,6 +56,7 @@ import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.vendors.NewVendorAction;
 
 public class CreditCardChargeView extends
 		AbstractBankTransactionView<ClientCreditCardCharge> {
@@ -253,8 +258,7 @@ public class CreditCardChargeView extends
 			if (isInViewMode()) {
 				cheqNoText
 						.setValue(transaction.getCheckNumber() != null ? transaction
-								.getCheckNumber()
-								: "");
+								.getCheckNumber() : "");
 
 			}
 			cheqNoText.setDisabled(false);
@@ -401,16 +405,49 @@ public class CreditCardChargeView extends
 		labeldateNoLayout.add(regPanel);
 		labeldateNoLayout.setCellHorizontalAlignment(regPanel, ALIGN_RIGHT);
 
-		vendorNameSelect = new VendorCombo(Global.get().messages().vendorName(
-				Global.get().Vendor()));
-		vendorNameSelect.setHelpInformation(true);
-		vendorNameSelect.setWidth(100);
-		vendorNameSelect.setRequired(true);
-		vendorNameSelect.setDisabled(false);
+		String vendorString = Accounter.messages().vendorName(
+				Global.get().Vendor());
 
+		vendorNameSelect = new VendorCombo(vendorString, true) {
+			@Override
+			public void initCombo(List<ClientVendor> list) {
+				List<ClientVendor> ccVendors = new ArrayList<ClientVendor>();
+				for (ClientVendor vdr : list) {
+					if (vdr.getVendorGroup() != 0) {
+						ClientVendorGroup vendorGrougp = Accounter.getCompany()
+								.getVendorGroup(vdr.getVendorGroup());
+						if (vendorGrougp.getName().equals(
+								AccounterClientConstants.CREDIT_CARD_COMPANIES)) {
+							ccVendors.add(vdr);
+						}
+					}
+				}
+				super.initCombo(ccVendors);
+			}
+
+			@Override
+			public void onAddNew() {
+				NewVendorAction action = ActionFactory.getNewVendorAction();
+
+				action.setCallback(new ActionCallback<ClientVendor>() {
+
+					@Override
+					public void actionResult(ClientVendor result) {
+						if (result.getName() != null)
+							addItemThenfireEvent(result);
+
+					}
+				});
+				action.setOpenedFrom(NewVendorAction.FROM_CREDIT_CARD_CHARGE_VIEW);
+				action.run(null, true);
+
+			}
+		};
+		vendorNameSelect.setHelpInformation(true);
 		vendorNameSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 
+					@Override
 					public void selectedComboBoxItem(ClientVendor selectItem) {
 						selectedVendor = selectItem;
 						if (selectedVendor.getPaymentMethod() != null) {
@@ -421,9 +458,11 @@ public class CreditCardChargeView extends
 						contactCombo.setDisabled(false);
 						addPhonesContactsAndAddress();
 						initContacts(selectItem);
-					}
 
+					}
 				});
+
+		vendorNameSelect.setRequired(true);
 
 		contactCombo = new ContactCombo(Accounter.constants().contactName(),
 				true);
@@ -509,8 +548,8 @@ public class CreditCardChargeView extends
 			termsForm.setFields(classListCombo);
 		}
 
-		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "203px");
 
 		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 
@@ -749,7 +788,8 @@ public class CreditCardChargeView extends
 		updateTransaction();
 
 		if (isTrackTax())
-			transaction.setNetAmount(getAmountInBaseCurrency(netAmount.getAmount()));
+			transaction.setNetAmount(getAmountInBaseCurrency(netAmount
+					.getAmount()));
 		// creditCardCharge.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 		// .getValue());
 
@@ -887,8 +927,8 @@ public class CreditCardChargeView extends
 
 			if (AccounterValidator
 					.isInPreventPostingBeforeDate(transactionDate)) {
-				result.addError(transactionDate, accounterConstants
-						.invalidateDate());
+				result.addError(transactionDate,
+						accounterConstants.invalidateDate());
 			}
 
 			result.add(vendorForm.validate());
