@@ -30,12 +30,13 @@ public class PaymentDialog extends BaseDialog {
 		center();
 	}
 
-
 	public void createControls() {
 		mainPanel.setSpacing(3);
 		typeRadio = new RadioGroupItem();
 		typeRadio.setShowTitle(false);
+
 		typeRadio.setValue(RECEIVE_PAYMENT, CUSTOMER_PREPAYMENT);
+		typeRadio.setDefaultValue(RECEIVE_PAYMENT);
 		DynamicForm typeForm = new DynamicForm();
 		typeForm.setWidth("100%");
 		typeForm.setIsGroup(true);
