@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
+import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -28,6 +29,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -225,14 +227,14 @@ public class CreditCardExpenseView extends
 			public void initCombo(List<ClientVendor> list) {
 				List<ClientVendor> ccVendors = new ArrayList<ClientVendor>();
 				for (ClientVendor vdr : list) {
-					// if (vdr.getVendorGroup() != 0) {
-					// ClientVendorGroup vendorGrougp = Accounter.getCompany()
-					// .getVendorGroup(vdr.getVendorGroup());
-					// if (vendorGrougp.getName().equals(
-					// AccounterClientConstants.CREDIT_CARD_COMPANIES)) {
-					ccVendors.add(vdr);
-					// }
-					// }
+					if (vdr.getVendorGroup() != 0) {
+						ClientVendorGroup vendorGrougp = Accounter.getCompany()
+								.getVendorGroup(vdr.getVendorGroup());
+						if (vendorGrougp.getName().equals(
+								AccounterClientConstants.CREDIT_CARD_COMPANIES)) {
+							ccVendors.add(vdr);
+						}
+					}
 				}
 				super.initCombo(ccVendors);
 			}
