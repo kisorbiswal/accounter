@@ -1532,8 +1532,9 @@ public class VendorManager extends Manager {
 					AccounterCoreType.TRANSACTION,
 					transactionHistory.getTransactionId());
 
-			if (transactionHistory.getType() == Transaction.TYPE_CREDIT_CARD_EXPENSE)
-				transactionHistory.setName(t.getInvolvedPayee().getName());
+			// if (transactionHistory.getType() ==
+			// Transaction.TYPE_CREDIT_CARD_EXPENSE)
+			transactionHistory.setName(t.getInvolvedPayee().getName());
 
 			Account account = t.getEffectingAccount();
 			if (account == null) {
