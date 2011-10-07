@@ -2059,7 +2059,7 @@ public class ReportManager extends Manager {
 		Query query = session.getNamedQuery("getEGSandRCentriesFromSales")
 				.setParameter("startDate", fromDate.getDate())
 				.setParameter("endDate", toDate.getDate())
-				.setEntity("company", company);
+				.setLong("companyId", companyId);
 
 		List list2 = query.list();
 		Object[] object = null;
