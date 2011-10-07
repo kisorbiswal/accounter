@@ -22,6 +22,9 @@
 				<g:HorizontalPanel>
 					<g:RadioButton name="new name" ui:field="leagandRadioButton" />
 				</g:HorizontalPanel>
+				<g:HorizontalPanel>
+					<g:RadioButton name="new name" ui:field="catgeroyRadioButton" />
+				</g:HorizontalPanel>
 			</g:VerticalPanel>
 		</g:VerticalPanel>
 	</g:VerticalPanel>

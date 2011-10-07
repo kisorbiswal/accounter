@@ -21,6 +21,8 @@ public class AccountTerminalogyOption extends AbstractPreferenceOption {
 	RadioButton leagandRadioButton;
 	@UiField
 	Label accountdescriptionLabel;
+	@UiField
+	RadioButton catgeroyRadioButton;
 
 	interface AccountTerminalogyOptionUiBinder extends
 			UiBinder<Widget, AccountTerminalogyOption> {
@@ -41,6 +43,8 @@ public class AccountTerminalogyOption extends AbstractPreferenceOption {
 		case ClientAccount.LEGAND:
 			leagandRadioButton.setValue(true);
 			break;
+		case ClientAccount.CATEGORY:
+			catgeroyRadioButton.setValue(true);
 		}
 	}
 
@@ -51,6 +55,7 @@ public class AccountTerminalogyOption extends AbstractPreferenceOption {
 		accountdescriptionLabel.setStyleName("organisation_comment");
 		acountRadioButton.setText(constants.account());
 		leagandRadioButton.setText(constants.Ledger());
+		catgeroyRadioButton.setText(constants.Category());
 
 	}
 
@@ -65,6 +70,8 @@ public class AccountTerminalogyOption extends AbstractPreferenceOption {
 			getCompanyPreferences().setReferAccounts(ClientAccount.ACCOUNT);
 		} else if (leagandRadioButton.getValue()) {
 			getCompanyPreferences().setReferAccounts(ClientAccount.LEGAND);
+		} else if (catgeroyRadioButton.getValue()) {
+			getCompanyPreferences().setReferAccounts(ClientAccount.CATEGORY);
 		}
 
 	}
