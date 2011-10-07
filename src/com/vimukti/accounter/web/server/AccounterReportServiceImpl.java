@@ -1211,20 +1211,23 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		return transDetailByAccountList;
 	}
 
-	@Override
-	public ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate(
-			) {
+	private ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate(long companyId) {
 		ArrayList<ClientFinanceDate> transactionDates = new ArrayList<ClientFinanceDate>();
 		try {
 
 			ClientFinanceDate[] dates = getFinanceTool().getManager()
-					.getMinimumAndMaximumTransactionDate(getCompanyId());
+					.getMinimumAndMaximumTransactionDate(companyId);
 			transactionDates.add(dates[0]);
 			transactionDates.add(dates[1]);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return transactionDates;
+	}
+	@Override
+	public ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate(
+			) {
+		return getMinimumAndMaximumTransactionDate(getCompanyId());
 	}
 
 	@Override
@@ -2118,7 +2121,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		// if ((startDate.equals("") || startDate == null)
 		// || (endDate.equals("") || endDate == null)) {
 
-		List<ClientFinanceDate> dates = getMinimumAndMaximumTransactionDate();
+		List<ClientFinanceDate> dates = getMinimumAndMaximumTransactionDate(companyId);
 		ClientFinanceDate startDate1 = dates.get(0) == null ? new ClientFinanceDate()
 				: dates.get(0);
 		ClientFinanceDate endDate2 = dates.get(1) == null ? new ClientFinanceDate()
