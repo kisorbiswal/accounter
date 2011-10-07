@@ -92,15 +92,15 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 					}
 				});
 
-		dateRangeCombo = new SelectCombo(Accounter.constants()
-				.dateRange());
+		dateRangeCombo = new SelectCombo(Accounter.constants().dateRange());
 		dateRangeCombo.setHelpInformation(true);
 		dateRangeList = new ArrayList<String>();
 		for (int i = 0; i < dateRangeArray.length; i++) {
 			dateRangeList.add(dateRangeArray[i]);
 		}
 		dateRangeCombo.initCombo(dateRangeList);
-		dateRangeCombo.setComboItem(Accounter.constants().financialYearToDate());
+		dateRangeCombo
+				.setComboItem(Accounter.constants().financialYearToDate());
 		dateRangeCombo.setName(Accounter.constants().dateRange());
 		dateRangeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -212,7 +212,8 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 	}
 
 	public void reportRequest() {
-		if (!endingDateCombo.getSelectedValue().isEmpty())
+		String selectedValue = endingDateCombo.getSelectedValue();
+		if (selectedValue != null && !selectedValue.isEmpty())
 			setSelectedEndDate(UIUtils.stringToDate(endingDateCombo
 					.getSelectedValue()));
 		if (getSelectedEndDate() == null) {
@@ -223,8 +224,8 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 		setEndDate(getSelectedEndDate());
 		// if (selectedEndDate.length() == 0)
 		// return;
-		reportview
-				.makeReportRequest(selectedVATAgency.getID(), getSelectedEndDate());
+		reportview.makeReportRequest(selectedVATAgency.getID(),
+				getSelectedEndDate());
 	}
 
 	public ClientFinanceDate getSelectedEndDate() {
