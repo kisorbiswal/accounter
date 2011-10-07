@@ -33,9 +33,10 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 		String paymentType;
 		paymentType = Accounter.messages().vendorPayment(Global.get().Vendor());
 
-		typeRadio.setValueMap(paymentType, Accounter.messages().customerRefund(
-				Global.get().Customer()));
+		typeRadio.setValueMap(paymentType,
+				Accounter.messages().customerRefund(Global.get().Customer()));
 
+		typeRadio.setDefaultValue(paymentType);
 		final DynamicForm typeForm = new DynamicForm();
 		typeForm.setFields(typeRadio);
 		typeForm.setWidth("100%");
