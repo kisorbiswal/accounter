@@ -19,7 +19,7 @@ public class NewVendorAction extends Action<ClientVendor> {
 
 	protected VendorView view;
 	public final static int FROM_CREDIT_CARD_EXPENSE = 119;
-	public final static int FROM_CREDIT_CARD_CHARGE_VIEW = 120;
+	
 
 	private int openedFrom;
 	private String quickAddText;
