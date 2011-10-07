@@ -1198,6 +1198,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			balanceText.setAmount(0.0);
 		}
 
+		balanceText.setDisabled(isInViewMode());
 		// Setting Balance as of
 		balanceDate
 				.setEnteredDate(new ClientFinanceDate(data.getBalanceAsOf()));
@@ -1368,6 +1369,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		fonFaxForm.setDisabled(isInViewMode());
 		emailForm.setDisabled(isInViewMode());
 		gridView.setDisabled(isInViewMode());
+
 		balanceText.setDisabled(!data.isOpeningBalanceEditable());
 		expenseAccountsSelect.setDisabled(isInViewMode());
 		creditLimitText.setDisabled(isInViewMode());
