@@ -1638,6 +1638,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		cashAccountCheck.setDisabled(isInViewMode());
 		statusBox.setDisabled(isInViewMode());
 		commentsArea.setDisabled(isInViewMode());
+		bankAccNumText.setDisabled(isInViewMode());
 		if (creditCardForm != null) {
 			creditCardForm.setDisabled(isInViewMode());
 		}
