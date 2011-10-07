@@ -36,8 +36,6 @@ public class ClientCompany implements IAccounterCore {
 
 	int accountingType = 0;
 
-	public long companyID;
-
 	private String registrationNumber;
 
 	private String companyEmail;
@@ -2065,12 +2063,12 @@ public class ClientCompany implements IAccounterCore {
 
 	@Override
 	public long getID() {
-		return this.companyID;
+		return this.id;
 	}
 
 	@Override
 	public void setID(long id) {
-		this.companyID = id;
+		this.id = id;
 
 	}
 
