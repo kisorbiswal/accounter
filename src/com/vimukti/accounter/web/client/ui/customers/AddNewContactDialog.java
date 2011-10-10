@@ -97,8 +97,9 @@ public class AddNewContactDialog extends BaseDialog<ClientContact> {
 		}
 
 		if (!businessPhoneItem.getValue().isEmpty()) {
-			if (!UIUtils.isValidPhone(businessPhoneItem.getValue()))
+			if (!UIUtils.isValidPhone(businessPhoneItem.getValue())){
 				result.addError(nameItem, constants.invalidBusinessPhoneVal());
+			businessPhoneItem.setValue("");}
 		}
 		return result;
 
