@@ -25,14 +25,13 @@ public class LocationGroupListAction extends Action {
 			@Override
 			public void onSuccess() {
 
-				LocationGroupListDialog dialog = new LocationGroupListDialog(Accounter
-						.constants().manageLocationGroup(), Accounter.constants()
-						.toAddLocation());
+				LocationGroupListDialog dialog = new LocationGroupListDialog(
+						Accounter.constants().manageLocationGroup(), Accounter
+								.constants().toAddLocation());
 				dialog.show();
 
-				
 			}
-			
+
 			@Override
 			public void onFailure(Throwable arg0) {
 				Accounter
@@ -40,7 +39,7 @@ public class LocationGroupListAction extends Action {
 
 			}
 		});
-		
+
 	}
 
 	@Override
@@ -55,7 +54,7 @@ public class LocationGroupListAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return Accounter.constants().locationGroupList();
+		return "location-group-list";
 	}
 
 	@Override

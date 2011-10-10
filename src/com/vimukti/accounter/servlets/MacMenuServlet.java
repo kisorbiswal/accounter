@@ -125,20 +125,29 @@ public class MacMenuServlet extends BaseServlet {
 	}
 
 	private boolean canManageFiscalYears() {
-		return user.getPermissions().getTypeOfLockDates() == RolePermissions.TYPE_YES;
+		if (user.getPermissions().getTypeOfLockDates() == RolePermissions.TYPE_YES)
+			return true;
+		else
+			return false;
 	}
 
 	private boolean canDoInvoiceTransactions() {
-		return user.getPermissions().getTypeOfInvoices() == RolePermissions.TYPE_YES;
+		if (user.getPermissions().getTypeOfInvoices() == RolePermissions.TYPE_YES)
+			return true;
+		else
+			return false;
 	}
 
 	private boolean canChangeSettings() {
-		return user.getPermissions().getTypeOfSystemSettings() == RolePermissions.TYPE_YES;
+		if (user.getPermissions().getTypeOfSystemSettings() == RolePermissions.TYPE_YES)
+			return true;
+		else
+			return false;
 	}
 
 	private boolean canViewReports() {
 		if (user.getPermissions().getTypeOfViewReports() == RolePermissions.TYPE_YES
-				|| user.getPermissions().getTypeOfViewReports() == RolePermissions.TYPE_READ_ONLY)
+				|| this.user.getPermissions().getTypeOfViewReports() == RolePermissions.TYPE_READ_ONLY)
 			return true;
 		else
 			return false;
@@ -169,10 +178,6 @@ public class MacMenuServlet extends BaseServlet {
 
 	private boolean isUSType() {
 		return company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US;
-	}
-
-	private boolean isTrackTax() {
-		return preferences.isTrackTax();
 	}
 
 	private void addFooter() {
@@ -262,12 +267,12 @@ public class MacMenuServlet extends BaseServlet {
 					.transactionDetailByTaxItem(),
 					"company/accounter#transactionDetailByTaxItem");
 		}
-		if (isLocationTracking()) {
+		if (preferences.isLocationTrackingEnabled()) {
 			subMenu(financialValue, iGlobal.constants().profitAndLoss() + "By"
 					+ iGlobal.messages().location(Global.get().Location()),
 					"company/accounter#profitAndLossByLocation");
 		}
-		if (isClassTracking()) {
+		if (preferences.isClassTrackingEnabled()) {
 			subMenu(financialValue, iGlobal.constants().profitAndLossbyClass(),
 					"company/accounter#profitAndLossByClass");
 		}
@@ -345,7 +350,7 @@ public class MacMenuServlet extends BaseServlet {
 				"company/accounter#purchaseByVendorDetail");
 		subMenu(purchasesValue, iGlobal.constants().purchaseByItemSummary(),
 				"company/accounter#purchaseByItemSummary");
-		subMenu(purchasesValue, iGlobal.constants().purchaseByItemDetail(),
+		subMenu(purchasesValue, iGlobal.constants().purchaseByProductDetail(),
 				"company/accounter#purchaseByItemDetail");
 		if (preferences.isPurchaseOrderEnabled()) {
 			subMenu(purchasesValue, iGlobal.constants().purchaseOrderReport(),
@@ -472,17 +477,20 @@ public class MacMenuServlet extends BaseServlet {
 		}
 
 		if (canDoInvoiceTransactions()) {
-			menu(vendorValue, iGlobal.constants().enterBill(), "B",
-					"company/accounter#enterBill");
+			if (preferences.isDoyouKeepTrackofBills())
+				menu(vendorValue, iGlobal.constants().enterBill(), "B",
+						"company/accounter#enterBill");
 		}
 		if (canDoBanking()) {
-			menu(vendorValue, iGlobal.constants().payBills(),
-					"company/accounter#payBill");
-			menu(vendorValue, iGlobal.constants().issuePayments(),
-					"company/accounter#issuePayments");
-			menu(vendorValue,
-					iGlobal.messages().vendorPrePayment(iGlobal.Vendor()),
-					"company/accounter#vendorPrePayment");
+			if (preferences.isDoyouKeepTrackofBills()) {
+				menu(vendorValue, iGlobal.constants().payBills(),
+						"company/accounter#payBill");
+				menu(vendorValue, iGlobal.constants().issuePayments(),
+						"company/accounter#issuePayments");
+				menu(vendorValue,
+						iGlobal.messages().vendorPrePayment(iGlobal.Vendor()),
+						"company/accounter#vendorPrePayment");
+			}
 		}
 		if (canDoInvoiceTransactions()) {
 			menu(vendorValue, iGlobal.constants().recordExpenses(),
@@ -499,8 +507,11 @@ public class MacMenuServlet extends BaseServlet {
 		subMenu(supplierValues, iGlobal.messages().vendors(iGlobal.Vendor()),
 				"company/accounter#VendorList");
 		if (canSeeInvoiceTransactions()) {
-			subMenu(supplierValues, iGlobal.constants().items(),
-					"company/accounter#items");
+			subMenu(supplierValues, iGlobal.messages()
+					.vendors(iGlobal.Vendor())
+					+ " "
+					+ iGlobal.constants().items(),
+					"company/accounter#vendorItems");
 			subMenu(supplierValues, "Bills And Expenses",
 					"company/accounter#billsAndExpenses");
 		}
@@ -571,8 +582,10 @@ public class MacMenuServlet extends BaseServlet {
 				iGlobal.messages().customers(iGlobal.Customer()),
 				"company/accounter#customers");
 		if (canSeeInvoiceTransactions()) {
-			subMenu(customerListValue, iGlobal.constants().items(),
-					"company/accounter#items");
+			subMenu(customerListValue,
+					iGlobal.messages().customers(iGlobal.Customer()) + " "
+							+ iGlobal.constants().items(),
+					"company/accounter#customerItems");
 			if (preferences.isDoyouwantEstimates()) {
 				subMenu(customerListValue, iGlobal.constants().quotes(),
 						"company/accounter#quotes");
@@ -679,6 +692,19 @@ public class MacMenuServlet extends BaseServlet {
 					"company/accounter#itemGroupList");
 			subMenu(manageSupportLists, iGlobal.constants().creditRatingList(),
 					"company/accounter#creditRatingList");
+
+			if (isClassTracking()) {
+				subMenu(manageSupportLists, iGlobal.constants()
+						.accounterClassList(),
+						"company/accounter#accounter-Class-List");
+			}
+
+			if (isLocationTracking()) {
+				subMenu(manageSupportLists, iGlobal.constants()
+						.locationGroupList(),
+						"company/accounter#location-group-list");
+			}
+
 			menu(mainMenuValue, iGlobal.constants().manageSupportLists(),
 					manageSupportLists);
 		}
@@ -702,13 +728,11 @@ public class MacMenuServlet extends BaseServlet {
 
 		if (canSeeInvoiceTransactions()) {
 			subMenu(companyLists, iGlobal.constants().items(),
-					"company/accounter#items");
+					"company/accounter#allItems");
 		}
-		subMenu(companyLists,
-				iGlobal.messages().companyCustomers(iGlobal.Customer()),
+		subMenu(companyLists, iGlobal.constants().Customer(),
 				"company/accounter#customers");
-		subMenu(companyLists,
-				iGlobal.messages().companySuppliers(iGlobal.Vendor()),
+		subMenu(companyLists, iGlobal.constants().Vendor(),
 				"company/accounter#VendorList");
 		if (canSeeBanking()) {
 			subMenu(companyLists, iGlobal.constants().payments(),
@@ -716,7 +740,7 @@ public class MacMenuServlet extends BaseServlet {
 		}
 		subMenu(companyLists, iGlobal.constants().salesPersons(),
 				"company/accounter#salesPersons");
-		subMenu(companyLists, iGlobal.constants().usersActivity(),
+		subMenu(companyLists, iGlobal.constants().usersActivityLogTitle(),
 				"company/accounter#userActivity");
 		menu(mainMenuValue, iGlobal.constants().companyLists(), companyLists);
 

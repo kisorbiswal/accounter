@@ -55,12 +55,12 @@ public class AccounterClassListAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "accounterClassList";
+		return "accounter-Class-List";
 	}
 
 	@Override
 	public String getHelpToken() {
-		return "class-list";
+		return "accounter-Class-List";
 	}
 
 }

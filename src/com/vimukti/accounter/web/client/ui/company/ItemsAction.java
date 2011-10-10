@@ -40,10 +40,8 @@ public class ItemsAction extends Action {
 					ItemListView.isPurchaseType = false;
 					ItemListView.isSalesType = true;
 				} else if (getCatagory()
-						.equals(
-								Accounter.messages().bothCustomerAndVendor(
-										Global.get().Customer(),
-										Global.get().Vendor()))) {
+						.equals(Accounter.messages().bothCustomerAndVendor(
+								Global.get().Customer(), Global.get().Vendor()))) {
 					ItemListView.isPurchaseType = true;
 					ItemListView.isSalesType = true;
 				}
@@ -76,12 +74,36 @@ public class ItemsAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "items";
+		ItemListView view = new ItemListView();
+		view.setCatageoryType(getCatagory());
+		if (getCatagory().equals(Global.get().vendor()))
+			return "vendorItems";
+		if (getCatagory().equals(Global.get().Customer()))
+			return "customerItems";
+		if (getCatagory().equals(
+				Accounter.messages().bothCustomerAndVendor(
+						Global.get().Customer(), Global.get().Vendor())))
+			return "allItems";
+		else
+			return "customerItems";
+
 	}
 
 	@Override
 	public String getHelpToken() {
-		return "item";
+		ItemListView view = new ItemListView();
+		view.setCatageoryType(getCatagory());
+		if (getCatagory().equals(Global.get().vendor()))
+			return "vendorItems";
+		if (getCatagory().equals(Global.get().Customer()))
+			return "customerItems";
+		if (getCatagory().equals(
+				Accounter.messages().bothCustomerAndVendor(
+						Global.get().Customer(), Global.get().Vendor())))
+			return "allItems";
+		else
+			return "customerItems";
+
 	}
 
 }

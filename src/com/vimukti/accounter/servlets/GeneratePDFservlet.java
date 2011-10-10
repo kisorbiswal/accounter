@@ -101,7 +101,8 @@ public class GeneratePDFservlet extends BaseServlet {
 				java.io.InputStream inputStr = new ByteArrayInputStream(
 						creditOutput.toString().getBytes());
 				InputStreamReader creditReader = new InputStreamReader(inputStr);
-				converter.generatePdfDocuments(printTemplete, sos, creditReader);
+				converter
+						.generatePdfDocuments(printTemplete, sos, creditReader);
 				break;
 			case Transaction.TYPE_MISC_FORM:
 				java.io.InputStream inputString = new ByteArrayInputStream(
@@ -262,12 +263,12 @@ public class GeneratePDFservlet extends BaseServlet {
 					int verticalValue = Integer.parseInt(request
 							.getParameter("verticalValue"));
 
-					Vendor memo = (Vendor) financetool.getManager()
+					Vendor vendor1099 = (Vendor) financetool.getManager()
 							.getServerObjectForid(AccounterCoreType.VENDOR,
 									vendorID);
 
 					Misc1099PDFTemplate miscHtmlTemplete = new Misc1099PDFTemplate(
-							memo, horizontalValue, verticalValue);
+							vendor1099, horizontalValue, verticalValue);
 					fileName = miscHtmlTemplete.getFileName();
 					outPutString = outPutString.append(miscHtmlTemplete
 							.generatePDF());
@@ -371,17 +372,17 @@ public class GeneratePDFservlet extends BaseServlet {
 
 		if (invStyle.contains(CLASSIC)) {
 			printTemplete = new CreditNotePDFTemplete(memo, theme, company,
-					companyID,"ClassicCredit");
+					companyID, "ClassicCredit");
 
 		} else if (invStyle.contains(PLAIN)) {
-			printTemplete = new CreditNotePDFTemplete(memo, theme,
-					company, companyID,"PlainCredit");
+			printTemplete = new CreditNotePDFTemplete(memo, theme, company,
+					companyID, "PlainCredit");
 		} else if (invStyle.contains(PROFESSIONAL)) {
 			printTemplete = new CreditNotePDFTemplete(memo, theme, company,
-					companyID,"ProfessionalCredit");
+					companyID, "ProfessionalCredit");
 		} else if (invStyle.contains(MODERN)) {
 			printTemplete = new CreditNotePDFTemplete(memo, theme, company,
-					companyID,"ModernCredit");
+					companyID, "ModernCredit");
 		}
 		return printTemplete;
 	}
