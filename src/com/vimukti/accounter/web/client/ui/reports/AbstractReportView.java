@@ -802,4 +802,8 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		// TODO Auto-generated method stub
 		return true;
 	}
+
+	public void removeEmptyStyle() {
+		this.grid.removeEmptyStyle();
+	}
 }

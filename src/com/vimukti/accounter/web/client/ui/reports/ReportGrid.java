@@ -156,8 +156,8 @@ public class ReportGrid<R> extends CustomTable {
 					HasHorizontalAlignment.ALIGN_LEFT,
 					HasVerticalAlignment.ALIGN_MIDDLE);
 
-			addStyleNameByCol(0, columnTypes[i], i,
-					this.footer.getCellFormatter());
+			addStyleNameByCol(0, columnTypes[i], i, this.footer
+					.getCellFormatter());
 		}
 	}
 
@@ -180,8 +180,8 @@ public class ReportGrid<R> extends CustomTable {
 				this.header.getCellFormatter().getElement(rowCount, i)
 						.getStyle().setFontWeight(FontWeight.BOLD);
 
-				addStyleNameByCol(0, columnTypes[i], i,
-						this.header.getCellFormatter());
+				addStyleNameByCol(0, columnTypes[i], i, this.header
+						.getCellFormatter());
 			}
 		}
 		rowFormatter.addStyleName(rowCount, Accounter.constants()
@@ -234,7 +234,8 @@ public class ReportGrid<R> extends CustomTable {
 		}
 		if (flag)
 			cellFormatter.addStyleName(row, column, Accounter.constants()
-					.depth() + depth);
+					.depth()
+					+ depth);
 
 	}
 
@@ -335,8 +336,8 @@ public class ReportGrid<R> extends CustomTable {
 			// }
 
 			if (isMultiSelectionEnable) {
-				table.getCellFormatter().getElement(row, 0)
-						.setAttribute(Accounter.constants().width(), "" + 15);
+				table.getCellFormatter().getElement(row, 0).setAttribute(
+						Accounter.constants().width(), "" + 15);
 			}
 
 		} catch (Exception e) {
@@ -395,6 +396,10 @@ public class ReportGrid<R> extends CustomTable {
 			break;
 		}
 		super.onBrowserEvent(event);
+	}
+
+	public void removeEmptyStyle() {
+		this.body.removeStyleName("no_records");
 	}
 
 	// protected void addEmptyMessage(String msg) {
