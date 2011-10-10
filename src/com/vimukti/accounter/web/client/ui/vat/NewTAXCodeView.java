@@ -45,7 +45,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 	public long selectedVATSAlesAcc;
 	protected boolean isComboDisabled = false;
 	private String vatCode;
-
+	private ClientTAXCode vat;
 	private ArrayList<DynamicForm> listforms;
 	private String taxCodeName;
 
@@ -63,7 +63,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 
 	@Override
 	public void initData() {
-		ClientTAXCode vat = (ClientTAXCode) getData();
+		vat = (ClientTAXCode) getData();
 		if (isInViewMode()) {
 			vatCodeTxt.setValue(vat.getName() != null ? vat.getName() : "");
 			vatCode = vat.getName() != null ? vat.getName() : "";
@@ -403,8 +403,10 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		description.setDisabled(isInViewMode());
 		isActive.setDisabled(isInViewMode());
 		taxableGroupRadio.setDisabled(isInViewMode());
-		vatItemComboForPurchases.setDisabled(isInViewMode());
-		vatItemComboForSales.setDisabled(isInViewMode());
+		if (vat.isTaxable()) {
+			vatItemComboForPurchases.setDisabled(isInViewMode());
+			vatItemComboForSales.setDisabled(isInViewMode());
+		}
 		super.onEdit();
 
 	}
