@@ -22,7 +22,6 @@ import com.vimukti.accounter.utils.Security;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.server.FinanceTool;
 
 public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService {
 

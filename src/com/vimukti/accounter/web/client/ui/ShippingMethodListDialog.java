@@ -106,7 +106,7 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 				Accounter.constants().shippingMethod(), "", arr) {
 		};
 		inputDlg.getTextItems().get(1).setRequired(false);
-		inputDlg.setWidth("320px");
+		inputDlg.setWidth("325px");
 		shippingMethod = rec;
 
 		if (shippingMethod != null) {

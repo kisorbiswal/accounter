@@ -25,7 +25,6 @@ import com.vimukti.accounter.main.ServerAllocationFactory;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
-import com.vimukti.accounter.web.server.FinanceTool;
 
 public class CreateCompanyServlet extends BaseServlet {
 
