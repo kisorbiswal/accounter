@@ -56,13 +56,9 @@ public class AmountField extends TextItem {
 						return;
 					Double amount = DataUtils.getAmountStringAsDouble(value
 							.toString());
-					if (!AccounterValidator.isAmountTooLarge(amount)) {
-						setAmount(DataUtils.isValidAmount(amount + "") ? amount
-								: 0.00);
-					}
-					if (!AccounterValidator.isAmountNegative(amount)) {
-						setAmount(DataUtils.isValidAmount(amount + "") ? amount
-								: 0.00);
+					if (!AccounterValidator.isAmountTooLarge(amount)
+							&& !AccounterValidator.isAmountNegative(amount)) {
+						setAmount(amount);
 					}
 					if (AmountField.this.blurHandler != null) {
 						AmountField.this.blurHandler.onBlur(event);

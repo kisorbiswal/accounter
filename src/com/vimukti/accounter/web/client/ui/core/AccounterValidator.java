@@ -1276,7 +1276,7 @@ public class AccounterValidator {
 	public static boolean isAmountTooLarge(Double amount)
 			throws InvalidEntryException {
 		if (DecimalUtil.isGreaterThan(amount, 1000000000000.00)) {
-			throw new InvalidEntryException();
+			throw new InvalidEntryException(accounterConstants.amountExceeds());
 		}
 		return false;
 
