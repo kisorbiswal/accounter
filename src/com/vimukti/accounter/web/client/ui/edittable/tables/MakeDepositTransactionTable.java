@@ -192,7 +192,8 @@ public abstract class MakeDepositTransactionTable extends
 			}
 		});
 
-		this.addColumn(new AmountColumn<ClientTransactionMakeDeposit>(currencyProvider) {
+		this.addColumn(new AmountColumn<ClientTransactionMakeDeposit>(
+				currencyProvider) {
 
 			@Override
 			protected String getColumnName() {
@@ -236,7 +237,7 @@ public abstract class MakeDepositTransactionTable extends
 		return totallinetotal != null ? totallinetotal.doubleValue() : 0.0d;
 	}
 
-	public ValidationResult validateGrid() {
+	public ValidationResult validateGrid(long depositInId) {
 		ValidationResult result = new ValidationResult();
 
 		for (ClientTransactionMakeDeposit record : getRecords()) {
@@ -251,6 +252,10 @@ public abstract class MakeDepositTransactionTable extends
 								getTypeAsString(record.getType())));
 			}
 
+			if (record.getAccount() == depositInId) {
+				result.addError(this, Accounter.constants()
+						.depositAndAccountFromShouldNotBeSame());
+			}
 		}
 		if (DecimalUtil.isLessThan(totallinetotal, 0.0)) {
 			// FIXME

@@ -639,8 +639,7 @@ public class MakeDepositView extends
 					.getCashBackAmount()));
 			cashBackMemoText.setValue(transaction.getCashBackMemo());
 			cashBackAccountSelect.setValue(transaction.getCashBackAccount());
-			totText.setValue(DataUtils
-					.getAmountAsString(transaction.getTotal()));
+			totText.setValue(DataUtils.getAmountAsString(transaction.getTotal()));
 
 			gridView.setRecords(transaction.getTransactionMakeDeposit());
 			initAccounterClass();
@@ -775,8 +774,7 @@ public class MakeDepositView extends
 			public void onClick(ClickEvent event) {
 				ClientTransactionMakeDeposit deposit = new ClientTransactionMakeDeposit();
 				deposit.setIsNewEntry(true);
-				deposit
-						.setType(ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT);
+				deposit.setType(ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT);
 				// deposit.set
 				gridView.add(deposit);
 			}
@@ -981,7 +979,9 @@ public class MakeDepositView extends
 				|| (gridView != null && gridView.getRecords().isEmpty())) {
 			result.addError(gridView, accounterConstants.blankTransaction());
 		} else {
-			result.add(gridView.validateGrid());
+			ClientAccount selectedValue = depositInSelect.getSelectedValue();
+			long depositIn = selectedValue != null ? selectedValue.getID() : 0;
+			result.add(gridView.validateGrid(depositIn));
 		}
 
 		// if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
@@ -989,8 +989,8 @@ public class MakeDepositView extends
 		// accounterConstants.invalidateTransactionDate());
 		// }
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDateItem, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDateItem,
+					accounterConstants.invalidateDate());
 		}
 
 		// result.add(depoForm.validate());
@@ -1207,8 +1207,7 @@ public class MakeDepositView extends
 		// Setting Cash back account
 		transaction
 				.setCashBackAccount(selectedCashBackAccount != null ? selectedCashBackAccount
-						.getID()
-						: 0);
+						.getID() : 0);
 		if (cashBackMemoText.getValue() != null)
 			transaction.setCashBackMemo(cashBackMemoText.getValue().toString());
 
