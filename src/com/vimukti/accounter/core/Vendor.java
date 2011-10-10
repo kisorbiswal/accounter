@@ -352,7 +352,7 @@ public class Vendor extends Payee {
 
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
-		
+
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
 		accounterCore.setID(this.id);
@@ -375,8 +375,9 @@ public class Vendor extends Payee {
 		super.onSave(session);
 		this.isOnSaveProccessed = true;
 		setType(Payee.TYPE_VENDOR);
-		if (this.vendorNumber != null && this.vendorNumber.trim().isEmpty()) {
-			this.vendorNumber = null;
+		if (this.vendorNumber == null || this.vendorNumber.trim().isEmpty()) {
+			this.vendorNumber = NumberUtils
+					.getNextAutoVendorNumber(getCompany());
 		}
 		return onUpdate(session);
 	}
