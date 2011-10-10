@@ -101,6 +101,8 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 
 	@Override
 	protected void onClick(ClientTAXItem obj, int row, int col) {
+		if (!Accounter.getUser().canDoInvoiceTransactions())
+			return;
 		List<ClientTAXItem> records = getRecords();
 		if (col == 5)
 			showWarnDialog(records.get(row));
@@ -117,7 +119,9 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 	 */
 	@Override
 	public void onDoubleClick(ClientTAXItem obj) {
-		ActionFactory.getNewVatItemAction().run(obj, false);
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
+			ActionFactory.getNewVatItemAction().run(obj, false);
+		}
 	}
 
 	@Override

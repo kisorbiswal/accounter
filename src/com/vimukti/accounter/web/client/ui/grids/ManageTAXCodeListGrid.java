@@ -74,7 +74,9 @@ public class ManageTAXCodeListGrid extends BaseListGrid<ClientTAXCode> {
 	 */
 	@Override
 	public void onDoubleClick(ClientTAXCode obj) {
-		ActionFactory.getNewTAXCodeAction().run(obj, false);
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
+			ActionFactory.getNewTAXCodeAction().run(obj, false);
+		}
 	}
 
 	/*
@@ -104,6 +106,9 @@ public class ManageTAXCodeListGrid extends BaseListGrid<ClientTAXCode> {
 
 	@Override
 	protected void onClick(ClientTAXCode obj, int row, int col) {
+		if (!Accounter.getUser().canDoInvoiceTransactions()) {
+			return;
+		}
 		List<ClientTAXCode> records = getRecords();
 		if (col == 4)
 			showWarnDialog(records.get(row));
@@ -133,7 +138,6 @@ public class ManageTAXCodeListGrid extends BaseListGrid<ClientTAXCode> {
 		}
 		return 0;
 	}
-
 
 	public AccounterCoreType getType() {
 		return AccounterCoreType.TAX_CODE;

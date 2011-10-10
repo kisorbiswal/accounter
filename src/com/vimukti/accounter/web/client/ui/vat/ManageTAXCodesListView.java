@@ -23,12 +23,20 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode> {
 
 	@Override
 	protected Action getAddNewAction() {
-		return ActionFactory.getNewTAXCodeAction();
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
+			return ActionFactory.getNewTAXCodeAction();
+		} else {
+			return null;
+		}
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
-		return Accounter.constants().addaNewTaxCode();
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
+			return Accounter.constants().addaNewTaxCode();
+		} else {
+			return "";
+		}
 	}
 
 	@Override

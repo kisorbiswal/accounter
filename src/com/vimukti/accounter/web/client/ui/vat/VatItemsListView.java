@@ -18,12 +18,20 @@ public class VatItemsListView extends BaseListView<ClientTAXItem> {
 
 	@Override
 	protected Action getAddNewAction() {
-		return ActionFactory.getNewVatItemAction();
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
+			return ActionFactory.getNewVatItemAction();
+		} else {
+			return null;
+		}
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
-		return vatMessages.addaNewTaxItem();
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
+			return vatMessages.addaNewTaxItem();
+		} else {
+			return "";
+		}
 	}
 
 	@Override
@@ -40,7 +48,6 @@ public class VatItemsListView extends BaseListView<ClientTAXItem> {
 		filterList(true);
 	}
 
-	
 	@Override
 	protected void filterList(boolean isActive) {
 		grid.removeAllRecords();
