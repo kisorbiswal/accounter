@@ -47,7 +47,7 @@ public class SelectExpenseType extends BaseDialog {
 		}
 
 		// setting the default value
-		typeRadio.setValue(new String(EMPLOYEE));
+		typeRadio.setValue(new String(CREDIT_CARD));
 
 		DynamicForm typeForm = new DynamicForm();
 		typeForm.setWidth("100%");
