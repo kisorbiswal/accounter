@@ -123,8 +123,7 @@ public class ReconciliationDailog extends BaseDialog<ClientReconciliation>
 			startDate.setValue(reconcilition.getStartDate().getDateAsObject());
 		if (reconcilition.getEndDate() != null)
 			endDate.setValue(reconcilition.getEndDate().getDateAsObject());
-		closingBalance.setValue(DataUtils.getAmountAsString(reconcilition
-				.getClosingBalance()));
+		closingBalance.setAmount(reconcilition.getClosingBalance());
 
 		DynamicForm form = new DynamicForm();
 		form.setWidth("100%");

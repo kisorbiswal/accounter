@@ -109,8 +109,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 			@Override
 			public void onClick(ClickEvent event) {
 				ReconciliationDailog dialog = new ReconciliationDailog(Global
-						.get().constants().Reconciliation(),
-						(ClientReconciliation) data,
+						.get().constants().Reconciliation(), data,
 						new ValueCallBack<ClientReconciliation>() {
 
 							@Override
