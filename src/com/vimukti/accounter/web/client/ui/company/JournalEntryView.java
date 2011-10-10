@@ -89,6 +89,18 @@ public class JournalEntryView extends
 		// 6. is valid grid?
 		// 7. is valid total?
 
+		List<ClientEntry> allEntries = grid.getAllRows();
+		for (ClientEntry entry : allEntries) {
+			if (grid.getTotalCredittotal() > 0 || grid.getTotalDebittotal() > 0) {
+				if (entry.getDebit() == 0 && entry.getCredit() == 0) {
+					result.addError(
+							this,
+							Accounter.messages().valueCannotBe0orlessthan0(
+									Accounter.constants().amount()));
+				}
+			}
+
+		}
 		if (memoText.getValue().toString() != null
 				&& memoText.getValue().toString().length() >= 256) {
 			result.addError(memoText, Accounter.constants()
