@@ -21,6 +21,7 @@ public class TaxDialog extends BaseDialog<ClientTAXItemGroup> {
 	RadioGroupItem typeRadio;
 	private final String TAXGROUP = Accounter.constants().taxGroup();
 	private final String TAXITEM = Accounter.constants().taxItem();
+	private final String GROUP = Accounter.constants().group();
 	private FormItem actionSource;
 	// private ViewConfiguration configuration;
 	private AccounterConstants vendorsConstants = Accounter.constants();
@@ -53,7 +54,7 @@ public class TaxDialog extends BaseDialog<ClientTAXItemGroup> {
 
 	private void createControls() {
 		mainPanel.setSpacing(3);
-		typeRadio = new RadioGroupItem();
+		typeRadio = new RadioGroupItem(Accounter.constants().tax(), GROUP);
 		typeRadio.setShowTitle(false);
 		typeRadio.setValue(TAXGROUP, TAXITEM);
 		DynamicForm typeForm = new DynamicForm();
