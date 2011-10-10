@@ -19,7 +19,7 @@ public abstract class ItemNameColumn extends
 	public abstract ListFilter<ClientItem> getItemsFilter();
 
 	@Override
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings( { "unchecked" })
 	public AbstractDropDownTable getDisplayTable(ClientTransactionItem row) {
 		return itemsList;
 	}

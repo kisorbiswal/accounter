@@ -10,6 +10,8 @@ import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -202,6 +204,17 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	protected void showPopup() {
 		if (DropDownCombo.this.getDisabled())
 			return;
+		textBox.addBlurHandler(new BlurHandler() {
+
+			@Override
+			public void onBlur(BlurEvent event) {
+				if ((selectedName == null || !selectedName.equals(getValue()
+						.toString()))
+						&& selectedIndex == -1)
+					setRelatedComboItem(getValue().toString());
+			}
+		});
+
 		if (!isAddNewRequire && comboItems.isEmpty())
 			return;
 		dropDown.getRowElement(0).getStyle().setHeight(15, Unit.PX);
@@ -213,16 +226,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		popup.setPopupPosition(x + 1, y);
 
 		popup.show();
-		popup.addCloseHandler(new CloseHandler<PopupPanel>() {
-
-			@Override
-			public void onClose(CloseEvent<PopupPanel> event) {
-				if ((selectedName == null || !selectedName.equals(getValue()
-						.toString())) && selectedIndex == -1)
-					if (haveCloseHandle)
-						setRelatedComboItem(getValue().toString());
-			}
-		});
+		
 		int clientwidth = Window.getClientWidth();
 		int clientHeight = Window.getClientHeight();
 		int popupWdth = popup.getWidget().getOffsetWidth();
@@ -361,10 +365,10 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	protected void init() {
 	}
 
-	 public void setWidth(String width) {
-	 super.setWidth(width);
-	
-	 }
+	public void setWidth(String width) {
+		super.setWidth(width);
+
+	}
 
 	/**
 	 * "" Should be Called only Once For Re-Initializing use, setComboItems
@@ -651,8 +655,8 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	private void filterValues(char key) {
 
 		String val = getValue() != null ? getValue().toString()
-				+ String.valueOf(key).replace("/", "").trim() : String
-				.valueOf(key).replace("/", "").trim();
+				+ String.valueOf(key).replace("/", "").trim() : String.valueOf(
+				key).replace("/", "").trim();
 
 		resetComboList();
 		if (key == '/') {
@@ -717,7 +721,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		}
 		selectedName = value;
 
-		if (isAddNewRequire && index == 0) {
+		if (index == 0) {
 			selectionFaildOnClose();
 		} else {
 			changeValue(index);
@@ -729,7 +733,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	 * noting has been selected for the entered text on close.
 	 */
 	protected void selectionFaildOnClose() {
-		// implement as you required at child
+		textBox.setValue("");
 	}
 
 	private void updateComboItemsInSorted(List<T> comboObjects,

@@ -279,8 +279,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 				return result;
 			}
 		}
-		result.add(DynamicForm.validate(this.getForms().toArray(
-				new DynamicForm[getForms().size()])));
+		result.add(DynamicForm.validate(form1));
 		return result;
 	}
 
