@@ -265,7 +265,7 @@ public class NewVendorPaymentView extends
 		checkNo = createCheckNumberItem();
 		checkNo.setValue(Accounter.constants().toBePrinted());
 		checkNo.setWidth(100);
-		checkNo.setDisabled(true);
+		// checkNo.setDisabled(true);
 		checkNo.addChangeHandler(new ChangeHandler() {
 
 			@Override
