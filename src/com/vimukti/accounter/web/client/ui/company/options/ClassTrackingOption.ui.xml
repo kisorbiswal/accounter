@@ -26,7 +26,10 @@
 				<g:VerticalPanel ui:field="onePerRadioPanel"
 					spacing="6">
 					<g:RadioButton name="onePerRadioGroup" ui:field="onePerTransactionRadio" />
-					<g:RadioButton name="onePerRadioGroup" ui:field="onePerDetailLineRadio" />
+					<!-- Currently we are disabling one per detail line transaction for 
+						Class Tracking -->
+					<!-- <g:RadioButton name="onePerRadioGroup" ui:field="onePerDetailLineRadio" 
+						/> -->
 				</g:VerticalPanel>
 			</g:VerticalPanel>
 		</g:VerticalPanel>
