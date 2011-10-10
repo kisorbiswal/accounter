@@ -580,7 +580,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		custNoText.setHelpInformation(true);
 		custNoText.setRequired(true);
 		custNoText.setWidth(100);
-		custNameText.setDisabled(isInViewMode());
+		custNoText.setDisabled(isInViewMode());
 
 		fileAsText = new TextItem(customerConstants.fileAs());
 		fileAsText.setHelpInformation(true);

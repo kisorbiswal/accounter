@@ -517,7 +517,7 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 			super.onEdit(clonedObject);
 
 			Session session = HibernateUtil.getCurrentSession();
-			this.depositIn.updateCurrentBalance(this, this.total);
+			this.depositIn.updateCurrentBalance(this, this.amount);
 			this.depositIn.onUpdate(session);
 
 			if (this.creditsAndPayments != null) {

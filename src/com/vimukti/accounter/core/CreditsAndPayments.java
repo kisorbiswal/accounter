@@ -396,14 +396,21 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 
 		Session session = HibernateUtil.getCurrentSession();
 		if (this.transaction.type != Transaction.TYPE_JOURNAL_ENTRY) {
-			if (this.getPayee().type == Payee.TYPE_CUSTOMER) {
-				this.payee.updateBalance(session, presentTransaction,
-						-transaction.total);
 
+			if (this.transaction.type == Transaction.TYPE_PAY_BILL) {
+				amount = this.transaction.subTotal - this.transaction.total;
+			} else if (this.transaction.type == Transaction.TYPE_RECEIVE_PAYMENT) {
+				amount = this.transaction.subTotal - this.transaction.total;
+			} else if (this.payee.type == Payee.TYPE_VENDOR) {
+				amount = -(this.transaction.total);
+			} else if (this.payee.type == Payee.TYPE_CUSTOMER) {
+				amount = this.balance;
 			} else {
-				this.payee.updateBalance(session, presentTransaction,
-						transaction.total);
+				amount = this.transaction.total;
 			}
+
+			this.payee.updateBalance(session, this.transaction, -amount);
+
 		}
 		this.setBalance(0d);
 		this.setCreditAmount(0d);
