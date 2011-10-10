@@ -5,6 +5,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -245,6 +246,13 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		if (customer == null)
 			return;
 
+		initContacts(customer);
+		Iterator<ClientContact> iterator = contacts.iterator();
+		while (iterator.hasNext()) {
+			contactCombo.setValue(iterator.next().getName());
+			break;
+		}
+
 		ClientCompany company = getCompany();
 
 		salesPersonSelected(company.getSalesPerson(customer.getSalesPerson()));
@@ -278,9 +286,9 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button, Accounter.messages().accounts(
-				Global.get().Account()), Accounter.constants()
-				.productOrServiceItem());
+		setMenuItems(button,
+				Accounter.messages().accounts(Global.get().Account()),
+				Accounter.constants().productOrServiceItem());
 		// FinanceApplication.constants().salesTax());
 		// FinanceApplication.constants().comment(),
 		// FinanceApplication.constants().VATItem());
@@ -293,7 +301,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	}
 
 	protected void initAddressAndContacts() {
-		initContacts(getCustomer());
+		// initContacts(getCustomer());
 		initPhones(getCustomer());
 		addressListOfCustomer = getCustomer().getAddress();
 		initBillToCombo();
@@ -365,12 +373,12 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		clientContacts.addAll(selectedCutomer.getContacts());
 		for (int j = 0; j < clientContacts.size(); j++) {
 			if (clientContacts.get(j).getTitle().equals(contact.getTitle())
-					&& clientContacts.get(j).getEmail().equals(
-							contact.getEmail())
-					&& clientContacts.get(j).getDisplayName().equals(
-							contact.getDisplayName())
-					&& clientContacts.get(j).getBusinessPhone().equals(
-							contact.getBusinessPhone())) {
+					&& clientContacts.get(j).getEmail()
+							.equals(contact.getEmail())
+					&& clientContacts.get(j).getDisplayName()
+							.equals(contact.getDisplayName())
+					&& clientContacts.get(j).getBusinessPhone()
+							.equals(contact.getBusinessPhone())) {
 				Accounter.showError(Accounter.constants()
 						.youHaveEnteredduplicateContacts());
 				return;
@@ -773,8 +781,8 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		// }
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result.addError(transactionDateItem, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDateItem,
+					accounterConstants.invalidateDate());
 		}
 		if (custForm != null) {
 			result.add(custForm.validate());
