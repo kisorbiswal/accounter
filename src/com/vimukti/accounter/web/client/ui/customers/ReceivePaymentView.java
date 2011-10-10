@@ -1247,6 +1247,7 @@ public class ReceivePaymentView extends
 			checkNo.setDisabled(false);
 		}
 
+		depositInCombo.setDisabled(isInViewMode());
 		super.onEdit();
 
 		gridView.removeFromParent();
