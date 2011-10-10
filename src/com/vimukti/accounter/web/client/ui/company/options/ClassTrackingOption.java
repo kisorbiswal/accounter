@@ -36,8 +36,13 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 	Label classesOnSalesLabel;
 	@UiField
 	RadioButton onePerTransactionRadio;
-	@UiField
-	RadioButton onePerDetailLineRadio;
+	/**
+	 * NOTE onePerDetailLineRadio for Class Tracking , Currently we are
+	 * disabling this feature and allowing the user only to select One Per
+	 * Transaction.
+	 */
+	// @UiField
+	// RadioButton onePerDetailLineRadio;
 	@UiField
 	VerticalPanel classOnSalesPanel;
 	@UiField
@@ -73,7 +78,7 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 			if (getCompanyPreferences().isClassOnePerTransaction()) {
 				onePerTransactionRadio.setValue(true);
 			} else {
-				onePerDetailLineRadio.setValue(true);
+				// onePerDetailLineRadio.setValue(true);
 			}
 
 			if (getCompanyPreferences().isWarnOnEmptyClass()) {
@@ -97,9 +102,9 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 				.classunderscoretracking());
 		onePerTransactionRadio.setHTML(Accounter.constants()
 				.onepertransaction());
-		onePerDetailLineRadio.setName(Accounter.constants()
-				.classunderscoretracking());
-		onePerDetailLineRadio.setHTML(Accounter.constants().oneperdetailline());
+		// onePerDetailLineRadio.setName(Accounter.constants()
+		// .classunderscoretracking());
+		// onePerDetailLineRadio.setHTML(Accounter.constants().oneperdetailline());
 
 		classOnSalesPanel.getElement().getStyle().setPaddingLeft(15, Unit.PX);
 		onePerRadioPanel.getElement().getStyle().setPaddingLeft(20, Unit.PX);
