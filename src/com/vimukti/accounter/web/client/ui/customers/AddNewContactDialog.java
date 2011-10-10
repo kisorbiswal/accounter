@@ -134,7 +134,7 @@ public class AddNewContactDialog extends BaseDialog<ClientContact> {
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
+		nameItem.setFocus();
 
 	}
 }
