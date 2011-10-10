@@ -1304,10 +1304,14 @@ public class VendorBillView extends
 	@Override
 	protected void addAccountTransactionItem(ClientTransactionItem item) {
 		vendorAccountTransactionTable.add(item);
+		vendorAccountTransactionTable.setTaxCode(taxCodeSelect
+				.getSelectedValue().getID(), true);
 	}
 
 	@Override
 	protected void addItemTransactionItem(ClientTransactionItem item) {
 		vendorItemTransactionTable.add(item);
+		vendorItemTransactionTable.setTaxCode(taxCodeSelect.getSelectedValue()
+				.getID(), true);
 	}
 }
