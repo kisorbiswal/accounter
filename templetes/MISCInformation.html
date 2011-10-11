@@ -6,21 +6,36 @@
 	<table cellpadding="5" border="0" style="margin-left:20px">
 	   <tr>
 	     <td>Company Name :</td>
-		 <td>Vimukti</td>
+	     <!-- $BeginBlock changeCompanyName -->
+		 <td>${companyName}</td>
+		  <!-- $EndBlock changeCompanyName -->
 	   </tr>
 
 	   <tr>
 	     <td style="vertical-align:top">Company Address :</td>
-		 <td>504, KRANTI CLASSIC APT,<br>
-			 Prashanti Nagar, ECIL Post, KAPRA<br>
-			 HYDERABAD, WY 50012<br>
-			 (998)969-6512<br>
+	     <!-- $BeginBlock changeCompanyAddress1 -->
+		 <td>${companyAddress1}<br>
+		 <!-- $EndBlock changeCompanyAddress1 -->
+		 
+			<!-- $BeginBlock changeCompanyAddress2 -->
+		 	${companyAddress2}<br>
+		 	<!-- $EndBlock changeCompanyAddress2 -->
+
+			<!-- $BeginBlock changeCompanyAddress3 -->
+		 	${companyAddress3}<br>
+		 	<!-- $EndBlock changeCompanyAddress3 -->
+
+			<!-- $BeginBlock changeCompanyAddress4 -->
+		 	${companyAddress4}<br>
+		 	<!-- $EndBlock changeCompanyAddress4 -->
 
 		 </td>
 	   </tr>
 	   <tr>
 	      <td>Id Number</td>
-		  <td>139</td>
+		 <!-- $BeginBlock changeCompanyId -->
+		 <td>${companyId}</td>
+		 <!-- $EndBlock changeCompanyId -->
 	   </tr>
 	</table>
 	<h4>Recipient Information:</h4>
@@ -47,21 +62,37 @@
 		      <table cellpadding="5" border="0" style="margin-left:20px">
 				   <tr>
 					 <td>Company Name :</td>
-					 <td>Vimukti</td>
+					  <!-- $BeginBlock changeVendorName -->
+					 <td>${vendorName}</td>
+					  <!-- $EndBlock changeVendorName -->
 				   </tr>
 
 				   <tr>
 					 <td style="vertical-align:top">Company Address :</td>
-					 <td>504, KRANTI CLASSIC APT,<br>
-						 Prashanti Nagar, ECIL Post, KAPRA<br>
-						 HYDERABAD, WY 50012<br>
-						 (998)969-6512<br>
+					  <!-- $BeginBlock changeVendorCompanyAddress1 -->
+					 <td>${VendorCompanyAddress1}<br>
+					 <!-- $EndBlock changeVendorCompanyAddress1 -->
+					
+					 <!-- $BeginBlock changeVendorCompanyAddress2 -->
+					 ${VendorCompanyAddress2}<br>
+					 <!-- $EndBlock changeVendorCompanyAddress2 -->
 
+					 <!-- $BeginBlock changeVendorCompanyAddress3 -->
+					 ${VendorCompanyAddress3}<br>
+					 <!-- $EndBlock changeVendorCompanyAddress3 -->
+					 
+					 <!-- $BeginBlock changeVendorCompanyAddress4 -->
+					 ${VendorCompanyAddress4}<br>
+					 <!-- $EndBlock changeVendorCompanyAddress4 -->
 					 </td>
 				   </tr>
 				   <tr>
 					  <td>Id Number</td>
-					  <td>139</td>
+					 	     
+					 <!-- $BeginBlock changeVendorCompanyId -->
+					 <td>${VendorCompanyId}</td>
+					 <!-- $EndBlock changeVendorCompanyId -->
+					 
 				   </tr>
 			  </table>
 		  </td>
@@ -84,7 +115,9 @@
 	<table cellpadding="5" border="0" style="margin-left:20px">
 	   <tr>
 	     <td>Total number of forms:</td>
-		 <td>5</td>
+		 <!-- $BeginBlock changenoOfForms -->
+		<td>${noOfForms}</td>
+		<!-- $EndBlock changenoOfForms -->
 
 	   </tr>
 	   <tr>

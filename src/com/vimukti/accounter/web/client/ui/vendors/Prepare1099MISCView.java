@@ -624,11 +624,10 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 				for (Client1099Form element : listDataProvider.getList()) {
 					long vendorId = element.getVendor().getID();
-
+					int type = 1;
 					long objectID = 1;
 					long brandingThemeID = 1;
-					UIUtils.downloadMISCForm(objectID,
-							ClientTransaction.TYPE_MISC_FORM, brandingThemeID,
+					UIUtils.downloadMISCForm(objectID, type, brandingThemeID,
 							vendorId, horizontalValue, verticalValue);
 				}
 
@@ -639,7 +638,8 @@ public class Prepare1099MISCView extends AbstractBaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				int type = 0;
-				UIUtils.makeMISCInfo(type, listDataProvider.getList());
+				UIUtils.downloadMISCForm(1, type, 1, 1, horizontalValue,
+						verticalValue);
 			}
 		});
 		cancel.addClickHandler(new ClickHandler() {

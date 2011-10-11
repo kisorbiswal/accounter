@@ -22,7 +22,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -1659,12 +1658,11 @@ public class UIUtils {
 			String verticalValue)/*-{
 		try {
 			var frame = document.createElement("IFRAME");
-			frame.setAttribute("src",
-					"/do/finance/generatePDFServlet?objectId=" + objectID
-							+ "&type=" + type + "&brandingThemeId="
-							+ brandingThemeId + "&vendorID=" + vendorID
-							+ "&horizontalValue=" + horizontalValue
-							+ "&verticalValue=" + verticalValue);
+			frame.setAttribute("src", "/do/finance/miscInfoServlet?objectId="
+					+ objectID + "&type=" + type + "&brandingThemeId="
+					+ brandingThemeId + "&vendorID=" + vendorID
+					+ "&horizontalValue=" + horizontalValue + "&verticalValue="
+					+ verticalValue);
 			frame.style.visibility = "hidden";
 			document.body.appendChild(frame);
 		} catch (e) {
@@ -1674,12 +1672,18 @@ public class UIUtils {
 
 	/**
 	 * this method is used to make MISC information page
+	 * 
+	 * @param verticalValue
+	 * @param horizontalValue
+	 * @param vendorId
+	 * @param brandingThemeID
+	 * @param objectID
 	 */
-	public native static void makeMISCInfo(int type, List<Client1099Form> list)/*-{
+	public native static void makeMISCInfo(int type)/*-{
 		try {
 			var frame = document.createElement("IFRAME");
-			frame.setAttribute("src", "/do/finance/miscInfoServlet?vendorList="
-					+ list + "&type=" + type);
+			frame.setAttribute("src", "/do/finance/miscInfoServlet?type="
+					+ type);
 			frame.style.visibility = "hidden";
 			document.body.appendChild(frame);
 		} catch (e) {

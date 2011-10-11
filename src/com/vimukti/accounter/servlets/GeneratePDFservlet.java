@@ -22,13 +22,11 @@ import com.vimukti.accounter.core.CustomerCreditMemo;
 import com.vimukti.accounter.core.ITemplate;
 import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.InvoicePDFTemplete;
-import com.vimukti.accounter.core.Misc1099PDFTemplate;
 import com.vimukti.accounter.core.PrintTemplete;
 import com.vimukti.accounter.core.ReportTemplate;
 import com.vimukti.accounter.core.ReportsGenerator;
 import com.vimukti.accounter.core.TemplateBuilder;
 import com.vimukti.accounter.core.Transaction;
-import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.utils.Converter;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -103,13 +101,6 @@ public class GeneratePDFservlet extends BaseServlet {
 				InputStreamReader creditReader = new InputStreamReader(inputStr);
 				converter
 						.generatePdfDocuments(printTemplete, sos, creditReader);
-				break;
-			case Transaction.TYPE_MISC_FORM:
-				java.io.InputStream inputString = new ByteArrayInputStream(
-						outPutString.toString().getBytes());
-				InputStreamReader miscCreator = new InputStreamReader(
-						inputString);
-				converter.generatePdfDocuments(fileName, sos, miscCreator);
 				break;
 			default:
 				// for generating pdf document for reports
@@ -250,28 +241,6 @@ public class GeneratePDFservlet extends BaseServlet {
 					outPutString = outPutString.append(printTemplete
 							.getPdfData());
 
-				}// for MISC form
-				else if (transactionType == Transaction.TYPE_MISC_FORM) {
-					converter = new Converter(PD4Constants.LETTER);
-
-					long vendorID = Long.parseLong(request
-							.getParameter("vendorID"));
-
-					int horizontalValue = Integer.parseInt(request
-							.getParameter("horizontalValue"));
-
-					int verticalValue = Integer.parseInt(request
-							.getParameter("verticalValue"));
-
-					Vendor vendor1099 = (Vendor) financetool.getManager()
-							.getServerObjectForid(AccounterCoreType.VENDOR,
-									vendorID);
-
-					Misc1099PDFTemplate miscHtmlTemplete = new Misc1099PDFTemplate(
-							vendor1099, horizontalValue, verticalValue);
-					fileName = miscHtmlTemplete.getFileName();
-					outPutString = outPutString.append(miscHtmlTemplete
-							.generatePDF());
 				}
 			}
 			// for Reports
