@@ -35,6 +35,7 @@
 			<account type="Expense" name="Professoinal Fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Rent Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Repairs &amp; Maintenance" default="true" systemOnly="false" countries="" cashFlow="Operating"></account> 
+			<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Taxes &amp; Property" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Telephone Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Travel Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -80,6 +81,7 @@
 			<account type="Expense" name="Professoinal Fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Rent Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Repairs &amp; Maintenance" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Taxes &amp; Property" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Telephone Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Travel Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -135,6 +137,7 @@
 			<account type="Expense" name="Professoinal Fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Rent Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Repairs &amp; Maintenance" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Seeds &amp; Plants Purchased" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Small Tools &amp; Equipments" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Storage &amp; warehousing" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -188,6 +191,7 @@
 			<account type="Expense" name="Professoinal Fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Rent Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Repairs &amp; Maintenance" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Taxes &amp; Property" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Telephone Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Travel Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -234,6 +238,7 @@
 			<account type="Expense" name="Professoinal Fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Rent Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Repairs &amp; Maintenance" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Shop Expense" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Small Tools &amp; Equipments" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Taxes &amp; Property" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -310,6 +315,7 @@
 			<account type="Expense" name="Professoinal Fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Rent Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Repairs &amp; Maintenance" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Small Tools &amp; Equipments" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Taxes &amp; Property" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Telephone Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -355,6 +361,7 @@
 			<account type="Expense" name="Professoinal Fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Rent Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Repairs &amp; Maintenance" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Taxes &amp; Property" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Telephone Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Travel Expenses" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -400,6 +407,7 @@
 			<account type="Expense" name="Professoinal Fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Rent Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Repairs &amp; Maintenance" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Taxes &amp; Property" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Telephone Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Travel Expenses" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -447,6 +455,7 @@
 			<account type="Expense" name="Professoinal Fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Rent Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Repairs &amp; Maintenance" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Taxes &amp; Property" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Telephone Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Travel Expenses" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -491,6 +500,7 @@
 		<account type="Expense" name="Professoinal Fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 		<account type="Expense" name="Rent Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 		<account type="Expense" name="Repairs &amp; Maintenance" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
+		<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 		<account type="Expense" name="Taxes &amp; Property" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 		<account type="Expense" name="Telephone Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 		<account type="Expense" name="Travel Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -540,6 +550,7 @@
 			<account type="Expense" name="Printing &amp; reproduction" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Professoinal Fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Rent Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Saloon Supplies, Linens, Laundry" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Repairs &amp; Maintenance" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Taxes &amp; Property" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -595,6 +606,7 @@
 			<account type="Expense" name="Professoinal Fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Rent Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Repairs &amp; Maintenance" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Taxes &amp; Property" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Telephone Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Travel Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -637,6 +649,7 @@
 			<account type="Expense" name="Professoinal Fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Rent Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Repairs &amp; Maintenance" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Taxes &amp; Property" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Telephone Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Travel Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -682,6 +695,7 @@
 			<account type="Expense" name="Professoinal Fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Rent Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Repairs &amp; Maintenance" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Taxes &amp; Property" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Telephone Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Travel Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -731,6 +745,7 @@
 		<account type="Expense" name="Rent Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 		<account type="Expense" name="Repairs &amp; Maintenance" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
          <account type="Expense" name="Research Services" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
+         <account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 		<account type="Expense" name="Taxes &amp; Property" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 		<account type="Expense" name="Telephone Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 		<account type="Expense" name="Travel Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -777,6 +792,7 @@
 			<account type="Expense" name="Postage &amp; delivery" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Professoinal Fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Repairs &amp; Maintenance" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Small Tools &amp; Equipments" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Taxes &amp; Property" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Telephone Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -818,6 +834,7 @@
 			<account type="Expense" name="Professoinal Fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Rent Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Repairs &amp; Maintenance" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Taxes &amp; Property" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Telephone Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Travel Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -861,6 +878,7 @@
 			<account type="Expense" name="Professoinal Fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Rent Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Repairs &amp; Maintenance" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Taxes &amp; Property" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Telephone Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Travel Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -914,6 +932,7 @@
 			<account type="Expense" name="Rent Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Saloon Supplies, Linens, Laundry" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Repairs &amp; Maintenance" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Small Medical Equipment" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Taxes &amp; Property" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Telephone Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -1013,6 +1032,7 @@
 			<account type="Expense" name="Books, Subscriptions, reference" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Postage, Mailing serivice" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Printing &amp; Copying" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Supplies" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Telephone, Telecommunications" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Other Types of Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -1074,6 +1094,7 @@
 			<account type="Expense" name="Professoinal Fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Rent Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Repairs &amp; Maintenance" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Taxes &amp; Property" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Telephone Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Travel Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -1115,6 +1136,7 @@
 			<account type="Expense" name="Property Management Fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Rent Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Repairs &amp; Maintenance" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Small Tools &amp; Equipments" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Taxes &amp; Property" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Telephone Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -1158,6 +1180,7 @@
 			<account type="Expense" name="Professoinal Fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Rent Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Repairs &amp; Maintenance" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Small Tools &amp; Equipments" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Taxes &amp; Property" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Telephone Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -1199,6 +1222,7 @@
 			<account type="Expense" name="Professoinal Fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Rent Expenses" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Repairs &amp; Maintenance" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Small Tools &amp; Equipments" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Taxes &amp; Property" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Telephone Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -1246,6 +1270,7 @@
 			<account type="Expense" name="Professoinal Fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Rent Expenses" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Repairs &amp; Maintenance" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Taxes &amp; Property" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Telephone Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Travel Expenses" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -1297,6 +1322,7 @@
 			<account type="Expense" name="Professoinal Fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Rent Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Repairs &amp; Maintenance" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Taxes &amp; Property" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Telephone Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Travel Expenses" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -1344,6 +1370,7 @@
 			<account type="Expense" name="Professoinal Fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Rent Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Repairs &amp; Maintenance" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Small Tools &amp; Equipments" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Taxes &amp; Property" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Telephone Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -1387,6 +1414,7 @@
 			<account type="Expense" name="Professoinal Fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Rent Expenses" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Repairs &amp; Maintenance" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Taxes &amp; Property" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Telephone Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Travel Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -1421,6 +1449,7 @@
 			<account type="Expense" name="Professoinal Fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Rent Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Repairs &amp; Maintenance" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Small Tools &amp; Equipments" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Taxes &amp; Property" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Telephone Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -1469,6 +1498,7 @@
 			<account type="Expense" name="Professoinal Fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Rent Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Repairs &amp; Maintenance" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Taxes &amp; Property" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Telephone Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Travel Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -1517,6 +1547,7 @@
 			<account type="Expense" name="Professoinal Fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Rent Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Repairs &amp; Maintenance" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Taxes &amp; Property" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Telephone Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Travel Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
@@ -1562,6 +1593,7 @@
 			<account type="Expense" name="Professoinal Fees" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Rent Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Repairs &amp; Maintenance" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Expense" name="Salaries and Wages" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Taxes &amp; Property" default="false" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Telephone Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Expense" name="Travel Expenses" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
