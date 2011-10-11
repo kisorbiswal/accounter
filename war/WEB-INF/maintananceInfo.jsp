@@ -21,7 +21,7 @@
 	    <h3>Sorry! Accounter is currently unavailable.</h3>
 	    <h5>We are performing maintenance on our systems to provide you with better service of Accounter.</h5>
 	    <span> Please visit again later.For more info, visit </span>
-	    <a  href="http://www.blog.accounterlive.com" style="color:RoyalBlue">blog.accounterlive.com</a>
+	    <a  href="http://blog.accounterlive.com" style="color:RoyalBlue">blog.accounterlive.com</a>
 	</div>
    </div>
    </div>
