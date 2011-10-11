@@ -52,6 +52,7 @@ public class GeneratePDFservlet extends BaseServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static final String PAGE_BREAK = "<pd4ml:page.break>";
 
 	@Override
 	protected void service(HttpServletRequest arg0, HttpServletResponse arg1)
@@ -193,6 +194,8 @@ public class GeneratePDFservlet extends BaseServlet {
 								.getPdfData());
 
 					}
+
+					outPutString.append(PAGE_BREAK);
 
 				}
 
