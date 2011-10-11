@@ -351,4 +351,10 @@ public abstract class TransactionJournalEntryTable extends
 		refreshTotals();
 	}
 
+	@Override
+	public void delete(ClientEntry row) {
+		super.delete(row);
+		refreshTotals();
+	}
+
 }

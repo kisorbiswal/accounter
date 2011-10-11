@@ -298,4 +298,10 @@ public abstract class MakeDepositTransactionTable extends
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void delete(ClientTransactionMakeDeposit row) {
+		super.delete(row);
+		updateTotals();
+	}
 }
