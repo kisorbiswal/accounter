@@ -779,8 +779,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// mainVlay.add(bottomLayout);
 		mainVlay.setWidth("100%");
 
-		if (UIUtils.isMSIEBrowser())
-			resetFromView();
+//		if (UIUtils.isMSIEBrowser())
+//			resetFromView();
 
 		return mainVlay;
 
@@ -1050,12 +1050,12 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		listforms.add(termsForm);
 
 		if (UIUtils.isMSIEBrowser()) {
-			financeDitailsForm.getCellFormatter().setWidth(0, 1, "200px");
-			// salesForm.getCellFormatter().setWidth(0, 1, "200px");
-			termsForm.getCellFormatter().setWidth(0, 1, "200px");
-			financeDitailsForm.setWidth("80%");
-			// salesForm.setWidth("80%");
-			termsForm.setWidth("80%");
+//			financeDitailsForm.getCellFormatter().setWidth(0, 1, "200px");
+//			// salesForm.getCellFormatter().setWidth(0, 1, "200px");
+//			termsForm.getCellFormatter().setWidth(0, 1, "200px");
+//			financeDitailsForm.setWidth("80%");
+//			// salesForm.setWidth("80%");
+//			termsForm.setWidth("80%");
 		}
 
 		return topHLay;

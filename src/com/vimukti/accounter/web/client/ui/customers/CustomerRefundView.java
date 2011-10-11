@@ -371,10 +371,10 @@ public class CustomerRefundView extends
 		mainVLay.add(totalLabel);
 		mainVLay.add(hLay);
 
-		if (UIUtils.isMSIEBrowser()) {
-			custForm.getCellFormatter().setWidth(0, 1, "300px");
-			custForm.setWidth("75%");
-		}
+//		if (UIUtils.isMSIEBrowser()) {
+//			custForm.getCellFormatter().setWidth(0, 1, "300px");
+//			custForm.setWidth("75%");
+//		}
 		this.add(mainVLay);
 
 		setSize("100%", "100%");

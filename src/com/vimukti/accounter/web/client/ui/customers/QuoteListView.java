@@ -102,8 +102,8 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 		listOfTypes.add(ALL);
 		viewSelect.initCombo(listOfTypes);
 
-		if (UIUtils.isMSIEBrowser())
-			viewSelect.setWidth("150px");
+//		if (UIUtils.isMSIEBrowser())
+//			viewSelect.setWidth("150px");
 
 		viewSelect.setComboItem(OPEN);
 		viewSelect

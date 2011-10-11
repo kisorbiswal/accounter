@@ -133,8 +133,8 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 		listOfTypes.add(CANCELLED);
 		viewSelect.initCombo(listOfTypes);
 		viewSelect.setComboItem(OPEN);
-		if (UIUtils.isMSIEBrowser())
-			viewSelect.setWidth("120px");
+//		if (UIUtils.isMSIEBrowser())
+//			viewSelect.setWidth("120px");
 
 		viewSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {

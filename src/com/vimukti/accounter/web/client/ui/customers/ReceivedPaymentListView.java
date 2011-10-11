@@ -91,8 +91,8 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 		listOfTypes.add(VOIDED);
 		viewSelect.initCombo(listOfTypes);
 		// ,DELETED
-		if (UIUtils.isMSIEBrowser())
-			viewSelect.setWidth("150px");
+//		if (UIUtils.isMSIEBrowser())
+//			viewSelect.setWidth("150px");
 
 		viewSelect.setComboItem(OPEN);
 		viewSelect

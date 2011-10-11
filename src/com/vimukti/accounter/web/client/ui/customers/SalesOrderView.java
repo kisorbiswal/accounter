@@ -469,11 +469,11 @@ public class SalesOrderView extends
 		mainVLay.getElement().getStyle().setPaddingTop(20, Unit.PX);
 		mainVLay.getElement().getStyle().setPaddingBottom(20, Unit.PX);
 
-		if (UIUtils.isMSIEBrowser()) {
-			resetFormView();
-			termsForm.getCellFormatter().setWidth(0, 1, "230px");
-			termsForm.setWidth("90%");
-		}
+//		if (UIUtils.isMSIEBrowser()) {
+//			resetFormView();
+//			termsForm.getCellFormatter().setWidth(0, 1, "230px");
+//			termsForm.setWidth("90%");
+//		}
 		this.add(mainVLay);
 
 		/* Adding dynamic forms in list */
@@ -530,7 +530,7 @@ public class SalesOrderView extends
 		custForm.setWidth("94%");
 		shipToAddress.getCellFormatter().setWidth(0, 1, "100");
 		shipToAddress.getCellFormatter().setWidth(0, 2, "200");
-		statusSelect.setWidth("150px");
+		//statusSelect.setWidth("150px");
 		// refText.setWidth("200px");
 	}
 

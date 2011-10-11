@@ -141,8 +141,8 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 		else
 			viewSelect.setComboItem(OPEN);
 
-		if (UIUtils.isMSIEBrowser())
-			viewSelect.setWidth("105px");
+//		if (UIUtils.isMSIEBrowser())
+//			viewSelect.setWidth("105px");
 
 		viewSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -171,8 +171,8 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 		dateRangeSelector.setDefaultValue(ALL);
 
 		dateRangeSelector.setComboItem(ALL);
-		if (UIUtils.isMSIEBrowser())
-			dateRangeSelector.setWidth("105px");
+//		if (UIUtils.isMSIEBrowser())
+//			dateRangeSelector.setWidth("105px");
 
 		dateRangeSelector
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {

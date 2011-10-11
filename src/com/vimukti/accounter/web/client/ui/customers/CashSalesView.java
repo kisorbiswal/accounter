@@ -953,11 +953,11 @@ public class CashSalesView extends
 	}
 
 	private void resetFormView() {
-		custForm.getCellFormatter().setWidth(0, 1, "200px");
-		custForm.setWidth("75%");
+//		custForm.getCellFormatter().setWidth(0, 1, "200px");
+//		custForm.setWidth("75%");
 		// priceLevelSelect.setWidth("150px");
 		// refText.setWidth("200px");
-		memoTextAreaItem.setWidth("200px");
+		//memoTextAreaItem.setWidth("200px");
 	}
 
 	@Override

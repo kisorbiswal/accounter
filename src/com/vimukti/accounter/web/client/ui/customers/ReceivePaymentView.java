@@ -610,8 +610,8 @@ public class ReceivePaymentView extends
 		mainVLay.add(topHLay);
 		mainVLay.add(gridLayout);
 
-		if (UIUtils.isMSIEBrowser())
-			payForm.getCellFormatter().setWidth(0, 1, "200px");
+//		if (UIUtils.isMSIEBrowser())
+//			payForm.getCellFormatter().setWidth(0, 1, "200px");
 
 		this.add(mainVLay);
 		setSize("100%", "100%");

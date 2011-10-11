@@ -796,8 +796,8 @@ public class CustomerCreditMemoView extends
 	}
 
 	public void resetFormView() {
-		custForm.getCellFormatter().setWidth(0, 1, "200px");
-		custForm.setWidth("75%");
+//		custForm.getCellFormatter().setWidth(0, 1, "200px");
+//		custForm.setWidth("75%");
 		// refText.setWidth("200px");
 		// priceLevelSelect.setWidth("150px");
 	}

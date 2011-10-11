@@ -362,10 +362,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				.setAttribute(Accounter.constants().width(), "226px");
 		custForm.setStyleName("align-form");
 
-		if (UIUtils.isMSIEBrowser()) {
-			if (transaction != null)
-				custForm.setWidth("74%");
-		}
+//		if (UIUtils.isMSIEBrowser()) {
+//			if (transaction != null)
+//				custForm.setWidth("74%");
+//		}
 
 		salesPersonCombo = createSalesPersonComboItem();
 
@@ -1694,8 +1694,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	protected void enableFormItems() {
 
-		if (UIUtils.isMSIEBrowser())
-			custForm.setWidth("100%");
+//		if (UIUtils.isMSIEBrowser())
+//			custForm.setWidth("100%");
 
 		setMode(EditMode.EDIT);
 
@@ -1758,10 +1758,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	}
 
 	private void resetFromView() {
-		custForm.getCellFormatter().setWidth(0, 1, "200");
-
-		shipToAddress.getCellFormatter().setWidth(0, 1, "100");
-		shipToAddress.getCellFormatter().setWidth(0, 2, "200");
+//		custForm.getCellFormatter().setWidth(0, 1, "200");
+//
+//		shipToAddress.getCellFormatter().setWidth(0, 1, "100");
+//		shipToAddress.getCellFormatter().setWidth(0, 2, "200");
 
 		// priceLevelSelect.setWidth("150px");
 		// refText.setWidth("200px");

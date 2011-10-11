@@ -492,10 +492,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		mainVLay.add(mainpanel);
 		gridPanel.setWidth("100%");
 
-		if (UIUtils.isMSIEBrowser()) {
-			resetFormView();
-			phoneForm.setWidth("60%");
-		}
+//		if (UIUtils.isMSIEBrowser()) {
+//			resetFormView();
+//			phoneForm.setWidth("60%");
+//		}
 
 		this.add(mainVLay);
 
