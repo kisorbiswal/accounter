@@ -59,16 +59,6 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				t.addBlock("showlogo");
 			}
 
-			// TODO For setting the Contact Details
-			String contactDetails = forNullValue(
-					brandingTheme.getContactDetails()).replace("\n", "<br/>");
-			if (contactDetails.contains("(None Added)")) {
-				contactDetails = "";
-			}
-			contactDetails = forNullValue(company.getFullName()) + "<br/>"
-					+ contactDetails;
-			t.setVariable("companyDetails", contactDetails);
-
 			// setting invoice number
 
 			String invNumber = forNullValue(invoice.getNumber());
@@ -158,11 +148,11 @@ public class InvoicePDFTemplete implements PrintTemplete {
 						+ forUnusedAddress("Email : " + email, false);
 
 				if (billAddress.trim().length() > 0) {
-					t.setVariable("billingAddress", billAddress);
+					t.setVariable("billingAddress", "To<br/>" + billAddress);
 					t.addBlock("billhead");
 				}
 			} else {
-				t.setVariable("billingAddress", customerName);
+				t.setVariable("billingAddress", "To<br/>" + customerName);
 				t.addBlock("billhead");
 			}
 
@@ -292,7 +282,7 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			t.setVariable("dueDate", invoice.getDueDate().toString());
 			t.addBlock("dueDateDetails");
 
-			boolean hasTermsNpaypalId= false;
+			boolean hasTermsNpaypalId = false;
 			String termsNCondn = forNullValue(
 					brandingTheme.getTerms_And_Payment_Advice()).replace("\n",
 					"<br/>");
@@ -301,7 +291,7 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				termsNCondn = "";
 			}
 			if (termsNCondn.trim().length() > 0) {
-				hasTermsNpaypalId= true;
+				hasTermsNpaypalId = true;
 				t.setVariable("termsAndPaymentAdvice", termsNCondn);
 				t.addBlock("termsAndAdvice");
 			}
@@ -311,13 +301,12 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				paypalEmail = "";
 			}
 			if (paypalEmail.trim().length() > 0) {
-				hasTermsNpaypalId= true;
+				hasTermsNpaypalId = true;
 				t.setVariable("email", paypalEmail);
 				t.addBlock("paypalemail");
 			}
 
-			if(hasTermsNpaypalId)
-			{
+			if (hasTermsNpaypalId) {
 				t.addBlock("termsNpaypalId");
 			}
 			// for Vat String
@@ -398,7 +387,6 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			t.addBlock("theme");
 
 			outPutString = t.getFileString();
-			System.err.println(outPutString);
 			return outPutString;
 			// OutputStream outputstream = new ByteArrayOutputStream();
 			//
@@ -542,15 +530,25 @@ public class InvoicePDFTemplete implements PrintTemplete {
 		Address reg = company.getRegisteredAddress();
 
 		if (reg != null)
-			regestrationAddress = ("&nbsp;Registered Address: "
-					+ reg.getAddress1()
+			regestrationAddress = (reg.getAddress1()
 					+ forUnusedAddress(reg.getStreet(), true)
 					+ forUnusedAddress(reg.getCity(), true)
 					+ forUnusedAddress(reg.getStateOrProvinence(), true)
 					+ forUnusedAddress(reg.getZipOrPostalCode(), true)
 					+ forUnusedAddress(reg.getCountryOrRegion(), true) + ".");
 
-		regestrationAddress = (company.getFullName() + "&nbsp;&nbsp;&nbsp;"
+		// TODO For setting the Contact Details
+		// String contactDetails =
+		// forNullValue(brandingTheme.getContactDetails())
+		// .replace("\n", "<br/>");
+		String contactDetails = forNullValue(brandingTheme.getContactDetails());
+		if (contactDetails.contains("(None Added)")) {
+			contactDetails = "";
+		}
+
+		regestrationAddress = (contactDetails
+				+ "<br/><hr width = 100%>&nbsp;&nbsp;&nbsp;"
+				+ company.getFullName() + "<br/>&nbsp;&nbsp;&nbsp;"
 				+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
 				.getRegistrationNumber().equals("")) ? "<br/>Company Registration No: "
 				+ company.getRegistrationNumber()
