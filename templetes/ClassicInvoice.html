@@ -26,13 +26,22 @@
  </table>
    	 <table id="header-part-invoice" class="margin" style="clear:both;font-family:${fontStyle};font-size:${font};" width="100%">
 		 <tr>
-			<td width="60%">
-				  <div class="gwt-HTML">
-					<p>
-						<table><tr><td>${companyDetails}</td></tr></table> 
-					</p>
-			      </div>
+			 <td style="vertical-align: top;" align="left">
+	    <!-- $BeginBlock billhead -->
+	     <table border="1"  id="billto" style="width:300px;font-family:${fontStyle};font-size:${font};"><colgroup><col></colgroup>
+          <tr>
+			<td class="gridHeaderBackGround"><p class="fontSetting"><center>Bill To</center></p></td>
+		  </tr>
+		  <tr>
+			<td align="left" style="vertical-align:top;height:130px">
+			   <p class="fontSetting">
+			     <div align="left">&nbsp;${billingAddress}</div>
+			   </p>
 			</td>
+		  </tr>
+		 </table>
+		 <!-- $EndBlock billhead -->
+		</td>
 				  <td width="40%">
 				     <table width="100%" class="invoice_details_table" border="1"  style="font-family:${fontStyle};font-size:${font};">
 					    <colgroup><col></colgroup>
@@ -91,22 +100,6 @@
 			 </table>
    <table border="0" id="billingAddressTable" width="100%" style="font-family:${fontStyle};font-size:${font};">
      <tr>
-	   <td style="vertical-align: top;" align="left">
-	    <!-- $BeginBlock billhead -->
-	     <table border="1"  id="billto" style="width:300px;font-family:${fontStyle};font-size:${font};"><colgroup><col></colgroup>
-          <tr>
-			<td class="gridHeaderBackGround"><p class="fontSetting"><center>Bill To</center></p></td>
-		  </tr>
-		  <tr>
-			<td align="left" style="vertical-align:top;height:130px">
-			   <p class="fontSetting">
-			     <div align="left">&nbsp;${billingAddress}</div>
-			   </p>
-			</td>
-		  </tr>
-		 </table>
-		 <!-- $EndBlock billhead -->
-		</td>
 		<td style="vertical-align: top;" align="right">
 		<!-- $BeginBlock shiphead -->
 		 <table  id = "shippingAddressTable" border="1" class="gridHeader" style="width:300px;font-family:${fontStyle};font-size:${font};"> 
