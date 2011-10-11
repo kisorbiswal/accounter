@@ -6,41 +6,13 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class SelectCombo extends CustomCombo<String> {
 
-	// public static final int ACCOUNT_TYPES = 6;
 
 	public SelectCombo(String title) {
 		super(title, false, 1);
 		super.setToolTip(Accounter.messages().selectWhichWeHaveInOurCompany(
 				title));
-		// if (type == SHIP_TO) {
-		// initCombo(new ClientAddress().getAddressTypes());
-		// } else if (type == PHONE) {
-		// initCombo(new ClientAddress().getAddressTypes());
-		// } else if (type == EMAIL) {
-		// initCombo(new ClientAddress().getAddressTypes());
-		// } else if (type == FAX){
-		// initCombo(new ClientAddress().getAddressTypes());
-		// }else if (type==ADDRESS) {
-		//
-		// }
 	}
 
-	// @Override
-	// public SelectItemType getSelectItemType() {
-	// SelectItemType itemType = null;
-	// if (type == SHIP_TO) {
-	// itemType = SelectItemType.SHIP_TO;
-	// } else if (type == PHONE) {
-	// itemType = SelectItemType.PHONE;
-	// } else if (type == EMAIL) {
-	// itemType = SelectItemType.EMAIL;
-	// } else if (type == FAX) {
-	// itemType = SelectItemType.FAX;
-	// } else if (type == ADDRESS) {
-	// itemType = SelectItemType.ADDRESS;
-	// }
-	// return itemType;
-	// }
 
 	@Override
 	public String getDefaultAddNewCaption() {

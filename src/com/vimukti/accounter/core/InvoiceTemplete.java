@@ -31,12 +31,6 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 		init();
 	}
 
-	// private String getFontAndSize() {
-	// String font = "\"font-family:" + brandingTheme.getFont() + "; size:"
-	// + brandingTheme.getFontSize().replace("pt", "px") + ";\"";
-	// return font;
-	//
-	// }
 	private StringBuffer getImage() {
 		StringBuffer original = new StringBuffer();
 		// String imagesDomain = "/do/downloadFileFromFile?";
