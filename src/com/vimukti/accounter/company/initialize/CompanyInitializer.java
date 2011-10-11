@@ -336,10 +336,6 @@ public abstract class CompanyInitializer {
 				AccounterServerConstants.OTHER_CASH_EXPENSE,
 				Account.CASH_FLOW_CATEGORY_FINANCING);
 
-		createAccount(Account.TYPE_EXPENSE,
-				AccounterServerConstants.EXPENSE_SALARIES_WAGES,
-				Account.CASH_FLOW_CATEGORY_FINANCING);
-
 		//
 		// createAccount(Account.TYPE_COST_OF_GOODS_SOLD,
 		// AccounterServerConstants.IMPORT_DUTY,
