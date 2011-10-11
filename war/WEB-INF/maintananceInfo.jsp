@@ -1,5 +1,6 @@
 <html>
 <head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 <title>  Accounter Under Maintanance
 </title>
 <meta content="IE=100" http-equiv="X-UA-Compatible">
@@ -21,7 +22,7 @@
 	    <h3>Sorry! Accounter is currently unavailable.</h3>
 	    <h5>We are performing maintenance on our systems to provide you with better service of Accounter.</h5>
 	    <span> Please visit again later.For more info, visit </span>
-	    <a  href="http://blog.accounterlive.com" style="color:RoyalBlue">blog.accounterlive.com</a>
+	    <a target="_blank"  href="http://blog.accounterlive.com" style="color:RoyalBlue">blog.accounterlive.com</a>
 	</div>
    </div>
    </div>

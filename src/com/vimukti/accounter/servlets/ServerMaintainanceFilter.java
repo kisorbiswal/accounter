@@ -34,6 +34,13 @@ public class ServerMaintainanceFilter implements Filter {
 	public void doFilter(ServletRequest arg0, ServletResponse arg1,
 			FilterChain arg2) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) arg0;
+		String requestURI = req.getRequestURI();
+		if (requestURI.endsWith(".css") || requestURI.endsWith(".jpg")
+				|| requestURI.endsWith(".png")) {
+			arg2.doFilter(arg0, arg1);
+			return;
+		}
+
 		if (!req.getServletPath().endsWith("/maintanance")
 				&& ServerConfiguration.isUnderMaintainance()) {
 			req.getRequestDispatcher(MAINTANACE_VIEW).forward(req,
