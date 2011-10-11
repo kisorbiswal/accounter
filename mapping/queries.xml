@@ -1414,6 +1414,12 @@
 		and company=:company
 		and user.isAdmin =true
 	</query>
+	
+	<query name="get.Admin.Users">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.User user where user.company=:company
+		and user.isAdmin =true
+	</query>
 
 	<query name="getTAXAdjustment.by.dates.and.taxItemName">
 		<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />

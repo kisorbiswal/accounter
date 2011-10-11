@@ -1,6 +1,7 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.ServletException;
@@ -8,11 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.ServerCompany;
+import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.services.IS2SService;
 import com.vimukti.accounter.utils.HibernateUtil;
 
@@ -23,7 +27,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 
 public class DeleteCompanyServlet extends BaseServlet {
 
-	private String deleteCompanyView = "/WEB-INF/deleteCompany.jsp";
+	private static final String deleteCompanyView = "/WEB-INF/deleteCompany.jsp";
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -34,8 +38,38 @@ public class DeleteCompanyServlet extends BaseServlet {
 			redirectExternal(req, resp, LOGIN_URL);
 			return;
 		}
+		String companyId = req.getParameter(COMPANY_ID);
+		boolean canDeleteFromSingle = true, canDeleteFromAll = true;
+		Session hibernateSession = HibernateUtil.openSession();
+		try {
+			Company company = (Company) hibernateSession.get(Company.class,
+					Long.parseLong(companyId));
+			User user = (User) hibernateSession
+					.getNamedQuery("user.by.emailid")
+					.setParameter("emailID", emailID)
+					.setParameter("company", company).uniqueResult();
 
-		req.getSession().setAttribute(COMPANY_ID, req.getParameter(COMPANY_ID));
+			Query query = hibernateSession.getNamedQuery("get.Admin.Users")
+					.setParameter("company", company);
+			List<User> adminUsers = query.list();
+			if (adminUsers.size() < 2) {
+				for (User u : adminUsers) {
+					if (u.getID() == user.getID()) {
+						canDeleteFromSingle = false;
+						break;
+					}
+				}
+			}
+
+			if (user != null && !user.isAdmin()) {
+				canDeleteFromAll = false;
+			}
+		} finally {
+			hibernateSession.close();
+		}
+		req.setAttribute("canDeleteFromSingle", canDeleteFromSingle);
+		req.setAttribute("canDeleteFromAll", canDeleteFromAll);
+		req.getSession().setAttribute(COMPANY_ID, companyId);
 		dispatch(req, resp, deleteCompanyView);
 	}
 
@@ -64,6 +98,30 @@ public class DeleteCompanyServlet extends BaseServlet {
 				Session session = HibernateUtil.openSession();
 				Transaction transaction = null;
 				try {
+					boolean canDeleteFromSingle = true, canDeleteFromAll = true;
+
+					Company company = (Company) session.get(Company.class,
+							Long.parseLong(companyID));
+					User user = (User) session.getNamedQuery("user.by.emailid")
+							.setParameter("emailID", email)
+							.setParameter("company", company).uniqueResult();
+
+					Query query = session.getNamedQuery("get.Admin.Users")
+							.setParameter("company", company);
+					List<User> adminUsers = query.list();
+					if (adminUsers.size() < 2) {
+						for (User u : adminUsers) {
+							if (u.getID() == user.getID()) {
+								canDeleteFromSingle = false;
+								break;
+							}
+						}
+					}
+
+					if (user != null && !user.isAdmin()) {
+						canDeleteFromAll = false;
+					}
+
 					transaction = session.beginTransaction();
 
 					Client client = getClient(email);
@@ -92,10 +150,10 @@ public class DeleteCompanyServlet extends BaseServlet {
 					IS2SService s2sService = getS2sSyncProxy(serverCompany
 							.getServer().getAddress());
 
-					boolean isAdmin = s2sService.isAdmin(
-							Long.parseLong(companyID), email);
+					// boolean isAdmin = s2sService.isAdmin(
+					// Long.parseLong(companyID), email);
 
-					if (!isAdmin) {
+					if (!canDeleteFromSingle && !canDeleteFromAll) {
 						httpSession.setAttribute(COMPANY_DELETION_STATUS,
 								"Fail");
 						httpSession
@@ -107,8 +165,9 @@ public class DeleteCompanyServlet extends BaseServlet {
 						return;
 					}
 
-					if (deleteAllUsers
-							|| serverCompany.getClients().size() == 1) {
+					if (canDeleteFromAll
+							&& (deleteAllUsers || serverCompany.getClients()
+									.size() == 1)) {
 						// Deleting ServerCompany
 						Set<Client> clients = serverCompany.getClients();
 						for (Client clnt : clients) {
@@ -122,7 +181,7 @@ public class DeleteCompanyServlet extends BaseServlet {
 								.getServer().getAddress());
 						s2sSyncProxy.deleteCompany(serverCompany.getId());
 
-					} else {
+					} else if (canDeleteFromSingle) {
 
 						// Deleting Client from ServerCompany
 						client.getCompanies().remove(serverCompany);

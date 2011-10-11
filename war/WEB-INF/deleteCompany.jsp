@@ -20,11 +20,15 @@
         </c:if>
         
 	   <form action="/main/deletecompany" method="post">
-             <input type="radio" name="delete" value="deleteUser" checked>
-             	Delete company from this user
+	  	 	<c:if test="${canDeleteFromSingle}">
+            	<input type="radio" name="delete" value="deleteUser" checked>
+            		Delete company from this user
+            </c:if>
+           	<c:if test="${canDeleteFromAll}">
             <br>
             <input type="radio" name="delete" value="deleteAllUsers">
             Delete company from all users
+            </c:if>
             <br>
             <br>
             <div class="company_list_buttons">
