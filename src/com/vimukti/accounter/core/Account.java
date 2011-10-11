@@ -1117,7 +1117,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		// TransactionMakeDepositEntries(this.accountTransaction.transaction,this
 		// .accountTransaction.getAmount());
 		// }
-		this.updateEntryMemo(session);
+		// this.updateEntryMemo(session);
 		ChangeTracker.put(this);
 
 		session.setFlushMode(flushMode);
