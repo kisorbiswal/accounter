@@ -11,7 +11,8 @@
 <html>
 <head>
 
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta content="IE=100" http-equiv="X-UA-Compatible">
 <%@ include file="./feedback.jsp" %>
 <link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet">
 <link type="text/css" href="../css/ss.css" rel="stylesheet">
