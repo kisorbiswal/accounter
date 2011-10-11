@@ -45,7 +45,6 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 	@Override
 	public Result run(Context context) {
 		Result result = null;
-
 		result = itemNameRequirement(context);
 		if (result != null) {
 			return result;
@@ -504,21 +503,21 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 	 */
 
 	private Result itemNameRequirement(Context context) {
-		Requirement nameReq = get("name");
-		if (!nameReq.isDone()) {
-			String string = context.getString();
-			if (string != null) {
-				nameReq.setValue(string);
-			} else {
-				return text(context, "Please Enter the name", null);
-			}
+		Requirement requirement = get("name");
+		if (!requirement.isDone()) {
+		String name = context.getSelection(TEXT);
+		if (name != null) {
+		requirement.setValue(name);
+		} else {
+		return text(context, "Please enter the Name", null);
+		}
 		}
 		String input = (String) context.getAttribute(INPUT_ATTR);
 		if (input.equals("name")) {
-			nameReq.setValue(input);
+		requirement.setValue(input);
 		}
 		return null;
-	}
+		} 
 
 	private Result vatCodeRequirment(Context context) {
 		Requirement taxReq = get("vatCode");
