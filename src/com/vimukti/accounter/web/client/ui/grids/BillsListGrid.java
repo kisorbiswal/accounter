@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
+import com.google.gwt.core.client.GWT;
+import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -9,11 +11,14 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterErrors;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public class BillsListGrid extends BaseListGrid<BillsList> {
+	public static AccounterErrors accounterErrors = (AccounterErrors) GWT
+			.create(AccounterErrors.class);
 
 	public BillsListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
@@ -112,8 +117,11 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 		if (!Accounter.getUser().canDoInvoiceTransactions())
 			return;
 		if (col == 6 && !obj.isVoided()) {
-
-			if (obj.getType() != ClientTransaction.TYPE_EMPLOYEE_EXPENSE
+			if (obj.getStatus() == Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED
+					|| obj.getStatus() == Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED) {
+				Accounter.showError(accounterErrors.billPaidSoYouCantVoid());
+				// "You have already paid some amount for this Bill, You can't Edit and Void it.");
+			} else if (obj.getType() != ClientTransaction.TYPE_EMPLOYEE_EXPENSE
 					|| (obj.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE && obj
 							.getExpenseStatus() == ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)) {
 				showWarningDialog(obj, this.getAccounterCoreType(obj), this

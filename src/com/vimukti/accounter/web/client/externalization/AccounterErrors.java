@@ -29,11 +29,13 @@ public interface AccounterErrors extends Constants {
 	String objectInUse();
 
 	String taxGroupInUse();
-	
+
 	String vatItemInUse();
-	
+
 	String objectModified();
 
 	String billPaidSoYouCantEdit();
+
+	String billPaidSoYouCantVoid();
 
 }
