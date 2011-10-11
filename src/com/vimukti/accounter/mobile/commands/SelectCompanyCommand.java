@@ -17,13 +17,13 @@ public class SelectCompanyCommand extends Command {
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
+		return "selectCompany";
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub.
+		list.add(new Requirement("", false, true));
 
 	}
 

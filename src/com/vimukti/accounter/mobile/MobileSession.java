@@ -178,4 +178,12 @@ public class MobileSession {
 		this.client = client;
 	}
 
+	/**
+	 * @param company
+	 *            the company to set
+	 */
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+
 }

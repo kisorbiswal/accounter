@@ -214,6 +214,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 				.add(UIUtils
 						.getpaymentMethodCheckBy_CompanyType(AccounterClientConstants.PAYMENT_METHOD_CHECK));
 		payMethodSelect.initCombo(payMethodItemList);
+		payMethodSelect.setSelectedItem(0);
 
 		payMethodSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {

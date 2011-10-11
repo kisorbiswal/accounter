@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <commands>
+
+	<command clazz="AuthenticateCommand" name="authenticate">
+	</command>
+	<command clazz="SelectCompanyCommand" name="selectCompany">
+	</command>
+
+	<command clazz="NewInvoiceCommand" name="New Invoice">
+		<alias>Create Invoice</alias>
+		<alias>Add Invoice</alias>
+		<alias>Create New Invoice</alias>
+	</command>
+
 	<command clazz="NewInvoiceCommand" name="New Invoice">
 		<alias>Create Invoice</alias>
 		<alias>Add Invoice</alias>
@@ -455,7 +467,7 @@
 
 	<command clazz="ReceivedPaymentsListCommand" name="Received Payments List">
 	</command>
-	
+
 	<command clazz="VoidTransactionCommand" name="Void Transaction">
 		<alias>Void</alias>
 	</command>
@@ -464,7 +476,7 @@
 		<alias>Sales</alias>
 		<alias>new sales order</alias>
 	</command>
-	
+
 	<command clazz="SalesPersonsListCommand" name="Sales Person List">
 		<alias>Sales Person</alias>
 		<alias>sales person list</alias>

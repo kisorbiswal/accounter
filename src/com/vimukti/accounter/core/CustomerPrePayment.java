@@ -291,17 +291,13 @@ public class CustomerPrePayment extends Transaction {
 			//
 			// }
 		}
-		this.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
-
-		if ((customerPrePayment.paymentMethod
-				.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) || customerPrePayment.paymentMethod
-				.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))
-				&& (!this.paymentMethod
-						.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) && !this.paymentMethod
-						.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
+		if ((this.paymentMethod
+				.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) || this.paymentMethod
+				.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
+			this.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
+		} else {
 			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		}
-
 		super.onEdit(customerPrePayment);
 	}
 

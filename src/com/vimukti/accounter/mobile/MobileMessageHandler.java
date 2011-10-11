@@ -6,8 +6,10 @@ package com.vimukti.accounter.mobile;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mobile.MobileAdaptor.AdaptorType;
@@ -38,17 +40,18 @@ public class MobileMessageHandler {
 			if (session == null || session.isExpired()) {
 				session = new MobileSession();
 				sessions.put(userId, session);
+				processWithOutAuthenticationForTest(session, openSession, userId);
 			}
 			MobileAdaptor adoptor = getAdaptor(adaptorType);
 			session.refresh();
 
-			if (!session.isAuthenticated()
-					&& !message.equals(AUTHENTICATE_COMMAND)) {
-				message = AUTHENTICATE_COMMAND;
-			} else if (session.getCompany() != null
-					&& !message.equals(SELECT_COMPANY_COMMAND)) {
-				message = SELECT_COMPANY_COMMAND;
-			}
+			// if (!session.isAuthenticated()
+			// && !message.equals(AUTHENTICATE_COMMAND)) {
+			// message = AUTHENTICATE_COMMAND;
+			// } else if (session.getCompany() != null
+			// && !message.equals(SELECT_COMPANY_COMMAND)) {
+			// message = SELECT_COMPANY_COMMAND;
+			// }
 
 			UserMessage preProcess = adoptor.preProcess(session, message);
 			Result result = getCommandProcessor().handleMessage(session,
@@ -65,6 +68,20 @@ public class MobileMessageHandler {
 				openSession.close();
 			}
 		}
+	}
+
+	private void processWithOutAuthenticationForTest(MobileSession session,
+			Session hibernateSession, String userId) {
+		Company company = (Company) hibernateSession.get(Company.class, 1l);
+
+		Query namedQuery = hibernateSession
+				.getNamedQuery("getClient.by.mailId");
+		namedQuery.setParameter("emailId", userId);
+		Client client = (Client) namedQuery.uniqueResult();
+
+		session.setCompany(company);
+
+		session.setClient(client);
 	}
 
 	/**

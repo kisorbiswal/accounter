@@ -270,6 +270,14 @@ public class CreditCardCharge extends Transaction {
 
 		} else if (!this.equals(creditCardCharge)) {
 
+			if ((this.paymentMethod
+					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) || this.paymentMethod
+					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
+				this.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
+			} else {
+				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
+			}
+
 			if (!this.payFrom.equals(creditCardCharge.payFrom)) {
 				Account prePayFrom = (Account) session.get(Account.class,
 						creditCardCharge.payFrom.id);
@@ -286,12 +294,6 @@ public class CreditCardCharge extends Transaction {
 
 			}
 
-			if (!this.paymentMethod
-					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK)
-					&& !this.paymentMethod
-							.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK)) {
-				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
-			}
 		}
 
 		super.onEdit(clonedObject);

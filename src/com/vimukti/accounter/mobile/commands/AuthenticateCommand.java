@@ -24,9 +24,15 @@ public class AuthenticateCommand extends AbstractCommand {
 	@Override
 	public Result run(Context context) {
 
-		Requirement requirement = get("emailId");
-		if (!requirement.isDone()) {
+		Requirement emailRequirement = get("emailId");
+		if (!emailRequirement.isDone()) {
 			Result result = processEmail(context);
+			return result;
+		}
+
+		Requirement activationRequirement = get("activationCode");
+		if (!activationRequirement.isDone()) {
+
 		}
 
 		String userEmail = context.getString();

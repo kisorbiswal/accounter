@@ -358,8 +358,7 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 			if (!this.payTo.equals(customerRefund.payTo)) {
 				Customer preCustomer = (Customer) session.get(Customer.class,
 						customerRefund.payTo.id);
-				preCustomer.updateBalance(session, this,
-						customerRefund.total);
+				preCustomer.updateBalance(session, this, customerRefund.total);
 				customerRefund.doVoidEffect(session);
 			}
 
@@ -386,14 +385,11 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 			// }
 			this.updateTransactionReceivepayments();
 
-			this.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
-
-			if ((customerRefund.paymentMethod
-					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) || customerRefund.paymentMethod
-					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))
-					&& (!this.paymentMethod
-							.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) && !this.paymentMethod
-							.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
+			if ((this.paymentMethod
+					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) || this.paymentMethod
+					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
+				this.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
+			} else {
 				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 			}
 
