@@ -165,10 +165,10 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 
 		});
 
-		if (UIUtils.isMSIEBrowser()) {
-			dateRangeCombo.setWidth("200px");
-			statusCombo.setWidth("200px");
-		}
+//		if (UIUtils.isMSIEBrowser()) {
+//			dateRangeCombo.setWidth("200px");
+//			statusCombo.setWidth("200px");
+//		}
 		addItems(statusCombo, dateRangeCombo, fromItem, toItem);
 		add(updateButton);
 		this.setCellVerticalAlignment(updateButton,

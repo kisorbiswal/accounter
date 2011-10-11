@@ -204,11 +204,11 @@ public class BudgetReportToolbar extends ReportToolbar {
 
 		});
 
-		if (UIUtils.isMSIEBrowser()) {
-			budgetMonth.setWidth("170px");
-			budgetYear.setWidth("170px");
-			budgetCombo.setWidth("90px");
-		}
+//		if (UIUtils.isMSIEBrowser()) {
+//			budgetMonth.setWidth("170px");
+//			budgetYear.setWidth("170px");
+//			budgetCombo.setWidth("90px");
+//		}
 		if (budgetToolbarType == TOOLBAR_TYPE_MONTH)
 			addItems(budgetCombo, budgetMonth);
 		else if (budgetToolbarType == TOOLBAR_TYPE_QUATER)

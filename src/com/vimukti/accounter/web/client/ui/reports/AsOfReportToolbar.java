@@ -168,9 +168,9 @@ public class AsOfReportToolbar extends ReportToolbar {
 			}
 		});
 
-		if (UIUtils.isMSIEBrowser()) {
-			dateRangeCombo.setWidth("200px");
-		}
+//		if (UIUtils.isMSIEBrowser()) {
+//			dateRangeCombo.setWidth("200px");
+//		}
 		addItems(report, dateRangeCombo, customDate);
 		add(updateButton);
 		this.setCellVerticalAlignment(updateButton,

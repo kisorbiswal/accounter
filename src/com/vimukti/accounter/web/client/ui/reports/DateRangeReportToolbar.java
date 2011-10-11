@@ -193,9 +193,9 @@ public class DateRangeReportToolbar extends ReportToolbar {
 
 		});
 
-		if (UIUtils.isMSIEBrowser()) {
-			dateRangeItemCombo.setWidth("200px");
-		}
+//		if (UIUtils.isMSIEBrowser()) {
+//			dateRangeItemCombo.setWidth("200px");
+//		}
 
 		addItems(report, dateRangeItemCombo, fromItem, toItem);
 		add(updateButton);

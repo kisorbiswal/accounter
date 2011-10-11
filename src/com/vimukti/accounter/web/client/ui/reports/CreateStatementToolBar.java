@@ -67,9 +67,9 @@ public class CreateStatementToolBar extends ReportToolbar {
 					}
 				});
 
-		if (UIUtils.isMSIEBrowser()) {
-			customerCombo.setWidth("200px");
-		}
+//		if (UIUtils.isMSIEBrowser()) {
+//			customerCombo.setWidth("200px");
+//		}
 		// customerCombo.setSelectedItem(1);
 		selectedCusotmer = customerCombo.getSelectedValue();
 		customerCombo.setComboItem(selectedCusotmer);
@@ -142,9 +142,9 @@ public class CreateStatementToolBar extends ReportToolbar {
 
 		});
 
-		if (UIUtils.isMSIEBrowser()) {
-			dateRangeItemCombo.setWidth("200px");
-		}
+//		if (UIUtils.isMSIEBrowser()) {
+//			dateRangeItemCombo.setWidth("200px");
+//		}
 
 		addItems(customerCombo, dateRangeItemCombo, fromItem, toItem);
 		add(updateButton);

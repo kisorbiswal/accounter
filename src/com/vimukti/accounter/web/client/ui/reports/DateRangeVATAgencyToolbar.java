@@ -201,10 +201,10 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 
 		});
 
-		if (UIUtils.isMSIEBrowser()) {
-			dateRangeItem.setWidth("200px");
-			vatAgencyCombo.setWidth("200px");
-		}
+//		if (UIUtils.isMSIEBrowser()) {
+//			dateRangeItem.setWidth("200px");
+//			vatAgencyCombo.setWidth("200px");
+//		}
 
 		addItems(vatAgencyCombo, dateRangeItem, fromItem, toItem);
 		add(updateButton);

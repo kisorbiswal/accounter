@@ -177,10 +177,10 @@ public class ExpenseReportToolbar extends ReportToolbar {
 
 		});
 
-		if (UIUtils.isMSIEBrowser()) {
-			dateRangeCombo.setWidth("170px");
-			expenseCombo.setWidth("90px");
-		}
+//		if (UIUtils.isMSIEBrowser()) {
+//			dateRangeCombo.setWidth("170px");
+//			expenseCombo.setWidth("90px");
+//		}
 		addItems(expenseCombo, dateRangeCombo, fromItem, toItem);
 		add(updateButton);
 		this.setCellVerticalAlignment(updateButton,

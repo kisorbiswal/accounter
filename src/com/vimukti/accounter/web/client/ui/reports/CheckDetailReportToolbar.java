@@ -134,10 +134,10 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 
 		});
 
-		if (UIUtils.isMSIEBrowser()) {
-			dateRangeItem.setWidth("170px");
-			checkDetailCombo.setWidth("90px");
-		}
+//		if (UIUtils.isMSIEBrowser()) {
+//			dateRangeItem.setWidth("170px");
+//			checkDetailCombo.setWidth("90px");
+//		}
 		addItems(checkDetailCombo, dateRangeItem, fromItem, toItem);
 		add(updateButton);
 		this.setCellVerticalAlignment(updateButton,
