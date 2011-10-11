@@ -264,8 +264,11 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 				&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			form.setFields(viewSelect);
 			hlay.add(prepare1099MiscForms);
+			hlay.setCellWidth(prepare1099MiscForms, "65%");
 			hlay.add(form);
 			hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
+			hlay.setCellHorizontalAlignment(prepare1099MiscForms, ALIGN_RIGHT);
+			hlay.addStyleName("vendor_list_1099");
 		} else if (this instanceof BudgetListView
 				&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			form.setFields(viewSelect);

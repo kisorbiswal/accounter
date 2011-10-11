@@ -205,7 +205,7 @@ textarea[disabled],.dropdown-disabled input[disabled],.dropdown-disabled input[d
 	width: 5px !important;
 }
 .main-class-pannel,.change_password_view,.error-panel,#loading .loadingIndicator,.skip_setup,.start_setup,
-.back_next_buttons,.Empty-text,.setting-class-panel,.view_panel{
+.back_next_buttons,.Empty-text,.setting-class-panel,.view_panel,.invoice_print_dialog{
 	padding: 10px;
 }
 .setting-class-panel,.change_password_view,.editTable .editheader td,.editTable td,
@@ -248,7 +248,7 @@ textarea[disabled],.dropdown-disabled input[disabled],.dropdown-disabled input[d
 .refer_panel td:FIRST-CHILD,.select_grid td:FIRST-CHILD,.upload-logo td{
 	vertical-align: middle !important;
 }
-input[type="text"],textarea,#mainFooter a,#mainFooter span,.view_help_panel td:FIRST-CHILD table td,
+input[type="text"],textarea,#mainFooter a,#mainFooter span,.view_help_panel td:FIRST-CHILD table td,.dashboard_label,
 .helpdialog .dialogTopCenter table td,.no-title .main-w,.gridBody1 .gwt-HTML,.group-toolbar,.widget img{
 	padding:0 5px;
 }
@@ -589,7 +589,6 @@ tr.net-profit td {
 }
 .main-w-finance {
     border:1px solid #7A7A7A;
-    width:99.8% !important;
 }
 .falseHyperlink {
 	color: blue;
@@ -735,7 +734,8 @@ tr.net-profit td {
 .gwt-MenuBar-vertical .gwt-MenuItem {
 	padding: 4px 14px 4px 10px ;
 }
-.floatright,.button_bar,.panel-right-align,.image-button,.upload-logo,.gridSelectBoxCell .downarrow-button{
+.floatright,.button_bar,.panel-right-align,.image-button,.upload-logo,.gridSelectBoxCell .downarrow-button,.vendor_list_1099 button,
+.user_activity_dateform .gwt-Button{
 	float:right;
 }
 .gridHeader td, .gridBody td{

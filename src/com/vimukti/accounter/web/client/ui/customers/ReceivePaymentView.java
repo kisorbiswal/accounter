@@ -785,6 +785,7 @@ public class ReceivePaymentView extends
 			checkNo.setValue(transaction.getCheckNumber());
 			// if (paymentToBeEdited.getReference() != null)
 			// refText.setValue(paymentToBeEdited.getReference());
+			paymentMethod = transaction.getPaymentMethod();
 			setAmountRecieved(transaction.getAmount());
 
 			initTransactionTotalNonEditableItem();

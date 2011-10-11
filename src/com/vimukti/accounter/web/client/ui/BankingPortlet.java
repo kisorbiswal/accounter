@@ -138,6 +138,7 @@ public class BankingPortlet extends DashBoardPortlet {
 				hPanel.setCellHorizontalAlignment(amountLabel,
 						HasHorizontalAlignment.ALIGN_RIGHT);
 				hPanel.setWidth("100%");
+				hPanel.addStyleName("dashboard_label");
 				body.add(hPanel);
 				AccounterAsyncCallback<ArrayList<Double>> callBack = new AccounterAsyncCallback<ArrayList<Double>>() {
 

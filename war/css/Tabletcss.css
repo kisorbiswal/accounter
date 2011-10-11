@@ -167,7 +167,7 @@ body,.menubar-devider,.gwt-SuggestBox,.gwt-TextBox,.gwt-PasswordTextBox,.gridSel
 	vertical-align: middle !important;
 }
 input[type="text"],textarea,.view_help_panel td:FIRST-CHILD table td,.helpdialog .dialogTopCenter table td,
-.no-title .main-w,.gridBody1 .gwt-HTML,.widget img{
+.no-title .main-w,.gridBody1 .gwt-HTML,.widget img,.dashboard_label{
 	padding:0 5px;
 }
 .group-toolbar{
@@ -218,10 +218,11 @@ html,body{
 	z-index: 500000;
 }
 .selectedview,.GALD-WOCD {
-	background: #D2D2C6 !important;
+	background: #fff !important;
+	border: 1px solid;
+    margin: 0 5px;
 }
 .headerlabel {
-	background: none repeat scroll 0 0 #999999;
 	line-height: 1.6;
 }
 .selectedview_textareadata {
@@ -236,7 +237,7 @@ html,body{
 .gridBody1 tr td div,.selectedview,.childNode tr td,.parentNode tr td,.gridBody tr td div,.gridHeader tr td div{
 	overflow: hidden;
 }
-.gridHeader {
+.gridHeader,.headerlabel {
 	border-bottom:1px solid #1a1a1a;
 	background: -webkit-gradient(linear, left top, left bottom, from(#E4E4E4), to(#DBDBDB)); /* for webkit browsers */
 	background: -moz-linear-gradient(top,  #E4E4E4,  #DBDBDB); /* for firefox 3.6+ */ 
@@ -499,7 +500,6 @@ tr.net-profit td {
 }
 .main-w-finance {
     border:1px solid #7A7A7A;
-    width:99.8% !important;
 }
 .falseHyperlink {
 	color: blue;
@@ -516,9 +516,6 @@ tr.net-profit td {
 }
 .portletLabel {
 	margin-top: -2px;
-}
-.boldtext tr td div {
-	margin: 0 4px !important;
 }
 .boldtext tr:nth-child(3){
     border-bottom:1px solid #aaa;
@@ -576,9 +573,6 @@ tr.net-profit td {
 	background: none repeat scroll 0 0 #E6E0DA !important;
 	border: 1px solid #918C8C;
     border-radius: 5px 5px 5px 5px;
-}
-.editTable input[disabled]{
-	background: none repeat scroll 0 0 #E6E0DA !important;
 }
 .downarrow-button,.custom-combo,.biz-decor-panel .decor01,.toolbox{
 	position: relative;
@@ -1127,6 +1121,6 @@ input[type="text"]{
 .gwt-PopupPanel .popupContent div{
 	overflow-x:hidden !important;
 }
-.editTable .selected{
+.editTable .selected,.editTable input[disabled]{
 	background:#fff !important;
 }

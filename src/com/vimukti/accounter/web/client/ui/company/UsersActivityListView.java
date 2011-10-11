@@ -92,6 +92,8 @@ public class UsersActivityListView extends BaseView {
 		panel.add(dateForm);
 		panel.add(updateButton);
 		panel.setCellHorizontalAlignment(updateButton, ALIGN_RIGHT);
+		panel.setWidth("100%");
+		panel.addStyleName("user_activity_dateform");
 
 		mainPanel.add(titleItem);
 		mainPanel.add(panel);

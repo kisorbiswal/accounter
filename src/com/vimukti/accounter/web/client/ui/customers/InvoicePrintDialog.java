@@ -19,7 +19,8 @@ public class InvoicePrintDialog extends BaseDialog {
 
 		Label label = new Label(description);
 
-		label.setWidth("70%");
+		label.setWidth("100%");
+		label.addStyleName("invoice_print_dialog");
 
 		DynamicForm dynamicForm = new DynamicForm();
 
