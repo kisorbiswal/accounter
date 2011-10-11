@@ -729,8 +729,8 @@ public class CreditCardChargeView extends
 		listforms.add(totForm);
 		initViewType();
 
-		if (UIUtils.isMSIEBrowser())
-			resetFormView();
+//		if (UIUtils.isMSIEBrowser())
+//			resetFormView();
 
 		if (isInViewMode()) {
 			payFrmSelect.setComboItem(getCompany().getAccount(
