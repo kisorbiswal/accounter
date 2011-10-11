@@ -57,7 +57,7 @@ public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 		mainVLay.add(typeForm);
 
 		setBodyLayout(mainVLay);
-		setSize("350px", "220px");
+		setWidth("400px");
 	}
 
 	@Override
@@ -75,8 +75,7 @@ public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 		String radio = typeRadio.getValue().toString();
 		// FIXME--an action is required here
 		// okClick();
-		if (radio.equals(Global.get()
-				.Vendor())) {
+		if (radio.equals(Global.get().Vendor())) {
 			// new VendorPaymentsAction("Not Issued").run();
 			NewVendorAction action = ActionFactory.getNewVendorAction();
 			action.setCallback(new ActionCallback<ClientVendor>() {

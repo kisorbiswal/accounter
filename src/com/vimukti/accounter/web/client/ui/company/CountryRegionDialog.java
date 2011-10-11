@@ -57,7 +57,7 @@ public class CountryRegionDialog extends BaseDialog {
 
 		setBodyLayout(bodyLayout);
 
-		setSize("350px", "300px");
+		setWidth("350px");
 
 	}
 

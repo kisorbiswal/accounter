@@ -76,7 +76,7 @@ public class AdjustSalesTaxDueDialog extends BaseDialog<ClientAccount> {
 		// setOverflow(Overflow.VISIBLE);
 		setBodyLayout(mainVLay);
 
-		setSize("450px", "321px");
+		setWidth("450px");
 		// show();
 	}
 

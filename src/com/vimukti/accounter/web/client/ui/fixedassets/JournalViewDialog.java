@@ -111,7 +111,7 @@ public class JournalViewDialog extends BaseDialog {
 		mainLayout.add(disposalSummaryForm);
 		mainLayout.add(disposalJOurnallabel);
 		mainLayout.add(disposalJournalForm);
-		setSize("550px", "350px");
+		setWidth("550px");
 		setBodyLayout(mainLayout);
 		center();
 		show();

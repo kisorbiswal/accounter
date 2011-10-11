@@ -308,7 +308,7 @@ public class ApplyCreditDialog extends BaseDialog<ClientCustomer> {
 
 		setBodyLayout(mainVLay);
 
-		setSize("600px", "500px");
+		setWidth("600px");
 		show();
 	}
 

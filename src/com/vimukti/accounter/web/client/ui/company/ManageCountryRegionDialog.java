@@ -24,7 +24,7 @@ public class ManageCountryRegionDialog extends GroupDialog<ClientCustomer> {
 		// ListGridField country_or_RegionField=new ListGridField("country",);
 		// country_or_RegionField.setWidth(220);
 		// addField(country_or_RegionField);
-		setSize("40%", "40%");
+		setWidth("40%");
 
 		groupDialogButtonHandler = new GroupDialogButtonsHandler() {
 
@@ -89,7 +89,7 @@ public class ManageCountryRegionDialog extends GroupDialog<ClientCustomer> {
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }// end of ManageCountryRegionDialog

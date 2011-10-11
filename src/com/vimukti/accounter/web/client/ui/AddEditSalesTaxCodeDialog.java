@@ -68,7 +68,7 @@
 //	}
 //
 //	private void createControls() {
-//		setSize("400", "500");
+//		setWidth("400");
 ////		setPageTop(10);
 //		taxCodeText = new TextItem();
 //		taxCodeText.setTitle("Tax code");
@@ -248,4 +248,4 @@
 //		return true;
 //	}
 //
-//}
+// }

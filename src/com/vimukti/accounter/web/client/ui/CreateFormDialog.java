@@ -29,7 +29,7 @@
 //		super(abstractParent);
 //		this.customer= customer;
 //		setTitle("Create Form");
-//		setSize("600","400");
+//		setWidth("600");
 //		createControl();
 //		show();
 //	}

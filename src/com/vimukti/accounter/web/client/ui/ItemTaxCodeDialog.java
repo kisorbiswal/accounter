@@ -89,7 +89,7 @@ public class ItemTaxCodeDialog extends DialogBox {
 		// setOverflow(Overflow.VISIBLE);
 		add(mainVLay);
 
-		setSize("600px", "300px");
+		setWidth("600px");
 		show();
 	}
 
