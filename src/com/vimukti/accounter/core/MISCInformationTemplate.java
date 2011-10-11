@@ -12,8 +12,7 @@ public class MISCInformationTemplate {
 
 	ArrayList<Client1099Form> miscVendors;
 	Company myCompany;
-	Double totalPayment;
-
+	double totalPayment = 0.00;
 	private static final String templateFileName = "templetes" + File.separator
 			+ "MISCInformation.html";
 
@@ -110,7 +109,7 @@ public class MISCInformationTemplate {
 				t.addBlock("addRows");
 
 				totalPayment = totalPayment
-						+ miscVendors.get(i).getTotal1099Payments();
+						+ miscVendors.get(i).getTotalAllPayments();
 			}
 
 			t.setVariable("noOfForms", miscVendors.size());
