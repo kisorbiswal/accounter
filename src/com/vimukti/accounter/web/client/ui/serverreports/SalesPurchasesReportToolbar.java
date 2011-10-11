@@ -148,10 +148,10 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 
 		});
 
-		if (UIUtils.isMSIEBrowser()) {
-			dateRangeItem.setWidth("200px");
-			statusCombo.setWidth("200px");
-		}
+//		if (UIUtils.isMSIEBrowser()) {
+//			dateRangeItem.setWidth("200px");
+//			statusCombo.setWidth("200px");
+//		}
 		addItems(statusCombo, dateRangeItem, fromItem, toItem);
 		add(updateButton);
 
