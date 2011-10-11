@@ -40,7 +40,7 @@
 				        <c:set var='companyType' value="OTH"/>
 				    </c:otherwise>
 				</c:choose>
-			   <div class="companies-list"><a href=${url}>${company.companyName} - ${companyType}</a> <a href=${deleteurl}>Delete</a></div>
+			   <div class="companies-list"><a href=${url}>${company.companyName} - ${companyType}</a> <a class="delete_company" href=${deleteurl}>Delete</a></div>
 		   </c:forEach>
 	    </c:if>
 	    
