@@ -412,8 +412,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 		// formItems.add(item);
 
-		if (UIUtils.isMSIEBrowser())
-			item.setWidth("150px");
+//		if (UIUtils.isMSIEBrowser())
+//			item.setWidth("150px");
 
 		return item;
 
