@@ -185,7 +185,8 @@ public class BankingPortlet extends DashBoardPortlet {
 						};
 						VisualizationUtils.loadVisualizationApi(runnable,
 								LineChart.PACKAGE);
-						if (result.get(result.size() - 1) != null) {
+						if (!result.isEmpty()
+								&& result.get(result.size() - 1) != null) {
 							amountLabel
 									.setText(DataUtils.getAmountAsString(result
 											.get(result.size() - 1)));

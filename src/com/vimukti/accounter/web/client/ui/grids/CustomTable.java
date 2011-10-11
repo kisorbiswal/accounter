@@ -13,6 +13,9 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FocusWidget;
+import com.google.gwt.user.client.ui.HTMLTable.Cell;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwt.user.client.ui.HTMLTable.RowFormatter;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -21,9 +24,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.HTMLTable.Cell;
-import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
-import com.google.gwt.user.client.ui.HTMLTable.RowFormatter;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -192,8 +192,8 @@ public abstract class CustomTable extends VerticalPanel {
 
 		Element par = this.header.getElement().getParentElement().cast();
 		par.addClassName("gridHeaderParent");
-		this.header.getElement().getParentElement().getStyle().setHeight(10,
-				Unit.PX);
+		this.header.getElement().getParentElement().getStyle()
+				.setHeight(10, Unit.PX);
 
 		panel = new ScrollPanel();
 		panel.getElement().removeAttribute("style");
@@ -561,11 +561,11 @@ public abstract class CustomTable extends VerticalPanel {
 
 			if (isMultiSelectionEnable) {
 				if (UIUtils.isMSIEBrowser())
-					table.getCellFormatter().getElement(row, 0).setAttribute(
-							"width", "" + 25);
+					table.getCellFormatter().getElement(row, 0)
+							.setAttribute("width", "" + 25);
 				else
-					table.getCellFormatter().getElement(row, 0).setAttribute(
-							"width", "" + 15);
+					table.getCellFormatter().getElement(row, 0)
+							.setAttribute("width", "" + 15);
 			}
 
 		} catch (Exception e) {
@@ -598,8 +598,8 @@ public abstract class CustomTable extends VerticalPanel {
 		for (int row = 0; row < this.body.getRowCount(); row++) {
 			adjustCellsWidth(row, body);
 		}
-		this.body.getParent().getElement().getParentElement().addClassName(
-				"list-grid-body");
+		this.body.getParent().getElement().getParentElement()
+				.addClassName("list-grid-body");
 		BODY_WIDTH = 0;
 	}
 
@@ -728,6 +728,12 @@ public abstract class CustomTable extends VerticalPanel {
 	public void setDisabled(boolean disable) {
 		this.disable = disable;
 		this.addStyleName("disableGrid");
+		for (int i = 0; i < this.getRowCount(); i++) {
+			Widget widget = this.getWidget(i, 0);
+			if (widget instanceof CheckBox) {
+				((CheckBox) widget).setEnabled(!disable);
+			}
+		}
 	}
 
 	public boolean isShowFooter() {
