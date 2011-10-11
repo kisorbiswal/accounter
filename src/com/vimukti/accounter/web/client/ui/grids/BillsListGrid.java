@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
 import com.google.gwt.core.client.GWT;
-import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -92,8 +91,8 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 	@Override
 	public void onDoubleClick(BillsList bills) {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			ReportsRPC.openTransactionView(bills.getType(), bills
-					.getTransactionId());
+			ReportsRPC.openTransactionView(bills.getType(),
+					bills.getTransactionId());
 
 	}
 
@@ -117,15 +116,15 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 		if (!Accounter.getUser().canDoInvoiceTransactions())
 			return;
 		if (col == 6 && !obj.isVoided()) {
-			if (obj.getStatus() == Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED
-					|| obj.getStatus() == Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED) {
+			if (obj.getStatus() == ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED
+					|| obj.getStatus() == ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED) {
 				Accounter.showError(accounterErrors.billPaidSoYouCantVoid());
 				// "You have already paid some amount for this Bill, You can't Edit and Void it.");
 			} else if (obj.getType() != ClientTransaction.TYPE_EMPLOYEE_EXPENSE
 					|| (obj.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE && obj
 							.getExpenseStatus() == ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)) {
-				showWarningDialog(obj, this.getAccounterCoreType(obj), this
-						.getTransactionID(obj), col);
+				showWarningDialog(obj, this.getAccounterCoreType(obj),
+						this.getTransactionID(obj), col);
 			} else {
 				Accounter.showError(Accounter.constants()
 						.expensecantbevoiditisApproved());
@@ -199,8 +198,8 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 			else
 				return obj1.getNumber().compareTo(obj2.getNumber());
 		case 3:
-			return obj1.getVendorName().toLowerCase().compareTo(
-					obj2.getVendorName().toLowerCase());
+			return obj1.getVendorName().toLowerCase()
+					.compareTo(obj2.getVendorName().toLowerCase());
 
 		case 4:
 			return obj1.getOriginalAmount().compareTo(obj2.getOriginalAmount());
