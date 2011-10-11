@@ -81,9 +81,11 @@ public class GeneratePDFservlet extends BaseServlet {
 			switch (transactionType) {
 			// for invoice
 			case Transaction.TYPE_INVOICE:
-				String output = outPutString.toString().replaceAll(
-						"</html><html>", "");
+				String output = outPutString.toString().replaceAll("</html>",
+						"");
+				output = output.toString().replaceAll("<html>", "");
 
+				output = "<html>" + output + "</html>";
 				java.io.InputStream inputStream = new ByteArrayInputStream(
 						output.getBytes());
 				InputStreamReader reader = new InputStreamReader(inputStream);
