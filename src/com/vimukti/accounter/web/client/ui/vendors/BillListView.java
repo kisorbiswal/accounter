@@ -125,8 +125,8 @@ public class BillListView extends BaseListView<BillsList> {
 		listOfTypes.add(Accounter.constants().all());
 		currentView.initCombo(listOfTypes);
 
-		if (UIUtils.isMSIEBrowser())
-			currentView.setWidth("150px");
+//		if (UIUtils.isMSIEBrowser())
+//			currentView.setWidth("150px");
 
 		if (this.viewType != null && !viewType.equals(""))
 			currentView.setComboItem(viewType);
