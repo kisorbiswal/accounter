@@ -36,7 +36,7 @@ public class SalesQuoteListDialog extends BaseDialog {
 		salesView = parentView;
 		this.estimates = estimates;
 		createControl();
-		// setWidth("600px");
+		setWidth("600px");
 		setQuoteList(estimates);
 		show();
 		center();
