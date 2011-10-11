@@ -233,16 +233,19 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		}
 		double transactionAmount = UIUtils.isMoneyOut(value, data.getAccount()
 				.getID()) ? total : total * -1;
-		if (!isClear) {
-			transactionAmount *= -1;
+
+		if (isClear) {
+			difference
+					.setAmount(closingBalance.getAmount()
+							- (openingBalance.getAmount()
+									+ clearedAmount.getAmount() + transactionAmount));
+			clearedAmount.setAmount(clearedAmount.getAmount()
+					+ transactionAmount);
+		} else {
+			difference.setAmount(difference.getAmount() + transactionAmount);
+			clearedAmount.setAmount(clearedAmount.getAmount()
+					- transactionAmount);
 		}
-
-		updateAmounts(transactionAmount);
-	}
-
-	private void updateAmounts(double changedAmount) {
-		clearedAmount.setAmount(clearedAmount.getAmount() + changedAmount);
-		difference.setAmount(difference.getAmount() - changedAmount);
 	}
 
 	/**
