@@ -541,10 +541,10 @@ public class VendorView extends BaseView<ClientVendor> {
 		listforms.add(accInfoForm);
 		listforms.add(memoForm);
 
-		if (UIUtils.isMSIEBrowser()) {
-			resetFromView();
-			accInfoHPanel.setWidth("100%");
-		}
+//		if (UIUtils.isMSIEBrowser()) {
+//			resetFromView();
+//			accInfoHPanel.setWidth("100%");
+//		}
 
 		return mainVlay;
 	}
@@ -799,14 +799,14 @@ public class VendorView extends BaseView<ClientVendor> {
 		listforms.add(vendorGrpForm);
 		listforms.add(vatform);
 
-		if (UIUtils.isMSIEBrowser()) {
-			financeDetailsForm.getCellFormatter().setWidth(0, 1, "200px");
-			vendorGrpForm.getCellFormatter().setWidth(0, 1, "200px");
-			vatform.getCellFormatter().setWidth(0, 1, "200px");
-			financeDetailsForm.setWidth("75%");
-			vendorGrpForm.setWidth("75%");
-			vatform.setWidth("75%");
-		}
+//		if (UIUtils.isMSIEBrowser()) {
+//			financeDetailsForm.getCellFormatter().setWidth(0, 1, "200px");
+//			vendorGrpForm.getCellFormatter().setWidth(0, 1, "200px");
+//			vatform.getCellFormatter().setWidth(0, 1, "200px");
+//			financeDetailsForm.setWidth("75%");
+//			vendorGrpForm.setWidth("75%");
+//			vatform.setWidth("75%");
+//		}
 
 		return mainVLayout;
 	}

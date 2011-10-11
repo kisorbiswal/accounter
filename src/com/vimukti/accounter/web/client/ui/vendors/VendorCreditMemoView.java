@@ -378,8 +378,8 @@ public class VendorCreditMemoView extends
 		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(bottomPanel);
 
-		if (UIUtils.isMSIEBrowser())
-			resetFormView();
+//		if (UIUtils.isMSIEBrowser())
+//			resetFormView();
 
 		this.add(mainVLay);
 

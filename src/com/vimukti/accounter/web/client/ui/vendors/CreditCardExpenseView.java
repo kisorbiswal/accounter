@@ -635,8 +635,8 @@ public class CreditCardExpenseView extends
 		listforms.add(totalForm);
 		listforms.add(totForm);
 
-		if (UIUtils.isMSIEBrowser())
-			resetFormView();
+//		if (UIUtils.isMSIEBrowser())
+//			resetFormView();
 
 		if (isInViewMode()) {
 			payFrmSelect.setComboItem(getCompany().getAccount(

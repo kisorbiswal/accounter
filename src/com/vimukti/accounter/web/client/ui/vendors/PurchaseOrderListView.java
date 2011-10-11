@@ -134,8 +134,8 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 		listOfTypes.add(CANCELLED);
 		viewSelect.initCombo(listOfTypes);
 
-		if (UIUtils.isMSIEBrowser())
-			viewSelect.setWidth("120px");
+//		if (UIUtils.isMSIEBrowser())
+//			viewSelect.setWidth("120px");
 		viewSelect.setComboItem(OPEN);
 		viewSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {

@@ -499,8 +499,8 @@ public class CashExpenseView extends
 		listforms.add(memoForm);
 		listforms.add(totalForm);
 
-		if (UIUtils.isMSIEBrowser())
-			resetFormView();
+//		if (UIUtils.isMSIEBrowser())
+//			resetFormView();
 
 		settabIndexes();
 	}

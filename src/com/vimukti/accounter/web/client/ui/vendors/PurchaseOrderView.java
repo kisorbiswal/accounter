@@ -551,12 +551,12 @@ public class PurchaseOrderView extends
 		mainVLay.add(bottomLayout);
 
 		if (UIUtils.isMSIEBrowser()) {
-			vendorForm.getCellFormatter().setWidth(0, 1, "200px");
-			vendorForm.setWidth("75%");
-			// termsForm.getCellFormatter().setWidth(0, 1, "68%");
-			memoForm.getCellFormatter().setWidth(0, 1, "300px");
-			memoForm.setWidth("40%");
-			statusSelect.setWidth("150px");
+//			vendorForm.getCellFormatter().setWidth(0, 1, "200px");
+//			vendorForm.setWidth("75%");
+//			// termsForm.getCellFormatter().setWidth(0, 1, "68%");
+//			memoForm.getCellFormatter().setWidth(0, 1, "300px");
+//			memoForm.setWidth("40%");
+			//statusSelect.setWidth("150px");
 		}
 		// setOverflow(Overflow.SCROLL);
 		this.add(mainVLay);

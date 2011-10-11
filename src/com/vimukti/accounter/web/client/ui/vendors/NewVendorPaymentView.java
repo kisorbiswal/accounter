@@ -321,11 +321,11 @@ public class NewVendorPaymentView extends
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(hLay);
 
-		if (UIUtils.isMSIEBrowser()) {
-			payForm.getCellFormatter().setWidth(0, 1, "300px");
-			payForm.setWidth("75%");
-			balForm.getCellFormatter().setWidth(0, 1, "150px");
-		}
+//		if (UIUtils.isMSIEBrowser()) {
+//			payForm.getCellFormatter().setWidth(0, 1, "300px");
+//			payForm.setWidth("75%");
+//			balForm.getCellFormatter().setWidth(0, 1, "150px");
+//		}
 
 		this.add(mainVLay);
 

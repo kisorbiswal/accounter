@@ -667,11 +667,11 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		mainVLay.add(topHLay);
 		mainVLay.add(gridLayout);
 
-		if (UIUtils.isMSIEBrowser()) {
-			payForm.getCellFormatter().setWidth(0, 0, "50%");
-			payForm.setWidth("65%");
-			balForm.getCellFormatter().setWidth(0, 1, "150px");
-		}
+//		if (UIUtils.isMSIEBrowser()) {
+//			payForm.getCellFormatter().setWidth(0, 0, "50%");
+//			payForm.setWidth("65%");
+//			balForm.getCellFormatter().setWidth(0, 1, "150px");
+//		}
 
 		this.add(mainVLay);
 		setSize("100%", "100%");

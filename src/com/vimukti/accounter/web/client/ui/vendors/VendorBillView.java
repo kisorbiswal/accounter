@@ -738,12 +738,12 @@ public class VendorBillView extends
 		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(bottompanel);
 
-		if (UIUtils.isMSIEBrowser()) {
-			resetFormView();
-			vendorForm.setWidth("68%");
-			termsForm.setWidth("100%");
-			dateform.setWidth("100%");
-		}
+//		if (UIUtils.isMSIEBrowser()) {
+//			resetFormView();
+//			vendorForm.setWidth("68%");
+//			termsForm.setWidth("100%");
+//			dateform.setWidth("100%");
+//		}
 
 		this.add(mainVLay);
 		setSize("100%", "100%");

@@ -392,8 +392,8 @@ public class CashPurchaseView extends
 		listforms.add(vatCheckform);
 		listforms.add(totalForm);
 
-		if (UIUtils.isMSIEBrowser())
-			resetFormView();
+//		if (UIUtils.isMSIEBrowser())
+//			resetFormView();
 
 		initViewType();
 
