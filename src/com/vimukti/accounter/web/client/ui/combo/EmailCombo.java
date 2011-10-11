@@ -21,10 +21,12 @@ public class EmailCombo extends CustomCombo {
 		String companyEmail = Accounter.getCompany().getCompanyEmail();
 
 		ArrayList<String> toAdd = new ArrayList<String>();
-		toAdd.add(companyEmail);
+		if (companyEmail != null && companyEmail.trim().length() != 0)
+			toAdd.add(companyEmail);
 
 		String userEmail = getCompany().getLoggedInUser().getEmail();
-		toAdd.add(userEmail);
+		if (userEmail != null && userEmail.trim().length() != 0)
+			toAdd.add(userEmail);
 
 		return toAdd;
 	}
