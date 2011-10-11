@@ -257,6 +257,8 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 			data.setUserRole(selectedRole.getRoleName());
 			if (selectedRole.getRoleName().equals(RolePermissions.ADMIN)) {
 				data.setAdmin(true);
+			} else {
+				data.setAdmin(false);
 			}
 			ClientUserPermissions permissions = new ClientUserPermissions();
 			permissions.setTypeOfBankReconcilation(selectedRole
