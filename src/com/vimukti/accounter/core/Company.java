@@ -1,6 +1,7 @@
 package com.vimukti.accounter.core;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -247,6 +248,10 @@ public class Company implements IAccounterServerCore {
 	private Set<TAXItemGroup> taxItemGroups = new HashSet<TAXItemGroup>();
 
 	private Set<Box> vatBoxes = new HashSet<Box>();
+	
+	private Set<Transaction> transactions = new HashSet<Transaction>();
+	
+	private Set<Activity> activities = new HashSet<Activity>();
 
 	String bankAccountNo;
 
@@ -1493,5 +1498,50 @@ public class Company implements IAccounterServerCore {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public void onDelete(Session session) {
+		delete(transactions, session);
+		delete(accounts, session);
+		delete(customers, session);
+		delete(vendors, session);
+		delete(currencies, session);
+		delete(fiscalYears, session);
+		delete(paymentTerms, session);
+		delete(taxCodes, session);
+		delete(taxItems, session);
+		delete(taxAgencies, session);
+		delete(payees, session);
+//		delete(nominalCodeRange, session);
+		delete(brandingTheme, session);
+		delete(usersList, session);
+		delete(vatReturns, session);
+		delete(currencies, session);
+		delete(accounterClasses, session);
+		delete(taxGroups, session);
+		delete(items, session);
+		delete(customerGroups, session);
+		delete(vendorGroups, session);
+		delete(shippingMethods, session);
+		delete(shippingTerms, session);
+		delete(priceLevels, session);
+		delete(itemGroups, session);
+		delete(paySalesTaxs, session);
+		delete(creditRatings, session);
+		delete(salesPersons, session);
+		delete(banks, session);
+		delete(taxrates, session);
+		delete(fixedAssets, session);
+		delete(taxAdjustments, session);
+		delete(taxCodes, session);
+		delete(taxItemGroups, session);
+		delete(vatBoxes, session);
+		delete(activities, session);
+	}
+
+	private static <T> void delete(Collection<T> list, Session session) {
+		for (T acc : list) {
+			session.delete(acc);
+		}
 	}
 }
