@@ -1008,7 +1008,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		selectedEstimateId = selectedEstimate.getID();
 		orderNum = selectedEstimate.getNumber();
 		orderNumText.setValue(orderNum);
-		customerTransactionTable.addRows(itemsList);
+		customerTransactionTable.setAllRows(itemsList);
 		customerTransactionTable.updateTotals();
 		if (isTrackTax()) {
 
