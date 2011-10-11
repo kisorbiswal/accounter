@@ -114,9 +114,12 @@ public class PatternStore {
 		return new File("./src/com/vimukti/accounter/mobile/store/patterns.xml");
 	}
 
-	private class Pattern {
+	public static class Pattern {
 		List<String> inputs;
 		List<String> output;
+		public Pattern(){
+			
+		}
 	}
 
 }

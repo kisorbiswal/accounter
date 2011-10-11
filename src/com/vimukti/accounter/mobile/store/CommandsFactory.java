@@ -108,10 +108,14 @@ public class CommandsFactory {
 		return new File("./src/com/vimukti/accounter/mobile/store/commands.xml");
 	}
 
-	class CommandTemplate {
+	public static class CommandTemplate {
 		String name;
 		String className;
 		List<String> aliases;
+
+		public CommandTemplate() {
+
+		}
 	}
 
 }
