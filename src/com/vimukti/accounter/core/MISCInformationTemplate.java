@@ -12,6 +12,7 @@ public class MISCInformationTemplate {
 
 	ArrayList<Client1099Form> miscVendors;
 	Company myCompany;
+	Double totalPayment;
 
 	private static final String templateFileName = "templetes" + File.separator
 			+ "MISCInformation.html";
@@ -66,11 +67,57 @@ public class MISCInformationTemplate {
 						Long.toString(miscVendors.get(i).getVendor().getID()));
 				t.addBlock("changeVendorCompanyId");
 
+				t.setVariable("box1Value",
+						Double.toString(miscVendors.get(i).getBox(1)));
+				t.addBlock("changebox1Value");
+
+				t.setVariable("box2Value",
+						Double.toString(miscVendors.get(i).getBox(2)));
+				t.addBlock("changebox2Value");
+
+				t.setVariable("box3Value",
+						Double.toString(miscVendors.get(i).getBox(3)));
+				t.addBlock("changebox3Value");
+
+				t.setVariable("box4Value",
+						Double.toString(miscVendors.get(i).getBox(4)));
+				t.addBlock("changebox4Value");
+
+				t.setVariable("box5Value",
+						Double.toString(miscVendors.get(i).getBox(5)));
+				t.addBlock("changebox5Value");
+
+				t.setVariable("box6Value",
+						Double.toString(miscVendors.get(i).getBox(6)));
+				t.addBlock("changebox6Value");
+
+				t.setVariable("box7Value",
+						Double.toString(miscVendors.get(i).getBox(7)));
+				t.addBlock("changebox7Value");
+
+				t.setVariable("box8Value",
+						Double.toString(miscVendors.get(i).getBox(8)));
+				t.addBlock("changebox8Value");
+
+				t.setVariable("box9Value",
+						Double.toString(miscVendors.get(i).getBox(9)));
+				t.addBlock("changebox9Value");
+
+				t.setVariable("box10Value",
+						Double.toString(miscVendors.get(i).getBox(10)));
+				t.addBlock("changebox10Value");
+
 				t.addBlock("addRows");
+
+				totalPayment = totalPayment
+						+ miscVendors.get(i).getTotal1099Payments();
 			}
 
 			t.setVariable("noOfForms", miscVendors.size());
 			t.addBlock("changenoOfForms");
+
+			t.setVariable("totalPaymment", Double.toString(totalPayment));
+			t.addBlock("changetotalPaymment");
 
 			t.addBlock("theme");
 

@@ -23,7 +23,9 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.ListDataProvider;
+import com.google.gwt.view.client.SingleSelectionModel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -73,6 +75,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 	int horizontalValue;
 	int verticalValue;
+	private SingleSelectionModel<Client1099Form> selectionModel;
 
 	@Override
 	public void init() {
@@ -139,13 +142,18 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		cellTable = new CellTable<Client1099Form>();
 		cellTable.setWidth("100%");
 
+		selectionModel = new SingleSelectionModel<Client1099Form>();
+		cellTable.setSelectionModel(selectionModel,
+				DefaultSelectionEventManager
+						.<Client1099Form> createCheckboxManager());
+
 		CheckboxCell checkboxCell = new CheckboxCell();
 		Column<Client1099Form, Boolean> checkBoxColumn = new Column<Client1099Form, Boolean>(
 				checkboxCell) {
 
 			@Override
 			public Boolean getValue(Client1099Form object) {
-				return true;
+				return selectionModel.isSelected(object);
 			}
 		};
 
@@ -471,6 +479,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 						initializeList(selectComboItem.getSelectedValue());
 
 					}
+
 				});
 
 		DynamicForm dynamicForm = new DynamicForm();
@@ -623,12 +632,16 @@ public class Prepare1099MISCView extends AbstractBaseView {
 			public void onClick(ClickEvent event) {
 
 				for (Client1099Form element : listDataProvider.getList()) {
-					long vendorId = element.getVendor().getID();
-					int type = 1;
-					long objectID = 1;
-					long brandingThemeID = 1;
-					UIUtils.downloadMISCForm(objectID, type, brandingThemeID,
-							vendorId, horizontalValue, verticalValue);
+
+					if (selectionModel.isSelected(element)) {
+						long vendorId = element.getVendor().getID();
+						int type = 1;
+						long objectID = 1;
+						long brandingThemeID = 1;
+						UIUtils.downloadMISCForm(objectID, type,
+								brandingThemeID, vendorId, horizontalValue,
+								verticalValue);
+					}
 				}
 
 			}
@@ -637,9 +650,11 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				int type = 0;
-				UIUtils.downloadMISCForm(1, type, 1, 1, horizontalValue,
-						verticalValue);
+				if (listDataProvider.getList().size() > 0) {
+					int type = 0;
+					UIUtils.downloadMISCForm(1, type, 1, 1, horizontalValue,
+							verticalValue);
+				}
 			}
 		});
 		cancel.addClickHandler(new ClickHandler() {
