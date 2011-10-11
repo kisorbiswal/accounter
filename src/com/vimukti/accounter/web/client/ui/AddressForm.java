@@ -114,8 +114,8 @@ public class AddressForm extends DynamicForm {
 			}
 			addrArea.setValue(toToSet);
 		} else
-			businessSelect.setDefaultToFirstOption(Boolean.TRUE);
-		setGroupTitle(Accounter.constants().addresses());
+			// businessSelect.setDefaultToFirstOption(Boolean.TRUE);
+			setGroupTitle(Accounter.constants().addresses());
 		setNumCols(3);
 		setFields(businessSelect, addrArea);
 	}
@@ -196,6 +196,38 @@ public class AddressForm extends DynamicForm {
 					+ address.getStateOrProvinence() + "\n"
 					+ address.getZipOrPostalCode() + "\n"
 					+ address.getCountryOrRegion());
+
+			switch (address.getType()) {
+			case ClientAddress.TYPE_BUSINESS:
+				businessSelect.setSelected("1");
+				break;
+
+			case ClientAddress.TYPE_BILL_TO:
+				businessSelect.setSelected("Bill To");
+				break;
+			case ClientAddress.TYPE_SHIP_TO:
+				businessSelect.setSelected("Ship To");
+				break;
+
+			case ClientAddress.TYPE_WAREHOUSE:
+				businessSelect.setSelected("2");
+				break;
+
+			case ClientAddress.TYPE_LEGAL:
+				businessSelect.setSelected("3");
+				break;
+
+			case ClientAddress.TYPE_POSTAL:
+				businessSelect.setSelected("4");
+				break;
+			case ClientAddress.TYPE_HOME:
+				businessSelect.setSelected("5");
+				break;
+
+			default:
+				businessSelect.setSelected("6");
+				break;
+			}
 
 		}
 	}
