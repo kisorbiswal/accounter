@@ -4,14 +4,12 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -32,21 +30,21 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 	CheckBox classWarningCheckBox;
 	@UiField
 	Label classWarningCheckBoxLabel;
-	@UiField
-	Label classesOnSalesLabel;
-	@UiField
-	RadioButton onePerTransactionRadio;
+	// @UiField
+	// Label classesOnSalesLabel;
 	/**
 	 * NOTE onePerDetailLineRadio for Class Tracking , Currently we are
 	 * disabling this feature and allowing the user only to select One Per
 	 * Transaction.
 	 */
 	// @UiField
+	// RadioButton onePerTransactionRadio;
+	// @UiField
 	// RadioButton onePerDetailLineRadio;
-	@UiField
-	VerticalPanel classOnSalesPanel;
-	@UiField
-	VerticalPanel onePerRadioPanel;
+	// @UiField
+	// VerticalPanel classOnSalesPanel;
+	// @UiField
+	// VerticalPanel onePerRadioPanel;
 	@UiField
 	Label classTrackingdescriptionLabel;
 	private static ClassTrackingOptionUiBinder uiBinder = GWT
@@ -75,11 +73,11 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 		if (getCompanyPreferences().isClassTrackingEnabled()) {
 			classTrackingCheckBox.setValue(true);
 			hiddenPanel.setVisible(true);
-			if (getCompanyPreferences().isClassOnePerTransaction()) {
-				onePerTransactionRadio.setValue(true);
-			} else {
-				// onePerDetailLineRadio.setValue(true);
-			}
+			// if (getCompanyPreferences().isClassOnePerTransaction()) {
+			// onePerTransactionRadio.setValue(true);
+			// } else {
+			// onePerDetailLineRadio.setValue(true);
+			// }
 
 			if (getCompanyPreferences().isWarnOnEmptyClass()) {
 				classWarningCheckBox.setValue(true);
@@ -97,17 +95,18 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 		classTrackingdescriptionLabel.setStyleName("organisation_comment");
 		classTrackingCheckBox.setText(Accounter.constants().classTracking());
 		classWarningCheckBox.setText(Accounter.constants().classWarning());
-		classesOnSalesLabel.setText(Accounter.constants().classesonsales());
-		onePerTransactionRadio.setName(Accounter.constants()
-				.classunderscoretracking());
-		onePerTransactionRadio.setHTML(Accounter.constants()
-				.onepertransaction());
+		// classesOnSalesLabel.setText(Accounter.constants().classesonsales());
+		// onePerTransactionRadio.setName(Accounter.constants()
+		// .classunderscoretracking());
+		// onePerTransactionRadio.setHTML(Accounter.constants()
+		// .onepertransaction());
 		// onePerDetailLineRadio.setName(Accounter.constants()
 		// .classunderscoretracking());
 		// onePerDetailLineRadio.setHTML(Accounter.constants().oneperdetailline());
 
-		classOnSalesPanel.getElement().getStyle().setPaddingLeft(15, Unit.PX);
-		onePerRadioPanel.getElement().getStyle().setPaddingLeft(20, Unit.PX);
+		// classOnSalesPanel.getElement().getStyle().setPaddingLeft(15,
+		// Unit.PX);
+		// onePerRadioPanel.getElement().getStyle().setPaddingLeft(20, Unit.PX);
 
 		classTrackingCheckBox.addClickHandler(new ClickHandler() {
 
@@ -123,8 +122,11 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 	public void onSave() {
 		getCompanyPreferences().setClassTrackingEnabled(
 				classTrackingCheckBox.getValue());
-		getCompanyPreferences().setClassOnePerTransaction(
-				onePerTransactionRadio.getValue());
+		if (classTrackingCheckBox.getValue()) {
+			getCompanyPreferences().setClassOnePerTransaction(true);
+		} else {
+			getCompanyPreferences().setClassOnePerTransaction(false);
+		}
 		getCompanyPreferences().setWarnOnEmptyClass(
 				classWarningCheckBox.getValue());
 	}
