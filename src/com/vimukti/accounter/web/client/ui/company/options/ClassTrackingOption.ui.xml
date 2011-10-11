@@ -21,17 +21,18 @@
 				<g:CheckBox ui:field="classWarningCheckBox" />
 				<g:Label ui:field="classWarningCheckBoxLabel" styleName="header" />
 			</g:HorizontalPanel>
-			<g:VerticalPanel ui:field="classOnSalesPanel">
+			<!-- Currently we are disabling one per detail line transaction for 
+						Class Tracking -->
+		<!-- 	<g:VerticalPanel ui:field="classOnSalesPanel">
 				<g:Label ui:field="classesOnSalesLabel" styleName="header" />
 				<g:VerticalPanel ui:field="onePerRadioPanel"
 					spacing="6">
 					<g:RadioButton name="onePerRadioGroup" ui:field="onePerTransactionRadio" />
-					<!-- Currently we are disabling one per detail line transaction for 
-						Class Tracking -->
-					<!-- <g:RadioButton name="onePerRadioGroup" ui:field="onePerDetailLineRadio" 
-						/> -->
-				</g:VerticalPanel>
-			</g:VerticalPanel>
+					
+					<g:RadioButton name="onePerRadioGroup" ui:field="onePerDetailLineRadio" 
+						/> 
+				</g:VerticalPanel> 
+			</g:VerticalPanel> -->
 		</g:VerticalPanel>
 	</g:VerticalPanel>
 
