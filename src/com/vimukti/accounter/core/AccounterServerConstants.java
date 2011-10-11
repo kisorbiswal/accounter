@@ -534,7 +534,7 @@ public class AccounterServerConstants implements IsSerializable, Serializable {
 	public static final String EXPENSE_VEICHEL_FUEL = "Veichle Fuel/Gas Expense";
 	public static final String EXPENSE_VEICHLE_LEASE = "Veichle lease Expense";
 	public static final String EXPENSE_VEICHLE_REPAIR_MAINTAINANCE = "Veichle Repair and Maintainance Expense";
-	public static final String EXPENSE_WAGES_SALARIES = "Wages and Salaries";
+	public static final String EXPENSE_SALARIES_WAGES = "Salaries and Wages";
 	public static final String EXPENSE_SUPERANNUATION = "Superannuation";
 	public static final String EXPENSE_SUBSCRIPTION = "Subscription";
 	public static final String EXPENSE_BANKREVALUATION = "Back Revaluation";
