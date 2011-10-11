@@ -202,7 +202,7 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 		default:
 			break;
 		}
-		super.onClick(payee, row, col);
+		// super.onClick(payee, row, col);
 	}
 
 	@Override
@@ -331,8 +331,8 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 	protected int sort(PayeeList obj1, PayeeList obj2, int index) {
 		switch (index) {
 		case 1:
-			return obj1.getPayeeName().toLowerCase()
-					.compareTo(obj2.getPayeeName().toLowerCase());
+			return obj1.getPayeeName().toLowerCase().compareTo(
+					obj2.getPayeeName().toLowerCase());
 			//
 			// case 3:
 			//
