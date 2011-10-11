@@ -873,7 +873,8 @@ public class ItemView extends BaseView<ClientItem> {
 		String name = nameText.getValue().toString();
 
 		ClientItem clientItem = company.getItemByName(name);
-		if (clientItem != null) {
+		if (clientItem != null
+				&& !(this.getData().getID() == clientItem.getID())) {
 			result.addError(nameText, Accounter.constants()
 					.aItemGroupAlreadyExistswiththisname());
 			return result;
