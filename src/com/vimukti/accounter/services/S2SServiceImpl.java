@@ -270,9 +270,11 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 			transaction = session.beginTransaction();
 			Company object = (Company) session.get(Company.class,
 					serverCompanyID);
+			object.onDelete(session);
 			session.delete(object);
 			transaction.commit();
 		} catch (Exception e) {
+			e.printStackTrace();
 			if (transaction != null) {
 				transaction.rollback();
 			}
