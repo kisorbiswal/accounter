@@ -52,7 +52,7 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		}
 
 		List<TAXAgency> taxAgencies = getTaxAgencies(context);
-		for (int i = 0; i < VALUES_TO_SHOW || i < taxAgencies.size(); i++) {
+		for (int i = 0; i < VALUES_TO_SHOW && i < taxAgencies.size(); i++) {
 			TAXAgency taxAgency = taxAgencies.get(i);
 			if (taxAgency != last) {
 				taxAgenciesList
