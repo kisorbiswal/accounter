@@ -41,32 +41,28 @@
 		<property name="isDeposited" column="IS_DEPOSITED"></property>
 		<property name="total" column="TOTAL"></property>
 		<property name="netAmount" column="NET_AMOUNT"></property>
-		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false" not-null="true"></many-to-one>
+		<many-to-one name="createdBy" column="CREATED_BY" class="User" not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false" not-null="true"></many-to-one>
+			class="User" not-null="true"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
 		<property name="currencyCode" column="CURRENCY_CODE"></property>
 		<property name="currencyFactor" column="CURRENCY_FACTOR"></property>
 		<set name="accountTransactionEntriesList" inverse="true"
-			cascade="all-delete-orphan" lazy="false">
+			cascade="all-delete-orphan">
 			<key column="TRANSACTION_ID"></key>
 			<one-to-many class="AccountTransaction" />
 		</set>
-		<set name="paySalesTaxEntriesList" inverse="true" cascade="save-update"
-			lazy="false">
+		<set name="paySalesTaxEntriesList" inverse="true" cascade="save-update">
 			<key column="TRANSACTION_ID"></key>
 			<one-to-many class="PaySalesTaxEntries" />
 		</set>
-		<set name="payVATEntriesList" inverse="true" cascade="save-update"
-			lazy="false">
+		<set name="payVATEntriesList" inverse="true" cascade="save-update">
 			<key column="TRANSACTION_ID"></key>
 			<one-to-many class="PayVATEntries" />
 		</set>
-		<many-to-one name="creditsAndPayments" class="CreditsAndPayments"
-			lazy="false" column="CREDITS_AND_PAYMENTS_ID" cascade="delete">
+		<many-to-one name="creditsAndPayments" class="CreditsAndPayments" column="CREDITS_AND_PAYMENTS_ID" cascade="delete">
 		</many-to-one>
 		<property name="isDefault" column="IS_DEFAULT"></property>
 		<many-to-one name="accounterClass" class="AccounterClass"
@@ -75,12 +71,10 @@
 		<many-to-one name="transactionMakeDepositEntries" class="TransactionMakeDepositEntries"
 			cascade="save-update" lazy="false" column="TRANSACTION_MAKE_DEPOSIT_ENTRY_ID">
 		</many-to-one>
-		<many-to-one name="location" class="Location" lazy="false"
-			column="LOCATION_ID">
+		<many-to-one name="location" class="Location" column="LOCATION_ID">
 		</many-to-one>
 
-		<many-to-one name="reconciliation" class="Reconciliation"
-			lazy="false" column="RECONCILIATION_ID">
+		<many-to-one name="reconciliation" class="Reconciliation" column="RECONCILIATION_ID">
 		</many-to-one>
 
 		<many-to-one name="lastActivity" class="Activity" column="LAST_ACTIVITY"></many-to-one>

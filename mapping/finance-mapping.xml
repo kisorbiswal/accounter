@@ -37,15 +37,14 @@
 		<property name="version" column="VERSION"></property>
 		<property name="flow" column="FLOW"></property>
 
-		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false" not-null="true"></many-to-one>
+		<many-to-one name="createdBy" column="CREATED_BY" class="User" not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false" not-null="true"></many-to-one>
+			class="User" not-null="true"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
 		<many-to-one name="linkedAccumulatedDepreciationAccount"
-			column="LINKED_ID" class="Account" lazy="false" cascade="save-update,delete">
+			column="LINKED_ID" class="Account"  cascade="save-update,delete">
 		</many-to-one>
 		<property name="isDefault" column="IS_DEFAULT"></property>
 		<property name="boxNumber" column="BOX_NUMBER"></property>
