@@ -436,7 +436,7 @@
 		<query-param name="company" type="Company" />
 		select c.number from
 		com.vimukti.accounter.core.Customer c where
-		c.company=:company order by c.number
+		c.company=:company and c.number is not null order by c.number
 	</query>
 	<query name="getVendorNumber.byId.andOrder">
 		<query-param name="company" type="Company" />
