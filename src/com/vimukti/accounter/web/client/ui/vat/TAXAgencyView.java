@@ -586,10 +586,10 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		listforms.add(accInfoForm);
 		listforms.add(memoForm);
 
-		if (UIUtils.isMSIEBrowser()) {
-			accInfoForm.getCellFormatter().setWidth(0, 1, "200px");
-			accInfoForm.setWidth("68%");
-		}
+//		if (UIUtils.isMSIEBrowser()) {
+//			accInfoForm.getCellFormatter().setWidth(0, 1, "200px");
+//			accInfoForm.setWidth("68%");
+//		}
 
 		return mainVlay;
 	}

@@ -208,10 +208,10 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		mainVPanel.add(infoLabel);
 		mainVPanel.add(vatNameForm);
 
-		if (UIUtils.isMSIEBrowser()) {
-			vatNameForm.getCellFormatter().setWidth(0, 1, "270px");
-			vatNameForm.setWidth("50%");
-		}
+//		if (UIUtils.isMSIEBrowser()) {
+//			vatNameForm.getCellFormatter().setWidth(0, 1, "270px");
+//			vatNameForm.setWidth("50%");
+//		}
 		this.add(mainVPanel);
 
 		/* Adding dynamic forms in list */

@@ -213,10 +213,10 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		mainPanel.add(infolabel1);
 		mainPanel.add(form1);
 
-		if (UIUtils.isMSIEBrowser()) {
-			form1.getCellFormatter().setWidth(0, 1, "270px");
-			form1.setWidth("50%");
-		}
+//		if (UIUtils.isMSIEBrowser()) {
+//			form1.getCellFormatter().setWidth(0, 1, "270px");
+//			form1.setWidth("50%");
+//		}
 
 		this.add(mainPanel);
 
