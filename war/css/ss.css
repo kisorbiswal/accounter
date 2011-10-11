@@ -2101,7 +2101,7 @@ a#fdbk_tab:hover {
 	font-size:18px;
 	text-decoration: none !important;
 }
-.companies-list a:last-child{
+.delete_company{
 	float:right;
 	font-size:13px;
 	text-decoration: none !important;
