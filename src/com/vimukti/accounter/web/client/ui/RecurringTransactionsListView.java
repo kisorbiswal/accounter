@@ -65,8 +65,8 @@ public class RecurringTransactionsListView extends
 		else
 			viewSelect.setComboItem(ALL);
 
-		if (UIUtils.isMSIEBrowser())
-			viewSelect.setWidth("105px");
+//		if (UIUtils.isMSIEBrowser())
+//			viewSelect.setWidth("105px");
 
 		viewSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {

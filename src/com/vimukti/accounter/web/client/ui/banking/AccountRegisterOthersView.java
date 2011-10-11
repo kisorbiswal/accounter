@@ -69,8 +69,8 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 		for (int i = 0; i < dateRangeArray.length; i++) {
 			listOfDateRanges.add(dateRangeArray[i]);
 		}
-		if (UIUtils.isMSIEBrowser())
-			showTransactionSelect.setWidth("120px");
+//		if (UIUtils.isMSIEBrowser())
+//			showTransactionSelect.setWidth("120px");
 		showTransactionSelect.initCombo(listOfDateRanges);
 		showTransactionSelect.setComboItem(dateRangeArray[0]);
 		showTransactionSelect

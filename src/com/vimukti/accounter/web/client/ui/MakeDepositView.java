@@ -914,9 +914,9 @@ public class MakeDepositView extends
 
 		mainVLay.add(vPanel);
 
-		if (UIUtils.isMSIEBrowser()) {
-			resetFormView();
-		}
+//		if (UIUtils.isMSIEBrowser()) {
+//			resetFormView();
+//		}
 
 		this.add(mainVLay);
 
