@@ -22,6 +22,8 @@ public class PayTypeListDialog extends GroupDialog<ClientCustomer> {
 
 	private void initialise() {
 
+		setWidth("30%");
+
 		final String title;
 
 		final String description;

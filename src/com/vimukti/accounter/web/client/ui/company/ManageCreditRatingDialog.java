@@ -21,7 +21,7 @@
 //
 //	public void initialise() {
 //		getGrid().setType(AccounterCoreType.CREDIT_RATING);
-//		setSize("30%", "40%");
+//		setWidth("30%");
 //		groupDialogButtonHandler = new GroupDialogButtonsHandler() {
 //
 //			public void onCloseButtonClick() {

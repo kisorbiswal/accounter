@@ -27,20 +27,39 @@ public class CountryRegionListDialog extends DialogBox {
 
 	public CountryRegionListDialog() {
 		setModal(true);
+		// setShowModalMask(true);
+		// setModalMaskOpacity(10);
+		// setShowEdges(false);
+		// setHeaderStyle("widget");
+		// setBackgroundColor("white");
+		// setBorder("4px solid #595959");
 		createControls();
 
 	}
 
 	private void createControls() {
 		Label lab1 = new Label(Accounter.constants().countryListLabel());
+		// lab1.setAutoFit(true);
+		// lab1.setWrap(false);
 
 		Label lab2 = new Label(Accounter.constants().addCountryLabel());
+		// lab2.setAutoFit(true);lab2.setBackgroundColor("green");
 		lab2.setHeight("1px");
+		// lab2.setOverflow(Overflow.VISIBLE);
+		// lab2.setWrap(false);
 		lab2.setWidth("100%");
 
 		grid = new DialogGrid(false);
+		// typeGrid.setAutoFitData(Autofit.BOTH);
+		// typeGrid.setOverflow(Overflow.SCROLL);
 		grid.setSize("100%", "100%");
+		// grid.setShowAllRecords(true);
 		grid.addColumns(new String[] { Accounter.constants().country() });
+		// ListGridField nameField = new ListGridField("name",
+		// "<center><b>Country/Region</b></center>");
+		// businessTypeField.setAlign(Alignment.CENTER);
+		// grid.setFields(nameField);
+		// grid.setCanResizeFields(true);
 		createListGridRecords(typeRecords);
 
 		addGroupButt = new Button(Accounter.constants().add());
@@ -67,11 +86,13 @@ public class CountryRegionListDialog extends DialogBox {
 		buttHLay.add(closeHLay);
 
 		VerticalPanel buttVLay = new VerticalPanel();
+		// buttVLay.setMembersMargin(5);
 		buttVLay.add(addGroupButt);
 		buttVLay.add(editGroupButt);
 		buttVLay.add(remGroupButt);
 
 		HorizontalPanel groupEditHLay = new HorizontalPanel();
+		// groupEditHLay.setSize("100%", "*");
 		groupEditHLay.add(grid);
 		groupEditHLay.add(buttVLay);
 
@@ -104,7 +125,9 @@ public class CountryRegionListDialog extends DialogBox {
 		dlg.setTitle(Accounter.constants().country());
 		dlg.setModal(true);
 		DynamicForm form = new DynamicForm();
+		// form.setSize("100%", "*");
 		TextItem nameText = new TextItem(Accounter.constants().countryName());
+		// nameText.setWrapTitle(false);
 		nameText.setRequired(true);
 		form.setFields(nameText);
 
@@ -118,18 +141,26 @@ public class CountryRegionListDialog extends DialogBox {
 		DynamicForm codeForm = new DynamicForm();
 		codeForm.setIsGroup(true);
 		codeForm.setGroupTitle(Accounter.constants().countryCode());
+		// codeForm.setWrapItemTitles(false);
 		codeForm.setWidth("100%");
 		codeForm.setNumCols(4);
 		codeForm.setFields(a3Text, a2Text, isoText);
 
 		Button helpButt = new Button(Accounter.constants().help());
+		// helpButt.setAutoFit(true);
 		HorizontalPanel helpHLay = new HorizontalPanel();
 		helpHLay.add(helpButt);
 		helpHLay.setWidth("50%");
 		Button okButt = new Button(Accounter.constants().ok());
+		// okButt.setAutoFit(true);
 		Button canButt = new Button(Accounter.constants().cancel());
+		// canButt.setAutoFit(true);
 
 		HorizontalPanel buttHLay = new HorizontalPanel();
+		// buttHLay.setAlign(Alignment.RIGHT);
+		// buttHLay.setSize("100%", "*");
+		// buttHLay.setMembersMargin(5);
+		// buttHLay.setLeft(20);
 		buttHLay.add(helpHLay);
 		buttHLay.add(okButt);
 		buttHLay.add(canButt);
@@ -142,10 +173,14 @@ public class CountryRegionListDialog extends DialogBox {
 		});
 
 		VerticalPanel mainVLay = new VerticalPanel();
+		// mainVLay.setTop(50);
 		mainVLay.setSize("100%", "100%");
+		// mainVLay.setMembers(form, codeForm, buttHLay);
 		dlg.add(mainVLay);
 		dlg.setSize("450px", "300px");
 		dlg.show();
 	}
+	// FinanceApplication.constants()
+	// .manageCountryRegionList()
 
 }
