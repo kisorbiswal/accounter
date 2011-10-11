@@ -384,8 +384,8 @@
 		<query-param name="newName" type="string" />
 		<query-param name="oldName" type="string" />
 		<query-param name="company" type="Company" />
-		update com.vimukti.accounter.core.Entry set memo=:newName where
-		memo=:oldName and account.company=:company
+		update com.vimukti.accounter.core.Entry e set e.memo=:newName where
+		e.memo=:oldName and e.account.company=:company
 	</query>
 
 	<query name="get.TransactionDate.from.TransactionbyDate">
