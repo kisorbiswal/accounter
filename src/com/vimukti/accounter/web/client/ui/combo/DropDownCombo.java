@@ -209,9 +209,10 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			@Override
 			public void onBlur(BlurEvent event) {
 				if ((selectedName == null || !selectedName.equals(getValue()
-						.toString()))
-						&& selectedIndex == -1)
-					setRelatedComboItem(getValue().toString());
+						.toString())) && selectedIndex == -1)
+					if (haveCloseHandle)
+						setRelatedComboItem(getValue().toString());
+
 			}
 		});
 
@@ -226,7 +227,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		popup.setPopupPosition(x + 1, y);
 
 		popup.show();
-		
+
 		int clientwidth = Window.getClientWidth();
 		int clientHeight = Window.getClientHeight();
 		int popupWdth = popup.getWidget().getOffsetWidth();
@@ -655,8 +656,8 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	private void filterValues(char key) {
 
 		String val = getValue() != null ? getValue().toString()
-				+ String.valueOf(key).replace("/", "").trim() : String.valueOf(
-				key).replace("/", "").trim();
+				+ String.valueOf(key).replace("/", "").trim() : String
+				.valueOf(key).replace("/", "").trim();
 
 		resetComboList();
 		if (key == '/') {
