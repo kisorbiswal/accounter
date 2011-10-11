@@ -103,8 +103,8 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 		listOfTypes.add(ALL);
 		viewSelect.initCombo(listOfTypes);
 
-		if (UIUtils.isMSIEBrowser())
-			viewSelect.setWidth("150px");
+//		if (UIUtils.isMSIEBrowser())
+//			viewSelect.setWidth("150px");
 
 		viewSelect.setComboItem(NOT_ISSUED);
 		viewSelect

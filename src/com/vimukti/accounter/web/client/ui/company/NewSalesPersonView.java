@@ -367,11 +367,11 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		mainVlay.setSpacing(10);
 		mainVlay.add(topHLay);
 		mainVlay.add(memoForm);
-		if (UIUtils.isMSIEBrowser()) {
-			emailForm.getCellFormatter().setWidth(0, 2, "150px");
-			emailForm.getCellFormatter().setWidth(1, 0, "195px");
-			emailForm.getCellFormatter().setWidth(1, 1, "150px");
-		}
+//		if (UIUtils.isMSIEBrowser()) {
+//			emailForm.getCellFormatter().setWidth(0, 2, "150px");
+//			emailForm.getCellFormatter().setWidth(1, 0, "195px");
+//			emailForm.getCellFormatter().setWidth(1, 1, "150px");
+//		}
 		this.add(mainVlay);
 
 		/* Adding dynamic forms in list */
