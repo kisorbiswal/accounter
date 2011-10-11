@@ -44,7 +44,6 @@
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
-
 		<many-to-one name="linkedAccumulatedDepreciationAccount"
 			column="LINKED_ID" class="Account" lazy="false" cascade="save-update,delete">
 		</many-to-one>
@@ -305,37 +304,37 @@
 		<property name="bankAccountNo" column="BANK_ACCOUNT_NO"></property>
 		<property name="sortCode" column="SORT_CODE"></property>
 		<many-to-one name="accountsReceivableAccount" class="Account"
-			lazy="false" column="ACCOUNTS_RECEIVABLE_ID">
+			lazy="false" column="ACCOUNTS_RECEIVABLE_ID" cascade="delete">
 		</many-to-one>
 		<many-to-one name="accountsPayableAccount" class="Account"
-			lazy="false" column="ACCOUNTS_PAYABLE_ID">
+			lazy="false" column="ACCOUNTS_PAYABLE_ID" cascade="delete">
 		</many-to-one>
 		<many-to-one name="openingBalancesAccount" class="Account"
-			lazy="false" column="OPENING_BALANCES_ID">
+			lazy="false" column="OPENING_BALANCES_ID" cascade="delete">
 		</many-to-one>
 		<many-to-one name="retainedEarningsAccount" class="Account"
-			lazy="false" column="RETAINED_EARNINGS_ID">
+			lazy="false" column="RETAINED_EARNINGS_ID" cascade="delete">
 		</many-to-one>
 		<many-to-one name="otherCashIncomeAccount" class="Account"
-			lazy="false" column="OTHER_CASH_INCOME_ID">
+			lazy="false" column="OTHER_CASH_INCOME_ID" cascade="delete">
 		</many-to-one>
 		<many-to-one name="otherCashExpenseAccount" class="Account"
-			lazy="false" column="OTHER_CASH_EXPENSE_ID">
+			lazy="false" column="OTHER_CASH_EXPENSE_ID" cascade="delete">
 		</many-to-one>
 		<many-to-one name="cashDiscountsGiven" class="Account"
-			lazy="false" column="CASH_DISCOUNTS_GIVEN">
+			lazy="false" column="CASH_DISCOUNTS_GIVEN" cascade="delete">
 		</many-to-one>
 		<many-to-one name="cashDiscountsTaken" class="Account"
-			lazy="false" column="CASH_DISCOUNTS_TAKEN">
+			lazy="false" column="CASH_DISCOUNTS_TAKEN" cascade="delete">
 		</many-to-one>
 		<many-to-one name="taxLiabilityAccount" class="Account"
-			lazy="false" column="TAX_LIABILITY_ACCOUNT_ID">
+			lazy="false" column="TAX_LIABILITY_ACCOUNT_ID" cascade="delete">
 		</many-to-one>
 		<many-to-one name="VATFiledLiabilityAccount" class="Account"
-			lazy="false" column="VAT_FILED_LIABILITY_ACCOUNT_ID">
+			lazy="false" column="VAT_FILED_LIABILITY_ACCOUNT_ID" cascade="delete">
 		</many-to-one>
 		<many-to-one name="pendingItemReceiptsAccount" class="Account"
-			lazy="false" column="PENDING_ITEM_RECEIPTS_ACCOUNT_ID">
+			lazy="false" column="PENDING_ITEM_RECEIPTS_ACCOUNT_ID" cascade="delete">
 		</many-to-one>
 		<!-- <many-to-one name="prepaidVATaccount" class="Account" -->
 		<!-- lazy="false" column="PREPAID_VAT_ACCOUNT_ID"> -->
@@ -551,7 +550,15 @@
 			<key column="COMPANY_ID" />
 			<one-to-many class="Location" />
 		</set>
-
+		<set name="transactions" inverse="true" cascade="delete">
+			<key column="COMPANY_ID" />
+			<one-to-many class="Transaction" />
+		</set>
+		
+		<set name="activities" inverse="true" cascade="delete">
+			<key column="COMPANY_ID" />
+			<one-to-many class="Activity" />
+		</set>
 	</class>
 	<!-- <class name="CompanyPreferences" table="COMPANY_PREFERENCES"> <id name="id" 
 		column="ID"> <generator class="native" /> </id> Company Preferences <property 
@@ -1799,7 +1806,7 @@
 			<generator class="native" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<property name="objectID" column="OBJECT_ID"></property>
 		<property name="time" column="TIME_STAMP"></property>
