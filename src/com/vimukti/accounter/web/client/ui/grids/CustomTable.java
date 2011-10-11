@@ -560,10 +560,10 @@ public abstract class CustomTable extends VerticalPanel {
 			// }
 
 			if (isMultiSelectionEnable) {
-				if (UIUtils.isMSIEBrowser())
-					table.getCellFormatter().getElement(row, 0)
-							.setAttribute("width", "" + 25);
-				else
+//				if (UIUtils.isMSIEBrowser())
+//					table.getCellFormatter().getElement(row, 0)
+//							.setAttribute("width", "" + 25);
+//				else
 					table.getCellFormatter().getElement(row, 0)
 							.setAttribute("width", "" + 15);
 			}
