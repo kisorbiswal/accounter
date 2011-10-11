@@ -213,6 +213,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 					if (haveCloseHandle)
 						setRelatedComboItem(getValue().toString());
 
+				haveCloseHandle = true;
 			}
 		});
 
@@ -240,7 +241,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		if (UIUtils.isMSIEBrowser()) {
 			dropDown.setHeight(Math.min((comboItems.size() * 10), 100) + "px");
 			popup.setHeight(Math.min(dropDown.getOffsetHeight(), 100) + "px");
-			//panel.setWidth(dropDown.getOffsetWidth() + "px");
+			// panel.setWidth(dropDown.getOffsetWidth() + "px");
 		}
 		panel.getElement().setAttribute("style", "min-width:165px");
 		panel.setHeight(Math.min(dropDown.getOffsetHeight(), 200) + "px");
