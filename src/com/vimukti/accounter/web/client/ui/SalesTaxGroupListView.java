@@ -189,6 +189,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 				data = (ClientTAXGroup) grid.getSelection();
 				if (data != null && data.getID() != 0) {
 					showAddEditTaxGroup(data);
+					enableEditRemoveButtons(false);
 				} else {
 					Accounter
 							.showError(Accounter.constants().selectATaxGroup());
@@ -201,6 +202,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 				if (taxGroup != null) {
 					deleteObject(taxGroup);
+					enableEditRemoveButtons(false);
 				} else
 					Accounter
 							.showError(Accounter.constants().selectATaxGroup());
