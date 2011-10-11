@@ -64,7 +64,7 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 		Transaction transaction = null;
 		try {
 			transaction = session.beginTransaction();
-			Company company = (Company) session.get(Company.class, 1l);
+			Company company = (Company) session.get(Company.class, companyID);
 			User user = company.getUserByUserEmail(email);
 			company.getUsers().remove(user);
 			session.saveOrUpdate(company);

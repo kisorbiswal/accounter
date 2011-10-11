@@ -85,6 +85,7 @@ public class ConsoleChatServer extends Thread {
 						out.writeObject(messageReceived);
 					} catch (AccounterMobileException e) {
 						e.printStackTrace();
+						out.writeObject(e);
 					}
 				}
 			} catch (Exception e) {

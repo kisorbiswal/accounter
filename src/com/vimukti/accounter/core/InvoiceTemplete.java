@@ -1,9 +1,6 @@
 package com.vimukti.accounter.core;
 
-import org.hibernate.Session;
-
 import com.vimukti.accounter.main.ServerConfiguration;
-import com.vimukti.accounter.utils.HibernateUtil;
 
 /**
  * 
@@ -34,11 +31,9 @@ public class InvoiceTemplete extends TemplateBuilder implements ITemplate {
 	private StringBuffer getImage() {
 		StringBuffer original = new StringBuffer();
 		// String imagesDomain = "/do/downloadFileFromFile?";
-		Session session = HibernateUtil.getCurrentSession();
-		Company Company = (Company) session.get(Company.class, 1L);
 		original.append("<img src='file:///");
 		original.append(ServerConfiguration.getAttachmentsDir() + "/"
-				+ Company.getDisplayName() + "/" + brandingTheme.getFileName());
+				+ company.getDisplayName() + "/" + brandingTheme.getFileName());
 		original.append("'/>");
 		return original;
 	}

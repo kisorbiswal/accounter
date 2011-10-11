@@ -145,6 +145,8 @@ public class ReconciliationTransactionsGrid extends
 
 	public void setData(List<ClientTransaction> data) {
 		this.dataProvider.setList(data);
+		this.setRowCount(data.size());
+		this.setPageSize(this.getRowCount());
 	}
 
 }

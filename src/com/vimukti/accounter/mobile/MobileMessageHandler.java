@@ -20,6 +20,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 public class MobileMessageHandler {
 
 	private static final String AUTHENTICATE_COMMAND = "authenticate";
+	private static final String SELECT_COMPANY_COMMAND = "selectCompany";
 	private Map<String, MobileSession> sessions = new HashMap<String, MobileSession>();
 
 	/**
@@ -35,7 +36,7 @@ public class MobileMessageHandler {
 			MobileSession session = sessions.get(userId);
 
 			if (session == null || session.isExpired()) {
-				session = new MobileSession(getUserById(userId, openSession));
+				session = new MobileSession();
 				sessions.put(userId, session);
 			}
 			MobileAdaptor adoptor = getAdaptor(adaptorType);
@@ -44,6 +45,9 @@ public class MobileMessageHandler {
 			if (!session.isAuthenticated()
 					&& !message.equals(AUTHENTICATE_COMMAND)) {
 				message = AUTHENTICATE_COMMAND;
+			} else if (session.getCompany() != null
+					&& !message.equals(SELECT_COMPANY_COMMAND)) {
+				message = SELECT_COMPANY_COMMAND;
 			}
 
 			UserMessage preProcess = adoptor.preProcess(session, message);

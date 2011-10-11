@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
-import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.mobile.commands.NameSearchCommand;
 import com.vimukti.accounter.mobile.commands.NumberSearchCommand;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -165,8 +164,6 @@ public class CommandProcessor {
 		Session session = HibernateUtil.getCurrentSession();
 		mSession.sethibernateSession(session);
 		Context context = new Context(mSession);
-		context.setCompany((Company) session.get(Company.class,
-				mSession.getCompanyId()));
 		return context;
 	}
 

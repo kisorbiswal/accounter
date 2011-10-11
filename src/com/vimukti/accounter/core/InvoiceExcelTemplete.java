@@ -7,11 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import org.hibernate.Session;
-
-import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.CSVWriter;
-import com.vimukti.accounter.utils.HibernateUtil;
 
 /**
  * this class is used to generate Invoice report in Excel format.
@@ -24,10 +20,11 @@ public class InvoiceExcelTemplete {
 	private Invoice invoice;
 	private Company company;
 
-	public InvoiceExcelTemplete(Invoice invoice, BrandingTheme brandingTheme) {
+	public InvoiceExcelTemplete(Invoice invoice, BrandingTheme brandingTheme,
+			Company company) {
 		this.invoice = invoice;
 		this.brandingTheme = brandingTheme;
-		this.company = getCompany();
+		this.company = company;
 
 	}
 
@@ -320,30 +317,6 @@ public class InvoiceExcelTemplete {
 
 	public String checkIsNull(String value) {
 		return value == null ? "" : value;
-	}
-
-	private StringBuffer getImage() {
-		StringBuffer original = new StringBuffer();
-		// String imagesDomain = "/do/downloadFileFromFile?";
-		Session session = HibernateUtil.getCurrentSession();
-		Company Company = (Company) session.get(Company.class, 1L);
-		original.append("<img src='file:///");
-		original.append(ServerConfiguration.getAttachmentsDir() + "/"
-				+ Company.getFullName() + "/" + brandingTheme.getFileName());
-		original.append("'/>");
-		return original;
-	}
-
-	public Company getCompany() {
-		company = HibernateUtil.getCurrentSession() != null ? (Company) HibernateUtil
-				.getCurrentSession().get(Company.class, 1L) : (Company) Utility
-				.getCurrentSession().get(Company.class, 1L);
-
-		if (company == null)
-			return null;
-
-		company.toCompany(company);
-		return company;
 	}
 
 	public String forNullValue(String value) {

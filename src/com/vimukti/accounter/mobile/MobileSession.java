@@ -9,6 +9,8 @@ import java.util.TimerTask;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
 
 /**
@@ -21,31 +23,28 @@ public class MobileSession {
 
 	private static final String LAST_RESULT = "lastResult";
 
-	private User user;
+	private Client client;
+	private Company company;
 	private Map<Object, Object> attributes = new HashMap<Object, Object>();
 	private Command currentCommand;
 	private boolean isExpired;
 
 	private TimerTask task;
 
-	private long companyId;
-
 	private Session hibernateSession;
 
 	/**
 	 * Creates new Instance
 	 */
-	public MobileSession(User user) {
-		setCompanyId(user.getCompany().getID());
-		this.user = user;
+	public MobileSession() {
 	}
 
 	public long getUserId() {
-		return this.user.getID();
+		return this.client.getID();
 	}
 
 	public String getUserEmail() {
-		return this.user.getEmail();
+		return this.client.getEmailId();
 	}
 
 	public void setAttribute(String name, Object value) {
@@ -115,22 +114,18 @@ public class MobileSession {
 	 * @return
 	 */
 	public boolean isAuthenticated() {
-		return user != null;
+		return client != null;
 	}
 
 	/**
 	 * @return
 	 */
 	public User getUser() {
-		return user;
+		return company.getUserByUserEmail(client.getEmailId());
 	}
 
-	public long getCompanyId() {
-		return this.companyId;
-	}
-
-	public void setCompanyId(long companyId) {
-		this.companyId = companyId;
+	public Company getCompany() {
+		return this.company;
 	}
 
 	/**
@@ -166,6 +161,21 @@ public class MobileSession {
 	public NetworkUser getFrom() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/**
+	 * @return the client
+	 */
+	public Client getClient() {
+		return client;
+	}
+
+	/**
+	 * @param client
+	 *            the client to set
+	 */
+	public void setClient(Client client) {
+		this.client = client;
 	}
 
 }

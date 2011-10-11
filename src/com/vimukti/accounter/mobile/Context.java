@@ -18,7 +18,6 @@ public class Context {
 	private MobileSession session;
 	private Map<String, Object> attributes = new HashMap<String, Object>();
 	private Map<String, List<Object>> selectedRecords = new HashMap<String, List<Object>>();
-	private Company company;
 
 	/**
 	 * Creates new Instance
@@ -263,10 +262,6 @@ public class Context {
 	}
 
 	public Company getCompany() {
-		return company;
-	}
-
-	public void setCompany(Company company) {
-		this.company = company;
+		return session.getCompany();
 	}
 }
