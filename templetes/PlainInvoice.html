@@ -25,13 +25,24 @@
 		  <td style="vertical-align: top;" align="left">
 		     <table id="header-part-invoice" style="font-family:${fontStyle};font-size:${font};" width="100%">
 			    <tr>
-				  <td width="60%">
-				    <div class="gwt-HTML">
-						<p>
-						   <table><tr><td>${companyDetails}</td></tr></table> 
-						</p>
-			        </div>
-				  </td>
+				  <!-- $BeginBlock billhead -->
+	   <td style="vertical-align: top;" align="left">
+	     <table border="1"  id="billto" class="billto_quick" style="width:400px;font-family:${fontStyle};font-size:${font};"><colgroup><col></colgroup>
+		
+          <tr>
+			<td class="table-head"><p class="fontSetting"><center>Bill To</center></p></td>
+		  </tr>
+		  <tr>
+			<td align="left" style="vertical-align:top;height:130px">
+			   <p class="fontSetting">
+			     <div align="left">&nbsp;${billingAddress}</div>
+			   </p>
+			</td>
+		  </tr>
+		
+		 </table>
+		</td>
+	   <!-- $EndBlock billhead -->
 				  <td width="40%">
 				     <table width="100%" class="invoice_details_quicktable" border="1"  style="font-family:${fontStyle};font-size:${font};">
 					   <colgroup><col></colgroup>
@@ -92,25 +103,9 @@
 		</tr> 
    </table>
    <table border="0" id="billingAddressTable" width="100%" class="margin" style="font-family:${fontStyle};font-size:${font};">
-     <!-- $BeginBlock billhead -->
+   
      <tr>
-	   <td style="vertical-align: top;" align="left">
-	     <table border="1"  id="billto" class="billto_quick" style="width:400px;font-family:${fontStyle};font-size:${font};"><colgroup><col></colgroup>
-		
-          <tr>
-			<td class="table-head"><p class="fontSetting"><center>Bill To</center></p></td>
-		  </tr>
-		  <tr>
-			<td align="left" style="vertical-align:top;height:130px">
-			   <p class="fontSetting">
-			     <div align="left">&nbsp;${billingAddress}</div>
-			   </p>
-			</td>
-		  </tr>
-		
-		 </table>
-		</td>
-	   <!-- $EndBlock billhead -->
+      
 	   <td style="vertical-align: top;" align="right">
 		<!-- $BeginBlock shiphead -->
 		 <table  id = "shippingAddressTable" border="1" class="gridHeader" style="width:300px;font-family:${fontStyle};font-size:${font};"> 

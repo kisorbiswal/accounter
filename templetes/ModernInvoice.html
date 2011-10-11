@@ -13,35 +13,10 @@
  </table>
 <table class="margin">
    <tr>
-      <td>
-	     <div class="gwt-HTML">
-			<p>
-			 <table><tr><td>${companyDetails}</td></tr></table> 
-			</p>
-		 </div>
-	  </td>
-   </tr>
-</table>
-<table width="100%">
-  <tr>
-	  <td width="65%" style="border-bottom:3px solid" ></td>
-	  <td align="center;">
-		 <div class="invoice_zoho_header">
-			<p class="title_font_size" align="center">
-			 <font color="black"><strong>${title}</strong></font>
-			</p>
-		  </div>
-	  </td>
-	  <td width="25%" style="border-bottom:3px solid"></td>
-		</tr>
-		<tr>
-</table>
- <table style="font-family:${fontStyle};font-size:${font};" width="100%">
-	 <!-- $BeginBlock billhead -->
-		<tr>
-		  <td style="vertical-align: top;" align="left">
-		    
+      <td style="vertical-align: top;" align="left">
+		    <!-- $BeginBlock billhead -->
 		     <table id="header-part-invoice" class="margin" style="font-family:${fontStyle};font-size:${font};" width="100%">
+			   
 			    <tr>
 				  <td width="60%">
 				      <table border="0" id="billingAddressTable" width="100%" style="font-family:${fontStyle};font-size:${font};">
@@ -63,9 +38,30 @@
 							 </table>
 							</td>
 						 </tr>
-						  <!-- $EndBlock billhead -->
+					
 					 </table>
+					 	  <!-- $EndBlock billhead -->
 				  </td>
+   </tr>
+</table>
+<table width="100%">
+  <tr>
+	  <td width="65%" style="border-bottom:3px solid" ></td>
+	  <td align="center;">
+		 <div class="invoice_zoho_header">
+			<p class="title_font_size" align="center">
+			 <font color="black"><strong>${title}</strong></font>
+			</p>
+		  </div>
+	  </td>
+	  <td width="25%" style="border-bottom:3px solid"></td>
+		</tr>
+		<tr>
+</table>
+ <table style="font-family:${fontStyle};font-size:${font};" width="100%">
+	 
+		<tr>
+		 
 				  <td width="40%" style="vertical-align: top;">
 		            <table width="100%" class="invoice_zoho_table margin" border="1"  style="font-family:${fontStyle};font-size:${font};">
 					    <colgroup><col></colgroup>
