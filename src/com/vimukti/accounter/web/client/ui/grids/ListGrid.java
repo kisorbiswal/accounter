@@ -631,10 +631,10 @@ public abstract class ListGrid<T> extends CustomTable {
 			selectbox.addChangeHandler(new ChangeHandler() {
 				@Override
 				public void onChange(ChangeEvent event) {
-					onValueChange(selectedObject, currentCol, values[selectbox
-							.getSelectedIndex()]);
-					onWidgetValueChanged(selectbox, values[selectbox
-							.getSelectedIndex()]);
+					onValueChange(selectedObject, currentCol,
+							values[selectbox.getSelectedIndex()]);
+					onWidgetValueChanged(selectbox,
+							values[selectbox.getSelectedIndex()]);
 				}
 			});
 			if (value != null)
@@ -668,8 +668,8 @@ public abstract class ListGrid<T> extends CustomTable {
 				@Override
 				public void onValueChange(ValueChangeEvent<Date> event) {
 
-					onWidgetValueChanged(datePicker, UIUtils
-							.stringToDate((Date) event.getValue()));
+					onWidgetValueChanged(datePicker,
+							UIUtils.stringToDate((Date) event.getValue()));
 
 				}
 			});
@@ -989,4 +989,9 @@ public abstract class ListGrid<T> extends CustomTable {
 		this.setRecords(records);
 	}
 
+	@Override
+	public void setDisabled(boolean disable) {
+		super.setDisabled(disable);
+		refreshAllRecords();
+	}
 }
