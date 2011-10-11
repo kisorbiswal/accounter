@@ -30,7 +30,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ListFilter;
@@ -562,12 +561,11 @@ public class Prepare1099MISCView extends AbstractBaseView {
 					return;
 				}
 				long vendorId = vendor.getID();
+				int type = 2;
 				long objectID = 1;
 				long brandingThemeID = 1;
-				UIUtils.downloadMISCForm(objectID,
-						ClientTransaction.TYPE_MISC_SAMPLE_FORM,
-						brandingThemeID, vendorId, horizontalValue,
-						verticalValue);
+				UIUtils.downloadMISCForm(objectID, type, brandingThemeID,
+						vendorId, horizontalValue, verticalValue);
 			}
 
 		});

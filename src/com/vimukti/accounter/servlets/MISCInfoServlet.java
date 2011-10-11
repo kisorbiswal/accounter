@@ -19,6 +19,7 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.ITemplate;
 import com.vimukti.accounter.core.MISCInformationTemplate;
 import com.vimukti.accounter.core.Misc1099PDFTemplate;
+import com.vimukti.accounter.core.Misc1099SamplePDFTemplate;
 import com.vimukti.accounter.core.TemplateBuilder;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
@@ -77,6 +78,13 @@ public class MISCInfoServlet extends BaseServlet {
 						inputString);
 				converter.generatePdfDocuments(fileName, sos, miscCreator);
 			} else if (formType == 0) {
+
+				java.io.InputStream inputString = new ByteArrayInputStream(
+						outPutString.toString().getBytes());
+				InputStreamReader miscCreator = new InputStreamReader(
+						inputString);
+				converter.generatePdfDocuments(fileName, sos, miscCreator);
+			} else if (formType == 2) {
 
 				java.io.InputStream inputString = new ByteArrayInputStream(
 						outPutString.toString().getBytes());
@@ -156,6 +164,16 @@ public class MISCInfoServlet extends BaseServlet {
 					miscinfo, company);
 			outPutString = outPutString.append(info.generateFile());
 			fileName = info.getFileName();
+		} else if (formType == 2) {
+
+			ArrayList<Client1099Form> miscinfo = financetool.getVendorManager()
+					.get1099Vendors(1, company.getID());
+
+			converter = new Converter(PD4Constants.LETTER);
+			Misc1099SamplePDFTemplate sampleTemplate = new Misc1099SamplePDFTemplate(
+					horizontalValue, verticalValue);
+			fileName = sampleTemplate.getFileName();
+			outPutString = outPutString.append(sampleTemplate.generatePDF());
 		}
 	}
 
