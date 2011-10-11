@@ -1059,10 +1059,12 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		Accounter.showError(errorString);
 
 		updateAccountObject();
-		if (exceptionMessage.contains("number"))
-			data.setNumber(accountNo);
-		if (exceptionMessage.contains("name"))
-			data.setName(accountName);
+		if (exceptionMessage != null) {
+			if (exceptionMessage.contains("number"))
+				data.setNumber(accountNo);
+			if (exceptionMessage.contains("name"))
+				data.setName(accountName);
+		}
 		// if (takenAccount == null)
 		// else
 		// Accounter.showError(FinanceApplication.constants()
@@ -1638,7 +1640,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		cashAccountCheck.setDisabled(isInViewMode());
 		statusBox.setDisabled(isInViewMode());
 		commentsArea.setDisabled(isInViewMode());
-		bankAccNumText.setDisabled(isInViewMode());
+		if (bankAccNumText != null) {
+			bankAccNumText.setDisabled(isInViewMode());
+		}
 		if (creditCardForm != null) {
 			creditCardForm.setDisabled(isInViewMode());
 		}
