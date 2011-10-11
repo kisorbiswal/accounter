@@ -554,12 +554,12 @@ public abstract class AdminCustomTable extends VerticalPanel {
 			// }
 
 			if (isMultiSelectionEnable) {
-				if (UIUtils.isMSIEBrowser())
+//				if (UIUtils.isMSIEBrowser())
+//					table.getCellFormatter().getElement(row, 0)
+//							.setAttribute("width", "" + 25);
+//				else
 					table.getCellFormatter().getElement(row, 0)
-							.setAttribute("width", "" + 25);
-				else
-					table.getCellFormatter().getElement(row, 0)
-							.setAttribute("width", "" + 15);
+						.setAttribute("width", "" + 15);
 			}
 
 		} catch (Exception e) {
