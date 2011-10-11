@@ -55,16 +55,6 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 				t.addBlock("showlogo");
 			}
 
-			// TODO For setting the Contact Details
-			String contactDetails = forNullValue(
-					brandingTheme.getContactDetails()).replace("\n", "<br/>");
-			if (contactDetails.contains("(None Added)")) {
-				contactDetails = "";
-			}
-			contactDetails = forNullValue(company.getFullName()) + "<br/>"
-					+ contactDetails;
-			t.setVariable("companyDetails", contactDetails);
-
 			t.setVariable("creditNoteNumber", memo.getNumber());
 			t.setVariable("creditNoteDate", memo.getDate().toString());
 
@@ -73,7 +63,7 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 
 			if (customerNumber > 0) {
 				t.setVariable("customerNumber", memo.getCustomer().getNumber());
-			//	t.addBlock("customernum");
+				// t.addBlock("customernum");
 			}
 
 			// for primary curreny
@@ -120,13 +110,14 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 						+ forUnusedAddress("Email : " + email, false);
 
 				if (customernameAddress.trim().length() > 0) {
-					t.setVariable("customerNameNBillAddress",
-							customernameAddress);
+					t.setVariable("customerNameNBillAddress", "To<br/>"
+							+ customernameAddress);
 					t.addBlock("creditHead");
 
 				}
 			} else {
-				t.setVariable("customerNameNBillAddress", customerName);
+				t.setVariable("customerNameNBillAddress", "To<br/>"
+						+ customerName);
 				t.addBlock("creditHead");
 			}
 
@@ -214,7 +205,7 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 			t.setVariable("total", total);
 			t.addBlock("itemDetails");
 
-			boolean hasTermsNpaypalId= false;
+			boolean hasTermsNpaypalId = false;
 			String termsNCondn = forNullValue(
 					brandingTheme.getTerms_And_Payment_Advice()).replace("\n",
 					"<br/>");
@@ -237,8 +228,7 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 				t.setVariable("email", paypalEmail);
 				t.addBlock("paypalemail");
 			}
-			if(hasTermsNpaypalId)
-			{
+			if (hasTermsNpaypalId) {
 				t.addBlock("termsNpaypalId");
 			}
 
@@ -299,8 +289,9 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 					&& regestrationAddress.trim().length() > 0) {
 				if (brandingTheme.isShowRegisteredAddress()) {
 					// t.setVariable("tradingName", trName);
-		//			t.setVariable("regestrationAddress", regestrationAddress);
-		//			t.addBlock("regestrationAddress");
+					// t.setVariable("regestrationAddress",
+					// regestrationAddress);
+					// t.addBlock("regestrationAddress");
 				}
 			}
 
@@ -418,6 +409,7 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 		original.append("'/>");
 		return original;
 	}
+
 	@Override
 	public String getFooter() {
 		String regestrationAddress = "";
@@ -432,12 +424,20 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 					+ forUnusedAddress(reg.getZipOrPostalCode(), true)
 					+ forUnusedAddress(reg.getCountryOrRegion(), true) + ".");
 
-		regestrationAddress = (company.getFullName() + "&nbsp;&nbsp;&nbsp;"
+		// TODO For setting the Contact Details
+		String contactDetails = forNullValue(brandingTheme.getContactDetails());
+		if (contactDetails.contains("(None Added)")) {
+			contactDetails = "";
+		}
+
+		regestrationAddress = (contactDetails
+				+ "<br/><hr width = 100%>&nbsp;&nbsp;&nbsp;"
+				+ company.getFullName() + "<br/>&nbsp;&nbsp;&nbsp;"
 				+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
 				.getRegistrationNumber().equals("")) ? "<br/>Company Registration No: "
 				+ company.getRegistrationNumber()
 				: ""));
-return regestrationAddress;
+		return regestrationAddress;
 	}
 
 }
