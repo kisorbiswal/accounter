@@ -80,11 +80,30 @@
 		<property name="locationName" column="LOCATION_NAME"></property>
 		<property name="version" column="VERSION"></property>
 	</class>
+	<!-- Accounter Class Tracking -->
+	<class name="AccounterClass" table="ACCOUNTER_CLASS">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			lazy="false">
+		</many-to-one>
+		<property name="className" not-null="true"
+			column="CLASS_NAME"></property>
+		<property name="version" column="VERSION"></property>
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			lazy="false" not-null="true"></many-to-one>
+		<many-to-one name="lastModifier" column="LAST_MODIFIER"
+			class="User" lazy="false" not-null="true"></many-to-one>
+		<property name="createdDate" column="CREATED_DATE" not-null="true" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			not-null="true" />
+	</class>
 	<class name="CommodityCode" table="COMMODITY_CODE">
 		<id name="id" column="ID">
 			<generator class="native"></generator>
 		</id>
-		<property name="name" unique="true" not-null="true" column="NAME"></property>
+		<property name="name" not-null="true" column="NAME"></property>
 	</class>
 	<class name="AccountTransaction" table="ACCOUNT_TRANSACTION">
 		<id name="id" column="ID">
