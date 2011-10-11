@@ -85,7 +85,6 @@ public class Converter {
 			// foshtml.close();
 			pd4ml.enableTableBreaks(true);
 			pd4ml.enableDebugInfo();
-			System.err.println(template.getBody());
 			// String templateBody = template.getBody();
 			// int count = 0;
 			// for (int i = 0; i < templateBody.length(); i++) {
@@ -130,14 +129,14 @@ public class Converter {
 	public void generatePdfDocuments(PrintTemplete template,
 			OutputStream outputStream, InputStreamReader reader)
 			throws Exception {
-		File pdfTempFile = File.createTempFile(template.getFileName().replace(" ", ""),
-				".pdf");
+		File pdfTempFile = File.createTempFile(
+				template.getFileName().replace(" ", ""), ".pdf");
 		java.io.FileOutputStream fos = new java.io.FileOutputStream(pdfTempFile);
 		try {
 
 			PD4ML pd4ml = new PD4ML();
 			System.err.println("PD4ML Obj created");
-			pd4ml.setPageInsets(new Insets(20, 10, 10, 10));
+			pd4ml.setPageInsets(new Insets(1, 10, 10, 10));
 			pd4ml.setHtmlWidth(950);
 			pd4ml.setPageSize(dimension);
 
@@ -146,14 +145,14 @@ public class Converter {
 
 			
 			PD4PageMark footer = new PD4PageMark();
-			footer.setHtmlTemplate("<html><p align ='center'>"+template.getFooter()+"</p></html>");
-			footer.setAreaHeight(30);
+			footer.setHtmlTemplate("<html><p align ='center'>"
+					+ template.getFooter() + "</p></html>");
+			footer.setAreaHeight(70);
 			footer.setFontSize(10);
 			footer.setColor(Color.BLACK);
-			
+
 			pd4ml.setPageFooter(footer);
-			
-			
+
 			pd4ml.render(reader, outputStream == null ? fos : outputStream);
 		} catch (Exception e) {
 			System.err.println("error occured");
@@ -165,6 +164,7 @@ public class Converter {
 		}
 
 	}
+
 	public void generatePdfDocuments(String fileName,
 			OutputStream outputStream, InputStreamReader reader)
 			throws Exception {
