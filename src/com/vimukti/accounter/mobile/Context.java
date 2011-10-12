@@ -164,7 +164,8 @@ public class Context {
 					doubles.add(parseInt);
 					numbers.add(parseInt);
 				} else if (StringUtils.isDate(string)) {
-
+					Date d = new Date(string);
+					dates.add(d);
 				} else {
 					strings.add(string);
 				}
@@ -205,7 +206,7 @@ public class Context {
 	 * @return
 	 */
 	public Object getAttribute(String name) {
-		return this.session.getAttribute(name);
+		 return this.session.getAttribute(name);
 	}
 
 	/**
