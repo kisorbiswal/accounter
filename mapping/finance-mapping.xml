@@ -37,14 +37,15 @@
 		<property name="version" column="VERSION"></property>
 		<property name="flow" column="FLOW"></property>
 
-		<many-to-one name="createdBy" column="CREATED_BY" class="User" not-null="true"></many-to-one>
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
 			class="User" not-null="true"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
 		<many-to-one name="linkedAccumulatedDepreciationAccount"
-			column="LINKED_ID" class="Account"  cascade="save-update,delete">
+			column="LINKED_ID" class="Account" cascade="save-update,delete">
 		</many-to-one>
 		<property name="isDefault" column="IS_DEFAULT"></property>
 		<property name="boxNumber" column="BOX_NUMBER"></property>
@@ -86,8 +87,7 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			lazy="false">
 		</many-to-one>
-		<property name="className" not-null="true"
-			column="CLASS_NAME"></property>
+		<property name="className" not-null="true" column="CLASS_NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			lazy="false" not-null="true"></many-to-one>
@@ -392,12 +392,12 @@
 			<one-to-many class="Account" />
 		</set>
 
-		<set name="customers" inverse="true" cascade="save-update,delete">
+		<set name="customers" inverse="true" lazy="false" cascade="save-update,delete">
 			<key column="COMPANY_ID" />
 			<one-to-many class="Customer" />
 		</set>
 
-		<set name="vendors" inverse="true" cascade="save-update,delete">
+		<set name="vendors" inverse="true" lazy="false" cascade="save-update,delete">
 			<key column="COMPANY_ID" />
 			<one-to-many class="Vendor" />
 		</set>
@@ -408,7 +408,7 @@
 			<one-to-many class="FiscalYear" />
 		</set>
 
-		<set name="payees" inverse="true" cascade="save-update,delete"
+		<set name="payees" inverse="true" lazy="false" cascade="save-update,delete"
 			order-by="NAME">
 			<key column="COMPANY_ID" />
 			<one-to-many class="Payee" />
@@ -432,7 +432,7 @@
 			<one-to-many class="ShippingTerms" />
 		</set>
 
-		<set name="shippingMethods" inverse="true" cascade="save-update,delete"
+		<set name="shippingMethods" inverse="true" lazy="false" cascade="save-update,delete"
 			order-by="NAME">
 			<key column="COMPANY_ID" />
 			<one-to-many class="ShippingMethod" />
@@ -455,7 +455,7 @@
 			<one-to-many class="TAXGroup" />
 		</set>
 
-		<set name="paymentTerms" inverse="true" cascade="save-update,delete">
+		<set name="paymentTerms" inverse="true" lazy="false" cascade="save-update,delete">
 			<key column="COMPANY_ID" />
 			<one-to-many class="PaymentTerms" />
 		</set>
@@ -472,18 +472,18 @@
 			<one-to-many class="SalesPerson" />
 		</set>
 
-		<set name="taxCodes" inverse="true" cascade="save-update,delete">
+		<set name="taxCodes" inverse="true" lazy="false" cascade="save-update,delete">
 			<key column="COMPANY_ID" />
 			<one-to-many class="TAXCode" />
 		</set>
 
-		<set name="taxItems" inverse="true" cascade="save-update,delete">
+		<set name="taxItems" inverse="true" lazy="false" cascade="save-update,delete">
 			<key column="COMPANY_ID" />
 			<one-to-many class="TAXItem" />
 		</set>
-		<set name="items" inverse="true" cascade="save-update,delete">
+		<set name="items" inverse="true" lazy="false" cascade="save-update,delete">
 			<key column="COMPANY_ID" />
-			<one-to-many class="Item" />
+			<one-to-many class="Item"/>
 		</set>
 		<set name="taxItemGroups" inverse="true" cascade="save-update,delete">
 			<key column="COMPANY_ID" />
@@ -523,7 +523,7 @@
 			<one-to-many class="TAXAdjustment" />
 		</set>
 
-		<set name="taxAgencies" inverse="true" cascade="save-update,delete">
+		<set name="taxAgencies" inverse="true" lazy="false" cascade="save-update,delete">
 			<key column="COMPANY_ID" />
 			<one-to-many class="TAXAgency" />
 		</set>
@@ -553,7 +553,7 @@
 			<key column="COMPANY_ID" />
 			<one-to-many class="Transaction" />
 		</set>
-		
+
 		<set name="activities" inverse="true" cascade="delete">
 			<key column="COMPANY_ID" />
 			<one-to-many class="Activity" />
