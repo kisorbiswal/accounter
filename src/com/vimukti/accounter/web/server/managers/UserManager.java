@@ -188,6 +188,7 @@ public class UserManager extends Manager {
 		Company company = getCompany(companyId);
 		List<User> financeUsers = session.getNamedQuery("list.User")
 				.setEntity("company", company).list();
+
 		List<ClientUserInfo> clientUsers = new ArrayList<ClientUserInfo>();
 		for (User user : financeUsers) {
 			if (!user.isDeleted()) {

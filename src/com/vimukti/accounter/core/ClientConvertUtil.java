@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.SpecialReference;
@@ -102,10 +103,10 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 					if (isFinanceDate(srcField.getType())) {
 						FinanceDate date = (FinanceDate) srcField.get(src);
 						dstField.setLong(dst, date != null ? date.getDate() : 0);
-					}else if (isDate(srcField.getType())) {
+					} else if (isDate(srcField.getType())) {
 						Date date = (Date) srcField.get(src);
 						dstField.setLong(dst, date != null ? date.getTime() : 0);
-					}else {
+					} else {
 						// Both are primitive, so assign directly
 						dstField.set(dst, srcField.get(src));
 					}
@@ -218,6 +219,7 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 			throws AccounterException {
 		D ret;
 		try {
+			src = HibernateUtil.initializeAndUnproxy(src);
 			ret = toClientObjectInternal(src, dstType);
 		} catch (InstantiationException e) {
 			e.printStackTrace();
@@ -365,8 +367,9 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 
 	}
 
-	private ArrayList toClientList(List<?> list) throws IllegalArgumentException,
-			InstantiationException, IllegalAccessException, AccounterException {
+	private ArrayList toClientList(List<?> list)
+			throws IllegalArgumentException, InstantiationException,
+			IllegalAccessException, AccounterException {
 		if (list == null)
 			return null;
 		ArrayList result = new ArrayList();
