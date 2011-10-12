@@ -35,6 +35,6 @@ public class Record extends ArrayList<Cell> {
 
 	@Override
 	public String toString() {
-		return code + " >" + object.toString();
+		return "\n" + code + "." + object.toString();
 	}
 }
