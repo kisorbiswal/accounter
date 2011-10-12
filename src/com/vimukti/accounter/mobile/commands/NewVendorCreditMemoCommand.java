@@ -72,7 +72,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 	}
 
 	private Result createOptionalRequirement(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
+		// context.setAttribute(INPUT_ATTR, "optional");
 
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
@@ -175,7 +175,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		if (attribute.equals(ORDER_NO)) {
 			String order = context.getSelection(NUMBER);
 			if (order == null) {
-				order = context.getString();
+				order = context.getNumber();
 			}
 			creditnoteno = order;
 			req.setValue(creditnoteno);
