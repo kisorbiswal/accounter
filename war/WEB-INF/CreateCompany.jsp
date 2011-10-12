@@ -350,7 +350,7 @@ p {
 	     </div>
 	</form>
 	<div class="form-bottom-options">
-	<a href="javascript:history.back()" id="forget-link1" tabindex="4"> Companies List </a>
+	<a href="/main/companies" id="forget-link1" tabindex="4"> Companies List </a>
 	</div>
 	<div class="form-bottom-options">
 	<a href="/main/logout" id="forget-link1" tabindex="4"> Logout </a>
