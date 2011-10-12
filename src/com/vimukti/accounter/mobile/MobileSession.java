@@ -23,8 +23,8 @@ public class MobileSession {
 
 	private static final String LAST_RESULT = "lastResult";
 
-	private Client client;
-	private Company company;
+	private long clientID;
+	private long companyID;
 	private Map<Object, Object> attributes = new HashMap<Object, Object>();
 	private Command currentCommand;
 	private boolean isExpired;
@@ -40,11 +40,11 @@ public class MobileSession {
 	}
 
 	public long getUserId() {
-		return this.client.getID();
+		return clientID;
 	}
 
 	public String getUserEmail() {
-		return this.client.getEmailId();
+		return getClient().getEmailId();
 	}
 
 	public void setAttribute(String name, Object value) {
@@ -114,18 +114,18 @@ public class MobileSession {
 	 * @return
 	 */
 	public boolean isAuthenticated() {
-		return client != null;
+		return clientID != 0;
 	}
 
 	/**
 	 * @return
 	 */
 	public User getUser() {
-		return company.getUserByUserEmail(client.getEmailId());
+		return getCompany().getUserByUserEmail(getClient().getEmailId());
 	}
 
 	public Company getCompany() {
-		return this.company;
+		return (Company) hibernateSession.get(Company.class, companyID);
 	}
 
 	/**
@@ -167,23 +167,23 @@ public class MobileSession {
 	 * @return the client
 	 */
 	public Client getClient() {
-		return client;
+		return (Client) hibernateSession.get(Client.class, clientID);
 	}
 
 	/**
 	 * @param client
 	 *            the client to set
 	 */
-	public void setClient(Client client) {
-		this.client = client;
+	public void setClientID(long client) {
+		this.clientID = client;
 	}
 
 	/**
 	 * @param company
 	 *            the company to set
 	 */
-	public void setCompany(Company company) {
-		this.company = company;
+	public void setCompanyID(long company) {
+		this.companyID = company;
 	}
 
 }

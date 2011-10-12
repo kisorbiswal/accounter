@@ -40,7 +40,8 @@ public class MobileMessageHandler {
 			if (session == null || session.isExpired()) {
 				session = new MobileSession();
 				sessions.put(userId, session);
-				processWithOutAuthenticationForTest(session, openSession, userId);
+				processWithOutAuthenticationForTest(session, openSession,
+						userId);
 			}
 			MobileAdaptor adoptor = getAdaptor(adaptorType);
 			session.refresh();
@@ -72,16 +73,15 @@ public class MobileMessageHandler {
 
 	private void processWithOutAuthenticationForTest(MobileSession session,
 			Session hibernateSession, String userId) {
-		Company company = (Company) hibernateSession.get(Company.class, 1l);
 
 		Query namedQuery = hibernateSession
 				.getNamedQuery("getClient.by.mailId");
 		namedQuery.setParameter("emailId", userId);
 		Client client = (Client) namedQuery.uniqueResult();
 
-		session.setCompany(company);
+		session.setCompanyID(1l);
 
-		session.setClient(client);
+		session.setClientID(client.getID());
 	}
 
 	/**
