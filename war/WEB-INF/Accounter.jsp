@@ -201,6 +201,13 @@
 	   </tr>
 	</table>-->
 	<div id="mainWindow"></div>
+			<script type="text/javascript" charset="utf-8">
+			function MacReload(){
+				 if(macclient){
+				 	macclient.reloadMenu();
+				 }
+			}
+  		</script>
 	<script type="text/javascript" language="javascript" src="/accounter/accounter.nocache.js"></script>
 	<div id="mainFooter" style="visibility:hidden" >
 	    <div>
@@ -244,26 +251,12 @@ $(document).ready(function(){
 
 	</script>
 
-
-		
-		<script type="text/javascript" charset="utf-8">
-			function SampleFunction(parameter){
-				parameter.reloadMenu();
-			}
-		</script>
-
 	<script type="text/javascript" charset="utf-8">
 			var is_ssl = ("https:" == document.location.protocol);
 			var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
 		</script>
 		
 
-		<script type="text/javascript" charset="utf-8">
-			function MacReload(){
-				 var myaddressbook = window.accounter;
-				 myaddressbook.createNewMacMenu();
-			}
-  		</script>
 
  </body>
 </html>

@@ -10,7 +10,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.place.shared.PlaceController;
-import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
@@ -146,6 +145,7 @@ public class Accounter implements EntryPoint {
 					RootPanel.get("mainWindow").add(vpanel);
 					RootPanel.get("mainWindow").add(setupWizard);
 				} else {
+
 					initGUI();
 				}
 
@@ -173,18 +173,16 @@ public class Accounter implements EntryPoint {
 	}
 
 	private static void initGUI() {
+		reloadMacMenu();
 		mainWindow = new MainFinanceWindow();
 		RootPanel.get("mainWindow").add(mainWindow);
 	}
 
 	public static void reset() {
-		if (!isMacApp()) {
-			HorizontalMenuBar menubar = new HorizontalMenuBar();
-			mainWindow.remove(1);
-			mainWindow.insert(menubar, 1);
-		} else {
-			reloadMacMenu();
-		}
+		HorizontalMenuBar menubar = new HorizontalMenuBar();
+		mainWindow.remove(1);
+		mainWindow.insert(menubar, 1);
+		reloadMacMenu();
 	}
 
 	private native static void reloadMacMenu() /*-{
@@ -326,7 +324,6 @@ public class Accounter implements EntryPoint {
 
 		eventBus = new SimpleEventBus();
 		placeController = new PlaceController(eventBus);
-		initializeIsMacApp();
 		loadCompany();
 	}
 
@@ -605,20 +602,16 @@ public class Accounter implements EntryPoint {
 				transactionCallBack);
 	}
 
-	private void initializeIsMacApp() {
-		String cookie = Cookies.getCookie("Nativeapp");
-		if (cookie != null) {
-			setMacApp(true);
-		}
-	}
-
-	public static boolean isMacApp() {
-		return isMacApp;
-	}
-
-	public void setMacApp(boolean isMacApp) {
-		Accounter.isMacApp = isMacApp;
-	}
+	/*
+	 * private void initializeIsMacApp() { String cookie =
+	 * Cookies.getCookie("Nativeapp"); if (cookie != null) { setMacApp(true); }
+	 * }
+	 * 
+	 * public static boolean isMacApp() { return isMacApp; }
+	 * 
+	 * public void setMacApp(boolean isMacApp) { Accounter.isMacApp = isMacApp;
+	 * }
+	 */
 
 	public static void get1099FormInformation(
 			AsyncCallback<ArrayList<Client1099Form>> myCallback, int selected) {

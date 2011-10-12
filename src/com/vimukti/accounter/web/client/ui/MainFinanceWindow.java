@@ -65,9 +65,9 @@ public class MainFinanceWindow extends VerticalPanel {
 		// If company is configured then show the dashboard
 		// if (company.isConfigured()) {
 		HorizontalMenuBar hMenuBar = new HorizontalMenuBar();
-		if (!Accounter.isMacApp()) {
-			add(hMenuBar);
-		}
+		// if (!Accounter.isMacApp()) {
+		add(hMenuBar);
+		// }
 
 		add(viewManager);
 		Label help = new Label(Accounter.constants().helpLinks());
