@@ -23,7 +23,7 @@
 		com.vimukti.accounter.core.Company c where c.id is not
 		null) and
 		t.transactionDate &lt;= (select max(d.depreciateTo) from
-		com.vimukti.accounter.core.Depreciation d where d.status=:status)
+		com.vimukti.accounter.core.Depreciation d where d.company=:company and d.status=:status)
 		order by
 		t.transactionDate
 	</query>
@@ -598,7 +598,7 @@
 		d.id=((select
 		max(d1.id) from
 		com.vimukti.accounter.core.Depreciation
-		d1 where
+		d1 where d1.company=:company and 
 		d1.depreciationFor =
 		:depreciationFor and d1.status=:status))
 	</query>
@@ -918,7 +918,7 @@
 		d.id =(select
 		min(d1.id) from
 		com.vimukti.accounter.core.Depreciation
-		d1)
+		d1 where d1.company=:company)
 	</query>
 
 
@@ -1030,7 +1030,7 @@
 		d.id=((select
 		max(d1.id) from
 		com.vimukti.accounter.core.Depreciation
-		d1 where
+		d1 where d1.company=:company and 
 		d1.depreciationFor
 		=:depreciationFor and d1.status=:status))
 	</query>
@@ -1544,14 +1544,16 @@
 	</sql-query>
 
 	<sql-query name="getCountOfActivity">
-		SELECT COUNT(*) FROM ACTIVITY
+		<query-param name="companyId" type="long" />
+		SELECT COUNT(*) FROM ACTIVITY A WHERE A.COMPANY_ID=:companyId
 	</sql-query>
 
 	<sql-query name="getCountOfActivityBetweenDates">
 		<query-param name="fromDate" type="long" />
 		<query-param name="endDate" type="long" />
+		<query-param name="companyId" type="long" />
 		SELECT COUNT(*) FROM ACTIVITY A WHERE A.TIME_STAMP BETWEEN :fromDate
-		AND :endDate
+		AND :endDate AND A.COMPANY_ID=:companyId
 	</sql-query>
 
 	<sql-query name="getCreditCardChargesThisMonth">
@@ -1570,9 +1572,10 @@
 	</sql-query>
 
 	<sql-query name="getEmployeeNames">
+		<query-param name="companyId" type="long" />
 		<return-scalar column="name" type="string" />
 
-		SELECT empd.FULL_NAME as name FROM USERS empd
+		SELECT empd.FULL_NAME as name FROM USERS empd WHERE empd.COMPANY_ID=:companyId
 	</sql-query>
 
 	<sql-query name="getMonthFromAccountAmounts">
