@@ -1031,9 +1031,9 @@ iframe,.address div {
 	background-color:#5F5F5F !important;
 	color:white !important;
 }
-.report-toolbar .downarrow-button{
+/*.report-toolbar .downarrow-button{
 	width:47px\0 !important;
-}
+}*/
 body,#loading .loadingIndicator,.panel-right-align .gwt-Button button,#overlay{
     margin: 0;
 }
@@ -1385,7 +1385,6 @@ input[type="text"]{
 #contactForm {
 	background-color:#333333;
 	border:2px solid #FFFFFF;
-	height:450px;
 	margin-right:-400px;
 	margin-top:-160px;
 	padding-left:30px;
