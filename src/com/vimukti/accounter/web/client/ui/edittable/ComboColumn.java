@@ -1,8 +1,10 @@
 package com.vimukti.accounter.web.client.ui.edittable;
 
 import com.google.gwt.user.client.ui.IsWidget;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 
-public abstract class ComboColumn<T, C> extends EditColumn<T> {
+public abstract class ComboColumn<T, C extends IAccounterCore> extends
+		EditColumn<T> {
 
 	@Override
 	public void render(IsWidget widget, RenderContext<T> context) {
