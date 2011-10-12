@@ -16,7 +16,7 @@ public class ServerConfiguration {
 	}
 
 	private static boolean isUnderMaintanance;
-	private static String mainServerDbUrl;
+	private static String sessionDbUrl;
 
 	private static String mainServerDomain;
 	private static String currentServerDomain;
@@ -99,7 +99,7 @@ public class ServerConfiguration {
 			tmpDir = prop.getProperty("tmpDir",
 					System.getProperty("java.io.tmpdir", ""));
 
-			mainServerDbUrl = prop.getProperty("mainServerDatabaseUrl", null);
+			sessionDbUrl = prop.getProperty("sessionDbUrl", null);
 			chatUsername = prop.getProperty("chatUsername", null);
 			chatpassword = prop.getProperty("chatPassword", null);
 
@@ -133,8 +133,8 @@ public class ServerConfiguration {
 	/**
 	 * @return
 	 */
-	public static String getMainServerDbUrl() {
-		return mainServerDbUrl;
+	public static String getSessionDbUrl() {
+		return sessionDbUrl;
 	}
 
 	/**
