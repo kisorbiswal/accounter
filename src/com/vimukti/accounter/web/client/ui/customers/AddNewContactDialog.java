@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientContact;
@@ -65,27 +63,24 @@ public class AddNewContactDialog extends BaseDialog<ClientContact> {
 		emailItem.setRequired(false);
 		items.add(emailItem);
 
-		emailItem.addBlurHandler(new BlurHandler() {
-
-			@Override
-			public void onBlur(BlurEvent event) {
-				if (emailItem.getValue() != null)
-
-					emailItem.setText(getValidMail(emailItem.getValue()));
-			}
-		});
+		// emailItem.addBlurHandler(new BlurHandler() {
+		//
+		// @Override
+		// public void onBlur(BlurEvent event) {
+		//
+		// });
 		return items.toArray(new TextItem[items.size()]);
 	}
 
-	private String getValidMail(String email) {
-
-		if (!UIUtils.isValidEmail(email)) {
-			Accounter.showError(Accounter.constants().invalidEmail());
-			return "";
-		} else
-			return email;
-
-	}
+	// private String getValidMail(String email) {
+	//
+	// if (!UIUtils.isValidEmail(email)) {
+	// // Accounter.showError(Accounter.constants().invalidEmail());
+	// return "";
+	// } else
+	// return email;
+	//
+	// }
 
 	@Override
 	protected ValidationResult validate() {
@@ -96,10 +91,17 @@ public class AddNewContactDialog extends BaseDialog<ClientContact> {
 			result.addError(nameItem, "Please enter the contact name");
 		}
 
+		if (emailItem.getValue().length() > 0) {
+			if (!UIUtils.isValidEmail(emailItem.getValue())) {
+				result.addError(emailItem, constants.invalidEmail());
+			}
+		}
+
 		if (!businessPhoneItem.getValue().isEmpty()) {
-			if (!UIUtils.isValidPhone(businessPhoneItem.getValue())){
+			if (!UIUtils.isValidPhone(businessPhoneItem.getValue())) {
 				result.addError(nameItem, constants.invalidBusinessPhoneVal());
-			businessPhoneItem.setValue("");}
+				businessPhoneItem.setValue("");
+			}
 		}
 		return result;
 
