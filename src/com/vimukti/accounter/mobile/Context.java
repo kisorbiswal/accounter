@@ -151,9 +151,14 @@ public class Context {
 			List<Date> dates = new ArrayList<Date>();
 			for (String string : inputs) {
 				if (StringUtils.isInteger(string)) {
-					int parseInt = Integer.parseInt(string);
-					integers.add(parseInt);
-					numbers.add(parseInt);
+					try {
+						int parseInt = Integer.parseInt(string);
+						integers.add(parseInt);
+						numbers.add(parseInt);
+					} catch (NumberFormatException e) {
+						// For phone number requirement.
+						strings.add(string);
+					}
 				} else if (StringUtils.isDouble(string)) {
 					double parseInt = Double.parseDouble(string);
 					doubles.add(parseInt);
