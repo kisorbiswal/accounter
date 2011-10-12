@@ -34,7 +34,7 @@ public class HistoryToken {
 			return;
 		}
 
-		split = split[2].split(":");
+		split = split[1].split(":");
 
 		String typeString = split[0];
 
