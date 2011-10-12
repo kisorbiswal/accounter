@@ -25,8 +25,8 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.CustomLabel;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.CustomLabel;
 import com.vimukti.accounter.web.client.ui.core.AccounterDialog;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 
@@ -173,8 +173,8 @@ public class SetupWizard extends VerticalPanel {
 
 			this.add(topPanel);
 
-			progressPanel.getElement().getParentElement().setClassName(
-					"progress_panel_hide");
+			progressPanel.getElement().getParentElement()
+					.setClassName("progress_panel_hide");
 			// adding buttons to button panel
 			// skipButton = new Button(Accounter.constants().skip());
 			backButton = new Button(Accounter.constants().back());
@@ -213,7 +213,8 @@ public class SetupWizard extends VerticalPanel {
 
 				@Override
 				public void onClick(ClickEvent event) {
-
+					gotoButton.setEnabled(false);
+					showLoadingImage();
 					Accounter.createCompanyInitializationService()
 							.initalizeCompany(preferences, selectedAccounts,
 									callback);
@@ -259,6 +260,13 @@ public class SetupWizard extends VerticalPanel {
 		}
 
 	}
+
+	private static native void showLoadingImage() /*-{
+		var parent = $wnd.document.getElementById('loadingWrapper');
+		var footer = $wnd.document.getElementById('mainFooter');
+		parent.style.visibility = 'visible';
+		footer.style.visibility = 'hidden';
+	}-*/;
 
 	/**
 	 * 
@@ -387,8 +395,8 @@ public class SetupWizard extends VerticalPanel {
 
 		progressPanel.add(progressTable);
 		progressTable.addStyleName("progress_panel_data");
-		progressPanel.getElement().getParentElement().setClassName(
-				"progress_panel_show");
+		progressPanel.getElement().getParentElement()
+				.setClassName("progress_panel_show");
 	}
 
 	private String[] getProgressLabels() {
@@ -422,8 +430,8 @@ public class SetupWizard extends VerticalPanel {
 
 	private void removeProgressPanel() {
 		progressPanel.remove(progressTable);
-		progressPanel.getElement().getParentElement().setClassName(
-				"progress_panel_hide");
+		progressPanel.getElement().getParentElement()
+				.setClassName("progress_panel_hide");
 	}
 
 	/**
