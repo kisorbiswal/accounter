@@ -262,28 +262,35 @@ public class DashboardManager extends Manager {
 
 	public ArrayList<Double> getExpensePortletValues(long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = null;
 
-		FinanceDate currentDate = new FinanceDate();
-
-		query = session.getNamedQuery("getExpenseTotalAmounts").setLong(
-				"companyId", companyId);
-
+		Double cashExpenseTotal = (Double) session
+				.getNamedQuery("getCashExpenseTotal")
+				.setLong("companyId", companyId).uniqueResult();
+		Double creditCardExpenseTotal = (Double) session
+				.getNamedQuery("getCreditCardExpenseTotal")
+				.setLong("companyId", companyId).uniqueResult();
+		Double employeeExpenseTotal = (Double) session
+				.getNamedQuery("getEmployeeExpenseTotal")
+				.setLong("companyId", companyId).uniqueResult();
+		double allExpensesTotal = (cashExpenseTotal != null ? cashExpenseTotal
+				: 0)
+				+ (creditCardExpenseTotal != null ? creditCardExpenseTotal : 0)
+				+ (employeeExpenseTotal != null ? employeeExpenseTotal : 0);
 		List<Double> gPoints = new ArrayList<Double>();
-		List list = query.list();
-		if (list != null) {
-			Object[] object = null;
-			Iterator iterator = list.iterator();
+		// List list = query.list();
+		// if (list != null) {
+		// Object[] object = null;
+		// Iterator iterator = list.iterator();
+		//
+		// while (iterator.hasNext()) {
+		// object = (Object[]) iterator.next();
 
-			while (iterator.hasNext()) {
-				object = (Object[]) iterator.next();
-
-				gPoints.add(object[2] == null ? 0 : (Double) object[2]);
-				gPoints.add(object[3] == null ? 0 : (Double) object[3]);
-				gPoints.add(object[4] == null ? 0 : (Double) object[4]);
-				gPoints.add(object[5] == null ? 0 : (Double) object[5]);
-			}
-		}
+		gPoints.add(cashExpenseTotal != null ? cashExpenseTotal : 0);
+		gPoints.add(creditCardExpenseTotal != null ? creditCardExpenseTotal : 0);
+		gPoints.add(employeeExpenseTotal != null ? employeeExpenseTotal : 0);
+		gPoints.add(allExpensesTotal);
+		// }
+		// }
 		return new ArrayList<Double>(gPoints);
 	}
 

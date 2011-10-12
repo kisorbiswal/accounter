@@ -5604,66 +5604,41 @@
 
 	</sql-query>
 
-
-	<sql-query name="getExpenseTotalAmounts">
+	<sql-query name="getCashExpenseTotal">
 		<query-param name="companyId" type="long" />
-		<return-scalar column="TYPE" type="long" />
-		<return-scalar column="EXPENSE_TYPE" type="string" />
 		<return-scalar column="CASH_EXPENSE_TOTAL" type="double" />
-		<return-scalar column="CREDIT_CARD_EXPENSE_TOTAL" type="double" />
-		<return-scalar column="EMPLOYEE_EXPENSE_TOTAL" type="double" />
-		<return-scalar column="ALL_EXPENSES_TOTAL" type="double" />
-
+		
 		SELECT
-		T.T_TYPE AS TYPE,
-
-		CASE
-		WHEN T.T_TYPE = 26 THEN
-		'Cash Expense'
-		WHEN
-		T.T_TYPE = 27 THEN
-		'Credit Card Expense'
-		WHEN T.T_TYPE = 28 THEN
-		'Employee Expense'
-		ELSE
-		'All Expenses'
-		END AS EXPENSE_TYPE,
-
-		(SELECT
-		SUM(T1.TOTAL) FROM TRANSACTION T1 WHERE T1.T_TYPE = 26 AND T1.IS_VOID
-		= FALSE)
-		AS CASH_EXPENSE_TOTAL,
-
-		(SELECT SUM(T1.TOTAL) FROM TRANSACTION
-		T1 WHERE T1.T_TYPE =27 AND T1.IS_VOID
-		= FALSE)
-		AS
-		CREDIT_CARD_EXPENSE_TOTAL,
-
-		(SELECT SUM(T1.TOTAL) FROM TRANSACTION T1
-		WHERE T1.T_TYPE =28 AND T1.IS_VOID
-		= FALSE)
-		AS EMPLOYEE_EXPENSE_TOTAL,
-
-		(SELECT SUM(T1.TOTAL) FROM TRANSACTION T1 WHERE T1.T_TYPE IN (26, 27,
-		28) AND
-		T1.IS_VOID = FALSE)
-		AS ALL_EXPENSES_TOTAL
-
-
-		FROM
-		TRANSACTION T
-
-		WHERE
-		T.T_TYPE IN (26, 27, 28) AND T.COMPANY_ID=:companyId
-
-		GROUP BY
-		T.T_TYPE
-
-		LIMIT 0,1
-
+		SUM(T.TOTAL) AS CASH_EXPENSE_TOTAL
+		FROM TRANSACTION T 
+		WHERE T.T_TYPE = 26 AND 
+		T.IS_VOID = FALSE AND T.COMPANY_ID=:companyId
+		LIMIT 1
 	</sql-query>
-
+	
+	<sql-query name="getCreditCardExpenseTotal">
+		<query-param name="companyId" type="long" />
+		<return-scalar column="CREDIT_CARD_EXPENSE_TOTAL" type="double" />
+		
+		SELECT
+		SUM(T.TOTAL) AS CREDIT_CARD_EXPENSE_TOTAL
+		FROM TRANSACTION T 
+		WHERE T.T_TYPE = 27 AND 
+		T.IS_VOID = FALSE AND T.COMPANY_ID=:companyId
+		LIMIT 1
+	</sql-query>
+	
+	<sql-query name="getEmployeeExpenseTotal">
+		<query-param name="companyId" type="long" />
+		<return-scalar column="EMPLOYEE_EXPENSE_TOTAL" type="double" />
+		
+		SELECT
+		SUM(T.TOTAL) AS EMPLOYEE_EXPENSE_TOTAL
+		FROM TRANSACTION T 
+		WHERE T.T_TYPE = 28 AND 
+		T.IS_VOID = FALSE AND T.COMPANY_ID=:companyId
+		LIMIT 1
+	</sql-query>
 
 	<sql-query name="getGraphPointsForCreditors">
 		<query-param name="companyId" type="long" />
