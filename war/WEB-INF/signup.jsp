@@ -33,6 +33,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 }, "Company ID shouldn't contain special characters");
 
 	$(document).ready(function() {
+		$('#submitButton').removeAttr('disabled');
 		$('#newsletter').attr('checked', true);
 		$('#mid-box4').attr('autocomplete', 'off');
 		$('#mid-box4').password_strength();
@@ -415,7 +416,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 		  <label>Yes, Subscribe me to Accounter Newsletter </input><b>(Optional)</b></label>
 	   </div>
 	   <div class="signup-submit">
-	      <input id="submitButton" type="submit" class="allviews-common-button" name="getstarted" value="Sign Up" tabindex="13" >
+	      <input id="submitButton" type="submit" disabled="disabled" class="allviews-common-button" name="getstarted" value="Sign Up" tabindex="13" >
 	   </div>
 	</form>
   </c:if>
