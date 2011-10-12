@@ -63,5 +63,6 @@
 	<classpathentry kind="lib" path="libs/smackx-jingle.jar"/>
 	<classpathentry kind="lib" path="libs/smackx.jar"/>
 	<classpathentry kind="lib" path="libs/openid4java-0.9.6.jar"/>
+	<classpathentry kind="lib" path="libs/hibernate-c3p0-3.6.6.Final.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
