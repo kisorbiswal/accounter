@@ -1,6 +1,8 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.mobile.ActionNames;
@@ -17,8 +19,6 @@ import com.vimukti.accounter.mobile.ResultList;
  * 
  */
 public class AccountsListCommand extends AbstractTransactionCommand {
-
-	private static final String ACTIVE = "active";
 
 	@Override
 	public String getId() {
@@ -38,6 +38,7 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 		Result result = null;
 
 		result = createAccountsList(context);
+		markDone();
 		return result;
 	}
 
@@ -83,7 +84,8 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 		ResultList accountsList = new ResultList("accountsList");
 		result.add("Accounts List");
 		int num = 0;
-		List<Account> accounts = getAccounts(isActive,context.getCompany());
+		Set<Account> accounts2 = context.getCompany().getAccounts();// getAccounts(isActive,context.getCompany());
+		List<Account> accounts = new ArrayList<Account>(accounts2);
 		for (Account account : accounts) {
 			accountsList.add(createAccountRecord(account));
 			num++;
@@ -98,11 +100,13 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 		}
 		CommandList commandList = new CommandList();
 		commandList.add("Create");
+		commandList.add("Edit");
+		commandList.add("Delete");
+		commandList.add("More");
 
 		result.add(message.toString());
 		result.add(accountsList);
 		result.add(commandList);
-		result.add("Type for Account");
 
 		return result;
 
@@ -113,10 +117,6 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 	 */
 	protected Record createAccountRecord(Account account) {
 		Record record = new Record(account);
-		record.add("Number", account.getNumber());
-		record.add("Name", account.getName());
-		record.add("Type", account.getType());
-		record.add("Balance", account.getCurrentBalance());
 		return record;
 	}
 
