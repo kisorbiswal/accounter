@@ -198,7 +198,9 @@ public interface AccounterConstants extends Constants {
 
 	public String agency();
 
-	public String aItemGroupAlreadyExistswiththisname();
+	public String anItemGroupAlreadyExistswiththisname();
+	
+	public String anItemAlreadyExistswiththisname();
 
 	public String all();
 

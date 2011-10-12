@@ -876,7 +876,7 @@ public class ItemView extends BaseView<ClientItem> {
 		if (clientItem != null
 				&& !(this.getData().getID() == clientItem.getID())) {
 			result.addError(nameText, Accounter.constants()
-					.aItemGroupAlreadyExistswiththisname());
+					.anItemAlreadyExistswiththisname());
 			return result;
 		}
 

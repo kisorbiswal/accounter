@@ -142,7 +142,7 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 			ClientItemGroup itemGroupByName = company.getItemGroupByName(name);
 			if (itemGroupByName != null) {
 				result.addError(this, Accounter.constants()
-						.aItemGroupAlreadyExistswiththisname());
+						.anItemGroupAlreadyExistswiththisname());
 			}
 		}
 
