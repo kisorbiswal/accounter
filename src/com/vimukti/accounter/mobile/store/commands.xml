@@ -22,6 +22,12 @@
 		<alias>Create Account</alias>
 		<alias>Add Account</alias>
 		<alias>New Account</alias>
+		<alias>Create</alias>
+	</command>
+	<command clazz="AccountsListCommand" name="New Account">
+		<alias>Accounts</alias>
+		<alias>Account List</alias>
+		<alias>ListOfAccounts</alias>
 	</command>
 	<command clazz="APAgingDetailReportCommand" name="A/P Aging Detail">
 		<alias>A/P Aging Detail Report</alias>
@@ -432,7 +438,7 @@
 		<alias>Create Supplier</alias>
 		<alias>New Vendor </alias>
 		<alias>Add Vendor </alias>
-		<alias>create Vendor </alias>
+		<alias>Create New Vendor</alias>
 	</command>
 	<command clazz="VendorPaymentsCommand" name="Vendor Payments">
 		<alias>Vendor Payments</alias>
