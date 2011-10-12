@@ -102,9 +102,11 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 
 		emailBody = new TextAreaItem();
 		emailBody.setMemo(true, this);
-		emailBody.setValue(Global.get().messages().invoiceMailMessage(
-				Global.get().Customer(), this.invoice.getNumber(),
-				invoice.getDate()));
+		emailBody.setValue(Global
+				.get()
+				.messages()
+				.invoiceMailMessage(Global.get().Customer(),
+						this.invoice.getNumber(), invoice.getDate()));
 		emailBody.setWidth("100%");
 		emailBody.setHeight(200);
 
@@ -225,6 +227,7 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 				.toString() : "";
 		String body = emailBody.getValue().toString() != null ? emailBody
 				.getValue().toString() : "";
+		body = body.replaceAll("\n", "<br/>");
 
 		Accounter.createHomeService().sendPdfInMail(
 				((ClientInvoice) invoice).getID(),
@@ -239,20 +242,26 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 		ValidationResult result = super.validate();
 		if (from.trim().length() == 0
 				&& toAddress.getValue().trim().length() == 0) {
-			result.addError(fromAddcombo, Accounter.messages().pleaseEnter(
-					Accounter.constants().to() + " & "
-							+ Accounter.constants().from()));
+			result.addError(
+					fromAddcombo,
+					Accounter.messages().pleaseEnter(
+							Accounter.constants().to() + " & "
+									+ Accounter.constants().from()));
 		} else if (UIUtils.isValidEmail(from)
 				&& UIUtils.isValidMultipleEmailIds(toAddress.getValue()
 						.toString())) {
 			updateControls();
 		} else {
 			if (from.trim().length() == 0) {
-				result.addError(fromAddcombo, Accounter.messages().pleaseEnter(
-						Accounter.constants().from()));
+				result.addError(
+						fromAddcombo,
+						Accounter.messages().pleaseEnter(
+								Accounter.constants().from()));
 			} else if (toAddress.getValue().trim().length() == 0) {
-				result.addError(toAddress, Accounter.messages().pleaseEnter(
-						Accounter.constants().to()));
+				result.addError(
+						toAddress,
+						Accounter.messages().pleaseEnter(
+								Accounter.constants().to()));
 			} else
 				result.addError(from, Accounter.constants().invalidEmail());
 
