@@ -49,7 +49,7 @@ public class ChangeTracker {
 	}
 
 	public static IAccounterCore[] getChanges() {
-		return clientobjects.toArray(new IAccounterCore[1]);
+		return clientobjects.toArray(new IAccounterCore[clientobjects.size()]);
 	}
 
 	public static void clearChanges() {
