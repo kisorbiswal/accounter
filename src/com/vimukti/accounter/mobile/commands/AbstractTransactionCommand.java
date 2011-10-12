@@ -516,15 +516,13 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		Object contactObj = context.getSelection(CONTACTS);
 		Requirement contactReq = get("contact");
 		Contact contact = (Contact) contactReq.getValue();
-		if (selection == contact) {
-			return contactList(context, payee, contact);
-
-		}
 		if (contactObj != null) {
 			contact = (Contact) contactObj;
 			contactReq.setValue(contact);
 		}
-
+		if (selection == contact) {
+			return contactList(context, payee, contact);
+		}
 		Record contactRecord = new Record(contact);
 		contactRecord.add("Name", "Customer Contact");
 		contactRecord.add("Value", contact.getName());
