@@ -4602,7 +4602,6 @@
 		WHERE
 		P.TYPE = 1 AND
 		P.COMPANY_ID=:companyId
-		AND T.COMPANY_ID =:companyId
 		GROUP BY T.ID, P.NAME
 		ORDER BY P.NAME
 
@@ -4862,7 +4861,6 @@
 
 		P.TYPE IN
 		(2, 4) AND P.COMPANY_ID=:companyId
-		AND T.COMPANY_ID=:companyId
 		GROUP BY T.ID, P.NAME
 		ORDER BY P.NAME
 	</sql-query>
