@@ -28,7 +28,7 @@ public class OpenCompanyServlet extends BaseServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	protected static final Log logger = LogFactory.getLog(LoginServlet.class);
+	protected static final Log logger = LogFactory.getLog(OpenCompanyServlet.class);
 	private static final String REDIRECT_PAGE = "/WEB-INF/Redirect.jsp";
 
 	@Override
