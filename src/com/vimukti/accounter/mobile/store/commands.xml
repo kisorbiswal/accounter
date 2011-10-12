@@ -355,6 +355,10 @@
 		<alias>New Shipping Term</alias>
 	</command>
 
+	<command clazz="NewSalesPersonCommand" name="New salesPerson">
+		<alias>Create SalesPerson</alias>
+	</command>
+
 	<command clazz="NewCustomerCommand" name="New Customer">
 		<alias>create Customer</alias>
 		<alias>Add Customer</alias>
