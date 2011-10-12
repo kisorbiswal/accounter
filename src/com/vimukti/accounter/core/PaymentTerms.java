@@ -16,6 +16,13 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 public class PaymentTerms extends CreatableObject implements
 		IAccounterServerCore, INamedObject {
 
+	
+
+	@Override
+	public String toString() {
+		return this.name;
+	}
+
 	/**
 	 * 
 	 */

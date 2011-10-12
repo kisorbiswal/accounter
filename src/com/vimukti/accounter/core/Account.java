@@ -1126,7 +1126,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public String toString() {
-		return "Account Name: " + this.name + "Balance: " + this.totalBalance;
+		return "Account Name: " + this.name + "    Balance: " + this.totalBalance;
 	}
 
 	public boolean equals(Account account) {

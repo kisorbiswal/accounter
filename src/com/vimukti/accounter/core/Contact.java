@@ -146,4 +146,15 @@ public class Contact implements IAccounterServerCore, Lifecycle {
 		this.version = version;
 	}
 
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		// TODO Auto-generated method stub
+		return super.clone();
+	}
+
+	@Override
+	public String toString() {
+		return "Contact Name:" + this.name + " Email:" + this.email;
+	}
+
 }

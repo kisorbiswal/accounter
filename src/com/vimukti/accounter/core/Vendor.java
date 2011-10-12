@@ -504,7 +504,7 @@ public class Vendor extends Payee {
 	@Override
 	public String toString() {
 
-		return this.name;
+		return "Vendor Name:" + this.name + "  Balance:" + this.balance;
 	}
 
 	public boolean isTdsApplicable() {
