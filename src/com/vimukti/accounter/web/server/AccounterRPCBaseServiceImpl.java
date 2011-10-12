@@ -121,6 +121,9 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 			HttpServletRequest request) {
 		Session session = HibernateUtil.getCurrentSession();
 		String serverCompanyID = getCookie(request, BaseServlet.COMPANY_COOKIE);
+		if (serverCompanyID == null) {
+			return false;
+		}
 		Company company = (Company) session.get(Company.class,
 				Long.valueOf(serverCompanyID));
 		if (company == null) {
