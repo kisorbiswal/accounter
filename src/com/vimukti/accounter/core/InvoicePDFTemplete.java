@@ -127,8 +127,6 @@ public class InvoicePDFTemplete implements PrintTemplete {
 					if (contact.getBusinessPhone().trim().length() > 0)
 						phone = contact.getBusinessPhone();
 
-					if (contact.getEmail().trim().length() > 0)
-						email = contact.getEmail();
 				}
 			}
 			// setting billing address
@@ -144,15 +142,14 @@ public class InvoicePDFTemplete implements PrintTemplete {
 						+ forUnusedAddress(bill.getStateOrProvinence(), false)
 						+ forUnusedAddress(bill.getZipOrPostalCode(), false)
 						+ forUnusedAddress(bill.getCountryOrRegion(), false)
-						+ forUnusedAddress("Phone : " + phone, false)
-						+ forUnusedAddress("Email : " + email, false);
+						+ forUnusedAddress("Phone : " + phone, false);
 
 				if (billAddress.trim().length() > 0) {
-					t.setVariable("billingAddress", "To<br/>" + billAddress);
+					t.setVariable("billingAddress", billAddress);
 					t.addBlock("billhead");
 				}
 			} else {
-				t.setVariable("billingAddress", "To<br/>" + customerName);
+				t.setVariable("billingAddress", customerName);
 				t.addBlock("billhead");
 			}
 
