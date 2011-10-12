@@ -72,7 +72,9 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 	}
 
 	private Result createOptionalRequirement(Context context) {
-		// context.setAttribute(INPUT_ATTR, "optional");
+		if (context.getAttribute(INPUT_ATTR) == null) {
+			context.setAttribute(INPUT_ATTR, "optional");
+		}
 
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
