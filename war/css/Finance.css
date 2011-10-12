@@ -108,7 +108,7 @@ html,body,.myacc-form1 td input[type=text],.gridBodyContainer,.gridHeader tr td 
 .cross-dialog,.refresh,.link,.loading,.Image-action td table,.blue-month-line,.blue-day-grid,.close,.gwt-Tree .gwt-TreeItem,
 .gridBody tbody,.gridHeader,.imageLink,a,.image-button,.falseHyperlink,.handCursor,.widget img,.gwt-DecoratedTabBar .tabMiddleCenter,
 .users-grid tr:hover,.logo,.general-image,.helpBar,.calendar-picker,.custom-button,.gwt-DecoratedTabBar .tabMiddleCenter,
-#contactable,form#contactForm .submit,.gwt-Button{
+#contactable,form#contactForm .submit,.gwt-Button,.gwt-MenuBar table tr,.Empty-text{
 	cursor: pointer;
 }
 .no-title td.td01,.main-w,td.td11,td.td10,.users-listGrid .gridBodyContainer .onsort,.upload-logo,.listgrid,
@@ -257,7 +257,7 @@ textarea[disabled],.dropdown-disabled input[disabled],.dropdown-disabled input[d
 .refer_panel td:FIRST-CHILD,.select_grid td:FIRST-CHILD,.upload-logo td{
 	vertical-align: middle !important;
 }
-input[type="text"],textarea,#mainFooter a,#mainFooter span,.view_help_panel td:FIRST-CHILD table td,.dashboard_label,.dashboard_label td,
+input[type="text"],textarea,#mainFooter a,#mainFooter span,.view_help_panel td:FIRST-CHILD table td,.dashboard_label td,
 .helpdialog .dialogTopCenter table td,.no-title .main-w,.gridBody1 .gwt-HTML,.group-toolbar,.widget img{
 	padding:0 5px;
 }
@@ -299,8 +299,9 @@ html,body,#overlay{
 	border-bottom: 1px solid #2A8EBF;
 }
 .highlightedFormItem {
-	border: 1px solid #FF0000;
+	border: 1px solid #FF0000 !important;
     width: 184px !important;
+    height:24px !important;
 }
 .gwt-DialogBox,.gwt-PopupPanel,.gwt-DecoratedPopupPanel {
 	z-index: 500000;
@@ -347,7 +348,7 @@ input[type="checkbox"] {
 .treeCellIcon {
 	padding-left: 4px;
 }
-.fTable-noButton .fTablePortlet tr td{
+.fTable-noButton .fTablePortlet tr td,.fTablePortlet tr td{
 	padding-left:4%;
 }
 .gwt-Tree .gwt-TreeItem-selected {
@@ -561,7 +562,7 @@ div.gridBodyContainer,.action-panel .panelBody .panelContent,.action-panel,.scro
 .borders {
 	border-top: 1px solid #000;
 }
-.editTable .editheader td,.borders,form#contactForm .submit,form#contactForm input, textarea{
+.editTable .editheader td,.borders,form#contactForm .submit,form#contactForm input, textarea,.dashboard_label{
 	padding:5px;
 }
 .borders td,.borders {
@@ -879,7 +880,7 @@ iframe,.address div {
 .MENU_BAR_BG,.button-expense {
 	margin-top:18px;
 }
-.help-panel tr td table td,.service-item-group td,.new_service_table td,.purchase_info_form td {
+.help-panel tr td table td,.service-item-group td,.new_service_table td,.purchase_info_form td,.companyInfoPanel .gwt-Label{
 	text-align: left;
 }
 .due_form_table td:FIRST-CHILD {
