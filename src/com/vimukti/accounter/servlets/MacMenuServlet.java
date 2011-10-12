@@ -419,7 +419,7 @@ public class MacMenuServlet extends BaseServlet {
 		separator(bankingValues);
 		menu(bankingValues, iGlobal.constants().writeCheck(),
 				"company/accounter#writeCheck");
-		menu(bankingValues, iGlobal.constants().depositTransferFunds(),
+		menu(bankingValues, iGlobal.constants().makeDeposit(),
 				"company/accounter#depositTransferFunds");
 		menu(bankingValues, iGlobal.constants().payBills(),
 				"company/accounter#payBill");
