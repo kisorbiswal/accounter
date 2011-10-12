@@ -159,4 +159,11 @@ public abstract class BaseView<T extends IAccounterCore> extends
 	public void prepareForQuickAdd(String text) {
 		quickAddText = text;
 	}
+
+	@Override
+	protected void changeButtonBarMode(boolean disable) {
+		if (buttonBar != null) {
+			buttonBar.setDisabled(disable);
+		}
+	}
 }

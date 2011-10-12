@@ -361,6 +361,7 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 	 * @param b
 	 */
 	public void onSave(boolean reopen) {
+		changeButtonBarMode(true);
 		this.saveAndClose = !reopen;
 		for (Object errorSource : lastErrorSourcesFromValidation) {
 			clearError(errorSource);
@@ -375,6 +376,7 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 			}
 		}
 		if (!errorsMap.isEmpty()) {
+			changeButtonBarMode(false);
 			return;
 		}
 		if (validationResult.haveWarnings()) {
@@ -390,11 +392,13 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 
 						@Override
 						public boolean onNoClick() {
+							changeButtonBarMode(false);
 							return true;
 						}
 
 						@Override
 						public boolean onCancelClick() {
+							changeButtonBarMode(false);
 							return true;
 						}
 					});
@@ -402,6 +406,16 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 
 			saveAndUpdateView();
 		}
+	}
+
+	/**
+	 * This method disable or enable the button bar according to the arg. True
+	 * for disable.
+	 * 
+	 * @param disable
+	 */
+	protected void changeButtonBarMode(boolean disable) {
+		// implement in Sub classes if necessary.
 	}
 
 	/**
