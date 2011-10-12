@@ -430,8 +430,9 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Item item = (Item) clientObject;
-		Query query = session.getNamedQuery("getItem.by.Name").setString(
-				"name", item.name).setEntity("company", item.getCompany());
+		Query query = session.getNamedQuery("getItem.by.Name")
+				.setString("name", item.name)
+				.setEntity("company", item.getCompany());
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			Item newItem = (Item) list.get(0);
@@ -452,5 +453,10 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 
 	public Measurement getMeasurement() {
 		return measurement;
+	}
+
+	@Override
+	public String toString() {
+		return getName();
 	}
 }
