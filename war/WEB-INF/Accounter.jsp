@@ -203,8 +203,8 @@
 	<div id="mainWindow"></div>
 			<script type="text/javascript" charset="utf-8">
 			function MacReload(){
-				 if(macclient){
-				 	macclient.reloadMenu();
+				 if(window.macclient){
+				 	window.macclient.reloadMenu();
 				 }
 			}
   		</script>
