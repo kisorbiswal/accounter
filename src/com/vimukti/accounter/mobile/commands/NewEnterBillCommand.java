@@ -80,7 +80,13 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 				}
 			}
 		}
+
 		result = vendorRequirement(context);
+		if (result != null) {
+			return result;
+		}
+
+		result = accountsRequirement(context, "accounts");
 		if (result != null) {
 			return result;
 		}
@@ -107,14 +113,21 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		Vendor vendor = (Vendor) get(VENDOR).getValue();
 		enterBill.setVendor(vendor);
 		Date date = get(DATE).getValue();
-		enterBill.setDate(new FinanceDate(date));
+		if (date != null) {
+			enterBill.setDate(new FinanceDate(date));
+		} else {
+			enterBill.setDate(new FinanceDate(System.currentTimeMillis()));
+		}
 
 		enterBill.setType(Transaction.TYPE_ENTER_BILL);
 
+		enterBill.setCompany(company);
 		String number = get("number").getValue();
-		enterBill.setNumber(number);
+		if (number != null)
+			enterBill.setNumber(number);
 
 		List<TransactionItem> items = get("items").getValue();
+
 		enterBill.setTransactionItems(items);
 
 		enterBill.setTotal(getTransactionTotal(items, company));
@@ -141,7 +154,7 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 	}
 
 	private Result createOptionalResult(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
+		// context.setAttribute(INPUT_ATTR, "optional");
 
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
@@ -179,7 +192,6 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		vendorRecord.add("Value", vendor.getName());
 
 		list.add(vendorRecord);
-
 		Result result = dateRequirement(context, list, selection);
 		if (result != null) {
 			return result;
@@ -188,7 +200,6 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-
 		result = paymentTermRequirement(context, list, selection);
 		if (result != null) {
 			return result;
@@ -221,7 +232,7 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		result.add(list);
 
 		result.add("Items:-");
-		ResultList items = new ResultList("transactionItems");
+		ResultList items = new ResultList("items");
 		for (TransactionItem item : transItems) {
 			Record itemRec = new Record(item);
 			itemRec.add("Name", item.getItem().getName());
@@ -247,18 +258,19 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 		Requirement req = get(PHONE);
 		String phoneNumber = (String) req.getValue();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(PHONE)) {
-			String input = context.getSelection(TEXT);
-			if (input == null) {
-				input = context.getString();
+		if (attribute != null)
+			if (attribute.equals(PHONE)) {
+				String input = context.getSelection(TEXT);
+				if (input == null) {
+					input = context.getString();
+				}
+				phoneNumber = input;
+				req.setValue(phoneNumber);
 			}
-			phoneNumber = input;
-			req.setValue(phoneNumber);
-		}
 
 		if (selection == phoneNumber) {
-			context.setAttribute(attribute, PHONE);
-			return text(context, PHONE, phoneNumber);
+			context.setAttribute(INPUT_ATTR, PHONE);
+			return text(context, "Enter Phone Number", phoneNumber);
 		}
 
 		Record phoneNumberRecord = new Record(phoneNumber);
