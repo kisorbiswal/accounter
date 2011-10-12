@@ -82,7 +82,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		Requirement itemsReq = get("items");
 		List<TransactionItem> transactionItems = context.getSelections("items");
 		if (!itemsReq.isDone()) {
-			if (transactionItems.size() > 0) {
+			if (transactionItems != null && transactionItems.size() > 0) {
 				itemsReq.setValue(transactionItems);
 			} else {
 				return items(context);
@@ -368,6 +368,9 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		}
 		Requirement itemsReq = get("items");
 		List<TransactionItem> transItems = itemsReq.getValue();
+		if (transItems == null) {
+			transItems = new ArrayList<TransactionItem>();
+		}
 		List<Item> availableItems = new ArrayList<Item>();
 		for (TransactionItem transactionItem : transItems) {
 			availableItems.add(transactionItem.getItem());
@@ -532,7 +535,9 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected Record creatItemRecord(Item item) {
 		Record record = new Record(item);
 		record.add("Name", item.getName());
-		record.add("Tax Code", item.getTaxCode().getName());
+		if (item.getTaxCode() != null) {
+			record.add("Tax Code", item.getTaxCode().getName());
+		}
 		return record;
 	}
 
