@@ -208,7 +208,8 @@
 				 }
 			}
   		</script>
-	<script type="text/javascript" language="javascript" src="/accounter/accounter.nocache.js"></script>
+	<script type="text/javascript" language="javascript" src="/accounter.client/accounter.client.nocache.js"></script>
+
 	<div id="mainFooter" style="visibility:hidden" >
 	    <div>
 	       <span>&copy 2011 Vimukti Technologies Pvt Ltd</span> |

@@ -38,6 +38,21 @@
 			<fileset dir="./war/accounter" />
 		</delete>-->
 	</target>
+	
+	<target name="compress">
+		<foreach target="compress_file" param="file">
+			<path>
+				<fileset dir="./war/" id="outputhtml">
+					<include name="**/*.js" />
+					<include name="**/*.css" />
+					<include name="**/*.html" />			
+				</fileset>
+			</path>
+		</foreach>
+	</target>
+	<target name="compress_file" description="Compress file and make gz file">
+		<gzip src="${file}" zipfile="${file}.gz" />
+	</target>
 
 	<!--Compiling-->
 	<target name="compile" depends="check-gwtpath" if="gwt.present">
@@ -61,7 +76,7 @@
 	</target>
 
 
-	<target name="setup" depends="">
+	<target name="setup" depends="compress">
 		<!--<mkdir dir="${classes.dir}" />
 
 		<mkdir dir="${classes.dir}/war" />

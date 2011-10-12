@@ -302,7 +302,7 @@
 			com.vimukti.accounter.web.server.AccounterGETServiceImpl
 		</servlet-class>
 	</servlet>
-	
+
 	<servlet-mapping>
 		<servlet-name>iAccounterGetImpl</servlet-name>
 		<url-pattern>/do/accounter/get/rpc/service </url-pattern>
@@ -430,22 +430,54 @@
 		<servlet-name>downloadFileFromFile</servlet-name>
 		<url-pattern>/do/downloadFileFromFile</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>default</servlet-name>
+		<servlet-class>
+			org.eclipse.jetty.servlet.DefaultServlet
+		</servlet-class>
+		<init-param>
+			<param-name>
+				gzip
+			</param-name>
+			<param-value>true</param-value>
+		</init-param>
 
+
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/accounter.client/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/jscripts/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/css/*</url-pattern>
+	</servlet-mapping>
 	<filter>
 		<filter-name>GzipFilter</filter-name>
 		<filter-class>com.vimukti.accounter.utils.GzipFilter</filter-class>
 		<init-param>
 			<param-name>mimeTypes</param-name>
-			<param-value>text/plain,text/xml,application/xhtml+xml,text/css,application/javascript,image/svg+xml
+			<param-value>text/plain,text/html,text/xml,application/xhtml+xml,text/css,application/javascript,image/svg+xml
 			</param-value>
 		</init-param>
 	</filter>
-	<!-- <filter-mapping> -->
-	<!-- <filter-name>GzipFilter</filter-name> -->
-	<!-- <url-pattern>*</url-pattern> -->
-	<!-- NEED TO ADD MORE PATTERNS [EXCEPT COMET] -->
-	<!-- </filter-mapping> -->
-
+	<filter-mapping>
+		<filter-name>GzipFilter</filter-name>
+		<url-pattern>/main/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>GzipFilter</filter-name>
+		<url-pattern>/company/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>GzipFilter</filter-name>
+		<url-pattern>/site/*</url-pattern>
+	</filter-mapping>
 
 	<filter>
 		<filter-name>gwtCacheControlFilter</filter-name>
@@ -479,13 +511,13 @@
 		<filter-name>ServletLocaleFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
+
 	<filter>
 		<filter-name>MainServerFilter</filter-name>
 		<filter-class>com.vimukti.accounter.servlets.MainServerFilter
 		</filter-class>
 	</filter>
-	
+
 	<filter>
 		<filter-name>ServerMaintananceFilter</filter-name>
 		<filter-class>com.vimukti.accounter.servlets.ServerMaintainanceFilter
@@ -496,7 +528,7 @@
 		<filter-name>MainServerFilter</filter-name>
 		<url-pattern>/main/*</url-pattern>
 	</filter-mapping>
-	
+
 	<filter-mapping>
 		<filter-name>ServerMaintananceFilter</filter-name>
 		<url-pattern>/*</url-pattern>
@@ -521,7 +553,7 @@
 		<param-name>version</param-name>
 		<param-value>1.0.1</param-value>
 	</context-param>
-	
+
 	<servlet>
 		<servlet-name>maintanance</servlet-name>
 		<servlet-class>com.vimukti.accounter.servlets.MaintananceServlet
@@ -531,29 +563,29 @@
 		<servlet-name>maintanance</servlet-name>
 		<url-pattern>/main/maintanance</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>adminlogin</servlet-name>
 		<servlet-class>com.vimukti.accounter.admin.server.AdminLoginServlet
 		</servlet-class>
-	</servlet> 
-		<servlet-mapping>
+	</servlet>
+	<servlet-mapping>
 		<servlet-name>adminlogin</servlet-name>
 		<url-pattern>/adminlogin</url-pattern>
 	</servlet-mapping>
-	
-	
+
+
 
 	<servlet>
 		<servlet-name>adminhome</servlet-name>
 		<servlet-class>com.vimukti.accounter.admin.server.AdminHomeServlet
 		</servlet-class>
-	</servlet> 
-		<servlet-mapping>
+	</servlet>
+	<servlet-mapping>
 		<servlet-name>adminhome</servlet-name>
 		<url-pattern>/adminhome</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>adminserviceimpl</servlet-name>
 		<servlet-class>
@@ -564,17 +596,17 @@
 		<servlet-name>adminserviceimpl</servlet-name>
 		<url-pattern>/do/admin/crud/rpc/service</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>adminlogout</servlet-name>
 		<servlet-class>com.vimukti.accounter.admin.server.AdminLogoutServlet
 		</servlet-class>
-	</servlet> 
-		<servlet-mapping>
+	</servlet>
+	<servlet-mapping>
 		<servlet-name>adminlogout</servlet-name>
 		<url-pattern>/adminlogout</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>AdminHomeViewImpl
 		</servlet-name>
