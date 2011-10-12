@@ -526,7 +526,7 @@ public abstract class AbstractCommand extends Command {
 		if (attribute.equals(ORDER_NO)) {
 			String order = context.getSelection(NUMBER);
 			if (order == null) {
-				order = context.getString();
+				order = context.getNumber();
 			}
 			orderNo = order;
 			req.setValue(orderNo);
@@ -550,7 +550,7 @@ public abstract class AbstractCommand extends Command {
 		Requirement dateReq = get(DATE);
 		Date transDate = (Date) dateReq.getValue();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(DATE)) {
+		if (attribute != null && attribute.equals(DATE)) {
 			Date date = context.getSelection(DATE);
 			if (date == null) {
 				date = context.getDate();
@@ -584,7 +584,7 @@ public abstract class AbstractCommand extends Command {
 			}
 		}
 
-		return null;
+		return result;
 	}
 
 	protected Result paymentMethodRequirement(Context context, ResultList list,
@@ -689,8 +689,11 @@ public abstract class AbstractCommand extends Command {
 
 	protected Result viewTypeRequirement(Context context, ResultList list,
 			Object selection) {
-		Object viewType = context.getSelection(VIEW_BY);
+		Object viewType = context.getSelection("viewslist");
 		Requirement viewReq = get(VIEW_BY);
+		if (viewReq == null) {
+			return null;
+		}
 		String view = viewReq.getValue();
 
 		if (selection == view) {
