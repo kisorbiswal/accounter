@@ -141,8 +141,8 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 		else
 			viewSelect.setComboItem(OPEN);
 
-//		if (UIUtils.isMSIEBrowser())
-//			viewSelect.setWidth("105px");
+		// if (UIUtils.isMSIEBrowser())
+		// viewSelect.setWidth("105px");
 
 		viewSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -171,8 +171,8 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 		dateRangeSelector.setDefaultValue(ALL);
 
 		dateRangeSelector.setComboItem(ALL);
-//		if (UIUtils.isMSIEBrowser())
-//			dateRangeSelector.setWidth("105px");
+		// if (UIUtils.isMSIEBrowser())
+		// dateRangeSelector.setWidth("105px");
 
 		dateRangeSelector
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -205,9 +205,10 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 						&& DecimalUtil.isGreaterThan(invoice.getBalance(), 0)
 						&& invoice.getDueDate() != null
 						&& (invoice.getStatus() != ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED)
-						&& !invoice.isVoided())
+						&& !invoice.isVoided()) {
 					invoice.setPrint(false);
-				grid.addData(invoice);
+					grid.addData(invoice);
+				}
 				continue;
 
 			} else if (text.equals(OVER_DUE)) {
@@ -216,24 +217,27 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 						&& invoice.getDueDate() != null
 						&& (invoice.getDueDate().compareTo(
 								new ClientFinanceDate()) < 0)
-						&& !invoice.isVoided())
+						&& !invoice.isVoided()) {
 					invoice.setPrint(false);
-				grid.addData(invoice);
+					grid.addData(invoice);
+				}
 				continue;
 			} else if (text.equals(VOID)) {
 				if (invoice.isVoided()
 				// && !invoice.isDeleted()
-				)
+				) {
 					invoice.setPrint(false);
-				grid.addData(invoice);
+					grid.addData(invoice);
+				}
 				continue;
 			} else if (text.equals(ALL)) {
 				invoice.setPrint(false);
 				grid.addData(invoice);
 			} else if (text.equals(DRAFT)) {
-				if (invoice.getSaveStatus() == ClientTransaction.STATUS_DRAFT)
+				if (invoice.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
 					invoice.setPrint(false);
-				grid.addData(invoice);
+					grid.addData(invoice);
+				}
 			}
 		}
 
