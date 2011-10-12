@@ -3,6 +3,10 @@
  */
 package com.vimukti.accounter.mobile.utils;
 
+import java.text.ParseException;
+
+import com.ibm.icu.text.SimpleDateFormat;
+
 public class StringUtils {
 
 	public static boolean isInteger(String string) {
@@ -14,7 +18,16 @@ public class StringUtils {
 	}
 
 	public static boolean isDate(String string) {
-		return false;
+		SimpleDateFormat d = new SimpleDateFormat("dd/MM/yyyy");
+		try {
+			d.parse(string);
+			return true;
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+		//	e.printStackTrace();
+			return false;
+		}
+
 	}
 
 	public static String[] getSubStrings(String input) {
