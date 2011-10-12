@@ -295,7 +295,8 @@ public class CreditCardChargeView extends
 									.getNetAmount()));
 					vatTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal() - transaction.getNetAmount()));
+									.getTotal()
+									- transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -400,7 +401,8 @@ public class CreditCardChargeView extends
 		// labeldateNoLayout.add(titlelabel);
 		labeldateNoLayout.add(regPanel);
 		labeldateNoLayout.setCellHorizontalAlignment(regPanel, ALIGN_RIGHT);
-
+		if (!isTaxPerDetailLine())
+			taxCodeSelect = createTaxCodeSelectItem();
 		vendorNameSelect = new VendorCombo(Global.get().messages().vendorName(
 				Global.get().Vendor()));
 		vendorNameSelect.setHelpInformation(true);
@@ -418,6 +420,15 @@ public class CreditCardChargeView extends
 									.getPaymentMethod());
 							payMethSelect.setSelected(paymentMethod);
 						}
+						long code = selectedVendor.getTAXCode();
+						if (taxCodeSelect != null) {
+							if (code == 0)
+								code = Accounter.getCompany()
+										.getDefaultTaxCode();
+							taxCodeSelect.setComboItem(getCompany().getTAXCode(
+									code));
+						}
+
 						contactCombo.setDisabled(false);
 						addPhonesContactsAndAddress();
 						initContacts(selectItem);
@@ -640,8 +651,6 @@ public class CreditCardChargeView extends
 			vPanel.add(totalForm);
 			botPanel.add(memoForm);
 			if (!isTaxPerDetailLine()) {
-				taxCodeSelect = createTaxCodeSelectItem();
-				// taxCodeSelect.setVisible(isInViewMode());
 				DynamicForm form = new DynamicForm();
 				form.setFields(taxCodeSelect);
 				botPanel.add(form);
@@ -729,8 +738,8 @@ public class CreditCardChargeView extends
 		listforms.add(totForm);
 		initViewType();
 
-//		if (UIUtils.isMSIEBrowser())
-//			resetFormView();
+		// if (UIUtils.isMSIEBrowser())
+		// resetFormView();
 
 		if (isInViewMode()) {
 			payFrmSelect.setComboItem(getCompany().getAccount(
@@ -749,7 +758,8 @@ public class CreditCardChargeView extends
 		updateTransaction();
 
 		if (isTrackTax())
-			transaction.setNetAmount(getAmountInBaseCurrency(netAmount.getAmount()));
+			transaction.setNetAmount(getAmountInBaseCurrency(netAmount
+					.getAmount()));
 		// creditCardCharge.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 		// .getValue());
 

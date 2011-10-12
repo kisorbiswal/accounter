@@ -89,7 +89,8 @@ public class CashExpenseView extends
 		// Setting Pay From Account
 		transaction
 				.setPayFrom(payFromCombo.getSelectedValue() != null ? payFromCombo
-						.getSelectedValue().getID() : 0);
+						.getSelectedValue().getID()
+						: 0);
 
 		// Setting Check number
 		transaction.setCheckNumber(checkNo.getValue().toString());
@@ -129,8 +130,8 @@ public class CashExpenseView extends
 
 		result.add(vendorForm.validate());
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(
-				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(deliveryDateItem
+				.getEnteredDate(), this.transactionDate)) {
 			result.addError(deliveryDateItem, Accounter.constants().the()
 					+ " "
 					+ Accounter.constants().deliveryDate()
@@ -141,8 +142,8 @@ public class CashExpenseView extends
 		}
 
 		if (getAllTransactionItems().isEmpty()) {
-			result.addError(vendorAccountTransactionTable,
-					constants.blankTransaction());
+			result.addError(vendorAccountTransactionTable, constants
+					.blankTransaction());
 		} else {
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());
@@ -176,9 +177,9 @@ public class CashExpenseView extends
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button,
-				Accounter.messages().accounts(Global.get().Account()),
-				Accounter.constants().productOrServiceItem());
+		setMenuItems(button, Accounter.messages().accounts(
+				Global.get().Account()), Accounter.constants()
+				.productOrServiceItem());
 	}
 
 	@Override
@@ -499,8 +500,8 @@ public class CashExpenseView extends
 		listforms.add(memoForm);
 		listforms.add(totalForm);
 
-//		if (UIUtils.isMSIEBrowser())
-//			resetFormView();
+		// if (UIUtils.isMSIEBrowser())
+		// resetFormView();
 
 		settabIndexes();
 	}
@@ -570,7 +571,8 @@ public class CashExpenseView extends
 									.getNetAmount()));
 					vatTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal() - transaction.getNetAmount()));
+									.getTotal()
+									- transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -623,8 +625,9 @@ public class CashExpenseView extends
 		this.setVendor(vendor);
 		paymentMethodSelected(vendor.getPaymentMethod());
 		long code = vendor.getTAXCode();
-		if (code == 0 && taxCodeSelect != null) {
-			code = Accounter.getCompany().getDefaultTaxCode();
+		if (taxCodeSelect != null) {
+			if (code == 0)
+				code = Accounter.getCompany().getDefaultTaxCode();
 			taxCodeSelect.setComboItem(getCompany().getTAXCode(code));
 		}
 		vendorAccountTransactionTable.setTaxCode(code, false);

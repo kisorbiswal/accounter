@@ -256,15 +256,26 @@ public class CreditCardExpenseView extends
 			}
 		};
 		Ccard.setHelpInformation(true);
-		Ccard.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
+		if (!isTaxPerDetailLine())
+			taxCodeSelect = createTaxCodeSelectItem();
+		Ccard
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 
-			@Override
-			public void selectedComboBoxItem(ClientVendor selectItem) {
-				selectedVendor = selectItem;
-				Ccard.setComboItem(selectItem);
-				addPhonesContactsAndAddress();
-			}
-		});
+					@Override
+					public void selectedComboBoxItem(ClientVendor selectItem) {
+						selectedVendor = selectItem;
+						Ccard.setComboItem(selectItem);
+						addPhonesContactsAndAddress();
+						long code = selectedVendor.getTAXCode();
+						if (taxCodeSelect != null) {
+							if (code == 0)
+								code = Accounter.getCompany()
+										.getDefaultTaxCode();
+							taxCodeSelect.setComboItem(getCompany().getTAXCode(
+									code));
+						}
+					}
+				});
 
 		Ccard.setRequired(true);
 		String listString[] = new String[] {
@@ -406,8 +417,8 @@ public class CreditCardExpenseView extends
 		// formItems.add(payFrmSelect)
 		cheqNoText = new TextItem(
 				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-						.constants().chequeNo() : Accounter.constants()
-						.checkNo());
+						.constants().chequeNo()
+						: Accounter.constants().checkNo());
 
 		cheqNoText.setHelpInformation(true);
 		cheqNoText.setDisabled(isInViewMode());
@@ -425,8 +436,8 @@ public class CreditCardExpenseView extends
 		if (locationTrackingEnabled)
 			termsForm.setFields(locationCombo);
 		termsForm.setFields(payMethSelect, payFrmSelect, delivDate);
-		termsForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "203px");
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
@@ -557,8 +568,6 @@ public class CreditCardExpenseView extends
 
 			botPanel.add(memoForm);
 			if (!isTaxPerDetailLine()) {
-				taxCodeSelect = createTaxCodeSelectItem();
-				// taxCodeSelect.setVisible(isInViewMode());
 				DynamicForm form = new DynamicForm();
 				form.setFields(taxCodeSelect);
 				botPanel.add(form);
@@ -635,8 +644,8 @@ public class CreditCardExpenseView extends
 		listforms.add(totalForm);
 		listforms.add(totForm);
 
-//		if (UIUtils.isMSIEBrowser())
-//			resetFormView();
+		// if (UIUtils.isMSIEBrowser())
+		// resetFormView();
 
 		if (isInViewMode()) {
 			payFrmSelect.setComboItem(getCompany().getAccount(
@@ -649,15 +658,13 @@ public class CreditCardExpenseView extends
 		ValidationResult result = super.validate();
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDateItem,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDateItem, accounterConstants
+					.invalidateDate());
 		}
 
 		if (Ccard.getSelectedValue() == null)
-			result.addError(
-					Ccard,
-					Accounter.messages().pleaseSelectVendor(
-							Global.get().vendor()));
+			result.addError(Ccard, Accounter.messages().pleaseSelectVendor(
+					Global.get().vendor()));
 		result.add(vendorAccountTransactionTable.validateGrid());
 		result.add(vendorItemTransactionTable.validateGrid());
 		if (payFrmSelect.getSelectedValue() == null)
@@ -704,7 +711,8 @@ public class CreditCardExpenseView extends
 									.getNetAmount()));
 					vatTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal() - transaction.getNetAmount()));
+									.getTotal()
+									- transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -1004,9 +1012,9 @@ public class CreditCardExpenseView extends
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button,
-				Accounter.messages().accounts(Global.get().Account()),
-				Accounter.constants().productOrServiceItem());
+		setMenuItems(button, Accounter.messages().accounts(
+				Global.get().Account()), Accounter.constants()
+				.productOrServiceItem());
 	}
 
 	public void saveAndUpdateView() {

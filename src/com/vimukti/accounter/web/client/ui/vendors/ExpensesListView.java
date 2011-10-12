@@ -87,8 +87,8 @@ public class ExpensesListView extends BaseListView<BillsList> {
 		listOfTypes.add(Accounter.constants().all());
 		currentView.initCombo(listOfTypes);
 
-		if (UIUtils.isMSIEBrowser())
-			//currentView.setWidth("150px");
+		// if (UIUtils.isMSIEBrowser())
+		// currentView.setWidth("150px");
 		if (this.viewType == null || this.viewType.equals(""))
 			currentView.setComboItem(Accounter.constants().all());
 		else
