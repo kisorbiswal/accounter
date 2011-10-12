@@ -99,7 +99,7 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 			message.append("Select a Account");
 		}
 		CommandList commandList = new CommandList();
-		commandList.add("Create");
+		commandList.add("Create Account");
 		commandList.add("Edit");
 		commandList.add("Delete");
 		commandList.add("More");
