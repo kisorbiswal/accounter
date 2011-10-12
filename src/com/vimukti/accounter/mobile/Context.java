@@ -57,6 +57,14 @@ public class Context {
 		return null;
 	}
 
+	public String getNumber() {
+		List<Number> numbers = getNumbers();
+		if (numbers != null && !numbers.isEmpty()) {
+			return numbers.get(0).toString();
+		}
+		return null;
+	}
+
 	/**
 	 * Returns the Strings in the Inputs if Any
 	 * 
