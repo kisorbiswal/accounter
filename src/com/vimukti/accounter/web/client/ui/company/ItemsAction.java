@@ -1,13 +1,13 @@
 package com.vimukti.accounter.web.client.ui.company;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ItemListView;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 /**
  * 
@@ -27,10 +27,10 @@ public class ItemsAction extends Action {
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
-		GWT.runAsync(new RunAsyncCallback() {
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			@Override
-			public void onSuccess() {
+			public void onCreated() {
 				ItemListView view = new ItemListView();
 				view.setCatageoryType(getCatagory());
 				if (getCatagory().equals(Global.get().vendor())) {
@@ -40,8 +40,10 @@ public class ItemsAction extends Action {
 					ItemListView.isPurchaseType = false;
 					ItemListView.isSalesType = true;
 				} else if (getCatagory()
-						.equals(Accounter.messages().bothCustomerAndVendor(
-								Global.get().Customer(), Global.get().Vendor()))) {
+						.equals(
+								Accounter.messages().bothCustomerAndVendor(
+										Global.get().Customer(),
+										Global.get().Vendor()))) {
 					ItemListView.isPurchaseType = true;
 					ItemListView.isSalesType = true;
 				}
@@ -50,12 +52,6 @@ public class ItemsAction extends Action {
 
 			}
 
-			@Override
-			public void onFailure(Throwable arg0) {
-				Accounter
-						.showError(Accounter.constants().unableToshowtheview());
-
-			}
 		});
 	}
 

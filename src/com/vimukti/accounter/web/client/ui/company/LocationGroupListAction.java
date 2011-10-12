@@ -1,11 +1,11 @@
 package com.vimukti.accounter.web.client.ui.company;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.LocationGroupListDialog;
+import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class LocationGroupListAction extends Action {
 
@@ -20,10 +20,10 @@ public class LocationGroupListAction extends Action {
 	}
 
 	private void runAsync(Object data, boolean isDependent) {
-		GWT.runAsync(new RunAsyncCallback() {
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			@Override
-			public void onSuccess() {
+			public void onCreated() {
 
 				LocationGroupListDialog dialog = new LocationGroupListDialog(
 						Accounter.constants().manageLocationGroup(), Accounter
@@ -32,12 +32,6 @@ public class LocationGroupListAction extends Action {
 
 			}
 
-			@Override
-			public void onFailure(Throwable arg0) {
-				Accounter
-						.showError(Accounter.constants().unableToshowtheview());
-
-			}
 		});
 
 	}

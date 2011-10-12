@@ -65,8 +65,11 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 								+ result.getFullName());
 						Accounter.getCompany().processUpdateOrCreateObject(
 								result);
+					
 					}
+				
 				});
+				
 				dialog.center();
 				dialog.show();
 			}

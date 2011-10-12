@@ -1,13 +1,13 @@
 package com.vimukti.accounter.web.client.ui.company;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class NewJournalEntryAction extends Action {
 
@@ -28,10 +28,10 @@ public class NewJournalEntryAction extends Action {
 	}
 
 	public void runAsync(final Object data, final Boolean isEditable) {
-		GWT.runAsync(new RunAsyncCallback() {
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			@Override
-			public void onSuccess() {
+			public void onCreated() {
 				JournalEntryView view = JournalEntryView.getInstance();
 
 				MainFinanceWindow.getViewManager().showView(view, data,
@@ -39,12 +39,6 @@ public class NewJournalEntryAction extends Action {
 
 			}
 
-			@Override
-			public void onFailure(Throwable arg0) {
-				Accounter
-						.showError(Accounter.constants().unableToshowtheview());
-
-			}
 		});
 	}
 

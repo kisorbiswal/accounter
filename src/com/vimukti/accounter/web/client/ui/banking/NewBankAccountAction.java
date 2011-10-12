@@ -2,14 +2,14 @@ package com.vimukti.accounter.web.client.ui.banking;
 
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.NewAccountView;
+import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class NewBankAccountAction extends Action<ClientBankAccount> {
 	private List<Integer> accountTypes;
@@ -26,11 +26,10 @@ public class NewBankAccountAction extends Action<ClientBankAccount> {
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
-
-		GWT.runAsync(new RunAsyncCallback() {
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			@Override
-			public void onSuccess() {
+			public void onCreated() {
 				NewAccountView view = new NewAccountView();
 				// view.setNewBankAccountAction(NewBankAccountAction.this);
 				view.setNewBankAccount(true);
@@ -40,18 +39,6 @@ public class NewBankAccountAction extends Action<ClientBankAccount> {
 
 			}
 
-//			@Override
-//			public void onCreateFailed(Throwable t) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-
-			@Override
-			public void onFailure(Throwable arg0) {
-				Accounter
-						.showError(Accounter.constants().unableToshowtheview());
-
-			}
 		});
 	}
 

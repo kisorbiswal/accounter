@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.ui.company;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -10,7 +8,9 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ItemView;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.SelectItemTypeDialog;
+import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 /**
  * 
@@ -50,10 +50,10 @@ public class NewItemAction extends Action<ClientItem> {
 	}
 
 	public void runAsync(final ClientItem data, final Boolean isDependent) {
-		GWT.runAsync(new RunAsyncCallback() {
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			@Override
-			public void onSuccess() {
+			public void onCreated() {
 				ClientCompany company = Accounter.getCompany();
 				boolean sellServices = company.getPreferences()
 						.isSellServices();
@@ -89,12 +89,6 @@ public class NewItemAction extends Action<ClientItem> {
 
 			}
 
-			@Override
-			public void onFailure(Throwable arg0) {
-				Accounter
-						.showError(Accounter.constants().unableToshowtheview());
-
-			}
 		});
 	}
 

@@ -1,13 +1,13 @@
 package com.vimukti.accounter.web.client.ui.banking;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class WriteChecksAction extends Action {
 
@@ -29,10 +29,10 @@ public class WriteChecksAction extends Action {
 	}
 
 	public void runAsync(final Object data, final Boolean isEditable) {
-		GWT.runAsync(new RunAsyncCallback() {
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			@Override
-			public void onSuccess() {
+			public void onCreated() {
 				WriteChequeView view = WriteChequeView.getInstance();
 
 				MainFinanceWindow.getViewManager().showView(view, data,
@@ -40,18 +40,6 @@ public class WriteChecksAction extends Action {
 
 			}
 
-			// @Override
-			// public void onCreateFailed(Throwable t) {
-			// // TODO Auto-generated method stub
-			//				
-			// }
-
-			@Override
-			public void onFailure(Throwable arg0) {
-				Accounter
-						.showError(Accounter.constants().unableToshowtheview());
-
-			}
 		});
 	}
 
