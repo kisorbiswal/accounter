@@ -3,7 +3,7 @@
 <title> Online Accounting | Accounter
 </title>
 <meta content="IE=100" http-equiv="X-UA-Compatible">
-<link rel="shortcut icon" href="../images/favicon.ico" />
+<link rel="shortcut icon" href="/images/favicon.ico" />
 <link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet">
 <script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
 </head>
@@ -13,7 +13,7 @@
 			<div class="middle-part" id="cen">
 				<div class="pricing-table" id="online-accounting-1">
 					<div style="background-color: #000000 !important;height: 65px;margin-top:-19px;">
-						<img src="../images/Online-Accounting.png">
+						<img src="/images/Online-Accounting.png">
 					</div>
 					<div class="adjust-padding" style="margin-top:25px;">
 						<p>Accounter is an online accounting software that can record & process the accounting transactions. It has all the functions like accounts payable, accounts receivable, expenses, bank accounts, etc. Also the reports like trial balance, balance sheet, etc can be generated using this software.</p>	

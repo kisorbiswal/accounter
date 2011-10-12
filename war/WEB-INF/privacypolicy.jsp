@@ -8,7 +8,7 @@
 
 <%@ include file="./feedback.jsp" %>
 <link type="text/css" href="../css/ss.css" rel="stylesheet">
-<link rel="shortcut icon" href="../images/favicon.ico" />
+<link rel="shortcut icon" href="/images/favicon.ico" />
 </head>
 <body>
 	<div class ="body-container">

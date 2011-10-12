@@ -1529,7 +1529,7 @@ ul li {
 }
 
 .support_textbox {
-	background: url("images/Text Feild_enabled_180x22.png") no-repeat scroll
+	background: url("/images/Text Feild_enabled_180x22.png") no-repeat scroll
 		0 0 #FFFFFF !important;
 	border: 0 none;
 	padding: 5px;
@@ -1537,7 +1537,7 @@ ul li {
 }
 
 .support-TextArea {
-	background: url("images/Text Feild_big_enabled_180x64.png") no-repeat
+	background: url("/images/Text Feild_big_enabled_180x64.png") no-repeat
 		scroll 0 0 #FFFFFF !important;
 	border: 0 none !important;
 	height: 65px;

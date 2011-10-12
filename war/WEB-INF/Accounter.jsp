@@ -193,9 +193,9 @@
 	      <td width="50%"><div class="companyName">${companyName}</div></td>
 	      <td width="25%">
 	        <ul>
-	           <li><img src="images/User.png" /><a href="">${userName}</a></li>
-	           <li><img src="images/Help.png" /><a href='http://help.accounter.com'>Help</a></li>
-	           <li><img src="images/logout.png" /><a href='/main/logout'>Logout</a></li>
+	           <li><img src="/images/User.png" /><a href="">${userName}</a></li>
+	           <li><img src="/images/Help.png" /><a href='http://help.accounter.com'>Help</a></li>
+	           <li><img src="/images/logout.png" /><a href='/main/logout'>Logout</a></li>
 	        </ul>
 	      </td>
 	   </tr>

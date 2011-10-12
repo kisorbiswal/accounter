@@ -113,7 +113,7 @@ public class Header extends HorizontalPanel {
 			}
 		});
 		Image image = new Image();
-		image.setUrl("images/Accounter_logo_title.png");
+		image.setUrl("/images/Accounter_logo_title.png");
 		image.setStyleName("logo");
 
 		panel1 = new VerticalPanel();

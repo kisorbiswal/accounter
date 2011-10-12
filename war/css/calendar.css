@@ -442,7 +442,7 @@ calendar styles
 	height: 23px;
 }**/
 .dateselectiobuttons {
-	background: url("images/header-c.png") repeat-x scroll 0 -5px transparent;
+	background: url("/images/header-c.png") repeat-x scroll 0 -5px transparent;
 }
 
 .task-event-icon, .calendar-event-icon{

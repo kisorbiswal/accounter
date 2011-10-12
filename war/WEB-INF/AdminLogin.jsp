@@ -5,7 +5,7 @@
 </title>
 <meta content="IE=100" http-equiv="X-UA-Compatible">
 
-<link rel="shortcut icon" href="../images/favicon.ico" />
+<link rel="shortcut icon" href="/images/favicon.ico" />
 
 <%@ include file="./feedback.jsp" %>
 <link type="text/css" href="../css/ss.css" rel="stylesheet">
@@ -33,7 +33,7 @@
 </head>
 	<body>
      <div id="commanContainer">
-		   <img src="../images/Accounter_logo_title.png" class="accounterLogo" />
+		   <img src="/images/Accounter_logo_title.png" class="accounterLogo" />
 		   <c:if test="${not empty errorMsg}">
 		   <div id="login_error" class="common-box">
 				<span>${errorMsg} </span>

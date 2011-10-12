@@ -4,7 +4,7 @@
 </title>
 <meta content="IE=100" http-equiv="X-UA-Compatible">
 
-<link rel="shortcut icon" href="../images/favicon.ico" />
+<link rel="shortcut icon" href="/images/favicon.ico" />
 <link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet">
 <script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
 </head>
@@ -14,7 +14,7 @@
 			<div class="middle-part" id="cen">
 				<div class="pricing-table" id="invoicing-layout">
 					<div style="background-color: #000000 !important;height: 65px;">
-						<img src="../images/Invoicing.png">
+						<img src="/images/Invoicing.png">
 					</div>
 					<div class="adjust-padding" style="margin-top:25px;">
 						<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Easily create & manage invoices using Accounter. Creating & customizing the professional looking invoices is very easy using Accounter.  Accounter lets you keep track of who owes you money and whether or not you've been paid.</p>

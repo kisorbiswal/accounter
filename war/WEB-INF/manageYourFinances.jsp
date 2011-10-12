@@ -3,7 +3,7 @@
 <title> Manage Finances | Accounter
 </title>
 <meta content="IE=100" http-equiv="X-UA-Compatible">
-<link rel="shortcut icon" href="../images/favicon.ico" />
+<link rel="shortcut icon" href="/images/favicon.ico" />
 <%@ include file="./feedback.jsp" %>
 <link type="text/css" href="../css/ss.css" rel="stylesheet">
 </head>
@@ -13,7 +13,7 @@
 			<div class="middle-part" id="cen">
 				<div class="pricing-table" id="manage-layout">
 					<div height: 65px;">
-						<img src="../images/Manage-your-finances.png">
+						<img src="/images/Manage-your-finances.png">
 					</div>
 					<br>
 					<div class="adjust-padding" style="margin-top:25px;">

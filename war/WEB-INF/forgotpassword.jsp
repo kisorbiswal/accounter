@@ -7,7 +7,7 @@
 <meta content="IE=100" http-equiv="X-UA-Compatible">
 
 
-<link rel="shortcut icon" href="../images/favicon.ico" />
+<link rel="shortcut icon" href="/images/favicon.ico" />
 <%@ include file="./feedback.jsp" %>
 <link type="text/css" href="../css/ss.css" rel="stylesheet">
 <link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet">
@@ -41,7 +41,7 @@ $(document).ready(function() {
 </head>
 	<body>
 		<div id="commanContainer">
-		   <img src="../images/Accounter_logo_title.png" class="accounterLogo" />
+		   <img src="/images/Accounter_logo_title.png" class="accounterLogo" />
 		   <div id="forgot-password_error" class="common-box">
 		      <p>Please enter your email address. You will receive a code to create a new password through the email.</p>	
 		   </div>

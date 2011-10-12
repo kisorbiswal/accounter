@@ -170,7 +170,7 @@ $(document).ready(function() {
            		
     </script>
 <!--CSS for loading message at application Startup-->
-<link rel="shortcut icon" href="../images/favicon.ico" />
+<link rel="shortcut icon" href="/images/favicon.ico" />
 <link type="text/css" href="../css/ss.css" rel="stylesheet">
 <style type="text/css">
 body {
@@ -316,7 +316,7 @@ p {
 </head>
 <body>
 <div id="commanContainer">	
-<img src="../images/Accounter_logo_title.png" class="accounterLogo" />	
+<img src="/images/Accounter_logo_title.png" class="accounterLogo" />	
 <div id="hiddenDiv" class="hiddenPic">
   <img src="/images/icons/loading-indicator.gif" alt="Loading" title="Loading" height="50" width="50">
 </div>

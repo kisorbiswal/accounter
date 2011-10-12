@@ -15,7 +15,7 @@
 </title>
 <meta content="IE=100" http-equiv="X-UA-Compatible">
 
-<link rel="shortcut icon" href="../images/favicon.ico" />
+<link rel="shortcut icon" href="/images/favicon.ico" />
 <%@ include file="./feedback.jsp" %>
 <link type="text/css" href="../css/ss.css" rel="stylesheet">
 <link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet">
@@ -118,7 +118,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 </head>
 <body>
 	<div id="commanContainer" class="signup-container">	
-  <img src="../images/Accounter_logo_title.png" class="accounterLogo" />	
+  <img src="/images/Accounter_logo_title.png" class="accounterLogo" />	
   <img  style="display:none" src="/images/icons/loading-indicator.gif" alt="Loading" title="Loading" height="50" width="50">
   
   <c:if test="${errormessage!=null}">

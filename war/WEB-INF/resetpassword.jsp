@@ -5,7 +5,7 @@
 <title> Reset Password | Accounter
 </title>
 <meta content="IE=100" http-equiv="X-UA-Compatible">
-<link rel="shortcut icon" href="../images/favicon.ico" />
+<link rel="shortcut icon" href="/images/favicon.ico" />
 
 <%@ include file="./feedback.jsp" %>
 <link type="text/css" href="../css/ss.css" rel="stylesheet">
@@ -77,7 +77,7 @@ $(document).ready(function() {
 </head>
 	<body>
 	<div id="commanContainer">
-		   <img class="accounterLogo" src="../images/Accounter_logo_title.png">
+		   <img class="accounterLogo" src="/images/Accounter_logo_title.png">
 		   	<c:if test="${errormessage!=null}">
 			<div id="login_success" class="common-box">
 				<span>${errormessage}</span>
