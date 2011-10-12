@@ -89,8 +89,6 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 					if (contact.getBusinessPhone().trim().length() > 0)
 						phone = contact.getBusinessPhone();
 
-					if (contact.getEmail().trim().length() > 0)
-						email = contact.getEmail();
 				}
 			}
 			// setting billing address
@@ -106,18 +104,16 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 						+ forUnusedAddress(bill.getStateOrProvinence(), false)
 						+ forUnusedAddress(bill.getZipOrPostalCode(), false)
 						+ forUnusedAddress(bill.getCountryOrRegion(), false)
-						+ forUnusedAddress("Phone : " + phone, false)
-						+ forUnusedAddress("Email : " + email, false);
+						+ forUnusedAddress("Phone : " + phone, false);
 
 				if (customernameAddress.trim().length() > 0) {
-					t.setVariable("customerNameNBillAddress", "To<br/>"
-							+ customernameAddress);
+					t.setVariable("customerNameNBillAddress",
+							customernameAddress);
 					t.addBlock("creditHead");
 
 				}
 			} else {
-				t.setVariable("customerNameNBillAddress", "To<br/>"
-						+ customerName);
+				t.setVariable("customerNameNBillAddress", customerName);
 				t.addBlock("creditHead");
 			}
 
