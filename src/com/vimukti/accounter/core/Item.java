@@ -27,6 +27,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	 * 
 	 */
 	private static final long serialVersionUID = -5861971680510342701L;
+
 	/**
 	 * Any item must belong these two
 	 */
@@ -457,6 +458,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public String toString() {
-		return getName();
+
+		return "Item Name:" + this.name + "  cost:" + this.standardCost;
 	}
 }
