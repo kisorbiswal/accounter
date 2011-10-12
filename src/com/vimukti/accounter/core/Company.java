@@ -248,9 +248,9 @@ public class Company implements IAccounterServerCore {
 	private Set<TAXItemGroup> taxItemGroups = new HashSet<TAXItemGroup>();
 
 	private Set<Box> vatBoxes = new HashSet<Box>();
-	
+
 	private Set<Transaction> transactions = new HashSet<Transaction>();
-	
+
 	private Set<Activity> activities = new HashSet<Activity>();
 
 	String bankAccountNo;
@@ -1141,7 +1141,7 @@ public class Company implements IAccounterServerCore {
 	public User getUserByUserEmail(String email) {
 		Set<User> users = getUsers();
 		for (User user : users) {
-			if (user.getEmail().equals(email)) {
+			if (!user.isDeleted() && user.getEmail().equals(email)) {
 				return user;
 			}
 		}
@@ -1512,7 +1512,7 @@ public class Company implements IAccounterServerCore {
 		delete(taxItems, session);
 		delete(taxAgencies, session);
 		delete(payees, session);
-//		delete(nominalCodeRange, session);
+		// delete(nominalCodeRange, session);
 		delete(brandingTheme, session);
 		delete(usersList, session);
 		delete(vatReturns, session);
