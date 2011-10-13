@@ -127,11 +127,9 @@ public class LocationGroupListDialog extends GroupDialog<ClientLocation> {
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		String name = locationGroupDg.getLocationGroupName();
-		if (name != null)
-			if (!UIUtils.isCharactersOnly(name)) {
-				result.addError(this, "Please Enter Valid Location Name");
-			}
+		String name = locationGroupDg.getLocationGroupName().trim();
+		if (name.isEmpty())
+			result.addError(this, "Please Enter Valid Location Name");
 		if (clientLocation != null) {
 			String locationGroupName = clientLocation.getName();
 			ClientLocation groupByName = company.getLocationByName(name);
