@@ -94,8 +94,7 @@ public class CreditCardChargeView extends
 	private AddNewButton accountTableButton, itemTableButton;
 	private TAXCodeCombo taxCodeSelect;
 	private ClientTAXCode taxCode;
-	private DisclosurePanel accountsDisclosurePanel,itemsDisclosurePanel;
-	 
+	private DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
 
 	public CreditCardChargeView() {
 
@@ -255,7 +254,8 @@ public class CreditCardChargeView extends
 			if (isInViewMode()) {
 				cheqNoText
 						.setValue(transaction.getCheckNumber() != null ? transaction
-								.getCheckNumber() : "");
+								.getCheckNumber()
+								: "");
 
 			}
 			cheqNoText.setDisabled(false);
@@ -296,7 +296,8 @@ public class CreditCardChargeView extends
 									.getNetAmount()));
 					vatTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal() - transaction.getNetAmount()));
+									.getTotal()
+									- transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -335,12 +336,12 @@ public class CreditCardChargeView extends
 		initTransactionNumber();
 		addVendorsList();
 		initAccounterClass();
-		accountsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ACCOUNT, true));
-		itemsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ITEM, false));
+		accountsDisclosurePanel.setOpen(checkOpen(transaction
+				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
+				true));
+		itemsDisclosurePanel
+				.setOpen(checkOpen(transaction.getTransactionItems(),
+						ClientTransactionItem.TYPE_ITEM, false));
 	}
 
 	private void initpayFromAccountCombo() {
@@ -409,8 +410,8 @@ public class CreditCardChargeView extends
 		labeldateNoLayout.setCellHorizontalAlignment(regPanel, ALIGN_RIGHT);
 		if (!isTaxPerDetailLine())
 			taxCodeSelect = createTaxCodeSelectItem();
-		vendorNameSelect = new VendorCombo(Global.get().messages()
-				.vendorName(Global.get().Vendor()));
+		vendorNameSelect = new VendorCombo(Global.get().messages().vendorName(
+				Global.get().Vendor()));
 		vendorNameSelect.setHelpInformation(true);
 		vendorNameSelect.setWidth(100);
 		vendorNameSelect.setRequired(true);
@@ -433,6 +434,7 @@ public class CreditCardChargeView extends
 										.getDefaultTaxCode();
 							taxCodeSelect.setComboItem(getCompany().getTAXCode(
 									code));
+							taxCodeSelected(getCompany().getTAXCode(code));
 						}
 
 						contactCombo.setDisabled(false);
@@ -526,8 +528,8 @@ public class CreditCardChargeView extends
 			termsForm.setFields(classListCombo);
 		}
 
-		termsForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "203px");
 
 		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 
@@ -877,32 +879,10 @@ public class CreditCardChargeView extends
 	public ValidationResult validate() {
 		try {
 			ValidationResult result = super.validate();
-			// Validations
-			// 1. if(! validTransactionDate(transactionDate)) ERROR
-			// if transaction date is with in the open fiscal year range, then
-			// it is
-			// valid transaction date
-
-			// 2. if( isInPreventPostingBeforeDate(transactionDate)) ERROR
-			// i.e the transaction date should not be before the company's
-			// preferred
-			// preventPostingBeforeDate
-
-			// 3. vendorForm validation
-			// 4. termsForm validation
-			// 5. if(isBlankTransation(vendorTransactionGrid)) ERROR
-			// 6. vendorTransactionGrid validation
-
-			// if (!AccounterValidator.isValidTransactionDate(transactionDate))
-			// {
-			// result.addError(transactionDate,
-			// accounterConstants.invalidateTransactionDate());
-			// }
-
 			if (AccounterValidator
 					.isInPreventPostingBeforeDate(transactionDate)) {
-				result.addError(transactionDate,
-						accounterConstants.invalidateDate());
+				result.addError(transactionDate, accounterConstants
+						.invalidateDate());
 			}
 
 			result.add(vendorForm.validate());
