@@ -38,7 +38,7 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(ACCOUNT_TYPE, true, true));
+		list.add(new Requirement(ACCOUNT_TYPE, false, true));
 		list.add(new Requirement(ACCOUNT_NAME, false, true));
 		list.add(new Requirement(ACCOUNT_NUMBER, false, true));
 		list.add(new Requirement(OPENINGBALANCE, false, true));
