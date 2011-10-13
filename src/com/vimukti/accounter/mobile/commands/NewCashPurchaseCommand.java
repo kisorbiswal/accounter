@@ -53,7 +53,7 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 				list.add(new Requirement("vatCode", true, true));
 			}
 		});
-		list.add(new Requirement("paymentMethod", false, true));
+		list.add(new Requirement("Payment method", false, true));
 		list.add(new Requirement("date", true, true));
 		list.add(new Requirement("number", true, false));
 		list.add(new Requirement("contact", true, true));
@@ -96,8 +96,8 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		// result = accountsRequirement(context);
-		if (result == null) {
+		result = accountsRequirement(context, "accounts");
+		if (result != null) {
 			return result;
 		}
 
@@ -111,6 +111,9 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		result = createOptionalResult(context);
+		if (result != null) {
+			return result;
+		}
 		completeProcess(context);
 		markDone();
 		return null;
@@ -129,9 +132,9 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 
 		// FIXME
 		List<TransactionItem> items = get("items").getValue();
-		List<TransactionItem> accounts = get("accounts").getValue();
-		accounts.addAll(items);
-		cashPurchase.setTransactionItems(accounts);
+		// List<TransactionItem> accounts = get("accounts").getValue();
+		// accounts.addAll(items);
+		cashPurchase.setTransactionItems(items);
 
 		// TODO Location
 		// TODO Class
@@ -156,7 +159,7 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		String memo = get(MEMO).getValue();
 		cashPurchase.setMemo(memo);
 
-		String paymentMethod = get("paymentMethod").getValue();
+		String paymentMethod = get("Payment method").getValue();
 		cashPurchase.setPaymentMethod(paymentMethod);
 		Account account = get("depositOrTransferTo").getValue();
 		cashPurchase.setPayFrom(account);
@@ -166,13 +169,15 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		}
 		Date deliveryDate = get("deliveryDate").getValue();
 		// TODO cashPurchase.setD
-		cashPurchase.setTotal(getTransactionTotal(accounts, company));
+		cashPurchase.setTotal(getTransactionTotal(items, company));
 		create(cashPurchase, context);
 
 	}
 
 	private Result createOptionalResult(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
+		if (context.getAttribute(INPUT_ATTR) == null) {
+			context.setAttribute(INPUT_ATTR, "optional");
+		}
 
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
@@ -191,7 +196,6 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		}
 		Requirement itemsReq = get("items");
 		List<TransactionItem> transItems = itemsReq.getValue();
-
 		selection = context.getSelection("transactionItems");
 		if (selection != null) {
 			Result result = transactionItem(context,
@@ -241,31 +245,26 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		supplierRecord.add("Value", supplier.getName());
 
 		list.add(supplierRecord);
-
-		Result result = dateRequirement(context, list, selection,
-				"deliveryDate");
+		Result result = dateOptionalRequirement(context, list, "deliveryDate",
+				"Enter date", selection);
 		if (result != null) {
 			return result;
 		}
-		result = dateRequirement(context, list, selection, "date");
-		if (result != null) {
-			return result;
-		}
-		result = contactRequirement(context, list, selection, supplier);
-		if (result != null) {
-			return result;
-		}
-
-		result = cashPurchaseNoRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-
-		// result = billToRequirement(context, list, selection);
+		// result = contactRequirement(context, list, selection, supplier);
 		// if (result != null) {
 		// return result;
 		// }
 
+		result = numberOptionalRequirement(context, list, selection, NUMBER,
+				"Enter cash purchase number");
+		if (result != null) {
+			return result;
+		}
+		result = dateOptionalRequirement(context, list, "date", "Enter date",
+				selection);
+		if (result != null) {
+			return result;
+		}
 		result = phoneRequirement(context, list, (String) selection);
 		if (result != null) {
 			return result;
@@ -292,8 +291,18 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 			itemRec.add("Name", item.getItem().getName());
 			itemRec.add("Total", item.getLineTotal());
 			itemRec.add("VatCode", item.getVATfraction());
+			items.add(itemRec);
 		}
 		result.add(items);
+		ResultList accountItems = new ResultList("accountItems");
+		for (TransactionItem item : transItems) {
+			Record itemRec = new Record(item);
+			itemRec.add("Name", item.getItem().getName());
+			itemRec.add("Total", item.getLineTotal());
+			itemRec.add("VatCode", item.getVATfraction());
+			items.add(itemRec);
+		}
+		result.add(accountItems);
 
 		ResultList actions = new ResultList(ACTIONS);
 		Record moreItems = new Record(ActionNames.ADD_MORE_ITEMS);
@@ -311,20 +320,14 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 			Object selection) {
 		Requirement req = get("number");
 		String invoiceNo = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("invoiceNo")) {
-			String order = context.getSelection(NUMBER);
-			if (order == null) {
-				order = context.getString();
-			}
-			invoiceNo = order;
+		String attribute = (String) context.getString();
+		if (attribute != null) {
+			invoiceNo = attribute;
 			req.setValue(invoiceNo);
 		}
-
 		if (selection == invoiceNo) {
 			context.setAttribute(INPUT_ATTR, "invoiceNo");
-			return number(context, "Enter Cash Purcase number", invoiceNo);
+			return number(context, "Enter Cash Purcase number", null);
 		}
 
 		Record invoiceNoRec = new Record(invoiceNo);
