@@ -157,4 +157,11 @@ public class Contact implements IAccounterServerCore, Lifecycle {
 		return "Contact Name:" + this.name + " Email:" + this.email;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Contact) {
+			return ((Contact) obj).getID() == this.getID();
+		}
+		return false;
+	}
 }
