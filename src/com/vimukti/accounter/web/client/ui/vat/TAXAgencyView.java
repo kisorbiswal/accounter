@@ -600,8 +600,6 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		// gridView.setCanEdit(true);
 		// gridView.isEnable = false;
 		// gridView.init();
-		gridView.setHeight("175px");
-
 	}
 
 	@Override
