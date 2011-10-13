@@ -41,7 +41,7 @@ public class Record extends ArrayList<Cell> {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		for (Cell cell : this) {
-			builder.append(cell.toString());
+			builder.append(cell.toString()).append("\t");
 		}
 		return "\n" + code + ". " + builder.toString();
 	}
