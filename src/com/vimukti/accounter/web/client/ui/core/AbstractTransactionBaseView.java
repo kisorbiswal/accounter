@@ -739,12 +739,15 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected boolean checkOpen(Collection<ClientTransactionItem> items,
 			int type, boolean defaultValue) {
-		for (ClientTransactionItem item : transactionItems) {
+		if(items.isEmpty()){
+			return defaultValue;
+		}
+		for (ClientTransactionItem item : items) {
 			if (item.getType() == type) {
 				return true;
 			}
 		}
-		return defaultValue;
+		return false;
 	}
 
 	@Override
