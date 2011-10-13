@@ -428,27 +428,27 @@ public class CustomerManager extends Manager {
 					object = (Object[]) iterator.next();
 
 					String name = (String) object[6];
-					if (name != null) {
-						paymentsList.setTransactionId((object[0] == null ? 0
-								: ((Long) object[0])));
-						paymentsList.setType((Integer) object[1]);
-						paymentsList.setPaymentDate((object[2] == null ? null
-								: (new ClientFinanceDate(((Long) object[2])))));
-						paymentsList.setPaymentNumber((object[3] == null ? null
-								: ((String) object[3])));
-						paymentsList.setStatus((Integer) object[4]);
-						paymentsList.setIssuedDate(new ClientFinanceDate(
-								(Long) object[5]));
-						paymentsList.setName(name);
-						paymentsList.setPaymentMethodName((String) object[7]);
-						paymentsList.setAmountPaid((Double) object[8]);
-						paymentsList.setVoided((Boolean) object[9]);
-						paymentsList
-								.setPayBillType(object[10] != null ? (Integer) object[10]
-										: 0);
+					// if (name != null) {
+					paymentsList.setTransactionId((object[0] == null ? 0
+							: ((Long) object[0])));
+					paymentsList.setType((Integer) object[1]);
+					paymentsList.setPaymentDate((object[2] == null ? null
+							: (new ClientFinanceDate(((Long) object[2])))));
+					paymentsList.setPaymentNumber((object[3] == null ? null
+							: ((String) object[3])));
+					paymentsList.setStatus((Integer) object[4]);
+					paymentsList.setIssuedDate(new ClientFinanceDate(
+							(Long) object[5]));
+					paymentsList.setName(name);
+					paymentsList.setPaymentMethodName((String) object[7]);
+					paymentsList.setAmountPaid((Double) object[8]);
+					paymentsList.setVoided((Boolean) object[9]);
+					paymentsList
+							.setPayBillType(object[10] != null ? (Integer) object[10]
+									: 0);
 
-						queryResult.add(paymentsList);
-					}
+					queryResult.add(paymentsList);
+					// }
 				}
 				return new ArrayList<PaymentsList>(queryResult);
 			} else
