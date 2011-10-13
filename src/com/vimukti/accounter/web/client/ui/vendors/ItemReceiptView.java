@@ -63,6 +63,7 @@ public class ItemReceiptView extends
 	private VendorAccountTransactionTable vendorAccountTransactionTable;
 	private VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
+	private DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
 
 	public ItemReceiptView() {
 		super(ClientTransaction.TYPE_ITEM_RECEIPT);
@@ -195,8 +196,7 @@ public class ItemReceiptView extends
 			}
 		});
 		FlowPanel accountFlowPanel = new FlowPanel();
-		DisclosurePanel accountsDisclosurePanel = new DisclosurePanel(
-				"Itemize by Account");
+		accountsDisclosurePanel = new DisclosurePanel("Itemize by Account");
 		accountFlowPanel.add(vendorAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
@@ -228,8 +228,7 @@ public class ItemReceiptView extends
 			}
 		});
 		FlowPanel itemsFlowPanel = new FlowPanel();
-		DisclosurePanel itemsDisclosurePanel = new DisclosurePanel(
-				"Itemize by Product/Service");
+		itemsDisclosurePanel = new DisclosurePanel("Itemize by Product/Service");
 		itemsFlowPanel.add(vendorItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
@@ -429,11 +428,16 @@ public class ItemReceiptView extends
 			paymentTermsSelected(this.paymentTerm);
 
 			if (getPreferences().isTrackPaidTax()) {
-				netAmount.setAmount(getAmountInTransactionCurrency(transaction.getNetAmount()));
-				vatTotalNonEditableText.setAmount(getAmountInTransactionCurrency(transaction.getTotal()
-						- transaction.getNetAmount()));
+				netAmount.setAmount(getAmountInTransactionCurrency(transaction
+						.getNetAmount()));
+				vatTotalNonEditableText
+						.setAmount(getAmountInTransactionCurrency(transaction
+								.getTotal()
+								- transaction.getNetAmount()));
 			}
-			transactionTotalNonEditableText.setAmount(getAmountInTransactionCurrency(transaction.getTotal()));
+			transactionTotalNonEditableText
+					.setAmount(getAmountInTransactionCurrency(transaction
+							.getTotal()));
 
 			if (vatinclusiveCheck != null) {
 				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
@@ -445,6 +449,13 @@ public class ItemReceiptView extends
 		super.initTransactionViewData();
 		initPaymentTerms();
 		initTransactionNumber();
+
+		accountsDisclosurePanel.setOpen(checkOpen(transaction
+				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
+				true));
+		itemsDisclosurePanel
+				.setOpen(checkOpen(transaction.getTransactionItems(),
+						ClientTransactionItem.TYPE_ITEM, false));
 	}
 
 	@Override
@@ -458,10 +469,13 @@ public class ItemReceiptView extends
 		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal();
 
-		transactionTotalNonEditableText.setAmount(getAmountInTransactionCurrency(grandTotal));
+		transactionTotalNonEditableText
+				.setAmount(getAmountInTransactionCurrency(grandTotal));
 		netAmount.setAmount(getAmountInTransactionCurrency(lineTotal));
 		if (getPreferences().isTrackPaidTax()) {
-			vatTotalNonEditableText.setAmount(getAmountInTransactionCurrency(grandTotal - lineTotal));
+			vatTotalNonEditableText
+					.setAmount(getAmountInTransactionCurrency(grandTotal
+							- lineTotal));
 		}
 	}
 
@@ -509,7 +523,8 @@ public class ItemReceiptView extends
 		transaction.setPurchaseOrder(selectedPurchaseOrder);
 
 		if (getPreferences().isTrackPaidTax()) {
-			transaction.setNetAmount(getAmountInBaseCurrency(netAmount.getAmount()));
+			transaction.setNetAmount(getAmountInBaseCurrency(netAmount
+					.getAmount()));
 		}
 		// itemReceipt.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 	}
@@ -665,14 +680,14 @@ public class ItemReceiptView extends
 		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 
 		result.add(vendorForm.validate());
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(
-				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(deliveryDateItem
+				.getEnteredDate(), this.transactionDate)) {
 
 			result.addError(deliveryDateItem, Accounter.constants().the()
 					+ " "
@@ -684,8 +699,8 @@ public class ItemReceiptView extends
 
 		}
 		if (getAllTransactionItems().isEmpty()) {
-			result.addError(vendorAccountTransactionTable,
-					accounterConstants.blankTransaction());
+			result.addError(vendorAccountTransactionTable, accounterConstants
+					.blankTransaction());
 		} else {
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());

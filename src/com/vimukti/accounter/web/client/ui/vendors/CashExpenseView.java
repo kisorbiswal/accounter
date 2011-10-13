@@ -54,6 +54,7 @@ public class CashExpenseView extends
 	protected VendorAccountTransactionTable vendorAccountTransactionTable;
 	protected VendorItemTransactionTable vendorItemTransactionTable;
 	protected AddNewButton accountTableButton, itemTableButton;
+	protected DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
 
 	public CashExpenseView() {
 		super(ClientTransaction.TYPE_CASH_EXPENSE);
@@ -354,8 +355,7 @@ public class CashExpenseView extends
 		});
 
 		FlowPanel accountFlowPanel = new FlowPanel();
-		DisclosurePanel accountsDisclosurePanel = new DisclosurePanel(
-				"Itemize by Account");
+		accountsDisclosurePanel = new DisclosurePanel("Itemize by Account");
 		accountFlowPanel.add(vendorAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
@@ -388,8 +388,7 @@ public class CashExpenseView extends
 		});
 
 		FlowPanel itemsFlowPanel = new FlowPanel();
-		DisclosurePanel itemsDisclosurePanel = new DisclosurePanel(
-				"Itemize by Product/Service");
+		itemsDisclosurePanel = new DisclosurePanel("Itemize by Product/Service");
 		itemsFlowPanel.add(vendorItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
@@ -598,6 +597,13 @@ public class CashExpenseView extends
 		super.initTransactionViewData();
 		initTransactionNumber();
 		initPayFromAccounts();
+
+		accountsDisclosurePanel.setOpen(checkOpen(transaction
+				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
+				true));
+		itemsDisclosurePanel
+				.setOpen(checkOpen(transaction.getTransactionItems(),
+						ClientTransactionItem.TYPE_ITEM, false));
 
 	}
 

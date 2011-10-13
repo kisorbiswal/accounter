@@ -99,6 +99,7 @@ public class CreditCardExpenseView extends
 	private VendorAccountTransactionTable vendorAccountTransactionTable;
 	private VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
+	private DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
 
 	private TAXCodeCombo taxCodeSelect;
 
@@ -483,8 +484,7 @@ public class CreditCardExpenseView extends
 			}
 		});
 		FlowPanel accountFlowPanel = new FlowPanel();
-		DisclosurePanel accountsDisclosurePanel = new DisclosurePanel(
-				"Itemize by Account");
+		accountsDisclosurePanel = new DisclosurePanel("Itemize by Account");
 		accountFlowPanel.add(vendorAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
@@ -516,8 +516,7 @@ public class CreditCardExpenseView extends
 			}
 		});
 		FlowPanel itemsFlowPanel = new FlowPanel();
-		DisclosurePanel itemsDisclosurePanel = new DisclosurePanel(
-				"Itemize by Product/Service");
+		itemsDisclosurePanel = new DisclosurePanel("Itemize by Product/Service");
 		itemsFlowPanel.add(vendorItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
@@ -752,6 +751,12 @@ public class CreditCardExpenseView extends
 		initTransactionNumber();
 		addVendorsList();
 		initAccounterClass();
+		accountsDisclosurePanel.setOpen(checkOpen(transaction
+				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
+				true));
+		itemsDisclosurePanel
+				.setOpen(checkOpen(transaction.getTransactionItems(),
+						ClientTransactionItem.TYPE_ITEM, false));
 	}
 
 	private void initpayFromAccountCombo() {

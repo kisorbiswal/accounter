@@ -45,6 +45,7 @@ public class VendorCreditMemoView extends
 	private VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
 	private boolean locationTrackingEnabled;
+	private DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
 
 	private VendorCreditMemoView() {
 		super(ClientTransaction.TYPE_VENDOR_CREDIT_MEMO);
@@ -103,7 +104,8 @@ public class VendorCreditMemoView extends
 						.getNetAmount()));
 				vatTotalNonEditableText
 						.setAmount(getAmountInTransactionCurrency(transaction
-								.getTotal() - transaction.getNetAmount()));
+								.getTotal()
+								- transaction.getNetAmount()));
 			}
 			transactionTotalNonEditableText
 					.setAmount(getAmountInTransactionCurrency(transaction
@@ -214,8 +216,8 @@ public class VendorCreditMemoView extends
 		};
 
 		vendorAccountTransactionTable.setDisabled(isInViewMode());
-		vendorAccountTransactionTable.getElement().getStyle()
-				.setMarginTop(10, Unit.PX);
+		vendorAccountTransactionTable.getElement().getStyle().setMarginTop(10,
+				Unit.PX);
 
 		accountTableButton = new AddNewButton();
 		accountTableButton.setEnabled(!isInViewMode());
@@ -228,8 +230,7 @@ public class VendorCreditMemoView extends
 		});
 
 		FlowPanel accountFlowPanel = new FlowPanel();
-		DisclosurePanel accountsDisclosurePanel = new DisclosurePanel(
-				"Itemize by Account");
+		accountsDisclosurePanel = new DisclosurePanel("Itemize by Account");
 		accountFlowPanel.add(vendorAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
@@ -262,8 +263,7 @@ public class VendorCreditMemoView extends
 		});
 
 		FlowPanel itemsFlowPanel = new FlowPanel();
-		DisclosurePanel itemsDisclosurePanel = new DisclosurePanel(
-				"Itemize by Product/Service");
+		itemsDisclosurePanel = new DisclosurePanel("Itemize by Product/Service");
 		itemsFlowPanel.add(vendorItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
@@ -282,8 +282,8 @@ public class VendorCreditMemoView extends
 			vendorForm.setFields(classListCombo);
 		}
 
-		vendorForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "190px");
+		vendorForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "190px");
 
 		leftVLay.add(vendorForm);
 
@@ -378,8 +378,8 @@ public class VendorCreditMemoView extends
 		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(bottomPanel);
 
-//		if (UIUtils.isMSIEBrowser())
-//			resetFormView();
+		// if (UIUtils.isMSIEBrowser())
+		// resetFormView();
 
 		this.add(mainVLay);
 
@@ -470,13 +470,13 @@ public class VendorCreditMemoView extends
 		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 		result.add(vendorForm.validate());
 		if (getAllTransactionItems().isEmpty()) {
-			result.addError(vendorAccountTransactionTable,
-					accounterConstants.blankTransaction());
+			result.addError(vendorAccountTransactionTable, accounterConstants
+					.blankTransaction());
 		} else {
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());
