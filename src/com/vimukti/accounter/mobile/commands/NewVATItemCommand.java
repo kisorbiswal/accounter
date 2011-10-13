@@ -182,12 +182,17 @@ public class NewVATItemCommand extends AbstractVATCommand {
 
 			Requirement isPercentageReq = get(IS_PERCENTAGE);
 			Boolean isPercentage = (Boolean) isPercentageReq.getValue();
-			if (selection == isPercentage) {
+			String percentageString = "";
+			if (isPercentage) {
+				percentageString = "Considerd As Percentage.";
+			} else {
+				percentageString = "Considered As Amount.";
+			}
+			if (selection == percentageString) {
 				context.setAttribute(INPUT_ATTR, IS_PERCENTAGE);
 				isPercentage = !isPercentage;
 				isPercentageReq.setValue(isPercentage);
 			}
-			String percentageString = "";
 			if (isPercentage) {
 				percentageString = "Considerd As Percentage.";
 			} else {
@@ -201,12 +206,17 @@ public class NewVATItemCommand extends AbstractVATCommand {
 
 		Requirement isActiveReq = get(IS_ACTIVE);
 		Boolean isActive = (Boolean) isActiveReq.getValue();
-		if (selection == isActive) {
+		String activeString = "";
+		if (isActive) {
+			activeString = "This Item is Active";
+		} else {
+			activeString = "This Item is InActive";
+		}
+		if (selection == activeString) {
 			context.setAttribute(INPUT_ATTR, IS_ACTIVE);
 			isActive = !isActive;
 			isActiveReq.setValue(isActive);
 		}
-		String activeString = "";
 		if (isActive) {
 			activeString = "This Item is Active";
 		} else {
