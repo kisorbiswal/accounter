@@ -50,7 +50,7 @@ public class TAXItem extends TAXItemGroup {
 	 */
 	VATReturnBox vatReturnBox;
 
-	 public TAXItem() {
+	public TAXItem() {
 	}
 
 	public TAXItem(Company company) {
@@ -269,6 +269,11 @@ public class TAXItem extends TAXItemGroup {
 		super.onSave(session);
 		// ChangeTracker.put(this);
 		return false;
+	}
+
+	@Override
+	public String toString() {
+		return this.name;
 	}
 
 }

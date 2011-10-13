@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.hibernate.Session;
-
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXItem;
@@ -83,17 +81,17 @@ public class NewVATItemCommand extends AbstractVATCommand {
 
 	private void setOptionalFields() {
 		Requirement descReq = get(DESCRIPTION);
-		if (!descReq.isDone()) {
-			descReq.setValue(new String());
+		if (descReq.getDefaultValue() == null) {
+			descReq.setDefaultValue(new String());
 		}
 
 		Requirement isActiveReq = get(IS_ACTIVE);
-		if (!isActiveReq.isDone()) {
+		if (isActiveReq.getDefaultValue() == null) {
 			isActiveReq.setDefaultValue(true);
 		}
 
 		Requirement isPercentageReq = get(IS_PERCENTAGE);
-		if (!isPercentageReq.isDone()) {
+		if (isPercentageReq.getDefaultValue() == null) {
 			isPercentageReq.setDefaultValue(true);
 		}
 	}
@@ -195,7 +193,7 @@ public class NewVATItemCommand extends AbstractVATCommand {
 			} else {
 				percentageString = "Considered As Amount.";
 			}
-			Record isPercentageRecord = new Record(IS_PERCENTAGE);
+			Record isPercentageRecord = new Record(percentageString);
 			isPercentageRecord.add("Name", "");
 			isPercentageRecord.add("Value", percentageString);
 			list.add(isPercentageRecord);
@@ -214,7 +212,7 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		} else {
 			activeString = "This Item is InActive";
 		}
-		Record isActiveRecord = new Record(IS_ACTIVE);
+		Record isActiveRecord = new Record(activeString);
 		isActiveRecord.add("Name", "");
 		isActiveRecord.add("Value", activeString);
 		list.add(isActiveRecord);
