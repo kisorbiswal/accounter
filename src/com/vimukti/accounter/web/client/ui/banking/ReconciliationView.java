@@ -232,7 +232,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 			}
 		}
 		double transactionAmount = UIUtils.isMoneyOut(value, data.getAccount()
-				.getID()) ? total : total * -1;
+				.getID()) ? total * -1 : total;
 
 		if (isClear) {
 			difference
