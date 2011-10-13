@@ -10,7 +10,7 @@
 		jQuery('#contact').contactable({
 	recipient: 'test@test.com',
 	subject: 'A Feeback Message'
-});
+});		
 });
 });	
 </script>
