@@ -77,20 +77,33 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final String PAY_FROM = "payFrom";
 	protected static final String US_CHECK = "Check";
 	protected static final String UK_CHECK = "Cheque";
+	protected static final String ITEMS = "items";
+	protected static final int VENDOR_TRANSACTION = 2;
+	protected static final int CUSTOMER_TRANSACTION = 1;
+	private int transactionType;
 
 	protected Result itemsRequirement(Context context) {
-		Requirement itemsReq = get("items");
-		List<TransactionItem> transactionItems = context.getSelections("items");
-		if (!itemsReq.isDone()) {
-			if (transactionItems != null && transactionItems.size() > 0) {
-				itemsReq.setValue(transactionItems);
+		Requirement transItemsReq = get(ITEMS);
+		List<Item> items = context.getSelections(ITEMS);
+		// TODO need to set unit
+		// price,quantity,discount,taxable,description
+		if (!transItemsReq.isDone()) {
+			if (items != null && items.size() > 0) {
+				List<TransactionItem> transactionItems = new ArrayList<TransactionItem>();
+				for (Item item : items) {
+					TransactionItem transactionItem = new TransactionItem();
+					transactionItem.setItem(item);
+					if (getTransactionType() == VENDOR_TRANSACTION) {
+						transactionItem.setUnitPrice(item.getPurchasePrice());
+					} else if (getTransactionType() == CUSTOMER_TRANSACTION) {
+						transactionItem.setUnitPrice(item.getSalesPrice());
+					}
+					transactionItems.add(transactionItem);
+				}
+				transItemsReq.setValue(transactionItems);
 			} else {
 				return items(context);
 			}
-		}
-		if (transactionItems != null && transactionItems.size() > 0) {
-			List<TransactionItem> items = itemsReq.getValue();
-			items.addAll(transactionItems);
 		}
 		return null;
 	}
@@ -359,14 +372,14 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected Result items(Context context) {
 		Result result = context.makeResult();
 		Set<Item> items = getItems(context.getCompany());
-		ResultList list = new ResultList("items");
+		ResultList list = new ResultList(ITEMS);
 		Object last = context.getLast(RequirementType.ITEM);
 		int num = 0;
 		if (last != null) {
 			list.add(creatItemRecord((Item) last));
 			num++;
 		}
-		Requirement itemsReq = get("items");
+		Requirement itemsReq = get(ITEMS);
 		List<TransactionItem> transItems = itemsReq.getValue();
 		if (transItems == null) {
 			transItems = new ArrayList<TransactionItem>();
@@ -1462,6 +1475,14 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected List<TransactionIssuePayment> getIssuePaymentTransactionsList(
 			String paymentMethod, String accountName, Company company) {
 		return null;
+	}
+
+	public int getTransactionType() {
+		return transactionType;
+	}
+
+	public void setTransactionType(int transactionType) {
+		this.transactionType = transactionType;
 	}
 
 }
