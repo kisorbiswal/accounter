@@ -2059,20 +2059,6 @@ public class UIUtils {
 
 	}
 
-	public static boolean isCharactersOnly(String location) {
-		char[] charArray = location.toCharArray();
-		for (int i = 0; i < charArray.length; i++) {
-			if ((charArray[i] >= 'A' && charArray[i] <= 'Z')
-					|| (charArray[i] >= 'a' && charArray[i] <= 'z')
-					|| charArray[i] == '-' || charArray[i] == ' ') {
-				continue;
-			} else {
-				return false;
-			}
-		}
-		return true;
-	}
-
 	public static boolean isMoneyOut(ClientTransaction transaction,
 			long accountId) {
 		return transaction.isPayBill()
