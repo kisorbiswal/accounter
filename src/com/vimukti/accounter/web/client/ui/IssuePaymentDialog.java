@@ -215,7 +215,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 						.getpaymentMethodCheckBy_CompanyType(AccounterClientConstants.PAYMENT_METHOD_CHECK));
 		payMethodSelect.initCombo(payMethodItemList);
 		payMethodSelect.setSelectedItem(0);
-
+		
 		payMethodSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -248,6 +248,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		payForm = new DynamicForm();
 		payForm.setWidth("50%");
 		payForm.setFields(payMethodSelect, accountCombo);
+		paymentMethodSelected(payMethodSelect.getSelectedValue());
 
 		Label label = new Label();
 		label.setText(Accounter.constants().paymentsToBeIssued());

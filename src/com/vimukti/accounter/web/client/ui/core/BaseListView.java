@@ -7,6 +7,8 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -166,8 +168,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 							public void selectedComboBoxItem(String selectItem) {
 								if (viewSelect.getSelectedValue() != null) {
 									if (viewSelect.getSelectedValue()
-											.toString()
-											.equalsIgnoreCase("Active"))
+											.toString().equalsIgnoreCase(
+													"Active"))
 										filterList(true);
 									else
 										filterList(false);
@@ -212,15 +214,26 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		toItem.setDatethanFireEvent(Accounter.getCompany()
 				.getCurrentFiscalYearEndDate());
 		// .getLastandOpenedFiscalYearEndDate());
+		fromItem.addClickHandler(new ClickHandler() {
 
+			@Override
+			public void onClick(ClickEvent event) {
+				dateRangeSelector.setComboItem(constants.custom());
+			}
+		});
+		toItem.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				dateRangeSelector.setComboItem(constants.custom());
+			}
+		});
 		updateButton = new Button(Accounter.constants().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 
-				dateRangeSelector.setDefaultValue(Accounter.constants()
-						.custom());
 				customManage();
 
 			}
@@ -295,7 +308,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			hlayTop.add(addNewLabel);
 			if (getAddNewLabelString().length() != 0) {
 				hlayTop.setCellWidth(addNewLabel, getAddNewLabelString()
-						.length() + "px");
+						.length()
+						+ "px");
 			}
 		}
 		if (isViewSelectRequired)
