@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.print.attribute.standard.MediaSize.NA;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Contact;
@@ -23,8 +28,8 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 
 public abstract class AbstractCommand extends Command {
 	protected static final String INPUT_ATTR = "input";
-
-	protected static final String DATE = "date";
+	protected static final String ACCOUNT_TYPE = "Account Type";
+	protected static final String DATE = "dates";
 	protected static final String NUMBER = "number";
 	protected static final String TEXT = "text";
 	protected static final String ADDRESS = "address";
@@ -132,11 +137,11 @@ public abstract class AbstractCommand extends Command {
 
 	protected Result dateOptionalRequirement(Context context, ResultList list,
 			String name, String displayString, Object selection) {
-		Requirement req = get(name);
+		Requirement req = get(displayString);
 		Date dueDate = (Date) req.getValue();
 
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(name)) {
+		if (attribute.equals(displayString)) {
 			Date date = context.getSelection(DATE);
 			if (date == null) {
 				date = context.getDate();
@@ -145,7 +150,7 @@ public abstract class AbstractCommand extends Command {
 			req.setValue(dueDate);
 		}
 		if (selection == dueDate) {
-			context.setAttribute(INPUT_ATTR, name);
+			context.setAttribute(INPUT_ATTR, displayString);
 			return date(context, displayString, dueDate);
 		}
 
@@ -426,6 +431,7 @@ public abstract class AbstractCommand extends Command {
 
 	protected Result vendors(Context context) {
 		Result result = context.makeResult();
+
 		ResultList supplierList = new ResultList("suppliers");
 
 		Object last = context.getLast(RequirementType.VENDOR);
@@ -435,27 +441,28 @@ public abstract class AbstractCommand extends Command {
 			num++;
 		}
 		List<Vendor> vendors = getVendors(true, context.getCompany());
-		for (Vendor vendor : vendors) {
-			if (vendor != last) {
-				supplierList.add(createVendorRecord(vendor));
-				num++;
+		if (vendors != null)
+			for (Vendor vendor : vendors) {
+				if (vendor != last) {
+					supplierList.add(createVendorRecord(vendor));
+					num++;
+				}
+				if (num == VENDORS_TO_SHOW) {
+					break;
+				}
 			}
-			if (num == VENDORS_TO_SHOW) {
-				break;
-			}
-		}
 		int size = supplierList.size();
 		StringBuilder message = new StringBuilder();
 		if (size > 0) {
 			message.append("Select a Supplier");
 		}
 		CommandList commandList = new CommandList();
-		commandList.add("Create");
+		commandList.add("Create New Vendor");
 
 		result.add(message.toString());
 		result.add(supplierList);
 		result.add(commandList);
-		result.add("Type for Supplier");
+		// result.add("Type for Supplier");
 		return result;
 	}
 
@@ -528,7 +535,7 @@ public abstract class AbstractCommand extends Command {
 		if (attribute.equals(ORDER_NO)) {
 			String order = context.getSelection(NUMBER);
 			if (order == null) {
-				order = context.getNumber();
+				order = context.getString();
 			}
 			orderNo = order;
 			req.setValue(orderNo);
@@ -550,41 +557,37 @@ public abstract class AbstractCommand extends Command {
 			Object selection) {
 
 		Requirement dateReq = get(DATE);
-		Date transDate = (Date) dateReq.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute != null && attribute.equals(DATE)) {
-			Date date = context.getSelection(DATE);
-			if (date == null) {
-				date = context.getDate();
+		Date transDate = context.getDate();
+		if (!dateReq.isDone()) {
+			if (transDate == null) {
+				// context.setAttribute(INPUT_ATTR, DATE);
+				return date(context, "Enter Date", transDate);
+			} else {
+				dateReq.setValue(transDate);
 			}
-			transDate = date;
-			dateReq.setValue(transDate);
-		}
-		if (selection == transDate) {
-			context.setAttribute(INPUT_ATTR, DATE);
-			return date(context, "Enter Date", transDate);
+			Record transDateRecord = new Record(transDate);
+			transDateRecord.add("Name", "Date");
+			transDateRecord.add("Value", transDate.toString());
+			list.add(transDateRecord);
 		}
 
-		Record transDateRecord = new Record(transDate);
-		transDateRecord.add("Transaction Date", transDate.toString());
-		// transDateRecord.add("Value", transDate.toString());
-		list.add(transDateRecord);
 		return null;
 	}
 
 	protected List<Vendor> getVendors(boolean isActive, Company company) {
+
 		ArrayList<Vendor> vendors = new ArrayList<Vendor>(company.getVendors());
 		ArrayList<Vendor> result = new ArrayList<Vendor>();
-
-		for (Vendor vendor : vendors) {
-			if (isActive) {
-				if (vendor.isActive()) {
+		if (!vendors.isEmpty())
+			for (Vendor vendor : vendors) {
+				if (isActive) {
+					if (vendor.isActive()) {
+						result.add(vendor);
+					}
+				} else {
 					result.add(vendor);
 				}
-			} else {
-				result.add(vendor);
 			}
-		}
 
 		return result;
 	}
@@ -684,7 +687,11 @@ public abstract class AbstractCommand extends Command {
 
 	protected void create(IAccounterServerCore obj, Context context) {
 		// User user = context.getUser();
-		// Session session = context.getSession();
+		Session session = context.getHibernateSession();
+		Transaction beginTransaction = session.beginTransaction();
+		session.save(obj);
+		beginTransaction.commit();
+
 		// try {
 		// new FinanceTool().createServerObject(obj, user, session);
 		// } catch (AccounterException e) {
@@ -696,9 +703,9 @@ public abstract class AbstractCommand extends Command {
 		Requirement isActiveReq = get(ACTIVE);
 		Boolean isActive = (Boolean) isActiveReq.getValue();
 		if (selection == isActive) {
-			context.setAttribute(INPUT_ATTR, ACTIVE);
-			isActive = !isActive;
-			isActiveReq.setValue(isActive);
+			// context.setAttribute(INPUT_ATTR, ACTIVE);
+			// isActive = !isActive;
+			isActiveReq.setValue(true);
 		}
 
 		return null;
@@ -706,11 +713,8 @@ public abstract class AbstractCommand extends Command {
 
 	protected Result viewTypeRequirement(Context context, ResultList list,
 			Object selection) {
-		Object viewType = context.getSelection("viewslist");
+		Object viewType = context.getSelection(VIEW_BY);
 		Requirement viewReq = get(VIEW_BY);
-		if (viewReq == null) {
-			return null;
-		}
 		String view = viewReq.getValue();
 
 		if (selection == view) {
@@ -727,6 +731,66 @@ public abstract class AbstractCommand extends Command {
 		viewtermRecord.add("Value", view);
 		list.add(viewtermRecord);
 		return null;
+	}
+
+	protected Result accountTypesRequirement(Context context, Object selection) {
+		Object viewType = context.getSelection(ACCOUNT_TYPE);
+		Requirement viewReq = get(ACCOUNT_TYPE);
+		String view = viewReq.getValue();
+		if (viewType == null) {
+			viewType = view;
+		}
+
+		if (selection == viewType) {
+			return accTypes(context, view);
+
+		}
+		if (viewType != null) {
+			view = (String) viewType;
+			viewReq.setValue(view);
+		}
+
+		Record viewtermRecord = new Record(view);
+		viewtermRecord.add("Name", "");
+		viewtermRecord.add("Value", view);
+
+		return null;
+	}
+
+	protected Result accTypes(Context context, String view) {
+		ResultList list = new ResultList(ACCOUNT_TYPE);
+		Result result = null;
+		List<String> viewTypes = getAccTypes();
+		result = context.makeResult();
+		result.add("Select Account Type");
+
+		int num = 0;
+		if (view != null) {
+			list.add(createViewTypeRecord(view));
+			num++;
+		}
+		for (String v : viewTypes) {
+			if (v != view) {
+				list.add(createViewTypeRecord(v));
+				num++;
+			}
+			if (num == 5) {
+				break;
+			}
+
+		}
+
+		list.setMultiSelection(true);
+		if (list.size() > 0) {
+			result.add("Slect an Account(s).");
+		} else {
+			result.add("You don't have Account.");
+		}
+		result.add(list);
+		CommandList commands = new CommandList();
+		commands.add("Create New Account");
+
+		return result;
 	}
 
 	protected Result viewTypes(Context context, String view) {
@@ -767,9 +831,25 @@ public abstract class AbstractCommand extends Command {
 		return list;
 	}
 
+	protected List<String> getAccTypes() {
+		List<String> list = new ArrayList<String>();
+		list.add("Income");
+		list.add("OtherIncome");
+		list.add("Expense");
+		list.add("OtherExpense");
+		list.add("CostOfGoodSold");
+		list.add("Cash");
+		list.add("OtherAssets");
+
+		list.add("CreditCard");
+		list.add("FixedAssets");
+
+		return list;
+	}
+
 	protected Record createViewTypeRecord(String view) {
 		Record record = new Record(view);
-		record.add("Name", "ViewType");
+		record.add("Name", "");
 		record.add("Value", view);
 		return record;
 	}
