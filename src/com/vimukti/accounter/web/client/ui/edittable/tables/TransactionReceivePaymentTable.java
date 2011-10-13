@@ -415,11 +415,14 @@ public abstract class TransactionReceivePaymentTable extends
 								updatedCustomerCreditsAndPayments = result;
 								creditsStack = new Stack<Map<Integer, Object>>();
 								gotCreditsAndPayments = true;
+								calculateUnusedCredits();
 							}
 
 						});
 
 	}
+
+	protected abstract void calculateUnusedCredits();
 
 	public void openCashDiscountDialog(
 			final ClientTransactionReceivePayment selectedObject) {

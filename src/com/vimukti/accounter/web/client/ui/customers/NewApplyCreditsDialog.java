@@ -144,6 +144,15 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 		return totalUnusedCreditAmount;
 	}
 
+	public double getActualUnusedCreditAmount() {
+		totalUnusedCreditAmount = 0.0;
+		List<ClientCreditsAndPayments> records = grid.getActualRecords();
+		for (ClientCreditsAndPayments crd : records) {
+			totalUnusedCreditAmount += crd.getBalance();
+		}
+		return totalUnusedCreditAmount;
+	}
+
 	public void setRecord(ClientTransactionReceivePayment record) {
 		this.record = record;
 		getInitialAmountUse();
@@ -355,12 +364,12 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 					grid.updateAmountValues();
 				}
 			}
-		} else {
+		}
+		if (totalAmount > amountDue) {
 			Accounter.showError(Accounter.constants()
 					.amountToUseMustLessthanTotal());
 			showError();
 		}
-
 	}
 
 	private void resetRecords() {
@@ -385,10 +394,12 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 			totAmtUseText.setAmount(currencyProvider
 					.getAmountInTransactionCurrency(amountDue));
 		} else {
-			totAmtUseText.setAmount(currencyProvider
-					.getAmountInTransactionCurrency(getTotalCreditAmount()));
+			totAmtUseText
+					.setAmount(currencyProvider
+							.getAmountInTransactionCurrency(getTotalUnuseCreditAmount()));
 		}
-		double totalAmount = currencyProvider.getAmountInBaseCurrency(totAmtUseText.getAmount());
+		double totalAmount = currencyProvider
+				.getAmountInBaseCurrency(totAmtUseText.getAmount());
 		for (ClientCreditsAndPayments credit : updatedCreditsAndPayments) {
 			grid.resetValue(credit);
 			if (totalAmount > 0) {
@@ -531,10 +542,21 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 					.amountToUseMustLessthanTotal());
 			showError();
 			return false;
+		} else if (totalAmount > getActualUnusedCreditAmount()) {
+			Accounter.showError(Accounter.constants()
+					.amountToUseMustLessthanTotalCredits());
+			showError();
+			return false;
 		} else {
 			return true;
 		}
 
+	}
+
+	@Override
+	protected boolean onCancel() {
+		resetRecords();
+		return super.onCancel();
 	}
 
 	@Override

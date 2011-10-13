@@ -199,7 +199,7 @@ public interface AccounterConstants extends Constants {
 	public String agency();
 
 	public String anItemGroupAlreadyExistswiththisname();
-	
+
 	public String anItemAlreadyExistswiththisname();
 
 	public String all();
@@ -4937,4 +4937,6 @@ public interface AccounterConstants extends Constants {
 	public String reconciliationsEmpty();
 
 	public String depositAndAccountFromShouldNotBeSame();
+
+	public String amountToUseMustLessthanTotalCredits();
 }

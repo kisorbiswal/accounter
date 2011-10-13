@@ -336,6 +336,12 @@ public class ReceivePaymentView extends
 			protected boolean isInViewMode() {
 				return ReceivePaymentView.this.isInViewMode();
 			}
+
+			@Override
+			protected void calculateUnusedCredits() {
+				ReceivePaymentView.this.calculateUnusedCredits();
+
+			}
 		};
 		gridView.setCustomer(this.getCustomer());
 		gridView.setDisabled(isInViewMode());
@@ -610,8 +616,8 @@ public class ReceivePaymentView extends
 		mainVLay.add(topHLay);
 		mainVLay.add(gridLayout);
 
-//		if (UIUtils.isMSIEBrowser())
-//			payForm.getCellFormatter().setWidth(0, 1, "200px");
+		// if (UIUtils.isMSIEBrowser())
+		// payForm.getCellFormatter().setWidth(0, 1, "200px");
 
 		this.add(mainVLay);
 		setSize("100%", "100%");
@@ -623,7 +629,6 @@ public class ReceivePaymentView extends
 		listforms.add(textForm);
 
 		settabIndexes();
-
 	}
 
 	private void settabIndexes() {
