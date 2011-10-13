@@ -108,15 +108,11 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = statusRequirement(context);
-		if (result != null) {
-			return result;
-		}
-
 		result = createOptionalResult(context);
 		if (result != null) {
 			return result;
 		}
+
 		completeProcess(context);
 		markDone();
 		return null;
@@ -128,35 +124,36 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 	 * @param context
 	 */
 	private void completeProcess(Context context) {
-		
+
 		SalesOrder newSalesOrder = new SalesOrder();
 
 		Customer customer = get(CUSTOMER).getValue();
 		newSalesOrder.setCustomer(customer);
 
 		newSalesOrder.setPhone((String) get(PHONE).getValue());
-		
+
 		newSalesOrder.setStatus((Integer) get(STATUS).getValue());
 
 		newSalesOrder.setNumber((String) get(ORDER_NO).getValue());
-		
-		newSalesOrder.setCustomerOrderNumber((String) get(CUSTOMER_ORDERNO).getValue());
-		
+
+		newSalesOrder.setCustomerOrderNumber((String) get(CUSTOMER_ORDERNO)
+				.getValue());
+
 		PaymentTerms newPaymentTerms = get(PAYMENT_TERMS).getValue();
 		newSalesOrder.setPaymentTerm(newPaymentTerms);
-		
+
 		ShippingTerms newShippingTerms = get(SHIPPING_TERMS).getValue();
 		newSalesOrder.setShippingTerm(newShippingTerms);
-		
+
 		ShippingMethod newShippingMethod = get(SHIPPING_METHODS).getValue();
 		newSalesOrder.setShippingMethod(newShippingMethod);
-		
+
 		Date date = get(DUE_DATE).getValue();
 		newSalesOrder.setDate(new FinanceDate(date));
-		
+
 		List<TransactionItem> items = get(ITEMS).getValue();
 		newSalesOrder.setTransactionItems(items);
-		
+
 		create(newSalesOrder, context);
 	}
 
@@ -226,6 +223,11 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
+		result = statusRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+
 		result = context.makeResult();
 		result.add(" Item is ready to create with following values.");
 		result.add(list);
@@ -235,6 +237,40 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 		actions.add(finish);
 		result.add(actions);
 
+		return result;
+	}
+
+	private Result statusRequirement(Context context, ResultList list,
+			Object selection) {
+		Requirement statusReq = get(STATUS);
+		String statuses = context.getSelection(STATUS);
+		if (statuses != null) {
+			statusReq.setValue(statuses);
+		}
+		if (!statusReq.isDone()) {
+			return statusPrevious(context, null);
+		}
+		return null;
+	}
+
+	private Result statusPrevious(Context context, String oldstatus) {
+		List<String> statusmethods = getstatusmethod();
+		Result result = context.makeResult();
+		result.add("Select Status");
+
+		ResultList list = new ResultList("statusmethods");
+		int num = 0;
+		if (oldstatus != null) {
+			list.add(createStatusMethodRecord(oldstatus));
+			num++;
+		}
+		for (String stats : statusmethods) {
+			if (stats != oldstatus) {
+				list.add(createStatusMethodRecord(stats));
+				num++;
+			}
+		}
+		result.add(list);
 		return result;
 	}
 
@@ -254,8 +290,8 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 
 		if (selection == shippingTerm) {
 			return shippingTerms(context, shippingTerm);
-
 		}
+
 		if (shippingObj != null) {
 			shippingTerm = (ShippingTerms) shippingObj;
 			shippingTermsReq.setValue(shippingTerm);
@@ -508,25 +544,4 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 	// return null;
 	// }
 
-	/**
-	 * 
-	 * @param context
-	 * @return
-	 */
-	private Result statusRequirement(Context context) {
-		Requirement statusReq = get(STATUS);
-		if (!statusReq.isDone()) {
-			String string = context.getString();
-			if (string != null) {
-				statusReq.setValue(string);
-			} else {
-				return text(context, "Please select the status", null);
-			}
-		}
-		String input = (String) context.getAttribute(INPUT_ATTR);
-		if (input.equals(NAME)) {
-			statusReq.setValue(input);
-		}
-		return null;
-	}
 }

@@ -512,8 +512,10 @@ public class MacMenuServlet extends BaseServlet {
 					+ " "
 					+ iGlobal.constants().items(),
 					"company/accounter#vendorItems");
-			subMenu(supplierValues, "Bills And Expenses",
-					"company/accounter#billsAndExpenses");
+			if (preferences.isDoyouKeepTrackofBills()) {
+				subMenu(supplierValues, "Bills And Expenses",
+						"company/accounter#billsAndExpenses");
+			}
 		}
 		if (canSeeBanking()) {
 			subMenu(supplierValues,

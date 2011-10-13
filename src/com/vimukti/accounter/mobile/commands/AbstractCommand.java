@@ -647,6 +647,21 @@ public abstract class AbstractCommand extends Command {
 		return result;
 	}
 
+	protected List<String> getstatusmethod() {
+		List<String> list = new ArrayList<String>();
+		list.add("Open");
+		list.add("Completed");
+		list.add("Cancelled");
+		return list;
+	}
+
+	protected Record createStatusMethodRecord(String statusMethod) {
+		Record record = new Record(statusMethod);
+		record.add("Name", "Status Method");
+		record.add("value", statusMethod);
+		return record;
+	}
+
 	protected Record createPayMentMethodRecord(String paymentMethod) {
 		Record record = new Record(paymentMethod);
 		record.add("Name", "Payment Method");
