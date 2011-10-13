@@ -56,12 +56,12 @@ public class VendorCreditMemo extends Transaction {
 	/**
 	 * The Contact information to contact the Specified Vendor
 	 */
-	Contact contact;
+	private Contact contact;
 
 	/**
 	 * The phone number to contact the Specified Vendor
 	 */
-	String phone;
+	private String phone;
 
 	double balanceDue = 0D;
 
@@ -305,6 +305,14 @@ public class VendorCreditMemo extends Transaction {
 			throws AccounterException {
 
 		return super.canEdit(clientObject);
+	}
+
+	public void setContact(Contact contact) {
+		this.contact = contact;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 }
