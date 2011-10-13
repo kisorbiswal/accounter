@@ -27,6 +27,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -378,6 +379,14 @@ public class CustomerCreditMemoView extends
 		updateTransaction();
 		saveOrUpdate(transaction);
 
+	}
+
+	@Override
+	public ValidationResult validate() {
+		ValidationResult result = super.validate();
+		result.add(customerAccountTransactionTable.validateGrid());
+		result.add(customerItemTransactionTable.validateGrid());
+		return result;
 	}
 
 	protected void updateTransaction() {
@@ -796,8 +805,8 @@ public class CustomerCreditMemoView extends
 	}
 
 	public void resetFormView() {
-//		custForm.getCellFormatter().setWidth(0, 1, "200px");
-//		custForm.setWidth("75%");
+		// custForm.getCellFormatter().setWidth(0, 1, "200px");
+		// custForm.setWidth("75%");
 		// refText.setWidth("200px");
 		// priceLevelSelect.setWidth("150px");
 	}
