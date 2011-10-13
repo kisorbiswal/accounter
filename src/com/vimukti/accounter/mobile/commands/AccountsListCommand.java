@@ -36,7 +36,7 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 	@Override
 	public Result run(Context context) {
 		Result result = null;
-
+		get(ACTIVE).setDefaultValue(Boolean.TRUE);
 		result = createAccountsList(context);
 		markDone();
 		return result;
