@@ -205,7 +205,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 				}
 			} else {
 				selection = context.getSelection(ACTIONS);
-				if (selection == ActionNames.FINISH) {
+				if (selection == ActionNames.FINISH_ITEM) {
 					context.removeAttribute(PROCESS_ATTR);
 					context.removeAttribute(OLD_TRANSACTION_ITEM_ATTR);
 					return null;
@@ -263,7 +263,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		record = new Record(ActionNames.DELETE_ITEM);
 		record.add("", "Delete");
 		actions.add(record);
-		record = new Record(ActionNames.FINISH);
+		record = new Record(ActionNames.FINISH_ITEM);
 		record.add("", "Finish");
 		actions.add(record);
 		result.add(actions);
@@ -306,7 +306,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 				}
 			} else {
 				selection = context.getSelection(ACTIONS);
-				if (selection == ActionNames.FINISH) {
+				if (selection == ActionNames.FINISH_ITEM) {
 					context.removeAttribute(PROCESS_ATTR);
 					context.removeAttribute(OLD_TRANSACTION_ACCOUNT_ITEM_ATTR);
 					return null;
@@ -358,7 +358,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		record = new Record(ActionNames.DELETE_ITEM);
 		record.add("", "Delete");
 		actions.add(record);
-		record = new Record(ActionNames.FINISH);
+		record = new Record(ActionNames.FINISH_ITEM);
 		record.add("", "Finish");
 		actions.add(record);
 		result.add(actions);
@@ -425,6 +425,11 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			result.add("Slect an Item(s).");
 		} else {
 			result.add("You don't have Items.");
+			Record record = new Record("escape");
+			record.add("", "Skip");
+			ResultList resultList = new ResultList("escape");
+			resultList.add(record);
+			result.add(resultList);
 		}
 
 		result.add(list);
