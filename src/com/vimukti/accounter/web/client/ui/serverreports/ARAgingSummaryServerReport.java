@@ -185,15 +185,15 @@ public class ARAgingSummaryServerReport extends
 	public int getColumnWidth(int index) {
 		switch (index) {
 		case 1:
-			return 140;
+			return 110;
 		case 2:
-			return 140;
+			return 110;
 		case 3:
-			return 140;
+			return 110;
 		case 4:
-			return 140;
+			return 110;
 		case 5:
-			return 140;
+			return 110;
 
 		default:
 			return -1;
