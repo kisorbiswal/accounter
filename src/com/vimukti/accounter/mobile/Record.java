@@ -26,6 +26,10 @@ public class Record extends ArrayList<Cell> {
 		return object;
 	}
 
+	public void setObject(Object object) {
+		this.object = object;
+	}
+
 	/**
 	 * @param i
 	 */
@@ -35,6 +39,10 @@ public class Record extends ArrayList<Cell> {
 
 	@Override
 	public String toString() {
-		return "\n" + code + "." + object.toString();
+		StringBuilder builder = new StringBuilder();
+		for (Cell cell : this) {
+			builder.append(cell.toString());
+		}
+		return "\n" + code + ". " + builder.toString();
 	}
 }
