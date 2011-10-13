@@ -274,6 +274,7 @@ public class CreditCardExpenseView extends
 										.getDefaultTaxCode();
 							taxCodeSelect.setComboItem(getCompany().getTAXCode(
 									code));
+							taxCodeSelected(getCompany().getTAXCode(code));
 						}
 					}
 				});
