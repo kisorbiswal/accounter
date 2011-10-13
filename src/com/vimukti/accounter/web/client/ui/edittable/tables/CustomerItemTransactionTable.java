@@ -19,9 +19,6 @@ import com.vimukti.accounter.web.client.ui.edittable.TransactionVatColumn;
 public abstract class CustomerItemTransactionTable extends
 		CustomerTransactionTable {
 
-	private boolean enableTax;
-	private boolean showTaxCode;
-
 	/**
 	 * Creates the instance
 	 */

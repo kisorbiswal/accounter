@@ -19,9 +19,6 @@ import com.vimukti.accounter.web.client.ui.edittable.TransactionVatColumn;
 
 public abstract class VendorItemTransactionTable extends VendorTransactionTable {
 
-	private boolean enableTax;
-	private boolean showTaxCode;
-
 	public VendorItemTransactionTable(boolean enableTax, boolean showTaxCode,
 			ICurrencyProvider currencyProvider) {
 		this(true, enableTax, showTaxCode, currencyProvider);

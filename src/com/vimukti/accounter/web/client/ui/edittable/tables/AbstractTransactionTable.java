@@ -25,6 +25,9 @@ public abstract class AbstractTransactionTable extends
 	double grandTotal;
 	double totaldiscount;
 
+	protected boolean enableTax;
+	protected boolean showTaxCode;
+
 	protected boolean needDiscount = true;
 
 	private final boolean isSales;
@@ -202,8 +205,7 @@ public abstract class AbstractTransactionTable extends
 						Accounter.messages().pleaseSelectCustomer(
 								Utility.getItemType(item.getType())));
 			}
-			if (getCompany().getPreferences().isTrackTax()
-					&& getCompany().getPreferences().isTrackPaidTax()) {
+			if (enableTax && showTaxCode) {
 				if (item.getTaxCode() == 0) {
 					result.addError(
 							"GridItemUK-" + item.getAccount(),

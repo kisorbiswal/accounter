@@ -978,6 +978,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				setAccountType(data.getType());
 			}
 		}
+		String accountTypeString = Utility.getAccountTypeString(accountType);
+		if (accountTypeString != null) {
+			accTypeSelect.setSelected(accountTypeString);
+		}
 		if (isNewBankAccount())
 			lab1.setText(" "
 					+ Accounter.messages().bankAccount(Global.get().Account()));
