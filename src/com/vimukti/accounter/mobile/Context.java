@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.tools.ant.taskdefs.email.EmailAddress;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Address;
@@ -149,6 +150,7 @@ public class Context {
 			List<Double> doubles = new ArrayList<Double>();
 			List<String> strings = new ArrayList<String>();
 			List<Date> dates = new ArrayList<Date>();
+
 			for (String string : inputs) {
 				if (StringUtils.isInteger(string)) {
 					try {
@@ -206,7 +208,7 @@ public class Context {
 	 * @return
 	 */
 	public Object getAttribute(String name) {
-		 return this.session.getAttribute(name);
+		return this.session.getAttribute(name);
 	}
 
 	/**
@@ -216,7 +218,7 @@ public class Context {
 	 * @return
 	 */
 	public Object removeAttribute(String name) {
-		return attributes.remove(name);
+		return session.removeAttribute(name);
 	}
 
 	public Object getLast(RequirementType type) {
