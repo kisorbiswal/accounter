@@ -2063,7 +2063,8 @@ public class UIUtils {
 		char[] charArray = location.toCharArray();
 		for (int i = 0; i < charArray.length; i++) {
 			if ((charArray[i] >= 'A' && charArray[i] <= 'Z')
-					|| (charArray[i] >= 'a' && charArray[i] <= 'z')) {
+					|| (charArray[i] >= 'a' && charArray[i] <= 'z')
+					|| charArray[i] == '-' || charArray[i] == ' ') {
 				continue;
 			} else {
 				return false;
