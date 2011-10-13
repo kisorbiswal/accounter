@@ -29,7 +29,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new Requirement("supplier", false, true));
-		list.add(new ObjectListRequirement("items", false, true) {
+		list.add(new ObjectListRequirement(ITEMS, false, true) {
 
 			@Override
 			public void addRequirements(List<Requirement> list) {
@@ -51,6 +51,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 
 	@Override
 	public Result run(Context context) {
+		setTransactionType(VENDOR_TRANSACTION);
 		Result result = context.makeResult();
 		result = createSupplierRequirement(context);
 		if (result != null) {
@@ -89,7 +90,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 				break;
 			}
 		}
-		Requirement itemsReq = get("items");
+		Requirement itemsReq = get(ITEMS);
 		List<TransactionItem> transItems = itemsReq.getValue();
 
 		selection = context.getSelection("transactionItems");
@@ -174,7 +175,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		String creditnoteno = (String) req.getValue();
 
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(ORDER_NO)) {
+		if (creditnoteno == null && attribute.equals(ORDER_NO)) {
 			String order = context.getSelection(NUMBER);
 			if (order == null) {
 				order = context.getNumber();
@@ -205,18 +206,19 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		String number = get("number").getValue();
 		vendorCreditMemo.setNumber(number);
 
-		List<TransactionItem> items = get("items").getValue();
-		List<TransactionItem> accounts = get("accounts").getValue();
-		items.addAll(accounts);
+		List<TransactionItem> items = get(ITEMS).getValue();
+		if (get("accounts") != null) {
+			List<TransactionItem> accounts = get("accounts").getValue();
+			items.addAll(accounts);
+		}
 		vendorCreditMemo.setTransactionItems(items);
 
-		// TODO Contact
 		Contact contact = get("contact").getValue();
+		vendorCreditMemo.setContact(contact);
 		// TODO Location
 		// TODO Class
-		// TODO Phone
 		String phone = get("phone").getValue();
-
+		vendorCreditMemo.setPhone(phone);
 		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 			TAXCode taxCode = get("tax").getValue();
 			for (TransactionItem item : items) {
