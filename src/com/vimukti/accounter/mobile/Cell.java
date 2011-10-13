@@ -2,12 +2,12 @@ package com.vimukti.accounter.mobile;
 
 public class Cell {
 	Object value;
-	
+
 	String name;
-	
-	Cell(String name,Object value){
-		this.name=name;
-		this.value=value;
+
+	Cell(String name, Object value) {
+		this.name = name;
+		this.value = value;
 	}
 
 	public Object getValue() {
@@ -24,5 +24,13 @@ public class Cell {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public String toString() {
+		if (name.isEmpty()) {
+			return "--> " + value;
+		}
+		return name + " --> " + value;
 	}
 }
