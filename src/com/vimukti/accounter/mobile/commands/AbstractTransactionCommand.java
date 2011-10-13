@@ -80,13 +80,14 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final String ITEMS = "items";
 	protected static final int VENDOR_TRANSACTION = 2;
 	protected static final int CUSTOMER_TRANSACTION = 1;
+	protected static final String SUPPLIER = "supplier";
+	protected static final String CONTACT = "contact";
+	protected static final String PHONE = "phone";
 	private int transactionType;
 
 	protected Result itemsRequirement(Context context) {
 		Requirement transItemsReq = get(ITEMS);
 		List<Item> items = context.getSelections(ITEMS);
-		// TODO need to set unit
-		// price,quantity,discount,taxable,description
 		if (!transItemsReq.isDone()) {
 			if (items != null && items.size() > 0) {
 				List<TransactionItem> transactionItems = new ArrayList<TransactionItem>();
@@ -539,7 +540,9 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		}
 		Record contactRecord = new Record(contact);
 		contactRecord.add("Name", "Customer Contact");
-		contactRecord.add("Value", contact.getName());
+		if (contact.getName() != null) {
+			contactRecord.add("Value", contact.getName());
+		}
 		list.add(contactRecord);
 		return null;
 	}
