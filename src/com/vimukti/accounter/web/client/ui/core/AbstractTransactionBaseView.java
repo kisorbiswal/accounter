@@ -4,6 +4,7 @@
 package com.vimukti.accounter.web.client.ui.core;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +50,6 @@ import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.CustomMenuItem;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.WriteChequeView;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
 import com.vimukti.accounter.web.client.ui.combo.ClassListCombo;
@@ -412,8 +412,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 		// formItems.add(item);
 
-//		if (UIUtils.isMSIEBrowser())
-//			item.setWidth("150px");
+		// if (UIUtils.isMSIEBrowser())
+		// item.setWidth("150px");
 
 		return item;
 
@@ -735,6 +735,16 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 		super.initData();
 
+	}
+
+	protected boolean checkOpen(Collection<ClientTransactionItem> items,
+			int type, boolean defaultValue) {
+		for (ClientTransactionItem item : transactionItems) {
+			if (item.getType() == type) {
+				return true;
+			}
+		}
+		return defaultValue;
 	}
 
 	@Override

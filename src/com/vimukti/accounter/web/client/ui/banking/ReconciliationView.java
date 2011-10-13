@@ -280,6 +280,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 	}
 
 	private void setOpeningBalance() {
+		clearedAmount.setAmount(0.00D);
 		rpcGetService.getOpeningBalanceforReconciliation(data.getAccount()
 				.getID(), new AccounterAsyncCallback<Double>() {
 

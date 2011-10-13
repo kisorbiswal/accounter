@@ -65,6 +65,8 @@ public class CustomerCreditMemoView extends
 	private AmountLabel transactionTotalNonEditableText, netAmountLabel,
 			taxTotalNonEditableText;
 	private AddNewButton accountTableButton, itemTableButton;
+	private DisclosurePanel accountsDisclosurePanel;
+	private DisclosurePanel itemsDisclosurePanel;
 
 	public CustomerCreditMemoView() {
 
@@ -214,8 +216,7 @@ public class CustomerCreditMemoView extends
 		});
 
 		FlowPanel accountFlowPanel = new FlowPanel();
-		DisclosurePanel accountsDisclosurePanel = new DisclosurePanel(
-				"Itemize by Account");
+		accountsDisclosurePanel = new DisclosurePanel("Itemize by Account");
 		accountFlowPanel.add(customerAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
@@ -248,8 +249,7 @@ public class CustomerCreditMemoView extends
 		});
 
 		FlowPanel itemsFlowPanel = new FlowPanel();
-		DisclosurePanel itemsDisclosurePanel = new DisclosurePanel(
-				"Itemize by Product/Service");
+		itemsDisclosurePanel = new DisclosurePanel("Itemize by Product/Service");
 		itemsFlowPanel.add(customerItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
@@ -860,6 +860,12 @@ public class CustomerCreditMemoView extends
 				customerItemTransactionTable.setAllRows(list);
 			}
 		}
+		accountsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ACCOUNT, true));
+		itemsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ITEM, false));
 	}
 
 	@Override

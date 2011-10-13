@@ -78,6 +78,8 @@ public class CashSalesView extends
 			taxTotalNonEditableText;
 	private Double transactionTotal = 0.0D;
 	private AddNewButton accountTableButton, itemTableButton;
+	private DisclosurePanel accountsDisclosurePanel;
+	private DisclosurePanel itemsDisclosurePanel;
 
 	public CashSalesView() {
 		super(ClientTransaction.TYPE_CASH_SALES);
@@ -266,8 +268,7 @@ public class CashSalesView extends
 		});
 
 		FlowPanel accountFlowPanel = new FlowPanel();
-		DisclosurePanel accountsDisclosurePanel = new DisclosurePanel(
-				"Itemize by Account");
+		accountsDisclosurePanel = new DisclosurePanel("Itemize by Account");
 		accountFlowPanel.add(customerAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
@@ -299,8 +300,7 @@ public class CashSalesView extends
 		});
 
 		FlowPanel itemsFlowPanel = new FlowPanel();
-		DisclosurePanel itemsDisclosurePanel = new DisclosurePanel(
-				"Itemize by Product/Service");
+		itemsDisclosurePanel = new DisclosurePanel("Itemize by Product/Service");
 		itemsFlowPanel.add(customerItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
@@ -953,11 +953,11 @@ public class CashSalesView extends
 	}
 
 	private void resetFormView() {
-//		custForm.getCellFormatter().setWidth(0, 1, "200px");
-//		custForm.setWidth("75%");
+		// custForm.getCellFormatter().setWidth(0, 1, "200px");
+		// custForm.setWidth("75%");
 		// priceLevelSelect.setWidth("150px");
 		// refText.setWidth("200px");
-		//memoTextAreaItem.setWidth("200px");
+		// memoTextAreaItem.setWidth("200px");
 	}
 
 	@Override
@@ -993,6 +993,12 @@ public class CashSalesView extends
 				customerItemTransactionTable.setAllRows(list);
 			}
 		}
+		accountsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ACCOUNT, true));
+		itemsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ITEM, false));
 	}
 
 	@Override
