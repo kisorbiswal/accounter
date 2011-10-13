@@ -206,6 +206,7 @@
 		<alias>Add TAX Item</alias>
 		<alias>Create TAX Item</alias>
 		<alias>New Tax Item</alias>
+		<alias>New Vat Item</alias>
 	</command>
 
 	<command clazz="NewServiceItemCommand" name="New Service Item">
