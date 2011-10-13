@@ -202,7 +202,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		String creditnoteno = (String) req.getValue();
 
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (creditnoteno == null && attribute.equals(ORDER_NO)) {
+		if (attribute.equals(ORDER_NO)) {
 			String order = context.getSelection(NUMBER);
 			if (order == null) {
 				order = context.getNumber();
