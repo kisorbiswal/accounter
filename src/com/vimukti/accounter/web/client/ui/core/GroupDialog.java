@@ -67,7 +67,7 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 		listGridView.setView(this);
 		listGridView.addColumns(setColumns());
 		listGridView.setColumnTypes(getColunmTypes());
-		DialogGrid.BODY_WIDTH=1;
+		DialogGrid.BODY_WIDTH = 1;
 		listGridView.isEnable = false;
 		listGridView.init();
 		listGridView.setWidth("100%");
@@ -131,14 +131,15 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 		buttonsLayout.add(button1);
 		buttonsLayout.add(button2);
 		buttonsLayout.add(button3);
+		cancelBtn.setText(constants.close());
 		// button2.enabledButton();
 		// button3.enabledButton();
 		button1.setFocus(true);
 		bodyLayout.add(listGridView);
 		if (Accounter.getUser().canDoInvoiceTransactions())
 			bodyLayout.add(buttonsLayout);
-		buttonsLayout.getElement().getParentElement()
-				.setAttribute("width", "25%");
+		buttonsLayout.getElement().getParentElement().setAttribute("width",
+				"25%");
 		setBodyLayout(bodyLayout);
 		cancelBtn.setTitle(this.constants.close());
 		dialogHandler = new InputDialogHandler() {

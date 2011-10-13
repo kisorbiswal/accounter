@@ -49,8 +49,6 @@ public class AddressDialog extends BaseDialog<ClientAddress> {
 		if (allAddresses != null) {
 			add = allAddresses.get(UIUtils.getAddressType(addressType));
 		}
-		// final TextItem street = new TextItem(Accounter
-		// .constants().streetName());
 		address1 = new TextItem(Accounter.constants().address1());
 		address1.setHelpInformation(true);
 
@@ -68,19 +66,6 @@ public class AddressDialog extends BaseDialog<ClientAddress> {
 
 		zip = new TextItem(Accounter.constants().postalCode());
 		zip.setHelpInformation(true);
-		// country.setWidth(100);
-
-		// country.setValueMap(Accounter.constants().uk(),
-		// Accounter.constants().india(),
-		// Accounter.constants().us());
-		// Iterator itr=countryList.iterator();
-		// while(itr.hasNext())
-		// // country.setValue(itr.next());
-		// String[] countryList = (String[]) getCountryList().toArray();
-		// country.setCountryList();
-
-		// country.setValueMap(getCountryList());
-		// country.setDefaultValue(Accounter.constants().UK());
 
 		if (add != null) {
 			if (add.getAddress1() != null)
@@ -110,7 +95,7 @@ public class AddressDialog extends BaseDialog<ClientAddress> {
 		v1.setWidth("100%");
 
 		setBodyLayout(v1);
-
+		setAddressToTextAread(new ValidationResult());
 		center();
 
 	}
@@ -172,6 +157,11 @@ public class AddressDialog extends BaseDialog<ClientAddress> {
 	@Override
 	protected ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
+		setAddressToTextAread(result);
+		return result;
+	}
+
+	private void setAddressToTextAread(ValidationResult result) {
 		String toBeSet = "";
 		int isEmptyCounter = 0;
 
@@ -221,9 +211,9 @@ public class AddressDialog extends BaseDialog<ClientAddress> {
 			textAreaItem.setValue(toBeSet);
 			allAddresses.put(UIUtils.getAddressType(addressType), value);
 		} else {
+			textAreaItem.setValue("");
 			result.addError(this, Accounter.constants().shouldNotEmpty());
 		}
-		return result;
 	}
 
 	@Override
@@ -233,7 +223,7 @@ public class AddressDialog extends BaseDialog<ClientAddress> {
 
 	@Override
 	public void setFocus() {
-	address1.setFocus();
+		address1.setFocus();
 
 	}
 }
