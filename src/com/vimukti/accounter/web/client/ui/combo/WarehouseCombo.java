@@ -46,7 +46,7 @@ public class WarehouseCombo extends CustomCombo<ClientWarehouse> {
 	}
 
 	@Override
-	protected String getColumnData(ClientWarehouse object, int row, int col) {
+	protected String getColumnData(ClientWarehouse object,  int col) {
 		switch (col) {
 		case 0:
 			return object.getName();

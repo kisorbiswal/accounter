@@ -55,7 +55,7 @@ public class TemplateCombo extends CustomCombo {
 	}
 
 	@Override
-	protected String getColumnData(Object object, int row, int col) {
+	protected String getColumnData(Object object,  int col) {
 		switch (col) {
 		case 0:
 			return object.toString();

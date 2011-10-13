@@ -33,7 +33,7 @@ public class CustomerGroupCombo extends CustomCombo<ClientCustomerGroup> {
 	}
 
 	@Override
-	protected String getColumnData(ClientCustomerGroup object, int row, int col) {
+	protected String getColumnData(ClientCustomerGroup object,  int col) {
 		switch (col) {
 		case 0:
 			return object.getName();

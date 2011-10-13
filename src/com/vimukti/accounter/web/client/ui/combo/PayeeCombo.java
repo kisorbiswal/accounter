@@ -58,7 +58,7 @@ public class PayeeCombo extends CustomCombo<ClientPayee> {
 		// action.run(this, null, true);
 
 	@Override
-	protected String getColumnData(ClientPayee object, int row, int col) {
+	protected String getColumnData(ClientPayee object,  int col) {
 		switch (col) {
 		case 0:
 			return object.getName();

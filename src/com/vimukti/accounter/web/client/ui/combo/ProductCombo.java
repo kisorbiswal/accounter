@@ -61,7 +61,7 @@ public class ProductCombo extends CustomCombo<ClientItem> {
 	}
 
 	@Override
-	protected String getColumnData(ClientItem object, int row, int col) {
+	protected String getColumnData(ClientItem object, int col) {
 		switch (col) {
 		case 0:
 			return object.getName();

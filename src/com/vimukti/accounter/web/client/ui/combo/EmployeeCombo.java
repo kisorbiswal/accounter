@@ -61,7 +61,7 @@ public class EmployeeCombo extends CustomCombo<ClientUserInfo> {
 	}
 
 	@Override
-	protected String getColumnData(ClientUserInfo object, int row, int col) {
+	protected String getColumnData(ClientUserInfo object,  int col) {
 		switch (col) {
 		case 0:
 			return object.getName();

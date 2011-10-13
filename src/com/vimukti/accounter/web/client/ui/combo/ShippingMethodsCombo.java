@@ -38,7 +38,7 @@ public class ShippingMethodsCombo extends CustomCombo<ClientShippingMethod> {
 	}
 
 	@Override
-	protected String getColumnData(ClientShippingMethod object, int row, int col) {
+	protected String getColumnData(ClientShippingMethod object, int col) {
 		switch (col) {
 		case 0:
 			return object.getName();

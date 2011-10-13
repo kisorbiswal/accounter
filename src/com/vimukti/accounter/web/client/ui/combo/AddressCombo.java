@@ -42,7 +42,7 @@ public class AddressCombo extends CustomCombo<ClientAddress> {
 	}
 
 	@Override
-	protected String getColumnData(ClientAddress object, int row, int col) {
+	protected String getColumnData(ClientAddress object, int col) {
 		switch (col) {
 		case 0:
 			return object.getName();

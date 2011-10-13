@@ -27,7 +27,7 @@ public class ClassListCombo extends CustomCombo<ClientAccounterClass> {
 	}
 
 	@Override
-	protected String getColumnData(ClientAccounterClass object, int row, int col) {
+	protected String getColumnData(ClientAccounterClass object, int col) {
 		switch (col) {
 		case 0:
 			return object.getClassName();

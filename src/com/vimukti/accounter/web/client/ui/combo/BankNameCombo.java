@@ -30,7 +30,7 @@ public class BankNameCombo extends CustomCombo<ClientBank> {
 
 
 	@Override
-	protected String getColumnData(ClientBank object, int row, int col) {
+	protected String getColumnData(ClientBank object, int col) {
 		switch (col) {
 		case 0:
 			return object.getName();

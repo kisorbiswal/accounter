@@ -32,7 +32,7 @@ public class CreditRatingCombo extends CustomCombo<ClientCreditRating> {
 	}
 
 	@Override
-	protected String getColumnData(ClientCreditRating object, int row, int col) {
+	protected String getColumnData(ClientCreditRating object, int col) {
 		switch (col) {
 		case 0:
 			return object.getName();

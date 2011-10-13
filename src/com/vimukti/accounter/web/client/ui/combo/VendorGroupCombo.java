@@ -33,7 +33,7 @@ public class VendorGroupCombo extends CustomCombo<ClientVendorGroup> {
 	}
 
 	@Override
-	protected String getColumnData(ClientVendorGroup object, int row, int col) {
+	protected String getColumnData(ClientVendorGroup object,  int col) {
 		switch (col) {
 		case 0:
 			return object.getName();

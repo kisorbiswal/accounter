@@ -462,7 +462,7 @@ public class ViewManager extends HorizontalPanel {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
-				closeCurrentView();
+				existingView.cancel();
 			}
 		});
 		group1.add(previousButton);

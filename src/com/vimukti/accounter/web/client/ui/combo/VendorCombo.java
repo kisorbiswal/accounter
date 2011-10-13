@@ -52,7 +52,7 @@ public class VendorCombo extends CustomCombo<ClientVendor> {
 	}
 
 	@Override
-	protected String getColumnData(ClientVendor object, int row, int col) {
+	protected String getColumnData(ClientVendor object, int col) {
 		switch (col) {
 		case 0:
 			return object.getName();

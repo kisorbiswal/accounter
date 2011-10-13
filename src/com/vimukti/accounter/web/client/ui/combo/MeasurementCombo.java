@@ -22,7 +22,7 @@ public class MeasurementCombo extends CustomCombo<ClientMeasurement> {
 	}
 
 	@Override
-	protected String getColumnData(ClientMeasurement object, int row, int col) {
+	protected String getColumnData(ClientMeasurement object, int col) {
 		return null;
 	}
 

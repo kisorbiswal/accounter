@@ -30,7 +30,7 @@ public class BrandingThemeCombo extends CustomCombo<ClientBrandingTheme> {
 	}
 
 	@Override
-	protected String getColumnData(ClientBrandingTheme object, int row, int col) {
+	protected String getColumnData(ClientBrandingTheme object, int col) {
 		switch (col) {
 		case 0:
 			return object.getThemeName();

@@ -39,7 +39,7 @@ public class SelectCombo extends CustomCombo<String> {
 	}
 
 	@Override
-	protected String getColumnData(String object, int row, int col) {
+	protected String getColumnData(String object,  int col) {
 		switch (col) {
 		case 0:
 			return object.toString();

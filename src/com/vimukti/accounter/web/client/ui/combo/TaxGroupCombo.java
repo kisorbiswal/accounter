@@ -43,7 +43,7 @@ public class TaxGroupCombo extends CustomCombo<ClientTAXItemGroup> {
 	}
 
 	@Override
-	protected String getColumnData(ClientTAXItemGroup object, int row, int col) {
+	protected String getColumnData(ClientTAXItemGroup object,  int col) {
 		switch (col) {
 		case 0:
 			return object.getName();

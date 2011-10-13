@@ -21,7 +21,7 @@ public class CurrencyCombo extends CustomCombo<ClientCurrency> {
 	}
 
 	@Override
-	protected String getColumnData(ClientCurrency object, int row, int col) {
+	protected String getColumnData(ClientCurrency object,  int col) {
 		switch (col) {
 		case 0:
 			return object.getName();

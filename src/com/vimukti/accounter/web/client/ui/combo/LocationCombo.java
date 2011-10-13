@@ -30,7 +30,7 @@ public class LocationCombo extends CustomCombo<ClientLocation> {
 	}
 
 	@Override
-	protected String getColumnData(ClientLocation object, int row, int col) {
+	protected String getColumnData(ClientLocation object, int col) {
 		switch (col) {
 		case 0:
 			return object.getLocationName();

@@ -86,7 +86,7 @@ public abstract class AccountCombo extends CustomCombo<ClientAccount> {
 	}
 
 	@Override
-	protected String getColumnData(ClientAccount object, int row, int col) {
+	protected String getColumnData(ClientAccount object, int col) {
 
 		switch (col) {
 		case 0:

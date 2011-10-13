@@ -58,7 +58,7 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 	}
 
 	@Override
-	protected String getColumnData(ClientCustomer object, int row, int col) {
+	protected String getColumnData(ClientCustomer object,  int col) {
 		switch (col) {
 		case 0:
 			return object.getName();

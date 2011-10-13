@@ -48,7 +48,7 @@ public class TAXAgencyCombo extends CustomCombo<ClientTAXAgency> {
 	}
 
 	@Override
-	protected String getColumnData(ClientTAXAgency object, int row, int col) {
+	protected String getColumnData(ClientTAXAgency object,  int col) {
 		switch (col) {
 		case 0:
 			return object.getName();

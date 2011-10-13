@@ -95,7 +95,7 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 	}
 
 	@Override
-	protected String getColumnData(ClientTAXCode object, int row, int col) {
+	protected String getColumnData(ClientTAXCode object,  int col) {
 		switch (col) {
 		case 0:
 			return getDisplayName(object);

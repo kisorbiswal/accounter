@@ -63,7 +63,7 @@ public class TaxItemCombo extends CustomCombo<ClientTAXItem> {
 	}
 
 	@Override
-	protected String getColumnData(ClientTAXItem object, int row, int col) {
+	protected String getColumnData(ClientTAXItem object,  int col) {
 		switch (col) {
 		case 0:
 			return getDisplayName(object);
