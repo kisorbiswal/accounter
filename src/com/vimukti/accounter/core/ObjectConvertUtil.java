@@ -7,6 +7,7 @@ import java.util.Map;
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
 
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 
 public class ObjectConvertUtil {
@@ -401,7 +402,7 @@ public class ObjectConvertUtil {
 			if (id == -1)
 				return null;
 
-			return session.get(serverClass, id);
+			return HibernateUtil.initializeAndUnproxy(session.get(serverClass, id));
 
 		} catch (Exception e) {
 			e.printStackTrace();

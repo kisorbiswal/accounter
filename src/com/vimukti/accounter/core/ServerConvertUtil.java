@@ -191,14 +191,14 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 
 			if (src == null)
 				return null;
-			D dt = null;
-			Class<D> serverCoreClass = getServerEqivalentClass(src.getClass());
-			if (!isNotMappingEntity(serverCoreClass)) {
-				// dst = (D) session.get(serverCoreClass, src.getID());
-				dt = (D) loadObjectByid(session, serverCoreClass, src.getID());
+			if (dst != null) {
+				dst = HibernateUtil.initializeAndUnproxy(dst);
 			}
-			dst = dt == null ? dst == null ? serverCoreClass.newInstance()
-					: dst : dt;
+			Class<D> serverCoreClass = getServerEqivalentClass(src.getClass());
+			if (dst == null && !isNotMappingEntity(serverCoreClass)) {
+				dst = (D) loadObjectByid(session, serverCoreClass, src.getID());
+			}
+			dst = dst == null ? serverCoreClass.newInstance() : dst;
 			getCache().put(src, dst);
 
 			Class<S> srcType = (Class<S>) src.getClass();
