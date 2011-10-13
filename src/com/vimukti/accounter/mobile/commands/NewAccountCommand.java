@@ -21,7 +21,7 @@ import com.vimukti.accounter.mobile.ResultList;
  * 
  */
 public class NewAccountCommand extends AbstractTransactionCommand {
-	private static final String ACCOUNT_TYPE = "Account Type";
+
 	private static final String ACCOUNT_NAME = "Account Name";
 	private static final String ACCOUNT_NUMBER = "Account Number";
 	private static final String OPENINGBALANCE = "Opening Balance";
@@ -38,7 +38,7 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(ACCOUNT_TYPE, false, true));
+		list.add(new Requirement(ACCOUNT_TYPE, true, true));
 		list.add(new Requirement(ACCOUNT_NAME, false, true));
 		list.add(new Requirement(ACCOUNT_NUMBER, false, true));
 		list.add(new Requirement(OPENINGBALANCE, false, true));
@@ -53,11 +53,17 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		Result result = null;
 
 		get(OPENINGBALANCE).setDefaultValue(0.0D);
+
+		Object selection = context.getSelection("accountsTypes");
+		result = accountTypesRequirement(context, selection);
+
+		if (result != null) {
+			return result;
+		}
 		result = accountNumberRequirement(context);
 		if (result != null) {
 			return result;
 		}
-
 		result = nameRequirement(context);
 		if (result != null) {
 			return result;
@@ -74,7 +80,7 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 	private Result createNewAccount(Context context) {
 		Account account = new Account();
 
-		Integer accType = (Integer) get(ACCOUNT_TYPE).getValue();
+		String accType = (String) get(ACCOUNT_TYPE).getValue();
 		String accname = (String) get(ACCOUNT_NAME).getValue();
 		Integer accountNum = (Integer) get(ACCOUNT_NUMBER).getValue();
 		double openingBal = (Double) get(OPENINGBALANCE).getValue();
@@ -83,7 +89,7 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 				.getValue();
 		Date asOf = get(ASOF).getValue();
 
-		account.setType(accType);
+		account.setType(getAccTypes().indexOf(accType) + 1);
 		account.setName(accname);
 		account.setNumber(String.valueOf(accountNum));
 		account.setOpeningBalance(openingBal);
@@ -118,20 +124,21 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 				break;
 			}
 		}
+		ResultList list = new ResultList("values");
 		selection = context.getSelection("values");
 
 		Requirement accTypeReq = get(ACCOUNT_TYPE);
-		Integer actype = (Integer) accTypeReq.getValue();
-
-		if (actype == null) {
-			Integer integer = context.getInteger();
-			if (integer != null)
-				accTypeReq.setValue(integer);
-		}
-		if (!accTypeReq.isDone()) {
-			context.setAttribute(INPUT_ATTR, ACCOUNT_TYPE);
-			return number(context, "Please enter the account Type", null);
-		}
+		String actype = (String) accTypeReq.getValue();
+		//
+		// if (actype == null) {
+		// Integer integer = context.getInteger();
+		// if (integer != null)
+		// accTypeReq.setValue(integer);
+		// }
+		// if (!accTypeReq.isDone()) {
+		// context.setAttribute(INPUT_ATTR, ACCOUNT_TYPE);
+		// return number(context, "Please enter the account Type", null);
+		// }
 
 		Requirement accNameReq = get(ACCOUNT_NAME);
 		String name = (String) accNameReq.getValue();
@@ -146,8 +153,6 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 			context.setAttribute(INPUT_ATTR, ACCOUNT_NUMBER);
 			return number(context, "Please Enter Accoount Number", "" + num);
 		}
-
-		ResultList list = new ResultList("values");
 
 		Record accTypeRecord = new Record(actype);
 		accTypeRecord.add("", "actype");
