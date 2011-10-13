@@ -139,8 +139,8 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		}
 
 		Record supplierRecord = new Record(supplier);
-		supplierRecord.add("Name", SUPPLIER);
-		supplierRecord.add("Value", supplier.getName());
+		supplierRecord.add("Supplier Name", supplier.getName());
+		// supplierRecord.add("Value", supplier.getName());
 
 		list.add(supplierRecord);
 
@@ -178,8 +178,8 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		for (TransactionItem item : transItems) {
 			Record itemRec = new Record(item);
 			itemRec.add("Name", item.getItem().getName());
-			itemRec.add("Total", item.getLineTotal());
-			itemRec.add("VatCode", item.getVATfraction());
+			itemRec.add(", Total", item.getLineTotal());
+			itemRec.add(", VatCode", item.getVATfraction());
 			items.add(itemRec);
 		}
 		result.add(items);
@@ -217,8 +217,8 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		}
 
 		Record creditNoteNoRec = new Record(creditnoteno);
-		creditNoteNoRec.add("Name", "Credit Note No");
-		creditNoteNoRec.add("Value", creditnoteno);
+		// creditNoteNoRec.add("Name", "Credit Note No");
+		creditNoteNoRec.add("Credit Note No", creditnoteno);
 		list.add(creditNoteNoRec);
 		return null;
 	}

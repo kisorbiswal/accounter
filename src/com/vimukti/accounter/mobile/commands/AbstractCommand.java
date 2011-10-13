@@ -40,7 +40,7 @@ public abstract class AbstractCommand extends Command {
 	protected static final String CONTACT_LINE_ATTR = null;
 	protected static final String CONTACT_PROCESS = "contactProcess";
 	protected static final String CONTACTS = "contact";
-	protected static final String TAXCODE = null;
+	protected static final String TAXCODE = "taxCode";
 	private static final int TAXCODE_TO_SHOW = 0;
 	protected static final int INCOMEACCOUNTS_TO_SHOW = 5;
 	protected static final int VENDORS_TO_SHOW = 5;
@@ -460,7 +460,7 @@ public abstract class AbstractCommand extends Command {
 	private Record createVendorRecord(Vendor last) {
 		Record record = new Record(last);
 		record.add("Name", last.getName());
-		record.add("Balance", last.getBalance());
+		record.add(" ,Balance", last.getBalance());
 		return record;
 	}
 
@@ -484,8 +484,8 @@ public abstract class AbstractCommand extends Command {
 		}
 
 		Record memoRecord = new Record(memo);
-		memoRecord.add("Name", name);
-		memoRecord.add("Value", memo);
+		memoRecord.add("Memo", memo);
+		// memoRecord.add("Value", memo);
 		list.add(memoRecord);
 		return null;
 	}
@@ -564,8 +564,8 @@ public abstract class AbstractCommand extends Command {
 		}
 
 		Record transDateRecord = new Record(transDate);
-		transDateRecord.add("Name", "Date");
-		transDateRecord.add("Value", transDate.toString());
+		transDateRecord.add("Transaction Date", transDate.toString());
+		// transDateRecord.add("Value", transDate.toString());
 		list.add(transDateRecord);
 		return null;
 	}
