@@ -461,4 +461,12 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 
 		return "Item Name:" + this.name + "  cost:" + this.standardCost;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Item) {
+			return ((Item) obj).getID() == this.getID();
+		}
+		return false;
+	}
 }
