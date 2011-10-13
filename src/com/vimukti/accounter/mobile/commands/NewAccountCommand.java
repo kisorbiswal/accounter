@@ -81,7 +81,7 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		boolean isActive = (Boolean) get(ACTIVE).getValue();
 		boolean isCashAcount = (Boolean) get(CONSIDER_AS_CASH_ACCOUNT)
 				.getValue();
-		Date asOf = (Date) get(ASOF).getValue();
+		Date asOf = get(ASOF).getValue();
 
 		account.setType(accType);
 		account.setName(accname);
@@ -150,18 +150,18 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		ResultList list = new ResultList("values");
 
 		Record accTypeRecord = new Record(actype);
-		accTypeRecord.add(INPUT_ATTR, "actype");
-		accTypeRecord.add("Value", actype);
+		accTypeRecord.add("", "actype");
+		accTypeRecord.add("", actype);
 		list.add(accTypeRecord);
 
 		Record numberRecord = new Record(num);
-		numberRecord.add(INPUT_ATTR, "accountNumber");
-		numberRecord.add("Value", num);
+		numberRecord.add("", "accountNumber");
+		numberRecord.add("", num);
 		list.add(numberRecord);
 
 		Record nameRecord = new Record(name);
-		nameRecord.add(INPUT_ATTR, "Name");
-		nameRecord.add("Value", name);
+		nameRecord.add("", "Name");
+		nameRecord.add("", name);
 		list.add(nameRecord);
 
 		Requirement isActiveReq = get(ACTIVE);
@@ -179,16 +179,15 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 			activeString = "This account is InActive";
 		}
 		Record isActiveRecord = new Record(ACTIVE);
-		isActiveRecord.add("Name", "");
-		isActiveRecord.add("Value", activeString);
+		isActiveRecord.add("", activeString);
 		list.add(isActiveRecord);
 
 		Requirement openingBalanceReq = get(OPENINGBALANCE);
 		Double bal = (Double) openingBalanceReq.getValue();
 
 		Record openingBalRec = new Record(OPENINGBALANCE);
-		openingBalRec.add("Name", OPENINGBALANCE);
-		openingBalRec.add("Value", bal);
+		openingBalRec.add("", OPENINGBALANCE);
+		openingBalRec.add("", bal);
 		list.add(openingBalRec);
 
 		Result result = asOfDateRequirement(context, list, selection);
@@ -211,8 +210,7 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 			isCashAccount = "This account is not a cash account";
 		}
 		Record isCashAccountRecord = new Record(CONSIDER_AS_CASH_ACCOUNT);
-		isCashAccountRecord.add("Name", "");
-		isCashAccountRecord.add("Value", isCashAccount);
+		isCashAccountRecord.add("", isCashAccount);
 		list.add(isCashAccountRecord);
 
 		result = commentsRequirement(context, list, selection);
@@ -253,8 +251,8 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		}
 
 		Record memoRecord = new Record(comments);
-		memoRecord.add("Name", COMMENTS);
-		memoRecord.add("Value", comments);
+		memoRecord.add("", COMMENTS);
+		memoRecord.add("", comments);
 		list.add(memoRecord);
 		return null;
 	}
