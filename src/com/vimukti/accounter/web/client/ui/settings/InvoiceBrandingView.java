@@ -104,19 +104,7 @@ public class InvoiceBrandingView<T> extends
 				ActionFactory.getNewBrandThemeAction().run(null, false);
 			}
 		});
-		// newBrandButton.addMouseOverHandler(new MouseOverHandler() {
-		//
-		// @Override
-		// public void onMouseOver(MouseOverEvent event) {
-		// PopupPanel newBrandMenuPanel = new PopupPanel();
-		// newBrandMenuPanel.add(getNewBrandMenu(newBrandMenuPanel));
-		// newBrandMenuPanel.setPopupPosition(newBrandButton
-		// .getAbsoluteLeft(), newBrandButton.getAbsoluteTop()
-		// + newBrandButton.getOffsetHeight());
-		// newBrandMenuPanel.show();
-		// newBrandMenuPanel.setAutoHideEnabled(true);
-		// }
-		// });
+
 		automaticButton = new Button(messages.automaticSequencing());
 		automaticButton.addClickHandler(new ClickHandler() {
 
@@ -168,17 +156,6 @@ public class InvoiceBrandingView<T> extends
 		return logoType;
 
 	}
-
-	// private String getTaxesType(int type) {
-	// String taxType = null;
-	// if (type == ClientBrandingTheme.SHOW_TAXES_AS_EXCLUSIVE) {
-	// taxType = messages.taxExclusive();
-	// } else {
-	// taxType = messages.taxInclucive();
-	// }
-	// return taxType;
-	//
-	// }
 
 	private SimplePanel addingThemeToView(final ClientBrandingTheme theme) {
 
@@ -302,13 +279,13 @@ public class InvoiceBrandingView<T> extends
 				.classicTemplate()
 				: theme.getInvoiceTempleteName();
 
-
 		invoiceHtml = new HTML("<p>" + messages.invoiceTemplete() + " : "
-				+ invoiceTemp + "</p>"); 
+				+ invoiceTemp + "</p>");
 
 		// adding credit note templete note
 		String creditTemp = theme.getCreditNoteTempleteName().isEmpty() ? messages
-				.classicTemplate() : theme.getCreditNoteTempleteName();
+				.classicTemplate()
+				: theme.getCreditNoteTempleteName();
 
 		creditNoteHtml = new HTML("<p>" + messages.creditNoteTemplete() + " : "
 				+ creditTemp + "</p>");
@@ -517,119 +494,6 @@ public class InvoiceBrandingView<T> extends
 
 	}
 
-	// protected void optionsMenu(Button button, ClientBrandingTheme
-	// theme) {
-	// PopupPanel optionsPanel = new PopupPanel();
-	// if (theme.getThemeName().equals(messages.standard())) {
-	// if (theme.getFileName() == null) {
-	// optionsPanel.add(getOptionsMenuDefaultThemeNoLogo(optionsPanel,
-	// theme));
-	// optionsPanel.setPopupPosition(button.getAbsoluteLeft(),
-	// button.getAbsoluteTop() + button.getOffsetHeight());
-	// optionsPanel.show();
-	// optionsPanel.setAutoHideEnabled(true);
-	// } else {
-	// optionsPanel
-	// .add(getOptionsMenuDefaultTheme(optionsPanel, theme));
-	// optionsPanel.setPopupPosition(button.getAbsoluteLeft(),
-	// button.getAbsoluteTop() + button.getOffsetHeight());
-	// optionsPanel.show();
-	// optionsPanel.setAutoHideEnabled(true);
-	// }
-	//
-	// } else {
-	// if (theme.getFileName() == null) {
-	// optionsPanel.add(getOptionsMenuNoLogo(optionsPanel, theme));
-	// optionsPanel.setPopupPosition(button.getAbsoluteLeft(),
-	// button.getAbsoluteTop() + button.getOffsetHeight());
-	// optionsPanel.show();
-	// optionsPanel.setAutoHideEnabled(true);
-	// } else {
-	// optionsPanel.add(getOptionsMenuWithLogo(optionsPanel, theme));
-	// optionsPanel.setPopupPosition(button.getAbsoluteLeft(),
-	// button.getAbsoluteTop() + button.getOffsetHeight());
-	// optionsPanel.show();
-	// optionsPanel.setAutoHideEnabled(true);
-	// }
-	//
-	// }
-	//
-	// }
-
-	// private CustomMenuBar getOptionsMenuWithLogo(PopupPanel panel,
-	// ClientBrandingTheme theme) {
-	// CustomMenuBar bar = new CustomMenuBar();
-	// bar.addItem(messages.edit(), getOptions(1, panel, theme));
-	// bar.addItem(messages.copy(), getOptions(2, panel, theme));
-	// bar.addItem(messages.changeLogo(), getOptions(3, panel, theme));
-	// bar.addItem(messages.delete(), getOptions(4, panel, theme));
-	// bar.addItem(messages.removeLogo(), getOptions(5, panel, theme));
-	// return bar;
-	// }
-	//
-	// private CustomMenuBar getOptionsMenuNoLogo(PopupPanel panel,
-	// ClientBrandingTheme theme) {
-	// CustomMenuBar bar = new CustomMenuBar();
-	// bar.addItem(messages.edit(), getOptions(1, panel, theme));
-	// bar.addItem(messages.copy(), getOptions(2, panel, theme));
-	// bar.addItem(messages.addLogo(), getOptions(6, panel, theme));
-	// bar.addItem(messages.delete(), getOptions(4, panel, theme));
-	// return bar;
-	// }
-	//
-	// private CustomMenuBar getOptionsMenuDefaultTheme(PopupPanel panel,
-	// ClientBrandingTheme theme) {
-	// CustomMenuBar bar = new CustomMenuBar();
-	// bar.addItem(messages.edit(), getOptions(1, panel, theme));
-	// bar.addItem(messages.copy(), getOptions(2, panel, theme));
-	// bar.addItem(messages.changeLogo(), getOptions(3, panel, theme));
-	// bar.addItem(messages.removeLogo(), getOptions(5, panel, theme));
-	//
-	// return bar;
-	// }
-	//
-	// private CustomMenuBar getOptionsMenuDefaultThemeNoLogo(PopupPanel panel,
-	// ClientBrandingTheme theme) {
-	// CustomMenuBar bar = new CustomMenuBar();
-	// bar.addItem(messages.edit(), getOptions(1, panel, theme));
-	// bar.addItem(messages.copy(), getOptions(2, panel, theme));
-	// bar.addItem(messages.addLogo(), getOptions(6, panel, theme));
-	// return bar;
-	// }
-
-	// private Command getOptions(final int type, final PopupPanel panel,
-	// final ClientBrandingTheme theme) {
-	// final Command command = new Command() {
-	//
-	// @Override
-	// public void execute() {
-	// panel.hide();
-	// switch (type) {
-	// case 1:
-	// ActionFactory.getNewBrandThemeAction().run(theme, false);
-	// break;
-	// case 2:
-	// ActionFactory.getCopyThemeAction().run(theme, false);
-	// break;
-	// case 3:
-	// changeLogo(theme);
-	// break;
-	// case 4:
-	// ActionFactory.getDeleteThemeAction().run(theme, false);
-	// break;
-	// case 5:
-	// removeLogo(theme);
-	// break;
-	// case 6:
-	// changeLogo(theme);
-	// break;
-	// default:
-	// }
-	// }
-	// };
-	// return command;
-	// }
-
 	protected void removeLogo(ClientBrandingTheme theme) {
 
 		theme.setLogoAdded(false);
@@ -652,37 +516,6 @@ public class InvoiceBrandingView<T> extends
 		dilaog.center();
 
 	}
-
-	// private CustomMenuBar getNewBrandMenu(PopupPanel panel) {
-	// CustomMenuBar menuBar = new CustomMenuBar();
-	// menuBar.addItem(messages
-	// .standardTheme(), getNewBrandCommand(1, panel));
-	// menuBar.addItem(messages
-	// .customdocxTheme(), getNewBrandCommand(2, panel));
-	// return menuBar;
-	//
-	// }
-	//
-	// private Command getNewBrandCommand(final int i, final PopupPanel panel) {
-	// Command command = new Command() {
-	// @Override
-	// public void execute() {
-	// panel.hide();
-	// switch (i) {
-	// case 1:
-	// ActionFactory.getNewBrandThemeAction().run(null,
-	// false);
-	// break;
-	// case 2:
-	// ActionFactory.getCustomThemeAction().run(null,
-	// false);
-	// break;
-	// }
-	// }
-	// };
-	// return command;
-	//
-	// }
 
 	@Override
 	public void fitToSize(int height, int width) {
