@@ -734,7 +734,6 @@ public class InvoiceBrandingView<T> extends
 	public void saveSuccess(IAccounterCore object) {
 		if (object != null) {
 			super.saveSuccess(object);
-			ActionFactory.getInvoiceBrandingAction().run(null, false);
 		} else
 			saveFailed(new AccounterException(Accounter.constants().failed()));
 	}
