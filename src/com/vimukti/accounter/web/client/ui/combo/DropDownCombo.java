@@ -196,10 +196,10 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 			@Override
 			public void onBlur(BlurEvent event) {
-				Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
-
-					@Override
-					public boolean execute() {
+//				Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
+//
+//					@Override
+//					public boolean execute() {
 						if (!getValue().equals("")) {
 							if (selectedObject == null
 									|| !getValue().equals(
@@ -209,10 +209,10 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 							}
 						}
 
-						return false;
-					}
-				}, 100);// We need to do it after a delay as clicking on the
-						// popup also causes blur
+//						return false;
+//					}
+//				}, 100);// We need to do it after a delay as clicking on the
+//						// popup also causes blur
 			}
 		});
 
