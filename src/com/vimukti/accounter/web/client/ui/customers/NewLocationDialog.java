@@ -134,7 +134,7 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 	@Override
 	protected ValidationResult validate() {
 		ValidationResult result = form.validate();
-		if (locationGroupListDialog != null)
+		if (locationGroupListDialog != null && !result.haveErrors())
 			result.add(locationGroupListDialog.validate());
 		return result;
 	}
