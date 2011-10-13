@@ -247,13 +247,8 @@ public class WriteCheck extends Transaction {
 
 	@Override
 	public Payee getPayee() {
-		if (customer != null) {
-			return customer;
-		} else if (vendor != null) {
-			return vendor;
-		} else {
-			return taxAgency;
-		}
+		// Must return null. because no need update payee balance in writecheck.
+		return null;
 	}
 
 	@Override
@@ -289,7 +284,14 @@ public class WriteCheck extends Transaction {
 
 	@Override
 	public Payee getInvolvedPayee() {
-		return getPayee();
+
+		if (this.getPayee() instanceof Customer)
+			return this.customer;
+		else if (this.getPayee() instanceof Vendor)
+			return this.vendor;
+		else
+			return this.taxAgency;
+
 	}
 
 	public boolean equals(WriteCheck obj) {
