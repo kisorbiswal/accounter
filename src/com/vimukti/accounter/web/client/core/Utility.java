@@ -430,56 +430,57 @@ public class Utility implements IsSerializable, Serializable {
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(dueDate.getDateAsObject());
 
-				switch (due) {
-				case ClientPaymentTerms.DUE_NONE:
-					if (dueDays > 0) {
-
-						cal.add(Calendar.DAY_OF_MONTH, dueDays);
-					}
-					break;
-				case ClientPaymentTerms.DUE_CURRENT_MONTH:
-					cal.set(Calendar.DAY_OF_MONTH, 01);
-					cal.add(Calendar.MONTH, 1);
-					cal.set(Calendar.DAY_OF_MONTH, dueDays);
-					break;
-				case ClientPaymentTerms.DUE_CURRENT_QUARTER:
-					cal.set(Calendar.DAY_OF_MONTH, 01);
-					month = cal.get(Calendar.MONTH);
-					month++;
-
-					if (month == 1 || month == 2 || month == 3) {
-						cal.set(Calendar.MONTH, 3);
-						cal.set(Calendar.DAY_OF_MONTH, dueDays);
-					} else if (month == 4 || month == 5 || month == 6) {
-						cal.set(Calendar.MONTH, 6);
-						cal.set(Calendar.DAY_OF_MONTH, dueDays);
-
-					} else if (month == 7 || month == 8 || month == 9) {
-						cal.set(Calendar.MONTH, 9);
-						cal.set(Calendar.DAY_OF_MONTH, dueDays);
-					} else {
-						cal.add(Calendar.YEAR, 1);
-						cal.set(Calendar.DAY_OF_MONTH, dueDays);
-					}
-					break;
-				case ClientPaymentTerms.DUE_CURRENT_HALF_YEAR:
-					cal.set(Calendar.DAY_OF_MONTH, 01);
-					if (month == 1 || month == 2 || month == 3 || month == 4
-							|| month == 5 || month == 6) {
-						cal.set(Calendar.MONTH, 7);
-						cal.set(Calendar.DAY_OF_MONTH, dueDays);
-					} else {
-						cal.add(Calendar.YEAR, 1);
-						cal.set(Calendar.DAY_OF_MONTH, dueDays);
-					}
-					break;
-				case ClientPaymentTerms.DUE_CURRENT_YEAR:
-					cal.set(Calendar.DAY_OF_MONTH, 01);
-					cal.add(Calendar.YEAR, 1);
-					cal.set(Calendar.DAY_OF_MONTH, dueDays);
-					break;
-
-				}
+				cal.add(Calendar.DAY_OF_MONTH, dueDays);
+				// switch (due) {
+				// case ClientPaymentTerms.DUE_NONE:
+				// if (dueDays > 0) {
+				//
+				// cal.add(Calendar.DAY_OF_MONTH, dueDays);
+				// }
+				// break;
+				// case ClientPaymentTerms.DUE_CURRENT_MONTH:
+				// cal.set(Calendar.DAY_OF_MONTH, 01);
+				// cal.add(Calendar.MONTH, 1);
+				// cal.set(Calendar.DAY_OF_MONTH, dueDays);
+				// break;
+				// case ClientPaymentTerms.DUE_CURRENT_QUARTER:
+				// cal.set(Calendar.DAY_OF_MONTH, 01);
+				// month = cal.get(Calendar.MONTH);
+				// month++;
+				//
+				// if (month == 1 || month == 2 || month == 3) {
+				// cal.set(Calendar.MONTH, 3);
+				// cal.set(Calendar.DAY_OF_MONTH, dueDays);
+				// } else if (month == 4 || month == 5 || month == 6) {
+				// cal.set(Calendar.MONTH, 6);
+				// cal.set(Calendar.DAY_OF_MONTH, dueDays);
+				//
+				// } else if (month == 7 || month == 8 || month == 9) {
+				// cal.set(Calendar.MONTH, 9);
+				// cal.set(Calendar.DAY_OF_MONTH, dueDays);
+				// } else {
+				// cal.add(Calendar.YEAR, 1);
+				// cal.set(Calendar.DAY_OF_MONTH, dueDays);
+				// }
+				// break;
+				// case ClientPaymentTerms.DUE_CURRENT_HALF_YEAR:
+				// cal.set(Calendar.DAY_OF_MONTH, 01);
+				// if (month == 1 || month == 2 || month == 3 || month == 4
+				// || month == 5 || month == 6) {
+				// cal.set(Calendar.MONTH, 7);
+				// cal.set(Calendar.DAY_OF_MONTH, dueDays);
+				// } else {
+				// cal.add(Calendar.YEAR, 1);
+				// cal.set(Calendar.DAY_OF_MONTH, dueDays);
+				// }
+				// break;
+				// case ClientPaymentTerms.DUE_CURRENT_YEAR:
+				// cal.set(Calendar.DAY_OF_MONTH, 01);
+				// cal.add(Calendar.YEAR, 1);
+				// cal.set(Calendar.DAY_OF_MONTH, dueDays);
+				// break;
+				//
+				// }
 				dueDate = new ClientFinanceDate(cal.getTime());
 				return dueDate;
 			} else
