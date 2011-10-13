@@ -542,11 +542,6 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 					.amountToUseMustLessthanTotal());
 			showError();
 			return false;
-		} else if (totalAmount > getActualUnusedCreditAmount()) {
-			Accounter.showError(Accounter.constants()
-					.amountToUseMustLessthanTotalCredits());
-			showError();
-			return false;
 		} else {
 			return true;
 		}
