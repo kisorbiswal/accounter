@@ -186,4 +186,13 @@ public class MobileSession {
 		this.companyID = company;
 	}
 
+	/**
+	 * Removes an Attribute from the Context
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public Object removeAttribute(String name) {
+		return attributes.remove(name);
+	}
 }
