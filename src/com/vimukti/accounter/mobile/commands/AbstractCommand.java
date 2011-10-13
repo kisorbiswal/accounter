@@ -479,7 +479,7 @@ public abstract class AbstractCommand extends Command {
 		}
 
 		if (selection == memo) {
-			context.setAttribute(attribute, name);
+			context.setAttribute(INPUT_ATTR, name);
 			return text(context, displayName, memo);
 		}
 

@@ -825,7 +825,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	protected Result phoneRequirement(Context context, ResultList list,
 			String selection) {
-		Result result = context.makeResult();
 		Requirement req = get("phone");
 		String phoneNo = (String) req.getValue();
 
@@ -848,8 +847,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		cashSaleNoRec.add("Name", "Phone Number");
 		cashSaleNoRec.add("Value", phoneNo);
 		list.add(cashSaleNoRec);
-		result.add(list);
-		return result;
+		return null;
 	}
 
 	protected Result payeeRequirement(Context context) {
