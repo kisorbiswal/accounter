@@ -1287,7 +1287,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		addButton.setEnabled(!isInViewMode());
 		custNoText.setDisabled(isInViewMode());
 		customerSinceDate.setDisabled(isInViewMode());
-		balanceText.setDisabled(isInViewMode());
+		balanceText.setDisabled(!data.isOpeningBalanceEditable());
 		addrsForm.setDisabled(isInViewMode());
 		statusCheck.setDisabled(isInViewMode());
 		fonFaxForm.setDisabled(isInViewMode());
