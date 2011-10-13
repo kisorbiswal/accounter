@@ -362,10 +362,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				.setAttribute(Accounter.constants().width(), "226px");
 		custForm.setStyleName("align-form");
 
-//		if (UIUtils.isMSIEBrowser()) {
-//			if (transaction != null)
-//				custForm.setWidth("74%");
-//		}
+		// if (UIUtils.isMSIEBrowser()) {
+		// if (transaction != null)
+		// custForm.setWidth("74%");
+		// }
 
 		salesPersonCombo = createSalesPersonComboItem();
 
@@ -803,13 +803,17 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			return;
 		if (isTrackTax()) {
 			setSalesTax(customerTransactionTable.getTotalTax());
-			vatTotalNonEditableText.setAmount(getAmountInTransactionCurrency(customerTransactionTable
-					.getTotalTax()));
-			netAmountLabel.setAmount(getAmountInTransactionCurrency(customerTransactionTable.getLineTotal()));
+			vatTotalNonEditableText
+					.setAmount(getAmountInTransactionCurrency(customerTransactionTable
+							.getTotalTax()));
+			netAmountLabel
+					.setAmount(getAmountInTransactionCurrency(customerTransactionTable
+							.getLineTotal()));
 		}
 		setTransactionTotal(customerTransactionTable.getGrandTotal());
 
-		Double payments = getAmountInBaseCurrency(this.paymentsNonEditableText.getAmount());
+		Double payments = getAmountInBaseCurrency(this.paymentsNonEditableText
+				.getAmount());
 		if (transaction != null) {
 			payments = this.transactionTotal < payments ? this.transactionTotal
 					: payments;
@@ -1171,9 +1175,15 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			}
 			if (locationTrackingEnabled)
 				locationSelected(company.getLocation(transaction.getLocation()));
-			transactionTotalNonEditableText.setAmount(getAmountInTransactionCurrency(transaction.getTotal()));
-			paymentsNonEditableText.setAmount(getAmountInTransactionCurrency(transaction.getPayments()));
-			balanceDueNonEditableText.setAmount(getAmountInTransactionCurrency(transaction.getBalanceDue()));
+			transactionTotalNonEditableText
+					.setAmount(getAmountInTransactionCurrency(transaction
+							.getTotal()));
+			paymentsNonEditableText
+					.setAmount(getAmountInTransactionCurrency(transaction
+							.getPayments()));
+			balanceDueNonEditableText
+					.setAmount(getAmountInTransactionCurrency(transaction
+							.getBalanceDue()));
 			quoteLabel.setDisabled(true);
 			memoTextAreaItem.setDisabled(true);
 			initAccounterClass();
@@ -1258,7 +1268,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		this.salesTax = salesTax;
 
 		if (salesTaxTextNonEditable != null)
-			salesTaxTextNonEditable.setAmount(getAmountInTransactionCurrency(salesTax));
+			salesTaxTextNonEditable
+					.setAmount(getAmountInTransactionCurrency(salesTax));
 
 	}
 
@@ -1277,7 +1288,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			transactionTotal = 0.0D;
 		this.transactionTotal = transactionTotal;
 		if (transactionTotalNonEditableText != null)
-			transactionTotalNonEditableText.setAmount(getAmountInTransactionCurrency(transactionTotal));
+			transactionTotalNonEditableText
+					.setAmount(getAmountInTransactionCurrency(transactionTotal));
 
 	}
 
@@ -1367,7 +1379,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			transaction
 					.setDeliverydate(deliveryDate.getEnteredDate().getDate());
 		if (getCountryPreferences().isSalesTaxAvailable()) {
-			transaction.setTaxTotal(getAmountInBaseCurrency(salesTaxTextNonEditable.getAmount()));
+			transaction
+					.setTaxTotal(getAmountInBaseCurrency(salesTaxTextNonEditable
+							.getAmount()));
 		}
 		if (contactCombo.getSelectedValue() != null) {
 			contact = contactCombo.getSelectedValue();
@@ -1401,7 +1415,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		// transaction.setTaxItemGroup(taxItemGroup);
 		if (isTrackTax()) {
 			// if (isTaxPerDetailLine()) {
-			transaction.setNetAmount(getAmountInBaseCurrency(netAmountLabel.getAmount()));
+			transaction.setNetAmount(getAmountInBaseCurrency(netAmountLabel
+					.getAmount()));
 			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 					.getValue());
 			// } else {
@@ -1415,7 +1430,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			// }
 
 		}
-		transaction.setTotal(getAmountInBaseCurrency(transactionTotalNonEditableText.getAmount()));
+		transaction
+				.setTotal(getAmountInBaseCurrency(transactionTotalNonEditableText
+						.getAmount()));
 		// transaction.setBalanceDue(getBalanceDue());
 		transaction.setPayments(getPayments());
 		transaction.setMemo(getMemoTextAreaItem());
@@ -1473,6 +1490,17 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			}
 		}
 		result.add(customerTransactionTable.validateGrid());
+
+		if (isTrackTax()) {
+			if (!isTaxPerDetailLine()) {
+				if (taxCodeSelect != null
+						&& taxCodeSelect.getSelectedValue() == null) {
+					result.addError(taxCodeSelect,
+							accounterConstants.enterTaxCode());
+				}
+
+			}
+		}
 		return result;
 	}
 
@@ -1509,7 +1537,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (payments == null)
 			payments = 0.0D;
 		this.payments = payments;
-		paymentsNonEditableText.setAmount(getAmountInTransactionCurrency(payments));
+		paymentsNonEditableText
+				.setAmount(getAmountInTransactionCurrency(payments));
 	}
 
 	public Double getPayments() {
@@ -1520,7 +1549,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (balanceDue == null)
 			balanceDue = 0.0D;
 		this.balanceDue = balanceDue;
-		balanceDueNonEditableText.setAmount(getAmountInTransactionCurrency(balanceDue));
+		balanceDueNonEditableText
+				.setAmount(getAmountInTransactionCurrency(balanceDue));
 	}
 
 	public static InvoiceView getInstance() {
@@ -1694,8 +1724,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	protected void enableFormItems() {
 
-//		if (UIUtils.isMSIEBrowser())
-//			custForm.setWidth("100%");
+		// if (UIUtils.isMSIEBrowser())
+		// custForm.setWidth("100%");
 
 		setMode(EditMode.EDIT);
 
@@ -1758,10 +1788,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	}
 
 	private void resetFromView() {
-//		custForm.getCellFormatter().setWidth(0, 1, "200");
-//
-//		shipToAddress.getCellFormatter().setWidth(0, 1, "100");
-//		shipToAddress.getCellFormatter().setWidth(0, 2, "200");
+		// custForm.getCellFormatter().setWidth(0, 1, "200");
+		//
+		// shipToAddress.getCellFormatter().setWidth(0, 1, "100");
+		// shipToAddress.getCellFormatter().setWidth(0, 2, "200");
 
 		// priceLevelSelect.setWidth("150px");
 		// refText.setWidth("200px");

@@ -250,7 +250,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			quote.setTaxTotal(this.salesTax);
 		}
 
-		quote.setTotal(getAmountInBaseCurrency(transactionTotalNonEditableText.getAmount()));
+		quote.setTotal(getAmountInBaseCurrency(transactionTotalNonEditableText
+				.getAmount()));
 		transaction = quote;
 
 		super.saveAndUpdateView();
@@ -354,8 +355,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			phoneForm.setFields(payTermsSelect, quoteExpiryDate, deliveryDate);
 		}
 		phoneForm.setStyleName("align-form");
-		phoneForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "203px");
+		phoneForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "203px");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -492,10 +493,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		mainVLay.add(mainpanel);
 		gridPanel.setWidth("100%");
 
-//		if (UIUtils.isMSIEBrowser()) {
-//			resetFormView();
-//			phoneForm.setWidth("60%");
-//		}
+		// if (UIUtils.isMSIEBrowser()) {
+		// resetFormView();
+		// phoneForm.setWidth("60%");
+		// }
 
 		this.add(mainVLay);
 
@@ -517,7 +518,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		// item.setTaxCode(taxCode.getID());
 		// }
 		// }
-		transaction.setTotal(getAmountInBaseCurrency(transactionTotalNonEditableText.getAmount()));
+		transaction
+				.setTotal(getAmountInBaseCurrency(transactionTotalNonEditableText
+						.getAmount()));
 	}
 
 	protected void setDateValues(ClientFinanceDate date) {
@@ -756,8 +759,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		// Validations
 		// 1. isValidDueOrDeliveryDate?
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(this.quoteExpiryDate
-				.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(
+				this.quoteExpiryDate.getEnteredDate(), this.transactionDate)) {
 			result.addError(this.quoteExpiryDate, Accounter.constants().the()
 					+ " "
 					+ customerConstants.expirationDate()
@@ -767,6 +770,17 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 							.cannotbeearlierthantransactiondate());
 		}
 		result.add(customerTransactionTable.validateGrid());
+
+		if (isTrackTax()) {
+			if (!isTaxPerDetailLine()) {
+				if (taxCodeSelect != null
+						&& taxCodeSelect.getSelectedValue() == null) {
+					result.addError(taxCodeSelect,
+							accounterConstants.enterTaxCode());
+				}
+
+			}
+		}
 		return result;
 
 	}

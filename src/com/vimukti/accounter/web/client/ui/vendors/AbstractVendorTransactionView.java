@@ -133,9 +133,9 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button, Accounter.messages().accounts(
-				Global.get().Account()), Accounter.constants()
-				.productOrServiceItem());
+		setMenuItems(button,
+				Accounter.messages().accounts(Global.get().Account()),
+				Accounter.constants().productOrServiceItem());
 	}
 
 	protected void initVendors() {
@@ -548,9 +548,9 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	protected TextItem createCheckNumberItem(String title) {
 
 		final TextItem checkNo = new TextItem(title);
-		checkNo.setToolTip(Accounter.messages().giveNoTo(
-				this.getAction().getViewName()).replace(
-				Accounter.constants().no(), title));
+		checkNo.setToolTip(Accounter.messages()
+				.giveNoTo(this.getAction().getViewName())
+				.replace(Accounter.constants().no(), title));
 		checkNo.setHelpInformation(true);
 		checkNo.setDisabled(isInViewMode());
 		// checkNo.setShowDisabled(false);
@@ -730,6 +730,17 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 		ValidationResult result = super.validate();
 		if (vendorCombo.getSelectedValue() == null) {
 			vendorCombo.setValue("");
+		}
+
+		if (isTrackTax()) {
+			if (!isTaxPerDetailLine()) {
+				if (taxCodeSelect != null
+						&& taxCodeSelect.getSelectedValue() == null) {
+					result.addError(taxCodeSelect, Accounter.constants()
+							.enterTaxCode());
+				}
+
+			}
 		}
 		return result;
 	}

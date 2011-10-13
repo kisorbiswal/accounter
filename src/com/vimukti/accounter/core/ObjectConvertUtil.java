@@ -402,7 +402,10 @@ public class ObjectConvertUtil {
 			if (id == -1)
 				return null;
 
-			return HibernateUtil.initializeAndUnproxy(session.get(serverClass, id));
+			Object object = session.get(serverClass, id);
+			if (object != null) {
+				return HibernateUtil.initializeAndUnproxy(object);
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();

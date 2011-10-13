@@ -853,6 +853,17 @@ public class CashSalesView extends
 				this.depositInCombo));
 		result.add(customerAccountTransactionTable.validateGrid());
 		result.add(customerItemTransactionTable.validateGrid());
+
+		if (isTrackTax()) {
+			if (!isTaxPerDetailLine()) {
+				if (taxCodeSelect != null
+						&& taxCodeSelect.getSelectedValue() == null) {
+					result.addError(taxCodeSelect,
+							accounterConstants.enterTaxCode());
+				}
+
+			}
+		}
 		return result;
 
 	}

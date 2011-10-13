@@ -355,8 +355,8 @@ public class SalesOrderView extends
 		paymentsNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
 
-		balanceDueNonEditableText = new AmountLabel(customerConstants
-				.balanceDue());
+		balanceDueNonEditableText = new AmountLabel(
+				customerConstants.balanceDue());
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -469,11 +469,11 @@ public class SalesOrderView extends
 		mainVLay.getElement().getStyle().setPaddingTop(20, Unit.PX);
 		mainVLay.getElement().getStyle().setPaddingBottom(20, Unit.PX);
 
-//		if (UIUtils.isMSIEBrowser()) {
-//			resetFormView();
-//			termsForm.getCellFormatter().setWidth(0, 1, "230px");
-//			termsForm.setWidth("90%");
-//		}
+		// if (UIUtils.isMSIEBrowser()) {
+		// resetFormView();
+		// termsForm.getCellFormatter().setWidth(0, 1, "230px");
+		// termsForm.setWidth("90%");
+		// }
 		this.add(mainVLay);
 
 		/* Adding dynamic forms in list */
@@ -530,7 +530,7 @@ public class SalesOrderView extends
 		custForm.setWidth("94%");
 		shipToAddress.getCellFormatter().setWidth(0, 1, "100");
 		shipToAddress.getCellFormatter().setWidth(0, 2, "200");
-		//statusSelect.setWidth("150px");
+		// statusSelect.setWidth("150px");
 		// refText.setWidth("200px");
 	}
 
@@ -846,7 +846,8 @@ public class SalesOrderView extends
 
 		if (isTrackTax()) {
 			if (isTaxPerDetailLine()) {
-				transaction.setNetAmount(getAmountInBaseCurrency(netAmountLabel.getAmount()));
+				transaction.setNetAmount(getAmountInBaseCurrency(netAmountLabel
+						.getAmount()));
 				// transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 				// .getValue());
 			} else {
@@ -861,7 +862,9 @@ public class SalesOrderView extends
 			}
 		}
 
-		transaction.setTotal(getAmountInBaseCurrency(transactionTotalNonEditableText.getAmount()));
+		transaction
+				.setTotal(getAmountInBaseCurrency(transactionTotalNonEditableText
+						.getAmount()));
 
 		transaction.setMemo(getMemoTextAreaItem());
 		// transaction.setReference(getRefText());
@@ -1047,6 +1050,17 @@ public class SalesOrderView extends
 		}
 
 		result.add(customerTransactionTable.validateGrid());
+
+		if (isTrackTax()) {
+			if (!isTaxPerDetailLine()) {
+				if (taxCodeSelect != null
+						&& taxCodeSelect.getSelectedValue() == null) {
+					result.addError(taxCodeSelect,
+							accounterConstants.enterTaxCode());
+				}
+
+			}
+		}
 		return result;
 	}
 

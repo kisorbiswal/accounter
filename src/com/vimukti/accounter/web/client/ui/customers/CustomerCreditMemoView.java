@@ -386,6 +386,17 @@ public class CustomerCreditMemoView extends
 		ValidationResult result = super.validate();
 		result.add(customerAccountTransactionTable.validateGrid());
 		result.add(customerItemTransactionTable.validateGrid());
+
+		if (isTrackTax()) {
+			if (!isTaxPerDetailLine()) {
+				if (taxCodeSelect != null
+						&& taxCodeSelect.getSelectedValue() == null) {
+					result.addError(taxCodeSelect,
+							accounterConstants.enterTaxCode());
+				}
+
+			}
+		}
 		return result;
 	}
 
