@@ -28,9 +28,6 @@ public class Cell {
 
 	@Override
 	public String toString() {
-		if (name.isEmpty()) {
-			return "--> " + value;
-		}
-		return name + " --> " + value;
+		return value.toString();
 	}
 }
