@@ -108,15 +108,15 @@ public class VendorManager extends Manager {
 					billsList.setDate(new ClientFinanceDate((Long) object[9]));
 					billsList.setExpenseStatus((Integer) object[10]);
 
-					if (object[4] != null) {
-						if (isExpensesList) {
-							if (billsList.getType() == ClientTransaction.TYPE_CASH_EXPENSE
-									|| billsList.getType() == ClientTransaction.TYPE_CREDIT_CARD_EXPENSE
-									|| billsList.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
-								queryResult.add(billsList);
-						} else
+					// if (object[4] != null) {
+					if (isExpensesList) {
+						if (billsList.getType() == ClientTransaction.TYPE_CASH_EXPENSE
+								|| billsList.getType() == ClientTransaction.TYPE_CREDIT_CARD_EXPENSE
+								|| billsList.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
 							queryResult.add(billsList);
-					}
+					} else
+						queryResult.add(billsList);
+					// }
 				}
 				BillsList tmpBillsList;
 				for (int i = 0; i < queryResult.size(); i++) {
