@@ -1433,6 +1433,12 @@ public class WriteChequeView extends
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
+		vendorAccountsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ACCOUNT, true));
+		vendorItemsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ITEM, false));
 	}
 
 	@Override
