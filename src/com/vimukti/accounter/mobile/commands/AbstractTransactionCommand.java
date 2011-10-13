@@ -394,6 +394,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		result.add(list);
 		CommandList commands = new CommandList();
 		commands.add("Create New Item");
+		result.add(commands);
 		return result;
 	}
 
