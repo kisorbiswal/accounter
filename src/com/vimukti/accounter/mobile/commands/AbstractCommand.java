@@ -41,7 +41,7 @@ public abstract class AbstractCommand extends Command {
 	protected static final String CONTACT_PROCESS = "contactProcess";
 	protected static final String CONTACTS = "contact";
 	protected static final String TAXCODE = "taxCode";
-	private static final int TAXCODE_TO_SHOW = 0;
+	private static final int TAXCODE_TO_SHOW = 5;
 	protected static final int INCOMEACCOUNTS_TO_SHOW = 5;
 	protected static final int VENDORS_TO_SHOW = 5;
 	protected static final int ITEMGROUPS_TO_SHOW = 5;
@@ -270,7 +270,7 @@ public abstract class AbstractCommand extends Command {
 
 	private Record createTaxCodeRecord(TAXCode taxCode) {
 		Record record = new Record(taxCode);
-		record.add("", taxCode.getName());
+		record.add("Tax Code Name", taxCode.getName());
 		return record;
 	}
 
@@ -300,6 +300,8 @@ public abstract class AbstractCommand extends Command {
 
 		CommandList commands = new CommandList();
 		commands.add("Create New Taxcode");
+		result.add(commands);
+		result.add(list);
 		return result;
 	}
 
