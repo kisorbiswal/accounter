@@ -89,26 +89,28 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected Result itemsRequirement(Context context) {
 		Requirement transItemsReq = get(ITEMS);
 		List<Item> items = context.getSelections(ITEMS);
-		if (!transItemsReq.isDone()) {
-			if (items != null && items.size() > 0) {
-				List<TransactionItem> transactionItems = new ArrayList<TransactionItem>();
-				for (Item item : items) {
-					TransactionItem transactionItem = new TransactionItem();
-					transactionItem.setItem(item);
-					if (getTransactionType() == VENDOR_TRANSACTION) {
-						transactionItem.setUnitPrice(item.getPurchasePrice());
-					} else if (getTransactionType() == CUSTOMER_TRANSACTION) {
-						transactionItem.setUnitPrice(item.getSalesPrice());
-					}
-					Quantity quantity = new Quantity();
-					quantity.setValue(1);
-					transactionItem.setQuantity(quantity);
-					transactionItems.add(transactionItem);
+		List<TransactionItem> transactionItems = transItemsReq.getValue();
+		if (transactionItems == null) {
+			transactionItems = new ArrayList<TransactionItem>();
+		}
+		if (items != null && items.size() > 0) {
+			for (Item item : items) {
+				TransactionItem transactionItem = new TransactionItem();
+				transactionItem.setItem(item);
+				if (getTransactionType() == VENDOR_TRANSACTION) {
+					transactionItem.setUnitPrice(item.getPurchasePrice());
+				} else if (getTransactionType() == CUSTOMER_TRANSACTION) {
+					transactionItem.setUnitPrice(item.getSalesPrice());
 				}
-				transItemsReq.setValue(transactionItems);
-			} else {
-				return items(context);
+				Quantity quantity = new Quantity();
+				quantity.setValue(1);
+				transactionItem.setQuantity(quantity);
+				transactionItems.add(transactionItem);
 			}
+			transItemsReq.setValue(transactionItems);
+		}
+		if (!transItemsReq.isDone()) {
+			return items(context);
 		}
 		return null;
 	}
@@ -179,7 +181,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			} else if (lineAttr.equals("taxCode")) {
 				TAXCode taxCode = context.getSelection(TAXCODE);
 				transactionItem.setTaxCode(taxCode);
-			} 
+			}
 		} else {
 			Object selection = context.getSelection(ITEM_DETAILS);
 			if (selection != null) {
