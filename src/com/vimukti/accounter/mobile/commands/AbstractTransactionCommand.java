@@ -502,14 +502,12 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		Object payamentObj = context.getSelection(PAYMENT_TERMS);
 		Requirement paymentReq = get("paymentTerms");
 		PaymentTerms paymentTerm = (PaymentTerms) paymentReq.getValue();
-
-		if (selection == paymentTerm) {
-			return paymentTerms(context, paymentTerm);
-
-		}
 		if (payamentObj != null) {
 			paymentTerm = (PaymentTerms) payamentObj;
 			paymentReq.setValue(paymentTerm);
+		} else if (selection == paymentTerm) {
+			return paymentTerms(context, paymentTerm);
+
 		}
 
 		Record paymentTermRecord = new Record(paymentTerm);
@@ -1256,8 +1254,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	}
 
 	protected Result vendorRequirement(Context context) {
-		Requirement vendReq = get("vendor");
-		Vendor vendor = context.getSelection("vendors");
+		Requirement vendReq = get(VENDOR);
+		Vendor vendor = context.getSelection("suppliers");
 		if (vendor != null) {
 			vendReq.setValue(vendor);
 		}
@@ -1481,18 +1479,18 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected Result accountNumberRequirement(Context context) {
 		Requirement numberReq = get(ACCOUNT_NUMBER);
 		if (!numberReq.isDone()) {
-			String num = context.getString();
+			Integer num = context.getInteger();
 			if (num != null) {
 				numberReq.setValue(num);
 			} else {
-				return text(context, "Please Enter the account number ", ""
-						+ num);
+				context.setAttribute(INPUT_ATTR, ACCOUNT_NUMBER);
+				return number(context, "Please Enter the account number ", null);
 			}
 		}
-		String input = (String) context.getAttribute(INPUT_ATTR);
-		if (input.equals(ACCOUNT_NUMBER)) {
-			numberReq.setValue(input);
-		}
+		// String input = (String) context.getAttribute(INPUT_ATTR);
+		// if (input.equals(ACCOUNT_NUMBER)) {
+		// numberReq.setValue(input);
+		// }
 		return null;
 	}
 
