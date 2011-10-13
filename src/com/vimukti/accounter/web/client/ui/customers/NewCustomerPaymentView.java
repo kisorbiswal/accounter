@@ -318,10 +318,10 @@ public class NewCustomerPaymentView extends
 
 			if (depositInAccount.isIncrease()) {
 				toBeSetEndingBalance = depositInAccount.getTotalBalance()
-						+ enteredBalance;
+						- enteredBalance;
 			} else {
 				toBeSetEndingBalance = depositInAccount.getTotalBalance()
-						- enteredBalance;
+						+ enteredBalance;
 			}
 			if (isInViewMode()
 					&& depositInAccount.getID() == (customerPrePayment
