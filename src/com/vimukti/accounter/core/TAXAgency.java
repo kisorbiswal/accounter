@@ -227,4 +227,9 @@ public class TAXAgency extends Payee {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return this.name;
+	}
+
 }

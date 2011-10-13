@@ -134,4 +134,9 @@ public class VATReturnBox extends CreatableObject implements
 
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return this.name;
+	}
 }
