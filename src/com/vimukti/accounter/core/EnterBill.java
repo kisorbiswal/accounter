@@ -649,8 +649,10 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 					// modifyItemReceipt(this, true);
 				}
 
-				this.vendor.updateBalance(session, this, -1
-						* (enterBill.total - this.total));
+				this.vendor.updateBalance(session, this, -enterBill.total);
+
+				this.vendor.updateBalance(session, this, this.total);
+				
 			}
 
 			/*
