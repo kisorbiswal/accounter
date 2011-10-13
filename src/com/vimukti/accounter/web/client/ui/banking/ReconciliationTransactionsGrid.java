@@ -105,7 +105,7 @@ public class ReconciliationTransactionsGrid extends
 			public String getValue(ClientTransaction object) {
 				setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 				if (UIUtils.isMoneyIn(object, getBankAccount().getID())) {
-					return String.valueOf(object.getTotal());
+					return DataUtils.getAmountAsString(object.getTotal());
 				}
 				return "";
 			}
