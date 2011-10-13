@@ -412,7 +412,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			availableItems.add(transactionItem.getItem());
 		}
 		for (Item item : items) {
-			if (item != last || !availableItems.contains(item)) {
+			if (item != last && !availableItems.contains(item)) {
 				list.add(creatItemRecord(item));
 				num++;
 			}
