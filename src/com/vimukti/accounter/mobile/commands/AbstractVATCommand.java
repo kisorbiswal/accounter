@@ -7,6 +7,7 @@ import java.util.Set;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.mobile.CommandList;
@@ -29,6 +30,11 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 	private static final String ACCOUNTS = "accounts";
 	protected static final String AMOUNT = "amount";
 	protected static final String NAME = "name";
+
+	public static final int ACCOUNTING_TYPE_US = 0;
+	public static final int ACCOUNTING_TYPE_UK = 1;
+	public static final int ACCOUNTING_TYPE_INDIA = 2;
+	public static final int ACCOUNTING_TYPE_OTHER = 3;
 
 	protected Result taxAgencyRequirement(Context context) {
 		Requirement taxAgencyReq = get(TAX_AGENCY);
@@ -78,7 +84,8 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 	}
 
 	protected List<TAXAgency> getTaxAgencies(Context context) {
-		Set<TAXAgency> taxAgencies = context.getCompany().getTaxAgencies();
+		Company company = context.getCompany();
+		Set<TAXAgency> taxAgencies = company.getTaxAgencies();
 		return new ArrayList<TAXAgency>(taxAgencies);
 	}
 
@@ -237,20 +244,8 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		return null;
 	}
 
-	protected boolean isUkCompany() {
-		// Company company = new FinanceTool().getCompany();
-		// int accountingType = company.getAccountingType();
-		// if (accountingType == 1) {
-		// return true;
-		// }
-		return false;
-	}
-
-	protected int getCompanyType() {
-		// Company company = new FinanceTool().getCompany();
-		// int accountingType = company.getAccountingType();
-		// return accountingType;
-		return 0;
+	protected int getCompanyType(Context context) {
+		return context.getCompany().getAccountingType();
 	}
 
 }

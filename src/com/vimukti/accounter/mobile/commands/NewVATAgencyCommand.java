@@ -57,10 +57,10 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		list.add(new Requirement(NAME, false, true));
 		list.add(new Requirement(PAYMENT_TERM, false, true));
 		list.add(new Requirement(SALES_ACCOUNT, false, true));
-		if (getCompanyType() != 0) {
-			list.add(new Requirement(VAT_RETURN, false, true));
-			list.add(new Requirement(PURCHASE_ACCOUNT, false, true));
-		}
+		// if (getCompanyType(c) != 0) {
+		list.add(new Requirement(VAT_RETURN, false, true));
+		list.add(new Requirement(PURCHASE_ACCOUNT, false, true));
+		// }
 		list.add(new Requirement(ADDRESS, true, true));
 		list.add(new Requirement(PHONE, true, true));
 		list.add(new Requirement(FAX, true, true));
@@ -108,7 +108,7 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 			return result;
 		}
 
-		if (getCompanyType() != 0) {
+		if (getCompanyType(context) != ACCOUNTING_TYPE_US) {
 			result = purchaseAccountRequirement(context);
 			if (result != null) {
 				return result;
@@ -153,7 +153,7 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		taxAgency.setEmail(email);
 		taxAgency.setWebPageAddress(website);
 		taxAgency.setContacts(contacts);
-		if (getCompanyType() != 0) {
+		if (getCompanyType(context) != ACCOUNTING_TYPE_US) {
 			Account purchaseAccount = get(PURCHASE_ACCOUNT).getValue();
 			String vatReturn = get(VAT_RETURN).getValue();
 			taxAgency.setPurchaseLiabilityAccount(purchaseAccount);
@@ -231,7 +231,7 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		salesAccountRecord.add("Value", salesAccount.getName());
 		list.add(salesAccountRecord);
 
-		if (getCompanyType() != 0) {
+		if (getCompanyType(context) != ACCOUNTING_TYPE_US) {
 			Requirement purchseAccountReq = get(PURCHASE_ACCOUNT);
 			Account purchaseAccount = (Account) purchseAccountReq.getValue();
 			if (purchaseAccount == selection) {

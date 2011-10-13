@@ -30,9 +30,9 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new Requirement(TAX_AGENCY, false, true));
-		if (isUkCompany()) {
-			list.add(new Requirement(TAX_ITEM, false, true));
-		}
+		// if (isUkCompany()) {
+		list.add(new Requirement(TAX_ITEM, false, true));
+		// }
 		list.add(new Requirement(ADJUSTMENT_ACCOUNT, false, true));
 		list.add(new Requirement(AMOUNT, false, true));
 		list.add(new Requirement(IS_INCREASE_VATLINE, true, true));
@@ -90,7 +90,7 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 		taxAdjustment.setDate(date);
 		taxAdjustment.setNumber(number);
 		taxAdjustment.setMemo(memo);
-		if (isUkCompany()) {
+		if (getCompanyType(context) == ACCOUNTING_TYPE_UK) {
 			TAXItem taxItem = get(TAX_ITEM).getValue();
 			taxAdjustment.setTaxItem(taxItem);
 		}
@@ -147,7 +147,7 @@ public class VATAdjustmentCommand extends AbstractVATCommand {
 		taxAgencyRecord.add("Value", taxAgency);
 		list.add(taxAgencyRecord);
 
-		if (isUkCompany()) {
+		if (getCompanyType(context) == ACCOUNTING_TYPE_UK) {
 			Requirement taxItemReq = get(TAX_ITEM);
 			TAXItem taxItem = (TAXItem) taxItemReq.getValue();
 			if (taxItem == selection) {

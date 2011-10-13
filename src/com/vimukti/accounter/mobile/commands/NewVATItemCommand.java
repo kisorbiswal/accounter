@@ -1,9 +1,12 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.VATReturnBox;
@@ -36,15 +39,17 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		list.add(new Requirement(AMOUNT, false, true));
 		list.add(new Requirement(IS_ACTIVE, true, true));
 		list.add(new Requirement(TAX_AGENCY, false, true));
-		if (isUkCompany()) {
-			list.add(new Requirement(IS_PERCENTAGE, true, true));
-			list.add(new Requirement(VAT_RETURN_BOX, false, true));
-		}
+		// if (isUkCompany()) {
+		list.add(new Requirement(IS_PERCENTAGE, true, true));
+		list.add(new Requirement(VAT_RETURN_BOX, false, true));
+		// }
 	}
 
 	@Override
 	public Result run(Context context) {
 		Result result = null;
+
+		setOptionalFields();
 
 		result = nameRequirement(context);
 		if (result != null) {
@@ -61,7 +66,7 @@ public class NewVATItemCommand extends AbstractVATCommand {
 			return result;
 		}
 
-		if (isUkCompany()) {
+		if (getCompanyType(context) == ACCOUNTING_TYPE_UK) {
 			result = vatReturnBoxRequirement(context);
 			if (result != null) {
 				return result;
@@ -74,6 +79,23 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		}
 
 		return createVATItem(context);
+	}
+
+	private void setOptionalFields() {
+		Requirement descReq = get(DESCRIPTION);
+		if (!descReq.isDone()) {
+			descReq.setValue(new String());
+		}
+
+		Requirement isActiveReq = get(IS_ACTIVE);
+		if (!isActiveReq.isDone()) {
+			isActiveReq.setDefaultValue(true);
+		}
+
+		Requirement isPercentageReq = get(IS_PERCENTAGE);
+		if (!isPercentageReq.isDone()) {
+			isPercentageReq.setDefaultValue(true);
+		}
 	}
 
 	private Result vatReturnBoxRequirement(Context context) {
@@ -147,7 +169,7 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		taxAgencyRecord.add("Value", taxAgency.getName());
 		list.add(taxAgencyRecord);
 
-		if (isUkCompany()) {
+		if (getCompanyType(context) == ACCOUNTING_TYPE_UK) {
 			Requirement vatReturnBoxReq = get(VAT_RETURN_BOX);
 			VATReturnBox vatReturnBox = (VATReturnBox) vatReturnBoxReq
 					.getValue();
@@ -223,7 +245,7 @@ public class NewVATItemCommand extends AbstractVATCommand {
 			description = desc;
 			descriptionReq.setValue(description);
 		}
-		if (selection == description) {
+		if (selection != null && selection == description) {
 			context.setAttribute(INPUT_ATTR, DESCRIPTION);
 			return text(context, "Description", description);
 		}
@@ -245,8 +267,7 @@ public class NewVATItemCommand extends AbstractVATCommand {
 					.add(createVATReturnBoxRecord((VATReturnBox) last));
 		}
 
-		List<VATReturnBox> vatReturnBoxes = getVATReturnBoxes(context
-				.getHibernateSession());
+		List<VATReturnBox> vatReturnBoxes = getVATReturnBoxes(context);
 		for (int i = 0; i < VALUES_TO_SHOW || i < vatReturnBoxes.size(); i++) {
 			VATReturnBox vatReturnBox = vatReturnBoxes.get(i);
 			if (vatReturnBox != last) {
@@ -268,9 +289,10 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		return result;
 	}
 
-	private List<VATReturnBox> getVATReturnBoxes(Session session) {
-		// TODO
-		return null;
+	private List<VATReturnBox> getVATReturnBoxes(Context context) {
+		Company company = context.getCompany();
+		Set<VATReturnBox> vatReturnBoxes = company.getVatReturnBoxes();
+		return new ArrayList<VATReturnBox>(vatReturnBoxes);
 	}
 
 	private Record createVATReturnBoxRecord(VATReturnBox vatReturnBox) {
@@ -280,7 +302,7 @@ public class NewVATItemCommand extends AbstractVATCommand {
 	}
 
 	private Result createVATItem(Context context) {
-		TAXItem taxItem = null;// new TAXItem();
+		TAXItem taxItem = new TAXItem();
 
 		String name = (String) get(NAME).getValue();
 		String description = (String) get(DESCRIPTION).getValue();
@@ -288,7 +310,7 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		boolean isActive = (Boolean) get(IS_ACTIVE).getValue();
 		TAXAgency taxAgency = (TAXAgency) get(TAX_AGENCY).getValue();
 
-		if (isUkCompany()) {
+		if (getCompanyType(context) == ACCOUNTING_TYPE_UK) {
 			boolean isPercentage = (Boolean) get(IS_PERCENTAGE).getValue();
 			VATReturnBox vatReturnBox = (VATReturnBox) get(VAT_RETURN_BOX)
 					.getValue();
