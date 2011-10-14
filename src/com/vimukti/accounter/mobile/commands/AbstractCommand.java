@@ -216,21 +216,21 @@ public abstract class AbstractCommand extends Command {
 		} else {
 			Object selection = context.getSelection(ADDRESS);
 			if (selection != null) {
-				if (selection == oldAddress.getAddress1()) {
+				if (selection == "Address1") {
 					context.setAttribute(ADDRESS_LINE_ATTR, "address1");
 					return text(context, "Enter Address1",
 							oldAddress.getAddress1());
-				} else if (selection == oldAddress.getCity()) {
+				} else if (selection == "City") {
 					context.setAttribute(ADDRESS_LINE_ATTR, "city");
 					return text(context, "Enter City", oldAddress.getCity());
-				} else if (selection == oldAddress.getStreet()) {
+				} else if (selection == "Street") {
 					context.setAttribute(ADDRESS_LINE_ATTR, "street");
 					return text(context, "Enter Street", oldAddress.getStreet());
-				} else if (selection == oldAddress.getStateOrProvinence()) {
+				} else if (selection == "State/Provinence") {
 					context.setAttribute(ADDRESS_LINE_ATTR, "stateOrProvinence");
 					return text(context, "Enter State/Provinence",
 							oldAddress.getStateOrProvinence());
-				} else if (selection == oldAddress.getCountryOrRegion()) {
+				} else if (selection == "Country/Region") {
 					context.setAttribute(ADDRESS_LINE_ATTR, "countryOrRegion");
 					return text(context, "Enter Country/Region",
 							oldAddress.getCountryOrRegion());
@@ -248,27 +248,27 @@ public abstract class AbstractCommand extends Command {
 		}
 
 		ResultList list = new ResultList(ADDRESS);
-		Record record = new Record(oldAddress.getAddress1());
+		Record record = new Record("Address1");
 		record.add("", "Address1");
 		record.add("", oldAddress.getAddress1());
 		list.add(record);
 
-		record = new Record(oldAddress.getStreet());
-		record.add("", "Streat");
+		record = new Record("Street");
+		record.add("", "Street");
 		record.add("", oldAddress.getStreet());
 		list.add(record);
 
-		record = new Record(oldAddress.getCity());
+		record = new Record("City");
 		record.add("", "City");
 		record.add("", oldAddress.getCity());
 		list.add(record);
 
-		record = new Record(oldAddress.getStateOrProvinence());
+		record = new Record("State/Provinence");
 		record.add("", "State/Provinence");
 		record.add("", oldAddress.getStateOrProvinence());
 		list.add(record);
 
-		record = new Record(oldAddress.getCountryOrRegion());
+		record = new Record("Country/Region");
 		record.add("", "Country/Region");
 		record.add("", oldAddress.getCountryOrRegion());
 		list.add(record);
