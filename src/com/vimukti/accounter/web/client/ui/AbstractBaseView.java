@@ -161,7 +161,7 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 	 * Failed to save.
 	 */
 	public void saveFailed(AccounterException exception) {
-
+		changeButtonBarMode(false);
 		// if (dialog != null) {
 		// dialog.removeFromParent();
 		// }
