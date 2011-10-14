@@ -206,6 +206,7 @@ public abstract class AbstractCommand extends Command {
 		String input = (String) context.getAttribute(INPUT_ATTR);
 		if (input.equals(reqName)) {
 			customerNumReq.setValue(context.getNumber());
+			context.setAttribute(INPUT_ATTR, "optional");
 		}
 		if (!customerNumReq.isDone()) {
 			context.setAttribute(INPUT_ATTR, reqName);
@@ -222,6 +223,7 @@ public abstract class AbstractCommand extends Command {
 		if (input.equals(reqName)) {
 			input = context.getString();
 			requirement.setValue(input);
+			context.setAttribute(INPUT_ATTR, "optional");
 		}
 		if (!requirement.isDone()) {
 			context.setAttribute(INPUT_ATTR, reqName);
