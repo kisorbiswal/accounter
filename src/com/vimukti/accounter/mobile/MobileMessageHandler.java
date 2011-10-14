@@ -9,6 +9,7 @@ import java.util.Map;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
@@ -78,10 +79,11 @@ public class MobileMessageHandler {
 				.getNamedQuery("getClient.by.mailId");
 		namedQuery.setParameter("emailId", userId);
 		Client client = (Client) namedQuery.uniqueResult();
-
 		session.setCompanyID(1l);
-
 		session.setClientID(client.getID());
+		session.sethibernateSession(hibernateSession);
+		User user = session.getUser();
+		AccounterThreadLocal.set(user);
 	}
 
 	/**
