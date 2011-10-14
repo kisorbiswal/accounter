@@ -33,7 +33,8 @@ public class DepositInAccountCombo extends AccountCombo {
 				// ClientAccount.TYPE_CASH,
 				ClientAccount.TYPE_CREDIT_CARD,
 				ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-				ClientAccount.TYPE_FIXED_ASSET).contains(acc.getType());
+				ClientAccount.TYPE_FIXED_ASSET).contains(acc.getType())
+				&& acc.getID() != getCompany().getAccountsReceivableAccountId();
 
 	}
 
