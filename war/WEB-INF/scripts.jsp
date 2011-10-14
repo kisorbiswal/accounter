@@ -31,8 +31,15 @@ var _gaq = _gaq || [];
 	%>
 		olark('api.chat.updateVisitorStatus', {snippet: ['Using company "<%=companyName %>"']})
 	<%
-	}	
+	}
+	
+	
 }
 %>
+olark('api.chat.onCommandFromOperator', function(event) {
+   if (event.command.name == 'go') {
+   		window.location = String(window.location).replace(/\#.*$/, "") + "#"+event.command.body;
+   }
+});
 olark.identify('9355-276-10-7826');/*]]>{/literal}*/</script>
 <!-- end olark code -->
