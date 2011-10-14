@@ -199,7 +199,7 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		Requirement isCashAccountReq = get(CONSIDER_AS_CASH_ACCOUNT);
 
 		Boolean isCashAccoount = (Boolean) isCashAccountReq.getValue();
-		if (selection == isCashAccoount) {
+		if (selection == CONSIDER_AS_CASH_ACCOUNT) {
 			isCashAccoount = !isCashAccoount;
 			isCashAccountReq.setValue(isCashAccoount);
 		}
@@ -211,7 +211,7 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		}
 		Record isCashAccountRecord = new Record(CONSIDER_AS_CASH_ACCOUNT);
 		isCashAccountRecord.add("", CONSIDER_AS_CASH_ACCOUNT);
-		isCashAccountRecord.add("", isCashAccount);
+		isCashAccountRecord.add(":", isCashAccount);
 		list.add(isCashAccountRecord);
 		return null;
 	}
@@ -231,7 +231,7 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 			activeString = "This account is InActive";
 		}
 		Record isActiveRecord = new Record(ACTIVE);
-		isActiveRecord.add("", activeString);
+		isActiveRecord.add(":", activeString);
 		list.add(isActiveRecord);
 		return null;
 	}
