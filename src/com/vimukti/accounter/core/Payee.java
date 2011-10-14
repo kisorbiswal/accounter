@@ -354,6 +354,7 @@ public abstract class Payee extends CreatableObject implements
 		 */
 		if (account != null) {
 			account.updateCurrentBalance(transaction, amount);
+			account = (Account) session.merge(account);
 			session.update(account);
 			account.onUpdate(session);
 		}
