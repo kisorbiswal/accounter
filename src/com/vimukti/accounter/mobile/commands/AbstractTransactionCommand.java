@@ -405,10 +405,13 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		Result result = context.makeResult();
 		result.add("Account details");
 		result.add("Account Name :" + transactionItem.getAccount().getName());
-		result.add("Account Balance:"
-				+ transactionItem.getAccount().getCurrentBalance());
+		double lt = transactionItem.getUnitPrice();
+		double disc = transactionItem.getDiscount();
+		transactionItem
+				.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
+						* disc / 100)) : lt);
+		result.add("Amount Total :" + transactionItem.getLineTotal());
 		result.add(list);
-		result.add("Account Total :" + transactionItem.getLineTotal());
 
 		ResultList actions = new ResultList(ACTIONS);
 		record = new Record(ActionNames.DELETE_ITEM);
@@ -638,7 +641,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	protected Record creatItemRecord(Item item) {
 		Record record = new Record(item);
-		record.add("Item Name", item.getName());
+		record.add("Item Name", "Item Name:");
+		record.add("Item value", item.getName());
 		if (item.getTaxCode() != null) {
 			record.add("Tax Code", item.getTaxCode().getName());
 		}
@@ -833,23 +837,29 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		}
 		Set<Account> transferAccountList = getAccounts(context.getCompany(),
 				listFilter);
-
-		for (Account account : transferAccountList) {
-			if (account != last) {
-				list.add(createAccountRecord(account));
-				num++;
-			}
-			if (num == ACCOUNTS_TO_SHOW) {
-				break;
-			}
-		}
-
-		if (list.size() > 0) {
+		if (!transferAccountList.isEmpty())
 			result.add("Select an Account.");
+		if (!transferAccountList.isEmpty()) {
+			for (Account account : transferAccountList) {
+				if (account != last) {
+					list.add(createAccountRecord(account));
+					num++;
+				}
+				if (num == ACCOUNTS_TO_SHOW) {
+					break;
+				}
+			}
 		}
-		result.add(list);
+
 		CommandList commands = new CommandList();
 		commands.add("Create New Account");
+		if (list.size() > 5) {
+			Record moreAccounts = new Record("More Accounts");
+			moreAccounts.add("", "MORE ACCOUNTS");
+			list.add(moreAccounts);
+		}
+		result.add(list);
+		result.add(commands);
 		return result;
 	}
 
@@ -867,9 +877,13 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	protected Record createAccountRecord(Account last) {
 		Record record = new Record(last);
+		record.add("Account Number", "Account Number:");
 		record.add("Account Number", last.getNumber());
+		record.add("Account Name", "Account Name:");
 		record.add("Account Name", last.getName());
+		record.add("Account Type", "Account Type:");
 		record.add("Account Type", getAccountTypeString(last.getType()));
+		record.add("Balance", "Balance:");
 		record.add("Balance", last.getTotalBalance());
 		return record;
 	}
@@ -1171,9 +1185,12 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	private Record creatAccountRecord(Account last) {
 		Record record = new Record(last);
-		record.add("Account Name", last.getName());
+		record.add("Account Name", "Account Name:");
+		record.add("Account Name value", last.getName());
+		record.add("Account Balance", "Current Balance:");
 		record.add("Current Balance", last.getCurrentBalance());
-		record.add("Account Type", getAccountTypeString(last.getType()));
+		record.add("Account Type", "Account Type:");
+		record.add("Account Type Value", getAccountTypeString(last.getType()));
 		return record;
 	}
 
