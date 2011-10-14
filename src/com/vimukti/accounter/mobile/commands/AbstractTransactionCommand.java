@@ -280,9 +280,19 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		if (lineAttr != null) {
 			context.removeAttribute(ACCOUNT_ITEM_PROPERTY_ATTR);
 			if (lineAttr.equals("amount")) {
-				transactionItem.setLineTotal(context.getDouble());
+				if (context.getDouble() != null) {
+					transactionItem.setUnitPrice(context.getDouble());
+				} else {
+					transactionItem.setUnitPrice(context.getInteger()
+							.doubleValue());
+				}
 			} else if (lineAttr.equals("discount")) {
-				transactionItem.setDiscount(context.getDouble());
+				if (context.getDouble() != null) {
+					transactionItem.setDiscount(context.getDouble());
+				} else {
+					transactionItem.setDiscount(context.getInteger()
+							.doubleValue());
+				}
 			} else if (lineAttr.equals("taxCode")) {
 				TAXCode taxCode = context.getSelection(TAXCODE);
 				transactionItem.setTaxCode(taxCode);
@@ -293,7 +303,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 				if (selection.equals("amount")) {
 					context.setAttribute(ACCOUNT_ITEM_PROPERTY_ATTR, "amount");
 					return amount(context, "Enter Amount",
-							transactionItem.getLineTotal());
+							transactionItem.getUnitPrice());
 				} else if (selection.equals("discount")) {
 					context.setAttribute(ACCOUNT_ITEM_PROPERTY_ATTR, "discount");
 					return amount(context, "Enter Discount",
@@ -1498,7 +1508,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	protected Result accountNumberRequirement(Context context) {
 		Requirement numberReq = get(ACCOUNT_NUMBER);
-		if(numberReq.isDone())
+		if (numberReq.isDone())
 			return null;
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals(ACCOUNT_NUMBER)) {
