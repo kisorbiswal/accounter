@@ -133,8 +133,6 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		get("deliveryDate").setDefaultValue(new Date());
 		get("number").setDefaultValue("1");
 		get("Payment method").setDefaultValue("cash");
-		get(PHONE).setDefaultValue("");
-		get(MEMO).setDefaultValue("");
 	}
 
 	private void completeProcess(Context context) {
@@ -246,8 +244,11 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		Requirement transferTo = get("depositOrTransferTo");
 		Account account = transferTo.getValue();
 		Record accountRec = new Record(account);
+		accountRec.add("Number", "Account Number");
 		accountRec.add("Number", account.getNumber());
+		accountRec.add("Account name", "Account Name");
 		accountRec.add("Account name", account.getNumber());
+		accountRec.add("Account Type", "Account Type");
 		accountRec.add("Account Type", getAccountTypeString(account.getType()));
 		list.add(accountRec);
 
@@ -260,7 +261,7 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		}
 
 		Record supplierRecord = new Record(supplier);
-		supplierRecord.add("Name", "Vendor Name");
+		supplierRecord.add("Name", "Vendor Name:");
 		supplierRecord.add("Value", supplier.getName());
 		list.add(supplierRecord);
 
@@ -308,8 +309,11 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		ResultList items = new ResultList("transactionItems");
 		for (TransactionItem item : transItems) {
 			Record itemRec = new Record(item);
+			itemRec.add("Name", "Item Name:");
 			itemRec.add("Name", item.getItem().getName());
+			itemRec.add("Total", "Item Total:");
 			itemRec.add("Total", item.getLineTotal());
+			itemRec.add("VatCode", "VatCode:");
 			itemRec.add("VatCode", item.getVATfraction());
 			items.add(itemRec);
 		}
@@ -317,7 +321,9 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		ResultList accountItems = new ResultList("accountItems");
 		for (TransactionItem item : accountItem) {
 			Record accountRecord = new Record(item);
+			accountRecord.add("Name", "Account Name:");
 			accountRecord.add("Name", item.getAccount().getName());
+			accountRecord.add("Total", "Total:");
 			accountRecord.add("Total", item.getLineTotal());
 			accountItems.add(accountRecord);
 		}
@@ -327,6 +333,9 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		Record moreItems = new Record(ActionNames.ADD_MORE_ITEMS);
 		moreItems.add("", "Add more items");
 		actions.add(moreItems);
+		Record moreAccounts = new Record(ActionNames.ADD_MORE_ACCOUNTS);
+		moreItems.add("", "Add more accounts");
+		actions.add(moreAccounts);
 		Record finish = new Record(ActionNames.FINISH);
 		finish.add("", "Finish to create CashPurchase.");
 		actions.add(finish);
