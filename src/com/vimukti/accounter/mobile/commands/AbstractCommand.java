@@ -688,7 +688,7 @@ public abstract class AbstractCommand extends Command {
 	protected Result paymentMethodRequirement(Context context, ResultList list,
 			Object selection) {
 		Object payamentMethodObj = context.getSelection("Payment method");
-		Requirement paymentMethodReq = get("paymentmethod");
+		Requirement paymentMethodReq = get("paymentMethod");
 		String paymentmethod = (String) paymentMethodReq.getValue();
 		if (payamentMethodObj != null) {
 			paymentmethod = (String) payamentMethodObj;
