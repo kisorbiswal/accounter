@@ -25,9 +25,13 @@ var _gaq = _gaq || [];
 	if(userName!=null){
 	%>
 		olark('api.chat.updateFullName', {snippet: '<%=userName %>'});
-		olark('api.chat.updateVisitorStatus', {snippet: ['Using company "<%=companyName %>"']})
 	<%
 	}
+	if(companyName!=null){
+	%>
+		olark('api.chat.updateVisitorStatus', {snippet: ['Using company "<%=companyName %>"']})
+	<%
+	}	
 }
 %>
 olark.identify('9355-276-10-7826');/*]]>{/literal}*/</script>
