@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.tools.ant.taskdefs.email.EmailAddress;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Address;
@@ -153,14 +152,9 @@ public class Context {
 
 			for (String string : inputs) {
 				if (StringUtils.isInteger(string)) {
-					try {
-						int parseInt = Integer.parseInt(string);
-						integers.add(parseInt);
-						numbers.add(parseInt);
-					} catch (NumberFormatException e) {
-						// For phone number requirement.
-						strings.add(string);
-					}
+					int parseInt = Integer.parseInt(string);
+					integers.add(parseInt);
+					numbers.add(parseInt);
 				} else if (StringUtils.isDouble(string)) {
 					double parseInt = Double.parseDouble(string);
 					doubles.add(parseInt);
