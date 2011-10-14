@@ -249,7 +249,9 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		initContacts(customer);
 		Iterator<ClientContact> iterator = contacts.iterator();
 		while (iterator.hasNext()) {
-			contactCombo.setComboItem(iterator.next());
+			ClientContact next = iterator.next();
+			contactCombo.setComboItem(next);
+			contactSelected(next);
 			break;
 		}
 
@@ -374,12 +376,12 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		clientContacts.addAll(selectedCutomer.getContacts());
 		for (int j = 0; j < clientContacts.size(); j++) {
 			if (clientContacts.get(j).getTitle().equals(contact.getTitle())
-					&& clientContacts.get(j).getEmail().equals(
-							contact.getEmail())
-					&& clientContacts.get(j).getDisplayName().equals(
-							contact.getDisplayName())
-					&& clientContacts.get(j).getBusinessPhone().equals(
-							contact.getBusinessPhone())) {
+					&& clientContacts.get(j).getEmail()
+							.equals(contact.getEmail())
+					&& clientContacts.get(j).getDisplayName()
+							.equals(contact.getDisplayName())
+					&& clientContacts.get(j).getBusinessPhone()
+							.equals(contact.getBusinessPhone())) {
 				Accounter.showError(Accounter.constants()
 						.youHaveEnteredduplicateContacts());
 				return;
@@ -782,8 +784,8 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		// }
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result.addError(transactionDateItem, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDateItem,
+					accounterConstants.invalidateDate());
 		}
 		if (custForm != null) {
 			result.add(custForm.validate());
