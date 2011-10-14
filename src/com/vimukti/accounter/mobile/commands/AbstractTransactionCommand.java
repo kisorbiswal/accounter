@@ -566,11 +566,11 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			contact = (Contact) contactObj;
 			contactReq.setValue(contact);
 		}
-		if (contact != null && contact.equals(selection)) {
+		if (selection == contact) {
 			return contactList(context, payee, contact);
 		}
 		Record contactRecord = new Record(contact);
-		if (contact != null && contact.getName() != null) {
+		if (contact.getName() != null) {
 			contactRecord.add("Customer Contact", contact.getName());
 		} else {
 			contactRecord.add("Customer Contact", "Customer Contact");
@@ -721,7 +721,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		Set<Contact> contacts = customer.getContacts();
 		ResultList list = new ResultList(CONTACTS);
 		int num = 0;
-		if (oldContact != null && oldContact.getName() != null) {
+		if (oldContact != null) {
 			list.add(createContactRecord(oldContact));
 			num++;
 		}
