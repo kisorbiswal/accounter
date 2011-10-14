@@ -185,7 +185,6 @@ public class MobileSession {
 	 */
 	public void setCompanyID(long company) {
 		this.companyID = company;
-		AccounterThreadLocal.set(getUser());
 	}
 
 	/**
