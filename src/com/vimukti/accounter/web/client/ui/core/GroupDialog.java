@@ -149,7 +149,6 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 			}
 
 			public boolean onOK() {
-
 				return true;
 			}
 		};
@@ -167,6 +166,7 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 
 	public void secondButtonClick() {
 		dialogButtonsHandler.onSecondButtonClick();
+		enableEditRemoveButtons(false);
 	}
 
 	public void thirdButtonClick() {
@@ -301,13 +301,6 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 	}
 
 	private void updateOrAddRecord(T obj) {
-		// IAccounterCore core = (IAccounterCore) obj;
-		// if (Utility.getObject(
-		// (List<IAccounterCore>) (ArrayList) listGridView.getRecords(),
-		// core.getID()) != null)
-		// deleteRecord();
-		//
-		// listGridView.addData((IsSerializable) obj);
 		listGridView.removeAllRecords();
 		initGrid(getRecords());
 		if (callBack != null) {
