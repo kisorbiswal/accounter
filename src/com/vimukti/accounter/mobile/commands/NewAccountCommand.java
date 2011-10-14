@@ -42,7 +42,7 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		list.add(new Requirement(ACCOUNT_TYPE, true, true));
 		list.add(new Requirement(ACCOUNT_NAME, false, true));
 		list.add(new Requirement(ACCOUNT_NUMBER, false, true));
-		list.add(new Requirement(OPENINGBALANCE, false, true));
+		list.add(new Requirement(OPENINGBALANCE, true, true));
 		list.add(new Requirement(ACTIVE, true, true));
 		list.add(new Requirement(ASOF, true, true));
 		list.add(new Requirement(COMMENTS, true, true));
@@ -53,13 +53,11 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 	public Result run(Context context) {
 		Result result = null;
 
-		get(OPENINGBALANCE).setDefaultValue(0.0D);
-		if (context.getAttribute(INPUT_ATTR) == null)
+		if (context.getAttribute(INPUT_ATTR) == null) {
 			context.setAttribute(INPUT_ATTR, "optional");
+		}
 
-		Object selection = context.getSelection("accountsTypes");
-		result = accountTypesRequirement(context, selection);
-
+		result = nameRequirement(context);
 		if (result != null) {
 			return result;
 		}
@@ -67,10 +65,8 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = nameRequirement(context);
-		if (result != null) {
-			return result;
-		}
+
+		setDefaultValues();
 		result = createOptionalResult(context);
 		if (result != null) {
 			return result;
@@ -78,6 +74,15 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		markDone();
 		return createNewAccount(context);
 
+	}
+
+	private void setDefaultValues() {
+		get(OPENINGBALANCE).setDefaultValue(0.0D);
+		get(ACCOUNT_TYPE).setDefaultValue("Income");
+		get(ACTIVE).setDefaultValue(Boolean.TRUE);
+		get(ASOF).setDefaultValue(new Date());
+		get(COMMENTS).setDefaultValue(" ");
+		get(CONSIDER_AS_CASH_ACCOUNT).setDefaultValue(Boolean.TRUE);
 	}
 
 	private Result createNewAccount(Context context) {
@@ -123,6 +128,7 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 			ActionNames actionName = (ActionNames) selection;
 			switch (actionName) {
 			case FINISH:
+				markDone();
 				return null;
 			default:
 				break;
@@ -131,96 +137,44 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		ResultList list = new ResultList("values");
 		selection = context.getSelection("values");
 
-		Requirement accTypeReq = get(ACCOUNT_TYPE);
-		String actype = (String) accTypeReq.getValue();
-		//
-		// if (actype == null) {
-		// Integer integer = context.getInteger();
-		// if (integer != null)
-		// accTypeReq.setValue(integer);
-		// }
-		// if (!accTypeReq.isDone()) {
-		// context.setAttribute(INPUT_ATTR, ACCOUNT_TYPE);
-		// return number(context, "Please enter the account Type", null);
-		// }
-
 		Requirement accNameReq = get(ACCOUNT_NAME);
 		String name = (String) accNameReq.getValue();
-		if (name == selection) {
-			context.setAttribute(INPUT_ATTR, ACCOUNT_NAME);
-			return text(context, "Please Enter the account name", name);
-		}
-
-		Requirement accounNumberReq = get(ACCOUNT_NUMBER);
-		Integer num = (Integer) accounNumberReq.getValue();
-		if (num == selection) {
-			context.setAttribute(INPUT_ATTR, ACCOUNT_NUMBER);
-			return number(context, "Please Enter Accoount Number", "" + num);
-		}
-
-		Record accTypeRecord = new Record(actype);
-		accTypeRecord.add("", "actype");
-		accTypeRecord.add("", actype);
-		list.add(accTypeRecord);
-
-		Record numberRecord = new Record(num);
-		numberRecord.add("", "accountNumber");
-		numberRecord.add("", num);
-		list.add(numberRecord);
-
 		Record nameRecord = new Record(name);
 		nameRecord.add("", "Name");
 		nameRecord.add("", name);
 		list.add(nameRecord);
 
-		Requirement isActiveReq = get(ACTIVE);
-		get(ACTIVE).setDefaultValue(Boolean.TRUE);
-		Boolean isActive = (Boolean) isActiveReq.getValue();
-		if (selection == isActive) {
-			context.setAttribute(INPUT_ATTR, ACTIVE);
-			isActive = !isActive;
-			isActiveReq.setValue(isActive);
-		}
-		String activeString = "";
-		if (isActive) {
-			activeString = "This account is Active";
-		} else {
-			activeString = "This account is InActive";
-		}
-		Record isActiveRecord = new Record(ACTIVE);
-		isActiveRecord.add("", activeString);
-		list.add(isActiveRecord);
+		Requirement accounNumberReq = get(ACCOUNT_NUMBER);
+		Integer num = (Integer) accounNumberReq.getValue();
+		Record numberRecord = new Record(num);
+		numberRecord.add("", "accountNumber");
+		numberRecord.add("", num);
+		list.add(numberRecord);
 
-		Requirement openingBalanceReq = get(OPENINGBALANCE);
-		Double bal = (Double) openingBalanceReq.getValue();
-
-		Record openingBalRec = new Record(OPENINGBALANCE);
-		openingBalRec.add("", OPENINGBALANCE);
-		openingBalRec.add("", bal);
-		list.add(openingBalRec);
-
-		Result result = asOfDateRequirement(context, list, selection);
+		Result result = accountTypesRequirement(context, selection, list);
 		if (result != null) {
 			return result;
 		}
 
-		Requirement isCashAccountReq = get(CONSIDER_AS_CASH_ACCOUNT);
-		get(CONSIDER_AS_CASH_ACCOUNT).setDefaultValue(Boolean.TRUE);
-		Boolean isCashAccoount = (Boolean) isCashAccountReq.getValue();
-		if (selection == isCashAccoount) {
-			context.setAttribute(INPUT_ATTR, CONSIDER_AS_CASH_ACCOUNT);
-			isCashAccoount = !isCashAccoount;
-			isCashAccountReq.setValue(isCashAccoount);
+		result = activeRequirement(context, selection, list);
+		if (result != null) {
+			return result;
 		}
-		String isCashAccount = "";
-		if (isCashAccoount) {
-			isCashAccount = "This account is cash account";
-		} else {
-			isCashAccount = "This account is not a cash account";
+		result = amountOptionalRequirement(context, list, selection,
+				OPENINGBALANCE, "Opening balance");
+		if (result != null) {
+			return result;
 		}
-		Record isCashAccountRecord = new Record(CONSIDER_AS_CASH_ACCOUNT);
-		isCashAccountRecord.add("", isCashAccount);
-		list.add(isCashAccountRecord);
+
+		result = dateOptionalRequirement(context, list, ASOF, "Enter AsOfDate",
+				selection);
+		if (result != null) {
+			return result;
+		}
+		result = cashDiscountRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
 
 		result = commentsRequirement(context, list, selection);
 		if (result != null) {
@@ -240,6 +194,48 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 
 	}
 
+	private Result cashDiscountRequirement(Context context, ResultList list,
+			Object selection) {
+		Requirement isCashAccountReq = get(CONSIDER_AS_CASH_ACCOUNT);
+
+		Boolean isCashAccoount = (Boolean) isCashAccountReq.getValue();
+		if (selection == isCashAccoount) {
+			isCashAccoount = !isCashAccoount;
+			isCashAccountReq.setValue(isCashAccoount);
+		}
+		String isCashAccount = "";
+		if (isCashAccoount) {
+			isCashAccount = "This account is cash account";
+		} else {
+			isCashAccount = "This account is not a cash account";
+		}
+		Record isCashAccountRecord = new Record(CONSIDER_AS_CASH_ACCOUNT);
+		isCashAccountRecord.add("", CONSIDER_AS_CASH_ACCOUNT);
+		isCashAccountRecord.add("", isCashAccount);
+		list.add(isCashAccountRecord);
+		return null;
+	}
+
+	private Result activeRequirement(Context context, Object selection,
+			ResultList list) {
+		Requirement isActiveReq = get(ACTIVE);
+		Boolean isActive = (Boolean) isActiveReq.getValue();
+		if (selection == ACTIVE) {
+			isActive = !isActive;
+			isActiveReq.setValue(isActive);
+		}
+		String activeString = "";
+		if (isActive) {
+			activeString = "This account is Active";
+		} else {
+			activeString = "This account is InActive";
+		}
+		Record isActiveRecord = new Record(ACTIVE);
+		isActiveRecord.add("", activeString);
+		list.add(isActiveRecord);
+		return null;
+	}
+
 	private Result commentsRequirement(Context context, ResultList list,
 			Object selection) {
 		Requirement req = get(COMMENTS);
@@ -254,12 +250,12 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 			req.setValue(comments);
 		}
 
-		if (selection == comments) {
+		if (selection == COMMENTS) {
 			context.setAttribute(INPUT_ATTR, COMMENTS);
-			return text(context, "Enter Comments", comments);
+			return text(context, "Enter Comments", null);
 		}
 
-		Record memoRecord = new Record(comments);
+		Record memoRecord = new Record(COMMENTS);
 		memoRecord.add("", COMMENTS);
 		memoRecord.add("", comments);
 		list.add(memoRecord);
@@ -270,45 +266,14 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		Requirement nameReq = get(ACCOUNT_NAME);
 		if (!nameReq.isDone()) {
 			String string = context.getString();
-			if (string != null) {
+			if (!string.isEmpty()) {
 				nameReq.setValue(string);
 			} else {
-				return text(context, "Please Enter the account name ", string);
+				return text(context, "Please Enter the account name ", null);
 			}
 		}
-		// String input = (String) context.getAttribute(INPUT_ATTR);
-		// if (input.equals(ACCOUNT_NAME)) {
-		// nameReq.setValue(input);
-		// }
+
 		return null;
 	}
 
-	private Result asOfDateRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement dateReq = get(ASOF);
-		Date asOfDate = (Date) dateReq.getValue();
-		if (asOfDate != null)
-			return null;
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(ASOF)) {
-			Date date = context.getSelection(ASOF);
-			if (date == null) {
-				date = context.getDate();
-			}
-			asOfDate = date;
-			dateReq.setValue(asOfDate);
-		}
-		if (selection == asOfDate) {
-			context.setAttribute(INPUT_ATTR, ASOF);
-			return date(context, "Enter asOf Date", asOfDate);
-		}
-
-		Record asOfDateRecord = new Record(asOfDate);
-		asOfDateRecord.add("Name", "asOf");
-		asOfDateRecord.add("Value", asOfDate.toString());
-		list.add(asOfDateRecord);
-
-		return null;
-	}
 }
