@@ -521,28 +521,20 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 		if (payamentObj != null) {
 			paymentTerm = (PaymentTerms) payamentObj;
-		}
-		if (selection == paymentTerm) {
-			context.setAttribute(INPUT_ATTR, PAYMENT_TERMS);
-			return paymentTerms(context, paymentTerm);
-
-		}
-		if (payamentObj != null) {
-			paymentTerm = (PaymentTerms) payamentObj;
 			paymentReq.setValue(paymentTerm);
-		} else if (selection == paymentTerm) {
-			return paymentTerms(context, paymentTerm);
-
 		}
 
-		Record paymentTermRecord = new Record(paymentTerm);
-		if (paymentTerm.getName() != null) {
-			paymentTermRecord.add("Name", "Payment Terms");
-			paymentTermRecord.add("Value", paymentTerm.getName());
-		} else {
-			paymentTermRecord.add("Name", "Payment Terms");
-			paymentTermRecord.add("Value", "Payment Terms");
-		}
+		if (selection != null)
+			if (selection == "Payment Terms") {
+				context.setAttribute(INPUT_ATTR, PAYMENT_TERMS);
+				return paymentTerms(context, paymentTerm);
+
+			}
+
+		Record paymentTermRecord = new Record("Payment Terms");
+		paymentTermRecord.add("Name", "Payment Terms");
+		paymentTermRecord.add("Value",
+				paymentTerm == null ? "" : paymentTerm.getName());
 
 		list.add(paymentTermRecord);
 		return null;
