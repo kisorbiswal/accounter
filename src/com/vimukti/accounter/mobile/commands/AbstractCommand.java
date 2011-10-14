@@ -630,19 +630,17 @@ public abstract class AbstractCommand extends Command {
 		String paymentmethod = (String) paymentMethodReq.getValue();
 		if (payamentMethodObj != null) {
 			paymentmethod = (String) payamentMethodObj;
-		}
-		if (selection == paymentmethod) {
-			context.setAttribute(INPUT_ATTR, "paymentmethod");
-			return paymentMethod(context, paymentmethod);
-
-		}
-		if (payamentMethodObj != null) {
-			paymentmethod = (String) payamentMethodObj;
 			paymentMethodReq.setValue(paymentmethod);
 		}
+		if (selection != null)
+			if (selection == "paymentMethod") {
+				context.setAttribute(INPUT_ATTR, "paymentmethod");
+				return paymentMethod(context, paymentmethod);
 
-		Record paymentTermRecord = new Record(paymentmethod);
-		paymentTermRecord.add("Name", "ayment Method");
+			}
+
+		Record paymentTermRecord = new Record("paymentMethod");
+		paymentTermRecord.add("Name", "paymentMethod");
 		paymentTermRecord.add("Value", paymentmethod);
 		list.add(paymentTermRecord);
 		return null;
