@@ -63,10 +63,6 @@
    </div>
 </div>
    
-   <script type="text/javascript" charset="utf-8">
-			var is_ssl = ("https:" == document.location.protocol);
-			var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
-		</script>
-		 
+<%@ include file="./scripts.jsp" %>
   </body>
 </html>

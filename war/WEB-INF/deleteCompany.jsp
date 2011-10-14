@@ -49,5 +49,6 @@
       <a target="_blank" href="/site/support"> Support </a>
    </div>
 </div>
+<%@ include file="./scripts.jsp" %>
   </body>
 </html>

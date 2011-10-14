@@ -16,5 +16,6 @@
         </c:forEach>
         <button type="submit">Continue...</button>
     </form>
+    <%@ include file="./scripts.jsp" %>
 </body>
 </html>
