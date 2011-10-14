@@ -240,6 +240,18 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			} else {
 				selection = context.getSelection(ACTIONS);
 				if (selection == ActionNames.FINISH_ITEM) {
+					if (transactionItem.getUnitPrice() == 0) {
+						context.setAttribute(ITEM_PROPERTY_ATTR, "unitPrice");
+						return amount(context, "Enter Unitprice",
+								transactionItem.getUnitPrice());
+					} else if (context.getCompany().getPreferences()
+							.isTrackTax()
+							&& context.getCompany().getPreferences()
+									.isTaxPerDetailLine()
+							&& transactionItem.getTaxCode() == null) {
+						context.setAttribute(ITEM_PROPERTY_ATTR, "taxCode");
+						return taxCode(context, transactionItem.getTaxCode());
+					}
 					context.removeAttribute(PROCESS_ATTR);
 					context.removeAttribute(OLD_TRANSACTION_ITEM_ATTR);
 					return null;
@@ -360,6 +372,20 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			} else {
 				selection = context.getSelection(ACTIONS);
 				if (selection == ActionNames.FINISH_ITEM) {
+					if (transactionItem.getUnitPrice() == 0) {
+						context.setAttribute(ACCOUNT_ITEM_PROPERTY_ATTR,
+								"amount");
+						return amount(context, "Enter Amount",
+								transactionItem.getUnitPrice());
+					} else if (context.getCompany().getPreferences()
+							.isTrackTax()
+							&& context.getCompany().getPreferences()
+									.isTaxPerDetailLine()
+							&& transactionItem.getTaxCode() == null) {
+						context.setAttribute(ACCOUNT_ITEM_PROPERTY_ATTR,
+								"taxCode");
+						return taxCode(context, transactionItem.getTaxCode());
+					}
 					context.removeAttribute(PROCESS_ATTR);
 					context.removeAttribute(OLD_TRANSACTION_ACCOUNT_ITEM_ATTR);
 					return null;
@@ -380,12 +406,16 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		record.add("", "Discount %");
 		record.add("", transactionItem.getDiscount());
 		list.add(record);
-
 		Company company = context.getCompany();
-		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+		if (company.getPreferences().isTrackTax()
+				&& company.getPreferences().isTaxPerDetailLine()) {
 			record = new Record("taxCode");
 			record.add("", "VatCode");
-			record.add("", transactionItem.getTaxCode().getName());
+			if (transactionItem.getTaxCode() != null) {
+				record.add("", transactionItem.getTaxCode().getName());
+			} else {
+				record.add("", "");
+			}
 			list.add(record);
 		} else {
 			record = new Record("tax");
@@ -1125,6 +1155,16 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 				transactionItems.add(transactionItem);
 				if (transactionItem.getUnitPrice() == 0) {
 					context.putSelection(ACCOUNT_ITEM_DETAILS, "amount");
+					Result transactionItemResult = transactionAccountItem(
+							context, transactionItem);
+					if (transactionItemResult != null) {
+						return transactionItemResult;
+					}
+				} else if (context.getCompany().getPreferences().isTrackTax()
+						&& context.getCompany().getPreferences()
+								.isTaxPerDetailLine()
+						&& transactionItem.getTaxCode() == null) {
+					context.putSelection(ACCOUNT_ITEM_DETAILS, "taxCode");
 					Result transactionItemResult = transactionAccountItem(
 							context, transactionItem);
 					if (transactionItemResult != null) {
