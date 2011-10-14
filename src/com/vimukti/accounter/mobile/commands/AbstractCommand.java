@@ -572,7 +572,6 @@ public abstract class AbstractCommand extends Command {
 			}
 			number = input;
 			req.setValue(number);
-			context.setAttribute(INPUT_ATTR, "optional");
 		}
 
 		if (selection == number) {
