@@ -124,6 +124,7 @@ public abstract class AbstractCommand extends Command {
 			}
 			balance = Double.parseDouble(order);
 			req.setValue(balance);
+			context.setAttribute(INPUT_ATTR, "optional");
 		}
 		if (selection != null) {
 			if (selection == "balance") {
