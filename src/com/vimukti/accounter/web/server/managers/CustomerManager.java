@@ -817,15 +817,15 @@ public class CustomerManager extends Manager {
 					.setStatus((object[15] != null) ? (Integer) object[15] : 0);
 			transactionHistory.setMemo((String) object[16]);
 
-			Transaction t = (Transaction) getServerObjectForid(
-					AccounterCoreType.TRANSACTION,
-					transactionHistory.getTransactionId());
-			Account account = (t).getEffectingAccount() == null ? t.getPayee() == null ? null
-					: t.getPayee().getAccount()
-					: t.getEffectingAccount();
+			// Transaction t = (Transaction) getServerObjectForid(
+			// AccounterCoreType.TRANSACTION,
+			// transactionHistory.getTransactionId());
+			// Account account = (t).getEffectingAccount() == null ?
+			// t.getPayee() == null ? null
+			// : t.getPayee().getAccount()
+			// : t.getEffectingAccount();
 
-			transactionHistory.setAccount(account == null ? "" : account
-					.getName());
+			transactionHistory.setAccount((String) object[17]);
 
 			if (transactionHistory.getType() == 0) {
 				openingBalnaceEntries.put(transactionHistory.getName(),

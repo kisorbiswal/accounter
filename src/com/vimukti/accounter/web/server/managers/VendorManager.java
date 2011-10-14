@@ -1438,9 +1438,11 @@ public class VendorManager extends Manager {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		ClientFinanceDate date[] = this
-				.getMinimumAndMaximumTransactionDate(companyId);
-		long start = date[0] != null ? date[0].getDate() : startDate.getDate();
+		// ClientFinanceDate date[] = this
+		// .getMinimumAndMaximumTransactionDate(companyId);
+		// long start = date[0] != null ? date[0].getDate() :
+		// startDate.getDate();
+		long start = startDate.getDate();
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		cal.setTime(startDate.getAsDateObject());
@@ -1528,19 +1530,19 @@ public class VendorManager extends Manager {
 			transactionHistory
 					.setStatus((object[16] != null) ? (Integer) object[16] : 0);
 
-			Transaction t = (Transaction) getServerObjectForid(
-					AccounterCoreType.TRANSACTION,
-					transactionHistory.getTransactionId());
+			// Transaction t = (Transaction) getServerObjectForid(
+			// AccounterCoreType.TRANSACTION,
+			// transactionHistory.getTransactionId());
 
 			// if (transactionHistory.getType() ==
 			// Transaction.TYPE_CREDIT_CARD_EXPENSE)
-			transactionHistory.setName(t.getInvolvedPayee().getName());
+			// transactionHistory.setName((String) object[17]);
 
-			Account account = t.getEffectingAccount();
-			if (account == null) {
-				account = t.getInvolvedPayee().getAccount();
-			}
-			transactionHistory.setAccount(account.getName());
+			// Account account = t.getEffectingAccount();
+			// if (account == null) {
+			// account = t.getInvolvedPayee().getAccount();
+			// }
+			transactionHistory.setAccount((String) object[17]);
 
 			if (transactionHistory.getType() == 0) {
 
