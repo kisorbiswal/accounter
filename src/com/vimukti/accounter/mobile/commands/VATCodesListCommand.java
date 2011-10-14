@@ -74,7 +74,7 @@ public class VATCodesListCommand extends AbstractCommand {
 
 		List<TAXCode> vatCodes = getVatCodes(context.getHibernateSession(),
 				isActive);
-		for (int i = 0; i < VALUES_TO_SHOW || i < vatCodes.size(); i++) {
+		for (int i = 0; i < VALUES_TO_SHOW && i < vatCodes.size(); i++) {
 			TAXCode vatCode = vatCodes.get(i);
 			if (vatCode != last) {
 				list.add(createVatCodeRecord((TAXCode) vatCode));

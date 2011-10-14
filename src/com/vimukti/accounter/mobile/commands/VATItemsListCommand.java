@@ -75,7 +75,7 @@ public class VATItemsListCommand extends AbstractCommand {
 
 		List<TAXItem> vatItems = getVatItems(context.getHibernateSession(),
 				isActive);
-		for (int i = 0; i < VALUES_TO_SHOW || i < vatItems.size(); i++) {
+		for (int i = 0; i < VALUES_TO_SHOW && i < vatItems.size(); i++) {
 			TAXItem vatItemGroup = vatItems.get(i);
 			if (vatItemGroup != last) {
 				list.add(createVatItemRecord((TAXItem) vatItemGroup));

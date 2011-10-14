@@ -1,6 +1,7 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,6 +23,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
@@ -93,6 +95,8 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 			}
 		}
 
+		setOptionalValues();
+
 		result = nameRequirement(context);
 		if (result != null) {
 			return result;
@@ -125,6 +129,11 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		}
 
 		return createVatAgency(context);
+	}
+
+	private void setOptionalValues() {
+		// TODO Auto-generated method stub
+
 	}
 
 	private Result createVatAgency(Context context) {
@@ -488,9 +497,8 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 			purchseAccountsList.add(createAccountRecord((Account) last));
 		}
 
-		List<Account> purchseAccounts = getAccounts(context
-				.getHibernateSession());
-		for (int i = 0; i < VALUES_TO_SHOW || i < purchseAccounts.size(); i++) {
+		List<Account> purchseAccounts = getVatAgencyAccounts(context);
+		for (int i = 0; i < VALUES_TO_SHOW && i < purchseAccounts.size(); i++) {
 			Account purchseAccount = purchseAccounts.get(i);
 			if (purchseAccount != last) {
 				purchseAccountsList
@@ -536,8 +544,8 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 			salesAccountsList.add(createAccountRecord((Account) last));
 		}
 
-		List<Account> salesAccounts = getAccounts(context.getHibernateSession());
-		for (int i = 0; i < VALUES_TO_SHOW || i < salesAccounts.size(); i++) {
+		List<Account> salesAccounts = getVatAgencyAccounts(context);
+		for (int i = 0; i < VALUES_TO_SHOW && i < salesAccounts.size(); i++) {
 			Account salesAccount = salesAccounts.get(i);
 			if (salesAccount != last) {
 				salesAccountsList
@@ -562,6 +570,22 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		return result;
 	}
 
+	private List<Account> getVatAgencyAccounts(Context context) {
+		ArrayList<Account> accounts = new ArrayList<Account>();
+
+		for (Account account : context.getCompany().getAccounts()) {
+			if (account.getIsActive()
+					&& Arrays.asList(ClientAccount.TYPE_INCOME,
+							ClientAccount.TYPE_EXPENSE,
+							ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
+							ClientAccount.TYPE_OTHER_CURRENT_ASSET,
+							ClientAccount.TYPE_FIXED_ASSET).contains(
+							account.getType()))
+				accounts.add(account);
+		}
+		return accounts;
+	}
+
 	private Result vatReturnRequirement(Context context) {
 		Requirement vatReturnReq = get(VAT_RETURN);
 		String vatReturn = context.getSelection(VAT_RETURNS);
@@ -584,7 +608,7 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		}
 
 		List<String> vatReturns = getVatReturns(context.getHibernateSession());
-		for (int i = 0; i < VALUES_TO_SHOW || i < vatReturns.size(); i++) {
+		for (int i = 0; i < VALUES_TO_SHOW && i < vatReturns.size(); i++) {
 			String vatReturn = vatReturns.get(i);
 			if (vatReturn != last) {
 				vatReturnsList.add(createVatReturnRecord((String) vatReturn));
@@ -617,8 +641,8 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 	private List<String> getVatReturns(Session session) {
 
 		ArrayList<String> vatReturnList = new ArrayList<String>();
-		vatReturnList.add(Accounter.constants().ukVAT());
-		vatReturnList.add(Accounter.constants().vat3Ireland());
+		vatReturnList.add("UK VAT");
+		vatReturnList.add("VAT 3(Ireland)");
 
 		return vatReturnList;
 	}
@@ -644,9 +668,8 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 			paymentTermsList.add(createPaymentTermRecord((PaymentTerms) last));
 		}
 
-		List<PaymentTerms> paymentTerms = getPaymentTerms(context
-				.getHibernateSession());
-		for (int i = 0; i < VALUES_TO_SHOW || i < paymentTerms.size(); i++) {
+		List<PaymentTerms> paymentTerms = getPaymentTerms(context);
+		for (int i = 0; i < VALUES_TO_SHOW && i < paymentTerms.size(); i++) {
 			PaymentTerms paymentTerm = paymentTerms.get(i);
 			if (paymentTerm != last) {
 				paymentTermsList
@@ -671,9 +694,9 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		return result;
 	}
 
-	private List<PaymentTerms> getPaymentTerms(Session session) {
-		// TODO Auto-generated method stub
-		return null;
+	private List<PaymentTerms> getPaymentTerms(Context context) {
+		Set<PaymentTerms> paymentTerms = context.getCompany().getPaymentTerms();
+		return new ArrayList<PaymentTerms>(paymentTerms);
 	}
 
 	private Record createPaymentTermRecord(PaymentTerms paymentTerm) {

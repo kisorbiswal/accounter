@@ -138,7 +138,7 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 		}
 
 		List<TAXItemGroup> vatItemGroups = getPurchaseVatItemGroups(context);
-		for (int i = 0; i < VALUES_TO_SHOW || i < vatItemGroups.size(); i++) {
+		for (int i = 0; i < VALUES_TO_SHOW && i < vatItemGroups.size(); i++) {
 			TAXItemGroup vatItem = vatItemGroups.get(i);
 			if (vatItem != last) {
 				vatItemGroupsList.add(createTaxItemRecord((TAXItem) vatItem));
@@ -314,7 +314,7 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 		}
 
 		List<TAXItemGroup> vatItemGroups = getSalesVatItemGroups(context);
-		for (int i = 0; i < VALUES_TO_SHOW || i < vatItemGroups.size(); i++) {
+		for (int i = 0; i < VALUES_TO_SHOW && i < vatItemGroups.size(); i++) {
 			TAXItemGroup vatItemGroup = vatItemGroups.get(i);
 			if (vatItemGroup != last) {
 				vatItemGroupsList

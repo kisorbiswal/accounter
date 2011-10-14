@@ -75,7 +75,7 @@ public class SalesPersonsListCommand extends AbstractCommand {
 
 		List<SalesPerson> salesPersons = getSalesPersons(
 				context.getHibernateSession(), isActive);
-		for (int i = 0; i < VALUES_TO_SHOW || i < salesPersons.size(); i++) {
+		for (int i = 0; i < VALUES_TO_SHOW && i < salesPersons.size(); i++) {
 			SalesPerson salesPerson = salesPersons.get(i);
 			if (salesPerson != last) {
 				list.add(createSalesPersonRecord((SalesPerson) salesPerson));
