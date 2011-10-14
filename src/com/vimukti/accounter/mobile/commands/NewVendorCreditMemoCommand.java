@@ -3,10 +3,14 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.Vendor;
@@ -55,6 +59,9 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 				list.add(new Requirement("vatCode", true, true));
 			}
 		});
+
+		list.add(new Requirement(TAXCODE, false, true));
+
 		list.add(new Requirement(DATE, true, true));
 		list.add(new Requirement(NUMBER, true, false));
 		list.add(new Requirement(CONTACT, true, true));
@@ -119,6 +126,13 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 				});
 		if (result != null) {
 			return result;
+		}
+		CompanyPreferences preferences = context.getCompany().getPreferences();
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			result = taxCodeRequirement(context);
+			if (result != null) {
+				return result;
+			}
 		}
 
 		result = createOptionalRequirement(context);
@@ -216,15 +230,27 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 
 		Record supplierRecord = new Record(supplier);
 		supplierRecord.add("Supplier Name", supplier.getName());
-		// supplierRecord.add("Value", supplier.getName());
-
 		list.add(supplierRecord);
 
 		Result result = dateRequirement(context, list, selection);
 		if (result != null) {
 			return result;
 		}
-
+		CompanyPreferences preferences = context.getCompany().getPreferences();
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			Requirement taxCodeReq = get(TAXCODE);
+			if (taxCodeReq != null) {
+				TAXCode taxCode = (TAXCode) taxCodeReq.getValue();
+				if (taxCode == selection) {
+					return taxCode(context, taxCode);
+				}
+				Record taxcodeRecord = new Record(taxCode);
+				taxcodeRecord.add("Tax Code Name", taxCode.getName());
+				taxcodeRecord.add("Purchase Tax Rate",
+						taxCode.getPurchaseTaxRate());
+				list.add(taxcodeRecord);
+			}
+		}
 		result = creditNoteNoRequirement(context, list, selection);
 		if (result != null) {
 			return result;
@@ -327,6 +353,21 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 			List<TransactionItem> accounts = get("accounts").getValue();
 			items.addAll(accounts);
 		}
+
+		Session hibernateSession = context.getHibernateSession();
+		for (TransactionItem transactionItem : items) {
+			Item item = transactionItem.getItem();
+			if (item != null) {
+				item = (Item) hibernateSession.merge(item);
+				transactionItem.setItem(item);
+			}
+			Account account = transactionItem.getAccount();
+			if (account != null) {
+				account = (Account) hibernateSession.merge(account);
+				transactionItem.setAccount(account);
+			}
+		}
+
 		vendorCreditMemo.setTransactionItems(items);
 
 		Contact contact = get(CONTACT).getValue();
@@ -337,14 +378,20 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		// TODO Class
 		String phone = get(PHONE).getValue();
 		vendorCreditMemo.setPhone(phone);
-		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-			TAXCode taxCode = get("tax").getValue();
+		CompanyPreferences preferences = context.getCompany().getPreferences();
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			TAXCode taxCode = get(TAXCODE).getValue();
 			for (TransactionItem item : items) {
 				item.setTaxCode(taxCode);
 			}
 		}
 		vendorCreditMemo.setCompany(company);
 		Vendor supplier = get(SUPPLIER).getValue();
+		Account account = supplier.getAccount();
+		if (account != null) {
+			account = (Account) hibernateSession.merge(account);
+			company.setAccountsPayableAccount(account);
+		}
 		vendorCreditMemo.setVendor(supplier);
 
 		String memo = get(MEMO).getValue();

@@ -1621,4 +1621,16 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		this.transactionType = transactionType;
 	}
 
+	protected Result taxCodeRequirement(Context context) {
+		Requirement taxCodeRequirement = get(TAXCODE);
+		TAXCode taxCode = context.getSelection(TAXCODE);
+		if (taxCode != null) {
+			taxCodeRequirement.setValue(taxCode);
+		}
+		if (!taxCodeRequirement.isDone()) {
+			return taxCode(context, null);
+		}
+		return null;
+	}
+
 }
