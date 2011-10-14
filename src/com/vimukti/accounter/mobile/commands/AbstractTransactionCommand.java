@@ -348,6 +348,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		Result result = context.makeResult();
 		result.add("Account details");
 		result.add("Account Name :" + transactionItem.getAccount().getName());
+		result.add("Account Balance:"
+				+ transactionItem.getAccount().getCurrentBalance());
 		result.add(list);
 		result.add("Account Total :" + transactionItem.getLineTotal());
 
