@@ -42,9 +42,9 @@ public class ButtonBar extends HorizontalPanel {
 			if (widget instanceof Button) {
 				((Button) widget).setEnabled(!disable);
 				if (disable) {
-					widget.addStyleName("btn-disable");
+					widget.addStyleName("disable");
 				} else {
-					widget.removeStyleName("btn-disable");
+					widget.removeStyleName("disable");
 				}
 			}
 		}
