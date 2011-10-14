@@ -93,7 +93,7 @@ public abstract class AbstractCommand extends Command {
 	 */
 	protected Result amountOptionalRequirement(Context context,
 			ResultList list, Object selection, String name, String displayString) {
-		// Object amountSelection = context.getSelection(NUMBER);
+
 		Requirement req = get(name);
 		Double balance = (Double) req.getValue();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
@@ -112,9 +112,10 @@ public abstract class AbstractCommand extends Command {
 				return amount(context, displayString, balance);
 			}
 		}
+
 		Record balanceRecord = new Record("balance");
 		balanceRecord.add("Name", "balance");
-		balanceRecord.add("Value", balance == null ? "" : balance);
+		balanceRecord.add("Value", balance);
 		list.add(balanceRecord);
 		Result result = new Result();
 		result.add(list);
@@ -768,7 +769,8 @@ public abstract class AbstractCommand extends Command {
 		return null;
 	}
 
-	protected Result accountTypesRequirement(Context context, Object selection) {
+	protected Result accountTypesRequirement(Context context, Object selection,
+			ResultList list) {
 		Object viewType = context.getSelection(ACCOUNT_TYPE);
 		Requirement viewReq = get(ACCOUNT_TYPE);
 		String view = viewReq.getValue();
@@ -777,6 +779,7 @@ public abstract class AbstractCommand extends Command {
 		}
 
 		if (selection == viewType) {
+			context.setAttribute(INPUT_ATTR, ACCOUNT_TYPE);
 			return accTypes(context, view);
 
 		}
@@ -786,8 +789,9 @@ public abstract class AbstractCommand extends Command {
 		}
 
 		Record viewtermRecord = new Record(view);
-		viewtermRecord.add("Name", "");
-		viewtermRecord.add("Value", view);
+		viewtermRecord.add("Name", ACCOUNT_TYPE);
+		viewtermRecord.add(":", view);
+		list.add(viewtermRecord);
 
 		return null;
 	}
