@@ -149,8 +149,8 @@ public class UserManager extends Manager {
 					company);
 			query.setFirstResult(startIndex);
 			query.setMaxResults(length);
-			count = ((BigInteger) session.createSQLQuery(
-					"SELECT COUNT(*) FROM ACTIVITY").uniqueResult()).intValue();
+			count = ((BigInteger) session.getNamedQuery("getCountOfActivity")
+					.setLong("companyId", companyId).uniqueResult()).intValue();
 		} else {
 			query = session.getNamedQuery("get.Activities.by.date");
 			query.setParameter("fromDate", startTime);
@@ -159,11 +159,10 @@ public class UserManager extends Manager {
 			query.setMaxResults(length);
 			query.setEntity("company", company);
 			count = ((BigInteger) session
-					.createSQLQuery(
-							"SELECT COUNT(*) FROM ACTIVITY A WHERE A.TIME_STAMP BETWEEN :fromDate AND :endDate")
+					.getNamedQuery("getCountOfActivityBetweenDates")
 					.setParameter("fromDate", startTime)
-					.setParameter("endDate", endTime).uniqueResult())
-					.intValue();
+					.setParameter("endDate", endTime)
+					.setLong("companyId", companyId).uniqueResult()).intValue();
 		}
 		List<Activity> activites = query.list();
 		PaginationList<ClientActivity> clientActivities = new PaginationList<ClientActivity>();
