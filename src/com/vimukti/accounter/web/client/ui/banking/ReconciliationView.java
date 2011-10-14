@@ -29,6 +29,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ReconciliationDailog;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.SelectionChangedHandler;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -235,10 +236,9 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 				.getID()) ? total * -1 : total;
 
 		if (isClear) {
-			difference
-					.setAmount(closingBalance.getAmount()
-							- (openingBalance.getAmount()
-									+ clearedAmount.getAmount() + transactionAmount));
+			double differenceAmount = closingBalance.getAmount()
+					- (openingBalance.getAmount() + clearedAmount.getAmount() + transactionAmount);
+			difference.setAmount(DecimalUtil.round(differenceAmount));
 			clearedAmount.setAmount(clearedAmount.getAmount()
 					+ transactionAmount);
 		} else {
@@ -317,7 +317,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 	public ValidationResult validate() {
 		clearAllErrors();
 		ValidationResult result = new ValidationResult();
-		if (difference.getAmount() != 0.0D) {
+		if (!DecimalUtil.isEquals(difference.getAmount(), 0.00D)) {
 			result.addError(difference, constants.differenceValidate());
 		}
 		if (clearedTransactions.isEmpty()) {
