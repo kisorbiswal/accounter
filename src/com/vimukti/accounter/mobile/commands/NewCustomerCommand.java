@@ -136,12 +136,14 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 				}
 			}
 		}
-		result = customerNameRequirement(context);
+		result = nameRequirement(context, CUSTOMER_NAME,
+				"Please enter the  Customer Name");
 		if (result != null) {
 			return result;
 		}
 		// if (context.getCompany().getPreferences().getUseCustomerId()) {
-		result = customerNumberRequirement(context);
+		result = numberRequirement(context, NUMBER,
+				"Please Enter the Customer Number.");
 		if (result != null) {
 			return result;
 		}
@@ -162,32 +164,6 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		get(BALANCE).setDefaultValue(Double.valueOf(0.0D));
 		get(CUSTOMER_SINCEDATE).setDefaultValue(new Date());
 		get(BALANCE_ASOF_DATE).setDefaultValue(new Date());
-	}
-
-	/*
-	 * * customer Number.
-	 * 
-	 * @param context
-	 * 
-	 * @return {@link Result}
-	 */
-	private Result customerNumberRequirement(Context context) {
-		Requirement customerNumReq = get(NUMBER);
-		if (!customerNumReq.isDone()) {
-			String customerNum = context.getNumber();
-			if (customerNum != null) {
-				customerNumReq.setValue(customerNum);
-			} else {
-				context.setAttribute(INPUT_ATTR, NUMBER);
-				return number(context, "Please Enter the Customer Number.",
-						null);
-			}
-		}
-		String input = (String) context.getAttribute(INPUT_ATTR);
-		if (input.equals(NUMBER)) {
-			customerNumReq.setValue(context.getInteger());
-		}
-		return null;
 	}
 
 	/**
@@ -416,24 +392,24 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		 if (company == ACCOUNTING_TYPE_INDIA) {
-		 result = panNumRequirement(context, list, selection);
-		 if (result != null) {
-		 return result;
-		 }
-		 result = cstNumRequirement(context, list, selection);
-		 if (result != null) {
-		 return result;
-		 }
-		 result = serviceTaxRequirement(context, list, selection);
-		 if (result != null) {
-		 return result;
-		 }
-		 result = tinNumRequirement(context, list, selection);
-		 if (result != null) {
-		 return result;
-		 }
-		 }
+		if (company == ACCOUNTING_TYPE_INDIA) {
+			result = panNumRequirement(context, list, selection);
+			if (result != null) {
+				return result;
+			}
+			result = cstNumRequirement(context, list, selection);
+			if (result != null) {
+				return result;
+			}
+			result = serviceTaxRequirement(context, list, selection);
+			if (result != null) {
+				return result;
+			}
+			result = tinNumRequirement(context, list, selection);
+			if (result != null) {
+				return result;
+			}
+		}
 
 		result = context.makeResult();
 		result.add("Customer is ready to create with following values.");
@@ -1124,92 +1100,6 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	 * @param context
 	 * @param list
 	 * @param selection
-	 * @return
-	 */
-	private Result priceLevelRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Object priceLevelObj = context.getSelection(PRICE_LEVEL);
-		Requirement priceLevelReq = get(PRICE_LEVEL);
-		PriceLevel priceLevel = (PriceLevel) priceLevelReq.getValue();
-
-		if (priceLevelObj != null) {
-			priceLevel = (PriceLevel) priceLevelObj;
-			priceLevelReq.setValue(priceLevel);
-		}
-		if (selection != null)
-			if (selection == PRICE_LEVEL) {
-				context.setAttribute(INPUT_ATTR, PRICE_LEVEL);
-				return priceLevels(context, priceLevel);
-			}
-
-		Record priceLevelRecord = new Record(PRICE_LEVEL);
-		priceLevelRecord.add("Name", PRICE_LEVEL);
-		priceLevelRecord.add("Value",
-				priceLevel == null ? "" : priceLevel.getName());
-		list.add(priceLevelRecord);
-
-		Result result = new Result();
-		result.add(list);
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param string
-	 * @return
-	 */
-	private Result priceLevels(Context context, PriceLevel oldPriceLevel) {
-
-		List<PriceLevel> priceLevels = new ArrayList<PriceLevel>(context
-				.getCompany().getPriceLevels());
-		Result result = context.makeResult();
-		result.add("Select PriceLevel");
-
-		ResultList list = new ResultList(PRICE_LEVEL);
-		int num = 0;
-		if (oldPriceLevel != null) {
-			list.add(createCreditRatingRecord(oldPriceLevel));
-			num++;
-		}
-		if (priceLevels != null) {
-			for (PriceLevel priceLevel : priceLevels) {
-				if (priceLevel != oldPriceLevel) {
-					list.add(createCreditRatingRecord(priceLevel));
-					num++;
-				}
-				if (num == PRICELEVEL_TO_SHOW) {
-					break;
-				}
-			}
-			result.add(list);
-		} else {
-			result.add("There are no priceLevels");
-		}
-
-		CommandList commandList = new CommandList();
-		commandList.add("Create priceLevel");
-		result.add(commandList);
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param oldPriceLevel
-	 * @return
-	 */
-	private Record createCreditRatingRecord(PriceLevel oldPriceLevel) {
-		Record record = new Record(oldPriceLevel);
-		record.add("Name", oldPriceLevel.getName());
-		return record;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
 	 * @return {@link Result}
 	 */
 	private Result salesPersonRequirement(Context context, ResultList list,
@@ -1236,30 +1126,6 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 
 		Result result = new Result();
 		result.add(list);
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @return {@link Result}
-	 */
-	private Result customerNameRequirement(Context context) {
-		Requirement requirement = get(CUSTOMER_NAME);
-		if (!requirement.isDone()) {
-			String customerName = context.getString();
-			if (customerName.trim().length() != 0) {
-				requirement.setValue(customerName);
-			} else {
-				context.setAttribute(INPUT_ATTR, CUSTOMER_NAME);
-				return text(context, "Please enter the  Customer Name", null);
-			}
-		}
-		String input = (String) context.getAttribute(INPUT_ATTR);
-		if (input.equals(CUSTOMER_NAME)) {
-			input = context.getString();
-			requirement.setValue(input);
-		}
 		return null;
 	}
 
