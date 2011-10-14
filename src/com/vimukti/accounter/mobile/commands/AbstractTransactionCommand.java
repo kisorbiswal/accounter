@@ -290,7 +290,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		} else {
 			Object selection = context.getSelection(ACCOUNT_ITEM_DETAILS);
 			if (selection != null) {
-				if (selection == transactionItem.getQuantity()) {
+				if (selection.equals("amount")) {
 					context.setAttribute(ACCOUNT_ITEM_PROPERTY_ATTR, "amount");
 					return amount(context, "Enter Amount",
 							transactionItem.getLineTotal());
@@ -298,10 +298,10 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 					context.setAttribute(ACCOUNT_ITEM_PROPERTY_ATTR, "discount");
 					return amount(context, "Enter Discount",
 							transactionItem.getDiscount());
-				} else if (selection == transactionItem.getTaxCode().getName()) {
+				} else if (selection.equals("taxCode")) {
 					context.setAttribute(ACCOUNT_ITEM_PROPERTY_ATTR, "taxCode");
 					return taxCode(context, transactionItem.getTaxCode());
-				} else if (selection.equals("Tax")) {
+				} else if (selection.equals("tax")) {
 					transactionItem.setTaxable(!transactionItem.isTaxable());
 				}
 			} else {
@@ -318,9 +318,9 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		}
 
 		ResultList list = new ResultList(ACCOUNT_ITEM_DETAILS);
-		Record record = new Record(transactionItem.getQuantity());
+		Record record = new Record("amount");
 		record.add("", "Amount");
-		record.add("", transactionItem.getLineTotal());
+		record.add("", transactionItem.getUnitPrice());
 		list.add(record);
 
 		record = new Record("discount");
@@ -330,12 +330,12 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 		Company company = context.getCompany();
 		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-			record = new Record(transactionItem.getTaxCode().getName());
+			record = new Record("taxCode");
 			record.add("", "VatCode");
 			record.add("", transactionItem.getTaxCode().getName());
 			list.add(record);
 		} else {
-			record = new Record("Tax");
+			record = new Record("tax");
 			record.add("", "Tax");
 			if (transactionItem.isTaxable()) {
 				record.add("", "Taxable");
@@ -347,11 +347,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 		Result result = context.makeResult();
 		result.add("Account details");
-		result.add("Account Name :" + transactionItem.getItem().getName());
+		result.add("Account Name :" + transactionItem.getAccount().getName());
 		result.add(list);
-		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-			result.add("Account Vat :" + transactionItem.getVATfraction());
-		}
 		result.add("Account Total :" + transactionItem.getLineTotal());
 
 		ResultList actions = new ResultList(ACTIONS);
@@ -639,15 +636,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	private Set<PaymentTerms> getPaymentTerms(Company company) {
 		return company.getPaymentTerms();
-	}
-
-	/**
-	 * @param context
-	 * @return
-	 */
-	protected Result accountsRequirement(Context context) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	protected Result paymentFrom(Context context, Account oldAccount) {
@@ -1036,9 +1024,9 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		}
 
 		if (accounts != null && accounts.size() > 0) {
-			for (Account item : accounts) {
+			for (Account account : accounts) {
 				TransactionItem transactionItem = new TransactionItem();
-				transactionItem.setAccount(item);
+				transactionItem.setAccount(account);
 				transactionItems.add(transactionItem);
 			}
 			transItemsReq.setValue(transactionItems);
@@ -1057,18 +1045,21 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		Object last = context.getLast(RequirementType.ACCOUNT);
 		int num = 0;
 		if (last != null) {
-			list.add(creatAccountItemRecord((Account) last));
+			list.add(creatAccountRecord((Account) last));
 			num++;
 		}
 		Requirement itemsReq = get(label);
 		List<TransactionItem> transItems = itemsReq.getValue();
-		List<Account> availableItems = new ArrayList<Account>();
-		for (TransactionItem transactionItem : transItems) {
-			availableItems.add(transactionItem.getAccount());
+		if (transItems == null) {
+			transItems = new ArrayList<TransactionItem>();
 		}
-		for (Account item : accounts) {
-			if (item != last || !availableItems.contains(item)) {
-				list.add(creatAccountItemRecord(item));
+		List<Account> availableAccounts = new ArrayList<Account>();
+		for (TransactionItem transactionItem : transItems) {
+			availableAccounts.add(transactionItem.getAccount());
+		}
+		for (Account account : accounts) {
+			if (account != last || !availableAccounts.contains(account)) {
+				list.add(creatAccountRecord(account));
 				num++;
 			}
 			if (num == ACCOUNTS_TO_SHOW) {
@@ -1079,16 +1070,17 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		if (list.size() > 0) {
 			result.add("Slect an Account(s).");
 		} else {
-			result.add("You don't have Account.");
+			result.add("You don't have any Account.");
 		}
 
 		result.add(list);
 		CommandList commands = new CommandList();
 		commands.add("Create New Account");
+		result.add(commands);
 		return result;
 	}
 
-	private Record creatAccountItemRecord(Account last) {
+	private Record creatAccountRecord(Account last) {
 		Record record = new Record(last);
 		record.add("Account Name", last.getName());
 		record.add("Current Balance", last.getCurrentBalance());
