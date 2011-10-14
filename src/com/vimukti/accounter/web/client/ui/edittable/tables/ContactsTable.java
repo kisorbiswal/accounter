@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
@@ -53,6 +54,13 @@ public class ContactsTable extends EditTable<ClientContact> {
 			public IsWidget getHeader() {
 				Label columnHeader = new Label(Accounter.constants().primary());
 				return columnHeader;
+			}
+
+			@Override
+			public void render(IsWidget widget,
+					RenderContext<ClientContact> context) {
+				super.render(widget, context);
+				((CheckBox) widget).setValue(context.getRow().isPrimary());
 			}
 		});
 
