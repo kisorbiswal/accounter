@@ -923,7 +923,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	}
 
 	protected Result phoneRequirement(Context context, ResultList list,
-			String selection) {
+			Object 
+			selection) {
 		Requirement req = get("phone");
 		String phoneNo = (String) req.getValue();
 
@@ -1560,6 +1561,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return result;
 
 	}
+	
 
 	protected Result accountNumberRequirement(Context context) {
 		Requirement numberReq = get(ACCOUNT_NUMBER);
