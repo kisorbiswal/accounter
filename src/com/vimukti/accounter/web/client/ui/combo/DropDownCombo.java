@@ -196,23 +196,24 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 			@Override
 			public void onBlur(BlurEvent event) {
-//				Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
-//
-//					@Override
-//					public boolean execute() {
-						if (!getValue().equals("")) {
-							if (selectedObject == null
-									|| !getValue().equals(
-											getFullDisplayName(selectedObject))) {
-								setValue("");
-								selectedObject = null;
-							}
-						}
+				// Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
+				//
+				// @Override
+				// public boolean execute() {
+				if (!getValue().equals("")) {
+					if (selectedObject == null
+							|| !getValue().equals(
+									getFullDisplayName(selectedObject))) {
+						// setValue("");
+						// selectedObject = null;
+						setRelatedComboItem((String) getValue());
+					}
+				}
 
-//						return false;
-//					}
-//				}, 100);// We need to do it after a delay as clicking on the
-//						// popup also causes blur
+				// return false;
+				// }
+				// }, 100);// We need to do it after a delay as clicking on the
+				// // popup also causes blur
 			}
 		});
 
@@ -692,12 +693,46 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 	}
 
+	// protected List<T> getComboitemsByName(String value) {
+	// List<T> autocompleteItems = new ArrayList<T>();
+	// for (T t : comboItems) {
+	// if (getDisplayName(t).toLowerCase().contains(value.toLowerCase())) {
+	// autocompleteItems.add(t);
+	// }
+	// }
+	// return autocompleteItems;
+	// }
+
+	// private void addBlurHandler() {
+	// addBlurHandler(new BlurHandler() {
+	//
+	// @Override
+	// public void onBlur(BlurEvent event) {
+	// if (!getValue().toString().isEmpty() && !popup.isShowing())
+	// setRelatedComboItem(getValue().toString());
+	// }
+	// });
+	// }
+
+	private void setRelatedComboItem(final String value) {
+		if (!value.toString().isEmpty()) {
+			List<T> combos = getComboitemsByName(value);
+			if (!combos.isEmpty()) {
+				int index = comboItems.indexOf(combos.get(0));
+				changeValue(index);
+			} else {
+				selectionFaildOnClose();
+			}
+		}
+	}
+
 	/**
 	 * this will be called when {@link #isAddNewRequire} value is true, and
 	 * noting has been selected for the entered text on close.
 	 */
 	protected void selectionFaildOnClose() {
 		textBox.setValue("");
+		selectedObject = null;
 	}
 
 	private void updateComboItemsInSorted(List<T> comboObjects,
