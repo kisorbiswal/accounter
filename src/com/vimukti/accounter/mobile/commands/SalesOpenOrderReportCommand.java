@@ -18,7 +18,7 @@ public class SalesOpenOrderReportCommand extends
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		add3ReportRequirements(list);
-		list.add(new Requirement("status", true, true));
+		list.add(new Requirement(STATUS, true, true));
 	}
 
 	@Override
@@ -64,4 +64,11 @@ public class SalesOpenOrderReportCommand extends
 			CommandList commandList) {
 		commandList.add("Sales Order");
 	}
+
+	@Override
+	protected void setOptionalFields() {
+		super.setOptionalFields();
+		setDefaultStatus();
+	}
+
 }

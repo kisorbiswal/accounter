@@ -19,7 +19,7 @@ public class CustomerStatementReportCommand extends
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		add3ReportRequirements(list);
-		list.add(new Requirement("customerName", true, true));
+		list.add(new Requirement(CUSTOMER, true, true));
 	}
 
 	@Override

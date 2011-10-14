@@ -18,8 +18,8 @@ public class PriorVATReturnReportCommand extends
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement("vatAgency", true, true));
-		list.add(new Requirement("date", true, true));
+		list.add(new Requirement(TAX_AGENCY, true, true));
+		list.add(new Requirement(ENDING_DATE, true, true));
 	}
 
 	@Override
@@ -65,5 +65,10 @@ public class PriorVATReturnReportCommand extends
 	@Override
 	protected void addCommandOnRecordClick(VATSummary selection,
 			CommandList commandList) {
+	}
+
+	@Override
+	protected void setOptionalFields() {
+		setDefaultTaxAgency();
 	}
 }

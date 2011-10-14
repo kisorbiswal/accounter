@@ -14,7 +14,6 @@ import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractView;
@@ -211,8 +210,8 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 					public void onException(AccounterException caught) {
 						Accounter.showError(Accounter.messages()
 								.failedtoGetListofAccounts(
-										Global.get().Accounts().toLowerCase())
-								+ takenaccount.getName());
+										Global.get().Accounts(),
+										takenaccount.getName()));
 
 					}
 

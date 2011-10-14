@@ -86,8 +86,7 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 		headerLabel.setText(accounterConstants.howIsYourCompanyOrganized());
 
 		organizeText.setText(Accounter.messages()
-				.howIsYourCompanyOrganizedDesc(
-						Global.get().Accounts().toLowerCase()));
+				.howIsYourCompanyOrganizedDesc(Global.get().Accounts()));
 		propriterShip.setText(accounterConstants.soleProprietorship());
 		partnership.setText(accounterConstants.partnershipOrLLP());
 		lLC.setText(accounterConstants.LLC());
@@ -97,7 +96,7 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 		other.setText(accounterConstants.otherNone());
 
 		organizeText.setText(Accounter.messages()
-				.howIsYourCompanyOrganizedDesc(Global.get().Accounts().toLowerCase()));
+				.howIsYourCompanyOrganizedDesc(Global.get().Accounts()));
 		uninCorporated.setText(accounterConstants.soleProprietorshipDesc());
 		morePartners.setText(accounterConstants.partnershipOrLLPDesc());
 		lLCText.setText(accounterConstants.LLCDesc());

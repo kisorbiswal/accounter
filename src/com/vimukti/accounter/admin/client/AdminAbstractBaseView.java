@@ -273,8 +273,8 @@ public abstract class AdminAbstractBaseView<T> extends AdminAbstractView<T>
 	// }
 	@Override
 	public String toString() {
-		return Accounter.constants().actionClassNameis()
-				+ this.getAction().getText();
+		return Accounter.messages().actionClassNameis(
+				this.getAction().getText());
 	}
 
 	// @Override

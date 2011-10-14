@@ -21,7 +21,19 @@ import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 public abstract class AbstractReportCommand<T> extends AbstractCommand {
 	protected static final int REPORTS_TO_SHOW = 5;
 	protected static final int VATAGENCIES_TO_SHOW = 5;
-	private static final int CUSTOMERS_TO_SHOW = 5;
+	protected static final int CUSTOMERS_TO_SHOW = 5;
+	protected static final String DATE_RANGE = "Date Range";
+	protected static final String FROM_DATE = "From Date";
+	protected static final String TO_DATE = "To Date";
+	protected static final String TAX_AGENCY = "Tax Agency";
+	protected static final String STATUS = "Status";
+	protected static final String EXPENSE_TYPE = "Expense Type";
+	protected static final String VENDOR_PREPAYMENT = "Supplier Prepayment";
+	protected static final String VAT_AGENCIES = "Tax Agencies";
+	protected static final String RECORDS = "records";
+	protected static final String ENDING_DATE = "Ending Date";
+	protected static final String CUSTOMER = "Customer";
+	private static final String CUSTOMERS = "Customers";
 
 	@Override
 	protected abstract void addRequirements(List<Requirement> list);
@@ -32,9 +44,9 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 	 * @param list
 	 */
 	protected void add3ReportRequirements(List<Requirement> list) {
-		list.add(new Requirement("dateRange", true, true));
-		list.add(new Requirement("fromDate", true, true));
-		list.add(new Requirement("toDate", true, true));
+		list.add(new Requirement(DATE_RANGE, true, true));
+		list.add(new Requirement(FROM_DATE, true, true));
+		list.add(new Requirement(TO_DATE, true, true));
 	}
 
 	@Override
@@ -56,7 +68,7 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 	}
 
 	private Result clickOnRecord(Context context) {
-		T selection = context.getSelection("records");
+		T selection = context.getSelection(RECORDS);
 		if (selection != null) {
 			return createOpenRecord(selection, context);
 		}
@@ -77,7 +89,7 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 	@SuppressWarnings("unchecked")
 	protected void getReportResult(Result plReportResult, Context context) {
 
-		ResultList recordsList = new ResultList("records");
+		ResultList recordsList = new ResultList(RECORDS);
 		Object last = context.getLast(RequirementType.BASEREPORT);
 		int num = 0;
 		if (last != null) {
@@ -130,10 +142,10 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 	 */
 	protected Result dateRangeRequirement(Context context, ResultList list,
 			Object selection) {
-		Requirement dateRangeReq = get("dateRange");
+		Requirement dateRangeReq = get(DATE_RANGE);
 		String range = (String) dateRangeReq.getValue();
-		String attribute = (String) context.getAttribute("input");
-		if (attribute.equals("dateRange")) {
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals(DATE_RANGE)) {
 			String dateRange = context.getSelection(TEXT);
 			if (dateRange == null) {
 				dateRange = context.getString();
@@ -142,7 +154,7 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 			dateRangeReq.setValue(range);
 		}
 		if (selection == range) {
-			context.setAttribute("input", "dateRange");
+			context.setAttribute(INPUT_ATTR, DATE_RANGE);
 			return text(context, "Enter date range", range);
 		}
 
@@ -163,10 +175,10 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 	 */
 	protected Result fromDateRequirement(Context context, ResultList list,
 			Object selection) {
-		Requirement dateReq = get("fromDate");
+		Requirement dateReq = get(FROM_DATE);
 		Date fromDate = (Date) dateReq.getValue();
-		String attribute = (String) context.getAttribute("input");
-		if (attribute.equals("fromDate")) {
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals(FROM_DATE)) {
 			Date date = context.getSelection(DATE);
 			if (date == null) {
 				date = context.getDate();
@@ -175,7 +187,7 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 			dateReq.setValue(fromDate);
 		}
 		if (selection == fromDate) {
-			context.setAttribute("input", "fromDate");
+			context.setAttribute(INPUT_ATTR, FROM_DATE);
 			return date(context, "Enter From Date", fromDate);
 		}
 
@@ -197,10 +209,10 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 
 	protected Result toDateRequirement(Context context, ResultList list,
 			Object selection) {
-		Requirement dateReq = get("toDate");
+		Requirement dateReq = get(TO_DATE);
 		Date toDate = (Date) dateReq.getValue();
-		String attribute = (String) context.getAttribute("input");
-		if (attribute.equals("toDate")) {
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals(TO_DATE)) {
 			Date date = context.getSelection(DATE);
 			if (date == null) {
 				date = context.getDate();
@@ -209,7 +221,7 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 			dateReq.setValue(toDate);
 		}
 		if (selection == toDate) {
-			context.setAttribute("input", "toDate");
+			context.setAttribute(INPUT_ATTR, TO_DATE);
 			return date(context, "Enter To Date", toDate);
 		}
 
@@ -228,8 +240,8 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 	 */
 
 	protected Result vatAgencyRequirement(Context context) {
-		Requirement vatAgencyReq = get("vatAgency");
-		TAXAgency taxAgency = context.getSelection("vatAgencies");
+		Requirement vatAgencyReq = get(TAX_AGENCY);
+		TAXAgency taxAgency = context.getSelection(VAT_AGENCIES);
 		if (!vatAgencyReq.isDone()) {
 			if (taxAgency != null) {
 				vatAgencyReq.setValue(taxAgency);
@@ -251,7 +263,7 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 	 */
 	protected Result vatAgencies(Context context) {
 		Result result = context.makeResult();
-		ResultList vatAgencysList = new ResultList("vatAgencies");
+		ResultList vatAgencysList = new ResultList(VAT_AGENCIES);
 
 		Object last = context.getLast(RequirementType.TAXAGENCY);
 		int num = 0;
@@ -314,11 +326,11 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 	 */
 	protected Result statusRequirement(Context context, ResultList list,
 			Object selection) {
-		Requirement statusReq = get("status");
+		Requirement statusReq = get(STATUS);
 		String status = (String) statusReq.getValue();
-		String attribute = (String) context.getAttribute("input");
-		if (attribute.equals("status")) {
-			String dateRange = context.getSelection("status");
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals(STATUS)) {
+			String dateRange = context.getSelection(STATUS);
 			if (dateRange == null) {
 				dateRange = context.getString();
 			}
@@ -326,7 +338,7 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 			statusReq.setValue(status);
 		}
 		if (selection == status) {
-			context.setAttribute("input", "status");
+			context.setAttribute(INPUT_ATTR, STATUS);
 			return text(context, "Enter status", status);
 		}
 
@@ -347,11 +359,11 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 	 */
 	protected Result expenseTypeRequirement(Context context, ResultList list,
 			Object selection) {
-		Requirement expenseTypeReq = get("expenseType");
+		Requirement expenseTypeReq = get(EXPENSE_TYPE);
 		String expenseType = (String) expenseTypeReq.getValue();
-		String attribute = (String) context.getAttribute("input");
-		if (attribute.equals("expenseType")) {
-			String dateRange = context.getSelection("expenseType");
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals(EXPENSE_TYPE)) {
+			String dateRange = context.getSelection(EXPENSE_TYPE);
 			if (dateRange == null) {
 				dateRange = context.getString();
 			}
@@ -359,7 +371,7 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 			expenseTypeReq.setValue(expenseType);
 		}
 		if (selection == expenseType) {
-			context.setAttribute("input", "expenseType");
+			context.setAttribute(INPUT_ATTR, EXPENSE_TYPE);
 			return text(context, "Enter Expense Type", expenseType);
 		}
 
@@ -397,13 +409,14 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 		if (result != null) {
 			return result;
 		}
+
 		reportResult.add(resultList);
 		return null;
 	}
 
 	protected Result customerRequirement(Context context) {
-		Requirement customerReq = get("customer");
-		Customer customer = context.getSelection("customers");
+		Requirement customerReq = get(CUSTOMER);
+		Customer customer = context.getSelection(CUSTOMERS);
 		if (customer != null) {
 			customerReq.setValue(customer);
 		}
@@ -421,7 +434,7 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 	 */
 	protected Result customers(Context context) {
 		Result result = context.makeResult();
-		ResultList customersList = new ResultList("customers");
+		ResultList customersList = new ResultList(CUSTOMERS);
 
 		Object last = context.getLast(RequirementType.CUSTOMER);
 		int num = 0;
@@ -525,7 +538,7 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 	protected int getType(TransactionDetailByAccount record) {
 		if (record.getTransactionType() == 11) {
 			return (record.getMemo() != null && record.getMemo()
-					.equalsIgnoreCase("supplier prepayment")) ? ClientTransaction.TYPE_VENDOR_PAYMENT
+					.equalsIgnoreCase(VENDOR_PREPAYMENT)) ? ClientTransaction.TYPE_VENDOR_PAYMENT
 					: ClientTransaction.TYPE_PAY_BILL;
 		}
 
@@ -533,23 +546,32 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 	}
 
 	protected void setOptionalFields() {
-
+		setDefaultDateRange();
+		setDefaultFromDate();
+		setDefaultToDate();
 	}
 
 	protected void setDefaultDateRange() {
-
+		get(DATE_RANGE).setDefaultValue(new String("ALL"));
 	}
 
 	protected void setDefaultFromDate() {
-
+		get(FROM_DATE).setDefaultValue(new Date());
 	}
 
 	protected void setDefaultToDate() {
-
+		get(TO_DATE).setDefaultValue(new Date());
 	}
 
 	protected void setDefaultTaxAgency() {
-
+		get(TAX_AGENCY).setDefaultValue(new String());
 	}
 
+	protected void setDefaultStatus() {
+		get(STATUS).setDefaultValue(new String("Open"));
+	}
+
+	protected void setDefaultExpenseType() {
+		get(EXPENSE_TYPE).setDefaultValue(new String("Open"));
+	}
 }

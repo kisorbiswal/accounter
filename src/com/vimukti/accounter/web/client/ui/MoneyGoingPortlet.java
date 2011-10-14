@@ -40,8 +40,8 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 
 	@Override
 	public String getGoToText() {
-		return Accounter.messages().goToAccountsPayable(
-				Global.get().Accounts().toLowerCase());
+		return Accounter.messages()
+				.goToAccountsPayable(Global.get().Accounts());
 	}
 
 	@Override

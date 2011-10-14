@@ -18,8 +18,8 @@ public class TrialBalanceReportCommand extends
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement("dateRange", true, true));
-		list.add(new Requirement("date", true, true));
+		list.add(new Requirement(DATE_RANGE, true, true));
+		list.add(new Requirement(TO_DATE, true, true));
 	}
 
 	@Override
@@ -74,6 +74,12 @@ public class TrialBalanceReportCommand extends
 	protected void addCommandOnRecordClick(TrialBalance selection,
 			CommandList commandList) {
 		commandList.add("Transaction Detail By Account");
+	}
+
+	@Override
+	protected void setOptionalFields() {
+		setDefaultDateRange();
+		setDefaultToDate();
 	}
 
 }

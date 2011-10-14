@@ -16,7 +16,7 @@ public class VAT100ReportCommand extends AbstractReportCommand<VATSummary> {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		add3ReportRequirements(list);
-		list.add(new Requirement("vatAgency", true, true));
+		list.add(new Requirement(TAX_AGENCY, true, true));
 	}
 
 	@Override
@@ -59,4 +59,9 @@ public class VAT100ReportCommand extends AbstractReportCommand<VATSummary> {
 
 	}
 
+	@Override
+	protected void setOptionalFields() {
+		super.setOptionalFields();
+		setDefaultTaxAgency();
+	}
 }

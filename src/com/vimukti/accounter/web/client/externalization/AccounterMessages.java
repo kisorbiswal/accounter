@@ -5,6 +5,7 @@ import com.google.gwt.safehtml.shared.SafeHtml;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
 public interface AccounterMessages extends Messages {
+	
 	public String userName(String loginUserName);
 
 	public String failedTransaction(String transName);
@@ -28,6 +29,8 @@ public interface AccounterMessages extends Messages {
 	public SafeHtml allHTML();
 
 	public SafeHtml aboutThisFieldHelp();
+	
+	public String actionClassNameis(String className);
 
 	public SafeHtml changePasswordHTML();
 
@@ -371,7 +374,7 @@ public interface AccounterMessages extends Messages {
 
 	public String expenseAccount(String expenseAccountString);
 
-	public String failedtoGetListofAccounts(String msgString);
+	public String failedtoGetListofAccounts(String msgString, String name);
 
 	public String failedtogetAccountReceivablechartvalues(String msgString);
 

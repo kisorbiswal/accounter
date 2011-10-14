@@ -155,8 +155,7 @@ public class AccountMergeDialog extends BaseDialog implements
 		if ((toAccount.getID() == fromAccount.getID())
 				|| !(toAccount.getType() == fromAccount.getType())) {
 			result.addError(fromAccount, Accounter.messages().notMoveAccount(
-					Global.get().account(),
-					Global.get().Accounts().toLowerCase()));
+					Global.get().account(), Global.get().Accounts()));
 			return result;
 		}
 		result = form.validate();

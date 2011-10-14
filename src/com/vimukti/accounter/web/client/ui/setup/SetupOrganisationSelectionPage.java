@@ -45,8 +45,7 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 				.otherNone());
 
 		CustomLabel headerDesc = new CustomLabel(Accounter.messages()
-				.howIsYourCompanyOrganizedDesc(
-						Global.get().Accounts().toLowerCase()));
+				.howIsYourCompanyOrganizedDesc(Global.get().Accounts()));
 		soleProprietorshipLabel = new CustomLabel(accounterConstants
 				.soleProprietorshipDesc());
 		partnershipLabel = new CustomLabel(accounterConstants

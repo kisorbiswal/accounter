@@ -39,14 +39,13 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 		mainPanel = new VerticalPanel();
 
 		billsdescription = new HTML(Accounter.messages()
-.billstrackingdescription(
-						Global.get().Accounts().toLowerCase()));
+				.billstrackingdescription(Global.get().Accounts()));
 		billsmanageCashflowHtml1 = new HTML(Accounter.messages()
 				.billstrackingmanageCashflowStep1(Global.get().vendor()));
-		billsmanageCashflowHtml2 = new HTML(
-				accounterConstants.billstrackingmanageCashflowStep2());
-		billsmanageCashflowHtml3 = new HTML(
-				accounterConstants.billstrackingmanageCashflowStep3());
+		billsmanageCashflowHtml2 = new HTML(accounterConstants
+				.billstrackingmanageCashflowStep2());
+		billsmanageCashflowHtml3 = new HTML(accounterConstants
+				.billstrackingmanageCashflowStep3());
 		mainPanel.add(billsdescription);
 		mainPanel.add(billsmanageCashflowHtml1);
 		mainPanel.add(billsmanageCashflowHtml2);
@@ -55,13 +54,13 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 		billssubtitleHtml = new HTML(accounterConstants.doyouwantTrackBills());
 		billssubtitleHtml.setStyleName("BOLD");
 		mainPanel.add(billssubtitleHtml);
-		billsyesRadioButton = new RadioButton(TRACK_BIllS,
-				accounterConstants.yes());
+		billsyesRadioButton = new RadioButton(TRACK_BIllS, accounterConstants
+				.yes());
 
 		mainPanel.add(billsyesRadioButton);
 
-		billsnoRadioButton = new RadioButton(TRACK_BIllS,
-				accounterConstants.no());
+		billsnoRadioButton = new RadioButton(TRACK_BIllS, accounterConstants
+				.no());
 
 		mainPanel.add(billsnoRadioButton);
 
@@ -69,10 +68,10 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 		timedescription.setStyleName("BOLD");
 		timemanageCashflowHtml1 = new HTML(Accounter.messages()
 				.timetrackingflowStep1(Global.get().customer()));
-		timemanageCashflowHtml2 = new HTML(
-				accounterConstants.timetrackingflowStep2());
-		timemanageCashflowHtml3 = new HTML(
-				accounterConstants.timetrackingflowStep3());
+		timemanageCashflowHtml2 = new HTML(accounterConstants
+				.timetrackingflowStep2());
+		timemanageCashflowHtml3 = new HTML(accounterConstants
+				.timetrackingflowStep3());
 		mainPanel.add(timedescription);
 		mainPanel.add(timemanageCashflowHtml1);
 		mainPanel.add(timemanageCashflowHtml2);
@@ -81,13 +80,13 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 		timesubtitleHtml = new HTML(accounterConstants.doyouwantTrackTime());
 		billssubtitleHtml.setStyleName("BOLD");
 		mainPanel.add(timesubtitleHtml);
-		timeyesRadioButton = new RadioButton(TRACKING_TIME,
-				accounterConstants.yes());
+		timeyesRadioButton = new RadioButton(TRACKING_TIME, accounterConstants
+				.yes());
 
 		mainPanel.add(timeyesRadioButton);
 
-		timenoRadioButton = new RadioButton(TRACKING_TIME,
-				accounterConstants.no());
+		timenoRadioButton = new RadioButton(TRACKING_TIME, accounterConstants
+				.no());
 
 		mainPanel.add(timenoRadioButton);
 

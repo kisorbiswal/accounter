@@ -241,9 +241,8 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 					public void onException(AccounterException caught) {
 						Accounter.showError(Accounter.messages()
 								.failedtoGetListofAccounts(
-										Global.get().Accounts().toLowerCase())
-
-								+ takenaccount.getName());
+										Global.get().Accounts(),
+										takenaccount.getName()));
 
 					}
 

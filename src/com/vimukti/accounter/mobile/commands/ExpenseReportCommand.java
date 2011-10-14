@@ -20,7 +20,7 @@ public class ExpenseReportCommand extends AbstractReportCommand<ExpenseList> {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		add3ReportRequirements(list);
-		list.add(new Requirement("expenseType", true, true));
+		list.add(new Requirement(EXPENSE_TYPE, true, true));
 	}
 
 	@Override
@@ -69,8 +69,14 @@ public class ExpenseReportCommand extends AbstractReportCommand<ExpenseList> {
 	@Override
 	protected void addCommandOnRecordClick(ExpenseList selection,
 			CommandList commandList) {
-		commandList
-				.add(Utility.getTransactionName(selection.getTransactionType()));
+		commandList.add(Utility.getTransactionName(selection
+				.getTransactionType()));
+	}
+
+	@Override
+	protected void setOptionalFields() {
+		super.setOptionalFields();
+		setDefaultExpenseType();
 	}
 
 }

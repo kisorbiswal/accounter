@@ -83,7 +83,7 @@ public class OrganisationTypeOption extends AbstractPreferenceOption {
 
 		Label organizeText = new Label(Accounter.messages()
 				.howIsYourCompanyOrganizedDesc(
-						Global.get().Accounts().toLowerCase()));
+						Global.get().Accounts()));
 		Label uninCorporated = new Label(constants.soleProprietorshipDesc());
 		Label morePartners = new Label(constants.partnershipOrLLPDesc());
 		Label lLCText = new Label(constants.LLCDesc());

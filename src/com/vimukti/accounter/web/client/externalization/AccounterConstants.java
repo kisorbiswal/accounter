@@ -36,8 +36,6 @@ public interface AccounterConstants extends Constants {
 
 	public String accumulatedDepreciationTo();
 
-	public String actionClassNameis();
-
 	public String active();
 
 	public String track1099Form();
