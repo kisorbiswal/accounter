@@ -10,11 +10,28 @@ import com.ibm.icu.text.SimpleDateFormat;
 public class StringUtils {
 
 	public static boolean isInteger(String string) {
-		return string.matches("[-+]?\\d+(\\d+)?");
+		boolean matches = string.matches("[-+]?\\d+(\\d+)?");
+		if (matches) {
+			try {
+				Integer.parseInt(string);
+			} catch (NumberFormatException e) {
+				return false;
+			}
+		}
+		return matches;
 	}
 
 	public static boolean isDouble(String string) {
-		return string.matches("[-+]?\\d+(\\.\\d+)?");
+		boolean matches = string.matches("[-+]?\\d+(\\d+)?")
+				|| string.matches("[-+]?\\d+(\\.\\d+)?");
+		if (matches) {
+			try {
+				Double.parseDouble(string);
+			} catch (NumberFormatException e) {
+				return false;
+			}
+		}
+		return matches;
 	}
 
 	public static boolean isDate(String string) {
@@ -24,7 +41,7 @@ public class StringUtils {
 			return true;
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
-		//	e.printStackTrace();
+			// e.printStackTrace();
 			return false;
 		}
 
