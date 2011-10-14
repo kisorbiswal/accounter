@@ -1090,8 +1090,7 @@ public class Company implements IAccounterServerCore {
 	}
 
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
-		return null;
+		return preferences.getFullName();
 	}
 
 	public String getCompanyID() {

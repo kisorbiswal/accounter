@@ -18,6 +18,7 @@ import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.server.CometManager;
@@ -28,8 +29,11 @@ public class OpenCompanyServlet extends BaseServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	protected static final Log logger = LogFactory.getLog(OpenCompanyServlet.class);
+	protected static final Log logger = LogFactory
+			.getLog(OpenCompanyServlet.class);
 	private static final String REDIRECT_PAGE = "/WEB-INF/Redirect.jsp";
+	private static final String USER_NAME = "userName";
+	private static final String COMPANY_NAME = "companyName";
 
 	@Override
 	protected void doGet(HttpServletRequest request,
@@ -54,9 +58,9 @@ public class OpenCompanyServlet extends BaseServlet {
 			Session session = HibernateUtil.openSession();
 			try {
 				Transaction transaction = session.beginTransaction();
-
+				Company company = getCompany(request);
 				User user = (User) session.getNamedQuery("user.by.emailid")
-						.setParameter("company", getCompany(request))
+						.setParameter("company", company)
 						.setParameter("emailID", emailID).uniqueResult();
 				if (user == null) {
 					response.sendRedirect(COMPANIES_URL);
@@ -67,9 +71,15 @@ public class OpenCompanyServlet extends BaseServlet {
 
 				session.save(activity);
 				transaction.commit();
+				user = HibernateUtil.initializeAndUnproxy(user);
 				// there is no session, so do external redirect to login page
 				// response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
 				// response.setHeader("Location", "/Accounter.jsp");
+
+				request.setAttribute(EMAIL_ID, user.getEmail());
+				request.setAttribute(USER_NAME, user.getFullName());
+				request.setAttribute(COMPANY_NAME, company.getDisplayName());
+
 				RequestDispatcher dispatcher = getServletContext()
 						.getRequestDispatcher("/WEB-INF/Accounter.jsp");
 				dispatcher.forward(request, response);
