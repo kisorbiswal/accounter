@@ -3091,49 +3091,6 @@
 		T.ID = :inputId AND T.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
 
-	<sql-query name="canDeleteTAXItemForUS">
-		<query-param name="inputId" type="long" />
-		<query-param name="companyId" type="long" />
-
-		<return-scalar column="TAX_ADJUSTMENT_ID" type="long" />
-		<return-scalar column="TAX_ADJUSTMENT_ID" type="long" />
-		<return-scalar column="TAX_RATE_CALCULATION_ID" type="long" />
-		<return-scalar column="TAX_GROUP_ID" type="long" />
-
-		SELECT
-		TA.ID AS TAX_ADJUSTMENT_ID,
-		VRC.ID
-		AS TAX_RATE_CALCULATION_ID,
-		TG.ID AS TAX_GROUP_ID
-
-		FROM TAX_ITEM T
-
-		LEFT OUTER JOIN
-		TAX_ADJUSTMENT TA
-		ON TA.TAX_ITEM = T.ID
-		LEFT OUTER JOIN
-
-		TAX_RATE_CALCULATION VRC
-		ON
-		VRC.TAX_ITEM_ID=T.ID
-		LEFT OUTER JOIN
-		TAX_GROUP_TAX_ITEM TGI
-		ON
-		TGI.TAX_ITEM_ID=T.ID
-		LEFT OUTER JOIN
-		TAX_GROUP
-		TG
-		ON
-		TG.ID=TGI.TAX_GROUP_ID
-		LEFT OUTER JOIN
-		TAX_CODE TC
-		ON
-		TC.TAXITEMGROUP_PURCHASES = T.ID
-		OR TC.TAXITEMGROUP_SALES = T.ID
-		WHERE
-		T.ID = :inputId AND T.COMPANY_ID=:companyId LIMIT 1
-	</sql-query>
-
 	<sql-query name="canDeleteTAXCode">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
@@ -3191,28 +3148,6 @@
 		OR TC.TAXITEMGROUP_SALES = T.ID
 		WHERE T.ID = :inputId AND T.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
-
-	<sql-query name="canDeleteTAXGroupForUS">
-		<query-param name="inputId" type="long" />
-		<query-param name="companyId" type="long" />
-		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
-
-		SELECT
-		TI.ID AS TRANSACTION_ITEM_ID
-
-		FROM TAX_GROUP T
-
-		LEFT OUTER JOIN
-		TAX_CODE TC
-		ON TC.TAXITEMGROUP_PURCHASES = T.ID
-		OR TC.TAXITEMGROUP_SALES
-		= T.ID
-		LEFT OUTER JOIN
-		TRANSACTION_ITEM TI ON TI.TAX_CODE = TC.ID
-		WHERE
-		T.ID = :inputId AND T.COMPANY_ID=:companyId LIMIT 1
-	</sql-query>
-
 
 	<sql-query name="canDeleteFiscalYear">
 		<query-param name="inputId" type="long" />

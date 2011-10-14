@@ -65,7 +65,7 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 		this.TAXItemGrpForSales = taxItemGroup;
 		this.isTaxable = true;
 		this.isECSalesEntry = false;
-		this.TAXItemGrpForPurchases = null;
+		this.TAXItemGrpForPurchases = taxItemGroup;
 	}
 
 	/**

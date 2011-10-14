@@ -424,11 +424,12 @@ public class FinanceTool {
 	private String getCanDeleteQueryName(String serverClass, int companyType) {
 		StringBuffer query = new StringBuffer("canDelete");
 		query.append(serverClass);
-		if (serverClass.equals("TAXItem") || serverClass.equals("TAXGroup")) {
-			if (companyType == Company.ACCOUNTING_TYPE_US) {
-				query.append("ForUS");
-			}
-		}
+		// if (serverClass.equals("TAXItem") || serverClass.equals("TAXGroup"))
+		// {
+		// if (companyType == Company.ACCOUNTING_TYPE_US) {
+		// query.append("ForUS");
+		// }
+		// }
 		return query.toString();
 	}
 
