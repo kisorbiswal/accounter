@@ -603,13 +603,13 @@ public abstract class AbstractCommand extends Command {
 			number = input;
 			req.setValue(number);
 		}
+		if (selection != null)
+			if (selection == name) {
+				context.setAttribute(INPUT_ATTR, name);
+				return text(context, displayName, number);
+			}
 
-		if (selection == number) {
-			context.setAttribute(INPUT_ATTR, name);
-			return text(context, displayName, number);
-		}
-
-		Record numberRecord = new Record(number);
+		Record numberRecord = new Record(name);
 		numberRecord.add("Name", name);
 		numberRecord.add("Value", number);
 		list.add(numberRecord);
