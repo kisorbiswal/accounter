@@ -43,11 +43,6 @@ public class WriteOffDialog extends BaseDialog<ClientAccount> {
 		if (cashDiscountValue == null)
 			cashDiscountValue = 0.0D;
 		this.writeOffAmount = cashDiscountValue;
-		// StringBuffer buffer = new StringBuffer("" +
-		// UIUtils.getCurrencySymbol()
-		// + "");
-		// buffer.append(cashDiscountValue != null ? String
-		// .valueOf(cashDiscountValue) : "0.00");
 		discAmtText.setAmount(currencyProvider
 				.getAmountInTransactionCurrency(cashDiscountValue));
 	}
@@ -117,23 +112,6 @@ public class WriteOffDialog extends BaseDialog<ClientAccount> {
 			}
 
 		});
-		// discAmtText.addBlurHandler(new BlurHandler() {
-		// public void onBlur(BlurEvent event) {
-		// try {
-		//
-		// String valueStr = discAmtText.getValue().toString()
-		// .replace("" + UIUtils.getCurrencySymbol() + "", "");
-		//
-		// Double amount = Double.parseDouble(valueStr);
-		//
-		// setCashDiscountValue(amount);
-		//
-		// } catch (Exception e) {
-		// setCashDiscountValue(null);
-		// }
-		//
-		// }
-		// });
 
 		if (!canEdit) {
 

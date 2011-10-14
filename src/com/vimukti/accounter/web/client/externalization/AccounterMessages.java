@@ -866,4 +866,12 @@ public interface AccounterMessages extends Messages {
 
 	public String fiscalYearEndDateAlreadyExists();
 
+	public String errorMsg(String erroMsg);
+
+	public String budgetAddBy();
+
+	public String quarterPeriod(String quarterNo,String startMonth,String endMonth);
+
+	public String wareHouseLoadingError(String exp);
+
 }

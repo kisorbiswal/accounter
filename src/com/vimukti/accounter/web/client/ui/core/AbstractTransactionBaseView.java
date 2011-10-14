@@ -484,23 +484,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		try {
 			if (result == null)
 				throw new Exception();
-			//
-			// StringBuffer buffer = new StringBuffer();
-			//
-			// buffer.append("Saved Transaction "
-			// + Utility.getTransactionName(transactionType));
-			// if (transactionNumber != null) {
-			// buffer
-			// .append(" With Number "
-			// + String.valueOf(" # "
-			// + transactionNumber.getNumber()));
-			// }
-			//
-			// Accounter.showInformation(buffer.toString());
-
 			if (!saveAndClose) {
-				// resetForms();
-				// reload();
 				if (!History.getToken().equals(getAction().getHistoryToken())) {
 
 				}

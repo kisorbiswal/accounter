@@ -62,8 +62,7 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 		VerticalPanel verticalPanel = new VerticalPanel();
 		setWidth("400px");
 
-		budgetAddBy = new SelectCombo(Global.get().constants().budget() + " "
-				+ Global.get().constants().add() + " by:");
+		budgetAddBy = new SelectCombo(messages.budgetAddBy());
 		budgetAddBy.setHelpInformation(true);
 		budgetAddBy.initCombo(getStartWithList());
 		budgetAddBy.setSelected(MONTHS);
@@ -200,9 +199,8 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 		} else if (years == QUARTERS) {
 
-			quater1Amount = new IntegerField(this, "Q1("
-					+ Global.get().constants().jan() + " - "
-					+ Global.get().constants().mar() + " ) :");
+			quater1Amount = new IntegerField(this, messages.quarterPeriod("1",
+					constants.jan(), constants.apr()));
 			quater1Amount.setHelpInformation(true);
 			quater1Amount.setRequired(false);
 			quater1Amount.setWidth(100);
@@ -211,9 +209,8 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 					+ Double.parseDouble(febAmount.getValue())
 					+ Double.parseDouble(marAmount.getValue())));
 
-			quater2Amount = new IntegerField(this, "Q2("
-					+ Global.get().constants().apr() + " - "
-					+ Global.get().constants().may() + " ) :");
+			quater2Amount = new IntegerField(this, messages.quarterPeriod("2",
+					constants.apr(), constants.may()));
 			quater2Amount.setHelpInformation(true);
 			quater2Amount.setRequired(false);
 			quater2Amount.setWidth(100);
@@ -222,9 +219,8 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 					+ Double.parseDouble(mayAmount.getValue())
 					+ Double.parseDouble(junAmount.getValue())));
 
-			quater3Amount = new IntegerField(this, "Q3("
-					+ Global.get().constants().jun() + " - "
-					+ Global.get().constants().sept() + " ) :");
+			quater3Amount = new IntegerField(this, messages.quarterPeriod("3",
+					constants.jun(), constants.sept()));
 			quater3Amount.setHelpInformation(true);
 			quater3Amount.setRequired(false);
 			quater3Amount.setWidth(100);
@@ -233,9 +229,8 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 					+ Double.parseDouble(augAmount.getValue())
 					+ Double.parseDouble(septAmount.getValue())));
 
-			quater4Amount = new IntegerField(this, "Q4("
-					+ Global.get().constants().oct() + " - "
-					+ Global.get().constants().dec() + " ) :");
+			quater4Amount = new IntegerField(this, messages.quarterPeriod("4",
+					constants.oct(), constants.dec()));
 			quater4Amount.setHelpInformation(true);
 			quater4Amount.setRequired(false);
 			quater4Amount.setWidth(100);

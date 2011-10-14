@@ -321,7 +321,7 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 		if (widget != null) {
 			errorPanel.remove(widget);
 		}
-		HTML error = new HTML("<li>" + erroMsg + "</li>");
+		HTML error = new HTML(messages.errorMsg(erroMsg));
 		error.addStyleName("error");
 		this.errorPanel.add(error);
 		this.errorPanel.setVisible(true);

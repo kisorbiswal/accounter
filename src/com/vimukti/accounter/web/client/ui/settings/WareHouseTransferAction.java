@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
@@ -44,8 +45,7 @@ public class WareHouseTransferAction extends Action {
 					isDependent, this);
 		} catch (Exception e) {
 			System.err
-					.println("Unable to load WareHouse Transfer View. Because "
-							+ e + " ocuured");
+					.println(Accounter.messages().wareHouseLoadingError(e.toString()));
 		}
 	}
 
