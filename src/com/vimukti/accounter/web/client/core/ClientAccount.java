@@ -119,10 +119,10 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 
 	double totalBalance = 0.0D;
 
-	int baseType;
+	private int baseType;
 
-	int subBaseType;
-	int groupType;
+	private int subBaseType;
+	private int groupType;
 
 	long linkedAccumulatedDepreciationAccount;;
 
@@ -539,5 +539,110 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 	@Override
 	public void setVersion(int version) {
 		this.version = version;
+	}
+
+	public void updateBaseTypes() {
+		switch (type) {
+
+		case TYPE_CASH:
+			this.setBaseType(BASETYPE_ASSET);
+			this.setSubBaseType(SUBBASETYPE_CURRENT_ASSET);
+			this.setGroupType(GROUPTYPE_CASH);
+
+			break;
+		case TYPE_BANK:
+			this.setBaseType(BASETYPE_ASSET);
+			this.setSubBaseType(SUBBASETYPE_CURRENT_ASSET);
+			this.setGroupType(GROUPTYPE_CASH);
+
+			break;
+		case TYPE_ACCOUNT_RECEIVABLE:
+			this.setBaseType(BASETYPE_ASSET);
+			this.setSubBaseType(SUBBASETYPE_CURRENT_ASSET);
+			break;
+		case TYPE_OTHER_CURRENT_ASSET:
+			this.setBaseType(BASETYPE_ASSET);
+			this.setSubBaseType(SUBBASETYPE_CURRENT_ASSET);
+			break;
+		case TYPE_INVENTORY_ASSET:
+			this.setBaseType(BASETYPE_ASSET);
+			this.setSubBaseType(SUBBASETYPE_CURRENT_ASSET);
+			break;
+		case TYPE_FIXED_ASSET:
+			this.setBaseType(BASETYPE_ASSET);
+			this.setSubBaseType(SUBBASETYPE_FIXED_ASSET);
+			break;
+		case TYPE_OTHER_ASSET:
+			this.setBaseType(BASETYPE_ASSET);
+			this.setSubBaseType(SUBBASETYPE_OTHER_ASSET);
+			break;
+		case TYPE_ACCOUNT_PAYABLE:
+			this.setBaseType(BASETYPE_LIABILITY);
+			this.setSubBaseType(SUBBASETYPE_CURRENT_LIABILITY);
+			break;
+		case TYPE_CREDIT_CARD:
+			this.setBaseType(BASETYPE_LIABILITY);
+			this.setSubBaseType(SUBBASETYPE_CURRENT_LIABILITY);
+			break;
+		case TYPE_OTHER_CURRENT_LIABILITY:
+			this.setBaseType(BASETYPE_LIABILITY);
+			this.setSubBaseType(SUBBASETYPE_CURRENT_LIABILITY);
+			break;
+		case TYPE_PAYROLL_LIABILITY:
+			this.setBaseType(BASETYPE_LIABILITY);
+			this.setSubBaseType(SUBBASETYPE_CURRENT_LIABILITY);
+			break;
+		case TYPE_LONG_TERM_LIABILITY:
+			this.setBaseType(BASETYPE_LIABILITY);
+			this.setSubBaseType(SUBBASETYPE_LONG_TERM_LIABILITY);
+			break;
+		case TYPE_EQUITY:
+			this.setBaseType(BASETYPE_EQUITY);
+			this.setSubBaseType(SUBBASETYPE_EQUITY);
+			break;
+
+		case TYPE_INCOME:
+			this.setBaseType(BASETYPE_ORDINARY_INCOME_OR_EXPENSE);
+			this.setSubBaseType(SUBBASETYPE_INCOME);
+			break;
+		case TYPE_COST_OF_GOODS_SOLD:
+			this.setBaseType(BASETYPE_ORDINARY_INCOME_OR_EXPENSE);
+			this.setSubBaseType(SUBBASETYPE_COST_OF_GOODS_SOLD);
+			break;
+		case TYPE_EXPENSE:
+			this.setBaseType(BASETYPE_ORDINARY_INCOME_OR_EXPENSE);
+			this.setSubBaseType(SUBBASETYPE_EXPENSE);
+			break;
+
+		case TYPE_OTHER_INCOME:
+			this.setBaseType(BASETYPE_OTHER_INCOME_OR_EXPENSE);
+			this.setSubBaseType(SUBBASETYPE_INCOME);
+			break;
+
+		case TYPE_OTHER_EXPENSE:
+			this.setBaseType(BASETYPE_OTHER_INCOME_OR_EXPENSE);
+			this.setSubBaseType(SUBBASETYPE_OTHER_EXPENSE);
+			break;
+		}
+	}
+
+	public int getBaseType() {
+		return baseType;
+	}
+
+	public void setBaseType(int baseType) {
+		this.baseType = baseType;
+	}
+
+	public void setSubBaseType(int subBaseType) {
+		this.subBaseType = subBaseType;
+	}
+
+	public int getGroupType() {
+		return groupType;
+	}
+
+	public void setGroupType(int groupType) {
+		this.groupType = groupType;
 	}
 }

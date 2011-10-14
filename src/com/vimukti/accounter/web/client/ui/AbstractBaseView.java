@@ -194,7 +194,8 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 			if (!History.getToken().equals(getAction().getHistoryToken())) {
 
 			}
-			getAction().run(null, true);
+			getManager().closeCurrentView(false);
+			getAction().run(null, getAction().isDependent());
 		}
 	}
 

@@ -1249,6 +1249,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		} else {
 			data.setIncrease(Boolean.FALSE);
 		}
+		data.updateBaseTypes();
 	}
 
 	@Override

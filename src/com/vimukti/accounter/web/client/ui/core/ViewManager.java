@@ -316,10 +316,14 @@ public class ViewManager extends HorizontalPanel {
 		return views.getView(token);
 	}
 
+	public void closeCurrentView() {
+		closeCurrentView(true);
+	}
+
 	/**
 	 * Called when we want to remove current view and put previous view back
 	 */
-	public void closeCurrentView() {
+	public void closeCurrentView(boolean restorePreviousView) {
 		if (this.existingView == null) {
 			return;
 		}
@@ -333,19 +337,23 @@ public class ViewManager extends HorizontalPanel {
 		this.existingView.removeFromParent();
 		HistoryItem current = this.views.current();
 		HistoryItem item = this.views.previous();
-		if (item.view == null) {
-			item.action.run();
-		} else {
-			this.existingView = item.view;
-			ActionCallback callback = current.action.getCallback();
-			if (data != null && callback != null) {
-				callback.actionResult(data);
+		if (restorePreviousView) {
+			if (item.view == null) {
+				item.action.run();
+			} else {
+				this.existingView = item.view;
+				ActionCallback callback = current.action.getCallback();
+				if (data != null && callback != null) {
+					callback.actionResult(data);
+				}
+				viewTitleLabel.setText(item.action.getCatagory() + "  >  "
+						+ item.action.getText());
+				viewHolder.add(item.view);
+				this.views.add(item);
+				History.newItem(item.action.getHistoryToken(), false);
 			}
-			viewTitleLabel.setText(item.action.getCatagory() + "  >  "
-					+ item.action.getText());
-			viewHolder.add(item.view);
+		} else {
 			this.views.add(item);
-			History.newItem(item.action.getHistoryToken(), false);
 		}
 		updateButtons();
 	}
