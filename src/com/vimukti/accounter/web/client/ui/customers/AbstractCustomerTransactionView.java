@@ -278,6 +278,8 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		// if (transactionObject == null)
 		initAddressAndContacts();
 		long taxCodeID = customer.getTAXCode();
+		if (taxCodeID == 0)
+			taxCodeID = Accounter.getCompany().getDefaultTaxCode();
 		ClientTAXCode taxCode = getCompany().getTAXCode(taxCodeID);
 		if (taxCode != null) {
 			taxCodeSelected(taxCode);
