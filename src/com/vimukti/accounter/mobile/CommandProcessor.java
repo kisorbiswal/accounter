@@ -130,6 +130,7 @@ public class CommandProcessor {
 		try {
 			result = command.run(context);
 		} catch (Exception e) {
+			e.printStackTrace();
 			result = context.makeResult();
 			result.add("You got an Exception....@@@@@@@");
 		}
