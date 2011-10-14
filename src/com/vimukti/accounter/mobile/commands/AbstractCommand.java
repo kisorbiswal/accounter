@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.print.attribute.standard.MediaSize.NA;
-
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -64,6 +62,10 @@ public abstract class AbstractCommand extends Command {
 	protected static final int STATUS_VOIDED = 3;
 	protected static final int ALL = 4;
 
+	private static final String CONTACT_ACTIONS = "contactActions";
+
+	private static final String REQUIREMENT_NAME = "requirmentName";
+
 	protected Company getCompany() {
 		return null;
 
@@ -91,35 +93,37 @@ public abstract class AbstractCommand extends Command {
 	 */
 	protected Result amountOptionalRequirement(Context context,
 			ResultList list, Object selection, String name, String displayString) {
+		// Object amountSelection = context.getSelection(NUMBER);
 		Requirement req = get(name);
 		Double balance = (Double) req.getValue();
-
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
+
 		if (attribute.equals(name)) {
-			Double order = context.getSelection(name);
+			String order = context.getSelection(name);
 			if (order == null) {
-				order = context.getDouble();
+				order = context.getNumber();
 			}
-			balance = order;
+			balance = Double.parseDouble(order);
 			req.setValue(balance);
 		}
-
-		if (selection == balance) {
-			context.setAttribute(INPUT_ATTR, name);
-			return amount(context, displayString, balance);
+		if (selection != null) {
+			if (selection == "balance") {
+				context.setAttribute(INPUT_ATTR, name);
+				return amount(context, displayString, balance);
+			}
 		}
-
-		Record balanceRecord = new Record(balance);
-		balanceRecord.add("Name", name);
-		balanceRecord.add("Value", balance);
+		Record balanceRecord = new Record("balance");
+		balanceRecord.add("Name", "balance");
+		balanceRecord.add("Value", balance == null ? "" : balance);
 		list.add(balanceRecord);
 		Result result = new Result();
 		result.add(list);
-		return result;
+		return null;
 	}
 
 	protected Result amount(Context context, String message, Double oldAmount) {
-		return number(context, message, oldAmount.toString());
+		return number(context, message,
+				oldAmount != null ? oldAmount.toString() : null);
 	}
 
 	protected Result number(Context context, String message, String oldNumber) {
@@ -137,11 +141,11 @@ public abstract class AbstractCommand extends Command {
 
 	protected Result dateOptionalRequirement(Context context, ResultList list,
 			String name, String displayString, Object selection) {
-		Requirement req = get(displayString);
-		Date dueDate = (Date) req.getValue();
-
+		Requirement req = get(name);
+		Date dueDate = req.getValue();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(displayString)) {
+
+		if (attribute.equals(name)) {
 			Date date = context.getSelection(DATE);
 			if (date == null) {
 				date = context.getDate();
@@ -149,12 +153,13 @@ public abstract class AbstractCommand extends Command {
 			dueDate = date;
 			req.setValue(dueDate);
 		}
-		if (selection == dueDate) {
-			context.setAttribute(INPUT_ATTR, displayString);
-			return date(context, displayString, dueDate);
+		if (selection != null) {
+			if (selection == name) {
+				context.setAttribute(INPUT_ATTR, name);
+				return date(context, displayString, dueDate);
+			}
 		}
-
-		Record dueDateRecord = new Record(dueDate);
+		Record dueDateRecord = new Record(name);
 		dueDateRecord.add("Name", name);
 		dueDateRecord.add("Value", dueDate.toString());
 		list.add(dueDateRecord);
@@ -275,7 +280,7 @@ public abstract class AbstractCommand extends Command {
 
 	private Record createTaxCodeRecord(TAXCode taxCode) {
 		Record record = new Record(taxCode);
-		record.add("Tax Code Name", taxCode.getName());
+		record.add("", taxCode.getName() + "-" + taxCode.getSalesTaxRate());
 		return record;
 	}
 
@@ -285,9 +290,13 @@ public abstract class AbstractCommand extends Command {
 	}
 
 	protected Result taxCode(Context context, TAXCode oldTaxCode) {
-		Result result = context.makeResult();
 		List<TAXCode> codes = getTaxCodes(context.getCompany());
+
+		Result result = context.makeResult();
+		result.add("Select Taxcode");
+
 		ResultList list = new ResultList(TAXCODE);
+
 		int num = 0;
 		if (oldTaxCode != null) {
 			list.add(createTaxCodeRecord(oldTaxCode));
@@ -302,11 +311,10 @@ public abstract class AbstractCommand extends Command {
 				break;
 			}
 		}
-
+		result.add(list);
 		CommandList commands = new CommandList();
 		commands.add("Create New Taxcode");
 		result.add(commands);
-		result.add(list);
 		return result;
 	}
 
@@ -318,26 +326,42 @@ public abstract class AbstractCommand extends Command {
 	protected Result contactProcess(Context context) {
 		String message = (String) context.getAttribute(CONTACT_ATTR);
 		Contact contact = (Contact) context.getAttribute(OLD_CONTACT_ATTR);
-		return contact(context, message, contact);
+		String requirementName = (String) context
+				.getAttribute(REQUIREMENT_NAME);
+		return contact(context, message, requirementName, contact);
 	}
 
 	/**
 	 * 
 	 * @param context
 	 * @param message
+	 * @param customerContact
 	 * @param oldContact
 	 * @return {@link Result}
 	 */
-	protected Result contact(Context context, String message, Contact oldContact) {
+	protected Result contact(Context context, String message,
+			String requirementName, Contact oldContact) {
 		context.setAttribute(PROCESS_ATTR, CONTACT_PROCESS);
 		context.setAttribute(CONTACT_ATTR, message);
 		context.setAttribute(OLD_CONTACT_ATTR, oldContact);
+		context.setAttribute(REQUIREMENT_NAME, requirementName);
 
 		String lineAttr = (String) context.getAttribute(CONTACT_LINE_ATTR);
 		if (lineAttr != null) {
 			String input = context.getString();
 			context.removeAttribute(CONTACT_LINE_ATTR);
 			if (lineAttr.equals("contactName")) {
+				if (oldContact == null) {
+					oldContact = new Contact();
+					Requirement requirement = get(requirementName);
+					List<Contact> contacts = requirement.getValue();
+					if (contacts == null) {
+						contacts = new ArrayList<Contact>();
+						requirement.setValue(contacts);
+					}
+					contacts.add(oldContact);
+					context.setAttribute(OLD_CONTACT_ATTR, oldContact);
+				}
 				oldContact.setName(input);
 			} else if (lineAttr.equals("title")) {
 				oldContact.setTitle(input);
@@ -346,60 +370,65 @@ public abstract class AbstractCommand extends Command {
 			} else if (lineAttr.equals("email")) {
 				oldContact.setEmail(input);
 			}
-		} else {
-			Object selection = context.getSelection(CONTACTS);
-			if (selection != null) {
 
+		}
+		Object selection = context.getSelection(CONTACT_ACTIONS);
+		if (selection == ActionNames.FINISH) {
+			context.removeAttribute(PROCESS_ATTR);
+			context.removeAttribute(CONTACT_ATTR);
+			context.removeAttribute(OLD_ADDRESS_ATTR);
+			context.removeAttribute(CONTACT_LINE_ATTR);// No need
+			return null;
+
+		} else {
+			selection = context.getSelection(CONTACTS);
+			if (oldContact == null) {
+				selection = "Contact Name";
+			}
+
+			if (selection != null) {
 				if (selection.equals("isActive")) {
 					oldContact.setPrimary(!oldContact.isPrimary());
-				} else if (selection == oldContact.getName()) {
+				} else if (selection == "Contact Name") {
 					context.setAttribute(CONTACT_LINE_ATTR, "contactName");
 					return text(context, "Enter conatactName",
-							oldContact.getName());
-				} else if (selection == oldContact.getTitle()) {
+							oldContact != null ? oldContact.getName() : null);
+				} else if (selection == "Title") {
 					context.setAttribute(CONTACT_LINE_ATTR, "title");
 					return text(context, "Enter Title", oldContact.getTitle());
-				} else if (selection == oldContact.getBusinessPhone()) {
+				} else if (selection == "BusinessPhone") {
 					context.setAttribute(CONTACT_LINE_ATTR, "businessPhone");
 					return text(context, "Enter Businessphone Number ",
 							oldContact.getBusinessPhone());
-				} else if (selection == oldContact.getEmail()) {
+				} else if (selection == "Email") {
 					context.setAttribute(CONTACT_LINE_ATTR, "email");
 					return text(context, "Enter Email", oldContact.getEmail());
-				} else {
-					selection = context.getSelection(ACTIONS);
-					if (selection == ActionNames.FINISH) {
-						context.removeAttribute(PROCESS_ATTR);
-						context.removeAttribute(CONTACT_ATTR);
-						context.removeAttribute(OLD_ADDRESS_ATTR);
-						context.removeAttribute(CONTACT_LINE_ATTR);// No need
-						return null;
-					}
 				}
 			}
 		}
+
 		ResultList list = new ResultList(CONTACTS);
 		Record record = new Record("isActive");
 		record.add("", "IsActive");
 		record.add("", oldContact.isPrimary());
 		list.add(record);
 
-		record = new Record(oldContact.getName());
+		record = new Record("Contact Name");
 		record.add("", "contactName");
 		record.add("", oldContact.getName());
 		list.add(record);
 
-		record = new Record(oldContact.getTitle());
+		record = new Record("Title");
 		record.add("", "title");
 		record.add("", oldContact.getTitle());
 		list.add(record);
 
-		record = new Record(oldContact.getBusinessPhone());
+		record = new Record("BusinessPhone");
 		record.add("", "businessPhone");
 		record.add("", oldContact.getBusinessPhone());
 		list.add(record);
 
-		record = new Record(oldContact.getEmail());
+		record = new Record("Email");
 		record.add("", "email");
 		record.add("", oldContact.getEmail());
 		list.add(record);
@@ -410,10 +439,11 @@ public abstract class AbstractCommand extends Command {
 		result.add(list);
 		result.add("Select any line to edit");
 
-		ResultList finish = new ResultList(ACTIONS);
+		ResultList finish = new ResultList(CONTACT_ACTIONS);
 		record = new Record(ActionNames.FINISH);
 		record.add("", "Finish");
 		finish.add(record);
+		result.add(finish);
 		return result;
 	}
 
@@ -595,10 +625,13 @@ public abstract class AbstractCommand extends Command {
 	protected Result paymentMethodRequirement(Context context, ResultList list,
 			Object selection) {
 		Object payamentMethodObj = context.getSelection("paymentmethod");
-		Requirement paymentMethodReq = get("paymentmethod");
+		Requirement paymentMethodReq = get("paymentMethod");
 		String paymentmethod = (String) paymentMethodReq.getValue();
-
+		if (payamentMethodObj != null) {
+			paymentmethod = (String) payamentMethodObj;
+		}
 		if (selection == paymentmethod) {
+			context.setAttribute(INPUT_ATTR, "paymentmethod");
 			return paymentMethod(context, paymentmethod);
 
 		}
