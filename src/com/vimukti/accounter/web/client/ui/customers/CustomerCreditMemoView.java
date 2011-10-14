@@ -142,8 +142,8 @@ public class CustomerCreditMemoView extends
 		custForm = UIUtils.form(Global.get().customer());
 		custForm.setFields(customerCombo, contactCombo, billToTextArea);
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
-		custForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Global.get().constants().width(), "190px");
+		custForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Global.get().constants().width(), "190px");
 		custForm.setWidth("100%");
 		custForm.setStyleName("align-form");
 
@@ -386,17 +386,6 @@ public class CustomerCreditMemoView extends
 		ValidationResult result = super.validate();
 		result.add(customerAccountTransactionTable.validateGrid());
 		result.add(customerItemTransactionTable.validateGrid());
-
-		if (isTrackTax()) {
-			if (!isTaxPerDetailLine()) {
-				if (taxCodeSelect != null
-						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect,
-							accounterConstants.enterTaxCode());
-				}
-
-			}
-		}
 		return result;
 	}
 
@@ -808,8 +797,8 @@ public class CustomerCreditMemoView extends
 			// if there is only one branding theme
 			ClientBrandingTheme brandingTheme = themesList.get(0);
 			UIUtils.downloadAttachment(transaction.getID(),
-					ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO,
-					brandingTheme.getID());
+					ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO, brandingTheme
+							.getID());
 
 		}
 
@@ -871,12 +860,12 @@ public class CustomerCreditMemoView extends
 				customerItemTransactionTable.setAllRows(list);
 			}
 		}
-		accountsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ACCOUNT, true));
-		itemsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ITEM, false));
+		accountsDisclosurePanel.setOpen(checkOpen(transaction
+				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
+				true));
+		itemsDisclosurePanel
+				.setOpen(checkOpen(transaction.getTransactionItems(),
+						ClientTransactionItem.TYPE_ITEM, false));
 	}
 
 	@Override
