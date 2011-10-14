@@ -87,6 +87,8 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 
 	@Override
 	protected void onClick(ClientTAXItem obj, int row, int col) {
+		if (!Accounter.getUser().canDoInvoiceTransactions())
+			return;
 		List<ClientTAXItem> records = getRecords();
 		if (col == 4)
 			showWarnDialog(records.get(row));
