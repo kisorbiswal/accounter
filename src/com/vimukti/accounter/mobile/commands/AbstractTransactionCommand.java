@@ -80,6 +80,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final String PAY_FROM = "payFrom";
 	protected static final String US_CHECK = "Check";
 	protected static final String UK_CHECK = "Cheque";
+	protected static final String ACCOUNTS = "accounts";
+	protected static final String BILL_TO = "billTo";
 	protected static final String ITEMS = "items";
 	protected static final int VENDOR_TRANSACTION = 2;
 	protected static final int CUSTOMER_TRANSACTION = 1;
@@ -269,7 +271,11 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 				&& company.getPreferences().isTaxPerDetailLine()) {
 			record = new Record("taxCode");
 			record.add("", "VatCode");
-			record.add("", transactionItem.getTaxCode().getName());
+			if (transactionItem.getTaxCode() != null) {
+				record.add("", transactionItem.getTaxCode().getName());
+			} else {
+				record.add("", "");
+			}
 			list.add(record);
 		} else {
 			record = new Record("tax");
@@ -935,8 +941,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	}
 
 	protected Result phoneRequirement(Context context, ResultList list,
-			Object 
-			selection) {
+			Object selection) {
 		Requirement req = get("phone");
 		String phoneNo = (String) req.getValue();
 
@@ -975,6 +980,51 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return null;
 	}
 
+	protected Result bankAccountRequirement(Context context) {
+		Requirement bankAccountReq = get("bankAccount");
+		Account bankAccount = context.getSelection("bankAccounts");
+		if (bankAccount != null) {
+			bankAccountReq.setValue(bankAccount);
+		}
+		if (!bankAccountReq.isDone()) {
+			return bankAccounts(context);
+		}
+
+		return null;
+	}
+
+	private Result bankAccounts(Context context) {
+		Result result = context.makeResult();
+		ResultList accountsList = new ResultList("bankAccounts");
+		result.add("Bank Accounts List");
+		int num = 0;
+		Set<Account> accounts2 = context.getCompany().getAccounts();
+		List<Account> accounts = new ArrayList<Account>(accounts2);
+		for (Account account : accounts) {
+			if (account.getType() == Account.TYPE_OTHER_CURRENT_ASSET) {
+				accountsList.add(createAccountRecord(account));
+				num++;
+			}
+			if (num == BANK_ACCOUNTS_TO_SHOW) {
+				break;
+			}
+		}
+		int size = accountsList.size();
+		StringBuilder message = new StringBuilder();
+		if (size > 0) {
+			message.append("Select a Bank Account");
+		}
+		CommandList commandList = new CommandList();
+		commandList.add("Create Bank Account");
+
+		result.add(message.toString());
+		result.add(accountsList);
+		result.add(commandList);
+
+		return result;
+
+	}
+
 	private Result payee(Context context) {
 		Result result = context.makeResult();
 		ResultList payeeList = new ResultList("payees");
@@ -1001,7 +1051,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			message.append("Select a Payee");
 		}
 		CommandList commandList = new CommandList();
-		commandList.add("Create");
+		commandList.add("Create Customer");
+		commandList.add("Create Supplier");
 
 		result.add(message.toString());
 		result.add(payeeList);
@@ -1017,59 +1068,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return record;
 	}
 
-	protected Result bankAccountRequirement(Context context) {
-		Requirement bankAccountReq = get("bankAccounts");
-		List<BankAccount> bankAccounts = context.getSelections("bankAccounts");
-		if (!bankAccountReq.isDone()) {
-			if (bankAccounts.size() > 0) {
-				bankAccountReq.setValue(bankAccounts);
-			} else {
-				return bankAccounts(context);
-			}
-		}
-		if (bankAccounts != null && bankAccounts.size() > 0) {
-			List<BankAccount> items = bankAccountReq.getValue();
-			items.addAll(bankAccounts);
-		}
-		return null;
-	}
-
-	private Result bankAccounts(Context context) {
-		Result result = context.makeResult();
-		ResultList bankAccountList = new ResultList("bankAccounts");
-
-		Object last = context.getLast(RequirementType.BANK_ACCOUNT);
-		int num = 0;
-		if (last != null) {
-			bankAccountList.add(creatBankAccountRecord((BankAccount) last));
-			num++;
-		}
-		List<BankAccount> bankAccounts = getBankAccounts(context.getCompany());
-		for (BankAccount bankAccount : bankAccounts) {
-			if (bankAccount != last) {
-				bankAccountList.add(creatBankAccountRecord(bankAccount));
-				num++;
-			}
-			if (num == BANK_ACCOUNTS_TO_SHOW) {
-				break;
-			}
-		}
-		int size = bankAccountList.size();
-		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append("Select a Bank Account");
-		}
-		CommandList commandList = new CommandList();
-		commandList.add("Create");
-
-		result.add(message.toString());
-		result.add(bankAccountList);
-		result.add(commandList);
-		result.add("Type for Bank Account");
-		return result;
-	}
-
-	protected Record creatBankAccountRecord(BankAccount last) {
+	protected Record creatBankAccountRecord(Account last) {
 		Record record = new Record(last);
 		record.add("Bank Account Number", last.getNumber());
 		record.add("Bank Account Name", last.getName());
@@ -1574,7 +1573,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return result;
 
 	}
-	
 
 	protected Result accountNumberRequirement(Context context) {
 		Requirement numberReq = get(ACCOUNT_NUMBER);
