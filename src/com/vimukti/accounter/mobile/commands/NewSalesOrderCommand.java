@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.Date;
 import java.util.List;
 
+import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.PaymentTerms;
@@ -108,6 +109,7 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
+		setDefaultValues();
 		result = createOptionalResult(context);
 		if (result != null) {
 			return result;
@@ -117,6 +119,13 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 		markDone();
 		return null;
 
+	}
+
+	private void setDefaultValues() {
+
+		get(ORDER_NO).setDefaultValue(Integer.toString(1));
+		get(DUE_DATE).setDefaultValue(new Date());
+		get(STATUS).setDefaultValue("Open");
 	}
 
 	/**
@@ -199,21 +208,28 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = billToRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		result = shippingMethodRequirement(context, list, selection);
-		if (result != null) {
-			return result;
+		// TODO bill to was disabled so removed
+		// result = billToRequirement(context, list, selection);
+		// if (result != null) {
+		// return result;
+		// }
+
+		CompanyPreferences preferences = context.getCompany().getPreferences();
+
+		if (preferences.isDoProductShipMents()) {
+			result = shippingMethodRequirement(context, list, selection);
+			if (result != null) {
+				return result;
+			}
+
+			result = shippingTermsRequirement(context, list, selection);
+			if (result != null) {
+				return result;
+			}
 		}
 
-		result = shippingTermsRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-
-		result = dueDateRequirement(context, list, selection);
+		result = dateOptionalRequirement(context, list, DUE_DATE,
+				"Enter Due date", selection);
 		if (result != null) {
 			return result;
 		}
@@ -425,7 +441,7 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 	 */
 	private Result dueDateRequirement(Context context, ResultList list,
 			Object selection) {
-		Requirement req = get("due");
+		Requirement req = get("dueDate");
 		Date dueDate = (Date) req.getValue();
 
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
