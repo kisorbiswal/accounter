@@ -905,4 +905,23 @@ public abstract class AbstractCommand extends Command {
 		return record;
 	}
 
+	protected Result activeRequirement(Context context, Object selection,
+			ResultList list) {
+		Requirement isActiveReq = get(ACTIVE);
+		Boolean isActive = (Boolean) isActiveReq.getValue();
+		if (selection == ACTIVE) {
+			isActive = !isActive;
+			isActiveReq.setValue(isActive);
+		}
+		String activeString = "";
+		if (isActive) {
+			activeString = "This account is Active";
+		} else {
+			activeString = "This account is InActive";
+		}
+		Record isActiveRecord = new Record(ACTIVE);
+		isActiveRecord.add(":", activeString);
+		list.add(isActiveRecord);
+		return null;
+	}
 }
