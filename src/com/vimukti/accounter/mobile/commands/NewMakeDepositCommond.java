@@ -128,7 +128,7 @@ public class NewMakeDepositCommond extends AbstractTransactionCommand {
 			ActionNames actionName = (ActionNames) selection;
 			switch (actionName) {
 			case ADD_MORE_ACCOUNTS:
-				return accounts(context, TRANSFERED_ACCOUNT);
+				return accounts(context, TRANSFERED_ACCOUNT, false);
 			case FINISH:
 				context.removeAttribute(INPUT_ATTR);
 				return null;
