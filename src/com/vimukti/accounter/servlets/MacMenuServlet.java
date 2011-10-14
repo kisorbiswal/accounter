@@ -423,8 +423,8 @@ public class MacMenuServlet extends BaseServlet {
 		StringBuilder bankListValues = new StringBuilder();
 		subMenu(bankListValues, iGlobal.constants().payments(),
 				"company/accounter#payments");
-		subMenu(bankListValues, iGlobal.constants().bankAccounts(),
-				"company/accounter#bankAccounts");
+		subMenu(bankListValues, iGlobal.messages().bankAccounts(
+				iGlobal.Accounts()), "company/accounter#bankAccounts");
 		menu(bankingValues, iGlobal.constants().bankingList(), bankListValues);
 		mainMenu(builder, iGlobal.constants().banking(), bankingValues);
 	}
@@ -712,10 +712,8 @@ public class MacMenuServlet extends BaseServlet {
 			subMenu(companyLists, iGlobal.constants().items(),
 					"company/accounter#allItems");
 		}
-		subMenu(companyLists, iGlobal.constants().Customer(),
-				"company/accounter#customers");
-		subMenu(companyLists, iGlobal.constants().Vendor(),
-				"company/accounter#VendorList");
+		subMenu(companyLists, iGlobal.Customer(), "company/accounter#customers");
+		subMenu(companyLists, iGlobal.Vendor(), "company/accounter#VendorList");
 		if (canSeeBanking()) {
 			subMenu(companyLists, iGlobal.constants().payments(),
 					"company/accounter#payments");
