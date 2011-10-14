@@ -363,6 +363,7 @@
 		<alias>create Customer</alias>
 		<alias>Add Customer</alias>
 		<alias>New Customer</alias>
+		<alias>Create Customer</alias>
 	</command>
 	<command clazz="NewCustomerPrepaymentCommand" name="New CustomerPrepayment">
 		<alias>create CustomerPrepayment</alias>
@@ -382,18 +383,23 @@
 		<alias>New Estimate</alias>
 
 	</command>
+
 	<command clazz="NewCustomerRefundCommand" name="New CustomerRefund">
 		<alias>create CustomerRefund</alias>
 		<alias>Add CustomerRefund</alias>
 	</command>
+
 	<command clazz="NewBankAccountCommand" name="New BankAccount">
 		<alias>create BankAccount</alias>
 		<alias>Add BankAccount</alias>
 		<alias>New BankAccount</alias>
+		<alias>Create Bank Account</alias>
 	</command>
+
 	<command clazz="AccountRegisterCommand" name="AccountRegister">
 		<alias>AccountRegister</alias>
 	</command>
+
 	<command clazz="CustomerListCommand" name="Customers">
 		<alias>Customers</alias>
 	</command>
@@ -490,6 +496,13 @@
 	<command clazz="SalesPersonsListCommand" name="Sales Person List">
 		<alias>Sales Person</alias>
 		<alias>sales person list</alias>
+	</command>
+
+	<command clazz="WriteCheckCommand" name="New Write Check Command">
+		<alias>Write Check</alias>
+		<alias>write check</alias>
+		<alias>Add Write Check</alias>
+		<alias>add write check</alias>
 	</command>
 
 </commands>
