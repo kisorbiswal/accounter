@@ -110,6 +110,13 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 					transactionItems = new ArrayList<TransactionItem>();
 					transItemsReq.setValue(transactionItems);
 				}
+				double lt = transactionItem.getQuantity().getValue()
+						* transactionItem.getUnitPrice();
+				double disc = transactionItem.getDiscount();
+				transactionItem
+						.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
+								* disc / 100))
+								: lt);
 				transactionItems.add(transactionItem);
 				if (transactionItem.getUnitPrice() == 0) {
 					context.putSelection(ITEM_DETAILS, "unitPrice");
