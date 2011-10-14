@@ -1,6 +1,5 @@
 package com.vimukti.accounter.mobile.commands;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -57,11 +56,14 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 			context.setAttribute(INPUT_ATTR, "optional");
 		}
 
-		result = nameRequirement(context);
+		result = nameRequirement(context, ACCOUNT_NAME,
+				"Please Enter the account name ");
 		if (result != null) {
 			return result;
 		}
-		result = accountNumberRequirement(context);
+
+		result = numberRequirement(context, ACCOUNT_NUMBER,
+				"Please Enter the account number ");
 		if (result != null) {
 			return result;
 		}
@@ -136,17 +138,27 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		}
 		ResultList list = new ResultList("values");
 		selection = context.getSelection("values");
-
 		Requirement accNameReq = get(ACCOUNT_NAME);
 		String name = (String) accNameReq.getValue();
-		Record nameRecord = new Record(name);
+
+		Requirement accounNumberReq = get(ACCOUNT_NUMBER);
+		String num = (String) accounNumberReq.getValue();
+
+		if (selection != null) {
+			if (selection == "accountName") {
+				context.setAttribute(INPUT_ATTR, ACCOUNT_NAME);
+				return text(context, "Enter Account Name", name);
+			} else if (selection == "accountNumber") {
+				return number(context, NUMBER, num);
+			}
+		}
+
+		Record nameRecord = new Record("accountName");
 		nameRecord.add("", "Name");
 		nameRecord.add("", name);
 		list.add(nameRecord);
 
-		Requirement accounNumberReq = get(ACCOUNT_NUMBER);
-		Integer num = (Integer) accounNumberReq.getValue();
-		Record numberRecord = new Record(num);
+		Record numberRecord = new Record("accountNumber");
 		numberRecord.add("", "accountNumber");
 		numberRecord.add("", num);
 		list.add(numberRecord);
@@ -239,20 +251,6 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		memoRecord.add("", COMMENTS);
 		memoRecord.add("", comments);
 		list.add(memoRecord);
-		return null;
-	}
-
-	private Result nameRequirement(Context context) {
-		Requirement nameReq = get(ACCOUNT_NAME);
-		if (!nameReq.isDone()) {
-			String string = context.getString();
-			if (!string.isEmpty()) {
-				nameReq.setValue(string);
-			} else {
-				return text(context, "Please Enter the account name ", null);
-			}
-		}
-
 		return null;
 	}
 
