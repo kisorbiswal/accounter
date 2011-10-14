@@ -506,6 +506,15 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		Object payamentObj = context.getSelection(PAYMENT_TERMS);
 		Requirement paymentReq = get("paymentTerms");
 		PaymentTerms paymentTerm = (PaymentTerms) paymentReq.getValue();
+
+		if (payamentObj != null) {
+			paymentTerm = (PaymentTerms) payamentObj;
+		}
+		if (selection == paymentTerm) {
+			context.setAttribute(INPUT_ATTR, PAYMENT_TERMS);
+			return paymentTerms(context, paymentTerm);
+
+		}
 		if (payamentObj != null) {
 			paymentTerm = (PaymentTerms) payamentObj;
 			paymentReq.setValue(paymentTerm);
