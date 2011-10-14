@@ -212,7 +212,7 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 
 		selection = context.getSelection("accountItems");
 		if (selection != null) {
-			Result result = transactionItem(context,
+			Result result = transactionAccountItem(context,
 					(TransactionItem) selection);
 			if (result != null) {
 				return result;
@@ -222,11 +222,8 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		Requirement transferTo = get("depositOrTransferTo");
 		Account account = transferTo.getValue();
 		Record accountRec = new Record(account);
-		accountRec.add("Number", "Account No");
-		accountRec.add("value", account.getNumber());
-		accountRec.add("Account name", "Account Name");
-		accountRec.add("value", account.getNumber());
-		accountRec.add("Account type", "Account Type");
+		accountRec.add("Number", account.getNumber());
+		accountRec.add("Account name", account.getNumber());
 		accountRec.add("Account Type", getAccountTypeString(account.getType()));
 		list.add(accountRec);
 
@@ -295,9 +292,9 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		}
 		result.add(items);
 		ResultList accountItems = new ResultList("accountItems");
-		for (TransactionItem item : transItems) {
+		for (TransactionItem item : accountItem) {
 			Record itemRec = new Record(item);
-			itemRec.add("Name", item.getItem().getName());
+			itemRec.add("Name", item.getAccount().getName());
 			itemRec.add("Total", item.getLineTotal());
 			itemRec.add("VatCode", item.getVATfraction());
 			items.add(itemRec);
