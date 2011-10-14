@@ -527,6 +527,7 @@ public abstract class AbstractCommand extends Command {
 			}
 			memo = input;
 			req.setValue(memo);
+			context.setAttribute(INPUT_ATTR, "optional");
 		}
 
 		if (selection == memo) {
@@ -535,7 +536,7 @@ public abstract class AbstractCommand extends Command {
 		}
 
 		Record memoRecord = new Record(memo);
-		memoRecord.add("", "Memo");
+		memoRecord.add("", name);
 		memoRecord.add("", memo);
 		list.add(memoRecord);
 		return null;
@@ -553,6 +554,7 @@ public abstract class AbstractCommand extends Command {
 			}
 			number = input;
 			req.setValue(number);
+			context.setAttribute(INPUT_ATTR, "optional");
 		}
 
 		if (selection == number) {
