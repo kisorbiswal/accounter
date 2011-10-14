@@ -94,6 +94,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		if (items != null && items.size() > 0) {
 			for (Item item : items) {
 				TransactionItem transactionItem = new TransactionItem();
+				transactionItem.setType(TransactionItem.TYPE_ITEM);
 				transactionItem.setItem(item);
 				if (getTransactionType() == VENDOR_TRANSACTION) {
 					transactionItem.setUnitPrice(item.getPurchasePrice());
@@ -120,6 +121,16 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 				transactionItems.add(transactionItem);
 				if (transactionItem.getUnitPrice() == 0) {
 					context.putSelection(ITEM_DETAILS, "unitPrice");
+					Result transactionItemResult = transactionItem(context,
+							transactionItem);
+					if (transactionItemResult != null) {
+						return transactionItemResult;
+					}
+				} else if (context.getCompany().getPreferences().isTrackTax()
+						&& context.getCompany().getPreferences()
+								.isTaxPerDetailLine()
+						&& transactionItem.getTaxCode() == null) {
+					context.putSelection(ITEM_DETAILS, "taxCode");
 					Result transactionItemResult = transactionItem(context,
 							transactionItem);
 					if (transactionItemResult != null) {
@@ -254,7 +265,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		list.add(record);
 
 		Company company = context.getCompany();
-		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+		if (company.getPreferences().isTrackTax()
+				&& company.getPreferences().isTaxPerDetailLine()) {
 			record = new Record("taxCode");
 			record.add("", "VatCode");
 			record.add("", transactionItem.getTaxCode().getName());
@@ -1089,6 +1101,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		if (accounts != null && accounts.size() > 0) {
 			for (Account account : accounts) {
 				TransactionItem transactionItem = new TransactionItem();
+				transactionItem.setType(TransactionItem.TYPE_ACCOUNT);
 				transactionItem.setAccount(account);
 				List<TransactionItem> transactionItems = transItemsReq
 						.getValue();
