@@ -156,6 +156,7 @@ public abstract class AbstractCommand extends Command {
 			}
 			dueDate = date;
 			req.setValue(dueDate);
+			context.setAttribute(INPUT_ATTR, "optional");
 		}
 		if (selection != null) {
 			if (selection == name) {
