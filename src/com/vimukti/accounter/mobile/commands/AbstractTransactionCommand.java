@@ -591,27 +591,27 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	protected Result billToRequirement(Context context, ResultList list,
 			Object selection) {
-		Requirement req = get("billTo");
+		Requirement req = get("address");
 		Address billTo = (Address) req.getValue();
 
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("billTo")) {
-			Address input = context.getSelection("address");
-			if (input == null) {
-				input = context.getAddress();
+		// String attribute = (String) context.getAttribute(INPUT_ATTR);
+		// if (attribute.equals("billTo")) {
+		// Address input = context.getSelection("address");
+		// if (input == null) {
+		// input = context.getAddress();
+		// }
+		// billTo = input;
+		// req.setValue(billTo);
+		// }
+		if (selection != null)
+			if (selection == "Bill To") {
+				context.setAttribute(INPUT_ATTR, "billTo");
+				return address(context, "Bill To", "address", billTo);
 			}
-			billTo = input;
-			req.setValue(billTo);
-		}
-
-		if (selection == billTo) {
-			context.setAttribute(INPUT_ATTR, "billTo");
-			return address(context, "Bill to Address", "billTo", billTo);
-		}
-
-		Record billToRecord = new Record(billTo);
+		billTo = req.getValue();
+		Record billToRecord = new Record("Bill To");
 		billToRecord.add("Name", "Bill To");
-		billToRecord.add("Value", billTo.toString());
+		billToRecord.add("Value", billTo == null ? "" : billTo.toString());
 		list.add(billToRecord);
 		return null;
 	}
