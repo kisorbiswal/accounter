@@ -178,8 +178,7 @@ public class CashExpenseView extends
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button, Accounter.messages().accounts(
-				Global.get().Account()), Accounter.constants()
+		setMenuItems(button, Global.get().Accounts(), Accounter.constants()
 				.productOrServiceItem());
 	}
 

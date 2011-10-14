@@ -133,9 +133,8 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button,
-				Accounter.messages().accounts(Global.get().Account()),
-				Accounter.constants().productOrServiceItem());
+		setMenuItems(button, Global.get().Accounts(), Accounter.constants()
+				.productOrServiceItem());
 	}
 
 	protected void initVendors() {
@@ -548,9 +547,9 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	protected TextItem createCheckNumberItem(String title) {
 
 		final TextItem checkNo = new TextItem(title);
-		checkNo.setToolTip(Accounter.messages()
-				.giveNoTo(this.getAction().getViewName())
-				.replace(Accounter.constants().no(), title));
+		checkNo.setToolTip(Accounter.messages().giveNoTo(
+				this.getAction().getViewName()).replace(
+				Accounter.constants().no(), title));
 		checkNo.setHelpInformation(true);
 		checkNo.setDisabled(isInViewMode());
 		// checkNo.setShowDisabled(false);
@@ -629,8 +628,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	protected void onAddNew(String menuItem) {
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
 		long defaultTaxCode = getCompany().getPreferences().getDefaultTaxCode();
-		if (menuItem.equals(Accounter.messages().accounts(
-				Global.get().Account()))) {
+		if (menuItem.equals(Global.get().Accounts())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 
 			transactionItem.setTaxCode(getVendor() != null ? (getVendor()

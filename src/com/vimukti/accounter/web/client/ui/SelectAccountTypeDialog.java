@@ -47,7 +47,7 @@ public class SelectAccountTypeDialog extends BaseDialog<ClientAccount> {
 		incomeAndExpenseForm = new DynamicForm();
 		incomeAndExpenseForm.setIsGroup(true);
 		incomeAndExpenseForm.setGroupTitle(Accounter.messages()
-				.incomeAndExpenseAccounts(Global.get().Account()));
+				.incomeAndExpenseAccounts(Global.get().Accounts()));
 		// incomeAndExpenseForm.setWrapItemTitles(false);
 		// incomeAndExpenseForm.setItemLayout(FormLayoutType.ABSOLUTE);
 		// incomeAndExpenseForm.setMargin(10);

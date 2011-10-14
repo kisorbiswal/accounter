@@ -153,7 +153,7 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 			public void onClick(ClickEvent event) {
 				if (checkBox.isChecked()) {
 					String accountsToAssign = Accounter.messages()
-							.selectAccountsToAssign(Global.get().Account());
+							.selectAccountsToAssign(Global.get().Accounts());
 					final SelectItemsTo1099Dialog<ClientAccount> selectItemsTo1099Dialog = new SelectItemsTo1099Dialog<ClientAccount>(
 							accountsToAssign, accountsToAssign);
 					ArrayList<ClientAccount> selectedAccounts = new ArrayList<ClientAccount>();

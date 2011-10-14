@@ -751,7 +751,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		bankingListMenuBar.addItem(ActionFactory
 				.getPaymentsAction(PaymentsAction.BANKING));
 		ChartOfAccountsAction chartOfAccountsAction = new ChartOfAccountsAction(
-				Accounter.messages().bankAccounts(Global.get().Account()),
+				Accounter.messages().bankAccounts(Global.get().Accounts()),
 				ClientAccount.TYPE_BANK);
 		bankingListMenuBar.addItem(chartOfAccountsAction);
 		return bankingListMenuBar;
@@ -966,7 +966,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			public void execute() {
 				AccountMergeDialog accountMergeDialog = new AccountMergeDialog(
 						Accounter.messages().mergeAccounts(
-								Global.get().Account()), Accounter.messages()
+								Global.get().Accounts()), Accounter.messages()
 								.mergeDescription(Global.get().account()));
 				accountMergeDialog.show();
 			}
@@ -1074,7 +1074,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 				Accounter.messages().mergeVendors(Global.get().Vendor()),
 				getMergeVendorCommand());
 		mergeAccountsMenuBar.addItem(
-				Accounter.messages().mergeAccounts(Global.get().Account()),
+				Accounter.messages().mergeAccounts(Global.get().Accounts()),
 				getMergeAccountCommand());
 		mergeAccountsMenuBar.addItem(Accounter.constants().mergeItems(),
 				getMergeItemCommand());

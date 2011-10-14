@@ -177,7 +177,7 @@ public class ConversionBalancesView extends BaseView {
 		removeZeroBalance.setDisabled(isInViewMode());
 		showAllAccounts = new LabelItem();
 		showAllAccounts.setValue(Accounter.messages().showAllAccounts(
-				Global.get().Account()));
+				Global.get().Accounts()));
 		showAllAccounts.addStyleName("falseHyperlink");
 		showAllAccounts.setShowTitle(false);
 		showAllAccounts.setDisabled(isInViewMode());

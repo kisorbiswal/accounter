@@ -85,7 +85,7 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 		// trackingNo.setText(accounterConstants.no());
 		// trackingTimeDes.setHTML(accounterConstants.timetrackingdescription());
 		managingInfo.setHTML(Accounter.messages().billstrackingdescription(
-				Global.get().account()));
+				Global.get().Accounts().toLowerCase()));
 		// track_time_head.setText(accounterMessages.trackingtimehead());
 
 	}

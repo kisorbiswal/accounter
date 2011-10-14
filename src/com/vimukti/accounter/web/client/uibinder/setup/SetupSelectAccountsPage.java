@@ -70,7 +70,8 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 	@Override
 	protected void createControls() {
 		headerLabel.setText(Accounter.messages()
-				.reviewIncomeAndExpensesAccounts(Global.get().account()));
+				.reviewIncomeAndExpensesAccounts(
+						Global.get().Accounts().toLowerCase()));
 
 		expensesInfo.setText(accounterConstants.doyouWantToUseStatements());
 		recommendedInfo.setHTML(accounterMessages.recommendedAccounts());

@@ -8,7 +8,7 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 	@Override
 	public String getHeader() {
 		return this.accounterMessages.reviewIncomeAndExpensesAccounts(Global
-				.get().account());
+				.get().Accounts().toLowerCase());
 	}
 
 	@Override

@@ -14,7 +14,7 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 
 	String[] keys = { Accounter.constants().grossProfit(),
 			Accounter.constants().netProfit(),
-			Accounter.messages().bankAccounts(Global.get().Account()) };
+			Accounter.messages().bankAccounts(Global.get().Accounts()) };
 
 	Map<Integer, Integer> colsMap = new HashMap<Integer, Integer>();
 	private Double rowTotal = 0.0;

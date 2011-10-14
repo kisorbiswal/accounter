@@ -489,8 +489,9 @@ public class WriteChequeView extends
 			Double transactionTotal = ((ClientWriteCheck) transaction)
 					.getTotal();
 			if (transactionTotal != null) {
-				amtText.setAmount(getAmountInTransactionCurrency(transactionTotal
-						.doubleValue()));
+				amtText
+						.setAmount(getAmountInTransactionCurrency(transactionTotal
+								.doubleValue()));
 			}
 
 		}
@@ -517,24 +518,24 @@ public class WriteChequeView extends
 		// FIXME Need to validate grids.
 		if (transactionVendorAccountTable.getAllRows().isEmpty()
 				&& transactionVendorItemTable.getAllRows().isEmpty()) {
-			result.addError(transactionVendorAccountTable,
-					accounterConstants.blankTransaction());
+			result.addError(transactionVendorAccountTable, accounterConstants
+					.blankTransaction());
 		} else {
 			result.add(transactionVendorAccountTable.validateGrid());
 			result.add(transactionVendorItemTable.validateGrid());
 		}
 
 		if (!validateAmount()) {
-			result.addError(memoTextAreaItem,
-					accounterConstants.transactiontotalcannotbe0orlessthan0());
+			result.addError(memoTextAreaItem, accounterConstants
+					.transactiontotalcannotbe0orlessthan0());
 		}
 
 		if (isTrackTax()) {
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect,
-							accounterConstants.enterTaxCode());
+					result.addError(taxCodeSelect, accounterConstants
+							.enterTaxCode());
 				}
 
 			}
@@ -1227,8 +1228,7 @@ public class WriteChequeView extends
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
 		if (payee != null) {
 			if (payee.getType() == ClientWriteCheck.TYPE_CUSTOMER) {
-				if (item.equals(Accounter.messages().accounts(
-						Global.get().Account()))) {
+				if (item.equals(Global.get().Accounts())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 				} else if (item.equals(Accounter.constants()
 						.productOrServiceItem())) {
@@ -1244,8 +1244,7 @@ public class WriteChequeView extends
 				// transactionCustomerTable.add(transactionItem);
 			} else if (payee.getType() == ClientWriteCheck.TYPE_VENDOR
 					|| payee.getType() == ClientWriteCheck.TYPE_TAX_AGENCY) {
-				if (item.equals(Accounter.messages().accounts(
-						Global.get().Account()))) {
+				if (item.equals(Global.get().Accounts())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 				} else if (item.equals(Accounter.constants()
 						.productOrServiceItem())) {
@@ -1256,8 +1255,7 @@ public class WriteChequeView extends
 				// transactionVendorTable.add(transactionItem);
 			}
 		} else {
-			if (item.equals(Accounter.messages().accounts(
-					Global.get().Account()))) {
+			if (item.equals(Global.get().Accounts())) {
 				transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 			} else if (item
 					.equals(Accounter.constants().productOrServiceItem())) {
@@ -1408,7 +1406,8 @@ public class WriteChequeView extends
 									.getNetAmount()));
 					vatTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal() - transaction.getNetAmount()));
+									.getTotal()
+									- transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 					if (taxCode != null) {
@@ -1433,12 +1432,12 @@ public class WriteChequeView extends
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
-		vendorAccountsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ACCOUNT, true));
-		vendorItemsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ITEM, false));
+		vendorAccountsDisclosurePanel.setOpen(checkOpen(transaction
+				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
+				true));
+		vendorItemsDisclosurePanel
+				.setOpen(checkOpen(transaction.getTransactionItems(),
+						ClientTransactionItem.TYPE_ITEM, false));
 	}
 
 	@Override

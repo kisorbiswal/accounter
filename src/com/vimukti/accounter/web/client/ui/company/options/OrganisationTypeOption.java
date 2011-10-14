@@ -82,7 +82,8 @@ public class OrganisationTypeOption extends AbstractPreferenceOption {
 		other = new RadioButton(constants.organisation(), constants.otherNone());
 
 		Label organizeText = new Label(Accounter.messages()
-				.howIsYourCompanyOrganizedDesc(Global.get().account()));
+				.howIsYourCompanyOrganizedDesc(
+						Global.get().Accounts().toLowerCase()));
 		Label uninCorporated = new Label(constants.soleProprietorshipDesc());
 		Label morePartners = new Label(constants.partnershipOrLLPDesc());
 		Label lLCText = new Label(constants.LLCDesc());

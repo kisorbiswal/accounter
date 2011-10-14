@@ -38,8 +38,7 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 	}
 
 	private void createControls() {
-		accountsCombo = new FixedAssetAccountCombo(Accounter.messages()
-				.accounts(Global.get().Account()));
+		accountsCombo = new FixedAssetAccountCombo(Global.get().Accounts());
 		accountsCombo.setGrid(this);
 		accountsCombo.setRequired(true);
 		accountsCombo

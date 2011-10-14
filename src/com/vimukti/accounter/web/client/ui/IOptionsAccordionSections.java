@@ -45,20 +45,20 @@ public interface IOptionsAccordionSections {
 	final String CUSTOMER_FIND_CUSTOMER_REFUNDS = Accounter.messages()
 			.customerRefunds(Global.get().customer());
 
-	final String VENDORS = Global.get().messages()
-			.vendors(Global.get().Vendor());
-	final String VENDORS_HOME = Global.get().messages()
-			.vendorHome(Global.get().Vendor());
-	final String VENDORS_NEW_VENDOR = Global.get().messages()
-			.newVendor(Global.get().Vendor());
+	final String VENDORS = Global.get().messages().vendors(
+			Global.get().Vendor());
+	final String VENDORS_HOME = Global.get().messages().vendorHome(
+			Global.get().Vendor());
+	final String VENDORS_NEW_VENDOR = Global.get().messages().newVendor(
+			Global.get().Vendor());
 	final String VENDORS_NEW_ITEM = constants.newProduct();
 	final String VENDORS_ENTER_BILLS = constants.enterBills();
 	final String VENDORS_PAY_BILLS = constants.payBills();
 	final String VENDORS_NEW_CASH_PURCHASE = constants.newCashPurchase();
 	final String VENDORS_ISSUE_PAYMENT = constants.issuePayment();
 	final String VENDORS_NEW_CREDIT_MEMO = constants.newCredit();
-	final String VENDORS_FIND_VENDORS = Global.get().messages()
-			.vendors(Global.get().Vendor());
+	final String VENDORS_FIND_VENDORS = Global.get().messages().vendors(
+			Global.get().Vendor());
 	final String VENDORS_FIND_ITEMS = constants.products();
 	final String VENDORS_FIND_BILLS = constants.bills();
 	final String VENDORS_FIND_VENDOR_PAYMENTS = Global.get().messages()
@@ -74,7 +74,7 @@ public interface IOptionsAccordionSections {
 	final String BANKING_PAY_BILLS = constants.payBills();
 	final String BANKING_CREDITCARD_CHARGE = constants.creditCardCharge();
 	final String BANKING_FIND_CHART_OF_ACCOUNTS = Accounter.messages()
-			.chartOfAccounts(Global.get().Account());
+			.chartOfAccounts(Global.get().Accounts());
 	final String BANKING_FIND_PAYMENTS = constants.payments();
 
 	final String START_NEW_TASK = constants.startanewTask();

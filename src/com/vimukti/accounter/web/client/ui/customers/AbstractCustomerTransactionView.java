@@ -288,8 +288,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button, Accounter.messages().accounts(
-				Global.get().Account()), Accounter.constants()
+		setMenuItems(button, Global.get().Accounts(), Accounter.constants()
 				.productOrServiceItem());
 		// FinanceApplication.constants().salesTax());
 		// FinanceApplication.constants().comment(),
@@ -829,7 +828,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	// }
 	protected void onAddNew(String item) {
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
-		if (item.equals(Accounter.messages().accounts(Global.get().Account()))) {
+		if (item.equals(Global.get().Accounts())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 			long ztaxCodeid = getPreferences().getDefaultTaxCode();
 			transactionItem

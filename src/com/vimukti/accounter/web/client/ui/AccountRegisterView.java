@@ -125,7 +125,9 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 		DynamicForm form = new DynamicForm();
 
 		form.setIsGroup(true);
-		form.setGroupTitle(Accounter.messages().account(Global.get().account()));
+		form
+				.setGroupTitle(Accounter.messages().account(
+						Global.get().account()));
 		form.setFields(bankAccSelect);
 		form.setWidth("100%");
 
@@ -239,7 +241,7 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 					public void onException(AccounterException caught) {
 						Accounter.showError(Accounter.messages()
 								.failedtoGetListofAccounts(
-										Global.get().account())
+										Global.get().Accounts().toLowerCase())
 
 								+ takenaccount.getName());
 

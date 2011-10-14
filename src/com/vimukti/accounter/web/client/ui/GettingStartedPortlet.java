@@ -43,9 +43,9 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 		vendor = getAnchor(Accounter.messages().vendors(Global.get().Vendor()));
 		inviteUser = getAnchor(Accounter.constants().inviteOtherUser());
 		createBankAcc = getAnchor(Accounter.messages()
-				.createanyadditionalbankaccounts(Global.get().account()));
-		accounts = getAnchor(Accounter.messages().accounts(
-				Global.get().Account()));
+				.createanyadditionalbankaccounts(
+						Global.get().Accounts().toLowerCase()));
+		accounts = getAnchor(Global.get().Accounts());
 		// minHtml = new HTML(
 		// "<p>Now you are ready to start using Accounter on a regular basis to record and report on normal business transcations. There is <a href='http://help.accounter.com'><font color='green'>full online help</font></a> and tips on each screen in Accounter if you need it. It's really up to you what you do next.</p><ul><li>Add "
 		// + accountReceivable
@@ -197,14 +197,12 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 				else if (title.equals(Accounter.constants().inviteOtherUser())) {
 					if (Accounter.getUser().isCanDoUserManagement())
 						ActionFactory.getInviteUserAction().run(null, true);
-				} else if (title
-						.equals(Accounter.messages()
-								.createanyadditionalbankaccounts(
-										Global.get().account()))) {
+				} else if (title.equals(Accounter.messages()
+						.createanyadditionalbankaccounts(
+								Global.get().Accounts().toLowerCase()))) {
 					if (Accounter.getUser().canDoBanking())
 						ActionFactory.getNewBankAccountAction().run(null, true);
-				} else if (title.equals(Accounter.messages().accounts(
-						Global.get().Account()))) {
+				} else if (title.equals(Global.get().Accounts())) {
 					if (Accounter.getUser().canSeeInvoiceTransactions())
 						ActionFactory.getChartOfAccountsAction()
 								.run(null, true);

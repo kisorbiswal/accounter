@@ -42,6 +42,7 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 
 	@Override
 	public Result run(Context context) {
+		setOptionalFields();
 		Result reportResult = clickOnRecord(context);
 		if (reportResult != null) {
 			return reportResult;
@@ -530,4 +531,25 @@ public abstract class AbstractReportCommand<T> extends AbstractCommand {
 
 		return record.getTransactionType();
 	}
+
+	protected void setOptionalFields() {
+
+	}
+
+	protected void setDefaultDateRange() {
+
+	}
+
+	protected void setDefaultFromDate() {
+
+	}
+
+	protected void setDefaultToDate() {
+
+	}
+
+	protected void setDefaultTaxAgency() {
+
+	}
+
 }

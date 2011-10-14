@@ -4939,4 +4939,6 @@ public interface AccounterConstants extends Constants {
 	public String depositAndAccountFromShouldNotBeSame();
 
 	public String amountToUseMustLessthanTotalCredits();
+
+	public String Ledgers();
 }

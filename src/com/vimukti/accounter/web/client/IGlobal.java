@@ -28,4 +28,6 @@ public interface IGlobal {
 
 	public String toCurrencyFormat(double amount);
 
+	public String Accounts();
+
 }

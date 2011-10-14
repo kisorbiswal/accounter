@@ -76,6 +76,21 @@ public abstract class AbstractGlobal implements IGlobal {
 	}
 
 	@Override
+	public String Accounts() {
+		int referCustomers = preferences().getReferAccounts();
+		switch (referCustomers) {
+		case ClientAccount.ACCOUNT:
+			return constants().Accounts().trim();
+		case ClientAccount.LEGAND:
+			return constants().Ledgers().trim();
+		case ClientAccount.CATEGORY:
+			return constants().Categories().trim();
+		default:
+			return constants().Accounts().trim();
+		}
+	}
+
+	@Override
 	public String account() {
 		int referCustomers = preferences().getReferAccounts();
 		switch (referCustomers) {

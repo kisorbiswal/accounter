@@ -39,7 +39,8 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 		mainPanel = new VerticalPanel();
 
 		billsdescription = new HTML(Accounter.messages()
-				.billstrackingdescription(Global.get().account()));
+.billstrackingdescription(
+						Global.get().Accounts().toLowerCase()));
 		billsmanageCashflowHtml1 = new HTML(Accounter.messages()
 				.billstrackingmanageCashflowStep1(Global.get().vendor()));
 		billsmanageCashflowHtml2 = new HTML(

@@ -282,7 +282,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 		disclosurePanel = new DisclosurePanel(Accounter.messages()
 				.setupVendorsAndAccounts(Global.get().Vendor(),
-						Global.get().Account()));
+						Global.get().Accounts()));
 		disclosurePanel.setOpen(true);
 
 		setVendorsPanel = new HorizontalPanel();
@@ -344,7 +344,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		});
 
 		changeAccountsHtml = new HTML(Accounter.messages().changeAccounts(
-				Global.get().Account()));
+				Global.get().Accounts()));
 		changeAccountsHtml.addClickHandler(new ClickHandler() {
 
 			@Override

@@ -30,29 +30,30 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 	public VerticalPanel getPageBody() {
 		VerticalPanel viewContainer = new VerticalPanel();
 
-		soleProprietorshipRadio = new RadioButton(ORG_TYPE,
-				accounterConstants.soleProprietorship());
-		partnershipRadio = new RadioButton(ORG_TYPE,
-				accounterConstants.partnershipOrLLP());
+		soleProprietorshipRadio = new RadioButton(ORG_TYPE, accounterConstants
+				.soleProprietorship());
+		partnershipRadio = new RadioButton(ORG_TYPE, accounterConstants
+				.partnershipOrLLP());
 		llcRadio = new RadioButton(ORG_TYPE, accounterConstants.LLC());
-		corporationRadio = new RadioButton(ORG_TYPE,
-				accounterConstants.corporation());
-		sCorporationRadio = new RadioButton(ORG_TYPE,
-				accounterConstants.sCorporation());
-		nonProfitRadio = new RadioButton(ORG_TYPE,
-				accounterConstants.nonProfit());
-		otherNoneRadio = new RadioButton(ORG_TYPE,
-				accounterConstants.otherNone());
+		corporationRadio = new RadioButton(ORG_TYPE, accounterConstants
+				.corporation());
+		sCorporationRadio = new RadioButton(ORG_TYPE, accounterConstants
+				.sCorporation());
+		nonProfitRadio = new RadioButton(ORG_TYPE, accounterConstants
+				.nonProfit());
+		otherNoneRadio = new RadioButton(ORG_TYPE, accounterConstants
+				.otherNone());
 
 		CustomLabel headerDesc = new CustomLabel(Accounter.messages()
-				.howIsYourCompanyOrganizedDesc(Global.get().account()));
-		soleProprietorshipLabel = new CustomLabel(
-				accounterConstants.soleProprietorshipDesc());
-		partnershipLabel = new CustomLabel(
-				accounterConstants.partnershipOrLLPDesc());
+				.howIsYourCompanyOrganizedDesc(
+						Global.get().Accounts().toLowerCase()));
+		soleProprietorshipLabel = new CustomLabel(accounterConstants
+				.soleProprietorshipDesc());
+		partnershipLabel = new CustomLabel(accounterConstants
+				.partnershipOrLLPDesc());
 		llcLabel = new CustomLabel(accounterConstants.LLCDesc());
-		sCorporationLabel = new CustomLabel(
-				accounterConstants.sCorporationDesc());
+		sCorporationLabel = new CustomLabel(accounterConstants
+				.sCorporationDesc());
 		corporationLabel = new CustomLabel(accounterConstants.corporationDesc());
 		nonProfitLabel = new CustomLabel(accounterConstants.nonProfitDesc());
 

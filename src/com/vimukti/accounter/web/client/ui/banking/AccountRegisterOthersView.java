@@ -69,8 +69,8 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 		for (int i = 0; i < dateRangeArray.length; i++) {
 			listOfDateRanges.add(dateRangeArray[i]);
 		}
-//		if (UIUtils.isMSIEBrowser())
-//			showTransactionSelect.setWidth("120px");
+		// if (UIUtils.isMSIEBrowser())
+		// showTransactionSelect.setWidth("120px");
 		showTransactionSelect.initCombo(listOfDateRanges);
 		showTransactionSelect.setComboItem(dateRangeArray[0]);
 		showTransactionSelect
@@ -153,8 +153,8 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 				.equals(Accounter.constants().last30Days())
 				&& selectedOption.equals(Accounter.constants().last30Days())) {
 			selectedDateRange = Accounter.constants().last30Days();
-			startDate = new ClientFinanceDate(todaydate.getYear(),
-					todaydate.getMonth() - 1, todaydate.getDay());
+			startDate = new ClientFinanceDate(todaydate.getYear(), todaydate
+					.getMonth() - 1, todaydate.getDay());
 			endDate = todaydate;
 
 		} else if (!selectedDateRange
@@ -162,8 +162,8 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 				&& selectedOption.equals(Accounter.constants().last45Days())) {
 
 			selectedDateRange = Accounter.constants().last45Days();
-			startDate = new ClientFinanceDate(todaydate.getYear(),
-					todaydate.getMonth() - 2, todaydate.getDay() + 16);
+			startDate = new ClientFinanceDate(todaydate.getYear(), todaydate
+					.getMonth() - 2, todaydate.getDay() + 16);
 			endDate = todaydate;
 		}
 		accountSelected(takenaccount);
@@ -211,7 +211,7 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 					public void onException(AccounterException caught) {
 						Accounter.showError(Accounter.messages()
 								.failedtoGetListofAccounts(
-										Global.get().account())
+										Global.get().Accounts().toLowerCase())
 								+ takenaccount.getName());
 
 					}

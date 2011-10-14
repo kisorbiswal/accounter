@@ -1236,7 +1236,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		accountsreceivablecombo.setWidth(150);
 		// accountsreceivablecombo.setWrapTitle(false);
 		accountsPayablecombo = new OtherAccountsCombo(Accounter.messages()
-				.accountsPayable(Global.get().Account()));
+				.accountsPayable(Global.get().Accounts()));
 		accountsPayablecombo.initCombo(accounts);
 		accountsPayablecombo.setWidth(150);
 		// accountsPayablecombo.setWrapTitle(false);
@@ -1293,7 +1293,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		writeOffAccountCombo.initCombo(accounts);
 		writeOffAccountCombo.setWidth(150);
 		defaultCashCombo = new OtherAccountsCombo(Accounter.messages()
-				.defaultAccounts(Global.get().Account()));
+				.defaultAccounts(Global.get().Accounts()));
 
 		defaultCashCombo.initCombo(accounts);
 		defaultCashCombo.setWidth(150);

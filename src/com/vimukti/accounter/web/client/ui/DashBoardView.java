@@ -71,7 +71,7 @@ public class DashBoardView extends BaseHomeView {
 				.gettingStartedusingAccounter());
 
 		bankingPortlet = new BankingPortlet(Accounter.messages().bankAccounts(
-				Global.get().Account()));
+				Global.get().Accounts()));
 		moneyComingPortlet = new MoneyComingPortlet(Accounter.constants()
 				.moneyComingIn());
 		moneyGoingPortlet = new MoneyGoingPortlet(Accounter.constants()

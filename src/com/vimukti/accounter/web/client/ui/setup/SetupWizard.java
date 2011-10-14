@@ -32,7 +32,7 @@ public class SetupWizard extends VerticalPanel {
 			new SetupIndustrySelectionPage(),
 			new SetupOrganisationSelectionPage(),
 			new SetupReferPage(),
-	
+
 			/* new SetupTrackEmployeesPage(), */new SetupSellTypeAndSalesTaxPage(),
 			new SetupUsingEstimatesAndStatementsPage(),
 			new SetupCurrencyPage(), new SetupTrackBillsAndTimePage(),
@@ -57,7 +57,8 @@ public class SetupWizard extends VerticalPanel {
 			Accounter.constants().setCurrency(),
 			Accounter.constants().setBillTracking(),
 			Accounter.constants().setFiscalYear(),
-			Accounter.messages().selectRequiredAccounts(Global.get().Account()) };
+			Accounter.messages()
+					.selectRequiredAccounts(Global.get().Accounts()) };
 	private AbstractSetupPage previousView;
 	private AbstractSetupPage viewToShow;
 	private int progressImagesIndex;
@@ -113,10 +114,10 @@ public class SetupWizard extends VerticalPanel {
 		viewPanel.addStyleName("view_panel");
 		viewButtonPanel.setSize("100%", "100%");
 		topPanel.setSize("100%", "100%");
-		progressPanel.getElement().getParentElement()
-				.addClassName("progress_panel");
-		viewButtonPanel.getElement().getParentElement()
-				.addClassName("view_button");
+		progressPanel.getElement().getParentElement().addClassName(
+				"progress_panel");
+		viewButtonPanel.getElement().getParentElement().addClassName(
+				"view_button");
 		topPanel.setCellHorizontalAlignment(progressPanel,
 				HasAlignment.ALIGN_RIGHT);
 

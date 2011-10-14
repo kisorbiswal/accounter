@@ -308,8 +308,6 @@ public interface AccounterMessages extends Messages {
 
 	public String accounterCategoryList(String accounterCategoryList);
 
-	public String accounts(String accountsString);
-
 	public String accountsPayable(String accountsPayableString);
 
 	public String addBankAccount(String addBankAccount);
@@ -721,6 +719,8 @@ public interface AccounterMessages extends Messages {
 	public String vendorFrom(String vendorFrom);
 
 	public String notMove(String customer);
+
+	public String notMoveAccount(String account, String accounts);
 
 	public String accountTo(String account);
 
