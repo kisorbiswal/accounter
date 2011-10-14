@@ -155,16 +155,17 @@ public class Context {
 					int parseInt = Integer.parseInt(string);
 					integers.add(parseInt);
 					numbers.add(parseInt);
-				} else if (StringUtils.isDouble(string)) {
+				}
+				if (StringUtils.isDouble(string)) {
 					double parseInt = Double.parseDouble(string);
 					doubles.add(parseInt);
 					numbers.add(parseInt);
-				} else if (StringUtils.isDate(string)) {
+				}
+				if (StringUtils.isDate(string)) {
 					Date d = new Date(string);
 					dates.add(d);
-				} else {
-					strings.add(string);
 				}
+				strings.add(string);
 			}
 			this.attributes.put("numbers", numbers);
 			this.attributes.put("integers", integers);
