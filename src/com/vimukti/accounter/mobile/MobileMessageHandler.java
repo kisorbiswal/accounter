@@ -4,6 +4,7 @@
 package com.vimukti.accounter.mobile;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import org.hibernate.Query;
@@ -13,6 +14,7 @@ import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.mobile.MobileAdaptor.AdaptorType;
 import com.vimukti.accounter.utils.HibernateUtil;
 
@@ -74,7 +76,7 @@ public class MobileMessageHandler {
 
 	private void processWithOutAuthenticationForTest(MobileSession session,
 			Session hibernateSession, String userId) {
-
+		ServerLocal.set(Locale.ENGLISH);
 		Query namedQuery = hibernateSession
 				.getNamedQuery("getClient.by.mailId");
 		namedQuery.setParameter("emailId", userId);

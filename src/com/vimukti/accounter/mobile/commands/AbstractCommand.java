@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -15,6 +16,7 @@ import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Vendor;
+import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Command;
 import com.vimukti.accounter.mobile.CommandList;
@@ -24,6 +26,8 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.IGlobal;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 public abstract class AbstractCommand extends Command {
@@ -68,6 +72,18 @@ public abstract class AbstractCommand extends Command {
 
 	private static final String REQUIREMENT_NAME = "requirmentName";
 	private static final String ADDRESS_ACTIONS = "addressActions";
+
+	private IGlobal global;
+	private AccounterConstants constants;
+
+	public AbstractCommand() {
+		try {
+			global = new ServerGlobal();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		constants = global.constants();
+	}
 
 	protected Company getCompany() {
 		return null;
@@ -924,5 +940,9 @@ public abstract class AbstractCommand extends Command {
 		isActiveRecord.add(":", activeString);
 		list.add(isActiveRecord);
 		return null;
+	}
+
+	protected AccounterConstants getConstants() {
+		return constants;
 	}
 }
