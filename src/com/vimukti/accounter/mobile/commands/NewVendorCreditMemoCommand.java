@@ -127,7 +127,6 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 				return result;
 			}
 		}
-		selection = context.getSelection("values");
 		ResultList list = new ResultList("values");
 
 		Requirement supplierReq = get(SUPPLIER);
@@ -135,7 +134,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 
 		selection = context.getSelection("values");
 		if (supplier == selection) {
-			return createSupplierRequirement(context);
+			return vendors(context);
 		}
 
 		Record supplierRecord = new Record(supplier);
