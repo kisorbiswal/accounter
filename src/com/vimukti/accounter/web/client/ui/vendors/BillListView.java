@@ -125,8 +125,8 @@ public class BillListView extends BaseListView<BillsList> {
 		listOfTypes.add(Accounter.constants().all());
 		currentView.initCombo(listOfTypes);
 
-//		if (UIUtils.isMSIEBrowser())
-//			currentView.setWidth("150px");
+		// if (UIUtils.isMSIEBrowser())
+		// currentView.setWidth("150px");
 
 		if (this.viewType != null && !viewType.equals(""))
 			currentView.setComboItem(viewType);
@@ -153,12 +153,9 @@ public class BillListView extends BaseListView<BillsList> {
 			ArrayList<BillsList> openRecs = new ArrayList<BillsList>();
 			List<BillsList> allRecs = initialRecords;
 			for (BillsList rec : allRecs) {
-				if ((rec.getType() == ClientTransaction.TYPE_CREDIT_CARD_EXPENSE
-						|| rec.getType() == ClientTransaction.TYPE_CASH_EXPENSE || rec
-						.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
-						|| ((rec.getType() == ClientTransaction.TYPE_ENTER_BILL || rec
-								.getType() == ClientTransaction.TYPE_VENDOR_CREDIT_MEMO) && DecimalUtil
-								.isGreaterThan(rec.getBalance(), 0))) {
+				if ((rec.getType() == ClientTransaction.TYPE_ENTER_BILL || rec
+						.getType() == ClientTransaction.TYPE_VENDOR_CREDIT_MEMO)
+						&& DecimalUtil.isGreaterThan(rec.getBalance(), 0)) {
 					if (!rec.isDeleted() && !rec.isVoided())
 						openRecs.add(rec);
 				}
