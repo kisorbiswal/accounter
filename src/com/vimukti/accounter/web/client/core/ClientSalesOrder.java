@@ -337,7 +337,7 @@ public class ClientSalesOrder extends ClientTransaction {
 	public ClientSalesOrder clone() {
 		ClientSalesOrder salesOrder = (ClientSalesOrder) this.clone();
 
-		salesOrder.creditsAndPayments = this.creditsAndPayments.clone();
+//		salesOrder.creditsAndPayments = this.creditsAndPayments.clone();
 		salesOrder.contact = this.contact.clone();
 		salesOrder.billingAddress = this.billingAddress.clone();
 		salesOrder.shippingAdress = this.shippingAdress.clone();

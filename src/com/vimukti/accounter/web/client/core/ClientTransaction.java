@@ -94,7 +94,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	List<ClientTransactionIssuePayment> transactionIssuePayment;
 	List<ClientTransactionPaySalesTax> transactionPaySalesTax;
 
-	ClientCreditsAndPayments creditsAndPayments;
+//	ClientCreditsAndPayments creditsAndPayments;
 
 	List<ClientEntry> entry;
 
@@ -174,14 +174,14 @@ public abstract class ClientTransaction implements IAccounterCore {
 		transactionItems = new ArrayList<ClientTransactionItem>();
 	}
 
-	public ClientCreditsAndPayments getCreditsAndPayments() {
-		return creditsAndPayments;
-	}
-
-	public void setCreditsAndPayments(
-			ClientCreditsAndPayments creditsAndPayments) {
-		this.creditsAndPayments = creditsAndPayments;
-	}
+//	public ClientCreditsAndPayments getCreditsAndPayments() {
+//		return creditsAndPayments;
+//	}
+//
+//	public void setCreditsAndPayments(
+//			ClientCreditsAndPayments creditsAndPayments) {
+//		this.creditsAndPayments = creditsAndPayments;
+//	}
 
 	public double getAllLineTotal() {
 		return subTotal;

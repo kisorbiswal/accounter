@@ -241,7 +241,7 @@ public class ClientVATReturn extends ClientTransaction {
 		}
 		vatReturn.transactionPaySalesTax = transactionPaySalesTax;
 
-		vatReturn.creditsAndPayments = this.creditsAndPayments.clone();
+//		vatReturn.creditsAndPayments = this.creditsAndPayments.clone();
 
 		return vatReturn;
 	}

@@ -151,7 +151,7 @@ public class ClientTransferFund extends ClientTransaction {
 		}
 		taxAdjustment.transactionPaySalesTax = transactionPaySalesTax;
 
-		taxAdjustment.creditsAndPayments = this.creditsAndPayments.clone();
+//		taxAdjustment.creditsAndPayments = this.creditsAndPayments.clone();
 
 		return taxAdjustment;
 	}

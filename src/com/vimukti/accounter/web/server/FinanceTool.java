@@ -1867,7 +1867,7 @@ public class FinanceTool {
 		}
 
 		// reset credits and payments
-		clone.setCreditsAndPayments(null);
+		// clone.setCreditsAndPayments(null);
 		clone.setTransactionMakeDeposit(new ArrayList<ClientTransactionMakeDeposit>());
 		clone.setTransactionPayBill(new ArrayList<ClientTransactionPayBill>());
 		clone.setTransactionReceivePayment(new ArrayList<ClientTransactionReceivePayment>());
