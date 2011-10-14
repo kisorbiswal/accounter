@@ -8,7 +8,7 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Payee;
-import com.vimukti.accounter.core.TAXCode;
+import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.Vendor;
@@ -20,19 +20,14 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.client.core.Utility;
 
 public class WriteCheckCommand extends AbstractTransactionCommand {
 
 	private static final String PAYEE = "payee";
-	private static final String ACCOUNTS = "accounts";
 	private static final String ITEMS = "items";
-	private static final String BANK_ACCOUNTS = "bankAccounts";
+	private static final String BANK_ACCOUNT = "bankAccount";
 	private static final String AMOUNT = "amount";
-	private static final String DATE = "date";
-	private static final String NUMBER = "number";
-	private static final String BILL_TO = "billTo";
-	private static final String MEMO = "memo";
+	private static final String WRITE_CHECK_NUMBER = "number";
 
 	@Override
 	public String getId() {
@@ -42,16 +37,7 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new Requirement(PAYEE, false, true));
-		list.add(new ObjectListRequirement(ACCOUNTS, false, true) {
-
-			@Override
-			public void addRequirements(List<Requirement> list) {
-				list.add(new Requirement("name", false, true));
-				list.add(new Requirement("desc", true, true));
-				list.add(new Requirement("quantity", true, true));
-				list.add(new Requirement("price", true, true));
-			}
-		});
+		list.add(new Requirement(BANK_ACCOUNT, false, true));
 		list.add(new ObjectListRequirement(ITEMS, false, true) {
 
 			@Override
@@ -63,20 +49,47 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 				list.add(new Requirement("vatCode", true, true));
 			}
 		});
-		list.add(new Requirement(BANK_ACCOUNTS, false, true));
+		list.add(new ObjectListRequirement(ACCOUNTS, false, true) {
+
+			@Override
+			public void addRequirements(List<Requirement> list) {
+				list.add(new Requirement("name", false, true));
+				list.add(new Requirement("desc", true, true));
+				list.add(new Requirement("quantity", true, true));
+				list.add(new Requirement("price", true, true));
+			}
+		});
+		list.add(new Requirement("date", true, true));
+		list.add(new Requirement(WRITE_CHECK_NUMBER, true, false));
 		list.add(new Requirement(AMOUNT, true, true));
-		list.add(new Requirement(DATE, true, true));
-		list.add(new Requirement(NUMBER, true, false));
-		list.add(new Requirement(BILL_TO, true, true));
+		list.add(new ObjectListRequirement(BILL_TO, true, true) {
+			@Override
+			public void addRequirements(List<Requirement> list) {
+				list.add(new Requirement("address1", false, true));
+				list.add(new Requirement("city", true, true));
+				list.add(new Requirement("street", true, true));
+				list.add(new Requirement("stateOrProvinence", true, true));
+				list.add(new Requirement("countryOrRegion", true, true));
+			}
+		});
 		list.add(new Requirement(MEMO, true, true));
 	}
 
 	@Override
 	public Result run(Context context) {
 		String process = (String) context.getAttribute(PROCESS_ATTR);
+		if (context.getAttribute(INPUT_ATTR) == null) {
+			context.setAttribute(INPUT_ATTR, "optional");
+		}
+
 		Result result = null;
 		if (process != null) {
-			if (process.equals(TRANSACTION_ITEM_PROCESS)) {
+			if (process.equals(ADDRESS_PROCESS)) {
+				result = addressProcess(context);
+				if (result != null) {
+					return result;
+				}
+			} else if (process.equals(TRANSACTION_ITEM_PROCESS)) {
 				result = transactionItemProcess(context);
 				if (result != null) {
 					return result;
@@ -88,6 +101,7 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 				}
 			}
 		}
+
 		result = payeeRequirement(context);
 		if (result != null) {
 			return result;
@@ -98,32 +112,17 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		//result = accountsRequirement(context);
-		if (result != null) {
-			return result;
-		}
-
 		result = itemsRequirement(context);
 		if (result != null) {
 			return result;
 		}
 
-		Company company = context.getCompany();
-		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-			Requirement taxReq = get("tax");
-			TAXCode taxcode = context.getSelection(TAXCODE);
-			if (!taxReq.isDone()) {
-				if (taxcode != null) {
-					taxReq.setValue(taxcode);
-				} else {
-					return taxCode(context, null);
-				}
-			}
-			if (taxcode != null) {
-				taxReq.setValue(taxcode);
-			}
+		result = accountsRequirement(context, ACCOUNTS, null);
+		if (result != null) {
+			return result;
 		}
 
+		setDefaultValues();
 		result = createOptionalResult(context);
 		if (result != null) {
 			return result;
@@ -133,33 +132,51 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 		return result;
 	}
 
+	private void setDefaultValues() {
+		get("date").setDefaultValue(new Date());
+		get(WRITE_CHECK_NUMBER).setDefaultValue(1);
+		get(BILL_TO).setDefaultValue(" ");
+		get(AMOUNT).setDefaultValue(0.0);
+		get(MEMO).setDefaultValue(" ");
+
+	}
+
 	private void completeProcess(Context context) {
 
 		Company company = context.getCompany();
 		WriteCheck writeCheck = new WriteCheck();
+		writeCheck.setCompany(company);
 		Payee payee = (Payee) get(PAYEE).getValue();
 		if (payee.getType() == Payee.TYPE_CUSTOMER) {
 			writeCheck.setCustomer((Customer) payee);
-		} else {
+		} else if (payee.getType() == Payee.TYPE_VENDOR) {
 			writeCheck.setVendor((Vendor) payee);
+		} else {
+			writeCheck.setTaxAgency((TAXAgency) payee);
 		}
-		Date date = get(DATE).getValue();
+
+		Account bankAccount = get(BANK_ACCOUNT).getValue();
+		writeCheck.setBankAccount(bankAccount);
+
+		Date date = get("date").getValue();
 		writeCheck.setDate(new FinanceDate(date));
+
+		Integer number = get(WRITE_CHECK_NUMBER).getValue();
+		writeCheck.setNumber(String.valueOf(number));
+
+		Double amount = get(AMOUNT).getValue();
+		writeCheck.setAmount(amount);
 
 		writeCheck.setType(Transaction.TYPE_WRITE_CHECK);
 
-		String number = get(NUMBER).getValue();
-		writeCheck.setNumber(number);
-
 		List<TransactionItem> items = get(ITEMS).getValue();
+		if (get("accounts") != null) {
+			List<TransactionItem> accounts = get("accounts").getValue();
+			items.addAll(accounts);
+		}
 		writeCheck.setTransactionItems(items);
 
 		writeCheck.setTotal(getTransactionTotal(items, company));
-
-		Account bankAccount = get(BANK_ACCOUNTS).getValue();
-		writeCheck.setBankAccount(bankAccount);
-		Double amount = get(AMOUNT).getValue();
-		writeCheck.setAmount(amount);
 
 		String memo = get(MEMO).getValue();
 		writeCheck.setMemo(memo);
@@ -168,14 +185,13 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 	}
 
 	private Result createOptionalResult(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
 
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
 			ActionNames actionName = (ActionNames) selection;
 			switch (actionName) {
 			case ADD_MORE_ACCOUNTS:
-				return null;
+				return accounts(context, ACCOUNTS, null);
 			case ADD_MORE_ITEMS:
 				return items(context);
 			case FINISH:
@@ -185,62 +201,90 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 				break;
 			}
 		}
-		Requirement accountReq = get("accounts");
-		List<TransactionItem> itemsList = accountReq.getValue();
 
-		selection = context.getSelection("transactionItems");
-		if (selection != null) {
-			Result result = transactionItem(context,
-					(TransactionItem) selection);
-			if (result != null) {
-				return result;
-			}
-		}
-
-		Requirement itemReq = get("items");
-		List<TransactionItem> accountsList = itemReq.getValue();
-
-		selection = context.getSelection("transactionItems");
-		if (selection != null) {
-			Result result = transactionItem(context,
-					(TransactionItem) selection);
-			if (result != null) {
-				return result;
-			}
-		}
-
-		selection = context.getSelection("values");
 		ResultList list = new ResultList("values");
 
-		Requirement payeeReq = get("payee");
+		Requirement itemReq = get(ITEMS);
+		List<TransactionItem> transItems = itemReq.getValue();
+
+		selection = context.getSelection("transactionItems");
+		if (selection != null) {
+			Result result = transactionItem(context,
+					(TransactionItem) selection);
+			if (result != null) {
+				return result;
+			}
+		}
+		Requirement accountReq = get("accounts");
+		List<TransactionItem> accountTransItems = accountReq.getValue();
+
+		selection = context.getSelection("accountItems");
+		if (selection != null) {
+			Result result = transactionItem(context,
+					(TransactionItem) selection);
+			if (result != null) {
+				return result;
+			}
+		}
+
+		Requirement payeeReq = get(PAYEE);
 		Payee payee = (Payee) payeeReq.getValue();
+
+		selection = context.getSelection("values");
+		if (payee == selection) {
+			return payeeRequirement(context);
+		}
+
 		Record payeeRecord = new Record(payee);
 		payeeRecord.add("Name", "Payee");
 		payeeRecord.add("Value", payee.getName());
 
 		list.add(payeeRecord);
 
-		Result result = writeCheckDateRequirement(context, list, selection);
+		Requirement bankReq = get(BANK_ACCOUNT);
+		Account account1 = bankReq.getValue();
+		selection = context.getSelection("values");
+
+		Record bankRecord = new Record(account1);
+		bankRecord.add("Name", BANK_ACCOUNT);
+		bankRecord.add("Value", account1.getName());
+		list.add(bankRecord);
+
+		Requirement numberReq = get(WRITE_CHECK_NUMBER);
+		Integer number = numberReq.getValue();
+
+		selection = context.getSelection("values");
+
+		Record numberRec = new Record(number);
+		numberRec.add("Number", WRITE_CHECK_NUMBER);
+		numberRec.add("Value", number);
+		list.add(numberRec);
+
+		Result result = dateOptionalRequirement(context, list, "date",
+				"Enter WriteCheck Date :-", selection);
 		if (result != null) {
 			return result;
 		}
 
-		result = writeCheckNoRequirement(context, list, selection);
+		result = numberOptionalRequirement(context, list, selection,
+				WRITE_CHECK_NUMBER, "Enter WriteCheck Number :- ");
 		if (result != null) {
 			return result;
 		}
 
-		result = billToRequirement(context, list, selection);
+		// result = billToRequirement(context, list, selection);
 		if (result != null) {
 			return result;
 		}
 
-		result = stringOptionalRequirement(context, list, selection, "memo",
+		result = amountOptionalRequirement(context, list, selection, AMOUNT,
+				"Add Amount");
+		if (result != null) {
+			return result;
+		}
+
+		result = stringOptionalRequirement(context, list, selection, MEMO,
 				"Add a memo");
-		if (result != null) {
-			return result;
-		}
-		result = amountRequirment(context, list, selection);
 		if (result != null) {
 			return result;
 		}
@@ -248,30 +292,34 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 		result.add("WriteCheck is ready to create with following values.");
 		result.add(list);
 
-		result.add("Accounts:-");
-		ResultList accounts = new ResultList("transactionItems");
-		for (TransactionItem account : accountsList) {
-			Record accountRec = new Record(account);
-			accountRec.add("Name", account.getAccount().getName());
-			accountRec.add("Total", account.getLineTotal());
-			accountRec.add("Type",
-					Utility.getAccountTypeString(account.getType()));
-		}
-		result.add(accounts);
 		result.add("Items:-");
-		ResultList items = new ResultList("transactionItems");
-		for (TransactionItem item : itemsList) {
+		ResultList items = new ResultList("items");
+		for (TransactionItem item : transItems) {
 			Record itemRec = new Record(item);
 			itemRec.add("Name", item.getItem().getName());
 			itemRec.add("Total", item.getLineTotal());
 			itemRec.add("VatCode", item.getVATfraction());
+			items.add(itemRec);
 		}
 		result.add(items);
+
+		result.add("Accounts:-");
+		ResultList accounts = new ResultList("accountItems");
+		for (TransactionItem item : accountTransItems) {
+			Record accountRec = new Record(item);
+			accountRec.add("Name", item.getAccount().getName());
+			accounts.add(accountRec);
+		}
+		result.add(accounts);
 
 		ResultList actions = new ResultList(ACTIONS);
 		Record moreItems = new Record(ActionNames.ADD_MORE_ITEMS);
 		moreItems.add("", "Add more items");
 		actions.add(moreItems);
+
+		Record moreAccounts = new Record(ActionNames.ADD_MORE_ACCOUNTS);
+		moreAccounts.add("", "Add more Accounts");
+		actions.add(moreAccounts);
 		Record finish = new Record(ActionNames.FINISH);
 		finish.add("", "Finish to create WriteCheck.");
 		actions.add(finish);
@@ -279,81 +327,22 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 
 		return result;
 	}
+	// private Result writeCheckNoRequirement(Context context, ResultList list,
+	// Object selection, String requirement) {
+	// Requirement numberReq = get(WRITE_CHECK_NUMBER);
+	// if (numberReq.isDone())
+	// return null;
+	// String attribute = (String) context.getAttribute(INPUT_ATTR);
+	// if (attribute.equals(WRITE_CHECK_NUMBER)) {
+	// Integer num = context.getInteger();
+	// if (num != null) {
+	// numberReq.setValue(num);
+	// }
+	// } else {
+	// context.setAttribute(INPUT_ATTR, WRITE_CHECK_NUMBER);
+	// return number(context, "Please Enter WriteCheck number ", null);
+	// }
+	// return null;
+	// }
 
-	private Result amountRequirment(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get("amount");
-		Double amount = req.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("amount")) {
-			Double input = context.getSelection(TEXT);
-			if (input == null) {
-				input = context.getDouble();
-			}
-			amount = input;
-			req.setValue(amount);
-		}
-		if (selection == amount) {
-			context.setAttribute(attribute, "amount");
-			return amount(context, "Enter WirteCheck Amount", amount);
-		}
-		Record amountRecord = new Record(amount);
-		amountRecord.add("Name", "amount");
-		amountRecord.add("Value", amount);
-		list.add(amountRecord);
-		return null;
-	}
-
-	private Result writeCheckNoRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get("number");
-		String writeCheckNo = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("writeCheckNo")) {
-			String order = context.getSelection(NUMBER);
-			if (order == null) {
-				order = context.getString();
-			}
-			writeCheckNo = order;
-			req.setValue(writeCheckNo);
-		}
-
-		if (selection == writeCheckNo) {
-			context.setAttribute(INPUT_ATTR, "writeCheckNo");
-			return number(context, "Enter WriteCheck number", writeCheckNo);
-		}
-
-		Record writeCheckNoRec = new Record(writeCheckNo);
-		writeCheckNoRec.add("Name", "WriteCheck Number");
-		writeCheckNoRec.add("Value", writeCheckNo);
-		list.add(writeCheckNoRec);
-		return null;
-	}
-
-	private Result writeCheckDateRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement dateReq = get("date");
-		Date transDate = (Date) dateReq.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("writeCheckDate")) {
-			Date date = context.getSelection(DATE);
-			if (date == null) {
-				date = context.getDate();
-			}
-			transDate = date;
-			dateReq.setValue(transDate);
-		}
-		if (selection == transDate) {
-			context.setAttribute(INPUT_ATTR, "writeCheckDate");
-			return date(context, "Enter WriteCheck Date", transDate);
-		}
-
-		Record transDateRecord = new Record(transDate);
-		transDateRecord.add("Name", "WriteCheck Date");
-		transDateRecord.add("Value", transDate.toString());
-		list.add(transDateRecord);
-		return null;
-	}
 }
