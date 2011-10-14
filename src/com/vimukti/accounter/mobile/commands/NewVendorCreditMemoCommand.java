@@ -42,7 +42,17 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 				list.add(new Requirement("vatCode", true, true));
 			}
 		});
+		list.add(new ObjectListRequirement("accounts", false, true) {
 
+			@Override
+			public void addRequirements(List<Requirement> list) {
+				list.add(new Requirement("name", false, true));
+				list.add(new Requirement("desc", true, true));
+				list.add(new Requirement("amount", false, true));
+				list.add(new Requirement("discount", true, true));
+				list.add(new Requirement("vatCode", true, true));
+			}
+		});
 		list.add(new Requirement(DATE, true, true));
 		list.add(new Requirement(NUMBER, true, false));
 		list.add(new Requirement(CONTACT, true, true));
@@ -74,6 +84,10 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 			return result;
 		}
 		result = itemsRequirement(context);
+		if (result != null) {
+			return result;
+		}
+		result = accountsRequirement(context, "accounts");
 		if (result != null) {
 			return result;
 		}
@@ -127,6 +141,17 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 				return result;
 			}
 		}
+		Requirement accountsReq = get("accounts");
+		List<TransactionItem> accountTransItems = accountsReq.getValue();
+		selection = context.getSelection("accountItems");
+		if (selection != null) {
+			Result result = transactionAccountItem(context,
+					(TransactionItem) selection);
+			if (result != null) {
+				return result;
+			}
+		}
+
 		ResultList list = new ResultList("values");
 
 		Requirement supplierReq = get(SUPPLIER);
@@ -183,10 +208,21 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		}
 		result.add(items);
 
+		ResultList accountItems = new ResultList("accountItems");
+		for (TransactionItem item : accountTransItems) {
+			Record itemRec = new Record(item);
+			itemRec.add("Name", item.getAccount().getName());
+			accountItems.add(itemRec);
+		}
+		result.add(accountItems);
+
 		ResultList actions = new ResultList(ACTIONS);
 		Record moreItems = new Record(ActionNames.ADD_MORE_ITEMS);
 		moreItems.add("", "Add more items");
 		actions.add(moreItems);
+		Record moreAccItems = new Record(ActionNames.ADD_MORE_ITEMS);
+		moreAccItems.add("", "Add more Accounts");
+		actions.add(moreAccItems);
 		Record finish = new Record(ActionNames.FINISH);
 		finish.add("", "Finish to create Supplier Credit.");
 		actions.add(finish);
