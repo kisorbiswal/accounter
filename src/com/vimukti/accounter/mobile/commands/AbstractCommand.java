@@ -580,12 +580,12 @@ public abstract class AbstractCommand extends Command {
 			context.setAttribute(INPUT_ATTR, "optional");
 		}
 		if (selection != null)
-			if (selection == memo) {
+			if (selection == name) {
 				context.setAttribute(INPUT_ATTR, name);
 				return text(context, displayName, memo);
 			}
 
-		Record memoRecord = new Record(memo);
+		Record memoRecord = new Record(name);
 		memoRecord.add("", name);
 		memoRecord.add("", memo);
 		list.add(memoRecord);
@@ -604,6 +604,7 @@ public abstract class AbstractCommand extends Command {
 			}
 			number = input;
 			req.setValue(number);
+			context.setAttribute(INPUT_ATTR, "optional");
 		}
 		if (selection != null)
 			if (selection == name) {
