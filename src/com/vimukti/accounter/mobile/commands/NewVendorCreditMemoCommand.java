@@ -76,6 +76,11 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 				if (result != null) {
 					return result;
 				}
+			} else if (process.equals(TRANSACTION_ACCOUNT_ITEM_PROCESS)) {
+				result = transactionAccountProcess(context);
+				if (result != null) {
+					return result;
+				}
 			}
 		}
 		setTransactionType(VENDOR_TRANSACTION);
