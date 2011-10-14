@@ -566,11 +566,11 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			contact = (Contact) contactObj;
 			contactReq.setValue(contact);
 		}
-		if (contact.equals(selection)) {
+		if (contact != null && contact.equals(selection)) {
 			return contactList(context, payee, contact);
 		}
 		Record contactRecord = new Record(contact);
-		if (contact.getName() != null) {
+		if (contact != null && contact.getName() != null) {
 			contactRecord.add("Customer Contact", contact.getName());
 		} else {
 			contactRecord.add("Customer Contact", "Customer Contact");
@@ -613,6 +613,11 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	}
 
+	protected Set<Account> getAccounts(Company company) {
+		return company.getAccounts();
+
+	}
+
 	protected List<Activity> getActivityList(Date fromDate, Date endDate) {
 		return null;
 	}
@@ -647,7 +652,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	protected Result paymentFrom(Context context, Account oldAccount) {
 		List<Account> accounts = new ArrayList<Account>();
-		List<Account> allAccounts = getAccounts(context.getCompany());
+		Set<Account> allAccounts = getAccounts(context.getCompany());
 
 		for (Account a : allAccounts) {
 			if (Arrays.asList(Account.TYPE_BANK,
@@ -769,7 +774,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			num++;
 		}
 
-		List<Account> transferAccountList = getAccounts(context.getCompany());
+		Set<Account> transferAccountList = getAccounts(context.getCompany());
 		for (Account account : transferAccountList) {
 			if (account != last) {
 				list.add(createAccountRecord(account));
@@ -787,13 +792,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		CommandList commands = new CommandList();
 		commands.add("Create New Account");
 		return result;
-	}
-
-	private List<Account> getAccounts(Company company) {
-		FinanceTool financeTool = new FinanceTool();
-		return null;// financeTool.getAccountsListBySorted(company.getAccountingType(),
-		// company.getID());
-
 	}
 
 	protected Record createAccountRecord(Account last) {
@@ -1030,40 +1028,45 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	protected Result accountsRequirement(Context context,
 			String requiremenrtLabel) {
-		Requirement itemsReq = get(requiremenrtLabel);
-		List<TransactionItem> transactionItems = context
-				.getSelections(requiremenrtLabel);
-		if (!itemsReq.isDone()) {
-			if (transactionItems.size() > 0) {
-				itemsReq.setValue(transactionItems);
-			} else {
-				return accountItems(context, requiremenrtLabel);
-			}
+		Requirement transItemsReq = get(requiremenrtLabel);
+		List<Account> accounts = context.getSelections(requiremenrtLabel);
+		List<TransactionItem> transactionItems = transItemsReq.getValue();
+		if (transactionItems == null) {
+			transactionItems = new ArrayList<TransactionItem>();
 		}
-		if (transactionItems != null && transactionItems.size() > 0) {
-			List<TransactionItem> items = itemsReq.getValue();
-			items.addAll(transactionItems);
+
+		if (accounts != null && accounts.size() > 0) {
+			for (Account item : accounts) {
+				TransactionItem transactionItem = new TransactionItem();
+				transactionItem.setAccount(item);
+				transactionItems.add(transactionItem);
+			}
+			transItemsReq.setValue(transactionItems);
+		}
+
+		if (!transItemsReq.isDone()) {
+			return accountItems(context, requiremenrtLabel);
 		}
 		return null;
 	}
 
 	protected Result accountItems(Context context, String label) {
 		Result result = context.makeResult();
-		Set<Item> items = getItems(context.getCompany());
+		Set<Account> accounts = getAccounts(context.getCompany());
 		ResultList list = new ResultList(label);
 		Object last = context.getLast(RequirementType.ACCOUNT);
 		int num = 0;
 		if (last != null) {
-			list.add(creatAccountItemRecord((Item) last));
+			list.add(creatAccountItemRecord((Account) last));
 			num++;
 		}
 		Requirement itemsReq = get(label);
 		List<TransactionItem> transItems = itemsReq.getValue();
-		List<Item> availableItems = new ArrayList<Item>();
+		List<Account> availableItems = new ArrayList<Account>();
 		for (TransactionItem transactionItem : transItems) {
-			availableItems.add(transactionItem.getItem());
+			availableItems.add(transactionItem.getAccount());
 		}
-		for (Item item : items) {
+		for (Account item : accounts) {
 			if (item != last || !availableItems.contains(item)) {
 				list.add(creatAccountItemRecord(item));
 				num++;
@@ -1085,9 +1088,10 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return result;
 	}
 
-	private Record creatAccountItemRecord(Item last) {
+	private Record creatAccountItemRecord(Account last) {
 		Record record = new Record(last);
 		record.add("Account Name", last.getName());
+		record.add("Current Balance", last.getCurrentBalance());
 		record.add("Account Type", getAccountTypeString(last.getType()));
 		return record;
 	}
