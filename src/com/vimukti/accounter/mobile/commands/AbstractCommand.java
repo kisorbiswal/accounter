@@ -156,7 +156,6 @@ public abstract class AbstractCommand extends Command {
 			}
 			dueDate = date;
 			req.setValue(dueDate);
-			context.setAttribute(INPUT_ATTR, "optional");
 		}
 		if (selection != null) {
 			if (selection == name) {
@@ -538,7 +537,6 @@ public abstract class AbstractCommand extends Command {
 		Record memoRecord = new Record(memo);
 		memoRecord.add("", "Memo");
 		memoRecord.add("", memo);
-		// memoRecord.add("Value", memo);
 		list.add(memoRecord);
 		return null;
 	}
@@ -549,7 +547,7 @@ public abstract class AbstractCommand extends Command {
 		String number = (String) req.getValue();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals(name)) {
-			String input = context.getInteger().toString();
+			String input = context.getNumber();
 			if (input == null) {
 				input = context.getString();
 			}
@@ -694,7 +692,8 @@ public abstract class AbstractCommand extends Command {
 		}
 		result.add(list);
 		Record more = new Record("MORE");
-
+		more.add("", "MORE");
+		list.add(more);
 		return result;
 	}
 
