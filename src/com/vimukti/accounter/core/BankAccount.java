@@ -73,6 +73,9 @@ public class BankAccount extends Account {
 
 	@Override
 	public boolean equals(Account account) {
+		if (!(account instanceof BankAccount)) {
+			return false;
+		}
 		BankAccount bankAccount = (BankAccount) account;
 		if (super.equals(account)
 				&& this.bankAccountType == bankAccount.bankAccountType
