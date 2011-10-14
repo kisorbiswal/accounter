@@ -219,21 +219,25 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 		ResultList list = new ResultList(ITEM_DETAILS);
 		Record record = new Record("quantity");
-		record.add("Quantity", transactionItem.getQuantity());
+		record.add("", "Quantity");
+		record.add("", transactionItem.getQuantity());
 		list.add(record);
 
 		record = new Record("unitPrice");
-		record.add("Unit Price", transactionItem.getUnitPrice());
+		record.add("", "Unit Price");
+		record.add("", transactionItem.getUnitPrice());
 		list.add(record);
 
 		record = new Record("discount");
-		record.add("Discount %", transactionItem.getDiscount());
+		record.add("", "Discount %");
+		record.add("", transactionItem.getDiscount());
 		list.add(record);
 
 		Company company = context.getCompany();
 		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 			record = new Record("taxCode");
-			record.add("VatCode", transactionItem.getTaxCode().getName());
+			record.add("", "VatCode");
+			record.add("", transactionItem.getTaxCode().getName());
 			list.add(record);
 		} else {
 			record = new Record("tax");
@@ -355,7 +359,11 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			}
 			list.add(record);
 		}
-
+		// TODO NEED TO CALCULATE LINE TOTAL
+		double lineTotal = transactionItem.getUnitPrice()
+				- ((transactionItem.getUnitPrice() * transactionItem
+						.getDiscount()) / 100);
+		transactionItem.setLineTotal(lineTotal);
 		Result result = context.makeResult();
 		result.add("Account details");
 		result.add("Account Name :" + transactionItem.getAccount().getName());
@@ -580,10 +588,11 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			return contactList(context, payee, contact);
 		}
 		Record contactRecord = new Record(contact);
+		contactRecord.add("", "Contact");
 		if (contact != null && contact.getName() != null) {
-			contactRecord.add("Customer Contact", contact.getName());
+			contactRecord.add("", contact.getName());
 		} else {
-			contactRecord.add("Customer Contact", "Customer Contact");
+			contactRecord.add("", "No contact");
 		}
 		list.add(contactRecord);
 		return null;
@@ -907,7 +916,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		}
 
 		Record cashSaleNoRec = new Record(phoneNo);
-		cashSaleNoRec.add("Phone Number", phoneNo);
+		cashSaleNoRec.add("", "Phone Number");
+		cashSaleNoRec.add("", phoneNo);
 		// cashSaleNoRec.add("Value", phoneNo);
 		list.add(cashSaleNoRec);
 		return null;
