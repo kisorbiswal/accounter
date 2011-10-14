@@ -9,6 +9,7 @@ import java.util.TimerTask;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
@@ -184,6 +185,7 @@ public class MobileSession {
 	 */
 	public void setCompanyID(long company) {
 		this.companyID = company;
+		AccounterThreadLocal.set(getUser());
 	}
 
 	/**
