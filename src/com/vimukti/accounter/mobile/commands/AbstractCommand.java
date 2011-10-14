@@ -200,6 +200,36 @@ public abstract class AbstractCommand extends Command {
 		return result;
 	}
 
+	protected Result numberRequirement(Context context, String reqName,
+			String displayString) {
+		Requirement customerNumReq = get(reqName);
+		String input = (String) context.getAttribute(INPUT_ATTR);
+		if (input.equals(reqName)) {
+			customerNumReq.setValue(context.getNumber());
+		}
+		if (!customerNumReq.isDone()) {
+			context.setAttribute(INPUT_ATTR, reqName);
+			return number(context, displayString, null);
+		}
+
+		return null;
+	}
+
+	protected Result nameRequirement(Context context, String reqName,
+			String displayString) {
+		Requirement requirement = get(reqName);
+		String input = (String) context.getAttribute(INPUT_ATTR);
+		if (input.equals(reqName)) {
+			input = context.getString();
+			requirement.setValue(input);
+		}
+		if (!requirement.isDone()) {
+			context.setAttribute(INPUT_ATTR, reqName);
+			return text(context, displayString, null);
+		}
+		return null;
+	}
+
 	protected Result addressProcess(Context context) {
 		String message = (String) context.getAttribute(ADDRESS_MESSAGE_ATTR);
 		Address address = (Address) context.getAttribute(OLD_ADDRESS_ATTR);
