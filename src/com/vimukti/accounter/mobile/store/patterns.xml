@@ -54,7 +54,7 @@
 	<pattern>
 		<input>Account</input>
 		<output>
-			<command>Create New Account</command>
+			<command>New Account</command>
 			<command>Edit Account</command>
 			<command>Accounts List</command>
 			<command>Delete Account</command>

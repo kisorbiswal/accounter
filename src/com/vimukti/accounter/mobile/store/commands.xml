@@ -22,7 +22,6 @@
 		<alias>Create Account</alias>
 		<alias>Add Account</alias>
 		<alias>New Account</alias>
-		<alias>Create</alias>
 	</command>
 	<command clazz="AccountsListCommand" name="New Account">
 		<alias>Accounts</alias>
