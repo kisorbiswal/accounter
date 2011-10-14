@@ -162,7 +162,6 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		get(BALANCE).setDefaultValue(Double.valueOf(0.0D));
 		get(CUSTOMER_SINCEDATE).setDefaultValue(new Date());
 		get(BALANCE_ASOF_DATE).setDefaultValue(new Date());
-
 	}
 
 	/*
@@ -351,90 +350,90 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		// if (result != null) {
 		// return result;
 		// }
-		// result = faxNumRequirement(context, list, selection);
-		// if (result != null) {
-		// return result;
-		// }
-		// result = emailRequirement(context, list, selection);
-		// if (result != null) {
-		// return result;
-		// }
-		// result = phoneNumRequirement(context, list, selection);
-		// if (result != null) {
-		// return result;
-		// }
-		// result = webAdressRequirement(context, list, selection);
+		result = faxNumRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+		result = emailRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+		result = phoneNumRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+		result = webAdressRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+
+		result = salesPersonRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+		// result = priceLevelRequirement(context, list, selection);
 		// if (result != null) {
 		// return result;
 		// }
 
-		// result = salesPersonRequirement(context, list, selection);
-		// if (result != null) {
-		// return result;
-		// }
-		// // result = priceLevelRequirement(context, list, selection);
-		// // if (result != null) {
-		// // return result;
-		// // }
-		//
-		// result = creditRatingRequirement(context, list, selection);
-		// if (result != null) {
-		// return result;
-		// }
-		// result = bankNameRequirement(context, list, selection);
-		// if (result != null) {
-		// return result;
-		// }
-		// result = bankAccountNumRequirement(context, list, selection);
-		// if (result != null) {
-		// return result;
-		// }
-		// result = bankBranchRequirement(context, list, selection);
-		// if (result != null) {
-		// return result;
-		// }
-		// if (company == ACCOUNTING_TYPE_UK || company == ACCOUNTING_TYPE_US) {
-		// result = paymentMethodRequirement(context, list, (String) selection);
-		// if (result != null) {
-		// return result;
-		// }
-		// }
-		// result = paymentTermRequirement(context, list, selection);
-		// if (result != null) {
-		// return result;
-		// }
-		// result = customerGroupRequirement(context, list, selection);
-		// if (result != null) {
-		// return result;
-		// }
-		// if (company == ACCOUNTING_TYPE_US) {
-		// result = vatRegisterationNumRequirement(context, list, selection);
-		// if (result != null) {
-		// return result;
-		// }
-		// }
+		result = creditRatingRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+		result = bankNameRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+		result = bankAccountNumRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+		result = bankBranchRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+		if (company == ACCOUNTING_TYPE_UK || company == ACCOUNTING_TYPE_US) {
+			result = paymentMethodRequirement(context, list, (String) selection);
+			if (result != null) {
+				return result;
+			}
+		}
+		result = paymentTermRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+		result = customerGroupRequirement(context, list, selection);
+		if (result != null) {
+			return result;
+		}
+		if (company == ACCOUNTING_TYPE_US) {
+			result = vatRegisterationNumRequirement(context, list, selection);
+			if (result != null) {
+				return result;
+			}
+		}
 		result = customerVatCodeRequirement(context, list, selection);
 		if (result != null) {
 			return result;
 		}
-		// if (company == ACCOUNTING_TYPE_INDIA) {
-		// result = panNumRequirement(context, list, selection);
-		// if (result != null) {
-		// return result;
-		// }
-		// result = cstNumRequirement(context, list, selection);
-		// if (result != null) {
-		// return result;
-		// }
-		// result = serviceTaxRequirement(context, list, selection);
-		// if (result != null) {
-		// return result;
-		// }
-		// result = tinNumRequirement(context, list, selection);
-		// if (result != null) {
-		// return result;
-		// }
-		// }
+		 if (company == ACCOUNTING_TYPE_INDIA) {
+		 result = panNumRequirement(context, list, selection);
+		 if (result != null) {
+		 return result;
+		 }
+		 result = cstNumRequirement(context, list, selection);
+		 if (result != null) {
+		 return result;
+		 }
+		 result = serviceTaxRequirement(context, list, selection);
+		 if (result != null) {
+		 return result;
+		 }
+		 result = tinNumRequirement(context, list, selection);
+		 if (result != null) {
+		 return result;
+		 }
+		 }
 
 		result = context.makeResult();
 		result.add("Customer is ready to create with following values.");
@@ -487,14 +486,14 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			tinNumber = order;
 			req.setValue(tinNumber);
 		}
+		if (selection != null)
+			if (selection == TIN_NUM) {
+				context.setAttribute(INPUT_ATTR, TIN_NUM);
+				return text(context, "Enter Taxpayer identification number",
+						tinNumber);
+			}
 
-		if (selection == tinNumber) {
-			context.setAttribute(INPUT_ATTR, TIN_NUM);
-			return text(context, "Enter Taxpayer identification number",
-					tinNumber);
-		}
-
-		Record tinNumRecord = new Record(tinNumber);
+		Record tinNumRecord = new Record(TIN_NUM);
 		tinNumRecord.add("Name", TIN_NUM);
 		tinNumRecord.add("Value", tinNumber);
 		list.add(tinNumRecord);
@@ -528,14 +527,14 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			serviceTaxNumber = order;
 			req.setValue(serviceTaxNumber);
 		}
+		if (selection != null)
+			if (selection == SERVICE_TAX_NUM) {
+				context.setAttribute(INPUT_ATTR, SERVICE_TAX_NUM);
+				return text(context, "Enter Service tax registration Number ",
+						serviceTaxNumber);
+			}
 
-		if (selection == serviceTaxNumber) {
-			context.setAttribute(INPUT_ATTR, SERVICE_TAX_NUM);
-			return text(context, "Enter Service tax registration Number ",
-					serviceTaxNumber);
-		}
-
-		Record serviceTaxRecord = new Record(serviceTaxNumber);
+		Record serviceTaxRecord = new Record(SERVICE_TAX_NUM);
 		serviceTaxRecord.add("Name", SERVICE_TAX_NUM);
 		serviceTaxRecord.add("Value", serviceTaxNumber);
 		list.add(serviceTaxRecord);
@@ -569,14 +568,14 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			cstNum = order;
 			req.setValue(cstNum);
 		}
+		if (selection != null)
+			if (selection == CST_NUM) {
+				context.setAttribute(INPUT_ATTR, CST_NUM);
+				return text(context, "Enter CST Number ", cstNum);
+			}
 
-		if (selection == cstNum) {
-			context.setAttribute(INPUT_ATTR, CST_NUM);
-			return text(context, "Enter CST Number ", cstNum);
-		}
-
-		Record cstNumRecord = new Record(cstNum);
-		cstNumRecord.add("Name", BANK_ACCOUNT_NUM);
+		Record cstNumRecord = new Record(CST_NUM);
+		cstNumRecord.add("Name", CST_NUM);
 		cstNumRecord.add("Value", cstNum);
 		list.add(cstNumRecord);
 
@@ -609,13 +608,13 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			panNumber = order;
 			req.setValue(panNumber);
 		}
+		if (selection != null)
+			if (selection == PAN_NUM) {
+				context.setAttribute(INPUT_ATTR, PAN_NUM);
+				return text(context, "Enter Personal Ledger number", panNumber);
+			}
 
-		if (selection == panNumber) {
-			context.setAttribute(INPUT_ATTR, PAN_NUM);
-			return text(context, "Enter Personal Ledger number", panNumber);
-		}
-
-		Record panNumRecord = new Record(panNumber);
+		Record panNumRecord = new Record(PAN_NUM);
 		panNumRecord.add("Name", PAN_NUM);
 		panNumRecord.add("Value", panNumber);
 		list.add(panNumRecord);
@@ -648,14 +647,14 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			vatRegisterationNum = order;
 			req.setValue(vatRegisterationNum);
 		}
+		if (selection != null)
+			if (selection == "vatRegisterationNum") {
+				context.setAttribute(INPUT_ATTR, VATREGISTER_NUM);
+				return text(context, "Enter vatRegisteration Number ",
+						vatRegisterationNum);
+			}
 
-		if (selection == vatRegisterationNum) {
-			context.setAttribute(INPUT_ATTR, VATREGISTER_NUM);
-			return text(context, "Enter vatRegisteration Number ",
-					vatRegisterationNum);
-		}
-
-		Record vatRegisterationNumRecord = new Record(vatRegisterationNum);
+		Record vatRegisterationNumRecord = new Record("vatRegisterationNum");
 		vatRegisterationNumRecord.add("Name", "vatRegisterationNum");
 		vatRegisterationNumRecord.add("Value", vatRegisterationNum);
 		list.add(vatRegisterationNumRecord);
@@ -980,14 +979,16 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			customerGroup = (CustomerGroup) customerGroupObj;
 			customerGroupReq.setValue(customerGroup);
 		}
-		if (selection == customerGroup) {
-			context.setAttribute(INPUT_ATTR, CUSTOMER_GROUP);
-			return customerGroups(context, customerGroup);
-		}
+		if (selection != null)
+			if (selection == CUSTOMER_GROUP) {
+				context.setAttribute(INPUT_ATTR, CUSTOMER_GROUP);
+				return customerGroups(context, customerGroup);
+			}
 
 		Record customerGroupRecord = new Record(CUSTOMER_GROUP);
 		customerGroupRecord.add("Name", CUSTOMER_GROUP);
-		customerGroupRecord.add("Value", customerGroup.getName());
+		customerGroupRecord.add("Value", customerGroup == null ? ""
+				: customerGroup.getName());
 		list.add(customerGroupRecord);
 
 		Result result = new Result();
@@ -1053,20 +1054,18 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		CreditRating creditRating = (CreditRating) creditRatingReq.getValue();
 		if (crediRatingObj != null) {
 			creditRating = (CreditRating) crediRatingObj;
-		}
-		if (selection == creditRating) {
-			context.setAttribute(INPUT_ATTR, CREDIT_RATING);
-			return creditRatings(context, creditRating);
-		}
-
-		if (crediRatingObj != null) {
-			creditRating = (CreditRating) crediRatingObj;
 			creditRatingReq.setValue(creditRating);
 		}
+		if (selection != null)
+			if (selection == CREDIT_RATING) {
+				context.setAttribute(INPUT_ATTR, CREDIT_RATING);
+				return creditRatings(context, creditRating);
+			}
 
-		Record priceLevelRecord = new Record(creditRating);
+		Record priceLevelRecord = new Record(CREDIT_RATING);
 		priceLevelRecord.add("Name", CREDIT_RATING);
-		priceLevelRecord.add("Value", creditRating.getName());
+		priceLevelRecord.add("Value",
+				creditRating == null ? "" : creditRating.getName());
 		list.add(priceLevelRecord);
 
 		Result result = new Result();
@@ -1138,15 +1137,16 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			priceLevel = (PriceLevel) priceLevelObj;
 			priceLevelReq.setValue(priceLevel);
 		}
+		if (selection != null)
+			if (selection == PRICE_LEVEL) {
+				context.setAttribute(INPUT_ATTR, PRICE_LEVEL);
+				return priceLevels(context, priceLevel);
+			}
 
-		if (selection == priceLevel) {
-			context.setAttribute(INPUT_ATTR, PRICE_LEVEL);
-			return priceLevels(context, priceLevel);
-		}
-
-		Record priceLevelRecord = new Record(priceLevel);
+		Record priceLevelRecord = new Record(PRICE_LEVEL);
 		priceLevelRecord.add("Name", PRICE_LEVEL);
-		priceLevelRecord.add("Value", priceLevel.getName());
+		priceLevelRecord.add("Value",
+				priceLevel == null ? "" : priceLevel.getName());
 		list.add(priceLevelRecord);
 
 		Result result = new Result();
@@ -1222,14 +1222,16 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 			salesPerson = (SalesPerson) salesPersonObj;
 			salesPersonReq.setValue(salesPerson);
 		}
-		if (selection == salesPerson) {
-			context.setAttribute(INPUT_ATTR, SALESPERSON);
-			return salesPersons(context, salesPerson);
-		}
+		if (selection != null)
+			if (selection == SALESPERSON) {
+				context.setAttribute(INPUT_ATTR, SALESPERSON);
+				return salesPersons(context, salesPerson);
+			}
 
-		Record salesPersonRecord = new Record(salesPerson);
+		Record salesPersonRecord = new Record(SALESPERSON);
 		salesPersonRecord.add("Name", SALESPERSON);
-		salesPersonRecord.add("Value", salesPerson.getName());
+		salesPersonRecord.add("Value",
+				salesPerson == null ? "" : salesPerson.getName());
 		list.add(salesPersonRecord);
 
 		Result result = new Result();
