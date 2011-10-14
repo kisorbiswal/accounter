@@ -2,7 +2,9 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -362,9 +364,9 @@ public abstract class AbstractCommand extends Command {
 				if (oldContact == null) {
 					oldContact = new Contact();
 					Requirement requirement = get(requirementName);
-					List<Contact> contacts = requirement.getValue();
+					Set<Contact> contacts = requirement.getValue();
 					if (contacts == null) {
-						contacts = new ArrayList<Contact>();
+						contacts = new HashSet<Contact>();
 						requirement.setValue(contacts);
 					}
 					contacts.add(oldContact);

@@ -143,7 +143,7 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		}
 		Requirement contactsReq = get(VAT_AGENCY_CONTACT);
 		if (contactsReq.getDefaultValue() == null) {
-			contactsReq.setDefaultValue(new ArrayList<Contact>());
+			contactsReq.setDefaultValue(new HashSet<Contact>());
 		}
 		Requirement addressReq = get(ADDRESS);
 		if (addressReq.getDefaultValue() == null) {
@@ -169,16 +169,18 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 
 	private Result createVatAgency(Context context) {
 		TAXAgency taxAgency = new TAXAgency();
+		taxAgency.setCompany(context.getCompany());
 		String name = get(NAME).getValue();
 		PaymentTerms paymentTerm = get(PAYMENT_TERM).getValue();
 		Account salesAccount = get(SALES_ACCOUNT).getValue();
+		salesAccount = (Account) context.getHibernateSession().merge(
+				salesAccount);
 		Address address = (Address) get(ADDRESS).getValue();
 		String phone = (String) get(PHONE).getValue();
 		String fax = (String) get(FAX).getValue();
 		String email = (String) get(EMAIL).getValue();
 		String website = (String) get(WEBSITE).getValue();
-		Set<Contact> contacts = (Set<Contact>) get(VAT_AGENCY_CONTACT)
-				.getValue();
+		Set<Contact> contacts = get(VAT_AGENCY_CONTACT).getValue();
 
 		HashSet<Address> addresses = new HashSet<Address>();
 		if (address != null) {
@@ -196,6 +198,8 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		taxAgency.setContacts(contacts);
 		if (getCompanyType(context) != ACCOUNTING_TYPE_US) {
 			Account purchaseAccount = get(PURCHASE_ACCOUNT).getValue();
+			purchaseAccount = (Account) context.getHibernateSession().merge(
+					purchaseAccount);
 			String vatReturn = get(VAT_RETURN).getValue();
 			taxAgency.setPurchaseLiabilityAccount(purchaseAccount);
 			if (vatReturn == "") {
@@ -206,6 +210,7 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 				taxAgency.setVATReturn(ClientTAXAgency.RETURN_TYPE_IRELAND_VAT);
 			}
 		}
+
 		create(taxAgency, context);
 
 		markDone();
@@ -335,7 +340,7 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		}
 
 		Requirement contactReq = get(VAT_AGENCY_CONTACT);
-		List<Contact> contacts = contactReq.getValue();
+		Set<Contact> contacts = contactReq.getValue();
 		selection = context.getSelection(VAT_AGENCY_CONTACT);
 		if (selection != null) {
 			Result contact = contact(context, "vat agency contact",
