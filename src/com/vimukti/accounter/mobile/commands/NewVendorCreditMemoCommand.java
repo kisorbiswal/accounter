@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.Date;
 import java.util.List;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.FinanceDate;
@@ -17,6 +18,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 	private static final String NUMBER = "number";
@@ -92,7 +94,29 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = accountsRequirement(context, "accounts");
+		result = accountsRequirement(context, "accounts",
+				new ListFilter<Account>() {
+
+					@Override
+					public boolean filter(Account account) {
+						if (account.getType() != Account.TYPE_CASH
+								&& account.getType() != Account.TYPE_BANK
+								&& account.getType() != Account.TYPE_INVENTORY_ASSET
+								&& account.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
+								&& account.getType() != Account.TYPE_ACCOUNT_PAYABLE
+								&& account.getType() != Account.TYPE_INCOME
+								&& account.getType() != Account.TYPE_OTHER_INCOME
+								&& account.getType() != Account.TYPE_OTHER_CURRENT_ASSET
+								&& account.getType() != Account.TYPE_OTHER_CURRENT_LIABILITY
+								&& account.getType() != Account.TYPE_OTHER_ASSET
+								&& account.getType() != Account.TYPE_EQUITY
+								&& account.getType() != Account.TYPE_LONG_TERM_LIABILITY) {
+							return true;
+						} else {
+							return false;
+						}
+					}
+				});
 		if (result != null) {
 			return result;
 		}
@@ -129,7 +153,28 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 			case ADD_MORE_ITEMS:
 				return items(context);
 			case ADD_MORE_ACCOUNTS:
-				return accounts(context, "accounts", false);
+				return accounts(context, "accounts", new ListFilter<Account>() {
+
+					@Override
+					public boolean filter(Account account) {
+						if (account.getType() != Account.TYPE_CASH
+								&& account.getType() != Account.TYPE_BANK
+								&& account.getType() != Account.TYPE_INVENTORY_ASSET
+								&& account.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
+								&& account.getType() != Account.TYPE_ACCOUNT_PAYABLE
+								&& account.getType() != Account.TYPE_INCOME
+								&& account.getType() != Account.TYPE_OTHER_INCOME
+								&& account.getType() != Account.TYPE_OTHER_CURRENT_ASSET
+								&& account.getType() != Account.TYPE_OTHER_CURRENT_LIABILITY
+								&& account.getType() != Account.TYPE_OTHER_ASSET
+								&& account.getType() != Account.TYPE_EQUITY
+								&& account.getType() != Account.TYPE_LONG_TERM_LIABILITY) {
+							return true;
+						} else {
+							return false;
+						}
+					}
+				});
 			case FINISH:
 				context.removeAttribute(INPUT_ATTR);
 				return null;
@@ -274,7 +319,6 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 
 		Date date = get(DATE).getValue();
 		vendorCreditMemo.setDate(new FinanceDate(date));
-
 		String number = get(NUMBER).getValue();
 		vendorCreditMemo.setNumber(number);
 
@@ -299,14 +343,14 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 				item.setTaxCode(taxCode);
 			}
 		}
-
+		vendorCreditMemo.setCompany(company);
 		Vendor supplier = get(SUPPLIER).getValue();
 		vendorCreditMemo.setVendor(supplier);
 
 		String memo = get(MEMO).getValue();
 		vendorCreditMemo.setMemo(memo);
 		vendorCreditMemo.setTotal(getTransactionTotal(items, company));
-		vendorCreditMemo.setCompany(company);
+
 		create(vendorCreditMemo, context);
 	}
 }
