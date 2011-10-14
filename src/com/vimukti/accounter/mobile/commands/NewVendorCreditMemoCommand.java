@@ -128,6 +128,8 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 			switch (actionName) {
 			case ADD_MORE_ITEMS:
 				return items(context);
+			case ADD_MORE_ACCOUNTS:
+				return accounts(context, "accounts", false);
 			case FINISH:
 				context.removeAttribute(INPUT_ATTR);
 				return null;
@@ -217,6 +219,9 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		for (TransactionItem item : accountTransItems) {
 			Record itemRec = new Record(item);
 			itemRec.add("Name", item.getAccount().getName());
+			itemRec.add("Amount", item.getUnitPrice());
+			itemRec.add("Discount", item.getDiscount());
+			itemRec.add("Total", item.getLineTotal());
 			accountItems.add(itemRec);
 		}
 		result.add(accountItems);
@@ -225,7 +230,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		Record moreItems = new Record(ActionNames.ADD_MORE_ITEMS);
 		moreItems.add("", "Add more items");
 		actions.add(moreItems);
-		Record moreAccItems = new Record(ActionNames.ADD_MORE_ITEMS);
+		Record moreAccItems = new Record(ActionNames.ADD_MORE_ACCOUNTS);
 		moreAccItems.add("", "Add more Accounts");
 		actions.add(moreAccItems);
 		Record finish = new Record(ActionNames.FINISH);
@@ -257,8 +262,8 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		}
 
 		Record creditNoteNoRec = new Record(creditnoteno);
-		// creditNoteNoRec.add("Name", "Credit Note No");
-		creditNoteNoRec.add("Credit Note No", creditnoteno);
+		creditNoteNoRec.add("", "Credit Note No");
+		creditNoteNoRec.add("", creditnoteno);
 		list.add(creditNoteNoRec);
 		return null;
 	}
@@ -301,6 +306,7 @@ public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 		String memo = get(MEMO).getValue();
 		vendorCreditMemo.setMemo(memo);
 		vendorCreditMemo.setTotal(getTransactionTotal(items, company));
+		vendorCreditMemo.setCompany(company);
 		create(vendorCreditMemo, context);
 	}
 }
