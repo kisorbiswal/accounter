@@ -1274,10 +1274,10 @@ a#fdbk_tab,#overlay{
 .editTable td,.gridBody tr td{
 	border-color: #CCCCCC;
 }
-.dropdownFlex .GI4MLOCBID,.user_activity_log tr:nth-child(even),.GL0PBETBED,.dropdownFlex tr:nth-child(even){
+.dropdownFlex .GI4MLOCBID,.user_activity_log tr:nth-child(even),.GL0PBETBED{
 	background:none repeat scroll 0 0 #E8E8E8 !important;
 }
-.gridOddRow{
+.gridOddRow,.dropdownFlex tr:nth-child(even){
 	background:none repeat scroll 0 0 #E8E8E8;
 }
 .user_activity_log tr:nth-child(even) td,.user_activity_log tr:nth-child(even):hover{
@@ -1453,4 +1453,15 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
 }
 .contact-deatails-panel{
 	padding: 0 10px;
+}
+.disable,.disable:hover{
+	background-color: #74A2A5 !important;
+    border: medium none #CCCCCC;
+    color: #DDDDDD;
+    cursor: auto;
+}
+.cancle-Btn[disabled]{
+	background-color: #CCCCCC !important;
+    border: medium none #CCCCCC !important;
+    color: #9B9696;
 }
