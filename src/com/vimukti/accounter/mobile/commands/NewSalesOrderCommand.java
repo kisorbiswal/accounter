@@ -109,6 +109,11 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
+		result = itemsRequirement(context);
+		if (result != null) {
+			return result;
+		}
+
 		setDefaultValues();
 		result = createOptionalResult(context);
 		if (result != null) {
