@@ -72,7 +72,6 @@ import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.Converter;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.utils.Security;
 import com.vimukti.accounter.utils.MiniTemplator.TemplateSyntaxException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -713,35 +712,6 @@ public class FinanceTool {
 		// }
 		return NumberUtils.getNextFixedAssetNumber(getCompany(companyId));
 
-	}
-
-	public String getNextVoucherNumber(long companyId) throws DAOException {
-		// try {
-		//
-		// Session session = HibernateUtil.getCurrentSession();
-		// Query query = session
-		// .createQuery("from com.vimukti.accounter.core.Entry e ");
-		// List list1 = query.list();
-		//
-		// if (list1.size() <= 0) {
-		//
-		// return this
-		// .getNextTransactionNumber(Transaction.TYPE_JOURNAL_ENTRY);
-		// }
-		//
-		// query = session
-		// .createQuery("select e.voucherNumber from com.vimukti.accounter.core.Entry e where e.id = (select max(e1.id) from com.vimukti.accounter.core.Entry e1 )");
-		// List list = query.list();
-		//
-		// if (list != null) {
-		// return getStringwithIncreamentedDigit(((String) list.get(0)));
-		// } else
-		// throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
-		// null));
-		// } catch (DAOException e) {
-		// throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
-		// }
-		return NumberUtils.getNextVoucherNumber(getCompany(companyId));
 	}
 
 	public List<ReceivePaymentTransactionList> getTransactionReceivePayments(

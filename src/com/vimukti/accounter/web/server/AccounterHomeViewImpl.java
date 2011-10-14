@@ -749,7 +749,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		List<Estimate> serverEstimates = null;
 		try {
 			serverEstimates = getFinanceTool().getCustomerManager()
-					.getEstimates(customerId,getCompanyId());
+					.getEstimates(customerId, getCompanyId());
 			for (Estimate estimate : serverEstimates) {
 				clientEstimate.add(new ClientConvertUtil().toClientObject(
 						estimate, ClientEstimate.class));
@@ -886,20 +886,6 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		}
 
 		return nextCheckNumber;
-	}
-
-	public String getNextVoucherNumber() {
-		String nextVoucherNumber = "";
-		try {
-
-			nextVoucherNumber = getFinanceTool().getNextVoucherNumber(
-					getCompanyId());
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return nextVoucherNumber;
 	}
 
 	public ArrayList<ClientItem> getPurchaseItems() {

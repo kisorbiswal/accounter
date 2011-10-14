@@ -84,8 +84,6 @@ public class JournalEntry extends Transaction {
 		List<Entry> entries = new ArrayList<Entry>();
 		Entry entry1 = new Entry();
 
-		String voucherNumber = NumberUtils.getNextVoucherNumber(getCompany());
-		entry1.setVoucherNumber(voucherNumber);
 		entry1.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 		entry1.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_CUSTOMER);
 		entry1.setAccount(getCompany().getOpeningBalancesAccount());
@@ -95,7 +93,6 @@ public class JournalEntry extends Transaction {
 		entry1.setJournalEntry(this);
 
 		Entry entry2 = new Entry();
-		entry2.setVoucherNumber(voucherNumber);
 		entry2.setType(Entry.TYPE_CUSTOMER);
 		entry2.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_CUSTOMER);
 		entry2.setCustomer(customer);
@@ -122,9 +119,7 @@ public class JournalEntry extends Transaction {
 		this.balanceDue = vendor.getOpeningBalance();
 
 		List<Entry> entries = new ArrayList<Entry>();
-		String voucherNumber = NumberUtils.getNextVoucherNumber(getCompany());
 		Entry entry1 = new Entry();
-		entry1.setVoucherNumber(voucherNumber);
 		entry1.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 		entry1.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_VENDOR);
 		entry1.setAccount(getCompany().getOpeningBalancesAccount());
@@ -134,7 +129,6 @@ public class JournalEntry extends Transaction {
 		entry1.setJournalEntry(this);
 
 		Entry entry2 = new Entry();
-		entry2.setVoucherNumber(voucherNumber);
 		entry2.setType(Entry.TYPE_VENDOR);
 		entry2.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_VENDOR);
 		entry2.setVendor(vendor);
@@ -160,9 +154,7 @@ public class JournalEntry extends Transaction {
 		this.memo = AccounterServerConstants.MEMO_OPENING_BALANCE;
 
 		List<Entry> entries = new ArrayList<Entry>();
-		String voucherNumber = NumberUtils.getNextVoucherNumber(getCompany());
 		Entry entry1 = new Entry();
-		entry1.setVoucherNumber(voucherNumber);
 		entry1.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 		entry1.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
 		entry1.setAccount(getCompany().getOpeningBalancesAccount());
@@ -170,7 +162,6 @@ public class JournalEntry extends Transaction {
 		entry1.setJournalEntry(this);
 
 		Entry entry2 = new Entry();
-		entry2.setVoucherNumber(voucherNumber);
 		entry2.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 		entry2.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
 		entry2.setAccount(account);
@@ -178,18 +169,15 @@ public class JournalEntry extends Transaction {
 		entry2.setJournalEntry(this);
 
 		if (account.isIncrease()) {
-
 			entry2.setDebit(0D);
 			entry2.setCredit(account.getOpeningBalance());
 			entry1.setDebit(account.getOpeningBalance());
 			entry1.setCredit(0D);
 		} else {
-
 			entry2.setDebit(account.getOpeningBalance());
 			entry2.setCredit(0D);
 			entry1.setDebit(0D);
 			entry1.setCredit(account.getOpeningBalance());
-
 		}
 
 		entries.add(entry1);
@@ -214,13 +202,11 @@ public class JournalEntry extends Transaction {
 		this.memo = "Closing Fiscal Year";
 
 		List<Entry> entries = new ArrayList<Entry>();
-		String voucherNumber = NumberUtils.getNextVoucherNumber(getCompany());
 		Entry entry = null;
 		for (AccountTransactionByAccount accountTransactionByTaxCode : accountTransactionList) {
 			Account account = accountTransactionByTaxCode.getAccount();
 
 			entry = new Entry();
-			entry.setVoucherNumber(voucherNumber);
 			entry.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 			entry.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
 			entry.setAccount(account);
@@ -252,7 +238,6 @@ public class JournalEntry extends Transaction {
 		}
 
 		Entry retainedEarningsEntry = new Entry();
-		retainedEarningsEntry.setVoucherNumber(voucherNumber);
 		retainedEarningsEntry.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 		retainedEarningsEntry
 				.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
@@ -289,7 +274,6 @@ public class JournalEntry extends Transaction {
 		this.memo = "Closing Fiscal Year";
 
 		List<Entry> entries = new ArrayList<Entry>();
-		String voucherNumber = NumberUtils.getNextVoucherNumber(getCompany());
 
 		Entry entry = null;
 
@@ -298,7 +282,6 @@ public class JournalEntry extends Transaction {
 			Account account = cashBasisEntry.getAccount();
 
 			entry = new Entry();
-			entry.setVoucherNumber(voucherNumber);
 			entry.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 			entry.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
 			entry.setAccount(account);
@@ -326,11 +309,9 @@ public class JournalEntry extends Transaction {
 			entries.add(entry);
 			debitTotal += entry.getDebit();
 			creditTotal += entry.getCredit();
-
 		}
 
 		Entry otherCashIncomeEntry = new Entry();
-		otherCashIncomeEntry.setVoucherNumber(voucherNumber);
 		otherCashIncomeEntry.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 		otherCashIncomeEntry
 				.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
@@ -368,8 +349,6 @@ public class JournalEntry extends Transaction {
 		List<Entry> entries = new ArrayList<Entry>();
 		Entry entry1 = new Entry();
 
-		String voucherNumber = NumberUtils.getNextVoucherNumber(getCompany());
-		entry1.setVoucherNumber(voucherNumber);
 		entry1.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 		entry1.setAccount(fixedAsset.getAssetAccount()
 				.getLinkedAccumulatedDepreciationAccount());
@@ -379,7 +358,6 @@ public class JournalEntry extends Transaction {
 		entry1.setJournalEntry(this);
 
 		Entry entry2 = new Entry();
-		entry2.setVoucherNumber(voucherNumber);
 		entry2.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 		entry2.setAccount(fixedAsset.getDepreciationExpenseAccount());
 		entry2.setMemo("Depreciation");
@@ -444,8 +422,6 @@ public class JournalEntry extends Transaction {
 		List<Entry> entries = new ArrayList<Entry>();
 		Entry entry1 = new Entry();
 
-		String voucherNumber = NumberUtils.getNextVoucherNumber(getCompany());
-		entry1.setVoucherNumber(voucherNumber);
 		entry1.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 		entry1.setAccount(fixedAsset.getAssetAccount());
 		entry1.setMemo("Disposal of FixedAsset " + fixedAsset.getName());
@@ -457,9 +433,7 @@ public class JournalEntry extends Transaction {
 		Entry entry2 = null;
 
 		if (!DecimalUtil.isEquals(fixedAsset.getSalePrice(), 0)) {
-
 			entry2 = new Entry();
-			entry2.setVoucherNumber(voucherNumber);
 			entry2.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 			entry2.setAccount(fixedAsset.getAccountForSale());
 			entry2.setMemo("Depreciation");
@@ -467,15 +441,12 @@ public class JournalEntry extends Transaction {
 			entry2.setCredit(0d);
 			entry2.setJournalEntry(this);
 			entries.add(entry2);
-
 		}
 
 		Entry entry3 = null;
 
 		if (!DecimalUtil.isEquals(lessAccumulatedDepreciationAmount, 0)) {
-
 			entry3 = new Entry();
-			entry3.setVoucherNumber(voucherNumber);
 			entry3.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 			entry3.setAccount(fixedAsset.getAssetAccount()
 					.getLinkedAccumulatedDepreciationAccount());
@@ -489,7 +460,6 @@ public class JournalEntry extends Transaction {
 		Entry entry4 = null;
 		if (!DecimalUtil.isEquals(lossOrGainOnDisposal, 0)) {
 			entry4 = new Entry();
-			entry4.setVoucherNumber(voucherNumber);
 			entry4.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 			entry4.setAccount(fixedAsset.getLossOrGainOnDisposalAccount());
 			entry4.setMemo("Depreciation");
@@ -508,7 +478,6 @@ public class JournalEntry extends Transaction {
 
 		if (!DecimalUtil.isEquals(totalCapitalGain, 0.0)) {
 			entry5 = new Entry();
-			entry5.setVoucherNumber(voucherNumber);
 			entry5.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 			entry5.setAccount(fixedAsset.getTotalCapitalGain());
 			entry5.setMemo("Depreciation");
@@ -568,10 +537,8 @@ public class JournalEntry extends Transaction {
 		Account adjustmentAccount = adjustment.getAdjustmentAccount();
 
 		List<Entry> entries = new ArrayList<Entry>();
-		String voucherNumber = NumberUtils.getNextVoucherNumber(getCompany());
 
 		Entry entry1 = new Entry();
-		entry1.setVoucherNumber(voucherNumber);
 		entry1.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 		entry1.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
 		entry1.setAccount(liabilityAccount);
@@ -581,7 +548,6 @@ public class JournalEntry extends Transaction {
 		entry1.setEntryDate(adjustment.getDate());
 
 		Entry entry2 = new Entry();
-		entry2.setVoucherNumber(voucherNumber);
 		entry2.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 		entry2.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
 		entry2.setAccount(adjustmentAccount);
@@ -696,7 +662,6 @@ public class JournalEntry extends Transaction {
 		double creditTotal = 0;
 		double debitTotal = 0;
 		List<Entry> entries = new ArrayList<Entry>();
-		String voucherNumber = NumberUtils.getNextVoucherNumber(getCompany());
 		for (Box b : return1.boxes) {
 			// if (b.getTaxRateCalculations() != null
 			// && b.getTaxRateCalculations().size() > 0) {
@@ -706,7 +671,6 @@ public class JournalEntry extends Transaction {
 
 				Entry e = new Entry();
 
-				e.setVoucherNumber(voucherNumber);
 				if (DecimalUtil.isGreaterThan(b.getAmount(), 0)) {
 					e.setDebit(b.amount);
 					debitTotal += b.amount;
@@ -728,7 +692,6 @@ public class JournalEntry extends Transaction {
 			} else if (b.getAmount() != 0 && b.getBoxNumber() == 4) {
 
 				Entry e = new Entry();
-				e.setVoucherNumber(voucherNumber);
 				e.setTotal(b.getAmount());
 				if (DecimalUtil.isGreaterThan(b.getAmount(), 0)) {
 					e.setCredit(b.amount);
@@ -751,7 +714,6 @@ public class JournalEntry extends Transaction {
 							|| b.boxNumber == 8 || b.boxNumber == 9)) {
 
 				Entry e = new Entry();
-				e.setVoucherNumber(voucherNumber);
 				if (DecimalUtil.isGreaterThan(b.getAmount(), 0)) {
 					e.setDebit(0d);
 					// debitTotal += b.amount;
@@ -773,7 +735,6 @@ public class JournalEntry extends Transaction {
 			} else if (b.getAmount() != 0 && b.boxNumber == 10) {
 
 				Entry e = new Entry();
-				e.setVoucherNumber(voucherNumber);
 				if (DecimalUtil.isGreaterThan(b.getAmount(), 0)) {
 					e.setDebit(b.amount);
 					debitTotal += b.amount;
@@ -799,7 +760,6 @@ public class JournalEntry extends Transaction {
 						.getAmount();
 
 		Entry e = new Entry();
-		e.setVoucherNumber(voucherNumber);
 		e.setTotal(amount);
 		e.setEntryDate(return1.getDate());
 		e.setType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);

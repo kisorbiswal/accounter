@@ -50,28 +50,28 @@ public class NumberUtils {
 		return "0";
 	}
 
-	public static String getNextVoucherNumber(Company company) {
-
-		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery("get.Entry").setEntity("company",
-				company);
-		List list1 = query.list();
-
-		if (list1.size() <= 0) {
-
-			return getNextTransactionNumber(Transaction.TYPE_JOURNAL_ENTRY,
-					company);
-		}
-		query = session.getNamedQuery("getEntry.byId.andMax").setEntity(
-				"company", company);
-		List list = query.list();
-
-		if (list != null) {
-			return getStringwithIncreamentedDigit(((String) list.get(0)));
-		} else
-			return "1";
-
-	}
+	// public static String getNextVoucherNumber(Company company) {
+	//
+	// Session session = HibernateUtil.getCurrentSession();
+	// Query query = session.getNamedQuery("get.Entry").setEntity("company",
+	// company);
+	// List list1 = query.list();
+	//
+	// if (list1.size() <= 0) {
+	//
+	// return getNextTransactionNumber(Transaction.TYPE_JOURNAL_ENTRY,
+	// company);
+	// }
+	// query = session.getNamedQuery("getEntry.byId.andMax").setEntity(
+	// "company", company);
+	// List list = query.list();
+	//
+	// if (list != null) {
+	// return getStringwithIncreamentedDigit(((String) list.get(0)));
+	// } else
+	// return "1";
+	//
+	// }
 
 	public static String getNextFixedAssetNumber(Company company) {
 		String prevNumber = getPreviousFixedAssetNumber(company);

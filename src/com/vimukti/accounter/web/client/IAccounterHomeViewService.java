@@ -118,8 +118,6 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public String getNextTransactionNumber(int transactionType);
 
-	public String getNextVoucherNumber();
-
 	// To auto generate the next Check number.
 	public Long getNextCheckNumber(long accountId);
 

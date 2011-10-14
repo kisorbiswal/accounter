@@ -13,7 +13,6 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -51,8 +50,6 @@ public class JournalEntryView extends
 	TextItem jourNoText;
 	TextAreaItem memoText;
 	protected boolean isClose;
-	private String vouchNo = "1";
-	boolean voucharNocame = false;
 	AmountLabel creditTotalText, deditTotalText;
 
 	// private HorizontalPanel lablPanel;
@@ -201,13 +198,6 @@ public class JournalEntryView extends
 				// Setting type of trasaction
 
 				// Setting number
-				try {
-
-					entry.setVoucherNumber(rec.getVoucherNumber());
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
 				// try {
 				//
 				// entry.setCreatedDate(UIUtils.toDate(rec
@@ -340,7 +330,7 @@ public class JournalEntryView extends
 
 			@Override
 			public void onClick(ClickEvent event) {
-				VoucherNoreset();
+				addEmptRecords();
 			}
 		});
 
@@ -471,8 +461,6 @@ public class JournalEntryView extends
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
-		if (!isInViewMode())
-			initVocherNumer();
 
 	}
 
@@ -504,42 +492,6 @@ public class JournalEntryView extends
 
 	}
 
-	private void initVocherNumer() {
-		rpcUtilService
-				.getNextVoucherNumber(new AccounterAsyncCallback<String>() {
-
-					@Override
-					public void onResultSuccess(String result) {
-						voucharNocame = true;
-						vouchNo = result;
-						// grid.setVoucherNumber(vouchNo);
-					}
-
-					@Override
-					public void onException(AccounterException caught) {
-						Accounter.showError(Accounter.constants()
-								.failedToGetVocherNumber());
-
-					}
-				});
-	}
-
-	public void VoucherNoreset() {
-		// if (!voucharNocame)
-		// grid.addLoadingImagePanel();
-		Timer timer = new Timer() {
-			@Override
-			public void run() {
-				if (voucharNocame) {
-					// grid.removeLoadingImage();
-					addEmptRecords();
-					this.cancel();
-				}
-			}
-		};
-		timer.scheduleRepeating(100);
-	}
-
 	protected void addEmptRecords() {
 		ClientEntry entry = new ClientEntry();
 		ClientEntry entry1 = new ClientEntry();
@@ -549,8 +501,6 @@ public class JournalEntryView extends
 		entry1.setMemo("");
 		entry.setType(ClientEntry.TYPE_FINANCIAL_ACCOUNT);
 		entry1.setType(ClientEntry.TYPE_FINANCIAL_ACCOUNT);
-		entry.setVoucherNumber(vouchNo);
-		entry1.setVoucherNumber(vouchNo);
 
 		grid.add(entry);
 		if (grid.getAllRows().size() < 2)

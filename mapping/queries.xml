@@ -423,15 +423,6 @@
 		d.status=:status and d.fixedAsset.id=:id group by d.fixedAsset.id
 	</query>
 
-
-	<query name="getEntry.byId.andMax">
-		<query-param name="company" type="Company" />
-		select e.voucherNumber from
-		com.vimukti.accounter.core.Entry e where
-		e.id = (select max(e1.id) from com.vimukti.accounter.core.Entry e1
-		where e1.account.company=:company )
-	</query>
-
 	<query name="getCustomerNumber.orderBy.customerNumber">
 		<query-param name="company" type="Company" />
 		select c.number from

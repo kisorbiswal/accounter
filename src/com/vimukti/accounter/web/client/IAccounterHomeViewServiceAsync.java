@@ -136,8 +136,6 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getNextTransactionNumber(int transactionType,
 			AsyncCallback<String> callback);
 
-	public void getNextVoucherNumber(AsyncCallback<String> callback);
-
 	// To auto generate the next Check number.
 	public void getNextCheckNumber(long accountId, AsyncCallback<Long> callback);
 
@@ -363,8 +361,9 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<Void> callback);
 
 	public void getBudgetList(AsyncCallback<ArrayList<ClientBudget>> callBack);
-	
-	//For tds
-	public void getPayBillsByTDS(AsyncCallback<ArrayList<ClientTDSInfo>> callback);
+
+	// For tds
+	public void getPayBillsByTDS(
+			AsyncCallback<ArrayList<ClientTDSInfo>> callback);
 
 }

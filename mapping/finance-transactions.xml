@@ -1005,7 +1005,6 @@
 		<property name="debit" column="DEBIT"></property>
 		<property name="credit" column="CREDIT"></property>
 		<property name="total" column="TOTAL"></property>
-		<property name="voucherNumber" column="VOUCHER_NUMBER"></property>
 		<many-to-one name="journalEntry" class="JournalEntry"
 			lazy="false" column="TRANSACTION_ID">
 		</many-to-one>

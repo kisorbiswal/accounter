@@ -97,12 +97,6 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 	double credit = 0D;
 
 	/**
-	 * this is the automatically generated number for each entry, user may
-	 * change it later.
-	 */
-	String voucherNumber;
-
-	/**
 	 * The Journal Entry to which it belongs to.
 	 */
 	@ReffereredObject
@@ -252,13 +246,6 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 	 */
 	public int getVersion() {
 		return version;
-	}
-
-	/**
-	 * @return the voucherNumber
-	 */
-	public String getVoucherNumber() {
-		return voucherNumber;
 	}
 
 	@Override
@@ -719,14 +706,6 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 	 */
 	public void setVendor(Vendor vendor) {
 		this.vendor = vendor;
-	}
-
-	/**
-	 * @param voucherNumber
-	 *            the voucherNumber to set
-	 */
-	public void setVoucherNumber(String voucherNumber) {
-		this.voucherNumber = voucherNumber;
 	}
 
 	protected void updateAccount(Entry entry, Session session, double amount) {

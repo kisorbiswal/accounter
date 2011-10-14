@@ -1198,7 +1198,7 @@ public class ReportManager extends Manager {
 				vd1.setTransactionDate(new ClientFinanceDate(e.getEntryDate()
 						.getDate()));
 				vd1.setTransactionName(e.getJournalEntry().toString());
-				vd1.setTransactionNumber(e.getVoucherNumber());
+				vd1.setTransactionNumber(e.getJournalEntry().getNumber());
 				vd1.setTransactionType(e.getJournalEntryType());
 				vd1.setTransactionId(e.getJournalEntry().getID());
 
@@ -1256,7 +1256,8 @@ public class ReportManager extends Manager {
 									.getEntryDate().getDate()));
 							vd.setTransactionName(e.getJournalEntry()
 									.toString());
-							vd.setTransactionNumber(e.getVoucherNumber());
+							vd.setTransactionNumber(e.getJournalEntry()
+									.getNumber());
 							vd.setTransactionType(e.getJournalEntryType());
 							vd.setTransactionId(e.getJournalEntry().getID());
 
@@ -1280,7 +1281,8 @@ public class ReportManager extends Manager {
 									.getEntryDate().getDate()));
 							vd.setTransactionName(e.getJournalEntry()
 									.toString());
-							vd.setTransactionNumber(e.getVoucherNumber());
+							vd.setTransactionNumber(e.getJournalEntry()
+									.getNumber());
 							vd.setTransactionType(e.getJournalEntryType());
 							// vatDetailReport.getEntries().get(vd.getBoxName())
 							// .add(vd);

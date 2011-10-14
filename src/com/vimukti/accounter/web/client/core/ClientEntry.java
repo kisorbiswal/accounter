@@ -6,7 +6,6 @@ public class ClientEntry implements IAccounterCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
 
 	public static final int TYPE_FINANCIAL_ACCOUNT = 1;
 
@@ -44,8 +43,6 @@ public class ClientEntry implements IAccounterCore {
 
 	double credit = 0D;
 
-	String voucherNumber = "1";
-
 	long journalEntry;
 
 	String vatItem;
@@ -53,7 +50,6 @@ public class ClientEntry implements IAccounterCore {
 	long entryDate;
 
 	double total;
-
 
 	private int version;
 
@@ -183,14 +179,6 @@ public class ClientEntry implements IAccounterCore {
 		this.credit = credit;
 	}
 
-	public String getVoucherNumber() {
-		return voucherNumber;
-	}
-
-	public void setVoucherNumber(String voucherNumber) {
-		this.voucherNumber = voucherNumber;
-	}
-
 	public long getJournalEntry() {
 		return journalEntry;
 	}
@@ -248,12 +236,12 @@ public class ClientEntry implements IAccounterCore {
 
 	@Override
 	public int getVersion() {
-		
+
 		return version;
 	}
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
+		this.version = version;
 	}
 }
