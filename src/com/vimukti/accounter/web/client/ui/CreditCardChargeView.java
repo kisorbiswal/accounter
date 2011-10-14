@@ -254,8 +254,7 @@ public class CreditCardChargeView extends
 			if (isInViewMode()) {
 				cheqNoText
 						.setValue(transaction.getCheckNumber() != null ? transaction
-								.getCheckNumber()
-								: "");
+								.getCheckNumber() : "");
 
 			}
 			cheqNoText.setDisabled(false);
@@ -296,8 +295,7 @@ public class CreditCardChargeView extends
 									.getNetAmount()));
 					vatTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal()
-									- transaction.getNetAmount()));
+									.getTotal() - transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -336,12 +334,12 @@ public class CreditCardChargeView extends
 		initTransactionNumber();
 		addVendorsList();
 		initAccounterClass();
-		accountsDisclosurePanel.setOpen(checkOpen(transaction
-				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
-				true));
-		itemsDisclosurePanel
-				.setOpen(checkOpen(transaction.getTransactionItems(),
-						ClientTransactionItem.TYPE_ITEM, false));
+		accountsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ACCOUNT, true));
+		itemsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ITEM, false));
 	}
 
 	private void initpayFromAccountCombo() {
@@ -410,8 +408,8 @@ public class CreditCardChargeView extends
 		labeldateNoLayout.setCellHorizontalAlignment(regPanel, ALIGN_RIGHT);
 		if (!isTaxPerDetailLine())
 			taxCodeSelect = createTaxCodeSelectItem();
-		vendorNameSelect = new VendorCombo(Global.get().messages().vendorName(
-				Global.get().Vendor()));
+		vendorNameSelect = new VendorCombo(Global.get().messages()
+				.vendorName(Global.get().Vendor()));
 		vendorNameSelect.setHelpInformation(true);
 		vendorNameSelect.setWidth(100);
 		vendorNameSelect.setRequired(true);
@@ -528,8 +526,8 @@ public class CreditCardChargeView extends
 			termsForm.setFields(classListCombo);
 		}
 
-		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "203px");
 
 		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 
@@ -877,28 +875,31 @@ public class CreditCardChargeView extends
 
 	@Override
 	public ValidationResult validate() {
-		try {
-			ValidationResult result = super.validate();
-			if (AccounterValidator
-					.isInPreventPostingBeforeDate(transactionDate)) {
-				result.addError(transactionDate, accounterConstants
-						.invalidateDate());
-			}
-
-			result.add(vendorForm.validate());
-			result.add(termsForm.validate());
-			if (getAllTransactionItems().isEmpty()) {
-				result.addError(vendorAccountTransactionTable,
-						accounterConstants.blankTransaction());
-			} else {
-				result.add(vendorAccountTransactionTable.validateGrid());
-				result.add(vendorItemTransactionTable.validateGrid());
-			}
-			return result;
-		} catch (Exception e) {
-			System.err.println(e);
+		ValidationResult result = super.validate();
+		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
 		}
-		return null;
+
+		result.add(vendorForm.validate());
+		result.add(termsForm.validate());
+		if (getAllTransactionItems().isEmpty()) {
+			result.addError(vendorAccountTransactionTable,
+					accounterConstants.blankTransaction());
+		} else {
+			result.add(vendorAccountTransactionTable.validateGrid());
+			result.add(vendorItemTransactionTable.validateGrid());
+		}
+		if (isTrackTax()) {
+			if (!isTaxPerDetailLine()) {
+				if (taxCodeSelect != null
+						&& taxCodeSelect.getSelectedValue() == null) {
+					result.addError(taxCodeSelect,
+							accounterConstants.enterTaxCode());
+				}
+			}
+		}
+		return result;
 
 	}
 
