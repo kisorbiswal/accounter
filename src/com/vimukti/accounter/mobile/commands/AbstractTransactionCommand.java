@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -486,8 +487,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			message.append("Select a Customer");
 		}
 		CommandList commandList = new CommandList();
-		commandList.add("Create");
-
+		commandList.add("Create Customer");
 		result.add(message.toString());
 		result.add(customersList);
 		result.add(commandList);
@@ -591,7 +591,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	protected Record creatItemRecord(Item item) {
 		Record record = new Record(item);
-		record.add("Name", item.getName());
+		record.add("Item Name", item.getName());
 		if (item.getTaxCode() != null) {
 			record.add("Tax Code", item.getTaxCode().getName());
 		}
@@ -754,7 +754,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			if (account != null) {
 				transferedReq.setValue(account);
 			} else {
-				return accounts(context, name);
+				return accounts(context, name, true);
 			}
 		}
 		if (account != null) {
@@ -764,7 +764,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return null;
 	}
 
-	protected Result accounts(Context context, String name) {
+	protected Result accounts(Context context, String name,
+			boolean isIncomeAccounts) {
 		Result result = context.makeResult();
 		ResultList list = new ResultList(name);
 
@@ -774,8 +775,11 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			list.add(createAccountRecord((Account) last));
 			num++;
 		}
-
-		Set<Account> transferAccountList = getAccounts(context.getCompany());
+		Set<Account> transferAccountList = new HashSet<Account>();
+		if (isIncomeAccounts)
+			transferAccountList = getIncomeAccounts(context.getCompany());
+		else
+			transferAccountList = getAccounts(context.getCompany());
 		for (Account account : transferAccountList) {
 			if (account != last) {
 				list.add(createAccountRecord(account));
@@ -793,6 +797,18 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		CommandList commands = new CommandList();
 		commands.add("Create New Account");
 		return result;
+	}
+
+	private Set<Account> getIncomeAccounts(Company company) {
+		Set<Account> payFromAccounts = new HashSet<Account>();
+		for (Account account : company.getAccounts()) {
+			if (Arrays.asList(Account.TYPE_BANK,
+					ClientAccount.TYPE_OTHER_CURRENT_ASSET).contains(
+					account.getType()))
+				payFromAccounts.add(account);
+		}
+		return payFromAccounts;
+
 	}
 
 	protected Record createAccountRecord(Account last) {
@@ -1308,19 +1324,19 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	protected Result chequeNoRequirement(Context context, ResultList list,
 			Object selection) {
-		Requirement requirement = get("paymentmethod");
+		Requirement requirement = get("Payment method");
 		if (requirement != null) {
 			String paymentMethod = (String) requirement.getValue();
-			if (paymentMethod.equals(US_CHECK)) {
-
+			if (paymentMethod.equals(US_CHECK)
+					|| paymentMethod.equals(UK_CHECK)) {
 				Requirement req = get("chequeNo");
 				String invoiceNo = (String) req.getValue();
 
 				String attribute = (String) context.getAttribute(INPUT_ATTR);
-				if (attribute.equals(UK_CHECK)) {
+				if (attribute.equals("chequeNo")) {
 					String order = context.getSelection(NUMBER);
 					if (order == null) {
-						order = context.getString();
+						order = context.getInteger().toString();
 					}
 					invoiceNo = order;
 					req.setValue(invoiceNo);
