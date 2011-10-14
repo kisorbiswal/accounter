@@ -577,11 +577,11 @@ public abstract class AbstractCommand extends Command {
 			req.setValue(memo);
 			context.setAttribute(INPUT_ATTR, "optional");
 		}
-
-		if (selection == memo) {
-			context.setAttribute(INPUT_ATTR, name);
-			return text(context, displayName, memo);
-		}
+		if (selection != null)
+			if (selection == memo) {
+				context.setAttribute(INPUT_ATTR, name);
+				return text(context, displayName, memo);
+			}
 
 		Record memoRecord = new Record(memo);
 		memoRecord.add("", name);
@@ -685,8 +685,8 @@ public abstract class AbstractCommand extends Command {
 
 	protected Result paymentMethodRequirement(Context context, ResultList list,
 			Object selection) {
-		Object payamentMethodObj = context.getSelection("paymentmethod");
-		Requirement paymentMethodReq = get("paymentMethod");
+		Object payamentMethodObj = context.getSelection("Payment method");
+		Requirement paymentMethodReq = get("paymentmethod");
 		String paymentmethod = (String) paymentMethodReq.getValue();
 		if (payamentMethodObj != null) {
 			paymentmethod = (String) payamentMethodObj;
