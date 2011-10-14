@@ -60,8 +60,8 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 
 		list.add(new Requirement(CUSTOMER, false, true));
 		list.add(new Requirement(STATUS, false, true));
-		list.add(new ObjectListRequirement(ITEMS, false, true) {
 
+		list.add(new ObjectListRequirement(ITEMS, false, true) {
 			@Override
 			public void addRequirements(List<Requirement> list) {
 				list.add(new Requirement(NAME, false, true));
@@ -139,24 +139,34 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 		Customer customer = get(CUSTOMER).getValue();
 		newSalesOrder.setCustomer(customer);
 
-		newSalesOrder.setPhone((String) get(PHONE).getValue());
-
-		newSalesOrder.setStatus((Integer) get(STATUS).getValue());
+		// newSalesOrder.setPhone((String) get(PHONE).getValue());
+		int statusNumber = 0;
+		if (get(STATUS).getValue() == "Open") {
+			statusNumber = 1;
+		} else if (get(STATUS).getValue() == "Open") {
+			statusNumber = 2;
+		} else if (get(STATUS).getValue() == "Open") {
+			statusNumber = 3;
+		}
+		newSalesOrder.setStatus(statusNumber);
 
 		newSalesOrder.setNumber((String) get(ORDER_NO).getValue());
 
-		newSalesOrder.setCustomerOrderNumber((String) get(CUSTOMER_ORDERNO)
-				.getValue());
+		// newSalesOrder.setCustomerOrderNumber((String) get(CUSTOMER_ORDERNO)
+		// .getValue());
 
 		PaymentTerms newPaymentTerms = get(PAYMENT_TERMS).getValue();
 		newSalesOrder.setPaymentTerm(newPaymentTerms);
 
-		ShippingTerms newShippingTerms = get(SHIPPING_TERMS).getValue();
-		newSalesOrder.setShippingTerm(newShippingTerms);
+		CompanyPreferences preferences = context.getCompany().getPreferences();
 
-		ShippingMethod newShippingMethod = get(SHIPPING_METHODS).getValue();
-		newSalesOrder.setShippingMethod(newShippingMethod);
+		if (preferences.isDoProductShipMents()) {
+			ShippingTerms newShippingTerms = get(SHIPPING_TERMS).getValue();
+			newSalesOrder.setShippingTerm(newShippingTerms);
 
+			ShippingMethod newShippingMethod = get(SHIPPING_METHODS).getValue();
+			newSalesOrder.setShippingMethod(newShippingMethod);
+		}
 		Date date = get(DUE_DATE).getValue();
 		newSalesOrder.setDate(new FinanceDate(date));
 
@@ -263,7 +273,7 @@ public class NewSalesOrderCommand extends AbstractTransactionCommand {
 		if (statuses != null) {
 			statusReq.setValue(statuses);
 		}
-		if (!statusReq.isDone()) {
+		if (statusReq.isDone()) {
 			return statusPrevious(context, null);
 		}
 		return null;
