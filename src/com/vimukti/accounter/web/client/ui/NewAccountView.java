@@ -1506,7 +1506,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			return true;
 
 		List<ClientAccount> accounts = getCompany().getAccounts();
-		if (isInViewMode()) {
+		if (!isInViewMode()) {
 			for (ClientAccount account : accounts) {
 				if (number.toString().equals(account.getNumber())
 						&& account.getID() != getData().getID()) {
