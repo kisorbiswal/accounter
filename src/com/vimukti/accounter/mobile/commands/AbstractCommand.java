@@ -524,7 +524,8 @@ public abstract class AbstractCommand extends Command {
 		}
 
 		Record memoRecord = new Record(memo);
-		memoRecord.add("Memo", memo);
+		memoRecord.add("", "Memo");
+		memoRecord.add("", memo);
 		// memoRecord.add("Value", memo);
 		list.add(memoRecord);
 		return null;
