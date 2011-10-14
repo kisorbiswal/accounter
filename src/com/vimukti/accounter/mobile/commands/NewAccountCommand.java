@@ -26,7 +26,7 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 	private static final String ACCOUNT_NAME = "Account Name";
 	private static final String ACCOUNT_NUMBER = "Account Number";
 	private static final String OPENINGBALANCE = "Opening Balance";
-	private static final String ACTIVE = "Active";
+
 	private static final String ASOF = "AsOf";
 	private static final String COMMENTS = "Comments";
 	private static final String CONSIDER_AS_CASH_ACCOUNT = "Consider As Cash Account";
@@ -213,26 +213,6 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		isCashAccountRecord.add("", CONSIDER_AS_CASH_ACCOUNT);
 		isCashAccountRecord.add(":", isCashAccount);
 		list.add(isCashAccountRecord);
-		return null;
-	}
-
-	private Result activeRequirement(Context context, Object selection,
-			ResultList list) {
-		Requirement isActiveReq = get(ACTIVE);
-		Boolean isActive = (Boolean) isActiveReq.getValue();
-		if (selection == ACTIVE) {
-			isActive = !isActive;
-			isActiveReq.setValue(isActive);
-		}
-		String activeString = "";
-		if (isActive) {
-			activeString = "This account is Active";
-		} else {
-			activeString = "This account is InActive";
-		}
-		Record isActiveRecord = new Record(ACTIVE);
-		isActiveRecord.add(":", activeString);
-		list.add(isActiveRecord);
 		return null;
 	}
 

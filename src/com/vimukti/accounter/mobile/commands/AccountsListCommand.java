@@ -56,6 +56,11 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 			switch (actionName) {
 			case FINISH:
 				return null;
+			case IN_ACTIVE_ACCOUNTS:
+				return accountsList(context, false);
+
+			case ALL_ACCOUNTS:
+				return accountsList(context, false);
 			default:
 				break;
 			}
@@ -64,7 +69,11 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 
 		ResultList list = new ResultList("values");
 
-		Result result = isActiveRequirement(context, selection);
+		Result result = activeRequirement(context, selection, list);
+		if (result != null) {
+			return result;
+		}
+
 		Boolean isActive = (Boolean) get(ACTIVE).getValue();
 		result = accountsList(context, isActive);
 		if (result != null) {
@@ -85,7 +94,7 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 		result.add("Accounts List");
 		int num = 0;
 		Set<Account> accounts2 = context.getCompany().getAccounts();// getAccounts(isActive,context.getCompany());
-		List<Account> accounts = new ArrayList<Account>(accounts2);
+		List<Account> accounts = getAccounts(accounts2, isActive);
 		for (Account account : accounts) {
 			accountsList.add(createAccountRecord(account));
 			num++;
@@ -99,17 +108,40 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 			message.append("Select a Account");
 		}
 		CommandList commandList = new CommandList();
-		commandList.add("Create Account");
-		commandList.add("Edit");
-		commandList.add("Delete");
-		commandList.add("More");
+		commandList.add("Add Account");
 
 		result.add(message.toString());
 		result.add(accountsList);
 		result.add(commandList);
 
+		ResultList actions = new ResultList("actions");
+		Record inActiveRec = new Record(ActionNames.IN_ACTIVE_ACCOUNTS);
+		inActiveRec.add("", "InActive Accounts");
+		Record finish = new Record(ActionNames.ALL_ACCOUNTS);
+		finish.add("", "All  Accounts");
+		actions.add(inActiveRec);
+		actions.add(finish);
+		result.add(actions);
+
 		return result;
 
+	}
+
+	private List<Account> getAccounts(Set<Account> accounts2, Boolean isActive) {
+		List<Account> list = new ArrayList<Account>();
+
+		for (Account a : accounts2) {
+			if (isActive) {
+				if (a.getIsActive()) {
+					list.add(a);
+				}
+			} else {
+				if (!a.getIsActive())
+					list.add(a);
+			}
+		}
+
+		return list;
 	}
 
 	/**
@@ -117,6 +149,9 @@ public class AccountsListCommand extends AbstractTransactionCommand {
 	 */
 	protected Record createAccountRecord(Account account) {
 		Record record = new Record(account);
+		record.add("Name:", account.getName());
+		record.add("Balance", account.getTotalBalance());
+
 		return record;
 	}
 
