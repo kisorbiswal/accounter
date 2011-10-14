@@ -536,7 +536,7 @@ public abstract class AbstractCommand extends Command {
 		String number = (String) req.getValue();
 		String attribute = (String) context.getAttribute(INPUT_ATTR);
 		if (attribute.equals(name)) {
-			String input = context.getSelection(TEXT);
+			String input = context.getInteger().toString();
 			if (input == null) {
 				input = context.getString();
 			}
@@ -545,7 +545,7 @@ public abstract class AbstractCommand extends Command {
 		}
 
 		if (selection == number) {
-			context.setAttribute(attribute, name);
+			context.setAttribute(INPUT_ATTR, name);
 			return text(context, displayName, number);
 		}
 
@@ -663,14 +663,15 @@ public abstract class AbstractCommand extends Command {
 		Result result = context.makeResult();
 		result.add("Select PaymentMethod");
 
-		ResultList list = new ResultList("paymentmethod");
+		ResultList list = new ResultList(PAYMENT_METHOD);
+		Object last = context.getLast(RequirementType.PAYMENT_METHOD);
 		int num = 0;
-		if (oldpaymentmethod != null) {
-			list.add(createPayMentMethodRecord(oldpaymentmethod));
+		if (last != null) {
+			list.add(createPayMentMethodRecord((String) oldpaymentmethod));
 			num++;
 		}
 		for (String paymentmethod : paymentmethods) {
-			if (paymentmethod != oldpaymentmethod) {
+			if (paymentmethod != (String) last) {
 				list.add(createPayMentMethodRecord(paymentmethod));
 				num++;
 			}
@@ -679,6 +680,8 @@ public abstract class AbstractCommand extends Command {
 			}
 		}
 		result.add(list);
+		Record more = new Record("MORE");
+
 		return result;
 	}
 
@@ -699,8 +702,7 @@ public abstract class AbstractCommand extends Command {
 
 	protected Record createPayMentMethodRecord(String paymentMethod) {
 		Record record = new Record(paymentMethod);
-		record.add("Name", "Payment Method");
-		record.add("value", paymentMethod);
+		record.add("Payment Method Name", paymentMethod);
 		return record;
 	}
 
