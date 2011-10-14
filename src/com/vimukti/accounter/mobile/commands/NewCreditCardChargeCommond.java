@@ -19,6 +19,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class NewCreditCardChargeCommond extends AbstractTransactionCommand {
 
@@ -140,7 +141,13 @@ public class NewCreditCardChargeCommond extends AbstractTransactionCommand {
 			case ADD_MORE_ITEMS:
 				return items(context);
 			case ADD_MORE_ACCOUNTS:
-				accountItems(context, "accounts");
+				accountItems(context, "accounts", new ListFilter<Account>() {
+
+					@Override
+					public boolean filter(Account account) {
+						return true;
+					}
+				});
 			case FINISH:
 				context.removeAttribute(INPUT_ATTR);
 				return null;

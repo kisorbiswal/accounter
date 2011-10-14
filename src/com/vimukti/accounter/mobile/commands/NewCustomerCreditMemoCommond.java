@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.Date;
 import java.util.List;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerCreditMemo;
@@ -17,6 +18,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class NewCustomerCreditMemoCommond extends AbstractTransactionCommand {
 
@@ -80,7 +82,14 @@ public class NewCustomerCreditMemoCommond extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = accountsRequirement(context, "accounts");
+		result = accountsRequirement(context, "accounts",
+				new ListFilter<Account>() {
+
+					@Override
+					public boolean filter(Account e) {
+						return true;
+					}
+				});
 		if (result == null) {
 			return result;
 		}
@@ -174,7 +183,14 @@ public class NewCustomerCreditMemoCommond extends AbstractTransactionCommand {
 			case ADD_MORE_ITEMS:
 				return items(context);
 			case ADD_MORE_ACCOUNTS:
-				return accountItems(context, "accounts");
+				return accountItems(context, "accounts",
+						new ListFilter<Account>() {
+
+							@Override
+							public boolean filter(Account e) {
+								return true;
+							}
+						});
 			case FINISH:
 				context.removeAttribute(INPUT_ATTR);
 				return null;

@@ -2,6 +2,7 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.IssuePayment;
 import com.vimukti.accounter.core.Transaction;
@@ -13,6 +14,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class NewIssuePaymentCommond extends AbstractTransactionCommand {
@@ -58,7 +60,14 @@ public class NewIssuePaymentCommond extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = accountsRequirement(context, ACCOUNTS);
+		result = accountsRequirement(context, ACCOUNTS,
+				new ListFilter<Account>() {
+
+					@Override
+					public boolean filter(Account e) {
+						return true;
+					}
+				});
 		if (result != null) {
 			return result;
 		}

@@ -20,6 +20,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class NewCashSaleCommand extends AbstractTransactionCommand {
 
@@ -207,7 +208,14 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 			case ADD_MORE_ITEMS:
 				return items(context);
 			case ADD_MORE_ACCOUNTS:
-				return accountItems(context, "accounts");
+				return accountItems(context, "accounts",
+						new ListFilter<Account>() {
+
+							@Override
+							public boolean filter(Account account) {
+								return true;
+							}
+						});
 			case FINISH:
 				context.removeAttribute(INPUT_ATTR);
 				return null;

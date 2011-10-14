@@ -38,6 +38,7 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
@@ -90,10 +91,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected Result itemsRequirement(Context context) {
 		Requirement transItemsReq = get(ITEMS);
 		List<Item> items = context.getSelections(ITEMS);
-		List<TransactionItem> transactionItems = transItemsReq.getValue();
-		if (transactionItems == null) {
-			transactionItems = new ArrayList<TransactionItem>();
-		}
 		if (items != null && items.size() > 0) {
 			for (Item item : items) {
 				TransactionItem transactionItem = new TransactionItem();
@@ -106,9 +103,25 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 				Quantity quantity = new Quantity();
 				quantity.setValue(1);
 				transactionItem.setQuantity(quantity);
+
+				List<TransactionItem> transactionItems = transItemsReq
+						.getValue();
+				if (transactionItems == null) {
+					transactionItems = new ArrayList<TransactionItem>();
+					transItemsReq.setValue(transactionItems);
+				}
 				transactionItems.add(transactionItem);
+				if (transactionItem.getUnitPrice() == 0) {
+					context.putSelection(ITEM_DETAILS, "unitPrice");
+					Result transactionItemResult = transactionItem(context,
+							transactionItem);
+					if (transactionItemResult != null) {
+						return transactionItemResult;
+					}
+				}
+
 			}
-			transItemsReq.setValue(transactionItems);
+
 		}
 		if (!transItemsReq.isDone()) {
 			return items(context);
@@ -763,7 +776,16 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			if (account != null) {
 				transferedReq.setValue(account);
 			} else {
-				return accounts(context, name, true);
+				return accounts(context, name, new ListFilter<Account>() {
+
+					@Override
+					public boolean filter(Account account) {
+						return Arrays.asList(Account.TYPE_BANK,
+								ClientAccount.TYPE_OTHER_CURRENT_ASSET)
+								.contains(account.getType());
+
+					}
+				});
 			}
 		}
 		if (account != null) {
@@ -774,7 +796,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	}
 
 	protected Result accounts(Context context, String name,
-			boolean isIncomeAccounts) {
+			ListFilter<Account> listFilter) {
 		Result result = context.makeResult();
 		ResultList list = new ResultList(name);
 
@@ -784,11 +806,9 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			list.add(createAccountRecord((Account) last));
 			num++;
 		}
-		Set<Account> transferAccountList = new HashSet<Account>();
-		if (isIncomeAccounts)
-			transferAccountList = getIncomeAccounts(context.getCompany());
-		else
-			transferAccountList = getAccounts(context.getCompany());
+		Set<Account> transferAccountList = getAccounts(context.getCompany(),
+				listFilter);
+
 		for (Account account : transferAccountList) {
 			if (account != last) {
 				list.add(createAccountRecord(account));
@@ -808,16 +828,16 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return result;
 	}
 
-	private Set<Account> getIncomeAccounts(Company company) {
-		Set<Account> payFromAccounts = new HashSet<Account>();
-		for (Account account : company.getAccounts()) {
-			if (Arrays.asList(Account.TYPE_BANK,
-					ClientAccount.TYPE_OTHER_CURRENT_ASSET).contains(
-					account.getType()))
-				payFromAccounts.add(account);
+	private Set<Account> getAccounts(Company company,
+			ListFilter<Account> listFilter) {
+		Set<Account> accounts = getAccounts(company);
+		Set<Account> filtered = new HashSet<Account>();
+		for (Account account : accounts) {
+			if (listFilter.filter(account)) {
+				filtered.add(account);
+			}
 		}
-		return payFromAccounts;
-
+		return filtered;
 	}
 
 	protected Record createAccountRecord(Account last) {
@@ -1054,32 +1074,42 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	}
 
 	protected Result accountsRequirement(Context context,
-			String requiremenrtLabel) {
+			String requiremenrtLabel, ListFilter<Account> listFilter) {
 		Requirement transItemsReq = get(requiremenrtLabel);
 		List<Account> accounts = context.getSelections(requiremenrtLabel);
-		List<TransactionItem> transactionItems = transItemsReq.getValue();
-		if (transactionItems == null) {
-			transactionItems = new ArrayList<TransactionItem>();
-		}
 
 		if (accounts != null && accounts.size() > 0) {
 			for (Account account : accounts) {
 				TransactionItem transactionItem = new TransactionItem();
 				transactionItem.setAccount(account);
+				List<TransactionItem> transactionItems = transItemsReq
+						.getValue();
+				if (transactionItems == null) {
+					transactionItems = new ArrayList<TransactionItem>();
+					transItemsReq.setValue(transactionItems);
+				}
 				transactionItems.add(transactionItem);
+				if (transactionItem.getUnitPrice() == 0) {
+					context.putSelection(ACCOUNT_ITEM_DETAILS, "amount");
+					Result transactionItemResult = transactionAccountItem(
+							context, transactionItem);
+					if (transactionItemResult != null) {
+						return transactionItemResult;
+					}
+				}
 			}
-			transItemsReq.setValue(transactionItems);
 		}
 
 		if (!transItemsReq.isDone()) {
-			return accountItems(context, requiremenrtLabel);
+			return accountItems(context, requiremenrtLabel, listFilter);
 		}
 		return null;
 	}
 
-	protected Result accountItems(Context context, String label) {
+	protected Result accountItems(Context context, String label,
+			ListFilter<Account> listFilter) {
 		Result result = context.makeResult();
-		Set<Account> accounts = getAccounts(context.getCompany());
+		Set<Account> accounts = getAccounts(context.getCompany(), listFilter);
 		ResultList list = new ResultList(label);
 		Object last = context.getLast(RequirementType.ACCOUNT);
 		int num = 0;
