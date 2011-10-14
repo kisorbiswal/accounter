@@ -191,7 +191,8 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 			ActionNames actionName = (ActionNames) selection;
 			switch (actionName) {
 			case ADD_MORE_CONTACTS:
-				return contact(context, "Enter the Contact Details", null);
+				return contact(context, "Enter the Contact Details",
+						"customerContact", null);
 			case FINISH:
 				context.removeAttribute(INPUT_ATTR);
 				return null;
@@ -291,7 +292,7 @@ public class NewVATAgencyCommand extends AbstractVATCommand {
 		selection = context.getSelection("customerContact");
 		if (selection != null) {
 			Result contact = contact(context, "customer contact",
-					(Contact) selection);
+					"customerContact", (Contact) selection);
 			if (contact != null) {
 				return contact;
 			}

@@ -228,7 +228,8 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 			ActionNames actionName = (ActionNames) selection;
 			switch (actionName) {
 			case ADD_MORE_CONTACTS:
-				return contact(context, "Enter the Contact Details", null);
+				return contact(context, "Enter the Contact Details", CONTACTS,
+						null);
 			case FINISH:
 				context.removeAttribute(INPUT_ATTR);
 				return null;
@@ -250,7 +251,7 @@ public class NewVendorCommand extends AbstractTransactionCommand {
 		List<Contact> contacts = contactReq.getValue();
 		selection = context.getSelection(CONTACTS);
 		if (selection != null) {
-			Result contact = contact(context, "vendor contacts",
+			Result contact = contact(context, "vendor contacts", CONTACTS,
 					(Contact) selection);
 			if (contact != null) {
 				return contact;
