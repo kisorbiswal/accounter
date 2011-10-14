@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -53,6 +54,8 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		Result result = null;
 
 		get(OPENINGBALANCE).setDefaultValue(0.0D);
+		if (context.getAttribute(INPUT_ATTR) == null)
+			context.setAttribute(INPUT_ATTR, "optional");
 
 		Object selection = context.getSelection("accountsTypes");
 		result = accountTypesRequirement(context, selection);
@@ -88,7 +91,10 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		boolean isCashAcount = (Boolean) get(CONSIDER_AS_CASH_ACCOUNT)
 				.getValue();
 		Date asOf = get(ASOF).getValue();
+		String comment = get(COMMENTS).getValue();
 
+		account.setDefault(true);
+		account.setCompany(context.getCompany());
 		account.setType(getAccTypes().indexOf(accType) + 1);
 		account.setName(accname);
 		account.setNumber(String.valueOf(accountNum));
@@ -96,7 +102,7 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 		account.setIsActive(isActive);
 		account.setAsOf(new FinanceDate(asOf));
 		account.setConsiderAsCashAccount(isCashAcount);
-
+		account.setComment(comment);
 		Session session = context.getHibernateSession();
 		Transaction transaction = session.beginTransaction();
 		session.saveOrUpdate(account);
@@ -111,8 +117,6 @@ public class NewAccountCommand extends AbstractTransactionCommand {
 	}
 
 	private Result createOptionalResult(Context context) {
-		if (context.getAttribute(INPUT_ATTR) == null)
-			context.setAttribute(INPUT_ATTR, "optional");
 
 		Object selection = context.getSelection(ACTIONS);
 		if (selection != null) {
