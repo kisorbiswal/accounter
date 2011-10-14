@@ -78,7 +78,7 @@ public class OpenCompanyServlet extends BaseServlet {
 
 				request.setAttribute(EMAIL_ID, user.getEmail());
 				request.setAttribute(USER_NAME, user.getFullName());
-				request.setAttribute(COMPANY_NAME, company.getDisplayName());
+				request.setAttribute(COMPANY_NAME, company.getDisplayName()+" - " +company.getID());
 
 				RequestDispatcher dispatcher = getServletContext()
 						.getRequestDispatcher("/WEB-INF/Accounter.jsp");
