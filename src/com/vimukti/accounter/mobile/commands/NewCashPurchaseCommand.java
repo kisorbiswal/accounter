@@ -59,7 +59,7 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		list.add(new Requirement("number", true, false));
 		list.add(new Requirement("contact", true, true));
 		list.add(new Requirement("billTo", true, true));
-		list.add(new Requirement("phone", true, true));
+		list.add(new Requirement(PHONE, true, true));
 		list.add(new Requirement("memo", true, true));
 		list.add(new Requirement("depositOrTransferTo", false, true));
 		list.add(new Requirement("chequeNo", true, true));
@@ -102,7 +102,7 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 
 					@Override
 					public boolean filter(Account e) {
-						return true;
+						return e.getIsActive();
 					}
 				});
 		if (result != null) {
@@ -118,6 +118,7 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
+		setDefaultValues();
 		result = createOptionalResult(context);
 		if (result != null) {
 			return result;
@@ -127,10 +128,19 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		return null;
 	}
 
+	private void setDefaultValues() {
+		get("date").setDefaultValue(new Date());
+		get("deliveryDate").setDefaultValue(new Date());
+		get("number").setDefaultValue("1");
+		get("Payment method").setDefaultValue("cash");
+		get(PHONE).setDefaultValue("");
+		get(MEMO).setDefaultValue("");
+	}
+
 	private void completeProcess(Context context) {
 		Company company = context.getCompany();
 		CashPurchase cashPurchase = new CashPurchase();
-		Date date = get(DATE).getValue();
+		Date date = get("date").getValue();
 		cashPurchase.setDate(new FinanceDate(date));
 
 		cashPurchase.setType(Transaction.TYPE_CASH_PURCHASE);
@@ -196,10 +206,9 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 			case ADD_MORE_ACCOUNTS:
 				return accountItems(context, "accounts",
 						new ListFilter<Account>() {
-
 							@Override
 							public boolean filter(Account e) {
-								return true;
+								return e.getIsActive();
 							}
 						});
 			case FINISH:
@@ -219,8 +228,6 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 				return result;
 			}
 		}
-		selection = context.getSelection("values");
-		ResultList list = new ResultList("values");
 
 		Requirement accountReq = get("accounts");
 		List<TransactionItem> accountItem = accountReq.getValue();
@@ -233,6 +240,8 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 				return result;
 			}
 		}
+
+		ResultList list = new ResultList("values");
 
 		Requirement transferTo = get("depositOrTransferTo");
 		Account account = transferTo.getValue();
@@ -250,13 +259,11 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 			return createSupplierRequirement(context);
 		}
 
-		// ResultList list = new ResultList("values");
-
 		Record supplierRecord = new Record(supplier);
-		supplierRecord.add("Name", "Customer");
+		supplierRecord.add("Name", "Vendor Name");
 		supplierRecord.add("Value", supplier.getName());
-
 		list.add(supplierRecord);
+
 		Result result = dateOptionalRequirement(context, list, "deliveryDate",
 				"Enter date", selection);
 		if (result != null) {
@@ -277,7 +284,8 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		if (result != null) {
 			return result;
 		}
-		result = phoneRequirement(context, list, (String) selection);
+		result = numberOptionalRequirement(context, list, selection, PHONE,
+				"Enter phone number");
 		if (result != null) {
 			return result;
 		}
@@ -287,7 +295,7 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 			return result;
 		}
 
-		result = stringOptionalRequirement(context, list, selection, "memo",
+		result = stringOptionalRequirement(context, list, selection, MEMO,
 				"Add a memo");
 		if (result != null) {
 			return result;
@@ -308,11 +316,10 @@ public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 		result.add(items);
 		ResultList accountItems = new ResultList("accountItems");
 		for (TransactionItem item : accountItem) {
-			Record itemRec = new Record(item);
-			itemRec.add("Name", item.getAccount().getName());
-			itemRec.add("Total", item.getLineTotal());
-			itemRec.add("VatCode", item.getVATfraction());
-			items.add(itemRec);
+			Record accountRecord = new Record(item);
+			accountRecord.add("Name", item.getAccount().getName());
+			accountRecord.add("Total", item.getLineTotal());
+			accountItems.add(accountRecord);
 		}
 		result.add(accountItems);
 
