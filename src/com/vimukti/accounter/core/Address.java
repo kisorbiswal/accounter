@@ -203,6 +203,31 @@ public class Address implements IAccounterServerCore {
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
+		this.version = version;
+	}
+
+	@Override
+	public String toString() {
+		final StringBuffer information = new StringBuffer();
+		String address1 = this.getAddress1();
+		if (address1 != null && !address1.equals(""))
+			information.append(address1).append(", ");
+		String street = this.getStreet();
+		if (street != null && !street.equals(""))
+			information.append(street).append(", ");
+		String city = this.getCity();
+		if (city != null && !city.equals(""))
+			information.append(city).append(", ");
+		String state = this.getStateOrProvinence();
+		if (state != null && !state.equals(""))
+			information.append(state).append(", ");
+		String zip = this.getZipOrPostalCode();
+		if (zip != null && !zip.equals(""))
+			information.append(zip).append(", ");
+		String country = this.getCountryOrRegion();
+		if (country != null && !country.equals(""))
+			information.append(country).append(", ");
+
+		return information.toString();
 	}
 }

@@ -135,7 +135,7 @@ public class NewVATItemCommand extends AbstractVATCommand {
 		Double taxRate = (Double) taxRateReq.getValue();
 		if (taxRate == selection) {
 			context.setAttribute(INPUT_ATTR, AMOUNT);
-			return number(context, "Please Enter the Tax Rate.", "" + taxRate);
+			return amount(context, "Please Enter the Tax Rate.", taxRate);
 		}
 
 		Requirement taxAgencyrReq = get(TAX_AGENCY);

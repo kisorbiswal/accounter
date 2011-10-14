@@ -222,7 +222,7 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		}
 		if (!taxRateReq.isDone()) {
 			context.setAttribute(INPUT_ATTR, AMOUNT);
-			return text(context, "Please Enter the Tax Rate.", null);
+			return amount(context, "Please Enter the Tax Rate.", null);
 		}
 
 		return null;

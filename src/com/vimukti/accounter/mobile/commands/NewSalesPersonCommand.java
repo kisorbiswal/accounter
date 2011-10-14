@@ -135,15 +135,15 @@ public class NewSalesPersonCommand extends AbstractTransactionCommand {
 	}
 
 	private void completeProcess(Context context) {
-		
+
 		SalesPerson newSalesPerson = new SalesPerson();
 
 		newSalesPerson.setFileAs((String) get(FILE_AS).getValue());
-		
+
 		newSalesPerson.setPhoneNo((String) get(PHONE).getValue());
-		
+
 		newSalesPerson.setFaxNo((String) get(FAX).getValue());
-		
+
 		create(newSalesPerson, context);
 	}
 
@@ -431,7 +431,7 @@ public class NewSalesPersonCommand extends AbstractTransactionCommand {
 
 		if (selection == address) {
 			context.setAttribute(INPUT_ATTR, ADDRESS);
-			return address(context, "Address", address);
+			return address(context, "Address", ADDRESS, address);
 		}
 
 		Record addressRecord = new Record(address);

@@ -400,7 +400,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 		if (selection == shipTo) {
 			context.setAttribute(INPUT_ATTR, "shipTo");
-			return address(context, "Ship to Address", shipTo);
+			return address(context, "Ship to Address", "shipTo", shipTo);
 		}
 
 		Record shipToRecord = new Record(shipTo);
@@ -565,7 +565,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 		if (selection == billTo) {
 			context.setAttribute(INPUT_ATTR, "billTo");
-			return address(context, "Bill to Address", billTo);
+			return address(context, "Bill to Address", "billTo", billTo);
 		}
 
 		Record billToRecord = new Record(billTo);

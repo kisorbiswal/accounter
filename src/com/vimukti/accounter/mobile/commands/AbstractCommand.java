@@ -65,6 +65,7 @@ public abstract class AbstractCommand extends Command {
 	private static final String CONTACT_ACTIONS = "contactActions";
 
 	private static final String REQUIREMENT_NAME = "requirmentName";
+	private static final String ADDRESS_ACTIONS = "addressActions";
 
 	protected Company getCompany() {
 		return null;
@@ -184,13 +185,17 @@ public abstract class AbstractCommand extends Command {
 	protected Result addressProcess(Context context) {
 		String message = (String) context.getAttribute(ADDRESS_MESSAGE_ATTR);
 		Address address = (Address) context.getAttribute(OLD_ADDRESS_ATTR);
-		return address(context, message, address);
+		String requirementName = (String) context
+				.getAttribute(REQUIREMENT_NAME);
+		return address(context, message, requirementName, address);
 	}
 
-	protected Result address(Context context, String message, Address oldAddress) {
+	protected Result address(Context context, String message,
+			String requirementName, Address oldAddress) {
 		context.setAttribute(PROCESS_ATTR, ADDRESS_PROCESS);
 		context.setAttribute(ADDRESS_MESSAGE_ATTR, message);
 		context.setAttribute(OLD_ADDRESS_ATTR, oldAddress);
+		context.setAttribute(REQUIREMENT_NAME, requirementName);
 
 		String lineAttr = (String) context.getAttribute(ADDRESS_LINE_ATTR);
 		if (lineAttr != null) {
@@ -230,7 +235,7 @@ public abstract class AbstractCommand extends Command {
 							oldAddress.getCountryOrRegion());
 				}
 			} else {
-				selection = context.getSelection(ACTIONS);
+				selection = context.getSelection(ADDRESS_ACTIONS);
 				if (selection == ActionNames.FINISH) {
 					context.removeAttribute(PROCESS_ATTR);
 					context.removeAttribute(ADDRESS_MESSAGE_ATTR);
@@ -273,10 +278,11 @@ public abstract class AbstractCommand extends Command {
 		result.add(list);
 		result.add("Select any line to edit");
 
-		ResultList finish = new ResultList(ACTIONS);
+		ResultList finish = new ResultList(ADDRESS_ACTIONS);
 		record = new Record(ActionNames.FINISH);
 		record.add("", "Finish");
 		finish.add(record);
+		result.add(finish);
 		return result;
 	}
 
@@ -368,6 +374,9 @@ public abstract class AbstractCommand extends Command {
 			} else if (lineAttr.equals("title")) {
 				oldContact.setTitle(input);
 			} else if (lineAttr.equals("businessPhone")) {
+				if (input == null) {
+					input = context.getNumber();
+				}
 				oldContact.setBusinessPhone(input);
 			} else if (lineAttr.equals("email")) {
 				oldContact.setEmail(input);
