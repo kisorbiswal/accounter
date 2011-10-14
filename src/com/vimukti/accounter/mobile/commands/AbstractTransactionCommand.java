@@ -566,11 +566,11 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			contact = (Contact) contactObj;
 			contactReq.setValue(contact);
 		}
-		if (selection == contact) {
+		if (contact != null && contact.equals(selection)) {
 			return contactList(context, payee, contact);
 		}
 		Record contactRecord = new Record(contact);
-		if (contact.getName() != null) {
+		if (contact != null && contact.getName() != null) {
 			contactRecord.add("Customer Contact", contact.getName());
 		} else {
 			contactRecord.add("Customer Contact", "Customer Contact");
@@ -721,7 +721,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		Set<Contact> contacts = customer.getContacts();
 		ResultList list = new ResultList(CONTACTS);
 		int num = 0;
-		if (oldContact != null) {
+		if (oldContact != null && oldContact.getName() != null) {
 			list.add(createContactRecord(oldContact));
 			num++;
 		}
@@ -1495,19 +1495,18 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	protected Result accountNumberRequirement(Context context) {
 		Requirement numberReq = get(ACCOUNT_NUMBER);
-		if (!numberReq.isDone()) {
+		if(numberReq.isDone())
+			return null;
+		String attribute = (String) context.getAttribute(INPUT_ATTR);
+		if (attribute.equals(ACCOUNT_NUMBER)) {
 			Integer num = context.getInteger();
 			if (num != null) {
 				numberReq.setValue(num);
-			} else {
-				context.setAttribute(INPUT_ATTR, ACCOUNT_NUMBER);
-				return number(context, "Please Enter the account number ", null);
 			}
+		} else {
+			context.setAttribute(INPUT_ATTR, ACCOUNT_NUMBER);
+			return number(context, "Please Enter the account number ", null);
 		}
-		// String input = (String) context.getAttribute(INPUT_ATTR);
-		// if (input.equals(ACCOUNT_NUMBER)) {
-		// numberReq.setValue(input);
-		// }
 		return null;
 	}
 
